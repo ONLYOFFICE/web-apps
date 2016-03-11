@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Unit Tests</title>
+    <link rel="stylesheet" href="../../build/node_modules/mocha/mocha.css" type="text/css" media="screen" title="no title" charset="utf-8">
+</head>
+<body>
+<div id="mocha"></div>
+<script src="../../build/node_modules/mocha/mocha.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../vendor/requirejs/require.js" type="text/javascript" charset="utf-8"></script>
+
+<script type="text/javascript" charset="utf-8">
+    // Partial config file
+    require.config({
+        // Base URL relative to the test runner
+        // Paths are relative to this
+        baseUrl: '../../apps/',
+        paths: {
+            // Testing libs
+            'common'            : 'common',
+            'chai'              : '../build/node_modules/chai/chai',
+            'jquery'            : '../vendor/jquery/jquery.min',
+            'underscore'        : '../vendor/underscore/underscore',
+            'backbone'          : '../vendor/backbone/backbone',
+            'bootstrap'         : '../vendor/bootstrap/dist/js/bootstrap',
+            'perfectscrollbar'  : '../vendor/perfect-scrollbar/src/perfect-scrollbar',
+            'jmousewheel'       : '../vendor/perfect-scrollbar/src/jquery.mousewheel'
+        },
+        shim: {
+            backbone: {
+                deps: [
+                    'underscore',
+                    'jquery'
+                ],
+                exports: 'Backbone'
+            },
+            underscore: {
+                exports: '_'
+            },
+            bootstrap: {
+                deps: [
+                    'jquery'
+                ]
+            },
+            common: {
+                deps: [
+                    'backbone'
+                ]
+            },
+            jmousewheel: {
+                deps: [
+                    'jquery'
+                ]
+            },
+            perfectscrollbar: {
+                deps: [
+                    'jmousewheel'
+                ]
+            }
+        }
+        // urlArgs: /debug\=1/.test(window.location.search) ? '' : 'bust=' +  (new Date()).getTime(), // debug
+    });
+
+    // You can do this in the grunt config for each mocha task, see the `options` config
+    mocha.setup({
+        ui: 'bdd',
+        ignoreLeaks: true
+    });
+
+    // Protect from barfs
+    console = window.console || function() {};
+
+    // Don't track
+    window.notrack = true;
+
+    // Mocha run helper, used for browser
+    var runMocha = function() {
+        mocha.run();
+    };
+
+    require([
+        '../test/common',
+        '../../test/common/main/lib/util/utils.js',
+        '../../test/common/main/lib/component/Button.js'
+    ], runMocha);
+</script>
+</body>
+</html>

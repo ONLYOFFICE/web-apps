@@ -1,0 +1,175 @@
+{
+    "version": {
+        "major": 1,
+        "minor": 309
+    },
+    "src": "../../deploy",
+    "dst": "../../deploy-to-doc-test",
+    "path": {
+        "pattern": [
+            "locale/",
+            "resources/img/"
+        ],
+        "base_path": "<%= pkg.dst %>",
+        "src_path": [
+            "apps/documenteditor/embed/app-all.js",
+            "apps/documenteditor/main/app-edit.js",
+            "apps/documenteditor/main/app-view.js",
+            "apps/documenteditor/mobile/app-all.js",
+            "apps/spreadsheeteditor/embed/app-all.js",
+            "apps/spreadsheeteditor/main/app-edit.js",
+            "apps/spreadsheeteditor/main/app-view.js",
+            "apps/spreadsheeteditor/mobile/app-all.js",
+            "apps/presentationeditor/embed/app-all.js",
+            "apps/presentationeditor/main/app-edit.js",
+            "apps/presentationeditor/main/app-view.js",
+            "apps/presentationeditor/mobile/app-all.js"
+        ]
+    },
+    "replace": {
+        "url": {
+            "options": {
+                "variables": {
+                    "../../../": "https://d3582o17zfgn8f.cloudfront.net/OfficeWeb/"
+                },
+                "prefix": ""
+            },
+            "files": [
+                {
+                    "<%= pkg.dst %>/apps/api/documents/cache-scripts.html": "<%= pkg.dst %>/apps/api/documents/cache-scripts.html"
+                },
+                {
+                    "<%= pkg.dst %>/apps/documenteditor/embed/index.html": "<%= pkg.dst %>/apps/documenteditor/embed/index.html"
+                },
+                {
+                    "<%= pkg.dst %>/apps/documenteditor/embed/app-all.js": "<%= pkg.dst %>/apps/documenteditor/embed/app-all.js"
+                },
+                {
+                    "<%= pkg.dst %>/apps/documenteditor/main/index.html": "<%= pkg.dst %>/apps/documenteditor/main/index.html"
+                },
+                {
+                    "<%= pkg.dst %>/apps/documenteditor/main/app-edit.js": "<%= pkg.dst %>/apps/documenteditor/main/app-edit.js"
+                },
+                {
+                    "<%= pkg.dst %>/apps/documenteditor/main/app-view.js": "<%= pkg.dst %>/apps/documenteditor/main/app-view.js"
+                },
+                {
+                    "<%= pkg.dst %>/apps/documenteditor/mobile/index.html": "<%= pkg.dst %>/apps/documenteditor/mobile/index.html"
+                },
+                {
+                    "<%= pkg.dst %>/apps/documenteditor/mobile/app-all.js": "<%= pkg.dst %>/apps/documenteditor/mobile/app-all.js"
+                },
+                {
+                    "<%= pkg.dst %>/apps/spreadsheeteditor/embed/index.html": "<%= pkg.dst %>/apps/spreadsheeteditor/embed/index.html"
+                },
+                {
+                    "<%= pkg.dst %>/apps/spreadsheeteditor/embed/app-all.js": "<%= pkg.dst %>/apps/spreadsheeteditor/embed/app-all.js"
+                },
+                {
+                    "<%= pkg.dst %>/apps/spreadsheeteditor/main/index.html": "<%= pkg.dst %>/apps/spreadsheeteditor/main/index.html"
+                },
+                {
+                    "<%= pkg.dst %>/apps/spreadsheeteditor/main/app-edit.js": "<%= pkg.dst %>/apps/spreadsheeteditor/main/app-edit.js"
+                },
+                {
+                    "<%= pkg.dst %>/apps/spreadsheeteditor/main/app-view.js": "<%= pkg.dst %>/apps/spreadsheeteditor/main/app-view.js"
+                },
+                {
+                    "<%= pkg.dst %>/apps/spreadsheeteditor/mobile/index.html": "<%= pkg.dst %>/apps/spreadsheeteditor/mobile/index.html"
+                },
+                {
+                    "<%= pkg.dst %>/apps/spreadsheeteditor/mobile/app-all.js": "<%= pkg.dst %>/apps/spreadsheeteditor/mobile/app-all.js"
+                },
+                {
+                    "<%= pkg.dst %>/apps/presentationeditor/embed/index.html": "<%= pkg.dst %>/apps/presentationeditor/embed/index.html"
+                },
+                {
+                    "<%= pkg.dst %>/apps/presentationeditor/embed/app-all.js": "<%= pkg.dst %>/apps/presentationeditor/embed/app-all.js"
+                },
+                {
+                    "<%= pkg.dst %>/apps/presentationeditor/main/index.html": "<%= pkg.dst %>/apps/presentationeditor/main/index.html"
+                },
+                {
+                    "<%= pkg.dst %>/apps/presentationeditor/main/app-edit.js": "<%= pkg.dst %>/apps/presentationeditor/main/app-edit.js"
+                },
+                {
+                    "<%= pkg.dst %>/apps/presentationeditor/main/app-view.js": "<%= pkg.dst %>/apps/presentationeditor/main/app-view.js"
+                },
+                {
+                    "<%= pkg.dst %>/apps/presentationeditor/mobile/index.html": "<%= pkg.dst %>/apps/presentationeditor/mobile/index.html"
+                },
+                {
+                    "<%= pkg.dst %>/apps/presentationeditor/mobile/app-all.js": "<%= pkg.dst %>/apps/presentationeditor/mobile/app-all.js"
+                }
+            ]
+        },
+        "settings": {
+            "options": {
+                "variables": {
+                    "\"http://192.168.3.213:3000\"": "\"https://doc-test.teamlab.com:8080\""
+                },
+                "prefix": ""
+            },
+            "files": [
+                {
+                    "<%= pkg.dst %>/sdk/Word/sdk-all.js": "<%= pkg.dst %>/sdk/Word/sdk-all.js"
+                },
+                {
+                    "<%= pkg.dst %>/sdk/Excel/sdk-all.js": "<%= pkg.dst %>/sdk/Excel/sdk-all.js"
+                },
+                {
+                    "<%= pkg.dst %>/sdk/PowerPoint/sdk-all.js": "<%= pkg.dst %>/sdk/PowerPoint/sdk-all.js"
+                }
+            ]
+        },
+        "use_embebbed_fonts": {
+            "options": {
+                "variables": {
+                    "ASC_DOCS_API_USE_EMBEDDED_FONTS": "true"
+                }
+            },
+            "files": [
+                {
+                    "<%= pkg.dst %>/sdk/Word/sdk-all.js": "<%= pkg.dst %>/sdk/Word/sdk-all.js"
+                },
+                {
+                    "<%= pkg.dst %>/sdk/Excel/sdk-all.js": "<%= pkg.dst %>/sdk/Excel/sdk-all.js"
+                },
+                {
+                    "<%= pkg.dst %>/sdk/PowerPoint/sdk-all.js": "<%= pkg.dst %>/sdk/PowerPoint/sdk-all.js"
+                }
+            ]
+        },
+        "prevent_script_caching": {
+            "options": {
+                "variables": {
+                    "_dc=0": "_dc=<%= grunt.template.today(\"yyyy-mm-dd\") %>"
+                },
+                "prefix": ""
+            },
+            "files": [
+                {
+                    "<%= pkg.dst %>/apps/api/documents/api.js": "<%= pkg.dst %>/apps/api/documents/api.js"
+                }
+            ]
+        }
+    },
+    "compress": {
+        "dist": {
+            "files": {
+                "<%= pkg.dst %>/deploy-to-doc-test.zip": [
+                    "<%= pkg.dst %>/3rdparty/**",
+                    "<%= pkg.dst %>/apps/**",
+                    "<%= pkg.dst %>/sdk/**"
+                ]
+            },
+            "options": {
+                "rootDir": "empty",
+                "level": 9
+            }
+        }
+    },
+    "tasks": {
+        "deploy": "increment-deploy-version insert-version-to-url deploy-configure-all deploy-compress-all"
+    }
+}

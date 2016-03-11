@@ -1,0 +1,106 @@
+#history-box {
+    position: relative;
+    border-right: 1px solid #cbcbcb;
+}
+
+#history-header {
+    position: absolute;
+    height: 45px;
+    left: 0;
+    top: 0;
+    right: 0;
+    overflow: hidden;
+    border-bottom: 1px solid @gray-dark;
+
+    #history-btn-back {
+        height: 27px;
+        margin-top: 8px;
+        padding-top: 4px;
+        padding-left: 20px;
+        font-size: 13px;
+        cursor: pointer;
+
+        &:hover {
+            background-color: @secondary;
+        }
+    }
+}
+
+#history-list {
+    height: 100%;
+    overflow: hidden;
+    padding-top: 45px;
+
+    .item {
+        display: block;
+        border: none;
+        width: 100%;
+        .box-shadow(none);
+        margin: 0;
+        font-size: 12px;
+
+        &:hover:not(.selected),
+        &.over {
+            background-color: @secondary;
+
+            .user-version {
+                color: #fff;
+                background-color: #ababab;
+            }
+        }
+
+        &.selected {
+            background-color: @primary;
+
+            .user-name,
+            .user-date {
+                color: #fff;
+            }
+        }
+    }
+
+    .history-item-wrap {
+        padding: 10px 2px 15px 20px;
+        color: @gray-deep;
+        text-overflow: ellipsis;
+
+        .user-date {
+            display: inline-block;
+            font-size: 12px;
+            font-weight: bold;
+            margin-right: 12px;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        .user-version {
+            display: inline-block;
+            width: 36px;
+            height: 18px;
+            color: @primary;
+            font-size: 10px;
+            white-space: nowrap;
+            overflow: hidden;
+            background-color: #e6e6e6;
+            text-align: center;
+            padding: 1px 0;
+            border-radius: 2px;
+        }
+
+        .user-name {
+            width: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .color {
+            width: 12px;
+            height: 12px;
+            border: 1px solid @gray-dark;
+            margin: 0 5px 3px 0;
+            vertical-align: middle;
+        }
+    }
+}

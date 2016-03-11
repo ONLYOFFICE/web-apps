@@ -1,0 +1,40 @@
+
+<div class="statusbar" style="display:table;">
+    <div class="status-group dropup">
+        <button id="status-btn-preview" type="button" class="btn small btn-toolbar" style="margin-left: 9px;"><span class="btn-icon">&nbsp;</span></button>
+        <label id="status-label-pages" class="status-label" style="margin-left: 7px;" data-toggle="dropdown"><%= Common.Utils.String.format(scope.pageIndexText, 1, 1) %></label>
+        <div id="status-goto-box" class="dropdown-menu">
+            <label style="float:left;line-height:22px;"><%= scope.goToPageText %></label>
+            <div id="status-goto-page" style="display:inline-block;"></div>
+        </div>
+    </div>
+    <!-- /** coauthoring begin **/ -->
+    <div id="status-users-ct" class="status-group dropup" style="display:none;">
+        <div class="separator short" style="margin-right: 12px; margin-left: 40px;" />
+        <div id="status-users-block" style="display:inline-block; cursor:pointer;">
+            <span id="status-users-icon" class="img-commonctrl" style="margin-bottom: 2px;"/>
+            <label id="status-users-count" class="status-label" style="font-size: 14px; font-weight: normal; margin-top: -1px;">+</label>
+        </div>
+        <div id="status-users-menu" class="dropdown-menu">
+            <label style="display: block;margin-right: 14px;"><%= scope.tipUsers %></label>
+            <div id="status-users-list"></div>
+            <label id="status-change-rights" class="link" style="margin-top: 15px;"><%= scope.txAccessRights %></label>
+        </div>
+        <div class="separator short" style="margin-left: 10px;" />
+    </div>
+    <!-- /** coauthoring end **/ -->
+    <div class="status-group" style="width:100%; text-align:center;">
+        <label id="status-label-action" class="status-label"></label>
+    </div>
+    <div class="status-group" style="">
+        <button id="btn-zoom-topage" type="button" class="btn small btn-toolbar"><span class="btn-icon">&nbsp;</span></button>
+        <button id="btn-zoom-towidth" type="button" class="btn small btn-toolbar"><span class="btn-icon">&nbsp;</span></button>
+        <button id="btn-zoom-down" type="button" class="btn small btn-toolbar"><span class="btn-icon">&nbsp;</span></button>
+        <div class="cnt-zoom">
+            <div class="dropdown-toggle" data-toggle="dropdown">
+                <label id="status-label-zoom" class="status-label">Zoom 100%</label>
+            </div>
+        </div>
+        <button id="btn-zoom-up" type="button" class="btn small btn-toolbar" style="margin-right:40px;"><span class="btn-icon">&nbsp;</span></button>
+    </div>
+</div>

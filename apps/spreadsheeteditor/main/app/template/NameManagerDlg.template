@@ -1,0 +1,37 @@
+<div class="settings-panel active">
+    <div class="inner-content">
+        <table cols="2" style="width: 100%;">
+            <tr>
+                <td colspan=2 class="padding-small">
+                    <label class="header"><%= scope.textFilter %></label>
+                    <div id="name-manager-combo-filter" class="input-group-nr" style="width:210px;"></div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan=2>
+                    <div style="width: 169px;display: inline-block;"><span id="name-manager-sort-name" class="header-sorted">
+                        <label class="header"><%= scope.textRanges %></label><div style="width: 6px;height: 6px;"></div><span id="name-manager-sort-name-span" class="sort-direction img-commonctrl"></span>
+                    </span></div>
+                    <div style="width: 92px;display: inline-block;"><span id="name-manager-sort-scope" class="header-sorted">
+                        <label class="header"><%= scope.textScope %></label><div style="width: 6px;height: 6px;"></div><span id="name-manager-sort-scope-span" class="sort-direction img-commonctrl"></div>
+                    </span></div>
+                    <label class="header" style=""><%= scope.textDataRange %></label>
+                </td>
+            </tr>
+            <tr>
+                <td colspan=2 class="padding-small">
+                    <div id="name-manager-range-list" class="range-tableview" style="width:100%; height: 143px;"></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-large">
+                    <button type="button" class="btn btn-text-default" id="name-manager-btn-new" style="min-width: 100px;margin-right:5px;"><%= scope.textNew %></button>
+                    <button type="button" class="btn btn-text-default" id="name-manager-btn-edit" style="min-width: 100px;"><%= scope.textEdit %></button>
+                </td>
+                <td class="padding-large" style="text-align: right;width:90px;">
+                    <button type="button" class="btn btn-text-default" id="name-manager-btn-delete" style="min-width: 100px;"><%= scope.textDelete %></button>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

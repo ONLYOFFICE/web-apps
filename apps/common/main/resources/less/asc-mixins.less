@@ -1,0 +1,179 @@
+*, *:before, *:after {
+    -moz-user-select: none;
+}
+
+:focus {
+    outline: none;
+}
+
+.gradient(@color: #F5F5F5, @start: #EEE, @stop: #FFF) {
+    background: @color;
+    background: -webkit-gradient(linear, left bottom,left top, color-stop(0, @start), color-stop(1, @stop));
+    background: -moz-linear-gradient(center bottom, @start 0%, @stop 100%);
+    background: -o-linear-gradient(@stop, @start);
+    background: linear-gradient(bottom, @start, @stop);
+//    filter: e(%("progid:DXImageTransform.Microsoft.gradient(startColorstr='%d', endColorstr='%d', GradientType=0)",@stop, @start));
+}
+
+.box-shadow(@arguments) {
+    -webkit-box-shadow: @arguments;
+    //-moz-box-shadow: @arguments;
+    box-shadow: @arguments;
+}
+
+.box-inner-shadow(@arguments) {
+    -webkit-box-shadow: inset @arguments;
+    //-moz-box-shadow: inset @arguments;
+    box-shadow: inset @arguments;
+}
+
+.border-radius(@radius: 2px) {
+    border-radius: @radius;
+}
+
+.position(@type: absolute, @left: 0, @top: 0, @right: 0, @bottom: 0) {
+    position: @type;
+    left: @left;
+    top: @top;
+    right: @right;
+    bottom: @bottom;
+}
+
+.fontsize(@value) {
+    font-size: @value;
+}
+
+// User select
+.user-select(@select: none) {
+    -webkit-user-select: @select;
+       -moz-user-select: @select;
+        -ms-user-select: @select;
+//         -o-user-select: @select;
+            user-select: @select;
+}
+
+.toolbar-btn-icon(@icon-class, @index, @icon-size, @offset-x: 0, @offset-y: 0) {
+    .@{icon-class} {background-position: 0 -(@index * @icon-size - @offset-y);}
+    .btn.active   > .@{icon-class},
+    .btn:active   > .@{icon-class} {background-position: (-1 * @icon-size - @offset-x) -(@index * @icon-size - @offset-y);}
+    .btn.disabled > .@{icon-class} {background-position: (-2 * @icon-size - @offset-x) -(@index * @icon-size - @offset-y);}
+}
+
+.toolbar-group-btn-icon(@icon-class, @index, @icon-size, @offset-x: 0, @offset-y: 0) {
+    .@{icon-class} {background-position: 0 -(@index * @icon-size - @offset-y);}
+    .btn-group.open > .@{icon-class},
+    .btn.active   > .@{icon-class},
+    .btn:active   > .@{icon-class} {background-position: (-1 * @icon-size - @offset-x) -(@index * @icon-size - @offset-y);}
+    .btn.disabled > .@{icon-class} {background-position: (-2 * @icon-size - @offset-x) -(@index * @icon-size - @offset-y);}
+}
+
+.menu-btn-icon(@icon-class, @index, @icon-size) {
+                                .menu-item-icon.@{icon-class} {background-position: 0 -@index*@icon-size;}
+    li            > a.checked > .menu-item-icon.@{icon-class} {background-position: -1*@icon-size -@index*@icon-size;}
+    li.disabled                 .menu-item-icon.@{icon-class} {background-position: -2*@icon-size -@index*@icon-size;}
+}
+
+.options-btn-icon(@icon-class, @index, @icon-size) {
+                      .@{icon-class} {background-position:   -@icon-size -@index*@icon-size;}
+    button.over     > .@{icon-class} {background-position: -1*@icon-size -@index*@icon-size;}
+//    .btn-group.open > .@{icon-class},
+    button.active   > .@{icon-class},
+    button:active   > .@{icon-class} {background-position: -2*@icon-size -@index*@icon-size;}
+    button.disabled > .@{icon-class} {background-position: -3*@icon-size -@index*@icon-size;}
+}
+
+/**
+*/
+:root {
+    --bgX: 0px;
+}
+
+.button-normal-icon(@icon-class, @index, @icon-size) {
+    .@{icon-class} {
+        background-position: -0*@icon-size  -@index*@icon-size;
+        background-position: var(--bgX)     -@index*@icon-size;
+    }
+//    .@{icon-class} {background-position-y: -@index*@icon-size;}
+}
+
+.button-otherstates-icon(@icon-class, @icon-size) {
+    button.over     > .@{icon-class} {background-position-x: -1*@icon-size; --bgX: -(1*@icon-size);}
+    button.active   > .@{icon-class},
+    button:active   > .@{icon-class} {background-position-x: -2*@icon-size; --bgX: -(2*@icon-size);}
+    button.disabled > .@{icon-class} {background-position-x: -3*@icon-size; --bgX: -(3*@icon-size);}
+}
+
+.button-otherstates-icon2(@icon-class, @icon-size) {
+    button.@{icon-class}.active   > .btn-icon,
+    button.@{icon-class}:active   > .btn-icon {background-position-x: -1*@icon-size; --bgX: -(1*@icon-size);}
+    button.@{icon-class}.disabled > .btn-icon {background-position-x: -2*@icon-size; --bgX: -(2*@icon-size);}
+}
+
+.menu-icon-normal(@icon-class, @index, @icon-size) {
+    .menu-item-icon.@{icon-class} {
+        background-position: 0          -@index*@icon-size;
+        background-position: var(--bgX) -@index*@icon-size;
+    }
+//    .menu-item-icon.@{icon-class} {background-position-y: -@index*@icon-size;}
+}
+
+.menu-otherstates-icon(@menu-class, @icon-size) {
+    .@{menu-class} li            > a.checked > .menu-item-icon {background-position-x: -1*@icon-size; --bgX: -(1*@icon-size);}
+    .@{menu-class} li.disabled                 .menu-item-icon {background-position-x: -2*@icon-size; --bgX: -(2*@icon-size);}
+}
+
+/**/
+
+.background-ximage(@image, @image2x, @w: auto, @h: auto) {
+    background-image: e(%("url(%s)",@image));
+
+    @media
+    only screen and (-webkit-min-device-pixel-ratio: 2),
+    only screen and (min-resolution: 2dppx),
+    only screen and (min-resolution: 192dpi) {
+        background-image: e(%("url(%s)",@image2x));
+        background-size: @w @h;
+    }
+}
+
+@common-controls-width: 100px;
+.img-commonctrl,
+        .theme-colorpalette .color-transparent, .dropdown-menu li .checked:before, .input-error:before {
+    background: e(%("url(%s)",'@{common-image-path}/@{common-controls}')) no-repeat;
+
+    @media
+    only screen and (-webkit-min-device-pixel-ratio: 2),
+    only screen and (min-resolution: 2dppx),
+    only screen and (min-resolution: 192dpi) {
+        background-image: e(%("url(%s)",'@{common-image-path}/@{common-controls2x}'));
+        background-size:  @common-controls-width auto;
+    }
+}
+
+@img-toolbarmenu-width: 60px;
+.img-toolbarmenu
+{
+    background: e(%("url(%s)",'@{app-image-path}/toolbar-menu.png')) no-repeat;
+
+    @media
+    only screen and (-webkit-min-device-pixel-ratio: 2),
+    only screen and (min-resolution: 2dppx),
+    only screen and (min-resolution: 192dpi) {
+        background-image: e(%("url(%s)",'@{app-image-path}/toolbar-menu@2x.png'));
+        background-size:  @img-toolbarmenu-width auto;
+    }
+}
+
+@img-colorpicker-width: 205px;
+.img-colorpicker,
+    .color-transparent, .hsb-colorpicker .empty-color:before {
+    background: e(%("url(%s)",'@{common-image-path}/hsbcolorpicker/hsb-colorpicker.png')) no-repeat;
+
+    @media
+    only screen and (-webkit-min-device-pixel-ratio: 2),
+    only screen and (min-resolution: 2dppx),
+    only screen and (min-resolution: 192dpi) {
+        background-image: e(%("url(%s)",'@{common-image-path}/hsbcolorpicker/hsb-colorpicker@2x.png'));
+        background-size:  @img-colorpicker-width auto;
+    }
+}

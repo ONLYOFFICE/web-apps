@@ -1,0 +1,283 @@
+.statusbar {
+    display: table;
+    padding: 2px;
+    height: 25px;
+    background-color: @gray-light;
+    .box-inner-shadow(0 1px 0 @gray-dark);
+
+    .status-label {
+        font-weight: bold;
+        color: @gray-deep;
+        white-space: nowrap;
+        position: relative;
+        top: 1px;
+    }
+
+    #label-pages, #label-zoom {
+        cursor: pointer;
+    }
+    #label-pages, #label-action {
+        margin-top: 2px;
+    }
+
+    #users-icon,#status-users-count {
+        display: inline-block;
+        cursor: pointer;
+    }
+
+    #users-icon {
+        background-position: -14px -197px;
+        width: 20px;
+        height: 20px;
+        vertical-align: middle;
+    }
+
+    #label-zoom {
+        text-align: center;
+    }
+
+    #btn-doc-lang {
+        margin-right: 9px;
+    }
+
+    #btn-doc-spell {
+        margin-right: 5px;
+    }
+
+    #btn-zoom-topage {
+        margin-right: 9px;
+        margin-left: 6px;
+    }
+
+    #btn-zoom-towidth {
+        margin-right: 9px;
+    }
+
+    .status-group {
+        display: table-cell;
+        white-space: nowrap;
+        padding-top: 3px;
+        vertical-align: top;
+    }
+
+    .separator {
+        margin: 0px 3px 0 4px;
+
+        &.short {
+            height: 25px;
+            margin-top: -2px;
+        }
+    }
+
+    .cnt-lang {
+        display: inline-block;
+        cursor: pointer;
+        color: #000;
+        margin-left: 6px;
+
+        .icon-lang-flag {
+            position: relative;
+            top: 3px;
+            margin-left: 3px;
+            margin-right: 2px;
+            width: 16px;
+            height: 12px;
+            display: inline-block;
+        }
+
+        .caret.up {
+            background-position: @arrow-up-small-offset-x @arrow-up-small-offset-y;
+
+            border: none;
+            width: 7px;
+            height: 7px;
+        }
+
+        label {
+            cursor: pointer;
+        }
+
+        .dropdown-menu {
+            li .lang-item-icon {
+                width: 16px;
+                height: 12px;
+
+                display: inline-block;
+                vertical-align: text-bottom;
+                margin: 1px 5px 0 2px;
+            }
+        }
+
+        &.disabled {
+            cursor: default;
+            label, .icon-lang-flag {
+                cursor: default;
+                opacity: 0.4;
+            }
+        }
+    }
+
+    .cnt-zoom {
+        display: inline-block;
+
+        .dropdown-menu {
+            min-width: 80px;
+            margin-left: -4px;
+
+            li {
+                text-align: center;
+
+                > a {
+                    padding-left: 15px;
+                    padding-right: 15px;
+                }
+            }
+        }
+    }
+
+    .dropdown-menu {
+        margin-bottom: 6px;
+
+        li {
+            text-align: left;
+        }
+    }
+
+    #status-goto-box {
+        padding: 10px;
+        margin-left: 40px;
+        margin-bottom: 2px;
+        min-width: 130px;
+
+        > label {
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        > input[type=text] {
+            width: 50px;
+            display: inline-block;
+        }
+    }
+
+
+    #status-users-menu {
+        padding: 14px 0 14px 14px;
+        margin-left: 137px;
+        margin-bottom: 2px;
+        width: 285px;
+        font-size: 12px;
+
+        > label {
+            white-space: initial;
+        }
+
+        #status-users-list {
+            margin-top: 15px;
+            
+            ul {
+                margin: 0;
+                padding: 0;
+                overflow: hidden;
+                max-height: 190px;
+                position: relative;
+
+                li {
+                    list-style: none;
+                    padding: 2px 0;
+                    margin-right: 15px;
+                    overflow: hidden;
+
+                    &.offline, &.viewmode {
+                        display: none;
+                    }
+                }
+            }
+
+            .color {
+                width: 12px;
+                height: 12px;
+                display: inline-block;
+                vertical-align: middle;
+                border: 1px solid @gray-dark;
+            }
+
+            .name {
+                display: block;
+                padding-left: 16px;
+                margin-top: -3px;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                vertical-align: middle;
+            }
+        }
+    }
+}
+
+.combo-langs {
+    .dropdown-menu {
+        li .lang-item-icon {
+            margin-top: 1px;
+
+            width: 16px;
+            height: 12px;
+        }
+    }
+
+    .input-lang-icon {
+        position: absolute;
+        width: 16px;
+        height: 12px;
+        left: 5px;
+        top: 5px;
+    }
+
+    input {
+        padding-left: 25px !important;
+    }
+}
+
+.lang-flag {
+    background-position: -16px -1608px;
+
+    &.ca, &.ca-ES                     {background-position: 0          -1499px;}
+    &.cs, &.cs-CZ                     {background-position: -16px      -1500px;}
+    &.da, &.da-DK                     {background-position: -32px      -1500px;}
+    &.de, &.de-DE                     {background-position: 0          -1512px;}
+    &.el, &.el-GR                     {background-position: -16px      -1512px;}
+    &.en, &.en-US                     {background-position: -32px      -1512px;}
+    &.fr, &.fr-FR                     {background-position: 0          -1524px;}
+    &.hu, &.hu-HU                     {background-position: -16px      -1524px;}
+    &.it, &.it-IT                     {background-position: -32px      -1524px;}
+    &.ko, &.ko-KR                     {background-position: 0          -1536px;}
+    &.nl, &.nl-NL                     {background-position: -16px      -1536px;}
+    &.nb, &.nb-NO                     {background-position: -32px      -1536px;}
+    &.pl, &.pl-PL                     {background-position: 0          -1548px;}
+    &.pt, &.pt-BR                     {background-position: -16px      -1548px;}
+    &.ro, &.ro-RO                     {background-position: -32px      -1548px;}
+    &.ru, &.ru-RU                     {background-position: 0          -1560px;}
+    &.sk, &.sk-SK                     {background-position: -16px      -1560px;}
+    &.sv, &.sv-SE                     {background-position: -32px      -1560px;}
+    &.tr, &.tr-TR                     {background-position: 0          -1572px;}
+    &.uk, &.uk-UA                     {background-position: -16px      -1572px;}
+    &.lv, &.lv-LV                     {background-position: -32px      -1572px;}
+    &.lt, &.lt-LT                     {background-position: 0          -1584px;}
+    &.vi, &.vi-VN                     {background-position: -16px      -1584px;}
+    &.de-CH                           {background-position: -32px      -1584px;}
+    &.nn, &.nn-NO                     {background-position: 0          -1596px;}
+    &.pt-PT                           {background-position: -16px      -1596px;}
+    &.de-AT                           {background-position: -32px      -1596px;}
+    &.es, &.es-ES                     {background-position: 0          -1608px;}
+    &.en-GB                           {background-position: -32px      -1608px;}
+    &.en-AU                           {background-position: 0          -1620px;}
+    &.az-Latn-AZ                      {background-position: -16px      -1620px;}
+}
+
+.button-normal-icon(btn-ic-zoomtowidth, 55, @toolbar-icon-size);
+.button-normal-icon(btn-ic-zoomtopage,  56, @toolbar-icon-size);
+.button-normal-icon(btn-ic-zoomup,      57, @toolbar-icon-size);
+.button-normal-icon(btn-ic-zoomdown,    58, @toolbar-icon-size);
+.button-normal-icon(btn-ic-review,      61, @toolbar-icon-size);
+.button-normal-icon(btn-ic-doclang,     67, @toolbar-icon-size);
+.button-normal-icon(btn-ic-docspell,    69, @toolbar-icon-size);
+.button-normal-icon(btn-ic-changes,     68, @toolbar-icon-size);

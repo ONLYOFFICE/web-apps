@@ -1,0 +1,39 @@
+label {
+    &.link {
+        border-bottom: 1px dotted #aaa;
+        cursor: pointer;
+
+        &.disabled {
+            cursor: default;
+        }
+    }
+
+    &.link-solid {
+        border-bottom: 1px solid #aaa;
+        cursor: pointer;
+
+        &.disabled {
+            cursor: default;
+        }
+    }
+
+    &.disabled {
+        opacity: 0.5;
+    }
+}
+
+.menu-shapes {
+    .item {
+        .box-shadow(none);
+    }
+}
+
+.combobox.fonts {
+    > .dropdown-menu {
+        max-height: 388px;
+    }
+}
+
+.user-select {
+    .user-select(text);
+}

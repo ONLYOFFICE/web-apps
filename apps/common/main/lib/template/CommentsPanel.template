@@ -1,0 +1,13 @@
+<div id="comments-box" class="layout-ct vbox">
+    <div class="layout-item messages-ct"/>
+    <div class="layout-item add-link-ct">
+        <label class="btn new"><%=textAddCommentToDoc%></label>
+    </div>
+    <div style="display: none;" class="layout-item new-comment-ct">
+        <div class="inner-ct">
+            <textarea id="comment-msg-new" class="user-select" placeholder="<%=textEnterCommentHint%>" maxlength="<%=maxCommLength%>"/>
+        </div>
+        <button class="btn add normal dlg-btn primary"><%=textAddComment%></button>
+        <button class="btn cancel normal dlg-btn"><%=textCancel%></button>
+    </div>
+</div>

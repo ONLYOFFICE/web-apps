@@ -1,0 +1,14 @@
+<div id="chat-box" class="layout-ct vbox">
+    <div id="chat-users" class="layout-item area">
+        <div id="chat-user-ct"></div>
+    </div>
+    <div id="chat-messages" class="layout-item area">
+        <div id="chat-message-ct"></div>
+    </div>
+    <div id="chat-options" class="layout-item">
+        <div id="chat-options-ct">
+            <textarea id="chat-msg-text" class="user-select" maxlength="<%=maxMsgLength%>"></textarea>
+            <button id="chat-msg-btn-add" class="btn normal dlg-btn primary"><%=scope.textSend%></button>
+        </div>
+    </div>
+</div>

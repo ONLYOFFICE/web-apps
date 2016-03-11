@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>Función CUMIPMT</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="" />
+		<link type="text/css" rel="stylesheet" href="../editor.css" />
+	</head>
+	<body>
+		<div class="mainpart">
+			<h1>Función CUMIPMT</h1>
+			<p>La función <b>CUMIPMT</b>es una función financiera. Se usa para calcular el pagamiento del interés de la inversión entre dos periodos basándose en la tasa de interés especificada y el calendario de pagos constante.</p>
+			<p>La sintaxis de la función <b>CUMIPMT</b> es:</p> 
+			<p style="text-indent: 150px;"><b><em>CUMIPMT(rate, nper, pv, start_period, end_period, type)</em></b></p> 
+			<p><em>donde</em></p> 
+				<p style="text-indent: 50px;"><b><em>rate</em></b> es la tasa de interés para la inversión.</p> 
+				<p style="text-indent: 50px;"><b><em>nper</em></b> es el número de pagos.</p> 
+				<p style="text-indent: 50px;"><b><em>pv</em></b> es el valor presente se los pagos.</p>
+                <p style="text-indent: 50px;"><b><em>start_period</em></b> es el primer periodo incluido en el cálculo. Puede tomar el valor de  <b><em>1</em></b> a <b><em>nper</em></b>.</p>
+                <p style="text-indent: 50px;"><b><em>end_period</em></b> es el último periodo incluido en el cálculo. Puede tomar el valor de <b><em>1</em></b> a <b><em>nper</em></b>.</p>
+				<p style="text-indent: 50px;"><b><em>type</em></b> es el periodo cuando se realizan los pagos. Si se fija en 0 se omite, los pagos se realizan al final de periodo. Si el <b><em>type</em></b> se fija en 1, los pagos se realizan al principio del periodo.</p>
+			<p class="note"><b>Nota:</b> efectivo pagadero (ej.: depósito de ahorro) se representa por números negativos; efectivo devengado (ej.: cheques de dividendos) se representa por números positivos. Unidades de medida para rate y nper debe ser coherentes: use N%/12 para rate y N*12 para nper en caso de pagos mensuales, N%/4 para rate y N*4 para nper en caso de pagos trimestrales, N% para rate y N para nper en caso de pagos anuales.</p>
+			<p>Los valores pueden introducirse manualmente o incluirse en la celda a la que usted hace referencia.</p>
+			<p>Para aplicar la función <b>CUMIPMT</b>,</p>
+			<ol>
+			<li>seleccione la celda donde quiere que se muestre el resultado,</li>
+			<li>pulse el icono <b>Insertar función</b> <img alt="icono Insertar función" src="../images/insertfunction.png" /> que se sitúa en la barra de herramientas superior,
+				<br />o haga clic con el botón derecho en la celda elegida y seleccione la opción <b>Insertar función</b> en el menú,
+				<br />o pulse el icono <img alt="icono Función" src="../images/function.png" />  que se sitúa en la barra de fórmulas, 
+			</li>
+			<li>seleccione el grupo de funciones <b>Financiero</b> en la lista,</li>
+			<li>elija la función <b>CUMIPMT</b>,</li>
+			<li>introduzca los argumentos requeridos separándolos por comas,</li>
+			<li>pulse el botón <b>Enter</b>.</li>
+			</ol>
+			<p>El resultado se mostrará en la celda elegida.</p>
+			<p style="text-indent: 150px;"><img alt="Función CUMIPMT" src="../images/cumipmt.png" /></p>
+		</div>
+	</body>
+</html>

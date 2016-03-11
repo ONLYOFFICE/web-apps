@@ -1,0 +1,60 @@
+.review-changes {
+    position: absolute;
+    bottom: -1px;
+    right: 55px;
+    background: @gray-light;
+    border: 1px solid @gray-dark;
+    height: 35px;
+    z-index: 1000;
+
+    .review-group {
+        display: inline-block;
+        vertical-align: middle;
+        padding: 6px 0px 6px 10px;
+
+        & > div, & > label {
+            margin-right: 10px;
+            display: inline-block;
+        }
+    }
+
+    #id-review-label-total {
+        font: bold 10px Helvetica, Arial, Verdana, sans-serif;
+        color: @gray-darker;
+        text-shadow: none;
+        white-space: nowrap;
+        cursor: pointer;
+        vertical-align: middle;
+    }
+
+    #id-review-button-accept,
+    #id-review-button-reject {
+        span.caption {
+            vertical-align: middle;
+            font-size: 12px;
+            margin: 0 6px;
+        }
+    }
+
+    .separator {
+        margin: 0 !important;
+        height: 19px;
+    }
+
+    .btn-toolbar {
+        span.btn-icon {
+            .background-ximage('@{common-image-path}/@{common-controls}', '@{common-image-path}/@{common-controls2x}', 100px);
+        }
+    }
+    .review-prev {background-position: -40px -250px;}
+    button.active   > .review-prev,
+    button:active   > .review-prev {background-position: -60px -250px !important;}
+
+    .review-next {background-position: -40px -270px;}
+    button.active   > .review-next,
+    button:active   > .review-next {background-position: -60px -270px !important;}
+
+    .review-close {background-position: -40px -290px;}
+    button.active   > .review-close,
+    button:active   > .review-close {background-position: -60px -290px !important;}
+}

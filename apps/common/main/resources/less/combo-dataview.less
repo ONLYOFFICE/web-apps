@@ -1,0 +1,274 @@
+.combo-dataview {
+@combo-dataview-width: 100%;
+
+    width: @combo-dataview-width;
+
+    .view {
+        display: inline-block;
+        float: left;
+        overflow: hidden;
+        width: @combo-dataview-width;
+        height: 100%;
+        .border-radius(@border-radius-small);
+        border: 1px solid @input-border;
+        background-color: @input-bg;
+
+        .dataview {
+            padding: 1px;
+        }
+    }
+
+    .button {
+        display: inline-block;
+        float: right;
+
+        button {
+            border-radius:0 @border-radius-small @border-radius-small 0;
+            border: 1px solid @input-border;
+            background-color: @input-bg;
+
+            &.dropdown-toggle {
+                .caret {
+//                    width: 7px;
+//                    height: 7px;
+                    border: 0;
+                    background-position: @arrow-small-offset-x @arrow-small-offset-y;
+                }
+            }
+        }
+    }
+
+    .dropdown-menu {
+        border-color: @gray;
+        border-top-right-radius: 0;
+        border-top-left-radius: 2px;
+        margin: 0;
+        padding: 1px;
+        overflow: hidden;
+    }
+
+    &.disabled {
+        opacity: 0.65;
+
+        .dataview.inner {
+            > .item {
+                cursor: default;
+            }
+        }
+    }
+}
+
+
+.combo-styles {
+    @combo-dataview-button-width: 30px;
+    @combo-dataview-height: 46px;
+
+    height: @combo-dataview-height;
+
+    .view {
+        margin-right: -@combo-dataview-button-width;
+        padding-right: @combo-dataview-button-width;
+
+        .border-left-radius(0);
+
+        .dataview {
+            height: 46px;
+            padding: 0;
+            margin: -1px 0 0 -1px;
+        }
+    }
+
+    .item {
+        padding: 3px;
+        border: 1px solid @gray;
+        .box-shadow(none);
+        margin: 0 -1px -1px 0;
+
+
+        &:hover {
+            .box-inner-shadow(0 0 0 2px @gray);
+        }
+
+        &.selected {
+            .box-inner-shadow(0 0 0 2px @gray-darker);
+        }
+    }
+
+    &.disabled {
+        .item {
+            &:hover:not(.selected) {
+                .box-shadow(none);
+
+                .style > div {
+                    background-color: transparent;
+                }
+            }
+        }
+    }
+
+    .dropdown-menu {
+        box-sizing: content-box;
+        padding: 0;
+        border-top-left-radius: 0;
+        border-left: 0 none;
+
+        .dataview {
+            margin-top: -1px;
+        }
+    }
+
+    .style {
+        width: auto;
+        position: relative;
+        border: none;
+        .box-shadow(0 0 0 1px @body-bg);
+
+        > div {
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+    }
+
+    .button {
+        width: @combo-dataview-button-width;
+        height: @combo-dataview-height;
+
+        button {
+            &.dropdown-toggle {
+                padding: 0;
+
+                .caret {
+                    width: 27px;
+                    height: 27px;
+                    background-position: @arrow-big-offset-x @arrow-big-offset-y;
+                }
+
+                &.active {
+                    .caret {
+                        transform: rotate(180deg);
+                    }
+                }
+            }
+        }
+    }
+
+    .ps-scrollbar-y-rail {
+        margin-top: 2px;
+    }
+}
+
+.combo-template {
+    @combo-dataview-button-width: 18px;
+    @combo-dataview-height: 64px;
+
+    height: @combo-dataview-height;
+
+    .dropdown-menu {
+        padding: 2px;
+    }
+
+    .view {
+        margin-right: -@combo-dataview-button-width;
+        padding-right: @combo-dataview-button-width;
+
+        .dataview {
+            padding: 2px;
+        }
+    }
+
+    .button {
+        width: @combo-dataview-button-width;
+        height: @combo-dataview-height;
+    }
+
+    &.disabled {
+        .item {
+            &:hover:not(.selected) {
+                .box-shadow(0 0 0 1px @gray);
+            }
+        }
+    }
+
+    .ps-scrollbar-y-rail {
+        margin-top: 3px;
+        margin-bottom: 3px;
+        right: 3px !important;
+    }
+};
+
+.combo-pattern {
+    @combo-dataview-button-width: 15px;
+    @combo-dataview-height: 40px;
+
+    height: @combo-dataview-height;
+
+    .view {
+        margin-right: -@combo-dataview-button-width;
+        padding-right: @combo-dataview-button-width;
+    }
+
+    .button {
+        width: @combo-dataview-button-width;
+        height: @combo-dataview-height;
+    }
+
+    .item {
+        margin: 4px 0 4px 4px;
+        .box-shadow(none);
+
+        &:hover {
+            .box-shadow(0 0 0 1px @gray);
+        }
+
+//            &.selected {
+//                .box-shadow(0 0 0 2px @primary);
+//            }
+    }
+
+    &.disabled {
+        .item {
+            &:hover:not(.selected) {
+                .box-shadow(none);
+            }
+        }
+    }
+
+    .dropdown-menu {
+        padding-right: 2px;
+    }
+
+    .ps-scrollbar-y-rail {
+        margin-top: 4px;
+        margin-bottom: 4px;
+    }
+};
+
+.combo-textart {
+    @combo-dataview-button-width: 15px;
+    @combo-dataview-height: 62px;
+
+    height: @combo-dataview-height;
+
+    .view {
+        margin-right: -@combo-dataview-button-width;
+        padding-right: @combo-dataview-button-width;
+    }
+
+    .button {
+        width: @combo-dataview-button-width;
+        height: @combo-dataview-height;
+    }
+
+    .item {
+        margin: 4px 0 4px 4px;
+        .box-shadow(none);
+    }
+
+    &.disabled {
+        .item {
+            &:hover:not(.selected) {
+                .box-shadow(none);
+            }
+        }
+    }
+};

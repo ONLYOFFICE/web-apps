@@ -1,0 +1,21 @@
+syntax: glob
+
+.idea
+Thumbs.db
+.DS_Store
+deploy
+build/node_modules
+apps/documenteditor/embed/resources/less/node_modules
+apps/presentationeditor/embed/resources/less/node_modules
+apps/spreadsheeteditor/embed/resources/less/node_modules
+apps/documenteditor/mobile/resources/sass/.sass-cache
+apps/spreadsheeteditor/mobile/resources/sass/.sass-cache
+
+
+# test documents
+apps/presentationeditor/embed/document
+apps/presentationeditor/main/document
+apps/presentationeditor/mobile/document
+apps/spreadsheeteditor/embed/offlinedocs
+apps/spreadsheeteditor/main/offlinedocs
+apps/spreadsheeteditor/mobile/offlinedocs

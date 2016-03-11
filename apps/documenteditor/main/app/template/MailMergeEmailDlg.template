@@ -1,0 +1,46 @@
+<div id="id-merge-email-dlg" class="settings-panel active">
+    <div class="inner-content">
+        <table cols="2" style="width: 100%;" cellpadding="10">
+            <tr>
+                <td class="padding-small">
+                    <label class="input-label"><%= scope.textFrom %></label>
+                    <div id="merge-email-dlg-from"></div>
+                </td>
+                <td class="padding-small">
+                    <label class="input-label"><%= scope.textTo %></label>
+                    <div id="merge-email-dlg-to"></div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" class="padding-small">
+                    <label class="input-label"><%= scope.textSubject %></label>
+                    <div id="merge-email-dlg-subject" style="width: 100%;"></div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" class="padding-small">
+                    <label class="input-label"><%= scope.textFormat %></label>
+                    <div id="merge-email-dlg-format" style="width: 170px;"></div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" class="padding-small">
+                    <label id="merge-email-dlg-lbl-filename"  class="input-label disabled"><%= scope.textFileName %></label>
+                    <div id="merge-email-dlg-filename" style="width: 100%;"></div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" class="padding-small">
+                    <label id="merge-email-dlg-lbl-message" class="input-label disabled"><%= scope.textMessage %></label>
+                     <textarea id="merge-email-dlg-message" class="disabled form-control" disabled="disabled" style="width: 100%;height: 70px;margin-bottom: 0;"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" class="padding-small">
+                    <label style="font-weight: bold;"><%= scope.textWarning %></label>
+                    <label class=""><%= scope.textWarningMsg %></label>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,91 @@
+.preview-controls {
+    display: table;
+    background: @gray-light;
+    height: 35px;
+    z-index: 10;
+    opacity: 0.2;
+
+    &:hover {
+        opacity: 1 !important;
+    }
+
+    .preview-group {
+        display: table-cell;
+        vertical-align: middle;
+    }
+
+    #preview-label-slides {
+        font: bold 11px Helvetica, Arial, Verdana, sans-serif;
+        color: #666666;
+        text-shadow: none;
+        white-space: nowrap;
+        cursor: pointer;
+    }
+
+    #btn-preview-prev {
+        margin-left: 10px;
+        .btn-tpl(-1240px);
+    }
+    #btn-preview-next {
+        .btn-tpl(-1260px);
+    }
+    #btn-preview-play {
+        .btn-tpl(-1280px);
+
+        .btn-icon.btn-pause {
+            background-position: 0 -1320px;
+
+            &:active {
+                background-position: -20px -1320px;
+            }
+        }
+
+        &[disabled] .btn-icon.btn-pause {
+            background-position: -60px -1320px;
+        }
+
+        &.active {
+            .btn-icon.btn-pause {
+                background-position: -20px -1320px;
+            }
+        }
+    }
+    #btn-preview-close {
+        margin-right: 10px;
+        .btn-tpl(-1300px);
+    }
+
+    #btn-preview-fullscreen {
+        .btn-tpl(-1440px);
+    }
+
+    .separator {
+        margin: 0px 10px;
+        height: 19px;
+    }
+
+    #preview-goto-box {
+        position: fixed;
+        bottom: 35px;
+        padding: 10px;
+        margin-left: 80px;
+        margin-bottom: 2px;
+        min-width: 130px;
+
+        > label {
+              display: inline-block;
+              margin-right: 10px;
+          }
+
+        > input[type=text] {
+              width: 50px;
+              display: inline-block;
+          }
+    }
+}
+
+:-webkit-full-screen #btn-preview-fullscreen{ .btn-tpl(-1420px); }
+:-moz-full-screen #btn-preview-fullscreen   { .btn-tpl(-1420px); }
+:-ms-fullscreen #btn-preview-fullscreen     { .btn-tpl(-1420px); }
+:fullscreen #btn-preview-fullscreen         { .btn-tpl(-1420px); }
+#btn-preview-fullscreen.fullscreen     { .btn-tpl(-1420px); }

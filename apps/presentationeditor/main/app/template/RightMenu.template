@@ -1,0 +1,28 @@
+<div id="view-right-menu" class="tool-menu right">
+    <div class="right-panel">
+        <div id="id-paragraph-settings" class="settings-panel">
+        </div>
+        <div id="id-table-settings" class="settings-panel">
+        </div>
+        <div id="id-image-settings" class="settings-panel">
+        </div>
+        <div id="id-slide-settings" class="settings-panel">
+        </div>
+        <div id="id-shape-settings" class="settings-panel">
+        </div>
+        <div id="id-chart-settings" class="settings-panel">
+        </div>
+        <div id="id-textart-settings" class="settings-panel">
+        </div>
+    </div>
+    <div class="tool-menu-btns">
+        <div class="ct-btn-category arrow-left" />
+        <button id="id-right-menu-slide" class="btn btn-category arrow-left" content-target="id-slide-settings"><span class="btn-icon img-toolbarmenu btn-menu-slide">&nbsp;</span></button>
+        <button id="id-right-menu-shape" class="btn btn-category arrow-left" content-target="id-shape-settings"><span class="btn-icon img-toolbarmenu btn-menu-shape">&nbsp;</span></button>
+        <button id="id-right-menu-image" class="btn btn-category arrow-left" content-target="id-image-settings"><span class="btn-icon img-toolbarmenu btn-menu-image">&nbsp;</span></button>
+        <button id="id-right-menu-text" class="btn btn-category arrow-left" content-target="id-paragraph-settings"><span class="btn-icon img-toolbarmenu btn-menu-text">&nbsp;</span></button>
+        <button id="id-right-menu-table" class="btn btn-category arrow-left" content-target="id-table-settings"><span class="btn-icon img-toolbarmenu btn-menu-table">&nbsp;</span></button>
+        <button id="id-right-menu-chart" class="btn btn-category arrow-left" content-target="id-chart-settings"><span class="btn-icon img-toolbarmenu btn-menu-chart">&nbsp;</span></button>
+        <button id="id-right-menu-textart" class="btn btn-category arrow-left" content-target="id-textart-settings"><span class="btn-icon img-toolbarmenu btn-menu-textart">&nbsp;</span></button>
+    </div>
+</div>

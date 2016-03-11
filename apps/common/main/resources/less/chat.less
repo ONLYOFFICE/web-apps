@@ -1,0 +1,127 @@
+#chat-box {
+    display: table;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-collapse: collapse;
+
+    > div {
+        display: table-row;
+    }
+
+    .area {
+        position: absolute;
+        border-bottom: 1px solid @gray-dark;
+        overflow: hidden;
+    }
+
+    .ps-scrollbar-y-rail {
+        margin-top: 5px;
+        margin-bottom: 5px;
+        right: 4px !important;
+    }
+
+    #chat-title {
+        label {
+            padding: 18px 20px;
+            font-size: @font-size-large;
+        }
+    }
+
+    #chat-users {
+        left: 0;
+        top: 0;
+        right: 0;
+        height: 70px;
+        padding: 5px 0;
+
+        ul {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+
+            li {
+                list-style: none;
+                padding: 2px 0 2px 20px;
+                overflow: hidden;
+
+                &.offline {
+                    display: none;
+                }
+            }
+        }
+
+        .color {
+            width: 12px;
+            height: 12px;
+            display: inline-block;
+            vertical-align: middle;
+            border: 1px solid @gray-dark;
+        }
+
+        .name {
+            display: block;
+            padding-left: 16px;
+            margin-top: -2px;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            font-weight: bold;
+            vertical-align: middle;
+
+        }
+    }
+
+    #chat-messages {
+        left: 0;
+        top: 70px;
+        right: 0;
+        bottom: 110px;
+
+        ul {
+            margin: 0;
+            padding: 0;
+
+            li {
+                list-style: none;
+
+                padding: 5px 10px 8px 20px;
+                white-space: pre-wrap;
+                white-space: -moz-pre-wrap;
+                white-space: -o-pre-wrap;
+                word-wrap: break-word;
+
+                .user {
+                    font-weight: bold;
+                    white-space: nowrap;
+                }
+
+                .message {
+                    word-wrap: break-word;
+                    width: 100%;
+
+                    &.service {
+                        text-align: center;
+                        color: #CECECE;
+                        text-shadow: 0 1px 0 #fff;
+                        padding-right: 20px;
+                    }
+                }
+            }
+        }
+    }
+
+    #chat-options {
+        #chat-options-ct {
+            padding: 10px 20px 40px 20px;
+            height: 100%;
+        }
+
+        textarea {
+            width: 100%;
+            height: 100%;
+            resize: none;
+            margin-bottom: 5px;
+            border: 1px solid @gray-dark;
+        }
+    }
+}

@@ -1,0 +1,266 @@
+
+.tool-menu.right {
+    .tool-menu-btns {
+        position: absolute;
+        border-left: 1px solid @gray-dark;
+        background-color: @gray-light;
+        right: 0;
+    }
+}
+
+.right-panel {
+    width: 220px;
+    height: 100%;
+    display: none;
+    padding: 0 10px 0 15px;
+    position: relative;
+    overflow: hidden;
+    border-left: 1px solid @gray-dark;
+}
+
+.settings-panel {
+    display: none;
+    overflow: visible;
+    margin-top: 7px;
+
+    & > table {
+        width: 100%;
+    }
+
+    &.active {
+        display: block;
+    }
+
+    .padding-small {
+        padding-bottom: 8px;
+    }
+
+    .padding-medium {
+        padding-bottom: 12px;
+    }
+
+    .padding-large {
+        padding-bottom: 16px;
+    }
+
+    .finish-cell {
+        height: 15px;
+    }
+
+    label {
+        .font-size-normal();
+        font-weight: normal;
+
+        &.input-label{
+            margin-bottom: 0;
+            vertical-align: middle;
+        }
+
+        &.header {
+            font-weight: bold;
+        }
+    }
+
+    .separator { width: 100%;}
+
+    .settings-hidden {
+        display: none;
+    }
+
+    textarea {
+       .user-select(text);
+        width: 100%;
+        resize: none;
+        margin-bottom: 5px;
+        border: 1px solid @gray-dark;
+        height: 100%;
+
+        &.disabled {
+            opacity: 0.65;
+            cursor: default !important;
+        }
+    }
+}
+
+/*menuText*/
+.button-normal-icon(btn-menu-text,    37, @toolbar-icon-size);
+
+/*menuImage*/
+.button-normal-icon(btn-menu-image,   17, @toolbar-icon-size);
+
+/*menuTable*/
+.button-normal-icon(btn-menu-table,   18, @toolbar-icon-size);
+
+/*menuChart*/
+.button-normal-icon(btn-menu-chart,   45, @toolbar-icon-size);
+
+/*menuHeader*/
+.button-normal-icon(btn-menu-header,  39, @toolbar-icon-size);
+
+/*menuMailMerge*/
+.button-normal-icon(btn-menu-mail-merge, 40, @toolbar-icon-size);
+
+/*menuShape*/
+.button-normal-icon(btn-menu-shape,   43, @toolbar-icon-size);
+
+/*menuTextArt*/
+.button-normal-icon(btn-menu-textart,   54, @toolbar-icon-size);
+
+.button-otherstates-icon2(btn-category, @toolbar-icon-size);
+
+.icon-right-panel {
+    .background-ximage('@{app-image-path}/right-panels/RightPanelBigBtns.png', '@{app-image-path}/right-panels/RightPanelBigBtns@2x.png', 148px);
+}
+
+.button-normal-icon(btn-colontitul-tl,    3, @huge-icon-size);
+.button-normal-icon(btn-colontitul-tc,    4, @huge-icon-size);
+.button-normal-icon(btn-colontitul-tr,    5, @huge-icon-size);
+.button-normal-icon(btn-colontitul-bl,    6, @huge-icon-size);
+.button-normal-icon(btn-colontitul-bc,    7, @huge-icon-size);
+.button-normal-icon(btn-colontitul-br,    8, @huge-icon-size);
+
+.button-normal-icon(btn-wrap-none,        9, @huge-icon-size);
+.button-normal-icon(btn-wrap-parallel,    10, @huge-icon-size);
+
+.button-normal-icon(btn-table-align-left,    0, @huge-icon-size);
+.button-normal-icon(btn-table-align-center,  1, @huge-icon-size);
+.button-normal-icon(btn-table-align-right,   2, @huge-icon-size);
+
+.button-normal-icon(btn-frame-inline,        9, @huge-icon-size);
+.button-normal-icon(btn-frame-flow,          10, @huge-icon-size);
+.button-normal-icon(btn-frame-none,          11, @huge-icon-size);
+
+.button-otherstates-icon(icon-right-panel, @huge-icon-size);
+
+.item-wrap {
+    .background-ximage('@{app-image-path}/right-panels/right_panel_wrap_icons.png', '@{app-image-path}/right-panels/right_panel_wrap_icons@2x.png', 350px);
+    width:50px;
+    height:50px;
+    background-size: cover !important;
+}
+
+.wrap-inline {
+    background-position: 0 0;
+}
+
+.wrap-square {
+    background-position: -50px 0;
+}
+
+.wrap-tight {
+    background-position: -100px 0;
+}
+
+.wrap-through {
+    background-position: -150px 0;
+}
+
+.wrap-topAndBottom {
+    background-position: -200px 0;
+}
+
+.wrap-behind {
+    background-position: -300px 0;
+}
+
+.wrap-inFront {
+    background-position: -250px 0;
+}
+
+.btn-toolbar .btn-icon.btn-borders-small {
+   .background-ximage('@{app-image-path}/right-panels/SmallBorders.png', '@{app-image-path}/right-panels/SmallBorders@2x.png', 84px);
+}
+
+.button-normal-icon(btn-position-all,         0, 21px);
+.button-normal-icon(btn-position-inner,       1, 21px);
+.button-normal-icon(btn-position-bottom,      2, 21px);
+.button-normal-icon(btn-position-inner-hor,   3, 21px);
+.button-normal-icon(btn-position-top,         4, 21px);
+.button-normal-icon(btn-position-none,        5, 21px);
+.button-normal-icon(btn-position-outer,       6, 21px);
+.button-normal-icon(btn-position-left,        7, 21px);
+.button-normal-icon(btn-position-inner-vert,  8, 21px);
+.button-normal-icon(btn-position-right,       9, 21px);
+
+.button-otherstates-icon(btn-borders-small, 21px);
+
+.btn-edit-table,
+.btn-change-shape {
+    .background-ximage('@{app-image-path}/right-panels/rowscols_icon.png', '@{app-image-path}/right-panels/rowscols_icon@2x.png', 84px);
+    margin-right: 2px !important;
+    margin-bottom: 1px !important;
+}
+
+.btn-edit-table                  {background-position: 0      0;}
+button.over .btn-edit-table      {background-position: -28px  0;}
+.btn-group.open .btn-edit-table,
+button.active .btn-edit-table,
+button:active .btn-edit-table    {background-position: -56px  0;}
+
+.btn-change-shape                  {background-position: 0      -16px;}
+button.over .btn-change-shape      {background-position: -28px  -16px;}
+.btn-group.open .btn-change-shape,
+button.active .btn-change-shape,
+button:active .btn-change-shape    {background-position: -56px  -16px;}
+
+.combo-pattern-item {
+    .background-ximage('@{app-image-path}/right-panels/patterns.png', '@{app-image-path}/right-panels/patterns@2x.png', 112px);
+}
+
+.combo-dataview-menu {
+    .form-control {
+        cursor: pointer;
+        background-color: white;
+
+        &.text {
+            background: white;
+            vertical-align: bottom;
+        }
+    }
+}
+
+.item-gradient {
+    .background-ximage('@{app-image-path}/right-panels/gradients.png', '@{app-image-path}/right-panels/gradients@2x.png', 150px);
+    width:50px;
+    height:50px;
+}
+
+.item-gradient-separator {
+    margin-right: 62px !important;
+}
+
+.gradient-left-top {
+    background-position: 0 0;
+}
+
+.gradient-top {
+    background-position: -50px 0;
+}
+
+.gradient-right-top {
+    background-position: -100px 0;
+}
+
+.gradient-left {
+    background-position: 0 -50px;
+}
+
+.gradient-right {
+    background-position: -100px -50px;
+}
+
+.gradient-left-bottom {
+    background-position: 0 -100px;
+}
+
+.gradient-bottom {
+    background-position: -50px -100px;
+}
+
+.gradient-right-bottom {
+    background-position: -100px -100px;
+}
+
+.gradient-radial-center {
+    background-position: -100px -150px;
+}

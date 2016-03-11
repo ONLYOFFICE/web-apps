@@ -1,0 +1,102 @@
+<table cols="1">
+    <tr>
+        <td>
+            <label class="header"><%= scope.textTemplate %></label>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small">
+            <div class="" id="textart-combo-template" style="width: 100%; height: 64px;"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small">
+            <div class="separator horizontal"></div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label class="header"><%= scope.strFill %></label>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small">
+            <div id="textart-combo-fill-src" style="width: 100%;"></div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div id="textart-panel-color-fill" class="padding-small" style="width: 100%;">
+                <div id="textart-back-color-btn" style=""></div>
+            </div>
+            <div id="textart-panel-gradient-fill" class="settings-hidden padding-small" style="width: 100%;">
+                <div style="height:80px;">
+                    <div style="display: inline-block;">
+                        <label class="input-label" style=""><%= scope.textStyle %></label>
+                        <div id="textart-combo-grad-type" style="width: 90px;"></div>
+                    </div>
+                    <div style="display: inline-block;float: right;">
+                        <label class="input-label" style=""><%= scope.textDirection %></label>
+                        <div id="textart-button-direction" style=""></div>
+                    </div>
+                </div>
+                <label class="header" style="display:block;margin-bottom: 5px;"><%= scope.textGradient %></label>
+                <div style="display: inline-block; margin-top: 3px;">
+                    <div id="textart-slider-gradient" style="display: inline-block; vertical-align: middle;"></div>
+                </div>
+                <div id="textart-gradient-color-btn" style="display: inline-block;float: right;"></div>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div class="padding-small" id="textart-panel-transparent-fill" style="width: 100%;">
+                <label class="header" style="display:block;"><%= scope.strTransparency %></label>
+                <div style="display: inline-block; margin-top: 3px;">
+                    <label id="textart-lbl-transparency-start">0</label>
+                    <div id="textart-slider-transparency" style="display: inline-block;margin: 0 4px; vertical-align: middle;"></div>
+                    <label id="textart-lbl-transparency-end">100</label>
+                </div>
+                <div id="textart-spin-transparency" style="display: inline-block;float: right;"></div>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small">
+            <div class="separator horizontal"></div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label class="header"><%= scope.strStroke %></label>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small">
+        <div style="display:inline-block;width:100px;vertical-align: middle;">
+            <label class="input-label" style=""><%= scope.strSize %></label>
+            <div id="textart-combo-border-size" style="width: 93px;"></div>
+        </div>
+        <div style="display:inline-block;vertical-align: middle;">
+            <label class="input-label" style=""><%= scope.strColor %></label>
+            <div id="textart-border-color-btn" style=""></div>
+        </div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small">
+            <div class="separator horizontal"></div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label class="header"><%= scope.textTransform %></label>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small">
+            <div class="" id="textart-combo-transform" style="width: 100%; height: 42px;"></div>
+        </td>
+    </tr>
+    <tr class="finish-cell"></tr>
+</table>

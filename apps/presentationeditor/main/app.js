@@ -1,0 +1,195 @@
+/**
+ *    app.js
+ *
+ *    Created by Julia Radzhabova on 26 March 2014
+ *    Copyright (c) 2014 Ascensio System SIA. All rights reserved.
+ *
+ */
+
+'use strict';
+var reqerr;
+require.config({
+    // The shim config allows us to configure dependencies for
+    // scripts that do not call define() to register a module
+    baseUrl: '../../',
+    paths: {
+        jquery          : '../vendor/jquery/jquery',
+        underscore      : '../vendor/underscore/underscore',
+        backbone        : '../vendor/backbone/backbone',
+        bootstrap       : '../vendor/bootstrap/dist/js/bootstrap',
+        text            : '../vendor/requirejs-text/text',
+        perfectscrollbar: 'common/main/lib/mods/perfect-scrollbar',
+        jmousewheel     : '../vendor/perfect-scrollbar/src/jquery.mousewheel',
+        xregexp         : '../vendor/xregexp/xregexp-all-min',
+        sockjs          : '../vendor/sockjs/sockjs.min',
+        jsziputils      : '../vendor/jszip-utils/jszip-utils.min',
+        jsrsasign       : '../vendor/jsrsasign/jsrsasign-latest-all-min',
+        allfonts        : '../sdk/Common/AllFonts',
+        sdk             : '../sdk/PowerPoint/sdk-all',
+        api             : 'api/documents/api',
+        core            : 'common/main/lib/core/application',
+        notification    : 'common/main/lib/core/NotificationCenter',
+        keymaster       : 'common/main/lib/core/keymaster',
+        tip             : 'common/main/lib/util/Tip',
+        localstorage    : 'common/main/lib/util/LocalStorage',
+        analytics       : 'common/Analytics',
+        gateway         : 'common/Gateway',
+        locale          : 'common/locale',
+        irregularstack  : 'common/IrregularStack'
+    },
+    shim: {
+        underscore: {
+            exports: '_'
+        },
+        backbone: {
+            deps: [
+                'underscore',
+                'jquery'
+            ],
+            exports: 'Backbone'
+        },
+        bootstrap: {
+            deps: [
+                'jquery'
+            ]
+        },
+        perfectscrollbar: {
+            deps: [
+                'jmousewheel'
+            ]
+        },
+        notification: {
+            deps: [
+                'backbone'
+            ]
+        },
+        core: {
+            deps: [
+                'backbone',
+                'notification',
+                'irregularstack'
+            ]
+        },
+        sdk: {
+            deps: [
+                'jquery',
+                'underscore',
+                'allfonts',
+                'xregexp',
+                'sockjs',
+                'jsziputils',
+                'jsrsasign'
+            ]
+        },
+        gateway: {
+            deps: [
+                'jquery'
+            ]
+        },
+        analytics: {
+            deps: [
+                'jquery'
+            ]
+        }
+    }
+});
+
+require([
+    'backbone',
+    'bootstrap',
+    'core',
+    'sdk',
+    'api',
+    'analytics',
+    'gateway',
+    'locale'
+], function (Backbone, Bootstrap, Core) {
+    Backbone.history.start();
+
+    /**
+     * Application instance with PE namespace defined
+     */
+    var app = new Backbone.Application({
+        nameSpace: 'PE',
+        autoCreate: false,
+        controllers : [
+            'Viewport',
+            'DocumentHolder',
+            'Toolbar',
+            'Statusbar',
+            'RightMenu',
+            'LeftMenu',
+            'Main',
+            'Common.Controllers.Fonts'
+            /** coauthoring begin **/
+            , 'Common.Controllers.Chat',
+            'Common.Controllers.Comments',
+            /** coauthoring end **/
+            'Common.Controllers.ExternalDiagramEditor'
+        ]
+    });
+
+    Common.Locale.apply();
+
+    require([
+        'presentationeditor/main/app/controller/Viewport',
+        'presentationeditor/main/app/controller/DocumentHolder',
+        'presentationeditor/main/app/controller/Toolbar',
+        'presentationeditor/main/app/controller/Statusbar',
+        'presentationeditor/main/app/controller/RightMenu',
+        'presentationeditor/main/app/controller/LeftMenu',
+        'presentationeditor/main/app/controller/Main',
+        'presentationeditor/main/app/view/ParagraphSettings',
+        'presentationeditor/main/app/view/ImageSettings',
+        'presentationeditor/main/app/view/ShapeSettings',
+        'presentationeditor/main/app/view/SlideSettings',
+        'presentationeditor/main/app/view/TableSettings',
+        'presentationeditor/main/app/view/TextArtSettings',
+        'common/main/lib/util/utils',
+        'common/main/lib/util/LocalStorage',
+        'common/main/lib/controller/Fonts'
+        /** coauthoring begin **/
+        ,'common/main/lib/controller/Comments',
+        'common/main/lib/controller/Chat',
+        /** coauthoring end **/
+        'presentationeditor/main/app/view/ChartSettings',
+        'common/main/lib/controller/ExternalDiagramEditor'
+    ], function() {
+        app.start();
+    });
+}, function(err) {
+    if (err.requireType == 'timeout' && !reqerr) {
+        var getUrlParams = function() {
+            var e,
+                a = /\+/g,  // Regex for replacing addition symbol with a space
+                r = /([^&=]+)=?([^&]*)/g,
+                d = function (s) { return decodeURIComponent(s.replace(a, " ")); },
+                q = window.location.search.substring(1),
+                urlParams = {};
+
+            while (e = r.exec(q))
+                urlParams[d(e[1])] = d(e[2]);
+
+            return urlParams;
+        };
+
+        var encodeUrlParam = function(str) {
+            return str.replace(/&/g, '&amp;')
+                    .replace(/"/g, '&quot;')
+                    .replace(/'/g, '&#39;')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;');
+        };
+
+        var lang = (getUrlParams()["lang"] || 'en').split("-")[0];
+
+        if ( lang == 'de')      reqerr = 'Die Verbindung ist zu langsam, einige Komponenten konnten nicht geladen werden. Aktualisieren Sie bitte die Seite.';
+        else if ( lang == 'es') reqerr = 'La conexión es muy lenta, algunos de los componentes no han podido cargar. Por favor recargue la página.';
+        else if ( lang == 'fr') reqerr = 'La connexion est trop lente, certains des composants n\'ons pas pu être chargé. Veuillez recharger la page.';
+        else if ( lang == 'ru') reqerr = 'Слишком медленное соединение, не удается загрузить некоторые компоненты. Пожалуйста, обновите страницу.';
+        else reqerr = 'The connection is too slow, some of the components could not be loaded. Please reload the page.';
+
+        window.alert(reqerr);
+        window.location.reload();
+    }
+});

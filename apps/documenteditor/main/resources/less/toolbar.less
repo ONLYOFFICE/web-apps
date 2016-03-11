@@ -1,0 +1,443 @@
+.toolbar {
+    padding: 10px 0;
+    background-color: @gray-light;
+    .box-inner-shadow(0 -1px 0 @gray-dark);
+
+    .toolbar-group {
+        display: table-cell;
+        vertical-align: top;
+        white-space: nowrap;
+        padding-left: 12px;
+
+        &:last-child {
+            padding-right: 12px;
+        }
+    }
+
+    .toolbar-row {
+        height: 20px;
+        font-size: 0;
+
+        &:not(:first-child) {
+            margin-top: 6px;
+        }
+    }
+
+    .separator {
+        margin-left: 12px;
+
+        &.long {
+            height: 46px;
+        }
+
+        &.short {
+            height: 20px;
+        }
+    }
+
+    .btn-placeholder {
+//        background-color: red;
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+
+        &:not(:first-child) {
+            margin-left: 1px;
+        }
+
+        &.split {
+            width: 28px;
+        }
+
+        &.border {
+            border: 1px solid @gray;
+            .border-radius(1px);
+            width: 22px;
+            height: 22px;
+        }
+    }
+
+    &.masked {
+        button.disabled .btn-icon:not(.no-mask) {
+            background-position-x: 0px !important;
+        }
+        .toolbar-group:not(.no-mask) {
+            opacity: 0.4;
+        }
+    }
+}
+
+.toolbar-mask {
+    position: absolute;
+    top: 0;
+    left: 48px;
+    right: 45px;
+    height: 100%;
+    opacity: 0;
+    background-color: @gray-light;
+    z-index: @zindex-tooltip + 1;
+}
+
+.menu-markers,
+.menu-numbers {
+    //
+}
+
+.item-markerlist {
+    .background-ximage('@{app-image-path}/toolbar/bullets.png', '@{app-image-path}/toolbar/bullets@2x.png', 38px);
+    width: 38px;
+    height: 38px;
+}
+
+.item-numberlist,
+.item-multilevellist {
+    .background-ximage('@{app-image-path}/toolbar/multilevels-numbering.png', '@{app-image-path}/toolbar/multilevels-numbering@2x.png', 74px);
+    width: 74px;
+    height: 74px;
+}
+
+
+.color-schemas-menu {
+    span {
+        &.colors {
+            display: inline-block;
+            margin-right: 15px;
+        }
+
+        &.color {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            margin-right: 2px;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            vertical-align: middle;
+        }
+
+        &.text {
+            vertical-align: middle;
+        }
+    }
+}
+// page number position
+.menu-pageposition {
+    .dataview {
+        width: 125px;
+        height: 85px;
+        margin: 0 auto;
+
+        &.disabled {
+            > .item {
+                cursor: default;
+                opacity: 0.5;
+
+                &:hover {
+                    .box-shadow(0 0 0 1px @gray);
+                }
+            }
+        }
+    }
+
+    .item-pagenumber {
+        .background-ximage('@{app-image-path}/toolbar/colontitules.png', '@{app-image-path}/toolbar/colontitules@2x.png', 33px);
+        width: 33px;
+        height: 33px;
+    }
+}
+
+// menu zoom
+.menu-zoom {
+    .title {
+        padding: 5px 0 5px 20px;
+        float: left;
+        max-width: 95px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .zoom {
+        padding: 5px 3px;
+        float: right;
+    }
+}
+
+// charts
+.menu-insertchart {
+    .group-description {
+        float: left;
+        width: 125px;
+        line-height: 58px;
+        padding-left: 6px;
+    }
+
+    .group-items-container {
+        float: left;
+        position: relative;
+
+//        & > div {
+//            float: left;
+//            margin: 0 0 0 14px;
+//        }
+    }
+}
+
+.item-chartlist {
+    .background-ximage('@{app-image-path}/toolbar/charttypes.png', '@{app-image-path}/toolbar/charttypes@2x.png', 250px);
+    width: 50px;
+    height: 50px;
+}
+
+.line-normal {
+    background-position: 0 0;
+}
+
+.line-stack {
+    background-position: -50px 0;
+}
+
+.line-pstack {
+    background-position: -100px 0;
+}
+
+.line-3d {
+    background-position: -150px 0;
+}
+
+.column-normal {
+    background-position: 0 -50px;
+}
+
+.column-stack{
+    background-position: -50px -50px;
+}
+
+.column-pstack{
+    background-position: -100px -50px;
+}
+
+.column-3d-normal {
+    background-position: -150px -50px;
+}
+
+.column-3d-stack{
+    background-position: -200px -50px;
+}
+
+.column-3d-pstack{
+    background-position: -150px -100px;
+}
+
+.column-3d-normal-per{
+    background-position: -200px -100px;
+}
+
+.bar-normal {
+    background-position: 0 -100px;
+}
+
+.bar-stack{
+    background-position: -50px -100px;
+}
+
+.bar-pstack{
+    background-position: -100px -100px;
+}
+
+.bar-3d-normal {
+    background-position: -150px -150px;
+}
+
+.bar-3d-stack{
+    background-position: -200px -150px;
+}
+
+.bar-3d-pstack{
+    background-position: -150px -200px;
+}
+
+.area-normal {
+    background-position: 0 -150px;
+}
+
+.area-stack{
+    background-position: -50px -150px;
+}
+
+.area-pstack{
+    background-position: -100px -150px;
+}
+
+.pie-normal {
+    background-position: 0 -200px;
+}
+
+.pie-3d-normal {
+    background-position: -200px -200px;
+}
+
+.point-normal{
+    background-position: -50px -200px;
+}
+
+.stock-normal{
+    background-position: -100px -200px;
+}
+
+.pie-doughnut{
+    background-position: -200px 0;
+}
+
+@toolbar-icon-size: 20px;
+.button-normal-icon(btn-align-center,     0, @toolbar-icon-size);
+.button-normal-icon(btn-align-just,       1, @toolbar-icon-size);
+.button-normal-icon(btn-align-left,       2, @toolbar-icon-size);
+.button-normal-icon(btn-align-right,      3, @toolbar-icon-size);
+.button-normal-icon(btn-bold,             5, @toolbar-icon-size);
+.button-normal-icon(btn-pagebreak,        6, @toolbar-icon-size);
+.button-normal-icon(btn-clearstyle,       7, @toolbar-icon-size);
+//.toolbar-btn-icon(btn-editheader,         8, @toolbar-icon-size); // dublicate !!! index-39
+.button-normal-icon(btn-copy,             9, @toolbar-icon-size);
+.button-normal-icon(btn-copystyle,        10, @toolbar-icon-size);
+.button-normal-icon(btn-decoffset,        11, @toolbar-icon-size);
+.button-normal-icon(btn-decfont,          12, @toolbar-icon-size);
+.button-normal-icon(btn-paracolor,        13, @toolbar-icon-size);
+.button-normal-icon(btn-fontcolor,        14, @toolbar-icon-size);
+.button-normal-icon(btn-incoffset,        15, @toolbar-icon-size);
+.button-normal-icon(btn-incfont,          16, @toolbar-icon-size);
+.button-normal-icon(btn-insertimage,      17, @toolbar-icon-size);
+.button-normal-icon(btn-inserttable,      18, @toolbar-icon-size);
+.button-normal-icon(btn-italic,           19, @toolbar-icon-size);
+.button-normal-icon(btn-linespace,        20, @toolbar-icon-size);
+.button-normal-icon(btn-setmarkers,       21, @toolbar-icon-size);
+.button-normal-icon(btn-multilevels,      22, @toolbar-icon-size);
+.button-normal-icon(btn-numbering,        23, @toolbar-icon-size);
+.button-normal-icon(btn-pageorient,       24, @toolbar-icon-size);
+.button-normal-icon(btn-pagesize,         25, @toolbar-icon-size);
+.button-normal-icon(btn-paste,            26, @toolbar-icon-size);
+.button-normal-icon(btn-print,            27, @toolbar-icon-size);
+.button-normal-icon(btn-redo,             28, @toolbar-icon-size);
+.button-normal-icon(btn-save,             29, @toolbar-icon-size);
+.button-normal-icon(btn-highlight,        31, @toolbar-icon-size);
+.button-normal-icon(btn-strikeout,        32, @toolbar-icon-size);
+.button-normal-icon(btn-subscript,        33, @toolbar-icon-size);
+.button-normal-icon(btn-superscript,      34, @toolbar-icon-size);
+.button-normal-icon(btn-underline,        35, @toolbar-icon-size);
+.button-normal-icon(btn-undo,             36, @toolbar-icon-size);
+.button-normal-icon(btn-hidenchars,       37, @toolbar-icon-size);
+.button-normal-icon(btn-inserthyperlink,  38, @toolbar-icon-size);
+.button-normal-icon(btn-editheader,       39, @toolbar-icon-size);
+.button-normal-icon(btn-mailrecepients,   40, @toolbar-icon-size);
+.button-normal-icon(btn-synch,            42, @toolbar-icon-size);
+.button-normal-icon(btn-save-coauth,      41, @toolbar-icon-size);
+.button-normal-icon(btn-insertshape,      43, @toolbar-icon-size);
+.button-normal-icon(btn-colorschemas,     44, @toolbar-icon-size);
+.button-normal-icon(btn-insertchart,      45, @toolbar-icon-size);
+.button-normal-icon(btn-text,             46, @toolbar-icon-size);
+.button-normal-icon(btn-hidebars,         47, @toolbar-icon-size);
+.button-normal-icon(btn-settings,         48, @toolbar-icon-size);
+.button-normal-icon(btn-dropcap,          50, @toolbar-icon-size);
+.button-normal-icon(btn-insertequation,   53, @toolbar-icon-size);
+//.toolbar-btn-icon(btn-bold,             5, @toolbar-icon-size);
+.button-normal-icon(btn-zoomin,           57, @toolbar-icon-size);
+.button-normal-icon(btn-zoomout,          58, @toolbar-icon-size);
+.button-normal-icon(btn-columns,          82, @toolbar-icon-size);
+.button-normal-icon(btn-pagemargins,      83, @toolbar-icon-size);
+
+.button-normal-icon(mmerge-next,          71, @toolbar-icon-size);
+.button-normal-icon(mmerge-last,          72, @toolbar-icon-size);
+.button-normal-icon(mmerge-prev,          73, @toolbar-icon-size);
+.button-normal-icon(mmerge-first,         74, @toolbar-icon-size);
+
+.button-otherstates-icon2(btn-toolbar, @toolbar-icon-size);
+
+@menu-icon-size: 22px;
+.menu-icon-normal(mnu-wrap-inline,          0, @menu-icon-size);
+.menu-icon-normal(mnu-wrap-square,          1, @menu-icon-size);
+.menu-icon-normal(mnu-wrap-tight,           2, @menu-icon-size);
+.menu-icon-normal(mnu-wrap-through,         3, @menu-icon-size);
+.menu-icon-normal(mnu-wrap-topAndBottom,    4, @menu-icon-size);
+.menu-icon-normal(mnu-wrap-inFront,         5, @menu-icon-size);
+.menu-icon-normal(mnu-wrap-behind,          6, @menu-icon-size);
+.menu-icon-normal(mnu-arrange-front,        7, @menu-icon-size);
+.menu-icon-normal(mnu-arrange-back,         8, @menu-icon-size);
+.menu-icon-normal(mnu-arrange-forward,      9, @menu-icon-size);
+.menu-icon-normal(mnu-arrange-backward,    10, @menu-icon-size);
+.menu-icon-normal(mnu-arrange-group,       11, @menu-icon-size);
+.menu-icon-normal(mnu-arrange-ungroup,     12, @menu-icon-size);
+.menu-icon-normal(mnu-img-align-left,      13, @menu-icon-size);
+.menu-icon-normal(mnu-img-align-center,    14, @menu-icon-size);
+.menu-icon-normal(mnu-img-align-right,     15, @menu-icon-size);
+.menu-icon-normal(mnu-img-align-top,       16, @menu-icon-size);
+.menu-icon-normal(mnu-img-align-middle,    17, @menu-icon-size);
+.menu-icon-normal(mnu-img-align-bottom,    18, @menu-icon-size);
+//.menu-btn-icon(mnu-,        19, @menu-icon-size);
+//.menu-btn-icon(mnu-,        20, @menu-icon-size);
+
+.menu-icon-normal(mnu-align-center,        21, @menu-icon-size);
+.menu-icon-normal(mnu-align-just,          22, @menu-icon-size);
+.menu-icon-normal(mnu-align-left,          23, @menu-icon-size);
+.menu-icon-normal(mnu-align-right,         24, @menu-icon-size);
+.menu-icon-normal(mnu-dropcap-none,        25, @menu-icon-size);
+.menu-icon-normal(mnu-dropcap-intext,      26, @menu-icon-size);
+.menu-icon-normal(mnu-dropcap-inmargin,    27, @menu-icon-size);
+.menu-icon-normal(mnu-columns-one,         28, @menu-icon-size);
+.menu-icon-normal(mnu-columns-two,         29, @menu-icon-size);
+.menu-icon-normal(mnu-columns-three,       30, @menu-icon-size);
+.menu-icon-normal(mnu-columns-left,        31, @menu-icon-size);
+.menu-icon-normal(mnu-columns-right,       32, @menu-icon-size);
+.menu-icon-normal(mnu-direct-horiz,        33, @menu-icon-size);
+.menu-icon-normal(mnu-direct-rup,          34, @menu-icon-size);
+.menu-icon-normal(mnu-direct-rdown,        35, @menu-icon-size);
+.menu-otherstates-icon(ppm-toolbar, @menu-icon-size);
+
+
+.username-tip {
+    background-color: #ee3525;
+    border: none;
+    border-radius: 0;
+    padding: 3px 10px;
+    color: #ffffff;
+    font: 11px arial;
+    white-space: nowrap;
+}
+
+#id-toolbar-menu-auto-fontcolor > a.selected {
+    span {
+        outline: 1px solid #000;
+        border: 1px solid #fff;
+    }
+}
+
+.item-equation {
+    border: 1px solid @gray;
+    .background-ximage('@{app-image-path}/toolbar/math.png', '@{app-image-path}/toolbar/math@2x.png', 1500px);
+}
+
+.save-style-container {
+    cursor: default;
+    position: relative;
+    padding: 14px 11px;
+    border-left: 1px solid @gray;
+    border-top: 1px solid @gray;
+}
+
+.save-style-link {
+    border-bottom: 1px dotted #aaa;
+    cursor: pointer;
+    margin-left: 22px;
+}
+
+.plus {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    position: absolute;
+    background-position: @plus-offset-x @plus-offset-y;
+}
+
+.dropdown-menu > .disabled {
+    .plus, .save-style-link {
+        cursor: default;
+        color: @dropdown-link-disabled-color;
+        background-position: @plus-offset-x @plus-offset-y - 16;
+    }
+}

@@ -1,0 +1,53 @@
+.switcher {
+    position: relative;
+    width: 25px;
+    height: 15px;
+    background-color: transparent;
+    cursor: pointer;
+
+    .sw-left {
+        display: inline-block;
+        height: 100%;
+        background-color: @primary;
+        border-top-left-radius: 2px;
+        border-bottom-left-radius: 2px;
+    }
+
+    .sw-right {
+        display: inline-block;
+        height: 100%;
+        background-color: @gray;
+        border-top-right-radius: 2px;
+        border-bottom-right-radius: 2px;
+    }
+
+    .thumb {
+        position: absolute;
+        left: 0;
+        right: auto;
+        top: 0;
+        height: 100%;
+        background-color: #ffffff;
+        border: 1px solid @primary;
+        border-radius: 3px;
+    }
+
+    &.on {
+        .thumb {
+            right: 0;
+            left: auto;
+        }
+    }
+
+    &.disabled {
+        cursor: default;
+
+        .sw-left {
+            background-color: @gray;
+        }
+
+        .thumb {
+            border-color: @gray;
+        }
+    }
+}
