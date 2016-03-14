@@ -482,8 +482,6 @@ define([
                     minScrollbarLength  : 40,
                     alwaysVisibleY: true
                 });
-            }).on('show:after', function () {
-                this.scroller.update({alwaysVisibleY: true});
             });
 
             me.fireEvent('createdelayedelements', [me]);

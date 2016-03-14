@@ -1303,9 +1303,6 @@ define([
                     menu.addItem(mnu);
                 });
 
-
-                Common.UI.Menu.Manager.hideAll();
-
                 if (!menu.rendered) {
                     // Prepare menu container
                     if (menuContainer.length < 1) {
@@ -1313,15 +1310,15 @@ define([
                         documentHolderView.cmpEl.append(menuContainer);
                     }
 
-                    menu.render(menuContainer);
-                    menu.cmpEl.attr({tabindex: "-1"});
+                    menu.onAfterKeydownMenu = function(e) {
+                        if (e.keyCode == Common.UI.Keys.RETURN && (e.ctrlKey || e.altKey)) return;
+                        Common.UI.Menu.prototype.onAfterKeydownMenu.call(menu, e);
 
-                    menu.parentEl.on('keydown.after.bs.dropdown', _.bind(function(e) {
                         var li;
                         if (arguments.length>1 && arguments[1] instanceof jQuery.Event) {// when typing in cell editor
                             e = arguments[1];
                             if (menuContainer.hasClass('open')) {
-                                if (e.keyCode == Common.UI.Keys.TAB || e.keyCode == Common.UI.Keys.RETURN)
+                                if (e.keyCode == Common.UI.Keys.TAB || e.keyCode == Common.UI.Keys.RETURN && !e.ctrlKey && !e.altKey)
                                     li = menuContainer.find('a.focus').closest('li');
                                 else if (e.keyCode == Common.UI.Keys.UP || e.keyCode == Common.UI.Keys.DOWN) {
                                     var innerEl = menu.cmpEl,
@@ -1340,12 +1337,19 @@ define([
                             }
                         } else if (e.keyCode == Common.UI.Keys.TAB)
                             li = $(e.target).closest('li');
-                        
+
                         if (li) {
                             if (li.length>0) li.click();
                             Common.UI.Menu.Manager.hideAll();
                         }
-                    }, me));
+                    };
+
+                    menu.render(menuContainer);
+                    menu.cmpEl.attr({tabindex: "-1"});
+
+                    menu.on('hide:after', function() {
+                        if (Common.Utils.isIE) me.documentHolder.focus();
+                    });
                 }
 
                 var coord  = me.api.asc_getActiveCellCoord(),
@@ -1355,9 +1359,14 @@ define([
                 menu.alignPosition();
 
                 var infocus = me.cellEditor.is(":focus");
+                if (!menu.isVisible())
+                    Common.UI.Menu.Manager.hideAll();
                 _.delay(function() {
-                    menu.show();
-                    if (menu.scroller) menu.scroller.scrollTop(0);
+                    if (!menu.isVisible()) menu.show();
+                    if (menu.scroller) {
+                        menu.scroller.update({alwaysVisibleY: true});
+                        menu.scroller.scrollTop(0);
+                    }
                     if (infocus) {
                         me.cellEditor.focus();
                         _.delay(function() {
