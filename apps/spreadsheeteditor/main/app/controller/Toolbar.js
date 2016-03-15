@@ -1168,8 +1168,12 @@ define([
             Common.util.Shortcuts.delegateShortcuts({
                 shortcuts: {
                     'command+l,ctrl+l': function(e) {
-                        if (me.editMode && (!me.api.asc_getCellInfo().asc_getAutoFilterInfo() || me.api.asc_getCellInfo().asc_getAutoFilterInfo().asc_getTableName()===null))
-                            me._setTableFormat(me.toolbar.mnuTableTemplatePicker.store.at(23).get('name'));
+                        if (me.editMode) {
+                            var cellinfo = me.api.asc_getCellInfo(),
+                                filterinfo = cellinfo.asc_getAutoFilterInfo();
+                            if (!filterinfo || filterinfo.asc_getTableName()===null)
+                                me._setTableFormat(me.toolbar.mnuTableTemplatePicker.store.at(23).get('name'));
+                        }
 
                         return false;
                     },
