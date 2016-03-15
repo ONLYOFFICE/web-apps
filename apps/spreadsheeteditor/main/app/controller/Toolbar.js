@@ -1168,7 +1168,7 @@ define([
             Common.util.Shortcuts.delegateShortcuts({
                 shortcuts: {
                     'command+l,ctrl+l': function(e) {
-                        if (me.editMode && (!me.api.asc_getCellInfo().asc_getAutoFilterInfo() || me.api.asc_getCellInfo().asc_getAutoFilterInfo().asc_getTableStyleName()===null))
+                        if (me.editMode && (!me.api.asc_getCellInfo().asc_getAutoFilterInfo() || me.api.asc_getCellInfo().asc_getAutoFilterInfo().asc_getTableName()===null))
                             me._setTableFormat(me.toolbar.mnuTableTemplatePicker.store.at(23).get('name'));
 
                         return false;
@@ -1747,7 +1747,7 @@ define([
                         }
                     }
 
-                    need_disable =  this._state.controlsdisabled.filters || filterInfo && (filterInfo.asc_getTableStyleName()!==null || filterInfo.asc_getIsAutoFilter()===null);
+                    need_disable =  this._state.controlsdisabled.filters || filterInfo && (filterInfo.asc_getTableName()!==null || filterInfo.asc_getIsAutoFilter()===null);
 //                (need_disable !== toolbar.btnMerge.isDisabled()) && toolbar.btnMerge.setDisabled(need_disable);
                     toolbar.lockToolbar(SSE.enumLock.ruleMerge, need_disable, {array:[toolbar.btnMerge]});
 
