@@ -80,6 +80,7 @@ define([
                 return (n1<n2) ? -1 : 1;
             };
             this.rangeList.on('item:dblclick', _.bind(this.onDblClickFunction, this));
+            this.rangeList.on('entervalue', _.bind(this.onPrimary, this));
 
             this.afterRender();
         },
@@ -90,7 +91,7 @@ define([
 
         _setDefaults: function () {
             if (this.ranges) {
-                var arr = [], prev_name='';
+                var me = this, arr = [], prev_name='';
                 for (var i=0; i<this.ranges.length; i++) {
                     var name = this.ranges[i].asc_getName();
                     if (name !== prev_name) {
@@ -107,6 +108,11 @@ define([
                 this.rangeList.store.sort();
                 if (this.rangeList.store.length>0)
                     this.rangeList.selectByIndex(0);
+                this.rangeList.scroller.update({alwaysVisibleY: true});
+
+                _.delay(function () {
+                    me.rangeList.cmpEl.find('.listview').focus();
+                }, 100, this);
             }
         },
 
@@ -116,7 +122,9 @@ define([
         },
 
         onPrimary: function() {
-            return true;
+            this.handler && this.handler.call(this, 'ok', this.getSettings());
+            this.close();
+            return false;
         },
 
         onDlgBtnClick: function(event) {
