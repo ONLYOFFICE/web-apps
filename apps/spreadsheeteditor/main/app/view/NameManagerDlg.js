@@ -106,7 +106,8 @@ define([  'text!spreadsheeteditor/main/app/template/NameManagerDlg.template',
             };
             this.rangeList.on('item:select', _.bind(this.onSelectRangeItem, this))
                           .on('item:keydown', _.bind(this.onKeyDown, this))
-                          .on('item:dblclick', _.bind(this.onDblClickItem, this));
+                          .on('item:dblclick', _.bind(this.onDblClickItem, this))
+                          .on('entervalue', _.bind(this.onDblClickItem, this));
 
             this.btnNewRange = new Common.UI.Button({
                 el: $('#name-manager-btn-new')
@@ -214,6 +215,7 @@ define([  'text!spreadsheeteditor/main/app/template/NameManagerDlg.template',
             }
             _.delay(function () {
                 me.rangeList.cmpEl.find('.listview').focus();
+                me.rangeList.scroller.update({alwaysVisibleY: true});
             }, 100, this);
         },
 
@@ -312,6 +314,7 @@ define([  'text!spreadsheeteditor/main/app/template/NameManagerDlg.template',
 
             this.rangeList.store.sort();
             this.rangeList.onResetItems();
+            this.rangeList.scroller.update({alwaysVisibleY: true});
         },
 
         getUserName: function(id){
