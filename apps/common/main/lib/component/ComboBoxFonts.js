@@ -158,10 +158,9 @@ define([
 
                     if (e.keyCode == Common.UI.Keys.UP || e.keyCode == Common.UI.Keys.DOWN) {
                         _.delay(function() {
-                            var selected = me.cmpEl.find('ul li.selected a');
-
-                            if (selected.length<=0)
-                                selected = me.cmpEl.find('ul li:not(.divider):first a');
+                            var selected = (e.keyCode == Common.UI.Keys.DOWN) ? me.cmpEl.find('ul li.selected').nextAll('li:not(.divider)') : me.cmpEl.find('ul li.selected').prevAll('li:not(.divider)');
+                            selected = (selected.length>0) ? selected.eq(0) : ((e.keyCode == Common.UI.Keys.DOWN) ? me.cmpEl.find('ul li:not(.divider):first') : me.cmpEl.find('ul li:not(.divider):last'));
+                            selected = selected.find('a');
 
                             me._skipInputChange = true;
                             selected.focus();
