@@ -1111,7 +1111,9 @@ define([
                     this.isDummyComment     = false;
 
                     this.popoverComments.reset();
-
+                    if (this.getPopover().isVisible()) {
+                       this.getPopover().hide();
+                    }
                     comment.asc_putText(commentVal);
                     comment.asc_putTime(this.utcDateToString(new Date()));
                     comment.asc_putUserId(this.currentUserId);
