@@ -153,7 +153,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 if (this._changedProps) {
                     var maxwidth = Common.Utils.Metric.fnRecalcFromMM(558);
                     this.nfWidth.setDefaultUnit(record.value ? '%' : Common.Utils.Metric.metricName[Common.Utils.Metric.getCurrentMetric()]);
-                    this.nfWidth.setMaxValue(record.value ? parseFloat(100 * maxwidth/this.pageWidth).toFixed(2) : maxwidth);
+                    this.nfWidth.setMaxValue(record.value ? parseFloat((100 * maxwidth/this.pageWidth).toFixed(2)) : maxwidth);
                     this.nfWidth.setStep((record.value || Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt) ? 1 : 0.1);
                     this.nfWidth.setValue((record.value) ? 100*this.nfWidth.getNumberValue()/this.pageWidth : this.pageWidth*this.nfWidth.getNumberValue()/100);
                     this._changedProps.put_Width(record.value ? -this.nfWidth.getNumberValue() : Common.Utils.Metric.fnRecalcToMM(this.nfWidth.getNumberValue()));
@@ -1075,7 +1075,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 this.cmbUnit.setValue(TableWidth<0 ? 1 : 0);
                 this.nfWidth.setDefaultUnit(TableWidth<0 ? '%' : Common.Utils.Metric.metricName[Common.Utils.Metric.getCurrentMetric()]);
                 if (TableWidth<0) //%
-                    this.nfWidth.setMaxValue(parseFloat(100 * Common.Utils.Metric.fnRecalcFromMM(558)/this.pageWidth).toFixed(2));
+                    this.nfWidth.setMaxValue(parseFloat((100 * Common.Utils.Metric.fnRecalcFromMM(558)/this.pageWidth).toFixed(2)));
                 this.nfWidth.setStep((TableWidth<0 || Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt) ? 1 : 0.1);
                 if (TableWidth !== null)
                     this.nfWidth.setValue(TableWidth>0 ? Common.Utils.Metric.fnRecalcFromMM(TableWidth) : -TableWidth , true);
@@ -1956,8 +1956,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                     spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.cm ? 0.1 : 1);
                 }
             }
-            if (this.pageWidth)
-                this.pageWidth = Common.Utils.Metric.fnRecalcFromMM(this.pageWidth);
+            this.pageWidth = Common.Utils.Metric.fnRecalcFromMM(this.pageWidth);
         },
 
         updateThemeColors: function() {
