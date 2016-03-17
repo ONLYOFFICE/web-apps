@@ -97,6 +97,7 @@ define([
         },
 
         setDisabled: function(disabled) {
+            disabled = (disabled===true);
             if (disabled !== this.disabled) {
                 this.$label.toggleClass('disabled', disabled);
                 (disabled) ? this.$chk.attr({disabled: disabled}) : this.$chk.removeAttr('disabled');
