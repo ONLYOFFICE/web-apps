@@ -1,18 +1,23 @@
 <div id="id-adv-table-width" class="settings-panel active">
     <div class="inner-content">
-        <table cols="2" style="width: 100%;">
+        <table cols="1" style="width: 100%;">
             <tr>
                 <td class="padding-small" width="125px">
                     <div id="tableadv-checkbox-width"></div>
                 </td>
+            </tr>
+            <tr>
+                <td class="padding-large">
+                    <div id="tableadv-number-width" style="display: inline-block; margin-right: 10px;"></div>
+                    <div id="tableadv-cmb-unit" style="display: inline-block;"></div>
+                </td>
+            </tr>
+            <tr>
                 <td class="padding-small">
                     <div id="tableadv-checkbox-spacing"></div>
                 </td>
             </tr>
             <tr>
-                <td class="padding-large">
-                    <div id="tableadv-number-width"></div>
-                </td>
                 <td class="padding-large">
                     <div id="tableadv-number-spacing"></div>
                 </td>

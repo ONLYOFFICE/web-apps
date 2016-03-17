@@ -91,6 +91,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             this.tableStylerRows = this.options.tableStylerRows;
             this.tableStylerColumns = this.options.tableStylerColumns;
             this.borderProps = this.options.borderProps;
+            this.pageWidth = (this.options.sectionProps) ? this.options.sectionProps.get_W() - this.options.sectionProps.get_LeftMargin() - this.options.sectionProps.get_RightMargin() : 210;
             this._originalProps = new CTableProp(this.options.tableProps);
         },
 
@@ -114,9 +115,10 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             this.chWidth.on('change', _.bind(function(field, newValue, oldValue, eOpts){
                 var value = (newValue=='checked');
                 this.nfWidth.setDisabled(!value);
+                this.cmbUnit.setDisabled(!value);
                 if (this._changedProps) {
                     if (value && this.nfWidth.getNumberValue()>0)
-                        this._changedProps.put_Width(Common.Utils.Metric.fnRecalcToMM(this.nfWidth.getNumberValue()));
+                        this._changedProps.put_Width(this.cmbUnit.getValue() ? -field.getNumberValue() : Common.Utils.Metric.fnRecalcToMM(this.nfWidth.getNumberValue()));
                     else
                         this._changedProps.put_Width(null);
                 }
@@ -133,9 +135,30 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             });
             this.nfWidth.on('change', _.bind(function(field, newValue, oldValue, eOpts){
                 if (this._changedProps)
-                    this._changedProps.put_Width(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
+                    this._changedProps.put_Width(this.cmbUnit.getValue() ? -field.getNumberValue() : Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
             }, this));
-            this.spinners.push(this.nfWidth);
+
+            this.cmbUnit = new Common.UI.ComboBox({
+                el          : $('#tableadv-cmb-unit'),
+                style       : 'width: 85px;',
+                menuStyle   : 'min-width: 85px;',
+                editable    : false,
+                cls         : 'input-group-nr',
+                data        : [
+                    { value: 0, displayValue: (Common.Utils.Metric.getCurrentMetric() == Common.Utils.Metric.c_MetricUnits['pt']) ? this.txtPt : this.txtCm },
+                    { value: 1, displayValue: this.txtPercent }
+                ]
+            });
+            this.cmbUnit.on('selected', _.bind(function(combo, record) {
+                if (this._changedProps) {
+                    var maxwidth = Common.Utils.Metric.fnRecalcFromMM(558);
+                    this.nfWidth.setDefaultUnit(record.value ? '%' : Common.Utils.Metric.metricName[Common.Utils.Metric.getCurrentMetric()]);
+                    this.nfWidth.setMaxValue(record.value ? parseFloat(100 * maxwidth/this.pageWidth).toFixed(2) : maxwidth);
+                    this.nfWidth.setStep((record.value || Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt) ? 1 : 0.1);
+                    this.nfWidth.setValue((record.value) ? 100*this.nfWidth.getNumberValue()/this.pageWidth : this.pageWidth*this.nfWidth.getNumberValue()/100);
+                    this._changedProps.put_Width(record.value ? -this.nfWidth.getNumberValue() : Common.Utils.Metric.fnRecalcToMM(this.nfWidth.getNumberValue()));
+                }
+            }, this));
 
             this.chAllowSpacing = new Common.UI.CheckBox({
                 el: $('#tableadv-checkbox-spacing'),
@@ -1047,11 +1070,20 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 var value;
                 // main props
                 var TableWidth = props.get_Width();
-                if (TableWidth !== null) {
-                    this.nfWidth.setValue(Common.Utils.Metric.fnRecalcFromMM(TableWidth), true);
-                }
+
+                this.cmbUnit.store.at(0).set('displayValue', (Common.Utils.Metric.getCurrentMetric() == Common.Utils.Metric.c_MetricUnits['pt']) ? this.txtPt : this.txtCm);
+                this.cmbUnit.setValue(TableWidth<0 ? 1 : 0);
+                this.nfWidth.setDefaultUnit(TableWidth<0 ? '%' : Common.Utils.Metric.metricName[Common.Utils.Metric.getCurrentMetric()]);
+                if (TableWidth<0) //%
+                    this.nfWidth.setMaxValue(parseFloat(100 * Common.Utils.Metric.fnRecalcFromMM(558)/this.pageWidth).toFixed(2));
+                this.nfWidth.setStep((TableWidth<0 || Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt) ? 1 : 0.1);
+                if (TableWidth !== null)
+                    this.nfWidth.setValue(TableWidth>0 ? Common.Utils.Metric.fnRecalcFromMM(TableWidth) : -TableWidth , true);
+
                 this.chWidth.setValue(TableWidth !== null, true);
-                this.nfWidth.setDisabled(this.chWidth.getValue()!=='checked');
+                value = (this.chWidth.getValue()!=='checked');
+                this.nfWidth.setDisabled(value);
+                this.cmbUnit.setDisabled(value);
 
                 var TableSpacing = props.get_Spacing();
                 if (TableSpacing !== null) {
@@ -1924,6 +1956,8 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                     spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.cm ? 0.1 : 1);
                 }
             }
+            if (this.pageWidth)
+                this.pageWidth = Common.Utils.Metric.fnRecalcFromMM(this.pageWidth);
         },
 
         updateThemeColors: function() {
@@ -2006,7 +2040,10 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
         tipCellInner: 'Set Vertical and Horizontal Lines for Inner Cells Only',
         tipTableOuterCellInner: 'Set Outer Border and Vertical and Horizontal Lines for Inner Cells',
         tipCellOuter: 'Set Outer Borders for Inner Cells Only',
-        tipTableOuterCellOuter: 'Set Table Outer Border and Outer Borders for Inner Cells'
+        tipTableOuterCellOuter: 'Set Table Outer Border and Outer Borders for Inner Cells',
+        txtPercent: 'Percent',
+        txtCm: 'Centimeter',
+        txtPt: 'Point'
 
     }, DE.Views.TableSettingsAdvanced || {}));
 });

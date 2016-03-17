@@ -740,6 +740,7 @@ define([
                                 tableStylerColumns: (elValue.get_CellBorders().get_InsideV()===null && elValue.get_CellSelect()==true) ? 1 : 2,
                                 tableProps: elValue,
                                 borderProps: me.borderAdvancedProps,
+                                sectionProps: me.api.asc_GetSectionProps(),
                                 handler: function(result, value) {
                                     if (result == 'ok') {
                                         if (me.api) {
