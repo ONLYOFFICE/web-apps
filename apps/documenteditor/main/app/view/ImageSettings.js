@@ -304,6 +304,7 @@ define([
                                     imageProps: elValue,
                                     sizeOriginal: imgsizeOriginal,
                                     sizeMax: imgsizeMax,
+                                    sectionProps: me.api.asc_GetSectionProps(),
                                     handler: function(result, value) {
                                         if (result == 'ok') {
                                             if (me.api) {

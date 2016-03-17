@@ -70,7 +70,7 @@
     <div class="inner-content">
         <table cols="3" style="width: 100%;">
             <tr>
-                <td colspan="3" class="padding-small">
+                <td colspan="3">
                     <label class="header"><%= scope.textHorizontal %></label>
                 </td>
             </tr>
@@ -101,7 +101,20 @@
                 </td>
             </tr>
             <tr>
-                <td colspan="3" class="padding-small">
+                <td style="vertical-align: bottom; padding-bottom: 19px;">
+                    <div id="image-radio-hpositionpc"></div>
+                </td>
+                <td class="padding-large">
+                    <label class="input-label"><%= scope.textPositionPc %></label>
+                    <div id="image-spin-xpc"></div>
+                </td>
+                <td class="padding-large">
+                    <label class="input-label"><%= scope.textRelative %></label>
+                    <div id="image-combo-hpositionpc" style="width: 115px;"></div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3">
                     <label class="header"><%= scope.textVertical %></label>
                 </td>
             </tr>
@@ -119,25 +132,38 @@
                 </td>
             </tr>
             <tr>
-                <td style="vertical-align: bottom; padding-bottom: 19px;">
+                <td style="vertical-align: bottom; padding-bottom: 12px;">
                     <div id="image-radio-vposition"></div>
                 </td>
-                <td class="padding-large">
+                <td class="padding-small">
                     <label class="input-label"><%= scope.textPosition %></label>
                     <div id="image-spin-y"></div>
                 </td>
-                <td class="padding-large">
+                <td class="padding-small">
                     <label class="input-label"><%= scope.textBelow %></label>
                     <div id="image-combo-vposition" style="width: 115px;"></div>
                 </td>
             </tr>
+            <tr>
+                <td style="vertical-align: bottom; padding-bottom: 19px;">
+                    <div id="image-radio-vpositionpc"></div>
+                </td>
+                <td class="padding-large">
+                    <label class="input-label"><%= scope.textPositionPc %></label>
+                    <div id="image-spin-ypc"></div>
+                </td>
+                <td class="padding-large">
+                    <label class="input-label"><%= scope.textRelative %></label>
+                    <div id="image-combo-vpositionpc" style="width: 115px;"></div>
+                </td>
+            </tr>
         </table>
     </div>
-    <div class="separator horizontal padding-large"></div>
+    <div class="separator horizontal padding-small"></div>
     <div class="inner-content">
         <table cols="2" style="width: 100%;">
             <tr>
-                <td colspan="2" class="padding-small">
+                <td colspan="2">
                     <label class="header"><%= scope.textOptions %></label>
                 </td>
             </tr>

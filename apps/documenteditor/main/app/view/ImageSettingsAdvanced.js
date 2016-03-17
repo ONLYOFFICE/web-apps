@@ -18,7 +18,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
     DE.Views.ImageSettingsAdvanced = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 340,
-            height: 422,
+            height: 485,
             toggleGroup: 'image-adv-settings-group',
             sizeOriginal: {width: 0, height: 0},
             sizeMax: {width: 55.88, height: 55.88},
@@ -47,17 +47,23 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 HAlignType: c_oAscAlignH.Left,
                 HAlignFrom: c_oAscRelativeFromH.Character,
                 HPositionFrom: c_oAscRelativeFromH.Character,
+                HPositionPcFrom: c_oAscRelativeFromH.Page,
                 VAlignType: c_oAscAlignV.Top,
                 VAlignFrom: c_oAscRelativeFromV.Line,
                 VPositionFrom: c_oAscRelativeFromV.Line,
+                VPositionPcFrom: c_oAscRelativeFromV.Page,
                 spnXChanged: false,
-                spnYChanged: false
+                spnYChanged: false,
+                spnXPcChanged: false,
+                spnYPcChanged: false
             };
             this._objectType = c_oAscTypeSelectElement.Image;
             this.Margins = undefined;
             this._nRatio = 1;
 
             this._originalProps = this.options.imageProps;
+            this.pageWidth = this.options.sectionProps ? this.options.sectionProps.get_W() : 210;
+            this.pageHeight = this.options.sectionProps ? this.options.sectionProps.get_H() : 297;
             this._changedProps = null;
             this._changedShapeProps = null;
         },
@@ -329,6 +335,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                         this._changedProps.put_PositionH(new CImagePositionH());
 
                     this._changedProps.get_PositionH().put_UseAlign(false);
+                    this._changedProps.get_PositionH().put_Percent(false);
                     this._changedProps.get_PositionH().put_RelativeFrom(this._state.HPositionFrom);
                     this._changedProps.get_PositionH().put_Value(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
                     this._state.spnXChanged = true;
@@ -353,6 +360,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                         this._changedProps.put_PositionV(new CImagePositionV());
 
                     this._changedProps.get_PositionV().put_UseAlign(false);
+                    this._changedProps.get_PositionV().put_Percent(false);
                     this._changedProps.get_PositionV().put_RelativeFrom(this._state.VPositionFrom);
                     this._changedProps.get_PositionV().put_Value(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
                     this._state.spnYChanged = true;
@@ -407,6 +415,48 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             this.cmbHPosition.setValue(this._state.HPositionFrom);
             this.cmbHPosition.on('selected', _.bind(this.onHPositionSelect, this));
 
+            this.spnXPc = new Common.UI.MetricSpinner({
+                el: $('#image-spin-xpc'),
+                step: 1,
+                width: 115,
+                disabled: true,
+                defaultUnit : "%",
+                defaultValue : 0,
+                value: '0 %',
+                maxValue: 1000,
+                minValue: -1000
+            });
+            this.spnXPc.on('change', _.bind(function(field, newValue, oldValue, eOpts){
+                if (this._changedProps) {
+                    if (this._changedProps.get_PositionH()===null || this._changedProps.get_PositionH()===undefined)
+                        this._changedProps.put_PositionH(new CImagePositionH());
+
+                    this._changedProps.get_PositionH().put_UseAlign(false);
+                    this._changedProps.get_PositionH().put_Percent(true);
+                    this._changedProps.get_PositionH().put_RelativeFrom(this._state.HPositionPcFrom);
+                    this._changedProps.get_PositionH().put_Value(field.getNumberValue());
+                    this._state.spnXPcChanged = true;
+                }
+            }, this));
+
+            this._arrHRelativePc = [
+                {displayValue: this.textLeftMargin,   value: c_oAscRelativeFromH.LeftMargin},
+                {displayValue: this.textMargin,       value: c_oAscRelativeFromH.Margin},
+                {displayValue: this.textPage,         value: c_oAscRelativeFromH.Page},
+                {displayValue: this.textRightMargin,  value: c_oAscRelativeFromH.RightMargin}
+            ];
+
+            this.cmbHPositionPc = new Common.UI.ComboBox({
+                el: $('#image-combo-hpositionpc'),
+                cls: 'input-group-nr',
+                menuStyle: 'min-width: 115px;',
+                editable: false,
+                data: this._arrHRelativePc
+            });
+            this.cmbHPositionPc.setDisabled(true);
+            this.cmbHPositionPc.setValue(this._state.HPositionPcFrom);
+            this.cmbHPositionPc.on('selected', _.bind(this.onHPositionPcSelect, this));
+
             // Vertical
             this._arrVAlign = [
                 {displayValue: this.textTop,   value: c_oAscAlignV.Top},
@@ -454,6 +504,48 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             this.cmbVPosition.setValue(this._state.VPositionFrom);
             this.cmbVPosition.on('selected', _.bind(this.onVPositionSelect, this));
 
+            this.spnYPc = new Common.UI.MetricSpinner({
+                el: $('#image-spin-ypc'),
+                step: 1,
+                width: 115,
+                disabled: true,
+                defaultUnit : "%",
+                defaultValue : 0,
+                value: '0 %',
+                maxValue: 1000,
+                minValue: -1000
+            });
+            this.spnYPc.on('change', _.bind(function(field, newValue, oldValue, eOpts){
+                if (this._changedProps) {
+                    if (this._changedProps.get_PositionV()===null || this._changedProps.get_PositionV()===undefined)
+                        this._changedProps.put_PositionV(new CImagePositionV());
+
+                    this._changedProps.get_PositionV().put_UseAlign(false);
+                    this._changedProps.get_PositionV().put_Percent(true);
+                    this._changedProps.get_PositionV().put_RelativeFrom(this._state.VPositionPcFrom);
+                    this._changedProps.get_PositionV().put_Value(field.getNumberValue());
+                    this._state.spnYPcChanged = true;
+                }
+            }, this));
+
+            this._arrVRelativePc = [
+                {displayValue: this.textMargin,       value: c_oAscRelativeFromV.Margin},
+                {displayValue: this.textBottomMargin,       value: c_oAscRelativeFromV.BottomMargin},
+                {displayValue: this.textPage,       value: c_oAscRelativeFromV.Page},
+                {displayValue: this.textTopMargin, value: c_oAscRelativeFromV.TopMargin}
+            ];
+
+            this.cmbVPositionPc = new Common.UI.ComboBox({
+                el: $('#image-combo-vpositionpc'),
+                cls: 'input-group-nr',
+                menuStyle: 'min-width: 115px;',
+                editable: false,
+                data: this._arrVRelativePc
+            });
+            this.cmbVPositionPc.setDisabled(true);
+            this.cmbVPositionPc.setValue(this._state.VPositionPcFrom);
+            this.cmbVPositionPc.on('selected', _.bind(this.onVPositionPcSelect, this));
+
             this.radioHAlign = new Common.UI.RadioBox({
                 el: $('#image-radio-halign'),
                 name: 'asc-radio-horizontal',
@@ -467,6 +559,12 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             });
             this.radioHPosition.on('change', _.bind(this.onRadioHPositionChange, this));
 
+            this.radioHPositionPc = new Common.UI.RadioBox({
+                el: $('#image-radio-hpositionpc'),
+                name: 'asc-radio-horizontal'
+            });
+            this.radioHPositionPc.on('change', _.bind(this.onRadioHPositionPcChange, this));
+
             this.radioVAlign = new Common.UI.RadioBox({
                 el: $('#image-radio-valign'),
                 name: 'asc-radio-vertical',
@@ -479,6 +577,12 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 name: 'asc-radio-vertical'
             });
             this.radioVPosition.on('change', _.bind(this.onRadioVPositionChange, this));
+
+            this.radioVPositionPc = new Common.UI.RadioBox({
+                el: $('#image-radio-vpositionpc'),
+                name: 'asc-radio-vertical'
+            });
+            this.radioVPositionPc.on('change', _.bind(this.onRadioVPositionPcChange, this));
 
             this.chMove = new Common.UI.CheckBox({
                 el: $('#image-checkbox-move'),
@@ -862,6 +966,17 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                                 break;
                             }
                         }
+                    } else if (Position.get_Percent()) {
+                        this.radioHPositionPc.setValue(true);
+                        this.spnXPc.setValue(Position.get_Value());
+                        value = Position.get_RelativeFrom();
+                        for (i=0; i<this._arrHRelativePc.length; i++) {
+                            if (value == this._arrHRelativePc[i].value) {
+                                this.cmbHPositionPc.setValue(value);
+                                this._state.HPositionPcFrom = value;
+                                break;
+                            }
+                        }
                     } else {
                         this.radioHPosition.setValue(true);
                         value = Position.get_Value();
@@ -888,22 +1003,40 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                                 break;
                             }
                         }
+                        value = Position.get_RelativeFrom();
+                        for (i=0; i<this._arrVRelative.length; i++) {
+                            if (value == this._arrVRelative[i].value) {
+                                this.cmbVRelative.setValue(value);
+                                this._state.VAlignFrom = value;
+                                break;
+                            }
+                        }
+                    } else if (Position.get_Percent()) {
+                        this.radioVPositionPc.setValue(true);
+                        this.spnYPc.setValue(Position.get_Value());
+                        value = Position.get_RelativeFrom();
+                        for (i=0; i<this._arrVRelativePc.length; i++) {
+                            if (value == this._arrVRelativePc[i].value) {
+                                this.cmbVPositionPc.setValue(value);
+                                this._state.VPositionPcFrom = value;
+                                break;
+                            }
+                        }
                     } else {
                         this.radioVPosition.setValue(true);
                         value = Position.get_Value();
                         this.spnY.setValue(Common.Utils.Metric.fnRecalcFromMM(value));
-                    }
-                    value = Position.get_RelativeFrom();
-                    for (i=0; i<this._arrVRelative.length; i++) {
-                        if (value == this._arrVRelative[i].value) {
-                            this.cmbVRelative.setValue(value);
-                            this.cmbVPosition.setValue(value);
-                            this._state.VAlignFrom = value;
-                            this._state.VPositionFrom = value;
-                            break;
+                        value = Position.get_RelativeFrom();
+                        for (i=0; i<this._arrVRelative.length; i++) {
+                            if (value == this._arrVRelative[i].value) {
+                                this.cmbVPosition.setValue(value);
+                                this._state.VPositionFrom = value;
+                                break;
+                            }
                         }
                     }
                     this.chMove.setValue((value==c_oAscRelativeFromV.Line || value==c_oAscRelativeFromV.Paragraph), true);
+                    this.chMove.setDisabled(!Position.get_UseAlign() && Position.get_Percent());
                 }
 
                 this.chOverlap.setValue((props.get_AllowOverlap() !== null && props.get_AllowOverlap() !== undefined) ? props.get_AllowOverlap() : 'indeterminate', true);
@@ -986,6 +1119,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 if ( properties.get_PositionH()===null || properties.get_PositionH()===undefined ) {
                     properties.put_PositionH(new CImagePositionH());
                     properties.get_PositionH().put_UseAlign(false);
+                    properties.get_PositionH().put_Percent(false);
                     properties.get_PositionH().put_RelativeFrom(c_oAscRelativeFromH.Column);
                     var val = this._originalProps.get_Value_X(c_oAscRelativeFromH.Column);
                     properties.get_PositionH().put_Value(val);
@@ -994,6 +1128,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 if ( properties.get_PositionV()===null || properties.get_PositionV()===undefined ) {
                     properties.put_PositionV(new CImagePositionV());
                     properties.get_PositionV().put_UseAlign(false);
+                    properties.get_PositionV().put_Percent(false);
                     properties.get_PositionV().put_RelativeFrom(c_oAscRelativeFromV.Paragraph);
                     val = this._originalProps.get_Value_Y(c_oAscRelativeFromV.Paragraph);
                     properties.get_PositionV().put_Value(val);
@@ -1122,6 +1257,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
 
                 this._state.HAlignType = record.value;
                 this._changedProps.get_PositionH().put_UseAlign(true);
+                this._changedProps.get_PositionH().put_Percent(false);
                 this._changedProps.get_PositionH().put_RelativeFrom(this._state.HAlignFrom);
                 this._changedProps.get_PositionH().put_Align(this._state.HAlignType);
             }
@@ -1134,6 +1270,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
 
                 this._state.HAlignFrom = record.value;
                 this._changedProps.get_PositionH().put_UseAlign(true);
+                this._changedProps.get_PositionH().put_Percent(false);
                 this._changedProps.get_PositionH().put_RelativeFrom(this._state.HAlignFrom);
                 this._changedProps.get_PositionH().put_Align(this._state.HAlignType);
             }
@@ -1146,12 +1283,30 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
 
                 this._state.HPositionFrom = record.value;
                 this._changedProps.get_PositionH().put_UseAlign(false);
+                this._changedProps.get_PositionH().put_Percent(false);
                 this._changedProps.get_PositionH().put_RelativeFrom(this._state.HPositionFrom);
                 if (!this._state.spnXChanged) {
                     var val = this._originalProps.get_Value_X(this._state.HPositionFrom);
                     this.spnX.setValue(Common.Utils.Metric.fnRecalcFromMM(val), true);
                 }
                 this._changedProps.get_PositionH().put_Value(Common.Utils.Metric.fnRecalcToMM(this.spnX.getNumberValue()));
+            }
+        },
+
+        onHPositionPcSelect: function(combo, record){
+            if (this._changedProps) {
+                if (this._changedProps.get_PositionH()===null || this._changedProps.get_PositionH()===undefined)
+                    this._changedProps.put_PositionH(new CImagePositionH());
+
+                this._state.HPositionPcFrom = record.value;
+                this._changedProps.get_PositionH().put_UseAlign(false);
+                this._changedProps.get_PositionH().put_Percent(true);
+                this._changedProps.get_PositionH().put_RelativeFrom(this._state.HPositionPcFrom);
+                if (!this._state.spnXPcChanged) {
+                    var val = this._originalProps.get_Value_X(this._state.HPositionPcFrom);
+                    this.spnXPc.setValue(parseFloat((100*val/this.pageWidth).toFixed(2)), true);
+                }
+                this._changedProps.get_PositionH().put_Value(this.spnXPc.getNumberValue());
             }
         },
 
@@ -1162,6 +1317,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
 
                 this._state.VAlignType = record.value;
                 this._changedProps.get_PositionV().put_UseAlign(true);
+                this._changedProps.get_PositionV().put_Percent(false);
                 this._changedProps.get_PositionV().put_RelativeFrom(this._state.VAlignFrom);
                 this._changedProps.get_PositionV().put_Align(this._state.VAlignType);
             }
@@ -1174,6 +1330,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
 
                 this._state.VAlignFrom = record.value;
                 this._changedProps.get_PositionV().put_UseAlign(true);
+                this._changedProps.get_PositionV().put_Percent(false);
                 this._changedProps.get_PositionV().put_RelativeFrom(this._state.VAlignFrom);
                 this._changedProps.get_PositionV().put_Align(this._state.VAlignType);
 
@@ -1188,6 +1345,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
 
                 this._state.VPositionFrom = record.value;
                 this._changedProps.get_PositionV().put_UseAlign(false);
+                this._changedProps.get_PositionV().put_Percent(false);
                 this._changedProps.get_PositionV().put_RelativeFrom(this._state.VPositionFrom);
                 if (!this._state.spnYChanged) {
                     var val = this._originalProps.get_Value_Y(this._state.VPositionFrom);
@@ -1198,6 +1356,24 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             }
         },
 
+
+        onVPositionPcSelect: function(combo, record){
+            if (this._changedProps) {
+                if (this._changedProps.get_PositionV()===null || this._changedProps.get_PositionV()===undefined)
+                    this._changedProps.put_PositionV(new CImagePositionV());
+
+                this._state.VPositionPcFrom = record.value;
+                this._changedProps.get_PositionV().put_UseAlign(false);
+                this._changedProps.get_PositionV().put_Percent(true);
+                this._changedProps.get_PositionV().put_RelativeFrom(this._state.VPositionPcFrom);
+                if (!this._state.spnYPcChanged) {
+                    var val = this._originalProps.get_Value_Y(this._state.VPositionPcFrom);
+                    this.spnYPc.setValue(parseFloat((100*val/this.pageHeight).toFixed(2)), true);
+                }
+                this._changedProps.get_PositionV().put_Value(this.spnYPc.getNumberValue());
+            }
+        },
+
         onRadioHAlignChange: function(field, newValue, eOpts) {
             if (this._changedProps) {
                 if (this._changedProps.get_PositionH()===null || this._changedProps.get_PositionH()===undefined)
@@ -1205,6 +1381,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
 
                 this._changedProps.get_PositionH().put_UseAlign(newValue);
                 if (newValue) {
+                    this._changedProps.get_PositionH().put_Percent(false);
                     this._changedProps.get_PositionH().put_Align(this._state.HAlignType);
                     this._changedProps.get_PositionH().put_RelativeFrom(this._state.HAlignFrom);
                 }
@@ -1214,6 +1391,8 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 this.cmbHRelative.setDisabled(false);
                 this.spnX.setDisabled(true);
                 this.cmbHPosition.setDisabled(true);
+                this.spnXPc.setDisabled(true);
+                this.cmbHPositionPc.setDisabled(true);
             }
         },
 
@@ -1222,8 +1401,9 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 if (this._changedProps.get_PositionH()===null || this._changedProps.get_PositionH()===undefined)
                     this._changedProps.put_PositionH(new CImagePositionH());
 
-                this._changedProps.get_PositionH().put_UseAlign(!newValue);
                 if (newValue) {
+                    this._changedProps.get_PositionH().put_UseAlign(false);
+                    this._changedProps.get_PositionH().put_Percent(false);
                     this._changedProps.get_PositionH().put_Value(Common.Utils.Metric.fnRecalcToMM(this.spnX.getNumberValue()));
                     this._changedProps.get_PositionH().put_RelativeFrom(this._state.HPositionFrom);
                 }
@@ -1233,6 +1413,30 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 this.cmbHRelative.setDisabled(true);
                 this.spnX.setDisabled(false);
                 this.cmbHPosition.setDisabled(false);
+                this.spnXPc.setDisabled(true);
+                this.cmbHPositionPc.setDisabled(true);
+            }
+        },
+
+        onRadioHPositionPcChange: function(field, newValue, eOpts) {
+            if (this._changedProps) {
+                if (this._changedProps.get_PositionH()===null || this._changedProps.get_PositionH()===undefined)
+                    this._changedProps.put_PositionH(new CImagePositionH());
+
+                this._changedProps.get_PositionH().put_Percent(newValue);
+                if (newValue) {
+                    this._changedProps.get_PositionH().put_UseAlign(false);
+                    this._changedProps.get_PositionH().put_Value(this.spnXPc.getNumberValue());
+                    this._changedProps.get_PositionH().put_RelativeFrom(this._state.HPositionPcFrom);
+                }
+            }
+            if (newValue) {
+                this.cmbHAlign.setDisabled(true);
+                this.cmbHRelative.setDisabled(true);
+                this.spnX.setDisabled(true);
+                this.cmbHPosition.setDisabled(true);
+                this.spnXPc.setDisabled(false);
+                this.cmbHPositionPc.setDisabled(false);
             }
         },
 
@@ -1243,6 +1447,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
 
                 this._changedProps.get_PositionV().put_UseAlign(newValue);
                 if (newValue) {
+                    this._changedProps.get_PositionV().put_Percent(false);
                     this._changedProps.get_PositionV().put_Align(this._state.VAlignType);
                     this._changedProps.get_PositionV().put_RelativeFrom(this._state.VAlignFrom);
                 }
@@ -1253,6 +1458,9 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 this.spnY.setDisabled(true);
                 this.cmbVPosition.setDisabled(true);
                 this.chMove.setValue(this._state.VAlignFrom==c_oAscRelativeFromV.Line || this._state.VAlignFrom==c_oAscRelativeFromV.Paragraph, true);
+                this.chMove.setDisabled(false);
+                this.spnYPc.setDisabled(true);
+                this.cmbVPositionPc.setDisabled(true);
             }
         },
 
@@ -1261,8 +1469,9 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 if (this._changedProps.get_PositionV()===null || this._changedProps.get_PositionV()===undefined)
                     this._changedProps.put_PositionV(new CImagePositionV());
 
-                this._changedProps.get_PositionV().put_UseAlign(!newValue);
                 if (newValue) {
+                    this._changedProps.get_PositionV().put_UseAlign(false);
+                    this._changedProps.get_PositionV().put_Percent(false);
                     this._changedProps.get_PositionV().put_Value(Common.Utils.Metric.fnRecalcToMM(this.spnY.getNumberValue()));
                     this._changedProps.get_PositionV().put_RelativeFrom(this._state.VPositionFrom);
                 }
@@ -1273,6 +1482,33 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 this.spnY.setDisabled(false);
                 this.cmbVPosition.setDisabled(false);
                 this.chMove.setValue(this._state.VPositionFrom==c_oAscRelativeFromV.Line || this._state.VPositionFrom==c_oAscRelativeFromV.Paragraph, true);
+                this.chMove.setDisabled(false);
+                this.spnYPc.setDisabled(true);
+                this.cmbVPositionPc.setDisabled(true);            
+            }
+        },
+
+        onRadioVPositionPcChange: function(field, newValue, eOpts) {
+            if (this._changedProps) {
+                if (this._changedProps.get_PositionV()===null || this._changedProps.get_PositionV()===undefined)
+                    this._changedProps.put_PositionV(new CImagePositionV());
+
+                this._changedProps.get_PositionV().put_Percent(newValue);
+                if (newValue) {
+                    this._changedProps.get_PositionV().put_UseAlign(false);
+                    this._changedProps.get_PositionV().put_Value(this.spnYPc.getNumberValue());
+                    this._changedProps.get_PositionV().put_RelativeFrom(this._state.VPositionPcFrom);
+                }
+            }
+            if (newValue) {
+                this.cmbVAlign.setDisabled(true);
+                this.cmbVRelative.setDisabled(true);
+                this.spnY.setDisabled(true);
+                this.cmbVPosition.setDisabled(true);
+                this.chMove.setValue(false, true);
+                this.chMove.setDisabled(true);
+                this.spnYPc.setDisabled(false);
+                this.cmbVPositionPc.setDisabled(false);          
             }
         },
 
@@ -1405,7 +1641,8 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
         textBeginStyle: 'Begin Style',
         textBeginSize:  'Begin Size',
         textEndStyle:   'End Style',
-        textEndSize:    'End Size'
+        textEndSize:    'End Size',
+        textPositionPc: 'Relative position'
 
     }, DE.Views.ImageSettingsAdvanced || {}));
 });
