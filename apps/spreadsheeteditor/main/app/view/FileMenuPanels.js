@@ -554,7 +554,7 @@ define([
         setMode: function(mode) {
             this.mode = mode;
             $('tr.autosave', this.el)[mode.isEdit && mode.canAutosave ? 'show' : 'hide']();
-            if (this.mode.isDesktopApp) {
+            if (this.mode.isDesktopApp && this.mode.isOffline) {
                 this.chAutosave.setCaption(this.strAutoRecover);
                 this.lblAutosave.text(this.textAutoRecover);
             }
