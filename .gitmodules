@@ -1,3 +1,0 @@
-[submodule "sdk"]
-	path = sdkjs
-	url = https://github.com/ONLYOFFICE/sdkjs.git
