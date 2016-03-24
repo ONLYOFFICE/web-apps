@@ -8,7 +8,7 @@
     <meta name="keywords" content="" />
     <link rel="icon" href="resources/img/favicon.ico" type="image/x-icon" />
 
-    <link rel="stylesheet" type="text/css" href="../../../sdk/Excel/css/main.css"/>
+    <link rel="stylesheet" type="text/css" href="../../../sdkjs/cell/css/main.css"/>
     <link rel="stylesheet" type="text/css" href="../../../apps/spreadsheeteditor/main/resources/css/app.css">
 
     <!-- splash -->        

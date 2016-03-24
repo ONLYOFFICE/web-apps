@@ -8,6 +8,8 @@
 
 'use strict';
 var reqerr;
+require.config();
+
 require.config({
     // The shim config allows us to configure dependencies for
     // scripts that do not call define() to register a module
@@ -25,8 +27,6 @@ require.config({
         jszip           : '../vendor/jszip/jszip.min',
         jsziputils      : '../vendor/jszip-utils/jszip-utils.min',
         jsrsasign       : '../vendor/jsrsasign/jsrsasign-latest-all-min',
-        allfonts        : '../sdkjs/common/AllFonts',
-        sdk             : '../sdkjs/word/sdk-all',
         api             : 'api/documents/api',
         core            : 'common/main/lib/core/application',
         notification    : 'common/main/lib/core/NotificationCenter',
@@ -101,11 +101,15 @@ require([
     'backbone',
     'bootstrap',
     'core',
-    'sdk',
     'api',
     'analytics',
     'gateway',
-    'locale'
+    'locale',
+    'jszip',
+    'jsziputils',
+    'jsrsasign',
+    'sockjs',
+	'underscore'
 ], function (Backbone, Bootstrap, Core) {
     Backbone.history.start();
 

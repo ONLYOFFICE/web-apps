@@ -1,8 +1,8 @@
 /**
- *  app.js
+ *    app.js
  *
- *  Created by Alexander Yuzhin on 12/27/13
- *  Copyright (c) 2013 Ascensio System SIA. All rights reserved.
+ *    Created by Julia Radzhabova on 26 March 2014
+ *    Copyright (c) 2014 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -22,11 +22,8 @@ require.config({
         jmousewheel     : '../vendor/perfect-scrollbar/src/jquery.mousewheel',
         xregexp         : '../vendor/xregexp/xregexp-all-min',
         sockjs          : '../vendor/sockjs/sockjs.min',
-        jszip           : '../vendor/jszip/jszip.min',
         jsziputils      : '../vendor/jszip-utils/jszip-utils.min',
         jsrsasign       : '../vendor/jsrsasign/jsrsasign-latest-all-min',
-        allfonts        : '../sdkjs/common/AllFonts',
-        sdk             : '../sdkjs/word/sdk-all',
         api             : 'api/documents/api',
         core            : 'common/main/lib/core/application',
         notification    : 'common/main/lib/core/NotificationCenter',
@@ -38,7 +35,6 @@ require.config({
         locale          : 'common/locale',
         irregularstack  : 'common/IrregularStack'
     },
-
     shim: {
         underscore: {
             exports: '_'
@@ -79,7 +75,6 @@ require.config({
                 'allfonts',
                 'xregexp',
                 'sockjs',
-                'jszip',
                 'jsziputils',
                 'jsrsasign'
             ]
@@ -101,19 +96,23 @@ require([
     'backbone',
     'bootstrap',
     'core',
-    'sdk',
     'api',
     'analytics',
     'gateway',
-    'locale'
+    'locale',
+    'jsziputils',
+    'jsrsasign',
+    'sockjs',
+    'xregexp',
+    'underscore'
 ], function (Backbone, Bootstrap, Core) {
     Backbone.history.start();
 
     /**
-     * Application instance with DE namespace defined
+     * Application instance with PE namespace defined
      */
     var app = new Backbone.Application({
-        nameSpace: 'DE',
+        nameSpace: 'PE',
         autoCreate: false,
         controllers : [
             'Viewport',
@@ -123,46 +122,40 @@ require([
             'RightMenu',
             'LeftMenu',
             'Main',
-            'Common.Controllers.Fonts',
-            'Common.Controllers.History'
+            'Common.Controllers.Fonts'
             /** coauthoring begin **/
-            ,'Common.Controllers.Chat'
-            ,'Common.Controllers.Comments'
+            , 'Common.Controllers.Chat',
+            'Common.Controllers.Comments',
             /** coauthoring end **/
-            ,'Common.Controllers.ExternalDiagramEditor'
-            ,'Common.Controllers.ExternalMergeEditor'
-            ,'Common.Controllers.ReviewChanges'
+            'Common.Controllers.ExternalDiagramEditor'
         ]
     });
 
     Common.Locale.apply();
 
     require([
-        'documenteditor/main/app/controller/Viewport',
-        'documenteditor/main/app/controller/DocumentHolder',
-        'documenteditor/main/app/controller/Toolbar',
-        'documenteditor/main/app/controller/Statusbar',
-        'documenteditor/main/app/controller/RightMenu',
-        'documenteditor/main/app/controller/LeftMenu',
-        'documenteditor/main/app/controller/Main',
-        'documenteditor/main/app/view/ParagraphSettings',
-        'documenteditor/main/app/view/HeaderFooterSettings',
-        'documenteditor/main/app/view/ImageSettings',
-        'documenteditor/main/app/view/TableSettings',
-        'documenteditor/main/app/view/ShapeSettings',
-        'documenteditor/main/app/view/TextArtSettings',
+        'presentationeditor/main/app/controller/Viewport',
+        'presentationeditor/main/app/controller/DocumentHolder',
+        'presentationeditor/main/app/controller/Toolbar',
+        'presentationeditor/main/app/controller/Statusbar',
+        'presentationeditor/main/app/controller/RightMenu',
+        'presentationeditor/main/app/controller/LeftMenu',
+        'presentationeditor/main/app/controller/Main',
+        'presentationeditor/main/app/view/ParagraphSettings',
+        'presentationeditor/main/app/view/ImageSettings',
+        'presentationeditor/main/app/view/ShapeSettings',
+        'presentationeditor/main/app/view/SlideSettings',
+        'presentationeditor/main/app/view/TableSettings',
+        'presentationeditor/main/app/view/TextArtSettings',
         'common/main/lib/util/utils',
         'common/main/lib/util/LocalStorage',
-        'common/main/lib/controller/Fonts',
-        'common/main/lib/controller/History'
+        'common/main/lib/controller/Fonts'
         /** coauthoring begin **/
-        ,'common/main/lib/controller/Comments'
-        ,'common/main/lib/controller/Chat'
+        ,'common/main/lib/controller/Comments',
+        'common/main/lib/controller/Chat',
         /** coauthoring end **/
-        ,'documenteditor/main/app/view/ChartSettings'
-        ,'common/main/lib/controller/ExternalDiagramEditor'
-        ,'common/main/lib/controller/ExternalMergeEditor'
-        ,'common/main/lib/controller/ReviewChanges'
+        'presentationeditor/main/app/view/ChartSettings',
+        'common/main/lib/controller/ExternalDiagramEditor'
     ], function() {
         app.start();
     });
