@@ -80,8 +80,8 @@ define([
 
                     this.api.CreateComponents();
                     this.api.SetDrawingFreeze(true);
-                    this.api.asc_SetFontsPath("../../../sdk/Fonts/");
-                    this.api.SetThemesPath("../../../sdk/PowerPoint/themes/");
+                    this.api.asc_SetFontsPath("../../../../sdkjs/fonts/");
+                    this.api.SetThemesPath("../../../../sdkjs/slide/themes/");
                     this.api.Init();
 
                     this.api.asc_registerCallback('asc_onError',                    _.bind(this.onError, this));
