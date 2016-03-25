@@ -68,17 +68,6 @@ require.config({
                 'irregularstack'
             ]
         },
-        sdk: {
-            deps: [
-                'jquery',
-                'underscore',
-                'allfonts',
-                'xregexp',
-                'sockjs',
-                'jsziputils',
-                'jsrsasign'
-            ]
-        },
         gateway: {
             deps: [
                 'jquery'

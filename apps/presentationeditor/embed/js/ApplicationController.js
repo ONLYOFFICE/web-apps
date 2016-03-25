@@ -684,8 +684,8 @@ var ApplicationController = new(function(){
 
         if (api){
             api.CreateComponents();
-            api.asc_SetFontsPath("../../../sdk/Fonts/");
-            api.SetThemesPath("../../../sdk/PowerPoint/themes/");
+            api.asc_SetFontsPath("../../../../sdkjs/fonts/");
+            api.SetThemesPath("../../../../sdkjs/slide/themes/");
             api.Init();
 
             api.asc_registerCallback('asc_onError',                 onError);

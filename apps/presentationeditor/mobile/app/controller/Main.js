@@ -31,8 +31,8 @@ Ext.define('PE.controller.Main', {
         api = new asc_docs_api("id-sdkeditor");
         api.SetMobileVersion(true);
         api.CreateComponents();
-        api.asc_SetFontsPath("../../../sdk/Fonts/");
-        api.SetThemesPath("../../../sdk/PowerPoint/themes/");
+        api.asc_SetFontsPath("../../../../sdkjs/fonts/");
+        api.SetThemesPath("../../../../sdkjs/slide/themes/");
         api.Init();
         api.initEvents2MobileAdvances();
 

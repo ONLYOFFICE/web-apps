@@ -209,8 +209,8 @@
 
         <!-- SDK -->
 
-        <script type="text/javascript" src="../../../sdk/Common/AllFonts.js"></script>
-        <script type="text/javascript" src="../../../sdk/PowerPoint/sdk-all.js"></script>
+        <script type="text/javascript" src="../../../../sdkjs/common/AllFonts.js"></script>
+        <script type="text/javascript" src="../../../../sdkjs/slide/sdk-all.js"></script>
     </head>
     <body>
         <script type="text/javascript">

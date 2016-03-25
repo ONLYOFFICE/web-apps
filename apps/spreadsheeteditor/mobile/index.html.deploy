@@ -170,7 +170,7 @@
         </style>
 
         <!-- vendors -->
-        <link rel="stylesheet" type="text/css" href="../../../sdk/Excel/css/main-mobile.css"/>
+        <link rel="stylesheet" type="text/css" href="../../../../sdkjs/cell/css/main-mobile.css"/>
 
         <script type="text/javascript" src="../../../vendor/touch/sencha-touch-all.js"></script>
         <script type="text/javascript" src="../../../vendor/jquery/jquery.min.js"></script>
@@ -184,8 +184,8 @@
 
         <!-- SDK -->
 
-        <script type="text/javascript" src="../../../sdk/Common/AllFonts.js"></script>
-        <script type="text/javascript" src="../../../sdk/Excel/sdk-all.js"></script>
+        <script type="text/javascript" src="../../../../sdkjs/common/AllFonts.js"></script>
+        <script type="text/javascript" src="../../../../sdkjs/cell/sdk-all.js"></script>
 
         <!-- Application -->
 

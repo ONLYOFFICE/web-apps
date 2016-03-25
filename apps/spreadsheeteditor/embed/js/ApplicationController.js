@@ -659,7 +659,7 @@ var ApplicationController = new(function(){
         api = new Asc.spreadsheet_api("editor_sdk");
 
         if (api){
-            api.asc_SetFontsPath("../../../sdk/Fonts/");
+            api.asc_SetFontsPath("../../../../sdkjs/fonts/");
 
             api.asc_registerCallback('asc_onStartAction',           onLongActionBegin);
             api.asc_registerCallback('asc_onEndAction',             onLongActionEnd);
