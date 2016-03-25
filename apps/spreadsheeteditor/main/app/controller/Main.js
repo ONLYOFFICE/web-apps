@@ -210,7 +210,7 @@ define([
                 this.appOptions.recent          = this.editorConfig.recent;
                 this.appOptions.createUrl       = this.editorConfig.createUrl;
                 this.appOptions.lang            = this.editorConfig.lang;
-                this.appOptions.canAutosave     = -1;
+                this.appOptions.canAutosave     = false;
                 this.appOptions.canAnalytics    = false;
                 this.appOptions.sharingSettingsUrl = this.editorConfig.sharingSettingsUrl;
                 this.appOptions.isEditDiagram   = this.editorConfig.mode == 'editdiagram';
@@ -570,6 +570,14 @@ define([
                 this.formulaInput = celleditorController.getView('CellEditor').$el.find('textarea');
 
                 if (me.appOptions.isEdit) {
+                    if (me.appOptions.canAutosave) {
+                        value = Common.localStorage.getItem("sse-settings-autosave");
+                        value = (!me._state.fastCoauth && value!==null) ? parseInt(value) : 1;
+                    } else {
+                        value = 0;
+                    }
+                    me.api.asc_setAutoSaveGap(value);
+
                     if (me.needToUpdateVersion) {
                         Common.NotificationCenter.trigger('api:disconnect');
                         toolbarController.onApiCoAuthoringDisconnect();
@@ -609,14 +617,6 @@ define([
                         }
                     }, 50);
                 }
-
-                if (me.appOptions.canAutosave) {
-                    value = Common.localStorage.getItem("sse-settings-autosave");
-                    value = (value!==null) ? parseInt(value) : 1;
-                } else {
-                    value = 0;
-                }
-                me.api.asc_setAutoSaveGap(value);
 
                 if (me.appOptions.canAnalytics && false)
                     Common.component.Analytics.initialize('UA-12442749-13', 'Spreadsheet Editor');
@@ -671,7 +671,7 @@ define([
 
             onEditorPermissions: function(params) {
                 if ( params  && !(this.appOptions.isEditDiagram || this.appOptions.isEditMailMerge)) {
-                    this.appOptions.canAutosave = this.editorConfig.canAutosave !== false && params.asc_getIsAutosaveEnable();
+                    this.appOptions.canAutosave = true;
                     this.appOptions.canAnalytics = params.asc_getIsAnalyticsEnable();
 
                     /** coauthoring begin **/

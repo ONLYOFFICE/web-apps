@@ -210,10 +210,8 @@ define([
             }
             /** coauthoring end **/
 
-            if (this.mode.canAutosave) {
-                value = Common.localStorage.getItem("sse-settings-autosave");
-                this.api.asc_setAutoSaveGap(parseInt(value));
-            }
+            value = Common.localStorage.getItem("sse-settings-autosave");
+            this.api.asc_setAutoSaveGap(parseInt(value));
 
             value = Common.localStorage.getItem("sse-settings-func-locale");
             if (value) value = SSE.Views.FormulaLang.get(value);

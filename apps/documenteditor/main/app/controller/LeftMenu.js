@@ -237,7 +237,7 @@ define([
             if (this.mode.isEdit && this.mode.canLicense && !this.mode.isOffline) {
                 value = Common.localStorage.getItem("de-settings-coauthmode");
                 var fast_coauth = (value===null || parseInt(value) == 1);
-                this.api.asc_SetFastCollaborative(value===null || parseInt(value) == 1);
+                this.api.asc_SetFastCollaborative(fast_coauth);
 
                 value = Common.localStorage.getItem((fast_coauth) ? "de-settings-showchanges-fast" : "de-settings-showchanges-strict");
                 switch(value) {
@@ -260,10 +260,8 @@ define([
             case '0':     this.api.SetFontRenderingMode(3); break;
             }
 
-            if (this.mode.canAutosave) {
-                value = Common.localStorage.getItem("de-settings-autosave");
-                this.api.asc_setAutoSaveGap(parseInt(value));
-            }
+            value = Common.localStorage.getItem("de-settings-autosave");
+            this.api.asc_setAutoSaveGap(parseInt(value));
 
             value = Common.localStorage.getItem("de-settings-spellcheck");
             this.api.asc_setSpellCheck(value===null || parseInt(value) == 1);

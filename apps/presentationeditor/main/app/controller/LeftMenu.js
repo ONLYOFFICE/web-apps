@@ -180,15 +180,12 @@ define([
             /** coauthoring begin **/
             if (this.mode.isEdit && this.mode.canLicense && !this.mode.isOffline) {
                 value = Common.localStorage.getItem("pe-settings-coauthmode");
-                var fast_coauth = (value===null || parseInt(value) == 1);
                 this.api.asc_SetFastCollaborative(value===null || parseInt(value) == 1);
             }
             /** coauthoring end **/
 
-            if (this.mode.canAutosave) {
-                value = Common.localStorage.getItem("pe-settings-autosave");
-                this.api.asc_setAutoSaveGap(parseInt(value));
-            }
+            value = Common.localStorage.getItem("pe-settings-autosave");
+            this.api.asc_setAutoSaveGap(parseInt(value));
 
             value = Common.localStorage.getItem("pe-settings-showsnaplines");
             this.api.put_ShowSnapLines(value===null || parseInt(value) == 1);

@@ -589,6 +589,10 @@ define([
                 application.getController('Viewport').getView('DocumentPreview').setApi(me.api).setMode(me.appOptions).on('editcomplete', _.bind(me.onEditComplete, me));
 
                 if (me.appOptions.isEdit) {
+                    value = Common.localStorage.getItem("pe-settings-autosave");
+                    value = (!me._state.fastCoauth && value!==null) ? parseInt(value) : 1;
+                    me.api.asc_setAutoSaveGap(value);
+
                     if (me.needToUpdateVersion)
                         Common.NotificationCenter.trigger('api:disconnect');
                     var timer_sl = setInterval(function(){
@@ -615,14 +619,6 @@ define([
                         }
                     }, 50);
                 }
-
-                if (me.appOptions.canAutosave) {
-                    value = Common.localStorage.getItem("pe-settings-autosave");
-                    value = (value!==null) ? parseInt(value) : 1;
-                } else {
-                    value = 0;
-                }
-                me.api.asc_setAutoSaveGap(value);
 
                 if (this.appOptions.canAnalytics && false)
                     Common.component.Analytics.initialize('UA-12442749-13', 'Presentation Editor');
@@ -675,7 +671,6 @@ define([
                                                  (this.editorConfig.canRequestEditRights || this.editorConfig.mode !== 'view'); // if mode=="view" -> canRequestEditRights must be defined
                 this.appOptions.isEdit         = this.appOptions.canLicense && this.appOptions.canEdit && this.editorConfig.mode !== 'view';
                 this.appOptions.canDownload    = !this.appOptions.nativeApp && this.permissions.download !== false;
-                this.appOptions.canAutosave    = this.editorConfig.canAutosave !== false && params.asc_getIsAutosaveEnable();
                 this.appOptions.canAnalytics   = params.asc_getIsAnalyticsEnable();
                 this.appOptions.canComments    = this.appOptions.canLicense && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.comments===false);
                 this.appOptions.canChat        = this.appOptions.canLicense && !this.appOptions.isOffline && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.chat===false);

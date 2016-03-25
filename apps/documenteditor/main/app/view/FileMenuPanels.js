@@ -160,7 +160,12 @@ define([
             this.chAutosave = new Common.UI.CheckBox({
                 el: $('#fms-chb-autosave'),
                 labelText: this.strAutosave
-            });
+            }).on('change', _.bind(function(field, newValue, oldValue, eOpts){
+                if (field.getValue()!=='checked' && this.cmbCoAuthMode.getValue()) {
+                    this.cmbCoAuthMode.setValue(0);
+                    this.onSelectCoAuthMode(this.cmbCoAuthMode.getSelectedRecord());
+                }
+            }, this));
             this.lblAutosave = $('#fms-lbl-autosave');
             
             this.chAlignGuides = new Common.UI.CheckBox({
@@ -210,10 +215,10 @@ define([
                     { value: 1, displayValue: this.strFast, descValue: this.strCoAuthModeDescFast},
                     { value: 0, displayValue: this.strStrict, descValue: this.strCoAuthModeDescStrict }
                 ]
-            }).on('selected', _.bind(function(combo, record) {
-                this.lblCoAuthMode.text(record.descValue);
-                this.fillShowChanges(record.value == 1);
-                this.cmbShowChanges.setValue((record.value == 1) ? 'none' : 'last');
+            }).on('selected', _.bind( function(combo, record) {
+                if (record.value == 1 && (this.chAutosave.getValue()!=='checked'))
+                    this.chAutosave.setValue(1);
+                this.onSelectCoAuthMode(record);
             }, this));
 
             this.lblCoAuthMode = $('#fms-lbl-coauth-mode');
@@ -267,7 +272,7 @@ define([
         setMode: function(mode) {
             this.mode = mode;
             $('tr.edit', this.el)[mode.isEdit?'show':'hide']();
-            $('tr.autosave', this.el)[mode.isEdit && mode.canAutosave ? 'show' : 'hide']();
+            $('tr.autosave', this.el)[mode.isEdit ? 'show' : 'hide']();
             if (this.mode.isDesktopApp && this.mode.isOffline) {
                 this.chAutosave.setCaption(this.strAutoRecover);
                 this.lblAutosave.text(this.textAutoRecover);
@@ -314,7 +319,7 @@ define([
             this._oldUnits = this.cmbUnit.getValue();
 
             value = Common.localStorage.getItem("de-settings-autosave");
-            this.chAutosave.setValue(value===null || parseInt(value) == 1);
+            this.chAutosave.setValue(fast_coauth);
 
             value = Common.localStorage.getItem("de-settings-spellcheck");
             this.chSpell.setValue(value===null || parseInt(value) == 1);
@@ -355,7 +360,13 @@ define([
                 this.cmbShowChanges.store.reset(arr);
             }
         },
-        
+
+        onSelectCoAuthMode: function(record) {
+            this.lblCoAuthMode.text(record.descValue);
+            this.fillShowChanges(record.value == 1);
+            this.cmbShowChanges.setValue((record.value == 1) ? 'none' : 'last');
+        },
+
         strLiveComment: 'Turn on option',
         strInputMode:   'Turn on hieroglyphs',
         strZoom: 'Default Zoom Value',

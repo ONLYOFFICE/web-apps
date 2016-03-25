@@ -805,6 +805,10 @@ define([
                 documentHolderController.getView('DocumentHolder').setApi(me.api).on('editcomplete', _.bind(me.onEditComplete, me));
 
                 if (me.appOptions.isEdit) {
+                    value = Common.localStorage.getItem("de-settings-autosave");
+                    value = (!me._state.fastCoauth && value!==null) ? parseInt(value) : 1;
+                    me.api.asc_setAutoSaveGap(value);
+
                     if (me.needToUpdateVersion)
                         Common.NotificationCenter.trigger('api:disconnect');
                     var timer_sl = setInterval(function(){
@@ -831,14 +835,6 @@ define([
                         }
                     }, 50);
                 }
-
-                if (me.appOptions.canAutosave) {
-                    value = Common.localStorage.getItem("de-settings-autosave");
-                    value = (value!==null) ? parseInt(value) : 1;
-                } else {
-                    value = 0;
-                }
-                me.api.asc_setAutoSaveGap(value);
 
                 if (this.appOptions.canAnalytics && false)
                     Common.component.Analytics.initialize('UA-12442749-13', 'Document Editor');
@@ -895,7 +891,6 @@ define([
                                                  (this.editorConfig.canRequestEditRights || this.editorConfig.mode !== 'view') && // if mode=="view" -> canRequestEditRights must be defined
                                                  (!this.appOptions.isReviewOnly || this.appOptions.canLicense); // if isReviewOnly==true -> canLicense must be true
                 this.appOptions.isEdit         = this.appOptions.canLicense && this.appOptions.canEdit && this.editorConfig.mode !== 'view';
-                this.appOptions.canAutosave    = this.editorConfig.canAutosave !== false && params.asc_getIsAutosaveEnable();
                 this.appOptions.canReview      = this.appOptions.canLicense && this.appOptions.isEdit && (this.permissions.review===true);
                 this.appOptions.canUseHistory  = this.appOptions.canLicense && this.editorConfig.canUseHistory && (this.permissions.edit !== false) && this.appOptions.canCoAuthoring && !this.appOptions.isDesktopApp;
                 this.appOptions.canHistoryClose  = this.editorConfig.canHistoryClose;

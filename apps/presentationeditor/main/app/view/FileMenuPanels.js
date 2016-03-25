@@ -159,6 +159,8 @@ define([
                     { value: 0, displayValue: this.strStrict, descValue: this.strCoAuthModeDescStrict }
                 ]
             }).on('selected', _.bind(function(combo, record) {
+                if (record.value == 1 && (this.chAutosave.getValue()!=='checked'))
+                    this.chAutosave.setValue(1);
                 this.lblCoAuthMode.text(record.descValue);
             }, this));
 
@@ -168,7 +170,12 @@ define([
             this.chAutosave = new Common.UI.CheckBox({
                 el: $('#fms-chb-autosave'),
                 labelText: this.strAutosave
-            });
+            }).on('change', _.bind(function(field, newValue, oldValue, eOpts){
+                if (field.getValue()!=='checked' && this.cmbCoAuthMode.getValue()) {
+                    this.cmbCoAuthMode.setValue(0);
+                    this.lblCoAuthMode.text(this.strCoAuthModeDescStrict);
+                }
+            }, this));
             this.lblAutosave = $('#fms-lbl-autosave');
 
             this.chAlignGuides = new Common.UI.CheckBox({
@@ -212,7 +219,7 @@ define([
         setMode: function(mode) {
             this.mode = mode;
             $('tr.edit', this.el)[mode.isEdit?'show':'hide']();
-            $('tr.autosave', this.el)[mode.isEdit && mode.canAutosave ? 'show' : 'hide']();
+            $('tr.autosave', this.el)[mode.isEdit ? 'show' : 'hide']();
             if (this.mode.isDesktopApp && this.mode.isOffline) {
                 this.chAutosave.setCaption(this.strAutoRecover);
                 this.lblAutosave.text(this.textAutoRecover);
@@ -233,6 +240,8 @@ define([
 
             /** coauthoring begin **/
             value = Common.localStorage.getItem("pe-settings-coauthmode");
+            var fast_coauth = (value===null || parseInt(value) == 1);
+
             item = this.cmbCoAuthMode.store.findWhere({value: parseInt(value)});
             this.cmbCoAuthMode.setValue(item ? item.get('value') : 1);
             this.lblCoAuthMode.text(item ? item.get('descValue') : this.strCoAuthModeDescFast);
@@ -244,7 +253,7 @@ define([
             this._oldUnits = this.cmbUnit.getValue();
 
             value = Common.localStorage.getItem("pe-settings-autosave");
-            this.chAutosave.setValue(value===null || parseInt(value) == 1);
+            this.chAutosave.setValue(fast_coauth);
 
             value = Common.localStorage.getItem("pe-settings-showsnaplines");
             this.chAlignGuides.setValue(value===null || parseInt(value) == 1);
