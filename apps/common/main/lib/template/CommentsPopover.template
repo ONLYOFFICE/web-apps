@@ -5,7 +5,7 @@
     <div class="user-name"><%=scope.getUserName(username)%></div>
     <div class="user-date"><%=date%></div>
     <% if (!editTextInPopover || hint) { %>
-        <div class="user-message user-select"><%=scope.pickLink(comment)%></div>
+        <div class="user-message"><%=scope.pickLink(comment)%></div>
     <% } else { %>
         <div class="inner-edit-ct">
             <textarea class="msg-reply user-select" maxlength="maxCommLength"><%=comment%></textarea>
@@ -27,7 +27,7 @@
                 <div class="user-name"><%=scope.getUserName(item.get("username"))%></div>
                 <div class="user-date"><%=item.get("date")%></div>
                 <% if (!item.get("editTextInPopover")) { %>
-                    <div class="user-message user-select"><%=scope.pickLink(item.get("reply"))%></div>
+                    <div class="user-message"><%=scope.pickLink(item.get("reply"))%></div>
                     <% if (!hint) { %>
                         <div class="btns-reply-ct">
                             <div class="btn-edit img-commonctrl" data-value="<%=item.get("id")%>"></div>

@@ -43,7 +43,7 @@ define([
                     '<% if (msg.get("type")==1) { %>',
                         '<div class="message service" data-can-copy="true"><%= msg.get("message") %></div>',
                     '<% } else { %>',
-                        '<div class="user user-select" data-can-copy="true" style="color: <%= msg.get("usercolor") %>;"><%= scope.getUserName(msg.get("username")) %></div>',
+                        '<div class="user" data-can-copy="true" style="color: <%= msg.get("usercolor") %>;"><%= scope.getUserName(msg.get("username")) %></div>',
                         '<label class="message user-select" data-can-copy="true"><%= msg.get("message") %></label>',
                     '<% } %>',
             '</li>'].join(''),
