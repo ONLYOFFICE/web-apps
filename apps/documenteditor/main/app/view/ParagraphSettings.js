@@ -464,7 +464,7 @@ define([
             }
         },
 
-        strParagraphSpacing:    'Spacing',
+        strParagraphSpacing:    'Paragraph Spacing',
         strSomeParagraphSpace:  'Don\'t add interval between paragraphs of the same style',
         strLineHeight:          'Line Spacing',
         strSpacingBefore:       'Before',

@@ -631,7 +631,7 @@
   "SSE.Views.NameManagerDlg.tipIsLocked": "This element is being edited by another user.",
   "SSE.Views.NameManagerDlg.txtTitle": "Name Manager",
   "SSE.Views.ParagraphSettings.strLineHeight": "Line Spacing",
-  "SSE.Views.ParagraphSettings.strParagraphSpacing": "Spacing",
+  "SSE.Views.ParagraphSettings.strParagraphSpacing": "Paragraph Spacing",
   "SSE.Views.ParagraphSettings.strSpacingAfter": "After",
   "SSE.Views.ParagraphSettings.strSpacingBefore": "Before",
   "SSE.Views.ParagraphSettings.textAdvanced": "Show advanced settings",

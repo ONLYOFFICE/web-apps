@@ -342,7 +342,7 @@ define([
             }
         },
 
-        strParagraphSpacing:    'Spacing',
+        strParagraphSpacing:    'Paragraph Spacing',
         strLineHeight:          'Line Spacing',
         strSpacingBefore:       'Before',
         strSpacingAfter:        'After',
