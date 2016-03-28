@@ -141,7 +141,7 @@ define([
                             /*
                              * TODO: Workaround bug #25004. Clipboard feature processing in sdk.
                              */
-                            if (!(Common.Utils.isSafari && Common.Utils.isMac)) {
+                            if (!(Common.Utils.isSafari && Common.Utils.isMac) && !/area_id/.test(e.target.id)) {
                                 me.api.asc_enableKeyEvents(true);
                                 if (/msg-reply/.test(e.target.className))
                                     me.dontCloseDummyComment = false;
