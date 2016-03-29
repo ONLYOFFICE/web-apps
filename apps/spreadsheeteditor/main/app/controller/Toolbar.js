@@ -1169,9 +1169,7 @@ define([
                 shortcuts: {
                     'command+l,ctrl+l': function(e) {
                         if (me.editMode) {
-                            var cellinfo = me.api.asc_getCellInfo(),
-                                filterinfo = cellinfo.asc_getAutoFilterInfo();
-                            if (!filterinfo || filterinfo.asc_getTableName()===null)
+                            if (!me.api.asc_getCellInfo().asc_getFormatTableInfo())
                                 me._setTableFormat(me.toolbar.mnuTableTemplatePicker.store.at(23).get('name'));
                         }
 
@@ -1674,7 +1672,8 @@ define([
 //                (coauth_disable !== toolbar.btnClearStyle.isDisabled()) && toolbar.btnClearStyle.setDisabled(coauth_disable);
 //                (coauth_disable !== toolbar.btnCopyStyle.isDisabled()) && toolbar.btnCopyStyle.setDisabled(coauth_disable);
 
-                var filterInfo = info.asc_getAutoFilterInfo();
+                var filterInfo = info.asc_getAutoFilterInfo(),
+                    formatTableInfo = info.asc_getFormatTableInfo();
                 if (!toolbar.mode.isEditMailMerge) {
                     /* read cell horizontal align */
                     fontparam = info.asc_getHorAlign();
@@ -1751,7 +1750,7 @@ define([
                         }
                     }
 
-                    need_disable =  this._state.controlsdisabled.filters || filterInfo && (filterInfo.asc_getTableName()!==null || filterInfo.asc_getIsAutoFilter()===null);
+                    need_disable =  this._state.controlsdisabled.filters || formatTableInfo!==null || filterInfo && filterInfo.asc_getIsAutoFilter()===null;
 //                (need_disable !== toolbar.btnMerge.isDisabled()) && toolbar.btnMerge.setDisabled(need_disable);
                     toolbar.lockToolbar(SSE.enumLock.ruleMerge, need_disable, {array:[toolbar.btnMerge]});
 
@@ -1782,7 +1781,7 @@ define([
                             { array: [toolbar.btnSortDown, toolbar.btnSortUp, toolbar.mnuitemSortAZ, toolbar.mnuitemSortZA,
                                 toolbar.btnTableTemplate,toolbar.btnSetAutofilter,toolbar.mnuitemAutoFilter,toolbar.btnAutofilter] });
 
-                val = (filterInfo) ? filterInfo.asc_getTableStyleName() : null;
+                val = (formatTableInfo) ? formatTableInfo.asc_getTableStyleName() : null;
                 if (this._state.tablestylename !== val && this.toolbar.mnuTableTemplatePicker) {
                     val = this.toolbar.mnuTableTemplatePicker.store.findWhere({name: val});
                     if (val) {
@@ -1794,7 +1793,7 @@ define([
                     }
                 }
 
-                this._state.tablename = (filterInfo) ? filterInfo.asc_getTableName() : undefined;
+                this._state.tablename = (formatTableInfo) ? formatTableInfo.asc_getTableName() : undefined;
 
                 need_disable =  this._state.controlsdisabled.filters || !filterInfo || (filterInfo.asc_getIsApplyAutoFilter()!==true);
                 toolbar.lockToolbar(SSE.enumLock.ruleDelFilter, need_disable, {array:[toolbar.btnClearAutofilter,toolbar.mnuitemClearFilter]});

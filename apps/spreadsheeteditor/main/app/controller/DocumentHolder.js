@@ -1156,7 +1156,8 @@ define([
                 documentHolder.pmiClear.menu.items[3].setVisible(!this.permissions.isEditDiagram);
                 documentHolder.pmiClear.menu.items[4].setVisible(!this.permissions.isEditDiagram);
 
-                var filterInfo = cellinfo.asc_getAutoFilterInfo() && cellinfo.asc_getAutoFilterInfo().asc_getIsApplyAutoFilter();
+                var filterInfo = cellinfo.asc_getAutoFilterInfo();
+                filterInfo = (filterInfo) ? filterInfo.asc_getIsApplyAutoFilter() : false;
                 documentHolder.pmiInsertCells.menu.items[0].setDisabled(filterInfo);
                 documentHolder.pmiDeleteCells.menu.items[0].setDisabled(filterInfo);
                 documentHolder.pmiInsertCells.menu.items[1].setDisabled(filterInfo);

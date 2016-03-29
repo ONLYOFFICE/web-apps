@@ -36,6 +36,7 @@ define([
             var me = this;
 
             this._state = {
+                TableName: '',
                 TemplateName: '',
                 CheckHeader: false,
                 CheckTotal: false,
@@ -48,7 +49,6 @@ define([
             };
             this.lockedControls = [];
             this._locked = false;
-//            this._originalLook = new CTablePropLook();
 
             this._originalProps = null;
             this._noApply = false;
@@ -97,13 +97,13 @@ define([
             });
             this.lockedControls.push(this.chFilter);
 
-            this.chHeader.on('change', _.bind(this.onCheckTemplateChange, this, 0));
-            this.chTotal.on('change', _.bind(this.onCheckTemplateChange, this, 1));
-            this.chBanded.on('change', _.bind(this.onCheckTemplateChange, this, 2));
-            this.chFirst.on('change', _.bind(this.onCheckTemplateChange, this, 3));
-            this.chLast.on('change', _.bind(this.onCheckTemplateChange, this, 4));
-            this.chColBanded.on('change', _.bind(this.onCheckTemplateChange, this, 5));
-            this.chFilter.on('change', _.bind(this.onCheckFilterChange, this));
+            this.chHeader.on('change', _.bind(this.onCheckTemplateChange, this, c_oAscChangeTableStyleInfo.rowHeader));
+            this.chTotal.on('change', _.bind(this.onCheckTemplateChange, this, c_oAscChangeTableStyleInfo.rowTotal));
+            this.chBanded.on('change', _.bind(this.onCheckTemplateChange, this, c_oAscChangeTableStyleInfo.rowBanded));
+            this.chFirst.on('change', _.bind(this.onCheckTemplateChange, this, c_oAscChangeTableStyleInfo.columnFirst));
+            this.chLast.on('change', _.bind(this.onCheckTemplateChange, this, c_oAscChangeTableStyleInfo.columnLast));
+            this.chColBanded.on('change', _.bind(this.onCheckTemplateChange, this, c_oAscChangeTableStyleInfo.columnBanded));
+            this.chFilter.on('change', _.bind(this.onCheckTemplateChange, this, c_oAscChangeTableStyleInfo.filterButton));
 
             this.cmbTableTemplate = new Common.UI.ComboDataView({
                 itemWidth: 61,
@@ -142,19 +142,19 @@ define([
                 menu        : new Common.UI.Menu({
                     menuAlign: 'tr-br',
                     items: [
-                        { caption: this.selectRowText, value: 0 },
-                        { caption: this.selectColumnText,  value: 1 },
-                        { caption: this.selectCellText,  value: 2 },
-                        { caption: this.selectTableText,  value: 3 },
+                        { caption: this.selectRowText,      value:  c_oAscChangeSelectionFormatTable.row, idx: 0 },
+                        { caption: this.selectColumnText,   value: c_oAscChangeSelectionFormatTable.column, idx: 1 },
+                        { caption: this.selectDataText,     value: c_oAscChangeSelectionFormatTable.data, idx: 2 },
+                        { caption: this.selectTableText,    value: c_oAscChangeSelectionFormatTable.all, idx: 3 },
                         { caption: '--' },
                         { caption: this.insertRowAboveText, value: 4 },
-                        { caption: this.insertRowBelowText,  value: 5 },
+                        { caption: this.insertRowBelowText, value: 5 },
                         { caption: this.insertColumnLeftText,  value: 6 },
-                        { caption: this.insertColumnRightText,  value: 7 },
+                        { caption: this.insertColumnRightText, value: 7 },
                         { caption: '--' },
-                        { caption: this.deleteRowText, value: 8 },
-                        { caption: this.deleteColumnText,  value: 9 },
-                        { caption: this.deleteTableText,  value: 10 }
+                        { caption: this.deleteRowText,      value: 8 },
+                        { caption: this.deleteColumnText,   value: 9 },
+                        { caption: this.deleteTableText,    value: 10 }
                     ]
                 })
             });
@@ -170,62 +170,23 @@ define([
         },
 
         onCheckTemplateChange: function(type, field, newValue, oldValue, eOpts) {
-            if (this.api)   {
-                var properties = new CTableProp();
-                var look = (this._originalLook) ? this._originalLook : new CTablePropLook();
-                switch (type) {
-                    case 0:
-                        look.put_FirstRow(field.getValue()=='checked');
-                        break;
-                    case 1:
-                        look.put_LastRow(field.getValue()=='checked');
-                        break;
-                    case 2:
-                        look.put_BandHor(field.getValue()=='checked');
-                        break;
-                    case 3:
-                        look.put_FirstCol(field.getValue()=='checked');
-                        break;
-                    case 4:
-                        look.put_LastCol(field.getValue()=='checked');
-                        break;
-                    case 5:
-                        look.put_BandVer(field.getValue()=='checked');
-                        break;
-                }
-                properties.put_TableLook(look);
-                this.api.tblApply(properties);
-            }
-            Common.NotificationCenter.trigger('edit:complete', this);
-        },
-
-        onCheckFilterChange: function(field, newValue, oldValue, eOpts) {
+            if (this.api)
+                this.api.asc_changeFormatTableInfo(this._state.TableName, type);
             Common.NotificationCenter.trigger('edit:complete', this);
         },
 
         onTableTemplateSelect: function(combo, record){
             if (this.api && !this._noApply) {
                 if (this._state.TemplateName)
-                    this.api.asc_changeAutoFilter(this._state.TemplateName, c_oAscChangeFilterOptions.style, record.get('name'));
+                    this.api.asc_changeAutoFilter(this._state.TableName, c_oAscChangeFilterOptions.style, record.get('name'));
             }
             Common.NotificationCenter.trigger('edit:complete', this);
         },
 
         onEditClick: function(menu, item, e) {
             if (this.api) {
-                switch (item.value) {
-                    case 0: this.api.selectRow(); break;
-                    case 1: this.api.selectColumn(); break;
-                    case 2: this.api.selectCell(); break;
-                    case 3: this.api.selectTable(); break;
-                    case 4: this.api.addRowAbove(); break;
-                    case 5: this.api.addRowBelow(); break;
-                    case 6: this.api.addColumnLeft(); break;
-                    case 7: this.api.addColumnRight(); break;
-                    case 8: this.api.remRow(); break;
-                    case 9: this.api.remColumn(); break;
-                    case 10: this.api.remTable(); break;
-                }
+                if (item.idx>=0 && item.idx<4)
+                    this.api.asc_changeSelectionFormatTable(this._state.TableName, item.value);
             }
             Common.NotificationCenter.trigger('edit:complete', this);
         },
@@ -248,12 +209,18 @@ define([
         ChangeSettings: function(props) {
             this.disableControls(this._locked);
 
-            if (props )//filterInfo
+            if (props )//formatTableInfo
             {
                 this._originalProps = props;
 
+                var value = props.asc_getTableName();
+                if (this._state.TableName!==value) {
+                    this.txtTableName.setValue(value);
+                    this._state.TableName=value;
+                }
+
                 //for table-template
-                var value = props.asc_getTableStyleName();
+                value = props.asc_getTableStyleName();
                 if (this._state.TemplateName!==value || this._isTemplatesChanged) {
                     this.cmbTableTemplate.suspendEvents();
                     var rec = this.cmbTableTemplate.menuPicker.store.findWhere({
@@ -272,52 +239,47 @@ define([
                 }
                 this._isTemplatesChanged = false;
 
-                /*
-                var look = props.get_TableLook();
-                if (look) {
-                    value = look.get_FirstRow();
-                    if (this._state.CheckHeader!==value) {
-                        this.chHeader.setValue(value, true);
-                        this._state.CheckHeader=value;
-                        this._originalLook.put_FirstRow(value);
-                    }
-
-                    value = look.get_LastRow();
-                    if (this._state.CheckTotal!==value) {
-                        this.chTotal.setValue(value, true);
-                        this._state.CheckTotal=value;
-                        this._originalLook.put_LastRow(value);
-                    }
-
-                    value = look.get_BandHor();
-                    if (this._state.CheckBanded!==value) {
-                        this.chBanded.setValue(value, true);
-                        this._state.CheckBanded=value;
-                        this._originalLook.put_BandHor(value);
-                    }
-
-                    value = look.get_FirstCol();
-                    if (this._state.CheckFirst!==value) {
-                        this.chFirst.setValue(value, true);
-                        this._state.CheckFirst=value;
-                        this._originalLook.put_FirstCol(value);
-                    }
-
-                    value = look.get_LastCol();
-                    if (this._state.CheckLast!==value) {
-                        this.chLast.setValue(value, true);
-                        this._state.CheckLast=value;
-                        this._originalLook.put_LastCol(value);
-                    }
-
-                    value = look.get_BandVer();
-                    if (this._state.CheckColBanded!==value) {
-                        this.chColBanded.setValue(value, true);
-                        this._state.CheckColBanded=value;
-                        this._originalLook.put_BandVer(value);
-                    }
+                value = props.asc_getFirstRow();
+                if (this._state.CheckHeader!==value) {
+                    this.chHeader.setValue(value, true);
+                    this._state.CheckHeader=value;
                 }
-                */
+
+                value = props.asc_getLastRow();
+                if (this._state.CheckTotal!==value) {
+                    this.chTotal.setValue(value, true);
+                    this._state.CheckTotal=value;
+                }
+
+                value = props.asc_getBandHor();
+                if (this._state.CheckBanded!==value) {
+                    this.chBanded.setValue(value, true);
+                    this._state.CheckBanded=value;
+                }
+
+                value = props.asc_getFirstCol();
+                if (this._state.CheckFirst!==value) {
+                    this.chFirst.setValue(value, true);
+                    this._state.CheckFirst=value;
+                }
+
+                value = props.asc_getLastCol();
+                if (this._state.CheckLast!==value) {
+                    this.chLast.setValue(value, true);
+                    this._state.CheckLast=value;
+                }
+
+                value = props.asc_getBandVer();
+                if (this._state.CheckColBanded!==value) {
+                    this.chColBanded.setValue(value, true);
+                    this._state.CheckColBanded=value;
+                }
+
+                value = props.asc_getFilterButton();
+                if (this._state.CheckFilter!==value) {
+                    this.chFilter.setValue(value, true);
+                    this._state.CheckFilter=value;
+                }
             }
         },
 
@@ -356,8 +318,8 @@ define([
                 var handlerDlg = function(dlg, result) {
                     if (result == 'ok') {
                         me.api.asc_setSelectionDialogMode(c_oAscSelectionDialogType.None);
-                        if (me._state.tablename)
-                            me.api.asc_changeAutoFilter(me._state.tablename, c_oAscChangeFilterOptions.style, fmtname);
+                        if (me._state.Tablename)
+                            me.api.asc_changeAutoFilter(me._state.Tablename, c_oAscChangeFilterOptions.style, fmtname);
                     }
 
                     Common.NotificationCenter.trigger('edit:complete', me.toolbar);
@@ -388,8 +350,8 @@ define([
 
         textEdit:           'Rows & Columns',
         selectRowText           : 'Select Row',
-        selectColumnText        : 'Select Column',
-        selectCellText          : 'Select Cell',
+        selectColumnText        : 'Select Entire Column',
+        selectDataText          : 'Select Column Data',
         selectTableText         : 'Select Table',
         insertRowAboveText      : 'Insert Row Above',
         insertRowBelowText      : 'Insert Row Below',

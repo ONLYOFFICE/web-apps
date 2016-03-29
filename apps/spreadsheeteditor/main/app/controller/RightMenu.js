@@ -73,18 +73,18 @@ define([
         onSelectionChanged: function(info) {
             var SelectedObjects = [],
                 selectType = info.asc_getFlags().asc_getSelectionType(),
-                filterInfo = info.asc_getAutoFilterInfo();
+                formatTableInfo = info.asc_getFormatTableInfo();
 
             if (selectType == c_oAscSelectionType.RangeImage || selectType == c_oAscSelectionType.RangeShape ||
                 selectType == c_oAscSelectionType.RangeChart || selectType == c_oAscSelectionType.RangeChartText || selectType == c_oAscSelectionType.RangeShapeText) {
                 SelectedObjects = this.api.asc_getGraphicObjectProps();
             }
             
-            if (SelectedObjects.length<=0 && !(filterInfo && filterInfo.asc_getTableName()!==null) && !this.rightmenu.minimizedMode) {
+            if (SelectedObjects.length<=0 && !formatTableInfo && !this.rightmenu.minimizedMode) {
                 this.rightmenu.clearSelection();
             }
 
-            this.onFocusObject(SelectedObjects, filterInfo);
+            this.onFocusObject(SelectedObjects, formatTableInfo);
 
             var need_disable = info.asc_getLocked(),
                 me = this;
@@ -97,7 +97,7 @@ define([
             }
         },
 
-        onFocusObject: function(SelectedObjects, filterInfo) {
+        onFocusObject: function(SelectedObjects, formatTableInfo) {
             if (!this.editMode)
                 return;
 
@@ -135,9 +135,9 @@ define([
                 this._settings[settingsType].locked = value.asc_getLocked();
             }
 
-            if (filterInfo && filterInfo.asc_getTableName()!==null) {
+            if (formatTableInfo) {
                 settingsType = Common.Utils.documentSettingsType.Table;
-                this._settings[settingsType].props = filterInfo;
+                this._settings[settingsType].props = formatTableInfo;
                 this._settings[settingsType].hidden = 0;
             }
             
