@@ -1,42 +1,34 @@
 {
     "name": "presentationeditor",
-    "version": "3.6.0",
-    "build": 759,
+    "version": "4.6.0",
+    "build": 762,
     "homepage": "http://www.onlyoffice.com",
     "sdk": {
         "clean": [
-            "../deploy/sdk/Common",
-            "../deploy/sdk/PowerPoint",
-            "../deploy/sdk/Fonts"
+            "../deploy/sdkjs/common",
+            "../deploy/sdkjs/slide"
         ],
         "copy": {
             "script": {
                 "files": [
                     {
                         "expand": true,
-                        "cwd": "../sdk/Common/",
+                        "cwd": "../../sdkjs/common/",
                         "src": [
-                            "Images/**",
-                            "Native/**",
-                            "AllFonts.js"
+                            "Images/*.cur",
+                            "Native/*.js"
                         ],
-                        "dest": "../deploy/sdk/Common/"
+                        "dest": "../deploy/sdkjs/common/"
                     },
                     {
                         "expand": true,
-                        "cwd": "../sdk/Fonts/",
+                        "cwd": "../../sdkjs/slide/themes/",
                         "src": "**/**",
-                        "dest": "../deploy/sdk/Fonts/"
+                        "dest": "../deploy/sdkjs/slide/themes/"
                     },
                     {
-                        "expand": true,
-                        "cwd": "../sdk/PowerPoint/themes/",
-                        "src": "**/**",
-                        "dest": "../deploy/sdk/PowerPoint/themes/"
-                    },
-                    {
-                        "src": "../sdk/PowerPoint/sdk-all.js",
-                        "dest": "../deploy/sdk/PowerPoint/sdk-all.js"
+                        "src": "../../sdkjs/slide/sdk-all.js",
+                        "dest": "../deploy/sdkjs/slide/sdk-all.js"
                     }
                 ]
             }
@@ -44,26 +36,29 @@
     },
     "api": {
         "clean": [
-            "../deploy/apps/api"
+            "../deploy/web-apps/apps/api"
         ],
         "copy": {
             "script": {
                 "expand": true,
                 "cwd": "../apps/api/",
-                "src": "**",
-                "dest": "../deploy/apps/api/"
+                "src": [
+                    "**",
+                    "!**/*.desktop"
+                ],
+                "dest": "../deploy/web-apps/apps/api/"
             }
         }
     },
     "main": {
         "clean": [
-            "../deploy/apps/presentationeditor/main"
+            "../deploy/web-apps/apps/presentationeditor/main"
         ],
         "js": {
             "requirejs": {
                 "options": {
                     "name": "../apps/presentationeditor/main/app.js",
-                    "out": "../deploy/apps/presentationeditor/main/app.js",
+                    "out": "../deploy/web-apps/apps/presentationeditor/main/app.js",
                     "baseUrl": "../apps/",
                     "inlineText": true,
                     "findNestedDependencies": true,
@@ -158,7 +153,7 @@
             "embedImages": true,
             "files": {
                 "src": "../apps/presentationeditor/main/resources/less/app.less",
-                "dest": "../deploy/apps/presentationeditor/main/resources/css/app.css"
+                "dest": "../deploy/web-apps/apps/presentationeditor/main/resources/css/app.css"
             },
             "replacements": [
                 {
@@ -179,25 +174,17 @@
                     "src": [
                         "**/*.{png,jpg,gif}"
                     ],
-                    "dest": "../deploy/apps/presentationeditor/main/resources/img/"
+                    "dest": "../deploy/web-apps/apps/presentationeditor/main/resources/img/"
                 }
             ],
             "images-common": [
-                {
-                    "expand": true,
-                    "cwd": "../sdk/PowerPoint/Images/",
-                    "src": [
-                        "**/*.cur"
-                    ],
-                    "dest": "../deploy/apps/presentationeditor/main/Images/"
-                },
                 {
                     "expand": true,
                     "cwd": "../apps/common/main/resources/img/",
                     "src": [
                         "**/*.{png,jpg,gif}"
                     ],
-                    "dest": "../deploy/apps/presentationeditor/main/resources/img/"
+                    "dest": "../deploy/web-apps/apps/presentationeditor/main/resources/img/"
                 }
             ]
         },
@@ -207,7 +194,7 @@
                     "expand": true,
                     "cwd": "../apps/presentationeditor/main/locale/",
                     "src": "*",
-                    "dest": "../deploy/apps/presentationeditor/main/locale/"
+                    "dest": "../deploy/web-apps/apps/presentationeditor/main/locale/"
                 }
             ],
             "help": [
@@ -215,26 +202,26 @@
                     "expand": true,
                     "cwd": "../apps/presentationeditor/main/resources/help/en/",
                     "src": "**",
-                    "dest": "../deploy/apps/presentationeditor/main/resources/help/en/"
+                    "dest": "../deploy/web-apps/apps/presentationeditor/main/resources/help/en/"
                 },
                 {
                     "expand": true,
                     "cwd": "../apps/presentationeditor/main/resources/help/ru/",
                     "src": "**",
-                    "dest": "../deploy/apps/presentationeditor/main/resources/help/ru/"
+                    "dest": "../deploy/web-apps/apps/presentationeditor/main/resources/help/ru/"
                 }
             ],
             "index-page": [
                 {
                     "src": "../apps/presentationeditor/main/index.html.deploy",
-                    "dest": "../deploy/apps/presentationeditor/main/index.html"
+                    "dest": "../deploy/web-apps/apps/presentationeditor/main/index.html"
                 }
             ]
         }
     },
     "mobile": {
         "clean": [
-            "../deploy/apps/presentationeditor/mobile"
+            "../deploy/web-apps/apps/presentationeditor/mobile"
         ],
         "js": {
             "src": [
@@ -256,32 +243,32 @@
                 "../apps/common/locale.js",
                 "../apps/presentationeditor/mobile/app.js"
             ],
-            "dist": "../deploy/apps/presentationeditor/mobile/app-all.js"
+            "dist": "../deploy/web-apps/apps/presentationeditor/mobile/app-all.js"
         },
         "css": {
             "normal": {
                 "src": [
                     "../apps/presentationeditor/mobile/resources/css/application-normal.css"
                 ],
-                "dist": "../deploy/apps/presentationeditor/mobile/resources/css/application-normal.css"
+                "dist": "../deploy/web-apps/apps/presentationeditor/mobile/resources/css/application-normal.css"
             },
             "retina": {
                 "src": [
                     "../apps/presentationeditor/mobile/resources/css/application-retina.css"
                 ],
-                "dist": "../deploy/apps/presentationeditor/mobile/resources/css/application-retina.css"
+                "dist": "../deploy/web-apps/apps/presentationeditor/mobile/resources/css/application-retina.css"
             }
         },
         "copy": {
             "index-page": {
-                "../deploy/apps/presentationeditor/mobile/index.html": "../apps/presentationeditor/mobile/index.html.deploy"
+                "../deploy/web-apps/apps/presentationeditor/mobile/index.html": "../apps/presentationeditor/mobile/index.html.deploy"
             },
             "localization": [
                 {
                     "expand": true,
                     "cwd": "../apps/presentationeditor/mobile/locale/",
                     "src": "*",
-                    "dest": "../deploy/apps/presentationeditor/mobile/locale/"
+                    "dest": "../deploy/web-apps/apps/presentationeditor/mobile/locale/"
                 }
             ],
             "images-app": [
@@ -289,14 +276,14 @@
                     "expand": true,
                     "cwd": "../apps/presentationeditor/mobile/resources/img/",
                     "src": "**",
-                    "dest": "../deploy/apps/presentationeditor/mobile/resources/img/"
+                    "dest": "../deploy/web-apps/apps/presentationeditor/mobile/resources/img/"
                 }
             ]
         }
     },
     "embed": {
         "clean": [
-            "../deploy/apps/presentationeditor/embed"
+            "../deploy/web-apps/apps/presentationeditor/embed"
         ],
         "js": {
             "src": [
@@ -306,12 +293,12 @@
                 "../apps/presentationeditor/embed/js/ApplicationController.js",
                 "../apps/presentationeditor/embed/js/application.js"
             ],
-            "dist": "../deploy/apps/presentationeditor/embed/app-all.js"
+            "dist": "../deploy/web-apps/apps/presentationeditor/embed/app-all.js"
         },
         "less": {
             "files": {
                 "src": "../apps/presentationeditor/embed/resources/less/application.less",
-                "dist": "../deploy/apps/presentationeditor/embed/resources/css/app-all.css"
+                "dist": "../deploy/web-apps/apps/presentationeditor/embed/resources/css/app-all.css"
             },
             "replacements": [
                 {
@@ -322,64 +309,64 @@
         },
         "copy": {
             "index-page": {
-                "../deploy/apps/presentationeditor/embed/index.html": "../apps/presentationeditor/embed/index.html.deploy"
+                "../deploy/web-apps/apps/presentationeditor/embed/index.html": "../apps/presentationeditor/embed/index.html.deploy"
             },
             "images-app": [
                 {
                     "expand": true,
                     "cwd": "../apps/common/embed/resources/img/",
                     "src": "**",
-                    "dest": "../deploy/apps/presentationeditor/embed/resources/img/"
+                    "dest": "../deploy/web-apps/apps/presentationeditor/embed/resources/img/"
                 }
             ]
         }
     },
     "touch": {
         "clean": [
-            "../deploy/vendor/touch"
+            "../deploy/web-apps/vendor/touch"
         ],
         "copy": {
             "script": {
                 "src": "../vendor/touch/sencha-touch-all.js",
-                "dest": "../deploy/vendor/touch/sencha-touch-all.js"
+                "dest": "../deploy/web-apps/vendor/touch/sencha-touch-all.js"
             }
         }
     },
     "bootstrap": {
         "clean": [
-            "../deploy/vendor/bootstrap"
+            "../deploy/web-apps/vendor/bootstrap"
         ],
         "copy": {
             "script": {
                 "src": "../vendor/bootstrap/dist/js/bootstrap.min.js",
-                "dest": "../deploy/vendor/bootstrap/dist/js/bootstrap.min.js"
+                "dest": "../deploy/web-apps/vendor/bootstrap/dist/js/bootstrap.min.js"
             },
             "font": {
                 "expand": true,
                 "cwd": "../vendor/bootstrap/dist/fonts/",
                 "src": "*",
-                "dest": "../deploy/vendor/bootstrap/dist/fonts/"
+                "dest": "../deploy/web-apps/vendor/bootstrap/dist/fonts/"
             },
             "css": {
                 "src": "../vendor/bootstrap/dist/css/bootstrap.min.css",
-                "dest": "../deploy/vendor/bootstrap/dist/css/bootstrap.min.css"
+                "dest": "../deploy/web-apps/vendor/bootstrap/dist/css/bootstrap.min.css"
             }
         }
     },
     "jquery": {
         "clean": [
-            "../deploy/vendor/jquery"
+            "../deploy/web-apps/vendor/jquery"
         ],
         "copy": {
             "script": {
                 "files": [
                     {
                         "src": "../vendor/jquery/jquery.min.js",
-                        "dest": "../deploy/vendor/jquery/jquery.min.js"
+                        "dest": "../deploy/web-apps/vendor/jquery/jquery.min.js"
                     },
                     {
                         "src": "../vendor/jquery.browser/dist/jquery.browser.min.js",
-                        "dest": "../deploy/vendor/jquery/jquery.browser.min.js"
+                        "dest": "../deploy/web-apps/vendor/jquery/jquery.browser.min.js"
                     }
                 ]
             }
@@ -387,93 +374,93 @@
     },
     "megapixel": {
         "clean": [
-            "../deploy/vendor/megapixel"
+            "../deploy/web-apps/vendor/megapixel"
         ],
         "copy": {
             "script": {
                 "src": "../vendor/megapixel/megapix-image-min.js",
-                "dest": "../deploy/vendor/megapixel/megapix-image-min.js"
+                "dest": "../deploy/web-apps/vendor/megapixel/megapix-image-min.js"
             }
         }
     },
     "sockjs": {
         "clean": [
-            "../deploy/vendor/sockjs"
+            "../deploy/web-apps/vendor/sockjs"
         ],
         "copy": {
             "script": {
                 "src": "../vendor/sockjs/sockjs.min.js",
-                "dest": "../deploy/vendor/sockjs/sockjs.min.js"
+                "dest": "../deploy/web-apps/vendor/sockjs/sockjs.min.js"
             }
         }
     },
     "xregexp": {
         "clean": [
-            "../deploy/vendor/xregexp"
+            "../deploy/web-apps/vendor/xregexp"
         ],
         "copy": {
             "script": {
                 "src": "../vendor/xregexp/xregexp-all-min.js",
-                "dest": "../deploy/vendor/xregexp/xregexp-all-min.js"
+                "dest": "../deploy/web-apps/vendor/xregexp/xregexp-all-min.js"
             }
         }
     },
     "jszip": {
         "clean": [
-            "../deploy/vendor/jszip"
+            "../deploy/web-apps/vendor/jszip"
         ],
         "copy": {
             "script": {
                 "src": "../vendor/jszip/jszip.min.js",
-                "dest": "../deploy/vendor/jszip/jszip.min.js"
+                "dest": "../deploy/web-apps/vendor/jszip/jszip.min.js"
             }
         }
     },
     "jsziputils": {
         "clean": [
-            "../deploy/vendor/jszip-utils"
+            "../deploy/web-apps/vendor/jszip-utils"
         ],
         "copy": {
             "script": {
                 "src": "../vendor/jszip-utils/jszip-utils.min.js",
-                "dest": "../deploy/vendor/jszip-utils/jszip-utils.min.js"
+                "dest": "../deploy/web-apps/vendor/jszip-utils/jszip-utils.min.js"
             }
         }
     },
     "jsrsasign": {
         "clean": [
-            "../deploy/vendor/jsrsasign"
+            "../deploy/web-apps/vendor/jsrsasign"
         ],
         "copy": {
             "script": {
                 "src": "../vendor/jsrsasign/jsrsasign-latest-all-min.js",
-                "dest": "../deploy/vendor/jsrsasign/jsrsasign-latest-all-min.js"
+                "dest": "../deploy/web-apps/vendor/jsrsasign/jsrsasign-latest-all-min.js"
             }
         }
     },
     "underscore": {
         "clean": [
-            "../deploy/vendor/underscore"
+            "../deploy/web-apps/vendor/underscore"
         ],
         "copy": {
             "script": {
                 "src": "../vendor/underscore/underscore-min.js",
-                "dest": "../deploy/vendor/underscore/underscore-min.js"
+                "dest": "../deploy/web-apps/vendor/underscore/underscore-min.js"
             }
         }
     },
     "requirejs": {
         "clean": [
-            "../deploy/vendor/requirejs"
+            "../deploy/web-apps/vendor/requirejs"
         ],
         "min": {
             "src": "../vendor/requirejs/require.js",
-            "dest": "../deploy/vendor/requirejs/require.js"
+            "dest": "../deploy/web-apps/vendor/requirejs/require.js"
         }
     },
     "zeroclipboard": {
         "clean": [
-            "../deploy/vendor/ZeroClipboard"
+            "../deploy/web-apps/vendor/ZeroClipboard"
         ],
         "copy": {
             "script": {
@@ -482,32 +469,32 @@
                 "src": [
                     "**"
                 ],
-                "dest": "../deploy/vendor/ZeroClipboard/"
+                "dest": "../deploy/web-apps/vendor/ZeroClipboard/"
             }
         }
     },
     "obf_api": {
-        "ccvars": "../sdk/PowerPoint/variable.map",
-        "ccprops": "../sdk/PowerPoint/property.map",
-        "api": "../sdk/PowerPoint/apiExport.js",
+        "ccvars": "../../sdkjs/slide/variable.map",
+        "ccprops": "../../sdkjs/slide/property.map",
+        "api": "../../sdkjs/slide/apiExport.js",
         "clientjs": [
-            "../deploy/apps/presentationeditor/main/app-edit.js",
-            "../deploy/apps/presentationeditor/main/app-view.js",
-            "../deploy/apps/presentationeditor/mobile/app-all.js",
-            "../deploy/apps/presentationeditor/embed/app-all.js"
+            "../deploy/web-apps/apps/presentationeditor/main/app-edit.js",
+            "../deploy/web-apps/apps/presentationeditor/main/app-view.js",
+            "../deploy/web-apps/apps/presentationeditor/mobile/app-all.js",
+            "../deploy/web-apps/apps/presentationeditor/embed/app-all.js"
         ],
-        "ccres": "../deploy/sdk/PowerPoint/sdk-all.js"
+        "ccres": "../deploy/sdkjs/slide/sdk-all.js"
     },
     "obf": {
-        "api": "../deploy/sdk/PowerPoint/sdk-all.js",
+        "api": "../deploy/sdkjs/slide/sdk-all.js",
         "pat": "asc_\\w+",
         "keys": "-exp se -use-for-name",
         "apply": [
-            "../deploy/sdk/PowerPoint/sdk-all.js",
-            "../deploy/apps/presentationeditor/main/app-edit.js",
-            "../deploy/apps/presentationeditor/main/app-view.js",
-            "../deploy/apps/presentationeditor/mobile/app-all.js",
-            "../deploy/apps/presentationeditor/embed/app-all.js"
+            "../deploy/sdkjs/slide/sdk-all.js",
+            "../deploy/web-apps/apps/presentationeditor/main/app-edit.js",
+            "../deploy/web-apps/apps/presentationeditor/main/app-view.js",
+            "../deploy/web-apps/apps/presentationeditor/mobile/app-all.js",
+            "../deploy/web-apps/apps/presentationeditor/embed/app-all.js"
         ]
     },
     "tasks": {
