@@ -22,6 +22,7 @@ define([
     'spreadsheeteditor/main/app/view/ChartSettings',
     'spreadsheeteditor/main/app/view/ShapeSettings',
     'spreadsheeteditor/main/app/view/TextArtSettings',
+    'spreadsheeteditor/main/app/view/TableSettings',
     'common/main/lib/component/Scroller'
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
@@ -76,12 +77,21 @@ define([
                 toggleGroup: 'tabpanelbtnsGroup'
             });
 
+            this.btnTable = new Common.UI.Button({
+                hint: this.txtTableSettings,
+                asctype: Common.Utils.documentSettingsType.Table,
+                enableToggle: true,
+                disabled: true,
+                toggleGroup: 'tabpanelbtnsGroup'
+            });
+
             this._settings = [];
             this._settings[Common.Utils.documentSettingsType.Paragraph]   = {panel: "id-paragraph-settings",  btn: this.btnText};
             this._settings[Common.Utils.documentSettingsType.Image]       = {panel: "id-image-settings",      btn: this.btnImage};
             this._settings[Common.Utils.documentSettingsType.Shape]       = {panel: "id-shape-settings",      btn: this.btnShape};
             this._settings[Common.Utils.documentSettingsType.Chart]       = {panel: "id-chart-settings",      btn: this.btnChart};
             this._settings[Common.Utils.documentSettingsType.TextArt]     = {panel: "id-textart-settings",    btn: this.btnTextArt};
+            this._settings[Common.Utils.documentSettingsType.Table]       = {panel: "id-table-settings",      btn: this.btnTable};
 
             return this;
         },
@@ -102,18 +112,21 @@ define([
             this.btnChart.el        = $('#id-right-menu-chart');    this.btnChart.render();
             this.btnShape.el        = $('#id-right-menu-shape');    this.btnShape.render();
             this.btnTextArt.el      = $('#id-right-menu-textart');  this.btnTextArt.render();
+            this.btnTable.el        = $('#id-right-menu-table');    this.btnTable.render();
 
             this.btnText.on('click',            _.bind(this.onBtnMenuClick, this));
             this.btnImage.on('click',           _.bind(this.onBtnMenuClick, this));
             this.btnChart.on('click',           _.bind(this.onBtnMenuClick, this));
             this.btnShape.on('click',           _.bind(this.onBtnMenuClick, this));
             this.btnTextArt.on('click',         _.bind(this.onBtnMenuClick, this));
+            this.btnTable.on('click',           _.bind(this.onBtnMenuClick, this));
 
             this.paragraphSettings = new SSE.Views.ParagraphSettings();
             this.imageSettings = new SSE.Views.ImageSettings();
             this.chartSettings = new SSE.Views.ChartSettings();
             this.shapeSettings = new SSE.Views.ShapeSettings();
             this.textartSettings = new SSE.Views.TextArtSettings();
+            this.tableSettings = new SSE.Views.TableSettings();
 
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
@@ -135,6 +148,7 @@ define([
             this.chartSettings.setApi(api);
             this.shapeSettings.setApi(api);
             this.textartSettings.setApi(api);
+            this.tableSettings.setApi(api);
         },
 
         setMode: function(mode) {
@@ -197,6 +211,7 @@ define([
                 this.shapeSettings.disableControls(disabled);
                 this.imageSettings.disableControls(disabled);
                 this.chartSettings.disableControls(disabled);
+                this.tableSettings.disableControls(disabled);
             } else {
                 var cmp = $("#" + id);
                 if (disabled !== cmp.hasClass('disabled')) {
@@ -224,6 +239,7 @@ define([
         txtImageSettings:           'Image Settings',
         txtShapeSettings:           'Shape Settings',
         txtTextArtSettings:         'Text Art Settings',
-        txtChartSettings:           'Chart Settings'
+        txtChartSettings:           'Chart Settings',
+        txtTableSettings:           'Table Settings'
     }, SSE.Views.RightMenu || {}));
 });

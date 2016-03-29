@@ -59,7 +59,6 @@ define([
             this._locked = false;
             this._originalLook = new CTablePropLook();
 
-            var fullwidth = 218;
             this._originalProps = null;
             this.CellBorders = {};
             this.CellColor = {Value: 1, Color: 'transparent'};  // value=1 - цвет определен - прозрачный или другой, value=0 - цвет не определен, рисуем прозрачным

@@ -1,0 +1,82 @@
+<table cols="2">
+    <tr>
+        <td width="50%">
+            <label class="header"><%= scope.textRows %></label>
+        </td>
+        <td width="50%">
+            <label class="header"><%= scope.textColumns %></label>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small">
+            <div id="table-checkbox-header"></div>
+        </td>
+        <td class="padding-small">
+            <div id="table-checkbox-first"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small">
+            <div id="table-checkbox-total"></div>
+        </td>
+        <td class="padding-small">
+            <div id="table-checkbox-last"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small">
+            <div id="table-checkbox-banded"></div>
+        </td>
+        <td class="padding-small">
+            <div id="table-checkbox-col-banded"></div>
+        </td>
+    </tr>
+    <tr>
+        <td colspan=2 class="padding-small">
+            <div id="table-checkbox-filter"></div>
+        </td>
+    </tr>
+    <tr>
+        <td colspan=2>
+            <label class="header"><%= scope.textTemplate %></label>
+        </td>
+    </tr>
+    <tr>
+        <td colspan=2 class="padding-small">
+            <div class="" id="table-combo-template" style="width: 100%; height: 64px;"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small" colspan=2>
+            <div class="separator horizontal"></div>
+        </td>
+    </tr>
+    <tr>
+        <td colspan=2>
+            <label class="header"><%= scope.textTableName %></label>
+        </td>
+    </tr>
+    <tr>
+        <td colspan=2 class="padding-small">
+            <div id="table-txt-name" class="input-row"  style="width: 100%;"/>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small" colspan=2>
+            <label class="header" style="margin-top: 3px;"><%= scope.textResize %></label>
+            <button type="button" class="btn btn-text-default" id="table-btn-select-data" style="display: inline-block; float:right; min-width: 100px;"><%= scope.textSelectData %></button>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small" colspan=2>
+            <div class="separator horizontal"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small" colspan=2>
+            <label class="header" style="margin-top: 3px;"><%= scope.textEdit %></label>
+            <div id="table-btn-edit" style="display: inline-block; float:right;"></div>
+        </td>
+    </tr>
+    <tr class="finish-cell"></tr>
+</table>

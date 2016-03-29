@@ -45,7 +45,8 @@ define([
             this._settings[Common.Utils.documentSettingsType.Image] =     {panelId: "id-image-settings",      panel: rightMenu.imageSettings,    btn: rightMenu.btnImage,       hidden: 1, locked: false};
             this._settings[Common.Utils.documentSettingsType.Shape] =     {panelId: "id-shape-settings",      panel: rightMenu.shapeSettings,    btn: rightMenu.btnShape,       hidden: 1, locked: false};
             this._settings[Common.Utils.documentSettingsType.TextArt] =   {panelId: "id-textart-settings",    panel: rightMenu.textartSettings,  btn: rightMenu.btnTextArt,     hidden: 1, locked: false};
-            this._settings[Common.Utils.documentSettingsType.Chart] = {panelId: "id-chart-settings",          panel: rightMenu.chartSettings,    btn: rightMenu.btnChart,       hidden: 1, locked: false};
+            this._settings[Common.Utils.documentSettingsType.Chart] =     {panelId: "id-chart-settings",      panel: rightMenu.chartSettings,    btn: rightMenu.btnChart,       hidden: 1, locked: false};
+            this._settings[Common.Utils.documentSettingsType.Table] =     {panelId: "id-table-settings",      panel: rightMenu.tableSettings,    btn: rightMenu.btnTable,       hidden: 1, locked: false};
         },
 
         setApi: function(api) {
@@ -71,18 +72,19 @@ define([
 
         onSelectionChanged: function(info) {
             var SelectedObjects = [],
-                selectType = info.asc_getFlags().asc_getSelectionType();
+                selectType = info.asc_getFlags().asc_getSelectionType(),
+                filterInfo = info.asc_getAutoFilterInfo();
 
             if (selectType == c_oAscSelectionType.RangeImage || selectType == c_oAscSelectionType.RangeShape ||
                 selectType == c_oAscSelectionType.RangeChart || selectType == c_oAscSelectionType.RangeChartText || selectType == c_oAscSelectionType.RangeShapeText) {
                 SelectedObjects = this.api.asc_getGraphicObjectProps();
             }
-
-            if (SelectedObjects.length<=0 && !this.rightmenu.minimizedMode) {
+            
+            if (SelectedObjects.length<=0 && !(filterInfo && filterInfo.asc_getTableName()!==null) && !this.rightmenu.minimizedMode) {
                 this.rightmenu.clearSelection();
             }
 
-            this.onFocusObject(SelectedObjects);
+            this.onFocusObject(SelectedObjects, filterInfo);
 
             var need_disable = info.asc_getLocked(),
                 me = this;
@@ -95,7 +97,7 @@ define([
             }
         },
 
-        onFocusObject: function(SelectedObjects) {
+        onFocusObject: function(SelectedObjects, filterInfo) {
             if (!this.editMode)
                 return;
 
@@ -133,6 +135,12 @@ define([
                 this._settings[settingsType].locked = value.asc_getLocked();
             }
 
+            if (filterInfo && filterInfo.asc_getTableName()!==null) {
+                settingsType = Common.Utils.documentSettingsType.Table;
+                this._settings[settingsType].props = filterInfo;
+                this._settings[settingsType].hidden = 0;
+            }
+            
             var lastactive = -1, currentactive, priorityactive = -1;
             for (i=0; i<this._settings.length; ++i) {
                 var pnl = this._settings[i];
