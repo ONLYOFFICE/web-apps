@@ -43,7 +43,7 @@
     </tr>
     <tr>
         <td colspan=2 class="padding-small">
-            <div class="" id="table-combo-template" style="width: 100%; height: 64px;"></div>
+            <div class="" id="table-combo-template" style="width: 100%; height: 60px;"></div>
         </td>
     </tr>
     <tr>

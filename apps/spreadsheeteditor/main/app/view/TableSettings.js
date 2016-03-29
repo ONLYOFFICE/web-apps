@@ -106,11 +106,10 @@ define([
             this.chFilter.on('change', _.bind(this.onCheckFilterChange, this));
 
             this.cmbTableTemplate = new Common.UI.ComboDataView({
-                itemWidth: 70,
-                itemHeight: 50,
+                itemWidth: 61,
+                itemHeight: 46,
                 menuMaxHeight: 300,
-                enableKeyEvents: true,
-                cls: 'combo-template'
+                enableKeyEvents: true
             });
             this.cmbTableTemplate.render($('#table-combo-template'));
             this.cmbTableTemplate.openButton.menu.cmpEl.css({
