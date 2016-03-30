@@ -150,7 +150,7 @@ define([
                     $(this.el).width(MENU_SCALE_PART);
                     target_pane_parent.css("display", "inline-block" );
                     this.minimizedMode = false;
-                    Common.localStorage.setItem("sse-hidden-right-settings", 0);
+                    Common.localStorage.setItem("sse-hide-right-settings", 0);
                 }
                 target_pane_parent.find('> .active').removeClass('active');
                 target_pane.addClass("active");
@@ -162,7 +162,7 @@ define([
                 target_pane_parent.css("display", "none" );
                 $(this.el).width(SCALE_MIN);
                 this.minimizedMode = true;
-                Common.localStorage.setItem("sse-hidden-right-settings", 1);
+                Common.localStorage.setItem("sse-hide-right-settings", 1);
             }
 
             this.fireEvent('rightmenuclick', [this, btn.options.asctype, this.minimizedMode]);
@@ -216,7 +216,6 @@ define([
             target_pane.css("display", "none" );
             $(this.el).width(SCALE_MIN);
             this.minimizedMode = true;
-            Common.localStorage.setItem("sse-hidden-right-settings", 1);
             Common.NotificationCenter.trigger('layout:changed', 'rightmenu');
         },
 

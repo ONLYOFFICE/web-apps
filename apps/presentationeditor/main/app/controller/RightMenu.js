@@ -71,7 +71,7 @@ define([
             this.rightmenu.fireEvent('editcomplete', this.rightmenu);
         },
 
-        onFocusObject: function(SelectedObjects) {
+        onFocusObject: function(SelectedObjects, open) {
             if (!this.editMode)
                 return;
 
@@ -147,7 +147,7 @@ define([
                 }
             }
 
-            if (!this.rightmenu.minimizedMode) {
+            if (!this.rightmenu.minimizedMode || open) {
                 var active;
 
                 if (priorityactive>-1) active = priorityactive;
@@ -156,7 +156,7 @@ define([
                 else active = Common.Utils.documentSettingsType.Slide;
 
                 if (active !== undefined) {
-                    this.rightmenu.SetActivePane(active);
+                    this.rightmenu.SetActivePane(active, open);
                     this._settings[active].panel.ChangeSettings.call(this._settings[active].panel, this._settings[active].props);
                 }
             }
@@ -214,8 +214,12 @@ define([
                 this.api.asc_registerCallback('asc_doubleClickOnObject', _.bind(this.onDoubleClickOnObject, this));
 
                 var selectedElements = this.api.getSelectedElements();
-                if (selectedElements.length>0)
-                    this.onFocusObject(selectedElements);
+                if (selectedElements.length>0) {
+                    var open = Common.localStorage.getItem("pe-hide-right-settings");
+                    open = (open===null || parseInt(open) == 0);
+                    
+                    this.onFocusObject(selectedElements, open);
+                }
             }
         },
 
