@@ -72,7 +72,7 @@ define([
             this.rightmenu.fireEvent('editcomplete', this.rightmenu);
         },
 
-        onFocusObject: function(SelectedObjects) {
+        onFocusObject: function(SelectedObjects, open) {
             if (!this.editMode)
                 return;
 
@@ -158,7 +158,7 @@ define([
             if (!this._settings[Common.Utils.documentSettingsType.MailMerge].hidden)
                 this._settings[Common.Utils.documentSettingsType.MailMerge].panel.setLocked(this._settings[Common.Utils.documentSettingsType.MailMerge].locked);
 
-            if (!this.rightmenu.minimizedMode) {
+            if (!this.rightmenu.minimizedMode || open) {
                 var active;
 
                 if (priorityactive>-1) active = priorityactive;
@@ -166,8 +166,11 @@ define([
                 else if (currentactive>=0) active = currentactive;
                 else if (!this._settings[Common.Utils.documentSettingsType.MailMerge].hidden) active = Common.Utils.documentSettingsType.MailMerge;
 
+                if (active == undefined && open && lastactive>=0)
+                    active = lastactive;
+                
                 if (active !== undefined) {
-                    this.rightmenu.SetActivePane(active);
+                    this.rightmenu.SetActivePane(active, open);
                     if (active!=Common.Utils.documentSettingsType.MailMerge)
                         this._settings[active].panel.ChangeSettings.call(this._settings[active].panel, this._settings[active].props);
                     else
@@ -237,8 +240,12 @@ define([
 
             if (this.editMode && this.api) {
                 var selectedElements = this.api.getSelectedElements();
-                if (selectedElements.length>0)
-                    this.onFocusObject(selectedElements);
+                if (selectedElements.length>0) {
+                    var open = Common.localStorage.getItem("de-hide-right-settings");
+                    open = (open===null || parseInt(open) == 0);
+
+                    this.onFocusObject(selectedElements, open);
+                }
             }
         },
 
