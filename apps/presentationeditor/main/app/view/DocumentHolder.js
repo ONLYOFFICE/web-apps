@@ -69,6 +69,9 @@ define([
                         menu.alignPosition();
                     }
                     _.delay(function() {
+                        var value = Common.localStorage.getItem("pe-settings-inputmode"); // only for hieroglyphs mode
+                        if (value!==null && parseInt(value) == 1)
+                            me.api.asc_enableKeyEvents(false);
                         menu.cmpEl.focus();
                     }, 10);
 

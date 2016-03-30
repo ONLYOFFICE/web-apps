@@ -164,16 +164,20 @@ define([
                 }
             }
 
-            if (!this.rightmenu.minimizedMode) {
+            if (!this.rightmenu.minimizedMode || this._openRightMenu) {
                 var active;
 
                 if (priorityactive>-1) active = priorityactive;
                 else if (lastactive>=0 && currentactive<0) active = lastactive;
                 else if (currentactive>=0) active = currentactive;
 
+                if (active == undefined && this._openRightMenu && lastactive>=0)
+                    active = lastactive;
+
                 if (active !== undefined) {
-                    this.rightmenu.SetActivePane(active);
+                    this.rightmenu.SetActivePane(active, this._openRightMenu);
                     this._settings[active].panel.ChangeSettings.call(this._settings[active].panel, this._settings[active].props);
+                    this._openRightMenu = false;
                 }
             }
 
@@ -221,6 +225,9 @@ define([
         createDelayedElements: function() {
             var me = this;
             if (this.api) {
+                 var open = Common.localStorage.getItem("sse-hide-right-settings");
+                this._openRightMenu = (open===null || parseInt(open) == 0);
+                
                 this.api.asc_registerCallback('asc_onFocusObject', _.bind(this.onFocusObject, this));
                 this.api.asc_registerCallback('asc_onSelectionChanged', _.bind(this.onSelectionChanged, this));
                 this.api.asc_registerCallback('asc_doubleClickOnObject', _.bind(this.onDoubleClickOnObject, this));
