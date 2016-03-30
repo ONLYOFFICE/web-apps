@@ -72,6 +72,19 @@ define([
                 value       : 'paste'
             });
 
+            me.pmiSelectTable = new Common.UI.MenuItem({
+                caption     : me.txtSelect,
+                menu        : new Common.UI.Menu({
+                    menuAlign   : 'tl-tr',
+                    items: [
+                        { caption: this.selectRowText,      value:  c_oAscChangeSelectionFormatTable.row},
+                        { caption: this.selectColumnText,   value: c_oAscChangeSelectionFormatTable.column},
+                        { caption: this.selectDataText,     value: c_oAscChangeSelectionFormatTable.data},
+                        { caption: this.selectTableText,    value: c_oAscChangeSelectionFormatTable.all}
+                    ]
+                })
+            });
+
             me.pmiInsertEntire = new Common.UI.MenuItem({
                 caption     : me.txtInsert
             });
@@ -94,6 +107,19 @@ define([
                             caption : me.txtColumn,
                             value   : c_oAscInsertOptions.InsertColumns
                         }
+                    ]
+                })
+            });
+            
+            me.pmiInsertTable = new Common.UI.MenuItem({
+                caption     : me.txtInsert,
+                menu        : new Common.UI.Menu({
+                    menuAlign   : 'tl-tr',
+                    items: [
+                        { caption: me.insertRowAboveText, value: c_oAscInsertOptions.InsertTableRowAbove},
+                        { caption: me.insertRowBelowText, value: c_oAscInsertOptions.InsertTableRowBelow},
+                        { caption: me.insertColumnLeftText,  value: c_oAscInsertOptions.InsertTableColLeft},
+                        { caption: me.insertColumnRightText, value: c_oAscInsertOptions.InsertTableColRight}
                     ]
                 })
             });
@@ -120,6 +146,18 @@ define([
                             caption : me.txtColumn,
                             value   : c_oAscDeleteOptions.DeleteColumns
                         }
+                    ]
+                })
+            });
+
+            me.pmiDeleteTable = new Common.UI.MenuItem({
+                caption     : me.txtDelete,
+                menu        : new Common.UI.Menu({
+                    menuAlign   : 'tl-tr',
+                    items: [
+                        { caption: this.deleteRowText,      value: c_oAscDeleteOptions.DeleteRows},
+                        { caption: this.deleteColumnText,   value: c_oAscDeleteOptions.DeleteColumns},
+                        { caption: this.deleteTableText,    value: c_oAscDeleteOptions.DeleteColumns}
                     ]
                 })
             });
@@ -241,10 +279,13 @@ define([
                     me.pmiCopy,
                     me.pmiPaste,
                     {caption: '--'},
+                    me.pmiSelectTable,
                     me.pmiInsertEntire,
                     me.pmiInsertCells,
+                    me.pmiInsertTable,
                     me.pmiDeleteEntire,
                     me.pmiDeleteCells,
+                    me.pmiDeleteTable,
                     me.pmiClear,
                     me.pmiSortCells,
                     {caption: '--'},
@@ -544,7 +585,19 @@ define([
         direct270Text:          'Rotate at 270°',
         txtAddNamedRange:       'Define Name',
         textFreezePanes:        'Freeze Panes',
-        textUnFreezePanes:      'Unfreeze Panes'
+        textUnFreezePanes:      'Unfreeze Panes',
+        txtSelect:              'Select',
+        selectRowText           : 'Select Row',
+        selectColumnText        : 'Select Entire Column',
+        selectDataText          : 'Select Column Data',
+        selectTableText         : 'Select Table',
+        insertRowAboveText      : 'Insert Row Above',
+        insertRowBelowText      : 'Insert Row Below',
+        insertColumnLeftText    : 'Insert Column Left',
+        insertColumnRightText   : 'Insert Column Right',
+        deleteRowText           : 'Delete Row',
+        deleteColumnText        : 'Delete Column',
+        deleteTableText         : 'Delete Table'
 
     }, SSE.Views.DocumentHolder || {}));
 });

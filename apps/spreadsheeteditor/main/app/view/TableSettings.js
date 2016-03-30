@@ -38,6 +38,7 @@ define([
             this._state = {
                 TableName: '',
                 TemplateName: '',
+                Range: '',
                 CheckHeader: false,
                 CheckTotal: false,
                 CheckBanded: false,
@@ -45,7 +46,8 @@ define([
                 CheckLast: false,
                 CheckColBanded: false,
                 CheckFilter: false,
-                DisabledControls: false
+                DisabledControls: false,
+                TableNameError: false
             };
             this.lockedControls = [];
             this._locked = false;
@@ -127,9 +129,8 @@ define([
                 name        : 'name',
                 style       : 'width: 100%;',
                 validateOnBlur: false
-            }).on('changed:after', function(input, newValue, oldValue) {
-                // set table name
             });
+            this.txtTableName.on('changed:after', _.bind(this.onTableNameChanged, this));
             this.lockedControls.push(this.txtTableName);
 
             this.btnSelectData = new Common.UI.Button({
@@ -197,6 +198,44 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this);
         },
 
+        onTableNameChanged: function(input, newValue, oldValue) {
+            this._state.TableName = '';
+            var me = this,
+                isvalid = this.api.asc_checkDefinedName(newValue, null);
+            if (isvalid.asc_getStatus() === true) isvalid = true;
+            else {
+                switch (isvalid.asc_getReason()) {
+                    case c_oAscDefinedNameReason.IsLocked:
+                        isvalid = this.textIsLocked;
+                    break;
+                    case c_oAscDefinedNameReason.Existed:
+                        isvalid = (oldValue.toLowerCase() == newValue.toLowerCase()) ? true : this.textExistName;
+                    break;
+                    case c_oAscDefinedNameReason.NameReserved:
+                        isvalid = this.textReservedName;
+                    break;
+                    default:
+                        isvalid = this.textInvalidName;
+                }
+            }
+            if (isvalid === true) {
+//              this.api.asc_editDefinedNames(this._state.TableName, new Asc.asc_CDefName(newValue, this._state.Range, null, true));
+                Common.NotificationCenter.trigger('edit:complete', this);
+            } else if (!this._state.TableNameError) {
+                this._state.TableNameError = true;
+                Common.UI.alert({
+                    msg: isvalid,
+                    title: this.notcriticalErrorTitle,
+                    iconCls: 'warn',
+                    buttons: ['ok'],
+                    callback: function(btn){
+                        Common.NotificationCenter.trigger('edit:complete', this);
+                        me._state.TableNameError = false;
+                    }
+                });
+            }
+        },
+
         render: function () {
             var el = $(this.el);
             el.html(this.template({
@@ -224,6 +263,8 @@ define([
                     this.txtTableName.setValue(value);
                     this._state.TableName=value;
                 }
+
+                this._state.Range = props.asc_getTableRange();
 
                 //for table-template
                 value = props.asc_getTableStyleName();
@@ -324,8 +365,7 @@ define([
                 var handlerDlg = function(dlg, result) {
                     if (result == 'ok') {
                         me.api.asc_setSelectionDialogMode(c_oAscSelectionDialogType.None);
-                        if (me._state.Tablename)
-                            me.api.asc_changeAutoFilter(me._state.Tablename, c_oAscChangeFilterOptions.style, fmtname);
+//                        me.api.asc_changeAutoFilter(me._state.TableName, c_oAscChangeFilterOptions.style, fmtname);
                     }
 
                     Common.NotificationCenter.trigger('edit:complete', me.toolbar);
@@ -380,7 +420,12 @@ define([
         textFilter              : 'Filter button',
         textTableName           : 'Table Name',
         textResize              : 'Resize table',
-        textSelectData          : 'Select Data'
+        textSelectData          : 'Select Data',
+        textInvalidName         : 'ERROR! Invalid range name',
+        textExistName           : 'ERROR! Range with such a name already exists',
+        textIsLocked            : 'This element is being edited by another user.',
+        notcriticalErrorTitle   : 'Warning',
+        textReservedName        : 'The name you are trying to use is already referenced in cell formulas. Please use some other name.'
 
     }, SSE.Views.TableSettings || {}));
 });
