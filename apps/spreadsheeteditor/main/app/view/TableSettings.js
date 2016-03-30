@@ -126,8 +126,9 @@ define([
                 el          : $('#table-txt-name'),
                 name        : 'name',
                 style       : 'width: 100%;',
-                allowBlank  : false,
-                blankError  : this.txtEmpty
+                validateOnBlur: false
+            }).on('changed:after', function(input, newValue, oldValue) {
+                // set table name
             });
             this.lockedControls.push(this.txtTableName);
 
@@ -147,14 +148,14 @@ define([
                         { caption: this.selectDataText,     value: c_oAscChangeSelectionFormatTable.data, idx: 2 },
                         { caption: this.selectTableText,    value: c_oAscChangeSelectionFormatTable.all, idx: 3 },
                         { caption: '--' },
-                        { caption: this.insertRowAboveText, value: 4 },
-                        { caption: this.insertRowBelowText, value: 5 },
-                        { caption: this.insertColumnLeftText,  value: 6 },
-                        { caption: this.insertColumnRightText, value: 7 },
+                        { caption: this.insertRowAboveText, value: c_oAscInsertOptions.InsertTableRowAbove, idx: 4 },
+                        { caption: this.insertRowBelowText, value: c_oAscInsertOptions.InsertTableRowBelow, idx: 5 },
+                        { caption: this.insertColumnLeftText,  value: c_oAscInsertOptions.InsertTableColLeft, idx: 6 },
+                        { caption: this.insertColumnRightText, value: c_oAscInsertOptions.InsertTableColRight, idx: 7 },
                         { caption: '--' },
-                        { caption: this.deleteRowText,      value: 8 },
-                        { caption: this.deleteColumnText,   value: 9 },
-                        { caption: this.deleteTableText,    value: 10 }
+                        { caption: this.deleteRowText,      value: c_oAscDeleteOptions.DeleteRows, idx: 8 },
+                        { caption: this.deleteColumnText,   value: c_oAscDeleteOptions.DeleteColumns, idx: 9 },
+                        { caption: this.deleteTableText,    value: c_oAscDeleteOptions.DeleteColumns, idx: 10 }
                     ]
                 })
             });
@@ -185,8 +186,13 @@ define([
 
         onEditClick: function(menu, item, e) {
             if (this.api) {
-                if (item.idx>=0 && item.idx<4)
+                if (item.options.idx>=0 && item.options.idx<4)
                     this.api.asc_changeSelectionFormatTable(this._state.TableName, item.value);
+                else if (item.options.idx>=4 && item.options.idx<8) {
+                    this.api.asc_insertCellsInTable(this._state.TableName, item.value);
+                } else {
+                    this.api.asc_deleteCellsInTable(this._state.TableName, item.value);
+                }
             }
             Common.NotificationCenter.trigger('edit:complete', this);
         },
