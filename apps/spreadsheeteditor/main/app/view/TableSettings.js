@@ -126,7 +126,7 @@ define([
 
             this.txtTableName = new Common.UI.InputField({
                 el          : $('#table-txt-name'),
-                name        : 'name',
+                name        : 'tablename',
                 style       : 'width: 100%;',
                 validateOnBlur: false
             });
@@ -144,19 +144,19 @@ define([
                 menu        : new Common.UI.Menu({
                     menuAlign: 'tr-br',
                     items: [
-                        { caption: this.selectRowText,      value:  c_oAscChangeSelectionFormatTable.row, idx: 0 },
+                        { caption: this.selectRowText,      value:  c_oAscChangeSelectionFormatTable.row,   idx: 0 },
                         { caption: this.selectColumnText,   value: c_oAscChangeSelectionFormatTable.column, idx: 1 },
-                        { caption: this.selectDataText,     value: c_oAscChangeSelectionFormatTable.data, idx: 2 },
-                        { caption: this.selectTableText,    value: c_oAscChangeSelectionFormatTable.all, idx: 3 },
+                        { caption: this.selectDataText,     value: c_oAscChangeSelectionFormatTable.data,   idx: 2 },
+                        { caption: this.selectTableText,    value: c_oAscChangeSelectionFormatTable.all,    idx: 3 },
                         { caption: '--' },
-                        { caption: this.insertRowAboveText, value: c_oAscInsertOptions.InsertTableRowAbove, idx: 4 },
-                        { caption: this.insertRowBelowText, value: c_oAscInsertOptions.InsertTableRowBelow, idx: 5 },
-                        { caption: this.insertColumnLeftText,  value: c_oAscInsertOptions.InsertTableColLeft, idx: 6 },
-                        { caption: this.insertColumnRightText, value: c_oAscInsertOptions.InsertTableColRight, idx: 7 },
+                        { caption: this.insertRowAboveText, value: c_oAscInsertOptions.InsertTableRowAbove,     idx: 4 },
+                        { caption: this.insertRowBelowText, value: c_oAscInsertOptions.InsertTableRowBelow,     idx: 5 },
+                        { caption: this.insertColumnLeftText,  value: c_oAscInsertOptions.InsertTableColLeft,   idx: 6 },
+                        { caption: this.insertColumnRightText, value: c_oAscInsertOptions.InsertTableColRight,  idx: 7 },
                         { caption: '--' },
-                        { caption: this.deleteRowText,      value: c_oAscDeleteOptions.DeleteRows, idx: 8 },
-                        { caption: this.deleteColumnText,   value: c_oAscDeleteOptions.DeleteColumns, idx: 9 },
-                        { caption: this.deleteTableText,    value: c_oAscDeleteOptions.DeleteColumns, idx: 10 }
+                        { caption: this.deleteRowText,      value: c_oAscDeleteOptions.DeleteRows,      idx: 8 },
+                        { caption: this.deleteColumnText,   value: c_oAscDeleteOptions.DeleteColumns,   idx: 9 },
+                        { caption: this.deleteTableText,    value: c_oAscDeleteOptions.DeleteTable,     idx: 10 }
                     ]
                 })
             });
@@ -199,7 +199,14 @@ define([
         },
 
         onTableNameChanged: function(input, newValue, oldValue) {
+            var oldName = this._state.TableName;
             this._state.TableName = '';
+
+            if (oldName.toLowerCase() == newValue.toLowerCase()) {
+                Common.NotificationCenter.trigger('edit:complete', this);
+                return;
+            }
+
             var me = this,
                 isvalid = this.api.asc_checkDefinedName(newValue, null);
             if (isvalid.asc_getStatus() === true) isvalid = true;
@@ -209,7 +216,7 @@ define([
                         isvalid = this.textIsLocked;
                     break;
                     case c_oAscDefinedNameReason.Existed:
-                        isvalid = (oldValue.toLowerCase() == newValue.toLowerCase()) ? true : this.textExistName;
+                        isvalid = this.textExistName;
                     break;
                     case c_oAscDefinedNameReason.NameReserved:
                         isvalid = this.textReservedName;
@@ -219,7 +226,7 @@ define([
                 }
             }
             if (isvalid === true) {
-//              this.api.asc_editDefinedNames(this._state.TableName, new Asc.asc_CDefName(newValue, this._state.Range, null, true));
+                this.api.asc_changeDisplayNameTable(oldName, newValue);
                 Common.NotificationCenter.trigger('edit:complete', this);
             } else if (!this._state.TableNameError) {
                 this._state.TableNameError = true;
@@ -421,7 +428,7 @@ define([
         textTableName           : 'Table Name',
         textResize              : 'Resize table',
         textSelectData          : 'Select Data',
-        textInvalidName         : 'ERROR! Invalid range name',
+        textInvalidName         : 'ERROR! Invalid table name',
         textExistName           : 'ERROR! Range with such a name already exists',
         textIsLocked            : 'This element is being edited by another user.',
         notcriticalErrorTitle   : 'Warning',

@@ -58,7 +58,7 @@
     </tr>
     <tr>
         <td colspan=2 class="padding-small">
-            <div id="table-txt-name" class="input-row"  style="width: 100%;"/>
+            <div id="table-txt-name" class="input-row"  style="width: 100%;"></div>
         </td>
     </tr>
     <tr>
