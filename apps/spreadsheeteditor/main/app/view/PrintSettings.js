@@ -185,6 +185,10 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
             this.panelDetails = $('#printadv-dlg-content-to-hide');
             this.updateMetricUnit();
             this.options.afterrender && this.options.afterrender.call(this);
+
+            var value = Common.localStorage.getItem("sse-hide-print-settings");
+            this.extended = (value!==null && parseInt(value)==0);
+            this.handlerShowDetails(this.btnHide);
         },
 
         setRange: function(value) {
@@ -224,11 +228,13 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
                 this.panelDetails.css({'display': 'none'});
                 this.setHeight(286);
                 btn.setCaption(this.textShowDetails);
+                Common.localStorage.setItem("sse-hide-print-settings", 1);
             } else {
                 this.extended = false;
                 this.panelDetails.css({'display': 'block'});
                 this.setHeight(482);
                 btn.setCaption(this.textHideDetails);
+                Common.localStorage.setItem("sse-hide-print-settings", 0);
             }
         },
 

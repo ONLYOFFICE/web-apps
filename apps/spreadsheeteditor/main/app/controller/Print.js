@@ -12,8 +12,11 @@ define([
 
         initialize: function() {
             this.adjPrintParams = new Asc.asc_CAdjustPrint();
-            this.adjPrintParams.asc_setPrintType(c_oAscPrintType.ActiveSheets);
             this.adjPrintParams.asc_setLayoutPageType(c_oAscLayoutPageType.ActualSize);
+
+            var value = Common.localStorage.getItem("sse-print-settings-range");
+            value = (value!==null) ? parseInt(value) : c_oAscPrintType.ActiveSheets;
+            this.adjPrintParams.asc_setPrintType(value);
             this.diffParams = {};
 
             this.addListeners({
@@ -269,7 +272,10 @@ define([
                 if ( this.checkMargins(this.printSettingsDlg) ) {
                     this.savePageOptions(this.printSettingsDlg, this.printSettingsDlg.getRange() == c_oAscPrintType.EntireWorkbook ? -255:undefined);
 
-                    this.adjPrintParams.asc_setPrintType(this.printSettingsDlg.getRange());
+                    var printtype = this.printSettingsDlg.getRange();
+                    this.adjPrintParams.asc_setPrintType(printtype);
+                    Common.localStorage.setItem("sse-print-settings-range", printtype);
+
 //                    this.adjPrintParams.asc_setLayoutPageType(this.printSettingsDlg.getLayout());
                     this.api.asc_Print(this.adjPrintParams, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera);
 
