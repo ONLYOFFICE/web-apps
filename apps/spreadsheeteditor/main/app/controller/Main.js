@@ -81,7 +81,7 @@ define([
                 // Initialize api
                 this.api = new Asc.spreadsheet_api("editor_sdk", "ce-cell-content");
                 this.api.asc_setFontRenderingMode(parseInt(value));
-                this.api.asc_SetFontsPath("../../../../sdkjs/Fonts/");
+                this.api.asc_SetFontsPath("../../../../sdkjs/fonts/");
 
                 this.api.asc_registerCallback('asc_onOpenDocumentProgress',  _.bind(this.onOpenDocument, this));
                 this.api.asc_registerCallback('asc_onEndAction',             _.bind(this.onLongActionEnd, this));
