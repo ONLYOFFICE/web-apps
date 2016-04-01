@@ -107,13 +107,13 @@ define([
             if (item) panel.cmbPaperOrientation.setValue(item.get('value'));
 
             opt = props.asc_getPageMargins();
-            panel.spnMarginLeft.setValue(Common.Utils.Metric.fnRecalcFromMM(opt.asc_getLeft()));
-            panel.spnMarginTop.setValue(Common.Utils.Metric.fnRecalcFromMM(opt.asc_getTop()));
-            panel.spnMarginRight.setValue(Common.Utils.Metric.fnRecalcFromMM(opt.asc_getRight()));
-            panel.spnMarginBottom.setValue(Common.Utils.Metric.fnRecalcFromMM(opt.asc_getBottom()));
+            panel.spnMarginLeft.setValue(Common.Utils.Metric.fnRecalcFromMM(opt.asc_getLeft()), true);
+            panel.spnMarginTop.setValue(Common.Utils.Metric.fnRecalcFromMM(opt.asc_getTop()), true);
+            panel.spnMarginRight.setValue(Common.Utils.Metric.fnRecalcFromMM(opt.asc_getRight()), true);
+            panel.spnMarginBottom.setValue(Common.Utils.Metric.fnRecalcFromMM(opt.asc_getBottom()), true);
 
-            panel.chPrintGrid.setValue(props.asc_getGridLines());
-            panel.chPrintRows.setValue(props.asc_getHeadings());
+            panel.chPrintGrid.setValue(props.asc_getGridLines(), true);
+            panel.chPrintRows.setValue(props.asc_getHeadings(), true);
         },
 
         fillPrintOptions: function(props) {
@@ -149,7 +149,7 @@ define([
 
             var value = panel.cmbLayout.getValue();
             opt.asc_setFitToWidth(value==1 || value==2);
-            opt.asc_getFitToHeight(value==1 || value==3);
+            opt.asc_setFitToHeight(value==1 || value==3);
 
             props.asc_setPageSetup(opt);
 
