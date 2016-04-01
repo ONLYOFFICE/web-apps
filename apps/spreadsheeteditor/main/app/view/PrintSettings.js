@@ -19,7 +19,7 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
         options: {
             alias: 'PrintSettings',
             contentWidth: 280,
-            height: 482
+            height: 471
         },
 
         initialize : function(options) {
@@ -28,14 +28,14 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
                 template: [
                     '<div class="box" style="height:' + (this.options.height-85) + 'px;">',
                         '<div class="menu-panel" style="overflow: hidden;">',
-                            '<div style="height: 90px; line-height: 90px;" class="div-category">' + this.textPrintRange + '</div>',
-                            '<div style="height: 55px; line-height: 55px;" class="div-category">' + this.textPageSize + '</div>',
-                            '<div style="height: 55px; line-height: 55px;" class="div-category">' + this.textPageOrientation + '</div>',
-                            '<div style="height: 122px; line-height: 122px;" class="div-category">' + this.strMargins + '</div>',
-//                            '<div style="height: 73px; line-height: 73px;" class="div-category">' + this.textLayout + '</div>',
-                            '<div style="height: 73px; line-height: 73px;" class="div-category">' + this.strPrint + '</div>',
+                            '<div style="height: 42px; line-height: 42px;" class="div-category">' + this.textPrintRange + '</div>',
+                            '<div style="height: 52px; line-height: 66px;" class="div-category">' + this.textSettings + '</div>',
+                            '<div style="height: 38px; line-height: 38px;" class="div-category">' + this.textPageSize + '</div>',
+                            '<div style="height: 38px; line-height: 38px;" class="div-category">' + this.textPageOrientation + '</div>',
+                            '<div style="height: 38px; line-height: 38px;" class="div-category">' + this.textScaling + '</div>',
+                            '<div style="height: 108px; line-height: 33px;" class="div-category">' + this.strMargins + '</div>',
+                            '<div style="height: 58px; line-height: 40px;" class="div-category">' + this.strPrint + '</div>',
                         '</div>',
-                        '<div class="separator"/>',
                         '<div class="content-panel">' + _.template(contentTemplate)({scope: this}) + '</div>',
                     '</div>',
                     '<div class="separator horizontal"/>',
@@ -53,32 +53,33 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
         render: function() {
             Common.Views.AdvancedSettingsWindow.prototype.render.call(this);
 
-            this.radioCurrent = new Common.UI.RadioBox({
-                el: $('#printadv-dlg-radio-current'),
-                labelText: this.textCurrentSheet,
-                name: 'asc-radio-printrange',
-                checked: true
+            this.cmbRange = new Common.UI.ComboBox({
+                el          : $('#printadv-dlg-combo-range'),
+                style       : 'width: 132px;',
+                menuStyle   : 'min-width: 132px;max-height: 280px;',
+                editable    : false,
+                cls         : 'input-group-nr',
+                 data        : [
+                    { value: c_oAscPrintType.ActiveSheets, displayValue: this.textCurrentSheet },
+                    { value: c_oAscPrintType.EntireWorkbook, displayValue: this.textAllSheets },
+                    { value: c_oAscPrintType.Selection, displayValue: this.textSelection }
+                ]
             });
-            this.radioCurrent.on('change', _.bind(this.onRadioRangeChange,this));
+            this.cmbRange.on('selected', _.bind(this.comboRangeChange, this));
 
-            this.radioAll = new Common.UI.RadioBox({
-                el: $('#printadv-dlg-radio-all'),
-                labelText: this.textAllSheets,
-                name: 'asc-radio-printrange'
+            this.cmbSheet = new Common.UI.ComboBox({
+                el          : $('#printadv-dlg-combo-sheets'),
+                style       : 'width: 242px;',
+                menuStyle   : 'min-width: 242px;max-height: 280px;',
+                editable    : false,
+                cls         : 'input-group-nr',
+                data        : []
             });
-            this.radioAll.on('change', _.bind(this.onRadioRangeChange,this));
-
-            this.radioSelection = new Common.UI.RadioBox({
-                el: $('#printadv-dlg-radio-selection'),
-                labelText: this.textSelection,
-                name: 'asc-radio-printrange'
-            });
-            this.radioSelection.on('change', _.bind(this.onRadioRangeChange,this));
 
             this.cmbPaperSize = new Common.UI.ComboBox({
                 el          : $('#printadv-dlg-combo-pages'),
-                style       : 'width: 260px;',
-                menuStyle   : 'max-height: 280px; min-width: 260px;',
+                style       : 'width: 242px;',
+                menuStyle   : 'max-height: 280px; min-width: 242px;',
                 editable    : false,
                 cls         : 'input-group-nr',
                 data : [
@@ -100,8 +101,8 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
 
             this.cmbPaperOrientation = new Common.UI.ComboBox({
                 el          : $('#printadv-dlg-combo-orient'),
-                style       : 'width: 115px;',
-                menuStyle   : 'min-width: 115px;',
+                style       : 'width: 132px;',
+                menuStyle   : 'min-width: 132px;',
                 editable    : false,
                 cls         : 'input-group-nr',
                 data        : [
@@ -123,7 +124,7 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
             this.spnMarginTop = new Common.UI.MetricSpinner({
                 el: $('#printadv-dlg-spin-margin-top'),
                 step: .1,
-                width: 115,
+                width: 110,
                 defaultUnit : "cm",
                 value: '0 cm',
                 maxValue: 48.25,
@@ -134,7 +135,7 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
             this.spnMarginBottom = new Common.UI.MetricSpinner({
                 el: $('#printadv-dlg-spin-margin-bottom'),
                 step: .1,
-                width: 115,
+                width: 110,
                 defaultUnit : "cm",
                 value: '0 cm',
                 maxValue: 48.25,
@@ -145,7 +146,7 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
             this.spnMarginLeft = new Common.UI.MetricSpinner({
                 el: $('#printadv-dlg-spin-margin-left'),
                 step: .1,
-                width: 115,
+                width: 110,
                 defaultUnit : "cm",
                 value: '0.19 cm',
                 maxValue: 48.25,
@@ -156,7 +157,7 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
             this.spnMarginRight = new Common.UI.MetricSpinner({
                 el: $('#printadv-dlg-spin-margin-right'),
                 step: .1,
-                width: 115,
+                width: 110,
                 defaultUnit : "cm",
                 value: '0.19 cm',
                 maxValue: 48.25,
@@ -164,18 +165,19 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
             });
             this.spinners.push(this.spnMarginRight);
 
-//            this.radioActual = new Common.UI.RadioBox({
-//                el: $('#printadv-dlg-radio-actual'),
-//                labelText: this.textActualSize,
-//                name: 'asc-radio-printlayout'
-//            });
-//
-//            this.radioFit = new Common.UI.RadioBox({
-//                el: $('#printadv-dlg-radio-fit'),
-//                labelText: this.textFit,
-//                name: 'asc-radio-printlayout',
-//                checked: true
-//            });
+            this.cmbLayout = new Common.UI.ComboBox({
+                el          : $('#printadv-dlg-combo-layout'),
+                style       : 'width: 242px;',
+                menuStyle   : 'min-width: 242px;',
+                editable    : false,
+                cls         : 'input-group-nr',
+                data        : [
+                    { value: 0, displayValue: this.textActualSize },
+                    { value: 1, displayValue: this.textFitPage },
+                    { value: 2, displayValue: this.textFitCols },
+                    { value: 3, displayValue: this.textFitRows }
+                ]
+            });
 
             this.btnHide = new Common.UI.Button({
                 el: $('#printadv-dlg-btn-hide')
@@ -192,24 +194,15 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
         },
 
         setRange: function(value) {
-            (value==c_oAscPrintType.ActiveSheets) ? this.radioCurrent.setValue(true) : ((value==c_oAscPrintType.EntireWorkbook) ? this.radioAll.setValue(true) : this.radioSelection.setValue(true));
-        },
-
-        setLayout: function(value) {
-//            (value==c_oAscLayoutPageType.ActualSize) ? this.radioActual.setValue(true) : this.radioFit.setValue(true);
+            this.cmbRange.setValue(value);
         },
 
         getRange: function() {
-            return (this.radioCurrent.getValue() ? c_oAscPrintType.ActiveSheets : (this.radioAll.getValue() ? c_oAscPrintType.EntireWorkbook : c_oAscPrintType.Selection));
+            return this.cmbRange.getValue();
         },
 
-        getLayout: function() {
-//            return (this.radioActual.getValue() ? c_oAscLayoutPageType.ActualSize : c_oAscLayoutPageType.FitToWidth);
-        },
-
-        onRadioRangeChange: function(radio, newvalue) {
-            if (newvalue)
-                this.fireEvent('changerange', this);
+        comboRangeChange: function(combo, record) {
+            this.fireEvent('changerange', this);
         },
 
         updateMetricUnit: function() {
@@ -226,13 +219,13 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
             if (!this.extended) {
                 this.extended = true;
                 this.panelDetails.css({'display': 'none'});
-                this.setHeight(286);
+                this.setHeight(303);
                 btn.setCaption(this.textShowDetails);
                 Common.localStorage.setItem("sse-hide-print-settings", 1);
             } else {
                 this.extended = false;
                 this.panelDetails.css({'display': 'block'});
-                this.setHeight(482);
+                this.setHeight(471);
                 btn.setCaption(this.textHideDetails);
                 Common.localStorage.setItem("sse-hide-print-settings", 0);
             }
@@ -258,9 +251,13 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
         textAllSheets:          'All Sheets',
         textSelection:          'Selection',
         textActualSize:         'Actual Size',
-        textFit:                'Fit to width',
+        textFitPage:            'Fit Sheet on One Page',
+        textFitCols:            'Fit All Columns on One Page',
+        textFitRows:            'Fit All Rows on One Page',
         textShowDetails:        'Show Details',
         cancelButtonText:       'Cancel',
-        textHideDetails:        'Hide Details'
+        textHideDetails:        'Hide Details',
+        textScaling:            'Scaling',
+        textSettings:           'Sheet Settings'
     }, SSE.Views.PrintSettings || {}));
 });

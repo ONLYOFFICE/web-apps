@@ -11,13 +11,13 @@ define([
         ],
 
         initialize: function() {
-            this.adjPrintParams = new Asc.asc_CAdjustPrint();
-            this.adjPrintParams.asc_setLayoutPageType(c_oAscLayoutPageType.ActualSize);
-
             var value = Common.localStorage.getItem("sse-print-settings-range");
             value = (value!==null) ? parseInt(value) : c_oAscPrintType.ActiveSheets;
+
+            this.adjPrintParams = new Asc.asc_CAdjustPrint();
             this.adjPrintParams.asc_setPrintType(value);
-            this.diffParams = {};
+
+            this._changedProps = null;
 
             this.addListeners({
                 'MainSettingsPrint': {
@@ -35,11 +35,12 @@ define([
         },
 
         onAfterRender: function(view) {
-            this.printSettings.cmbSheet.on('selected', _.bind(this.comboSheetsChange, this));
+            this.printSettings.cmbSheet.on('selected', _.bind(this.comboSheetsChange, this, this.printSettings));
             this.printSettings.btnOk.on('click', _.bind(this.querySavePrintSettings, this));
             var toolbar = SSE.getController('Toolbar').getView('Toolbar');
             if (toolbar)
                 toolbar.mnuPrint.on('item:click', _.bind(this.openPrintSettings, this));
+            this.registerControlEvents(this.printSettings);
         },
 
         setApi: function(o) {
@@ -49,16 +50,15 @@ define([
 
         updateSheetsInfo: function() {
             if (this.printSettings.isVisible()) {
-                this.updateSettings();
+                this.updateSettings(this.printSettings);
             } else {
                 this.isFillSheets = false;
-                this.diffParams = {};
             }
         },
         
-        updateSettings: function() {
+        updateSettings: function(panel) {
             var wc = this.api.asc_getWorksheetsCount(), i = -1;
-            var items = [{displayValue: this.strAllSheets, value:-255}];
+            var items = [];
 
             while (++i < wc) {
                 if (!this.api.asc_isWorksheetHidden(i)) {
@@ -69,87 +69,16 @@ define([
                 }
             }
 
-            this.printSettings.cmbSheet.store.reset(items);
-            var item = this.printSettings.cmbSheet.store.findWhere({value: this.printSettings.cmbSheet.getValue()}) ||
-                       this.printSettings.cmbSheet.store.findWhere({value: this.api.asc_getActiveWorksheetIndex()});
+            panel.cmbSheet.store.reset(items);
+            var item = panel.cmbSheet.store.findWhere({value: panel.cmbSheet.getValue()}) ||
+                       panel.cmbSheet.store.findWhere({value: this.api.asc_getActiveWorksheetIndex()});
             if (item) {
-                this.printSettings.cmbSheet.setValue(item.get('value'));
+                panel.cmbSheet.setValue(item.get('value'));
             }
         },
 
-        comboSheetsChange: function(combo, record) {
-            var newvalue = record.value;
-            if (newvalue == -255) {
-                this.indeterminatePageOptions(this.printSettings);
-            } else {
-                this.fillPageOptions(this.printSettings, this.api.asc_getPageOptions(newvalue));
-            }
-        },
-
-        isDiffRefill: function() {
-            for (var item in this.diffParams) {
-                if (this.diffParams[item] == undefined) return true;
-            }
-
-            return item == undefined;
-        },
-
-        indeterminatePageOptions: function(panel) {
-            if (this.isDiffRefill()) {
-                var wc = this.api.asc_getWorksheetsCount();
-                if (wc == 1) {
-                    this.diffParams.orientation = false;
-                    this.diffParams.size = false;
-                    this.diffParams.headings = false;
-                    this.diffParams.grid = false;
-                    this.diffParams.margintop = false;
-                    this.diffParams.marginright = false;
-                    this.diffParams.marginbottom = false;
-                    this.diffParams.marginleft = false;
-                } else {
-                    var index = 0;
-                    var opts = this.api.asc_getPageOptions(index), opts_next;
-
-                    while (++index < wc) {
-                        opts_next = this.api.asc_getPageOptions(index);
-
-                        if (this.diffParams.orientation == undefined)
-                            this.diffParams.orientation = opts.asc_getPageSetup().asc_getOrientation() != opts_next.asc_getPageSetup().asc_getOrientation();
-
-                        if (this.diffParams.size == undefined)
-                            this.diffParams.size = (opts.asc_getPageSetup().asc_getWidth() != opts_next.asc_getPageSetup().asc_getWidth() || opts.asc_getPageSetup().asc_getHeight() != opts_next.asc_getPageSetup().asc_getHeight());
-
-                        if (this.diffParams.headings == undefined)
-                            this.diffParams.headings = opts.asc_getHeadings() != opts_next.asc_getHeadings();
-
-                        if (this.diffParams.grid == undefined)
-                            this.diffParams.grid = opts.asc_getGridLines() != opts_next.asc_getGridLines();
-
-                        if (this.diffParams.margintop == undefined)
-                            this.diffParams.margintop = Math.abs(opts.asc_getPageMargins().asc_getTop()-opts_next.asc_getPageMargins().asc_getTop()) > 0.001;
-
-                        if (this.diffParams.marginright == undefined)
-                            this.diffParams.marginright = Math.abs(opts.asc_getPageMargins().asc_getRight() - opts_next.asc_getPageMargins().asc_getRight()) > 0.001;
-
-                        if (this.diffParams.marginbottom == undefined)
-                            this.diffParams.marginbottom = Math.abs(opts.asc_getPageMargins().asc_getBottom() - opts_next.asc_getPageMargins().asc_getBottom()) > 0.001;
-
-                        if (this.diffParams.marginleft == undefined)
-                            this.diffParams.marginleft = Math.abs(opts.asc_getPageMargins().asc_getLeft() - opts_next.asc_getPageMargins().asc_getLeft()) > 0.001;
-                    }
-                }
-            }
-
-            if (this.diffParams.orientation) panel.cmbPaperOrientation.setValue('-');
-            if (this.diffParams.size) panel.cmbPaperSize.setValue('-');
-
-            if (this.diffParams.margintop) panel.spnMarginTop.setValue('-');
-            if (this.diffParams.marginright) panel.spnMarginRight.setValue('-');
-            if (this.diffParams.marginbottom) panel.spnMarginBottom.setValue('-');
-            if (this.diffParams.marginleft) panel.spnMarginLeft.setValue('-');
-
-            if (this.diffParams.grid) panel.chPrintGrid.setValue('indeterminate');
-            if (this.diffParams.headings) panel.chPrintRows.setValue('indeterminate');
+        comboSheetsChange: function(panel, combo, record) {
+            this.fillPageOptions(panel, this._changedProps[record.value] ? this._changedProps[record.value] : this.api.asc_getPageOptions(record.value));
         },
 
         fillPageOptions: function(panel, props) {
@@ -167,6 +96,16 @@ define([
             else
                 panel.cmbPaperSize.setValue('Custom (' + w +' x ' + h);
 
+            var fitwidth = opt.asc_getFitToWidth(),
+                fitheight = opt.asc_getFitToHeight();
+            if (!fitwidth && !fitheight) panel.cmbLayout.setValue(0);
+            else if (fitwidth && fitheight) panel.cmbLayout.setValue(1);
+            else if (fitwidth && !fitheight) panel.cmbLayout.setValue(2);
+            else panel.cmbLayout.setValue(3);
+
+            item = panel.cmbPaperOrientation.store.findWhere({value: opt.asc_getOrientation()});
+            if (item) panel.cmbPaperOrientation.setValue(item.get('value'));
+
             opt = props.asc_getPageMargins();
             panel.spnMarginLeft.setValue(Common.Utils.Metric.fnRecalcFromMM(opt.asc_getLeft()));
             panel.spnMarginTop.setValue(Common.Utils.Metric.fnRecalcFromMM(opt.asc_getTop()));
@@ -177,9 +116,20 @@ define([
             panel.chPrintRows.setValue(props.asc_getHeadings());
         },
 
-        fillPrintOptions: function(panel, props) {
-            panel.setRange(props.asc_getPrintType());
-//            panel.setLayout(props.asc_getLayoutPageType());
+        fillPrintOptions: function(props) {
+            this.printSettingsDlg.setRange(props.asc_getPrintType());
+            this.onChangeRange();
+        },
+
+        onChangeRange: function() {
+            var printtype = this.printSettingsDlg.getRange(),
+                store = this.printSettingsDlg.cmbSheet.store,
+                item = (printtype !== c_oAscPrintType.EntireWorkbook) ? store.findWhere({value: this.api.asc_getActiveWorksheetIndex()}) : store.at(0);
+            if (item) {
+                this.printSettingsDlg.cmbSheet.setValue(item.get('value'));
+                this.comboSheetsChange(this.printSettingsDlg, this.printSettingsDlg.cmbSheet, item.toJSON());
+            }
+            this.printSettingsDlg.cmbSheet.setDisabled(printtype !== c_oAscPrintType.EntireWorkbook);
         },
 
         getPageOptions: function(panel) {
@@ -193,10 +143,13 @@ define([
             var pagew = /^\d{3}\.?\d*/.exec(panel.cmbPaperSize.getValue());
             var pageh = /\d{3}\.?\d*$/.exec(panel.cmbPaperSize.getValue());
 
-//        if (pagew && pageh) {
             opt.asc_setWidth(!pagew ? undefined : parseFloat(pagew[0]));
             opt.asc_setHeight(!pageh? undefined : parseFloat(pageh[0]));
-//        }
+
+
+            var value = panel.cmbLayout.getValue();
+            opt.asc_setFitToWidth(value==1 || value==2);
+            opt.asc_getFitToHeight(value==1 || value==3);
 
             props.asc_setPageSetup(opt);
 
@@ -211,45 +164,28 @@ define([
             return props;
         },
 
-        savePageOptions: function(panel, index) {
-            var opts = this.getPageOptions(panel);
-
-            if (index == -255) {
-                var wc = this.api.asc_getWorksheetsCount();
+        savePageOptions: function(panel) {
+            var wc = this.api.asc_getWorksheetsCount(),
                 index = -1;
 
-                while (++index < wc) {
-                    this.api.asc_setPageOptions(opts, index);
-                }
-
-                if (this.diffParams.orientation) this.diffParams.orientation = opts.asc_getPageSetup().asc_getOrientation() == undefined;
-                if (this.diffParams.size) this.diffParams.size = (opts.asc_getPageSetup().asc_getWidth() == undefined || opts.asc_getPageSetup().asc_getHeight() == undefined);
-                if (this.diffParams.headings) this.diffParams.headings = opts.asc_getHeadings() == undefined;
-                if (this.diffParams.grid) this.diffParams.grid = opts.asc_getGridLines() == undefined;
-                if (this.diffParams.margintop) this.diffParams.margintop = opts.asc_getPageMargins().asc_getTop() == undefined;
-                if (this.diffParams.marginright) this.diffParams.marginright = opts.asc_getPageMargins().asc_getRight() == undefined;
-                if (this.diffParams.marginbottom) this.diffParams.marginbottom = opts.asc_getPageMargins().asc_getBottom() == undefined;
-                if (this.diffParams.marginleft) this.diffParams.marginleft = opts.asc_getPageMargins().asc_getLeft() == undefined;
-            } else {
-                this.api.asc_setPageOptions(opts, index);
-                this.diffParams = {};
+            while (++index < wc) {
+                if (this._changedProps[index])
+                    this.api.asc_setPageOptions(this._changedProps[index], index);
             }
         },
 
         onShowMainSettingsPrint: function() {
+            this._changedProps = [];
+
             if (!this.isFillSheets) {
                 this.isFillSheets = true;
-                this.updateSettings();
+                this.updateSettings(this.printSettings);
             }
 
-            if (!this.isUpdatedSettings) {
-                this.isUpdatedSettings = true;
-
-                var item = this.printSettings.cmbSheet.store.findWhere({value: this.api.asc_getActiveWorksheetIndex()});
-                if (item) {
-                    this.printSettings.cmbSheet.setValue(item.get('value'));
-                    this.comboSheetsChange(this.printSettings.cmbSheet, item.toJSON());
-                }
+            var item = this.printSettings.cmbSheet.store.findWhere({value: this.api.asc_getActiveWorksheetIndex()});
+            if (item) {
+                this.printSettings.cmbSheet.setValue(item.get('value'));
+                this.comboSheetsChange(this.printSettings, this.printSettings.cmbSheet, item.toJSON());
             }
         },
 
@@ -258,8 +194,11 @@ define([
                 this.printSettingsDlg = (new SSE.Views.PrintSettings({
                     handler: _.bind(this.resultPrintSettings,this),
                     afterrender: _.bind(function() {
-                        this.fillPageOptions(this.printSettingsDlg, this.api.asc_getPageOptions());
-                        this.fillPrintOptions(this.printSettingsDlg, this.adjPrintParams);
+                        this._changedProps = [];
+                        this.updateSettings(this.printSettingsDlg);
+                        this.printSettingsDlg.cmbSheet.on('selected', _.bind(this.comboSheetsChange, this, this.printSettingsDlg));
+                        this.fillPrintOptions(this.adjPrintParams);
+                        this.registerControlEvents(this.printSettingsDlg);
                     },this)
                 }));
                 this.printSettingsDlg.show();
@@ -270,36 +209,23 @@ define([
             var view = SSE.getController('Toolbar').getView('Toolbar');
             if (result == 'ok') {
                 if ( this.checkMargins(this.printSettingsDlg) ) {
-                    this.savePageOptions(this.printSettingsDlg, this.printSettingsDlg.getRange() == c_oAscPrintType.EntireWorkbook ? -255:undefined);
+                    this.savePageOptions(this.printSettingsDlg);
 
                     var printtype = this.printSettingsDlg.getRange();
                     this.adjPrintParams.asc_setPrintType(printtype);
                     Common.localStorage.setItem("sse-print-settings-range", printtype);
 
-//                    this.adjPrintParams.asc_setLayoutPageType(this.printSettingsDlg.getLayout());
                     this.api.asc_Print(this.adjPrintParams, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera);
-
-                    this.isUpdatedSettings = false;
+                    Common.NotificationCenter.trigger('edit:complete', view);
                 } else
                     return true;
-            }
-
-            Common.NotificationCenter.trigger('edit:complete', view);
-        },
-
-        onChangeRange: function() {
-            var newvalue = this.printSettingsDlg.getRange();
-            if (newvalue == c_oAscPrintType.EntireWorkbook) {
-                this.indeterminatePageOptions(this.printSettingsDlg);
-            } else if (this.lastCheckedRange == c_oAscPrintType.EntireWorkbook) {
-                this.fillPageOptions(this.printSettingsDlg, this.api.asc_getPageOptions());
-            }
-            this.lastCheckedRange = newvalue;
+            } else
+                Common.NotificationCenter.trigger('edit:complete', view);
         },
 
         querySavePrintSettings: function() {
             if ( this.checkMargins(this.printSettings) ) {
-                this.savePageOptions(this.printSettings, this.printSettings.cmbSheet.getValue());
+                this.savePageOptions(this.printSettings);
                 this.printSettings.applySettings();
             }
         },
@@ -346,6 +272,24 @@ define([
             return true;
         },
 
+        registerControlEvents: function(panel) {
+            panel.cmbPaperSize.on('selected', _.bind(this.propertyChange, this, panel));
+            panel.cmbPaperOrientation.on('selected', _.bind(this.propertyChange, this, panel));
+            panel.cmbLayout.on('selected', _.bind(this.propertyChange, this, panel));
+            panel.spnMarginTop.on('change', _.bind(this.propertyChange, this, panel));
+            panel.spnMarginBottom.on('change', _.bind(this.propertyChange, this, panel));
+            panel.spnMarginLeft.on('change', _.bind(this.propertyChange, this, panel));
+            panel.spnMarginRight.on('change', _.bind(this.propertyChange, this, panel));
+            panel.chPrintGrid.on('change', _.bind(this.propertyChange, this, panel));
+            panel.chPrintRows.on('change', _.bind(this.propertyChange, this, panel));
+        },
+
+        propertyChange: function(panel) {
+            if (this._changedProps) {
+                this._changedProps[panel.cmbSheet.getValue()] = this.getPageOptions(panel);
+            }
+        },
+        
         warnCheckMargings:      'Margins are incorrect',
         strAllSheets:           'All Sheets',
         textWarning: 'Warning'

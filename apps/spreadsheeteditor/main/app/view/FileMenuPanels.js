@@ -102,7 +102,7 @@ define([
                 el: $('#id-settings-menu'),
                 store: new Common.UI.DataViewStore([
                     {name: this.txtGeneral, panel: this.generalSettings, iconCls:'mnu-settings-general', selected: true},
-                    {name: this.txtPrint, panel: this.printSettings, iconCls:'mnu-print'}
+                    {name: this.txtPageSettings, panel: this.printSettings, iconCls:'mnu-print'}
                 ]),
                 itemTemplate: _.template([
                     '<div id="<%= id %>" class="settings-item-wrap">',
@@ -141,7 +141,7 @@ define([
         },
 
         txtGeneral: 'General',
-        txtPrint: 'Print'
+        txtPageSettings: 'Page Settings'
     }, SSE.Views.FileMenuPanels.Settings || {}));
 
     SSE.Views.MainSettingsPrint = Common.UI.BaseView.extend(_.extend({
@@ -160,6 +160,10 @@ define([
                 '<tr>',
                     '<td class="left"><label><%= scope.textPageOrientation %></label></td>',
                     '<td class="right"><span id="advsettings-print-combo-orient" /></td>',
+                '</tr>','<tr class="divider"></tr>',
+                '<tr>',
+                    '<td class="left"><label><%= scope.textPageScaling %></label></td>',
+                    '<td class="right"><span id="advsettings-print-combo-layout" /></td>',
                 '</tr>','<tr class="divider"></tr>',
                 '<tr>',
                     '<td class="left" style="vertical-align: top;"><label><%= scope.strMargins %></label></td>',
@@ -213,19 +217,17 @@ define([
 
             this.cmbSheet = new Common.UI.ComboBox({
                 el          : $('#advsettings-print-combo-sheets'),
-                style       : 'width: 260px;',
-                menuStyle   : 'min-width: 260px;max-height: 280px;',
+                style       : 'width: 242px;',
+                menuStyle   : 'min-width: 242px;max-height: 280px;',
                 editable    : false,
                 cls         : 'input-group-nr',
-                data        : [
-                    { value: -255, displayValue: this.strAllSheets }
-                ]
+                data        : []
             });
 
             this.cmbPaperSize = new Common.UI.ComboBox({
                 el          : $('#advsettings-print-combo-pages'),
-                style       : 'width: 260px;',
-                menuStyle   : 'max-height: 280px; min-width: 260px;',
+                style       : 'width: 242px;',
+                menuStyle   : 'max-height: 280px; min-width: 242px;',
                 editable    : false,
                 cls         : 'input-group-nr',
                 data : [
@@ -247,13 +249,27 @@ define([
 
             this.cmbPaperOrientation = new Common.UI.ComboBox({
                 el          : $('#advsettings-print-combo-orient'),
-                style       : 'width: 200px;',
-                menuStyle   : 'min-width: 200px;',
+                style       : 'width: 132px;',
+                menuStyle   : 'min-width: 132px;',
                 editable    : false,
                 cls         : 'input-group-nr',
                 data        : [
                     { value: c_oAscPageOrientation.PagePortrait, displayValue: this.strPortrait },
                     { value: c_oAscPageOrientation.PageLandscape, displayValue: this.strLandscape }
+                ]
+            });
+
+            this.cmbLayout = new Common.UI.ComboBox({
+                el          : $('#advsettings-print-combo-layout'),
+                style       : 'width: 242px;',
+                menuStyle   : 'min-width: 242px;',
+                editable    : false,
+                cls         : 'input-group-nr',
+                data        : [
+                    { value: 0, displayValue: this.textActualSize },
+                    { value: 1, displayValue: this.textFitPage },
+                    { value: 2, displayValue: this.textFitCols },
+                    { value: 3, displayValue: this.textFitRows }
                 ]
             });
 
@@ -270,7 +286,7 @@ define([
             this.spnMarginTop = new Common.UI.MetricSpinner({
                 el: $('#advsettings-spin-margin-top'),
                 step: .1,
-                width: 90,
+                width: 110,
                 defaultUnit : "cm",
                 value: '0 cm',
                 maxValue: 48.25,
@@ -281,7 +297,7 @@ define([
             this.spnMarginBottom = new Common.UI.MetricSpinner({
                 el: $('#advsettings-spin-margin-bottom'),
                 step: .1,
-                width: 90,
+                width: 110,
                 defaultUnit : "cm",
                 value: '0 cm',
                 maxValue: 48.25,
@@ -292,7 +308,7 @@ define([
             this.spnMarginLeft = new Common.UI.MetricSpinner({
                 el: $('#advsettings-spin-margin-left'),
                 step: .1,
-                width: 90,
+                width: 110,
                 defaultUnit : "cm",
                 value: '0.19 cm',
                 maxValue: 48.25,
@@ -303,7 +319,7 @@ define([
             this.spnMarginRight = new Common.UI.MetricSpinner({
                 el: $('#advsettings-spin-margin-right'),
                 step: .1,
-                width: 90,
+                width: 110,
                 defaultUnit : "cm",
                 value: '0.19 cm',
                 maxValue: 48.25,
@@ -365,7 +381,12 @@ define([
         textPageSize:           'Page Size',
         textPageOrientation:    'Page Orientation',
         strPrint:               'Print',
-        textSettings:           'Settings for'
+        textSettings:           'Settings for',
+        textPageScaling:        'Scaling',
+        textActualSize:         'Actual Size',
+        textFitPage:            'Fit Sheet on One Page',
+        textFitCols:            'Fit All Columns on One Page',
+        textFitRows:            'Fit All Rows on One Page'
     }, SSE.Views.MainSettingsPrint || {}));
 
     SSE.Views.FileMenuPanels.MainSettingsGeneral = Common.UI.BaseView.extend(_.extend({
