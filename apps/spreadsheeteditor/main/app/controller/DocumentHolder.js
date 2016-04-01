@@ -1162,6 +1162,18 @@ define([
                 documentHolder.pmiInsFunction.setVisible(iscellmenu||insfunc);
                 documentHolder.pmiAddNamedRange.setVisible(iscellmenu && !iscelledit);
 
+                if (isintable) {
+                    documentHolder.pmiInsertTable.menu.items[0].setDisabled(!formatTableInfo.asc_getIsInsertRowAbove());
+                    documentHolder.pmiInsertTable.menu.items[1].setDisabled(!formatTableInfo.asc_getIsInsertRowBelow());
+                    documentHolder.pmiInsertTable.menu.items[2].setDisabled(!formatTableInfo.asc_getIsInsertColumnLeft());
+                    documentHolder.pmiInsertTable.menu.items[3].setDisabled(!formatTableInfo.asc_getIsInsertColumnRight());
+
+                    documentHolder.pmiDeleteTable.menu.items[0].setDisabled(!formatTableInfo.asc_getIsDeleteRow());
+                    documentHolder.pmiDeleteTable.menu.items[1].setDisabled(!formatTableInfo.asc_getIsDeleteColumn());
+                    documentHolder.pmiDeleteTable.menu.items[2].setDisabled(!formatTableInfo.asc_getIsDeleteTable());
+
+                }
+
                 var hyperinfo = cellinfo.asc_getHyperlink();
                 documentHolder.menuHyperlink.setVisible(iscellmenu && hyperinfo && !iscelledit);
                 documentHolder.menuAddHyperlink.setVisible(iscellmenu && !hyperinfo && !iscelledit);

@@ -161,10 +161,16 @@ define([
                 })
             });
             this.btnEdit.render( $('#table-btn-edit')) ;
-            this.btnEdit.menu.on('show:after', _.bind( function(){
+            this.btnEdit.menu.on('show:after', _.bind( function(menu){
                 if (this.api) {
-//                    this.mnuMerge.setDisabled(!this.api.CheckBeforeMergeCells());
-//                    this.mnuSplit.setDisabled(!this.api.CheckBeforeSplitCells());
+                    menu.items[5].setDisabled(!this._originalProps.asc_getIsInsertRowAbove());
+                    menu.items[6].setDisabled(!this._originalProps.asc_getIsInsertRowBelow());
+                    menu.items[7].setDisabled(!this._originalProps.asc_getIsInsertColumnLeft());
+                    menu.items[8].setDisabled(!this._originalProps.asc_getIsInsertColumnRight());
+
+                    menu.items[10].setDisabled(!this._originalProps.asc_getIsDeleteRow());
+                    menu.items[11].setDisabled(!this._originalProps.asc_getIsDeleteColumn());
+                    menu.items[12].setDisabled(!this._originalProps.asc_getIsDeleteTable());
                 }
             }, this));
             this.btnEdit.menu.on('item:click', _.bind(this.onEditClick, this));
@@ -173,7 +179,7 @@ define([
 
         onCheckTemplateChange: function(type, field, newValue, oldValue, eOpts) {
             if (this.api)
-                this.api.asc_changeFormatTableInfo(this._state.TableName, type);
+                this.api.asc_changeFormatTableInfo(this._state.TableName, type, newValue=='checked');
             Common.NotificationCenter.trigger('edit:complete', this);
         },
 
