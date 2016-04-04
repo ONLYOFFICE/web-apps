@@ -62,6 +62,27 @@
 </div>
 <div id="id-adv-table-cell-props" class="settings-panel">
     <div class="inner-content">
+        <table cols="3" style="width: 100%;">
+            <tr>
+                <td colspan="3" class="padding-small">
+                    <label class="header"><%= scope.textCellSize %></label>
+                </td>
+            </tr>
+            <tr>
+                <td style="vertical-align: bottom; padding-bottom: 18px;">
+                    <div id="tableadv-checkbox-prefwidth"></div>
+                </td>
+                <td class="padding-large">
+                    <label class="input-label"><%= scope.textPrefWidth %></label>
+                    <div id="tableadv-number-prefwidth"></div>
+                </td>
+                <td class="padding-large">
+                    <label class="input-label"><%= scope.textMeasure %></label>
+                    <div id="tableadv-combo-prefwidth-unit" style="width: 115px;"></div>
+                </td>
+            </tr>
+        </table>
+        <div class="padding-small"></div>
         <table cols="2" style="width: 100%;">
             <tr>
                 <td colspan=2 class="padding-small">
@@ -84,13 +105,26 @@
                 </td>
             </tr>
             <tr>
-                <td class="padding-small">
+                <td class="padding-large">
                     <label class="input-label"><%= scope.textBottom %></label>
                     <div id="tableadv-number-margin-bottom"></div>
                 </td>
-                <td class="padding-small">
+                <td class="padding-large">
                     <label class="input-label"><%= scope.textRight %></label>
                     <div id="tableadv-number-margin-right"></div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" class="padding-small"></td>
+            </tr>
+            <tr>
+                <td colspan=2 class="padding-small">
+                    <label class="header"><%= scope.textCellOptions %></label>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" class="padding-small">
+                    <div id="tableadv-checkbox-wrap"></div>
                 </td>
             </tr>
         </table>

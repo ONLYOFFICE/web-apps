@@ -431,6 +431,71 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             }, this));
             this.spinners.push(this.spnMarginRight);
 
+            // Cell Size
+            this.chPrefWidth = new Common.UI.CheckBox({
+                el: $('#tableadv-checkbox-prefwidth'),
+                value: false,
+                labelText: ''
+            });
+            this.chPrefWidth.on('change', _.bind(function(field, newValue, oldValue, eOpts){
+                var value = (newValue=='checked');
+                this.nfPrefWidth.setDisabled(!value);
+                this.cmbPrefWidthUnit.setDisabled(!value);
+                if (this._changedProps) {
+                    if (value && this.nfPrefWidth.getNumberValue()>0)
+                        this._changedProps.put_CellsWidth(this.cmbPrefWidthUnit.getValue() ? -field.getNumberValue() : Common.Utils.Metric.fnRecalcToMM(this.nfPrefWidth.getNumberValue()));
+                    else
+                        this._changedProps.put_CellsWidth(null);
+                }
+            }, this));
+
+            this.nfPrefWidth = new Common.UI.MetricSpinner({
+                el: $('#tableadv-number-prefwidth'),
+                step: .1,
+                width: 115,
+                defaultUnit : "cm",
+                value: '10 cm',
+                maxValue: 55.88,
+                minValue: 0
+            });
+            this.nfPrefWidth.on('change', _.bind(function(field, newValue, oldValue, eOpts){
+                if (this._changedProps)
+                    this._changedProps.put_CellsWidth(this.cmbPrefWidthUnit.getValue() ? -field.getNumberValue() : Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
+            }, this));
+
+            this.cmbPrefWidthUnit = new Common.UI.ComboBox({
+                el          : $('#tableadv-combo-prefwidth-unit'),
+                style       : 'width: 115px;',
+                menuStyle   : 'min-width: 115px;',
+                editable    : false,
+                cls         : 'input-group-nr',
+                data        : [
+                    { value: 0, displayValue: (Common.Utils.Metric.getCurrentMetric() == Common.Utils.Metric.c_MetricUnits['pt']) ? this.txtPt : this.txtCm },
+                    { value: 1, displayValue: this.txtPercent }
+                ]
+            });
+            this.cmbPrefWidthUnit.on('selected', _.bind(function(combo, record) {
+                if (this._changedProps) {
+                    var maxwidth = Common.Utils.Metric.fnRecalcFromMM(558);
+                    this.nfPrefWidth.setDefaultUnit(record.value ? '%' : Common.Utils.Metric.metricName[Common.Utils.Metric.getCurrentMetric()]);
+                    this.nfPrefWidth.setMaxValue(record.value ? parseFloat((100 * maxwidth/this.pageWidth).toFixed(2)) : maxwidth);
+                    this.nfPrefWidth.setStep((record.value || Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt) ? 1 : 0.1);
+                    this.nfPrefWidth.setValue((record.value) ? 100*this.nfPrefWidth.getNumberValue()/this.pageWidth : this.pageWidth*this.nfPrefWidth.getNumberValue()/100);
+                    this._changedProps.put_CellsWidth(record.value ? -this.nfPrefWidth.getNumberValue() : Common.Utils.Metric.fnRecalcToMM(this.nfPrefWidth.getNumberValue()));
+                }
+            }, this));
+
+            this.chWrapText = new Common.UI.CheckBox({
+                el: $('#tableadv-checkbox-wrap'),
+                value: false,
+                labelText: this.textWrapText
+            });
+            this.chWrapText.on('change', _.bind(function(field, newValue, oldValue, eOpts){
+                if (this._changedProps) {
+                    this._changedProps.put_CellsNoWrap((field.getValue()!='checked'));
+                }
+            }, this));
+
             // Wrapping
 
             this.btnWrapNone = new Common.UI.Button({
@@ -1163,6 +1228,26 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 }
 
                 this.fillMargins(this.CellMargins.Flag);
+
+                // Cell Size
+                var cellWidth = props.get_CellsWidth();
+
+                this.cmbPrefWidthUnit.store.at(0).set('displayValue', (Common.Utils.Metric.getCurrentMetric() == Common.Utils.Metric.c_MetricUnits['pt']) ? this.txtPt : this.txtCm);
+                this.cmbPrefWidthUnit.setValue(cellWidth<0 ? 1 : 0);
+                this.nfPrefWidth.setDefaultUnit(cellWidth<0 ? '%' : Common.Utils.Metric.metricName[Common.Utils.Metric.getCurrentMetric()]);
+                if (cellWidth<0) //%
+                    this.nfPrefWidth.setMaxValue(parseFloat((100 * Common.Utils.Metric.fnRecalcFromMM(558)/this.pageWidth).toFixed(2)));
+                this.nfPrefWidth.setStep((cellWidth<0 || Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt) ? 1 : 0.1);
+                if (cellWidth !== null)
+                    this.nfPrefWidth.setValue(cellWidth>0 ? Common.Utils.Metric.fnRecalcFromMM(cellWidth) : -cellWidth , true);
+
+                this.chPrefWidth.setValue(cellWidth !== null, true);
+                value = (this.chPrefWidth.getValue()!=='checked');
+                this.nfPrefWidth.setDisabled(value);
+                this.cmbPrefWidthUnit.setDisabled(value);
+
+                var wrapText = !props.get_CellsNoWrap();
+                this.chWrapText.setValue(wrapText, true);
 
                 // wrapping props
                 this._TblWrapStyleChanged(props.get_TableWrap());
@@ -2074,7 +2159,12 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
         tipTableOuterCellOuter: 'Set Table Outer Border and Outer Borders for Inner Cells',
         txtPercent: 'Percent',
         txtCm: 'Centimeter',
-        txtPt: 'Point'
+        txtPt: 'Point',
+        textCellSize: 'Cell Size',
+        textPrefWidth: 'Preferred width',
+        textMeasure: 'Measure in',
+        textCellOptions: 'Cell Options',
+        textWrapText: 'Wrap text'
 
     }, DE.Views.TableSettingsAdvanced || {}));
 });
