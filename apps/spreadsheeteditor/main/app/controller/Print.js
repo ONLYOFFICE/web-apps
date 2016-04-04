@@ -37,9 +37,7 @@ define([
         onAfterRender: function(view) {
             this.printSettings.cmbSheet.on('selected', _.bind(this.comboSheetsChange, this, this.printSettings));
             this.printSettings.btnOk.on('click', _.bind(this.querySavePrintSettings, this));
-            var toolbar = SSE.getController('Toolbar').getView('Toolbar');
-            if (toolbar)
-                toolbar.mnuPrint.on('item:click', _.bind(this.openPrintSettings, this));
+            Common.NotificationCenter.on('print', _.bind(this.openPrintSettings, this));
             this.registerControlEvents(this.printSettings);
         },
 
@@ -189,8 +187,8 @@ define([
             }
         },
 
-        openPrintSettings: function(menu, item) {
-            if (item.value === 'options' && this.api ) {
+        openPrintSettings: function(btn) {
+            if (this.api) {
                 this.printSettingsDlg = (new SSE.Views.PrintSettings({
                     handler: _.bind(this.resultPrintSettings,this),
                     afterrender: _.bind(function() {
@@ -216,6 +214,9 @@ define([
                     Common.localStorage.setItem("sse-print-settings-range", printtype);
 
                     this.api.asc_Print(this.adjPrintParams, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera);
+
+                    Common.component.Analytics.trackEvent('Print');
+                    Common.component.Analytics.trackEvent('ToolBar', 'Print');
                     Common.NotificationCenter.trigger('edit:complete', view);
                 } else
                     return true;

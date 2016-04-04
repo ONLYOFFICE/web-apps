@@ -155,7 +155,7 @@ define([
             case 'back': break;
             case 'save': this.api.asc_Save(); break;
             case 'save-desktop': this.api.asc_DownloadAs(); break;
-            case 'print': this.api.asc_Print(undefined, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera); break;
+            case 'print': Common.NotificationCenter.trigger('print', this.leftMenu); break;
             case 'exit': Common.NotificationCenter.trigger('goback'); break;
             case 'edit':
 //                this.getApplication().getController('Statusbar').setStatusCaption(this.requestEditRightsText);

@@ -136,7 +136,6 @@ define([
             toolbar.btnNewDocument.on('click',                          _.bind(this.onNewDocument, this));
             toolbar.btnOpenDocument.on('click',                         _.bind(this.onOpenDocument, this));
             toolbar.btnPrint.on('click',                                _.bind(this.onPrint, this));
-            toolbar.btnPrint.menu.on('item:click',                      _.bind(this.onPrintMenu, this));
             toolbar.btnSave.on('click',                                 _.bind(this.onSave, this));
             toolbar.btnUndo.on('click',                                 _.bind(this.onUndo, this));
             toolbar.btnRedo.on('click',                                 _.bind(this.onRedo, this));
@@ -258,25 +257,7 @@ define([
         },
 
         onPrint: function(e) {
-            if (this.api) {
-                this.api.asc_Print(undefined, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera); // if isChrome or isSafari == true use asc_onPrintUrl event
-
-                Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-
-                Common.component.Analytics.trackEvent('Print');
-                Common.component.Analytics.trackEvent('ToolBar', 'Print');
-            }
-        },
-
-        onPrintMenu: function(menu, item) {
-            if (item.value === 'print' && this.api) {
-                this.api.asc_Print(undefined, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera); // if isChrome or isSafari or isOpera == true use asc_onPrintUrl event
-
-                Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-
-                Common.component.Analytics.trackEvent('Print');
-                Common.component.Analytics.trackEvent('ToolBar', 'Print');
-            }
+            Common.NotificationCenter.trigger('print', this.toolbar);
         },
 
         onSave: function(e) {
