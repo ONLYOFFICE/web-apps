@@ -382,13 +382,12 @@ define([
         },
 
         onSelectData: function() {
-            return;
             var me = this;
             if (me.api) {
                 var handlerDlg = function(dlg, result) {
                     if (result == 'ok') {
                         me.api.asc_setSelectionDialogMode(c_oAscSelectionDialogType.None);
-//                        me.api.asc_changeAutoFilter(me._state.TableName, c_oAscChangeFilterOptions.style, fmtname);
+                        me.api.asc_changeTableRange(me._state.TableName, dlg.getSettings());
                     }
 
                     Common.NotificationCenter.trigger('edit:complete', me.toolbar);
@@ -399,7 +398,8 @@ define([
 
                 win.show();
                 win.setSettings({
-                    api     : me.api
+                    api     : me.api,
+                    range   : me._state.Range
                 });
             }
         },
