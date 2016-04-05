@@ -279,6 +279,58 @@ define([
 
                 this._state.Range = props.asc_getTableRange();
 
+                var needTablePictures = false;
+                value = props.asc_getFirstRow();
+                if (this._state.CheckHeader!==value) {
+                    this.chHeader.setValue(value, true);
+                    this._state.CheckHeader=value;
+                    needTablePictures = true;
+                }
+
+                value = props.asc_getLastRow();
+                if (this._state.CheckTotal!==value) {
+                    this.chTotal.setValue(value, true);
+                    this._state.CheckTotal=value;
+                    needTablePictures = true;
+                }
+
+                value = props.asc_getBandHor();
+                if (this._state.CheckBanded!==value) {
+                    this.chBanded.setValue(value, true);
+                    this._state.CheckBanded=value;
+                    needTablePictures = true;
+                }
+
+                value = props.asc_getFirstCol();
+                if (this._state.CheckFirst!==value) {
+                    this.chFirst.setValue(value, true);
+                    this._state.CheckFirst=value;
+                    needTablePictures = true;
+                }
+
+                value = props.asc_getLastCol();
+                if (this._state.CheckLast!==value) {
+                    this.chLast.setValue(value, true);
+                    this._state.CheckLast=value;
+                    needTablePictures = true;
+                }
+
+                value = props.asc_getBandVer();
+                if (this._state.CheckColBanded!==value) {
+                    this.chColBanded.setValue(value, true);
+                    this._state.CheckColBanded=value;
+                    needTablePictures = true;
+                }
+
+                value = props.asc_getFilterButton();
+                if (this._state.CheckFilter!==value) {
+                    this.chFilter.setValue(value, true);
+                    this._state.CheckFilter=value;
+                }
+
+                if (needTablePictures)
+                    this.onApiInitTableTemplates(this.api.asc_getTablePictures(props));
+
                 //for table-template
                 value = props.asc_getTableStyleName();
                 if (this._state.TemplateName!==value || this._isTemplatesChanged) {
@@ -298,48 +350,6 @@ define([
                     this._state.TemplateName=value;
                 }
                 this._isTemplatesChanged = false;
-
-                value = props.asc_getFirstRow();
-                if (this._state.CheckHeader!==value) {
-                    this.chHeader.setValue(value, true);
-                    this._state.CheckHeader=value;
-                }
-
-                value = props.asc_getLastRow();
-                if (this._state.CheckTotal!==value) {
-                    this.chTotal.setValue(value, true);
-                    this._state.CheckTotal=value;
-                }
-
-                value = props.asc_getBandHor();
-                if (this._state.CheckBanded!==value) {
-                    this.chBanded.setValue(value, true);
-                    this._state.CheckBanded=value;
-                }
-
-                value = props.asc_getFirstCol();
-                if (this._state.CheckFirst!==value) {
-                    this.chFirst.setValue(value, true);
-                    this._state.CheckFirst=value;
-                }
-
-                value = props.asc_getLastCol();
-                if (this._state.CheckLast!==value) {
-                    this.chLast.setValue(value, true);
-                    this._state.CheckLast=value;
-                }
-
-                value = props.asc_getBandVer();
-                if (this._state.CheckColBanded!==value) {
-                    this.chColBanded.setValue(value, true);
-                    this._state.CheckColBanded=value;
-                }
-
-                value = props.asc_getFilterButton();
-                if (this._state.CheckFilter!==value) {
-                    this.chFilter.setValue(value, true);
-                    this._state.CheckFilter=value;
-                }
             }
         },
 

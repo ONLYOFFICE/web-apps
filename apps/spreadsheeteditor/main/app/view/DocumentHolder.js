@@ -157,7 +157,7 @@ define([
                     items: [
                         { caption: this.deleteRowText,      value: c_oAscDeleteOptions.DeleteRows},
                         { caption: this.deleteColumnText,   value: c_oAscDeleteOptions.DeleteColumns},
-                        { caption: this.deleteTableText,    value: c_oAscDeleteOptions.DeleteColumns}
+                        { caption: this.deleteTableText,    value: c_oAscDeleteOptions.DeleteTable}
                     ]
                 })
             });
