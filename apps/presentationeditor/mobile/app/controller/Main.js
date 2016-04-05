@@ -172,11 +172,11 @@ Ext.define('PE.controller.Main', {
         var text = '';
 
         switch (id) {
-            case c_oAscAsyncAction['Print']:
+            case Asc.c_oAscAsyncAction['Print']:
                 text = this.printText;
         }
 
-        if (type == c_oAscAsyncActionType['BlockInteraction']) {
+        if (type == Asc.c_oAscAsyncActionType['BlockInteraction']) {
             Ext.Viewport.setMasked({
                 xtype   : 'loadmask',
                 message : text
@@ -198,55 +198,55 @@ Ext.define('PE.controller.Main', {
 
         switch (id)
         {
-            case c_oAscError.ID.Unknown:
+            case Asc.c_oAscError.ID.Unknown:
                 config.message = this.unknownErrorText;
                 break;
 
-            case c_oAscError.ID.ConvertationTimeout:
+            case Asc.c_oAscError.ID.ConvertationTimeout:
                 config.message = this.convertationTimeoutText;
                 break;
 
-            case c_oAscError.ID.ConvertationError:
+            case Asc.c_oAscError.ID.ConvertationError:
                 config.message = this.convertationErrorText;
                 break;
 
-            case c_oAscError.ID.DownloadError:
+            case Asc.c_oAscError.ID.DownloadError:
                 config.message = this.downloadErrorText;
                 break;
 
-            case c_oAscError.ID.UplImageSize:
+            case Asc.c_oAscError.ID.UplImageSize:
                 config.message = this.uploadImageSizeMessage;
                 break;
 
-            case c_oAscError.ID.UplImageExt:
+            case Asc.c_oAscError.ID.UplImageExt:
                 config.message = this.uploadImageExtMessage;
                 break;
 
-            case c_oAscError.ID.UplImageFileCount:
+            case Asc.c_oAscError.ID.UplImageFileCount:
                 config.message = this.uploadImageFileCountMessage;
                 break;
 
-            case c_oAscError.ID.SplitCellMaxRows:
+            case Asc.c_oAscError.ID.SplitCellMaxRows:
                 config.message = this.splitMaxRowsErrorText.replace('%1', errData.get_Value());
                 break;
 
-            case c_oAscError.ID.SplitCellMaxCols:
+            case Asc.c_oAscError.ID.SplitCellMaxCols:
                 config.message = this.splitMaxColsErrorText.replace('%1', errData.get_Value());
                 break;
 
-            case c_oAscError.ID.SplitCellRowsDivider:
+            case Asc.c_oAscError.ID.SplitCellRowsDivider:
                 config.message = this.splitDividerErrorText.replace('%1', errData.get_Value());
                 break;
 
-            case c_oAscError.ID.VKeyEncrypt:
+            case Asc.c_oAscError.ID.VKeyEncrypt:
                 config.msg = this.errorKeyEncrypt;
                 break;
 
-            case c_oAscError.ID.KeyExpire:
+            case Asc.c_oAscError.ID.KeyExpire:
                 config.msg = this.errorKeyExpire;
                 break;
 
-            case c_oAscError.ID.UserCountExceed:
+            case Asc.c_oAscError.ID.UserCountExceed:
                 config.msg = this.errorUsersExceed;
                 break;
 
@@ -257,7 +257,7 @@ Ext.define('PE.controller.Main', {
 
 
 
-        if (level == c_oAscError.Level.Critical) {
+        if (level == Asc.c_oAscError.Level.Critical) {
 
             // report only critical errors
             Common.Gateway.reportError(id, config.message);
@@ -305,7 +305,7 @@ Ext.define('PE.controller.Main', {
     },
 
     onDownloadAs: function() {
-       this.api.asc_DownloadAs(c_oAscFileType.PPTX, true);
+       this.api.asc_DownloadAs(Asc.c_oAscFileType.PPTX, true);
     },
 
     _hideLoadSplash: function(){

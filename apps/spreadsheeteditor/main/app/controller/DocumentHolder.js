@@ -284,11 +284,11 @@ define([
         onInsertEntire: function(item) {
             if (this.api) {
                 switch (this.api.asc_getCellInfo().asc_getFlags().asc_getSelectionType()) {
-                    case c_oAscSelectionType.RangeRow:
-                        this.api.asc_insertCells(c_oAscInsertOptions.InsertRows);
+                    case Asc.c_oAscSelectionType.RangeRow:
+                        this.api.asc_insertCells(Asc.c_oAscInsertOptions.InsertRows);
                         break;
-                    case c_oAscSelectionType.RangeCol:
-                        this.api.asc_insertCells(c_oAscInsertOptions.InsertColumns);
+                    case Asc.c_oAscSelectionType.RangeCol:
+                        this.api.asc_insertCells(Asc.c_oAscInsertOptions.InsertColumns);
                         break;
                 }
 
@@ -309,11 +309,11 @@ define([
         onDeleteEntire: function(item) {
             if (this.api) {
                 switch (this.api.asc_getCellInfo().asc_getFlags().asc_getSelectionType()) {
-                    case c_oAscSelectionType.RangeRow:
-                        this.api.asc_deleteCells(c_oAscDeleteOptions.DeleteRows);
+                    case Asc.c_oAscSelectionType.RangeRow:
+                        this.api.asc_deleteCells(Asc.c_oAscDeleteOptions.DeleteRows);
                         break;
-                    case c_oAscSelectionType.RangeCol:
-                        this.api.asc_deleteCells(c_oAscDeleteOptions.DeleteColumns);
+                    case Asc.c_oAscSelectionType.RangeCol:
+                        this.api.asc_deleteCells(Asc.c_oAscDeleteOptions.DeleteColumns);
                         break;
                 }
 
@@ -418,7 +418,7 @@ define([
             (new SSE.Views.SetValueDialog({
                 title: item.caption,
                 startvalue: item.options.action == 'row-height' ? me.api.asc_getRowHeight() : me.api.asc_getColumnWidth(),
-                maxvalue: item.options.action == 'row-height' ? c_oAscMaxRowHeight : c_oAscMaxColumnWidth,
+                maxvalue: item.options.action == 'row-height' ? Asc.c_oAscMaxRowHeight : Asc.c_oAscMaxColumnWidth,
                 step: item.options.action == 'row-height' ? 0.75 : 1,
                 defaultUnit: item.options.action == 'row-height' ? "pt" : "sym",
                 handler: function(dlg, result) {
@@ -640,21 +640,21 @@ define([
                         index_column, index_row;
                 for (var i = dataarray.length; i > 0; i--) {
                     switch (dataarray[i-1].asc_getType()) {
-                        case c_oAscMouseMoveType.Hyperlink:
+                        case Asc.c_oAscMouseMoveType.Hyperlink:
                             index_hyperlink = i;
                             break;
                     /** coauthoring begin **/
-                        case c_oAscMouseMoveType.Comment:
+                        case Asc.c_oAscMouseMoveType.Comment:
                             index_comments = i;
                             break;
                     /** coauthoring end **/
-                        case c_oAscMouseMoveType.LockedObject:
+                        case Asc.c_oAscMouseMoveType.LockedObject:
                             index_locked = i;
                             break;
-                        case c_oAscMouseMoveType.ResizeColumn:
+                        case Asc.c_oAscMouseMoveType.ResizeColumn:
                             index_column = i;
                             break;
-                        case c_oAscMouseMoveType.ResizeRow:
+                        case Asc.c_oAscMouseMoveType.ResizeRow:
                             index_row = i;
                             break;
                     }
@@ -692,7 +692,7 @@ define([
                     var data  = dataarray[index_hyperlink-1],
                         props = data.asc_getHyperlink();
 
-                    if (props.asc_getType() == c_oAscHyperlinkType.WebLink) {
+                    if (props.asc_getType() == Asc.c_oAscHyperlinkType.WebLink) {
                         var linkstr = props.asc_getTooltip();
                         if (linkstr) {
                             linkstr = Common.Utils.String.htmlEncode(linkstr) + '<br><b>' + me.textCtrlClick + '</b>';
@@ -842,8 +842,8 @@ define([
                             coAuthTip.y_point = data.asc_getY();
 
                             var src = $(document.createElement("div")),
-                                is_sheet_lock = data.asc_getLockedObjectType() == c_oAscMouseMoveLockedObjectType.Sheet ||
-                                    data.asc_getLockedObjectType() == c_oAscMouseMoveLockedObjectType.TableProperties;
+                                is_sheet_lock = data.asc_getLockedObjectType() == Asc.c_oAscMouseMoveLockedObjectType.Sheet ||
+                                    data.asc_getLockedObjectType() == Asc.c_oAscMouseMoveLockedObjectType.TableProperties;
 
                             coAuthTip.ref = src;
 
@@ -1045,21 +1045,21 @@ define([
                 cansort             = false;
 
             if (this.permissions.isEditMailMerge) {
-                cansort = (seltype==c_oAscSelectionType.RangeCells);
+                cansort = (seltype==Asc.c_oAscSelectionType.RangeCells);
             } else if (this.permissions.isEditDiagram) {
-                insfunc = (seltype==c_oAscSelectionType.RangeCells);
+                insfunc = (seltype==Asc.c_oAscSelectionType.RangeCells);
             } 
             else {
                 switch (seltype) {
-                    case c_oAscSelectionType.RangeCells:    iscellmenu  = true; break;
-                    case c_oAscSelectionType.RangeRow:      isrowmenu   = true; break;
-                    case c_oAscSelectionType.RangeCol:      iscolmenu   = true; break;
-                    case c_oAscSelectionType.RangeMax:      isallmenu   = true; break;
-                    case c_oAscSelectionType.RangeImage:    isimagemenu = true; break;
-                    case c_oAscSelectionType.RangeShape:    isshapemenu = true; break;
-                    case c_oAscSelectionType.RangeChart:    ischartmenu = true; break;
-                    case c_oAscSelectionType.RangeChartText:istextchartmenu = true; break;
-                    case c_oAscSelectionType.RangeShapeText: istextshapemenu = true; break;
+                    case Asc.c_oAscSelectionType.RangeCells:    iscellmenu  = true; break;
+                    case Asc.c_oAscSelectionType.RangeRow:      isrowmenu   = true; break;
+                    case Asc.c_oAscSelectionType.RangeCol:      iscolmenu   = true; break;
+                    case Asc.c_oAscSelectionType.RangeMax:      isallmenu   = true; break;
+                    case Asc.c_oAscSelectionType.RangeImage:    isimagemenu = true; break;
+                    case Asc.c_oAscSelectionType.RangeShape:    isshapemenu = true; break;
+                    case Asc.c_oAscSelectionType.RangeChart:    ischartmenu = true; break;
+                    case Asc.c_oAscSelectionType.RangeChartText:istextchartmenu = true; break;
+                    case Asc.c_oAscSelectionType.RangeShapeText: istextshapemenu = true; break;
                 }
             }
 
@@ -1070,7 +1070,7 @@ define([
                 var has_chartprops = false;
                 var selectedObjects = this.api.asc_getGraphicObjectProps();
                 for (var i = 0; i < selectedObjects.length; i++) {
-                    if (selectedObjects[i].asc_getObjectType() == c_oAscTypeSelectElement.Image) {
+                    if (selectedObjects[i].asc_getObjectType() == Asc.c_oAscTypeSelectElement.Image) {
                         var elValue = selectedObjects[i].asc_getObjectValue();
                         isObjLocked = isObjLocked || elValue.asc_getLocked();
                         var shapeprops = elValue.asc_getShapeProperties();
@@ -1109,19 +1109,19 @@ define([
 
                 for (var i = 0; i < selectedObjects.length; i++) {
                     var elType = selectedObjects[i].asc_getObjectType();
-                    if (elType == c_oAscTypeSelectElement.Image) {
+                    if (elType == Asc.c_oAscTypeSelectElement.Image) {
                         var value = selectedObjects[i].asc_getObjectValue(),
                             align = value.asc_getVerticalTextAlign(),
                             direct = value.asc_getVert();
                         isObjLocked = isObjLocked || value.asc_getLocked();
-                        documentHolder.menuParagraphTop.setChecked(align == c_oAscVerticalTextAlign.TEXT_ALIGN_TOP);
-                        documentHolder.menuParagraphCenter.setChecked(align == c_oAscVerticalTextAlign.TEXT_ALIGN_CTR);
-                        documentHolder.menuParagraphBottom.setChecked(align == c_oAscVerticalTextAlign.TEXT_ALIGN_BOTTOM);
+                        documentHolder.menuParagraphTop.setChecked(align == Asc.c_oAscVerticalTextAlign.TEXT_ALIGN_TOP);
+                        documentHolder.menuParagraphCenter.setChecked(align == Asc.c_oAscVerticalTextAlign.TEXT_ALIGN_CTR);
+                        documentHolder.menuParagraphBottom.setChecked(align == Asc.c_oAscVerticalTextAlign.TEXT_ALIGN_BOTTOM);
 
-                        documentHolder.menuParagraphDirectH.setChecked(direct == c_oAscVertDrawingText.normal);
-                        documentHolder.menuParagraphDirect90.setChecked(direct == c_oAscVertDrawingText.vert);
-                        documentHolder.menuParagraphDirect270.setChecked(direct == c_oAscVertDrawingText.vert270);
-                    } else if (elType == c_oAscTypeSelectElement.Paragraph) {
+                        documentHolder.menuParagraphDirectH.setChecked(direct == Asc.c_oAscVertDrawingText.normal);
+                        documentHolder.menuParagraphDirect90.setChecked(direct == Asc.c_oAscVertDrawingText.vert);
+                        documentHolder.menuParagraphDirect270.setChecked(direct == Asc.c_oAscVertDrawingText.vert270);
+                    } else if (elType == Asc.c_oAscTypeSelectElement.Paragraph) {
                         documentHolder.pmiTextAdvanced.textInfo = selectedObjects[i].asc_getObjectValue();
                         isObjLocked = isObjLocked || documentHolder.pmiTextAdvanced.textInfo.asc_getLocked();
                     }
@@ -1143,8 +1143,8 @@ define([
                 documentHolder.textInShapeMenu.items[3].setVisible( documentHolder.menuHyperlinkShape.isVisible() ||
                                                                     documentHolder.menuAddHyperlinkShape.isVisible() ||
                                                                     documentHolder.menuParagraphVAlign.isVisible());
-            } else if (!this.permissions.isEditMailMerge && !this.permissions.isEditDiagram || (seltype !== c_oAscSelectionType.RangeImage && seltype !== c_oAscSelectionType.RangeShape &&
-            seltype !== c_oAscSelectionType.RangeChart && seltype !== c_oAscSelectionType.RangeChartText && seltype !== c_oAscSelectionType.RangeShapeText)) {
+            } else if (!this.permissions.isEditMailMerge && !this.permissions.isEditDiagram || (seltype !== Asc.c_oAscSelectionType.RangeImage && seltype !== Asc.c_oAscSelectionType.RangeShape &&
+            seltype !== Asc.c_oAscSelectionType.RangeChart && seltype !== Asc.c_oAscSelectionType.RangeChartText && seltype !== Asc.c_oAscSelectionType.RangeShapeText)) {
                 if (!showMenu && !documentHolder.ssMenu.isVisible()) return;
                 
                 var iscelledit = this.api.isCellEdited;
@@ -1199,7 +1199,7 @@ define([
                 });
                 documentHolder.pmiCopy.setDisabled(false);
                 if (showMenu) this.showPopupMenu(documentHolder.ssMenu, {}, event);
-            } else if (this.permissions.isEditDiagram && seltype == c_oAscSelectionType.RangeChartText) {
+            } else if (this.permissions.isEditDiagram && seltype == Asc.c_oAscSelectionType.RangeChartText) {
                 if (!showMenu && !documentHolder.textInShapeMenu.isVisible()) return;
 
                 documentHolder.pmiTextAdvanced.textInfo = undefined;
@@ -1278,7 +1278,7 @@ define([
                     var mnu = new Common.UI.MenuItem({
                         caption     : menuItem
                     }).on('click', function(item, e) {
-                        me.api.asc_insertFormula(item.caption, c_oAscPopUpSelectorType.None, false );
+                        me.api.asc_insertFormula(item.caption, Asc.c_oAscPopUpSelectorType.None, false );
                     });
                     menu.addItem(mnu);
                 });
@@ -1327,7 +1327,7 @@ define([
                 _.each(funcarr, function(menuItem, index) {
                     var type = menuItem.asc_getType(),
                         mnu = new Common.UI.MenuItem({
-                        iconCls: (type==c_oAscPopUpSelectorType.Func) ? 'mnu-popup-func': ((type==c_oAscPopUpSelectorType.Table) ? 'mnu-popup-table' : 'mnu-popup-range') ,
+                        iconCls: (type==Asc.c_oAscPopUpSelectorType.Func) ? 'mnu-popup-func': ((type==Asc.c_oAscPopUpSelectorType.Table) ? 'mnu-popup-table' : 'mnu-popup-range') ,
                         caption: menuItem.asc_getName()
                     }).on('click', function(item, e) {
                         setTimeout(function(){ me.api.asc_insertFormula(item.caption, type, false ); }, 10);
@@ -1417,16 +1417,16 @@ define([
         },
 
         onCellsRange: function(status) {
-            this.rangeSelectionMode = (status != c_oAscSelectionDialogType.None);
+            this.rangeSelectionMode = (status != Asc.c_oAscSelectionDialogType.None);
         },
 
         onApiEditCell: function(state) {
-            this.isEditFormula = (state == c_oAscCellEditorState.editFormula);
-            this.isEditCell = (state != c_oAscCellEditorState.editEnd);
+            this.isEditFormula = (state == Asc.c_oAscCellEditorState.editFormula);
+            this.isEditCell = (state != Asc.c_oAscCellEditorState.editEnd);
         },
 
         onLockDefNameManager: function(state) {
-            this.namedrange_locked = (state == c_oAscDefinedNameReason.LockDefNameManager);
+            this.namedrange_locked = (state == Asc.c_oAscDefinedNameReason.LockDefNameManager);
         },
 
         guestText               : 'Guest',

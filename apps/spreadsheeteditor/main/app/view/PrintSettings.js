@@ -92,9 +92,9 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
                 editable    : false,
                 cls         : 'input-group-nr',
                  data        : [
-                    { value: c_oAscPrintType.ActiveSheets, displayValue: this.textCurrentSheet },
-                    { value: c_oAscPrintType.EntireWorkbook, displayValue: this.textAllSheets },
-                    { value: c_oAscPrintType.Selection, displayValue: this.textSelection }
+                    { value: Asc.c_oAscPrintType.ActiveSheets, displayValue: this.textCurrentSheet },
+                    { value: Asc.c_oAscPrintType.EntireWorkbook, displayValue: this.textAllSheets },
+                    { value: Asc.c_oAscPrintType.Selection, displayValue: this.textSelection }
                 ]
             });
             this.cmbRange.on('selected', _.bind(this.comboRangeChange, this));
@@ -138,8 +138,8 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
                 editable    : false,
                 cls         : 'input-group-nr',
                 data        : [
-                    { value: c_oAscPageOrientation.PagePortrait, displayValue: this.strPortrait },
-                    { value: c_oAscPageOrientation.PageLandscape, displayValue: this.strLandscape }
+                    { value: Asc.c_oAscPageOrientation.PagePortrait, displayValue: this.strPortrait },
+                    { value: Asc.c_oAscPageOrientation.PageLandscape, displayValue: this.strLandscape }
                 ]
             });
 

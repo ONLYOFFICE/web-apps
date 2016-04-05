@@ -122,18 +122,18 @@ define([
             };
 
             me.numFormatTypes = {};
-            me.numFormatTypes[c_oAscNumFormatType.General]     = me.txtGeneral;
-            me.numFormatTypes[c_oAscNumFormatType.Custom]      = me.txtCustom;
-            me.numFormatTypes[c_oAscNumFormatType.Text]        = me.txtText;
-            me.numFormatTypes[c_oAscNumFormatType.Number]      = me.txtNumber;
-            me.numFormatTypes[c_oAscNumFormatType.Integer]     = me.txtInteger;
-            me.numFormatTypes[c_oAscNumFormatType.Scientific]  = me.txtScientific;
-            me.numFormatTypes[c_oAscNumFormatType.Currency]    = me.txtCurrency;
-            me.numFormatTypes[c_oAscNumFormatType.Accounting]  = me.txtAccounting;
-            me.numFormatTypes[c_oAscNumFormatType.Date]        = me.txtDate;
-            me.numFormatTypes[c_oAscNumFormatType.Time]        = me.txtTime;
-            me.numFormatTypes[c_oAscNumFormatType.Percent]     = me.txtPercentage;
-            me.numFormatTypes[c_oAscNumFormatType.Fraction]    = me.txtFraction;
+            me.numFormatTypes[Asc.c_oAscNumFormatType.General]     = me.txtGeneral;
+            me.numFormatTypes[Asc.c_oAscNumFormatType.Custom]      = me.txtCustom;
+            me.numFormatTypes[Asc.c_oAscNumFormatType.Text]        = me.txtText;
+            me.numFormatTypes[Asc.c_oAscNumFormatType.Number]      = me.txtNumber;
+            me.numFormatTypes[Asc.c_oAscNumFormatType.Integer]     = me.txtInteger;
+            me.numFormatTypes[Asc.c_oAscNumFormatType.Scientific]  = me.txtScientific;
+            me.numFormatTypes[Asc.c_oAscNumFormatType.Currency]    = me.txtCurrency;
+            me.numFormatTypes[Asc.c_oAscNumFormatType.Accounting]  = me.txtAccounting;
+            me.numFormatTypes[Asc.c_oAscNumFormatType.Date]        = me.txtDate;
+            me.numFormatTypes[Asc.c_oAscNumFormatType.Time]        = me.txtTime;
+            me.numFormatTypes[Asc.c_oAscNumFormatType.Percent]     = me.txtPercentage;
+            me.numFormatTypes[Asc.c_oAscNumFormatType.Fraction]    = me.txtFraction;
 
             function dummyCmp() {
                 return {
@@ -399,25 +399,25 @@ define([
                             caption     : me.textTopBorders,
                             iconCls     : 'mnu-border-top',
                             icls        : 'btn-border-top',
-                            borderId    : c_oAscBorderOptions.Top
+                            borderId    : Asc.c_oAscBorderOptions.Top
                         },
                         {
                             caption     : me.textBottomBorders,
                             iconCls     : 'mnu-border-bottom',
                             icls        : 'btn-border-bottom',
-                            borderId    : c_oAscBorderOptions.Bottom
+                            borderId    : Asc.c_oAscBorderOptions.Bottom
                         },
                         {
                             caption     : me.textLeftBorders,
                             iconCls     : 'mnu-border-left',
                             icls        : 'btn-border-left',
-                            borderId    : c_oAscBorderOptions.Left
+                            borderId    : Asc.c_oAscBorderOptions.Left
                         },
                         {
                             caption     : me.textRightBorders,
                             iconCls     : 'mnu-border-right',
                             icls        : 'btn-border-right',
-                            borderId    : c_oAscBorderOptions.Right
+                            borderId    : Asc.c_oAscBorderOptions.Right
                         },
                         {
                             caption     : me.textNoBorders,
@@ -436,25 +436,25 @@ define([
                             caption     : me.textCenterBorders,
                             iconCls     : 'mnu-border-vmiddle',
                             icls        : 'btn-border-vmiddle',
-                            borderId    : c_oAscBorderOptions.InnerV
+                            borderId    : Asc.c_oAscBorderOptions.InnerV
                         },
                         {
                             caption     : me.textMiddleBorders,
                             iconCls     : 'mnu-border-hmiddle',
                             icls        : 'btn-border-hmiddle',
-                            borderId    : c_oAscBorderOptions.InnerH
+                            borderId    : Asc.c_oAscBorderOptions.InnerH
                         },
                         {
                             caption     : me.textDiagUpBorder,
                             iconCls     : 'mnu-border-diagup',
                             icls        : 'btn-border-diagup',
-                            borderId    : c_oAscBorderOptions.DiagU
+                            borderId    : Asc.c_oAscBorderOptions.DiagU
                         },
                         {
                             caption     : me.textDiagDownBorder,
                             iconCls     : 'mnu-border-diagdown',
                             icls        : 'btn-border-diagdown',
-                            borderId    : c_oAscBorderOptions.DiagD
+                            borderId    : Asc.c_oAscBorderOptions.DiagD
                         },
                         {caption: '--'},
                         {
@@ -576,19 +576,19 @@ define([
                     items: [
                         {
                             caption : me.txtMergeCenter,
-                            value   : c_oAscMergeOptions.MergeCenter
+                            value   : Asc.c_oAscMergeOptions.MergeCenter
                         },
                         {
                             caption : me.txtMergeAcross,
-                            value   : c_oAscMergeOptions.MergeAcross
+                            value   : Asc.c_oAscMergeOptions.MergeAcross
                         },
                         {
                             caption : me.txtMergeCells,
-                            value   : c_oAscMergeOptions.Merge
+                            value   : Asc.c_oAscMergeOptions.Merge
                         },
                         {
                             caption : me.txtUnmerge,
-                            value   : c_oAscMergeOptions.Unmerge
+                            value   : Asc.c_oAscMergeOptions.Unmerge
                         }
                     ]
                 })
@@ -1150,27 +1150,27 @@ define([
                     items : [
                         {
                             caption : me.txtClearAll,
-                            value   : c_oAscCleanOptions.All
+                            value   : Asc.c_oAscCleanOptions.All
                         },
                         {
                             caption : me.txtClearText,
                             lock    : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.coAuth],
-                            value   : c_oAscCleanOptions.Text
+                            value   : Asc.c_oAscCleanOptions.Text
                         },
                         {
                             caption : me.txtClearFormat,
                             lock    : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.coAuth],
-                            value   : c_oAscCleanOptions.Format
+                            value   : Asc.c_oAscCleanOptions.Format
                         },
                         {
                             caption : me.txtClearComments,
                             lock    : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.coAuth],
-                            value   : c_oAscCleanOptions.Comments
+                            value   : Asc.c_oAscCleanOptions.Comments
                         },
                         {
                             caption : me.txtClearHyper,
                             lock    : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.coAuth],
-                            value   : c_oAscCleanOptions.Hyperlinks
+                            value   : Asc.c_oAscCleanOptions.Hyperlinks
                         }
                     ]
                 })
@@ -1195,19 +1195,19 @@ define([
                     items : [
                         {
                             caption : me.textInsRight,
-                            value   : c_oAscInsertOptions.InsertCellsAndShiftRight
+                            value   : Asc.c_oAscInsertOptions.InsertCellsAndShiftRight
                         },
                         {
                             caption : me.textInsDown,
-                            value   : c_oAscInsertOptions.InsertCellsAndShiftDown
+                            value   : Asc.c_oAscInsertOptions.InsertCellsAndShiftDown
                         },
                         {
                             caption : me.textEntireRow,
-                            value   : c_oAscInsertOptions.InsertRows
+                            value   : Asc.c_oAscInsertOptions.InsertRows
                         },
                         {
                             caption : me.textEntireCol,
-                            value   : c_oAscInsertOptions.InsertColumns
+                            value   : Asc.c_oAscInsertOptions.InsertColumns
                         }
                     ]
                 })
@@ -1223,19 +1223,19 @@ define([
                     items : [
                         {
                             caption : me.textDelLeft,
-                            value   : c_oAscDeleteOptions.DeleteCellsAndShiftLeft
+                            value   : Asc.c_oAscDeleteOptions.DeleteCellsAndShiftLeft
                         },
                         {
                             caption : me.textDelUp,
-                            value   : c_oAscDeleteOptions.DeleteCellsAndShiftTop
+                            value   : Asc.c_oAscDeleteOptions.DeleteCellsAndShiftTop
                         },
                         {
                             caption : me.textEntireRow,
-                            value   : c_oAscDeleteOptions.DeleteRows
+                            value   : Asc.c_oAscDeleteOptions.DeleteRows
                         },
                         {
                             caption : me.textEntireCol,
-                            value   : c_oAscDeleteOptions.DeleteColumns
+                            value   : Asc.c_oAscDeleteOptions.DeleteColumns
                         }
                     ]
                 })

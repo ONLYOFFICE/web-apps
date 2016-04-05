@@ -327,7 +327,7 @@ define([
                     for (var i = selectedElements.length - 1; i >= 0; i--) {
                         elType = selectedElements[i].get_ObjectType();
                         elValue = selectedElements[i].get_ObjectValue();
-                        if (c_oAscTypeSelectElement.Paragraph == elType) {
+                        if (Asc.c_oAscTypeSelectElement.Paragraph == elType) {
                             (new PE.Views.ParagraphSettingsAdvanced(
                             {
                                 paragraphProps: elValue,

@@ -196,7 +196,7 @@ define([
                     value = item.get_Value(),
                     settings = false;
                 switch (item.get_Type()) {
-                    case c_oAscRevisionsChangeType.TextAdd:
+                    case Asc.c_oAscRevisionsChangeType.TextAdd:
                         changetext = me.textInserted;
                         if (typeof value == 'object') {
                             _.each(value, function(obj) {
@@ -223,7 +223,7 @@ define([
                             changetext +=  (' ' + value);
                         }
                     break;
-                    case c_oAscRevisionsChangeType.TextRem:
+                    case Asc.c_oAscRevisionsChangeType.TextRem:
                         changetext = me.textDeleted;
                         if (typeof value == 'object') {
                             _.each(value, function(obj) {
@@ -250,13 +250,13 @@ define([
                             changetext +=  (' ' + value);
                         }
                     break;
-                    case c_oAscRevisionsChangeType.ParaAdd:
+                    case Asc.c_oAscRevisionsChangeType.ParaAdd:
                         changetext = me.textParaInserted;
                     break;
-                    case c_oAscRevisionsChangeType.ParaRem:
+                    case Asc.c_oAscRevisionsChangeType.ParaRem:
                         changetext = me.textParaDeleted;
                     break;
-                    case c_oAscRevisionsChangeType.TextPr:
+                    case Asc.c_oAscRevisionsChangeType.TextPr:
                         changetext = '<b>' + me.textFormatted;
                         if (value.Get_Bold() !== undefined)
                             proptext += ((value.Get_Bold() ? '' : me.textNot) + me.textBold + ', ');
@@ -298,7 +298,7 @@ define([
                         changetext += '</b>';
                         changetext += proptext;
                     break;
-                    case c_oAscRevisionsChangeType.ParaPr:
+                    case Asc.c_oAscRevisionsChangeType.ParaPr:
                         changetext = '<b>' + me.textParaFormatted;
                         if (value.Get_ContextualSpacing())
                             proptext += ((value.Get_ContextualSpacing() ? me.textContextual : me.textNoContextual) + ', ');

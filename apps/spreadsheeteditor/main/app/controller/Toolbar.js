@@ -490,20 +490,20 @@ define([
                 btnBorders.options.borderId = item.options.borderId;
 
                 if (item.options.borderId == 'inner') {
-                    new_borders[c_oAscBorderOptions.InnerV] = new Asc.asc_CBorder(bordersWidth, bordersColor);
-                    new_borders[c_oAscBorderOptions.InnerH] = new Asc.asc_CBorder(bordersWidth, bordersColor);
+                    new_borders[Asc.c_oAscBorderOptions.InnerV] = new Asc.asc_CBorder(bordersWidth, bordersColor);
+                    new_borders[Asc.c_oAscBorderOptions.InnerH] = new Asc.asc_CBorder(bordersWidth, bordersColor);
                 } else if (item.options.borderId == 'all') {
-                    new_borders[c_oAscBorderOptions.InnerV] = new Asc.asc_CBorder(bordersWidth, bordersColor);
-                    new_borders[c_oAscBorderOptions.InnerH] = new Asc.asc_CBorder(bordersWidth, bordersColor);
-                    new_borders[c_oAscBorderOptions.Left]   = new Asc.asc_CBorder(bordersWidth, bordersColor);
-                    new_borders[c_oAscBorderOptions.Top]    = new Asc.asc_CBorder(bordersWidth, bordersColor);
-                    new_borders[c_oAscBorderOptions.Right]  = new Asc.asc_CBorder(bordersWidth, bordersColor);
-                    new_borders[c_oAscBorderOptions.Bottom] = new Asc.asc_CBorder(bordersWidth, bordersColor);
+                    new_borders[Asc.c_oAscBorderOptions.InnerV] = new Asc.asc_CBorder(bordersWidth, bordersColor);
+                    new_borders[Asc.c_oAscBorderOptions.InnerH] = new Asc.asc_CBorder(bordersWidth, bordersColor);
+                    new_borders[Asc.c_oAscBorderOptions.Left]   = new Asc.asc_CBorder(bordersWidth, bordersColor);
+                    new_borders[Asc.c_oAscBorderOptions.Top]    = new Asc.asc_CBorder(bordersWidth, bordersColor);
+                    new_borders[Asc.c_oAscBorderOptions.Right]  = new Asc.asc_CBorder(bordersWidth, bordersColor);
+                    new_borders[Asc.c_oAscBorderOptions.Bottom] = new Asc.asc_CBorder(bordersWidth, bordersColor);
                 } else if (item.options.borderId == 'outer') {
-                    new_borders[c_oAscBorderOptions.Left]   = new Asc.asc_CBorder(bordersWidth, bordersColor);
-                    new_borders[c_oAscBorderOptions.Top]    = new Asc.asc_CBorder(bordersWidth, bordersColor);
-                    new_borders[c_oAscBorderOptions.Right]  = new Asc.asc_CBorder(bordersWidth, bordersColor);
-                    new_borders[c_oAscBorderOptions.Bottom] = new Asc.asc_CBorder(bordersWidth, bordersColor);
+                    new_borders[Asc.c_oAscBorderOptions.Left]   = new Asc.asc_CBorder(bordersWidth, bordersColor);
+                    new_borders[Asc.c_oAscBorderOptions.Top]    = new Asc.asc_CBorder(bordersWidth, bordersColor);
+                    new_borders[Asc.c_oAscBorderOptions.Right]  = new Asc.asc_CBorder(bordersWidth, bordersColor);
+                    new_borders[Asc.c_oAscBorderOptions.Bottom] = new Asc.asc_CBorder(bordersWidth, bordersColor);
                 } else if (item.options.borderId != 'none') {
                     new_borders[item.options.borderId]   = new Asc.asc_CBorder(bordersWidth, bordersColor);
                 }
@@ -733,9 +733,9 @@ define([
                     props   : props,
                     text    : cell.asc_getText(),
                     isLock  : cell.asc_getFlags().asc_getLockText(),
-                    allowInternal: (seltype!==c_oAscSelectionType.RangeImage && seltype!==c_oAscSelectionType.RangeShape &&
-                                    seltype!==c_oAscSelectionType.RangeShapeText && seltype!==c_oAscSelectionType.RangeChart &&
-                                    seltype!==c_oAscSelectionType.RangeChartText)
+                    allowInternal: (seltype!==Asc.c_oAscSelectionType.RangeImage && seltype!==Asc.c_oAscSelectionType.RangeShape &&
+                                    seltype!==Asc.c_oAscSelectionType.RangeShapeText && seltype!==Asc.c_oAscSelectionType.RangeChart &&
+                                    seltype!==Asc.c_oAscSelectionType.RangeChartText)
                 });
             }
 
@@ -745,12 +745,12 @@ define([
         onInsertChart: function(btn) {
             if (!this.editMode) return;
             var me = this, info = me.api.asc_getCellInfo();
-            if (info.asc_getFlags().asc_getSelectionType()!=c_oAscSelectionType.RangeImage) {
+            if (info.asc_getFlags().asc_getSelectionType()!=Asc.c_oAscSelectionType.RangeImage) {
                 var win, props;
                 if (me.api){
                     props = me.api.asc_getChartObject();
                     if (props) {
-                        var ischartedit = ( me.toolbar.mode.isEditDiagram || info.asc_getFlags().asc_getSelectionType() == c_oAscSelectionType.RangeChart || info.asc_getFlags().asc_getSelectionType() == c_oAscSelectionType.RangeChartText);
+                        var ischartedit = ( me.toolbar.mode.isEditDiagram || info.asc_getFlags().asc_getSelectionType() == Asc.c_oAscSelectionType.RangeChart || info.asc_getFlags().asc_getSelectionType() == Asc.c_oAscSelectionType.RangeChartText);
 
                         (new SSE.Views.ChartSettingsDlg(
                             {
@@ -817,7 +817,7 @@ define([
             this._state.filter = undefined;
             if (this.api){
                 if (this._state.tablename || state)
-                    this.api.asc_changeAutoFilter(this._state.tablename, c_oAscChangeFilterOptions.filter, !state);
+                    this.api.asc_changeAutoFilter(this._state.tablename, Asc.c_oAscChangeFilterOptions.filter, !state);
                 else
                     this.api.asc_addAutoFilter();
             }
@@ -885,7 +885,7 @@ define([
 
                     item.value = item.value || 'SUM';
 
-                    this.api.asc_insertFormula(this.api.asc_getFormulaLocaleName(item.value), c_oAscPopUpSelectorType.Func, true);
+                    this.api.asc_insertFormula(this.api.asc_getFormulaLocaleName(item.value), Asc.c_oAscPopUpSelectorType.Func, true);
 
                     Common.NotificationCenter.trigger('edit:complete', this.toolbar);
                     Common.component.Analytics.trackEvent('ToolBar', 'Insert formula');
@@ -900,12 +900,12 @@ define([
                     (new SSE.Views.NamedRangePasteDlg({
                         handler: function(result, settings) {
                             if (result == 'ok' && settings) {
-                                me.api.asc_insertFormula(settings.asc_getName(), settings.asc_getIsTable() ? c_oAscPopUpSelectorType.Table : c_oAscPopUpSelectorType.Range, false);
+                                me.api.asc_insertFormula(settings.asc_getName(), settings.asc_getIsTable() ? Asc.c_oAscPopUpSelectorType.Table : Asc.c_oAscPopUpSelectorType.Range, false);
                                 Common.component.Analytics.trackEvent('ToolBar', 'Paste Named Range');
                             }
                             Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                         },
-                        ranges: me.api.asc_getDefinedNames(c_oAscGetDefinedNamesList.WorksheetWorkbook) // names only for current sheet and workbook
+                        ranges: me.api.asc_getDefinedNames(Asc.c_oAscGetDefinedNamesList.WorksheetWorkbook) // names only for current sheet and workbook
                     })).show();
                     Common.component.Analytics.trackEvent('ToolBar', 'Paste Named Range');
                 } else {
@@ -956,7 +956,7 @@ define([
                             locked: me._state.namedrange_locked,
                             sheets: items,
                             sheetNames: sheetNames,
-                            ranges: me.api.asc_getDefinedNames(c_oAscGetDefinedNamesList.All),
+                            ranges: me.api.asc_getDefinedNames(Asc.c_oAscGetDefinedNamesList.All),
                             props : me.api.asc_getDefaultDefinedName(),
                             sort  : cellEditor.rangeListSort
                         })).on('close', function(win){
@@ -969,7 +969,7 @@ define([
 
         onNamedRangeMenuOpen: function() {
             if (this.api) {
-                var names = this.api.asc_getDefinedNames(c_oAscGetDefinedNamesList.WorksheetWorkbook);
+                var names = this.api.asc_getDefinedNames(Asc.c_oAscGetDefinedNamesList.WorksheetWorkbook);
                 this.toolbar.btnNamedRange.menu.items[2].setDisabled(names.length<1);
             }
         },
@@ -1195,7 +1195,7 @@ define([
                         me._state.filter = undefined;
                         if (me.editMode && me.api) {
                             if (me._state.tablename || state)
-                                me.api.asc_changeAutoFilter(me._state.tablename, c_oAscChangeFilterOptions.filter, !state);
+                                me.api.asc_changeAutoFilter(me._state.tablename, Asc.c_oAscChangeFilterOptions.filter, !state);
                             else
                                 me.api.asc_addAutoFilter();
                         }
@@ -1413,11 +1413,11 @@ define([
         onApiEditCell: function(state) {
             var toolbar = this.toolbar;
             if (toolbar.mode.isEditDiagram || toolbar.mode.isEditMailMerge) {
-                is_cell_edited = (state == c_oAscCellEditorState.editStart);
-                toolbar.lockToolbar(SSE.enumLock.editCell, state == c_oAscCellEditorState.editStart, {array: [toolbar.btnDecDecimal,toolbar.btnIncDecimal,toolbar.btnNumberFormat]});
+                is_cell_edited = (state == Asc.c_oAscCellEditorState.editStart);
+                toolbar.lockToolbar(SSE.enumLock.editCell, state == Asc.c_oAscCellEditorState.editStart, {array: [toolbar.btnDecDecimal,toolbar.btnIncDecimal,toolbar.btnNumberFormat]});
             } else
-            if (state == c_oAscCellEditorState.editStart || state == c_oAscCellEditorState.editEnd) {
-                toolbar.lockToolbar(SSE.enumLock.editCell, state == c_oAscCellEditorState.editStart, {
+            if (state == Asc.c_oAscCellEditorState.editStart || state == Asc.c_oAscCellEditorState.editEnd) {
+                toolbar.lockToolbar(SSE.enumLock.editCell, state == Asc.c_oAscCellEditorState.editStart, {
                         array: [
                             toolbar.btnClearStyle.menu.items[1],
                             toolbar.btnClearStyle.menu.items[2],
@@ -1431,7 +1431,7 @@ define([
                         clear: [SSE.enumLock.editFormula, SSE.enumLock.editText]
                 });
 
-                var is_cell_edited = (state == c_oAscCellEditorState.editStart);
+                var is_cell_edited = (state == Asc.c_oAscCellEditorState.editStart);
                 (is_cell_edited) ? Common.util.Shortcuts.suspendEvents('command+l, ctrl+l, command+shift+l, ctrl+shift+l, command+k, ctrl+k, alt+h') :
                                    Common.util.Shortcuts.resumeEvents('command+l, ctrl+l, command+shift+l, ctrl+shift+l, command+k, ctrl+k, alt+h');
 
@@ -1442,9 +1442,9 @@ define([
                     this._state.prstyle = undefined;
                 }
             } else {
-                if (state == c_oAscCellEditorState.editText) var is_text = true, is_formula = false; else
-                if (state == c_oAscCellEditorState.editFormula) is_text = !(is_formula = true); else
-                if (state == c_oAscCellEditorState.editEmptyCell) is_text = is_formula = false;
+                if (state == Asc.c_oAscCellEditorState.editText) var is_text = true, is_formula = false; else
+                if (state == Asc.c_oAscCellEditorState.editFormula) is_text = !(is_formula = true); else
+                if (state == Asc.c_oAscCellEditorState.editEmptyCell) is_text = is_formula = false;
 
                 toolbar.lockToolbar(SSE.enumLock.editFormula, is_formula,
                         { array: [toolbar.cmbFontName, toolbar.cmbFontSize, toolbar.btnIncFontSize, toolbar.btnDecFontSize,
@@ -1525,7 +1525,7 @@ define([
             if (!toolbar.btnTextColor.ischanged && !fontColorPicker.isDummy) {
                 color = fontobj.asc_getColor();
                 if (color) {
-                    if (color.get_type() == c_oAscColor.COLOR_TYPE_SCHEME) {
+                    if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
                         clr = {color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()), effectValue: color.get_value() };
                     } else {
                         clr = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b());
@@ -1612,7 +1612,7 @@ define([
             if (!toolbar.btnTextColor.ischanged && !fontColorPicker.isDummy) {
                 color = fontobj.asc_getColor();
                 if (color) {
-                    if (color.get_type() == c_oAscColor.COLOR_TYPE_SCHEME) {
+                    if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
                         clr = {color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()), effectValue: color.get_value() };
                     } else {
                         clr = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b());
@@ -1646,7 +1646,7 @@ define([
             if (!toolbar.btnBackColor.ischanged && !paragraphColorPicker.isDummy) {
                 color = info.asc_getFill().asc_getColor();
                 if (color) {
-                    if (color.get_type() == c_oAscColor.COLOR_TYPE_SCHEME) {
+                    if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
                         clr = {color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()), effectValue: color.get_value() };
                     } else {
                         clr = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b());
@@ -1679,7 +1679,7 @@ define([
                 this._state.clrshd_asccolor = color;
             }
 
-            if (selectionType == c_oAscSelectionType.RangeChart || selectionType == c_oAscSelectionType.RangeChartText)
+            if (selectionType == Asc.c_oAscSelectionType.RangeChart || selectionType == Asc.c_oAscSelectionType.RangeChartText)
                 return;
 
             if (!toolbar.mode.isEditDiagram)
@@ -1850,13 +1850,13 @@ define([
                 }
             }
 
-            val = (selectionType==c_oAscSelectionType.RangeRow);
+            val = (selectionType==Asc.c_oAscSelectionType.RangeRow);
             if ( this._state.controlsdisabled.rows!==val ) {
                 this._state.controlsdisabled.rows=val;
                 toolbar.btnAddCell.menu.items[3].setDisabled(val);
                 toolbar.btnDeleteCell.menu.items[3].setDisabled(val);
             }
-            val = (selectionType==c_oAscSelectionType.RangeCol);
+            val = (selectionType==Asc.c_oAscSelectionType.RangeCol);
             if ( this._state.controlsdisabled.cols!==val ) {
                 this._state.controlsdisabled.cols=val;
                 toolbar.btnAddCell.menu.items[2].setDisabled(val);
@@ -2098,14 +2098,14 @@ define([
         _disableEditOptions: function(seltype, coauth_disable) {
             if (this.api.isCellEdited) return true;
             if (this.api.isRangeSelection) return true;
-            if (this._state.selection_type===seltype && this._state.coauthdisable===coauth_disable) return (seltype===c_oAscSelectionType.RangeImage);
+            if (this._state.selection_type===seltype && this._state.coauthdisable===coauth_disable) return (seltype===Asc.c_oAscSelectionType.RangeImage);
 
             var toolbar = this.toolbar,
-                is_chart_text   = seltype == c_oAscSelectionType.RangeChartText,
-                is_chart        = seltype == c_oAscSelectionType.RangeChart,
-                is_shape_text   = seltype == c_oAscSelectionType.RangeShapeText,
-                is_shape        = seltype == c_oAscSelectionType.RangeShape,
-                is_image        = seltype == c_oAscSelectionType.RangeImage,
+                is_chart_text   = seltype == Asc.c_oAscSelectionType.RangeChartText,
+                is_chart        = seltype == Asc.c_oAscSelectionType.RangeChart,
+                is_shape_text   = seltype == Asc.c_oAscSelectionType.RangeShapeText,
+                is_shape        = seltype == Asc.c_oAscSelectionType.RangeShape,
+                is_image        = seltype == Asc.c_oAscSelectionType.RangeImage,
                 is_mode_2       = is_shape_text || is_shape || is_chart_text || is_chart;
 
             if ( coauth_disable ) {
@@ -2114,11 +2114,11 @@ define([
                 var _set = SSE.enumLock;
                 var type = seltype;
                 switch (seltype) {
-                case c_oAscSelectionType.RangeImage:        type = _set.selImage; break;
-                case c_oAscSelectionType.RangeShape:        type = _set.selShape; break;
-                case c_oAscSelectionType.RangeShapeText:    type = _set.selShapeText; break;
-                case c_oAscSelectionType.RangeChart:        type = _set.selChart; break;
-                case c_oAscSelectionType.RangeChartText:    type = _set.selChartText; break;
+                case Asc.c_oAscSelectionType.RangeImage:        type = _set.selImage; break;
+                case Asc.c_oAscSelectionType.RangeShape:        type = _set.selShape; break;
+                case Asc.c_oAscSelectionType.RangeShapeText:    type = _set.selShapeText; break;
+                case Asc.c_oAscSelectionType.RangeChart:        type = _set.selChart; break;
+                case Asc.c_oAscSelectionType.RangeChartText:    type = _set.selChartText; break;
                 }
 
                 toolbar.lockToolbar(type, type != seltype, {
@@ -2173,10 +2173,10 @@ define([
                     var handlerDlg = function(dlg, result) {
                         if (result == 'ok') {
                             me._state.filter = undefined;
-                            me.api.asc_setSelectionDialogMode(c_oAscSelectionDialogType.None);
+                            me.api.asc_setSelectionDialogMode(Asc.c_oAscSelectionDialogType.None);
 
                             if (me._state.tablename)
-                                me.api.asc_changeAutoFilter(me._state.tablename, c_oAscChangeFilterOptions.style, fmtname);
+                                me.api.asc_changeAutoFilter(me._state.tablename, Asc.c_oAscChangeFilterOptions.style, fmtname);
                             else
                                 me.api.asc_addAutoFilter(fmtname, dlg.getSettings());
                         }
@@ -2195,7 +2195,7 @@ define([
                 } else {
                     me._state.filter = undefined;
                     if (me._state.tablename)
-                        me.api.asc_changeAutoFilter(me._state.tablename, c_oAscChangeFilterOptions.style, fmtname);
+                        me.api.asc_changeAutoFilter(me._state.tablename, Asc.c_oAscChangeFilterOptions.style, fmtname);
                     else
                         me.api.asc_addAutoFilter(fmtname);
                 }
@@ -2237,8 +2237,8 @@ define([
         },
 
         onCellsRange: function(status) {
-            this.api.isRangeSelection = (status != c_oAscSelectionDialogType.None);
-            this.onApiEditCell(this.api.isRangeSelection ? c_oAscCellEditorState.editStart : c_oAscCellEditorState.editEnd);
+            this.api.isRangeSelection = (status != Asc.c_oAscSelectionDialogType.None);
+            this.onApiEditCell(this.api.isRangeSelection ? Asc.c_oAscCellEditorState.editStart : Asc.c_oAscCellEditorState.editEnd);
 
             var toolbar = this.toolbar;
             toolbar.lockToolbar(SSE.enumLock.selRange, this.api.isRangeSelection);
@@ -2250,7 +2250,7 @@ define([
         },
 
         onLockDefNameManager: function(state) {
-            this._state.namedrange_locked = (state == c_oAscDefinedNameReason.LockDefNameManager);
+            this._state.namedrange_locked = (state == Asc.c_oAscDefinedNameReason.LockDefNameManager);
         },
 
         DisableToolbar: function(disable) {

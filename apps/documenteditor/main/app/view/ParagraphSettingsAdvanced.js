@@ -644,7 +644,7 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                 if (shd!==null && shd!==undefined && shd.get_Value()===shd_Clear) {
                     var color = shd.get_Color();
                     if (color) {
-                        if (color.get_type() == c_oAscColor.COLOR_TYPE_SCHEME) {
+                        if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
                             this.paragraphShade = {color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()), effectValue: color.get_value()};
                         } else {
                             this.paragraphShade = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b());

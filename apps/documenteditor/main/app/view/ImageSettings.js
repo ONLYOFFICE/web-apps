@@ -68,7 +68,7 @@ define([
             this._initSettings = true;
 
             this._state = {
-                WrappingStyle: c_oAscWrapStyle2.Inline,
+                WrappingStyle: Asc.c_oAscWrapStyle2.Inline,
                 CanBeFlow: true,
                 Width: 0,
                 Height: 0,
@@ -84,13 +84,13 @@ define([
             this.render();
 
             var viewData = [
-                { offsetx: 0, data: c_oAscWrapStyle2.Inline, iconcls:'wrap-inline', tip: this.txtInline, selected: true },
-                { offsetx: 50, data: c_oAscWrapStyle2.Square, iconcls:'wrap-square', tip: this.txtSquare },
-                { offsetx: 100, data: c_oAscWrapStyle2.Tight, iconcls:'wrap-tight', tip: this.txtTight },
-                { offsetx: 150, data: c_oAscWrapStyle2.Through, iconcls:'wrap-through', tip: this.txtThrough },
-                { offsetx: 200, data: c_oAscWrapStyle2.TopAndBottom, iconcls:'wrap-topAndBottom', tip: this.txtTopAndBottom },
-                { offsetx: 250, data: c_oAscWrapStyle2.InFront, iconcls:'wrap-inFront', tip: this.txtInFront },
-                { offsetx: 300, data: c_oAscWrapStyle2.Behind, iconcls:'wrap-behind', tip: this.txtBehind }
+                { offsetx: 0, data: Asc.c_oAscWrapStyle2.Inline, iconcls:'wrap-inline', tip: this.txtInline, selected: true },
+                { offsetx: 50, data: Asc.c_oAscWrapStyle2.Square, iconcls:'wrap-square', tip: this.txtSquare },
+                { offsetx: 100, data: Asc.c_oAscWrapStyle2.Tight, iconcls:'wrap-tight', tip: this.txtTight },
+                { offsetx: 150, data: Asc.c_oAscWrapStyle2.Through, iconcls:'wrap-through', tip: this.txtThrough },
+                { offsetx: 200, data: Asc.c_oAscWrapStyle2.TopAndBottom, iconcls:'wrap-topAndBottom', tip: this.txtTopAndBottom },
+                { offsetx: 250, data: Asc.c_oAscWrapStyle2.InFront, iconcls:'wrap-inFront', tip: this.txtInFront },
+                { offsetx: 300, data: Asc.c_oAscWrapStyle2.Behind, iconcls:'wrap-behind', tip: this.txtBehind }
             ];
 
             this.btnWrapType = new Common.UI.Button({
@@ -252,17 +252,17 @@ define([
             if (this.api) {
                 var props = new CImgProperty();
                 props.put_WrappingStyle((rawData.data));
-                if (this._state.WrappingStyle===c_oAscWrapStyle2.Inline && rawData.data!==c_oAscWrapStyle2.Inline ) {
+                if (this._state.WrappingStyle===Asc.c_oAscWrapStyle2.Inline && rawData.data!==Asc.c_oAscWrapStyle2.Inline ) {
                     props.put_PositionH(new CImagePositionH());
                     props.get_PositionH().put_UseAlign(false);
-                    props.get_PositionH().put_RelativeFrom(c_oAscRelativeFromH.Column);
-                    var val = this._originalProps.get_Value_X(c_oAscRelativeFromH.Column);
+                    props.get_PositionH().put_RelativeFrom(Asc.c_oAscRelativeFromH.Column);
+                    var val = this._originalProps.get_Value_X(Asc.c_oAscRelativeFromH.Column);
                     props.get_PositionH().put_Value(val);
 
                     props.put_PositionV(new CImagePositionV());
                     props.get_PositionV().put_UseAlign(false);
-                    props.get_PositionV().put_RelativeFrom(c_oAscRelativeFromV.Paragraph);
-                    val = this._originalProps.get_Value_Y(c_oAscRelativeFromV.Paragraph);
+                    props.get_PositionV().put_RelativeFrom(Asc.c_oAscRelativeFromV.Paragraph);
+                    val = this._originalProps.get_Value_Y(Asc.c_oAscRelativeFromV.Paragraph);
                     props.get_PositionV().put_Value(val);
                 }
 
@@ -320,7 +320,7 @@ define([
                     for (var i = selectedElements.length - 1; i >= 0; i--) {
                         elType = selectedElements[i].get_ObjectType();
                         elValue = selectedElements[i].get_ObjectValue();
-                        if (c_oAscTypeSelectElement.Image == elType) {
+                        if (Asc.c_oAscTypeSelectElement.Image == elType) {
                             var imgsizeOriginal;
                             if (!me.btnOriginalSize.isDisabled()) {
                                 imgsizeOriginal = me.api.get_OriginalSizeImage();

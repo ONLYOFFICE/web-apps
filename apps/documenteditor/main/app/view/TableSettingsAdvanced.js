@@ -80,12 +80,12 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             this._cellBackground = null;
 
             this._state = {
-                HAlignType: c_oAscXAlign.Left,
-                HAlignFrom: c_oAscHAnchor.Margin,
-                HPositionFrom: c_oAscHAnchor.Margin,
-                VAlignType: c_oAscYAlign.Top,
-                VAlignFrom: c_oAscVAnchor.Margin,
-                VPositionFrom: c_oAscVAnchor.Margin,
+                HAlignType: Asc.c_oAscXAlign.Left,
+                HAlignFrom: Asc.c_oAscHAnchor.Margin,
+                HPositionFrom: Asc.c_oAscHAnchor.Margin,
+                VAlignType: Asc.c_oAscYAlign.Top,
+                VAlignFrom: Asc.c_oAscVAnchor.Margin,
+                VPositionFrom: Asc.c_oAscVAnchor.Margin,
                 spnXChanged: false,
                 spnYChanged: false,
                 fromWrapInline: false,
@@ -234,7 +234,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             });
             this.chAutofit.on('change', _.bind(function(field, newValue, oldValue, eOpts){
                 if (this._changedProps) {
-                    this._changedProps.put_TableLayout((field.getValue()=='checked') ? c_oAscTableLayout.AutoFit : c_oAscTableLayout. Fixed);
+                    this._changedProps.put_TableLayout((field.getValue()=='checked') ? Asc.c_oAscTableLayout.AutoFit : Asc.c_oAscTableLayout. Fixed);
                 }
             }, this));
 
@@ -720,9 +720,9 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
 
             // Horizontal
             this._arrHAlign = [
-                {displayValue: this.textLeft,   value: c_oAscXAlign.Left},
-                {displayValue: this.textCenter, value: c_oAscXAlign.Center},
-                {displayValue: this.textRight,  value: c_oAscXAlign.Right}
+                {displayValue: this.textLeft,   value: Asc.c_oAscXAlign.Left},
+                {displayValue: this.textCenter, value: Asc.c_oAscXAlign.Center},
+                {displayValue: this.textRight,  value: Asc.c_oAscXAlign.Right}
             ];
 
             this.cmbHAlign = new Common.UI.ComboBox({
@@ -736,9 +736,9 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             this.cmbHAlign.on('selected', _.bind(this.onHAlignSelect, this));
 
             this._arrHRelative = [
-                {displayValue: this.textMargin,     value: c_oAscHAnchor.Margin},
-                {displayValue: this.textPage,       value: c_oAscHAnchor.Page},
-                {displayValue: this.textAnchorText, value: c_oAscHAnchor.Text}
+                {displayValue: this.textMargin,     value: Asc.c_oAscHAnchor.Margin},
+                {displayValue: this.textPage,       value: Asc.c_oAscHAnchor.Page},
+                {displayValue: this.textAnchorText, value: Asc.c_oAscHAnchor.Text}
             ];
 
             this.cmbHRelative = new Common.UI.ComboBox({
@@ -764,9 +764,9 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
 
             // Vertical
             this._arrVAlign = [
-                {displayValue: this.textTop,   value: c_oAscYAlign.Top},
-                {displayValue: this.textCenter, value: c_oAscYAlign.Center},
-                {displayValue: this.textBottom,  value: c_oAscYAlign.Bottom}
+                {displayValue: this.textTop,   value: Asc.c_oAscYAlign.Top},
+                {displayValue: this.textCenter, value: Asc.c_oAscYAlign.Center},
+                {displayValue: this.textBottom,  value: Asc.c_oAscYAlign.Bottom}
             ];
 
             this.cmbVAlign = new Common.UI.ComboBox({
@@ -780,9 +780,9 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             this.cmbVAlign.on('selected', _.bind(this.onVAlignSelect, this));
 
             this._arrVRelative = [
-                {displayValue: this.textMargin,     value: c_oAscVAnchor.Margin},
-                {displayValue: this.textPage,       value: c_oAscVAnchor.Page},
-                {displayValue: this.textAnchorText, value: c_oAscVAnchor.Text}
+                {displayValue: this.textMargin,     value: Asc.c_oAscVAnchor.Margin},
+                {displayValue: this.textPage,       value: Asc.c_oAscVAnchor.Page},
+                {displayValue: this.textAnchorText, value: Asc.c_oAscVAnchor.Text}
             ];
 
             this.cmbVRelative = new Common.UI.ComboBox({
@@ -1192,7 +1192,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
 
                 var autoFit = props.get_TableLayout();
                 this.chAutofit.setDisabled(autoFit===undefined);
-                this.chAutofit.setValue(autoFit===c_oAscTableLayout.AutoFit, true);
+                this.chAutofit.setValue(autoFit===Asc.c_oAscTableLayout.AutoFit, true);
 
                 // margins
                 var margins = props.get_DefaultMargins();
@@ -1317,7 +1317,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                             break;
                         }
                     }
-                    if (value==c_oAscVAnchor.Text)
+                    if (value==Asc.c_oAscVAnchor.Text)
                         this.chMove.setValue(true, true);
 
                     if (Position.get_UseAlign()) {
@@ -1363,7 +1363,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 if (background && background.get_Value()==0) {
                     var color = background.get_Color();
                     if (color) {
-                        if (color.get_type() == c_oAscColor.COLOR_TYPE_SCHEME) {
+                        if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
                             this.TableColor = {Value: 1, Color: {color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()), effectValue: color.get_value() }};
                         } else {
                             this.TableColor = {Value: 1, Color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b())};
@@ -1378,7 +1378,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                     if (background.get_Value()==0) {
                         var color = background.get_Color();
                         if (color) {
-                            if (color.get_type() == c_oAscColor.COLOR_TYPE_SCHEME) {
+                            if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
                                 this.CellColor = {Value: 1, Color: {color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()), effectValue: color.get_value() }};
                             } else {
                                 this.CellColor = {Value: 1, Color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b())};
@@ -1464,11 +1464,11 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             this.ShowHideWrap(true);
             if (this._changedProps && btn.pressed) {
                 if (this._state.alignChanged) {
-                    if (this._state.HAlignType===c_oAscXAlign.Left)
+                    if (this._state.HAlignType===Asc.c_oAscXAlign.Left)
                         this.btnAlignLeft.toggle(true, true);
-                    else if (this._state.HAlignType==c_oAscXAlign.Center)
+                    else if (this._state.HAlignType==Asc.c_oAscXAlign.Center)
                         this.btnAlignCenter.toggle(true, true);
-                    else if (this._state.HAlignType==c_oAscXAlign.Right)
+                    else if (this._state.HAlignType==Asc.c_oAscXAlign.Right)
                         this.btnAlignRight.toggle(true, true);
                     this._state.alignChanged = false;
                 }
@@ -1492,9 +1492,9 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                     this.radioVPosition.setValue(true);
                 }
                 if (this._state.alignChanged) {
-                    if (this.btnAlignLeft.pressed) this._state.HAlignType = c_oAscXAlign.Left;
-                    else if (this.btnAlignCenter.pressed) this._state.HAlignType = c_oAscXAlign.Center;
-                    else  this._state.HAlignType = c_oAscXAlign.Right;
+                    if (this.btnAlignLeft.pressed) this._state.HAlignType = Asc.c_oAscXAlign.Left;
+                    else if (this.btnAlignCenter.pressed) this._state.HAlignType = Asc.c_oAscXAlign.Center;
+                    else  this._state.HAlignType = Asc.c_oAscXAlign.Right;
                     this.cmbHAlign.setValue(this._state.HAlignType);
                     this.radioHAlign.setValue(true);
                     if (this._changedProps.get_PositionH()===null || this._changedProps.get_PositionH()===undefined)
@@ -1574,7 +1574,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 this._changedProps.get_PositionV().put_RelativeFrom(this._state.VAlignFrom);
                 this._changedProps.get_PositionV().put_Align(this._state.VAlignType);
 
-                this.chMove.setValue(this._state.VAlignFrom==c_oAscVAnchor.Text, true);
+                this.chMove.setValue(this._state.VAlignFrom==Asc.c_oAscVAnchor.Text, true);
             }
         },
 
@@ -1591,7 +1591,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                     this.spnY.setValue(Common.Utils.Metric.fnRecalcFromMM(val), true);
                 }
                 this._changedProps.get_PositionV().put_Value(Common.Utils.Metric.fnRecalcToMM(this.spnY.getNumberValue()));
-                this.chMove.setValue(this._state.VPositionFrom==c_oAscVAnchor.Text, true);
+                this.chMove.setValue(this._state.VPositionFrom==Asc.c_oAscVAnchor.Text, true);
             }
         },
 
@@ -1657,7 +1657,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 this.cmbVRelative.setDisabled(false);
                 this.spnY.setDisabled(true);
                 this.cmbVPosition.setDisabled(true);
-                this.chMove.setValue(this._state.VAlignFrom==c_oAscVAnchor.Text, true);
+                this.chMove.setValue(this._state.VAlignFrom==Asc.c_oAscVAnchor.Text, true);
             }
         },
 
@@ -1681,7 +1681,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 this.cmbVRelative.setDisabled(true);
                 this.spnY.setDisabled(false);
                 this.cmbVPosition.setDisabled(false);
-                this.chMove.setValue(this._state.VPositionFrom==c_oAscVAnchor.Text, true);
+                this.chMove.setValue(this._state.VPositionFrom==Asc.c_oAscVAnchor.Text, true);
             }
         },
 

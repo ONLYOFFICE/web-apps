@@ -303,7 +303,7 @@ define([
             },
 
             onDownloadAs: function() {
-               this.api.asc_DownloadAs(c_oAscFileType.PPTX, true);
+               this.api.asc_DownloadAs(Asc.c_oAscFileType.PPTX, true);
             },
 
             onProcessMouse: function(data) {
@@ -359,11 +359,11 @@ define([
 
                 this.updateWindowTitle(true);
 
-                action = this.stackLongActions.get({type: c_oAscAsyncActionType.Information});
+                action = this.stackLongActions.get({type: Asc.c_oAscAsyncActionType.Information});
                 if (action) {
                     this.setLongActionView(action)
                 } else {
-                    if (this._state.fastCoauth && this._state.usersCount>1 && id==c_oAscAsyncAction['Save']) {
+                    if (this._state.fastCoauth && this._state.usersCount>1 && id==Asc.c_oAscAsyncAction['Save']) {
                         var me = this;
                         if (me._state.timerSave===undefined)
                             me._state.timerSave = setInterval(function(){
@@ -377,13 +377,13 @@ define([
                         this.getApplication().getController('Statusbar').setStatusCaption('');
                 }
 
-                action = this.stackLongActions.get({type: c_oAscAsyncActionType.BlockInteraction});
+                action = this.stackLongActions.get({type: Asc.c_oAscAsyncActionType.BlockInteraction});
                 action ? this.setLongActionView(action) : this.loadMask && this.loadMask.hide();
 
-                if (id==c_oAscAsyncAction['Save'] && (!this._state.fastCoauth || this._state.usersCount<2))
+                if (id==Asc.c_oAscAsyncAction['Save'] && (!this._state.fastCoauth || this._state.usersCount<2))
                     this.synchronizeChanges();
 
-               if (type == c_oAscAsyncActionType.BlockInteraction && !((id == c_oAscAsyncAction['LoadDocumentFonts'] || id == c_oAscAsyncAction['ApplyChanges']) && this.dontCloseDummyComment )) {
+               if (type == Asc.c_oAscAsyncActionType.BlockInteraction && !((id == Asc.c_oAscAsyncAction['LoadDocumentFonts'] || id == Asc.c_oAscAsyncAction['ApplyChanges']) && this.dontCloseDummyComment )) {
                     this.onEditComplete(this.loadMask);
                     this.api.asc_enableKeyEvents(true);
                 }
@@ -393,63 +393,63 @@ define([
                 var title = '', text = '';
 
                 switch (action.id) {
-                    case c_oAscAsyncAction['Open']:
+                    case Asc.c_oAscAsyncAction['Open']:
                         title   = this.openTitleText;
                         text    = this.openTextText;
                         break;
 
-                    case c_oAscAsyncAction['Save']:
+                    case Asc.c_oAscAsyncAction['Save']:
                         this._state.isSaving = new Date();
                         title   = this.saveTitleText;
                         text    = this.saveTextText;
                         break;
 
-                    case c_oAscAsyncAction['LoadDocumentFonts']:
+                    case Asc.c_oAscAsyncAction['LoadDocumentFonts']:
                         title   = this.loadFontsTitleText;
                         text    = this.loadFontsTextText;
                         break;
 
-                    case c_oAscAsyncAction['LoadDocumentImages']:
+                    case Asc.c_oAscAsyncAction['LoadDocumentImages']:
                         title   = this.loadImagesTitleText;
                         text    = this.loadImagesTextText;
                         break;
 
-                    case c_oAscAsyncAction['LoadFont']:
+                    case Asc.c_oAscAsyncAction['LoadFont']:
                         title   = this.loadFontTitleText;
                         text    = this.loadFontTextText;
                         break;
 
-                    case c_oAscAsyncAction['LoadImage']:
+                    case Asc.c_oAscAsyncAction['LoadImage']:
                         title   = this.loadImageTitleText;
                         text    = this.loadImageTextText;
                         break;
 
-                    case c_oAscAsyncAction['DownloadAs']:
+                    case Asc.c_oAscAsyncAction['DownloadAs']:
                         title   = this.downloadTitleText;
                         text    = this.downloadTextText;
                         break;
 
-                    case c_oAscAsyncAction['Print']:
+                    case Asc.c_oAscAsyncAction['Print']:
                         title   = this.printTitleText;
                         text    = this.printTextText;
                         break;
 
-                    case c_oAscAsyncAction['UploadImage']:
+                    case Asc.c_oAscAsyncAction['UploadImage']:
                         title   = this.uploadImageTitleText;
                         text    = this.uploadImageTextText;
                         break;
 
-                    case c_oAscAsyncAction['LoadTheme']:
+                    case Asc.c_oAscAsyncAction['LoadTheme']:
                         title   = this.loadThemeTitleText;
                         text    = this.loadThemeTextText;
                         break;
 
-                    case c_oAscAsyncAction['ApplyChanges']:
+                    case Asc.c_oAscAsyncAction['ApplyChanges']:
                         title   = this.applyChangesTitleText;
                         text    = this.applyChangesTextText;
                         break;
 
-                    case c_oAscAsyncAction['PrepareToSave']:
+                    case Asc.c_oAscAsyncAction['PrepareToSave']:
                         title   = this.savePreparingText;
                         text    = this.savePreparingTitle;
                         break;
@@ -465,7 +465,7 @@ define([
                         break;
                 }
 
-                if (action.type == c_oAscAsyncActionType['BlockInteraction']) {
+                if (action.type == Asc.c_oAscAsyncActionType['BlockInteraction']) {
                     if (!this.loadMask)
                         this.loadMask = new Common.UI.LoadMask({owner: $('#viewport')});
 
@@ -486,7 +486,7 @@ define([
                         data.requestrights = true;
                         this.appOptions.isEdit= true;
 
-                        this.onLongActionBegin(c_oAscAsyncActionType['BlockInteraction'],ApplyEditRights);
+                        this.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'],ApplyEditRights);
 
                         var me = this;
                         setTimeout(function(){
@@ -554,7 +554,7 @@ define([
 
                 me.api.SetDrawingFreeze(false);
                 me.hidePreloader();
-                me.onLongActionEnd(c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
+                me.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
 
                 value = Common.localStorage.getItem("pe-settings-zoom");
                 var zf = (value!==null) ? parseInt(value) : -1;
@@ -727,7 +727,7 @@ define([
 
                 if (!this.appOptions.isEdit) {
                     this.hidePreloader();
-                    this.onLongActionBegin(c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
+                    this.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
                 }
             },
 
@@ -833,11 +833,11 @@ define([
                     me.api.asc_registerCallback('asc_onParticipantsChanged',     _.bind(me.onAuthParticipantsChanged, me));
                     /** coauthoring end **/
 
-                    if (me.stackLongActions.exist({id: ApplyEditRights, type: c_oAscAsyncActionType['BlockInteraction']})) {
-                        me.onLongActionEnd(c_oAscAsyncActionType['BlockInteraction'], ApplyEditRights);
+                    if (me.stackLongActions.exist({id: ApplyEditRights, type: Asc.c_oAscAsyncActionType['BlockInteraction']})) {
+                        me.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], ApplyEditRights);
                     } else if (!this._isDocReady) {
                         me.hidePreloader();
-                        me.onLongActionBegin(c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
+                        me.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
                     }
 
                     // Message on window close
@@ -857,7 +857,7 @@ define([
 
             onError: function(id, level, errData) {
                 this.hidePreloader();
-                this.onLongActionEnd(c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
+                this.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
 
                 var config = {
                     closable: false
@@ -865,79 +865,79 @@ define([
 
                 switch (id)
                 {
-                    case c_oAscError.ID.Unknown:
+                    case Asc.c_oAscError.ID.Unknown:
                         config.msg = this.unknownErrorText;
                         break;
 
-                    case c_oAscError.ID.ConvertationTimeout:
+                    case Asc.c_oAscError.ID.ConvertationTimeout:
                         config.msg = this.convertationTimeoutText;
                         break;
 
-                    case c_oAscError.ID.ConvertationError:
+                    case Asc.c_oAscError.ID.ConvertationError:
                         config.msg = this.convertationErrorText;
                         break;
 
-                    case c_oAscError.ID.DownloadError:
+                    case Asc.c_oAscError.ID.DownloadError:
                         config.msg = this.downloadErrorText;
                         break;
 
-                    case c_oAscError.ID.UplImageSize:
+                    case Asc.c_oAscError.ID.UplImageSize:
                         config.msg = this.uploadImageSizeMessage;
                         break;
 
-                    case c_oAscError.ID.UplImageExt:
+                    case Asc.c_oAscError.ID.UplImageExt:
                         config.msg = this.uploadImageExtMessage;
                         break;
 
-                    case c_oAscError.ID.UplImageFileCount:
+                    case Asc.c_oAscError.ID.UplImageFileCount:
                         config.msg = this.uploadImageFileCountMessage;
                         break;
 
-                    case c_oAscError.ID.SplitCellMaxRows:
+                    case Asc.c_oAscError.ID.SplitCellMaxRows:
                         config.msg = this.splitMaxRowsErrorText.replace('%1', errData.get_Value());
                         break;
 
-                    case c_oAscError.ID.SplitCellMaxCols:
+                    case Asc.c_oAscError.ID.SplitCellMaxCols:
                         config.msg = this.splitMaxColsErrorText.replace('%1', errData.get_Value());
                         break;
 
-                    case c_oAscError.ID.SplitCellRowsDivider:
+                    case Asc.c_oAscError.ID.SplitCellRowsDivider:
                         config.msg = this.splitDividerErrorText.replace('%1', errData.get_Value());
                         break;
 
-                    case c_oAscError.ID.VKeyEncrypt:
+                    case Asc.c_oAscError.ID.VKeyEncrypt:
                         config.msg = this.errorKeyEncrypt;
                         break;
 
-                    case c_oAscError.ID.KeyExpire:
+                    case Asc.c_oAscError.ID.KeyExpire:
                         config.msg = this.errorKeyExpire;
                         break;
 
-                    case c_oAscError.ID.UserCountExceed:
+                    case Asc.c_oAscError.ID.UserCountExceed:
                         config.msg = this.errorUsersExceed;
                         break;
 
-                    case c_oAscError.ID.CoAuthoringDisconnect:
+                    case Asc.c_oAscError.ID.CoAuthoringDisconnect:
                         config.msg = this.errorCoAuthoringDisconnect;
                         break;
 
-                    case c_oAscError.ID.ConvertationPassword:
+                    case Asc.c_oAscError.ID.ConvertationPassword:
                         config.msg = this.errorFilePassProtect;
                         break;
 
-                    case c_oAscError.ID.StockChartError:
+                    case Asc.c_oAscError.ID.StockChartError:
                         config.msg = this.errorStockChart;
                         break;
 
-                    case c_oAscError.ID.DataRangeError:
+                    case Asc.c_oAscError.ID.DataRangeError:
                         config.msg = this.errorDataRange;
                         break;
 
-                    case c_oAscError.ID.Database:
+                    case Asc.c_oAscError.ID.Database:
                         config.msg = this.errorDatabaseConnection;
                         break;
 
-                    case c_oAscError.ID.UserDrop:
+                    case Asc.c_oAscError.ID.UserDrop:
                         if (this._state.lostEditingRights) {
                             this._state.lostEditingRights = false;
                             return;
@@ -946,7 +946,7 @@ define([
                         config.msg = this.errorUserDrop;
                         break;
 
-                    case c_oAscError.ID.Warning:
+                    case Asc.c_oAscError.ID.Warning:
                         config.msg = this.errorConnectToServer;
                         break;
 
@@ -956,7 +956,7 @@ define([
                 }
 
 
-                if (level == c_oAscError.Level.Critical) {
+                if (level == Asc.c_oAscError.Level.Critical) {
 
                     // report only critical errors
                     Common.Gateway.reportError(id, config.msg);
@@ -978,7 +978,7 @@ define([
                     config.iconCls  = 'warn';
                     config.buttons  = ['ok'];
                     config.callback = _.bind(function(btn){
-                        if (id == c_oAscError.ID.Warning && btn == 'ok' && this.appOptions.canDownload) {
+                        if (id == Asc.c_oAscError.ID.Warning && btn == 'ok' && this.appOptions.canDownload) {
                             Common.UI.Menu.Manager.hideAll();
                             (this.appOptions.isDesktopApp && this.appOptions.isOffline) ? this.api.asc_DownloadAs() : this.getApplication().getController('LeftMenu').leftMenu.showMenu('file:saveas');
                         }
@@ -1167,14 +1167,14 @@ define([
             onUpdateVersion: function(callback) {
                 var me = this;
                 me.needToUpdateVersion = true;
-                me.onLongActionEnd(c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
+                me.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
                 Common.UI.error({
                     msg: this.errorUpdateVersion,
                     callback: function() {
                         _.defer(function() {
                             Common.Gateway.updateVersion();
                             if (callback) callback.call(me);
-                            me.onLongActionBegin(c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
+                            me.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
                         })
                     }
                 });

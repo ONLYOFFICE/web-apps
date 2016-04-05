@@ -112,15 +112,15 @@ define([
             if (settings.api) {
                 me.api = settings.api;
 
-                me.api.asc_setSelectionDialogMode(c_oAscSelectionDialogType.Chart, settings.range ? settings.range : '');
+                me.api.asc_setSelectionDialogMode(Asc.c_oAscSelectionDialogType.Chart, settings.range ? settings.range : '');
                 me.api.asc_unregisterCallback('asc_onSelectionRangeChanged', _.bind(me.onApiRangeChanged, me));
                 me.api.asc_registerCallback('asc_onSelectionRangeChanged', _.bind(me.onApiRangeChanged, me));
-                Common.NotificationCenter.trigger('cells:range', c_oAscSelectionDialogType.Chart);
+                Common.NotificationCenter.trigger('cells:range', Asc.c_oAscSelectionDialogType.Chart);
             }
 
             me.inputRange.validation = function(value) {
-                var isvalid = me.api.asc_checkDataRange(c_oAscSelectionDialogType.Chart, value, false);
-                return (isvalid==c_oAscError.ID.DataRangeError) ? me.txtInvalidRange : true;
+                var isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, value, false);
+                return (isvalid==Asc.c_oAscError.ID.DataRangeError) ? me.txtInvalidRange : true;
             };
         },
 
@@ -140,8 +140,8 @@ define([
 
         onClose: function(event) {
             if (this.api)
-                this.api.asc_setSelectionDialogMode(c_oAscSelectionDialogType.None);
-            Common.NotificationCenter.trigger('cells:range', c_oAscSelectionDialogType.None);
+                this.api.asc_setSelectionDialogMode(Asc.c_oAscSelectionDialogType.None);
+            Common.NotificationCenter.trigger('cells:range', Asc.c_oAscSelectionDialogType.None);
         },
 
         onKeyPress: function(event) {

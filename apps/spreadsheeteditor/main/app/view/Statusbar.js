@@ -223,8 +223,8 @@ define([
                     //'tab:manual'        : _.bind(this.onAddTabClick, this),
                     'tab:contextmenu'   : _.bind(this.onTabMenu, this),
                     'tab:dblclick'      : _.bind(function () {
-                        if (me.editMode && (me.rangeSelectionMode !== c_oAscSelectionDialogType.Chart) &&
-                                           (me.rangeSelectionMode !== c_oAscSelectionDialogType.FormatTable)) {
+                        if (me.editMode && (me.rangeSelectionMode !== Asc.c_oAscSelectionDialogType.Chart) &&
+                                           (me.rangeSelectionMode !== Asc.c_oAscSelectionDialogType.FormatTable)) {
                             me.fireEvent('sheet:changename');
                         }
                     }, this),
@@ -518,8 +518,8 @@ define([
             },
 
             onTabMenu: function (o, index, tab) {
-                if (this.mode.isEdit && !this.isEditFormula && (this.rangeSelectionMode !== c_oAscSelectionDialogType.Chart) &&
-                                                               (this.rangeSelectionMode !== c_oAscSelectionDialogType.FormatTable)) {
+                if (this.mode.isEdit && !this.isEditFormula && (this.rangeSelectionMode !== Asc.c_oAscSelectionDialogType.Chart) &&
+                                                               (this.rangeSelectionMode !== Asc.c_oAscSelectionDialogType.FormatTable)) {
                     if (tab && tab.sheetindex >= 0) {
                         var rect = tab.$el.get(0).getBoundingClientRect(),
                             childPos = tab.$el.offset(),

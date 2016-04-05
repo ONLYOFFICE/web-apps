@@ -526,7 +526,7 @@ define([
                     if (background.get_Value()==0) {
                         var color = background.get_Color();
                         if (color) {
-                            if (color.get_type() == c_oAscColor.COLOR_TYPE_SCHEME) {
+                            if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
                                 this.CellColor = {Value: 1, Color: {color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()), effectValue: color.get_value() }};
                             } else {
                                 this.CellColor = {Value: 1, Color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b())};
@@ -659,7 +659,7 @@ define([
                     for (var i = selectedElements.length - 1; i >= 0; i--) {
                         elType = selectedElements[i].get_ObjectType();
                         elValue = selectedElements[i].get_ObjectValue();
-                        if (c_oAscTypeSelectElement.Table == elType) {
+                        if (Asc.c_oAscTypeSelectElement.Table == elType) {
                             (new PE.Views.TableSettingsAdvanced(
                             {
                                 tableProps: elValue,

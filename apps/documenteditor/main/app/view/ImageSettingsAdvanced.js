@@ -76,20 +76,20 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             this.spinners = [];
 
             this._state = {
-                HAlignType: c_oAscAlignH.Left,
-                HAlignFrom: c_oAscRelativeFromH.Character,
-                HPositionFrom: c_oAscRelativeFromH.Character,
-                HPositionPcFrom: c_oAscRelativeFromH.Page,
-                VAlignType: c_oAscAlignV.Top,
-                VAlignFrom: c_oAscRelativeFromV.Line,
-                VPositionFrom: c_oAscRelativeFromV.Line,
-                VPositionPcFrom: c_oAscRelativeFromV.Page,
+                HAlignType: Asc.c_oAscAlignH.Left,
+                HAlignFrom: Asc.c_oAscRelativeFromH.Character,
+                HPositionFrom: Asc.c_oAscRelativeFromH.Character,
+                HPositionPcFrom: Asc.c_oAscRelativeFromH.Page,
+                VAlignType: Asc.c_oAscAlignV.Top,
+                VAlignFrom: Asc.c_oAscRelativeFromV.Line,
+                VPositionFrom: Asc.c_oAscRelativeFromV.Line,
+                VPositionPcFrom: Asc.c_oAscRelativeFromV.Page,
                 spnXChanged: false,
                 spnYChanged: false,
                 spnXPcChanged: false,
                 spnYPcChanged: false
             };
-            this._objectType = c_oAscTypeSelectElement.Image;
+            this._objectType = Asc.c_oAscTypeSelectElement.Image;
             this.Margins = undefined;
             this._nRatio = 1;
 
@@ -191,7 +191,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             this.btnWrapInline = new Common.UI.Button({
                 cls: 'btn-options x-huge',
                 iconCls: 'icon-advanced-wrap btn-wrap-inline',
-                posId: c_oAscWrapStyle2.Inline,
+                posId: Asc.c_oAscWrapStyle2.Inline,
                 hint: this.textWrapInlineTooltip,
                 enableToggle: true,
                 allowDepress: false,
@@ -203,7 +203,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             this.btnWrapSquare = new Common.UI.Button({
                 cls: 'btn-options x-huge',
                 iconCls: 'icon-advanced-wrap btn-wrap-square',
-                posId: c_oAscWrapStyle2.Square,
+                posId: Asc.c_oAscWrapStyle2.Square,
                 hint: this.textWrapSquareTooltip,
                 enableToggle: true,
                 allowDepress: false,
@@ -215,7 +215,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             this.btnWrapTight = new Common.UI.Button({
                 cls: 'btn-options x-huge',
                 iconCls: 'icon-advanced-wrap btn-wrap-tight',
-                posId: c_oAscWrapStyle2.Tight,
+                posId: Asc.c_oAscWrapStyle2.Tight,
                 hint: this.textWrapTightTooltip,
                 enableToggle: true,
                 allowDepress: false,
@@ -227,7 +227,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             this.btnWrapThrough = new Common.UI.Button({
                 cls: 'btn-options x-huge',
                 iconCls: 'icon-advanced-wrap btn-wrap-through',
-                posId: c_oAscWrapStyle2.Through,
+                posId: Asc.c_oAscWrapStyle2.Through,
                 hint: this.textWrapThroughTooltip,
                 enableToggle: true,
                 allowDepress: false,
@@ -239,7 +239,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             this.btnWrapTopBottom = new Common.UI.Button({
                 cls: 'btn-options x-huge',
                 iconCls: 'icon-advanced-wrap btn-wrap-topbottom',
-                posId: c_oAscWrapStyle2.TopAndBottom,
+                posId: Asc.c_oAscWrapStyle2.TopAndBottom,
                 hint: this.textWrapTopbottomTooltip,
                 enableToggle: true,
                 allowDepress: false,
@@ -251,7 +251,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             this.btnWrapBehind = new Common.UI.Button({
                 cls: 'btn-options x-huge',
                 iconCls: 'icon-advanced-wrap btn-wrap-behind',
-                posId: c_oAscWrapStyle2.Behind,
+                posId: Asc.c_oAscWrapStyle2.Behind,
                 hint: this.textWrapBehindTooltip,
                 enableToggle: true,
                 allowDepress: false,
@@ -263,7 +263,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             this.btnWrapInFront = new Common.UI.Button({
                 cls: 'btn-options x-huge',
                 iconCls: 'icon-advanced-wrap btn-wrap-infront',
-                posId: c_oAscWrapStyle2.InFront,
+                posId: Asc.c_oAscWrapStyle2.InFront,
                 hint: this.textWrapInFrontTooltip,
                 enableToggle: true,
                 allowDepress: false,
@@ -402,9 +402,9 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
 
             // Horizontal
             this._arrHAlign = [
-                {displayValue: this.textLeft,   value: c_oAscAlignH.Left},
-                {displayValue: this.textCenter, value: c_oAscAlignH.Center},
-                {displayValue: this.textRight,  value: c_oAscAlignH.Right}
+                {displayValue: this.textLeft,   value: Asc.c_oAscAlignH.Left},
+                {displayValue: this.textCenter, value: Asc.c_oAscAlignH.Center},
+                {displayValue: this.textRight,  value: Asc.c_oAscAlignH.Right}
             ];
 
             this.cmbHAlign = new Common.UI.ComboBox({
@@ -418,12 +418,12 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             this.cmbHAlign.on('selected', _.bind(this.onHAlignSelect, this));
 
             this._arrHRelative = [
-                {displayValue: this.textCharacter,     value: c_oAscRelativeFromH.Character},
-                {displayValue: this.textColumn,       value: c_oAscRelativeFromH.Column},
-                {displayValue: this.textLeftMargin,       value: c_oAscRelativeFromH.LeftMargin},
-                {displayValue: this.textMargin,       value: c_oAscRelativeFromH.Margin},
-                {displayValue: this.textPage,       value: c_oAscRelativeFromH.Page},
-                {displayValue: this.textRightMargin, value: c_oAscRelativeFromH.RightMargin}
+                {displayValue: this.textCharacter,     value: Asc.c_oAscRelativeFromH.Character},
+                {displayValue: this.textColumn,       value: Asc.c_oAscRelativeFromH.Column},
+                {displayValue: this.textLeftMargin,       value: Asc.c_oAscRelativeFromH.LeftMargin},
+                {displayValue: this.textMargin,       value: Asc.c_oAscRelativeFromH.Margin},
+                {displayValue: this.textPage,       value: Asc.c_oAscRelativeFromH.Page},
+                {displayValue: this.textRightMargin, value: Asc.c_oAscRelativeFromH.RightMargin}
             ];
 
             this.cmbHRelative = new Common.UI.ComboBox({
@@ -472,10 +472,10 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             }, this));
 
             this._arrHRelativePc = [
-                {displayValue: this.textLeftMargin,   value: c_oAscRelativeFromH.LeftMargin},
-                {displayValue: this.textMargin,       value: c_oAscRelativeFromH.Margin},
-                {displayValue: this.textPage,         value: c_oAscRelativeFromH.Page},
-                {displayValue: this.textRightMargin,  value: c_oAscRelativeFromH.RightMargin}
+                {displayValue: this.textLeftMargin,   value: Asc.c_oAscRelativeFromH.LeftMargin},
+                {displayValue: this.textMargin,       value: Asc.c_oAscRelativeFromH.Margin},
+                {displayValue: this.textPage,         value: Asc.c_oAscRelativeFromH.Page},
+                {displayValue: this.textRightMargin,  value: Asc.c_oAscRelativeFromH.RightMargin}
             ];
 
             this.cmbHPositionPc = new Common.UI.ComboBox({
@@ -491,9 +491,9 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
 
             // Vertical
             this._arrVAlign = [
-                {displayValue: this.textTop,   value: c_oAscAlignV.Top},
-                {displayValue: this.textCenter, value: c_oAscAlignV.Center},
-                {displayValue: this.textBottom,  value: c_oAscAlignV.Bottom}
+                {displayValue: this.textTop,   value: Asc.c_oAscAlignV.Top},
+                {displayValue: this.textCenter, value: Asc.c_oAscAlignV.Center},
+                {displayValue: this.textBottom,  value: Asc.c_oAscAlignV.Bottom}
             ];
 
             this.cmbVAlign = new Common.UI.ComboBox({
@@ -507,12 +507,12 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             this.cmbVAlign.on('selected', _.bind(this.onVAlignSelect, this));
 
             this._arrVRelative = [
-                {displayValue: this.textLine,     value: c_oAscRelativeFromV.Line},
-                {displayValue: this.textMargin,       value: c_oAscRelativeFromV.Margin},
-                {displayValue: this.textBottomMargin,       value: c_oAscRelativeFromV.BottomMargin},
-                {displayValue: this.textParagraph,       value: c_oAscRelativeFromV.Paragraph},
-                {displayValue: this.textPage,       value: c_oAscRelativeFromV.Page},
-                {displayValue: this.textTopMargin, value: c_oAscRelativeFromV.TopMargin}
+                {displayValue: this.textLine,     value: Asc.c_oAscRelativeFromV.Line},
+                {displayValue: this.textMargin,       value: Asc.c_oAscRelativeFromV.Margin},
+                {displayValue: this.textBottomMargin,       value: Asc.c_oAscRelativeFromV.BottomMargin},
+                {displayValue: this.textParagraph,       value: Asc.c_oAscRelativeFromV.Paragraph},
+                {displayValue: this.textPage,       value: Asc.c_oAscRelativeFromV.Page},
+                {displayValue: this.textTopMargin, value: Asc.c_oAscRelativeFromV.TopMargin}
             ];
 
             this.cmbVRelative = new Common.UI.ComboBox({
@@ -561,10 +561,10 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             }, this));
 
             this._arrVRelativePc = [
-                {displayValue: this.textMargin,       value: c_oAscRelativeFromV.Margin},
-                {displayValue: this.textBottomMargin,       value: c_oAscRelativeFromV.BottomMargin},
-                {displayValue: this.textPage,       value: c_oAscRelativeFromV.Page},
-                {displayValue: this.textTopMargin, value: c_oAscRelativeFromV.TopMargin}
+                {displayValue: this.textMargin,       value: Asc.c_oAscRelativeFromV.Margin},
+                {displayValue: this.textBottomMargin,       value: Asc.c_oAscRelativeFromV.BottomMargin},
+                {displayValue: this.textPage,       value: Asc.c_oAscRelativeFromV.Page},
+                {displayValue: this.textTopMargin, value: Asc.c_oAscRelativeFromV.TopMargin}
             ];
 
             this.cmbVPositionPc = new Common.UI.ComboBox({
@@ -720,9 +720,9 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
 
             // Shape
             this._arrCapType = [
-                {displayValue: this.textFlat,   value: c_oAscLineCapType.Flat},
-                {displayValue: this.textRound, value: c_oAscLineCapType.Round},
-                {displayValue: this.textSquare,  value: c_oAscLineCapType.Square}
+                {displayValue: this.textFlat,   value: Asc.c_oAscLineCapType.Flat},
+                {displayValue: this.textRound, value: Asc.c_oAscLineCapType.Round},
+                {displayValue: this.textSquare,  value: Asc.c_oAscLineCapType.Square}
             ];
 
             this.cmbCapType = new Common.UI.ComboBox({
@@ -732,7 +732,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 editable: false,
                 data: this._arrCapType
             });
-            this.cmbCapType.setValue(c_oAscLineCapType.Flat);
+            this.cmbCapType.setValue(Asc.c_oAscLineCapType.Flat);
             this.cmbCapType.on('selected', _.bind(function(combo, record){
                 if (this._changedShapeProps) {
                     if (this._changedShapeProps.get_stroke()===null)
@@ -743,9 +743,9 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             }, this));
 
             this._arrJoinType = [
-                {displayValue: this.textRound,   value: c_oAscLineJoinType.Round},
-                {displayValue: this.textBevel, value: c_oAscLineJoinType.Bevel},
-                {displayValue: this.textMiter,  value: c_oAscLineJoinType.Miter}
+                {displayValue: this.textRound,   value: Asc.c_oAscLineJoinType.Round},
+                {displayValue: this.textBevel, value: Asc.c_oAscLineJoinType.Bevel},
+                {displayValue: this.textMiter,  value: Asc.c_oAscLineJoinType.Miter}
             ];
             this.cmbJoinType = new Common.UI.ComboBox({
                 el: $('#shape-advanced-join-type'),
@@ -754,7 +754,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 editable: false,
                 data: this._arrJoinType
             });
-            this.cmbJoinType.setValue(c_oAscLineJoinType.Round);
+            this.cmbJoinType.setValue(Asc.c_oAscLineJoinType.Round);
             this.cmbJoinType.on('selected', _.bind(function(combo, record){
                 if (this._changedShapeProps) {
                     if (this._changedShapeProps.get_stroke()===null)
@@ -769,25 +769,25 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             for ( var i=0; i<6; i++ )
                 _arrStyles.push({value: i, offsetx: 80*i+10, offsety: 0});
 
-            _arrStyles[0].type = c_oAscLineBeginType.None;
-            _arrStyles[1].type = c_oAscLineBeginType.Triangle;
-            _arrStyles[2].type = c_oAscLineBeginType.Arrow;
-            _arrStyles[3].type = c_oAscLineBeginType.Stealth;
-            _arrStyles[4].type = c_oAscLineBeginType.Diamond;
-            _arrStyles[5].type = c_oAscLineBeginType.Oval;
+            _arrStyles[0].type = Asc.c_oAscLineBeginType.None;
+            _arrStyles[1].type = Asc.c_oAscLineBeginType.Triangle;
+            _arrStyles[2].type = Asc.c_oAscLineBeginType.Arrow;
+            _arrStyles[3].type = Asc.c_oAscLineBeginType.Stealth;
+            _arrStyles[4].type = Asc.c_oAscLineBeginType.Diamond;
+            _arrStyles[5].type = Asc.c_oAscLineBeginType.Oval;
 
             for ( i=0; i<9; i++ )
                 _arrSize.push({value: i, offsetx: 80+10, offsety: 20*(i+1)});
 
-            _arrSize[0].type = c_oAscLineBeginSize.small_small;
-            _arrSize[1].type = c_oAscLineBeginSize.small_mid;
-            _arrSize[2].type = c_oAscLineBeginSize.small_large;
-            _arrSize[3].type = c_oAscLineBeginSize.mid_small;
-            _arrSize[4].type = c_oAscLineBeginSize.mid_mid;
-            _arrSize[5].type = c_oAscLineBeginSize.mid_large;
-            _arrSize[6].type = c_oAscLineBeginSize.large_small;
-            _arrSize[7].type = c_oAscLineBeginSize.large_mid;
-            _arrSize[8].type = c_oAscLineBeginSize.large_large;
+            _arrSize[0].type = Asc.c_oAscLineBeginSize.small_small;
+            _arrSize[1].type = Asc.c_oAscLineBeginSize.small_mid;
+            _arrSize[2].type = Asc.c_oAscLineBeginSize.small_large;
+            _arrSize[3].type = Asc.c_oAscLineBeginSize.mid_small;
+            _arrSize[4].type = Asc.c_oAscLineBeginSize.mid_mid;
+            _arrSize[5].type = Asc.c_oAscLineBeginSize.mid_large;
+            _arrSize[6].type = Asc.c_oAscLineBeginSize.large_small;
+            _arrSize[7].type = Asc.c_oAscLineBeginSize.large_mid;
+            _arrSize[8].type = Asc.c_oAscLineBeginSize.large_large;
 
 
             this.btnBeginStyle = new Common.UI.ComboBox({
@@ -910,30 +910,30 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
 
         _setDefaults: function(props) {
             if (props ){
-                this._objectType = c_oAscTypeSelectElement.Image;
+                this._objectType = Asc.c_oAscTypeSelectElement.Image;
 
                 var value = props.get_WrappingStyle();
                 if ( props.get_CanBeFlow() ) {
                     switch (value) {
-                        case c_oAscWrapStyle2.Inline:
+                        case Asc.c_oAscWrapStyle2.Inline:
                             this.btnWrapInline.toggle(true);
                             break;
-                        case c_oAscWrapStyle2.Square:
+                        case Asc.c_oAscWrapStyle2.Square:
                             this.btnWrapSquare.toggle(true);
                             break;
-                        case c_oAscWrapStyle2.Tight:
+                        case Asc.c_oAscWrapStyle2.Tight:
                             this.btnWrapTight.toggle(true);
                             break;
-                        case c_oAscWrapStyle2.Through:
+                        case Asc.c_oAscWrapStyle2.Through:
                             this.btnWrapThrough.toggle(true);
                             break;
-                        case c_oAscWrapStyle2.TopAndBottom:
+                        case Asc.c_oAscWrapStyle2.TopAndBottom:
                             this.btnWrapTopBottom.toggle(true);
                             break;
-                        case c_oAscWrapStyle2.Behind:
+                        case Asc.c_oAscWrapStyle2.Behind:
                             this.btnWrapBehind.toggle(true);
                             break;
-                        case c_oAscWrapStyle2.InFront:
+                        case Asc.c_oAscWrapStyle2.InFront:
                             this.btnWrapInFront.toggle(true);
                             break;
                         default:
@@ -955,7 +955,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                     this.btnWrapTopBottom.setDisabled(true);
                     this.btnWrapBehind.setDisabled(true);
                     this.btnWrapInFront.setDisabled(true);
-                    this._DisableElem(c_oAscWrapStyle2.Inline);
+                    this._DisableElem(Asc.c_oAscWrapStyle2.Inline);
                 }
 
                 this.spnWidth.setMaxValue(this.sizeMax.width);
@@ -1067,7 +1067,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                             }
                         }
                     }
-                    this.chMove.setValue((value==c_oAscRelativeFromV.Line || value==c_oAscRelativeFromV.Paragraph), true);
+                    this.chMove.setValue((value==Asc.c_oAscRelativeFromV.Line || value==Asc.c_oAscRelativeFromV.Paragraph), true);
                     this.chMove.setDisabled(!Position.get_UseAlign() && Position.get_Percent());
                 }
 
@@ -1086,7 +1086,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 this.btnsCategory[1].setDisabled(props.get_FromGroup()); // Wrapping
 
                 if (shapeprops) {
-                    this._objectType = c_oAscTypeSelectElement.Shape;
+                    this._objectType = Asc.c_oAscTypeSelectElement.Shape;
                     this._setShapeDefaults(shapeprops);
                     this.setTitle(this.textTitleShape);
                     value = Common.localStorage.getItem("de-settings-shaperatio");
@@ -1106,7 +1106,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                     this.btnsCategory[4].setDisabled(null === margins);   // Margins
                 }
                 else if (chartprops) {
-                    this._objectType = c_oAscTypeSelectElement.Chart;
+                    this._objectType = Asc.c_oAscTypeSelectElement.Chart;
                     this.setTitle(this.textTitleChart);
                     value = Common.localStorage.getItem("de-settings-chartratio");
                 }
@@ -1126,10 +1126,10 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
 
         getSettings: function() {
             var value = (this.btnRatio.pressed) ? 1 : 0;
-            if (this._objectType==c_oAscTypeSelectElement.Shape) {
+            if (this._objectType==Asc.c_oAscTypeSelectElement.Shape) {
                 Common.localStorage.setItem("de-settings-shaperatio", value);
             }
-            else if (this._objectType==c_oAscTypeSelectElement.Chart) {
+            else if (this._objectType==Asc.c_oAscTypeSelectElement.Chart) {
                 Common.localStorage.setItem("de-settings-chartratio", value);
             }
             else {
@@ -1138,7 +1138,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
 
             var properties = this._changedProps;
 
-            if (this._objectType == c_oAscTypeSelectElement.Shape) {
+            if (this._objectType == Asc.c_oAscTypeSelectElement.Shape) {
                 properties.put_ShapeProperties(this._changedShapeProps);
                 if (this.Margins) {
                     if (properties.get_ShapeProperties()===null || properties.get_ShapeProperties()===undefined)
@@ -1147,13 +1147,13 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 }
             }
 
-            if (this._originalProps.get_WrappingStyle()===c_oAscWrapStyle2.Inline && properties.get_WrappingStyle() !== undefined && properties.get_WrappingStyle()!==c_oAscWrapStyle2.Inline ) {
+            if (this._originalProps.get_WrappingStyle()===Asc.c_oAscWrapStyle2.Inline && properties.get_WrappingStyle() !== undefined && properties.get_WrappingStyle()!==Asc.c_oAscWrapStyle2.Inline ) {
                 if ( properties.get_PositionH()===null || properties.get_PositionH()===undefined ) {
                     properties.put_PositionH(new CImagePositionH());
                     properties.get_PositionH().put_UseAlign(false);
                     properties.get_PositionH().put_Percent(false);
-                    properties.get_PositionH().put_RelativeFrom(c_oAscRelativeFromH.Column);
-                    var val = this._originalProps.get_Value_X(c_oAscRelativeFromH.Column);
+                    properties.get_PositionH().put_RelativeFrom(Asc.c_oAscRelativeFromH.Column);
+                    var val = this._originalProps.get_Value_X(Asc.c_oAscRelativeFromH.Column);
                     properties.get_PositionH().put_Value(val);
                 }
 
@@ -1161,8 +1161,8 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                     properties.put_PositionV(new CImagePositionV());
                     properties.get_PositionV().put_UseAlign(false);
                     properties.get_PositionV().put_Percent(false);
-                    properties.get_PositionV().put_RelativeFrom(c_oAscRelativeFromV.Paragraph);
-                    val = this._originalProps.get_Value_Y(c_oAscRelativeFromV.Paragraph);
+                    properties.get_PositionV().put_RelativeFrom(Asc.c_oAscRelativeFromV.Paragraph);
+                    val = this._originalProps.get_Value_Y(Asc.c_oAscRelativeFromV.Paragraph);
                     properties.get_PositionV().put_Value(val);
                 }
             }
@@ -1270,16 +1270,16 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
         },
 
         _DisableElem: function(btnId){
-            var disabledLR = (btnId == c_oAscWrapStyle2.Inline || btnId == c_oAscWrapStyle2.Behind || btnId == c_oAscWrapStyle2.InFront || btnId == c_oAscWrapStyle2.TopAndBottom);
-            var disabledTB = (btnId == c_oAscWrapStyle2.Inline || btnId == c_oAscWrapStyle2.Behind || btnId == c_oAscWrapStyle2.InFront
-                || btnId == c_oAscWrapStyle2.Tight || btnId == c_oAscWrapStyle2.Through);
+            var disabledLR = (btnId == Asc.c_oAscWrapStyle2.Inline || btnId == Asc.c_oAscWrapStyle2.Behind || btnId == Asc.c_oAscWrapStyle2.InFront || btnId == Asc.c_oAscWrapStyle2.TopAndBottom);
+            var disabledTB = (btnId == Asc.c_oAscWrapStyle2.Inline || btnId == Asc.c_oAscWrapStyle2.Behind || btnId == Asc.c_oAscWrapStyle2.InFront
+                || btnId == Asc.c_oAscWrapStyle2.Tight || btnId == Asc.c_oAscWrapStyle2.Through);
 
             this.spnLeft.setDisabled(disabledLR);
             this.spnRight.setDisabled(disabledLR);
             this.spnTop.setDisabled(disabledTB);
             this.spnBottom.setDisabled(disabledTB);
 
-            this.btnsCategory[2].setDisabled(btnId == c_oAscWrapStyle2.Inline);
+            this.btnsCategory[2].setDisabled(btnId == Asc.c_oAscWrapStyle2.Inline);
         },
 
         onHAlignSelect: function(combo, record){
@@ -1366,7 +1366,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 this._changedProps.get_PositionV().put_RelativeFrom(this._state.VAlignFrom);
                 this._changedProps.get_PositionV().put_Align(this._state.VAlignType);
 
-                this.chMove.setValue(this._state.VAlignFrom==c_oAscRelativeFromV.Line || this._state.VAlignFrom==c_oAscRelativeFromV.Paragraph, true);
+                this.chMove.setValue(this._state.VAlignFrom==Asc.c_oAscRelativeFromV.Line || this._state.VAlignFrom==Asc.c_oAscRelativeFromV.Paragraph, true);
             }
         },
 
@@ -1384,7 +1384,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                     this.spnY.setValue(Common.Utils.Metric.fnRecalcFromMM(val), true);
                 }
                 this._changedProps.get_PositionV().put_Value(Common.Utils.Metric.fnRecalcToMM(this.spnY.getNumberValue()));
-                this.chMove.setValue(this._state.VPositionFrom==c_oAscRelativeFromV.Line || this._state.VPositionFrom==c_oAscRelativeFromV.Paragraph, true);
+                this.chMove.setValue(this._state.VPositionFrom==Asc.c_oAscRelativeFromV.Line || this._state.VPositionFrom==Asc.c_oAscRelativeFromV.Paragraph, true);
             }
         },
 
@@ -1489,7 +1489,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 this.cmbVRelative.setDisabled(false);
                 this.spnY.setDisabled(true);
                 this.cmbVPosition.setDisabled(true);
-                this.chMove.setValue(this._state.VAlignFrom==c_oAscRelativeFromV.Line || this._state.VAlignFrom==c_oAscRelativeFromV.Paragraph, true);
+                this.chMove.setValue(this._state.VAlignFrom==Asc.c_oAscRelativeFromV.Line || this._state.VAlignFrom==Asc.c_oAscRelativeFromV.Paragraph, true);
                 this.chMove.setDisabled(false);
                 this.spnYPc.setDisabled(true);
                 this.cmbVPositionPc.setDisabled(true);
@@ -1513,7 +1513,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 this.cmbVRelative.setDisabled(true);
                 this.spnY.setDisabled(false);
                 this.cmbVPosition.setDisabled(false);
-                this.chMove.setValue(this._state.VPositionFrom==c_oAscRelativeFromV.Line || this._state.VPositionFrom==c_oAscRelativeFromV.Paragraph, true);
+                this.chMove.setValue(this._state.VPositionFrom==Asc.c_oAscRelativeFromV.Line || this._state.VPositionFrom==Asc.c_oAscRelativeFromV.Paragraph, true);
                 this.chMove.setDisabled(false);
                 this.spnYPc.setDisabled(true);
                 this.cmbVPositionPc.setDisabled(true);            

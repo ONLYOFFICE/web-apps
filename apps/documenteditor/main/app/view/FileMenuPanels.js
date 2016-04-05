@@ -52,15 +52,15 @@ define([
         menu: undefined,
 
         formats: [[
-            {name: 'PDF',   imgCls: 'pdf',   type: c_oAscFileType.PDF},
-            {name: 'TXT',   imgCls: 'txt',   type: c_oAscFileType.TXT},
-            {name: 'DOCX',  imgCls: 'docx',  type: c_oAscFileType.DOCX}
+            {name: 'PDF',   imgCls: 'pdf',   type: Asc.c_oAscFileType.PDF},
+            {name: 'TXT',   imgCls: 'txt',   type: Asc.c_oAscFileType.TXT},
+            {name: 'DOCX',  imgCls: 'docx',  type: Asc.c_oAscFileType.DOCX}
         ],[
-//            {name: 'DOC',            imgCls: 'doc-format btn-doc',   type: c_oAscFileType.DOC},
-            {name: 'ODT',   imgCls: 'odt',   type: c_oAscFileType.ODT},
-//            {name: 'RTF',   imgCls: 'doc-format btn-rtf',   type: c_oAscFileType.RTF},
-            {name: 'HTML (Zipped)',  imgCls: 'html',  type: c_oAscFileType.HTML}
-//            {name: 'EPUB',  imgCls: 'doc-format btn-epub',  type: c_oAscFileType.EPUB}
+//            {name: 'DOC',            imgCls: 'doc-format btn-doc',   type: Asc.c_oAscFileType.DOC},
+            {name: 'ODT',   imgCls: 'odt',   type: Asc.c_oAscFileType.ODT},
+//            {name: 'RTF',   imgCls: 'doc-format btn-rtf',   type: Asc.c_oAscFileType.RTF},
+            {name: 'HTML (Zipped)',  imgCls: 'html',  type: Asc.c_oAscFileType.HTML}
+//            {name: 'EPUB',  imgCls: 'doc-format btn-epub',  type: Asc.c_oAscFileType.EPUB}
         ]],
 
 
