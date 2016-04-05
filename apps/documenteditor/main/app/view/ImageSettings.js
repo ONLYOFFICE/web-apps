@@ -253,13 +253,13 @@ define([
                 var props = new CImgProperty();
                 props.put_WrappingStyle((rawData.data));
                 if (this._state.WrappingStyle===Asc.c_oAscWrapStyle2.Inline && rawData.data!==Asc.c_oAscWrapStyle2.Inline ) {
-                    props.put_PositionH(new CImagePositionH());
+                    props.put_PositionH(new Asc.CImagePositionH());
                     props.get_PositionH().put_UseAlign(false);
                     props.get_PositionH().put_RelativeFrom(Asc.c_oAscRelativeFromH.Column);
                     var val = this._originalProps.get_Value_X(Asc.c_oAscRelativeFromH.Column);
                     props.get_PositionH().put_Value(val);
 
-                    props.put_PositionV(new CImagePositionV());
+                    props.put_PositionV(new Asc.CImagePositionV());
                     props.get_PositionV().put_UseAlign(false);
                     props.get_PositionV().put_RelativeFrom(Asc.c_oAscRelativeFromV.Paragraph);
                     val = this._originalProps.get_Value_Y(Asc.c_oAscRelativeFromV.Paragraph);

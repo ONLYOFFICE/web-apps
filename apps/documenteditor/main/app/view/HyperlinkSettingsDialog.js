@@ -160,7 +160,7 @@ define([
 
         getSettings: function () {
             var me      = this,
-                props   = new CHyperlinkProperty(),
+                props   = new Asc.CHyperlinkProperty(),
                 url     = $.trim(me.inputUrl.getValue());
 
             if (! /(((^https?)|(^ftp)):\/\/)|(^mailto:)/i.test(url) )

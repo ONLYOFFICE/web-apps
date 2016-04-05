@@ -53,8 +53,8 @@ define([
     // NOTE: временное решение
 
     function buildCommentData () {
-        if (typeof asc_CCommentDataWord !== 'undefined') {
-            return new asc_CCommentDataWord(null);
+        if (typeof Asc.asc_CCommentDataWord !== 'undefined') {
+            return new Asc.asc_CCommentDataWord(null);
         }
 
         return new asc_CCommentData(null);

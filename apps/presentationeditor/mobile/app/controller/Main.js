@@ -60,7 +60,7 @@ Ext.define('PE.controller.Main', {
             app = this.getApplication(),
             profile = app.getCurrentProfile();
 
-        api = new asc_docs_api("id-sdkeditor");
+        api = new Asc.asc_docs_api("id-sdkeditor");
         api.SetMobileVersion(true);
         api.CreateComponents();
         api.asc_SetFontsPath("../../../../sdkjs/fonts/");

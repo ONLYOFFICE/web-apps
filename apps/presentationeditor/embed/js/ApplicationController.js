@@ -712,7 +712,7 @@ var ApplicationController = new(function(){
             }, 2000);
         });
 
-        api = new asc_docs_api("editor_sdk");
+        api = new Asc.asc_docs_api("editor_sdk");
 
         if (api){
             api.CreateComponents();

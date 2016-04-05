@@ -824,7 +824,7 @@ define([
         onBtnBordersClick: function(btn, eOpts){
             this.updateBordersStyle(btn.options.strId, true);
             if (this.api) {
-                var properties = new CTableProp();
+                var properties = new Asc.CTableProp();
                 properties.put_CellBorders(this.CellBorders);
                 properties.put_CellSelect(true);
                 this.api.tblApply(properties);

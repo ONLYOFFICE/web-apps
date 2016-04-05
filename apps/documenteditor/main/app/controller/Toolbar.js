@@ -1260,7 +1260,7 @@ define([
                         handler: handlerDlg
                     });
 
-                    props = new CHyperlinkProperty();
+                    props = new Asc.CHyperlinkProperty();
                     props.put_Text(text);
 
                     win.show();
@@ -1625,7 +1625,7 @@ define([
 
             this._state.columns = undefined;
             if (this.api && item.checked) {
-                var props = new CDocumentColumnsProps(),
+                var props = new Asc.CDocumentColumnsProps(),
                     cols = item.value,
                     def_space = 12.5;
                 props.put_EqualWidth(cols<3);

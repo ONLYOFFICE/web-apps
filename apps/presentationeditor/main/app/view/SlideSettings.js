@@ -1058,7 +1058,7 @@ define([
             this.Effect = type;
             if (this.api && !this._noApply) {
                 var props = new CAscSlideProps();
-                var timing = new CAscSlideTiming();
+                var timing = new Asc.Asc.CAscSlideProps();
                 timing.put_TransitionType(type);
                 timing.put_TransitionOption(this.EffectType);
                 props.put_timing(timing);
@@ -1071,7 +1071,7 @@ define([
             this.EffectType = record.value;
             if (this.api && !this._noApply) {
                 var props = new CAscSlideProps();
-                var timing = new CAscSlideTiming();
+                var timing = new Asc.Asc.CAscSlideProps();
                 timing.put_TransitionType(this.Effect);
                 timing.put_TransitionOption(this.EffectType);
                 props.put_timing(timing);
@@ -1083,7 +1083,7 @@ define([
         onDurationChange: function(field, newValue, oldValue, eOpts){
             if (this.api && !this._noApply)   {
                 var props = new CAscSlideProps();
-                var timing = new CAscSlideTiming();
+                var timing = new Asc.Asc.CAscSlideProps();
                 timing.put_TransitionDuration(field.getNumberValue()*1000);
                 props.put_timing(timing);
                 this.api.SetSlideProps(props);
@@ -1094,7 +1094,7 @@ define([
         onDelayChange: function(field, newValue, oldValue, eOpts){
             if (this.api && !this._noApply)   {
                 var props = new CAscSlideProps();
-                var timing = new CAscSlideTiming();
+                var timing = new Asc.Asc.CAscSlideProps();
                 timing.put_SlideAdvanceDuration(field.getNumberValue()*1000);
                 props.put_timing(timing);
                 this.api.SetSlideProps(props);
@@ -1105,7 +1105,7 @@ define([
         onStartOnClickChange: function(field, newValue, oldValue, eOpts){
             if (this.api && !this._noApply)   {
                 var props = new CAscSlideProps();
-                var timing = new CAscSlideTiming();
+                var timing = new Asc.Asc.CAscSlideProps();
                 timing.put_SlideAdvanceOnMouseClick(field.getValue()=='checked');
                 props.put_timing(timing);
                 this.api.SetSlideProps(props);
@@ -1117,7 +1117,7 @@ define([
             this.numDelay.setDisabled(field.getValue()!=='checked');
             if (this.api && !this._noApply)   {
                 var props = new CAscSlideProps();
-                var timing = new CAscSlideTiming();
+                var timing = new Asc.Asc.CAscSlideProps();
                 timing.put_SlideAdvanceAfter(field.getValue()=='checked');
                 props.put_timing(timing);
                 this.api.SetSlideProps(props);

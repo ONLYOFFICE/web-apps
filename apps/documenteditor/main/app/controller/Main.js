@@ -111,7 +111,7 @@ define([
 
                 // Initialize api
 
-                this.api = new asc_docs_api("editor_sdk");
+                this.api = new Asc.asc_docs_api("editor_sdk");
 
                 if (this.api){
                     switch (value) {

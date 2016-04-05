@@ -659,7 +659,7 @@ define([
                     from = parseInt(this.txtFieldFrom.getValue())-1;
                     to = parseInt(this.txtFieldTo.getValue())-1;
                 }
-                var mmdata = new CMailMergeSendData();
+                var mmdata = new Asc.CMailMergeSendData();
                 mmdata.put_RecordFrom(from);
                 mmdata.put_RecordTo(to);
                 mmdata.put_From(this.mergeMailData.from);

@@ -571,7 +571,7 @@ define([
                             handler: handlerDlg
                         });
 
-                        props = new CHyperlinkProperty();
+                        props = new Asc.CHyperlinkProperty();
                         props.put_Text(text);
 
                         win.show();
@@ -1490,7 +1490,7 @@ define([
                     elType = selectedElements[i].get_ObjectType();
                     elValue = selectedElements[i].get_ObjectValue();
                     if (Asc.c_oAscTypeSelectElement.Table == elType) {
-                        var properties = new CTableProp();
+                        var properties = new Asc.CTableProp();
                         properties.put_TableWrap(wrap);
                         if (wrap == c_tableWrap.TABLE_WRAP_NONE) {
                             properties.put_TableAlignment(align);
@@ -1699,12 +1699,12 @@ define([
                         if (me.api) {
                             var properties = new CImgProperty();
                             if (!_.isUndefined(item.options.halign)) {
-                                properties.put_PositionH(new CImagePositionH());
+                                properties.put_PositionH(new Asc.CImagePositionH());
                                 properties.get_PositionH().put_UseAlign(true);
                                 properties.get_PositionH().put_Align(item.options.halign);
                                 properties.get_PositionH().put_RelativeFrom(Asc.c_oAscRelativeFromH.Margin);
                             } else {
-                                properties.put_PositionV(new CImagePositionV());
+                                properties.put_PositionV(new Asc.CImagePositionV());
                                 properties.get_PositionV().put_UseAlign(true);
                                 properties.get_PositionV().put_Align(item.options.valign);
                                 properties.get_PositionV().put_RelativeFrom(Asc.c_oAscRelativeFromV.Margin);
@@ -1839,13 +1839,13 @@ define([
                             properties.put_WrappingStyle(item.options.wrapType);
 
                             if (me.menuImageWrap._originalProps.get_WrappingStyle() === Asc.c_oAscWrapStyle2.Inline && item.wrapType !== Asc.c_oAscWrapStyle2.Inline ) {
-                                properties.put_PositionH(new CImagePositionH());
+                                properties.put_PositionH(new Asc.CImagePositionH());
                                 properties.get_PositionH().put_UseAlign(false);
                                 properties.get_PositionH().put_RelativeFrom(Asc.c_oAscRelativeFromH.Column);
                                 var val = me.menuImageWrap._originalProps.get_Value_X(Asc.c_oAscRelativeFromH.Column);
                                 properties.get_PositionH().put_Value(val);
 
-                                properties.put_PositionV(new CImagePositionV());
+                                properties.put_PositionV(new Asc.CImagePositionV());
                                 properties.get_PositionV().put_UseAlign(false);
                                 properties.get_PositionV().put_RelativeFrom(Asc.c_oAscRelativeFromV.Paragraph);
                                 val = me.menuImageWrap._originalProps.get_Value_Y(Asc.c_oAscRelativeFromV.Paragraph);
@@ -2179,7 +2179,7 @@ define([
 
             var tableCellsVAlign = function(item, e) {
                 if (me.api) {
-                    var properties = new CTableProp();
+                    var properties = new Asc.CTableProp();
                     properties.put_CellsVAlign(item.options.valign);
                     me.api.tblApply(properties);
                 }
@@ -2401,7 +2401,7 @@ define([
 
             var tableDirection = function(item, e) {
                 if (me.api) {
-                    var properties = new CTableProp();
+                    var properties = new Asc.CTableProp();
                     properties.put_CellsTextDirection(item.options.direction);
                     me.api.tblApply(properties);
                 }
@@ -2505,7 +2505,7 @@ define([
 
                     if (text!==false) {
                         menuAddHyperlinkTable.hyperProps = {};
-                        menuAddHyperlinkTable.hyperProps.value = new CHyperlinkProperty();
+                        menuAddHyperlinkTable.hyperProps.value = new Asc.CHyperlinkProperty();
                         menuAddHyperlinkTable.hyperProps.value.put_Text(text);
                     }
                     /** coauthoring begin **/
@@ -2958,7 +2958,7 @@ define([
                     menuEditHyperlinkPara.hyperProps = value.hyperProps;
                     if (text!==false) {
                         menuAddHyperlinkPara.hyperProps = {};
-                        menuAddHyperlinkPara.hyperProps.value = new CHyperlinkProperty();
+                        menuAddHyperlinkPara.hyperProps.value = new Asc.CHyperlinkProperty();
                         menuAddHyperlinkPara.hyperProps.value.put_Text(text);
                     }
                     var disabled = value.paraProps.locked || (value.headerProps!==undefined && value.headerProps.locked);
