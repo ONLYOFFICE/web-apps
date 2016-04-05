@@ -247,9 +247,9 @@ define([
                             me._changedProps.put_Shade(new CParagraphShd());
                         }
                         if (color=='transparent') {
-                            me._changedProps.get_Shade().put_Value(shd_Nil);
+                            me._changedProps.get_Shade().put_Value(Asc.c_oAscShdNil);
                         } else {
-                            me._changedProps.get_Shade().put_Value(shd_Clear);
+                            me._changedProps.get_Shade().put_Value(Asc.c_oAscShdClear);
                             me._changedProps.get_Shade().put_Color(Common.Utils.ThemeColor.getRgbColor(color));
                         }
                     }
@@ -972,7 +972,7 @@ define([
                     }
 
                     var shd = frame_props.get_Shade();
-                    if (shd!==null && shd!==undefined && shd.get_Value()===shd_Clear) {
+                    if (shd!==null && shd!==undefined && shd.get_Value()===Asc.c_oAscShdClear) {
                         var color = shd.get_Color();
                         if (color) {
                             if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {

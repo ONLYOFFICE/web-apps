@@ -50,7 +50,7 @@ define([
 
     Common.UI.ComboBoxFonts = Common.UI.ComboBox.extend((function() {
         var iconWidth       = 302,
-            iconHeight      = FONT_THUMBNAIL_HEIGHT || 26,
+            iconHeight      = Asc.FONT_THUMBNAIL_HEIGHT || 26,
             isRetina        = window.devicePixelRatio > 1,
             thumbCanvas     = document.createElement('canvas'),
             thumbContext    = thumbCanvas.getContext('2d'),
@@ -259,10 +259,10 @@ define([
 
                 if (isRetina) {
                     thumbContext.clearRect(0, 0, iconWidth * 2, iconHeight * 2);
-                    thumbContext.drawImage(this.spriteThumbs, 0, -FONT_THUMBNAIL_HEIGHT * 2 * opts.imgidx);
+                    thumbContext.drawImage(this.spriteThumbs, 0, -Asc.FONT_THUMBNAIL_HEIGHT * 2 * opts.imgidx);
                 } else {
                     thumbContext.clearRect(0, 0, iconWidth, iconHeight);
-                    thumbContext.drawImage(this.spriteThumbs, 0, -FONT_THUMBNAIL_HEIGHT * opts.imgidx);
+                    thumbContext.drawImage(this.spriteThumbs, 0, -Asc.FONT_THUMBNAIL_HEIGHT * opts.imgidx);
                 }
 
                 return thumbCanvas.toDataURL();
@@ -474,10 +474,10 @@ define([
 
                             if (isRetina) {
                                 context.clearRect(0, 0, iconWidth * 2, iconHeight * 2);
-                                context.drawImage(me.spriteThumbs, 0, -FONT_THUMBNAIL_HEIGHT * 2 * index);
+                                context.drawImage(me.spriteThumbs, 0, -Asc.FONT_THUMBNAIL_HEIGHT * 2 * index);
                             } else {
                                 context.clearRect(0, 0, iconWidth, iconHeight);
-                                context.drawImage(me.spriteThumbs, 0, -FONT_THUMBNAIL_HEIGHT * index);
+                                context.drawImage(me.spriteThumbs, 0, -Asc.FONT_THUMBNAIL_HEIGHT * index);
                             }
 
                             me.tiles[j] = fontImage;

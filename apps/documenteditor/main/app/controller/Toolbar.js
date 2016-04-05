@@ -2068,7 +2068,7 @@ define([
 
         onParagraphColor: function(shd) {
             var picker = this.toolbar.mnuParagraphColorPicker, clr;
-            if (shd!==null && shd!==undefined && shd.get_Value()===shd_Clear) {
+            if (shd!==null && shd!==undefined && shd.get_Value()===Asc.c_oAscShdClear) {
                 var color = shd.get_Color();
                 if (color) {
                     if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {

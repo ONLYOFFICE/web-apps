@@ -641,7 +641,7 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
 
                 // Borders
                 var shd = props.get_Shade();
-                if (shd!==null && shd!==undefined && shd.get_Value()===shd_Clear) {
+                if (shd!==null && shd!==undefined && shd.get_Value()===Asc.c_oAscShdClear) {
                     var color = shd.get_Color();
                     if (color) {
                         if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
@@ -913,9 +913,9 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                     this._changedProps.put_Shade(new CParagraphShd());
                 }
                 if (this.paragraphShade=='transparent') {
-                    this._changedProps.get_Shade().put_Value(shd_Nil);
+                    this._changedProps.get_Shade().put_Value(Asc.c_oAscShdNil);
                 } else {
-                    this._changedProps.get_Shade().put_Value(shd_Clear);
+                    this._changedProps.get_Shade().put_Value(Asc.c_oAscShdClear);
                     this._changedProps.get_Shade().put_Color(Common.Utils.ThemeColor.getRgbColor(this.paragraphShade));
                 }
             }
