@@ -380,7 +380,7 @@ define([
                 for (var i=0; i<this.spinners.length; i++) {
                     var spinner = this.spinners[i];
                     spinner.setDefaultUnit(Common.Utils.Metric.metricName[Common.Utils.Metric.getCurrentMetric()]);
-                    spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.cm ? 0.1 : 1);
+                    spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt ? 1 : 0.1);
                 }
             }
         },
@@ -557,7 +557,8 @@ define([
                 cls         : 'input-group-nr',
                 data        : [
                     { value: Common.Utils.Metric.c_MetricUnits['cm'], displayValue: this.txtCm },
-                    { value: Common.Utils.Metric.c_MetricUnits['pt'], displayValue: this.txtPt }
+                    { value: Common.Utils.Metric.c_MetricUnits['pt'], displayValue: this.txtPt },
+                    { value: Common.Utils.Metric.c_MetricUnits['inch'], displayValue: this.txtInch }
                 ]
             });
 
@@ -755,7 +756,8 @@ define([
         strFast: 'Fast',
         strStrict: 'Strict',
         textAutoRecover: 'Autorecover',
-        strAutoRecover: 'Turn on autorecover'
+        strAutoRecover: 'Turn on autorecover',
+        txtInch: 'Inch'
     }, SSE.Views.FileMenuPanels.MainSettingsGeneral || {}));
 
     SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({

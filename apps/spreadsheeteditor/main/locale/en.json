@@ -495,6 +495,7 @@
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtMac": "as OS X",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtNative": "Native",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtPt": "Point",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtInch": "Inch",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtRu": "Russian",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtWin": "as Windows",
   "SSE.Views.FileMenuPanels.Settings.strAutoRecover": "Turn on autorecover",

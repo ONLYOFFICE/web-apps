@@ -371,6 +371,7 @@
   "PE.Views.FileMenuPanels.Settings.txtInput": "Альтернативный ввод",
   "PE.Views.FileMenuPanels.Settings.txtLast": "Последние",
   "PE.Views.FileMenuPanels.Settings.txtPt": "Пункт",
+  "PE.Views.FileMenuPanels.Settings.txtInch": "Дюйм",
   "PE.Views.HyperlinkSettingsDialog.cancelButtonText": "Отмена",
   "PE.Views.HyperlinkSettingsDialog.okButtonText": "OK",
   "PE.Views.HyperlinkSettingsDialog.strDisplay": "Отображать",

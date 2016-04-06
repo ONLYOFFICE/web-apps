@@ -1249,7 +1249,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 for (var i=0; i<this.spinners.length; i++) {
                     var spinner = this.spinners[i];
                     spinner.setDefaultUnit(Common.Utils.Metric.metricName[Common.Utils.Metric.getCurrentMetric()]);
-                    spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.cm ? 0.01 : 1);
+                    spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt ? 1 : 0.01);
                 }
             }
             this.sizeMax = {

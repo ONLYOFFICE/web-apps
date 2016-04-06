@@ -275,7 +275,8 @@ define([
                 cls         : 'input-group-nr',
                 data        : [
                     { value: Common.Utils.Metric.c_MetricUnits['cm'], displayValue: this.txtCm },
-                    { value: Common.Utils.Metric.c_MetricUnits['pt'], displayValue: this.txtPt }
+                    { value: Common.Utils.Metric.c_MetricUnits['pt'], displayValue: this.txtPt },
+                    { value: Common.Utils.Metric.c_MetricUnits['inch'], displayValue: this.txtInch }
                 ]
             });
 
@@ -430,7 +431,8 @@ define([
         strFast: 'Fast',
         strStrict: 'Strict',
         textAutoRecover: 'Autorecover',
-        strAutoRecover: 'Turn on autorecover'
+        strAutoRecover: 'Turn on autorecover',
+        txtInch: 'Inch'
     }, DE.Views.FileMenuPanels.Settings || {}));
 
     DE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({

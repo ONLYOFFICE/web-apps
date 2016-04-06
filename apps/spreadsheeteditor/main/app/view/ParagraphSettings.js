@@ -299,13 +299,13 @@ define([
                 for (var i=0; i<this.spinners.length; i++) {
                     var spinner = this.spinners[i];
                     spinner.setDefaultUnit(Common.Utils.Metric.metricName[Common.Utils.Metric.getCurrentMetric()]);
-                    spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.cm ? 0.01 : 1);
+                    spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt ? 1 : 0.01);
                 }
             }
             var rec = this.cmbLineRule.store.at(1);
             rec.set({defaultUnit: Common.Utils.Metric.metricName[Common.Utils.Metric.getCurrentMetric()],
                     minValue: parseFloat(Common.Utils.Metric.fnRecalcFromMM(0.3).toFixed(2)),
-                    step: (Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.cm) ? 0.01: 1});
+                    step: (Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt) ? 1 : 0.01});
 
             if (this._state.LineRule !== null) {
                 var obj;

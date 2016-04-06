@@ -170,6 +170,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                     this._changedProps.put_Width(this.cmbUnit.getValue() ? -field.getNumberValue() : Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
             }, this));
 
+            var currmetric = Common.Utils.Metric.getCurrentMetric();
             this.cmbUnit = new Common.UI.ComboBox({
                 el          : $('#tableadv-cmb-unit'),
                 style       : 'width: 85px;',
@@ -177,7 +178,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 editable    : false,
                 cls         : 'input-group-nr',
                 data        : [
-                    { value: 0, displayValue: (Common.Utils.Metric.getCurrentMetric() == Common.Utils.Metric.c_MetricUnits['pt']) ? this.txtPt : this.txtCm },
+                    { value: 0, displayValue: (currmetric == Common.Utils.Metric.c_MetricUnits.pt) ? this.txtPt : ((currmetric == Common.Utils.Metric.c_MetricUnits.inch) ? this.txtInch : this.txtCm) },
                     { value: 1, displayValue: this.txtPercent }
                 ]
             });
@@ -470,7 +471,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 editable    : false,
                 cls         : 'input-group-nr',
                 data        : [
-                    { value: 0, displayValue: (Common.Utils.Metric.getCurrentMetric() == Common.Utils.Metric.c_MetricUnits['pt']) ? this.txtPt : this.txtCm },
+                    { value: 0, displayValue: (currmetric == Common.Utils.Metric.c_MetricUnits.pt) ? this.txtPt : ((currmetric == Common.Utils.Metric.c_MetricUnits.inch) ? this.txtInch : this.txtCm) },
                     { value: 1, displayValue: this.txtPercent }
                 ]
             });
@@ -1164,11 +1165,12 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             if (props ){
                 this._allTable = !props.get_CellSelect();
 
-                var value;
-                // main props
-                var TableWidth = props.get_Width();
+                var value,
+                    TableWidth = props.get_Width(),
+                    currmetric = Common.Utils.Metric.getCurrentMetric();
 
-                this.cmbUnit.store.at(0).set('displayValue', (Common.Utils.Metric.getCurrentMetric() == Common.Utils.Metric.c_MetricUnits['pt']) ? this.txtPt : this.txtCm);
+                // main props
+                this.cmbUnit.store.at(0).set('displayValue', (currmetric == Common.Utils.Metric.c_MetricUnits.pt) ? this.txtPt : ((currmetric == Common.Utils.Metric.c_MetricUnits.inch) ? this.txtInch : this.txtCm));
                 this.cmbUnit.setValue(TableWidth<0 ? 1 : 0);
                 this.nfWidth.setDefaultUnit(TableWidth<0 ? '%' : Common.Utils.Metric.metricName[Common.Utils.Metric.getCurrentMetric()]);
                 if (TableWidth<0) //%
@@ -1232,7 +1234,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 // Cell Size
                 var cellWidth = props.get_CellsWidth();
 
-                this.cmbPrefWidthUnit.store.at(0).set('displayValue', (Common.Utils.Metric.getCurrentMetric() == Common.Utils.Metric.c_MetricUnits['pt']) ? this.txtPt : this.txtCm);
+                this.cmbPrefWidthUnit.store.at(0).set('displayValue', (currmetric == Common.Utils.Metric.c_MetricUnits.pt) ? this.txtPt : ((currmetric == Common.Utils.Metric.c_MetricUnits.inch) ? this.txtInch : this.txtCm));
                 this.cmbPrefWidthUnit.setValue(cellWidth<0 ? 1 : 0);
                 this.nfPrefWidth.setDefaultUnit(cellWidth<0 ? '%' : Common.Utils.Metric.metricName[Common.Utils.Metric.getCurrentMetric()]);
                 if (cellWidth<0) //%
@@ -2070,7 +2072,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 for (var i=0; i<this.spinners.length; i++) {
                     var spinner = this.spinners[i];
                     spinner.setDefaultUnit(Common.Utils.Metric.metricName[Common.Utils.Metric.getCurrentMetric()]);
-                    spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.cm ? 0.1 : 1);
+                    spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt ? 1 : 0.1);
                 }
             }
             this.pageWidth = Common.Utils.Metric.fnRecalcFromMM(this.pageWidth);
@@ -2160,6 +2162,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
         txtPercent: 'Percent',
         txtCm: 'Centimeter',
         txtPt: 'Point',
+        txtInch: 'Inch',
         textCellSize: 'Cell Size',
         textPrefWidth: 'Preferred width',
         textMeasure: 'Measure in',
