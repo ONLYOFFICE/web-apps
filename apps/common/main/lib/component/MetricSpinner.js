@@ -58,7 +58,7 @@
  *
  *
  *  @property {String} defaultUnit
- *  Name of the unit of measurement. Can be px|em|%|en|ex|pt|in|cm|mm|pc|s|ms.
+ *  Name of the unit of measurement. Can be px|em|%|en|ex|pt|in|cm|mm|pc|s|ms|см|мм|пт|сек|мс.
  *
  *  defaultUnit: 'px',
  *
@@ -262,7 +262,7 @@ define([
                 var units = this.options.defaultUnit;
 
                 if ( typeof value.match !== 'undefined'){
-                    var searchUnits = value.match(/(px|em|%|en|ex|pt|in|cm|mm|pc|s|ms)$/i);
+                    var searchUnits = value.match(/(px|em|%|en|ex|pt|in|cm|mm|pc|s|ms|см|мм|пт|сек|мс)$/i);
                     if (null !== searchUnits && searchUnits[0]!=='undefined') {
                         units = searchUnits[0].toLowerCase();
                     }
@@ -482,25 +482,25 @@ define([
         },
 
         _recalcUnits: function(value, fromUnit){
-            if ( fromUnit.match(/(s|ms)$/i) && this.options.defaultUnit.match(/(s|ms)$/i) ) {
+            if ( fromUnit.match(/(s|ms|сек|мс)$/i) && this.options.defaultUnit.match(/(s|ms|сек|мс)$/i) ) {
                 var v_out = value;
                 // to sec
-                if (fromUnit=='ms')
+                if (fromUnit=='ms' || fromUnit=='мс')
                     v_out = v_out/1000.;
                 // from sec
-                if (this.options.defaultUnit=='ms')
+                if (this.options.defaultUnit=='ms' || this.options.defaultUnit=='мс')
                     v_out = v_out*1000;
                 return v_out;
             }
 
-            if ( fromUnit.match(/(pt|in|cm|mm|pc)$/i)===null || this.options.defaultUnit.match(/(pt|in|cm|mm|pc)$/i)===null)
+            if ( fromUnit.match(/(pt|in|cm|mm|pc|см|мм|пт)$/i)===null || this.options.defaultUnit.match(/(pt|in|cm|mm|pc|см|мм|пт)$/i)===null)
                 return value;
 
             var v_out = value;
             // to mm
-            if (fromUnit=='cm')
+            if (fromUnit=='cm' || fromUnit=='см')
                 v_out = v_out*10;
-            else if (fromUnit=='pt')
+            else if (fromUnit=='pt' || fromUnit=='пт')
                 v_out = v_out * 25.4 / 72.0;
             else if (fromUnit=='in')
                 v_out = v_out * 25.4;
@@ -508,9 +508,9 @@ define([
                 v_out = v_out * 25.4 / 6.0;
 
             // from mm
-            if (this.options.defaultUnit=='cm')
+            if (this.options.defaultUnit=='cm' || this.options.defaultUnit=='см')
                 v_out = v_out/10.;
-            else if (this.options.defaultUnit=='pt')
+            else if (this.options.defaultUnit=='pt' || this.options.defaultUnit=='пт')
                 v_out = parseFloat((v_out * 72.0 / 25.4).toFixed(3));
             else if (this.options.defaultUnit=='in')
                 v_out = v_out / 25.4;

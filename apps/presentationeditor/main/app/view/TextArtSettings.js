@@ -77,6 +77,8 @@ define([
             this._sendUndoPoint = true;
             this._sliderChanged = false;
 
+            this.txtPt = Common.Utils.Metric.getMetricName(Common.Utils.Metric.c_MetricUnits.pt);
+
             this._state = {
                 Transparency: null,
                 FillType: c_oAscFill.FILL_TYPE_SOLID,
@@ -1013,8 +1015,9 @@ define([
         onBorderSizeChanged: function(before, combo, record, e) {
             var me = this;
             if (before) {
-                var value = parseFloat(record.value);
-                if (!(/^\s*(\d*(\.|,)?\d+)\s*(pt)?\s*$/.exec(record.value)) || value<0 || value>1584) {
+                var value = parseFloat(record.value),
+                    expr = new RegExp('^\\s*(\\d*(\\.|,)?\\d+)\\s*(' + me.txtPt + ')?\\s*$');
+                if (!(expr.exec(record.value)) || value<0 || value>1584) {
                     this._state.StrokeType = this._state.StrokeWidth = -1;
                     Common.UI.error({
                         msg: this.textBorderSizeErr,
@@ -1346,7 +1349,7 @@ define([
                 if (this._state.StrokeType !== strokeType || strokeType == c_oAscStrokeType.STROKE_COLOR) {
                     if ( strokeType == c_oAscStrokeType.STROKE_COLOR ) {
                         var w = stroke.get_width();
-                        var check_value = (Math.abs(this._state.StrokeWidth-w)<0.001) && !(/pt\s*$/.test(this.cmbBorderSize.getRawValue()));
+                        var check_value = (Math.abs(this._state.StrokeWidth-w)<0.001) && !((new RegExp(this.txtPt + '\\s*$')).test(this.cmbBorderSize.getRawValue()));
                         if ( Math.abs(this._state.StrokeWidth-w)>0.001 || check_value ||
                             (this._state.StrokeWidth===null || w===null)&&(this._state.StrokeWidth!==w)) {
                             this._state.StrokeWidth = w;
@@ -1360,7 +1363,7 @@ define([
                             if (_selectedItem)
                                 this.cmbBorderSize.selectRecord(_selectedItem);
                             else {
-                                this.cmbBorderSize.setValue((w!==null) ? parseFloat(w.toFixed(2)) + ' pt' : '');
+                                this.cmbBorderSize.setValue((w!==null) ? parseFloat(w.toFixed(2)) + ' ' + this.txtPt : '');
                             }
                             this.BorderSize = w;
                         }

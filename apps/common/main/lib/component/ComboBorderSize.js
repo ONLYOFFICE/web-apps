@@ -94,18 +94,20 @@ define([
         ].join('')),
 
         initialize : function(options) {
+            var txtPt = Common.Utils.Metric.getMetricName(Common.Utils.Metric.c_MetricUnits.pt);
+
             Common.UI.ComboBox.prototype.initialize.call(this, _.extend({
                 editable: false,
                 store: new Common.UI.BordersStore(),
                 data: [
                     {displayValue: this.txtNoBorders, value: 0, pxValue: 0 },
-                    {displayValue: '0.5 pt',   value: 0.5, pxValue: 0.5, offsety: 0},
-                    {displayValue: '1 pt',     value: 1,   pxValue: 1, offsety: 20},
-                    {displayValue: '1.5 pt',   value: 1.5, pxValue: 2, offsety: 40},
-                    {displayValue: '2.25 pt',  value: 2.25,pxValue: 3, offsety: 60},
-                    {displayValue: '3 pt',     value: 3,   pxValue: 4, offsety: 80},
-                    {displayValue: '4.5 pt',   value: 4.5, pxValue: 5, offsety: 100},
-                    {displayValue: '6 pt',     value: 6,   pxValue: 6, offsety: 120}
+                    {displayValue: '0.5 ' + txtPt,   value: 0.5, pxValue: 0.5, offsety: 0},
+                    {displayValue: '1 ' + txtPt,     value: 1,   pxValue: 1, offsety: 20},
+                    {displayValue: '1.5 ' + txtPt,   value: 1.5, pxValue: 2, offsety: 40},
+                    {displayValue: '2.25 ' + txtPt,  value: 2.25,pxValue: 3, offsety: 60},
+                    {displayValue: '3 ' + txtPt,     value: 3,   pxValue: 4, offsety: 80},
+                    {displayValue: '4.5 ' + txtPt,   value: 4.5, pxValue: 5, offsety: 100},
+                    {displayValue: '6 ' + txtPt,     value: 6,   pxValue: 6, offsety: 120}
                 ],
                 menuStyle: 'min-width: 150px;'
             }, options));
@@ -187,19 +189,20 @@ define([
 
         initialize : function(options) {
             this.txtNoBorders = options.txtNoBorders || this.txtNoBorders;
+            var txtPt = Common.Utils.Metric.getMetricName(Common.Utils.Metric.c_MetricUnits.pt);
 
             Common.UI.ComboBox.prototype.initialize.call(this, _.extend({
                 editable: true,
                 store: new Common.UI.BordersStore(),
                 data: [
                     {displayValue: this.txtNoBorders, value: 0, pxValue: 0 },
-                    {displayValue: '0.5 pt',   value: 0.5, pxValue: 0.5, offsety: 0},
-                    {displayValue: '1 pt',     value: 1,   pxValue: 1, offsety: 20},
-                    {displayValue: '1.5 pt',   value: 1.5, pxValue: 2, offsety: 40},
-                    {displayValue: '2.25 pt',  value: 2.25,pxValue: 3, offsety: 60},
-                    {displayValue: '3 pt',     value: 3,   pxValue: 4, offsety: 80},
-                    {displayValue: '4.5 pt',   value: 4.5, pxValue: 5, offsety: 100},
-                    {displayValue: '6 pt',     value: 6,   pxValue: 6, offsety: 120}
+                    {displayValue: '0.5 ' + txtPt,   value: 0.5, pxValue: 0.5, offsety: 0},
+                    {displayValue: '1 ' + txtPt,     value: 1,   pxValue: 1, offsety: 20},
+                    {displayValue: '1.5 ' + txtPt,   value: 1.5, pxValue: 2, offsety: 40},
+                    {displayValue: '2.25 ' + txtPt,  value: 2.25,pxValue: 3, offsety: 60},
+                    {displayValue: '3 ' + txtPt,     value: 3,   pxValue: 4, offsety: 80},
+                    {displayValue: '4.5 ' + txtPt,   value: 4.5, pxValue: 5, offsety: 100},
+                    {displayValue: '6 ' + txtPt,     value: 6,   pxValue: 6, offsety: 120}
                 ],
                 menuStyle: 'min-width: 150px;'
             }, options));

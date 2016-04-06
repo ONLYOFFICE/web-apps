@@ -420,7 +420,7 @@ define([
                 startvalue: item.options.action == 'row-height' ? me.api.asc_getRowHeight() : me.api.asc_getColumnWidth(),
                 maxvalue: item.options.action == 'row-height' ? c_oAscMaxRowHeight : c_oAscMaxColumnWidth,
                 step: item.options.action == 'row-height' ? 0.75 : 1,
-                defaultUnit: item.options.action == 'row-height' ? "pt" : "sym",
+                defaultUnit: item.options.action == 'row-height' ? Common.Utils.Metric.getMetricName(Common.Utils.Metric.c_MetricUnits.pt) : me.textSym,
                 handler: function(dlg, result) {
                     if (result == 'ok') {
                         var val = dlg.getSettings();
@@ -1438,7 +1438,8 @@ define([
         textChangeColumnWidth   : 'Column Width {0} symbols ({1} pixels)',
         textChangeRowHeight     : 'Row Height {0} points ({1} pixels)',
         textInsertLeft          : 'Insert Left',
-        textInsertTop           : 'Insert Top'
+        textInsertTop           : 'Insert Top',
+        textSym                 : 'sym'
 
     }, SSE.Controllers.DocumentHolder || {}));
 });

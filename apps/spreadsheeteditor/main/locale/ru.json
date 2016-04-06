@@ -1,4 +1,6 @@
 {
+  "Common.Utils.Metric.txtCm": "см",
+  "Common.Utils.Metric.txtPt": "пт",
   "cancelButtonText": "Отмена",
   "Common.Controllers.Chat.notcriticalErrorTitle": "Предупреждение",
   "Common.Controllers.Chat.textEnterMessage": "Введите здесь своё сообщение",
@@ -91,6 +93,7 @@
   "SSE.Controllers.DocumentHolder.tipIsLocked": "Этот элемент редактируется другим пользователем.",
   "SSE.Controllers.DocumentHolder.txtHeight": "Высота",
   "SSE.Controllers.DocumentHolder.txtRowHeight": "Высота строки",
+  "SSE.Controllers.DocumentHolder.textSym": "симв",
   "SSE.Controllers.DocumentHolder.txtWidth": "Ширина",
   "SSE.Controllers.LeftMenu.newDocumentTitle": "Электронная таблица без имени",
   "SSE.Controllers.LeftMenu.textByColumns": "По столбцам",

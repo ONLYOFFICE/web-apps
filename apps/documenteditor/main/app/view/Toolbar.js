@@ -686,10 +686,10 @@ define([
             
             var pageMarginsTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem"><div><b><%= caption %></b></div>' +
                                     '<% if (options.value !== null) { %><div style="display: inline-block;margin-right: 20px;min-width: 80px;">' +
-                                    '<label style="display: block;">'+ this.textTop +'<%= parseFloat((options.value[0]/10.).toFixed(2)) %>'+ ' ' + Common.Utils.Metric.metricName[0] +'</label>' +
-                                    '<label style="display: block;">'+ this.textLeft +'<%= parseFloat((options.value[1]/10.).toFixed(2)) %>'+ ' ' + Common.Utils.Metric.metricName[0] +'</label></div><div style="display: inline-block;">' +
-                                    '<label style="display: block;">'+ this.textBottom +'<%= parseFloat((options.value[2]/10.).toFixed(2)) %>'+ ' ' + Common.Utils.Metric.metricName[0] +'</label>'+
-                                    '<label style="display: block;">'+ this.textRight +'<%= parseFloat((options.value[3]/10.).toFixed(2)) %>'+ ' ' + Common.Utils.Metric.metricName[0] +'</label></div>'+
+                                    '<label style="display: block;">'+ this.textTop +'<%= parseFloat((options.value[0]/10.).toFixed(2)) %> <%= Common.Utils.Metric.getMetricName(Common.Utils.Metric.c_MetricUnits.cm) %></label>' +
+                                    '<label style="display: block;">'+ this.textLeft +'<%= parseFloat((options.value[1]/10.).toFixed(2)) %> <%= Common.Utils.Metric.getMetricName(Common.Utils.Metric.c_MetricUnits.cm) %></label></div><div style="display: inline-block;">' +
+                                    '<label style="display: block;">'+ this.textBottom +'<%= parseFloat((options.value[2]/10.).toFixed(2)) %> <%= Common.Utils.Metric.getMetricName(Common.Utils.Metric.c_MetricUnits.cm) %></label>'+
+                                    '<label style="display: block;">'+ this.textRight +'<%= parseFloat((options.value[3]/10.).toFixed(2)) %> <%= Common.Utils.Metric.getMetricName(Common.Utils.Metric.c_MetricUnits.cm) %></label></div>'+
                                     '<% } %></a>');
 
             this.btnPageMargins = new Common.UI.Button({

@@ -105,7 +105,10 @@ define([
                     return;
                 }
 
-                var value = Common.localStorage.getItem("de-settings-fontrender");
+                var value = Common.localStorage.getItem('de-settings-unit');
+                Common.Utils.Metric.setCurrentMetric((value!==null) ? parseInt(value) : Common.Utils.Metric.c_MetricUnits.cm);
+
+                value = Common.localStorage.getItem("de-settings-fontrender");
                 if (value === null)
                     window.devicePixelRatio > 1 ? value = '1' : '0';
 
@@ -1047,10 +1050,7 @@ define([
                         toolbarView.on('insertchart', _.bind(me.onInsertChart, me));
                     }
 
-                    var value = Common.localStorage.getItem('de-settings-unit');
-                    Common.Utils.Metric.setCurrentMetric((value!==null) ? parseInt(value) : Common.Utils.Metric.c_MetricUnits.cm);
-
-                    value = Common.localStorage.getItem('de-hidden-rulers');
+                    var value = Common.localStorage.getItem('de-hidden-rulers');
                     me.api.asc_SetViewRulers(value===null || parseInt(value) === 0);
 
                     me.api.asc_registerCallback('asc_onDocumentModifiedChanged', _.bind(me.onDocumentModifiedChanged, me));

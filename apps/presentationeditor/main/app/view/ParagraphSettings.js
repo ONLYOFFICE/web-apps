@@ -293,12 +293,12 @@ define([
             if (this.spinners) {
                 for (var i=0; i<this.spinners.length; i++) {
                     var spinner = this.spinners[i];
-                    spinner.setDefaultUnit(Common.Utils.Metric.metricName[Common.Utils.Metric.getCurrentMetric()]);
+                    spinner.setDefaultUnit(Common.Utils.Metric.getCurrentMetricName());
                     spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.cm ? 0.01 : 1);
                 }
             }
             var rec = this.cmbLineRule.store.at(1);
-            rec.set({defaultUnit: Common.Utils.Metric.metricName[Common.Utils.Metric.getCurrentMetric()],
+            rec.set({defaultUnit: Common.Utils.Metric.getCurrentMetricName(),
                     minValue: parseFloat(Common.Utils.Metric.fnRecalcFromMM(0.3).toFixed(2)),
                     step: (Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.cm) ? 0.01: 1});
 

@@ -1,4 +1,6 @@
 {
+  "Common.Utils.Metric.txtCm": "cm",
+  "Common.Utils.Metric.txtPt": "pt",
   "cancelButtonText": "Cancel",
   "Common.Controllers.Chat.notcriticalErrorTitle": "Warning",
   "Common.Controllers.Chat.textEnterMessage": "Enter your message here",
@@ -91,6 +93,7 @@
   "SSE.Controllers.DocumentHolder.tipIsLocked": "This element is being edited by another user.",
   "SSE.Controllers.DocumentHolder.txtHeight": "Height",
   "SSE.Controllers.DocumentHolder.txtRowHeight": "Row Height",
+  "SSE.Controllers.DocumentHolder.textSym": "sym",
   "SSE.Controllers.DocumentHolder.txtWidth": "Width",
   "SSE.Controllers.LeftMenu.newDocumentTitle": "Unnamed spreadsheet",
   "SSE.Controllers.LeftMenu.textByColumns": "By columns",
