@@ -88,7 +88,7 @@ Ext.define('DE.controller.tablet.panel.Insert', {
                             imgProperty = new CImgProperty();
 
                         mpImg.render(canvas, { maxWidth: 1024, maxHeight: 1024 });
-                        imgProperty.put_WrappingStyle((input == inputInlineMedia) ? c_oAscWrapStyle2.Inline : c_oAscWrapStyle2.Square);
+                        imgProperty.put_WrappingStyle((input == inputInlineMedia) ? Asc.c_oAscWrapStyle2.Inline : Asc.c_oAscWrapStyle2.Square);
 
                         me.api.AddImageUrl(canvas.toDataURL(), imgProperty);
 
@@ -239,7 +239,7 @@ Ext.define('DE.controller.tablet.panel.Insert', {
             if (selectedElements && selectedElements.length > 0) {
                 var elementType = selectedElements[0].get_ObjectType();
 
-                if (c_oAscTypeSelectElement.Table == elementType) {
+                if (Asc.c_oAscTypeSelectElement.Table == elementType) {
                     type === 'row'
                         ? this.api.addRowBelow()
                         : type === 'column'

@@ -125,7 +125,7 @@ define([
             {
                 var eltype = SelectedObjects[i].get_ObjectType(),
                     settingsType = this.getDocumentSettingsType(eltype);
-                if (eltype === c_oAscTypeSelectElement.Math)
+                if (eltype === Asc.c_oAscTypeSelectElement.Math)
                     in_equation = true;
 
                 if (settingsType===undefined || settingsType>=this._settings.length || this._settings[settingsType]===undefined)
@@ -314,7 +314,7 @@ define([
         },
 
         onError: function(id, level, errData) {
-            if (id==c_oAscError.ID.MailMergeLoadFile) {
+            if (id==Asc.c_oAscError.ID.MailMergeLoadFile) {
                 this._settings[Common.Utils.documentSettingsType.MailMerge].hidden = 1;
                 this._settings[Common.Utils.documentSettingsType.MailMerge].btn.setDisabled(true);
                 var selectedElements = this.api.getSelectedElements();
@@ -357,13 +357,13 @@ define([
 
         getDocumentSettingsType: function(type) {
             switch (type) {
-                case c_oAscTypeSelectElement.Paragraph:
+                case Asc.c_oAscTypeSelectElement.Paragraph:
                     return Common.Utils.documentSettingsType.Paragraph;
-                case c_oAscTypeSelectElement.Table:
+                case Asc.c_oAscTypeSelectElement.Table:
                     return Common.Utils.documentSettingsType.Table;
-                case c_oAscTypeSelectElement.Image:
+                case Asc.c_oAscTypeSelectElement.Image:
                     return Common.Utils.documentSettingsType.Image;
-                case c_oAscTypeSelectElement.Header:
+                case Asc.c_oAscTypeSelectElement.Header:
                     return Common.Utils.documentSettingsType.Header;
             }
         }

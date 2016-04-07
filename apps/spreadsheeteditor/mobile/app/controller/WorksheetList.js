@@ -96,9 +96,9 @@ Ext.define('SSE.controller.WorksheetList', {
     },
 
     onLongActionEnd: function(type, id) {
-        if (type === c_oAscAsyncActionType['BlockInteraction']){
+        if (type === Asc.c_oAscAsyncActionType['BlockInteraction']){
             switch (id) {
-                case c_oAscAsyncAction['Open']:
+                case Asc.c_oAscAsyncAction['Open']:
                     this._loadWorksheets();
                     break;
             }

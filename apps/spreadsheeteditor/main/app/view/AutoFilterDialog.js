@@ -106,18 +106,18 @@ define([
             Common.UI.Window.prototype.render.call(this);
 
             var conditions = [
-                {value: c_oAscCustomAutoFilter.equals,                   displayValue: this.capCondition1},
-                {value: c_oAscCustomAutoFilter.doesNotEqual,             displayValue: this.capCondition2},
-                {value: c_oAscCustomAutoFilter.isGreaterThan,            displayValue: this.capCondition3},
-                {value: c_oAscCustomAutoFilter.isGreaterThanOrEqualTo,   displayValue: this.capCondition4},
-                {value: c_oAscCustomAutoFilter.isLessThan,               displayValue: this.capCondition5},
-                {value: c_oAscCustomAutoFilter.isLessThanOrEqualTo,      displayValue: this.capCondition6},
-                {value: c_oAscCustomAutoFilter.beginsWith,               displayValue: this.capCondition7},
-                {value: c_oAscCustomAutoFilter.doesNotBeginWith,         displayValue: this.capCondition8},
-                {value: c_oAscCustomAutoFilter.endsWith,                 displayValue: this.capCondition9},
-                {value: c_oAscCustomAutoFilter.doesNotEndWith,           displayValue: this.capCondition10},
-                {value: c_oAscCustomAutoFilter.contains,                 displayValue: this.capCondition11},
-                {value: c_oAscCustomAutoFilter.doesNotContain,           displayValue: this.capCondition12}
+                {value: Asc.c_oAscCustomAutoFilter.equals,                   displayValue: this.capCondition1},
+                {value: Asc.c_oAscCustomAutoFilter.doesNotEqual,             displayValue: this.capCondition2},
+                {value: Asc.c_oAscCustomAutoFilter.isGreaterThan,            displayValue: this.capCondition3},
+                {value: Asc.c_oAscCustomAutoFilter.isGreaterThanOrEqualTo,   displayValue: this.capCondition4},
+                {value: Asc.c_oAscCustomAutoFilter.isLessThan,               displayValue: this.capCondition5},
+                {value: Asc.c_oAscCustomAutoFilter.isLessThanOrEqualTo,      displayValue: this.capCondition6},
+                {value: Asc.c_oAscCustomAutoFilter.beginsWith,               displayValue: this.capCondition7},
+                {value: Asc.c_oAscCustomAutoFilter.doesNotBeginWith,         displayValue: this.capCondition8},
+                {value: Asc.c_oAscCustomAutoFilter.endsWith,                 displayValue: this.capCondition9},
+                {value: Asc.c_oAscCustomAutoFilter.doesNotEndWith,           displayValue: this.capCondition10},
+                {value: Asc.c_oAscCustomAutoFilter.contains,                 displayValue: this.capCondition11},
+                {value: Asc.c_oAscCustomAutoFilter.doesNotContain,           displayValue: this.capCondition12}
             ];
 
             this.cmbCondition1 = new Common.UI.ComboBox({
@@ -127,7 +127,7 @@ define([
                 data        : conditions,
                 editable    : false
             });
-            this.cmbCondition1.setValue(c_oAscCustomAutoFilter.equals);
+            this.cmbCondition1.setValue(Asc.c_oAscCustomAutoFilter.equals);
 
             conditions.splice(0, 0,  {value: 0, displayValue: this.textNoFilter});
 
@@ -227,13 +227,13 @@ define([
                 this.cmbCondition1 && this.cmbCondition2 && this.txtValue1 && this.txtValue2) {
 
                 var filterObj = this.properties.asc_getFilterObj();
-                if (filterObj.asc_getType() == c_oAscAutoFilterTypes.CustomFilters) {
+                if (filterObj.asc_getType() == Asc.c_oAscAutoFilterTypes.CustomFilters) {
                     var customFilter = filterObj.asc_getFilter(),
                         customFilters = customFilter.asc_getCustomFilters();
                     
                     (customFilter.asc_getAnd()) ? this.rbAnd.setValue(true) : this.rbOr.setValue(true);
 
-                    this.cmbCondition1.setValue(customFilters[0].asc_getOperator() || c_oAscCustomAutoFilter.equals);
+                    this.cmbCondition1.setValue(customFilters[0].asc_getOperator() || Asc.c_oAscCustomAutoFilter.equals);
                     this.cmbCondition2.setValue((customFilters.length>1) ? (customFilters[1].asc_getOperator() || 0) : 0);
 
                     this.txtValue1.setValue(null === customFilters[0].asc_getVal() ? '' : customFilters[0].asc_getVal());
@@ -247,7 +247,7 @@ define([
 
                 var filterObj = this.properties.asc_getFilterObj();
                 filterObj.asc_setFilter(new Asc.CustomFilters());
-                filterObj.asc_setType(c_oAscAutoFilterTypes.CustomFilters);
+                filterObj.asc_setType(Asc.c_oAscAutoFilterTypes.CustomFilters);
 
                 var customFilter = filterObj.asc_getFilter();
                 customFilter.asc_setCustomFilters((this.cmbCondition2.getValue() == 0) ? [new Asc.CustomFilter()] : [new Asc.CustomFilter(), new Asc.CustomFilter()]);
@@ -564,7 +564,7 @@ define([
 
                 this.btnOk.setDisabled(false);
                 this.chCustomFilter.setValue(false);
-                this.configTo.asc_getFilterObj().asc_setType(c_oAscAutoFilterTypes.Filters);
+                this.configTo.asc_getFilterObj().asc_setType(Asc.c_oAscAutoFilterTypes.Filters);
 
                 listView.isSuspendEvents = false;
                 listView.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true, suppressScrollX: true});
@@ -585,7 +585,7 @@ define([
 
             var me = this, isnumber, value, index = 0, haveUnselectedCell = false,
                 throughIndex = 1,
-                isCustomFilter = (this.configTo.asc_getFilterObj().asc_getType() === c_oAscAutoFilterTypes.CustomFilters);
+                isCustomFilter = (this.configTo.asc_getFilterObj().asc_getType() === Asc.c_oAscAutoFilterTypes.CustomFilters);
 
             if (_.isUndefined(this.config)) {
                 return;
@@ -726,7 +726,7 @@ define([
             this.filterExcludeCells.reset(arrEx);
 
             if (this.cells.length) {
-                this.chCustomFilter.setValue(this.configTo.asc_getFilterObj().asc_getType() === c_oAscAutoFilterTypes.CustomFilters);
+                this.chCustomFilter.setValue(this.configTo.asc_getFilterObj().asc_getType() === Asc.c_oAscAutoFilterTypes.CustomFilters);
             }
 
             this.cellsList.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true, suppressScrollX: true});

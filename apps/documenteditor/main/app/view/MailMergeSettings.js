@@ -209,9 +209,9 @@ define([
             this.emptyDBControls.push(this.btnLast);
 
             this._arrMergeSrc = [
-                {displayValue: this.textPdf,    value: c_oAscFileType.PDF},
-                {displayValue: this.textDocx,   value: c_oAscFileType.DOCX},
-                {displayValue: this.textEmail,  value: c_oAscFileType.HTML}
+                {displayValue: this.textPdf,    value: Asc.c_oAscFileType.PDF},
+                {displayValue: this.textDocx,   value: Asc.c_oAscFileType.DOCX},
+                {displayValue: this.textEmail,  value: Asc.c_oAscFileType.HTML}
             ];
             this.cmbMergeTo = new Common.UI.ComboBox({
                 el: $('#mmerge-combo-merge-to', me.$el),
@@ -524,11 +524,11 @@ define([
 
             if (this._mailMergeDlg) return;
             var me = this;
-            if (this.cmbMergeTo.getValue() != c_oAscFileType.HTML) {
+            if (this.cmbMergeTo.getValue() != Asc.c_oAscFileType.HTML) {
                 me._mailMergeDlg = new DE.Views.MailMergeSaveDlg({
                                     mergeFolderUrl: me.mode.mergeFolderUrl,
                                     mergedFileUrl: url,
-                                    defFileName: me.defFileName + ((this.cmbMergeTo.getValue() == c_oAscFileType.PDF) ? '.pdf' : '.docx')
+                                    defFileName: me.defFileName + ((this.cmbMergeTo.getValue() == Asc.c_oAscFileType.PDF) ? '.pdf' : '.docx')
                                 });
                 me._mailMergeDlg.on('mailmergefolder', function(obj, folder){ // save last folder
                 }).on('mailmergeerror', function(obj, err){ // save last folder
@@ -659,14 +659,14 @@ define([
                     from = parseInt(this.txtFieldFrom.getValue())-1;
                     to = parseInt(this.txtFieldTo.getValue())-1;
                 }
-                var mmdata = new CMailMergeSendData();
+                var mmdata = new Asc.CMailMergeSendData();
                 mmdata.put_RecordFrom(from);
                 mmdata.put_RecordTo(to);
                 mmdata.put_From(this.mergeMailData.from);
                 mmdata.put_To(this.mergeMailData.to);
                 mmdata.put_Subject(this.mergeMailData.subject);
                 mmdata.put_MailFormat(this.mergeMailData.mailFormat);
-                if (this.mergeMailData.mailFormat!==c_oAscFileType.HTML) {
+                if (this.mergeMailData.mailFormat!==Asc.c_oAscFileType.HTML) {
                     mmdata.put_FileName(this.mergeMailData.fileName);
                     mmdata.put_Message(this.mergeMailData.message);
                 }
@@ -677,7 +677,7 @@ define([
         },
 
         onLongActionEnd: function(type, id) {
-            if (id == c_oAscAsyncAction['SendMailMerge']) {
+            if (id == Asc.c_oAscAsyncAction['SendMailMerge']) {
                 Common.UI.info({
                     closable: false,
                     width: 500,
@@ -752,7 +752,7 @@ define([
         },
 
         onCmbMergeToSelect: function(combo, record) {
-            var mergeVisible = (record.value == c_oAscFileType.HTML);
+            var mergeVisible = (record.value == Asc.c_oAscFileType.HTML);
             this.btnMerge.setVisible(mergeVisible);
             this.btnPortal.setVisible(!mergeVisible && this.mode.mergeFolderUrl);
             this.btnDownload.setVisible(!mergeVisible);

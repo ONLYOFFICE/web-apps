@@ -56,12 +56,12 @@ define([
             _.extend(_options,  {
                 closable: false,
                 width           : 250,
-                height          : (options.type == c_oAscAdvancedOptionsID.CSV) ? 205 : 155,
+                height          : (options.type == Asc.c_oAscAdvancedOptionsID.CSV) ? 205 : 155,
                 contentWidth    : 390,
                 header          : true,
                 cls             : 'open-dlg',
                 contentTemplate : '',
-                title           : t.txtTitle.replace('%1', (options.type == c_oAscAdvancedOptionsID.CSV) ? 'CSV' : 'TXT')
+                title           : t.txtTitle.replace('%1', (options.type == Asc.c_oAscAdvancedOptionsID.CSV) ? 'CSV' : 'TXT')
             }, options);
 
             this.template = options.template || [
@@ -69,7 +69,7 @@ define([
                     '<div class="content-panel" >',
                         '<label class="header">' + t.txtEncoding + '</label>',
                         '<div id="id-codepages-combo" class="input-group-nr" style="margin-bottom:15px;"></div>',
-                        '<% if (type == c_oAscAdvancedOptionsID.CSV) { %>',
+                        '<% if (type == Asc.c_oAscAdvancedOptionsID.CSV) { %>',
                         '<label class="header">' + t.txtDelimiter + '</label>',
                         '<div id="id-delimiters-combo" class="input-group-nr" style="max-width: 110px;"></div>',
                         '<% } %>',
@@ -287,7 +287,7 @@ define([
                 });
                 this.cmbEncoding.setValue( (this.settings && this.settings.asc_getCodePage()) ? this.settings.asc_getCodePage() : encodedata[0][0]);
 
-                if (this.type == c_oAscAdvancedOptionsID.CSV) {
+                if (this.type == Asc.c_oAscAdvancedOptionsID.CSV) {
                     this.cmbDelimiter = new Common.UI.ComboBox({
                         el: $('#id-delimiters-combo', this.$window),
                         menuStyle: 'min-width: 110px;',

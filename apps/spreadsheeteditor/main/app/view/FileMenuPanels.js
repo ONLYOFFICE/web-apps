@@ -42,13 +42,13 @@ define([
         menu: undefined,
 
         formats: [[
-            {name: 'XLSX', imgCls: 'xlsx', type: c_oAscFileType.XLSX},
-            {name: 'PDF',  imgCls: 'pdf',  type: c_oAscFileType.PDF},
-            {name: 'ODS',  imgCls: 'ods',  type: c_oAscFileType.ODS},
-            {name: 'CSV',  imgCls: 'csv',  type: c_oAscFileType.CSV}
+            {name: 'XLSX', imgCls: 'xlsx', type: Asc.c_oAscFileType.XLSX},
+            {name: 'PDF',  imgCls: 'pdf',  type: Asc.c_oAscFileType.PDF},
+            {name: 'ODS',  imgCls: 'ods',  type: Asc.c_oAscFileType.ODS},
+            {name: 'CSV',  imgCls: 'csv',  type: Asc.c_oAscFileType.CSV}
         ]
 //        ,[
-//            {name: 'HTML', imgCls: 'html', type: c_oAscFileType.HTML}
+//            {name: 'HTML', imgCls: 'html', type: Asc.c_oAscFileType.HTML}
 //        ]
     ],
 
@@ -286,8 +286,8 @@ define([
                 editable    : false,
                 cls         : 'input-group-nr',
                 data        : [
-                    { value: c_oAscPageOrientation.PagePortrait, displayValue: this.strPortrait },
-                    { value: c_oAscPageOrientation.PageLandscape, displayValue: this.strLandscape }
+                    { value: Asc.c_oAscPageOrientation.PagePortrait, displayValue: this.strPortrait },
+                    { value: Asc.c_oAscPageOrientation.PageLandscape, displayValue: this.strLandscape }
                 ]
             });
 
@@ -533,9 +533,9 @@ define([
                 editable    : false,
                 cls         : 'input-group-nr',
                 data        : [
-                    { value: c_oAscFontRenderingModeType.hintingAndSubpixeling, displayValue: this.txtWin },
-                    { value: c_oAscFontRenderingModeType.noHinting, displayValue: this.txtMac },
-                    { value: c_oAscFontRenderingModeType.hinting, displayValue: this.txtNative }
+                    { value: Asc.c_oAscFontRenderingModeType.hintingAndSubpixeling, displayValue: this.txtWin },
+                    { value: Asc.c_oAscFontRenderingModeType.noHinting, displayValue: this.txtMac },
+                    { value: Asc.c_oAscFontRenderingModeType.hinting, displayValue: this.txtNative }
                 ]
             });
 
@@ -646,7 +646,7 @@ define([
 
             value = Common.localStorage.getItem("sse-settings-fontrender");
             item = this.cmbFontRender.store.findWhere({value: parseInt(value)});
-            this.cmbFontRender.setValue(item ? item.get('value') : (window.devicePixelRatio > 1 ? c_oAscFontRenderingModeType.noHinting : c_oAscFontRenderingModeType.hintingAndSubpixeling));
+            this.cmbFontRender.setValue(item ? item.get('value') : (window.devicePixelRatio > 1 ? Asc.c_oAscFontRenderingModeType.noHinting : Asc.c_oAscFontRenderingModeType.hintingAndSubpixeling));
 
             value = Common.localStorage.getItem("sse-settings-unit");
             item = this.cmbUnit.store.findWhere({value: parseInt(value)});

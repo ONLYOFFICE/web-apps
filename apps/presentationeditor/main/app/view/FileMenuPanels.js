@@ -53,8 +53,8 @@ define([
         menu: undefined,
 
         formats: [[
-            {name: 'PDF',   imgCls: 'pdf',   type: c_oAscFileType.PDF},
-            {name: 'PPTX',   imgCls: 'pptx',   type: c_oAscFileType.PPTX}
+            {name: 'PDF',   imgCls: 'pdf',   type: Asc.c_oAscFileType.PDF},
+            {name: 'PPTX',   imgCls: 'pptx',   type: Asc.c_oAscFileType.PPTX}
         ]],
 
 

@@ -179,7 +179,7 @@ define([  'text!spreadsheeteditor/main/app/template/NameManagerDlg.template',
         },
 
         onRefreshDefNameList: function() {
-            this.refreshRangeList(this.api.asc_getDefinedNames(c_oAscGetDefinedNamesList.All), this.currentNamedRange);
+            this.refreshRangeList(this.api.asc_getDefinedNames(Asc.c_oAscGetDefinedNamesList.All), this.currentNamedRange);
         },
 
         refreshRangeList: function(ranges, selectedItem) {
@@ -400,7 +400,7 @@ define([  'text!spreadsheeteditor/main/app/template/NameManagerDlg.template',
         },
 
         onLockDefNameManager: function(state) {
-            this.locked = (state == c_oAscDefinedNameReason.LockDefNameManager);
+            this.locked = (state == Asc.c_oAscDefinedNameReason.LockDefNameManager);
         },
         
         txtTitle: 'Name Manager',
