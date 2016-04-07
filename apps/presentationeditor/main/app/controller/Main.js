@@ -818,7 +818,7 @@ define([
                     var value = Common.localStorage.getItem('pe-settings-unit');
                     value = (value!==null) ? parseInt(value) : Common.Utils.Metric.c_MetricUnits.cm;
                     Common.Utils.Metric.setCurrentMetric(value);
-                    me.api.asc_SetDocumentUnits((value==Common.Utils.Metric.c_MetricUnits.inch) ? c_oAscDocumentUnits.Inch : ((value==Common.Utils.Metric.c_MetricUnits.pt) ? c_oAscDocumentUnits.Point : c_oAscDocumentUnits.Millimeter));
+                    me.api.asc_SetDocumentUnits((value==Common.Utils.Metric.c_MetricUnits.inch) ? Asc.c_oAscDocumentUnits.Inch : ((value==Common.Utils.Metric.c_MetricUnits.pt) ? Asc.c_oAscDocumentUnits.Point : Asc.c_oAscDocumentUnits.Millimeter));
 
                     value = Common.localStorage.getItem('pe-hidden-rulers');
                     if (me.api.asc_SetViewRulers) me.api.asc_SetViewRulers(value===null || parseInt(value) === 0);
@@ -1260,7 +1260,7 @@ define([
                 var value = Common.localStorage.getItem("pe-settings-unit");
                 value = (value!==null) ? parseInt(value) : Common.Utils.Metric.c_MetricUnits.cm;
                 Common.Utils.Metric.setCurrentMetric(value);
-                this.api.asc_SetDocumentUnits((value==Common.Utils.Metric.c_MetricUnits.inch) ? c_oAscDocumentUnits.Inch : ((value==Common.Utils.Metric.c_MetricUnits.pt) ? c_oAscDocumentUnits.Point : c_oAscDocumentUnits.Millimeter));
+                this.api.asc_SetDocumentUnits((value==Common.Utils.Metric.c_MetricUnits.inch) ? Asc.c_oAscDocumentUnits.Inch : ((value==Common.Utils.Metric.c_MetricUnits.pt) ? Asc.c_oAscDocumentUnits.Point : Asc.c_oAscDocumentUnits.Millimeter));
                 this.getApplication().getController('RightMenu').updateMetricUnit();
             },
 
