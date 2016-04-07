@@ -399,7 +399,8 @@ define([
                 win.show();
                 win.setSettings({
                     api     : me.api,
-                    range   : me._state.Range
+                    range   : me._state.Range,
+                    title: me.textResize
                 });
             }
         },

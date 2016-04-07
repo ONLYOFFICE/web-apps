@@ -95,6 +95,8 @@ define([
                     me.cbTitle.setValue(options.asc_getIsTitle());
                     me.api.asc_setSelectionDialogMode(c_oAscSelectionDialogType.FormatTable, options.asc_getRange());
                 }
+                if (settings.title)
+                    me.setTitle(settings.title);
 
                 me.api.asc_unregisterCallback('asc_onSelectionRangeChanged', _.bind(me.onApiRangeChanged, me));
                 me.api.asc_registerCallback('asc_onSelectionRangeChanged', _.bind(me.onApiRangeChanged, me));
@@ -174,7 +176,7 @@ define([
 //        },
 
         txtTitle    : 'Title',
-        txtFormat   : 'Format as table',
+        txtFormat   : 'Create table',
         textCancel  : 'Cancel',
         txtEmpty    : 'This field is required',
         txtInvalidRange: 'ERROR! Invalid cells range',
