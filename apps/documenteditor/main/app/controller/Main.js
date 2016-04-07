@@ -1591,6 +1591,7 @@ define([
                 Common.Utils.Metric.setCurrentMetric(value);
                 this.api.asc_SetDocumentUnits((value==Common.Utils.Metric.c_MetricUnits.inch) ? c_oAscDocumentUnits.Inch : ((value==Common.Utils.Metric.c_MetricUnits.pt) ? c_oAscDocumentUnits.Point : c_oAscDocumentUnits.Millimeter));
                 this.getApplication().getController('RightMenu').updateMetricUnit();
+                this.getApplication().getController('Toolbar').getView('Toolbar').updateMetricUnit();
             },
 
             onAdvancedOptions: function(advOptions) {

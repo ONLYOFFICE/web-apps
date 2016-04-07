@@ -686,10 +686,10 @@ define([
             
             var pageMarginsTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem"><div><b><%= caption %></b></div>' +
                                     '<% if (options.value !== null) { %><div style="display: inline-block;margin-right: 20px;min-width: 80px;">' +
-                                    '<label style="display: block;">'+ this.textTop +'<%= parseFloat((options.value[0]/10.).toFixed(2)) %>'+ ' ' + Common.Utils.Metric.metricName[0] +'</label>' +
-                                    '<label style="display: block;">'+ this.textLeft +'<%= parseFloat((options.value[1]/10.).toFixed(2)) %>'+ ' ' + Common.Utils.Metric.metricName[0] +'</label></div><div style="display: inline-block;">' +
-                                    '<label style="display: block;">'+ this.textBottom +'<%= parseFloat((options.value[2]/10.).toFixed(2)) %>'+ ' ' + Common.Utils.Metric.metricName[0] +'</label>'+
-                                    '<label style="display: block;">'+ this.textRight +'<%= parseFloat((options.value[3]/10.).toFixed(2)) %>'+ ' ' + Common.Utils.Metric.metricName[0] +'</label></div>'+
+                                    '<label style="display: block;">'+ this.textTop +'<%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(options.value[0]).toFixed(2)) %> <%= Common.Utils.Metric.metricName[Common.Utils.Metric.getCurrentMetric()] %></label>' +
+                                    '<label style="display: block;">'+ this.textLeft +'<%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(options.value[1]).toFixed(2)) %> <%= Common.Utils.Metric.metricName[Common.Utils.Metric.getCurrentMetric()] %></label></div><div style="display: inline-block;">' +
+                                    '<label style="display: block;">'+ this.textBottom +'<%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(options.value[2]).toFixed(2)) %> <%= Common.Utils.Metric.metricName[Common.Utils.Metric.getCurrentMetric()] %></label>'+
+                                    '<label style="display: block;">'+ this.textRight +'<%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(options.value[3]).toFixed(2)) %> <%= Common.Utils.Metric.metricName[Common.Utils.Metric.getCurrentMetric()] %></label></div>'+
                                     '<% } %></a>');
 
             this.btnPageMargins = new Common.UI.Button({
@@ -711,7 +711,10 @@ define([
             });
             this.toolbarControls.push(this.btnPageMargins);
 
-            var pageSizeTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem"><div><b><%= caption %></b></div><div><%= options.subtitle %></div></a>');
+            var pageSizeTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem"><div><b><%= caption %></b></div>' +
+                '<div><%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(options.value[0]).toFixed(2)) %> <%= Common.Utils.Metric.metricName[Common.Utils.Metric.getCurrentMetric()] %> x '+
+                '<%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(options.value[1]).toFixed(2)) %> <%= Common.Utils.Metric.metricName[Common.Utils.Metric.getCurrentMetric()] %></div></a>');
+            
             this.btnPageSize = new Common.UI.Button({
                 id          : 'id-toolbar-btn-pagesize',
                 cls         : 'btn-toolbar',
@@ -1374,6 +1377,29 @@ define([
                 this.mnuNonPrinting.items[0].setChecked(this.api.get_ShowParaMarks(), true);
                 this.mnuNonPrinting.items[1].setChecked(this.api.get_ShowTableEmptyLine(), true);
                 this.btnShowHidenChars.toggle(this.mnuNonPrinting.items[0].checked, true);
+
+                this.updateMetricUnit();
+            }
+        },
+
+        updateMetricUnit: function() {
+            var items = this.btnPageMargins.menu.items;
+            for (var i=0; i<items.length; i++) {
+                var mnu = items[i];
+                if (mnu.checkable) {
+                    var checked = mnu.checked;
+                    $(mnu.el).html(mnu.template({id: Common.UI.getId(), caption : mnu.caption, options : mnu.options}));
+                    if (checked) mnu.setChecked(checked);
+                }
+            }
+            items = this.btnPageSize.menu.items;
+            for (var i=0; i<items.length; i++) {
+                var mnu = items[i];
+                if (mnu.checkable) {
+                    var checked = mnu.checked;
+                    $(mnu.el).html(mnu.template({id: Common.UI.getId(), caption : mnu.caption, options : mnu.options}));
+                    if (checked) mnu.setChecked(checked);
+                }
             }
         },
 
