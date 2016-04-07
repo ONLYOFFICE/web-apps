@@ -568,7 +568,7 @@ define([
                             icls        : 'btn-align-top',
                             checkable   : true,
                             toggleGroup : 'valignGroup',
-                            value       : c_oAscVerticalTextAlign.TEXT_ALIGN_TOP
+                            value       : Asc.c_oAscVerticalTextAlign.TEXT_ALIGN_TOP
                         },
                         {
                             caption     : me.textAlignMiddle,
@@ -576,7 +576,7 @@ define([
                             icls        : 'btn-align-middle',
                             checkable   : true,
                             toggleGroup : 'valignGroup',
-                            value       : c_oAscVerticalTextAlign.TEXT_ALIGN_CTR,
+                            value       : Asc.c_oAscVerticalTextAlign.TEXT_ALIGN_CTR,
                             checked     : true
                         },
                         {
@@ -585,7 +585,7 @@ define([
                             icls        : 'btn-align-bottom',
                             checkable   : true,
                             toggleGroup : 'valignGroup',
-                            value       : c_oAscVerticalTextAlign.TEXT_ALIGN_BOTTOM
+                            value       : Asc.c_oAscVerticalTextAlign.TEXT_ALIGN_BOTTOM
                         }
                     ]
                 })
@@ -696,31 +696,31 @@ define([
                         { id: 'menu-chart-group-stock',   caption: me.textStock }
                     ]),
                     store: new Common.UI.DataViewStore([
-                        { group: 'menu-chart-group-bar',     type: c_oAscChartTypeSettings.barNormal,          allowSelected: true, iconCls: 'column-normal', selected: true},
-                        { group: 'menu-chart-group-bar',     type: c_oAscChartTypeSettings.barStacked,         allowSelected: true, iconCls: 'column-stack'},
-                        { group: 'menu-chart-group-bar',     type: c_oAscChartTypeSettings.barStackedPer,      allowSelected: true, iconCls: 'column-pstack'},
-                        { group: 'menu-chart-group-bar',     type: c_oAscChartTypeSettings.barNormal3d,        allowSelected: true, iconCls: 'column-3d-normal'},
-                        { group: 'menu-chart-group-bar',     type: c_oAscChartTypeSettings.barStacked3d,       allowSelected: true, iconCls: 'column-3d-stack'},
-                        { group: 'menu-chart-group-bar',     type: c_oAscChartTypeSettings.barStackedPer3d,    allowSelected: true, iconCls: 'column-3d-pstack'},
-                        { group: 'menu-chart-group-bar',     type: c_oAscChartTypeSettings.barNormal3dPerspective,    allowSelected: true, iconCls: 'column-3d-normal-per'},
-                        { group: 'menu-chart-group-line',    type: c_oAscChartTypeSettings.lineNormal,         allowSelected: true, iconCls: 'line-normal'},
-                        { group: 'menu-chart-group-line',    type: c_oAscChartTypeSettings.lineStacked,        allowSelected: true, iconCls: 'line-stack'},
-                        { group: 'menu-chart-group-line',    type: c_oAscChartTypeSettings.lineStackedPer,     allowSelected: true, iconCls: 'line-pstack'},
-                        { group: 'menu-chart-group-line',    type: c_oAscChartTypeSettings.line3d,             allowSelected: true, iconCls: 'line-3d'},
-                        { group: 'menu-chart-group-pie',     type: c_oAscChartTypeSettings.pie,                allowSelected: true, iconCls: 'pie-normal'},
-                        { group: 'menu-chart-group-pie',     type: c_oAscChartTypeSettings.doughnut,           allowSelected: true, iconCls: 'pie-doughnut'},
-                        { group: 'menu-chart-group-pie',     type: c_oAscChartTypeSettings.pie3d,              allowSelected: true, iconCls: 'pie-3d-normal'},
-                        { group: 'menu-chart-group-hbar',    type: c_oAscChartTypeSettings.hBarNormal,         allowSelected: true, iconCls: 'bar-normal'},
-                        { group: 'menu-chart-group-hbar',    type: c_oAscChartTypeSettings.hBarStacked,        allowSelected: true, iconCls: 'bar-stack'},
-                        { group: 'menu-chart-group-hbar',    type: c_oAscChartTypeSettings.hBarStackedPer,     allowSelected: true, iconCls: 'bar-pstack'},
-                        { group: 'menu-chart-group-hbar',    type: c_oAscChartTypeSettings.hBarNormal3d,       allowSelected: true, iconCls: 'bar-3d-normal'},
-                        { group: 'menu-chart-group-hbar',    type: c_oAscChartTypeSettings.hBarStacked3d,      allowSelected: true, iconCls: 'bar-3d-stack'},
-                        { group: 'menu-chart-group-hbar',    type: c_oAscChartTypeSettings.hBarStackedPer3d,   allowSelected: true, iconCls: 'bar-3d-pstack'},
-                        { group: 'menu-chart-group-area',    type: c_oAscChartTypeSettings.areaNormal,         allowSelected: true, iconCls: 'area-normal'},
-                        { group: 'menu-chart-group-area',    type: c_oAscChartTypeSettings.areaStacked,        allowSelected: true, iconCls: 'area-stack'},
-                        { group: 'menu-chart-group-area',    type: c_oAscChartTypeSettings.areaStackedPer,     allowSelected: true, iconCls: 'area-pstack'},
-                        { group: 'menu-chart-group-scatter', type: c_oAscChartTypeSettings.scatter,            allowSelected: true, iconCls: 'point-normal'},
-                        { group: 'menu-chart-group-stock',   type: c_oAscChartTypeSettings.stock,              allowSelected: true, iconCls: 'stock-normal'}
+                        { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barNormal,          allowSelected: true, iconCls: 'column-normal', selected: true},
+                        { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barStacked,         allowSelected: true, iconCls: 'column-stack'},
+                        { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barStackedPer,      allowSelected: true, iconCls: 'column-pstack'},
+                        { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barNormal3d,        allowSelected: true, iconCls: 'column-3d-normal'},
+                        { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barStacked3d,       allowSelected: true, iconCls: 'column-3d-stack'},
+                        { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barStackedPer3d,    allowSelected: true, iconCls: 'column-3d-pstack'},
+                        { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barNormal3dPerspective,    allowSelected: true, iconCls: 'column-3d-normal-per'},
+                        { group: 'menu-chart-group-line',    type: Asc.c_oAscChartTypeSettings.lineNormal,         allowSelected: true, iconCls: 'line-normal'},
+                        { group: 'menu-chart-group-line',    type: Asc.c_oAscChartTypeSettings.lineStacked,        allowSelected: true, iconCls: 'line-stack'},
+                        { group: 'menu-chart-group-line',    type: Asc.c_oAscChartTypeSettings.lineStackedPer,     allowSelected: true, iconCls: 'line-pstack'},
+                        { group: 'menu-chart-group-line',    type: Asc.c_oAscChartTypeSettings.line3d,             allowSelected: true, iconCls: 'line-3d'},
+                        { group: 'menu-chart-group-pie',     type: Asc.c_oAscChartTypeSettings.pie,                allowSelected: true, iconCls: 'pie-normal'},
+                        { group: 'menu-chart-group-pie',     type: Asc.c_oAscChartTypeSettings.doughnut,           allowSelected: true, iconCls: 'pie-doughnut'},
+                        { group: 'menu-chart-group-pie',     type: Asc.c_oAscChartTypeSettings.pie3d,              allowSelected: true, iconCls: 'pie-3d-normal'},
+                        { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarNormal,         allowSelected: true, iconCls: 'bar-normal'},
+                        { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarStacked,        allowSelected: true, iconCls: 'bar-stack'},
+                        { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarStackedPer,     allowSelected: true, iconCls: 'bar-pstack'},
+                        { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarNormal3d,       allowSelected: true, iconCls: 'bar-3d-normal'},
+                        { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarStacked3d,      allowSelected: true, iconCls: 'bar-3d-stack'},
+                        { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarStackedPer3d,   allowSelected: true, iconCls: 'bar-3d-pstack'},
+                        { group: 'menu-chart-group-area',    type: Asc.c_oAscChartTypeSettings.areaNormal,         allowSelected: true, iconCls: 'area-normal'},
+                        { group: 'menu-chart-group-area',    type: Asc.c_oAscChartTypeSettings.areaStacked,        allowSelected: true, iconCls: 'area-stack'},
+                        { group: 'menu-chart-group-area',    type: Asc.c_oAscChartTypeSettings.areaStackedPer,     allowSelected: true, iconCls: 'area-pstack'},
+                        { group: 'menu-chart-group-scatter', type: Asc.c_oAscChartTypeSettings.scatter,            allowSelected: true, iconCls: 'point-normal'},
+                        { group: 'menu-chart-group-stock',   type: Asc.c_oAscChartTypeSettings.stock,              allowSelected: true, iconCls: 'stock-normal'}
                     ]),
                     itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist <%= iconCls %>"></div>')
                 })
@@ -897,32 +897,32 @@ define([
                         {
                             caption : me.textShapeAlignLeft,
                             iconCls : 'mnu-shape-align-left',
-                            value   : c_oAscAlignShapeType.ALIGN_LEFT
+                            value   : Asc.c_oAscAlignShapeType.ALIGN_LEFT
                         },
                         {
                             caption : me.textShapeAlignCenter,
                             iconCls : 'mnu-shape-align-center',
-                            value   : c_oAscAlignShapeType.ALIGN_CENTER
+                            value   : Asc.c_oAscAlignShapeType.ALIGN_CENTER
                         },
                         {
                             caption : me.textShapeAlignRight,
                             iconCls : 'mnu-shape-align-right',
-                            value   : c_oAscAlignShapeType.ALIGN_RIGHT
+                            value   : Asc.c_oAscAlignShapeType.ALIGN_RIGHT
                         },
                         {
                             caption : me.textShapeAlignTop,
                             iconCls : 'mnu-shape-align-top',
-                            value   : c_oAscAlignShapeType.ALIGN_TOP
+                            value   : Asc.c_oAscAlignShapeType.ALIGN_TOP
                         },
                         {
                             caption : me.textShapeAlignMiddle,
                             iconCls : 'mnu-shape-align-middle',
-                            value   : c_oAscAlignShapeType.ALIGN_MIDDLE
+                            value   : Asc.c_oAscAlignShapeType.ALIGN_MIDDLE
                         },
                         {
                             caption : me.textShapeAlignBottom,
                             iconCls : 'mnu-shape-align-bottom',
-                            value   : c_oAscAlignShapeType.ALIGN_BOTTOM
+                            value   : Asc.c_oAscAlignShapeType.ALIGN_BOTTOM
                         },
                         {caption: '--' },
                         {

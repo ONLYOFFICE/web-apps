@@ -294,13 +294,13 @@ define([
                 for (var i=0; i<this.spinners.length; i++) {
                     var spinner = this.spinners[i];
                     spinner.setDefaultUnit(Common.Utils.Metric.getCurrentMetricName());
-                    spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.cm ? 0.01 : 1);
+                    spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt ? 1 : 0.01);
                 }
             }
             var rec = this.cmbLineRule.store.at(1);
             rec.set({defaultUnit: Common.Utils.Metric.getCurrentMetricName(),
                     minValue: parseFloat(Common.Utils.Metric.fnRecalcFromMM(0.3).toFixed(2)),
-                    step: (Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.cm) ? 0.01: 1});
+                    step: (Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt) ? 1 : 0.01});
 
             if (this._state.LineRule !== null) {
                 var obj;
@@ -327,7 +327,7 @@ define([
                     for (var i = selectedElements.length - 1; i >= 0; i--) {
                         elType = selectedElements[i].get_ObjectType();
                         elValue = selectedElements[i].get_ObjectValue();
-                        if (c_oAscTypeSelectElement.Paragraph == elType) {
+                        if (Asc.c_oAscTypeSelectElement.Paragraph == elType) {
                             (new PE.Views.ParagraphSettingsAdvanced(
                             {
                                 paragraphProps: elValue,

@@ -121,9 +121,9 @@ define([
         },
 
         onApiEditCell: function(state) {
-            if (state == c_oAscCellEditorState.editStart)
+            if (state == Asc.c_oAscCellEditorState.editStart)
                 this.api.isCellEdited = true;
-            else if (state == c_oAscCellEditorState.editEnd) {
+            else if (state == Asc.c_oAscCellEditorState.editEnd) {
                 this.api.isCellEdited = false;
                 this.api.isCEditorFocused = false;
             }
@@ -148,7 +148,7 @@ define([
         },
 
         onCellsRange: function(status) {
-            var isRangeSelection = (status != c_oAscSelectionDialogType.None);
+            var isRangeSelection = (status != Asc.c_oAscSelectionDialogType.None);
 
             if (isRangeSelection) {
                 this.editor.$cellname.attr('disabled', 'disabled');
@@ -244,7 +244,7 @@ define([
                     locked: this.namedrange_locked,
                     sheets: items,
                     sheetNames: sheetNames,
-                    ranges: this.api.asc_getDefinedNames(c_oAscGetDefinedNamesList.All),
+                    ranges: this.api.asc_getDefinedNames(Asc.c_oAscGetDefinedNamesList.All),
                     props : this.api.asc_getDefaultDefinedName(),
                     sort  : this.rangeListSort
                 })).on('close', function(win){
@@ -257,7 +257,7 @@ define([
         },
 
         onNameBeforeShow: function() {
-            var names = this.api.asc_getDefinedNames(c_oAscGetDefinedNamesList.WorksheetWorkbook),
+            var names = this.api.asc_getDefinedNames(Asc.c_oAscGetDefinedNamesList.WorksheetWorkbook),
                 rangesMenu = this.editor.btnNamedRanges.menu,
                 prev_name='';
 
@@ -281,7 +281,7 @@ define([
         },
 
         onLockDefNameManager: function(state) {
-            this.namedrange_locked = (state == c_oAscDefinedNameReason.LockDefNameManager);
+            this.namedrange_locked = (state == Asc.c_oAscDefinedNameReason.LockDefNameManager);
         }
     });
 });

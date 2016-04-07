@@ -76,9 +76,9 @@ Ext.define('SSE.controller.Document', {
     },
 
     _onLongActionEnd: function(type, id) {
-        if (type === c_oAscAsyncActionType['BlockInteraction']) {
+        if (type === Asc.c_oAscAsyncActionType['BlockInteraction']) {
             switch (id) {
-                case c_oAscAsyncAction['Open']:
+                case Asc.c_oAscAsyncAction['Open']:
                     var i = this.api.asc_getActiveWorksheetIndex();
                     this.api.asc_showWorksheet(i);
                     break;

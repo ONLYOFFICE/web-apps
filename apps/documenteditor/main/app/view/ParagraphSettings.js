@@ -364,10 +364,10 @@ define([
                 }
 
                 var shd = prop.get_Shade();
-                if (shd!==null && shd!==undefined && shd.get_Value()===shd_Clear) {
+                if (shd!==null && shd!==undefined && shd.get_Value()===Asc.c_oAscShdClear) {
                     var color = shd.get_Color();
                     if (color) {
-                        if (color.get_type() == c_oAscColor.COLOR_TYPE_SCHEME) {
+                        if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
                             this.BackColor = {color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()), effectValue: color.get_value() };
                         } else {
                             this.BackColor = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b());
@@ -408,12 +408,12 @@ define([
                 for (var i=0; i<this.spinners.length; i++) {
                     var spinner = this.spinners[i];
                     spinner.setDefaultUnit(Common.Utils.Metric.getCurrentMetricName());
-                    spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.cm ? 0.01 : 1);
+                    spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt ? 1 : 0.01);
                 }
             }
             this._arrLineRule[2].defaultUnit =  this._arrLineRule[0].defaultUnit = Common.Utils.Metric.getCurrentMetricName();
             this._arrLineRule[2].minValue =  this._arrLineRule[0].minValue = parseFloat(Common.Utils.Metric.fnRecalcFromMM(0.3).toFixed(2));
-            this._arrLineRule[2].step =  this._arrLineRule[0].step = (Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.cm) ? 0.01: 1;
+            this._arrLineRule[2].step =  this._arrLineRule[0].step = (Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt) ? 1 : 0.01;
             if (this._state.LineRuleIdx !== null) {
                 this.numLineHeight.setDefaultUnit(this._arrLineRule[this._state.LineRuleIdx].defaultUnit);
                 this.numLineHeight.setStep(this._arrLineRule[this._state.LineRuleIdx].step);
@@ -436,7 +436,7 @@ define([
                     for (var i = selectedElements.length - 1; i >= 0; i--) {
                         elType = selectedElements[i].get_ObjectType();
                         elValue = selectedElements[i].get_ObjectValue();
-                        if (c_oAscTypeSelectElement.Paragraph == elType) {
+                        if (Asc.c_oAscTypeSelectElement.Paragraph == elType) {
                             (new DE.Views.ParagraphSettingsAdvanced(
                             {
                                 tableStylerRows: 2,

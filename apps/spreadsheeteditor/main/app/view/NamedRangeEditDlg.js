@@ -133,12 +133,12 @@ define([
                     if (isvalid.asc_getStatus() === true) return true;
                     else {
                         switch (isvalid.asc_getReason()) {
-                            case c_oAscDefinedNameReason.IsLocked:
+                            case Asc.c_oAscDefinedNameReason.IsLocked:
                                 return me.textIsLocked;
                             break;
-                            case c_oAscDefinedNameReason.Existed:
+                            case Asc.c_oAscDefinedNameReason.Existed:
                                 return (me.isEdit && me.props.asc_getName().toLowerCase() == value.toLowerCase()) ? true : me.textExistName;
-                            case c_oAscDefinedNameReason.NameReserved:
+                            case Asc.c_oAscDefinedNameReason.NameReserved:
                                 return (me.isEdit) ? me.textReservedName : true;
                             default:
                                 return me.textInvalidName;
@@ -172,8 +172,8 @@ define([
                     if (_.isEmpty(value)) {
                         return true;
                     }
-                    var isvalid = me.api.asc_checkDataRange(c_oAscSelectionDialogType.Chart, value, false);
-                    return (isvalid!==c_oAscError.ID.DataRangeError || (me.isEdit && me.props.asc_getRef().toLowerCase() == value.toLowerCase())) ? true : me.textInvalidRange;
+                    var isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, value, false);
+                    return (isvalid!==Asc.c_oAscError.ID.DataRangeError || (me.isEdit && me.props.asc_getRef().toLowerCase() == value.toLowerCase())) ? true : me.textInvalidRange;
                 }
             }).on('keypress:after', function(input, e) {
                     if (e.keyCode === Common.UI.Keys.RETURN) {
@@ -298,7 +298,7 @@ define([
         },
 
         onLockDefNameManager: function(state) {
-            this.locked = (state == c_oAscDefinedNameReason.LockDefNameManager);
+            this.locked = (state == Asc.c_oAscDefinedNameReason.LockDefNameManager);
         },
 
         onRefreshDefNameList: function(name) {

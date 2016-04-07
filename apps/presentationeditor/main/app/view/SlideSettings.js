@@ -84,21 +84,21 @@ define([
             };
 
             this._state = {
-                FillType: c_oAscFill.FILL_TYPE_SOLID,
+                FillType: Asc.c_oAscFill.FILL_TYPE_SOLID,
                 SlideColor: 'ffffff',
-                BlipFillType: c_oAscFillBlipType.STRETCH,
+                BlipFillType: Asc.c_oAscFillBlipType.STRETCH,
                 FGColor: '000000',
                 BGColor: 'ffffff',
                 GradColor: '000000',
-                GradFillType: c_oAscFillGradType.GRAD_LINEAR
+                GradFillType: Asc.c_oAscFillGradType.GRAD_LINEAR
             };
 
-            this.OriginalFillType = c_oAscFill.FILL_TYPE_SOLID;
+            this.OriginalFillType = Asc.c_oAscFill.FILL_TYPE_SOLID;
             this.SlideColor = {Value: 1, Color: 'ffffff'};  // value=1 - цвет определен - прозрачный или другой, value=0 - цвет не определен, рисуем прозрачным
-            this.BlipFillType = c_oAscFillBlipType.STRETCH;
-            this.Effect = c_oAscSlideTransitionTypes.None;
+            this.BlipFillType = Asc.c_oAscFillBlipType.STRETCH;
+            this.Effect = Asc.c_oAscSlideTransitionTypes.None;
             this.EffectType = undefined;
-            this.GradFillType = c_oAscFillGradType.GRAD_LINEAR;
+            this.GradFillType = Asc.c_oAscFillGradType.GRAD_LINEAR;
             this.GradColor = { values: [0, 100], colors: ['000000', 'ffffff'], currentIdx: 0};
             this.GradRadialDirectionIdx = 0;
             this.GradLinearDirectionType = 0;
@@ -112,11 +112,11 @@ define([
             this.render();
 
             this._arrFillSrc = [
-                {displayValue: this.textColor,          value: c_oAscFill.FILL_TYPE_SOLID},
-                {displayValue: this.textGradientFill,   value: c_oAscFill.FILL_TYPE_GRAD},
-                {displayValue: this.textImageTexture,   value: c_oAscFill.FILL_TYPE_BLIP},
-                {displayValue: this.textPatternFill,    value: c_oAscFill.FILL_TYPE_PATT},
-                {displayValue: this.textNoFill,         value: c_oAscFill.FILL_TYPE_NOFILL}
+                {displayValue: this.textColor,          value: Asc.c_oAscFill.FILL_TYPE_SOLID},
+                {displayValue: this.textGradientFill,   value: Asc.c_oAscFill.FILL_TYPE_GRAD},
+                {displayValue: this.textImageTexture,   value: Asc.c_oAscFill.FILL_TYPE_BLIP},
+                {displayValue: this.textPatternFill,    value: Asc.c_oAscFill.FILL_TYPE_PATT},
+                {displayValue: this.textNoFill,         value: Asc.c_oAscFill.FILL_TYPE_NOFILL}
             ];
 
             this.cmbFillSrc = new Common.UI.ComboBox({
@@ -291,8 +291,8 @@ define([
             this.FillItems.push(this.btnInsertFromUrl);
 
             this._arrFillType = [
-                {displayValue: this.textStretch, value: c_oAscFillBlipType.STRETCH},
-                {displayValue: this.textTile,    value: c_oAscFillBlipType.TILE}
+                {displayValue: this.textStretch, value: Asc.c_oAscFillBlipType.STRETCH},
+                {displayValue: this.textTile,    value: Asc.c_oAscFillBlipType.TILE}
             ];
 
             this.cmbFillType = new Common.UI.ComboBox({
@@ -325,8 +325,8 @@ define([
             this.FillItems.push(this.btnTexture);
 
             this._arrGradType = [
-                {displayValue: this.textLinear, value: c_oAscFillGradType.GRAD_LINEAR},
-                {displayValue: this.textRadial, value: c_oAscFillGradType.GRAD_PATH}
+                {displayValue: this.textLinear, value: Asc.c_oAscFillGradType.GRAD_LINEAR},
+                {displayValue: this.textRadial, value: Asc.c_oAscFillGradType.GRAD_PATH}
             ];
 
             this.cmbGradType = new Common.UI.ComboBox({
@@ -445,15 +445,15 @@ define([
             this.FillGradientContainer = $('#slide-panel-gradient-fill');
 
             this._arrEffectName = [
-                {displayValue: this.textNone,    value: c_oAscSlideTransitionTypes.None},
-                {displayValue: this.textFade,    value: c_oAscSlideTransitionTypes.Fade},
-                {displayValue: this.textPush,    value: c_oAscSlideTransitionTypes.Push},
-                {displayValue: this.textWipe,    value: c_oAscSlideTransitionTypes.Wipe},
-                {displayValue: this.textSplit,   value: c_oAscSlideTransitionTypes.Split},
-                {displayValue: this.textUnCover, value: c_oAscSlideTransitionTypes.UnCover},
-                {displayValue: this.textCover,   value: c_oAscSlideTransitionTypes.Cover},
-                {displayValue: this.textClock,   value: c_oAscSlideTransitionTypes.Clock},
-                {displayValue: this.textZoom,    value: c_oAscSlideTransitionTypes.Zoom}
+                {displayValue: this.textNone,    value: Asc.c_oAscSlideTransitionTypes.None},
+                {displayValue: this.textFade,    value: Asc.c_oAscSlideTransitionTypes.Fade},
+                {displayValue: this.textPush,    value: Asc.c_oAscSlideTransitionTypes.Push},
+                {displayValue: this.textWipe,    value: Asc.c_oAscSlideTransitionTypes.Wipe},
+                {displayValue: this.textSplit,   value: Asc.c_oAscSlideTransitionTypes.Split},
+                {displayValue: this.textUnCover, value: Asc.c_oAscSlideTransitionTypes.UnCover},
+                {displayValue: this.textCover,   value: Asc.c_oAscSlideTransitionTypes.Cover},
+                {displayValue: this.textClock,   value: Asc.c_oAscSlideTransitionTypes.Clock},
+                {displayValue: this.textZoom,    value: Asc.c_oAscSlideTransitionTypes.Zoom}
             ];
 
             this.cmbEffectName = new Common.UI.ComboBox({
@@ -468,26 +468,26 @@ define([
             this.cmbEffectName.on('selected', _.bind(this.onEffectNameSelect, this));
 
             this._arrEffectType = [
-                {displayValue: this.textSmoothly,           value: c_oAscSlideTransitionParams.Fade_Smoothly},
-                {displayValue: this.textBlack,              value: c_oAscSlideTransitionParams.Fade_Through_Black},
-                {displayValue: this.textLeft,               value: c_oAscSlideTransitionParams.Param_Left},
-                {displayValue: this.textTop,                value: c_oAscSlideTransitionParams.Param_Top},
-                {displayValue: this.textRight,              value: c_oAscSlideTransitionParams.Param_Right},
-                {displayValue: this.textBottom,             value: c_oAscSlideTransitionParams.Param_Bottom},
-                {displayValue: this.textTopLeft,            value: c_oAscSlideTransitionParams.Param_TopLeft},
-                {displayValue: this.textTopRight,           value: c_oAscSlideTransitionParams.Param_TopRight},
-                {displayValue: this.textBottomLeft,         value: c_oAscSlideTransitionParams.Param_BottomLeft},
-                {displayValue: this.textBottomRight,        value: c_oAscSlideTransitionParams.Param_BottomRight},
-                {displayValue: this.textVerticalIn,         value: c_oAscSlideTransitionParams.Split_VerticalIn},
-                {displayValue: this.textVerticalOut,        value: c_oAscSlideTransitionParams.Split_VerticalOut},
-                {displayValue: this.textHorizontalIn,       value: c_oAscSlideTransitionParams.Split_HorizontalIn},
-                {displayValue: this.textHorizontalOut,      value: c_oAscSlideTransitionParams.Split_HorizontalOut},
-                {displayValue: this.textClockwise,          value: c_oAscSlideTransitionParams.Clock_Clockwise},
-                {displayValue: this.textCounterclockwise,   value: c_oAscSlideTransitionParams.Clock_Counterclockwise},
-                {displayValue: this.textWedge,              value: c_oAscSlideTransitionParams.Clock_Wedge},
-                {displayValue: this.textZoomIn,             value: c_oAscSlideTransitionParams.Zoom_In},
-                {displayValue: this.textZoomOut,            value: c_oAscSlideTransitionParams.Zoom_Out},
-                {displayValue: this.textZoomRotate,         value: c_oAscSlideTransitionParams.Zoom_AndRotate}
+                {displayValue: this.textSmoothly,           value: Asc.c_oAscSlideTransitionParams.Fade_Smoothly},
+                {displayValue: this.textBlack,              value: Asc.c_oAscSlideTransitionParams.Fade_Through_Black},
+                {displayValue: this.textLeft,               value: Asc.c_oAscSlideTransitionParams.Param_Left},
+                {displayValue: this.textTop,                value: Asc.c_oAscSlideTransitionParams.Param_Top},
+                {displayValue: this.textRight,              value: Asc.c_oAscSlideTransitionParams.Param_Right},
+                {displayValue: this.textBottom,             value: Asc.c_oAscSlideTransitionParams.Param_Bottom},
+                {displayValue: this.textTopLeft,            value: Asc.c_oAscSlideTransitionParams.Param_TopLeft},
+                {displayValue: this.textTopRight,           value: Asc.c_oAscSlideTransitionParams.Param_TopRight},
+                {displayValue: this.textBottomLeft,         value: Asc.c_oAscSlideTransitionParams.Param_BottomLeft},
+                {displayValue: this.textBottomRight,        value: Asc.c_oAscSlideTransitionParams.Param_BottomRight},
+                {displayValue: this.textVerticalIn,         value: Asc.c_oAscSlideTransitionParams.Split_VerticalIn},
+                {displayValue: this.textVerticalOut,        value: Asc.c_oAscSlideTransitionParams.Split_VerticalOut},
+                {displayValue: this.textHorizontalIn,       value: Asc.c_oAscSlideTransitionParams.Split_HorizontalIn},
+                {displayValue: this.textHorizontalOut,      value: Asc.c_oAscSlideTransitionParams.Split_HorizontalOut},
+                {displayValue: this.textClockwise,          value: Asc.c_oAscSlideTransitionParams.Clock_Clockwise},
+                {displayValue: this.textCounterclockwise,   value: Asc.c_oAscSlideTransitionParams.Clock_Counterclockwise},
+                {displayValue: this.textWedge,              value: Asc.c_oAscSlideTransitionParams.Clock_Wedge},
+                {displayValue: this.textZoomIn,             value: Asc.c_oAscSlideTransitionParams.Zoom_In},
+                {displayValue: this.textZoomOut,            value: Asc.c_oAscSlideTransitionParams.Zoom_Out},
+                {displayValue: this.textZoomRotate,         value: Asc.c_oAscSlideTransitionParams.Zoom_AndRotate}
             ];
 
             this.cmbEffectType = new Common.UI.ComboBox({
@@ -574,31 +574,31 @@ define([
         onFillSrcSelect: function(combo, record) {
             this.ShowHideElem(record.value);
             switch (record.value){
-                case c_oAscFill.FILL_TYPE_SOLID:
-                    this._state.FillType = c_oAscFill.FILL_TYPE_SOLID;
+                case Asc.c_oAscFill.FILL_TYPE_SOLID:
+                    this._state.FillType = Asc.c_oAscFill.FILL_TYPE_SOLID;
                     if (!this._noApply) {
                         var props = new CAscSlideProps();
                         var fill = new CAscFill();
-                        fill.put_type(c_oAscFill.FILL_TYPE_SOLID);
+                        fill.put_type(Asc.c_oAscFill.FILL_TYPE_SOLID);
                         fill.put_fill( new CAscFillSolid());
                         fill.get_fill().put_color(Common.Utils.ThemeColor.getRgbColor((this.SlideColor.Color=='transparent') ? {color: '4f81bd', effectId: 24} : this.SlideColor.Color));
                         props.put_background(fill);
                         this.api.SetSlideProps(props);
                     }
                     break;
-                case c_oAscFill.FILL_TYPE_GRAD:
-                    this._state.FillType = c_oAscFill.FILL_TYPE_GRAD;
+                case Asc.c_oAscFill.FILL_TYPE_GRAD:
+                    this._state.FillType = Asc.c_oAscFill.FILL_TYPE_GRAD;
                     if (!this._noApply) {
                         var props = new CAscSlideProps();
                         var fill = new CAscFill();
-                        fill.put_type(c_oAscFill.FILL_TYPE_GRAD);
+                        fill.put_type(Asc.c_oAscFill.FILL_TYPE_GRAD);
                         fill.put_fill( new CAscFillGrad());
                         fill.get_fill().put_grad_type(this.GradFillType);
-                        if (this.GradFillType == c_oAscFillGradType.GRAD_LINEAR) {
+                        if (this.GradFillType == Asc.c_oAscFillGradType.GRAD_LINEAR) {
                             fill.get_fill().put_linear_angle(this.GradLinearDirectionType * 60000);
                             fill.get_fill().put_linear_scale(true);
                         }
-                        if (this.OriginalFillType !== c_oAscFill.FILL_TYPE_GRAD) {
+                        if (this.OriginalFillType !== Asc.c_oAscFill.FILL_TYPE_GRAD) {
                             var HexColor0 = Common.Utils.ThemeColor.getRgbColor(this.GradColor.colors[0]).get_color().get_hex(),
                                 HexColor1 = Common.Utils.ThemeColor.getRgbColor(this.GradColor.colors[1]).get_color().get_hex();
 
@@ -615,15 +615,15 @@ define([
                         this.api.SetSlideProps(props);
                     }
                     break;
-                case c_oAscFill.FILL_TYPE_BLIP:
-                    this._state.FillType = c_oAscFill.FILL_TYPE_BLIP;
+                case Asc.c_oAscFill.FILL_TYPE_BLIP:
+                    this._state.FillType = Asc.c_oAscFill.FILL_TYPE_BLIP;
                     break;
-                case c_oAscFill.FILL_TYPE_PATT:
-                    this._state.FillType = c_oAscFill.FILL_TYPE_PATT;
+                case Asc.c_oAscFill.FILL_TYPE_PATT:
+                    this._state.FillType = Asc.c_oAscFill.FILL_TYPE_PATT;
                     if (!this._noApply) {
                         var props = new CAscSlideProps();
                         var fill = new CAscFill();
-                        fill.put_type(c_oAscFill.FILL_TYPE_PATT);
+                        fill.put_type(Asc.c_oAscFill.FILL_TYPE_PATT);
                         fill.put_fill( new CAscFillHatch());
                         fill.get_fill().put_pattern_type(this.PatternFillType);
 
@@ -642,12 +642,12 @@ define([
                         this.api.SetSlideProps(props);
                     }
                     break;
-                case c_oAscFill.FILL_TYPE_NOFILL:
-                    this._state.FillType = c_oAscFill.FILL_TYPE_NOFILL;
+                case Asc.c_oAscFill.FILL_TYPE_NOFILL:
+                    this._state.FillType = Asc.c_oAscFill.FILL_TYPE_NOFILL;
                     if (!this._noApply) {
                         var props = new CAscSlideProps();
                         var fill = new CAscFill();
-                        fill.put_type(c_oAscFill.FILL_TYPE_NOFILL);
+                        fill.put_type(Asc.c_oAscFill.FILL_TYPE_NOFILL);
                         fill.put_fill(null);
                         props.put_background(fill);
                         this.api.SetSlideProps(props);
@@ -666,10 +666,10 @@ define([
                 var fill = new CAscFill();
 
                 if (this.SlideColor.Color=='transparent') {
-                    fill.put_type(c_oAscFill.FILL_TYPE_NOFILL);
+                    fill.put_type(Asc.c_oAscFill.FILL_TYPE_NOFILL);
                     fill.put_fill(null);
                 } else {
-                    fill.put_type(c_oAscFill.FILL_TYPE_SOLID);
+                    fill.put_type(Asc.c_oAscFill.FILL_TYPE_SOLID);
                     fill.put_fill( new CAscFillSolid());
                     fill.get_fill().put_color(Common.Utils.ThemeColor.getRgbColor(this.SlideColor.Color));
                 }
@@ -689,10 +689,10 @@ define([
                 this.PatternFillType = record.get('type');
                 var props = new CAscSlideProps();
                 var fill = new CAscFill();
-                fill.put_type(c_oAscFill.FILL_TYPE_PATT);
+                fill.put_type(Asc.c_oAscFill.FILL_TYPE_PATT);
                 fill.put_fill( new CAscFillHatch());
                 fill.get_fill().put_pattern_type(this.PatternFillType);
-                if (this.OriginalFillType !== c_oAscFill.FILL_TYPE_PATT) {
+                if (this.OriginalFillType !== Asc.c_oAscFill.FILL_TYPE_PATT) {
                     fill.get_fill().put_color_fg(Common.Utils.ThemeColor.getRgbColor(this.FGColor.Color));
                     fill.get_fill().put_color_bg(Common.Utils.ThemeColor.getRgbColor(this.BGColor.Color));
                 }
@@ -708,10 +708,10 @@ define([
             if (this.api && !this._noApply) {
                 var props = new CAscSlideProps();
                 var fill = new CAscFill();
-                fill.put_type(c_oAscFill.FILL_TYPE_PATT);
+                fill.put_type(Asc.c_oAscFill.FILL_TYPE_PATT);
                 fill.put_fill( new CAscFillHatch());
                 fill.get_fill().put_color_fg(Common.Utils.ThemeColor.getRgbColor(this.FGColor.Color));
-                if (this.OriginalFillType !== c_oAscFill.FILL_TYPE_PATT) {
+                if (this.OriginalFillType !== Asc.c_oAscFill.FILL_TYPE_PATT) {
                     fill.get_fill().put_pattern_type(this.PatternFillType);
                     fill.get_fill().put_color_bg(Common.Utils.ThemeColor.getRgbColor(this.BGColor.Color));
                 }
@@ -727,9 +727,9 @@ define([
             if (this.api && !this._noApply) {
                 var props = new CAscSlideProps();
                 var fill = new CAscFill();
-                fill.put_type(c_oAscFill.FILL_TYPE_PATT);
+                fill.put_type(Asc.c_oAscFill.FILL_TYPE_PATT);
                 fill.put_fill( new CAscFillHatch());
-                if (this.OriginalFillType !== c_oAscFill.FILL_TYPE_PATT) {
+                if (this.OriginalFillType !== Asc.c_oAscFill.FILL_TYPE_PATT) {
                     fill.get_fill().put_pattern_type(this.PatternFillType);
                     fill.get_fill().put_color_fg(Common.Utils.ThemeColor.getRgbColor(this.FGColor.Color));
                 }
@@ -743,10 +743,10 @@ define([
         onFillTypeSelect: function(combo, record) {
             this.BlipFillType = record.value;
 
-            if (this.api && this._fromTextureCmb !== true && this.OriginalFillType == c_oAscFill.FILL_TYPE_BLIP) {
+            if (this.api && this._fromTextureCmb !== true && this.OriginalFillType == Asc.c_oAscFill.FILL_TYPE_BLIP) {
                 var props = new CAscSlideProps();
                 var fill = new CAscFill();
-                fill.put_type(c_oAscFill.FILL_TYPE_BLIP);
+                fill.put_type(Asc.c_oAscFill.FILL_TYPE_BLIP);
                 fill.put_fill( new CAscFillBlip());
 
                 fill.get_fill().put_type(this.BlipFillType);
@@ -760,7 +760,7 @@ define([
         onGradTypeSelect: function(combo, record){
             this.GradFillType = record.value;
 
-            if (this.GradFillType == c_oAscFillGradType.GRAD_LINEAR) {
+            if (this.GradFillType == Asc.c_oAscFillGradType.GRAD_LINEAR) {
                 this.mnuDirectionPicker.store.reset(this._viewDataLinear);
                 this.mnuDirectionPicker.cmpEl.width(175);
                 this.mnuDirectionPicker.restoreHeight = 174;
@@ -770,7 +770,7 @@ define([
                     this.btnDirection.setIconCls('item-gradient ' + record.get('iconcls'));
                 else
                     this.btnDirection.setIconCls('');
-            } else if (this.GradFillType == c_oAscFillGradType.GRAD_PATH) {
+            } else if (this.GradFillType == Asc.c_oAscFillGradType.GRAD_PATH) {
                 this.mnuDirectionPicker.store.reset(this._viewDataRadial);
                 this.mnuDirectionPicker.cmpEl.width(60);
                 this.mnuDirectionPicker.restoreHeight = 58;
@@ -784,10 +784,10 @@ define([
             if (this.api && !this._noApply) {
                 var props = new CAscSlideProps();
                 var fill = new CAscFill();
-                fill.put_type(c_oAscFill.FILL_TYPE_GRAD);
+                fill.put_type(Asc.c_oAscFill.FILL_TYPE_GRAD);
                 fill.put_fill( new CAscFillGrad());
                 fill.get_fill().put_grad_type(this.GradFillType);
-                if (this.GradFillType == c_oAscFillGradType.GRAD_LINEAR) {
+                if (this.GradFillType == Asc.c_oAscFillGradType.GRAD_LINEAR) {
                     fill.get_fill().put_linear_angle(this.GradLinearDirectionType * 60000);
                     fill.get_fill().put_linear_scale(true);
                 }
@@ -816,12 +816,12 @@ define([
             }
 
             this.btnDirection.setIconCls('item-gradient ' + rawData.iconcls);
-            (this.GradFillType == c_oAscFillGradType.GRAD_LINEAR) ? this.GradLinearDirectionType = rawData.type : this.GradRadialDirectionIdx = 0;
+            (this.GradFillType == Asc.c_oAscFillGradType.GRAD_LINEAR) ? this.GradLinearDirectionType = rawData.type : this.GradRadialDirectionIdx = 0;
             if (this.api) {
-                if (this.GradFillType == c_oAscFillGradType.GRAD_LINEAR) {
+                if (this.GradFillType == Asc.c_oAscFillGradType.GRAD_LINEAR) {
                     var props = new CAscSlideProps();
                     var fill = new CAscFill();
-                    fill.put_type(c_oAscFill.FILL_TYPE_GRAD);
+                    fill.put_type(Asc.c_oAscFill.FILL_TYPE_GRAD);
                     fill.put_fill( new CAscFillGrad());
                     fill.get_fill().put_grad_type(this.GradFillType);
                     fill.get_fill().put_linear_angle(rawData.type * 60000);
@@ -843,13 +843,13 @@ define([
             if (this.api && !this._noApply) {
                 var props = new CAscSlideProps();
                 var fill = new CAscFill();
-                fill.put_type(c_oAscFill.FILL_TYPE_GRAD);
+                fill.put_type(Asc.c_oAscFill.FILL_TYPE_GRAD);
                 fill.put_fill( new CAscFillGrad());
                 fill.get_fill().put_grad_type(this.GradFillType);
                 fill.get_fill().put_colors([Common.Utils.ThemeColor.getRgbColor(this.GradColor.colors[0]), Common.Utils.ThemeColor.getRgbColor(this.GradColor.colors[1])]);
 
-                if (this.OriginalFillType !== c_oAscFill.FILL_TYPE_GRAD) {
-                    if (this.GradFillType == c_oAscFillGradType.GRAD_LINEAR) {
+                if (this.OriginalFillType !== Asc.c_oAscFill.FILL_TYPE_GRAD) {
+                    if (this.GradFillType == Asc.c_oAscFillGradType.GRAD_LINEAR) {
                         fill.get_fill().put_linear_angle(this.GradLinearDirectionType * 60000);
                         fill.get_fill().put_linear_scale(true);
                     }
@@ -885,13 +885,13 @@ define([
             if (this._sliderChanged) {
                 var props = new CAscSlideProps();
                 var fill = new CAscFill();
-                fill.put_type(c_oAscFill.FILL_TYPE_GRAD);
+                fill.put_type(Asc.c_oAscFill.FILL_TYPE_GRAD);
                 fill.put_fill( new CAscFillGrad());
                 fill.get_fill().put_grad_type(this.GradFillType);
                 fill.get_fill().put_positions([this.GradColor.values[0]*1000, this.GradColor.values[1]*1000]);
 
-                if (this.OriginalFillType !== c_oAscFill.FILL_TYPE_GRAD) {
-                    if (this.GradFillType == c_oAscFillGradType.GRAD_LINEAR) {
+                if (this.OriginalFillType !== Asc.c_oAscFill.FILL_TYPE_GRAD) {
+                    if (this.GradFillType == Asc.c_oAscFillGradType.GRAD_LINEAR) {
                         fill.get_fill().put_linear_angle(this.GradLinearDirectionType * 60000);
                         fill.get_fill().put_linear_scale(true);
                     }
@@ -914,7 +914,7 @@ define([
                                 if (me.BlipFillType !== null) {
                                     var props = new CAscSlideProps();
                                     var fill = new CAscFill();
-                                    fill.put_type(c_oAscFill.FILL_TYPE_BLIP);
+                                    fill.put_type(Asc.c_oAscFill.FILL_TYPE_BLIP);
                                     fill.put_fill( new CAscFillBlip());
                                     fill.get_fill().put_type(me.BlipFillType);
                                     fill.get_fill().put_url(checkUrl);
@@ -998,9 +998,9 @@ define([
             if (this.api) {
                 var props = new CAscSlideProps();
                 var fill = new CAscFill();
-                fill.put_type(c_oAscFill.FILL_TYPE_BLIP);
+                fill.put_type(Asc.c_oAscFill.FILL_TYPE_BLIP);
                 fill.put_fill( new CAscFillBlip());
-                fill.get_fill().put_type(c_oAscFillBlipType.TILE);
+                fill.get_fill().put_type(Asc.c_oAscFillBlipType.TILE);
                 fill.get_fill().put_texture_id(record.get('type'));
                 props.put_background(fill);
                 this.api.SetSlideProps(props);
@@ -1012,28 +1012,28 @@ define([
         fillEffectTypeCombo: function (type) {
             var arr = [];
             switch (type) {
-                case c_oAscSlideTransitionTypes.Fade:
+                case Asc.c_oAscSlideTransitionTypes.Fade:
                     arr.push(this._arrEffectType[0], this._arrEffectType[1]);
                     break;
-                case c_oAscSlideTransitionTypes.Push:
+                case Asc.c_oAscSlideTransitionTypes.Push:
                     arr = this._arrEffectType.slice(2, 6);
                     break;
-                case c_oAscSlideTransitionTypes.Wipe:
+                case Asc.c_oAscSlideTransitionTypes.Wipe:
                     arr = this._arrEffectType.slice(2, 10);
                     break;
-                case c_oAscSlideTransitionTypes.Split:
+                case Asc.c_oAscSlideTransitionTypes.Split:
                     arr = this._arrEffectType.slice(10, 14);
                     break;
-                case c_oAscSlideTransitionTypes.UnCover:
+                case Asc.c_oAscSlideTransitionTypes.UnCover:
                     arr = this._arrEffectType.slice(2, 10);
                     break;
-                case c_oAscSlideTransitionTypes.Cover:
+                case Asc.c_oAscSlideTransitionTypes.Cover:
                     arr = this._arrEffectType.slice(2, 10);
                     break;
-                case c_oAscSlideTransitionTypes.Clock:
+                case Asc.c_oAscSlideTransitionTypes.Clock:
                     arr = this._arrEffectType.slice(14, 17);
                     break;
-                case c_oAscSlideTransitionTypes.Zoom:
+                case Asc.c_oAscSlideTransitionTypes.Zoom:
                     arr = this._arrEffectType.slice(17);
                     break;
             }
@@ -1052,13 +1052,13 @@ define([
         onEffectNameSelect: function(combo, record) {
             var type = record.value;
             if (this.Effect !== type &&
-                !((this.Effect===c_oAscSlideTransitionTypes.Wipe || this.Effect===c_oAscSlideTransitionTypes.UnCover || this.Effect===c_oAscSlideTransitionTypes.Cover)&&
-                    (type===c_oAscSlideTransitionTypes.Wipe || type===c_oAscSlideTransitionTypes.UnCover || type===c_oAscSlideTransitionTypes.Cover))  )
+                !((this.Effect===Asc.c_oAscSlideTransitionTypes.Wipe || this.Effect===Asc.c_oAscSlideTransitionTypes.UnCover || this.Effect===Asc.c_oAscSlideTransitionTypes.Cover)&&
+                    (type===Asc.c_oAscSlideTransitionTypes.Wipe || type===Asc.c_oAscSlideTransitionTypes.UnCover || type===Asc.c_oAscSlideTransitionTypes.Cover))  )
                 this.fillEffectTypeCombo(type);
             this.Effect = type;
             if (this.api && !this._noApply) {
                 var props = new CAscSlideProps();
-                var timing = new CAscSlideTiming();
+                var timing = new Asc.Asc.CAscSlideProps();
                 timing.put_TransitionType(type);
                 timing.put_TransitionOption(this.EffectType);
                 props.put_timing(timing);
@@ -1071,7 +1071,7 @@ define([
             this.EffectType = record.value;
             if (this.api && !this._noApply) {
                 var props = new CAscSlideProps();
-                var timing = new CAscSlideTiming();
+                var timing = new Asc.Asc.CAscSlideProps();
                 timing.put_TransitionType(this.Effect);
                 timing.put_TransitionOption(this.EffectType);
                 props.put_timing(timing);
@@ -1083,7 +1083,7 @@ define([
         onDurationChange: function(field, newValue, oldValue, eOpts){
             if (this.api && !this._noApply)   {
                 var props = new CAscSlideProps();
-                var timing = new CAscSlideTiming();
+                var timing = new Asc.Asc.CAscSlideProps();
                 timing.put_TransitionDuration(field.getNumberValue()*1000);
                 props.put_timing(timing);
                 this.api.SetSlideProps(props);
@@ -1094,7 +1094,7 @@ define([
         onDelayChange: function(field, newValue, oldValue, eOpts){
             if (this.api && !this._noApply)   {
                 var props = new CAscSlideProps();
-                var timing = new CAscSlideTiming();
+                var timing = new Asc.Asc.CAscSlideProps();
                 timing.put_SlideAdvanceDuration(field.getNumberValue()*1000);
                 props.put_timing(timing);
                 this.api.SetSlideProps(props);
@@ -1105,7 +1105,7 @@ define([
         onStartOnClickChange: function(field, newValue, oldValue, eOpts){
             if (this.api && !this._noApply)   {
                 var props = new CAscSlideProps();
-                var timing = new CAscSlideTiming();
+                var timing = new Asc.Asc.CAscSlideProps();
                 timing.put_SlideAdvanceOnMouseClick(field.getValue()=='checked');
                 props.put_timing(timing);
                 this.api.SetSlideProps(props);
@@ -1117,7 +1117,7 @@ define([
             this.numDelay.setDisabled(field.getValue()!=='checked');
             if (this.api && !this._noApply)   {
                 var props = new CAscSlideProps();
-                var timing = new CAscSlideTiming();
+                var timing = new Asc.Asc.CAscSlideProps();
                 timing.put_SlideAdvanceAfter(field.getValue()=='checked');
                 props.put_timing(timing);
                 this.api.SetSlideProps(props);
@@ -1133,10 +1133,10 @@ define([
         },
 
         ShowHideElem: function(value) {
-            this.FillColorContainer.toggleClass('settings-hidden', value !== c_oAscFill.FILL_TYPE_SOLID);
-            this.FillImageContainer.toggleClass('settings-hidden', value !== c_oAscFill.FILL_TYPE_BLIP);
-            this.FillPatternContainer.toggleClass('settings-hidden', value !== c_oAscFill.FILL_TYPE_PATT);
-            this.FillGradientContainer.toggleClass('settings-hidden', value !== c_oAscFill.FILL_TYPE_GRAD);
+            this.FillColorContainer.toggleClass('settings-hidden', value !== Asc.c_oAscFill.FILL_TYPE_SOLID);
+            this.FillImageContainer.toggleClass('settings-hidden', value !== Asc.c_oAscFill.FILL_TYPE_BLIP);
+            this.FillPatternContainer.toggleClass('settings-hidden', value !== Asc.c_oAscFill.FILL_TYPE_PATT);
+            this.FillGradientContainer.toggleClass('settings-hidden', value !== Asc.c_oAscFill.FILL_TYPE_GRAD);
         },
 
         ChangeSettings: function(props) {
@@ -1155,13 +1155,13 @@ define([
                 var fill_type = fill.get_type();
                 var color = null;
 
-                if (fill===null || fill_type===null || fill_type==c_oAscFill.FILL_TYPE_NOFILL) { // заливки нет или не совпадает у неск. фигур
-                    this.OriginalFillType = c_oAscFill.FILL_TYPE_NOFILL;
-                } else if (fill_type==c_oAscFill.FILL_TYPE_SOLID) {
+                if (fill===null || fill_type===null || fill_type==Asc.c_oAscFill.FILL_TYPE_NOFILL) { // заливки нет или не совпадает у неск. фигур
+                    this.OriginalFillType = Asc.c_oAscFill.FILL_TYPE_NOFILL;
+                } else if (fill_type==Asc.c_oAscFill.FILL_TYPE_SOLID) {
                     fill = fill.get_fill();
                     color = fill.get_color();
                     if (color) {
-                        if (color.get_type() == c_oAscColor.COLOR_TYPE_SCHEME) {
+                        if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
                             this.SlideColor = {Value: 1, Color: {color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()), effectValue: color.get_value() }};
                         } else {
                             this.SlideColor = {Value: 1, Color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b())};
@@ -1169,23 +1169,23 @@ define([
 
                     } else
                         this.SlideColor = {Value: 0, Color: 'transparent'};
-                    this.OriginalFillType = c_oAscFill.FILL_TYPE_SOLID;
+                    this.OriginalFillType = Asc.c_oAscFill.FILL_TYPE_SOLID;
                     this.FGColor = (this.SlideColor.Color!=='transparent') ? {Value: 1, Color: Common.Utils.ThemeColor.colorValue2EffectId(this.SlideColor.Color)} : {Value: 1, Color: '000000'};
                     this.BGColor = {Value: 1, Color: 'ffffff'};
                     this.GradColor.colors[0] = (this.SlideColor.Color!=='transparent') ? Common.Utils.ThemeColor.colorValue2EffectId(this.SlideColor.Color) : '000000';
                     this.GradColor.colors[1] = 'ffffff';
-                }  else if (fill_type==c_oAscFill.FILL_TYPE_BLIP) {
+                }  else if (fill_type==Asc.c_oAscFill.FILL_TYPE_BLIP) {
                     fill = fill.get_fill();
                     this.BlipFillType = fill.get_type(); // null - не совпадают у нескольких фигур
                     if (this._state.BlipFillType !== this.BlipFillType) {
-                        if (this.BlipFillType == c_oAscFillBlipType.STRETCH || this.BlipFillType == c_oAscFillBlipType.TILE) {
+                        if (this.BlipFillType == Asc.c_oAscFillBlipType.STRETCH || this.BlipFillType == Asc.c_oAscFillBlipType.TILE) {
                             this.cmbFillType.setValue(this.BlipFillType);
                         } else
                             this.cmbFillType.setValue('');
                         this._state.BlipFillType = this.BlipFillType;
                     }
-                    this.OriginalFillType = c_oAscFill.FILL_TYPE_BLIP;
-                } else if (fill_type==c_oAscFill.FILL_TYPE_PATT) {
+                    this.OriginalFillType = Asc.c_oAscFill.FILL_TYPE_BLIP;
+                } else if (fill_type==Asc.c_oAscFill.FILL_TYPE_PATT) {
                     fill = fill.get_fill();
                     this.PatternFillType = fill.get_pattern_type(); // null - не совпадают у нескольких фигур
                     if (this._state.PatternFillType !== this.PatternFillType) {
@@ -1200,7 +1200,7 @@ define([
 
                     color = fill.get_color_fg();
                     if (color) {
-                        if (color.get_type() == c_oAscColor.COLOR_TYPE_SCHEME) {
+                        if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
                             this.FGColor = {Value: 1, Color: {color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()), effectValue: color.get_value() }};
                         } else {
                             this.FGColor = {Value: 1, Color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b())};
@@ -1210,7 +1210,7 @@ define([
 
                     color = fill.get_color_bg();
                     if (color) {
-                        if (color.get_type() == c_oAscColor.COLOR_TYPE_SCHEME) {
+                        if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
                             this.BGColor = {Value: 1, Color: {color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()), effectValue: color.get_value() }};
                         } else {
                             this.BGColor = {Value: 1, Color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b())};
@@ -1218,17 +1218,17 @@ define([
                     } else
                         this.BGColor = {Value: 1, Color: 'ffffff'};
 
-                    this.OriginalFillType = c_oAscFill.FILL_TYPE_PATT;
+                    this.OriginalFillType = Asc.c_oAscFill.FILL_TYPE_PATT;
                     this.SlideColor = {Value: 1, Color: Common.Utils.ThemeColor.colorValue2EffectId(this.FGColor.Color)};
                     this.GradColor.colors[0] = Common.Utils.ThemeColor.colorValue2EffectId(this.FGColor.Color);
                     this.GradColor.colors[1] = 'ffffff';
-                } else if (fill_type==c_oAscFill.FILL_TYPE_GRAD) {
+                } else if (fill_type==Asc.c_oAscFill.FILL_TYPE_GRAD) {
                     fill = fill.get_fill();
                     var gradfilltype = fill.get_grad_type();  // null - не совпадают у нескольких фигур
                     if (this._state.GradFillType !== gradfilltype || this.GradFillType !== gradfilltype) {
                         this.GradFillType = gradfilltype;
                         rec = undefined;
-                        if (this.GradFillType == c_oAscFillGradType.GRAD_LINEAR || this.GradFillType == c_oAscFillGradType.GRAD_PATH) {
+                        if (this.GradFillType == Asc.c_oAscFillGradType.GRAD_LINEAR || this.GradFillType == Asc.c_oAscFillGradType.GRAD_PATH) {
                             this.cmbGradType.setValue(this.GradFillType);
                             rec = this.cmbGradType.store.findWhere({value: this.GradFillType});
                             this.onGradTypeSelect(this.cmbGradType, rec.attributes);
@@ -1239,7 +1239,7 @@ define([
                         this._state.GradFillType = this.GradFillType;
                     }
 
-                    if (this.GradFillType == c_oAscFillGradType.GRAD_LINEAR ) {
+                    if (this.GradFillType == Asc.c_oAscFillGradType.GRAD_LINEAR ) {
                         var value = Math.floor(fill.get_linear_angle()/60000);
                         if (Math.abs(this.GradLinearDirectionType-value)>0.001) {
                             this.GradLinearDirectionType=value;
@@ -1256,7 +1256,7 @@ define([
                     if (colors && colors.length>0) {
                         color = colors[0];
                         if (color) {
-                            if (color.get_type() == c_oAscColor.COLOR_TYPE_SCHEME) {
+                            if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
                                 this.GradColor.colors[0] = {color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()), effectValue: color.get_value()};
                                 Common.Utils.ThemeColor.colorValue2EffectId(this.GradColor.colors[0]);
                             } else {
@@ -1267,7 +1267,7 @@ define([
 
                         color = colors[1];
                         if (color) {
-                            if (color.get_type() == c_oAscColor.COLOR_TYPE_SCHEME) {
+                            if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
                                 this.GradColor.colors[1] = {color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()), effectValue: color.get_value()};
                                 Common.Utils.ThemeColor.colorValue2EffectId(this.GradColor.colors[1]);
                             } else {
@@ -1295,7 +1295,7 @@ define([
                     this.sldrGradient.setColorValue(Common.Utils.String.format('#{0}', (typeof(this.GradColor.colors[1]) == 'object') ? this.GradColor.colors[1].color : this.GradColor.colors[1]), 1);
                     this.sldrGradient.setValue(0, this.GradColor.values[0]);
                     this.sldrGradient.setValue(1, this.GradColor.values[1]);
-                    this.OriginalFillType = c_oAscFill.FILL_TYPE_GRAD;
+                    this.OriginalFillType = Asc.c_oAscFill.FILL_TYPE_GRAD;
                     this.FGColor = {Value: 1, Color: this.GradColor.colors[0]};
                     this.BGColor = {Value: 1, Color: 'ffffff'};
                     this.SlideColor = {Value: 1, Color: this.GradColor.colors[0]};

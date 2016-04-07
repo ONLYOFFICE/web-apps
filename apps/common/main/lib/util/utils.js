@@ -225,7 +225,7 @@ Common.Utils.ThemeColor = new(function() {
             if(color.length==3) color=color.replace(/(.)/g,'$1$1');
             color=parseInt(color,16);
             var c = new CAscColor();
-            c.put_type( (typeof(clr) == 'object' && clr.effectId !== undefined)? c_oAscColor.COLOR_TYPE_SCHEME : c_oAscColor.COLOR_TYPE_SRGB);
+            c.put_type( (typeof(clr) == 'object' && clr.effectId !== undefined)? Asc.c_oAscColor.COLOR_TYPE_SCHEME : Asc.c_oAscColor.COLOR_TYPE_SRGB);
             c.put_r(color>>16);
             c.put_g((color&0xff00)>>8);
             c.put_b(color&0xff);
@@ -254,16 +254,18 @@ Common.Utils.Metric = _.extend( new(function() {
 
     me.c_MetricUnits = {
         cm: 0,
-        pt: 1
+        pt: 1,
+        inch: 2
     };
 
     me.currentMetric = me.c_MetricUnits.pt;
-    me.metricName = ['Cm', 'Pt'];
+    me.metricName = ['Cm', 'Pt', 'Inch'];
 
     return {
         c_MetricUnits: me.c_MetricUnits,
         txtCm        : 'cm',
         txtPt        : 'pt',
+        txtInch      : '\"',
 
         setCurrentMetric: function(value) {
             me.currentMetric = value;
@@ -282,25 +284,29 @@ Common.Utils.Metric = _.extend( new(function() {
         },
 
         fnRecalcToMM: function(value) {
-            // value in pt/cm. need to convert to mm
+            // value in pt/cm/inch. need to convert to mm
             if (value!==null && value!==undefined) {
                 switch (me.currentMetric) {
                     case me.c_MetricUnits.cm:
                         return value * 10;
                     case me.c_MetricUnits.pt:
                         return value * 25.4 / 72.0;
+                    case me.c_MetricUnits.inch:
+                        return value * 25.4;
                 }
             }
             return value;
         },
 
         fnRecalcFromMM: function(value) {
-            // value in mm. need to convert to pt/cm
+            // value in mm. need to convert to pt/cm/inch
             switch (me.currentMetric) {
                 case me.c_MetricUnits.cm:
                     return parseFloat((value/10.).toFixed(4));
                 case me.c_MetricUnits.pt:
                     return parseFloat((value * 72.0 / 25.4).toFixed(3));
+                case me.c_MetricUnits.inch:
+                    return parseFloat((value / 25.4).toFixed(3));
             }
             return value;
         }

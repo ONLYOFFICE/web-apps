@@ -280,17 +280,17 @@ define([
 
         getDocumentSettingsType: function(type) {
             switch (type) {
-                case c_oAscTypeSelectElement.Paragraph:
+                case Asc.c_oAscTypeSelectElement.Paragraph:
                     return Common.Utils.documentSettingsType.Paragraph;
-                case c_oAscTypeSelectElement.Table:
+                case Asc.c_oAscTypeSelectElement.Table:
                     return Common.Utils.documentSettingsType.Table;
-                case c_oAscTypeSelectElement.Image:
+                case Asc.c_oAscTypeSelectElement.Image:
                     return Common.Utils.documentSettingsType.Image;
-                case c_oAscTypeSelectElement.Shape:
+                case Asc.c_oAscTypeSelectElement.Shape:
                     return Common.Utils.documentSettingsType.Shape;
-                case c_oAscTypeSelectElement.Slide:
+                case Asc.c_oAscTypeSelectElement.Slide:
                     return Common.Utils.documentSettingsType.Slide;
-                case c_oAscTypeSelectElement.Chart:
+                case Asc.c_oAscTypeSelectElement.Chart:
                     return Common.Utils.documentSettingsType.Chart;
             }
         }

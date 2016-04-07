@@ -238,7 +238,7 @@ define([
 
         clickSaveAsFormat: function(menu, format) {
             if (menu) {
-                if (format == c_oAscFileType.TXT) {
+                if (format == Asc.c_oAscFileType.TXT) {
                     Common.UI.warning({
                         closable: false,
                         title: this.notcriticalErrorTitle,
@@ -273,10 +273,10 @@ define([
 
                 value = Common.localStorage.getItem((fast_coauth) ? "de-settings-showchanges-fast" : "de-settings-showchanges-strict");
                 switch(value) {
-                case 'all': value = c_oAscCollaborativeMarksShowType.All; break;
-                case 'none': value = c_oAscCollaborativeMarksShowType.None; break;
-                case 'last': value = c_oAscCollaborativeMarksShowType.LastChanges; break;
-                default: value = (fast_coauth) ? c_oAscCollaborativeMarksShowType.None : c_oAscCollaborativeMarksShowType.LastChanges;
+                case 'all': value = Asc.c_oAscCollaborativeMarksShowType.All; break;
+                case 'none': value = Asc.c_oAscCollaborativeMarksShowType.None; break;
+                case 'last': value = Asc.c_oAscCollaborativeMarksShowType.LastChanges; break;
+                default: value = (fast_coauth) ? Asc.c_oAscCollaborativeMarksShowType.None : Asc.c_oAscCollaborativeMarksShowType.LastChanges;
                 }
                 this.api.SetCollaborativeMarksShowType(value);
             }

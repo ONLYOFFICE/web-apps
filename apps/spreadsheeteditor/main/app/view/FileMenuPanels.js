@@ -42,13 +42,13 @@ define([
         menu: undefined,
 
         formats: [[
-            {name: 'XLSX', imgCls: 'xlsx', type: c_oAscFileType.XLSX},
-            {name: 'PDF',  imgCls: 'pdf',  type: c_oAscFileType.PDF},
-            {name: 'ODS',  imgCls: 'ods',  type: c_oAscFileType.ODS},
-            {name: 'CSV',  imgCls: 'csv',  type: c_oAscFileType.CSV}
+            {name: 'XLSX', imgCls: 'xlsx', type: Asc.c_oAscFileType.XLSX},
+            {name: 'PDF',  imgCls: 'pdf',  type: Asc.c_oAscFileType.PDF},
+            {name: 'ODS',  imgCls: 'ods',  type: Asc.c_oAscFileType.ODS},
+            {name: 'CSV',  imgCls: 'csv',  type: Asc.c_oAscFileType.CSV}
         ]
 //        ,[
-//            {name: 'HTML', imgCls: 'html', type: c_oAscFileType.HTML}
+//            {name: 'HTML', imgCls: 'html', type: Asc.c_oAscFileType.HTML}
 //        ]
     ],
 
@@ -263,19 +263,19 @@ define([
                 editable    : false,
                 cls         : 'input-group-nr',
                 data : [
-                    {value:'215.9|279.4',    displayValue:'US Letter (21,59cm x 27,94cm)'},
-                    {value:'215.9|355.6',    displayValue:'US Legal (21,59cm x 35,56cm)'},
-                    {value:'210|297',        displayValue:'A4 (21cm x 29,7cm)'},
-                    {value:'148.1|209.9',    displayValue:'A5 (14,81cm x 20,99cm)'},
-                    {value:'176|250.1',      displayValue:'B5 (17,6cm x 25,01cm)'},
-                    {value:'104.8|241.3',    displayValue:'Envelope #10 (10,48cm x 24,13cm)'},
-                    {value:'110.1|220.1',    displayValue:'Envelope DL (11,01cm x 22,01cm)'},
-                    {value:'279.4|431.7',    displayValue:'Tabloid (27,94cm x 43,17cm)'},
-                    {value:'297|420.1',      displayValue:'A3 (29,7cm x 42,01cm)'},
-                    {value:'304.8|457.1',    displayValue:'Tabloid Oversize (30,48cm x 45,71cm)'},
-                    {value:'196.8|273',      displayValue:'ROC 16K (19,68cm x 27,3cm)'},
-                    {value:'119.9|234.9',    displayValue:'Envelope Choukei 3 (11,99cm x 23,49cm)'},
-                    {value:'330.2|482.5',    displayValue:'Super B/A3 (33,02cm x 48,25cm)'}
+                    {value:'215.9|279.4',    displayValue:'US Letter (21,59cm x 27,94cm)', caption: 'US Letter'},
+                    {value:'215.9|355.6',    displayValue:'US Legal (21,59cm x 35,56cm)', caption: 'US Legal'},
+                    {value:'210|297',        displayValue:'A4 (21cm x 29,7cm)', caption: 'A4'},
+                    {value:'148.1|209.9',    displayValue:'A5 (14,81cm x 20,99cm)', caption: 'A5'},
+                    {value:'176|250.1',      displayValue:'B5 (17,6cm x 25,01cm)', caption: 'B5'},
+                    {value:'104.8|241.3',    displayValue:'Envelope #10 (10,48cm x 24,13cm)', caption: 'Envelope #10'},
+                    {value:'110.1|220.1',    displayValue:'Envelope DL (11,01cm x 22,01cm)', caption: 'Envelope DL'},
+                    {value:'279.4|431.7',    displayValue:'Tabloid (27,94cm x 43,17cm)', caption: 'Tabloid'},
+                    {value:'297|420.1',      displayValue:'A3 (29,7cm x 42,01cm)', caption: 'A3'},
+                    {value:'304.8|457.1',    displayValue:'Tabloid Oversize (30,48cm x 45,71cm)', caption: 'Tabloid Oversize'},
+                    {value:'196.8|273',      displayValue:'ROC 16K (19,68cm x 27,3cm)', caption: 'ROC 16K'},
+                    {value:'119.9|234.9',    displayValue:'Envelope Choukei 3 (11,99cm x 23,49cm)', caption: 'Envelope Choukei 3'},
+                    {value:'330.2|482.5',    displayValue:'Super B/A3 (33,02cm x 48,25cm)', caption: 'Super B/A3'}
                 ]
             });
 
@@ -286,8 +286,8 @@ define([
                 editable    : false,
                 cls         : 'input-group-nr',
                 data        : [
-                    { value: c_oAscPageOrientation.PagePortrait, displayValue: this.strPortrait },
-                    { value: c_oAscPageOrientation.PageLandscape, displayValue: this.strLandscape }
+                    { value: Asc.c_oAscPageOrientation.PagePortrait, displayValue: this.strPortrait },
+                    { value: Asc.c_oAscPageOrientation.PageLandscape, displayValue: this.strLandscape }
                 ]
             });
 
@@ -380,9 +380,20 @@ define([
                 for (var i=0; i<this.spinners.length; i++) {
                     var spinner = this.spinners[i];
                     spinner.setDefaultUnit(Common.Utils.Metric.getCurrentMetricName());
-                    spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.cm ? 0.1 : 1);
+                    spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt ? 1 : 0.1);
                 }
             }
+            var store = this.cmbPaperSize.store;
+            for (var i=0; i<store.length; i++) {
+                var item = store.at(i),
+                    value = item.get('value'),
+                    pagewidth = /^\d{3}\.?\d*/.exec(value),
+                    pageheight = /\d{3}\.?\d*$/.exec(value);
+
+                item.set('displayValue', item.get('caption') + ' (' + parseFloat(Common.Utils.Metric.fnRecalcFromMM(pagewidth).toFixed(2)) + Common.Utils.Metric.getCurrentMetricName() + ' x ' +
+                        parseFloat(Common.Utils.Metric.fnRecalcFromMM(pageheight).toFixed(2)) + Common.Utils.Metric.getCurrentMetricName() + ')');
+            }
+            this.cmbPaperSize.onResetItems();
         },
 
         applySettings: function() {
@@ -533,9 +544,9 @@ define([
                 editable    : false,
                 cls         : 'input-group-nr',
                 data        : [
-                    { value: c_oAscFontRenderingModeType.hintingAndSubpixeling, displayValue: this.txtWin },
-                    { value: c_oAscFontRenderingModeType.noHinting, displayValue: this.txtMac },
-                    { value: c_oAscFontRenderingModeType.hinting, displayValue: this.txtNative }
+                    { value: Asc.c_oAscFontRenderingModeType.hintingAndSubpixeling, displayValue: this.txtWin },
+                    { value: Asc.c_oAscFontRenderingModeType.noHinting, displayValue: this.txtMac },
+                    { value: Asc.c_oAscFontRenderingModeType.hinting, displayValue: this.txtNative }
                 ]
             });
 
@@ -557,7 +568,8 @@ define([
                 cls         : 'input-group-nr',
                 data        : [
                     { value: Common.Utils.Metric.c_MetricUnits['cm'], displayValue: this.txtCm },
-                    { value: Common.Utils.Metric.c_MetricUnits['pt'], displayValue: this.txtPt }
+                    { value: Common.Utils.Metric.c_MetricUnits['pt'], displayValue: this.txtPt },
+                    { value: Common.Utils.Metric.c_MetricUnits['inch'], displayValue: this.txtInch }
                 ]
             });
 
@@ -645,7 +657,7 @@ define([
 
             value = Common.localStorage.getItem("sse-settings-fontrender");
             item = this.cmbFontRender.store.findWhere({value: parseInt(value)});
-            this.cmbFontRender.setValue(item ? item.get('value') : (window.devicePixelRatio > 1 ? c_oAscFontRenderingModeType.noHinting : c_oAscFontRenderingModeType.hintingAndSubpixeling));
+            this.cmbFontRender.setValue(item ? item.get('value') : (window.devicePixelRatio > 1 ? Asc.c_oAscFontRenderingModeType.noHinting : Asc.c_oAscFontRenderingModeType.hintingAndSubpixeling));
 
             value = Common.localStorage.getItem("sse-settings-unit");
             item = this.cmbUnit.store.findWhere({value: parseInt(value)});
@@ -755,7 +767,8 @@ define([
         strFast: 'Fast',
         strStrict: 'Strict',
         textAutoRecover: 'Autorecover',
-        strAutoRecover: 'Turn on autorecover'
+        strAutoRecover: 'Turn on autorecover',
+        txtInch: 'Inch'
     }, SSE.Views.FileMenuPanels.MainSettingsGeneral || {}));
 
     SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({

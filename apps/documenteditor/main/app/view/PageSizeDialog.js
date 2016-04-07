@@ -116,7 +116,7 @@ define([
             $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
             $window.find('input').on('keypress', _.bind(this.onKeyPress, this));
 
-//            this.updateMetricUnit();
+            this.updateMetricUnit();
         },
 
         _handleInput: function(state) {
@@ -139,15 +139,15 @@ define([
 
         setSettings: function (props) {
             if (props) {
-                this.spnWidth.setMinValue(parseFloat((props.get_LeftMargin()/10+props.get_RightMargin()/10.).toFixed(4)) + 1.27);
-                this.spnWidth.setValue(props.get_W()/10, true); // this.spnWidth.setValue(Common.Utils.Metric.fnRecalcFromMM(props[0]), true);
-                this.spnHeight.setMinValue(parseFloat((props.get_TopMargin()/10+props.get_BottomMargin()/10.).toFixed(4)) + 0.26);
-                this.spnHeight.setValue(props.get_H()/10, true);
+                this.spnWidth.setMinValue(Common.Utils.Metric.fnRecalcFromMM(props.get_LeftMargin() + props.get_RightMargin() + 12.7));
+                this.spnWidth.setValue(Common.Utils.Metric.fnRecalcFromMM(props.get_W()), true);
+                this.spnHeight.setMinValue(Common.Utils.Metric.fnRecalcFromMM(props.get_TopMargin() + props.get_BottomMargin() + 2.6));
+                this.spnHeight.setValue(Common.Utils.Metric.fnRecalcFromMM(props.get_H()), true);
             }
         },
 
         getSettings: function() {
-            return [this.spnWidth.getNumberValue()*10, this.spnHeight.getNumberValue()*10]; //Common.Utils.Metric.fnRecalcToMM(this.spnWidth.getNumberValue())
+            return [Common.Utils.Metric.fnRecalcToMM(this.spnWidth.getNumberValue()), Common.Utils.Metric.fnRecalcToMM(this.spnHeight.getNumberValue())];
         },
 
         updateMetricUnit: function() {
@@ -155,7 +155,7 @@ define([
                 for (var i=0; i<this.spinners.length; i++) {
                     var spinner = this.spinners[i];
                     spinner.setDefaultUnit(Common.Utils.Metric.getCurrentMetricName());
-                    spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.cm ? 0.1 : 1);
+                    spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt ? 1 : 0.1);
                 }
             }
 

@@ -641,10 +641,10 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
 
                 // Borders
                 var shd = props.get_Shade();
-                if (shd!==null && shd!==undefined && shd.get_Value()===shd_Clear) {
+                if (shd!==null && shd!==undefined && shd.get_Value()===Asc.c_oAscShdClear) {
                     var color = shd.get_Color();
                     if (color) {
-                        if (color.get_type() == c_oAscColor.COLOR_TYPE_SCHEME) {
+                        if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
                             this.paragraphShade = {color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()), effectValue: color.get_value()};
                         } else {
                             this.paragraphShade = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b());
@@ -721,9 +721,9 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                     var spinner = this.spinners[i];
                     spinner.setDefaultUnit(Common.Utils.Metric.getCurrentMetricName());
                     if (spinner.el.id == 'paragraphadv-spin-spacing' || spinner.el.id == 'paragraphadv-spin-position' )
-                        spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.cm ? 0.01 : 1);
+                        spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt ? 1 : 0.01);
                     else
-                        spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.cm ? 0.1 : 1);
+                        spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt ? 1 : 0.1);
                 }
             }
 
@@ -913,9 +913,9 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                     this._changedProps.put_Shade(new CParagraphShd());
                 }
                 if (this.paragraphShade=='transparent') {
-                    this._changedProps.get_Shade().put_Value(shd_Nil);
+                    this._changedProps.get_Shade().put_Value(Asc.c_oAscShdNil);
                 } else {
-                    this._changedProps.get_Shade().put_Value(shd_Clear);
+                    this._changedProps.get_Shade().put_Value(Asc.c_oAscShdClear);
                     this._changedProps.get_Shade().put_Color(Common.Utils.ThemeColor.getRgbColor(this.paragraphShade));
                 }
             }

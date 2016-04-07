@@ -105,16 +105,13 @@ define([
                     return;
                 }
 
-                var value = Common.localStorage.getItem('de-settings-unit');
-                Common.Utils.Metric.setCurrentMetric((value!==null) ? parseInt(value) : Common.Utils.Metric.c_MetricUnits.cm);
-
-                value = Common.localStorage.getItem("de-settings-fontrender");
+                var value = Common.localStorage.getItem("de-settings-fontrender");
                 if (value === null)
                     window.devicePixelRatio > 1 ? value = '1' : '0';
 
                 // Initialize api
 
-                this.api = new asc_docs_api("editor_sdk");
+                this.api = new Asc.asc_docs_api("editor_sdk");
 
                 if (this.api){
                     switch (value) {
@@ -327,7 +324,7 @@ define([
 
             onDownloadAs: function() {
                 var type = /^(?:(pdf|djvu|xps))$/.exec(this.document.fileType);
-                (type && typeof type[1] === 'string') ? this.api.asc_DownloadOrigin(true) : this.api.asc_DownloadAs(c_oAscFileType.DOCX, true);
+                (type && typeof type[1] === 'string') ? this.api.asc_DownloadOrigin(true) : this.api.asc_DownloadAs(Asc.c_oAscFileType.DOCX, true);
             },
 
             onProcessMouse: function(data) {
@@ -380,8 +377,8 @@ define([
                                     user = new Common.Models.User({
                                         id          : version.user.id,
                                         username    : version.user.name,
-                                        colorval    : c_oAscArrUserColors[usersCnt],
-                                        color       : this.generateUserColor(c_oAscArrUserColors[usersCnt++])
+                                        colorval    : Asc.c_oAscArrUserColors[usersCnt],
+                                        color       : this.generateUserColor(Asc.c_oAscArrUserColors[usersCnt++])
                                     });
                                     usersStore.add(user);
                                 }
@@ -423,8 +420,8 @@ define([
                                             user = new Common.Models.User({
                                                 id          : change.user.id,
                                                 username    : change.user.name,
-                                                colorval    : c_oAscArrUserColors[usersCnt],
-                                                color       : this.generateUserColor(c_oAscArrUserColors[usersCnt++])
+                                                colorval    : Asc.c_oAscArrUserColors[usersCnt],
+                                                color       : this.generateUserColor(Asc.c_oAscArrUserColors[usersCnt++])
                                             });
                                             usersStore.add(user);
                                         }
@@ -536,11 +533,11 @@ define([
 
                 this.updateWindowTitle(true);
 
-                action = this.stackLongActions.get({type: c_oAscAsyncActionType.Information});
+                action = this.stackLongActions.get({type: Asc.c_oAscAsyncActionType.Information});
                 if (action) {
                     this.setLongActionView(action)
                 } else {
-                    if (this._state.fastCoauth && this._state.usersCount>1 && id==c_oAscAsyncAction['Save']) {
+                    if (this._state.fastCoauth && this._state.usersCount>1 && id==Asc.c_oAscAsyncAction['Save']) {
                         var me = this;
                         if (me._state.timerSave===undefined)
                             me._state.timerSave = setInterval(function(){
@@ -554,15 +551,15 @@ define([
                         this.getApplication().getController('Statusbar').setStatusCaption('');
                 }
 
-                action = this.stackLongActions.get({type: c_oAscAsyncActionType.BlockInteraction});
+                action = this.stackLongActions.get({type: Asc.c_oAscAsyncActionType.BlockInteraction});
                 action ? this.setLongActionView(action) : this.loadMask && this.loadMask.hide();
 
-                if (id==c_oAscAsyncAction['Save'] && (!this._state.fastCoauth || this._state.usersCount<2))
+                if (id==Asc.c_oAscAsyncAction['Save'] && (!this._state.fastCoauth || this._state.usersCount<2))
                     this.synchronizeChanges();
 
-                if ( type == c_oAscAsyncActionType.BlockInteraction &&
+                if ( type == Asc.c_oAscAsyncActionType.BlockInteraction &&
                     (!this.getApplication().getController('LeftMenu').dlgSearch || !this.getApplication().getController('LeftMenu').dlgSearch.isVisible()) &&
-                    !( id == c_oAscAsyncAction['ApplyChanges'] && this.dontCloseDummyComment ) ) {
+                    !( id == Asc.c_oAscAsyncAction['ApplyChanges'] && this.dontCloseDummyComment ) ) {
                         this.onEditComplete(this.loadMask);
                         this.api.asc_enableKeyEvents(true);
                 }
@@ -572,73 +569,73 @@ define([
                 var title = '', text = '';
 
                 switch (action.id) {
-                    case c_oAscAsyncAction['Open']:
+                    case Asc.c_oAscAsyncAction['Open']:
                         title   = this.openTitleText;
                         text    = this.openTextText;
                         break;
 
-                    case c_oAscAsyncAction['Save']:
+                    case Asc.c_oAscAsyncAction['Save']:
                         this._state.isSaving = new Date();
                         title   = this.saveTitleText;
                         text    = this.saveTextText;
                         break;
 
-                    case c_oAscAsyncAction['LoadDocumentFonts']:
+                    case Asc.c_oAscAsyncAction['LoadDocumentFonts']:
                         title   = this.loadFontsTitleText;
                         text    = this.loadFontsTextText;
                         break;
 
-                    case c_oAscAsyncAction['LoadDocumentImages']:
+                    case Asc.c_oAscAsyncAction['LoadDocumentImages']:
                         title   = this.loadImagesTitleText;
                         text    = this.loadImagesTextText;
                         break;
 
-                    case c_oAscAsyncAction['LoadFont']:
+                    case Asc.c_oAscAsyncAction['LoadFont']:
                         title   = this.loadFontTitleText;
                         text    = this.loadFontTextText;
                         break;
 
-                    case c_oAscAsyncAction['LoadImage']:
+                    case Asc.c_oAscAsyncAction['LoadImage']:
                         title   = this.loadImageTitleText;
                         text    = this.loadImageTextText;
                         break;
 
-                    case c_oAscAsyncAction['DownloadAs']:
+                    case Asc.c_oAscAsyncAction['DownloadAs']:
                         title   = this.downloadTitleText;
                         text    = this.downloadTextText;
                         break;
 
-                    case c_oAscAsyncAction['Print']:
+                    case Asc.c_oAscAsyncAction['Print']:
                         title   = this.printTitleText;
                         text    = this.printTextText;
                         break;
 
-                    case c_oAscAsyncAction['UploadImage']:
+                    case Asc.c_oAscAsyncAction['UploadImage']:
                         title   = this.uploadImageTitleText;
                         text    = this.uploadImageTextText;
                         break;
 
-                    case c_oAscAsyncAction['ApplyChanges']:
+                    case Asc.c_oAscAsyncAction['ApplyChanges']:
                         title   = this.applyChangesTitleText;
                         text    = this.applyChangesTextText;
                         break;
 
-                    case c_oAscAsyncAction['PrepareToSave']:
+                    case Asc.c_oAscAsyncAction['PrepareToSave']:
                         title   = this.savePreparingText;
                         text    = this.savePreparingTitle;
                         break;
 
-                    case c_oAscAsyncAction['MailMergeLoadFile']:
+                    case Asc.c_oAscAsyncAction['MailMergeLoadFile']:
                         title   = this.mailMergeLoadFileText;
                         text    = this.mailMergeLoadFileTitle;
                         break;
 
-                    case c_oAscAsyncAction['DownloadMerge']:
+                    case Asc.c_oAscAsyncAction['DownloadMerge']:
                         title   = this.downloadMergeTitle;
                         text    = this.downloadMergeText;
                         break;
 
-                    case c_oAscAsyncAction['SendMailMerge']:
+                    case Asc.c_oAscAsyncAction['SendMailMerge']:
                         title   = this.sendMergeTitle;
                         text    = this.sendMergeText;
                         break;
@@ -654,7 +651,7 @@ define([
                         break;
                 }
 
-                if (action.type == c_oAscAsyncActionType['BlockInteraction']) {
+                if (action.type == Asc.c_oAscAsyncActionType['BlockInteraction']) {
                     if (!this.loadMask)
                         this.loadMask = new Common.UI.LoadMask({owner: $('#viewport')});
 
@@ -677,7 +674,7 @@ define([
                         data.requestrights = true;
                         this.appOptions.isEdit= true;
 
-                        this.onLongActionBegin(c_oAscAsyncActionType['BlockInteraction'],ApplyEditRights);
+                        this.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'],ApplyEditRights);
 
                         var me = this;
                         setTimeout(function(){
@@ -741,7 +738,7 @@ define([
 
                 me.api.SetDrawingFreeze(false);
                 me.hidePreloader();
-                me.onLongActionEnd(c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
+                me.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
 
                 /** coauthoring begin **/
                 value = Common.localStorage.getItem("de-settings-livecomment");
@@ -802,14 +799,14 @@ define([
 
                     value = Common.localStorage.getItem((me._state.fastCoauth) ? "de-settings-showchanges-fast" : "de-settings-showchanges-strict");
                     if (value !== null)
-                        me.api.SetCollaborativeMarksShowType(value == 'all' ? c_oAscCollaborativeMarksShowType.All :
-                                value == 'none' ? c_oAscCollaborativeMarksShowType.None : c_oAscCollaborativeMarksShowType.LastChanges);
+                        me.api.SetCollaborativeMarksShowType(value == 'all' ? Asc.c_oAscCollaborativeMarksShowType.All :
+                                value == 'none' ? Asc.c_oAscCollaborativeMarksShowType.None : Asc.c_oAscCollaborativeMarksShowType.LastChanges);
                     else
-                        me.api.SetCollaborativeMarksShowType(me._state.fastCoauth ? c_oAscCollaborativeMarksShowType.None : c_oAscCollaborativeMarksShowType.LastChanges);
+                        me.api.SetCollaborativeMarksShowType(me._state.fastCoauth ? Asc.c_oAscCollaborativeMarksShowType.None : Asc.c_oAscCollaborativeMarksShowType.LastChanges);
                 } else {
                     me._state.fastCoauth = false;
                     me.api.asc_SetFastCollaborative(me._state.fastCoauth);
-                    me.api.SetCollaborativeMarksShowType(c_oAscCollaborativeMarksShowType.None);
+                    me.api.SetCollaborativeMarksShowType(Asc.c_oAscCollaborativeMarksShowType.None);
                 }
                 /** coauthoring end **/
 
@@ -958,7 +955,7 @@ define([
 
                 if (!this.appOptions.isEdit) {
                     this.hidePreloader();
-                    this.onLongActionBegin(c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
+                    this.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
                 }
             },
 
@@ -1050,7 +1047,12 @@ define([
                         toolbarView.on('insertchart', _.bind(me.onInsertChart, me));
                     }
 
-                    var value = Common.localStorage.getItem('de-hidden-rulers');
+                    var value = Common.localStorage.getItem('de-settings-unit');
+                    value = (value!==null) ? parseInt(value) : Common.Utils.Metric.c_MetricUnits.cm;
+                    Common.Utils.Metric.setCurrentMetric(value);
+                    me.api.asc_SetDocumentUnits((value==Common.Utils.Metric.c_MetricUnits.inch) ? Asc.c_oAscDocumentUnits.Inch : ((value==Common.Utils.Metric.c_MetricUnits.pt) ? Asc.c_oAscDocumentUnits.Point : Asc.c_oAscDocumentUnits.Millimeter));
+
+                    value = Common.localStorage.getItem('de-hidden-rulers');
                     me.api.asc_SetViewRulers(value===null || parseInt(value) === 0);
 
                     me.api.asc_registerCallback('asc_onDocumentModifiedChanged', _.bind(me.onDocumentModifiedChanged, me));
@@ -1064,11 +1066,11 @@ define([
                     me.api.asc_registerCallback('asc_onParticipantsChanged',     _.bind(me.onAuthParticipantsChanged, me));
                     /** coauthoring end **/
 
-                    if (me.stackLongActions.exist({id: ApplyEditRights, type: c_oAscAsyncActionType['BlockInteraction']})) {
-                        me.onLongActionEnd(c_oAscAsyncActionType['BlockInteraction'], ApplyEditRights);
+                    if (me.stackLongActions.exist({id: ApplyEditRights, type: Asc.c_oAscAsyncActionType['BlockInteraction']})) {
+                        me.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], ApplyEditRights);
                     } else if (!this._isDocReady) {
                         me.hidePreloader();
-                        me.onLongActionBegin(c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
+                        me.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
                     }
 
                     // Message on window close
@@ -1088,7 +1090,7 @@ define([
 
             onError: function(id, level, errData) {
                 this.hidePreloader();
-                this.onLongActionEnd(c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
+                this.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
 
                 var config = {
                     closable: false
@@ -1096,79 +1098,79 @@ define([
 
                 switch (id)
                 {
-                    case c_oAscError.ID.Unknown:
+                    case Asc.c_oAscError.ID.Unknown:
                         config.msg = this.unknownErrorText;
                         break;
 
-                    case c_oAscError.ID.ConvertationTimeout:
+                    case Asc.c_oAscError.ID.ConvertationTimeout:
                         config.msg = this.convertationTimeoutText;
                         break;
 
-                    case c_oAscError.ID.ConvertationError:
+                    case Asc.c_oAscError.ID.ConvertationError:
                         config.msg = this.convertationErrorText;
                         break;
 
-                    case c_oAscError.ID.DownloadError:
+                    case Asc.c_oAscError.ID.DownloadError:
                         config.msg = this.downloadErrorText;
                         break;
 
-                    case c_oAscError.ID.UplImageSize:
+                    case Asc.c_oAscError.ID.UplImageSize:
                         config.msg = this.uploadImageSizeMessage;
                         break;
 
-                    case c_oAscError.ID.UplImageExt:
+                    case Asc.c_oAscError.ID.UplImageExt:
                         config.msg = this.uploadImageExtMessage;
                         break;
 
-                    case c_oAscError.ID.UplImageFileCount:
+                    case Asc.c_oAscError.ID.UplImageFileCount:
                         config.msg = this.uploadImageFileCountMessage;
                         break;
 
-                    case c_oAscError.ID.SplitCellMaxRows:
+                    case Asc.c_oAscError.ID.SplitCellMaxRows:
                         config.msg = this.splitMaxRowsErrorText.replace('%1', errData.get_Value());
                         break;
 
-                    case c_oAscError.ID.SplitCellMaxCols:
+                    case Asc.c_oAscError.ID.SplitCellMaxCols:
                         config.msg = this.splitMaxColsErrorText.replace('%1', errData.get_Value());
                         break;
 
-                    case c_oAscError.ID.SplitCellRowsDivider:
+                    case Asc.c_oAscError.ID.SplitCellRowsDivider:
                         config.msg = this.splitDividerErrorText.replace('%1', errData.get_Value());
                         break;
 
-                    case c_oAscError.ID.VKeyEncrypt:
+                    case Asc.c_oAscError.ID.VKeyEncrypt:
                         config.msg = this.errorKeyEncrypt;
                         break;
 
-                    case c_oAscError.ID.KeyExpire:
+                    case Asc.c_oAscError.ID.KeyExpire:
                         config.msg = this.errorKeyExpire;
                         break;
 
-                    case c_oAscError.ID.UserCountExceed:
+                    case Asc.c_oAscError.ID.UserCountExceed:
                         config.msg = this.errorUsersExceed;
                         break;
 
-                    case c_oAscError.ID.CoAuthoringDisconnect:
+                    case Asc.c_oAscError.ID.CoAuthoringDisconnect:
                         config.msg = this.errorCoAuthoringDisconnect;
                         break;
 
-                    case c_oAscError.ID.ConvertationPassword:
+                    case Asc.c_oAscError.ID.ConvertationPassword:
                         config.msg = this.errorFilePassProtect;
                         break;
 
-                    case c_oAscError.ID.StockChartError:
+                    case Asc.c_oAscError.ID.StockChartError:
                         config.msg = this.errorStockChart;
                         break;
 
-                    case c_oAscError.ID.DataRangeError:
+                    case Asc.c_oAscError.ID.DataRangeError:
                         config.msg = this.errorDataRange;
                         break;
 
-                    case c_oAscError.ID.Database:
+                    case Asc.c_oAscError.ID.Database:
                         config.msg = this.errorDatabaseConnection;
                         break;
 
-                    case c_oAscError.ID.UserDrop:
+                    case Asc.c_oAscError.ID.UserDrop:
                         if (this._state.lostEditingRights) {
                             this._state.lostEditingRights = false;
                             return;
@@ -1177,15 +1179,15 @@ define([
                         config.msg = this.errorUserDrop;
                         break;
 
-                    case c_oAscError.ID.MailMergeLoadFile:
+                    case Asc.c_oAscError.ID.MailMergeLoadFile:
                         config.msg = this.errorMailMergeLoadFile;
                         break;
 
-                    case c_oAscError.ID.MailMergeSaveFile:
+                    case Asc.c_oAscError.ID.MailMergeSaveFile:
                         config.msg = this.errorMailMergeSaveFile;
                         break;
 
-                    case c_oAscError.ID.Warning:
+                    case Asc.c_oAscError.ID.Warning:
                         config.msg = this.errorConnectToServer;
                         break;
 
@@ -1195,7 +1197,7 @@ define([
                 }
 
 
-                if (level == c_oAscError.Level.Critical) {
+                if (level == Asc.c_oAscError.Level.Critical) {
 
                     // report only critical errors
                     Common.Gateway.reportError(id, config.msg);
@@ -1216,7 +1218,7 @@ define([
                     config.iconCls  = 'warn';
                     config.buttons  = ['ok'];
                     config.callback = _.bind(function(btn){
-                        if (id == c_oAscError.ID.Warning && btn == 'ok' && (this.appOptions.canDownload || this.appOptions.canDownloadOrigin)) {
+                        if (id == Asc.c_oAscError.ID.Warning && btn == 'ok' && (this.appOptions.canDownload || this.appOptions.canDownloadOrigin)) {
                             Common.UI.Menu.Manager.hideAll();
                             if (this.appOptions.isDesktopApp && this.appOptions.isOffline)
                                 this.api.asc_DownloadAs();
@@ -1408,7 +1410,7 @@ define([
             onUpdateVersion: function(callback) {
                 var me = this;
                 me.needToUpdateVersion = true;
-                me.onLongActionEnd(c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
+                me.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
                 Common.UI.warning({
                     title: me.titleUpdateVersion,
                     msg: this.errorUpdateVersion,
@@ -1416,7 +1418,7 @@ define([
                         _.defer(function() {
                             Common.Gateway.updateVersion();
                             if (callback) callback.call(me);
-                            me.onLongActionBegin(c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
+                            me.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
                         })
                     }
                 });
@@ -1585,13 +1587,16 @@ define([
 
             unitsChanged: function(m) {
                 var value = Common.localStorage.getItem("de-settings-unit");
-                Common.Utils.Metric.setCurrentMetric((value!==null) ? parseInt(value) : Common.Utils.Metric.c_MetricUnits.cm);
+                value = (value!==null) ? parseInt(value) : Common.Utils.Metric.c_MetricUnits.cm;
+                Common.Utils.Metric.setCurrentMetric(value);
+                this.api.asc_SetDocumentUnits((value==Common.Utils.Metric.c_MetricUnits.inch) ? Asc.c_oAscDocumentUnits.Inch : ((value==Common.Utils.Metric.c_MetricUnits.pt) ? Asc.c_oAscDocumentUnits.Point : Asc.c_oAscDocumentUnits.Millimeter));
                 this.getApplication().getController('RightMenu').updateMetricUnit();
+                this.getApplication().getController('Toolbar').getView('Toolbar').updateMetricUnit();
             },
 
             onAdvancedOptions: function(advOptions) {
                 var type = advOptions.asc_getOptionId();
-                if (type == c_oAscAdvancedOptionsID.TXT) {
+                if (type == Asc.c_oAscAdvancedOptionsID.TXT) {
                     var me = this;
                     var dlg = new Common.Views.OpenDialog({
                         type: type,
@@ -1608,7 +1613,7 @@ define([
 
                     this.isShowOpenDialog = true;
                     this.loadMask && this.loadMask.hide();
-                    this.onLongActionEnd(c_oAscAsyncActionType.BlockInteraction, LoadingDocument);
+                    this.onLongActionEnd(Asc.c_oAscAsyncActionType.BlockInteraction, LoadingDocument);
 
                     dlg.show();
                 }
@@ -1632,7 +1637,7 @@ define([
                                 this.api.asc_SetFastCollaborative(false);
                                 this._state.fastCoauth = false;
                                 Common.localStorage.setItem("de-settings-showchanges-strict", 'last');
-                                this.api.SetCollaborativeMarksShowType(c_oAscCollaborativeMarksShowType.LastChanges);
+                                this.api.SetCollaborativeMarksShowType(Asc.c_oAscCollaborativeMarksShowType.LastChanges);
                             }
                             this.fireEvent('editcomplete', this);
                         }, this)

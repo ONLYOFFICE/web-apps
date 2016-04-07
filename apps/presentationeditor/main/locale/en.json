@@ -373,6 +373,7 @@
   "PE.Views.FileMenuPanels.Settings.txtInput": "Alternate Input",
   "PE.Views.FileMenuPanels.Settings.txtLast": "View Last",
   "PE.Views.FileMenuPanels.Settings.txtPt": "Point",
+  "PE.Views.FileMenuPanels.Settings.txtInch": "Inch",
   "PE.Views.HyperlinkSettingsDialog.cancelButtonText": "Cancel",
   "PE.Views.HyperlinkSettingsDialog.okButtonText": "OK",
   "PE.Views.HyperlinkSettingsDialog.strDisplay": "Display",

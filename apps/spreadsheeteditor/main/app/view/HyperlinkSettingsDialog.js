@@ -117,14 +117,14 @@ define([
                 editable: false,
                 menuStyle: 'min-width: 100%;',
                 data    : [
-                    {displayValue: this.textInternalLink, value: c_oAscHyperlinkType.RangeLink},
-                    {displayValue: this.textExternalLink, value: c_oAscHyperlinkType.WebLink}
+                    {displayValue: this.textInternalLink, value: Asc.c_oAscHyperlinkType.RangeLink},
+                    {displayValue: this.textExternalLink, value: Asc.c_oAscHyperlinkType.WebLink}
                 ]
             }).on('selected', function(combo, record) {
-                $('#id-dlg-hyperlink-external')[record.value == c_oAscHyperlinkType.WebLink ? 'show' : 'hide']();
-                $('#id-dlg-hyperlink-internal')[record.value != c_oAscHyperlinkType.WebLink ? 'show' : 'hide']();
+                $('#id-dlg-hyperlink-external')[record.value == Asc.c_oAscHyperlinkType.WebLink ? 'show' : 'hide']();
+                $('#id-dlg-hyperlink-internal')[record.value != Asc.c_oAscHyperlinkType.WebLink ? 'show' : 'hide']();
             });
-            me.cmbLinkType.setValue(c_oAscHyperlinkType.WebLink);
+            me.cmbLinkType.setValue(Asc.c_oAscHyperlinkType.WebLink);
 
             me.cmbSheets = new Common.UI.ComboBox({
                 el      : $('#id-dlg-hyperlink-sheet'),
@@ -177,7 +177,7 @@ define([
             me.inputTip = new Common.UI.InputField({
                 el          : $('#id-dlg-hyperlink-tip'),
                 style       : 'width: 100%;',
-                maxLength   : c_oAscMaxTooltipLength
+                maxLength   : Asc.c_oAscMaxTooltipLength
             });
 
             $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
@@ -199,7 +199,7 @@ define([
 
                 this.cmbSheets.setData(settings.sheets);
                 if (!settings.props) {
-                    this.cmbLinkType.setValue(c_oAscHyperlinkType.WebLink);
+                    this.cmbLinkType.setValue(Asc.c_oAscHyperlinkType.WebLink);
                     this.cmbLinkType.setDisabled(!settings.allowInternal);
                     this.inputDisplay.setValue(settings.isLock ? this.textDefault : settings.text);
                     this.focusedInput = this.inputUrl.cmpEl.find('input');
@@ -208,7 +208,7 @@ define([
                     this.cmbLinkType.setValue(settings.props.asc_getType());
                     this.cmbLinkType.setDisabled(!settings.allowInternal);
 
-                    if (settings.props.asc_getType() == c_oAscHyperlinkType.RangeLink) {
+                    if (settings.props.asc_getType() == Asc.c_oAscHyperlinkType.RangeLink) {
                         $('#id-dlg-hyperlink-external').hide();
                         $('#id-dlg-hyperlink-internal').show();
 
@@ -233,7 +233,7 @@ define([
                 def_display = "";
             props.asc_setType(this.cmbLinkType.getValue());
 
-            if (this.cmbLinkType.getValue() == c_oAscHyperlinkType.RangeLink) {
+            if (this.cmbLinkType.getValue() == Asc.c_oAscHyperlinkType.RangeLink) {
                 props.asc_setSheet(this.cmbSheets.getValue());
                 props.asc_setRange(this.inputRange.getValue());
                 def_display = this.cmbSheets.getValue() + '!' + this.inputRange.getValue();
@@ -273,8 +273,8 @@ define([
         _handleInput: function(state) {
             if (this.options.handler) {
                 if (state == 'ok') {
-                    var checkurl = (this.cmbLinkType.getValue() === c_oAscHyperlinkType.WebLink) ? this.inputUrl.checkValidate() : true,
-                        checkrange = (this.cmbLinkType.getValue() === c_oAscHyperlinkType.RangeLink) ? this.inputRange.checkValidate() : true,
+                    var checkurl = (this.cmbLinkType.getValue() === Asc.c_oAscHyperlinkType.WebLink) ? this.inputUrl.checkValidate() : true,
+                        checkrange = (this.cmbLinkType.getValue() === Asc.c_oAscHyperlinkType.RangeLink) ? this.inputRange.checkValidate() : true,
                         checkdisp = this.inputDisplay.checkValidate();
                     if (checkurl !== true)  {
                         this.inputUrl.cmpEl.find('input').focus();

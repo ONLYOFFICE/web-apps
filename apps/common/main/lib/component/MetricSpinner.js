@@ -58,7 +58,7 @@
  *
  *
  *  @property {String} defaultUnit
- *  Name of the unit of measurement. Can be px|em|%|en|ex|pt|in|cm|mm|pc|s|ms|см|мм|пт|сек|мс.
+ *  Name of the unit of measurement. Can be px|em|%|en|ex|pt|"|cm|mm|pc|s|ms|см|мм|пт|сек|мс.
  *
  *  defaultUnit: 'px',
  *
@@ -262,7 +262,7 @@ define([
                 var units = this.options.defaultUnit;
 
                 if ( typeof value.match !== 'undefined'){
-                    var searchUnits = value.match(/(px|em|%|en|ex|pt|in|cm|mm|pc|s|ms|см|мм|пт|сек|мс)$/i);
+                    var searchUnits = value.match(/(px|em|%|en|ex|pt|"|cm|mm|pc|s|ms|см|мм|пт|сек|мс)$/i);
                     if (null !== searchUnits && searchUnits[0]!=='undefined') {
                         units = searchUnits[0].toLowerCase();
                     }
@@ -493,7 +493,7 @@ define([
                 return v_out;
             }
 
-            if ( fromUnit.match(/(pt|in|cm|mm|pc|см|мм|пт)$/i)===null || this.options.defaultUnit.match(/(pt|in|cm|mm|pc|см|мм|пт)$/i)===null)
+            if ( fromUnit.match(/(pt|"|cm|mm|pc|см|мм|пт)$/i)===null || this.options.defaultUnit.match(/(pt|"|cm|mm|pc|см|мм|пт)$/i)===null)
                 return value;
 
             var v_out = value;
@@ -502,7 +502,7 @@ define([
                 v_out = v_out*10;
             else if (fromUnit=='pt' || fromUnit=='пт')
                 v_out = v_out * 25.4 / 72.0;
-            else if (fromUnit=='in')
+            else if (fromUnit=='\"')
                 v_out = v_out * 25.4;
             else if (fromUnit=='pc')
                 v_out = v_out * 25.4 / 6.0;
@@ -512,8 +512,8 @@ define([
                 v_out = v_out/10.;
             else if (this.options.defaultUnit=='pt' || this.options.defaultUnit=='пт')
                 v_out = parseFloat((v_out * 72.0 / 25.4).toFixed(3));
-            else if (this.options.defaultUnit=='in')
-                v_out = v_out / 25.4;
+            else if (this.options.defaultUnit=='\"')
+                v_out = parseFloat((v_out / 25.4).toFixed(3));
             else if (this.options.defaultUnit=='pc')
                 v_out = v_out * 6.0 / 25.4;
 

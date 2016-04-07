@@ -83,7 +83,7 @@ define([
                     formulasGroups  : this.formulasGroups,
                     handler         : function (func) {
                         if (func && me.api) {
-                            me.api.asc_insertFormula(func, c_oAscPopUpSelectorType.Func);
+                            me.api.asc_insertFormula(func, Asc.c_oAscPopUpSelectorType.Func);
                         }
                     }
                 });

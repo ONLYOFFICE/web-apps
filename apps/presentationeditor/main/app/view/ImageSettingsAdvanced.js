@@ -219,7 +219,7 @@ define([    'text!presentationeditor/main/app/template/ImageSettingsAdvanced.tem
             if (this.spnWidth.getValue()!=='')
                 properties.put_Width(Common.Utils.Metric.fnRecalcToMM(this.spnWidth.getNumberValue()));
 
-            var Position = new CPosition();
+            var Position = new Asc.CPosition();
             if (this.spnX.getValue() !== '')
                 Position.put_X(Common.Utils.Metric.fnRecalcToMM(this.spnX.getNumberValue()));
             if (this.spnY.getValue() !== '')
@@ -234,7 +234,7 @@ define([    'text!presentationeditor/main/app/template/ImageSettingsAdvanced.tem
                 for (var i=0; i<this.spinners.length; i++) {
                     var spinner = this.spinners[i];
                     spinner.setDefaultUnit(Common.Utils.Metric.getCurrentMetricName());
-                    spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.cm ? 0.1 : 1);
+                    spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt ? 1 : 0.1);
                 }
             }
             this.sizeMax = {

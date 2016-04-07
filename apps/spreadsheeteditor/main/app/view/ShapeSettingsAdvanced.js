@@ -242,9 +242,9 @@ define([    'text!spreadsheeteditor/main/app/template/ShapeSettingsAdvanced.temp
 
             // Shape
             this._arrCapType = [
-                {displayValue: this.textFlat,   value: c_oAscLineCapType.Flat},
-                {displayValue: this.textRound, value: c_oAscLineCapType.Round},
-                {displayValue: this.textSquare,  value: c_oAscLineCapType.Square}
+                {displayValue: this.textFlat,   value: Asc.c_oAscLineCapType.Flat},
+                {displayValue: this.textRound, value: Asc.c_oAscLineCapType.Round},
+                {displayValue: this.textSquare,  value: Asc.c_oAscLineCapType.Square}
             ];
 
             this.cmbCapType = new Common.UI.ComboBox({
@@ -254,7 +254,7 @@ define([    'text!spreadsheeteditor/main/app/template/ShapeSettingsAdvanced.temp
                 editable: false,
                 data: this._arrCapType
             });
-            this.cmbCapType.setValue(c_oAscLineCapType.Flat);
+            this.cmbCapType.setValue(Asc.c_oAscLineCapType.Flat);
             this.cmbCapType.on('selected', _.bind(function(combo, record){
                 if (this._changedProps) {
                     if (this._changedProps.asc_getShapeProperties()===null || this._changedProps.asc_getShapeProperties()===undefined)
@@ -267,9 +267,9 @@ define([    'text!spreadsheeteditor/main/app/template/ShapeSettingsAdvanced.temp
             }, this));
 
             this._arrJoinType = [
-                {displayValue: this.textRound,   value: c_oAscLineJoinType.Round},
-                {displayValue: this.textBevel, value: c_oAscLineJoinType.Bevel},
-                {displayValue: this.textMiter,  value: c_oAscLineJoinType.Miter}
+                {displayValue: this.textRound,   value: Asc.c_oAscLineJoinType.Round},
+                {displayValue: this.textBevel, value: Asc.c_oAscLineJoinType.Bevel},
+                {displayValue: this.textMiter,  value: Asc.c_oAscLineJoinType.Miter}
             ];
             this.cmbJoinType = new Common.UI.ComboBox({
                 el: $('#shape-advanced-join-type'),
@@ -278,7 +278,7 @@ define([    'text!spreadsheeteditor/main/app/template/ShapeSettingsAdvanced.temp
                 editable: false,
                 data: this._arrJoinType
             });
-            this.cmbJoinType.setValue(c_oAscLineJoinType.Round);
+            this.cmbJoinType.setValue(Asc.c_oAscLineJoinType.Round);
             this.cmbJoinType.on('selected', _.bind(function(combo, record){
                 if (this._changedProps) {
                     if (this._changedProps.asc_getShapeProperties()===null || this._changedProps.asc_getShapeProperties()===undefined)
@@ -295,25 +295,25 @@ define([    'text!spreadsheeteditor/main/app/template/ShapeSettingsAdvanced.temp
             for ( var i=0; i<6; i++ )
                 _arrStyles.push({value: i, offsetx: 80*i+10, offsety: 0});
 
-            _arrStyles[0].type = c_oAscLineBeginType.None;
-            _arrStyles[1].type = c_oAscLineBeginType.Triangle;
-            _arrStyles[2].type = c_oAscLineBeginType.Arrow;
-            _arrStyles[3].type = c_oAscLineBeginType.Stealth;
-            _arrStyles[4].type = c_oAscLineBeginType.Diamond;
-            _arrStyles[5].type = c_oAscLineBeginType.Oval;
+            _arrStyles[0].type = Asc.c_oAscLineBeginType.None;
+            _arrStyles[1].type = Asc.c_oAscLineBeginType.Triangle;
+            _arrStyles[2].type = Asc.c_oAscLineBeginType.Arrow;
+            _arrStyles[3].type = Asc.c_oAscLineBeginType.Stealth;
+            _arrStyles[4].type = Asc.c_oAscLineBeginType.Diamond;
+            _arrStyles[5].type = Asc.c_oAscLineBeginType.Oval;
 
             for ( i=0; i<9; i++ )
                 _arrSize.push({value: i, offsetx: 80+10, offsety: 20*(i+1)});
 
-            _arrSize[0].type = c_oAscLineBeginSize.small_small;
-            _arrSize[1].type = c_oAscLineBeginSize.small_mid;
-            _arrSize[2].type = c_oAscLineBeginSize.small_large;
-            _arrSize[3].type = c_oAscLineBeginSize.mid_small;
-            _arrSize[4].type = c_oAscLineBeginSize.mid_mid;
-            _arrSize[5].type = c_oAscLineBeginSize.mid_large;
-            _arrSize[6].type = c_oAscLineBeginSize.large_small;
-            _arrSize[7].type = c_oAscLineBeginSize.large_mid;
-            _arrSize[8].type = c_oAscLineBeginSize.large_large;
+            _arrSize[0].type = Asc.c_oAscLineBeginSize.small_small;
+            _arrSize[1].type = Asc.c_oAscLineBeginSize.small_mid;
+            _arrSize[2].type = Asc.c_oAscLineBeginSize.small_large;
+            _arrSize[3].type = Asc.c_oAscLineBeginSize.mid_small;
+            _arrSize[4].type = Asc.c_oAscLineBeginSize.mid_mid;
+            _arrSize[5].type = Asc.c_oAscLineBeginSize.mid_large;
+            _arrSize[6].type = Asc.c_oAscLineBeginSize.large_small;
+            _arrSize[7].type = Asc.c_oAscLineBeginSize.large_mid;
+            _arrSize[8].type = Asc.c_oAscLineBeginSize.large_large;
 
 
             this.btnBeginStyle = new Common.UI.ComboBox({
@@ -555,7 +555,7 @@ define([    'text!spreadsheeteditor/main/app/template/ShapeSettingsAdvanced.temp
                 for (var i=0; i<this.spinners.length; i++) {
                     var spinner = this.spinners[i];
                     spinner.setDefaultUnit(Common.Utils.Metric.getCurrentMetricName());
-                    spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.cm ? 0.01 : 1);
+                    spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt ? 1 : 0.01);
                 }
             }
             this.sizeMax = {
