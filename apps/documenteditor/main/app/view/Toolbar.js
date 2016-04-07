@@ -701,6 +701,7 @@ define([
                     items: [
                         { caption: this.textMarginsLast,    checkable: true, template: pageMarginsTemplate, toggleGroup: 'menuPageMargins'}, //top,left,bottom,right
                         { caption: this.textMarginsNormal,  checkable: true, template: pageMarginsTemplate, toggleGroup: 'menuPageMargins', value: [20, 30, 20, 15] },
+                        { caption: this.textMarginsUsNormal,  checkable: true, template: pageMarginsTemplate, toggleGroup: 'menuPageMargins', value: [25.4, 25.4, 25.4, 25.4] },
                         { caption: this.textMarginsNarrow,  checkable: true, template: pageMarginsTemplate, toggleGroup: 'menuPageMargins', value: [12.7, 12.7, 12.7, 12.7] },
                         { caption: this.textMarginsModerate,checkable: true, template: pageMarginsTemplate, toggleGroup: 'menuPageMargins', value: [25.4, 19.1, 25.4, 19.1] },
                         { caption: this.textMarginsWide,    checkable: true, template: pageMarginsTemplate, toggleGroup: 'menuPageMargins', value: [25.4, 50.8, 25.4, 50.8] },
@@ -1844,6 +1845,7 @@ define([
         tipPageMargins: 'Page Margins',
         textMarginsLast: 'Last Custom',
         textMarginsNormal: 'Normal',
+        textMarginsUsNormal: 'US Normal',
         textMarginsNarrow: 'Narrow',
         textMarginsModerate: 'Moderate',
         textMarginsWide: 'Wide',
