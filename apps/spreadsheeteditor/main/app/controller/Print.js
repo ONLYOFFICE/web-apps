@@ -44,7 +44,7 @@ define([
 
         initialize: function() {
             var value = Common.localStorage.getItem("sse-print-settings-range");
-            value = (value!==null) ? parseInt(value) : c_oAscPrintType.ActiveSheets;
+            value = (value!==null) ? parseInt(value) : Asc.c_oAscPrintType.ActiveSheets;
 
             this.adjPrintParams = new Asc.asc_CAdjustPrint();
             this.adjPrintParams.asc_setPrintType(value);
@@ -154,12 +154,12 @@ define([
         onChangeRange: function() {
             var printtype = this.printSettingsDlg.getRange(),
                 store = this.printSettingsDlg.cmbSheet.store,
-                item = (printtype !== c_oAscPrintType.EntireWorkbook) ? store.findWhere({value: this.api.asc_getActiveWorksheetIndex()}) : store.at(0);
+                item = (printtype !== Asc.c_oAscPrintType.EntireWorkbook) ? store.findWhere({value: this.api.asc_getActiveWorksheetIndex()}) : store.at(0);
             if (item) {
                 this.printSettingsDlg.cmbSheet.setValue(item.get('value'));
                 this.comboSheetsChange(this.printSettingsDlg, this.printSettingsDlg.cmbSheet, item.toJSON());
             }
-            this.printSettingsDlg.cmbSheet.setDisabled(printtype !== c_oAscPrintType.EntireWorkbook);
+            this.printSettingsDlg.cmbSheet.setDisabled(printtype !== Asc.c_oAscPrintType.EntireWorkbook);
         },
 
         getPageOptions: function(panel) {
@@ -264,7 +264,7 @@ define([
         },
 
         checkMargins: function(panel) {
-            if (panel.cmbPaperOrientation.getValue() == c_oAscPageOrientation.PagePortrait) {
+            if (panel.cmbPaperOrientation.getValue() == Asc.c_oAscPageOrientation.PagePortrait) {
                 var pagewidth = /^\d{3}\.?\d*/.exec(panel.cmbPaperSize.getValue());
                 var pageheight = /\d{3}\.?\d*$/.exec(panel.cmbPaperSize.getValue());
             } else {

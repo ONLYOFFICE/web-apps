@@ -219,7 +219,7 @@ define([    'text!presentationeditor/main/app/template/ImageSettingsAdvanced.tem
             if (this.spnWidth.getValue()!=='')
                 properties.put_Width(Common.Utils.Metric.fnRecalcToMM(this.spnWidth.getNumberValue()));
 
-            var Position = new CPosition();
+            var Position = new Asc.CPosition();
             if (this.spnX.getValue() !== '')
                 Position.put_X(Common.Utils.Metric.fnRecalcToMM(this.spnX.getNumberValue()));
             if (this.spnY.getValue() !== '')

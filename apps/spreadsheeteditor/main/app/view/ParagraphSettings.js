@@ -333,7 +333,7 @@ define([
                     for (var i = selectedElements.length - 1; i >= 0; i--) {
                         elType = selectedElements[i].asc_getObjectType();
                         elValue = selectedElements[i].asc_getObjectValue();
-                        if (c_oAscTypeSelectElement.Paragraph == elType) {
+                        if (Asc.c_oAscTypeSelectElement.Paragraph == elType) {
                             (new SSE.Views.ParagraphSettingsAdvanced(
                             {
                                 paragraphProps: elValue,

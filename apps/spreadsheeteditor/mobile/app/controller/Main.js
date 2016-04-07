@@ -150,43 +150,43 @@ Ext.define('SSE.controller.Main', {
 
         switch (id)
         {
-            case c_oAscError.ID.Unknown:
+            case Asc.c_oAscError.ID.Unknown:
                 config.message = this.unknownErrorText;
                 break;
 
-            case c_oAscError.ID.ConvertationTimeout:
+            case Asc.c_oAscError.ID.ConvertationTimeout:
                 config.message = this.convertationTimeoutText;
                 break;
 
-            case c_oAscError.ID.ConvertationError:
+            case Asc.c_oAscError.ID.ConvertationError:
                 config.message = this.convertationErrorText;
                 break;
 
-            case c_oAscError.ID.DownloadError:
+            case Asc.c_oAscError.ID.DownloadError:
                 config.message = this.downloadErrorText;
                 break;
 
-            case c_oAscError.ID.UplImageSize:
+            case Asc.c_oAscError.ID.UplImageSize:
                 config.message = this.uploadImageSizeMessage;
                 break;
 
-            case c_oAscError.ID.UplImageExt:
+            case Asc.c_oAscError.ID.UplImageExt:
                 config.message = this.uploadImageExtMessage;
                 break;
 
-            case c_oAscError.ID.UplImageFileCount:
+            case Asc.c_oAscError.ID.UplImageFileCount:
                 config.message = this.uploadImageFileCountMessage;
                 break;
 
-            case c_oAscError.ID.VKeyEncrypt:
+            case Asc.c_oAscError.ID.VKeyEncrypt:
                 config.msg = this.errorKeyEncrypt;
                 break;
 
-            case c_oAscError.ID.KeyExpire:
+            case Asc.c_oAscError.ID.KeyExpire:
                 config.msg = this.errorKeyExpire;
                 break;
 
-            case c_oAscError.ID.UserCountExceed:
+            case Asc.c_oAscError.ID.UserCountExceed:
                 config.msg = this.errorUsersExceed;
                 break;
 
@@ -197,7 +197,7 @@ Ext.define('SSE.controller.Main', {
 
 
 
-        if (level == c_oAscError.Level.Critical) {
+        if (level == Asc.c_oAscError.Level.Critical) {
 
             // report only critical errors
             Common.Gateway.reportError(id, config.message);
@@ -243,7 +243,7 @@ Ext.define('SSE.controller.Main', {
     },
 
     onAdvancedOptions: function(advOptions) {
-        if (advOptions.asc_getOptionId() == c_oAscAdvancedOptionsID['CSV']){
+        if (advOptions.asc_getOptionId() == Asc.c_oAscAdvancedOptionsID['CSV']){
             var preloader = Ext.get('loading-mask'),
                 me = this;
 
@@ -287,7 +287,7 @@ Ext.define('SSE.controller.Main', {
                     after       : function(){
                         Ext.Viewport.remove(viewAdvOptionsCsv);
                         if (me.api) {
-                            me.api.asc_setAdvancedOptions(c_oAscAdvancedOptionsID['CSV'], new Asc.asc_CCSVAdvancedOptions(result.encoding, result.delimiter));
+                            me.api.asc_setAdvancedOptions(Asc.c_oAscAdvancedOptionsID['CSV'], new Asc.asc_CCSVAdvancedOptions(result.encoding, result.delimiter));
                         }
                     }
                 });
@@ -313,9 +313,9 @@ Ext.define('SSE.controller.Main', {
     },
 
     onLongActionEnd: function(type, id) {
-        if (type === c_oAscAsyncActionType['BlockInteraction']){
+        if (type === Asc.c_oAscAsyncActionType['BlockInteraction']){
             switch (id) {
-                case c_oAscAsyncAction['Open']:
+                case Asc.c_oAscAsyncAction['Open']:
                     this.onOpenDocument();
                     break;
             }
@@ -323,7 +323,7 @@ Ext.define('SSE.controller.Main', {
     },
 
     onDownloadAs: function() {
-       this.api.asc_DownloadAs(c_oAscFileType.XLSX, true);
+       this.api.asc_DownloadAs(Asc.c_oAscFileType.XLSX, true);
     },
 
     _hideLoadSplash: function(){

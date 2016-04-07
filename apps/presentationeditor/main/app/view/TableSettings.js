@@ -84,7 +84,7 @@ define([
             };
             this.lockedControls = [];
             this._locked = false;
-            this._originalLook = new CTablePropLook();
+            this._originalLook = new Asc.CTablePropLook();
 
             this._originalProps = null;
             this.CellBorders = {};
@@ -313,8 +313,8 @@ define([
 
         onCheckTemplateChange: function(type, field, newValue, oldValue, eOpts) {
             if (this.api)   {
-                var properties = new CTableProp();
-                var look = (this._originalLook) ? this._originalLook : new CTablePropLook();
+                var properties = new Asc.CTableProp();
+                var look = (this._originalLook) ? this._originalLook : new Asc.CTablePropLook();
                 switch (type) {
                     case 0:
                         look.put_FirstRow(field.getValue()=='checked');
@@ -343,7 +343,7 @@ define([
 
         onTableTemplateSelect: function(combo, record){
             if (this.api && !this._noApply) {
-                var properties = new CTableProp();
+                var properties = new Asc.CTableProp();
                 properties.put_TableStyle(record.get('templateId'));
                 this.api.tblApply(properties);
             }
@@ -355,8 +355,8 @@ define([
             this.CellColor = {Value: 1, Color: color};
 
             if (this.api) {
-                var properties = new CTableProp();
-                var background = new CBackground();
+                var properties = new Asc.CTableProp();
+                var background = new Asc.CBackground();
                 properties.put_CellsBackground(background);
 
                 if (this.CellColor.Color=='transparent') {
@@ -383,7 +383,7 @@ define([
         onBtnBordersClick: function(btn, eOpts){
             this._UpdateBordersStyle(btn.options.strId, true);
             if (this.api) {
-                var properties = new CTableProp();
+                var properties = new Asc.CTableProp();
                 properties.put_CellBorders(this.CellBorders);
                 properties.put_CellSelect(true);
                 this.api.tblApply(properties);
@@ -452,7 +452,7 @@ define([
 
             if (props )
             {
-                this._originalProps = new CTableProp(props);
+                this._originalProps = new Asc.CTableProp(props);
                 this._originalProps.put_CellSelect(true);
 
                 //for table-template
@@ -526,7 +526,7 @@ define([
                     if (background.get_Value()==0) {
                         var color = background.get_Color();
                         if (color) {
-                            if (color.get_type() == c_oAscColor.COLOR_TYPE_SCHEME) {
+                            if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
                                 this.CellColor = {Value: 1, Color: {color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()), effectValue: color.get_value() }};
                             } else {
                                 this.CellColor = {Value: 1, Color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b())};
@@ -564,7 +564,7 @@ define([
         },
 
         _UpdateBordersStyle: function(border) {
-            this.CellBorders = new CBorders();
+            this.CellBorders = new Asc.CBorders();
             var updateBorders = this.CellBorders;
 
             var visible = (border != '');
@@ -659,7 +659,7 @@ define([
                     for (var i = selectedElements.length - 1; i >= 0; i--) {
                         elType = selectedElements[i].get_ObjectType();
                         elValue = selectedElements[i].get_ObjectValue();
-                        if (c_oAscTypeSelectElement.Table == elType) {
+                        if (Asc.c_oAscTypeSelectElement.Table == elType) {
                             (new PE.Views.TableSettingsAdvanced(
                             {
                                 tableProps: elValue,

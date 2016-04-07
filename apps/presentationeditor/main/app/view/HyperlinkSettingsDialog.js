@@ -159,7 +159,7 @@ define([
             me.inputTip = new Common.UI.InputField({
                 el          : $('#id-dlg-hyperlink-tip'),
                 style       : 'width: 100%;',
-                maxLength   : c_oAscMaxTooltipLength
+                maxLength   : Asc.c_oAscMaxTooltipLength
             });
 
             me.radioNext = new Common.UI.RadioBox({
@@ -237,7 +237,7 @@ define([
 
         getSettings: function () {
             var me      = this,
-                props   = new CHyperlinkProperty();
+                props   = new Asc.CHyperlinkProperty();
             var def_display = '';
             if (me.cmbLinkType.getValue() == c_oHyperlinkType.InternalLink) {
                 var url = "ppaction://hlink";

@@ -119,15 +119,15 @@ define([
                 this.inputRange.setValue(options.asc_getRange());
                 this.cbTitle.setValue(options.asc_getIsTitle());
 
-                me.api.asc_setSelectionDialogMode(c_oAscSelectionDialogType.FormatTable, options.asc_getRange());
+                me.api.asc_setSelectionDialogMode(Asc.c_oAscSelectionDialogType.FormatTable, options.asc_getRange());
                 me.api.asc_unregisterCallback('asc_onSelectionRangeChanged', _.bind(me.onApiRangeChanged, me));
                 me.api.asc_registerCallback('asc_onSelectionRangeChanged', _.bind(me.onApiRangeChanged, me));
-                Common.NotificationCenter.trigger('cells:range', c_oAscSelectionDialogType.FormatTable);
+                Common.NotificationCenter.trigger('cells:range', Asc.c_oAscSelectionDialogType.FormatTable);
             }
 
             me.inputRange.validation = function(value) {
-                var isvalid = me.api.asc_checkDataRange(c_oAscSelectionDialogType.FormatTable, value, false);
-                return (isvalid==c_oAscError.ID.DataRangeError) ? me.txtInvalidRange : true;
+                var isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.FormatTable, value, false);
+                return (isvalid==Asc.c_oAscError.ID.DataRangeError) ? me.txtInvalidRange : true;
             };
         },
 
@@ -147,11 +147,11 @@ define([
         },
 
         isRangeValid: function() {
-            var isvalid = this.api.asc_checkDataRange(c_oAscSelectionDialogType.FormatTable, this.inputRange.getValue(), true);
-            if (isvalid == c_oAscError.ID.No)
+            var isvalid = this.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.FormatTable, this.inputRange.getValue(), true);
+            if (isvalid == Asc.c_oAscError.ID.No)
                 return true;
             else {
-                if (isvalid == c_oAscError.ID.AutoFilterDataRangeError) {
+                if (isvalid == Asc.c_oAscError.ID.AutoFilterDataRangeError) {
                     Common.UI.warning({msg: this.errorAutoFilterDataRange});
                 }
             }
@@ -164,9 +164,9 @@ define([
 
         onClose: function(event) {
             if (this.api)
-                this.api.asc_setSelectionDialogMode(c_oAscSelectionDialogType.None);
+                this.api.asc_setSelectionDialogMode(Asc.c_oAscSelectionDialogType.None);
 
-            Common.NotificationCenter.trigger('cells:range', c_oAscSelectionDialogType.None);
+            Common.NotificationCenter.trigger('cells:range', Asc.c_oAscSelectionDialogType.None);
             Common.NotificationCenter.trigger('edit:complete', this);
         },
 

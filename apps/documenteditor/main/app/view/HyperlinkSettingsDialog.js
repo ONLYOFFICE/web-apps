@@ -118,7 +118,7 @@ define([
             me.inputTip = new Common.UI.InputField({
                 el          : $('#id-dlg-hyperlink-tip'),
                 style       : 'width: 100%;',
-                maxLength   : c_oAscMaxTooltipLength
+                maxLength   : Asc.c_oAscMaxTooltipLength
             });
 
             $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
@@ -160,7 +160,7 @@ define([
 
         getSettings: function () {
             var me      = this,
-                props   = new CHyperlinkProperty(),
+                props   = new Asc.CHyperlinkProperty(),
                 url     = $.trim(me.inputUrl.getValue());
 
             if (! /(((^https?)|(^ftp)):\/\/)|(^mailto:)/i.test(url) )

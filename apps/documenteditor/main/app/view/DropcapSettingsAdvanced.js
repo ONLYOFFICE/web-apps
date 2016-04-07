@@ -247,9 +247,9 @@ define([
                             me._changedProps.put_Shade(new CParagraphShd());
                         }
                         if (color=='transparent') {
-                            me._changedProps.get_Shade().put_Value(shd_Nil);
+                            me._changedProps.get_Shade().put_Value(Asc.c_oAscShdNil);
                         } else {
-                            me._changedProps.get_Shade().put_Value(shd_Clear);
+                            me._changedProps.get_Shade().put_Value(Asc.c_oAscShdClear);
                             me._changedProps.get_Shade().put_Color(Common.Utils.ThemeColor.getRgbColor(color));
                         }
                     }
@@ -342,8 +342,8 @@ define([
             })
             .on('toggle', _.bind(function(btn, pressed) {
                 if (me._changedProps && pressed) {
-                    me._DisableElem(c_oAscDropCap.None);
-                    me._changedProps.put_DropCap(c_oAscDropCap.None);
+                    me._DisableElem(Asc.c_oAscDropCap.None);
+                    me._changedProps.put_DropCap(Asc.c_oAscDropCap.None);
                 }
             }, me));
 
@@ -357,8 +357,8 @@ define([
             })
             .on('toggle', _.bind(function(btn, pressed) {
                 if (me._changedProps && pressed) {
-                    me._DisableElem(c_oAscDropCap.Drop);
-                    me._changedProps.put_DropCap(c_oAscDropCap.Drop);
+                    me._DisableElem(Asc.c_oAscDropCap.Drop);
+                    me._changedProps.put_DropCap(Asc.c_oAscDropCap.Drop);
                 }
             }, me));
 
@@ -372,8 +372,8 @@ define([
             })
             .on('toggle', _.bind(function(btn, pressed) {
                 if (me._changedProps && pressed) {
-                    me._DisableElem(c_oAscDropCap.Margin);
-                    me._changedProps.put_DropCap(c_oAscDropCap.Margin);
+                    me._DisableElem(Asc.c_oAscDropCap.Margin);
+                    me._changedProps.put_DropCap(Asc.c_oAscDropCap.Margin);
                 }
             }, me));
 
@@ -591,9 +591,9 @@ define([
             }, me));
 
             this._arrHAlign = [
-                {displayValue: this.textLeft,   value: c_oAscXAlign.Left},
-                {displayValue: this.textCenter, value: c_oAscXAlign.Center},
-                {displayValue: this.textRight,  value: c_oAscXAlign.Right}
+                {displayValue: this.textLeft,   value: Asc.c_oAscXAlign.Left},
+                {displayValue: this.textCenter, value: Asc.c_oAscXAlign.Center},
+                {displayValue: this.textRight,  value: Asc.c_oAscXAlign.Right}
             ];
             this.cmbHAlign = new Common.UI.ComboBox({
                 el          : $('#frame-advanced-input-hposition'),
@@ -615,9 +615,9 @@ define([
             this.cmbHAlign.setValue(this._arrHAlign[0].value);
 
             this._arrHRelative = [
-                {displayValue: this.textMargin, value: c_oAscHAnchor.Margin},
-                {displayValue: this.textPage,   value: c_oAscHAnchor.Page},
-                {displayValue: this.textColumn, value: c_oAscHAnchor.Text}
+                {displayValue: this.textMargin, value: Asc.c_oAscHAnchor.Margin},
+                {displayValue: this.textPage,   value: Asc.c_oAscHAnchor.Page},
+                {displayValue: this.textColumn, value: Asc.c_oAscHAnchor.Text}
             ];
             this.cmbHRelative = new Common.UI.ComboBox({
                 el          : $('#frame-advanced-input-hrelative'),
@@ -634,9 +634,9 @@ define([
             this.cmbHRelative.setValue(this._arrHRelative[1].value);
 
             this._arrVAlign = [
-                {displayValue: this.textTop,    value: c_oAscYAlign.Top},
-                {displayValue: this.textCenter, value: c_oAscYAlign.Center},
-                {displayValue: this.textBottom, value: c_oAscYAlign.Bottom}
+                {displayValue: this.textTop,    value: Asc.c_oAscYAlign.Top},
+                {displayValue: this.textCenter, value: Asc.c_oAscYAlign.Center},
+                {displayValue: this.textBottom, value: Asc.c_oAscYAlign.Bottom}
             ];
             this.cmbVAlign = new Common.UI.ComboBox({
                 el          : $('#frame-advanced-input-vposition'),
@@ -658,9 +658,9 @@ define([
             this.cmbVAlign.setValue(this._arrVAlign[0].value);
 
             this._arrVRelative = [
-                {displayValue: this.textMargin,     value: c_oAscVAnchor.Margin},
-                {displayValue: this.textPage,       value: c_oAscVAnchor.Page},
-                {displayValue: this.textParagraph,  value: c_oAscVAnchor.Text}
+                {displayValue: this.textMargin,     value: Asc.c_oAscVAnchor.Margin},
+                {displayValue: this.textPage,       value: Asc.c_oAscVAnchor.Page},
+                {displayValue: this.textParagraph,  value: Asc.c_oAscVAnchor.Text}
             ];
             this.cmbVRelative = new Common.UI.ComboBox({
                 el          : $('#frame-advanced-input-vrelative'),
@@ -672,7 +672,7 @@ define([
             .on('selected', _.bind(function(combo, record) {
                 if (me._changedProps) {
                     me._changedProps.put_VAnchor(record.value);
-                    this.chMove.setValue(record.value == c_oAscVAnchor.Text, true);
+                    this.chMove.setValue(record.value == Asc.c_oAscVAnchor.Text, true);
                 }
             }, me));
             this.cmbVRelative.setValue(this._arrVRelative[2].value);
@@ -816,7 +816,7 @@ define([
 
         onShowDialog: function(dlg) {
             if (!this.isFrame && this.btnNone.pressed)
-                this._DisableElem(c_oAscDropCap.None);
+                this._DisableElem(Asc.c_oAscDropCap.None);
             else if (this.isFrame && this.btnFrameNone.pressed)
                 this._DisableElem(c_oAscFrameWrap.None);
         },
@@ -824,7 +824,7 @@ define([
         onBtnBordersClick: function(btn, eOpts){
             this.updateBordersStyle(btn.options.strId, true);
             if (this.api) {
-                var properties = new CTableProp();
+                var properties = new Asc.CTableProp();
                 properties.put_CellBorders(this.CellBorders);
                 properties.put_CellSelect(true);
                 this.api.tblApply(properties);
@@ -912,7 +912,7 @@ define([
                                 break;
                             }
                         }
-                        this.chMove.setValue(value==c_oAscVAnchor.Text);
+                        this.chMove.setValue(value==Asc.c_oAscVAnchor.Text);
 
                         value = frame_props.get_YAlign();
                         if (value!==undefined) {
@@ -937,9 +937,9 @@ define([
                         this.spnRowHeight.setValue((frame_props.get_Lines() !== null) ? frame_props.get_Lines() : '');
                         this.numDistance.setValue((frame_props.get_HSpace() !== null) ? Common.Utils.Metric.fnRecalcFromMM(frame_props.get_HSpace()) : '');
                         value = frame_props.get_DropCap();
-                        if (value==c_oAscDropCap.Drop)
+                        if (value==Asc.c_oAscDropCap.Drop)
                             this.btnInText.toggle(true, false);
-                        else if (value==c_oAscDropCap.Margin)
+                        else if (value==Asc.c_oAscDropCap.Margin)
                             this.btnInMargin.toggle(true, false);
                         else
                             this.btnNone.toggle(true, false);
@@ -972,10 +972,10 @@ define([
                     }
 
                     var shd = frame_props.get_Shade();
-                    if (shd!==null && shd!==undefined && shd.get_Value()===shd_Clear) {
+                    if (shd!==null && shd!==undefined && shd.get_Value()===Asc.c_oAscShdClear) {
                         var color = shd.get_Color();
                         if (color) {
-                            if (color.get_type() == c_oAscColor.COLOR_TYPE_SCHEME) {
+                            if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
                                 this.paragraphShade = {color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()), effectValue: color.get_value()};
                             } else {
                                 this.paragraphShade = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b());
@@ -1014,7 +1014,7 @@ define([
         },
 
         _DisableElem: function(btnId){
-            var disabled = (btnId === c_oAscDropCap.None || btnId === c_oAscFrameWrap.None);
+            var disabled = (btnId === Asc.c_oAscDropCap.None || btnId === c_oAscFrameWrap.None);
 
             _.each(this.btnsCategory, function(btn) {
                 if (btn.options.contentTarget == 'id-adv-dropcap-borders' ||
@@ -1036,7 +1036,7 @@ define([
                 this.spnWidth.setDisabled(disabled);
                 this.spnHeight.setDisabled(disabled);
             } else {
-                disabled = (btnId == c_oAscDropCap.None);
+                disabled = (btnId == Asc.c_oAscDropCap.None);
                 this.spnRowHeight.setDisabled(disabled);
                 this.numDistance.setDisabled(disabled);
                 this.cmbFonts.setDisabled(disabled);

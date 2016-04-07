@@ -100,9 +100,9 @@ define([    'text!documenteditor/main/app/template/MailMergeEmailDlg.template',
             });
 
             this._arrFormat = [
-                {displayValue: this.textHTML,  value: c_oAscFileType.HTML},
-                {displayValue: this.textAttachDocx,value: c_oAscFileType.DOCX},
-                {displayValue: this.textAttachPdf,value: c_oAscFileType.PDF}
+                {displayValue: this.textHTML,  value: Asc.c_oAscFileType.HTML},
+                {displayValue: this.textAttachDocx,value: Asc.c_oAscFileType.DOCX},
+                {displayValue: this.textAttachPdf,value: Asc.c_oAscFileType.PDF}
             ];
             this.cmbFormat = new Common.UI.ComboBox({
                 el: $('#merge-email-dlg-format'),
@@ -111,7 +111,7 @@ define([    'text!documenteditor/main/app/template/MailMergeEmailDlg.template',
                 editable: false,
                 data: this._arrFormat
             });
-            this.cmbFormat.setValue(c_oAscFileType.HTML);
+            this.cmbFormat.setValue(Asc.c_oAscFileType.HTML);
             this.cmbFormat.on('selected', _.bind(this.onCmbFormatSelect, this));
 
             this.inputFileName = new Common.UI.InputField({
@@ -183,13 +183,13 @@ define([    'text!documenteditor/main/app/template/MailMergeEmailDlg.template',
         getSettings: function() {
             var filename = this.inputFileName.getValue(),
                 mailformat = this.cmbFormat.getValue();
-            if (mailformat!==c_oAscFileType.HTML) {
+            if (mailformat!==Asc.c_oAscFileType.HTML) {
                 if (_.isEmpty(filename)) filename = 'attach';
                 var idx = filename.lastIndexOf('.'),
                     ext = (idx>0) ? filename.substring(idx, filename.length).toLowerCase() : '';
-                if (mailformat==c_oAscFileType.PDF && ext!=='.pdf')
+                if (mailformat==Asc.c_oAscFileType.PDF && ext!=='.pdf')
                     filename += '.pdf';
-                else if (mailformat==c_oAscFileType.DOCX && ext!=='.docx')
+                else if (mailformat==Asc.c_oAscFileType.DOCX && ext!=='.docx')
                     filename += '.docx';
             }
 
@@ -244,7 +244,7 @@ define([    'text!documenteditor/main/app/template/MailMergeEmailDlg.template',
         },
 
         onCmbFormatSelect: function(combo, record) {
-            var attachDisable = (record.value == c_oAscFileType.HTML);
+            var attachDisable = (record.value == Asc.c_oAscFileType.HTML);
             this.inputFileName.setDisabled(attachDisable);
             this.lblFileName.toggleClass('disabled', attachDisable);
             (attachDisable) ? this.textareaMessage.attr('disabled', 'disabled') : this.textareaMessage.removeAttr('disabled');
