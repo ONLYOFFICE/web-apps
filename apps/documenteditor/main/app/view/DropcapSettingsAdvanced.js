@@ -525,7 +525,7 @@ define([
                     me.spnHeight.setValue((record.value==0) ? '' : 1);
                     me.spnHeight.resumeEvents();
 
-                    me._changedProps.put_HRule((record.value==0) ? linerule_Auto : ((record.value==1) ? linerule_Exact : linerule_AtLeast));
+                    me._changedProps.put_HRule((record.value==0) ? Asc.linerule_Auto : ((record.value==1) ? Asc.linerule_Exact : Asc.linerule_AtLeast));
                     if (record.value > 0)
                         this._changedProps.put_H(Common.Utils.Metric.fnRecalcToMM(this.spnHeight.getNumberValue()));
                 }
@@ -542,16 +542,16 @@ define([
             })
             .on('change', _.bind(function(field, newValue, oldValue) {
                 if (me._changedProps) {
-                    var type = linerule_Auto;
+                    var type = Asc.linerule_Auto;
                     if (me.cmbHeight.getValue()==me._arrHeight[1].value)
-                        type = linerule_Exact;
+                        type = Asc.linerule_Exact;
                     else if (me.cmbHeight.getValue()==me._arrHeight[2].value)
-                        type = linerule_AtLeast;
+                        type = Asc.linerule_AtLeast;
 
-                    if (type==linerule_Auto) {
+                    if (type==Asc.linerule_Auto) {
                         me.cmbHeight.suspendEvents();
                         me.cmbHeight.setValue(me._arrHeight[2].value);
-                        type = linerule_AtLeast;
+                        type = Asc.linerule_AtLeast;
                         me.cmbHeight.resumeEvents();
                     }
 
@@ -870,7 +870,7 @@ define([
 
                         value = frame_props.get_HRule();
                         if (value!==undefined) {
-                            this.cmbHeight.setValue((value===linerule_Exact) ? this._arrHeight[1].value : this._arrHeight[2].value);
+                            this.cmbHeight.setValue((value===Asc.linerule_Exact) ? this._arrHeight[1].value : this._arrHeight[2].value);
                             this.spnHeight.setValue(Common.Utils.Metric.fnRecalcFromMM(frame_props.get_H()));
 
                         } else {
