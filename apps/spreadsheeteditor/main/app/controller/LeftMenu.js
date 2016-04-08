@@ -1,3 +1,35 @@
+/*
+ *
+ * (c) Copyright Ascensio System Limited 2010-2016
+ *
+ * This program is a free software product. You can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License (AGPL)
+ * version 3 as published by the Free Software Foundation. In accordance with
+ * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
+ * that Ascensio System SIA expressly excludes the warranty of non-infringement
+ * of any third-party rights.
+ *
+ * This program is distributed WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
+ * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ *
+ * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
+ * EU, LV-1021.
+ *
+ * The  interactive user interfaces in modified source and object code versions
+ * of the Program must display Appropriate Legal Notices, as required under
+ * Section 5 of the GNU AGPL version 3.
+ *
+ * Pursuant to Section 7(b) of the License you must retain the original Product
+ * logo when distributing the program. Pursuant to Section 7(e) we decline to
+ * grant you any rights under trademark law for use of our trademarks.
+ *
+ * All the Product's GUI elements, including illustrations and icon sets, as
+ * well as technical writing content are licensed under the terms of the
+ * Creative Commons Attribution-ShareAlike 4.0 International. See the License
+ * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ *
+*/
 define([
     'core',
     'common/main/lib/util/Shortcuts',
@@ -155,7 +187,7 @@ define([
             case 'back': break;
             case 'save': this.api.asc_Save(); break;
             case 'save-desktop': this.api.asc_DownloadAs(); break;
-            case 'print': this.api.asc_Print(undefined, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera); break;
+            case 'print': Common.NotificationCenter.trigger('print', this.leftMenu); break;
             case 'exit': Common.NotificationCenter.trigger('goback'); break;
             case 'edit':
 //                this.getApplication().getController('Statusbar').setStatusCaption(this.requestEditRightsText);
@@ -175,7 +207,7 @@ define([
         },
 
         clickSaveAsFormat: function(menu, format) {
-            if (format == c_oAscFileType.CSV) {
+            if (format == Asc.c_oAscFileType.CSV) {
                 Common.UI.warning({
                     closable: false,
                     title: this.textWarning,
@@ -280,7 +312,7 @@ define([
                 options.asc_setIsWholeCell(opts.matchword);
                 options.asc_setScanOnOnlySheet(this.dlgSearch.menuWithin.menu.items[0].checked);
                 options.asc_setScanByRows(this.dlgSearch.menuSearch.menu.items[0].checked);
-                options.asc_setLookIn(this.dlgSearch.menuLookin.menu.items[0].checked?c_oAscFindLookIn.Formulas:c_oAscFindLookIn.Value);
+                options.asc_setLookIn(this.dlgSearch.menuLookin.menu.items[0].checked?Asc.c_oAscFindLookIn.Formulas:Asc.c_oAscFindLookIn.Value);
 
                 if (!this.api.asc_findText(options)) {
                     var me = this;
@@ -305,7 +337,7 @@ define([
                 options.asc_setIsWholeCell(opts.matchword);
                 options.asc_setScanOnOnlySheet(this.dlgSearch.menuWithin.menu.items[0].checked);
                 options.asc_setScanByRows(this.dlgSearch.menuSearch.menu.items[0].checked);
-                options.asc_setLookIn(this.dlgSearch.menuLookin.menu.items[0].checked?c_oAscFindLookIn.Formulas:c_oAscFindLookIn.Value);
+                options.asc_setLookIn(this.dlgSearch.menuLookin.menu.items[0].checked?Asc.c_oAscFindLookIn.Formulas:Asc.c_oAscFindLookIn.Value);
                 options.asc_setIsReplaceAll(false);
 
                 this.api.asc_replaceText(options);
@@ -323,7 +355,7 @@ define([
                 options.asc_setIsWholeCell(opts.matchword);
                 options.asc_setScanOnOnlySheet(this.dlgSearch.menuWithin.menu.items[0].checked);
                 options.asc_setScanByRows(this.dlgSearch.menuSearch.menu.items[0].checked);
-                options.asc_setLookIn(this.dlgSearch.menuLookin.menu.items[0].checked?c_oAscFindLookIn.Formulas:c_oAscFindLookIn.Value);
+                options.asc_setLookIn(this.dlgSearch.menuLookin.menu.items[0].checked?Asc.c_oAscFindLookIn.Formulas:Asc.c_oAscFindLookIn.Value);
                 options.asc_setIsReplaceAll(true);
 
                 this.api.asc_replaceText(options);
@@ -442,7 +474,7 @@ define([
                 options.asc_setIsWholeCell(sett.matchword);
                 options.asc_setScanOnOnlySheet(this.dlgSearch.menuWithin.menu.items[0].checked);
                 options.asc_setScanByRows(this.dlgSearch.menuSearch.menu.items[0].checked);
-                options.asc_setLookIn(this.dlgSearch.menuLookin.menu.items[0].checked?c_oAscFindLookIn.Formulas:c_oAscFindLookIn.Value);
+                options.asc_setLookIn(this.dlgSearch.menuLookin.menu.items[0].checked?Asc.c_oAscFindLookIn.Formulas:Asc.c_oAscFindLookIn.Value);
 
 
                 if (!me.api.asc_findText(options)) {
@@ -606,7 +638,7 @@ define([
         },
 
         onCellsRange: function(status) {
-            var isRangeSelection = (status != c_oAscSelectionDialogType.None);
+            var isRangeSelection = (status != Asc.c_oAscSelectionDialogType.None);
 
             this.leftMenu.btnFile.setDisabled(isRangeSelection);
             this.leftMenu.btnAbout.setDisabled(isRangeSelection);
@@ -615,7 +647,7 @@ define([
 
         onApiEditCell: function(state) {
 
-            var isEditFormula = (state == c_oAscCellEditorState.editFormula);
+            var isEditFormula = (state == Asc.c_oAscCellEditorState.editFormula);
 
             this.leftMenu.btnFile.setDisabled(isEditFormula);
             this.leftMenu.btnAbout.setDisabled(isEditFormula);

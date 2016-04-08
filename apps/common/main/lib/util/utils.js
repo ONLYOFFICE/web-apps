@@ -1,3 +1,35 @@
+/*
+ *
+ * (c) Copyright Ascensio System Limited 2010-2016
+ *
+ * This program is a free software product. You can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License (AGPL)
+ * version 3 as published by the Free Software Foundation. In accordance with
+ * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
+ * that Ascensio System SIA expressly excludes the warranty of non-infringement
+ * of any third-party rights.
+ *
+ * This program is distributed WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
+ * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ *
+ * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
+ * EU, LV-1021.
+ *
+ * The  interactive user interfaces in modified source and object code versions
+ * of the Program must display Appropriate Legal Notices, as required under
+ * Section 5 of the GNU AGPL version 3.
+ *
+ * Pursuant to Section 7(b) of the License you must retain the original Product
+ * logo when distributing the program. Pursuant to Section 7(e) we decline to
+ * grant you any rights under trademark law for use of our trademarks.
+ *
+ * All the Product's GUI elements, including illustrations and icon sets, as
+ * well as technical writing content are licensed under the terms of the
+ * Creative Commons Attribution-ShareAlike 4.0 International. See the License
+ * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ *
+*/
 if (Common === undefined) {
     var Common = {};
 }
@@ -193,7 +225,7 @@ Common.Utils.ThemeColor = new(function() {
             if(color.length==3) color=color.replace(/(.)/g,'$1$1');
             color=parseInt(color,16);
             var c = new CAscColor();
-            c.put_type( (typeof(clr) == 'object' && clr.effectId !== undefined)? c_oAscColor.COLOR_TYPE_SCHEME : c_oAscColor.COLOR_TYPE_SRGB);
+            c.put_type( (typeof(clr) == 'object' && clr.effectId !== undefined)? Asc.c_oAscColor.COLOR_TYPE_SCHEME : Asc.c_oAscColor.COLOR_TYPE_SRGB);
             c.put_r(color>>16);
             c.put_g((color&0xff00)>>8);
             c.put_b(color&0xff);
@@ -222,10 +254,12 @@ Common.Utils.Metric = new(function() {
 
     me.c_MetricUnits = {
         cm: 0,
-        pt: 1
+        pt: 1,
+        inch: 2
     };
     me.currentMetric = me.c_MetricUnits.pt;
-    me.metricName = ['cm', 'pt'];
+    me.metricName = ['cm', 'pt', '\"'];
+    me.defaultMetric = me.c_MetricUnits.cm;
 
     return {
         c_MetricUnits: me.c_MetricUnits,
@@ -239,26 +273,38 @@ Common.Utils.Metric = new(function() {
             return me.currentMetric;
         },
 
+        setDefaultMetric: function(value) {
+            me.defaultMetric = value;
+        },
+
+        getDefaultMetric: function() {
+            return me.defaultMetric;
+        },
+
         fnRecalcToMM: function(value) {
-            // value in pt/cm. need to convert to mm
+            // value in pt/cm/inch. need to convert to mm
             if (value!==null && value!==undefined) {
                 switch (me.currentMetric) {
                     case me.c_MetricUnits.cm:
                         return value * 10;
                     case me.c_MetricUnits.pt:
                         return value * 25.4 / 72.0;
+                    case me.c_MetricUnits.inch:
+                        return value * 25.4;
                 }
             }
             return value;
         },
 
         fnRecalcFromMM: function(value) {
-            // value in mm. need to convert to pt/cm
+            // value in mm. need to convert to pt/cm/inch
             switch (me.currentMetric) {
                 case me.c_MetricUnits.cm:
                     return parseFloat((value/10.).toFixed(4));
                 case me.c_MetricUnits.pt:
                     return parseFloat((value * 72.0 / 25.4).toFixed(3));
+                case me.c_MetricUnits.inch:
+                    return parseFloat((value / 25.4).toFixed(3));
             }
             return value;
         }

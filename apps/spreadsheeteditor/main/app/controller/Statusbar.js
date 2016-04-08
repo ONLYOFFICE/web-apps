@@ -1,3 +1,35 @@
+/*
+ *
+ * (c) Copyright Ascensio System Limited 2010-2016
+ *
+ * This program is a free software product. You can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License (AGPL)
+ * version 3 as published by the Free Software Foundation. In accordance with
+ * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
+ * that Ascensio System SIA expressly excludes the warranty of non-infringement
+ * of any third-party rights.
+ *
+ * This program is distributed WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
+ * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ *
+ * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
+ * EU, LV-1021.
+ *
+ * The  interactive user interfaces in modified source and object code versions
+ * of the Program must display Appropriate Legal Notices, as required under
+ * Section 5 of the GNU AGPL version 3.
+ *
+ * Pursuant to Section 7(b) of the License you must retain the original Product
+ * logo when distributing the program. Pursuant to Section 7(e) we decline to
+ * grant you any rights under trademark law for use of our trademarks.
+ *
+ * All the Product's GUI elements, including illustrations and icon sets, as
+ * well as technical writing content are licensed under the terms of the
+ * Creative Commons Attribution-ShareAlike 4.0 International. See the License
+ * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ *
+*/
 /**
  *  Statusbar.js
  *
@@ -127,8 +159,8 @@ define([
         /** coauthoring begin **/
         onWorkbookLocked: function(locked) {
             this.statusbar.tabbar[locked?'addClass':'removeClass']('coauth-locked');
-            this.statusbar.btnAddWorksheet.setDisabled(locked || this.statusbar.rangeSelectionMode==c_oAscSelectionDialogType.Chart ||
-                                                                 this.statusbar.rangeSelectionMode==c_oAscSelectionDialogType.FormatTable);
+            this.statusbar.btnAddWorksheet.setDisabled(locked || this.statusbar.rangeSelectionMode==Asc.c_oAscSelectionDialogType.Chart ||
+                                                                 this.statusbar.rangeSelectionMode==Asc.c_oAscSelectionDialogType.FormatTable);
             var item, i = this.statusbar.tabbar.getCount();
             while (i-- > 0) {
                 item = this.statusbar.tabbar.getAt(i);
@@ -147,7 +179,7 @@ define([
                 tab = this.statusbar.tabbar.getAt(i);
                 if (index == tab.sheetindex) {
                     tab[locked?'addClass':'removeClass']('coauth-locked');
-                    tab.isLockTheDrag = locked || (this.statusbar.rangeSelectionMode==c_oAscSelectionDialogType.FormatTable);
+                    tab.isLockTheDrag = locked || (this.statusbar.rangeSelectionMode==Asc.c_oAscSelectionDialogType.FormatTable);
                     break;
                 }
             }
@@ -168,8 +200,8 @@ define([
         },
 
         onApiEditCell: function(state) {
-            var disableAdd = (state == c_oAscCellEditorState.editFormula),
-                disable = (state != c_oAscCellEditorState.editEnd),
+            var disableAdd = (state == Asc.c_oAscCellEditorState.editFormula),
+                disable = (state != Asc.c_oAscCellEditorState.editEnd),
                 mask = $('.statusbar-mask'),
                 statusbar = this.statusbar;
 
@@ -203,15 +235,15 @@ define([
         onRangeDialogMode: function (mode) {
             var islocked = this.statusbar.tabbar.hasClass('coauth-locked'),
                 currentIdx = this.api.asc_getActiveWorksheetIndex();
-            this.statusbar.btnAddWorksheet.setDisabled(islocked || mode!=c_oAscSelectionDialogType.None);
+            this.statusbar.btnAddWorksheet.setDisabled(islocked || mode!=Asc.c_oAscSelectionDialogType.None);
 
             var item, i = this.statusbar.tabbar.getCount();
             while (i-- > 0) {
                 item = this.statusbar.tabbar.getAt(i);
                 if (item.sheetindex !== currentIdx) {
-                    item.disable(mode==c_oAscSelectionDialogType.FormatTable);
+                    item.disable(mode==Asc.c_oAscSelectionDialogType.FormatTable);
                 }
-                item.isLockTheDrag = (item.hasClass('coauth-locked') || (mode!=c_oAscSelectionDialogType.None));
+                item.isLockTheDrag = (item.hasClass('coauth-locked') || (mode!=Asc.c_oAscSelectionDialogType.None));
             }
             this.statusbar.rangeSelectionMode = mode;
         },
@@ -518,7 +550,7 @@ define([
 
                     color = this.api.asc_getWorksheetTabColor(sindex);
                     if (color) {
-                        if (color.get_type() == c_oAscColor.COLOR_TYPE_SCHEME) {
+                        if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
                             clr = {color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()), effectValue: color.get_value() };
                         } else {
                             clr = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b());
@@ -598,7 +630,7 @@ define([
 
 
         onError: function(id, level, errData) {
-            if (id == c_oAscError.ID.LockedWorksheetRename)
+            if (id == Asc.c_oAscError.ID.LockedWorksheetRename)
                 this.statusbar.update();
         },
 

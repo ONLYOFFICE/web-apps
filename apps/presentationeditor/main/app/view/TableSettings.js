@@ -1,3 +1,35 @@
+/*
+ *
+ * (c) Copyright Ascensio System Limited 2010-2016
+ *
+ * This program is a free software product. You can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License (AGPL)
+ * version 3 as published by the Free Software Foundation. In accordance with
+ * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
+ * that Ascensio System SIA expressly excludes the warranty of non-infringement
+ * of any third-party rights.
+ *
+ * This program is distributed WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
+ * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ *
+ * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
+ * EU, LV-1021.
+ *
+ * The  interactive user interfaces in modified source and object code versions
+ * of the Program must display Appropriate Legal Notices, as required under
+ * Section 5 of the GNU AGPL version 3.
+ *
+ * Pursuant to Section 7(b) of the License you must retain the original Product
+ * logo when distributing the program. Pursuant to Section 7(e) we decline to
+ * grant you any rights under trademark law for use of our trademarks.
+ *
+ * All the Product's GUI elements, including illustrations and icon sets, as
+ * well as technical writing content are licensed under the terms of the
+ * Creative Commons Attribution-ShareAlike 4.0 International. See the License
+ * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ *
+*/
 /**
  *  TableSettings.js
  *
@@ -52,7 +84,7 @@ define([
             };
             this.lockedControls = [];
             this._locked = false;
-            this._originalLook = new CTablePropLook();
+            this._originalLook = new Asc.CTablePropLook();
 
             this._originalProps = null;
             this.CellBorders = {};
@@ -281,8 +313,8 @@ define([
 
         onCheckTemplateChange: function(type, field, newValue, oldValue, eOpts) {
             if (this.api)   {
-                var properties = new CTableProp();
-                var look = (this._originalLook) ? this._originalLook : new CTablePropLook();
+                var properties = new Asc.CTableProp();
+                var look = (this._originalLook) ? this._originalLook : new Asc.CTablePropLook();
                 switch (type) {
                     case 0:
                         look.put_FirstRow(field.getValue()=='checked');
@@ -311,7 +343,7 @@ define([
 
         onTableTemplateSelect: function(combo, record){
             if (this.api && !this._noApply) {
-                var properties = new CTableProp();
+                var properties = new Asc.CTableProp();
                 properties.put_TableStyle(record.get('templateId'));
                 this.api.tblApply(properties);
             }
@@ -323,8 +355,8 @@ define([
             this.CellColor = {Value: 1, Color: color};
 
             if (this.api) {
-                var properties = new CTableProp();
-                var background = new CBackground();
+                var properties = new Asc.CTableProp();
+                var background = new Asc.CBackground();
                 properties.put_CellsBackground(background);
 
                 if (this.CellColor.Color=='transparent') {
@@ -351,7 +383,7 @@ define([
         onBtnBordersClick: function(btn, eOpts){
             this._UpdateBordersStyle(btn.options.strId, true);
             if (this.api) {
-                var properties = new CTableProp();
+                var properties = new Asc.CTableProp();
                 properties.put_CellBorders(this.CellBorders);
                 properties.put_CellSelect(true);
                 this.api.tblApply(properties);
@@ -420,7 +452,7 @@ define([
 
             if (props )
             {
-                this._originalProps = new CTableProp(props);
+                this._originalProps = new Asc.CTableProp(props);
                 this._originalProps.put_CellSelect(true);
 
                 //for table-template
@@ -494,7 +526,7 @@ define([
                     if (background.get_Value()==0) {
                         var color = background.get_Color();
                         if (color) {
-                            if (color.get_type() == c_oAscColor.COLOR_TYPE_SCHEME) {
+                            if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
                                 this.CellColor = {Value: 1, Color: {color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()), effectValue: color.get_value() }};
                             } else {
                                 this.CellColor = {Value: 1, Color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b())};
@@ -532,7 +564,7 @@ define([
         },
 
         _UpdateBordersStyle: function(border) {
-            this.CellBorders = new CBorders();
+            this.CellBorders = new Asc.CBorders();
             var updateBorders = this.CellBorders;
 
             var visible = (border != '');
@@ -627,7 +659,7 @@ define([
                     for (var i = selectedElements.length - 1; i >= 0; i--) {
                         elType = selectedElements[i].get_ObjectType();
                         elValue = selectedElements[i].get_ObjectValue();
-                        if (c_oAscTypeSelectElement.Table == elType) {
+                        if (Asc.c_oAscTypeSelectElement.Table == elType) {
                             (new PE.Views.TableSettingsAdvanced(
                             {
                                 tableProps: elValue,

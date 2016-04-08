@@ -1,3 +1,35 @@
+/*
+ *
+ * (c) Copyright Ascensio System Limited 2010-2016
+ *
+ * This program is a free software product. You can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License (AGPL)
+ * version 3 as published by the Free Software Foundation. In accordance with
+ * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
+ * that Ascensio System SIA expressly excludes the warranty of non-infringement
+ * of any third-party rights.
+ *
+ * This program is distributed WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
+ * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ *
+ * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
+ * EU, LV-1021.
+ *
+ * The  interactive user interfaces in modified source and object code versions
+ * of the Program must display Appropriate Legal Notices, as required under
+ * Section 5 of the GNU AGPL version 3.
+ *
+ * Pursuant to Section 7(b) of the License you must retain the original Product
+ * logo when distributing the program. Pursuant to Section 7(e) we decline to
+ * grant you any rights under trademark law for use of our trademarks.
+ *
+ * All the Product's GUI elements, including illustrations and icon sets, as
+ * well as technical writing content are licensed under the terms of the
+ * Creative Commons Attribution-ShareAlike 4.0 International. See the License
+ * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ *
+*/
 /**
  *  ShapeSettingsAdvanced.js
  *
@@ -194,9 +226,9 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
 
             // Shape
             this._arrCapType = [
-                {displayValue: this.textFlat,   value: c_oAscLineCapType.Flat},
-                {displayValue: this.textRound, value: c_oAscLineCapType.Round},
-                {displayValue: this.textSquare,  value: c_oAscLineCapType.Square}
+                {displayValue: this.textFlat,   value: Asc.c_oAscLineCapType.Flat},
+                {displayValue: this.textRound, value: Asc.c_oAscLineCapType.Round},
+                {displayValue: this.textSquare,  value: Asc.c_oAscLineCapType.Square}
             ];
 
             this.cmbCapType = new Common.UI.ComboBox({
@@ -206,7 +238,7 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
                 editable: false,
                 data: this._arrCapType
             });
-            this.cmbCapType.setValue(c_oAscLineCapType.Flat);
+            this.cmbCapType.setValue(Asc.c_oAscLineCapType.Flat);
             this.cmbCapType.on('selected', _.bind(function(combo, record){
                 if (this._changedProps) {
                     if (this._changedProps.get_stroke()===null)
@@ -217,9 +249,9 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
             }, this));
 
             this._arrJoinType = [
-                {displayValue: this.textRound,   value: c_oAscLineJoinType.Round},
-                {displayValue: this.textBevel, value: c_oAscLineJoinType.Bevel},
-                {displayValue: this.textMiter,  value: c_oAscLineJoinType.Miter}
+                {displayValue: this.textRound,   value: Asc.c_oAscLineJoinType.Round},
+                {displayValue: this.textBevel, value: Asc.c_oAscLineJoinType.Bevel},
+                {displayValue: this.textMiter,  value: Asc.c_oAscLineJoinType.Miter}
             ];
             this.cmbJoinType = new Common.UI.ComboBox({
                 el: $('#shape-advanced-join-type'),
@@ -228,7 +260,7 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
                 editable: false,
                 data: this._arrJoinType
             });
-            this.cmbJoinType.setValue(c_oAscLineJoinType.Round);
+            this.cmbJoinType.setValue(Asc.c_oAscLineJoinType.Round);
             this.cmbJoinType.on('selected', _.bind(function(combo, record){
                 if (this._changedProps) {
                     if (this._changedProps.get_stroke()===null)
@@ -243,25 +275,25 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
             for ( var i=0; i<6; i++ )
                 _arrStyles.push({value: i, offsetx: 80*i+10, offsety: 0});
 
-            _arrStyles[0].type = c_oAscLineBeginType.None;
-            _arrStyles[1].type = c_oAscLineBeginType.Triangle;
-            _arrStyles[2].type = c_oAscLineBeginType.Arrow;
-            _arrStyles[3].type = c_oAscLineBeginType.Stealth;
-            _arrStyles[4].type = c_oAscLineBeginType.Diamond;
-            _arrStyles[5].type = c_oAscLineBeginType.Oval;
+            _arrStyles[0].type = Asc.c_oAscLineBeginType.None;
+            _arrStyles[1].type = Asc.c_oAscLineBeginType.Triangle;
+            _arrStyles[2].type = Asc.c_oAscLineBeginType.Arrow;
+            _arrStyles[3].type = Asc.c_oAscLineBeginType.Stealth;
+            _arrStyles[4].type = Asc.c_oAscLineBeginType.Diamond;
+            _arrStyles[5].type = Asc.c_oAscLineBeginType.Oval;
 
             for ( i=0; i<9; i++ )
                 _arrSize.push({value: i, offsetx: 80+10, offsety: 20*(i+1)});
 
-            _arrSize[0].type = c_oAscLineBeginSize.small_small;
-            _arrSize[1].type = c_oAscLineBeginSize.small_mid;
-            _arrSize[2].type = c_oAscLineBeginSize.small_large;
-            _arrSize[3].type = c_oAscLineBeginSize.mid_small;
-            _arrSize[4].type = c_oAscLineBeginSize.mid_mid;
-            _arrSize[5].type = c_oAscLineBeginSize.mid_large;
-            _arrSize[6].type = c_oAscLineBeginSize.large_small;
-            _arrSize[7].type = c_oAscLineBeginSize.large_mid;
-            _arrSize[8].type = c_oAscLineBeginSize.large_large;
+            _arrSize[0].type = Asc.c_oAscLineBeginSize.small_small;
+            _arrSize[1].type = Asc.c_oAscLineBeginSize.small_mid;
+            _arrSize[2].type = Asc.c_oAscLineBeginSize.small_large;
+            _arrSize[3].type = Asc.c_oAscLineBeginSize.mid_small;
+            _arrSize[4].type = Asc.c_oAscLineBeginSize.mid_mid;
+            _arrSize[5].type = Asc.c_oAscLineBeginSize.mid_large;
+            _arrSize[6].type = Asc.c_oAscLineBeginSize.large_small;
+            _arrSize[7].type = Asc.c_oAscLineBeginSize.large_mid;
+            _arrSize[8].type = Asc.c_oAscLineBeginSize.large_large;
 
 
             this.btnBeginStyle = new Common.UI.ComboBox({
@@ -497,7 +529,7 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
                 for (var i=0; i<this.spinners.length; i++) {
                     var spinner = this.spinners[i];
                     spinner.setDefaultUnit(Common.Utils.Metric.metricName[Common.Utils.Metric.getCurrentMetric()]);
-                    spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.cm ? 0.01 : 1);
+                    spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt ? 1 : 0.01);
                 }
             }
             this.sizeMax = {

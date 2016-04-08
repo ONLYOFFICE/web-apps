@@ -1,3 +1,35 @@
+/*
+ *
+ * (c) Copyright Ascensio System Limited 2010-2016
+ *
+ * This program is a free software product. You can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License (AGPL)
+ * version 3 as published by the Free Software Foundation. In accordance with
+ * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
+ * that Ascensio System SIA expressly excludes the warranty of non-infringement
+ * of any third-party rights.
+ *
+ * This program is distributed WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
+ * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ *
+ * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
+ * EU, LV-1021.
+ *
+ * The  interactive user interfaces in modified source and object code versions
+ * of the Program must display Appropriate Legal Notices, as required under
+ * Section 5 of the GNU AGPL version 3.
+ *
+ * Pursuant to Section 7(b) of the License you must retain the original Product
+ * logo when distributing the program. Pursuant to Section 7(e) we decline to
+ * grant you any rights under trademark law for use of our trademarks.
+ *
+ * All the Product's GUI elements, including illustrations and icon sets, as
+ * well as technical writing content are licensed under the terms of the
+ * Creative Commons Attribution-ShareAlike 4.0 International. See the License
+ * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ *
+*/
 /**
  *    Main.js
  *
@@ -81,7 +113,7 @@ define([
                 // Initialize api
                 this.api = new Asc.spreadsheet_api("editor_sdk", "ce-cell-content");
                 this.api.asc_setFontRenderingMode(parseInt(value));
-                this.api.asc_SetFontsPath("../../../../sdkjs/Fonts/");
+                this.api.asc_SetFontsPath("../../../../sdkjs/fonts/");
 
                 this.api.asc_registerCallback('asc_onOpenDocumentProgress',  _.bind(this.onOpenDocument, this));
                 this.api.asc_registerCallback('asc_onEndAction',             _.bind(this.onLongActionEnd, this));
@@ -100,7 +132,7 @@ define([
                     weakCompare     : this._compareActionWeak
                 });
 
-                this.stackLongActions.push({id: InitApplication, type: c_oAscAsyncActionType.BlockInteraction});
+                this.stackLongActions.push({id: InitApplication, type: Asc.c_oAscAsyncActionType.BlockInteraction});
 
                 this.isShowOpenDialog = false;
 
@@ -210,6 +242,7 @@ define([
                 this.appOptions.recent          = this.editorConfig.recent;
                 this.appOptions.createUrl       = this.editorConfig.createUrl;
                 this.appOptions.lang            = this.editorConfig.lang;
+                this.appOptions.location        = (typeof (this.editorConfig.location) == 'string') ? this.editorConfig.location.toLowerCase() : '';
                 this.appOptions.canAutosave     = false;
                 this.appOptions.canAnalytics    = false;
                 this.appOptions.sharingSettingsUrl = this.editorConfig.sharingSettingsUrl;
@@ -238,6 +271,9 @@ define([
                 } else
                     value = SSE.Views.FormulaLang.get(value);
                 if (value) this.api.asc_setLocalization(value);
+
+                if (this.appOptions.location == 'us' || this.appOptions.location == 'ca')
+                    Common.Utils.Metric.setDefaultMetric(Common.Utils.Metric.c_MetricUnits.inch);
             },
 
             loadDocument: function(data) {
@@ -302,7 +338,7 @@ define([
             },
 
             onDownloadAs: function() {
-               this.api.asc_DownloadAs(c_oAscFileType.XLSX, true);
+               this.api.asc_DownloadAs(Asc.c_oAscFileType.XLSX, true);
             },
 
             onProcessMouse: function(data) {
@@ -348,19 +384,19 @@ define([
                 this.headerView.setDocumentCaption(this.api.asc_getDocumentName());
                 this.updateWindowTitle(this.api.asc_isDocumentModified(), true);
 
-                if (type === c_oAscAsyncActionType.BlockInteraction && id == c_oAscAsyncAction.Open) {
+                if (type === Asc.c_oAscAsyncActionType.BlockInteraction && id == Asc.c_oAscAsyncAction.Open) {
                     Common.Gateway.internalMessage('documentReady', {});
                     this.onDocumentReady();
                 }
 
-                action = this.stackLongActions.get({type: c_oAscAsyncActionType.Information});
+                action = this.stackLongActions.get({type: Asc.c_oAscAsyncActionType.Information});
                 action && this.setLongActionView(action);
 
-                if (id == c_oAscAsyncAction.Save) {
+                if (id == Asc.c_oAscAsyncAction.Save) {
                     this.toolbarView.synchronizeChanges();
                 }
 
-                action = this.stackLongActions.get({type: c_oAscAsyncActionType.BlockInteraction});
+                action = this.stackLongActions.get({type: Asc.c_oAscAsyncActionType.BlockInteraction});
                 if (action) {
                     this.setLongActionView(action);
                 } else {
@@ -370,7 +406,7 @@ define([
                         this.loadMask.hide();
                     }
 
-                    if (type == c_oAscAsyncActionType.BlockInteraction && !( (id == c_oAscAsyncAction['LoadDocumentFonts'] || id == c_oAscAsyncAction['ApplyChanges']) && this.dontCloseDummyComment ))
+                    if (type == Asc.c_oAscAsyncActionType.BlockInteraction && !( (id == Asc.c_oAscAsyncAction['LoadDocumentFonts'] || id == Asc.c_oAscAsyncAction['ApplyChanges']) && this.dontCloseDummyComment ))
                         this.onEditComplete(this.loadMask, {restorefocus:true});
                 }
             },
@@ -379,51 +415,51 @@ define([
                 var title = '';
 
                 switch (action.id) {
-                    case c_oAscAsyncAction.Open:
+                    case Asc.c_oAscAsyncAction.Open:
                         title   = this.openTitleText;
                         break;
 
-                    case c_oAscAsyncAction.Save:
+                    case Asc.c_oAscAsyncAction.Save:
                         title   = this.saveTitleText;
                         break;
 
-                    case c_oAscAsyncAction.LoadDocumentFonts:
+                    case Asc.c_oAscAsyncAction.LoadDocumentFonts:
                         title   = this.loadFontsTitleText;
                         break;
 
-                    case c_oAscAsyncAction.LoadDocumentImages:
+                    case Asc.c_oAscAsyncAction.LoadDocumentImages:
                         title   = this.loadImagesTitleText;
                         break;
 
-                    case c_oAscAsyncAction.LoadFont:
+                    case Asc.c_oAscAsyncAction.LoadFont:
                         title   = this.loadFontTitleText;
                         break;
 
-                    case c_oAscAsyncAction.LoadImage:
+                    case Asc.c_oAscAsyncAction.LoadImage:
                         title   = this.loadImageTitleText;
                         break;
 
-                    case c_oAscAsyncAction.DownloadAs:
+                    case Asc.c_oAscAsyncAction.DownloadAs:
                         title   = this.downloadTitleText;
                         break;
 
-                    case c_oAscAsyncAction.Print:
+                    case Asc.c_oAscAsyncAction.Print:
                         title   = this.printTitleText;
                         break;
 
-                    case c_oAscAsyncAction.UploadImage:
+                    case Asc.c_oAscAsyncAction.UploadImage:
                         title   = this.uploadImageTitleText;
                         break;
 
-                    case c_oAscAsyncAction.Recalc:
+                    case Asc.c_oAscAsyncAction.Recalc:
                         title   = this.titleRecalcFormulas;
                         break;
 
-                    case c_oAscAsyncAction.SlowOperation:
+                    case Asc.c_oAscAsyncAction.SlowOperation:
                         title   = this.textPleaseWait;
                         break;
 
-                    case c_oAscAsyncAction['PrepareToSave']:
+                    case Asc.c_oAscAsyncAction['PrepareToSave']:
                         title   = this.savePreparingText;
                         break;
 
@@ -436,7 +472,7 @@ define([
                         break;
                 }
 
-                if (action.type == c_oAscAsyncActionType.BlockInteraction) {
+                if (action.type == Asc.c_oAscAsyncActionType.BlockInteraction) {
                     !this.loadMask && (this.loadMask = new Common.UI.LoadMask({owner: $('#viewport')}));
                     this.loadMask.setTitle(title);
 
@@ -450,7 +486,7 @@ define([
             onApplyEditRights: function(data) {
                 if (data) {
                     if (data.allowed) {
-                        this.onLongActionBegin(c_oAscAsyncActionType['BlockInteraction'],ApplyEditRights);
+                        this.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'],ApplyEditRights);
                         this.appOptions.isEdit = true;
 
                         var me = this;
@@ -510,7 +546,7 @@ define([
                 me._isDocReady = true;
 
                 me.hidePreloader();
-                me.onLongActionEnd(c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
+                me.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
 
                 value = (this.appOptions.isEditMailMerge || this.appOptions.isEditDiagram) ? 100 : Common.localStorage.getItem("sse-settings-zoom");
                 this.api.asc_setZoom(!value?1:parseInt(value)/100);
@@ -704,7 +740,7 @@ define([
 
                 if (!this.appOptions.isEdit) {
                     this.hidePreloader();
-                    this.onLongActionBegin(c_oAscAsyncActionType.BlockInteraction, LoadingDocument);
+                    this.onLongActionBegin(Asc.c_oAscAsyncActionType.BlockInteraction, LoadingDocument);
                 }
             },
 
@@ -761,6 +797,10 @@ define([
 
                 if (!this.appOptions.isEditMailMerge && !this.appOptions.isEditDiagram) {
                     this.api.asc_registerCallback('asc_onSendThemeColors', _.bind(this.onSendThemeColors, this));
+
+                    var printController = app.getController('Print');
+                    printController && this.api && printController.setApi(this.api);
+
                 }
 
                 var celleditorController = this.getApplication().getController('CellEditor');
@@ -774,7 +814,6 @@ define([
                         toolbarController   = application.getController('Toolbar'),
                         statusbarController = application.getController('Statusbar'),
                         rightmenuController = application.getController('RightMenu'),
-                        printController = application.getController('Print'),
                         /** coauthoring begin **/
                             commentsController  = application.getController('Common.Controllers.Comments'),
                         /** coauthoring end **/
@@ -794,7 +833,6 @@ define([
                     }
 
                     rightmenuController && rightmenuController.setApi(me.api);
-                    printController && printController.setApi(me.api);
 
                     if (statusbarController) {
                         statusbarController.getView('Statusbar').changeViewMode(true);
@@ -833,7 +871,7 @@ define([
                     }
 
                     var value = Common.localStorage.getItem('sse-settings-unit');
-                    Common.Utils.Metric.setCurrentMetric((value!==null) ? parseInt(value) : Common.Utils.Metric.c_MetricUnits.cm);
+                    Common.Utils.Metric.setCurrentMetric((value!==null) ? parseInt(value) : Common.Utils.Metric.getDefaultMetric());
 
                     if (!me.appOptions.isEditMailMerge && !me.appOptions.isEditDiagram) {
                         var options = {};
@@ -849,11 +887,11 @@ define([
                     me.api.asc_registerCallback('asc_onParticipantsChanged',     _.bind(me.onAuthParticipantsChanged, me));
                     /** coauthoring end **/
 
-                    if (me.stackLongActions.exist({id: ApplyEditRights, type: c_oAscAsyncActionType['BlockInteraction']})) {
-                        me.onLongActionEnd(c_oAscAsyncActionType['BlockInteraction'], ApplyEditRights);
+                    if (me.stackLongActions.exist({id: ApplyEditRights, type: Asc.c_oAscAsyncActionType['BlockInteraction']})) {
+                        me.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], ApplyEditRights);
                     } else if (!this._isDocReady) {
                         me.hidePreloader();
-                        me.onLongActionBegin(c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
+                        me.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
                     }
 
                     // Message on window close
@@ -873,148 +911,148 @@ define([
 
             onError: function(id, level, errData) {
                 this.hidePreloader();
-                this.onLongActionEnd(c_oAscAsyncActionType.BlockInteraction, LoadingDocument);
+                this.onLongActionEnd(Asc.c_oAscAsyncActionType.BlockInteraction, LoadingDocument);
 
                 var config = {closable: false};
 
                 switch (id) {
-                    case c_oAscError.ID.Unknown:
+                    case Asc.c_oAscError.ID.Unknown:
                         config.msg = this.unknownErrorText;
                         break;
 
-                    case c_oAscError.ID.ConvertationTimeout:
+                    case Asc.c_oAscError.ID.ConvertationTimeout:
                         config.msg = this.convertationTimeoutText;
                         break;
 
-                    case c_oAscError.ID.ConvertationError:
+                    case Asc.c_oAscError.ID.ConvertationError:
                         config.msg = this.convertationErrorText;
                         break;
 
-                    case c_oAscError.ID.DownloadError:
+                    case Asc.c_oAscError.ID.DownloadError:
                         config.msg = this.downloadErrorText;
                         break;
 
-                    case c_oAscError.ID.UplImageSize:
+                    case Asc.c_oAscError.ID.UplImageSize:
                         config.msg = this.uploadImageSizeMessage;
                         break;
 
-                    case c_oAscError.ID.UplImageExt:
+                    case Asc.c_oAscError.ID.UplImageExt:
                         config.msg = this.uploadImageExtMessage;
                         break;
 
-                    case c_oAscError.ID.UplImageFileCount:
+                    case Asc.c_oAscError.ID.UplImageFileCount:
                         config.msg = this.uploadImageFileCountMessage;
                         break;
 
-                    case c_oAscError.ID.PastInMergeAreaError:
+                    case Asc.c_oAscError.ID.PastInMergeAreaError:
                         config.msg = this.pastInMergeAreaError;
                         break;
 
-                    case c_oAscError.ID.FrmlWrongCountParentheses:
+                    case Asc.c_oAscError.ID.FrmlWrongCountParentheses:
                         config.msg = this.errorWrongBracketsCount;
                         break;
 
-                    case c_oAscError.ID.FrmlWrongOperator:
+                    case Asc.c_oAscError.ID.FrmlWrongOperator:
                         config.msg = this.errorWrongOperator;
                         break;
 
-                    case c_oAscError.ID.FrmlWrongMaxArgument:
+                    case Asc.c_oAscError.ID.FrmlWrongMaxArgument:
                         config.msg = this.errorCountArgExceed;
                         break;
 
-                    case c_oAscError.ID.FrmlWrongCountArgument:
+                    case Asc.c_oAscError.ID.FrmlWrongCountArgument:
                         config.msg = this.errorCountArg;
                         break;
 
-                    case c_oAscError.ID.FrmlWrongFunctionName:
+                    case Asc.c_oAscError.ID.FrmlWrongFunctionName:
                         config.msg = this.errorFormulaName;
                         break;
 
-                    case c_oAscError.ID.FrmlAnotherParsingError:
+                    case Asc.c_oAscError.ID.FrmlAnotherParsingError:
                         config.msg = this.errorFormulaParsing;
                         break;
 
-                    case c_oAscError.ID.FrmlWrongArgumentRange:
+                    case Asc.c_oAscError.ID.FrmlWrongArgumentRange:
                         config.msg = this.errorArgsRange;
                         break;
 
-                    case c_oAscError.ID.UnexpectedGuid:
+                    case Asc.c_oAscError.ID.UnexpectedGuid:
                         config.msg = this.errorUnexpectedGuid;
                         break;
 
-                    case c_oAscError.ID.Database:
+                    case Asc.c_oAscError.ID.Database:
                         config.msg = this.errorDatabaseConnection;
                         break;
 
-                    case c_oAscError.ID.FileRequest:
+                    case Asc.c_oAscError.ID.FileRequest:
                         config.msg = this.errorFileRequest;
                         break;
 
-                    case c_oAscError.ID.FileVKey:
+                    case Asc.c_oAscError.ID.FileVKey:
                         config.msg = this.errorFileVKey;
                         break;
 
-                    case c_oAscError.ID.StockChartError:
+                    case Asc.c_oAscError.ID.StockChartError:
                         config.msg = this.errorStockChart;
                         break;
 
-                    case c_oAscError.ID.DataRangeError:
+                    case Asc.c_oAscError.ID.DataRangeError:
                         config.msg = this.errorDataRange;
                         break;
 
-                    case c_oAscError.ID.FrmlOperandExpected:
+                    case Asc.c_oAscError.ID.FrmlOperandExpected:
                         config.msg = this.errorOperandExpected;
                         break;
 
-                    case c_oAscError.ID.VKeyEncrypt:
+                    case Asc.c_oAscError.ID.VKeyEncrypt:
                         config.msg = this.errorKeyEncrypt;
                         break;
 
-                    case c_oAscError.ID.KeyExpire:
+                    case Asc.c_oAscError.ID.KeyExpire:
                         config.msg = this.errorKeyExpire;
                         break;
 
-                    case c_oAscError.ID.UserCountExceed:
+                    case Asc.c_oAscError.ID.UserCountExceed:
                         config.msg = this.errorUsersExceed;
                         break;
 
-                    case c_oAscError.ID.CannotMoveRange:
+                    case Asc.c_oAscError.ID.CannotMoveRange:
                         config.msg = this.errorMoveRange;
                         break;
 
-                    case c_oAscError.ID.UplImageUrl:
+                    case Asc.c_oAscError.ID.UplImageUrl:
                         config.msg = this.errorBadImageUrl;
                         break;
 
-                    case c_oAscError.ID.CoAuthoringDisconnect:
+                    case Asc.c_oAscError.ID.CoAuthoringDisconnect:
                         config.msg = this.errorCoAuthoringDisconnect;
                         break;
 
-                    case c_oAscError.ID.ConvertationPassword:
+                    case Asc.c_oAscError.ID.ConvertationPassword:
                         config.msg = this.errorFilePassProtect;
                         break;
 
-                    case c_oAscError.ID.AutoFilterDataRangeError:
+                    case Asc.c_oAscError.ID.AutoFilterDataRangeError:
                         config.msg = this.errorAutoFilterDataRange;
                         break;
 
-                    case c_oAscError.ID.AutoFilterChangeFormatTableError:
+                    case Asc.c_oAscError.ID.AutoFilterChangeFormatTableError:
                         config.msg = this.errorAutoFilterChangeFormatTable;
                         break;
 
-                    case c_oAscError.ID.AutoFilterChangeError:
+                    case Asc.c_oAscError.ID.AutoFilterChangeError:
                         config.msg = this.errorAutoFilterChange;
                         break;
 
-                    case c_oAscError.ID.AutoFilterMoveToHiddenRangeError:
+                    case Asc.c_oAscError.ID.AutoFilterMoveToHiddenRangeError:
                         config.msg = this.errorAutoFilterHiddenRange;
                         break;
 
-                    case c_oAscError.ID.CannotFillRange:
+                    case Asc.c_oAscError.ID.CannotFillRange:
                         config.msg = this.errorFillRange;
                         break;
 
-                    case c_oAscError.ID.UserDrop:
+                    case Asc.c_oAscError.ID.UserDrop:
                         if (this._state.lostEditingRights) {
                             this._state.lostEditingRights = false;
                             return;
@@ -1023,35 +1061,35 @@ define([
                         config.msg = this.errorUserDrop;
                         break;
 
-                    case c_oAscError.ID.InvalidReferenceOrName:
+                    case Asc.c_oAscError.ID.InvalidReferenceOrName:
                         config.msg = this.errorInvalidRef;
                         break;
 
-                    case c_oAscError.ID.LockCreateDefName:
+                    case Asc.c_oAscError.ID.LockCreateDefName:
                         config.msg = this.errorCreateDefName;
                         break;
 
-                    case c_oAscError.ID.PasteMaxRangeError:
+                    case Asc.c_oAscError.ID.PasteMaxRangeError:
                         config.msg = this.errorPasteMaxRange;
                         break;
 
-                    case c_oAscError.ID.LockedAllError:
+                    case Asc.c_oAscError.ID.LockedAllError:
                         config.msg = this.errorLockedAll;
                         break;
 
-                    case c_oAscError.ID.Warning:
+                    case Asc.c_oAscError.ID.Warning:
                         config.msg = this.errorConnectToServer;
                         break;
 
-                    case c_oAscError.ID.LockedWorksheetRename:
+                    case Asc.c_oAscError.ID.LockedWorksheetRename:
                         config.msg = this.errorLockedWorksheetRename;
                         break;
                     
-                    case c_oAscError.ID.OpenWarning:
+                    case Asc.c_oAscError.ID.OpenWarning:
                         config.msg = this.errorOpenWarning;
                         break;
 
-                    case c_oAscError.ID.FrmlWrongReferences:
+                    case Asc.c_oAscError.ID.FrmlWrongReferences:
                         config.msg = this.errorFrmlWrongReferences;
                         break;
 
@@ -1061,7 +1099,7 @@ define([
                 }
 
 
-                if (level == c_oAscError.Level.Critical) {
+                if (level == Asc.c_oAscError.Level.Critical) {
                     Common.Gateway.reportError(id, config.msg);
 
                     config.title = this.criticalErrorTitle;
@@ -1080,7 +1118,7 @@ define([
                     config.iconCls  = 'warn';
                     config.buttons  = ['ok'];
                     config.callback = _.bind(function(btn){
-                        if (id == c_oAscError.ID.Warning && btn == 'ok' && this.appOptions.canDownload) {
+                        if (id == Asc.c_oAscError.ID.Warning && btn == 'ok' && this.appOptions.canDownload) {
                             Common.UI.Menu.Manager.hideAll();
                             (this.appOptions.isDesktopApp && this.appOptions.isOffline) ? this.api.asc_DownloadAs() : this.getApplication().getController('LeftMenu').leftMenu.showMenu('file:saveas');
                         }
@@ -1228,7 +1266,7 @@ define([
                     Common.Utils.applyCustomization(this.appOptions.customization, mapCustomizationElements);
                 }
                 
-                this.stackLongActions.pop({id: InitApplication, type: c_oAscAsyncActionType.BlockInteraction});
+                this.stackLongActions.pop({id: InitApplication, type: Asc.c_oAscAsyncActionType.BlockInteraction});
                 Common.NotificationCenter.trigger('layout:changed', 'main');
                 $('#loading-mask').hide().remove();
             },
@@ -1244,14 +1282,14 @@ define([
             onUpdateVersion: function(callback) {
                 var me = this;
                 me.needToUpdateVersion = true;
-                me.onLongActionEnd(c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
+                me.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
                 Common.UI.error({
                     msg: this.errorUpdateVersion,
                     callback: function() {
                         _.defer(function() {
                             Common.Gateway.updateVersion();
                             if (callback) callback.call(me);
-                            me.onLongActionBegin(c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
+                            me.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
                         })
                     }
                 });
@@ -1259,7 +1297,7 @@ define([
 
             onAdvancedOptions: function(advOptions) {
                 var type = advOptions.asc_getOptionId();
-                if (type == c_oAscAdvancedOptionsID.CSV) {
+                if (type == Asc.c_oAscAdvancedOptionsID.CSV) {
                     var me = this;
                     var dlg = new Common.Views.OpenDialog({
                         type: type,
@@ -1276,7 +1314,7 @@ define([
 
                     this.isShowOpenDialog = true;
                     this.loadMask && this.loadMask.hide();
-                    this.onLongActionEnd(c_oAscAsyncActionType.BlockInteraction, LoadingDocument);
+                    this.onLongActionEnd(Asc.c_oAscAsyncActionType.BlockInteraction, LoadingDocument);
 
                     dlg.show();
                 }
@@ -1299,7 +1337,7 @@ define([
             },
 
             onConfirmAction: function(id, apiCallback) {
-                if (id == c_oAscConfirm.ConfirmReplaceRange) {
+                if (id == Asc.c_oAscConfirm.ConfirmReplaceRange) {
                     var me = this;
                     Common.UI.warning({
                         closable: false,
@@ -1515,7 +1553,7 @@ define([
 
             unitsChanged: function(m) {
                 var value = Common.localStorage.getItem("sse-settings-unit");
-                Common.Utils.Metric.setCurrentMetric((value!==null) ? parseInt(value) : Common.Utils.Metric.c_MetricUnits.cm);
+                Common.Utils.Metric.setCurrentMetric((value!==null) ? parseInt(value) : Common.Utils.Metric.getDefaultMetric());
                 this.getApplication().getController('RightMenu').updateMetricUnit();
                 this.getApplication().getController('Print').getView('MainSettingsPrint').updateMetricUnit();
             },
@@ -1604,10 +1642,7 @@ define([
 
             onPrint: function() {
                 if (!this.appOptions.canPrint) return;
-                
-                if (this.api)
-                    this.api.asc_Print(undefined, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera); // if isChrome or isSafari or isOpera == true use asc_onPrintUrl event
-                Common.component.Analytics.trackEvent('Print');
+                Common.NotificationCenter.trigger('print', this);
             },
 
             onPrintUrl: function(url) {

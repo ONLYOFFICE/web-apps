@@ -1,3 +1,35 @@
+/*
+ *
+ * (c) Copyright Ascensio System Limited 2010-2016
+ *
+ * This program is a free software product. You can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License (AGPL)
+ * version 3 as published by the Free Software Foundation. In accordance with
+ * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
+ * that Ascensio System SIA expressly excludes the warranty of non-infringement
+ * of any third-party rights.
+ *
+ * This program is distributed WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
+ * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ *
+ * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
+ * EU, LV-1021.
+ *
+ * The  interactive user interfaces in modified source and object code versions
+ * of the Program must display Appropriate Legal Notices, as required under
+ * Section 5 of the GNU AGPL version 3.
+ *
+ * Pursuant to Section 7(b) of the License you must retain the original Product
+ * logo when distributing the program. Pursuant to Section 7(e) we decline to
+ * grant you any rights under trademark law for use of our trademarks.
+ *
+ * All the Product's GUI elements, including illustrations and icon sets, as
+ * well as technical writing content are licensed under the terms of the
+ * Creative Commons Attribution-ShareAlike 4.0 International. See the License
+ * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ *
+*/
 Ext.define('PE.controller.Main', {
     extend: 'Ext.app.Controller',
     editMode: false,
@@ -28,7 +60,7 @@ Ext.define('PE.controller.Main', {
             app = this.getApplication(),
             profile = app.getCurrentProfile();
 
-        api = new asc_docs_api("id-sdkeditor");
+        api = new Asc.asc_docs_api("id-sdkeditor");
         api.SetMobileVersion(true);
         api.CreateComponents();
         api.asc_SetFontsPath("../../../../sdkjs/fonts/");
@@ -140,11 +172,11 @@ Ext.define('PE.controller.Main', {
         var text = '';
 
         switch (id) {
-            case c_oAscAsyncAction['Print']:
+            case Asc.c_oAscAsyncAction['Print']:
                 text = this.printText;
         }
 
-        if (type == c_oAscAsyncActionType['BlockInteraction']) {
+        if (type == Asc.c_oAscAsyncActionType['BlockInteraction']) {
             Ext.Viewport.setMasked({
                 xtype   : 'loadmask',
                 message : text
@@ -166,55 +198,55 @@ Ext.define('PE.controller.Main', {
 
         switch (id)
         {
-            case c_oAscError.ID.Unknown:
+            case Asc.c_oAscError.ID.Unknown:
                 config.message = this.unknownErrorText;
                 break;
 
-            case c_oAscError.ID.ConvertationTimeout:
+            case Asc.c_oAscError.ID.ConvertationTimeout:
                 config.message = this.convertationTimeoutText;
                 break;
 
-            case c_oAscError.ID.ConvertationError:
+            case Asc.c_oAscError.ID.ConvertationError:
                 config.message = this.convertationErrorText;
                 break;
 
-            case c_oAscError.ID.DownloadError:
+            case Asc.c_oAscError.ID.DownloadError:
                 config.message = this.downloadErrorText;
                 break;
 
-            case c_oAscError.ID.UplImageSize:
+            case Asc.c_oAscError.ID.UplImageSize:
                 config.message = this.uploadImageSizeMessage;
                 break;
 
-            case c_oAscError.ID.UplImageExt:
+            case Asc.c_oAscError.ID.UplImageExt:
                 config.message = this.uploadImageExtMessage;
                 break;
 
-            case c_oAscError.ID.UplImageFileCount:
+            case Asc.c_oAscError.ID.UplImageFileCount:
                 config.message = this.uploadImageFileCountMessage;
                 break;
 
-            case c_oAscError.ID.SplitCellMaxRows:
+            case Asc.c_oAscError.ID.SplitCellMaxRows:
                 config.message = this.splitMaxRowsErrorText.replace('%1', errData.get_Value());
                 break;
 
-            case c_oAscError.ID.SplitCellMaxCols:
+            case Asc.c_oAscError.ID.SplitCellMaxCols:
                 config.message = this.splitMaxColsErrorText.replace('%1', errData.get_Value());
                 break;
 
-            case c_oAscError.ID.SplitCellRowsDivider:
+            case Asc.c_oAscError.ID.SplitCellRowsDivider:
                 config.message = this.splitDividerErrorText.replace('%1', errData.get_Value());
                 break;
 
-            case c_oAscError.ID.VKeyEncrypt:
+            case Asc.c_oAscError.ID.VKeyEncrypt:
                 config.msg = this.errorKeyEncrypt;
                 break;
 
-            case c_oAscError.ID.KeyExpire:
+            case Asc.c_oAscError.ID.KeyExpire:
                 config.msg = this.errorKeyExpire;
                 break;
 
-            case c_oAscError.ID.UserCountExceed:
+            case Asc.c_oAscError.ID.UserCountExceed:
                 config.msg = this.errorUsersExceed;
                 break;
 
@@ -225,7 +257,7 @@ Ext.define('PE.controller.Main', {
 
 
 
-        if (level == c_oAscError.Level.Critical) {
+        if (level == Asc.c_oAscError.Level.Critical) {
 
             // report only critical errors
             Common.Gateway.reportError(id, config.message);
@@ -273,7 +305,7 @@ Ext.define('PE.controller.Main', {
     },
 
     onDownloadAs: function() {
-       this.api.asc_DownloadAs(c_oAscFileType.PPTX, true);
+       this.api.asc_DownloadAs(Asc.c_oAscFileType.PPTX, true);
     },
 
     _hideLoadSplash: function(){

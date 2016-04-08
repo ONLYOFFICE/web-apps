@@ -99,13 +99,13 @@ define([
             });
             this.lockedControls.push(this.chFilter);
 
-            this.chHeader.on('change', _.bind(this.onCheckTemplateChange, this, c_oAscChangeTableStyleInfo.rowHeader));
-            this.chTotal.on('change', _.bind(this.onCheckTemplateChange, this, c_oAscChangeTableStyleInfo.rowTotal));
-            this.chBanded.on('change', _.bind(this.onCheckTemplateChange, this, c_oAscChangeTableStyleInfo.rowBanded));
-            this.chFirst.on('change', _.bind(this.onCheckTemplateChange, this, c_oAscChangeTableStyleInfo.columnFirst));
-            this.chLast.on('change', _.bind(this.onCheckTemplateChange, this, c_oAscChangeTableStyleInfo.columnLast));
-            this.chColBanded.on('change', _.bind(this.onCheckTemplateChange, this, c_oAscChangeTableStyleInfo.columnBanded));
-            this.chFilter.on('change', _.bind(this.onCheckTemplateChange, this, c_oAscChangeTableStyleInfo.filterButton));
+            this.chHeader.on('change', _.bind(this.onCheckTemplateChange, this, Asc.c_oAscChangeTableStyleInfo.rowHeader));
+            this.chTotal.on('change', _.bind(this.onCheckTemplateChange, this, Asc.c_oAscChangeTableStyleInfo.rowTotal));
+            this.chBanded.on('change', _.bind(this.onCheckTemplateChange, this, Asc.c_oAscChangeTableStyleInfo.rowBanded));
+            this.chFirst.on('change', _.bind(this.onCheckTemplateChange, this, Asc.c_oAscChangeTableStyleInfo.columnFirst));
+            this.chLast.on('change', _.bind(this.onCheckTemplateChange, this, Asc.c_oAscChangeTableStyleInfo.columnLast));
+            this.chColBanded.on('change', _.bind(this.onCheckTemplateChange, this, Asc.c_oAscChangeTableStyleInfo.columnBanded));
+            this.chFilter.on('change', _.bind(this.onCheckTemplateChange, this, Asc.c_oAscChangeTableStyleInfo.filterButton));
 
             this.cmbTableTemplate = new Common.UI.ComboDataView({
                 itemWidth: 61,
@@ -144,19 +144,19 @@ define([
                 menu        : new Common.UI.Menu({
                     menuAlign: 'tr-br',
                     items: [
-                        { caption: this.selectRowText,      value:  c_oAscChangeSelectionFormatTable.row,   idx: 0 },
-                        { caption: this.selectColumnText,   value: c_oAscChangeSelectionFormatTable.column, idx: 1 },
-                        { caption: this.selectDataText,     value: c_oAscChangeSelectionFormatTable.data,   idx: 2 },
-                        { caption: this.selectTableText,    value: c_oAscChangeSelectionFormatTable.all,    idx: 3 },
+                        { caption: this.selectRowText,      value:  Asc.c_oAscChangeSelectionFormatTable.row,   idx: 0 },
+                        { caption: this.selectColumnText,   value: Asc.c_oAscChangeSelectionFormatTable.column, idx: 1 },
+                        { caption: this.selectDataText,     value: Asc.c_oAscChangeSelectionFormatTable.data,   idx: 2 },
+                        { caption: this.selectTableText,    value: Asc.c_oAscChangeSelectionFormatTable.all,    idx: 3 },
                         { caption: '--' },
-                        { caption: this.insertRowAboveText, value: c_oAscInsertOptions.InsertTableRowAbove,     idx: 4 },
-                        { caption: this.insertRowBelowText, value: c_oAscInsertOptions.InsertTableRowBelow,     idx: 5 },
-                        { caption: this.insertColumnLeftText,  value: c_oAscInsertOptions.InsertTableColLeft,   idx: 6 },
-                        { caption: this.insertColumnRightText, value: c_oAscInsertOptions.InsertTableColRight,  idx: 7 },
+                        { caption: this.insertRowAboveText, value: Asc.c_oAscInsertOptions.InsertTableRowAbove,     idx: 4 },
+                        { caption: this.insertRowBelowText, value: Asc.c_oAscInsertOptions.InsertTableRowBelow,     idx: 5 },
+                        { caption: this.insertColumnLeftText,  value: Asc.c_oAscInsertOptions.InsertTableColLeft,   idx: 6 },
+                        { caption: this.insertColumnRightText, value: Asc.c_oAscInsertOptions.InsertTableColRight,  idx: 7 },
                         { caption: '--' },
-                        { caption: this.deleteRowText,      value: c_oAscDeleteOptions.DeleteRows,      idx: 8 },
-                        { caption: this.deleteColumnText,   value: c_oAscDeleteOptions.DeleteColumns,   idx: 9 },
-                        { caption: this.deleteTableText,    value: c_oAscDeleteOptions.DeleteTable,     idx: 10 }
+                        { caption: this.deleteRowText,      value: Asc.c_oAscDeleteOptions.DeleteRows,      idx: 8 },
+                        { caption: this.deleteColumnText,   value: Asc.c_oAscDeleteOptions.DeleteColumns,   idx: 9 },
+                        { caption: this.deleteTableText,    value: Asc.c_oAscDeleteOptions.DeleteTable,     idx: 10 }
                     ]
                 })
             });
@@ -186,7 +186,7 @@ define([
         onTableTemplateSelect: function(combo, record){
             if (this.api && !this._noApply) {
                 if (this._state.TemplateName)
-                    this.api.asc_changeAutoFilter(this._state.TableName, c_oAscChangeFilterOptions.style, record.get('name'));
+                    this.api.asc_changeAutoFilter(this._state.TableName, Asc.c_oAscChangeFilterOptions.style, record.get('name'));
             }
             Common.NotificationCenter.trigger('edit:complete', this);
         },
@@ -218,13 +218,13 @@ define([
             if (isvalid.asc_getStatus() === true) isvalid = true;
             else {
                 switch (isvalid.asc_getReason()) {
-                    case c_oAscDefinedNameReason.IsLocked:
+                    case Asc.c_oAscDefinedNameReason.IsLocked:
                         isvalid = this.textIsLocked;
                     break;
-                    case c_oAscDefinedNameReason.Existed:
+                    case Asc.c_oAscDefinedNameReason.Existed:
                         isvalid = this.textExistName;
                     break;
-                    case c_oAscDefinedNameReason.NameReserved:
+                    case Asc.c_oAscDefinedNameReason.NameReserved:
                         isvalid = this.textReservedName;
                     break;
                     default:
@@ -386,7 +386,7 @@ define([
             if (me.api) {
                 var handlerDlg = function(dlg, result) {
                     if (result == 'ok') {
-                        me.api.asc_setSelectionDialogMode(c_oAscSelectionDialogType.None);
+                        me.api.asc_setSelectionDialogMode(Asc.c_oAscSelectionDialogType.None);
                         me.api.asc_changeTableRange(me._state.TableName, dlg.getSettings());
                     }
 
