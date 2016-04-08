@@ -51,12 +51,12 @@
             <div class="separator horizontal"></div>
         </td>
     </tr>
-    <tr>
+    <tr class="hidden">
         <td colspan=2>
             <label class="header"><%= scope.textTableName %></label>
         </td>
     </tr>
-    <tr>
+    <tr class="hidden">
         <td colspan=2 class="padding-small">
             <div id="table-txt-name" class="input-row"  style="width: 100%;"></div>
         </td>
