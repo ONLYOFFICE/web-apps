@@ -327,6 +327,8 @@ define([
                     this.chFilter.setValue(value, true);
                     this._state.CheckFilter=value;
                 }
+                if (this.chFilter.isDisabled() == this._state.CheckHeader)
+                    this.chFilter.setDisabled(!this._state.CheckHeader);
 
                 if (needTablePictures)
                     this.onApiInitTableTemplates(this.api.asc_getTablePictures(props));
