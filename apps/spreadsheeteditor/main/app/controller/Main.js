@@ -242,6 +242,7 @@ define([
                 this.appOptions.recent          = this.editorConfig.recent;
                 this.appOptions.createUrl       = this.editorConfig.createUrl;
                 this.appOptions.lang            = this.editorConfig.lang;
+                this.appOptions.location        = (typeof (this.editorConfig.location) == 'string') ? this.editorConfig.location.toLowerCase() : '';
                 this.appOptions.canAutosave     = false;
                 this.appOptions.canAnalytics    = false;
                 this.appOptions.sharingSettingsUrl = this.editorConfig.sharingSettingsUrl;
@@ -270,6 +271,9 @@ define([
                 } else
                     value = SSE.Views.FormulaLang.get(value);
                 if (value) this.api.asc_setLocalization(value);
+
+                if (this.appOptions.location == 'us' || this.appOptions.location == 'ca')
+                    Common.Utils.Metric.setDefaultMetric(Common.Utils.Metric.c_MetricUnits.inch);
             },
 
             loadDocument: function(data) {
@@ -867,7 +871,7 @@ define([
                     }
 
                     var value = Common.localStorage.getItem('sse-settings-unit');
-                    Common.Utils.Metric.setCurrentMetric((value!==null) ? parseInt(value) : Common.Utils.Metric.c_MetricUnits.cm);
+                    Common.Utils.Metric.setCurrentMetric((value!==null) ? parseInt(value) : Common.Utils.Metric.getDefaultMetric());
 
                     if (!me.appOptions.isEditMailMerge && !me.appOptions.isEditDiagram) {
                         var options = {};
@@ -1549,7 +1553,7 @@ define([
 
             unitsChanged: function(m) {
                 var value = Common.localStorage.getItem("sse-settings-unit");
-                Common.Utils.Metric.setCurrentMetric((value!==null) ? parseInt(value) : Common.Utils.Metric.c_MetricUnits.cm);
+                Common.Utils.Metric.setCurrentMetric((value!==null) ? parseInt(value) : Common.Utils.Metric.getDefaultMetric());
                 this.getApplication().getController('RightMenu').updateMetricUnit();
                 this.getApplication().getController('Print').getView('MainSettingsPrint').updateMetricUnit();
             },

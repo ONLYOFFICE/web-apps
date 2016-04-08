@@ -661,7 +661,7 @@ define([
 
             value = Common.localStorage.getItem("sse-settings-unit");
             item = this.cmbUnit.store.findWhere({value: parseInt(value)});
-            this.cmbUnit.setValue(item ? parseInt(item.get('value')) : 0);
+            this.cmbUnit.setValue(item ? parseInt(item.get('value')) : Common.Utils.Metric.getDefaultMetric());
             this._oldUnits = this.cmbUnit.getValue();
 
             value = Common.localStorage.getItem("sse-settings-autosave");
