@@ -163,6 +163,10 @@ define([
             else {
                 if (isvalid == Asc.c_oAscError.ID.AutoFilterDataRangeError) {
                     Common.UI.warning({msg: this.errorAutoFilterDataRange});
+                } else if (isvalid == Asc.c_oAscError.ID.FTChangeTableRangeError) {
+                    Common.UI.warning({msg: this.errorFTChangeTableRangeError});
+                } if (isvalid == Asc.c_oAscError.ID.FTRangeIncludedOtherTables) {
+                    Common.UI.warning({msg: this.errorFTRangeIncludedOtherTables});
                 }
             }
             return false;
@@ -212,6 +216,8 @@ define([
         textCancel  : 'Cancel',
         txtEmpty    : 'This field is required',
         txtInvalidRange: 'ERROR! Invalid cells range',
-        errorAutoFilterDataRange: 'The operation could not be done for the selected range of cells.<br>Select a uniform data range inside or outside the table and try again.'
+        errorAutoFilterDataRange: 'The operation could not be done for the selected range of cells.<br>Select a uniform data range inside or outside the table and try again.',
+        errorFTChangeTableRangeError: 'Operation could not be completed for the selected cell range.<br>Select a range so that the first table row was on the same row<br>and the resulting table overlapped the current one.',
+        errorFTRangeIncludedOtherTables: 'Operation could not be completed for the selected cell range.<br>Select a range which does not include other tables.'
     }, SSE.Views.TableOptionsDialog || {}))
 });

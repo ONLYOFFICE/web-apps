@@ -825,6 +825,8 @@
   "SSE.Views.TableOptionsDialog.txtFormat": "Create table",
   "SSE.Views.TableOptionsDialog.txtInvalidRange": "ERROR! Invalid cells range",
   "SSE.Views.TableOptionsDialog.txtTitle": "Title",
+  "SSE.Views.TableOptionsDialog.errorFTChangeTableRangeError": "Operation could not be completed for the selected cell range.<br>Select a range so that the first table row was on the same row<br>and the resulting table overlapped the current one.",
+  "SSE.Views.TableOptionsDialog.errorFTRangeIncludedOtherTables": "Operation could not be completed for the selected cell range.<br>Select a range which does not include other tables.",
   "SSE.Views.TextArtSettings.strBackground": "Background color",
   "SSE.Views.TextArtSettings.strColor": "Color",
   "SSE.Views.TextArtSettings.strFill": "Fill",
