@@ -551,8 +551,7 @@ define([
                     return;
 
                 var me = this,
-                    value,
-                    tips = [];
+                    value;
 
                 me._isDocReady = true;
 
@@ -564,12 +563,20 @@ define([
                 var zf = (value!==null) ? parseInt(value) : -1;
                 (zf == -1) ? this.api.zoomFitToPage() : this.api.zoom(zf);
 
-                if (!window['AscDesktopEditor']) {
-                    Common.Utils.isIE9m && tips.push(me.warnBrowserIE9);
-                    !Common.Utils.isGecko && (Math.abs(me.getBrowseZoomLevel() - 1) > 0.1) && tips.push(Common.Utils.String.platformKey(me.warnBrowserZoom, '{0}'));
+                function checkWarns() {
+                    if (!window['AscDesktopEditor']) {
+                        var tips = [];
+                        Common.Utils.isIE9m && tips.push(me.warnBrowserIE9);
+                        !Common.Utils.isGecko && (Math.abs(me.getBrowseZoomLevel() - 1) > 0.1) && tips.push(Common.Utils.String.platformKey(me.warnBrowserZoom, '{0}'));
 
-                    if (tips.length) me.showTips(tips);
+                        if (tips.length) me.showTips(tips);
+                    }
+                    document.removeEventListener('visibilitychange', checkWarns);
                 }
+
+                if (typeof document.hidden !== 'undefined' && document.hidden) {
+                    document.addEventListener('visibilitychange', checkWarns);
+                } else checkWarns();
 
                 me.api.asc_registerCallback('asc_onStartAction',            _.bind(me.onLongActionBegin, me));
                 me.api.asc_registerCallback('asc_onEndAction',              _.bind(me.onLongActionEnd, me));

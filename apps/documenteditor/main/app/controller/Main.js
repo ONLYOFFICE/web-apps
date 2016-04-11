@@ -772,12 +772,11 @@ define([
 
                         if (tips.length) me.showTips(tips);
                     }
+                    document.removeEventListener('visibilitychange', checkWarns);
                 }
 
                 if (typeof document.hidden !== 'undefined' && document.hidden) {
-                    document.addEventListener('visibilitychange', function() {
-                        setTimeout(checkWarns, 50);
-                    });
+                    document.addEventListener('visibilitychange', checkWarns);
                 } else checkWarns();
 
                 me.api.asc_registerCallback('asc_onStartAction',            _.bind(me.onLongActionBegin, me));

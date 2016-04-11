@@ -540,8 +540,7 @@ define([
                     return;
 
                 var me = this,
-                    value,
-                    tips = [];
+                    value;
 
                 me._isDocReady = true;
 
@@ -667,15 +666,21 @@ define([
                 $(document).on('contextmenu', _.bind(me.onContextMenu, me));
 //                    me.getViewport().getEl().un('keypress', me.lockEscapeKey, me);
 
-                if (!window['AscDesktopEditor']) {
-                    Common.Utils.isIE9m && tips.push(me.warnBrowserIE9);
-                    !Common.Utils.isGecko &&
-                        !me.appOptions.isEditMailMerge && !me.appOptions.isEditDiagram &&
-                            !me.appOptions.nativeApp &&
+                function checkWarns() {
+                    if (!window['AscDesktopEditor']) {
+                        var tips = [];
+                        Common.Utils.isIE9m && tips.push(me.warnBrowserIE9);
+                        !Common.Utils.isGecko && !me.appOptions.isEditMailMerge && !me.appOptions.isEditDiagram && !me.appOptions.nativeApp &&
                         (Math.abs(me.getBrowseZoomLevel() - 1) > 0.1) && tips.push(Common.Utils.String.platformKey(me.warnBrowserZoom, '{0}'));
 
-                    if (tips.length) me.showTips(tips);
+                        if (tips.length) me.showTips(tips);
+                    }
+                    document.removeEventListener('visibilitychange', checkWarns);
                 }
+
+                if (typeof document.hidden !== 'undefined' && document.hidden) {
+                    document.addEventListener('visibilitychange', checkWarns);
+                } else checkWarns();
 
                 if (this._state.licenseWarning) {
                     value = Common.localStorage.getItem("de-license-warning");
