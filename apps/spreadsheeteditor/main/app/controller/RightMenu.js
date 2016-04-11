@@ -112,6 +112,7 @@ define([
 
             if (SelectedObjects.length<=0 && !this.rightmenu.minimizedMode) {
                 this.rightmenu.clearSelection();
+                this._openRightMenu = true;
             }
 
             this.onFocusObject(SelectedObjects);
