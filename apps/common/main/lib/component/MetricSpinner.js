@@ -268,7 +268,7 @@ define([
                     }
                 }
 
-                if (this.options.defaultUnit !== units) {
+                if (this.options.defaultUnit !== units && !showError) {
                     number = this._recalcUnits(number, units);
                 }
                 if (number > this.options.maxValue) { number = this.options.maxValue; showError = true; }
