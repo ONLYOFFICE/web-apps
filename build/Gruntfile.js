@@ -173,7 +173,7 @@ module.exports = function(grunt) {
                     ' *\n' +
                     ' * <%= pkg.homepage %> \n' +
                     ' *\n' +
-                    ' * Version: <%= pkg.version %> (build:<%= pkg.build %>, rev:' + (process.env['GIT_COMMIT'] || 'local') + ')\n' +
+                    ' * Version: ' + process.env['PRODUCT_VERSION'] + ' (build:' + process.env['BUILD_NUMBER'] + ')\n' +
                     ' */\n'
                 },
                 dist: {
