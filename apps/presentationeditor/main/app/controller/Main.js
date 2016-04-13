@@ -683,14 +683,19 @@ define([
                     if (now - value > 86400000) {
                         Common.localStorage.setItem("de-license-warning", now);
                         Common.UI.info({
+                            width: 400,
                             title: this.textNoLicenseTitle,
                             msg  : this.warnNoLicense,
-                            buttons: ['custom'],
-                            primary: 'custom',
-                            customButtonText: this.textBuyNow,
+                            buttons: [
+                                {value: 'buynow', caption: this.textBuyNow},
+                                {value: 'contact', caption: this.textContactUs}
+                            ],
+                            primary: 'buynow',
                             callback: function(btn) {
-                                if (btn == 'custom')
+                                if (btn == 'buynow')
                                     window.open('http://www.onlyoffice.com/enterprise-edition.aspx', "_blank");
+                                else if (btn == 'contact')
+                                    window.open('mailto:sales@onlyoffice.com', "_blank");
                             }
                         });
                     }
@@ -1605,8 +1610,9 @@ define([
             textTryUndoRedo: 'The Undo/Redo functions are disabled for the Fast co-editing mode.<br>Click the \'Strict mode\' button to switch to the Strict co-editing mode to edit the file without other users interference and send your changes only after you save them. You can switch between the co-editing modes using the editor Advanced settings.',
             textStrict: 'Strict mode',
             textBuyNow: 'Buy now',
-            textNoLicenseTitle: 'License expired',
-            warnNoLicense: 'The license expired. You cannot create or edit files.<br>Click the \'Buy now\' button to prolong the license.'
+            textNoLicenseTitle: 'License expired or not found',
+            warnNoLicense: 'The license could not be found or expired. You cannot edit files.<br>Click \'Buy now\' to purchase Enterprise Edition license or \'Contact us\' if you use Integration Edition.',
+            textContactUs: 'Contact us'
         }
     })(), PE.Controllers.Main || {}))
 });

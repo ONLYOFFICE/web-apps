@@ -689,14 +689,19 @@ define([
                     if (now - value > 86400000) {
                         Common.localStorage.setItem("de-license-warning", now);
                         Common.UI.info({
+                            width: 400,
                             title: this.textNoLicenseTitle,
                             msg  : this.warnNoLicense,
-                            buttons: ['custom'],
-                            primary: 'custom',
-                            customButtonText: this.textBuyNow,
+                            buttons: [
+                                {value: 'buynow', caption: this.textBuyNow},
+                                {value: 'contact', caption: this.textContactUs}
+                            ],
+                            primary: 'buynow',
                             callback: function(btn) {
-                                if (btn == 'custom')
+                                if (btn == 'buynow')
                                     window.open('http://www.onlyoffice.com/enterprise-edition.aspx', "_blank");
+                                else if (btn == 'contact')
+                                    window.open('mailto:sales@onlyoffice.com', "_blank");
                             }
                         });
                     }
@@ -1778,8 +1783,9 @@ define([
             errorOpenWarning: 'The length of one of the formulas in the file exceeded<br>the allowed number of characters and it was removed.',
             errorFrmlWrongReferences: 'The function refers to a sheet that does not exist.<br>Please check the data and try again.',
             textBuyNow: 'Buy now',
-            textNoLicenseTitle: 'License expired',
-            warnNoLicense: 'The license expired. You cannot create or edit files.<br>Click the \'Buy now\' button to prolong the license.'
+            textNoLicenseTitle: 'License expired or not found',
+            warnNoLicense: 'The license could not be found or expired. You cannot edit files.<br>Click \'Buy now\' to purchase Enterprise Edition license or \'Contact us\' if you use Integration Edition.',
+            textContactUs: 'Contact us'
         }
     })(), SSE.Controllers.Main || {}))
 });
