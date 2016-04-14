@@ -41,7 +41,8 @@
  */
 
 define([
-    'common/main/lib/component/Window'
+    'common/main/lib/component/Window',
+    'common/main/lib/component/ColorPaletteExt'
 ], function () {
     'use strict';
 
@@ -66,29 +67,22 @@ define([
             this.template   =   options.template || [
                 '<div class="box" style="height:' + (_options.height - 85) + 'px;">',
                     '<div class="content-panel" >',
-
-                    '<label class="header">', t.textShowRows, '</label>',
-
-                    '<div style="margin-top:15px;">',
-                        '<div id="id-search-begin-digital-combo" class="input-group-nr" style="vertical-align:top;width:225px;display:inline-block;"></div>',
-                        '<div id="id-sd-cell-search-begin" class="" style="width:225px;display:inline-block;margin-left:18px;"></div>',
-                    '</div>',
-
-                    '<div>',
-                        '<div id="id-and-radio" class="padding-small" style="display: inline-block; margin-top:10px;"></div>',
-                        '<div id="id-or-radio" class="padding-small" style="display: inline-block; margin-left:25px;"></div>',
-                    '</div>',
-
-                    '<div style="margin-top:10px;">',
-                        '<div id="id-search-end-digital-combo" class="input-group-nr" style="vertical-align:top;width:225px;display:inline-block;"></div>',
-                        '<div id="id-sd-cell-search-end" class="" style="width:225px;display:inline-block;margin-left:18px;"></div>',
-                    '</div>',
-
+                        '<label class="header">', t.textShowRows, '</label>',
+                        '<div style="margin-top:15px;">',
+                            '<div id="id-search-begin-digital-combo" class="input-group-nr" style="vertical-align:top;width:225px;display:inline-block;"></div>',
+                            '<div id="id-sd-cell-search-begin" class="" style="width:225px;display:inline-block;margin-left:18px;"></div>',
+                        '</div>',
+                        '<div>',
+                            '<div id="id-and-radio" class="padding-small" style="display: inline-block; margin-top:10px;"></div>',
+                            '<div id="id-or-radio" class="padding-small" style="display: inline-block; margin-left:25px;"></div>',
+                        '</div>',
+                        '<div style="margin-top:10px;">',
+                            '<div id="id-search-end-digital-combo" class="input-group-nr" style="vertical-align:top;width:225px;display:inline-block;"></div>',
+                            '<div id="id-sd-cell-search-end" class="" style="width:225px;display:inline-block;margin-left:18px;"></div>',
+                        '</div>',
                     '</div>',
                 '</div>',
-
                 '<div class="separator horizontal" style="width:100%"></div>',
-
                 '<div class="footer right" style="margin-left:-15px;">',
                     '<button class="btn normal dlg-btn primary" result="ok" style="margin-right:10px;">', t.okButtonText, '</button>',
                     '<button class="btn normal dlg-btn" result="cancel">', t.cancelButtonText, '</button>',
@@ -97,6 +91,7 @@ define([
 
             this.api        =   options.api;
             this.handler    =   options.handler;
+            this.type       =   options.type || 'number';
 
             _options.tpl    =   _.template(this.template, _options);
 
@@ -104,38 +99,40 @@ define([
         },
         render: function () {
             Common.UI.Window.prototype.render.call(this);
-
-            var conditions = [
+            
+            this.conditions = [
                 {value: Asc.c_oAscCustomAutoFilter.equals,                   displayValue: this.capCondition1},
                 {value: Asc.c_oAscCustomAutoFilter.doesNotEqual,             displayValue: this.capCondition2},
                 {value: Asc.c_oAscCustomAutoFilter.isGreaterThan,            displayValue: this.capCondition3},
                 {value: Asc.c_oAscCustomAutoFilter.isGreaterThanOrEqualTo,   displayValue: this.capCondition4},
                 {value: Asc.c_oAscCustomAutoFilter.isLessThan,               displayValue: this.capCondition5},
-                {value: Asc.c_oAscCustomAutoFilter.isLessThanOrEqualTo,      displayValue: this.capCondition6},
+                {value: Asc.c_oAscCustomAutoFilter.isLessThanOrEqualTo,      displayValue: this.capCondition6}
+            ];
+            if (this.type=='text') this.conditions = this.conditions.concat([
                 {value: Asc.c_oAscCustomAutoFilter.beginsWith,               displayValue: this.capCondition7},
                 {value: Asc.c_oAscCustomAutoFilter.doesNotBeginWith,         displayValue: this.capCondition8},
                 {value: Asc.c_oAscCustomAutoFilter.endsWith,                 displayValue: this.capCondition9},
                 {value: Asc.c_oAscCustomAutoFilter.doesNotEndWith,           displayValue: this.capCondition10},
                 {value: Asc.c_oAscCustomAutoFilter.contains,                 displayValue: this.capCondition11},
                 {value: Asc.c_oAscCustomAutoFilter.doesNotContain,           displayValue: this.capCondition12}
-            ];
+            ]);
 
             this.cmbCondition1 = new Common.UI.ComboBox({
                 el          : $('#id-search-begin-digital-combo', this.$window),
                 menuStyle   : 'min-width: 225px;',
                 cls         : 'input-group-nr',
-                data        : conditions,
+                data        : this.conditions,
                 editable    : false
             });
             this.cmbCondition1.setValue(Asc.c_oAscCustomAutoFilter.equals);
 
-            conditions.splice(0, 0,  {value: 0, displayValue: this.textNoFilter});
+            this.conditions.splice(0, 0,  {value: 0, displayValue: this.textNoFilter});
 
             this.cmbCondition2 = new Common.UI.ComboBox({
                 el          : $('#id-search-end-digital-combo', this.$window),
                 menuStyle   : 'min-width: 225px;',
                 cls         : 'input-group-nr',
-                data        : conditions,
+                data        : this.conditions,
                 editable    : false
             });
             this.cmbCondition2.setValue(0);
@@ -301,8 +298,8 @@ define([
             var t = this, _options = {};
 
             _.extend(_options, {
-                width           : 270,
-                height          : 450,
+                width           : 423,
+                height          : 326,
                 contentWidth    : 400,
                 header          : true,
                 cls             : 'filter-dlg',
@@ -312,26 +309,23 @@ define([
             }, options);
 
             this.template   =   options.template || [
-                '<div class="box" style="height:' + (_options.height - 85) + 'px;">',
-                    '<div class="content-panel">',
+                '<div class="box" style="height:' + (_options.height - 36) + 'px;">',
+                    '<div class="content-panel" style="width: 250px;">',
                         '<div class="">',
-                            '<div id="id-btn-sort-down" class="btn-placeholder border"></div>',
-                            '<div id="id-btn-sort-up" class="btn-placeholder border"></div>',
-                            '<div id="id-checkbox-custom-filter" style="max-width:50px;margin-left:50px;display:inline-block;"></div>',
-                            '<button class="btn normal dlg-btn primary" result="custom" id="id-btn-custom-filter" style="min-width:120px;">',
-                                t.btnCustomFilter,
-                            '</button>',
-                            '<div id="id-sd-cell-search" class="input-row" style="margin-bottom:10px;"></div>',
-                            '<div class="border-values" style="margin-top:45px;">',
+                            '<div id="id-sd-cell-search" style="height:22px; margin-bottom:10px;"></div>',
+                            '<div class="border-values" style="">',
                                 '<div id="id-dlg-filter-values" class="combo-values"/>',
                             '</div>',
                         '</div>',
+                        '<div class="footer center">',
+                            '<div id="id-apply-filter" style="display: inline-block;"></div>',
+                            '<button class="btn normal dlg-btn" result="cancel">', t.cancelButtonText, '</button>',
+                        '</div>',
                     '</div>',
-                '</div>',
-                '<div class="separator horizontal"></div>',
-                '<div class="footer center">',
-                    '<div id="id-apply-filter" style="display: inline-block;"></div>',
-                    '<button class="btn normal dlg-btn" result="cancel">', t.cancelButtonText, '</button>',
+                    '<div class="separator"/>',
+                    '<div class="menu-panel" style="width: 170px;">',
+                        '<div id="menu-container-filters" style=""><div class="dropdown-toggle" data-toggle="dropdown"></div></div>',
+                    '</div>',
                 '</div>'
             ].join('');
 
@@ -364,45 +358,201 @@ define([
                 this.btnOk.on('click', _.bind(this.onApplyFilter, this));
             }
 
-            this.btnSortDown = new Common.UI.Button({
-                cls: 'btn-toolbar border',
-                iconCls: 'btn-icon btn-sort-down',
-                pressed : true,
-                enableToggle: true,
-                allowDepress: false
+            this.miSortLow2High = new Common.UI.MenuItem({
+                caption     : this.txtSortLow2High,
+                toggleGroup : 'menufiltersort',
+                checkable   : true,
+                checked     : false
             });
-            if (this.btnSortDown) {
-                this.btnSortDown.render($('#id-btn-sort-down', this.$window));
-                this.btnSortDown.on('click', _.bind(this.onSortType, this, 'ascending'));
-            }
+            this.miSortLow2High.on('click', _.bind(this.onSortType, this, 'ascending'));
 
-            this.btnSortUp = new Common.UI.Button({
-                cls: 'btn-toolbar border',
-                iconCls: 'btn-icon btn-sort-up',
-                pressed : true,
-                enableToggle: true,
-                allowDepress: false
+            this.miSortHigh2Low = new Common.UI.MenuItem({
+                caption     : this.txtSortHigh2Low,
+                toggleGroup : 'menufiltersort',
+                checkable   : true,
+                checked     : false
+            });
+            this.miSortHigh2Low.on('click', _.bind(this.onSortType, this, 'descending'));
+
+            this.miSortCellColor = new Common.UI.MenuItem({
+                caption     : this.txtSortCellColor,
+                toggleGroup : 'menufiltersort',
+                checkable   : true,
+                checked     : false,
+                menu        : new Common.UI.Menu({
+                    style: 'min-width: inherit; padding: 0px;',
+                    menuAlign: 'tl-tr',
+                        items: [
+                            { template: _.template('<div id="filter-dlg-sort-cells-color" style="max-width: 147px; max-height: 120px;"></div>') }
+                        ]
+                })
             });
 
-            if (this.btnSortUp) {
-                this.btnSortUp.render($('#id-btn-sort-up', this.$window));
-                this.btnSortUp.on('click', _.bind(this.onSortType, this, 'descending'));
-            }
-
-            this.chCustomFilter = new Common.UI.CheckBox({
-                el: $('#id-checkbox-custom-filter', this.$window)
+            this.miSortFontColor = new Common.UI.MenuItem({
+                caption     : this.txtSortFontColor,
+                toggleGroup : 'menufiltersort',
+                checkable   : true,
+                checked     : false,
+                menu        : new Common.UI.Menu({
+                    style: 'min-width: inherit; padding: 0px;',
+                    menuAlign: 'tl-tr',
+                        items: [
+                            { template: _.template('<div id="filter-dlg-sort-font-color" style="max-width: 147px; max-height: 120px;"></div>') }
+                        ]
+                })
             });
-            this.chCustomFilter.setDisabled(true);
 
-            this.btnCustomFilter = new Common.UI.Button({
-                el : $('#id-btn-custom-filter', this.$window)
-            }).on('click', _.bind(this.onShowCustomFilterDialog, this));
+            this.miNumFilter = new Common.UI.MenuItem({
+                caption     : this.txtNumFilter,
+                toggleGroup : 'menufilterfilter',
+                checkable   : true,
+                checked     : false,
+                menu        : new Common.UI.Menu({
+                    menuAlign: 'tl-tr',
+                    items: [
+                        {value: 0,                                                   caption: this.textNoFilter,    checkable: true},
+                        {value: Asc.c_oAscCustomAutoFilter.equals,                   caption: this.txtEquals,       checkable: true},
+                        {value: Asc.c_oAscCustomAutoFilter.doesNotEqual,             caption: this.txtNotEquals,    checkable: true},
+                        {value: Asc.c_oAscCustomAutoFilter.isGreaterThan,            caption: this.txtGreater,      checkable: true},
+                        {value: Asc.c_oAscCustomAutoFilter.isGreaterThanOrEqualTo,   caption: this.txtGreaterEquals,checkable: true},
+                        {value: Asc.c_oAscCustomAutoFilter.isLessThan,               caption: this.txtLess,         checkable: true},
+                        {value: Asc.c_oAscCustomAutoFilter.isLessThanOrEqualTo,      caption: this.txtLessEquals,   checkable: true},
+                        {value: -2,                                                  caption: this.txtBetween,      checkable: true},
+                        {value: Asc.c_oAscCustomAutoFilter.top10,                    caption: this.txtTop10,        checkable: true},
+                        {value: Asc.c_oAscCustomAutoFilter.aboveAverage,             caption: this.txtAboveAve,     checkable: true},
+                        {value: Asc.c_oAscCustomAutoFilter.belowAverage,             caption: this.txtBelowAve,     checkable: true},
+                        {value: -1, caption: this.btnCustomFilter + '...'}
+                    ]
+                })
+            });
+            this.miNumFilter.menu.on('item:click', _.bind(this.onNumFilterMenuClick, this));
+
+            this.miTextFilter = new Common.UI.MenuItem({
+                caption     : this.txtTextFilter,
+                toggleGroup : 'menufilterfilter',
+                checkable   : true,
+                checked     : false,
+                menu        : new Common.UI.Menu({
+                    menuAlign: 'tl-tr',
+                    items: [
+                        {value: 0,                                                   caption: this.textNoFilter,    checkable: true},
+                        {value: Asc.c_oAscCustomAutoFilter.equals,                   caption: this.txtEquals,       checkable: true},
+                        {value: Asc.c_oAscCustomAutoFilter.doesNotEqual,             caption: this.txtNotEquals,    checkable: true},
+                        {value: Asc.c_oAscCustomAutoFilter.beginsWith,               caption: this.txtBegins,       checkable: true},
+                        {value: Asc.c_oAscCustomAutoFilter.doesNotBeginWith,         caption: this.txtNotBegins,    checkable: true},
+                        {value: Asc.c_oAscCustomAutoFilter.endsWith,                 caption: this.txtEnds,         checkable: true},
+                        {value: Asc.c_oAscCustomAutoFilter.doesNotEndWith,           caption: this.txtNotEnds,      checkable: true},
+                        {value: Asc.c_oAscCustomAutoFilter.contains,                 caption: this.txtContains,     checkable: true},
+                        {value: Asc.c_oAscCustomAutoFilter.doesNotContain,           caption: this.txtNotContains,  checkable: true},
+                        {value: -1, caption: this.btnCustomFilter + '...'}
+                    ]
+                })
+            });
+            this.miTextFilter.menu.on('item:click', _.bind(this.onTextFilterMenuClick, this));
+
+            this.miFilterCellColor = new Common.UI.MenuItem({
+                caption     : this.txtFilterCellColor,
+                toggleGroup : 'menufilterfilter',
+                checkable   : true,
+                checked     : false,
+                menu        : new Common.UI.Menu({
+                    style: 'min-width: inherit; padding: 0px;',
+                    menuAlign: 'tl-tr',
+                        items: [
+                            { template: _.template('<div id="filter-dlg-filter-cells-color" style="max-width: 147px; max-height: 120px;"></div>') }
+                        ]
+                })
+            });
+
+            this.miFilterFontColor = new Common.UI.MenuItem({
+                caption     : this.txtFilterFontColor,
+                toggleGroup : 'menufilterfilter',
+                checkable   : true,
+                checked     : false,
+                menu        : new Common.UI.Menu({
+                    style: 'min-width: inherit; padding: 0px;',
+                    menuAlign: 'tl-tr',
+                        items: [
+                            { template: _.template('<div id="filter-dlg-filter-font-color" style="max-width: 147px; max-height: 120px;"></div>') }
+                        ]
+                })
+            });
+
+            this.miClear = new Common.UI.MenuItem({
+                caption     : this.txtClear,
+                checkable   : false
+            });
+            this.miReapply = new Common.UI.MenuItem({
+                caption     : this.txtReapply,
+                checkable   : false
+            });
+
+            this.filtersMenu = new Common.UI.Menu({
+                items: [
+                    this.miSortLow2High,
+                    this.miSortHigh2Low,
+                    this.miSortCellColor,
+                    this.miSortFontColor,
+                    {caption     : '--'},
+                    this.miNumFilter,
+                    this.miTextFilter,
+                    this.miFilterCellColor,
+                    this.miFilterFontColor,
+                    {caption     : '--'},
+                    this.miClear,
+                    this.miReapply
+                ]
+            });
+
+            // Prepare menu container
+            var menuContainer = this.$window.find('#menu-container-filters');
+            this.filtersMenu.render(menuContainer);
+            this.filtersMenu.cmpEl.attr({tabindex: "-1"});
+
+            this.mnuSortColorCellsPicker = new Common.UI.ColorPaletteExt({
+                el: $('#filter-dlg-sort-cells-color'),
+                colors: [
+                    'transparent', 'FFFF00', '00FF00', '00FFFF', 'FF00FF', '0000FF', 'FF0000', '00008B', '008B8B',
+                    '006400', '800080', '8B0000', '808000', 'FFFFFF', 'D3D3D3', 'A9A9A9', '000000',
+                    '006400', '800080', '8B0000', '808000', 'FFFFFF', 'D3D3D3',
+                    '006400', '800080', '8B0000', '808000', 'FFFFFF', 'D3D3D3'
+                ]
+            });
+
+            this.mnuSortColorFontPicker = new Common.UI.ColorPaletteExt({
+                el: $('#filter-dlg-sort-font-color'),
+                colors: [
+                    'transparent', 'FFFF00', '00FF00', '00FFFF', 'FF00FF', '0000FF', 'FF0000', '00008B', '008B8B',
+                    '006400', '800080', '8B0000', '808000', 'FFFFFF', 'D3D3D3', 'A9A9A9', '000000',
+                    '006400', '800080', '8B0000', '808000', 'FFFFFF', 'D3D3D3',
+                    '006400', '800080', '8B0000', '808000', 'FFFFFF', 'D3D3D3'
+                ]
+            });
+
+            this.mnuFilterColorCellsPicker = new Common.UI.ColorPaletteExt({
+                el: $('#filter-dlg-filter-cells-color'),
+                colors: [
+                    'transparent', 'FFFF00', '00FF00', '00FFFF', 'FF00FF', '0000FF', 'FF0000', '00008B', '008B8B',
+                    '006400', '800080', '8B0000', '808000', 'FFFFFF', 'D3D3D3', 'A9A9A9', '000000',
+                    '006400', '800080', '8B0000', '808000', 'FFFFFF', 'D3D3D3',
+                    '006400', '800080', '8B0000', '808000', 'FFFFFF', 'D3D3D3'
+                ]
+            });
+
+            this.mnuFilterColorFontPicker = new Common.UI.ColorPaletteExt({
+                el: $('#filter-dlg-filter-font-color'),
+                colors: [
+                    'transparent', 'FFFF00', '00FF00', '00FFFF', 'FF00FF', '0000FF', 'FF0000', '00008B', '008B8B',
+                    '006400', '800080', '8B0000', '808000', 'FFFFFF', 'D3D3D3', 'A9A9A9', '000000',
+                    '006400', '800080', '8B0000', '808000', 'FFFFFF', 'D3D3D3',
+                    '006400', '800080', '8B0000', '808000', 'FFFFFF', 'D3D3D3'
+                ]
+            });
 
             this.input = new Common.UI.InputField({
                 el               : $('#id-sd-cell-search', this.$window),
                 allowBlank       : true,
                 placeHolder      : this.txtEmpty,
-                style            : 'margin-top: 10px;',
                 validateOnChange : true,
                 validation       : function () { return true; }
             }).on ('changing', function (input, value) {
@@ -480,6 +630,7 @@ define([
                 this.close();
             }
         },
+
         onSortType: function (type) {
             if (this.api && this.configTo) {
                 this.api.asc_sortColFilter(type, this.configTo.asc_getCellId(), this.configTo.asc_getDisplayName());
@@ -500,6 +651,106 @@ define([
             dlgDigitalFilter.setSettings(this.configTo);
             dlgDigitalFilter.show();
         },
+
+        onNumFilterMenuClick: function(menu, item) {
+            var filterObj = this.configTo.asc_getFilterObj(),
+                value1 = '', value2 = '',
+                cond1 = Asc.c_oAscCustomAutoFilter.equals,
+                cond2 = 0, isAnd = true;
+            if (filterObj.asc_getType() == Asc.c_oAscAutoFilterTypes.CustomFilters) {
+                    var customFilter = filterObj.asc_getFilter(),
+                        customFilters = customFilter.asc_getCustomFilters();
+
+                    isAnd = (customFilter.asc_getAnd());
+                    cond1 = customFilters[0].asc_getOperator();
+                    cond2 = ((customFilters.length>1) ? (customFilters[1].asc_getOperator() || 0) : 0);
+
+                    value1 = (null === customFilters[0].asc_getVal() ? '' : customFilters[0].asc_getVal());
+                    value2 = ((customFilters.length>1) ? (null === customFilters[1].asc_getVal() ? '' : customFilters[1].asc_getVal()) : '');
+            }
+
+            if (item.value==0) {
+                //clear filters
+                return;
+            } else if (item.value!==-1) {
+                var newCustomFilter = new Asc.CustomFilters();
+                newCustomFilter.asc_setCustomFilters((item.value == -2) ? [new Asc.CustomFilter(), new Asc.CustomFilter()]: [new Asc.CustomFilter()]);
+
+                var newCustomFilters = newCustomFilter.asc_getCustomFilters();
+                newCustomFilter.asc_setAnd(true);
+                newCustomFilters[0].asc_setOperator((item.value == -2) ? Asc.c_oAscCustomAutoFilter.isGreaterThanOrEqualTo : item.value);
+
+                if (item.value == -2) {
+                    newCustomFilters[0].asc_setVal((cond1 == Asc.c_oAscCustomAutoFilter.isGreaterThanOrEqualTo && cond2 == Asc.c_oAscCustomAutoFilter.isLessThanOrEqualTo) ? value1 : '');
+                    newCustomFilters[1].asc_setOperator(Asc.c_oAscCustomAutoFilter.isLessThanOrEqualTo);
+                    newCustomFilters[1].asc_setVal((cond1 == Asc.c_oAscCustomAutoFilter.isGreaterThanOrEqualTo && cond2 == Asc.c_oAscCustomAutoFilter.isLessThanOrEqualTo) ? value2 : '');
+                } else {
+                    newCustomFilters[0].asc_setVal((item.value == cond1) ? value1 : '');
+                }
+
+                filterObj.asc_setFilter(newCustomFilter);
+                filterObj.asc_setType(Asc.c_oAscAutoFilterTypes.CustomFilters);
+            } 
+
+            var me = this,
+                dlgDigitalFilter = new SSE.Views.DigitalFilterDialog({api:this.api, type: 'number'}).on({
+                    'close': function() {
+                        me.close();
+                    }
+                });
+
+            this.close();
+
+            dlgDigitalFilter.setSettings(this.configTo);
+            dlgDigitalFilter.show();
+        },
+
+        onTextFilterMenuClick: function(menu, item) {
+            var filterObj = this.configTo.asc_getFilterObj(),
+                value1 = '', value2 = '',
+                cond1 = Asc.c_oAscCustomAutoFilter.equals,
+                cond2 = 0, isAnd = true;
+            if (filterObj.asc_getType() == Asc.c_oAscAutoFilterTypes.CustomFilters) {
+                var customFilter = filterObj.asc_getFilter(),
+                    customFilters = customFilter.asc_getCustomFilters();
+
+                isAnd = (customFilter.asc_getAnd());
+                cond1 = customFilters[0].asc_getOperator();
+                cond2 = ((customFilters.length>1) ? (customFilters[1].asc_getOperator() || 0) : 0);
+
+                value1 = (null === customFilters[0].asc_getVal() ? '' : customFilters[0].asc_getVal());
+                value2 = ((customFilters.length>1) ? (null === customFilters[1].asc_getVal() ? '' : customFilters[1].asc_getVal()) : '');
+            }
+
+            if (item.value==0) {
+                //clear filters
+                return;
+            } else if (item.value!==-1) {
+                var newCustomFilter = new Asc.CustomFilters();
+                newCustomFilter.asc_setCustomFilters([new Asc.CustomFilter()]);
+
+                var newCustomFilters = newCustomFilter.asc_getCustomFilters();
+                newCustomFilter.asc_setAnd(true);
+                newCustomFilters[0].asc_setOperator(item.value);
+                newCustomFilters[0].asc_setVal((item.value == cond1) ? value1 : '');
+
+                filterObj.asc_setFilter(newCustomFilter);
+                filterObj.asc_setType(Asc.c_oAscAutoFilterTypes.CustomFilters);
+            }
+
+            var me = this,
+                dlgDigitalFilter = new SSE.Views.DigitalFilterDialog({api:this.api, type: 'text'}).on({
+                    'close': function() {
+                        me.close();
+                    }
+                });
+
+            this.close();
+
+            dlgDigitalFilter.setSettings(this.configTo);
+            dlgDigitalFilter.show();
+        },
+
         onCellCheck: function (listView, itemView, record) {
             if (this.checkCellTrigerBlock)
                 return;
@@ -563,7 +814,7 @@ define([
                 }
 
                 this.btnOk.setDisabled(false);
-                this.chCustomFilter.setValue(false);
+//                this.chCustomFilter.setValue(false);
                 this.configTo.asc_getFilterObj().asc_setType(Asc.c_oAscAutoFilterTypes.Filters);
 
                 listView.isSuspendEvents = false;
@@ -636,21 +887,20 @@ define([
             this.cells.at(0).set('check', !haveUnselectedCell);
             this.checkCellTrigerBlock = undefined;
 
-            this.btnSortDown.toggle(false, false);
-            this.btnSortUp.toggle(false, false);
-
             //TODO: установка всех значений для UI в отдельный метод
 
+            this.miSortLow2High.setChecked(false, true);
+            this.miSortHigh2Low.setChecked(false, true);
             var sort = this.config.asc_getSortState();
             if (sort) {
                 if ('ascending' === sort) {
-                    this.btnSortDown.toggle(true, false);
+                    this.miSortLow2High.setChecked(true, true);
                 } else {
-                    this.btnSortUp.toggle(true, false);
+                    this.miSortHigh2Low.setChecked(true, true);
                 }
             }
 
-            this.chCustomFilter.setValue(isCustomFilter);
+//            this.chCustomFilter.setValue(isCustomFilter);
             this.btnOk.setDisabled(isCustomFilter);
 
             this.cellsList.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true, suppressScrollX: true});
@@ -725,9 +975,9 @@ define([
             this.cells.reset(arr);
             this.filterExcludeCells.reset(arrEx);
 
-            if (this.cells.length) {
-                this.chCustomFilter.setValue(this.configTo.asc_getFilterObj().asc_getType() === Asc.c_oAscAutoFilterTypes.CustomFilters);
-            }
+//            if (this.cells.length) {
+//                this.chCustomFilter.setValue(this.configTo.asc_getFilterObj().asc_getType() === Asc.c_oAscAutoFilterTypes.CustomFilters);
+//            }
 
             this.cellsList.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true, suppressScrollX: true});
         },
@@ -777,7 +1027,35 @@ define([
         textWarning         : 'Warning',
         cancelButtonText    : 'Cancel',
         textEmptyItem       : '{Blanks}',
-        txtEmpty            : 'Enter cell\'s filter'
+        txtEmpty            : 'Enter cell\'s filter',
+        txtSortLow2High     : 'Sort Lowest to Highest',
+        txtSortHigh2Low     : 'Sort Highest to Lowest',
+        txtSortCellColor    : 'Sort by cells color',
+        txtSortFontColor    : 'Sort by font color',
+        txtNumFilter        : 'Number filter',
+        txtTextFilter       : 'Text filter',
+        txtFilterCellColor  : 'Filter by cells color',
+        txtFilterFontColor  : 'Filter by font color',
+        txtClear            : 'Clear',
+        txtReapply          : 'Reapply',
+        txtEquals           : "Equals...",
+        txtNotEquals        : "Does not equal...",
+        txtGreater          : "Greater than...",
+        txtGreaterEquals    : "Greater than or equal to...",
+        txtLess             : "Less than...",
+        txtLessEquals       : "Less than or equal to...",
+        txtBetween          : 'Between...',
+        txtTop10            : 'Top 10',
+        txtAboveAve         : 'Above average',
+        txtBelowAve         : 'Below average',
+        txtBegins           : "Begins with...",
+        txtNotBegins        : "Does not begin with...",
+        txtEnds             : "Ends with...",
+        txtNotEnds          : "Does not end with...",
+        txtContains         : "Contains...",
+        txtNotContains      : "Does not contain...",
+        textNoFilter        : "None"
+
 
     }, SSE.Views.AutoFilterDialog || {}));
 });
