@@ -603,7 +603,8 @@ define([
                 this.cellsList.onKeyDown = _.bind(this.onListKeyDown, this);
             }
 
-            this.setupListCells();
+            this.setupDataCells();
+            this._setDefaults();
         },
 
         show: function () {
@@ -826,72 +827,13 @@ define([
             this.config = config;
             this.configTo = config;
         },
-        setupListCells: function () {
 
-            // TODO: рефакторинг, использовать setupDataCells();
-
-            function isNumeric(value) {
-                return !isNaN(parseFloat(value)) && isFinite(value);
-            }
-
-            var me = this, isnumber, value, index = 0, haveUnselectedCell = false,
-                throughIndex = 1,
-                isCustomFilter = (this.configTo.asc_getFilterObj().asc_getType() === Asc.c_oAscAutoFilterTypes.CustomFilters);
-
-            if (_.isUndefined(this.config)) {
-                return;
-            }
-            this.filterExcludeCells.reset();
-
-            var arr = [];
-            arr.push(new Common.UI.DataViewModel({
-                id            : ++index,
-                selected      : false,
-                allowSelected : true,
-                value         : this.textSelectAll,
-                groupid       : '0',
-                check         : true,
-                throughIndex  : 0
-            }));
-            this.throughIndexes.push(true);
-
-            this.config.asc_getValues().forEach(function (item) {
-                value       = item.asc_getText();
-                isnumber    = isNumeric(value);
-
-                    arr.push(new Common.UI.DataViewModel({
-                        id              : ++index,
-                        selected        : false,
-                        allowSelected   : true,
-                        cellvalue       : value,
-                        value           : isnumber ? value : (value.length > 0 ? value: me.textEmptyItem),
-                        intval          : isnumber ? parseFloat(value) : undefined,
-                        strval          : !isnumber ? value : '',
-                        groupid         : '1',
-                        check           : item.asc_getVisible(),
-                        throughIndex    : throughIndex
-                    }));
-
-                    if (!item.asc_getVisible()) {
-                        haveUnselectedCell = true;
-                    }
-
-                    me.throughIndexes.push(item.asc_getVisible());
-
-                    ++throughIndex;
-            });
-
-            me.cells.reset(arr);
-            
-            this.checkCellTrigerBlock = true;
-            this.cells.at(0).set('check', !haveUnselectedCell);
-            this.checkCellTrigerBlock = undefined;
-
-            //TODO: установка всех значений для UI в отдельный метод
+        _setDefaults: function() {
+            var isCustomFilter = (this.configTo.asc_getFilterObj().asc_getType() === Asc.c_oAscAutoFilterTypes.CustomFilters);
 
             this.miSortLow2High.setChecked(false, true);
             this.miSortHigh2Low.setChecked(false, true);
-            var sort = this.config.asc_getSortState();
+            var sort = this.configTo.asc_getSortState();
             if (sort) {
                 if ('ascending' === sort) {
                     this.miSortLow2High.setChecked(true, true);
@@ -902,10 +844,6 @@ define([
 
 //            this.chCustomFilter.setValue(isCustomFilter);
             this.btnOk.setDisabled(isCustomFilter);
-
-            this.cellsList.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true, suppressScrollX: true});
-
-            this.config = undefined;
         },
 
         setupDataCells: function() {
@@ -918,7 +856,8 @@ define([
                 value,
                 index = 0,
                 applyfilter = true,
-                throughIndex = 1;
+                throughIndex = 1,
+                haveUnselectedCell = false;
 
             this.cells.forEach(function (item) {
                 value = item.get('check');
@@ -929,6 +868,8 @@ define([
             var arr = [], arrEx = [];
 
             if (!me.filter) {
+                if (me.throughIndexes[0]==undefined)
+                    me.throughIndexes[0] = true;
                 arr.push(new Common.UI.DataViewModel({
                     id              : ++index,
                     selected        : false,
@@ -951,6 +892,9 @@ define([
                     }
                 }
 
+                if (me.throughIndexes[throughIndex]==undefined)
+                    me.throughIndexes[throughIndex] = item.asc_getVisible();
+
                 if (applyfilter) {
                     arr.push(new Common.UI.DataViewModel({
                         id              : ++index,
@@ -964,6 +908,9 @@ define([
                         check           : me.throughIndexes[throughIndex],
                         throughIndex    : throughIndex
                     }));
+                    if (!me.throughIndexes[throughIndex]) {
+                        haveUnselectedCell = true;
+                    }
                 } else {
                     arrEx.push(new Common.UI.DataViewModel({
                         cellvalue       : value
@@ -975,9 +922,13 @@ define([
             this.cells.reset(arr);
             this.filterExcludeCells.reset(arrEx);
 
-//            if (this.cells.length) {
+            if (this.cells.length) {
+                this.checkCellTrigerBlock = true;
+                this.cells.at(0).set('check', !haveUnselectedCell);
+                this.checkCellTrigerBlock = undefined;
+
 //                this.chCustomFilter.setValue(this.configTo.asc_getFilterObj().asc_getType() === Asc.c_oAscAutoFilterTypes.CustomFilters);
-//            }
+            }
 
             this.cellsList.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true, suppressScrollX: true});
         },
