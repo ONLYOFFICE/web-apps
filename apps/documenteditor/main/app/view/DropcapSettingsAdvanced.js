@@ -1124,7 +1124,7 @@ define([
                 border.put_Color(color);
             }
             else {
-                border.put_Color(new CColor());
+                border.put_Color(new Asc.asc_CColor());
                 border.put_Value(0);
             }
             return border;
