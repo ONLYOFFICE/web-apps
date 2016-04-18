@@ -253,7 +253,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 this._marginsChange( field, newValue, oldValue, eOpts, 'table', 'Top');
                 if (this._changedProps)  {
                     if (this._changedProps.get_DefaultMargins()===undefined)
-                        this._changedProps.put_DefaultMargins(new CPaddings());
+                        this._changedProps.put_DefaultMargins(new Asc.asc_CPaddings());
                     this._changedProps.get_DefaultMargins().put_Top((this.TableMargins.Top!==null) ? Common.Utils.Metric.fnRecalcToMM(this.TableMargins.Top) : null);
                     this.TableMargins.isChanged = true;
                 }
@@ -273,7 +273,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 this._marginsChange( field, newValue, oldValue, eOpts, 'table', 'Bottom');
                 if (this._changedProps)  {
                     if (this._changedProps.get_DefaultMargins()===undefined)
-                        this._changedProps.put_DefaultMargins(new CPaddings());
+                        this._changedProps.put_DefaultMargins(new Asc.asc_CPaddings());
                     this._changedProps.get_DefaultMargins().put_Bottom((this.TableMargins.Bottom!==null) ? Common.Utils.Metric.fnRecalcToMM(this.TableMargins.Bottom) : null);
                     this.TableMargins.isChanged = true;
                 }
@@ -293,7 +293,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 this._marginsChange( field, newValue, oldValue, eOpts, 'table', 'Left');
                 if (this._changedProps)  {
                     if (this._changedProps.get_DefaultMargins()===undefined)
-                        this._changedProps.put_DefaultMargins(new CPaddings());
+                        this._changedProps.put_DefaultMargins(new Asc.asc_CPaddings());
                     this._changedProps.get_DefaultMargins().put_Left((this.TableMargins.Left!==null) ? Common.Utils.Metric.fnRecalcToMM(this.TableMargins.Left) : null);
                     this.TableMargins.isChanged = true;
                 }
@@ -313,7 +313,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 this._marginsChange( field, newValue, oldValue, eOpts, 'table', 'Right');
                 if (this._changedProps)  {
                     if (this._changedProps.get_DefaultMargins()===undefined)
-                        this._changedProps.put_DefaultMargins(new CPaddings());
+                        this._changedProps.put_DefaultMargins(new Asc.asc_CPaddings());
                     this._changedProps.get_DefaultMargins().put_Right((this.TableMargins.Right!==null) ? Common.Utils.Metric.fnRecalcToMM(this.TableMargins.Right) : null);
                     this.TableMargins.isChanged = true;
                 }
@@ -609,7 +609,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             this.spnDistanceTop.on('change', _.bind(function(field, newValue, oldValue, eOpts){
                 if (this._changedProps) {
                     if (this._changedProps.get_TablePaddings()===undefined)
-                        this._changedProps.put_TablePaddings(new CPaddings());
+                        this._changedProps.put_TablePaddings(new Asc.asc_CPaddings());
                     this._changedProps.get_TablePaddings().put_Top(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
                 }
             }, this));
@@ -627,7 +627,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             this.spnDistanceBottom.on('change', _.bind(function(field, newValue, oldValue, eOpts){
                 if (this._changedProps) {
                     if (this._changedProps.get_TablePaddings()===undefined)
-                        this._changedProps.put_TablePaddings(new CPaddings());
+                        this._changedProps.put_TablePaddings(new Asc.asc_CPaddings());
                     this._changedProps.get_TablePaddings().put_Bottom(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
                 }
             }, this));
@@ -645,7 +645,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             this.spnDistanceLeft.on('change', _.bind(function(field, newValue, oldValue, eOpts){
                 if (this._changedProps) {
                     if (this._changedProps.get_TablePaddings()===undefined)
-                        this._changedProps.put_TablePaddings(new CPaddings());
+                        this._changedProps.put_TablePaddings(new Asc.asc_CPaddings());
                     this._changedProps.get_TablePaddings().put_Left(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
                 }
             }, this));
@@ -663,7 +663,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             this.spnDistanceRight.on('change', _.bind(function(field, newValue, oldValue, eOpts){
                 if (this._changedProps) {
                     if (this._changedProps.get_TablePaddings()===undefined)
-                        this._changedProps.put_TablePaddings(new CPaddings());
+                        this._changedProps.put_TablePaddings(new Asc.asc_CPaddings());
                     this._changedProps.get_TablePaddings().put_Right(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
                 }
             }, this));
@@ -1713,7 +1713,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
 
             if (this.CellColor.Color=='transparent') {
                 this._cellBackground.put_Value(1);
-                this._cellBackground.put_Color(new CAscColor(0,0,0));
+                this._cellBackground.put_Color(new Asc.asc_CColor(0,0,0));
             } else {
                 this._cellBackground.put_Value(0);
                 this._cellBackground.put_Color(Common.Utils.ThemeColor.getRgbColor(this.CellColor.Color));
@@ -1732,7 +1732,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 }
                 if (this.TableColor.Color=='transparent') {
                     background.put_Value(1);
-                    background.put_Color(new CAscColor(0, 0,0));
+                    background.put_Color(new Asc.asc_CColor(0, 0,0));
                 } else {
                     background.put_Value(0);
                     background.put_Color(Common.Utils.ThemeColor.getRgbColor(this.TableColor.Color));
@@ -1769,7 +1769,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 this._UpdateCellBorderSpacing_(source.get_Bottom(), 'b', this.tableBordersImageSpacing.getCell(i, this.tableBordersImageSpacing.rows-1));
             }
             if (this._allTable && source.get_InsideV() === null) {
-                source.put_InsideV(new CBorder());
+                source.put_InsideV(new Asc.asc_CTextBorder());
             }
             if (source.get_InsideV() !== null) {
                 for (i=0; i<this.tableBordersImageSpacing.rows; i++) {
@@ -1779,7 +1779,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             }
 
             if (this._allTable && source.get_InsideH() === null) {
-                source.put_InsideH(new CBorder());
+                source.put_InsideH(new Asc.asc_CTextBorder());
             }
             if (source.get_InsideH() !== null) {
                 for (i=0; i<this.tableBordersImageSpacing.columns; i++) {
@@ -1842,7 +1842,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             this._UpdateTableBorderNoSpacing_(source.get_Bottom(), 'b');
 
             if (this._allTable && source.get_InsideV() == null) {
-                source.put_InsideV(new CBorder());
+                source.put_InsideV(new Asc.asc_CTextBorder());
             }
             if (source.get_InsideV() !== null) {
                 for (var i=0; i<this.tableBordersImage.rows; i++) {
@@ -1852,7 +1852,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             }
 
             if (this._allTable && source.get_InsideH() == null) {
-                source.put_InsideH(new CBorder());
+                source.put_InsideH(new Asc.asc_CTextBorder());
             }
             if (source.get_InsideH() !== null) {
                 for (i=0; i<this.tableBordersImage.columns; i++) {
@@ -1967,42 +1967,42 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             if ( ct.col==0 && border.indexOf('l') > -1 ) {
                 this._UpdateBorderStyle(updateBorders.get_Left(), (size>0));
                 if (changed_destination) {
-                    changed_destination.put_Left(new CBorder(updateBorders.get_Left()));
+                    changed_destination.put_Left(new Asc.asc_CTextBorder(updateBorders.get_Left()));
                 }
             }
 
             if ( ct.col== this.tableStylerColumns-1 && border.indexOf('r') > -1 ) {
                 this._UpdateBorderStyle(updateBorders.get_Right(), (size>0));
                 if (changed_destination) {
-                    changed_destination.put_Right(new CBorder(updateBorders.get_Right()));
+                    changed_destination.put_Right(new Asc.asc_CTextBorder(updateBorders.get_Right()));
                 }
             }
 
             if ( ct.row==0 && border.indexOf('t') > -1 ) {
                 this._UpdateBorderStyle(updateBorders.get_Top(), (size>0));
                 if (changed_destination) {
-                    changed_destination.put_Top(new CBorder(updateBorders.get_Top()));
+                    changed_destination.put_Top(new Asc.asc_CTextBorder(updateBorders.get_Top()));
                 }
             }
 
             if ( ct.row== this.tableStylerRows-1 && border.indexOf('b') > -1 )  {
                 this._UpdateBorderStyle(updateBorders.get_Bottom(), (size>0));
                 if (changed_destination)  {
-                    changed_destination.put_Bottom(new CBorder(updateBorders.get_Bottom()));
+                    changed_destination.put_Bottom(new Asc.asc_CTextBorder(updateBorders.get_Bottom()));
                 }
             }
 
             if ( ct.col==0 && border.indexOf('r') > -1 || ct.col== this.tableStylerColumns-1 && border.indexOf('l') > -1) {
                 this._UpdateBorderStyle(updateBorders.get_InsideV(), (size>0));
                 if (changed_destination)  {
-                    changed_destination.put_InsideV(new CBorder(updateBorders.get_InsideV()));
+                    changed_destination.put_InsideV(new Asc.asc_CTextBorder(updateBorders.get_InsideV()));
                 }
             }
 
             if ( ct.row==0 && border.indexOf('b') > -1 || ct.row== this.tableStylerRows-1 && border.indexOf('t') > -1) {
                 this._UpdateBorderStyle(updateBorders.get_InsideH(), (size>0));
                 if (changed_destination)  {
-                    changed_destination.put_InsideH(new CBorder(updateBorders.get_InsideH()));
+                    changed_destination.put_InsideH(new Asc.asc_CTextBorder(updateBorders.get_InsideH()));
                 }
             }
         },
@@ -2013,25 +2013,25 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             if (border.indexOf('l') > -1) {
                 this._UpdateBorderStyle(updateBorders.get_Left(), (size>0));
                 if (changed_destination) {
-                    changed_destination.put_Left(new CBorder(updateBorders.get_Left()));
+                    changed_destination.put_Left(new Asc.asc_CTextBorder(updateBorders.get_Left()));
                 }
             }
             if (border.indexOf('t') > -1) {
                 this._UpdateBorderStyle(updateBorders.get_Top(), (size>0));
                 if (changed_destination) {
-                    changed_destination.put_Top(new CBorder(updateBorders.get_Top()));
+                    changed_destination.put_Top(new Asc.asc_CTextBorder(updateBorders.get_Top()));
                 }
             }
             if (border.indexOf('r') > -1) {
                 this._UpdateBorderStyle(updateBorders.get_Right(), (size>0));
                 if (changed_destination) {
-                    changed_destination.put_Right(new CBorder(updateBorders.get_Right()));
+                    changed_destination.put_Right(new Asc.asc_CTextBorder(updateBorders.get_Right()));
                 }
             }
             if (border.indexOf('b') > -1) {
                 this._UpdateBorderStyle(updateBorders.get_Bottom(), (size>0));
                 if (changed_destination)  {
-                    changed_destination.put_Bottom(new CBorder(updateBorders.get_Bottom()));
+                    changed_destination.put_Bottom(new Asc.asc_CTextBorder(updateBorders.get_Bottom()));
                 }
             }
         },
@@ -2047,7 +2047,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 border.put_Color(color);
             }
             else {
-                border.put_Color(new CAscColor());
+                border.put_Color(new Asc.asc_CColor());
                 border.put_Value(0);
             }
             return border.get_Value();

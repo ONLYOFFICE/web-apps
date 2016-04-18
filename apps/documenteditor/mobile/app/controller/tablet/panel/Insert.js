@@ -85,7 +85,7 @@ Ext.define('DE.controller.tablet.panel.Insert', {
 
                     mpImg.imageLoadListeners.push(function() {
                         var canvas = document.createElement('canvas'),
-                            imgProperty = new CImgProperty();
+                            imgProperty = new Asc.asc_CImgProperty();
 
                         mpImg.render(canvas, { maxWidth: 1024, maxHeight: 1024 });
                         imgProperty.put_WrappingStyle((input == inputInlineMedia) ? Asc.c_oAscWrapStyle2.Inline : Asc.c_oAscWrapStyle2.Square);

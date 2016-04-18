@@ -213,7 +213,7 @@ define([    'text!presentationeditor/main/app/template/ImageSettingsAdvanced.tem
         getSettings: function() {
             Common.localStorage.setItem("pe-settings-imageratio", (this.btnRatio.pressed) ? 1 : 0);
 
-            var properties = new CImgProperty();
+            var properties = new Asc.asc_CImgProperty();
             if (this.spnHeight.getValue()!=='')
                 properties.put_Height(Common.Utils.Metric.fnRecalcToMM(this.spnHeight.getNumberValue()));
             if (this.spnWidth.getValue()!=='')
