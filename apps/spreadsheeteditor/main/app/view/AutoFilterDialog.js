@@ -331,7 +331,8 @@ define([
 
             this.api            =   options.api;
             this.handler        =   options.handler;
-            this.throughIndexes     =   [];
+            this.throughIndexes =   [];
+            this.filteredIndexes =  [];
 
             _options.tpl        =   _.template(this.template, _options);
 
@@ -639,19 +640,6 @@ define([
 
             this.close();
         },
-        onShowCustomFilterDialog: function () {
-            var me = this,
-                dlgDigitalFilter = new SSE.Views.DigitalFilterDialog({api:this.api}).on({
-                    'close': function() {
-                        me.close();
-                    }
-                });
-
-            this.close();
-
-            dlgDigitalFilter.setSettings(this.configTo);
-            dlgDigitalFilter.show();
-        },
 
         onNumFilterMenuClick: function(menu, item) {
             var filterObj = this.configTo.asc_getFilterObj(),
@@ -801,17 +789,18 @@ define([
             if (record && listView) {
                 listView.isSuspendEvents = true;
 
-                var check = !record.get('check');
+                var check = !record.get('check'),
+                    me = this,
+                    idxs = (me.filter) ? me.filteredIndexes : me.throughIndexes;
                 if ('1' !== record.get('groupid')) {
-                    var arr = this.configTo.asc_getValues();
                     this.cells.each(function(cell) {
                         cell.set('check', check);
                         if (cell.get('throughIndex')>0)
-                            arr[parseInt(cell.get('throughIndex'))-1].asc_setVisible(check);
+                            idxs[parseInt(cell.get('throughIndex'))] = check;
                     });
                 } else {
                     record.set('check', check);
-                    this.configTo.asc_getValues()[parseInt(record.get('throughIndex'))-1].asc_setVisible(check);
+                    idxs[parseInt(record.get('throughIndex'))] = check;
                 }
 
                 this.btnOk.setDisabled(false);
@@ -852,34 +841,12 @@ define([
             }
 
             var me = this,
-                isnumber,
-                value,
-                index = 0,
+                isnumber, value,
+                index = 0, throughIndex = 1,
                 applyfilter = true,
-                throughIndex = 1,
-                haveUnselectedCell = false;
-
-            this.cells.forEach(function (item) {
-                value = item.get('check');
-                if (_.isUndefined(value)) value = false;
-                me.throughIndexes[parseInt(item.get('throughIndex'))] = item.get('check');
-            });
-
-            var arr = [], arrEx = [];
-
-            if (!me.filter) {
-                if (me.throughIndexes[0]==undefined)
-                    me.throughIndexes[0] = true;
-                arr.push(new Common.UI.DataViewModel({
-                    id              : ++index,
-                    selected        : false,
-                    allowSelected   : true,
-                    value           : this.textSelectAll,
-                    groupid         : '0',
-                    check           : me.throughIndexes[0],
-                    throughIndex    : 0
-                }));
-            }
+                haveUnselectedCell = false,
+                arr = [], arrEx = [],
+                idxs = (me.filter) ? me.filteredIndexes : me.throughIndexes;
 
             this.configTo.asc_getValues().forEach(function (item) {
                 value       = item.asc_getText();
@@ -890,10 +857,9 @@ define([
                     if (null === value.match(me.filter)) {
                         applyfilter = false;
                     }
-                }
-
-                if (me.throughIndexes[throughIndex]==undefined)
-                    me.throughIndexes[throughIndex] = item.asc_getVisible();
+                    idxs[throughIndex] = applyfilter;
+                } else if (idxs[throughIndex]==undefined)
+                    idxs[throughIndex] = item.asc_getVisible();
 
                 if (applyfilter) {
                     arr.push(new Common.UI.DataViewModel({
@@ -905,10 +871,10 @@ define([
                         intval          : isnumber ? parseFloat(value) : undefined,
                         strval          : !isnumber ? value : '',
                         groupid         : '1',
-                        check           : me.throughIndexes[throughIndex],
+                        check           : idxs[throughIndex],
                         throughIndex    : throughIndex
                     }));
-                    if (!me.throughIndexes[throughIndex]) {
+                    if (!idxs[throughIndex]) {
                         haveUnselectedCell = true;
                     }
                 } else {
@@ -919,6 +885,20 @@ define([
 
                 ++throughIndex;
             });
+
+            if (me.filter || idxs==undefined)
+                idxs[0] = true;
+            if (!me.filter || arr.length>0)
+                arr.unshift(new Common.UI.DataViewModel({
+                    id              : ++index,
+                    selected        : false,
+                    allowSelected   : true,
+                    value           : this.textSelectAll,
+                    groupid         : '0',
+                    check           : idxs[0],
+                    throughIndex    : 0
+                }));
+
             this.cells.reset(arr);
             this.filterExcludeCells.reset(arrEx);
 
@@ -960,8 +940,15 @@ define([
             return isValid;
         },
         save: function () {
-            if (this.api && this.configTo && this.cells && this.filterExcludeCells)
+            if (this.api && this.configTo && this.cells && this.filterExcludeCells) {
+                var arr = this.configTo.asc_getValues(),
+                    me = this,
+                    idxs = (me.filter) ? me.filteredIndexes : me.throughIndexes;
+                arr.forEach(function(item, index) {
+                    item.asc_setVisible(idxs[index+1]);
+                });
                 this.api.asc_applyAutoFilter('mainFilter', this.configTo);
+            }
         },
 
         onPrimary: function() {
