@@ -1,4 +1,6 @@
 {
+  "Common.Utils.Metric.txtCm": "см",
+  "Common.Utils.Metric.txtPt": "пт",
   "Common.Controllers.Chat.notcriticalErrorTitle": "Предупреждение",
   "Common.Controllers.Chat.textEnterMessage": "Введите здесь своё сообщение",
   "Common.Controllers.Chat.textUserLimit": "Вы используете бесплатную версию ONLYOFFICE.<br>Только два пользователя одновременно могут совместно редактировать документ.<br>Требуется больше? Рекомендуем приобрести корпоративную версию ONLYOFFICE.<br><a href=\"http://www.onlyoffice.com/free-edition.aspx\" target=\"_blank\">Читать дальше</a>",
@@ -573,6 +575,7 @@
   "PE.Views.SlideSettings.textRadial": "Радиальный",
   "PE.Views.SlideSettings.textReset": "Сбросить изменения",
   "PE.Views.SlideSettings.textRight": "Справа",
+  "PE.Views.SlideSettings.textSec": "сек",
   "PE.Views.SlideSettings.textSelectTexture": "Выбрать",
   "PE.Views.SlideSettings.textSmoothly": "Плавно",
   "PE.Views.SlideSettings.textSplit": "Панорама",

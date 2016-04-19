@@ -185,7 +185,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             this.cmbUnit.on('selected', _.bind(function(combo, record) {
                 if (this._changedProps) {
                     var maxwidth = Common.Utils.Metric.fnRecalcFromMM(558);
-                    this.nfWidth.setDefaultUnit(record.value ? '%' : Common.Utils.Metric.metricName[Common.Utils.Metric.getCurrentMetric()]);
+                    this.nfWidth.setDefaultUnit(record.value ? '%' : Common.Utils.Metric.getCurrentMetricName());
                     this.nfWidth.setMaxValue(record.value ? parseFloat((100 * maxwidth/this.pageWidth).toFixed(2)) : maxwidth);
                     this.nfWidth.setStep((record.value || Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt) ? 1 : 0.1);
                     this.nfWidth.setValue((record.value) ? 100*this.nfWidth.getNumberValue()/this.pageWidth : this.pageWidth*this.nfWidth.getNumberValue()/100);
@@ -478,7 +478,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             this.cmbPrefWidthUnit.on('selected', _.bind(function(combo, record) {
                 if (this._changedProps) {
                     var maxwidth = Common.Utils.Metric.fnRecalcFromMM(558);
-                    this.nfPrefWidth.setDefaultUnit(record.value ? '%' : Common.Utils.Metric.metricName[Common.Utils.Metric.getCurrentMetric()]);
+                    this.nfPrefWidth.setDefaultUnit(record.value ? '%' : Common.Utils.Metric.getCurrentMetricName());
                     this.nfPrefWidth.setMaxValue(record.value ? parseFloat((100 * maxwidth/this.pageWidth).toFixed(2)) : maxwidth);
                     this.nfPrefWidth.setStep((record.value || Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt) ? 1 : 0.1);
                     this.nfPrefWidth.setValue((record.value) ? 100*this.nfPrefWidth.getNumberValue()/this.pageWidth : this.pageWidth*this.nfPrefWidth.getNumberValue()/100);
@@ -1172,7 +1172,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 // main props
                 this.cmbUnit.store.at(0).set('displayValue', (currmetric == Common.Utils.Metric.c_MetricUnits.pt) ? this.txtPt : ((currmetric == Common.Utils.Metric.c_MetricUnits.inch) ? this.txtInch : this.txtCm));
                 this.cmbUnit.setValue(TableWidth<0 ? 1 : 0);
-                this.nfWidth.setDefaultUnit(TableWidth<0 ? '%' : Common.Utils.Metric.metricName[Common.Utils.Metric.getCurrentMetric()]);
+                this.nfWidth.setDefaultUnit(TableWidth<0 ? '%' : Common.Utils.Metric.getCurrentMetricName());
                 if (TableWidth<0) //%
                     this.nfWidth.setMaxValue(parseFloat((100 * Common.Utils.Metric.fnRecalcFromMM(558)/this.pageWidth).toFixed(2)));
                 this.nfWidth.setStep((TableWidth<0 || Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt) ? 1 : 0.1);
@@ -1236,7 +1236,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
 
                 this.cmbPrefWidthUnit.store.at(0).set('displayValue', (currmetric == Common.Utils.Metric.c_MetricUnits.pt) ? this.txtPt : ((currmetric == Common.Utils.Metric.c_MetricUnits.inch) ? this.txtInch : this.txtCm));
                 this.cmbPrefWidthUnit.setValue(cellWidth<0 ? 1 : 0);
-                this.nfPrefWidth.setDefaultUnit(cellWidth<0 ? '%' : Common.Utils.Metric.metricName[Common.Utils.Metric.getCurrentMetric()]);
+                this.nfPrefWidth.setDefaultUnit(cellWidth<0 ? '%' : Common.Utils.Metric.getCurrentMetricName());
                 if (cellWidth<0) //%
                     this.nfPrefWidth.setMaxValue(parseFloat((100 * Common.Utils.Metric.fnRecalcFromMM(558)/this.pageWidth).toFixed(2)));
                 this.nfPrefWidth.setStep((cellWidth<0 || Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt) ? 1 : 0.1);
@@ -2071,7 +2071,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             if (this.spinners) {
                 for (var i=0; i<this.spinners.length; i++) {
                     var spinner = this.spinners[i];
-                    spinner.setDefaultUnit(Common.Utils.Metric.metricName[Common.Utils.Metric.getCurrentMetric()]);
+                    spinner.setDefaultUnit(Common.Utils.Metric.getCurrentMetricName());
                     spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt ? 1 : 0.1);
                 }
             }

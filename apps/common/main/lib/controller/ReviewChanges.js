@@ -285,9 +285,9 @@ define([
                         if (value.Get_FontSize() !== undefined)
                             proptext += (value.Get_FontSize() + ', ');
                         if (value.Get_Spacing() !== undefined)
-                            proptext += (me.textSpacing + ' ' + Common.Utils.Metric.fnRecalcFromMM(value.Get_Spacing()).toFixed(2) + ' ' + Common.Utils.Metric.metricName[Common.Utils.Metric.getCurrentMetric()] + ', ');
+                            proptext += (me.textSpacing + ' ' + Common.Utils.Metric.fnRecalcFromMM(value.Get_Spacing()).toFixed(2) + ' ' + Common.Utils.Metric.getCurrentMetricName() + ', ');
                         if (value.Get_Position() !== undefined)
-                            proptext += (me.textPosition + ' ' + Common.Utils.Metric.fnRecalcFromMM(value.Get_Position()).toFixed(2) + ' ' + Common.Utils.Metric.metricName[Common.Utils.Metric.getCurrentMetric()] + ', ');
+                            proptext += (me.textPosition + ' ' + Common.Utils.Metric.fnRecalcFromMM(value.Get_Position()).toFixed(2) + ' ' + Common.Utils.Metric.getCurrentMetricName() + ', ');
                         if (value.Get_Lang() !== undefined)
                             proptext += (Common.util.LanguageInfo.getLocalLanguageName(value.Get_Lang())[1] + ', ');
 
@@ -303,11 +303,11 @@ define([
                         if (value.Get_ContextualSpacing())
                             proptext += ((value.Get_ContextualSpacing() ? me.textContextual : me.textNoContextual) + ', ');
                         if (value.Get_IndLeft() !== undefined)
-                            proptext += (me.textIndentLeft + ' ' + Common.Utils.Metric.fnRecalcFromMM(value.Get_IndLeft()).toFixed(2) + ' ' + Common.Utils.Metric.metricName[Common.Utils.Metric.getCurrentMetric()] + ', ');
+                            proptext += (me.textIndentLeft + ' ' + Common.Utils.Metric.fnRecalcFromMM(value.Get_IndLeft()).toFixed(2) + ' ' + Common.Utils.Metric.getCurrentMetricName() + ', ');
                         if (value.Get_IndRight() !== undefined)
-                            proptext += (me.textIndentRight + ' ' + Common.Utils.Metric.fnRecalcFromMM(value.Get_IndRight()).toFixed(2) + ' ' + Common.Utils.Metric.metricName[Common.Utils.Metric.getCurrentMetric()] + ', ');
+                            proptext += (me.textIndentRight + ' ' + Common.Utils.Metric.fnRecalcFromMM(value.Get_IndRight()).toFixed(2) + ' ' + Common.Utils.Metric.getCurrentMetricName() + ', ');
                         if (value.Get_IndFirstLine() !== undefined)
-                            proptext += (me.textFirstLine + ' ' + Common.Utils.Metric.fnRecalcFromMM(value.Get_IndFirstLine()).toFixed(2) + ' ' + Common.Utils.Metric.metricName[Common.Utils.Metric.getCurrentMetric()] + ', ');
+                            proptext += (me.textFirstLine + ' ' + Common.Utils.Metric.fnRecalcFromMM(value.Get_IndFirstLine()).toFixed(2) + ' ' + Common.Utils.Metric.getCurrentMetricName() + ', ');
                         if (value.Get_Jc() !== undefined) {
                             switch (value.Get_Jc()) {
                                 case 0:
@@ -334,16 +334,16 @@ define([
                         if (value.Get_SpacingLineRule() !== undefined && value.Get_SpacingLine() !== undefined) {
                             proptext += me.textLineSpacing;
                             proptext += (((value.Get_SpacingLineRule() == c_paragraphLinerule.LINERULE_LEAST) ? me.textAtLeast : ((value.Get_SpacingLineRule() == c_paragraphLinerule.LINERULE_AUTO) ? me.textMultiple : me.textExact)) + ' ');
-                            proptext += (((value.Get_SpacingLineRule()==c_paragraphLinerule.LINERULE_AUTO) ? value.Get_SpacingLine() : Common.Utils.Metric.fnRecalcFromMM(value.Get_SpacingLine()).toFixed(2) + ' ' + Common.Utils.Metric.metricName[Common.Utils.Metric.getCurrentMetric()]) + ', ');
+                            proptext += (((value.Get_SpacingLineRule()==c_paragraphLinerule.LINERULE_AUTO) ? value.Get_SpacingLine() : Common.Utils.Metric.fnRecalcFromMM(value.Get_SpacingLine()).toFixed(2) + ' ' + Common.Utils.Metric.getCurrentMetricName()) + ', ');
                         }
                         if (value.Get_SpacingBeforeAutoSpacing())
                             proptext += (me.textSpacingBefore + ' ' + me.textAuto +', ');
                         else if (value.Get_SpacingBefore() !== undefined)
-                            proptext += (me.textSpacingBefore + ' ' + Common.Utils.Metric.fnRecalcFromMM(value.Get_SpacingBefore()).toFixed(2) + ' ' + Common.Utils.Metric.metricName[Common.Utils.Metric.getCurrentMetric()] + ', ');
+                            proptext += (me.textSpacingBefore + ' ' + Common.Utils.Metric.fnRecalcFromMM(value.Get_SpacingBefore()).toFixed(2) + ' ' + Common.Utils.Metric.getCurrentMetricName() + ', ');
                         if (value.Get_SpacingAfterAutoSpacing())
                             proptext += (me.textSpacingAfter + ' ' + me.textAuto +', ');
                         else if (value.Get_SpacingAfter() !== undefined)
-                            proptext += (me.textSpacingAfter + ' ' + Common.Utils.Metric.fnRecalcFromMM(value.Get_SpacingAfter()).toFixed(2) + ' ' + Common.Utils.Metric.metricName[Common.Utils.Metric.getCurrentMetric()] + ', ');
+                            proptext += (me.textSpacingAfter + ' ' + Common.Utils.Metric.fnRecalcFromMM(value.Get_SpacingAfter()).toFixed(2) + ' ' + Common.Utils.Metric.getCurrentMetricName() + ', ');
                         if (value.Get_WidowControl())
                             proptext += ((value.Get_WidowControl() ? me.textWidow : me.textNoWidow) + ', ');
                         if (value.Get_Tabs() !== undefined)

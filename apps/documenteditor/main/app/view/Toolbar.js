@@ -686,10 +686,10 @@ define([
             
             var pageMarginsTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem"><div><b><%= caption %></b></div>' +
                                     '<% if (options.value !== null) { %><div style="display: inline-block;margin-right: 20px;min-width: 80px;">' +
-                                    '<label style="display: block;">'+ this.textTop +'<%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(options.value[0]).toFixed(2)) %> <%= Common.Utils.Metric.metricName[Common.Utils.Metric.getCurrentMetric()] %></label>' +
-                                    '<label style="display: block;">'+ this.textLeft +'<%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(options.value[1]).toFixed(2)) %> <%= Common.Utils.Metric.metricName[Common.Utils.Metric.getCurrentMetric()] %></label></div><div style="display: inline-block;">' +
-                                    '<label style="display: block;">'+ this.textBottom +'<%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(options.value[2]).toFixed(2)) %> <%= Common.Utils.Metric.metricName[Common.Utils.Metric.getCurrentMetric()] %></label>'+
-                                    '<label style="display: block;">'+ this.textRight +'<%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(options.value[3]).toFixed(2)) %> <%= Common.Utils.Metric.metricName[Common.Utils.Metric.getCurrentMetric()] %></label></div>'+
+                                    '<label style="display: block;">'+ this.textTop +'<%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(options.value[0]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %></label>' +
+                                    '<label style="display: block;">'+ this.textLeft +'<%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(options.value[1]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %></label></div><div style="display: inline-block;">' +
+                                    '<label style="display: block;">'+ this.textBottom +'<%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(options.value[2]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %></label>'+
+                                    '<label style="display: block;">'+ this.textRight +'<%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(options.value[3]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %></label></div>'+
                                     '<% } %></a>');
 
             this.btnPageMargins = new Common.UI.Button({
@@ -713,8 +713,8 @@ define([
             this.toolbarControls.push(this.btnPageMargins);
 
             var pageSizeTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem"><div><b><%= caption %></b></div>' +
-                '<div><%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(options.value[0]).toFixed(2)) %> <%= Common.Utils.Metric.metricName[Common.Utils.Metric.getCurrentMetric()] %> x '+
-                '<%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(options.value[1]).toFixed(2)) %> <%= Common.Utils.Metric.metricName[Common.Utils.Metric.getCurrentMetric()] %></div></a>');
+                '<div><%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(options.value[0]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %> x '+
+                '<%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(options.value[1]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %></div></a>');
             
             this.btnPageSize = new Common.UI.Button({
                 id          : 'id-toolbar-btn-pagesize',

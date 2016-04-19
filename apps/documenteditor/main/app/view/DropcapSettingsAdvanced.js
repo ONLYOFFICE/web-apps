@@ -135,20 +135,20 @@ define([
                 });
             }, this);
 
-
+            var txtPt = Common.Utils.Metric.getMetricName(Common.Utils.Metric.c_MetricUnits.pt);
             this.cmbBorderSize = new Common.UI.ComboBorderSize({
                 el          : $('#drop-advanced-input-bordersize'),
                 style       : 'width: 90px;',
                 store       : new Backbone.Collection(),
                 data: [
                     {id: Common.UI.getId(), displayValue: this.txtNoBorders,   value: 0,    borderstyle: ''},
-                    {id: Common.UI.getId(), displayValue: '0.5 pt',            value: 0.5,  pxValue: 0.5,   offsety: 0},
-                    {id: Common.UI.getId(), displayValue: '1 pt',              value: 1,    pxValue: 1,     offsety: 20},
-                    {id: Common.UI.getId(), displayValue: '1.5 pt',            value: 1.5,  pxValue: 2,     offsety: 40},
-                    {id: Common.UI.getId(), displayValue: '2.25 pt',           value: 2.25, pxValue: 3,     offsety: 60},
-                    {id: Common.UI.getId(), displayValue: '3 pt',              value: 3,    pxValue: 4,     offsety: 80},
-                    {id: Common.UI.getId(), displayValue: '4.5 pt',            value: 4.5,  pxValue: 5,     offsety: 100},
-                    {id: Common.UI.getId(), displayValue: '6 pt',              value: 6,    pxValue: 6,     offsety: 120}
+                    {id: Common.UI.getId(), displayValue: '0.5 ' + txtPt,            value: 0.5,  pxValue: 0.5,   offsety: 0},
+                    {id: Common.UI.getId(), displayValue: '1 ' + txtPt,              value: 1,    pxValue: 1,     offsety: 20},
+                    {id: Common.UI.getId(), displayValue: '1.5 ' + txtPt,            value: 1.5,  pxValue: 2,     offsety: 40},
+                    {id: Common.UI.getId(), displayValue: '2.25 ' + txtPt,           value: 2.25, pxValue: 3,     offsety: 60},
+                    {id: Common.UI.getId(), displayValue: '3 ' + txtPt,              value: 3,    pxValue: 4,     offsety: 80},
+                    {id: Common.UI.getId(), displayValue: '4.5 ' + txtPt,            value: 4.5,  pxValue: 5,     offsety: 100},
+                    {id: Common.UI.getId(), displayValue: '6 ' + txtPt,              value: 6,    pxValue: 6,     offsety: 120}
                 ]
             }).on('selected', _.bind(function(combo, record) {
                 this.BorderSize = {ptValue: record.value, pxValue: record.pxValue};
@@ -851,7 +851,7 @@ define([
                 me.spnX,
                 me.spnY
             ], function(spinner) {
-                spinner.setDefaultUnit(Common.Utils.Metric.metricName[Common.Utils.Metric.getCurrentMetric()]);
+                spinner.setDefaultUnit(Common.Utils.Metric.getCurrentMetricName());
                 spinner.setStep(Common.Utils.Metric.getCurrentMetric() == Common.Utils.Metric.c_MetricUnits.pt ? 1 : 0.1);
             });
         },
@@ -902,7 +902,7 @@ define([
                             }
                         } else {
                             value = frame_props.get_X();
-                            this.cmbHAlign.setValue(Common.Utils.Metric.fnRecalcFromMM((value!==undefined) ? value : 0) + ' ' + Common.Utils.Metric.metricName[Common.Utils.Metric.getCurrentMetric()]);
+                            this.cmbHAlign.setValue(Common.Utils.Metric.fnRecalcFromMM((value!==undefined) ? value : 0) + ' ' + Common.Utils.Metric.getCurrentMetricName());
                         }
 
                         value = frame_props.get_VAnchor();
@@ -924,7 +924,7 @@ define([
                             }
                         } else {
                             value = frame_props.get_Y();
-                            this.cmbVAlign.setValue(Common.Utils.Metric.fnRecalcFromMM((value!==undefined) ? value : 0) + ' ' + Common.Utils.Metric.metricName[Common.Utils.Metric.getCurrentMetric()]);
+                            this.cmbVAlign.setValue(Common.Utils.Metric.fnRecalcFromMM((value!==undefined) ? value : 0) + ' ' + Common.Utils.Metric.getCurrentMetricName());
                         }
 
                         value = frame_props.get_Wrap();
