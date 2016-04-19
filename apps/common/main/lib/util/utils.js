@@ -224,7 +224,7 @@ Common.Utils.ThemeColor = new(function() {
             color=color.replace(/#/,'');
             if(color.length==3) color=color.replace(/(.)/g,'$1$1');
             color=parseInt(color,16);
-            var c = new CAscColor();
+            var c = new Asc.asc_CColor();
             c.put_type( (typeof(clr) == 'object' && clr.effectId !== undefined)? Asc.c_oAscColor.COLOR_TYPE_SCHEME : Asc.c_oAscColor.COLOR_TYPE_SRGB);
             c.put_r(color>>16);
             c.put_g((color&0xff00)>>8);

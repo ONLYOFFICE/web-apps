@@ -160,7 +160,7 @@ var ApplicationController = new(function(){
         if (docConfig) {
             permissions = $.extend(permissions, docConfig.permissions);
 
-            var docInfo = new CDocInfo();
+            var docInfo = new Asc.asc_CDocInfo();
             docInfo.put_Id(docConfig.key);
             docInfo.put_Url(docConfig.url);
             docInfo.put_Title(docConfig.title);
