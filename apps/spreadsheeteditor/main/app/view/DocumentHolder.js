@@ -109,10 +109,10 @@ define([
                 menu        : new Common.UI.Menu({
                     menuAlign   : 'tl-tr',
                     items: [
-                        { caption: this.selectRowText,      value:  c_oAscChangeSelectionFormatTable.row},
-                        { caption: this.selectColumnText,   value: c_oAscChangeSelectionFormatTable.column},
-                        { caption: this.selectDataText,     value: c_oAscChangeSelectionFormatTable.data},
-                        { caption: this.selectTableText,    value: c_oAscChangeSelectionFormatTable.all}
+                        { caption: this.selectRowText,      value:  Asc.c_oAscChangeSelectionFormatTable.row},
+                        { caption: this.selectColumnText,   value: Asc.c_oAscChangeSelectionFormatTable.column},
+                        { caption: this.selectDataText,     value: Asc.c_oAscChangeSelectionFormatTable.data},
+                        { caption: this.selectTableText,    value: Asc.c_oAscChangeSelectionFormatTable.all}
                     ]
                 })
             });
@@ -148,10 +148,10 @@ define([
                 menu        : new Common.UI.Menu({
                     menuAlign   : 'tl-tr',
                     items: [
-                        { caption: me.insertRowAboveText, value: c_oAscInsertOptions.InsertTableRowAbove},
-                        { caption: me.insertRowBelowText, value: c_oAscInsertOptions.InsertTableRowBelow},
-                        { caption: me.insertColumnLeftText,  value: c_oAscInsertOptions.InsertTableColLeft},
-                        { caption: me.insertColumnRightText, value: c_oAscInsertOptions.InsertTableColRight}
+                        { caption: me.insertRowAboveText, value: Asc.c_oAscInsertOptions.InsertTableRowAbove},
+                        { caption: me.insertRowBelowText, value: Asc.c_oAscInsertOptions.InsertTableRowBelow},
+                        { caption: me.insertColumnLeftText,  value: Asc.c_oAscInsertOptions.InsertTableColLeft},
+                        { caption: me.insertColumnRightText, value: Asc.c_oAscInsertOptions.InsertTableColRight}
                     ]
                 })
             });
@@ -187,9 +187,9 @@ define([
                 menu        : new Common.UI.Menu({
                     menuAlign   : 'tl-tr',
                     items: [
-                        { caption: this.deleteRowText,      value: c_oAscDeleteOptions.DeleteRows},
-                        { caption: this.deleteColumnText,   value: c_oAscDeleteOptions.DeleteColumns},
-                        { caption: this.deleteTableText,    value: c_oAscDeleteOptions.DeleteTable}
+                        { caption: this.deleteRowText,      value: Asc.c_oAscDeleteOptions.DeleteRows},
+                        { caption: this.deleteColumnText,   value: Asc.c_oAscDeleteOptions.DeleteColumns},
+                        { caption: this.deleteTableText,    value: Asc.c_oAscDeleteOptions.DeleteTable}
                     ]
                 })
             });
