@@ -20,6 +20,76 @@
     </table>
     </div>
 </div>
+<div id="id-adv-shape-size" class="settings-panel active">
+    <div class="inner-content">
+    <table cols="3">
+        <tr>
+            <td colspan="3">
+                <label class="header"><%= scope.textWidth %></label>
+            </td>
+        </tr>
+        <tr>
+            <td style="vertical-align: bottom; padding-bottom: 12px;">
+                <div id="shape-radio-hsize"></div>
+            </td>
+            <td class="padding-small">
+                <label class="input-label"><%= scope.textAbsoluteWH %></label>
+                <div id="shape-advanced-spin-width"></div>
+            </td>
+        </tr>
+        <tr>
+            <td style="vertical-align: bottom; padding-bottom: 19px;">
+                <div id="shape-radio-hsizepc"></div>
+            </td>
+            <td class="padding-large" style="padding-right: 15px;">
+                <label class="input-label"><%= scope.textRelativeWH %></label>
+                <div id="shape-advanced-spin-width-rel"></div>
+            </td>
+            <td class="padding-large">
+                <label class="input-label"><%= scope.textRelative %></label>
+                <div id="shape-combo-width-rel" style="width: 115px;"></div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <label class="header"><%= scope.textHeight %></label>
+            </td>
+        </tr>
+        <tr>
+            <td style="vertical-align: bottom; padding-bottom: 12px;">
+                <div id="shape-radio-vsize"></div>
+            </td>
+            <td class="padding-small">
+                <label class="input-label"><%= scope.textAbsoluteWH %></label>
+                <div id="shape-advanced-spin-height"></div>
+            </td>
+        </tr>
+        <tr>
+            <td style="vertical-align: bottom; padding-bottom: 19px;">
+                <div id="shape-radio-vsizepc"></div>
+            </td>
+            <td class="padding-large" style="padding-right: 15px;">
+                <label class="input-label"><%= scope.textRelativeWH %></label>
+                <div id="shape-advanced-spin-height-rel"></div>
+            </td>
+            <td class="padding-large">
+                <label class="input-label"><%= scope.textRelative %></label>
+                <div id="shape-combo-height-rel" style="width: 115px;"></div>
+            </td>
+        </tr>
+    </table>
+    </div>
+    <div class="separator horizontal padding-large"></div>
+    <div class="inner-content">
+        <table cols="1" style="width: 100%;">
+            <tr>
+                <td>
+                    <div id="shape-checkbox-ratio"></div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
 <div id="id-adv-image-wrap" class="settings-panel">
     <div class="inner-content padding-large">
         <label class="header padding-small"><%= scope.textWrap %></label>
