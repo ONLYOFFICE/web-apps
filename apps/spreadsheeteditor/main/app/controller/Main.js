@@ -284,13 +284,13 @@ define([
                 if (data.doc) {
                     this.permissions = _.extend(this.permissions, data.doc.permissions);
 
-                    var _user = new CUserInfo();
+                    var _user = new Asc.asc_CUserInfo();
                     _user.put_Id(this.appOptions.user.id);
                     _user.put_FirstName(this.appOptions.user.firstname);
                     _user.put_LastName(this.appOptions.user.lastname);
                     _user.put_FullName(this.appOptions.user.fullname);
 
-                    docInfo = new CDocInfo();
+                    docInfo = new Asc.asc_CDocInfo();
                     docInfo.put_Id(data.doc.key);
                     docInfo.put_Url(data.doc.url);
                     docInfo.put_Title(data.doc.title);

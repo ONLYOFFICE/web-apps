@@ -241,7 +241,7 @@ define([
             this.disableControls(this._locked);
 
             if (props  && props.get_ChartProperties()){
-                this._originalProps = new CImgProperty(props);
+                this._originalProps = new Asc.asc_CImgProperty(props);
 
                 this._noApply = true;
                 var value = props.get_WrappingStyle();
@@ -367,7 +367,7 @@ define([
             this.btnWrapType.setIconCls('item-wrap ' + rawData.iconCls);
 
             if (this.api) {
-                var props = new CImgProperty();
+                var props = new Asc.asc_CImgProperty();
                 props.put_WrappingStyle((rawData.data));
 
                 if (this._state.WrappingStyle===Asc.c_oAscWrapStyle2.Inline && rawData.data!==Asc.c_oAscWrapStyle2.Inline ) {
@@ -461,7 +461,7 @@ define([
             this._state.ChartType = -1;
 
             if (this.api && !this._noApply && this.chartProps) {
-                var props = new CImgProperty();
+                var props = new Asc.asc_CImgProperty();
                 this.chartProps.changeType(rawData.type);
                 props.put_ChartProperties(this.chartProps);
                 this.api.ImgApply(props);
@@ -491,7 +491,7 @@ define([
             btnIconEl.css('background-image', style);
 
             if (this.api && !this._noApply && this.chartProps) {
-                var props = new CImgProperty();
+                var props = new Asc.asc_CImgProperty();
                 this.chartProps.putStyle(rawData.data);
                 props.put_ChartProperties(this.chartProps);
                 this.api.ImgApply(props);

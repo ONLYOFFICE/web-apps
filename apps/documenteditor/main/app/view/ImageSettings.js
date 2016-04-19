@@ -179,7 +179,7 @@ define([
             this.disableControls(this._locked);
 
             if (props ){
-                this._originalProps = new CImgProperty(props);
+                this._originalProps = new Asc.asc_CImgProperty(props);
 
                 var value = props.get_WrappingStyle();
                 if (this._state.WrappingStyle!==value) {
@@ -250,7 +250,7 @@ define([
             this.btnWrapType.setIconCls('item-wrap ' + rawData.iconcls);
 
             if (this.api) {
-                var props = new CImgProperty();
+                var props = new Asc.asc_CImgProperty();
                 props.put_WrappingStyle((rawData.data));
                 if (this._state.WrappingStyle===Asc.c_oAscWrapStyle2.Inline && rawData.data!==Asc.c_oAscWrapStyle2.Inline ) {
                     props.put_PositionH(new Asc.CImagePositionH());
@@ -281,7 +281,7 @@ define([
                 this.labelWidth[0].innerHTML = this.textWidth + ': ' + Common.Utils.Metric.fnRecalcFromMM(w).toFixed(1) + ' ' + Common.Utils.Metric.metricName[Common.Utils.Metric.getCurrentMetric()];
                 this.labelHeight[0].innerHTML = this.textHeight + ': ' + Common.Utils.Metric.fnRecalcFromMM(h).toFixed(1) + ' ' + Common.Utils.Metric.metricName[Common.Utils.Metric.getCurrentMetric()];
 
-                var properties = new CImgProperty();
+                var properties = new Asc.asc_CImgProperty();
                 properties.put_Width(w);
                 properties.put_Height(h);
                 this.api.ImgApply(properties);
@@ -297,7 +297,7 @@ define([
                         if (me.api) {
                             var checkUrl = value.replace(/ /g, '');
                             if (!_.isEmpty(checkUrl)) {
-                                var props = new CImgProperty();
+                                var props = new Asc.asc_CImgProperty();
                                 props.put_ImageUrl(checkUrl);
                                 me.api.ImgApply(props);
                             }

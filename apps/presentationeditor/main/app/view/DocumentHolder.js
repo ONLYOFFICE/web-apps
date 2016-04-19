@@ -1510,7 +1510,7 @@ define([
                 menu        : (function(){
                     function onItemClick(item) {
                         if (me.api) {
-                            var properties = new CAscShapeProp();
+                            var properties = new Asc.asc_CShapeProperty();
                             properties.put_VerticalTextAlign(item.value);
 
                             me.api.ShapeApply(properties);
@@ -1548,7 +1548,7 @@ define([
 
             var paragraphDirection = function(item, e) {
                 if (me.api) {
-                    var properties = new CAscShapeProp();
+                    var properties = new Asc.asc_CShapeProperty();
                     properties.put_Vert(item.options.direction);
                     me.api.ShapeApply(properties);
                 }
@@ -1600,7 +1600,7 @@ define([
                     var originalImageSize = me.api.get_OriginalSizeImage();
 
                     if (originalImageSize) {
-                        var properties = new CImgProperty();
+                        var properties = new Asc.asc_CImgProperty();
 
                         properties.put_Width(originalImageSize.get_ImageWidth());
                         properties.put_Height(originalImageSize.get_ImageHeight());
