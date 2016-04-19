@@ -91,7 +91,6 @@ define([
             this._locked = false;
             this._originalLook = new Asc.CTablePropLook();
 
-            var fullwidth = 218;
             this._originalProps = null;
             this.CellBorders = {};
             this.CellColor = {Value: 1, Color: 'transparent'};  // value=1 - цвет определен - прозрачный или другой, value=0 - цвет не определен, рисуем прозрачным
@@ -662,39 +661,39 @@ define([
 
             if (border.indexOf('l') > -1 || !visible) {
                 if (updateBorders.get_Left()===null || updateBorders.get_Left()===undefined)
-                    updateBorders.put_Left(new CBorder());
+                    updateBorders.put_Left(new Asc.asc_CTextBorder());
                 this._UpdateBorderStyle (updateBorders.get_Left(), visible);
             }
             if (border.indexOf('t') > -1 || !visible) {
                 if (updateBorders.get_Top()===null || updateBorders.get_Top()===undefined)
-                    updateBorders.put_Top(new CBorder());
+                    updateBorders.put_Top(new Asc.asc_CTextBorder());
                 this._UpdateBorderStyle (updateBorders.get_Top(), visible);
             }
             if (border.indexOf('r') > -1 || !visible) {
                 if (updateBorders.get_Right()===null || updateBorders.get_Right()===undefined)
-                    updateBorders.put_Right(new CBorder());
+                    updateBorders.put_Right(new Asc.asc_CTextBorder());
                 this._UpdateBorderStyle (updateBorders.get_Right(), visible);
             }
             if (border.indexOf('b') > -1 || !visible) {
                 if (updateBorders.get_Bottom()===null || updateBorders.get_Bottom()===undefined)
-                    updateBorders.put_Bottom(new CBorder());
+                    updateBorders.put_Bottom(new Asc.asc_CTextBorder());
                 this._UpdateBorderStyle (updateBorders.get_Bottom(), visible);
             }
             if (border.indexOf('c') > -1 || !visible) {
                 if (updateBorders.get_InsideV()===null || updateBorders.get_InsideV()===undefined)
-                    updateBorders.put_InsideV(new CBorder());
+                    updateBorders.put_InsideV(new Asc.asc_CTextBorder());
                 this._UpdateBorderStyle (updateBorders.get_InsideV(), visible);
             }
             if (border.indexOf('m') > -1 || !visible) {
                 if (updateBorders.get_InsideH()===null || updateBorders.get_InsideH()===undefined)
-                    updateBorders.put_InsideH(new CBorder());
+                    updateBorders.put_InsideH(new Asc.asc_CTextBorder());
                 this._UpdateBorderStyle (updateBorders.get_InsideH(), visible);
             }
         },
 
         _UpdateBorderStyle: function(border, visible) {
             if (null == border)
-                border = new CBorder();
+                border = new Asc.asc_CTextBorder();
 
             if (visible && this.BorderSize > 0){
                 var size = parseFloat(this.BorderSize);

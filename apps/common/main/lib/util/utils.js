@@ -224,7 +224,7 @@ Common.Utils.ThemeColor = new(function() {
             color=color.replace(/#/,'');
             if(color.length==3) color=color.replace(/(.)/g,'$1$1');
             color=parseInt(color,16);
-            var c = new CAscColor();
+            var c = new Asc.asc_CColor();
             c.put_type( (typeof(clr) == 'object' && clr.effectId !== undefined)? Asc.c_oAscColor.COLOR_TYPE_SCHEME : Asc.c_oAscColor.COLOR_TYPE_SRGB);
             c.put_r(color>>16);
             c.put_g((color&0xff00)>>8);
@@ -260,6 +260,7 @@ Common.Utils.Metric = _.extend( new(function() {
 
     me.currentMetric = me.c_MetricUnits.pt;
     me.metricName = ['Cm', 'Pt', 'Inch'];
+    me.defaultMetric = me.c_MetricUnits.cm;
 
     return {
         c_MetricUnits: me.c_MetricUnits,
@@ -281,6 +282,14 @@ Common.Utils.Metric = _.extend( new(function() {
 
         getMetricName: function(unit) {
             return this['txt' + me.metricName[(unit !== undefined) ? unit : 0]];
+        },
+        
+        setDefaultMetric: function(value) {
+            me.defaultMetric = value;
+        },
+
+        getDefaultMetric: function() {
+            return me.defaultMetric;
         },
 
         fnRecalcToMM: function(value) {

@@ -118,7 +118,7 @@ define([    'text!presentationeditor/main/app/template/TableSettingsAdvanced.tem
                 this._marginsChange( field, newValue, oldValue, eOpts, 'table', 'Top');
                 if (this._changedProps)  {
                     if (this._changedProps.get_DefaultMargins()===undefined)
-                        this._changedProps.put_DefaultMargins(new CPaddings());
+                        this._changedProps.put_DefaultMargins(new Asc.asc_CPaddings());
                     this._changedProps.get_DefaultMargins().put_Top((this.TableMargins.Top!==null) ? Common.Utils.Metric.fnRecalcToMM(this.TableMargins.Top) : null);
                     this.TableMargins.isChanged = true;
                 }
@@ -138,7 +138,7 @@ define([    'text!presentationeditor/main/app/template/TableSettingsAdvanced.tem
                 this._marginsChange( field, newValue, oldValue, eOpts, 'table', 'Bottom');
                 if (this._changedProps)  {
                     if (this._changedProps.get_DefaultMargins()===undefined)
-                        this._changedProps.put_DefaultMargins(new CPaddings());
+                        this._changedProps.put_DefaultMargins(new Asc.asc_CPaddings());
                     this._changedProps.get_DefaultMargins().put_Bottom((this.TableMargins.Bottom!==null) ? Common.Utils.Metric.fnRecalcToMM(this.TableMargins.Bottom) : null);
                     this.TableMargins.isChanged = true;
                 }
@@ -158,7 +158,7 @@ define([    'text!presentationeditor/main/app/template/TableSettingsAdvanced.tem
                 this._marginsChange( field, newValue, oldValue, eOpts, 'table', 'Left');
                 if (this._changedProps)  {
                     if (this._changedProps.get_DefaultMargins()===undefined)
-                        this._changedProps.put_DefaultMargins(new CPaddings());
+                        this._changedProps.put_DefaultMargins(new Asc.asc_CPaddings());
                     this._changedProps.get_DefaultMargins().put_Left((this.TableMargins.Left!==null) ? Common.Utils.Metric.fnRecalcToMM(this.TableMargins.Left) : null);
                     this.TableMargins.isChanged = true;
                 }
@@ -178,7 +178,7 @@ define([    'text!presentationeditor/main/app/template/TableSettingsAdvanced.tem
                 this._marginsChange( field, newValue, oldValue, eOpts, 'table', 'Right');
                 if (this._changedProps)  {
                     if (this._changedProps.get_DefaultMargins()===undefined)
-                        this._changedProps.put_DefaultMargins(new CPaddings());
+                        this._changedProps.put_DefaultMargins(new Asc.asc_CPaddings());
                     this._changedProps.get_DefaultMargins().put_Right((this.TableMargins.Right!==null) ? Common.Utils.Metric.fnRecalcToMM(this.TableMargins.Right) : null);
                     this.TableMargins.isChanged = true;
                 }

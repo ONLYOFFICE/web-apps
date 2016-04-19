@@ -63,8 +63,8 @@ define([
 
             this.template = [
                 '<div class="box">',
-                    '<div id="id-dlg-tableoptions-range" class="input-row" style="margin-bottom: 10px;"></div>',
-                    '<div class="input-row" id="id-dlg-tableoptions-title"></div>',
+                    '<div id="id-dlg-tableoptions-range" class="input-row"  style="margin-bottom: 5px;"></div>',
+                    '<div class="input-row" id="id-dlg-tableoptions-title" style="margin-top: 5px;"></div>',
                 '</div>',
                 '<div class="footer right">',
                     '<button class="btn normal dlg-btn primary" result="ok" style="margin-right: 10px;">' + this.okButtonText + '</button>',
@@ -73,6 +73,7 @@ define([
             ].join('');
 
             this.options.tpl = _.template(this.template, this.options);
+            this.checkRangeType = Asc.c_oAscSelectionDialogType.FormatTable;
 
             Common.UI.Window.prototype.initialize.call(this, this.options);
         },
@@ -114,30 +115,39 @@ define([
             if (settings.api) {
                 me.api = settings.api;
 
-                var options = me.api.asc_getAddFormatTableOptions();
+                if (settings.range) {
+                    me.cbTitle.setVisible(false);
+                    me.setHeight(130);
+                    me.checkRangeType = Asc.c_oAscSelectionDialogType.FormatTableChangeRange;
+                    me.inputRange.setValue(settings.range);
+                    me.api.asc_setSelectionDialogMode(Asc.c_oAscSelectionDialogType.FormatTable, settings.range);
+                } else {
+                    var options = me.api.asc_getAddFormatTableOptions();
+                    me.inputRange.setValue(options.asc_getRange());
+                    me.cbTitle.setValue(options.asc_getIsTitle());
+                    me.api.asc_setSelectionDialogMode(Asc.c_oAscSelectionDialogType.FormatTable, options.asc_getRange());
+                }
+                if (settings.title)
+                    me.setTitle(settings.title);
 
-                this.inputRange.setValue(options.asc_getRange());
-                this.cbTitle.setValue(options.asc_getIsTitle());
-
-                me.api.asc_setSelectionDialogMode(Asc.c_oAscSelectionDialogType.FormatTable, options.asc_getRange());
                 me.api.asc_unregisterCallback('asc_onSelectionRangeChanged', _.bind(me.onApiRangeChanged, me));
                 me.api.asc_registerCallback('asc_onSelectionRangeChanged', _.bind(me.onApiRangeChanged, me));
                 Common.NotificationCenter.trigger('cells:range', Asc.c_oAscSelectionDialogType.FormatTable);
             }
 
             me.inputRange.validation = function(value) {
-                var isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.FormatTable, value, false);
+                var isvalid = me.api.asc_checkDataRange(me.checkRangeType, value, false);
                 return (isvalid==Asc.c_oAscError.ID.DataRangeError) ? me.txtInvalidRange : true;
             };
         },
 
         getSettings: function () {
-            var options = this.api.asc_getAddFormatTableOptions(this.inputRange.getValue());
-
-//            options.asc_setRange(this.inputRange.getValue());
-            options.asc_setIsTitle(this.cbTitle.checked);
-
-            return options;
+            if (this.checkRangeType == Asc.c_oAscSelectionDialogType.FormatTable) {
+                var options = this.api.asc_getAddFormatTableOptions(this.inputRange.getValue());
+                options.asc_setIsTitle(this.cbTitle.checked);
+                return options;
+            } else
+                return this.inputRange.getValue();
         },
 
         onApiRangeChanged: function(info) {
@@ -147,12 +157,16 @@ define([
         },
 
         isRangeValid: function() {
-            var isvalid = this.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.FormatTable, this.inputRange.getValue(), true);
+            var isvalid = this.api.asc_checkDataRange(this.checkRangeType, this.inputRange.getValue(), true);
             if (isvalid == Asc.c_oAscError.ID.No)
                 return true;
             else {
                 if (isvalid == Asc.c_oAscError.ID.AutoFilterDataRangeError) {
                     Common.UI.warning({msg: this.errorAutoFilterDataRange});
+                } else if (isvalid == Asc.c_oAscError.ID.FTChangeTableRangeError) {
+                    Common.UI.warning({msg: this.errorFTChangeTableRangeError});
+                } else if (isvalid == Asc.c_oAscError.ID.FTRangeIncludedOtherTables) {
+                    Common.UI.warning({msg: this.errorFTRangeIncludedOtherTables});
                 }
             }
             return false;
@@ -198,10 +212,12 @@ define([
 //        },
 
         txtTitle    : 'Title',
-        txtFormat   : 'Format as table',
+        txtFormat   : 'Create table',
         textCancel  : 'Cancel',
         txtEmpty    : 'This field is required',
         txtInvalidRange: 'ERROR! Invalid cells range',
-        errorAutoFilterDataRange: 'The operation could not be done for the selected range of cells.<br>Select a uniform data range inside or outside the table and try again.'
+        errorAutoFilterDataRange: 'The operation could not be done for the selected range of cells.<br>Select a uniform data range inside or outside the table and try again.',
+        errorFTChangeTableRangeError: 'Operation could not be completed for the selected cell range.<br>Select a range so that the first table row was on the same row<br>and the resulting table overlapped the current one.',
+        errorFTRangeIncludedOtherTables: 'Operation could not be completed for the selected cell range.<br>Select a range which does not include other tables.'
     }, SSE.Views.TableOptionsDialog || {}))
 });

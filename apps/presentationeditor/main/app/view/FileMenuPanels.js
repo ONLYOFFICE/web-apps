@@ -273,7 +273,7 @@ define([
 
             /** coauthoring begin **/
             value = Common.localStorage.getItem("pe-settings-coauthmode");
-            var fast_coauth = (value===null || parseInt(value) == 1);
+            var fast_coauth = (value===null || parseInt(value) == 1) && !(this.mode.isDesktopApp && this.mode.isOffline);
 
             item = this.cmbCoAuthMode.store.findWhere({value: parseInt(value)});
             this.cmbCoAuthMode.setValue(item ? item.get('value') : 1);
@@ -282,11 +282,11 @@ define([
 
             value = Common.localStorage.getItem("pe-settings-unit");
             item = this.cmbUnit.store.findWhere({value: parseInt(value)});
-            this.cmbUnit.setValue(item ? parseInt(item.get('value')) : 0);
+            this.cmbUnit.setValue(item ? parseInt(item.get('value')) : Common.Utils.Metric.getDefaultMetric());
             this._oldUnits = this.cmbUnit.getValue();
 
             value = Common.localStorage.getItem("pe-settings-autosave");
-            this.chAutosave.setValue(fast_coauth);
+            this.chAutosave.setValue(fast_coauth || (value===null || parseInt(value) == 1));
 
             value = Common.localStorage.getItem("pe-settings-showsnaplines");
             this.chAlignGuides.setValue(value===null || parseInt(value) == 1);

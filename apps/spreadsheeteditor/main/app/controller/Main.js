@@ -242,6 +242,7 @@ define([
                 this.appOptions.recent          = this.editorConfig.recent;
                 this.appOptions.createUrl       = this.editorConfig.createUrl;
                 this.appOptions.lang            = this.editorConfig.lang;
+                this.appOptions.location        = (typeof (this.editorConfig.location) == 'string') ? this.editorConfig.location.toLowerCase() : '';
                 this.appOptions.canAutosave     = false;
                 this.appOptions.canAnalytics    = false;
                 this.appOptions.sharingSettingsUrl = this.editorConfig.sharingSettingsUrl;
@@ -270,6 +271,9 @@ define([
                 } else
                     value = SSE.Views.FormulaLang.get(value);
                 if (value) this.api.asc_setLocalization(value);
+
+                if (this.appOptions.location == 'us' || this.appOptions.location == 'ca')
+                    Common.Utils.Metric.setDefaultMetric(Common.Utils.Metric.c_MetricUnits.inch);
             },
 
             loadDocument: function(data) {
@@ -280,13 +284,13 @@ define([
                 if (data.doc) {
                     this.permissions = _.extend(this.permissions, data.doc.permissions);
 
-                    var _user = new CUserInfo();
+                    var _user = new Asc.asc_CUserInfo();
                     _user.put_Id(this.appOptions.user.id);
                     _user.put_FirstName(this.appOptions.user.firstname);
                     _user.put_LastName(this.appOptions.user.lastname);
                     _user.put_FullName(this.appOptions.user.fullname);
 
-                    docInfo = new CDocInfo();
+                    docInfo = new Asc.asc_CDocInfo();
                     docInfo.put_Id(data.doc.key);
                     docInfo.put_Url(data.doc.url);
                     docInfo.put_Title(data.doc.title);
@@ -536,8 +540,7 @@ define([
                     return;
 
                 var me = this,
-                    value,
-                    tips = [];
+                    value;
 
                 me._isDocReady = true;
 
@@ -663,15 +666,21 @@ define([
                 $(document).on('contextmenu', _.bind(me.onContextMenu, me));
 //                    me.getViewport().getEl().un('keypress', me.lockEscapeKey, me);
 
-                if (!window['AscDesktopEditor']) {
-                    Common.Utils.isIE9m && tips.push(me.warnBrowserIE9);
-                    !Common.Utils.isGecko &&
-                        !me.appOptions.isEditMailMerge && !me.appOptions.isEditDiagram &&
-                            !me.appOptions.nativeApp &&
+                function checkWarns() {
+                    if (!window['AscDesktopEditor']) {
+                        var tips = [];
+                        Common.Utils.isIE9m && tips.push(me.warnBrowserIE9);
+                        !Common.Utils.isGecko && !me.appOptions.isEditMailMerge && !me.appOptions.isEditDiagram && !me.appOptions.nativeApp &&
                         (Math.abs(me.getBrowseZoomLevel() - 1) > 0.1) && tips.push(Common.Utils.String.platformKey(me.warnBrowserZoom, '{0}'));
 
-                    if (tips.length) me.showTips(tips);
+                        if (tips.length) me.showTips(tips);
+                    }
+                    document.removeEventListener('visibilitychange', checkWarns);
                 }
+
+                if (typeof document.hidden !== 'undefined' && document.hidden) {
+                    document.addEventListener('visibilitychange', checkWarns);
+                } else checkWarns();
 
                 if (this._state.licenseWarning) {
                     value = Common.localStorage.getItem("de-license-warning");
@@ -680,14 +689,19 @@ define([
                     if (now - value > 86400000) {
                         Common.localStorage.setItem("de-license-warning", now);
                         Common.UI.info({
+                            width: 400,
                             title: this.textNoLicenseTitle,
                             msg  : this.warnNoLicense,
-                            buttons: ['custom'],
-                            primary: 'custom',
-                            customButtonText: this.textBuyNow,
+                            buttons: [
+                                {value: 'buynow', caption: this.textBuyNow},
+                                {value: 'contact', caption: this.textContactUs}
+                            ],
+                            primary: 'buynow',
                             callback: function(btn) {
-                                if (btn == 'custom')
+                                if (btn == 'buynow')
                                     window.open('http://www.onlyoffice.com/enterprise-edition.aspx', "_blank");
+                                else if (btn == 'contact')
+                                    window.open('mailto:sales@onlyoffice.com', "_blank");
                             }
                         });
                     }
@@ -867,7 +881,7 @@ define([
                     }
 
                     var value = Common.localStorage.getItem('sse-settings-unit');
-                    Common.Utils.Metric.setCurrentMetric((value!==null) ? parseInt(value) : Common.Utils.Metric.c_MetricUnits.cm);
+                    Common.Utils.Metric.setCurrentMetric((value!==null) ? parseInt(value) : Common.Utils.Metric.getDefaultMetric());
 
                     if (!me.appOptions.isEditMailMerge && !me.appOptions.isEditDiagram) {
                         var options = {};
@@ -1549,7 +1563,7 @@ define([
 
             unitsChanged: function(m) {
                 var value = Common.localStorage.getItem("sse-settings-unit");
-                Common.Utils.Metric.setCurrentMetric((value!==null) ? parseInt(value) : Common.Utils.Metric.c_MetricUnits.cm);
+                Common.Utils.Metric.setCurrentMetric((value!==null) ? parseInt(value) : Common.Utils.Metric.getDefaultMetric());
                 this.getApplication().getController('RightMenu').updateMetricUnit();
                 this.getApplication().getController('Print').getView('MainSettingsPrint').updateMetricUnit();
             },
@@ -1769,8 +1783,9 @@ define([
             errorOpenWarning: 'The length of one of the formulas in the file exceeded<br>the allowed number of characters and it was removed.',
             errorFrmlWrongReferences: 'The function refers to a sheet that does not exist.<br>Please check the data and try again.',
             textBuyNow: 'Buy now',
-            textNoLicenseTitle: 'License expired',
-            warnNoLicense: 'The license expired. You cannot create or edit files.<br>Click the \'Buy now\' button to prolong the license.'
+            textNoLicenseTitle: 'License expired or not found',
+            warnNoLicense: 'The license could not be found or expired. You cannot edit files.<br>Click \'Buy now\' to purchase Enterprise Edition license or \'Contact us\' if you use Integration Edition.',
+            textContactUs: 'Contact us'
         }
     })(), SSE.Controllers.Main || {}))
 });

@@ -1,9 +1,7 @@
 module.exports = function(grunt) {
     var _ = require('lodash'),
         defaultConfig,
-        packageFile,
-        revisionHash = '@@REVISION',
-        revisionTimeStamp = '@@REVISIONDATE';
+        packageFile;
 
 
     grunt.loadNpmTasks('grunt-contrib-clean');
@@ -54,43 +52,6 @@ module.exports = function(grunt) {
                 grunt.log.error().writeln('Could not load config file'.red);
         });
     }
-
-    grunt.registerTask('init-config', 'Initialize build script', function() {
-        var exec = require('child_process').exec,
-            done = this.async(),
-            commandsRef = 0;
-
-        function doneTask() {
-            if (--commandsRef <= 0) {
-                done(true);
-            }
-        }
-
-        function doCommand(command, callback) {
-            commandsRef++;
-            exec(command, callback);
-        }
-
-        doCommand('hg log -r -1 --template "{node|short}"', function(error, stdout, stderr) {
-            if (error) {
-                grunt.log.writeln('Error: ' + error);
-            } else {
-                revisionHash = stdout;
-            }
-
-            doneTask();
-        });
-
-        doCommand('hg log -r -1 --template "{date|isodate}"', function(error, stdout, stderr) {
-            if (error) {
-                grunt.log.writeln('Error: ' + error);
-            } else {
-                revisionTimeStamp = stdout;
-            }
-
-            doneTask();
-        });
-    });
 
     grunt.initConfig({
         mocha: {
@@ -212,7 +173,7 @@ module.exports = function(grunt) {
                     ' *\n' +
                     ' * <%= pkg.homepage %> \n' +
                     ' *\n' +
-                    ' * Version: <%= pkg.version %> (build:<%= pkg.build %>, rev:' + revisionHash + ', date:' + revisionTimeStamp + ')\n' +
+                    ' * Version: ' + process.env['PRODUCT_VERSION'] + ' (build:' + process.env['BUILD_NUMBER'] + ')\n' +
                     ' */\n'
                 },
                 dist: {
@@ -444,9 +405,9 @@ module.exports = function(grunt) {
         }
     });
 
-    grunt.registerTask('deploy-documenteditor',     ['init-build-documenteditor', 'init-config', 'deploy-app']);
-    grunt.registerTask('deploy-spreadsheeteditor',  ['init-build-spreadsheeteditor', 'init-config', 'deploy-app']);
-    grunt.registerTask('deploy-presentationeditor', ['init-build-presentationeditor', 'init-config', 'deploy-app']);
+    grunt.registerTask('deploy-documenteditor',     ['init-build-documenteditor', 'deploy-app']);
+    grunt.registerTask('deploy-spreadsheeteditor',  ['init-build-spreadsheeteditor', 'deploy-app']);
+    grunt.registerTask('deploy-presentationeditor', ['init-build-presentationeditor', 'deploy-app']);
 
     grunt.registerTask('default', ['deploy-documenteditor', 'deploy-spreadsheeteditor', 'deploy-presentationeditor']);
 };

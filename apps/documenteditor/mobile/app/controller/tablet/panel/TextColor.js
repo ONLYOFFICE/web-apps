@@ -171,7 +171,7 @@ Ext.define('DE.controller.tablet.panel.TextColor', {
             textColorList.select(record);
 
             var color = record.get('color'),
-                ascColor = new CAscColor();
+                ascColor = new Asc.asc_CColor();
 
             ascColor.put_r(parseInt((color[0] + color[1]), 16));
             ascColor.put_g(parseInt((color[2] + color[3]), 16));

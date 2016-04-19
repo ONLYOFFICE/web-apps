@@ -92,7 +92,7 @@ define([
             this._noApply           = true;
             this.Margins            = undefined;
 
-            this._originalProps = new CParagraphProp(this.options.paragraphProps);
+            this._originalProps = new Asc.asc_CParagraphProperty(this.options.paragraphProps);
 
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
         },
@@ -244,7 +244,7 @@ define([
 
                     if (me._changedProps) {
                         if (me._changedProps.get_Shade()===undefined || me._changedProps.get_Shade()===null) {
-                            me._changedProps.put_Shade(new CParagraphShd());
+                            me._changedProps.put_Shade(new Asc.asc_CParagraphShd());
                         }
                         if (color=='transparent') {
                             me._changedProps.get_Shade().put_Value(Asc.c_oAscShdNil);
@@ -525,7 +525,7 @@ define([
                     me.spnHeight.setValue((record.value==0) ? '' : 1);
                     me.spnHeight.resumeEvents();
 
-                    me._changedProps.put_HRule((record.value==0) ? linerule_Auto : ((record.value==1) ? linerule_Exact : linerule_AtLeast));
+                    me._changedProps.put_HRule((record.value==0) ? Asc.linerule_Auto : ((record.value==1) ? Asc.linerule_Exact : Asc.linerule_AtLeast));
                     if (record.value > 0)
                         this._changedProps.put_H(Common.Utils.Metric.fnRecalcToMM(this.spnHeight.getNumberValue()));
                 }
@@ -542,16 +542,16 @@ define([
             })
             .on('change', _.bind(function(field, newValue, oldValue) {
                 if (me._changedProps) {
-                    var type = linerule_Auto;
+                    var type = Asc.linerule_Auto;
                     if (me.cmbHeight.getValue()==me._arrHeight[1].value)
-                        type = linerule_Exact;
+                        type = Asc.linerule_Exact;
                     else if (me.cmbHeight.getValue()==me._arrHeight[2].value)
-                        type = linerule_AtLeast;
+                        type = Asc.linerule_AtLeast;
 
-                    if (type==linerule_Auto) {
+                    if (type==Asc.linerule_Auto) {
                         me.cmbHeight.suspendEvents();
                         me.cmbHeight.setValue(me._arrHeight[2].value);
-                        type = linerule_AtLeast;
+                        type = Asc.linerule_AtLeast;
                         me.cmbHeight.resumeEvents();
                     }
 
@@ -729,7 +729,7 @@ define([
                 for (var j=0; j<this.tableStyler.columns; j++) {
                     this.tableStyler.getCell(j, i).on('borderclick', function(ct, border, size, color){
                         if (this.ChangedBorders===undefined) {
-                            this.ChangedBorders = new CParagraphBorders();
+                            this.ChangedBorders = new Asc.asc_CParagraphBorders();
                         }
                         this._UpdateCellBordersStyle(ct, border, size, color, this.Borders);
                     }, this);
@@ -737,7 +737,7 @@ define([
             }
             this.tableStyler.on('borderclick', function(ct, border, size, color){
                 if (this.ChangedBorders===undefined) {
-                    this.ChangedBorders = new CParagraphBorders();
+                    this.ChangedBorders = new Asc.asc_CParagraphBorders();
                 }
                 this._UpdateTableBordersStyle(ct, border, size, color, this.Borders);
             }, this);
@@ -775,30 +775,30 @@ define([
             if (this.Margins) {
                 var borders = this._changedProps.get_Borders();
                 if (borders===undefined || borders===null)  {
-                    this._changedProps.put_Borders(new CParagraphBorders());
+                    this._changedProps.put_Borders(new Asc.asc_CParagraphBorders());
                     borders = this._changedProps.get_Borders();
                 }
                 if (this.Margins.Left!==undefined) {
                     if (borders.get_Left()===undefined || borders.get_Left()===null)
-                        borders.put_Left(new CBorder(this.Borders.get_Left()));
+                        borders.put_Left(new Asc.asc_CTextBorder(this.Borders.get_Left()));
                     borders.get_Left().put_Space(this.Margins.Left);
                 }
                 if (this.Margins.Top!==undefined) {
                     if (borders.get_Top()===undefined || borders.get_Top()===null)
-                        borders.put_Top(new CBorder(this.Borders.get_Top()));
+                        borders.put_Top(new Asc.asc_CTextBorder(this.Borders.get_Top()));
                     borders.get_Top().put_Space(this.Margins.Top);
                 }
                 if (this.Margins.Right!==undefined) {
                     if (borders.get_Right()===undefined || borders.get_Right()===null)
-                        borders.put_Right(new CBorder(this.Borders.get_Right()));
+                        borders.put_Right(new Asc.asc_CTextBorder(this.Borders.get_Right()));
                     borders.get_Right().put_Space(this.Margins.Right);
                 }
                 if (this.Margins.Bottom!==undefined) {
                     if (borders.get_Bottom()===undefined || borders.get_Bottom()===null)
-                        borders.put_Bottom(new CBorder(this.Borders.get_Bottom()));
+                        borders.put_Bottom(new Asc.asc_CTextBorder(this.Borders.get_Bottom()));
                     borders.get_Bottom().put_Space(this.Margins.Bottom);
                     if (borders.get_Between()===undefined || borders.get_Between()===null)
-                        borders.put_Between(new CBorder(this.Borders.get_Between()));
+                        borders.put_Between(new Asc.asc_CTextBorder(this.Borders.get_Between()));
                     borders.get_Between().put_Space(this.Margins.Bottom);
                 }
             }
@@ -859,7 +859,7 @@ define([
         _setDefaults: function(props) {
             if (props) {
                 this._noApply = true;
-                this._originalProps = new CParagraphProp(props);
+                this._originalProps = new Asc.asc_CParagraphProperty(props);
                 var frame_props = props.get_FramePr();
                 if (frame_props) {
                     var value;
@@ -870,7 +870,7 @@ define([
 
                         value = frame_props.get_HRule();
                         if (value!==undefined) {
-                            this.cmbHeight.setValue((value===linerule_Exact) ? this._arrHeight[1].value : this._arrHeight[2].value);
+                            this.cmbHeight.setValue((value===Asc.linerule_Exact) ? this._arrHeight[1].value : this._arrHeight[2].value);
                             this.spnHeight.setValue(Common.Utils.Metric.fnRecalcFromMM(frame_props.get_H()));
 
                         } else {
@@ -954,7 +954,7 @@ define([
                         }
                     }
 
-                    this.Borders = new CParagraphBorders(frame_props.get_Borders());
+                    this.Borders = new Asc.asc_CParagraphBorders(frame_props.get_Borders());
 
                     if (this.Borders) {
                         var brd = this.Borders.get_Left();
@@ -1004,7 +1004,7 @@ define([
 
                 this._noApply = false;
 
-                this._changedProps = new CParagraphFrame();
+                this._changedProps = new Asc.asc_CParagraphFrame();
                 if (this.isFrame && frame_props && frame_props.get_W()!==undefined) {
                     this._changedProps.put_W(frame_props.get_W());
                 }
@@ -1114,7 +1114,7 @@ define([
 
         _UpdateBorderStyle: function(border, visible) {
             if (null == border)
-                border = new CBorder();
+                border = new Asc.asc_CTextBorder();
 
             if (visible && this.BorderSize.ptValue > 0){
                 var size = parseFloat(this.BorderSize.ptValue);
@@ -1124,7 +1124,7 @@ define([
                 border.put_Color(color);
             }
             else {
-                border.put_Color(new CColor());
+                border.put_Color(new Asc.asc_CColor());
                 border.put_Value(0);
             }
             return border;
@@ -1136,28 +1136,28 @@ define([
             if ( ct.col==0 && border.indexOf('l') > -1 ) {
                 updateBorders.put_Left(this._UpdateBorderStyle(updateBorders.get_Left(), (size>0)));
                 if (this.ChangedBorders) {
-                    this.ChangedBorders.put_Left(new CBorder(updateBorders.get_Left()));
+                    this.ChangedBorders.put_Left(new Asc.asc_CTextBorder(updateBorders.get_Left()));
                 }
             }
 
             if ( ct.col== this.tableStylerColumns-1 && border.indexOf('r') > -1 )  {
                 updateBorders.put_Right(this._UpdateBorderStyle(updateBorders.get_Right(), (size>0)));
                 if (this.ChangedBorders) {
-                    this.ChangedBorders.put_Right(new CBorder(updateBorders.get_Right()));
+                    this.ChangedBorders.put_Right(new Asc.asc_CTextBorder(updateBorders.get_Right()));
                 }
             }
 
             if ( ct.row==0 && border.indexOf('t') > -1 ) {
                 updateBorders.put_Top(this._UpdateBorderStyle(updateBorders.get_Top(), (size>0)));
                 if (this.ChangedBorders) {
-                    this.ChangedBorders.put_Top(new CBorder(updateBorders.get_Top()));
+                    this.ChangedBorders.put_Top(new Asc.asc_CTextBorder(updateBorders.get_Top()));
                 }
             }
 
             if ( ct.row== this.tableStylerRows-1 && border.indexOf('b') > -1 ) {
                 updateBorders.put_Bottom(this._UpdateBorderStyle(updateBorders.get_Bottom(), (size>0)));
                 if (this.ChangedBorders) {
-                    this.ChangedBorders.put_Bottom(new CBorder(updateBorders.get_Bottom()));
+                    this.ChangedBorders.put_Bottom(new Asc.asc_CTextBorder(updateBorders.get_Bottom()));
                 }
             }
 
@@ -1165,7 +1165,7 @@ define([
                 ct.row== this.tableStylerRows-1 && border.indexOf('t') > -1) {
                 updateBorders.put_Between(this._UpdateBorderStyle(updateBorders.get_Between(), (size>0)));
                 if (this.ChangedBorders) {
-                    this.ChangedBorders.put_Between(new CBorder(updateBorders.get_Between()));
+                    this.ChangedBorders.put_Between(new Asc.asc_CTextBorder(updateBorders.get_Between()));
                 }
             }
         },
@@ -1176,25 +1176,25 @@ define([
             if (border.indexOf('l') > -1)  {
                 updateBorders.put_Left(this._UpdateBorderStyle(updateBorders.get_Left(), (size>0)));
                 if (this.ChangedBorders) {
-                    this.ChangedBorders.put_Left(new CBorder(updateBorders.get_Left()));
+                    this.ChangedBorders.put_Left(new Asc.asc_CTextBorder(updateBorders.get_Left()));
                 }
             }
             if (border.indexOf('t') > -1) {
                 updateBorders.put_Top(this._UpdateBorderStyle(updateBorders.get_Top(), (size>0)));
                 if (this.ChangedBorders) {
-                    this.ChangedBorders.put_Top(new CBorder(updateBorders.get_Top()));
+                    this.ChangedBorders.put_Top(new Asc.asc_CTextBorder(updateBorders.get_Top()));
                 }
             }
             if (border.indexOf('r') > -1) {
                 updateBorders.put_Right(this._UpdateBorderStyle(updateBorders.get_Right(), (size>0)));
                 if (this.ChangedBorders) {
-                    this.ChangedBorders.put_Right(new CBorder(updateBorders.get_Right()));
+                    this.ChangedBorders.put_Right(new Asc.asc_CTextBorder(updateBorders.get_Right()));
                 }
             }
             if (border.indexOf('b') > -1) {
                 updateBorders.put_Bottom(this._UpdateBorderStyle(updateBorders.get_Bottom(), (size>0)));
                 if (this.ChangedBorders) {
-                    this.ChangedBorders.put_Bottom(new CBorder(updateBorders.get_Bottom()));
+                    this.ChangedBorders.put_Bottom(new Asc.asc_CTextBorder(updateBorders.get_Bottom()));
                 }
             }
         },

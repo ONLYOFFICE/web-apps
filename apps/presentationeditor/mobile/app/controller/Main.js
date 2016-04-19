@@ -109,13 +109,13 @@ Ext.define('PE.controller.Main', {
         if (data.doc) {
             this.permissions = data.doc.permissions;
 
-            var _user = new CUserInfo();
+            var _user = new Asc.asc_CUserInfo();
             _user.put_Id(this.editorConfig.user.id);
             _user.put_FirstName(this.editorConfig.user.firstname);
             _user.put_LastName(this.editorConfig.user.lastname);
             _user.put_FullName(this.editorConfig.user.fullname);
 
-            var docInfo = new CDocInfo();
+            var docInfo = new Asc.asc_CDocInfo();
             docInfo.put_Id(data.doc.key);
             docInfo.put_Url(data.doc.url);
             docInfo.put_Title(data.doc.title);

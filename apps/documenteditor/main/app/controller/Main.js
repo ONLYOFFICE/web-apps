@@ -235,6 +235,7 @@ define([
                 this.appOptions.recent          = this.editorConfig.recent;
                 this.appOptions.createUrl       = this.editorConfig.createUrl;
                 this.appOptions.lang            = this.editorConfig.lang;
+                this.appOptions.location        = (typeof (this.editorConfig.location) == 'string') ? this.editorConfig.location.toLowerCase() : '';
                 this.appOptions.sharingSettingsUrl = this.editorConfig.sharingSettingsUrl;
                 this.appOptions.fileChoiceUrl   = this.editorConfig.fileChoiceUrl;
                 this.appOptions.mergeFolderUrl  = this.editorConfig.mergeFolderUrl;
@@ -251,6 +252,9 @@ define([
 
                 if (this.editorConfig.lang)
                     this.api.asc_setLocale(this.editorConfig.lang);
+
+                if (this.appOptions.location == 'us' || this.appOptions.location == 'ca')
+                    Common.Utils.Metric.setDefaultMetric(Common.Utils.Metric.c_MetricUnits.inch);
             },
 
             loadDocument: function(data) {
@@ -262,13 +266,13 @@ define([
                 if (data.doc) {
                     this.permissions = $.extend(this.permissions, data.doc.permissions);
 
-                    var _user = new CUserInfo();
+                    var _user = new Asc.asc_CUserInfo();
                     _user.put_Id(this.appOptions.user.id);
                     _user.put_FirstName(this.appOptions.user.firstname);
                     _user.put_LastName(this.appOptions.user.lastname);
                     _user.put_FullName(this.appOptions.user.fullname);
 
-                    docInfo = new CDocInfo();
+                    docInfo = new Asc.asc_CDocInfo();
                     docInfo.put_Id(data.doc.key);
                     docInfo.put_Url(data.doc.url);
                     docInfo.put_Title(data.doc.title);
@@ -768,12 +772,11 @@ define([
 
                         if (tips.length) me.showTips(tips);
                     }
+                    document.removeEventListener('visibilitychange', checkWarns);
                 }
 
                 if (typeof document.hidden !== 'undefined' && document.hidden) {
-                    document.addEventListener('visibilitychange', function() {
-                        setTimeout(checkWarns, 50);
-                    });
+                    document.addEventListener('visibilitychange', checkWarns);
                 } else checkWarns();
 
                 me.api.asc_registerCallback('asc_onStartAction',            _.bind(me.onLongActionBegin, me));
@@ -889,14 +892,19 @@ define([
                     if (now - value > 86400000) {
                         Common.localStorage.setItem("de-license-warning", now);
                         Common.UI.info({
+                            width: 400,
                             title: this.textNoLicenseTitle,
                             msg  : this.warnNoLicense,
-                            buttons: ['custom'],
-                            primary: 'custom',
-                            customButtonText: this.textBuyNow,
+                            buttons: [
+                                {value: 'buynow', caption: this.textBuyNow},
+                                {value: 'contact', caption: this.textContactUs}
+                            ],
+                            primary: 'buynow',
                             callback: function(btn) {
-                                if (btn == 'custom')
+                                if (btn == 'buynow')
                                     window.open('http://www.onlyoffice.com/enterprise-edition.aspx', "_blank");
+                                else if (btn == 'contact')
+                                    window.open('mailto:sales@onlyoffice.com', "_blank");
                             }
                         });
                     }
@@ -995,7 +1003,7 @@ define([
                     translateChart.asc_setSeries(this.txtSeries);
                     this.api.asc_setChartTranslate(translateChart);
 
-                    var translateArt = new asc_TextArtTranslate();
+                    var translateArt = new Asc.asc_TextArtTranslate();
                     translateArt.asc_setDefaultText(this.txtArt);
                     this.api.asc_setTextArtTranslate(translateArt);
                 }
@@ -1048,7 +1056,7 @@ define([
                     }
 
                     var value = Common.localStorage.getItem('de-settings-unit');
-                    value = (value!==null) ? parseInt(value) : Common.Utils.Metric.c_MetricUnits.cm;
+                    value = (value!==null) ? parseInt(value) : Common.Utils.Metric.getDefaultMetric();
                     Common.Utils.Metric.setCurrentMetric(value);
                     me.api.asc_SetDocumentUnits((value==Common.Utils.Metric.c_MetricUnits.inch) ? Asc.c_oAscDocumentUnits.Inch : ((value==Common.Utils.Metric.c_MetricUnits.pt) ? Asc.c_oAscDocumentUnits.Point : Asc.c_oAscDocumentUnits.Millimeter));
 
@@ -1587,7 +1595,7 @@ define([
 
             unitsChanged: function(m) {
                 var value = Common.localStorage.getItem("de-settings-unit");
-                value = (value!==null) ? parseInt(value) : Common.Utils.Metric.c_MetricUnits.cm;
+                value = (value!==null) ? parseInt(value) : Common.Utils.Metric.getDefaultMetric();
                 Common.Utils.Metric.setCurrentMetric(value);
                 this.api.asc_SetDocumentUnits((value==Common.Utils.Metric.c_MetricUnits.inch) ? Asc.c_oAscDocumentUnits.Inch : ((value==Common.Utils.Metric.c_MetricUnits.pt) ? Asc.c_oAscDocumentUnits.Point : Asc.c_oAscDocumentUnits.Millimeter));
                 this.getApplication().getController('RightMenu').updateMetricUnit();
@@ -1788,8 +1796,9 @@ define([
             textStrict: 'Strict mode',
             txtErrorLoadHistory: 'Loading history failed',
             textBuyNow: 'Buy now',
-            textNoLicenseTitle: 'License expired',
-            warnNoLicense: 'The license expired. You cannot create or edit files.<br>Click the \'Buy now\' button to prolong the license.'
+            textNoLicenseTitle: 'License expired or not found',
+            warnNoLicense: 'The license could not be found or expired. You cannot edit files.<br>Click \'Buy now\' to purchase Enterprise Edition license or \'Contact us\' if you use Integration Edition.',
+            textContactUs: 'Contact us'
         }
     })(), DE.Controllers.Main || {}))
 });

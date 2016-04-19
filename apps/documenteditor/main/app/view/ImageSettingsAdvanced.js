@@ -62,6 +62,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 title: this.textTitle,
                 items: [
                     {panelId: 'id-adv-image-width',      panelCaption: this.textSize},
+                    {panelId: 'id-adv-shape-size',      panelCaption: this.textSize},
                     {panelId: 'id-adv-image-wrap',       panelCaption: this.textBtnWrap},
                     {panelId: 'id-adv-image-position',   panelCaption: this.textPosition},
                     {panelId: 'id-adv-image-shape',      panelCaption: this.textShape},
@@ -80,10 +81,12 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 HAlignFrom: Asc.c_oAscRelativeFromH.Character,
                 HPositionFrom: Asc.c_oAscRelativeFromH.Character,
                 HPositionPcFrom: Asc.c_oAscRelativeFromH.Page,
+                ShapeWidthPcFrom: Asc.c_oAscRelativeFromH.Margin,
                 VAlignType: Asc.c_oAscAlignV.Top,
                 VAlignFrom: Asc.c_oAscRelativeFromV.Line,
                 VPositionFrom: Asc.c_oAscRelativeFromV.Line,
                 VPositionPcFrom: Asc.c_oAscRelativeFromV.Page,
+                ShapeHeightPcFrom: Asc.c_oAscRelativeFromV.Margin,
                 spnXChanged: false,
                 spnYChanged: false,
                 spnXPcChanged: false,
@@ -105,6 +108,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
 
             var me = this;
 
+            // Image & Chart Size
             this.spnWidth = new Common.UI.MetricSpinner({
                 el: $('#image-advanced-spin-width'),
                 step: .1,
@@ -185,6 +189,177 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                     this._nRatio = this.spnWidth.getNumberValue()/this.spnHeight.getNumberValue();
                 }
             }, this));
+
+            // Shape Size
+            this.radioHSize = new Common.UI.RadioBox({
+                el: $('#shape-radio-hsize'),
+                name: 'asc-radio-width',
+                checked: true
+            });
+            this.radioHSize.on('change', _.bind(this.onRadioHSizeChange, this));
+
+            this.radioHSizePc = new Common.UI.RadioBox({
+                el: $('#shape-radio-hsizepc'),
+                name: 'asc-radio-width'
+            });
+            this.radioHSizePc.on('change', _.bind(this.onRadioHSizePcChange, this));
+
+            this.radioVSize = new Common.UI.RadioBox({
+                el: $('#shape-radio-vsize'),
+                name: 'asc-radio-height',
+                checked: true
+            });
+            this.radioVSize.on('change', _.bind(this.onRadioVSizeChange, this));
+
+            this.radioVSizePc = new Common.UI.RadioBox({
+                el: $('#shape-radio-vsizepc'),
+                name: 'asc-radio-height'
+            });
+            this.radioVSizePc.on('change', _.bind(this.onRadioVSizePcChange, this));
+
+            this.chRatio = new Common.UI.CheckBox({
+                el: $('#shape-checkbox-ratio'),
+                labelText: this.textAspectRatio
+            });
+            this.chRatio.on('change', _.bind(function(field, newValue, oldValue, eOpts){
+                if ((field.getValue()=='checked') && this.spnShapeHeight.getNumberValue()>0) {
+                    this._nRatio = this.spnShapeWidth.getNumberValue()/this.spnShapeHeight.getNumberValue();
+                }
+            }, this));
+
+            this.spnShapeWidth = new Common.UI.MetricSpinner({
+                el: $('#shape-advanced-spin-width'),
+                step: .1,
+                width: 80,
+                defaultUnit : "cm",
+                value: '3 cm',
+                maxValue: 55.88,
+                minValue: 0
+            });
+            this.spnShapeWidth.on('change', _.bind(function(field, newValue, oldValue, eOpts){
+                if (this.chRatio.getValue()=='checked' && !this.chRatio.isDisabled()) {
+                    var w = field.getNumberValue();
+                    var h = w/this._nRatio;
+                    if (h>this.sizeMax.height) {
+                        h = this.sizeMax.height;
+                        w = h * this._nRatio;
+                        this.spnShapeWidth.setValue(w, true);
+                    }
+                    this.spnShapeHeight.setValue(h, true);
+                }
+                if (this._changedProps) {
+                    this._changedProps.put_Width(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
+                    this.fillShapeHeight();
+                }
+            }, this));
+            this.spinners.push(this.spnShapeWidth);
+
+            this.spnShapeHeight = new Common.UI.MetricSpinner({
+                el: $('#shape-advanced-spin-height'),
+                step: .1,
+                width: 80,
+                defaultUnit : "cm",
+                value: '3 cm',
+                maxValue: 55.88,
+                minValue: 0
+            });
+            this.spnShapeHeight.on('change', _.bind(function(field, newValue, oldValue, eOpts){
+                var h = field.getNumberValue(), w = null;
+                if (this.chRatio.getValue()=='checked' && !this.chRatio.isDisabled()) {
+                    w = h * this._nRatio;
+                    if (w>this.sizeMax.width) {
+                        w = this.sizeMax.width;
+                        h = w/this._nRatio;
+                        this.spnShapeHeight.setValue(h, true);
+                    }
+                    this.spnShapeWidth.setValue(w, true);
+                }
+                if (this._changedProps) {
+                    this._changedProps.put_Height(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
+                    this.fillShapeWidth();
+                }
+            }, this));
+            this.spinners.push(this.spnShapeHeight);
+
+            this.spnShapeWidthPc = new Common.UI.MetricSpinner({
+                el: $('#shape-advanced-spin-width-rel'),
+                disabled: true,
+                step: 1,
+                width: 80,
+                defaultUnit : "%",
+                value: '1 %',
+                maxValue: 1000,
+                minValue: 1
+            });
+            this.spnShapeWidthPc.on('change', _.bind(function(field, newValue, oldValue, eOpts){
+                if (this._changedProps) {
+                    if (this._changedProps.get_SizeRelH()===null || this._changedProps.get_SizeRelH()===undefined)
+                        this._changedProps.put_SizeRelH(new Asc.CImagePositionH());
+
+                    this._changedProps.get_SizeRelH().put_Value(field.getNumberValue());
+                    this._changedProps.get_SizeRelH().put_RelativeFrom(this._state.ShapeWidthPcFrom);
+
+                    this.fillShapeHeight();
+                }
+            }, this));
+
+            this.spnShapeHeightPc = new Common.UI.MetricSpinner({
+                el: $('#shape-advanced-spin-height-rel'),
+                disabled: true,
+                step: 1,
+                width: 80,
+                defaultUnit : "%",
+                value: '1 %',
+                maxValue: 1000,
+                minValue: 1
+            });
+            this.spnShapeHeightPc.on('change', _.bind(function(field, newValue, oldValue, eOpts){
+                if (this._changedProps) {
+                    if (this._changedProps.get_SizeRelV()===null || this._changedProps.get_SizeRelV()===undefined)
+                        this._changedProps.put_SizeRelV(new Asc.CImagePositionV());
+
+                    this._changedProps.get_SizeRelV().put_Value(field.getNumberValue());
+                    this._changedProps.get_SizeRelV().put_RelativeFrom(this._state.ShapeHeightPcFrom);
+
+                    this.fillShapeWidth();
+                }
+            }, this));
+
+            this._arrHRelativePc = [
+                {displayValue: this.textLeftMargin,   value: Asc.c_oAscRelativeFromH.LeftMargin},
+                {displayValue: this.textMargin,       value: Asc.c_oAscRelativeFromH.Margin},
+                {displayValue: this.textPage,         value: Asc.c_oAscRelativeFromH.Page},
+                {displayValue: this.textRightMargin,  value: Asc.c_oAscRelativeFromH.RightMargin}
+            ];
+
+            this.cmbWidthPc = new Common.UI.ComboBox({
+                el: $('#shape-combo-width-rel'),
+                cls: 'input-group-nr',
+                menuStyle: 'min-width: 115px;',
+                editable: false,
+                data: this._arrHRelativePc
+            });
+            this.cmbWidthPc.setDisabled(true);
+            this.cmbWidthPc.setValue(this._state.ShapeWidthPcFrom);
+            this.cmbWidthPc.on('selected', _.bind(this.onCmbWidthPcSelect, this));
+
+            this._arrVRelativePc = [
+                {displayValue: this.textMargin,       value: Asc.c_oAscRelativeFromV.Margin},
+                {displayValue: this.textBottomMargin,       value: Asc.c_oAscRelativeFromV.BottomMargin},
+                {displayValue: this.textPage,       value: Asc.c_oAscRelativeFromV.Page},
+                {displayValue: this.textTopMargin, value: Asc.c_oAscRelativeFromV.TopMargin}
+            ];
+
+            this.cmbHeightPc = new Common.UI.ComboBox({
+                el: $('#shape-combo-height-rel'),
+                cls: 'input-group-nr',
+                menuStyle: 'min-width: 115px;',
+                editable: false,
+                data: this._arrVRelativePc
+            });
+            this.cmbHeightPc.setDisabled(true);
+            this.cmbHeightPc.setValue(this._state.ShapeHeightPcFrom);
+            this.cmbHeightPc.on('selected', _.bind(this.onCmbHeightPcSelect, this));
 
             // Wrapping
 
@@ -284,7 +459,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             this.spnTop.on('change', _.bind(function(field, newValue, oldValue, eOpts){
                 if (this._changedProps) {
                     if (this._changedProps.get_Paddings()===null || this._changedProps.get_Paddings()===undefined)
-                        this._changedProps.put_Paddings(new CPaddings());
+                        this._changedProps.put_Paddings(new Asc.asc_CPaddings());
 
                     this._changedProps.get_Paddings().put_Top(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
                 }
@@ -303,7 +478,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             this.spnBottom.on('change', _.bind(function(field, newValue, oldValue, eOpts){
                 if (this._changedProps) {
                     if (this._changedProps.get_Paddings()===null || this._changedProps.get_Paddings()===undefined)
-                        this._changedProps.put_Paddings(new CPaddings());
+                        this._changedProps.put_Paddings(new Asc.asc_CPaddings());
 
                     this._changedProps.get_Paddings().put_Bottom(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
                 }
@@ -322,7 +497,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             this.spnLeft.on('change', _.bind(function(field, newValue, oldValue, eOpts){
                 if (this._changedProps) {
                     if (this._changedProps.get_Paddings()===null || this._changedProps.get_Paddings()===undefined)
-                        this._changedProps.put_Paddings(new CPaddings());
+                        this._changedProps.put_Paddings(new Asc.asc_CPaddings());
 
                     this._changedProps.get_Paddings().put_Left(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
                 }
@@ -341,7 +516,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             this.spnRight.on('change', _.bind(function(field, newValue, oldValue, eOpts){
                 if (this._changedProps) {
                     if (this._changedProps.get_Paddings()===null || this._changedProps.get_Paddings()===undefined)
-                        this._changedProps.put_Paddings(new CPaddings());
+                        this._changedProps.put_Paddings(new Asc.asc_CPaddings());
 
                     this._changedProps.get_Paddings().put_Right(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
                 }
@@ -471,13 +646,6 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 }
             }, this));
 
-            this._arrHRelativePc = [
-                {displayValue: this.textLeftMargin,   value: Asc.c_oAscRelativeFromH.LeftMargin},
-                {displayValue: this.textMargin,       value: Asc.c_oAscRelativeFromH.Margin},
-                {displayValue: this.textPage,         value: Asc.c_oAscRelativeFromH.Page},
-                {displayValue: this.textRightMargin,  value: Asc.c_oAscRelativeFromH.RightMargin}
-            ];
-
             this.cmbHPositionPc = new Common.UI.ComboBox({
                 el: $('#image-combo-hpositionpc'),
                 cls: 'input-group-nr',
@@ -559,13 +727,6 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                     this._state.spnYPcChanged = true;
                 }
             }, this));
-
-            this._arrVRelativePc = [
-                {displayValue: this.textMargin,       value: Asc.c_oAscRelativeFromV.Margin},
-                {displayValue: this.textBottomMargin,       value: Asc.c_oAscRelativeFromV.BottomMargin},
-                {displayValue: this.textPage,       value: Asc.c_oAscRelativeFromV.Page},
-                {displayValue: this.textTopMargin, value: Asc.c_oAscRelativeFromV.TopMargin}
-            ];
 
             this.cmbVPositionPc = new Common.UI.ComboBox({
                 el: $('#image-combo-vpositionpc'),
@@ -658,7 +819,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             this.spnMarginTop.on('change', _.bind(function(field, newValue, oldValue, eOpts){
                 if (this._changedProps) {
                     if (this.Margins===undefined)
-                        this.Margins= new CPaddings();
+                        this.Margins= new Asc.asc_CPaddings();
                     this.Margins.put_Top(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
                 }
             }, this));
@@ -676,7 +837,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             this.spnMarginBottom.on('change', _.bind(function(field, newValue, oldValue, eOpts){
                 if (this._changedProps) {
                     if (this.Margins===undefined)
-                        this.Margins= new CPaddings();
+                        this.Margins= new Asc.asc_CPaddings();
                     this.Margins.put_Bottom(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
                 }
             }, this));
@@ -694,7 +855,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             this.spnMarginLeft.on('change', _.bind(function(field, newValue, oldValue, eOpts){
                 if (this._changedProps) {
                     if (this.Margins===undefined)
-                        this.Margins= new CPaddings();
+                        this.Margins= new Asc.asc_CPaddings();
                     this.Margins.put_Left(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
                 }
             }, this));
@@ -712,7 +873,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             this.spnMarginRight.on('change', _.bind(function(field, newValue, oldValue, eOpts){
                 if (this._changedProps) {
                     if (this.Margins===undefined)
-                        this.Margins= new CPaddings();
+                        this.Margins= new Asc.asc_CPaddings();
                     this.Margins.put_Right(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
                 }
             }, this));
@@ -736,7 +897,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             this.cmbCapType.on('selected', _.bind(function(combo, record){
                 if (this._changedShapeProps) {
                     if (this._changedShapeProps.get_stroke()===null)
-                        this._changedShapeProps.put_stroke(new CAscStroke());
+                        this._changedShapeProps.put_stroke(new Asc.asc_CStroke());
 
                     this._changedShapeProps.get_stroke().put_linecap(record.value);
                 }
@@ -758,7 +919,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             this.cmbJoinType.on('selected', _.bind(function(combo, record){
                 if (this._changedShapeProps) {
                     if (this._changedShapeProps.get_stroke()===null)
-                        this._changedShapeProps.put_stroke(new CAscStroke());
+                        this._changedShapeProps.put_stroke(new Asc.asc_CStroke());
 
                     this._changedShapeProps.get_stroke().put_linejoin(record.value);
                 }
@@ -906,6 +1067,26 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
         afterRender: function() {
             this.updateMetricUnit();
             this._setDefaults(this._originalProps);
+
+            var btnCategoryShapeSize, btnCategoryImageSize;
+            _.each(this.btnsCategory, function(btn) {
+                if (btn.options.contentTarget == 'id-adv-image-width')
+                    btnCategoryImageSize = btn;
+                else if(btn.options.contentTarget == 'id-adv-shape-size')
+                    btnCategoryShapeSize = btn;
+            });
+
+            this.content_panels.filter('.active').removeClass('active');
+
+            if (this._objectType == Asc.c_oAscTypeSelectElement.Shape) {
+                btnCategoryImageSize.hide();
+                btnCategoryShapeSize.toggle(true, true);
+                $("#" + btnCategoryShapeSize.options.contentTarget).addClass('active');
+            } else {
+                btnCategoryShapeSize.hide();
+                btnCategoryImageSize.toggle(true, true);
+                $("#" + btnCategoryImageSize.options.contentTarget).addClass('active');
+            }
         },
 
         _setDefaults: function(props) {
@@ -957,13 +1138,6 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                     this.btnWrapInFront.setDisabled(true);
                     this._DisableElem(Asc.c_oAscWrapStyle2.Inline);
                 }
-
-                this.spnWidth.setMaxValue(this.sizeMax.width);
-                this.spnHeight.setMaxValue(this.sizeMax.height);
-                value = props.get_Width();
-                this.spnWidth.setValue((value!==undefined) ? Common.Utils.Metric.fnRecalcFromMM(value).toFixed(2) : '', true);
-                value = props.get_Height();
-                this.spnHeight.setValue((value!==undefined) ? Common.Utils.Metric.fnRecalcFromMM(value).toFixed(2) : '', true);
 
                 if (props.get_Paddings()) {
                     var Paddings = {
@@ -1081,15 +1255,58 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
 
                 this.btnOriginalSize.setVisible(!(shapeprops || chartprops));
                 this.btnOriginalSize.setDisabled(props.get_ImageUrl()===null || props.get_ImageUrl()===undefined);
-                this.btnsCategory[3].setVisible(shapeprops!==null && !shapeprops.get_FromChart());   // Shapes
-                this.btnsCategory[4].setVisible(shapeprops!==null && !shapeprops.get_FromChart());   // Margins
-                this.btnsCategory[1].setDisabled(props.get_FromGroup()); // Wrapping
+                this.btnsCategory[4].setVisible(shapeprops!==null && !shapeprops.get_FromChart());   // Shapes
+                this.btnsCategory[5].setVisible(shapeprops!==null && !shapeprops.get_FromChart());   // Margins
+                this.btnsCategory[2].setDisabled(props.get_FromGroup()); // Wrapping
 
                 if (shapeprops) {
                     this._objectType = Asc.c_oAscTypeSelectElement.Shape;
                     this._setShapeDefaults(shapeprops);
                     this.setTitle(this.textTitleShape);
                     value = Common.localStorage.getItem("de-settings-shaperatio");
+                    if (value!==null && parseInt(value) == 1) {
+                        this.chRatio.setValue(true);
+                    }
+
+                    this.spnShapeWidth.setMaxValue(this.sizeMax.width);
+                    this.spnShapeHeight.setMaxValue(this.sizeMax.height);
+
+                    var sizeRelH = props.get_SizeRelH();
+                    if (sizeRelH) {
+                        this.radioHSizePc.setValue(true);
+                        this.spnShapeWidthPc.setValue(sizeRelH.get_Value());
+                        value = sizeRelH.get_RelativeFrom();
+                        for (i=0; i<this._arrHRelativePc.length; i++) {
+                            if (value == this._arrHRelativePc[i].value) {
+                                this.cmbWidthPc.setValue(value);
+                                this._state.ShapeWidthPcFrom = value;
+                                break;
+                            }
+                        }
+                    } else {
+                        this.radioHSize.setValue(true);
+                        value = props.get_Width();
+                        this.spnShapeWidth.setValue((value!==undefined) ? Common.Utils.Metric.fnRecalcFromMM(value).toFixed(2) : '', true);
+                    }
+
+                    var sizeRelV = props.get_SizeRelV();
+                    if (sizeRelV) {
+                        this.radioVSizePc.setValue(true);
+                        this.spnShapeHeightPc.setValue(sizeRelV.get_Value());
+                        value = sizeRelV.get_RelativeFrom();
+                        for (i=0; i<this._arrVRelativePc.length; i++) {
+                            if (value == this._arrVRelativePc[i].value) {
+                                this.cmbHeightPc.setValue(value);
+                                this._state.ShapeHeightPcFrom = value;
+                                break;
+                            }
+                        }
+                    } else {
+                        this.radioVSize.setValue(true);
+                        value = props.get_Height();
+                        this.spnShapeHeight.setValue((value!==undefined) ? Common.Utils.Metric.fnRecalcFromMM(value).toFixed(2) : '', true);
+                    }
+                    this.chRatio.setDisabled(this.radioVSizePc.getValue() || this.radioHSizePc.getValue());
 
                     var margins = shapeprops.get_paddings();
                     if (margins) {
@@ -1103,37 +1320,48 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                         this.spnMarginBottom.setValue((null !== val && undefined !== val) ? Common.Utils.Metric.fnRecalcFromMM(val) : '', true);
                     }
 
-                    this.btnsCategory[4].setDisabled(null === margins);   // Margins
-                }
-                else if (chartprops) {
-                    this._objectType = Asc.c_oAscTypeSelectElement.Chart;
-                    this.setTitle(this.textTitleChart);
-                    value = Common.localStorage.getItem("de-settings-chartratio");
-                }
-                else {
-                    this.setTitle(this.textTitle);
-                    value = Common.localStorage.getItem("de-settings-imageratio");
-                    if (value===null) value = 1;
+                    this.btnsCategory[5].setDisabled(null === margins);   // Margins
+
+                } else {
+                    if (chartprops) {
+                        this._objectType = Asc.c_oAscTypeSelectElement.Chart;
+                        this.setTitle(this.textTitleChart);
+                        value = Common.localStorage.getItem("de-settings-chartratio");
+                    }
+                    else {
+                        this.setTitle(this.textTitle);
+                        value = Common.localStorage.getItem("de-settings-imageratio");
+                        if (value===null) value = 1;
+                    }
+
+                    if (value!==null && parseInt(value) == 1) {
+                        this.btnRatio.toggle(true);
+                    }
+
+                    this.spnWidth.setMaxValue(this.sizeMax.width);
+                    this.spnHeight.setMaxValue(this.sizeMax.height);
+                    value = props.get_Width();
+                    this.spnWidth.setValue((value!==undefined) ? Common.Utils.Metric.fnRecalcFromMM(value).toFixed(2) : '', true);
+                    value = props.get_Height();
+                    this.spnHeight.setValue((value!==undefined) ? Common.Utils.Metric.fnRecalcFromMM(value).toFixed(2) : '', true);
                 }
 
-                if (value!==null && parseInt(value) == 1) {
-                    this.btnRatio.toggle(true);
-                }
-
-                this._changedProps = new CImgProperty();
+                this._changedProps = new Asc.asc_CImgProperty();
             }
         },
 
         getSettings: function() {
-            var value = (this.btnRatio.pressed) ? 1 : 0;
             if (this._objectType==Asc.c_oAscTypeSelectElement.Shape) {
-                Common.localStorage.setItem("de-settings-shaperatio", value);
-            }
-            else if (this._objectType==Asc.c_oAscTypeSelectElement.Chart) {
-                Common.localStorage.setItem("de-settings-chartratio", value);
-            }
-            else {
-                Common.localStorage.setItem("de-settings-imageratio", value);
+                if (!this.chRatio.isDisabled())
+                    Common.localStorage.setItem("de-settings-shaperatio", (this.chRatio.getValue()=='checked') ? 1 : 0);
+            } else {
+                var value = (this.btnRatio.pressed) ? 1 : 0;
+                if (this._objectType==Asc.c_oAscTypeSelectElement.Chart) {
+                    Common.localStorage.setItem("de-settings-chartratio", value);
+                }
+                else {
+                    Common.localStorage.setItem("de-settings-imageratio", value);
+                }
             }
 
             var properties = this._changedProps;
@@ -1142,7 +1370,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 properties.put_ShapeProperties(this._changedShapeProps);
                 if (this.Margins) {
                     if (properties.get_ShapeProperties()===null || properties.get_ShapeProperties()===undefined)
-                        properties.put_ShapeProperties(new CAscShapeProp);
+                        properties.put_ShapeProperties(new Asc.asc_CShapeProperty());
                     properties.get_ShapeProperties().put_paddings(this.Margins);
                 }
             }
@@ -1241,7 +1469,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                     }
                 }
             }
-            this._changedShapeProps = new CAscShapeProp();
+            this._changedShapeProps = new Asc.asc_CShapeProperty();
         },
 
         updateMetricUnit: function() {
@@ -1279,7 +1507,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             this.spnTop.setDisabled(disabledTB);
             this.spnBottom.setDisabled(disabledTB);
 
-            this.btnsCategory[2].setDisabled(btnId == Asc.c_oAscWrapStyle2.Inline);
+            this.btnsCategory[3].setDisabled(btnId == Asc.c_oAscWrapStyle2.Inline);
         },
 
         onHAlignSelect: function(combo, record){
@@ -1387,7 +1615,6 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 this.chMove.setValue(this._state.VPositionFrom==Asc.c_oAscRelativeFromV.Line || this._state.VPositionFrom==Asc.c_oAscRelativeFromV.Paragraph, true);
             }
         },
-
 
         onVPositionPcSelect: function(combo, record){
             if (this._changedProps) {
@@ -1544,6 +1771,122 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             }
         },
 
+        onRadioHSizeChange: function(field, newValue, eOpts) {
+            if (newValue) {
+                if (this._changedProps) {
+                    this._changedProps.put_Width(Common.Utils.Metric.fnRecalcToMM(this.spnShapeWidth.getNumberValue()));
+                    this._changedProps.put_SizeRelH(undefined);
+
+                    this.fillShapeHeight();
+                }
+                this.chRatio.setDisabled(this.radioVSizePc.getValue());
+                this.cmbWidthPc.setDisabled(true);
+                this.spnShapeWidthPc.setDisabled(true);
+                this.spnShapeWidth.setDisabled(false);
+            }
+        },
+
+        onRadioHSizePcChange: function(field, newValue, eOpts) {
+            if (newValue) {
+                if (this._changedProps) {
+                    if (this._changedProps.get_SizeRelH()===null || this._changedProps.get_SizeRelH()===undefined)
+                        this._changedProps.put_SizeRelH(new Asc.CImagePositionH());
+
+                    this._changedProps.get_SizeRelH().put_Value(this.spnShapeWidthPc.getNumberValue());
+                    this._changedProps.get_SizeRelH().put_RelativeFrom(this._state.ShapeWidthPcFrom);
+
+                    this.fillShapeHeight();
+                }
+                this.chRatio.setDisabled(true);
+                this.cmbWidthPc.setDisabled(false);
+                this.spnShapeWidthPc.setDisabled(false);
+                this.spnShapeWidth.setDisabled(true);
+            }
+        },
+
+        onRadioVSizeChange: function(field, newValue, eOpts) {
+            if (newValue) {
+                if (this._changedProps) {
+                    this._changedProps.put_Height(Common.Utils.Metric.fnRecalcToMM(this.spnShapeHeight.getNumberValue()));
+                    this._changedProps.put_SizeRelV(undefined);
+
+                    this.fillShapeWidth();
+                }
+                this.chRatio.setDisabled(this.radioHSizePc.getValue());
+                this.cmbHeightPc.setDisabled(true);
+                this.spnShapeHeightPc.setDisabled(true);
+                this.spnShapeHeight.setDisabled(false);
+            }
+        },
+
+        onRadioVSizePcChange: function(field, newValue, eOpts) {
+            if (newValue) {
+                if (this._changedProps) {
+                    if (this._changedProps.get_SizeRelV()===null || this._changedProps.get_SizeRelV()===undefined)
+                        this._changedProps.put_SizeRelV(new Asc.CImagePositionV());
+
+                    this._changedProps.get_SizeRelV().put_Value(this.spnShapeHeightPc.getNumberValue());
+                    this._changedProps.get_SizeRelV().put_RelativeFrom(this._state.ShapeHeightPcFrom);
+
+                    this.fillShapeWidth();
+                }
+                this.chRatio.setDisabled(true);
+                this.cmbHeightPc.setDisabled(false);
+                this.spnShapeHeightPc.setDisabled(false);
+                this.spnShapeHeight.setDisabled(true);
+            }
+        },
+
+        onCmbWidthPcSelect: function(combo, record){
+            if (this._changedProps) {
+                if (this._changedProps.get_SizeRelH()===null || this._changedProps.get_SizeRelH()===undefined)
+                    this._changedProps.put_SizeRelH(new Asc.CImagePositionH());
+
+                this._state.ShapeWidthPcFrom = record.value;
+                this._changedProps.get_SizeRelH().put_Value(this.spnShapeWidthPc.getNumberValue());
+                this._changedProps.get_SizeRelH().put_RelativeFrom(this._state.ShapeWidthPcFrom);
+
+                this.fillShapeHeight();
+            }
+        },
+
+        onCmbHeightPcSelect: function(combo, record){
+            if (this._changedProps) {
+                if (this._changedProps.get_SizeRelV()===null || this._changedProps.get_SizeRelV()===undefined)
+                    this._changedProps.put_SizeRelV(new Asc.CImagePositionV());
+
+                this._state.ShapeHeightPcFrom = record.value;
+                this._changedProps.get_SizeRelV().put_Value(this.spnShapeHeightPc.getNumberValue());
+                this._changedProps.get_SizeRelV().put_RelativeFrom(this._state.ShapeHeightPcFrom);
+
+                this.fillShapeWidth();
+            }
+        },
+
+        fillShapeWidth: function(combo, record){
+            if (this.radioHSize.getValue())
+                this._changedProps.put_Width(Common.Utils.Metric.fnRecalcToMM(this.spnShapeWidth.getNumberValue()));
+            else {
+                if (this._changedProps.get_SizeRelH()===null || this._changedProps.get_SizeRelH()===undefined)
+                    this._changedProps.put_SizeRelH(new Asc.CImagePositionH());
+
+                this._changedProps.get_SizeRelH().put_Value(this.spnShapeWidthPc.getNumberValue());
+                this._changedProps.get_SizeRelH().put_RelativeFrom(this._state.ShapeWidthPcFrom);
+            }
+        },
+
+        fillShapeHeight: function(combo, record){
+            if (this.radioVSize.getValue())
+                this._changedProps.put_Height(Common.Utils.Metric.fnRecalcToMM(this.spnShapeHeight.getNumberValue()));
+            else {
+                if (this._changedProps.get_SizeRelV()===null || this._changedProps.get_SizeRelV()===undefined)
+                    this._changedProps.put_SizeRelV(new Asc.CImagePositionV());
+
+                this._changedProps.get_SizeRelV().put_Value(this.spnShapeHeightPc.getNumberValue());
+                this._changedProps.get_SizeRelV().put_RelativeFrom(this._state.ShapeHeightPcFrom);
+            }
+        },
+
         _updateSizeArr: function(combo, picker, record, sizeidx) {
             if (record.get('value')>0) {
                 picker.store.each( function(rec){
@@ -1569,7 +1912,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
         onSelectBeginStyle: function(picker, view, record, e){
             if (this._changedShapeProps) {
                 if (this._changedShapeProps.get_stroke()===null)
-                    this._changedShapeProps.put_stroke(new CAscStroke());
+                    this._changedShapeProps.put_stroke(new Asc.asc_CStroke());
 
                 this._changedShapeProps.get_stroke().put_linebeginstyle(record.get('type'));
             }
@@ -1582,7 +1925,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
         onSelectBeginSize: function(picker, view, record, e){
             if (this._changedShapeProps) {
                 if (this._changedShapeProps.get_stroke()===null)
-                    this._changedShapeProps.put_stroke(new CAscStroke());
+                    this._changedShapeProps.put_stroke(new Asc.asc_CStroke());
 
                 this._changedShapeProps.get_stroke().put_linebeginsize(record.get('type'));
             }
@@ -1593,7 +1936,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
         onSelectEndStyle: function(picker, view, record, e){
             if (this._changedShapeProps) {
                 if (this._changedShapeProps.get_stroke()===null)
-                    this._changedShapeProps.put_stroke(new CAscStroke());
+                    this._changedShapeProps.put_stroke(new Asc.asc_CStroke());
 
                 this._changedShapeProps.get_stroke().put_lineendstyle(record.get('type'));
             }
@@ -1606,7 +1949,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
         onSelectEndSize: function(picker, view, record, e){
             if (this._changedShapeProps) {
                 if (this._changedShapeProps.get_stroke()===null)
-                    this._changedShapeProps.put_stroke(new CAscStroke());
+                    this._changedShapeProps.put_stroke(new Asc.asc_CStroke());
 
                 this._changedShapeProps.get_stroke().put_lineendsize(record.get('type'));
             }
@@ -1674,7 +2017,10 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
         textBeginSize:  'Begin Size',
         textEndStyle:   'End Style',
         textEndSize:    'End Size',
-        textPositionPc: 'Relative position'
+        textPositionPc: 'Relative position',
+        textAspectRatio: 'Lock aspect ratio',
+        textAbsoluteWH: 'Absolute',
+        textRelativeWH: 'Relative'
 
     }, DE.Views.ImageSettingsAdvanced || {}));
 });

@@ -329,7 +329,7 @@ define([
             this.chLiveComment.setValue(!(value!==null && parseInt(value) == 0));
 
             value = Common.localStorage.getItem("de-settings-coauthmode");
-            var fast_coauth = (value===null || parseInt(value) == 1);
+            var fast_coauth = (value===null || parseInt(value) == 1) && !(this.mode.isDesktopApp && this.mode.isOffline);
 
             item = this.cmbCoAuthMode.store.findWhere({value: parseInt(value)});
             this.cmbCoAuthMode.setValue(item ? item.get('value') : 1);
@@ -348,11 +348,11 @@ define([
 
             value = Common.localStorage.getItem("de-settings-unit");
             item = this.cmbUnit.store.findWhere({value: parseInt(value)});
-            this.cmbUnit.setValue(item ? parseInt(item.get('value')) : 0);
+            this.cmbUnit.setValue(item ? parseInt(item.get('value')) : Common.Utils.Metric.getDefaultMetric());
             this._oldUnits = this.cmbUnit.getValue();
 
             value = Common.localStorage.getItem("de-settings-autosave");
-            this.chAutosave.setValue(fast_coauth);
+            this.chAutosave.setValue(fast_coauth || (value===null || parseInt(value) == 1));
 
             value = Common.localStorage.getItem("de-settings-spellcheck");
             this.chSpell.setValue(value===null || parseInt(value) == 1);

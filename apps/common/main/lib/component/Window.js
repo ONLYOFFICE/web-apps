@@ -301,9 +301,14 @@ define([
                         options.primary = 'ok';
                     var newBtns = {};
                     _.each(options.buttons, function(b){
-                        newBtns[b] = {text: (b=='custom') ? options.customButtonText : arrBtns[b], cls: (options.primary==b) ? 'primary' : ''};
-                        if (b=='custom')
-                            newBtns[b].cls += ' custom';
+                        if (typeof(b) == 'object') {
+                            if (b.value !== undefined)
+                                newBtns[b.value] = {text: b.caption, cls: 'custom' + ((b.primary || options.primary==b.value) ? ' primary' : '')};
+                        } else {
+                            newBtns[b] = {text: (b=='custom') ? options.customButtonText : arrBtns[b], cls: (options.primary==b) ? 'primary' : ''};
+                            if (b=='custom')
+                                newBtns[b].cls += ' custom';
+                        }
                     });
 
                     options.buttons = newBtns;
