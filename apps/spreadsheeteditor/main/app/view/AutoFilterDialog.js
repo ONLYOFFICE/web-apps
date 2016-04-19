@@ -590,6 +590,8 @@ define([
                 this.cellsList.store.comparator = function(item1, item2) {
                     if ('0' == item1.get('groupid')) return -1;
                     if ('0' == item2.get('groupid')) return 1;
+                    if ('2' == item1.get('groupid')) return -1;
+                    if ('2' == item2.get('groupid')) return 1;
 
                     var n1 = item1.get('intval'),
                         n2 = item2.get('intval'),
@@ -792,11 +794,13 @@ define([
                 var check = !record.get('check'),
                     me = this,
                     idxs = (me.filter) ? me.filteredIndexes : me.throughIndexes;
-                if ('1' !== record.get('groupid')) {
+                if ('0' == record.get('groupid')) {
                     this.cells.each(function(cell) {
-                        cell.set('check', check);
-                        if (cell.get('throughIndex')>0)
-                            idxs[parseInt(cell.get('throughIndex'))] = check;
+                        if ('2' !== cell.get('groupid')) {
+                            cell.set('check', check);
+                            if (cell.get('throughIndex')>1)
+                                idxs[parseInt(cell.get('throughIndex'))] = check;
+                        }
                     });
                 } else {
                     record.set('check', check);
@@ -818,7 +822,9 @@ define([
         },
 
         _setDefaults: function() {
-            var isCustomFilter = (this.configTo.asc_getFilterObj().asc_getType() === Asc.c_oAscAutoFilterTypes.CustomFilters);
+            this.initialFilterType = this.configTo.asc_getFilterObj().asc_getType();
+
+            var isCustomFilter = (this.initialFilterType === Asc.c_oAscAutoFilterTypes.CustomFilters);
 
             this.miSortLow2High.setChecked(false, true);
             this.miSortHigh2Low.setChecked(false, true);
@@ -842,7 +848,7 @@ define([
 
             var me = this,
                 isnumber, value,
-                index = 0, throughIndex = 1,
+                index = 0, throughIndex = 2,
                 applyfilter = true,
                 haveUnselectedCell = false,
                 arr = [], arrEx = [],
@@ -886,18 +892,31 @@ define([
                 ++throughIndex;
             });
 
-            if (me.filter || idxs==undefined)
+            if (me.filter || idxs[0]==undefined)
                 idxs[0] = true;
             if (!me.filter || arr.length>0)
                 arr.unshift(new Common.UI.DataViewModel({
                     id              : ++index,
                     selected        : false,
                     allowSelected   : true,
-                    value           : this.textSelectAll,
+                    value           : (me.filter) ? this.textSelectAllResults : this.textSelectAll,
                     groupid         : '0',
                     check           : idxs[0],
                     throughIndex    : 0
                 }));
+            if (me.filter && arr.length>1) {
+                if (idxs[1]==undefined)
+                    idxs[1] = false;
+                arr.splice(1, 0, new Common.UI.DataViewModel({
+                    id              : ++index,
+                    selected        : false,
+                    allowSelected   : true,
+                    value           : this.textAddSelection,
+                    groupid         : '2',
+                    check           : idxs[1],
+                    throughIndex    : 1
+                }));
+            }
 
             this.cells.reset(arr);
             this.filterExcludeCells.reset(arrEx);
@@ -907,7 +926,7 @@ define([
                 this.cells.at(0).set('check', !haveUnselectedCell);
                 this.checkCellTrigerBlock = undefined;
 
-//                this.chCustomFilter.setValue(this.configTo.asc_getFilterObj().asc_getType() === Asc.c_oAscAutoFilterTypes.CustomFilters);
+//                this.chCustomFilter.setValue(this.initialFilterType === Asc.c_oAscAutoFilterTypes.CustomFilters);
             }
 
             this.cellsList.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true, suppressScrollX: true});
@@ -917,13 +936,15 @@ define([
             var me = this, isValid= false;
 
             if (this.cells) {
-                this.cells.forEach(function(item){
-                    if ('1' === item.get('groupid')) {
-                        if (item.get('check')) {
+                if (this.filter && this.filteredIndexes[1])
+                    isValid = true;
+                else
+                    this.cells.forEach(function(item){
+                        if ('1' == item.get('groupid') && item.get('check')) {
                             isValid = true;
+                            return true;
                         }
-                    }
-                });
+                    });
             }
 
             if (!isValid) {
@@ -942,12 +963,32 @@ define([
         save: function () {
             if (this.api && this.configTo && this.cells && this.filterExcludeCells) {
                 var arr = this.configTo.asc_getValues(),
-                    me = this,
-                    idxs = (me.filter) ? me.filteredIndexes : me.throughIndexes;
-                arr.forEach(function(item, index) {
-                    item.asc_setVisible(idxs[index+1]);
-                });
-                this.api.asc_applyAutoFilter('mainFilter', this.configTo);
+                    isValid = false;
+                if (this.filter && this.filteredIndexes[1]) {
+                    if (this.initialFilterType === Asc.c_oAscAutoFilterTypes.CustomFilters) {
+                        arr.forEach(function(item, index) {
+                            item.asc_setVisible(true);
+                        });
+                    }
+                    this.cells.each(function(cell) {
+                        if ('1' == cell.get('groupid')) {
+                            arr[parseInt(cell.get('throughIndex'))-2].asc_setVisible(cell.get('check'));
+                        }
+                    });
+                    arr.forEach(function(item, index) {
+                        if (item.asc_getVisible()) {
+                            isValid = true;
+                            return true;
+                        }
+                    });
+                } else {
+                    var idxs = (this.filter) ? this.filteredIndexes : this.throughIndexes;
+                    arr.forEach(function(item, index) {
+                        item.asc_setVisible(idxs[index+2]);
+                    });
+                    isValid = true;
+                }
+                if (isValid) this.api.asc_applyAutoFilter('mainFilter', this.configTo);
             }
         },
 
@@ -992,8 +1033,9 @@ define([
         txtNotEnds          : "Does not end with...",
         txtContains         : "Contains...",
         txtNotContains      : "Does not contain...",
-        textNoFilter        : "None"
-
+        textNoFilter        : "None",
+        textSelectAllResults: 'Select All Search Results',
+        textAddSelection    : 'Add current selection to filter'
 
     }, SSE.Views.AutoFilterDialog || {}));
 });
