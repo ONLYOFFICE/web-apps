@@ -219,8 +219,7 @@ define([
         },
 
         onCoAuthoringDisconnect: function() {
-            if (this.rightmenu)
-                this.rightmenu.SetDisabled('', true, true);
+            this.SetDisabled(true);
             this.setMode({isEdit: false});
         },
 
@@ -297,6 +296,27 @@ define([
                     return Common.Utils.documentSettingsType.Paragraph;
                 case Asc.c_oAscTypeSelectElement.Image:
                     return Common.Utils.documentSettingsType.Image;
+            }
+        },
+
+        SetDisabled: function(disabled) {
+            if (this.rightmenu) {
+                this.rightmenu.paragraphSettings.disableControls(disabled);
+                this.rightmenu.shapeSettings.disableControls(disabled);
+                this.rightmenu.imageSettings.disableControls(disabled);
+                this.rightmenu.chartSettings.disableControls(disabled);
+                this.rightmenu.tableSettings.disableControls(disabled);
+
+                if (disabled) {
+                    this.rightmenu.btnText.setDisabled(disabled);
+                    this.rightmenu.btnTable.setDisabled(disabled);
+                    this.rightmenu.btnImage.setDisabled(disabled);
+                    this.rightmenu.btnShape.setDisabled(disabled);
+                    this.rightmenu.btnTextArt.setDisabled(disabled);
+                    this.rightmenu.btnChart.setDisabled(disabled);
+                } else {
+                    this.onSelectionChanged(this.api.asc_getCellInfo());
+                }
             }
         }
     });

@@ -179,9 +179,10 @@ define([
         onClose: function(event) {
             if (this.api)
                 this.api.asc_setSelectionDialogMode(Asc.c_oAscSelectionDialogType.None);
-
             Common.NotificationCenter.trigger('cells:range', Asc.c_oAscSelectionDialogType.None);
             Common.NotificationCenter.trigger('edit:complete', this);
+
+            SSE.getController('RightMenu').SetDisabled(false);
         },
 
         onKeyPress: function(event) {
@@ -202,14 +203,10 @@ define([
             this.close();
         },
 
-//        show: function () {
-//            Common.UI.Window.prototype.show.call(this);
-//
-//            var me = this;
-//            _.delay(function () {
-//                me.inputRange.cmpEl.find('input').focus();
-//            }, 500, me);
-//        },
+        show: function () {
+            Common.UI.Window.prototype.show.call(this);
+            SSE.getController('RightMenu').SetDisabled(true);
+        },
 
         txtTitle    : 'Title',
         txtFormat   : 'Create table',

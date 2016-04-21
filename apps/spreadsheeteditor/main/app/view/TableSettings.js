@@ -137,6 +137,7 @@ define([
                 el: $('#table-btn-select-data')
             });
             this.btnSelectData.on('click', _.bind(this.onSelectData, this));
+            this.lockedControls.push(this.btnSelectData);
 
             this.btnEdit = new Common.UI.Button({
                 cls: 'btn-icon-default',

@@ -146,8 +146,8 @@
         background-color: @secondary;
     }
 
-    &:active,
-    &.active {
+    &:active:not(.disabled),
+    &.active:not(.disabled) {
         background-color: @primary;
         color: #fff;
     }

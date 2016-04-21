@@ -237,22 +237,6 @@ define([
             return (this.minimizedMode) ? null : $(".settings-panel.active")[0].id;
         },
 
-        SetDisabled: function(id, disabled, all) {
-            if (all) {
-                this.paragraphSettings.disableControls(disabled);
-                this.shapeSettings.disableControls(disabled);
-                this.imageSettings.disableControls(disabled);
-                this.chartSettings.disableControls(disabled);
-                this.tableSettings.disableControls(disabled);
-            } else {
-                var cmp = $("#" + id);
-                if (disabled !== cmp.hasClass('disabled')) {
-                    cmp.toggleClass('disabled', disabled);
-                    (disabled) ? cmp.attr({disabled: disabled}) : cmp.removeAttr('disabled');
-                }
-            }
-        },
-
         clearSelection: function() {
             var target_pane = $(".right-panel");
             target_pane.find('> .active').removeClass('active');
