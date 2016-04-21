@@ -54,7 +54,8 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             toggleGroup: 'image-adv-settings-group',
             sizeOriginal: {width: 0, height: 0},
             sizeMax: {width: 55.88, height: 55.88},
-            properties: null
+            properties: null,
+            storageName: 'de-img-settings-adv-category'
         },
 
         initialize : function(options) {
@@ -62,7 +63,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 title: this.textTitle,
                 items: [
                     {panelId: 'id-adv-image-width',      panelCaption: this.textSize},
-                    {panelId: 'id-adv-shape-size',      panelCaption: this.textSize},
+                    {panelId: 'id-adv-shape-size',       panelCaption: this.textSize},
                     {panelId: 'id-adv-image-wrap',       panelCaption: this.textBtnWrap},
                     {panelId: 'id-adv-image-position',   panelCaption: this.textPosition},
                     {panelId: 'id-adv-image-shape',      panelCaption: this.textShape},
@@ -1067,25 +1068,10 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
         afterRender: function() {
             this.updateMetricUnit();
             this._setDefaults(this._originalProps);
-
-            var btnCategoryShapeSize, btnCategoryImageSize;
-            _.each(this.btnsCategory, function(btn) {
-                if (btn.options.contentTarget == 'id-adv-image-width')
-                    btnCategoryImageSize = btn;
-                else if(btn.options.contentTarget == 'id-adv-shape-size')
-                    btnCategoryShapeSize = btn;
-            });
-
-            this.content_panels.filter('.active').removeClass('active');
-
-            if (this._objectType == Asc.c_oAscTypeSelectElement.Shape) {
-                btnCategoryImageSize.hide();
-                btnCategoryShapeSize.toggle(true, true);
-                $("#" + btnCategoryShapeSize.options.contentTarget).addClass('active');
-            } else {
-                btnCategoryShapeSize.hide();
-                btnCategoryImageSize.toggle(true, true);
-                $("#" + btnCategoryImageSize.options.contentTarget).addClass('active');
+            this.btnsCategory[(this._objectType == Asc.c_oAscTypeSelectElement.Shape) ? 0 : 1].setVisible(false);
+            if (this.storageName) {
+                var value = Common.localStorage.getItem(this.storageName);
+                this.setActiveCategory((value!==null) ? parseInt(value) : 0);
             }
         },
 

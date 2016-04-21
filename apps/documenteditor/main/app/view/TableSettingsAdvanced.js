@@ -55,7 +55,8 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
         options: {
             contentWidth: 340,
             height: 436,
-            toggleGroup: 'table-adv-settings-group'
+            toggleGroup: 'table-adv-settings-group',
+            storageName: 'de-table-settings-adv-category'
         },
 
         initialize : function(options) {
@@ -1133,6 +1134,11 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 }
                 this._UpdateTableBordersStyle(ct, border, size, color, (this._allTable) ? this.TableBorders : this.CellBorders, (this._allTable) ? this.ChangedTableBorders : this.ChangedCellBorders);
             }, this);
+
+            if (this.storageName) {
+                var value = Common.localStorage.getItem(this.storageName);
+                this.setActiveCategory((value!==null) ? parseInt(value) : 0);
+            }
         },
 
         getSettings: function() {

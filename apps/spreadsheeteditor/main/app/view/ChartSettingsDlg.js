@@ -50,7 +50,8 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
         options: {
             contentWidth: 322,
             height: 535,
-            toggleGroup: 'chart-settings-dlg-group'
+            toggleGroup: 'chart-settings-dlg-group',
+            storageName: 'sse-chart-settings-adv-category'
         },
 
         initialize : function(options) {
@@ -806,6 +807,10 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 this.updateChartStyles(this.api.asc_getChartPreviews(this._state.ChartType));
 
             this._setDefaults(this.chartSettings);
+            if (this.storageName) {
+                var value = Common.localStorage.getItem(this.storageName);
+                this.setActiveCategory((value!==null) ? parseInt(value) : 0);
+            }
         },
 
         onSelectType: function(btn, picker, itemView, record) {
@@ -1148,8 +1153,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
             } else
                 this.txtDataRange.showError([this.txtEmpty]);
 
-            this.btnsCategory[0].toggle(true);
-            this.onCategoryClick(this.btnsCategory[0]);
+            this.setActiveCategory(0);
             if (isvalid == Asc.c_oAscError.ID.StockChartError) {
                 Common.UI.warning({msg: this.errorStockChart});
             } else if (isvalid == Asc.c_oAscError.ID.MaxDataSeriesError) {

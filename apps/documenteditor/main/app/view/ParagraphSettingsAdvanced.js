@@ -54,7 +54,8 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
         options: {
             contentWidth: 325,
             height: 394,
-            toggleGroup: 'paragraph-adv-settings-group'
+            toggleGroup: 'paragraph-adv-settings-group',
+            storageName: 'de-para-settings-adv-category'
         },
 
         initialize : function(options) {
@@ -768,6 +769,11 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                 }
                 this._UpdateTableBordersStyle(ct, border, size, color, this.Borders);
             }, this);
+
+            if (this.storageName) {
+                var value = Common.localStorage.getItem(this.storageName);
+                this.setActiveCategory((value!==null) ? parseInt(value) : 0);
+            }
         },
 
         onStrikeChange: function(field, newValue, oldValue, eOpts){

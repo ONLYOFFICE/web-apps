@@ -50,7 +50,8 @@ define([    'text!presentationeditor/main/app/template/ImageSettingsAdvanced.tem
             contentWidth: 340,
             height: 235,
             sizeOriginal: {width: 0, height: 0},
-            sizeMax: {width: 55.88, height: 55.88}
+            sizeMax: {width: 55.88, height: 55.88},
+            storageName: 'pe-img-settings-adv-category'
         },
 
         initialize : function(options) {
@@ -183,6 +184,10 @@ define([    'text!presentationeditor/main/app/template/ImageSettingsAdvanced.tem
         afterRender: function() {
             this.updateMetricUnit();
             this._setDefaults(this._originalProps);
+            if (this.storageName) {
+                var value = Common.localStorage.getItem(this.storageName);
+                this.setActiveCategory((value!==null) ? parseInt(value) : 0);
+            }
         },
 
         _setDefaults: function(props) {

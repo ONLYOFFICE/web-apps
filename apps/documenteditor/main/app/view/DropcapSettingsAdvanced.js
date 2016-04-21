@@ -61,7 +61,8 @@ define([
         options: {
             contentWidth: 320,
             height      : 380,
-            toggleGroup : 'dropcap-adv-settings-group'
+            toggleGroup : 'dropcap-adv-settings-group',
+            storageName: 'de-dropcap-settings-adv-category'
         },
 
         initialize : function(options) {
@@ -742,26 +743,13 @@ define([
                 this._UpdateTableBordersStyle(ct, border, size, color, this.Borders);
             }, this);
 
-            var btnCategoryFrame, btnCategoryDropcap;
-
-            _.each(this.btnsCategory, function(btn) {
-                if (btn.options.contentTarget == 'id-adv-dropcap-frame')
-                    btnCategoryFrame = btn;
-                else if(btn.options.contentTarget == 'id-adv-dropcap-dropcap')
-                    btnCategoryDropcap = btn;
-            });
-
-            this.content_panels.filter('.active').removeClass('active');
-
-            if (!this.isFrame) {
-                btnCategoryFrame.hide();
-                btnCategoryDropcap.toggle(true, true);
-                $("#" + btnCategoryDropcap.options.contentTarget).addClass('active');
-            } else {
-                btnCategoryDropcap.hide();
-                btnCategoryFrame.toggle(true, true);
-                $("#" + btnCategoryFrame.options.contentTarget).addClass('active');
+            if (this.isFrame)
                 this.setHeight(500);
+
+            this.btnsCategory[(this.isFrame) ? 1 : 0].setVisible(false);
+            if (this.storageName) {
+                var value = Common.localStorage.getItem(this.storageName);
+                this.setActiveCategory((value!==null) ? parseInt(value) : 0);
             }
         },
 

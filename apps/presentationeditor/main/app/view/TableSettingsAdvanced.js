@@ -48,7 +48,8 @@ define([    'text!presentationeditor/main/app/template/TableSettingsAdvanced.tem
         options: {
             alias: 'TableSettingsAdvanced',
             contentWidth: 280,
-            height: 385
+            height: 385,
+            storageName: 'pe-table-settings-adv-category'
         },
 
         initialize : function(options) {
@@ -304,6 +305,10 @@ define([    'text!presentationeditor/main/app/template/TableSettingsAdvanced.tem
         afterRender: function() {
             this.updateMetricUnit();
             this._setDefaults(this._originalProps);
+            if (this.storageName) {
+                var value = Common.localStorage.getItem(this.storageName);
+                this.setActiveCategory((value!==null) ? parseInt(value) : 0);
+            }
         },
 
         getSettings: function() {
