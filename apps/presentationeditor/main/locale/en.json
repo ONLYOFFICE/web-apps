@@ -1,4 +1,6 @@
 {
+  "Common.Utils.Metric.txtCm": "cm",
+  "Common.Utils.Metric.txtPt": "pt",
   "Common.Controllers.Chat.notcriticalErrorTitle": "Warning",
   "Common.Controllers.Chat.textEnterMessage": "Enter your message here",
   "Common.Controllers.Chat.textUserLimit": "You are using ONLYOFFICE Free Edition.<br>Only two users can co-edit the document simultaneously.<br>Want more? Consider buying ONLYOFFICE Enterprise Edition.<br><a href=\"http://www.onlyoffice.com/free-edition.aspx\" target=\"_blank\">Read more</a>",
@@ -574,6 +576,7 @@
   "PE.Views.SlideSettings.textRadial": "Radial",
   "PE.Views.SlideSettings.textReset": "Reset Changes",
   "PE.Views.SlideSettings.textRight": "Right",
+  "PE.Views.SlideSettings.textSec": "s",
   "PE.Views.SlideSettings.textSelectTexture": "Select",
   "PE.Views.SlideSettings.textSmoothly": "Smoothly",
   "PE.Views.SlideSettings.textSplit": "Split",

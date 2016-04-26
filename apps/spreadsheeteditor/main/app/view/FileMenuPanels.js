@@ -379,7 +379,7 @@ define([
             if (this.spinners) {
                 for (var i=0; i<this.spinners.length; i++) {
                     var spinner = this.spinners[i];
-                    spinner.setDefaultUnit(Common.Utils.Metric.metricName[Common.Utils.Metric.getCurrentMetric()]);
+                    spinner.setDefaultUnit(Common.Utils.Metric.getCurrentMetricName());
                     spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt ? 1 : 0.1);
                 }
             }
@@ -390,8 +390,8 @@ define([
                     pagewidth = /^\d{3}\.?\d*/.exec(value),
                     pageheight = /\d{3}\.?\d*$/.exec(value);
 
-                item.set('displayValue', item.get('caption') + ' (' + parseFloat(Common.Utils.Metric.fnRecalcFromMM(pagewidth).toFixed(2)) + Common.Utils.Metric.metricName[Common.Utils.Metric.getCurrentMetric()] + ' x ' +
-                        parseFloat(Common.Utils.Metric.fnRecalcFromMM(pageheight).toFixed(2)) + Common.Utils.Metric.metricName[Common.Utils.Metric.getCurrentMetric()] + ')');
+                item.set('displayValue', item.get('caption') + ' (' + parseFloat(Common.Utils.Metric.fnRecalcFromMM(pagewidth).toFixed(2)) + Common.Utils.Metric.getCurrentMetricName() + ' x ' +
+                        parseFloat(Common.Utils.Metric.fnRecalcFromMM(pageheight).toFixed(2)) + Common.Utils.Metric.getCurrentMetricName() + ')');
             }
             this.cmbPaperSize.onResetItems();
         },
@@ -590,12 +590,32 @@ define([
             this.cmbRegSettings = new Common.UI.ComboBox({
                 el          : $('#fms-cmb-reg-settings'),
                 style       : 'width: 160px;',
+                menuStyle: 'max-height: 185px;',
                 editable    : false,
                 cls         : 'input-group-nr',
                 data        : [
-                    { value: 0x0409, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x0409)[1] },
+                    { value: 0x042C, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x042C)[1] },
+                    { value: 0x0405, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x0405)[1] },
                     { value: 0x0407, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x0407)[1] },
-                    { value: 0x0419, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x0419)[1] }
+                    { value: 0x0408, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x0408)[1] },
+                    { value: 0x0809, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x0809)[1] },
+                    { value: 0x0409, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x0409)[1] },
+                    { value: 0x0C0A, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x0C0A)[1] },
+                    { value: 0x040B, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x040B)[1] },
+                    { value: 0x040C, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x040C)[1] },
+                    { value: 0x0410, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x0410)[1] },
+                    { value: 0x0411, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x0411)[1] },
+                    { value: 0x0412, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x0412)[1] },
+                    { value: 0x0426, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x0426)[1] },
+                    { value: 0x0415, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x0415)[1] },
+                    { value: 0x0416, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x0416)[1] },
+                    { value: 0x0816, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x0816)[1] },
+                    { value: 0x0419, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x0419)[1] },
+                    { value: 0x0424, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x0424)[1] },
+                    { value: 0x041F, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x041F)[1] },
+                    { value: 0x0422, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x0422)[1] },
+                    { value: 0x042A, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x042A)[1] },
+                    { value: 0x0804, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x0804)[1] }
                 ]
             }).on('selected', _.bind(function(combo, record) {
                 this.updateRegionalExample(record.value);

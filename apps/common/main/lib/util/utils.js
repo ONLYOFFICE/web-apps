@@ -38,7 +38,7 @@ if (Common.Utils === undefined) {
     Common.Utils = {};
 }
 
-Common.Utils = new(function() {
+Common.Utils = _.extend(new(function() {
     var userAgent = navigator.userAgent.toLowerCase(),
         check = function(regex){
             return regex.test(userAgent);
@@ -164,7 +164,7 @@ Common.Utils = new(function() {
         hostnameStrongRe: hostnameStrongRe,
         documentSettingsType: documentSettingsType
     }
-})();
+})(), Common.Utils || {});
 
 Common.Utils.ThemeColor = new(function() {
     return {
@@ -249,7 +249,7 @@ Common.Utils.ThemeColor = new(function() {
     }
 })();
 
-Common.Utils.Metric = new(function() {
+Common.Utils.Metric = _.extend( new(function() {
     var me = this;
 
     me.c_MetricUnits = {
@@ -257,13 +257,16 @@ Common.Utils.Metric = new(function() {
         pt: 1,
         inch: 2
     };
+
     me.currentMetric = me.c_MetricUnits.pt;
-    me.metricName = ['cm', 'pt', '\"'];
+    me.metricName = ['Cm', 'Pt', 'Inch'];
     me.defaultMetric = me.c_MetricUnits.cm;
 
     return {
         c_MetricUnits: me.c_MetricUnits,
-        metricName   : me.metricName,
+        txtCm        : 'cm',
+        txtPt        : 'pt',
+        txtInch      : '\"',
 
         setCurrentMetric: function(value) {
             me.currentMetric = value;
@@ -273,6 +276,14 @@ Common.Utils.Metric = new(function() {
             return me.currentMetric;
         },
 
+        getCurrentMetricName: function() {
+            return this['txt' + me.metricName[me.currentMetric]];
+        },
+
+        getMetricName: function(unit) {
+            return this['txt' + me.metricName[(unit !== undefined) ? unit : 0]];
+        },
+        
         setDefaultMetric: function(value) {
             me.defaultMetric = value;
         },
@@ -309,7 +320,7 @@ Common.Utils.Metric = new(function() {
             return value;
         }
     }
-})();
+})(), Common.Utils.Metric || {});
 
 Common.Utils.RGBColor = function(colorString) {
     var r, g, b;

@@ -76,6 +76,7 @@ define([
             this.handler = _options.handler;
             this.toggleGroup = _options.toggleGroup;
             this.contentWidth = _options.contentWidth;
+            this.storageName = _options.storageName;
 
             Common.UI.Window.prototype.initialize.call(this, _options);
         },
@@ -141,6 +142,37 @@ define([
 
             this.close();
             return false;
+        },
+
+        setActiveCategory: function(index) {
+            if (this.btnsCategory.length<1) return;
+            
+            var btnActive = this.btnsCategory[(index>=0 && index<this.btnsCategory.length) ? index : 0];
+            if (!btnActive.isVisible() || btnActive.isDisabled()) {
+                for (var i = 0; i<this.btnsCategory.length; i++){
+                    var btn = this.btnsCategory[i];
+                    if (btn.isVisible() && !btn.isDisabled()) {
+                        btnActive = btn;
+                        break;
+                    }
+                }
+            }
+            btnActive.toggle(true);
+            this.onCategoryClick(btnActive);
+        },
+
+        getActiveCategory: function() {
+            var index = -1;
+            this.btnsCategory.forEach(function(btn, idx){
+                if (btn.pressed) index = idx;
+            });
+            return index;
+        },
+
+        close: function(suppressevent) {
+            if (this.storageName)
+                Common.localStorage.setItem(this.storageName, this.getActiveCategory());
+            Common.UI.Window.prototype.close.call(this, suppressevent);
         },
 
         cancelButtonText: 'Cancel',

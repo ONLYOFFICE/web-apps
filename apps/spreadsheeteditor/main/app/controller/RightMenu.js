@@ -77,7 +77,8 @@ define([
             this._settings[Common.Utils.documentSettingsType.Image] =     {panelId: "id-image-settings",      panel: rightMenu.imageSettings,    btn: rightMenu.btnImage,       hidden: 1, locked: false};
             this._settings[Common.Utils.documentSettingsType.Shape] =     {panelId: "id-shape-settings",      panel: rightMenu.shapeSettings,    btn: rightMenu.btnShape,       hidden: 1, locked: false};
             this._settings[Common.Utils.documentSettingsType.TextArt] =   {panelId: "id-textart-settings",    panel: rightMenu.textartSettings,  btn: rightMenu.btnTextArt,     hidden: 1, locked: false};
-            this._settings[Common.Utils.documentSettingsType.Chart] = {panelId: "id-chart-settings",          panel: rightMenu.chartSettings,    btn: rightMenu.btnChart,       hidden: 1, locked: false};
+            this._settings[Common.Utils.documentSettingsType.Chart] =     {panelId: "id-chart-settings",      panel: rightMenu.chartSettings,    btn: rightMenu.btnChart,       hidden: 1, locked: false};
+            this._settings[Common.Utils.documentSettingsType.Table] =     {panelId: "id-table-settings",      panel: rightMenu.tableSettings,    btn: rightMenu.btnTable,       hidden: 1, locked: false};
         },
 
         setApi: function(api) {
@@ -103,19 +104,20 @@ define([
 
         onSelectionChanged: function(info) {
             var SelectedObjects = [],
-                selectType = info.asc_getFlags().asc_getSelectionType();
+                selectType = info.asc_getFlags().asc_getSelectionType(),
+                formatTableInfo = info.asc_getFormatTableInfo();
 
             if (selectType == Asc.c_oAscSelectionType.RangeImage || selectType == Asc.c_oAscSelectionType.RangeShape ||
                 selectType == Asc.c_oAscSelectionType.RangeChart || selectType == Asc.c_oAscSelectionType.RangeChartText || selectType == Asc.c_oAscSelectionType.RangeShapeText) {
                 SelectedObjects = this.api.asc_getGraphicObjectProps();
             }
-
-            if (SelectedObjects.length<=0 && !this.rightmenu.minimizedMode) {
+            
+            if (SelectedObjects.length<=0 && !formatTableInfo && !this.rightmenu.minimizedMode) {
                 this.rightmenu.clearSelection();
                 this._openRightMenu = true;
             }
 
-            this.onFocusObject(SelectedObjects);
+            this.onFocusObject(SelectedObjects, formatTableInfo);
 
             var need_disable = info.asc_getLocked(),
                 me = this;
@@ -128,7 +130,7 @@ define([
             }
         },
 
-        onFocusObject: function(SelectedObjects) {
+        onFocusObject: function(SelectedObjects, formatTableInfo) {
             if (!this.editMode)
                 return;
 
@@ -166,6 +168,12 @@ define([
                 this._settings[settingsType].locked = value.asc_getLocked();
             }
 
+            if (formatTableInfo) {
+                settingsType = Common.Utils.documentSettingsType.Table;
+                this._settings[settingsType].props = formatTableInfo;
+                this._settings[settingsType].hidden = 0;
+            }
+            
             var lastactive = -1, currentactive, priorityactive = -1;
             for (i=0; i<this._settings.length; ++i) {
                 var pnl = this._settings[i];
@@ -211,8 +219,7 @@ define([
         },
 
         onCoAuthoringDisconnect: function() {
-            if (this.rightmenu)
-                this.rightmenu.SetDisabled('', true, true);
+            this.SetDisabled(true);
             this.setMode({isEdit: false});
         },
 
@@ -256,6 +263,7 @@ define([
                 this.api.asc_registerCallback('asc_onFocusObject', _.bind(this.onFocusObject, this));
                 this.api.asc_registerCallback('asc_onSelectionChanged', _.bind(this.onSelectionChanged, this));
                 this.api.asc_registerCallback('asc_doubleClickOnObject', _.bind(this.onDoubleClickOnObject, this));
+                this.onSelectionChanged(this.api.asc_getCellInfo());
             }
         },
 
@@ -288,6 +296,27 @@ define([
                     return Common.Utils.documentSettingsType.Paragraph;
                 case Asc.c_oAscTypeSelectElement.Image:
                     return Common.Utils.documentSettingsType.Image;
+            }
+        },
+
+        SetDisabled: function(disabled) {
+            if (this.rightmenu) {
+                this.rightmenu.paragraphSettings.disableControls(disabled);
+                this.rightmenu.shapeSettings.disableControls(disabled);
+                this.rightmenu.imageSettings.disableControls(disabled);
+                this.rightmenu.chartSettings.disableControls(disabled);
+                this.rightmenu.tableSettings.disableControls(disabled);
+
+                if (disabled) {
+                    this.rightmenu.btnText.setDisabled(disabled);
+                    this.rightmenu.btnTable.setDisabled(disabled);
+                    this.rightmenu.btnImage.setDisabled(disabled);
+                    this.rightmenu.btnShape.setDisabled(disabled);
+                    this.rightmenu.btnTextArt.setDisabled(disabled);
+                    this.rightmenu.btnChart.setDisabled(disabled);
+                } else {
+                    this.onSelectionChanged(this.api.asc_getCellInfo());
+                }
             }
         }
     });

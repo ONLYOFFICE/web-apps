@@ -1,4 +1,6 @@
 {
+  "Common.Utils.Metric.txtCm": "cm",
+  "Common.Utils.Metric.txtPt": "pt",
   "Common.Controllers.Chat.notcriticalErrorTitle": "Warning",
   "Common.Controllers.Chat.textEnterMessage": "Enter your message here",
   "Common.Controllers.Chat.textUserLimit": "You are using ONLYOFFICE Free Edition.<br>Only two users can co-edit the document simultaneously.<br>Want more? Consider buying ONLYOFFICE Enterprise Edition.<br><a href=\"http://www.onlyoffice.com/free-edition.aspx\" target=\"_blank\">Read more</a>",
@@ -1017,6 +1019,9 @@
   "DE.Views.ImageSettingsAdvanced.textWrapThroughTooltip": "Through",
   "DE.Views.ImageSettingsAdvanced.textWrapTightTooltip": "Tight",
   "DE.Views.ImageSettingsAdvanced.textWrapTopbottomTooltip": "Top and Bottom",
+  "DE.Views.ImageSettingsAdvanced.textAspectRatio": "Lock aspect ratio",
+  "DE.Views.ImageSettingsAdvanced.textAbsoluteWH": "Absolute",
+  "DE.Views.ImageSettingsAdvanced.textRelativeWH": "Relative",
   "DE.Views.LeftMenu.tipAbout": "About",
   "DE.Views.LeftMenu.tipChat": "Chat",
   "DE.Views.LeftMenu.tipComments": "Comments",

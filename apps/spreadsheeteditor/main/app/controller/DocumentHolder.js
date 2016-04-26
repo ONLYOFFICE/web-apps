@@ -153,6 +153,9 @@ define([
             view.pmiDeleteCells.menu.on('item:click',           _.bind(me.onDeleteCells, me));
             view.pmiSortCells.menu.on('item:click',             _.bind(me.onSortCells, me));
             view.pmiClear.menu.on('item:click',                 _.bind(me.onClear, me));
+            view.pmiSelectTable.menu.on('item:click',           _.bind(me.onSelectTable, me));
+            view.pmiInsertTable.menu.on('item:click',           _.bind(me.onInsertTable, me));
+            view.pmiDeleteTable.menu.on('item:click',           _.bind(me.onDeleteTable, me));
             view.pmiInsFunction.on('click',                     _.bind(me.onInsFunction, me));
             view.menuAddHyperlink.on('click',                   _.bind(me.onInsHyperlink, me));
             view.menuEditHyperlink.on('click',                  _.bind(me.onInsHyperlink, me));
@@ -349,6 +352,33 @@ define([
             }
         },
 
+        onSelectTable: function(menu, item) {
+            if (this.api && this.documentHolder.ssMenu.formatTableName) {
+                this.api.asc_changeSelectionFormatTable(this.documentHolder.ssMenu.formatTableName, item.value);
+
+                Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+                Common.component.Analytics.trackEvent('DocumentHolder', 'Select Table');
+            }
+        },
+
+        onInsertTable: function(menu, item) {
+            if (this.api && this.documentHolder.ssMenu.formatTableName) {
+                this.api.asc_insertCellsInTable(this.documentHolder.ssMenu.formatTableName, item.value);
+
+                Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+                Common.component.Analytics.trackEvent('DocumentHolder', 'Insert to Table');
+            }
+        },
+
+        onDeleteTable: function(menu, item) {
+            if (this.api && this.documentHolder.ssMenu.formatTableName) {
+                this.api.asc_deleteCellsInTable(this.documentHolder.ssMenu.formatTableName, item.value);
+
+                Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+                Common.component.Analytics.trackEvent('DocumentHolder', 'Delete from Table');
+            }
+        },
+
         onInsFunction: function(item) {
             var controller = this.getApplication().getController('FormulaDialog');
             if (controller && this.api) {
@@ -420,7 +450,7 @@ define([
                 startvalue: item.options.action == 'row-height' ? me.api.asc_getRowHeight() : me.api.asc_getColumnWidth(),
                 maxvalue: item.options.action == 'row-height' ? Asc.c_oAscMaxRowHeight : Asc.c_oAscMaxColumnWidth,
                 step: item.options.action == 'row-height' ? 0.75 : 1,
-                defaultUnit: item.options.action == 'row-height' ? "pt" : "sym",
+                defaultUnit: item.options.action == 'row-height' ? Common.Utils.Metric.getMetricName(Common.Utils.Metric.c_MetricUnits.pt) : me.textSym,
                 handler: function(dlg, result) {
                     if (result == 'ok') {
                         var val = dlg.getSettings();
@@ -1147,16 +1177,34 @@ define([
             seltype !== Asc.c_oAscSelectionType.RangeChart && seltype !== Asc.c_oAscSelectionType.RangeChartText && seltype !== Asc.c_oAscSelectionType.RangeShapeText)) {
                 if (!showMenu && !documentHolder.ssMenu.isVisible()) return;
                 
-                var iscelledit = this.api.isCellEdited;
+                var iscelledit = this.api.isCellEdited,
+                    formatTableInfo = cellinfo.asc_getFormatTableInfo(),
+                    isintable = (formatTableInfo !== null);
+                documentHolder.ssMenu.formatTableName = (isintable) ? formatTableInfo.asc_getTableName() : null;
 
                 documentHolder.pmiInsertEntire.setVisible(isrowmenu||iscolmenu);
                 documentHolder.pmiInsertEntire.setCaption((isrowmenu) ? this.textInsertTop : this.textInsertLeft);
                 documentHolder.pmiDeleteEntire.setVisible(isrowmenu||iscolmenu);
-                documentHolder.pmiInsertCells.setVisible(iscellmenu && !iscelledit);
-                documentHolder.pmiDeleteCells.setVisible(iscellmenu && !iscelledit);
-                documentHolder.pmiSortCells.setVisible((iscellmenu||isallmenu||cansort) && !iscelledit);
+                documentHolder.pmiInsertCells.setVisible(iscellmenu && !iscelledit && !isintable);
+                documentHolder.pmiDeleteCells.setVisible(iscellmenu && !iscelledit && !isintable);
+                documentHolder.pmiSelectTable.setVisible(iscellmenu && !iscelledit && isintable);
+                documentHolder.pmiInsertTable.setVisible(iscellmenu && !iscelledit && isintable);
+                documentHolder.pmiDeleteTable.setVisible(iscellmenu && !iscelledit && isintable);
+                documentHolder.pmiSortCells.setVisible((iscellmenu||isallmenu||cansort) && !iscelledit && !isintable);
                 documentHolder.pmiInsFunction.setVisible(iscellmenu||insfunc);
                 documentHolder.pmiAddNamedRange.setVisible(iscellmenu && !iscelledit);
+
+                if (isintable) {
+                    documentHolder.pmiInsertTable.menu.items[0].setDisabled(!formatTableInfo.asc_getIsInsertRowAbove());
+                    documentHolder.pmiInsertTable.menu.items[1].setDisabled(!formatTableInfo.asc_getIsInsertRowBelow());
+                    documentHolder.pmiInsertTable.menu.items[2].setDisabled(!formatTableInfo.asc_getIsInsertColumnLeft());
+                    documentHolder.pmiInsertTable.menu.items[3].setDisabled(!formatTableInfo.asc_getIsInsertColumnRight());
+
+                    documentHolder.pmiDeleteTable.menu.items[0].setDisabled(!formatTableInfo.asc_getIsDeleteRow());
+                    documentHolder.pmiDeleteTable.menu.items[1].setDisabled(!formatTableInfo.asc_getIsDeleteColumn());
+                    documentHolder.pmiDeleteTable.menu.items[2].setDisabled(!formatTableInfo.asc_getIsDeleteTable());
+
+                }
 
                 var hyperinfo = cellinfo.asc_getHyperlink();
                 documentHolder.menuHyperlink.setVisible(iscellmenu && hyperinfo && !iscelledit);
@@ -1170,7 +1218,7 @@ define([
                 documentHolder.pmiFreezePanes.setCaption(this.api.asc_getSheetViewSettings().asc_getIsFreezePane() ? documentHolder.textUnFreezePanes : documentHolder.textFreezePanes);
 
                 /** coauthoring begin **/
-                documentHolder.ssMenu.items[10].setVisible(iscellmenu && !iscelledit && this.permissions.canCoAuthoring && this.permissions.canComments);
+                documentHolder.ssMenu.items[13].setVisible(iscellmenu && !iscelledit && this.permissions.canCoAuthoring && this.permissions.canComments);
                 documentHolder.pmiAddComment.setVisible(iscellmenu && !iscelledit && this.permissions.canCoAuthoring && this.permissions.canComments);
                 /** coauthoring end **/
                 documentHolder.pmiCellMenuSeparator.setVisible(iscellmenu || isrowmenu || iscolmenu || isallmenu || insfunc);
@@ -1188,7 +1236,8 @@ define([
                 documentHolder.pmiClear.menu.items[3].setVisible(!this.permissions.isEditDiagram);
                 documentHolder.pmiClear.menu.items[4].setVisible(!this.permissions.isEditDiagram);
 
-                var filterInfo = cellinfo.asc_getAutoFilterInfo() && cellinfo.asc_getAutoFilterInfo().asc_getIsApplyAutoFilter();
+                var filterInfo = cellinfo.asc_getAutoFilterInfo();
+                filterInfo = (filterInfo) ? filterInfo.asc_getIsApplyAutoFilter() : false;
                 documentHolder.pmiInsertCells.menu.items[0].setDisabled(filterInfo);
                 documentHolder.pmiDeleteCells.menu.items[0].setDisabled(filterInfo);
                 documentHolder.pmiInsertCells.menu.items[1].setDisabled(filterInfo);
@@ -1438,7 +1487,8 @@ define([
         textChangeColumnWidth   : 'Column Width {0} symbols ({1} pixels)',
         textChangeRowHeight     : 'Row Height {0} points ({1} pixels)',
         textInsertLeft          : 'Insert Left',
-        textInsertTop           : 'Insert Top'
+        textInsertTop           : 'Insert Top',
+        textSym                 : 'sym'
 
     }, SSE.Controllers.DocumentHolder || {}));
 });
