@@ -343,14 +343,17 @@
 	<script type="text/javascript" src="../../../../sdkjs/cell/model/Workbook.js"></script>
 	<script type="text/javascript" src="../../../../sdkjs/cell/model/Serialize.js"></script>
 	<script type="text/javascript" src="../../../../sdkjs/cell/model/CellInfo.js"></script>
-
+	<script type="text/javascript" src="../../../../sdkjs/cell/view/DrawingObjectsController.js"></script>
     <script type="text/javascript" src="../../../../sdkjs/cell/view/StringRender.js"></script>
     <script type="text/javascript" src="../../../../sdkjs/cell/view/CellTextRender.js"></script>
     <script type="text/javascript" src="../../../../sdkjs/cell/view/CellEditorView.js"></script>
-    <script type="text/javascript" src="../../../../sdkjs/cell/view/WorksheetView.js"></script>
     <script type="text/javascript" src="../../../../sdkjs/cell/view/HandlerList.js"></script>
     <script type="text/javascript" src="../../../../sdkjs/cell/view/EventsController.js"></script>
     <script type="text/javascript" src="../../../../sdkjs/cell/view/WorkbookView.js"></script>
+	<script type="text/javascript" src="../../../../sdkjs/cell/view/WorksheetView.js"></script>
+	
+	<script type="text/javascript" src="../../../../sdkjs/cell/model/DrawingObjects/Graphics.js"></script>
+	<script type="text/javascript" src="../../../../sdkjs/cell/model/DrawingObjects/ShapeDrawer.js"></script>
 
     <script type="text/javascript" src="../../../../sdkjs/common/apiBase.js"></script>
     <script type="text/javascript" src="../../../../sdkjs/cell/api.js"></script>
@@ -360,48 +363,42 @@
     <!--for chart-->
 	<script type="text/javascript" src="../../../../sdkjs/word/Editor/Common.js"></script>
 
-    <!--for shapes-->
-	<script src="../../../../sdkjs/cell/view/DrawingObjectsController.js"></script>
-
-    <script src="../../../../sdkjs/cell/model/DrawingObjects/Graphics.js"></script>
-    <script src="../../../../sdkjs/cell/model/DrawingObjects/ShapeDrawer.js"></script>
-
-    <script src="../../../../sdkjs/cell/model/DrawingObjects/DrawingDocument.js"></script>
+    <script type="text/javascript" src="../../../../sdkjs/cell/model/DrawingObjects/DrawingDocument.js"></script>
 
 
-    <script src="../../../../sdkjs/cell/model/DrawingObjects/Format/ShapePrototype.js"></script>
-    <script src="../../../../sdkjs/cell/model/DrawingObjects/Format/ImagePrototype.js"></script>
-    <script src="../../../../sdkjs/cell/model/DrawingObjects/Format/GroupPrototype.js"></script>
-    <script src="../../../../sdkjs/cell/model/DrawingObjects/Format/ChartSpacePrototype.js"></script>
-    <script src="../../../../sdkjs/slide/Editor/Format/GraphicFrame.js"></script>
+    <script type="text/javascript" src="../../../../sdkjs/cell/model/DrawingObjects/Format/ShapePrototype.js"></script>
+    <script type="text/javascript" src="../../../../sdkjs/cell/model/DrawingObjects/Format/ImagePrototype.js"></script>
+    <script type="text/javascript" src="../../../../sdkjs/cell/model/DrawingObjects/Format/GroupPrototype.js"></script>
+    <script type="text/javascript" src="../../../../sdkjs/cell/model/DrawingObjects/Format/ChartSpacePrototype.js"></script>
+    <script type="text/javascript" src="../../../../sdkjs/slide/Editor/Format/GraphicFrame.js"></script>
 	
-    <script src="../../../../sdkjs/word/Editor/Comments.js"></script>
-    <script src="../../../../sdkjs/word/Editor/Styles.js"></script>
-    <script src="../../../../sdkjs/word/Editor/FlowObjects.js"></script>
-	<script src="../../../../sdkjs/word/Editor/ParagraphContent.js"></script>
-	<script src="../../../../sdkjs/word/Editor/ParagraphContentBase.js"></script>
-	<script src="../../../../sdkjs/word/Editor/Hyperlink.js"></script>
-	<script src="../../../../sdkjs/word/Editor/Field.js"></script>
-	<script src="../../../../sdkjs/word/Editor/Run.js"></script>
-    <script src="../../../../sdkjs/word/Editor/Math.js"></script>
-	<script src="../../../../sdkjs/word/Editor/Paragraph.js"></script>
-	<script src="../../../../sdkjs/word/Editor/Paragraph_Recalculate.js"></script>
-	<script src="../../../../sdkjs/word/Editor/Sections.js"></script>
-    <script src="../../../../sdkjs/word/Editor/Numbering.js"></script>
-    <script src="../../../../sdkjs/word/Editor/HeaderFooter.js"></script>
-	<script src="../../../../sdkjs/word/Editor/Document.js"></script>
-    <script src="../../../../sdkjs/word/Editor/DocumentContent.js"></script>
-    <script src="../../../../sdkjs/word/Editor/Table.js"></script>
-    <script src="../../../../sdkjs/word/Editor/Table/TableRecalculate.js"></script>
-    <script src="../../../../sdkjs/word/Editor/Table/TableDraw.js"></script>
-    <script src="../../../../sdkjs/word/Editor/Table/TableRow.js"></script>
-    <script src="../../../../sdkjs/word/Editor/Table/TableCell.js"></script>
-    <script src="../../../../sdkjs/word/Editor/Serialize2.js"></script>
-	<script src="../../../../sdkjs/word/Editor/FontClassification.js"></script>
-    <script src="../../../../sdkjs/word/Editor/Spelling.js"></script>
-	<script src="../../../../sdkjs/word/Editor/GraphicObjects/WrapManager.js"></script>
+    <script type="text/javascript" src="../../../../sdkjs/word/Editor/Comments.js"></script>
+    <script type="text/javascript" src="../../../../sdkjs/word/Editor/Styles.js"></script>
+    <script type="text/javascript" src="../../../../sdkjs/word/Editor/FlowObjects.js"></script>
+	<script type="text/javascript" src="../../../../sdkjs/word/Editor/ParagraphContent.js"></script>
+	<script type="text/javascript" src="../../../../sdkjs/word/Editor/ParagraphContentBase.js"></script>
+	<script type="text/javascript" src="../../../../sdkjs/word/Editor/Hyperlink.js"></script>
+	<script type="text/javascript" src="../../../../sdkjs/word/Editor/Field.js"></script>
+	<script type="text/javascript" src="../../../../sdkjs/word/Editor/Run.js"></script>
+    <script type="text/javascript" src="../../../../sdkjs/word/Editor/Math.js"></script>
+	<script type="text/javascript" src="../../../../sdkjs/word/Editor/Paragraph.js"></script>
+	<script type="text/javascript" src="../../../../sdkjs/word/Editor/Paragraph_Recalculate.js"></script>
+	<script type="text/javascript" src="../../../../sdkjs/word/Editor/Sections.js"></script>
+    <script type="text/javascript" src="../../../../sdkjs/word/Editor/Numbering.js"></script>
+    <script type="text/javascript" src="../../../../sdkjs/word/Editor/HeaderFooter.js"></script>
+	<script type="text/javascript" src="../../../../sdkjs/word/Editor/Document.js"></script>
+    <script type="text/javascript" src="../../../../sdkjs/word/Editor/DocumentContent.js"></script>
+    <script type="text/javascript" src="../../../../sdkjs/word/Editor/Table.js"></script>
+    <script type="text/javascript" src="../../../../sdkjs/word/Editor/Table/TableRecalculate.js"></script>
+    <script type="text/javascript" src="../../../../sdkjs/word/Editor/Table/TableDraw.js"></script>
+    <script type="text/javascript" src="../../../../sdkjs/word/Editor/Table/TableRow.js"></script>
+    <script type="text/javascript" src="../../../../sdkjs/word/Editor/Table/TableCell.js"></script>
+    <script type="text/javascript" src="../../../../sdkjs/word/Editor/Serialize2.js"></script>
+	<script type="text/javascript" src="../../../../sdkjs/word/Editor/FontClassification.js"></script>
+    <script type="text/javascript" src="../../../../sdkjs/word/Editor/Spelling.js"></script>
+	<script type="text/javascript" src="../../../../sdkjs/word/Editor/GraphicObjects/WrapManager.js"></script>
 	
-	<script src="../../../../sdkjs/cell/model/DrawingObjects/GlobalCounters.js"></script>
+	<script type="text/javascript" src="../../../../sdkjs/cell/model/DrawingObjects/GlobalCounters.js"></script>
 	
 	<script type="text/javascript" src="../../../../sdkjs/word/Math/mathTypes.js"></script>
     <script type="text/javascript" src="../../../../sdkjs/word/Math/mathText.js"></script>
