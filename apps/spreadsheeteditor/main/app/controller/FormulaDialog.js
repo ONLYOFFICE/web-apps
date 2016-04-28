@@ -163,7 +163,7 @@ define([
                             var func = new SSE.Models.FormulaModel({
                                 index : funcInd,
                                 group : ascGroupName,
-                                name  : ascFunctions[j].asc_getName(),
+                                name  : ascFunctions[j].asc_getLocaleName(),
                                 args  : ascFunctions[j].asc_getArguments()
                             });
 
