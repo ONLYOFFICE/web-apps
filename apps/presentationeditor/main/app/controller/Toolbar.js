@@ -737,18 +737,23 @@ define([
         },
 
         onPreview: function(btn, e) {
-            var previewPanel = PE.getController('Viewport').getView('DocumentPreview');
-            if (previewPanel) {
+            var previewPanel = PE.getController('Viewport').getView('DocumentPreview'),
+                me = this;
+            if (previewPanel && me.api) {
                 previewPanel.show();
-                if (!this.toolbar.mode.isDesktopApp)
-                    this.fullScreen(document.documentElement);
+                var onWindowResize = function() {
+                    Common.NotificationCenter.off('window:resize', onWindowResize);
 
-                if (this.api) {
-                    var current = this.api.getCurrentPage();
-                    this.api.StartDemonstration('presentation-preview', _.isNumber(current) ? current : 0);
+                    var current = me.api.getCurrentPage();
+                    me.api.StartDemonstration('presentation-preview', _.isNumber(current) ? current : 0);
 
                     Common.component.Analytics.trackEvent('ToolBar', 'Preview');
-                }
+                };
+                if (!me.toolbar.mode.isDesktopApp) {
+                    Common.NotificationCenter.on('window:resize', onWindowResize);
+                    me.fullScreen(document.documentElement);
+                } else
+                    onWindowResize();
             }
         },
 

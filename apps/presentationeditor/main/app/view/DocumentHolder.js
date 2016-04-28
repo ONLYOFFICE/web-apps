@@ -667,13 +667,17 @@ define([
                 e.stopPropagation();
                 if (me.slidesCount>0) {
                     var previewPanel = PE.getController('Viewport').getView('DocumentPreview');
-                    if (previewPanel && !previewPanel.isVisible()) {
+                    if (previewPanel && !previewPanel.isVisible() && me.api) {
                         previewPanel.show();
-                        if (!me.mode.isDesktopApp)
-                            me.fullScreen(document.documentElement);
-                        if (me.api) {
+                        var onWindowResize = function() {
+                            Common.NotificationCenter.off('window:resize', onWindowResize);
                             me.api.StartDemonstration('presentation-preview', 0);
-                        }
+                        };
+                        if (!me.mode.isDesktopApp) {
+                            Common.NotificationCenter.on('window:resize', onWindowResize);
+                            me.fullScreen(document.documentElement);
+                        } else
+                            onWindowResize();
                     }
                 }
             };
@@ -924,16 +928,21 @@ define([
                 caption : me.txtPreview
             }).on('click', function(item) {
                 var previewPanel = PE.getController('Viewport').getView('DocumentPreview');
-                if (previewPanel) {
+                if (previewPanel && me.api) {
                     previewPanel.show();
-                    me.fullScreen(document.documentElement);
+                    var onWindowResize = function() {
+                        Common.NotificationCenter.off('window:resize', onWindowResize);
 
-                    if (me.api) {
                         var current = me.api.getCurrentPage();
                         me.api.StartDemonstration('presentation-preview', _.isNumber(current) ? current : 0);
 
                         Common.component.Analytics.trackEvent('DocumentHolder', 'Preview');
-                    }
+                    };
+                    if (!me.mode.isDesktopApp) {
+                        Common.NotificationCenter.on('window:resize', onWindowResize);
+                        me.fullScreen(document.documentElement);
+                    } else
+                        onWindowResize();
                 }
             });
 
