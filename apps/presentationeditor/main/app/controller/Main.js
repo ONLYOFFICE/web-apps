@@ -371,12 +371,12 @@ define([
                         var me = this;
                         if (me._state.timerSave===undefined)
                             me._state.timerSave = setInterval(function(){
-                                if ((new Date()) - me._state.isSaving>2000) {
+                                if ((new Date()) - me._state.isSaving>500) {
                                     clearInterval(me._state.timerSave);
                                     me.getApplication().getController('Statusbar').setStatusCaption('');
                                     me._state.timerSave = undefined;
                                 }
-                            }, 2000);
+                            }, 500);
                     } else
                         this.getApplication().getController('Statusbar').setStatusCaption('');
                 }
