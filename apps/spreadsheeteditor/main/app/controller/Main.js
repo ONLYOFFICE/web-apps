@@ -1347,8 +1347,8 @@ define([
             },
 
             onConfirmAction: function(id, apiCallback) {
+                var me = this;
                 if (id == Asc.c_oAscConfirm.ConfirmReplaceRange) {
-                    var me = this;
                     Common.UI.warning({
                         closable: false,
                         title: this.notcriticalErrorTitle,
@@ -1362,6 +1362,20 @@ define([
                             if (btn == 'yes') {
                                 me.onEditComplete(me.application.getController('DocumentHolder').getView('DocumentHolder'));
                             }
+                        }, this)
+                    });
+                } else if (id == Asc.c_oAscConfirm.ConfirmPutMergeRange) {
+                    Common.UI.warning({
+                        closable: false,
+                        title: this.notcriticalErrorTitle,
+                        msg: this.confirmPutMergeRange,
+                        buttons: ['ok'],
+                        primary: 'ok',
+                        callback: _.bind(function(btn) {
+                            if (apiCallback)  {
+                                apiCallback();
+                            }
+                            me.onEditComplete(me.application.getController('DocumentHolder').getView('DocumentHolder'));
                         }, this)
                     });
                 }
@@ -1785,7 +1799,8 @@ define([
             textBuyNow: 'Buy now',
             textNoLicenseTitle: 'License expired or not found',
             warnNoLicense: 'The license could not be found or expired. You cannot edit files.<br>Click \'Buy now\' to purchase Enterprise Edition license or \'Contact us\' if you use Integration Edition.',
-            textContactUs: 'Contact us'
+            textContactUs: 'Contact us',
+            confirmPutMergeRange: 'The source data contains merged cells.<br>They will be unmerged before they are pasted into the table.'
         }
     })(), SSE.Controllers.Main || {}))
 });

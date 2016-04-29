@@ -112,6 +112,7 @@
   "SSE.Controllers.LeftMenu.textWorkbook": "Workbook",
   "SSE.Controllers.LeftMenu.warnDownloadAs": "If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?",
   "SSE.Controllers.Main.confirmMoveCellRange": "The destination cell range can contain data. Continue the operation?",
+  "SSE.Controllers.Main.confirmPutMergeRange": "The source data contains merged cells.<br>They will be unmerged before they are pasted into the table.",
   "SSE.Controllers.Main.convertationErrorText": "Conversion failed.",
   "SSE.Controllers.Main.convertationTimeoutText": "Conversion timeout exceeded.",
   "SSE.Controllers.Main.criticalErrorExtText": "Press \"OK\" to return to document list.",
