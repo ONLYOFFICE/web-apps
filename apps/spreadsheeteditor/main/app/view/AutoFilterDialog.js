@@ -824,7 +824,13 @@ define([
         _setDefaults: function() {
             this.initialFilterType = this.configTo.asc_getFilterObj().asc_getType();
 
-            var isCustomFilter = (this.initialFilterType === Asc.c_oAscAutoFilterTypes.CustomFilters);
+            var isCustomFilter = (this.initialFilterType === Asc.c_oAscAutoFilterTypes.CustomFilters),
+                isTextFilter = this.configTo.asc_getIsTextFilter(),
+                colorsFill = this.configTo.asc_getColorsFill(),
+                colorsFont = this.configTo.asc_getColorsFont();
+
+            this.miTextFilter.setVisible(isTextFilter);
+            this.miNumFilter.setVisible(!isTextFilter);
 
             this.miSortLow2High.setChecked(false, true);
             this.miSortHigh2Low.setChecked(false, true);
@@ -835,6 +841,34 @@ define([
                 } else {
                     this.miSortHigh2Low.setChecked(true, true);
                 }
+            }
+
+            if (colorsFont && colorsFont.length>0) {
+                var colors = [];
+                colorsFont.forEach(function(item, index) {
+                    colors.push(Common.Utils.ThemeColor.getHexColor(item.get_r(), item.get_g(), item.get_b()).toLocaleUpperCase());
+                });
+                this.mnuSortColorFontPicker.updateColors(colors);
+                this.mnuFilterColorFontPicker.updateColors(colors);
+                this.miSortFontColor.setVisible(true);
+                this.miFilterFontColor.setVisible(true);
+            } else {
+                this.miSortFontColor.setVisible(false);
+                this.miFilterFontColor.setVisible(false);
+            }
+
+            if (colorsFill && colorsFill.length>0) {
+                var colors = [];
+                colorsFill.forEach(function(item, index) {
+                    colors.push(Common.Utils.ThemeColor.getHexColor(item.get_r(), item.get_g(), item.get_b()).toLocaleUpperCase());
+                });
+                this.mnuSortColorCellsPicker.updateColors(colors);
+                this.mnuFilterColorCellsPicker.updateColors(colors);
+                this.miSortCellColor.setVisible(true);
+                this.miFilterCellColor.setVisible(true);
+            } else {
+                this.miSortCellColor.setVisible(false);
+                this.miFilterCellColor.setVisible(false);
             }
 
 //            this.chCustomFilter.setValue(isCustomFilter);
