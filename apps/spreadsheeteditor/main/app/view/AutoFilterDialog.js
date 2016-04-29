@@ -422,7 +422,7 @@ define([
                         {value: Asc.c_oAscCustomAutoFilter.top10,                    caption: this.txtTop10,        checkable: true},
                         {value: Asc.c_oAscCustomAutoFilter.aboveAverage,             caption: this.txtAboveAve,     checkable: true},
                         {value: Asc.c_oAscCustomAutoFilter.belowAverage,             caption: this.txtBelowAve,     checkable: true},
-                        {value: -1, caption: this.btnCustomFilter + '...'}
+                        {value: -1, caption: this.btnCustomFilter + '...', checkable: true}
                     ]
                 })
             });
@@ -445,7 +445,7 @@ define([
                         {value: Asc.c_oAscCustomAutoFilter.doesNotEndWith,           caption: this.txtNotEnds,      checkable: true},
                         {value: Asc.c_oAscCustomAutoFilter.contains,                 caption: this.txtContains,     checkable: true},
                         {value: Asc.c_oAscCustomAutoFilter.doesNotContain,           caption: this.txtNotContains,  checkable: true},
-                        {value: -1, caption: this.btnCustomFilter + '...'}
+                        {value: -1, caption: this.btnCustomFilter + '...', checkable: true}
                     ]
                 })
             });
@@ -808,7 +808,6 @@ define([
                 }
 
                 this.btnOk.setDisabled(false);
-//                this.chCustomFilter.setValue(false);
                 this.configTo.asc_getFilterObj().asc_setType(Asc.c_oAscAutoFilterTypes.Filters);
 
                 listView.isSuspendEvents = false;
@@ -824,13 +823,39 @@ define([
         _setDefaults: function() {
             this.initialFilterType = this.configTo.asc_getFilterObj().asc_getType();
 
-            var isCustomFilter = (this.initialFilterType === Asc.c_oAscAutoFilterTypes.CustomFilters),
+            var filterObj = this.configTo.asc_getFilterObj(),
+                isCustomFilter = (this.initialFilterType === Asc.c_oAscAutoFilterTypes.CustomFilters),
                 isTextFilter = this.configTo.asc_getIsTextFilter(),
                 colorsFill = this.configTo.asc_getColorsFill(),
                 colorsFont = this.configTo.asc_getColorsFont();
 
             this.miTextFilter.setVisible(isTextFilter);
             this.miNumFilter.setVisible(!isTextFilter);
+            this.miTextFilter.setChecked(isCustomFilter && isTextFilter, true);
+            this.miNumFilter.setChecked(isCustomFilter && !isTextFilter, true);
+
+            if (isCustomFilter) {
+                var customFilter = filterObj.asc_getFilter(),
+                    customFilters = customFilter.asc_getCustomFilters(),
+                    isAnd = (customFilter.asc_getAnd()),
+                    cond1 = customFilters[0].asc_getOperator(),
+                    cond2 = ((customFilters.length>1) ? (customFilters[1].asc_getOperator() || 0) : 0),
+                    items = (isTextFilter) ? this.miTextFilter.menu.items : this.miNumFilter.menu.items,
+                    isCustomConditions = true;
+
+                if (customFilters.length==1)
+                    items.forEach(function(item){
+                        item.setChecked(item.value == cond1, true);
+                        if (item.value == cond1) isCustomConditions = false;
+                    });
+                else if (!isTextFilter && (cond1 == Asc.c_oAscCustomAutoFilter.isGreaterThanOrEqualTo && cond2 == Asc.c_oAscCustomAutoFilter.isLessThanOrEqualTo ||
+                                           cond1 == Asc.c_oAscCustomAutoFilter.isLessThanOrEqualTo && cond2 == Asc.c_oAscCustomAutoFilter.isGreaterThanOrEqualTo)){
+                    items[7].setChecked(true, true); // between filter
+                    isCustomConditions = false;
+                }
+                if (isCustomConditions)
+                    items[items.length-1].setChecked(true, true);
+            }
 
             this.miSortLow2High.setChecked(false, true);
             this.miSortHigh2Low.setChecked(false, true);
@@ -871,7 +896,6 @@ define([
                 this.miFilterCellColor.setVisible(false);
             }
 
-//            this.chCustomFilter.setValue(isCustomFilter);
             this.btnOk.setDisabled(isCustomFilter);
         },
 
@@ -959,8 +983,6 @@ define([
                 this.checkCellTrigerBlock = true;
                 this.cells.at(0).set('check', !haveUnselectedCell);
                 this.checkCellTrigerBlock = undefined;
-
-//                this.chCustomFilter.setValue(this.initialFilterType === Asc.c_oAscAutoFilterTypes.CustomFilters);
             }
 
             this.cellsList.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true, suppressScrollX: true});
