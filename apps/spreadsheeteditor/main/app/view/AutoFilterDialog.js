@@ -299,7 +299,7 @@ define([
 
             _.extend(_options, {
                 width           : 423,
-                height          : 326,
+                height          : 301,
                 contentWidth    : 400,
                 header          : true,
                 cls             : 'filter-dlg',
