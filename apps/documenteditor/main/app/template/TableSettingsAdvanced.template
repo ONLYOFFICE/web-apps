@@ -7,14 +7,14 @@
                 </td>
             </tr>
             <tr>
-                <td style="vertical-align: bottom; padding-bottom: 18px;">
+                <td style="vertical-align: bottom; padding-bottom: 11px;">
                     <div id="tableadv-checkbox-width"></div>
                 </td>
-                <td class="padding-large">
+                <td class="padding-small">
                     <label class="input-label"><%= scope.textWidth %></label>
                     <div id="tableadv-number-width" style="margin-right: 10px;"></div>
                 </td>
-                <td class="padding-large">
+                <td class="padding-small">
                     <label class="input-label"><%= scope.textMeasure %></label>
                     <div id="tableadv-cmb-unit" style="width: 115px;"></div>
                 </td>
@@ -43,11 +43,11 @@
                 </td>
             </tr>
             <tr>
-                <td class="padding-small">
+                <td class="padding-large">
                     <label class="input-label"><%= scope.textBottom %></label>
                     <div id="tableadv-number-margin-table-bottom"></div>
                 </td>
-                <td class="padding-small">
+                <td class="padding-large">
                     <label class="input-label"><%= scope.textRight %></label>
                     <div id="tableadv-number-margin-table-right"></div>
                 </td>
@@ -61,7 +61,7 @@
                 </td>
             </tr>
             <tr>
-                <td style="vertical-align: bottom; padding-bottom: 18px;">
+                <td style="vertical-align: bottom; padding-bottom: 19px;">
                     <div id="tableadv-checkbox-spacing"></div>
                 </td>
                 <td class="padding-large">
@@ -83,7 +83,7 @@
                 </td>
             </tr>
             <tr>
-                <td style="vertical-align: bottom; padding-bottom: 18px;">
+                <td style="vertical-align: bottom; padding-bottom: 19px;">
                     <div id="tableadv-checkbox-prefwidth"></div>
                 </td>
                 <td class="padding-large">
