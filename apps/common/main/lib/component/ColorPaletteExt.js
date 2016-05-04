@@ -106,13 +106,13 @@ define([
 
         handleClick: function(e) {
             var me = this;
-            var target = $(e.target).closest('a');
+            var target = $(e.target).closest('div.palette-color-item');
             var color, cmp;
 
             if (target.length==0) return;
 
             if (target.hasClass('color-transparent') ) {
-                $(me.el).find('a.' + me.selectedCls).removeClass(me.selectedCls);
+                $(me.el).find('div.' + me.selectedCls).removeClass(me.selectedCls);
                 target.addClass(me.selectedCls);
                 me.value = 'transparent';
                 me.trigger('select', me, 'transparent');
@@ -120,7 +120,7 @@ define([
                 if (!/^[a-fA-F0-9]{6}$/.test(me.value) || _.indexOf(me.colors, me.value)<0 )
                     me.value = false;
 
-                $(me.el).find('a.' + me.selectedCls).removeClass(me.selectedCls);
+                $(me.el).find('div.' + me.selectedCls).removeClass(me.selectedCls);
                 target.addClass(me.selectedCls);
 
                 color = target[0].className.match(me.colorRe)[1];
@@ -142,21 +142,21 @@ define([
 
         select: function(color, suppressEvent) {
             var el = $(this.el);
-            el.find('a.' + this.selectedCls).removeClass(this.selectedCls);
+            el.find('div.' + this.selectedCls).removeClass(this.selectedCls);
 
             if (!color) return;
             
             if (typeof(color) == 'object' ) {
                 var effectEl;
                 if (color.effectId !== undefined) {
-                    effectEl = el.find('a[effectid="'+color.effectId+'"]').first();
+                    effectEl = el.find('div[effectid="'+color.effectId+'"]').first();
                     if (effectEl.length>0) {
                         effectEl.addClass(this.selectedCls);
                         this.value = effectEl[0].className.match(this.colorRe)[1].toUpperCase();
                     } else
                         this.value = false;
                 } else if (color.effectValue !== undefined) {
-                    effectEl = el.find('a[effectvalue="'+color.effectValue+'"].color-' + color.color.toUpperCase()).first();
+                    effectEl = el.find('div[effectvalue="'+color.effectValue+'"].color-' + color.color.toUpperCase()).first();
                     if (effectEl.length>0) {
                         effectEl.addClass(this.selectedCls);
                         this.value = effectEl[0].className.match(this.colorRe)[1].toUpperCase();
@@ -173,7 +173,7 @@ define([
                     if (_.indexOf(this.colors, this.value)<0) this.value = false;
 
                     if (color != this.value || this.options.allowReselect) {
-                        (color == 'transparent') ? el.find('a.color-transparent').addClass(this.selectedCls) : el.find('a.palette-color.color-' + color).first().addClass(this.selectedCls);
+                        (color == 'transparent') ? el.find('div.color-transparent').addClass(this.selectedCls) : el.find('div.palette-color.color-' + color).first().addClass(this.selectedCls);
                         this.value = color;
                         if (suppressEvent !== true) {
                             this.fireEvent('select', this, color);
@@ -182,7 +182,7 @@ define([
                 } else {
                     var co = el.find('#'+color).first();
                     if (co.length==0)
-                        co = el.find('a[color="'+color+'"]').first();
+                        co = el.find('div[color="'+color+'"]').first();
                     if (co.length>0) {
                         co.addClass(this.selectedCls);
                         this.value = color.toUpperCase();
@@ -206,7 +206,7 @@ define([
         },
 
         clearSelection: function(suppressEvent) {
-            $(this.el).find('a.' + this.selectedCls).removeClass(this.selectedCls);
+            $(this.el).find('div.' + this.selectedCls).removeClass(this.selectedCls);
             this.value = undefined;
         }
     });
