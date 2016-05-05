@@ -755,7 +755,7 @@ define([
 
             var colorFilter = filterObj.asc_getFilter();
             colorFilter.asc_setCellColor(isCellColor);
-            colorFilter.asc_setCColor(Common.Utils.ThemeColor.getRgbColor(color));
+            colorFilter.asc_setCColor(color == 'transparent' ? null : Common.Utils.ThemeColor.getRgbColor(color));
 
             this.api.asc_applyAutoFilter(this.configTo);
 
@@ -863,7 +863,7 @@ define([
             this.miNumFilter.setChecked(isCustomFilter && !isTextFilter, true);
 
             if (colorsFont && colorsFont.length>0) {
-                var colors = [];
+                var colors = ['transparent'];
                 colorsFont.forEach(function(item, index) {
                     colors.push(Common.Utils.ThemeColor.getHexColor(item.get_r(), item.get_g(), item.get_b()).toLocaleUpperCase());
                 });
@@ -877,7 +877,7 @@ define([
             }
 
             if (colorsFill && colorsFill.length>0) {
-                var colors = [];
+                var colors = ['transparent'];
                 colorsFill.forEach(function(item, index) {
                     colors.push(Common.Utils.ThemeColor.getHexColor(item.get_r(), item.get_g(), item.get_b()).toLocaleUpperCase());
                 });
