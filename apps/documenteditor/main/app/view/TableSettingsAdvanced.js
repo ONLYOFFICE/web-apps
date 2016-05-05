@@ -1473,11 +1473,11 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             if (this._changedProps && btn.pressed) {
                 if (this._state.alignChanged) {
                     if (this._state.HAlignType===Asc.c_oAscXAlign.Left)
-                        this.btnAlignLeft.toggle(true, true);
+                        this.btnAlignLeft.toggle(true);
                     else if (this._state.HAlignType==Asc.c_oAscXAlign.Center)
-                        this.btnAlignCenter.toggle(true, true);
+                        this.btnAlignCenter.toggle(true);
                     else if (this._state.HAlignType==Asc.c_oAscXAlign.Right)
-                        this.btnAlignRight.toggle(true, true);
+                        this.btnAlignRight.toggle(true);
                     this._state.alignChanged = false;
                 }
 
@@ -2176,7 +2176,8 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
         textWrapText: 'Wrap text',
         textTable: 'Table',
         textTableSize: 'Table Size',
-        textTablePosition: 'Table Position'
+        textTablePosition: 'Table Position',
+        textWrappingStyle: 'Wrapping Style'
 
     }, DE.Views.TableSettingsAdvanced || {}));
 });
