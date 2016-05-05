@@ -158,10 +158,10 @@
                 <div id="tableadv-button-align-left" style="display: inline-block; margin-right:5px;"></div>
                 <div id="tableadv-button-align-center" style="display: inline-block; margin-right:5px;"></div>
                 <div id="tableadv-button-align-right" style="display: inline-block; margin-right:5px;"></div>
-            </div>
-            <div>
-                <label class="input-label" style="margin-right:5px;"><%= scope.textIndLeft %></label>
-                <div id="tableadv-number-indent" style="display: inline-block;vertical-align: middle;"></div>
+                <div style="display: inline-block; vertical-align: bottom; margin-left: 20px; margin-bottom: 1px;">
+                    <label class="input-label" style="display: block;"><%= scope.textIndLeft %></label>
+                    <div id="tableadv-number-indent"></div>
+                </div>
             </div>
         </div>
         <div id="tableadv-panel-distance" class="settings-hidden" style="width: 100%;">
