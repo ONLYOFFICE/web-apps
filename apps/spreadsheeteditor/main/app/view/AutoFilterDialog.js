@@ -365,7 +365,7 @@ define([
                 checkable   : true,
                 checked     : false
             });
-            this.miSortLow2High.on('click', _.bind(this.onSortType, this, 'ascending'));
+            this.miSortLow2High.on('click', _.bind(this.onSortType, this, Asc.c_oAscSortOptions.Ascending));
 
             this.miSortHigh2Low = new Common.UI.MenuItem({
                 caption     : this.txtSortHigh2Low,
@@ -373,7 +373,7 @@ define([
                 checkable   : true,
                 checked     : false
             });
-            this.miSortHigh2Low.on('click', _.bind(this.onSortType, this, 'descending'));
+            this.miSortHigh2Low.on('click', _.bind(this.onSortType, this, Asc.c_oAscSortOptions.Descending));
 
             this.miSortCellColor = new Common.UI.MenuItem({
                 caption     : this.txtSortCellColor,
@@ -483,10 +483,13 @@ define([
                 caption     : this.txtClear,
                 checkable   : false
             });
+            this.miClear.on('click', _.bind(this.onClear, this));
+
             this.miReapply = new Common.UI.MenuItem({
                 caption     : this.txtReapply,
                 checkable   : false
             });
+            this.miReapply.on('click', _.bind(this.onReapply, this));
 
             this.filtersMenu = new Common.UI.Menu({
                 items: [
@@ -519,7 +522,7 @@ define([
                     '006400', '800080', '8B0000', '808000', 'FFFFFF', 'D3D3D3'
                 ]
             });
-            this.mnuSortColorCellsPicker.on('select', _.bind(this.onSortColorCellsSelect, this));
+            this.mnuSortColorCellsPicker.on('select', _.bind(this.onSortColorSelect, this, Asc.c_oAscSortOptions.ByColorFill));
 
             this.mnuSortColorFontPicker = new Common.UI.ColorPaletteExt({
                 el: $('#filter-dlg-sort-font-color'),
@@ -530,7 +533,7 @@ define([
                     '006400', '800080', '8B0000', '808000', 'FFFFFF', 'D3D3D3'
                 ]
             });
-            this.mnuSortColorFontPicker.on('select', _.bind(this.onSortColorFontSelect, this));
+            this.mnuSortColorFontPicker.on('select', _.bind(this.onSortColorSelect, this, Asc.c_oAscSortOptions.ByColorFont));
 
             this.mnuFilterColorCellsPicker = new Common.UI.ColorPaletteExt({
                 el: $('#filter-dlg-filter-cells-color'),
@@ -665,7 +668,7 @@ define([
             }
 
             if (item.value==0) {
-                //clear filters
+                this.onClear();
                 return;
             } else if (item.value!==-1) {
                 var newCustomFilter = new Asc.CustomFilters();
@@ -718,7 +721,7 @@ define([
             }
 
             if (item.value==0) {
-                //clear filters
+                this.onClear();
                 return;
             } else if (item.value!==-1) {
                 var newCustomFilter = new Asc.CustomFilters();
@@ -762,14 +765,13 @@ define([
             this.close();
         },
 
-        onSortColorCellsSelect: function(picker, color) {
-
+        onSortColorSelect: function(type, picker, color) {
+            if (this.api && this.configTo) {
+                this.api.asc_sortColFilter(type, this.configTo.asc_getCellId(), this.configTo.asc_getDisplayName(), color == 'transparent' ? null : Common.Utils.ThemeColor.getRgbColor(color));
+            }
+            this.close();
         },
 
-        onSortColorFontSelect: function(picker, color) {
-
-        },
-        
         onCellCheck: function (listView, itemView, record) {
             if (this.checkCellTrigerBlock)
                 return;
@@ -843,6 +845,18 @@ define([
             }
         },
 
+        onClear: function() {
+            if (this.api && this.configTo)
+                this.api.asc_clearFilterColumn(this.configTo.asc_getCellId(), this.configTo.asc_getDisplayName());
+            this.close();
+        },
+
+        onReapply: function() {
+            if (this.api && this.configTo)
+                this.api.asc_applyAutoFilter(this.config);
+            this.close();
+        },
+
         setSettings: function (config) {
             this.config = config;
             this.configTo = config;
@@ -855,39 +869,52 @@ define([
                 isCustomFilter = (this.initialFilterType === Asc.c_oAscAutoFilterTypes.CustomFilters),
                 isTextFilter = this.configTo.asc_getIsTextFilter(),
                 colorsFill = this.configTo.asc_getColorsFill(),
-                colorsFont = this.configTo.asc_getColorsFont();
+                colorsFont = this.configTo.asc_getColorsFont(),
+                sort = this.configTo.asc_getSortState(),
+                sortColor = this.configTo.asc_getSortColor();
+
+            if (sortColor) sortColor = Common.Utils.ThemeColor.getHexColor(sortColor.get_r(), sortColor.get_g(), sortColor.get_b()).toLocaleUpperCase();
 
             this.miTextFilter.setVisible(isTextFilter);
             this.miNumFilter.setVisible(!isTextFilter);
             this.miTextFilter.setChecked(isCustomFilter && isTextFilter, true);
             this.miNumFilter.setChecked(isCustomFilter && !isTextFilter, true);
 
-            if (colorsFont && colorsFont.length>0) {
+            this.miSortLow2High.setChecked(sort == Asc.c_oAscSortOptions.Ascending, true);
+            this.miSortHigh2Low.setChecked(sort == Asc.c_oAscSortOptions.Descending, true);
+
+            var hasColors = (colorsFont && colorsFont.length>0);
+            this.miSortFontColor.setVisible(hasColors);
+            this.miFilterFontColor.setVisible(hasColors);
+            if (hasColors) {
                 var colors = ['transparent'];
                 colorsFont.forEach(function(item, index) {
                     colors.push(Common.Utils.ThemeColor.getHexColor(item.get_r(), item.get_g(), item.get_b()).toLocaleUpperCase());
                 });
                 this.mnuSortColorFontPicker.updateColors(colors);
                 this.mnuFilterColorFontPicker.updateColors(colors);
-                this.miSortFontColor.setVisible(true);
-                this.miFilterFontColor.setVisible(true);
-            } else {
-                this.miSortFontColor.setVisible(false);
-                this.miFilterFontColor.setVisible(false);
+
+                this.miFilterFontColor.setChecked(false, true);
+                this.miSortFontColor.setChecked(sort == Asc.c_oAscSortOptions.ByColorFont, true);
+                if (sort == Asc.c_oAscSortOptions.ByColorFont)
+                    this.mnuSortColorFontPicker.select(sortColor, true);
             }
 
-            if (colorsFill && colorsFill.length>0) {
+            hasColors = (colorsFill && colorsFill.length>0);
+            this.miSortCellColor.setVisible(hasColors);
+            this.miFilterCellColor.setVisible(hasColors);
+            if (hasColors) {
                 var colors = ['transparent'];
                 colorsFill.forEach(function(item, index) {
                     colors.push(Common.Utils.ThemeColor.getHexColor(item.get_r(), item.get_g(), item.get_b()).toLocaleUpperCase());
                 });
                 this.mnuSortColorCellsPicker.updateColors(colors);
                 this.mnuFilterColorCellsPicker.updateColors(colors);
-                this.miSortCellColor.setVisible(true);
-                this.miFilterCellColor.setVisible(true);
-            } else {
-                this.miSortCellColor.setVisible(false);
-                this.miFilterCellColor.setVisible(false);
+
+                this.miFilterCellColor.setChecked(false, true);
+                this.miSortCellColor.setChecked(sort == Asc.c_oAscSortOptions.ByColorFill, true);
+                if (sort == Asc.c_oAscSortOptions.ByColorFill)
+                    this.mnuSortColorFontPicker.select(sortColor, true);
             }
 
             if (isCustomFilter) {
@@ -916,23 +943,14 @@ define([
                     filterColor = colorFilter.asc_getCColor();
                 if (filterColor)
                     filterColor = Common.Utils.ThemeColor.getHexColor(filterColor.get_r(), filterColor.get_g(), filterColor.get_b()).toLocaleUpperCase();
-                if ( colorFilter.asc_getCellColor()===null ) // cell color
+                if ( colorFilter.asc_getCellColor()===null ) { // cell color
+                    this.miFilterCellColor.setChecked(true, true);
                     this.mnuFilterColorCellsPicker.select(filterColor, true);
-                else if (colorFilter.asc_getCellColor()===false) // font color
+                } else if (colorFilter.asc_getCellColor()===false) { // font color
+                    this.miFilterFontColor.setChecked(true, true);
                     this.mnuFilterColorFontPicker.select(filterColor, true);
-            }
-
-            this.miSortLow2High.setChecked(false, true);
-            this.miSortHigh2Low.setChecked(false, true);
-            var sort = this.configTo.asc_getSortState();
-            if (sort) {
-                if ('ascending' === sort) {
-                    this.miSortLow2High.setChecked(true, true);
-                } else {
-                    this.miSortHigh2Low.setChecked(true, true);
                 }
             }
-
 
             this.btnOk.setDisabled(isCustomFilter);
         },

@@ -1454,13 +1454,13 @@ define([
                             caption : me.txtSortAZ,
                             iconCls : 'mnu-sort-asc',
                             lock    : [_set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.coAuth, _set.ruleFilter],
-                            value   : 'ascending'
+                            value   : Asc.c_oAscSortOptions.Ascending
                         }),
                         me.mnuitemSortZA = new Common.UI.MenuItem({
                             caption : me.txtSortZA,
                             iconCls : 'mnu-sort-desc',
                             lock    : [_set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.coAuth, _set.ruleFilter],
-                            value   : 'descending'
+                            value   : Asc.c_oAscSortOptions.Descending
                         }),
                         me.mnuitemAutoFilter = new Common.UI.MenuItem({
                             caption : me.txtFilter,
