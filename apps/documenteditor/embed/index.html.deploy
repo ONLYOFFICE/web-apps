@@ -293,7 +293,7 @@
 
       <!--sdk-->
       <script type="text/javascript" src="../../../../sdkjs/common/AllFonts.js"></script>
-      <script type="text/javascript" src="../../../../sdkjs/word/sdk-all.js"></script>
+      <script type="text/javascript" src="../../../../sdkjs/word/sdk-all-min.js"></script>
 
       <!--application-->
       <link href="../../../apps/documenteditor/embed/resources/css/app-all.css" rel="stylesheet">

@@ -58,7 +58,7 @@ require.config({
         jsziputils      : '../vendor/jszip-utils/jszip-utils.min',
         jsrsasign       : '../vendor/jsrsasign/jsrsasign-latest-all-min',
         allfonts        : '../../sdkjs/common/AllFonts',
-        sdk             : '../../sdkjs/word/sdk-all',
+        sdk             : '../../sdkjs/word/sdk-all-min',
         api             : 'api/documents/api',
         core            : 'common/main/lib/core/application',
         notification    : 'common/main/lib/core/NotificationCenter',
