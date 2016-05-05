@@ -708,7 +708,6 @@ var ApplicationController = new(function(){
 
         if (api){
             api.CreateComponents();
-            api.asc_SetFontsPath("../../../../sdkjs/fonts/");
             api.Init();
 
             api.asc_registerCallback('asc_onError',                 onError);

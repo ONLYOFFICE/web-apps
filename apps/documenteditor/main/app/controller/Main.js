@@ -122,7 +122,6 @@ define([
                     window["flat_desine"] = true;
 
                     this.api.CreateComponents();
-                    this.api.asc_SetFontsPath("../../../../sdkjs/fonts/");
                     this.api.Init();
 
                     this.api.asc_registerCallback('asc_onError',                    _.bind(this.onError, this));

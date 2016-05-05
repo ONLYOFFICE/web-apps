@@ -112,7 +112,6 @@ define([
 
                     this.api.CreateComponents();
                     this.api.SetDrawingFreeze(true);
-                    this.api.asc_SetFontsPath("../../../../sdkjs/fonts/");
                     this.api.SetThemesPath("../../../../sdkjs/slide/themes/");
                     this.api.Init();
 

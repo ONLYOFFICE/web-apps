@@ -65,7 +65,6 @@ Ext.define('SSE.controller.Main', {
 
         // Initialize api
         this.api = new Asc.spreadsheet_api("id-sdkeditor", "", SSE.controller.ApiEvents, {}, {});
-        this.api.asc_SetFontsPath("../../../../sdkjs/fonts/");
         this.api.asc_setMobileVersion(true);
 
         this.api.asc_registerCallback('asc_onAdvancedOptions',      Ext.bind(this.onAdvancedOptions, this));
