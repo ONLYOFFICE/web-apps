@@ -1,7 +1,7 @@
 {
     "name": "documenteditor",
     "version": "4.6.0",
-    "build": 1054,
+    "build": 1064,
     "homepage": "http://www.onlyoffice.com",
     "private": true,
     "sdk": {
@@ -22,8 +22,9 @@
                         "dest": "../deploy/sdkjs/common/"
                     },
                     {
-                        "src": "../../sdkjs/word/sdk-all.js",
-                        "dest": "../deploy/sdkjs/word/sdk-all.js"
+                        "expand": true,
+                        "src": "../../sdkjs/word/sdk-*.js",
+                        "dest": "../deploy/sdkjs/word/"
                     }
                 ]
             }
@@ -39,6 +40,7 @@
                 "cwd": "../apps/api/",
                 "src": [
                     "**",
+                    "!**/*.html",
                     "!**/*.desktop"
                 ],
                 "dest": "../deploy/web-apps/apps/api/"
