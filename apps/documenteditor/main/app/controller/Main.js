@@ -121,9 +121,6 @@ define([
                     }
                     window["flat_desine"] = true;
 
-                    this.api.CreateComponents();
-                    this.api.Init();
-
                     this.api.asc_registerCallback('asc_onError',                    _.bind(this.onError, this));
                     this.api.asc_registerCallback('asc_onDocumentContentReady',     _.bind(this.onDocumentContentReady, this));
                     this.api.asc_registerCallback('asc_onOpenDocumentProgress',     _.bind(this.onOpenDocument, this));
