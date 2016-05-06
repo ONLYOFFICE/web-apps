@@ -515,45 +515,25 @@ define([
 
             this.mnuSortColorCellsPicker = new Common.UI.ColorPaletteExt({
                 el: $('#filter-dlg-sort-cells-color'),
-                colors: [
-                    'transparent', 'FFFF00', '00FF00', '00FFFF', 'FF00FF', '0000FF', 'FF0000', '00008B', '008B8B',
-                    '006400', '800080', '8B0000', '808000', 'FFFFFF', 'D3D3D3', 'A9A9A9', '000000',
-                    '006400', '800080', '8B0000', '808000', 'FFFFFF', 'D3D3D3',
-                    '006400', '800080', '8B0000', '808000', 'FFFFFF', 'D3D3D3'
-                ]
+                colors: []
             });
             this.mnuSortColorCellsPicker.on('select', _.bind(this.onSortColorSelect, this, Asc.c_oAscSortOptions.ByColorFill));
 
             this.mnuSortColorFontPicker = new Common.UI.ColorPaletteExt({
                 el: $('#filter-dlg-sort-font-color'),
-                colors: [
-                    'transparent', 'FFFF00', '00FF00', '00FFFF', 'FF00FF', '0000FF', 'FF0000', '00008B', '008B8B',
-                    '006400', '800080', '8B0000', '808000', 'FFFFFF', 'D3D3D3', 'A9A9A9', '000000',
-                    '006400', '800080', '8B0000', '808000', 'FFFFFF', 'D3D3D3',
-                    '006400', '800080', '8B0000', '808000', 'FFFFFF', 'D3D3D3'
-                ]
+                colors: []
             });
             this.mnuSortColorFontPicker.on('select', _.bind(this.onSortColorSelect, this, Asc.c_oAscSortOptions.ByColorFont));
 
             this.mnuFilterColorCellsPicker = new Common.UI.ColorPaletteExt({
                 el: $('#filter-dlg-filter-cells-color'),
-                colors: [
-                    'transparent', 'FFFF00', '00FF00', '00FFFF', 'FF00FF', '0000FF', 'FF0000', '00008B', '008B8B',
-                    '006400', '800080', '8B0000', '808000', 'FFFFFF', 'D3D3D3', 'A9A9A9', '000000',
-                    '006400', '800080', '8B0000', '808000', 'FFFFFF', 'D3D3D3',
-                    '006400', '800080', '8B0000', '808000', 'FFFFFF', 'D3D3D3'
-                ]
+                colors: []
             });
             this.mnuFilterColorCellsPicker.on('select', _.bind(this.onFilterColorSelect, this, null));
 
             this.mnuFilterColorFontPicker = new Common.UI.ColorPaletteExt({
                 el: $('#filter-dlg-filter-font-color'),
-                colors: [
-                    'transparent', 'FFFF00', '00FF00', '00FFFF', 'FF00FF', '0000FF', 'FF0000', '00008B', '008B8B',
-                    '006400', '800080', '8B0000', '808000', 'FFFFFF', 'D3D3D3', 'A9A9A9', '000000',
-                    '006400', '800080', '8B0000', '808000', 'FFFFFF', 'D3D3D3',
-                    '006400', '800080', '8B0000', '808000', 'FFFFFF', 'D3D3D3'
-                ]
+                colors: []
             });
             this.mnuFilterColorFontPicker.on('select', _.bind(this.onFilterColorSelect, this, false));
 
@@ -917,7 +897,7 @@ define([
                 this.miFilterCellColor.setChecked(false, true);
                 this.miSortCellColor.setChecked(sort == Asc.c_oAscSortOptions.ByColorFill, true);
                 if (sort == Asc.c_oAscSortOptions.ByColorFill)
-                    this.mnuSortColorFontPicker.select(sortColor, true);
+                    this.mnuSortColorCellsPicker.select(sortColor, true);
             }
 
             if (isCustomFilter) {
