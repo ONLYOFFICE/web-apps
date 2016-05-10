@@ -512,11 +512,14 @@ define([
                                     application.getController('Statusbar').getView('Statusbar').update();
                                     application.getController('CellEditor').setMode(me.appOptions);
 
-                                    me.api.asc_registerCallback('asc_onInitEditorShapes', _.bind(me.fillAutoShapes, me));
                                     me.api.asc_registerCallback('asc_onSaveUrl', _.bind(me.onSaveUrl, me));
                                     me.api.asc_registerCallback('asc_onDocumentModifiedChanged', _.bind(me.onDocumentModifiedChanged, me));
                                     me.api.asc_registerCallback('asc_onDocumentCanSaveChanged',  _.bind(me.onDocumentCanSaveChanged, me));
                                     me.api.asc_registerCallback('asc_onDownloadUrl',             _.bind(me.onDownloadUrl, me));
+                                    var shapes = me.api.asc_getPropertyEditorShapes();
+                                    if (shapes)
+                                        me.fillAutoShapes(shapes[0], shapes[1]);
+
                                     me.fillTextArt(me.api.asc_getTextArtPreviews());
                                     me.updateThemeColors();
 
@@ -630,7 +633,10 @@ define([
                             rightmenuController.createDelayedElements();
 
                             if (!me.appOptions.isEditMailMerge && !me.appOptions.isEditDiagram) {
-                                me.api.asc_registerCallback('asc_onInitEditorShapes', _.bind(me.fillAutoShapes, me));
+                                var shapes = me.api.asc_getPropertyEditorShapes();
+                                if (shapes)
+                                    me.fillAutoShapes(shapes[0], shapes[1]);
+
                                 me.fillTextArt(me.api.asc_getTextArtPreviews());
                                 me.updateThemeColors();
                             }

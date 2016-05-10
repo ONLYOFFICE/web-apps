@@ -705,7 +705,7 @@ define([
                                         documentHolderController.getView('DocumentHolder').changePosition();
                                         me.loadLanguages();
 
-                                        var shapes = me.api.get_PropertyEditorShapes();
+                                        var shapes = me.api.asc_getPropertyEditorShapes();
                                         if (shapes)
                                             me.fillAutoShapes(shapes[0], shapes[1]);
 
@@ -853,7 +853,7 @@ define([
 
                             rightmenuController.createDelayedElements();
 
-                            var shapes = me.api.get_PropertyEditorShapes();
+                            var shapes = me.api.asc_getPropertyEditorShapes();
                             if (shapes)
                                 me.fillAutoShapes(shapes[0], shapes[1]);
 
