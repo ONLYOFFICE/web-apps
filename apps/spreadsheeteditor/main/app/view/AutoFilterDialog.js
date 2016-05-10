@@ -897,7 +897,7 @@ define([
                 this.miFilterCellColor.setChecked(false, true);
                 this.miSortCellColor.setChecked(sort == Asc.c_oAscSortOptions.ByColorFill, true);
                 if (sort == Asc.c_oAscSortOptions.ByColorFill)
-                    this.mnuSortColorCellsPicker.select(sortColor, true);
+                    this.mnuSortColorCellsPicker.select((sortColor) ? sortColor : 'transparent', true);
             }
 
             if (isCustomFilter) {
@@ -928,7 +928,7 @@ define([
                     filterColor = Common.Utils.ThemeColor.getHexColor(filterColor.get_r(), filterColor.get_g(), filterColor.get_b()).toLocaleUpperCase();
                 if ( colorFilter.asc_getCellColor()===null ) { // cell color
                     this.miFilterCellColor.setChecked(true, true);
-                    this.mnuFilterColorCellsPicker.select(filterColor, true);
+                    this.mnuFilterColorCellsPicker.select((filterColor) ? filterColor : 'transparent', true);
                 } else if (colorFilter.asc_getCellColor()===false) { // font color
                     this.miFilterFontColor.setChecked(true, true);
                     this.mnuFilterColorFontPicker.select(filterColor, true);
