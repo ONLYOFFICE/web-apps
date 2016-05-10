@@ -715,9 +715,7 @@ var ApplicationController = new(function(){
         api = new Asc.asc_docs_api("editor_sdk");
 
         if (api){
-            api.CreateComponents();
             api.SetThemesPath("../../../../sdkjs/slide/themes/");
-            api.Init();
 
             api.asc_registerCallback('asc_onError',                 onError);
             api.asc_registerCallback('asc_onDocumentContentReady',  onDocumentContentReady);

@@ -109,10 +109,8 @@ define([
                 this.api = new Asc.asc_docs_api("editor_sdk");
 
                 if (this.api){
-                    this.api.CreateComponents();
                     this.api.SetDrawingFreeze(true);
                     this.api.SetThemesPath("../../../../sdkjs/slide/themes/");
-                    this.api.Init();
 
                     this.api.asc_registerCallback('asc_onError',                    _.bind(this.onError, this));
                     this.api.asc_registerCallback('asc_onDocumentContentReady',     _.bind(this.onDocumentContentReady, this));

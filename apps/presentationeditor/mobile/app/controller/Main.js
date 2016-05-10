@@ -62,9 +62,7 @@ Ext.define('PE.controller.Main', {
 
         api = new Asc.asc_docs_api("id-sdkeditor");
         api.SetMobileVersion(true);
-        api.CreateComponents();
         api.SetThemesPath("../../../../sdkjs/slide/themes/");
-        api.Init();
         api.initEvents2MobileAdvances();
 
         api.asc_registerCallback('asc_onStartAction', Ext.bind(this.onLongActionBegin, this));
