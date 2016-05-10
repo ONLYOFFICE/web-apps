@@ -111,6 +111,7 @@ define([
 
                 // Initialize api
 
+                window["flat_desine"] = true;
                 this.api = new Asc.asc_docs_api("editor_sdk");
 
                 if (this.api){
@@ -119,7 +120,6 @@ define([
                         case '1': this.api.SetFontRenderingMode(1); break;
                         case '2': this.api.SetFontRenderingMode(2); break;
                     }
-                    window["flat_desine"] = true;
 
                     this.api.asc_registerCallback('asc_onError',                    _.bind(this.onError, this));
                     this.api.asc_registerCallback('asc_onDocumentContentReady',     _.bind(this.onDocumentContentReady, this));

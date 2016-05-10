@@ -105,11 +105,10 @@ define([
 
                 // Initialize api
 
+                window["flat_desine"] = true;
                 this.api = new Asc.asc_docs_api("editor_sdk");
 
                 if (this.api){
-                    window["flat_desine"] = true;
-
                     this.api.CreateComponents();
                     this.api.SetDrawingFreeze(true);
                     this.api.SetThemesPath("../../../../sdkjs/slide/themes/");
