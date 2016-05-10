@@ -1498,7 +1498,7 @@ define([
                 this.PatternFillType = this.patternViewData[0].type;
             }
             this.UpdateThemeColors();
-            this.fillTransform(this.api.get_PropertyEditorTextArts());
+            this.fillTransform(this.api.asc_getPropertyEditorTextArts());
         },
 
         onInitStandartTextures: function(texture) {
