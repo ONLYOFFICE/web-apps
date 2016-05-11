@@ -412,21 +412,26 @@ define([
                     menuAlign: 'tl-tr',
                     items: [
                         {value: 0,                                                   caption: this.textNoFilter,    checkable: true},
-                        {value: Asc.c_oAscCustomAutoFilter.equals,                   caption: this.txtEquals,       checkable: true},
-                        {value: Asc.c_oAscCustomAutoFilter.doesNotEqual,             caption: this.txtNotEquals,    checkable: true},
-                        {value: Asc.c_oAscCustomAutoFilter.isGreaterThan,            caption: this.txtGreater,      checkable: true},
-                        {value: Asc.c_oAscCustomAutoFilter.isGreaterThanOrEqualTo,   caption: this.txtGreaterEquals,checkable: true},
-                        {value: Asc.c_oAscCustomAutoFilter.isLessThan,               caption: this.txtLess,         checkable: true},
-                        {value: Asc.c_oAscCustomAutoFilter.isLessThanOrEqualTo,      caption: this.txtLessEquals,   checkable: true},
-                        {value: -2,                                                  caption: this.txtBetween,      checkable: true},
-                        {value: Asc.c_oAscCustomAutoFilter.top10,                    caption: this.txtTop10,        checkable: true},
-                        {value: Asc.c_oAscCustomAutoFilter.aboveAverage,             caption: this.txtAboveAve,     checkable: true},
-                        {value: Asc.c_oAscCustomAutoFilter.belowAverage,             caption: this.txtBelowAve,     checkable: true},
-                        {value: -1, caption: this.btnCustomFilter + '...', checkable: true}
+                        {value: Asc.c_oAscCustomAutoFilter.equals,                   caption: this.txtEquals,       checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
+                        {value: Asc.c_oAscCustomAutoFilter.doesNotEqual,             caption: this.txtNotEquals,    checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
+                        {value: Asc.c_oAscCustomAutoFilter.isGreaterThan,            caption: this.txtGreater,      checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
+                        {value: Asc.c_oAscCustomAutoFilter.isGreaterThanOrEqualTo,   caption: this.txtGreaterEquals,checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
+                        {value: Asc.c_oAscCustomAutoFilter.isLessThan,               caption: this.txtLess,         checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
+                        {value: Asc.c_oAscCustomAutoFilter.isLessThanOrEqualTo,      caption: this.txtLessEquals,   checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
+                        {value: -2,                                                  caption: this.txtBetween,      checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
+                        {value: Asc.c_oAscCustomAutoFilter.top10,                    caption: this.txtTop10,        checkable: true, type: Asc.c_oAscAutoFilterTypes.Top10},
+                        {value: Asc.c_oAscDynamicAutoFilter.aboveAverage,             caption: this.txtAboveAve,    checkable: true, type: Asc.c_oAscAutoFilterTypes.DynamicFilter},
+                        {value: Asc.c_oAscDynamicAutoFilter.belowAverage,             caption: this.txtBelowAve,    checkable: true, type: Asc.c_oAscAutoFilterTypes.DynamicFilter},
+                        {value: -1, caption: this.btnCustomFilter + '...', checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters}
                     ]
                 })
             });
-            this.miNumFilter.menu.on('item:click', _.bind(this.onNumFilterMenuClick, this));
+            var items = this.miNumFilter.menu.items;
+            items[0].on('click', _.bind(this.onClear, this));
+            for (var i=1; i<items.length; i++) {
+                items[i].on('click', _.bind((items[i].options.type == Asc.c_oAscAutoFilterTypes.CustomFilters) ? this.onNumCustomFilterItemClick :
+                                            ((items[i].options.type == Asc.c_oAscAutoFilterTypes.DynamicFilter) ? this.onNumDynamicFilterItemClick : this.onTop10FilterItemClick ), this));
+            }
 
             this.miTextFilter = new Common.UI.MenuItem({
                 caption     : this.txtTextFilter,
@@ -437,15 +442,15 @@ define([
                     menuAlign: 'tl-tr',
                     items: [
                         {value: 0,                                                   caption: this.textNoFilter,    checkable: true},
-                        {value: Asc.c_oAscCustomAutoFilter.equals,                   caption: this.txtEquals,       checkable: true},
-                        {value: Asc.c_oAscCustomAutoFilter.doesNotEqual,             caption: this.txtNotEquals,    checkable: true},
-                        {value: Asc.c_oAscCustomAutoFilter.beginsWith,               caption: this.txtBegins,       checkable: true},
-                        {value: Asc.c_oAscCustomAutoFilter.doesNotBeginWith,         caption: this.txtNotBegins,    checkable: true},
-                        {value: Asc.c_oAscCustomAutoFilter.endsWith,                 caption: this.txtEnds,         checkable: true},
-                        {value: Asc.c_oAscCustomAutoFilter.doesNotEndWith,           caption: this.txtNotEnds,      checkable: true},
-                        {value: Asc.c_oAscCustomAutoFilter.contains,                 caption: this.txtContains,     checkable: true},
-                        {value: Asc.c_oAscCustomAutoFilter.doesNotContain,           caption: this.txtNotContains,  checkable: true},
-                        {value: -1, caption: this.btnCustomFilter + '...', checkable: true}
+                        {value: Asc.c_oAscCustomAutoFilter.equals,                   caption: this.txtEquals,       checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
+                        {value: Asc.c_oAscCustomAutoFilter.doesNotEqual,             caption: this.txtNotEquals,    checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
+                        {value: Asc.c_oAscCustomAutoFilter.beginsWith,               caption: this.txtBegins,       checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
+                        {value: Asc.c_oAscCustomAutoFilter.doesNotBeginWith,         caption: this.txtNotBegins,    checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
+                        {value: Asc.c_oAscCustomAutoFilter.endsWith,                 caption: this.txtEnds,         checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
+                        {value: Asc.c_oAscCustomAutoFilter.doesNotEndWith,           caption: this.txtNotEnds,      checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
+                        {value: Asc.c_oAscCustomAutoFilter.contains,                 caption: this.txtContains,     checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
+                        {value: Asc.c_oAscCustomAutoFilter.doesNotContain,           caption: this.txtNotContains,  checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
+                        {value: -1, caption: this.btnCustomFilter + '...', checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters}
                     ]
                 })
             });
@@ -630,7 +635,7 @@ define([
             this.close();
         },
 
-        onNumFilterMenuClick: function(menu, item) {
+        onNumCustomFilterItemClick: function(item) {
             var filterObj = this.configTo.asc_getFilterObj(),
                 value1 = '', value2 = '',
                 cond1 = Asc.c_oAscCustomAutoFilter.equals,
@@ -647,10 +652,7 @@ define([
                     value2 = ((customFilters.length>1) ? (null === customFilters[1].asc_getVal() ? '' : customFilters[1].asc_getVal()) : '');
             }
 
-            if (item.value==0) {
-                this.onClear();
-                return;
-            } else if (item.value!==-1) {
+            if (item.value!==-1) {
                 var newCustomFilter = new Asc.CustomFilters();
                 newCustomFilter.asc_setCustomFilters((item.value == -2) ? [new Asc.CustomFilter(), new Asc.CustomFilter()]: [new Asc.CustomFilter()]);
 
@@ -727,6 +729,24 @@ define([
 
             dlgDigitalFilter.setSettings(this.configTo);
             dlgDigitalFilter.show();
+        },
+
+        onNumDynamicFilterItemClick: function(item) {
+            var filterObj = this.configTo.asc_getFilterObj();
+
+            if (filterObj.asc_getType() !== Asc.c_oAscAutoFilterTypes.DynamicFilter) {
+                filterObj.asc_setFilter(new Asc.DynamicFilter());
+                filterObj.asc_setType(Asc.c_oAscAutoFilterTypes.DynamicFilter);
+            }
+
+            filterObj.asc_getFilter().asc_setType(item.value);
+            this.api.asc_applyAutoFilter(this.configTo);
+            
+            this.close();
+        },
+
+        onTop10FilterItemClick: function(menu, item) {
+            this.close();
         },
 
         onFilterColorSelect: function(isCellColor, picker, color) {
@@ -847,6 +867,8 @@ define([
 
             var filterObj = this.configTo.asc_getFilterObj(),
                 isCustomFilter = (this.initialFilterType === Asc.c_oAscAutoFilterTypes.CustomFilters),
+                isDynamicFilter = (this.initialFilterType === Asc.c_oAscAutoFilterTypes.DynamicFilter),
+                isTop10 = (this.initialFilterType === Asc.c_oAscAutoFilterTypes.Top10),
                 isTextFilter = this.configTo.asc_getIsTextFilter(),
                 colorsFill = this.configTo.asc_getColorsFill(),
                 colorsFont = this.configTo.asc_getColorsFont(),
@@ -858,7 +880,7 @@ define([
             this.miTextFilter.setVisible(isTextFilter);
             this.miNumFilter.setVisible(!isTextFilter);
             this.miTextFilter.setChecked(isCustomFilter && isTextFilter, true);
-            this.miNumFilter.setChecked(isCustomFilter && !isTextFilter, true);
+            this.miNumFilter.setChecked((isCustomFilter || isDynamicFilter || isTop10) && !isTextFilter, true);
 
             this.miSortLow2High.setChecked(sort == Asc.c_oAscSortOptions.Ascending, true);
             this.miSortHigh2Low.setChecked(sort == Asc.c_oAscSortOptions.Descending, true);
@@ -911,8 +933,9 @@ define([
 
                 if (customFilters.length==1)
                     items.forEach(function(item){
-                        item.setChecked(item.value == cond1, true);
-                        if (item.value == cond1) isCustomConditions = false;
+                        var checked = (item.options.type == Asc.c_oAscAutoFilterTypes.CustomFilters) && (item.value == cond1);
+                        item.setChecked(checked, true);
+                        if (checked) isCustomConditions = false;
                     });
                 else if (!isTextFilter && (cond1 == Asc.c_oAscCustomAutoFilter.isGreaterThanOrEqualTo && cond2 == Asc.c_oAscCustomAutoFilter.isLessThanOrEqualTo ||
                                            cond1 == Asc.c_oAscCustomAutoFilter.isLessThanOrEqualTo && cond2 == Asc.c_oAscCustomAutoFilter.isGreaterThanOrEqualTo)){
@@ -933,6 +956,13 @@ define([
                     this.miFilterFontColor.setChecked(true, true);
                     this.mnuFilterColorFontPicker.select(filterColor, true);
                 }
+            } else if (isDynamicFilter || isTop10) {
+                var dynType = (isDynamicFilter) ? filterObj.asc_getFilter().asc_getType() : null,
+                    items = this.miNumFilter.menu.items;
+                items.forEach(function(item){
+                    item.setChecked(isDynamicFilter && (item.options.type == Asc.c_oAscAutoFilterTypes.DynamicFilter) && (item.value == dynType) ||
+                                    isTop10 && (item.options.type == Asc.c_oAscAutoFilterTypes.Top10), true);
+                });
             }
 
             this.miClear.setDisabled(this.initialFilterType === Asc.c_oAscAutoFilterTypes.None);
