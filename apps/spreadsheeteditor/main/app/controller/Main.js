@@ -90,10 +90,6 @@ define([
             },
 
             onLaunch: function() {
-                /** coauthoring begin **/
-                window.asc_CCommentData = window.Asc.asc_CCommentData||window.asc_CCommentData;
-                /** coauthoring end **/
-
 //                $(document.body).css('position', 'absolute');
 
                 this._state = {isDisconnected: false, usersCount: 1, fastCoauth: true, startModifyDocument: true, lostEditingRights: false, licenseWarning: false};

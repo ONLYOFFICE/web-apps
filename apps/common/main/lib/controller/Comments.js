@@ -57,7 +57,7 @@ define([
             return new Asc.asc_CCommentDataWord(null);
         }
 
-        return new asc_CCommentData(null);
+        return new Asc.asc_CCommentData(null);
     }
 
     Common.Controllers.Comments = Backbone.Controller.extend(_.extend({
