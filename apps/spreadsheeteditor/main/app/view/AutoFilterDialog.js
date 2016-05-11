@@ -292,6 +292,180 @@ define([
 
     }, SSE.Views.DigitalFilterDialog || {}));
 
+    SSE.Views.Top10FilterDialog = Common.UI.Window.extend(_.extend({
+
+        initialize: function (options) {
+            var t = this, _options = {};
+
+            _.extend(_options,  {
+                width           : 318,
+                height          : 160,
+                contentWidth    : 180,
+                header          : true,
+                cls             : 'filter-dlg',
+                contentTemplate : '',
+                title           : t.txtTitle,
+                items           : []
+            }, options);
+
+            this.template   =   options.template || [
+                '<div class="box" style="height:' + (_options.height - 85) + 'px;">',
+                    '<div class="content-panel" >',
+                        '<div style="margin-right:15px; display: inline-block; vertical-align: middle;">',
+                            '<label class="input-label">', t.textType, '</label>',
+                            '<div id="id-top10-type-combo" style=""></div>',
+                        '</div>',
+                        '<div style="margin-right:15px; display: inline-block; vertical-align: middle;">',
+                            '<label class="input-label">', t.textCount, '</label>',
+                            '<div id="id-top10-count-spin" class="input-group-nr" style=""></div>',
+                        '</div>',
+                        '<div style="display: inline-block; vertical-align: middle;">',
+                            '<label class="input-label">', t.textItem, '</label>',
+                            '<div id="id-top10-item-combo" class="input-group-nr" style=""></div>',
+                        '</div>',
+                    '</div>',
+                '</div>',
+                '<div class="separator horizontal" style="width:100%"></div>',
+                '<div class="footer center">',
+                    '<button class="btn normal dlg-btn primary" result="ok" style="margin-right:10px;">', t.okButtonText, '</button>',
+                    '<button class="btn normal dlg-btn" result="cancel">', t.cancelButtonText, '</button>',
+                '</div>'
+            ].join('');
+
+            this.api        =   options.api;
+            this.handler    =   options.handler;
+
+            _options.tpl    =   _.template(this.template, _options);
+
+            Common.UI.Window.prototype.initialize.call(this, _options);
+        },
+        render: function () {
+            Common.UI.Window.prototype.render.call(this);
+
+            this.cmbType = new Common.UI.ComboBox({
+                el          : $('#id-top10-type-combo', this.$window),
+                style       : 'width: 85px;',
+                menuStyle   : 'min-width: 85px;',
+                cls         : 'input-group-nr',
+                data        : [
+                    { value: true, displayValue: this.txtTop },
+                    { value: false, displayValue: this.txtBottom }
+                ],
+                editable    : false
+            });
+            this.cmbType.setValue(true);
+
+            this.cmbItem = new Common.UI.ComboBox({
+                el          : $('#id-top10-item-combo', this.$window),
+                style       : 'width: 85px;',
+                menuStyle   : 'min-width: 85px;',
+                cls         : 'input-group-nr',
+                data        : [
+                    { value: false, displayValue: this.txtItems },
+                    { value: true, displayValue: this.txtPercent }
+                ],
+                editable    : false
+            });
+            this.cmbItem.setValue(false);
+            this.cmbItem.on('selected', _.bind(function(combo, record) {
+                this.spnCount.setDefaultUnit(record.value ? '%' : '');
+            }, this));
+
+            this.spnCount = new Common.UI.MetricSpinner({
+                el: $('#id-top10-count-spin'),
+                step: 1,
+                width: 85,
+                defaultUnit : "",
+                value: '10',
+                maxValue: 500,
+                minValue: 1
+            });
+
+            this.$window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
+
+            this.loadDefaults();
+        },
+        show: function () {
+            Common.UI.Window.prototype.show.call(this);
+
+            var me  = this;
+            _.defer(function () {
+                if (me.txtValue1) {
+                    me.txtValue1.focus();
+                }
+            }, 500);
+        },
+
+        close: function () {
+            if (this.api) {
+                this.api.asc_enableKeyEvents(true);
+            }
+            Common.UI.Window.prototype.close.call(this);
+        },
+
+        onBtnClick: function (event) {
+            if (event.currentTarget.attributes &&  event.currentTarget.attributes.result) {
+                if ('ok' === event.currentTarget.attributes.result.value) {
+                    this.save();
+                }
+
+                this.close();
+            }
+        },
+
+        setSettings: function (properties) {
+            this.properties = properties;
+        },
+
+        loadDefaults: function () {
+            if (this.properties) {
+                var filterObj = this.properties.asc_getFilterObj();
+                if (filterObj.asc_getType() == Asc.c_oAscAutoFilterTypes.Top10) {
+                    var top10Filter = filterObj.asc_getFilter(),
+                        type = top10Filter.asc_getTop(),
+                        percent = top10Filter.asc_getPercent();
+
+                    this.cmbType.setValue(type || type===null);
+                    this.cmbItem.setValue(percent || percent===null);
+                    this.spnCount.setValue(top10Filter.asc_setVal());
+                }
+            }
+        },
+        save: function () {
+            if (this.api && this.properties) {
+
+                var filterObj = this.properties.asc_getFilterObj();
+                filterObj.asc_setFilter(new Asc.Top10());
+                filterObj.asc_setType(Asc.c_oAscAutoFilterTypes.Top10);
+
+                var top10Filter = filterObj.asc_getFilter();
+                top10Filter.asc_setTop(this.cmbType.getValue());
+                top10Filter.asc_setPercent(this.cmbItem.getValue());
+                top10Filter.asc_setVal(this.spnCount.getNumberValue());
+
+                this.api.asc_applyAutoFilter(this.properties);
+            }
+        },
+
+        onPrimary: function() {
+            this.save();
+            this.close();
+            return false;
+        },
+
+        cancelButtonText    : "Cancel",
+        okButtonText        : 'OK',
+        txtTitle            : "Top 10 Filter",
+        textType            : 'Show',
+        textCount           : '',
+        textItem            : '',
+        txtTop              : 'Top',
+        txtBottom           : 'Bottom',
+        txtItems            : 'Item',
+        txtPercent          : 'Percent'
+
+    }, SSE.Views.Top10FilterDialog || {}));
+
     SSE.Views.AutoFilterDialog = Common.UI.Window.extend(_.extend({
 
         initialize: function (options) {
@@ -746,7 +920,16 @@ define([
         },
 
         onTop10FilterItemClick: function(menu, item) {
+            var me = this,
+                dlgTop10Filter = new SSE.Views.Top10FilterDialog({api:this.api}).on({
+                    'close': function() {
+                        me.close();
+                    }
+                });
             this.close();
+
+            dlgTop10Filter.setSettings(this.configTo);
+            dlgTop10Filter.show();
         },
 
         onFilterColorSelect: function(isCellColor, picker, color) {
