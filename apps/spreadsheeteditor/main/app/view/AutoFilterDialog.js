@@ -427,7 +427,7 @@ define([
 
                     this.cmbType.setValue(type || type===null);
                     this.cmbItem.setValue(percent || percent===null);
-                    this.spnCount.setValue(top10Filter.asc_setVal());
+                    this.spnCount.setValue(top10Filter.asc_getVal());
                 }
             }
         },
