@@ -60,7 +60,9 @@ Ext.define('PE.controller.Main', {
             app = this.getApplication(),
             profile = app.getCurrentProfile();
 
-        api = new Asc.asc_docs_api("id-sdkeditor");
+        api = new Asc.asc_docs_api({
+            'id-view'  : 'editor_sdk'
+        });
         api.SetMobileVersion(true);
         api.SetThemesPath("../../../../sdkjs/slide/themes/");
         api.initEvents2MobileAdvances();

@@ -688,7 +688,9 @@ var ApplicationController = new(function(){
             }, 2000);
         });
 
-        api = new Asc.spreadsheet_api("editor_sdk");
+        api = new Asc.spreadsheet_api({
+            'id-view': 'editor_sdk'
+        });
 
         if (api){
             api.asc_registerCallback('asc_onStartAction',           onLongActionBegin);

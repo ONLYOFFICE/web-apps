@@ -107,7 +107,10 @@ define([
                 if (value===null) value = window.devicePixelRatio > 1 ? '1' : '3';
 
                 // Initialize api
-                this.api = new Asc.spreadsheet_api("editor_sdk", "ce-cell-content");
+                this.api = new Asc.spreadsheet_api({
+                    'id-view'  : 'editor_sdk',
+                    'id-input' : 'ce-cell-content'
+                });
                 this.api.asc_setFontRenderingMode(parseInt(value));
 
                 this.api.asc_registerCallback('asc_onOpenDocumentProgress',  _.bind(this.onOpenDocument, this));

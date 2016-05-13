@@ -58,7 +58,9 @@ Ext.define('DE.controller.Main', {
         var api = this.api,
             app = this.getApplication();
 
-        api = new Asc.asc_docs_api("id-sdkeditor");
+        api = new Asc.asc_docs_api({
+            'id-view'  : 'editor_sdk'
+        });
         api.SetMobileVersion(true);
         api.initEvents2MobileAdvances();
 

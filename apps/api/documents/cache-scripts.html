@@ -18,7 +18,9 @@
     <div id="editor_sdk">
     <script type="text/javascript">
         window['AscNotLoadAllScript'] = true;
-        var editor = new Asc.asc_docs_api("editor_sdk");
+        var editor = new Asc.asc_docs_api({
+            'id-view'  : 'editor_sdk'
+        });
         editor.LoadFontsFromServer();
     </script>
 </body>

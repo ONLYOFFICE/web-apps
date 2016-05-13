@@ -106,7 +106,9 @@ define([
                 // Initialize api
 
                 window["flat_desine"] = true;
-                this.api = new Asc.asc_docs_api("editor_sdk");
+                this.api = new Asc.asc_docs_api({
+                    'id-view'  : 'editor_sdk'
+                });
 
                 if (this.api){
                     this.api.SetDrawingFreeze(true);
