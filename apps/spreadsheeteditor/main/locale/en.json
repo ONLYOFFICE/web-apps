@@ -270,7 +270,6 @@
   "SSE.Views.AutoFilterDialog.txtNotEnds": "Does not end with...",
   "SSE.Views.AutoFilterDialog.txtContains": "Contains...",
   "SSE.Views.AutoFilterDialog.txtNotContains": "Does not contain...",
-  "SSE.Views.AutoFilterDialog.textNoFilter": "None",
   "SSE.Views.AutoFilterDialog.textSelectAllResults": "Select All Search Results",
   "SSE.Views.AutoFilterDialog.textAddSelection": "Add current selection to filter",
   "SSE.Views.CellEditor.textManager": "Name Manager",
