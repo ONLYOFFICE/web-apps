@@ -1115,5 +1115,13 @@
   "SSE.Views.Toolbar.txtText": "Text",
   "SSE.Views.Toolbar.txtTime": "Time",
   "SSE.Views.Toolbar.txtUnmerge": "Unmerge Cells",
-  "SSE.Views.Toolbar.txtYen": "¥ Yen"
+  "SSE.Views.Toolbar.txtYen": "¥ Yen",
+  "SSE.Views.Top10FilterDialog.cancelButtonText": "Cancel",
+  "SSE.Views.Top10FilterDialog.okButtonText": "OK",
+  "SSE.Views.Top10FilterDialog.txtTitle": "Top 10 AutoFilter",
+  "SSE.Views.Top10FilterDialog.textType": "Show",
+  "SSE.Views.Top10FilterDialog.txtTop": "Top",
+  "SSE.Views.Top10FilterDialog.txtBottom": "Bottom",
+  "SSE.Views.Top10FilterDialog.txtItems": "Item",
+  "SSE.Views.Top10FilterDialog.txtPercent": "Percent"
 }

@@ -316,11 +316,11 @@ define([
                             '<div id="id-top10-type-combo" style=""></div>',
                         '</div>',
                         '<div style="margin-right:15px; display: inline-block; vertical-align: middle;">',
-                            '<label class="input-label">', t.textCount, '</label>',
+                            '<label class="input-label"></label>',
                             '<div id="id-top10-count-spin" class="input-group-nr" style=""></div>',
                         '</div>',
                         '<div style="display: inline-block; vertical-align: middle;">',
-                            '<label class="input-label">', t.textItem, '</label>',
+                            '<label class="input-label"></label>',
                             '<div id="id-top10-item-combo" class="input-group-nr" style=""></div>',
                         '</div>',
                     '</div>',
@@ -427,6 +427,7 @@ define([
 
                     this.cmbType.setValue(type || type===null);
                     this.cmbItem.setValue(percent || percent===null);
+                    this.spnCount.setDefaultUnit((percent || percent===null) ? '%' : '');
                     this.spnCount.setValue(top10Filter.asc_getVal());
                 }
             }
@@ -455,10 +456,8 @@ define([
 
         cancelButtonText    : "Cancel",
         okButtonText        : 'OK',
-        txtTitle            : "Top 10 Filter",
+        txtTitle            : "Top 10 AutoFilter",
         textType            : 'Show',
-        textCount           : '',
-        textItem            : '',
         txtTop              : 'Top',
         txtBottom           : 'Bottom',
         txtItems            : 'Item',
