@@ -65,9 +65,9 @@ Ext.define('SSE.controller.Main', {
 
         // Initialize api
         this.api = new Asc.spreadsheet_api({
-            'id-view'  : 'id-sdkeditor'
+            'id-view'  : 'id-sdkeditor',
+            'mobile'   : true
         });
-        this.api.asc_setMobileVersion(true);
 
         this.api.asc_registerCallback('asc_onAdvancedOptions',      Ext.bind(this.onAdvancedOptions, this));
         this.api.asc_registerCallback('asc_onOpenDocumentProgress', Ext.bind(this.onOpenDocumentProgress, this));

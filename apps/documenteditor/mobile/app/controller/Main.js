@@ -59,10 +59,9 @@ Ext.define('DE.controller.Main', {
             app = this.getApplication();
 
         api = new Asc.asc_docs_api({
-            'id-view'  : 'editor_sdk'
+            'id-view'  : 'id-sdkeditor',
+            'mobile'   : true
         });
-        api.SetMobileVersion(true);
-        api.initEvents2MobileAdvances();
 
         api.asc_registerCallback('asc_onStartAction',           Ext.bind(this.onLongActionBegin, this));
         api.asc_registerCallback('asc_onError',                 Ext.bind(this.onError, this));
