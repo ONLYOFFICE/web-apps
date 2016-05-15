@@ -278,6 +278,7 @@ define([
         hide: function () {
             Common.UI.BaseView.prototype.hide.call(this,arguments);
             this.fireEvent('hide', this );
+            this.textBoxAutoSizeLocked = undefined;
         },
 
         setupLayout: function () {
@@ -340,6 +341,7 @@ define([
             // text box setup autosize input text
 
             this.setupAutoSizingTextBox();
+            this.txtMessage.bind('input propertychange',  _.bind(this.updateHeightTextBox, this));
         },
 
         updateLayout: function (applyUsersAutoSizig) {
@@ -373,18 +375,17 @@ define([
             this.lineHeight = parseInt(this.txtMessage.css('lineHeight'), 10) * 1.25;  // TODO: need fix
 
             this.updateHeightTextBox(true);
-            this.txtMessage.bind('input propertychange',  _.bind(this.updateHeightTextBox, this));
         },
 
         updateHeightTextBox: function (event) {
-            var textBox, controlHeight, contentHeight, height,
+            var textBox = this.txtMessage,
+                controlHeight, contentHeight, height,
                 textBoxMinHeightIndent = 36 + 4;    // 4px - autosize line height + big around border
 
-            textBox = $('#chat-msg-text', this.el);
             height = this.panelBox.height();
 
             if (event && 0 == textBox.val().length) {
-                this.layout.setResizeValue(1, Math.max(-this.addMessageBoxHeight, height - this.addMessageBoxHeight));
+                this.layout.setResizeValue(1, Math.max(this.addMessageBoxHeight, height - this.addMessageBoxHeight));
                 this.textBoxAutoSizeLocked = undefined;
                 return;
             }
@@ -407,7 +408,7 @@ define([
             height = this.panelBox.height();
 
             this.layout.setResizeValue(1,
-                Math.max(-this.addMessageBoxHeight,
+                Math.max(this.addMessageBoxHeight,
                     Math.min(height - contentHeight - textBoxMinHeightIndent, height - this.addMessageBoxHeight)));
         },
 
