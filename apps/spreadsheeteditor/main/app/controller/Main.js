@@ -674,8 +674,6 @@ define([
                     if (!window['AscDesktopEditor']) {
                         var tips = [];
                         Common.Utils.isIE9m && tips.push(me.warnBrowserIE9);
-                        !Common.Utils.isGecko && !me.appOptions.isEditMailMerge && !me.appOptions.isEditDiagram && !me.appOptions.nativeApp &&
-                        (Math.abs(me.getBrowseZoomLevel() - 1) > 0.1) && tips.push(Common.Utils.String.platformKey(me.warnBrowserZoom, '{0}'));
 
                         if (tips.length) me.showTips(tips);
                     }
@@ -1150,20 +1148,6 @@ define([
             onCoAuthoringDisconnect: function() {
                 this.getApplication().getController('Viewport').getView('Viewport').setMode({isDisconnected:true});
                  this._state.isDisconnected = true;
-            },
-
-            getBrowseZoomLevel: function() {
-                if (Common.Utils.isIE) {
-                    return screen.logicalXDPI/screen.deviceXDPI;
-                } else {
-                    var zoom = window.outerWidth / document.documentElement.clientWidth;
-
-                    if (Common.Utils.isSafari) {
-                        zoom = Math.floor(zoom * 10) / 10;
-                    }
-
-                    return zoom;
-                }
             },
 
             showTips: function(strings) {
