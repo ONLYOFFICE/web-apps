@@ -79,7 +79,8 @@ define([
         noParagraphSelected:  'no-paragraph',
         noObjectSelected:  'no-object',
         disableOnStart: 'on-start',
-        cantPrint:      'cant-print'
+        cantPrint:      'cant-print',
+        noTextSelected:  'no-text'
     };
 
     PE.Views.Toolbar =  Backbone.View.extend(_.extend({
@@ -282,7 +283,7 @@ define([
                 menuCls     : 'scrollable-menu',
                 menuStyle   : 'min-width: 325px;',
                 hint        : me.tipFontName,
-                lock        : [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected],
+                lock        : [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noTextSelected, _set.shapeLock],
                 store       : new Common.Collections.Fonts()
             });
             me.paragraphControls.push(me.cmbFontName);
@@ -291,7 +292,7 @@ define([
                 cls         : 'input-group-nr',
                 menuStyle   : 'min-width: 55px;',
                 hint        : me.tipFontSize,
-                lock        : [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected],
+                lock        : [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noTextSelected, _set.shapeLock],
                 data        : [
                     { value: 8, displayValue: "8" },
                     { value: 9, displayValue: "9" },
@@ -317,7 +318,7 @@ define([
                 id          : 'id-toolbar-btn-bold',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-bold',
-                lock        : [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected],
+                lock        : [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noTextSelected, _set.shapeLock],
                 hint        : me.textBold + Common.Utils.String.platformKey('Ctrl+B'),
                 enableToggle: true
             });
@@ -327,7 +328,7 @@ define([
                 id          : 'id-toolbar-btn-italic',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-italic',
-                lock        : [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected],
+                lock        : [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noTextSelected, _set.shapeLock],
                 hint        : me.textItalic + Common.Utils.String.platformKey('Ctrl+I'),
                 enableToggle: true
             });
@@ -337,7 +338,7 @@ define([
                 id          : 'id-toolbar-btn-underline',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-underline',
-                lock        : [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected],
+                lock        : [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noTextSelected, _set.shapeLock],
                 hint        : me.textUnderline + Common.Utils.String.platformKey('Ctrl+U'),
                 enableToggle: true
             });
@@ -347,7 +348,7 @@ define([
                 id          : 'id-toolbar-btn-strikeout',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-strikeout',
-                lock        : [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected],
+                lock        : [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noTextSelected, _set.shapeLock],
                 hint        : me.textStrikeout,
                 enableToggle: true
             });
@@ -357,7 +358,7 @@ define([
                 id          : 'id-toolbar-btn-superscript',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-superscript',
-                lock        : [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected],
+                lock        : [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noTextSelected, _set.shapeLock],
                 hint        : me.textSuperscript,
                 enableToggle: true,
                 toggleGroup : 'superscriptGroup'
@@ -368,7 +369,7 @@ define([
                 id          : 'id-toolbar-btn-subscript',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-subscript',
-                lock        : [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected],
+                lock        : [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noTextSelected, _set.shapeLock],
                 hint        : me.textSubscript,
                 enableToggle: true,
                 toggleGroup : 'superscriptGroup'
@@ -379,7 +380,7 @@ define([
                 id          : 'id-toolbar-btn-fontcolor',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-fontcolor',
-                lock        : [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected],
+                lock        : [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noTextSelected, _set.shapeLock],
                 hint        : me.tipFontColor,
                 split       : true,
                 menu        : new Common.UI.Menu({

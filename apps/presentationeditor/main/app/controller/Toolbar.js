@@ -69,6 +69,7 @@ define([
                 slidelayoutdisable:undefined,
                 shapecontrolsdisable:undefined,
                 no_paragraph: undefined,
+                no_text: undefined,
                 no_object: undefined,
                 clrtext: undefined,
                 linespace: undefined,
@@ -560,6 +561,7 @@ define([
                 slide_deleted = undefined,
                 slide_layout_lock = undefined,
                 no_paragraph = true,
+                no_text = true,
                 no_object = true;
 
             while (++i < selectedObjects.length) {
@@ -568,6 +570,7 @@ define([
                 if (type == Asc.c_oAscTypeSelectElement.Paragraph) {
                     paragraph_locked = pr.get_Locked();
                     no_paragraph = false;
+                    no_text = false;
                     no_object = false;
                 } else if (type == Asc.c_oAscTypeSelectElement.Slide) {
                     slide_deleted = pr.get_LockDelete();
@@ -575,6 +578,9 @@ define([
                 } else if (type == Asc.c_oAscTypeSelectElement.Image || type == Asc.c_oAscTypeSelectElement.Shape || type == Asc.c_oAscTypeSelectElement.Chart || type == Asc.c_oAscTypeSelectElement.Table) {
                     shape_locked = pr.get_Locked();
                     no_object = false;
+                    if (type !== Asc.c_oAscTypeSelectElement.Image) {
+                        no_text = false;
+                    }
                 }
             }
 
@@ -589,9 +595,14 @@ define([
                 this.toolbar.lockToolbar(PE.enumLock.noParagraphSelected, no_paragraph, {array: [me.toolbar.btnCopyStyle]});
             }
 
+            if (this._state.no_text !== no_text) {
+                if (this._state.activated) this._state.no_text = no_text;
+                this.toolbar.lockToolbar(PE.enumLock.noTextSelected, no_text, {array: me.toolbar.paragraphControls});
+            }
+
             if (shape_locked!==undefined && this._state.shapecontrolsdisable !== shape_locked) {
                 if (this._state.activated) this._state.shapecontrolsdisable = shape_locked;
-                this.toolbar.lockToolbar(PE.enumLock.shapeLock, shape_locked, {array: me.toolbar.shapeControls});
+                this.toolbar.lockToolbar(PE.enumLock.shapeLock, shape_locked, {array: me.toolbar.shapeControls.concat(me.toolbar.paragraphControls)});
             }
 
             if (this._state.no_object !== no_object ) {
