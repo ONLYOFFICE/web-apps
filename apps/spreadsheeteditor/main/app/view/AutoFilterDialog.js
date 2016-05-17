@@ -1029,7 +1029,7 @@ define([
 
         onReapply: function() {
             if (this.api && this.configTo)
-                this.api.asc_applyAutoFilter(this.config);
+                this.api.asc_reapplyAutoFilter(this.config.asc_getDisplayName());
             this.close();
         },
 
