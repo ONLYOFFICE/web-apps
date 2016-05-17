@@ -138,6 +138,7 @@ define([
                     // Initialize api gateway
                     this.editorConfig = {};
                     this.appOptions = {};
+                    this.plugins = [];
                     Common.Gateway.on('init',           _.bind(this.loadConfig, this));
                     Common.Gateway.on('showmessage',    _.bind(this.onExternalMessage, this));
                     Common.Gateway.on('opendocument',   _.bind(this.loadDocument, this));
@@ -253,6 +254,9 @@ define([
 
                 if (this.appOptions.location == 'us' || this.appOptions.location == 'ca')
                     Common.Utils.Metric.setDefaultMetric(Common.Utils.Metric.c_MetricUnits.inch);
+
+                this.plugins = this.editorConfig.plugins;
+                this.appOptions.canPlugins = (this.plugins && this.plugins.length>0);
             },
 
             loadDocument: function(data) {
@@ -816,7 +820,8 @@ define([
                     fontsController             = application.getController('Common.Controllers.Fonts'),
                     rightmenuController         = application.getController('RightMenu'),
                     leftmenuController          = application.getController('LeftMenu'),
-                    chatController              = application.getController('Common.Controllers.Chat');
+                    chatController              = application.getController('Common.Controllers.Chat'),
+                    pluginsController           = application.getController('Common.Controllers.Plugins');
 
                 leftmenuController.getView('LeftMenu').getMenu('file').loadDocument({doc:me.document});
                 leftmenuController.setMode(me.appOptions).createDelayedElements().setApi(me.api);
@@ -824,6 +829,8 @@ define([
                 chatController.setApi(this.api).setMode(this.appOptions);
                 application.getController('Common.Controllers.ExternalDiagramEditor').setApi(this.api).loadConfig({config:this.editorConfig, customization: this.editorConfig.customization});
                 application.getController('Common.Controllers.ExternalMergeEditor').setApi(this.api).loadConfig({config:this.editorConfig, customization: this.editorConfig.customization});
+
+                pluginsController.setApi(this.api);
 
                 documentHolderController.setApi(me.api);
                 documentHolderController.createDelayedElements();
@@ -1081,6 +1088,8 @@ define([
                     // Message on window close
                     window.onbeforeunload = _.bind(me.onBeforeUnload, me);
                     window.onunload = _.bind(me.onUnload, me);
+
+                    me.updatePluginsList();
                 }
             },
 
@@ -1684,6 +1693,27 @@ define([
                     };
                 }
                 if (url) this.iframePrint.src = url;
+            },
+
+            updatePluginsList: function() {
+                var pluginStore = this.getApplication().getCollection('Common.Collections.Plugins');
+                if (pluginStore && this.plugins) {
+                    var arr = [];
+                    this.plugins.forEach(function(item){
+                        arr.push(new Common.Models.Plugin({
+                            name : item.name,
+                            guid: item.guid,
+                            url : item.url,
+                            icons  : item.icons,
+                            isVisual: item.isVisual,
+                            initDataType: item.initDataType,
+                            isUpdateOleOnResize : item.isUpdateOleOnResize,
+                            buttons: item.buttons
+                        }));
+                    });
+
+                    pluginStore.reset(arr);
+                }
             },
 
             leavePageText: 'You have unsaved changes in this document. Click \'Stay on this Page\' then \'Save\' to save them. Click \'Leave this Page\' to discard all the unsaved changes.',

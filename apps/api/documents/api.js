@@ -106,7 +106,38 @@
                     },
                     chat: false,
                     comments: false
-                }
+                },
+                plugins: [{
+                                name: "chess (fen)",
+                                guid: "{FFE1F462-1EA2-4391-990D-4CC84940B754}",
+                                url: "chess/index.html",
+                                icons: ["chess/icon.png", "chess/icon2x.png"],
+                                isVisual: true,
+                                initDataType: 2,
+                                isUpdateOleOnResize: true,
+                                buttons: [{text:"Ok",primary:true},{text:"Cancel",primary:false}]
+                            },
+                            {
+                                name: "glavred",
+                                guid: "{B631E142-E40B-4B4C-90B9-2D00222A286E}",
+                                url: "glavred/index.html",
+                                icons: ["glavred/icon.png", "glavred/icon2x.png"],
+                                isVisual: true,
+                                initDataType: 1,
+                                isUpdateOleOnResize: false,
+                                buttons: [{text:"Ok",primary:true}]
+                            },
+                            {
+                                name: "bold",
+                                guid: "{14E46CC2-5E56-429C-9D55-1032B596D928}",
+                                url: "bold/index.html",
+                                icons: ["bold/icon.png", "bold/icon2x.png"],
+                                isVisual: false,
+                                initDataType: 0,
+                                isUpdateOleOnResize: false,
+                                buttons: []
+                            }
+                        ]
             },
             events: {
                 'onReady': <document ready callback>,
