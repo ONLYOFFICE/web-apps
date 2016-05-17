@@ -153,7 +153,7 @@ define([
             view.pmiDeleteCells.menu.on('item:click',           _.bind(me.onDeleteCells, me));
             view.pmiSortCells.menu.on('item:click',             _.bind(me.onSortCells, me));
             view.pmiFilterCells.menu.on('item:click',           _.bind(me.onFilterCells, me));
-            view.pmiReapply.menu.on('item:click',               _.bind(me.onReapply, me));
+            view.pmiReapply.on('click',                         _.bind(me.onReapply, me));
             view.pmiClear.menu.on('item:click',                 _.bind(me.onClear, me));
             view.pmiSelectTable.menu.on('item:click',           _.bind(me.onSelectTable, me));
             view.pmiInsertTable.menu.on('item:click',           _.bind(me.onInsertTable, me));
@@ -1291,6 +1291,7 @@ define([
                 });
                 documentHolder.pmiCopy.setDisabled(false);
                 documentHolder.pmiSortCells.setDisabled(isCellLocked || (filterInfo==null));
+                documentHolder.pmiReapply.setDisabled(isCellLocked || (isApplyAutoFilter!==true));
                 if (showMenu) this.showPopupMenu(documentHolder.ssMenu, {}, event);
             } else if (this.permissions.isEditDiagram && seltype == Asc.c_oAscSelectionType.RangeChartText) {
                 if (!showMenu && !documentHolder.textInShapeMenu.isVisible()) return;
