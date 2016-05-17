@@ -677,8 +677,8 @@ define([
                     this.miTextFilter,
                     this.miFilterCellColor,
                     this.miFilterFontColor,
-                    {caption     : '--'},
                     this.miClear,
+                    {caption     : '--'},
                     this.miReapply
                 ]
             });
