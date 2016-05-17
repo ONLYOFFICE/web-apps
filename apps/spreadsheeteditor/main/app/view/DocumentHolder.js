@@ -234,6 +234,12 @@ define([
                         },{
                             caption : me.txtDescending,
                             value   : Asc.c_oAscSortOptions.Descending
+                        },{
+                            caption : me.txtSortCellColor,
+                            value   : Asc.c_oAscSortOptions.ByColorFill
+                        },{
+                            caption : me.txtSortFontColor,
+                            value   : Asc.c_oAscSortOptions.ByColorFont
                         }
                     ]
                 })
@@ -660,7 +666,8 @@ define([
         txtFilterValue: 'Filter by Selected cell\'s value',
         txtFilterCellColor: 'Filter by cell\'s color',
         txtFilterFontColor: 'Filter by font color',
-        txtReapply: 'Reapply'
-
+        txtReapply: 'Reapply',
+        txtSortCellColor: 'Selected Cell Color on top',
+        txtSortFontColor: 'Selected Font Color on top'
     }, SSE.Views.DocumentHolder || {}));
 });
