@@ -338,7 +338,7 @@ define([
 
         onSortCells: function(menu, item) {
             if (this.api) {
-                this.api.asc_sortColFilter(item.value, '', null, (item.value==Asc.c_oAscSortOptions.ByColorFill) ? this.documentHolder.ssMenu.cellColor : this.documentHolder.ssMenu.fontColor);
+                this.api.asc_sortColFilter(item.value, '', undefined, (item.value==Asc.c_oAscSortOptions.ByColorFill) ? this.documentHolder.ssMenu.cellColor : this.documentHolder.ssMenu.fontColor);
 
                 Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
                 Common.component.Analytics.trackEvent('DocumentHolder', 'Sort Cells');
