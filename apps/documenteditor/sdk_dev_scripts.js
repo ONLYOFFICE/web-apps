@@ -142,6 +142,7 @@ var sdk_dev_scrpipts = [
     "../../../../sdkjs/word/Private/MailMerge.js",
     "../../../../sdkjs/word/Private/TrackRevisions.js",
     "../../../../sdkjs/common/applyDocumentChanges.js",
+	"../../../../sdkjs/common/Drawings/Format/OleObject.js",
     "../../../../sdkjs/common/clipboard_base.js",
     "../../../../sdkjs/common/plugins.js",
     "../../../../sdkjs/word/apiBuilder.js"
