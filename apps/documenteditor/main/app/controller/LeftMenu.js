@@ -174,9 +174,10 @@ define([
             if (this.mode.canUseHistory)
                 this.leftMenu.setOptionsPanel('history', this.getApplication().getController('Common.Controllers.History').getView('Common.Views.History'));
 
-            if (this.mode.canPlugins)
+            if (this.mode.canPlugins) {
+                this.leftMenu.btnPlugins.show();
                 this.leftMenu.setOptionsPanel('plugins', this.getApplication().getController('Common.Controllers.Plugins').getView('Common.Views.Plugins'));
-            else
+            } else
                 this.leftMenu.btnPlugins.hide();
 
             Common.util.Shortcuts.resumeEvents();
@@ -442,6 +443,7 @@ define([
             this.leftMenu.btnComments.setDisabled(true);
             this.leftMenu.btnChat.setDisabled(true);
             /** coauthoring end **/
+            this.leftMenu.btnPlugins.setDisabled(true);
 
             this.leftMenu.getMenu('file').setMode({isDisconnected: true});
             if ( this.dlgSearch ) {
@@ -458,6 +460,7 @@ define([
             this.leftMenu.btnComments.setDisabled(disable);
             this.leftMenu.btnChat.setDisabled(disable);
             /** coauthoring end **/
+            this.leftMenu.btnPlugins.setDisabled(disable);
             if (disableFileMenu) this.leftMenu.getMenu('file').SetDisabled(disable);
         },
 

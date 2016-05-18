@@ -1010,6 +1010,9 @@ define([
                     var translateArt = new Asc.asc_TextArtTranslate();
                     translateArt.asc_setDefaultText(this.txtArt);
                     this.api.asc_setTextArtTranslate(translateArt);
+
+                    if (this.appOptions.canPlugins)
+                        this.updatePluginsList();
                 }
             },
 
@@ -1088,8 +1091,6 @@ define([
                     // Message on window close
                     window.onbeforeunload = _.bind(me.onBeforeUnload, me);
                     window.onunload = _.bind(me.onUnload, me);
-
-                    me.updatePluginsList();
                 }
             },
 

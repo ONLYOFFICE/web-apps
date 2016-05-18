@@ -15,6 +15,6 @@
         <div id="left-panel-comments" class="" style="display: none;" />
         <div id="left-panel-chat" class="" style="display: none;" />
         <!-- /** coauthoring end **/ -->
-        <div id="left-panel-plugins" class="" style="display: none;" />
+        <div id="left-panel-plugins" class="" style="display: none; height: 100%;" />
     </div>
 </div>

@@ -44,7 +44,8 @@ Common.Views = Common.Views || {};
 define([
     'common/main/lib/util/utils',
     'common/main/lib/component/BaseView',
-    'common/main/lib/component/Layout'
+    'common/main/lib/component/Layout',
+    'common/main/lib/component/Window'
 ], function (template) {
     'use strict';
 
@@ -54,7 +55,7 @@ define([
         storePlugins: undefined,
         template: _.template([
             '<div id="plugins-box" class="layout-ct vbox">',
-                '<label style="font-weight: bold;"><%= scope.strPlugins %></label>',
+                '<label id="plugins-header"><%= scope.strPlugins %></label>',
                 '<div id="plugins-list" class="">',
                 '</div>',
             '</div>'

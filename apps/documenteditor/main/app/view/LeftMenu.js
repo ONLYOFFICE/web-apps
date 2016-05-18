@@ -151,6 +151,7 @@ define([
 
             this.btnComments.hide();
             this.btnChat.hide();
+            this.btnPlugins.hide();
 
             this.btnComments.on('click',        _.bind(this.onBtnMenuClick, this));
             this.btnChat.on('click',            _.bind(this.onBtnMenuClick, this));
