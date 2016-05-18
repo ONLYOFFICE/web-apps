@@ -90,10 +90,6 @@ define([
             },
 
             onLaunch: function() {
-                /** coauthoring begin **/
-                window.asc_CCommentData = window.Asc.asc_CCommentData||window.asc_CCommentData;
-                /** coauthoring end **/
-
 //                $(document.body).css('position', 'absolute');
 
                 this._state = {isDisconnected: false, usersCount: 1, fastCoauth: true, startModifyDocument: true, lostEditingRights: false, licenseWarning: false};
@@ -111,9 +107,11 @@ define([
                 if (value===null) value = window.devicePixelRatio > 1 ? '1' : '3';
 
                 // Initialize api
-                this.api = new Asc.spreadsheet_api("editor_sdk", "ce-cell-content");
+                this.api = new Asc.spreadsheet_api({
+                    'id-view'  : 'editor_sdk',
+                    'id-input' : 'ce-cell-content'
+                });
                 this.api.asc_setFontRenderingMode(parseInt(value));
-                this.api.asc_SetFontsPath("../../../../sdkjs/fonts/");
 
                 this.api.asc_registerCallback('asc_onOpenDocumentProgress',  _.bind(this.onOpenDocument, this));
                 this.api.asc_registerCallback('asc_onEndAction',             _.bind(this.onLongActionEnd, this));
@@ -513,11 +511,14 @@ define([
                                     application.getController('Statusbar').getView('Statusbar').update();
                                     application.getController('CellEditor').setMode(me.appOptions);
 
-                                    me.api.asc_registerCallback('asc_onInitEditorShapes', _.bind(me.fillAutoShapes, me));
                                     me.api.asc_registerCallback('asc_onSaveUrl', _.bind(me.onSaveUrl, me));
                                     me.api.asc_registerCallback('asc_onDocumentModifiedChanged', _.bind(me.onDocumentModifiedChanged, me));
                                     me.api.asc_registerCallback('asc_onDocumentCanSaveChanged',  _.bind(me.onDocumentCanSaveChanged, me));
                                     me.api.asc_registerCallback('asc_onDownloadUrl',             _.bind(me.onDownloadUrl, me));
+                                    var shapes = me.api.asc_getPropertyEditorShapes();
+                                    if (shapes)
+                                        me.fillAutoShapes(shapes[0], shapes[1]);
+
                                     me.fillTextArt(me.api.asc_getTextArtPreviews());
                                     me.updateThemeColors();
 
@@ -631,7 +632,10 @@ define([
                             rightmenuController.createDelayedElements();
 
                             if (!me.appOptions.isEditMailMerge && !me.appOptions.isEditDiagram) {
-                                me.api.asc_registerCallback('asc_onInitEditorShapes', _.bind(me.fillAutoShapes, me));
+                                var shapes = me.api.asc_getPropertyEditorShapes();
+                                if (shapes)
+                                    me.fillAutoShapes(shapes[0], shapes[1]);
+
                                 me.fillTextArt(me.api.asc_getTextArtPreviews());
                                 me.updateThemeColors();
                             }
@@ -645,7 +649,7 @@ define([
 
                             var formulasDlgController = application.getController('FormulaDialog');
                             if (formulasDlgController) {
-                                formulasDlgController.setApi(me.api);
+                                formulasDlgController.setMode(me.appOptions).setApi(me.api);
                             }
                             if (me.needToUpdateVersion)
                                 toolbarController.onApiCoAuthoringDisconnect();
@@ -670,8 +674,6 @@ define([
                     if (!window['AscDesktopEditor']) {
                         var tips = [];
                         Common.Utils.isIE9m && tips.push(me.warnBrowserIE9);
-                        !Common.Utils.isGecko && !me.appOptions.isEditMailMerge && !me.appOptions.isEditDiagram && !me.appOptions.nativeApp &&
-                        (Math.abs(me.getBrowseZoomLevel() - 1) > 0.1) && tips.push(Common.Utils.String.platformKey(me.warnBrowserZoom, '{0}'));
 
                         if (tips.length) me.showTips(tips);
                     }
@@ -1148,20 +1150,6 @@ define([
                  this._state.isDisconnected = true;
             },
 
-            getBrowseZoomLevel: function() {
-                if (Common.Utils.isIE) {
-                    return screen.logicalXDPI/screen.deviceXDPI;
-                } else {
-                    var zoom = window.outerWidth / document.documentElement.clientWidth;
-
-                    if (Common.Utils.isSafari) {
-                        zoom = Math.floor(zoom * 10) / 10;
-                    }
-
-                    return zoom;
-                }
-            },
-
             showTips: function(strings) {
                 var me = this;
                 if (!strings.length) return;
@@ -1347,8 +1335,8 @@ define([
             },
 
             onConfirmAction: function(id, apiCallback) {
+                var me = this;
                 if (id == Asc.c_oAscConfirm.ConfirmReplaceRange) {
-                    var me = this;
                     Common.UI.warning({
                         closable: false,
                         title: this.notcriticalErrorTitle,
@@ -1362,6 +1350,20 @@ define([
                             if (btn == 'yes') {
                                 me.onEditComplete(me.application.getController('DocumentHolder').getView('DocumentHolder'));
                             }
+                        }, this)
+                    });
+                } else if (id == Asc.c_oAscConfirm.ConfirmPutMergeRange) {
+                    Common.UI.warning({
+                        closable: false,
+                        title: this.notcriticalErrorTitle,
+                        msg: this.confirmPutMergeRange,
+                        buttons: ['ok'],
+                        primary: 'ok',
+                        callback: _.bind(function(btn) {
+                            if (apiCallback)  {
+                                apiCallback();
+                            }
+                            me.onEditComplete(me.application.getController('DocumentHolder').getView('DocumentHolder'));
                         }, this)
                     });
                 }
@@ -1785,7 +1787,8 @@ define([
             textBuyNow: 'Buy now',
             textNoLicenseTitle: 'License expired or not found',
             warnNoLicense: 'The license could not be found or expired. You cannot edit files.<br>Click \'Buy now\' to purchase Enterprise Edition license or \'Contact us\' if you use Integration Edition.',
-            textContactUs: 'Contact us'
+            textContactUs: 'Contact us',
+            confirmPutMergeRange: 'The source data contains merged cells.<br>They will be unmerged before they are pasted into the table.'
         }
     })(), SSE.Controllers.Main || {}))
 });

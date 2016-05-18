@@ -58,12 +58,10 @@ Ext.define('DE.controller.Main', {
         var api = this.api,
             app = this.getApplication();
 
-        api = new Asc.asc_docs_api("id-sdkeditor");
-        api.SetMobileVersion(true);
-        api.CreateComponents();
-        api.asc_SetFontsPath("../../../../sdkjs/fonts/");
-        api.Init();
-        api.initEvents2MobileAdvances();
+        api = new Asc.asc_docs_api({
+            'id-view'  : 'id-sdkeditor',
+            'mobile'   : true
+        });
 
         api.asc_registerCallback('asc_onStartAction',           Ext.bind(this.onLongActionBegin, this));
         api.asc_registerCallback('asc_onError',                 Ext.bind(this.onError, this));

@@ -1060,7 +1060,7 @@ define([
 
         createDelayedElements: function() {
             this.UpdateThemeColors();
-            this.fillTransform(this.api.get_PropertyEditorTextArts());
+            this.fillTransform(this.api.asc_getPropertyEditorTextArts());
         },
 
         fillTextArt: function() {

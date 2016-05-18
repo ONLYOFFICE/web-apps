@@ -185,7 +185,7 @@
         <!-- SDK -->
 
         <script type="text/javascript" src="../../../../sdkjs/common/AllFonts.js"></script>
-        <script type="text/javascript" src="../../../../sdkjs/cell/sdk-all.js"></script>
+        <script type="text/javascript" src="../../../../sdkjs/cell/sdk-all-min.js"></script>
 
         <!-- Application -->
 

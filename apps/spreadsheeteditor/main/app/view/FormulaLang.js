@@ -37,7 +37,8 @@ define([
     SSE.Views = SSE.Views || {};
 
     SSE.Views.FormulaLang = new(function() {
-        var langJson = {};
+        var langJson = {},
+            langDescJson = {};
 
         var _createXMLHTTPObject = function() {
             var xmlhttp;
@@ -82,8 +83,40 @@ define([
 
             return null;
         };
+
+
+        var _getDescription = function(lang) {
+            if (!lang) return '';
+            lang = lang.toLowerCase() ;
+
+            if (langDescJson[lang])
+                return langDescJson[lang];
+            else {
+                try {
+                    var xhrObj = _createXMLHTTPObject();
+                    if (xhrObj && lang) {
+                        xhrObj.open('GET', 'resources/formula-lang/' + lang + '_desc.json', false);
+                        xhrObj.send('');
+                        if (xhrObj.status == 200)
+                            langDescJson[lang] = eval("(" + xhrObj.responseText + ")");
+                        else {
+                            xhrObj.open('GET', 'resources/formula-lang/en_desc.json', false);
+                            xhrObj.send('');
+                            langDescJson[lang] = eval("(" + xhrObj.responseText + ")");
+                        }
+                        return langDescJson[lang];
+                    }
+                }
+                catch (e) {
+                }
+            }
+
+            return null;
+        };
+
         return {
-            get: _get
+            get: _get,
+            getDescription: _getDescription
         };
     })();
 });

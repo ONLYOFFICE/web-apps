@@ -704,13 +704,11 @@ var ApplicationController = new(function(){
         });
 
         window["flat_desine"] = true;
-        api = new Asc.asc_docs_api("editor_sdk");
+        api = new Asc.asc_docs_api({
+            'id-view'  : 'editor_sdk'
+        });
 
         if (api){
-            api.CreateComponents();
-            api.asc_SetFontsPath("../../../../sdkjs/fonts/");
-            api.Init();
-
             api.asc_registerCallback('asc_onError',                 onError);
             api.asc_registerCallback('asc_onDocumentContentReady',  onDocumentContentReady);
             api.asc_registerCallback('asc_onOpenDocumentProgress',  onOpenDocument);

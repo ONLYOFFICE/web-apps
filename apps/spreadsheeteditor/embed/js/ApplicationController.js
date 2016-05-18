@@ -688,11 +688,11 @@ var ApplicationController = new(function(){
             }, 2000);
         });
 
-        api = new Asc.spreadsheet_api("editor_sdk");
+        api = new Asc.spreadsheet_api({
+            'id-view': 'editor_sdk'
+        });
 
         if (api){
-            api.asc_SetFontsPath("../../../../sdkjs/fonts/");
-
             api.asc_registerCallback('asc_onStartAction',           onLongActionBegin);
             api.asc_registerCallback('asc_onEndAction',             onLongActionEnd);
             api.asc_registerCallback('asc_onError',                 onError);

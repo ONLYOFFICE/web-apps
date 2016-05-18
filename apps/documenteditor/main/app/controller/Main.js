@@ -111,7 +111,10 @@ define([
 
                 // Initialize api
 
-                this.api = new Asc.asc_docs_api("editor_sdk");
+                window["flat_desine"] = true;
+                this.api = new Asc.asc_docs_api({
+                    'id-view'  : 'editor_sdk'
+                });
 
                 if (this.api){
                     switch (value) {
@@ -119,11 +122,6 @@ define([
                         case '1': this.api.SetFontRenderingMode(1); break;
                         case '2': this.api.SetFontRenderingMode(2); break;
                     }
-                    window["flat_desine"] = true;
-
-                    this.api.CreateComponents();
-                    this.api.asc_SetFontsPath("../../../../sdkjs/fonts/");
-                    this.api.Init();
 
                     this.api.asc_registerCallback('asc_onError',                    _.bind(this.onError, this));
                     this.api.asc_registerCallback('asc_onDocumentContentReady',     _.bind(this.onDocumentContentReady, this));
@@ -545,12 +543,12 @@ define([
                         var me = this;
                         if (me._state.timerSave===undefined)
                             me._state.timerSave = setInterval(function(){
-                                if ((new Date()) - me._state.isSaving>2000) {
+                                if ((new Date()) - me._state.isSaving>500) {
                                     clearInterval(me._state.timerSave);
                                     me.getApplication().getController('Statusbar').setStatusCaption('');
                                     me._state.timerSave = undefined;
                                 }
-                            }, 2000);
+                            }, 500);
                     } else
                         this.getApplication().getController('Statusbar').setStatusCaption('');
                 }
@@ -709,7 +707,7 @@ define([
                                         documentHolderController.getView('DocumentHolder').changePosition();
                                         me.loadLanguages();
 
-                                        var shapes = me.api.get_PropertyEditorShapes();
+                                        var shapes = me.api.asc_getPropertyEditorShapes();
                                         if (shapes)
                                             me.fillAutoShapes(shapes[0], shapes[1]);
 
@@ -768,7 +766,6 @@ define([
                     if (!window['AscDesktopEditor']) {
                         var tips = [];
                         Common.Utils.isIE9m && tips.push(me.warnBrowserIE9);
-                        !Common.Utils.isGecko && (Math.abs(me.getBrowseZoomLevel() - 1) > 0.1) && tips.push(Common.Utils.String.platformKey(me.warnBrowserZoom, '{0}'));
 
                         if (tips.length) me.showTips(tips);
                     }
@@ -857,7 +854,7 @@ define([
 
                             rightmenuController.createDelayedElements();
 
-                            var shapes = me.api.get_PropertyEditorShapes();
+                            var shapes = me.api.asc_getPropertyEditorShapes();
                             if (shapes)
                                 me.fillAutoShapes(shapes[0], shapes[1]);
 
@@ -1246,20 +1243,6 @@ define([
             onCoAuthoringDisconnect: function() {
                 this.getApplication().getController('Viewport').getView('Viewport').setMode({isDisconnected:true});
                 this._state.isDisconnected = true;
-            },
-
-            getBrowseZoomLevel: function() {
-                if (Common.Utils.isIE) {
-                    return screen.logicalXDPI/screen.deviceXDPI;
-                } else {
-                    var zoom = window.outerWidth / document.documentElement.clientWidth;
-
-                    if (Common.Utils.isSafari) {
-                        zoom = Math.floor(zoom * 10) / 10;
-                    }
-
-                    return zoom;
-                }
             },
 
             showTips: function(strings) {

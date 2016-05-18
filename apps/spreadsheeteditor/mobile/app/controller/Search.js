@@ -62,19 +62,30 @@ Ext.define('SSE.controller.Search', {
 
     setApi: function(o) {
         this.api = o;
+        this.findOptions = new Asc.asc_CFindOptions();
+        this.findOptions.asc_setScanForward(true);
+        this.findOptions.asc_setIsMatchCase(false);
+        this.findOptions.asc_setIsWholeCell(false);
+        this.findOptions.asc_setScanOnOnlySheet(true);
+        this.findOptions.asc_setScanByRows(true);
+        this.findOptions.asc_setLookIn(Asc.c_oAscFindLookIn.Formulas);
     },
 
     onNextResult: function(){
         var searchField = this.getSearchField();
         if (this.api && searchField){
-            this.api.asc_findText(searchField.getValue(), true, true);
+            this.findOptions.asc_setFindWhat(searchField.getValue());
+            this.findOptions.asc_setScanForward(true);
+            this.api.asc_findText(this.findOptions);
         }
     },
 
     onPreviousResult: function(){
         var searchField = this.getSearchField();
         if (this.api && searchField){
-            this.api.asc_findText(searchField.getValue(), true, false);
+            this.findOptions.asc_setFindWhat(searchField.getValue());
+            this.findOptions.asc_setScanForward(false);
+            this.api.asc_findText(this.findOptions);
         }
     },
 
@@ -83,7 +94,9 @@ Ext.define('SSE.controller.Search', {
             searchField = this.getSearchField();
 
         if (keyCode == 13 && this.api) {
-            this.api.asc_findText(searchField.getValue(), true, true);
+            this.findOptions.asc_setFindWhat(searchField.getValue());
+            this.findOptions.asc_setScanForward(true);
+            this.api.asc_findText(this.findOptions);
         }
         this.updateNavigation();
     },

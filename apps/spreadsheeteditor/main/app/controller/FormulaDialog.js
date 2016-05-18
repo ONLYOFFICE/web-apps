@@ -100,6 +100,11 @@ define([
             return this;
         },
 
+        setMode: function(mode) {
+            this.mode = mode;
+            return this;
+        },
+
         onLaunch: function () {
             this.formulasGroups = this.getApplication().getCollection('FormulaGroups');
         },
@@ -132,6 +137,11 @@ define([
                 allFunctionsGroup = null;
 
             if (store) {
+                var value = Common.localStorage.getItem("sse-settings-func-locale");
+                if (value===null)
+                    value = ((this.mode.lang) ? this.mode.lang : 'en').split("-")[0].toLowerCase();
+                value = SSE.Views.FormulaLang.getDescription(value);
+
                 allFunctionsGroup = new SSE.Models.FormulaGroup ({
                     name    : 'All',
                     index   : index,
@@ -160,11 +170,13 @@ define([
                         functions = [];
 
                         for (j = 0; j < ascFunctions.length; j += 1) {
+                            var funcname = ascFunctions[j].asc_getName();
                             var func = new SSE.Models.FormulaModel({
                                 index : funcInd,
                                 group : ascGroupName,
-                                name  : ascFunctions[j].asc_getName(),
-                                args  : ascFunctions[j].asc_getArguments()
+                                name  : ascFunctions[j].asc_getLocaleName(),
+                                args  : (value && value[funcname]) ? value[funcname].a : '',
+                                desc  : (value && value[funcname]) ? value[funcname].d : ''
                             });
 
                             funcInd += 1;

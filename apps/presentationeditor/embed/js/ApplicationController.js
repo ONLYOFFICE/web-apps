@@ -712,13 +712,12 @@ var ApplicationController = new(function(){
             }, 2000);
         });
 
-        api = new Asc.asc_docs_api("editor_sdk");
+        api = new Asc.asc_docs_api({
+            'id-view'  : 'editor_sdk'
+        });
 
         if (api){
-            api.CreateComponents();
-            api.asc_SetFontsPath("../../../../sdkjs/fonts/");
             api.SetThemesPath("../../../../sdkjs/slide/themes/");
-            api.Init();
 
             api.asc_registerCallback('asc_onError',                 onError);
             api.asc_registerCallback('asc_onDocumentContentReady',  onDocumentContentReady);

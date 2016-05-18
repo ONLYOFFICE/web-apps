@@ -585,9 +585,7 @@ define([
             this.api = api;
             if (this.api) {
                 this.api.SetInterfaceDrawImagePlaceTextArt('textart-texture-img');
-                var textures = this.api.get_PropertyStandartTextures();
-                if (textures)
-                    this.onInitStandartTextures(textures);
+                this.api.asc_registerCallback('asc_onInitStandartTextures', _.bind(this.onInitStandartTextures, this));
             }
             return this;
         },
@@ -1500,7 +1498,7 @@ define([
                 this.PatternFillType = this.patternViewData[0].type;
             }
             this.UpdateThemeColors();
-            this.fillTransform(this.api.get_PropertyEditorTextArts());
+            this.fillTransform(this.api.asc_getPropertyEditorTextArts());
         },
 
         onInitStandartTextures: function(texture) {

@@ -1,7 +1,7 @@
 {
     "name": "presentationeditor",
     "version": "4.6.0",
-    "build": 762,
+    "build": 771,
     "homepage": "http://www.onlyoffice.com",
     "sdk": {
         "clean": [
@@ -27,8 +27,9 @@
                         "dest": "../deploy/sdkjs/slide/themes/"
                     },
                     {
-                        "src": "../../sdkjs/slide/sdk-all.js",
-                        "dest": "../deploy/sdkjs/slide/sdk-all.js"
+                        "expand": true,
+                        "src": "../../sdkjs/slide/sdk-*.js",
+                        "dest": "../deploy/sdkjs/slide/"
                     }
                 ]
             }

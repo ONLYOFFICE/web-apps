@@ -1464,7 +1464,7 @@ define([
                         this.onSectionProps(section);
                         return;
                     } else {
-                        var props = new CDocumentSectionProps();
+                        var props = new Asc.CDocumentSectionProps();
                         props.put_TopMargin(item.value[0]);
                         props.put_LeftMargin(item.value[1]);
                         props.put_BottomMargin(item.value[2]);

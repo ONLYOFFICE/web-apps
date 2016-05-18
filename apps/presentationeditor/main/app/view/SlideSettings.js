@@ -564,9 +564,7 @@ define([
             this.api = api;
             if (this.api) {
                 this.api.SetInterfaceDrawImagePlaceSlide('slide-texture-img');
-                var textures = this.api.get_PropertyStandartTextures();
-                if (textures)
-                    this.onInitStandartTextures(textures);
+                this.api.asc_registerCallback('asc_onInitStandartTextures', _.bind(this.onInitStandartTextures, this));
             }
             return this;
         },

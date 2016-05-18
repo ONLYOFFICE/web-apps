@@ -60,13 +60,11 @@ Ext.define('PE.controller.Main', {
             app = this.getApplication(),
             profile = app.getCurrentProfile();
 
-        api = new Asc.asc_docs_api("id-sdkeditor");
-        api.SetMobileVersion(true);
-        api.CreateComponents();
-        api.asc_SetFontsPath("../../../../sdkjs/fonts/");
+        api = new Asc.asc_docs_api({
+            'id-view'  : 'id-sdkeditor',
+            'mobile'   : true
+        });
         api.SetThemesPath("../../../../sdkjs/slide/themes/");
-        api.Init();
-        api.initEvents2MobileAdvances();
 
         api.asc_registerCallback('asc_onStartAction', Ext.bind(this.onLongActionBegin, this));
         api.asc_registerCallback('asc_onError', Ext.bind(this.onError, this));

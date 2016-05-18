@@ -201,7 +201,7 @@ define([
         },
 
         getSettings: function() {
-            var props = new CDocumentSectionProps();
+            var props = new Asc.CDocumentSectionProps();
             props.put_TopMargin(Common.Utils.Metric.fnRecalcToMM(this.spnTop.getNumberValue()));
             props.put_BottomMargin(Common.Utils.Metric.fnRecalcToMM(this.spnBottom.getNumberValue()));
             props.put_LeftMargin(Common.Utils.Metric.fnRecalcToMM(this.spnLeft.getNumberValue()));
