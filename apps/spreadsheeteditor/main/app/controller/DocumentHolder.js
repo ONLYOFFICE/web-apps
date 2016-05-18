@@ -152,6 +152,8 @@ define([
             view.pmiInsertCells.menu.on('item:click',           _.bind(me.onInsertCells, me));
             view.pmiDeleteCells.menu.on('item:click',           _.bind(me.onDeleteCells, me));
             view.pmiSortCells.menu.on('item:click',             _.bind(me.onSortCells, me));
+            view.pmiFilterCells.menu.on('item:click',           _.bind(me.onFilterCells, me));
+            view.pmiReapply.on('click',                         _.bind(me.onReapply, me));
             view.pmiClear.menu.on('item:click',                 _.bind(me.onClear, me));
             view.pmiSelectTable.menu.on('item:click',           _.bind(me.onSelectTable, me));
             view.pmiInsertTable.menu.on('item:click',           _.bind(me.onInsertTable, me));
@@ -336,11 +338,46 @@ define([
 
         onSortCells: function(menu, item) {
             if (this.api) {
-                this.api.asc_sortColFilter(item.value, '');
+                this.api.asc_sortColFilter(item.value, '', undefined, (item.value==Asc.c_oAscSortOptions.ByColorFill) ? this.documentHolder.ssMenu.cellColor : this.documentHolder.ssMenu.fontColor);
 
                 Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
                 Common.component.Analytics.trackEvent('DocumentHolder', 'Sort Cells');
             }
+        },
+
+        onFilterCells: function(menu, item) {
+            if (this.api) {
+                var autoFilterObject = new Asc.AutoFiltersOptions(),
+                    filterObj = new Asc.AutoFilterObj();
+                if (item.value>0) {
+                    filterObj.asc_setFilter(new Asc.ColorFilter());
+                    filterObj.asc_setType(Asc.c_oAscAutoFilterTypes.ColorFilter);
+
+                    var colorFilter = filterObj.asc_getFilter();
+                    colorFilter.asc_setCellColor((item.value==1) ? null : false);
+                    colorFilter.asc_setCColor((item.value==1) ? this.documentHolder.ssMenu.cellColor : this.documentHolder.ssMenu.fontColor);
+                } else {
+                    filterObj.asc_setFilter(new Asc.CustomFilters());
+                    filterObj.asc_setType(Asc.c_oAscAutoFilterTypes.CustomFilters);
+
+                    var customFilter = filterObj.asc_getFilter();
+                    customFilter.asc_setCustomFilters([new Asc.CustomFilter()]);
+                    customFilter.asc_setAnd(true);
+                    var customFilters = customFilter.asc_getCustomFilters();
+                    customFilters[0].asc_setOperator(Asc.c_oAscCustomAutoFilter.equals);
+//                    customFilters[0].asc_setVal('');
+                }
+
+                autoFilterObject.asc_setFilterObj(filterObj);
+                this.api.asc_applyAutoFilterByType(autoFilterObject);
+
+                Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+                Common.component.Analytics.trackEvent('DocumentHolder', 'Filter Cells');
+            }
+        },
+
+        onReapply: function() {
+            this.api.asc_reapplyAutoFilter(this.documentHolder.ssMenu.formatTableName);
         },
 
         onClear: function(menu, item) {
@@ -1181,6 +1218,8 @@ define([
                     formatTableInfo = cellinfo.asc_getFormatTableInfo(),
                     isintable = (formatTableInfo !== null);
                 documentHolder.ssMenu.formatTableName = (isintable) ? formatTableInfo.asc_getTableName() : null;
+                documentHolder.ssMenu.cellColor = cellinfo.asc_getFill().asc_getColor();
+                documentHolder.ssMenu.fontColor = cellinfo.asc_getFont().asc_getColor();
 
                 documentHolder.pmiInsertEntire.setVisible(isrowmenu||iscolmenu);
                 documentHolder.pmiInsertEntire.setCaption((isrowmenu) ? this.textInsertTop : this.textInsertLeft);
@@ -1190,7 +1229,10 @@ define([
                 documentHolder.pmiSelectTable.setVisible(iscellmenu && !iscelledit && isintable);
                 documentHolder.pmiInsertTable.setVisible(iscellmenu && !iscelledit && isintable);
                 documentHolder.pmiDeleteTable.setVisible(iscellmenu && !iscelledit && isintable);
-                documentHolder.pmiSortCells.setVisible((iscellmenu||isallmenu||cansort) && !iscelledit && !isintable);
+                documentHolder.pmiSortCells.setVisible((iscellmenu||isallmenu||cansort) && !iscelledit);
+                documentHolder.pmiFilterCells.setVisible((iscellmenu||cansort) && !iscelledit);
+                documentHolder.pmiReapply.setVisible((iscellmenu||isallmenu||cansort) && !iscelledit);
+                documentHolder.ssMenu.items[12].setVisible((iscellmenu||isallmenu||cansort) && !iscelledit);
                 documentHolder.pmiInsFunction.setVisible(iscellmenu||insfunc);
                 documentHolder.pmiAddNamedRange.setVisible(iscellmenu && !iscelledit);
 
@@ -1218,7 +1260,7 @@ define([
                 documentHolder.pmiFreezePanes.setCaption(this.api.asc_getSheetViewSettings().asc_getIsFreezePane() ? documentHolder.textUnFreezePanes : documentHolder.textFreezePanes);
 
                 /** coauthoring begin **/
-                documentHolder.ssMenu.items[13].setVisible(iscellmenu && !iscelledit && this.permissions.canCoAuthoring && this.permissions.canComments);
+                documentHolder.ssMenu.items[16].setVisible(iscellmenu && !iscelledit && this.permissions.canCoAuthoring && this.permissions.canComments);
                 documentHolder.pmiAddComment.setVisible(iscellmenu && !iscelledit && this.permissions.canCoAuthoring && this.permissions.canComments);
                 /** coauthoring end **/
                 documentHolder.pmiCellMenuSeparator.setVisible(iscellmenu || isrowmenu || iscolmenu || isallmenu || insfunc);
@@ -1236,17 +1278,20 @@ define([
                 documentHolder.pmiClear.menu.items[3].setVisible(!this.permissions.isEditDiagram);
                 documentHolder.pmiClear.menu.items[4].setVisible(!this.permissions.isEditDiagram);
 
-                var filterInfo = cellinfo.asc_getAutoFilterInfo();
-                filterInfo = (filterInfo) ? filterInfo.asc_getIsApplyAutoFilter() : false;
-                documentHolder.pmiInsertCells.menu.items[0].setDisabled(filterInfo);
-                documentHolder.pmiDeleteCells.menu.items[0].setDisabled(filterInfo);
-                documentHolder.pmiInsertCells.menu.items[1].setDisabled(filterInfo);
-                documentHolder.pmiDeleteCells.menu.items[1].setDisabled(filterInfo);
+                var filterInfo = cellinfo.asc_getAutoFilterInfo(),
+                    isApplyAutoFilter = (filterInfo) ? filterInfo.asc_getIsApplyAutoFilter() : false;
+                filterInfo = (filterInfo) ? filterInfo.asc_getIsAutoFilter() : null;
+                documentHolder.pmiInsertCells.menu.items[0].setDisabled(isApplyAutoFilter);
+                documentHolder.pmiDeleteCells.menu.items[0].setDisabled(isApplyAutoFilter);
+                documentHolder.pmiInsertCells.menu.items[1].setDisabled(isApplyAutoFilter);
+                documentHolder.pmiDeleteCells.menu.items[1].setDisabled(isApplyAutoFilter);
 
                 _.each(documentHolder.ssMenu.items, function(item) {
                     item.setDisabled(isCellLocked);
                 });
                 documentHolder.pmiCopy.setDisabled(false);
+                documentHolder.pmiSortCells.setDisabled(isCellLocked || (filterInfo==null));
+                documentHolder.pmiReapply.setDisabled(isCellLocked || (isApplyAutoFilter!==true));
                 if (showMenu) this.showPopupMenu(documentHolder.ssMenu, {}, event);
             } else if (this.permissions.isEditDiagram && seltype == Asc.c_oAscSelectionType.RangeChartText) {
                 if (!showMenu && !documentHolder.textInShapeMenu.isVisible()) return;
