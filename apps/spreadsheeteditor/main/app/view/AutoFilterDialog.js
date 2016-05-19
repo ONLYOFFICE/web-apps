@@ -704,7 +704,7 @@ define([
                 el: $('#filter-dlg-filter-cells-color'),
                 colors: []
             });
-            this.mnuFilterColorCellsPicker.on('select', _.bind(this.onFilterColorSelect, this, null));
+            this.mnuFilterColorCellsPicker.on('select', _.bind(this.onFilterColorSelect, this, true));
 
             this.mnuFilterColorFontPicker = new Common.UI.ColorPaletteExt({
                 el: $('#filter-dlg-filter-font-color'),
@@ -933,8 +933,8 @@ define([
             }
 
             var colorFilter = filterObj.asc_getFilter();
-            colorFilter.asc_setCellColor(isCellColor);
-            colorFilter.asc_setCColor(color == 'transparent' ? null : Common.Utils.ThemeColor.getRgbColor(color));
+            colorFilter.asc_setCellColor(isCellColor ? null : false);
+            colorFilter.asc_setCColor((isCellColor && color == 'transparent' || !isCellColor && color == '#000000') ? null : Common.Utils.ThemeColor.getRgbColor(color));
 
             this.api.asc_applyAutoFilter(this.configTo);
 
@@ -943,7 +943,8 @@ define([
 
         onSortColorSelect: function(type, picker, color) {
             if (this.api && this.configTo) {
-                this.api.asc_sortColFilter(type, this.configTo.asc_getCellId(), this.configTo.asc_getDisplayName(), color == 'transparent' ? null : Common.Utils.ThemeColor.getRgbColor(color));
+                var isCellColor = (type == Asc.c_oAscSortOptions.ByColorFill);
+                this.api.asc_sortColFilter(type, this.configTo.asc_getCellId(), this.configTo.asc_getDisplayName(), (isCellColor && color == 'transparent' || !isCellColor && color == '#000000') ? null : Common.Utils.ThemeColor.getRgbColor(color));
             }
             this.close();
         },
@@ -1067,7 +1068,10 @@ define([
             if (hasColors) {
                 var colors = [];
                 colorsFont.forEach(function(item, index) {
-                    colors.push(Common.Utils.ThemeColor.getHexColor(item.get_r(), item.get_g(), item.get_b()).toLocaleUpperCase());
+                    if (item)
+                        colors.push(Common.Utils.ThemeColor.getHexColor(item.get_r(), item.get_g(), item.get_b()).toLocaleUpperCase());
+                    else
+                        colors.push('000000');
                 });
                 this.mnuSortColorFontPicker.updateColors(colors);
                 this.mnuFilterColorFontPicker.updateColors(colors);
