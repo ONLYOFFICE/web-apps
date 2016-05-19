@@ -68,24 +68,6 @@ define([
         setApi: function(api) {
             this.api = api;
 
-            var me = this;
-            var storePlugins = this.getApplication().getCollection('Common.Collections.Plugins'),
-                arr = [];
-            storePlugins.each(function(item){
-                var plugin                 = new Asc.CPlugin();
-                plugin.set_Name(item.get('name'));
-                plugin.set_Guid(item.get('guid'));
-                plugin.set_Url(item.get('url'));
-                plugin.set_Icons(item.get('icons'));
-                plugin.set_Visual(item.get('isVisual'));
-                plugin.set_InitDataType(item.get('initDataType'));
-                plugin.set_UpdateOleOnResize(item.get('isUpdateOleOnResize'));
-                plugin.set_Buttons(item.get('buttons'));
-                item.set('pluginObj', plugin);
-                arr.push(plugin);
-            });
-            this.api.asc_pluginsRegister(this.panelPlugins.pluginsPath, arr);
-
             this.api.asc_registerCallback("asc_onPluginShow", _.bind(this.onPluginShow, this));
             this.api.asc_registerCallback("asc_onPluginClose", _.bind(this.onPluginClose, this));
 
@@ -93,21 +75,59 @@ define([
         },
 
         setMode: function(mode) {
+            if (mode.canPlugins) {
+                this.panelPlugins.pluginsPath = mode.pluginsPath;
+                this.updatePluginsList();
+            }
         },
 
         onAfterRender: function(historyView) {
             historyView.viewPluginsList.on('item:click', _.bind(this.onSelectPlugin, this));
         },
 
+        updatePluginsList: function() {
+            var me = this;
+            var storePlugins = this.getApplication().getCollection('Common.Collections.Plugins'),
+                arr = [];
+            storePlugins.each(function(item){
+                var plugin = new Asc.CPlugin();
+                plugin.set_Name(item.get('name'));
+                plugin.set_Guid(item.get('guid'));
+                var variations = item.get('variations'),
+                    variationsArr = [];
+                variations.forEach(function(itemVar){
+                    var variation = new Asc.CPluginVariation();
+                    variation.set_Description(itemVar.get('description'));
+                    variation.set_Url(itemVar.get('url'));
+                    variation.set_Icons(itemVar.get('icons'));
+                    variation.set_Visual(itemVar.get('isVisual'));
+                    variation.set_Viewer(itemVar.get('isViewer'));
+                    variation.set_EditorsSupport(itemVar.get('EditorsSupport'));
+                    variation.set_Modal(itemVar.get('isModal'));
+                    variation.set_InsideMode(itemVar.get('isInsideMode'));
+                    variation.set_InitDataType(itemVar.get('initDataType'));
+                    variation.set_InitData(itemVar.get('initData'));
+                    variation.set_UpdateOleOnResize(itemVar.get('isUpdateOleOnResize'));
+                    variation.set_Buttons(itemVar.get('buttons'));
+                    variationsArr.push(variation);
+                });
+                plugin.set_Variations(variationsArr);
+                item.set('pluginObj', plugin);
+                arr.push(plugin);
+            });
+            this.api.asc_pluginsRegister(this.panelPlugins.pluginsPath, arr);
+        },
+
         onSelectPlugin: function(picker, item, record){
-            this.api.asc_pluginRun(record.get('guid'), '');
+            this.api.asc_pluginRun(record.get('guid'), record.get('currentVariation'), '');
         },
 
         onPluginShow: function(plugin) {
-            if (!plugin.get_Visual()) return;
+            var variation = plugin.get_Variations()[0];
+            if (!variation.get_Visual()) return;
             
             var me = this,
-                arrBtns = plugin.get_Buttons(),
+                arrBtns = variation.get_Buttons(),
                 newBtns = {};
 
             if (_.isArray(arrBtns)) {
@@ -118,7 +138,7 @@ define([
 
             me.pluginDlg = new Common.Views.PluginDlg({
                 title: plugin.get_Name(),
-                url: me.panelPlugins.pluginsPath + plugin.get_Url(),
+                url: me.panelPlugins.pluginsPath + variation.get_Url(),
                 buttons: newBtns,
                 toolcallback: _.bind(this.onToolClose, this)
             });
@@ -130,7 +150,7 @@ define([
             me.pluginDlg.show();
         },
 
-        onPluginClose: function(plugin) {
+        onPluginClose: function() {
             if (this.pluginDlg)
                 this.pluginDlg.close();
         },

@@ -48,18 +48,34 @@ define([
 ], function(_, Backbone){
     'use strict';
 
+    Common.Models.PluginVariation = Backbone.Model.extend({
+        defaults: function() {
+            return {
+                description: "",
+                url: "",
+                index: 0,
+                icons: undefined,
+                isViewer: false,
+                EditorsSupport: ["word", "cell", "slide"],
+                isVisual: false,
+                isModal: false,
+                isInsideMode: false,
+                initDataType: 0,
+                initData: "",
+                isUpdateOleOnResize: false,
+                buttons: []
+            }
+        }
+    });
+
     Common.Models.Plugin = Backbone.Model.extend({
         defaults: function() {
             return {
                 id: Common.UI.getId(),
                 name : '',
                 guid: Common.UI.getId(),
-                url : undefined,
-                icons  : undefined,
-                isVisual: false,
-                initDataType: undefined,
-                isUpdateOleOnResize : false,
-                buttons: [{text:"Ok",primary:true},{text:"Cancel",primary:false}],
+                variations: [],
+                currentVariation: 0,
                 pluginObj: undefined,
                 allowSelected: false,
                 selected: false

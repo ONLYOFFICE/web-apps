@@ -174,14 +174,18 @@ define([
             if (this.mode.canUseHistory)
                 this.leftMenu.setOptionsPanel('history', this.getApplication().getController('Common.Controllers.History').getView('Common.Views.History'));
 
+            this.enablePlugins();
+
+            Common.util.Shortcuts.resumeEvents();
+            return this;
+        },
+
+        enablePlugins: function() {
             if (this.mode.canPlugins) {
                 this.leftMenu.btnPlugins.show();
                 this.leftMenu.setOptionsPanel('plugins', this.getApplication().getController('Common.Controllers.Plugins').getView('Common.Views.Plugins'));
             } else
                 this.leftMenu.btnPlugins.hide();
-
-            Common.util.Shortcuts.resumeEvents();
-            return this;
         },
 
         clickMenuFileItem: function(menu, action, isopts) {

@@ -138,7 +138,7 @@ define([
                     // Initialize api gateway
                     this.editorConfig = {};
                     this.appOptions = {};
-                    this.plugins = [];
+                    this.plugins = undefined;
                     Common.Gateway.on('init',           _.bind(this.loadConfig, this));
                     Common.Gateway.on('showmessage',    _.bind(this.onExternalMessage, this));
                     Common.Gateway.on('opendocument',   _.bind(this.loadDocument, this));
@@ -243,6 +243,8 @@ define([
                 this.appOptions.canBackToFolder = (this.editorConfig.canBackToFolder!==false) && (typeof (this.editorConfig.customization) == 'object')
                                                   && (typeof (this.editorConfig.customization.goback) == 'object') && !_.isEmpty(this.editorConfig.customization.goback.url);
                 this.appOptions.canBack         = this.editorConfig.nativeApp !== true && this.appOptions.canBackToFolder === true;
+                this.appOptions.canPlugins      = false;
+                this.plugins                    = this.editorConfig.plugins;
 
                 this.getApplication()
                     .getController('Viewport')
@@ -254,9 +256,6 @@ define([
 
                 if (this.appOptions.location == 'us' || this.appOptions.location == 'ca')
                     Common.Utils.Metric.setDefaultMetric(Common.Utils.Metric.c_MetricUnits.inch);
-
-                this.plugins = this.editorConfig.plugins;
-                this.appOptions.canPlugins = (this.plugins && this.plugins.length>0);
             },
 
             loadDocument: function(data) {
@@ -831,6 +830,8 @@ define([
                 application.getController('Common.Controllers.ExternalMergeEditor').setApi(this.api).loadConfig({config:this.editorConfig, customization: this.editorConfig.customization});
 
                 pluginsController.setApi(this.api);
+                this.updatePluginsList(this.plugins);
+                this.api.asc_registerCallback('asc_onPluginsInit', _.bind(this.updatePluginsList, this));
 
                 documentHolderController.setApi(me.api);
                 documentHolderController.createDelayedElements();
@@ -1010,9 +1011,6 @@ define([
                     var translateArt = new Asc.asc_TextArtTranslate();
                     translateArt.asc_setDefaultText(this.txtArt);
                     this.api.asc_setTextArtTranslate(translateArt);
-
-                    if (this.appOptions.canPlugins)
-                        this.updatePluginsList();
                 }
             },
 
@@ -1696,25 +1694,50 @@ define([
                 if (url) this.iframePrint.src = url;
             },
 
-            updatePluginsList: function() {
+            updatePluginsList: function(plugins) {
                 var pluginStore = this.getApplication().getCollection('Common.Collections.Plugins');
-                if (pluginStore && this.plugins) {
+                if (pluginStore && plugins) {
                     var arr = [];
-                    this.plugins.forEach(function(item){
+                    plugins.pluginsData.forEach(function(item){
+                        var variations = item.variations,
+                            variationsArr = [];
+                        variations.forEach(function(itemVar){
+                            variationsArr.push(new Common.Models.PluginVariation({
+                                description: itemVar.description,
+                                index: itemVar.index,
+                                url : itemVar.url,
+                                icons  : itemVar.icons,
+                                isViewer: itemVar.isViewer,
+                                EditorsSupport: itemVar.EditorsSupport,
+                                isVisual: itemVar.isVisual,
+                                isModal: itemVar.isModal,
+                                isInsideMode: itemVar.isInsideMode,
+                                initDataType: itemVar.initDataType,
+                                initData: itemVar.initData,
+                                isUpdateOleOnResize : itemVar.isUpdateOleOnResize,
+                                buttons: itemVar.buttons
+                            }));
+                        });
+
                         arr.push(new Common.Models.Plugin({
                             name : item.name,
                             guid: item.guid,
-                            url : item.url,
-                            icons  : item.icons,
-                            isVisual: item.isVisual,
-                            initDataType: item.initDataType,
-                            isUpdateOleOnResize : item.isUpdateOleOnResize,
-                            buttons: item.buttons
+                            variations: variationsArr,
+                            currentVariation: 0
                         }));
                     });
 
                     pluginStore.reset(arr);
+
+                    this.appOptions.pluginsPath = (plugins.url);
+                    this.appOptions.canPlugins = (arr.length>0);
+                } else {
+                    this.appOptions.pluginsPath = '';
+                    this.appOptions.canPlugins = false;
                 }
+                if (this.appOptions.canPlugins)
+                    this.getApplication().getController('Common.Controllers.Plugins').setMode(this.appOptions);
+                this.getApplication().getController('LeftMenu').enablePlugins();
             },
 
             leavePageText: 'You have unsaved changes in this document. Click \'Stay on this Page\' then \'Save\' to save them. Click \'Leave this Page\' to discard all the unsaved changes.',

@@ -245,7 +245,7 @@ define([
             if (name == 'history') {
                 this.panelHistory = panel.render('#left-panel-history');
             } else
-            if (name == 'plugins') {
+            if (name == 'plugins' && !this.panelPlugins) {
                 this.panelPlugins = panel.render('#left-panel-plugins');
             }
         },
