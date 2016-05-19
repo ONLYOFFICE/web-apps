@@ -1695,36 +1695,44 @@ define([
             },
 
             updatePluginsList: function(plugins) {
-                var pluginStore = this.getApplication().getCollection('Common.Collections.Plugins');
+                var pluginStore = this.getApplication().getCollection('Common.Collections.Plugins'),
+                    isEdit = this.appOptions.isEdit;
                 if (pluginStore && plugins) {
                     var arr = [];
                     plugins.pluginsData.forEach(function(item){
                         var variations = item.variations,
                             variationsArr = [];
                         variations.forEach(function(itemVar){
-                            variationsArr.push(new Common.Models.PluginVariation({
-                                description: itemVar.description,
-                                index: itemVar.index,
-                                url : itemVar.url,
-                                icons  : itemVar.icons,
-                                isViewer: itemVar.isViewer,
-                                EditorsSupport: itemVar.EditorsSupport,
-                                isVisual: itemVar.isVisual,
-                                isModal: itemVar.isModal,
-                                isInsideMode: itemVar.isInsideMode,
-                                initDataType: itemVar.initDataType,
-                                initData: itemVar.initData,
-                                isUpdateOleOnResize : itemVar.isUpdateOleOnResize,
-                                buttons: itemVar.buttons
-                            }));
+                            var isSupported = false;
+                            for (var i=0; i<itemVar.EditorsSupport.length; i++){
+                                if (itemVar.EditorsSupport[i]=='word') {
+                                    isSupported = true; break;
+                                }
+                            }
+                            if (isSupported && (isEdit || itemVar.isViewer))
+                                variationsArr.push(new Common.Models.PluginVariation({
+                                    description: itemVar.description,
+                                    index: itemVar.index,
+                                    url : itemVar.url,
+                                    icons  : itemVar.icons,
+                                    isViewer: itemVar.isViewer,
+                                    EditorsSupport: itemVar.EditorsSupport,
+                                    isVisual: itemVar.isVisual,
+                                    isModal: itemVar.isModal,
+                                    isInsideMode: itemVar.isInsideMode,
+                                    initDataType: itemVar.initDataType,
+                                    initData: itemVar.initData,
+                                    isUpdateOleOnResize : itemVar.isUpdateOleOnResize,
+                                    buttons: itemVar.buttons
+                                }));
                         });
-
-                        arr.push(new Common.Models.Plugin({
-                            name : item.name,
-                            guid: item.guid,
-                            variations: variationsArr,
-                            currentVariation: 0
-                        }));
+                        if (variationsArr.length>0)
+                            arr.push(new Common.Models.Plugin({
+                                name : item.name,
+                                guid: item.guid,
+                                variations: variationsArr,
+                                currentVariation: 0
+                            }));
                     });
 
                     pluginStore.reset(arr);
