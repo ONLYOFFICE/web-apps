@@ -1075,7 +1075,7 @@ define([
                 this.miFilterFontColor.setChecked(false, true);
                 this.miSortFontColor.setChecked(sort == Asc.c_oAscSortOptions.ByColorFont, true);
                 if (sort == Asc.c_oAscSortOptions.ByColorFont)
-                    this.mnuSortColorFontPicker.select(sortColor, true);
+                    this.mnuSortColorFontPicker.select((sortColor) ? sortColor : '000000', true);
             }
 
             hasColors = (colorsFill && colorsFill.length>0);
@@ -1130,7 +1130,7 @@ define([
                     this.mnuFilterColorCellsPicker.select((filterColor) ? filterColor : 'transparent', true);
                 } else if (colorFilter.asc_getCellColor()===false) { // font color
                     this.miFilterFontColor.setChecked(true, true);
-                    this.mnuFilterColorFontPicker.select(filterColor, true);
+                    this.mnuFilterColorFontPicker.select((filterColor) ? filterColor : '000000', true);
                 }
             } else if (isDynamicFilter || isTop10) {
                 var dynType = (isDynamicFilter) ? filterObj.asc_getFilter().asc_getType() : null,
