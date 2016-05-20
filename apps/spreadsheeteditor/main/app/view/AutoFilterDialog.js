@@ -472,17 +472,19 @@ define([
 
             _.extend(_options, {
                 width           : 423,
-                height          : 301,
+                height          : 265,
                 contentWidth    : 400,
-                header          : true,
+                header          : false,
                 cls             : 'filter-dlg',
                 contentTemplate : '',
                 title           : t.txtTitle,
+                modal           : false,
+                animate         : false,
                 items           : []
             }, options);
 
             this.template   =   options.template || [
-                '<div class="box" style="height:' + (_options.height - 36) + 'px;">',
+                '<div class="box" style="height:' + _options.height + 'px;">',
                     '<div class="content-panel" style="width: 250px;">',
                         '<div class="">',
                             '<div id="id-sd-cell-search" style="height:22px; margin-bottom:10px;"></div>',
@@ -770,10 +772,21 @@ define([
 
             this.setupDataCells();
             this._setDefaults();
+
+            var checkDocumentClick = function(e) {
+                if ($(e.target).closest('.filter-dlg').length<=0)
+                    me.close();
+            };
+            this.on('close',function() {
+                $(document.body).off('mousedown', checkDocumentClick);
+            });
+            _.delay(function () {
+                $(document.body).on('mousedown', checkDocumentClick);
+            }, 100, this);
         },
 
-        show: function () {
-            Common.UI.Window.prototype.show.call(this);
+        show: function (x, y) {
+            Common.UI.Window.prototype.show.call(this, x, y);
 
             var me = this;
             if (this.input) {

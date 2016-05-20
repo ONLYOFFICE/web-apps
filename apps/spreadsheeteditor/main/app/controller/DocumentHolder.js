@@ -970,12 +970,13 @@ define([
 
         onApiAutofilter: function(config) {
             var me = this;
-            if (me.permissions.isEdit) {
-                var dlgFilter = new SSE.Views.AutoFilterDialog({api: this.api}).on({
+            if (me.permissions.isEdit && !me.dlgFilter) {
+                me.dlgFilter = new SSE.Views.AutoFilterDialog({api: this.api}).on({
                         'close': function () {
                             if (me.api) {
                                 me.api.asc_enableKeyEvents(true);
                             }
+                            me.dlgFilter = undefined;
                         }
                     });
 
@@ -984,8 +985,11 @@ define([
                 }
 
                 Common.UI.Menu.Manager.hideAll();
-                dlgFilter.setSettings(config);
-                dlgFilter.show();
+                me.dlgFilter.setSettings(config);
+                var offset = me.documentHolder.cmpEl.offset(),
+                    x = config.asc_getCellPosX() + offset.left,
+                    y = config.asc_getCellPosY() + offset.top;
+                me.dlgFilter.show(x, y);
             }
         },
 
