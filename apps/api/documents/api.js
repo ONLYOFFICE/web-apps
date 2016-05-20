@@ -106,6 +106,62 @@
                     },
                     chat: false,
                     comments: false
+                },
+                plugins: {
+                    url: '../../../../sdkjs-plugins/',
+                    pluginsData: [{
+                        name : "chess (fen)",
+                        guid : "{FFE1F462-1EA2-4391-990D-4CC84940B754}",
+
+                        variations : [
+                            {
+                                description : "chess",
+                                url         : "chess/index.html",
+
+                                icons           : ["chess/icon.png", "chess/icon@2x.png"],
+                                isViewer        : true,
+                                EditorsSupport  : ["word", "cell", "slide"],
+
+                                isVisual        : true,
+                                isModal         : true,
+                                isInsideMode    : false,
+
+                                initDataType    : "ole",
+                                initData        : "",
+
+                                isUpdateOleOnResize : true,
+
+                                buttons         : [ { text: "Ok", primary: true },
+                                                    { text: "Cancel", primary: false } ]
+                            }
+                        ]
+                    },
+                    {
+                        name : "glavred",
+                        guid : "{B631E142-E40B-4B4C-90B9-2D00222A286E}",
+
+                        variations : [
+                            {
+                                description : "glavred",
+                                url         : "glavred/index.html",
+
+                                icons           : ["glavred/icon.png", "glavred/icon@2x.png"],
+                                isViewer        : true,
+                                EditorsSupport  : ["word", "cell", "slide"],
+
+                                isVisual        : true,
+                                isModal         : true,
+                                isInsideMode    : false,
+
+                                initDataType    : "text",
+                                initData        : "",
+
+                                isUpdateOleOnResize : false,
+
+                                buttons         : [ { text: "Ok", primary: true } ]
+                            }
+                        ]
+                    }
                 }
             },
             events: {
