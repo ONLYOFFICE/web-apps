@@ -987,8 +987,9 @@ define([
                 Common.UI.Menu.Manager.hideAll();
                 me.dlgFilter.setSettings(config);
                 var offset = me.documentHolder.cmpEl.offset(),
-                    x = config.asc_getCellPosX() + offset.left,
-                    y = config.asc_getCellPosY() + offset.top;
+                    rect = config.asc_getCellCoord(),
+                    x = rect.asc_getX() + rect.asc_getWidth() +offset.left,
+                    y = rect.asc_getY() + rect.asc_getHeight() + offset.top;
                 var doc = $(document),
                     docwidth = doc.width(),
                     docheight = doc.height();
