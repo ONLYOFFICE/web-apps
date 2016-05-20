@@ -98,6 +98,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             this._nRatio = 1;
 
             this._originalProps = this.options.imageProps;
+            this.sectionProps = this.options.sectionProps;
             this.pageWidth = this.options.sectionProps ? this.options.sectionProps.get_W() : 210;
             this.pageHeight = this.options.sectionProps ? this.options.sectionProps.get_H() : 297;
             this._changedProps = null;
@@ -327,10 +328,10 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             }, this));
 
             this._arrHRelativePc = [
-                {displayValue: this.textLeftMargin,   value: Asc.c_oAscRelativeFromH.LeftMargin},
-                {displayValue: this.textMargin,       value: Asc.c_oAscRelativeFromH.Margin},
-                {displayValue: this.textPage,         value: Asc.c_oAscRelativeFromH.Page},
-                {displayValue: this.textRightMargin,  value: Asc.c_oAscRelativeFromH.RightMargin}
+                {displayValue: this.textLeftMargin,   value: Asc.c_oAscRelativeFromH.LeftMargin, size: this.sectionProps.get_LeftMargin()},
+                {displayValue: this.textMargin,       value: Asc.c_oAscRelativeFromH.Margin, size: this.sectionProps.get_W() - this.sectionProps.get_LeftMargin() - this.sectionProps.get_RightMargin()},
+                {displayValue: this.textPage,         value: Asc.c_oAscRelativeFromH.Page, size: this.sectionProps.get_W()},
+                {displayValue: this.textRightMargin,  value: Asc.c_oAscRelativeFromH.RightMargin, size: this.sectionProps.get_RightMargin()}
             ];
 
             this.cmbWidthPc = new Common.UI.ComboBox({
@@ -345,10 +346,10 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             this.cmbWidthPc.on('selected', _.bind(this.onCmbWidthPcSelect, this));
 
             this._arrVRelativePc = [
-                {displayValue: this.textMargin,       value: Asc.c_oAscRelativeFromV.Margin},
-                {displayValue: this.textBottomMargin,       value: Asc.c_oAscRelativeFromV.BottomMargin},
-                {displayValue: this.textPage,       value: Asc.c_oAscRelativeFromV.Page},
-                {displayValue: this.textTopMargin, value: Asc.c_oAscRelativeFromV.TopMargin}
+                {displayValue: this.textMargin,       value: Asc.c_oAscRelativeFromV.Margin, size: this.sectionProps.get_H() - this.sectionProps.get_TopMargin() - this.sectionProps.get_BottomMargin()},
+                {displayValue: this.textBottomMargin,       value: Asc.c_oAscRelativeFromV.BottomMargin, size: this.sectionProps.get_BottomMargin()},
+                {displayValue: this.textPage,       value: Asc.c_oAscRelativeFromV.Page, size: this.sectionProps.get_H()},
+                {displayValue: this.textTopMargin, value: Asc.c_oAscRelativeFromV.TopMargin, size: this.sectionProps.get_TopMargin()}
             ];
 
             this.cmbHeightPc = new Common.UI.ComboBox({
@@ -1265,6 +1266,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                         for (i=0; i<this._arrHRelativePc.length; i++) {
                             if (value == this._arrHRelativePc[i].value) {
                                 this.cmbWidthPc.setValue(value);
+                                this.spnShapeWidth.setValue(Common.Utils.Metric.fnRecalcFromMM(this._arrHRelativePc[i].size * sizeRelH.get_Value()/100).toFixed(2), true);
                                 this._state.ShapeWidthPcFrom = value;
                                 break;
                             }
@@ -1283,6 +1285,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                         for (i=0; i<this._arrVRelativePc.length; i++) {
                             if (value == this._arrVRelativePc[i].value) {
                                 this.cmbHeightPc.setValue(value);
+                                this.spnShapeHeight.setValue(Common.Utils.Metric.fnRecalcFromMM(this._arrVRelativePc[i].size * sizeRelV.get_Value()/100).toFixed(2), true);
                                 this._state.ShapeHeightPcFrom = value;
                                 break;
                             }

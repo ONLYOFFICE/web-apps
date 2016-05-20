@@ -206,10 +206,10 @@ define([
             toolbar.btnInsertText.on('click',                           _.bind(this.onBtnInsertTextClick, this));
             toolbar.btnInsertText.menu.on('item:click',                 _.bind(this.onInsertTextClick, this));
             toolbar.btnInsertShape.menu.on('hide:after',                _.bind(this.onInsertShapeHide, this));
-            toolbar.btnSortDown.on('click',                             _.bind(this.onSortType, this, 'ascending'));
-            toolbar.btnSortUp.on('click',                               _.bind(this.onSortType, this, 'descending'));
-            toolbar.mnuitemSortAZ.on('click',                           _.bind(this.onSortType, this, 'ascending'));
-            toolbar.mnuitemSortZA.on('click',                           _.bind(this.onSortType, this, 'descending'));
+            toolbar.btnSortDown.on('click',                             _.bind(this.onSortType, this, Asc.c_oAscSortOptions.Ascending));
+            toolbar.btnSortUp.on('click',                               _.bind(this.onSortType, this, Asc.c_oAscSortOptions.Descending));
+            toolbar.mnuitemSortAZ.on('click',                           _.bind(this.onSortType, this, Asc.c_oAscSortOptions.Ascending));
+            toolbar.mnuitemSortZA.on('click',                           _.bind(this.onSortType, this, Asc.c_oAscSortOptions.Descending));
             toolbar.btnSetAutofilter.on('click',                        _.bind(this.onAutoFilter, this));
             toolbar.mnuitemAutoFilter.on('click',                       _.bind(this.onAutoFilter, this));
             toolbar.btnClearAutofilter.on('click',                      _.bind(this.onClearFilter, this));
