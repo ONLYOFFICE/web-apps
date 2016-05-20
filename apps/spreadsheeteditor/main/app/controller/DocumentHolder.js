@@ -989,6 +989,13 @@ define([
                 var offset = me.documentHolder.cmpEl.offset(),
                     x = config.asc_getCellPosX() + offset.left,
                     y = config.asc_getCellPosY() + offset.top;
+                var doc = $(document),
+                    docwidth = doc.width(),
+                    docheight = doc.height();
+                if (x+me.dlgFilter.options.width > docwidth)
+                    x = docwidth - me.dlgFilter.options.width - 5;
+                if (y+me.dlgFilter.options.height > docheight)
+                    y = docheight - me.dlgFilter.options.height - 5;
                 me.dlgFilter.show(x, y);
             }
         },
