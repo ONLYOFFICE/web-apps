@@ -2422,11 +2422,6 @@ define([
                              me.toolbar.btnInsertText.menu.hide();
                         Common.NotificationCenter.trigger('edit:complete', me.toolbar, me.toolbar.btnInsertText);
                         Common.component.Analytics.trackEvent('ToolBar', 'Add Text Art');
-
-                        if (e.type !== 'click')
-                            me.toolbar.btnInsertText.menu.hide();
-                        Common.NotificationCenter.trigger('edit:complete', me.toolbar, me.toolbar.btnInsertText);
-                        Common.component.Analytics.trackEvent('ToolBar', 'Add Text Art');
                     }
                 });
             }
