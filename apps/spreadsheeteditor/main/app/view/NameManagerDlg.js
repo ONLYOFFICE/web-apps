@@ -306,6 +306,9 @@ define([  'text!spreadsheeteditor/main/app/template/NameManagerDlg.template',
                 }
             }).on('close', function() {
                 me.show();
+                _.delay(function () {
+                    me.rangeList.cmpEl.find('.listview').focus();
+                }, 100, me);
             });
             
             me.hide();
