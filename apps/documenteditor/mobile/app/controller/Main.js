@@ -157,11 +157,13 @@ Ext.define('DE.controller.Main', {
     },
 
     onDocumentContentReady: function() {
+        if (this._isReady) return;
+        this._isReady = true;
+
         if (this.api) {
             this.api.Resize();
             this.api.zoomFitToWidth();
         }
-
         this._hideLoadSplash();
 
         Common.component.Analytics.trackEvent('Load', 'Complete');
