@@ -328,8 +328,8 @@ define([
                     this.chFilter.setValue(value, true);
                     this._state.CheckFilter=value;
                 }
-                if (this.chFilter.isDisabled() !== (!this._state.CheckHeader || this._locked))
-                    this.chFilter.setDisabled(!this._state.CheckHeader || this._locked);
+                if (this.chFilter.isDisabled() !== (!this._state.CheckHeader || this._locked || value===null))
+                    this.chFilter.setDisabled(!this._state.CheckHeader || this._locked || value===null);
 
                 if (needTablePictures)
                     this.onApiInitTableTemplates(this.api.asc_getTablePictures(props));
