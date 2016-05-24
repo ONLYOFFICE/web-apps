@@ -75,7 +75,7 @@ define([
                 el: $('#plugins-list'),
                 store: this.storePlugins,
                 enableKeyEvents: false,
-                itemTemplate: _.template('<div id="<%= id %>" class="item-plugins" style="background-image: url(' + this.pluginsPath + '<%= variations[currentVariation].get("icons")[(window.devicePixelRatio > 1) ? 1 : 0] %>); background-position: 0 0;"></div>')
+                itemTemplate: _.template('<div id="<%= id %>" class="item-plugins" style="background-image: url(' + '<% if (baseUrl !=="") { %>' + '<%= baseUrl %>'  + '<% } else { %>' + this.pluginsPath + '<% } %>' + '<%= variations[currentVariation].get("icons")[(window.devicePixelRatio > 1) ? 1 : 0] %>); background-position: 0 0;"></div>')
             });
 
             this.trigger('render:after', this);

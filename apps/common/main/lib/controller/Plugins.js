@@ -93,6 +93,7 @@ define([
                 var plugin = new Asc.CPlugin();
                 plugin.set_Name(item.get('name'));
                 plugin.set_Guid(item.get('guid'));
+                plugin.set_BaseUrl(item.get('baseUrl'));
                 var variations = item.get('variations'),
                     variationsArr = [];
                 variations.forEach(function(itemVar){
@@ -136,9 +137,10 @@ define([
                 });
             }
 
+            var _baseUrl = (plugin.get_BaseUrl().length == 0) ? me.panelPlugins.pluginsPath : plugin.get_BaseUrl();
             me.pluginDlg = new Common.Views.PluginDlg({
                 title: plugin.get_Name(),
-                url: me.panelPlugins.pluginsPath + variation.get_Url(),
+                url: _baseUrl + variation.get_Url(),
                 buttons: newBtns,
                 toolcallback: _.bind(this.onToolClose, this)
             });
