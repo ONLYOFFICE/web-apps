@@ -1038,7 +1038,6 @@ define([
                     parentMenu: btn.menu,
                     showLast: false,
                     restoreHeight: 411,
-                    allowScrollbar: false,
                     groups: new Common.UI.DataViewGroupStore([
                         { id: 'menu-chart-group-bar',     caption: me.textColumn },
                         { id: 'menu-chart-group-line',    caption: me.textLine },
