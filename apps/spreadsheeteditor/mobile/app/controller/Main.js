@@ -102,6 +102,7 @@ Ext.define('SSE.controller.Main', {
     },
 
     loadConfig: function(data) {
+        this.editorConfig = Ext.merge(this.editorConfig, data.config);
         this.editorConfig.user = this._fillUserInfo(this.editorConfig.user, this.editorConfig.lang, this.textAnonymous);
     },
 

@@ -100,6 +100,7 @@ Ext.define('PE.controller.Main', {
     },
 
     loadConfig: function(data) {
+        this.editorConfig = Ext.merge(this.editorConfig, data.config);
         this.editorConfig.user = this._fillUserInfo(data.config.user, this.editorConfig.lang, this.textAnonymous);
     },
 

@@ -99,6 +99,7 @@ Ext.define('DE.controller.Main', {
     },
 
     loadConfig: function(data) {
+        this.editorConfig = Ext.merge(this.editorConfig, data.config);
         this.editorConfig.user = this._fillUserInfo(this.editorConfig.user);
     },
 
