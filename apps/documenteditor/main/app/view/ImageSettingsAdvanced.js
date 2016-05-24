@@ -190,6 +190,9 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 if (btn.pressed && this.spnHeight.getNumberValue()>0) {
                     this._nRatio = this.spnWidth.getNumberValue()/this.spnHeight.getNumberValue();
                 }
+                if (this._changedProps) {
+                    this._changedProps.asc_putLockAspect(btn.pressed);
+                }
             }, this));
 
             // Shape Size
@@ -226,6 +229,9 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             this.chRatio.on('change', _.bind(function(field, newValue, oldValue, eOpts){
                 if ((field.getValue()=='checked') && this.spnShapeHeight.getNumberValue()>0) {
                     this._nRatio = this.spnShapeWidth.getNumberValue()/this.spnShapeHeight.getNumberValue();
+                }
+                if (this._changedProps) {
+                    this._changedProps.asc_putLockAspect(field.getValue()=='checked');
                 }
             }, this));
 
@@ -1250,10 +1256,8 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                     this._objectType = Asc.c_oAscTypeSelectElement.Shape;
                     this._setShapeDefaults(shapeprops);
                     this.setTitle(this.textTitleShape);
-                    value = Common.localStorage.getItem("de-settings-shaperatio");
-                    if (value!==null && parseInt(value) == 1) {
-                        this.chRatio.setValue(true);
-                    }
+                    value = props.asc_getLockAspect();
+                    this.chRatio.setValue(value);
 
                     this.spnShapeWidth.setMaxValue(this.sizeMax.width);
                     this.spnShapeHeight.setMaxValue(this.sizeMax.height);
@@ -1312,20 +1316,15 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                     this.btnsCategory[5].setDisabled(null === margins);   // Margins
 
                 } else {
+                    value = props.asc_getLockAspect();
                     if (chartprops) {
                         this._objectType = Asc.c_oAscTypeSelectElement.Chart;
                         this.setTitle(this.textTitleChart);
-                        value = Common.localStorage.getItem("de-settings-chartratio");
                     }
                     else {
                         this.setTitle(this.textTitle);
-                        value = Common.localStorage.getItem("de-settings-imageratio");
-                        if (value===null) value = 1;
                     }
-
-                    if (value!==null && parseInt(value) == 1) {
-                        this.btnRatio.toggle(true);
-                    }
+                    this.btnRatio.toggle(value);
 
                     this.spnWidth.setMaxValue(this.sizeMax.width);
                     this.spnHeight.setMaxValue(this.sizeMax.height);
@@ -1340,19 +1339,6 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
         },
 
         getSettings: function() {
-            if (this._objectType==Asc.c_oAscTypeSelectElement.Shape) {
-                if (!this.chRatio.isDisabled())
-                    Common.localStorage.setItem("de-settings-shaperatio", (this.chRatio.getValue()=='checked') ? 1 : 0);
-            } else {
-                var value = (this.btnRatio.pressed) ? 1 : 0;
-                if (this._objectType==Asc.c_oAscTypeSelectElement.Chart) {
-                    Common.localStorage.setItem("de-settings-chartratio", value);
-                }
-                else {
-                    Common.localStorage.setItem("de-settings-imageratio", value);
-                }
-            }
-
             var properties = this._changedProps;
 
             if (this._objectType == Asc.c_oAscTypeSelectElement.Shape) {
