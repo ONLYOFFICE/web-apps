@@ -123,7 +123,7 @@ define([
 
             var iframe = document.createElement("iframe");
             iframe.id           = 'plugin_iframe';
-            iframe.name         = 'frameEditor',
+            iframe.name         = 'pluginFrameEditor',
             iframe.width        = '100%';
             iframe.height       = '100%';
             iframe.align        = "top";
