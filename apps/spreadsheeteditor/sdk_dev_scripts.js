@@ -156,5 +156,6 @@ var sdk_dev_scrpipts = [
     "../../../../sdkjs/word/Math/accent.js",
     "../../../../sdkjs/word/Math/borderBox.js",
     "../../../../sdkjs/word/apiCommon.js",
-	"../../../../sdkjs/common/applyDocumentChanges.js"
+	"../../../../sdkjs/common/applyDocumentChanges.js",
+	"../../../../sdkjs/cell/apiBuilder.js"
 ];
