@@ -150,6 +150,9 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
                 if (btn.pressed && this.spnHeight.getNumberValue()>0) {
                     this._nRatio = this.spnWidth.getNumberValue()/this.spnHeight.getNumberValue();
                 }
+                if (this._changedProps) {
+                    this._changedProps.asc_putLockAspect(btn.pressed);
+                }
             }, this));
 
             // Margins
@@ -427,10 +430,8 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
                 if (props.get_Height()>0)
                     this._nRatio = props.get_Width()/props.get_Height();
 
-                var value = Common.localStorage.getItem("pe-settings-shaperatio");
-                if (value!==null && parseInt(value) == 1) {
-                    this.btnRatio.toggle(true);
-                }
+                var value = props.asc_getLockAspect();
+                this.btnRatio.toggle(value);
 
                 this._setShapeDefaults(props);
 

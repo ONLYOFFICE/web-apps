@@ -71,7 +71,8 @@ define([
                 ChartStyle: 1,
                 ChartType: -1,
                 SeveralCharts: false,
-                DisabledControls: false
+                DisabledControls: false,
+                keepRatio: false
             };
             this._nRatio = 1;
             this.spinners = [];
@@ -213,15 +214,16 @@ define([
             this.btnRatio.render($('#chart-button-ratio')) ;
             this.lockedControls.push(this.btnRatio);
 
-            var value = Common.localStorage.getItem("pe-settings-chartratio");
-            if (value!==null && parseInt(value) == 1) {
-                this.btnRatio.toggle(true);
-            }
             this.btnRatio.on('click', _.bind(function(btn, e) {
                 if (btn.pressed && this.spnHeight.getNumberValue()>0) {
                     this._nRatio = this.spnWidth.getNumberValue()/this.spnHeight.getNumberValue();
                 }
-                Common.localStorage.setItem("pe-settings-chartratio", (btn.pressed) ? 1 : 0);
+                if (this.api)  {
+                    var props = new Asc.CAscChartProp();
+                    props.asc_putLockAspect(btn.pressed);
+                    this.api.ChartApply(props);
+                }
+                this.fireEvent('editcomplete', this);
             }, this));
         },
 
@@ -312,6 +314,12 @@ define([
 
                 if (props.get_Height()>0)
                     this._nRatio = props.get_Width()/props.get_Height();
+
+                value = props.asc_getLockAspect();
+                if (this._state.keepRatio!==value) {
+                    this.btnRatio.toggle(value);
+                    this._state.keepRatio=value;
+                }
             }
         },
 

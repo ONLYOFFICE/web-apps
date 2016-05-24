@@ -71,7 +71,8 @@ define([
             this._state = {
                 Width: 0,
                 Height: 0,
-                DisabledControls: false
+                DisabledControls: false,
+                keepRatio: false
             };
             this.spinners = [];
             this.lockedControls = [];
@@ -115,15 +116,15 @@ define([
             this.btnRatio.render($('#image-button-ratio')) ;
             this.lockedControls.push(this.btnRatio);
 
-            var value = Common.localStorage.getItem("sse-settings-imageratio");
-            if (value===null || parseInt(value) == 1) {
-                this.btnRatio.toggle(true);
-            }
             this.btnRatio.on('click', _.bind(function(btn, e) {
                 if (btn.pressed && this.spnHeight.getNumberValue()>0) {
                     this._nRatio = this.spnWidth.getNumberValue()/this.spnHeight.getNumberValue();
                 }
-                Common.localStorage.setItem("sse-settings-imageratio", (btn.pressed) ? 1 : 0);
+                if (this.api)  {
+                    var props = new Asc.asc_CImgProperty();
+                    props.asc_putLockAspect(btn.pressed);
+                    this.api.asc_setGraphicObjectProps(props);
+                }
             }, this));
 
             this.btnOriginalSize = new Common.UI.Button({
@@ -203,6 +204,12 @@ define([
 
                 if (props.asc_getHeight()>0)
                     this._nRatio = props.asc_getWidth()/props.asc_getHeight();
+
+                value = props.asc_getLockAspect();
+                if (this._state.keepRatio!==value) {
+                    this.btnRatio.toggle(value);
+                    this._state.keepRatio=value;
+                }
 
                 this.btnOriginalSize.setDisabled(props.asc_getImageUrl()===null || props.asc_getImageUrl()===undefined || this._locked);
             }

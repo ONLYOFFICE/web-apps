@@ -150,6 +150,9 @@ define([    'text!spreadsheeteditor/main/app/template/ShapeSettingsAdvanced.temp
                 if (btn.pressed && this.spnHeight.getNumberValue()>0) {
                     this._nRatio = this.spnWidth.getNumberValue()/this.spnHeight.getNumberValue();
                 }
+                if (this._changedProps) {
+                    this._changedProps.asc_putLockAspect(btn.pressed);
+                }
             }, this));
 
             // Margins
@@ -453,10 +456,8 @@ define([    'text!spreadsheeteditor/main/app/template/ShapeSettingsAdvanced.temp
                 if (props.asc_getHeight()>0)
                     this._nRatio = props.asc_getWidth()/props.asc_getHeight();
 
-                var value = Common.localStorage.getItem("sse-settings-shaperatio");
-                if (value!==null && parseInt(value) == 1) {
-                    this.btnRatio.toggle(true);
-                }
+                var value = props.asc_getLockAspect();
+                this.btnRatio.toggle(value);
 
                 this._setShapeDefaults(shapeprops);
 
@@ -478,7 +479,6 @@ define([    'text!spreadsheeteditor/main/app/template/ShapeSettingsAdvanced.temp
         },
 
         getSettings: function() {
-            Common.localStorage.setItem("sse-settings-shaperatio", (this.btnRatio.pressed) ? 1 : 0);
             return { shapeProps: this._changedProps} ;
         },
 
