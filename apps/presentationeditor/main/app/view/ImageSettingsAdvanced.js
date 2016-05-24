@@ -199,10 +199,8 @@ define([    'text!presentationeditor/main/app/template/ImageSettingsAdvanced.tem
 
                 this.btnOriginalSize.setDisabled(props.get_ImageUrl()===null || props.get_ImageUrl()===undefined);
 
-                var value = Common.localStorage.getItem("pe-settings-imageratio");
-                if (value===null || parseInt(value) == 1) {
-                    this.btnRatio.toggle(true);
-                }
+                var value = props.asc_getLockAspect();
+                this.btnRatio.toggle(value);
 
                 if (props.get_Position()) {
                     var Position = {X: props.get_Position().get_X(), Y: props.get_Position().get_Y()};
@@ -216,13 +214,12 @@ define([    'text!presentationeditor/main/app/template/ImageSettingsAdvanced.tem
         },
 
         getSettings: function() {
-            Common.localStorage.setItem("pe-settings-imageratio", (this.btnRatio.pressed) ? 1 : 0);
-
             var properties = new Asc.asc_CImgProperty();
             if (this.spnHeight.getValue()!=='')
                 properties.put_Height(Common.Utils.Metric.fnRecalcToMM(this.spnHeight.getNumberValue()));
             if (this.spnWidth.getValue()!=='')
                 properties.put_Width(Common.Utils.Metric.fnRecalcToMM(this.spnWidth.getNumberValue()));
+            properties.asc_putLockAspect(this.btnRatio.pressed);
 
             var Position = new Asc.CPosition();
             if (this.spnX.getValue() !== '')
