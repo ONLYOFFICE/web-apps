@@ -159,11 +159,11 @@ define([
 
         onDlgBtnClick: function(event) {
             var state = event.currentTarget.attributes['result'].value;
-            window.g_asc_plugins.buttonClick(parseInt(state));
+            this.api.asc_pluginButtonClick(parseInt(state));
         },
 
         onToolClose: function() {
-            window.g_asc_plugins.buttonClick(-1);
+            this.api.asc_pluginButtonClick(-1);
         }
 
     }, Common.Controllers.Plugins || {}));
