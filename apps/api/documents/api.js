@@ -111,8 +111,8 @@
                     url: '../../../../sdkjs-plugins/',
                     pluginsData: [{
                         name : "chess (fen)",
-                        guid : "{FFE1F462-1EA2-4391-990D-4CC84940B754}",
-
+                        guid : "asc.{FFE1F462-1EA2-4391-990D-4CC84940B754}",
+                        baseUrl: "",
                         variations : [
                             {
                                 description : "chess",
@@ -138,8 +138,8 @@
                     },
                     {
                         name : "glavred",
-                        guid : "{B631E142-E40B-4B4C-90B9-2D00222A286E}",
-
+                        guid : "asc.{B631E142-E40B-4B4C-90B9-2D00222A286E}",
+                        baseUrl: "",
                         variations : [
                             {
                                 description : "glavred",

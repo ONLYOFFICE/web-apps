@@ -69,7 +69,7 @@ define([
 
         render: function(el) {
             el = el || this.el;
-            $(el).html(this.template({scope: this})).width( (parseInt(Common.localStorage.getItem('de-mainmenu-width')) || MENU_SCALE_PART) - SCALE_MIN);
+            $(el).html(this.template({scope: this}));
 
             this.viewPluginsList = new Common.UI.DataView({
                 el: $('#plugins-list'),
