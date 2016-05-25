@@ -142,7 +142,9 @@ define([
 
             this.trigger('render:before', this);
 
-            el.css('width', '40px');
+            var open = Common.localStorage.getItem("de-hide-right-settings");
+            open = (open===null || parseInt(open) == 0);
+            el.css('width', ((open) ? MENU_SCALE_PART : SCALE_MIN) + 'px');
             el.show();
 
             el.html(this.template({}));
@@ -192,6 +194,11 @@ define([
                     suppressScrollX: true,
                     useKeyboard: false
                 });
+            }
+
+            if (open) {
+                $('#id-empty-settings').parent().css("display", "inline-block" );
+                $('#id-empty-settings').addClass("active");
             }
 
             this.trigger('render:after', this);
