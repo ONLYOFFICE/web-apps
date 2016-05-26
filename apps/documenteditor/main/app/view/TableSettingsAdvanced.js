@@ -869,7 +869,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 el: $('#tableadv-combo-border-size'),
                 style: "width: 93px;"
             });
-            var rec = this.cmbBorderSize.store.at(2);
+            var rec = this.cmbBorderSize.store.at(1);
             this.BorderSize = {ptValue: rec.get('value'), pxValue: rec.get('pxValue')};
             this.cmbBorderSize.setValue(this.BorderSize.ptValue);
             this.cmbBorderSize.on('selected', _.bind(this.onBorderSizeSelect, this));

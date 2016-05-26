@@ -218,7 +218,7 @@ define([
                 el: $('#table-combo-border-size'),
                 style: "width: 93px;"
             });
-            this.BorderSize = this.cmbBorderSize.store.at(2).get('value');
+            this.BorderSize = this.cmbBorderSize.store.at(1).get('value');
             this.cmbBorderSize.setValue(this.BorderSize);
             this.cmbBorderSize.on('selected', _.bind(this.onBorderSizeSelect, this));
             this.lockedControls.push(this.cmbBorderSize);
