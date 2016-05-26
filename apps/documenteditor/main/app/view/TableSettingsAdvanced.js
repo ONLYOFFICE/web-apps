@@ -124,7 +124,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             this.tableStylerRows = this.options.tableStylerRows;
             this.tableStylerColumns = this.options.tableStylerColumns;
             this.borderProps = this.options.borderProps;
-            this.pageWidth = (this.options.sectionProps) ? this.options.sectionProps.get_W() - this.options.sectionProps.get_LeftMargin() - this.options.sectionProps.get_RightMargin() : 210;
+            this.pageWidth = 210;
             this._originalProps = new Asc.CTableProp(this.options.tableProps);
         },
 
@@ -1170,6 +1170,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
         _setDefaults: function(props) {
             if (props ){
                 this._allTable = !props.get_CellSelect();
+                this.pageWidth = Common.Utils.Metric.fnRecalcFromMM(props.get_PercentFullWidth());
 
                 var value,
                     TableWidth = props.get_Width(),
@@ -2081,7 +2082,6 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                     spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt ? 1 : 0.1);
                 }
             }
-            this.pageWidth = Common.Utils.Metric.fnRecalcFromMM(this.pageWidth);
         },
 
         updateThemeColors: function() {
