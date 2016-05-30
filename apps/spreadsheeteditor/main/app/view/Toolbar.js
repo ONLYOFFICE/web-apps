@@ -1117,7 +1117,7 @@ define([
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-named-range',
                 hint        : me.txtNamedRange,
-                lock        : [_set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth],
+                lock        : [_set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.selRange],
                 menu        : new Common.UI.Menu({
                     style : 'min-width: 110px',
                     items : [
