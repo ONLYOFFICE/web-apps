@@ -478,12 +478,15 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             });
             this.cmbPrefWidthUnit.on('selected', _.bind(function(combo, record) {
                 if (this._changedProps) {
-                    var maxwidth = Common.Utils.Metric.fnRecalcFromMM(558);
-                    this.nfPrefWidth.setDefaultUnit(record.value ? '%' : Common.Utils.Metric.getCurrentMetricName());
-                    this.nfPrefWidth.setMaxValue(record.value ? parseFloat((100 * maxwidth/this.pageWidth).toFixed(2)) : maxwidth);
-                    this.nfPrefWidth.setStep((record.value || Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt) ? 1 : 0.1);
-                    this.nfPrefWidth.setValue((record.value) ? 100*this.nfPrefWidth.getNumberValue()/this.pageWidth : this.pageWidth*this.nfPrefWidth.getNumberValue()/100);
-                    this._changedProps.put_CellsWidth(record.value ? -this.nfPrefWidth.getNumberValue() : Common.Utils.Metric.fnRecalcToMM(this.nfPrefWidth.getNumberValue()));
+                    var defUnit = (record.value) ? '%' : Common.Utils.Metric.getCurrentMetricName();
+                    if (this.nfPrefWidth.getUnitValue() !== defUnit) {
+                        var maxwidth = Common.Utils.Metric.fnRecalcFromMM(558);
+                        this.nfPrefWidth.setDefaultUnit(defUnit);
+                        this.nfPrefWidth.setMaxValue(record.value ? parseFloat((100 * maxwidth/this.pageWidth).toFixed(2)) : maxwidth);
+                        this.nfPrefWidth.setStep((record.value || Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt) ? 1 : 0.1);
+                        this.nfPrefWidth.setValue((record.value) ? 100*this.nfPrefWidth.getNumberValue()/this.pageWidth : this.pageWidth*this.nfPrefWidth.getNumberValue()/100);
+                        this._changedProps.put_CellsWidth(record.value ? -this.nfPrefWidth.getNumberValue() : Common.Utils.Metric.fnRecalcToMM(this.nfPrefWidth.getNumberValue()));
+                    }
                 }
             }, this));
 
