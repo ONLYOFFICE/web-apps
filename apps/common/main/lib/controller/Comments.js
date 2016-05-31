@@ -606,7 +606,7 @@ define([
         },
         onApiAddComments: function (data) {
             for (var i = 0; i < data.length; ++i) {
-                var comment = this.readSDKComment(data[i].Id, data[i].Comment);
+                var comment = this.readSDKComment(data[i].asc_getId(), data[i]);
                 this.collection.push(comment);
             }
 
