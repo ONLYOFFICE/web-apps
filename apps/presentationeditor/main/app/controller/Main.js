@@ -1,3 +1,35 @@
+/*
+ *
+ * (c) Copyright Ascensio System Limited 2010-2016
+ *
+ * This program is a free software product. You can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License (AGPL)
+ * version 3 as published by the Free Software Foundation. In accordance with
+ * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
+ * that Ascensio System SIA expressly excludes the warranty of non-infringement
+ * of any third-party rights.
+ *
+ * This program is distributed WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
+ * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ *
+ * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
+ * EU, LV-1021.
+ *
+ * The  interactive user interfaces in modified source and object code versions
+ * of the Program must display Appropriate Legal Notices, as required under
+ * Section 5 of the GNU AGPL version 3.
+ *
+ * Pursuant to Section 7(b) of the License you must retain the original Product
+ * logo when distributing the program. Pursuant to Section 7(e) we decline to
+ * grant you any rights under trademark law for use of our trademarks.
+ *
+ * All the Product's GUI elements, including illustrations and icon sets, as
+ * well as technical writing content are licensed under the terms of the
+ * Creative Commons Attribution-ShareAlike 4.0 International. See the License
+ * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ *
+*/
 /**
  *    Main.js
  *
@@ -73,16 +105,14 @@ define([
 
                 // Initialize api
 
-                this.api = new asc_docs_api("editor_sdk");
+                window["flat_desine"] = true;
+                this.api = new Asc.asc_docs_api({
+                    'id-view'  : 'editor_sdk'
+                });
 
                 if (this.api){
-                    window["flat_desine"] = true;
-
-                    this.api.CreateComponents();
                     this.api.SetDrawingFreeze(true);
-                    this.api.asc_SetFontsPath("../../../sdk/Fonts/");
-                    this.api.SetThemesPath("../../../sdk/PowerPoint/themes/");
-                    this.api.Init();
+                    this.api.SetThemesPath("../../../../sdkjs/slide/themes/");
 
                     this.api.asc_registerCallback('asc_onError',                    _.bind(this.onError, this));
                     this.api.asc_registerCallback('asc_onDocumentContentReady',     _.bind(this.onDocumentContentReady, this));
@@ -124,7 +154,7 @@ define([
                              /*
                              * TODO: Workaround bug #25004. Clipboard feature processing in sdk.
                              */
-                            if (!(Common.Utils.isSafari && Common.Utils.isMac)) {
+                            if (!(Common.Utils.isSafari && Common.Utils.isMac) && !/area_id/.test(e.target.id)) {
                                 me.api.asc_enableKeyEvents(true);
                                 if (/msg-reply/.test(e.target.className))
                                     me.dontCloseDummyComment = false;
@@ -186,6 +216,7 @@ define([
                 this.appOptions.recent          = this.editorConfig.recent;
                 this.appOptions.createUrl       = this.editorConfig.createUrl;
                 this.appOptions.lang            = this.editorConfig.lang;
+                this.appOptions.location        = (typeof (this.editorConfig.location) == 'string') ? this.editorConfig.location.toLowerCase() : '';
                 this.appOptions.sharingSettingsUrl = this.editorConfig.sharingSettingsUrl;
                 this.appOptions.canAnalytics    = false;
                 this.appOptions.customization   = this.editorConfig.customization;
@@ -200,6 +231,9 @@ define([
 
                 if (this.editorConfig.lang)
                     this.api.asc_setLocale(this.editorConfig.lang);
+
+                if (this.appOptions.location == 'us' || this.appOptions.location == 'ca')
+                    Common.Utils.Metric.setDefaultMetric(Common.Utils.Metric.c_MetricUnits.inch);
             },
 
             loadDocument: function(data) {
@@ -211,13 +245,13 @@ define([
                 if (data.doc) {
                     this.permissions = $.extend(this.permissions, data.doc.permissions);
 
-                    var _user = new CUserInfo();
+                    var _user = new Asc.asc_CUserInfo();
                     _user.put_Id(this.appOptions.user.id);
                     _user.put_FirstName(this.appOptions.user.firstname);
                     _user.put_LastName(this.appOptions.user.lastname);
                     _user.put_FullName(this.appOptions.user.fullname);
 
-                    docInfo = new CDocInfo();
+                    docInfo = new Asc.asc_CDocInfo();
                     docInfo.put_Id(data.doc.key);
                     docInfo.put_Url(data.doc.url);
                     docInfo.put_Title(data.doc.title);
@@ -271,7 +305,7 @@ define([
             },
 
             onDownloadAs: function() {
-               this.api.asc_DownloadAs(c_oAscFileType.PPTX, true);
+               this.api.asc_DownloadAs(Asc.c_oAscFileType.PPTX, true);
             },
 
             onProcessMouse: function(data) {
@@ -327,31 +361,31 @@ define([
 
                 this.updateWindowTitle(true);
 
-                action = this.stackLongActions.get({type: c_oAscAsyncActionType.Information});
+                action = this.stackLongActions.get({type: Asc.c_oAscAsyncActionType.Information});
                 if (action) {
                     this.setLongActionView(action)
                 } else {
-                    if (this._state.fastCoauth && this._state.usersCount>1 && id==c_oAscAsyncAction['Save']) {
+                    if (this._state.fastCoauth && this._state.usersCount>1 && id==Asc.c_oAscAsyncAction['Save']) {
                         var me = this;
                         if (me._state.timerSave===undefined)
                             me._state.timerSave = setInterval(function(){
-                                if ((new Date()) - me._state.isSaving>2000) {
+                                if ((new Date()) - me._state.isSaving>500) {
                                     clearInterval(me._state.timerSave);
                                     me.getApplication().getController('Statusbar').setStatusCaption('');
                                     me._state.timerSave = undefined;
                                 }
-                            }, 2000);
+                            }, 500);
                     } else
                         this.getApplication().getController('Statusbar').setStatusCaption('');
                 }
 
-                action = this.stackLongActions.get({type: c_oAscAsyncActionType.BlockInteraction});
+                action = this.stackLongActions.get({type: Asc.c_oAscAsyncActionType.BlockInteraction});
                 action ? this.setLongActionView(action) : this.loadMask && this.loadMask.hide();
 
-                if (id==c_oAscAsyncAction['Save'] && (!this._state.fastCoauth || this._state.usersCount<2))
+                if (id==Asc.c_oAscAsyncAction['Save'] && (!this._state.fastCoauth || this._state.usersCount<2))
                     this.synchronizeChanges();
 
-               if (type == c_oAscAsyncActionType.BlockInteraction && !((id == c_oAscAsyncAction['LoadDocumentFonts'] || id == c_oAscAsyncAction['ApplyChanges']) && this.dontCloseDummyComment )) {
+               if (type == Asc.c_oAscAsyncActionType.BlockInteraction && !((id == Asc.c_oAscAsyncAction['LoadDocumentFonts'] || id == Asc.c_oAscAsyncAction['ApplyChanges']) && this.dontCloseDummyComment )) {
                     this.onEditComplete(this.loadMask);
                     this.api.asc_enableKeyEvents(true);
                 }
@@ -361,63 +395,63 @@ define([
                 var title = '', text = '';
 
                 switch (action.id) {
-                    case c_oAscAsyncAction['Open']:
+                    case Asc.c_oAscAsyncAction['Open']:
                         title   = this.openTitleText;
                         text    = this.openTextText;
                         break;
 
-                    case c_oAscAsyncAction['Save']:
+                    case Asc.c_oAscAsyncAction['Save']:
                         this._state.isSaving = new Date();
                         title   = this.saveTitleText;
                         text    = this.saveTextText;
                         break;
 
-                    case c_oAscAsyncAction['LoadDocumentFonts']:
+                    case Asc.c_oAscAsyncAction['LoadDocumentFonts']:
                         title   = this.loadFontsTitleText;
                         text    = this.loadFontsTextText;
                         break;
 
-                    case c_oAscAsyncAction['LoadDocumentImages']:
+                    case Asc.c_oAscAsyncAction['LoadDocumentImages']:
                         title   = this.loadImagesTitleText;
                         text    = this.loadImagesTextText;
                         break;
 
-                    case c_oAscAsyncAction['LoadFont']:
+                    case Asc.c_oAscAsyncAction['LoadFont']:
                         title   = this.loadFontTitleText;
                         text    = this.loadFontTextText;
                         break;
 
-                    case c_oAscAsyncAction['LoadImage']:
+                    case Asc.c_oAscAsyncAction['LoadImage']:
                         title   = this.loadImageTitleText;
                         text    = this.loadImageTextText;
                         break;
 
-                    case c_oAscAsyncAction['DownloadAs']:
+                    case Asc.c_oAscAsyncAction['DownloadAs']:
                         title   = this.downloadTitleText;
                         text    = this.downloadTextText;
                         break;
 
-                    case c_oAscAsyncAction['Print']:
+                    case Asc.c_oAscAsyncAction['Print']:
                         title   = this.printTitleText;
                         text    = this.printTextText;
                         break;
 
-                    case c_oAscAsyncAction['UploadImage']:
+                    case Asc.c_oAscAsyncAction['UploadImage']:
                         title   = this.uploadImageTitleText;
                         text    = this.uploadImageTextText;
                         break;
 
-                    case c_oAscAsyncAction['LoadTheme']:
+                    case Asc.c_oAscAsyncAction['LoadTheme']:
                         title   = this.loadThemeTitleText;
                         text    = this.loadThemeTextText;
                         break;
 
-                    case c_oAscAsyncAction['ApplyChanges']:
+                    case Asc.c_oAscAsyncAction['ApplyChanges']:
                         title   = this.applyChangesTitleText;
                         text    = this.applyChangesTextText;
                         break;
 
-                    case c_oAscAsyncAction['PrepareToSave']:
+                    case Asc.c_oAscAsyncAction['PrepareToSave']:
                         title   = this.savePreparingText;
                         text    = this.savePreparingTitle;
                         break;
@@ -433,7 +467,7 @@ define([
                         break;
                 }
 
-                if (action.type == c_oAscAsyncActionType['BlockInteraction']) {
+                if (action.type == Asc.c_oAscAsyncActionType['BlockInteraction']) {
                     if (!this.loadMask)
                         this.loadMask = new Common.UI.LoadMask({owner: $('#viewport')});
 
@@ -454,7 +488,7 @@ define([
                         data.requestrights = true;
                         this.appOptions.isEdit= true;
 
-                        this.onLongActionBegin(c_oAscAsyncActionType['BlockInteraction'],ApplyEditRights);
+                        this.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'],ApplyEditRights);
 
                         var me = this;
                         setTimeout(function(){
@@ -490,7 +524,7 @@ define([
                                         me.api.asc_registerCallback('asc_onFocusObject',        _.bind(me.onFocusObject, me));
                                         me.api.asc_registerCallback('asc_onUpdateLayout',       _.bind(me.fillLayoutsStore, me)); // slide layouts loading
                                         me.updateThemeColors();
-                                        var shapes = me.api.get_PropertyEditorShapes();
+                                        var shapes = me.api.asc_getPropertyEditorShapes();
                                         if (shapes)
                                             me.fillAutoShapes(shapes[0], shapes[1]);
                                         me.fillTextArt(me.api.asc_getTextArtPreviews());
@@ -515,25 +549,31 @@ define([
                     return;
 
                 var me = this,
-                    value,
-                    tips = [];
+                    value;
 
                 me._isDocReady = true;
 
                 me.api.SetDrawingFreeze(false);
                 me.hidePreloader();
-                me.onLongActionEnd(c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
+                me.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
 
                 value = Common.localStorage.getItem("pe-settings-zoom");
                 var zf = (value!==null) ? parseInt(value) : -1;
                 (zf == -1) ? this.api.zoomFitToPage() : this.api.zoom(zf);
 
-                if (!window['AscDesktopEditor']) {
-                    Common.Utils.isIE9m && tips.push(me.warnBrowserIE9);
-                    !Common.Utils.isGecko && (Math.abs(me.getBrowseZoomLevel() - 1) > 0.1) && tips.push(Common.Utils.String.platformKey(me.warnBrowserZoom, '{0}'));
+                function checkWarns() {
+                    if (!window['AscDesktopEditor']) {
+                        var tips = [];
+                        Common.Utils.isIE9m && tips.push(me.warnBrowserIE9);
 
-                    if (tips.length) me.showTips(tips);
+                        if (tips.length) me.showTips(tips);
+                    }
+                    document.removeEventListener('visibilitychange', checkWarns);
                 }
+
+                if (typeof document.hidden !== 'undefined' && document.hidden) {
+                    document.addEventListener('visibilitychange', checkWarns);
+                } else checkWarns();
 
                 me.api.asc_registerCallback('asc_onStartAction',            _.bind(me.onLongActionBegin, me));
                 me.api.asc_registerCallback('asc_onEndAction',              _.bind(me.onLongActionEnd, me));
@@ -589,6 +629,10 @@ define([
                 application.getController('Viewport').getView('DocumentPreview').setApi(me.api).setMode(me.appOptions).on('editcomplete', _.bind(me.onEditComplete, me));
 
                 if (me.appOptions.isEdit) {
+                    value = Common.localStorage.getItem("pe-settings-autosave");
+                    value = (!me._state.fastCoauth && value!==null) ? parseInt(value) : 1;
+                    me.api.asc_setAutoSaveGap(value);
+
                     if (me.needToUpdateVersion)
                         Common.NotificationCenter.trigger('api:disconnect');
                     var timer_sl = setInterval(function(){
@@ -604,7 +648,7 @@ define([
                             me.api.asc_registerCallback('asc_onFocusObject',        _.bind(me.onFocusObject, me));
                             me.api.asc_registerCallback('asc_onUpdateLayout',       _.bind(me.fillLayoutsStore, me)); // slide layouts loading
                             me.updateThemeColors();
-                            var shapes = me.api.get_PropertyEditorShapes();
+                            var shapes = me.api.asc_getPropertyEditorShapes();
                             if (shapes)
                                 me.fillAutoShapes(shapes[0], shapes[1]);
                             me.fillTextArt(me.api.asc_getTextArtPreviews());
@@ -615,14 +659,6 @@ define([
                         }
                     }, 50);
                 }
-
-                if (me.appOptions.canAutosave) {
-                    value = Common.localStorage.getItem("pe-settings-autosave");
-                    value = (value!==null) ? parseInt(value) : 1;
-                } else {
-                    value = 0;
-                }
-                me.api.asc_setAutoSaveGap(value);
 
                 if (this.appOptions.canAnalytics && false)
                     Common.component.Analytics.initialize('UA-12442749-13', 'Presentation Editor');
@@ -644,14 +680,19 @@ define([
                     if (now - value > 86400000) {
                         Common.localStorage.setItem("de-license-warning", now);
                         Common.UI.info({
+                            width: 400,
                             title: this.textNoLicenseTitle,
                             msg  : this.warnNoLicense,
-                            buttons: ['custom'],
-                            primary: 'custom',
-                            customButtonText: this.textBuyNow,
+                            buttons: [
+                                {value: 'buynow', caption: this.textBuyNow},
+                                {value: 'contact', caption: this.textContactUs}
+                            ],
+                            primary: 'buynow',
                             callback: function(btn) {
-                                if (btn == 'custom')
+                                if (btn == 'buynow')
                                     window.open('http://www.onlyoffice.com/enterprise-edition.aspx', "_blank");
+                                else if (btn == 'contact')
+                                    window.open('mailto:sales@onlyoffice.com', "_blank");
                             }
                         });
                     }
@@ -675,7 +716,6 @@ define([
                                                  (this.editorConfig.canRequestEditRights || this.editorConfig.mode !== 'view'); // if mode=="view" -> canRequestEditRights must be defined
                 this.appOptions.isEdit         = this.appOptions.canLicense && this.appOptions.canEdit && this.editorConfig.mode !== 'view';
                 this.appOptions.canDownload    = !this.appOptions.nativeApp && this.permissions.download !== false;
-                this.appOptions.canAutosave    = this.editorConfig.canAutosave !== false && params.asc_getIsAutosaveEnable();
                 this.appOptions.canAnalytics   = params.asc_getIsAnalyticsEnable();
                 this.appOptions.canComments    = this.appOptions.canLicense && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.comments===false);
                 this.appOptions.canChat        = this.appOptions.canLicense && !this.appOptions.isOffline && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.chat===false);
@@ -700,7 +740,7 @@ define([
 
                 if (!this.appOptions.isEdit) {
                     this.hidePreloader();
-                    this.onLongActionBegin(c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
+                    this.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
                 }
             },
 
@@ -736,7 +776,7 @@ define([
                     translateChart.asc_setSeries(this.txtSeries);
                     this.api.asc_setChartTranslate(translateChart);
 
-                    var translateArt = new asc_TextArtTranslate();
+                    var translateArt = new Asc.asc_TextArtTranslate();
                     translateArt.asc_setDefaultText(this.txtArt);
                     this.api.asc_setTextArtTranslate(translateArt);
                 }
@@ -789,7 +829,9 @@ define([
                     }
 
                     var value = Common.localStorage.getItem('pe-settings-unit');
-                    Common.Utils.Metric.setCurrentMetric((value!==null) ? parseInt(value) : Common.Utils.Metric.c_MetricUnits.cm);
+                    value = (value!==null) ? parseInt(value) : Common.Utils.Metric.getDefaultMetric();
+                    Common.Utils.Metric.setCurrentMetric(value);
+                    me.api.asc_SetDocumentUnits((value==Common.Utils.Metric.c_MetricUnits.inch) ? Asc.c_oAscDocumentUnits.Inch : ((value==Common.Utils.Metric.c_MetricUnits.pt) ? Asc.c_oAscDocumentUnits.Point : Asc.c_oAscDocumentUnits.Millimeter));
 
                     value = Common.localStorage.getItem('pe-hidden-rulers');
                     if (me.api.asc_SetViewRulers) me.api.asc_SetViewRulers(value===null || parseInt(value) === 0);
@@ -806,11 +848,11 @@ define([
                     me.api.asc_registerCallback('asc_onParticipantsChanged',     _.bind(me.onAuthParticipantsChanged, me));
                     /** coauthoring end **/
 
-                    if (me.stackLongActions.exist({id: ApplyEditRights, type: c_oAscAsyncActionType['BlockInteraction']})) {
-                        me.onLongActionEnd(c_oAscAsyncActionType['BlockInteraction'], ApplyEditRights);
+                    if (me.stackLongActions.exist({id: ApplyEditRights, type: Asc.c_oAscAsyncActionType['BlockInteraction']})) {
+                        me.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], ApplyEditRights);
                     } else if (!this._isDocReady) {
                         me.hidePreloader();
-                        me.onLongActionBegin(c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
+                        me.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
                     }
 
                     // Message on window close
@@ -830,7 +872,7 @@ define([
 
             onError: function(id, level, errData) {
                 this.hidePreloader();
-                this.onLongActionEnd(c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
+                this.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
 
                 var config = {
                     closable: false
@@ -838,79 +880,79 @@ define([
 
                 switch (id)
                 {
-                    case c_oAscError.ID.Unknown:
+                    case Asc.c_oAscError.ID.Unknown:
                         config.msg = this.unknownErrorText;
                         break;
 
-                    case c_oAscError.ID.ConvertationTimeout:
+                    case Asc.c_oAscError.ID.ConvertationTimeout:
                         config.msg = this.convertationTimeoutText;
                         break;
 
-                    case c_oAscError.ID.ConvertationError:
+                    case Asc.c_oAscError.ID.ConvertationError:
                         config.msg = this.convertationErrorText;
                         break;
 
-                    case c_oAscError.ID.DownloadError:
+                    case Asc.c_oAscError.ID.DownloadError:
                         config.msg = this.downloadErrorText;
                         break;
 
-                    case c_oAscError.ID.UplImageSize:
+                    case Asc.c_oAscError.ID.UplImageSize:
                         config.msg = this.uploadImageSizeMessage;
                         break;
 
-                    case c_oAscError.ID.UplImageExt:
+                    case Asc.c_oAscError.ID.UplImageExt:
                         config.msg = this.uploadImageExtMessage;
                         break;
 
-                    case c_oAscError.ID.UplImageFileCount:
+                    case Asc.c_oAscError.ID.UplImageFileCount:
                         config.msg = this.uploadImageFileCountMessage;
                         break;
 
-                    case c_oAscError.ID.SplitCellMaxRows:
+                    case Asc.c_oAscError.ID.SplitCellMaxRows:
                         config.msg = this.splitMaxRowsErrorText.replace('%1', errData.get_Value());
                         break;
 
-                    case c_oAscError.ID.SplitCellMaxCols:
+                    case Asc.c_oAscError.ID.SplitCellMaxCols:
                         config.msg = this.splitMaxColsErrorText.replace('%1', errData.get_Value());
                         break;
 
-                    case c_oAscError.ID.SplitCellRowsDivider:
+                    case Asc.c_oAscError.ID.SplitCellRowsDivider:
                         config.msg = this.splitDividerErrorText.replace('%1', errData.get_Value());
                         break;
 
-                    case c_oAscError.ID.VKeyEncrypt:
+                    case Asc.c_oAscError.ID.VKeyEncrypt:
                         config.msg = this.errorKeyEncrypt;
                         break;
 
-                    case c_oAscError.ID.KeyExpire:
+                    case Asc.c_oAscError.ID.KeyExpire:
                         config.msg = this.errorKeyExpire;
                         break;
 
-                    case c_oAscError.ID.UserCountExceed:
+                    case Asc.c_oAscError.ID.UserCountExceed:
                         config.msg = this.errorUsersExceed;
                         break;
 
-                    case c_oAscError.ID.CoAuthoringDisconnect:
+                    case Asc.c_oAscError.ID.CoAuthoringDisconnect:
                         config.msg = this.errorCoAuthoringDisconnect;
                         break;
 
-                    case c_oAscError.ID.ConvertationPassword:
+                    case Asc.c_oAscError.ID.ConvertationPassword:
                         config.msg = this.errorFilePassProtect;
                         break;
 
-                    case c_oAscError.ID.StockChartError:
+                    case Asc.c_oAscError.ID.StockChartError:
                         config.msg = this.errorStockChart;
                         break;
 
-                    case c_oAscError.ID.DataRangeError:
+                    case Asc.c_oAscError.ID.DataRangeError:
                         config.msg = this.errorDataRange;
                         break;
 
-                    case c_oAscError.ID.Database:
+                    case Asc.c_oAscError.ID.Database:
                         config.msg = this.errorDatabaseConnection;
                         break;
 
-                    case c_oAscError.ID.UserDrop:
+                    case Asc.c_oAscError.ID.UserDrop:
                         if (this._state.lostEditingRights) {
                             this._state.lostEditingRights = false;
                             return;
@@ -919,7 +961,7 @@ define([
                         config.msg = this.errorUserDrop;
                         break;
 
-                    case c_oAscError.ID.Warning:
+                    case Asc.c_oAscError.ID.Warning:
                         config.msg = this.errorConnectToServer;
                         break;
 
@@ -929,7 +971,7 @@ define([
                 }
 
 
-                if (level == c_oAscError.Level.Critical) {
+                if (level == Asc.c_oAscError.Level.Critical) {
 
                     // report only critical errors
                     Common.Gateway.reportError(id, config.msg);
@@ -951,7 +993,7 @@ define([
                     config.iconCls  = 'warn';
                     config.buttons  = ['ok'];
                     config.callback = _.bind(function(btn){
-                        if (id == c_oAscError.ID.Warning && btn == 'ok' && this.appOptions.canDownload) {
+                        if (id == Asc.c_oAscError.ID.Warning && btn == 'ok' && this.appOptions.canDownload) {
                             Common.UI.Menu.Manager.hideAll();
                             (this.appOptions.isDesktopApp && this.appOptions.isOffline) ? this.api.asc_DownloadAs() : this.getApplication().getController('LeftMenu').leftMenu.showMenu('file:saveas');
                         }
@@ -970,20 +1012,6 @@ define([
                 this.getApplication().getController('Viewport').getView('Viewport').setMode({isDisconnected:true});
                 this._state.isDisconnected = true;
 //                this.getFileMenu().setMode({isDisconnected:true});
-            },
-
-            getBrowseZoomLevel: function() {
-                if (Common.Utils.isIE) {
-                    return screen.logicalXDPI/screen.deviceXDPI;
-                } else {
-                    var zoom = window.outerWidth / document.documentElement.clientWidth;
-
-                    if (Common.Utils.isSafari) {
-                        zoom = Math.floor(zoom * 10) / 10;
-                    }
-
-                    return zoom;
-                }
             },
 
             showTips: function(strings) {
@@ -1140,14 +1168,14 @@ define([
             onUpdateVersion: function(callback) {
                 var me = this;
                 me.needToUpdateVersion = true;
-                me.onLongActionEnd(c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
+                me.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
                 Common.UI.error({
                     msg: this.errorUpdateVersion,
                     callback: function() {
                         _.defer(function() {
                             Common.Gateway.updateVersion();
                             if (callback) callback.call(me);
-                            me.onLongActionBegin(c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
+                            me.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
                         })
                     }
                 });
@@ -1229,7 +1257,9 @@ define([
 
             unitsChanged: function(m) {
                 var value = Common.localStorage.getItem("pe-settings-unit");
-                Common.Utils.Metric.setCurrentMetric((value!==null) ? parseInt(value) : Common.Utils.Metric.c_MetricUnits.cm);
+                value = (value!==null) ? parseInt(value) : Common.Utils.Metric.getDefaultMetric();
+                Common.Utils.Metric.setCurrentMetric(value);
+                this.api.asc_SetDocumentUnits((value==Common.Utils.Metric.c_MetricUnits.inch) ? Asc.c_oAscDocumentUnits.Inch : ((value==Common.Utils.Metric.c_MetricUnits.pt) ? Asc.c_oAscDocumentUnits.Point : Asc.c_oAscDocumentUnits.Millimeter));
                 this.getApplication().getController('RightMenu').updateMetricUnit();
             },
 
@@ -1563,8 +1593,9 @@ define([
             textTryUndoRedo: 'The Undo/Redo functions are disabled for the Fast co-editing mode.<br>Click the \'Strict mode\' button to switch to the Strict co-editing mode to edit the file without other users interference and send your changes only after you save them. You can switch between the co-editing modes using the editor Advanced settings.',
             textStrict: 'Strict mode',
             textBuyNow: 'Buy now',
-            textNoLicenseTitle: 'License expired',
-            warnNoLicense: 'The license expired. You cannot create or edit files.<br>Click the \'Buy now\' button to prolong the license.'
+            textNoLicenseTitle: 'License expired or not found',
+            warnNoLicense: 'The license could not be found or expired. You cannot edit files.<br>Click \'Buy now\' to purchase Enterprise Edition license or \'Contact us\' if you use Integration Edition.',
+            textContactUs: 'Contact us'
         }
     })(), PE.Controllers.Main || {}))
 });

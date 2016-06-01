@@ -1,3 +1,35 @@
+/*
+ *
+ * (c) Copyright Ascensio System Limited 2010-2016
+ *
+ * This program is a free software product. You can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License (AGPL)
+ * version 3 as published by the Free Software Foundation. In accordance with
+ * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
+ * that Ascensio System SIA expressly excludes the warranty of non-infringement
+ * of any third-party rights.
+ *
+ * This program is distributed WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
+ * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ *
+ * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
+ * EU, LV-1021.
+ *
+ * The  interactive user interfaces in modified source and object code versions
+ * of the Program must display Appropriate Legal Notices, as required under
+ * Section 5 of the GNU AGPL version 3.
+ *
+ * Pursuant to Section 7(b) of the License you must retain the original Product
+ * logo when distributing the program. Pursuant to Section 7(e) we decline to
+ * grant you any rights under trademark law for use of our trademarks.
+ *
+ * All the Product's GUI elements, including illustrations and icon sets, as
+ * well as technical writing content are licensed under the terms of the
+ * Creative Commons Attribution-ShareAlike 4.0 International. See the License
+ * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ *
+*/
 /**
  *  ImageSettingsAdvanced.js
  *
@@ -18,7 +50,8 @@ define([    'text!presentationeditor/main/app/template/ImageSettingsAdvanced.tem
             contentWidth: 340,
             height: 235,
             sizeOriginal: {width: 0, height: 0},
-            sizeMax: {width: 55.88, height: 55.88}
+            sizeMax: {width: 55.88, height: 55.88},
+            storageName: 'pe-img-settings-adv-category'
         },
 
         initialize : function(options) {
@@ -151,6 +184,10 @@ define([    'text!presentationeditor/main/app/template/ImageSettingsAdvanced.tem
         afterRender: function() {
             this.updateMetricUnit();
             this._setDefaults(this._originalProps);
+            if (this.storageName) {
+                var value = Common.localStorage.getItem(this.storageName);
+                this.setActiveCategory((value!==null) ? parseInt(value) : 0);
+            }
         },
 
         _setDefaults: function(props) {
@@ -162,10 +199,8 @@ define([    'text!presentationeditor/main/app/template/ImageSettingsAdvanced.tem
 
                 this.btnOriginalSize.setDisabled(props.get_ImageUrl()===null || props.get_ImageUrl()===undefined);
 
-                var value = Common.localStorage.getItem("pe-settings-imageratio");
-                if (value===null || parseInt(value) == 1) {
-                    this.btnRatio.toggle(true);
-                }
+                var value = props.asc_getLockAspect();
+                this.btnRatio.toggle(value);
 
                 if (props.get_Position()) {
                     var Position = {X: props.get_Position().get_X(), Y: props.get_Position().get_Y()};
@@ -179,15 +214,14 @@ define([    'text!presentationeditor/main/app/template/ImageSettingsAdvanced.tem
         },
 
         getSettings: function() {
-            Common.localStorage.setItem("pe-settings-imageratio", (this.btnRatio.pressed) ? 1 : 0);
-
-            var properties = new CImgProperty();
+            var properties = new Asc.asc_CImgProperty();
             if (this.spnHeight.getValue()!=='')
                 properties.put_Height(Common.Utils.Metric.fnRecalcToMM(this.spnHeight.getNumberValue()));
             if (this.spnWidth.getValue()!=='')
                 properties.put_Width(Common.Utils.Metric.fnRecalcToMM(this.spnWidth.getNumberValue()));
+            properties.asc_putLockAspect(this.btnRatio.pressed);
 
-            var Position = new CPosition();
+            var Position = new Asc.CPosition();
             if (this.spnX.getValue() !== '')
                 Position.put_X(Common.Utils.Metric.fnRecalcToMM(this.spnX.getNumberValue()));
             if (this.spnY.getValue() !== '')
@@ -201,8 +235,8 @@ define([    'text!presentationeditor/main/app/template/ImageSettingsAdvanced.tem
             if (this.spinners) {
                 for (var i=0; i<this.spinners.length; i++) {
                     var spinner = this.spinners[i];
-                    spinner.setDefaultUnit(Common.Utils.Metric.metricName[Common.Utils.Metric.getCurrentMetric()]);
-                    spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.cm ? 0.1 : 1);
+                    spinner.setDefaultUnit(Common.Utils.Metric.getCurrentMetricName());
+                    spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt ? 1 : 0.1);
                 }
             }
             this.sizeMax = {

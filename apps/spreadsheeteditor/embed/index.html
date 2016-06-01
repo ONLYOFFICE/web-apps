@@ -302,10 +302,12 @@
       <script type="text/javascript" src="../../../vendor/jszip-utils/jszip-utils.min.js"></script>
       <script type="text/javascript" src="../../../vendor/jsrsasign/jsrsasign-latest-all-min.js"></script>
 
-      <!--sdk-->
-      <link rel="stylesheet" type="text/css" href="../../../sdk/Excel/css/main.css"/>
-      <script type="text/javascript" src="../../../sdk/Common/AllFonts.js"></script>
-      <script type="text/javascript" src="../../../sdk/Excel/sdk-all.js"></script>
+      <script type="text/javascript" src="../sdk_dev_scripts.js"></script>
+      <script>
+          window.sdk_dev_scrpipts.forEach(function(item){
+              document.write('<script type="text/javascript" src="' + item + '"><\/script>');
+          });
+      </script>
 
       <!--application-->
       <script type="text/javascript" src="../../common/Gateway.js"></script>

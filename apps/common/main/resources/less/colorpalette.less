@@ -11,3 +11,45 @@
         }
     }
 }
+
+.palette-color-ext {
+    padding: 10px;
+    .palette-color-item {
+        padding: 0;
+        border: 1px solid #fff;
+        display: inline-block;
+        text-decoration: none;
+        -moz-outline: 0 none;
+        outline: 0 none;
+        cursor: pointer;
+        vertical-align: middle;
+
+        em {
+            border: none;
+            display: block;
+
+            span{
+                height: 12px;
+                width: 12px;
+                cursor: pointer;
+                display: block;
+                border: 1px solid rgba(0, 0, 0, 0.2);
+            }
+        }
+
+        &:hover, &.selected {
+            border-color: #000;
+            em span {
+                border-color: #fff;
+            }
+        }
+    }
+
+    .color-transparent {
+        background-position: @nocolor-offset-x @nocolor-offset-y;
+
+        em span {
+            border:solid 1px #C0C0C0;
+        }
+    }
+}

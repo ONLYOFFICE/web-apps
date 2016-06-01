@@ -1,3 +1,35 @@
+/*
+ *
+ * (c) Copyright Ascensio System Limited 2010-2016
+ *
+ * This program is a free software product. You can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License (AGPL)
+ * version 3 as published by the Free Software Foundation. In accordance with
+ * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
+ * that Ascensio System SIA expressly excludes the warranty of non-infringement
+ * of any third-party rights.
+ *
+ * This program is distributed WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
+ * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ *
+ * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
+ * EU, LV-1021.
+ *
+ * The  interactive user interfaces in modified source and object code versions
+ * of the Program must display Appropriate Legal Notices, as required under
+ * Section 5 of the GNU AGPL version 3.
+ *
+ * Pursuant to Section 7(b) of the License you must retain the original Product
+ * logo when distributing the program. Pursuant to Section 7(e) we decline to
+ * grant you any rights under trademark law for use of our trademarks.
+ *
+ * All the Product's GUI elements, including illustrations and icon sets, as
+ * well as technical writing content are licensed under the terms of the
+ * Creative Commons Attribution-ShareAlike 4.0 International. See the License
+ * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ *
+*/
 /**
  *  DocumentHolder.js
  *
@@ -78,6 +110,9 @@ define([
                         menu.alignPosition();
                     }
                     _.delay(function() {
+                        var value = Common.localStorage.getItem("de-settings-inputmode"); // only for hieroglyphs mode
+                        if (value!==null && parseInt(value) == 1)
+                            me.api.asc_enableKeyEvents(false);
                         menu.cmpEl.focus();
                     }, 10);
 
@@ -93,7 +128,7 @@ define([
                 for (var i = 0; i <selectedElements.length; i++) {
                     var elType = selectedElements[i].get_ObjectType();
                     var elValue = selectedElements[i].get_ObjectValue();
-                    if (c_oAscTypeSelectElement.Image == elType) {
+                    if (Asc.c_oAscTypeSelectElement.Image == elType) {
                         //image
                         menu_to_show = me.pictureMenu;
                         if (menu_props.imgProps===undefined)
@@ -116,14 +151,14 @@ define([
                         noobject = false;
                         if ( (shapeprops===undefined || shapeprops===null) && (chartprops===undefined || chartprops===null) )  // not shape and chart
                             break;
-                    } else if (c_oAscTypeSelectElement.Table == elType)
+                    } else if (Asc.c_oAscTypeSelectElement.Table == elType)
                     {
                         menu_to_show = me.tableMenu;
                         menu_props.tableProps = {};
                         menu_props.tableProps.value = elValue;
                         menu_props.tableProps.locked = (elValue) ? elValue.get_Locked() : false;
                         noobject = false;
-                    } else if (c_oAscTypeSelectElement.Paragraph == elType)
+                    } else if (Asc.c_oAscTypeSelectElement.Paragraph == elType)
                     {
                         menu_props.paraProps = {};
                         menu_props.paraProps.value = elValue;
@@ -132,20 +167,20 @@ define([
                             menu_props.tableProps===undefined )
                             menu_to_show = me.textMenu;
                         noobject = false;
-                    } else if (c_oAscTypeSelectElement.Hyperlink == elType) {
+                    } else if (Asc.c_oAscTypeSelectElement.Hyperlink == elType) {
                         if (menu_props.hyperProps)
                             menu_props.hyperProps.isSeveralLinks = true;
                         else
                             menu_props.hyperProps = {};
                         menu_props.hyperProps.value = elValue;
-                    } else if (c_oAscTypeSelectElement.Header == elType) {
+                    } else if (Asc.c_oAscTypeSelectElement.Header == elType) {
                         menu_props.headerProps = {};
                         menu_props.headerProps.locked = (elValue) ? elValue.get_Locked() : false;
-                    } else if (c_oAscTypeSelectElement.SpellCheck == elType) {
+                    } else if (Asc.c_oAscTypeSelectElement.SpellCheck == elType) {
                         menu_props.spellProps = {};
                         menu_props.spellProps.value = elValue;
                         me._currentSpellObj = elValue;
-                    } else if (c_oAscTypeSelectElement.Math == elType) {
+                    } else if (Asc.c_oAscTypeSelectElement.Math == elType) {
                         menu_props.mathProps = {};
                         menu_props.mathProps.value = elValue;
                         me._currentMathObj = elValue;
@@ -536,7 +571,7 @@ define([
                             handler: handlerDlg
                         });
 
-                        props = new CHyperlinkProperty();
+                        props = new Asc.CHyperlinkProperty();
                         props.put_Text(text);
 
                         win.show();
@@ -545,7 +580,7 @@ define([
                         var selectedElements = me.api.getSelectedElements();
                         if (selectedElements && _.isArray(selectedElements)){
                             _.each(selectedElements, function(el, i) {
-                                if (selectedElements[i].get_ObjectType() == c_oAscTypeSelectElement.Hyperlink)
+                                if (selectedElements[i].get_ObjectType() == Asc.c_oAscTypeSelectElement.Hyperlink)
                                     props = selectedElements[i].get_ObjectValue();
                             });
                         }
@@ -605,7 +640,7 @@ define([
                 var props;
                 if (selectedElements && _.isArray(selectedElements)){
                     for (var i = 0; i <selectedElements.length; i++) {
-                        if ( selectedElements[i].get_ObjectType() == c_oAscTypeSelectElement.SpellCheck) {
+                        if ( selectedElements[i].get_ObjectType() == Asc.c_oAscTypeSelectElement.SpellCheck) {
                             props = selectedElements[i].get_ObjectValue();
                             me._currentSpellObj = props;
                             break;
@@ -707,7 +742,7 @@ define([
                     mnu, arr = [];
 
                 switch (type) {
-                    case c_oAscMathInterfaceType.Accent:
+                    case Asc.c_oAscMathInterfaceType.Accent:
                         mnu = new Common.UI.MenuItem({
                             caption     : me.txtRemoveAccentChar,
                             equation    : true,
@@ -716,7 +751,7 @@ define([
                         });
                         arr.push(mnu);
                         break;
-                    case c_oAscMathInterfaceType.BorderBox:
+                    case Asc.c_oAscMathInterfaceType.BorderBox:
                         mnu = new Common.UI.MenuItem({
                             caption     : me.txtBorderProps,
                             equation    : true,
@@ -761,7 +796,7 @@ define([
                         });
                         arr.push(mnu);
                         break;
-                    case c_oAscMathInterfaceType.Bar:
+                    case Asc.c_oAscMathInterfaceType.Bar:
                         mnu = new Common.UI.MenuItem({
                             caption     : me.txtRemoveBar,
                             equation    : true,
@@ -770,116 +805,116 @@ define([
                         });
                         arr.push(mnu);
                         mnu = new Common.UI.MenuItem({
-                            caption     : (value.get_Pos()==c_oAscMathInterfaceBarPos.Top) ? me.txtUnderbar : me.txtOverbar,
+                            caption     : (value.get_Pos()==Asc.c_oAscMathInterfaceBarPos.Top) ? me.txtUnderbar : me.txtOverbar,
                             equation    : true,
                             disabled    : me._currentParaObjDisabled,
-                            equationProps: {type: type, callback: 'put_Pos', value: (value.get_Pos()==c_oAscMathInterfaceBarPos.Top) ? c_oAscMathInterfaceBarPos.Bottom : c_oAscMathInterfaceBarPos.Top}
+                            equationProps: {type: type, callback: 'put_Pos', value: (value.get_Pos()==Asc.c_oAscMathInterfaceBarPos.Top) ? Asc.c_oAscMathInterfaceBarPos.Bottom : Asc.c_oAscMathInterfaceBarPos.Top}
                         });
                         arr.push(mnu);
                         break;
-                    case c_oAscMathInterfaceType.Script:
+                    case Asc.c_oAscMathInterfaceType.Script:
                         var scripttype = value.get_ScriptType();
-                        if (scripttype == c_oAscMathInterfaceScript.PreSubSup) {
+                        if (scripttype == Asc.c_oAscMathInterfaceScript.PreSubSup) {
                             mnu = new Common.UI.MenuItem({
                                 caption     : me.txtScriptsAfter,
                                 equation    : true,
                                 disabled    : me._currentParaObjDisabled,
-                                equationProps: {type: type, callback: 'put_ScriptType', value: c_oAscMathInterfaceScript.SubSup}
+                                equationProps: {type: type, callback: 'put_ScriptType', value: Asc.c_oAscMathInterfaceScript.SubSup}
                             });
                             arr.push(mnu);
                             mnu = new Common.UI.MenuItem({
                                 caption     : me.txtRemScripts,
                                 equation    : true,
                                 disabled    : me._currentParaObjDisabled,
-                                equationProps: {type: type, callback: 'put_ScriptType', value: c_oAscMathInterfaceScript.None}
+                                equationProps: {type: type, callback: 'put_ScriptType', value: Asc.c_oAscMathInterfaceScript.None}
                             });
                             arr.push(mnu);
                         } else {
-                            if (scripttype == c_oAscMathInterfaceScript.SubSup) {
+                            if (scripttype == Asc.c_oAscMathInterfaceScript.SubSup) {
                                 mnu = new Common.UI.MenuItem({
                                     caption     : me.txtScriptsBefore,
                                     equation    : true,
                                     disabled    : me._currentParaObjDisabled,
-                                    equationProps: {type: type, callback: 'put_ScriptType', value: c_oAscMathInterfaceScript.PreSubSup}
+                                    equationProps: {type: type, callback: 'put_ScriptType', value: Asc.c_oAscMathInterfaceScript.PreSubSup}
                                 });
                                 arr.push(mnu);
                             }
-                            if (scripttype == c_oAscMathInterfaceScript.SubSup || scripttype == c_oAscMathInterfaceScript.Sub ) {
+                            if (scripttype == Asc.c_oAscMathInterfaceScript.SubSup || scripttype == Asc.c_oAscMathInterfaceScript.Sub ) {
                                 mnu = new Common.UI.MenuItem({
                                     caption     : me.txtRemSubscript,
                                     equation    : true,
                                     disabled    : me._currentParaObjDisabled,
-                                    equationProps: {type: type, callback: 'put_ScriptType', value: (scripttype == c_oAscMathInterfaceScript.SubSup) ? c_oAscMathInterfaceScript.Sup : c_oAscMathInterfaceScript.None }
+                                    equationProps: {type: type, callback: 'put_ScriptType', value: (scripttype == Asc.c_oAscMathInterfaceScript.SubSup) ? Asc.c_oAscMathInterfaceScript.Sup : Asc.c_oAscMathInterfaceScript.None }
                                 });
                                 arr.push(mnu);
                             }
-                            if (scripttype == c_oAscMathInterfaceScript.SubSup || scripttype == c_oAscMathInterfaceScript.Sup ) {
+                            if (scripttype == Asc.c_oAscMathInterfaceScript.SubSup || scripttype == Asc.c_oAscMathInterfaceScript.Sup ) {
                                 mnu = new Common.UI.MenuItem({
                                     caption     : me.txtRemSuperscript,
                                     equation    : true,
                                     disabled    : me._currentParaObjDisabled,
-                                    equationProps: {type: type, callback: 'put_ScriptType', value: (scripttype == c_oAscMathInterfaceScript.SubSup) ? c_oAscMathInterfaceScript.Sub : c_oAscMathInterfaceScript.None }
+                                    equationProps: {type: type, callback: 'put_ScriptType', value: (scripttype == Asc.c_oAscMathInterfaceScript.SubSup) ? Asc.c_oAscMathInterfaceScript.Sub : Asc.c_oAscMathInterfaceScript.None }
                                 });
                                 arr.push(mnu);
                             }
                         }
                         break;
-                    case c_oAscMathInterfaceType.Fraction:
+                    case Asc.c_oAscMathInterfaceType.Fraction:
                         var fraction = value.get_FractionType();
-                        if (fraction==c_oAscMathInterfaceFraction.Skewed || fraction==c_oAscMathInterfaceFraction.Linear) {
+                        if (fraction==Asc.c_oAscMathInterfaceFraction.Skewed || fraction==Asc.c_oAscMathInterfaceFraction.Linear) {
                             mnu = new Common.UI.MenuItem({
                                 caption     : me.txtFractionStacked,
                                 equation    : true,
                                 disabled    : me._currentParaObjDisabled,
-                                equationProps: {type: type, callback: 'put_FractionType', value: c_oAscMathInterfaceFraction.Bar}
+                                equationProps: {type: type, callback: 'put_FractionType', value: Asc.c_oAscMathInterfaceFraction.Bar}
                             });
                             arr.push(mnu);
                         }
-                        if (fraction==c_oAscMathInterfaceFraction.Bar || fraction==c_oAscMathInterfaceFraction.Linear) {
+                        if (fraction==Asc.c_oAscMathInterfaceFraction.Bar || fraction==Asc.c_oAscMathInterfaceFraction.Linear) {
                             mnu = new Common.UI.MenuItem({
                                 caption     : me.txtFractionSkewed,
                                 equation    : true,
                                 disabled    : me._currentParaObjDisabled,
-                                equationProps: {type: type, callback: 'put_FractionType', value: c_oAscMathInterfaceFraction.Skewed}
+                                equationProps: {type: type, callback: 'put_FractionType', value: Asc.c_oAscMathInterfaceFraction.Skewed}
                             });
                             arr.push(mnu);
                         }
-                        if (fraction==c_oAscMathInterfaceFraction.Bar || fraction==c_oAscMathInterfaceFraction.Skewed) {
+                        if (fraction==Asc.c_oAscMathInterfaceFraction.Bar || fraction==Asc.c_oAscMathInterfaceFraction.Skewed) {
                             mnu = new Common.UI.MenuItem({
                                 caption     : me.txtFractionLinear,
                                 equation    : true,
                                 disabled    : me._currentParaObjDisabled,
-                                equationProps: {type: type, callback: 'put_FractionType', value: c_oAscMathInterfaceFraction.Linear}
+                                equationProps: {type: type, callback: 'put_FractionType', value: Asc.c_oAscMathInterfaceFraction.Linear}
                             });
                             arr.push(mnu);
                         }
-                        if (fraction==c_oAscMathInterfaceFraction.Bar || fraction==c_oAscMathInterfaceFraction.NoBar) {
+                        if (fraction==Asc.c_oAscMathInterfaceFraction.Bar || fraction==Asc.c_oAscMathInterfaceFraction.NoBar) {
                             mnu = new Common.UI.MenuItem({
-                                caption     : (fraction==c_oAscMathInterfaceFraction.Bar) ? me.txtRemFractionBar : me.txtAddFractionBar,
+                                caption     : (fraction==Asc.c_oAscMathInterfaceFraction.Bar) ? me.txtRemFractionBar : me.txtAddFractionBar,
                                 equation    : true,
                                 disabled    : me._currentParaObjDisabled,
-                                equationProps: {type: type, callback: 'put_FractionType', value: (fraction==c_oAscMathInterfaceFraction.Bar) ? c_oAscMathInterfaceFraction.NoBar : c_oAscMathInterfaceFraction.Bar}
+                                equationProps: {type: type, callback: 'put_FractionType', value: (fraction==Asc.c_oAscMathInterfaceFraction.Bar) ? Asc.c_oAscMathInterfaceFraction.NoBar : Asc.c_oAscMathInterfaceFraction.Bar}
                             });
                             arr.push(mnu);
                         }
                         break;
-                    case c_oAscMathInterfaceType.Limit:
+                    case Asc.c_oAscMathInterfaceType.Limit:
                         mnu = new Common.UI.MenuItem({
-                            caption     : (value.get_Pos()==c_oAscMathInterfaceLimitPos.Top) ? me.txtLimitUnder : me.txtLimitOver,
+                            caption     : (value.get_Pos()==Asc.c_oAscMathInterfaceLimitPos.Top) ? me.txtLimitUnder : me.txtLimitOver,
                             equation    : true,
                             disabled    : me._currentParaObjDisabled,
-                            equationProps: {type: type, callback: 'put_Pos', value: (value.get_Pos()==c_oAscMathInterfaceLimitPos.Top) ? c_oAscMathInterfaceLimitPos.Bottom : c_oAscMathInterfaceLimitPos.Top}
+                            equationProps: {type: type, callback: 'put_Pos', value: (value.get_Pos()==Asc.c_oAscMathInterfaceLimitPos.Top) ? Asc.c_oAscMathInterfaceLimitPos.Bottom : Asc.c_oAscMathInterfaceLimitPos.Top}
                         });
                         arr.push(mnu);
                         mnu = new Common.UI.MenuItem({
                             caption     : me.txtRemLimit,
                             equation    : true,
                             disabled    : me._currentParaObjDisabled,
-                            equationProps: {type: type, callback: 'put_Pos', value: c_oAscMathInterfaceLimitPos.None}
+                            equationProps: {type: type, callback: 'put_Pos', value: Asc.c_oAscMathInterfaceLimitPos.None}
                         });
                         arr.push(mnu);
                         break;
-                    case c_oAscMathInterfaceType.Matrix:
+                    case Asc.c_oAscMathInterfaceType.Matrix:
                         mnu = new Common.UI.MenuItem({
                             caption     : value.get_HidePlaceholder() ? me.txtShowPlaceholder : me.txtHidePlaceholder,
                             equation    : true,
@@ -943,20 +978,20 @@ define([
                                     {
                                         caption: me.txtTop,
                                         checkable   : true,
-                                        checked     : (value.get_MatrixAlign()==c_oAscMathInterfaceMatrixMatrixAlign.Top),
-                                        equationProps: {type: type, callback: 'put_MatrixAlign', value: c_oAscMathInterfaceMatrixMatrixAlign.Top}
+                                        checked     : (value.get_MatrixAlign()==Asc.c_oAscMathInterfaceMatrixMatrixAlign.Top),
+                                        equationProps: {type: type, callback: 'put_MatrixAlign', value: Asc.c_oAscMathInterfaceMatrixMatrixAlign.Top}
                                     },
                                     {
                                         caption: me.centerText,
                                         checkable   : true,
-                                        checked     : (value.get_MatrixAlign()==c_oAscMathInterfaceMatrixMatrixAlign.Center),
-                                        equationProps: {type: type, callback: 'put_MatrixAlign', value: c_oAscMathInterfaceMatrixMatrixAlign.Center}
+                                        checked     : (value.get_MatrixAlign()==Asc.c_oAscMathInterfaceMatrixMatrixAlign.Center),
+                                        equationProps: {type: type, callback: 'put_MatrixAlign', value: Asc.c_oAscMathInterfaceMatrixMatrixAlign.Center}
                                     },
                                     {
                                         caption: me.txtBottom,
                                         checkable   : true,
-                                        checked     : (value.get_MatrixAlign()==c_oAscMathInterfaceMatrixMatrixAlign.Bottom),
-                                        equationProps: {type: type, callback: 'put_MatrixAlign', value: c_oAscMathInterfaceMatrixMatrixAlign.Bottom}
+                                        checked     : (value.get_MatrixAlign()==Asc.c_oAscMathInterfaceMatrixMatrixAlign.Bottom),
+                                        equationProps: {type: type, callback: 'put_MatrixAlign', value: Asc.c_oAscMathInterfaceMatrixMatrixAlign.Bottom}
                                     }
                                 ]
                             })
@@ -972,27 +1007,27 @@ define([
                                     {
                                         caption: me.leftText,
                                         checkable   : true,
-                                        checked     : (value.get_ColumnAlign()==c_oAscMathInterfaceMatrixColumnAlign.Left),
-                                        equationProps: {type: type, callback: 'put_ColumnAlign', value: c_oAscMathInterfaceMatrixColumnAlign.Left}
+                                        checked     : (value.get_ColumnAlign()==Asc.c_oAscMathInterfaceMatrixColumnAlign.Left),
+                                        equationProps: {type: type, callback: 'put_ColumnAlign', value: Asc.c_oAscMathInterfaceMatrixColumnAlign.Left}
                                     },
                                     {
                                         caption: me.centerText,
                                         checkable   : true,
-                                        checked     : (value.get_ColumnAlign()==c_oAscMathInterfaceMatrixColumnAlign.Center),
-                                        equationProps: {type: type, callback: 'put_ColumnAlign', value: c_oAscMathInterfaceMatrixColumnAlign.Center}
+                                        checked     : (value.get_ColumnAlign()==Asc.c_oAscMathInterfaceMatrixColumnAlign.Center),
+                                        equationProps: {type: type, callback: 'put_ColumnAlign', value: Asc.c_oAscMathInterfaceMatrixColumnAlign.Center}
                                     },
                                     {
                                         caption: me.rightText,
                                         checkable   : true,
-                                        checked     : (value.get_ColumnAlign()==c_oAscMathInterfaceMatrixColumnAlign.Right),
-                                        equationProps: {type: type, callback: 'put_ColumnAlign', value: c_oAscMathInterfaceMatrixColumnAlign.Right}
+                                        checked     : (value.get_ColumnAlign()==Asc.c_oAscMathInterfaceMatrixColumnAlign.Right),
+                                        equationProps: {type: type, callback: 'put_ColumnAlign', value: Asc.c_oAscMathInterfaceMatrixColumnAlign.Right}
                                     }
                                 ]
                             })
                         });
                         arr.push(mnu);
                         break;
-                    case c_oAscMathInterfaceType.EqArray:
+                    case Asc.c_oAscMathInterfaceType.EqArray:
                         mnu = new Common.UI.MenuItem({
                             caption     : me.txtInsertEqBefore,
                             equation    : true,
@@ -1024,32 +1059,32 @@ define([
                                     {
                                         caption: me.txtTop,
                                         checkable   : true,
-                                        checked     : (value.get_Align()==c_oAscMathInterfaceEqArrayAlign.Top),
-                                        equationProps: {type: type, callback: 'put_Align', value: c_oAscMathInterfaceEqArrayAlign.Top}
+                                        checked     : (value.get_Align()==Asc.c_oAscMathInterfaceEqArrayAlign.Top),
+                                        equationProps: {type: type, callback: 'put_Align', value: Asc.c_oAscMathInterfaceEqArrayAlign.Top}
                                     },
                                     {
                                         caption: me.centerText,
                                         checkable   : true,
-                                        checked     : (value.get_Align()==c_oAscMathInterfaceEqArrayAlign.Center),
-                                        equationProps: {type: type, callback: 'put_Align', value: c_oAscMathInterfaceEqArrayAlign.Center}
+                                        checked     : (value.get_Align()==Asc.c_oAscMathInterfaceEqArrayAlign.Center),
+                                        equationProps: {type: type, callback: 'put_Align', value: Asc.c_oAscMathInterfaceEqArrayAlign.Center}
                                     },
                                     {
                                         caption: me.txtBottom,
                                         checkable   : true,
-                                        checked     : (value.get_Align()==c_oAscMathInterfaceEqArrayAlign.Bottom),
-                                        equationProps: {type: type, callback: 'put_Align', value: c_oAscMathInterfaceEqArrayAlign.Bottom}
+                                        checked     : (value.get_Align()==Asc.c_oAscMathInterfaceEqArrayAlign.Bottom),
+                                        equationProps: {type: type, callback: 'put_Align', value: Asc.c_oAscMathInterfaceEqArrayAlign.Bottom}
                                     }
                                 ]
                             })
                         });
                         arr.push(mnu);
                         break;
-                    case c_oAscMathInterfaceType.LargeOperator:
+                    case Asc.c_oAscMathInterfaceType.LargeOperator:
                         mnu = new Common.UI.MenuItem({
                             caption     : me.txtLimitChange,
                             equation    : true,
                             disabled    : me._currentParaObjDisabled,
-                            equationProps: {type: type, callback: 'put_LimitLocation', value: (value.get_LimitLocation() == c_oAscMathInterfaceNaryLimitLocation.UndOvr) ? c_oAscMathInterfaceNaryLimitLocation.SubSup : c_oAscMathInterfaceNaryLimitLocation.UndOvr}
+                            equationProps: {type: type, callback: 'put_LimitLocation', value: (value.get_LimitLocation() == Asc.c_oAscMathInterfaceNaryLimitLocation.UndOvr) ? Asc.c_oAscMathInterfaceNaryLimitLocation.SubSup : Asc.c_oAscMathInterfaceNaryLimitLocation.UndOvr}
                         });
                         arr.push(mnu);
                         if (value.get_HideUpper() !== undefined) {
@@ -1071,7 +1106,7 @@ define([
                             arr.push(mnu);
                         }
                         break;
-                    case c_oAscMathInterfaceType.Delimiter:
+                    case Asc.c_oAscMathInterfaceType.Delimiter:
                         mnu = new Common.UI.MenuItem({
                             caption     : me.txtInsertArgBefore,
                             equation    : true,
@@ -1135,25 +1170,25 @@ define([
                         });
                         arr.push(mnu);
                         break;
-                    case c_oAscMathInterfaceType.GroupChar:
+                    case Asc.c_oAscMathInterfaceType.GroupChar:
                         if (value.can_ChangePos()) {
                             mnu = new Common.UI.MenuItem({
-                                caption     : (value.get_Pos()==c_oAscMathInterfaceGroupCharPos.Top) ? me.txtGroupCharUnder : me.txtGroupCharOver,
+                                caption     : (value.get_Pos()==Asc.c_oAscMathInterfaceGroupCharPos.Top) ? me.txtGroupCharUnder : me.txtGroupCharOver,
                                 equation    : true,
                                 disabled    : me._currentParaObjDisabled,
-                                equationProps: {type: type, callback: 'put_Pos', value: (value.get_Pos()==c_oAscMathInterfaceGroupCharPos.Top) ? c_oAscMathInterfaceGroupCharPos.Bottom : c_oAscMathInterfaceGroupCharPos.Top}
+                                equationProps: {type: type, callback: 'put_Pos', value: (value.get_Pos()==Asc.c_oAscMathInterfaceGroupCharPos.Top) ? Asc.c_oAscMathInterfaceGroupCharPos.Bottom : Asc.c_oAscMathInterfaceGroupCharPos.Top}
                             });
                             arr.push(mnu);
                             mnu = new Common.UI.MenuItem({
                                 caption     : me.txtDeleteGroupChar,
                                 equation    : true,
                                 disabled    : me._currentParaObjDisabled,
-                                equationProps: {type: type, callback: 'put_Pos', value: c_oAscMathInterfaceGroupCharPos.None}
+                                equationProps: {type: type, callback: 'put_Pos', value: Asc.c_oAscMathInterfaceGroupCharPos.None}
                             });
                             arr.push(mnu);
                         }
                         break;
-                    case c_oAscMathInterfaceType.Radical:
+                    case Asc.c_oAscMathInterfaceType.Radical:
                         if (value.get_HideDegree() !== undefined) {
                             mnu = new Common.UI.MenuItem({
                                 caption     : value.get_HideDegree() ? me.txtShowDegree : me.txtHideDegree,
@@ -1266,46 +1301,46 @@ define([
                 if (eqProps) {
                     var eqObj;
                     switch (eqProps.type) {
-                        case c_oAscMathInterfaceType.Accent:
+                        case Asc.c_oAscMathInterfaceType.Accent:
                             eqObj = new CMathMenuAccent();
                             break;
-                        case c_oAscMathInterfaceType.BorderBox:
+                        case Asc.c_oAscMathInterfaceType.BorderBox:
                             eqObj = new CMathMenuBorderBox();
                             break;
-                        case c_oAscMathInterfaceType.Box:
+                        case Asc.c_oAscMathInterfaceType.Box:
                             eqObj = new CMathMenuBox();
                             break;
-                        case c_oAscMathInterfaceType.Bar:
+                        case Asc.c_oAscMathInterfaceType.Bar:
                             eqObj = new CMathMenuBar();
                             break;
-                        case c_oAscMathInterfaceType.Script:
+                        case Asc.c_oAscMathInterfaceType.Script:
                             eqObj = new CMathMenuScript();
                             break;
-                        case c_oAscMathInterfaceType.Fraction:
+                        case Asc.c_oAscMathInterfaceType.Fraction:
                             eqObj = new CMathMenuFraction();
                             break;
-                        case c_oAscMathInterfaceType.Limit:
+                        case Asc.c_oAscMathInterfaceType.Limit:
                             eqObj = new CMathMenuLimit();
                             break;
-                        case c_oAscMathInterfaceType.Matrix:
+                        case Asc.c_oAscMathInterfaceType.Matrix:
                             eqObj = new CMathMenuMatrix();
                             break;
-                        case c_oAscMathInterfaceType.EqArray:
+                        case Asc.c_oAscMathInterfaceType.EqArray:
                             eqObj = new CMathMenuEqArray();
                             break;
-                        case c_oAscMathInterfaceType.LargeOperator:
+                        case Asc.c_oAscMathInterfaceType.LargeOperator:
                             eqObj = new CMathMenuNary();
                             break;
-                        case c_oAscMathInterfaceType.Delimiter:
+                        case Asc.c_oAscMathInterfaceType.Delimiter:
                             eqObj = new CMathMenuDelimiter();
                             break;
-                        case c_oAscMathInterfaceType.GroupChar:
+                        case Asc.c_oAscMathInterfaceType.GroupChar:
                             eqObj = new CMathMenuGroupCharacter();
                             break;
-                        case c_oAscMathInterfaceType.Radical:
+                        case Asc.c_oAscMathInterfaceType.Radical:
                             eqObj = new CMathMenuRadical();
                             break;
-                        case c_oAscMathInterfaceType.Common:
+                        case Asc.c_oAscMathInterfaceType.Common:
                             eqObj = new CMathMenuBase();
                             break;
                     }
@@ -1415,25 +1450,25 @@ define([
 
         onImgWrapStyleChanged: function(type){
             switch (type) {
-                case c_oAscWrapStyle2.Inline:
+                case Asc.c_oAscWrapStyle2.Inline:
                     this.menuImageWrap.menu.items[0].setChecked(true);
                     break;
-                case c_oAscWrapStyle2.Square:
+                case Asc.c_oAscWrapStyle2.Square:
                     this.menuImageWrap.menu.items[1].setChecked(true);
                     break;
-                case c_oAscWrapStyle2.Tight:
+                case Asc.c_oAscWrapStyle2.Tight:
                     this.menuImageWrap.menu.items[2].setChecked(true);
                     break;
-                case c_oAscWrapStyle2.Through:
+                case Asc.c_oAscWrapStyle2.Through:
                     this.menuImageWrap.menu.items[3].setChecked(true);
                     break;
-                case c_oAscWrapStyle2.TopAndBottom:
+                case Asc.c_oAscWrapStyle2.TopAndBottom:
                     this.menuImageWrap.menu.items[4].setChecked(true);
                     break;
-                case c_oAscWrapStyle2.Behind:
+                case Asc.c_oAscWrapStyle2.Behind:
                     this.menuImageWrap.menu.items[6].setChecked(true);
                     break;
-                case c_oAscWrapStyle2.InFront:
+                case Asc.c_oAscWrapStyle2.InFront:
                     this.menuImageWrap.menu.items[5].setChecked(true);
                     break;
             }
@@ -1454,8 +1489,8 @@ define([
                     var elType, elValue;
                     elType = selectedElements[i].get_ObjectType();
                     elValue = selectedElements[i].get_ObjectValue();
-                    if (c_oAscTypeSelectElement.Table == elType) {
-                        var properties = new CTableProp();
+                    if (Asc.c_oAscTypeSelectElement.Table == elType) {
+                        var properties = new Asc.CTableProp();
                         properties.put_TableWrap(wrap);
                         if (wrap == c_tableWrap.TABLE_WRAP_NONE) {
                             properties.put_TableAlignment(align);
@@ -1478,7 +1513,7 @@ define([
                         elType  = selectedElements[i].get_ObjectType();
                         elValue = selectedElements[i].get_ObjectValue();
 
-                        if (c_oAscTypeSelectElement.Paragraph == elType) {
+                        if (Asc.c_oAscTypeSelectElement.Paragraph == elType) {
                             win = new DE.Views.ParagraphSettingsAdvanced({
                                 tableStylerRows     : 2,
                                 tableStylerColumns  : 1,
@@ -1516,7 +1551,7 @@ define([
                         var elType, elValue;
                         elType = selectedElements[i].get_ObjectType();
                         elValue = selectedElements[i].get_ObjectValue(); // заменить на свойства рамки
-                        if (c_oAscTypeSelectElement.Paragraph == elType) {
+                        if (Asc.c_oAscTypeSelectElement.Paragraph == elType) {
                             win = new DE.Views.DropcapSettingsAdvanced({
                                 tableStylerRows     : 2,
                                 tableStylerColumns  : 1,
@@ -1662,17 +1697,17 @@ define([
                 menu        : (function(){
                     function onItemClick(item, e) {
                         if (me.api) {
-                            var properties = new CImgProperty();
+                            var properties = new Asc.asc_CImgProperty();
                             if (!_.isUndefined(item.options.halign)) {
-                                properties.put_PositionH(new CImagePositionH());
+                                properties.put_PositionH(new Asc.CImagePositionH());
                                 properties.get_PositionH().put_UseAlign(true);
                                 properties.get_PositionH().put_Align(item.options.halign);
-                                properties.get_PositionH().put_RelativeFrom(c_oAscRelativeFromH.Margin);
+                                properties.get_PositionH().put_RelativeFrom(Asc.c_oAscRelativeFromH.Margin);
                             } else {
-                                properties.put_PositionV(new CImagePositionV());
+                                properties.put_PositionV(new Asc.CImagePositionV());
                                 properties.get_PositionV().put_UseAlign(true);
                                 properties.get_PositionV().put_Align(item.options.valign);
-                                properties.get_PositionV().put_RelativeFrom(c_oAscRelativeFromV.Margin);
+                                properties.get_PositionV().put_RelativeFrom(Asc.c_oAscRelativeFromV.Margin);
                             }
                             me.api.ImgApply(properties);
                         }
@@ -1685,32 +1720,32 @@ define([
                             new Common.UI.MenuItem({
                                 caption : me.textShapeAlignLeft,
                                 iconCls : 'mnu-img-align-left',
-                                halign  : c_oAscAlignH.Left
+                                halign  : Asc.c_oAscAlignH.Left
                             }).on('click', onItemClick),
                             new Common.UI.MenuItem({
                                 caption : me.textShapeAlignCenter,
                                 iconCls : 'mnu-img-align-center',
-                                halign  : c_oAscAlignH.Center
+                                halign  : Asc.c_oAscAlignH.Center
                             }).on('click', onItemClick),
                             new Common.UI.MenuItem({
                                 caption : me.textShapeAlignRight,
                                 iconCls : 'mnu-img-align-right',
-                                halign  : c_oAscAlignH.Right
+                                halign  : Asc.c_oAscAlignH.Right
                             }).on('click', onItemClick),
                             new Common.UI.MenuItem({
                                 caption : me.textShapeAlignTop,
                                 iconCls : 'mnu-img-align-top',
-                                valign  : c_oAscAlignV.Top
+                                valign  : Asc.c_oAscAlignV.Top
                             }).on('click', onItemClick),
                             new Common.UI.MenuItem({
                                 caption : me.textShapeAlignMiddle,
                                 iconCls : 'mnu-img-align-middle',
-                                valign  : c_oAscAlignV.Center
+                                valign  : Asc.c_oAscAlignV.Center
                             }).on('click', onItemClick),
                             new Common.UI.MenuItem({
                                 caption : me.textShapeAlignBottom,
                                 iconCls : 'mnu-img-align-bottom',
-                                valign  : c_oAscAlignV.Bottom
+                                valign  : Asc.c_oAscAlignV.Bottom
                             }).on('click', onItemClick)
                         ]
                     })
@@ -1722,7 +1757,7 @@ define([
                 iconCls : 'mnu-arrange-group'
             }).on('click', function(item, e) {
                 if (me.api) {
-                    var properties = new CImgProperty();
+                    var properties = new Asc.asc_CImgProperty();
                     properties.put_Group(1);
                     me.api.ImgApply(properties);
                 }
@@ -1734,7 +1769,7 @@ define([
                 caption : this.txtUngroup
             }).on('click', function(item, e) {
                 if (me.api) {
-                    var properties = new CImgProperty();
+                    var properties = new Asc.asc_CImgProperty();
                     properties.put_Group(-1);
                     me.api.ImgApply(properties);
                 }
@@ -1746,7 +1781,7 @@ define([
                 menu    : (function(){
                     function onItemClick(item, e) {
                         if (me.api) {
-                            var properties = new CImgProperty();
+                            var properties = new Asc.asc_CImgProperty();
                             properties.put_ChangeLevel(item.options.valign);
                             me.api.ImgApply(properties);
                         }
@@ -1760,22 +1795,22 @@ define([
                             new Common.UI.MenuItem({
                                 caption : me.textArrangeFront,
                                 iconCls : 'mnu-arrange-front',
-                                valign  : c_oAscChangeLevel.BringToFront
+                                valign  : Asc.c_oAscChangeLevel.BringToFront
                             }).on('click', onItemClick),
                             new Common.UI.MenuItem({
                                 caption : me.textArrangeBack,
                                 iconCls : 'mnu-arrange-back',
-                                valign  : c_oAscChangeLevel.SendToBack
+                                valign  : Asc.c_oAscChangeLevel.SendToBack
                             }).on('click', onItemClick),
                             new Common.UI.MenuItem({
                                 caption : me.textArrangeForward,
                                 iconCls : 'mnu-arrange-forward',
-                                valign  : c_oAscChangeLevel.BringForward
+                                valign  : Asc.c_oAscChangeLevel.BringForward
                             }).on('click', onItemClick),
                             new Common.UI.MenuItem({
                                 caption : me.textArrangeBackward,
                                 iconCls : 'mnu-arrange-backward',
-                                valign  : c_oAscChangeLevel.BringBackward
+                                valign  : Asc.c_oAscChangeLevel.BringBackward
                             }).on('click', onItemClick),
                             { caption: '--' },
                             mnuGroup,
@@ -1800,20 +1835,20 @@ define([
                 menu    : (function(){
                     function onItemClick(item, e) {
                         if (me.api) {
-                            var properties = new CImgProperty();
+                            var properties = new Asc.asc_CImgProperty();
                             properties.put_WrappingStyle(item.options.wrapType);
 
-                            if (me.menuImageWrap._originalProps.get_WrappingStyle() === c_oAscWrapStyle2.Inline && item.wrapType !== c_oAscWrapStyle2.Inline ) {
-                                properties.put_PositionH(new CImagePositionH());
+                            if (me.menuImageWrap._originalProps.get_WrappingStyle() === Asc.c_oAscWrapStyle2.Inline && item.wrapType !== Asc.c_oAscWrapStyle2.Inline ) {
+                                properties.put_PositionH(new Asc.CImagePositionH());
                                 properties.get_PositionH().put_UseAlign(false);
-                                properties.get_PositionH().put_RelativeFrom(c_oAscRelativeFromH.Column);
-                                var val = me.menuImageWrap._originalProps.get_Value_X(c_oAscRelativeFromH.Column);
+                                properties.get_PositionH().put_RelativeFrom(Asc.c_oAscRelativeFromH.Column);
+                                var val = me.menuImageWrap._originalProps.get_Value_X(Asc.c_oAscRelativeFromH.Column);
                                 properties.get_PositionH().put_Value(val);
 
-                                properties.put_PositionV(new CImagePositionV());
+                                properties.put_PositionV(new Asc.CImagePositionV());
                                 properties.get_PositionV().put_UseAlign(false);
-                                properties.get_PositionV().put_RelativeFrom(c_oAscRelativeFromV.Paragraph);
-                                val = me.menuImageWrap._originalProps.get_Value_Y(c_oAscRelativeFromV.Paragraph);
+                                properties.get_PositionV().put_RelativeFrom(Asc.c_oAscRelativeFromV.Paragraph);
+                                val = me.menuImageWrap._originalProps.get_Value_Y(Asc.c_oAscRelativeFromV.Paragraph);
                                 properties.get_PositionV().put_Value(val);
                             }
                             me.api.ImgApply(properties);
@@ -1829,49 +1864,49 @@ define([
                                 caption     : me.txtInline,
                                 iconCls     : 'mnu-wrap-inline',
                                 toggleGroup : 'popuppicturewrapping',
-                                wrapType    : c_oAscWrapStyle2.Inline,
+                                wrapType    : Asc.c_oAscWrapStyle2.Inline,
                                 checkable   : true
                             }).on('click', onItemClick),
                             new Common.UI.MenuItem({
                                 caption     : me.txtSquare,
                                 iconCls     : 'mnu-wrap-square',
                                 toggleGroup : 'popuppicturewrapping',
-                                wrapType    : c_oAscWrapStyle2.Square,
+                                wrapType    : Asc.c_oAscWrapStyle2.Square,
                                 checkable   : true
                             }).on('click', onItemClick),
                             new Common.UI.MenuItem({
                                 caption     : me.txtTight,
                                 iconCls     : 'mnu-wrap-tight',
                                 toggleGroup : 'popuppicturewrapping',
-                                wrapType    : c_oAscWrapStyle2.Tight,
+                                wrapType    : Asc.c_oAscWrapStyle2.Tight,
                                 checkable   : true
                             }).on('click', onItemClick),
                             new Common.UI.MenuItem({
                                 caption     : me.txtThrough,
                                 iconCls     : 'mnu-wrap-through',
                                 toggleGroup : 'popuppicturewrapping',
-                                wrapType    : c_oAscWrapStyle2.Through,
+                                wrapType    : Asc.c_oAscWrapStyle2.Through,
                                 checkable   : true
                             }).on('click', onItemClick),
                             new Common.UI.MenuItem({
                                 caption     : me.txtTopAndBottom,
                                 iconCls     : 'mnu-wrap-topAndBottom',
                                 toggleGroup : 'popuppicturewrapping',
-                                wrapType    : c_oAscWrapStyle2.TopAndBottom,
+                                wrapType    : Asc.c_oAscWrapStyle2.TopAndBottom,
                                 checkable   : true
                             }).on('click', onItemClick),
                             new Common.UI.MenuItem({
                                 caption     : me.txtInFront,
                                 iconCls     : 'mnu-wrap-inFront',
                                 toggleGroup : 'popuppicturewrapping',
-                                wrapType    : c_oAscWrapStyle2.InFront,
+                                wrapType    : Asc.c_oAscWrapStyle2.InFront,
                                 checkable   : true
                             }).on('click', onItemClick),
                             new Common.UI.MenuItem({
                                 caption     : me.txtBehind,
                                 iconCls     : 'mnu-wrap-behind',
                                 toggleGroup : 'popuppicturewrapping',
-                                wrapType    : c_oAscWrapStyle2.Behind,
+                                wrapType    : Asc.c_oAscWrapStyle2.Behind,
                                 checkable   : true
                             }).on('click', onItemClick),
                             { caption: '--' },
@@ -1894,7 +1929,7 @@ define([
                             elType  = selectedElements[i].get_ObjectType();
                             elValue = selectedElements[i].get_ObjectValue();
 
-                            if (c_oAscTypeSelectElement.Image == elType) {
+                            if (Asc.c_oAscTypeSelectElement.Image == elType) {
                                 var imgsizeOriginal;
                                 if ( !elValue.get_ChartProperties() && !elValue.get_ShapeProperties() && !me.menuOriginalSize.isDisabled() && me.menuOriginalSize.isVisible()) {
                                     imgsizeOriginal = me.api.get_OriginalSizeImage();
@@ -1912,6 +1947,7 @@ define([
                                     imageProps  : elValue,
                                     sizeOriginal: imgsizeOriginal,
                                     sizeMax     : imgsizeMax,
+                                    sectionProps: me.api.asc_GetSectionProps(),
                                     handler     : function(result, value) {
                                         if (result == 'ok') {
                                             if (me.api) {
@@ -1940,7 +1976,7 @@ define([
                 if (me.api){
                     var originalImageSize = me.api.get_OriginalSizeImage();
 
-                    var properties = new CImgProperty();
+                    var properties = new Asc.asc_CImgProperty();
                     properties.put_Width(originalImageSize.get_ImageWidth());
                     properties.put_Height(originalImageSize.get_ImageHeight());
 
@@ -1981,25 +2017,25 @@ define([
                         }
                     } else {
                         switch (wrapping) {
-                            case c_oAscWrapStyle2.Inline:
+                            case Asc.c_oAscWrapStyle2.Inline:
                                 me.menuImageWrap.menu.items[0].setChecked(true);
                                 break;
-                            case c_oAscWrapStyle2.Square:
+                            case Asc.c_oAscWrapStyle2.Square:
                                 me.menuImageWrap.menu.items[1].setChecked(true);
                                 break;
-                            case c_oAscWrapStyle2.Tight:
+                            case Asc.c_oAscWrapStyle2.Tight:
                                 me.menuImageWrap.menu.items[2].setChecked(true);
                                 break;
-                            case c_oAscWrapStyle2.Through:
+                            case Asc.c_oAscWrapStyle2.Through:
                                 me.menuImageWrap.menu.items[3].setChecked(true);
                                 break;
-                            case c_oAscWrapStyle2.TopAndBottom:
+                            case Asc.c_oAscWrapStyle2.TopAndBottom:
                                 me.menuImageWrap.menu.items[4].setChecked(true);
                                 break;
-                            case c_oAscWrapStyle2.Behind:
+                            case Asc.c_oAscWrapStyle2.Behind:
                                 me.menuImageWrap.menu.items[6].setChecked(true);
                                 break;
-                            case c_oAscWrapStyle2.InFront:
+                            case Asc.c_oAscWrapStyle2.InFront:
                                 me.menuImageWrap.menu.items[5].setChecked(true);
                                 break;
                             default:
@@ -2033,8 +2069,8 @@ define([
 
                     me.menuOriginalSize.setDisabled(islocked || value.imgProps.value.get_ImageUrl()===null || value.imgProps.value.get_ImageUrl()===undefined);
                     menuImageAdvanced.setDisabled(islocked);
-                    menuImageAlign.setDisabled( islocked || (wrapping == c_oAscWrapStyle2.Inline) );
-                    menuImageArrange.setDisabled( wrapping == c_oAscWrapStyle2.Inline );
+                    menuImageAlign.setDisabled( islocked || (wrapping == Asc.c_oAscWrapStyle2.Inline) );
+                    menuImageArrange.setDisabled( wrapping == Asc.c_oAscWrapStyle2.Inline );
 
                     if (me.api) {
                         mnuUnGroup.setDisabled(islocked || !me.api.CanUnGroup());
@@ -2143,7 +2179,7 @@ define([
 
             var tableCellsVAlign = function(item, e) {
                 if (me.api) {
-                    var properties = new CTableProp();
+                    var properties = new Asc.CTableProp();
                     properties.put_CellsVAlign(item.options.valign);
                     me.api.tblApply(properties);
                 }
@@ -2159,21 +2195,21 @@ define([
                             toggleGroup : 'popuptablecellalign',
                             checkable   : true,
                             checked     : false,
-                            valign      : c_oAscVertAlignJc.Top
+                            valign      : Asc.c_oAscVertAlignJc.Top
                         }).on('click', _.bind(tableCellsVAlign, me)),
                         me.menuTableCellCenter = new Common.UI.MenuItem({
                             caption     : me.centerCellText,
                             toggleGroup : 'popuptablecellalign',
                             checkable   : true,
                             checked     : false,
-                            valign      : c_oAscVertAlignJc.Center
+                            valign      : Asc.c_oAscVertAlignJc.Center
                         }).on('click', _.bind(tableCellsVAlign, me)),
                         me.menuTableCellBottom = new Common.UI.MenuItem({
                             caption     : me.bottomCellText,
                             toggleGroup : 'popuptablecellalign',
                             checkable   : true,
                             checked     : false,
-                            valign      : c_oAscVertAlignJc.Bottom
+                            valign      : Asc.c_oAscVertAlignJc.Bottom
                         }).on('click', _.bind(tableCellsVAlign, me))
                     ]
                 })
@@ -2193,12 +2229,13 @@ define([
                             elType  = selectedElements[i].get_ObjectType();
                             elValue = selectedElements[i].get_ObjectValue();
 
-                            if (c_oAscTypeSelectElement.Table == elType) {
+                            if (Asc.c_oAscTypeSelectElement.Table == elType) {
                                 win = new DE.Views.TableSettingsAdvanced({
                                     tableStylerRows     : (elValue.get_CellBorders().get_InsideH()===null && elValue.get_CellSelect()==true) ? 1 : 2,
                                     tableStylerColumns  : (elValue.get_CellBorders().get_InsideV()===null && elValue.get_CellSelect()==true) ? 1 : 2,
                                     tableProps          : elValue,
                                     borderProps         : me.borderAdvancedProps,
+                                    sectionProps        : me.api.asc_GetSectionProps(),
                                     handler             : function(result, value) {
                                         if (result == 'ok') {
                                             if (me.api) {
@@ -2364,7 +2401,7 @@ define([
 
             var tableDirection = function(item, e) {
                 if (me.api) {
-                    var properties = new CTableProp();
+                    var properties = new Asc.CTableProp();
                     properties.put_CellsTextDirection(item.options.direction);
                     me.api.tblApply(properties);
                 }
@@ -2382,7 +2419,7 @@ define([
                             checkable   : true,
                             checked     : false,
                             toggleGroup : 'popuptabledirect',
-                            direction      : c_oAscCellTextDirection.LRTB
+                            direction      : Asc.c_oAscCellTextDirection.LRTB
                         }).on('click', _.bind(tableDirection, me)),
                         me.menuTableDirect90 = new Common.UI.MenuItem({
                             caption     : me.direct90Text,
@@ -2390,7 +2427,7 @@ define([
                             checkable   : true,
                             checked     : false,
                             toggleGroup : 'popuptabledirect',
-                            direction      : c_oAscCellTextDirection.TBRL
+                            direction      : Asc.c_oAscCellTextDirection.TBRL
                         }).on('click', _.bind(tableDirection, me)),
                         me.menuTableDirect270 = new Common.UI.MenuItem({
                             caption     : me.direct270Text,
@@ -2398,7 +2435,7 @@ define([
                             checkable   : true,
                             checked     : false,
                             toggleGroup : 'popuptabledirect',
-                            direction      : c_oAscCellTextDirection.BTLR
+                            direction      : Asc.c_oAscCellTextDirection.BTLR
                         }).on('click', _.bind(tableDirection, me))
                     ]
                 })
@@ -2417,9 +2454,9 @@ define([
                     }
 
                     var align = value.tableProps.value.get_CellsVAlign();
-                    me.menuTableCellTop.setChecked(align == c_oAscVertAlignJc.Top);
-                    me.menuTableCellCenter.setChecked(align == c_oAscVertAlignJc.Center);
-                    me.menuTableCellBottom.setChecked(align == c_oAscVertAlignJc.Bottom);
+                    me.menuTableCellTop.setChecked(align == Asc.c_oAscVertAlignJc.Top);
+                    me.menuTableCellCenter.setChecked(align == Asc.c_oAscVertAlignJc.Center);
+                    me.menuTableCellBottom.setChecked(align == Asc.c_oAscVertAlignJc.Bottom);
 
                     var flow = (value.tableProps.value.get_TableWrap() == c_tableWrap.TABLE_WRAP_PARALLEL);
                     (flow) ? menuTableWrapFlow.setChecked(true) : menuTableWrapInline.setChecked(true);
@@ -2430,9 +2467,9 @@ define([
                     me.menuTableAlignRight.setChecked((flow) ? false : (align === c_tableAlign.TABLE_ALIGN_RIGHT));
 
                     var dir = value.tableProps.value.get_CellsTextDirection();
-                    me.menuTableDirectH.setChecked(dir == c_oAscCellTextDirection.LRTB);
-                    me.menuTableDirect90.setChecked(dir == c_oAscCellTextDirection.TBRL);
-                    me.menuTableDirect270.setChecked(dir == c_oAscCellTextDirection.BTLR);
+                    me.menuTableDirectH.setChecked(dir == Asc.c_oAscCellTextDirection.LRTB);
+                    me.menuTableDirect90.setChecked(dir == Asc.c_oAscCellTextDirection.TBRL);
+                    me.menuTableDirect270.setChecked(dir == Asc.c_oAscCellTextDirection.BTLR);
 
                     var disabled = value.tableProps.locked || (value.headerProps!==undefined && value.headerProps.locked);
                     me.tableMenu.items[8].setDisabled(disabled);
@@ -2468,7 +2505,7 @@ define([
 
                     if (text!==false) {
                         menuAddHyperlinkTable.hyperProps = {};
-                        menuAddHyperlinkTable.hyperProps.value = new CHyperlinkProperty();
+                        menuAddHyperlinkTable.hyperProps.value = new Asc.CHyperlinkProperty();
                         menuAddHyperlinkTable.hyperProps.value.put_Text(text);
                     }
                     /** coauthoring begin **/
@@ -2653,7 +2690,7 @@ define([
 
             var paragraphVAlign = function(item, e) {
                 if (me.api) {
-                    var properties = new CImgProperty();
+                    var properties = new Asc.asc_CImgProperty();
                     properties.put_VerticalTextAlign(item.options.valign);
                     me.api.ImgApply(properties);
                 }
@@ -2669,21 +2706,21 @@ define([
                             checkable   : true,
                             checked     : false,
                             toggleGroup : 'popupparagraphvalign',
-                            valign      : c_oAscVerticalTextAlign.TEXT_ALIGN_TOP
+                            valign      : Asc.c_oAscVerticalTextAlign.TEXT_ALIGN_TOP
                         }).on('click', _.bind(paragraphVAlign, me)),
                         me.menuParagraphCenter = new Common.UI.MenuItem({
                             caption     : me.centerCellText,
                             checkable   : true,
                             checked     : false,
                             toggleGroup : 'popupparagraphvalign',
-                            valign      : c_oAscVerticalTextAlign.TEXT_ALIGN_CTR
+                            valign      : Asc.c_oAscVerticalTextAlign.TEXT_ALIGN_CTR
                         }).on('click', _.bind(paragraphVAlign, me)),
                         me.menuParagraphBottom = new Common.UI.MenuItem({
                             caption     : me.bottomCellText,
                             checkable   : true,
                             checked     : false,
                             toggleGroup : 'popupparagraphvalign',
-                            valign      : c_oAscVerticalTextAlign.TEXT_ALIGN_BOTTOM
+                            valign      : Asc.c_oAscVerticalTextAlign.TEXT_ALIGN_BOTTOM
                         }).on('click', _.bind(paragraphVAlign, me))
                     ]
                 })
@@ -2691,7 +2728,7 @@ define([
 
             var paragraphDirection = function(item, e) {
                 if (me.api) {
-                    var properties = new CImgProperty();
+                    var properties = new Asc.asc_CImgProperty();
                     properties.put_Vert(item.options.direction);
                     me.api.ImgApply(properties);
                 }
@@ -2709,7 +2746,7 @@ define([
                             checkable   : true,
                             checked     : false,
                             toggleGroup : 'popupparagraphdirect',
-                            direction      : c_oAscVertDrawingText.normal
+                            direction      : Asc.c_oAscVertDrawingText.normal
                         }).on('click', _.bind(paragraphDirection, me)),
                         me.menuParagraphDirect90 = new Common.UI.MenuItem({
                             caption     : me.direct90Text,
@@ -2717,7 +2754,7 @@ define([
                             checkable   : true,
                             checked     : false,
                             toggleGroup : 'popupparagraphdirect',
-                            direction      : c_oAscVertDrawingText.vert
+                            direction      : Asc.c_oAscVertDrawingText.vert
                         }).on('click', _.bind(paragraphDirection, me)),
                         me.menuParagraphDirect270 = new Common.UI.MenuItem({
                             caption     : me.direct270Text,
@@ -2725,7 +2762,7 @@ define([
                             checkable   : true,
                             checked     : false,
                             toggleGroup : 'popupparagraphdirect',
-                            direction      : c_oAscVertDrawingText.vert270
+                            direction      : Asc.c_oAscVertDrawingText.vert270
                         }).on('click', _.bind(paragraphDirection, me))
                     ]
                 })
@@ -2888,14 +2925,14 @@ define([
                     menuParagraphDirection.setVisible(isInShape && !isInChart && !isEquation); // после того, как заголовок можно будет растягивать по вертикали, вернуть "|| isInChart" !!
                     if ( isInShape || isInChart ) {
                         var align = value.imgProps.value.get_VerticalTextAlign();
-                        me.menuParagraphTop.setChecked(align == c_oAscVerticalTextAlign.TEXT_ALIGN_TOP);
-                        me.menuParagraphCenter.setChecked(align == c_oAscVerticalTextAlign.TEXT_ALIGN_CTR);
-                        me.menuParagraphBottom.setChecked(align == c_oAscVerticalTextAlign.TEXT_ALIGN_BOTTOM);
+                        me.menuParagraphTop.setChecked(align == Asc.c_oAscVerticalTextAlign.TEXT_ALIGN_TOP);
+                        me.menuParagraphCenter.setChecked(align == Asc.c_oAscVerticalTextAlign.TEXT_ALIGN_CTR);
+                        me.menuParagraphBottom.setChecked(align == Asc.c_oAscVerticalTextAlign.TEXT_ALIGN_BOTTOM);
 
                         var dir = value.imgProps.value.get_Vert();
-                        me.menuParagraphDirectH.setChecked(dir == c_oAscVertDrawingText.normal);
-                        me.menuParagraphDirect90.setChecked(dir == c_oAscVertDrawingText.vert);
-                        me.menuParagraphDirect270.setChecked(dir == c_oAscVertDrawingText.vert270);
+                        me.menuParagraphDirectH.setChecked(dir == Asc.c_oAscVertDrawingText.normal);
+                        me.menuParagraphDirect90.setChecked(dir == Asc.c_oAscVertDrawingText.vert);
+                        me.menuParagraphDirect270.setChecked(dir == Asc.c_oAscVertDrawingText.vert270);
                     }
                     menuParagraphAdvanced.isChart = (value.imgProps && value.imgProps.isChart);
                     menuParagraphBreakBefore.setVisible(!isInShape && !isInChart && !isEquation);
@@ -2921,7 +2958,7 @@ define([
                     menuEditHyperlinkPara.hyperProps = value.hyperProps;
                     if (text!==false) {
                         menuAddHyperlinkPara.hyperProps = {};
-                        menuAddHyperlinkPara.hyperProps.value = new CHyperlinkProperty();
+                        menuAddHyperlinkPara.hyperProps.value = new Asc.CHyperlinkProperty();
                         menuAddHyperlinkPara.hyperProps.value.put_Text(text);
                     }
                     var disabled = value.paraProps.locked || (value.headerProps!==undefined && value.headerProps.locked);

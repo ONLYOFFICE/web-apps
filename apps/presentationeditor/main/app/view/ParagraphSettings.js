@@ -1,3 +1,35 @@
+/*
+ *
+ * (c) Copyright Ascensio System Limited 2010-2016
+ *
+ * This program is a free software product. You can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License (AGPL)
+ * version 3 as published by the Free Software Foundation. In accordance with
+ * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
+ * that Ascensio System SIA expressly excludes the warranty of non-infringement
+ * of any third-party rights.
+ *
+ * This program is distributed WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
+ * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ *
+ * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
+ * EU, LV-1021.
+ *
+ * The  interactive user interfaces in modified source and object code versions
+ * of the Program must display Appropriate Legal Notices, as required under
+ * Section 5 of the GNU AGPL version 3.
+ *
+ * Pursuant to Section 7(b) of the License you must retain the original Product
+ * logo when distributing the program. Pursuant to Section 7(e) we decline to
+ * grant you any rights under trademark law for use of our trademarks.
+ *
+ * All the Product's GUI elements, including illustrations and icon sets, as
+ * well as technical writing content are licensed under the terms of the
+ * Creative Commons Attribution-ShareAlike 4.0 International. See the License
+ * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ *
+*/
 /**
  *  ParagraphSettings.js
  *
@@ -261,14 +293,14 @@ define([
             if (this.spinners) {
                 for (var i=0; i<this.spinners.length; i++) {
                     var spinner = this.spinners[i];
-                    spinner.setDefaultUnit(Common.Utils.Metric.metricName[Common.Utils.Metric.getCurrentMetric()]);
-                    spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.cm ? 0.01 : 1);
+                    spinner.setDefaultUnit(Common.Utils.Metric.getCurrentMetricName());
+                    spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt ? 1 : 0.01);
                 }
             }
             var rec = this.cmbLineRule.store.at(1);
-            rec.set({defaultUnit: Common.Utils.Metric.metricName[Common.Utils.Metric.getCurrentMetric()],
+            rec.set({defaultUnit: Common.Utils.Metric.getCurrentMetricName(),
                     minValue: parseFloat(Common.Utils.Metric.fnRecalcFromMM(0.3).toFixed(2)),
-                    step: (Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.cm) ? 0.01: 1});
+                    step: (Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt) ? 1 : 0.01});
 
             if (this._state.LineRule !== null) {
                 var obj;
@@ -295,7 +327,7 @@ define([
                     for (var i = selectedElements.length - 1; i >= 0; i--) {
                         elType = selectedElements[i].get_ObjectType();
                         elValue = selectedElements[i].get_ObjectValue();
-                        if (c_oAscTypeSelectElement.Paragraph == elType) {
+                        if (Asc.c_oAscTypeSelectElement.Paragraph == elType) {
                             (new PE.Views.ParagraphSettingsAdvanced(
                             {
                                 paragraphProps: elValue,
@@ -334,7 +366,7 @@ define([
             }
         },
 
-        strParagraphSpacing:    'Spacing',
+        strParagraphSpacing:    'Paragraph Spacing',
         strLineHeight:          'Line Spacing',
         strSpacingBefore:       'Before',
         strSpacingAfter:        'After',

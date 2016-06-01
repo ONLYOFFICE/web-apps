@@ -1,3 +1,35 @@
+/*
+ *
+ * (c) Copyright Ascensio System Limited 2010-2016
+ *
+ * This program is a free software product. You can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License (AGPL)
+ * version 3 as published by the Free Software Foundation. In accordance with
+ * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
+ * that Ascensio System SIA expressly excludes the warranty of non-infringement
+ * of any third-party rights.
+ *
+ * This program is distributed WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
+ * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ *
+ * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
+ * EU, LV-1021.
+ *
+ * The  interactive user interfaces in modified source and object code versions
+ * of the Program must display Appropriate Legal Notices, as required under
+ * Section 5 of the GNU AGPL version 3.
+ *
+ * Pursuant to Section 7(b) of the License you must retain the original Product
+ * logo when distributing the program. Pursuant to Section 7(e) we decline to
+ * grant you any rights under trademark law for use of our trademarks.
+ *
+ * All the Product's GUI elements, including illustrations and icon sets, as
+ * well as technical writing content are licensed under the terms of the
+ * Creative Commons Attribution-ShareAlike 4.0 International. See the License
+ * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ *
+*/
 /**
  *  ParagraphSettingsAdvanced.js
  *
@@ -19,7 +51,8 @@ define([    'text!presentationeditor/main/app/template/ParagraphSettingsAdvanced
         options: {
             contentWidth: 320,
             height: 394,
-            toggleGroup: 'paragraph-adv-settings-group'
+            toggleGroup: 'paragraph-adv-settings-group',
+            storageName: 'pe-para-settings-adv-category'
         },
 
         initialize : function(options) {
@@ -43,7 +76,7 @@ define([    'text!presentationeditor/main/app/template/ParagraphSettingsAdvanced
             this.spinners = [];
 
             this.api = this.options.api;
-            this._originalProps = new CParagraphProp(this.options.paragraphProps);
+            this._originalProps = new Asc.asc_CParagraphProperty(this.options.paragraphProps);
         },
 
         render: function() {
@@ -66,7 +99,7 @@ define([    'text!presentationeditor/main/app/template/ParagraphSettingsAdvanced
             this.numFirstLine.on('change', _.bind(function(field, newValue, oldValue, eOpts){
                 if (this._changedProps) {
                     if (this._changedProps.get_Ind()===null || this._changedProps.get_Ind()===undefined)
-                        this._changedProps.put_Ind(new CParagraphInd());
+                        this._changedProps.put_Ind(new Asc.asc_CParagraphInd());
                     this._changedProps.get_Ind().put_FirstLine(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
                 }
             }, this));
@@ -86,7 +119,7 @@ define([    'text!presentationeditor/main/app/template/ParagraphSettingsAdvanced
                 var numval = field.getNumberValue();
                 if (this._changedProps) {
                     if (this._changedProps.get_Ind()===null || this._changedProps.get_Ind()===undefined)
-                        this._changedProps.put_Ind(new CParagraphInd());
+                        this._changedProps.put_Ind(new Asc.asc_CParagraphInd());
                     this._changedProps.get_Ind().put_Left(Common.Utils.Metric.fnRecalcToMM(numval));
                 }
                 this.numFirstLine.setMinValue(-numval);
@@ -108,7 +141,7 @@ define([    'text!presentationeditor/main/app/template/ParagraphSettingsAdvanced
             this.numIndentsRight.on('change', _.bind(function(field, newValue, oldValue, eOpts){
                 if (this._changedProps) {
                     if (this._changedProps.get_Ind()===null || this._changedProps.get_Ind()===undefined)
-                        this._changedProps.put_Ind(new CParagraphInd());
+                        this._changedProps.put_Ind(new Asc.asc_CParagraphInd());
                     this._changedProps.get_Ind().put_Right(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
                 }
             }, this));
@@ -167,7 +200,7 @@ define([    'text!presentationeditor/main/app/template/ParagraphSettingsAdvanced
                     this._changedProps.put_TextSpacing(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
                 }
                 if (this.api && !this._noApply) {
-                    var properties = (this._originalProps) ? this._originalProps : new CParagraphProp();
+                    var properties = (this._originalProps) ? this._originalProps : new Asc.asc_CParagraphProperty();
                     properties.put_TextSpacing(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
                     this.api.SetDrawImagePlaceParagraph('paragraphadv-font-img', properties);
                 }
@@ -260,9 +293,9 @@ define([    'text!presentationeditor/main/app/template/ParagraphSettingsAdvanced
         getSettings: function() {
             if ( this._tabListChanged ) {
                 if (this._changedProps.get_Tabs()===null || this._changedProps.get_Tabs()===undefined)
-                    this._changedProps.put_Tabs(new CParagraphTabs());
+                    this._changedProps.put_Tabs(new Asc.asc_CParagraphTabs());
                 this.tabList.store.each(function (item, index) {
-                    var tab = new CParagraphTab(Common.Utils.Metric.fnRecalcToMM(item.get('tabPos')), item.get('tabAlign'));
+                    var tab = new Asc.asc_CParagraphTab(Common.Utils.Metric.fnRecalcToMM(item.get('tabPos')), item.get('tabAlign'));
                     this._changedProps.get_Tabs().add_Tab(tab);
                 }, this);
             }
@@ -271,7 +304,7 @@ define([    'text!presentationeditor/main/app/template/ParagraphSettingsAdvanced
 
         _setDefaults: function(props) {
             if (props ){
-                this._originalProps = new CParagraphProp(props);
+                this._originalProps = new Asc.asc_CParagraphProperty(props);
 
                 this.numIndentsLeft.setValue((props.get_Ind() !== null && props.get_Ind().get_Left() !== null) ? Common.Utils.Metric.fnRecalcFromMM(props.get_Ind().get_Left()) : '', true);
                 this.numFirstLine.setMinValue(-this.numIndentsLeft.getNumberValue());
@@ -305,7 +338,7 @@ define([    'text!presentationeditor/main/app/template/ParagraphSettingsAdvanced
                         var rec = new Common.UI.DataViewModel();
                         rec.set({
                             tabPos: pos,
-                            value: parseFloat(pos.toFixed(3)) + ' ' + Common.Utils.Metric.metricName[Common.Utils.Metric.getCurrentMetric()],
+                            value: parseFloat(pos.toFixed(3)) + ' ' + Common.Utils.Metric.getCurrentMetricName(),
                             tabAlign: tab.get_Value()
                         });
                         arr.push(rec);
@@ -317,7 +350,7 @@ define([    'text!presentationeditor/main/app/template/ParagraphSettingsAdvanced
 
                 this._noApply = false;
 
-                this._changedProps = new CParagraphProp();
+                this._changedProps = new Asc.asc_CParagraphProperty();
             }
         },
 
@@ -325,11 +358,11 @@ define([    'text!presentationeditor/main/app/template/ParagraphSettingsAdvanced
             if (this.spinners) {
                 for (var i=0; i<this.spinners.length; i++) {
                     var spinner = this.spinners[i];
-                    spinner.setDefaultUnit(Common.Utils.Metric.metricName[Common.Utils.Metric.getCurrentMetric()]);
+                    spinner.setDefaultUnit(Common.Utils.Metric.getCurrentMetricName());
                     if (spinner.el.id == 'paragraphadv-spin-spacing')
-                        spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.cm ? 0.01 : 1);
+                        spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt ? 1 : 0.01);
                     else
-                        spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.cm ? 0.1 : 1);
+                        spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt ? 1 : 0.1);
                 }
             }
 
@@ -338,6 +371,10 @@ define([    'text!presentationeditor/main/app/template/ParagraphSettingsAdvanced
         afterRender: function() {
             this.updateMetricUnit();
             this._setDefaults(this._originalProps);
+            if (this.storageName) {
+                var value = Common.localStorage.getItem(this.storageName);
+                this.setActiveCategory((value!==null) ? parseInt(value) : 0);
+            }
         },
 
         onStrikeChange: function(field, newValue, oldValue, eOpts){
@@ -353,7 +390,7 @@ define([    'text!presentationeditor/main/app/template/ParagraphSettingsAdvanced
                 this.checkGroup = 0;
             }
             if (this.api && !this._noApply) {
-                var properties = (this._originalProps) ? this._originalProps : new CParagraphProp();
+                var properties = (this._originalProps) ? this._originalProps : new Asc.asc_CParagraphProperty();
                 properties.put_Strikeout(field.getValue()=='checked');
                 properties.put_DStrikeout(this.chDoubleStrike.getValue()=='checked');
                 this.api.SetDrawImagePlaceParagraph('paragraphadv-font-img', properties);
@@ -373,7 +410,7 @@ define([    'text!presentationeditor/main/app/template/ParagraphSettingsAdvanced
                 this.checkGroup = 0;
             }
             if (this.api && !this._noApply) {
-                var properties = (this._originalProps) ? this._originalProps : new CParagraphProp();
+                var properties = (this._originalProps) ? this._originalProps : new Asc.asc_CParagraphProperty();
                 properties.put_DStrikeout(field.getValue()=='checked');
                 properties.put_Strikeout(this.chStrike.getValue()=='checked');
                 this.api.SetDrawImagePlaceParagraph('paragraphadv-font-img', properties);
@@ -393,7 +430,7 @@ define([    'text!presentationeditor/main/app/template/ParagraphSettingsAdvanced
                 this.checkGroup = 0;
             }
             if (this.api && !this._noApply) {
-                var properties = (this._originalProps) ? this._originalProps : new CParagraphProp();
+                var properties = (this._originalProps) ? this._originalProps : new Asc.asc_CParagraphProperty();
                 properties.put_Superscript(field.getValue()=='checked');
                 properties.put_Subscript(this.chSubscript.getValue()=='checked');
                 this.api.SetDrawImagePlaceParagraph('paragraphadv-font-img', properties);
@@ -413,7 +450,7 @@ define([    'text!presentationeditor/main/app/template/ParagraphSettingsAdvanced
                 this.checkGroup = 0;
             }
             if (this.api && !this._noApply) {
-                var properties = (this._originalProps) ? this._originalProps : new CParagraphProp();
+                var properties = (this._originalProps) ? this._originalProps : new Asc.asc_CParagraphProperty();
                 properties.put_Subscript(field.getValue()=='checked');
                 properties.put_Superscript(this.chSuperscript.getValue()=='checked');
                 this.api.SetDrawImagePlaceParagraph('paragraphadv-font-img', properties);
@@ -433,7 +470,7 @@ define([    'text!presentationeditor/main/app/template/ParagraphSettingsAdvanced
                 this.checkGroup = 0;
             }
             if (this.api && !this._noApply) {
-                var properties = (this._originalProps) ? this._originalProps : new CParagraphProp();
+                var properties = (this._originalProps) ? this._originalProps : new Asc.asc_CParagraphProperty();
                 properties.put_SmallCaps(field.getValue()=='checked');
                 properties.put_AllCaps(this.chAllCaps.getValue()=='checked');
                 this.api.SetDrawImagePlaceParagraph('paragraphadv-font-img', properties);
@@ -453,7 +490,7 @@ define([    'text!presentationeditor/main/app/template/ParagraphSettingsAdvanced
                 this.checkGroup = 0;
             }
             if (this.api && !this._noApply) {
-                var properties = (this._originalProps) ? this._originalProps : new CParagraphProp();
+                var properties = (this._originalProps) ? this._originalProps : new Asc.asc_CParagraphProperty();
                 properties.put_AllCaps(field.getValue()=='checked');
                 properties.put_SmallCaps(this.chSmallCaps.getValue()=='checked');
                 this.api.SetDrawImagePlaceParagraph('paragraphadv-font-img', properties);
@@ -474,7 +511,7 @@ define([    'text!presentationeditor/main/app/template/ParagraphSettingsAdvanced
                 rec = new Common.UI.DataViewModel();
                 rec.set({
                     tabPos: val,
-                    value: val + ' ' + Common.Utils.Metric.metricName[Common.Utils.Metric.getCurrentMetric()],
+                    value: val + ' ' + Common.Utils.Metric.getCurrentMetricName(),
                     tabAlign: align
                 });
                 store.add(rec);

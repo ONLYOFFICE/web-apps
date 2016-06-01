@@ -1,3 +1,35 @@
+/*
+ *
+ * (c) Copyright Ascensio System Limited 2010-2016
+ *
+ * This program is a free software product. You can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License (AGPL)
+ * version 3 as published by the Free Software Foundation. In accordance with
+ * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
+ * that Ascensio System SIA expressly excludes the warranty of non-infringement
+ * of any third-party rights.
+ *
+ * This program is distributed WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
+ * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ *
+ * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
+ * EU, LV-1021.
+ *
+ * The  interactive user interfaces in modified source and object code versions
+ * of the Program must display Appropriate Legal Notices, as required under
+ * Section 5 of the GNU AGPL version 3.
+ *
+ * Pursuant to Section 7(b) of the License you must retain the original Product
+ * logo when distributing the program. Pursuant to Section 7(e) we decline to
+ * grant you any rights under trademark law for use of our trademarks.
+ *
+ * All the Product's GUI elements, including illustrations and icon sets, as
+ * well as technical writing content are licensed under the terms of the
+ * Creative Commons Attribution-ShareAlike 4.0 International. See the License
+ * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ *
+*/
 define([
     'jquery',
     'underscore',
@@ -41,7 +73,7 @@ define([
                     var showPoint = [event.get_X(), event.get_Y()],
                         menuContainer = $(me.el).find(Common.Utils.String.format('#menu-container-{0}', menu.id));
 
-                    if (event.get_Type() == c_oAscContextMenuTypes.Thumbnails) {
+                    if (event.get_Type() == Asc.c_oAscContextMenuTypes.Thumbnails) {
                         showPoint[0] -= 3;
                         showPoint[1] -= 3;
                     }
@@ -69,6 +101,9 @@ define([
                         menu.alignPosition();
                     }
                     _.delay(function() {
+                        var value = Common.localStorage.getItem("pe-settings-inputmode"); // only for hieroglyphs mode
+                        if (value!==null && parseInt(value) == 1)
+                            me.api.asc_enableKeyEvents(false);
                         menu.cmpEl.focus();
                     }, 10);
 
@@ -85,21 +120,21 @@ define([
                     var elType  = element.get_ObjectType(),
                         elValue = element.get_ObjectValue();
 
-                    if (c_oAscTypeSelectElement.Image == elType) {
+                    if (Asc.c_oAscTypeSelectElement.Image == elType) {
                         menu_to_show = me.pictureMenu;
                         menu_props.imgProps = {};
                         menu_props.imgProps.value = elValue;
                         menu_props.imgProps.locked = (elValue) ? elValue.get_Locked() : false;
-                    } else if (c_oAscTypeSelectElement.Table == elType)
+                    } else if (Asc.c_oAscTypeSelectElement.Table == elType)
                     {
                         menu_to_show = me.tableMenu;
                         menu_props.tableProps = {};
                         menu_props.tableProps.value = elValue;
                         menu_props.tableProps.locked = (elValue) ? elValue.get_Locked() : false;
-                    } else if (c_oAscTypeSelectElement.Hyperlink == elType) {
+                    } else if (Asc.c_oAscTypeSelectElement.Hyperlink == elType) {
                         menu_props.hyperProps = {};
                         menu_props.hyperProps.value = elValue;
-                    } else if (c_oAscTypeSelectElement.Shape == elType) { // shape
+                    } else if (Asc.c_oAscTypeSelectElement.Shape == elType) { // shape
                         menu_to_show = me.pictureMenu;
                         menu_props.shapeProps = {};
                         menu_props.shapeProps.value = elValue;
@@ -107,17 +142,17 @@ define([
                         if (elValue.get_FromChart())
                             menu_props.shapeProps.isChart = true;
                     }
-                    else if (c_oAscTypeSelectElement.Chart == elType) {
+                    else if (Asc.c_oAscTypeSelectElement.Chart == elType) {
                         menu_to_show = me.pictureMenu;
                         menu_props.chartProps = {};
                         menu_props.chartProps.value = elValue;
                         menu_props.chartProps.locked = (elValue) ? elValue.get_Locked() : false;
                     }
-                    else if (c_oAscTypeSelectElement.Slide == elType) {
+                    else if (Asc.c_oAscTypeSelectElement.Slide == elType) {
                         menu_props.slideProps = {};
                         menu_props.slideProps.value = elValue;
                         menu_props.slideProps.locked = (elValue) ? elValue.get_LockDelete() : false;
-                    } else if (c_oAscTypeSelectElement.Paragraph == elType) {
+                    } else if (Asc.c_oAscTypeSelectElement.Paragraph == elType) {
                         menu_props.paraProps = {};
                         menu_props.paraProps.value = elValue;
                         menu_props.paraProps.locked = (elValue) ? elValue.get_Locked() : false;
@@ -146,7 +181,7 @@ define([
 
             var onContextMenu = function(event){
                 _.delay(function(){
-                    if (event.get_Type() == c_oAscContextMenuTypes.Thumbnails) {
+                    if (event.get_Type() == Asc.c_oAscContextMenuTypes.Thumbnails) {
                         showPopupMenu.call(me, me.slideMenu, {isSlideSelect: event.get_IsSlideSelect(), fromThumbs: true}, event);
                     } else {
                         showObjectMenu.call(me, event);
@@ -517,7 +552,7 @@ define([
                             slides: _arr
                         });
 
-                        props = new CHyperlinkProperty();
+                        props = new Asc.CHyperlinkProperty();
                         props.put_Text(text);
 
                         win.show();
@@ -526,7 +561,7 @@ define([
                         var selectedElements = me.api.getSelectedElements();
                         if (selectedElements && _.isArray(selectedElements)){
                             _.each(selectedElements, function(el, i) {
-                                if (selectedElements[i].get_ObjectType() == c_oAscTypeSelectElement.Hyperlink)
+                                if (selectedElements[i].get_ObjectType() == Asc.c_oAscTypeSelectElement.Hyperlink)
                                     props = selectedElements[i].get_ObjectValue();
                             });
                         }
@@ -632,13 +667,17 @@ define([
                 e.stopPropagation();
                 if (me.slidesCount>0) {
                     var previewPanel = PE.getController('Viewport').getView('DocumentPreview');
-                    if (previewPanel && !previewPanel.isVisible()) {
+                    if (previewPanel && !previewPanel.isVisible() && me.api) {
                         previewPanel.show();
-                        if (!me.mode.isDesktopApp)
-                            me.fullScreen(document.documentElement);
-                        if (me.api) {
+                        var onWindowResize = function() {
+                            Common.NotificationCenter.off('window:resize', onWindowResize);
                             me.api.StartDemonstration('presentation-preview', 0);
-                        }
+                        };
+                        if (!me.mode.isDesktopApp) {
+                            Common.NotificationCenter.on('window:resize', onWindowResize);
+                            me.fullScreen(document.documentElement);
+                        } else
+                            onWindowResize();
                     }
                 }
             };
@@ -889,16 +928,21 @@ define([
                 caption : me.txtPreview
             }).on('click', function(item) {
                 var previewPanel = PE.getController('Viewport').getView('DocumentPreview');
-                if (previewPanel) {
+                if (previewPanel && me.api) {
                     previewPanel.show();
-                    me.fullScreen(document.documentElement);
+                    var onWindowResize = function() {
+                        Common.NotificationCenter.off('window:resize', onWindowResize);
 
-                    if (me.api) {
                         var current = me.api.getCurrentPage();
                         me.api.StartDemonstration('presentation-preview', _.isNumber(current) ? current : 0);
 
                         Common.component.Analytics.trackEvent('DocumentHolder', 'Preview');
-                    }
+                    };
+                    if (!me.mode.isDesktopApp) {
+                        Common.NotificationCenter.on('window:resize', onWindowResize);
+                        me.fullScreen(document.documentElement);
+                    } else
+                        onWindowResize();
                 }
             });
 
@@ -946,7 +990,7 @@ define([
                         lockedLayout     = false;
                     if (selectedElements && _.isArray(selectedElements)){
                         _.each(selectedElements, function(element, index) {
-                            if (c_oAscTypeSelectElement.Slide == element.get_ObjectType()) {
+                            if (Asc.c_oAscTypeSelectElement.Slide == element.get_ObjectType()) {
                                 var elValue         = element.get_ObjectValue();
                                 locked          = elValue.get_LockDelete();
                                 lockedDeleted   = elValue.get_LockRemove();
@@ -1070,7 +1114,7 @@ define([
                 menu    : (function(){
                     function onItemClick(item, e) {
                         if (me.api) {
-                            var properties = new CTableProp();
+                            var properties = new Asc.CTableProp();
                             properties.put_CellsVAlign(item.value);
                             me.api.tblApply(properties);
                         }
@@ -1086,19 +1130,19 @@ define([
                                 caption     : me.topCellText,
                                 checkable   : true,
                                 toggleGroup : 'popuptablecellalign',
-                                value       : c_oAscVertAlignJc.Top
+                                value       : Asc.c_oAscVertAlignJc.Top
                             }).on('click', _.bind(onItemClick, me)),
                             me.menuTableCellCenter = new Common.UI.MenuItem({
                                 caption     : me.centerCellText,
                                 checkable   : true,
                                 toggleGroup : 'popuptablecellalign',
-                                value       : c_oAscVertAlignJc.Center
+                                value       : Asc.c_oAscVertAlignJc.Center
                             }).on('click', _.bind(onItemClick, me)),
                             me.menuTableCellBottom = new Common.UI.MenuItem({
                                 caption     : me.bottomCellText,
                                 checkable   : true,
                                 toggleGroup : 'popuptablecellalign',
-                                value       : c_oAscVertAlignJc.Bottom
+                                value       : Asc.c_oAscVertAlignJc.Bottom
                             }).on('click', _.bind(onItemClick, me))
                         ]
                     })
@@ -1117,7 +1161,7 @@ define([
                             elType  = selectedElements[i].get_ObjectType();
                             elValue = selectedElements[i].get_ObjectValue();
 
-                            if (c_oAscTypeSelectElement.Table == elType) {
+                            if (Asc.c_oAscTypeSelectElement.Table == elType) {
                                 (new PE.Views.TableSettingsAdvanced(
                                     {
                                         tableProps: elValue,
@@ -1150,7 +1194,7 @@ define([
                             elType  = selectedElements[i].get_ObjectType();
                             elValue = selectedElements[i].get_ObjectValue();
 
-                            if (c_oAscTypeSelectElement.Image == elType) {
+                            if (Asc.c_oAscTypeSelectElement.Image == elType) {
                                 var imgsizeOriginal;
 
                                 if (!menuImgOriginalSize.isDisabled()) {
@@ -1190,7 +1234,7 @@ define([
                         for (var i = selectedElements.length - 1; i >= 0; i--) {
                             elType = selectedElements[i].get_ObjectType();
                             elValue = selectedElements[i].get_ObjectValue();
-                            if (c_oAscTypeSelectElement.Shape == elType) {
+                            if (Asc.c_oAscTypeSelectElement.Shape == elType) {
                                 (new PE.Views.ShapeSettingsAdvanced(
                                     {
                                         shapeProps: elValue,
@@ -1223,7 +1267,7 @@ define([
                             elType  = selectedElements[i].get_ObjectType();
                             elValue = selectedElements[i].get_ObjectValue();
 
-                            if (c_oAscTypeSelectElement.Paragraph == elType) {
+                            if (Asc.c_oAscTypeSelectElement.Paragraph == elType) {
                                 (new PE.Views.ParagraphSettingsAdvanced(
                                     {
                                         paragraphProps: elValue,
@@ -1411,32 +1455,32 @@ define([
                             new Common.UI.MenuItem({
                                 caption     : me.textShapeAlignLeft,
                                 iconCls     : 'mnu-shape-align-left',
-                                value       : c_oAscAlignShapeType.ALIGN_LEFT
+                                value       : Asc.c_oAscAlignShapeType.ALIGN_LEFT
                             }).on('click', _.bind(onItemClick, me)),
                             new Common.UI.MenuItem({
                                 caption     : me.textShapeAlignCenter,
                                 iconCls     : 'mnu-shape-align-center',
-                                value       : c_oAscAlignShapeType.ALIGN_CENTER
+                                value       : Asc.c_oAscAlignShapeType.ALIGN_CENTER
                             }).on('click', _.bind(onItemClick, me)),
                             new Common.UI.MenuItem({
                                 caption     : me.textShapeAlignRight,
                                 iconCls     : 'mnu-shape-align-right',
-                                value       : c_oAscAlignShapeType.ALIGN_RIGHT
+                                value       : Asc.c_oAscAlignShapeType.ALIGN_RIGHT
                             }).on('click', _.bind(onItemClick, me)),
                             new Common.UI.MenuItem({
                                 caption     : me.textShapeAlignTop,
                                 iconCls     : 'mnu-shape-align-top',
-                                value       : c_oAscAlignShapeType.ALIGN_TOP
+                                value       : Asc.c_oAscAlignShapeType.ALIGN_TOP
                             }).on('click', _.bind(onItemClick, me)),
                             new Common.UI.MenuItem({
                                 caption     : me.textShapeAlignMiddle,
                                 iconCls     : 'mnu-shape-align-middle',
-                                value       : c_oAscAlignShapeType.ALIGN_MIDDLE
+                                value       : Asc.c_oAscAlignShapeType.ALIGN_MIDDLE
                             }).on('click', _.bind(onItemClick, me)),
                             new Common.UI.MenuItem({
                                 caption     : me.textShapeAlignBottom,
                                 iconCls     : 'mnu-shape-align-bottom',
-                                value       : c_oAscAlignShapeType.ALIGN_BOTTOM
+                                value       : Asc.c_oAscAlignShapeType.ALIGN_BOTTOM
                             }).on('click', _.bind(onItemClick, me)),
                             {caption    : '--'},
                             new Common.UI.MenuItem({
@@ -1475,7 +1519,7 @@ define([
                 menu        : (function(){
                     function onItemClick(item) {
                         if (me.api) {
-                            var properties = new CAscShapeProp();
+                            var properties = new Asc.asc_CShapeProperty();
                             properties.put_VerticalTextAlign(item.value);
 
                             me.api.ShapeApply(properties);
@@ -1492,19 +1536,19 @@ define([
                                 caption     : me.topCellText,
                                 checkable   : true,
                                 toggleGroup : 'popupparagraphvalign',
-                                value       : c_oAscVerticalTextAlign.TEXT_ALIGN_TOP
+                                value       : Asc.c_oAscVerticalTextAlign.TEXT_ALIGN_TOP
                             }).on('click', _.bind(onItemClick, me)),
                             me.menuParagraphCenter = new Common.UI.MenuItem({
                                 caption     : me.centerCellText,
                                 checkable   : true,
                                 toggleGroup : 'popupparagraphvalign',
-                                value       : c_oAscVerticalTextAlign.TEXT_ALIGN_CTR
+                                value       : Asc.c_oAscVerticalTextAlign.TEXT_ALIGN_CTR
                             }).on('click', _.bind(onItemClick, me)),
                             me.menuParagraphBottom = new Common.UI.MenuItem({
                                 caption     : me.bottomCellText,
                                 checkable   : true,
                                 toggleGroup : 'popupparagraphvalign',
-                                value       : c_oAscVerticalTextAlign.TEXT_ALIGN_BOTTOM
+                                value       : Asc.c_oAscVerticalTextAlign.TEXT_ALIGN_BOTTOM
                             }).on('click', _.bind(onItemClick, me))
                         ]
                     })
@@ -1513,7 +1557,7 @@ define([
 
             var paragraphDirection = function(item, e) {
                 if (me.api) {
-                    var properties = new CAscShapeProp();
+                    var properties = new Asc.asc_CShapeProperty();
                     properties.put_Vert(item.options.direction);
                     me.api.ShapeApply(properties);
                 }
@@ -1532,7 +1576,7 @@ define([
                             checkable   : true,
                             checked     : false,
                             toggleGroup : 'popupparagraphdirect',
-                            direction      : c_oAscVertDrawingText.normal
+                            direction      : Asc.c_oAscVertDrawingText.normal
                         }).on('click', _.bind(paragraphDirection, me)),
                         me.menuParagraphDirect90 = new Common.UI.MenuItem({
                             caption     : me.direct90Text,
@@ -1540,7 +1584,7 @@ define([
                             checkable   : true,
                             checked     : false,
                             toggleGroup : 'popupparagraphdirect',
-                            direction      : c_oAscVertDrawingText.vert
+                            direction      : Asc.c_oAscVertDrawingText.vert
                         }).on('click', _.bind(paragraphDirection, me)),
                         me.menuParagraphDirect270 = new Common.UI.MenuItem({
                             caption     : me.direct270Text,
@@ -1548,7 +1592,7 @@ define([
                             checkable   : true,
                             checked     : false,
                             toggleGroup : 'popupparagraphdirect',
-                            direction      : c_oAscVertDrawingText.vert270
+                            direction      : Asc.c_oAscVertDrawingText.vert270
                         }).on('click', _.bind(paragraphDirection, me))
                     ]
                 })
@@ -1565,7 +1609,7 @@ define([
                     var originalImageSize = me.api.get_OriginalSizeImage();
 
                     if (originalImageSize) {
-                        var properties = new CImgProperty();
+                        var properties = new Asc.asc_CImgProperty();
 
                         properties.put_Width(originalImageSize.get_ImageWidth());
                         properties.put_Height(originalImageSize.get_ImageHeight());
@@ -1658,14 +1702,14 @@ define([
                     menuParagraphDirection.setVisible(isInShape && !isInChart); // после того, как заголовок можно будет растягивать по вертикали, вернуть "|| isInChart" !!
                     if (isInShape || isInChart) {
                         var align = value.shapeProps.value.get_VerticalTextAlign();
-                        me.menuParagraphTop.setChecked(align == c_oAscVerticalTextAlign.TEXT_ALIGN_TOP);
-                        me.menuParagraphCenter.setChecked(align == c_oAscVerticalTextAlign.TEXT_ALIGN_CTR);
-                        me.menuParagraphBottom.setChecked(align == c_oAscVerticalTextAlign.TEXT_ALIGN_BOTTOM);
+                        me.menuParagraphTop.setChecked(align == Asc.c_oAscVerticalTextAlign.TEXT_ALIGN_TOP);
+                        me.menuParagraphCenter.setChecked(align == Asc.c_oAscVerticalTextAlign.TEXT_ALIGN_CTR);
+                        me.menuParagraphBottom.setChecked(align == Asc.c_oAscVerticalTextAlign.TEXT_ALIGN_BOTTOM);
 
                         var dir = value.shapeProps.value.get_Vert();
-                        me.menuParagraphDirectH.setChecked(dir == c_oAscVertDrawingText.normal);
-                        me.menuParagraphDirect90.setChecked(dir == c_oAscVertDrawingText.vert);
-                        me.menuParagraphDirect270.setChecked(dir == c_oAscVertDrawingText.vert270);
+                        me.menuParagraphDirectH.setChecked(dir == Asc.c_oAscVertDrawingText.normal);
+                        me.menuParagraphDirect90.setChecked(dir == Asc.c_oAscVertDrawingText.vert);
+                        me.menuParagraphDirect270.setChecked(dir == Asc.c_oAscVertDrawingText.vert270);
                     }
                     menuParagraphVAlign.setDisabled(disabled);
                     menuParagraphDirection.setDisabled(disabled);
@@ -1683,7 +1727,7 @@ define([
 
                     if (text!==false) {
                         menuAddHyperlinkPara.hyperProps = {};
-                        menuAddHyperlinkPara.hyperProps.value = new CHyperlinkProperty();
+                        menuAddHyperlinkPara.hyperProps.value = new Asc.CHyperlinkProperty();
                         menuAddHyperlinkPara.hyperProps.value.put_Text(text);
                     }
 
@@ -1736,9 +1780,9 @@ define([
 
                     var disabled = (value.slideProps!==undefined && value.slideProps.locked);
 
-                    me.menuTableCellTop.setChecked(value.tableProps.value.get_CellsVAlign() == c_oAscVertAlignJc.Top);
-                    me.menuTableCellCenter.setChecked(value.tableProps.value.get_CellsVAlign() == c_oAscVertAlignJc.Center);
-                    me.menuTableCellBottom.setChecked(value.tableProps.value.get_CellsVAlign() == c_oAscVertAlignJc.Bottom);
+                    me.menuTableCellTop.setChecked(value.tableProps.value.get_CellsVAlign() == Asc.c_oAscVertAlignJc.Top);
+                    me.menuTableCellCenter.setChecked(value.tableProps.value.get_CellsVAlign() == Asc.c_oAscVertAlignJc.Center);
+                    me.menuTableCellBottom.setChecked(value.tableProps.value.get_CellsVAlign() == Asc.c_oAscVertAlignJc.Bottom);
 
                     if (me.api) {
                         mnuTableMerge.setDisabled(value.tableProps.locked || disabled || !me.api.CheckBeforeMergeCells());
@@ -1767,7 +1811,7 @@ define([
 
                     if (text!==false) {
                         menuAddHyperlinkTable.hyperProps = {};
-                        menuAddHyperlinkTable.hyperProps.value = new CHyperlinkProperty();
+                        menuAddHyperlinkTable.hyperProps.value = new Asc.CHyperlinkProperty();
                         menuAddHyperlinkTable.hyperProps.value.put_Text(text);
                     }
                     if (!_.isUndefined(value.paraProps)) {

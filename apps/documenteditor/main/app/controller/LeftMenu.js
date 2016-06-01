@@ -1,3 +1,35 @@
+/*
+ *
+ * (c) Copyright Ascensio System Limited 2010-2016
+ *
+ * This program is a free software product. You can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License (AGPL)
+ * version 3 as published by the Free Software Foundation. In accordance with
+ * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
+ * that Ascensio System SIA expressly excludes the warranty of non-infringement
+ * of any third-party rights.
+ *
+ * This program is distributed WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
+ * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ *
+ * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
+ * EU, LV-1021.
+ *
+ * The  interactive user interfaces in modified source and object code versions
+ * of the Program must display Appropriate Legal Notices, as required under
+ * Section 5 of the GNU AGPL version 3.
+ *
+ * Pursuant to Section 7(b) of the License you must retain the original Product
+ * logo when distributing the program. Pursuant to Section 7(e) we decline to
+ * grant you any rights under trademark law for use of our trademarks.
+ *
+ * All the Product's GUI elements, including illustrations and icon sets, as
+ * well as technical writing content are licensed under the terms of the
+ * Creative Commons Attribution-ShareAlike 4.0 International. See the License
+ * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ *
+*/
 /**
  *    LeftMenu.js
  *
@@ -142,8 +174,18 @@ define([
             if (this.mode.canUseHistory)
                 this.leftMenu.setOptionsPanel('history', this.getApplication().getController('Common.Controllers.History').getView('Common.Views.History'));
 
+            this.enablePlugins();
+
             Common.util.Shortcuts.resumeEvents();
             return this;
+        },
+
+        enablePlugins: function() {
+            if (this.mode.canPlugins) {
+                this.leftMenu.btnPlugins.show();
+                this.leftMenu.setOptionsPanel('plugins', this.getApplication().getController('Common.Controllers.Plugins').getView('Common.Views.Plugins'));
+            } else
+                this.leftMenu.btnPlugins.hide();
         },
 
         clickMenuFileItem: function(menu, action, isopts) {
@@ -206,7 +248,7 @@ define([
 
         clickSaveAsFormat: function(menu, format) {
             if (menu) {
-                if (format == c_oAscFileType.TXT) {
+                if (format == Asc.c_oAscFileType.TXT) {
                     Common.UI.warning({
                         closable: false,
                         title: this.notcriticalErrorTitle,
@@ -237,14 +279,14 @@ define([
             if (this.mode.isEdit && this.mode.canLicense && !this.mode.isOffline) {
                 value = Common.localStorage.getItem("de-settings-coauthmode");
                 var fast_coauth = (value===null || parseInt(value) == 1);
-                this.api.asc_SetFastCollaborative(value===null || parseInt(value) == 1);
+                this.api.asc_SetFastCollaborative(fast_coauth);
 
                 value = Common.localStorage.getItem((fast_coauth) ? "de-settings-showchanges-fast" : "de-settings-showchanges-strict");
                 switch(value) {
-                case 'all': value = c_oAscCollaborativeMarksShowType.All; break;
-                case 'none': value = c_oAscCollaborativeMarksShowType.None; break;
-                case 'last': value = c_oAscCollaborativeMarksShowType.LastChanges; break;
-                default: value = (fast_coauth) ? c_oAscCollaborativeMarksShowType.None : c_oAscCollaborativeMarksShowType.LastChanges;
+                case 'all': value = Asc.c_oAscCollaborativeMarksShowType.All; break;
+                case 'none': value = Asc.c_oAscCollaborativeMarksShowType.None; break;
+                case 'last': value = Asc.c_oAscCollaborativeMarksShowType.LastChanges; break;
+                default: value = (fast_coauth) ? Asc.c_oAscCollaborativeMarksShowType.None : Asc.c_oAscCollaborativeMarksShowType.LastChanges;
                 }
                 this.api.SetCollaborativeMarksShowType(value);
             }
@@ -260,10 +302,8 @@ define([
             case '0':     this.api.SetFontRenderingMode(3); break;
             }
 
-            if (this.mode.canAutosave) {
-                value = Common.localStorage.getItem("de-settings-autosave");
-                this.api.asc_setAutoSaveGap(parseInt(value));
-            }
+            value = Common.localStorage.getItem("de-settings-autosave");
+            this.api.asc_setAutoSaveGap(parseInt(value));
 
             value = Common.localStorage.getItem("de-settings-spellcheck");
             this.api.asc_setSpellCheck(value===null || parseInt(value) == 1);
@@ -407,6 +447,7 @@ define([
             this.leftMenu.btnComments.setDisabled(true);
             this.leftMenu.btnChat.setDisabled(true);
             /** coauthoring end **/
+            this.leftMenu.btnPlugins.setDisabled(true);
 
             this.leftMenu.getMenu('file').setMode({isDisconnected: true});
             if ( this.dlgSearch ) {
@@ -423,6 +464,7 @@ define([
             this.leftMenu.btnComments.setDisabled(disable);
             this.leftMenu.btnChat.setDisabled(disable);
             /** coauthoring end **/
+            this.leftMenu.btnPlugins.setDisabled(disable);
             if (disableFileMenu) this.leftMenu.getMenu('file').SetDisabled(disable);
         },
 

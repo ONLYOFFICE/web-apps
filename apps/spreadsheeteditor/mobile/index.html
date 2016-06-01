@@ -170,8 +170,8 @@
         </style>
 
         <!-- vendor -->
-
-        <link rel="stylesheet" type="text/css" href="../../../sdk/Excel/css/main-mobile.css"/>
+        <!-- sdk -->
+        <link rel="stylesheet" type="text/css" href="../../../../sdkjs/cell/css/main-mobile.css"/>
 
         <script type="text/javascript" src="../../../vendor/touch/sencha-touch-debug.js"></script>
         <script type="text/javascript" src="../../../vendor/jquery/jquery.min.js"></script>
@@ -221,8 +221,12 @@
             window.g_debug_mode = true;
         </script>
 
-        <script type="text/javascript" src="../../../sdk/Common/AllFonts.js"></script>
-        <script type="text/javascript" src="../../../sdk/Excel/sdk-all.js"></script>
+        <script type="text/javascript" src="../sdk_dev_scripts.js"></script>
+        <script>
+            window.sdk_dev_scrpipts.forEach(function(item){
+                document.write('<script type="text/javascript" src="' + item + '"><\/script>');
+            });
+        </script>
     </head>
     <body>
         <script type="text/javascript">

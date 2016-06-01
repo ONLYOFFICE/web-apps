@@ -1,3 +1,35 @@
+/*
+ *
+ * (c) Copyright Ascensio System Limited 2010-2016
+ *
+ * This program is a free software product. You can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License (AGPL)
+ * version 3 as published by the Free Software Foundation. In accordance with
+ * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
+ * that Ascensio System SIA expressly excludes the warranty of non-infringement
+ * of any third-party rights.
+ *
+ * This program is distributed WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
+ * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ *
+ * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
+ * EU, LV-1021.
+ *
+ * The  interactive user interfaces in modified source and object code versions
+ * of the Program must display Appropriate Legal Notices, as required under
+ * Section 5 of the GNU AGPL version 3.
+ *
+ * Pursuant to Section 7(b) of the License you must retain the original Product
+ * logo when distributing the program. Pursuant to Section 7(e) we decline to
+ * grant you any rights under trademark law for use of our trademarks.
+ *
+ * All the Product's GUI elements, including illustrations and icon sets, as
+ * well as technical writing content are licensed under the terms of the
+ * Creative Commons Attribution-ShareAlike 4.0 International. See the License
+ * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ *
+*/
 /**
  *    LeftMenu.js
  *
@@ -18,6 +50,7 @@ define([
     'common/main/lib/view/Chat',
     /** coauthoring end **/
     'common/main/lib/view/History',
+    'common/main/lib/view/Plugins',
     'common/main/lib/view/About',
     'common/main/lib/view/SearchDialog',
     'documenteditor/main/app/view/FileMenu'
@@ -39,6 +72,7 @@ define([
                 'click #left-btn-comments': _.bind(this.onCoauthOptions, this),
                 'click #left-btn-chat': _.bind(this.onCoauthOptions, this),
                 /** coauthoring end **/
+                'click #left-btn-plugins': _.bind(this.onCoauthOptions, this),
                 'click #left-btn-support': function() {
                     var config = this.mode.customization;
                     config && !!config.feedback && !!config.feedback.url ?
@@ -107,11 +141,21 @@ define([
                 toggleGroup: 'leftMenuGroup'
             });
 
+            this.btnPlugins = new Common.UI.Button({
+                el: $('#left-btn-plugins'),
+                hint: this.tipPlugins,
+                enableToggle: true,
+                disabled: true,
+                toggleGroup: 'leftMenuGroup'
+            });
+
             this.btnComments.hide();
             this.btnChat.hide();
+            this.btnPlugins.hide();
 
             this.btnComments.on('click',        _.bind(this.onBtnMenuClick, this));
             this.btnChat.on('click',            _.bind(this.onBtnMenuClick, this));
+            this.btnPlugins.on('click',         _.bind(this.onBtnMenuClick, this));
             /** coauthoring end **/
 
             this.btnSearch.on('click',          _.bind(this.onBtnMenuClick, this));
@@ -183,6 +227,12 @@ define([
                 }
             }
             /** coauthoring end **/
+            if (this.mode.canPlugins) {
+                if (this.btnPlugins.pressed) {
+                    this.panelPlugins.show();
+                } else
+                    this.panelPlugins['hide']();
+            }
         },
 
         setOptionsPanel: function(name, panel) {
@@ -194,6 +244,9 @@ define([
             } else /** coauthoring end **/
             if (name == 'history') {
                 this.panelHistory = panel.render('#left-panel-history');
+            } else
+            if (name == 'plugins' && !this.panelPlugins) {
+                this.panelPlugins = panel.render('#left-panel-plugins');
             }
         },
 
@@ -226,6 +279,10 @@ define([
                     this.panelChat['hide']();
                     this.btnChat.toggle(false, true);
                 }
+                if (this.mode.canPlugins) {
+                    this.panelPlugins['hide']();
+                    this.btnPlugins.toggle(false, true);
+                }
             }
             /** coauthoring end **/
         },
@@ -247,6 +304,7 @@ define([
             this.btnComments.setDisabled(false);
             this.btnChat.setDisabled(false);
             /** coauthoring end **/
+            this.btnPlugins.setDisabled(false);
         },
 
         showMenu: function(menu, opts) {
@@ -306,6 +364,7 @@ define([
         tipAbout    : 'About',
         tipSupport  : 'Feedback & Support',
         tipFile     : 'File',
-        tipSearch   : 'Search'
+        tipSearch   : 'Search',
+        tipPlugins  : 'Plugins'
     }, DE.Views.LeftMenu || {}));
 });

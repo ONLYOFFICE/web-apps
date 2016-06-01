@@ -1,3 +1,35 @@
+/*
+ *
+ * (c) Copyright Ascensio System Limited 2010-2016
+ *
+ * This program is a free software product. You can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License (AGPL)
+ * version 3 as published by the Free Software Foundation. In accordance with
+ * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
+ * that Ascensio System SIA expressly excludes the warranty of non-infringement
+ * of any third-party rights.
+ *
+ * This program is distributed WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
+ * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ *
+ * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
+ * EU, LV-1021.
+ *
+ * The  interactive user interfaces in modified source and object code versions
+ * of the Program must display Appropriate Legal Notices, as required under
+ * Section 5 of the GNU AGPL version 3.
+ *
+ * Pursuant to Section 7(b) of the License you must retain the original Product
+ * logo when distributing the program. Pursuant to Section 7(e) we decline to
+ * grant you any rights under trademark law for use of our trademarks.
+ *
+ * All the Product's GUI elements, including illustrations and icon sets, as
+ * well as technical writing content are licensed under the terms of the
+ * Creative Commons Attribution-ShareAlike 4.0 International. See the License
+ * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ *
+*/
 /**
  *  AdvancedSettingsWindow.js
  *
@@ -44,6 +76,7 @@ define([
             this.handler = _options.handler;
             this.toggleGroup = _options.toggleGroup;
             this.contentWidth = _options.contentWidth;
+            this.storageName = _options.storageName;
 
             Common.UI.Window.prototype.initialize.call(this, _options);
         },
@@ -109,6 +142,37 @@ define([
 
             this.close();
             return false;
+        },
+
+        setActiveCategory: function(index) {
+            if (this.btnsCategory.length<1) return;
+            
+            var btnActive = this.btnsCategory[(index>=0 && index<this.btnsCategory.length) ? index : 0];
+            if (!btnActive.isVisible() || btnActive.isDisabled()) {
+                for (var i = 0; i<this.btnsCategory.length; i++){
+                    var btn = this.btnsCategory[i];
+                    if (btn.isVisible() && !btn.isDisabled()) {
+                        btnActive = btn;
+                        break;
+                    }
+                }
+            }
+            btnActive.toggle(true);
+            this.onCategoryClick(btnActive);
+        },
+
+        getActiveCategory: function() {
+            var index = -1;
+            this.btnsCategory.forEach(function(btn, idx){
+                if (btn.pressed) index = idx;
+            });
+            return index;
+        },
+
+        close: function(suppressevent) {
+            if (this.storageName)
+                Common.localStorage.setItem(this.storageName, this.getActiveCategory());
+            Common.UI.Window.prototype.close.call(this, suppressevent);
         },
 
         cancelButtonText: 'Cancel',

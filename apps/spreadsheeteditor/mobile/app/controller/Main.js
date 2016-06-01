@@ -1,3 +1,35 @@
+/*
+ *
+ * (c) Copyright Ascensio System Limited 2010-2016
+ *
+ * This program is a free software product. You can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License (AGPL)
+ * version 3 as published by the Free Software Foundation. In accordance with
+ * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
+ * that Ascensio System SIA expressly excludes the warranty of non-infringement
+ * of any third-party rights.
+ *
+ * This program is distributed WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
+ * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ *
+ * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
+ * EU, LV-1021.
+ *
+ * The  interactive user interfaces in modified source and object code versions
+ * of the Program must display Appropriate Legal Notices, as required under
+ * Section 5 of the GNU AGPL version 3.
+ *
+ * Pursuant to Section 7(b) of the License you must retain the original Product
+ * logo when distributing the program. Pursuant to Section 7(e) we decline to
+ * grant you any rights under trademark law for use of our trademarks.
+ *
+ * All the Product's GUI elements, including illustrations and icon sets, as
+ * well as technical writing content are licensed under the terms of the
+ * Creative Commons Attribution-ShareAlike 4.0 International. See the License
+ * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ *
+*/
 Ext.define('SSE.controller.Main', {
     extend: 'Ext.app.Controller',
     editMode: false,
@@ -32,9 +64,10 @@ Ext.define('SSE.controller.Main', {
         var app = this.getApplication();
 
         // Initialize api
-        this.api = new Asc.spreadsheet_api("id-sdkeditor", "", SSE.controller.ApiEvents, {}, {});
-        this.api.asc_SetFontsPath("../../../sdk/Fonts/");
-        this.api.asc_setMobileVersion(true);
+        this.api = new Asc.spreadsheet_api({
+            'id-view'  : 'id-sdkeditor',
+            'mobile'   : true
+        });
 
         this.api.asc_registerCallback('asc_onAdvancedOptions',      Ext.bind(this.onAdvancedOptions, this));
         this.api.asc_registerCallback('asc_onOpenDocumentProgress', Ext.bind(this.onOpenDocumentProgress, this));
@@ -69,6 +102,7 @@ Ext.define('SSE.controller.Main', {
     },
 
     loadConfig: function(data) {
+        this.editorConfig = Ext.merge(this.editorConfig, data.config);
         this.editorConfig.user = this._fillUserInfo(this.editorConfig.user, this.editorConfig.lang, this.textAnonymous);
     },
 
@@ -76,13 +110,13 @@ Ext.define('SSE.controller.Main', {
         if (data.doc) {
             this.permissions = data.doc.permissions;
 
-            var _user = new CUserInfo();
+            var _user = new Asc.asc_CUserInfo();
             _user.put_Id(this.editorConfig.user.id);
             _user.put_FirstName(this.editorConfig.user.firstname);
             _user.put_LastName(this.editorConfig.user.lastname);
             _user.put_FullName(this.editorConfig.user.fullname);
 
-            docInfo = new CDocInfo();
+            docInfo = new Asc.asc_CDocInfo();
             docInfo.put_Id(data.doc.key);
             docInfo.put_Url(data.doc.url);
             docInfo.put_Title(data.doc.title);
@@ -118,43 +152,43 @@ Ext.define('SSE.controller.Main', {
 
         switch (id)
         {
-            case c_oAscError.ID.Unknown:
+            case Asc.c_oAscError.ID.Unknown:
                 config.message = this.unknownErrorText;
                 break;
 
-            case c_oAscError.ID.ConvertationTimeout:
+            case Asc.c_oAscError.ID.ConvertationTimeout:
                 config.message = this.convertationTimeoutText;
                 break;
 
-            case c_oAscError.ID.ConvertationError:
+            case Asc.c_oAscError.ID.ConvertationError:
                 config.message = this.convertationErrorText;
                 break;
 
-            case c_oAscError.ID.DownloadError:
+            case Asc.c_oAscError.ID.DownloadError:
                 config.message = this.downloadErrorText;
                 break;
 
-            case c_oAscError.ID.UplImageSize:
+            case Asc.c_oAscError.ID.UplImageSize:
                 config.message = this.uploadImageSizeMessage;
                 break;
 
-            case c_oAscError.ID.UplImageExt:
+            case Asc.c_oAscError.ID.UplImageExt:
                 config.message = this.uploadImageExtMessage;
                 break;
 
-            case c_oAscError.ID.UplImageFileCount:
+            case Asc.c_oAscError.ID.UplImageFileCount:
                 config.message = this.uploadImageFileCountMessage;
                 break;
 
-            case c_oAscError.ID.VKeyEncrypt:
+            case Asc.c_oAscError.ID.VKeyEncrypt:
                 config.msg = this.errorKeyEncrypt;
                 break;
 
-            case c_oAscError.ID.KeyExpire:
+            case Asc.c_oAscError.ID.KeyExpire:
                 config.msg = this.errorKeyExpire;
                 break;
 
-            case c_oAscError.ID.UserCountExceed:
+            case Asc.c_oAscError.ID.UserCountExceed:
                 config.msg = this.errorUsersExceed;
                 break;
 
@@ -165,7 +199,7 @@ Ext.define('SSE.controller.Main', {
 
 
 
-        if (level == c_oAscError.Level.Critical) {
+        if (level == Asc.c_oAscError.Level.Critical) {
 
             // report only critical errors
             Common.Gateway.reportError(id, config.message);
@@ -211,7 +245,7 @@ Ext.define('SSE.controller.Main', {
     },
 
     onAdvancedOptions: function(advOptions) {
-        if (advOptions.asc_getOptionId() == c_oAscAdvancedOptionsID['CSV']){
+        if (advOptions.asc_getOptionId() == Asc.c_oAscAdvancedOptionsID['CSV']){
             var preloader = Ext.get('loading-mask'),
                 me = this;
 
@@ -255,7 +289,7 @@ Ext.define('SSE.controller.Main', {
                     after       : function(){
                         Ext.Viewport.remove(viewAdvOptionsCsv);
                         if (me.api) {
-                            me.api.asc_setAdvancedOptions(c_oAscAdvancedOptionsID['CSV'], new Asc.asc_CCSVAdvancedOptions(result.encoding, result.delimiter));
+                            me.api.asc_setAdvancedOptions(Asc.c_oAscAdvancedOptionsID['CSV'], new Asc.asc_CCSVAdvancedOptions(result.encoding, result.delimiter));
                         }
                     }
                 });
@@ -281,9 +315,9 @@ Ext.define('SSE.controller.Main', {
     },
 
     onLongActionEnd: function(type, id) {
-        if (type === c_oAscAsyncActionType['BlockInteraction']){
+        if (type === Asc.c_oAscAsyncActionType['BlockInteraction']){
             switch (id) {
-                case c_oAscAsyncAction['Open']:
+                case Asc.c_oAscAsyncAction['Open']:
                     this.onOpenDocument();
                     break;
             }
@@ -291,7 +325,7 @@ Ext.define('SSE.controller.Main', {
     },
 
     onDownloadAs: function() {
-       this.api.asc_DownloadAs(c_oAscFileType.XLSX, true);
+       this.api.asc_DownloadAs(Asc.c_oAscFileType.XLSX, true);
     },
 
     _hideLoadSplash: function(){

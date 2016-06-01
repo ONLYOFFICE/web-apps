@@ -1,3 +1,35 @@
+/*
+ *
+ * (c) Copyright Ascensio System Limited 2010-2016
+ *
+ * This program is a free software product. You can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License (AGPL)
+ * version 3 as published by the Free Software Foundation. In accordance with
+ * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
+ * that Ascensio System SIA expressly excludes the warranty of non-infringement
+ * of any third-party rights.
+ *
+ * This program is distributed WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
+ * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ *
+ * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
+ * EU, LV-1021.
+ *
+ * The  interactive user interfaces in modified source and object code versions
+ * of the Program must display Appropriate Legal Notices, as required under
+ * Section 5 of the GNU AGPL version 3.
+ *
+ * Pursuant to Section 7(b) of the License you must retain the original Product
+ * logo when distributing the program. Pursuant to Section 7(e) we decline to
+ * grant you any rights under trademark law for use of our trademarks.
+ *
+ * All the Product's GUI elements, including illustrations and icon sets, as
+ * well as technical writing content are licensed under the terms of the
+ * Creative Commons Attribution-ShareAlike 4.0 International. See the License
+ * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ *
+*/
 /**
  *  TableSettingsAdvanced.js
  *
@@ -23,18 +55,19 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
         options: {
             contentWidth: 340,
             height: 436,
-            toggleGroup: 'table-adv-settings-group'
+            toggleGroup: 'table-adv-settings-group',
+            storageName: 'de-table-settings-adv-category'
         },
 
         initialize : function(options) {
             _.extend(this.options, {
                 title: this.textTitle,
                 items: [
-                    {panelId: 'id-adv-table-width',      panelCaption: this.textWidthSpaces},
-                    {panelId: 'id-adv-table-wrap',       panelCaption: this.textWrap},
+                    {panelId: 'id-adv-table-width',      panelCaption: this.textTable},
+                    {panelId: 'id-adv-table-cell-props', panelCaption: this.textCellProps},
                     {panelId: 'id-adv-table-borders',    panelCaption: this.textBordersBackgroung},
-                    {panelId: 'id-adv-table-position',   panelCaption: this.textPosition},
-                    {panelId: 'id-adv-table-cell-props', panelCaption: this.textCellProps}
+                    {panelId: 'id-adv-table-position',   panelCaption: this.textTablePosition},
+                    {panelId: 'id-adv-table-wrap',       panelCaption: this.textWrap}
                 ],
                 contentTemplate: _.template(contentTemplate)({
                     scope: this
@@ -48,12 +81,12 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             this._cellBackground = null;
 
             this._state = {
-                HAlignType: c_oAscXAlign.Left,
-                HAlignFrom: c_oAscHAnchor.Margin,
-                HPositionFrom: c_oAscHAnchor.Margin,
-                VAlignType: c_oAscYAlign.Top,
-                VAlignFrom: c_oAscVAnchor.Margin,
-                VPositionFrom: c_oAscVAnchor.Margin,
+                HAlignType: Asc.c_oAscXAlign.Left,
+                HAlignFrom: Asc.c_oAscHAnchor.Margin,
+                HPositionFrom: Asc.c_oAscHAnchor.Margin,
+                VAlignType: Asc.c_oAscYAlign.Top,
+                VAlignFrom: Asc.c_oAscVAnchor.Margin,
+                VPositionFrom: Asc.c_oAscVAnchor.Margin,
                 spnXChanged: false,
                 spnYChanged: false,
                 fromWrapInline: false,
@@ -91,7 +124,8 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             this.tableStylerRows = this.options.tableStylerRows;
             this.tableStylerColumns = this.options.tableStylerColumns;
             this.borderProps = this.options.borderProps;
-            this._originalProps = new CTableProp(this.options.tableProps);
+            this.pageWidth = 210;
+            this._originalProps = new Asc.CTableProp(this.options.tableProps);
         },
 
         render: function() {
@@ -109,14 +143,15 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             this.chWidth = new Common.UI.CheckBox({
                 el: $('#tableadv-checkbox-width'),
                 value: true,
-                labelText: this.textWidth
+                labelText: ''
             });
             this.chWidth.on('change', _.bind(function(field, newValue, oldValue, eOpts){
                 var value = (newValue=='checked');
                 this.nfWidth.setDisabled(!value);
+                this.cmbUnit.setDisabled(!value);
                 if (this._changedProps) {
                     if (value && this.nfWidth.getNumberValue()>0)
-                        this._changedProps.put_Width(Common.Utils.Metric.fnRecalcToMM(this.nfWidth.getNumberValue()));
+                        this._changedProps.put_Width(this.cmbUnit.getValue() ? -field.getNumberValue() : Common.Utils.Metric.fnRecalcToMM(this.nfWidth.getNumberValue()));
                     else
                         this._changedProps.put_Width(null);
                 }
@@ -125,7 +160,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             this.nfWidth = new Common.UI.MetricSpinner({
                 el: $('#tableadv-number-width'),
                 step: .1,
-                width: 85,
+                width: 115,
                 defaultUnit : "cm",
                 value: '10 cm',
                 maxValue: 55.88,
@@ -133,14 +168,36 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             });
             this.nfWidth.on('change', _.bind(function(field, newValue, oldValue, eOpts){
                 if (this._changedProps)
-                    this._changedProps.put_Width(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
+                    this._changedProps.put_Width(this.cmbUnit.getValue() ? -field.getNumberValue() : Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
             }, this));
-            this.spinners.push(this.nfWidth);
+
+            var currmetric = Common.Utils.Metric.getCurrentMetric();
+            this.cmbUnit = new Common.UI.ComboBox({
+                el          : $('#tableadv-cmb-unit'),
+                style       : 'width: 115px;',
+                menuStyle   : 'min-width: 115px;',
+                editable    : false,
+                cls         : 'input-group-nr',
+                data        : [
+                    { value: 0, displayValue: (currmetric == Common.Utils.Metric.c_MetricUnits.pt) ? this.txtPt : ((currmetric == Common.Utils.Metric.c_MetricUnits.inch) ? this.txtInch : this.txtCm) },
+                    { value: 1, displayValue: this.txtPercent }
+                ]
+            });
+            this.cmbUnit.on('selected', _.bind(function(combo, record) {
+                if (this._changedProps) {
+                    var maxwidth = Common.Utils.Metric.fnRecalcFromMM(558);
+                    this.nfWidth.setDefaultUnit(record.value ? '%' : Common.Utils.Metric.getCurrentMetricName());
+                    this.nfWidth.setMaxValue(record.value ? parseFloat((100 * maxwidth/this.pageWidth).toFixed(2)) : maxwidth);
+                    this.nfWidth.setStep((record.value || Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt) ? 1 : 0.1);
+                    this.nfWidth.setValue((record.value) ? 100*this.nfWidth.getNumberValue()/this.pageWidth : this.pageWidth*this.nfWidth.getNumberValue()/100);
+                    this._changedProps.put_Width(record.value ? -this.nfWidth.getNumberValue() : Common.Utils.Metric.fnRecalcToMM(this.nfWidth.getNumberValue()));
+                }
+            }, this));
 
             this.chAllowSpacing = new Common.UI.CheckBox({
                 el: $('#tableadv-checkbox-spacing'),
                 value: true,
-                labelText: this.textAllowSpacing
+                labelText: ''
             });
             this.chAllowSpacing.on('change', _.bind(function(field, newValue, oldValue, eOpts){
                 var value = (newValue=='checked');
@@ -160,7 +217,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             this.nfSpacing = new Common.UI.MetricSpinner({
                 el: $('#tableadv-number-spacing'),
                 step: .1,
-                width: 85,
+                width: 115,
                 defaultUnit : "cm",
                 value: '0.5 cm',
                 maxValue: 2.14,
@@ -179,7 +236,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             });
             this.chAutofit.on('change', _.bind(function(field, newValue, oldValue, eOpts){
                 if (this._changedProps) {
-                    this._changedProps.put_TableLayout((field.getValue()=='checked') ? c_oAscTableLayout.AutoFit : c_oAscTableLayout. Fixed);
+                    this._changedProps.put_TableLayout((field.getValue()=='checked') ? Asc.c_oAscTableLayout.AutoFit : Asc.c_oAscTableLayout. Fixed);
                 }
             }, this));
 
@@ -197,7 +254,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 this._marginsChange( field, newValue, oldValue, eOpts, 'table', 'Top');
                 if (this._changedProps)  {
                     if (this._changedProps.get_DefaultMargins()===undefined)
-                        this._changedProps.put_DefaultMargins(new CPaddings());
+                        this._changedProps.put_DefaultMargins(new Asc.asc_CPaddings());
                     this._changedProps.get_DefaultMargins().put_Top((this.TableMargins.Top!==null) ? Common.Utils.Metric.fnRecalcToMM(this.TableMargins.Top) : null);
                     this.TableMargins.isChanged = true;
                 }
@@ -217,7 +274,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 this._marginsChange( field, newValue, oldValue, eOpts, 'table', 'Bottom');
                 if (this._changedProps)  {
                     if (this._changedProps.get_DefaultMargins()===undefined)
-                        this._changedProps.put_DefaultMargins(new CPaddings());
+                        this._changedProps.put_DefaultMargins(new Asc.asc_CPaddings());
                     this._changedProps.get_DefaultMargins().put_Bottom((this.TableMargins.Bottom!==null) ? Common.Utils.Metric.fnRecalcToMM(this.TableMargins.Bottom) : null);
                     this.TableMargins.isChanged = true;
                 }
@@ -237,7 +294,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 this._marginsChange( field, newValue, oldValue, eOpts, 'table', 'Left');
                 if (this._changedProps)  {
                     if (this._changedProps.get_DefaultMargins()===undefined)
-                        this._changedProps.put_DefaultMargins(new CPaddings());
+                        this._changedProps.put_DefaultMargins(new Asc.asc_CPaddings());
                     this._changedProps.get_DefaultMargins().put_Left((this.TableMargins.Left!==null) ? Common.Utils.Metric.fnRecalcToMM(this.TableMargins.Left) : null);
                     this.TableMargins.isChanged = true;
                 }
@@ -257,7 +314,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 this._marginsChange( field, newValue, oldValue, eOpts, 'table', 'Right');
                 if (this._changedProps)  {
                     if (this._changedProps.get_DefaultMargins()===undefined)
-                        this._changedProps.put_DefaultMargins(new CPaddings());
+                        this._changedProps.put_DefaultMargins(new Asc.asc_CPaddings());
                     this._changedProps.get_DefaultMargins().put_Right((this.TableMargins.Right!==null) ? Common.Utils.Metric.fnRecalcToMM(this.TableMargins.Right) : null);
                     this.TableMargins.isChanged = true;
                 }
@@ -287,7 +344,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 this.CellMargins.Flag = field.getValue();
                 if (this._changedProps) {
                     if (this._changedProps.get_CellMargins()===undefined)
-                        this._changedProps.put_CellMargins(new CMargins());
+                        this._changedProps.put_CellMargins(new Asc.CMargins());
                     this._changedProps.get_CellMargins().put_Left( ( this.CellMargins.Left!== null) ? Common.Utils.Metric.fnRecalcToMM(this.CellMargins.Left) : null);
                     this._changedProps.get_CellMargins().put_Top((this.CellMargins.Top!==null) ? Common.Utils.Metric.fnRecalcToMM(this.CellMargins.Top) : null);
                     this._changedProps.get_CellMargins().put_Bottom((this.CellMargins.Bottom!==null) ? Common.Utils.Metric.fnRecalcToMM(this.CellMargins.Bottom) : null);
@@ -309,7 +366,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 this._marginsChange( field, newValue, oldValue, eOpts, 'cell', 'Top');
                 if (this._changedProps)  {
                     if (this._changedProps.get_CellMargins()===undefined)
-                        this._changedProps.put_CellMargins(new CMargins());
+                        this._changedProps.put_CellMargins(new Asc.CMargins());
                     this._changedProps.get_CellMargins().put_Top((this.CellMargins.Top!==null) ? Common.Utils.Metric.fnRecalcToMM(this.CellMargins.Top) : null);
                     setCellFlag();
                 }
@@ -329,7 +386,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 this._marginsChange( field, newValue, oldValue, eOpts, 'cell', 'Bottom');
                 if (this._changedProps)  {
                     if (this._changedProps.get_CellMargins()===undefined)
-                        this._changedProps.put_CellMargins(new CMargins());
+                        this._changedProps.put_CellMargins(new Asc.CMargins());
                     this._changedProps.get_CellMargins().put_Bottom((this.CellMargins.Bottom!==null) ? Common.Utils.Metric.fnRecalcToMM(this.CellMargins.Bottom) : null);
                     setCellFlag();
                 }
@@ -349,7 +406,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 this._marginsChange( field, newValue, oldValue, eOpts, 'cell', 'Left');
                 if (this._changedProps)  {
                     if (this._changedProps.get_CellMargins()===undefined)
-                        this._changedProps.put_CellMargins(new CMargins());
+                        this._changedProps.put_CellMargins(new Asc.CMargins());
                     this._changedProps.get_CellMargins().put_Left((this.CellMargins.Left!==null) ? Common.Utils.Metric.fnRecalcToMM(this.CellMargins.Left) : null);
                     setCellFlag();
                 }
@@ -369,12 +426,80 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 this._marginsChange( field, newValue, oldValue, eOpts, 'cell', 'Right');
                 if (this._changedProps)  {
                     if (this._changedProps.get_CellMargins()===undefined)
-                        this._changedProps.put_CellMargins(new CMargins());
+                        this._changedProps.put_CellMargins(new Asc.CMargins());
                     this._changedProps.get_CellMargins().put_Right((this.CellMargins.Right!==null) ? Common.Utils.Metric.fnRecalcToMM(this.CellMargins.Right) : null);
                     setCellFlag();
                 }
             }, this));
             this.spinners.push(this.spnMarginRight);
+
+            // Cell Size
+            this.chPrefWidth = new Common.UI.CheckBox({
+                el: $('#tableadv-checkbox-prefwidth'),
+                value: false,
+                labelText: ''
+            });
+            this.chPrefWidth.on('change', _.bind(function(field, newValue, oldValue, eOpts){
+                var value = (newValue=='checked');
+                this.nfPrefWidth.setDisabled(!value);
+                this.cmbPrefWidthUnit.setDisabled(!value);
+                if (this._changedProps) {
+                    if (value && this.nfPrefWidth.getNumberValue()>0)
+                        this._changedProps.put_CellsWidth(this.cmbPrefWidthUnit.getValue() ? -field.getNumberValue() : Common.Utils.Metric.fnRecalcToMM(this.nfPrefWidth.getNumberValue()));
+                    else
+                        this._changedProps.put_CellsWidth(null);
+                }
+            }, this));
+
+            this.nfPrefWidth = new Common.UI.MetricSpinner({
+                el: $('#tableadv-number-prefwidth'),
+                step: .1,
+                width: 115,
+                defaultUnit : "cm",
+                value: '10 cm',
+                maxValue: 55.88,
+                minValue: 0
+            });
+            this.nfPrefWidth.on('change', _.bind(function(field, newValue, oldValue, eOpts){
+                if (this._changedProps)
+                    this._changedProps.put_CellsWidth(this.cmbPrefWidthUnit.getValue() ? -field.getNumberValue() : Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
+            }, this));
+
+            this.cmbPrefWidthUnit = new Common.UI.ComboBox({
+                el          : $('#tableadv-combo-prefwidth-unit'),
+                style       : 'width: 115px;',
+                menuStyle   : 'min-width: 115px;',
+                editable    : false,
+                cls         : 'input-group-nr',
+                data        : [
+                    { value: 0, displayValue: (currmetric == Common.Utils.Metric.c_MetricUnits.pt) ? this.txtPt : ((currmetric == Common.Utils.Metric.c_MetricUnits.inch) ? this.txtInch : this.txtCm) },
+                    { value: 1, displayValue: this.txtPercent }
+                ]
+            });
+            this.cmbPrefWidthUnit.on('selected', _.bind(function(combo, record) {
+                if (this._changedProps) {
+                    var defUnit = (record.value) ? '%' : Common.Utils.Metric.getCurrentMetricName();
+                    if (this.nfPrefWidth.getUnitValue() !== defUnit) {
+                        var maxwidth = Common.Utils.Metric.fnRecalcFromMM(558);
+                        this.nfPrefWidth.setDefaultUnit(defUnit);
+                        this.nfPrefWidth.setMaxValue(record.value ? parseFloat((100 * maxwidth/this.pageWidth).toFixed(2)) : maxwidth);
+                        this.nfPrefWidth.setStep((record.value || Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt) ? 1 : 0.1);
+                        this.nfPrefWidth.setValue((record.value) ? 100*this.nfPrefWidth.getNumberValue()/this.pageWidth : this.pageWidth*this.nfPrefWidth.getNumberValue()/100);
+                        this._changedProps.put_CellsWidth(record.value ? -this.nfPrefWidth.getNumberValue() : Common.Utils.Metric.fnRecalcToMM(this.nfPrefWidth.getNumberValue()));
+                    }
+                }
+            }, this));
+
+            this.chWrapText = new Common.UI.CheckBox({
+                el: $('#tableadv-checkbox-wrap'),
+                value: false,
+                labelText: this.textWrapText
+            });
+            this.chWrapText.on('change', _.bind(function(field, newValue, oldValue, eOpts){
+                if (this._changedProps) {
+                    this._changedProps.put_CellsNoWrap((field.getValue()!='checked'));
+                }
+            }, this));
 
             // Wrapping
 
@@ -488,7 +613,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             this.spnDistanceTop.on('change', _.bind(function(field, newValue, oldValue, eOpts){
                 if (this._changedProps) {
                     if (this._changedProps.get_TablePaddings()===undefined)
-                        this._changedProps.put_TablePaddings(new CPaddings());
+                        this._changedProps.put_TablePaddings(new Asc.asc_CPaddings());
                     this._changedProps.get_TablePaddings().put_Top(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
                 }
             }, this));
@@ -506,7 +631,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             this.spnDistanceBottom.on('change', _.bind(function(field, newValue, oldValue, eOpts){
                 if (this._changedProps) {
                     if (this._changedProps.get_TablePaddings()===undefined)
-                        this._changedProps.put_TablePaddings(new CPaddings());
+                        this._changedProps.put_TablePaddings(new Asc.asc_CPaddings());
                     this._changedProps.get_TablePaddings().put_Bottom(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
                 }
             }, this));
@@ -524,7 +649,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             this.spnDistanceLeft.on('change', _.bind(function(field, newValue, oldValue, eOpts){
                 if (this._changedProps) {
                     if (this._changedProps.get_TablePaddings()===undefined)
-                        this._changedProps.put_TablePaddings(new CPaddings());
+                        this._changedProps.put_TablePaddings(new Asc.asc_CPaddings());
                     this._changedProps.get_TablePaddings().put_Left(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
                 }
             }, this));
@@ -542,7 +667,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             this.spnDistanceRight.on('change', _.bind(function(field, newValue, oldValue, eOpts){
                 if (this._changedProps) {
                     if (this._changedProps.get_TablePaddings()===undefined)
-                        this._changedProps.put_TablePaddings(new CPaddings());
+                        this._changedProps.put_TablePaddings(new Asc.asc_CPaddings());
                     this._changedProps.get_TablePaddings().put_Right(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
                 }
             }, this));
@@ -564,7 +689,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             this.spnX.on('change', _.bind(function(field, newValue, oldValue, eOpts){
                 if (this._changedProps) {
                     if (this._changedProps.get_PositionH()===null || this._changedProps.get_PositionH()===undefined)
-                        this._changedProps.put_PositionH(new CTablePositionH());
+                        this._changedProps.put_PositionH(new Asc.CTablePositionH());
 
                     this._changedProps.get_PositionH().put_UseAlign(false);
                     this._changedProps.get_PositionH().put_RelativeFrom(this._state.HPositionFrom);
@@ -588,7 +713,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             this.spnY.on('change', _.bind(function(field, newValue, oldValue, eOpts){
                 if (this._changedProps) {
                     if (this._changedProps.get_PositionV()===null || this._changedProps.get_PositionV()===undefined)
-                        this._changedProps.put_PositionV(new CTablePositionV());
+                        this._changedProps.put_PositionV(new Asc.CTablePositionV());
 
                     this._changedProps.get_PositionV().put_UseAlign(false);
                     this._changedProps.get_PositionV().put_RelativeFrom(this._state.VPositionFrom);
@@ -600,9 +725,9 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
 
             // Horizontal
             this._arrHAlign = [
-                {displayValue: this.textLeft,   value: c_oAscXAlign.Left},
-                {displayValue: this.textCenter, value: c_oAscXAlign.Center},
-                {displayValue: this.textRight,  value: c_oAscXAlign.Right}
+                {displayValue: this.textLeft,   value: Asc.c_oAscXAlign.Left},
+                {displayValue: this.textCenter, value: Asc.c_oAscXAlign.Center},
+                {displayValue: this.textRight,  value: Asc.c_oAscXAlign.Right}
             ];
 
             this.cmbHAlign = new Common.UI.ComboBox({
@@ -616,9 +741,9 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             this.cmbHAlign.on('selected', _.bind(this.onHAlignSelect, this));
 
             this._arrHRelative = [
-                {displayValue: this.textMargin,     value: c_oAscHAnchor.Margin},
-                {displayValue: this.textPage,       value: c_oAscHAnchor.Page},
-                {displayValue: this.textAnchorText, value: c_oAscHAnchor.Text}
+                {displayValue: this.textMargin,     value: Asc.c_oAscHAnchor.Margin},
+                {displayValue: this.textPage,       value: Asc.c_oAscHAnchor.Page},
+                {displayValue: this.textAnchorText, value: Asc.c_oAscHAnchor.Text}
             ];
 
             this.cmbHRelative = new Common.UI.ComboBox({
@@ -644,9 +769,9 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
 
             // Vertical
             this._arrVAlign = [
-                {displayValue: this.textTop,   value: c_oAscYAlign.Top},
-                {displayValue: this.textCenter, value: c_oAscYAlign.Center},
-                {displayValue: this.textBottom,  value: c_oAscYAlign.Bottom}
+                {displayValue: this.textTop,   value: Asc.c_oAscYAlign.Top},
+                {displayValue: this.textCenter, value: Asc.c_oAscYAlign.Center},
+                {displayValue: this.textBottom,  value: Asc.c_oAscYAlign.Bottom}
             ];
 
             this.cmbVAlign = new Common.UI.ComboBox({
@@ -660,9 +785,9 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             this.cmbVAlign.on('selected', _.bind(this.onVAlignSelect, this));
 
             this._arrVRelative = [
-                {displayValue: this.textMargin,     value: c_oAscVAnchor.Margin},
-                {displayValue: this.textPage,       value: c_oAscVAnchor.Page},
-                {displayValue: this.textAnchorText, value: c_oAscVAnchor.Text}
+                {displayValue: this.textMargin,     value: Asc.c_oAscVAnchor.Margin},
+                {displayValue: this.textPage,       value: Asc.c_oAscVAnchor.Page},
+                {displayValue: this.textAnchorText, value: Asc.c_oAscVAnchor.Text}
             ];
 
             this.cmbVRelative = new Common.UI.ComboBox({
@@ -747,7 +872,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 el: $('#tableadv-combo-border-size'),
                 style: "width: 93px;"
             });
-            var rec = this.cmbBorderSize.store.at(2);
+            var rec = this.cmbBorderSize.store.at(1);
             this.BorderSize = {ptValue: rec.get('value'), pxValue: rec.get('pxValue')};
             this.cmbBorderSize.setValue(this.BorderSize.ptValue);
             this.cmbBorderSize.on('selected', _.bind(this.onBorderSizeSelect, this));
@@ -943,7 +1068,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             this.CellBackContainer = $('#tableadv-panel-cell-back');
             this.TableBackContainer = $('#tableadv-panel-table-back');
 
-            this.btnsCategory[4].on('click', _.bind(this.onCellCategoryClick, this));
+            this.btnsCategory[1].on('click', _.bind(this.onCellCategoryClick, this));
             this.afterRender();
         },
 
@@ -971,7 +1096,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 for (var j=0; j<this.tableBordersImageSpacing.columns; j++) {
                     this.tableBordersImageSpacing.getCell(j, i).on('borderclick', function(ct, border, size, color){
                         if (this.ChangedCellBorders===undefined) {
-                            this.ChangedCellBorders = new CBorders();
+                            this.ChangedCellBorders = new Asc.CBorders();
                         }
                         this._UpdateCellBordersStyle(ct, border, size, color, this.CellBorders, this.ChangedCellBorders);
                     }, this);
@@ -979,7 +1104,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             }
             this.tableBordersImageSpacing.on('borderclick', function(ct, border, size, color){
                 if (this.ChangedTableBorders===undefined) {
-                    this.ChangedTableBorders = new CBorders();
+                    this.ChangedTableBorders = new Asc.CBorders();
                 }
                 this._UpdateTableBordersStyle(ct, border, size, color, this.TableBorders, this.ChangedTableBorders);
             }, this);
@@ -989,11 +1114,11 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                     this.tableBordersImage.getCell(j, i).on('borderclick', function(ct, border, size, color){
                         if (this._allTable) {
                             if (this.ChangedTableBorders===undefined) {
-                                this.ChangedTableBorders = new CBorders();
+                                this.ChangedTableBorders = new Asc.CBorders();
                             }
                         } else {
                             if (this.ChangedCellBorders===undefined) {
-                                this.ChangedCellBorders = new CBorders();
+                                this.ChangedCellBorders = new Asc.CBorders();
                             }
                         }
                         this._UpdateCellBordersStyle(ct, border, size, color, (this._allTable) ? this.TableBorders : this.CellBorders, (this._allTable) ? this.ChangedTableBorders : this.ChangedCellBorders);
@@ -1003,15 +1128,20 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             this.tableBordersImage.on('borderclick', function(ct, border, size, color){
                 if (this._allTable) {
                     if (this.ChangedTableBorders===undefined) {
-                        this.ChangedTableBorders = new CBorders();
+                        this.ChangedTableBorders = new Asc.CBorders();
                     }
                 } else {
                     if (this.ChangedCellBorders===undefined) {
-                        this.ChangedCellBorders = new CBorders();
+                        this.ChangedCellBorders = new Asc.CBorders();
                     }
                 }
                 this._UpdateTableBordersStyle(ct, border, size, color, (this._allTable) ? this.TableBorders : this.CellBorders, (this._allTable) ? this.ChangedTableBorders : this.ChangedCellBorders);
             }, this);
+
+            if (this.storageName) {
+                var value = Common.localStorage.getItem(this.storageName);
+                this.setActiveCategory((value!==null) ? parseInt(value) : 0);
+            }
         },
 
         getSettings: function() {
@@ -1043,15 +1173,26 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
         _setDefaults: function(props) {
             if (props ){
                 this._allTable = !props.get_CellSelect();
+                this.pageWidth = Common.Utils.Metric.fnRecalcFromMM(props.get_PercentFullWidth());
 
-                var value;
+                var value,
+                    TableWidth = props.get_Width(),
+                    currmetric = Common.Utils.Metric.getCurrentMetric();
+
                 // main props
-                var TableWidth = props.get_Width();
-                if (TableWidth !== null) {
-                    this.nfWidth.setValue(Common.Utils.Metric.fnRecalcFromMM(TableWidth), true);
-                }
+                this.cmbUnit.store.at(0).set('displayValue', (currmetric == Common.Utils.Metric.c_MetricUnits.pt) ? this.txtPt : ((currmetric == Common.Utils.Metric.c_MetricUnits.inch) ? this.txtInch : this.txtCm));
+                this.cmbUnit.setValue(TableWidth<0 ? 1 : 0);
+                this.nfWidth.setDefaultUnit(TableWidth<0 ? '%' : Common.Utils.Metric.getCurrentMetricName());
+                if (TableWidth<0) //%
+                    this.nfWidth.setMaxValue(parseFloat((100 * Common.Utils.Metric.fnRecalcFromMM(558)/this.pageWidth).toFixed(2)));
+                this.nfWidth.setStep((TableWidth<0 || Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt) ? 1 : 0.1);
+                if (TableWidth !== null)
+                    this.nfWidth.setValue(TableWidth>0 ? Common.Utils.Metric.fnRecalcFromMM(TableWidth) : -TableWidth , true);
+
                 this.chWidth.setValue(TableWidth !== null, true);
-                this.nfWidth.setDisabled(this.chWidth.getValue()!=='checked');
+                value = (this.chWidth.getValue()!=='checked');
+                this.nfWidth.setDisabled(value);
+                this.cmbUnit.setDisabled(value);
 
                 var TableSpacing = props.get_Spacing();
                 if (TableSpacing !== null) {
@@ -1063,7 +1204,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
 
                 var autoFit = props.get_TableLayout();
                 this.chAutofit.setDisabled(autoFit===undefined);
-                this.chAutofit.setValue(autoFit===c_oAscTableLayout.AutoFit, true);
+                this.chAutofit.setValue(autoFit===Asc.c_oAscTableLayout.AutoFit, true);
 
                 // margins
                 var margins = props.get_DefaultMargins();
@@ -1099,6 +1240,26 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 }
 
                 this.fillMargins(this.CellMargins.Flag);
+
+                // Cell Size
+                var cellWidth = props.get_CellsWidth();
+
+                this.cmbPrefWidthUnit.store.at(0).set('displayValue', (currmetric == Common.Utils.Metric.c_MetricUnits.pt) ? this.txtPt : ((currmetric == Common.Utils.Metric.c_MetricUnits.inch) ? this.txtInch : this.txtCm));
+                this.cmbPrefWidthUnit.setValue(cellWidth<0 ? 1 : 0);
+                this.nfPrefWidth.setDefaultUnit(cellWidth<0 ? '%' : Common.Utils.Metric.getCurrentMetricName());
+                if (cellWidth<0) //%
+                    this.nfPrefWidth.setMaxValue(parseFloat((100 * Common.Utils.Metric.fnRecalcFromMM(558)/this.pageWidth).toFixed(2)));
+                this.nfPrefWidth.setStep((cellWidth<0 || Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt) ? 1 : 0.1);
+                if (cellWidth !== null)
+                    this.nfPrefWidth.setValue(cellWidth>0 ? Common.Utils.Metric.fnRecalcFromMM(cellWidth) : -cellWidth , true);
+
+                this.chPrefWidth.setValue(cellWidth !== null, true);
+                value = (this.chPrefWidth.getValue()!=='checked');
+                this.nfPrefWidth.setDisabled(value);
+                this.cmbPrefWidthUnit.setDisabled(value);
+
+                var wrapText = !props.get_CellsNoWrap();
+                this.chWrapText.setValue(wrapText, true);
 
                 // wrapping props
                 this._TblWrapStyleChanged(props.get_TableWrap());
@@ -1168,7 +1329,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                             break;
                         }
                     }
-                    if (value==c_oAscVAnchor.Text)
+                    if (value==Asc.c_oAscVAnchor.Text)
                         this.chMove.setValue(true, true);
 
                     if (Position.get_UseAlign()) {
@@ -1197,9 +1358,9 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 this._state.horizontalPropChanged = false;
 
                 // borders
-                this.TableBorders = new CBorders(props.get_TableBorders());
+                this.TableBorders = new Asc.CBorders(props.get_TableBorders());
 
-                this.CellBorders = new CBorders(props.get_CellBorders());
+                this.CellBorders = new Asc.CBorders(props.get_CellBorders());
 
                 this._UpdateBordersNoSpacing_();
                 this._UpdateBordersSpacing_();
@@ -1214,7 +1375,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 if (background && background.get_Value()==0) {
                     var color = background.get_Color();
                     if (color) {
-                        if (color.get_type() == c_oAscColor.COLOR_TYPE_SCHEME) {
+                        if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
                             this.TableColor = {Value: 1, Color: {color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()), effectValue: color.get_value() }};
                         } else {
                             this.TableColor = {Value: 1, Color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b())};
@@ -1229,7 +1390,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                     if (background.get_Value()==0) {
                         var color = background.get_Color();
                         if (color) {
-                            if (color.get_type() == c_oAscColor.COLOR_TYPE_SCHEME) {
+                            if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
                                 this.CellColor = {Value: 1, Color: {color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()), effectValue: color.get_value() }};
                             } else {
                                 this.CellColor = {Value: 1, Color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b())};
@@ -1272,7 +1433,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 this.ShowHideSpacing(this.chAllowSpacing.getValue()==='checked');
 
             }
-            this._changedProps = new CTableProp();
+            this._changedProps = new Asc.CTableProp();
             this._cellBackground = null;
             this.ChangedTableBorders = undefined;
             this.ChangedCellBorders = undefined;
@@ -1315,12 +1476,12 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             this.ShowHideWrap(true);
             if (this._changedProps && btn.pressed) {
                 if (this._state.alignChanged) {
-                    if (this._state.HAlignType===c_oAscXAlign.Left)
-                        this.btnAlignLeft.toggle(true, true);
-                    else if (this._state.HAlignType==c_oAscXAlign.Center)
-                        this.btnAlignCenter.toggle(true, true);
-                    else if (this._state.HAlignType==c_oAscXAlign.Right)
-                        this.btnAlignRight.toggle(true, true);
+                    if (this._state.HAlignType===Asc.c_oAscXAlign.Left)
+                        this.btnAlignLeft.toggle(true);
+                    else if (this._state.HAlignType==Asc.c_oAscXAlign.Center)
+                        this.btnAlignCenter.toggle(true);
+                    else if (this._state.HAlignType==Asc.c_oAscXAlign.Right)
+                        this.btnAlignRight.toggle(true);
                     this._state.alignChanged = false;
                 }
 
@@ -1343,13 +1504,13 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                     this.radioVPosition.setValue(true);
                 }
                 if (this._state.alignChanged) {
-                    if (this.btnAlignLeft.pressed) this._state.HAlignType = c_oAscXAlign.Left;
-                    else if (this.btnAlignCenter.pressed) this._state.HAlignType = c_oAscXAlign.Center;
-                    else  this._state.HAlignType = c_oAscXAlign.Right;
+                    if (this.btnAlignLeft.pressed) this._state.HAlignType = Asc.c_oAscXAlign.Left;
+                    else if (this.btnAlignCenter.pressed) this._state.HAlignType = Asc.c_oAscXAlign.Center;
+                    else  this._state.HAlignType = Asc.c_oAscXAlign.Right;
                     this.cmbHAlign.setValue(this._state.HAlignType);
                     this.radioHAlign.setValue(true);
                     if (this._changedProps.get_PositionH()===null || this._changedProps.get_PositionH()===undefined)
-                        this._changedProps.put_PositionH(new CTablePositionH());
+                        this._changedProps.put_PositionH(new Asc.CTablePositionH());
 
                     this._changedProps.get_PositionH().put_UseAlign(true);
                     this._changedProps.get_PositionH().put_Align(this._state.HAlignType);
@@ -1365,7 +1526,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
         onHAlignSelect: function(combo, record){
             if (this._changedProps) {
                 if (this._changedProps.get_PositionH()===null || this._changedProps.get_PositionH()===undefined)
-                    this._changedProps.put_PositionH(new CTablePositionH());
+                    this._changedProps.put_PositionH(new Asc.CTablePositionH());
 
                 this._state.HAlignType = record.value;
                 this._changedProps.get_PositionH().put_UseAlign(true);
@@ -1378,7 +1539,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
         onHRelativeSelect: function(combo, record){
             if (this._changedProps) {
                 if (this._changedProps.get_PositionH()===null || this._changedProps.get_PositionH()===undefined)
-                    this._changedProps.put_PositionH(new CTablePositionH());
+                    this._changedProps.put_PositionH(new Asc.CTablePositionH());
 
                 this._state.HAlignFrom = record.value;
                 this._changedProps.get_PositionH().put_UseAlign(true);
@@ -1390,7 +1551,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
         onHPositionSelect: function(combo, record){
             if (this._changedProps) {
                 if (this._changedProps.get_PositionH()===null || this._changedProps.get_PositionH()===undefined)
-                    this._changedProps.put_PositionH(new CTablePositionH());
+                    this._changedProps.put_PositionH(new Asc.CTablePositionH());
 
                 this._state.HPositionFrom = record.value;
                 this._changedProps.get_PositionH().put_UseAlign(false);
@@ -1406,7 +1567,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
         onVAlignSelect: function(combo, record){
             if (this._changedProps) {
                 if (this._changedProps.get_PositionV()===null || this._changedProps.get_PositionV()===undefined)
-                    this._changedProps.put_PositionV(new CTablePositionV());
+                    this._changedProps.put_PositionV(new Asc.CTablePositionV());
 
                 this._state.VAlignType = record.value;
                 this._changedProps.get_PositionV().put_UseAlign(true);
@@ -1418,21 +1579,21 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
         onVRelativeSelect: function(combo, record){
             if (this._changedProps) {
                 if (this._changedProps.get_PositionV()===null || this._changedProps.get_PositionV()===undefined)
-                    this._changedProps.put_PositionV(new CTablePositionV());
+                    this._changedProps.put_PositionV(new Asc.CTablePositionV());
 
                 this._state.VAlignFrom = record.value;
                 this._changedProps.get_PositionV().put_UseAlign(true);
                 this._changedProps.get_PositionV().put_RelativeFrom(this._state.VAlignFrom);
                 this._changedProps.get_PositionV().put_Align(this._state.VAlignType);
 
-                this.chMove.setValue(this._state.VAlignFrom==c_oAscVAnchor.Text, true);
+                this.chMove.setValue(this._state.VAlignFrom==Asc.c_oAscVAnchor.Text, true);
             }
         },
 
         onVPositionSelect: function(combo, record){
             if (this._changedProps) {
                 if (this._changedProps.get_PositionV()===null || this._changedProps.get_PositionV()===undefined)
-                    this._changedProps.put_PositionV(new CTablePositionV());
+                    this._changedProps.put_PositionV(new Asc.CTablePositionV());
 
                 this._state.VPositionFrom = record.value;
                 this._changedProps.get_PositionV().put_UseAlign(false);
@@ -1442,14 +1603,14 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                     this.spnY.setValue(Common.Utils.Metric.fnRecalcFromMM(val), true);
                 }
                 this._changedProps.get_PositionV().put_Value(Common.Utils.Metric.fnRecalcToMM(this.spnY.getNumberValue()));
-                this.chMove.setValue(this._state.VPositionFrom==c_oAscVAnchor.Text, true);
+                this.chMove.setValue(this._state.VPositionFrom==Asc.c_oAscVAnchor.Text, true);
             }
         },
 
         onRadioHAlignChange: function(field, newValue, eOpts) {
             if (this._changedProps) {
                 if (this._changedProps.get_PositionH()===null || this._changedProps.get_PositionH()===undefined)
-                    this._changedProps.put_PositionH(new CTablePositionH());
+                    this._changedProps.put_PositionH(new Asc.CTablePositionH());
 
                 this._changedProps.get_PositionH().put_UseAlign(newValue);
                 if (newValue) {
@@ -1470,7 +1631,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
         onRadioHPositionChange: function(field, newValue, eOpts) {
             if (this._changedProps) {
                 if (this._changedProps.get_PositionH()===null || this._changedProps.get_PositionH()===undefined)
-                    this._changedProps.put_PositionH(new CTablePositionH());
+                    this._changedProps.put_PositionH(new Asc.CTablePositionH());
 
                 this._changedProps.get_PositionH().put_UseAlign(!newValue);
                 if (newValue) {
@@ -1494,7 +1655,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
         onRadioVAlignChange: function(field, newValue, eOpts) {
             if (this._changedProps) {
                 if (this._changedProps.get_PositionV()===null || this._changedProps.get_PositionV()===undefined)
-                    this._changedProps.put_PositionV(new CTablePositionV());
+                    this._changedProps.put_PositionV(new Asc.CTablePositionV());
 
                 this._changedProps.get_PositionV().put_UseAlign(newValue);
                 if (newValue) {
@@ -1508,14 +1669,14 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 this.cmbVRelative.setDisabled(false);
                 this.spnY.setDisabled(true);
                 this.cmbVPosition.setDisabled(true);
-                this.chMove.setValue(this._state.VAlignFrom==c_oAscVAnchor.Text, true);
+                this.chMove.setValue(this._state.VAlignFrom==Asc.c_oAscVAnchor.Text, true);
             }
         },
 
         onRadioVPositionChange: function(field, newValue, eOpts) {
             if (this._changedProps) {
                 if (this._changedProps.get_PositionV()===null || this._changedProps.get_PositionV()===undefined)
-                    this._changedProps.put_PositionV(new CTablePositionV());
+                    this._changedProps.put_PositionV(new Asc.CTablePositionV());
 
                 this._changedProps.get_PositionV().put_UseAlign(!newValue);
                 if (newValue) {
@@ -1532,7 +1693,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 this.cmbVRelative.setDisabled(true);
                 this.spnY.setDisabled(false);
                 this.cmbVPosition.setDisabled(false);
-                this.chMove.setValue(this._state.VPositionFrom==c_oAscVAnchor.Text, true);
+                this.chMove.setValue(this._state.VPositionFrom==Asc.c_oAscVAnchor.Text, true);
             }
         },
 
@@ -1558,11 +1719,11 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             this.CellColor = {Value: 1, Color: color};
 
             if (this._cellBackground === null)
-                this._cellBackground = new CBackground();
+                this._cellBackground = new Asc.CBackground();
 
             if (this.CellColor.Color=='transparent') {
                 this._cellBackground.put_Value(1);
-                this._cellBackground.put_Color(new CAscColor(0,0,0));
+                this._cellBackground.put_Color(new Asc.asc_CColor(0,0,0));
             } else {
                 this._cellBackground.put_Value(0);
                 this._cellBackground.put_Color(Common.Utils.ThemeColor.getRgbColor(this.CellColor.Color));
@@ -1576,12 +1737,12 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             if (this._changedProps) {
                 var background = this._changedProps.get_TableBackground();
                 if (background===undefined) {
-                    background = new CBackground();
+                    background = new Asc.CBackground();
                     this._changedProps.put_TableBackground(background);
                 }
                 if (this.TableColor.Color=='transparent') {
                     background.put_Value(1);
-                    background.put_Color(new CAscColor(0, 0,0));
+                    background.put_Color(new Asc.asc_CColor(0, 0,0));
                 } else {
                     background.put_Value(0);
                     background.put_Color(Common.Utils.ThemeColor.getRgbColor(this.TableColor.Color));
@@ -1618,7 +1779,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 this._UpdateCellBorderSpacing_(source.get_Bottom(), 'b', this.tableBordersImageSpacing.getCell(i, this.tableBordersImageSpacing.rows-1));
             }
             if (this._allTable && source.get_InsideV() === null) {
-                source.put_InsideV(new CBorder());
+                source.put_InsideV(new Asc.asc_CTextBorder());
             }
             if (source.get_InsideV() !== null) {
                 for (i=0; i<this.tableBordersImageSpacing.rows; i++) {
@@ -1628,7 +1789,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             }
 
             if (this._allTable && source.get_InsideH() === null) {
-                source.put_InsideH(new CBorder());
+                source.put_InsideH(new Asc.asc_CTextBorder());
             }
             if (source.get_InsideH() !== null) {
                 for (i=0; i<this.tableBordersImageSpacing.columns; i++) {
@@ -1691,7 +1852,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             this._UpdateTableBorderNoSpacing_(source.get_Bottom(), 'b');
 
             if (this._allTable && source.get_InsideV() == null) {
-                source.put_InsideV(new CBorder());
+                source.put_InsideV(new Asc.asc_CTextBorder());
             }
             if (source.get_InsideV() !== null) {
                 for (var i=0; i<this.tableBordersImage.rows; i++) {
@@ -1701,7 +1862,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             }
 
             if (this._allTable && source.get_InsideH() == null) {
-                source.put_InsideH(new CBorder());
+                source.put_InsideH(new Asc.asc_CTextBorder());
             }
             if (source.get_InsideH() !== null) {
                 for (i=0; i<this.tableBordersImage.columns; i++) {
@@ -1816,42 +1977,42 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             if ( ct.col==0 && border.indexOf('l') > -1 ) {
                 this._UpdateBorderStyle(updateBorders.get_Left(), (size>0));
                 if (changed_destination) {
-                    changed_destination.put_Left(new CBorder(updateBorders.get_Left()));
+                    changed_destination.put_Left(new Asc.asc_CTextBorder(updateBorders.get_Left()));
                 }
             }
 
             if ( ct.col== this.tableStylerColumns-1 && border.indexOf('r') > -1 ) {
                 this._UpdateBorderStyle(updateBorders.get_Right(), (size>0));
                 if (changed_destination) {
-                    changed_destination.put_Right(new CBorder(updateBorders.get_Right()));
+                    changed_destination.put_Right(new Asc.asc_CTextBorder(updateBorders.get_Right()));
                 }
             }
 
             if ( ct.row==0 && border.indexOf('t') > -1 ) {
                 this._UpdateBorderStyle(updateBorders.get_Top(), (size>0));
                 if (changed_destination) {
-                    changed_destination.put_Top(new CBorder(updateBorders.get_Top()));
+                    changed_destination.put_Top(new Asc.asc_CTextBorder(updateBorders.get_Top()));
                 }
             }
 
             if ( ct.row== this.tableStylerRows-1 && border.indexOf('b') > -1 )  {
                 this._UpdateBorderStyle(updateBorders.get_Bottom(), (size>0));
                 if (changed_destination)  {
-                    changed_destination.put_Bottom(new CBorder(updateBorders.get_Bottom()));
+                    changed_destination.put_Bottom(new Asc.asc_CTextBorder(updateBorders.get_Bottom()));
                 }
             }
 
             if ( ct.col==0 && border.indexOf('r') > -1 || ct.col== this.tableStylerColumns-1 && border.indexOf('l') > -1) {
                 this._UpdateBorderStyle(updateBorders.get_InsideV(), (size>0));
                 if (changed_destination)  {
-                    changed_destination.put_InsideV(new CBorder(updateBorders.get_InsideV()));
+                    changed_destination.put_InsideV(new Asc.asc_CTextBorder(updateBorders.get_InsideV()));
                 }
             }
 
             if ( ct.row==0 && border.indexOf('b') > -1 || ct.row== this.tableStylerRows-1 && border.indexOf('t') > -1) {
                 this._UpdateBorderStyle(updateBorders.get_InsideH(), (size>0));
                 if (changed_destination)  {
-                    changed_destination.put_InsideH(new CBorder(updateBorders.get_InsideH()));
+                    changed_destination.put_InsideH(new Asc.asc_CTextBorder(updateBorders.get_InsideH()));
                 }
             }
         },
@@ -1862,25 +2023,25 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             if (border.indexOf('l') > -1) {
                 this._UpdateBorderStyle(updateBorders.get_Left(), (size>0));
                 if (changed_destination) {
-                    changed_destination.put_Left(new CBorder(updateBorders.get_Left()));
+                    changed_destination.put_Left(new Asc.asc_CTextBorder(updateBorders.get_Left()));
                 }
             }
             if (border.indexOf('t') > -1) {
                 this._UpdateBorderStyle(updateBorders.get_Top(), (size>0));
                 if (changed_destination) {
-                    changed_destination.put_Top(new CBorder(updateBorders.get_Top()));
+                    changed_destination.put_Top(new Asc.asc_CTextBorder(updateBorders.get_Top()));
                 }
             }
             if (border.indexOf('r') > -1) {
                 this._UpdateBorderStyle(updateBorders.get_Right(), (size>0));
                 if (changed_destination) {
-                    changed_destination.put_Right(new CBorder(updateBorders.get_Right()));
+                    changed_destination.put_Right(new Asc.asc_CTextBorder(updateBorders.get_Right()));
                 }
             }
             if (border.indexOf('b') > -1) {
                 this._UpdateBorderStyle(updateBorders.get_Bottom(), (size>0));
                 if (changed_destination)  {
-                    changed_destination.put_Bottom(new CBorder(updateBorders.get_Bottom()));
+                    changed_destination.put_Bottom(new Asc.asc_CTextBorder(updateBorders.get_Bottom()));
                 }
             }
         },
@@ -1896,7 +2057,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 border.put_Color(color);
             }
             else {
-                border.put_Color(new CAscColor());
+                border.put_Color(new Asc.asc_CColor());
                 border.put_Value(0);
             }
             return border.get_Value();
@@ -1920,8 +2081,8 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             if (this.spinners) {
                 for (var i=0; i<this.spinners.length; i++) {
                     var spinner = this.spinners[i];
-                    spinner.setDefaultUnit(Common.Utils.Metric.metricName[Common.Utils.Metric.getCurrentMetric()]);
-                    spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.cm ? 0.1 : 1);
+                    spinner.setDefaultUnit(Common.Utils.Metric.getCurrentMetricName());
+                    spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt ? 1 : 0.1);
                 }
             }
         },
@@ -1948,7 +2109,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
         },
 
         textWidth:          'Width',
-        textAllowSpacing:   'Allow spacing between cells',
+        textAllowSpacing:   'Spacing between cells',
         textAlign:          'Alignment',
         textIndLeft:        'Indent from Left',
         textWidthSpaces:    'Width & Spaces',
@@ -1966,7 +2127,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
         textRightTooltip:   'Right',
         textCenterTooltip:  'Center',
         textTitle:          'Table - Advanced Settings',
-        textDefaultMargins: 'Default Margins',
+        textDefaultMargins: 'Default Cell Margins',
         textCheckMargins:   'Use default margins',
         textBordersBackgroung: 'Borders & Background',
         textOnlyCells:      'For selected cells only',
@@ -1996,7 +2157,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
         textOptions: 'Options',
         textAnchorText: 'Text',
         textAutofit: 'Automatically resize to fit contents',
-        textCellProps: 'Cell Properties',
+        textCellProps: 'Cell',
         tipAll:             'Set Outer Border and All Inner Lines',
         tipNone:            'Set No Borders',
         tipInner:           'Set Inner Lines Only',
@@ -2006,7 +2167,20 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
         tipCellInner: 'Set Vertical and Horizontal Lines for Inner Cells Only',
         tipTableOuterCellInner: 'Set Outer Border and Vertical and Horizontal Lines for Inner Cells',
         tipCellOuter: 'Set Outer Borders for Inner Cells Only',
-        tipTableOuterCellOuter: 'Set Table Outer Border and Outer Borders for Inner Cells'
+        tipTableOuterCellOuter: 'Set Table Outer Border and Outer Borders for Inner Cells',
+        txtPercent: 'Percent',
+        txtCm: 'Centimeter',
+        txtPt: 'Point',
+        txtInch: 'Inch',
+        textCellSize: 'Cell Size',
+        textPrefWidth: 'Preferred width',
+        textMeasure: 'Measure in',
+        textCellOptions: 'Cell Options',
+        textWrapText: 'Wrap text',
+        textTable: 'Table',
+        textTableSize: 'Table Size',
+        textTablePosition: 'Table Position',
+        textWrappingStyle: 'Wrapping Style'
 
     }, DE.Views.TableSettingsAdvanced || {}));
 });

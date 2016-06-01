@@ -157,9 +157,8 @@
     }
 }
 
-.combo-template {
+.combo-template(@combo-dataview-height: 64px) {
     @combo-dataview-button-width: 18px;
-    @combo-dataview-height: 64px;
 
     height: @combo-dataview-height;
 
@@ -195,6 +194,10 @@
         right: 3px !important;
     }
 };
+
+.combo-template {
+    .combo-template(64px);
+}
 
 .combo-pattern {
     @combo-dataview-button-width: 15px;

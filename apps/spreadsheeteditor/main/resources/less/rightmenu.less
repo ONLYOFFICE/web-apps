@@ -20,6 +20,9 @@
 
         /*menuTextArt*/
         .toolbar-btn-icon(btn-menu-textart, 66, @toolbar-icon-size);
+
+        /*menuTable*/
+        .toolbar-btn-icon(btn-menu-table,   80, @toolbar-icon-size);
     }
 }
 
@@ -79,11 +82,18 @@
     }
 }
 
+.btn-edit-table,
 .btn-change-shape {
     .background-ximage('@{app-image-path}/right-panels/rowscols_icon.png', '@{app-image-path}/right-panels/rowscols_icon@2x.png', 84px);
     margin-right: 2px !important;
     margin-bottom: 1px !important;
 }
+
+.btn-edit-table                  {background-position: 0      0;}
+button.over .btn-edit-table      {background-position: -28px  0;}
+.btn-group.open .btn-edit-table,
+button.active .btn-edit-table,
+button:active .btn-edit-table    {background-position: -56px  0;}
 
 .btn-change-shape                  {background-position: 0      -16px;}
 button.over .btn-change-shape      {background-position: -28px  -16px;}
@@ -283,4 +293,8 @@ button:active .btn-change-shape    {background-position: -56px  -16px;}
 
 .pie-doughnut{
     background-position: -200px 0;
+}
+
+#table-combo-template .combo-dataview{
+    .combo-template(60px);
 }

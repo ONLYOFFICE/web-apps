@@ -215,10 +215,12 @@
         <script type="text/javascript" src="app.js"></script>
         <script type="text/javascript" src="../../common/locale.js"></script>
 
-        <!-- SDK -->
-
-        <script type="text/javascript" src="../../../sdk/Common/AllFonts.js"></script>
-        <script type="text/javascript" src="../../../sdk/Word/sdk-all.js"></script>
+        <script type="text/javascript" src="../sdk_dev_scripts.js"></script>
+        <script>
+            window.sdk_dev_scrpipts.forEach(function(item){
+                document.write('<script type="text/javascript" src="' + item + '"><\/script>');
+            });
+        </script>
     </head>
     <body>
         <script type="text/javascript">

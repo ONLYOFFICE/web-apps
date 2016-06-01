@@ -1,3 +1,35 @@
+/*
+ *
+ * (c) Copyright Ascensio System Limited 2010-2016
+ *
+ * This program is a free software product. You can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License (AGPL)
+ * version 3 as published by the Free Software Foundation. In accordance with
+ * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
+ * that Ascensio System SIA expressly excludes the warranty of non-infringement
+ * of any third-party rights.
+ *
+ * This program is distributed WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
+ * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ *
+ * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
+ * EU, LV-1021.
+ *
+ * The  interactive user interfaces in modified source and object code versions
+ * of the Program must display Appropriate Legal Notices, as required under
+ * Section 5 of the GNU AGPL version 3.
+ *
+ * Pursuant to Section 7(b) of the License you must retain the original Product
+ * logo when distributing the program. Pursuant to Section 7(e) we decline to
+ * grant you any rights under trademark law for use of our trademarks.
+ *
+ * All the Product's GUI elements, including illustrations and icon sets, as
+ * well as technical writing content are licensed under the terms of the
+ * Creative Commons Attribution-ShareAlike 4.0 International. See the License
+ * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ *
+*/
 /**
  *  ParagraphSettingsAdvanced.js
  *
@@ -19,7 +51,8 @@ define([    'text!spreadsheeteditor/main/app/template/ParagraphSettingsAdvanced.
         options: {
             contentWidth: 320,
             height: 394,
-            toggleGroup: 'paragraph-adv-settings-group'
+            toggleGroup: 'paragraph-adv-settings-group',
+            storageName: 'sse-para-settings-adv-category'
         },
 
         initialize : function(options) {
@@ -304,7 +337,7 @@ define([    'text!spreadsheeteditor/main/app/template/ParagraphSettingsAdvanced.
                         var rec = new Common.UI.DataViewModel();
                         rec.set({
                             tabPos: pos,
-                            value: parseFloat(pos.toFixed(3)) + ' ' + Common.Utils.Metric.metricName[Common.Utils.Metric.getCurrentMetric()],
+                            value: parseFloat(pos.toFixed(3)) + ' ' + Common.Utils.Metric.getCurrentMetricName(),
                             tabAlign: tab.asc_getValue()
                         });
                         arr.push(rec);
@@ -324,11 +357,11 @@ define([    'text!spreadsheeteditor/main/app/template/ParagraphSettingsAdvanced.
             if (this.spinners) {
                 for (var i=0; i<this.spinners.length; i++) {
                     var spinner = this.spinners[i];
-                    spinner.setDefaultUnit(Common.Utils.Metric.metricName[Common.Utils.Metric.getCurrentMetric()]);
+                    spinner.setDefaultUnit(Common.Utils.Metric.getCurrentMetricName());
                     if (spinner.el.id == 'paragraphadv-spin-spacing' || spinner.el.id == 'paragraphadv-spin-position' )
-                        spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.cm ? 0.01 : 1);
+                        spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt ? 1 : 0.01);
                     else
-                        spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.cm ? 0.1 : 1);
+                        spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt ? 1 : 0.1);
                 }
             }
 
@@ -337,6 +370,10 @@ define([    'text!spreadsheeteditor/main/app/template/ParagraphSettingsAdvanced.
         afterRender: function() {
             this.updateMetricUnit();
             this._setDefaults(this._originalProps);
+            if (this.storageName) {
+                var value = Common.localStorage.getItem(this.storageName);
+                this.setActiveCategory((value!==null) ? parseInt(value) : 0);
+            }
         },
 
         onStrikeChange: function(field, newValue, oldValue, eOpts){
@@ -473,7 +510,7 @@ define([    'text!spreadsheeteditor/main/app/template/ParagraphSettingsAdvanced.
                 rec = new Common.UI.DataViewModel();
                 rec.set({
                     tabPos: val,
-                    value: val + ' ' + Common.Utils.Metric.metricName[Common.Utils.Metric.getCurrentMetric()],
+                    value: val + ' ' + Common.Utils.Metric.getCurrentMetricName(),
                     tabAlign: align
                 });
                 store.add(rec);

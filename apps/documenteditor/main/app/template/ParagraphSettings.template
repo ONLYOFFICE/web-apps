@@ -1,17 +1,20 @@
 <table cols="2">
     <tr>
         <td colspan=2>
-            <label class="header"><%= scope.strParagraphSpacing %></label>
+            <label class="header"><%= scope.strLineHeight %></label>
         </td>
     </tr>
     <tr>
         <td class="padding-small" width="50%">
-            <label class="input-label"><%= scope.textAt %></label>
             <div id="paragraph-combo-line-rule" style="width: 85px;"></div>
         </td>
         <td class="padding-small" width="50%">
-            <label class="input-label"><%= scope.textAt %></label>
             <div id="paragraph-spin-line-height"></div>
+        </td>
+    </tr>
+    <tr>
+        <td colspan=2>
+            <label class="header"><%= scope.strParagraphSpacing %></label>
         </td>
     </tr>
     <tr>

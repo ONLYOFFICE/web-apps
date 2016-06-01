@@ -1,3 +1,35 @@
+/*
+ *
+ * (c) Copyright Ascensio System Limited 2010-2016
+ *
+ * This program is a free software product. You can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License (AGPL)
+ * version 3 as published by the Free Software Foundation. In accordance with
+ * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
+ * that Ascensio System SIA expressly excludes the warranty of non-infringement
+ * of any third-party rights.
+ *
+ * This program is distributed WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
+ * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ *
+ * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
+ * EU, LV-1021.
+ *
+ * The  interactive user interfaces in modified source and object code versions
+ * of the Program must display Appropriate Legal Notices, as required under
+ * Section 5 of the GNU AGPL version 3.
+ *
+ * Pursuant to Section 7(b) of the License you must retain the original Product
+ * logo when distributing the program. Pursuant to Section 7(e) we decline to
+ * grant you any rights under trademark law for use of our trademarks.
+ *
+ * All the Product's GUI elements, including illustrations and icon sets, as
+ * well as technical writing content are licensed under the terms of the
+ * Creative Commons Attribution-ShareAlike 4.0 International. See the License
+ * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ *
+*/
 /**
  *  Toolbar.js
  *
@@ -41,7 +73,7 @@ define([
                 },
                 prstyle: undefined,
                 prcontrolsdisable:undefined,
-                dropcap: c_oAscDropCap.None,
+                dropcap: Asc.c_oAscDropCap.None,
                 clrhighlight: undefined,
                 clrtext: undefined,
                 pgsize: [0, 0],
@@ -546,30 +578,30 @@ define([
                 type = selectedObjects[i].get_ObjectType();
                 pr   = selectedObjects[i].get_ObjectValue();
 
-                if (type === c_oAscTypeSelectElement.Paragraph) {
+                if (type === Asc.c_oAscTypeSelectElement.Paragraph) {
                     paragraph_locked = pr.get_Locked();
                     can_add_table = pr.get_CanAddTable();
                     can_add_image = pr.get_CanAddImage();
                     frame_pr = pr;
                     sh = pr.get_Shade();
-                } else if (type === c_oAscTypeSelectElement.Header) {
+                } else if (type === Asc.c_oAscTypeSelectElement.Header) {
                     header_locked = pr.get_Locked();
                     in_header = true;
-                } else if (type === c_oAscTypeSelectElement.Image) {
+                } else if (type === Asc.c_oAscTypeSelectElement.Image) {
                     in_image = in_header = true;
                     if (pr && pr.get_ChartProperties())
                         in_chart = true;
-                } else if (type === c_oAscTypeSelectElement.Math) {
+                } else if (type === Asc.c_oAscTypeSelectElement.Math) {
                     in_equation = true;
-                    if (c_oAscMathInterfaceType.Common === pr.get_Type())
+                    if (Asc.c_oAscMathInterfaceType.Common === pr.get_Type())
                         btn_eq_state = true;
                 }
 
-                if (type === c_oAscTypeSelectElement.Table || type === c_oAscTypeSelectElement.Header || type === c_oAscTypeSelectElement.Image) {
+                if (type === Asc.c_oAscTypeSelectElement.Table || type === Asc.c_oAscTypeSelectElement.Header || type === Asc.c_oAscTypeSelectElement.Image) {
                     enable_dropcap = false;
                 }
 
-                if (enable_dropcap!==false && type == c_oAscTypeSelectElement.Paragraph)
+                if (enable_dropcap!==false && type == Asc.c_oAscTypeSelectElement.Paragraph)
                     enable_dropcap = true;
             }
 
@@ -599,11 +631,11 @@ define([
 
             if (enable_dropcap && frame_pr) {
                 var value = frame_pr.get_FramePr(),
-                    drop_value = c_oAscDropCap.None;
+                    drop_value = Asc.c_oAscDropCap.None;
 
                 if (value!==undefined) {
                     drop_value = value.get_DropCap();
-                    enable_dropcap = ( drop_value === c_oAscDropCap.Drop || drop_value === c_oAscDropCap.Margin);
+                    enable_dropcap = ( drop_value === Asc.c_oAscDropCap.Drop || drop_value === Asc.c_oAscDropCap.Margin);
                     disable_dropcapadv = false;
                 } else {
                     enable_dropcap = frame_pr.get_CanAddDropCap();
@@ -1228,7 +1260,7 @@ define([
                         handler: handlerDlg
                     });
 
-                    props = new CHyperlinkProperty();
+                    props = new Asc.CHyperlinkProperty();
                     props.put_Text(text);
 
                     win.show();
@@ -1237,7 +1269,7 @@ define([
                     var selectedElements = me.api.getSelectedElements();
                     if (selectedElements && _.isArray(selectedElements)){
                         _.each(selectedElements, function(el, i) {
-                            if (selectedElements[i].get_ObjectType() == c_oAscTypeSelectElement.Hyperlink)
+                            if (selectedElements[i].get_ObjectType() == Asc.c_oAscTypeSelectElement.Hyperlink)
                                 props = selectedElements[i].get_ObjectValue();
                         });
                     }
@@ -1432,7 +1464,7 @@ define([
                         this.onSectionProps(section);
                         return;
                     } else {
-                        var props = new CDocumentSectionProps();
+                        var props = new Asc.CDocumentSectionProps();
                         props.put_TopMargin(item.value[0]);
                         props.put_LeftMargin(item.value[1]);
                         props.put_BottomMargin(item.value[2]);
@@ -1487,22 +1519,22 @@ define([
 
             this._state.dropcap = undefined;
             if (this.api && item.checked) {
-                if (item.value === c_oAscDropCap.None) {
+                if (item.value === Asc.c_oAscDropCap.None) {
                     this.api.removeDropcap(true);
                 } else {
                     var SelectedObjects = this.api.getSelectedElements(),
                         i = -1;
                     while (++i < SelectedObjects.length) {
-                        if (SelectedObjects[i].get_ObjectType() == c_oAscTypeSelectElement.Paragraph) {
+                        if (SelectedObjects[i].get_ObjectType() == Asc.c_oAscTypeSelectElement.Paragraph) {
                             var pr = SelectedObjects[i].get_ObjectValue();
                             var value = pr.get_FramePr();
                             if (!_.isUndefined(value)) {
-                                value = new CParagraphFrame();
+                                value = new Asc.asc_CParagraphFrame();
                                 value.put_FromDropCapMenu(true);
                                 value.put_DropCap(item.value);
                                 this.api.put_FramePr(value);
                             } else {
-                                this.api.asc_addDropCap((item.value === c_oAscDropCap.Drop));
+                                this.api.asc_addDropCap((item.value === Asc.c_oAscDropCap.Drop));
                             }
                             break;
                         }
@@ -1520,9 +1552,9 @@ define([
 
             var index = -1;
             switch (v) {
-                case c_oAscDropCap.None:   index = 0; break;
-                case c_oAscDropCap.Drop:   index = 1; break;
-                case c_oAscDropCap.Margin: index = 2; break;
+                case Asc.c_oAscDropCap.None:   index = 0; break;
+                case Asc.c_oAscDropCap.Drop:   index = 1; break;
+                case Asc.c_oAscDropCap.Margin: index = 2; break;
             }
             if (index < 0)
                 this._clearChecked(this.toolbar.btnDropCap.menu);
@@ -1554,7 +1586,7 @@ define([
 
                 if (selectedElements && _.isArray(selectedElements)){
                     for (var i = 0; i < selectedElementsLenght; i++) {
-                        if (selectedElements[i].get_ObjectType() == c_oAscTypeSelectElement.Paragraph) {
+                        if (selectedElements[i].get_ObjectType() == Asc.c_oAscTypeSelectElement.Paragraph) {
                             props = selectedElements[i].get_ObjectValue();
                             break;
                         }
@@ -1574,7 +1606,7 @@ define([
                         handler: function(result, value) {
                             if (result == 'ok') {
                                 me.borderAdvancedProps = value.borderProps;
-                                if (value.paragraphProps && value.paragraphProps.get_DropCap() === c_oAscDropCap.None) {
+                                if (value.paragraphProps && value.paragraphProps.get_DropCap() === Asc.c_oAscDropCap.None) {
                                     me.api.removeDropcap(true);
                                 } else
                                     me.api.put_FramePr(value.paragraphProps);
@@ -1593,7 +1625,7 @@ define([
 
             this._state.columns = undefined;
             if (this.api && item.checked) {
-                var props = new CDocumentColumnsProps(),
+                var props = new Asc.CDocumentColumnsProps(),
                     cols = item.value,
                     def_space = 12.5;
                 props.put_EqualWidth(cols<3);
@@ -1760,7 +1792,7 @@ define([
                     isParagraph = false;
                 if (selectedElements && _.isArray(selectedElements)){
                     for (var i = 0; i <selectedElements.length; i++) {
-                        if (c_oAscTypeSelectElement.Paragraph == selectedElements[i].get_ObjectType()) {
+                        if (Asc.c_oAscTypeSelectElement.Paragraph == selectedElements[i].get_ObjectType()) {
                             isParagraph = true; break;
                         }
                     }
@@ -1955,7 +1987,7 @@ define([
         onAutoFontColor: function(e) {
             this._state.clrtext = this._state.clrtext_asccolor = undefined;
 
-            var color = new CAscColor();
+            var color = new Asc.asc_CColor();
             color.put_auto(true);
             this.api.put_TextColor(color);
 
@@ -2036,10 +2068,10 @@ define([
 
         onParagraphColor: function(shd) {
             var picker = this.toolbar.mnuParagraphColorPicker, clr;
-            if (shd!==null && shd!==undefined && shd.get_Value()===shd_Clear) {
+            if (shd!==null && shd!==undefined && shd.get_Value()===Asc.c_oAscShdClear) {
                 var color = shd.get_Color();
                 if (color) {
-                    if (color.get_type() == c_oAscColor.COLOR_TYPE_SCHEME) {
+                    if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
                         clr = {color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()), effectValue: color.get_value() };
                     } else {
                         clr = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b());
@@ -2086,7 +2118,7 @@ define([
                 var picker = this.toolbar.mnuFontColorPicker, clr;
 
                 if (color) {
-                    color.get_type() == c_oAscColor.COLOR_TYPE_SCHEME ?
+                    color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME ?
                         clr = {color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()), effectValue: color.get_value()} :
                         clr = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b());
                 }
@@ -2388,11 +2420,6 @@ define([
 
                          if (e.type !== 'click')
                              me.toolbar.btnInsertText.menu.hide();
-                        Common.NotificationCenter.trigger('edit:complete', me.toolbar, me.toolbar.btnInsertText);
-                        Common.component.Analytics.trackEvent('ToolBar', 'Add Text Art');
-
-                        if (e.type !== 'click')
-                            me.toolbar.btnInsertText.menu.hide();
                         Common.NotificationCenter.trigger('edit:complete', me.toolbar, me.toolbar.btnInsertText);
                         Common.component.Analytics.trackEvent('ToolBar', 'Add Text Art');
                     }

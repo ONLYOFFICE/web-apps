@@ -1,3 +1,35 @@
+/*
+ *
+ * (c) Copyright Ascensio System Limited 2010-2016
+ *
+ * This program is a free software product. You can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License (AGPL)
+ * version 3 as published by the Free Software Foundation. In accordance with
+ * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
+ * that Ascensio System SIA expressly excludes the warranty of non-infringement
+ * of any third-party rights.
+ *
+ * This program is distributed WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
+ * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ *
+ * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
+ * EU, LV-1021.
+ *
+ * The  interactive user interfaces in modified source and object code versions
+ * of the Program must display Appropriate Legal Notices, as required under
+ * Section 5 of the GNU AGPL version 3.
+ *
+ * Pursuant to Section 7(b) of the License you must retain the original Product
+ * logo when distributing the program. Pursuant to Section 7(e) we decline to
+ * grant you any rights under trademark law for use of our trademarks.
+ *
+ * All the Product's GUI elements, including illustrations and icon sets, as
+ * well as technical writing content are licensed under the terms of the
+ * Creative Commons Attribution-ShareAlike 4.0 International. See the License
+ * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ *
+*/
 /**
  *  Statusbar.js
  *
@@ -89,18 +121,23 @@ define([
         },
 
         onPreview: function(btn, e) {
-            var previewPanel = PE.getController('Viewport').getView('DocumentPreview');
-            if (previewPanel) {
+            var previewPanel = PE.getController('Viewport').getView('DocumentPreview'),
+                me = this;
+            if (previewPanel && me.api) {
                 previewPanel.show();
-                if (!this.statusbar.mode.isDesktopApp)
-                    this.fullScreen(document.documentElement);
+                var onWindowResize = function() {
+                    Common.NotificationCenter.off('window:resize', onWindowResize);
 
-                if (this.api) {
-                    var current = this.api.getCurrentPage();
-                    this.api.StartDemonstration('presentation-preview', _.isNumber(current) ? current : 0);
+                    var current = me.api.getCurrentPage();
+                    me.api.StartDemonstration('presentation-preview', _.isNumber(current) ? current : 0);
 
                     Common.component.Analytics.trackEvent('Status Bar', 'Preview');
-                }
+                };
+                if (!me.statusbar.mode.isDesktopApp) {
+                    Common.NotificationCenter.on('window:resize', onWindowResize);
+                    me.fullScreen(document.documentElement);
+                } else
+                    onWindowResize();
             }
         },
 

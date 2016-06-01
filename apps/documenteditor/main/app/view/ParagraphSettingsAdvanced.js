@@ -1,3 +1,35 @@
+/*
+ *
+ * (c) Copyright Ascensio System Limited 2010-2016
+ *
+ * This program is a free software product. You can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License (AGPL)
+ * version 3 as published by the Free Software Foundation. In accordance with
+ * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
+ * that Ascensio System SIA expressly excludes the warranty of non-infringement
+ * of any third-party rights.
+ *
+ * This program is distributed WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
+ * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ *
+ * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
+ * EU, LV-1021.
+ *
+ * The  interactive user interfaces in modified source and object code versions
+ * of the Program must display Appropriate Legal Notices, as required under
+ * Section 5 of the GNU AGPL version 3.
+ *
+ * Pursuant to Section 7(b) of the License you must retain the original Product
+ * logo when distributing the program. Pursuant to Section 7(e) we decline to
+ * grant you any rights under trademark law for use of our trademarks.
+ *
+ * All the Product's GUI elements, including illustrations and icon sets, as
+ * well as technical writing content are licensed under the terms of the
+ * Creative Commons Attribution-ShareAlike 4.0 International. See the License
+ * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ *
+*/
 /**
  *  ParagraphSettingsAdvanced.js
  *
@@ -22,7 +54,8 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
         options: {
             contentWidth: 325,
             height: 394,
-            toggleGroup: 'paragraph-adv-settings-group'
+            toggleGroup: 'paragraph-adv-settings-group',
+            storageName: 'de-para-settings-adv-category'
         },
 
         initialize : function(options) {
@@ -56,7 +89,7 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
             this.tableStylerColumns = this.options.tableStylerColumns;
             this.borderProps = this.options.borderProps;
             this.api = this.options.api;
-            this._originalProps = new CParagraphProp(this.options.paragraphProps);
+            this._originalProps = new Asc.asc_CParagraphProperty(this.options.paragraphProps);
             this.isChart = this.options.isChart;
         },
 
@@ -80,7 +113,7 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
             this.numFirstLine.on('change', _.bind(function(field, newValue, oldValue, eOpts){
                 if (this._changedProps) {
                     if (this._changedProps.get_Ind()===null || this._changedProps.get_Ind()===undefined)
-                        this._changedProps.put_Ind(new CParagraphInd());
+                        this._changedProps.put_Ind(new Asc.asc_CParagraphInd());
                     this._changedProps.get_Ind().put_FirstLine(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
                 }
             }, this));
@@ -99,7 +132,7 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
             this.numIndentsLeft.on('change', _.bind(function(field, newValue, oldValue, eOpts){
                 if (this._changedProps) {
                     if (this._changedProps.get_Ind()===null || this._changedProps.get_Ind()===undefined)
-                        this._changedProps.put_Ind(new CParagraphInd());
+                        this._changedProps.put_Ind(new Asc.asc_CParagraphInd());
                     this._changedProps.get_Ind().put_Left(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
                 }
             }, this));
@@ -118,7 +151,7 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
             this.numIndentsRight.on('change', _.bind(function(field, newValue, oldValue, eOpts){
                 if (this._changedProps) {
                     if (this._changedProps.get_Ind()===null || this._changedProps.get_Ind()===undefined)
-                        this._changedProps.put_Ind(new CParagraphInd());
+                        this._changedProps.put_Ind(new Asc.asc_CParagraphInd());
                     this._changedProps.get_Ind().put_Right(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
                 }
             }, this));
@@ -339,7 +372,7 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                     this._changedProps.put_TextSpacing(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
                 }
                 if (this.api && !this._noApply) {
-                    var properties = (this._originalProps) ? this._originalProps : new CParagraphProp();
+                    var properties = (this._originalProps) ? this._originalProps : new Asc.asc_CParagraphProperty();
                     properties.put_TextSpacing(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
                     this.api.SetDrawImagePlaceParagraph('paragraphadv-font-img', properties);
                 }
@@ -361,7 +394,7 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                     this._changedProps.put_Position(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
                 }
                 if (this.api && !this._noApply) {
-                    var properties = (this._originalProps) ? this._originalProps : new CParagraphProp();
+                    var properties = (this._originalProps) ? this._originalProps : new Asc.asc_CParagraphProperty();
                     properties.put_Position(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
                     this.api.SetDrawImagePlaceParagraph('paragraphadv-font-img', properties);
                 }
@@ -535,38 +568,38 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
             if (this.Margins) {
                 var borders = this._changedProps.get_Borders();
                 if (borders===undefined || borders===null)  {
-                    this._changedProps.put_Borders(new CParagraphBorders());
+                    this._changedProps.put_Borders(new Asc.asc_CParagraphBorders());
                     borders = this._changedProps.get_Borders();
                 }
                 if (this.Margins.Left!==undefined) {
                     if (borders.get_Left()===undefined || borders.get_Left()===null)
-                        borders.put_Left(new CBorder(this.Borders.get_Left()));
+                        borders.put_Left(new Asc.asc_CTextBorder(this.Borders.get_Left()));
                     borders.get_Left().put_Space(this.Margins.Left);
                 }
                 if (this.Margins.Top!==undefined) {
                     if (borders.get_Top()===undefined || borders.get_Top()===null)
-                        borders.put_Top(new CBorder(this.Borders.get_Top()));
+                        borders.put_Top(new Asc.asc_CTextBorder(this.Borders.get_Top()));
                     borders.get_Top().put_Space(this.Margins.Top);
                 }
                 if (this.Margins.Right!==undefined) {
                     if (borders.get_Right()===undefined || borders.get_Right()===null)
-                        borders.put_Right(new CBorder(this.Borders.get_Right()));
+                        borders.put_Right(new Asc.asc_CTextBorder(this.Borders.get_Right()));
                     borders.get_Right().put_Space(this.Margins.Right);
                 }
                 if (this.Margins.Bottom!==undefined) {
                     if (borders.get_Bottom()===undefined || borders.get_Bottom()===null)
-                        borders.put_Bottom(new CBorder(this.Borders.get_Bottom()));
+                        borders.put_Bottom(new Asc.asc_CTextBorder(this.Borders.get_Bottom()));
                     borders.get_Bottom().put_Space(this.Margins.Bottom);
                     if (borders.get_Between()===undefined || borders.get_Between()===null)
-                        borders.put_Between(new CBorder(this.Borders.get_Between()));
+                        borders.put_Between(new Asc.asc_CTextBorder(this.Borders.get_Between()));
                     borders.get_Between().put_Space(this.Margins.Bottom);
                 }
             }
             if ( this._tabListChanged ) {
                 if (this._changedProps.get_Tabs()===null || this._changedProps.get_Tabs()===undefined)
-                    this._changedProps.put_Tabs(new CParagraphTabs());
+                    this._changedProps.put_Tabs(new Asc.asc_CParagraphTabs());
                 this.tabList.store.each(function (item, index) {
-                    var tab = new CParagraphTab(Common.Utils.Metric.fnRecalcToMM(item.get('tabPos')), item.get('tabAlign'));
+                    var tab = new Asc.asc_CParagraphTab(Common.Utils.Metric.fnRecalcToMM(item.get('tabPos')), item.get('tabAlign'));
                     this._changedProps.get_Tabs().add_Tab(tab);
                 }, this);
             }
@@ -575,7 +608,7 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
 
         _setDefaults: function(props) {
             if (props ){
-                this._originalProps = new CParagraphProp(props);
+                this._originalProps = new Asc.asc_CParagraphProperty(props);
 
                 this.hideTextOnlySettings(this.isChart);
 
@@ -589,7 +622,7 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                 this.chKeepNext.setValue((props.get_KeepNext() !== null && props.get_KeepNext() !== undefined) ? props.get_KeepNext() : 'indeterminate', true);
                 this.chOrphan.setValue((props.get_WidowControl() !== null && props.get_WidowControl() !== undefined) ? props.get_WidowControl() : 'indeterminate', true);
 
-                this.Borders = new CParagraphBorders(props.get_Borders());
+                this.Borders = new Asc.asc_CParagraphBorders(props.get_Borders());
 
                 // Margins
                 if (this.Borders) {
@@ -609,10 +642,10 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
 
                 // Borders
                 var shd = props.get_Shade();
-                if (shd!==null && shd!==undefined && shd.get_Value()===shd_Clear) {
+                if (shd!==null && shd!==undefined && shd.get_Value()===Asc.c_oAscShdClear) {
                     var color = shd.get_Color();
                     if (color) {
-                        if (color.get_type() == c_oAscColor.COLOR_TYPE_SCHEME) {
+                        if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
                             this.paragraphShade = {color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()), effectValue: color.get_value()};
                         } else {
                             this.paragraphShade = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b());
@@ -666,7 +699,7 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                         var rec = new Common.UI.DataViewModel();
                         rec.set({
                             tabPos: pos,
-                            value: parseFloat(pos.toFixed(3)) + ' ' + Common.Utils.Metric.metricName[Common.Utils.Metric.getCurrentMetric()],
+                            value: parseFloat(pos.toFixed(3)) + ' ' + Common.Utils.Metric.getCurrentMetricName(),
                             tabAlign: tab.get_Value()
                         });
                         arr.push(rec);
@@ -678,7 +711,7 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
 
                 this._noApply = false;
 
-                this._changedProps = new CParagraphProp();
+                this._changedProps = new Asc.asc_CParagraphProperty();
                 this.ChangedBorders = undefined;
             }
         },
@@ -687,11 +720,11 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
             if (this.spinners) {
                 for (var i=0; i<this.spinners.length; i++) {
                     var spinner = this.spinners[i];
-                    spinner.setDefaultUnit(Common.Utils.Metric.metricName[Common.Utils.Metric.getCurrentMetric()]);
+                    spinner.setDefaultUnit(Common.Utils.Metric.getCurrentMetricName());
                     if (spinner.el.id == 'paragraphadv-spin-spacing' || spinner.el.id == 'paragraphadv-spin-position' )
-                        spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.cm ? 0.01 : 1);
+                        spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt ? 1 : 0.01);
                     else
-                        spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.cm ? 0.1 : 1);
+                        spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt ? 1 : 0.1);
                 }
             }
 
@@ -724,7 +757,7 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                 for (var j=0; j<this.BordersImage.columns; j++) {
                     this.BordersImage.getCell(j, i).on('borderclick', function(ct, border, size, color){
                         if (this.ChangedBorders===undefined) {
-                            this.ChangedBorders = new CParagraphBorders();
+                            this.ChangedBorders = new Asc.asc_CParagraphBorders();
                         }
                         this._UpdateCellBordersStyle(ct, border, size, color, this.Borders);
                     }, this);
@@ -732,10 +765,15 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
             }
             this.BordersImage.on('borderclick', function(ct, border, size, color){
                 if (this.ChangedBorders===undefined) {
-                    this.ChangedBorders = new CParagraphBorders();
+                    this.ChangedBorders = new Asc.asc_CParagraphBorders();
                 }
                 this._UpdateTableBordersStyle(ct, border, size, color, this.Borders);
             }, this);
+
+            if (this.storageName) {
+                var value = Common.localStorage.getItem(this.storageName);
+                this.setActiveCategory((value!==null) ? parseInt(value) : 0);
+            }
         },
 
         onStrikeChange: function(field, newValue, oldValue, eOpts){
@@ -751,7 +789,7 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                 this.checkGroup = 0;
             }
             if (this.api && !this._noApply) {
-                var properties = (this._originalProps) ? this._originalProps : new CParagraphProp();
+                var properties = (this._originalProps) ? this._originalProps : new Asc.asc_CParagraphProperty();
                 properties.put_Strikeout(field.getValue()=='checked');
                 properties.put_DStrikeout(this.chDoubleStrike.getValue()=='checked');
                 this.api.SetDrawImagePlaceParagraph('paragraphadv-font-img', properties);
@@ -771,7 +809,7 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                 this.checkGroup = 0;
             }
             if (this.api && !this._noApply) {
-                var properties = (this._originalProps) ? this._originalProps : new CParagraphProp();
+                var properties = (this._originalProps) ? this._originalProps : new Asc.asc_CParagraphProperty();
                 properties.put_DStrikeout(field.getValue()=='checked');
                 properties.put_Strikeout(this.chStrike.getValue()=='checked');
                 this.api.SetDrawImagePlaceParagraph('paragraphadv-font-img', properties);
@@ -791,7 +829,7 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                 this.checkGroup = 0;
             }
             if (this.api && !this._noApply) {
-                var properties = (this._originalProps) ? this._originalProps : new CParagraphProp();
+                var properties = (this._originalProps) ? this._originalProps : new Asc.asc_CParagraphProperty();
                 properties.put_Superscript(field.getValue()=='checked');
                 properties.put_Subscript(this.chSubscript.getValue()=='checked');
                 this.api.SetDrawImagePlaceParagraph('paragraphadv-font-img', properties);
@@ -811,7 +849,7 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                 this.checkGroup = 0;
             }
             if (this.api && !this._noApply) {
-                var properties = (this._originalProps) ? this._originalProps : new CParagraphProp();
+                var properties = (this._originalProps) ? this._originalProps : new Asc.asc_CParagraphProperty();
                 properties.put_Subscript(field.getValue()=='checked');
                 properties.put_Superscript(this.chSuperscript.getValue()=='checked');
                 this.api.SetDrawImagePlaceParagraph('paragraphadv-font-img', properties);
@@ -831,7 +869,7 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                 this.checkGroup = 0;
             }
             if (this.api && !this._noApply) {
-                var properties = (this._originalProps) ? this._originalProps : new CParagraphProp();
+                var properties = (this._originalProps) ? this._originalProps : new Asc.asc_CParagraphProperty();
                 properties.put_SmallCaps(field.getValue()=='checked');
                 properties.put_AllCaps(this.chAllCaps.getValue()=='checked');
                 this.api.SetDrawImagePlaceParagraph('paragraphadv-font-img', properties);
@@ -851,7 +889,7 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                 this.checkGroup = 0;
             }
             if (this.api && !this._noApply) {
-                var properties = (this._originalProps) ? this._originalProps : new CParagraphProp();
+                var properties = (this._originalProps) ? this._originalProps : new Asc.asc_CParagraphProperty();
                 properties.put_AllCaps(field.getValue()=='checked');
                 properties.put_SmallCaps(this.chSmallCaps.getValue()=='checked');
                 this.api.SetDrawImagePlaceParagraph('paragraphadv-font-img', properties);
@@ -878,12 +916,12 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
 
             if (this._changedProps) {
                 if (this._changedProps.get_Shade()===undefined || this._changedProps.get_Shade()===null) {
-                    this._changedProps.put_Shade(new CParagraphShd());
+                    this._changedProps.put_Shade(new Asc.asc_CParagraphShd());
                 }
                 if (this.paragraphShade=='transparent') {
-                    this._changedProps.get_Shade().put_Value(shd_Nil);
+                    this._changedProps.get_Shade().put_Value(Asc.c_oAscShdNil);
                 } else {
-                    this._changedProps.get_Shade().put_Value(shd_Clear);
+                    this._changedProps.get_Shade().put_Value(Asc.c_oAscShdClear);
                     this._changedProps.get_Shade().put_Color(Common.Utils.ThemeColor.getRgbColor(this.paragraphShade));
                 }
             }
@@ -905,7 +943,7 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
 
         _UpdateBorderStyle: function(border, visible) {
             if (null == border)
-                border = new CBorder();
+                border = new Asc.asc_CTextBorder();
 
             if (visible && this.BorderSize.ptValue > 0){
                 var size = parseFloat(this.BorderSize.ptValue);
@@ -915,7 +953,7 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                 border.put_Color(color);
             }
             else {
-                border.put_Color(new CAscColor());
+                border.put_Color(new Asc.asc_CColor());
                 border.put_Value(0);
             }
             return border;
@@ -927,28 +965,28 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
             if ( ct.col==0 && border.indexOf('l') > -1 ) {
                 updateBorders.put_Left(this._UpdateBorderStyle(updateBorders.get_Left(), (size>0)));
                 if (this.ChangedBorders) {
-                    this.ChangedBorders.put_Left(new CBorder(updateBorders.get_Left()));
+                    this.ChangedBorders.put_Left(new Asc.asc_CTextBorder(updateBorders.get_Left()));
                 }
             }
 
             if ( ct.col== this.tableStylerColumns-1 && border.indexOf('r') > -1 )  {
                 updateBorders.put_Right(this._UpdateBorderStyle(updateBorders.get_Right(), (size>0)));
                 if (this.ChangedBorders) {
-                    this.ChangedBorders.put_Right(new CBorder(updateBorders.get_Right()));
+                    this.ChangedBorders.put_Right(new Asc.asc_CTextBorder(updateBorders.get_Right()));
                 }
             }
 
             if ( ct.row==0 && border.indexOf('t') > -1 ) {
                 updateBorders.put_Top(this._UpdateBorderStyle(updateBorders.get_Top(), (size>0)));
                 if (this.ChangedBorders) {
-                    this.ChangedBorders.put_Top(new CBorder(updateBorders.get_Top()));
+                    this.ChangedBorders.put_Top(new Asc.asc_CTextBorder(updateBorders.get_Top()));
                 }
             }
 
             if ( ct.row== this.tableStylerRows-1 && border.indexOf('b') > -1 ) {
                 updateBorders.put_Bottom(this._UpdateBorderStyle(updateBorders.get_Bottom(), (size>0)));
                 if (this.ChangedBorders) {
-                    this.ChangedBorders.put_Bottom(new CBorder(updateBorders.get_Bottom()));
+                    this.ChangedBorders.put_Bottom(new Asc.asc_CTextBorder(updateBorders.get_Bottom()));
                 }
             }
 
@@ -956,7 +994,7 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                 ct.row== this.tableStylerRows-1 && border.indexOf('t') > -1) {
                 updateBorders.put_Between(this._UpdateBorderStyle(updateBorders.get_Between(), (size>0)));
                 if (this.ChangedBorders) {
-                    this.ChangedBorders.put_Between(new CBorder(updateBorders.get_Between()));
+                    this.ChangedBorders.put_Between(new Asc.asc_CTextBorder(updateBorders.get_Between()));
                 }
             }
         },
@@ -967,25 +1005,25 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
             if (border.indexOf('l') > -1)  {
                 updateBorders.put_Left(this._UpdateBorderStyle(updateBorders.get_Left(), (size>0)));
                 if (this.ChangedBorders) {
-                    this.ChangedBorders.put_Left(new CBorder(updateBorders.get_Left()));
+                    this.ChangedBorders.put_Left(new Asc.asc_CTextBorder(updateBorders.get_Left()));
                 }
             }
             if (border.indexOf('t') > -1) {
                 updateBorders.put_Top(this._UpdateBorderStyle(updateBorders.get_Top(), (size>0)));
                 if (this.ChangedBorders) {
-                    this.ChangedBorders.put_Top(new CBorder(updateBorders.get_Top()));
+                    this.ChangedBorders.put_Top(new Asc.asc_CTextBorder(updateBorders.get_Top()));
                 }
             }
             if (border.indexOf('r') > -1) {
                 updateBorders.put_Right(this._UpdateBorderStyle(updateBorders.get_Right(), (size>0)));
                 if (this.ChangedBorders) {
-                    this.ChangedBorders.put_Right(new CBorder(updateBorders.get_Right()));
+                    this.ChangedBorders.put_Right(new Asc.asc_CTextBorder(updateBorders.get_Right()));
                 }
             }
             if (border.indexOf('b') > -1) {
                 updateBorders.put_Bottom(this._UpdateBorderStyle(updateBorders.get_Bottom(), (size>0)));
                 if (this.ChangedBorders) {
-                    this.ChangedBorders.put_Bottom(new CBorder(updateBorders.get_Bottom()));
+                    this.ChangedBorders.put_Bottom(new Asc.asc_CTextBorder(updateBorders.get_Bottom()));
                 }
             }
         },
@@ -1061,7 +1099,7 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                 rec = new Common.UI.DataViewModel();
                 rec.set({
                     tabPos: val,
-                    value: val + ' ' + Common.Utils.Metric.metricName[Common.Utils.Metric.getCurrentMetric()],
+                    value: val + ' ' + Common.Utils.Metric.getCurrentMetricName(),
                     tabAlign: align
                 });
                 store.add(rec);

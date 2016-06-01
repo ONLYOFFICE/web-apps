@@ -1,3 +1,35 @@
+/*
+ *
+ * (c) Copyright Ascensio System Limited 2010-2016
+ *
+ * This program is a free software product. You can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License (AGPL)
+ * version 3 as published by the Free Software Foundation. In accordance with
+ * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
+ * that Ascensio System SIA expressly excludes the warranty of non-infringement
+ * of any third-party rights.
+ *
+ * This program is distributed WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
+ * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ *
+ * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
+ * EU, LV-1021.
+ *
+ * The  interactive user interfaces in modified source and object code versions
+ * of the Program must display Appropriate Legal Notices, as required under
+ * Section 5 of the GNU AGPL version 3.
+ *
+ * Pursuant to Section 7(b) of the License you must retain the original Product
+ * logo when distributing the program. Pursuant to Section 7(e) we decline to
+ * grant you any rights under trademark law for use of our trademarks.
+ *
+ * All the Product's GUI elements, including illustrations and icon sets, as
+ * well as technical writing content are licensed under the terms of the
+ * Creative Commons Attribution-ShareAlike 4.0 International. See the License
+ * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ *
+*/
 define([
     'common/main/lib/view/DocumentAccessDialog'
 ], function () {
@@ -10,13 +42,13 @@ define([
         menu: undefined,
 
         formats: [[
-            {name: 'XLSX', imgCls: 'xlsx', type: c_oAscFileType.XLSX},
-            {name: 'PDF',  imgCls: 'pdf',  type: c_oAscFileType.PDF},
-            {name: 'ODS',  imgCls: 'ods',  type: c_oAscFileType.ODS},
-            {name: 'CSV',  imgCls: 'csv',  type: c_oAscFileType.CSV}
+            {name: 'XLSX', imgCls: 'xlsx', type: Asc.c_oAscFileType.XLSX},
+            {name: 'PDF',  imgCls: 'pdf',  type: Asc.c_oAscFileType.PDF},
+            {name: 'ODS',  imgCls: 'ods',  type: Asc.c_oAscFileType.ODS},
+            {name: 'CSV',  imgCls: 'csv',  type: Asc.c_oAscFileType.CSV}
         ]
 //        ,[
-//            {name: 'HTML', imgCls: 'html', type: c_oAscFileType.HTML}
+//            {name: 'HTML', imgCls: 'html', type: Asc.c_oAscFileType.HTML}
 //        ]
     ],
 
@@ -102,7 +134,7 @@ define([
                 el: $('#id-settings-menu'),
                 store: new Common.UI.DataViewStore([
                     {name: this.txtGeneral, panel: this.generalSettings, iconCls:'mnu-settings-general', selected: true},
-                    {name: this.txtPrint, panel: this.printSettings, iconCls:'mnu-print'}
+                    {name: this.txtPageSettings, panel: this.printSettings, iconCls:'mnu-print'}
                 ]),
                 itemTemplate: _.template([
                     '<div id="<%= id %>" class="settings-item-wrap">',
@@ -141,7 +173,7 @@ define([
         },
 
         txtGeneral: 'General',
-        txtPrint: 'Print'
+        txtPageSettings: 'Page Settings'
     }, SSE.Views.FileMenuPanels.Settings || {}));
 
     SSE.Views.MainSettingsPrint = Common.UI.BaseView.extend(_.extend({
@@ -160,6 +192,10 @@ define([
                 '<tr>',
                     '<td class="left"><label><%= scope.textPageOrientation %></label></td>',
                     '<td class="right"><span id="advsettings-print-combo-orient" /></td>',
+                '</tr>','<tr class="divider"></tr>',
+                '<tr>',
+                    '<td class="left"><label><%= scope.textPageScaling %></label></td>',
+                    '<td class="right"><span id="advsettings-print-combo-layout" /></td>',
                 '</tr>','<tr class="divider"></tr>',
                 '<tr>',
                     '<td class="left" style="vertical-align: top;"><label><%= scope.strMargins %></label></td>',
@@ -213,47 +249,59 @@ define([
 
             this.cmbSheet = new Common.UI.ComboBox({
                 el          : $('#advsettings-print-combo-sheets'),
-                style       : 'width: 260px;',
-                menuStyle   : 'min-width: 260px;max-height: 280px;',
+                style       : 'width: 242px;',
+                menuStyle   : 'min-width: 242px;max-height: 280px;',
                 editable    : false,
                 cls         : 'input-group-nr',
-                data        : [
-                    { value: -255, displayValue: this.strAllSheets }
-                ]
+                data        : []
             });
 
             this.cmbPaperSize = new Common.UI.ComboBox({
                 el          : $('#advsettings-print-combo-pages'),
-                style       : 'width: 260px;',
-                menuStyle   : 'max-height: 280px; min-width: 260px;',
+                style       : 'width: 242px;',
+                menuStyle   : 'max-height: 280px; min-width: 242px;',
                 editable    : false,
                 cls         : 'input-group-nr',
                 data : [
-                    {value:'215.9|279.4',    displayValue:'US Letter (21,59cm x 27,94cm)'},
-                    {value:'215.9|355.6',    displayValue:'US Legal (21,59cm x 35,56cm)'},
-                    {value:'210|297',        displayValue:'A4 (21cm x 29,7cm)'},
-                    {value:'148.1|209.9',    displayValue:'A5 (14,81cm x 20,99cm)'},
-                    {value:'176|250.1',      displayValue:'B5 (17,6cm x 25,01cm)'},
-                    {value:'104.8|241.3',    displayValue:'Envelope #10 (10,48cm x 24,13cm)'},
-                    {value:'110.1|220.1',    displayValue:'Envelope DL (11,01cm x 22,01cm)'},
-                    {value:'279.4|431.7',    displayValue:'Tabloid (27,94cm x 43,17cm)'},
-                    {value:'297|420.1',      displayValue:'A3 (29,7cm x 42,01cm)'},
-                    {value:'304.8|457.1',    displayValue:'Tabloid Oversize (30,48cm x 45,71cm)'},
-                    {value:'196.8|273',      displayValue:'ROC 16K (19,68cm x 27,3cm)'},
-                    {value:'119.9|234.9',    displayValue:'Envelope Choukei 3 (11,99cm x 23,49cm)'},
-                    {value:'330.2|482.5',    displayValue:'Super B/A3 (33,02cm x 48,25cm)'}
+                    {value:'215.9|279.4',    displayValue:'US Letter (21,59cm x 27,94cm)', caption: 'US Letter'},
+                    {value:'215.9|355.6',    displayValue:'US Legal (21,59cm x 35,56cm)', caption: 'US Legal'},
+                    {value:'210|297',        displayValue:'A4 (21cm x 29,7cm)', caption: 'A4'},
+                    {value:'148.1|209.9',    displayValue:'A5 (14,81cm x 20,99cm)', caption: 'A5'},
+                    {value:'176|250.1',      displayValue:'B5 (17,6cm x 25,01cm)', caption: 'B5'},
+                    {value:'104.8|241.3',    displayValue:'Envelope #10 (10,48cm x 24,13cm)', caption: 'Envelope #10'},
+                    {value:'110.1|220.1',    displayValue:'Envelope DL (11,01cm x 22,01cm)', caption: 'Envelope DL'},
+                    {value:'279.4|431.7',    displayValue:'Tabloid (27,94cm x 43,17cm)', caption: 'Tabloid'},
+                    {value:'297|420.1',      displayValue:'A3 (29,7cm x 42,01cm)', caption: 'A3'},
+                    {value:'304.8|457.1',    displayValue:'Tabloid Oversize (30,48cm x 45,71cm)', caption: 'Tabloid Oversize'},
+                    {value:'196.8|273',      displayValue:'ROC 16K (19,68cm x 27,3cm)', caption: 'ROC 16K'},
+                    {value:'119.9|234.9',    displayValue:'Envelope Choukei 3 (11,99cm x 23,49cm)', caption: 'Envelope Choukei 3'},
+                    {value:'330.2|482.5',    displayValue:'Super B/A3 (33,02cm x 48,25cm)', caption: 'Super B/A3'}
                 ]
             });
 
             this.cmbPaperOrientation = new Common.UI.ComboBox({
                 el          : $('#advsettings-print-combo-orient'),
-                style       : 'width: 200px;',
-                menuStyle   : 'min-width: 200px;',
+                style       : 'width: 132px;',
+                menuStyle   : 'min-width: 132px;',
                 editable    : false,
                 cls         : 'input-group-nr',
                 data        : [
-                    { value: c_oAscPageOrientation.PagePortrait, displayValue: this.strPortrait },
-                    { value: c_oAscPageOrientation.PageLandscape, displayValue: this.strLandscape }
+                    { value: Asc.c_oAscPageOrientation.PagePortrait, displayValue: this.strPortrait },
+                    { value: Asc.c_oAscPageOrientation.PageLandscape, displayValue: this.strLandscape }
+                ]
+            });
+
+            this.cmbLayout = new Common.UI.ComboBox({
+                el          : $('#advsettings-print-combo-layout'),
+                style       : 'width: 242px;',
+                menuStyle   : 'min-width: 242px;',
+                editable    : false,
+                cls         : 'input-group-nr',
+                data        : [
+                    { value: 0, displayValue: this.textActualSize },
+                    { value: 1, displayValue: this.textFitPage },
+                    { value: 2, displayValue: this.textFitCols },
+                    { value: 3, displayValue: this.textFitRows }
                 ]
             });
 
@@ -270,7 +318,7 @@ define([
             this.spnMarginTop = new Common.UI.MetricSpinner({
                 el: $('#advsettings-spin-margin-top'),
                 step: .1,
-                width: 90,
+                width: 110,
                 defaultUnit : "cm",
                 value: '0 cm',
                 maxValue: 48.25,
@@ -281,7 +329,7 @@ define([
             this.spnMarginBottom = new Common.UI.MetricSpinner({
                 el: $('#advsettings-spin-margin-bottom'),
                 step: .1,
-                width: 90,
+                width: 110,
                 defaultUnit : "cm",
                 value: '0 cm',
                 maxValue: 48.25,
@@ -292,7 +340,7 @@ define([
             this.spnMarginLeft = new Common.UI.MetricSpinner({
                 el: $('#advsettings-spin-margin-left'),
                 step: .1,
-                width: 90,
+                width: 110,
                 defaultUnit : "cm",
                 value: '0.19 cm',
                 maxValue: 48.25,
@@ -303,7 +351,7 @@ define([
             this.spnMarginRight = new Common.UI.MetricSpinner({
                 el: $('#advsettings-spin-margin-right'),
                 step: .1,
-                width: 90,
+                width: 110,
                 defaultUnit : "cm",
                 value: '0.19 cm',
                 maxValue: 48.25,
@@ -331,10 +379,21 @@ define([
             if (this.spinners) {
                 for (var i=0; i<this.spinners.length; i++) {
                     var spinner = this.spinners[i];
-                    spinner.setDefaultUnit(Common.Utils.Metric.metricName[Common.Utils.Metric.getCurrentMetric()]);
-                    spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.cm ? 0.1 : 1);
+                    spinner.setDefaultUnit(Common.Utils.Metric.getCurrentMetricName());
+                    spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt ? 1 : 0.1);
                 }
             }
+            var store = this.cmbPaperSize.store;
+            for (var i=0; i<store.length; i++) {
+                var item = store.at(i),
+                    value = item.get('value'),
+                    pagewidth = /^\d{3}\.?\d*/.exec(value),
+                    pageheight = /\d{3}\.?\d*$/.exec(value);
+
+                item.set('displayValue', item.get('caption') + ' (' + parseFloat(Common.Utils.Metric.fnRecalcFromMM(pagewidth).toFixed(2)) + Common.Utils.Metric.getCurrentMetricName() + ' x ' +
+                        parseFloat(Common.Utils.Metric.fnRecalcFromMM(pageheight).toFixed(2)) + Common.Utils.Metric.getCurrentMetricName() + ')');
+            }
+            this.cmbPaperSize.onResetItems();
         },
 
         applySettings: function() {
@@ -365,7 +424,12 @@ define([
         textPageSize:           'Page Size',
         textPageOrientation:    'Page Orientation',
         strPrint:               'Print',
-        textSettings:           'Settings for'
+        textSettings:           'Settings for',
+        textPageScaling:        'Scaling',
+        textActualSize:         'Actual Size',
+        textFitPage:            'Fit Sheet on One Page',
+        textFitCols:            'Fit All Columns on One Page',
+        textFitRows:            'Fit All Rows on One Page'
     }, SSE.Views.MainSettingsPrint || {}));
 
     SSE.Views.FileMenuPanels.MainSettingsGeneral = Common.UI.BaseView.extend(_.extend({
@@ -446,6 +510,8 @@ define([
                     { value: 0, displayValue: this.strStrict, descValue: this.strCoAuthModeDescStrict }
                 ]
             }).on('selected', _.bind(function(combo, record) {
+                if (record.value == 1 && (this.chAutosave.getValue()!=='checked'))
+                    this.chAutosave.setValue(1);
                 this.lblCoAuthMode.text(record.descValue);
             }, this));
 
@@ -478,16 +544,21 @@ define([
                 editable    : false,
                 cls         : 'input-group-nr',
                 data        : [
-                    { value: c_oAscFontRenderingModeType.hintingAndSubpixeling, displayValue: this.txtWin },
-                    { value: c_oAscFontRenderingModeType.noHinting, displayValue: this.txtMac },
-                    { value: c_oAscFontRenderingModeType.hinting, displayValue: this.txtNative }
+                    { value: Asc.c_oAscFontRenderingModeType.hintingAndSubpixeling, displayValue: this.txtWin },
+                    { value: Asc.c_oAscFontRenderingModeType.noHinting, displayValue: this.txtMac },
+                    { value: Asc.c_oAscFontRenderingModeType.hinting, displayValue: this.txtNative }
                 ]
             });
 
             this.chAutosave = new Common.UI.CheckBox({
                 el: $('#fms-chb-autosave'),
                 labelText: this.strAutosave
-            });
+            }).on('change', _.bind(function(field, newValue, oldValue, eOpts){
+                if (field.getValue()!=='checked' && this.cmbCoAuthMode.getValue()) {
+                    this.cmbCoAuthMode.setValue(0);
+                    this.lblCoAuthMode.text(this.strCoAuthModeDescStrict);
+                }
+            }, this));
             this.lblAutosave = $('#fms-lbl-autosave');
             
             this.cmbUnit = new Common.UI.ComboBox({
@@ -497,7 +568,8 @@ define([
                 cls         : 'input-group-nr',
                 data        : [
                     { value: Common.Utils.Metric.c_MetricUnits['cm'], displayValue: this.txtCm },
-                    { value: Common.Utils.Metric.c_MetricUnits['pt'], displayValue: this.txtPt }
+                    { value: Common.Utils.Metric.c_MetricUnits['pt'], displayValue: this.txtPt },
+                    { value: Common.Utils.Metric.c_MetricUnits['inch'], displayValue: this.txtInch }
                 ]
             });
 
@@ -518,12 +590,32 @@ define([
             this.cmbRegSettings = new Common.UI.ComboBox({
                 el          : $('#fms-cmb-reg-settings'),
                 style       : 'width: 160px;',
+                menuStyle: 'max-height: 185px;',
                 editable    : false,
                 cls         : 'input-group-nr',
                 data        : [
-                    { value: 0x0409, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x0409)[1] },
+                    { value: 0x042C, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x042C)[1] },
+                    { value: 0x0405, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x0405)[1] },
                     { value: 0x0407, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x0407)[1] },
-                    { value: 0x0419, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x0419)[1] }
+                    { value: 0x0408, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x0408)[1] },
+                    { value: 0x0809, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x0809)[1] },
+                    { value: 0x0409, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x0409)[1] },
+                    { value: 0x0C0A, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x0C0A)[1] },
+                    { value: 0x040B, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x040B)[1] },
+                    { value: 0x040C, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x040C)[1] },
+                    { value: 0x0410, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x0410)[1] },
+                    { value: 0x0411, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x0411)[1] },
+                    { value: 0x0412, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x0412)[1] },
+                    { value: 0x0426, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x0426)[1] },
+                    { value: 0x0415, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x0415)[1] },
+                    { value: 0x0416, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x0416)[1] },
+                    { value: 0x0816, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x0816)[1] },
+                    { value: 0x0419, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x0419)[1] },
+                    { value: 0x0424, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x0424)[1] },
+                    { value: 0x041F, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x041F)[1] },
+                    { value: 0x0422, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x0422)[1] },
+                    { value: 0x042A, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x042A)[1] },
+                    { value: 0x0804, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x0804)[1] }
                 ]
             }).on('selected', _.bind(function(combo, record) {
                 this.updateRegionalExample(record.value);
@@ -553,8 +645,8 @@ define([
 
         setMode: function(mode) {
             this.mode = mode;
-            $('tr.autosave', this.el)[mode.isEdit && mode.canAutosave ? 'show' : 'hide']();
-            if (this.mode.isDesktopApp) {
+            $('tr.autosave', this.el)[mode.isEdit ? 'show' : 'hide']();
+            if (this.mode.isDesktopApp && this.mode.isOffline) {
                 this.chAutosave.setCaption(this.strAutoRecover);
                 this.lblAutosave.text(this.textAutoRecover);
             }
@@ -576,6 +668,8 @@ define([
             this.chLiveComment.setValue(!(value!==null && parseInt(value) == 0));
 
             value = Common.localStorage.getItem("sse-settings-coauthmode");
+            var fast_coauth = (value===null || parseInt(value) == 1) && !(this.mode.isDesktopApp && this.mode.isOffline);
+
             item = this.cmbCoAuthMode.store.findWhere({value: parseInt(value)});
             this.cmbCoAuthMode.setValue(item ? item.get('value') : 1);
             this.lblCoAuthMode.text(item ? item.get('descValue') : this.strCoAuthModeDescFast);
@@ -583,15 +677,15 @@ define([
 
             value = Common.localStorage.getItem("sse-settings-fontrender");
             item = this.cmbFontRender.store.findWhere({value: parseInt(value)});
-            this.cmbFontRender.setValue(item ? item.get('value') : (window.devicePixelRatio > 1 ? c_oAscFontRenderingModeType.noHinting : c_oAscFontRenderingModeType.hintingAndSubpixeling));
+            this.cmbFontRender.setValue(item ? item.get('value') : (window.devicePixelRatio > 1 ? Asc.c_oAscFontRenderingModeType.noHinting : Asc.c_oAscFontRenderingModeType.hintingAndSubpixeling));
 
             value = Common.localStorage.getItem("sse-settings-unit");
             item = this.cmbUnit.store.findWhere({value: parseInt(value)});
-            this.cmbUnit.setValue(item ? parseInt(item.get('value')) : 0);
+            this.cmbUnit.setValue(item ? parseInt(item.get('value')) : Common.Utils.Metric.getDefaultMetric());
             this._oldUnits = this.cmbUnit.getValue();
 
             value = Common.localStorage.getItem("sse-settings-autosave");
-            this.chAutosave.setValue(value===null || parseInt(value) == 1);
+            this.chAutosave.setValue(fast_coauth || (value===null || parseInt(value) == 1));
 
             value = Common.localStorage.getItem("sse-settings-func-locale");
             if (value===null)
@@ -693,7 +787,8 @@ define([
         strFast: 'Fast',
         strStrict: 'Strict',
         textAutoRecover: 'Autorecover',
-        strAutoRecover: 'Turn on autorecover'
+        strAutoRecover: 'Turn on autorecover',
+        txtInch: 'Inch'
     }, SSE.Views.FileMenuPanels.MainSettingsGeneral || {}));
 
     SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({

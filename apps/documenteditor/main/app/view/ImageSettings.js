@@ -1,3 +1,35 @@
+/*
+ *
+ * (c) Copyright Ascensio System Limited 2010-2016
+ *
+ * This program is a free software product. You can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License (AGPL)
+ * version 3 as published by the Free Software Foundation. In accordance with
+ * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
+ * that Ascensio System SIA expressly excludes the warranty of non-infringement
+ * of any third-party rights.
+ *
+ * This program is distributed WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
+ * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ *
+ * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
+ * EU, LV-1021.
+ *
+ * The  interactive user interfaces in modified source and object code versions
+ * of the Program must display Appropriate Legal Notices, as required under
+ * Section 5 of the GNU AGPL version 3.
+ *
+ * Pursuant to Section 7(b) of the License you must retain the original Product
+ * logo when distributing the program. Pursuant to Section 7(e) we decline to
+ * grant you any rights under trademark law for use of our trademarks.
+ *
+ * All the Product's GUI elements, including illustrations and icon sets, as
+ * well as technical writing content are licensed under the terms of the
+ * Creative Commons Attribution-ShareAlike 4.0 International. See the License
+ * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ *
+*/
 /**
  *  ImageSettings.js
  *
@@ -36,7 +68,7 @@ define([
             this._initSettings = true;
 
             this._state = {
-                WrappingStyle: c_oAscWrapStyle2.Inline,
+                WrappingStyle: Asc.c_oAscWrapStyle2.Inline,
                 CanBeFlow: true,
                 Width: 0,
                 Height: 0,
@@ -52,13 +84,13 @@ define([
             this.render();
 
             var viewData = [
-                { offsetx: 0, data: c_oAscWrapStyle2.Inline, iconcls:'wrap-inline', tip: this.txtInline, selected: true },
-                { offsetx: 50, data: c_oAscWrapStyle2.Square, iconcls:'wrap-square', tip: this.txtSquare },
-                { offsetx: 100, data: c_oAscWrapStyle2.Tight, iconcls:'wrap-tight', tip: this.txtTight },
-                { offsetx: 150, data: c_oAscWrapStyle2.Through, iconcls:'wrap-through', tip: this.txtThrough },
-                { offsetx: 200, data: c_oAscWrapStyle2.TopAndBottom, iconcls:'wrap-topAndBottom', tip: this.txtTopAndBottom },
-                { offsetx: 250, data: c_oAscWrapStyle2.InFront, iconcls:'wrap-inFront', tip: this.txtInFront },
-                { offsetx: 300, data: c_oAscWrapStyle2.Behind, iconcls:'wrap-behind', tip: this.txtBehind }
+                { offsetx: 0, data: Asc.c_oAscWrapStyle2.Inline, iconcls:'wrap-inline', tip: this.txtInline, selected: true },
+                { offsetx: 50, data: Asc.c_oAscWrapStyle2.Square, iconcls:'wrap-square', tip: this.txtSquare },
+                { offsetx: 100, data: Asc.c_oAscWrapStyle2.Tight, iconcls:'wrap-tight', tip: this.txtTight },
+                { offsetx: 150, data: Asc.c_oAscWrapStyle2.Through, iconcls:'wrap-through', tip: this.txtThrough },
+                { offsetx: 200, data: Asc.c_oAscWrapStyle2.TopAndBottom, iconcls:'wrap-topAndBottom', tip: this.txtTopAndBottom },
+                { offsetx: 250, data: Asc.c_oAscWrapStyle2.InFront, iconcls:'wrap-inFront', tip: this.txtInFront },
+                { offsetx: 300, data: Asc.c_oAscWrapStyle2.Behind, iconcls:'wrap-behind', tip: this.txtBehind }
             ];
 
             this.btnWrapType = new Common.UI.Button({
@@ -128,10 +160,10 @@ define([
 
         updateMetricUnit: function() {
             var value = Common.Utils.Metric.fnRecalcFromMM(this._state.Width);
-            this.labelWidth[0].innerHTML = this.textWidth + ': ' + value.toFixed(1) + ' ' + Common.Utils.Metric.metricName[Common.Utils.Metric.getCurrentMetric()];
+            this.labelWidth[0].innerHTML = this.textWidth + ': ' + value.toFixed(1) + ' ' + Common.Utils.Metric.getCurrentMetricName();
 
             value = Common.Utils.Metric.fnRecalcFromMM(this._state.Height);
-            this.labelHeight[0].innerHTML = this.textHeight + ': ' + value.toFixed(1) + ' ' + Common.Utils.Metric.metricName[Common.Utils.Metric.getCurrentMetric()];
+            this.labelHeight[0].innerHTML = this.textHeight + ': ' + value.toFixed(1) + ' ' + Common.Utils.Metric.getCurrentMetricName();
         },
 
         createDelayedElements: function() {
@@ -147,7 +179,7 @@ define([
             this.disableControls(this._locked);
 
             if (props ){
-                this._originalProps = new CImgProperty(props);
+                this._originalProps = new Asc.asc_CImgProperty(props);
 
                 var value = props.get_WrappingStyle();
                 if (this._state.WrappingStyle!==value) {
@@ -172,13 +204,13 @@ define([
 
                 value = props.get_Width();
                 if ( Math.abs(this._state.Width-value)>0.001 ) {
-                    this.labelWidth[0].innerHTML = this.textWidth + ': ' + Common.Utils.Metric.fnRecalcFromMM(value).toFixed(1) + ' ' + Common.Utils.Metric.metricName[Common.Utils.Metric.getCurrentMetric()];
+                    this.labelWidth[0].innerHTML = this.textWidth + ': ' + Common.Utils.Metric.fnRecalcFromMM(value).toFixed(1) + ' ' + Common.Utils.Metric.getCurrentMetricName();
                     this._state.Width = value;
                 }
 
                 value = props.get_Height();
                 if ( Math.abs(this._state.Height-value)>0.001 ) {
-                    this.labelHeight[0].innerHTML = this.textHeight + ': ' + Common.Utils.Metric.fnRecalcFromMM(value).toFixed(1) + ' ' + Common.Utils.Metric.metricName[Common.Utils.Metric.getCurrentMetric()];
+                    this.labelHeight[0].innerHTML = this.textHeight + ': ' + Common.Utils.Metric.fnRecalcFromMM(value).toFixed(1) + ' ' + Common.Utils.Metric.getCurrentMetricName();
                     this._state.Height = value;
                 }
 
@@ -218,19 +250,19 @@ define([
             this.btnWrapType.setIconCls('item-wrap ' + rawData.iconcls);
 
             if (this.api) {
-                var props = new CImgProperty();
+                var props = new Asc.asc_CImgProperty();
                 props.put_WrappingStyle((rawData.data));
-                if (this._state.WrappingStyle===c_oAscWrapStyle2.Inline && rawData.data!==c_oAscWrapStyle2.Inline ) {
-                    props.put_PositionH(new CImagePositionH());
+                if (this._state.WrappingStyle===Asc.c_oAscWrapStyle2.Inline && rawData.data!==Asc.c_oAscWrapStyle2.Inline ) {
+                    props.put_PositionH(new Asc.CImagePositionH());
                     props.get_PositionH().put_UseAlign(false);
-                    props.get_PositionH().put_RelativeFrom(c_oAscRelativeFromH.Column);
-                    var val = this._originalProps.get_Value_X(c_oAscRelativeFromH.Column);
+                    props.get_PositionH().put_RelativeFrom(Asc.c_oAscRelativeFromH.Column);
+                    var val = this._originalProps.get_Value_X(Asc.c_oAscRelativeFromH.Column);
                     props.get_PositionH().put_Value(val);
 
-                    props.put_PositionV(new CImagePositionV());
+                    props.put_PositionV(new Asc.CImagePositionV());
                     props.get_PositionV().put_UseAlign(false);
-                    props.get_PositionV().put_RelativeFrom(c_oAscRelativeFromV.Paragraph);
-                    val = this._originalProps.get_Value_Y(c_oAscRelativeFromV.Paragraph);
+                    props.get_PositionV().put_RelativeFrom(Asc.c_oAscRelativeFromV.Paragraph);
+                    val = this._originalProps.get_Value_Y(Asc.c_oAscRelativeFromV.Paragraph);
                     props.get_PositionV().put_Value(val);
                 }
 
@@ -246,10 +278,10 @@ define([
                 var w = imgsize.get_ImageWidth();
                 var h = imgsize.get_ImageHeight();
 
-                this.labelWidth[0].innerHTML = this.textWidth + ': ' + Common.Utils.Metric.fnRecalcFromMM(w).toFixed(1) + ' ' + Common.Utils.Metric.metricName[Common.Utils.Metric.getCurrentMetric()];
-                this.labelHeight[0].innerHTML = this.textHeight + ': ' + Common.Utils.Metric.fnRecalcFromMM(h).toFixed(1) + ' ' + Common.Utils.Metric.metricName[Common.Utils.Metric.getCurrentMetric()];
+                this.labelWidth[0].innerHTML = this.textWidth + ': ' + Common.Utils.Metric.fnRecalcFromMM(w).toFixed(1) + ' ' + Common.Utils.Metric.getCurrentMetricName();
+                this.labelHeight[0].innerHTML = this.textHeight + ': ' + Common.Utils.Metric.fnRecalcFromMM(h).toFixed(1) + ' ' + Common.Utils.Metric.getCurrentMetricName();
 
-                var properties = new CImgProperty();
+                var properties = new Asc.asc_CImgProperty();
                 properties.put_Width(w);
                 properties.put_Height(h);
                 this.api.ImgApply(properties);
@@ -265,7 +297,7 @@ define([
                         if (me.api) {
                             var checkUrl = value.replace(/ /g, '');
                             if (!_.isEmpty(checkUrl)) {
-                                var props = new CImgProperty();
+                                var props = new Asc.asc_CImgProperty();
                                 props.put_ImageUrl(checkUrl);
                                 me.api.ImgApply(props);
                             }
@@ -288,7 +320,7 @@ define([
                     for (var i = selectedElements.length - 1; i >= 0; i--) {
                         elType = selectedElements[i].get_ObjectType();
                         elValue = selectedElements[i].get_ObjectValue();
-                        if (c_oAscTypeSelectElement.Image == elType) {
+                        if (Asc.c_oAscTypeSelectElement.Image == elType) {
                             var imgsizeOriginal;
                             if (!me.btnOriginalSize.isDisabled()) {
                                 imgsizeOriginal = me.api.get_OriginalSizeImage();
@@ -304,6 +336,7 @@ define([
                                     imageProps: elValue,
                                     sizeOriginal: imgsizeOriginal,
                                     sizeMax: imgsizeMax,
+                                    sectionProps: me.api.asc_GetSectionProps(),
                                     handler: function(result, value) {
                                         if (result == 'ok') {
                                             if (me.api) {

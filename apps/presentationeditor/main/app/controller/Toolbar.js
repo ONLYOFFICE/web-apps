@@ -1,3 +1,35 @@
+/*
+ *
+ * (c) Copyright Ascensio System Limited 2010-2016
+ *
+ * This program is a free software product. You can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License (AGPL)
+ * version 3 as published by the Free Software Foundation. In accordance with
+ * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
+ * that Ascensio System SIA expressly excludes the warranty of non-infringement
+ * of any third-party rights.
+ *
+ * This program is distributed WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
+ * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ *
+ * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
+ * EU, LV-1021.
+ *
+ * The  interactive user interfaces in modified source and object code versions
+ * of the Program must display Appropriate Legal Notices, as required under
+ * Section 5 of the GNU AGPL version 3.
+ *
+ * Pursuant to Section 7(b) of the License you must retain the original Product
+ * logo when distributing the program. Pursuant to Section 7(e) we decline to
+ * grant you any rights under trademark law for use of our trademarks.
+ *
+ * All the Product's GUI elements, including illustrations and icon sets, as
+ * well as technical writing content are licensed under the terms of the
+ * Creative Commons Attribution-ShareAlike 4.0 International. See the License
+ * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ *
+*/
 /**
  *  Toolbar.js
  *
@@ -37,6 +69,7 @@ define([
                 slidelayoutdisable:undefined,
                 shapecontrolsdisable:undefined,
                 no_paragraph: undefined,
+                no_text: undefined,
                 no_object: undefined,
                 clrtext: undefined,
                 linespace: undefined,
@@ -255,8 +288,6 @@ define([
 
             this.api.asc_registerCallback('asc_onCountPages',           _.bind(this.onApiCountPages, this));
 
-            this.onApiPageSize(this.api.get_PresentationWidth(), this.api.get_PresentationHeight());
-
             this.onSetupCopyStyleButton();
         },
 
@@ -429,9 +460,9 @@ define([
                     btnVerticalAlign = this.toolbar.btnVerticalAlign;
 
                 switch (v) {
-                    case c_oAscVerticalTextAlign.TEXT_ALIGN_TOP:    index = 0; align = 'btn-align-top';    break;
-                    case c_oAscVerticalTextAlign.TEXT_ALIGN_CTR:    index = 1; align = 'btn-align-middle'; break;
-                    case c_oAscVerticalTextAlign.TEXT_ALIGN_BOTTOM: index = 2; align = 'btn-align-bottom'; break;
+                    case Asc.c_oAscVerticalTextAlign.TEXT_ALIGN_TOP:    index = 0; align = 'btn-align-top';    break;
+                    case Asc.c_oAscVerticalTextAlign.TEXT_ALIGN_CTR:    index = 1; align = 'btn-align-middle'; break;
+                    case Asc.c_oAscVerticalTextAlign.TEXT_ALIGN_BOTTOM: index = 2; align = 'btn-align-bottom'; break;
                     default:  index = -255; align = 'btn-align-middle'; break;
                 }
 
@@ -530,21 +561,26 @@ define([
                 slide_deleted = undefined,
                 slide_layout_lock = undefined,
                 no_paragraph = true,
+                no_text = true,
                 no_object = true;
 
             while (++i < selectedObjects.length) {
                 type = selectedObjects[i].get_ObjectType();
                 pr   = selectedObjects[i].get_ObjectValue();
-                if (type == c_oAscTypeSelectElement.Paragraph) {
+                if (type == Asc.c_oAscTypeSelectElement.Paragraph) {
                     paragraph_locked = pr.get_Locked();
                     no_paragraph = false;
+                    no_text = false;
                     no_object = false;
-                } else if (type == c_oAscTypeSelectElement.Slide) {
+                } else if (type == Asc.c_oAscTypeSelectElement.Slide) {
                     slide_deleted = pr.get_LockDelete();
                     slide_layout_lock = pr.get_LockLayout();
-                } else if (type == c_oAscTypeSelectElement.Image || type == c_oAscTypeSelectElement.Shape || type == c_oAscTypeSelectElement.Chart || type == c_oAscTypeSelectElement.Table) {
+                } else if (type == Asc.c_oAscTypeSelectElement.Image || type == Asc.c_oAscTypeSelectElement.Shape || type == Asc.c_oAscTypeSelectElement.Chart || type == Asc.c_oAscTypeSelectElement.Table) {
                     shape_locked = pr.get_Locked();
                     no_object = false;
+                    if (type !== Asc.c_oAscTypeSelectElement.Image) {
+                        no_text = false;
+                    }
                 }
             }
 
@@ -559,9 +595,14 @@ define([
                 this.toolbar.lockToolbar(PE.enumLock.noParagraphSelected, no_paragraph, {array: [me.toolbar.btnCopyStyle]});
             }
 
+            if (this._state.no_text !== no_text) {
+                if (this._state.activated) this._state.no_text = no_text;
+                this.toolbar.lockToolbar(PE.enumLock.noTextSelected, no_text, {array: me.toolbar.paragraphControls});
+            }
+
             if (shape_locked!==undefined && this._state.shapecontrolsdisable !== shape_locked) {
                 if (this._state.activated) this._state.shapecontrolsdisable = shape_locked;
-                this.toolbar.lockToolbar(PE.enumLock.shapeLock, shape_locked, {array: me.toolbar.shapeControls});
+                this.toolbar.lockToolbar(PE.enumLock.shapeLock, shape_locked, {array: me.toolbar.shapeControls.concat(me.toolbar.paragraphControls)});
             }
 
             if (this._state.no_object !== no_object ) {
@@ -705,18 +746,23 @@ define([
         },
 
         onPreview: function(btn, e) {
-            var previewPanel = PE.getController('Viewport').getView('DocumentPreview');
-            if (previewPanel) {
+            var previewPanel = PE.getController('Viewport').getView('DocumentPreview'),
+                me = this;
+            if (previewPanel && me.api) {
                 previewPanel.show();
-                if (!this.toolbar.mode.isDesktopApp)
-                    this.fullScreen(document.documentElement);
+                var onWindowResize = function() {
+                    Common.NotificationCenter.off('window:resize', onWindowResize);
 
-                if (this.api) {
-                    var current = this.api.getCurrentPage();
-                    this.api.StartDemonstration('presentation-preview', _.isNumber(current) ? current : 0);
+                    var current = me.api.getCurrentPage();
+                    me.api.StartDemonstration('presentation-preview', _.isNumber(current) ? current : 0);
 
                     Common.component.Analytics.trackEvent('ToolBar', 'Preview');
-                }
+                };
+                if (!me.toolbar.mode.isDesktopApp) {
+                    Common.NotificationCenter.on('window:resize', onWindowResize);
+                    me.fullScreen(document.documentElement);
+                } else
+                    onWindowResize();
             }
         },
 
@@ -1155,7 +1201,7 @@ define([
                         slides: _arr
                     });
 
-                    props = new CHyperlinkProperty();
+                    props = new Asc.CHyperlinkProperty();
                     props.put_Text(text);
 
                     win.show();
@@ -1488,7 +1534,7 @@ define([
             var picker = this.toolbar.mnuFontColorPicker;
 
             if (color) {
-                if (color.get_type() == c_oAscColor.COLOR_TYPE_SCHEME) {
+                if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
                     clr = {color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()), effectValue: color.get_value() };
                 } else
                     clr = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b());
@@ -1596,11 +1642,6 @@ define([
 
                          if (e.type !== 'click')
                              me.toolbar.btnInsertText.menu.hide();
-                        Common.NotificationCenter.trigger('edit:complete', me.toolbar, me.toolbar.btnInsertText);
-                        Common.component.Analytics.trackEvent('ToolBar', 'Add Text Art');
-
-                        if (e.type !== 'click')
-                            me.toolbar.btnInsertText.menu.hide();
                         Common.NotificationCenter.trigger('edit:complete', me.toolbar, me.toolbar.btnInsertText);
                         Common.component.Analytics.trackEvent('ToolBar', 'Add Text Art');
                     }
@@ -1720,6 +1761,7 @@ define([
         },
 
         activateControls: function() {
+            this.onApiPageSize(this.api.get_PresentationWidth(), this.api.get_PresentationHeight());
             this.toolbar.lockToolbar(PE.enumLock.disableOnStart, false, {array: this.toolbar.slideOnlyControls.concat(this.toolbar.shapeControls)});
             this._state.activated = true;
         },

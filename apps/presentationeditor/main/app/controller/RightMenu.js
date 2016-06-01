@@ -1,3 +1,35 @@
+/*
+ *
+ * (c) Copyright Ascensio System Limited 2010-2016
+ *
+ * This program is a free software product. You can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License (AGPL)
+ * version 3 as published by the Free Software Foundation. In accordance with
+ * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
+ * that Ascensio System SIA expressly excludes the warranty of non-infringement
+ * of any third-party rights.
+ *
+ * This program is distributed WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
+ * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ *
+ * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
+ * EU, LV-1021.
+ *
+ * The  interactive user interfaces in modified source and object code versions
+ * of the Program must display Appropriate Legal Notices, as required under
+ * Section 5 of the GNU AGPL version 3.
+ *
+ * Pursuant to Section 7(b) of the License you must retain the original Product
+ * logo when distributing the program. Pursuant to Section 7(e) we decline to
+ * grant you any rights under trademark law for use of our trademarks.
+ *
+ * All the Product's GUI elements, including illustrations and icon sets, as
+ * well as technical writing content are licensed under the terms of the
+ * Creative Commons Attribution-ShareAlike 4.0 International. See the License
+ * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ *
+*/
 /**
  *  RightMenu.js
  *
@@ -71,7 +103,7 @@ define([
             this.rightmenu.fireEvent('editcomplete', this.rightmenu);
         },
 
-        onFocusObject: function(SelectedObjects) {
+        onFocusObject: function(SelectedObjects, open) {
             if (!this.editMode)
                 return;
 
@@ -147,7 +179,7 @@ define([
                 }
             }
 
-            if (!this.rightmenu.minimizedMode) {
+            if (!this.rightmenu.minimizedMode || open) {
                 var active;
 
                 if (priorityactive>-1) active = priorityactive;
@@ -156,7 +188,7 @@ define([
                 else active = Common.Utils.documentSettingsType.Slide;
 
                 if (active !== undefined) {
-                    this.rightmenu.SetActivePane(active);
+                    this.rightmenu.SetActivePane(active, open);
                     this._settings[active].panel.ChangeSettings.call(this._settings[active].panel, this._settings[active].props);
                 }
             }
@@ -214,8 +246,12 @@ define([
                 this.api.asc_registerCallback('asc_doubleClickOnObject', _.bind(this.onDoubleClickOnObject, this));
 
                 var selectedElements = this.api.getSelectedElements();
-                if (selectedElements.length>0)
-                    this.onFocusObject(selectedElements);
+                if (selectedElements.length>0) {
+                    var open = Common.localStorage.getItem("pe-hide-right-settings");
+                    open = (open===null || parseInt(open) == 0);
+                    
+                    this.onFocusObject(selectedElements, open);
+                }
             }
         },
 
@@ -244,17 +280,17 @@ define([
 
         getDocumentSettingsType: function(type) {
             switch (type) {
-                case c_oAscTypeSelectElement.Paragraph:
+                case Asc.c_oAscTypeSelectElement.Paragraph:
                     return Common.Utils.documentSettingsType.Paragraph;
-                case c_oAscTypeSelectElement.Table:
+                case Asc.c_oAscTypeSelectElement.Table:
                     return Common.Utils.documentSettingsType.Table;
-                case c_oAscTypeSelectElement.Image:
+                case Asc.c_oAscTypeSelectElement.Image:
                     return Common.Utils.documentSettingsType.Image;
-                case c_oAscTypeSelectElement.Shape:
+                case Asc.c_oAscTypeSelectElement.Shape:
                     return Common.Utils.documentSettingsType.Shape;
-                case c_oAscTypeSelectElement.Slide:
+                case Asc.c_oAscTypeSelectElement.Slide:
                     return Common.Utils.documentSettingsType.Slide;
-                case c_oAscTypeSelectElement.Chart:
+                case Asc.c_oAscTypeSelectElement.Chart:
                     return Common.Utils.documentSettingsType.Chart;
             }
         }

@@ -1,3 +1,35 @@
+/*
+ *
+ * (c) Copyright Ascensio System Limited 2010-2016
+ *
+ * This program is a free software product. You can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License (AGPL)
+ * version 3 as published by the Free Software Foundation. In accordance with
+ * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
+ * that Ascensio System SIA expressly excludes the warranty of non-infringement
+ * of any third-party rights.
+ *
+ * This program is distributed WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
+ * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ *
+ * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
+ * EU, LV-1021.
+ *
+ * The  interactive user interfaces in modified source and object code versions
+ * of the Program must display Appropriate Legal Notices, as required under
+ * Section 5 of the GNU AGPL version 3.
+ *
+ * Pursuant to Section 7(b) of the License you must retain the original Product
+ * logo when distributing the program. Pursuant to Section 7(e) we decline to
+ * grant you any rights under trademark law for use of our trademarks.
+ *
+ * All the Product's GUI elements, including illustrations and icon sets, as
+ * well as technical writing content are licensed under the terms of the
+ * Creative Commons Attribution-ShareAlike 4.0 International. See the License
+ * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ *
+*/
 var ApplicationController = new(function(){
     var me,
         api,
@@ -128,7 +160,7 @@ var ApplicationController = new(function(){
         if (docConfig) {
             permissions = $.extend(permissions, docConfig.permissions);
 
-            var docInfo = new CDocInfo();
+            var docInfo = new Asc.asc_CDocInfo();
             docInfo.put_Id(docConfig.key);
             docInfo.put_Url(docConfig.url);
             docInfo.put_Title(docConfig.title);
@@ -284,7 +316,7 @@ var ApplicationController = new(function(){
         var text = '';
         switch (id)
         {
-            case c_oAscAsyncAction['Print']:
+            case Asc.c_oAscAsyncAction['Print']:
                 text = 'Downloading document...';
                 break;
             default:
@@ -292,16 +324,16 @@ var ApplicationController = new(function(){
                 break;
         }
 
-        if (type == c_oAscAsyncActionType['BlockInteraction']) {
+        if (type == Asc.c_oAscAsyncActionType['BlockInteraction']) {
             $('#id-loadmask .cmd-loader-title').html(text);
             showMask();
         }
     }
 
     function onLongActionEnd(type, id){
-        if (type === c_oAscAsyncActionType.BlockInteraction) {
+        if (type === Asc.c_oAscAsyncActionType.BlockInteraction) {
             switch (id) {
-                case c_oAscAsyncAction.Open:
+                case Asc.c_oAscAsyncAction.Open:
                     if (api) {
                         api.asc_Resize();
                     }
@@ -322,19 +354,19 @@ var ApplicationController = new(function(){
 
         switch (id)
         {
-            case c_oAscError.ID.Unknown:
+            case Asc.c_oAscError.ID.Unknown:
                 message = me.unknownErrorText;
                 break;
 
-            case c_oAscError.ID.ConvertationTimeout:
+            case Asc.c_oAscError.ID.ConvertationTimeout:
                 message = me.convertationTimeoutText;
                 break;
 
-            case c_oAscError.ID.ConvertationError:
+            case Asc.c_oAscError.ID.ConvertationError:
                 message = me.convertationErrorText;
                 break;
 
-            case c_oAscError.ID.DownloadError:
+            case Asc.c_oAscError.ID.DownloadError:
                 message = me.downloadErrorText;
                 break;
 
@@ -343,7 +375,7 @@ var ApplicationController = new(function(){
                 break;
         }
 
-        if (level == c_oAscError.Level.Critical) {
+        if (level == Asc.c_oAscError.Level.Critical) {
 
             // report only critical errors
             Common.Gateway.reportError(id, message);
@@ -392,7 +424,7 @@ var ApplicationController = new(function(){
     }
 
     function onDownloadAs() {
-        if (api) api.asc_DownloadAs(c_oAscFileType.XLSX, true);
+        if (api) api.asc_DownloadAs(Asc.c_oAscFileType.XLSX, true);
     }
 
     // Helpers
@@ -656,11 +688,11 @@ var ApplicationController = new(function(){
             }, 2000);
         });
 
-        api = new Asc.spreadsheet_api("editor_sdk");
+        api = new Asc.spreadsheet_api({
+            'id-view': 'editor_sdk'
+        });
 
         if (api){
-            api.asc_SetFontsPath("../../../sdk/Fonts/");
-
             api.asc_registerCallback('asc_onStartAction',           onLongActionBegin);
             api.asc_registerCallback('asc_onEndAction',             onLongActionEnd);
             api.asc_registerCallback('asc_onError',                 onError);

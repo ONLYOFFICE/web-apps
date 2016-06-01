@@ -1,3 +1,35 @@
+/*
+ *
+ * (c) Copyright Ascensio System Limited 2010-2016
+ *
+ * This program is a free software product. You can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License (AGPL)
+ * version 3 as published by the Free Software Foundation. In accordance with
+ * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
+ * that Ascensio System SIA expressly excludes the warranty of non-infringement
+ * of any third-party rights.
+ *
+ * This program is distributed WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
+ * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ *
+ * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
+ * EU, LV-1021.
+ *
+ * The  interactive user interfaces in modified source and object code versions
+ * of the Program must display Appropriate Legal Notices, as required under
+ * Section 5 of the GNU AGPL version 3.
+ *
+ * Pursuant to Section 7(b) of the License you must retain the original Product
+ * logo when distributing the program. Pursuant to Section 7(e) we decline to
+ * grant you any rights under trademark law for use of our trademarks.
+ *
+ * All the Product's GUI elements, including illustrations and icon sets, as
+ * well as technical writing content are licensed under the terms of the
+ * Creative Commons Attribution-ShareAlike 4.0 International. See the License
+ * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ *
+*/
 /**
  *  ChartSettingsDlg.js
  *
@@ -18,7 +50,8 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
         options: {
             contentWidth: 322,
             height: 535,
-            toggleGroup: 'chart-settings-dlg-group'
+            toggleGroup: 'chart-settings-dlg-group',
+            storageName: 'sse-chart-settings-adv-category'
         },
 
         initialize : function(options) {
@@ -47,7 +80,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
 
             this._state = {
                 ChartStyle: 1,
-                ChartType: c_oAscChartTypeSettings.barNormal
+                ChartType: Asc.c_oAscChartTypeSettings.barNormal
             };
             this._noApply = true;
 
@@ -108,31 +141,31 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                         { id: 'menu-chart-group-stock',   caption: me.textStock }
                     ]),
                     store: new Common.UI.DataViewStore([
-                        { group: 'menu-chart-group-bar',     type: c_oAscChartTypeSettings.barNormal,          iconCls: 'column-normal', selected: true},
-                        { group: 'menu-chart-group-bar',     type: c_oAscChartTypeSettings.barStacked,         iconCls: 'column-stack'},
-                        { group: 'menu-chart-group-bar',     type: c_oAscChartTypeSettings.barStackedPer,      iconCls: 'column-pstack'},
-                        { group: 'menu-chart-group-bar',     type: c_oAscChartTypeSettings.barNormal3d,        iconCls: 'column-3d-normal'},
-                        { group: 'menu-chart-group-bar',     type: c_oAscChartTypeSettings.barStacked3d,       iconCls: 'column-3d-stack'},
-                        { group: 'menu-chart-group-bar',     type: c_oAscChartTypeSettings.barStackedPer3d,    iconCls: 'column-3d-pstack'},
-                        { group: 'menu-chart-group-bar',     type: c_oAscChartTypeSettings.barNormal3dPerspective,    iconCls: 'column-3d-normal-per'},
-                        { group: 'menu-chart-group-line',    type: c_oAscChartTypeSettings.lineNormal,         iconCls: 'line-normal'},
-                        { group: 'menu-chart-group-line',    type: c_oAscChartTypeSettings.lineStacked,        iconCls: 'line-stack'},
-                        { group: 'menu-chart-group-line',    type: c_oAscChartTypeSettings.lineStackedPer,     iconCls: 'line-pstack'},
-                        { group: 'menu-chart-group-line',    type: c_oAscChartTypeSettings.line3d,             iconCls: 'line-3d'},
-                        { group: 'menu-chart-group-pie',     type: c_oAscChartTypeSettings.pie,                iconCls: 'pie-normal'},
-                        { group: 'menu-chart-group-pie',     type: c_oAscChartTypeSettings.doughnut,           iconCls: 'pie-doughnut'},
-                        { group: 'menu-chart-group-pie',     type: c_oAscChartTypeSettings.pie3d,              iconCls: 'pie-3d-normal'},
-                        { group: 'menu-chart-group-hbar',    type: c_oAscChartTypeSettings.hBarNormal,         iconCls: 'bar-normal'},
-                        { group: 'menu-chart-group-hbar',    type: c_oAscChartTypeSettings.hBarStacked,        iconCls: 'bar-stack'},
-                        { group: 'menu-chart-group-hbar',    type: c_oAscChartTypeSettings.hBarStackedPer,     iconCls: 'bar-pstack'},
-                        { group: 'menu-chart-group-hbar',    type: c_oAscChartTypeSettings.hBarNormal3d,       iconCls: 'bar-3d-normal'},
-                        { group: 'menu-chart-group-hbar',    type: c_oAscChartTypeSettings.hBarStacked3d,      iconCls: 'bar-3d-stack'},
-                        { group: 'menu-chart-group-hbar',    type: c_oAscChartTypeSettings.hBarStackedPer3d,   iconCls: 'bar-3d-pstack'},
-                        { group: 'menu-chart-group-area',    type: c_oAscChartTypeSettings.areaNormal,         iconCls: 'area-normal'},
-                        { group: 'menu-chart-group-area',    type: c_oAscChartTypeSettings.areaStacked,        iconCls: 'area-stack'},
-                        { group: 'menu-chart-group-area',    type: c_oAscChartTypeSettings.areaStackedPer,     iconCls: 'area-pstack'},
-                        { group: 'menu-chart-group-scatter', type: c_oAscChartTypeSettings.scatter,            iconCls: 'point-normal'},
-                        { group: 'menu-chart-group-stock',   type: c_oAscChartTypeSettings.stock,              iconCls: 'stock-normal'}
+                        { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barNormal,          iconCls: 'column-normal', selected: true},
+                        { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barStacked,         iconCls: 'column-stack'},
+                        { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barStackedPer,      iconCls: 'column-pstack'},
+                        { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barNormal3d,        iconCls: 'column-3d-normal'},
+                        { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barStacked3d,       iconCls: 'column-3d-stack'},
+                        { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barStackedPer3d,    iconCls: 'column-3d-pstack'},
+                        { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barNormal3dPerspective,    iconCls: 'column-3d-normal-per'},
+                        { group: 'menu-chart-group-line',    type: Asc.c_oAscChartTypeSettings.lineNormal,         iconCls: 'line-normal'},
+                        { group: 'menu-chart-group-line',    type: Asc.c_oAscChartTypeSettings.lineStacked,        iconCls: 'line-stack'},
+                        { group: 'menu-chart-group-line',    type: Asc.c_oAscChartTypeSettings.lineStackedPer,     iconCls: 'line-pstack'},
+                        { group: 'menu-chart-group-line',    type: Asc.c_oAscChartTypeSettings.line3d,             iconCls: 'line-3d'},
+                        { group: 'menu-chart-group-pie',     type: Asc.c_oAscChartTypeSettings.pie,                iconCls: 'pie-normal'},
+                        { group: 'menu-chart-group-pie',     type: Asc.c_oAscChartTypeSettings.doughnut,           iconCls: 'pie-doughnut'},
+                        { group: 'menu-chart-group-pie',     type: Asc.c_oAscChartTypeSettings.pie3d,              iconCls: 'pie-3d-normal'},
+                        { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarNormal,         iconCls: 'bar-normal'},
+                        { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarStacked,        iconCls: 'bar-stack'},
+                        { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarStackedPer,     iconCls: 'bar-pstack'},
+                        { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarNormal3d,       iconCls: 'bar-3d-normal'},
+                        { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarStacked3d,      iconCls: 'bar-3d-stack'},
+                        { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarStackedPer3d,   iconCls: 'bar-3d-pstack'},
+                        { group: 'menu-chart-group-area',    type: Asc.c_oAscChartTypeSettings.areaNormal,         iconCls: 'area-normal'},
+                        { group: 'menu-chart-group-area',    type: Asc.c_oAscChartTypeSettings.areaStacked,        iconCls: 'area-stack'},
+                        { group: 'menu-chart-group-area',    type: Asc.c_oAscChartTypeSettings.areaStackedPer,     iconCls: 'area-pstack'},
+                        { group: 'menu-chart-group-scatter', type: Asc.c_oAscChartTypeSettings.scatter,            iconCls: 'point-normal'},
+                        { group: 'menu-chart-group-stock',   type: Asc.c_oAscChartTypeSettings.stock,              iconCls: 'stock-normal'}
                     ]),
                     itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist <%= iconCls %>"></div>')
                 });
@@ -199,9 +232,9 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 editable    : false,
                 cls         : 'input-group-nr',
                 data        : [
-                    { value: c_oAscChartTitleShowSettings.none, displayValue: this.textNone },
-                    { value: c_oAscChartTitleShowSettings.overlay, displayValue: this.textOverlay },
-                    { value: c_oAscChartTitleShowSettings.noOverlay, displayValue: this.textNoOverlay }
+                    { value: Asc.c_oAscChartTitleShowSettings.none, displayValue: this.textNone },
+                    { value: Asc.c_oAscChartTitleShowSettings.overlay, displayValue: this.textOverlay },
+                    { value: Asc.c_oAscChartTitleShowSettings.noOverlay, displayValue: this.textNoOverlay }
                 ]
             });
 
@@ -211,13 +244,13 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 editable    : false,
                 cls         : 'input-group-nr',
                 data        : [
-                    { value: c_oAscChartLegendShowSettings.none, displayValue: this.textNone },
-                    { value: c_oAscChartLegendShowSettings.bottom, displayValue: this.textLegendBottom },
-                    { value: c_oAscChartLegendShowSettings.top, displayValue: this.textLegendTop },
-                    { value: c_oAscChartLegendShowSettings.right, displayValue: this.textLegendRight },
-                    { value: c_oAscChartLegendShowSettings.left, displayValue: this.textLegendLeft },
-                    { value: c_oAscChartLegendShowSettings.leftOverlay, displayValue: this.textLeftOverlay },
-                    { value: c_oAscChartLegendShowSettings.rightOverlay, displayValue: this.textRightOverlay }
+                    { value: Asc.c_oAscChartLegendShowSettings.none, displayValue: this.textNone },
+                    { value: Asc.c_oAscChartLegendShowSettings.bottom, displayValue: this.textLegendBottom },
+                    { value: Asc.c_oAscChartLegendShowSettings.top, displayValue: this.textLegendTop },
+                    { value: Asc.c_oAscChartLegendShowSettings.right, displayValue: this.textLegendRight },
+                    { value: Asc.c_oAscChartLegendShowSettings.left, displayValue: this.textLegendLeft },
+                    { value: Asc.c_oAscChartLegendShowSettings.leftOverlay, displayValue: this.textLeftOverlay },
+                    { value: Asc.c_oAscChartLegendShowSettings.rightOverlay, displayValue: this.textRightOverlay }
                 ]
             });
 
@@ -227,8 +260,8 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 editable    : false,
                 cls         : 'input-group-nr',
                 data        : [
-                    { value: c_oAscChartHorAxisLabelShowSettings.none, displayValue: this.textNone },
-                    { value: c_oAscChartHorAxisLabelShowSettings.noOverlay, displayValue: this.textNoOverlay }
+                    { value: Asc.c_oAscChartHorAxisLabelShowSettings.none, displayValue: this.textNone },
+                    { value: Asc.c_oAscChartHorAxisLabelShowSettings.noOverlay, displayValue: this.textNoOverlay }
                 ]
             }).on('selected', _.bind(function(combo, record) {
                 if (this.chartSettings)
@@ -241,9 +274,9 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 editable    : false,
                 cls         : 'input-group-nr',
                 data        : [
-                    { value: c_oAscChartVertAxisLabelShowSettings.none, displayValue: this.textNone },
-                    { value: c_oAscChartVertAxisLabelShowSettings.rotated, displayValue: this.textRotated },
-                    { value: c_oAscChartVertAxisLabelShowSettings.horizontal, displayValue: this.textHorizontal }
+                    { value: Asc.c_oAscChartVertAxisLabelShowSettings.none, displayValue: this.textNone },
+                    { value: Asc.c_oAscChartVertAxisLabelShowSettings.rotated, displayValue: this.textRotated },
+                    { value: Asc.c_oAscChartVertAxisLabelShowSettings.horizontal, displayValue: this.textHorizontal }
                 ]
             }).on('selected', _.bind(function(combo, record) {
                 if (this.chartSettings) 
@@ -284,10 +317,10 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 editable    : false,
                 cls         : 'input-group-nr',
                 data        : [
-                    { value: c_oAscGridLinesSettings.none, displayValue: this.textNone },
-                    { value: c_oAscGridLinesSettings.major, displayValue: this.textMajor },
-                    { value: c_oAscGridLinesSettings.minor, displayValue: this.textMinor },
-                    { value: c_oAscGridLinesSettings.majorMinor, displayValue: this.textMajorMinor }
+                    { value: Asc.c_oAscGridLinesSettings.none, displayValue: this.textNone },
+                    { value: Asc.c_oAscGridLinesSettings.major, displayValue: this.textMajor },
+                    { value: Asc.c_oAscGridLinesSettings.minor, displayValue: this.textMinor },
+                    { value: Asc.c_oAscGridLinesSettings.majorMinor, displayValue: this.textMajorMinor }
                 ]
             }).on('selected', _.bind(function(combo, record) {
                 if (this.chartSettings) 
@@ -300,10 +333,10 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 editable    : false,
                 cls         : 'input-group-nr',
                 data        : [
-                    { value: c_oAscGridLinesSettings.none, displayValue: this.textNone },
-                    { value: c_oAscGridLinesSettings.major, displayValue: this.textMajor },
-                    { value: c_oAscGridLinesSettings.minor, displayValue: this.textMinor },
-                    { value: c_oAscGridLinesSettings.majorMinor, displayValue: this.textMajorMinor }
+                    { value: Asc.c_oAscGridLinesSettings.none, displayValue: this.textNone },
+                    { value: Asc.c_oAscGridLinesSettings.major, displayValue: this.textMajor },
+                    { value: Asc.c_oAscGridLinesSettings.minor, displayValue: this.textMinor },
+                    { value: Asc.c_oAscGridLinesSettings.majorMinor, displayValue: this.textMajorMinor }
                 ]
             }).on('selected', _.bind(function(combo, record) {
                 if (this.chartSettings) 
@@ -316,11 +349,11 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 editable    : false,
                 cls         : 'input-group-nr',
                 data        : [
-                    { value: c_oAscChartDataLabelsPos.none, displayValue: this.textNone },
-                    { value: c_oAscChartDataLabelsPos.ctr, displayValue: this.textCenter },
-                    { value: c_oAscChartDataLabelsPos.inBase, displayValue: this.textInnerBottom },
-                    { value: c_oAscChartDataLabelsPos.inEnd, displayValue: this.textInnerTop },
-                    { value: c_oAscChartDataLabelsPos.outEnd, displayValue: this.textOuterTop }
+                    { value: Asc.c_oAscChartDataLabelsPos.none, displayValue: this.textNone },
+                    { value: Asc.c_oAscChartDataLabelsPos.ctr, displayValue: this.textCenter },
+                    { value: Asc.c_oAscChartDataLabelsPos.inBase, displayValue: this.textInnerBottom },
+                    { value: Asc.c_oAscChartDataLabelsPos.inEnd, displayValue: this.textInnerTop },
+                    { value: Asc.c_oAscChartDataLabelsPos.outEnd, displayValue: this.textOuterTop }
                 ]
             });
 
@@ -385,13 +418,13 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 menuStyle   : 'min-width: 100px;',
                 editable    : false,
                 data        : [
-                    {displayValue: this.textAuto, value: c_oAscValAxisRule.auto},
-                    {displayValue: this.textFixed, value: c_oAscValAxisRule.fixed}
+                    {displayValue: this.textAuto, value: Asc.c_oAscValAxisRule.auto},
+                    {displayValue: this.textFixed, value: Asc.c_oAscValAxisRule.fixed}
                 ]
             }).on('selected', _.bind(function(combo, record) {
                 if (this.currentAxisProps) {
                     this.currentAxisProps.putMinValRule(record.value);
-                    if (record.value==c_oAscValAxisRule.auto) {
+                    if (record.value==Asc.c_oAscValAxisRule.auto) {
                         this.spnMinValue.setValue(this._originalAxisVValues.minAuto, true);
                     }
                 }
@@ -407,10 +440,10 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 value       : ''
             }).on('change', _.bind(function(field, newValue, oldValue) {
                 this.cmbMinType.suspendEvents();
-                this.cmbMinType.setValue(c_oAscValAxisRule.fixed);
+                this.cmbMinType.setValue(Asc.c_oAscValAxisRule.fixed);
                 this.cmbMinType.resumeEvents();
                 if (this.currentAxisProps) {
-                    this.currentAxisProps.putMinValRule(c_oAscValAxisRule.fixed);
+                    this.currentAxisProps.putMinValRule(Asc.c_oAscValAxisRule.fixed);
                     this.currentAxisProps.putMinVal(field.getNumberValue());
                 }
             }, this));
@@ -421,13 +454,13 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 menuStyle   : 'min-width: 100px;',
                 editable    : false,
                 data        : [
-                    {displayValue: this.textAuto, value: c_oAscValAxisRule.auto},
-                    {displayValue: this.textFixed, value: c_oAscValAxisRule.fixed}
+                    {displayValue: this.textAuto, value: Asc.c_oAscValAxisRule.auto},
+                    {displayValue: this.textFixed, value: Asc.c_oAscValAxisRule.fixed}
                 ]
             }).on('selected', _.bind(function(combo, record) {
                 if (this.currentAxisProps) {
                     this.currentAxisProps.putMaxValRule(record.value);
-                    if (record.value==c_oAscValAxisRule.auto) {
+                    if (record.value==Asc.c_oAscValAxisRule.auto) {
                         this.spnMaxValue.setValue(this._originalAxisVValues.maxAuto, true);
                     }
                 }
@@ -443,10 +476,10 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 value       : ''
             }).on('change', _.bind(function(field, newValue, oldValue) {
                 this.cmbMaxType.suspendEvents();
-                this.cmbMaxType.setValue(c_oAscValAxisRule.fixed);
+                this.cmbMaxType.setValue(Asc.c_oAscValAxisRule.fixed);
                 this.cmbMaxType.resumeEvents();
                 if (this.currentAxisProps) {
-                    this.currentAxisProps.putMaxValRule(c_oAscValAxisRule.fixed);
+                    this.currentAxisProps.putMaxValRule(Asc.c_oAscValAxisRule.fixed);
                     this.currentAxisProps.putMaxVal(field.getNumberValue());
                 }
             }, this));
@@ -457,23 +490,23 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 menuStyle   : 'min-width: 100px;',
                 editable    : false,
                 data        : [
-                    {displayValue: this.textAuto, value: c_oAscCrossesRule.auto},
-                    {displayValue: this.textValue, value: c_oAscCrossesRule.value},
-                    {displayValue: this.textMinValue, value: c_oAscCrossesRule.minValue},
-                    {displayValue: this.textMaxValue, value: c_oAscCrossesRule.maxValue}
+                    {displayValue: this.textAuto, value: Asc.c_oAscCrossesRule.auto},
+                    {displayValue: this.textValue, value: Asc.c_oAscCrossesRule.value},
+                    {displayValue: this.textMinValue, value: Asc.c_oAscCrossesRule.minValue},
+                    {displayValue: this.textMaxValue, value: Asc.c_oAscCrossesRule.maxValue}
                 ]
             }).on('selected', _.bind(function(combo, record) {
                 if (this.currentAxisProps) {
                     this.currentAxisProps.putCrossesRule(record.value);
                     var value;
                     switch (record.value) {
-                        case c_oAscCrossesRule.minValue:
+                        case Asc.c_oAscCrossesRule.minValue:
                             this.spnVAxisCrosses.setValue(this.spnMinValue.getNumberValue(), true);
                         break;
-                        case c_oAscCrossesRule.maxValue:
+                        case Asc.c_oAscCrossesRule.maxValue:
                             this.spnVAxisCrosses.setValue(this.spnMaxValue.getNumberValue(), true);
                         break;
-                        case c_oAscCrossesRule.auto:
+                        case Asc.c_oAscCrossesRule.auto:
                             this.spnVAxisCrosses.setValue(this._originalAxisVValues.crossesAuto, true);
                         break;
                     }
@@ -490,10 +523,10 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 value       : ''
             }).on('change', _.bind(function(field, newValue, oldValue) {
                 this.cmbVCrossType.suspendEvents();
-                this.cmbVCrossType.setValue(c_oAscCrossesRule.value);
+                this.cmbVCrossType.setValue(Asc.c_oAscCrossesRule.value);
                 this.cmbVCrossType.resumeEvents();
                 if (this.currentAxisProps) {
-                    this.currentAxisProps.putCrossesRule(c_oAscCrossesRule.value);
+                    this.currentAxisProps.putCrossesRule(Asc.c_oAscCrossesRule.value);
                     this.currentAxisProps.putCrosses(field.getNumberValue());
                 }
             }, this));
@@ -504,16 +537,16 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 menuStyle   : 'min-width: 140px;',
                 editable    : false,
                 data        : [
-                    {displayValue: this.textNone, value: c_oAscValAxUnits.none},
-                    {displayValue: this.textHundreds, value: c_oAscValAxUnits.HUNDREDS},
-                    {displayValue: this.textThousands, value: c_oAscValAxUnits.THOUSANDS},
-                    {displayValue: this.textTenThousands, value: c_oAscValAxUnits.TEN_THOUSANDS},
-                    {displayValue: this.textHundredThousands, value: c_oAscValAxUnits.HUNDRED_THOUSANDS},
-                    {displayValue: this.textMillions, value: c_oAscValAxUnits.MILLIONS},
-                    {displayValue: this.textTenMillions, value: c_oAscValAxUnits.TEN_MILLIONS},
-                    {displayValue: this.textHundredMil, value: c_oAscValAxUnits.HUNDRED_MILLIONS},
-                    {displayValue: this.textBillions, value: c_oAscValAxUnits.BILLIONS},
-                    {displayValue: this.textTrillions, value: c_oAscValAxUnits.TRILLIONS}
+                    {displayValue: this.textNone, value: Asc.c_oAscValAxUnits.none},
+                    {displayValue: this.textHundreds, value: Asc.c_oAscValAxUnits.HUNDREDS},
+                    {displayValue: this.textThousands, value: Asc.c_oAscValAxUnits.THOUSANDS},
+                    {displayValue: this.textTenThousands, value: Asc.c_oAscValAxUnits.TEN_THOUSANDS},
+                    {displayValue: this.textHundredThousands, value: Asc.c_oAscValAxUnits.HUNDRED_THOUSANDS},
+                    {displayValue: this.textMillions, value: Asc.c_oAscValAxUnits.MILLIONS},
+                    {displayValue: this.textTenMillions, value: Asc.c_oAscValAxUnits.TEN_MILLIONS},
+                    {displayValue: this.textHundredMil, value: Asc.c_oAscValAxUnits.HUNDRED_MILLIONS},
+                    {displayValue: this.textBillions, value: Asc.c_oAscValAxUnits.BILLIONS},
+                    {displayValue: this.textTrillions, value: Asc.c_oAscValAxUnits.TRILLIONS}
                 ]
             }).on('selected', _.bind(function(combo, record) {
                 if (this.currentAxisProps) {
@@ -536,10 +569,10 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 menuStyle   : 'min-width: 140px;',
                 editable    : false,
                 data        : [
-                    {displayValue: this.textNone, value: c_oAscTickMark.TICK_MARK_NONE},
-                    {displayValue: this.textCross, value: c_oAscTickMark.TICK_MARK_CROSS},
-                    {displayValue: this.textIn, value: c_oAscTickMark.TICK_MARK_IN},
-                    {displayValue: this.textOut, value: c_oAscTickMark.TICK_MARK_OUT}
+                    {displayValue: this.textNone, value: Asc.c_oAscTickMark.TICK_MARK_NONE},
+                    {displayValue: this.textCross, value: Asc.c_oAscTickMark.TICK_MARK_CROSS},
+                    {displayValue: this.textIn, value: Asc.c_oAscTickMark.TICK_MARK_IN},
+                    {displayValue: this.textOut, value: Asc.c_oAscTickMark.TICK_MARK_OUT}
                 ]
             }).on('selected', _.bind(function(combo, record) {
                 if (this.currentAxisProps) {
@@ -553,10 +586,10 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 menuStyle   : 'min-width: 140px;',
                 editable    : false,
                 data        : [
-                    {displayValue: this.textNone, value: c_oAscTickMark.TICK_MARK_NONE},
-                    {displayValue: this.textCross, value: c_oAscTickMark.TICK_MARK_CROSS},
-                    {displayValue: this.textIn, value: c_oAscTickMark.TICK_MARK_IN},
-                    {displayValue: this.textOut, value: c_oAscTickMark.TICK_MARK_OUT}
+                    {displayValue: this.textNone, value: Asc.c_oAscTickMark.TICK_MARK_NONE},
+                    {displayValue: this.textCross, value: Asc.c_oAscTickMark.TICK_MARK_CROSS},
+                    {displayValue: this.textIn, value: Asc.c_oAscTickMark.TICK_MARK_IN},
+                    {displayValue: this.textOut, value: Asc.c_oAscTickMark.TICK_MARK_OUT}
                 ]
             }).on('selected', _.bind(function(combo, record) {
                 if (this.currentAxisProps) {
@@ -570,10 +603,10 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 menuStyle   : 'min-width: 140px;',
                 editable    : false,
                 data        : [
-                    {displayValue: this.textNone, value: c_oAscTickLabelsPos.TICK_LABEL_POSITION_NONE},
-                    {displayValue: this.textLow, value: c_oAscTickLabelsPos.TICK_LABEL_POSITION_LOW},
-                    {displayValue: this.textHigh, value: c_oAscTickLabelsPos.TICK_LABEL_POSITION_HIGH},
-                    {displayValue: this.textNextToAxis, value: c_oAscTickLabelsPos.TICK_LABEL_POSITION_NEXT_TO}
+                    {displayValue: this.textNone, value: Asc.c_oAscTickLabelsPos.TICK_LABEL_POSITION_NONE},
+                    {displayValue: this.textLow, value: Asc.c_oAscTickLabelsPos.TICK_LABEL_POSITION_LOW},
+                    {displayValue: this.textHigh, value: Asc.c_oAscTickLabelsPos.TICK_LABEL_POSITION_HIGH},
+                    {displayValue: this.textNextToAxis, value: Asc.c_oAscTickLabelsPos.TICK_LABEL_POSITION_NEXT_TO}
                 ]
             }).on('selected', _.bind(function(combo, record) {
                 if (this.currentAxisProps) {
@@ -589,19 +622,19 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 menuStyle   : 'min-width: 100px;',
                 editable    : false,
                 data        : [
-                    {displayValue: this.textAuto, value: c_oAscCrossesRule.auto},
-                    {displayValue: this.textValue, value: c_oAscCrossesRule.value},
-                    {displayValue: this.textMinValue, value: c_oAscCrossesRule.minValue},
-                    {displayValue: this.textMaxValue, value: c_oAscCrossesRule.maxValue}
+                    {displayValue: this.textAuto, value: Asc.c_oAscCrossesRule.auto},
+                    {displayValue: this.textValue, value: Asc.c_oAscCrossesRule.value},
+                    {displayValue: this.textMinValue, value: Asc.c_oAscCrossesRule.minValue},
+                    {displayValue: this.textMaxValue, value: Asc.c_oAscCrossesRule.maxValue}
                 ]
             }).on('selected', _.bind(function(combo, record) {
                 if (this.currentAxisProps) {
                     this.currentAxisProps.putCrossesRule(record.value);
-                    if (record.value==c_oAscCrossesRule.auto) {
+                    if (record.value==Asc.c_oAscCrossesRule.auto) {
                         this.spnHAxisCrosses.setValue(this._originalAxisHValues.crossesAuto, true);
-                    } else if (record.value==c_oAscCrossesRule.minValue) {
+                    } else if (record.value==Asc.c_oAscCrossesRule.minValue) {
                         this.spnHAxisCrosses.setValue(this._originalAxisHValues.minAuto, true);
-                    } else if (record.value==c_oAscCrossesRule.maxValue) {
+                    } else if (record.value==Asc.c_oAscCrossesRule.maxValue) {
                         this.spnHAxisCrosses.setValue(this._originalAxisHValues.maxAuto, true);
                     }
                 }
@@ -617,10 +650,10 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 value       : ''
             }).on('change', _.bind(function(field, newValue, oldValue) {
                 this.cmbHCrossType.suspendEvents();
-                this.cmbHCrossType.setValue(c_oAscCrossesRule.value);
+                this.cmbHCrossType.setValue(Asc.c_oAscCrossesRule.value);
                 this.cmbHCrossType.resumeEvents();
                 if (this.currentAxisProps) {
-                    this.currentAxisProps.putCrossesRule(c_oAscCrossesRule.value);
+                    this.currentAxisProps.putCrossesRule(Asc.c_oAscCrossesRule.value);
                     this.currentAxisProps.putCrosses(field.getNumberValue());
                 }
             }, this));
@@ -631,8 +664,8 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 menuStyle   : 'min-width: 140px;',
                 editable    : false,
                 data        : [
-                    {displayValue: this.textOnTickMarks, value: c_oAscLabelsPosition.byDivisions},
-                    {displayValue: this.textBetweenTickMarks, value: c_oAscLabelsPosition.betweenDivisions}
+                    {displayValue: this.textOnTickMarks, value: Asc.c_oAscLabelsPosition.byDivisions},
+                    {displayValue: this.textBetweenTickMarks, value: Asc.c_oAscLabelsPosition.betweenDivisions}
                 ]
             }).on('selected', _.bind(function(combo, record) {
                 if (this.currentAxisProps) {
@@ -655,10 +688,10 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 menuStyle   : 'min-width: 140px;',
                 editable    : false,
                 data        : [
-                    {displayValue: this.textNone, value: c_oAscTickMark.TICK_MARK_NONE},
-                    {displayValue: this.textCross, value: c_oAscTickMark.TICK_MARK_CROSS},
-                    {displayValue: this.textIn, value: c_oAscTickMark.TICK_MARK_IN},
-                    {displayValue: this.textOut, value: c_oAscTickMark.TICK_MARK_OUT}
+                    {displayValue: this.textNone, value: Asc.c_oAscTickMark.TICK_MARK_NONE},
+                    {displayValue: this.textCross, value: Asc.c_oAscTickMark.TICK_MARK_CROSS},
+                    {displayValue: this.textIn, value: Asc.c_oAscTickMark.TICK_MARK_IN},
+                    {displayValue: this.textOut, value: Asc.c_oAscTickMark.TICK_MARK_OUT}
                 ]
             }).on('selected', _.bind(function(combo, record) {
                 if (this.currentAxisProps) {
@@ -672,10 +705,10 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 menuStyle   : 'min-width: 140px;',
                 editable    : false,
                 data        : [
-                    {displayValue: this.textNone, value: c_oAscTickMark.TICK_MARK_NONE},
-                    {displayValue: this.textCross, value: c_oAscTickMark.TICK_MARK_CROSS},
-                    {displayValue: this.textIn, value: c_oAscTickMark.TICK_MARK_IN},
-                    {displayValue: this.textOut, value: c_oAscTickMark.TICK_MARK_OUT}
+                    {displayValue: this.textNone, value: Asc.c_oAscTickMark.TICK_MARK_NONE},
+                    {displayValue: this.textCross, value: Asc.c_oAscTickMark.TICK_MARK_CROSS},
+                    {displayValue: this.textIn, value: Asc.c_oAscTickMark.TICK_MARK_IN},
+                    {displayValue: this.textOut, value: Asc.c_oAscTickMark.TICK_MARK_OUT}
                 ]
             }).on('selected', _.bind(function(combo, record) {
                 if (this.currentAxisProps) {
@@ -703,10 +736,10 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 menuStyle   : 'min-width: 140px;',
                 editable    : false,
                 data        : [
-                    {displayValue: this.textNone, value: c_oAscTickLabelsPos.TICK_LABEL_POSITION_NONE},
-                    {displayValue: this.textLow, value: c_oAscTickLabelsPos.TICK_LABEL_POSITION_LOW},
-                    {displayValue: this.textHigh, value: c_oAscTickLabelsPos.TICK_LABEL_POSITION_HIGH},
-                    {displayValue: this.textNextToAxis, value: c_oAscTickLabelsPos.TICK_LABEL_POSITION_NEXT_TO}
+                    {displayValue: this.textNone, value: Asc.c_oAscTickLabelsPos.TICK_LABEL_POSITION_NONE},
+                    {displayValue: this.textLow, value: Asc.c_oAscTickLabelsPos.TICK_LABEL_POSITION_LOW},
+                    {displayValue: this.textHigh, value: Asc.c_oAscTickLabelsPos.TICK_LABEL_POSITION_HIGH},
+                    {displayValue: this.textNextToAxis, value: Asc.c_oAscTickLabelsPos.TICK_LABEL_POSITION_NEXT_TO}
                 ]
             }).on('selected', _.bind(function(combo, record) {
                 if (this.currentAxisProps) {
@@ -738,10 +771,10 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 value       : ''
             }).on('change', _.bind(function(field, newValue, oldValue) {
                 this.cmbLabelInterval.suspendEvents();
-                this.cmbLabelInterval.setValue(c_oAscBetweenLabelsRule.manual);
+                this.cmbLabelInterval.setValue(Asc.c_oAscBetweenLabelsRule.manual);
                 this.cmbLabelInterval.resumeEvents();
                 if (this.currentAxisProps) {
-                    this.currentAxisProps.putIntervalBetweenLabelsRule(c_oAscBetweenLabelsRule.manual);
+                    this.currentAxisProps.putIntervalBetweenLabelsRule(Asc.c_oAscBetweenLabelsRule.manual);
                     this.currentAxisProps.putIntervalBetweenLabels(field.getNumberValue());
                 }
             }, this));
@@ -752,13 +785,13 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 menuStyle   : 'min-width: 140px;',
                 editable    : false,
                 data        : [
-                    {displayValue: this.textAuto, value: c_oAscBetweenLabelsRule.auto},
-                    {displayValue: this.textManual, value: c_oAscBetweenLabelsRule.manual}
+                    {displayValue: this.textAuto, value: Asc.c_oAscBetweenLabelsRule.auto},
+                    {displayValue: this.textManual, value: Asc.c_oAscBetweenLabelsRule.manual}
                 ]
             }).on('selected', _.bind(function(combo, record) {
                 if (this.currentAxisProps) {
                     this.currentAxisProps.putIntervalBetweenLabelsRule(record.value);
-                    if (record.value==c_oAscBetweenLabelsRule.auto)
+                    if (record.value==Asc.c_oAscBetweenLabelsRule.auto)
                         this.spnLabelInterval.setValue(1, true);
                 }
             }, this));
@@ -774,6 +807,10 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 this.updateChartStyles(this.api.asc_getChartPreviews(this._state.ChartType));
 
             this._setDefaults(this.chartSettings);
+            if (this.storageName) {
+                var value = Common.localStorage.getItem(this.storageName);
+                this.setActiveCategory((value!==null) ? parseInt(value) : 0);
+            }
         },
 
         onSelectType: function(btn, picker, itemView, record) {
@@ -802,8 +839,8 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
         },
 
         updateAxisProps: function(type, isDefault) {
-            var value = (type == c_oAscChartTypeSettings.lineNormal || type == c_oAscChartTypeSettings.lineStacked ||
-                          type == c_oAscChartTypeSettings.lineStackedPer || type == c_oAscChartTypeSettings.scatter);
+            var value = (type == Asc.c_oAscChartTypeSettings.lineNormal || type == Asc.c_oAscChartTypeSettings.lineStacked ||
+                          type == Asc.c_oAscChartTypeSettings.lineStackedPer || type == Asc.c_oAscChartTypeSettings.scatter);
             this.chMarkers.setVisible(value);
             this.cmbLines.setVisible(value);
             this.lblLines.toggleClass('hidden', !value);
@@ -813,7 +850,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 this.cmbLines.setValue(this.chartSettings.getLine() ? (this.chartSettings.getSmooth() ? 2 : 1) : 0);
             }
 
-            value = (type == c_oAscChartTypeSettings.pie || type == c_oAscChartTypeSettings.doughnut || type == c_oAscChartTypeSettings.pie3d);
+            value = (type == Asc.c_oAscChartTypeSettings.pie || type == Asc.c_oAscChartTypeSettings.doughnut || type == Asc.c_oAscChartTypeSettings.pie3d);
             this.btnsCategory[2].setDisabled(value);
             this.btnsCategory[3].setDisabled(value);
             this.cmbHorShow.setDisabled(value);
@@ -830,22 +867,22 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
             this.cmbHorGrid.setValue(this.chartSettings.getHorGridLines());
             this.cmbVertGrid.setValue(this.chartSettings.getVertGridLines());
 
-            value = (type == c_oAscChartTypeSettings.hBarNormal || type == c_oAscChartTypeSettings.hBarStacked || type == c_oAscChartTypeSettings.hBarStackedPer ||
-                     type == c_oAscChartTypeSettings.hBarNormal3d || type == c_oAscChartTypeSettings.hBarStacked3d || type == c_oAscChartTypeSettings.hBarStackedPer3d);
+            value = (type == Asc.c_oAscChartTypeSettings.hBarNormal || type == Asc.c_oAscChartTypeSettings.hBarStacked || type == Asc.c_oAscChartTypeSettings.hBarStackedPer ||
+                     type == Asc.c_oAscChartTypeSettings.hBarNormal3d || type == Asc.c_oAscChartTypeSettings.hBarStacked3d || type == Asc.c_oAscChartTypeSettings.hBarStackedPer3d);
             this.btnsCategory[2].options.contentTarget = (value) ? 'id-chart-settings-dlg-hor' : 'id-chart-settings-dlg-vert';
-            this.btnsCategory[3].options.contentTarget = (value || type == c_oAscChartTypeSettings.scatter) ? 'id-chart-settings-dlg-vert' : 'id-chart-settings-dlg-hor';
+            this.btnsCategory[3].options.contentTarget = (value || type == Asc.c_oAscChartTypeSettings.scatter) ? 'id-chart-settings-dlg-vert' : 'id-chart-settings-dlg-hor';
         },
 
         onVCategoryClick: function() {
-            (this.vertAxisProps.getAxisType()==c_oAscAxisType.val) ? this.fillVProps(this.vertAxisProps) : this.fillHProps(this.vertAxisProps);
+            (this.vertAxisProps.getAxisType()==Asc.c_oAscAxisType.val) ? this.fillVProps(this.vertAxisProps) : this.fillHProps(this.vertAxisProps);
         },
 
         onHCategoryClick: function() {
-            (this.horAxisProps.getAxisType()==c_oAscAxisType.val) ? this.fillVProps(this.horAxisProps) : this.fillHProps(this.horAxisProps);
+            (this.horAxisProps.getAxisType()==Asc.c_oAscAxisType.val) ? this.fillVProps(this.horAxisProps) : this.fillHProps(this.horAxisProps);
         },
 
         fillVProps: function(props) {
-            if (props.getAxisType() !== c_oAscAxisType.val) return;
+            if (props.getAxisType() !== Asc.c_oAscAxisType.val) return;
             if (this._originalAxisVValues==undefined) {
                 this._originalAxisVValues = {
                     minAuto: (props.getMinVal()==null) ? 0 : props.getMinVal(),
@@ -855,23 +892,23 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
             }
 
             this.cmbMinType.setValue(props.getMinValRule());
-            var value = (props.getMinValRule()==c_oAscValAxisRule.auto) ? this._originalAxisVValues.minAuto : props.getMinVal();
+            var value = (props.getMinValRule()==Asc.c_oAscValAxisRule.auto) ? this._originalAxisVValues.minAuto : props.getMinVal();
             this.spnMinValue.setValue((value==null) ? '' : value, true);
 
             this.cmbMaxType.setValue(props.getMaxValRule());
-            value = (props.getMaxValRule()==c_oAscValAxisRule.auto) ? this._originalAxisVValues.maxAuto : props.getMaxVal();
+            value = (props.getMaxValRule()==Asc.c_oAscValAxisRule.auto) ? this._originalAxisVValues.maxAuto : props.getMaxVal();
             this.spnMaxValue.setValue((value==null) ? '' : value, true);
 
             value = props.getCrossesRule();
             this.cmbVCrossType.setValue(value);
             switch (value) {
-                case c_oAscCrossesRule.minValue:
+                case Asc.c_oAscCrossesRule.minValue:
                     value = this.spnMinValue.getNumberValue();
                 break;
-                case c_oAscCrossesRule.maxValue:
+                case Asc.c_oAscCrossesRule.maxValue:
                     value = this.spnMaxValue.getNumberValue();
                 break;
-                case c_oAscCrossesRule.auto:
+                case Asc.c_oAscCrossesRule.auto:
                     value = this._originalAxisVValues.crossesAuto;
                 break;
                 default:
@@ -890,7 +927,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
         },
 
         fillHProps: function(props) {
-            if (props.getAxisType() !== c_oAscAxisType.cat) return;
+            if (props.getAxisType() !== Asc.c_oAscAxisType.cat) return;
             if (this._originalAxisHValues==undefined) {
                 this._originalAxisHValues = {
                     minAuto: (props.getCrossMinVal()==null) ? 0 : props.getCrossMinVal(),
@@ -902,13 +939,13 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
             var value = props.getCrossesRule();
             this.cmbHCrossType.setValue(value);
             switch (value) {
-                case c_oAscCrossesRule.minValue:
+                case Asc.c_oAscCrossesRule.minValue:
                     value = this._originalAxisHValues.minAuto;
                 break;
-                case c_oAscCrossesRule.maxValue:
+                case Asc.c_oAscCrossesRule.maxValue:
                     value = this._originalAxisHValues.maxAuto;
                 break;
-                case c_oAscCrossesRule.auto:
+                case Asc.c_oAscCrossesRule.auto:
                     value = this._originalAxisHValues.crossesAuto;
                 break;
                 default:
@@ -927,7 +964,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
 
             value = props.getIntervalBetweenLabelsRule();
             this.cmbLabelInterval.setValue(value);
-            this.spnLabelInterval.setValue((value===c_oAscBetweenLabelsRule.manual) ? props.getIntervalBetweenLabels(): 1, true);
+            this.spnLabelInterval.setValue((value===Asc.c_oAscBetweenLabelsRule.manual) ? props.getIntervalBetweenLabels(): 1, true);
 
             this.currentAxisProps = props;
         },
@@ -1028,8 +1065,8 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
 
                     if (me.cmbDataDirect.isDisabled()) me.cmbDataDirect.setDisabled(false);
 
-                    var isvalid = me.api.asc_checkDataRange(c_oAscSelectionDialogType.Chart, value, false);
-                    return (isvalid==c_oAscError.ID.DataRangeError) ? me.textInvalidRange : true;
+                    var isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, value, false);
+                    return (isvalid==Asc.c_oAscError.ID.DataRangeError) ? me.textInvalidRange : true;
                 };
 
                 this.cmbDataDirect.setDisabled(value===null);
@@ -1092,8 +1129,8 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
 
             this.chartSettings.putShowMarker(this.chMarkers.getValue()=='checked');
 
-            value = (type == c_oAscChartTypeSettings.lineNormal || type == c_oAscChartTypeSettings.lineStacked ||
-                      type == c_oAscChartTypeSettings.lineStackedPer || type == c_oAscChartTypeSettings.scatter);
+            value = (type == Asc.c_oAscChartTypeSettings.lineNormal || type == Asc.c_oAscChartTypeSettings.lineStacked ||
+                      type == Asc.c_oAscChartTypeSettings.lineStackedPer || type == Asc.c_oAscChartTypeSettings.scatter);
             if (value) {
                 value = this.cmbLines.getValue();
                 this.chartSettings.putLine(value!==0);
@@ -1110,17 +1147,16 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
         isRangeValid: function() {
             var isvalid;
             if (!_.isEmpty(this.txtDataRange.getValue())) {
-                isvalid = this.api.asc_checkDataRange(c_oAscSelectionDialogType.Chart, this.txtDataRange.getValue(), true, this.cmbDataDirect.getValue()==0, this.mnuChartTypePicker.getSelectedRec()[0].get('type'));
-                if (isvalid == c_oAscError.ID.No)
+                isvalid = this.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, this.txtDataRange.getValue(), true, this.cmbDataDirect.getValue()==0, this.mnuChartTypePicker.getSelectedRec()[0].get('type'));
+                if (isvalid == Asc.c_oAscError.ID.No)
                     return true;
             } else
                 this.txtDataRange.showError([this.txtEmpty]);
 
-            this.btnsCategory[0].toggle(true);
-            this.onCategoryClick(this.btnsCategory[0]);
-            if (isvalid == c_oAscError.ID.StockChartError) {
+            this.setActiveCategory(0);
+            if (isvalid == Asc.c_oAscError.ID.StockChartError) {
                 Common.UI.warning({msg: this.errorStockChart});
-            } else if (isvalid == c_oAscError.ID.MaxDataSeriesError) {
+            } else if (isvalid == Asc.c_oAscError.ID.MaxDataSeriesError) {
                 Common.UI.warning({msg: this.errorMaxRows});
             } else
                 this.txtDataRange.cmpEl.find('input').focus();
@@ -1156,7 +1192,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
         },
 
         onSelectDataLabels: function(obj, rec, e) {
-            var disable = rec.value == c_oAscChartDataLabelsPos.none;
+            var disable = rec.value == Asc.c_oAscChartDataLabelsPos.none;
             this.chSeriesName.setDisabled(disable);
             this.chCategoryName.setDisabled(disable);
             this.chValue.setDisabled(disable);

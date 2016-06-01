@@ -1,3 +1,35 @@
+/*
+ *
+ * (c) Copyright Ascensio System Limited 2010-2016
+ *
+ * This program is a free software product. You can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License (AGPL)
+ * version 3 as published by the Free Software Foundation. In accordance with
+ * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
+ * that Ascensio System SIA expressly excludes the warranty of non-infringement
+ * of any third-party rights.
+ *
+ * This program is distributed WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
+ * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ *
+ * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
+ * EU, LV-1021.
+ *
+ * The  interactive user interfaces in modified source and object code versions
+ * of the Program must display Appropriate Legal Notices, as required under
+ * Section 5 of the GNU AGPL version 3.
+ *
+ * Pursuant to Section 7(b) of the License you must retain the original Product
+ * logo when distributing the program. Pursuant to Section 7(e) we decline to
+ * grant you any rights under trademark law for use of our trademarks.
+ *
+ * All the Product's GUI elements, including illustrations and icon sets, as
+ * well as technical writing content are licensed under the terms of the
+ * Creative Commons Attribution-ShareAlike 4.0 International. See the License
+ * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ *
+*/
 /**
  *  DropcapSettingsAdvanced.js
  *
@@ -29,7 +61,8 @@ define([
         options: {
             contentWidth: 320,
             height      : 380,
-            toggleGroup : 'dropcap-adv-settings-group'
+            toggleGroup : 'dropcap-adv-settings-group',
+            storageName: 'de-dropcap-settings-adv-category'
         },
 
         initialize : function(options) {
@@ -60,7 +93,7 @@ define([
             this._noApply           = true;
             this.Margins            = undefined;
 
-            this._originalProps = new CParagraphProp(this.options.paragraphProps);
+            this._originalProps = new Asc.asc_CParagraphProperty(this.options.paragraphProps);
 
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
         },
@@ -103,20 +136,20 @@ define([
                 });
             }, this);
 
-
+            var txtPt = Common.Utils.Metric.getMetricName(Common.Utils.Metric.c_MetricUnits.pt);
             this.cmbBorderSize = new Common.UI.ComboBorderSize({
                 el          : $('#drop-advanced-input-bordersize'),
                 style       : 'width: 90px;',
                 store       : new Backbone.Collection(),
                 data: [
                     {id: Common.UI.getId(), displayValue: this.txtNoBorders,   value: 0,    borderstyle: ''},
-                    {id: Common.UI.getId(), displayValue: '0.5 pt',            value: 0.5,  pxValue: 0.5,   offsety: 0},
-                    {id: Common.UI.getId(), displayValue: '1 pt',              value: 1,    pxValue: 1,     offsety: 20},
-                    {id: Common.UI.getId(), displayValue: '1.5 pt',            value: 1.5,  pxValue: 2,     offsety: 40},
-                    {id: Common.UI.getId(), displayValue: '2.25 pt',           value: 2.25, pxValue: 3,     offsety: 60},
-                    {id: Common.UI.getId(), displayValue: '3 pt',              value: 3,    pxValue: 4,     offsety: 80},
-                    {id: Common.UI.getId(), displayValue: '4.5 pt',            value: 4.5,  pxValue: 5,     offsety: 100},
-                    {id: Common.UI.getId(), displayValue: '6 pt',              value: 6,    pxValue: 6,     offsety: 120}
+                    {id: Common.UI.getId(), displayValue: '0.5 ' + txtPt,            value: 0.5,  pxValue: 0.5,   offsety: 0},
+                    {id: Common.UI.getId(), displayValue: '1 ' + txtPt,              value: 1,    pxValue: 1,     offsety: 20},
+                    {id: Common.UI.getId(), displayValue: '1.5 ' + txtPt,            value: 1.5,  pxValue: 2,     offsety: 40},
+                    {id: Common.UI.getId(), displayValue: '2.25 ' + txtPt,           value: 2.25, pxValue: 3,     offsety: 60},
+                    {id: Common.UI.getId(), displayValue: '3 ' + txtPt,              value: 3,    pxValue: 4,     offsety: 80},
+                    {id: Common.UI.getId(), displayValue: '4.5 ' + txtPt,            value: 4.5,  pxValue: 5,     offsety: 100},
+                    {id: Common.UI.getId(), displayValue: '6 ' + txtPt,              value: 6,    pxValue: 6,     offsety: 120}
                 ]
             }).on('selected', _.bind(function(combo, record) {
                 this.BorderSize = {ptValue: record.value, pxValue: record.pxValue};
@@ -212,12 +245,12 @@ define([
 
                     if (me._changedProps) {
                         if (me._changedProps.get_Shade()===undefined || me._changedProps.get_Shade()===null) {
-                            me._changedProps.put_Shade(new CParagraphShd());
+                            me._changedProps.put_Shade(new Asc.asc_CParagraphShd());
                         }
                         if (color=='transparent') {
-                            me._changedProps.get_Shade().put_Value(shd_Nil);
+                            me._changedProps.get_Shade().put_Value(Asc.c_oAscShdNil);
                         } else {
-                            me._changedProps.get_Shade().put_Value(shd_Clear);
+                            me._changedProps.get_Shade().put_Value(Asc.c_oAscShdClear);
                             me._changedProps.get_Shade().put_Color(Common.Utils.ThemeColor.getRgbColor(color));
                         }
                     }
@@ -310,8 +343,8 @@ define([
             })
             .on('toggle', _.bind(function(btn, pressed) {
                 if (me._changedProps && pressed) {
-                    me._DisableElem(c_oAscDropCap.None);
-                    me._changedProps.put_DropCap(c_oAscDropCap.None);
+                    me._DisableElem(Asc.c_oAscDropCap.None);
+                    me._changedProps.put_DropCap(Asc.c_oAscDropCap.None);
                 }
             }, me));
 
@@ -325,8 +358,8 @@ define([
             })
             .on('toggle', _.bind(function(btn, pressed) {
                 if (me._changedProps && pressed) {
-                    me._DisableElem(c_oAscDropCap.Drop);
-                    me._changedProps.put_DropCap(c_oAscDropCap.Drop);
+                    me._DisableElem(Asc.c_oAscDropCap.Drop);
+                    me._changedProps.put_DropCap(Asc.c_oAscDropCap.Drop);
                 }
             }, me));
 
@@ -340,8 +373,8 @@ define([
             })
             .on('toggle', _.bind(function(btn, pressed) {
                 if (me._changedProps && pressed) {
-                    me._DisableElem(c_oAscDropCap.Margin);
-                    me._changedProps.put_DropCap(c_oAscDropCap.Margin);
+                    me._DisableElem(Asc.c_oAscDropCap.Margin);
+                    me._changedProps.put_DropCap(Asc.c_oAscDropCap.Margin);
                 }
             }, me));
 
@@ -493,7 +526,7 @@ define([
                     me.spnHeight.setValue((record.value==0) ? '' : 1);
                     me.spnHeight.resumeEvents();
 
-                    me._changedProps.put_HRule((record.value==0) ? linerule_Auto : ((record.value==1) ? linerule_Exact : linerule_AtLeast));
+                    me._changedProps.put_HRule((record.value==0) ? Asc.linerule_Auto : ((record.value==1) ? Asc.linerule_Exact : Asc.linerule_AtLeast));
                     if (record.value > 0)
                         this._changedProps.put_H(Common.Utils.Metric.fnRecalcToMM(this.spnHeight.getNumberValue()));
                 }
@@ -510,16 +543,16 @@ define([
             })
             .on('change', _.bind(function(field, newValue, oldValue) {
                 if (me._changedProps) {
-                    var type = linerule_Auto;
+                    var type = Asc.linerule_Auto;
                     if (me.cmbHeight.getValue()==me._arrHeight[1].value)
-                        type = linerule_Exact;
+                        type = Asc.linerule_Exact;
                     else if (me.cmbHeight.getValue()==me._arrHeight[2].value)
-                        type = linerule_AtLeast;
+                        type = Asc.linerule_AtLeast;
 
-                    if (type==linerule_Auto) {
+                    if (type==Asc.linerule_Auto) {
                         me.cmbHeight.suspendEvents();
                         me.cmbHeight.setValue(me._arrHeight[2].value);
-                        type = linerule_AtLeast;
+                        type = Asc.linerule_AtLeast;
                         me.cmbHeight.resumeEvents();
                     }
 
@@ -559,9 +592,9 @@ define([
             }, me));
 
             this._arrHAlign = [
-                {displayValue: this.textLeft,   value: c_oAscXAlign.Left},
-                {displayValue: this.textCenter, value: c_oAscXAlign.Center},
-                {displayValue: this.textRight,  value: c_oAscXAlign.Right}
+                {displayValue: this.textLeft,   value: Asc.c_oAscXAlign.Left},
+                {displayValue: this.textCenter, value: Asc.c_oAscXAlign.Center},
+                {displayValue: this.textRight,  value: Asc.c_oAscXAlign.Right}
             ];
             this.cmbHAlign = new Common.UI.ComboBox({
                 el          : $('#frame-advanced-input-hposition'),
@@ -583,9 +616,9 @@ define([
             this.cmbHAlign.setValue(this._arrHAlign[0].value);
 
             this._arrHRelative = [
-                {displayValue: this.textMargin, value: c_oAscHAnchor.Margin},
-                {displayValue: this.textPage,   value: c_oAscHAnchor.Page},
-                {displayValue: this.textColumn, value: c_oAscHAnchor.Text}
+                {displayValue: this.textMargin, value: Asc.c_oAscHAnchor.Margin},
+                {displayValue: this.textPage,   value: Asc.c_oAscHAnchor.Page},
+                {displayValue: this.textColumn, value: Asc.c_oAscHAnchor.Text}
             ];
             this.cmbHRelative = new Common.UI.ComboBox({
                 el          : $('#frame-advanced-input-hrelative'),
@@ -602,9 +635,9 @@ define([
             this.cmbHRelative.setValue(this._arrHRelative[1].value);
 
             this._arrVAlign = [
-                {displayValue: this.textTop,    value: c_oAscYAlign.Top},
-                {displayValue: this.textCenter, value: c_oAscYAlign.Center},
-                {displayValue: this.textBottom, value: c_oAscYAlign.Bottom}
+                {displayValue: this.textTop,    value: Asc.c_oAscYAlign.Top},
+                {displayValue: this.textCenter, value: Asc.c_oAscYAlign.Center},
+                {displayValue: this.textBottom, value: Asc.c_oAscYAlign.Bottom}
             ];
             this.cmbVAlign = new Common.UI.ComboBox({
                 el          : $('#frame-advanced-input-vposition'),
@@ -626,9 +659,9 @@ define([
             this.cmbVAlign.setValue(this._arrVAlign[0].value);
 
             this._arrVRelative = [
-                {displayValue: this.textMargin,     value: c_oAscVAnchor.Margin},
-                {displayValue: this.textPage,       value: c_oAscVAnchor.Page},
-                {displayValue: this.textParagraph,  value: c_oAscVAnchor.Text}
+                {displayValue: this.textMargin,     value: Asc.c_oAscVAnchor.Margin},
+                {displayValue: this.textPage,       value: Asc.c_oAscVAnchor.Page},
+                {displayValue: this.textParagraph,  value: Asc.c_oAscVAnchor.Text}
             ];
             this.cmbVRelative = new Common.UI.ComboBox({
                 el          : $('#frame-advanced-input-vrelative'),
@@ -640,7 +673,7 @@ define([
             .on('selected', _.bind(function(combo, record) {
                 if (me._changedProps) {
                     me._changedProps.put_VAnchor(record.value);
-                    this.chMove.setValue(record.value == c_oAscVAnchor.Text, true);
+                    this.chMove.setValue(record.value == Asc.c_oAscVAnchor.Text, true);
                 }
             }, me));
             this.cmbVRelative.setValue(this._arrVRelative[2].value);
@@ -697,7 +730,7 @@ define([
                 for (var j=0; j<this.tableStyler.columns; j++) {
                     this.tableStyler.getCell(j, i).on('borderclick', function(ct, border, size, color){
                         if (this.ChangedBorders===undefined) {
-                            this.ChangedBorders = new CParagraphBorders();
+                            this.ChangedBorders = new Asc.asc_CParagraphBorders();
                         }
                         this._UpdateCellBordersStyle(ct, border, size, color, this.Borders);
                     }, this);
@@ -705,31 +738,18 @@ define([
             }
             this.tableStyler.on('borderclick', function(ct, border, size, color){
                 if (this.ChangedBorders===undefined) {
-                    this.ChangedBorders = new CParagraphBorders();
+                    this.ChangedBorders = new Asc.asc_CParagraphBorders();
                 }
                 this._UpdateTableBordersStyle(ct, border, size, color, this.Borders);
             }, this);
 
-            var btnCategoryFrame, btnCategoryDropcap;
-
-            _.each(this.btnsCategory, function(btn) {
-                if (btn.options.contentTarget == 'id-adv-dropcap-frame')
-                    btnCategoryFrame = btn;
-                else if(btn.options.contentTarget == 'id-adv-dropcap-dropcap')
-                    btnCategoryDropcap = btn;
-            });
-
-            this.content_panels.filter('.active').removeClass('active');
-
-            if (!this.isFrame) {
-                btnCategoryFrame.hide();
-                btnCategoryDropcap.toggle(true, true);
-                $("#" + btnCategoryDropcap.options.contentTarget).addClass('active');
-            } else {
-                btnCategoryDropcap.hide();
-                btnCategoryFrame.toggle(true, true);
-                $("#" + btnCategoryFrame.options.contentTarget).addClass('active');
+            if (this.isFrame)
                 this.setHeight(500);
+
+            this.btnsCategory[(this.isFrame) ? 1 : 0].setVisible(false);
+            if (this.storageName) {
+                var value = Common.localStorage.getItem(this.storageName);
+                this.setActiveCategory((value!==null) ? parseInt(value) : 0);
             }
         },
 
@@ -743,30 +763,30 @@ define([
             if (this.Margins) {
                 var borders = this._changedProps.get_Borders();
                 if (borders===undefined || borders===null)  {
-                    this._changedProps.put_Borders(new CParagraphBorders());
+                    this._changedProps.put_Borders(new Asc.asc_CParagraphBorders());
                     borders = this._changedProps.get_Borders();
                 }
                 if (this.Margins.Left!==undefined) {
                     if (borders.get_Left()===undefined || borders.get_Left()===null)
-                        borders.put_Left(new CBorder(this.Borders.get_Left()));
+                        borders.put_Left(new Asc.asc_CTextBorder(this.Borders.get_Left()));
                     borders.get_Left().put_Space(this.Margins.Left);
                 }
                 if (this.Margins.Top!==undefined) {
                     if (borders.get_Top()===undefined || borders.get_Top()===null)
-                        borders.put_Top(new CBorder(this.Borders.get_Top()));
+                        borders.put_Top(new Asc.asc_CTextBorder(this.Borders.get_Top()));
                     borders.get_Top().put_Space(this.Margins.Top);
                 }
                 if (this.Margins.Right!==undefined) {
                     if (borders.get_Right()===undefined || borders.get_Right()===null)
-                        borders.put_Right(new CBorder(this.Borders.get_Right()));
+                        borders.put_Right(new Asc.asc_CTextBorder(this.Borders.get_Right()));
                     borders.get_Right().put_Space(this.Margins.Right);
                 }
                 if (this.Margins.Bottom!==undefined) {
                     if (borders.get_Bottom()===undefined || borders.get_Bottom()===null)
-                        borders.put_Bottom(new CBorder(this.Borders.get_Bottom()));
+                        borders.put_Bottom(new Asc.asc_CTextBorder(this.Borders.get_Bottom()));
                     borders.get_Bottom().put_Space(this.Margins.Bottom);
                     if (borders.get_Between()===undefined || borders.get_Between()===null)
-                        borders.put_Between(new CBorder(this.Borders.get_Between()));
+                        borders.put_Between(new Asc.asc_CTextBorder(this.Borders.get_Between()));
                     borders.get_Between().put_Space(this.Margins.Bottom);
                 }
             }
@@ -784,7 +804,7 @@ define([
 
         onShowDialog: function(dlg) {
             if (!this.isFrame && this.btnNone.pressed)
-                this._DisableElem(c_oAscDropCap.None);
+                this._DisableElem(Asc.c_oAscDropCap.None);
             else if (this.isFrame && this.btnFrameNone.pressed)
                 this._DisableElem(c_oAscFrameWrap.None);
         },
@@ -792,7 +812,7 @@ define([
         onBtnBordersClick: function(btn, eOpts){
             this.updateBordersStyle(btn.options.strId, true);
             if (this.api) {
-                var properties = new CTableProp();
+                var properties = new Asc.CTableProp();
                 properties.put_CellBorders(this.CellBorders);
                 properties.put_CellSelect(true);
                 this.api.tblApply(properties);
@@ -819,15 +839,15 @@ define([
                 me.spnX,
                 me.spnY
             ], function(spinner) {
-                spinner.setDefaultUnit(Common.Utils.Metric.metricName[Common.Utils.Metric.getCurrentMetric()]);
-                spinner.setStep(Common.Utils.Metric.getCurrentMetric() == Common.Utils.Metric.c_MetricUnits.cm ? 0.1 : 1);
+                spinner.setDefaultUnit(Common.Utils.Metric.getCurrentMetricName());
+                spinner.setStep(Common.Utils.Metric.getCurrentMetric() == Common.Utils.Metric.c_MetricUnits.pt ? 1 : 0.1);
             });
         },
 
         _setDefaults: function(props) {
             if (props) {
                 this._noApply = true;
-                this._originalProps = new CParagraphProp(props);
+                this._originalProps = new Asc.asc_CParagraphProperty(props);
                 var frame_props = props.get_FramePr();
                 if (frame_props) {
                     var value;
@@ -838,7 +858,7 @@ define([
 
                         value = frame_props.get_HRule();
                         if (value!==undefined) {
-                            this.cmbHeight.setValue((value===linerule_Exact) ? this._arrHeight[1].value : this._arrHeight[2].value);
+                            this.cmbHeight.setValue((value===Asc.linerule_Exact) ? this._arrHeight[1].value : this._arrHeight[2].value);
                             this.spnHeight.setValue(Common.Utils.Metric.fnRecalcFromMM(frame_props.get_H()));
 
                         } else {
@@ -870,7 +890,7 @@ define([
                             }
                         } else {
                             value = frame_props.get_X();
-                            this.cmbHAlign.setValue(Common.Utils.Metric.fnRecalcFromMM((value!==undefined) ? value : 0) + ' ' + Common.Utils.Metric.metricName[Common.Utils.Metric.getCurrentMetric()]);
+                            this.cmbHAlign.setValue(Common.Utils.Metric.fnRecalcFromMM((value!==undefined) ? value : 0) + ' ' + Common.Utils.Metric.getCurrentMetricName());
                         }
 
                         value = frame_props.get_VAnchor();
@@ -880,7 +900,7 @@ define([
                                 break;
                             }
                         }
-                        this.chMove.setValue(value==c_oAscVAnchor.Text);
+                        this.chMove.setValue(value==Asc.c_oAscVAnchor.Text);
 
                         value = frame_props.get_YAlign();
                         if (value!==undefined) {
@@ -892,7 +912,7 @@ define([
                             }
                         } else {
                             value = frame_props.get_Y();
-                            this.cmbVAlign.setValue(Common.Utils.Metric.fnRecalcFromMM((value!==undefined) ? value : 0) + ' ' + Common.Utils.Metric.metricName[Common.Utils.Metric.getCurrentMetric()]);
+                            this.cmbVAlign.setValue(Common.Utils.Metric.fnRecalcFromMM((value!==undefined) ? value : 0) + ' ' + Common.Utils.Metric.getCurrentMetricName());
                         }
 
                         value = frame_props.get_Wrap();
@@ -905,9 +925,9 @@ define([
                         this.spnRowHeight.setValue((frame_props.get_Lines() !== null) ? frame_props.get_Lines() : '');
                         this.numDistance.setValue((frame_props.get_HSpace() !== null) ? Common.Utils.Metric.fnRecalcFromMM(frame_props.get_HSpace()) : '');
                         value = frame_props.get_DropCap();
-                        if (value==c_oAscDropCap.Drop)
+                        if (value==Asc.c_oAscDropCap.Drop)
                             this.btnInText.toggle(true, false);
-                        else if (value==c_oAscDropCap.Margin)
+                        else if (value==Asc.c_oAscDropCap.Margin)
                             this.btnInMargin.toggle(true, false);
                         else
                             this.btnNone.toggle(true, false);
@@ -922,7 +942,7 @@ define([
                         }
                     }
 
-                    this.Borders = new CParagraphBorders(frame_props.get_Borders());
+                    this.Borders = new Asc.asc_CParagraphBorders(frame_props.get_Borders());
 
                     if (this.Borders) {
                         var brd = this.Borders.get_Left();
@@ -940,10 +960,10 @@ define([
                     }
 
                     var shd = frame_props.get_Shade();
-                    if (shd!==null && shd!==undefined && shd.get_Value()===shd_Clear) {
+                    if (shd!==null && shd!==undefined && shd.get_Value()===Asc.c_oAscShdClear) {
                         var color = shd.get_Color();
                         if (color) {
-                            if (color.get_type() == c_oAscColor.COLOR_TYPE_SCHEME) {
+                            if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
                                 this.paragraphShade = {color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()), effectValue: color.get_value()};
                             } else {
                                 this.paragraphShade = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b());
@@ -972,7 +992,7 @@ define([
 
                 this._noApply = false;
 
-                this._changedProps = new CParagraphFrame();
+                this._changedProps = new Asc.asc_CParagraphFrame();
                 if (this.isFrame && frame_props && frame_props.get_W()!==undefined) {
                     this._changedProps.put_W(frame_props.get_W());
                 }
@@ -982,7 +1002,7 @@ define([
         },
 
         _DisableElem: function(btnId){
-            var disabled = (btnId === c_oAscDropCap.None || btnId === c_oAscFrameWrap.None);
+            var disabled = (btnId === Asc.c_oAscDropCap.None || btnId === c_oAscFrameWrap.None);
 
             _.each(this.btnsCategory, function(btn) {
                 if (btn.options.contentTarget == 'id-adv-dropcap-borders' ||
@@ -1004,7 +1024,7 @@ define([
                 this.spnWidth.setDisabled(disabled);
                 this.spnHeight.setDisabled(disabled);
             } else {
-                disabled = (btnId == c_oAscDropCap.None);
+                disabled = (btnId == Asc.c_oAscDropCap.None);
                 this.spnRowHeight.setDisabled(disabled);
                 this.numDistance.setDisabled(disabled);
                 this.cmbFonts.setDisabled(disabled);
@@ -1082,7 +1102,7 @@ define([
 
         _UpdateBorderStyle: function(border, visible) {
             if (null == border)
-                border = new CBorder();
+                border = new Asc.asc_CTextBorder();
 
             if (visible && this.BorderSize.ptValue > 0){
                 var size = parseFloat(this.BorderSize.ptValue);
@@ -1092,7 +1112,7 @@ define([
                 border.put_Color(color);
             }
             else {
-                border.put_Color(new CColor());
+                border.put_Color(new Asc.asc_CColor());
                 border.put_Value(0);
             }
             return border;
@@ -1104,28 +1124,28 @@ define([
             if ( ct.col==0 && border.indexOf('l') > -1 ) {
                 updateBorders.put_Left(this._UpdateBorderStyle(updateBorders.get_Left(), (size>0)));
                 if (this.ChangedBorders) {
-                    this.ChangedBorders.put_Left(new CBorder(updateBorders.get_Left()));
+                    this.ChangedBorders.put_Left(new Asc.asc_CTextBorder(updateBorders.get_Left()));
                 }
             }
 
             if ( ct.col== this.tableStylerColumns-1 && border.indexOf('r') > -1 )  {
                 updateBorders.put_Right(this._UpdateBorderStyle(updateBorders.get_Right(), (size>0)));
                 if (this.ChangedBorders) {
-                    this.ChangedBorders.put_Right(new CBorder(updateBorders.get_Right()));
+                    this.ChangedBorders.put_Right(new Asc.asc_CTextBorder(updateBorders.get_Right()));
                 }
             }
 
             if ( ct.row==0 && border.indexOf('t') > -1 ) {
                 updateBorders.put_Top(this._UpdateBorderStyle(updateBorders.get_Top(), (size>0)));
                 if (this.ChangedBorders) {
-                    this.ChangedBorders.put_Top(new CBorder(updateBorders.get_Top()));
+                    this.ChangedBorders.put_Top(new Asc.asc_CTextBorder(updateBorders.get_Top()));
                 }
             }
 
             if ( ct.row== this.tableStylerRows-1 && border.indexOf('b') > -1 ) {
                 updateBorders.put_Bottom(this._UpdateBorderStyle(updateBorders.get_Bottom(), (size>0)));
                 if (this.ChangedBorders) {
-                    this.ChangedBorders.put_Bottom(new CBorder(updateBorders.get_Bottom()));
+                    this.ChangedBorders.put_Bottom(new Asc.asc_CTextBorder(updateBorders.get_Bottom()));
                 }
             }
 
@@ -1133,7 +1153,7 @@ define([
                 ct.row== this.tableStylerRows-1 && border.indexOf('t') > -1) {
                 updateBorders.put_Between(this._UpdateBorderStyle(updateBorders.get_Between(), (size>0)));
                 if (this.ChangedBorders) {
-                    this.ChangedBorders.put_Between(new CBorder(updateBorders.get_Between()));
+                    this.ChangedBorders.put_Between(new Asc.asc_CTextBorder(updateBorders.get_Between()));
                 }
             }
         },
@@ -1144,25 +1164,25 @@ define([
             if (border.indexOf('l') > -1)  {
                 updateBorders.put_Left(this._UpdateBorderStyle(updateBorders.get_Left(), (size>0)));
                 if (this.ChangedBorders) {
-                    this.ChangedBorders.put_Left(new CBorder(updateBorders.get_Left()));
+                    this.ChangedBorders.put_Left(new Asc.asc_CTextBorder(updateBorders.get_Left()));
                 }
             }
             if (border.indexOf('t') > -1) {
                 updateBorders.put_Top(this._UpdateBorderStyle(updateBorders.get_Top(), (size>0)));
                 if (this.ChangedBorders) {
-                    this.ChangedBorders.put_Top(new CBorder(updateBorders.get_Top()));
+                    this.ChangedBorders.put_Top(new Asc.asc_CTextBorder(updateBorders.get_Top()));
                 }
             }
             if (border.indexOf('r') > -1) {
                 updateBorders.put_Right(this._UpdateBorderStyle(updateBorders.get_Right(), (size>0)));
                 if (this.ChangedBorders) {
-                    this.ChangedBorders.put_Right(new CBorder(updateBorders.get_Right()));
+                    this.ChangedBorders.put_Right(new Asc.asc_CTextBorder(updateBorders.get_Right()));
                 }
             }
             if (border.indexOf('b') > -1) {
                 updateBorders.put_Bottom(this._UpdateBorderStyle(updateBorders.get_Bottom(), (size>0)));
                 if (this.ChangedBorders) {
-                    this.ChangedBorders.put_Bottom(new CBorder(updateBorders.get_Bottom()));
+                    this.ChangedBorders.put_Bottom(new Asc.asc_CTextBorder(updateBorders.get_Bottom()));
                 }
             }
         },

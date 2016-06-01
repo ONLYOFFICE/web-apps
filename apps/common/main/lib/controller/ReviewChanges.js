@@ -1,3 +1,35 @@
+/*
+ *
+ * (c) Copyright Ascensio System Limited 2010-2016
+ *
+ * This program is a free software product. You can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License (AGPL)
+ * version 3 as published by the Free Software Foundation. In accordance with
+ * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
+ * that Ascensio System SIA expressly excludes the warranty of non-infringement
+ * of any third-party rights.
+ *
+ * This program is distributed WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
+ * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ *
+ * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
+ * EU, LV-1021.
+ *
+ * The  interactive user interfaces in modified source and object code versions
+ * of the Program must display Appropriate Legal Notices, as required under
+ * Section 5 of the GNU AGPL version 3.
+ *
+ * Pursuant to Section 7(b) of the License you must retain the original Product
+ * logo when distributing the program. Pursuant to Section 7(e) we decline to
+ * grant you any rights under trademark law for use of our trademarks.
+ *
+ * All the Product's GUI elements, including illustrations and icon sets, as
+ * well as technical writing content are licensed under the terms of the
+ * Creative Commons Attribution-ShareAlike 4.0 International. See the License
+ * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ *
+*/
 /**
  *  ReviewChanges.js
  *
@@ -164,7 +196,7 @@ define([
                     value = item.get_Value(),
                     settings = false;
                 switch (item.get_Type()) {
-                    case c_oAscRevisionsChangeType.TextAdd:
+                    case Asc.c_oAscRevisionsChangeType.TextAdd:
                         changetext = me.textInserted;
                         if (typeof value == 'object') {
                             _.each(value, function(obj) {
@@ -191,7 +223,7 @@ define([
                             changetext +=  (' ' + value);
                         }
                     break;
-                    case c_oAscRevisionsChangeType.TextRem:
+                    case Asc.c_oAscRevisionsChangeType.TextRem:
                         changetext = me.textDeleted;
                         if (typeof value == 'object') {
                             _.each(value, function(obj) {
@@ -218,13 +250,13 @@ define([
                             changetext +=  (' ' + value);
                         }
                     break;
-                    case c_oAscRevisionsChangeType.ParaAdd:
+                    case Asc.c_oAscRevisionsChangeType.ParaAdd:
                         changetext = me.textParaInserted;
                     break;
-                    case c_oAscRevisionsChangeType.ParaRem:
+                    case Asc.c_oAscRevisionsChangeType.ParaRem:
                         changetext = me.textParaDeleted;
                     break;
-                    case c_oAscRevisionsChangeType.TextPr:
+                    case Asc.c_oAscRevisionsChangeType.TextPr:
                         changetext = '<b>' + me.textFormatted;
                         if (value.Get_Bold() !== undefined)
                             proptext += ((value.Get_Bold() ? '' : me.textNot) + me.textBold + ', ');
@@ -253,9 +285,9 @@ define([
                         if (value.Get_FontSize() !== undefined)
                             proptext += (value.Get_FontSize() + ', ');
                         if (value.Get_Spacing() !== undefined)
-                            proptext += (me.textSpacing + ' ' + Common.Utils.Metric.fnRecalcFromMM(value.Get_Spacing()).toFixed(2) + ' ' + Common.Utils.Metric.metricName[Common.Utils.Metric.getCurrentMetric()] + ', ');
+                            proptext += (me.textSpacing + ' ' + Common.Utils.Metric.fnRecalcFromMM(value.Get_Spacing()).toFixed(2) + ' ' + Common.Utils.Metric.getCurrentMetricName() + ', ');
                         if (value.Get_Position() !== undefined)
-                            proptext += (me.textPosition + ' ' + Common.Utils.Metric.fnRecalcFromMM(value.Get_Position()).toFixed(2) + ' ' + Common.Utils.Metric.metricName[Common.Utils.Metric.getCurrentMetric()] + ', ');
+                            proptext += (me.textPosition + ' ' + Common.Utils.Metric.fnRecalcFromMM(value.Get_Position()).toFixed(2) + ' ' + Common.Utils.Metric.getCurrentMetricName() + ', ');
                         if (value.Get_Lang() !== undefined)
                             proptext += (Common.util.LanguageInfo.getLocalLanguageName(value.Get_Lang())[1] + ', ');
 
@@ -266,16 +298,16 @@ define([
                         changetext += '</b>';
                         changetext += proptext;
                     break;
-                    case c_oAscRevisionsChangeType.ParaPr:
+                    case Asc.c_oAscRevisionsChangeType.ParaPr:
                         changetext = '<b>' + me.textParaFormatted;
                         if (value.Get_ContextualSpacing())
                             proptext += ((value.Get_ContextualSpacing() ? me.textContextual : me.textNoContextual) + ', ');
                         if (value.Get_IndLeft() !== undefined)
-                            proptext += (me.textIndentLeft + ' ' + Common.Utils.Metric.fnRecalcFromMM(value.Get_IndLeft()).toFixed(2) + ' ' + Common.Utils.Metric.metricName[Common.Utils.Metric.getCurrentMetric()] + ', ');
+                            proptext += (me.textIndentLeft + ' ' + Common.Utils.Metric.fnRecalcFromMM(value.Get_IndLeft()).toFixed(2) + ' ' + Common.Utils.Metric.getCurrentMetricName() + ', ');
                         if (value.Get_IndRight() !== undefined)
-                            proptext += (me.textIndentRight + ' ' + Common.Utils.Metric.fnRecalcFromMM(value.Get_IndRight()).toFixed(2) + ' ' + Common.Utils.Metric.metricName[Common.Utils.Metric.getCurrentMetric()] + ', ');
+                            proptext += (me.textIndentRight + ' ' + Common.Utils.Metric.fnRecalcFromMM(value.Get_IndRight()).toFixed(2) + ' ' + Common.Utils.Metric.getCurrentMetricName() + ', ');
                         if (value.Get_IndFirstLine() !== undefined)
-                            proptext += (me.textFirstLine + ' ' + Common.Utils.Metric.fnRecalcFromMM(value.Get_IndFirstLine()).toFixed(2) + ' ' + Common.Utils.Metric.metricName[Common.Utils.Metric.getCurrentMetric()] + ', ');
+                            proptext += (me.textFirstLine + ' ' + Common.Utils.Metric.fnRecalcFromMM(value.Get_IndFirstLine()).toFixed(2) + ' ' + Common.Utils.Metric.getCurrentMetricName() + ', ');
                         if (value.Get_Jc() !== undefined) {
                             switch (value.Get_Jc()) {
                                 case 0:
@@ -302,16 +334,16 @@ define([
                         if (value.Get_SpacingLineRule() !== undefined && value.Get_SpacingLine() !== undefined) {
                             proptext += me.textLineSpacing;
                             proptext += (((value.Get_SpacingLineRule() == c_paragraphLinerule.LINERULE_LEAST) ? me.textAtLeast : ((value.Get_SpacingLineRule() == c_paragraphLinerule.LINERULE_AUTO) ? me.textMultiple : me.textExact)) + ' ');
-                            proptext += (((value.Get_SpacingLineRule()==c_paragraphLinerule.LINERULE_AUTO) ? value.Get_SpacingLine() : Common.Utils.Metric.fnRecalcFromMM(value.Get_SpacingLine()).toFixed(2) + ' ' + Common.Utils.Metric.metricName[Common.Utils.Metric.getCurrentMetric()]) + ', ');
+                            proptext += (((value.Get_SpacingLineRule()==c_paragraphLinerule.LINERULE_AUTO) ? value.Get_SpacingLine() : Common.Utils.Metric.fnRecalcFromMM(value.Get_SpacingLine()).toFixed(2) + ' ' + Common.Utils.Metric.getCurrentMetricName()) + ', ');
                         }
                         if (value.Get_SpacingBeforeAutoSpacing())
                             proptext += (me.textSpacingBefore + ' ' + me.textAuto +', ');
                         else if (value.Get_SpacingBefore() !== undefined)
-                            proptext += (me.textSpacingBefore + ' ' + Common.Utils.Metric.fnRecalcFromMM(value.Get_SpacingBefore()).toFixed(2) + ' ' + Common.Utils.Metric.metricName[Common.Utils.Metric.getCurrentMetric()] + ', ');
+                            proptext += (me.textSpacingBefore + ' ' + Common.Utils.Metric.fnRecalcFromMM(value.Get_SpacingBefore()).toFixed(2) + ' ' + Common.Utils.Metric.getCurrentMetricName() + ', ');
                         if (value.Get_SpacingAfterAutoSpacing())
                             proptext += (me.textSpacingAfter + ' ' + me.textAuto +', ');
                         else if (value.Get_SpacingAfter() !== undefined)
-                            proptext += (me.textSpacingAfter + ' ' + Common.Utils.Metric.fnRecalcFromMM(value.Get_SpacingAfter()).toFixed(2) + ' ' + Common.Utils.Metric.metricName[Common.Utils.Metric.getCurrentMetric()] + ', ');
+                            proptext += (me.textSpacingAfter + ' ' + Common.Utils.Metric.fnRecalcFromMM(value.Get_SpacingAfter()).toFixed(2) + ' ' + Common.Utils.Metric.getCurrentMetricName() + ', ');
                         if (value.Get_WidowControl())
                             proptext += ((value.Get_WidowControl() ? me.textWidow : me.textNoWidow) + ', ');
                         if (value.Get_Tabs() !== undefined)

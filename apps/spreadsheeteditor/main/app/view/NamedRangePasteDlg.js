@@ -1,3 +1,35 @@
+/*
+ *
+ * (c) Copyright Ascensio System Limited 2010-2016
+ *
+ * This program is a free software product. You can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License (AGPL)
+ * version 3 as published by the Free Software Foundation. In accordance with
+ * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
+ * that Ascensio System SIA expressly excludes the warranty of non-infringement
+ * of any third-party rights.
+ *
+ * This program is distributed WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
+ * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ *
+ * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
+ * EU, LV-1021.
+ *
+ * The  interactive user interfaces in modified source and object code versions
+ * of the Program must display Appropriate Legal Notices, as required under
+ * Section 5 of the GNU AGPL version 3.
+ *
+ * Pursuant to Section 7(b) of the License you must retain the original Product
+ * logo when distributing the program. Pursuant to Section 7(e) we decline to
+ * grant you any rights under trademark law for use of our trademarks.
+ *
+ * All the Product's GUI elements, including illustrations and icon sets, as
+ * well as technical writing content are licensed under the terms of the
+ * Creative Commons Attribution-ShareAlike 4.0 International. See the License
+ * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ *
+*/
 /**
  *
  *  NamedRangePasteDlg.js
@@ -80,6 +112,7 @@ define([
                 return (n1<n2) ? -1 : 1;
             };
             this.rangeList.on('item:dblclick', _.bind(this.onDblClickFunction, this));
+            this.rangeList.on('entervalue', _.bind(this.onPrimary, this));
 
             this.afterRender();
         },
@@ -90,7 +123,7 @@ define([
 
         _setDefaults: function () {
             if (this.ranges) {
-                var arr = [], prev_name='';
+                var me = this, arr = [], prev_name='';
                 for (var i=0; i<this.ranges.length; i++) {
                     var name = this.ranges[i].asc_getName();
                     if (name !== prev_name) {
@@ -107,6 +140,11 @@ define([
                 this.rangeList.store.sort();
                 if (this.rangeList.store.length>0)
                     this.rangeList.selectByIndex(0);
+                this.rangeList.scroller.update({alwaysVisibleY: true});
+
+                _.delay(function () {
+                    me.rangeList.cmpEl.find('.listview').focus();
+                }, 100, this);
             }
         },
 
@@ -116,7 +154,9 @@ define([
         },
 
         onPrimary: function() {
-            return true;
+            this.handler && this.handler.call(this, 'ok', this.getSettings());
+            this.close();
+            return false;
         },
 
         onDlgBtnClick: function(event) {

@@ -1,3 +1,35 @@
+/*
+ *
+ * (c) Copyright Ascensio System Limited 2010-2016
+ *
+ * This program is a free software product. You can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License (AGPL)
+ * version 3 as published by the Free Software Foundation. In accordance with
+ * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
+ * that Ascensio System SIA expressly excludes the warranty of non-infringement
+ * of any third-party rights.
+ *
+ * This program is distributed WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
+ * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ *
+ * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
+ * EU, LV-1021.
+ *
+ * The  interactive user interfaces in modified source and object code versions
+ * of the Program must display Appropriate Legal Notices, as required under
+ * Section 5 of the GNU AGPL version 3.
+ *
+ * Pursuant to Section 7(b) of the License you must retain the original Product
+ * logo when distributing the program. Pursuant to Section 7(e) we decline to
+ * grant you any rights under trademark law for use of our trademarks.
+ *
+ * All the Product's GUI elements, including illustrations and icon sets, as
+ * well as technical writing content are licensed under the terms of the
+ * Creative Commons Attribution-ShareAlike 4.0 International. See the License
+ * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ *
+*/
 /**
  *  Toolbar.js
  *
@@ -47,7 +79,8 @@ define([
         noParagraphSelected:  'no-paragraph',
         noObjectSelected:  'no-object',
         disableOnStart: 'on-start',
-        cantPrint:      'cant-print'
+        cantPrint:      'cant-print',
+        noTextSelected:  'no-text'
     };
 
     PE.Views.Toolbar =  Backbone.View.extend(_.extend({
@@ -250,7 +283,7 @@ define([
                 menuCls     : 'scrollable-menu',
                 menuStyle   : 'min-width: 325px;',
                 hint        : me.tipFontName,
-                lock        : [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected],
+                lock        : [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noTextSelected, _set.shapeLock],
                 store       : new Common.Collections.Fonts()
             });
             me.paragraphControls.push(me.cmbFontName);
@@ -259,7 +292,7 @@ define([
                 cls         : 'input-group-nr',
                 menuStyle   : 'min-width: 55px;',
                 hint        : me.tipFontSize,
-                lock        : [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected],
+                lock        : [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noTextSelected, _set.shapeLock],
                 data        : [
                     { value: 8, displayValue: "8" },
                     { value: 9, displayValue: "9" },
@@ -285,7 +318,7 @@ define([
                 id          : 'id-toolbar-btn-bold',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-bold',
-                lock        : [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected],
+                lock        : [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noTextSelected, _set.shapeLock],
                 hint        : me.textBold + Common.Utils.String.platformKey('Ctrl+B'),
                 enableToggle: true
             });
@@ -295,7 +328,7 @@ define([
                 id          : 'id-toolbar-btn-italic',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-italic',
-                lock        : [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected],
+                lock        : [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noTextSelected, _set.shapeLock],
                 hint        : me.textItalic + Common.Utils.String.platformKey('Ctrl+I'),
                 enableToggle: true
             });
@@ -305,7 +338,7 @@ define([
                 id          : 'id-toolbar-btn-underline',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-underline',
-                lock        : [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected],
+                lock        : [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noTextSelected, _set.shapeLock],
                 hint        : me.textUnderline + Common.Utils.String.platformKey('Ctrl+U'),
                 enableToggle: true
             });
@@ -315,7 +348,7 @@ define([
                 id          : 'id-toolbar-btn-strikeout',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-strikeout',
-                lock        : [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected],
+                lock        : [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noTextSelected, _set.shapeLock],
                 hint        : me.textStrikeout,
                 enableToggle: true
             });
@@ -325,7 +358,7 @@ define([
                 id          : 'id-toolbar-btn-superscript',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-superscript',
-                lock        : [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected],
+                lock        : [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noTextSelected, _set.shapeLock],
                 hint        : me.textSuperscript,
                 enableToggle: true,
                 toggleGroup : 'superscriptGroup'
@@ -336,7 +369,7 @@ define([
                 id          : 'id-toolbar-btn-subscript',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-subscript',
-                lock        : [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected],
+                lock        : [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noTextSelected, _set.shapeLock],
                 hint        : me.textSubscript,
                 enableToggle: true,
                 toggleGroup : 'superscriptGroup'
@@ -347,7 +380,7 @@ define([
                 id          : 'id-toolbar-btn-fontcolor',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-fontcolor',
-                lock        : [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected],
+                lock        : [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noTextSelected, _set.shapeLock],
                 hint        : me.tipFontColor,
                 split       : true,
                 menu        : new Common.UI.Menu({
@@ -536,7 +569,7 @@ define([
                             icls        : 'btn-align-top',
                             checkable   : true,
                             toggleGroup : 'valignGroup',
-                            value       : c_oAscVerticalTextAlign.TEXT_ALIGN_TOP
+                            value       : Asc.c_oAscVerticalTextAlign.TEXT_ALIGN_TOP
                         },
                         {
                             caption     : me.textAlignMiddle,
@@ -544,7 +577,7 @@ define([
                             icls        : 'btn-align-middle',
                             checkable   : true,
                             toggleGroup : 'valignGroup',
-                            value       : c_oAscVerticalTextAlign.TEXT_ALIGN_CTR,
+                            value       : Asc.c_oAscVerticalTextAlign.TEXT_ALIGN_CTR,
                             checked     : true
                         },
                         {
@@ -553,7 +586,7 @@ define([
                             icls        : 'btn-align-bottom',
                             checkable   : true,
                             toggleGroup : 'valignGroup',
-                            value       : c_oAscVerticalTextAlign.TEXT_ALIGN_BOTTOM
+                            value       : Asc.c_oAscVerticalTextAlign.TEXT_ALIGN_BOTTOM
                         }
                     ]
                 })
@@ -664,31 +697,31 @@ define([
                         { id: 'menu-chart-group-stock',   caption: me.textStock }
                     ]),
                     store: new Common.UI.DataViewStore([
-                        { group: 'menu-chart-group-bar',     type: c_oAscChartTypeSettings.barNormal,          allowSelected: true, iconCls: 'column-normal', selected: true},
-                        { group: 'menu-chart-group-bar',     type: c_oAscChartTypeSettings.barStacked,         allowSelected: true, iconCls: 'column-stack'},
-                        { group: 'menu-chart-group-bar',     type: c_oAscChartTypeSettings.barStackedPer,      allowSelected: true, iconCls: 'column-pstack'},
-                        { group: 'menu-chart-group-bar',     type: c_oAscChartTypeSettings.barNormal3d,        allowSelected: true, iconCls: 'column-3d-normal'},
-                        { group: 'menu-chart-group-bar',     type: c_oAscChartTypeSettings.barStacked3d,       allowSelected: true, iconCls: 'column-3d-stack'},
-                        { group: 'menu-chart-group-bar',     type: c_oAscChartTypeSettings.barStackedPer3d,    allowSelected: true, iconCls: 'column-3d-pstack'},
-                        { group: 'menu-chart-group-bar',     type: c_oAscChartTypeSettings.barNormal3dPerspective,    allowSelected: true, iconCls: 'column-3d-normal-per'},
-                        { group: 'menu-chart-group-line',    type: c_oAscChartTypeSettings.lineNormal,         allowSelected: true, iconCls: 'line-normal'},
-                        { group: 'menu-chart-group-line',    type: c_oAscChartTypeSettings.lineStacked,        allowSelected: true, iconCls: 'line-stack'},
-                        { group: 'menu-chart-group-line',    type: c_oAscChartTypeSettings.lineStackedPer,     allowSelected: true, iconCls: 'line-pstack'},
-                        { group: 'menu-chart-group-line',    type: c_oAscChartTypeSettings.line3d,             allowSelected: true, iconCls: 'line-3d'},
-                        { group: 'menu-chart-group-pie',     type: c_oAscChartTypeSettings.pie,                allowSelected: true, iconCls: 'pie-normal'},
-                        { group: 'menu-chart-group-pie',     type: c_oAscChartTypeSettings.doughnut,           allowSelected: true, iconCls: 'pie-doughnut'},
-                        { group: 'menu-chart-group-pie',     type: c_oAscChartTypeSettings.pie3d,              allowSelected: true, iconCls: 'pie-3d-normal'},
-                        { group: 'menu-chart-group-hbar',    type: c_oAscChartTypeSettings.hBarNormal,         allowSelected: true, iconCls: 'bar-normal'},
-                        { group: 'menu-chart-group-hbar',    type: c_oAscChartTypeSettings.hBarStacked,        allowSelected: true, iconCls: 'bar-stack'},
-                        { group: 'menu-chart-group-hbar',    type: c_oAscChartTypeSettings.hBarStackedPer,     allowSelected: true, iconCls: 'bar-pstack'},
-                        { group: 'menu-chart-group-hbar',    type: c_oAscChartTypeSettings.hBarNormal3d,       allowSelected: true, iconCls: 'bar-3d-normal'},
-                        { group: 'menu-chart-group-hbar',    type: c_oAscChartTypeSettings.hBarStacked3d,      allowSelected: true, iconCls: 'bar-3d-stack'},
-                        { group: 'menu-chart-group-hbar',    type: c_oAscChartTypeSettings.hBarStackedPer3d,   allowSelected: true, iconCls: 'bar-3d-pstack'},
-                        { group: 'menu-chart-group-area',    type: c_oAscChartTypeSettings.areaNormal,         allowSelected: true, iconCls: 'area-normal'},
-                        { group: 'menu-chart-group-area',    type: c_oAscChartTypeSettings.areaStacked,        allowSelected: true, iconCls: 'area-stack'},
-                        { group: 'menu-chart-group-area',    type: c_oAscChartTypeSettings.areaStackedPer,     allowSelected: true, iconCls: 'area-pstack'},
-                        { group: 'menu-chart-group-scatter', type: c_oAscChartTypeSettings.scatter,            allowSelected: true, iconCls: 'point-normal'},
-                        { group: 'menu-chart-group-stock',   type: c_oAscChartTypeSettings.stock,              allowSelected: true, iconCls: 'stock-normal'}
+                        { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barNormal,          allowSelected: true, iconCls: 'column-normal', selected: true},
+                        { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barStacked,         allowSelected: true, iconCls: 'column-stack'},
+                        { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barStackedPer,      allowSelected: true, iconCls: 'column-pstack'},
+                        { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barNormal3d,        allowSelected: true, iconCls: 'column-3d-normal'},
+                        { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barStacked3d,       allowSelected: true, iconCls: 'column-3d-stack'},
+                        { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barStackedPer3d,    allowSelected: true, iconCls: 'column-3d-pstack'},
+                        { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barNormal3dPerspective,    allowSelected: true, iconCls: 'column-3d-normal-per'},
+                        { group: 'menu-chart-group-line',    type: Asc.c_oAscChartTypeSettings.lineNormal,         allowSelected: true, iconCls: 'line-normal'},
+                        { group: 'menu-chart-group-line',    type: Asc.c_oAscChartTypeSettings.lineStacked,        allowSelected: true, iconCls: 'line-stack'},
+                        { group: 'menu-chart-group-line',    type: Asc.c_oAscChartTypeSettings.lineStackedPer,     allowSelected: true, iconCls: 'line-pstack'},
+                        { group: 'menu-chart-group-line',    type: Asc.c_oAscChartTypeSettings.line3d,             allowSelected: true, iconCls: 'line-3d'},
+                        { group: 'menu-chart-group-pie',     type: Asc.c_oAscChartTypeSettings.pie,                allowSelected: true, iconCls: 'pie-normal'},
+                        { group: 'menu-chart-group-pie',     type: Asc.c_oAscChartTypeSettings.doughnut,           allowSelected: true, iconCls: 'pie-doughnut'},
+                        { group: 'menu-chart-group-pie',     type: Asc.c_oAscChartTypeSettings.pie3d,              allowSelected: true, iconCls: 'pie-3d-normal'},
+                        { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarNormal,         allowSelected: true, iconCls: 'bar-normal'},
+                        { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarStacked,        allowSelected: true, iconCls: 'bar-stack'},
+                        { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarStackedPer,     allowSelected: true, iconCls: 'bar-pstack'},
+                        { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarNormal3d,       allowSelected: true, iconCls: 'bar-3d-normal'},
+                        { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarStacked3d,      allowSelected: true, iconCls: 'bar-3d-stack'},
+                        { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarStackedPer3d,   allowSelected: true, iconCls: 'bar-3d-pstack'},
+                        { group: 'menu-chart-group-area',    type: Asc.c_oAscChartTypeSettings.areaNormal,         allowSelected: true, iconCls: 'area-normal'},
+                        { group: 'menu-chart-group-area',    type: Asc.c_oAscChartTypeSettings.areaStacked,        allowSelected: true, iconCls: 'area-stack'},
+                        { group: 'menu-chart-group-area',    type: Asc.c_oAscChartTypeSettings.areaStackedPer,     allowSelected: true, iconCls: 'area-pstack'},
+                        { group: 'menu-chart-group-scatter', type: Asc.c_oAscChartTypeSettings.scatter,            allowSelected: true, iconCls: 'point-normal'},
+                        { group: 'menu-chart-group-stock',   type: Asc.c_oAscChartTypeSettings.stock,              allowSelected: true, iconCls: 'stock-normal'}
                     ]),
                     itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist <%= iconCls %>"></div>')
                 })
@@ -865,32 +898,32 @@ define([
                         {
                             caption : me.textShapeAlignLeft,
                             iconCls : 'mnu-shape-align-left',
-                            value   : c_oAscAlignShapeType.ALIGN_LEFT
+                            value   : Asc.c_oAscAlignShapeType.ALIGN_LEFT
                         },
                         {
                             caption : me.textShapeAlignCenter,
                             iconCls : 'mnu-shape-align-center',
-                            value   : c_oAscAlignShapeType.ALIGN_CENTER
+                            value   : Asc.c_oAscAlignShapeType.ALIGN_CENTER
                         },
                         {
                             caption : me.textShapeAlignRight,
                             iconCls : 'mnu-shape-align-right',
-                            value   : c_oAscAlignShapeType.ALIGN_RIGHT
+                            value   : Asc.c_oAscAlignShapeType.ALIGN_RIGHT
                         },
                         {
                             caption : me.textShapeAlignTop,
                             iconCls : 'mnu-shape-align-top',
-                            value   : c_oAscAlignShapeType.ALIGN_TOP
+                            value   : Asc.c_oAscAlignShapeType.ALIGN_TOP
                         },
                         {
                             caption : me.textShapeAlignMiddle,
                             iconCls : 'mnu-shape-align-middle',
-                            value   : c_oAscAlignShapeType.ALIGN_MIDDLE
+                            value   : Asc.c_oAscAlignShapeType.ALIGN_MIDDLE
                         },
                         {
                             caption : me.textShapeAlignBottom,
                             iconCls : 'mnu-shape-align-bottom',
-                            value   : c_oAscAlignShapeType.ALIGN_BOTTOM
+                            value   : Asc.c_oAscAlignShapeType.ALIGN_BOTTOM
                         },
                         {caption: '--' },
                         {

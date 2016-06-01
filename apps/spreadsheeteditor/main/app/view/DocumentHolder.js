@@ -1,3 +1,35 @@
+/*
+ *
+ * (c) Copyright Ascensio System Limited 2010-2016
+ *
+ * This program is a free software product. You can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License (AGPL)
+ * version 3 as published by the Free Software Foundation. In accordance with
+ * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
+ * that Ascensio System SIA expressly excludes the warranty of non-infringement
+ * of any third-party rights.
+ *
+ * This program is distributed WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
+ * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ *
+ * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
+ * EU, LV-1021.
+ *
+ * The  interactive user interfaces in modified source and object code versions
+ * of the Program must display Appropriate Legal Notices, as required under
+ * Section 5 of the GNU AGPL version 3.
+ *
+ * Pursuant to Section 7(b) of the License you must retain the original Product
+ * logo when distributing the program. Pursuant to Section 7(e) we decline to
+ * grant you any rights under trademark law for use of our trademarks.
+ *
+ * All the Product's GUI elements, including illustrations and icon sets, as
+ * well as technical writing content are licensed under the terms of the
+ * Creative Commons Attribution-ShareAlike 4.0 International. See the License
+ * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ *
+*/
 /**
  *  DocumentHolder.js
  *
@@ -72,6 +104,19 @@ define([
                 value       : 'paste'
             });
 
+            me.pmiSelectTable = new Common.UI.MenuItem({
+                caption     : me.txtSelect,
+                menu        : new Common.UI.Menu({
+                    menuAlign   : 'tl-tr',
+                    items: [
+                        { caption: this.selectRowText,      value:  Asc.c_oAscChangeSelectionFormatTable.row},
+                        { caption: this.selectColumnText,   value: Asc.c_oAscChangeSelectionFormatTable.column},
+                        { caption: this.selectDataText,     value: Asc.c_oAscChangeSelectionFormatTable.data},
+                        { caption: this.selectTableText,    value: Asc.c_oAscChangeSelectionFormatTable.all}
+                    ]
+                })
+            });
+
             me.pmiInsertEntire = new Common.UI.MenuItem({
                 caption     : me.txtInsert
             });
@@ -83,17 +128,30 @@ define([
                     items: [
                         {
                             caption : me.txtShiftRight,
-                            value   : c_oAscInsertOptions.InsertCellsAndShiftRight
+                            value   : Asc.c_oAscInsertOptions.InsertCellsAndShiftRight
                         },{
                             caption : me.txtShiftDown,
-                            value   : c_oAscInsertOptions.InsertCellsAndShiftDown
+                            value   : Asc.c_oAscInsertOptions.InsertCellsAndShiftDown
                         },{
                             caption : me.txtRow,
-                            value   : c_oAscInsertOptions.InsertRows
+                            value   : Asc.c_oAscInsertOptions.InsertRows
                         },{
                             caption : me.txtColumn,
-                            value   : c_oAscInsertOptions.InsertColumns
+                            value   : Asc.c_oAscInsertOptions.InsertColumns
                         }
+                    ]
+                })
+            });
+            
+            me.pmiInsertTable = new Common.UI.MenuItem({
+                caption     : me.txtInsert,
+                menu        : new Common.UI.Menu({
+                    menuAlign   : 'tl-tr',
+                    items: [
+                        { caption: me.insertRowAboveText, value: Asc.c_oAscInsertOptions.InsertTableRowAbove},
+                        { caption: me.insertRowBelowText, value: Asc.c_oAscInsertOptions.InsertTableRowBelow},
+                        { caption: me.insertColumnLeftText,  value: Asc.c_oAscInsertOptions.InsertTableColLeft},
+                        { caption: me.insertColumnRightText, value: Asc.c_oAscInsertOptions.InsertTableColRight}
                     ]
                 })
             });
@@ -109,17 +167,29 @@ define([
                     items: [
                         {
                             caption : me.txtShiftLeft,
-                            value   : c_oAscDeleteOptions.DeleteCellsAndShiftLeft
+                            value   : Asc.c_oAscDeleteOptions.DeleteCellsAndShiftLeft
                         },{
                             caption : me.txtShiftUp,
-                            value   : c_oAscDeleteOptions.DeleteCellsAndShiftTop
+                            value   : Asc.c_oAscDeleteOptions.DeleteCellsAndShiftTop
                         },{
                             caption : me.txtRow,
-                            value   : c_oAscDeleteOptions.DeleteRows
+                            value   : Asc.c_oAscDeleteOptions.DeleteRows
                         },{
                             caption : me.txtColumn,
-                            value   : c_oAscDeleteOptions.DeleteColumns
+                            value   : Asc.c_oAscDeleteOptions.DeleteColumns
                         }
+                    ]
+                })
+            });
+
+            me.pmiDeleteTable = new Common.UI.MenuItem({
+                caption     : me.txtDelete,
+                menu        : new Common.UI.Menu({
+                    menuAlign   : 'tl-tr',
+                    items: [
+                        { caption: this.deleteRowText,      value: Asc.c_oAscDeleteOptions.DeleteRows},
+                        { caption: this.deleteColumnText,   value: Asc.c_oAscDeleteOptions.DeleteColumns},
+                        { caption: this.deleteTableText,    value: Asc.c_oAscDeleteOptions.DeleteTable}
                     ]
                 })
             });
@@ -131,23 +201,23 @@ define([
                     items: [
                         {
                             caption : me.txtClearAll,
-                            value   : c_oAscCleanOptions.All
+                            value   : Asc.c_oAscCleanOptions.All
                         },
                         {
                             caption : me.txtClearText,
-                            value   : c_oAscCleanOptions.Text
+                            value   : Asc.c_oAscCleanOptions.Text
                         },
                         {
                             caption : me.txtClearFormat,
-                            value   : c_oAscCleanOptions.Format
+                            value   : Asc.c_oAscCleanOptions.Format
                         },
                         {
                             caption : me.txtClearComments,
-                            value   : c_oAscCleanOptions.Comments
+                            value   : Asc.c_oAscCleanOptions.Comments
                         },
                         {
                             caption : me.txtClearHyper,
-                            value   : c_oAscCleanOptions.Hyperlinks
+                            value   : Asc.c_oAscCleanOptions.Hyperlinks
                         }
                     ]
                 })
@@ -160,13 +230,42 @@ define([
                     items: [
                         {
                             caption : me.txtAscending,
-                            value   : 'ascending'
+                            value   : Asc.c_oAscSortOptions.Ascending
                         },{
                             caption : me.txtDescending,
-                            value   : 'descending'
+                            value   : Asc.c_oAscSortOptions.Descending
+                        },{
+                            caption : me.txtSortCellColor,
+                            value   : Asc.c_oAscSortOptions.ByColorFill
+                        },{
+                            caption : me.txtSortFontColor,
+                            value   : Asc.c_oAscSortOptions.ByColorFont
                         }
                     ]
                 })
+            });
+
+            me.pmiFilterCells = new Common.UI.MenuItem({
+                caption     : me.txtFilter,
+                menu        : new Common.UI.Menu({
+                    menuAlign   : 'tl-tr',
+                    items: [
+                        {
+                            caption : me.txtFilterValue,
+                            value   : 0
+                        },{
+                            caption : me.txtFilterCellColor,
+                            value   : 1
+                        },{
+                            caption : me.txtFilterFontColor,
+                            value   : 2
+                        }
+                    ]
+                })
+            });
+            
+            me.pmiReapply = new Common.UI.MenuItem({
+                caption     : me.txtReapply
             });
 
             me.pmiInsFunction = new Common.UI.MenuItem({
@@ -241,12 +340,18 @@ define([
                     me.pmiCopy,
                     me.pmiPaste,
                     {caption: '--'},
+                    me.pmiSelectTable,
                     me.pmiInsertEntire,
                     me.pmiInsertCells,
+                    me.pmiInsertTable,
                     me.pmiDeleteEntire,
                     me.pmiDeleteCells,
+                    me.pmiDeleteTable,
                     me.pmiClear,
+                    {caption: '--'},
                     me.pmiSortCells,
+                    me.pmiFilterCells,
+                    me.pmiReapply,
                     {caption: '--'},
                     me.pmiAddComment,
                     me.pmiCellMenuSeparator,
@@ -313,22 +418,22 @@ define([
                         caption : this.textArrangeFront,
                         iconCls : 'mnu-arrange-front',
                         type    : 'arrange',
-                        value   : c_oAscDrawingLayerType.BringToFront
+                        value   : Asc.c_oAscDrawingLayerType.BringToFront
                     },{
                         caption : this.textArrangeBack,
                         iconCls : 'mnu-arrange-back',
                         type    : 'arrange',
-                        value   : c_oAscDrawingLayerType.SendToBack
+                        value   : Asc.c_oAscDrawingLayerType.SendToBack
                     },{
                         caption : this.textArrangeForward,
                         iconCls : 'mnu-arrange-forward',
                         type    : 'arrange',
-                        value   : c_oAscDrawingLayerType.BringForward
+                        value   : Asc.c_oAscDrawingLayerType.BringForward
                     },{
                         caption: this.textArrangeBackward,
                         iconCls : 'mnu-arrange-backward',
                         type    : 'arrange',
-                        value   : c_oAscDrawingLayerType.SendBackward
+                        value   : Asc.c_oAscDrawingLayerType.SendBackward
                     },
                     {caption: '--'},
                     me.mnuGroupImg,
@@ -348,19 +453,19 @@ define([
                             caption     : me.topCellText,
                             checkable   : true,
                             toggleGroup : 'popupparagraphvalign',
-                            value       : c_oAscVerticalTextAlign.TEXT_ALIGN_TOP
+                            value       : Asc.c_oAscVerticalTextAlign.TEXT_ALIGN_TOP
                         }),
                         me.menuParagraphCenter = new Common.UI.MenuItem({
                             caption     : me.centerCellText,
                             checkable   : true,
                             toggleGroup : 'popupparagraphvalign',
-                            value       : c_oAscVerticalTextAlign.TEXT_ALIGN_CTR
+                            value       : Asc.c_oAscVerticalTextAlign.TEXT_ALIGN_CTR
                         }),
                         this.menuParagraphBottom = new Common.UI.MenuItem({
                             caption     : me.bottomCellText,
                             checkable   : true,
                             toggleGroup : 'popupparagraphvalign',
-                            value       : c_oAscVerticalTextAlign.TEXT_ALIGN_BOTTOM
+                            value       : Asc.c_oAscVerticalTextAlign.TEXT_ALIGN_BOTTOM
                         })
                     ]
                 })
@@ -377,7 +482,7 @@ define([
                             checkable   : true,
                             checked     : false,
                             toggleGroup : 'popupparagraphdirect',
-                            direction      : c_oAscVertDrawingText.normal
+                            direction      : Asc.c_oAscVertDrawingText.normal
                         }),
                         me.menuParagraphDirect90 = new Common.UI.MenuItem({
                             caption     : me.direct90Text,
@@ -385,7 +490,7 @@ define([
                             checkable   : true,
                             checked     : false,
                             toggleGroup : 'popupparagraphdirect',
-                            direction      : c_oAscVertDrawingText.vert
+                            direction      : Asc.c_oAscVertDrawingText.vert
                         }),
                         me.menuParagraphDirect270 = new Common.UI.MenuItem({
                             caption     : me.direct270Text,
@@ -393,7 +498,7 @@ define([
                             checkable   : true,
                             checked     : false,
                             toggleGroup : 'popupparagraphdirect',
-                            direction      : c_oAscVertDrawingText.vert270
+                            direction      : Asc.c_oAscVertDrawingText.vert270
                         })
                     ]
                 })
@@ -482,8 +587,6 @@ define([
                     minScrollbarLength  : 40,
                     alwaysVisibleY: true
                 });
-            }).on('show:after', function () {
-                this.scroller.update({alwaysVisibleY: true});
             });
 
             me.fireEvent('createdelayedelements', [me]);
@@ -546,7 +649,25 @@ define([
         direct270Text:          'Rotate at 270°',
         txtAddNamedRange:       'Define Name',
         textFreezePanes:        'Freeze Panes',
-        textUnFreezePanes:      'Unfreeze Panes'
-
+        textUnFreezePanes:      'Unfreeze Panes',
+        txtSelect:              'Select',
+        selectRowText           : 'Select Row',
+        selectColumnText        : 'Select Entire Column',
+        selectDataText          : 'Select Column Data',
+        selectTableText         : 'Select Table',
+        insertRowAboveText      : 'Insert Row Above',
+        insertRowBelowText      : 'Insert Row Below',
+        insertColumnLeftText    : 'Insert Column Left',
+        insertColumnRightText   : 'Insert Column Right',
+        deleteRowText           : 'Delete Row',
+        deleteColumnText        : 'Delete Column',
+        deleteTableText         : 'Delete Table',
+        txtFilter: 'Filter',
+        txtFilterValue: 'Filter by Selected cell\'s value',
+        txtFilterCellColor: 'Filter by cell\'s color',
+        txtFilterFontColor: 'Filter by font color',
+        txtReapply: 'Reapply',
+        txtSortCellColor: 'Selected Cell Color on top',
+        txtSortFontColor: 'Selected Font Color on top'
     }, SSE.Views.DocumentHolder || {}));
 });

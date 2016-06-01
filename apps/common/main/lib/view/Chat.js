@@ -1,3 +1,35 @@
+/*
+ *
+ * (c) Copyright Ascensio System Limited 2010-2016
+ *
+ * This program is a free software product. You can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License (AGPL)
+ * version 3 as published by the Free Software Foundation. In accordance with
+ * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
+ * that Ascensio System SIA expressly excludes the warranty of non-infringement
+ * of any third-party rights.
+ *
+ * This program is distributed WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
+ * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ *
+ * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
+ * EU, LV-1021.
+ *
+ * The  interactive user interfaces in modified source and object code versions
+ * of the Program must display Appropriate Legal Notices, as required under
+ * Section 5 of the GNU AGPL version 3.
+ *
+ * Pursuant to Section 7(b) of the License you must retain the original Product
+ * logo when distributing the program. Pursuant to Section 7(e) we decline to
+ * grant you any rights under trademark law for use of our trademarks.
+ *
+ * All the Product's GUI elements, including illustrations and icon sets, as
+ * well as technical writing content are licensed under the terms of the
+ * Creative Commons Attribution-ShareAlike 4.0 International. See the License
+ * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ *
+*/
 /**
  *    Chat.js
  *
@@ -43,7 +75,7 @@ define([
                     '<% if (msg.get("type")==1) { %>',
                         '<div class="message service" data-can-copy="true"><%= msg.get("message") %></div>',
                     '<% } else { %>',
-                        '<div class="user user-select" data-can-copy="true" style="color: <%= msg.get("usercolor") %>;"><%= scope.getUserName(msg.get("username")) %></div>',
+                        '<div class="user" data-can-copy="true" style="color: <%= msg.get("usercolor") %>;"><%= scope.getUserName(msg.get("username")) %></div>',
                         '<label class="message user-select" data-can-copy="true"><%= msg.get("message") %></label>',
                     '<% } %>',
             '</li>'].join(''),
@@ -79,7 +111,7 @@ define([
 
         render: function(el) {
             el = el || this.el;
-            $(el).html(this.template({scope: this, maxMsgLength: c_oAscMaxCellOrCommentLength}));
+            $(el).html(this.template({scope: this, maxMsgLength: Asc.c_oAscMaxCellOrCommentLength}));
 
             this.panelBox       = $('#chat-box', this.el);
             this.panelUsers     = $('#chat-users', this.el);
@@ -246,6 +278,7 @@ define([
         hide: function () {
             Common.UI.BaseView.prototype.hide.call(this,arguments);
             this.fireEvent('hide', this );
+            this.textBoxAutoSizeLocked = undefined;
         },
 
         setupLayout: function () {
@@ -308,6 +341,7 @@ define([
             // text box setup autosize input text
 
             this.setupAutoSizingTextBox();
+            this.txtMessage.bind('input propertychange',  _.bind(this.updateHeightTextBox, this));
         },
 
         updateLayout: function (applyUsersAutoSizig) {
@@ -341,18 +375,17 @@ define([
             this.lineHeight = parseInt(this.txtMessage.css('lineHeight'), 10) * 1.25;  // TODO: need fix
 
             this.updateHeightTextBox(true);
-            this.txtMessage.bind('input propertychange',  _.bind(this.updateHeightTextBox, this));
         },
 
         updateHeightTextBox: function (event) {
-            var textBox, controlHeight, contentHeight, height,
+            var textBox = this.txtMessage,
+                controlHeight, contentHeight, height,
                 textBoxMinHeightIndent = 36 + 4;    // 4px - autosize line height + big around border
 
-            textBox = $('#chat-msg-text', this.el);
             height = this.panelBox.height();
 
             if (event && 0 == textBox.val().length) {
-                this.layout.setResizeValue(1, Math.max(-this.addMessageBoxHeight, height - this.addMessageBoxHeight));
+                this.layout.setResizeValue(1, Math.max(this.addMessageBoxHeight, height - this.addMessageBoxHeight));
                 this.textBoxAutoSizeLocked = undefined;
                 return;
             }
@@ -375,7 +408,7 @@ define([
             height = this.panelBox.height();
 
             this.layout.setResizeValue(1,
-                Math.max(-this.addMessageBoxHeight,
+                Math.max(this.addMessageBoxHeight,
                     Math.min(height - contentHeight - textBoxMinHeightIndent, height - this.addMessageBoxHeight)));
         },
 

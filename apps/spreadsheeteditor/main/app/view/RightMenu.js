@@ -1,3 +1,35 @@
+/*
+ *
+ * (c) Copyright Ascensio System Limited 2010-2016
+ *
+ * This program is a free software product. You can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License (AGPL)
+ * version 3 as published by the Free Software Foundation. In accordance with
+ * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
+ * that Ascensio System SIA expressly excludes the warranty of non-infringement
+ * of any third-party rights.
+ *
+ * This program is distributed WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
+ * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ *
+ * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
+ * EU, LV-1021.
+ *
+ * The  interactive user interfaces in modified source and object code versions
+ * of the Program must display Appropriate Legal Notices, as required under
+ * Section 5 of the GNU AGPL version 3.
+ *
+ * Pursuant to Section 7(b) of the License you must retain the original Product
+ * logo when distributing the program. Pursuant to Section 7(e) we decline to
+ * grant you any rights under trademark law for use of our trademarks.
+ *
+ * All the Product's GUI elements, including illustrations and icon sets, as
+ * well as technical writing content are licensed under the terms of the
+ * Creative Commons Attribution-ShareAlike 4.0 International. See the License
+ * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ *
+*/
 /**
  *  RightMenu.js
  *
@@ -22,6 +54,7 @@ define([
     'spreadsheeteditor/main/app/view/ChartSettings',
     'spreadsheeteditor/main/app/view/ShapeSettings',
     'spreadsheeteditor/main/app/view/TextArtSettings',
+    'spreadsheeteditor/main/app/view/TableSettings',
     'common/main/lib/component/Scroller'
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
@@ -76,12 +109,21 @@ define([
                 toggleGroup: 'tabpanelbtnsGroup'
             });
 
+            this.btnTable = new Common.UI.Button({
+                hint: this.txtTableSettings,
+                asctype: Common.Utils.documentSettingsType.Table,
+                enableToggle: true,
+                disabled: true,
+                toggleGroup: 'tabpanelbtnsGroup'
+            });
+
             this._settings = [];
             this._settings[Common.Utils.documentSettingsType.Paragraph]   = {panel: "id-paragraph-settings",  btn: this.btnText};
             this._settings[Common.Utils.documentSettingsType.Image]       = {panel: "id-image-settings",      btn: this.btnImage};
             this._settings[Common.Utils.documentSettingsType.Shape]       = {panel: "id-shape-settings",      btn: this.btnShape};
             this._settings[Common.Utils.documentSettingsType.Chart]       = {panel: "id-chart-settings",      btn: this.btnChart};
             this._settings[Common.Utils.documentSettingsType.TextArt]     = {panel: "id-textart-settings",    btn: this.btnTextArt};
+            this._settings[Common.Utils.documentSettingsType.Table]       = {panel: "id-table-settings",      btn: this.btnTable};
 
             return this;
         },
@@ -102,18 +144,21 @@ define([
             this.btnChart.el        = $('#id-right-menu-chart');    this.btnChart.render();
             this.btnShape.el        = $('#id-right-menu-shape');    this.btnShape.render();
             this.btnTextArt.el      = $('#id-right-menu-textart');  this.btnTextArt.render();
+            this.btnTable.el        = $('#id-right-menu-table');    this.btnTable.render();
 
             this.btnText.on('click',            _.bind(this.onBtnMenuClick, this));
             this.btnImage.on('click',           _.bind(this.onBtnMenuClick, this));
             this.btnChart.on('click',           _.bind(this.onBtnMenuClick, this));
             this.btnShape.on('click',           _.bind(this.onBtnMenuClick, this));
             this.btnTextArt.on('click',         _.bind(this.onBtnMenuClick, this));
+            this.btnTable.on('click',           _.bind(this.onBtnMenuClick, this));
 
             this.paragraphSettings = new SSE.Views.ParagraphSettings();
             this.imageSettings = new SSE.Views.ImageSettings();
             this.chartSettings = new SSE.Views.ChartSettings();
             this.shapeSettings = new SSE.Views.ShapeSettings();
             this.textartSettings = new SSE.Views.TextArtSettings();
+            this.tableSettings = new SSE.Views.TableSettings();
 
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
@@ -135,6 +180,7 @@ define([
             this.chartSettings.setApi(api);
             this.shapeSettings.setApi(api);
             this.textartSettings.setApi(api);
+            this.tableSettings.setApi(api);
         },
 
         setMode: function(mode) {
@@ -150,7 +196,7 @@ define([
                     $(this.el).width(MENU_SCALE_PART);
                     target_pane_parent.css("display", "inline-block" );
                     this.minimizedMode = false;
-                    Common.localStorage.setItem("sse-hidden-right-settings", 0);
+                    Common.localStorage.setItem("sse-hide-right-settings", 0);
                 }
                 target_pane_parent.find('> .active').removeClass('active');
                 target_pane.addClass("active");
@@ -162,7 +208,7 @@ define([
                 target_pane_parent.css("display", "none" );
                 $(this.el).width(SCALE_MIN);
                 this.minimizedMode = true;
-                Common.localStorage.setItem("sse-hidden-right-settings", 1);
+                Common.localStorage.setItem("sse-hide-right-settings", 1);
             }
 
             this.fireEvent('rightmenuclick', [this, btn.options.asctype, this.minimizedMode]);
@@ -191,21 +237,6 @@ define([
             return (this.minimizedMode) ? null : $(".settings-panel.active")[0].id;
         },
 
-        SetDisabled: function(id, disabled, all) {
-            if (all) {
-                this.paragraphSettings.disableControls(disabled);
-                this.shapeSettings.disableControls(disabled);
-                this.imageSettings.disableControls(disabled);
-                this.chartSettings.disableControls(disabled);
-            } else {
-                var cmp = $("#" + id);
-                if (disabled !== cmp.hasClass('disabled')) {
-                    cmp.toggleClass('disabled', disabled);
-                    (disabled) ? cmp.attr({disabled: disabled}) : cmp.removeAttr('disabled');
-                }
-            }
-        },
-
         clearSelection: function() {
             var target_pane = $(".right-panel");
             target_pane.find('> .active').removeClass('active');
@@ -216,7 +247,6 @@ define([
             target_pane.css("display", "none" );
             $(this.el).width(SCALE_MIN);
             this.minimizedMode = true;
-            Common.localStorage.setItem("sse-hidden-right-settings", 1);
             Common.NotificationCenter.trigger('layout:changed', 'rightmenu');
         },
 
@@ -224,6 +254,7 @@ define([
         txtImageSettings:           'Image Settings',
         txtShapeSettings:           'Shape Settings',
         txtTextArtSettings:         'Text Art Settings',
-        txtChartSettings:           'Chart Settings'
+        txtChartSettings:           'Chart Settings',
+        txtTableSettings:           'Table Settings'
     }, SSE.Views.RightMenu || {}));
 });
