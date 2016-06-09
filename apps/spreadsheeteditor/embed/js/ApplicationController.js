@@ -247,6 +247,10 @@ var ApplicationController = new(function(){
     }
 
     function onPrintUrl(url) {
+        if (iframePrint) {
+            iframePrint.parentNode.removeChild(iframePrint);
+            iframePrint = null;
+        }
         if (!iframePrint) {
             iframePrint = document.createElement("iframe");
             iframePrint.id = "id-print-frame";
@@ -259,6 +263,8 @@ var ApplicationController = new(function(){
             iframePrint.onload = function() {
                 iframePrint.contentWindow.focus();
                 iframePrint.contentWindow.print();
+                iframePrint.contentWindow.blur();
+                window.focus();
             };
         }
         if (url) iframePrint.src = url;
