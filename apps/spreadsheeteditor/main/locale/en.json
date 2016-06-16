@@ -654,7 +654,7 @@
   "SSE.Views.NamedRangeEditDlg.strWorkbook": "Workbook",
   "SSE.Views.NamedRangeEditDlg.textDataRange": "Data Range",
   "SSE.Views.NamedRangeEditDlg.textExistName": "ERROR! Range with such a name already exists",
-  "SSE.Views.NamedRangeEditDlg.textInvalidName": "ERROR! Invalid range name",
+  "SSE.Views.NamedRangeEditDlg.textInvalidName": "The name must begin with a letter or an underscore and must not contain invalid characters.",
   "SSE.Views.NamedRangeEditDlg.textInvalidRange": "ERROR! Invalid cell range",
   "SSE.Views.NamedRangeEditDlg.textIsLocked": "ERROR! This element is being edited by another user.",
   "SSE.Views.NamedRangeEditDlg.textName": "Name",
