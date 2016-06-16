@@ -711,7 +711,7 @@ define([
                 this.appOptions.canCoAuthoring = true;
                 /** coauthoring end **/
                 this.appOptions.isOffline      = this.api.asc_isOffline();
-                this.appOptions.canLicense     = true || (params.asc_getCanLicense ? params.asc_getCanLicense() : false);
+                this.appOptions.canLicense     = params.asc_getCanLicense ? params.asc_getCanLicense() : false;
                 this.appOptions.canEdit        = this.permissions.edit !== false && // can edit
                                                  (this.editorConfig.canRequestEditRights || this.editorConfig.mode !== 'view'); // if mode=="view" -> canRequestEditRights must be defined
                 this.appOptions.isEdit         = this.appOptions.canLicense && this.appOptions.canEdit && this.editorConfig.mode !== 'view';
