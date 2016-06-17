@@ -356,7 +356,7 @@ define([
 
         txtPrev: 'Previous Slide',
         txtNext: 'Next Slide',
-        txtClose: 'Close Preview',
+        txtClose: 'Close Slideshow',
         goToSlideText    : 'Go to Slide',
         slideIndexText   : 'Slide {0} of {1}',
         txtPlay: 'Start Presentation',

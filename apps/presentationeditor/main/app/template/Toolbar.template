@@ -6,7 +6,7 @@
     <div class="toolbar-group">
         <div class="toolbar-row">
             <span class="btn-placeholder split" id="id-toolbar-short-placeholder-btn-addslide"></span>
-            <span class="btn-placeholder" id="id-toolbar-short-placeholder-btn-preview"></span>
+            <span class="btn-placeholder split" id="id-toolbar-short-placeholder-btn-preview"></span>
         </div>
     </div>
     <div class="separator short"></div>

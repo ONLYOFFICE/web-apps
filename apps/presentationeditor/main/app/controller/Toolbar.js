@@ -49,7 +49,8 @@ define([
     'common/main/lib/view/InsertTableDialog',
     'presentationeditor/main/app/view/Toolbar',
     'presentationeditor/main/app/view/HyperlinkSettingsDialog',
-    'presentationeditor/main/app/view/SlideSizeSettings'
+    'presentationeditor/main/app/view/SlideSizeSettings',
+    'presentationeditor/main/app/view/SlideshowSettings'
 ], function () { 'use strict';
 
     PE.Controllers.Toolbar = Backbone.Controller.extend(_.extend({
@@ -184,7 +185,8 @@ define([
             toolbar.mnuAddSlidePicker.on('item:click',                  _.bind(this.onAddSlide, this));
             if (toolbar.mnuChangeSlidePicker)
                 toolbar.mnuChangeSlidePicker.on('item:click',           _.bind(this.onChangeSlide, this));
-            toolbar.btnPreview.on('click',                              _.bind(this.onPreview, this));
+            toolbar.btnPreview.on('click',                              _.bind(this.onPreviewBtnClick, this));
+            toolbar.btnPreview.menu.on('item:click',                    _.bind(this.onPreviewItemClick, this));
             toolbar.btnPrint.on('click',                                _.bind(this.onPrint, this));
             toolbar.btnSave.on('click',                                 _.bind(this.onSave, this));
             toolbar.btnUndo.on('click',                                 _.bind(this.onUndo, this));
@@ -746,17 +748,14 @@ define([
             }
         },
 
-        onPreview: function(btn, e) {
+        onPreview: function(slidenum) {
             var previewPanel = PE.getController('Viewport').getView('DocumentPreview'),
                 me = this;
             if (previewPanel && me.api) {
                 previewPanel.show();
                 var onWindowResize = function() {
                     Common.NotificationCenter.off('window:resize', onWindowResize);
-
-                    var current = me.api.getCurrentPage();
-                    me.api.StartDemonstration('presentation-preview', _.isNumber(current) ? current : 0);
-
+                    me.api.StartDemonstration('presentation-preview', _.isNumber(slidenum) ? slidenum : 0);
                     Common.component.Analytics.trackEvent('ToolBar', 'Preview');
                 };
                 if (!me.toolbar.mode.isDesktopApp) {
@@ -781,6 +780,57 @@ define([
             }
         },
 
+        onPreviewBtnClick: function(btn, e) {
+            this.onPreview(this.api.getCurrentPage());
+        },
+
+        onPreviewItemClick: function(menu, item) {
+            switch (item.value) {
+                case 0:
+                    this.onPreview(0);
+                break;
+                case 1:
+                    this.onPreview(this.api.getCurrentPage());
+                break;
+                case 2:
+                    var win,
+                        me = this,
+                        selectedElements = me.api.getSelectedElements(),
+                        loop = false;
+                    if (selectedElements && _.isArray(selectedElements)){
+                        for (var i=0; i<selectedElements.length; i++) {
+                            if (Asc.c_oAscTypeSelectElement.Slide == selectedElements[i].get_ObjectType()) {
+                                var elValue = selectedElements[i].get_ObjectValue(),
+                                    timing = elValue.get_timing();
+                                if (timing)
+                                    loop = timing.get_ShowLoop();
+                            }
+                        }
+                    }
+
+                    var handlerDlg = function(dlg, result) {
+                        if (result == 'ok') {
+                            loop = dlg.getSettings();
+                            if (me.api) {
+                                var props = new Asc.CAscSlideProps();
+                                var timing = new Asc.CAscSlideTiming();
+                                timing.put_ShowLoop(loop);
+                                props.put_timing(timing);
+                                me.api.SetSlideProps(props);
+                            }
+                        }
+                        Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                    };
+
+                    win = new PE.Views.SlideshowSettings({
+                        handler: handlerDlg
+                    });
+                    win.show();
+                    win.setSettings(loop);
+                break;
+            }
+        },
+        
         onPrint: function(e) {
             if (this.api)
                 this.api.asc_Print(Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera); // if isChrome or isSafari or isOpera == true use asc_onPrintUrl event
