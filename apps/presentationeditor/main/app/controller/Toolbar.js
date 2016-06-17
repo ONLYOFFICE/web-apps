@@ -525,9 +525,10 @@ define([
                 this.currentPageSize.height = height;
                 this.currentPageSize.type   = -1;
 
+                var portrait = (height>width);
                 for (var i = 0; i < this.slideSizeArr.length; i++) {
-                    if (Math.abs(this.slideSizeArr[i][0] - this.currentPageSize.width) < 0.001 &&
-                        Math.abs(this.slideSizeArr[i][1] - this.currentPageSize.height) < 0.001) {
+                    if (Math.abs(this.slideSizeArr[i][portrait ? 1 : 0] - this.currentPageSize.width) < 0.001 &&
+                        Math.abs(this.slideSizeArr[i][portrait ? 0 : 1] - this.currentPageSize.height) < 0.001) {
                         this.currentPageSize.type = i;
                         break;
                     }
@@ -1345,16 +1346,17 @@ define([
 
         onSlideSize: function(menu, item) {
             if (item.value !== 'advanced') {
+                var portrait = (this.currentPageSize.height > this.currentPageSize.width);
                 this.currentPageSize = {
                     type    : item.value,
-                    width   : this.slideSizeArr[item.value][0],
-                    height  : this.slideSizeArr[item.value][1]
+                    width   : this.slideSizeArr[item.value][portrait ? 1 : 0],
+                    height  : this.slideSizeArr[item.value][portrait ? 0 : 1]
                 };
 
                 if (this.api)
                     this.api.changeSlideSize(
-                        this.slideSizeArr[item.value][0],
-                        this.slideSizeArr[item.value][1]
+                        this.slideSizeArr[item.value][portrait ? 1 : 0],
+                        this.slideSizeArr[item.value][portrait ? 0 : 1]
                     );
 
                 Common.NotificationCenter.trigger('edit:complete', this.toolbar);
