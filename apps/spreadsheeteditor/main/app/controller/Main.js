@@ -150,7 +150,7 @@ define([
 
                     // NOTE: fix double click mozilla copy-paste
 
-                    if (e && e.target && e.target.id && e.target.id === 'clipboard-helper-text') {
+                    if (e && e.target && e.target.id && (e.target.id === 'clipboard-helper-text' || e.target.id === 'area_id')) {
                         me.api.asc_enableKeyEvents(true);
                         return;
                     }
