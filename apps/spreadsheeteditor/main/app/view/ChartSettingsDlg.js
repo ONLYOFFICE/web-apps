@@ -810,6 +810,9 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
             if (this.storageName) {
                 var value = Common.localStorage.getItem(this.storageName);
                 this.setActiveCategory((value!==null) ? parseInt(value) : 0);
+                value = this.getActiveCategory();
+                if (value==2) this.onVCategoryClick();
+                else if (value==3) this.onHCategoryClick();
             }
         },
 
