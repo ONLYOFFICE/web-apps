@@ -186,8 +186,7 @@ define([
 
         onTableTemplateSelect: function(combo, record){
             if (this.api && !this._noApply) {
-                if (this._state.TemplateName)
-                    this.api.asc_changeAutoFilter(this._state.TableName, Asc.c_oAscChangeFilterOptions.style, record.get('name'));
+                this.api.asc_changeAutoFilter(this._state.TableName, Asc.c_oAscChangeFilterOptions.style, record.get('name'));
             }
             Common.NotificationCenter.trigger('edit:complete', this);
         },
