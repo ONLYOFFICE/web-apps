@@ -40,7 +40,7 @@
 				<li><b>Align</b> is used to align the image left, center, right, top, middle, bottom.</li>
 				<li><b>Wrapping Style</b> is used to select a text wrapping style from the available ones - inline, square, tight, through, top and bottom, in front, behind - or edit the wrap boundary. The <b>Edit Wrap Boundary</b> option is available only if you select a wrapping style other than Inline. Drag wrap points to customize the boundary. To create a new wrap point, click anywhere on the red line and drag it to the necessary position. <img alt="Editing Wrap Boundary" src="../images/wrap_boundary.png" /></li>
 				<li><b>Default Size</b> is used to change the current image size to the default one.</li>
-				<li><b>Advanced Settings</b> is used to open the 'Image - Advanced Settings' window.</li>
+				<li><b>Image Advanced Settings</b> is used to open the 'Image - Advanced Settings' window.</li>
 			</ul>
 			<hr />
 			<p>To change its advanced settings, click the image with the right mouse button and select <b>Advanced Settings</b> from the right-click menu or just click the <b>Show advanced settings</b> link at the right sidebar. The image properties window will open:</p>
@@ -70,9 +70,23 @@
 			<p><img alt="Image - Advanced Settings: Position" src="../images/image_properties_2.png" /></p>
 			<p>The <b>Position</b> tab is available only if you select a wrapping style other than inline. This tab contains the following parameters that vary depending on the selected wrapping style:</p>
 			<ul>
-				<li><b>Horizontal</b> parameters include the image <b>alignment</b> (left, center, right) <b>relative to</b> character, column, left margin, margin, page or right margin as well as the image <b>position to the right of</b> character, column, left margin, margin, page or right margin.</li>
-				<li><b>Vertical</b> parameters include the image <b>alignment</b> (top, center, bottom) <b>relative to</b> line, margin, bottom margin, paragraph, page or top margin as well as the image <b>position below</b> line, margin, bottom margin, paragraph, page or top margin.</li>
-				<li><b>Move object with text</b> controls whether the image moves as the text to which it is anchored moves.</li>
+                <li>
+                    The <b>Horizontal</b> section allows you to select one of the following three image positioning types:
+                    <ul>
+                        <li><b>Alignment</b> (left, center, right) <b>relative to</b> character, column, left margin, margin, page or right margin,</li>
+                        <li>Absolute <b>Position</b> measured in absolute units i.e. <b>Centimeters</b>/<b>Points</b>/<b>Inches</b> (depending on the option specified at the <b>File</b> -> <b>Advanced Settings...</b> tab) <b>to the right of</b> character, column, left margin, margin, page or right margin,</li>
+                        <li><b>Relative position</b> measured in percent <b>relative to</b> the left margin, margin, page or right margin.</li>
+                    </ul>
+                </li>
+                <li>
+                    The <b>Vertical</b> section allows you to select one of the following three image positioning types:
+                    <ul>
+                        <li><b>Alignment</b> (top, center, bottom) <b>relative to</b> line, margin, bottom margin, paragraph, page or top margin,</li>
+                        <li>Absolute <b>Position</b> measured in absolute units i.e. <b>Centimeters</b>/<b>Points</b>/<b>Inches</b> (depending on the option specified at the <b>File</b> -> <b>Advanced Settings...</b> tab) <b>below</b> line, margin, bottom margin, paragraph, page or top margin,</li>
+                        <li><b>Relative position</b> measured in percent <b>relative to</b> the margin, bottom margin, page or top margin.</li>
+                    </ul>
+                </li>
+                <li><b>Move object with text</b> controls whether the image moves as the text to which it is anchored moves.</li>
 				<li><b>Allow overlap</b> controls whether two images overlap or not if you drag them near each other on the page.</li>
 			</ul>
 		</div>

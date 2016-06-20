@@ -34,7 +34,7 @@
                 <li><b>Arrange</b> is used to bring the selected autoshape to foreground, send to background, move forward or backward as well as group or ungroup shapes to perform operations with several of them at once.</li>
 				<li><b>Align</b> is used to align the shape left, center, right, top, middle, bottom.</li>
 				<li><b>Wrapping Style</b> is used to select a text wrapping style from the available ones - inline, square, tight, through, top and bottom, in front, behind - or edit the wrap boundary. The <b>Edit Wrap Boundary</b> option is available only if you select a wrapping style other than Inline. Drag wrap points to customize the boundary. To create a new wrap point, click anywhere on the red line and drag it to the necessary position. <img alt="Editing Wrap Boundary" src="../images/wrap_boundary.png" /></li>
-				<li><b>Advanced Settings</b> is used to open the 'Shape - Advanced Settings' window.</li>
+				<li><b>Shape Advanced Settings</b> is used to open the 'Shape - Advanced Settings' window.</li>
 			</ul>
 			<hr />
 			<p>Some of the autoshape settings can be altered using the <b>Shape Settings</b> tab of the right sidebar. To activate it click the shape and choose the <b>Shape Settings</b> <img alt="Shape Settings icon" src="../images/shape_settings_icon.png" /> icon on the right. Here you can change the following properties:</p>
@@ -95,10 +95,22 @@
 			</ul>
 			<hr />
 			<p>To change the <b>advanced settings</b> of the autoshape, right-click it and select the <b>Advanced Settings</b> option in the menu or use the <b>Show advanced settings</b> link at the right sidebar. The 'Shape - Advanced Settings' window will open:</p>
-			<img alt="Shape - Advanced Settings" src="../images/shape_properties.png" />
+            <p><img alt="Shape - Advanced Settings" src="../images/shape_properties.png" /></p>
 			<p>The <b>Size</b> tab contains the following parameters:</p>
 			<ul>
-				<li><b>Width</b> and <b>Height</b> - use these options to change the autoshape width and/or height. If the <b>Constant Proportions</b> <img alt="Constant Proportions icon" src="../images/constantproportions.png" /> button is clicked (in this case it looks like this <img alt="Constant Proportions icon activated" src="../images/constantproportionsactivated.png" />), the width and height will be changed together preserving the original shape aspect ratio.</li>
+				<li><b>Width</b> - use one of these options to change the autoshape width.
+                <ul>
+                    <li><b>Absolute</b> - specify an exact value measured in absolute units i.e. <b>Centimeters</b>/<b>Points</b>/<b>Inches</b> (depending on the option specified at the <b>File</b> -> <b>Advanced Settings...</b> tab).</li>
+                    <li><b>Relative</b> - specify a percentage <b>relative to</b> the <em>left margin</em> width, the <em>margin</em> (i.e. the distance between the left and right margins), the <em>page</em> width, or the <em>right margin</em> width.</li>
+                </ul>
+                </li>
+                <li><b>Height</b> - use one of these options to change the autoshape height.
+                    <ul>
+                        <li><b>Absolute</b> - specify an exact value measured in absolute units i.e. <b>Centimeters</b>/<b>Points</b>/<b>Inches</b> (depending on the option specified at the <b>File</b> -> <b>Advanced Settings...</b> tab).</li>
+                        <li><b>Relative</b> - specify a percentage <b>relative to</b> the <em>margin</em> (i.e. the distance between the top and bottom margins), the <em>bottom margin</em> height, the <em>page</em> height, or the <em>top margin</em> height.</li>
+                    </ul>
+                </li>
+                <li>If the <b>Lock aspect ratio</b> option is checked, the width and height will be changed together preserving the original shape aspect ratio.</li>
 			</ul>
             <p id="shape_wrapping"><img alt="Shape - Advanced Settings" src="../images/shape_properties_1.png" /></p>
 			<p>The <b>Text Wrapping</b> tab contains the following parameters:</p>
@@ -121,9 +133,23 @@
 			<p><img alt="Shape - Advanced Settings" src="../images/shape_properties_2.png" /></p>
 			<p>The <b>Position</b> tab is available only if you select a wrapping style other than inline. This tab contains the following parameters that vary depending on the selected wrapping style:</p>
 			<ul>
-				<li><b>Horizontal</b> parameters include the autoshape <b>alignment</b> (left, center, right) <b>relative to</b> character, column, left margin, margin, page or right margin as well as the autoshape <b>position</b> <b>to the right of</b> character, column, left margin, margin, page or right margin.</li>
-				<li><b>Vertical</b> parameters include the autoshape <b>alignment</b> (top, center, bottom) <b>relative to</b> line, margin, bottom margin, paragraph, page or top margin as well as the autoshape <b>position below</b> line, margin, bottom margin, paragraph, page or top margin.</li>
-				<li><b>Move object with text</b> controls whether the autoshape moves as the text to which it is anchored moves.</li>
+                <li>
+                    The <b>Horizontal</b> section allows you to select one of the following three autoshape positioning types:
+                    <ul>
+                        <li><b>Alignment</b> (left, center, right) <b>relative to</b> character, column, left margin, margin, page or right margin,</li>
+                        <li>Absolute <b>Position</b> measured in absolute units i.e. <b>Centimeters</b>/<b>Points</b>/<b>Inches</b> (depending on the option specified at the <b>File</b> -> <b>Advanced Settings...</b> tab) <b>to the right of</b> character, column, left margin, margin, page or right margin,</li>
+                        <li><b>Relative position</b> measured in percent <b>relative to</b> the left margin, margin, page or right margin.</li>
+                    </ul>
+                </li>
+                <li>
+                    The <b>Vertical</b> section allows you to select one of the following three autoshape positioning types:
+                    <ul>
+                        <li><b>Alignment</b> (top, center, bottom) <b>relative to</b> line, margin, bottom margin, paragraph, page or top margin,</li>
+                        <li>Absolute <b>Position</b> measured in absolute units i.e. <b>Centimeters</b>/<b>Points</b>/<b>Inches</b> (depending on the option specified at the <b>File</b> -> <b>Advanced Settings...</b> tab) <b>below</b> line, margin, bottom margin, paragraph, page or top margin,</li>
+                        <li><b>Relative position</b> measured in percent <b>relative to</b> the margin, bottom margin, page or top margin.</li>
+                    </ul>
+                </li>
+                <li><b>Move object with text</b> controls whether the autoshape moves as the text to which it is anchored moves.</li>
 				<li><b>Allow overlap</b> controls whether two autoshapes overlap or not if you drag them near each other on the page.</li>
 			</ul>
 			<p><img alt="Shape - Advanced Settings" src="../images/shape_properties_3.png" /></p>
@@ -150,7 +176,7 @@
 				</li>
 				<li><b>Arrows</b> - this option group is available if a shape from the <b>Lines</b> shape group is selected. It allows to set the arrow <b>Start</b> and <b>End Style</b> and <b>Size</b> by selecting the appropriate option from the dropdown lists.</li>
 			</ul>
-			<img alt="Shape - Advanced Settings" src="../images/shape_properties_4.png" />
+            <p><img alt="Shape - Advanced Settings" src="../images/shape_properties_4.png" /></p>
 			<p>The <b>Text Padding</b> tab allows to change the autoshape <b>Top</b>, <b>Bottom</b>, <b>Left</b> and <b>Right</b> internal margins (i.e. the distance between the text within the shape and the autoshape borders).</p>
             <p class="note"><b>Note</b>: this tab is only available if text is added within the autoshape, otherwise the tab is disabled.</p>
 		</div>
