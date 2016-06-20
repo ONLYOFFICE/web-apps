@@ -99,13 +99,13 @@ define([
             });
             this.lockedControls.push(this.chFilter);
 
-            this.chHeader.on('change', _.bind(this.onCheckTemplateChange, this, Asc.c_oAscChangeTableStyleInfo.rowHeader));
-            this.chTotal.on('change', _.bind(this.onCheckTemplateChange, this, Asc.c_oAscChangeTableStyleInfo.rowTotal));
-            this.chBanded.on('change', _.bind(this.onCheckTemplateChange, this, Asc.c_oAscChangeTableStyleInfo.rowBanded));
-            this.chFirst.on('change', _.bind(this.onCheckTemplateChange, this, Asc.c_oAscChangeTableStyleInfo.columnFirst));
-            this.chLast.on('change', _.bind(this.onCheckTemplateChange, this, Asc.c_oAscChangeTableStyleInfo.columnLast));
-            this.chColBanded.on('change', _.bind(this.onCheckTemplateChange, this, Asc.c_oAscChangeTableStyleInfo.columnBanded));
-            this.chFilter.on('change', _.bind(this.onCheckTemplateChange, this, Asc.c_oAscChangeTableStyleInfo.filterButton));
+            this.chHeader.on('change', _.bind(this.onCheckTemplateChange, this, Asc.c_oAscChangeTableStyleInfo.rowHeader, 'CheckHeader'));
+            this.chTotal.on('change', _.bind(this.onCheckTemplateChange, this, Asc.c_oAscChangeTableStyleInfo.rowTotal, 'CheckTotal'));
+            this.chBanded.on('change', _.bind(this.onCheckTemplateChange, this, Asc.c_oAscChangeTableStyleInfo.rowBanded, 'CheckBanded'));
+            this.chFirst.on('change', _.bind(this.onCheckTemplateChange, this, Asc.c_oAscChangeTableStyleInfo.columnFirst, 'CheckFirst'));
+            this.chLast.on('change', _.bind(this.onCheckTemplateChange, this, Asc.c_oAscChangeTableStyleInfo.columnLast, 'CheckLast'));
+            this.chColBanded.on('change', _.bind(this.onCheckTemplateChange, this, Asc.c_oAscChangeTableStyleInfo.columnBanded, 'CheckColBanded'));
+            this.chFilter.on('change', _.bind(this.onCheckTemplateChange, this, Asc.c_oAscChangeTableStyleInfo.filterButton, 'CheckFilter'));
 
             this.cmbTableTemplate = new Common.UI.ComboDataView({
                 itemWidth: 61,
@@ -178,7 +178,8 @@ define([
             this.lockedControls.push(this.btnEdit);
         },
 
-        onCheckTemplateChange: function(type, field, newValue, oldValue, eOpts) {
+        onCheckTemplateChange: function(type, stateName, field, newValue, oldValue, eOpts) {
+            this._state[stateName] = undefined;
             if (this.api)
                 this.api.asc_changeFormatTableInfo(this._state.TableName, type, newValue=='checked');
             Common.NotificationCenter.trigger('edit:complete', this);
