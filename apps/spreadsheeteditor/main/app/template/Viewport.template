@@ -1,6 +1,7 @@
 <div class="layout-region">
     <div id="viewport-vbox-layout" class="layout-ct vbox">
         <div id="header" class="layout-item"></div>
+        <div class="layout-item" style="border-bottom: 1px solid #cbcbcb;display:none;"></div>
         <div id="toolbar" class="layout-item"></div>
         <div class="layout-item">
             <div id="viewport-hbox-layout" class="layout-ct hbox">

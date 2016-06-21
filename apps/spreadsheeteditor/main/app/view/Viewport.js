@@ -90,12 +90,15 @@ define([
                     rely: true
                 }, {
                     el: items[1],
-                    rely: true
+                    height: 5
                 }, {
                     el: items[2],
-                    stretch: true
+                    rely: true
                 }, {
                     el: items[3],
+                    stretch: true
+                }, {
+                    el: items[4],
                     height: 25
                 }]
             });
@@ -166,6 +169,8 @@ define([
                 /** coauthoring end **/
             } else {
                 this.mode = mode;
+                if (this.vlayout && mode.isDesktopApp && !mode.isEdit)
+                    this.vlayout.items[1].el.css('display', 'block');
             }
         }
     });
