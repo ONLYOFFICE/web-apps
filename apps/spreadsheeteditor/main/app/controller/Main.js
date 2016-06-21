@@ -150,15 +150,18 @@ define([
 
                     // NOTE: fix double click mozilla copy-paste
 
-                    if (e && e.target && e.target.id && (e.target.id === 'clipboard-helper-text' || e.target.id === 'area_id')) {
+                    if (e && e.target && (e.target.id === 'clipboard-helper-text')) {
                         me.api.asc_enableKeyEvents(true);
                         return;
                     }
 
                     if (this.isAppDisabled === true) return;
-                    me.api.asc_enableKeyEvents(false);
-                    if (/msg-reply/.test(e.target.className))
-                        me.dontCloseDummyComment = true;
+
+                    if (e && e.target && !/area_id/.test(e.target.id)) {
+                        me.api.asc_enableKeyEvents(false);
+                        if (/msg-reply/.test(e.target.className))
+                            me.dontCloseDummyComment = true;
+                    }
                 });
 
                 $("#editor_sdk").focus(function (e) {
@@ -169,7 +172,7 @@ define([
 
                 $(document.body).on('blur', 'input, textarea', function(e) {
                     if (this.isAppDisabled === true) return;
-                    if (!me.isModalShowed && !(me.loadMask && me.loadMask.isVisible())) {
+                    if (!me.isModalShowed && !(me.loadMask && me.loadMask.isVisible()) && !/area_id/.test(e.target.id)) {
                         me.api.asc_enableKeyEvents(true);
                         if (/msg-reply/.test(e.target.className))
                             me.dontCloseDummyComment = false;
