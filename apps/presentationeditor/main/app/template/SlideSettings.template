@@ -11,7 +11,7 @@
     </tr>
     <tr class="padding-small">
         <td>
-            <div id="slide-panel-color-fill" class="padding-small" style="width: 100%;">
+            <div id="slide-panel-color-fill" class="settings-hidden padding-small" style="width: 100%;">
                 <div id="slide-back-color-btn" style=""></div>
             </div>
             <div id="slide-panel-image-fill" class="settings-hidden padding-small" style="width: 100%;">
