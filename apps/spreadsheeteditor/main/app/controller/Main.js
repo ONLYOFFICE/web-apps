@@ -691,7 +691,7 @@ define([
                     if (now - value > 86400000) {
                         Common.localStorage.setItem("de-license-warning", now);
                         Common.UI.info({
-                            width: 400,
+                            width: 500,
                             title: this.textNoLicenseTitle,
                             msg  : this.warnNoLicense,
                             buttons: [
@@ -1792,10 +1792,10 @@ define([
             textStrict: 'Strict mode',
             errorOpenWarning: 'The length of one of the formulas in the file exceeded<br>the allowed number of characters and it was removed.',
             errorFrmlWrongReferences: 'The function refers to a sheet that does not exist.<br>Please check the data and try again.',
-            textBuyNow: 'Buy now',
-            textNoLicenseTitle: 'License expired or not found',
-            warnNoLicense: 'The license could not be found or expired. You cannot edit files.<br>Click \'Buy now\' to purchase Enterprise Edition license or \'Contact us\' if you use Integration Edition.',
-            textContactUs: 'Contact us',
+            textBuyNow: 'Visit website',
+            textNoLicenseTitle: 'ONLYOFFICE open source version',
+            warnNoLicense: 'You are using an open source version of ONLYOFFICE. The version has limitations for concurrent connections to the document server (20 connections at a time).<br>If you need more please consider purchasing a commercial license.',
+            textContactUs: 'Contact sales',
             confirmPutMergeRange: 'The source data contains merged cells.<br>They will be unmerged before they are pasted into the table.'
         }
     })(), SSE.Controllers.Main || {}))
