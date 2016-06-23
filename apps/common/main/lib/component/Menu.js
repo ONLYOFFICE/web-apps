@@ -410,6 +410,8 @@ define([
             },
 
             onBeforeShowMenu: function(e) {
+                Common.NotificationCenter.trigger('menu:show');
+
                 if (this.mustLayout) {
                     delete this.mustLayout;
                     this.doLayout.call(this);
@@ -439,6 +441,7 @@ define([
 
             onAfterHideMenu: function(e) {
                 this.trigger('hide:after', this, e);
+                Common.NotificationCenter.trigger('menu:hide');
             },
 
             onAfterKeydownMenu: function(e) {

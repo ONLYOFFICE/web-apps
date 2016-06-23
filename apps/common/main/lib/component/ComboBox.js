@@ -232,6 +232,7 @@ define([
             },
 
             onBeforeShowMenu: function(e) {
+                Common.NotificationCenter.trigger('menu:show');
                 this.trigger('show:before', this, e);
                 if (this.options.hint) {
                     var tip = this.cmpEl.data('bs.tooltip');
@@ -273,6 +274,7 @@ define([
             onAfterHideMenu: function(e) {
                 this.cmpEl.find('.dropdown-toggle').blur();
                 this.trigger('hide:after', this, e);
+                Common.NotificationCenter.trigger('menu:hide');
             },
 
             onAfterKeydownMenu: function(e) {

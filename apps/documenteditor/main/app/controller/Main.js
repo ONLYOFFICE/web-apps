@@ -172,7 +172,8 @@ define([
                             /*
                              * TODO: Workaround bug #25004. Clipboard feature processing in sdk.
                              */
-                            if (!(Common.Utils.isSafari && Common.Utils.isMac) && !/area_id/.test(e.target.id)) {
+                            if (!(Common.Utils.isSafari && Common.Utils.isMac) && !/area_id/.test(e.target.id) &&
+                                $(e.target).parent().find(e.relatedTarget).length<1 /* When focus in combobox goes from input to it's menu button or menu items */) {
                                 me.api.asc_enableKeyEvents(true);
                                 if (/msg-reply/.test(e.target.className))
                                     me.dontCloseDummyComment = false;
@@ -209,6 +210,15 @@ define([
                             me.api.asc_enableKeyEvents(false);
                         },
                         'dataview:blur': function(e){
+                            if (!me.isModalShowed) {
+                                me.api.asc_enableKeyEvents(true);
+                                me.onEditComplete();
+                            }
+                        },
+                        'menu:show': function(e){
+                            me.api.asc_enableKeyEvents(false);
+                        },
+                        'menu:hide': function(e){
                             if (!me.isModalShowed) {
                                 me.api.asc_enableKeyEvents(true);
                                 me.onEditComplete();

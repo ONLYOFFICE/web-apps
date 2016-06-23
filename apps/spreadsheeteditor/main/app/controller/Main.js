@@ -172,7 +172,8 @@ define([
 
                 $(document.body).on('blur', 'input, textarea', function(e) {
                     if (this.isAppDisabled === true) return;
-                    if (!me.isModalShowed && !(me.loadMask && me.loadMask.isVisible()) && !/area_id/.test(e.target.id)) {
+                    if (!me.isModalShowed && !(me.loadMask && me.loadMask.isVisible()) && !/area_id/.test(e.target.id) &&
+                        $(e.target).parent().find(e.relatedTarget).length<1 /* When focus in combobox goes from input to it's menu button or menu items */) {
                         me.api.asc_enableKeyEvents(true);
                         if (/msg-reply/.test(e.target.className))
                             me.dontCloseDummyComment = false;
@@ -207,6 +208,15 @@ define([
                         me.api.asc_enableKeyEvents(false);
                     },
                     'dataview:blur': function(e){
+                        if (!me.isModalShowed) {
+                            me.api.asc_enableKeyEvents(true);
+                            me.onEditComplete();
+                        }
+                    },
+                    'menu:show': function(e){
+                        me.api.asc_enableKeyEvents(false);
+                    },
+                    'menu:hide': function(e){
                         if (!me.isModalShowed) {
                             me.api.asc_enableKeyEvents(true);
                             me.onEditComplete();
