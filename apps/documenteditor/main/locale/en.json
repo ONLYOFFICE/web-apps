@@ -158,6 +158,7 @@
   "Common.Views.OpenDialog.txtEncoding": "Encoding ",
   "Common.Views.OpenDialog.txtTitle": "Choose %1 options",
   "Common.Views.Plugins.strPlugins": "Add-ons",
+  "Common.Views.Plugins.textLoading": "Loading",
   "Common.Views.ReviewChanges.txtAccept": "Accept",
   "Common.Views.ReviewChanges.txtAcceptAll": "Accept All Changes",
   "Common.Views.ReviewChanges.txtAcceptCurrent": "Accept Current Change",
