@@ -174,8 +174,6 @@ define([
             if (this.mode.canUseHistory)
                 this.leftMenu.setOptionsPanel('history', this.getApplication().getController('Common.Controllers.History').getView('Common.Views.History'));
 
-            this.enablePlugins();
-
             Common.util.Shortcuts.resumeEvents();
             return this;
         },

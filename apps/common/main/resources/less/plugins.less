@@ -16,11 +16,51 @@
     #plugins-list {
         height: 100%;
         overflow: hidden;
-        padding: 30px 0 10px 10px;
+        padding: 30px 0 10px 0;
+
+        .item {
+            display: block;
+            width: 100%;
+            .box-shadow(none);
+            margin: 0;
+
+            &:hover,
+            &.over {
+                background-color: @secondary;
+
+                .plugin-icon {
+                    .box-shadow(0 0 0 2px @primary);
+                }
+            }
+        }
 
         .item-plugins {
-            width: 40px;
-            height: 40px;
+            width: 100%;
+            padding: 7px 1px 7px 12px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .plugin-icon {
+            width: 31px;
+            height: 31px;
+            display: inline-block;
+            .box-shadow(0 0 0 1px @gray);
+            vertical-align: middle;
+            background-position: 0 0;
+            background-size: cover;
+            margin-right: 10px;
+
+            .background-ximage('@{common-image-path}/plugin/icon_add_on_default.png', '@{common-image-path}/plugin/icon_add_on_default@2x.png', 31px);
+        }
+
+        .plugin-caret {
+            float: right;
+            width: 16px;
+            height: 16px;
+            background-position: -42px -195px;
+            margin: 7px;
         }
     }
 }

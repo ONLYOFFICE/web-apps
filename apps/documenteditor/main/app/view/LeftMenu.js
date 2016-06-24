@@ -227,7 +227,7 @@ define([
                 }
             }
             /** coauthoring end **/
-            if (this.mode.canPlugins) {
+            if (this.mode.canPlugins && this.panelPlugins) {
                 if (this.btnPlugins.pressed) {
                     this.panelPlugins.show();
                 } else
@@ -279,7 +279,7 @@ define([
                     this.panelChat['hide']();
                     this.btnChat.toggle(false, true);
                 }
-                if (this.mode.canPlugins) {
+                if (this.mode.canPlugins && this.panelPlugins) {
                     this.panelPlugins['hide']();
                     this.btnPlugins.toggle(false, true);
                 }
