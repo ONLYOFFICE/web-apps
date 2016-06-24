@@ -365,6 +365,6 @@ define([
         tipSupport  : 'Feedback & Support',
         tipFile     : 'File',
         tipSearch   : 'Search',
-        tipPlugins  : 'Plugins'
+        tipPlugins  : 'Add-ons'
     }, DE.Views.LeftMenu || {}));
 });

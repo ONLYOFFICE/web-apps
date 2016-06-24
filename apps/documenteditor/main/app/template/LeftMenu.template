@@ -6,9 +6,9 @@
         <button id="left-btn-comments" class="btn btn-category" content-target="left-panel-comments"><span class="btn-icon img-toolbarmenu btn-menu-comments">&nbsp;</span></button>
         <button id="left-btn-chat" class="btn btn-category" content-target="left-panel-chat"><span class="btn-icon img-toolbarmenu btn-menu-chat">&nbsp;</span></button>
         <!-- /** coauthoring end **/ -->
+        <button id="left-btn-plugins" class="btn btn-category" content-target=""><span class="btn-icon img-toolbarmenu btn-menu-plugin">&nbsp;</span></button>
         <button id="left-btn-support" class="btn btn-category" content-target=""><span class="btn-icon img-toolbarmenu btn-menu-support">&nbsp;</span></button>
         <button id="left-btn-about" class="btn btn-category" content-target=""><span class="btn-icon img-toolbarmenu btn-menu-about">&nbsp;</span></button>
-        <button id="left-btn-plugins" class="btn btn-category" content-target="" style="position: absolute; bottom: 0;"><span class="btn-icon img-toolbarmenu btn-menu-plugin">&nbsp;</span></button>
     </div>
     <div class="left-panel" style="">
         <!-- /** coauthoring begin **/ -->
