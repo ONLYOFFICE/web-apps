@@ -201,10 +201,8 @@ define([
                             me.api.asc_enableKeyEvents(false);
                         },
                         'menu:hide': function(e){
-                            if (!me.isModalShowed) {
+                            if (!me.isModalShowed)
                                 me.api.asc_enableKeyEvents(true);
-                                me.onEditComplete();
-                            }
                         },
                         'edit:complete': _.bind(me.onEditComplete, me)
                     });
