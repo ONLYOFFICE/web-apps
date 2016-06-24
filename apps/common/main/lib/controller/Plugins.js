@@ -55,7 +55,10 @@ define([
         initialize: function() {
         },
 
-        events: {
+        events: function() {
+            return {
+                'click #id-plugin-close':_.bind(this.onToolClose,this)
+            };
         },
 
         onLaunch: function() {
@@ -83,6 +86,7 @@ define([
 
         onAfterRender: function(historyView) {
             historyView.viewPluginsList.on('item:click', _.bind(this.onSelectPlugin, this));
+            this.bindViewEvents(this.panelPlugins, this.events);
         },
 
         updatePluginsList: function() {
@@ -131,34 +135,40 @@ define([
             var variation = plugin.get_Variations()[0];
             if (!variation.get_Visual()) return;
             
-            var me = this,
-                arrBtns = variation.get_Buttons(),
-                newBtns = {};
+            if (variation.get_InsideMode()) {
+                this.panelPlugins.openInsideMode(plugin.get_Name(), ((plugin.get_BaseUrl().length == 0) ? this.panelPlugins.pluginsPath : plugin.get_BaseUrl()) + variation.get_Url());
+            } else {
+                var me = this,
+                    arrBtns = variation.get_Buttons(),
+                    newBtns = {};
 
-            if (_.isArray(arrBtns)) {
-                _.each(arrBtns, function(b, index){
-                    newBtns[index] = {text: b.text, cls: 'custom' + ((b.primary) ? ' primary' : '')};
+                if (_.isArray(arrBtns)) {
+                    _.each(arrBtns, function(b, index){
+                        newBtns[index] = {text: b.text, cls: 'custom' + ((b.primary) ? ' primary' : '')};
+                    });
+                }
+
+                var _baseUrl = (plugin.get_BaseUrl().length == 0) ? me.panelPlugins.pluginsPath : plugin.get_BaseUrl();
+                me.pluginDlg = new Common.Views.PluginDlg({
+                    title: plugin.get_Name(),
+                    url: _baseUrl + variation.get_Url(),
+                    buttons: newBtns,
+                    toolcallback: _.bind(this.onToolClose, this)
                 });
+                me.pluginDlg.on('render:after', function(obj){
+                    obj.getChild('.footer .dlg-btn').on('click', _.bind(me.onDlgBtnClick, me));
+                }).on('close', function(obj){
+                    me.pluginDlg = undefined;
+                });
+                me.pluginDlg.show();
             }
-
-            var _baseUrl = (plugin.get_BaseUrl().length == 0) ? me.panelPlugins.pluginsPath : plugin.get_BaseUrl();
-            me.pluginDlg = new Common.Views.PluginDlg({
-                title: plugin.get_Name(),
-                url: _baseUrl + variation.get_Url(),
-                buttons: newBtns,
-                toolcallback: _.bind(this.onToolClose, this)
-            });
-            me.pluginDlg.on('render:after', function(obj){
-                obj.getChild('.footer .dlg-btn').on('click', _.bind(me.onDlgBtnClick, me));
-            }).on('close', function(obj){
-                me.pluginDlg = undefined;
-            });
-            me.pluginDlg.show();
         },
 
         onPluginClose: function() {
             if (this.pluginDlg)
                 this.pluginDlg.close();
+            else
+                this.panelPlugins.closeInsideMode();
         },
 
         onDlgBtnClick: function(event) {

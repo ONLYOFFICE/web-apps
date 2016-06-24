@@ -60,7 +60,10 @@ define([
                 '</div>',
             '</div>',
             '<div id="current-plugin-box" class="layout-ct vbox hidden">',
-                '<label id="current-plugin-header"><%= scope.strPlugins %></label>',
+                '<div id="current-plugin-header">',
+                    '<label></label>',
+                    '<div id="id-plugin-close" class="plugin-close img-commonctrl"></div>',
+                '</div>',
                 '<div id="current-plugin-frame" class="">',
                 '</div>',
             '</div>'
@@ -98,6 +101,10 @@ define([
             });
             this.lockedControls.push(this.viewPluginsList);
 
+            this.pluginName = $('#current-plugin-header label');
+            this.pluginsPanel = $('#plugins-box');
+            this.currentPluginPanel = $('#current-plugin-box');
+
             this.trigger('render:after', this);
             return this;
         },
@@ -119,7 +126,48 @@ define([
             }
         },
 
-        strPlugins: 'Add-ons'
+        openInsideMode: function(name, url) {
+            this.pluginsPanel.toggleClass('hidden', true);
+            this.currentPluginPanel.toggleClass('hidden', false);
+
+            this.pluginName.text(name);
+            if (!this.iframePlugin) {
+                this.iframePlugin = document.createElement("iframe");
+                this.iframePlugin.id           = 'plugin_iframe';
+                this.iframePlugin.name         = 'pluginFrameEditor',
+                this.iframePlugin.width        = '100%';
+                this.iframePlugin.height       = '100%';
+                this.iframePlugin.align        = "top";
+                this.iframePlugin.frameBorder  = 0;
+                this.iframePlugin.scrolling    = "no";
+                this.iframePlugin.onload       = _.bind(this._onLoad,this);
+                $('#current-plugin-frame').append(this.iframePlugin);
+
+                if (!this.loadMask)
+                    this.loadMask = new Common.UI.LoadMask({owner: $('#current-plugin-frame')});
+                this.loadMask.setTitle(this.textLoading);
+                this.loadMask.show();
+
+                this.iframePlugin.src = url;
+            }
+        },
+
+        closeInsideMode: function() {
+            if (this.iframePlugin) {
+                this.iframePlugin.remove();
+                this.iframePlugin = null;
+            }
+            this.currentPluginPanel.toggleClass('hidden', true);
+            this.pluginsPanel.toggleClass('hidden', false);
+        },
+
+        _onLoad: function() {
+            if (this.loadMask)
+                this.loadMask.hide();
+        },
+
+        strPlugins: 'Add-ons',
+        textLoading: 'Loading'
 
     }, Common.Views.Plugins || {}));
 
