@@ -50,7 +50,7 @@ define([
     'use strict';
 
     Common.Views.Plugins = Common.UI.BaseView.extend(_.extend({
-        el: '#left-panel-plugins',
+        el: '#id-plugins-settings',
 
         storePlugins: undefined,
         template: _.template([
@@ -58,31 +58,68 @@ define([
                 '<label id="plugins-header"><%= scope.strPlugins %></label>',
                 '<div id="plugins-list" class="">',
                 '</div>',
+            '</div>',
+            '<div id="current-plugin-box" class="layout-ct vbox hidden">',
+                '<label id="current-plugin-header"><%= scope.strPlugins %></label>',
+                '<div id="current-plugin-frame" class="">',
+                '</div>',
             '</div>'
         ].join('')),
 
         initialize: function(options) {
             _.extend(this, options);
             this.pluginsPath = '../../../../sdkjs-plugins/';
+            this._locked = false;
+            this._state = {
+                DisabledControls: true
+            };
+            this.lockedControls = [];
             Common.UI.BaseView.prototype.initialize.call(this, arguments);
         },
 
         render: function(el) {
             el = el || this.el;
             $(el).html(this.template({scope: this}));
+            this.$el = $(el);
 
             this.viewPluginsList = new Common.UI.DataView({
                 el: $('#plugins-list'),
                 store: this.storePlugins,
                 enableKeyEvents: false,
-                itemTemplate: _.template('<div id="<%= id %>" class="item-plugins" style="background-image: url(' + '<% if (baseUrl !=="") { %>' + '<%= baseUrl %>'  + '<% } else { %>' + this.pluginsPath + '<% } %>' + '<%= variations[currentVariation].get("icons")[(window.devicePixelRatio > 1) ? 1 : 0] %>); background-position: 0 0;"></div>')
+                itemTemplate: _.template([
+                    '<div id="<%= id %>" class="item-plugins" style="display: block;">',
+                        '<div class="plugin-icon" style="background-image: url(' + '<% if (baseUrl !=="") { %>' + '<%= baseUrl %>'  + '<% } else { %>' + this.pluginsPath + '<% } %>' + '<%= variations[currentVariation].get("icons")[(window.devicePixelRatio > 1) ? 1 : 0] %>);"></div>',
+                        '<% if (variations.length>1) { %>',
+                        '<div class="plugin-caret img-commonctrl"></div>',
+                        '<% } %>',
+                        '<%= name %>',
+                    '</div>'
+                ].join(''))
             });
+            this.lockedControls.push(this.viewPluginsList);
 
             this.trigger('render:after', this);
             return this;
         },
 
-        strPlugins: 'Plugins'
+        setLocked: function (locked) {
+            this._locked = locked;
+        },
+
+        ChangeSettings: function(props) {
+            this.disableControls(this._locked);
+        },
+
+        disableControls: function(disable) {
+            if (this._state.DisabledControls!==disable) {
+                this._state.DisabledControls = disable;
+                _.each(this.lockedControls, function(item) {
+                    item.setDisabled(disable);
+                });
+            }
+        },
+
+        strPlugins: 'Add-ons'
 
     }, Common.Views.Plugins || {}));
 

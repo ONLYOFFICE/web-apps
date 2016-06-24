@@ -119,8 +119,12 @@ define([
             this.api.asc_pluginsRegister(this.panelPlugins.pluginsPath, arr);
         },
 
-        onSelectPlugin: function(picker, item, record){
-            this.api.asc_pluginRun(record.get('guid'), record.get('currentVariation'), '');
+        onSelectPlugin: function(picker, item, record, e){
+            var btn = $(e.target);
+            if (btn && btn.hasClass('plugin-caret')) {
+                // show plugin menu
+            } else
+                this.api.asc_pluginRun(record.get('guid'), record.get('currentVariation'), '');
         },
 
         onPluginShow: function(plugin) {
