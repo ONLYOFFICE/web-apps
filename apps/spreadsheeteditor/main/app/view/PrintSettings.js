@@ -64,7 +64,7 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
                             '<div style="height: 52px; line-height: 66px;" class="div-category">' + this.textSettings + '</div>',
                             '<div style="height: 38px; line-height: 38px;" class="div-category">' + this.textPageSize + '</div>',
                             '<div style="height: 38px; line-height: 38px;" class="div-category">' + this.textPageOrientation + '</div>',
-                            '<div style="height: 38px; line-height: 38px;" class="div-category">' + this.textScaling + '</div>',
+                            '<div style="height: 38px; line-height: 38px;" class="div-category">' + this.textPageScaling + '</div>',
                             '<div style="height: 108px; line-height: 33px;" class="div-category">' + this.strMargins + '</div>',
                             '<div style="height: 58px; line-height: 40px;" class="div-category">' + this.strPrint + '</div>',
                         '</div>',
@@ -300,7 +300,7 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
         textShowDetails:        'Show Details',
         cancelButtonText:       'Cancel',
         textHideDetails:        'Hide Details',
-        textScaling:            'Scaling',
+        textPageScaling:        'Scaling',
         textSettings:           'Sheet Settings'
     }, SSE.Views.PrintSettings || {}));
 });

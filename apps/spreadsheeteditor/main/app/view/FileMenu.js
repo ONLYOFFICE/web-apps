@@ -200,7 +200,7 @@ define([
 //            this.hkSaveAs[this.mode.canDownload?'enable':'disable']();
 
             this.items[1][this.mode.isEdit?'show':'hide']();
-            this.items[2][!this.mode.isEdit&&this.mode.canEdit?'show':'hide']();
+            this.items[2][!this.mode.isEdit && this.mode.canEdit && this.mode.canRequestEditRights ?'show':'hide']();
 
             this.items[9][(!this.mode.isOffline && this.document&&this.document.info&&(this.document.info.sharingSettings&&this.document.info.sharingSettings.length>0 ||
                                                                                        this.mode.sharingSettingsUrl&&this.mode.sharingSettingsUrl.length))?'show':'hide']();

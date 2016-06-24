@@ -897,7 +897,7 @@ define([
                     if (now - value > 86400000) {
                         Common.localStorage.setItem("de-license-warning", now);
                         Common.UI.info({
-                            width: 400,
+                            width: 500,
                             title: this.textNoLicenseTitle,
                             msg  : this.warnNoLicense,
                             buttons: [
@@ -932,6 +932,7 @@ define([
                 this.appOptions.canLicense     = params.asc_getCanLicense ? params.asc_getCanLicense() : false;
                 this.appOptions.isOffline      = this.api.asc_isOffline();
                 this.appOptions.isReviewOnly   = (this.permissions.review === true) && (this.permissions.edit === false);
+                this.appOptions.canRequestEditRights = this.editorConfig.canRequestEditRights;
                 this.appOptions.canEdit        = (this.permissions.edit !== false || this.permissions.review === true) && // can edit or review
                                                  (this.editorConfig.canRequestEditRights || this.editorConfig.mode !== 'view') && // if mode=="view" -> canRequestEditRights must be defined
                                                  (!this.appOptions.isReviewOnly || this.appOptions.canLicense); // if isReviewOnly==true -> canLicense must be true
@@ -1676,6 +1677,10 @@ define([
             },
 
             onPrintUrl: function(url) {
+                if (this.iframePrint) {
+                    this.iframePrint.parentNode.removeChild(this.iframePrint);
+                    this.iframePrint = null;
+                }
                 if (!this.iframePrint) {
                     var me = this;
                     this.iframePrint = document.createElement("iframe");
@@ -1689,6 +1694,8 @@ define([
                     this.iframePrint.onload = function() {
                         me.iframePrint.contentWindow.focus();
                         me.iframePrint.contentWindow.print();
+                        me.iframePrint.contentWindow.blur();
+                        window.focus();
                     };
                 }
                 if (url) this.iframePrint.src = url;
@@ -1841,10 +1848,10 @@ define([
             textTryUndoRedo: 'The Undo/Redo functions are disabled for the Fast co-editing mode.<br>Click the \'Strict mode\' button to switch to the Strict co-editing mode to edit the file without other users interference and send your changes only after you save them. You can switch between the co-editing modes using the editor Advanced settings.',
             textStrict: 'Strict mode',
             txtErrorLoadHistory: 'Loading history failed',
-            textBuyNow: 'Buy now',
-            textNoLicenseTitle: 'License expired or not found',
-            warnNoLicense: 'The license could not be found or expired. You cannot edit files.<br>Click \'Buy now\' to purchase Enterprise Edition license or \'Contact us\' if you use Integration Edition.',
-            textContactUs: 'Contact us'
+            textBuyNow: 'Visit website',
+            textNoLicenseTitle: 'ONLYOFFICE open source version',
+            warnNoLicense: 'You are using an open source version of ONLYOFFICE. The version has limitations for concurrent connections to the document server (20 connections at a time).<br>If you need more please consider purchasing a commercial license.',
+            textContactUs: 'Contact sales'
         }
     })(), DE.Controllers.Main || {}))
 });

@@ -516,7 +516,7 @@ define([
 
         onApiAddComments: function(data) {
             for (var i = 0; i < data.length; ++i) {
-                if (data[i].Comment && data[i].Comment.asc_getUserId() !== this.mode.user.id) {
+                if (data[i].asc_getUserId() !== this.mode.user.id) {
                     this.leftMenu.markCoauthOptions('comments');
                     break;
                 }

@@ -89,6 +89,9 @@ var sdk_dev_scrpipts = [
     "../../../../sdkjs/word/Editor/Document.js",
     "../../../../sdkjs/word/Editor/DocumentContent.js",
 	"../../../../sdkjs/word/Editor/DocumentControllerBase.js",
+	"../../../../sdkjs/word/Editor/LogicDocumentController.js",
+	"../../../../sdkjs/word/Editor/DrawingsController.js",
+	"../../../../sdkjs/word/Editor/HeaderFooterController.js",
     "../../../../sdkjs/word/Editor/FlowObjects.js",
     "../../../../sdkjs/word/Editor/ParagraphContentBase.js",
     "../../../../sdkjs/word/Editor/Hyperlink.js",
@@ -148,5 +151,6 @@ var sdk_dev_scrpipts = [
     "../../../../sdkjs/common/Drawings/Format/OleObject.js",
     "../../../../sdkjs/common/clipboard_base.js",
     "../../../../sdkjs/common/plugins.js",
-    "../../../../sdkjs/word/apiBuilder.js"
+	"../../../../sdkjs/word/apiBuilder.js",
+	"../../../../sdkjs/common/text_input.js"
 ];

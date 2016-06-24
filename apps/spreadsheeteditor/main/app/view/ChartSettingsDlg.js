@@ -810,6 +810,9 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
             if (this.storageName) {
                 var value = Common.localStorage.getItem(this.storageName);
                 this.setActiveCategory((value!==null) ? parseInt(value) : 0);
+                value = this.getActiveCategory();
+                if (value==2) this.onVCategoryClick();
+                else if (value==3) this.onHCategoryClick();
             }
         },
 
@@ -866,6 +869,11 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
             this.cmbVertTitle.setValue(this.chartSettings.getVertAxisLabel());
             this.cmbHorGrid.setValue(this.chartSettings.getHorGridLines());
             this.cmbVertGrid.setValue(this.chartSettings.getVertGridLines());
+
+            value = (type == Asc.c_oAscChartTypeSettings.barNormal3d || type == Asc.c_oAscChartTypeSettings.barStacked3d || type == Asc.c_oAscChartTypeSettings.barStackedPer3d ||
+                     type == Asc.c_oAscChartTypeSettings.hBarNormal3d || type == Asc.c_oAscChartTypeSettings.hBarStacked3d || type == Asc.c_oAscChartTypeSettings.hBarStackedPer3d ||
+                     type == Asc.c_oAscChartTypeSettings.barNormal3dPerspective);
+            this.cmbAxisPos.setDisabled(value);
 
             value = (type == Asc.c_oAscChartTypeSettings.hBarNormal || type == Asc.c_oAscChartTypeSettings.hBarStacked || type == Asc.c_oAscChartTypeSettings.hBarStackedPer ||
                      type == Asc.c_oAscChartTypeSettings.hBarNormal3d || type == Asc.c_oAscChartTypeSettings.hBarStacked3d || type == Asc.c_oAscChartTypeSettings.hBarStackedPer3d);

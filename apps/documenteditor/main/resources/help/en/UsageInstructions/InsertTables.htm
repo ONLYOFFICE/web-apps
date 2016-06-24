@@ -35,11 +35,12 @@
 				<li><b>Merge Cells</b> is available if two or more cells are selected and is used to merge them.</li>
 				<li><b>Split Cell...</b> is used to open a window where you can select the needed number of columns and rows the cell will be split in.</li>
 				<li><b>Cell Vertical Alignment</b> is used to align the text top, center or bottom in the selected cell.</li>
+                <li><b>Text Direction</b> - is used to change the text orientation in a cell. You can place the text horizontally, vertically from top to bottom (<b>Rotate at 90°</b>), or vertically from bottom to top (<b>Rotate at 270°</b>).</li>
 				<li><b>Wrapping Style - Inline</b> is used to select the inline style (when the text is broken by the table) as well as the alignment: left, center, right.</li>
 				<li><b>Wrapping Style - Flow</b> is used to select the flow style when the text is wrapped around the table.</li>
 				<li><b>Table Advanced Settings</b> is used to open the 'Table - Advanced Settings' window.</li>
 				<li><b>Hyperlink</b> is used to insert a hyperlink.</li>
-				<li><b>Paragraph</b> is used to keep lines together or open the 'Paragraph - Advanced Settings' window.</li>
+				<li><b>Paragraph Advanced Settings</b> is used to open the 'Paragraph - Advanced Settings' window.</li>
 			</ul>
 			<hr />
 			<p><img class="floatleft"alt="Right Sidebar - Table Settings" src="../images/right_table.png" /></p>
@@ -68,47 +69,85 @@
 			</ul>
 			<hr />
 			<p>To change the advanced table properties, click the table with the right mouse button and select the <b>Table Advanced Settings</b> option from the right-click menu or use the <b>Show advanced settings</b> link at the right sidebar. The table properties window will open:</p>
-			<img alt="Table - Advanced Settings" src="../images/table_properties_1.png" />
-			<p>The <b>Width &amp; Spaces</b> tab contains the following parameters:</p>
-			<ul>
-				<li><b>Width</b> - the table width selected manually or automatically adjusted to fit the page width.
-                <p class="note"><b>Note</b>: you can also adjust the table size manually changing the row height and column width. Move the mouse cursor over a row/column border untill it turns into the bidirectional arrow and drag the border. You can also use the <img alt="Table - Column Width Marker" src="../images/columnwidthmarker.png" /> markers on the horizontal ruler to change the column width and the <img alt="Table - Row Height Marker" src="../images/rowheightmarker.png" /> markers on the vertical ruler to change the row height.</p>
+            <p><img alt="Table - Advanced Settings" src="../images/table_properties_1.png" /></p>
+            <p>The <b>Table</b> tab allows to change properties of the entire table.</p>
+            <ul>
+                <li>The <b>Table Size</b> section contains the following parameters:
+                <ul>
+                    <li>
+                        <b>Width</b> - by default, the table width is automatically adjusted to fit the page width, i.e. the table occupies all the space between the left and right page margin. You can check this box and specify the necessary table width manually.
+                    </li>
+                    <li><b>Measure in</b> - allows to specify if you want to set the table width in absolute units i.e. <b>Centimeters</b>/<b>Points</b>/<b>Inches</b> (depending on the option specified at the <b>File</b> -> <b>Advanced Settings...</b> tab) or in <b>Percent</b> of the overall page width.
+                        <p class="note"><b>Note</b>: you can also adjust the table size manually changing the row height and column width. Move the mouse cursor over a row/column border until it turns into the bidirectional arrow and drag the border. You can also use the <img alt="Table - Column Width Marker" src="../images/columnwidthmarker.png" /> markers on the horizontal ruler to change the column width and the <img alt="Table - Row Height Marker" src="../images/rowheightmarker.png" /> markers on the vertical ruler to change the row height.</p>
+                    </li>
+                    <li><b>Automatically resize to fit contents</b> - enables automatic change of each column width in accordance with the text within its cells.</li>
+                </ul>
                 </li>
-				<li><b>Allow spacing between cells</b> - the cell spacing which will be filled with the <b>Table Background</b> color.</li>
-				<li><b>Automatically resize to fit contents</b> - enables automatic change of each column width in accordance with the text within its cells.</li>
-				<li><b>Default Margins</b> - the space between the text within the cells and the cell border used by default. The values can be altered.</li>
-			</ul>
-			<img alt="Table - Advanced Settings" src="../images/table_properties_2.png" />
-			<p>The <b>Text Wrapping</b> tab contains the following parameters:</p>
-			<ul>
-				<li>Text wrapping style - <b>Inline</b> or <b>Flow</b>. Use the necessary option to change the way the table is positioned relative to the text: it will either be a part of the text (in case you select the inline style) or bypassed by it from all sides (if you select the flow style).</li>
-				<li>After you select the wrapping style, the additional wrapping parameters can be set both for inline and flow wrapping style:
-					<ul>
-						<li>For the inline style, you can specify the table <b>alignment</b> and <b>indent from left</b>.</li>
-						<li>For the flow style, you can specify the <b>distance from text</b> and table <b>position</b> at the <b>Position</b> tab.</li>
-					</ul>
-				</li>
-			</ul>
-			<img alt="Table - Advanced Settings" src="../images/table_properties_3.png" />
-			<p>The <b>Borders &amp; Background</b> tab contains the following parameters:</p>
-			<ul>
-				<li><b>Border</b> parameters (size, color and presence or absence) - set the border size, select its color and choose the way it will be displayed in the cells.
-				<p class="note"><b>Note</b>: in case you select not to show table borders clicking the <img alt="No borders" src="../images/noborders.png" /> button or deselecting all the borders manually on the diagram, they will be indicated by a dotted line in the document. 
-				To make them disappear at all, click the <b>Nonprinting Characters</b> <img alt="Nonprinting Characters" src="../images/nonprintingcharacters.png" /> icon at the top toolbar and select the <b>Hidden Table Borders</b> option.</p>
-				</li>
-				<li><b>Cell Background</b> - the color for the background within the cells (available only if one or more cells are selected or the <b>Allow spacing between cells</b> option is selected at the <b>Width & Spaces</b> tab).</li>
-				<li><b>Table Background</b> - the color for the table background or the space background between the cells in case the <b>Allow spacing between cells</b> option is selected at the <b>Width & Spaces</b> tab.</li>
-			</ul>
-			<img alt="Table - Advanced Settings" src="../images/table_properties_4.png" />
-			<p>The <b>Position</b> tab is available only if the <b>Flow</b> option at the <b>Text Wrapping</b> tab is selected and contains the following parameters:</p>
+                <li>The <b>Default Cell Margins</b> section allows to change the space between the text within the cells and the cell border used by default.</li>
+                <li>The <b>Options</b> section allows to change the following parameter:
+                <ul>
+                    <li><b>Spacing between cells</b> - the cell spacing which will be filled with the <b>Table Background</b> color.</li>
+                </ul>
+                </li>
+            </ul>
+            <p><img alt="Table - Advanced Settings" src="../images/table_properties_5.png" /></p>
+            <p>The <b>Cell</b> tab allows to change properties of individual cells. First you need to select the cell you want to apply the changes to or select the entire table to change properties of all its cells.</p>
+            <ul>
+                <li>
+                    The <b>Cell Size</b> section contains the following parameters:
+                    <ul>
+                        <li><b>Preferred width</b> - allows to set a preferred cell width. This is the size that a cell strives to fit to, but in some cases it may not be possible to fit to this exact value. For example, if the text within a cell exceeds the specified width, it will be broken into the next line so that the preferred cell width remains unchanged, but if you insert a new column, the preferred width will be reduced.</li>
+                        <li><b>Measure in</b> - allows to specify if you want to set the cell width in absolute units i.e. <b>Centimeters</b>/<b>Points</b>/<b>Inches</b> (depending on the option specified at the <b>File</b> -> <b>Advanced Settings...</b> tab) or in <b>Percent</b> of the overall table width.
+                            <p class="note"><b>Note</b>: you can also adjust the cell width manually. To make a single cell in a column wider or narrower than the overall column width, select the necessary cell and move the mouse cursor over its right border until it turns into the bidirectional arrow, then drag the border. To change the width of all the cells in a column, use the <img alt="Table - Column Width Marker" src="../images/columnwidthmarker.png" /> markers on the horizontal ruler to change the column width.</p>
+                        </li>
+                    </ul>
+                </li>
+                <li>The <b>Cell Margins</b> section allows to adjust the space between the text within the cells and the cell border. By default, standard values are used (the default values can also be altered at the <b>Table</b> tab), but you can uncheck the <b>Use default margins</b> box and enter the necessary values manually.</li>
+                <li>
+                    The <b>Cell Options</b> section allows to change the following parameter:
+                    <ul>
+                        <li>The <b>Wrap text</b> option is enabled by default. It allows to wrap text within a cell that exceeds its width onto the next line expanding the row height and keeping the column width unchanged.</li>
+                    </ul>
+                </li>
+            </ul>
+            <p><img alt="Table - Advanced Settings" src="../images/table_properties_3.png" /></p>
+            <p>The <b>Borders &amp; Background</b> tab contains the following parameters:</p>
+            <ul>
+                <li>
+                    <b>Border</b> parameters (size, color and presence or absence) - set the border size, select its color and choose the way it will be displayed in the cells.
+                    <p class="note">
+                        <b>Note</b>: in case you select not to show table borders clicking the <img alt="No borders" src="../images/noborders.png" /> button or deselecting all the borders manually on the diagram, they will be indicated by a dotted line in the document.
+                        To make them disappear at all, click the <b>Nonprinting Characters</b> <img alt="Nonprinting Characters" src="../images/nonprintingcharacters.png" /> icon at the top toolbar and select the <b>Hidden Table Borders</b> option.
+                    </p>
+                </li>
+                <li><b>Cell Background</b> - the color for the background within the cells (available only if one or more cells are selected or the <b>Allow spacing between cells</b> option is selected at the <b>Table</b> tab).</li>
+                <li><b>Table Background</b> - the color for the table background or the space background between the cells in case the <b>Allow spacing between cells</b> option is selected at the <b>Table</b> tab.</li>
+            </ul>
+            <p><img alt="Table - Advanced Settings" src="../images/table_properties_4.png" /></p>
+			<p>The <b>Table Position</b> tab is available only if the <b>Flow</b> option at the <b>Text Wrapping</b> tab is selected and contains the following parameters:</p>
 			<ul>
 				<li><b>Horizontal</b> parameters include the table <b>alignment</b> (left, center, right) <b>relative to</b> margin, page or text as well as the table <b>position to the right of</b> margin, page or text.</li>
 				<li><b>Vertical</b> parameters include the table <b>alignment</b> (top, center, bottom) <b>relative to</b> margin, page or text as well as the table <b>position below</b> margin, page or text.</li>
-				<li><b>Move object with text</b> controls whether the table moves as the text into which it is inserted moves.</li>
-				<li><b>Allow overlap</b> controls whether two tables are merged into one large table or overlap if you drag them near each other on the page.</li>
-			</ul>
-			<img alt="Table - Advanced Settings" src="../images/table_properties_5.png" />
-			<p>The <b>Cell Properties</b> tab allows to adjust the <b>Cell Margins</b> - i.e. the space between the text within the cells and the cell border. Can be set to default (the default values can also be altered at the <b>Width &amp; Spaces</b> tab), or entered manually.</p>
+				<li>The <b>Options</b> section allows to change the following parameters: 
+                <ul>
+                    <li><b>Move object with text</b> controls whether the table moves as the text into which it is inserted moves.</li>
+                    <li><b>Allow overlap</b> controls whether two tables are merged into one large table or overlap if you drag them near each other on the page.</li>
+                </ul>
+                </li>                
+			</ul>            
+            <p><img alt="Table - Advanced Settings" src="../images/table_properties_2.png" /></p>
+            <p>The <b>Text Wrapping</b> tab contains the following parameters:</p>
+            <ul>
+                <li>Text <b>wrapping style</b> - <b>Inline</b> or <b>Flow</b>. Use the necessary option to change the way the table is positioned relative to the text: it will either be a part of the text (in case you select the inline style) or bypassed by it from all sides (if you select the flow style).</li>
+                <li>
+                    After you select the wrapping style, the additional wrapping parameters can be set both for inline and flow wrapping style:
+                    <ul>
+                        <li>For the inline style, you can specify the table <b>alignment</b> and <b>indent from left</b>.</li>
+                        <li>For the flow style, you can specify the <b>distance from text</b> and table <b>position</b> at the <b>Table Position</b> tab.</li>
+                    </ul>
+                </li>
+            </ul>
+            
 		</div>
 	</body>
 </html>

@@ -471,7 +471,7 @@ define([
             var t = this, _options = {};
 
             _.extend(_options, {
-                width           : 423,
+                width           : 448,
                 height          : 265,
                 contentWidth    : 400,
                 header          : false,
@@ -498,7 +498,7 @@ define([
                         '</div>',
                     '</div>',
                     '<div class="separator"/>',
-                    '<div class="menu-panel" style="width: 170px;">',
+                    '<div class="menu-panel" style="width: 195px;">',
                         '<div id="menu-container-filters" style=""><div class="dropdown-toggle" data-toggle="dropdown"></div></div>',
                     '</div>',
                 '</div>'

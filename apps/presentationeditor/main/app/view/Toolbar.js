@@ -221,7 +221,20 @@ define([
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-preview',
                 lock        : [_set.menuFileOpen, _set.slideDeleted, _set.noSlides, _set.disableOnStart],
-                hint        : me.tipPreview
+                hint        : me.tipPreview,
+                split       : true,
+                menu        : new Common.UI.Menu({
+                    items : [
+                        {caption: this.textShowBegin, value: 0},
+                        {caption: this.textShowCurrent, value: 1},
+                        {caption: '--'},
+                        me.mnuShowSettings = new Common.UI.MenuItem({
+                            caption: this.textShowSettings,
+                            value: 2,
+                            lock: [_set.lostConnect]
+                        })
+                    ]
+                })
             });
             me.slideOnlyControls.push(me.btnPreview);
 
@@ -1078,7 +1091,7 @@ define([
                 this.btnNumbers, this.btnDecLeftOffset, this.btnIncLeftOffset, this.btnLineSpace, this.btnHorizontalAlign,
                 this.btnVerticalAlign, this.btnShapeArrange, this.btnShapeAlign, this.btnInsertTable, this.btnInsertImage,
                 this.btnInsertChart, this.btnInsertText,
-                this.btnInsertHyperlink, this.btnInsertShape, this.btnColorSchemas, this.btnSlideSize, this.listTheme
+                this.btnInsertHyperlink, this.btnInsertShape, this.btnColorSchemas, this.btnSlideSize, this.listTheme, this.mnuShowSettings
             ];
 
             // Disable all components before load document
@@ -1555,7 +1568,7 @@ define([
         tipInsertHyperlink:     'Add Hyperlink',
         tipInsertText:          'Insert Text',
         tipInsertShape:         'Insert Autoshape',
-        tipPreview:             'Start Preview',
+        tipPreview:             'Start Slideshow',
         tipAddSlide:            'Add Slide',
         tipNewDocument:         'New Document',
         tipOpenDocument:        'Open Document',
@@ -1628,6 +1641,9 @@ define([
         tipSlideTheme:          'Slide Theme',
         tipSaveCoauth:          'Save your changes for the other users to see them.',
         textInsText:            'Insert text box',
-        textInsTextArt:         'Insert Text Art'
+        textInsTextArt:         'Insert Text Art',
+        textShowBegin:          'Show from Beginning',
+        textShowCurrent:        'Show from Current slide',
+        textShowSettings:       'Show Settings'
     }, PE.Views.Toolbar || {}));
 });

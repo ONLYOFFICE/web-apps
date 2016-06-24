@@ -375,7 +375,7 @@ define([
             tipZoomOut      : 'Zoom Out',
             tipZoomFactor   : 'Magnification',
             txtPageNumInvalid: 'Slide number invalid',
-            tipPreview      : 'Start Preview',
+            tipPreview      : 'Start Slideshow',
             tipAccessRights : 'Manage document access rights',
             tipViewUsers    : 'View users and manage document access rights',
             txAccessRights  : 'Change access rights'
