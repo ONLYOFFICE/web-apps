@@ -147,5 +147,6 @@ var sdk_dev_scrpipts = [
     "../../../../sdkjs/common/applyDocumentChanges.js",
     "../../../../sdkjs/common/Drawings/Format/OleObject.js",
     "../../../../sdkjs/common/clipboard_base.js",
-    "../../../../sdkjs/common/plugins.js"
+    "../../../../sdkjs/common/plugins.js",
+    "../../../../sdkjs/common/text_input.js"
 ];
