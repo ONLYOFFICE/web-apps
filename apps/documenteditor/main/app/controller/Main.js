@@ -1727,7 +1727,7 @@ define([
                             if (isSupported && (isEdit || itemVar.isViewer))
                                 variationsArr.push(new Common.Models.PluginVariation({
                                     description: itemVar.description,
-                                    index: itemVar.index,
+                                    index: variationsArr.length,
                                     url : itemVar.url,
                                     icons  : itemVar.icons,
                                     isViewer: itemVar.isViewer,

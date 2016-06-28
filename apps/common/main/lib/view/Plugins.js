@@ -50,7 +50,7 @@ define([
     'use strict';
 
     Common.Views.Plugins = Common.UI.BaseView.extend(_.extend({
-        el: '#id-plugins-settings',
+        el: '#left-panel-plugins',
 
         storePlugins: undefined,
         template: _.template([
@@ -100,10 +100,16 @@ define([
                 ].join(''))
             });
             this.lockedControls.push(this.viewPluginsList);
+            this.viewPluginsList.cmpEl.off('click');
 
             this.pluginName = $('#current-plugin-header label');
             this.pluginsPanel = $('#plugins-box');
             this.currentPluginPanel = $('#current-plugin-box');
+
+            this.pluginMenu = new Common.UI.Menu({
+                menuAlign   : 'tr-br',
+                items: []
+            });
 
             this.trigger('render:after', this);
             return this;
