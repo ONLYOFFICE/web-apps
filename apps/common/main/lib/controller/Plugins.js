@@ -150,7 +150,7 @@ define([
                     for (var i=0; i<variations.length; i++) {
                         var variation = variations[i],
                             mnu = new Common.UI.MenuItem({
-                                caption     : variation.get('description'),
+                                caption     : (i>0) ? variation.get('description') : me.panelPlugins.textStart,
                                 value       : parseInt(variation.get('index'))
                             }).on('click', function(item, e) {
                                 if (me.api) {
