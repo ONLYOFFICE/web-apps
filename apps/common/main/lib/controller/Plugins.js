@@ -193,8 +193,8 @@ define([
                 this.api.asc_pluginRun(record.get('guid'), 0, '');
         },
 
-        onPluginShow: function(plugin) {
-            var variation = plugin.get_Variations()[0];
+        onPluginShow: function(plugin, variationIndex) {
+            var variation = plugin.get_Variations()[variationIndex];
             if (!variation.get_Visual()) return;
             
             if (variation.get_InsideMode()) {
