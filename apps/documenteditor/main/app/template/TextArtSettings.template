@@ -85,6 +85,14 @@
     </tr>
     <tr>
         <td class="padding-small">
+        <div style="display:inline-block;width:100px;vertical-align: middle;">
+            <label class="input-label" style=""><%= scope.strType %></label>
+            <div id="textart-combo-border-type" style="width: 93px;"></div>
+        </div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small">
             <div class="separator horizontal"></div>
         </td>
     </tr>
