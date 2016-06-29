@@ -173,7 +173,8 @@ define([
         },
 
         strPlugins: 'Add-ons',
-        textLoading: 'Loading'
+        textLoading: 'Loading',
+        textStart: 'Start'
 
     }, Common.Views.Plugins || {}));
 
