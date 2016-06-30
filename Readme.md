@@ -1,6 +1,6 @@
 ## web-apps
 
-Frontend used for [ONLYOFFICE Document Server][2].
+The frontend for [ONLYOFFICE Document Server][2]. Builds the program interface and allows the user create, edit, save and export text, spreadsheet and presentation documents using the common interface of a document editor.
 
 ## Project Information
 
@@ -12,7 +12,7 @@ SaaS version: [http://www.onlyoffice.com](http://www.onlyoffice.com "http://www.
 
 ## User Feedback and Support
 
-If you have any problems with or questions about this image, please contact us through a [dev.onlyoffice.org][1].
+If you have any problems with or questions about [ONLYOFFICE Document Server][2], please visit our official forum to find answers to your questions: [dev.onlyoffice.org][1].
 
   [1]: http://dev.onlyoffice.org
   [2]: https://github.com/ONLYOFFICE/DocumentServer
