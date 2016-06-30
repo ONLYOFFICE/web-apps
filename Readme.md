@@ -1,3 +1,5 @@
+[![License](https://img.shields.io/badge/License-GNU%20AGPL%20V3-green.svg?style=flat)](http://www.gnu.org/licenses/agpl-3.0.ru.html)    ![Release](https://img.shields.io/badge/Release-v4.0.1-blue.svg?style=flat)
+
 ## web-apps
 
 The frontend for [ONLYOFFICE Document Server][2]. Builds the program interface and allows the user create, edit, save and export text, spreadsheet and presentation documents using the common interface of a document editor.
