@@ -727,6 +727,7 @@ define([
                     /** coauthoring end **/
                     this.appOptions.isOffline      = this.api.asc_isOffline();
                     this.appOptions.canLicense     = params.asc_getCanLicense ? params.asc_getCanLicense() : false;
+                    this.appOptions.isLightVersion = params.asc_getIsLight();
                     this.appOptions.canComments    = this.appOptions.canLicense && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.comments===false);
                     this.appOptions.canChat        = this.appOptions.canLicense && !this.appOptions.isOffline && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.chat===false);
 

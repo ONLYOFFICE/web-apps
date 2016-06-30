@@ -131,7 +131,7 @@ define([
                 rightMenuView   = PE.getController('RightMenu').getView('RightMenu'),
                 statusBarView   = PE.getController('Statusbar').getView('Statusbar');
 
-            me._toolbar     = toolbarView.render();
+            me._toolbar     = toolbarView.render(this.mode);
             me._rightMenu   = rightMenuView.render();
 
             var value = Common.localStorage.getItem('pe-hidden-status');
