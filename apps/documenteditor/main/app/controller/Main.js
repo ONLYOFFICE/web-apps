@@ -829,9 +829,11 @@ define([
                 application.getController('Common.Controllers.ExternalDiagramEditor').setApi(this.api).loadConfig({config:this.editorConfig, customization: this.editorConfig.customization});
                 application.getController('Common.Controllers.ExternalMergeEditor').setApi(this.api).loadConfig({config:this.editorConfig, customization: this.editorConfig.customization});
 
-                pluginsController.setApi(this.api);
-                this.updatePluginsList(this.plugins);
-                this.api.asc_registerCallback('asc_onPluginsInit', _.bind(this.updatePluginsList, this));
+                if (!me.appOptions.isLightVersion) {
+                    pluginsController.setApi(me.api);
+                    me.updatePluginsList(me.plugins);
+                    me.api.asc_registerCallback('asc_onPluginsInit', _.bind(me.updatePluginsList, me));
+                }
 
                 documentHolderController.setApi(me.api);
                 documentHolderController.createDelayedElements();
@@ -930,6 +932,7 @@ define([
                 this.permissions.review = (this.permissions.review === undefined) ? (this.permissions.edit !== false) : this.permissions.review;
                 this.appOptions.canAnalytics   = params.asc_getIsAnalyticsEnable();
                 this.appOptions.canLicense     = params.asc_getCanLicense ? params.asc_getCanLicense() : false;
+                this.appOptions.isLightVersion = params.asc_getIsLight();
                 this.appOptions.isOffline      = this.api.asc_isOffline();
                 this.appOptions.isReviewOnly   = (this.permissions.review === true) && (this.permissions.edit === false);
                 this.appOptions.canRequestEditRights = this.editorConfig.canRequestEditRights;

@@ -158,11 +158,11 @@ define([
         createDelayedElements: function() {
             /** coauthoring begin **/
             if ( this.mode.canCoAuthoring ) {
-                this.leftMenu.btnComments[this.mode.isEdit&&this.mode.canComments ? 'show' : 'hide']();
+                this.leftMenu.btnComments[(this.mode.isEdit && this.mode.canComments && !this.mode.isLightVersion) ? 'show' : 'hide']();
                 if (this.mode.canComments)
                     this.leftMenu.setOptionsPanel('comment', this.getApplication().getController('Common.Controllers.Comments').getView('Common.Views.Comments'));
 
-                this.leftMenu.btnChat[this.mode.canChat ? 'show' : 'hide']();
+                this.leftMenu.btnChat[(this.mode.canChat && !this.mode.isLightVersion) ? 'show' : 'hide']();
                 if (this.mode.canChat)
                     this.leftMenu.setOptionsPanel('chat', this.getApplication().getController('Common.Controllers.Chat').getView('Common.Views.Chat'));
             } else {
@@ -574,13 +574,13 @@ define([
                     break;
             /** coauthoring begin **/
                 case 'chat':
-                    if (this.mode.canCoAuthoring && this.mode.canChat) {
+                    if (this.mode.canCoAuthoring && this.mode.canChat && !this.mode.isLightVersion) {
                         Common.UI.Menu.Manager.hideAll();
                         this.leftMenu.showMenu('chat');
                     }
                     return false;
                 case 'comments':
-                    if (this.mode.canCoAuthoring && this.mode.isEdit && this.mode.canComments) {
+                    if (this.mode.canCoAuthoring && this.mode.isEdit && this.mode.canComments && !this.mode.isLightVersion) {
                         Common.UI.Menu.Manager.hideAll();
                         this.leftMenu.showMenu('comments');
                         this.getApplication().getController('Common.Controllers.Comments').onAfterShow();

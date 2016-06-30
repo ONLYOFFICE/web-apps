@@ -181,10 +181,10 @@ define([
                 });
 
                 value = Common.localStorage.getItem("de-track-changes-tip");
-                this.showTrackChangesTip = !(value && parseInt(value) == 1);
+                this.showTrackChangesTip = !(value && parseInt(value) == 1) && !this.statusbar.mode.isLightVersion;
 
                 value = Common.localStorage.getItem("de-new-changes");
-                this.showNewChangesTip = !(value && parseInt(value) == 1);
+                this.showNewChangesTip = !(value && parseInt(value) == 1) && !this.statusbar.mode.isLightVersion;
 
                 if (this.statusbar.mode.isReviewOnly) {
                     var iconEl = $('.btn-icon', this.statusbar.btnReview.cmpEl);
@@ -207,7 +207,7 @@ define([
                         var iconEl = $('.btn-icon', this.statusbar.btnReview.cmpEl);
                        (this.api.asc_HaveRevisionsChanges()) ? iconEl.removeClass(this.statusbar.btnReviewCls).addClass('btn-ic-changes') : iconEl.removeClass('btn-ic-changes').addClass(this.statusbar.btnReviewCls);
                         if (value!==null && parseInt(value) == 1) {
-                            this.changeReviewStatus(true);
+                            this.changeReviewStatus(!this.statusbar.mode.isLightVersion);
                             // show tooltip "track changes in this document" and change icon
                             if (this.showTrackChangesTip && !statusbarIsHidden){
                                 this.statusbar.btnReview.updateHint('');
@@ -300,7 +300,7 @@ define([
             if (this.api) {
                 this.api.asc_SetTrackRevisions(state);
             }
-            this.showHideReviewChangesPanel(state);
+            this.showHideReviewChangesPanel(state && !this.statusbar.mode.isLightVersion);
         },
 
         showHideReviewChangesPanel: function(state) {

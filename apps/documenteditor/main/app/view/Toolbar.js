@@ -1237,7 +1237,7 @@ define([
             return this;
         },
 
-        render: function () {
+        render: function (mode) {
             var me = this;
 
             /**
@@ -1247,7 +1247,7 @@ define([
             this.trigger('render:before', this);
 
             var value = Common.localStorage.getItem("de-compact-toolbar");
-            var valueCompact = (value !== null && parseInt(value) == 1);
+            var valueCompact = (mode.isLightVersion || value !== null && parseInt(value) == 1);
 
             value = Common.localStorage.getItem("de-hidden-title");
             var valueTitle = (value !== null && parseInt(value) == 1);
@@ -1258,6 +1258,7 @@ define([
             value = Common.localStorage.getItem("de-hidden-rulers");
             var valueRulers = (value !== null && parseInt(value) == 1);
 
+            this.mnuitemCompactToolbar.setVisible(!mode.isLightVersion);
             this.mnuitemCompactToolbar.setChecked(valueCompact, true);
             this.mnuitemHideTitleBar.setChecked(valueTitle, true);
             this.mnuitemHideStatusBar.setChecked(valueStatus, true);

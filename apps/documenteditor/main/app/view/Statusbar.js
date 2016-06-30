@@ -380,7 +380,7 @@ define([
             setMode: function(mode) {
                 this.mode = mode;
                 this.$el.find('.el-edit')[mode.isEdit?'show':'hide']();
-                this.$el.find('.el-review')[mode.canReview?'show':'hide']();
+                this.$el.find('.el-review')[(mode.canReview && !mode.isLightVersion)?'show':'hide']();
                 this.lblChangeRights[(!this.mode.isOffline && !this.mode.isReviewOnly && this.mode.sharingSettingsUrl&&this.mode.sharingSettingsUrl.length)?'show':'hide']();
                 this.panelUsers[(!this.mode.isOffline && !this.mode.isReviewOnly && this.mode.sharingSettingsUrl&&this.mode.sharingSettingsUrl.length)?'show':'hide']();
             },
