@@ -108,6 +108,14 @@
         </div>
         </td>
     </tr>
+    <tr>
+        <td class="padding-small">
+        <div style="display:inline-block;width:100px;vertical-align: middle;">
+            <label class="input-label" style=""><%= scope.strType %></label>
+            <div id="shape-combo-border-type" style="width: 93px;"></div>
+        </div>
+        </td>
+    </tr>
     <tr class="shape-only">
         <td class="padding-small"></td>
     </tr>

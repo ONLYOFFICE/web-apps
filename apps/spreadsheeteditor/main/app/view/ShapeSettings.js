@@ -89,6 +89,7 @@ define([
                 StrokeType: Asc.c_oAscStrokeType.STROKE_COLOR,
                 StrokeWidth: this._pt2mm(1),
                 StrokeColor: '000000',
+                StrokeBorderType: Asc.c_oDashType.solid,
                 FGColor: '000000',
                 BGColor: 'ffffff',
                 GradColor: '000000',
@@ -114,6 +115,7 @@ define([
 
             this.BorderColor = {Value: 1, Color: 'transparent'};  // value=1 - цвет определен - прозрачный или другой, value=0 - цвет не определен, рисуем прозрачным
             this.BorderSize = 0;
+            this.BorderType = Asc.c_oDashType.solid;
 
             this.textureNames = [this.txtCanvas, this.txtCarton, this.txtDarkFabric, this.txtGrain, this.txtGranite, this.txtGreyPaper,
                 this.txtKnit, this.txtLeather, this.txtBrownPaper, this.txtPapyrus, this.txtWood];
@@ -534,6 +536,16 @@ define([
             this.btnBorderColor.setColor('000000');
             $(this.el).on('click', '#shape-border-color-new', _.bind(this.addNewColor, this, this.colorsBorder, this.btnBorderColor));
             this.lockedControls.push(this.btnBorderColor);
+
+            this.cmbBorderType = new Common.UI.ComboBorderType({
+                el: $('#shape-combo-border-type'),
+                style: "width: 93px;",
+                menuStyle: 'min-width: 93px;'
+            }).on('selected', _.bind(this.onBorderTypeSelect, this))
+            .on('combo:blur',    _.bind(this.onComboBlur, this, false));
+            this.BorderType = Asc.c_oDashType.solid;
+            this.cmbBorderType.setValue(this.BorderType);
+            this.lockedControls.push(this.cmbBorderType);
 
             this.btnChangeShape = new Common.UI.Button({
                 cls: 'btn-icon-default',
@@ -984,6 +996,7 @@ define([
                         stroke.asc_putColor(Common.Utils.ThemeColor.getRgbColor({color: '000000', effectId: 29}));
                     else if (this._state.StrokeType == Asc.c_oAscStrokeType.STROKE_NONE || this._state.StrokeType === null)
                         stroke.asc_putColor(Common.Utils.ThemeColor.getRgbColor(Common.Utils.ThemeColor.colorValue2EffectId(this.BorderColor.Color)));
+                    stroke.asc_putPrstDash(this.BorderType);
                     stroke.asc_putWidth(this._pt2mm(this.BorderSize));
                 }
                 props.asc_putStroke(stroke);
@@ -1021,6 +1034,26 @@ define([
             this.applyBorderSize(record.value);
         },
 
+        onBorderTypeSelect: function(combo, record) {
+            this.BorderType = record.value;
+            if (this.api && !this._noApply) {
+                var props = new Asc.asc_CShapeProperty();
+                var stroke = new Asc.asc_CStroke();
+                if (this.BorderSize<0.01) {
+                    stroke.put_type( Asc.c_oAscStrokeType.STROKE_NONE);
+                } else {
+                    stroke.put_type( Asc.c_oAscStrokeType.STROKE_COLOR);
+                    stroke.put_color(Common.Utils.ThemeColor.getRgbColor(this.BorderColor.Color));
+                    stroke.put_width(this._pt2mm(this.BorderSize));
+                    stroke.asc_putPrstDash(this.BorderType);
+                }
+                props.put_stroke(stroke);
+                this.imgprops.asc_putShapeProperties(props);
+                this.api.asc_setGraphicObjectProps(this.imgprops);
+            }
+            this.fireEvent('editcomplete', this);
+        },
+
         onColorsBorderSelect: function(picker, color) {
             this.btnBorderColor.setColor(color);
             this.BorderColor = {Value: 1, Color: color};
@@ -1033,6 +1066,7 @@ define([
                     stroke.asc_putType( Asc.c_oAscStrokeType.STROKE_COLOR);
                     stroke.asc_putColor(Common.Utils.ThemeColor.getRgbColor(this.BorderColor.Color));
                     stroke.asc_putWidth(this._pt2mm(this.BorderSize));
+                    stroke.asc_putPrstDash(this.BorderType);
                 }
                 props.asc_putStroke(stroke);
                 this.imgprops.asc_putShapeProperties(props);
@@ -1321,8 +1355,9 @@ define([
                 }
 
                 // border colors
-                var stroke = shapeprops.asc_getStroke();
-                var strokeType = stroke.asc_getType();
+                var stroke = shapeprops.asc_getStroke(),
+                    strokeType = stroke.asc_getType(),
+                    borderType;
 
                 if (stroke) {
                     if ( strokeType == Asc.c_oAscStrokeType.STROKE_COLOR ) {
@@ -1339,6 +1374,7 @@ define([
                     } else {
                         this.BorderColor = {Value: 1, Color: 'transparent'};
                     }
+                    borderType = stroke.asc_getPrstDash();
                 } else  { // no stroke
                     strokeType = null;
                     this.BorderColor = {Value: 0, Color: 'transparent'};
@@ -1401,6 +1437,11 @@ define([
                     this._state.StrokeType = strokeType;
                 }
 
+                if (this._state.StrokeBorderType !== borderType) {
+                    this.BorderType = this._state.StrokeBorderType = borderType;
+                    this.cmbBorderType.setValue(borderType);
+                }
+                
                 // pattern colors
                 type1 = typeof(this.FGColor.Color);
                 type2 = typeof(this._state.FGColor);
@@ -1704,6 +1745,7 @@ define([
         textDirection: 'Direction',
         textStyle: 'Style',
         textGradient: 'Gradient',
-        textBorderSizeErr: 'The entered value is incorrect.<br>Please enter a value between 0 pt and 1584 pt.'
+        textBorderSizeErr: 'The entered value is incorrect.<br>Please enter a value between 0 pt and 1584 pt.',
+        strType: 'Type'
     }, SSE.Views.ShapeSettings || {}));
 });
