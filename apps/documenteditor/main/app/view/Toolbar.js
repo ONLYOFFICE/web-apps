@@ -679,7 +679,13 @@ define([
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-pageorient',
                 hint        : this.tipPageOrient,
-                enableToggle: true
+                menu        : new Common.UI.Menu({
+                    cls: 'ppm-toolbar',
+                    items: [
+                        { caption: this.textPortrait,       iconCls: 'mnu-orient-portrait',   checkable: true, toggleGroup: 'menuOrient', value: true },
+                        { caption: this.textLandscape,     iconCls: 'mnu-orient-landscape',   checkable: true, toggleGroup: 'menuOrient', value: false }
+                    ]
+                })
             });
             this.toolbarControls.push(this.btnPageOrient);
 
@@ -1853,7 +1859,9 @@ define([
         textLeft: 'Left: ',
         textBottom: 'Bottom: ',
         textRight: 'Right: ',
-        textPageSizeCustom: 'Custom Page Size'
-
+        textPageSizeCustom: 'Custom Page Size',
+        textPortrait: 'Portrait',
+        textLandscape: 'Landscape'
+        
     }, DE.Views.Toolbar || {}));
 });

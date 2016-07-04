@@ -240,7 +240,7 @@ define([
             toolbar.btnDropCap.menu.on('item:click',                    _.bind(this.onDropCapSelect, this));
             toolbar.mnuDropCapAdvanced.on('click',                      _.bind(this.onDropCapAdvancedClick, this));
             toolbar.btnColumns.menu.on('item:click',                    _.bind(this.onColumnsSelect, this));
-            toolbar.btnPageOrient.on('toggle',                          _.bind(this.onPageOrientToggle, this));
+            toolbar.btnPageOrient.menu.on('item:click',                 _.bind(this.onPageOrientSelect, this));
             toolbar.btnPageMargins.menu.on('item:click',                _.bind(this.onPageMarginsSelect, this));
             toolbar.btnClearStyle.on('click',                           _.bind(this.onClearStyleClick, this));
             toolbar.btnCopyStyle.on('toggle',                           _.bind(this.onCopyStyleToggle, this));
@@ -723,7 +723,7 @@ define([
 
         onApiPageOrient: function(isportrait) {
             if (this._state.pgorient !== isportrait) {
-                this.toolbar.btnPageOrient.toggle(!isportrait, true);
+                this.toolbar.btnPageOrient.menu.items[isportrait ? 0 : 1].setChecked(true);
                 this._state.pgorient = isportrait;
             }
         },
@@ -1387,10 +1387,11 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this.toolbar, this.toolbar.btnInsertShape);
         },
 
-        onPageOrientToggle: function(btn, state, e) {
+        onPageOrientSelect: function(menu, item) {
             this._state.pgorient = undefined;
-            if (this.api)
-                this.api.change_PageOrient(!state);
+            if (this.api && item.checked) {
+                this.api.change_PageOrient(item.value);
+            }
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             Common.component.Analytics.trackEvent('ToolBar', 'Page Orientation');
