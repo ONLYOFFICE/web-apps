@@ -1826,7 +1826,7 @@ define([
             txtLines: 'Lines',
             txtEditingMode: 'Set editing mode...',
             textAnonymous: 'Anonymous',
-            loadingDocumentTitleText: 'Loading Document',
+            loadingDocumentTitleText: 'Loading document',
             loadingDocumentTextText: 'Loading document...',
             warnProcessRightsChange: 'You have been denied the right to edit the file.',
             errorProcessSaveResult: 'Saving is failed.',
