@@ -659,6 +659,10 @@ define([
             this.leftMenu.btnFile.setDisabled(isRangeSelection);
             this.leftMenu.btnAbout.setDisabled(isRangeSelection);
             this.leftMenu.btnSearch.setDisabled(isRangeSelection);
+            if (this.mode.canPlugins && this.leftMenu.panelPlugins) {
+                this.leftMenu.panelPlugins.setLocked(isRangeSelection);
+                this.leftMenu.panelPlugins.disableControls(isRangeSelection);
+            }
         },
 
         onApiEditCell: function(state) {
@@ -668,6 +672,10 @@ define([
             this.leftMenu.btnFile.setDisabled(isEditFormula);
             this.leftMenu.btnAbout.setDisabled(isEditFormula);
             this.leftMenu.btnSearch.setDisabled(isEditFormula);
+            if (this.mode.canPlugins && this.leftMenu.panelPlugins) {
+                this.leftMenu.panelPlugins.setLocked(isEditFormula);
+                this.leftMenu.panelPlugins.disableControls(isEditFormula);
+            }
         },
 
         textNoTextFound        : 'Text not found',
