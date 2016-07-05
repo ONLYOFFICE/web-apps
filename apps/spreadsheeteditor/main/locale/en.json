@@ -149,7 +149,7 @@
   "SSE.Controllers.Main.errorLockedWorksheetRename": "The sheet cannot be renamed at the moment as it is being renamed by another user",
   "SSE.Controllers.Main.errorMoveRange": "Cannot change part of a merged cell",
   "SSE.Controllers.Main.errorOpenWarning": "The length of one of the formulas in the file exceeded<br>the allowed number of characters and it was removed.",
-  "SSE.Controllers.Main.errorOperandExpected": "Operand expected",
+  "SSE.Controllers.Main.errorOperandExpected": "The entered function syntax is not correct. Please check if you are missing one of the parentheses - '(' or ')'.",
   "SSE.Controllers.Main.errorPasteMaxRange": "The copy and paste area does not match.<br>Please select an area with the same size or click the first cell in a row to paste the copied cells.",
   "SSE.Controllers.Main.errorProcessSaveResult": "Saving failed",
   "SSE.Controllers.Main.errorStockChart": "Incorrect row order. To build a stock chart place the data on the sheet in the following order:<br> opening price, max price, min price, closing price.",
