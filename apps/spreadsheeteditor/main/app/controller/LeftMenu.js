@@ -614,15 +614,15 @@ define([
                         $.fn.dropdown.Constructor.prototype.keydown.call(menu_opened[0], e);
                         return false;
                     }
-                    if (this.mode.canPlugins && this.leftMenu.panelPlugins) {
+                    if (this.mode.canPlugins && this.leftMenu.panelPlugins && this.api.isCellEdited!==true) {
                         menu_opened = this.leftMenu.panelPlugins.$el.find('#menu-plugin-container.open > [data-toggle="dropdown"]');
                         if (menu_opened.length) {
                             $.fn.dropdown.Constructor.prototype.keydown.call(menu_opened[0], e);
                             return false;
                         }
                     }
-                    if (this.leftMenu.btnFile.pressed ||  this.leftMenu.btnAbout.pressed || this.leftMenu.btnPlugins.pressed ||
-                        $(e.target).parents('#left-menu').length && this.api.isCellEdited!==true) {
+                    if (this.leftMenu.btnFile.pressed ||  this.leftMenu.btnAbout.pressed ||
+                        ($(e.target).parents('#left-menu').length || this.leftMenu.btnPlugins.pressed) && this.api.isCellEdited!==true) {
                         this.leftMenu.close();
                         Common.NotificationCenter.trigger('layout:changed', 'leftmenu');
                         return false;
