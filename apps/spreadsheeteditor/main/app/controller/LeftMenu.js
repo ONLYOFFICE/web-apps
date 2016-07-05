@@ -181,6 +181,14 @@ define([
             return this;
         },
 
+        enablePlugins: function() {
+            if (this.mode.canPlugins) {
+                this.leftMenu.btnPlugins.show();
+                this.leftMenu.setOptionsPanel('plugins', this.getApplication().getController('Common.Controllers.Plugins').getView('Common.Views.Plugins'));
+            } else
+                this.leftMenu.btnPlugins.hide();
+        },
+
         clickMenuFileItem: function(menu, action, isopts) {
             var close_menu = true;
             switch (action) {
@@ -496,6 +504,7 @@ define([
             this.leftMenu.btnComments.setDisabled(true);
             this.leftMenu.btnChat.setDisabled(true);
             /** coauthoring end **/
+            this.leftMenu.btnPlugins.setDisabled(true);
 
             this.leftMenu.getMenu('file').setMode({isDisconnected: true});
             if ( this.dlgSearch ) {
@@ -605,7 +614,14 @@ define([
                         $.fn.dropdown.Constructor.prototype.keydown.call(menu_opened[0], e);
                         return false;
                     }
-                    if (this.leftMenu.btnFile.pressed ||  this.leftMenu.btnAbout.pressed ||
+                    if (this.mode.canPlugins && this.leftMenu.panelPlugins) {
+                        menu_opened = this.leftMenu.panelPlugins.$el.find('#menu-plugin-container.open > [data-toggle="dropdown"]');
+                        if (menu_opened.length) {
+                            $.fn.dropdown.Constructor.prototype.keydown.call(menu_opened[0], e);
+                            return false;
+                        }
+                    }
+                    if (this.leftMenu.btnFile.pressed ||  this.leftMenu.btnAbout.pressed || this.leftMenu.btnPlugins.pressed ||
                         $(e.target).parents('#left-menu').length && this.api.isCellEdited!==true) {
                         this.leftMenu.close();
                         Common.NotificationCenter.trigger('layout:changed', 'leftmenu');

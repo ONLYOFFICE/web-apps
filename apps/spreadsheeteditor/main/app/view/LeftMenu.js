@@ -42,6 +42,7 @@ define([
     'common/main/lib/view/Chat',
     /** coauthoring end **/
     'common/main/lib/view/SearchDialog',
+    'common/main/lib/view/Plugins',
     'spreadsheeteditor/main/app/view/FileMenu'
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
@@ -61,6 +62,7 @@ define([
                 'click #left-btn-comments': _.bind(this.onCoauthOptions, this),
                 'click #left-btn-chat': _.bind(this.onCoauthOptions, this),
                 /** coauthoring end **/
+                'click #left-btn-plugins': _.bind(this.onCoauthOptions, this),
                 'click #left-btn-support': function() {
                     var config = this.mode.customization;
                     config && !!config.feedback && !!config.feedback.url ?
@@ -136,6 +138,16 @@ define([
             this.btnChat.on('click',            _.bind(this.onBtnMenuClick, this));
             /** coauthoring end **/
 
+            this.btnPlugins = new Common.UI.Button({
+                el: $('#left-btn-plugins'),
+                hint: this.tipPlugins,
+                enableToggle: true,
+                disabled: true,
+                toggleGroup: 'leftMenuGroup'
+            });
+            this.btnPlugins.hide();
+            this.btnPlugins.on('click',         _.bind(this.onBtnMenuClick, this));
+
             this.btnSearch.on('click',          _.bind(this.onBtnMenuClick, this));
             this.btnAbout.on('toggle',          _.bind(this.onBtnMenuToggle, this));
             this.btnFile.on('toggle',           _.bind(this.onBtnMenuToggle, this));
@@ -205,6 +217,12 @@ define([
                         this.panelChat['hide']();
                }
             }
+            if (this.mode.canPlugins && this.panelPlugins) {
+                if (this.btnPlugins.pressed) {
+                    this.panelPlugins.show();
+                } else
+                    this.panelPlugins['hide']();
+            }
         },
 
         setOptionsPanel: function(name, panel) {
@@ -212,6 +230,9 @@ define([
                 this.panelChat = panel.render('#left-panel-chat');
             } else if (name == 'comment') {
                 this.panelComments = panel;
+            } else
+            if (name == 'plugins' && !this.panelPlugins) {
+                this.panelPlugins = panel.render('#left-panel-plugins');
             }
         },
 
@@ -245,6 +266,10 @@ define([
                 }
             }
             /** coauthoring end **/
+            if (this.mode.canPlugins && this.panelPlugins) {
+                this.panelPlugins['hide']();
+                this.btnPlugins.toggle(false, true);
+            }
         },
 
         isOpened: function() {
@@ -264,6 +289,7 @@ define([
             this.btnComments.setDisabled(false);
             this.btnChat.setDisabled(false);
             /** coauthoring end **/
+            this.btnPlugins.setDisabled(false);
         },
 
         showMenu: function(menu) {
@@ -319,6 +345,7 @@ define([
         tipAbout    : 'About',
         tipSupport  : 'Feedback & Support',
         tipFile     : 'File',
-        tipSearch   : 'Search'
+        tipSearch   : 'Search',
+        tipPlugins  : 'Add-ons'
     }, SSE.Views.LeftMenu || {}));
 });
