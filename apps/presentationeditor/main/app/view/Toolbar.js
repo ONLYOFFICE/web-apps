@@ -213,7 +213,9 @@ define([
             });
             me.slideOnlyControls.push(me.btnChangeSlide);
             me.listenTo(PE.getCollection('SlideLayouts'), 'reset',  function() {
-                me.mnuChangeSlidePicker._needRecalcSlideLayout = me.mnuAddSlidePicker._needRecalcSlideLayout = true;
+                me.mnuAddSlidePicker._needRecalcSlideLayout = true;
+                if (me.mnuChangeSlidePicker)
+                    me.mnuChangeSlidePicker._needRecalcSlideLayout = true;
             });
 
             me.btnPreview = new Common.UI.Button({
@@ -1145,7 +1147,7 @@ define([
             });
         },
 
-        render: function () {
+        render: function (mode) {
             var me = this,
                 el = $(this.el);
 
@@ -1156,7 +1158,7 @@ define([
             this.trigger('render:before', this);
 
             var value = Common.localStorage.getItem('pe-compact-toolbar');
-            var valueCompact = (value!==null && parseInt(value) == 1);
+            var valueCompact = (mode.isLightVersion || value!==null && parseInt(value) == 1);
 
             value = Common.localStorage.getItem('pe-hidden-title');
             var valueTitle = (value!==null && parseInt(value) == 1);
@@ -1167,6 +1169,7 @@ define([
             value = Common.localStorage.getItem("pe-hidden-rulers");
             var valueRulers = (value !== null && parseInt(value) == 1);
 
+            me.mnuitemCompactToolbar.setVisible(!mode.isLightVersion);
             me.mnuitemCompactToolbar.setChecked(valueCompact);
             me.mnuitemHideTitleBar.setChecked(valueTitle);
             me.mnuitemHideStatusBar.setChecked(valueStatus);

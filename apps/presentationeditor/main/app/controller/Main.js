@@ -720,6 +720,7 @@ define([
                 /** coauthoring end **/
                 this.appOptions.isOffline      = this.api.asc_isOffline();
                 this.appOptions.canLicense     = params.asc_getCanLicense ? params.asc_getCanLicense() : false;
+                this.appOptions.isLightVersion = params.asc_getIsLight();
                 this.appOptions.canRequestEditRights = this.editorConfig.canRequestEditRights;
                 this.appOptions.canEdit        = this.permissions.edit !== false && // can edit
                                                  (this.editorConfig.canRequestEditRights || this.editorConfig.mode !== 'view'); // if mode=="view" -> canRequestEditRights must be defined

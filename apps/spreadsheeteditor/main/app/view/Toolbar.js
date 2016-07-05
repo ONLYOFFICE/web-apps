@@ -1567,7 +1567,7 @@ define([
             });
         },
 
-        render: function (isEditDiagram, isEditMailMerge) {
+        render: function (mode) {
             var me = this,
                 el = $(this.el);
 
@@ -1579,8 +1579,9 @@ define([
             JSON.parse(Common.localStorage.getItem('sse-hidden-title'))     && (options.title = true);
             JSON.parse(Common.localStorage.getItem('sse-hidden-formula'))   && (options.formula = true);
             JSON.parse(Common.localStorage.getItem('sse-hidden-headings'))  && (options.headings = true);
-            var isCompactView = !!JSON.parse(Common.localStorage.getItem('sse-toolbar-compact'));
+            var isCompactView = mode.isLightVersion || !!JSON.parse(Common.localStorage.getItem('sse-toolbar-compact'));
 
+            me.mnuitemCompactToolbar.setVisible(!mode.isLightVersion);
             me.mnuitemCompactToolbar.setChecked(isCompactView);
             me.mnuitemHideTitleBar.setChecked(!!options.title);
             me.mnuitemHideFormulaBar.setChecked(!!options.formula);
@@ -1589,12 +1590,12 @@ define([
             this.trigger('render:before', this);
 
             el.html(this.template({
-                isEditDiagram: isEditDiagram,
-                isEditMailMerge: isEditMailMerge,
+                isEditDiagram: mode.isEditDiagram,
+                isEditMailMerge: mode.isEditMailMerge,
                 isCompactView: isCompactView
             }));
 
-            me.rendererComponents(isEditDiagram ? 'diagram' : (isEditMailMerge ? 'merge' : isCompactView ? 'short' : 'full'));
+            me.rendererComponents(mode.isEditDiagram ? 'diagram' : (mode.isEditMailMerge ? 'merge' : isCompactView ? 'short' : 'full'));
 
             this.trigger('render:after', this);
 

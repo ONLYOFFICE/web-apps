@@ -140,7 +140,7 @@ define([
                 rightMenuView   = DE.getController('RightMenu').getView('RightMenu'),
                 statusBarView   = DE.getController('Statusbar').getView('Statusbar');
 
-            me._toolbar     = toolbarView.render();
+            me._toolbar     = toolbarView.render(this.mode);
             me._rightMenu   = rightMenuView.render(this.mode);
 
             var value = Common.localStorage.getItem('de-hidden-status');
