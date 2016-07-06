@@ -66,7 +66,8 @@ define([
                 '</div>',
                 '<div id="current-plugin-frame" class="">',
                 '</div>',
-            '</div>'
+            '</div>',
+            '<div id="plugins-mask" style="display: none;">'
         ].join('')),
 
         initialize: function(options) {
@@ -104,6 +105,7 @@ define([
 
             this.pluginName = $('#current-plugin-header label');
             this.pluginsPanel = $('#plugins-box');
+            this.pluginsMask = $('#plugins-mask');
             this.currentPluginPanel = $('#current-plugin-box');
 
             this.pluginMenu = new Common.UI.Menu({
@@ -129,6 +131,8 @@ define([
                 _.each(this.lockedControls, function(item) {
                     item.setDisabled(disable);
                 });
+
+                this.pluginsMask.css('display', disable ? 'block' : 'none');
             }
         },
 

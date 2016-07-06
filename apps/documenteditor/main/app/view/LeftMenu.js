@@ -141,6 +141,13 @@ define([
                 toggleGroup: 'leftMenuGroup'
             });
 
+            this.btnComments.hide();
+            this.btnChat.hide();
+
+            this.btnComments.on('click',        _.bind(this.onBtnMenuClick, this));
+            this.btnChat.on('click',            _.bind(this.onBtnMenuClick, this));
+            /** coauthoring end **/
+
             this.btnPlugins = new Common.UI.Button({
                 el: $('#left-btn-plugins'),
                 hint: this.tipPlugins,
@@ -148,15 +155,8 @@ define([
                 disabled: true,
                 toggleGroup: 'leftMenuGroup'
             });
-
-            this.btnComments.hide();
-            this.btnChat.hide();
             this.btnPlugins.hide();
-
-            this.btnComments.on('click',        _.bind(this.onBtnMenuClick, this));
-            this.btnChat.on('click',            _.bind(this.onBtnMenuClick, this));
             this.btnPlugins.on('click',         _.bind(this.onBtnMenuClick, this));
-            /** coauthoring end **/
 
             this.btnSearch.on('click',          _.bind(this.onBtnMenuClick, this));
             this.btnAbout.on('toggle',          _.bind(this.onBtnMenuToggle, this));
@@ -279,12 +279,12 @@ define([
                     this.panelChat['hide']();
                     this.btnChat.toggle(false, true);
                 }
-                if (this.mode.canPlugins && this.panelPlugins) {
-                    this.panelPlugins['hide']();
-                    this.btnPlugins.toggle(false, true);
-                }
             }
             /** coauthoring end **/
+            if (this.mode.canPlugins && this.panelPlugins) {
+                this.panelPlugins['hide']();
+                this.btnPlugins.toggle(false, true);
+            }
         },
 
         isOpened: function() {
