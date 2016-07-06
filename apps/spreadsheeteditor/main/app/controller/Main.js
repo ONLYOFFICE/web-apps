@@ -593,7 +593,7 @@ define([
                 leftMenuView.getMenu('file').loadDocument({doc:me.appOptions.spreadsheet});
                 leftmenuController.setMode(me.appOptions).createDelayedElements().setApi(me.api);
 
-                 if (!me.appOptions.isLightVersion && !me.appOptions.isEditMailMerge && !me.appOptions.isEditDiagram) {
+                 if (!me.appOptions.isEditMailMerge && !me.appOptions.isEditDiagram) {
                     pluginsController.setApi(me.api);
                     me.updatePluginsList(me.plugins);
                     me.api.asc_registerCallback('asc_onPluginsInit', _.bind(me.updatePluginsList, me));
