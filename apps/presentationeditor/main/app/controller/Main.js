@@ -707,12 +707,12 @@ define([
             },
 
             onEditorPermissions: function(params) {
-                /** coauthoring begin **/
-                this.appOptions.canCoAuthoring = true;
-                /** coauthoring end **/
                 this.appOptions.isOffline      = this.api.asc_isOffline();
                 this.appOptions.canLicense     = params.asc_getCanLicense ? params.asc_getCanLicense() : false;
                 this.appOptions.isLightVersion = params.asc_getIsLight();
+                /** coauthoring begin **/
+                this.appOptions.canCoAuthoring = !this.appOptions.isLightVersion;
+                /** coauthoring end **/
                 this.appOptions.canRequestEditRights = this.editorConfig.canRequestEditRights;
                 this.appOptions.canEdit        = this.permissions.edit !== false && // can edit
                                                  (this.editorConfig.canRequestEditRights || this.editorConfig.mode !== 'view'); // if mode=="view" -> canRequestEditRights must be defined

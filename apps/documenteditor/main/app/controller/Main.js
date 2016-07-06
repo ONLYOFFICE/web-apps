@@ -924,13 +924,13 @@ define([
             },
 
             onEditorPermissions: function(params) {
-                /** coauthoring begin **/
-                this.appOptions.canCoAuthoring = true;
-                /** coauthoring end **/
                 this.permissions.review = (this.permissions.review === undefined) ? (this.permissions.edit !== false) : this.permissions.review;
                 this.appOptions.canAnalytics   = params.asc_getIsAnalyticsEnable();
                 this.appOptions.canLicense     = params.asc_getCanLicense ? params.asc_getCanLicense() : false;
                 this.appOptions.isLightVersion = params.asc_getIsLight();
+                /** coauthoring begin **/
+                this.appOptions.canCoAuthoring = !this.appOptions.isLightVersion;
+                /** coauthoring end **/
                 this.appOptions.isOffline      = this.api.asc_isOffline();
                 this.appOptions.isReviewOnly   = (this.permissions.review === true) && (this.permissions.edit === false);
                 this.appOptions.canRequestEditRights = this.editorConfig.canRequestEditRights;
