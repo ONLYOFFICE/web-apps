@@ -148,18 +148,9 @@ define([
                 var me = this;
                 // Syncronize focus with api
                 $(document.body).on('focus', 'input, textarea:not(#ce-cell-content)', function(e) {
-
-                    // NOTE: fix double click mozilla copy-paste
-
-                    if (e && e.target && (e.target.id === 'clipboard-helper-text')) {
-                        me.api.asc_enableKeyEvents(true);
-                        return;
-                    }
-
                     if (this.isAppDisabled === true) return;
 
                     if (e && e.target && !/area_id/.test(e.target.id)) {
-                        me.api.asc_enableKeyEvents(false);
                         if (/msg-reply/.test(e.target.className))
                             me.dontCloseDummyComment = true;
                     }
@@ -206,20 +197,20 @@ define([
                         }
                     },
                     'dataview:focus': function(e){
-                        me.api.asc_enableKeyEvents(false);
+//                        me.api.asc_enableKeyEvents(false);
                     },
                     'dataview:blur': function(e){
                         if (!me.isModalShowed) {
-                            me.api.asc_enableKeyEvents(true);
+//                            me.api.asc_enableKeyEvents(true);
                             me.onEditComplete();
                         }
                     },
                     'menu:show': function(e){
-                        me.api.asc_enableKeyEvents(false);
+//                        me.api.asc_enableKeyEvents(false);
                     },
                     'menu:hide': function(e){
-                        if (!me.isModalShowed)
-                            me.api.asc_enableKeyEvents(true);
+//                        if (!me.isModalShowed)
+//                            me.api.asc_enableKeyEvents(true);
                     },
                     'edit:complete': _.bind(this.onEditComplete, this),
                     'settings:unitschanged':_.bind(this.unitsChanged, this)

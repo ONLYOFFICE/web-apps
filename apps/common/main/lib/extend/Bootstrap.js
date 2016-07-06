@@ -46,8 +46,9 @@ function onDropDownKeyDown(e) {
 
     $parent.trigger(beforeEvent);
 
-    if ($parent.hasClass('no-stop-propagate') && arguments.length>1 && arguments[1] instanceof jQuery.Event) {
-        e = arguments[1];
+    if ($parent.hasClass('no-stop-propagate')) {
+        if (arguments.length>1 && arguments[1] instanceof jQuery.Event)
+            e = arguments[1];
         if ( /^(38|40|27|13|9)$/.test(e.keyCode) && !e.ctrlKey && !e.altKey) {
             patchDropDownKeyDownAdditional.call(this, e);
             e.preventDefault();
@@ -150,8 +151,8 @@ function patchDropDownKeyDownAdditional(e) { // only for formula menu when typin
     var isActive = $parent.hasClass('open') || $parent.hasClass('over');
 
     if (!isActive || (isActive && e.keyCode == 27)) {
-        if (e.which == 27) 
-            $parent.find('[data-toggle=dropdown]').focus();
+//        if (e.which == 27)
+//            $parent.find('[data-toggle=dropdown]').focus();
         return (isActive) ? $this.click() : undefined;
     }
 

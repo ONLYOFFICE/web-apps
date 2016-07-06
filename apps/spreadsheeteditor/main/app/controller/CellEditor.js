@@ -104,14 +104,14 @@ define([
             var me = this;
             $('#ce-cell-content').keydown(function (e) {
                 if (Common.UI.Keys.ESC === e.keyCode) {
-                    me.api.asc_enableKeyEvents(true);
+//                    me.api.asc_enableKeyEvents(true);
                 } else if (Common.UI.Keys.UP === e.keyCode || Common.UI.Keys.DOWN === e.keyCode ||
                            Common.UI.Keys.TAB === e.keyCode || Common.UI.Keys.RETURN === e.keyCode) {
                     var menu = $('#menu-formula-selection'); // for formula menu
                     if (menu.hasClass('open'))
                         menu.find('.dropdown-menu').trigger('keydown', e);
-                    if (Common.UI.Keys.RETURN === e.keyCode)
-                        me.api.asc_enableKeyEvents(true);
+//                    if (Common.UI.Keys.RETURN === e.keyCode)
+//                        me.api.asc_enableKeyEvents(true);
                 }
             });
 

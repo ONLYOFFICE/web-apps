@@ -1450,31 +1450,31 @@ define([
 
                     menu.onAfterKeydownMenu = function(e) {
                         if (e.keyCode == Common.UI.Keys.RETURN && (e.ctrlKey || e.altKey)) return;
-                        Common.UI.Menu.prototype.onAfterKeydownMenu.call(menu, e);
+//                        Common.UI.Menu.prototype.onAfterKeydownMenu.call(menu, e);
 
                         var li;
-                        if (arguments.length>1 && arguments[1] instanceof jQuery.Event) {// when typing in cell editor
+                        if (arguments.length>1 && arguments[1] instanceof jQuery.Event) // when typing in cell editor
                             e = arguments[1];
-                            if (menuContainer.hasClass('open')) {
-                                if (e.keyCode == Common.UI.Keys.TAB || e.keyCode == Common.UI.Keys.RETURN && !e.ctrlKey && !e.altKey)
-                                    li = menuContainer.find('a.focus').closest('li');
-                                else if (e.keyCode == Common.UI.Keys.UP || e.keyCode == Common.UI.Keys.DOWN) {
-                                    var innerEl = menu.cmpEl,
-                                        inner_top = innerEl.offset().top,
-                                        li_focused = menuContainer.find('a.focus').closest('li');
+                        if (menuContainer.hasClass('open')) {
+                            if (e.keyCode == Common.UI.Keys.TAB || e.keyCode == Common.UI.Keys.RETURN && !e.ctrlKey && !e.altKey)
+                                li = menuContainer.find('a.focus').closest('li');
+                            else if (e.keyCode == Common.UI.Keys.UP || e.keyCode == Common.UI.Keys.DOWN) {
+                                var innerEl = menu.cmpEl,
+                                    inner_top = innerEl.offset().top,
+                                    li_focused = menuContainer.find('a.focus').closest('li');
 
-                                    var li_top = li_focused.offset().top;
-                                    if (li_top < inner_top || li_top+li_focused.outerHeight() > inner_top + innerEl.height()) {
-                                        if (menu.scroller) {
-                                            menu.scroller.scrollTop(innerEl.scrollTop() + li_top - inner_top, 0);
-                                        } else {
-                                            innerEl.scrollTop(innerEl.scrollTop() + li_top - inner_top);
-                                        }
+                                var li_top = li_focused.offset().top;
+                                if (li_top < inner_top || li_top+li_focused.outerHeight() > inner_top + innerEl.height()) {
+                                    if (menu.scroller) {
+                                        menu.scroller.scrollTop(innerEl.scrollTop() + li_top - inner_top, 0);
+                                    } else {
+                                        innerEl.scrollTop(innerEl.scrollTop() + li_top - inner_top);
                                     }
                                 }
                             }
-                        } else if (e.keyCode == Common.UI.Keys.TAB)
-                            li = $(e.target).closest('li');
+                        }
+//                        } else if (e.keyCode == Common.UI.Keys.TAB)
+//                            li = $(e.target).closest('li');
 
                         if (li) {
                             if (li.length>0) li.click();
@@ -1505,17 +1505,17 @@ define([
                         menu.scroller.update({alwaysVisibleY: true});
                         menu.scroller.scrollTop(0);
                     }
-                    if (infocus) {
+                    if (infocus)
                         me.cellEditor.focus();
-                        _.delay(function() {
-                            menu.cmpEl.find('li:first a').addClass('focus');
-                        }, 10);
-                    } else {
-                        _.delay(function() {
-                            menu.cmpEl.focus();
-                            menu.cmpEl.find('li:first a').focus();
-                        }, 10);
-                    }
+                    _.delay(function() {
+                        menu.cmpEl.find('li:first a').addClass('focus');
+                    }, 10);
+//                    } else {
+//                        _.delay(function() {
+//                            menu.cmpEl.focus();
+//                            menu.cmpEl.find('li:first a').focus();
+//                        }, 10);
+//                    }
                 }, 1);
             } else {
                 this.documentHolder.funcMenu.hide();
