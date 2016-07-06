@@ -147,7 +147,7 @@ define([
             },
 
             template: _.template([
-                '<ul class="dropdown-menu <%= options.cls %>" style="<%= options.style %>" role="menu"></ul>'
+                '<ul class="dropdown-menu <%= options.cls %>" oo_editor_input="true" style="<%= options.style %>" role="menu"></ul>'
             ].join('')),
 
             initialize : function(options) {

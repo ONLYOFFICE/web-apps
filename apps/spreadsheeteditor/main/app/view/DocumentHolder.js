@@ -566,6 +566,7 @@ define([
                 cyclic: false,
                 items: []
             }).on('render:after', function(mnu) {
+                mnu.cmpEl.removeAttr('oo_editor_input').attr('oo_editor_keyboard', true);
                 this.scroller = new Common.UI.Scroller({
                     el: $(this.el).find('.dropdown-menu '),
                     useKeyboard: this.enableKeyEvents && !this.handleSelect,
@@ -581,6 +582,7 @@ define([
                 cyclic: false,
                 items: []
             }).on('render:after', function(mnu) {
+                mnu.cmpEl.removeAttr('oo_editor_input').attr('oo_editor_keyboard', true);
                 this.scroller = new Common.UI.Scroller({
                     el: $(this.el).find('.dropdown-menu '),
                     useKeyboard: this.enableKeyEvents && !this.handleSelect,
