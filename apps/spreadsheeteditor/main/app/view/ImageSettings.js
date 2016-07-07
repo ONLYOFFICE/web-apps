@@ -72,7 +72,8 @@ define([
                 Width: 0,
                 Height: 0,
                 DisabledControls: false,
-                keepRatio: false
+                keepRatio: false,
+                isOleObject: false
             };
             this.spinners = [];
             this.lockedControls = [];
@@ -142,11 +143,20 @@ define([
             });
             this.lockedControls.push(this.btnInsertFromUrl);
 
+            this.btnEditObject = new Common.UI.Button({
+                el: $('#image-button-edit-object')
+            });
+            this.lockedControls.push(this.btnEditObject);
+
             this.spnWidth.on('change', _.bind(this.onWidthChange, this));
             this.spnHeight.on('change', _.bind(this.onHeightChange, this));
             this.btnOriginalSize.on('click', _.bind(this.setOriginalSize, this));
             this.btnInsertFromFile.on('click', _.bind(function(btn){
                 if (this.api) this.api.asc_changeImageFromFile();
+                Common.NotificationCenter.trigger('edit:complete', this);
+            }, this));
+            this.btnEditObject.on('click', _.bind(function(btn){
+                if (this.api) this.api.asc_pluginRun(this._originalProps.asc_getPluginGuid(), 0, this._originalProps.asc_getPluginData());
                 Common.NotificationCenter.trigger('edit:complete', this);
             }, this));
             this.btnInsertFromUrl.on('click', _.bind(this.insertFromUrl, this));
@@ -157,6 +167,7 @@ define([
             el.html(this.template({
                 scope: this
             }));
+            this.lblReplace = $('#image-lbl-replace');
         },
 
         setApi: function(api) {
@@ -212,6 +223,24 @@ define([
                 }
 
                 this.btnOriginalSize.setDisabled(props.asc_getImageUrl()===null || props.asc_getImageUrl()===undefined || this._locked);
+
+                var pluginGuid = props.asc_getPluginGuid();
+                value = (pluginGuid !== null && pluginGuid !== undefined);
+                if (this._state.isOleObject!==value) {
+                    this.btnInsertFromUrl.setVisible(!value);
+                    this.btnInsertFromFile.setVisible(!value);
+                    this.btnEditObject.setVisible(value);
+                    this.lblReplace.text(value ? this.textEditObject : this.textInsert);
+                    this._state.isOleObject=value;
+                }
+
+                if (this._state.isOleObject) {
+                    var plugin = SSE.getCollection('Common.Collections.Plugins').findWhere({guid: pluginGuid});
+                    this.btnEditObject.setDisabled(plugin===null || plugin ===undefined);
+                } else {
+                    this.btnInsertFromUrl.setDisabled(pluginGuid===null);
+                    this.btnInsertFromFile.setDisabled(pluginGuid===null);
+                }
             }
         },
 
@@ -307,8 +336,10 @@ define([
         textWidth:      'Width',
         textHeight:     'Height',
         textOriginalSize: 'Default Size',
-        textInsert:     'Insert Image',
+        textInsert:     'Replace Image',
         textFromUrl:    'From URL',
-        textFromFile:   'From File'
+        textFromFile:   'From File',
+        textEditObject: 'Edit Object',
+        textEdit:       'Edit'
     }, SSE.Views.ImageSettings || {}));
 });

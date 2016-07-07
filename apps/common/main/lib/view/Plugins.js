@@ -107,6 +107,7 @@ define([
             this.pluginsPanel = $('#plugins-box');
             this.pluginsMask = $('#plugins-mask');
             this.currentPluginPanel = $('#current-plugin-box');
+            this.currentPluginFrame = $('#current-plugin-frame');
 
             this.pluginMenu = new Common.UI.Menu({
                 menuAlign   : 'tr-br',
@@ -151,10 +152,10 @@ define([
                 this.iframePlugin.frameBorder  = 0;
                 this.iframePlugin.scrolling    = "no";
                 this.iframePlugin.onload       = _.bind(this._onLoad,this);
-                $('#current-plugin-frame').append(this.iframePlugin);
+                this.currentPluginFrame.append(this.iframePlugin);
 
                 if (!this.loadMask)
-                    this.loadMask = new Common.UI.LoadMask({owner: $('#current-plugin-frame')});
+                    this.loadMask = new Common.UI.LoadMask({owner: this.currentPluginFrame});
                 this.loadMask.setTitle(this.textLoading);
                 this.loadMask.show();
 
@@ -164,7 +165,7 @@ define([
 
         closeInsideMode: function() {
             if (this.iframePlugin) {
-                this.iframePlugin.remove();
+                this.currentPluginFrame.empty();
                 this.iframePlugin = null;
             }
             this.currentPluginPanel.toggleClass('hidden', true);
