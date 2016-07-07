@@ -837,11 +837,9 @@ define([
                 application.getController('Common.Controllers.ExternalDiagramEditor').setApi(this.api).loadConfig({config:this.editorConfig, customization: this.editorConfig.customization});
                 application.getController('Common.Controllers.ExternalMergeEditor').setApi(this.api).loadConfig({config:this.editorConfig, customization: this.editorConfig.customization});
 
-                if (!me.appOptions.isLightVersion) {
-                    pluginsController.setApi(me.api);
-                    me.updatePluginsList(me.plugins);
-                    me.api.asc_registerCallback('asc_onPluginsInit', _.bind(me.updatePluginsList, me));
-                }
+                pluginsController.setApi(me.api);
+                me.updatePluginsList(me.plugins);
+                me.api.asc_registerCallback('asc_onPluginsInit', _.bind(me.updatePluginsList, me));
 
                 documentHolderController.setApi(me.api);
                 documentHolderController.createDelayedElements();
@@ -934,13 +932,13 @@ define([
             },
 
             onEditorPermissions: function(params) {
-                /** coauthoring begin **/
-                this.appOptions.canCoAuthoring = true;
-                /** coauthoring end **/
                 this.permissions.review = (this.permissions.review === undefined) ? (this.permissions.edit !== false) : this.permissions.review;
                 this.appOptions.canAnalytics   = params.asc_getIsAnalyticsEnable();
                 this.appOptions.canLicense     = params.asc_getCanLicense ? params.asc_getCanLicense() : false;
                 this.appOptions.isLightVersion = params.asc_getIsLight();
+                /** coauthoring begin **/
+                this.appOptions.canCoAuthoring = !this.appOptions.isLightVersion;
+                /** coauthoring end **/
                 this.appOptions.isOffline      = this.api.asc_isOffline();
                 this.appOptions.isReviewOnly   = (this.permissions.review === true) && (this.permissions.edit === false);
                 this.appOptions.canRequestEditRights = this.editorConfig.canRequestEditRights;
@@ -949,7 +947,7 @@ define([
                                                  (!this.appOptions.isReviewOnly || this.appOptions.canLicense); // if isReviewOnly==true -> canLicense must be true
                 this.appOptions.isEdit         = this.appOptions.canLicense && this.appOptions.canEdit && this.editorConfig.mode !== 'view';
                 this.appOptions.canReview      = this.appOptions.canLicense && this.appOptions.isEdit && (this.permissions.review===true);
-                this.appOptions.canUseHistory  = this.appOptions.canLicense && this.editorConfig.canUseHistory && (this.permissions.edit !== false) && this.appOptions.canCoAuthoring && !this.appOptions.isDesktopApp;
+                this.appOptions.canUseHistory  = this.appOptions.canLicense && !this.appOptions.isLightVersion && this.editorConfig.canUseHistory && (this.permissions.edit !== false) && this.appOptions.canCoAuthoring && !this.appOptions.isDesktopApp;
                 this.appOptions.canHistoryClose  = this.editorConfig.canHistoryClose;
                 this.appOptions.canUseMailMerge= this.appOptions.canLicense && this.appOptions.canEdit && !this.appOptions.isDesktopApp;
                 this.appOptions.canSendEmailAddresses  = this.appOptions.canLicense && this.editorConfig.canSendEmailAddresses && this.appOptions.canEdit && this.appOptions.canCoAuthoring;
