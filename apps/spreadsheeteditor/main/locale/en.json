@@ -616,6 +616,8 @@
   "SSE.Views.HyperlinkSettingsDialog.textTitle": "Hyperlink Settings",
   "SSE.Views.HyperlinkSettingsDialog.txtEmpty": "This field is required",
   "SSE.Views.HyperlinkSettingsDialog.txtNotUrl": "This field should be a URL in the \"http://www.example.com\" format",
+  "SSE.Views.ImageSettings.textEdit": "Edit",
+  "SSE.Views.ImageSettings.textEditObject": "Edit Object",
   "SSE.Views.ImageSettings.textFromFile": "From File",
   "SSE.Views.ImageSettings.textFromUrl": "From URL",
   "SSE.Views.ImageSettings.textHeight": "Height",
