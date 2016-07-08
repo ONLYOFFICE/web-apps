@@ -1051,7 +1051,7 @@ define([
                 this.imgprops.asc_putShapeProperties(props);
                 this.api.asc_setGraphicObjectProps(this.imgprops);
             }
-            this.fireEvent('editcomplete', this);
+            Common.NotificationCenter.trigger('edit:complete', this);
         },
 
         onColorsBorderSelect: function(picker, color) {

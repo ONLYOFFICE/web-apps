@@ -319,7 +319,7 @@ define([
 
             this.btnInsertFromFile.on('click', _.bind(function(btn){
                 if (this.api) this.api.asc_changeArtImageFromFile();
-                this.fireEvent('editcomplete', this);
+                Common.NotificationCenter.trigger('edit:complete', this);
             }, this));
             this.btnInsertFromUrl.on('click', _.bind(this.insertFromUrl, this));
 
@@ -690,7 +690,7 @@ define([
                     }
                     break;
             }
-            this.fireEvent('editcomplete', this);
+            Common.NotificationCenter.trigger('edit:complete', this);
         },
 
         onColorsBackSelect: function(picker, color) {
@@ -714,7 +714,7 @@ define([
                 this.shapeprops.put_TextArtProperties(props);
                 this.api.asc_setGraphicObjectProps(this.imgprops);
             }
-            this.fireEvent('editcomplete', this);
+            Common.NotificationCenter.trigger('edit:complete', this);
         },
 
         addNewColor: function(picker, btn) {
@@ -737,7 +737,7 @@ define([
                 this.shapeprops.put_TextArtProperties(props);
                 this.api.asc_setGraphicObjectProps(this.imgprops);
             }
-            this.fireEvent('editcomplete', this);
+            Common.NotificationCenter.trigger('edit:complete', this);
         },
 
         onColorsFGSelect: function(picker, color) {
@@ -757,7 +757,7 @@ define([
                 this.shapeprops.put_TextArtProperties(props);
                 this.api.asc_setGraphicObjectProps(this.imgprops);
             }
-            this.fireEvent('editcomplete', this);
+            Common.NotificationCenter.trigger('edit:complete', this);
         },
 
         onColorsBGSelect: function(picker, color) {
@@ -777,7 +777,7 @@ define([
                 this.shapeprops.put_TextArtProperties(props);
                 this.api.asc_setGraphicObjectProps(this.imgprops);
             }
-            this.fireEvent('editcomplete', this);
+            Common.NotificationCenter.trigger('edit:complete', this);
         },
 
         onFillTypeSelect: function(combo, record) {
@@ -795,7 +795,7 @@ define([
                 this.shapeprops.put_TextArtProperties(props);
                 this.api.asc_setGraphicObjectProps(this.imgprops);
             }
-            this.fireEvent('editcomplete', this);
+            Common.NotificationCenter.trigger('edit:complete', this);
         },
 
         onNumTransparencyChange: function(field, newValue, oldValue, eOpts){
@@ -809,7 +809,7 @@ define([
                 this.shapeprops.put_TextArtProperties(props);
                 this.api.asc_setGraphicObjectProps(this.imgprops);
             }
-            this.fireEvent('editcomplete', this);
+            Common.NotificationCenter.trigger('edit:complete', this);
         },
 
         onTransparencyChange: function(field, newValue, oldValue){
@@ -882,7 +882,7 @@ define([
                 this.api.asc_setGraphicObjectProps(this.imgprops);
             }
 
-            this.fireEvent('editcomplete', this);
+            Common.NotificationCenter.trigger('edit:complete', this);
         },
 
         onSelectGradient: function(btn, picker, itemView, record) {
@@ -920,7 +920,7 @@ define([
                 }
             }
 
-            this.fireEvent('editcomplete', this);
+            Common.NotificationCenter.trigger('edit:complete', this);
         },
 
         onColorsGradientSelect: function(picker, color) {
@@ -947,7 +947,7 @@ define([
                 this.shapeprops.put_TextArtProperties(props);
                 this.api.asc_setGraphicObjectProps(this.imgprops);
             }
-            this.fireEvent('editcomplete', this);
+            Common.NotificationCenter.trigger('edit:complete', this);
         },
 
         onGradientChange: function(slider, newValue, oldValue){
@@ -1017,11 +1017,11 @@ define([
                 this.shapeprops.put_TextArtProperties(props);
                 this.api.asc_setGraphicObjectProps(this.imgprops);
             }
-            this.fireEvent('editcomplete', this);
+            Common.NotificationCenter.trigger('edit:complete', this);
         },
 
         onComboBlur: function() {
-            this.fireEvent('editcomplete', this);
+            Common.NotificationCenter.trigger('edit:complete', this);
         },
 
         onBorderSizeChanged: function(before, combo, record, e) {
@@ -1065,7 +1065,7 @@ define([
                 this.shapeprops.put_TextArtProperties(props);
                 this.api.asc_setGraphicObjectProps(this.imgprops);
             }
-            this.fireEvent('editcomplete', this);
+            Common.NotificationCenter.trigger('edit:complete', this);
         },
 
         onColorsBorderSelect: function(picker, color) {
@@ -1086,7 +1086,7 @@ define([
                 this.shapeprops.put_TextArtProperties(props);
                 this.api.asc_setGraphicObjectProps(this.imgprops);
             }
-            this.fireEvent('editcomplete', this);
+            Common.NotificationCenter.trigger('edit:complete', this);
         },
 
         insertFromUrl: function() {
@@ -1588,7 +1588,7 @@ define([
                 this.api.asc_setGraphicObjectProps(this.imgprops);
             }
             $(this.btnTexture.el).find('.form-control').prop('innerHTML', record.get('name'));
-            this.fireEvent('editcomplete', this);
+            Common.NotificationCenter.trigger('edit:complete', this);
         },
 
         fillTextArt: function() {
@@ -1614,7 +1614,7 @@ define([
                 this.shapeprops.put_TextArtProperties(props);
                 this.api.asc_setGraphicObjectProps(this.imgprops);
             }
-            this.fireEvent('editcomplete', this);
+            Common.NotificationCenter.trigger('edit:complete', this);
         },
 
         fillTransform: function(transforms) {
@@ -1647,7 +1647,7 @@ define([
                 this.shapeprops.put_TextArtProperties(props);
                 this.api.asc_setGraphicObjectProps(this.imgprops);
             }
-            this.fireEvent('editcomplete', this);
+            Common.NotificationCenter.trigger('edit:complete', this);
         },
 
         UpdateThemeColors: function() {
