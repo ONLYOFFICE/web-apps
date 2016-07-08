@@ -150,7 +150,6 @@ define([
                 this.cntZoom.cmpEl.on({
                     'show.bs.dropdown': function () {
                         _.defer(function(){
-                            me.api.asc_enableKeyEvents(false);
                             me.cntZoom.cmpEl.find('ul').focus();
                         }, 100);
                     },

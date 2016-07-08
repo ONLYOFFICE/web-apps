@@ -217,7 +217,6 @@ define([
                 var controller = this.getApplication().getController('FormulaDialog');
                 if (controller) {
                     $('#ce-func-label', this.editor.el).blur();
-                    this.api.asc_enableKeyEvents(false);
                     controller.showDialog();
                 }
             }

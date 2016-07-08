@@ -156,12 +156,6 @@ define([
                     }
                 });
 
-                $("#editor_sdk").focus(function (e) {
-                    if (this.isAppDisabled === true) return;
-                    if (!me.isModalShowed)
-                        me.api.asc_enableKeyEvents(true);
-                });
-
                 $(document.body).on('blur', 'input, textarea', function(e) {
                     if (this.isAppDisabled === true) return;
                     if (!me.isModalShowed && !(me.loadMask && me.loadMask.isVisible()) && !/area_id/.test(e.target.id) &&
@@ -197,20 +191,17 @@ define([
                         }
                     },
                     'dataview:focus': function(e){
-//                        me.api.asc_enableKeyEvents(false);
                     },
                     'dataview:blur': function(e){
                         if (!me.isModalShowed) {
-//                            me.api.asc_enableKeyEvents(true);
-                            me.onEditComplete();
+                            me.api.asc_enableKeyEvents(true);
                         }
                     },
                     'menu:show': function(e){
-//                        me.api.asc_enableKeyEvents(false);
                     },
                     'menu:hide': function(e){
-//                        if (!me.isModalShowed)
-//                            me.api.asc_enableKeyEvents(true);
+                        if (!me.isModalShowed)
+                            me.api.asc_enableKeyEvents(true);
                     },
                     'edit:complete': _.bind(this.onEditComplete, this),
                     'settings:unitschanged':_.bind(this.unitsChanged, this)

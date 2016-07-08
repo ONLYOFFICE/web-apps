@@ -110,9 +110,6 @@ define([
                         menu.alignPosition();
                     }
                     _.delay(function() {
-                        var value = Common.localStorage.getItem("de-settings-inputmode"); // only for hieroglyphs mode
-                        if (value!==null && parseInt(value) == 1)
-                            me.api.asc_enableKeyEvents(false);
                         menu.cmpEl.focus();
                     }, 10);
 
@@ -1616,7 +1613,6 @@ define([
         addComment: function(item, e, eOpt){
             if (this.api && this.mode.canCoAuthoring && this.mode.isEdit && this.mode.canComments) {
                 this.suppressEditComplete = true;
-                this.api.asc_enableKeyEvents(false);
 
                 var controller = DE.getController('Common.Controllers.Comments');
                 if (controller) {

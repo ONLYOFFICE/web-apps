@@ -155,15 +155,8 @@ define([
                         // Syncronize focus with api
                     $(document.body).on('focus', 'input, textarea', function(e) {
                         if (!/area_id/.test(e.target.id)) {
-                            me.api.asc_enableKeyEvents(false);
                             if (/msg-reply/.test(e.target.className))
                                 me.dontCloseDummyComment = true;
-                        }
-                    });
-
-                    $("#editor_sdk").focus(function (e) {
-                        if (!me.isModalShowed) {
-                            me.api.asc_enableKeyEvents(true);
                         }
                     });
 
@@ -207,16 +200,13 @@ define([
                         },
                         'settings:unitschanged':_.bind(this.unitsChanged, this),
                         'dataview:focus': function(e){
-                            me.api.asc_enableKeyEvents(false);
                         },
                         'dataview:blur': function(e){
                             if (!me.isModalShowed) {
                                 me.api.asc_enableKeyEvents(true);
-                                me.onEditComplete();
                             }
                         },
                         'menu:show': function(e){
-                            me.api.asc_enableKeyEvents(false);
                         },
                         'menu:hide': function(e){
                             if (!me.isModalShowed)

@@ -419,7 +419,6 @@ define([
         onInsFunction: function(item) {
             var controller = this.getApplication().getController('FormulaDialog');
             if (controller && this.api) {
-                this.api.asc_enableKeyEvents(false);
                 controller.showDialog();
             }
         },
@@ -517,7 +516,6 @@ define([
 
         onAddComment: function(item) {
             if (this.api && this.permissions.canCoAuthoring && this.permissions.isEdit && this.permissions.canComments) {
-                this.api.asc_enableKeyEvents(false);
 
                 var controller = SSE.getController('Common.Controllers.Comments'),
                     cellinfo = this.api.asc_getCellInfo();

@@ -1106,7 +1106,6 @@ define([
                             msg: this.textFontSizeErr,
                             callback: function() {
                                 _.defer(function(btn) {
-                                    me.api.asc_enableKeyEvents(false);
                                     $('input', combo.cmpEl).focus();
                                 })
                             }
