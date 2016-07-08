@@ -1079,6 +1079,7 @@ define([
                 if (dialog) {
                     if (this.popoverComments.length) {
                         _.delay(function() {
+                            me.api.asc_enableKeyEvents(false);
                             dialog.commentsView.setFocusToTextBox();
                         }, 200);
                         return;
@@ -1233,6 +1234,7 @@ define([
                 var panel = $('.new-comment-ct', this.view.el);
                 if (panel && panel.length) {
                     if ('none' !== panel.css('display')) {
+                        this.api.asc_enableKeyEvents(false);
                         this.view.txtComment.focus();
                     }
 

@@ -208,6 +208,7 @@ define([
                 this.btnLanguage.cmpEl.on({
                     'show.bs.dropdown': function () {
                         _.defer(function(){
+                            me.api.asc_enableKeyEvents(false);
                             me.btnLanguage.cmpEl.find('ul').focus();
                         }, 100);
                     },
@@ -233,6 +234,7 @@ define([
                 });
                 this.cntZoom.cmpEl.on('show.bs.dropdown', function () {
                         _.defer(function(){
+                            me.api.asc_enableKeyEvents(false);
                             me.cntZoom.cmpEl.find('ul').focus();
                         }, 100);
                     }
@@ -349,6 +351,7 @@ define([
                         if (me.api && box) {
                             box.focus();                        // for IE
                             box.parent().removeClass('open');
+
                             me.api.asc_enableKeyEvents(true);
                         }
                     }

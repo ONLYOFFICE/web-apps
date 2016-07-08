@@ -201,6 +201,7 @@ define([
             toolbar.btnNumbers.on('click',                              _.bind(this.onNumbers, this));
             toolbar.cmbFontName.on('selected',                          _.bind(this.onFontNameSelect, this));
             toolbar.cmbFontName.on('show:after',                        _.bind(this.onComboOpen, this, true));
+            toolbar.cmbFontName.on('hide:after',                        _.bind(this.onHideMenus, this));
             toolbar.cmbFontName.on('combo:blur',                        _.bind(this.onComboBlur, this));
             toolbar.cmbFontName.on('combo:focusin',                     _.bind(this.onComboOpen, this, false));
             toolbar.cmbFontSize.on('selected',                          _.bind(this.onFontSizeSelect, this));
@@ -209,6 +210,7 @@ define([
             toolbar.cmbFontSize.on('combo:blur',                        _.bind(this.onComboBlur, this));
             toolbar.cmbFontSize.on('combo:focusin',                     _.bind(this.onComboOpen, this, false));
             toolbar.cmbFontSize.on('show:after',                        _.bind(this.onComboOpen, this, true));
+            toolbar.cmbFontSize.on('hide:after',                        _.bind(this.onHideMenus, this));
             toolbar.mnuMarkersPicker.on('item:click',                   _.bind(this.onSelectBullets, this, toolbar.btnMarkers));
             toolbar.mnuNumbersPicker.on('item:click',                   _.bind(this.onSelectBullets, this, toolbar.btnNumbers));
             toolbar.mnuMultilevelPicker.on('item:click',                _.bind(this.onSelectBullets, this, toolbar.btnMultilevels));
@@ -1105,6 +1107,7 @@ define([
                             msg: this.textFontSizeErr,
                             callback: function() {
                                 _.defer(function(btn) {
+                                    me.api.asc_enableKeyEvents(false);
                                     $('input', combo.cmpEl).focus();
                                 })
                             }
@@ -2549,6 +2552,10 @@ define([
 
             Common.NotificationCenter.trigger('edit:complete', me.toolbar);
             Common.component.Analytics.trackEvent('ToolBar', 'Highlight Color');
+        },
+
+        onHideMenus: function(e){
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
         onSetupCopyStyleButton: function () {

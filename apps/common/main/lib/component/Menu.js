@@ -147,7 +147,7 @@ define([
             },
 
             template: _.template([
-                '<ul class="dropdown-menu <%= options.cls %>" style="<%= options.style %>" role="menu"></ul>'
+                '<ul class="dropdown-menu <%= options.cls %>" oo_editor_input="true" style="<%= options.style %>" role="menu"></ul>'
             ].join('')),
 
             initialize : function(options) {
@@ -410,7 +410,7 @@ define([
             },
 
             onBeforeShowMenu: function(e) {
-                Common.NotificationCenter.trigger('menu:show', this);
+                Common.NotificationCenter.trigger('menu:show');
 
                 if (this.mustLayout) {
                     delete this.mustLayout;
@@ -441,7 +441,7 @@ define([
 
             onAfterHideMenu: function(e) {
                 this.trigger('hide:after', this, e);
-                Common.NotificationCenter.trigger('menu:hide', this);
+                Common.NotificationCenter.trigger('menu:hide');
             },
 
             onAfterKeydownMenu: function(e) {

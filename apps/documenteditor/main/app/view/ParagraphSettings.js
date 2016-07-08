@@ -100,7 +100,6 @@ define([
                 menuStyle: 'min-width: 85px;',
                 editable: false,
                 data: this._arrLineRule,
-                allowEditComplete: true,
                 disabled: this._locked
             });
             this.cmbLineRule.setValue('');
@@ -159,7 +158,6 @@ define([
                 style: "width:45px;",
                 disabled: this._locked,
                 menu        : new Common.UI.Menu({
-                    allowEditComplete: true,
                     items: [
                         { template: _.template('<div id="paragraph-color-menu" style="width: 165px; height: 220px; margin: 10px;"></div>') },
                         { template: _.template('<a id="paragraph-color-new" style="padding-left:12px;">' + me.textNewColor + '</a>') }
@@ -201,6 +199,7 @@ define([
             this.numSpacingAfter.on('change', _.bind(this.onNumSpacingAfterChange, this));
             this.chAddInterval.on('change', _.bind(this.onAddIntervalChange, this));
             this.cmbLineRule.on('selected', _.bind(this.onLineRuleSelect, this));
+            this.cmbLineRule.on('hide:after', _.bind(this.onHideMenus, this));
             $(this.el).on('click', '#paragraph-advanced-link', _.bind(this.openAdvancedSettings, this));
             $(this.el).on('click', '#paragraph-color-new', _.bind(this.addNewColor, this));
             this.TextOnlySettings = $('.text-only');
@@ -477,6 +476,10 @@ define([
         UpdateThemeColors: function() {
             if (this.mnuColorPicker)
                 this.mnuColorPicker.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
+        },
+
+        onHideMenus: function(e){
+            this.fireEvent('editcomplete', this);
         },
 
         setLocked: function (locked) {

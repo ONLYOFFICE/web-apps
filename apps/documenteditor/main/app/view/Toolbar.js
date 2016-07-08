@@ -244,7 +244,6 @@ define([
                 split       : true,
                 menu        : new Common.UI.Menu({
                     style: 'min-width: 100px;',
-                    allowEditComplete: true,
                     items: [
                         { template: _.template('<div id="id-toolbar-menu-highlight" style="width: 120px; height: 120px; margin: 10px;"></div>') },
                         { caption: '--' },
@@ -265,7 +264,6 @@ define([
                 hint        : this.tipFontColor,
                 split       : true,
                 menu        : new Common.UI.Menu({
-                    allowEditComplete: true,
                     items: [
                         {
                             id          : 'id-toolbar-menu-auto-fontcolor',
@@ -287,7 +285,6 @@ define([
                 hint        : this.tipPrColor,
                 split       : true,
                 menu        : new Common.UI.Menu({
-                    allowEditComplete: true,
                     items: [
                         { template: _.template('<div id="id-toolbar-menu-paracolor" style="width: 165px; height: 220px; margin: 10px;"></div>') },
                         { template: _.template('<a id="id-toolbar-menu-new-paracolor" style="padding-left:12px;">' + this.textNewColor + '</a>') }
@@ -349,7 +346,6 @@ define([
                 icls        : 'btn-align-left',
                 menu        : new Common.UI.Menu({
                     cls: 'ppm-toolbar',
-                    allowEditComplete: true,
                     items: [
                         {
                             caption: this.tipAlignLeft + Common.Utils.String.platformKey('Ctrl+L'),
@@ -412,7 +408,6 @@ define([
                 hint        : this.tipLineSpace,
                 menu        : new Common.UI.Menu({
                     style: 'min-width: 60px;',
-                    allowEditComplete: true,
                     items: [
                         { caption: '1.0',  value: 1.0,  checkable: true, toggleGroup: 'linesize' },
                         { caption: '1.15', value: 1.15, checkable: true, toggleGroup: 'linesize' },
@@ -434,7 +429,6 @@ define([
                 split       : true,
                 menu        : new Common.UI.Menu({
                     style: 'min-width: 60px;',
-                    allowEditComplete: true,
                     items: [
                         { caption: this.mniHiddenChars,     value: 'characters', checkable: true },
                         { caption: this.mniHiddenBorders,   value: 'table',      checkable: true }
@@ -497,7 +491,6 @@ define([
                 iconCls     : 'btn-inserttable',
                 hint        : this.tipInsertTable,
                 menu        : new Common.UI.Menu({
-                    allowEditComplete: true,
                     items: [
                         { template: _.template('<div id="id-toolbar-menu-tablepicker" class="dimension-picker" style="margin: 5px 10px;"></div>') },
                         { caption: this.mniCustomTable, value: 'custom' }
@@ -512,7 +505,6 @@ define([
                 iconCls     : 'btn-insertimage',
                 hint        : this.tipInsertImage,
                 menu        : new Common.UI.Menu({
-                    allowEditComplete: true,
                     items: [
                         { caption: this.mniImageFromFile, value: 'file' },
                         { caption: this.mniImageFromUrl,  value: 'url' }
@@ -568,7 +560,6 @@ define([
                 hint        : this.tipPageBreak,
                 split       : true,
                 menu        : new Common.UI.Menu({
-                    allowEditComplete: true,
                     items : [
                         {caption: this.textInsPageBreak},
                         {caption: this.textInsColumnBreak, value: 'column'},
@@ -604,7 +595,6 @@ define([
                 iconCls     : 'btn-editheader',
                 hint        : this.tipEditHeader,
                 menu        : new Common.UI.Menu({
-                    allowEditComplete: true,
                     items: [
                         { caption: this.mniEditHeader, value: 'header' },
                         { caption: this.mniEditFooter, value: 'footer' },
@@ -655,7 +645,6 @@ define([
                 hint        : this.tipDropCap,
                 menu        : new Common.UI.Menu({
                     cls: 'ppm-toolbar',
-                    allowEditComplete: true,
                     items: [
                         { caption: this.textNone,       iconCls: 'mnu-dropcap-none',     checkable: true, toggleGroup: 'menuDropCap', value: Asc.c_oAscDropCap.None, checked: true },
                         { caption: this.textInText,     iconCls: 'mnu-dropcap-intext',   checkable: true, toggleGroup: 'menuDropCap', value: Asc.c_oAscDropCap.Drop },
@@ -674,7 +663,6 @@ define([
                 hint        : this.tipColumns,
                 menu        : new Common.UI.Menu({
                     cls: 'ppm-toolbar',
-                    allowEditComplete: true,
                     items: [
                         { caption: this.textColumnsOne,     iconCls: 'mnu-columns-one',   checkable: true, toggleGroup: 'menuColumns', value: 0 },
                         { caption: this.textColumnsTwo,     iconCls: 'mnu-columns-two',   checkable: true, toggleGroup: 'menuColumns', value: 1 },
@@ -693,7 +681,6 @@ define([
                 hint        : this.tipPageOrient,
                 menu        : new Common.UI.Menu({
                     cls: 'ppm-toolbar',
-                    allowEditComplete: true,
                     items: [
                         { caption: this.textPortrait,       iconCls: 'mnu-orient-portrait',   checkable: true, toggleGroup: 'menuOrient', value: true },
                         { caption: this.textLandscape,     iconCls: 'mnu-orient-landscape',   checkable: true, toggleGroup: 'menuOrient', value: false }
@@ -717,7 +704,6 @@ define([
                 iconCls     : 'btn-pagemargins',
                 hint        : this.tipPageMargins,
                 menu        : new Common.UI.Menu({
-                    allowEditComplete: true,
                     items: [
                         { caption: this.textMarginsLast,    checkable: true, template: pageMarginsTemplate, toggleGroup: 'menuPageMargins'}, //top,left,bottom,right
                         { caption: this.textMarginsNormal,  checkable: true, template: pageMarginsTemplate, toggleGroup: 'menuPageMargins', value: [20, 30, 20, 15] },
@@ -742,7 +728,6 @@ define([
                 iconCls     : 'btn-pagesize',
                 hint        : this.tipPageSize,
                 menu        : new Common.UI.Menu({
-                    allowEditComplete: true,
                     items: [
                         { caption: 'US Letter',             subtitle: '21,59cm x 27,94cm',  template: pageSizeTemplate, checkable: true, toggleGroup: 'menuPageSize', value: [215.9, 279.4] },
                         { caption: 'US Legal',              subtitle: '21,59cm x 35,56cm',  template: pageSizeTemplate, checkable: true, toggleGroup: 'menuPageSize', value: [215.9, 355.6] },
@@ -787,7 +772,6 @@ define([
                 iconCls     : 'btn-colorschemas',
                 hint        : this.tipColorSchemas,
                 menu        : new Common.UI.Menu({
-                    allowEditComplete: true,
                     items: [],
                     maxHeight   : 600,
                     restoreHeight: 600
@@ -834,7 +818,6 @@ define([
                 menu        : new Common.UI.Menu({
                     cls: 'pull-right',
                     style: 'min-width: 180px;',
-                    allowEditComplete: true,
                     items: [
                         this.mnuitemCompactToolbar = new Common.UI.MenuItem({
                             caption     : this.textCompactView,
@@ -1121,7 +1104,6 @@ define([
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 55px;',
                 hint: this.tipFontSize,
-                allowEditComplete: true,
                 data: [
                     { value: 8, displayValue: "8" },
                     { value: 9, displayValue: "9" },
@@ -1148,7 +1130,6 @@ define([
                 menuCls: 'scrollable-menu',
                 menuStyle: 'min-width: 325px;',
                 hint: this.tipFontName,
-                allowEditComplete: true,
                 store: new Common.Collections.Fonts()
             });
             this.paragraphControls.push(this.cmbFontName);
@@ -1567,7 +1548,6 @@ define([
 
             if (this.mnuColorSchema == null) {
                 this.mnuColorSchema = new Common.UI.Menu({
-                    allowEditComplete: true,
                     maxHeight   : 600,
                     restoreHeight: 600
                 }).on('render:after', function(mnu) {
