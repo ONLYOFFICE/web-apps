@@ -335,6 +335,7 @@ define([
 
         setMode: function(mode) {
             this.mode = mode;
+            this.btnAbout.panel.setMode(mode);
             return this;
         },
 
