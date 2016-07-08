@@ -141,6 +141,7 @@ define([
                 style: 'width: 100%;',
                 menuStyle: 'min-width: 190px;',
                 editable: false,
+                allowEditComplete: true,
                 data: this._arrFillSrc
             });
             this.cmbFillSrc.setValue(this._arrFillSrc[0].value);
@@ -150,6 +151,7 @@ define([
             this.btnBackColor = new Common.UI.ColorButton({
                 style: "width:45px;",
                 menu        : new Common.UI.Menu({
+                    allowEditComplete: true,
                     items: [
                         { template: _.template('<div id="shape-back-color-menu" style="width: 165px; height: 220px; margin: 10px;"></div>') },
                         { template: _.template('<a id="shape-back-color-new" style="padding-left:12px;">' + me.textNewColor + '</a>') }
@@ -217,6 +219,7 @@ define([
             this.btnFGColor = new Common.UI.ColorButton({
                 style: "width:45px;",
                 menu        : new Common.UI.Menu({
+                    allowEditComplete: true,
                     items: [
                         { template: _.template('<div id="shape-foreground-color-menu" style="width: 165px; height: 220px; margin: 10px;"></div>') },
                         { template: _.template('<a id="shape-foreground-color-new" style="padding-left:12px;">' + me.textNewColor + '</a>') }
@@ -258,6 +261,7 @@ define([
             this.btnBGColor = new Common.UI.ColorButton({
                 style: "width:45px;",
                 menu        : new Common.UI.Menu({
+                    allowEditComplete: true,
                     items: [
                         { template: _.template('<div id="shape-background-color-menu" style="width: 165px; height: 220px; margin: 10px;"></div>') },
                         { template: _.template('<a id="shape-background-color-new" style="padding-left:12px;">' + me.textNewColor + '</a>') }
@@ -322,6 +326,7 @@ define([
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 90px;',
                 editable: false,
+                allowEditComplete: true,
                 data: this._arrFillType
             });
             this.cmbFillType.setValue(this._arrFillType[0].value);
@@ -382,6 +387,7 @@ define([
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 90px;',
                 editable: false,
+                allowEditComplete: true,
                 data: this._arrGradType
             });
             this.cmbGradType.setValue(this._arrGradType[0].value);
@@ -431,6 +437,7 @@ define([
             this.btnGradColor = new Common.UI.ColorButton({
                 style: "width:45px;",
                 menu        : new Common.UI.Menu({
+                    allowEditComplete: true,
                     items: [
                         { template: _.template('<div id="shape-gradient-color-menu" style="width: 165px; height: 220px; margin: 10px;"></div>') },
                         { template: _.template('<a id="shape-gradient-color-new" style="padding-left:12px;">' + me.textNewColor + '</a>') }
@@ -491,6 +498,7 @@ define([
             this.cmbBorderSize = new Common.UI.ComboBorderSizeEditable({
                 el: $('#shape-combo-border-size'),
                 style: "width: 93px;",
+                allowEditComplete: true,
                 txtNoBorders: this.txtNoBorders
             })
             .on('selected', _.bind(this.onBorderSizeSelect, this))
@@ -504,6 +512,7 @@ define([
             this.btnBorderColor = new Common.UI.ColorButton({
                 style: "width:45px;",
                 menu        : new Common.UI.Menu({
+                    allowEditComplete: true,
                     items: [
                         { template: _.template('<div id="shape-border-color-menu" style="width: 165px; height: 220px; margin: 10px;"></div>') },
                         { template: _.template('<a id="shape-border-color-new" style="padding-left:12px;">' + me.textNewColor + '</a>') }
@@ -545,6 +554,7 @@ define([
             this.cmbBorderType = new Common.UI.ComboBorderType({
                 el: $('#shape-combo-border-type'),
                 style: "width: 93px;",
+                allowEditComplete: true,
                 menuStyle: 'min-width: 93px;'
             }).on('selected', _.bind(this.onBorderTypeSelect, this))
             .on('combo:blur',    _.bind(this.onComboBlur, this, false));
@@ -589,6 +599,7 @@ define([
                 menu        : new Common.UI.Menu({
                     menuAlign: 'tr-br',
                     cls: 'menu-shapes',
+                    allowEditComplete: true,
                     items: []
                 })
             });

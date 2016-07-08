@@ -216,6 +216,7 @@ define([
 
             this.cmbBorderSize = new Common.UI.ComboBorderSize({
                 el: $('#table-combo-border-size'),
+                allowEditComplete: true,
                 style: "width: 93px;"
             });
             this.BorderSize = this.cmbBorderSize.store.at(1).get('value');
@@ -226,6 +227,7 @@ define([
             this.btnBorderColor = new Common.UI.ColorButton({
                 style: "width:45px;",
                 menu        : new Common.UI.Menu({
+                    allowEditComplete: true,
                     items: [
                         { template: _.template('<div id="table-border-color-menu" style="width: 165px; height: 220px; margin: 10px;"></div>') },
                         { template: _.template('<a id="table-border-color-new" style="padding-left:12px;">' + me.textNewColor + '</a>') }
@@ -266,6 +268,7 @@ define([
             this.btnBackColor = new Common.UI.ColorButton({
                 style: "width:45px;",
                 menu        : new Common.UI.Menu({
+                    allowEditComplete: true,
                     items: [
                         { template: _.template('<div id="table-back-color-menu" style="width: 165px; height: 220px; margin: 10px;"></div>') },
                         { template: _.template('<a id="table-back-color-new" style="padding-left:12px;">' + me.textNewColor + '</a>') }
@@ -306,6 +309,7 @@ define([
                 cls: 'btn-icon-default',
                 iconCls: 'btn-edit-table',
                 menu        : new Common.UI.Menu({
+                    allowEditComplete: true,
                     menuAlign: 'tr-br',
                     items: [
                         { caption: this.selectRowText, value: 0 },

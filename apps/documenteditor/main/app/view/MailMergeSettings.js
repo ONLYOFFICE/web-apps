@@ -108,6 +108,7 @@ define([
                 menu        : new Common.UI.Menu({
                     style: 'min-width: 190px;max-width: 400px;',
                     maxHeight: 200,
+                    allowEditComplete: true,
                     items: []
                 }).on('render:after', function(mnu) {
                         this.scroller = new Common.UI.Scroller({
@@ -220,6 +221,7 @@ define([
                 menuStyle: 'min-width: 190px;',
                 editable: false,
                 data: this._arrMergeSrc,
+                allowEditComplete: true,
                 lock: [_set.noRecipients, _set.lostConnect]
             });
             this.cmbMergeTo.setValue(this._arrMergeSrc[0].value);
