@@ -1035,7 +1035,7 @@ define([
                         msg: this.textBorderSizeErr,
                         callback: function() {
                             _.defer(function(btn) {
-                                me.fireEvent('editcomplete', me);
+                                Common.NotificationCenter.trigger('edit:complete', me);
                             })
                         }
                     });
@@ -1112,7 +1112,7 @@ define([
                             }
                         }
                     }
-                    me.fireEvent('editcomplete', me);
+                    Common.NotificationCenter.trigger('edit:complete', me);
                 }
             })).show();
         },
