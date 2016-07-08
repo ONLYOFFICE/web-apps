@@ -44,7 +44,7 @@
     </tr>
     <tr>
         <td colspan=2>
-            <button type="button" class="btn btn-text-default hidden" id="image-button-edit-object" style="width:85px;"><%= scope.textEdit %></button>
+            <button type="button" class="btn btn-text-default hidden" id="image-button-edit-object" style="width:100px;"><%= scope.textEdit %></button>
         </td>
     </tr>
     <tr class="finish-cell"></tr>
