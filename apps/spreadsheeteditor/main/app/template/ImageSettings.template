@@ -31,7 +31,7 @@
     </tr>
     <tr>
         <td colspan=2>
-            <label class="header"><%= scope.textInsert %></label>
+            <label class="header" id="image-lbl-replace"><%= scope.textInsert %></label>
         </td>
     </tr>
     <tr>
@@ -40,6 +40,11 @@
         </td>
         <td width="50%">
             <button type="button" class="btn btn-text-default" id="image-button-from-url" style="width:85px;"><%= scope.textFromUrl %></button>
+        </td>
+    </tr>
+    <tr>
+        <td colspan=2>
+            <button type="button" class="btn btn-text-default hidden" id="image-button-edit-object" style="width:100px;"><%= scope.textEdit %></button>
         </td>
     </tr>
     <tr class="finish-cell"></tr>

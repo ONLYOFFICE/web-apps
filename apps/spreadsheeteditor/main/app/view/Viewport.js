@@ -146,14 +146,9 @@ define([
             var me              = this,
                 toolbarView     = SSE.getController('Toolbar').getView('Toolbar'),
                 rightMenuView   = SSE.getController('RightMenu').getView('RightMenu');
-//                statusBarView   = SSE.getController('Statusbar').getView('Statusbar');
-//
-            me._toolbar     = toolbarView.render(this.mode.isEditDiagram, this.mode.isEditMailMerge);
+
+            me._toolbar     = toolbarView.render(this.mode);
             me._rightMenu   = rightMenuView.render();
-//
-//            var value = Common.localStorage.getItem('de-hidden-status');
-//            if (value !== null && parseInt(value) == 1)
-//                statusBarView.setVisible(false);
         },
 
         setMode: function(mode, delay) {

@@ -58,31 +58,128 @@ define([
                 '<label id="plugins-header"><%= scope.strPlugins %></label>',
                 '<div id="plugins-list" class="">',
                 '</div>',
-            '</div>'
+            '</div>',
+            '<div id="current-plugin-box" class="layout-ct vbox hidden">',
+                '<div id="current-plugin-header">',
+                    '<label></label>',
+                    '<div id="id-plugin-close" class="plugin-close img-commonctrl"></div>',
+                '</div>',
+                '<div id="current-plugin-frame" class="">',
+                '</div>',
+            '</div>',
+            '<div id="plugins-mask" style="display: none;">'
         ].join('')),
 
         initialize: function(options) {
             _.extend(this, options);
             this.pluginsPath = '../../../../sdkjs-plugins/';
+            this._locked = false;
+            this._state = {
+                DisabledControls: true
+            };
+            this.lockedControls = [];
             Common.UI.BaseView.prototype.initialize.call(this, arguments);
         },
 
         render: function(el) {
             el = el || this.el;
             $(el).html(this.template({scope: this}));
+            this.$el = $(el);
 
             this.viewPluginsList = new Common.UI.DataView({
                 el: $('#plugins-list'),
                 store: this.storePlugins,
                 enableKeyEvents: false,
-                itemTemplate: _.template('<div id="<%= id %>" class="item-plugins" style="background-image: url(' + '<% if (baseUrl !=="") { %>' + '<%= baseUrl %>'  + '<% } else { %>' + this.pluginsPath + '<% } %>' + '<%= variations[currentVariation].get("icons")[(window.devicePixelRatio > 1) ? 1 : 0] %>); background-position: 0 0;"></div>')
+                itemTemplate: _.template([
+                    '<div id="<%= id %>" class="item-plugins" style="display: block;">',
+                        '<div class="plugin-icon" style="background-image: url(' + '<% if (baseUrl !=="") { %>' + '<%= baseUrl %>'  + '<% } else { %>' + this.pluginsPath + '<% } %>' + '<%= variations[currentVariation].get("icons")[(window.devicePixelRatio > 1) ? 1 : 0] %>);"></div>',
+                        '<% if (variations.length>1) { %>',
+                        '<div class="plugin-caret img-commonctrl"></div>',
+                        '<% } %>',
+                        '<%= name %>',
+                    '</div>'
+                ].join(''))
+            });
+            this.lockedControls.push(this.viewPluginsList);
+            this.viewPluginsList.cmpEl.off('click');
+
+            this.pluginName = $('#current-plugin-header label');
+            this.pluginsPanel = $('#plugins-box');
+            this.pluginsMask = $('#plugins-mask');
+            this.currentPluginPanel = $('#current-plugin-box');
+            this.currentPluginFrame = $('#current-plugin-frame');
+
+            this.pluginMenu = new Common.UI.Menu({
+                menuAlign   : 'tr-br',
+                items: []
             });
 
             this.trigger('render:after', this);
             return this;
         },
 
-        strPlugins: 'Plugins'
+        setLocked: function (locked) {
+            this._locked = locked;
+        },
+
+        ChangeSettings: function(props) {
+            this.disableControls(this._locked);
+        },
+
+        disableControls: function(disable) {
+            if (this._state.DisabledControls!==disable) {
+                this._state.DisabledControls = disable;
+                _.each(this.lockedControls, function(item) {
+                    item.setDisabled(disable);
+                });
+
+                this.pluginsMask.css('display', disable ? 'block' : 'none');
+            }
+        },
+
+        openInsideMode: function(name, url) {
+            this.pluginsPanel.toggleClass('hidden', true);
+            this.currentPluginPanel.toggleClass('hidden', false);
+
+            this.pluginName.text(name);
+            if (!this.iframePlugin) {
+                this.iframePlugin = document.createElement("iframe");
+                this.iframePlugin.id           = 'plugin_iframe';
+                this.iframePlugin.name         = 'pluginFrameEditor',
+                this.iframePlugin.width        = '100%';
+                this.iframePlugin.height       = '100%';
+                this.iframePlugin.align        = "top";
+                this.iframePlugin.frameBorder  = 0;
+                this.iframePlugin.scrolling    = "no";
+                this.iframePlugin.onload       = _.bind(this._onLoad,this);
+                this.currentPluginFrame.append(this.iframePlugin);
+
+                if (!this.loadMask)
+                    this.loadMask = new Common.UI.LoadMask({owner: this.currentPluginFrame});
+                this.loadMask.setTitle(this.textLoading);
+                this.loadMask.show();
+
+                this.iframePlugin.src = url;
+            }
+        },
+
+        closeInsideMode: function() {
+            if (this.iframePlugin) {
+                this.currentPluginFrame.empty();
+                this.iframePlugin = null;
+            }
+            this.currentPluginPanel.toggleClass('hidden', true);
+            this.pluginsPanel.toggleClass('hidden', false);
+        },
+
+        _onLoad: function() {
+            if (this.loadMask)
+                this.loadMask.hide();
+        },
+
+        strPlugins: 'Add-ons',
+        textLoading: 'Loading',
+        textStart: 'Start'
 
     }, Common.Views.Plugins || {}));
 

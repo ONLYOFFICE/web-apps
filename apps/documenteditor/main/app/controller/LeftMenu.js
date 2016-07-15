@@ -158,11 +158,11 @@ define([
         createDelayedElements: function() {
             /** coauthoring begin **/
             if ( this.mode.canCoAuthoring ) {
-                this.leftMenu.btnComments[this.mode.isEdit&&this.mode.canComments ? 'show' : 'hide']();
+                this.leftMenu.btnComments[(this.mode.isEdit && this.mode.canComments && !this.mode.isLightVersion) ? 'show' : 'hide']();
                 if (this.mode.canComments)
                     this.leftMenu.setOptionsPanel('comment', this.getApplication().getController('Common.Controllers.Comments').getView('Common.Views.Comments'));
 
-                this.leftMenu.btnChat[this.mode.canChat ? 'show' : 'hide']();
+                this.leftMenu.btnChat[(this.mode.canChat && !this.mode.isLightVersion) ? 'show' : 'hide']();
                 if (this.mode.canChat)
                     this.leftMenu.setOptionsPanel('chat', this.getApplication().getController('Common.Controllers.Chat').getView('Common.Views.Chat'));
             } else {
@@ -173,8 +173,6 @@ define([
 
             if (this.mode.canUseHistory)
                 this.leftMenu.setOptionsPanel('history', this.getApplication().getController('Common.Controllers.History').getView('Common.Views.History'));
-
-            this.enablePlugins();
 
             Common.util.Shortcuts.resumeEvents();
             return this;
@@ -560,7 +558,14 @@ define([
                         $.fn.dropdown.Constructor.prototype.keydown.call(menu_opened[0], e);
                         return false;
                     }
-                    if (this.leftMenu.btnFile.pressed || this.leftMenu.btnAbout.pressed ||
+                    if (this.mode.canPlugins && this.leftMenu.panelPlugins) {
+                        menu_opened = this.leftMenu.panelPlugins.$el.find('#menu-plugin-container.open > [data-toggle="dropdown"]');
+                        if (menu_opened.length) {
+                            $.fn.dropdown.Constructor.prototype.keydown.call(menu_opened[0], e);
+                            return false;
+                        }
+                    }
+                    if (this.leftMenu.btnFile.pressed || this.leftMenu.btnAbout.pressed || this.leftMenu.btnPlugins.pressed ||
                         $(e.target).parents('#left-menu').length ) {
                         this.leftMenu.close();
                         Common.NotificationCenter.trigger('layout:changed', 'leftmenu');
@@ -569,13 +574,13 @@ define([
                     break;
             /** coauthoring begin **/
                 case 'chat':
-                    if (this.mode.canCoAuthoring && this.mode.canChat) {
+                    if (this.mode.canCoAuthoring && this.mode.canChat && !this.mode.isLightVersion) {
                         Common.UI.Menu.Manager.hideAll();
                         this.leftMenu.showMenu('chat');
                     }
                     return false;
                 case 'comments':
-                    if (this.mode.canCoAuthoring && this.mode.isEdit && this.mode.canComments) {
+                    if (this.mode.canCoAuthoring && this.mode.isEdit && this.mode.canComments && !this.mode.isLightVersion) {
                         Common.UI.Menu.Manager.hideAll();
                         this.leftMenu.showMenu('comments');
                         this.getApplication().getController('Common.Controllers.Comments').onAfterShow();

@@ -397,6 +397,8 @@
   "PE.Views.HyperlinkSettingsDialog.txtPrev": "Previous Slide",
   "PE.Views.HyperlinkSettingsDialog.txtSlide": "Slide",
   "PE.Views.ImageSettings.textAdvanced": "Show advanced settings",
+  "PE.Views.ImageSettings.textEdit": "Edit",
+  "PE.Views.ImageSettings.textEditObject": "Edit Object",
   "PE.Views.ImageSettings.textFromFile": "From File",
   "PE.Views.ImageSettings.textFromUrl": "From URL",
   "PE.Views.ImageSettings.textHeight": "Height",

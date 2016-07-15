@@ -67,7 +67,7 @@ define([
                         '<td align="center"><label class="asc-about-version">' + options.appName.toUpperCase() + '</label></td>',
                     '</tr>',
                     '<tr>',
-                        '<td align="center"><label class="asc-about-version">' + this.txtVersion + this.txtVersionNum + '</label></td>',
+                        '<td align="center"><label class="asc-about-version" id="id-about-licensor-version-name">' + this.txtVersion + this.txtVersionNum + '</label></td>',
                     '</tr>',
                 '</table>',
                 '<table id="id-about-licensor-info" cols="3" style="width: 100%;" class="margin-bottom">',
@@ -106,7 +106,7 @@ define([
                         '<td align="center"><label class="asc-about-version">' + options.appName.toUpperCase()  + '</label></td>',
                     '</tr>',
                     '<tr>',
-                        '<td align="center"><label style="padding-bottom: 29px;" class="asc-about-version">' + this.txtVersion + this.txtVersionNum + '</label></td>',
+                        '<td align="center"><label style="padding-bottom: 29px;" class="asc-about-version" id="id-about-licensee-version-name">' + this.txtVersion + this.txtVersionNum + '</label></td>',
                     '</tr>',
                     '<tr>',
                         '<td align="center" class="padding-small">',
@@ -235,6 +235,13 @@ define([
             this.fireEvent('hide', this );
         },
 
+        setMode: function(mode){
+            if (mode.isLightVersion) {
+                $('#id-about-licensor-version-name').text(this.txtEdition + this.txtVersion + this.txtVersionNum);
+                $('#id-about-licensee-version-name').text(this.txtEdition + this.txtVersion + this.txtVersionNum);
+            }
+        },
+
         txtPoweredBy: 'Powered by',
         txtVersion: 'Version ',
         txtLicensor: 'LICENSOR',
@@ -242,7 +249,8 @@ define([
         txtAddress: 'address: ',
         txtAscAddress: 'Lubanas st. 125a-25, Riga, Latvia, EU, LV-1021',
         txtMail: 'email: ',
-        txtTel: 'tel.: '
+        txtTel: 'tel.: ',
+        txtEdition: 'Integration Edition '
 
     }, Common.Views.About || {}));
 });

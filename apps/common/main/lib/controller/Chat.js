@@ -80,14 +80,17 @@ define([
         setMode: function(mode) {
             this.mode = mode;
 
-            if (this.api && this.mode.canCoAuthoring) {
-                if (this.mode.canChat)
+            if (this.api) {
+                if (this.mode.canCoAuthoring && this.mode.canChat)
                     this.api.asc_registerCallback('asc_onCoAuthoringChatReceiveMessage', _.bind(this.onReceiveMessage, this));
-                this.api.asc_registerCallback('asc_onAuthParticipantsChanged', _.bind(this.onUsersChanged, this));
-                this.api.asc_registerCallback('asc_onConnectionStateChanged', _.bind(this.onUserConnection, this));
 
-                this.api.asc_coAuthoringGetUsers();
-                if (this.mode.canChat)
+                if ( !this.mode.isEditDiagram && !this.mode.isEditMailMerge ) {
+                    this.api.asc_registerCallback('asc_onAuthParticipantsChanged', _.bind(this.onUsersChanged, this));
+                    this.api.asc_registerCallback('asc_onConnectionStateChanged', _.bind(this.onUserConnection, this));
+                    this.api.asc_coAuthoringGetUsers();
+                }
+
+                if (this.mode.canCoAuthoring && this.mode.canChat)
                     this.api.asc_coAuthoringChatGetMessages();
             }
             return this;
@@ -100,7 +103,7 @@ define([
         },
 
         onUsersChanged: function(users){
-            if (!this.mode.canLicense) {
+            if (!this.mode.canLicense || !this.mode.canCoAuthoring) {
                 var len = 0;
                 for (name in users) {
                     if (undefined !== name) len++;

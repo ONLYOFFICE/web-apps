@@ -136,6 +136,7 @@ define([
 
                 // Initialize api gateway
                 this.editorConfig = {};
+                this.plugins = undefined;
                 Common.Gateway.on('init', _.bind(this.loadConfig, this));
                 Common.Gateway.on('showmessage', _.bind(this.onExternalMessage, this));
                 Common.Gateway.on('opendocument', _.bind(this.loadDocument, this));
@@ -250,6 +251,8 @@ define([
                 this.appOptions.canBackToFolder = (this.editorConfig.canBackToFolder!==false) && (typeof (this.editorConfig.customization) == 'object')
                                                   && (typeof (this.editorConfig.customization.goback) == 'object') && !_.isEmpty(this.editorConfig.customization.goback.url);
                 this.appOptions.canBack         = this.editorConfig.nativeApp !== true && this.appOptions.canBackToFolder === true;
+                this.appOptions.canPlugins      = false;
+                this.plugins                    = this.editorConfig.plugins;
 
                 this.headerView = this.getApplication().getController('Viewport').getView('Common.Views.Header');
                 this.headerView.setCanBack(this.appOptions.canBackToFolder === true);
@@ -584,10 +587,18 @@ define([
                     statusbarView               = statusbarController.getView('Statusbar'),
                     leftMenuView                = leftmenuController.getView('LeftMenu'),
                     documentHolderView          = documentHolderController.getView('DocumentHolder'),
-                    chatController              = application.getController('Common.Controllers.Chat');
+                    chatController              = application.getController('Common.Controllers.Chat'),
+                    pluginsController           = application.getController('Common.Controllers.Plugins');
 
                 leftMenuView.getMenu('file').loadDocument({doc:me.appOptions.spreadsheet});
                 leftmenuController.setMode(me.appOptions).createDelayedElements().setApi(me.api);
+
+                 if (!me.appOptions.isEditMailMerge && !me.appOptions.isEditDiagram) {
+                    pluginsController.setApi(me.api);
+                    me.updatePluginsList(me.plugins);
+                    me.api.asc_registerCallback('asc_onPluginsInit', _.bind(me.updatePluginsList, me));
+                }
+
                 leftMenuView.disableMenu('all',false);
 
                 if (!me.appOptions.isEditMailMerge && !me.appOptions.isEditDiagram && me.appOptions.canBranding) {
@@ -722,11 +733,12 @@ define([
                     this.appOptions.canAutosave = true;
                     this.appOptions.canAnalytics = params.asc_getIsAnalyticsEnable();
 
-                    /** coauthoring begin **/
-                    this.appOptions.canCoAuthoring = true;
-                    /** coauthoring end **/
                     this.appOptions.isOffline      = this.api.asc_isOffline();
                     this.appOptions.canLicense     = params.asc_getCanLicense ? params.asc_getCanLicense() : false;
+                    this.appOptions.isLightVersion = params.asc_getIsLight();
+                    /** coauthoring begin **/
+                    this.appOptions.canCoAuthoring = !this.appOptions.isLightVersion;
+                    /** coauthoring end **/
                     this.appOptions.canComments    = this.appOptions.canLicense && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.comments===false);
                     this.appOptions.canChat        = this.appOptions.canLicense && !this.appOptions.isOffline && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.chat===false);
 
@@ -1684,6 +1696,61 @@ define([
                 if (url) this.iframePrint.src = url;
             },
 
+            updatePluginsList: function(plugins) {
+                var pluginStore = this.getApplication().getCollection('Common.Collections.Plugins'),
+                    isEdit = this.appOptions.isEdit;
+                if (pluginStore && plugins) {
+                    var arr = [];
+                    plugins.pluginsData.forEach(function(item){
+                        var variations = item.variations,
+                            variationsArr = [];
+                        variations.forEach(function(itemVar){
+                            var isSupported = false;
+                            for (var i=0; i<itemVar.EditorsSupport.length; i++){
+                                if (itemVar.EditorsSupport[i]=='cell') {
+                                    isSupported = true; break;
+                                }
+                            }
+                            if (isSupported && (isEdit || itemVar.isViewer))
+                                variationsArr.push(new Common.Models.PluginVariation({
+                                    description: itemVar.description,
+                                    index: variationsArr.length,
+                                    url : itemVar.url,
+                                    icons  : itemVar.icons,
+                                    isViewer: itemVar.isViewer,
+                                    EditorsSupport: itemVar.EditorsSupport,
+                                    isVisual: itemVar.isVisual,
+                                    isModal: itemVar.isModal,
+                                    isInsideMode: itemVar.isInsideMode,
+                                    initDataType: itemVar.initDataType,
+                                    initData: itemVar.initData,
+                                    isUpdateOleOnResize : itemVar.isUpdateOleOnResize,
+                                    buttons: itemVar.buttons
+                                }));
+                        });
+                        if (variationsArr.length>0)
+                            arr.push(new Common.Models.Plugin({
+                                name : item.name,
+                                guid: item.guid,
+                                baseUrl : item.baseUrl,
+                                variations: variationsArr,
+                                currentVariation: 0
+                            }));
+                    });
+
+                    pluginStore.reset(arr);
+
+                    this.appOptions.pluginsPath = (plugins.url);
+                    this.appOptions.canPlugins = (arr.length>0);
+                } else {
+                    this.appOptions.pluginsPath = '';
+                    this.appOptions.canPlugins = false;
+                }
+                if (this.appOptions.canPlugins)
+                    this.getApplication().getController('Common.Controllers.Plugins').setMode(this.appOptions);
+                this.getApplication().getController('LeftMenu').enablePlugins();
+            },
+            
             leavePageText: 'You have unsaved changes in this document. Click \'Stay on this Page\' then \'Save\' to save them. Click \'Leave this Page\' to discard all the unsaved changes.',
             criticalErrorTitle: 'Error',
             notcriticalErrorTitle: 'Warning',

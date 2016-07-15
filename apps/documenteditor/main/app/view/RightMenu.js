@@ -197,8 +197,8 @@ define([
             }
 
             if (open) {
-                $('#id-empty-settings').parent().css("display", "inline-block" );
-                $('#id-empty-settings').addClass("active");
+                $('#id-paragraph-settings').parent().css("display", "inline-block" );
+                $('#id-paragraph-settings').addClass("active");
             }
 
             this.trigger('render:after', this);

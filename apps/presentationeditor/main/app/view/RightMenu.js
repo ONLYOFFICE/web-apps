@@ -181,8 +181,8 @@ define([
             }
 
             if (open) {
-                $('#id-empty-settings').parent().css("display", "inline-block" );
-                $('#id-empty-settings').addClass("active");
+                $('#id-slide-settings').parent().css("display", "inline-block" );
+                $('#id-slide-settings').addClass("active");
             }
             
             this.trigger('render:after', this);

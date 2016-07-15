@@ -55,7 +55,10 @@ define([
         initialize: function() {
         },
 
-        events: {
+        events: function() {
+            return {
+                'click #id-plugin-close':_.bind(this.onToolClose,this)
+            };
         },
 
         onLaunch: function() {
@@ -81,8 +84,9 @@ define([
             }
         },
 
-        onAfterRender: function(historyView) {
-            historyView.viewPluginsList.on('item:click', _.bind(this.onSelectPlugin, this));
+        onAfterRender: function(panelPlugins) {
+            panelPlugins.viewPluginsList.on('item:click', _.bind(this.onSelectPlugin, this));
+            this.bindViewEvents(this.panelPlugins, this.events);
         },
 
         updatePluginsList: function() {
@@ -119,42 +123,114 @@ define([
             this.api.asc_pluginsRegister(this.panelPlugins.pluginsPath, arr);
         },
 
-        onSelectPlugin: function(picker, item, record){
-            this.api.asc_pluginRun(record.get('guid'), record.get('currentVariation'), '');
+        onSelectPlugin: function(picker, item, record, e){
+            var btn = $(e.target);
+            if (btn && btn.hasClass('plugin-caret')) {
+                var menu = this.panelPlugins.pluginMenu;
+                if (menu.isVisible()) {
+                    menu.hide();
+                    return;
+                }
+
+                var showPoint, me = this,
+                    currentTarget = $(e.currentTarget),
+                    parent = $(this.panelPlugins.el),
+                    offset = currentTarget.offset(),
+                    offsetParent = parent.offset();
+
+                showPoint = [offset.left - offsetParent.left + currentTarget.width(), offset.top - offsetParent.top + currentTarget.height()/2];
+
+                if (record != undefined) {
+                    for (var i = 0; i < menu.items.length; i++) {
+                        menu.removeItem(menu.items[i]); i--;
+                    }
+                    menu.removeAll();
+
+                    var variations = record.get('variations');
+                    for (var i=0; i<variations.length; i++) {
+                        var variation = variations[i],
+                            mnu = new Common.UI.MenuItem({
+                                caption     : (i>0) ? variation.get('description') : me.panelPlugins.textStart,
+                                value       : parseInt(variation.get('index'))
+                            }).on('click', function(item, e) {
+                                if (me.api) {
+                                    me.api.asc_pluginRun(record.get('guid'), item.value, '');
+                                }
+                        });
+                        menu.addItem(mnu);
+                    }
+                }
+
+                var menuContainer = parent.find('#menu-plugin-container');
+                if (!menu.rendered) {
+                    if (menuContainer.length < 1) {
+                        menuContainer = $('<div id="menu-plugin-container" style="position: absolute; z-index: 10000;"><div class="dropdown-toggle" data-toggle="dropdown"></div></div>', menu.id);
+                        parent.append(menuContainer);
+                    }
+                    menu.render(menuContainer);
+                    menu.cmpEl.attr({tabindex: "-1"});
+
+                    menu.on('show:after', function(cmp) {
+                        if (cmp && cmp.menuAlignEl)
+                            cmp.menuAlignEl.toggleClass('over', true);
+                    }).on('hide:after', function(cmp) {
+                        if (cmp && cmp.menuAlignEl)
+                            cmp.menuAlignEl.toggleClass('over', false);
+                    });
+                }
+
+                menuContainer.css({left: showPoint[0], top: showPoint[1]});
+
+                menu.menuAlignEl = currentTarget;
+                menu.setOffset(-11, -currentTarget.height()/2 + 2);
+                menu.show();
+                _.delay(function() {
+                    menu.cmpEl.focus();
+                }, 10);
+                e.stopPropagation();
+                e.preventDefault();
+            } else
+                this.api.asc_pluginRun(record.get('guid'), 0, '');
         },
 
-        onPluginShow: function(plugin) {
-            var variation = plugin.get_Variations()[0];
+        onPluginShow: function(plugin, variationIndex) {
+            var variation = plugin.get_Variations()[variationIndex];
             if (!variation.get_Visual()) return;
             
-            var me = this,
-                arrBtns = variation.get_Buttons(),
-                newBtns = {};
+            if (variation.get_InsideMode()) {
+                this.panelPlugins.openInsideMode(plugin.get_Name(), ((plugin.get_BaseUrl().length == 0) ? this.panelPlugins.pluginsPath : plugin.get_BaseUrl()) + variation.get_Url());
+            } else {
+                var me = this,
+                    arrBtns = variation.get_Buttons(),
+                    newBtns = {};
 
-            if (_.isArray(arrBtns)) {
-                _.each(arrBtns, function(b, index){
-                    newBtns[index] = {text: b.text, cls: 'custom' + ((b.primary) ? ' primary' : '')};
+                if (_.isArray(arrBtns)) {
+                    _.each(arrBtns, function(b, index){
+                        newBtns[index] = {text: b.text, cls: 'custom' + ((b.primary) ? ' primary' : '')};
+                    });
+                }
+
+                var _baseUrl = (plugin.get_BaseUrl().length == 0) ? me.panelPlugins.pluginsPath : plugin.get_BaseUrl();
+                me.pluginDlg = new Common.Views.PluginDlg({
+                    title: plugin.get_Name(),
+                    url: _baseUrl + variation.get_Url(),
+                    buttons: newBtns,
+                    toolcallback: _.bind(this.onToolClose, this)
                 });
+                me.pluginDlg.on('render:after', function(obj){
+                    obj.getChild('.footer .dlg-btn').on('click', _.bind(me.onDlgBtnClick, me));
+                }).on('close', function(obj){
+                    me.pluginDlg = undefined;
+                });
+                me.pluginDlg.show();
             }
-
-            var _baseUrl = (plugin.get_BaseUrl().length == 0) ? me.panelPlugins.pluginsPath : plugin.get_BaseUrl();
-            me.pluginDlg = new Common.Views.PluginDlg({
-                title: plugin.get_Name(),
-                url: _baseUrl + variation.get_Url(),
-                buttons: newBtns,
-                toolcallback: _.bind(this.onToolClose, this)
-            });
-            me.pluginDlg.on('render:after', function(obj){
-                obj.getChild('.footer .dlg-btn').on('click', _.bind(me.onDlgBtnClick, me));
-            }).on('close', function(obj){
-                me.pluginDlg = undefined;
-            });
-            me.pluginDlg.show();
         },
 
         onPluginClose: function() {
             if (this.pluginDlg)
                 this.pluginDlg.close();
+            else
+                this.panelPlugins.closeInsideMode();
         },
 
         onDlgBtnClick: function(event) {

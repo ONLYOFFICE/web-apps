@@ -78,13 +78,13 @@ define([
             this.FillItems = [];
 
             this._stateDisabled = {
-                background: false,
-                effects: false,
-                timing: false
+                background: true,
+                effects: true,
+                timing: true
             };
 
             this._state = {
-                FillType: Asc.c_oAscFill.FILL_TYPE_SOLID,
+                FillType:undefined,
                 SlideColor: 'ffffff',
                 BlipFillType: Asc.c_oAscFillBlipType.STRETCH,
                 FGColor: '000000',
@@ -93,7 +93,7 @@ define([
                 GradFillType: Asc.c_oAscFillGradType.GRAD_LINEAR
             };
 
-            this.OriginalFillType = Asc.c_oAscFill.FILL_TYPE_SOLID;
+            this.OriginalFillType = undefined;
             this.SlideColor = {Value: 1, Color: 'ffffff'};  // value=1 - цвет определен - прозрачный или другой, value=0 - цвет не определен, рисуем прозрачным
             this.BlipFillType = Asc.c_oAscFillBlipType.STRETCH;
             this.Effect = Asc.c_oAscSlideTransitionTypes.None;
@@ -125,13 +125,15 @@ define([
                 style: 'width: 100%;',
                 menuStyle: 'min-width: 190px;',
                 editable: false,
-                data: this._arrFillSrc
+                data: this._arrFillSrc,
+                disabled: true
             });
-            this.cmbFillSrc.setValue(this._arrFillSrc[0].value);
+            this.cmbFillSrc.setValue('');
             this.cmbFillSrc.on('selected', _.bind(this.onFillSrcSelect, this));
 
             this.btnBackColor = new Common.UI.ColorButton({
                 style: "width:45px;",
+                disabled: true,
                 menu        : new Common.UI.Menu({
                     items: [
                         { template: _.template('<div id="slide-back-color-menu" style="width: 165px; height: 220px; margin: 10px;"></div>') },
@@ -462,9 +464,10 @@ define([
                 style: 'width: 100%;',
                 menuStyle: 'min-width: 190px;',
                 editable: false,
-                data: this._arrEffectName
+                data: this._arrEffectName,
+                disabled: true
             });
-            this.cmbEffectName.setValue(this._arrEffectName[0].value);
+            this.cmbEffectName.setValue('');
             this.cmbEffectName.on('selected', _.bind(this.onEffectNameSelect, this));
 
             this._arrEffectType = [
@@ -496,7 +499,8 @@ define([
                 style: 'width: 100%;',
                 menuStyle: 'min-width: 190px;',
                 editable: false,
-                data: this._arrEffectType
+                data: this._arrEffectType,
+                disabled: true
             });
             this.cmbEffectType.setValue('');
             this.cmbEffectType.on('selected', _.bind(this.onEffectTypeSelect, this));
@@ -505,10 +509,11 @@ define([
                 el: $('#slide-spin-duration'),
                 step: 1,
                 width: 65,
-                value: '2 s',
+                value: '',
                 defaultUnit : this.textSec,
                 maxValue: 300,
-                minValue: 0
+                minValue: 0,
+                disabled: true
             });
             this.numDuration.on('change', _.bind(this.onDurationChange, this));
 
@@ -516,7 +521,7 @@ define([
                 el: $('#slide-spin-delay'),
                 step: 1,
                 width: 70,
-                value: '2 s',
+                value: '',
                 defaultUnit : this.textSec,
                 maxValue: 300,
                 minValue: 0,
@@ -526,18 +531,21 @@ define([
 
             this.chStartOnClick = new Common.UI.CheckBox({
                 el: $('#slide-checkbox-start-click'),
-                labelText: this.strStartOnClick
+                labelText: this.strStartOnClick,
+                disabled: true
             });
             this.chStartOnClick.on('change', _.bind(this.onStartOnClickChange, this));
 
             this.chDelay = new Common.UI.CheckBox({
                 el: $('#slide-checkbox-delay'),
-                labelText: this.strDelay
+                labelText: this.strDelay,
+                disabled: true
             });
             this.chDelay.on('change', _.bind(this.onCheckDelayChange, this));
 
             this.btnPreview = new Common.UI.Button({
-                el: $('#slide-button-preview')
+                el: $('#slide-button-preview'),
+                disabled: true
             });
             this.btnPreview.on('click', _.bind(function(btn){
                 if (this.api) this.api.SlideTransitionPlay();
@@ -545,7 +553,8 @@ define([
             }, this));
 
             this.btnApplyToAll = new Common.UI.Button({
-                el: $('#slide-button-apply-all')
+                el: $('#slide-button-apply-all'),
+                disabled: true
             });
             this.btnApplyToAll.on('click', _.bind(function(btn){
                 if (this.api) this.api.SlideTimingApplyToAll();

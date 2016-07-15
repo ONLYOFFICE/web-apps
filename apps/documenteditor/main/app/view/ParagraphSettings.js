@@ -71,18 +71,18 @@ define([
             this._initSettings = true;
 
             this._state = {
-                LineRuleIdx: 1,
-                LineHeight: 1.5,
-                LineSpacingBefore: 0,
-                LineSpacingAfter: 0.35,
+                LineRuleIdx: null,
+                LineHeight: null,
+                LineSpacingBefore: null,
+                LineSpacingAfter: null,
                 AddInterval: false,
                 BackColor: '#000000',
-                DisabledControls: false,
+                DisabledControls: true,
                 HideTextOnlySettings: false
             };
             this.spinners = [];
             this.lockedControls = [];
-            this._locked = false;
+            this._locked = true;
             this.isChart = false;
 
             this.render();
@@ -99,19 +99,21 @@ define([
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 85px;',
                 editable: false,
-                data: this._arrLineRule
+                data: this._arrLineRule,
+                disabled: this._locked
             });
-            this.cmbLineRule.setValue(this._arrLineRule[ this._state.LineRuleIdx].value);
+            this.cmbLineRule.setValue('');
             this.lockedControls.push(this.cmbLineRule);
 
             this.numLineHeight = new Common.UI.MetricSpinner({
                 el: $('#paragraph-spin-line-height'),
                 step: .01,
                 width: 85,
-                value: '1.5',
+                value: '',
                 defaultUnit : "",
                 maxValue: 132,
-                minValue: 0.5
+                minValue: 0.5,
+                disabled: this._locked
             });
             this.lockedControls.push(this.numLineHeight);
 
@@ -119,12 +121,13 @@ define([
                 el: $('#paragraph-spin-spacing-before'),
                 step: .1,
                 width: 85,
-                value: '0 cm',
+                value: '',
                 defaultUnit : "cm",
                 maxValue: 55.88,
                 minValue: 0,
                 allowAuto   : true,
-                autoText    : this.txtAutoText
+                autoText    : this.txtAutoText,
+                disabled: this._locked
             });
             this.spinners.push(this.numSpacingBefore);
             this.lockedControls.push(this.numSpacingBefore);
@@ -133,24 +136,27 @@ define([
                 el: $('#paragraph-spin-spacing-after'),
                 step: .1,
                 width: 85,
-                value: '0.35 cm',
+                value: '',
                 defaultUnit : "cm",
                 maxValue: 55.88,
                 minValue: 0,
                 allowAuto   : true,
-                autoText    : this.txtAutoText
+                autoText    : this.txtAutoText,
+                disabled: this._locked
             });
             this.spinners.push(this.numSpacingAfter);
             this.lockedControls.push(this.numSpacingAfter);
 
             this.chAddInterval = new Common.UI.CheckBox({
                 el: $('#paragraph-checkbox-add-interval'),
-                labelText: this.strSomeParagraphSpace
+                labelText: this.strSomeParagraphSpace,
+                disabled: this._locked
             });
             this.lockedControls.push(this.chAddInterval);
 
             this.btnColor = new Common.UI.ColorButton({
                 style: "width:45px;",
+                disabled: this._locked,
                 menu        : new Common.UI.Menu({
                     items: [
                         { template: _.template('<div id="paragraph-color-menu" style="width: 165px; height: 220px; margin: 10px;"></div>') },
@@ -206,6 +212,7 @@ define([
             }));
 
             this.linkAdvanced = $('#paragraph-advanced-link');
+            this.linkAdvanced.toggleClass('disabled', this._locked);
         },
 
         setApi: function(api) {
