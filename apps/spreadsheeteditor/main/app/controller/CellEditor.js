@@ -95,7 +95,7 @@ define([
 
         onInputKeyDown: function(e) {
             if (Common.UI.Keys.UP === e.keyCode || Common.UI.Keys.DOWN === e.keyCode ||
-                Common.UI.Keys.TAB === e.keyCode || Common.UI.Keys.RETURN === e.keyCode) {
+                Common.UI.Keys.TAB === e.keyCode || Common.UI.Keys.RETURN === e.keyCode || Common.UI.Keys.ESC === e.keyCode) {
                 var menu = $('#menu-formula-selection'); // for formula menu
                 if (menu.hasClass('open'))
                     menu.find('.dropdown-menu').trigger('keydown', e);
