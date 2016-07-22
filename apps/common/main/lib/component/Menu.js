@@ -441,7 +441,7 @@ define([
 
             onAfterHideMenu: function(e) {
                 this.trigger('hide:after', this, e);
-                Common.NotificationCenter.trigger('menu:hide');
+                Common.NotificationCenter.trigger('menu:hide', this);
             },
 
             onAfterKeydownMenu: function(e) {

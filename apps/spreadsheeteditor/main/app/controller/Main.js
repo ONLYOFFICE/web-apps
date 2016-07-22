@@ -199,9 +199,11 @@ define([
                     },
                     'menu:show': function(e){
                     },
-                    'menu:hide': function(e){
-                        if (!me.isModalShowed)
+                    'menu:hide': function(menu){
+                        if (!me.isModalShowed && (!menu || !menu.cmpEl.hasClass('from-cell-edit'))) {
+                            me.api.asc_InputClearKeyboardElement();
                             me.api.asc_enableKeyEvents(true);
+                        }
                     },
                     'edit:complete': _.bind(this.onEditComplete, this),
                     'settings:unitschanged':_.bind(this.unitsChanged, this)

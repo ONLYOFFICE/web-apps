@@ -1451,7 +1451,7 @@ define([
 //                        Common.UI.Menu.prototype.onAfterKeydownMenu.call(menu, e);
 
                         var li;
-                        if (arguments.length>1 && arguments[1] instanceof jQuery.Event) // when typing in cell editor
+                        if (arguments.length>1 && arguments[1] instanceof KeyboardEvent) // when typing in cell editor
                             e = arguments[1];
                         if (menuContainer.hasClass('open')) {
                             if (e.keyCode == Common.UI.Keys.TAB || e.keyCode == Common.UI.Keys.RETURN && !e.ctrlKey && !e.altKey)
@@ -1505,6 +1505,7 @@ define([
                     }
                     if (infocus)
                         me.cellEditor.focus();
+                    menu.cmpEl.toggleClass('from-cell-edit', infocus);
                     _.delay(function() {
                         menu.cmpEl.find('li:first a').addClass('focus');
                     }, 10);

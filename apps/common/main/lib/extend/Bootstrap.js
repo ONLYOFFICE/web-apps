@@ -47,7 +47,7 @@ function onDropDownKeyDown(e) {
     $parent.trigger(beforeEvent);
 
     if ($parent.hasClass('no-stop-propagate')) {
-        if (arguments.length>1 && arguments[1] instanceof jQuery.Event)
+        if (arguments.length>1 && arguments[1] instanceof KeyboardEvent)
             e = arguments[1];
         if ( /^(38|40|27|13|9)$/.test(e.keyCode) && !e.ctrlKey && !e.altKey) {
             patchDropDownKeyDownAdditional.call(this, e);
