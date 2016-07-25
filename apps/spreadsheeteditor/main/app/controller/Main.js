@@ -1045,7 +1045,7 @@ define([
                         break;
 
                     case Asc.c_oAscError.ID.CoAuthoringDisconnect:
-                        config.msg = this.errorCoAuthoringDisconnect;
+                        config.msg = (this.appOptions.isEdit) ? this.errorCoAuthoringDisconnect : this.errorViewerDisconnect;
                         break;
 
                     case Asc.c_oAscError.ID.ConvertationPassword:
@@ -1858,7 +1858,8 @@ define([
             textNoLicenseTitle: 'ONLYOFFICE open source version',
             warnNoLicense: 'You are using an open source version of ONLYOFFICE. The version has limitations for concurrent connections to the document server (20 connections at a time).<br>If you need more please consider purchasing a commercial license.',
             textContactUs: 'Contact sales',
-            confirmPutMergeRange: 'The source data contains merged cells.<br>They will be unmerged before they are pasted into the table.'
+            confirmPutMergeRange: 'The source data contains merged cells.<br>They will be unmerged before they are pasted into the table.',
+            errorViewerDisconnect: 'Connection is lost. You can still view the document,<br>but will not be able to download until the connection is restored.'
         }
     })(), SSE.Controllers.Main || {}))
 });

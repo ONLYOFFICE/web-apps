@@ -191,6 +191,7 @@
   "DE.Controllers.Main.downloadTextText": "Downloading document...",
   "DE.Controllers.Main.downloadTitleText": "Downloading Document",
   "DE.Controllers.Main.errorCoAuthoringDisconnect": "Server connection lost. The document cannot be edited right now.",
+  "DE.Controllers.Main.errorViewerDisconnect": "Connection is lost. You can still view the document,<br>but will not be able to download until the connection is restored.",
   "DE.Controllers.Main.errorConnectToServer": "The document could not be saved. Please check connection settings or contact your administrator.<br>When you click the 'OK' button, you will be prompted to download the document.<br><br>Find more information about connecting Document Server <a href=\"https://api.onlyoffice.com/editors/callback\" target=\"_blank\">here</a>",
   "DE.Controllers.Main.errorDatabaseConnection": "External error.<br>Database connection error. Please contact support in case the error persists.",
   "DE.Controllers.Main.errorDataRange": "Incorrect data range.",

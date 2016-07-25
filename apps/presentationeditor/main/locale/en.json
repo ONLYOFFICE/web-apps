@@ -105,6 +105,7 @@
   "PE.Controllers.Main.downloadTextText": "Downloading presentation...",
   "PE.Controllers.Main.downloadTitleText": "Downloading Presentation",
   "PE.Controllers.Main.errorCoAuthoringDisconnect": "Server connection lost. The document cannot be edited right now.",
+  "PE.Controllers.Main.errorViewerDisconnect": "Connection is lost. You can still view the document,<br>but will not be able to download until the connection is restored.",
   "PE.Controllers.Main.errorConnectToServer": "The document could not be saved. Please check connection settings or contact your administrator.<br>When you click the 'OK' button, you will be prompted to download the document.<br><br>Find more information about connecting Document Server <a href=\"https://api.onlyoffice.com/editors/callback\" target=\"_blank\">here</a>",
   "PE.Controllers.Main.errorDatabaseConnection": "External error.<br>Database connection error. Please contact support in case the error persists.",
   "PE.Controllers.Main.errorDataRange": "Incorrect data range.",

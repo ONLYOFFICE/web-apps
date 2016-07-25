@@ -131,6 +131,7 @@
   "SSE.Controllers.Main.errorAutoFilterHiddenRange": "The operation cannot be performed because the area contains filtered cells.<br>Please unhide the filtered elements and try again.",
   "SSE.Controllers.Main.errorBadImageUrl": "Image URL is incorrect",
   "SSE.Controllers.Main.errorCoAuthoringDisconnect": "Server connection lost. The document cannot be edited right now.",
+  "SSE.Controllers.Main.errorViewerDisconnect": "Connection is lost. You can still view the document,<br>but will not be able to download until the connection is restored.",
   "SSE.Controllers.Main.errorConnectToServer": "The document could not be saved. Please check connection settings or contact your administrator.<br>When you click the 'OK' button, you will be prompted to download the document.<br><br>Find more information about connecting Document Server <a href=\"https://api.onlyoffice.com/editors/callback\" target=\"_blank\">here</a>",
   "SSE.Controllers.Main.errorCountArg": "An error in the entered formula.<br>Incorrect number of arguments is used.",
   "SSE.Controllers.Main.errorCountArgExceed": "An error in the entered formula.<br>Number of arguments is exceeded.",
