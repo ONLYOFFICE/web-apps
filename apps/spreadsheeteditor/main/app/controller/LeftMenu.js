@@ -543,7 +543,6 @@ define([
                     this.getApplication().getController('Common.Controllers.Comments').onAfterShow();
                 }
 
-                this.api.asc_enableKeyEvents(!state);
                 if (!state) $(this.leftMenu.btnComments.el).blur();
             }
         },
