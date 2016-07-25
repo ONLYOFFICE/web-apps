@@ -1357,8 +1357,9 @@ define([
             message = Common.Utils.String.htmlEncode(message);
 
             message.replace(Common.Utils.emailStrongRe, function(subStr) {
+                var ref = (! /((^mailto:)\/\/)/i.test(subStr) ) ? ('mailto:' + subStr) : subStr;
                 offset = arguments[arguments.length-2];
-                arr.push({start: offset, end: subStr.length+offset, str: '<a href="' + subStr + '">' + subStr + '</a>'});
+                arr.push({start: offset, end: subStr.length+offset, str: '<a href="' + ref + '">' + subStr + '</a>'});
                 return '';
             });
 
