@@ -747,7 +747,7 @@ define([
                                     '<input type="button" class="checked img-commonctrl"/>',
                                 '<% } %>',
                             '</label>',
-                            '<div id="<%= id %>" class="list-item" style="pointer-events:none;margin-left:20px;display:inline-block;"><%= value %></div>',
+                            '<div id="<%= id %>" class="list-item" style="pointer-events:none;margin-left:20px;display:inline-block;width: 185px;"><%= value %></div>',
                         '</div>'
                     ].join(''))
                 });
