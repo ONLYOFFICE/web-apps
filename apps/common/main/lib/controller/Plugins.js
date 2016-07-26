@@ -73,6 +73,7 @@ define([
 
             this.api.asc_registerCallback("asc_onPluginShow", _.bind(this.onPluginShow, this));
             this.api.asc_registerCallback("asc_onPluginClose", _.bind(this.onPluginClose, this));
+            this.api.asc_registerCallback("asc_onPluginResize", _.bind(this.onPluginResize, this));
 
             return this;
         },
@@ -233,6 +234,14 @@ define([
                 this.panelPlugins.closeInsideMode();
         },
 
+        onPluginResize: function(width, height, callback) {
+            if (this.pluginDlg) {
+                this.pluginDlg.setInnerSize(width, height);
+                if (callback)
+                    callback.call();
+            }
+        },
+        
         onDlgBtnClick: function(event) {
             var state = event.currentTarget.attributes['result'].value;
             this.api.asc_pluginButtonClick(parseInt(state));

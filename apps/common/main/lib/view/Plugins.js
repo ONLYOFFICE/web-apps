@@ -273,6 +273,15 @@ define([
             }
         },
 
+        setInnerSize: function(width, height) {
+            var $window = this.getChild();
+            var boxEl = $window.find('.body > .box');
+            boxEl.css('height', height);
+
+            Common.UI.Window.prototype.setHeight.call(this, height + 85);
+            Common.UI.Window.prototype.setWidth.call(this, width);
+        },
+
         textLoading : 'Loading'
     }, Common.Views.PluginDlg || {}));
 });
