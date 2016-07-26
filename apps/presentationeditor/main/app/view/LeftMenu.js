@@ -50,6 +50,7 @@ define([
     'common/main/lib/view/Comments',
     'common/main/lib/view/Chat',
     /** coauthoring end **/
+    'common/main/lib/view/Plugins',
     'common/main/lib/view/SearchDialog',
     'presentationeditor/main/app/view/FileMenu'
 ], function (menuTemplate, $, _, Backbone) {
@@ -69,6 +70,7 @@ define([
                 /** coauthoring begin **/
                 'click #left-btn-comments': _.bind(this.onCoauthOptions, this),
                 'click #left-btn-chat': _.bind(this.onCoauthOptions, this),
+                'click #left-btn-plugins': _.bind(this.onCoauthOptions, this),
                 /** coauthoring end **/
                 'click #left-btn-support': function() {
                     var config = this.mode.customization;
@@ -154,6 +156,16 @@ define([
             this.btnChat.on('click',            _.bind(this.onBtnMenuClick, this));
             /** coauthoring end **/
 
+            this.btnPlugins = new Common.UI.Button({
+                el: $('#left-btn-plugins'),
+                hint: this.tipPlugins,
+                enableToggle: true,
+                disabled: true,
+                toggleGroup: 'leftMenuGroup'
+            });
+            this.btnPlugins.hide();
+            this.btnPlugins.on('click',         _.bind(this.onBtnMenuClick, this));
+            
             this.btnSearch.on('click',          _.bind(this.onBtnMenuClick, this));
             this.btnThumbs.on('click',          _.bind(this.onBtnMenuClick, this));
             this.btnAbout.on('toggle',          _.bind(this.onBtnMenuToggle, this));
@@ -216,8 +228,8 @@ define([
             (!btn.pressed) && this.fireEvent('panel:show', [this, btn.options.action, btn.pressed]);
         },
 
-        /** coauthoring begin **/
         onCoauthOptions: function(e) {
+            /** coauthoring begin **/
             if (this.mode.canCoAuthoring) {
                 if (this.mode.canComments) {
                     if (this.btnComments.pressed && this.btnComments.$el.hasClass('notify'))
@@ -235,16 +247,28 @@ define([
                         this.panelChat['hide']();
                 }
             }
+            /** coauthoring end **/
+            if (this.mode.canPlugins && this.panelPlugins) {
+                if (this.btnPlugins.pressed) {
+                    this.panelPlugins.show();
+                } else
+                    this.panelPlugins['hide']();
+            }
         },
 
         setOptionsPanel: function(name, panel) {
+            /** coauthoring begin **/
             if (name == 'chat') {
                 this.panelChat = panel.render('#left-panel-chat');
             } else if (name == 'comment') {
                 this.panelComments = panel;
+            } else /** coauthoring end **/
+            if (name == 'plugins' && !this.panelPlugins) {
+                this.panelPlugins = panel.render('#left-panel-plugins');
             }
         },
 
+        /** coauthoring begin **/
         markCoauthOptions: function(opt, ignoreDisabled) {
             if (opt=='chat' && this.btnChat.isVisible() &&
                     !this.btnChat.isDisabled() && !this.btnChat.pressed) {
@@ -276,6 +300,10 @@ define([
                 }
             }
             /** coauthoring end **/
+            if (this.mode.canPlugins && this.panelPlugins) {
+                this.panelPlugins['hide']();
+                this.btnPlugins.toggle(false, true);
+            }
             this.fireEvent('panel:show', [this, '', false]);
         },
 
@@ -297,6 +325,7 @@ define([
             this.btnComments.setDisabled(disable);
             this.btnChat.setDisabled(disable);
             /** coauthoring end **/
+            this.btnPlugins.setDisabled(disable);
         },
 
         showMenu: function(menu) {
@@ -352,6 +381,7 @@ define([
         tipSupport  : 'Feedback & Support',
         tipFile     : 'File',
         tipSearch   : 'Search',
-        tipSlides: 'Slides'
+        tipSlides: 'Slides',
+        tipPlugins  : 'Add-ons'
     }, PE.Views.LeftMenu || {}));
 });
