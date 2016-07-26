@@ -1054,6 +1054,8 @@ define([
             }
 
             this.cmbEffectType.setDisabled(arr.length<1 || this._stateDisabled.effects);
+            this.numDuration.setDisabled(arr.length<1 || this._stateDisabled.effects);
+            this.btnPreview.setDisabled(arr.length<1 || this._stateDisabled.effects);
         },
 
         onEffectNameSelect: function(combo, record) {
@@ -1486,10 +1488,11 @@ define([
                 this._stateDisabled.background = background;
             }
             if (effects !== this._stateDisabled.effects) {
+                var length = this.cmbEffectType.store.length;
                 this.cmbEffectName.setDisabled(effects);
-                this.cmbEffectType.setDisabled(effects);
-                this.numDuration.setDisabled(effects);
-                this.btnPreview.setDisabled(effects);
+                this.cmbEffectType.setDisabled(length<1 || effects);
+                this.numDuration.setDisabled(length<1 || effects);
+                this.btnPreview.setDisabled(length<1 || effects);
                 this._stateDisabled.effects = effects;
             }
             if (timing !== this._stateDisabled.timing) {
