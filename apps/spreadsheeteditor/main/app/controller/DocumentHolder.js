@@ -162,8 +162,8 @@ define([
             view.menuAddHyperlink.on('click',                   _.bind(me.onInsHyperlink, me));
             view.menuEditHyperlink.on('click',                  _.bind(me.onInsHyperlink, me));
             view.menuRemoveHyperlink.on('click',                _.bind(me.onDelHyperlink, me));
-            view.pmiRowHeight.on('click',                       _.bind(me.onSetSize, me));
-            view.pmiColumnWidth.on('click',                     _.bind(me.onSetSize, me));
+            view.pmiRowHeight.menu.on('item:click',             _.bind(me.onSetSize, me));
+            view.pmiColumnWidth.menu.on('item:click',           _.bind(me.onSetSize, me));
             view.pmiEntireHide.on('click',                      _.bind(me.onEntireHide, me));
             view.pmiEntireShow.on('click',                      _.bind(me.onEntireShow, me));
             view.pmiFreezePanes.on('click',                     _.bind(me.onFreezePanes, me));
@@ -479,24 +479,29 @@ define([
             }
         },
 
-        onSetSize: function(item) {
-            var me = this;
-            (new SSE.Views.SetValueDialog({
-                title: item.caption,
-                startvalue: item.options.action == 'row-height' ? me.api.asc_getRowHeight() : me.api.asc_getColumnWidth(),
-                maxvalue: item.options.action == 'row-height' ? Asc.c_oAscMaxRowHeight : Asc.c_oAscMaxColumnWidth,
-                step: item.options.action == 'row-height' ? 0.75 : 1,
-                defaultUnit: item.options.action == 'row-height' ? Common.Utils.Metric.getMetricName(Common.Utils.Metric.c_MetricUnits.pt) : me.textSym,
-                handler: function(dlg, result) {
-                    if (result == 'ok') {
-                        var val = dlg.getSettings();
-                        if (!isNaN(val))
-                            (item.options.action == 'row-height') ? me.api.asc_setRowHeight(val) : me.api.asc_setColumnWidth(val);
-                    }
+        onSetSize: function(menu, item) {
+            if (item.value == 'row-height' || item.value == 'column-width') {
+                var me = this;
+                (new SSE.Views.SetValueDialog({
+                    title: item.caption,
+                    startvalue: item.value == 'row-height' ? me.api.asc_getRowHeight() : me.api.asc_getColumnWidth(),
+                    maxvalue: item.value == 'row-height' ? Asc.c_oAscMaxRowHeight : Asc.c_oAscMaxColumnWidth,
+                    step: item.value == 'row-height' ? 0.75 : 1,
+                    defaultUnit: item.value == 'row-height' ? Common.Utils.Metric.getMetricName(Common.Utils.Metric.c_MetricUnits.pt) : me.textSym,
+                    handler: function(dlg, result) {
+                        if (result == 'ok') {
+                            var val = dlg.getSettings();
+                            if (!isNaN(val))
+                                (item.value == 'row-height') ? me.api.asc_setRowHeight(val) : me.api.asc_setColumnWidth(val);
+                        }
 
-                    Common.NotificationCenter.trigger('edit:complete', me.documentHolder);
-                }
-            })).show();
+                        Common.NotificationCenter.trigger('edit:complete', me.documentHolder);
+                    }
+                })).show();
+            } else {
+                (item.value == 'auto-row-height') ? this.api.asc_autoFitRowHeight() : this.api.asc_autoFitColumnWidth();
+                Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+            }
         },
 
         onEntireHide: function(item) {
@@ -1532,7 +1537,6 @@ define([
 
         guestText               : 'Guest',
         textCtrlClick           : 'Press CTRL and click link',
-        txtRowHeight            : 'Row Height',
         txtHeight               : 'Height',
         txtWidth                : 'Width',
         tipIsLocked             : 'This element is being edited by another user.',

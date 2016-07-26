@@ -299,12 +299,24 @@ define([
 
             me.pmiRowHeight = new Common.UI.MenuItem({
                 caption     : me.txtRowHeight,
-                action: 'row-height'
+                menu        : new Common.UI.Menu({
+                    menuAlign: 'tl-tr',
+                    items   : [
+                        { caption: me.txtAutoRowHeight, value: 'auto-row-height' },
+                        { caption: me.txtCustomRowHeight, value: 'row-height' }
+                    ]
+                })
             });
 
             me.pmiColumnWidth = new Common.UI.MenuItem({
                 caption     : me.txtColumnWidth,
-                action: 'column-width'
+                menu        : new Common.UI.Menu({
+                    menuAlign: 'tl-tr',
+                    items   : [
+                        { caption: me.txtAutoColumnWidth, value: 'auto-column-width' },
+                        { caption: me.txtCustomColumnWidth, value: 'column-width' }
+                    ]
+                })
             });
 
             me.pmiEntireHide = new Common.UI.MenuItem({
@@ -621,8 +633,8 @@ define([
         txtShiftDown:           'Shift cells down',
         txtRow:                 'Entire Row',
         txtColumn:              'Entire Column',
-        txtColumnWidth:         'Column Width',
-        txtRowHeight:           'Row Height',
+        txtColumnWidth:         'Set Column Width',
+        txtRowHeight:           'Set Row Height',
         txtWidth:               'Width',
         txtHide:                'Hide',
         txtShow:                'Show',
@@ -670,6 +682,11 @@ define([
         txtFilterFontColor: 'Filter by font color',
         txtReapply: 'Reapply',
         txtSortCellColor: 'Selected Cell Color on top',
-        txtSortFontColor: 'Selected Font Color on top'
+        txtSortFontColor: 'Selected Font Color on top',
+        txtAutoColumnWidth: 'Auto Fit Column Width',
+        txtAutoRowHeight: 'Auto Fit Row Height',
+        txtCustomColumnWidth: 'Custom Column Width',
+        txtCustomRowHeight: 'Custom Row Height'
+
     }, SSE.Views.DocumentHolder || {}));
 });
