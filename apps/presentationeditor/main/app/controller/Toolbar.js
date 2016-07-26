@@ -879,29 +879,21 @@ define([
         onCopyPaste: function(copy, e) {
             var me = this;
             if (me.api) {
-                if (typeof window['AscDesktopEditor'] === 'object') {
-                    copy ? me.api.Copy() : me.api.Paste();
-                    Common.NotificationCenter.trigger('edit:complete', me.toolbar);
-                } else {
+                var res = (copy) ? me.api.Copy() : me.api.Paste();
+                if (!res) {
                     var value = Common.localStorage.getItem("pe-hide-copywarning");
                     if (!(value && parseInt(value) == 1)) {
                         (new Common.Views.CopyWarningDialog({
                             handler: function(dontshow) {
-                                copy ? me.api.Copy() : me.api.Paste();
                                 if (dontshow) Common.localStorage.setItem("pe-hide-copywarning", 1);
                                 Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                             }
                         })).show();
-                    } else {
-                        copy ? me.api.Copy() : me.api.Paste();
-                        Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                     }
-                }
-
-                Common.component.Analytics.trackEvent('ToolBar', 'Copy Warning');
-            } else {
-                Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                } else
+                    Common.component.Analytics.trackEvent('ToolBar', 'Copy Warning');
             }
+            Common.NotificationCenter.trigger('edit:complete', me.toolbar);
         },
 
         onBold: function(btn, e) {

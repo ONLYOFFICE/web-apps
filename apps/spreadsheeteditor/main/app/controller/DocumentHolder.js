@@ -265,25 +265,21 @@ define([
         onCopyPaste: function(item) {
             var me = this;
             if (me.api) {
-                if (typeof window['AscDesktopEditor'] === 'object') {
-                    (item.value == 'cut') ? me.api.asc_Cut() : ((item.value == 'copy') ? me.api.asc_Copy() : me.api.asc_Paste());
-                } else {
+                var res =  (item.value == 'cut') ? me.api.asc_Cut() : ((item.value == 'copy') ? me.api.asc_Copy() : me.api.asc_Paste());
+                if (!res) {
                     var value = Common.localStorage.getItem("sse-hide-copywarning");
                     if (!(value && parseInt(value) == 1)) {
                         (new Common.Views.CopyWarningDialog({
                             handler: function(dontshow) {
-                                (item.value == 'cut') ? me.api.asc_Cut() : ((item.value == 'copy') ? me.api.asc_Copy() : me.api.asc_Paste());
                                 if (dontshow) Common.localStorage.setItem("sse-hide-copywarning", 1);
                                 Common.NotificationCenter.trigger('edit:complete', me.documentHolder);
                             }
                         })).show();
-                    } else {
-                        (item.value == 'cut') ? me.api.asc_Cut() : ((item.value == 'copy') ? me.api.asc_Copy() : me.api.asc_Paste());
-                        Common.NotificationCenter.trigger('edit:complete', me.documentHolder);
                     }
+                } else
                     Common.component.Analytics.trackEvent('ToolBar', 'Copy Warning');
-                }
             }
+            Common.NotificationCenter.trigger('edit:complete', me.documentHolder);
         },
 
         onInsertEntire: function(item) {
