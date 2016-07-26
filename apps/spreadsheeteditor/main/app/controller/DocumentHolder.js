@@ -1482,10 +1482,6 @@ define([
 
                     menu.render(menuContainer);
                     menu.cmpEl.attr({tabindex: "-1"});
-
-                    menu.on('hide:after', function() {
-                        if (Common.Utils.isIE) me.documentHolder.focus();
-                    });
                 }
 
                 var coord  = me.api.asc_getActiveCellCoord(),
