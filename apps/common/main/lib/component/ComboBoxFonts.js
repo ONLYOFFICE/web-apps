@@ -138,8 +138,9 @@ define([
                     }, 10);
                     return false;
                 } else if ((e.keyCode == Common.UI.Keys.HOME || e.keyCode == Common.UI.Keys.END || e.keyCode == Common.UI.Keys.BACKSPACE) && this.isMenuOpen()) {
+                    me._input.focus();
                     setTimeout(function() {
-                        me._input.focus();
+                        me._input[0].selectionStart = me._input[0].selectionEnd = (e.keyCode == Common.UI.Keys.HOME) ? 0 : me._input[0].value.length;
                     }, 10);
                 }
 
