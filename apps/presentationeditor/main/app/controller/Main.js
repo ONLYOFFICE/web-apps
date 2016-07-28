@@ -146,11 +146,8 @@ define([
 
                     $(document.body).on('blur', 'input, textarea', function(e) {
                         if (!me.isModalShowed) {
-                             /*
-                             * TODO: Workaround bug #25004. Clipboard feature processing in sdk.
-                             */
-                            if (!(Common.Utils.isSafari && Common.Utils.isMac) && !/area_id/.test(e.target.id) &&
-                                $(e.target).parent().find(e.relatedTarget).length<1 /* When focus in combobox goes from input to it's menu button or menu items */) {
+                            if (!/area_id/.test(e.target.id) && $(e.target).parent().find(e.relatedTarget).length<1 /* When focus in combobox goes from input to it's menu button or menu items */
+                                || !e.relatedTarget) {
                                 me.api.asc_enableKeyEvents(true);
                                 if (/msg-reply/.test(e.target.className))
                                     me.dontCloseDummyComment = false;
