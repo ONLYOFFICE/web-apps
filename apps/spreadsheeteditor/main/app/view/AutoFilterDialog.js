@@ -747,7 +747,7 @@ define([
                                     '<input type="button" class="checked img-commonctrl"/>',
                                 '<% } %>',
                             '</label>',
-                            '<div id="<%= id %>" class="list-item" style="pointer-events:none;margin-left:20px;display:inline-block;width: 185px;"><%= value %></div>',
+                            '<div id="<%= id %>" class="list-item" style="pointer-events:none;margin-left:20px;display:inline-block;width: 185px;"><%= Common.Utils.String.htmlEncode(value) %></div>',
                         '</div>'
                     ].join(''))
                 });
@@ -1133,7 +1133,7 @@ define([
                     });
                 else if (!isTextFilter && (cond1 == Asc.c_oAscCustomAutoFilter.isGreaterThanOrEqualTo && cond2 == Asc.c_oAscCustomAutoFilter.isLessThanOrEqualTo ||
                                            cond1 == Asc.c_oAscCustomAutoFilter.isLessThanOrEqualTo && cond2 == Asc.c_oAscCustomAutoFilter.isGreaterThanOrEqualTo)){
-                    items[7].setChecked(true, true); // between filter
+                    items[6].setChecked(true, true); // between filter
                     isCustomConditions = false;
                 }
                 if (isCustomConditions)
