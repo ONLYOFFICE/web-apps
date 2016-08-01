@@ -172,11 +172,6 @@ define([
             }, this);
 
             this.freeze = options.freeze; this.freeze && this.freezePanels(this.freeze);
-
-            Common.NotificationCenter.on({
-                'frame:mouseMove': this.resize.eventMove,
-                'frame:mouseup': this.resize.eventStop
-            });
         },
 
         doLayout: function() {
@@ -236,6 +231,11 @@ define([
                 mouseup     : this.resize.eventStop
             });
 
+            Common.NotificationCenter.on({
+                'frame:mousemove': this.resize.eventMove,
+                'frame:mouseup': this.resize.eventStop
+            });
+
             var panel             = e.data.panel;
             this.resize.type      = e.data.type;
             this.resize.$el       = panel.el;
@@ -288,6 +288,13 @@ define([
                 mousemove   : this.resize.eventMove,
                 mouseup     : this.resize.eventStop
             });
+
+            Common.NotificationCenter.off({
+                'frame:mousemove': this.resize.eventMove,
+                'frame:mouseup': this.resize.eventStop
+            });
+
+            if (!this.resize.$el) return;
 
             if (this.resize.type == 'vertical') {
                 var prop = 'height';

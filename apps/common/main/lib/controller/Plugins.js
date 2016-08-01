@@ -66,6 +66,8 @@ define([
                 storePlugins: this.getApplication().getCollection('Common.Collections.Plugins')
             });
             this.panelPlugins.on('render:after', _.bind(this.onAfterRender, this));
+
+            this._moveOffset = {x:0, y:0};
         },
 
         setApi: function(api) {
@@ -94,6 +96,9 @@ define([
             Common.NotificationCenter.on({
                 'layout:resizestart': function(e){
                     if (me.panelPlugins.isVisible()) {
+                        var offset = me.panelPlugins.currentPluginFrame.offset();
+                        me._moveOffset = {x: offset.left + parseInt(me.panelPlugins.currentPluginFrame.css('padding-left')),
+                                            y: offset.top + parseInt(me.panelPlugins.currentPluginFrame.css('padding-top'))};
                         me.api.asc_pluginEnableMouseEvents(true);
                     }
                 },
@@ -235,8 +240,11 @@ define([
                 });
                 me.pluginDlg.on('render:after', function(obj){
                     obj.getChild('.footer .dlg-btn').on('click', _.bind(me.onDlgBtnClick, me));
+                    me.pluginContainer = me.pluginDlg.$window.find('#id-plugin-container');
                 }).on('close', function(obj){
                     me.pluginDlg = undefined;
+                }).on('drag', function(args){
+                    me.api.asc_pluginEnableMouseEvents(args[1]=='start');
                 });
                 me.pluginDlg.show();
             }
@@ -267,11 +275,18 @@ define([
         },
 
         onPluginMouseUp: function(x, y) {
-            Common.NotificationCenter.trigger('frame:mouseup', jQuery.Event("mouseup", { pageX: x, pageY: y } ));
+            if (this.pluginDlg) {
+                this.pluginDlg.binding.dragStop();
+            } else
+                Common.NotificationCenter.trigger('frame:mouseup', jQuery.Event("mouseup", { pageX: x+this._moveOffset.x, pageY: y+this._moveOffset.y } ));
         },
         
         onPluginMouseMove: function(x, y) {
-            Common.NotificationCenter.trigger('frame:mousemove', jQuery.Event("mousemove", { pageX: x, pageY: y } ));
+            if (this.pluginDlg) {
+                var offset = this.pluginContainer.offset();
+                this.pluginDlg.binding.drag(jQuery.Event("mousemove", { pageX: x+offset.left, pageY: y+offset.top } ));
+            } else
+                Common.NotificationCenter.trigger('frame:mousemove', jQuery.Event("mousemove", { pageX: x+this._moveOffset.x, pageY: y+this._moveOffset.y } ));
         }
 
     }, Common.Controllers.Plugins || {}));
