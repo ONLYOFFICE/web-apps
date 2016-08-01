@@ -266,12 +266,12 @@ define([
             this.api.asc_pluginButtonClick(-1);
         },
 
-        onPluginMouseUp: function(e) {
-            Common.NotificationCenter.trigger('frame:mouseup', e);
+        onPluginMouseUp: function(x, y) {
+            Common.NotificationCenter.trigger('frame:mouseup', jQuery.Event("mouseup", { pageX: x, pageY: y } ));
         },
         
-        onPluginMouseMove: function(e) {
-            Common.NotificationCenter.trigger('frame:mousemove', e);
+        onPluginMouseMove: function(x, y) {
+            Common.NotificationCenter.trigger('frame:mousemove', jQuery.Event("mousemove", { pageX: x, pageY: y } ));
         }
 
     }, Common.Controllers.Plugins || {}));
