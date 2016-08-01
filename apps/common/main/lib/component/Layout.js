@@ -172,6 +172,11 @@ define([
             }, this);
 
             this.freeze = options.freeze; this.freeze && this.freezePanels(this.freeze);
+
+            Common.NotificationCenter.on({
+                'frame:mouseMove': this.resize.eventMove,
+                'frame:mouseup': this.resize.eventStop
+            });
         },
 
         doLayout: function() {
@@ -251,6 +256,7 @@ define([
                 this.resize.max     = (panel.maxpos > 0 ? panel.maxpos : this.resize.$el.parent().height() + panel.maxpos) - this.resize.width;
                 this.resize.initx   = e.pageX - parseInt(e.currentTarget.style.left);
             }
+            Common.NotificationCenter.trigger('layout:resizestart');
         },
 
         resizeMove: function(e) {
@@ -331,6 +337,7 @@ define([
                 this.doLayout();
                 this.trigger('layout:resizedrag', this);
             }
+            Common.NotificationCenter.trigger('layout:resizestop');
         },
 
         freezePanels: function (value) {

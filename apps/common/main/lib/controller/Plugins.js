@@ -74,6 +74,8 @@ define([
             this.api.asc_registerCallback("asc_onPluginShow", _.bind(this.onPluginShow, this));
             this.api.asc_registerCallback("asc_onPluginClose", _.bind(this.onPluginClose, this));
             this.api.asc_registerCallback("asc_onPluginResize", _.bind(this.onPluginResize, this));
+            this.api.asc_registerCallback("asc_onPluginMouseUp", _.bind(this.onPluginMouseUp, this));
+            this.api.asc_registerCallback("asc_onPluginMouseMove", _.bind(this.onPluginMouseMove, this));
 
             return this;
         },
@@ -88,6 +90,19 @@ define([
         onAfterRender: function(panelPlugins) {
             panelPlugins.viewPluginsList.on('item:click', _.bind(this.onSelectPlugin, this));
             this.bindViewEvents(this.panelPlugins, this.events);
+            var me = this;
+            Common.NotificationCenter.on({
+                'layout:resizestart': function(e){
+                    if (me.panelPlugins.isVisible()) {
+                        me.api.asc_pluginEnableMouseEvents(true);
+                    }
+                },
+                'layout:resizestop': function(e){
+                    if (me.panelPlugins.isVisible()) {
+                        me.api.asc_pluginEnableMouseEvents(false);
+                    }
+                }
+            });
         },
 
         updatePluginsList: function() {
@@ -249,6 +264,14 @@ define([
 
         onToolClose: function() {
             this.api.asc_pluginButtonClick(-1);
+        },
+
+        onPluginMouseUp: function(e) {
+            Common.NotificationCenter.trigger('frame:mouseup', e);
+        },
+        
+        onPluginMouseMove: function(e) {
+            Common.NotificationCenter.trigger('frame:mousemove', e);
         }
 
     }, Common.Controllers.Plugins || {}));
