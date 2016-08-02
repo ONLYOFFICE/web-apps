@@ -135,6 +135,9 @@ define([
                     variation.set_InitData(itemVar.get('initData'));
                     variation.set_UpdateOleOnResize(itemVar.get('isUpdateOleOnResize'));
                     variation.set_Buttons(itemVar.get('buttons'));
+                    variation.set_Size(itemVar.get('size'));
+                    variation.set_MaximumSize(itemVar.get('maximumSize'));
+                    variation.set_MinimumSize(itemVar.get('minimumSize'));
                     variationsArr.push(variation);
                 });
                 plugin.set_Variations(variationsArr);
@@ -223,7 +226,9 @@ define([
             } else {
                 var me = this,
                     arrBtns = variation.get_Buttons(),
-                    newBtns = {};
+                    newBtns = {},
+                    size = variation.get_Size();
+                    if (!size || size.length<2) size = [400, 400];
 
                 if (_.isArray(arrBtns)) {
                     _.each(arrBtns, function(b, index){
@@ -234,6 +239,8 @@ define([
                 var _baseUrl = (plugin.get_BaseUrl().length == 0) ? me.panelPlugins.pluginsPath : plugin.get_BaseUrl();
                 me.pluginDlg = new Common.Views.PluginDlg({
                     title: plugin.get_Name(),
+                    width: size[0], // inner width
+                    height: size[1], // inner height
                     url: _baseUrl + variation.get_Url(),
                     buttons: newBtns,
                     toolcallback: _.bind(this.onToolClose, this)

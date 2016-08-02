@@ -63,7 +63,10 @@ define([
                 initDataType: 0,
                 initData: "",
                 isUpdateOleOnResize: false,
-                buttons: []
+                buttons: [],
+                size: [400, 400],
+                maximumSize: [],
+                minimumSize: []
             }
         }
     });
