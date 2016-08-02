@@ -228,7 +228,7 @@ define([
                     arrBtns = variation.get_Buttons(),
                     newBtns = {},
                     size = variation.get_Size();
-                    if (!size || size.length<2) size = [400, 400];
+                    if (!size || size.length<2) size = [800, 600];
 
                 if (_.isArray(arrBtns)) {
                     _.each(arrBtns, function(b, index){

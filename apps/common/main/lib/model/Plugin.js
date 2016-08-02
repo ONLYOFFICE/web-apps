@@ -64,7 +64,7 @@ define([
                 initData: "",
                 isUpdateOleOnResize: false,
                 buttons: [],
-                size: [400, 400],
+                size: [800, 600],
                 maximumSize: [],
                 minimumSize: []
             }

@@ -252,24 +252,23 @@ define([
         setInnerSize: function(width, height) {
             var maxHeight = parseInt(window.innerHeight),
                 maxWidth = parseInt(window.innerWidth),
-                header_footer = (this.options.buttons && _.size(this.options.buttons)>0) ? 85 : 34;
-            if (maxHeight<height + header_footer)
-                height = maxHeight - header_footer;
-            if (maxWidth<width)
-                width = maxWidth;
+                header_footer = (this.options.buttons && _.size(this.options.buttons)>0) ? 85 : 34,
+                borders_height = (parseInt(this.$window.css('border-top-width')) + parseInt(this.$window.css('border-bottom-width'))),
+                borders_width = (parseInt(this.$window.css('border-left-width')) + parseInt(this.$window.css('border-right-width')));
+            if (maxHeight<height + header_footer + borders_height)
+                height = maxHeight - header_footer - borders_height;
+            if (maxWidth<width + borders_width)
+                width = maxWidth - borders_width;
 
             var $window = this.getChild();
             var boxEl = $window.find('.body > .box');
             boxEl.css('height', height);
 
-            Common.UI.Window.prototype.setHeight.call(this, height + header_footer);
-            Common.UI.Window.prototype.setWidth.call(this, width);
+            Common.UI.Window.prototype.setHeight.call(this, height + header_footer + borders_height);
+            Common.UI.Window.prototype.setWidth.call(this, width + borders_width);
 
-            var top  = ((maxHeight - height - header_footer) / 2) * 0.9;
-            var left = (maxWidth - width) / 2;
-
-            this.$window.css('left',(maxWidth - width) / 2);
-            this.$window.css('top',((maxHeight - height - header_footer) / 2) * 0.9);
+            this.$window.css('left',(maxWidth - width - borders_width) / 2);
+            this.$window.css('top',((maxHeight - height - header_footer - borders_height) / 2) * 0.9);
         },
 
         textLoading : 'Loading'
