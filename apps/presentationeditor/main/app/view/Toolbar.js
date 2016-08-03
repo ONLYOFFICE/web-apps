@@ -1158,7 +1158,7 @@ define([
             this.trigger('render:before', this);
 
             var value = Common.localStorage.getItem('pe-compact-toolbar');
-            var valueCompact = (mode.isLightVersion || value!==null && parseInt(value) == 1);
+            var valueCompact = (value!==null && parseInt(value) == 1);
 
             value = Common.localStorage.getItem('pe-hidden-title');
             var valueTitle = (value!==null && parseInt(value) == 1);
@@ -1169,7 +1169,6 @@ define([
             value = Common.localStorage.getItem("pe-hidden-rulers");
             var valueRulers = (value !== null && parseInt(value) == 1);
 
-            me.mnuitemCompactToolbar.setVisible(!mode.isLightVersion);
             me.mnuitemCompactToolbar.setChecked(valueCompact);
             me.mnuitemHideTitleBar.setChecked(valueTitle);
             me.mnuitemHideStatusBar.setChecked(valueStatus);
