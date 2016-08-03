@@ -172,6 +172,16 @@ define([
             this.pluginsPanel.toggleClass('hidden', false);
         },
 
+        openNotVisualMode: function(pluginGuid) {
+            var rec = this.viewPluginsList.store.findWhere({guid: pluginGuid});
+            if (rec)
+                this.viewPluginsList.cmpEl.find('#' + rec.get('id')).parent().addClass('selected');
+        },
+
+        closeNotVisualMode: function() {
+            this.viewPluginsList.cmpEl.find('.selected').removeClass('selected');
+        },
+
         _onLoad: function() {
             if (this.loadMask)
                 this.loadMask.hide();

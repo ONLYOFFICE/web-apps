@@ -219,49 +219,52 @@ define([
 
         onPluginShow: function(plugin, variationIndex) {
             var variation = plugin.get_Variations()[variationIndex];
-            if (!variation.get_Visual()) return;
-            
-            if (variation.get_InsideMode()) {
-                this.panelPlugins.openInsideMode(plugin.get_Name(), ((plugin.get_BaseUrl().length == 0) ? this.panelPlugins.pluginsPath : plugin.get_BaseUrl()) + variation.get_Url());
-            } else {
-                var me = this,
-                    arrBtns = variation.get_Buttons(),
-                    newBtns = {},
-                    size = variation.get_Size();
-                    if (!size || size.length<2) size = [800, 600];
+            if (variation.get_Visual()) {
+                if (variation.get_InsideMode()) {
+                    this.panelPlugins.openInsideMode(plugin.get_Name(), ((plugin.get_BaseUrl().length == 0) ? this.panelPlugins.pluginsPath : plugin.get_BaseUrl()) + variation.get_Url());
+                } else {
+                    var me = this,
+                        arrBtns = variation.get_Buttons(),
+                        newBtns = {},
+                        size = variation.get_Size();
+                        if (!size || size.length<2) size = [800, 600];
 
-                if (_.isArray(arrBtns)) {
-                    _.each(arrBtns, function(b, index){
-                        newBtns[index] = {text: b.text, cls: 'custom' + ((b.primary) ? ' primary' : '')};
+                    if (_.isArray(arrBtns)) {
+                        _.each(arrBtns, function(b, index){
+                            newBtns[index] = {text: b.text, cls: 'custom' + ((b.primary) ? ' primary' : '')};
+                        });
+                    }
+
+                    var _baseUrl = (plugin.get_BaseUrl().length == 0) ? me.panelPlugins.pluginsPath : plugin.get_BaseUrl();
+                    me.pluginDlg = new Common.Views.PluginDlg({
+                        title: plugin.get_Name(),
+                        width: size[0], // inner width
+                        height: size[1], // inner height
+                        url: _baseUrl + variation.get_Url(),
+                        buttons: newBtns,
+                        toolcallback: _.bind(this.onToolClose, this)
                     });
+                    me.pluginDlg.on('render:after', function(obj){
+                        obj.getChild('.footer .dlg-btn').on('click', _.bind(me.onDlgBtnClick, me));
+                        me.pluginContainer = me.pluginDlg.$window.find('#id-plugin-container');
+                    }).on('close', function(obj){
+                        me.pluginDlg = undefined;
+                    }).on('drag', function(args){
+                        me.api.asc_pluginEnableMouseEvents(args[1]=='start');
+                    });
+                    me.pluginDlg.show();
                 }
-
-                var _baseUrl = (plugin.get_BaseUrl().length == 0) ? me.panelPlugins.pluginsPath : plugin.get_BaseUrl();
-                me.pluginDlg = new Common.Views.PluginDlg({
-                    title: plugin.get_Name(),
-                    width: size[0], // inner width
-                    height: size[1], // inner height
-                    url: _baseUrl + variation.get_Url(),
-                    buttons: newBtns,
-                    toolcallback: _.bind(this.onToolClose, this)
-                });
-                me.pluginDlg.on('render:after', function(obj){
-                    obj.getChild('.footer .dlg-btn').on('click', _.bind(me.onDlgBtnClick, me));
-                    me.pluginContainer = me.pluginDlg.$window.find('#id-plugin-container');
-                }).on('close', function(obj){
-                    me.pluginDlg = undefined;
-                }).on('drag', function(args){
-                    me.api.asc_pluginEnableMouseEvents(args[1]=='start');
-                });
-                me.pluginDlg.show();
-            }
+            } else
+                this.panelPlugins.openNotVisualMode(plugin.get_Guid());
         },
 
         onPluginClose: function() {
             if (this.pluginDlg)
                 this.pluginDlg.close();
-            else
+            else if (this.panelPlugins.iframePlugin)
                 this.panelPlugins.closeInsideMode();
+            else
+                this.panelPlugins.closeNotVisualMode();
         },
 
         onPluginResize: function(width, height, callback) {
