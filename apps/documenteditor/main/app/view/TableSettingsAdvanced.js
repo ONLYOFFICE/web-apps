@@ -1253,7 +1253,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 if (cellWidth !== null)
                     this.nfPrefWidth.setValue(cellWidth>0 ? Common.Utils.Metric.fnRecalcFromMM(cellWidth) : -cellWidth , true);
 
-                this.chPrefWidth.setValue(cellWidth !== null, true);
+                this.chPrefWidth.setValue((props.get_CellsWidthNotEqual()) ? 'indeterminate' : (cellWidth !== null), true);
                 value = (this.chPrefWidth.getValue()!=='checked');
                 this.nfPrefWidth.setDisabled(value);
                 this.cmbPrefWidthUnit.setDisabled(value);
