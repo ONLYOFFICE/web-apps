@@ -727,13 +727,15 @@ define([
                     items: [],
                     maxHeight   : 600,
                     restoreHeight: 600
-                }).on('render:after', function(mnu) {
-                    this.scroller = new Common.UI.Scroller({
-                        el: $(this.el).find('.dropdown-menu '),
-                        useKeyboard: this.enableKeyEvents && !this.handleSelect,
-                        minScrollbarLength  : 40,
-                        alwaysVisibleY: true
-                    });
+                }).on('show:before', function(mnu) {
+                    if ( !this.scroller ) {
+                        this.scroller = new Common.UI.Scroller({
+                            el: $(this.el).find('.dropdown-menu '),
+                            useKeyboard: this.enableKeyEvents && !this.handleSelect,
+                            minScrollbarLength: 40,
+                            alwaysVisibleY: true
+                        });
+                    }
                 }).on('show:after', function(btn, e) {
                     var mnu = $(this.el).find('.dropdown-menu '),
                         docH = $(document).height(),
@@ -1549,7 +1551,7 @@ define([
                 this.mnuColorSchema = new Common.UI.Menu({
                     maxHeight   : 600,
                     restoreHeight: 600
-                }).on('render:after', function(mnu) {
+                }).on('show:before', function(mnu) {
                         this.scroller = new Common.UI.Scroller({
                         el: $(this.el).find('.dropdown-menu '),
                         useKeyboard: this.enableKeyEvents && !this.handleSelect,
