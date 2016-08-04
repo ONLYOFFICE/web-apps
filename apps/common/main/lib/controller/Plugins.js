@@ -226,7 +226,9 @@ define([
                     var me = this,
                         arrBtns = variation.get_Buttons(),
                         newBtns = {},
-                        size = variation.get_Size();
+                        size = variation.get_Size(),
+                        maxsize = variation.get_MaximumSize(),
+                        minsize = variation.get_MinimumSize();
                         if (!size || size.length<2) size = [800, 600];
 
                     if (_.isArray(arrBtns)) {
@@ -242,7 +244,11 @@ define([
                         height: size[1], // inner height
                         url: _baseUrl + variation.get_Url(),
                         buttons: newBtns,
-                        toolcallback: _.bind(this.onToolClose, this)
+                        toolcallback: _.bind(this.onToolClose, this),
+                        maxwidth: maxsize[0],
+                        maxheight: maxsize[1],
+                        minwidth: minsize[0],
+                        minheight: minsize[1]
                     });
                     me.pluginDlg.on('render:after', function(obj){
                         obj.getChild('.footer .dlg-btn').on('click', _.bind(me.onDlgBtnClick, me));
@@ -250,6 +256,8 @@ define([
                     }).on('close', function(obj){
                         me.pluginDlg = undefined;
                     }).on('drag', function(args){
+                        me.api.asc_pluginEnableMouseEvents(args[1]=='start');
+                    }).on('resize', function(args){
                         me.api.asc_pluginEnableMouseEvents(args[1]=='start');
                     });
                     me.pluginDlg.show();
@@ -286,7 +294,8 @@ define([
 
         onPluginMouseUp: function(x, y) {
             if (this.pluginDlg) {
-                this.pluginDlg.binding.dragStop();
+                if (this.pluginDlg.binding.dragStop) this.pluginDlg.binding.dragStop();
+                if (this.pluginDlg.binding.resizeStop) this.pluginDlg.binding.resizeStop();
             } else
                 Common.NotificationCenter.trigger('frame:mouseup', jQuery.Event("mouseup", { pageX: x+this._moveOffset.x, pageY: y+this._moveOffset.y } ));
         },
@@ -294,7 +303,8 @@ define([
         onPluginMouseMove: function(x, y) {
             if (this.pluginDlg) {
                 var offset = this.pluginContainer.offset();
-                this.pluginDlg.binding.drag(jQuery.Event("mousemove", { pageX: x+offset.left, pageY: y+offset.top } ));
+                if (this.pluginDlg.binding.drag) this.pluginDlg.binding.drag(jQuery.Event("mousemove", { pageX: x+offset.left, pageY: y+offset.top } ));
+                if (this.pluginDlg.binding.resize) this.pluginDlg.binding.resize(jQuery.Event("mousemove", { pageX: x+offset.left, pageY: y+offset.top } ));
             } else
                 Common.NotificationCenter.trigger('frame:mousemove', jQuery.Event("mousemove", { pageX: x+this._moveOffset.x, pageY: y+this._moveOffset.y } ));
         }
