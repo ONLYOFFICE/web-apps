@@ -526,12 +526,12 @@ define([
                     this.scroller.destroy();
                     delete this.scroller;
                 }
-                this.scroller = new Common.UI.Scroller({
+                this.scroller = new Common.UI.Scroller(_.extend({
                     el: $('.dropdown-menu', this.cmpEl),
                     minScrollbarLength : 40,
                     scrollYMarginOffset: 30,
                     includePadding     : true
-                });
+                }, this.options.scroller));
             }
         }
     })());
