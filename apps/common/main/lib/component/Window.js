@@ -306,24 +306,24 @@ define([
             this.resizing.inith = parseInt(this.$window.css("height"));
             this.resizing.type = [el.hasClass('left') ? -1 : (el.hasClass('right') ? 1 : 0), el.hasClass('top') ? -1 : (el.hasClass('bottom') ? 1 : 0)];
 
-            var main_width  = (window.innerHeight == undefined) ? document.documentElement.offsetWidth : window.innerWidth;
-            var main_height = (window.innerHeight == undefined) ? document.documentElement.offsetHeight : window.innerHeight;
-            if (!this.initConfig.maxwidth)  this.initConfig.maxwidth = main_width;
-            if (!this.initConfig.maxheight)  this.initConfig.maxheight = main_height;
+            var main_width  = (window.innerHeight == undefined) ? document.documentElement.offsetWidth : window.innerWidth,
+                main_height = (window.innerHeight == undefined) ? document.documentElement.offsetHeight : window.innerHeight,
+                maxwidth = (this.initConfig.maxwidth) ? this.initConfig.maxwidth : main_width,
+                maxheight = (this.initConfig.maxheight) ? this.initConfig.maxheight : main_height;
 
             if (this.resizing.type[0]>0) {
-                this.resizing.maxx  = Math.min(main_width, left+this.initConfig.maxwidth);
+                this.resizing.maxx  = Math.min(main_width, left+maxwidth);
                 this.resizing.minx  = left+this.initConfig.minwidth;
             } else if (this.resizing.type[0]<0) {
                 this.resizing.maxx  = left+this.resizing.initw-this.initConfig.minwidth;
-                this.resizing.minx  = Math.max(0, left+this.resizing.initw-this.initConfig.maxwidth);
+                this.resizing.minx  = Math.max(0, left+this.resizing.initw-maxwidth);
             }
             if (this.resizing.type[1]>0) {
-                this.resizing.maxy  = Math.min(main_height, top+this.initConfig.maxheight);
+                this.resizing.maxy  = Math.min(main_height, top+maxheight);
                 this.resizing.miny  = top+this.initConfig.minheight;
             } else if (this.resizing.type[1]<0) {
                 this.resizing.maxy  = top+this.resizing.inith-this.initConfig.minheight;
-                this.resizing.miny  = Math.max(0, top+this.resizing.inith-this.initConfig.maxheight);
+                this.resizing.miny  = Math.max(0, top+this.resizing.inith-maxheight);
             }
 
             $(document.body).css('cursor', el.css('cursor'));
@@ -814,7 +814,7 @@ define([
                 return this.$window && this.$window.is(':visible');
             },
 
-            setResizable: function(resizable) {
+            setResizable: function(resizable, minSize, maxSize) {
                 if (resizable !== this.resizable) {
                     if (resizable) {
                         var bordersTemplate = '<div class="resize-border left" style="top:' + ((this.initConfig.header) ? '33' : '5') + 'px; bottom: 5px; height: auto; border-right-style: solid; cursor: e-resize;"></div>' +
@@ -835,8 +835,10 @@ define([
                         this.binding.resizeStop     = _.bind(_resizestop, this);
                         this.binding.resizeStart    = _.bind(_resizestart, this);
 
-                        (this.initConfig.minwidth==undefined) && (this.initConfig.minwidth = 0);
-                        (this.initConfig.minheight==undefined) && (this.initConfig.minheight = 0);
+                        (minSize && minSize.length>1) && (this.initConfig.minwidth = minSize[0]);
+                        (minSize && minSize.length>1) && (this.initConfig.minheight = minSize[1]);
+                        (maxSize && maxSize.length>1) && (this.initConfig.maxwidth = maxSize[0]);
+                        (maxSize && maxSize.length>1) && (this.initConfig.maxheight = maxSize[1]);
 
                         this.$window.find('.resize-border').on('mousedown', this.binding.resizeStart);
                     } else {
