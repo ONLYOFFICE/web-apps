@@ -101,80 +101,70 @@ define([
             this.btnNewDocument = new Common.UI.Button({
                 id          : 'id-toolbar-btn-newdocument',
                 cls         : 'btn-toolbar',
-                iconCls     : 'btn-newdocument',
-                hint        : this.tipNewDocument
+                iconCls     : 'btn-newdocument'
             });
             this.toolbarControls.push(this.btnNewDocument);
 
             this.btnOpenDocument = new Common.UI.Button({
                 id          : 'id-toolbar-btn-opendocument',
                 cls         : 'btn-toolbar',
-                iconCls     : 'btn-opendocument',
-                hint        : this.tipOpenDocument
+                iconCls     : 'btn-opendocument'
             });
             this.toolbarControls.push(this.btnOpenDocument);
 
             this.btnPrint = new Common.UI.Button({
                 id          : 'id-toolbar-btn-print',
                 cls         : 'btn-toolbar',
-                iconCls     : 'btn-print no-mask',
-                hint        : this.tipPrint + Common.Utils.String.platformKey('Ctrl+P')
+                iconCls     : 'btn-print no-mask'
             });
             this.toolbarControls.push(this.btnPrint);
 
             this.btnSave = new Common.UI.Button({
                 id          : 'id-toolbar-btn-save',
                 cls         : 'btn-toolbar',
-                iconCls     : 'no-mask ' + this.btnSaveCls,
-                hint        : this.btnSaveTip
+                iconCls     : 'no-mask ' + this.btnSaveCls
             });
             this.toolbarControls.push(this.btnSave);
 
             this.btnUndo = new Common.UI.Button({
                 id          : 'id-toolbar-btn-undo',
                 cls         : 'btn-toolbar',
-                iconCls     : 'btn-undo',
-                hint        : this.tipUndo + Common.Utils.String.platformKey('Ctrl+Z')
+                iconCls     : 'btn-undo'
             });
             this.toolbarControls.push(this.btnUndo);
 
             this.btnRedo = new Common.UI.Button({
                 id          : 'id-toolbar-btn-redo',
                 cls         : 'btn-toolbar',
-                iconCls     : 'btn-redo',
-                hint        : this.tipRedo + Common.Utils.String.platformKey('Ctrl+Y')
+                iconCls     : 'btn-redo'
             });
             this.toolbarControls.push(this.btnRedo);
 
             this.btnCopy = new Common.UI.Button({
                 id          : 'id-toolbar-btn-copy',
                 cls         : 'btn-toolbar',
-                iconCls     : 'btn-copy',
-                hint        : this.tipCopy + Common.Utils.String.platformKey('Ctrl+C')
+                iconCls     : 'btn-copy'
             });
             this.toolbarControls.push(this.btnCopy);
 
             this.btnPaste = new Common.UI.Button({
                 id          : 'id-toolbar-btn-paste',
                 cls         : 'btn-toolbar',
-                iconCls     : 'btn-paste',
-                hint        : this.tipPaste + Common.Utils.String.platformKey('Ctrl+V')
+                iconCls     : 'btn-paste'
             });
             this.paragraphControls.push(this.btnPaste);
 
             this.btnIncFontSize = new Common.UI.Button({
                 id          : 'id-toolbar-btn-incfont',
                 cls         : 'btn-toolbar',
-                iconCls     : 'btn-incfont',
-                hint        : this.tipIncFont + Common.Utils.String.platformKey('Ctrl+]')
+                iconCls     : 'btn-incfont'
             });
             this.paragraphControls.push(this.btnIncFontSize);
 
             this.btnDecFontSize = new Common.UI.Button({
                 id          : 'id-toolbar-btn-decfont',
                 cls         : 'btn-toolbar',
-                iconCls     : 'btn-decfont',
-                hint        : this.tipDecFont + Common.Utils.String.platformKey('Ctrl+[')
+                iconCls     : 'btn-decfont'
             });
             this.paragraphControls.push(this.btnDecFontSize);
 
@@ -182,7 +172,6 @@ define([
                 id          : 'id-toolbar-btn-bold',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-bold',
-                hint        : this.textBold + Common.Utils.String.platformKey('Ctrl+B'),
                 enableToggle: true
             });
             this.paragraphControls.push(this.btnBold);
@@ -191,7 +180,6 @@ define([
                 id          : 'id-toolbar-btn-italic',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-italic',
-                hint        : this.textItalic + Common.Utils.String.platformKey('Ctrl+I'),
                 enableToggle: true
             });
             this.paragraphControls.push(this.btnItalic);
@@ -200,7 +188,6 @@ define([
                 id          : 'id-toolbar-btn-underline',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-underline',
-                hint        : this.textUnderline + Common.Utils.String.platformKey('Ctrl+U'),
                 enableToggle: true
             });
             this.paragraphControls.push(this.btnUnderline);
@@ -209,7 +196,6 @@ define([
                 id          : 'id-toolbar-btn-strikeout',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-strikeout',
-                hint        : this.textStrikeout,
                 enableToggle: true
             });
             this.paragraphControls.push(this.btnStrikeout);
@@ -218,7 +204,6 @@ define([
                 id          : 'id-toolbar-btn-superscript',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-superscript',
-                hint        : this.textSuperscript,
                 enableToggle: true,
                 toggleGroup : 'superscriptGroup'
             });
@@ -228,7 +213,6 @@ define([
                 id          : 'id-toolbar-btn-subscript',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-subscript',
-                hint        : this.textSubscript,
                 enableToggle: true,
                 toggleGroup : 'superscriptGroup'
             });
@@ -238,7 +222,6 @@ define([
                 id          : 'id-toolbar-btn-highlight',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-highlight',
-                hint        : this.tipHighlightColor,
                 enableToggle: true,
                 allowDepress: true,
                 split       : true,
@@ -261,7 +244,6 @@ define([
                 id          : 'id-toolbar-btn-fontcolor',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-fontcolor',
-                hint        : this.tipFontColor,
                 split       : true,
                 menu        : new Common.UI.Menu({
                     items: [
@@ -282,7 +264,6 @@ define([
                 id          : 'id-toolbar-btn-paracolor',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-paracolor',
-                hint        : this.tipPrColor,
                 split       : true,
                 menu        : new Common.UI.Menu({
                     items: [
@@ -298,7 +279,6 @@ define([
                 id          : 'id-toolbar-btn-align-left',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-align-left',
-                hint        : this.tipAlignLeft + Common.Utils.String.platformKey('Ctrl+L'),
                 enableToggle: true,
                 allowDepress: false,
                 toggleGroup : 'alignGroup'
@@ -309,7 +289,6 @@ define([
                 id          : 'id-toolbar-btn-align-center',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-align-center',
-                hint        : this.tipAlignCenter + Common.Utils.String.platformKey('Ctrl+E'),
                 enableToggle: true,
                 allowDepress: false,
                 toggleGroup : 'alignGroup'
@@ -320,7 +299,6 @@ define([
                 id          : 'id-toolbar-btn-align-right',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-align-right',
-                hint        : this.tipAlignRight + Common.Utils.String.platformKey('Ctrl+R'),
                 enableToggle: true,
                 allowDepress: false,
                 toggleGroup : 'alignGroup'
@@ -331,7 +309,6 @@ define([
                 id          : 'id-toolbar-btn-align-just',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-align-just',
-                hint        : this.tipAlignJust + Common.Utils.String.platformKey('Ctrl+J'),
                 enableToggle: true,
                 allowDepress: false,
                 toggleGroup: 'alignGroup'
@@ -342,7 +319,6 @@ define([
                 id          : 'id-toolbar-btn-halign',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-align-left',
-                hint        : this.tipHAligh,
                 icls        : 'btn-align-left',
                 menu        : new Common.UI.Menu({
                     cls: 'ppm-toolbar',
@@ -388,16 +364,14 @@ define([
             this.btnDecLeftOffset = new Common.UI.Button({
                 id          : 'id-toolbar-btn-decoffset',
                 cls         : 'btn-toolbar',
-                iconCls     : 'btn-decoffset',
-                hint        : this.tipDecPrLeft + Common.Utils.String.platformKey('Ctrl+Shift+M')
+                iconCls     : 'btn-decoffset'
             });
             this.paragraphControls.push(this.btnDecLeftOffset);
 
             this.btnIncLeftOffset = new Common.UI.Button({
                 id          : 'id-toolbar-btn-incoffset',
                 cls         : 'btn-toolbar',
-                iconCls     : 'btn-incoffset',
-                hint        : this.tipIncPrLeft + Common.Utils.String.platformKey('Ctrl+M')
+                iconCls     : 'btn-incoffset'
             });
             this.paragraphControls.push(this.btnIncLeftOffset);
 
@@ -405,7 +379,6 @@ define([
                 id          : 'id-toolbar-btn-linespace',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-linespace',
-                hint        : this.tipLineSpace,
                 menu        : new Common.UI.Menu({
                     style: 'min-width: 60px;',
                     items: [
@@ -424,7 +397,6 @@ define([
                 id          : 'id-toolbar-btn-hidenchars',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-hidenchars',
-                hint        : this.tipShowHiddenChars,
                 enableToggle: true,
                 split       : true,
                 menu        : new Common.UI.Menu({
@@ -441,7 +413,6 @@ define([
                 id          : 'id-toolbar-btn-markers',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-setmarkers',
-                hint        : this.tipMarkers,
                 enableToggle: true,
                 toggleGroup : 'markersGroup',
                 split       : true,
@@ -458,7 +429,6 @@ define([
                 id          : 'id-toolbar-btn-numbering',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-numbering',
-                hint        : this.tipNumbers,
                 enableToggle: true,
                 toggleGroup : 'markersGroup',
                 split       : true,
@@ -475,7 +445,6 @@ define([
                 id          : 'id-toolbar-btn-multilevels',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-multilevels',
-                hint        : this.tipMultilevels,
                 menu        : new Common.UI.Menu({
                     items: [
                         { template: _.template('<div id="id-toolbar-menu-multilevels" class="menu-markers" style="width: 165px; margin: 0 5px;"></div>') }
@@ -489,7 +458,6 @@ define([
                 id          : 'id-toolbar-btn-inserttable',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-inserttable',
-                hint        : this.tipInsertTable,
                 menu        : new Common.UI.Menu({
                     items: [
                         { template: _.template('<div id="id-toolbar-menu-tablepicker" class="dimension-picker" style="margin: 5px 10px;"></div>') },
@@ -503,7 +471,6 @@ define([
                 id          : 'id-toolbar-btn-insertimage',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-insertimage',
-                hint        : this.tipInsertImage,
                 menu        : new Common.UI.Menu({
                     items: [
                         { caption: this.mniImageFromFile, value: 'file' },
@@ -517,7 +484,6 @@ define([
                 id          : 'id-toolbar-btn-insertchart',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-insertchart',
-                hint        : this.tipInsertChart,
                 menu        : new Common.UI.Menu({
                     style: 'width: 560px;',
                     items: [
@@ -531,7 +497,6 @@ define([
                 id          : 'id-toolbar-btn-inserttext',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-text',
-                hint        : this.tipInsertText,
                 enableToggle: true,
                 split       : true,
                 menu        : new Common.UI.Menu({
@@ -557,7 +522,6 @@ define([
                 id          : 'id-toolbar-btn-pagebreak',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-pagebreak',
-                hint        : this.tipPageBreak,
                 split       : true,
                 menu        : new Common.UI.Menu({
                     items : [
@@ -584,8 +548,7 @@ define([
             this.btnInsertHyperlink = new Common.UI.Button({
                 id          : 'id-toolbar-btn-inserthyperlink',
                 cls         : 'btn-toolbar',
-                iconCls     : 'btn-inserthyperlink',
-                hint        : this.tipInsertHyperlink + Common.Utils.String.platformKey('Ctrl+K')
+                iconCls     : 'btn-inserthyperlink'
             });
             this.paragraphControls.push(this.btnInsertHyperlink);
 
@@ -593,7 +556,6 @@ define([
                 id          : 'id-toolbar-btn-editheader',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-editheader',
-                hint        : this.tipEditHeader,
                 menu        : new Common.UI.Menu({
                     items: [
                         { caption: this.mniEditHeader, value: 'header' },
@@ -622,7 +584,6 @@ define([
                 id          : 'id-toolbar-btn-insertshape',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-insertshape',
-                hint        : this.tipInsertShape,
                 enableToggle: true,
                 menu        : new Common.UI.Menu({cls: 'menu-shapes'})
             });
@@ -632,7 +593,6 @@ define([
                 id          : 'id-toolbar-btn-insertequation',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-insertequation',
-                hint        : this.tipInsertEquation,
                 split       : true,
                 menu        : new Common.UI.Menu({cls: 'menu-shapes'})
             });
@@ -642,7 +602,6 @@ define([
                 id          : 'id-toolbar-btn-dropcap',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-dropcap',
-                hint        : this.tipDropCap,
                 menu        : new Common.UI.Menu({
                     cls: 'ppm-toolbar',
                     items: [
@@ -660,7 +619,6 @@ define([
                 id          : 'id-toolbar-btn-columns',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-columns',
-                hint        : this.tipColumns,
                 menu        : new Common.UI.Menu({
                     cls: 'ppm-toolbar',
                     items: [
@@ -678,7 +636,6 @@ define([
                 id          : 'id-toolbar-btn-pageorient',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-pageorient',
-                hint        : this.tipPageOrient,
                 menu        : new Common.UI.Menu({
                     cls: 'ppm-toolbar',
                     items: [
@@ -702,7 +659,6 @@ define([
                 id          : 'id-toolbar-btn-pagemargins',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-pagemargins',
-                hint        : this.tipPageMargins,
                 menu        : new Common.UI.Menu({
                     items: [
                         { caption: this.textMarginsLast,    checkable: true, template: pageMarginsTemplate, toggleGroup: 'menuPageMargins'}, //top,left,bottom,right
@@ -726,7 +682,6 @@ define([
                 id          : 'id-toolbar-btn-pagesize',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-pagesize',
-                hint        : this.tipPageSize,
                 menu        : new Common.UI.Menu({
                     items: [
                         { caption: 'US Letter',             subtitle: '21,59cm x 27,94cm',  template: pageSizeTemplate, checkable: true, toggleGroup: 'menuPageSize', value: [215.9, 279.4] },
@@ -752,8 +707,7 @@ define([
             this.btnClearStyle = new Common.UI.Button({
                 id          : 'id-toolbar-btn-clearstyle',
                 cls         : 'btn-toolbar',
-                iconCls     : 'btn-clearstyle',
-                hint        : this.tipClearStyle
+                iconCls     : 'btn-clearstyle'
             });
             this.toolbarControls.push(this.btnClearStyle);
 
@@ -761,7 +715,6 @@ define([
                 id          : 'id-toolbar-btn-copystyle',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-copystyle',
-                hint        : this.tipCopyStyle + Common.Utils.String.platformKey('Ctrl+Shift+C'),
                 enableToggle: true
             });
             this.toolbarControls.push(this.btnCopyStyle);
@@ -770,7 +723,6 @@ define([
                 id          : 'id-toolbar-btn-colorschemas',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-colorschemas',
-                hint        : this.tipColorSchemas,
                 menu        : new Common.UI.Menu({
                     items: [],
                     maxHeight   : 600,
@@ -806,15 +758,13 @@ define([
             this.btnMailRecepients= new Common.UI.Button({
                 id          : 'id-toolbar-btn-mailrecepients',
                 cls         : 'btn-toolbar',
-                iconCls     : 'btn-mailrecepients',
-                hint        : this.tipMailRecepients
+                iconCls     : 'btn-mailrecepients'
             });
 
             this.btnHide = new Common.UI.Button({
                 id          : 'id-toolbar-btn-hidebars',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-hidebars no-mask',
-                hint        : this.tipViewSettings,
                 menu        : new Common.UI.Menu({
                     cls: 'pull-right',
                     style: 'min-width: 180px;',
@@ -875,8 +825,7 @@ define([
             this.btnAdvSettings = new Common.UI.Button({
                 id          : 'id-toolbar-btn-settings',
                 cls         : 'btn-toolbar',
-                iconCls     : 'btn-settings no-mask',
-                hint        : this.tipAdvSettings
+                iconCls     : 'btn-settings no-mask'
             });
             this.toolbarControls.push(this.btnAdvSettings);
 
@@ -1387,6 +1336,56 @@ define([
 
                 this.updateMetricUnit();
             }
+            this.btnNewDocument.updateHint(this.tipNewDocument);
+            this.btnOpenDocument.updateHint(this.tipOpenDocument);
+            this.btnPrint.updateHint(this.tipPrint + Common.Utils.String.platformKey('Ctrl+P'));
+            this.btnSave.updateHint(this.btnSaveTip);
+            this.btnUndo.updateHint(this.tipUndo + Common.Utils.String.platformKey('Ctrl+Z'));
+            this.btnRedo.updateHint(this.tipRedo + Common.Utils.String.platformKey('Ctrl+Y'));
+            this.btnCopy.updateHint(this.tipCopy + Common.Utils.String.platformKey('Ctrl+C'));
+            this.btnPaste.updateHint(this.tipPaste + Common.Utils.String.platformKey('Ctrl+V'));
+            this.btnIncFontSize.updateHint(this.tipIncFont + Common.Utils.String.platformKey('Ctrl+]'));
+            this.btnDecFontSize.updateHint(this.tipDecFont + Common.Utils.String.platformKey('Ctrl+['));
+            this.btnBold.updateHint(this.textBold + Common.Utils.String.platformKey('Ctrl+B'));
+            this.btnItalic.updateHint(this.textItalic + Common.Utils.String.platformKey('Ctrl+I'));
+            this.btnUnderline.updateHint(this.textUnderline + Common.Utils.String.platformKey('Ctrl+U'));
+            this.btnStrikeout.updateHint(this.textStrikeout);
+            this.btnSuperscript.updateHint(this.textSuperscript);
+            this.btnSubscript.updateHint(this.textSubscript);
+            this.btnHighlightColor.updateHint(this.tipHighlightColor);
+            this.btnFontColor.updateHint(this.tipFontColor);
+            this.btnParagraphColor.updateHint(this.tipPrColor);
+            this.btnAlignLeft.updateHint(this.tipAlignLeft + Common.Utils.String.platformKey('Ctrl+L'));
+            this.btnAlignCenter.updateHint(this.tipAlignCenter + Common.Utils.String.platformKey('Ctrl+E'));
+            this.btnAlignRight.updateHint(this.tipAlignRight + Common.Utils.String.platformKey('Ctrl+R'));
+            this.btnAlignJust.updateHint(this.tipAlignJust + Common.Utils.String.platformKey('Ctrl+J'));
+            this.btnHorizontalAlign.updateHint(this.tipHAligh);
+            this.btnDecLeftOffset.updateHint(this.tipDecPrLeft + Common.Utils.String.platformKey('Ctrl+Shift+M'));
+            this.btnIncLeftOffset.updateHint(this.tipIncPrLeft + Common.Utils.String.platformKey('Ctrl+M'));
+            this.btnLineSpace.updateHint(this.tipLineSpace);
+            this.btnShowHidenChars.updateHint(this.tipShowHiddenChars);
+            this.btnMarkers.updateHint(this.tipMarkers);
+            this.btnNumbers.updateHint(this.tipNumbers);
+            this.btnMultilevels.updateHint(this.tipMultilevels);
+            this.btnInsertTable.updateHint(this.tipInsertTable);
+            this.btnInsertImage.updateHint(this.tipInsertImage);
+            this.btnInsertChart.updateHint(this.tipInsertChart);
+            this.btnInsertText.updateHint(this.tipInsertText);
+            this.btnInsertPageBreak.updateHint(this.tipPageBreak);
+            this.btnInsertHyperlink.updateHint(this.tipInsertHyperlink + Common.Utils.String.platformKey('Ctrl+K'));
+            this.btnEditHeader.updateHint(this.tipEditHeader);
+            this.btnInsertShape.updateHint(this.tipInsertShape);
+            this.btnInsertEquation.updateHint(this.tipInsertEquation);
+            this.btnDropCap.updateHint(this.tipDropCap);
+            this.btnColumns.updateHint(this.tipColumns);
+            this.btnPageOrient.updateHint(this.tipPageOrient);
+            this.btnPageSize.updateHint(this.tipPageSize);
+            this.btnClearStyle.updateHint(this.tipClearStyle);
+            this.btnCopyStyle.updateHint(this.tipCopyStyle + Common.Utils.String.platformKey('Ctrl+Shift+C'));
+            this.btnColorSchemas.updateHint(this.tipColorSchemas);
+            this.btnMailRecepients.updateHint(this.tipMailRecepients);
+            this.btnHide.updateHint(this.tipViewSettings);
+            this.btnAdvSettings.updateHint(this.tipAdvSettings);
         },
 
         updateMetricUnit: function() {
