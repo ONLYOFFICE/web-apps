@@ -1579,9 +1579,8 @@ define([
             JSON.parse(Common.localStorage.getItem('sse-hidden-title'))     && (options.title = true);
             JSON.parse(Common.localStorage.getItem('sse-hidden-formula'))   && (options.formula = true);
             JSON.parse(Common.localStorage.getItem('sse-hidden-headings'))  && (options.headings = true);
-            var isCompactView = mode.isLightVersion || !!JSON.parse(Common.localStorage.getItem('sse-toolbar-compact'));
+            var isCompactView = !!JSON.parse(Common.localStorage.getItem('sse-toolbar-compact'));
 
-            me.mnuitemCompactToolbar.setVisible(!mode.isLightVersion);
             me.mnuitemCompactToolbar.setChecked(isCompactView);
             me.mnuitemHideTitleBar.setChecked(!!options.title);
             me.mnuitemHideFormulaBar.setChecked(!!options.formula);
