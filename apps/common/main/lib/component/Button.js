@@ -218,7 +218,7 @@ define([
                         style        : me.style
                     }));
 
-                    if (me.menu && _.isFunction(me.menu.render))
+                    if (me.menu && _.isObject(me.menu) && _.isFunction(me.menu.render))
                         me.menu.render(me.cmpEl);
 
                     parentEl.html(me.cmpEl);
@@ -489,6 +489,13 @@ define([
                         this.cmpEl.find('button:first').andSelf().filter('button').text(caption);
                     }
                 }
+            }
+        }
+
+        , setMenu: function (m) {
+            if (m && _.isObject(m) && _.isFunction(m.render)){
+                this.menu = m;
+                this.menu.render(this.cmpEl);
             }
         }
     });

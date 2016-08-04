@@ -416,11 +416,7 @@ define([
                 enableToggle: true,
                 toggleGroup : 'markersGroup',
                 split       : true,
-                menu        : new Common.UI.Menu({
-                    items: [
-                        { template: _.template('<div id="id-toolbar-menu-markers" class="menu-markers" style="width: 185px; margin: 0 5px;"></div>') }
-                    ]
-                })
+                menu        : true
             });
             this.paragraphControls.push(this.btnMarkers);
             this.textOnlyControls.push(this.btnMarkers);
@@ -432,11 +428,7 @@ define([
                 enableToggle: true,
                 toggleGroup : 'markersGroup',
                 split       : true,
-                menu        : new Common.UI.Menu({
-                    items: [
-                        { template: _.template('<div id="id-toolbar-menu-numbering" class="menu-markers" style="width: 330px; margin: 0 5px;"></div>') }
-                    ]
-                })
+                menu        : true
             });
             this.paragraphControls.push(this.btnNumbers);
             this.textOnlyControls.push(this.btnNumbers);
@@ -445,14 +437,19 @@ define([
                 id          : 'id-toolbar-btn-multilevels',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-multilevels',
-                menu        : new Common.UI.Menu({
-                    items: [
-                        { template: _.template('<div id="id-toolbar-menu-multilevels" class="menu-markers" style="width: 165px; margin: 0 5px;"></div>') }
-                    ]
-                })
+                menu        : true
             });
             this.paragraphControls.push(this.btnMultilevels);
             this.textOnlyControls.push(this.btnMultilevels);
+
+            this.mnuMarkersPicker = {
+                conf: {index:0},
+                selectByIndex: function (idx) {
+                    this.conf.index = idx;
+                }
+            };
+            this.mnuNumbersPicker = _.clone(this.mnuMarkersPicker);
+            this.mnuMultilevelPicker = _.clone(this.mnuMarkersPicker);
 
             this.btnInsertTable = new Common.UI.Button({
                 id          : 'id-toolbar-btn-inserttable',
@@ -556,27 +553,19 @@ define([
                 id          : 'id-toolbar-btn-editheader',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-editheader',
-                menu        : new Common.UI.Menu({
-                    items: [
-                        { caption: this.mniEditHeader, value: 'header' },
-                        { caption: this.mniEditFooter, value: 'footer' },
-                        { caption: '--' },
-                        me.mnuInsertPageNum = new Common.UI.MenuItem({
-                            caption: this.textInsertPageNumber,
-                            menu: new Common.UI.Menu({
-                                menuAlign: 'tl-tr',
-                                items: [
-                                    { template: _.template('<div id="id-toolbar-menu-pageposition" class="menu-pageposition"></div>') },
-                                    me.mnuPageNumCurrentPos = new Common.UI.MenuItem({
-                                        caption: this.textToCurrent,
-                                        value: 'current'
-                                    })
-                                ]
-                            })
-                        })
-                    ]
-                })
+                menu        : true
             });
+            this.mnuPageNumberPosPicker = {
+                conf:{disabled:false},
+                isDisabled: function () {
+                    return this.conf.disabled;
+                },
+                setDisabled: function (val) {
+                    this.conf.disabled = val;
+                }
+            };
+            this.mnuPageNumCurrentPos = _.clone(this.mnuPageNumberPosPicker);
+            this.mnuInsertPageNum = _.clone(this.mnuPageNumberPosPicker);
             this.paragraphControls.push(this.mnuPageNumCurrentPos);
             this.toolbarControls.push(this.btnEditHeader);
 
@@ -767,62 +756,16 @@ define([
                 id          : 'id-toolbar-btn-hidebars',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-hidebars no-mask',
-                menu        : new Common.UI.Menu({
-                    cls: 'pull-right',
-                    style: 'min-width: 180px;',
-                    items: [
-                        this.mnuitemCompactToolbar = new Common.UI.MenuItem({
-                            caption     : this.textCompactView,
-                            checkable   : true
-                        }),
-                        this.mnuitemHideTitleBar = new Common.UI.MenuItem({
-                            caption     : this.textHideTitleBar,
-                            checkable   : true
-                        }),
-                        this.mnuitemHideStatusBar = new Common.UI.MenuItem({
-                            caption     : this.textHideStatusBar,
-                            checkable   : true
-                        }),
-                        this.mnuitemHideRulers = new Common.UI.MenuItem({
-                            caption     : this.textHideLines,
-                            checkable   : true
-                        }),
-                        { caption: '--' },
-                        this.btnFitPage = new Common.UI.MenuItem({
-                            caption: this.textFitPage,
-                            checkable: true
-                        }),
-                        this.btnFitWidth = new Common.UI.MenuItem({
-                            caption: this.textFitWidth,
-                            checkable: true
-                        }),
-                        (new Common.UI.MenuItem({
-                            template: _.template([
-                                '<div id="id-toolbar-menu-zoom" class="menu-zoom" style="height: 25px;" ',
-                                    '<% if(!_.isUndefined(options.stopPropagation)) { %>',
-                                        'data-stopPropagation="true"',
-                                    '<% } %>', '>',
-                                    '<label class="title">' + this.textZoom + '</label>',
-                                    '<button id="id-menu-zoom-in" type="button" style="float:right; margin: 2px 5px 0 0;" class="btn small btn-toolbar"><span class="btn-icon btn-zoomin">&nbsp;</span></button>',
-                                    '<label class="zoom">100%</label>',
-                                    '<button id="id-menu-zoom-out" type="button" style="float:right; margin-top: 2px;" class="btn small btn-toolbar"><span class="btn-icon btn-zoomout">&nbsp;</span></button>',
-                                '</div>'
-                            ].join('')),
-                            stopPropagation: true
-                        }))
-                    ]
-                })
-            }).on('render:after', _.bind(function(cmp){
-                me.mnuZoomOut = new Common.UI.Button({
-                    el  : $('#id-menu-zoom-out'),
-                    cls : 'btn-toolbar'
-                });
-                me.mnuZoomIn = new Common.UI.Button({
-                    el  : $('#id-menu-zoom-in'),
-                    cls : 'btn-toolbar'
-                });
-            }), me);
+                menu        : true
+            });
             this.toolbarControls.push(this.btnHide);
+
+            this.btnFitPage = {
+                conf: {checked:false}
+                , setChecked: function(val) { this.conf.checked = val;}
+                , isChecked: function () { return this.conf.checked; }
+            };
+            this.btnFitWidth = _.clone(this.btnFitPage);
 
             this.btnAdvSettings = new Common.UI.Button({
                 id          : 'id-toolbar-btn-settings',
@@ -846,72 +789,6 @@ define([
             //
             // DataView and pickers
             //
-
-            this.btnMarkers.on('render:after', function(btn) {
-                me.mnuMarkersPicker = new Common.UI.DataView({
-                    el: $('#id-toolbar-menu-markers'),
-                    parentMenu: btn.menu,
-                    restoreHeight: 92,
-                    allowScrollbar: false,
-                    store: new Common.UI.DataViewStore([
-                        { offsety:0,   data:{type:0, subtype:-1} },
-                        { offsety:38,  data:{type:0, subtype:1} },
-                        { offsety:76,  data:{type:0, subtype:2} },
-                        { offsety:114, data:{type:0, subtype:3} },
-                        { offsety:152, data:{type:0, subtype:4} },
-                        { offsety:190, data:{type:0, subtype:5} },
-                        { offsety:228, data:{type:0, subtype:6} },
-                        { offsety:266, data:{type:0, subtype:7} }
-                    ]),
-                    itemTemplate: _.template('<div id="<%= id %>" class="item-markerlist" style="background-position: 0 -<%= offsety %>px;"></div>')
-                });
-            });
-
-            this.btnNumbers.on('render:after', function(btn) {
-                me.mnuNumbersPicker = new Common.UI.DataView({
-                    el: $('#id-toolbar-menu-numbering'),
-                    parentMenu: btn.menu,
-                    restoreHeight: 164,
-                    allowScrollbar: false,
-                    store: new Common.UI.DataViewStore([
-                        { offsety:0,   data:{type:1, subtype:-1} },
-                        { offsety:518, data:{type:1, subtype:4} },
-                        { offsety:592, data:{type:1, subtype:5} },
-                        { offsety:666, data:{type:1, subtype:6} },
-                        { offsety:296, data:{type:1, subtype:1} },
-                        { offsety:370, data:{type:1, subtype:2} },
-                        { offsety:444, data:{type:1, subtype:3} },
-                        { offsety:740, data:{type:1, subtype:7} }
-                    ]),
-                    itemTemplate: _.template('<div id="<%= id %>" class="item-numberlist" style="background-position: 0 -<%= offsety %>px;"></div>')
-                });
-            });
-
-            this.btnMultilevels.on('render:after', function(btn) {
-                me.mnuMultilevelPicker = new Common.UI.DataView({
-                    el: $('#id-toolbar-menu-multilevels'),
-                    parentMenu: btn.menu,
-                    restoreHeight: 164,
-                    allowScrollbar: false,
-                    store: new Common.UI.DataViewStore([
-                        { offsety:0,   data:{type:2, subtype:-1} },
-                        { offsety:74,  data:{type:2, subtype:1} },
-                        { offsety:148, data:{type:2, subtype:2} },
-                        { offsety:222, data:{type:2, subtype:3} }
-                    ]),
-                    itemTemplate: _.template('<div id="<%= id %>" class="item-multilevellist" style="background-position: 0 -<%= offsety %>px;"></div>')
-                });
-            });
-
-            this.btnInsertTable.on('render:after', function(btn) {
-                me.mnuTablePicker = new Common.UI.DimensionPicker({
-                    el          : $('#id-toolbar-menu-tablepicker'),
-                    minRows     : 8,
-                    minColumns  : 10,
-                    maxRows     : 8,
-                    maxColumns  : 10
-                });
-            });
 
             this.btnHighlightColor.on('render:after', function(btn) {
                 var colorVal = $('<div class="btn-color-value-line"></div>');
@@ -987,68 +864,6 @@ define([
                         '-', '--'
                     ]
                 });
-            });
-
-            this.btnInsertChart.on('render:after', function(btn) {
-                me.mnuInsertChartPicker = new Common.UI.DataView({
-                    el: $('#id-toolbar-menu-insertchart'),
-                    parentMenu: btn.menu,
-                    showLast: false,
-                    restoreHeight: 411,
-                    groups: new Common.UI.DataViewGroupStore([
-                        { id: 'menu-chart-group-bar',     caption: me.textColumn },
-                        { id: 'menu-chart-group-line',    caption: me.textLine },
-                        { id: 'menu-chart-group-pie',     caption: me.textPie },
-                        { id: 'menu-chart-group-hbar',    caption: me.textBar },
-                        { id: 'menu-chart-group-area',    caption: me.textArea },
-                        { id: 'menu-chart-group-scatter', caption: me.textPoint },
-                        { id: 'menu-chart-group-stock',   caption: me.textStock }
-                    ]),
-                    store: new Common.UI.DataViewStore([
-                        { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barNormal,          allowSelected: true, iconCls: 'column-normal', selected: true},
-                        { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barStacked,         allowSelected: true, iconCls: 'column-stack'},
-                        { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barStackedPer,      allowSelected: true, iconCls: 'column-pstack'},
-                        { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barNormal3d,        allowSelected: true, iconCls: 'column-3d-normal'},
-                        { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barStacked3d,       allowSelected: true, iconCls: 'column-3d-stack'},
-                        { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barStackedPer3d,    allowSelected: true, iconCls: 'column-3d-pstack'},
-                        { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barNormal3dPerspective,    allowSelected: true, iconCls: 'column-3d-normal-per'},
-                        { group: 'menu-chart-group-line',    type: Asc.c_oAscChartTypeSettings.lineNormal,         allowSelected: true, iconCls: 'line-normal'},
-                        { group: 'menu-chart-group-line',    type: Asc.c_oAscChartTypeSettings.lineStacked,        allowSelected: true, iconCls: 'line-stack'},
-                        { group: 'menu-chart-group-line',    type: Asc.c_oAscChartTypeSettings.lineStackedPer,     allowSelected: true, iconCls: 'line-pstack'},
-                        { group: 'menu-chart-group-line',    type: Asc.c_oAscChartTypeSettings.line3d,             allowSelected: true, iconCls: 'line-3d'},
-                        { group: 'menu-chart-group-pie',     type: Asc.c_oAscChartTypeSettings.pie,                allowSelected: true, iconCls: 'pie-normal'},
-                        { group: 'menu-chart-group-pie',     type: Asc.c_oAscChartTypeSettings.doughnut,           allowSelected: true, iconCls: 'pie-doughnut'},
-                        { group: 'menu-chart-group-pie',     type: Asc.c_oAscChartTypeSettings.pie3d,              allowSelected: true, iconCls: 'pie-3d-normal'},
-                        { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarNormal,         allowSelected: true, iconCls: 'bar-normal'},
-                        { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarStacked,        allowSelected: true, iconCls: 'bar-stack'},
-                        { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarStackedPer,     allowSelected: true, iconCls: 'bar-pstack'},
-                        { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarNormal3d,       allowSelected: true, iconCls: 'bar-3d-normal'},
-                        { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarStacked3d,      allowSelected: true, iconCls: 'bar-3d-stack'},
-                        { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarStackedPer3d,   allowSelected: true, iconCls: 'bar-3d-pstack'},
-                        { group: 'menu-chart-group-area',    type: Asc.c_oAscChartTypeSettings.areaNormal,         allowSelected: true, iconCls: 'area-normal'},
-                        { group: 'menu-chart-group-area',    type: Asc.c_oAscChartTypeSettings.areaStacked,        allowSelected: true, iconCls: 'area-stack'},
-                        { group: 'menu-chart-group-area',    type: Asc.c_oAscChartTypeSettings.areaStackedPer,     allowSelected: true, iconCls: 'area-pstack'},
-                        { group: 'menu-chart-group-scatter', type: Asc.c_oAscChartTypeSettings.scatter,            allowSelected: true, iconCls: 'point-normal'},
-                        { group: 'menu-chart-group-stock',   type: Asc.c_oAscChartTypeSettings.stock,              allowSelected: true, iconCls: 'stock-normal'}
-                    ]),
-                    itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist <%= iconCls %>"></div>')
-                })
-            });
-
-            this.btnEditHeader.on('render:after', function(btn) {
-                me.mnuPageNumberPosPicker = new Common.UI.DataView({
-                    el: $('#id-toolbar-menu-pageposition'),
-                    allowScrollbar: false,
-                    store: new Common.UI.DataViewStore([
-                        { offsety: 132, allowSelected: false, data:{ type:c_pageNumPosition.PAGE_NUM_POSITION_TOP,    subtype:c_pageNumPosition.PAGE_NUM_POSITION_LEFT} },
-                        { offsety: 99,  allowSelected: false, data:{ type:c_pageNumPosition.PAGE_NUM_POSITION_TOP,    subtype:c_pageNumPosition.PAGE_NUM_POSITION_CENTER} },
-                        { offsety: 66,  allowSelected: false, data:{ type:c_pageNumPosition.PAGE_NUM_POSITION_TOP,    subtype:c_pageNumPosition.PAGE_NUM_POSITION_RIGHT} },
-                        { offsety: 33,  allowSelected: false, data:{ type:c_pageNumPosition.PAGE_NUM_POSITION_BOTTOM, subtype:c_pageNumPosition.PAGE_NUM_POSITION_LEFT} },
-                        { offsety: 0,   allowSelected: false, data:{ type:c_pageNumPosition.PAGE_NUM_POSITION_BOTTOM, subtype:c_pageNumPosition.PAGE_NUM_POSITION_CENTER} },
-                        { offsety: 165, allowSelected: false, data:{ type:c_pageNumPosition.PAGE_NUM_POSITION_BOTTOM, subtype:c_pageNumPosition.PAGE_NUM_POSITION_RIGHT} }
-                    ]),
-                    itemTemplate: _.template('<div id="<%= id %>" class="item-pagenumber" style="background-position: 0 -<%= offsety %>px"></div>')
-                })
             });
 
             this.cmbFontSize = new Common.UI.ComboBox({
@@ -1203,24 +1018,6 @@ define([
 
             this.trigger('render:before', this);
 
-            var value = Common.localStorage.getItem("de-compact-toolbar");
-            var valueCompact = (mode.isLightVersion || value !== null && parseInt(value) == 1);
-
-            value = Common.localStorage.getItem("de-hidden-title");
-            var valueTitle = (value !== null && parseInt(value) == 1);
-
-            value = Common.localStorage.getItem("de-hidden-status");
-            var valueStatus = (value !== null && parseInt(value) == 1);
-
-            value = Common.localStorage.getItem("de-hidden-rulers");
-            var valueRulers = (value !== null && parseInt(value) == 1);
-
-            this.mnuitemCompactToolbar.setVisible(!mode.isLightVersion);
-            this.mnuitemCompactToolbar.setChecked(valueCompact, true);
-            this.mnuitemHideTitleBar.setChecked(valueTitle, true);
-            this.mnuitemHideStatusBar.setChecked(valueStatus, true);
-            this.mnuitemHideRulers.setChecked(valueRulers, true);
-
             var top = Common.localStorage.getItem("de-pgmargins-top"),
                 left = Common.localStorage.getItem("de-pgmargins-left"),
                 bottom = Common.localStorage.getItem("de-pgmargins-bottom"),
@@ -1233,14 +1030,15 @@ define([
             } else
                 this.btnPageMargins.menu.items[0].setVisible(false);
 
+            var value = Common.localStorage.getItem("de-compact-toolbar");
+            var valueCompact = (mode.isLightVersion || value !== null && parseInt(value) == 1);
+
             me.$el.html(this.template({
                 isCompactView: valueCompact
             }));
 
             me.rendererComponents(valueCompact ? 'short' : 'full');
             me.isCompactView = valueCompact;
-
-            this.mnuitemCompactToolbar.on('toggle', _.bind(this.changeViewMode, this));
 
             this.trigger('render:after', this);
 
@@ -1338,6 +1136,60 @@ define([
 
                 this.updateMetricUnit();
             }
+
+            var me = this;
+            this.mnuInsertChartPicker = new Common.UI.DataView({
+                el: $('#id-toolbar-menu-insertchart'),
+                parentMenu: this.btnInsertChart.menu,
+                showLast: false,
+                restoreHeight: 411,
+                groups: new Common.UI.DataViewGroupStore([
+                    { id: 'menu-chart-group-bar',     caption: me.textColumn },
+                    { id: 'menu-chart-group-line',    caption: me.textLine },
+                    { id: 'menu-chart-group-pie',     caption: me.textPie },
+                    { id: 'menu-chart-group-hbar',    caption: me.textBar },
+                    { id: 'menu-chart-group-area',    caption: me.textArea },
+                    { id: 'menu-chart-group-scatter', caption: me.textPoint },
+                    { id: 'menu-chart-group-stock',   caption: me.textStock }
+                ]),
+                store: new Common.UI.DataViewStore([
+                    { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barNormal,          allowSelected: true, iconCls: 'column-normal', selected: true},
+                    { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barStacked,         allowSelected: true, iconCls: 'column-stack'},
+                    { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barStackedPer,      allowSelected: true, iconCls: 'column-pstack'},
+                    { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barNormal3d,        allowSelected: true, iconCls: 'column-3d-normal'},
+                    { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barStacked3d,       allowSelected: true, iconCls: 'column-3d-stack'},
+                    { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barStackedPer3d,    allowSelected: true, iconCls: 'column-3d-pstack'},
+                    { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barNormal3dPerspective,    allowSelected: true, iconCls: 'column-3d-normal-per'},
+                    { group: 'menu-chart-group-line',    type: Asc.c_oAscChartTypeSettings.lineNormal,         allowSelected: true, iconCls: 'line-normal'},
+                    { group: 'menu-chart-group-line',    type: Asc.c_oAscChartTypeSettings.lineStacked,        allowSelected: true, iconCls: 'line-stack'},
+                    { group: 'menu-chart-group-line',    type: Asc.c_oAscChartTypeSettings.lineStackedPer,     allowSelected: true, iconCls: 'line-pstack'},
+                    { group: 'menu-chart-group-line',    type: Asc.c_oAscChartTypeSettings.line3d,             allowSelected: true, iconCls: 'line-3d'},
+                    { group: 'menu-chart-group-pie',     type: Asc.c_oAscChartTypeSettings.pie,                allowSelected: true, iconCls: 'pie-normal'},
+                    { group: 'menu-chart-group-pie',     type: Asc.c_oAscChartTypeSettings.doughnut,           allowSelected: true, iconCls: 'pie-doughnut'},
+                    { group: 'menu-chart-group-pie',     type: Asc.c_oAscChartTypeSettings.pie3d,              allowSelected: true, iconCls: 'pie-3d-normal'},
+                    { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarNormal,         allowSelected: true, iconCls: 'bar-normal'},
+                    { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarStacked,        allowSelected: true, iconCls: 'bar-stack'},
+                    { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarStackedPer,     allowSelected: true, iconCls: 'bar-pstack'},
+                    { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarNormal3d,       allowSelected: true, iconCls: 'bar-3d-normal'},
+                    { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarStacked3d,      allowSelected: true, iconCls: 'bar-3d-stack'},
+                    { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarStackedPer3d,   allowSelected: true, iconCls: 'bar-3d-pstack'},
+                    { group: 'menu-chart-group-area',    type: Asc.c_oAscChartTypeSettings.areaNormal,         allowSelected: true, iconCls: 'area-normal'},
+                    { group: 'menu-chart-group-area',    type: Asc.c_oAscChartTypeSettings.areaStacked,        allowSelected: true, iconCls: 'area-stack'},
+                    { group: 'menu-chart-group-area',    type: Asc.c_oAscChartTypeSettings.areaStackedPer,     allowSelected: true, iconCls: 'area-pstack'},
+                    { group: 'menu-chart-group-scatter', type: Asc.c_oAscChartTypeSettings.scatter,            allowSelected: true, iconCls: 'point-normal'},
+                    { group: 'menu-chart-group-stock',   type: Asc.c_oAscChartTypeSettings.stock,              allowSelected: true, iconCls: 'stock-normal'}
+                ]),
+                itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist <%= iconCls %>"></div>')
+            });
+
+            this.mnuTablePicker = new Common.UI.DimensionPicker({
+                el          : $('#id-toolbar-menu-tablepicker'),
+                minRows     : 8,
+                minColumns  : 10,
+                maxRows     : 8,
+                maxColumns  : 10
+            });
+
             this.btnNewDocument.updateHint(this.tipNewDocument);
             this.btnOpenDocument.updateHint(this.tipOpenDocument);
             this.btnPrint.updateHint(this.tipPrint + Common.Utils.String.platformKey('Ctrl+P'));
@@ -1388,6 +1240,210 @@ define([
             this.btnMailRecepients.updateHint(this.tipMailRecepients);
             this.btnHide.updateHint(this.tipViewSettings);
             this.btnAdvSettings.updateHint(this.tipAdvSettings);
+
+            this.btnHide.setMenu(new Common.UI.Menu({
+                    cls: 'pull-right',
+                    style: 'min-width: 180px;',
+                    items: [
+                        this.mnuitemCompactToolbar = new Common.UI.MenuItem({
+                            caption     : this.textCompactView,
+                            checkable   : true
+                        }),
+                        this.mnuitemHideTitleBar = new Common.UI.MenuItem({
+                            caption     : this.textHideTitleBar,
+                            checkable   : true
+                        }),
+                        this.mnuitemHideStatusBar = new Common.UI.MenuItem({
+                            caption     : this.textHideStatusBar,
+                            checkable   : true
+                        }),
+                        this.mnuitemHideRulers = new Common.UI.MenuItem({
+                            caption     : this.textHideLines,
+                            checkable   : true
+                        }),
+                        { caption: '--' },
+                        this.btnFitPage = new Common.UI.MenuItem({
+                            caption: this.textFitPage,
+                            checkable: true
+                            , checked: this.btnFitPage.isChecked()
+                        }),
+                        this.btnFitWidth = new Common.UI.MenuItem({
+                            caption: this.textFitWidth,
+                            checkable: true
+                            , checked: this.btnFitWidth.isChecked()
+                        }),
+                        (new Common.UI.MenuItem({
+                            template: _.template([
+                                '<div id="id-toolbar-menu-zoom" class="menu-zoom" style="height: 25px;" ',
+                                '<% if(!_.isUndefined(options.stopPropagation)) { %>',
+                                'data-stopPropagation="true"',
+                                '<% } %>', '>',
+                                '<label class="title">' + this.textZoom + '</label>',
+                                '<button id="id-menu-zoom-in" type="button" style="float:right; margin: 2px 5px 0 0;" class="btn small btn-toolbar"><span class="btn-icon btn-zoomin">&nbsp;</span></button>',
+                                '<label class="zoom">100%</label>',
+                                '<button id="id-menu-zoom-out" type="button" style="float:right; margin-top: 2px;" class="btn small btn-toolbar"><span class="btn-icon btn-zoomout">&nbsp;</span></button>',
+                                '</div>'
+                            ].join('')),
+                            stopPropagation: true
+                        }))
+                    ]
+                })
+            );
+
+            this.btnMarkers.setMenu(
+                new Common.UI.Menu({
+                    items: [
+                        { template: _.template('<div id="id-toolbar-menu-markers" class="menu-markers" style="width: 185px; margin: 0 5px;"></div>') }
+                    ]
+                })
+            );
+
+            this.btnNumbers.setMenu(
+                new Common.UI.Menu({
+                    items: [
+                        { template: _.template('<div id="id-toolbar-menu-numbering" class="menu-markers" style="width: 330px; margin: 0 5px;"></div>') }
+                    ]
+                })
+            );
+
+            this.btnMultilevels.setMenu(
+                new Common.UI.Menu({
+                    items: [
+                        { template: _.template('<div id="id-toolbar-menu-multilevels" class="menu-markers" style="width: 165px; margin: 0 5px;"></div>') }
+                    ]
+                })
+            );
+
+            this.btnEditHeader.setMenu(
+                new Common.UI.Menu({
+                    items: [
+                        { caption: this.mniEditHeader, value: 'header' },
+                        { caption: this.mniEditFooter, value: 'footer' },
+                        { caption: '--' },
+                        this.mnuInsertPageNum = new Common.UI.MenuItem({
+                            caption: this.textInsertPageNumber,
+                            disabled: this.mnuInsertPageNum.isDisabled(),
+                            menu: new Common.UI.Menu({
+                                menuAlign: 'tl-tr',
+                                items: [
+                                    { template: _.template('<div id="id-toolbar-menu-pageposition" class="menu-pageposition"></div>') },
+                                    this.mnuPageNumCurrentPos = new Common.UI.MenuItem({
+                                        caption: this.textToCurrent,
+                                        disabled: this.mnuPageNumCurrentPos.isDisabled(),
+                                        value: 'current'
+                                    })
+                                ]
+                            })
+                        })
+                    ]
+                })
+            );
+
+            /**/
+
+            this.mnuZoomOut = new Common.UI.Button({
+                el  : $('#id-menu-zoom-out'),
+                cls : 'btn-toolbar'
+            });
+            this.mnuZoomIn = new Common.UI.Button({
+                el  : $('#id-menu-zoom-in'),
+                cls : 'btn-toolbar'
+            });
+
+            var _conf = this.mnuMarkersPicker.conf;
+            this.mnuMarkersPicker = new Common.UI.DataView({
+                el: $('#id-toolbar-menu-markers'),
+                parentMenu: this.btnMarkers.menu,
+                restoreHeight: 92,
+                allowScrollbar: false,
+                store: new Common.UI.DataViewStore([
+                        { offsety:0,   data:{type:0, subtype:-1} },
+                        { offsety:38,  data:{type:0, subtype:1} },
+                        { offsety:76,  data:{type:0, subtype:2} },
+                        { offsety:114, data:{type:0, subtype:3} },
+                        { offsety:152, data:{type:0, subtype:4} },
+                        { offsety:190, data:{type:0, subtype:5} },
+                        { offsety:228, data:{type:0, subtype:6} },
+                        { offsety:266, data:{type:0, subtype:7} }
+                    ]),
+                itemTemplate: _.template('<div id="<%= id %>" class="item-markerlist" style="background-position: 0 -<%= offsety %>px;"></div>')
+            });
+            _conf && this.mnuMarkersPicker.selectByIndex(_conf.index, true);
+
+             _conf = this.mnuNumbersPicker.conf;
+            this.mnuNumbersPicker = new Common.UI.DataView({
+                el: $('#id-toolbar-menu-numbering'),
+                parentMenu: this.btnNumbers.menu,
+                restoreHeight: 164,
+                allowScrollbar: false,
+                store: new Common.UI.DataViewStore([
+                    {offsety: 0, data: {type: 1, subtype: -1}},
+                    {offsety: 518, data: {type: 1, subtype: 4}},
+                    {offsety: 592, data: {type: 1, subtype: 5}},
+                    {offsety: 666, data: {type: 1, subtype: 6}},
+                    {offsety: 296, data: {type: 1, subtype: 1}},
+                    {offsety: 370, data: {type: 1, subtype: 2}},
+                    {offsety: 444, data: {type: 1, subtype: 3}},
+                    {offsety: 740, data: {type: 1, subtype: 7}}
+                ]),
+                itemTemplate: _.template('<div id="<%= id %>" class="item-numberlist" style="background-position: 0 -<%= offsety %>px;"></div>')
+            });
+            _conf && this.mnuNumbersPicker.selectByIndex(_conf.index, true);
+
+            _conf = this.mnuMultilevelPicker.conf;
+            this.mnuMultilevelPicker = new Common.UI.DataView({
+                el: $('#id-toolbar-menu-multilevels'),
+                parentMenu: this.btnMultilevels.menu,
+                restoreHeight: 164,
+                allowScrollbar: false,
+                store: new Common.UI.DataViewStore([
+                        { offsety:0,   data:{type:2, subtype:-1} },
+                        { offsety:74,  data:{type:2, subtype:1} },
+                        { offsety:148, data:{type:2, subtype:2} },
+                        { offsety:222, data:{type:2, subtype:3} }
+                    ]),
+                itemTemplate: _.template('<div id="<%= id %>" class="item-multilevellist" style="background-position: 0 -<%= offsety %>px;"></div>')
+            });
+            _conf && this.mnuMultilevelPicker.selectByIndex(_conf.index, true);
+
+            _conf = this.mnuPageNumberPosPicker ? this.mnuPageNumberPosPicker.conf : undefined;
+            this.mnuPageNumberPosPicker = new Common.UI.DataView({
+                    el: $('#id-toolbar-menu-pageposition'),
+                    allowScrollbar: false,
+                    store: new Common.UI.DataViewStore([
+                        { offsety: 132, allowSelected: false, data:{ type:c_pageNumPosition.PAGE_NUM_POSITION_TOP,    subtype:c_pageNumPosition.PAGE_NUM_POSITION_LEFT} },
+                        { offsety: 99,  allowSelected: false, data:{ type:c_pageNumPosition.PAGE_NUM_POSITION_TOP,    subtype:c_pageNumPosition.PAGE_NUM_POSITION_CENTER} },
+                        { offsety: 66,  allowSelected: false, data:{ type:c_pageNumPosition.PAGE_NUM_POSITION_TOP,    subtype:c_pageNumPosition.PAGE_NUM_POSITION_RIGHT} },
+                        { offsety: 33,  allowSelected: false, data:{ type:c_pageNumPosition.PAGE_NUM_POSITION_BOTTOM, subtype:c_pageNumPosition.PAGE_NUM_POSITION_LEFT} },
+                        { offsety: 0,   allowSelected: false, data:{ type:c_pageNumPosition.PAGE_NUM_POSITION_BOTTOM, subtype:c_pageNumPosition.PAGE_NUM_POSITION_CENTER} },
+                        { offsety: 165, allowSelected: false, data:{ type:c_pageNumPosition.PAGE_NUM_POSITION_BOTTOM, subtype:c_pageNumPosition.PAGE_NUM_POSITION_RIGHT} }
+                    ]),
+                    itemTemplate: _.template('<div id="<%= id %>" class="item-pagenumber" style="background-position: 0 -<%= offsety %>px"></div>')
+            })
+            _conf && this.mnuPageNumberPosPicker.setDisabled(_conf.disabled);
+
+            /**/
+            var mode = this.mode;
+            var value = Common.localStorage.getItem("de-compact-toolbar");
+            var valueCompact = (mode.isLightVersion || value !== null && parseInt(value) == 1);
+
+            value = Common.localStorage.getItem("de-hidden-title");
+            var valueTitle = (value !== null && parseInt(value) == 1);
+
+            value = Common.localStorage.getItem("de-hidden-status");
+            var valueStatus = (value !== null && parseInt(value) == 1);
+
+            value = Common.localStorage.getItem("de-hidden-rulers");
+            var valueRulers = (value !== null && parseInt(value) == 1);
+
+            this.mnuitemCompactToolbar.setVisible(!mode.isLightVersion);
+            this.mnuitemCompactToolbar.setChecked(valueCompact, true);
+            this.mnuitemCompactToolbar.on('toggle', _.bind(this.changeViewMode, this));
+
+            this.mnuitemHideTitleBar.setChecked(valueTitle, true);
+            this.mnuitemHideStatusBar.setChecked(valueStatus, true);
+            this.mnuitemHideRulers.setChecked(valueRulers, true);
+            /**/
         },
 
         updateMetricUnit: function() {
