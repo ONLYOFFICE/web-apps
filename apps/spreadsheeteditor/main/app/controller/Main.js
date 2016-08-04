@@ -1722,9 +1722,7 @@ define([
                                     initData: itemVar.initData,
                                     isUpdateOleOnResize : itemVar.isUpdateOleOnResize,
                                     buttons: itemVar.buttons,
-                                    size: itemVar.size,
-                                    minimumSize: itemVar.minimumSize,
-                                    maximumSize: itemVar.maximumSize
+                                    size: itemVar.size
                                 }));
                         });
                         if (variationsArr.length>0)

@@ -136,8 +136,6 @@ define([
                     variation.set_UpdateOleOnResize(itemVar.get('isUpdateOleOnResize'));
                     variation.set_Buttons(itemVar.get('buttons'));
                     variation.set_Size(itemVar.get('size'));
-                    variation.set_MaximumSize(itemVar.get('maximumSize'));
-                    variation.set_MinimumSize(itemVar.get('minimumSize'));
                     variationsArr.push(variation);
                 });
                 plugin.set_Variations(variationsArr);
@@ -226,9 +224,7 @@ define([
                     var me = this,
                         arrBtns = variation.get_Buttons(),
                         newBtns = {},
-                        size = variation.get_Size(),
-                        maxsize = variation.get_MaximumSize(),
-                        minsize = variation.get_MinimumSize();
+                        size = variation.get_Size();
                         if (!size || size.length<2) size = [800, 600];
 
                     if (_.isArray(arrBtns)) {
@@ -244,11 +240,7 @@ define([
                         height: size[1], // inner height
                         url: _baseUrl + variation.get_Url(),
                         buttons: newBtns,
-                        toolcallback: _.bind(this.onToolClose, this),
-                        maxwidth: maxsize[0],
-                        maxheight: maxsize[1],
-                        minwidth: minsize[0],
-                        minheight: minsize[1]
+                        toolcallback: _.bind(this.onToolClose, this)
                     });
                     me.pluginDlg.on('render:after', function(obj){
                         obj.getChild('.footer .dlg-btn').on('click', _.bind(me.onDlgBtnClick, me));
@@ -275,9 +267,11 @@ define([
                 this.panelPlugins.closeNotVisualMode();
         },
 
-        onPluginResize: function(width, height, callback) {
+        onPluginResize: function(size, minSize, maxSize, callback ) {
             if (this.pluginDlg) {
-                this.pluginDlg.setInnerSize(width, height);
+                var resizable = (minSize && minSize.length>1 && maxSize && maxSize.length>1 && (maxSize[0] > minSize[0] || maxSize[1] > minSize[1] || maxSize[0]==0 || maxSize[1] == 0));
+                this.pluginDlg.setResizable(resizable, minSize, maxSize);
+                this.pluginDlg.setInnerSize(size[0], size[1]);
                 if (callback)
                     callback.call();
             }
