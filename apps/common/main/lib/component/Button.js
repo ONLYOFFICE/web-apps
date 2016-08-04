@@ -414,7 +414,8 @@ define([
         },
 
         setDisabled: function(disabled) {
-            if (this.rendered) {
+            if (this.rendered &&
+                    this.disabled != disabled) {
                 var el = this.cmpEl,
                     isGroup = el.hasClass('btn-group');
 
