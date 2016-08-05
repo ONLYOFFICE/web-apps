@@ -379,7 +379,7 @@ define([
             }
 
             if (me.disabled) {
-                me.setDisabled(me.disabled);
+                me.setDisabled(!(me.disabled=false));
             }
 
             me.trigger('render:after', me);
