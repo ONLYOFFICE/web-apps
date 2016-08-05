@@ -112,10 +112,6 @@ define([
                 this._input.on('keyup',     _.bind(this.onInputKeyUp, this));
                 this._input.on('keydown',   _.bind(this.onInputKeyDown, this));
 
-                setTimeout(function(me){
-                    me.scroller.update();
-                }, 30, this);
-
                 return this;
             },
 
