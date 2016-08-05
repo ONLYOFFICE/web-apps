@@ -960,7 +960,19 @@ define([
         },
 
         onApiHyperlinkClick: function(url) {
-            if (url && this.api.asc_getUrlType(url)>0) {
+            if (!url) {
+                Common.UI.alert({
+                    msg: this.errorInvalidLink,
+                    title: this.notcriticalErrorTitle,
+                    iconCls: 'warn',
+                    buttons: ['ok'],
+                    callback: _.bind(function(btn){
+                        Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+                    }, this)
+                });
+                return;
+            }
+            if (this.api.asc_getUrlType(url)>0) {
                 var newDocumentPage = window.open(url, '_blank');
                 if (newDocumentPage)
                     newDocumentPage.focus();
@@ -1540,7 +1552,9 @@ define([
         textChangeRowHeight     : 'Row Height {0} points ({1} pixels)',
         textInsertLeft          : 'Insert Left',
         textInsertTop           : 'Insert Top',
-        textSym                 : 'sym'
+        textSym                 : 'sym',
+        notcriticalErrorTitle: 'Warning',
+        errorInvalidLink: 'The link reference does not exist. Please correct the link or delete it.'
 
     }, SSE.Controllers.DocumentHolder || {}));
 });

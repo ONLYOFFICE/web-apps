@@ -98,6 +98,8 @@
   "SSE.Controllers.DocumentHolder.txtHeight": "Height",
   "SSE.Controllers.DocumentHolder.txtRowHeight": "Row Height",
   "SSE.Controllers.DocumentHolder.txtWidth": "Width",
+  "SSE.Controllers.DocumentHolder.notcriticalErrorTitle": "Warning",
+  "SSE.Controllers.DocumentHolder.errorInvalidLink": "The link reference does not exist. Please correct the link or delete it.",
   "SSE.Controllers.LeftMenu.newDocumentTitle": "Unnamed spreadsheet",
   "SSE.Controllers.LeftMenu.textByColumns": "By columns",
   "SSE.Controllers.LeftMenu.textByRows": "By rows",
