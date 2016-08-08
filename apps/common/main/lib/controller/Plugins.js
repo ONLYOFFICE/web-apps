@@ -136,6 +136,7 @@ define([
                     variation.set_UpdateOleOnResize(itemVar.get('isUpdateOleOnResize'));
                     variation.set_Buttons(itemVar.get('buttons'));
                     variation.set_Size(itemVar.get('size'));
+                    variation.set_InitOnSelectionChanged(itemVar.get('initOnSelectionChanged'));
                     variationsArr.push(variation);
                 });
                 plugin.set_Variations(variationsArr);

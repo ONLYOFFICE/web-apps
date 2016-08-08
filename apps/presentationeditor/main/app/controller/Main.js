@@ -1513,7 +1513,8 @@ define([
                                     initData: itemVar.initData,
                                     isUpdateOleOnResize : itemVar.isUpdateOleOnResize,
                                     buttons: itemVar.buttons,
-                                    size: itemVar.size
+                                    size: itemVar.size,
+                                    initOnSelectionChanged: itemVar.initOnSelectionChanged
                                 }));
                         });
                         if (variationsArr.length>0)

@@ -64,7 +64,8 @@ define([
                 initData: "",
                 isUpdateOleOnResize: false,
                 buttons: [],
-                size: [800, 600]
+                size: [800, 600],
+                initOnSelectionChanged: false
             }
         }
     });
