@@ -47,10 +47,14 @@ define([
 ], function () {
     'use strict';
 
-    Common.UI.ThemeColorPalette = Common.UI.BaseView.extend({
+    Common.UI.ThemeColorPalette = Common.UI.BaseView.extend(_.extend({
         options: {
             dynamiccolors: 10,
+            standardcolors: 10,
+            themecolors: 10,
+            effects: 5,
             allowReselect: true,
+            transparent: false,
             value: '000000'
         },
 
@@ -96,12 +100,7 @@ define([
             var me = this,
                 el = $(this.el);
 
-            this.colors = me.options.colors || [
-                {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2}, {color: '000000', effectId: 3}, {color: 'FFFFFF', effectId: 4}, {color: '000000', effectId: 5},
-                {color: 'FF0000', effectId: 1}, {color: 'FF6600', effectId: 1}, {color: 'FFFF00', effectId: 2}, {color: 'CCFFCC', effectId: 3}, {color: '008000', effectId: 4},
-                '-', '--', '-',
-                '000000', '5301B3', '980ABD', 'B2275F', 'F83D26', 'F86A1D', 'F7AC16', 'F7CA12', 'FAFF44', 'D6EF39'
-            ];
+            this.colors = me.options.colors || this.generateColorData(me.options.themecolors, me.options.effects, me.options.standardcolors, me.options.transparent);
 
             el.addClass('theme-colorpalette');
             this.render();
@@ -372,7 +371,38 @@ define([
         clearSelection: function(suppressEvent) {
             $(this.el).find('a.' + this.selectedCls).removeClass(this.selectedCls);
             this.value = undefined;
-        }
+        },
 
-    });
+        generateColorData: function(themecolors, effects, standardcolors, transparent) {
+            var arr = [],
+                len = (themecolors>0 && effects>0) ? themecolors * effects : 0;
+            if (themecolors>0) {
+                arr = [this.textThemeColors, '-'];
+                for (var i=0; i<themecolors; i++)
+                    arr.push({color: 'FFFFFF', effectId: 1});
+
+                if (effects>0) arr.push('-');
+                for (var i=0; i<len; i++)
+                    arr.push({color: 'FFFFFF', effectId: 1});
+
+                if (standardcolors)
+                    arr.push('-', '--', '-');
+            }
+            if (standardcolors) {
+                arr.push(this.textStandartColors, '-');
+                if (transparent) {
+                    arr.push('transparent');
+                    standardcolors--;
+                }
+                for (var i=0; i<standardcolors; i++)
+                    arr.push('FFFFFF');
+            }
+            if (this.options.dynamiccolors && (themecolors || standardcolors))
+                arr.push('-', '--');
+            return arr;
+        },
+
+        textThemeColors         : 'Theme Colors',
+        textStandartColors      : 'Standart Colors'
+    }, Common.UI.ThemeColorPalette || {}));
 });
