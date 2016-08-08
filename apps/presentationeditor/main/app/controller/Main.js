@@ -1494,7 +1494,7 @@ define([
                         variations.forEach(function(itemVar){
                             var isSupported = false;
                             for (var i=0; i<itemVar.EditorsSupport.length; i++){
-                                if (itemVar.EditorsSupport[i]=='word') {
+                                if (itemVar.EditorsSupport[i]=='slide') {
                                     isSupported = true; break;
                                 }
                             }
