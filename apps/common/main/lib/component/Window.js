@@ -434,6 +434,10 @@ define([
 
                 if (!options.dontshow) body.css('padding-bottom', '10px');
 
+                if (options.maxwidth && options.width=='auto') {
+                    if ((text.position().left + text.width() + parseInt(text_cnt.css('padding-right'))) > options.maxwidth)
+                        options.width = options.maxwidth;
+                }
                 if (options.width=='auto') {
                     text_cnt.height(Math.max(text.height() + ((check.length>0) ? (check.height() + parseInt(check.css('margin-top'))) : 0), icon.height()));
                     body.height(parseInt(text_cnt.css('height')) + parseInt(footer.css('height')));
