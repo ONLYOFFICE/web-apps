@@ -1304,10 +1304,10 @@ define([
             },
 
             onAdvancedOptions: function(advOptions) {
-                var type = advOptions.asc_getOptionId();
+                var type = advOptions.asc_getOptionId(),
+                    me = this, dlg;
                 if (type == Asc.c_oAscAdvancedOptionsID.CSV) {
-                    var me = this;
-                    var dlg = new Common.Views.OpenDialog({
+                    dlg = new Common.Views.OpenDialog({
                         type: type,
                         codepages: advOptions.asc_getOptions().asc_getCodePages(),
                         settings: advOptions.asc_getOptions().asc_getRecommendedSettings(),
@@ -1319,11 +1319,22 @@ define([
                             }
                         }
                     });
-
+                } else if (type == Asc.c_oAscAdvancedOptionsID.DRM) {
+                    dlg = new Common.Views.OpenDialog({
+                        type: type,
+                        handler: function (value) {
+                            me.isShowOpenDialog = false;
+                            if (me && me.api) {
+                                me.api.asc_setAdvancedOptions(type, new Asc.asc_CDRMAdvancedOptions(value));
+                                me.loadMask && me.loadMask.show();
+                            }
+                        }
+                    });
+                }
+                if (dlg) {
                     this.isShowOpenDialog = true;
                     this.loadMask && this.loadMask.hide();
                     this.onLongActionEnd(Asc.c_oAscAsyncActionType.BlockInteraction, LoadingDocument);
-
                     dlg.show();
                 }
             },

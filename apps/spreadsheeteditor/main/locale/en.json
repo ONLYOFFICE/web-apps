@@ -86,6 +86,8 @@
   "Common.Views.OpenDialog.txtSpace": "Space",
   "Common.Views.OpenDialog.txtTab": "Tab",
   "Common.Views.OpenDialog.txtTitle": "Choose %1 options",
+  "Common.Views.OpenDialog.txtPassword": "Password",
+  "Common.Views.OpenDialog.txtTitleProtected": "Protected File",
   "Common.Views.Plugins.strPlugins": "Add-ons",
   "Common.Views.Plugins.textLoading": "Loading",
   "Common.Views.Plugins.textStart": "Start",
