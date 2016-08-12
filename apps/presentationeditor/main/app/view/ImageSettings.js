@@ -111,8 +111,8 @@ define([
             }, this));
             this.btnInsertFromUrl.on('click', _.bind(this.insertFromUrl, this));
             this.btnEditObject.on('click', _.bind(function(btn){
-//                if (this.api) this.api.asc_pluginRun(this._originalProps.asc_getPluginGuid(), 0, this._originalProps.asc_getPluginData());
-//                this.fireEvent('editcomplete', this);
+                if (this.api) this.api.asc_pluginRun(this._originalProps.asc_getPluginGuid(), 0, this._originalProps.asc_getPluginData());
+                this.fireEvent('editcomplete', this);
             }, this));
             $(this.el).on('click', '#image-advanced-link', _.bind(this.openAdvancedSettings, this));
         },
@@ -180,9 +180,8 @@ define([
                 }
 
                 if (this._state.isOleObject) {
-//                    var plugin = DE.getCollection('Common.Collections.Plugins').findWhere({guid: pluginGuid});
-//                    this.btnEditObject.setDisabled(plugin===null || plugin ===undefined);
-                    this.btnEditObject.setDisabled(true);
+                    var plugin = PE.getCollection('Common.Collections.Plugins').findWhere({guid: pluginGuid});
+                    this.btnEditObject.setDisabled(plugin===null || plugin ===undefined);
                 } else {
                     this.btnInsertFromUrl.setDisabled(pluginGuid===null);
                     this.btnInsertFromFile.setDisabled(pluginGuid===null);

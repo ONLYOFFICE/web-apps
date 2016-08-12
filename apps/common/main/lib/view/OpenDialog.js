@@ -61,18 +61,24 @@ define([
                 header          : true,
                 cls             : 'open-dlg',
                 contentTemplate : '',
-                title           : t.txtTitle.replace('%1', (options.type == Asc.c_oAscAdvancedOptionsID.CSV) ? 'CSV' : 'TXT')
+                title           : (options.type == Asc.c_oAscAdvancedOptionsID.DRM) ? t.txtTitleProtected : t.txtTitle.replace('%1', (options.type == Asc.c_oAscAdvancedOptionsID.CSV) ? 'CSV' : 'TXT')
+
             }, options);
 
             this.template = options.template || [
                 '<div class="box" style="height:' + (_options.height - 85) + 'px;">',
                     '<div class="content-panel" >',
+                    '<% if (type == Asc.c_oAscAdvancedOptionsID.DRM) { %>',
+                        '<label class="header">' + t.txtPassword + '</label>',
+                        '<div id="id-password-txt" style="margin-bottom:15px;"></div>',
+                    '<% } else { %>',
                         '<label class="header">' + t.txtEncoding + '</label>',
                         '<div id="id-codepages-combo" class="input-group-nr" style="margin-bottom:15px;"></div>',
                         '<% if (type == Asc.c_oAscAdvancedOptionsID.CSV) { %>',
                         '<label class="header">' + t.txtDelimiter + '</label>',
                         '<div id="id-delimiters-combo" class="input-group-nr" style="max-width: 110px;"></div>',
                         '<% } %>',
+                    '<% } %>',
                     '</div>',
                 '</div>',
 
@@ -97,13 +103,36 @@ define([
             if (this.$window) {
                 this.$window.find('.tool').hide();
                 this.$window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
-                this.initCodePages();
+                if (this.type == Asc.c_oAscAdvancedOptionsID.DRM) {
+                    var me = this;
+                    me.inputPwd = new Common.UI.InputField({
+                        el: $('#id-password-txt'),
+                        type: 'password',
+                        allowBlank: false,
+                        validateOnBlur: false
+                    });
+                } else
+                    this.initCodePages();
             }
         },
 
+        show: function() {
+            Common.UI.Window.prototype.show.apply(this, arguments);
+
+             if (this.type == Asc.c_oAscAdvancedOptionsID.DRM) {
+                 var me = this;
+                 setTimeout(function(){
+                     me.inputPwd.cmpEl.find('input').focus();
+                 }, 500);
+             }
+        },
+
         onBtnClick: function (event) {
-            if (this.handler && this.cmbEncoding) {
-                this.handler.call(this, this.cmbEncoding.getValue(), this.cmbDelimiter ? this.cmbDelimiter.getValue() : null);
+            if (this.handler) {
+                if (this.cmbEncoding)
+                    this.handler.call(this, this.cmbEncoding.getValue(), this.cmbDelimiter ? this.cmbDelimiter.getValue() : null);
+                else
+                    this.handler.call(this, this.inputPwd.getValue());
             }
 
             this.close();
@@ -311,7 +340,9 @@ define([
         txtEncoding        : "Encoding ",
         txtSpace           : "Space",
         txtTab             : "Tab",
-        txtTitle           : "Choose %1 options"
+        txtTitle           : "Choose %1 options",
+        txtPassword        : "Password",
+        txtTitleProtected  : "Protected File"
 
     }, Common.Views.OpenDialog || {}));
 });

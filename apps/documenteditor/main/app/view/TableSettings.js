@@ -235,26 +235,7 @@ define([
 
             this.btnBorderColor.on('render:after', function(btn) {
                 me.borderColor = new Common.UI.ThemeColorPalette({
-                    el: $('#table-border-color-menu'),
-                    dynamiccolors: 10,
-                    colors: [
-                        me.textThemeColors, '-', {color: '3366FF', effectId: 1}, {color: '0000FF', effectId: 2}, {color: '000090', effectId: 3}, {color: '660066', effectId: 4}, {color: '800000', effectId: 5},
-                        {color: 'FF0000', effectId: 1}, {color: 'FF6600', effectId: 1}, {color: 'FFFF00', effectId: 2}, {color: 'CCFFCC', effectId: 3}, {color: '008000', effectId: 4},
-                        '-',
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2}, {color: '000000', effectId: 3}, {color: 'FFFFFF', effectId: 4}, {color: '000000', effectId: 5},
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1},
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1},
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1},
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1},
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1},
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1},
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1},
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1},
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1},
-                        '-', '--', '-', me.textStandartColors, '-',
-                        '3D55FE', '5301B3', '980ABD', 'B2275F', 'F83D26', 'F86A1D', 'F7AC16', 'F7CA12', 'FAFF44', 'D6EF39',
-                        '-', '--'
-                    ]
+                    el: $('#table-border-color-menu')
                 });
                 me.borderColor.on('select', _.bind(me.onColorsBorderSelect, me));
             });
@@ -276,25 +257,7 @@ define([
             this.btnBackColor.on('render:after', function(btn) {
                 me.colorsBack = new Common.UI.ThemeColorPalette({
                     el: $('#table-back-color-menu'),
-                    dynamiccolors: 10,
-                    colors: [
-                        me.textThemeColors, '-', {color: '3366FF', effectId: 1}, {color: '0000FF', effectId: 2}, {color: '000090', effectId: 3}, {color: '660066', effectId: 4}, {color: '800000', effectId: 5},
-                        {color: 'FF0000', effectId: 1}, {color: 'FF6600', effectId: 1}, {color: 'FFFF00', effectId: 2}, {color: 'CCFFCC', effectId: 3}, {color: '008000', effectId: 4},
-                        '-',
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2}, {color: '000000', effectId: 3}, {color: 'FFFFFF', effectId: 4}, {color: '000000', effectId: 5},
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1},
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1},
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1},
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1},
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1},
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1},
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1},
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1},
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1},
-                        '-', '--', '-', me.textStandartColors, '-', 'transparent',
-                        '5301B3', '980ABD', 'B2275F', 'F83D26', 'F86A1D', 'F7AC16', 'F7CA12', 'FAFF44', 'D6EF39',
-                        '-', '--'
-                    ]
+                    transparent: true
                 });
                 me.colorsBack.on('select', _.bind(me.onColorsBackSelect, me));
             });
@@ -840,8 +803,6 @@ define([
         textLast                : 'Last',
         textEmptyTemplate       : 'No templates',
         strRepeatRow            : 'Repeat as header row at the top of each page',
-        textThemeColors         : 'Theme Colors',
-        textStandartColors      : 'Standart Colors',
         tipTop:             'Set Outer Top Border Only',
         tipLeft:            'Set Outer Left Border Only',
         tipBottom:          'Set Outer Bottom Border Only',

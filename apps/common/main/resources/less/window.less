@@ -80,6 +80,10 @@
                 }
             }
         }
+
+        &.resizing {
+            cursor: inherit !important;
+        }
     }
 
     > .body {
@@ -184,6 +188,32 @@
         -ms-transform: none !important;
         -o-transform: none !important;
         -o-transition: none !important;
+    }
+
+    .resize-border {
+        position: absolute;
+        width: 5px;
+        height: 5px;
+        z-index: 1;
+        background: @gray-lighter;
+        border: 1px none @gray-dark;
+
+        &.left {
+            left: 0;
+        }
+        &.right {
+            right: 0;
+        }
+        &.top {
+            top: 0;
+        }
+        &.bottom {
+            bottom: 0;
+        }
+
+        &.resizing {
+            cursor: inherit !important;
+        }
     }
 }
 

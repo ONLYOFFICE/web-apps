@@ -150,7 +150,11 @@ define([
                 title:      'Title',
                 alias:      'Window',
                 cls:        '',
-                toolclose:  'close'
+                toolclose:  'close',
+                maxwidth: undefined,
+                maxheight: undefined,
+                minwidth: 0,
+                minheight: 0
         };
 
         var template = '<div class="asc-window<%= modal?" modal":"" %><%= cls?" "+cls:"" %>" id="<%= id %>" style="width:<%= width %>px;">' +
@@ -286,6 +290,81 @@ define([
             }
         }
 
+        /* window resize functions */
+        function _resizestart(event) {
+            Common.UI.Menu.Manager.hideAll();
+            var el = $(event.target),
+                left = parseInt(this.$window.css('left')),
+                top = parseInt(this.$window.css('top'));
+
+            this.resizing.enabled = true;
+            this.resizing.initpage_x = event.pageX;
+            this.resizing.initpage_y = event.pageY;
+            this.resizing.initx = event.pageX - left;
+            this.resizing.inity = event.pageY - top;
+            this.resizing.initw = parseInt(this.$window.css("width"));
+            this.resizing.inith = parseInt(this.$window.css("height"));
+            this.resizing.type = [el.hasClass('left') ? -1 : (el.hasClass('right') ? 1 : 0), el.hasClass('top') ? -1 : (el.hasClass('bottom') ? 1 : 0)];
+
+            var main_width  = (window.innerHeight == undefined) ? document.documentElement.offsetWidth : window.innerWidth,
+                main_height = (window.innerHeight == undefined) ? document.documentElement.offsetHeight : window.innerHeight,
+                maxwidth = (this.initConfig.maxwidth) ? this.initConfig.maxwidth : main_width,
+                maxheight = (this.initConfig.maxheight) ? this.initConfig.maxheight : main_height;
+
+            if (this.resizing.type[0]>0) {
+                this.resizing.maxx  = Math.min(main_width, left+maxwidth);
+                this.resizing.minx  = left+this.initConfig.minwidth;
+            } else if (this.resizing.type[0]<0) {
+                this.resizing.maxx  = left+this.resizing.initw-this.initConfig.minwidth;
+                this.resizing.minx  = Math.max(0, left+this.resizing.initw-maxwidth);
+            }
+            if (this.resizing.type[1]>0) {
+                this.resizing.maxy  = Math.min(main_height, top+maxheight);
+                this.resizing.miny  = top+this.initConfig.minheight;
+            } else if (this.resizing.type[1]<0) {
+                this.resizing.maxy  = top+this.resizing.inith-this.initConfig.minheight;
+                this.resizing.miny  = Math.max(0, top+this.resizing.inith-maxheight);
+            }
+
+            $(document.body).css('cursor', el.css('cursor'));
+            this.$window.find('.resize-border').addClass('resizing');
+            this.$window.find('.header').addClass('resizing');
+
+            $(document).on('mousemove', this.binding.resize);
+            $(document).on('mouseup', this.binding.resizeStop);
+            this.fireEvent('resize', [this, 'start']);
+        }
+
+        function _resize(event) {
+            if (this.resizing.enabled) {
+                var resized = false;
+                if (this.resizing.type[0] && event.pageX<this.resizing.maxx && event.pageX>this.resizing.minx) {
+                    if (this.resizing.type[0]<0)
+                        this.$window.css({left: event.pageX - this.resizing.initx});
+                    this.setWidth(this.resizing.initw + (event.pageX - this.resizing.initpage_x) * this.resizing.type[0]);
+                    resized = true;
+                }
+                if (this.resizing.type[1] && event.pageY<this.resizing.maxy && event.pageY>this.resizing.miny) {
+                    if (this.resizing.type[1]<0)
+                        this.$window.css({top: event.pageY - this.resizing.inity});
+                    this.setHeight(this.resizing.inith + (event.pageY - this.resizing.initpage_y) * this.resizing.type[1]);
+                    resized = true;
+                }
+                if (resized) this.fireEvent('resizing');
+            }
+        }
+
+        function _resizestop() {
+            $(document).off('mousemove', this.binding.resize);
+            $(document).off('mouseup', this.binding.resizeStop);
+            $(document.body).css('cursor', 'auto');
+            this.$window.find('.resize-border').removeClass('resizing');
+            this.$window.find('.header').removeClass('resizing');
+
+            this.resizing.enabled = false;
+            this.fireEvent('resize', [this, 'end']);
+        }
+
         Common.UI.alert = function(options) {
             var me = this.Window.prototype;
             var arrBtns = {ok: me.okButtonText, cancel: me.cancelButtonText,
@@ -355,6 +434,10 @@ define([
 
                 if (!options.dontshow) body.css('padding-bottom', '10px');
 
+                if (options.maxwidth && options.width=='auto') {
+                    if ((text.position().left + text.width() + parseInt(text_cnt.css('padding-right'))) > options.maxwidth)
+                        options.width = options.maxwidth;
+                }
                 if (options.width=='auto') {
                     text_cnt.height(Math.max(text.height() + ((check.length>0) ? (check.height() + parseInt(check.css('margin-top'))) : 0), icon.height()));
                     body.height(parseInt(text_cnt.css('height')) + parseInt(footer.css('height')));
@@ -450,6 +533,7 @@ define([
             $window     : undefined,
             $lastmodal  : undefined,
             dragging    : {enabled: false},
+            resizing    : {enabled: false},
 
             initialize : function(options) {
                 this.initConfig = {};
@@ -502,6 +586,9 @@ define([
                 } else {
                     this.$window.css('height',this.initConfig.height);
                 }
+
+                if (this.initConfig.resizable)
+                    this.setResizable(this.initConfig.resizable);
 
                 var me = this;
                 Common.NotificationCenter.on('window:close', function() {
@@ -683,6 +770,7 @@ define([
                 if (width >= 0) {
                     var min = parseInt(this.$window.css('min-width'));
                     width < min && (width = min);
+                    width -= (parseInt(this.$window.css('border-left-width')) + parseInt(this.$window.css('border-right-width')));
                     this.$window.width(width);
                 }
             },
@@ -695,6 +783,7 @@ define([
                 if (height >= 0) {
                     var min = parseInt(this.$window.css('min-height'));
                     height < min && (height = min);
+                    height -= (parseInt(this.$window.css('border-bottom-width')) + parseInt(this.$window.css('border-top-width')));
                     this.$window.height(height);
 
                     if (this.initConfig.header)
@@ -729,6 +818,40 @@ define([
                 return this.$window && this.$window.is(':visible');
             },
 
+            setResizable: function(resizable, minSize, maxSize) {
+                if (resizable !== this.resizable) {
+                    if (resizable) {
+                        var bordersTemplate = '<div class="resize-border left" style="top:' + ((this.initConfig.header) ? '33' : '5') + 'px; bottom: 5px; height: auto; border-right-style: solid; cursor: e-resize;"></div>' +
+                            '<div class="resize-border left bottom" style="border-bottom-left-radius: 5px; cursor: sw-resize;"></div>' +
+                            '<div class="resize-border bottom" style="left: 4px; right: 4px; width: auto; z-index: 2; border-top-style: solid; cursor: s-resize;"></div>' +
+                            '<div class="resize-border right bottom" style="border-bottom-right-radius: 5px; cursor: se-resize;"></div>' +
+                            '<div class="resize-border right" style="top:' + ((this.initConfig.header) ? '33' : '5') + 'px; bottom: 5px; height: auto; border-left-style: solid; cursor: w-resize;"></div>' +
+                            '<div class="resize-border left top" style="border-top-left-radius: 5px; cursor: se-resize;"></div>' +
+                            '<div class="resize-border top" style="left: 4px; right: 4px; width: auto; z-index: 2; border-bottom-style:' + ((this.initConfig.header) ? "none" : "solid") + '; cursor: s-resize;"></div>' +
+                            '<div class="resize-border right top" style="border-top-right-radius: 5px; cursor: sw-resize;"></div>';
+                        if (this.initConfig.header)
+                            bordersTemplate += '<div class="resize-border left" style="top: 5px; height: 28px; cursor: e-resize;"></div>' +
+                                               '<div class="resize-border right" style="top: 5px; height: 28px; cursor: w-resize;"></div>';
+
+                        this.$window.append(_.template(bordersTemplate));
+
+                        this.binding.resize         = _.bind(_resize, this);
+                        this.binding.resizeStop     = _.bind(_resizestop, this);
+                        this.binding.resizeStart    = _.bind(_resizestart, this);
+
+                        (minSize && minSize.length>1) && (this.initConfig.minwidth = minSize[0]);
+                        (minSize && minSize.length>1) && (this.initConfig.minheight = minSize[1]);
+                        (maxSize && maxSize.length>1) && (this.initConfig.maxwidth = maxSize[0]);
+                        (maxSize && maxSize.length>1) && (this.initConfig.maxheight = maxSize[1]);
+
+                        this.$window.find('.resize-border').on('mousedown', this.binding.resizeStart);
+                    } else {
+                        this.$window.find('.resize-border').remove();
+                    }
+                    this.resizable = resizable;
+                }
+            },
+            
             onPrimary: function() {},
 
             cancelButtonText: 'Cancel',

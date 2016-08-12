@@ -172,6 +172,16 @@ define([
             this.pluginsPanel.toggleClass('hidden', false);
         },
 
+        openNotVisualMode: function(pluginGuid) {
+            var rec = this.viewPluginsList.store.findWhere({guid: pluginGuid});
+            if (rec)
+                this.viewPluginsList.cmpEl.find('#' + rec.get('id')).parent().addClass('selected');
+        },
+
+        closeNotVisualMode: function() {
+            this.viewPluginsList.cmpEl.find('.selected').removeClass('selected');
+        },
+
         _onLoad: function() {
             if (this.loadMask)
                 this.loadMask.hide();
@@ -220,6 +230,10 @@ define([
             Common.UI.Window.prototype.render.call(this);
             this.$window.find('> .body').css({height: 'auto', overflow: 'hidden'});
 
+            this.boxEl = this.$window.find('.body > .box');
+            this._headerFooterHeight = (this.options.buttons && _.size(this.options.buttons)>0) ? 85 : 34;
+            this._headerFooterHeight += ((parseInt(this.$window.css('border-top-width')) + parseInt(this.$window.css('border-bottom-width'))));
+
             var iframe = document.createElement("iframe");
             iframe.id           = 'plugin_iframe';
             iframe.name         = 'pluginFrameEditor',
@@ -241,6 +255,10 @@ define([
 
             iframe.src = this.url;
             $('#id-plugin-placeholder').append(iframe);
+
+            this.on('resizing', function(args){
+                me.boxEl.css('height', parseInt(me.$window.css('height')) - me._headerFooterHeight);
+            });
         },
 
         _onLoad: function() {
@@ -252,23 +270,19 @@ define([
         setInnerSize: function(width, height) {
             var maxHeight = parseInt(window.innerHeight),
                 maxWidth = parseInt(window.innerWidth),
-                header_footer = (this.options.buttons && _.size(this.options.buttons)>0) ? 85 : 34,
-                borders_height = (parseInt(this.$window.css('border-top-width')) + parseInt(this.$window.css('border-bottom-width'))),
                 borders_width = (parseInt(this.$window.css('border-left-width')) + parseInt(this.$window.css('border-right-width')));
-            if (maxHeight<height + header_footer + borders_height)
-                height = maxHeight - header_footer - borders_height;
+            if (maxHeight<height + this._headerFooterHeight)
+                height = maxHeight - this._headerFooterHeight;
             if (maxWidth<width + borders_width)
                 width = maxWidth - borders_width;
 
-            var $window = this.getChild();
-            var boxEl = $window.find('.body > .box');
-            boxEl.css('height', height);
+            this.boxEl.css('height', height);
 
-            Common.UI.Window.prototype.setHeight.call(this, height + header_footer + borders_height);
+            Common.UI.Window.prototype.setHeight.call(this, height + this._headerFooterHeight);
             Common.UI.Window.prototype.setWidth.call(this, width + borders_width);
 
             this.$window.css('left',(maxWidth - width - borders_width) / 2);
-            this.$window.css('top',((maxHeight - height - header_footer - borders_height) / 2) * 0.9);
+            this.$window.css('top',((maxHeight - height - this._headerFooterHeight) / 2) * 0.9);
         },
 
         textLoading : 'Loading'

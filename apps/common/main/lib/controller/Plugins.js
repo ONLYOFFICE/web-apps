@@ -136,8 +136,7 @@ define([
                     variation.set_UpdateOleOnResize(itemVar.get('isUpdateOleOnResize'));
                     variation.set_Buttons(itemVar.get('buttons'));
                     variation.set_Size(itemVar.get('size'));
-                    variation.set_MaximumSize(itemVar.get('maximumSize'));
-                    variation.set_MinimumSize(itemVar.get('minimumSize'));
+                    variation.set_InitOnSelectionChanged(itemVar.get('initOnSelectionChanged'));
                     variationsArr.push(variation);
                 });
                 plugin.set_Variations(variationsArr);
@@ -219,54 +218,61 @@ define([
 
         onPluginShow: function(plugin, variationIndex) {
             var variation = plugin.get_Variations()[variationIndex];
-            if (!variation.get_Visual()) return;
-            
-            if (variation.get_InsideMode()) {
-                this.panelPlugins.openInsideMode(plugin.get_Name(), ((plugin.get_BaseUrl().length == 0) ? this.panelPlugins.pluginsPath : plugin.get_BaseUrl()) + variation.get_Url());
-            } else {
-                var me = this,
-                    arrBtns = variation.get_Buttons(),
-                    newBtns = {},
-                    size = variation.get_Size();
-                    if (!size || size.length<2) size = [800, 600];
+            if (variation.get_Visual()) {
+                if (variation.get_InsideMode()) {
+                    this.panelPlugins.openInsideMode(plugin.get_Name(), ((plugin.get_BaseUrl().length == 0) ? this.panelPlugins.pluginsPath : plugin.get_BaseUrl()) + variation.get_Url());
+                } else {
+                    var me = this,
+                        arrBtns = variation.get_Buttons(),
+                        newBtns = {},
+                        size = variation.get_Size();
+                        if (!size || size.length<2) size = [800, 600];
 
-                if (_.isArray(arrBtns)) {
-                    _.each(arrBtns, function(b, index){
-                        newBtns[index] = {text: b.text, cls: 'custom' + ((b.primary) ? ' primary' : '')};
+                    if (_.isArray(arrBtns)) {
+                        _.each(arrBtns, function(b, index){
+                            newBtns[index] = {text: b.text, cls: 'custom' + ((b.primary) ? ' primary' : '')};
+                        });
+                    }
+
+                    var _baseUrl = (plugin.get_BaseUrl().length == 0) ? me.panelPlugins.pluginsPath : plugin.get_BaseUrl();
+                    me.pluginDlg = new Common.Views.PluginDlg({
+                        title: plugin.get_Name(),
+                        width: size[0], // inner width
+                        height: size[1], // inner height
+                        url: _baseUrl + variation.get_Url(),
+                        buttons: newBtns,
+                        toolcallback: _.bind(this.onToolClose, this)
                     });
+                    me.pluginDlg.on('render:after', function(obj){
+                        obj.getChild('.footer .dlg-btn').on('click', _.bind(me.onDlgBtnClick, me));
+                        me.pluginContainer = me.pluginDlg.$window.find('#id-plugin-container');
+                    }).on('close', function(obj){
+                        me.pluginDlg = undefined;
+                    }).on('drag', function(args){
+                        me.api.asc_pluginEnableMouseEvents(args[1]=='start');
+                    }).on('resize', function(args){
+                        me.api.asc_pluginEnableMouseEvents(args[1]=='start');
+                    });
+                    me.pluginDlg.show();
                 }
-
-                var _baseUrl = (plugin.get_BaseUrl().length == 0) ? me.panelPlugins.pluginsPath : plugin.get_BaseUrl();
-                me.pluginDlg = new Common.Views.PluginDlg({
-                    title: plugin.get_Name(),
-                    width: size[0], // inner width
-                    height: size[1], // inner height
-                    url: _baseUrl + variation.get_Url(),
-                    buttons: newBtns,
-                    toolcallback: _.bind(this.onToolClose, this)
-                });
-                me.pluginDlg.on('render:after', function(obj){
-                    obj.getChild('.footer .dlg-btn').on('click', _.bind(me.onDlgBtnClick, me));
-                    me.pluginContainer = me.pluginDlg.$window.find('#id-plugin-container');
-                }).on('close', function(obj){
-                    me.pluginDlg = undefined;
-                }).on('drag', function(args){
-                    me.api.asc_pluginEnableMouseEvents(args[1]=='start');
-                });
-                me.pluginDlg.show();
-            }
+            } else
+                this.panelPlugins.openNotVisualMode(plugin.get_Guid());
         },
 
         onPluginClose: function() {
             if (this.pluginDlg)
                 this.pluginDlg.close();
-            else
+            else if (this.panelPlugins.iframePlugin)
                 this.panelPlugins.closeInsideMode();
+            else
+                this.panelPlugins.closeNotVisualMode();
         },
 
-        onPluginResize: function(width, height, callback) {
+        onPluginResize: function(size, minSize, maxSize, callback ) {
             if (this.pluginDlg) {
-                this.pluginDlg.setInnerSize(width, height);
+                var resizable = (minSize && minSize.length>1 && maxSize && maxSize.length>1 && (maxSize[0] > minSize[0] || maxSize[1] > minSize[1] || maxSize[0]==0 || maxSize[1] == 0));
+                this.pluginDlg.setResizable(resizable, minSize, maxSize);
+                this.pluginDlg.setInnerSize(size[0], size[1]);
                 if (callback)
                     callback.call();
             }
@@ -283,7 +289,8 @@ define([
 
         onPluginMouseUp: function(x, y) {
             if (this.pluginDlg) {
-                this.pluginDlg.binding.dragStop();
+                if (this.pluginDlg.binding.dragStop) this.pluginDlg.binding.dragStop();
+                if (this.pluginDlg.binding.resizeStop) this.pluginDlg.binding.resizeStop();
             } else
                 Common.NotificationCenter.trigger('frame:mouseup', jQuery.Event("mouseup", { pageX: x+this._moveOffset.x, pageY: y+this._moveOffset.y } ));
         },
@@ -291,7 +298,8 @@ define([
         onPluginMouseMove: function(x, y) {
             if (this.pluginDlg) {
                 var offset = this.pluginContainer.offset();
-                this.pluginDlg.binding.drag(jQuery.Event("mousemove", { pageX: x+offset.left, pageY: y+offset.top } ));
+                if (this.pluginDlg.binding.drag) this.pluginDlg.binding.drag(jQuery.Event("mousemove", { pageX: x+offset.left, pageY: y+offset.top } ));
+                if (this.pluginDlg.binding.resize) this.pluginDlg.binding.resize(jQuery.Event("mousemove", { pageX: x+offset.left, pageY: y+offset.top } ));
             } else
                 Common.NotificationCenter.trigger('frame:mousemove', jQuery.Event("mousemove", { pageX: x+this._moveOffset.x, pageY: y+this._moveOffset.y } ));
         }

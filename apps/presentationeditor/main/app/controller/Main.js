@@ -294,6 +294,7 @@ define([
                     if (!old_rights)
                         Common.UI.warning({
                             title: this.notcriticalErrorTitle,
+                            maxwidth: 600,
                             msg  : _.isEmpty(data.message) ? this.warnProcessRightsChange : data.message,
                             callback: function(){
                                 me._state.lostEditingRights = false;
@@ -1494,7 +1495,7 @@ define([
                         variations.forEach(function(itemVar){
                             var isSupported = false;
                             for (var i=0; i<itemVar.EditorsSupport.length; i++){
-                                if (itemVar.EditorsSupport[i]=='word') {
+                                if (itemVar.EditorsSupport[i]=='slide') {
                                     isSupported = true; break;
                                 }
                             }
@@ -1514,8 +1515,7 @@ define([
                                     isUpdateOleOnResize : itemVar.isUpdateOleOnResize,
                                     buttons: itemVar.buttons,
                                     size: itemVar.size,
-                                    minimumSize: itemVar.minimumSize,
-                                    maximumSize: itemVar.maximumSize
+                                    initOnSelectionChanged: itemVar.initOnSelectionChanged
                                 }));
                         });
                         if (variationsArr.length>0)
