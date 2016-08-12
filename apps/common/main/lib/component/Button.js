@@ -414,8 +414,7 @@ define([
         },
 
         setDisabled: function(disabled) {
-            if (this.rendered &&
-                    this.disabled != disabled) {
+            if (this.rendered && this.disabled != disabled) {
                 var el = this.cmpEl,
                     isGroup = el.hasClass('btn-group');
 
@@ -490,9 +489,9 @@ define([
                     }
                 }
             }
-        }
+        },
 
-        , setMenu: function (m) {
+        setMenu: function (m) {
             if (m && _.isObject(m) && _.isFunction(m.render)){
                 this.menu = m;
                 this.menu.render(this.cmpEl);

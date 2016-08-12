@@ -85,8 +85,8 @@ define([
 
             initialize : function(options) {
                 Common.UI.ComboBox.prototype.initialize.call(this, _.extend(options, {
-                    displayField: 'name'
-                    , scroller: {
+                    displayField: 'name',
+                    scroller: {
                         alwaysVisibleY: true,
                         onChange: this.updateVisibleFontsTiles.bind(this)
                     }
