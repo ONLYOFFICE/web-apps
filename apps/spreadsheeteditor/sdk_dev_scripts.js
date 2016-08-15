@@ -160,6 +160,8 @@ var sdk_dev_scrpipts = [
     "../../../../sdkjs/word/Math/borderBox.js",
     "../../../../sdkjs/word/apiCommon.js",
 	"../../../../sdkjs/common/applyDocumentChanges.js",
+    "../../../../sdkjs/word/apiBuilder.js",
+    "../../../../sdkjs/slide/apiBuilder.js",
 	"../../../../sdkjs/cell/apiBuilder.js",
     "../../../../sdkjs/common/Drawings/Format/OleObject.js",
 	"../../../../sdkjs/common/Drawings/Format/DrawingContent.js",
