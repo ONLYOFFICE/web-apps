@@ -1527,7 +1527,6 @@ define([
                     case 'getMergeData':    this.getMergeData(); break;
                     case 'setAppDisabled':
                         this.isAppDisabled = data.data;
-                        this.api.asc_enableKeyEvents(false);
                         break;
                     case 'queryClose':
                         if ($('body .asc-window:visible').length === 0) {
