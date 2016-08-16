@@ -100,6 +100,12 @@ define([
             }
         },
 
+        cellNameDisabled: function(disabled){
+            (disabled) ? this.$cellname.attr('disabled', 'disabled') : this.$cellname.removeAttr('disabled');
+            this.$btnfunc.toggleClass('disabled', disabled);
+            this.btnNamedRanges.setDisabled(disabled);
+        },
+
         tipFormula: 'Insert Function',
         textManager: 'Manager'
     }, SSE.Views.CellEditor || {}));

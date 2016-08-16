@@ -117,11 +117,13 @@ define([
         },
 
         onApiEditCell: function(state) {
-            if (state == Asc.c_oAscCellEditorState.editStart)
+            if (state == Asc.c_oAscCellEditorState.editStart){
                 this.api.isCellEdited = true;
-            else if (state == Asc.c_oAscCellEditorState.editEnd) {
+                this.editor.cellNameDisabled(true);
+            } else if (state == Asc.c_oAscCellEditorState.editEnd) {
                 this.api.isCellEdited = false;
                 this.api.isCEditorFocused = false;
+                this.editor.cellNameDisabled(false);
             }
         },
 
@@ -144,16 +146,7 @@ define([
         },
 
         onCellsRange: function(status) {
-            var isRangeSelection = (status != Asc.c_oAscSelectionDialogType.None);
-
-            if (isRangeSelection) {
-                this.editor.$cellname.attr('disabled', 'disabled');
-                this.editor.$btnfunc['addClass']('disabled');
-            } else {
-                this.editor.$cellname.removeAttr('disabled');
-                this.editor.$btnfunc['removeClass']('disabled');
-            }
-            this.editor.btnNamedRanges.setDisabled(isRangeSelection);
+            this.editor.cellNameDisabled(status != Asc.c_oAscSelectionDialogType.None);
         },
 
         onLayoutResize: function(o, r) {
