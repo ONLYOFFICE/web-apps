@@ -328,7 +328,8 @@ define([
                 colorVal.css('background-color', btn.currentColor || 'transparent');
 
                 me.mnuBackColorPicker = new Common.UI.ThemeColorPalette({
-                    el: $('#id-toolbar-menu-paracolor')
+                    el: $('#id-toolbar-menu-paracolor'),
+                    transparent: true
                 });
             });
 
