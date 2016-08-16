@@ -110,10 +110,6 @@ define([
 
         template: _.template([
             '<table><tbody>',
-                '<tr class="edit">',
-                    '<td class="left"><label><%= scope.txtInput %></label></td>',
-                    '<td class="right"><div id="fms-chb-input-mode"/></td>',
-                '</tr>','<tr class="divider edit"></tr>',
                 /** coauthoring begin **/
                 '<tr class="coauth">',
                     '<td class="left"><label><%= scope.txtLiveComment %></label></td>',
@@ -123,6 +119,10 @@ define([
                 '<tr class="edit">',
                     '<td class="left"><label><%= scope.txtSpellCheck %></label></td>',
                     '<td class="right"><div id="fms-chb-spell-check"/></td>',
+                '</tr>','<tr class="divider edit"></tr>',
+                '<tr class="edit">',
+                    '<td class="left"><label><%= scope.txtInput %></label></td>',
+                    '<td class="right"><div id="fms-chb-input-mode"/></td>',
                 '</tr>','<tr class="divider edit"></tr>',
                 '<tr>',
                     '<td class="left"><label><%= scope.textAlignGuides %></label></td>',
