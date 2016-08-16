@@ -382,6 +382,6 @@ define([
         tipFile     : 'File',
         tipSearch   : 'Search',
         tipSlides: 'Slides',
-        tipPlugins  : 'Add-ons'
+        tipPlugins  : 'Plugins'
     }, PE.Views.LeftMenu || {}));
 });
