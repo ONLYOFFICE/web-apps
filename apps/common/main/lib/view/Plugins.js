@@ -187,7 +187,7 @@ define([
                 this.loadMask.hide();
         },
 
-        strPlugins: 'Add-ons',
+        strPlugins: 'Plugins',
         textLoading: 'Loading',
         textStart: 'Start'
 
