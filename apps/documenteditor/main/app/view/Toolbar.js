@@ -520,25 +520,7 @@ define([
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-pagebreak',
                 split       : true,
-                menu        : new Common.UI.Menu({
-                    items : [
-                        {caption: this.textInsPageBreak},
-                        {caption: this.textInsColumnBreak, value: 'column'},
-                        this.mnuInsertSectionBreak = new Common.UI.MenuItem({
-                            caption: this.textInsSectionBreak,
-                            value: 'section',
-                            menu: new Common.UI.Menu({
-                                menuAlign: 'tl-tr',
-                                items : [
-                                    {caption: this.textNextPage,   value: Asc.c_oAscSectionBreakType.NextPage},
-                                    {caption: this.textContPage,   value: Asc.c_oAscSectionBreakType.Continuous},
-                                    {caption: this.textEvenPage,   value: Asc.c_oAscSectionBreakType.EvenPage},
-                                    {caption: this.textOddPage,    value: Asc.c_oAscSectionBreakType.OddPage}
-                                ]
-                            })
-                        })
-                    ]
-                })
+                menu        : true
             });
             this.paragraphControls.push(this.btnInsertPageBreak);
 
@@ -712,37 +694,7 @@ define([
                 id          : 'id-toolbar-btn-colorschemas',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-colorschemas',
-                menu        : new Common.UI.Menu({
-                    items: [],
-                    maxHeight   : 600,
-                    restoreHeight: 600
-                }).on('show:before', function(mnu) {
-                    if ( !this.scroller ) {
-                        this.scroller = new Common.UI.Scroller({
-                            el: $(this.el).find('.dropdown-menu '),
-                            useKeyboard: this.enableKeyEvents && !this.handleSelect,
-                            minScrollbarLength: 40,
-                            alwaysVisibleY: true
-                        });
-                    }
-                }).on('show:after', function(btn, e) {
-                    var mnu = $(this.el).find('.dropdown-menu '),
-                        docH = $(document).height(),
-                        menuH = mnu.outerHeight(),
-                        top = parseInt(mnu.css('top'));
-
-                    if (menuH > docH) {
-                        mnu.css('max-height', (docH - parseInt(mnu.css('padding-top')) - parseInt(mnu.css('padding-bottom'))-5) + 'px');
-                        this.scroller.update({minScrollbarLength  : 40});
-                    } else if ( mnu.height() < this.options.restoreHeight ) {
-                        mnu.css('max-height', (Math.min(docH - parseInt(mnu.css('padding-top')) - parseInt(mnu.css('padding-bottom'))-5, this.options.restoreHeight)) + 'px');
-                        menuH = mnu.outerHeight();
-                        if (top+menuH > docH) {
-                            mnu.css('top', 0);
-                        }
-                        this.scroller.update({minScrollbarLength  : 40});
-                    }
-                })
+                menu        : true
             });
             this.toolbarControls.push(this.btnColorSchemas);
 
@@ -783,8 +735,6 @@ define([
             this.mnuInsertTable         = this.btnInsertTable.menu;
             this.mnuInsertImage         = this.btnInsertImage.menu;
             this.mnuPageSize            = this.btnPageSize.menu;
-            this.mnuColorSchema         = this.btnColorSchemas.menu;
-
 
             //
             // DataView and pickers
@@ -1229,6 +1179,26 @@ define([
                 })
             );
 
+            this.btnInsertPageBreak.setMenu(new Common.UI.Menu({
+                items : [
+                    {caption: this.textInsPageBreak},
+                    {caption: this.textInsColumnBreak, value: 'column'},
+                    this.mnuInsertSectionBreak = new Common.UI.MenuItem({
+                        caption: this.textInsSectionBreak,
+                        value: 'section',
+                        menu: new Common.UI.Menu({
+                            menuAlign: 'tl-tr',
+                            items : [
+                                {caption: this.textNextPage,   value: Asc.c_oAscSectionBreakType.NextPage},
+                                {caption: this.textContPage,   value: Asc.c_oAscSectionBreakType.Continuous},
+                                {caption: this.textEvenPage,   value: Asc.c_oAscSectionBreakType.EvenPage},
+                                {caption: this.textOddPage,    value: Asc.c_oAscSectionBreakType.OddPage}
+                            ]
+                        })
+                    })
+                ]
+            }));
+
             this.btnEditHeader.setMenu(
                 new Common.UI.Menu({
                     items: [
@@ -1571,19 +1541,41 @@ define([
                 });
             }
 
-            if (this.mnuColorSchema == null) {
-                this.mnuColorSchema = new Common.UI.Menu({
+            if (!this.mnuColorSchema) {
+                this.btnColorSchemas.setMenu(new Common.UI.Menu({
+                    items: [],
                     maxHeight   : 600,
                     restoreHeight: 600
-                }).on('show:before', function(mnu) {
+                }));
+                this.mnuColorSchema = this.btnColorSchemas.menu;
+                this.mnuColorSchema.on('show:before', function(mnu) {
+                    if ( !this.scroller ) {
                         this.scroller = new Common.UI.Scroller({
-                        el: $(this.el).find('.dropdown-menu '),
-                        useKeyboard: this.enableKeyEvents && !this.handleSelect,
-                        minScrollbarLength  : 40
-                    });
-                });
-            }
+                            el: $(this.el).find('.dropdown-menu '),
+                            useKeyboard: this.enableKeyEvents && !this.handleSelect,
+                            minScrollbarLength: 40,
+                            alwaysVisibleY: true
+                        });
+                    }
+                }).on('show:after', function(btn, e) {
+                    var mnu = $(this.el).find('.dropdown-menu '),
+                        docH = $(document).height(),
+                        menuH = mnu.outerHeight(),
+                        top = parseInt(mnu.css('top'));
 
+                    if (menuH > docH) {
+                        mnu.css('max-height', (docH - parseInt(mnu.css('padding-top')) - parseInt(mnu.css('padding-bottom'))-5) + 'px');
+                        this.scroller.update({minScrollbarLength  : 40});
+                    } else if ( mnu.height() < this.options.restoreHeight ) {
+                        mnu.css('max-height', (Math.min(docH - parseInt(mnu.css('padding-top')) - parseInt(mnu.css('padding-bottom'))-5, this.options.restoreHeight)) + 'px');
+                        menuH = mnu.outerHeight();
+                        if (top+menuH > docH) {
+                            mnu.css('top', 0);
+                        }
+                        this.scroller.update({minScrollbarLength  : 40});
+                    }
+                })
+            }
             this.mnuColorSchema.items = [];
 
             var itemTemplate = _.template([
