@@ -310,6 +310,7 @@ define([
             this._settings[type].hidden = 0;
             this._settings[type].btn.setDisabled(false);
             this.rightmenu.SetActivePane(type, true);
+            this._settings[type].panel.setLocked(this._settings[type].locked);
             this._settings[type].panel.ChangeSettings.call(this._settings[type].panel);
         },
 
