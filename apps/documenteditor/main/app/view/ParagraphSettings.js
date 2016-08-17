@@ -67,7 +67,6 @@ define([
         },
 
         initialize: function () {
-            var me = this;
             this._initSettings = true;
 
             this._state = {
@@ -157,22 +156,8 @@ define([
             this.btnColor = new Common.UI.ColorButton({
                 style: "width:45px;",
                 disabled: this._locked,
-                menu        : new Common.UI.Menu({
-                    items: [
-                        { template: _.template('<div id="paragraph-color-menu" style="width: 165px; height: 220px; margin: 10px;"></div>') },
-                        { template: _.template('<a id="paragraph-color-new" style="padding-left:12px;">' + me.textNewColor + '</a>') }
-                    ]
-                })
+                menu        : true
             });
-
-            this.btnColor.on('render:after', function(btn) {
-                me.mnuColorPicker = new Common.UI.ThemeColorPalette({
-                    el: $('#paragraph-color-menu'),
-                    transparent: true
-                });
-                me.mnuColorPicker.on('select', _.bind(me.onColorPickerSelect, me));
-            });
-
             this.btnColor.render( $('#paragraph-color-btn'));
             this.lockedControls.push(this.btnColor);
 
@@ -456,8 +441,20 @@ define([
         },
 
         UpdateThemeColors: function() {
-            if (this.mnuColorPicker)
-                this.mnuColorPicker.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
+            if (!this.mnuColorPicker) {
+                this.btnColor.setMenu( new Common.UI.Menu({
+                    items: [
+                        { template: _.template('<div id="paragraph-color-menu" style="width: 165px; height: 220px; margin: 10px;"></div>') },
+                        { template: _.template('<a id="paragraph-color-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
+                    ]
+                }));
+                this.mnuColorPicker = new Common.UI.ThemeColorPalette({
+                    el: $('#paragraph-color-menu'),
+                    transparent: true
+                });
+                this.mnuColorPicker.on('select', _.bind(this.onColorPickerSelect, this));
+            }
+            this.mnuColorPicker.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
         },
 
         onHideMenus: function(e){

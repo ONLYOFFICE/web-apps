@@ -83,6 +83,9 @@ define([
             this._originalProps = null;
 
             this.render();
+
+            this.labelWidth = $(this.el).find('#chart-label-width');
+            this.labelHeight = $(this.el).find('#chart-label-height');
         },
 
         render: function () {
@@ -290,9 +293,6 @@ define([
             this.btnChartType.render($('#chart-button-type'));
             this.mnuChartTypePicker.on('item:click', _.bind(this.onSelectType, this, this.btnChartType));
             this.lockedControls.push(this.btnChartType);
-
-            this.labelWidth = $(this.el).find('#chart-label-width');
-            this.labelHeight = $(this.el).find('#chart-label-height');
 
             this.btnEditData = new Common.UI.Button({
                 el: $('#chart-button-edit-data')
