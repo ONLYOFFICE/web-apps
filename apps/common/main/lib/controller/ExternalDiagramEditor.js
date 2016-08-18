@@ -182,7 +182,6 @@ define([
                 if (this.diagramEditorView) {
                     if (eventData.type == 'documentReady') {
                         this.diagramEditorView._isExternalDocReady = true;
-                        this.diagramEditorView.setControlsDisabled(false);
                         if (this.diagramEditorView._chartData) {
                             externalEditor && externalEditor.serviceCommand('setChartData', this.diagramEditorView._chartData);
                             this.diagramEditorView._chartData = null;
@@ -190,6 +189,10 @@ define([
                         if (this.needDisableEditing) {
                             this.onDiagrammEditingDisabled();
                         }
+                    } else
+                    if (eventData.type == 'chartDataReady') {
+                        if (this.needDisableEditing===undefined)
+                            this.diagramEditorView.setControlsDisabled(false);
                     } else
                     if (eventData.type == "shortcut") {
                         if (eventData.data.key == 'escape')

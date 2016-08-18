@@ -369,6 +369,13 @@ define([
                 }
             },
 
+            onSelectionChanged: function(info){
+                if (!this._isChartDataReady){
+                    this._isChartDataReady = true;
+                    Common.Gateway.internalMessage('chartDataReady');
+                }
+            },
+
             onLongActionBegin: function(type, id) {
                 var action = {id: id, type: type};
                 this.stackLongActions.push(action);
@@ -908,6 +915,8 @@ define([
                     me.api.asc_registerCallback('asc_onAuthParticipantsChanged', _.bind(me.onAuthParticipantsChanged, me));
                     me.api.asc_registerCallback('asc_onParticipantsChanged',     _.bind(me.onAuthParticipantsChanged, me));
                     /** coauthoring end **/
+                    if (me.appOptions.isEditDiagram)
+                        me.api.asc_registerCallback('asc_onSelectionChanged',        _.bind(me.onSelectionChanged, me));
 
                     if (me.stackLongActions.exist({id: ApplyEditRights, type: Asc.c_oAscAsyncActionType['BlockInteraction']})) {
                         me.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], ApplyEditRights);
