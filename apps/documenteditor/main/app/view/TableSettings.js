@@ -687,8 +687,10 @@ define([
         UpdateThemeColors: function() {
             if (this.colorsBack)
                 this.colorsBack.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
-            if (this.borderColor)
+            if (this.borderColor) {
                 this.borderColor.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
+                this.btnBorderColor.setColor(this.borderColor.getColor());
+            }
         },
 
         _onInitTemplates: function(Templates){
