@@ -621,7 +621,7 @@ define([
                         }
                     }
                     if (this.leftMenu.btnFile.pressed ||  this.leftMenu.btnAbout.pressed ||
-                        ($(e.target).parents('#left-menu').length || this.leftMenu.btnPlugins.pressed) && this.api.isCellEdited!==true) {
+                        ($(e.target).parents('#left-menu').length || this.leftMenu.btnPlugins.pressed || this.leftMenu.btnComments.pressed) && this.api.isCellEdited!==true) {
                         this.leftMenu.close();
                         Common.NotificationCenter.trigger('layout:changed', 'leftmenu');
                         return false;
