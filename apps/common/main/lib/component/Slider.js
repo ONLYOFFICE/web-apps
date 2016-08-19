@@ -146,7 +146,7 @@ define([
                 e.preventDefault();
                 e.stopPropagation();
 
-                var pos = Math.max(0, Math.min(100, (Math.round((e.pageX - me.cmpEl.offset().left - me._dragstart) / me.width * 100))));
+                var pos = Math.max(0, Math.min(100, (Math.round((e.pageX*Common.Utils.zoom() - me.cmpEl.offset().left - me._dragstart) / me.width * 100))));
                 me.setThumbPosition(pos);
 
                 me.lastValue = me.value;
@@ -167,7 +167,7 @@ define([
                 e.preventDefault();
                 e.stopPropagation();
 
-                var pos = Math.max(0, Math.min(100, (Math.round((e.pageX - me.cmpEl.offset().left - me._dragstart) / me.width * 100))));
+                var pos = Math.max(0, Math.min(100, (Math.round((e.pageX*Common.Utils.zoom() - me.cmpEl.offset().left - me._dragstart) / me.width * 100))));
                 me.setThumbPosition(pos);
 
                 me.lastValue = me.value;
@@ -179,7 +179,7 @@ define([
 
             var onMouseDown = function (e) {
                 if ( me.disabled ) return;
-                me._dragstart = e.pageX - me.thumb.offset().left - 7;
+                me._dragstart = e.pageX*Common.Utils.zoom() - me.thumb.offset().left - 7;
 
                 me.thumb.addClass('active');
                 $(document).on('mouseup',   onMouseUp);
@@ -192,7 +192,7 @@ define([
             var onTrackMouseDown = function (e) {
                 if ( me.disabled ) return;
 
-                var pos = Math.max(0, Math.min(100, (Math.round((e.pageX - me.cmpEl.offset().left) / me.width * 100))));
+                var pos = Math.max(0, Math.min(100, (Math.round((e.pageX*Common.Utils.zoom() - me.cmpEl.offset().left) / me.width * 100))));
                 me.setThumbPosition(pos);
 
                 me.lastValue = me.value;
@@ -342,7 +342,7 @@ define([
                     lastValue = me.thumbs[index].value,
                     minValue = (index-1<0) ? 0 : me.thumbs[index-1].position,
                     maxValue = (index+1<me.thumbs.length) ? me.thumbs[index+1].position : 100,
-                    pos = Math.max(minValue, Math.min(maxValue, (Math.round((e.pageX - me.cmpEl.offset().left - me._dragstart) / me.width * 100)))),
+                    pos = Math.max(minValue, Math.min(maxValue, (Math.round((e.pageX*Common.Utils.zoom() - me.cmpEl.offset().left - me._dragstart) / me.width * 100)))),
                     value = pos/me.delta + me.minValue;
 
                 me.setThumbPosition(index, pos);
@@ -366,7 +366,7 @@ define([
                     lastValue = me.thumbs[index].value,
                     minValue = (index-1<0) ? 0 : me.thumbs[index-1].position,
                     maxValue = (index+1<me.thumbs.length) ? me.thumbs[index+1].position : 100,
-                    pos = Math.max(minValue, Math.min(maxValue, (Math.round((e.pageX - me.cmpEl.offset().left - me._dragstart) / me.width * 100)))),
+                    pos = Math.max(minValue, Math.min(maxValue, (Math.round((e.pageX*Common.Utils.zoom() - me.cmpEl.offset().left - me._dragstart) / me.width * 100)))),
                     value = pos/me.delta + me.minValue;
 
                 me.setThumbPosition(index, pos);
@@ -382,7 +382,7 @@ define([
                 var index = e.data,
                     thumb = me.thumbs[index].thumb;
 
-                me._dragstart = e.pageX - thumb.offset().left - thumb.width()/2;
+                me._dragstart = e.pageX*Common.Utils.zoom() - thumb.offset().left - thumb.width()/2;
                 me.setActiveThumb(index);
 
                 _.each(me.thumbs, function (item, idx) {
@@ -396,7 +396,7 @@ define([
             var onTrackMouseDown = function (e) {
                 if ( me.disabled ) return;
 
-                var pos = Math.max(0, Math.min(100, (Math.round((e.pageX - me.cmpEl.offset().left) / me.width * 100)))),
+                var pos = Math.max(0, Math.min(100, (Math.round((e.pageX*Common.Utils.zoom() - me.cmpEl.offset().left) / me.width * 100)))),
                     index = findThumb(pos),
                     lastValue = me.thumbs[index].value,
                     value = pos/me.delta + me.minValue;

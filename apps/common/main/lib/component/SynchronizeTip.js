@@ -95,7 +95,7 @@ define([
 
             applyPlacement: function () {
                 var showxy = this.target.offset();
-                (this.placement == 'top') ? tipEl.css({bottom : $(document).height() - showxy.top + 'px', right: $(document).width() - showxy.left - this.target.width()/2 + 'px'})
+                (this.placement == 'top') ? tipEl.css({bottom : Common.Utils.innerHeight() - showxy.top + 'px', right: Common.Utils.innerWidth() - showxy.left - this.target.width()/2 + 'px'})
                                          : tipEl.css({top : showxy.top + this.target.height()/2 + 'px', left: showxy.left + this.target.width() + 'px'});
             },
 

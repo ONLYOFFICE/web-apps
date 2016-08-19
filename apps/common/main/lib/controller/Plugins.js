@@ -292,16 +292,16 @@ define([
                 if (this.pluginDlg.binding.dragStop) this.pluginDlg.binding.dragStop();
                 if (this.pluginDlg.binding.resizeStop) this.pluginDlg.binding.resizeStop();
             } else
-                Common.NotificationCenter.trigger('frame:mouseup', jQuery.Event("mouseup", { pageX: x+this._moveOffset.x, pageY: y+this._moveOffset.y } ));
+                Common.NotificationCenter.trigger('frame:mouseup', { pageX: x*Common.Utils.zoom()+this._moveOffset.x, pageY: y*Common.Utils.zoom()+this._moveOffset.y });
         },
         
         onPluginMouseMove: function(x, y) {
             if (this.pluginDlg) {
                 var offset = this.pluginContainer.offset();
-                if (this.pluginDlg.binding.drag) this.pluginDlg.binding.drag(jQuery.Event("mousemove", { pageX: x+offset.left, pageY: y+offset.top } ));
-                if (this.pluginDlg.binding.resize) this.pluginDlg.binding.resize(jQuery.Event("mousemove", { pageX: x+offset.left, pageY: y+offset.top } ));
+                if (this.pluginDlg.binding.drag) this.pluginDlg.binding.drag({ pageX: x*Common.Utils.zoom()+offset.left, pageY: y*Common.Utils.zoom()+offset.top });
+                if (this.pluginDlg.binding.resize) this.pluginDlg.binding.resize({ pageX: x*Common.Utils.zoom()+offset.left, pageY: y*Common.Utils.zoom()+offset.top });
             } else
-                Common.NotificationCenter.trigger('frame:mousemove', jQuery.Event("mousemove", { pageX: x+this._moveOffset.x, pageY: y+this._moveOffset.y } ));
+                Common.NotificationCenter.trigger('frame:mousemove', { pageX: x*Common.Utils.zoom()+this._moveOffset.x, pageY: y*Common.Utils.zoom()+this._moveOffset.y });
         }
 
     }, Common.Controllers.Plugins || {}));

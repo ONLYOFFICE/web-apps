@@ -58,8 +58,8 @@ define([
 
         var onMouseMove = function(event){
             me.setTableSize(
-                Math.ceil((event.offsetX === undefined ? event.originalEvent.layerX : event.offsetX) / me.itemSize),
-                Math.ceil((event.offsetY === undefined ? event.originalEvent.layerY : event.offsetY) / me.itemSize),
+                Math.ceil((event.offsetX === undefined ? event.originalEvent.layerX : event.offsetX*Common.Utils.zoom()) / me.itemSize),
+                Math.ceil((event.offsetY === undefined ? event.originalEvent.layerY : event.offsetY*Common.Utils.zoom()) / me.itemSize),
                 event
             );
         };

@@ -111,7 +111,7 @@ define([
                 $(document).off('mouseup.switcher',   onMouseUp);
                 $(document).off('mousemove.switcher', onMouseMove);
 
-                var pos = Math.round((e.pageX - me._dragstart));
+                var pos = Math.round((e.pageX*Common.Utils.zoom() - me._dragstart));
                 me.value = (me.value) ? (pos > -me.delta) : (pos > me.delta);
                 me.cmpEl.toggleClass('on', me.value);
                 me.thumb.css({left: '', right: ''});
@@ -127,7 +127,7 @@ define([
                 e.preventDefault();
                 e.stopPropagation();
 
-                var pos = Math.round((e.pageX - me._dragstart));
+                var pos = Math.round((e.pageX*Common.Utils.zoom() - me._dragstart));
                 if (me.value) {
                     me.thumb.css({right: (pos<1) ? Math.min(me.width-me.thumbWidth - 2, -pos) : 0, left: 'auto'});
                 } else {
@@ -138,7 +138,7 @@ define([
 
             var onMouseDown = function (e) {
                 if ( me.disabled ) return;
-                me._dragstart = e.pageX;
+                me._dragstart = e.pageX*Common.Utils.zoom();
                 me._isMouseMove = false;
                 
                 $(document).on('mouseup.switcher',   onMouseUp);

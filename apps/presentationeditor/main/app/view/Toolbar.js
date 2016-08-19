@@ -791,7 +791,7 @@ define([
                     });
                 }).on('show:after', function(btn, e) {
                     var mnu = $(this.el).find('.dropdown-menu '),
-                        docH = $(document).height(),
+                        docH = Common.Utils.innerHeight(),
                         menuH = mnu.outerHeight(),
                         top = parseInt(mnu.css('top'));
 

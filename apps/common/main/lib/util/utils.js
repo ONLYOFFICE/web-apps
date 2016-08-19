@@ -101,7 +101,21 @@ Common.Utils = _.extend(new(function() {
             Chart      : 6,
             MailMerge  : 7,
             TextArt    : 8
+        },
+        me = this,
+        checkSize = function() {
+            if (isChrome && !isOpera && document && document.firstElementChild && document.body) {
+                document.firstElementChild.style.zoom = "reset";
+                me.zoom = document.body.clientWidth / window.innerWidth;
+            }
+            me.innerWidth = window.innerWidth * me.zoom;
+            me.innerHeight = window.innerHeight * me.zoom;
         };
+        me.zoom = 1;
+        me.innerWidth = window.innerWidth;
+        me.innerHeight = window.innerHeight;
+        checkSize();
+        $(window).on('resize', checkSize);
 
     return {
         userAgent: userAgent,
@@ -162,7 +176,10 @@ Common.Utils = _.extend(new(function() {
         emailStrongRe: emailStrongRe,
         ipStrongRe: ipStrongRe,
         hostnameStrongRe: hostnameStrongRe,
-        documentSettingsType: documentSettingsType
+        documentSettingsType: documentSettingsType,
+        zoom: function() {return me.zoom;},
+        innerWidth: function() {return me.innerWidth;},
+        innerHeight: function() {return me.innerHeight;}
     }
 })(), Common.Utils || {});
 

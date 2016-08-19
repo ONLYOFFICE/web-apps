@@ -676,7 +676,7 @@ define([
                             ? this.parentMenu.cmpEl
                             : this.parentMenu.cmpEl.find('[role=menu]'),
                 innerEl = $(this.el).find('.inner').andSelf().filter('.inner'),
-                docH = $(document).height(),
+                docH = Common.Utils.innerHeight(),
                 menuH = menuRoot.outerHeight(),
                 top = parseInt(menuRoot.css('top'));
 

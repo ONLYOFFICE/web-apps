@@ -806,7 +806,7 @@ define([
                         })
                         .mousemove($.proxy(function(e){
                             if (this.isDiagramDrag) {
-                                Common.Gateway.internalMessage('processMouse', {event: 'mouse:move', pagex: e.pageX, pagey: e.pageY});
+                                Common.Gateway.internalMessage('processMouse', {event: 'mouse:move', pagex: e.pageX*Common.Utils.zoom(), pagey: e.pageY*Common.Utils.zoom()});
                             }
                         },this));
                 }

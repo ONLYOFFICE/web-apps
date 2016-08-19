@@ -234,8 +234,8 @@ define([
 
                     function dragMove (e) {
                         if (!_.isUndefined(me.drag)) {
-                            me.drag.moveX = e.clientX;
-                            var leftPos = Math.max(e.clientX - me.drag.anchorX - me.tabBarLeft - me.scrollLeft, 0);
+                            me.drag.moveX = e.clientX*Common.Utils.zoom();
+                            var leftPos = Math.max(me.drag.moveX - me.drag.anchorX - me.tabBarLeft - me.scrollLeft, 0);
                             leftPos = Math.min(leftPos, me.tabBarRight - me.tabBarLeft - me.drag.tabWidth - me.scrollLeft);
 
                             me.drag.tab.$el.css('left', leftPos + 'px');
@@ -250,16 +250,17 @@ define([
                     }
 
                     if (!_.isUndefined(bar) && !_.isUndefined(tab) && bar.tabs.length > 1) {
-                        var index   = bar.tabs.indexOf(tab);
+                        var index   = bar.tabs.indexOf(tab),
+                            _clientX = e.clientX*Common.Utils.zoom();
                         me.bar      = bar;
                         me.drag     = {tab: tab, index: index};
 
                         this.calculateBounds();
                         this.setAbsTabs();
 
-                        me.drag.moveX       = e.clientX;
-                        me.drag.mouseX      = e.clientX;
-                        me.drag.anchorX     = e.clientX - this.bounds[index].left;
+                        me.drag.moveX       = _clientX;
+                        me.drag.mouseX      = _clientX;
+                        me.drag.anchorX     = _clientX - this.bounds[index].left;
                         me.drag.tabWidth    = this.bounds[index].width;
 
                         document.addEventListener('dragstart',dragDropText);

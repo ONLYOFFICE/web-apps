@@ -144,8 +144,8 @@ define([
 
                 this.cmpEl.on('click', function(event){
                     var pos = {
-                        x: event.pageX - me.cmpEl.offset().left,
-                        y: event.pageY - me.cmpEl.offset().top
+                        x: event.pageX*Common.Utils.zoom() - me.cmpEl.offset().left,
+                        y: event.pageY*Common.Utils.zoom() - me.cmpEl.offset().top
                     };
 
                     var ptInPoly = function(npol, xp, yp, x, y) {

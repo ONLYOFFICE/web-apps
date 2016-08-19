@@ -202,9 +202,9 @@ define([
             }, options);
 
             var header_footer = (_options.buttons && _.size(_options.buttons)>0) ? 85 : 34;
-            _options.width = (window.innerWidth-_options.width)<0 ? window.innerWidth: _options.width,
+            _options.width = (Common.Utils.innerWidth()-_options.width)<0 ? Common.Utils.innerWidth(): _options.width,
             _options.height += header_footer;
-            _options.height = (window.innerHeight-_options.height)<0 ? window.innerHeight: _options.height;
+            _options.height = (Common.Utils.innerHeight()-_options.height)<0 ? Common.Utils.innerHeight(): _options.height;
 
             this.template = [
                 '<div id="id-plugin-container" class="box" style="height:' + (_options.height-header_footer) + 'px;">',
@@ -268,8 +268,8 @@ define([
         },
 
         setInnerSize: function(width, height) {
-            var maxHeight = parseInt(window.innerHeight),
-                maxWidth = parseInt(window.innerWidth),
+            var maxHeight = Common.Utils.innerHeight(),
+                maxWidth = Common.Utils.innerWidth(),
                 borders_width = (parseInt(this.$window.css('border-left-width')) + parseInt(this.$window.css('border-right-width')));
             if (maxHeight<height + this._headerFooterHeight)
                 height = maxHeight - this._headerFooterHeight;
