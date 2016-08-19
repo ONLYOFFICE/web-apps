@@ -97,9 +97,10 @@ define([
                             externalEditor.serviceCommand('window:drag', state == 'start');
                         },this),
                         'show': _.bind(function(cmp){
-                            var h = this.mergeEditorView.getHeight();
-                            if (window.innerHeight>h && h<700 || window.innerHeight<h) {
-                                h = Math.min(window.innerHeight, 700);
+                            var h = this.mergeEditorView.getHeight(),
+                                innerHeight = Common.Utils.innerHeight();
+                            if (innerHeight>h && h<700 || innerHeight<h) {
+                                h = Math.min(innerHeight, 700);
                                 this.mergeEditorView.setHeight(h);
                             }
 

@@ -1001,9 +1001,8 @@ define([
                     rect = config.asc_getCellCoord(),
                     x = rect.asc_getX() + rect.asc_getWidth() +offset.left,
                     y = rect.asc_getY() + rect.asc_getHeight() + offset.top;
-                var doc = $(document),
-                    docwidth = doc.width(),
-                    docheight = doc.height();
+                var docwidth = Common.Utils.innerWidth(),
+                    docheight = Common.Utils.innerHeight();
                 if (x+me.dlgFilter.options.width > docwidth)
                     x = docwidth - me.dlgFilter.options.width - 5;
                 if (y+me.dlgFilter.options.height > docheight)
@@ -1339,7 +1338,7 @@ define([
 
                 var me                  = this,
                     documentHolderView  = me.documentHolder,
-                    showPoint           = [event.pageX - documentHolderView.cmpEl.offset().left, event.pageY - documentHolderView.cmpEl.offset().top],
+                    showPoint           = [event.pageX*Common.Utils.zoom() - documentHolderView.cmpEl.offset().left, event.pageY*Common.Utils.zoom() - documentHolderView.cmpEl.offset().top],
                     menuContainer       = documentHolderView.cmpEl.find(Common.Utils.String.format('#menu-container-{0}', menu.id));
 
                 if (!menu.rendered) {

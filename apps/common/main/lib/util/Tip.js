@@ -115,7 +115,7 @@
         },
 
         mousemove: function (e) {
-            this.targetXY = [e.clientX, e.clientY];
+            this.targetXY = [e.clientX*Common.Utils.zoom(), e.clientY*Common.Utils.zoom()];
         },
 
         leave: function(obj) {
@@ -153,10 +153,11 @@
                         $tip.appendTo(this.options.container) : $tip.insertAfter(this.$element);
 
                     if (typeof at == 'object') { 
-                        var tp = {top: at[1] + 15, left: at[0] + 18};
+                        var tp = {top: at[1] + 15, left: at[0] + 18},
+                            innerWidth = Common.Utils.innerWidth();
 
-                        if (tp.left + $tip.width() > window.innerWidth) {
-                            tp.left = window.innerWidth - $tip.width() - 30;
+                        if (tp.left + $tip.width() > innerWidth) {
+                            tp.left = innerWidth - $tip.width() - 30;
                         }
 
                         $tip.offset(tp).addClass('in');

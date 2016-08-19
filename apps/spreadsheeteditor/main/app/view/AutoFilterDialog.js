@@ -976,8 +976,10 @@ define([
 
                 if (target.length) {
                     bound = target.get(0).getBoundingClientRect();
-                    if (bound.left < event.clientX && event.clientX < bound.right &&
-                        bound.top < event.clientY && event.clientY < bound.bottom) {
+                    var _clientX = event.clientX*Common.Utils.zoom(),
+                        _clientY = event.clientY*Common.Utils.zoom();
+                    if (bound.left < _clientX && _clientX < bound.right &&
+                        bound.top < _clientY && _clientY < bound.bottom) {
                         isLabel = true;
                     }
                 }

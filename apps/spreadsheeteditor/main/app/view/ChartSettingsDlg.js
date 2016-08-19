@@ -90,6 +90,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
             this.horAxisProps = null;
             this.currentAxisProps = null;
             this.dataRangeValid = '';
+            this.currentChartType = this._state.ChartType;
         },
 
         render: function() {
@@ -839,6 +840,8 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
             this.updateAxisProps(rawData.type, true);
             this.vertAxisProps = this.chartSettings.getVertAxisProps();
             this.horAxisProps = this.chartSettings.getHorAxisProps();
+            this.updateDataLabels(rawData.type, this.cmbDataLabels.getValue());
+            this.currentChartType = rawData.type;
         },
 
         updateAxisProps: function(type, isDefault) {
@@ -879,6 +882,44 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                      type == Asc.c_oAscChartTypeSettings.hBarNormal3d || type == Asc.c_oAscChartTypeSettings.hBarStacked3d || type == Asc.c_oAscChartTypeSettings.hBarStackedPer3d);
             this.btnsCategory[2].options.contentTarget = (value) ? 'id-chart-settings-dlg-hor' : 'id-chart-settings-dlg-vert';
             this.btnsCategory[3].options.contentTarget = (value || type == Asc.c_oAscChartTypeSettings.scatter) ? 'id-chart-settings-dlg-vert' : 'id-chart-settings-dlg-hor';
+        },
+
+        updateDataLabels: function(chartType, labelPos) {
+            if (chartType !== this.currentChartType) {
+                var data = [{ value: Asc.c_oAscChartDataLabelsPos.none, displayValue: this.textNone },
+                            { value: Asc.c_oAscChartDataLabelsPos.ctr, displayValue: this.textCenter }];
+
+                if (chartType == Asc.c_oAscChartTypeSettings.barNormal || chartType == Asc.c_oAscChartTypeSettings.hBarNormal)
+                    data.push({ value: Asc.c_oAscChartDataLabelsPos.inBase, displayValue: this.textInnerBottom },
+                              { value: Asc.c_oAscChartDataLabelsPos.inEnd, displayValue: this.textInnerTop },
+                              { value: Asc.c_oAscChartDataLabelsPos.outEnd, displayValue: this.textOuterTop });
+                else if ( chartType == Asc.c_oAscChartTypeSettings.barStacked || chartType == Asc.c_oAscChartTypeSettings.barStackedPer ||
+                          chartType == Asc.c_oAscChartTypeSettings.hBarStacked || chartType == Asc.c_oAscChartTypeSettings.hBarStackedPer )
+                    data.push({ value: Asc.c_oAscChartDataLabelsPos.inBase, displayValue: this.textInnerBottom },
+                              { value: Asc.c_oAscChartDataLabelsPos.inEnd, displayValue: this.textInnerTop });
+                else if (chartType == Asc.c_oAscChartTypeSettings.lineNormal || chartType == Asc.c_oAscChartTypeSettings.lineStacked || chartType == Asc.c_oAscChartTypeSettings.lineStackedPer ||
+                         chartType == Asc.c_oAscChartTypeSettings.stock || chartType == Asc.c_oAscChartTypeSettings.scatter)
+                    data.push({ value: Asc.c_oAscChartDataLabelsPos.l, displayValue: this.textLeft },
+                              { value: Asc.c_oAscChartDataLabelsPos.r, displayValue: this.textRight },
+                              { value: Asc.c_oAscChartDataLabelsPos.t, displayValue: this.textTop },
+                              { value: Asc.c_oAscChartDataLabelsPos.b, displayValue: this.textBottom });
+                else if (chartType == Asc.c_oAscChartTypeSettings.pie || chartType == Asc.c_oAscChartTypeSettings.pie3d)
+                    data.push({ value: Asc.c_oAscChartDataLabelsPos.bestFit, displayValue: this.textFit },
+                              { value: Asc.c_oAscChartDataLabelsPos.inEnd, displayValue: this.textInnerTop },
+                              { value: Asc.c_oAscChartDataLabelsPos.outEnd, displayValue: this.textOuterTop });
+
+                this.cmbDataLabels.setData(data);
+            }
+
+            if (labelPos!==undefined) {
+                var rec = this.cmbDataLabels.store.findWhere({value: labelPos});
+                if (!rec)
+                   labelPos = Asc.c_oAscChartDataLabelsPos.ctr;
+            } else
+                labelPos = Asc.c_oAscChartDataLabelsPos.none;
+
+            this.cmbDataLabels.setValue(labelPos);
+            this.onSelectDataLabels(this.cmbDataLabels, {value:labelPos});
         },
 
         onVCategoryClick: function() {
@@ -1083,8 +1124,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 this.cmbChartTitle.setValue(props.getTitle());
                 this.cmbLegendPos.setValue(props.getLegendPos());
 
-                this.cmbDataLabels.setValue(props.getDataLabelsPos());
-                this.onSelectDataLabels(this.cmbDataLabels, {value:props.getDataLabelsPos()});
+                this.updateDataLabels(this._state.ChartType, props.getDataLabelsPos());
 
                 this.chSeriesName.setValue(this.chartSettings.getShowSerName(), true);
                 this.chCategoryName.setValue(this.chartSettings.getShowCatName(), true);
@@ -1100,6 +1140,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 this.horAxisProps = props.getHorAxisProps();
 
                 this.updateAxisProps(this._state.ChartType);
+                this.currentChartType = this._state.ChartType;
             }
         },
 
@@ -1330,6 +1371,11 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
         textAxisSettings: 'Axis Settings',
         textGridLines: 'Gridlines',
         textShow: 'Show',
-        textHide: 'Hide'
+        textHide: 'Hide',
+        textLeft: 'Left',
+        textRight: 'Right',
+        textTop: 'Top',
+        textBottom: 'Bottom',
+        textFit: 'Fit Width'
 }, SSE.Views.ChartSettingsDlg || {}));
 });

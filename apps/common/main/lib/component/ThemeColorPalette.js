@@ -365,6 +365,12 @@ define([
                     aEffectIdx++;
                 }
             }
+
+            var selected = $(this.el).find('a.' + this.selectedCls);
+            if (selected.length && selected.hasClass('palette-color-effect')) {
+                this.value = selected[0].className.match(this.colorRe)[1].toUpperCase();
+            }
+
             this.options.updateColorsArr = undefined;
         },
 

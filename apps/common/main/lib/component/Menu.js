@@ -531,8 +531,8 @@ define([
                     menuParent  = this.menuAlignEl || menuRoot.parent(),
                     m           = this.menuAlign.match(/^([a-z]+)-([a-z]+)/),
                     offset      = menuParent.offset(),
-                    docW        = Math.min($(document).width(), $('body').width()),
-                    docH        = $(document).height() - 10, // Yep, it's magic number
+                    docW        = Common.Utils.innerWidth(),
+                    docH        = Common.Utils.innerHeight() - 10, // Yep, it's magic number
                     menuW       = menuRoot.outerWidth(),
                     menuH       = menuRoot.outerHeight(),
                     parentW     = menuParent.outerWidth(),

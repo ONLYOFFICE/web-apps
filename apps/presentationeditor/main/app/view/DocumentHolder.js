@@ -685,6 +685,11 @@ define([
                 me.slidesCount = count;
             };
 
+            var onApiCurrentPages = function(number) {
+                if (me.currentMenu && me.currentMenu.isVisible())
+                    me.currentMenu.hide();
+            };
+
             this.setApi = function(o) {
                 me.api = o;
 
@@ -695,6 +700,7 @@ define([
                     me.api.asc_registerCallback('asc_onPaintSlideNum',      _.bind(onPaintSlideNum, me));
                     me.api.asc_registerCallback('asc_onEndPaintSlideNum',   _.bind(onEndPaintSlideNum, me));
                     me.api.asc_registerCallback('asc_onCountPages',         _.bind(onApiCountPages, me));
+                    me.api.asc_registerCallback('asc_onCurrentPage',        _.bind(onApiCurrentPages, me));
                     me.slidesCount = me.api.getCountPages();
 
                     //hyperlink

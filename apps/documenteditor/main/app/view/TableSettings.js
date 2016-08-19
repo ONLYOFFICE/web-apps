@@ -676,6 +676,7 @@ define([
              }
              this.colorsBack.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
              this.borderColor.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
+             this.btnBorderColor.setColor(this.borderColor.getColor());
         },
 
         _onInitTemplates: function(Templates){
