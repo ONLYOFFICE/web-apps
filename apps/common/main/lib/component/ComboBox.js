@@ -188,13 +188,6 @@ define([
 
                     Common.NotificationCenter.on('menumanager:hideall', _.bind(me.closeMenu, me));
 
-                    this.scroller = new Common.UI.Scroller({
-                        el: $('.dropdown-menu', me.cmpEl),
-                        minScrollbarLength : 40,
-                        scrollYMarginOffset: 30,
-                        includePadding     : true
-                    });
-
                     // set default selection
                     this.setDefaultSelection();
 
@@ -232,6 +225,15 @@ define([
             },
 
             onBeforeShowMenu: function(e) {
+                if ( !this.scroller ) {
+                    this.scroller = new Common.UI.Scroller(_.extend({
+                        el: $('.dropdown-menu', this.cmpEl),
+                        minScrollbarLength: 40,
+                        scrollYMarginOffset: 30,
+                        includePadding: true
+                    }, this.options.scroller));
+                }
+
                 Common.NotificationCenter.trigger('menu:show');
                 this.trigger('show:before', this, e);
                 if (this.options.hint) {
@@ -525,12 +527,12 @@ define([
                     this.scroller.destroy();
                     delete this.scroller;
                 }
-                this.scroller = new Common.UI.Scroller({
+                this.scroller = new Common.UI.Scroller(_.extend({
                     el: $('.dropdown-menu', this.cmpEl),
                     minScrollbarLength : 40,
                     scrollYMarginOffset: 30,
                     includePadding     : true
-                });
+                }, this.options.scroller));
             }
         }
     })());

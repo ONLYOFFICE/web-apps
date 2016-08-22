@@ -69,7 +69,7 @@ define([
         },
 
         initialize: function () {
-            var me = this;
+            this._initSettings = true;
 
             this._state = {
                 TemplateId: 0,
@@ -99,218 +99,6 @@ define([
             this._wrapHandled = false;
 
             this.render();
-
-            this.chHeader = new Common.UI.CheckBox({
-                el: $('#table-checkbox-header'),
-                labelText: this.textHeader
-            });
-            this.lockedControls.push(this.chHeader);
-
-            this.chTotal = new Common.UI.CheckBox({
-                el: $('#table-checkbox-total'),
-                labelText: this.textTotal
-            });
-            this.lockedControls.push(this.chTotal);
-
-            this.chBanded = new Common.UI.CheckBox({
-                el: $('#table-checkbox-banded'),
-                labelText: this.textBanded
-            });
-            this.lockedControls.push(this.chBanded);
-
-            this.chFirst = new Common.UI.CheckBox({
-                el: $('#table-checkbox-first'),
-                labelText: this.textFirst
-            });
-            this.lockedControls.push(this.chFirst);
-
-            this.chLast = new Common.UI.CheckBox({
-                el: $('#table-checkbox-last'),
-                labelText: this.textLast
-            });
-            this.lockedControls.push(this.chLast);
-
-            this.chColBanded = new Common.UI.CheckBox({
-                el: $('#table-checkbox-col-banded'),
-                labelText: this.textBanded
-            });
-            this.lockedControls.push(this.chColBanded);
-
-            this.chHeader.on('change', _.bind(this.onCheckTemplateChange, this, 0));
-            this.chTotal.on('change', _.bind(this.onCheckTemplateChange, this, 1));
-            this.chBanded.on('change', _.bind(this.onCheckTemplateChange, this, 2));
-            this.chFirst.on('change', _.bind(this.onCheckTemplateChange, this, 3));
-            this.chLast.on('change', _.bind(this.onCheckTemplateChange, this, 4));
-            this.chColBanded.on('change', _.bind(this.onCheckTemplateChange, this, 5));
-
-            this.cmbTableTemplate = new Common.UI.ComboDataView({
-                itemWidth: 70,
-                itemHeight: 50,
-                menuMaxHeight: 300,
-                enableKeyEvents: true,
-                cls: 'combo-template'
-            });
-            this.cmbTableTemplate.render($('#table-combo-template'));
-            this.cmbTableTemplate.openButton.menu.cmpEl.css({
-                'min-width': 175,
-                'max-width': 175
-            });
-            this.cmbTableTemplate.on('click', _.bind(this.onTableTemplateSelect, this));
-            this.cmbTableTemplate.openButton.menu.on('show:after', function () {
-                me.cmbTableTemplate.menuPicker.scroller.update({alwaysVisibleY: true});
-            });
-            this.lockedControls.push(this.cmbTableTemplate);
-
-            this.btnWrapNone = new Common.UI.Button({
-                cls: 'btn-options huge',
-                iconCls: 'icon-right-panel btn-wrap-none',
-                posId: c_tableWrap.TABLE_WRAP_NONE,
-                hint: this.textWrapNoneTooltip,
-                enableToggle: true,
-                allowDepress: false,
-                toggleGroup : 'tablewrapGroup'
-            });
-            this.btnWrapNone.render( $('#table-button-wrap-none')) ;
-            this.btnWrapNone.on('click', _.bind(this.onBtnWrapClick, this));
-            this.lockedControls.push(this.btnWrapNone);
-
-            this.btnWrapParallel = new Common.UI.Button({
-                cls: 'btn-options huge',
-                iconCls: 'icon-right-panel btn-wrap-parallel',
-                posId: c_tableWrap.TABLE_WRAP_PARALLEL,
-                hint: this.textWrapParallelTooltip,
-                enableToggle: true,
-                allowDepress: false,
-                toggleGroup : 'tablewrapGroup'
-            });
-            this.btnWrapParallel.render( $('#table-button-wrap-parallel')) ;
-            this.btnWrapParallel.on('click', _.bind(this.onBtnWrapClick, this));
-            this.lockedControls.push(this.btnWrapParallel);
-
-            var _arrBorderPosition = [
-                ['l', 'btn-borders-small btn-position-left', 'table-button-border-left',            this.tipLeft],
-                ['c','btn-borders-small btn-position-inner-vert', 'table-button-border-inner-vert', this.tipInnerVert],
-                ['r','btn-borders-small btn-position-right', 'table-button-border-right',           this.tipRight],
-                ['t','btn-borders-small btn-position-top', 'table-button-border-top',               this.tipTop],
-                ['m','btn-borders-small btn-position-inner-hor', 'table-button-border-inner-hor',   this.tipInnerHor],
-                ['b', 'btn-borders-small btn-position-bottom', 'table-button-border-bottom',        this.tipBottom],
-                ['cm', 'btn-borders-small btn-position-inner', 'table-button-border-inner',         this.tipInner],
-                ['lrtb', 'btn-borders-small btn-position-outer', 'table-button-border-outer',       this.tipOuter],
-                ['lrtbcm', 'btn-borders-small btn-position-all', 'table-button-border-all',         this.tipAll],
-                ['', 'btn-borders-small btn-position-none', 'table-button-border-none',             this.tipNone]
-            ];
-
-            this._btnsBorderPosition = [];
-            _.each(_arrBorderPosition, function(item, index, list){
-                var _btn = new Common.UI.Button({
-                    cls: 'btn-toolbar',
-                    iconCls: item[1],
-                    strId   :item[0],
-                    hint: item[3]
-                });
-                _btn.render( $('#'+item[2])) ;
-                _btn.on('click', _.bind(this.onBtnBordersClick, this));
-                this._btnsBorderPosition.push( _btn );
-                this.lockedControls.push(_btn);
-            }, this);
-
-            this.cmbBorderSize = new Common.UI.ComboBorderSize({
-                el: $('#table-combo-border-size'),
-                style: "width: 93px;"
-            });
-            this.BorderSize = this.cmbBorderSize.store.at(1).get('value');
-            this.cmbBorderSize.setValue(this.BorderSize);
-            this.cmbBorderSize.on('selected', _.bind(this.onBorderSizeSelect, this));
-            this.lockedControls.push(this.cmbBorderSize);
-
-            this.btnBorderColor = new Common.UI.ColorButton({
-                style: "width:45px;",
-                menu        : new Common.UI.Menu({
-                    items: [
-                        { template: _.template('<div id="table-border-color-menu" style="width: 165px; height: 220px; margin: 10px;"></div>') },
-                        { template: _.template('<a id="table-border-color-new" style="padding-left:12px;">' + me.textNewColor + '</a>') }
-                    ]
-                })
-            });
-
-            this.btnBorderColor.on('render:after', function(btn) {
-                me.borderColor = new Common.UI.ThemeColorPalette({
-                    el: $('#table-border-color-menu')
-                });
-                me.borderColor.on('select', _.bind(me.onColorsBorderSelect, me));
-            });
-            this.btnBorderColor.render( $('#table-border-color-btn'));
-            this.btnBorderColor.setColor('000000');
-            $(this.el).on('click', '#table-border-color-new', _.bind(this.addNewColor, this, this.borderColor, this.btnBorderColor));
-            this.lockedControls.push(this.btnBorderColor);
-
-            this.btnBackColor = new Common.UI.ColorButton({
-                style: "width:45px;",
-                menu        : new Common.UI.Menu({
-                    items: [
-                        { template: _.template('<div id="table-back-color-menu" style="width: 165px; height: 220px; margin: 10px;"></div>') },
-                        { template: _.template('<a id="table-back-color-new" style="padding-left:12px;">' + me.textNewColor + '</a>') }
-                    ]
-                })
-            });
-
-            this.btnBackColor.on('render:after', function(btn) {
-                me.colorsBack = new Common.UI.ThemeColorPalette({
-                    el: $('#table-back-color-menu'),
-                    transparent: true
-                });
-                me.colorsBack.on('select', _.bind(me.onColorsBackSelect, me));
-            });
-            this.btnBackColor.render( $('#table-back-color-btn'));
-            $(this.el).on('click', '#table-back-color-new', _.bind(this.addNewColor, this, this.colorsBack, this.btnBackColor, this.btnBackColor));
-            this.lockedControls.push(this.btnBackColor);
-
-            this.btnEdit = new Common.UI.Button({
-                cls: 'btn-icon-default',
-                iconCls: 'btn-edit-table',
-                menu        : new Common.UI.Menu({
-                    menuAlign: 'tr-br',
-                    items: [
-                        { caption: this.selectRowText, value: 0 },
-                        { caption: this.selectColumnText,  value: 1 },
-                        { caption: this.selectCellText,  value: 2 },
-                        { caption: this.selectTableText,  value: 3 },
-                        { caption: '--' },
-                        { caption: this.insertRowAboveText, value: 4 },
-                        { caption: this.insertRowBelowText,  value: 5 },
-                        { caption: this.insertColumnLeftText,  value: 6 },
-                        { caption: this.insertColumnRightText,  value: 7 },
-                        { caption: '--' },
-                        { caption: this.deleteRowText, value: 8 },
-                        { caption: this.deleteColumnText,  value: 9 },
-                        { caption: this.deleteTableText,  value: 10 },
-                        { caption: '--' },
-                        { caption: this.mergeCellsText,  value: 11 },
-                        { caption: this.splitCellsText,  value: 12 }
-                    ]
-                })
-            });
-            this.btnEdit.render( $('#table-btn-edit')) ;
-            this.mnuMerge = this.btnEdit.menu.items[this.btnEdit.menu.items.length-2];
-            this.mnuSplit = this.btnEdit.menu.items[this.btnEdit.menu.items.length-1];
-
-            this.btnEdit.menu.on('show:after', _.bind( function(){
-                if (this.api) {
-                    this.mnuMerge.setDisabled(!this.api.CheckBeforeMergeCells());
-                    this.mnuSplit.setDisabled(!this.api.CheckBeforeSplitCells());
-                }
-            }, this));
-            this.btnEdit.menu.on('item:click', _.bind(this.onEditClick, this));
-            this.lockedControls.push(this.btnEdit);
-
-            this.chRepeatRow = new Common.UI.CheckBox({
-                el: $('#table-checkbox-repeat-row'),
-                labelText: this.strRepeatRow
-            });
-            this.chRepeatRow.on('change', _.bind(this.onCheckRepeatRowChange, this));
-            this.lockedControls.push(this.chRepeatRow);
-
-            $(this.el).on('click', '#table-advanced-link', _.bind(this.openAdvancedSettings, this));
         },
 
         onCheckTemplateChange: function(type, field, newValue, oldValue, eOpts) {
@@ -465,8 +253,6 @@ define([
             el.html(this.template({
                 scope: this
             }));
-
-            this.linkAdvanced = $('#table-advanced-link');
         },
 
         setApi: function(o) {
@@ -479,7 +265,171 @@ define([
             return this;
         },
 
+        createDelayedControls: function() {
+            this.chHeader = new Common.UI.CheckBox({
+                el: $('#table-checkbox-header'),
+                labelText: this.textHeader
+            });
+            this.lockedControls.push(this.chHeader);
+
+            this.chTotal = new Common.UI.CheckBox({
+                el: $('#table-checkbox-total'),
+                labelText: this.textTotal
+            });
+            this.lockedControls.push(this.chTotal);
+
+            this.chBanded = new Common.UI.CheckBox({
+                el: $('#table-checkbox-banded'),
+                labelText: this.textBanded
+            });
+            this.lockedControls.push(this.chBanded);
+
+            this.chFirst = new Common.UI.CheckBox({
+                el: $('#table-checkbox-first'),
+                labelText: this.textFirst
+            });
+            this.lockedControls.push(this.chFirst);
+
+            this.chLast = new Common.UI.CheckBox({
+                el: $('#table-checkbox-last'),
+                labelText: this.textLast
+            });
+            this.lockedControls.push(this.chLast);
+
+            this.chColBanded = new Common.UI.CheckBox({
+                el: $('#table-checkbox-col-banded'),
+                labelText: this.textBanded
+            });
+            this.lockedControls.push(this.chColBanded);
+
+            this.chHeader.on('change', _.bind(this.onCheckTemplateChange, this, 0));
+            this.chTotal.on('change', _.bind(this.onCheckTemplateChange, this, 1));
+            this.chBanded.on('change', _.bind(this.onCheckTemplateChange, this, 2));
+            this.chFirst.on('change', _.bind(this.onCheckTemplateChange, this, 3));
+            this.chLast.on('change', _.bind(this.onCheckTemplateChange, this, 4));
+            this.chColBanded.on('change', _.bind(this.onCheckTemplateChange, this, 5));
+
+            this.btnWrapNone = new Common.UI.Button({
+                cls: 'btn-options huge',
+                iconCls: 'icon-right-panel btn-wrap-none',
+                posId: c_tableWrap.TABLE_WRAP_NONE,
+                hint: this.textWrapNoneTooltip,
+                enableToggle: true,
+                allowDepress: false,
+                toggleGroup : 'tablewrapGroup'
+            });
+            this.btnWrapNone.render( $('#table-button-wrap-none')) ;
+            this.btnWrapNone.on('click', _.bind(this.onBtnWrapClick, this));
+            this.lockedControls.push(this.btnWrapNone);
+
+            this.btnWrapParallel = new Common.UI.Button({
+                cls: 'btn-options huge',
+                iconCls: 'icon-right-panel btn-wrap-parallel',
+                posId: c_tableWrap.TABLE_WRAP_PARALLEL,
+                hint: this.textWrapParallelTooltip,
+                enableToggle: true,
+                allowDepress: false,
+                toggleGroup : 'tablewrapGroup'
+            });
+            this.btnWrapParallel.render( $('#table-button-wrap-parallel')) ;
+            this.btnWrapParallel.on('click', _.bind(this.onBtnWrapClick, this));
+            this.lockedControls.push(this.btnWrapParallel);
+
+            var _arrBorderPosition = [
+                ['l', 'btn-borders-small btn-position-left', 'table-button-border-left',            this.tipLeft],
+                ['c','btn-borders-small btn-position-inner-vert', 'table-button-border-inner-vert', this.tipInnerVert],
+                ['r','btn-borders-small btn-position-right', 'table-button-border-right',           this.tipRight],
+                ['t','btn-borders-small btn-position-top', 'table-button-border-top',               this.tipTop],
+                ['m','btn-borders-small btn-position-inner-hor', 'table-button-border-inner-hor',   this.tipInnerHor],
+                ['b', 'btn-borders-small btn-position-bottom', 'table-button-border-bottom',        this.tipBottom],
+                ['cm', 'btn-borders-small btn-position-inner', 'table-button-border-inner',         this.tipInner],
+                ['lrtb', 'btn-borders-small btn-position-outer', 'table-button-border-outer',       this.tipOuter],
+                ['lrtbcm', 'btn-borders-small btn-position-all', 'table-button-border-all',         this.tipAll],
+                ['', 'btn-borders-small btn-position-none', 'table-button-border-none',             this.tipNone]
+            ];
+
+            this._btnsBorderPosition = [];
+            _.each(_arrBorderPosition, function(item, index, list){
+                var _btn = new Common.UI.Button({
+                    cls: 'btn-toolbar',
+                    iconCls: item[1],
+                    strId   :item[0],
+                    hint: item[3]
+                });
+                _btn.render( $('#'+item[2])) ;
+                _btn.on('click', _.bind(this.onBtnBordersClick, this));
+                this._btnsBorderPosition.push( _btn );
+                this.lockedControls.push(_btn);
+            }, this);
+
+            this.cmbBorderSize = new Common.UI.ComboBorderSize({
+                el: $('#table-combo-border-size'),
+                style: "width: 93px;"
+            });
+            this.BorderSize = this.cmbBorderSize.store.at(1).get('value');
+            this.cmbBorderSize.setValue(this.BorderSize);
+            this.cmbBorderSize.on('selected', _.bind(this.onBorderSizeSelect, this));
+            this.lockedControls.push(this.cmbBorderSize);
+
+            this.btnEdit = new Common.UI.Button({
+                cls: 'btn-icon-default',
+                iconCls: 'btn-edit-table',
+                menu        : new Common.UI.Menu({
+                    menuAlign: 'tr-br',
+                    items: [
+                        { caption: this.selectRowText, value: 0 },
+                        { caption: this.selectColumnText,  value: 1 },
+                        { caption: this.selectCellText,  value: 2 },
+                        { caption: this.selectTableText,  value: 3 },
+                        { caption: '--' },
+                        { caption: this.insertRowAboveText, value: 4 },
+                        { caption: this.insertRowBelowText,  value: 5 },
+                        { caption: this.insertColumnLeftText,  value: 6 },
+                        { caption: this.insertColumnRightText,  value: 7 },
+                        { caption: '--' },
+                        { caption: this.deleteRowText, value: 8 },
+                        { caption: this.deleteColumnText,  value: 9 },
+                        { caption: this.deleteTableText,  value: 10 },
+                        { caption: '--' },
+                        { caption: this.mergeCellsText,  value: 11 },
+                        { caption: this.splitCellsText,  value: 12 }
+                    ]
+                })
+            });
+            this.btnEdit.render( $('#table-btn-edit')) ;
+            this.mnuMerge = this.btnEdit.menu.items[this.btnEdit.menu.items.length-2];
+            this.mnuSplit = this.btnEdit.menu.items[this.btnEdit.menu.items.length-1];
+
+            this.btnEdit.menu.on('show:after', _.bind( function(){
+                if (this.api) {
+                    this.mnuMerge.setDisabled(!this.api.CheckBeforeMergeCells());
+                    this.mnuSplit.setDisabled(!this.api.CheckBeforeSplitCells());
+                }
+            }, this));
+            this.btnEdit.menu.on('item:click', _.bind(this.onEditClick, this));
+            this.lockedControls.push(this.btnEdit);
+
+            this.chRepeatRow = new Common.UI.CheckBox({
+                el: $('#table-checkbox-repeat-row'),
+                labelText: this.strRepeatRow
+            });
+            this.chRepeatRow.on('change', _.bind(this.onCheckRepeatRowChange, this));
+            this.lockedControls.push(this.chRepeatRow);
+
+            this.linkAdvanced = $('#table-advanced-link');
+            $(this.el).on('click', '#table-advanced-link', _.bind(this.openAdvancedSettings, this));
+        },
+
+        createDelayedElements: function() {
+            this.createDelayedControls();
+            this.UpdateThemeColors();
+        },
+
         ChangeSettings: function(props) {
+            if (this._initSettings)
+                this.createDelayedElements();
+            this._initSettings = false;
+
             this.disableControls(this._locked);
 
             if (props )
@@ -671,6 +621,7 @@ define([
         },
 
         _TblWrapStyleChanged: function(style) {
+            if (!this.btnWrapNone || !this.btnWrapParallel) return;
             if ( this._state.WrapStyle!==style ) {
                 this._noApply = true;
                 this.btnWrapNone.toggle((style==c_tableWrap.TABLE_WRAP_NONE), true);
@@ -685,18 +636,73 @@ define([
         },
 
         UpdateThemeColors: function() {
-            if (this.colorsBack)
-                this.colorsBack.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
-            if (this.borderColor) {
-                this.borderColor.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
-                this.btnBorderColor.setColor(this.borderColor.getColor());
-            }
+             if (!this.btnBackColor) {
+                // create color buttons
+                 this.btnBorderColor = new Common.UI.ColorButton({
+                     style: "width:45px;",
+                     menu        : new Common.UI.Menu({
+                         items: [
+                             { template: _.template('<div id="table-border-color-menu" style="width: 165px; height: 220px; margin: 10px;"></div>') },
+                             { template: _.template('<a id="table-border-color-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
+                         ]
+                     })
+                 });
+                 this.btnBorderColor.render( $('#table-border-color-btn'));
+                 this.btnBorderColor.setColor('000000');
+                 this.lockedControls.push(this.btnBorderColor);
+                 this.borderColor = new Common.UI.ThemeColorPalette({
+                     el: $('#table-border-color-menu')
+                 });
+                 this.borderColor.on('select', _.bind(this.onColorsBorderSelect, this));
+                 $(this.el).on('click', '#table-border-color-new', _.bind(this.addNewColor, this, this.borderColor, this.btnBorderColor));
+
+                 this.btnBackColor = new Common.UI.ColorButton({
+                     style: "width:45px;",
+                     menu        : new Common.UI.Menu({
+                         items: [
+                             { template: _.template('<div id="table-back-color-menu" style="width: 165px; height: 220px; margin: 10px;"></div>') },
+                             { template: _.template('<a id="table-back-color-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
+                         ]
+                     })
+                 });
+                 this.btnBackColor.render( $('#table-back-color-btn'));
+                 this.lockedControls.push(this.btnBackColor);
+                 this.colorsBack = new Common.UI.ThemeColorPalette({
+                     el: $('#table-back-color-menu'),
+                     transparent: true
+                 });
+                 this.colorsBack.on('select', _.bind(this.onColorsBackSelect, this));
+                 $(this.el).on('click', '#table-back-color-new', _.bind(this.addNewColor, this, this.colorsBack, this.btnBackColor, this.btnBackColor));
+             }
+             this.colorsBack.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
+             this.borderColor.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
+             this.btnBorderColor.setColor(this.borderColor.getColor());
         },
 
         _onInitTemplates: function(Templates){
             var self = this;
             this._isTemplatesChanged = true;
 
+            if (!this.cmbTableTemplate) {
+                this.cmbTableTemplate = new Common.UI.ComboDataView({
+                    itemWidth: 70,
+                    itemHeight: 50,
+                    menuMaxHeight: 300,
+                    enableKeyEvents: true,
+                    cls: 'combo-template'
+                });
+                this.cmbTableTemplate.render($('#table-combo-template'));
+                this.cmbTableTemplate.openButton.menu.cmpEl.css({
+                    'min-width': 175,
+                    'max-width': 175
+                });
+                this.cmbTableTemplate.on('click', _.bind(this.onTableTemplateSelect, this));
+                this.cmbTableTemplate.openButton.menu.on('show:after', function () {
+                    self.cmbTableTemplate.menuPicker.scroller.update({alwaysVisibleY: true});
+                });
+                this.lockedControls.push(this.cmbTableTemplate);
+            }
+            
             var count = self.cmbTableTemplate.menuPicker.store.length;
             if (count>0 && count==Templates.length) {
                 var data = self.cmbTableTemplate.menuPicker.store.models;
@@ -759,6 +765,8 @@ define([
         },
 
         disableControls: function(disable) {
+            if (this._initSettings) return;
+            
             if (this._state.DisabledControls!==disable) {
                 this._state.DisabledControls = disable;
                 _.each(this.lockedControls, function(item) {

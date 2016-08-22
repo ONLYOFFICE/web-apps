@@ -64,7 +64,6 @@ define([
         },
 
         initialize: function () {
-            var me = this;
             this._initSettings = true;
 
             this._state = {
@@ -80,67 +79,6 @@ define([
             this._locked = false;
 
             this.render();
-
-            var _arrPosition = [
-                [c_pageNumPosition.PAGE_NUM_POSITION_TOP,     c_pageNumPosition.PAGE_NUM_POSITION_LEFT,      'icon-right-panel btn-colontitul-tl', 'headerfooter-button-top-left', this.textTopLeft],
-                [c_pageNumPosition.PAGE_NUM_POSITION_TOP,     c_pageNumPosition.PAGE_NUM_POSITION_CENTER,    'icon-right-panel btn-colontitul-tc', 'headerfooter-button-top-center', this.textTopCenter],
-                [c_pageNumPosition.PAGE_NUM_POSITION_TOP,     c_pageNumPosition.PAGE_NUM_POSITION_RIGHT,     'icon-right-panel btn-colontitul-tr', 'headerfooter-button-top-right', this.textTopRight],
-                [c_pageNumPosition.PAGE_NUM_POSITION_BOTTOM,  c_pageNumPosition.PAGE_NUM_POSITION_LEFT,      'icon-right-panel btn-colontitul-bl', 'headerfooter-button-bottom-left', this.textBottomLeft],
-                [c_pageNumPosition.PAGE_NUM_POSITION_BOTTOM,  c_pageNumPosition.PAGE_NUM_POSITION_CENTER,    'icon-right-panel btn-colontitul-bc', 'headerfooter-button-bottom-center', this.textBottomCenter],
-                [c_pageNumPosition.PAGE_NUM_POSITION_BOTTOM,  c_pageNumPosition.PAGE_NUM_POSITION_RIGHT,     'icon-right-panel btn-colontitul-br', 'headerfooter-button-bottom-right', this.textBottomRight]
-            ];
-
-            this._btnsPosition = [];
-            _.each(_arrPosition, function(item, index, list){
-                var _btn = new Common.UI.Button({
-                    cls: 'btn-options huge',
-                    iconCls: item[2],
-                    posWhere:item[0],
-                    posAlign:item[1],
-                    hint: item[4]
-                });
-                _btn.render( $('#'+item[3])) ;
-                _btn.on('click', _.bind(this.onBtnPositionClick, this));
-                this._btnsPosition.push( _btn );
-                this.lockedControls.push(_btn);
-            }, this);
-
-            this.numPosition = new Common.UI.MetricSpinner({
-                el: $('#headerfooter-spin-position'),
-                step: .1,
-                width: 85,
-                value: '1.25 cm',
-                defaultUnit : "cm",
-                maxValue: 55.88,
-                minValue: 0
-            });
-            this.spinners.push(this.numPosition);
-            this.lockedControls.push(this.numPosition);
-
-            this.lblPosition = $(this.el).find('#headerfooter-label-position');
-
-            this.chDiffFirst = new Common.UI.CheckBox({
-                el: $('#headerfooter-check-diff-first'),
-                labelText: this.textDiffFirst
-            });
-            this.lockedControls.push(this.chDiffFirst);
-
-            this.chDiffOdd = new Common.UI.CheckBox({
-                el: $('#headerfooter-check-diff-odd'),
-                labelText: this.textDiffOdd
-            });
-            this.lockedControls.push(this.chDiffOdd);
-
-            this.chSameAs = new Common.UI.CheckBox({
-                el: $('#headerfooter-check-same-as'),
-                labelText: this.textSameAs
-            });
-            this.lockedControls.push(this.chSameAs);
-
-            this.numPosition.on('change', _.bind(this.onNumPositionChange, this));
-            this.chDiffFirst.on('change', _.bind(this.onDiffFirstChange, this));
-            this.chDiffOdd.on('change', _.bind(this.onDiffOddChange, this));
-            this.chSameAs.on('change', _.bind(this.onSameAsChange, this));
         },
 
         render: function () {
@@ -240,7 +178,71 @@ define([
             }
         },
 
+        createDelayedControls: function() {
+            var _arrPosition = [
+                [c_pageNumPosition.PAGE_NUM_POSITION_TOP,     c_pageNumPosition.PAGE_NUM_POSITION_LEFT,      'icon-right-panel btn-colontitul-tl', 'headerfooter-button-top-left', this.textTopLeft],
+                [c_pageNumPosition.PAGE_NUM_POSITION_TOP,     c_pageNumPosition.PAGE_NUM_POSITION_CENTER,    'icon-right-panel btn-colontitul-tc', 'headerfooter-button-top-center', this.textTopCenter],
+                [c_pageNumPosition.PAGE_NUM_POSITION_TOP,     c_pageNumPosition.PAGE_NUM_POSITION_RIGHT,     'icon-right-panel btn-colontitul-tr', 'headerfooter-button-top-right', this.textTopRight],
+                [c_pageNumPosition.PAGE_NUM_POSITION_BOTTOM,  c_pageNumPosition.PAGE_NUM_POSITION_LEFT,      'icon-right-panel btn-colontitul-bl', 'headerfooter-button-bottom-left', this.textBottomLeft],
+                [c_pageNumPosition.PAGE_NUM_POSITION_BOTTOM,  c_pageNumPosition.PAGE_NUM_POSITION_CENTER,    'icon-right-panel btn-colontitul-bc', 'headerfooter-button-bottom-center', this.textBottomCenter],
+                [c_pageNumPosition.PAGE_NUM_POSITION_BOTTOM,  c_pageNumPosition.PAGE_NUM_POSITION_RIGHT,     'icon-right-panel btn-colontitul-br', 'headerfooter-button-bottom-right', this.textBottomRight]
+            ];
+
+            this._btnsPosition = [];
+            _.each(_arrPosition, function(item, index, list){
+                var _btn = new Common.UI.Button({
+                    cls: 'btn-options huge',
+                    iconCls: item[2],
+                    posWhere:item[0],
+                    posAlign:item[1],
+                    hint: item[4]
+                });
+                _btn.render( $('#'+item[3])) ;
+                _btn.on('click', _.bind(this.onBtnPositionClick, this));
+                this._btnsPosition.push( _btn );
+                this.lockedControls.push(_btn);
+            }, this);
+
+            this.numPosition = new Common.UI.MetricSpinner({
+                el: $('#headerfooter-spin-position'),
+                step: .1,
+                width: 85,
+                value: '1.25 cm',
+                defaultUnit : "cm",
+                maxValue: 55.88,
+                minValue: 0
+            });
+            this.spinners.push(this.numPosition);
+            this.lockedControls.push(this.numPosition);
+
+            this.lblPosition = $(this.el).find('#headerfooter-label-position');
+
+            this.chDiffFirst = new Common.UI.CheckBox({
+                el: $('#headerfooter-check-diff-first'),
+                labelText: this.textDiffFirst
+            });
+            this.lockedControls.push(this.chDiffFirst);
+
+            this.chDiffOdd = new Common.UI.CheckBox({
+                el: $('#headerfooter-check-diff-odd'),
+                labelText: this.textDiffOdd
+            });
+            this.lockedControls.push(this.chDiffOdd);
+
+            this.chSameAs = new Common.UI.CheckBox({
+                el: $('#headerfooter-check-same-as'),
+                labelText: this.textSameAs
+            });
+            this.lockedControls.push(this.chSameAs);
+
+            this.numPosition.on('change', _.bind(this.onNumPositionChange, this));
+            this.chDiffFirst.on('change', _.bind(this.onDiffFirstChange, this));
+            this.chDiffOdd.on('change', _.bind(this.onDiffOddChange, this));
+            this.chSameAs.on('change', _.bind(this.onSameAsChange, this));
+        },
+        
         createDelayedElements: function() {
+            this.createDelayedControls();
             this.updateMetricUnit();
         },
 
@@ -249,6 +251,8 @@ define([
         },
 
         disableControls: function(disable) {
+            if (this._initSettings) return;
+            
             if (this._state.DisabledControls!==disable) {
                 this._state.DisabledControls = disable;
                 _.each(this.lockedControls, function(item) {

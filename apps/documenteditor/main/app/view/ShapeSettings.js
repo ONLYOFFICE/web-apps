@@ -71,7 +71,7 @@ define([
         },
 
         initialize: function () {
-            var me = this;
+
             this._initSettings = true;
             this._originalProps = null;
             this._noApply = true;
@@ -127,382 +127,6 @@ define([
 
             this.render();
 
-            this._arrFillSrc = [
-                {displayValue: this.textColor,          value: Asc.c_oAscFill.FILL_TYPE_SOLID},
-                {displayValue: this.textGradientFill,   value: Asc.c_oAscFill.FILL_TYPE_GRAD},
-                {displayValue: this.textImageTexture,   value: Asc.c_oAscFill.FILL_TYPE_BLIP},
-                {displayValue: this.textPatternFill,    value: Asc.c_oAscFill.FILL_TYPE_PATT},
-                {displayValue: this.textNoFill,         value: Asc.c_oAscFill.FILL_TYPE_NOFILL}
-            ];
-
-            this.cmbFillSrc = new Common.UI.ComboBox({
-                el: $('#shape-combo-fill-src'),
-                cls: 'input-group-nr',
-                style: 'width: 100%;',
-                menuStyle: 'min-width: 190px;',
-                editable: false,
-                data: this._arrFillSrc
-            });
-            this.cmbFillSrc.setValue(this._arrFillSrc[0].value);
-            this.cmbFillSrc.on('selected', _.bind(this.onFillSrcSelect, this));
-            this.fillControls.push(this.cmbFillSrc);
-
-            this.btnBackColor = new Common.UI.ColorButton({
-                style: "width:45px;",
-                menu        : new Common.UI.Menu({
-                    items: [
-                        { template: _.template('<div id="shape-back-color-menu" style="width: 165px; height: 220px; margin: 10px;"></div>') },
-                        { template: _.template('<a id="shape-back-color-new" style="padding-left:12px;">' + me.textNewColor + '</a>') }
-                    ]
-                })
-            });
-
-            this.btnBackColor.on('render:after', function(btn) {
-                me.colorsBack = new Common.UI.ThemeColorPalette({
-                    el: $('#shape-back-color-menu'),
-                    value: 'transparent',
-                    transparent: true
-                });
-                me.colorsBack.on('select', _.bind(me.onColorsBackSelect, me));
-            });
-            this.btnBackColor.render( $('#shape-back-color-btn'));
-            this.btnBackColor.setColor('transparent');
-            $(this.el).on('click', '#shape-back-color-new', _.bind(this.addNewColor, this, this.colorsBack, this.btnBackColor));
-            this.fillControls.push(this.btnBackColor);
-
-            this.cmbPattern = new Common.UI.ComboDataView({
-                itemWidth: 28,
-                itemHeight: 28,
-                menuMaxHeight: 300,
-                enableKeyEvents: true,
-                cls: 'combo-pattern'
-            });
-            this.cmbPattern.menuPicker.itemTemplate = this.cmbPattern.fieldPicker.itemTemplate = _.template([
-                    '<div class="style" id="<%= id %>">',
-                        '<img src="data:image/gif;base64,R0lGODlhAQABAID/AMDAwAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="combo-pattern-item" ',
-                        'width="' + this.cmbPattern.itemWidth + '" height="' + this.cmbPattern.itemHeight + '" ',
-                        'style="background-position: -<%= offsetx %>px -<%= offsety %>px;"/>',
-                    '</div>'
-                ].join(''));
-            this.cmbPattern.render($('#shape-combo-pattern'));
-            this.cmbPattern.openButton.menu.cmpEl.css({
-                'min-width': 178,
-                'max-width': 178
-            });
-            this.cmbPattern.on('click', _.bind(this.onPatternSelect, this));
-            this.cmbPattern.openButton.menu.on('show:after', function () {
-                me.cmbPattern.menuPicker.scroller.update({alwaysVisibleY: true});
-            });
-
-            this.fillControls.push(this.cmbPattern);
-
-            this.btnFGColor = new Common.UI.ColorButton({
-                style: "width:45px;",
-                menu        : new Common.UI.Menu({
-                    items: [
-                        { template: _.template('<div id="shape-foreground-color-menu" style="width: 165px; height: 220px; margin: 10px;"></div>') },
-                        { template: _.template('<a id="shape-foreground-color-new" style="padding-left:12px;">' + me.textNewColor + '</a>') }
-                    ]
-                })
-            });
-
-            this.btnFGColor.on('render:after', function(btn) {
-                me.colorsFG = new Common.UI.ThemeColorPalette({
-                    el: $('#shape-foreground-color-menu'),
-                    value: '000000'
-                });
-                me.colorsFG.on('select', _.bind(me.onColorsFGSelect, me));
-            });
-            this.btnFGColor.render( $('#shape-foreground-color-btn'));
-            this.btnFGColor.setColor('000000');
-            $(this.el).on('click', '#shape-foreground-color-new', _.bind(this.addNewColor, this, this.colorsFG, this.btnFGColor));
-            this.fillControls.push(this.btnFGColor);
-
-            this.btnBGColor = new Common.UI.ColorButton({
-                style: "width:45px;",
-                menu        : new Common.UI.Menu({
-                    items: [
-                        { template: _.template('<div id="shape-background-color-menu" style="width: 165px; height: 220px; margin: 10px;"></div>') },
-                        { template: _.template('<a id="shape-background-color-new" style="padding-left:12px;">' + me.textNewColor + '</a>') }
-                    ]
-                })
-            });
-
-            this.btnBGColor.on('render:after', function(btn) {
-                me.colorsBG = new Common.UI.ThemeColorPalette({
-                    el: $('#shape-background-color-menu'),
-                    value: 'ffffff'
-                });
-                me.colorsBG.on('select', _.bind(me.onColorsBGSelect, me));
-            });
-            this.btnBGColor.render( $('#shape-background-color-btn'));
-            this.btnBGColor.setColor('ffffff');
-            $(this.el).on('click', '#shape-background-color-new', _.bind(this.addNewColor, this, this.colorsBG, this.btnBGColor));
-            this.fillControls.push(this.btnBGColor);
-
-            this.btnInsertFromFile = new Common.UI.Button({
-                el: $('#shape-button-from-file')
-            });
-            this.fillControls.push(this.btnInsertFromFile);
-
-            this.btnInsertFromUrl = new Common.UI.Button({
-                el: $('#shape-button-from-url')
-            });
-            this.fillControls.push(this.btnInsertFromUrl);
-
-            this.btnInsertFromFile.on('click', _.bind(function(btn){
-                if (this.api) this.api.ChangeShapeImageFromFile();
-                this.fireEvent('editcomplete', this);
-            }, this));
-            this.btnInsertFromUrl.on('click', _.bind(this.insertFromUrl, this));
-
-            this._arrFillType = [
-                {displayValue: this.textStretch, value: Asc.c_oAscFillBlipType.STRETCH},
-                {displayValue: this.textTile,    value: Asc.c_oAscFillBlipType.TILE}
-            ];
-
-            this.cmbFillType = new Common.UI.ComboBox({
-                el: $('#shape-combo-fill-type'),
-                cls: 'input-group-nr',
-                menuStyle: 'min-width: 90px;',
-                editable: false,
-                data: this._arrFillType
-            });
-            this.cmbFillType.setValue(this._arrFillType[0].value);
-            this.cmbFillType.on('selected', _.bind(this.onFillTypeSelect, this));
-            this.fillControls.push(this.cmbFillType);
-
-            this.btnTexture = new Common.UI.ComboBox({
-                el: $('#shape-combo-fill-texture'),
-                template: _.template([
-                    '<div class="input-group combobox combo-dataview-menu input-group-nr dropdown-toggle" tabindex="0" data-toggle="dropdown">',
-                        '<div class="form-control text" style="width: 90px;">' + this.textSelectTexture + '</div>',
-                        '<div style="display: table-cell;"></div>',
-                        '<button type="button" class="btn btn-default"><span class="caret img-commonctrl"></span></button>',
-                    '</div>'
-                ].join(''))
-            });
-            this.textureMenu = new Common.UI.Menu({
-                items: [
-                    { template: _.template('<div id="id-shape-menu-texture" style="width: 233px; margin: 0 5px;"></div>') }
-                ]
-            });
-            this.textureMenu.render($('#shape-combo-fill-texture'));
-            this.fillControls.push(this.btnTexture);
-
-            this.numTransparency = new Common.UI.MetricSpinner({
-                el: $('#shape-spin-transparency'),
-                step: 1,
-                width: 62,
-                value: '100 %',
-                defaultUnit : "%",
-                maxValue: 100,
-                minValue: 0
-            });
-            this.numTransparency.on('change', _.bind(this.onNumTransparencyChange, this));
-            this.fillControls.push(this.numTransparency);
-
-            this.sldrTransparency = new Common.UI.SingleSlider({
-                el: $('#shape-slider-transparency'),
-                width: 75,
-                minValue: 0,
-                maxValue: 100,
-                value: 100
-            });
-            this.sldrTransparency.on('change', _.bind(this.onTransparencyChange, this));
-            this.sldrTransparency.on('changecomplete', _.bind(this.onTransparencyChangeComplete, this));
-            this.fillControls.push(this.sldrTransparency);
-
-            this.lblTransparencyStart = $(this.el).find('#shape-lbl-transparency-start');
-            this.lblTransparencyEnd = $(this.el).find('#shape-lbl-transparency-end');
-
-            this._arrGradType = [
-                {displayValue: this.textLinear, value: Asc.c_oAscFillGradType.GRAD_LINEAR},
-                {displayValue: this.textRadial, value: Asc.c_oAscFillGradType.GRAD_PATH}
-            ];
-
-            this.cmbGradType = new Common.UI.ComboBox({
-                el: $('#shape-combo-grad-type'),
-                cls: 'input-group-nr',
-                menuStyle: 'min-width: 90px;',
-                editable: false,
-                data: this._arrGradType
-            });
-            this.cmbGradType.setValue(this._arrGradType[0].value);
-            this.cmbGradType.on('selected', _.bind(this.onGradTypeSelect, this));
-            this.fillControls.push(this.cmbGradType);
-
-            this._viewDataLinear = [
-                { offsetx: 0,   offsety: 0,   type:45,  subtype:-1, iconcls:'gradient-left-top' },
-                { offsetx: 50,  offsety: 0,   type:90,  subtype:4,  iconcls:'gradient-top'},
-                { offsetx: 100, offsety: 0,   type:135, subtype:5,  iconcls:'gradient-right-top'},
-                { offsetx: 0,   offsety: 50,  type:0,   subtype:6,  iconcls:'gradient-left', cls: 'item-gradient-separator', selected: true},
-                { offsetx: 100, offsety: 50,  type:180, subtype:1,  iconcls:'gradient-right'},
-                { offsetx: 0,   offsety: 100, type:315, subtype:2,  iconcls:'gradient-left-bottom'},
-                { offsetx: 50,  offsety: 100, type:270, subtype:3,  iconcls:'gradient-bottom'},
-                { offsetx: 100, offsety: 100, type:225, subtype:7,  iconcls:'gradient-right-bottom'}
-            ];
-
-            this._viewDataRadial = [
-                { offsetx: 100, offsety: 150, type:2, subtype:5, iconcls:'gradient-radial-center'}
-            ];
-
-            this.btnDirection = new Common.UI.Button({
-                cls         : 'btn-large-dataview',
-                iconCls     : 'item-gradient gradient-left',
-                menu        : new Common.UI.Menu({
-                    style: 'min-width: 60px;',
-                    menuAlign: 'tr-br',
-                    items: [
-                        { template: _.template('<div id="id-shape-menu-direction" style="width: 175px; margin: 0 5px;"></div>') }
-                    ]
-                })
-            });
-            this.btnDirection.on('render:after', function(btn) {
-                me.mnuDirectionPicker = new Common.UI.DataView({
-                    el: $('#id-shape-menu-direction'),
-                    parentMenu: btn.menu,
-                    restoreHeight: 174,
-                    allowScrollbar: false,
-                    store: new Common.UI.DataViewStore(me._viewDataLinear),
-                    itemTemplate: _.template('<div id="<%= id %>" class="item-gradient" style="background-position: -<%= offsetx %>px -<%= offsety %>px;"></div>')
-                });
-            });
-            this.btnDirection.render($('#shape-button-direction'));
-            this.mnuDirectionPicker.on('item:click', _.bind(this.onSelectGradient, this, this.btnDirection));
-            this.fillControls.push(this.btnDirection);
-
-            this.btnGradColor = new Common.UI.ColorButton({
-                style: "width:45px;",
-                menu        : new Common.UI.Menu({
-                    items: [
-                        { template: _.template('<div id="shape-gradient-color-menu" style="width: 165px; height: 220px; margin: 10px;"></div>') },
-                        { template: _.template('<a id="shape-gradient-color-new" style="padding-left:12px;">' + me.textNewColor + '</a>') }
-                    ]
-                })
-            });
-            this.btnGradColor.on('render:after', function(btn) {
-                me.colorsGrad = new Common.UI.ThemeColorPalette({
-                    el: $('#shape-gradient-color-menu'),
-                    value: '000000'
-                });
-                me.colorsGrad.on('select', _.bind(me.onColorsGradientSelect, me));
-            });
-            this.btnGradColor.render( $('#shape-gradient-color-btn'));
-            this.btnGradColor.setColor('000000');
-            $(this.el).on('click', '#shape-gradient-color-new', _.bind(this.addNewColor, this, this.colorsGrad, this.btnGradColor));
-            this.fillControls.push(this.btnGradColor);
-
-            this.sldrGradient = new Common.UI.MultiSliderGradient({
-                el: $('#shape-slider-gradient'),
-                width: 125,
-                minValue: 0,
-                maxValue: 100,
-                values: [0, 100]
-            });
-            this.sldrGradient.on('change', _.bind(this.onGradientChange, this));
-            this.sldrGradient.on('changecomplete', _.bind(this.onGradientChangeComplete, this));
-            this.sldrGradient.on('thumbclick', function(cmp, index){
-                me.GradColor.currentIdx = index;
-                var color = me.GradColor.colors[me.GradColor.currentIdx];
-                me.btnGradColor.setColor(color);
-                me.colorsGrad.select(color,false);
-            });
-            this.sldrGradient.on('thumbdblclick', function(cmp){
-                me.btnGradColor.cmpEl.find('button').dropdown('toggle');
-            });
-            this.fillControls.push(this.sldrGradient);
-
-            this.cmbBorderSize = new Common.UI.ComboBorderSizeEditable({
-                el: $('#shape-combo-border-size'),
-                style: "width: 93px;",
-                txtNoBorders: this.txtNoBorders
-            })
-            .on('selected', _.bind(this.onBorderSizeSelect, this))
-            .on('changed:before',_.bind(this.onBorderSizeChanged, this, true))
-            .on('changed:after', _.bind(this.onBorderSizeChanged, this, false))
-            .on('combo:blur',    _.bind(this.onComboBlur, this, false));
-            this.BorderSize = this.cmbBorderSize.store.at(2).get('value');
-            this.cmbBorderSize.setValue(this.BorderSize);
-            this.lockedControls.push(this.cmbBorderSize);
-
-            this.btnBorderColor = new Common.UI.ColorButton({
-                style: "width:45px;",
-                menu        : new Common.UI.Menu({
-                    items: [
-                        { template: _.template('<div id="shape-border-color-menu" style="width: 165px; height: 220px; margin: 10px;"></div>') },
-                        { template: _.template('<a id="shape-border-color-new" style="padding-left:12px;">' + me.textNewColor + '</a>') }
-                    ]
-                })
-            });
-            this.lockedControls.push(this.btnBorderColor);
-
-            this.btnBorderColor.on('render:after', function(btn) {
-                me.colorsBorder = new Common.UI.ThemeColorPalette({
-                    el: $('#shape-border-color-menu'),
-                    value: '000000'
-                });
-                me.colorsBorder.on('select', _.bind(me.onColorsBorderSelect, me));
-            });
-            this.btnBorderColor.render( $('#shape-border-color-btn'));
-            this.btnBorderColor.setColor('000000');
-            $(this.el).on('click', '#shape-border-color-new', _.bind(this.addNewColor, this, this.colorsBorder, this.btnBorderColor));
-
-            this.cmbBorderType = new Common.UI.ComboBorderType({
-                el: $('#shape-combo-border-type'),
-                style: "width: 93px;",
-                menuStyle: 'min-width: 93px;'
-            }).on('selected', _.bind(this.onBorderTypeSelect, this))
-            .on('combo:blur',    _.bind(this.onComboBlur, this, false));
-            this.BorderType = Asc.c_oDashType.solid;
-            this.cmbBorderType.setValue(this.BorderType);
-            this.lockedControls.push(this.cmbBorderType);
-
-            var viewData = [
-                { offsetx: 0, data: Asc.c_oAscWrapStyle2.Inline, iconcls:'wrap-inline', tip: this.txtInline, selected: true },
-                { offsetx: 50, data: Asc.c_oAscWrapStyle2.Square, iconcls:'wrap-square', tip: this.txtSquare },
-                { offsetx: 100, data: Asc.c_oAscWrapStyle2.Tight, iconcls:'wrap-tight', tip: this.txtTight },
-                { offsetx: 150, data: Asc.c_oAscWrapStyle2.Through, iconcls:'wrap-through', tip: this.txtThrough },
-                { offsetx: 200, data: Asc.c_oAscWrapStyle2.TopAndBottom, iconcls:'wrap-topAndBottom', tip: this.txtTopAndBottom },
-                { offsetx: 250, data: Asc.c_oAscWrapStyle2.InFront, iconcls:'wrap-inFront', tip: this.txtInFront },
-                { offsetx: 300, data: Asc.c_oAscWrapStyle2.Behind, iconcls:'wrap-behind', tip: this.txtBehind }
-            ];
-
-            this.btnWrapType = new Common.UI.Button({
-                cls         : 'btn-large-dataview',
-                iconCls     : 'item-wrap wrap-inline',
-                menu        : new Common.UI.Menu({
-                    items: [
-                        { template: _.template('<div id="id-shape-menu-wrap" style="width: 235px; margin: 0 5px;"></div>') }
-                    ]
-                })
-            });
-            this.btnWrapType.on('render:after', function(btn) {
-                me.mnuWrapPicker = new Common.UI.DataView({
-                    el: $('#id-shape-menu-wrap'),
-                    parentMenu: btn.menu,
-                    store: new Common.UI.DataViewStore(viewData),
-                    itemTemplate: _.template('<div id="<%= id %>" class="item-wrap" style="background-position: -<%= offsetx %>px 0;"></div>')
-                });
-            });
-            this.btnWrapType.render($('#shape-button-wrap'));
-            this.mnuWrapPicker.on('item:click', _.bind(this.onSelectWrap, this, this.btnWrapType));
-            this.lockedControls.push(this.btnWrapType);
-
-            this.btnChangeShape = new Common.UI.Button({
-                cls: 'btn-icon-default',
-                iconCls: 'btn-change-shape',
-                menu        : new Common.UI.Menu({
-                    menuAlign: 'tr-br',
-                    cls: 'menu-shapes',
-                    items: []
-                })
-            });
-            this.btnChangeShape.render( $('#shape-btn-change')) ;
-            this.lockedControls.push(this.btnChangeShape);
-
-            $(this.el).on('click', '#shape-advanced-link', _.bind(this.openAdvancedSettings, this));
-
             this.FillColorContainer = $('#shape-panel-color-fill');
             this.FillImageContainer = $('#shape-panel-image-fill');
             this.FillPatternContainer = $('#shape-panel-pattern-fill');
@@ -517,8 +141,6 @@ define([
             el.html(this.template({
                 scope: this
             }));
-
-            this.linkAdvanced = $('#shape-advanced-link');
         },
 
         setApi: function(api) {
@@ -1018,6 +640,7 @@ define([
         },
 
         _ImgWrapStyleChanged: function(style) {
+            if (!this.mnuWrapPicker) return;
             if (this._state.WrappingStyle!==style) {
                 this._noApply = true;
                 var record = this.mnuWrapPicker.store.findWhere({data: style});
@@ -1539,7 +1162,261 @@ define([
             }
         },
 
+        createDelayedControls: function() {
+            var me = this;
+
+            this._arrFillSrc = [
+                {displayValue: this.textColor,          value: Asc.c_oAscFill.FILL_TYPE_SOLID},
+                {displayValue: this.textGradientFill,   value: Asc.c_oAscFill.FILL_TYPE_GRAD},
+                {displayValue: this.textImageTexture,   value: Asc.c_oAscFill.FILL_TYPE_BLIP},
+                {displayValue: this.textPatternFill,    value: Asc.c_oAscFill.FILL_TYPE_PATT},
+                {displayValue: this.textNoFill,         value: Asc.c_oAscFill.FILL_TYPE_NOFILL}
+            ];
+
+            this.cmbFillSrc = new Common.UI.ComboBox({
+                el: $('#shape-combo-fill-src'),
+                cls: 'input-group-nr',
+                style: 'width: 100%;',
+                menuStyle: 'min-width: 190px;',
+                editable: false,
+                data: this._arrFillSrc
+            });
+            this.cmbFillSrc.setValue(this._arrFillSrc[0].value);
+            this.cmbFillSrc.on('selected', _.bind(this.onFillSrcSelect, this));
+            this.fillControls.push(this.cmbFillSrc);
+
+            this.cmbPattern = new Common.UI.ComboDataView({
+                itemWidth: 28,
+                itemHeight: 28,
+                menuMaxHeight: 300,
+                enableKeyEvents: true,
+                cls: 'combo-pattern'
+            });
+            this.cmbPattern.menuPicker.itemTemplate = this.cmbPattern.fieldPicker.itemTemplate = _.template([
+                    '<div class="style" id="<%= id %>">',
+                        '<img src="data:image/gif;base64,R0lGODlhAQABAID/AMDAwAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="combo-pattern-item" ',
+                        'width="' + this.cmbPattern.itemWidth + '" height="' + this.cmbPattern.itemHeight + '" ',
+                        'style="background-position: -<%= offsetx %>px -<%= offsety %>px;"/>',
+                    '</div>'
+                ].join(''));
+            this.cmbPattern.render($('#shape-combo-pattern'));
+            this.cmbPattern.openButton.menu.cmpEl.css({
+                'min-width': 178,
+                'max-width': 178
+            });
+            this.cmbPattern.on('click', _.bind(this.onPatternSelect, this));
+            this.cmbPattern.openButton.menu.on('show:after', function () {
+                me.cmbPattern.menuPicker.scroller.update({alwaysVisibleY: true});
+            });
+            this.fillControls.push(this.cmbPattern);
+
+            this.btnInsertFromFile = new Common.UI.Button({
+                el: $('#shape-button-from-file')
+            });
+            this.fillControls.push(this.btnInsertFromFile);
+
+            this.btnInsertFromUrl = new Common.UI.Button({
+                el: $('#shape-button-from-url')
+            });
+            this.fillControls.push(this.btnInsertFromUrl);
+
+            this.btnInsertFromFile.on('click', _.bind(function(btn){
+                if (this.api) this.api.ChangeShapeImageFromFile();
+                this.fireEvent('editcomplete', this);
+            }, this));
+            this.btnInsertFromUrl.on('click', _.bind(this.insertFromUrl, this));
+
+            this._arrFillType = [
+                {displayValue: this.textStretch, value: Asc.c_oAscFillBlipType.STRETCH},
+                {displayValue: this.textTile,    value: Asc.c_oAscFillBlipType.TILE}
+            ];
+
+            this.cmbFillType = new Common.UI.ComboBox({
+                el: $('#shape-combo-fill-type'),
+                cls: 'input-group-nr',
+                menuStyle: 'min-width: 90px;',
+                editable: false,
+                data: this._arrFillType
+            });
+            this.cmbFillType.setValue(this._arrFillType[0].value);
+            this.cmbFillType.on('selected', _.bind(this.onFillTypeSelect, this));
+            this.fillControls.push(this.cmbFillType);
+
+            this.numTransparency = new Common.UI.MetricSpinner({
+                el: $('#shape-spin-transparency'),
+                step: 1,
+                width: 62,
+                value: '100 %',
+                defaultUnit : "%",
+                maxValue: 100,
+                minValue: 0
+            });
+            this.numTransparency.on('change', _.bind(this.onNumTransparencyChange, this));
+            this.fillControls.push(this.numTransparency);
+
+            this.sldrTransparency = new Common.UI.SingleSlider({
+                el: $('#shape-slider-transparency'),
+                width: 75,
+                minValue: 0,
+                maxValue: 100,
+                value: 100
+            });
+            this.sldrTransparency.on('change', _.bind(this.onTransparencyChange, this));
+            this.sldrTransparency.on('changecomplete', _.bind(this.onTransparencyChangeComplete, this));
+            this.fillControls.push(this.sldrTransparency);
+
+            this.lblTransparencyStart = $(this.el).find('#shape-lbl-transparency-start');
+            this.lblTransparencyEnd = $(this.el).find('#shape-lbl-transparency-end');
+
+            this._arrGradType = [
+                {displayValue: this.textLinear, value: Asc.c_oAscFillGradType.GRAD_LINEAR},
+                {displayValue: this.textRadial, value: Asc.c_oAscFillGradType.GRAD_PATH}
+            ];
+
+            this.cmbGradType = new Common.UI.ComboBox({
+                el: $('#shape-combo-grad-type'),
+                cls: 'input-group-nr',
+                menuStyle: 'min-width: 90px;',
+                editable: false,
+                data: this._arrGradType
+            });
+            this.cmbGradType.setValue(this._arrGradType[0].value);
+            this.cmbGradType.on('selected', _.bind(this.onGradTypeSelect, this));
+            this.fillControls.push(this.cmbGradType);
+
+            this._viewDataLinear = [
+                { offsetx: 0,   offsety: 0,   type:45,  subtype:-1, iconcls:'gradient-left-top' },
+                { offsetx: 50,  offsety: 0,   type:90,  subtype:4,  iconcls:'gradient-top'},
+                { offsetx: 100, offsety: 0,   type:135, subtype:5,  iconcls:'gradient-right-top'},
+                { offsetx: 0,   offsety: 50,  type:0,   subtype:6,  iconcls:'gradient-left', cls: 'item-gradient-separator', selected: true},
+                { offsetx: 100, offsety: 50,  type:180, subtype:1,  iconcls:'gradient-right'},
+                { offsetx: 0,   offsety: 100, type:315, subtype:2,  iconcls:'gradient-left-bottom'},
+                { offsetx: 50,  offsety: 100, type:270, subtype:3,  iconcls:'gradient-bottom'},
+                { offsetx: 100, offsety: 100, type:225, subtype:7,  iconcls:'gradient-right-bottom'}
+            ];
+
+            this._viewDataRadial = [
+                { offsetx: 100, offsety: 150, type:2, subtype:5, iconcls:'gradient-radial-center'}
+            ];
+
+            this.btnDirection = new Common.UI.Button({
+                cls         : 'btn-large-dataview',
+                iconCls     : 'item-gradient gradient-left',
+                menu        : new Common.UI.Menu({
+                    style: 'min-width: 60px;',
+                    menuAlign: 'tr-br',
+                    items: [
+                        { template: _.template('<div id="id-shape-menu-direction" style="width: 175px; margin: 0 5px;"></div>') }
+                    ]
+                })
+            });
+            this.btnDirection.on('render:after', function(btn) {
+                me.mnuDirectionPicker = new Common.UI.DataView({
+                    el: $('#id-shape-menu-direction'),
+                    parentMenu: btn.menu,
+                    restoreHeight: 174,
+                    allowScrollbar: false,
+                    store: new Common.UI.DataViewStore(me._viewDataLinear),
+                    itemTemplate: _.template('<div id="<%= id %>" class="item-gradient" style="background-position: -<%= offsetx %>px -<%= offsety %>px;"></div>')
+                });
+            });
+            this.btnDirection.render($('#shape-button-direction'));
+            this.mnuDirectionPicker.on('item:click', _.bind(this.onSelectGradient, this, this.btnDirection));
+            this.fillControls.push(this.btnDirection);
+
+            this.sldrGradient = new Common.UI.MultiSliderGradient({
+                el: $('#shape-slider-gradient'),
+                width: 125,
+                minValue: 0,
+                maxValue: 100,
+                values: [0, 100]
+            });
+            this.sldrGradient.on('change', _.bind(this.onGradientChange, this));
+            this.sldrGradient.on('changecomplete', _.bind(this.onGradientChangeComplete, this));
+            this.sldrGradient.on('thumbclick', function(cmp, index){
+                me.GradColor.currentIdx = index;
+                var color = me.GradColor.colors[me.GradColor.currentIdx];
+                me.btnGradColor.setColor(color);
+                me.colorsGrad.select(color,false);
+            });
+            this.sldrGradient.on('thumbdblclick', function(cmp){
+                me.btnGradColor.cmpEl.find('button').dropdown('toggle');
+            });
+            this.fillControls.push(this.sldrGradient);
+
+            this.cmbBorderSize = new Common.UI.ComboBorderSizeEditable({
+                el: $('#shape-combo-border-size'),
+                style: "width: 93px;",
+                txtNoBorders: this.txtNoBorders
+            })
+            .on('selected', _.bind(this.onBorderSizeSelect, this))
+            .on('changed:before',_.bind(this.onBorderSizeChanged, this, true))
+            .on('changed:after', _.bind(this.onBorderSizeChanged, this, false))
+            .on('combo:blur',    _.bind(this.onComboBlur, this, false));
+            this.BorderSize = this.cmbBorderSize.store.at(2).get('value');
+            this.cmbBorderSize.setValue(this.BorderSize);
+            this.lockedControls.push(this.cmbBorderSize);
+
+            this.cmbBorderType = new Common.UI.ComboBorderType({
+                el: $('#shape-combo-border-type'),
+                style: "width: 93px;",
+                menuStyle: 'min-width: 93px;'
+            }).on('selected', _.bind(this.onBorderTypeSelect, this))
+            .on('combo:blur',    _.bind(this.onComboBlur, this, false));
+            this.BorderType = Asc.c_oDashType.solid;
+            this.cmbBorderType.setValue(this.BorderType);
+            this.lockedControls.push(this.cmbBorderType);
+
+            var viewData = [
+                { offsetx: 0, data: Asc.c_oAscWrapStyle2.Inline, iconcls:'wrap-inline', tip: this.txtInline, selected: true },
+                { offsetx: 50, data: Asc.c_oAscWrapStyle2.Square, iconcls:'wrap-square', tip: this.txtSquare },
+                { offsetx: 100, data: Asc.c_oAscWrapStyle2.Tight, iconcls:'wrap-tight', tip: this.txtTight },
+                { offsetx: 150, data: Asc.c_oAscWrapStyle2.Through, iconcls:'wrap-through', tip: this.txtThrough },
+                { offsetx: 200, data: Asc.c_oAscWrapStyle2.TopAndBottom, iconcls:'wrap-topAndBottom', tip: this.txtTopAndBottom },
+                { offsetx: 250, data: Asc.c_oAscWrapStyle2.InFront, iconcls:'wrap-inFront', tip: this.txtInFront },
+                { offsetx: 300, data: Asc.c_oAscWrapStyle2.Behind, iconcls:'wrap-behind', tip: this.txtBehind }
+            ];
+
+            this.btnWrapType = new Common.UI.Button({
+                cls         : 'btn-large-dataview',
+                iconCls     : 'item-wrap wrap-inline',
+                menu        : new Common.UI.Menu({
+                    items: [
+                        { template: _.template('<div id="id-shape-menu-wrap" style="width: 235px; margin: 0 5px;"></div>') }
+                    ]
+                })
+            });
+            this.btnWrapType.on('render:after', function(btn) {
+                me.mnuWrapPicker = new Common.UI.DataView({
+                    el: $('#id-shape-menu-wrap'),
+                    parentMenu: btn.menu,
+                    store: new Common.UI.DataViewStore(viewData),
+                    itemTemplate: _.template('<div id="<%= id %>" class="item-wrap" style="background-position: -<%= offsetx %>px 0;"></div>')
+                });
+            });
+            this.btnWrapType.render($('#shape-button-wrap'));
+            this.mnuWrapPicker.on('item:click', _.bind(this.onSelectWrap, this, this.btnWrapType));
+            this.lockedControls.push(this.btnWrapType);
+
+            this.btnChangeShape = new Common.UI.Button({
+                cls: 'btn-icon-default',
+                iconCls: 'btn-change-shape',
+                menu        : new Common.UI.Menu({
+                    menuAlign: 'tr-br',
+                    cls: 'menu-shapes',
+                    items: []
+                })
+            });
+            this.btnChangeShape.render( $('#shape-btn-change')) ;
+            this.lockedControls.push(this.btnChangeShape);
+
+            this.linkAdvanced = $('#shape-advanced-link');
+            $(this.el).on('click', '#shape-advanced-link', _.bind(this.openAdvancedSettings, this));
+        },
+
         createDelayedElements: function() {
+            this.createDelayedControls();
+            
             var global_hatch_menu_map = [
                 0,1,3,2,4,
                 53,5,6,7,8,
@@ -1571,7 +1448,6 @@ define([
                 this.PatternFillType = this.patternViewData[0].type;
             }
 
-
             this.fillAutoShapes();
             this.UpdateThemeColors();
         },
@@ -1579,6 +1455,24 @@ define([
         onInitStandartTextures: function(texture) {
             var me = this;
             if (texture && texture.length>0){
+                this.btnTexture = new Common.UI.ComboBox({
+                    el: $('#shape-combo-fill-texture'),
+                    template: _.template([
+                        '<div class="input-group combobox combo-dataview-menu input-group-nr dropdown-toggle" tabindex="0" data-toggle="dropdown">',
+                            '<div class="form-control text" style="width: 90px;">' + this.textSelectTexture + '</div>',
+                            '<div style="display: table-cell;"></div>',
+                            '<button type="button" class="btn btn-default"><span class="caret img-commonctrl"></span></button>',
+                        '</div>'
+                    ].join(''))
+                });
+                this.textureMenu = new Common.UI.Menu({
+                    items: [
+                        { template: _.template('<div id="id-shape-menu-texture" style="width: 233px; margin: 0 5px;"></div>') }
+                    ]
+                });
+                this.textureMenu.render($('#shape-combo-fill-texture'));
+                this.fillControls.push(this.btnTexture);
+
                 var texturearray = [];
                 _.each(texture, function(item){
                     texturearray.push({
@@ -1659,6 +1553,105 @@ define([
         },
 
         UpdateThemeColors: function() {
+            if (!this.btnBackColor) {
+                // create color buttons
+                this.btnBackColor = new Common.UI.ColorButton({
+                    style: "width:45px;",
+                    menu        : new Common.UI.Menu({
+                        items: [
+                            { template: _.template('<div id="shape-back-color-menu" style="width: 165px; height: 220px; margin: 10px;"></div>') },
+                            { template: _.template('<a id="shape-back-color-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
+                        ]
+                    })
+                });
+                this.btnBackColor.render( $('#shape-back-color-btn'));
+                this.btnBackColor.setColor('transparent');
+                this.fillControls.push(this.btnBackColor);
+                this.colorsBack = new Common.UI.ThemeColorPalette({
+                    el: $('#shape-back-color-menu'),
+                    value: 'transparent',
+                    transparent: true
+                });
+                this.colorsBack.on('select', _.bind(this.onColorsBackSelect, this));
+                $(this.el).on('click', '#shape-back-color-new', _.bind(this.addNewColor, this, this.colorsBack, this.btnBackColor));
+
+                this.btnFGColor = new Common.UI.ColorButton({
+                    style: "width:45px;",
+                    menu        : new Common.UI.Menu({
+                        items: [
+                            { template: _.template('<div id="shape-foreground-color-menu" style="width: 165px; height: 220px; margin: 10px;"></div>') },
+                            { template: _.template('<a id="shape-foreground-color-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
+                        ]
+                    })
+                });
+                this.btnFGColor.render( $('#shape-foreground-color-btn'));
+                this.btnFGColor.setColor('000000');
+                this.fillControls.push(this.btnFGColor);
+                this.colorsFG = new Common.UI.ThemeColorPalette({
+                    el: $('#shape-foreground-color-menu'),
+                    value: '000000'
+                });
+                this.colorsFG.on('select', _.bind(this.onColorsFGSelect, this));
+                $(this.el).on('click', '#shape-foreground-color-new', _.bind(this.addNewColor, this, this.colorsFG, this.btnFGColor));
+
+                this.btnBGColor = new Common.UI.ColorButton({
+                    style: "width:45px;",
+                    menu        : new Common.UI.Menu({
+                        items: [
+                            { template: _.template('<div id="shape-background-color-menu" style="width: 165px; height: 220px; margin: 10px;"></div>') },
+                            { template: _.template('<a id="shape-background-color-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
+                        ]
+                    })
+                });
+                this.btnBGColor.render( $('#shape-background-color-btn'));
+                this.btnBGColor.setColor('ffffff');
+                this.fillControls.push(this.btnBGColor);
+                this.colorsBG = new Common.UI.ThemeColorPalette({
+                    el: $('#shape-background-color-menu'),
+                    value: 'ffffff'
+                });
+                this.colorsBG.on('select', _.bind(this.onColorsBGSelect, this));
+                $(this.el).on('click', '#shape-background-color-new', _.bind(this.addNewColor, this, this.colorsBG, this.btnBGColor));
+
+                this.btnGradColor = new Common.UI.ColorButton({
+                    style: "width:45px;",
+                    menu        : new Common.UI.Menu({
+                        items: [
+                            { template: _.template('<div id="shape-gradient-color-menu" style="width: 165px; height: 220px; margin: 10px;"></div>') },
+                            { template: _.template('<a id="shape-gradient-color-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
+                        ]
+                    })
+                });
+                this.btnGradColor.render( $('#shape-gradient-color-btn'));
+                this.btnGradColor.setColor('000000');
+                this.fillControls.push(this.btnGradColor);
+                this.colorsGrad = new Common.UI.ThemeColorPalette({
+                    el: $('#shape-gradient-color-menu'),
+                    value: '000000'
+                });
+                this.colorsGrad.on('select', _.bind(this.onColorsGradientSelect, this));
+                $(this.el).on('click', '#shape-gradient-color-new', _.bind(this.addNewColor, this, this.colorsGrad, this.btnGradColor));
+
+                this.btnBorderColor = new Common.UI.ColorButton({
+                    style: "width:45px;",
+                    menu        : new Common.UI.Menu({
+                        items: [
+                            { template: _.template('<div id="shape-border-color-menu" style="width: 165px; height: 220px; margin: 10px;"></div>') },
+                            { template: _.template('<a id="shape-border-color-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
+                        ]
+                    })
+                });
+                this.btnBorderColor.render( $('#shape-border-color-btn'));
+                this.btnBorderColor.setColor('000000');
+                this.lockedControls.push(this.btnBorderColor);
+                this.colorsBorder = new Common.UI.ThemeColorPalette({
+                    el: $('#shape-border-color-menu'),
+                    value: '000000'
+                });
+                this.colorsBorder.on('select', _.bind(this.onColorsBorderSelect, this));
+                $(this.el).on('click', '#shape-border-color-new', _.bind(this.addNewColor, this, this.colorsBorder, this.btnBorderColor));
+            }
+            
             this.colorsBorder.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
             this.colorsBack.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
             this.colorsFG.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
@@ -1698,6 +1691,8 @@ define([
         },
 
         disableControls: function(disable, disableFill) {
+            if (this._initSettings) return;
+            
             this.disableFillPanels(disable || disableFill);
             if (this._state.DisabledControls!==disable) {
                 this._state.DisabledControls = disable;

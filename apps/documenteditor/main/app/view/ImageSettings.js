@@ -64,7 +64,6 @@ define([
         },
 
         initialize: function () {
-            var me = this;
             this._initSettings = true;
 
             this._state = {
@@ -84,7 +83,35 @@ define([
 
             this.render();
 
-            var viewData = [
+            this.labelWidth = $(this.el).find('#image-label-width');
+            this.labelHeight = $(this.el).find('#image-label-height');
+        },
+
+        render: function () {
+            var el = $(this.el);
+            el.html(this.template({
+                scope: this
+            }));
+        },
+
+        setApi: function(api) {
+            this.api = api;
+            if (this.api)
+                this.api.asc_registerCallback('asc_onImgWrapStyleChanged', _.bind(this._ImgWrapStyleChanged, this));
+            return this;
+        },
+
+        updateMetricUnit: function() {
+            var value = Common.Utils.Metric.fnRecalcFromMM(this._state.Width);
+            this.labelWidth[0].innerHTML = this.textWidth + ': ' + value.toFixed(1) + ' ' + Common.Utils.Metric.getCurrentMetricName();
+
+            value = Common.Utils.Metric.fnRecalcFromMM(this._state.Height);
+            this.labelHeight[0].innerHTML = this.textHeight + ': ' + value.toFixed(1) + ' ' + Common.Utils.Metric.getCurrentMetricName();
+        },
+
+        createDelayedControls: function() {
+            var me = this,
+                viewData = [
                 { offsetx: 0, data: Asc.c_oAscWrapStyle2.Inline, iconcls:'wrap-inline', tip: this.txtInline, selected: true },
                 { offsetx: 50, data: Asc.c_oAscWrapStyle2.Square, iconcls:'wrap-square', tip: this.txtSquare },
                 { offsetx: 100, data: Asc.c_oAscWrapStyle2.Tight, iconcls:'wrap-tight', tip: this.txtTight },
@@ -116,9 +143,6 @@ define([
             this.mnuWrapPicker.on('item:click', _.bind(this.onSelectWrap, this, this.btnWrapType));
             this.lockedControls.push(this.btnWrapType);
 
-            this.labelWidth = $(this.el).find('#image-label-width');
-            this.labelHeight = $(this.el).find('#image-label-height');
-
             this.btnOriginalSize = new Common.UI.Button({
                 el: $('#image-button-original-size')
             });
@@ -149,35 +173,14 @@ define([
                 if (this.api) this.api.asc_pluginRun(this._originalProps.asc_getPluginGuid(), 0, this._originalProps.asc_getPluginData());
                 this.fireEvent('editcomplete', this);
             }, this));
-            $(this.el).on('click', '#image-advanced-link', _.bind(this.openAdvancedSettings, this));
-        },
-
-        render: function () {
-            var el = $(this.el);
-            el.html(this.template({
-                scope: this
-            }));
 
             this.linkAdvanced = $('#image-advanced-link');
             this.lblReplace = $('#image-lbl-replace');
+            $(this.el).on('click', '#image-advanced-link', _.bind(this.openAdvancedSettings, this));
         },
-
-        setApi: function(api) {
-            this.api = api;
-            if (this.api)
-                this.api.asc_registerCallback('asc_onImgWrapStyleChanged', _.bind(this._ImgWrapStyleChanged, this));
-            return this;
-        },
-
-        updateMetricUnit: function() {
-            var value = Common.Utils.Metric.fnRecalcFromMM(this._state.Width);
-            this.labelWidth[0].innerHTML = this.textWidth + ': ' + value.toFixed(1) + ' ' + Common.Utils.Metric.getCurrentMetricName();
-
-            value = Common.Utils.Metric.fnRecalcFromMM(this._state.Height);
-            this.labelHeight[0].innerHTML = this.textHeight + ': ' + value.toFixed(1) + ' ' + Common.Utils.Metric.getCurrentMetricName();
-        },
-
+        
         createDelayedElements: function() {
+            this.createDelayedControls();
             this.updateMetricUnit();
         },
 
@@ -248,6 +251,7 @@ define([
         },
 
         _ImgWrapStyleChanged: function(style) {
+            if (!this.mnuWrapPicker) return;
             if (this._state.WrappingStyle!==style) {
                 this._noApply = true;
                 var record = this.mnuWrapPicker.store.findWhere({data: style});
@@ -387,6 +391,8 @@ define([
         },
 
         disableControls: function(disable) {
+            if (this._initSettings) return;
+            
             if (this._state.DisabledControls!==disable) {
                 this._state.DisabledControls = disable;
                 _.each(this.lockedControls, function(item) {

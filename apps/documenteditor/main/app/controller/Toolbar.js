@@ -166,7 +166,7 @@ define([
             // Create toolbar view
             this.toolbar = this.createView('Toolbar');
 
-            this.toolbar.on('render:after', _.bind(this.onToolbarAfterRender, this));
+            // this.toolbar.on('render:after', _.bind(this.onToolbarAfterRender, this));
         },
 
         onToolbarAfterRender: function(toolbar) {
@@ -2625,6 +2625,11 @@ define([
             });
 
             me._mailMergeDlg.show();
+        },
+
+        createDelayedElements: function() {
+            this.toolbar.createDelayedElements();
+            this.onToolbarAfterRender(this.toolbar);
         },
 
         textEmptyImgUrl                            : 'You need to specify image URL.',

@@ -851,7 +851,7 @@ define([
                         if (window.styles_loaded) {
                             clearInterval(timer_sl);
 
-                            toolbarController.getView('Toolbar').createDelayedElements();
+                            toolbarController.createDelayedElements();
 
                             documentHolderController.getView('DocumentHolder').createDelayedElements();
                             me.loadLanguages();

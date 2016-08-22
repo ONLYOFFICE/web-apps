@@ -218,7 +218,7 @@ define([
                         style        : me.style
                     }));
 
-                    if (me.menu && _.isFunction(me.menu.render))
+                    if (me.menu && _.isObject(me.menu) && _.isFunction(me.menu.render))
                         me.menu.render(me.cmpEl);
 
                     parentEl.html(me.cmpEl);
@@ -379,7 +379,7 @@ define([
             }
 
             if (me.disabled) {
-                me.setDisabled(me.disabled);
+                me.setDisabled(!(me.disabled=false));
             }
 
             me.trigger('render:after', me);
@@ -414,7 +414,7 @@ define([
         },
 
         setDisabled: function(disabled) {
-            if (this.rendered) {
+            if (this.rendered && this.disabled != disabled) {
                 var el = this.cmpEl,
                     isGroup = el.hasClass('btn-group');
 
@@ -488,6 +488,13 @@ define([
                         this.cmpEl.find('button:first').andSelf().filter('button').text(caption);
                     }
                 }
+            }
+        },
+
+        setMenu: function (m) {
+            if (m && _.isObject(m) && _.isFunction(m.render)){
+                this.menu = m;
+                this.menu.render(this.cmpEl);
             }
         }
     });

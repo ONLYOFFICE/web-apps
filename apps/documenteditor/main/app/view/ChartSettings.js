@@ -63,7 +63,6 @@ define([
         },
 
         initialize: function () {
-            var me = this;
             this._initSettings = true;
 
             this._state = {
@@ -85,133 +84,8 @@ define([
 
             this.render();
 
-            var viewData = [
-                { offsetx: 0, data: Asc.c_oAscWrapStyle2.Inline, iconCls:'wrap-inline', tip: this.txtInline, selected: true },
-                { offsetx: 50, data: Asc.c_oAscWrapStyle2.Square, iconCls:'wrap-square', tip: this.txtSquare },
-                { offsetx: 100, data: Asc.c_oAscWrapStyle2.Tight, iconCls:'wrap-tight', tip: this.txtTight },
-                { offsetx: 150, data: Asc.c_oAscWrapStyle2.Through, iconCls:'wrap-through', tip: this.txtThrough },
-                { offsetx: 200, data: Asc.c_oAscWrapStyle2.TopAndBottom, iconCls:'wrap-topAndBottom', tip: this.txtTopAndBottom },
-                { offsetx: 250, data: Asc.c_oAscWrapStyle2.InFront, iconCls:'wrap-inFront', tip: this.txtInFront },
-                { offsetx: 300, data: Asc.c_oAscWrapStyle2.Behind, iconCls:'wrap-behind', tip: this.txtBehind }
-            ];
-
-            this.btnWrapType = new Common.UI.Button({
-                cls         : 'btn-large-dataview',
-                iconCls     : 'item-wrap wrap-inline',
-                menu        : new Common.UI.Menu({
-                    items: [
-                        { template: _.template('<div id="id-chart-menu-wrap" style="width: 235px; margin: 0 5px;"></div>') }
-                    ]
-                })
-            });
-            this.btnWrapType.on('render:after', function(btn) {
-                me.mnuWrapPicker = new Common.UI.DataView({
-                    el: $('#id-chart-menu-wrap'),
-                    parentMenu: btn.menu,
-                    store: new Common.UI.DataViewStore(viewData),
-                    itemTemplate: _.template('<div id="<%= id %>" class="item-wrap" style="background-position: -<%= offsetx %>px 0;"></div>')
-                });
-            });
-            this.btnWrapType.render($('#chart-button-wrap'));
-            this.mnuWrapPicker.on('item:click', _.bind(this.onSelectWrap, this, this.btnWrapType));
-            this.lockedControls.push(this.btnWrapType);
-
-            this.btnChartType = new Common.UI.Button({
-                cls         : 'btn-large-dataview',
-                iconCls     : 'item-chartlist bar-normal',
-                menu        : new Common.UI.Menu({
-                    style: 'width: 560px;',
-                    items: [
-                        { template: _.template('<div id="id-chart-menu-type" class="menu-insertchart"  style="margin: 5px 5px 5px 10px;"></div>') }
-                    ]
-                })
-            });
-            this.btnChartType.on('render:after', function(btn) {
-                me.mnuChartTypePicker = new Common.UI.DataView({
-                    el: $('#id-chart-menu-type'),
-                    parentMenu: btn.menu,
-                    restoreHeight: 411,
-                    groups: new Common.UI.DataViewGroupStore([
-                        { id: 'menu-chart-group-bar',     caption: me.textColumn },
-                        { id: 'menu-chart-group-line',    caption: me.textLine },
-                        { id: 'menu-chart-group-pie',     caption: me.textPie },
-                        { id: 'menu-chart-group-hbar',    caption: me.textBar },
-                        { id: 'menu-chart-group-area',    caption: me.textArea },
-                        { id: 'menu-chart-group-scatter', caption: me.textPoint },
-                        { id: 'menu-chart-group-stock',   caption: me.textStock }
-                    ]),
-                    store: new Common.UI.DataViewStore([
-                        { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barNormal,          iconCls: 'column-normal', selected: true},
-                        { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barStacked,         iconCls: 'column-stack'},
-                        { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barStackedPer,      iconCls: 'column-pstack'},
-                        { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barNormal3d,        iconCls: 'column-3d-normal'},
-                        { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barStacked3d,       iconCls: 'column-3d-stack'},
-                        { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barStackedPer3d,    iconCls: 'column-3d-pstack'},
-                        { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barNormal3dPerspective,    iconCls: 'column-3d-normal-per'},
-                        { group: 'menu-chart-group-line',    type: Asc.c_oAscChartTypeSettings.lineNormal,         iconCls: 'line-normal'},
-                        { group: 'menu-chart-group-line',    type: Asc.c_oAscChartTypeSettings.lineStacked,        iconCls: 'line-stack'},
-                        { group: 'menu-chart-group-line',    type: Asc.c_oAscChartTypeSettings.lineStackedPer,     iconCls: 'line-pstack'},
-                        { group: 'menu-chart-group-line',    type: Asc.c_oAscChartTypeSettings.line3d,             iconCls: 'line-3d'},
-                        { group: 'menu-chart-group-pie',     type: Asc.c_oAscChartTypeSettings.pie,                iconCls: 'pie-normal'},
-                        { group: 'menu-chart-group-pie',     type: Asc.c_oAscChartTypeSettings.doughnut,           iconCls: 'pie-doughnut'},
-                        { group: 'menu-chart-group-pie',     type: Asc.c_oAscChartTypeSettings.pie3d,              iconCls: 'pie-3d-normal'},
-                        { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarNormal,         iconCls: 'bar-normal'},
-                        { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarStacked,        iconCls: 'bar-stack'},
-                        { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarStackedPer,     iconCls: 'bar-pstack'},
-                        { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarNormal3d,       iconCls: 'bar-3d-normal'},
-                        { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarStacked3d,      iconCls: 'bar-3d-stack'},
-                        { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarStackedPer3d,   iconCls: 'bar-3d-pstack'},
-                        { group: 'menu-chart-group-area',    type: Asc.c_oAscChartTypeSettings.areaNormal,         iconCls: 'area-normal'},
-                        { group: 'menu-chart-group-area',    type: Asc.c_oAscChartTypeSettings.areaStacked,        iconCls: 'area-stack'},
-                        { group: 'menu-chart-group-area',    type: Asc.c_oAscChartTypeSettings.areaStackedPer,     iconCls: 'area-pstack'},
-                        { group: 'menu-chart-group-scatter', type: Asc.c_oAscChartTypeSettings.scatter,            iconCls: 'point-normal'},
-                        { group: 'menu-chart-group-stock',   type: Asc.c_oAscChartTypeSettings.stock,              iconCls: 'stock-normal'}
-                    ]),
-                    itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist <%= iconCls %>"></div>')
-                });
-            });
-            this.btnChartType.render($('#chart-button-type'));
-            this.mnuChartTypePicker.on('item:click', _.bind(this.onSelectType, this, this.btnChartType));
-            this.lockedControls.push(this.btnChartType);
-
-            this.btnChartStyle = new Common.UI.Button({
-                cls         : 'btn-large-dataview',
-                iconCls     : 'item-wrap',
-                menu        : new Common.UI.Menu({
-                    menuAlign: 'tr-br',
-                    items: [
-                        { template: _.template('<div id="id-chart-menu-style" style="width: 245px; margin: 0 5px;"></div>') }
-                    ]
-                })
-            });
-            this.btnChartStyle.on('render:after', function(btn) {
-                me.mnuChartStylePicker = new Common.UI.DataView({
-                    el: $('#id-chart-menu-style'),
-                    style: 'max-height: 411px;',
-                    parentMenu: btn.menu,
-                    store: new Common.UI.DataViewStore(),
-                    itemTemplate: _.template('<div id="<%= id %>" class="item-wrap" style="background-image: url(<%= imageUrl %>); background-position: 0 0;"></div>')
-                });
-
-                if (me.btnChartStyle.menu) {
-                    me.btnChartStyle.menu.on('show:after', function () {
-                        me.mnuChartStylePicker.scroller.update({alwaysVisibleY: true});
-                    });
-                }
-            });
-            this.btnChartStyle.render($('#chart-button-style'));
-            this.mnuChartStylePicker.on('item:click', _.bind(this.onSelectStyle, this, this.btnChartStyle));
-            this.lockedControls.push(this.btnChartStyle);
-
             this.labelWidth = $(this.el).find('#chart-label-width');
             this.labelHeight = $(this.el).find('#chart-label-height');
-
-            this.btnEditData = new Common.UI.Button({
-                el: $('#chart-button-edit-data')
-            });
-            this.lockedControls.push(this.btnEditData);
-            this.btnEditData.on('click', _.bind(this.setEditData, this));
-            $(this.el).on('click', '#chart-advanced-link', _.bind(this.openAdvancedSettings, this));
         },
 
         render: function () {
@@ -219,8 +93,6 @@ define([
             el.html(this.template({
                 scope: this
             }));
-
-            this.linkAdvanced = $('#chart-advanced-link');
         },
 
         setApi: function(api) {
@@ -331,11 +203,114 @@ define([
             this.labelHeight[0].innerHTML = this.textHeight + ': ' + value.toFixed(1) + ' ' + Common.Utils.Metric.getCurrentMetricName();
         },
 
+        createDelayedControls: function() {
+            var me = this,
+                viewData = [
+                { offsetx: 0, data: Asc.c_oAscWrapStyle2.Inline, iconCls:'wrap-inline', tip: this.txtInline, selected: true },
+                { offsetx: 50, data: Asc.c_oAscWrapStyle2.Square, iconCls:'wrap-square', tip: this.txtSquare },
+                { offsetx: 100, data: Asc.c_oAscWrapStyle2.Tight, iconCls:'wrap-tight', tip: this.txtTight },
+                { offsetx: 150, data: Asc.c_oAscWrapStyle2.Through, iconCls:'wrap-through', tip: this.txtThrough },
+                { offsetx: 200, data: Asc.c_oAscWrapStyle2.TopAndBottom, iconCls:'wrap-topAndBottom', tip: this.txtTopAndBottom },
+                { offsetx: 250, data: Asc.c_oAscWrapStyle2.InFront, iconCls:'wrap-inFront', tip: this.txtInFront },
+                { offsetx: 300, data: Asc.c_oAscWrapStyle2.Behind, iconCls:'wrap-behind', tip: this.txtBehind }
+            ];
+
+            this.btnWrapType = new Common.UI.Button({
+                cls         : 'btn-large-dataview',
+                iconCls     : 'item-wrap wrap-inline',
+                menu        : new Common.UI.Menu({
+                    items: [
+                        { template: _.template('<div id="id-chart-menu-wrap" style="width: 235px; margin: 0 5px;"></div>') }
+                    ]
+                })
+            });
+            this.btnWrapType.on('render:after', function(btn) {
+                me.mnuWrapPicker = new Common.UI.DataView({
+                    el: $('#id-chart-menu-wrap'),
+                    parentMenu: btn.menu,
+                    store: new Common.UI.DataViewStore(viewData),
+                    itemTemplate: _.template('<div id="<%= id %>" class="item-wrap" style="background-position: -<%= offsetx %>px 0;"></div>')
+                });
+            });
+            this.btnWrapType.render($('#chart-button-wrap'));
+            this.mnuWrapPicker.on('item:click', _.bind(this.onSelectWrap, this, this.btnWrapType));
+            this.lockedControls.push(this.btnWrapType);
+
+            this.btnChartType = new Common.UI.Button({
+                cls         : 'btn-large-dataview',
+                iconCls     : 'item-chartlist bar-normal',
+                menu        : new Common.UI.Menu({
+                    style: 'width: 560px;',
+                    items: [
+                        { template: _.template('<div id="id-chart-menu-type" class="menu-insertchart"  style="margin: 5px 5px 5px 10px;"></div>') }
+                    ]
+                })
+            });
+            this.btnChartType.on('render:after', function(btn) {
+                me.mnuChartTypePicker = new Common.UI.DataView({
+                    el: $('#id-chart-menu-type'),
+                    parentMenu: btn.menu,
+                    restoreHeight: 411,
+                    groups: new Common.UI.DataViewGroupStore([
+                        { id: 'menu-chart-group-bar',     caption: me.textColumn },
+                        { id: 'menu-chart-group-line',    caption: me.textLine },
+                        { id: 'menu-chart-group-pie',     caption: me.textPie },
+                        { id: 'menu-chart-group-hbar',    caption: me.textBar },
+                        { id: 'menu-chart-group-area',    caption: me.textArea },
+                        { id: 'menu-chart-group-scatter', caption: me.textPoint },
+                        { id: 'menu-chart-group-stock',   caption: me.textStock }
+                    ]),
+                    store: new Common.UI.DataViewStore([
+                        { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barNormal,          iconCls: 'column-normal', selected: true},
+                        { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barStacked,         iconCls: 'column-stack'},
+                        { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barStackedPer,      iconCls: 'column-pstack'},
+                        { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barNormal3d,        iconCls: 'column-3d-normal'},
+                        { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barStacked3d,       iconCls: 'column-3d-stack'},
+                        { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barStackedPer3d,    iconCls: 'column-3d-pstack'},
+                        { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barNormal3dPerspective,    iconCls: 'column-3d-normal-per'},
+                        { group: 'menu-chart-group-line',    type: Asc.c_oAscChartTypeSettings.lineNormal,         iconCls: 'line-normal'},
+                        { group: 'menu-chart-group-line',    type: Asc.c_oAscChartTypeSettings.lineStacked,        iconCls: 'line-stack'},
+                        { group: 'menu-chart-group-line',    type: Asc.c_oAscChartTypeSettings.lineStackedPer,     iconCls: 'line-pstack'},
+                        { group: 'menu-chart-group-line',    type: Asc.c_oAscChartTypeSettings.line3d,             iconCls: 'line-3d'},
+                        { group: 'menu-chart-group-pie',     type: Asc.c_oAscChartTypeSettings.pie,                iconCls: 'pie-normal'},
+                        { group: 'menu-chart-group-pie',     type: Asc.c_oAscChartTypeSettings.doughnut,           iconCls: 'pie-doughnut'},
+                        { group: 'menu-chart-group-pie',     type: Asc.c_oAscChartTypeSettings.pie3d,              iconCls: 'pie-3d-normal'},
+                        { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarNormal,         iconCls: 'bar-normal'},
+                        { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarStacked,        iconCls: 'bar-stack'},
+                        { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarStackedPer,     iconCls: 'bar-pstack'},
+                        { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarNormal3d,       iconCls: 'bar-3d-normal'},
+                        { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarStacked3d,      iconCls: 'bar-3d-stack'},
+                        { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarStackedPer3d,   iconCls: 'bar-3d-pstack'},
+                        { group: 'menu-chart-group-area',    type: Asc.c_oAscChartTypeSettings.areaNormal,         iconCls: 'area-normal'},
+                        { group: 'menu-chart-group-area',    type: Asc.c_oAscChartTypeSettings.areaStacked,        iconCls: 'area-stack'},
+                        { group: 'menu-chart-group-area',    type: Asc.c_oAscChartTypeSettings.areaStackedPer,     iconCls: 'area-pstack'},
+                        { group: 'menu-chart-group-scatter', type: Asc.c_oAscChartTypeSettings.scatter,            iconCls: 'point-normal'},
+                        { group: 'menu-chart-group-stock',   type: Asc.c_oAscChartTypeSettings.stock,              iconCls: 'stock-normal'}
+                    ]),
+                    itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist <%= iconCls %>"></div>')
+                });
+            });
+            this.btnChartType.render($('#chart-button-type'));
+            this.mnuChartTypePicker.on('item:click', _.bind(this.onSelectType, this, this.btnChartType));
+            this.lockedControls.push(this.btnChartType);
+
+            this.btnEditData = new Common.UI.Button({
+                el: $('#chart-button-edit-data')
+            });
+            this.lockedControls.push(this.btnEditData);
+            this.btnEditData.on('click', _.bind(this.setEditData, this));
+
+            this.linkAdvanced = $('#chart-advanced-link');
+            $(this.el).on('click', '#chart-advanced-link', _.bind(this.openAdvancedSettings, this));
+        },
+
         createDelayedElements: function() {
+            this.createDelayedControls();
             this.updateMetricUnit();
         },
 
         _ChartWrapStyleChanged: function(style) {
+            if (!this.mnuWrapPicker) return;
             if (this._state.WrappingStyle!==style) {
                 this._noApply = true;
                 var record = this.mnuWrapPicker.store.findWhere({data: style});
@@ -507,6 +482,36 @@ define([
 
         updateChartStyles: function(styles) {
             var me = this;
+
+            if (!this.btnChartStyle) {
+                this.btnChartStyle = new Common.UI.Button({
+                    cls         : 'btn-large-dataview',
+                    iconCls     : 'item-wrap',
+                    menu        : new Common.UI.Menu({
+                        menuAlign: 'tr-br',
+                        items: [
+                            { template: _.template('<div id="id-chart-menu-style" style="width: 245px; margin: 0 5px;"></div>') }
+                        ]
+                    })
+                });
+                this.btnChartStyle.render($('#chart-button-style'));
+                this.lockedControls.push(this.btnChartStyle);
+                this.mnuChartStylePicker = new Common.UI.DataView({
+                    el: $('#id-chart-menu-style'),
+                    style: 'max-height: 411px;',
+                    parentMenu: this.btnChartStyle.menu,
+                    store: new Common.UI.DataViewStore(),
+                    itemTemplate: _.template('<div id="<%= id %>" class="item-wrap" style="background-image: url(<%= imageUrl %>); background-position: 0 0;"></div>')
+                });
+
+                if (this.btnChartStyle.menu) {
+                    this.btnChartStyle.menu.on('show:after', function () {
+                        me.mnuChartStylePicker.scroller.update({alwaysVisibleY: true});
+                    });
+                }
+                this.mnuChartStylePicker.on('item:click', _.bind(this.onSelectStyle, this, this.btnChartStyle));
+            }
+
             if (styles && styles.length>0){
                 var stylesStore = this.mnuChartStylePicker.store;
                 if (stylesStore) {
@@ -542,6 +547,8 @@ define([
         },
 
         disableControls: function(disable) {
+            if (this._initSettings) return;
+            
             if (this._state.DisabledControls!==disable) {
                 this._state.DisabledControls = disable;
                 _.each(this.lockedControls, function(item) {

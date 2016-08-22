@@ -85,11 +85,14 @@ define([
 
             initialize : function(options) {
                 Common.UI.ComboBox.prototype.initialize.call(this, _.extend(options, {
-                    displayField: 'name'
+                    displayField: 'name',
+                    scroller: {
+                        alwaysVisibleY: true,
+                        onChange: this.updateVisibleFontsTiles.bind(this)
+                    }
                 }));
 
                 this.recent = _.isNumber(options.recent) ? options.recent : 3;
-                this.bindUpdateVisibleFontsTiles = _.bind(this.updateVisibleFontsTiles, this);
 
                 Common.NotificationCenter.on('fonts:change',    _.bind(this.onApiChangeFont, this));
                 Common.NotificationCenter.on('fonts:load',      _.bind(this.fillFonts, this));
@@ -108,8 +111,6 @@ define([
 
                 this._input.on('keyup',     _.bind(this.onInputKeyUp, this));
                 this._input.on('keydown',   _.bind(this.onInputKeyDown, this));
-
-                this.scroller.update({alwaysVisibleY: true, onChange:this.bindUpdateVisibleFontsTiles});
 
                 return this;
             },
