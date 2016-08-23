@@ -1186,7 +1186,9 @@ define([
                     ]
                 })
             );
-
+            if (this.mode.isDesktopApp)
+                this.mnuitemHideTitleBar.hide();
+            
             this.btnMarkers.setMenu(
                 new Common.UI.Menu({
                     items: [
@@ -1511,10 +1513,9 @@ define([
                 }
             }
 
-            if (mode.isDesktopApp) {
+            if (mode.isDesktopApp)
                 $('.toolbar-group-native').hide();
-                this.mnuitemHideTitleBar.hide();
-            }
+
             this.btnMailRecepients.setVisible(mode.canCoAuthoring==true && mode.canUseMailMerge);
             this.listStylesAdditionalMenuItem.setVisible(mode.canEditStyles);
         },
