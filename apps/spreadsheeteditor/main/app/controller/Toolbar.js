@@ -1256,6 +1256,9 @@ define([
                         if (me.toolbar.listStyles.menuPicker.store.length > 0 && listStylesVisible){
                             me.toolbar.listStyles.fillComboView(me.toolbar.listStyles.menuPicker.getSelectedRec(), true);
                         }
+
+                        if (me.toolbar.btnInsertText.rendered)
+                            SSE.getController('Toolbar').fillTextArt();
                     }, 100);
                 }
 
@@ -2002,6 +2005,8 @@ define([
         },
 
         fillTextArt: function() {
+            if (!this.toolbar.btnInsertText.rendered) return;
+
             var me = this;
 
             if (this.toolbar.mnuTextArtPicker) {
