@@ -1557,6 +1557,11 @@ define([
                         if (me.listStyles.menuPicker.store.length > 0 && listStylesVisible){
                             me.listStyles.fillComboView(me.listStyles.menuPicker.getSelectedRec(), true);
                         }
+
+                        if (me.btnInsertText.rendered)
+                            DE.getController('Toolbar').fillTextArt();
+                        if (me.btnInsertEquation.rendered)
+                            DE.getController('Toolbar').fillEquations();
                     }, 100);
                 }
 

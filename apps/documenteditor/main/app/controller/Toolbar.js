@@ -2189,6 +2189,8 @@ define([
         },
 
         fillEquations: function() {
+            if (!this.toolbar.btnInsertEquation.rendered) return;
+
             var me = this, equationsStore = this.getApplication().getCollection('EquationGroups');
 
             me.equationPickers = [];
@@ -2380,8 +2382,9 @@ define([
         },
 
         fillTextArt: function() {
-            var me = this;
+            if (!this.toolbar.btnInsertText.rendered) return;
             
+            var me = this;
             if (this.toolbar.mnuTextArtPicker) {
                 var models = this.getApplication().getCollection('Common.Collections.TextArt').models,
                     count = this.toolbar.mnuTextArtPicker.store.length;
