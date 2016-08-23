@@ -198,7 +198,8 @@ define([
             var _options = {};
             _.extend(_options,  {
                 cls: 'advanced-settings-dlg',
-                header: true
+                header: true,
+                enableKeyEvents: false
             }, options);
 
             var header_footer = (_options.buttons && _.size(_options.buttons)>0) ? 85 : 34;

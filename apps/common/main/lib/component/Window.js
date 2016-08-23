@@ -154,7 +154,8 @@ define([
                 maxwidth: undefined,
                 maxheight: undefined,
                 minwidth: 0,
-                minheight: 0
+                minheight: 0,
+                enableKeyEvents: true
         };
 
         var template = '<div class="asc-window<%= modal?" modal":"" %><%= cls?" "+cls:"" %>" id="<%= id %>" style="width:<%= width %>px;">' +
@@ -182,7 +183,7 @@ define([
         }
 
         function _keydown(event) {
-            if (!this.isLocked() && this.isVisible()) {
+            if (!this.isLocked() && this.isVisible() && this.initConfig.enableKeyEvents) {
                 switch (event.keyCode) {
                     case Common.UI.Keys.ESC:
                         if ( $('.asc-loadmask').length<1 ) {
