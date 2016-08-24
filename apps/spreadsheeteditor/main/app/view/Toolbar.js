@@ -172,16 +172,14 @@ define([
                 id          : 'id-toolbar-btn-newdocument',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-newdocument',
-                lock        : [_set.lostConnect],
-                hint        : me.tipNewDocument
+                lock        : [_set.lostConnect]
             });
 
             me.btnOpenDocument = new Common.UI.Button({
                 id          : 'id-toolbar-btn-opendocument',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-opendocument',
-                lock        : [_set.lostConnect],
-                hint        : me.tipOpenDocument
+                lock        : [_set.lostConnect]
             });
 
             me.cmbFontName = new Common.UI.ComboBoxFonts({
@@ -197,30 +195,26 @@ define([
                 id          : 'id-toolbar-btn-print',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-print',
-                hint        : me.tipPrint + Common.Utils.String.platformKey('Ctrl+P'),
                 lock        : [_set.editCell, _set.cantPrint]
             });
 
             me.btnSave = new Common.UI.Button({
                 id          : 'id-toolbar-btn-save',
                 cls         : 'btn-toolbar',
-                iconCls     : me.btnSaveCls,
-                hint        : me.btnSaveTip
+                iconCls     : me.btnSaveCls
             });
 
             me.btnCopy = new Common.UI.Button({
                 id          : 'id-toolbar-btn-copy',
                 cls         : 'btn-toolbar',
-                iconCls     : 'btn-copy',
-                hint        : me.tipCopy + Common.Utils.String.platformKey('Ctrl+C')
+                iconCls     : 'btn-copy'
             });
 
             me.btnPaste = new Common.UI.Button({
                 id          : 'id-toolbar-btn-paste',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-paste',
-                lock        : [/*_set.editCell,*/ _set.coAuth, _set.lostConnect],
-                hint        : me.tipPaste + Common.Utils.String.platformKey('Ctrl+V')
+                lock        : [/*_set.editCell,*/ _set.coAuth, _set.lostConnect]
             });
 
             me.btnUndo = new Common.UI.Button({
@@ -228,8 +222,7 @@ define([
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-undo',
                 disabled    : true,
-                lock        : [_set.lostConnect],
-                hint        : me.tipUndo + Common.Utils.String.platformKey('Ctrl+Z')
+                lock        : [_set.lostConnect]
             });
 
             me.btnRedo = new Common.UI.Button({
@@ -237,24 +230,21 @@ define([
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-redo',
                 disabled    : true,
-                lock        : [_set.lostConnect],
-                hint        : me.tipRedo + Common.Utils.String.platformKey('Ctrl+Y')
+                lock        : [_set.lostConnect]
             });
 
             me.btnIncFontSize = new Common.UI.Button({
                 id          : 'id-toolbar-btn-incfont',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-incfont',
-                lock        : [_set.selImage, _set.editFormula, _set.selRange, _set.coAuth, _set.lostConnect],
-                hint        : me.tipIncFont
+                lock        : [_set.selImage, _set.editFormula, _set.selRange, _set.coAuth, _set.lostConnect]
             });
 
             me.btnDecFontSize = new Common.UI.Button({
                 id          : 'id-toolbar-btn-decfont',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-decfont',
-                lock        : [_set.selImage, _set.editFormula, _set.selRange, _set.coAuth, _set.lostConnect],
-                hint        : me.tipDecFont
+                lock        : [_set.selImage, _set.editFormula, _set.selRange, _set.coAuth, _set.lostConnect]
             });
 
             me.btnBold = new Common.UI.Button({
@@ -262,7 +252,6 @@ define([
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-bold',
                 lock        : [_set.selImage, _set.editFormula, _set.selRange, _set.coAuth, _set.lostConnect],
-                hint        : me.textBold + Common.Utils.String.platformKey('Ctrl+B'),
                 enableToggle: true
             });
 
@@ -271,7 +260,6 @@ define([
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-italic',
                 lock        : [_set.selImage, _set.editFormula, _set.selRange, _set.coAuth, _set.lostConnect],
-                hint        : me.textItalic + Common.Utils.String.platformKey('Ctrl+I'),
                 enableToggle: true
             });
 
@@ -280,7 +268,6 @@ define([
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-underline',
                 lock        : [_set.selImage, _set.editFormula, _set.selRange, _set.coAuth, _set.lostConnect],
-                hint        : me.textUnderline + Common.Utils.String.platformKey('Ctrl+U'),
                 enableToggle: true
             });
 
@@ -289,7 +276,6 @@ define([
                 id          : 'id-toolbar-btn-fontcolor',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-fontcolor',
-                hint        : me.tipFontColor,
                 split       : true,
                 lock        : [_set.selImage, _set.editFormula, _set.selRange, _set.coAuth, _set.lostConnect],
                 menu        : new Common.UI.Menu({
@@ -313,7 +299,6 @@ define([
                 id          : 'id-toolbar-btn-fillparag',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-fillparag',
-                hint        : me.tipPrColor,
                 split       : true,
                 lock        : [_set.selImage, _set.editCell, _set.coAuth, _set.lostConnect],
                 menu        : new Common.UI.Menu({
@@ -342,7 +327,6 @@ define([
                 borderId    : 'outer',
                 borderswidth: 'thin',
                 lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth],
-                hint        : me.tipBorders,
                 split       : true,
                 menu        : new Common.UI.Menu({
                     items: [
@@ -471,7 +455,6 @@ define([
                 id          : 'id-toolbar-btn-align-left',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-align-left',
-                hint        : me.tipAlignLeft,
                 enableToggle: true,
                 lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selImage, _set.lostConnect, _set.coAuth],
                 toggleGroup : 'alignGroup'
@@ -481,7 +464,6 @@ define([
                 id          : 'id-toolbar-btn-align-center',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-align-center',
-                hint        : me.tipAlignCenter,
                 enableToggle: true,
                 lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selImage, _set.lostConnect, _set.coAuth],
                 toggleGroup : 'alignGroup'
@@ -491,7 +473,6 @@ define([
                 id          : 'id-toolbar-btn-align-right',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-align-right',
-                hint        : me.tipAlignRight,
                 enableToggle: true,
                 lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selImage, _set.lostConnect, _set.coAuth],
                 toggleGroup : 'alignGroup'
@@ -501,7 +482,6 @@ define([
                 id          : 'id-toolbar-btn-align-just',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-align-just',
-                hint        : me.tipAlignJust,
                 enableToggle: true,
                 lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selImage, _set.lostConnect, _set.coAuth],
                 toggleGroup: 'alignGroup'
@@ -511,7 +491,6 @@ define([
                 id          : 'id-toolbar-rtn-merge',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-merge',
-                hint        : me.tipMerge,
                 enableToggle: true,
                 allowDepress: true,
                 split       : true,
@@ -542,7 +521,6 @@ define([
                 id          : 'id-toolbar-rtn-valign-top',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-valign-top',
-                hint        : me.tipAlignTop,
                 lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selImage, _set.lostConnect, _set.coAuth],
                 enableToggle: true,
                 toggleGroup : 'vAlignGroup'
@@ -552,7 +530,6 @@ define([
                 id          : 'id-toolbar-rtn-valign-middle',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-valign-middle',
-                hint        : me.tipAlignMiddle,
                 enableToggle: true,
                 lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selImage, _set.lostConnect, _set.coAuth],
                 toggleGroup : 'vAlignGroup'
@@ -562,7 +539,6 @@ define([
                 id          : 'id-toolbar-rtn-valign-bottom',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-valign-bottom',
-                hint        : me.tipAlignBottom,
                 lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selImage, _set.lostConnect, _set.coAuth],
                 enableToggle: true,
                 toggleGroup : 'vAlignGroup'
@@ -572,7 +548,6 @@ define([
                 id          : 'id-toolbar-rtn-wrap',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-wrap',
-                hint        : me.tipWrap,
                 lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth],
                 enableToggle: true,
                 allowDepress: true
@@ -582,7 +557,6 @@ define([
                 id          : 'id-toolbar-rtn-textorient',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-text-orient',
-                hint        : me.tipTextOrientation,
                 lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth],
                 menu        : new Common.UI.Menu({
                     items: [
@@ -629,7 +603,6 @@ define([
                 id          : 'id-toolbar-btn-insertimage',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-insertimage',
-                hint        : me.tipInsertImage,
                 lock        : [_set.editCell, _set.selChartText, _set.selImage, _set.lostConnect, _set.coAuth],
                 menu        : new Common.UI.Menu({
                     items: [
@@ -643,16 +616,14 @@ define([
                 id          : 'id-toolbar-btn-inserthyperlink',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-inserthyperlink',
-                lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selImage, _set.selShape, _set.lostConnect, _set.coAuth],
-                hint        : me.tipInsertHyperlink + Common.Utils.String.platformKey('Ctrl+K')
+                lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selImage, _set.selShape, _set.lostConnect, _set.coAuth]
             });
 
             me.btnInsertChart = new Common.UI.Button({
                 id          : 'id-toolbar-btn-insertchart',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-insertchart',
-                lock        : [_set.editCell, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth],
-                hint        : me.tipInsertChart
+                lock        : [_set.editCell, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth]
             });
 
             me.btnEditChart = new Common.UI.Button({
@@ -667,7 +638,6 @@ define([
                 id          : 'id-toolbar-btn-insertshape',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-insertshape',
-                hint        : me.tipInsertShape,
                 enableToggle: true,
                 lock        : [_set.editCell, _set.selChartText, _set.selImage, _set.lostConnect, _set.coAuth],
                 menu        : new Common.UI.Menu({cls: 'menu-shapes'})
@@ -677,7 +647,6 @@ define([
                 id          : 'id-toolbar-btn-inserttext',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-text',
-                hint        : me.tipInsertText,
                 lock        : [_set.editCell, _set.selChartText, _set.selImage, _set.lostConnect, _set.coAuth],
                 enableToggle: true,
                 split       : true,
@@ -703,23 +672,20 @@ define([
                 id          : 'id-toolbar-btn-sort-down',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-sort-down',
-                lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter],
-                hint        : me.txtSortAZ
+                lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter]
             });
 
             me.btnSortUp = new Common.UI.Button({
                 id          : 'id-toolbar-btn-sort-up',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-sort-up',
-                lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter],
-                hint        : me.txtSortZA
+                lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter]
             });
 
             me.btnSetAutofilter = new Common.UI.Button({
                 id          : 'id-toolbar-btn-setautofilter',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-autofilter',
-                hint        : me.txtFilter + ' (Ctrl+Shift+L)',
                 lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter],
                 enableToggle: true
             });
@@ -728,23 +694,20 @@ define([
                 id          : 'id-toolbar-btn-clearfilter',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-clear-filter',
-                lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleDelFilter],
-                hint        : me.txtClearFilter
+                lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleDelFilter]
             });
             
             me.btnSearch = new Common.UI.Button({
                 id          : 'id-toolbar-btn-search',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-search',
-                lock        : [_set.lostConnect],
-                hint        : me.txtSearch
+                lock        : [_set.lostConnect]
             });
 
             me.btnTableTemplate = new Common.UI.Button({
                 id          : 'id-toolbar-btn-ttempl',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-ttempl',
-                hint        : me.txtTableTemplate,
                 lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter],
                 menu        : new Common.UI.Menu({
                     items: [
@@ -795,7 +758,6 @@ define([
             me.btnNumberFormat = new Common.UI.Button({
                 id          : 'id-toolbar-btn-num-format',
                 cls         : 'btn-toolbar btn-text-value',
-                hint        : me.tipNumFormat,
                 caption     : me.txtGeneral,
                 style       : 'width: 100%;',
                 lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selRange, _set.lostConnect, _set.coAuth],
@@ -977,7 +939,6 @@ define([
                 id          : 'id-toolbar-btn-percent-style',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-percent-style',
-                hint        : me.tipDigStylePercent,
                 lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth],
                 styleName   : 'Percent'
             });
@@ -986,7 +947,6 @@ define([
                 id          : 'id-toolbar-btn-accounting-style',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-currency-style',
-                hint        : me.tipDigStyleAccounting,
                 lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth],
                 styleName    : 'Currency',
                 split       : true,
@@ -1021,23 +981,20 @@ define([
                 id          : 'id-toolbar-btn-decdecimal',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-decdecimal',
-                lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth],
-                hint        : me.tipDecDecimal
+                lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth]
             });
 
             me.btnIncDecimal = new Common.UI.Button({
                 id          : 'id-toolbar-btn-incdecimal',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-incdecimal',
-                lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth],
-                hint        : me.tipIncDecimal
+                lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth]
             });
 
             me.btnInsertFormula = new Common.UI.Button({
                 id          : 'id-toolbar-btn-insertformula',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-formula',
-                hint        : me.txtFormula,
                 split       : true,
                 lock        : [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selRange, _set.lostConnect, _set.coAuth],
                 menu        : new Common.UI.Menu({
@@ -1060,7 +1017,6 @@ define([
                 id          : 'id-toolbar-btn-insertrange',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-named-range',
-                hint        : me.txtNamedRange,
                 lock        : [_set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.selRange],
                 menu        : new Common.UI.Menu({
                     style : 'min-width: 110px',
@@ -1087,7 +1043,6 @@ define([
                 id          : 'id-toolbar-btn-clear',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-clearstyle',
-                hint        : me.tipClearStyle,
                 lock        : [_set.lostConnect, _set.coAuth, _set.selRange],
                 menu        : new Common.UI.Menu({
                     style : 'min-width: 110px',
@@ -1124,7 +1079,6 @@ define([
                 id          : 'id-toolbar-btn-copystyle',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-copystyle',
-                hint        : this.tipCopyStyle /*+ Common.Utils.String.platformKey('Ctrl+Shift+C')*/,
                 lock        : [_set.editCell, _set.lostConnect, _set.coAuth, _set.selChart],
                 enableToggle: true
             });
@@ -1133,7 +1087,6 @@ define([
                 id          : 'id-toolbar-btn-addcell',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-addcell',
-                hint        : me.tipInsertOpt,
                 lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth],
                 menu        : new Common.UI.Menu({
                     items : [
@@ -1161,7 +1114,6 @@ define([
                 id          : 'id-toolbar-btn-delcell',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-delcell',
-                hint        : me.tipDeleteOpt,
                 lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth],
                 menu        : new Common.UI.Menu({
                     items : [
@@ -1189,7 +1141,6 @@ define([
                 id          : 'id-toolbar-btn-colorschemas',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-colorschemas',
-                hint        : me.tipColorSchemas,
                 lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth],
                 menu        : new Common.UI.Menu({
                     items: [],
@@ -1228,7 +1179,6 @@ define([
                 id          : 'id-toolbar-btn-showmode',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-showmode',
-                hint        : me.tipViewSettings,
                 lock        : [_set.menuFileOpen, _set.editCell],
                 menu        : new Common.UI.Menu({
                     items: [
@@ -1289,8 +1239,7 @@ define([
             me.btnSettings = new Common.UI.Button({
                 id          : 'id-toolbar-btn-settings',
                 cls         : 'btn-toolbar',
-                iconCls     : 'btn-settings',
-                hint        : me.tipAdvSettings
+                iconCls     : 'btn-settings'
             });
 
             // Is unique for the short view
@@ -1299,7 +1248,6 @@ define([
                 id          : 'id-toolbar-btn-halign',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-align-left',
-                hint        : me.tipHAligh,
                 icls        : 'btn-align-left',
                 lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.lostConnect, _set.coAuth],
                 menu        : new Common.UI.Menu({
@@ -1349,7 +1297,6 @@ define([
                 id          : 'id-toolbar-btn-valign',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-valign-bottom',
-                hint        : me.tipVAligh,
                 icls        : 'btn-valign-bottom',
                 lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.lostConnect, _set.coAuth],
                 menu        : new Common.UI.Menu({
@@ -1390,7 +1337,6 @@ define([
                 id          : 'id-toolbar-btn-autofilter',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-autofilter',
-                hint        : me.tipAutofilter,
                 lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter],
                 menu        : new Common.UI.Menu({
                     items : [
@@ -1619,6 +1565,64 @@ define([
             replacePlacholder('#id-toolbar-short-placeholder-btn-filter',                this.btnAutofilter);
             replacePlacholder('#id-toolbar-full-placeholder-field-styles',               this.listStyles);
 
+        },
+
+        createDelayedElements: function() {
+            // set hints
+            this.btnNewDocument.updateHint(this.tipNewDocument);
+            this.btnOpenDocument.updateHint(this.tipOpenDocument);
+            this.btnPrint.updateHint(this.tipPrint + Common.Utils.String.platformKey('Ctrl+P'));
+            this.btnSave.updateHint(this.btnSaveTip);
+            this.btnCopy.updateHint(this.tipCopy + Common.Utils.String.platformKey('Ctrl+C'));
+            this.btnPaste.updateHint(this.tipPaste + Common.Utils.String.platformKey('Ctrl+V'));
+            this.btnUndo.updateHint(this.tipUndo + Common.Utils.String.platformKey('Ctrl+Z'));
+            this.btnRedo.updateHint(this.tipRedo + Common.Utils.String.platformKey('Ctrl+Y'));
+            this.btnIncFontSize.updateHint(this.tipIncFont + Common.Utils.String.platformKey('Ctrl+]'));
+            this.btnDecFontSize.updateHint(this.tipDecFont + Common.Utils.String.platformKey('Ctrl+['));
+            this.btnBold.updateHint(this.textBold + Common.Utils.String.platformKey('Ctrl+B'));
+            this.btnItalic.updateHint(this.textItalic + Common.Utils.String.platformKey('Ctrl+I'));
+            this.btnUnderline.updateHint(this.textUnderline + Common.Utils.String.platformKey('Ctrl+U'));
+            this.btnTextColor.updateHint(this.tipFontColor);
+            this.btnBackColor.updateHint(this.tipPrColor);
+            this.btnBorders.updateHint(this.tipBorders);
+            this.btnAlignLeft.updateHint(this.tipAlignLeft);
+            this.btnAlignCenter.updateHint(this.tipAlignCenter);
+            this.btnAlignRight.updateHint(this.tipAlignRight);
+            this.btnAlignJust.updateHint(this.tipAlignJust);
+            this.btnMerge.updateHint(this.tipMerge);
+            this.btnAlignTop.updateHint(this.tipAlignTop);
+            this.btnAlignMiddle.updateHint(this.tipAlignMiddle);
+            this.btnAlignBottom.updateHint(this.tipAlignBottom);
+            this.btnWrap.updateHint(this.tipWrap);
+            this.btnTextOrient.updateHint(this.tipTextOrientation);
+            this.btnInsertImage.updateHint(this.tipInsertImage);
+            this.btnInsertChart.updateHint(this.tipInsertChart);
+            this.btnInsertText.updateHint(this.tipInsertText);
+            this.btnInsertHyperlink.updateHint(this.tipInsertHyperlink + Common.Utils.String.platformKey('Ctrl+K'));
+            this.btnInsertShape.updateHint(this.tipInsertShape);
+            this.btnSortDown.updateHint(this.txtSortAZ);
+            this.btnSortUp.updateHint(this.txtSortZA);
+            this.btnSetAutofilter.updateHint(this.txtFilter + ' (Ctrl+Shift+L)');
+            this.btnClearAutofilter.updateHint(this.txtClearFilter);
+            this.btnSearch.updateHint(this.txtSearch);
+            this.btnTableTemplate.updateHint(this.txtTableTemplate);
+            this.btnNumberFormat.updateHint(this.tipNumFormat);
+            this.btnPercentStyle.updateHint(this.tipDigStylePercent);
+            this.btnCurrencyStyle.updateHint(this.tipDigStyleAccounting);
+            this.btnDecDecimal.updateHint(this.tipDecDecimal);
+            this.btnIncDecimal.updateHint(this.tipIncDecimal);
+            this.btnInsertFormula.updateHint(this.txtFormula);
+            this.btnNamedRange.updateHint(this.txtNamedRange);
+            this.btnClearStyle.updateHint(this.tipClearStyle);
+            this.btnCopyStyle.updateHint(this.tipCopyStyle);
+            this.btnAddCell.updateHint(this.tipInsertOpt);
+            this.btnDeleteCell.updateHint(this.tipDeleteOpt);
+            this.btnColorSchemas.updateHint(this.tipColorSchemas);
+            this.btnShowMode.updateHint(this.tipViewSettings);
+            this.btnSettings.updateHint(this.tipAdvSettings);
+            this.btnHorizontalAlign.updateHint(this.tipHAligh);
+            this.btnVerticalAlign.updateHint(this.tipVAligh);
+            this.btnAutofilter.updateHint(this.tipAutofilter);
         },
 
         setApi: function(api) {

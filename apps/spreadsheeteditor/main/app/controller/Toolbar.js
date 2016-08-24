@@ -1151,6 +1151,8 @@ define([
         createDelayedElements: function() {
             var me = this;
 
+            this.toolbar.createDelayedElements();
+
             this.api.asc_registerCallback('asc_onShowChartDialog',          _.bind(this.onApiChartDblClick, this));
             this.api.asc_registerCallback('asc_onCanUndoChanged',           _.bind(this.onApiCanRevert, this, 'undo'));
             this.api.asc_registerCallback('asc_onCanRedoChanged',           _.bind(this.onApiCanRevert, this, 'redo'));
