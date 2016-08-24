@@ -2194,7 +2194,8 @@ define([
             var me = this, equationsStore = this.getApplication().getCollection('EquationGroups');
 
             me.equationPickers = [];
-
+            me.toolbar.btnInsertEquation.menu.removeAll();
+            
             for (var i = 0; i < equationsStore.length; ++i) {
                 var equationGroup = equationsStore.at(i);
 
