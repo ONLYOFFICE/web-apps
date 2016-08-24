@@ -218,7 +218,7 @@ define([
             this.api.SetTextBoxInputMode(parseInt(value) == 1);
 
             /** coauthoring begin **/
-            if (this.mode.isEdit && this.mode.canLicense && !this.mode.isOffline) {
+            if (this.mode.isEdit && this.mode.canLicense && !this.mode.isOffline && this.mode.canCoAuthoring) {
                 value = Common.localStorage.getItem("pe-settings-coauthmode");
                 this.api.asc_SetFastCollaborative(value===null || parseInt(value) == 1);
             }

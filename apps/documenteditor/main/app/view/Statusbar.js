@@ -583,7 +583,7 @@ define([
                     data: this.options.languages
                 });
 
-                this.cmbLanguage.scroller.update({alwaysVisibleY: true});
+                if (this.cmbLanguage.scroller) this.cmbLanguage.scroller.update({alwaysVisibleY: true});
                 this.cmbLanguage.on('selected', _.bind(this.onLangSelect, this));
                 this.cmbLanguage.setValue(Common.util.LanguageInfo.getLocalLanguageName(this.options.current)[0]);
                 this.onLangSelect(this.cmbLanguage, this.cmbLanguage.getSelectedRecord());

@@ -979,7 +979,7 @@ define([
                 iconCls     : 'btn-percent-style',
                 hint        : me.tipDigStylePercent,
                 lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth],
-                formatId    : me.ascFormatOptions.Percent
+                styleName   : 'Percent'
             });
 
             me.btnCurrencyStyle = new Common.UI.Button({
@@ -988,7 +988,7 @@ define([
                 iconCls     : 'btn-currency-style',
                 hint        : me.tipDigStyleAccounting,
                 lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth],
-                formatId    : me.ascFormatOptions.Accounting,
+                styleName    : 'Currency',
                 split       : true,
                 menu        : new Common.UI.Menu({
                     style: 'min-width: 120px;',

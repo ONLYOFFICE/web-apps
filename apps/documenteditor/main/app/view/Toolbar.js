@@ -694,7 +694,37 @@ define([
                 id          : 'id-toolbar-btn-colorschemas',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-colorschemas',
-                menu        : true
+                menu        : new Common.UI.Menu({
+                     items: [],
+                     maxHeight   : 600,
+                     restoreHeight: 600
+                 }).on('show:before', function(mnu) {
+                     if ( !this.scroller ) {
+                         this.scroller = new Common.UI.Scroller({
+                             el: $(this.el).find('.dropdown-menu '),
+                             useKeyboard: this.enableKeyEvents && !this.handleSelect,
+                             minScrollbarLength: 40,
+                             alwaysVisibleY: true
+                         });
+                     }
+                 }).on('show:after', function(btn, e) {
+                     var mnu = $(this.el).find('.dropdown-menu '),
+                         docH = $(document).height(),
+                         menuH = mnu.outerHeight(),
+                         top = parseInt(mnu.css('top'));
+
+                     if (menuH > docH) {
+                         mnu.css('max-height', (docH - parseInt(mnu.css('padding-top')) - parseInt(mnu.css('padding-bottom'))-5) + 'px');
+                         this.scroller.update({minScrollbarLength  : 40});
+                     } else if ( mnu.height() < this.options.restoreHeight ) {
+                         mnu.css('max-height', (Math.min(docH - parseInt(mnu.css('padding-top')) - parseInt(mnu.css('padding-bottom'))-5, this.options.restoreHeight)) + 'px');
+                         menuH = mnu.outerHeight();
+                         if (top+menuH > docH) {
+                             mnu.css('top', 0);
+                         }
+                         this.scroller.update({minScrollbarLength  : 40});
+                     }
+                 })
             });
             this.toolbarControls.push(this.btnColorSchemas);
 
@@ -735,6 +765,7 @@ define([
             this.mnuInsertTable         = this.btnInsertTable.menu;
             this.mnuInsertImage         = this.btnInsertImage.menu;
             this.mnuPageSize            = this.btnPageSize.menu;
+            this.mnuColorSchema         = this.btnColorSchemas.menu;
 
             //
             // DataView and pickers
@@ -1095,6 +1126,7 @@ define([
             this.btnColumns.updateHint(this.tipColumns);
             this.btnPageOrient.updateHint(this.tipPageOrient);
             this.btnPageSize.updateHint(this.tipPageSize);
+            this.btnPageMargins.updateHint(this.tipPageMargins);
             this.btnClearStyle.updateHint(this.tipClearStyle);
             this.btnCopyStyle.updateHint(this.tipCopyStyle + Common.Utils.String.platformKey('Ctrl+Shift+C'));
             this.btnColorSchemas.updateHint(this.tipColorSchemas);
@@ -1154,7 +1186,9 @@ define([
                     ]
                 })
             );
-
+            if (this.mode.isDesktopApp)
+                this.mnuitemHideTitleBar.hide();
+            
             this.btnMarkers.setMenu(
                 new Common.UI.Menu({
                     items: [
@@ -1479,10 +1513,9 @@ define([
                 }
             }
 
-            if (mode.isDesktopApp) {
+            if (mode.isDesktopApp)
                 $('.toolbar-group-native').hide();
-                this.mnuitemHideTitleBar.hide();
-            }
+
             this.btnMailRecepients.setVisible(mode.canCoAuthoring==true && mode.canUseMailMerge);
             this.listStylesAdditionalMenuItem.setVisible(mode.canEditStyles);
         },
@@ -1525,6 +1558,11 @@ define([
                         if (me.listStyles.menuPicker.store.length > 0 && listStylesVisible){
                             me.listStyles.fillComboView(me.listStyles.menuPicker.getSelectedRec(), true);
                         }
+
+                        if (me.btnInsertText.rendered)
+                            DE.getController('Toolbar').fillTextArt();
+                        if (me.btnInsertEquation.rendered)
+                            DE.getController('Toolbar').fillEquations();
                     }, 100);
                 }
 
@@ -1541,40 +1579,17 @@ define([
                 });
             }
 
-            if (!this.mnuColorSchema) {
-                this.btnColorSchemas.setMenu(new Common.UI.Menu({
-                    items: [],
+            if (this.mnuColorSchema == null) {
+                this.mnuColorSchema = new Common.UI.Menu({
                     maxHeight   : 600,
                     restoreHeight: 600
-                }));
-                this.mnuColorSchema = this.btnColorSchemas.menu;
-                this.mnuColorSchema.on('show:before', function(mnu) {
-                    if ( !this.scroller ) {
-                        this.scroller = new Common.UI.Scroller({
-                            el: $(this.el).find('.dropdown-menu '),
-                            useKeyboard: this.enableKeyEvents && !this.handleSelect,
-                            minScrollbarLength: 40,
-                            alwaysVisibleY: true
-                        });
-                    }
-                }).on('show:after', function(btn, e) {
-                    var mnu = $(this.el).find('.dropdown-menu '),
-                        docH = Common.Utils.innerHeight(),
-                        menuH = mnu.outerHeight(),
-                        top = parseInt(mnu.css('top'));
-
-                    if (menuH > docH) {
-                        mnu.css('max-height', (docH - parseInt(mnu.css('padding-top')) - parseInt(mnu.css('padding-bottom'))-5) + 'px');
-                        this.scroller.update({minScrollbarLength  : 40});
-                    } else if ( mnu.height() < this.options.restoreHeight ) {
-                        mnu.css('max-height', (Math.min(docH - parseInt(mnu.css('padding-top')) - parseInt(mnu.css('padding-bottom'))-5, this.options.restoreHeight)) + 'px');
-                        menuH = mnu.outerHeight();
-                        if (top+menuH > docH) {
-                            mnu.css('top', 0);
-                        }
-                        this.scroller.update({minScrollbarLength  : 40});
-                    }
-                })
+                }).on('show:before', function(mnu) {
+                    this.scroller = new Common.UI.Scroller({
+                        el: $(this.el).find('.dropdown-menu '),
+                        useKeyboard: this.enableKeyEvents && !this.handleSelect,
+                        minScrollbarLength  : 40
+                    });
+                });
             }
             this.mnuColorSchema.items = [];
 

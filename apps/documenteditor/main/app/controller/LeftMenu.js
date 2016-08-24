@@ -274,7 +274,7 @@ define([
             this.api.SetTextBoxInputMode(parseInt(value) == 1);
 
             /** coauthoring begin **/
-            if (this.mode.isEdit && this.mode.canLicense && !this.mode.isOffline) {
+            if (this.mode.isEdit && this.mode.canLicense && !this.mode.isOffline && this.mode.canCoAuthoring) {
                 value = Common.localStorage.getItem("de-settings-coauthmode");
                 var fast_coauth = (value===null || parseInt(value) == 1);
                 this.api.asc_SetFastCollaborative(fast_coauth);

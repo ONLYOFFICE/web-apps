@@ -563,7 +563,7 @@ define([
                 this.isLiveCommenting = !(value!==null && parseInt(value) == 0);
                 this.isLiveCommenting?this.api.asc_showComments():this.api.asc_hideComments();
 
-                if (this.appOptions.isEdit && this.appOptions.canLicense && !this.appOptions.isOffline) {
+                if (this.appOptions.isEdit && this.appOptions.canLicense && !this.appOptions.isOffline && this.appOptions.canCoAuthoring) {
                     value = Common.localStorage.getItem("sse-settings-coauthmode");
                     this._state.fastCoauth = (value===null || parseInt(value) == 1);
                 } else
@@ -623,7 +623,7 @@ define([
                 if (me.appOptions.isEdit) {
                     if (me.appOptions.canAutosave) {
                         value = Common.localStorage.getItem("sse-settings-autosave");
-                        value = (!me._state.fastCoauth && value!==null) ? parseInt(value) : 1;
+                        value = (!me._state.fastCoauth && value!==null) ? parseInt(value) : (me.appOptions.canCoAuthoring ? 1 : 0);
                     } else {
                         value = 0;
                     }
@@ -1668,7 +1668,7 @@ define([
             },
 
             applySettings: function() {
-                if (this.appOptions.isEdit && this.appOptions.canLicense && !this.appOptions.isOffline) {
+                if (this.appOptions.isEdit && this.appOptions.canLicense && !this.appOptions.isOffline && this.appOptions.canCoAuthoring) {
                     var value = Common.localStorage.getItem("sse-settings-coauthmode"),
                         oldval = this._state.fastCoauth;
                     this._state.fastCoauth = (value===null || parseInt(value) == 1);

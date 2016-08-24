@@ -312,6 +312,8 @@ define([
                         me._skipInputChange = true;
                         me.cmpEl.find('ul li:first a').focus();
                     }, 10);
+                } else if (e.keyCode == Common.UI.Keys.RETURN && $(e.target).val() === me.lastValue){
+                    this._input.trigger('change', { reapply: true });
                 } else
                     me._skipInputChange = false;
             },
@@ -333,7 +335,7 @@ define([
                 var val = $(e.target).val(),
                     record = {};
 
-                if (this.lastValue === val) {
+                if (this.lastValue === val && !(extra && extra.reapply)) {
                     if (extra && extra.onkeydown)
                         this.trigger('combo:blur', this, e);
                     return;

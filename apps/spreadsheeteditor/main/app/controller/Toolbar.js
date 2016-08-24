@@ -827,15 +827,8 @@ define([
         },
 
         onNumberFormat: function(btn) {
-            if (this.api) {
-                var format = btn.options.formatId;
-                if (btn.options.formatId == this.toolbar.ascFormatOptions.Accounting){
-                    var value = Common.localStorage.getItem("sse-settings-reg-settings");
-                    value = (value!==null) ? parseInt(value) : ((this.toolbar.mode.lang) ? parseInt(Common.util.LanguageInfo.getLocalLanguageCode(this.toolbar.mode.lang)) : 0x0409);
-                    format = this.api.asc_getLocaleCurrency(value);
-                }
-                this.api.asc_setCellFormat(format);
-            }
+            if (this.api) 
+                this.api.asc_setCellStyle(btn.options.styleName);
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             Common.component.Analytics.trackEvent('ToolBar', 'Number Format');
@@ -1256,6 +1249,9 @@ define([
                         if (me.toolbar.listStyles.menuPicker.store.length > 0 && listStylesVisible){
                             me.toolbar.listStyles.fillComboView(me.toolbar.listStyles.menuPicker.getSelectedRec(), true);
                         }
+
+                        if (me.toolbar.btnInsertText.rendered)
+                            SSE.getController('Toolbar').fillTextArt();
                     }, 100);
                 }
 
@@ -2002,6 +1998,8 @@ define([
         },
 
         fillTextArt: function() {
+            if (!this.toolbar.btnInsertText.rendered) return;
+
             var me = this;
 
             if (this.toolbar.mnuTextArtPicker) {

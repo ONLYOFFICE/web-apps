@@ -791,7 +791,7 @@ define([
                 me.api.SetTextBoxInputMode(value!==null && parseInt(value) == 1);
 
                 /** coauthoring begin **/
-                if (me.appOptions.isEdit && me.appOptions.canLicense && !me.appOptions.isOffline) {
+                if (me.appOptions.isEdit && me.appOptions.canLicense && !me.appOptions.isOffline && me.appOptions.canCoAuthoring) {
                     value = Common.localStorage.getItem("de-settings-coauthmode");
                     me._state.fastCoauth = (value===null || parseInt(value) == 1);
                     me.api.asc_SetFastCollaborative(me._state.fastCoauth);
@@ -842,7 +842,8 @@ define([
 
                 if (me.appOptions.isEdit) {
                     value = Common.localStorage.getItem("de-settings-autosave");
-                    value = (!me._state.fastCoauth && value!==null) ? parseInt(value) : 1;
+                    value = (!me._state.fastCoauth && value!==null) ? parseInt(value) : (me.appOptions.canCoAuthoring ? 1 : 0);
+
                     me.api.asc_setAutoSaveGap(value);
 
                     if (me.needToUpdateVersion)
@@ -1662,7 +1663,7 @@ define([
             },
 
             applySettings: function() {
-                if (this.appOptions.isEdit && this.appOptions.canLicense && !this.appOptions.isOffline) {
+                if (this.appOptions.isEdit && this.appOptions.canLicense && !this.appOptions.isOffline && this.appOptions.canCoAuthoring) {
                     var value = Common.localStorage.getItem("de-settings-coauthmode"),
                         oldval = this._state.fastCoauth;
                     this._state.fastCoauth = (value===null || parseInt(value) == 1);

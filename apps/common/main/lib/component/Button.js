@@ -461,6 +461,8 @@ define([
         updateHint: function(hint) {
             this.options.hint = hint;
 
+            if (!this.rendered) return;
+            
             var cmpEl = this.cmpEl,
                 modalParents = cmpEl.closest('.asc-window');
 

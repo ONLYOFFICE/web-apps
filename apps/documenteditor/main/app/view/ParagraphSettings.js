@@ -395,6 +395,7 @@ define([
         },
 
         createDelayedElements: function() {
+            this.UpdateThemeColors();
             this.updateMetricUnit();
         },
 

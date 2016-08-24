@@ -2189,10 +2189,13 @@ define([
         },
 
         fillEquations: function() {
+            if (!this.toolbar.btnInsertEquation.rendered) return;
+
             var me = this, equationsStore = this.getApplication().getCollection('EquationGroups');
 
             me.equationPickers = [];
-
+            me.toolbar.btnInsertEquation.menu.removeAll();
+            
             for (var i = 0; i < equationsStore.length; ++i) {
                 var equationGroup = equationsStore.at(i);
 
@@ -2380,8 +2383,9 @@ define([
         },
 
         fillTextArt: function() {
-            var me = this;
+            if (!this.toolbar.btnInsertText.rendered) return;
             
+            var me = this;
             if (this.toolbar.mnuTextArtPicker) {
                 var models = this.getApplication().getCollection('Common.Collections.TextArt').models,
                     count = this.toolbar.mnuTextArtPicker.store.length;
