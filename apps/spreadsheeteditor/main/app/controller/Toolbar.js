@@ -530,7 +530,7 @@ define([
         onHorizontalAlign: function(type, btn, e) {
             this._state.pralign = undefined;
             if (this.api) {
-                this.api.asc_setCellAlign(!btn.pressed ? 'left' : type);
+                this.api.asc_setCellAlign(!btn.pressed ? 'none' : type);
                 this.toolbar.btnWrap.allowDepress = !(type == 'justify');
             }
 
@@ -550,7 +550,7 @@ define([
 
             this._state.pralign = undefined;
             if (this.api)
-                this.api.asc_setCellAlign(!item.checked ? 'left' : item.value);
+                this.api.asc_setCellAlign(!item.checked ? 'none' : item.value);
 
             this.toolbar.btnWrap.allowDepress = !(item.value == 'justify');
 
