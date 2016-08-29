@@ -733,12 +733,23 @@ define([
             },
 
             onEditorPermissions: function(params) {
+                var licType = params.asc_getLicenseType();
+                if (Asc.c_oLicenseResult.Expired === licType || Asc.c_oLicenseResult.Error === licType) {
+                    Common.UI.warning({
+                        title: this.titleLicenseExp,
+                        msg: this.warnLicenseExp,
+                        buttons: [],
+                        closable: false
+                    });
+                    return;
+                }
+
                 if ( params  && !(this.appOptions.isEditDiagram || this.appOptions.isEditMailMerge)) {
                     this.appOptions.canAutosave = true;
                     this.appOptions.canAnalytics = params.asc_getIsAnalyticsEnable();
 
                     this.appOptions.isOffline      = this.api.asc_isOffline();
-                    this.appOptions.canLicense     = params.asc_getCanLicense ? params.asc_getCanLicense() : false;
+                    this.appOptions.canLicense     = (licType === Asc.c_oLicenseResult.Success);
                     this.appOptions.isLightVersion = params.asc_getIsLight();
                     /** coauthoring begin **/
                     this.appOptions.canCoAuthoring = !this.appOptions.isLightVersion;
@@ -759,7 +770,7 @@ define([
                 this.appOptions.canDownload    = !this.appOptions.nativeApp && (this.permissions.download !== false);
                 this.appOptions.canPrint       = (this.permissions.print !== false);
 
-                this._state.licenseWarning = !(this.appOptions.isEditDiagram || this.appOptions.isEditMailMerge) && !this.appOptions.canLicense && this.appOptions.canEdit && this.editorConfig.mode !== 'view';
+                this._state.licenseWarning = !(this.appOptions.isEditDiagram || this.appOptions.isEditMailMerge) && (licType===Asc.c_oLicenseResult.Connections) && this.appOptions.canEdit && this.editorConfig.mode !== 'view';
 
                 this.applyModeCommonElements();
                 this.applyModeEditorElements();
@@ -1882,7 +1893,9 @@ define([
             warnNoLicense: 'You are using an open source version of ONLYOFFICE. The version has limitations for concurrent connections to the document server (20 connections at a time).<br>If you need more please consider purchasing a commercial license.',
             textContactUs: 'Contact sales',
             confirmPutMergeRange: 'The source data contains merged cells.<br>They will be unmerged before they are pasted into the table.',
-            errorViewerDisconnect: 'Connection is lost. You can still view the document,<br>but will not be able to download until the connection is restored.'
+            errorViewerDisconnect: 'Connection is lost. You can still view the document,<br>but will not be able to download until the connection is restored.',
+            warnLicenseExp: 'Your license has expired.<br>Please update your license and refresh the page.',
+            titleLicenseExp: 'License expired'
         }
     })(), SSE.Controllers.Main || {}))
 });
