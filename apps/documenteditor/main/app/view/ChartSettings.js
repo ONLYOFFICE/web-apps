@@ -577,7 +577,7 @@ define([
         textBar:            'Bar Chart',
         textArea:           'Area Chart',
         textPie:            'Pie Chart',
-        textPoint:          'Point Chart',
+        textPoint:          'XY (Scatter) Chart',
         textStock:          'Stock Chart',
         textStyle:          'Style'
 

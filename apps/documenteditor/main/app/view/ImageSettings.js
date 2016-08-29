@@ -242,10 +242,10 @@ define([
 
                 if (this._state.isOleObject) {
                     var plugin = DE.getCollection('Common.Collections.Plugins').findWhere({guid: pluginGuid});
-                    this.btnEditObject.setDisabled(plugin===null || plugin ===undefined);
+                    this.btnEditObject.setDisabled(plugin===null || plugin ===undefined || this._locked);
                 } else {
-                    this.btnInsertFromUrl.setDisabled(pluginGuid===null);
-                    this.btnInsertFromFile.setDisabled(pluginGuid===null);
+                    this.btnInsertFromUrl.setDisabled(pluginGuid===null || this._locked);
+                    this.btnInsertFromFile.setDisabled(pluginGuid===null || this._locked);
                 }
             }
         },
