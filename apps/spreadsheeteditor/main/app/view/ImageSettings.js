@@ -80,6 +80,7 @@ define([
             this._locked = false;
 
             this._noApply = false;
+            this._originalProps = null;
 
             this.render();
 
@@ -199,6 +200,8 @@ define([
             this.disableControls(this._locked);
 
             if (props ){
+                this._originalProps = new Asc.asc_CImgProperty(props);
+                
                 var value = props.asc_getWidth();
                 if ( Math.abs(this._state.Width-value)>0.001 ||
                     (this._state.Width===null || value===null)&&(this._state.Width!==value)) {
