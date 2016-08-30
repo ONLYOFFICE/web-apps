@@ -138,6 +138,11 @@ define([
             this.close();
         },
 
+        onPrimary: function() {
+            this.onBtnClick();
+            return false;
+        },
+
         initCodePages: function () {
             var i, c, codepage, encodedata = [], listItems = [], length = 0;
 
