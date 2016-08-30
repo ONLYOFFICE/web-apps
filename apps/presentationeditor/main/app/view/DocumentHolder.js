@@ -188,11 +188,18 @@ define([
 
             var onFocusObject = function(selectedElements) {
                 if (me.mode.isEdit && me.currentMenu && me.currentMenu.isVisible()){
-                    var obj = fillMenuProps(selectedElements);
-                    if (obj) {
-                        if (obj.menu_to_show===me.currentMenu) {
-                            me.currentMenu.options.initMenu(obj.menu_props);
+                    if (me.api.asc_getCurrentFocusObject() === 0 ){ // thumbnails
+                        if (me.slideMenu===me.currentMenu) {
+                            me.currentMenu.options.initMenu({isSlideSelect: me.slideMenu.items[2].isVisible(), fromThumbs: true});
                             me.currentMenu.alignPosition();
+                        }
+                    } else {
+                        var obj = fillMenuProps(selectedElements);
+                        if (obj) {
+                            if (obj.menu_to_show===me.currentMenu) {
+                                me.currentMenu.options.initMenu(obj.menu_props);
+                                me.currentMenu.alignPosition();
+                            }
                         }
                     }
                 }
