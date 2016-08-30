@@ -1341,24 +1341,25 @@ define([
         onInitStandartTextures: function(texture) {
             var me = this;
             if (texture && texture.length>0){
-                this.btnTexture = new Common.UI.ComboBox({
-                    el: $('#shape-combo-fill-texture'),
-                    template: _.template([
-                        '<div class="input-group combobox combo-dataview-menu input-group-nr dropdown-toggle" tabindex="0" data-toggle="dropdown">',
-                            '<div class="form-control text" style="width: 90px;">' + this.textSelectTexture + '</div>',
-                            '<div style="display: table-cell;"></div>',
-                            '<button type="button" class="btn btn-default"><span class="caret img-commonctrl"></span></button>',
-                        '</div>'
-                    ].join(''))
-                });
-                this.textureMenu = new Common.UI.Menu({
-                    items: [
-                        { template: _.template('<div id="id-shape-menu-texture" style="width: 233px; margin: 0 5px;"></div>') }
-                    ]
-                });
-                this.textureMenu.render($('#shape-combo-fill-texture'));
-                this.fillControls.push(this.btnTexture);
-
+                if (!this.btnTexture) {
+                    this.btnTexture = new Common.UI.ComboBox({
+                        el: $('#shape-combo-fill-texture'),
+                        template: _.template([
+                            '<div class="input-group combobox combo-dataview-menu input-group-nr dropdown-toggle" tabindex="0" data-toggle="dropdown">',
+                                '<div class="form-control text" style="width: 90px;">' + this.textSelectTexture + '</div>',
+                                '<div style="display: table-cell;"></div>',
+                                '<button type="button" class="btn btn-default"><span class="caret img-commonctrl"></span></button>',
+                            '</div>'
+                        ].join(''))
+                    });
+                    this.textureMenu = new Common.UI.Menu({
+                        items: [
+                            { template: _.template('<div id="id-shape-menu-texture" style="width: 233px; margin: 0 5px;"></div>') }
+                        ]
+                    });
+                    this.textureMenu.render($('#shape-combo-fill-texture'));
+                    this.fillControls.push(this.btnTexture);
+                }
                 var texturearray = [];
                 _.each(texture, function(item){
                     texturearray.push({
