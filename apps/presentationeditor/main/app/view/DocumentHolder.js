@@ -686,8 +686,11 @@ define([
             };
 
             var onApiCurrentPages = function(number) {
-                if (me.currentMenu && me.currentMenu.isVisible())
-                    me.currentMenu.hide();
+                if (me.currentMenu && me.currentMenu.isVisible()) {
+                    if (me._isFromSlideMenu !== true && me._isFromSlideMenu !== number)
+                        me.currentMenu.hide();
+                    me._isFromSlideMenu = number;
+                }
             };
 
             this.setApi = function(o) {
@@ -903,6 +906,7 @@ define([
                 caption     : me.txtDeleteSlide
             }).on('click', _.bind(function(item) {
                 if (me.api){
+                    me._isFromSlideMenu = true;
                     me.api.DeleteSlide();
 
                     me.fireEvent('editcomplete', this);
@@ -1010,6 +1014,7 @@ define([
                         caption : me.txtNewSlide
                     }).on('click', function(item) {
                         if (me.api) {
+                            me._isFromSlideMenu = true;
                             me.api.AddSlide();
 
                             me.fireEvent('editcomplete', this);
@@ -1020,6 +1025,7 @@ define([
                         caption : me.txtDuplicateSlide
                     }).on('click', function(item){
                         if (me.api) {
+                            me._isFromSlideMenu = true;
                             me.api.DublicateSlide();
 
                             me.fireEvent('editcomplete', this);
