@@ -733,18 +733,19 @@ define([
             },
 
             onEditorPermissions: function(params) {
-                var licType = params.asc_getLicenseType();
-                if (Asc.c_oLicenseResult.Expired === licType || Asc.c_oLicenseResult.Error === licType) {
-                    Common.UI.warning({
-                        title: this.titleLicenseExp,
-                        msg: this.warnLicenseExp,
-                        buttons: [],
-                        closable: false
-                    });
-                    return;
-                }
+                var licType = params ? params.asc_getLicenseType() : Asc.c_oLicenseResult.Error;
 
-                if ( params  && !(this.appOptions.isEditDiagram || this.appOptions.isEditMailMerge)) {
+                if ( params && !(this.appOptions.isEditDiagram || this.appOptions.isEditMailMerge)) {
+                    if (Asc.c_oLicenseResult.Expired === licType || Asc.c_oLicenseResult.Error === licType) {
+                        Common.UI.warning({
+                            title: this.titleLicenseExp,
+                            msg: this.warnLicenseExp,
+                            buttons: [],
+                            closable: false
+                        });
+                        return;
+                    }
+
                     this.appOptions.canAutosave = true;
                     this.appOptions.canAnalytics = params.asc_getIsAnalyticsEnable();
 
