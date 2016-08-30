@@ -188,11 +188,18 @@ define([
 
             var onFocusObject = function(selectedElements) {
                 if (me.mode.isEdit && me.currentMenu && me.currentMenu.isVisible()){
-                    var obj = fillMenuProps(selectedElements);
-                    if (obj) {
-                        if (obj.menu_to_show===me.currentMenu) {
-                            me.currentMenu.options.initMenu(obj.menu_props);
+                    if (me.api.asc_getCurrentFocusObject() === 0 ){ // thumbnails
+                        if (me.slideMenu===me.currentMenu) {
+                            me.currentMenu.options.initMenu({isSlideSelect: me.slideMenu.items[2].isVisible(), fromThumbs: true});
                             me.currentMenu.alignPosition();
+                        }
+                    } else {
+                        var obj = fillMenuProps(selectedElements);
+                        if (obj) {
+                            if (obj.menu_to_show===me.currentMenu) {
+                                me.currentMenu.options.initMenu(obj.menu_props);
+                                me.currentMenu.alignPosition();
+                            }
                         }
                     }
                 }
@@ -686,8 +693,11 @@ define([
             };
 
             var onApiCurrentPages = function(number) {
-                if (me.currentMenu && me.currentMenu.isVisible())
-                    me.currentMenu.hide();
+                if (me.currentMenu && me.currentMenu.isVisible()) {
+                    if (me._isFromSlideMenu !== true && me._isFromSlideMenu !== number)
+                        me.currentMenu.hide();
+                    me._isFromSlideMenu = number;
+                }
             };
 
             this.setApi = function(o) {
@@ -903,6 +913,7 @@ define([
                 caption     : me.txtDeleteSlide
             }).on('click', _.bind(function(item) {
                 if (me.api){
+                    me._isFromSlideMenu = true;
                     me.api.DeleteSlide();
 
                     me.fireEvent('editcomplete', this);
@@ -1010,6 +1021,7 @@ define([
                         caption : me.txtNewSlide
                     }).on('click', function(item) {
                         if (me.api) {
+                            me._isFromSlideMenu = true;
                             me.api.AddSlide();
 
                             me.fireEvent('editcomplete', this);
@@ -1020,6 +1032,7 @@ define([
                         caption : me.txtDuplicateSlide
                     }).on('click', function(item){
                         if (me.api) {
+                            me._isFromSlideMenu = true;
                             me.api.DublicateSlide();
 
                             me.fireEvent('editcomplete', this);
