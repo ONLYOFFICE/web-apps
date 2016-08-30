@@ -1595,7 +1595,7 @@ define([
         textBar:                'Bar Chart',
         textArea:               'Area Chart',
         textPie:                'Pie Chart',
-        textPoint:              'Point Chart',
+        textPoint:              'XY (Scatter) Chart',
         textStock:              'Stock Chart',
         tipSynchronize:         'The document has been changed by another user. Please click to save your changes and reload the updates.',
         txtScheme1:             'Office',

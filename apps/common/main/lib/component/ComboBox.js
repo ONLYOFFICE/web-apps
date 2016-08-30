@@ -211,8 +211,17 @@ define([
             openMenu: function(delay) {
                 var me = this;
 
+                if ( !this.scroller ) {
+                    this.scroller = new Common.UI.Scroller(_.extend({
+                        el: $('.dropdown-menu', this.cmpEl),
+                        minScrollbarLength: 40,
+                        scrollYMarginOffset: 30,
+                        includePadding: true
+                    }, this.options.scroller));
+                }
+
                 _.delay(function(){
-                    me.cmpEl.addClass('open')
+                    me.cmpEl.addClass('open');
                 }, delay || 0);
             },
 

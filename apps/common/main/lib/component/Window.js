@@ -400,7 +400,7 @@ define([
                 }
             }
             options.dontshow = options.dontshow || false;
-            
+
             if (!options.width) options.width = 'auto';
             
             var template =  '<div class="info-box">' +
@@ -410,24 +410,22 @@ define([
                                 '</div>' +
                             '</div>' +
                             '<% if (dontshow) { %><div class="separator horizontal" style="width: 100%;"/><% } %>' +
-                            '<div class="footer <% if (dontshow) { %> dontshow <% } %>">' +
-                                '<% if (_.size(buttons) > 0) { %>' +
+                            '<% if (_.size(buttons) > 0) { %>' +
+                                '<div class="footer <% if (dontshow) { %> dontshow <% } %>">' +
                                     '<% for(var bt in buttons) { %>' +
                                         '<button class="btn normal dlg-btn <%= buttons[bt].cls %>" result="<%= bt %>"><%= buttons[bt].text %></button>'+
                                     '<% } %>' +
-                                '<% } else { %>' +
-                                    '<button class="btn normal dlg-btn primary" result="ok">OK</button>'+
-                                '<% } %>' +
-                            '</div>';
+                                '</div>' +
+                            '<% } %>';
 
-           var win = new Common.UI.Window({
+            _.extend(options, {
                 cls: 'alert',
-                title: options.title,
-                width: options.width,
                 onprimary: onKeyDown,
                 tpl: _.template(template, options)
-            }),
-            chDontShow = null;
+            });
+
+            var win = new Common.UI.Window(options),
+               chDontShow = null;
 
             function autoSize(window) {
                 var text_cnt    = window.getChild('.info-box');
