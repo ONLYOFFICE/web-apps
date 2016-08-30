@@ -53,16 +53,6 @@
                 margin-bottom: 5px;
             }
 
-            .loader-page-text {
-                display: inline-block;
-                font-size: 14px;
-                margin-left: 80px;
-                margin-top: 125px;
-                color: #888;
-                font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-                line-height: 20px;
-            }
-
             .romb {
                 width: 40px;
                 height: 40px;

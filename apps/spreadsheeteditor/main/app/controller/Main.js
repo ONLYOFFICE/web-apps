@@ -736,7 +736,7 @@ define([
                 var licType = params ? params.asc_getLicenseType() : Asc.c_oLicenseResult.Error;
 
                 if ( params && !(this.appOptions.isEditDiagram || this.appOptions.isEditMailMerge)) {
-                    if (Asc.c_oLicenseResult.Expired === licType || Asc.c_oLicenseResult.Error === licType) {
+                    if (Asc.c_oLicenseResult.Expired === licType || Asc.c_oLicenseResult.Error === licType || Asc.c_oLicenseResult.ExpiredTrial === licType) {
                         Common.UI.warning({
                             title: this.titleLicenseExp,
                             msg: this.warnLicenseExp,
