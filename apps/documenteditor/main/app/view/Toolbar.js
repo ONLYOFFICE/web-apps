@@ -975,7 +975,7 @@ define([
                 this.btnPageMargins.menu.items[0].setVisible(false);
 
             var value = Common.localStorage.getItem("de-compact-toolbar");
-            var valueCompact = (mode.isLightVersion || value !== null && parseInt(value) == 1);
+            var valueCompact = (value !== null && parseInt(value) == 1);
 
             me.$el.html(this.template({
                 isCompactView: valueCompact
@@ -1397,7 +1397,7 @@ define([
             /**/
             var mode = this.mode;
             var value = Common.localStorage.getItem("de-compact-toolbar");
-            var valueCompact = (mode.isLightVersion || value !== null && parseInt(value) == 1);
+            var valueCompact = (value !== null && parseInt(value) == 1);
 
             value = Common.localStorage.getItem("de-hidden-title");
             var valueTitle = (value !== null && parseInt(value) == 1);
@@ -1408,7 +1408,6 @@ define([
             value = Common.localStorage.getItem("de-hidden-rulers");
             var valueRulers = (value !== null && parseInt(value) == 1);
 
-            this.mnuitemCompactToolbar.setVisible(!mode.isLightVersion);
             this.mnuitemCompactToolbar.setChecked(valueCompact, true);
             this.mnuitemCompactToolbar.on('toggle', _.bind(this.changeViewMode, this));
 
