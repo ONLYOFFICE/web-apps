@@ -911,15 +911,15 @@ define([
 
             var mnuDeleteSlide = new Common.UI.MenuItem({
                 caption     : me.txtDeleteSlide
-            }).on('click', _.bind(function(item) {
+            }).on('click', function(item) {
                 if (me.api){
                     me._isFromSlideMenu = true;
                     me.api.DeleteSlide();
 
-                    me.fireEvent('editcomplete', this);
+                    me.fireEvent('editcomplete', me);
                     Common.component.Analytics.trackEvent('DocumentHolder', 'Delete Slide');
                 }
-            }, me));
+            });
 
             var mnuChangeSlide = new Common.UI.MenuItem({
                 caption     : me.txtChangeLayout,
@@ -1024,7 +1024,7 @@ define([
                             me._isFromSlideMenu = true;
                             me.api.AddSlide();
 
-                            me.fireEvent('editcomplete', this);
+                            me.fireEvent('editcomplete', me);
                             Common.component.Analytics.trackEvent('DocumentHolder', 'Add Slide');
                         }
                     }),
@@ -1035,7 +1035,7 @@ define([
                             me._isFromSlideMenu = true;
                             me.api.DublicateSlide();
 
-                            me.fireEvent('editcomplete', this);
+                            me.fireEvent('editcomplete', me);
                             Common.component.Analytics.trackEvent('DocumentHolder', 'Dublicate Hyperlink');
                         }
                     }),
