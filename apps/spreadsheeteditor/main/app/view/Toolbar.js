@@ -318,7 +318,6 @@ define([
                 });
             });
 
-            me.mnuBorderColorPicker = dummyCmp();
             me.btnBorders = new Common.UI.Button({
                 id          : 'id-toolbar-btn-borders',
                 cls         : 'btn-toolbar',
@@ -328,127 +327,7 @@ define([
                 borderswidth: 'thin',
                 lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth],
                 split       : true,
-                menu        : new Common.UI.Menu({
-                    items: [
-                        {
-                            caption     : me.textOutBorders,
-                            iconCls     : 'mnu-border-out',
-                            icls        : 'btn-border-out',
-                            borderId    : 'outer'
-                        },
-                        {
-                            caption     : me.textAllBorders,
-                            iconCls     : 'mnu-border-all',
-                            icls        : 'btn-border-all',
-                            borderId    : 'all'
-                        },
-                        {
-                            caption     : me.textTopBorders,
-                            iconCls     : 'mnu-border-top',
-                            icls        : 'btn-border-top',
-                            borderId    : Asc.c_oAscBorderOptions.Top
-                        },
-                        {
-                            caption     : me.textBottomBorders,
-                            iconCls     : 'mnu-border-bottom',
-                            icls        : 'btn-border-bottom',
-                            borderId    : Asc.c_oAscBorderOptions.Bottom
-                        },
-                        {
-                            caption     : me.textLeftBorders,
-                            iconCls     : 'mnu-border-left',
-                            icls        : 'btn-border-left',
-                            borderId    : Asc.c_oAscBorderOptions.Left
-                        },
-                        {
-                            caption     : me.textRightBorders,
-                            iconCls     : 'mnu-border-right',
-                            icls        : 'btn-border-right',
-                            borderId    : Asc.c_oAscBorderOptions.Right
-                        },
-                        {
-                            caption     : me.textNoBorders,
-                            iconCls     : 'mnu-border-no',
-                            icls        : 'btn-border-no',
-                            borderId    : 'none'
-                        },
-                        {caption: '--'},
-                        {
-                            caption     : me.textInsideBorders,
-                            iconCls     : 'mnu-border-center',
-                            icls        : 'btn-border-center',
-                            borderId    : 'inner'
-                        },
-                        {
-                            caption     : me.textCenterBorders,
-                            iconCls     : 'mnu-border-vmiddle',
-                            icls        : 'btn-border-vmiddle',
-                            borderId    : Asc.c_oAscBorderOptions.InnerV
-                        },
-                        {
-                            caption     : me.textMiddleBorders,
-                            iconCls     : 'mnu-border-hmiddle',
-                            icls        : 'btn-border-hmiddle',
-                            borderId    : Asc.c_oAscBorderOptions.InnerH
-                        },
-                        {
-                            caption     : me.textDiagUpBorder,
-                            iconCls     : 'mnu-border-diagup',
-                            icls        : 'btn-border-diagup',
-                            borderId    : Asc.c_oAscBorderOptions.DiagU
-                        },
-                        {
-                            caption     : me.textDiagDownBorder,
-                            iconCls     : 'mnu-border-diagdown',
-                            icls        : 'btn-border-diagdown',
-                            borderId    : Asc.c_oAscBorderOptions.DiagD
-                        },
-                        {caption: '--'},
-                        {
-                            id          : 'id-toolbar-mnu-item-border-width',
-                            caption     : me.textBordersWidth,
-                            iconCls     : 'mnu-icon-item mnu-border-width',
-                            template    : _.template('<a id="<%= id %>" tabindex="-1" type="menuitem"><span class="menu-item-icon" style="background-image: none; width: 11px; height: 11px; margin: 2px 7px 0 -9px; border-style: solid; border-width: 1px; border-color: #000;"></span><%= caption %></a>'),
-                            menu        : (function(){
-                                var itemTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem"><div class="border-size-item" style="background-position: 0 -<%= options.offsety %>px;"></div></a>');
-
-                                me.mnuBorderWidth = new Common.UI.Menu({
-                                    style       : 'min-width: 100px;',
-                                    menuAlign   : 'tl-tr',
-                                    id          : 'toolbar-menu-borders-width',
-                                    items: [
-                                        { template: itemTemplate, stopPropagation: true, checkable: true, toggleGroup: 'border-width', value: 'thin',   offsety: 0, checked:true},
-                                        { template: itemTemplate, stopPropagation: true, checkable: true, toggleGroup: 'border-width', value: 'medium', offsety: 20},
-                                        { template: itemTemplate, stopPropagation: true, checkable: true, toggleGroup: 'border-width', value: 'thick',  offsety: 40}
-                                    ]
-                                });
-
-                                return me.mnuBorderWidth;
-                            })()
-                        },
-                        me.mnuBorderColor = new Common.UI.MenuItem({
-                            id          : 'id-toolbar-mnu-item-border-color',
-                            caption     : me.textBordersColor,
-                            iconCls     : 'mnu-icon-item mnu-border-color',
-                            template    : _.template('<a id="<%= id %>"tabindex="-1" type="menuitem"><span class="menu-item-icon" style="background-image: none; width: 11px; height: 11px; margin: 2px 7px 0 -9px; border-style: solid; border-width: 3px; border-color: #000;"></span><%= caption %></a>'),
-                            menu        : new Common.UI.Menu({
-                                menuAlign   : 'tl-tr',
-                                items       : [
-                                    { template: _.template('<div id="id-toolbar-menu-bordercolor" style="width: 165px; height: 220px; margin: 10px;"></div>'), stopPropagation: true },
-                                    { template: _.template('<a id="id-toolbar-menu-new-bordercolor" style="padding-left:12px;">' + me.textNewColor + '</a>'),  stopPropagation: true }
-                                ]
-                            })
-                        })
-                    ]
-                })
-            }).on('render:after', function(btn) {
-                var colorVal = $('<div class="btn-color-value-line"></div>');
-                $('button:first-child', btn.cmpEl).append(colorVal);
-                colorVal.css('background-color', btn.currentColor || 'transparent');
-
-                me.mnuBorderColorPicker = new Common.UI.ThemeColorPalette({
-                    el: $('#id-toolbar-menu-bordercolor')
-                });
+                menu        : true
             });
 
             me.btnAlignLeft = new Common.UI.Button({
@@ -754,185 +633,13 @@ define([
                 }
             });
 
-            var formatTemplate = _.template('<a id="<%= id %>" style="white-space: normal;" tabindex="-1" type="menuitem"><%= caption %><span style="float: right; color: silver;"><%= options.tplval ? options.tplval : options.value %></span></a>');
             me.btnNumberFormat = new Common.UI.Button({
                 id          : 'id-toolbar-btn-num-format',
                 cls         : 'btn-toolbar btn-text-value',
                 caption     : me.txtGeneral,
                 style       : 'width: 100%;',
                 lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selRange, _set.lostConnect, _set.coAuth],
-                menu        : new Common.UI.Menu({
-                    style: 'margin-left: -1px;',
-                    items: [
-                        {
-                            caption : me.txtGeneral,
-                            value   : me.ascFormatOptions.General
-                        },
-                        {
-                            caption : me.txtNumber,
-                            value   : me.ascFormatOptions.Number
-                        },
-                        {
-                            caption : me.txtInteger,
-                            value   : '#0'
-                        },
-                        {
-                            caption : me.txtScientific,
-                            value   : me.ascFormatOptions.Scientific
-                        },
-                        {
-                            caption : me.txtAccounting,
-                            menu    : new Common.UI.Menu({
-                                style: 'min-width: 120px;',
-                                menuAlign: 'tl-tr',
-                                items : [
-                                    {
-                                        caption : me.txtDollar,
-                                        value   : me.ascFormatOptions.Accounting
-                                    },
-                                    {
-                                        caption : me.txtEuro,
-                                        value   : '_(€* #,##0.00_);_(€* (#,##0.00);_(€* "-"??_);_(@_)'
-                                    },
-                                    {
-                                        caption : me.txtPound,
-                                        value   : '_(£* #,##0.00_);_(£* (#,##0.00);_(£* "-"??_);_(@_)'
-                                    },
-                                    {
-                                        caption : me.txtRouble,
-                                        value   : '_-* #,##0.00[$р.-419]_-;-* #,##0.00[$р.-419]_-;_-* "-"??[$р.-419]_-;_-@_-'
-                                    },
-                                    {
-                                        caption : me.txtYen,
-                                        value   : '_(¥* #,##0.00_);_(¥* (#,##0.00);_(¥* "-"??_);_(@_)'
-                                    }
-                                ]
-                            })
-                        },
-                        {
-                            caption : me.txtCurrency,
-                            menu    : new Common.UI.Menu({
-                                style: 'min-width: 120px;',
-                                menuAlign: 'tl-tr',
-                                items : [
-                                    {
-                                        caption : me.txtDollar,
-                                        value   : me.ascFormatOptions.Currency
-                                    },
-                                    {
-                                        caption : me.txtEuro,
-                                        value   : '€#,##0.00'
-                                    },
-                                    {
-                                        caption : me.txtPound,
-                                        value   : '£#,##0.00'
-                                    },
-                                    {
-                                        caption : me.txtRouble,
-                                        value   : '#,##0.00"р."'
-                                    },
-                                    {
-                                        caption : me.txtYen,
-                                        value   : '¥#,##0.00'
-                                    }
-                                ]
-                            })
-                        },
-                        {
-                            caption : me.txtDate,
-                            menu    : new Common.UI.Menu({
-                                style: 'min-width: 200px;',
-                                menuAlign: 'tl-tr',
-                                items: [
-                                    {
-                                        caption : '07-24-88',
-                                        value   : 'MM-dd-yy',
-                                        template: formatTemplate
-                                    },
-                                    {
-                                        caption : '07-24-1988',
-                                        value   : 'MM-dd-yyyy',
-                                        template: formatTemplate
-                                    },
-                                    {
-                                        caption : '24-07-88',
-                                        value   : 'dd-MM-yy',
-                                        template: formatTemplate
-                                    },
-                                    {
-                                        caption : '24-07-1988',
-                                        value   : 'dd-MM-yyyy',
-                                        template: formatTemplate
-                                    },
-                                    {
-                                        caption : '24-Jul-1988',
-                                        value   : 'dd-MMM-yyyy',
-                                        template: formatTemplate
-                                    },
-                                    {
-                                        caption : '24-Jul',
-                                        value   : 'dd-MMM',
-                                        template: formatTemplate
-                                    },
-                                    {
-                                        caption : 'Jul-88',
-                                        value   : 'MMM-yy',
-                                        template: formatTemplate
-                                    }
-                                ]
-                            })
-                        },
-                        {
-                            caption : me.txtTime,
-                            menu    : new Common.UI.Menu({
-                                style: 'min-width: 200px;',
-                                menuAlign: 'tl-tr',
-                                showSeparator   : false,
-                                items: [
-                                    {
-                                        caption : '10:56',
-                                        value   : 'HH:mm',
-                                        template: formatTemplate
-                                    },
-                                    {
-                                        caption : '21:56:00',
-                                        value   : 'HH:MM:ss',
-                                        template: formatTemplate
-                                    },
-                                    {
-                                        caption : '05:56 AM',
-                                        tplval  : 'hh:mm tt',
-                                        value   : 'hh:mm AM/PM',
-                                        template: formatTemplate
-                                    },
-                                    {
-                                        caption : '05:56:00 AM',
-                                        tplval  : 'hh:mm:ss tt',
-                                        value   : 'hh:mm:ss AM/PM',
-                                        template: formatTemplate
-                                    },
-                                    {
-                                        caption : '38:56:00',
-                                        value   : '[h]:mm:ss',
-                                        template: formatTemplate
-                                    }
-                                ]
-                            })
-                        },
-                        {
-                            caption : me.txtPercentage,
-                            value   : me.ascFormatOptions.Percentage
-                        },
-                        {
-                            caption : me.txtFraction,
-                            value   : me.ascFormatOptions.Fraction
-                        },
-                        {
-                            caption : me.txtText,
-                            value   : me.ascFormatOptions.Text
-                        }
-                    ]
-                })
+                menu        : true
             });
 
             me.btnPercentStyle = new Common.UI.Button({
@@ -1146,13 +853,15 @@ define([
                     items: [],
                     maxHeight   : 600,
                     restoreHeight: 600
-                }).on('render:after', function(mnu) {
-                    this.scroller = new Common.UI.Scroller({
-                        el: $(this.el).find('.dropdown-menu '),
-                        useKeyboard: this.enableKeyEvents && !this.handleSelect,
-                        minScrollbarLength  : 40,
-                        alwaysVisibleY: true
-                    });
+                }).on('show:before', function(mnu) {
+                    if ( !this.scroller ) {
+                        this.scroller = new Common.UI.Scroller({
+                            el: $(this.el).find('.dropdown-menu '),
+                            useKeyboard: this.enableKeyEvents && !this.handleSelect,
+                            minScrollbarLength  : 40,
+                            alwaysVisibleY: true
+                        });
+                    }
                 }).on('show:after', function(btn, e) {
                     var mnu = $(this.el).find('.dropdown-menu '),
                         docH = Common.Utils.innerHeight(),
@@ -1175,66 +884,24 @@ define([
 
             me.mnuZoomIn = dummyCmp();
             me.mnuZoomOut = dummyCmp();
+
+            this.mnuitemHideHeadings = {
+                conf: {checked:false},
+                setChecked: function(val) { this.conf.checked = val;},
+                isChecked: function () { return this.conf.checked; }
+            };
+            this.mnuitemHideGridlines = _.clone(this.mnuitemHideHeadings);
+            this.mnuZoom = {
+                options: {value: 100}
+            };
+
             me.btnShowMode = new Common.UI.Button({
                 id          : 'id-toolbar-btn-showmode',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-showmode',
                 lock        : [_set.menuFileOpen, _set.editCell],
-                menu        : new Common.UI.Menu({
-                    items: [
-                        me.mnuitemCompactToolbar = new Common.UI.MenuItem({
-                            caption     : me.textCompactToolbar,
-                            checkable   : true,
-                            value       : 'compact'
-                        }),
-                        me.mnuitemHideTitleBar = new Common.UI.MenuItem({
-                            caption     : me.textHideTBar,
-                            checkable   : true,
-                            value       : 'title'
-                        }),
-                        me.mnuitemHideFormulaBar = new Common.UI.MenuItem({
-                            caption     : me.textHideFBar,
-                            checkable   : true,
-                            value       : 'formula'
-                        }),
-                        me.mnuitemHideHeadings = new Common.UI.MenuItem({
-                            caption     : me.textHideHeadings,
-                            checkable   : true,
-                            value       : 'headings'
-                        }),
-                        {
-                            caption     : me.textHideGridlines,
-                            checkable   : true,
-                            checked     : false,
-                            value       : 'gridlines'
-                        },
-                        {caption: '--'},
-                        (new Common.UI.MenuItem({
-                            template: _.template([
-                                '<div id="id-toolbar-menu-zoom" class="menu-zoom" style="height: 25px;" ',
-                                    '<% if(!_.isUndefined(options.stopPropagation)) { %>',
-                                        'data-stopPropagation="true"',
-                                    '<% } %>', '>',
-                                    '<label class="title">' + me.textZoom + '</label>',
-                                    '<button id="id-menu-zoom-in" type="button" style="float:right; margin: 2px 5px 0 0;" class="btn small btn-toolbar"><span class="btn-icon btn-zoomin">&nbsp;</span></button>',
-                                    '<label class="zoom">100%</label>',
-                                    '<button id="id-menu-zoom-out" type="button" style="float:right; margin-top: 2px;" class="btn small btn-toolbar"><span class="btn-icon btn-zoomout">&nbsp;</span></button>',
-                                '</div>'
-                            ].join('')),
-                            stopPropagation: true
-                        }))
-                    ]
-                })
-            }).on('render:after', _.bind(function(cmp){
-                me.mnuZoomOut = new Common.UI.Button({
-                    el  : $('#id-menu-zoom-out'),
-                    cls : 'btn-toolbar'
-                });
-                me.mnuZoomIn = new Common.UI.Button({
-                    el  : $('#id-menu-zoom-in'),
-                    cls : 'btn-toolbar'
-                });
-            }), me);
+                menu        : true
+            });
 
             me.btnSettings = new Common.UI.Button({
                 id          : 'id-toolbar-btn-settings',
@@ -1465,16 +1132,7 @@ define([
              * Render UI layout
              */
 
-            var options = {};
-            JSON.parse(Common.localStorage.getItem('sse-hidden-title'))     && (options.title = true);
-            JSON.parse(Common.localStorage.getItem('sse-hidden-formula'))   && (options.formula = true);
-            JSON.parse(Common.localStorage.getItem('sse-hidden-headings'))  && (options.headings = true);
             var isCompactView = !!JSON.parse(Common.localStorage.getItem('sse-toolbar-compact'));
-
-            me.mnuitemCompactToolbar.setChecked(isCompactView);
-            me.mnuitemHideTitleBar.setChecked(!!options.title);
-            me.mnuitemHideFormulaBar.setChecked(!!options.formula);
-            me.mnuitemHideHeadings.setChecked(!!options.headings);
 
             this.trigger('render:before', this);
 
@@ -1568,6 +1226,8 @@ define([
         },
 
         createDelayedElements: function() {
+            var me = this;
+            
             // set hints
             this.btnNewDocument.updateHint(this.tipNewDocument);
             this.btnOpenDocument.updateHint(this.tipOpenDocument);
@@ -1623,6 +1283,373 @@ define([
             this.btnHorizontalAlign.updateHint(this.tipHAligh);
             this.btnVerticalAlign.updateHint(this.tipVAligh);
             this.btnAutofilter.updateHint(this.tipAutofilter);
+
+            // set menus
+            this.btnShowMode.setMenu(new Common.UI.Menu({
+                items: [
+                    this.mnuitemCompactToolbar = new Common.UI.MenuItem({
+                        caption     : this.textCompactToolbar,
+                        checkable   : true,
+                        value       : 'compact'
+                    }),
+                    this.mnuitemHideTitleBar = new Common.UI.MenuItem({
+                        caption     : this.textHideTBar,
+                        checkable   : true,
+                        value       : 'title'
+                    }),
+                    this.mnuitemHideFormulaBar = new Common.UI.MenuItem({
+                        caption     : this.textHideFBar,
+                        checkable   : true,
+                        value       : 'formula'
+                    }),
+                    this.mnuitemHideHeadings = new Common.UI.MenuItem({
+                        caption     : this.textHideHeadings,
+                        checkable   : true,
+                        checked     : this.mnuitemHideHeadings.isChecked(),
+                        value       : 'headings'
+                    }),
+                    this.mnuitemHideGridlines = new Common.UI.MenuItem({
+                        caption     : this.textHideGridlines,
+                        checkable   : true,
+                        checked     : this.mnuitemHideGridlines.isChecked(),
+                        value       : 'gridlines'
+                    }),
+                    {caption: '--'},
+                    this.mnuZoom = new Common.UI.MenuItem({
+                        template: _.template([
+                            '<div id="id-toolbar-menu-zoom" class="menu-zoom" style="height: 25px;" ',
+                                '<% if(!_.isUndefined(options.stopPropagation)) { %>',
+                                    'data-stopPropagation="true"',
+                                '<% } %>', '>',
+                                '<label class="title">' + this.textZoom + '</label>',
+                                '<button id="id-menu-zoom-in" type="button" style="float:right; margin: 2px 5px 0 0;" class="btn small btn-toolbar"><span class="btn-icon btn-zoomin">&nbsp;</span></button>',
+                                '<label class="zoom"><%= options.value %>%</label>',
+                                '<button id="id-menu-zoom-out" type="button" style="float:right; margin-top: 2px;" class="btn small btn-toolbar"><span class="btn-icon btn-zoomout">&nbsp;</span></button>',
+                            '</div>'
+                        ].join('')),
+                        stopPropagation: true,
+                        value: this.mnuZoom.options.value
+                    })
+                ]
+            }));
+
+            this.mnuZoomOut = new Common.UI.Button({
+                el  : $('#id-menu-zoom-out'),
+                cls : 'btn-toolbar'
+            });
+            this.mnuZoomIn = new Common.UI.Button({
+                el  : $('#id-menu-zoom-in'),
+                cls : 'btn-toolbar'
+            });
+
+            var options = {};
+            JSON.parse(Common.localStorage.getItem('sse-hidden-title'))     && (options.title = true);
+            JSON.parse(Common.localStorage.getItem('sse-hidden-formula'))   && (options.formula = true);
+//            JSON.parse(Common.localStorage.getItem('sse-hidden-headings'))  && (options.headings = true);
+            var isCompactView = !!JSON.parse(Common.localStorage.getItem('sse-toolbar-compact'));
+
+            this.mnuitemCompactToolbar.setChecked(isCompactView);
+            this.mnuitemHideTitleBar.setChecked(!!options.title);
+            this.mnuitemHideFormulaBar.setChecked(!!options.formula);
+            this.mnuitemHideHeadings.setChecked(!!options.headings);
+
+            if (this.mode.isDesktopApp)
+                this.mnuitemHideTitleBar.hide();
+
+            this.btnBorders.setMenu( new Common.UI.Menu({
+                items: [
+                    {
+                        caption     : this.textOutBorders,
+                        iconCls     : 'mnu-border-out',
+                        icls        : 'btn-border-out',
+                        borderId    : 'outer'
+                    },
+                    {
+                        caption     : this.textAllBorders,
+                        iconCls     : 'mnu-border-all',
+                        icls        : 'btn-border-all',
+                        borderId    : 'all'
+                    },
+                    {
+                        caption     : this.textTopBorders,
+                        iconCls     : 'mnu-border-top',
+                        icls        : 'btn-border-top',
+                        borderId    : Asc.c_oAscBorderOptions.Top
+                    },
+                    {
+                        caption     : this.textBottomBorders,
+                        iconCls     : 'mnu-border-bottom',
+                        icls        : 'btn-border-bottom',
+                        borderId    : Asc.c_oAscBorderOptions.Bottom
+                    },
+                    {
+                        caption     : this.textLeftBorders,
+                        iconCls     : 'mnu-border-left',
+                        icls        : 'btn-border-left',
+                        borderId    : Asc.c_oAscBorderOptions.Left
+                    },
+                    {
+                        caption     : this.textRightBorders,
+                        iconCls     : 'mnu-border-right',
+                        icls        : 'btn-border-right',
+                        borderId    : Asc.c_oAscBorderOptions.Right
+                    },
+                    {
+                        caption     : this.textNoBorders,
+                        iconCls     : 'mnu-border-no',
+                        icls        : 'btn-border-no',
+                        borderId    : 'none'
+                    },
+                    {caption: '--'},
+                    {
+                        caption     : this.textInsideBorders,
+                        iconCls     : 'mnu-border-center',
+                        icls        : 'btn-border-center',
+                        borderId    : 'inner'
+                    },
+                    {
+                        caption     : this.textCenterBorders,
+                        iconCls     : 'mnu-border-vmiddle',
+                        icls        : 'btn-border-vmiddle',
+                        borderId    : Asc.c_oAscBorderOptions.InnerV
+                    },
+                    {
+                        caption     : this.textMiddleBorders,
+                        iconCls     : 'mnu-border-hmiddle',
+                        icls        : 'btn-border-hmiddle',
+                        borderId    : Asc.c_oAscBorderOptions.InnerH
+                    },
+                    {
+                        caption     : this.textDiagUpBorder,
+                        iconCls     : 'mnu-border-diagup',
+                        icls        : 'btn-border-diagup',
+                        borderId    : Asc.c_oAscBorderOptions.DiagU
+                    },
+                    {
+                        caption     : this.textDiagDownBorder,
+                        iconCls     : 'mnu-border-diagdown',
+                        icls        : 'btn-border-diagdown',
+                        borderId    : Asc.c_oAscBorderOptions.DiagD
+                    },
+                    {caption: '--'},
+                    {
+                        id          : 'id-toolbar-mnu-item-border-width',
+                        caption     : this.textBordersWidth,
+                        iconCls     : 'mnu-icon-item mnu-border-width',
+                        template    : _.template('<a id="<%= id %>" tabindex="-1" type="menuitem"><span class="menu-item-icon" style="background-image: none; width: 11px; height: 11px; margin: 2px 7px 0 -9px; border-style: solid; border-width: 1px; border-color: #000;"></span><%= caption %></a>'),
+                        menu        : (function(){
+                            var itemTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem"><div class="border-size-item" style="background-position: 0 -<%= options.offsety %>px;"></div></a>');
+
+                            me.mnuBorderWidth = new Common.UI.Menu({
+                                style       : 'min-width: 100px;',
+                                menuAlign   : 'tl-tr',
+                                id          : 'toolbar-menu-borders-width',
+                                items: [
+                                    { template: itemTemplate, stopPropagation: true, checkable: true, toggleGroup: 'border-width', value: 'thin',   offsety: 0, checked:true},
+                                    { template: itemTemplate, stopPropagation: true, checkable: true, toggleGroup: 'border-width', value: 'medium', offsety: 20},
+                                    { template: itemTemplate, stopPropagation: true, checkable: true, toggleGroup: 'border-width', value: 'thick',  offsety: 40}
+                                ]
+                            });
+
+                            return me.mnuBorderWidth;
+                        })()
+                    },
+                    this.mnuBorderColor = new Common.UI.MenuItem({
+                        id          : 'id-toolbar-mnu-item-border-color',
+                        caption     : this.textBordersColor,
+                        iconCls     : 'mnu-icon-item mnu-border-color',
+                        template    : _.template('<a id="<%= id %>"tabindex="-1" type="menuitem"><span class="menu-item-icon" style="background-image: none; width: 11px; height: 11px; margin: 2px 7px 0 -9px; border-style: solid; border-width: 3px; border-color: #000;"></span><%= caption %></a>'),
+                        menu        : new Common.UI.Menu({
+                            menuAlign   : 'tl-tr',
+                            items       : [
+                                { template: _.template('<div id="id-toolbar-menu-bordercolor" style="width: 165px; height: 220px; margin: 10px;"></div>'), stopPropagation: true },
+                                { template: _.template('<a id="id-toolbar-menu-new-bordercolor" style="padding-left:12px;">' + this.textNewColor + '</a>'),  stopPropagation: true }
+                            ]
+                        })
+                    })
+                ]
+            }));
+            var colorVal = $('<div class="btn-color-value-line"></div>');
+            $('button:first-child', this.btnBorders.cmpEl).append(colorVal);
+            colorVal.css('background-color', this.btnBorders.currentColor || 'transparent');
+
+            this.mnuBorderColorPicker = new Common.UI.ThemeColorPalette({
+                el: $('#id-toolbar-menu-bordercolor')
+            });
+
+            var formatTemplate = _.template('<a id="<%= id %>" style="white-space: normal;" tabindex="-1" type="menuitem"><%= caption %><span style="float: right; color: silver;"><%= options.tplval ? options.tplval : options.value %></span></a>');
+            this.btnNumberFormat.setMenu( new Common.UI.Menu({
+                style: 'margin-left: -1px;',
+                items: [
+                    {
+                        caption : this.txtGeneral,
+                        value   : this.ascFormatOptions.General
+                    },
+                    {
+                        caption : this.txtNumber,
+                        value   : this.ascFormatOptions.Number
+                    },
+                    {
+                        caption : this.txtInteger,
+                        value   : '#0'
+                    },
+                    {
+                        caption : this.txtScientific,
+                        value   : this.ascFormatOptions.Scientific
+                    },
+                    {
+                        caption : this.txtAccounting,
+                        menu    : new Common.UI.Menu({
+                            style: 'min-width: 120px;',
+                            menuAlign: 'tl-tr',
+                            items : [
+                                {
+                                    caption : this.txtDollar,
+                                    value   : this.ascFormatOptions.Accounting
+                                },
+                                {
+                                    caption : this.txtEuro,
+                                    value   : '_(€* #,##0.00_);_(€* (#,##0.00);_(€* "-"??_);_(@_)'
+                                },
+                                {
+                                    caption : this.txtPound,
+                                    value   : '_(£* #,##0.00_);_(£* (#,##0.00);_(£* "-"??_);_(@_)'
+                                },
+                                {
+                                    caption : this.txtRouble,
+                                    value   : '_-* #,##0.00[$р.-419]_-;-* #,##0.00[$р.-419]_-;_-* "-"??[$р.-419]_-;_-@_-'
+                                },
+                                {
+                                    caption : this.txtYen,
+                                    value   : '_(¥* #,##0.00_);_(¥* (#,##0.00);_(¥* "-"??_);_(@_)'
+                                }
+                            ]
+                        })
+                    },
+                    {
+                        caption : this.txtCurrency,
+                        menu    : new Common.UI.Menu({
+                            style: 'min-width: 120px;',
+                            menuAlign: 'tl-tr',
+                            items : [
+                                {
+                                    caption : this.txtDollar,
+                                    value   : this.ascFormatOptions.Currency
+                                },
+                                {
+                                    caption : this.txtEuro,
+                                    value   : '€#,##0.00'
+                                },
+                                {
+                                    caption : this.txtPound,
+                                    value   : '£#,##0.00'
+                                },
+                                {
+                                    caption : this.txtRouble,
+                                    value   : '#,##0.00"р."'
+                                },
+                                {
+                                    caption : this.txtYen,
+                                    value   : '¥#,##0.00'
+                                }
+                            ]
+                        })
+                    },
+                    {
+                        caption : this.txtDate,
+                        menu    : new Common.UI.Menu({
+                            style: 'min-width: 200px;',
+                            menuAlign: 'tl-tr',
+                            items: [
+                                {
+                                    caption : '07-24-88',
+                                    value   : 'MM-dd-yy',
+                                    template: formatTemplate
+                                },
+                                {
+                                    caption : '07-24-1988',
+                                    value   : 'MM-dd-yyyy',
+                                    template: formatTemplate
+                                },
+                                {
+                                    caption : '24-07-88',
+                                    value   : 'dd-MM-yy',
+                                    template: formatTemplate
+                                },
+                                {
+                                    caption : '24-07-1988',
+                                    value   : 'dd-MM-yyyy',
+                                    template: formatTemplate
+                                },
+                                {
+                                    caption : '24-Jul-1988',
+                                    value   : 'dd-MMM-yyyy',
+                                    template: formatTemplate
+                                },
+                                {
+                                    caption : '24-Jul',
+                                    value   : 'dd-MMM',
+                                    template: formatTemplate
+                                },
+                                {
+                                    caption : 'Jul-88',
+                                    value   : 'MMM-yy',
+                                    template: formatTemplate
+                                }
+                            ]
+                        })
+                    },
+                    {
+                        caption : this.txtTime,
+                        menu    : new Common.UI.Menu({
+                            style: 'min-width: 200px;',
+                            menuAlign: 'tl-tr',
+                            showSeparator   : false,
+                            items: [
+                                {
+                                    caption : '10:56',
+                                    value   : 'HH:mm',
+                                    template: formatTemplate
+                                },
+                                {
+                                    caption : '21:56:00',
+                                    value   : 'HH:MM:ss',
+                                    template: formatTemplate
+                                },
+                                {
+                                    caption : '05:56 AM',
+                                    tplval  : 'hh:mm tt',
+                                    value   : 'hh:mm AM/PM',
+                                    template: formatTemplate
+                                },
+                                {
+                                    caption : '05:56:00 AM',
+                                    tplval  : 'hh:mm:ss tt',
+                                    value   : 'hh:mm:ss AM/PM',
+                                    template: formatTemplate
+                                },
+                                {
+                                    caption : '38:56:00',
+                                    value   : '[h]:mm:ss',
+                                    template: formatTemplate
+                                }
+                            ]
+                        })
+                    },
+                    {
+                        caption : this.txtPercentage,
+                        value   : this.ascFormatOptions.Percentage
+                    },
+                    {
+                        caption : this.txtFraction,
+                        value   : this.ascFormatOptions.Fraction
+                    },
+                    {
+                        caption : this.txtText,
+                        value   : this.ascFormatOptions.Text
+                    }
+                ]
+            }));
         },
 
         setApi: function(api) {
@@ -1677,7 +1704,7 @@ define([
             if (this.mnuColorSchema == null) {
                 this.mnuColorSchema = new Common.UI.Menu({maxHeight   : 600,
                     restoreHeight: 600
-                }).on('render:after', function(mnu) {
+                }).on('show:before', function(mnu) {
                         this.scroller = new Common.UI.Scroller({
                         el: $(this.el).find('.dropdown-menu '),
                         useKeyboard: this.enableKeyEvents && !this.handleSelect,
