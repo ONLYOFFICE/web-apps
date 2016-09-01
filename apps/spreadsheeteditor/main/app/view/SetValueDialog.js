@@ -104,7 +104,7 @@ define([
 
             var $window = this.getChild();
             $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
-            this.spnSize.on('entervalue', _.bind(this.onEnterValue, this));
+            this.spnSize.on('entervalue', _.bind(this.onPrimary, this));
             this.spnSize.on('change', _.bind(this.onChange, this));
             this.spnSize.$el.find('input').focus();
         },
@@ -121,10 +121,6 @@ define([
             this._handleInput(event.currentTarget.attributes['result'].value);
         },
 
-        onEnterValue: function(event) {
-            this._handleInput('ok');
-        },
-
         onChange: function () {
             var val = this.spnSize.getNumberValue();
             val = val / this.step; val = (val | val) * this.step;
@@ -133,6 +129,10 @@ define([
 
         getSettings: function() {
             return this.spnSize.getNumberValue();
+        },
+
+        onPrimary: function() {
+            this._handleInput('ok');
         },
 
         cancelButtonText: 'Cancel',
