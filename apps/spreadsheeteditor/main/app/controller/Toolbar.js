@@ -1449,7 +1449,7 @@ define([
                 case 2: // FitPage
                 case 0:
                 default: {
-                    this.toolbar.mnuZoom.options.value = percent;
+                    this.toolbar.mnuZoom.options.value = Math.floor((zf + .005) * 100);
                     $('.menu-zoom .zoom', this.toolbar.el).html(Math.floor((zf + .005) * 100) + '%');
                 }
             }
