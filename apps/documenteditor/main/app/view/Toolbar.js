@@ -748,6 +748,7 @@ define([
                 isChecked: function () { return this.conf.checked; }
             };
             this.btnFitWidth = _.clone(this.btnFitPage);
+            this.mnuZoom = {options: {value: 100}};
 
             this.btnAdvSettings = new Common.UI.Button({
                 id          : 'id-toolbar-btn-settings',
@@ -1169,7 +1170,7 @@ define([
                             checkable: true,
                             checked: this.btnFitWidth.isChecked()
                         }),
-                        (new Common.UI.MenuItem({
+                        this.mnuZoom = new Common.UI.MenuItem({
                             template: _.template([
                                 '<div id="id-toolbar-menu-zoom" class="menu-zoom" style="height: 25px;" ',
                                 '<% if(!_.isUndefined(options.stopPropagation)) { %>',
@@ -1177,12 +1178,13 @@ define([
                                 '<% } %>', '>',
                                 '<label class="title">' + this.textZoom + '</label>',
                                 '<button id="id-menu-zoom-in" type="button" style="float:right; margin: 2px 5px 0 0;" class="btn small btn-toolbar"><span class="btn-icon btn-zoomin">&nbsp;</span></button>',
-                                '<label class="zoom">100%</label>',
+                                '<label class="zoom"><%= options.value %>%</label>',
                                 '<button id="id-menu-zoom-out" type="button" style="float:right; margin-top: 2px;" class="btn small btn-toolbar"><span class="btn-icon btn-zoomout">&nbsp;</span></button>',
                                 '</div>'
                             ].join('')),
-                            stopPropagation: true
-                        }))
+                            stopPropagation: true,
+                            value: this.mnuZoom.options.value
+                        })
                     ]
                 })
             );

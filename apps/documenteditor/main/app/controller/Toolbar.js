@@ -765,7 +765,7 @@ define([
         onApiZoomChange: function(percent, type) {
             this.toolbar.btnFitPage.setChecked(type == 2, true);
             this.toolbar.btnFitWidth.setChecked(type == 1, true);
-
+            this.toolbar.mnuZoom.options.value = percent;
             $('.menu-zoom .zoom', this.toolbar.el).html(percent + '%');
         },
 
