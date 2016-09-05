@@ -188,13 +188,6 @@ define([
 
                     Common.NotificationCenter.on('menumanager:hideall', _.bind(me.closeMenu, me));
 
-                    this.scroller = new Common.UI.Scroller({
-                        el: $('.dropdown-menu', me.cmpEl),
-                        minScrollbarLength : 40,
-                        scrollYMarginOffset: 30,
-                        includePadding     : true
-                    });
-
                     // set default selection
                     this.setDefaultSelection();
 
@@ -218,8 +211,17 @@ define([
             openMenu: function(delay) {
                 var me = this;
 
+                if ( !this.scroller ) {
+                    this.scroller = new Common.UI.Scroller(_.extend({
+                        el: $('.dropdown-menu', this.cmpEl),
+                        minScrollbarLength: 40,
+                        scrollYMarginOffset: 30,
+                        includePadding: true
+                    }, this.options.scroller));
+                }
+
                 _.delay(function(){
-                    me.cmpEl.addClass('open')
+                    me.cmpEl.addClass('open');
                 }, delay || 0);
             },
 
@@ -232,6 +234,16 @@ define([
             },
 
             onBeforeShowMenu: function(e) {
+                if ( !this.scroller ) {
+                    this.scroller = new Common.UI.Scroller(_.extend({
+                        el: $('.dropdown-menu', this.cmpEl),
+                        minScrollbarLength: 40,
+                        scrollYMarginOffset: 30,
+                        includePadding: true
+                    }, this.options.scroller));
+                }
+
+                Common.NotificationCenter.trigger('menu:show');
                 this.trigger('show:before', this, e);
                 if (this.options.hint) {
                     var tip = this.cmpEl.data('bs.tooltip');
@@ -273,6 +285,7 @@ define([
             onAfterHideMenu: function(e) {
                 this.cmpEl.find('.dropdown-toggle').blur();
                 this.trigger('hide:after', this, e);
+                Common.NotificationCenter.trigger('menu:hide');
             },
 
             onAfterKeydownMenu: function(e) {
@@ -308,6 +321,8 @@ define([
                         me._skipInputChange = true;
                         me.cmpEl.find('ul li:first a').focus();
                     }, 10);
+                } else if (e.keyCode == Common.UI.Keys.RETURN && $(e.target).val() === me.lastValue){
+                    this._input.trigger('change', { reapply: true });
                 } else
                     me._skipInputChange = false;
             },
@@ -329,7 +344,7 @@ define([
                 var val = $(e.target).val(),
                     record = {};
 
-                if (this.lastValue === val) {
+                if (this.lastValue === val && !(extra && extra.reapply)) {
                     if (extra && extra.onkeydown)
                         this.trigger('combo:blur', this, e);
                     return;
@@ -523,12 +538,12 @@ define([
                     this.scroller.destroy();
                     delete this.scroller;
                 }
-                this.scroller = new Common.UI.Scroller({
+                this.scroller = new Common.UI.Scroller(_.extend({
                     el: $('.dropdown-menu', this.cmpEl),
                     minScrollbarLength : 40,
                     scrollYMarginOffset: 30,
                     includePadding     : true
-                });
+                }, this.options.scroller));
             }
         }
     })());

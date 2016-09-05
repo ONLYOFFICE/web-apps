@@ -85,11 +85,14 @@ define([
 
             initialize : function(options) {
                 Common.UI.ComboBox.prototype.initialize.call(this, _.extend(options, {
-                    displayField: 'name'
+                    displayField: 'name',
+                    scroller: {
+                        alwaysVisibleY: true,
+                        onChange: this.updateVisibleFontsTiles.bind(this)
+                    }
                 }));
 
                 this.recent = _.isNumber(options.recent) ? options.recent : 3;
-                this.bindUpdateVisibleFontsTiles = _.bind(this.updateVisibleFontsTiles, this);
 
                 Common.NotificationCenter.on('fonts:change',    _.bind(this.onApiChangeFont, this));
                 Common.NotificationCenter.on('fonts:load',      _.bind(this.fillFonts, this));
@@ -108,8 +111,6 @@ define([
 
                 this._input.on('keyup',     _.bind(this.onInputKeyUp, this));
                 this._input.on('keydown',   _.bind(this.onInputKeyDown, this));
-
-                this.scroller.update({alwaysVisibleY: true, onChange:this.bindUpdateVisibleFontsTiles});
 
                 return this;
             },
@@ -138,8 +139,9 @@ define([
                     }, 10);
                     return false;
                 } else if ((e.keyCode == Common.UI.Keys.HOME || e.keyCode == Common.UI.Keys.END || e.keyCode == Common.UI.Keys.BACKSPACE) && this.isMenuOpen()) {
+                    me._input.focus();
                     setTimeout(function() {
-                        me._input.focus();
+                        me._input[0].selectionStart = me._input[0].selectionEnd = (e.keyCode == Common.UI.Keys.HOME) ? 0 : me._input[0].value.length;
                     }, 10);
                 }
 
@@ -157,25 +159,31 @@ define([
                     this.selectCandidate(e.keyCode == Common.UI.Keys.DELETE || e.keyCode == Common.UI.Keys.BACKSPACE);
                     if (this._selectedItem) {
                         var me = this;
-                        setTimeout(function() {
-                            var input = me._input[0],
-                                text = me._selectedItem.get(me.displayField),
-                                inputVal = input.value;
-                            if (me.rendered)  {
-                                if (document.selection) { // IE
-                                    document.selection.createRange().text = text;
-                                } else if (input.selectionStart || input.selectionStart == '0') { //FF и Webkit
-                                    input.value = text;
-                                    input.selectionStart = inputVal.length;
-                                    input.selectionEnd = text.length;
+                        if (me._timerSelection===undefined)
+                            me._timerSelection = setInterval(function(){
+                                if ((new Date()) - me._inInputKeyDown<100 || !me._selectedItem) return;
+
+                                clearInterval(me._timerSelection);
+                                me._timerSelection = undefined;
+                                var input = me._input[0],
+                                    text = me._selectedItem.get(me.displayField),
+                                    inputVal = input.value;
+                                if (me.rendered)  {
+                                    if (document.selection) { // IE
+                                        document.selection.createRange().text = text;
+                                    } else if (input.selectionStart || input.selectionStart == '0') { //FF и Webkit
+                                        input.value = text;
+                                        input.selectionStart = inputVal.length;
+                                        input.selectionEnd = text.length;
+                                    }
                                 }
-                            }
-                        }, 10);
+                            }, 10);
                     }
                 }
             },
 
             onInputKeyDown: function(e) {
+                this._inInputKeyDown = (new Date());
                 var me = this;
 
                 if (e.keyCode == Common.UI.Keys.ESC){

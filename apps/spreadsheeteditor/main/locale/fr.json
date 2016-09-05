@@ -168,7 +168,7 @@
   "SSE.Controllers.Main.loadImagesTitleText": "Chargement des images",
   "SSE.Controllers.Main.loadImageTextText": "Chargement d'une image en cours...",
   "SSE.Controllers.Main.loadImageTitleText": "Chargement d'une image",
-  "SSE.Controllers.Main.loadingDocumentTitleText": "Chargement du document",
+  "SSE.Controllers.Main.loadingDocumentTitleText": "Chargement feuille de calcul",
   "SSE.Controllers.Main.notcriticalErrorTitle": "Avertissement",
   "SSE.Controllers.Main.openTextText": "Ouverture de la feuille de calcul en cours...",
   "SSE.Controllers.Main.openTitleText": "Ouverture de la feuille de calcul",

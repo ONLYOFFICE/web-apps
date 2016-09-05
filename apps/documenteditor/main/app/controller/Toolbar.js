@@ -166,7 +166,7 @@ define([
             // Create toolbar view
             this.toolbar = this.createView('Toolbar');
 
-            this.toolbar.on('render:after', _.bind(this.onToolbarAfterRender, this));
+            // this.toolbar.on('render:after', _.bind(this.onToolbarAfterRender, this));
         },
 
         onToolbarAfterRender: function(toolbar) {
@@ -240,7 +240,7 @@ define([
             toolbar.btnDropCap.menu.on('item:click',                    _.bind(this.onDropCapSelect, this));
             toolbar.mnuDropCapAdvanced.on('click',                      _.bind(this.onDropCapAdvancedClick, this));
             toolbar.btnColumns.menu.on('item:click',                    _.bind(this.onColumnsSelect, this));
-            toolbar.btnPageOrient.on('toggle',                          _.bind(this.onPageOrientToggle, this));
+            toolbar.btnPageOrient.menu.on('item:click',                 _.bind(this.onPageOrientSelect, this));
             toolbar.btnPageMargins.menu.on('item:click',                _.bind(this.onPageMarginsSelect, this));
             toolbar.btnClearStyle.on('click',                           _.bind(this.onClearStyleClick, this));
             toolbar.btnCopyStyle.on('toggle',                           _.bind(this.onCopyStyleToggle, this));
@@ -723,7 +723,7 @@ define([
 
         onApiPageOrient: function(isportrait) {
             if (this._state.pgorient !== isportrait) {
-                this.toolbar.btnPageOrient.toggle(!isportrait, true);
+                this.toolbar.btnPageOrient.menu.items[isportrait ? 0 : 1].setChecked(true);
                 this._state.pgorient = isportrait;
             }
         },
@@ -765,7 +765,7 @@ define([
         onApiZoomChange: function(percent, type) {
             this.toolbar.btnFitPage.setChecked(type == 2, true);
             this.toolbar.btnFitWidth.setChecked(type == 1, true);
-
+            this.toolbar.mnuZoom.options.value = percent;
             $('.menu-zoom .zoom', this.toolbar.el).html(percent + '%');
         },
 
@@ -873,29 +873,21 @@ define([
         onCopyPaste: function(copy, e) {
             var me = this;
             if (me.api) {
-                if (typeof window['AscDesktopEditor'] === 'object') {           // AscDesktopEditor object may exists in desktop version
-                    copy ? me.api.Copy() : me.api.Paste();
-//                    window['AscDesktopEditor'][copy ? 'Copy' : 'Paste']();      // desktop editor's methods
-                } else {
+                var res = (copy) ? me.api.Copy() : me.api.Paste();
+                if (!res) {
                     var value = Common.localStorage.getItem("de-hide-copywarning");
                     if (!(value && parseInt(value) == 1)) {
                         (new Common.Views.CopyWarningDialog({
                             handler: function(dontshow) {
-                                copy ? me.api.Copy() : me.api.Paste();
                                 if (dontshow) Common.localStorage.setItem("de-hide-copywarning", 1);
                                 Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                             }
                         })).show();
-                    } else {
-                        copy ? me.api.Copy() : me.api.Paste();
-                        Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                     }
-                }
-
-                Common.component.Analytics.trackEvent('ToolBar', 'Copy Warning');
-            } else {
-                Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                } else
+                    Common.component.Analytics.trackEvent('ToolBar', 'Copy Warning');
             }
+            Common.NotificationCenter.trigger('edit:complete', me.toolbar);
         },
 
         onIncrease: function(e) {
@@ -1107,7 +1099,6 @@ define([
                             msg: this.textFontSizeErr,
                             callback: function() {
                                 _.defer(function(btn) {
-                                    me.api.asc_enableKeyEvents(false);
                                     $('input', combo.cmpEl).focus();
                                 })
                             }
@@ -1387,10 +1378,11 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this.toolbar, this.toolbar.btnInsertShape);
         },
 
-        onPageOrientToggle: function(btn, state, e) {
+        onPageOrientSelect: function(menu, item) {
             this._state.pgorient = undefined;
-            if (this.api)
-                this.api.change_PageOrient(!state);
+            if (this.api && item.checked) {
+                this.api.change_PageOrient(item.value);
+            }
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             Common.component.Analytics.trackEvent('ToolBar', 'Page Orientation');
@@ -1767,11 +1759,11 @@ define([
             menu.items[3].setDisabled(isAllDefailtNotModifaed);
             menu.items[4].setDisabled(isAllCustomDeleted);
 
-            var top = e.clientY;
+            var top = e.clientY*Common.Utils.zoom();
             if ($('#header-container').is(":visible")) {
                 top -= $('#header-container').height()
             }
-            showPoint = [e.clientX, top];
+            showPoint = [e.clientX*Common.Utils.zoom(), top];
 
             if (record != undefined) {
                 //itemMenu
@@ -2197,10 +2189,13 @@ define([
         },
 
         fillEquations: function() {
+            if (!this.toolbar.btnInsertEquation.rendered) return;
+
             var me = this, equationsStore = this.getApplication().getCollection('EquationGroups');
 
             me.equationPickers = [];
-
+            me.toolbar.btnInsertEquation.menu.removeAll();
+            
             for (var i = 0; i < equationsStore.length; ++i) {
                 var equationGroup = equationsStore.at(i);
 
@@ -2388,8 +2383,9 @@ define([
         },
 
         fillTextArt: function() {
-            var me = this;
+            if (!this.toolbar.btnInsertText.rendered) return;
             
+            var me = this;
             if (this.toolbar.mnuTextArtPicker) {
                 var models = this.getApplication().getCollection('Common.Collections.TextArt').models,
                     count = this.toolbar.mnuTextArtPicker.store.length;
@@ -2633,6 +2629,11 @@ define([
             });
 
             me._mailMergeDlg.show();
+        },
+
+        createDelayedElements: function() {
+            this.toolbar.createDelayedElements();
+            this.onToolbarAfterRender(this.toolbar);
         },
 
         textEmptyImgUrl                            : 'You need to specify image URL.',

@@ -258,7 +258,7 @@ define([
                 this.lblAutosave.text(this.textAutoRecover);
             }
             /** coauthoring begin **/
-            $('tr.coauth.changes', this.el)[mode.isEdit && mode.canLicense && !mode.isOffline ? 'show' : 'hide']();
+            $('tr.coauth.changes', this.el)[mode.isEdit && mode.canLicense && !mode.isOffline && mode.canCoAuthoring ? 'show' : 'hide']();
             /** coauthoring end **/
         },
 
@@ -273,7 +273,7 @@ define([
 
             /** coauthoring begin **/
             value = Common.localStorage.getItem("pe-settings-coauthmode");
-            var fast_coauth = (value===null || parseInt(value) == 1) && !(this.mode.isDesktopApp && this.mode.isOffline);
+            var fast_coauth = (value===null || parseInt(value) == 1) && !(this.mode.isDesktopApp && this.mode.isOffline) && this.mode.canCoAuthoring;
 
             item = this.cmbCoAuthMode.store.findWhere({value: parseInt(value)});
             this.cmbCoAuthMode.setValue(item ? item.get('value') : 1);
@@ -286,7 +286,7 @@ define([
             this._oldUnits = this.cmbUnit.getValue();
 
             value = Common.localStorage.getItem("pe-settings-autosave");
-            this.chAutosave.setValue(fast_coauth || (value===null || parseInt(value) == 1));
+            this.chAutosave.setValue(fast_coauth || (value===null ? this.mode.canCoAuthoring : parseInt(value) == 1));
 
             value = Common.localStorage.getItem("pe-settings-showsnaplines");
             this.chAlignGuides.setValue(value===null || parseInt(value) == 1);
@@ -296,7 +296,7 @@ define([
             Common.localStorage.setItem("pe-settings-inputmode", this.chInputMode.isChecked() ? 1 : 0);
             Common.localStorage.setItem("pe-settings-zoom", this.cmbZoom.getValue());
             /** coauthoring begin **/
-            if (this.mode.isEdit && this.mode.canLicense && !this.mode.isOffline) {
+            if (this.mode.isEdit && this.mode.canLicense && !this.mode.isOffline && this.mode.canCoAuthoring) {
                 Common.localStorage.setItem("pe-settings-coauthmode", this.cmbCoAuthMode.getValue());
             }
             /** coauthoring end **/

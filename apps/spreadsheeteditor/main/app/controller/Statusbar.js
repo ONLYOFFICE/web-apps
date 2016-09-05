@@ -68,20 +68,6 @@ define([
                     'sheet:move':           _.bind(this.moveWorksheet, this)
                 }
             });
-
-            var me = this;
-            Common.util.Shortcuts.delegateShortcuts({shortcuts:{
-                'alt+pageup': function(e) {
-                    me.moveCurrentTab(-1);
-                    e.preventDefault();
-                    e.stopPropagation();
-                },
-                'alt+pagedown': function(e) {
-                    me.moveCurrentTab(1);
-                    e.preventDefault();
-                    e.stopPropagation();
-                }
-            }});
         },
 
         events: function() {

@@ -536,7 +536,7 @@ define([
             var innerEl = $(this.el).find('.inner'),
                 inner_top = innerEl.offset().top,
                 idx = _.indexOf(this.store.models, record),
-                div = (idx>=0) ? $(this.dataViewItems[idx].el) : innerEl.find('#' + record.get('id'));
+                div = (idx>=0 && this.dataViewItems.length>idx) ? $(this.dataViewItems[idx].el) : innerEl.find('#' + record.get('id'));
             if (div.length<=0) return;
             
             var div_top = div.offset().top;
@@ -676,7 +676,7 @@ define([
                             ? this.parentMenu.cmpEl
                             : this.parentMenu.cmpEl.find('[role=menu]'),
                 innerEl = $(this.el).find('.inner').andSelf().filter('.inner'),
-                docH = $(document).height(),
+                docH = Common.Utils.innerHeight(),
                 menuH = menuRoot.outerHeight(),
                 top = parseInt(menuRoot.css('top'));
 

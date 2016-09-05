@@ -162,8 +162,8 @@ define([
             view.menuAddHyperlink.on('click',                   _.bind(me.onInsHyperlink, me));
             view.menuEditHyperlink.on('click',                  _.bind(me.onInsHyperlink, me));
             view.menuRemoveHyperlink.on('click',                _.bind(me.onDelHyperlink, me));
-            view.pmiRowHeight.on('click',                       _.bind(me.onSetSize, me));
-            view.pmiColumnWidth.on('click',                     _.bind(me.onSetSize, me));
+            view.pmiRowHeight.menu.on('item:click',             _.bind(me.onSetSize, me));
+            view.pmiColumnWidth.menu.on('item:click',           _.bind(me.onSetSize, me));
             view.pmiEntireHide.on('click',                      _.bind(me.onEntireHide, me));
             view.pmiEntireShow.on('click',                      _.bind(me.onEntireShow, me));
             view.pmiFreezePanes.on('click',                     _.bind(me.onFreezePanes, me));
@@ -265,25 +265,21 @@ define([
         onCopyPaste: function(item) {
             var me = this;
             if (me.api) {
-                if (typeof window['AscDesktopEditor'] === 'object') {
-                    (item.value == 'cut') ? me.api.asc_Cut() : ((item.value == 'copy') ? me.api.asc_Copy() : me.api.asc_Paste());
-                } else {
+                var res =  (item.value == 'cut') ? me.api.asc_Cut() : ((item.value == 'copy') ? me.api.asc_Copy() : me.api.asc_Paste());
+                if (!res) {
                     var value = Common.localStorage.getItem("sse-hide-copywarning");
                     if (!(value && parseInt(value) == 1)) {
                         (new Common.Views.CopyWarningDialog({
                             handler: function(dontshow) {
-                                (item.value == 'cut') ? me.api.asc_Cut() : ((item.value == 'copy') ? me.api.asc_Copy() : me.api.asc_Paste());
                                 if (dontshow) Common.localStorage.setItem("sse-hide-copywarning", 1);
                                 Common.NotificationCenter.trigger('edit:complete', me.documentHolder);
                             }
                         })).show();
-                    } else {
-                        (item.value == 'cut') ? me.api.asc_Cut() : ((item.value == 'copy') ? me.api.asc_Copy() : me.api.asc_Paste());
-                        Common.NotificationCenter.trigger('edit:complete', me.documentHolder);
                     }
+                } else
                     Common.component.Analytics.trackEvent('ToolBar', 'Copy Warning');
-                }
             }
+            Common.NotificationCenter.trigger('edit:complete', me.documentHolder);
         },
 
         onInsertEntire: function(item) {
@@ -419,7 +415,6 @@ define([
         onInsFunction: function(item) {
             var controller = this.getApplication().getController('FormulaDialog');
             if (controller && this.api) {
-                this.api.asc_enableKeyEvents(false);
                 controller.showDialog();
             }
         },
@@ -480,24 +475,29 @@ define([
             }
         },
 
-        onSetSize: function(item) {
-            var me = this;
-            (new SSE.Views.SetValueDialog({
-                title: item.caption,
-                startvalue: item.options.action == 'row-height' ? me.api.asc_getRowHeight() : me.api.asc_getColumnWidth(),
-                maxvalue: item.options.action == 'row-height' ? Asc.c_oAscMaxRowHeight : Asc.c_oAscMaxColumnWidth,
-                step: item.options.action == 'row-height' ? 0.75 : 1,
-                defaultUnit: item.options.action == 'row-height' ? Common.Utils.Metric.getMetricName(Common.Utils.Metric.c_MetricUnits.pt) : me.textSym,
-                handler: function(dlg, result) {
-                    if (result == 'ok') {
-                        var val = dlg.getSettings();
-                        if (!isNaN(val))
-                            (item.options.action == 'row-height') ? me.api.asc_setRowHeight(val) : me.api.asc_setColumnWidth(val);
-                    }
+        onSetSize: function(menu, item) {
+            if (item.value == 'row-height' || item.value == 'column-width') {
+                var me = this;
+                (new SSE.Views.SetValueDialog({
+                    title: item.caption,
+                    startvalue: item.value == 'row-height' ? me.api.asc_getRowHeight() : me.api.asc_getColumnWidth(),
+                    maxvalue: item.value == 'row-height' ? Asc.c_oAscMaxRowHeight : Asc.c_oAscMaxColumnWidth,
+                    step: item.value == 'row-height' ? 0.75 : 1,
+                    defaultUnit: item.value == 'row-height' ? Common.Utils.Metric.getMetricName(Common.Utils.Metric.c_MetricUnits.pt) : me.textSym,
+                    handler: function(dlg, result) {
+                        if (result == 'ok') {
+                            var val = dlg.getSettings();
+                            if (!isNaN(val))
+                                (item.value == 'row-height') ? me.api.asc_setRowHeight(val) : me.api.asc_setColumnWidth(val);
+                        }
 
-                    Common.NotificationCenter.trigger('edit:complete', me.documentHolder);
-                }
-            })).show();
+                        Common.NotificationCenter.trigger('edit:complete', me.documentHolder);
+                    }
+                })).show();
+            } else {
+                (item.value == 'auto-row-height') ? this.api.asc_autoFitRowHeight() : this.api.asc_autoFitColumnWidth();
+                Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+            }
         },
 
         onEntireHide: function(item) {
@@ -517,7 +517,6 @@ define([
 
         onAddComment: function(item) {
             if (this.api && this.permissions.canCoAuthoring && this.permissions.isEdit && this.permissions.canComments) {
-                this.api.asc_enableKeyEvents(false);
 
                 var controller = SSE.getController('Common.Controllers.Comments'),
                     cellinfo = this.api.asc_getCellInfo();
@@ -961,7 +960,19 @@ define([
         },
 
         onApiHyperlinkClick: function(url) {
-            if (url && this.api.asc_getUrlType(url)>0) {
+            if (!url) {
+                Common.UI.alert({
+                    msg: this.errorInvalidLink,
+                    title: this.notcriticalErrorTitle,
+                    iconCls: 'warn',
+                    buttons: ['ok'],
+                    callback: _.bind(function(btn){
+                        Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+                    }, this)
+                });
+                return;
+            }
+            if (this.api.asc_getUrlType(url)>0) {
                 var newDocumentPage = window.open(url, '_blank');
                 if (newDocumentPage)
                     newDocumentPage.focus();
@@ -990,9 +1001,8 @@ define([
                     rect = config.asc_getCellCoord(),
                     x = rect.asc_getX() + rect.asc_getWidth() +offset.left,
                     y = rect.asc_getY() + rect.asc_getHeight() + offset.top;
-                var doc = $(document),
-                    docwidth = doc.width(),
-                    docheight = doc.height();
+                var docwidth = Common.Utils.innerWidth(),
+                    docheight = Common.Utils.innerHeight();
                 if (x+me.dlgFilter.options.width > docwidth)
                     x = docwidth - me.dlgFilter.options.width - 5;
                 if (y+me.dlgFilter.options.height > docheight)
@@ -1328,7 +1338,7 @@ define([
 
                 var me                  = this,
                     documentHolderView  = me.documentHolder,
-                    showPoint           = [event.pageX - documentHolderView.cmpEl.offset().left, event.pageY - documentHolderView.cmpEl.offset().top],
+                    showPoint           = [event.pageX*Common.Utils.zoom() - documentHolderView.cmpEl.offset().left, event.pageY*Common.Utils.zoom() - documentHolderView.cmpEl.offset().top],
                     menuContainer       = documentHolderView.cmpEl.find(Common.Utils.String.format('#menu-container-{0}', menu.id));
 
                 if (!menu.rendered) {
@@ -1450,31 +1460,31 @@ define([
 
                     menu.onAfterKeydownMenu = function(e) {
                         if (e.keyCode == Common.UI.Keys.RETURN && (e.ctrlKey || e.altKey)) return;
-                        Common.UI.Menu.prototype.onAfterKeydownMenu.call(menu, e);
+//                        Common.UI.Menu.prototype.onAfterKeydownMenu.call(menu, e);
 
                         var li;
-                        if (arguments.length>1 && arguments[1] instanceof jQuery.Event) {// when typing in cell editor
+                        if (arguments.length>1 && arguments[1] instanceof KeyboardEvent) // when typing in cell editor
                             e = arguments[1];
-                            if (menuContainer.hasClass('open')) {
-                                if (e.keyCode == Common.UI.Keys.TAB || e.keyCode == Common.UI.Keys.RETURN && !e.ctrlKey && !e.altKey)
-                                    li = menuContainer.find('a.focus').closest('li');
-                                else if (e.keyCode == Common.UI.Keys.UP || e.keyCode == Common.UI.Keys.DOWN) {
-                                    var innerEl = menu.cmpEl,
-                                        inner_top = innerEl.offset().top,
-                                        li_focused = menuContainer.find('a.focus').closest('li');
+                        if (menuContainer.hasClass('open')) {
+                            if (e.keyCode == Common.UI.Keys.TAB || e.keyCode == Common.UI.Keys.RETURN && !e.ctrlKey && !e.altKey)
+                                li = menuContainer.find('a.focus').closest('li');
+                            else if (e.keyCode == Common.UI.Keys.UP || e.keyCode == Common.UI.Keys.DOWN) {
+                                var innerEl = menu.cmpEl,
+                                    inner_top = innerEl.offset().top,
+                                    li_focused = menuContainer.find('a.focus').closest('li');
 
-                                    var li_top = li_focused.offset().top;
-                                    if (li_top < inner_top || li_top+li_focused.outerHeight() > inner_top + innerEl.height()) {
-                                        if (menu.scroller) {
-                                            menu.scroller.scrollTop(innerEl.scrollTop() + li_top - inner_top, 0);
-                                        } else {
-                                            innerEl.scrollTop(innerEl.scrollTop() + li_top - inner_top);
-                                        }
+                                var li_top = li_focused.offset().top;
+                                if (li_top < inner_top || li_top+li_focused.outerHeight() > inner_top + innerEl.height()) {
+                                    if (menu.scroller) {
+                                        menu.scroller.scrollTop(innerEl.scrollTop() + li_top - inner_top, 0);
+                                    } else {
+                                        innerEl.scrollTop(innerEl.scrollTop() + li_top - inner_top);
                                     }
                                 }
                             }
-                        } else if (e.keyCode == Common.UI.Keys.TAB)
-                            li = $(e.target).closest('li');
+                        }
+//                        } else if (e.keyCode == Common.UI.Keys.TAB)
+//                            li = $(e.target).closest('li');
 
                         if (li) {
                             if (li.length>0) li.click();
@@ -1484,10 +1494,6 @@ define([
 
                     menu.render(menuContainer);
                     menu.cmpEl.attr({tabindex: "-1"});
-
-                    menu.on('hide:after', function() {
-                        if (Common.Utils.isIE) me.documentHolder.focus();
-                    });
                 }
 
                 var coord  = me.api.asc_getActiveCellCoord(),
@@ -1505,17 +1511,18 @@ define([
                         menu.scroller.update({alwaysVisibleY: true});
                         menu.scroller.scrollTop(0);
                     }
-                    if (infocus) {
+                    if (infocus)
                         me.cellEditor.focus();
-                        _.delay(function() {
-                            menu.cmpEl.find('li:first a').addClass('focus');
-                        }, 10);
-                    } else {
-                        _.delay(function() {
-                            menu.cmpEl.focus();
-                            menu.cmpEl.find('li:first a').focus();
-                        }, 10);
-                    }
+                    menu.cmpEl.toggleClass('from-cell-edit', infocus);
+                    _.delay(function() {
+                        menu.cmpEl.find('li:first a').addClass('focus');
+                    }, 10);
+//                    } else {
+//                        _.delay(function() {
+//                            menu.cmpEl.focus();
+//                            menu.cmpEl.find('li:first a').focus();
+//                        }, 10);
+//                    }
                 }, 1);
             } else {
                 this.documentHolder.funcMenu.hide();
@@ -1537,7 +1544,6 @@ define([
 
         guestText               : 'Guest',
         textCtrlClick           : 'Press CTRL and click link',
-        txtRowHeight            : 'Row Height',
         txtHeight               : 'Height',
         txtWidth                : 'Width',
         tipIsLocked             : 'This element is being edited by another user.',
@@ -1545,7 +1551,9 @@ define([
         textChangeRowHeight     : 'Row Height {0} points ({1} pixels)',
         textInsertLeft          : 'Insert Left',
         textInsertTop           : 'Insert Top',
-        textSym                 : 'sym'
+        textSym                 : 'sym',
+        notcriticalErrorTitle: 'Warning',
+        errorInvalidLink: 'The link reference does not exist. Please correct the link or delete it.'
 
     }, SSE.Controllers.DocumentHolder || {}));
 });

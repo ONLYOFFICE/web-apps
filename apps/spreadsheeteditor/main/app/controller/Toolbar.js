@@ -270,6 +270,7 @@ define([
             this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onApiCoAuthoringDisconnect, this));
             Common.NotificationCenter.on('api:disconnect',              _.bind(this.onApiCoAuthoringDisconnect, this));
             this.api.asc_registerCallback('asc_onLockDefNameManager',   _.bind(this.onLockDefNameManager, this));
+            this.api.asc_registerCallback('asc_onZoomChanged',          _.bind(this.onApiZoomChange, this));
         },
 
         onNewDocument: function(btn, e) {
@@ -327,29 +328,21 @@ define([
         onCopyPaste: function(copy, e) {
             var me = this;
             if (me.api) {
-                if (typeof window['AscDesktopEditor'] === 'object') {
-                    copy ? me.api.asc_Copy() : me.api.asc_Paste();
-                    Common.NotificationCenter.trigger('edit:complete', me.toolbar);
-                } else {
+                var res = (copy) ? me.api.asc_Copy() : me.api.asc_Paste();
+                if (!res) {
                     var value = Common.localStorage.getItem("sse-hide-copywarning");
                     if (!(value && parseInt(value) == 1)) {
                         (new Common.Views.CopyWarningDialog({
                             handler: function(dontshow) {
-                                copy ? me.api.asc_Copy() : me.api.asc_Paste();
                                 if (dontshow) Common.localStorage.setItem("sse-hide-copywarning", 1);
                                 Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                             }
                         })).show();
-                    } else {
-                        copy ? me.api.asc_Copy() : me.api.asc_Paste();
-                        Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                     }
-                }
-
-                Common.component.Analytics.trackEvent('ToolBar', 'Copy Warning');
-            } else {
-                Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                } else
+                    Common.component.Analytics.trackEvent('ToolBar', 'Copy Warning');
             }
+            Common.NotificationCenter.trigger('edit:complete', me.toolbar);
         },
 
         onIncreaseFontSize: function(e) {
@@ -538,7 +531,7 @@ define([
         onHorizontalAlign: function(type, btn, e) {
             this._state.pralign = undefined;
             if (this.api) {
-                this.api.asc_setCellAlign(!btn.pressed ? 'left' : type);
+                this.api.asc_setCellAlign(!btn.pressed ? 'none' : type);
                 this.toolbar.btnWrap.allowDepress = !(type == 'justify');
             }
 
@@ -558,7 +551,7 @@ define([
 
             this._state.pralign = undefined;
             if (this.api)
-                this.api.asc_setCellAlign(!item.checked ? 'left' : item.value);
+                this.api.asc_setCellAlign(!item.checked ? 'none' : item.value);
 
             this.toolbar.btnWrap.allowDepress = !(item.value == 'justify');
 
@@ -835,15 +828,8 @@ define([
         },
 
         onNumberFormat: function(btn) {
-            if (this.api) {
-                var format = btn.options.formatId;
-                if (btn.options.formatId == this.toolbar.ascFormatOptions.Accounting){
-                    var value = Common.localStorage.getItem("sse-settings-reg-settings");
-                    value = (value!==null) ? parseInt(value) : ((this.toolbar.mode.lang) ? parseInt(Common.util.LanguageInfo.getLocalLanguageCode(this.toolbar.mode.lang)) : 0x0409);
-                    format = this.api.asc_getLocaleCurrency(value);
-                }
-                this.api.asc_setCellFormat(format);
-            }
+            if (this.api) 
+                this.api.asc_setCellStyle(btn.options.styleName);
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             Common.component.Analytics.trackEvent('ToolBar', 'Number Format');
@@ -878,7 +864,6 @@ define([
                 if (item.value === 'more') {
                     var controller = this.getApplication().getController('FormulaDialog');
                     if (controller) {
-                        this.api.asc_enableKeyEvents(false);
                         controller.showDialog();
                     }
                 } else {
@@ -1082,7 +1067,6 @@ define([
                             msg: this.textFontSizeErr,
                             callback: function() {
                                 _.defer(function(btn) {
-                                    me.api.asc_enableKeyEvents(false);
                                     $('input', combo.cmpEl).focus();
                                 })
                             }
@@ -1173,7 +1157,6 @@ define([
             this.api.asc_registerCallback('asc_onCanRedoChanged',           _.bind(this.onApiCanRevert, this, 'redo'));
             this.api.asc_registerCallback('asc_onEditCell',                 _.bind(this.onApiEditCell, this));
             this.api.asc_registerCallback('asc_onEndAddShape',              _.bind(this.onApiEndAddShape, this));
-            this.api.asc_registerCallback('asc_onZoomChanged',              _.bind(this.onApiZoomChange, this));
             this.api.asc_registerCallback('asc_onSheetsChanged',            _.bind(this.onApiSheetChanged, this));
             this.api.asc_registerCallback('asc_onStopFormatPainter',        _.bind(this.onApiStyleChange, this));
             this.api.asc_registerCallback('asc_onUpdateSheetViewSettings',  _.bind(this.onApiSheetChanged, this));
@@ -1266,6 +1249,9 @@ define([
                         if (me.toolbar.listStyles.menuPicker.store.length > 0 && listStylesVisible){
                             me.toolbar.listStyles.fillComboView(me.toolbar.listStyles.menuPicker.getSelectedRec(), true);
                         }
+
+                        if (me.toolbar.btnInsertText.rendered)
+                            SSE.getController('Toolbar').fillTextArt();
                     }, 100);
                 }
 
@@ -2012,6 +1998,8 @@ define([
         },
 
         fillTextArt: function() {
+            if (!this.toolbar.btnInsertText.rendered) return;
+
             var me = this;
 
             if (this.toolbar.mnuTextArtPicker) {

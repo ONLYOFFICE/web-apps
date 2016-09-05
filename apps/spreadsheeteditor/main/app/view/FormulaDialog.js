@@ -130,8 +130,8 @@ define([
                     main_width = document.documentElement.offsetWidth;
                     main_height = document.documentElement.offsetHeight;
                 } else {
-                    main_width = window.innerWidth;
-                    main_height = window.innerHeight;
+                    main_width = Common.Utils.innerWidth();
+                    main_height = Common.Utils.innerHeight();
                 }
 
                 top = ((parseInt(main_height, 10) - parseInt(win_height, 10)) / 2) * 0.9;

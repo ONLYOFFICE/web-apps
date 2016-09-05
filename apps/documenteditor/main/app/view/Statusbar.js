@@ -208,7 +208,6 @@ define([
                 this.btnLanguage.cmpEl.on({
                     'show.bs.dropdown': function () {
                         _.defer(function(){
-                            me.api.asc_enableKeyEvents(false);
                             me.btnLanguage.cmpEl.find('ul').focus();
                         }, 100);
                     },
@@ -234,7 +233,6 @@ define([
                 });
                 this.cntZoom.cmpEl.on('show.bs.dropdown', function () {
                         _.defer(function(){
-                            me.api.asc_enableKeyEvents(false);
                             me.cntZoom.cmpEl.find('ul').focus();
                         }, 100);
                     }
@@ -585,7 +583,7 @@ define([
                     data: this.options.languages
                 });
 
-                this.cmbLanguage.scroller.update({alwaysVisibleY: true});
+                if (this.cmbLanguage.scroller) this.cmbLanguage.scroller.update({alwaysVisibleY: true});
                 this.cmbLanguage.on('selected', _.bind(this.onLangSelect, this));
                 this.cmbLanguage.setValue(Common.util.LanguageInfo.getLocalLanguageName(this.options.current)[0]);
                 this.onLangSelect(this.cmbLanguage, this.cmbLanguage.getSelectedRecord());

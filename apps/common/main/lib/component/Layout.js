@@ -231,6 +231,11 @@ define([
                 mouseup     : this.resize.eventStop
             });
 
+            Common.NotificationCenter.on({
+                'frame:mousemove': this.resize.eventMove,
+                'frame:mouseup': this.resize.eventStop
+            });
+
             var panel             = e.data.panel;
             this.resize.type      = e.data.type;
             this.resize.$el       = panel.el;
@@ -244,23 +249,25 @@ define([
             if (e.data.type == 'vertical') {
                 this.resize.height  = parseInt(this.resize.$el.css('height'));
                 this.resize.max     = (panel.maxpos > 0 ? panel.maxpos : this.resize.$el.parent().height() + panel.maxpos) - this.resize.height;
-                this.resize.inity   = e.pageY - parseInt(e.currentTarget.style.top);
+                this.resize.inity   = e.pageY*Common.Utils.zoom() - parseInt(e.currentTarget.style.top);
             } else
             if (e.data.type == 'horizontal') {
                 this.resize.width   = parseInt(this.resize.$el.css('width'));
                 this.resize.max     = (panel.maxpos > 0 ? panel.maxpos : this.resize.$el.parent().height() + panel.maxpos) - this.resize.width;
-                this.resize.initx   = e.pageX - parseInt(e.currentTarget.style.left);
+                this.resize.initx   = e.pageX*Common.Utils.zoom() - parseInt(e.currentTarget.style.left);
             }
+            Common.NotificationCenter.trigger('layout:resizestart');
         },
 
         resizeMove: function(e) {
+            var zoom = (e instanceof jQuery.Event) ? Common.Utils.zoom() : 1;
             if (this.resize.type == 'vertical') {
                 var prop    = 'top',
-                    value   = e.pageY - this.resize.inity;
+                    value   = e.pageY*zoom - this.resize.inity;
             } else
             if (this.resize.type == 'horizontal') {
                 prop        = 'left';
-                value       = e.pageX - this.resize.initx;
+                value       = e.pageX*zoom - this.resize.initx;
             }
 
             if (this.resize.fmin && this.resize.fmax) {
@@ -283,13 +290,21 @@ define([
                 mouseup     : this.resize.eventStop
             });
 
+            Common.NotificationCenter.off({
+                'frame:mousemove': this.resize.eventMove,
+                'frame:mouseup': this.resize.eventStop
+            });
+
+            if (!this.resize.$el) return;
+
+            var zoom = (e instanceof jQuery.Event) ? Common.Utils.zoom() : 1;
             if (this.resize.type == 'vertical') {
                 var prop = 'height';
-                var value = e.pageY - this.resize.inity;
+                var value = e.pageY*zoom - this.resize.inity;
             } else
             if (this.resize.type == 'horizontal') {
                 prop = 'width';
-                value = e.pageX - this.resize.initx;
+                value = e.pageX*zoom - this.resize.initx;
             }
 
             if (this.resize.fmin && this.resize.fmax) {
@@ -331,6 +346,7 @@ define([
                 this.doLayout();
                 this.trigger('layout:resizedrag', this);
             }
+            Common.NotificationCenter.trigger('layout:resizestop');
         },
 
         freezePanels: function (value) {

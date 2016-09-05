@@ -101,9 +101,6 @@ define([
                         menu.alignPosition();
                     }
                     _.delay(function() {
-                        var value = Common.localStorage.getItem("pe-settings-inputmode"); // only for hieroglyphs mode
-                        if (value!==null && parseInt(value) == 1)
-                            me.api.asc_enableKeyEvents(false);
                         menu.cmpEl.focus();
                     }, 10);
 
@@ -191,11 +188,18 @@ define([
 
             var onFocusObject = function(selectedElements) {
                 if (me.mode.isEdit && me.currentMenu && me.currentMenu.isVisible()){
-                    var obj = fillMenuProps(selectedElements);
-                    if (obj) {
-                        if (obj.menu_to_show===me.currentMenu) {
-                            me.currentMenu.options.initMenu(obj.menu_props);
+                    if (me.api.asc_getCurrentFocusObject() === 0 ){ // thumbnails
+                        if (me.slideMenu===me.currentMenu) {
+                            me.currentMenu.options.initMenu({isSlideSelect: me.slideMenu.items[2].isVisible(), fromThumbs: true});
                             me.currentMenu.alignPosition();
+                        }
+                    } else {
+                        var obj = fillMenuProps(selectedElements);
+                        if (obj) {
+                            if (obj.menu_to_show===me.currentMenu) {
+                                me.currentMenu.options.initMenu(obj.menu_props);
+                                me.currentMenu.alignPosition();
+                            }
                         }
                     }
                 }
@@ -688,6 +692,14 @@ define([
                 me.slidesCount = count;
             };
 
+            var onApiCurrentPages = function(number) {
+                if (me.currentMenu && me.currentMenu.isVisible()) {
+                    if (me._isFromSlideMenu !== true && me._isFromSlideMenu !== number)
+                        me.currentMenu.hide();
+                    me._isFromSlideMenu = number;
+                }
+            };
+
             this.setApi = function(o) {
                 me.api = o;
 
@@ -698,6 +710,7 @@ define([
                     me.api.asc_registerCallback('asc_onPaintSlideNum',      _.bind(onPaintSlideNum, me));
                     me.api.asc_registerCallback('asc_onEndPaintSlideNum',   _.bind(onEndPaintSlideNum, me));
                     me.api.asc_registerCallback('asc_onCountPages',         _.bind(onApiCountPages, me));
+                    me.api.asc_registerCallback('asc_onCurrentPage',        _.bind(onApiCurrentPages, me));
                     me.slidesCount = me.api.getCountPages();
 
                     //hyperlink
@@ -813,7 +826,6 @@ define([
         addComment: function(item, e, eOpt){
             if (this.api && this.mode.canCoAuthoring && this.mode.isEdit && this.mode.canComments) {
                 this.suppressEditComplete = true;
-                this.api.asc_enableKeyEvents(false);
 
                 var controller = PE.getController('Common.Controllers.Comments');
                 if (controller) {
@@ -838,26 +850,20 @@ define([
         onCutCopyPaste: function(item, e) {
             var me = this;
             if (me.api) {
-                if (typeof window['AscDesktopEditor'] === 'object') {
-                    (item.value == 'cut') ? me.api.Cut() : ((item.value == 'copy') ? me.api.Copy() : me.api.Paste());
-                } else {
+                var res =  (item.value == 'cut') ? me.api.Cut() : ((item.value == 'copy') ? me.api.Copy() : me.api.Paste());
+                if (!res) {
                     var value = Common.localStorage.getItem("pe-hide-copywarning");
                     if (!(value && parseInt(value) == 1)) {
                         (new Common.Views.CopyWarningDialog({
                             handler: function(dontshow) {
-                                (item.value == 'cut') ? me.api.Cut() : ((item.value == 'copy') ? me.api.Copy() : me.api.Paste());
                                 if (dontshow) Common.localStorage.setItem("pe-hide-copywarning", 1);
                                 me.fireEvent('editcomplete', me);
                             }
                         })).show();
-                    } else {
-                        (item.value == 'cut') ? me.api.Cut() : ((item.value == 'copy') ? me.api.Copy() : me.api.Paste());
-                        me.fireEvent('editcomplete', me);
                     }
                 }
-            } else {
-                me.fireEvent('editcomplete', me);
             }
+            me.fireEvent('editcomplete', me);
         },
 
         fullScreen: function(element) {
@@ -905,14 +911,15 @@ define([
 
             var mnuDeleteSlide = new Common.UI.MenuItem({
                 caption     : me.txtDeleteSlide
-            }).on('click', _.bind(function(item) {
+            }).on('click', function(item) {
                 if (me.api){
+                    me._isFromSlideMenu = true;
                     me.api.DeleteSlide();
 
-                    me.fireEvent('editcomplete', this);
+                    me.fireEvent('editcomplete', me);
                     Common.component.Analytics.trackEvent('DocumentHolder', 'Delete Slide');
                 }
-            }, me));
+            });
 
             var mnuChangeSlide = new Common.UI.MenuItem({
                 caption     : me.txtChangeLayout,
@@ -1014,9 +1021,10 @@ define([
                         caption : me.txtNewSlide
                     }).on('click', function(item) {
                         if (me.api) {
+                            me._isFromSlideMenu = true;
                             me.api.AddSlide();
 
-                            me.fireEvent('editcomplete', this);
+                            me.fireEvent('editcomplete', me);
                             Common.component.Analytics.trackEvent('DocumentHolder', 'Add Slide');
                         }
                     }),
@@ -1024,9 +1032,10 @@ define([
                         caption : me.txtDuplicateSlide
                     }).on('click', function(item){
                         if (me.api) {
+                            me._isFromSlideMenu = true;
                             me.api.DublicateSlide();
 
-                            me.fireEvent('editcomplete', this);
+                            me.fireEvent('editcomplete', me);
                             Common.component.Analytics.trackEvent('DocumentHolder', 'Dublicate Hyperlink');
                         }
                     }),

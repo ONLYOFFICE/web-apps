@@ -155,24 +155,15 @@ define([
                         // Syncronize focus with api
                     $(document.body).on('focus', 'input, textarea', function(e) {
                         if (!/area_id/.test(e.target.id)) {
-                            me.api.asc_enableKeyEvents(false);
                             if (/msg-reply/.test(e.target.className))
                                 me.dontCloseDummyComment = true;
                         }
                     });
 
-                    $("#editor_sdk").focus(function (e) {
-                        if (!me.isModalShowed) {
-                            me.api.asc_enableKeyEvents(true);
-                        }
-                    });
-
                     $(document.body).on('blur', 'input, textarea', function(e) {
                         if (!me.isModalShowed) {
-                            /*
-                             * TODO: Workaround bug #25004. Clipboard feature processing in sdk.
-                             */
-                            if (!(Common.Utils.isSafari && Common.Utils.isMac) && !/area_id/.test(e.target.id)) {
+                            if (!/area_id/.test(e.target.id) && $(e.target).parent().find(e.relatedTarget).length<1 /* When focus in combobox goes from input to it's menu button or menu items */
+                                || !e.relatedTarget) {
                                 me.api.asc_enableKeyEvents(true);
                                 if (/msg-reply/.test(e.target.className))
                                     me.dontCloseDummyComment = false;
@@ -206,13 +197,17 @@ define([
                         },
                         'settings:unitschanged':_.bind(this.unitsChanged, this),
                         'dataview:focus': function(e){
-                            me.api.asc_enableKeyEvents(false);
                         },
                         'dataview:blur': function(e){
                             if (!me.isModalShowed) {
                                 me.api.asc_enableKeyEvents(true);
-                                me.onEditComplete();
                             }
+                        },
+                        'menu:show': function(e){
+                        },
+                        'menu:hide': function(e){
+                            if (!me.isModalShowed)
+                                me.api.asc_enableKeyEvents(true);
                         },
                         'edit:complete': _.bind(me.onEditComplete, me)
                     });
@@ -318,6 +313,7 @@ define([
                     if (!old_rights)
                         Common.UI.warning({
                             title: this.notcriticalErrorTitle,
+                            maxwidth: 600,
                             msg  : _.isEmpty(data.message) ? this.warnProcessRightsChange : data.message,
                             callback: function(){
                                 me._state.lostEditingRights = false;
@@ -565,7 +561,7 @@ define([
                 if ( type == Asc.c_oAscAsyncActionType.BlockInteraction &&
                     (!this.getApplication().getController('LeftMenu').dlgSearch || !this.getApplication().getController('LeftMenu').dlgSearch.isVisible()) &&
                     !( id == Asc.c_oAscAsyncAction['ApplyChanges'] && this.dontCloseDummyComment ) ) {
-                        this.onEditComplete(this.loadMask);
+//                        this.onEditComplete(this.loadMask); //если делать фокус, то при принятии чужих изменений, заканчивается свой композитный ввод
                         this.api.asc_enableKeyEvents(true);
                 }
             },
@@ -795,7 +791,7 @@ define([
                 me.api.SetTextBoxInputMode(value!==null && parseInt(value) == 1);
 
                 /** coauthoring begin **/
-                if (me.appOptions.isEdit && me.appOptions.canLicense && !me.appOptions.isOffline) {
+                if (me.appOptions.isEdit && me.appOptions.canLicense && !me.appOptions.isOffline && me.appOptions.canCoAuthoring) {
                     value = Common.localStorage.getItem("de-settings-coauthmode");
                     me._state.fastCoauth = (value===null || parseInt(value) == 1);
                     me.api.asc_SetFastCollaborative(me._state.fastCoauth);
@@ -846,7 +842,8 @@ define([
 
                 if (me.appOptions.isEdit) {
                     value = Common.localStorage.getItem("de-settings-autosave");
-                    value = (!me._state.fastCoauth && value!==null) ? parseInt(value) : 1;
+                    value = (!me._state.fastCoauth && value!==null) ? parseInt(value) : (me.appOptions.canCoAuthoring ? 1 : 0);
+
                     me.api.asc_setAutoSaveGap(value);
 
                     if (me.needToUpdateVersion)
@@ -855,7 +852,7 @@ define([
                         if (window.styles_loaded) {
                             clearInterval(timer_sl);
 
-                            toolbarController.getView('Toolbar').createDelayedElements();
+                            toolbarController.createDelayedElements();
 
                             documentHolderController.getView('DocumentHolder').createDelayedElements();
                             me.loadLanguages();
@@ -924,9 +921,20 @@ define([
             },
 
             onEditorPermissions: function(params) {
+                var licType = params.asc_getLicenseType();
+                if (Asc.c_oLicenseResult.Expired === licType || Asc.c_oLicenseResult.Error === licType || Asc.c_oLicenseResult.ExpiredTrial === licType) {
+                    Common.UI.warning({
+                        title: this.titleLicenseExp,
+                        msg: this.warnLicenseExp,
+                        buttons: [],
+                        closable: false
+                    });
+                    return;
+                }
+
                 this.permissions.review = (this.permissions.review === undefined) ? (this.permissions.edit !== false) : this.permissions.review;
                 this.appOptions.canAnalytics   = params.asc_getIsAnalyticsEnable();
-                this.appOptions.canLicense     = params.asc_getCanLicense ? params.asc_getCanLicense() : false;
+                this.appOptions.canLicense     = (licType === Asc.c_oLicenseResult.Success);
                 this.appOptions.isLightVersion = params.asc_getIsLight();
                 /** coauthoring begin **/
                 this.appOptions.canCoAuthoring = !this.appOptions.isLightVersion;
@@ -952,7 +960,7 @@ define([
                 this.appOptions.canDownloadOrigin = !this.appOptions.nativeApp && this.permissions.download !== false && (type && typeof type[1] === 'string');
                 this.appOptions.canDownload       = !this.appOptions.nativeApp && this.permissions.download !== false && (!type || typeof type[1] !== 'string');
 
-                this._state.licenseWarning = !this.appOptions.canLicense && this.appOptions.canEdit && this.editorConfig.mode !== 'view';
+                this._state.licenseWarning = (licType===Asc.c_oLicenseResult.Connections) && this.appOptions.canEdit && this.editorConfig.mode !== 'view';
 
                 this.appOptions.canBranding  = params.asc_getCanBranding() && (typeof this.editorConfig.customization == 'object');
                 if (this.appOptions.canBranding) {
@@ -1166,7 +1174,7 @@ define([
                         break;
 
                     case Asc.c_oAscError.ID.CoAuthoringDisconnect:
-                        config.msg = this.errorCoAuthoringDisconnect;
+                        config.msg = (this.appOptions.isEdit) ? this.errorCoAuthoringDisconnect : this.errorViewerDisconnect;
                         break;
 
                     case Asc.c_oAscError.ID.ConvertationPassword:
@@ -1596,14 +1604,14 @@ define([
             },
 
             onAdvancedOptions: function(advOptions) {
-                var type = advOptions.asc_getOptionId();
+                var type = advOptions.asc_getOptionId(),
+                    me = this, dlg;
                 if (type == Asc.c_oAscAdvancedOptionsID.TXT) {
-                    var me = this;
-                    var dlg = new Common.Views.OpenDialog({
+                    dlg = new Common.Views.OpenDialog({
                         type: type,
                         codepages: advOptions.asc_getOptions().asc_getCodePages(),
                         settings: advOptions.asc_getOptions().asc_getRecommendedSettings(),
-                        handler: function (encoding, delimiter) {
+                        handler: function (encoding) {
                             me.isShowOpenDialog = false;
                             if (me && me.api) {
                                 me.api.asc_setAdvancedOptions(type, new Asc.asc_CTXTAdvancedOptions(encoding));
@@ -1611,11 +1619,22 @@ define([
                             }
                         }
                     });
-
+                } else if (type == Asc.c_oAscAdvancedOptionsID.DRM) {
+                    dlg = new Common.Views.OpenDialog({
+                        type: type,
+                        handler: function (value) {
+                            me.isShowOpenDialog = false;
+                            if (me && me.api) {
+                                me.api.asc_setAdvancedOptions(type, new Asc.asc_CDRMAdvancedOptions(value));
+                                me.loadMask && me.loadMask.show();
+                            }
+                        }
+                    });
+                }
+                if (dlg) {
                     this.isShowOpenDialog = true;
                     this.loadMask && this.loadMask.hide();
                     this.onLongActionEnd(Asc.c_oAscAsyncActionType.BlockInteraction, LoadingDocument);
-
                     dlg.show();
                 }
             },
@@ -1655,7 +1674,7 @@ define([
             },
 
             applySettings: function() {
-                if (this.appOptions.isEdit && this.appOptions.canLicense && !this.appOptions.isOffline) {
+                if (this.appOptions.isEdit && this.appOptions.canLicense && !this.appOptions.isOffline && this.appOptions.canCoAuthoring) {
                     var value = Common.localStorage.getItem("de-settings-coauthmode"),
                         oldval = this._state.fastCoauth;
                     this._state.fastCoauth = (value===null || parseInt(value) == 1);
@@ -1731,7 +1750,9 @@ define([
                                     initDataType: itemVar.initDataType,
                                     initData: itemVar.initData,
                                     isUpdateOleOnResize : itemVar.isUpdateOleOnResize,
-                                    buttons: itemVar.buttons
+                                    buttons: itemVar.buttons,
+                                    size: itemVar.size,
+                                    initOnSelectionChanged: itemVar.initOnSelectionChanged
                                 }));
                         });
                         if (variationsArr.length>0)
@@ -1819,7 +1840,7 @@ define([
             txtLines: 'Lines',
             txtEditingMode: 'Set editing mode...',
             textAnonymous: 'Anonymous',
-            loadingDocumentTitleText: 'Loading Document',
+            loadingDocumentTitleText: 'Loading document',
             loadingDocumentTextText: 'Loading document...',
             warnProcessRightsChange: 'You have been denied the right to edit the file.',
             errorProcessSaveResult: 'Saving is failed.',
@@ -1852,7 +1873,10 @@ define([
             textBuyNow: 'Visit website',
             textNoLicenseTitle: 'ONLYOFFICE open source version',
             warnNoLicense: 'You are using an open source version of ONLYOFFICE. The version has limitations for concurrent connections to the document server (20 connections at a time).<br>If you need more please consider purchasing a commercial license.',
-            textContactUs: 'Contact sales'
+            textContactUs: 'Contact sales',
+            errorViewerDisconnect: 'Connection is lost. You can still view the document,<br>but will not be able to download until the connection is restored.',
+            warnLicenseExp: 'Your license has expired.<br>Please update your license and refresh the page.',
+            titleLicenseExp: 'License expired'
         }
     })(), DE.Controllers.Main || {}))
 });

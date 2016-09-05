@@ -747,7 +747,7 @@ define([
                                     '<input type="button" class="checked img-commonctrl"/>',
                                 '<% } %>',
                             '</label>',
-                            '<div id="<%= id %>" class="list-item" style="pointer-events:none;margin-left:20px;display:inline-block;"><%= value %></div>',
+                            '<div id="<%= id %>" class="list-item" style="pointer-events:none;margin-left:20px;display:inline-block;width: 185px;"><%= Common.Utils.String.htmlEncode(value) %></div>',
                         '</div>'
                     ].join(''))
                 });
@@ -976,8 +976,10 @@ define([
 
                 if (target.length) {
                     bound = target.get(0).getBoundingClientRect();
-                    if (bound.left < event.clientX && event.clientX < bound.right &&
-                        bound.top < event.clientY && event.clientY < bound.bottom) {
+                    var _clientX = event.clientX*Common.Utils.zoom(),
+                        _clientY = event.clientY*Common.Utils.zoom();
+                    if (bound.left < _clientX && _clientX < bound.right &&
+                        bound.top < _clientY && _clientY < bound.bottom) {
                         isLabel = true;
                     }
                 }
@@ -1133,7 +1135,7 @@ define([
                     });
                 else if (!isTextFilter && (cond1 == Asc.c_oAscCustomAutoFilter.isGreaterThanOrEqualTo && cond2 == Asc.c_oAscCustomAutoFilter.isLessThanOrEqualTo ||
                                            cond1 == Asc.c_oAscCustomAutoFilter.isLessThanOrEqualTo && cond2 == Asc.c_oAscCustomAutoFilter.isGreaterThanOrEqualTo)){
-                    items[7].setChecked(true, true); // between filter
+                    items[6].setChecked(true, true); // between filter
                     isCustomConditions = false;
                 }
                 if (isCustomConditions)

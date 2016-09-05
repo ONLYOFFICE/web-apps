@@ -81,6 +81,7 @@ define([
             Common.NotificationCenter.on('api:disconnect', _.bind(this.onApiDisconnect, this));
             Common.NotificationCenter.on('cells:range', _.bind(this.onCellsRange, this));
             this.api.asc_registerCallback('asc_onLockDefNameManager', _.bind(this.onLockDefNameManager, this));
+            this.api.asc_registerCallback('asc_onInputKeyDown', _.bind(this.onInputKeyDown, this));
 
             return this;
         },
@@ -92,6 +93,16 @@ define([
             this.editor.btnNamedRanges.setVisible(this.mode.isEdit && !this.mode.isEditDiagram && !this.mode.isEditMailMerge);
         },
 
+        onInputKeyDown: function(e) {
+            if (Common.UI.Keys.UP === e.keyCode || Common.UI.Keys.DOWN === e.keyCode ||
+                Common.UI.Keys.TAB === e.keyCode || Common.UI.Keys.RETURN === e.keyCode || Common.UI.Keys.ESC === e.keyCode ||
+                Common.UI.Keys.LEFT === e.keyCode || Common.UI.Keys.RIGHT === e.keyCode) {
+                var menu = $('#menu-formula-selection'); // for formula menu
+                if (menu.hasClass('open'))
+                    menu.find('.dropdown-menu').trigger('keydown', e);
+            } 
+        },
+
         onLaunch: function() {
             this.editor = this.createView('CellEditor',{
                 el: '#cell-editing-box'
@@ -100,32 +111,19 @@ define([
             this.bindViewEvents(this.editor, this.events);
 
             this.editor.$el.parent().find('.after').css({zIndex: '4'}); // for spreadsheets - bug 23127
-
-            var me = this;
-            $('#ce-cell-content').keydown(function (e) {
-                if (Common.UI.Keys.ESC === e.keyCode) {
-                    me.api.asc_enableKeyEvents(true);
-                } else if (Common.UI.Keys.UP === e.keyCode || Common.UI.Keys.DOWN === e.keyCode ||
-                           Common.UI.Keys.TAB === e.keyCode || Common.UI.Keys.RETURN === e.keyCode) {
-                    var menu = $('#menu-formula-selection'); // for formula menu
-                    if (menu.hasClass('open'))
-                        menu.find('.dropdown-menu').trigger('keydown', e);
-                    if (Common.UI.Keys.RETURN === e.keyCode)
-                        me.api.asc_enableKeyEvents(true);
-                }
-            });
-
             this.editor.btnNamedRanges.menu.on('item:click', _.bind(this.onNamedRangesMenu, this))
                                            .on('show:before', _.bind(this.onNameBeforeShow, this));
             this.namedrange_locked = false;
         },
 
         onApiEditCell: function(state) {
-            if (state == Asc.c_oAscCellEditorState.editStart)
+            if (state == Asc.c_oAscCellEditorState.editStart){
                 this.api.isCellEdited = true;
-            else if (state == Asc.c_oAscCellEditorState.editEnd) {
+                this.editor.cellNameDisabled(true);
+            } else if (state == Asc.c_oAscCellEditorState.editEnd) {
                 this.api.isCellEdited = false;
                 this.api.isCEditorFocused = false;
+                this.editor.cellNameDisabled(false);
             }
         },
 
@@ -148,16 +146,7 @@ define([
         },
 
         onCellsRange: function(status) {
-            var isRangeSelection = (status != Asc.c_oAscSelectionDialogType.None);
-
-            if (isRangeSelection) {
-                this.editor.$cellname.attr('disabled', 'disabled');
-                this.editor.$btnfunc['addClass']('disabled');
-            } else {
-                this.editor.$cellname.removeAttr('disabled');
-                this.editor.$btnfunc['removeClass']('disabled');
-            }
-            this.editor.btnNamedRanges.setDisabled(isRangeSelection);
+            this.editor.cellNameDisabled(status != Asc.c_oAscSelectionDialogType.None);
         },
 
         onLayoutResize: function(o, r) {
@@ -187,9 +176,9 @@ define([
                 this.api.isCEditorFocused = undefined;
             else if (this.api.isCellEdited)
                 this.api.isCEditorFocused = true;
-            if (Common.Utils.isIE && !$('#menu-formula-selection').hasClass('open')) {// for formula menu
-                this.getApplication().getController('DocumentHolder').documentHolder.focus();
-            }
+//            if (Common.Utils.isIE && !$('#menu-formula-selection').hasClass('open')) {// for formula menu
+//                this.getApplication().getController('DocumentHolder').documentHolder.focus();
+//            }
         },
 
         onKeyupCellEditor: function(e) {
@@ -217,7 +206,6 @@ define([
                 var controller = this.getApplication().getController('FormulaDialog');
                 if (controller) {
                     $('#ce-func-label', this.editor.el).blur();
-                    this.api.asc_enableKeyEvents(false);
                     controller.showDialog();
                 }
             }

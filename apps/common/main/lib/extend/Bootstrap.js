@@ -46,14 +46,17 @@ function onDropDownKeyDown(e) {
 
     $parent.trigger(beforeEvent);
 
-    if ($parent.hasClass('no-stop-propagate') && arguments.length>1 && arguments[1] instanceof jQuery.Event) {
-        e = arguments[1];
-        if ( /^(38|40|27|13|9)$/.test(e.keyCode) && !e.ctrlKey && !e.altKey) {
+    if ($parent.hasClass('no-stop-propagate')) {
+        if (arguments.length>1 && arguments[1] instanceof KeyboardEvent)
+            e = arguments[1];
+        if ( /^(38|40|27|13|9|37|39)$/.test(e.keyCode) && !e.ctrlKey && !e.altKey) {
             patchDropDownKeyDownAdditional.call(this, e);
-            e.preventDefault();
-            e.stopPropagation();
+            if (!/(37|39)/.test(e.keyCode)) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
         }
-    } else if ( !$parent.hasClass('no-stop-propagate') || /^(38|40|27|13|9)$/.test(e.keyCode) && !e.ctrlKey && !e.altKey) {
+    } else {
         patchDropDownKeyDown.call(this, e);
         e.preventDefault();
         e.stopPropagation();
@@ -141,17 +144,19 @@ function patchDropDownKeyDownAdditional(e) { // only for formula menu when typin
 
     var $this = $(this);
 
-    e.preventDefault();
-    e.stopPropagation();
+    if (!/(37|39)/.test(e.keyCode)) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
 
     if ($this.is('.disabled, :disabled')) return;
 
     var $parent  = getParent($this);
     var isActive = $parent.hasClass('open') || $parent.hasClass('over');
 
-    if (!isActive || (isActive && e.keyCode == 27)) {
-        if (e.which == 27) 
-            $parent.find('[data-toggle=dropdown]').focus();
+    if (!isActive || (isActive && (e.keyCode == 27 || e.keyCode == 37 || e.keyCode == 39))) {
+//        if (e.which == 27)
+//            $parent.find('[data-toggle=dropdown]').focus();
         return (isActive) ? $this.click() : undefined;
     }
 

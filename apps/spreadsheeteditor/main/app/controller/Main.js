@@ -148,29 +148,19 @@ define([
                 var me = this;
                 // Syncronize focus with api
                 $(document.body).on('focus', 'input, textarea:not(#ce-cell-content)', function(e) {
+                    if (this.isAppDisabled === true) return;
 
-                    // NOTE: fix double click mozilla copy-paste
-
-                    if (e && e.target && e.target.id && e.target.id === 'clipboard-helper-text') {
-                        me.api.asc_enableKeyEvents(true);
-                        return;
+                    if (e && e.target && !/area_id/.test(e.target.id)) {
+                        if (/msg-reply/.test(e.target.className))
+                            me.dontCloseDummyComment = true;
                     }
-
-                    if (this.isAppDisabled === true) return;
-                    me.api.asc_enableKeyEvents(false);
-                    if (/msg-reply/.test(e.target.className))
-                        me.dontCloseDummyComment = true;
-                });
-
-                $("#editor_sdk").focus(function (e) {
-                    if (this.isAppDisabled === true) return;
-                    if (!me.isModalShowed)
-                        me.api.asc_enableKeyEvents(true);
                 });
 
                 $(document.body).on('blur', 'input, textarea', function(e) {
                     if (this.isAppDisabled === true) return;
-                    if (!me.isModalShowed && !(me.loadMask && me.loadMask.isVisible())) {
+                    if (!me.isModalShowed && !(me.loadMask && me.loadMask.isVisible()) &&
+                        (!/area_id/.test(e.target.id) && $(e.target).parent().find(e.relatedTarget).length<1 /* When focus in combobox goes from input to it's menu button or menu items */
+                        || !e.relatedTarget)) {
                         me.api.asc_enableKeyEvents(true);
                         if (/msg-reply/.test(e.target.className))
                             me.dontCloseDummyComment = false;
@@ -202,12 +192,18 @@ define([
                         }
                     },
                     'dataview:focus': function(e){
-                        me.api.asc_enableKeyEvents(false);
                     },
                     'dataview:blur': function(e){
                         if (!me.isModalShowed) {
                             me.api.asc_enableKeyEvents(true);
-                            me.onEditComplete();
+                        }
+                    },
+                    'menu:show': function(e){
+                    },
+                    'menu:hide': function(menu){
+                        if (!me.isModalShowed && (!menu || !menu.cmpEl.hasClass('from-cell-edit'))) {
+                            me.api.asc_InputClearKeyboardElement();
+                            me.api.asc_enableKeyEvents(true);
                         }
                     },
                     'edit:complete': _.bind(this.onEditComplete, this),
@@ -329,6 +325,7 @@ define([
                     if (!old_rights)
                         Common.UI.warning({
                             title: this.notcriticalErrorTitle,
+                            maxwidth: 600,
                             msg  : _.isEmpty(data.message) ? this.warnProcessRightsChange : data.message,
                             callback: function(){
                                 me._state.lostEditingRights = false;
@@ -369,6 +366,13 @@ define([
                 } else {
                     this.getApplication().getController('DocumentHolder').getView('DocumentHolder').focus();
                     this.api.isCEditorFocused = false;
+                }
+            },
+
+            onSelectionChanged: function(info){
+                if (!this._isChartDataReady){
+                    this._isChartDataReady = true;
+                    Common.Gateway.internalMessage('chartDataReady');
                 }
             },
 
@@ -559,7 +563,7 @@ define([
                 this.isLiveCommenting = !(value!==null && parseInt(value) == 0);
                 this.isLiveCommenting?this.api.asc_showComments():this.api.asc_hideComments();
 
-                if (this.appOptions.isEdit && this.appOptions.canLicense && !this.appOptions.isOffline) {
+                if (this.appOptions.isEdit && this.appOptions.canLicense && !this.appOptions.isOffline && this.appOptions.canCoAuthoring) {
                     value = Common.localStorage.getItem("sse-settings-coauthmode");
                     this._state.fastCoauth = (value===null || parseInt(value) == 1);
                 } else
@@ -619,7 +623,7 @@ define([
                 if (me.appOptions.isEdit) {
                     if (me.appOptions.canAutosave) {
                         value = Common.localStorage.getItem("sse-settings-autosave");
-                        value = (!me._state.fastCoauth && value!==null) ? parseInt(value) : 1;
+                        value = (!me._state.fastCoauth && value!==null) ? parseInt(value) : (me.appOptions.canCoAuthoring ? 1 : 0);
                     } else {
                         value = 0;
                     }
@@ -729,12 +733,24 @@ define([
             },
 
             onEditorPermissions: function(params) {
-                if ( params  && !(this.appOptions.isEditDiagram || this.appOptions.isEditMailMerge)) {
+                var licType = params ? params.asc_getLicenseType() : Asc.c_oLicenseResult.Error;
+
+                if ( params && !(this.appOptions.isEditDiagram || this.appOptions.isEditMailMerge)) {
+                    if (Asc.c_oLicenseResult.Expired === licType || Asc.c_oLicenseResult.Error === licType || Asc.c_oLicenseResult.ExpiredTrial === licType) {
+                        Common.UI.warning({
+                            title: this.titleLicenseExp,
+                            msg: this.warnLicenseExp,
+                            buttons: [],
+                            closable: false
+                        });
+                        return;
+                    }
+
                     this.appOptions.canAutosave = true;
                     this.appOptions.canAnalytics = params.asc_getIsAnalyticsEnable();
 
                     this.appOptions.isOffline      = this.api.asc_isOffline();
-                    this.appOptions.canLicense     = params.asc_getCanLicense ? params.asc_getCanLicense() : false;
+                    this.appOptions.canLicense     = (licType === Asc.c_oLicenseResult.Success);
                     this.appOptions.isLightVersion = params.asc_getIsLight();
                     /** coauthoring begin **/
                     this.appOptions.canCoAuthoring = !this.appOptions.isLightVersion;
@@ -755,7 +771,7 @@ define([
                 this.appOptions.canDownload    = !this.appOptions.nativeApp && (this.permissions.download !== false);
                 this.appOptions.canPrint       = (this.permissions.print !== false);
 
-                this._state.licenseWarning = !(this.appOptions.isEditDiagram || this.appOptions.isEditMailMerge) && !this.appOptions.canLicense && this.appOptions.canEdit && this.editorConfig.mode !== 'view';
+                this._state.licenseWarning = !(this.appOptions.isEditDiagram || this.appOptions.isEditMailMerge) && (licType===Asc.c_oLicenseResult.Connections) && this.appOptions.canEdit && this.editorConfig.mode !== 'view';
 
                 this.applyModeCommonElements();
                 this.applyModeEditorElements();
@@ -802,7 +818,7 @@ define([
                         })
                         .mousemove($.proxy(function(e){
                             if (this.isDiagramDrag) {
-                                Common.Gateway.internalMessage('processMouse', {event: 'mouse:move', pagex: e.pageX, pagey: e.pageY});
+                                Common.Gateway.internalMessage('processMouse', {event: 'mouse:move', pagex: e.pageX*Common.Utils.zoom(), pagey: e.pageY*Common.Utils.zoom()});
                             }
                         },this));
                 }
@@ -911,6 +927,8 @@ define([
                     me.api.asc_registerCallback('asc_onAuthParticipantsChanged', _.bind(me.onAuthParticipantsChanged, me));
                     me.api.asc_registerCallback('asc_onParticipantsChanged',     _.bind(me.onAuthParticipantsChanged, me));
                     /** coauthoring end **/
+                    if (me.appOptions.isEditDiagram)
+                        me.api.asc_registerCallback('asc_onSelectionChanged',        _.bind(me.onSelectionChanged, me));
 
                     if (me.stackLongActions.exist({id: ApplyEditRights, type: Asc.c_oAscAsyncActionType['BlockInteraction']})) {
                         me.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], ApplyEditRights);
@@ -1050,7 +1068,7 @@ define([
                         break;
 
                     case Asc.c_oAscError.ID.CoAuthoringDisconnect:
-                        config.msg = this.errorCoAuthoringDisconnect;
+                        config.msg = (this.appOptions.isEdit) ? this.errorCoAuthoringDisconnect : this.errorViewerDisconnect;
                         break;
 
                     case Asc.c_oAscError.ID.ConvertationPassword:
@@ -1307,10 +1325,10 @@ define([
             },
 
             onAdvancedOptions: function(advOptions) {
-                var type = advOptions.asc_getOptionId();
+                var type = advOptions.asc_getOptionId(),
+                    me = this, dlg;
                 if (type == Asc.c_oAscAdvancedOptionsID.CSV) {
-                    var me = this;
-                    var dlg = new Common.Views.OpenDialog({
+                    dlg = new Common.Views.OpenDialog({
                         type: type,
                         codepages: advOptions.asc_getOptions().asc_getCodePages(),
                         settings: advOptions.asc_getOptions().asc_getRecommendedSettings(),
@@ -1322,11 +1340,22 @@ define([
                             }
                         }
                     });
-
+                } else if (type == Asc.c_oAscAdvancedOptionsID.DRM) {
+                    dlg = new Common.Views.OpenDialog({
+                        type: type,
+                        handler: function (value) {
+                            me.isShowOpenDialog = false;
+                            if (me && me.api) {
+                                me.api.asc_setAdvancedOptions(type, new Asc.asc_CDRMAdvancedOptions(value));
+                                me.loadMask && me.loadMask.show();
+                            }
+                        }
+                    });
+                }
+                if (dlg) {
                     this.isShowOpenDialog = true;
                     this.loadMask && this.loadMask.hide();
                     this.onLongActionEnd(Asc.c_oAscAsyncActionType.BlockInteraction, LoadingDocument);
-
                     dlg.show();
                 }
             },
@@ -1519,7 +1548,6 @@ define([
                     case 'getMergeData':    this.getMergeData(); break;
                     case 'setAppDisabled':
                         this.isAppDisabled = data.data;
-                        this.api.asc_enableKeyEvents(false);
                         break;
                     case 'queryClose':
                         if ($('body .asc-window:visible').length === 0) {
@@ -1652,7 +1680,7 @@ define([
             },
 
             applySettings: function() {
-                if (this.appOptions.isEdit && this.appOptions.canLicense && !this.appOptions.isOffline) {
+                if (this.appOptions.isEdit && this.appOptions.canLicense && !this.appOptions.isOffline && this.appOptions.canCoAuthoring) {
                     var value = Common.localStorage.getItem("sse-settings-coauthmode"),
                         oldval = this._state.fastCoauth;
                     this._state.fastCoauth = (value===null || parseInt(value) == 1);
@@ -1725,7 +1753,9 @@ define([
                                     initDataType: itemVar.initDataType,
                                     initData: itemVar.initData,
                                     isUpdateOleOnResize : itemVar.isUpdateOleOnResize,
-                                    buttons: itemVar.buttons
+                                    buttons: itemVar.buttons,
+                                    size: itemVar.size,
+                                    initOnSelectionChanged: itemVar.initOnSelectionChanged
                                 }));
                         });
                         if (variationsArr.length>0)
@@ -1776,7 +1806,7 @@ define([
             uploadImageTextText: 'Uploading image...',
             savePreparingText: 'Preparing to save',
             savePreparingTitle: 'Preparing to save. Please wait...',
-            loadingDocumentTitleText: 'Loading Document',
+            loadingDocumentTitleText: 'Loading spreadsheet',
             uploadImageSizeMessage: 'Maximium image size limit exceeded.',
             uploadImageExtMessage: 'Unknown image format.',
             uploadImageFileCountMessage: 'No images uploaded.',
@@ -1817,7 +1847,7 @@ define([
             errorFilePassProtect: 'The document is password protected.',
             errorLockedAll: 'The operation could not be done as the sheet has been locked by another user.',
             txtEditingMode: 'Set editing mode...',
-            textLoadingDocument: 'Loading document',
+            textLoadingDocument: 'Loading spreadsheet',
             textConfirm: 'Confirmation',
             confirmMoveCellRange: 'The destination cell\'s range can contain data. Continue the operation?',
             textYes: 'Yes',
@@ -1863,7 +1893,10 @@ define([
             textNoLicenseTitle: 'ONLYOFFICE open source version',
             warnNoLicense: 'You are using an open source version of ONLYOFFICE. The version has limitations for concurrent connections to the document server (20 connections at a time).<br>If you need more please consider purchasing a commercial license.',
             textContactUs: 'Contact sales',
-            confirmPutMergeRange: 'The source data contains merged cells.<br>They will be unmerged before they are pasted into the table.'
+            confirmPutMergeRange: 'The source data contains merged cells.<br>They will be unmerged before they are pasted into the table.',
+            errorViewerDisconnect: 'Connection is lost. You can still view the document,<br>but will not be able to download until the connection is restored.',
+            warnLicenseExp: 'Your license has expired.<br>Please update your license and refresh the page.',
+            titleLicenseExp: 'License expired'
         }
     })(), SSE.Controllers.Main || {}))
 });

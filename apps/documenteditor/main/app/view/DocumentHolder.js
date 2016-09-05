@@ -110,9 +110,6 @@ define([
                         menu.alignPosition();
                     }
                     _.delay(function() {
-                        var value = Common.localStorage.getItem("de-settings-inputmode"); // only for hieroglyphs mode
-                        if (value!==null && parseInt(value) == 1)
-                            me.api.asc_enableKeyEvents(false);
                         menu.cmpEl.focus();
                     }, 10);
 
@@ -1616,7 +1613,6 @@ define([
         addComment: function(item, e, eOpt){
             if (this.api && this.mode.canCoAuthoring && this.mode.isEdit && this.mode.canComments) {
                 this.suppressEditComplete = true;
-                this.api.asc_enableKeyEvents(false);
 
                 var controller = DE.getController('Common.Controllers.Comments');
                 if (controller) {
@@ -1667,26 +1663,20 @@ define([
         onCutCopyPaste: function(item, e) {
             var me = this;
             if (me.api) {
-                if (typeof window['AscDesktopEditor'] === 'object') {
-                    (item.value == 'cut') ? me.api.Cut() : ((item.value == 'copy') ? me.api.Copy() : me.api.Paste());
-                } else {
+                var res =  (item.value == 'cut') ? me.api.Cut() : ((item.value == 'copy') ? me.api.Copy() : me.api.Paste());
+                if (!res) {
                     var value = Common.localStorage.getItem("de-hide-copywarning");
                     if (!(value && parseInt(value) == 1)) {
                         (new Common.Views.CopyWarningDialog({
                             handler: function(dontshow) {
-                                (item.value == 'cut') ? me.api.Cut() : ((item.value == 'copy') ? me.api.Copy() : me.api.Paste());
                                 if (dontshow) Common.localStorage.setItem("de-hide-copywarning", 1);
                                 me.fireEvent('editcomplete', me);
                             }
                         })).show();
-                    } else {
-                        (item.value == 'cut') ? me.api.Cut() : ((item.value == 'copy') ? me.api.Copy() : me.api.Paste());
-                        me.fireEvent('editcomplete', me);
                     }
-                }
-            } else {
-                me.fireEvent('editcomplete', me);
+                } 
             }
+            me.fireEvent('editcomplete', me);
         },
 
         createDelayedElements: function() {

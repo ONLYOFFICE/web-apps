@@ -194,7 +194,7 @@ define([
             if (e.which == 3) { // right button click
                 Common.UI.Menu.Manager.hideAll();
                 var me = this,
-                    showPoint = [e.pageX, e.pageY],
+                    showPoint = [e.pageX*Common.Utils.zoom(), e.pageY*Common.Utils.zoom()],
                     menuContainer = $(this.el).find(Common.Utils.String.format('#menu-container-{0}',  this.gotoDocsMenu.id));
                 if (!this.gotoDocsMenu.rendered) {
                     // Prepare menu container

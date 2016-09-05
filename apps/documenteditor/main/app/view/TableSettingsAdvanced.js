@@ -889,26 +889,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
 
             this.btnBorderColor.on('render:after', function(btn) {
                 me.colorsBorder = new Common.UI.ThemeColorPalette({
-                    el: $('#tableadv-border-color-menu'),
-                    dynamiccolors: 10,
-                    colors: [
-                        me.textThemeColors, '-', {color: '3366FF', effectId: 1}, {color: '0000FF', effectId: 2}, {color: '000090', effectId: 3}, {color: '660066', effectId: 4}, {color: '800000', effectId: 5},
-                        {color: 'FF0000', effectId: 1}, {color: 'FF6600', effectId: 1}, {color: 'FFFF00', effectId: 2}, {color: 'CCFFCC', effectId: 3}, {color: '008000', effectId: 4},
-                        '-',
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2}, {color: '000000', effectId: 3}, {color: 'FFFFFF', effectId: 4}, {color: '000000', effectId: 5},
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1},
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1},
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1},
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1},
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1},
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1},
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1},
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1},
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1},
-                        '-', '--', '-', me.textStandartColors, '-',
-                        '3D55FE', '5301B3', '980ABD', 'B2275F', 'F83D26', 'F86A1D', 'F7AC16', 'F7CA12', 'FAFF44', 'D6EF39',
-                        '-', '--'
-                    ]
+                    el: $('#tableadv-border-color-menu')
                 });
                 me.colorsBorder.on('select', _.bind(me.onColorsBorderSelect, me));
             });
@@ -929,25 +910,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             this.btnBackColor.on('render:after', function(btn) {
                 me.colorsBack = new Common.UI.ThemeColorPalette({
                     el: $('#tableadv-back-color-menu'),
-                    dynamiccolors: 10,
-                    colors: [
-                        me.textThemeColors, '-', {color: '3366FF', effectId: 1}, {color: '0000FF', effectId: 2}, {color: '000090', effectId: 3}, {color: '660066', effectId: 4}, {color: '800000', effectId: 5},
-                        {color: 'FF0000', effectId: 1}, {color: 'FF6600', effectId: 1}, {color: 'FFFF00', effectId: 2}, {color: 'CCFFCC', effectId: 3}, {color: '008000', effectId: 4},
-                        '-',
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2}, {color: '000000', effectId: 3}, {color: 'FFFFFF', effectId: 4}, {color: '000000', effectId: 5},
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1},
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1},
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1},
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1},
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1},
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1},
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1},
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1},
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1},
-                        '-', '--', '-', me.textStandartColors, '-', 'transparent',
-                        '5301B3', '980ABD', 'B2275F', 'F83D26', 'F86A1D', 'F7AC16', 'F7CA12', 'FAFF44', 'D6EF39',
-                        '-', '--'
-                    ]
+                    transparent: true
                 });
                 me.colorsBack.on('select', _.bind(me.onColorsBackSelect, me));
             });
@@ -967,25 +930,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             this.btnTableBackColor.on('render:after', function(btn) {
                 me.colorsTableBack = new Common.UI.ThemeColorPalette({
                     el: $('#tableadv-table-back-color-menu'),
-                    dynamiccolors: 10,
-                    colors: [
-                        me.textThemeColors, '-', {color: '3366FF', effectId: 1}, {color: '0000FF', effectId: 2}, {color: '000090', effectId: 3}, {color: '660066', effectId: 4}, {color: '800000', effectId: 5},
-                        {color: 'FF0000', effectId: 1}, {color: 'FF6600', effectId: 1}, {color: 'FFFF00', effectId: 2}, {color: 'CCFFCC', effectId: 3}, {color: '008000', effectId: 4},
-                        '-',
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2}, {color: '000000', effectId: 3}, {color: 'FFFFFF', effectId: 4}, {color: '000000', effectId: 5},
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1},
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1},
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1},
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1},
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1},
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1},
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1},
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1},
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1},
-                        '-', '--', '-', me.textStandartColors, '-', 'transparent',
-                        '5301B3', '980ABD', 'B2275F', 'F83D26', 'F86A1D', 'F7AC16', 'F7CA12', 'FAFF44', 'D6EF39',
-                        '-', '--'
-                    ]
+                    transparent: true
                 });
                 me.colorsTableBack.on('select', _.bind(me.onColorsTableBackSelect, me));
             });
@@ -1253,7 +1198,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 if (cellWidth !== null)
                     this.nfPrefWidth.setValue(cellWidth>0 ? Common.Utils.Metric.fnRecalcFromMM(cellWidth) : -cellWidth , true);
 
-                this.chPrefWidth.setValue(cellWidth !== null, true);
+                this.chPrefWidth.setValue((props.get_CellsWidthNotEqual()) ? 'indeterminate' : (cellWidth !== null), true);
                 value = (this.chPrefWidth.getValue()!=='checked');
                 this.nfPrefWidth.setDisabled(value);
                 this.cmbPrefWidthUnit.setDisabled(value);
@@ -2141,8 +2086,6 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
         okButtonText:       'Ok',
         txtNoBorders:       'No borders',
         textNewColor:       'Add New Custom Color',
-        textThemeColors         : 'Theme Colors',
-        textStandartColors      : 'Standart Colors',
         textCenter: 'Center',
         textMargin: 'Margin',
         textPage: 'Page',

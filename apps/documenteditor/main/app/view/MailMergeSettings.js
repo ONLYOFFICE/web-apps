@@ -72,7 +72,9 @@ define([
         },
 
         initialize: function () {
-            var me = this;
+            var me = this,
+                _set = DE.enumLockMM;
+
             this._initSettings = true;
 
             this._state = {
@@ -88,17 +90,7 @@ define([
             this.emailAddresses = undefined;
             this.mergeMailData = undefined;
 
-            var _set = DE.enumLockMM;
-
             this.render();
-
-            this.btnEditData = new Common.UI.Button({
-                el: me.$el.find('#mmerge-button-edit-data'),
-                lock: [_set.preview, _set.lostConnect]
-            });
-            this.btnEditData.on('click', _.bind(this.onEditData, this));
-
-            this.lblAddRecipients = $('#mmerge-lbl-add-recipients');
 
             this.btnInsField = new Common.UI.Button({
                 cls: 'btn-text-menu-default',
@@ -119,19 +111,6 @@ define([
                 })
             });
             this.btnInsField.render( $('#mmerge-btn-ins-field',me.$el)) ;
-
-            this.chHighlight = new Common.UI.Switcher({
-                el: me.$el.find('#mmerge-switcher-highlight'),
-                lock: [_set.noFields, _set.lostConnect]
-            });
-            this.chHighlight.on('change', _.bind(this.onCheckHighlightChange, this));
-
-            this.chPreview = new Common.UI.Switcher({
-                el: me.$el.find('#mmerge-switcher-preview'),
-                lock: [_set.noRecipients, _set.lostConnect]
-            });
-            this.chPreview.on('change', _.bind(this.onCheckPreviewChange, this));
-            this.emptyDBControls.push(this.chPreview);
 
             this.txtFieldNum = new Common.UI.InputField({
                 el          : $('#mmerge-field-num', me.$el),
@@ -161,6 +140,52 @@ define([
                 }
             });
             this.emptyDBControls.push(this.txtFieldNum);
+        },
+
+        render: function () {
+            this.$el.html(this.template({
+                scope: this
+            }));
+        },
+
+        setApi: function(api) {
+            this.api = api;
+            if (this.api) {
+                this.api.asc_registerCallback('asc_onPreviewMailMergeResult',    _.bind(this.onPreviewMailMergeResult, this));
+                this.api.asc_registerCallback('asc_onEndPreviewMailMergeResult', _.bind(this.onEndPreviewMailMergeResult, this));
+                this.api.asc_registerCallback('asc_onStartMailMerge',            _.bind(this.onStartMailMerge, this));
+                this.api.asc_registerCallback('asc_onSaveMailMerge',             _.bind(this.onSaveMailMerge, this));
+                this.api.asc_registerCallback('asc_onEndAction',                 _.bind(this.onLongActionEnd, this));
+                Common.Gateway.on('setemailaddresses',                           _.bind(this.onSetEmailAddresses, this));
+                Common.Gateway.on('processmailmerge',                            _.bind(this.onProcessMailMerge, this));
+            }
+            return this;
+        },
+
+        createDelayedControls: function() {
+            var me = this,
+                _set = DE.enumLockMM;
+            
+            this.btnEditData = new Common.UI.Button({
+                el: me.$el.find('#mmerge-button-edit-data'),
+                lock: [_set.preview, _set.lostConnect]
+            });
+            this.btnEditData.on('click', _.bind(this.onEditData, this));
+
+            this.lblAddRecipients = $('#mmerge-lbl-add-recipients');
+
+            this.chHighlight = new Common.UI.Switcher({
+                el: me.$el.find('#mmerge-switcher-highlight'),
+                lock: [_set.noFields, _set.lostConnect]
+            });
+            this.chHighlight.on('change', _.bind(this.onCheckHighlightChange, this));
+
+            this.chPreview = new Common.UI.Switcher({
+                el: me.$el.find('#mmerge-switcher-preview'),
+                lock: [_set.noRecipients, _set.lostConnect]
+            });
+            this.chPreview.on('change', _.bind(this.onCheckPreviewChange, this));
+            this.emptyDBControls.push(this.chPreview);
 
             this.btnFirst = new Common.UI.Button({
                 cls: 'btn-toolbar',
@@ -343,32 +368,26 @@ define([
             }).on('click', _.bind(this.onMergeClick, this, false));
             this.emptyDBControls.push(this.btnMerge);
 
-            this.$el.on('click', '#mmerge-readmore-link', _.bind(this.openHelp, this));
-        },
-
-        render: function () {
-            this.$el.html(this.template({
-                scope: this
-            }));
-
             this.linkReadMore = $('#mmerge-readmore-link', this.$el);
-        },
+            this.$el.on('click', '#mmerge-readmore-link', _.bind(this.openHelp, this));
 
-        setApi: function(api) {
-            this.api = api;
-            if (this.api) {
-                this.api.asc_registerCallback('asc_onPreviewMailMergeResult',    _.bind(this.onPreviewMailMergeResult, this));
-                this.api.asc_registerCallback('asc_onEndPreviewMailMergeResult', _.bind(this.onEndPreviewMailMergeResult, this));
-                this.api.asc_registerCallback('asc_onStartMailMerge',            _.bind(this.onStartMailMerge, this));
-                this.api.asc_registerCallback('asc_onSaveMailMerge',             _.bind(this.onSaveMailMerge, this));
-                this.api.asc_registerCallback('asc_onEndAction',                 _.bind(this.onLongActionEnd, this));
-                Common.Gateway.on('setemailaddresses',                           _.bind(this.onSetEmailAddresses, this));
-                Common.Gateway.on('processmailmerge',                            _.bind(this.onProcessMailMerge, this));
+            if (this.mode) {
+                if (!this.mode.mergeFolderUrl)
+                    this.btnPortal.setVisible(false);
+                if (!this.mode.canSendEmailAddresses) {
+                    this._arrMergeSrc.pop();
+                    this.cmbMergeTo.setData(this._arrMergeSrc);
+                    this.cmbMergeTo.setValue(this._arrMergeSrc[0].value);
+                }
             }
-            return this;
         },
 
         ChangeSettings: function(props) {
+            if (this._initSettings) {
+                this.createDelayedControls();
+                this._initSettings = false;
+            }
+
             this.disableInsertControls(this._locked);
 
             if (props) {
@@ -763,6 +782,8 @@ define([
         },
 
         disableControls: function(disable) {
+            if (this._initSettings) return;
+            
             this.lockControls(DE.enumLockMM.lostConnect, disable, {
                 array: _.union([this.btnEditData, this.btnInsField, this.chHighlight], (this.mode.mergeFolderUrl) ? [this.btnPortal] : []),
                 merge: true
@@ -775,13 +796,6 @@ define([
 
         setMode: function(mode) {
             this.mode = mode;
-            if (!this.mode.mergeFolderUrl)
-                this.btnPortal.setVisible(false);
-            if (!this.mode.canSendEmailAddresses) {
-                this._arrMergeSrc.pop();
-                this.cmbMergeTo.setData(this._arrMergeSrc);
-                this.cmbMergeTo.setValue(this._arrMergeSrc[0].value);
-            }
         },
 
         disableEditing: function(disable) {
@@ -807,7 +821,7 @@ define([
         },
 
         disablePreviewMode: function() {
-            if (this.api && this.chPreview.getValue())   {
+            if (this.api && this.chPreview && this.chPreview.getValue())   {
                 this.api.asc_EndPreviewMailMergeResult();
             }
         },

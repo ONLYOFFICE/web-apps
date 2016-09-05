@@ -127,6 +127,7 @@ define([
                     // Initialize api gateway
                     this.editorConfig = {};
                     this.appOptions = {};
+                    this.plugins = undefined;
                     Common.Gateway.on('init',           _.bind(this.loadConfig, this));
                     Common.Gateway.on('showmessage',    _.bind(this.onExternalMessage, this));
                     Common.Gateway.on('opendocument',   _.bind(this.loadDocument, this));
@@ -138,23 +139,15 @@ define([
                     // Syncronize focus with api
                     $(document.body).on('focus', 'input, textarea', function(e) {
                         if (!/area_id/.test(e.target.id)) {
-                            me.api.asc_enableKeyEvents(false);
                             if (/msg-reply/.test(e.target.className))
                                 me.dontCloseDummyComment = true;
                         }
                     });
 
-                    $("#editor_sdk").focus(function (e) {
-                        if (!me.isModalShowed)
-                            me.api.asc_enableKeyEvents(true);
-                    });
-
                     $(document.body).on('blur', 'input, textarea', function(e) {
                         if (!me.isModalShowed) {
-                             /*
-                             * TODO: Workaround bug #25004. Clipboard feature processing in sdk.
-                             */
-                            if (!(Common.Utils.isSafari && Common.Utils.isMac) && !/area_id/.test(e.target.id)) {
+                            if (!/area_id/.test(e.target.id) && $(e.target).parent().find(e.relatedTarget).length<1 /* When focus in combobox goes from input to it's menu button or menu items */
+                                || !e.relatedTarget) {
                                 me.api.asc_enableKeyEvents(true);
                                 if (/msg-reply/.test(e.target.className))
                                     me.dontCloseDummyComment = false;
@@ -188,13 +181,17 @@ define([
                         },
                         'settings:unitschanged':_.bind(this.unitsChanged, this),
                         'dataview:focus': function(e){
-                            me.api.asc_enableKeyEvents(false);
                         },
                         'dataview:blur': function(e){
                             if (!me.isModalShowed) {
                                 me.api.asc_enableKeyEvents(true);
-                                me.onEditComplete();
                             }
+                        },
+                        'menu:show': function(e){
+                        },
+                        'menu:hide': function(e){
+                            if (!me.isModalShowed)
+                                me.api.asc_enableKeyEvents(true);
                         },
                         'edit:complete': _.bind(me.onEditComplete, me)
                     });
@@ -223,6 +220,8 @@ define([
                 this.appOptions.canBackToFolder = (this.editorConfig.canBackToFolder!==false) && (typeof (this.editorConfig.customization) == 'object')
                                                   && (typeof (this.editorConfig.customization.goback) == 'object') && !_.isEmpty(this.editorConfig.customization.goback.url);
                 this.appOptions.canBack         = this.editorConfig.nativeApp !== true && this.appOptions.canBackToFolder === true;
+                this.appOptions.canPlugins      = false;
+                this.plugins                    = this.editorConfig.plugins;
 
                 this.getApplication()
                     .getController('Viewport')
@@ -295,6 +294,7 @@ define([
                     if (!old_rights)
                         Common.UI.warning({
                             title: this.notcriticalErrorTitle,
+                            maxwidth: 600,
                             msg  : _.isEmpty(data.message) ? this.warnProcessRightsChange : data.message,
                             callback: function(){
                                 me._state.lostEditingRights = false;
@@ -591,7 +591,7 @@ define([
                 me.api.SetTextBoxInputMode(value!==null && parseInt(value) == 1);
 
                 /** coauthoring begin **/
-                if (me.appOptions.isEdit && me.appOptions.canLicense && !me.appOptions.isOffline) {
+                if (me.appOptions.isEdit && me.appOptions.canLicense && !me.appOptions.isOffline && me.appOptions.canCoAuthoring) {
                     value = Common.localStorage.getItem("pe-settings-coauthmode");
                     me._state.fastCoauth = (value===null || parseInt(value) == 1);
                 } else
@@ -607,13 +607,18 @@ define([
                     fontsController             = application.getController('Common.Controllers.Fonts'),
                     rightmenuController         = application.getController('RightMenu'),
                     leftmenuController          = application.getController('LeftMenu'),
-                    chatController              = application.getController('Common.Controllers.Chat');
+                    chatController              = application.getController('Common.Controllers.Chat'),
+                    pluginsController           = application.getController('Common.Controllers.Plugins');
 
                 leftmenuController.getView('LeftMenu').getMenu('file').loadDocument({doc:me.document});
                 leftmenuController.setMode(me.appOptions).setApi(me.api).createDelayedElements();
 
                 chatController.setApi(this.api).setMode(this.appOptions);
                 application.getController('Common.Controllers.ExternalDiagramEditor').setApi(this.api).loadConfig({config:this.editorConfig, customization: this.editorConfig.customization});
+
+                pluginsController.setApi(me.api);
+                me.updatePluginsList(me.plugins);
+                me.api.asc_registerCallback('asc_onPluginsInit', _.bind(me.updatePluginsList, me));
 
                 documentHolderController.setApi(me.api);
                 documentHolderController.createDelayedElements();
@@ -630,7 +635,7 @@ define([
 
                 if (me.appOptions.isEdit) {
                     value = Common.localStorage.getItem("pe-settings-autosave");
-                    value = (!me._state.fastCoauth && value!==null) ? parseInt(value) : 1;
+                    value = (!me._state.fastCoauth && value!==null) ? parseInt(value) : (me.appOptions.canCoAuthoring ? 1 : 0);
                     me.api.asc_setAutoSaveGap(value);
 
                     if (me.needToUpdateVersion)
@@ -707,8 +712,19 @@ define([
             },
 
             onEditorPermissions: function(params) {
+                var licType = params.asc_getLicenseType();
+                if (Asc.c_oLicenseResult.Expired === licType || Asc.c_oLicenseResult.Error === licType || Asc.c_oLicenseResult.ExpiredTrial === licType) {
+                    Common.UI.warning({
+                        title: this.titleLicenseExp,
+                        msg: this.warnLicenseExp,
+                        buttons: [],
+                        closable: false
+                    });
+                    return;
+                }
+
                 this.appOptions.isOffline      = this.api.asc_isOffline();
-                this.appOptions.canLicense     = params.asc_getCanLicense ? params.asc_getCanLicense() : false;
+                this.appOptions.canLicense     = (licType === Asc.c_oLicenseResult.Success);
                 this.appOptions.isLightVersion = params.asc_getIsLight();
                 /** coauthoring begin **/
                 this.appOptions.canCoAuthoring = !this.appOptions.isLightVersion;
@@ -723,7 +739,7 @@ define([
                 this.appOptions.canChat        = this.appOptions.canLicense && !this.appOptions.isOffline && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.chat===false);
                 this.appOptions.canPrint       = (this.permissions.print !== false);
 
-                this._state.licenseWarning = !this.appOptions.canLicense && this.appOptions.canEdit && this.editorConfig.mode !== 'view';
+                this._state.licenseWarning = (licType===Asc.c_oLicenseResult.Connections) && this.appOptions.canEdit && this.editorConfig.mode !== 'view';
 
                 this.appOptions.canBranding  = params.asc_getCanBranding() && (typeof this.editorConfig.customization == 'object');
                 if (this.appOptions.canBranding) {
@@ -935,7 +951,7 @@ define([
                         break;
 
                     case Asc.c_oAscError.ID.CoAuthoringDisconnect:
-                        config.msg = this.errorCoAuthoringDisconnect;
+                        config.msg = (this.appOptions.isEdit) ? this.errorCoAuthoringDisconnect : this.errorViewerDisconnect;
                         break;
 
                     case Asc.c_oAscError.ID.ConvertationPassword:
@@ -1432,7 +1448,7 @@ define([
             },
 
             applySettings: function() {
-                if (this.appOptions.isEdit && this.appOptions.canLicense && !this.appOptions.isOffline) {
+                if (this.appOptions.isEdit && this.appOptions.canLicense && !this.appOptions.isOffline && this.appOptions.canCoAuthoring) {
                     var value = Common.localStorage.getItem("pe-settings-coauthmode"),
                         oldval = this._state.fastCoauth;
                     this._state.fastCoauth = (value===null || parseInt(value) == 1);
@@ -1477,6 +1493,63 @@ define([
                     };
                 }
                 if (url) this.iframePrint.src = url;
+            },
+
+            updatePluginsList: function(plugins) {
+                var pluginStore = this.getApplication().getCollection('Common.Collections.Plugins'),
+                    isEdit = this.appOptions.isEdit;
+                if (pluginStore && plugins) {
+                    var arr = [];
+                    plugins.pluginsData.forEach(function(item){
+                        var variations = item.variations,
+                            variationsArr = [];
+                        variations.forEach(function(itemVar){
+                            var isSupported = false;
+                            for (var i=0; i<itemVar.EditorsSupport.length; i++){
+                                if (itemVar.EditorsSupport[i]=='slide') {
+                                    isSupported = true; break;
+                                }
+                            }
+                            if (isSupported && (isEdit || itemVar.isViewer))
+                                variationsArr.push(new Common.Models.PluginVariation({
+                                    description: itemVar.description,
+                                    index: variationsArr.length,
+                                    url : itemVar.url,
+                                    icons  : itemVar.icons,
+                                    isViewer: itemVar.isViewer,
+                                    EditorsSupport: itemVar.EditorsSupport,
+                                    isVisual: itemVar.isVisual,
+                                    isModal: itemVar.isModal,
+                                    isInsideMode: itemVar.isInsideMode,
+                                    initDataType: itemVar.initDataType,
+                                    initData: itemVar.initData,
+                                    isUpdateOleOnResize : itemVar.isUpdateOleOnResize,
+                                    buttons: itemVar.buttons,
+                                    size: itemVar.size,
+                                    initOnSelectionChanged: itemVar.initOnSelectionChanged
+                                }));
+                        });
+                        if (variationsArr.length>0)
+                            arr.push(new Common.Models.Plugin({
+                                name : item.name,
+                                guid: item.guid,
+                                baseUrl : item.baseUrl,
+                                variations: variationsArr,
+                                currentVariation: 0
+                            }));
+                    });
+
+                    pluginStore.reset(arr);
+
+                    this.appOptions.pluginsPath = (plugins.url);
+                    this.appOptions.canPlugins = (arr.length>0);
+                } else {
+                    this.appOptions.pluginsPath = '';
+                    this.appOptions.canPlugins = false;
+                }
+                if (this.appOptions.canPlugins)
+                    this.getApplication().getController('Common.Controllers.Plugins').setMode(this.appOptions);
+                this.getApplication().getController('LeftMenu').enablePlugins();
             },
 
             // Translation
@@ -1554,7 +1627,7 @@ define([
             txtSldLtTVertTitleAndTx: 'Vertical Title and Text',
             txtSldLtTVertTitleAndTxOverChart: 'Vertical Title and Text Over Chart',
             txtSldLtTVertTx: 'Vertical Text',
-            textLoadingDocument: 'Loading document',
+            textLoadingDocument: 'Loading presentation',
             warnBrowserZoom: 'Your browser\'s current zoom setting is not fully supported. Please reset to the default zoom by pressing Ctrl+0.',
             warnBrowserIE9: 'The application has low capabilities on IE9. Use IE10 or higher',
             loadThemeTitleText: 'Loading Theme',
@@ -1580,8 +1653,8 @@ define([
             applyChangesTextText: 'Loading data...',
             savePreparingText: 'Preparing to save',
             savePreparingTitle: 'Preparing to save. Please wait...',
-            loadingDocumentTitleText: 'Loading Document',
-            loadingDocumentTextText: 'Loading document...',
+            loadingDocumentTitleText: 'Loading presentation',
+            loadingDocumentTextText: 'Loading presentation...',
             warnProcessRightsChange: 'You have been denied the right to edit the file.',
             errorProcessSaveResult: 'Saving is failed.',
             textCloseTip: '\nClick to close the tip.',
@@ -1603,7 +1676,10 @@ define([
             textBuyNow: 'Visit website',
             textNoLicenseTitle: 'ONLYOFFICE open source version',
             warnNoLicense: 'You are using an open source version of ONLYOFFICE. The version has limitations for concurrent connections to the document server (20 connections at a time).<br>If you need more please consider purchasing a commercial license.',
-            textContactUs: 'Contact sales'
+            textContactUs: 'Contact sales',
+            errorViewerDisconnect: 'Connection is lost. You can still view the document,<br>but will not be able to download until the connection is restored.',
+            warnLicenseExp: 'Your license has expired.<br>Please update your license and refresh the page.',
+            titleLicenseExp: 'License expired'
         }
     })(), PE.Controllers.Main || {}))
 });

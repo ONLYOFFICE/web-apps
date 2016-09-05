@@ -215,4 +215,52 @@ define([
 
         txtNoBorders: 'No Borders'
     }, Common.UI.ComboBorderSizeEditable || {}));
+
+    Common.UI.ComboBorderType = Common.UI.ComboBorderSize.extend(_.extend({
+        template: _.template([
+            '<div class="input-group combobox combo-border-size input-group-nr <%= cls %>" id="<%= id %>" style="<%= style %>">',
+                '<div class="form-control" style="<%= style %>"></div>',
+                '<div style="display: table-cell;"></div>',
+                '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret img-commonctrl"></span></button>',
+                '<ul class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">',
+                    '<% _.each(items, function(item) { %>',
+                        '<li id="<%= item.id %>" data-value="<%= item.value %>"><a tabindex="-1" type="menuitem" style="padding: 2px 0;">',
+                            '<span style="margin-top: 0;"></span>',
+                            '<% if (item.offsety!==undefined) { %>',
+                                '<img src="data:image/gif;base64,R0lGODlhAQABAID/AMDAwAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" align="left" style="background-position: 0 -<%= item.offsety %>px;">',
+                            '<% } %>',
+                        '</a></li>',
+                    '<% }); %>',
+                '</ul>',
+            '</div>'
+        ].join('')),
+
+        initialize : function(options) {
+            Common.UI.ComboBorderSize.prototype.initialize.call(this, _.extend({
+                store: new Common.UI.BordersStore(),
+                data: [
+                    {value: Asc.c_oDashType.solid, offsety: 140},
+                    {value: Asc.c_oDashType.sysDot, offsety: 160},
+                    {value: Asc.c_oDashType.sysDash, offsety: 180},
+                    {value: Asc.c_oDashType.dash, offsety: 200},
+                    {value: Asc.c_oDashType.dashDot, offsety: 220},
+                    {value: Asc.c_oDashType.lgDash, offsety: 240},
+                    {value: Asc.c_oDashType.lgDashDot, offsety: 260},
+                    {value: Asc.c_oDashType.lgDashDotDot, offsety: 280}
+                ]
+            }, options));
+        },
+
+        render : function(parentEl) {
+            Common.UI.ComboBorderSize.prototype.render.call(this, parentEl);
+            return this;
+        },
+
+        updateFormControl: function(record) {
+            var formcontrol = $(this.el).find('.form-control');
+            formcontrol[0].innerHTML = '';
+            formcontrol.removeClass('text').addClass('image');
+            formcontrol.css('background-position', '0 -' + record.get('offsety') + 'px');
+        }
+    }, Common.UI.ComboBorderType || {}));
 });

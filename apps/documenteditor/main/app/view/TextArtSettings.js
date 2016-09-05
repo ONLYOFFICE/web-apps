@@ -69,7 +69,6 @@ define([
         },
 
         initialize: function () {
-            var me = this;
             this._initSettings = true;
             this._noApply = true;
             this.imgprops = null;
@@ -86,6 +85,7 @@ define([
                 StrokeType: Asc.c_oAscStrokeType.STROKE_COLOR,
                 StrokeWidth: this._pt2mm(1),
                 StrokeColor: '000000',
+                StrokeBorderType: Asc.c_oDashType.solid,
                 GradColor: '000000',
                 GradFillType: Asc.c_oAscFillGradType.GRAD_LINEAR,
                 FormId: null,
@@ -103,299 +103,9 @@ define([
 
             this.BorderColor = {Value: 1, Color: 'transparent'};  // value=1 - цвет определен - прозрачный или другой, value=0 - цвет не определен, рисуем прозрачным
             this.BorderSize = 0;
+            this.BorderType = Asc.c_oDashType.solid;
 
             this.render();
-
-            this.cmbTextArt = new Common.UI.ComboDataView({
-                itemWidth: 50,
-                itemHeight: 50,
-                menuMaxHeight: 300,
-                enableKeyEvents: true,
-                showLast: false,
-                cls: 'combo-textart'
-            });
-            this.cmbTextArt.render($('#textart-combo-template'));
-            this.cmbTextArt.openButton.menu.cmpEl.css({
-                'min-width': 178,
-                'max-width': 178
-            });
-            this.cmbTextArt.on('click', _.bind(this.onTextArtSelect, this));
-            this.cmbTextArt.openButton.menu.on('show:after', function () {
-                me.cmbTextArt.menuPicker.scroller.update({alwaysVisibleY: true});
-            });
-            this.lockedControls.push(this.cmbTextArt);
-
-            this._arrFillSrc = [
-                {displayValue: this.textColor,          value: Asc.c_oAscFill.FILL_TYPE_SOLID},
-                {displayValue: this.textGradientFill,   value: Asc.c_oAscFill.FILL_TYPE_GRAD},
-                {displayValue: this.textNoFill,         value: Asc.c_oAscFill.FILL_TYPE_NOFILL}
-            ];
-
-            this.cmbFillSrc = new Common.UI.ComboBox({
-                el: $('#textart-combo-fill-src'),
-                cls: 'input-group-nr',
-                style: 'width: 100%;',
-                menuStyle: 'min-width: 190px;',
-                editable: false,
-                data: this._arrFillSrc
-            });
-            this.cmbFillSrc.setValue(this._arrFillSrc[0].value);
-            this.cmbFillSrc.on('selected', _.bind(this.onFillSrcSelect, this));
-            this.lockedControls.push(this.cmbFillSrc);
-
-            this.btnBackColor = new Common.UI.ColorButton({
-                style: "width:45px;",
-                menu        : new Common.UI.Menu({
-                    items: [
-                        { template: _.template('<div id="textart-back-color-menu" style="width: 165px; height: 220px; margin: 10px;"></div>') },
-                        { template: _.template('<a id="textart-back-color-new" style="padding-left:12px;">' + me.textNewColor + '</a>') }
-                    ]
-                })
-            });
-
-            this.btnBackColor.on('render:after', function(btn) {
-                me.colorsBack = new Common.UI.ThemeColorPalette({
-                    el: $('#textart-back-color-menu'),
-                    dynamiccolors: 10,
-                    value: 'transparent',
-                    colors: [
-                        me.textThemeColors, '-', {color: '3366FF', effectId: 1}, {color: '0000FF', effectId: 2}, {color: '000090', effectId: 3}, {color: '660066', effectId: 4}, {color: '800000', effectId: 5},
-                        {color: 'FF0000', effectId: 1}, {color: 'FF6600', effectId: 1}, {color: 'FFFF00', effectId: 2}, {color: 'CCFFCC', effectId: 3}, {color: '008000', effectId: 4},
-                        '-',
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2}, {color: '000000', effectId: 3}, {color: 'FFFFFF', effectId: 4}, {color: '000000', effectId: 5},
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1},
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1},
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1},
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1},
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1},
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1},
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1},
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1},
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1},
-                        '-', '--', '-', me.textStandartColors, '-', 'transparent',
-                        '5301B3', '980ABD', 'B2275F', 'F83D26', 'F86A1D', 'F7AC16', 'F7CA12', 'FAFF44', 'D6EF39',
-                        '-', '--'
-                    ]
-                });
-                me.colorsBack.on('select', _.bind(me.onColorsBackSelect, me));
-            });
-            this.btnBackColor.render( $('#textart-back-color-btn'));
-            this.btnBackColor.setColor('transparent');
-            $(this.el).on('click', '#textart-back-color-new', _.bind(this.addNewColor, this, this.colorsBack, this.btnBackColor));
-            this.lockedControls.push(this.btnBackColor);
-
-            this.numTransparency = new Common.UI.MetricSpinner({
-                el: $('#textart-spin-transparency'),
-                step: 1,
-                width: 62,
-                value: '100 %',
-                defaultUnit : "%",
-                maxValue: 100,
-                minValue: 0
-            });
-            this.numTransparency.on('change', _.bind(this.onNumTransparencyChange, this));
-            this.lockedControls.push(this.numTransparency);
-
-            this.sldrTransparency = new Common.UI.SingleSlider({
-                el: $('#textart-slider-transparency'),
-                width: 75,
-                minValue: 0,
-                maxValue: 100,
-                value: 100
-            });
-            this.sldrTransparency.on('change', _.bind(this.onTransparencyChange, this));
-            this.sldrTransparency.on('changecomplete', _.bind(this.onTransparencyChangeComplete, this));
-            this.lockedControls.push(this.sldrTransparency);
-
-            this.lblTransparencyStart = $(this.el).find('#textart-lbl-transparency-start');
-            this.lblTransparencyEnd = $(this.el).find('#textart-lbl-transparency-end');
-
-            this._arrGradType = [
-                {displayValue: this.textLinear, value: Asc.c_oAscFillGradType.GRAD_LINEAR},
-                {displayValue: this.textRadial, value: Asc.c_oAscFillGradType.GRAD_PATH}
-            ];
-
-            this.cmbGradType = new Common.UI.ComboBox({
-                el: $('#textart-combo-grad-type'),
-                cls: 'input-group-nr',
-                menuStyle: 'min-width: 90px;',
-                editable: false,
-                data: this._arrGradType
-            });
-            this.cmbGradType.setValue(this._arrGradType[0].value);
-            this.cmbGradType.on('selected', _.bind(this.onGradTypeSelect, this));
-            this.lockedControls.push(this.cmbGradType);
-
-            this._viewDataLinear = [
-                { offsetx: 0,   offsety: 0,   type:45,  subtype:-1, iconcls:'gradient-left-top' },
-                { offsetx: 50,  offsety: 0,   type:90,  subtype:4,  iconcls:'gradient-top'},
-                { offsetx: 100, offsety: 0,   type:135, subtype:5,  iconcls:'gradient-right-top'},
-                { offsetx: 0,   offsety: 50,  type:0,   subtype:6,  iconcls:'gradient-left', cls: 'item-gradient-separator', selected: true},
-                { offsetx: 100, offsety: 50,  type:180, subtype:1,  iconcls:'gradient-right'},
-                { offsetx: 0,   offsety: 100, type:315, subtype:2,  iconcls:'gradient-left-bottom'},
-                { offsetx: 50,  offsety: 100, type:270, subtype:3,  iconcls:'gradient-bottom'},
-                { offsetx: 100, offsety: 100, type:225, subtype:7,  iconcls:'gradient-right-bottom'}
-            ];
-
-            this._viewDataRadial = [
-                { offsetx: 100, offsety: 150, type:2, subtype:5, iconcls:'gradient-radial-center'}
-            ];
-
-            this.btnDirection = new Common.UI.Button({
-                cls         : 'btn-large-dataview',
-                iconCls     : 'item-gradient gradient-left',
-                menu        : new Common.UI.Menu({
-                    style: 'min-width: 60px;',
-                    menuAlign: 'tr-br',
-                    items: [
-                        { template: _.template('<div id="id-textart-menu-direction" style="width: 175px; margin: 0 5px;"></div>') }
-                    ]
-                })
-            });
-            this.btnDirection.on('render:after', function(btn) {
-                me.mnuDirectionPicker = new Common.UI.DataView({
-                    el: $('#id-textart-menu-direction'),
-                    parentMenu: btn.menu,
-                    restoreHeight: 174,
-                    store: new Common.UI.DataViewStore(me._viewDataLinear),
-                    itemTemplate: _.template('<div id="<%= id %>" class="item-gradient" style="background-position: -<%= offsetx %>px -<%= offsety %>px;"></div>')
-                });
-            });
-            this.btnDirection.render($('#textart-button-direction'));
-            this.mnuDirectionPicker.on('item:click', _.bind(this.onSelectGradient, this, this.btnDirection));
-            this.lockedControls.push(this.btnDirection);
-
-            this.btnGradColor = new Common.UI.ColorButton({
-                style: "width:45px;",
-                menu        : new Common.UI.Menu({
-                    items: [
-                        { template: _.template('<div id="textart-gradient-color-menu" style="width: 165px; height: 220px; margin: 10px;"></div>') },
-                        { template: _.template('<a id="textart-gradient-color-new" style="padding-left:12px;">' + me.textNewColor + '</a>') }
-                    ]
-                })
-            });
-            this.btnGradColor.on('render:after', function(btn) {
-                me.colorsGrad = new Common.UI.ThemeColorPalette({
-                    el: $('#textart-gradient-color-menu'),
-                    dynamiccolors: 10,
-                    value: '000000',
-                    colors: [
-                        me.textThemeColors, '-', {color: '3366FF', effectId: 1}, {color: '0000FF', effectId: 2}, {color: '000090', effectId: 3}, {color: '660066', effectId: 4}, {color: '800000', effectId: 5},
-                        {color: 'FF0000', effectId: 1}, {color: 'FF6600', effectId: 1}, {color: 'FFFF00', effectId: 2}, {color: 'CCFFCC', effectId: 3}, {color: '008000', effectId: 4},
-                        '-',
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2}, {color: '000000', effectId: 3}, {color: 'FFFFFF', effectId: 4}, {color: '000000', effectId: 5},
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1},
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1},
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1},
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1},
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1},
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1},
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1},
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1},
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1},
-                        '-', '--', '-', me.textStandartColors, '-',
-                        '3D55FE', '5301B3', '980ABD', 'B2275F', 'F83D26', 'F86A1D', 'F7AC16', 'F7CA12', 'FAFF44', 'D6EF39',
-                        '-', '--'
-                    ]
-                });
-                me.colorsGrad.on('select', _.bind(me.onColorsGradientSelect, me));
-            });
-            this.btnGradColor.render( $('#textart-gradient-color-btn'));
-            this.btnGradColor.setColor('000000');
-            $(this.el).on('click', '#textart-gradient-color-new', _.bind(this.addNewColor, this, this.colorsGrad, this.btnGradColor));
-            this.lockedControls.push(this.btnGradColor);
-
-            this.sldrGradient = new Common.UI.MultiSliderGradient({
-                el: $('#textart-slider-gradient'),
-                width: 125,
-                minValue: 0,
-                maxValue: 100,
-                values: [0, 100]
-            });
-            this.sldrGradient.on('change', _.bind(this.onGradientChange, this));
-            this.sldrGradient.on('changecomplete', _.bind(this.onGradientChangeComplete, this));
-            this.sldrGradient.on('thumbclick', function(cmp, index){
-                me.GradColor.currentIdx = index;
-                var color = me.GradColor.colors[me.GradColor.currentIdx];
-                me.btnGradColor.setColor(color);
-                me.colorsGrad.select(color,false);
-            });
-            this.sldrGradient.on('thumbdblclick', function(cmp){
-                me.btnGradColor.cmpEl.find('button').dropdown('toggle');
-            });
-            this.lockedControls.push(this.sldrGradient);
-
-            this.cmbBorderSize = new Common.UI.ComboBorderSizeEditable({
-                el: $('#textart-combo-border-size'),
-                style: "width: 93px;",
-                txtNoBorders: this.txtNoBorders
-            })
-            .on('selected', _.bind(this.onBorderSizeSelect, this))
-            .on('changed:before',_.bind(this.onBorderSizeChanged, this, true))
-            .on('changed:after', _.bind(this.onBorderSizeChanged, this, false))
-            .on('combo:blur',    _.bind(this.onComboBlur, this, false));
-            this.BorderSize = this.cmbBorderSize.store.at(2).get('value');
-            this.cmbBorderSize.setValue(this.BorderSize);
-            this.lockedControls.push(this.cmbBorderSize);
-
-            this.btnBorderColor = new Common.UI.ColorButton({
-                style: "width:45px;",
-                menu        : new Common.UI.Menu({
-                    items: [
-                        { template: _.template('<div id="textart-border-color-menu" style="width: 165px; height: 220px; margin: 10px;"></div>') },
-                        { template: _.template('<a id="textart-border-color-new" style="padding-left:12px;">' + me.textNewColor + '</a>') }
-                    ]
-                })
-            });
-            this.lockedControls.push(this.btnBorderColor);
-
-            this.btnBorderColor.on('render:after', function(btn) {
-                me.colorsBorder = new Common.UI.ThemeColorPalette({
-                    el: $('#textart-border-color-menu'),
-                    dynamiccolors: 10,
-                    value: '000000',
-                    colors: [
-                        me.textThemeColors, '-', {color: '3366FF', effectId: 1}, {color: '0000FF', effectId: 2}, {color: '000090', effectId: 3}, {color: '660066', effectId: 4}, {color: '800000', effectId: 5},
-                        {color: 'FF0000', effectId: 1}, {color: 'FF6600', effectId: 1}, {color: 'FFFF00', effectId: 2}, {color: 'CCFFCC', effectId: 3}, {color: '008000', effectId: 4},
-                        '-',
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2}, {color: '000000', effectId: 3}, {color: 'FFFFFF', effectId: 4}, {color: '000000', effectId: 5},
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1},
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1},
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1},
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1},
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1},
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1},
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1},
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1},
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1},
-                        '-', '--', '-', me.textStandartColors, '-',
-                        '3D55FE', '5301B3', '980ABD', 'B2275F', 'F83D26', 'F86A1D', 'F7AC16', 'F7CA12', 'FAFF44', 'D6EF39',
-                        '-', '--'
-                    ]
-                });
-                me.colorsBorder.on('select', _.bind(me.onColorsBorderSelect, me));
-            });
-            this.btnBorderColor.render( $('#textart-border-color-btn'));
-            this.btnBorderColor.setColor('000000');
-            $(this.el).on('click', '#textart-border-color-new', _.bind(this.addNewColor, this, this.colorsBorder, this.btnBorderColor));
-
-            this.cmbTransform = new Common.UI.ComboDataView({
-                itemWidth: 50,
-                itemHeight: 50,
-                menuMaxHeight: 300,
-                enableKeyEvents: true,
-                cls: 'combo-textart'
-            });
-            this.cmbTransform.render($('#textart-combo-transform'));
-            this.cmbTransform.openButton.menu.cmpEl.css({
-                'min-width': 178,
-                'max-width': 178
-            });
-            this.cmbTransform.on('click', _.bind(this.onTransformSelect, this));
-            this.cmbTransform.openButton.menu.on('show:after', function () {
-                me.cmbTransform.menuPicker.scroller.update({alwaysVisibleY: true});
-            });
-            this.lockedControls.push(this.cmbTransform);
 
             this.FillColorContainer = $('#textart-panel-color-fill');
             this.FillGradientContainer = $('#textart-panel-gradient-fill');
@@ -716,6 +426,7 @@ define([
                         stroke.put_color(Common.Utils.ThemeColor.getRgbColor({color: '000000', effectId: 29}));
                     else if (this._state.StrokeType == Asc.c_oAscStrokeType.STROKE_NONE || this._state.StrokeType === null)
                         stroke.put_color(Common.Utils.ThemeColor.getRgbColor(Common.Utils.ThemeColor.colorValue2EffectId(this.BorderColor.Color)));
+                    stroke.asc_putPrstDash(this.BorderType);
                     stroke.put_width(this._pt2mm(this.BorderSize));
                 }
                 props.asc_putLine(stroke);
@@ -753,6 +464,26 @@ define([
             this.applyBorderSize(record.value);
         },
 
+        onBorderTypeSelect: function(combo, record) {
+            this.BorderType = record.value;
+            if (this.api && !this._noApply) {
+                var props = new Asc.asc_TextArtProperties();
+                var stroke = new Asc.asc_CStroke();
+                if (this.BorderSize<0.01) {
+                    stroke.put_type( Asc.c_oAscStrokeType.STROKE_NONE);
+                } else {
+                    stroke.put_type( Asc.c_oAscStrokeType.STROKE_COLOR);
+                    stroke.put_color(Common.Utils.ThemeColor.getRgbColor(this.BorderColor.Color));
+                    stroke.put_width(this._pt2mm(this.BorderSize));
+                    stroke.asc_putPrstDash(this.BorderType);
+                }
+                props.asc_putLine(stroke);
+                this.shapeprops.put_TextArtProperties(props);
+                this.api.ImgApply(this.imgprops);
+            }
+            this.fireEvent('editcomplete', this);
+        },
+
         onColorsBorderSelect: function(picker, color) {
             this.btnBorderColor.setColor(color);
             this.BorderColor = {Value: 1, Color: color};
@@ -765,6 +496,7 @@ define([
                     stroke.put_type( Asc.c_oAscStrokeType.STROKE_COLOR);
                     stroke.put_color(Common.Utils.ThemeColor.getRgbColor(this.BorderColor.Color));
                     stroke.put_width(this._pt2mm(this.BorderSize));
+                    stroke.asc_putPrstDash(this.BorderType);
                 }
                 props.asc_putLine(stroke);
                 this.shapeprops.put_TextArtProperties(props);
@@ -940,7 +672,8 @@ define([
 
                 // border colors
                 var stroke = shapeprops.asc_getLine(),
-                    strokeType = (stroke) ? stroke.get_type() : null;
+                    strokeType = (stroke) ? stroke.get_type() : null,
+                    borderType;
 
                 if (stroke) {
                     if ( strokeType == Asc.c_oAscStrokeType.STROKE_COLOR ) {
@@ -957,6 +690,7 @@ define([
                     } else {
                         this.BorderColor = {Value: 1, Color: 'transparent'};
                     }
+                    borderType = stroke.asc_getPrstDash();
                 } else  { // no stroke
                     this.BorderColor = {Value: 0, Color: 'transparent'};
                 }
@@ -1018,6 +752,11 @@ define([
                     this._state.StrokeType = strokeType;
                 }
 
+                if (this._state.StrokeBorderType !== borderType) {
+                    this.BorderType = this._state.StrokeBorderType = borderType;
+                    this.cmbBorderType.setValue(borderType);
+                }
+
                 color = this.GradColor.colors[this.GradColor.currentIdx];
                 type1 = typeof(color);
                 type2 = typeof(this._state.GradColor);
@@ -1058,14 +797,201 @@ define([
             }
         },
 
+        createDelayedControls: function() {
+            var me = this;
+
+            this._arrFillSrc = [
+                {displayValue: this.textColor,          value: Asc.c_oAscFill.FILL_TYPE_SOLID},
+                {displayValue: this.textGradientFill,   value: Asc.c_oAscFill.FILL_TYPE_GRAD},
+                {displayValue: this.textNoFill,         value: Asc.c_oAscFill.FILL_TYPE_NOFILL}
+            ];
+
+            this.cmbFillSrc = new Common.UI.ComboBox({
+                el: $('#textart-combo-fill-src'),
+                cls: 'input-group-nr',
+                style: 'width: 100%;',
+                menuStyle: 'min-width: 190px;',
+                editable: false,
+                data: this._arrFillSrc
+            });
+            this.cmbFillSrc.setValue(this._arrFillSrc[0].value);
+            this.cmbFillSrc.on('selected', _.bind(this.onFillSrcSelect, this));
+            this.lockedControls.push(this.cmbFillSrc);
+
+            this.numTransparency = new Common.UI.MetricSpinner({
+                el: $('#textart-spin-transparency'),
+                step: 1,
+                width: 62,
+                value: '100 %',
+                defaultUnit : "%",
+                maxValue: 100,
+                minValue: 0
+            });
+            this.numTransparency.on('change', _.bind(this.onNumTransparencyChange, this));
+            this.lockedControls.push(this.numTransparency);
+
+            this.sldrTransparency = new Common.UI.SingleSlider({
+                el: $('#textart-slider-transparency'),
+                width: 75,
+                minValue: 0,
+                maxValue: 100,
+                value: 100
+            });
+            this.sldrTransparency.on('change', _.bind(this.onTransparencyChange, this));
+            this.sldrTransparency.on('changecomplete', _.bind(this.onTransparencyChangeComplete, this));
+            this.lockedControls.push(this.sldrTransparency);
+
+            this.lblTransparencyStart = $(this.el).find('#textart-lbl-transparency-start');
+            this.lblTransparencyEnd = $(this.el).find('#textart-lbl-transparency-end');
+
+            this._arrGradType = [
+                {displayValue: this.textLinear, value: Asc.c_oAscFillGradType.GRAD_LINEAR},
+                {displayValue: this.textRadial, value: Asc.c_oAscFillGradType.GRAD_PATH}
+            ];
+
+            this.cmbGradType = new Common.UI.ComboBox({
+                el: $('#textart-combo-grad-type'),
+                cls: 'input-group-nr',
+                menuStyle: 'min-width: 90px;',
+                editable: false,
+                data: this._arrGradType
+            });
+            this.cmbGradType.setValue(this._arrGradType[0].value);
+            this.cmbGradType.on('selected', _.bind(this.onGradTypeSelect, this));
+            this.lockedControls.push(this.cmbGradType);
+
+            this._viewDataLinear = [
+                { offsetx: 0,   offsety: 0,   type:45,  subtype:-1, iconcls:'gradient-left-top' },
+                { offsetx: 50,  offsety: 0,   type:90,  subtype:4,  iconcls:'gradient-top'},
+                { offsetx: 100, offsety: 0,   type:135, subtype:5,  iconcls:'gradient-right-top'},
+                { offsetx: 0,   offsety: 50,  type:0,   subtype:6,  iconcls:'gradient-left', cls: 'item-gradient-separator', selected: true},
+                { offsetx: 100, offsety: 50,  type:180, subtype:1,  iconcls:'gradient-right'},
+                { offsetx: 0,   offsety: 100, type:315, subtype:2,  iconcls:'gradient-left-bottom'},
+                { offsetx: 50,  offsety: 100, type:270, subtype:3,  iconcls:'gradient-bottom'},
+                { offsetx: 100, offsety: 100, type:225, subtype:7,  iconcls:'gradient-right-bottom'}
+            ];
+
+            this._viewDataRadial = [
+                { offsetx: 100, offsety: 150, type:2, subtype:5, iconcls:'gradient-radial-center'}
+            ];
+
+            this.btnDirection = new Common.UI.Button({
+                cls         : 'btn-large-dataview',
+                iconCls     : 'item-gradient gradient-left',
+                menu        : new Common.UI.Menu({
+                    style: 'min-width: 60px;',
+                    menuAlign: 'tr-br',
+                    items: [
+                        { template: _.template('<div id="id-textart-menu-direction" style="width: 175px; margin: 0 5px;"></div>') }
+                    ]
+                })
+            });
+            this.btnDirection.on('render:after', function(btn) {
+                me.mnuDirectionPicker = new Common.UI.DataView({
+                    el: $('#id-textart-menu-direction'),
+                    parentMenu: btn.menu,
+                    restoreHeight: 174,
+                    store: new Common.UI.DataViewStore(me._viewDataLinear),
+                    itemTemplate: _.template('<div id="<%= id %>" class="item-gradient" style="background-position: -<%= offsetx %>px -<%= offsety %>px;"></div>')
+                });
+            });
+            this.btnDirection.render($('#textart-button-direction'));
+            this.mnuDirectionPicker.on('item:click', _.bind(this.onSelectGradient, this, this.btnDirection));
+            this.lockedControls.push(this.btnDirection);
+
+            this.sldrGradient = new Common.UI.MultiSliderGradient({
+                el: $('#textart-slider-gradient'),
+                width: 125,
+                minValue: 0,
+                maxValue: 100,
+                values: [0, 100]
+            });
+            this.sldrGradient.on('change', _.bind(this.onGradientChange, this));
+            this.sldrGradient.on('changecomplete', _.bind(this.onGradientChangeComplete, this));
+            this.sldrGradient.on('thumbclick', function(cmp, index){
+                me.GradColor.currentIdx = index;
+                var color = me.GradColor.colors[me.GradColor.currentIdx];
+                me.btnGradColor.setColor(color);
+                me.colorsGrad.select(color,false);
+            });
+            this.sldrGradient.on('thumbdblclick', function(cmp){
+                me.btnGradColor.cmpEl.find('button').dropdown('toggle');
+            });
+            this.lockedControls.push(this.sldrGradient);
+
+            this.cmbBorderSize = new Common.UI.ComboBorderSizeEditable({
+                el: $('#textart-combo-border-size'),
+                style: "width: 93px;",
+                txtNoBorders: this.txtNoBorders
+            })
+            .on('selected', _.bind(this.onBorderSizeSelect, this))
+            .on('changed:before',_.bind(this.onBorderSizeChanged, this, true))
+            .on('changed:after', _.bind(this.onBorderSizeChanged, this, false))
+            .on('combo:blur',    _.bind(this.onComboBlur, this, false));
+            this.BorderSize = this.cmbBorderSize.store.at(2).get('value');
+            this.cmbBorderSize.setValue(this.BorderSize);
+            this.lockedControls.push(this.cmbBorderSize);
+
+            this.cmbBorderType = new Common.UI.ComboBorderType({
+                el: $('#textart-combo-border-type'),
+                style: "width: 93px;",
+                menuStyle: 'min-width: 93px;'
+            }).on('selected', _.bind(this.onBorderTypeSelect, this))
+            .on('combo:blur',    _.bind(this.onComboBlur, this, false));
+            this.BorderType = Asc.c_oDashType.solid;
+            this.cmbBorderType.setValue(this.BorderType);
+            this.lockedControls.push(this.cmbBorderType);
+
+            this.cmbTransform = new Common.UI.ComboDataView({
+                itemWidth: 50,
+                itemHeight: 50,
+                menuMaxHeight: 300,
+                enableKeyEvents: true,
+                cls: 'combo-textart'
+            });
+            this.cmbTransform.render($('#textart-combo-transform'));
+            this.cmbTransform.openButton.menu.cmpEl.css({
+                'min-width': 178,
+                'max-width': 178
+            });
+            this.cmbTransform.on('click', _.bind(this.onTransformSelect, this));
+            this.cmbTransform.openButton.menu.on('show:after', function () {
+                me.cmbTransform.menuPicker.scroller.update({alwaysVisibleY: true});
+            });
+            this.lockedControls.push(this.cmbTransform);
+        },
+
         createDelayedElements: function() {
+            this.createDelayedControls();
             this.UpdateThemeColors();
             this.fillTransform(this.api.asc_getPropertyEditorTextArts());
         },
 
         fillTextArt: function() {
-            var me = this,
-                models = this.application.getCollection('Common.Collections.TextArt').models,
+            var me = this;
+            
+            if (!this.cmbTextArt) {
+                this.cmbTextArt = new Common.UI.ComboDataView({
+                    itemWidth: 50,
+                    itemHeight: 50,
+                    menuMaxHeight: 300,
+                    enableKeyEvents: true,
+                    showLast: false,
+                    cls: 'combo-textart'
+                });
+                this.cmbTextArt.render($('#textart-combo-template'));
+                this.cmbTextArt.openButton.menu.cmpEl.css({
+                    'min-width': 178,
+                    'max-width': 178
+                });
+                this.cmbTextArt.on('click', _.bind(this.onTextArtSelect, this));
+                this.cmbTextArt.openButton.menu.on('show:after', function () {
+                    me.cmbTextArt.menuPicker.scroller.update({alwaysVisibleY: true});
+                });
+                this.lockedControls.push(this.cmbTextArt);
+            }
+
+            var models = this.application.getCollection('Common.Collections.TextArt').models,
                 count = this.cmbTextArt.menuPicker.store.length;
             if (count>0 && count==models.length) {
                 var data = this.cmbTextArt.menuPicker.store.models;
@@ -1123,6 +1049,66 @@ define([
         },
 
         UpdateThemeColors: function() {
+            if (!this.btnBackColor) {
+                this.btnBorderColor = new Common.UI.ColorButton({
+                    style: "width:45px;",
+                    menu        : new Common.UI.Menu({
+                        items: [
+                            { template: _.template('<div id="textart-border-color-menu" style="width: 165px; height: 220px; margin: 10px;"></div>') },
+                            { template: _.template('<a id="textart-border-color-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
+                        ]
+                    })
+                });
+                this.btnBorderColor.render( $('#textart-border-color-btn'));
+                this.btnBorderColor.setColor('000000');
+                this.lockedControls.push(this.btnBorderColor);
+                this.colorsBorder = new Common.UI.ThemeColorPalette({
+                    el: $('#textart-border-color-menu'),
+                    value: '000000'
+                });
+                this.colorsBorder.on('select', _.bind(this.onColorsBorderSelect, this));
+                $(this.el).on('click', '#textart-border-color-new', _.bind(this.addNewColor, this, this.colorsBorder, this.btnBorderColor));
+
+                this.btnGradColor = new Common.UI.ColorButton({
+                    style: "width:45px;",
+                    menu        : new Common.UI.Menu({
+                        items: [
+                            { template: _.template('<div id="textart-gradient-color-menu" style="width: 165px; height: 220px; margin: 10px;"></div>') },
+                            { template: _.template('<a id="textart-gradient-color-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
+                        ]
+                    })
+                });
+                this.btnGradColor.render( $('#textart-gradient-color-btn'));
+                this.btnGradColor.setColor('000000');
+                this.lockedControls.push(this.btnGradColor);
+                this.colorsGrad = new Common.UI.ThemeColorPalette({
+                    el: $('#textart-gradient-color-menu'),
+                    value: '000000'
+                });
+                this.colorsGrad.on('select', _.bind(this.onColorsGradientSelect, this));
+                $(this.el).on('click', '#textart-gradient-color-new', _.bind(this.addNewColor, this, this.colorsGrad, this.btnGradColor));
+
+                this.btnBackColor = new Common.UI.ColorButton({
+                    style: "width:45px;",
+                    menu        : new Common.UI.Menu({
+                        items: [
+                            { template: _.template('<div id="textart-back-color-menu" style="width: 165px; height: 220px; margin: 10px;"></div>') },
+                            { template: _.template('<a id="textart-back-color-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
+                        ]
+                    })
+                });
+                this.btnBackColor.render( $('#textart-back-color-btn'));
+                this.btnBackColor.setColor('transparent');
+                this.lockedControls.push(this.btnBackColor);
+                this.colorsBack = new Common.UI.ThemeColorPalette({
+                    el: $('#textart-back-color-menu'),
+                    value: 'transparent',
+                    transparent: true
+                });
+                this.colorsBack.on('select', _.bind(this.onColorsBackSelect, this));
+                $(this.el).on('click', '#textart-back-color-new', _.bind(this.addNewColor, this, this.colorsBack, this.btnBackColor));
+            }
+
             this.colorsBorder.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
             this.colorsBack.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
             this.colorsGrad.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
@@ -1147,6 +1133,8 @@ define([
         },
 
         disableControls: function(disable) {
+            if (this._initSettings) return;
+            
             if (this._state.DisabledControls!==disable) {
                 this._state.DisabledControls = disable;
                 _.each(this.lockedControls, function(item) {
@@ -1162,8 +1150,6 @@ define([
         strFill                 : 'Fill',
         textColor               : 'Color Fill',
         textNewColor            : 'Add New Custom Color',
-        textThemeColors         : 'Theme Colors',
-        textStandartColors      : 'Standart Colors',
         strTransparency         : 'Opacity',
         textNoFill              : 'No Fill',
         textSelectTexture       : 'Select',
@@ -1175,6 +1161,7 @@ define([
         textGradient: 'Gradient',
         textBorderSizeErr: 'The entered value is incorrect.<br>Please enter a value between 0 pt and 1584 pt.',
         textTransform: 'Transform',
-        textTemplate: 'Template'
+        textTemplate: 'Template',
+        strType: 'Type'
     }, DE.Views.TextArtSettings || {}));
 });

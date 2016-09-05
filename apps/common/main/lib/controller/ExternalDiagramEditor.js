@@ -97,9 +97,10 @@ define([
                             externalEditor.serviceCommand('window:drag', state == 'start');
                         },this),
                         'show': _.bind(function(cmp){
-                            var h = this.diagramEditorView.getHeight();
-                            if (window.innerHeight>h && h<700 || window.innerHeight<h) {
-                                h = Math.min(window.innerHeight, 700);
+                            var h = this.diagramEditorView.getHeight(),
+                                innerHeight = Common.Utils.innerHeight();
+                            if (innerHeight>h && h<700 || innerHeight<h) {
+                                h = Math.min(innerHeight, 700);
                                 this.diagramEditorView.setHeight(h);
                             }
 
@@ -182,7 +183,6 @@ define([
                 if (this.diagramEditorView) {
                     if (eventData.type == 'documentReady') {
                         this.diagramEditorView._isExternalDocReady = true;
-                        this.diagramEditorView.setControlsDisabled(false);
                         if (this.diagramEditorView._chartData) {
                             externalEditor && externalEditor.serviceCommand('setChartData', this.diagramEditorView._chartData);
                             this.diagramEditorView._chartData = null;
@@ -190,6 +190,10 @@ define([
                         if (this.needDisableEditing) {
                             this.onDiagrammEditingDisabled();
                         }
+                    } else
+                    if (eventData.type == 'chartDataReady') {
+                        if (this.needDisableEditing===undefined)
+                            this.diagramEditorView.setControlsDisabled(false);
                     } else
                     if (eventData.type == "shortcut") {
                         if (eventData.data.key == 'escape')

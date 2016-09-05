@@ -66,6 +66,8 @@ define([
                 storePlugins: this.getApplication().getCollection('Common.Collections.Plugins')
             });
             this.panelPlugins.on('render:after', _.bind(this.onAfterRender, this));
+
+            this._moveOffset = {x:0, y:0};
         },
 
         setApi: function(api) {
@@ -73,6 +75,9 @@ define([
 
             this.api.asc_registerCallback("asc_onPluginShow", _.bind(this.onPluginShow, this));
             this.api.asc_registerCallback("asc_onPluginClose", _.bind(this.onPluginClose, this));
+            this.api.asc_registerCallback("asc_onPluginResize", _.bind(this.onPluginResize, this));
+            this.api.asc_registerCallback("asc_onPluginMouseUp", _.bind(this.onPluginMouseUp, this));
+            this.api.asc_registerCallback("asc_onPluginMouseMove", _.bind(this.onPluginMouseMove, this));
 
             return this;
         },
@@ -87,6 +92,22 @@ define([
         onAfterRender: function(panelPlugins) {
             panelPlugins.viewPluginsList.on('item:click', _.bind(this.onSelectPlugin, this));
             this.bindViewEvents(this.panelPlugins, this.events);
+            var me = this;
+            Common.NotificationCenter.on({
+                'layout:resizestart': function(e){
+                    if (me.panelPlugins.isVisible()) {
+                        var offset = me.panelPlugins.currentPluginFrame.offset();
+                        me._moveOffset = {x: offset.left + parseInt(me.panelPlugins.currentPluginFrame.css('padding-left')),
+                                            y: offset.top + parseInt(me.panelPlugins.currentPluginFrame.css('padding-top'))};
+                        me.api.asc_pluginEnableMouseEvents(true);
+                    }
+                },
+                'layout:resizestop': function(e){
+                    if (me.panelPlugins.isVisible()) {
+                        me.api.asc_pluginEnableMouseEvents(false);
+                    }
+                }
+            });
         },
 
         updatePluginsList: function() {
@@ -114,6 +135,8 @@ define([
                     variation.set_InitData(itemVar.get('initData'));
                     variation.set_UpdateOleOnResize(itemVar.get('isUpdateOleOnResize'));
                     variation.set_Buttons(itemVar.get('buttons'));
+                    variation.set_Size(itemVar.get('size'));
+                    variation.set_InitOnSelectionChanged(itemVar.get('initOnSelectionChanged'));
                     variationsArr.push(variation);
                 });
                 plugin.set_Variations(variationsArr);
@@ -195,44 +218,66 @@ define([
 
         onPluginShow: function(plugin, variationIndex) {
             var variation = plugin.get_Variations()[variationIndex];
-            if (!variation.get_Visual()) return;
-            
-            if (variation.get_InsideMode()) {
-                this.panelPlugins.openInsideMode(plugin.get_Name(), ((plugin.get_BaseUrl().length == 0) ? this.panelPlugins.pluginsPath : plugin.get_BaseUrl()) + variation.get_Url());
-            } else {
-                var me = this,
-                    arrBtns = variation.get_Buttons(),
-                    newBtns = {};
+            if (variation.get_Visual()) {
+                if (variation.get_InsideMode()) {
+                    this.panelPlugins.openInsideMode(plugin.get_Name(), ((plugin.get_BaseUrl().length == 0) ? this.panelPlugins.pluginsPath : plugin.get_BaseUrl()) + variation.get_Url());
+                } else {
+                    var me = this,
+                        arrBtns = variation.get_Buttons(),
+                        newBtns = {},
+                        size = variation.get_Size();
+                        if (!size || size.length<2) size = [800, 600];
 
-                if (_.isArray(arrBtns)) {
-                    _.each(arrBtns, function(b, index){
-                        newBtns[index] = {text: b.text, cls: 'custom' + ((b.primary) ? ' primary' : '')};
+                    if (_.isArray(arrBtns)) {
+                        _.each(arrBtns, function(b, index){
+                            newBtns[index] = {text: b.text, cls: 'custom' + ((b.primary) ? ' primary' : '')};
+                        });
+                    }
+
+                    var _baseUrl = (plugin.get_BaseUrl().length == 0) ? me.panelPlugins.pluginsPath : plugin.get_BaseUrl();
+                    me.pluginDlg = new Common.Views.PluginDlg({
+                        title: plugin.get_Name(),
+                        width: size[0], // inner width
+                        height: size[1], // inner height
+                        url: _baseUrl + variation.get_Url(),
+                        buttons: newBtns,
+                        toolcallback: _.bind(this.onToolClose, this)
                     });
+                    me.pluginDlg.on('render:after', function(obj){
+                        obj.getChild('.footer .dlg-btn').on('click', _.bind(me.onDlgBtnClick, me));
+                        me.pluginContainer = me.pluginDlg.$window.find('#id-plugin-container');
+                    }).on('close', function(obj){
+                        me.pluginDlg = undefined;
+                    }).on('drag', function(args){
+                        me.api.asc_pluginEnableMouseEvents(args[1]=='start');
+                    }).on('resize', function(args){
+                        me.api.asc_pluginEnableMouseEvents(args[1]=='start');
+                    });
+                    me.pluginDlg.show();
                 }
-
-                var _baseUrl = (plugin.get_BaseUrl().length == 0) ? me.panelPlugins.pluginsPath : plugin.get_BaseUrl();
-                me.pluginDlg = new Common.Views.PluginDlg({
-                    title: plugin.get_Name(),
-                    url: _baseUrl + variation.get_Url(),
-                    buttons: newBtns,
-                    toolcallback: _.bind(this.onToolClose, this)
-                });
-                me.pluginDlg.on('render:after', function(obj){
-                    obj.getChild('.footer .dlg-btn').on('click', _.bind(me.onDlgBtnClick, me));
-                }).on('close', function(obj){
-                    me.pluginDlg = undefined;
-                });
-                me.pluginDlg.show();
-            }
+            } else
+                this.panelPlugins.openNotVisualMode(plugin.get_Guid());
         },
 
         onPluginClose: function() {
             if (this.pluginDlg)
                 this.pluginDlg.close();
-            else
+            else if (this.panelPlugins.iframePlugin)
                 this.panelPlugins.closeInsideMode();
+            else
+                this.panelPlugins.closeNotVisualMode();
         },
 
+        onPluginResize: function(size, minSize, maxSize, callback ) {
+            if (this.pluginDlg) {
+                var resizable = (minSize && minSize.length>1 && maxSize && maxSize.length>1 && (maxSize[0] > minSize[0] || maxSize[1] > minSize[1] || maxSize[0]==0 || maxSize[1] == 0));
+                this.pluginDlg.setResizable(resizable, minSize, maxSize);
+                this.pluginDlg.setInnerSize(size[0], size[1]);
+                if (callback)
+                    callback.call();
+            }
+        },
+        
         onDlgBtnClick: function(event) {
             var state = event.currentTarget.attributes['result'].value;
             this.api.asc_pluginButtonClick(parseInt(state));
@@ -240,6 +285,23 @@ define([
 
         onToolClose: function() {
             this.api.asc_pluginButtonClick(-1);
+        },
+
+        onPluginMouseUp: function(x, y) {
+            if (this.pluginDlg) {
+                if (this.pluginDlg.binding.dragStop) this.pluginDlg.binding.dragStop();
+                if (this.pluginDlg.binding.resizeStop) this.pluginDlg.binding.resizeStop();
+            } else
+                Common.NotificationCenter.trigger('frame:mouseup', { pageX: x*Common.Utils.zoom()+this._moveOffset.x, pageY: y*Common.Utils.zoom()+this._moveOffset.y });
+        },
+        
+        onPluginMouseMove: function(x, y) {
+            if (this.pluginDlg) {
+                var offset = this.pluginContainer.offset();
+                if (this.pluginDlg.binding.drag) this.pluginDlg.binding.drag({ pageX: x*Common.Utils.zoom()+offset.left, pageY: y*Common.Utils.zoom()+offset.top });
+                if (this.pluginDlg.binding.resize) this.pluginDlg.binding.resize({ pageX: x*Common.Utils.zoom()+offset.left, pageY: y*Common.Utils.zoom()+offset.top });
+            } else
+                Common.NotificationCenter.trigger('frame:mousemove', { pageX: x*Common.Utils.zoom()+this._moveOffset.x, pageY: y*Common.Utils.zoom()+this._moveOffset.y });
         }
 
     }, Common.Controllers.Plugins || {}));

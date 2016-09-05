@@ -110,10 +110,6 @@ define([
 
         template: _.template([
             '<table><tbody>',
-                '<tr class="edit">',
-                    '<td class="left"><label><%= scope.txtInput %></label></td>',
-                    '<td class="right"><div id="fms-chb-input-mode"/></td>',
-                '</tr>','<tr class="divider edit"></tr>',
                 /** coauthoring begin **/
                 '<tr class="coauth">',
                     '<td class="left"><label><%= scope.txtLiveComment %></label></td>',
@@ -123,6 +119,10 @@ define([
                 '<tr class="edit">',
                     '<td class="left"><label><%= scope.txtSpellCheck %></label></td>',
                     '<td class="right"><div id="fms-chb-spell-check"/></td>',
+                '</tr>','<tr class="divider edit"></tr>',
+                '<tr class="edit">',
+                    '<td class="left"><label><%= scope.txtInput %></label></td>',
+                    '<td class="right"><div id="fms-chb-input-mode"/></td>',
                 '</tr>','<tr class="divider edit"></tr>',
                 '<tr>',
                     '<td class="left"><label><%= scope.textAlignGuides %></label></td>',
@@ -312,7 +312,7 @@ define([
             }
             /** coauthoring begin **/
             $('tr.coauth', this.el)[mode.isEdit && mode.canCoAuthoring ? 'show' : 'hide']();
-            $('tr.coauth.changes', this.el)[mode.isEdit && mode.canLicense && !mode.isOffline ? 'show' : 'hide']();
+            $('tr.coauth.changes', this.el)[mode.isEdit && mode.canLicense && !mode.isOffline && mode.canCoAuthoring ? 'show' : 'hide']();
             /** coauthoring end **/
         },
 
@@ -329,7 +329,7 @@ define([
             this.chLiveComment.setValue(!(value!==null && parseInt(value) == 0));
 
             value = Common.localStorage.getItem("de-settings-coauthmode");
-            var fast_coauth = (value===null || parseInt(value) == 1) && !(this.mode.isDesktopApp && this.mode.isOffline);
+            var fast_coauth = (value===null || parseInt(value) == 1) && !(this.mode.isDesktopApp && this.mode.isOffline) && this.mode.canCoAuthoring;
 
             item = this.cmbCoAuthMode.store.findWhere({value: parseInt(value)});
             this.cmbCoAuthMode.setValue(item ? item.get('value') : 1);
@@ -352,7 +352,7 @@ define([
             this._oldUnits = this.cmbUnit.getValue();
 
             value = Common.localStorage.getItem("de-settings-autosave");
-            this.chAutosave.setValue(fast_coauth || (value===null || parseInt(value) == 1));
+            this.chAutosave.setValue(fast_coauth || (value===null ? this.mode.canCoAuthoring : parseInt(value) == 1));
 
             value = Common.localStorage.getItem("de-settings-spellcheck");
             this.chSpell.setValue(value===null || parseInt(value) == 1);
@@ -366,7 +366,7 @@ define([
             Common.localStorage.setItem("de-settings-zoom", this.cmbZoom.getValue());
             /** coauthoring begin **/
             Common.localStorage.setItem("de-settings-livecomment", this.chLiveComment.isChecked() ? 1 : 0);
-            if (this.mode.isEdit && this.mode.canLicense && !this.mode.isOffline) {
+            if (this.mode.isEdit && this.mode.canLicense && !this.mode.isOffline && this.mode.canCoAuthoring) {
                 Common.localStorage.setItem("de-settings-coauthmode", this.cmbCoAuthMode.getValue());
                 Common.localStorage.setItem(this.cmbCoAuthMode.getValue() ? "de-settings-showchanges-fast" : "de-settings-showchanges-strict", this.cmbShowChanges.getValue());
             }

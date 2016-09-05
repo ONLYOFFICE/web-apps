@@ -172,12 +172,22 @@ define([
             this.pluginsPanel.toggleClass('hidden', false);
         },
 
+        openNotVisualMode: function(pluginGuid) {
+            var rec = this.viewPluginsList.store.findWhere({guid: pluginGuid});
+            if (rec)
+                this.viewPluginsList.cmpEl.find('#' + rec.get('id')).parent().addClass('selected');
+        },
+
+        closeNotVisualMode: function() {
+            this.viewPluginsList.cmpEl.find('.selected').removeClass('selected');
+        },
+
         _onLoad: function() {
             if (this.loadMask)
                 this.loadMask.hide();
         },
 
-        strPlugins: 'Add-ons',
+        strPlugins: 'Plugins',
         textLoading: 'Loading',
         textStart: 'Start'
 
@@ -187,13 +197,16 @@ define([
         initialize : function(options) {
             var _options = {};
             _.extend(_options,  {
-                width: 800,
-                height: (window.innerHeight-600)<0 ? window.innerHeight: 600,
                 cls: 'advanced-settings-dlg',
-                header: true
+                header: true,
+                enableKeyEvents: false
             }, options);
 
             var header_footer = (_options.buttons && _.size(_options.buttons)>0) ? 85 : 34;
+            _options.width = (Common.Utils.innerWidth()-_options.width)<0 ? Common.Utils.innerWidth(): _options.width,
+            _options.height += header_footer;
+            _options.height = (Common.Utils.innerHeight()-_options.height)<0 ? Common.Utils.innerHeight(): _options.height;
+
             this.template = [
                 '<div id="id-plugin-container" class="box" style="height:' + (_options.height-header_footer) + 'px;">',
                     '<div id="id-plugin-placeholder" style="width: 100%;height: 100%;"></div>',
@@ -218,6 +231,10 @@ define([
             Common.UI.Window.prototype.render.call(this);
             this.$window.find('> .body').css({height: 'auto', overflow: 'hidden'});
 
+            this.boxEl = this.$window.find('.body > .box');
+            this._headerFooterHeight = (this.options.buttons && _.size(this.options.buttons)>0) ? 85 : 34;
+            this._headerFooterHeight += ((parseInt(this.$window.css('border-top-width')) + parseInt(this.$window.css('border-bottom-width'))));
+
             var iframe = document.createElement("iframe");
             iframe.id           = 'plugin_iframe';
             iframe.name         = 'pluginFrameEditor',
@@ -227,50 +244,46 @@ define([
             iframe.frameBorder  = 0;
             iframe.scrolling    = "no";
             iframe.onload       = _.bind(this._onLoad,this);
-            $('#id-plugin-placeholder').append(iframe);
-
-            this.loadMask = new Common.UI.LoadMask({owner: $('#id-plugin-placeholder')});
-            this.loadMask.setTitle(this.textLoading);
-            this.loadMask.show();
-
-            iframe.src = this.url;
 
             var me = this;
+            setTimeout(function(){
+                if (me.isLoaded) return;
+                me.loadMask = new Common.UI.LoadMask({owner: $('#id-plugin-placeholder')});
+                me.loadMask.setTitle(this.textLoading);
+                me.loadMask.show();
+                if (me.isLoaded) me.loadMask.hide();
+            }, 500);
 
-            this.on('close', function(obj){
-            });
+            iframe.src = this.url;
+            $('#id-plugin-placeholder').append(iframe);
 
-            this.on('show', function(obj){
-                var h = me.getHeight();
-                if (window.innerHeight>h && h<600 || window.innerHeight<h) {
-                    h = Math.min(window.innerHeight, 600);
-                    me.setHeight(h);
-                }
+            this.on('resizing', function(args){
+                me.boxEl.css('height', parseInt(me.$window.css('height')) - me._headerFooterHeight);
             });
         },
 
         _onLoad: function() {
+            this.isLoaded = true;
             if (this.loadMask)
                 this.loadMask.hide();
         },
 
-        setHeight: function(height) {
-            if (height >= 0) {
-                var min = parseInt(this.$window.css('min-height'));
-                height < min && (height = min);
-                this.$window.height(height);
+        setInnerSize: function(width, height) {
+            var maxHeight = Common.Utils.innerHeight(),
+                maxWidth = Common.Utils.innerWidth(),
+                borders_width = (parseInt(this.$window.css('border-left-width')) + parseInt(this.$window.css('border-right-width')));
+            if (maxHeight<height + this._headerFooterHeight)
+                height = maxHeight - this._headerFooterHeight;
+            if (maxWidth<width + borders_width)
+                width = maxWidth - borders_width;
 
-                var header_height = (this.initConfig.header) ? parseInt(this.$window.find('> .header').css('height')) : 0;
+            this.boxEl.css('height', height);
 
-                this.$window.find('> .body').css('height', height-header_height);
-                this.$window.find('> .body > .box').css('height', height-85);
+            Common.UI.Window.prototype.setHeight.call(this, height + this._headerFooterHeight);
+            Common.UI.Window.prototype.setWidth.call(this, width + borders_width);
 
-                var top  = ((parseInt(window.innerHeight) - parseInt(height)) / 2) * 0.9;
-                var left = (parseInt(window.innerWidth) - parseInt(this.initConfig.width)) / 2;
-
-                this.$window.css('left',left);
-                this.$window.css('top',top);
-            }
+            this.$window.css('left',(maxWidth - width - borders_width) / 2);
+            this.$window.css('top',((maxHeight - height - this._headerFooterHeight) / 2) * 0.9);
         },
 
         textLoading : 'Loading'

@@ -147,7 +147,7 @@ define([
             },
 
             template: _.template([
-                '<ul class="dropdown-menu <%= options.cls %>" style="<%= options.style %>" role="menu"></ul>'
+                '<ul class="dropdown-menu <%= options.cls %>" oo_editor_input="true" style="<%= options.style %>" role="menu"></ul>'
             ].join('')),
 
             initialize : function(options) {
@@ -410,6 +410,8 @@ define([
             },
 
             onBeforeShowMenu: function(e) {
+                Common.NotificationCenter.trigger('menu:show');
+
                 if (this.mustLayout) {
                     delete this.mustLayout;
                     this.doLayout.call(this);
@@ -439,6 +441,7 @@ define([
 
             onAfterHideMenu: function(e) {
                 this.trigger('hide:after', this, e);
+                Common.NotificationCenter.trigger('menu:hide', this);
             },
 
             onAfterKeydownMenu: function(e) {
@@ -528,8 +531,8 @@ define([
                     menuParent  = this.menuAlignEl || menuRoot.parent(),
                     m           = this.menuAlign.match(/^([a-z]+)-([a-z]+)/),
                     offset      = menuParent.offset(),
-                    docW        = Math.min($(document).width(), $('body').width()),
-                    docH        = $(document).height() - 10, // Yep, it's magic number
+                    docW        = Common.Utils.innerWidth(),
+                    docH        = Common.Utils.innerHeight() - 10, // Yep, it's magic number
                     menuW       = menuRoot.outerWidth(),
                     menuH       = menuRoot.outerHeight(),
                     parentW     = menuParent.outerWidth(),

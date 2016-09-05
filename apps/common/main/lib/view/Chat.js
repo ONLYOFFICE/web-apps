@@ -227,21 +227,9 @@ define([
         _pickLink: function(message) {
             var arr = [], offset, len;
 
-            message.replace(Common.Utils.emailStrongRe, function(subStr) {
-                offset = arguments[arguments.length-2];
-                arr.push({start: offset, end: subStr.length+offset, str: '<a href="' + subStr + '">' + subStr + '</a>'});
-                return '';
-            });
-
             message.replace(Common.Utils.ipStrongRe, function(subStr) {
                 offset = arguments[arguments.length-2];
-                len = subStr.length;
-                var elem = _.find(arr, function(item){
-                    return ( (offset>=item.start) && (offset<item.end) ||
-                        (offset<=item.start) && (offset+len>item.start));
-                });
-                if (!elem)
-                    arr.push({start: offset, end: len+offset, str: '<a href="' + subStr + '" target="_blank" data-can-copy="true">' + subStr + '</a>'});
+                arr.push({start: offset, end: subStr.length+offset, str: '<a href="' + subStr + '" target="_blank" data-can-copy="true">' + subStr + '</a>'});
                 return '';
             });
 
@@ -258,6 +246,20 @@ define([
                         arr.push({start: offset, end: len+offset, str: '<a href="' + ref + '" target="_blank" data-can-copy="true">' + subStr + '</a>'});
                     return '';
                 });
+
+            message.replace(Common.Utils.emailStrongRe, function(subStr) {
+                var ref = (! /((^mailto:)\/\/)/i.test(subStr) ) ? ('mailto:' + subStr) : subStr;
+                offset = arguments[arguments.length-2];
+                len = subStr.length;
+                var elem = _.find(arr, function(item){
+                    return ( (offset>=item.start) && (offset<item.end) ||
+                        (offset<=item.start) && (offset+len>item.start));
+                });
+                if (!elem)
+                    arr.push({start: offset, end: len+offset, str: '<a href="' + ref + '">' + subStr + '</a>'});
+                return '';
+            });
+
             arr = _.sortBy(arr, function(item){ return item.start; });
 
             var str_res = (arr.length>0) ? ( message.substring(0, arr[0].start) + arr[0].str) : message;

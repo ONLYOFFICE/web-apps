@@ -88,7 +88,7 @@ Common.Utils = _.extend(new(function() {
         ipRe = /^(((https?)|(ftps?)):\/\/)?([\-\wа-яё]*:?[\-\wа-яё]*@)?(((1[0-9]{2}|2[0-4][0-9]|25[0-5]|[1-9][0-9]|[0-9])\.){3}(1[0-9]{2}|2[0-4][0-9]|25[0-5]|[1-9][0-9]|[0-9]))(:\d+)?(\/[%\-\wа-яё]*(\.[\wа-яё]{2,})?(([\wа-яё\-\.\?\\\/+@&#;:`~=%!,\(\)]*)(\.[\wа-яё]{2,})?)*)*\/?/i,
         hostnameRe = /^(((https?)|(ftps?)):\/\/)?([\-\wа-яё]*:?[\-\wа-яё]*@)?(([\-\wа-яё]+\.)+[\wа-яё\-]{2,}(:\d+)?(\/[%\-\wа-яё]*(\.[\wа-яё]{2,})?(([\wа-яё\-\.\?\\\/+@&#;:`~=%!,\(\)]*)(\.[\wа-яё]{2,})?)*)*\/?)/i,
         localRe = /^(((https?)|(ftps?)):\/\/)([\-\wа-яё]*:?[\-\wа-яё]*@)?(([\-\wа-яё]+)(:\d+)?(\/[%\-\wа-яё]*(\.[\wа-яё]{2,})?(([\wа-яё\-\.\?\\\/+@&#;:`~=%!,\(\)]*)(\.[\wа-яё]{2,})?)*)*\/?)/i,
-        emailStrongRe = /(mailto:)([a-z0-9'\._-]+@[a-z0-9\.-]+\.[a-z0-9]{2,4})([a-яё0-9\._%+-=\? :&]*)/ig,
+        emailStrongRe = /(mailto:)?([a-z0-9'\._-]+@[a-z0-9\.-]+\.[a-z0-9]{2,4})([a-яё0-9\._%+-=\?:&]*)/ig,
         ipStrongRe = /(((https?)|(ftps?)):\/\/([\-\wа-яё]*:?[\-\wа-яё]*@)?)(((1[0-9]{2}|2[0-4][0-9]|25[0-5]|[1-9][0-9]|[0-9])\.){3}(1[0-9]{2}|2[0-4][0-9]|25[0-5]|[1-9][0-9]|[0-9]))(:\d+)?(\/[%\-\wа-яё]*(\.[\wа-яё]{2,})?(([\wа-яё\-\.\?\\\/+@&#;:`~=%!,\(\)]*)(\.[\wа-яё]{2,})?)*)*\/?/ig,
         hostnameStrongRe = /((((https?)|(ftps?)):\/\/([\-\wа-яё]*:?[\-\wа-яё]*@)?)|(([\-\wа-яё]*:?[\-\wа-яё]*@)?www\.))((([\-\wа-яё]+\.)+[\wа-яё\-]{2,}|([\-\wа-яё]+))(:\d+)?(\/[%\-\wа-яё]*(\.[\wа-яё]{2,})?(([\wа-яё\-\.\?\\\/+@&#;:`~=%!,\(\)]*)(\.[\wа-яё]{2,})?)*)*\/?)/ig,
         documentSettingsType = {
@@ -101,7 +101,21 @@ Common.Utils = _.extend(new(function() {
             Chart      : 6,
             MailMerge  : 7,
             TextArt    : 8
+        },
+        me = this,
+        checkSize = function() {
+            if (isChrome && !isOpera && document && document.firstElementChild && document.body) {
+                document.firstElementChild.style.zoom = "reset";
+                me.zoom = document.body.clientWidth / window.innerWidth;
+            }
+            me.innerWidth = window.innerWidth * me.zoom;
+            me.innerHeight = window.innerHeight * me.zoom;
         };
+        me.zoom = 1;
+        me.innerWidth = window.innerWidth;
+        me.innerHeight = window.innerHeight;
+        checkSize();
+        $(window).on('resize', checkSize);
 
     return {
         userAgent: userAgent,
@@ -162,7 +176,10 @@ Common.Utils = _.extend(new(function() {
         emailStrongRe: emailStrongRe,
         ipStrongRe: ipStrongRe,
         hostnameStrongRe: hostnameStrongRe,
-        documentSettingsType: documentSettingsType
+        documentSettingsType: documentSettingsType,
+        zoom: function() {return me.zoom;},
+        innerWidth: function() {return me.innerWidth;},
+        innerHeight: function() {return me.innerHeight;}
     }
 })(), Common.Utils || {});
 

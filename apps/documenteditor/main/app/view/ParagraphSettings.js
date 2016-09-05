@@ -67,7 +67,6 @@ define([
         },
 
         initialize: function () {
-            var me = this;
             this._initSettings = true;
 
             this._state = {
@@ -157,40 +156,8 @@ define([
             this.btnColor = new Common.UI.ColorButton({
                 style: "width:45px;",
                 disabled: this._locked,
-                menu        : new Common.UI.Menu({
-                    items: [
-                        { template: _.template('<div id="paragraph-color-menu" style="width: 165px; height: 220px; margin: 10px;"></div>') },
-                        { template: _.template('<a id="paragraph-color-new" style="padding-left:12px;">' + me.textNewColor + '</a>') }
-                    ]
-                })
+                menu        : true
             });
-
-            this.btnColor.on('render:after', function(btn) {
-                me.mnuColorPicker = new Common.UI.ThemeColorPalette({
-                    el: $('#paragraph-color-menu'),
-                    dynamiccolors: 10,
-                    colors: [
-                        me.textThemeColors, '-', {color: '3366FF', effectId: 1}, {color: '0000FF', effectId: 2}, {color: '000090', effectId: 3}, {color: '660066', effectId: 4}, {color: '800000', effectId: 5},
-                        {color: 'FF0000', effectId: 1}, {color: 'FF6600', effectId: 1}, {color: 'FFFF00', effectId: 2}, {color: 'CCFFCC', effectId: 3}, {color: '008000', effectId: 4},
-                        '-',
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2}, {color: '000000', effectId: 3}, {color: 'FFFFFF', effectId: 4}, {color: '000000', effectId: 5},
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1},
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1},
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1},
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1},
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1},
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1},
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1},
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1},
-                        {color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1}, {color: 'FFFFFF', effectId: 2},{color: '000000', effectId: 1},
-                        '-', '--', '-', me.textStandartColors, '-', 'transparent',
-                        '5301B3', '980ABD', 'B2275F', 'F83D26', 'F86A1D', 'F7AC16', 'F7CA12', 'FAFF44', 'D6EF39',
-                        '-', '--'
-                    ]
-                });
-                me.mnuColorPicker.on('select', _.bind(me.onColorPickerSelect, me));
-            });
-
             this.btnColor.render( $('#paragraph-color-btn'));
             this.lockedControls.push(this.btnColor);
 
@@ -428,6 +395,7 @@ define([
         },
 
         createDelayedElements: function() {
+            this.UpdateThemeColors();
             this.updateMetricUnit();
         },
 
@@ -474,8 +442,20 @@ define([
         },
 
         UpdateThemeColors: function() {
-            if (this.mnuColorPicker)
-                this.mnuColorPicker.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
+            if (!this.mnuColorPicker) {
+                this.btnColor.setMenu( new Common.UI.Menu({
+                    items: [
+                        { template: _.template('<div id="paragraph-color-menu" style="width: 165px; height: 220px; margin: 10px;"></div>') },
+                        { template: _.template('<a id="paragraph-color-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
+                    ]
+                }));
+                this.mnuColorPicker = new Common.UI.ThemeColorPalette({
+                    el: $('#paragraph-color-menu'),
+                    transparent: true
+                });
+                this.mnuColorPicker.on('select', _.bind(this.onColorPickerSelect, this));
+            }
+            this.mnuColorPicker.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
         },
 
         onHideMenus: function(e){
@@ -514,8 +494,6 @@ define([
         textAdvanced:           'Show advanced settings',
         textAt:                 'At',
         txtAutoText:            'Auto',
-        textThemeColors:        'Theme Colors',
-        textStandartColors:     'Standart Colors',
         textBackColor:          'Background color',
         textNewColor:           'Add New Custom Color'
     }, DE.Views.ParagraphSettings || {}));
