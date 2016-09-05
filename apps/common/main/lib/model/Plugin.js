@@ -65,7 +65,8 @@ define([
                 isUpdateOleOnResize: false,
                 buttons: [],
                 size: [800, 600],
-                initOnSelectionChanged: false
+                initOnSelectionChanged: false,
+                isRelativeUrl: true
             }
         }
     });

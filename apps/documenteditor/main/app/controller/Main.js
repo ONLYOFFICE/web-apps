@@ -1806,7 +1806,8 @@ define([
                                     isUpdateOleOnResize : itemVar.isUpdateOleOnResize,
                                     buttons: itemVar.buttons,
                                     size: itemVar.size,
-                                    initOnSelectionChanged: itemVar.initOnSelectionChanged
+                                    initOnSelectionChanged: itemVar.initOnSelectionChanged,
+                                    isRelativeUrl: !(/(^https?:\/\/)/i.test(itemVar.url) || /(^www.)/i.test(itemVar.url))
                                 }));
                         });
                         if (variationsArr.length>0)
