@@ -599,7 +599,7 @@ define([
 
                  if (!me.appOptions.isEditMailMerge && !me.appOptions.isEditDiagram) {
                     pluginsController.setApi(me.api);
-                    me.updatePluginsList(me.plugins);
+                    me.updatePlugins(me.plugins);
                     me.api.asc_registerCallback('asc_onPluginsInit', _.bind(me.updatePluginsList, me));
                 }
 
@@ -1722,6 +1722,60 @@ define([
                     };
                 }
                 if (url) this.iframePrint.src = url;
+            },
+
+            updatePlugins: function(plugins) { // plugins from config
+                if (!plugins || !plugins.pluginsData || plugins.pluginsData.length<1) return;
+
+                var _createXMLHTTPObject = function() {
+                    var xmlhttp;
+                    try {
+                        xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
+                    }
+                    catch (e) {
+                        try {
+                            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                        }
+                        catch (E) {
+                            xmlhttp = false;
+                        }
+                    }
+                    if (!xmlhttp && typeof XMLHttpRequest != 'undefined') {
+                        xmlhttp = new XMLHttpRequest();
+                    }
+                    return xmlhttp;
+                };
+
+                var _getPluginJson = function(plugin) {
+                    if (!plugin) return '';
+                    try {
+                        var xhrObj = _createXMLHTTPObject();
+                        if (xhrObj && plugin) {
+                            xhrObj.open('GET', plugin, false);
+                            xhrObj.send('');
+                            var pluginJson = eval("(" + xhrObj.responseText + ")");
+                            return pluginJson;
+                        }
+                    }
+                    catch (e) {}
+                    return null;
+                };
+
+                var arr = [],
+                    baseUrl = plugins.url;
+                plugins.pluginsData.forEach(function(item){
+                    var url = item;
+                    if (!/(^https?:\/\/)/i.test(url) && !/(^www.)/i.test(item))
+                        url = baseUrl + item;
+                    var value = _getPluginJson(url);
+                    if (value) arr.push(value);
+                });
+
+                if (arr.length>0)
+                    this.updatePluginsList({
+                        url: plugins.url,
+                        pluginsData: arr
+                    });
             },
 
             updatePluginsList: function(plugins) {
