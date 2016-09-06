@@ -237,7 +237,7 @@ define([
 
             var iframe = document.createElement("iframe");
             iframe.id           = 'plugin_iframe';
-            iframe.name         = 'pluginFrameEditor',
+            iframe.name         = 'pluginFrameEditor';
             iframe.width        = '100%';
             iframe.height       = '100%';
             iframe.align        = "top";
@@ -249,7 +249,7 @@ define([
             setTimeout(function(){
                 if (me.isLoaded) return;
                 me.loadMask = new Common.UI.LoadMask({owner: $('#id-plugin-placeholder')});
-                me.loadMask.setTitle(this.textLoading);
+                me.loadMask.setTitle(me.textLoading);
                 me.loadMask.show();
                 if (me.isLoaded) me.loadMask.hide();
             }, 500);
