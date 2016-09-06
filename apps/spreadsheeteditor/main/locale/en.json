@@ -91,6 +91,7 @@
   "Common.Views.Plugins.strPlugins": "Plugins",
   "Common.Views.Plugins.textLoading": "Loading",
   "Common.Views.Plugins.textStart": "Start",
+  "Common.Views.PluginDlg.textLoading": "Loading",
   "SSE.Controllers.DocumentHolder.errorInvalidLink": "The link reference does not exist. Please correct the link or delete it.",
   "SSE.Controllers.DocumentHolder.guestText": "Guest",
   "SSE.Controllers.DocumentHolder.notcriticalErrorTitle": "Warning",
