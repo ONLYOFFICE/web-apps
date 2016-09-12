@@ -164,6 +164,7 @@
   "Common.Views.Plugins.strPlugins": "Plugins",
   "Common.Views.Plugins.textLoading": "Loading",
   "Common.Views.Plugins.textStart": "Start",
+  "Common.Views.PluginDlg.textLoading": "Loading",
   "Common.Views.ReviewChanges.txtAccept": "Accept",
   "Common.Views.ReviewChanges.txtAcceptAll": "Accept All Changes",
   "Common.Views.ReviewChanges.txtAcceptCurrent": "Accept Current Change",

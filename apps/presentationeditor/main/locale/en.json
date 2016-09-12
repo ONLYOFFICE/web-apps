@@ -96,6 +96,7 @@
   "Common.Views.Plugins.strPlugins": "Plugins",
   "Common.Views.Plugins.textLoading": "Loading",
   "Common.Views.Plugins.textStart": "Start",
+  "Common.Views.PluginDlg.textLoading": "Loading",
   "PE.Controllers.LeftMenu.newDocumentTitle": "Unnamed presentation",
   "PE.Controllers.LeftMenu.requestEditRightsText": "Requesting editing rights...",
   "PE.Controllers.LeftMenu.textNoTextFound": "The data you have been searching for could not be found. Please adjust your search options.",
