@@ -104,6 +104,8 @@ Ext.define('DE.controller.Main', {
     },
 
     loadDocument: function(data) {
+        this.permissions = {};
+
         if ( data.doc ) {
             this.permissions = data.doc.permissions;
 

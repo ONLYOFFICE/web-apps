@@ -210,7 +210,10 @@ define([
                 style       : 'width: 160px;',
                 editable    : false,
                 cls         : 'input-group-nr',
+                menuStyle   : 'max-height: 210px;',
                 data        : [
+                    { value: -1, displayValue: this.txtFitPage },
+                    { value: -2, displayValue: this.txtFitWidth },
                     { value: 50, displayValue: "50%" },
                     { value: 60, displayValue: "60%" },
                     { value: 70, displayValue: "70%" },
@@ -321,8 +324,9 @@ define([
             this.chInputMode.setValue(value!==null && parseInt(value) == 1);
 
             value = Common.localStorage.getItem("de-settings-zoom");
-            var item = this.cmbZoom.store.findWhere({value: parseInt(value)});
-            this.cmbZoom.setValue(item ? parseInt(item.get('value')) : 100);
+            value = (value!==null) ? parseInt(value) : (this.mode.customization && this.mode.customization.zoom ? parseInt(this.mode.customization.zoom) : 100);
+            var item = this.cmbZoom.store.findWhere({value: value});
+            this.cmbZoom.setValue(item ? parseInt(item.get('value')) : (value>0 ? value+'%' : 100));
 
             /** coauthoring begin **/
             value = Common.localStorage.getItem("de-settings-livecomment");
@@ -432,7 +436,9 @@ define([
         strStrict: 'Strict',
         textAutoRecover: 'Autorecover',
         strAutoRecover: 'Turn on autorecover',
-        txtInch: 'Inch'
+        txtInch: 'Inch',
+        txtFitPage: 'Fit Page',
+        txtFitWidth: 'Fit Width'
     }, DE.Views.FileMenuPanels.Settings || {}));
 
     DE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({

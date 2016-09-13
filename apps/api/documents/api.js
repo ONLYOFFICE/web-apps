@@ -105,7 +105,8 @@
                         text: 'Go to London'
                     },
                     chat: false,
-                    comments: false
+                    comments: false,
+                    zoom: 100
                 },
                 plugins: {
                     url: '../../../../sdkjs-plugins/',

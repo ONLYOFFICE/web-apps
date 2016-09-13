@@ -164,8 +164,10 @@ define([
                 style       : 'width: 160px;',
                 editable    : false,
                 cls         : 'input-group-nr',
+                menuStyle   : 'max-height: 210px;',
                 data        : [
                     { value: -1, displayValue: this.txtFitSlide },
+                    { value: -2, displayValue: this.txtFitWidth },
                     { value: 50, displayValue: "50%" },
                     { value: 60, displayValue: "60%" },
                     { value: 70, displayValue: "70%" },
@@ -267,9 +269,9 @@ define([
             this.chInputMode.setValue(value!==null && parseInt(value) == 1);
 
             value = Common.localStorage.getItem("pe-settings-zoom");
-            value = (value!==null) ? parseInt(value) : -1;
+            value = (value!==null) ? parseInt(value) : (this.mode.customization && this.mode.customization.zoom ? parseInt(this.mode.customization.zoom) : -1);
             var item = this.cmbZoom.store.findWhere({value: value});
-            this.cmbZoom.setValue(item ? parseInt(item.get('value')) : 100);
+            this.cmbZoom.setValue(item ? parseInt(item.get('value')) : (value>0 ? value+'%' : 100));
 
             /** coauthoring begin **/
             value = Common.localStorage.getItem("pe-settings-coauthmode");
@@ -337,7 +339,8 @@ define([
         strStrict: 'Strict',
         textAutoRecover: 'Autorecover',
         strAutoRecover: 'Turn on autorecover',
-        txtInch: 'Inch'
+        txtInch: 'Inch',
+        txtFitWidth: 'Fit Width'
     }, PE.Views.FileMenuPanels.Settings || {}));
 
     PE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({

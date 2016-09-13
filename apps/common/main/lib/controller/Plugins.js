@@ -219,8 +219,12 @@ define([
         onPluginShow: function(plugin, variationIndex) {
             var variation = plugin.get_Variations()[variationIndex];
             if (variation.get_Visual()) {
+                var url = variation.get_Url();
+                if (!/(^https?:\/\/)/i.test(url) && !/(^www.)/i.test(url))
+                    url = ((plugin.get_BaseUrl().length == 0) ? this.panelPlugins.pluginsPath : plugin.get_BaseUrl()) + url;
+
                 if (variation.get_InsideMode()) {
-                    this.panelPlugins.openInsideMode(plugin.get_Name(), ((plugin.get_BaseUrl().length == 0) ? this.panelPlugins.pluginsPath : plugin.get_BaseUrl()) + variation.get_Url());
+                    this.panelPlugins.openInsideMode(plugin.get_Name(), url);
                 } else {
                     var me = this,
                         arrBtns = variation.get_Buttons(),
@@ -234,12 +238,11 @@ define([
                         });
                     }
 
-                    var _baseUrl = (plugin.get_BaseUrl().length == 0) ? me.panelPlugins.pluginsPath : plugin.get_BaseUrl();
                     me.pluginDlg = new Common.Views.PluginDlg({
                         title: plugin.get_Name(),
                         width: size[0], // inner width
                         height: size[1], // inner height
-                        url: _baseUrl + variation.get_Url(),
+                        url: url,
                         buttons: newBtns,
                         toolcallback: _.bind(this.onToolClose, this)
                     });

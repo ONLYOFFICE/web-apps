@@ -748,7 +748,8 @@ define([
                 /** coauthoring end **/
 
                 value = Common.localStorage.getItem("de-settings-zoom");
-                this.api.zoom((value!==null) ? parseInt(value) : 100);
+                var zf = (value!==null) ? parseInt(value) : (this.appOptions.customization && this.appOptions.customization.zoom ? parseInt(this.appOptions.customization.zoom) : 100);
+                (zf == -1) ? this.api.zoomFitToPage() : ((zf == -2) ? this.api.zoomFitToWidth() : this.api.zoom(zf>0 ? zf : 100));
 
                 value = Common.localStorage.getItem("de-show-hiddenchars");
                 me.api.put_ShowParaMarks((value!==null) ? eval(value) : false);
@@ -826,7 +827,7 @@ define([
                 application.getController('Common.Controllers.ExternalMergeEditor').setApi(this.api).loadConfig({config:this.editorConfig, customization: this.editorConfig.customization});
 
                 pluginsController.setApi(me.api);
-                me.updatePluginsList(me.plugins);
+                me.updatePlugins(me.plugins);
                 me.api.asc_registerCallback('asc_onPluginsInit', _.bind(me.updatePluginsList, me));
 
                 documentHolderController.setApi(me.api);
@@ -1129,8 +1130,12 @@ define([
                         config.msg = this.convertationTimeoutText;
                         break;
 
-                    case Asc.c_oAscError.ID.ConvertationError:
-                        config.msg = this.convertationErrorText;
+                    case Asc.c_oAscError.ID.ConvertationOpenError:
+                        config.msg = this.openErrorText;
+                        break;
+
+                    case Asc.c_oAscError.ID.ConvertationSaveError:
+                        config.msg = this.saveErrorText;
                         break;
 
                     case Asc.c_oAscError.ID.DownloadError:
@@ -1721,6 +1726,60 @@ define([
                 if (url) this.iframePrint.src = url;
             },
 
+            updatePlugins: function(plugins) { // plugins from config
+                if (!plugins || !plugins.pluginsData || plugins.pluginsData.length<1) return;
+
+                var _createXMLHTTPObject = function() {
+                    var xmlhttp;
+                    try {
+                        xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
+                    }
+                    catch (e) {
+                        try {
+                            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                        }
+                        catch (E) {
+                            xmlhttp = false;
+                        }
+                    }
+                    if (!xmlhttp && typeof XMLHttpRequest != 'undefined') {
+                        xmlhttp = new XMLHttpRequest();
+                    }
+                    return xmlhttp;
+                };
+
+                var _getPluginJson = function(plugin) {
+                    if (!plugin) return '';
+                    try {
+                        var xhrObj = _createXMLHTTPObject();
+                        if (xhrObj && plugin) {
+                            xhrObj.open('GET', plugin, false);
+                            xhrObj.send('');
+                            var pluginJson = eval("(" + xhrObj.responseText + ")");
+                            return pluginJson;
+                        }
+                    }
+                    catch (e) {}
+                    return null;
+                };
+
+                var arr = [],
+                    baseUrl = plugins.url;
+                plugins.pluginsData.forEach(function(item){
+                    var url = item;
+                    if (!/(^https?:\/\/)/i.test(url) && !/(^www.)/i.test(item))
+                        url = baseUrl + item;
+                    var value = _getPluginJson(url);
+                    if (value) arr.push(value);
+                });
+
+                if (arr.length>0)
+                    this.updatePluginsList({
+                        url: plugins.url,
+                        pluginsData: arr
+                    });
+            },
+
             updatePluginsList: function(plugins) {
                 var pluginStore = this.getApplication().getCollection('Common.Collections.Plugins'),
                     isEdit = this.appOptions.isEdit;
@@ -1752,7 +1811,8 @@ define([
                                     isUpdateOleOnResize : itemVar.isUpdateOleOnResize,
                                     buttons: itemVar.buttons,
                                     size: itemVar.size,
-                                    initOnSelectionChanged: itemVar.initOnSelectionChanged
+                                    initOnSelectionChanged: itemVar.initOnSelectionChanged,
+                                    isRelativeUrl: !(/(^https?:\/\/)/i.test(itemVar.url) || /(^www.)/i.test(itemVar.url))
                                 }));
                         });
                         if (variationsArr.length>0)
@@ -1810,7 +1870,6 @@ define([
             reloadButtonText: 'Reload Page',
             unknownErrorText: 'Unknown error.',
             convertationTimeoutText: 'Convertation timeout exceeded.',
-            convertationErrorText: 'Convertation failed.',
             downloadErrorText: 'Download failed.',
             unsupportedBrowserErrorText : 'Your browser is not supported.',
             splitMaxRowsErrorText: 'The number of rows must be less than %1',
@@ -1876,7 +1935,9 @@ define([
             textContactUs: 'Contact sales',
             errorViewerDisconnect: 'Connection is lost. You can still view the document,<br>but will not be able to download until the connection is restored.',
             warnLicenseExp: 'Your license has expired.<br>Please update your license and refresh the page.',
-            titleLicenseExp: 'License expired'
+            titleLicenseExp: 'License expired',
+            openErrorText: 'An error has occurred while opening the file',
+            saveErrorText: 'An error has occurred while saving the file'
         }
     })(), DE.Controllers.Main || {}))
 });
