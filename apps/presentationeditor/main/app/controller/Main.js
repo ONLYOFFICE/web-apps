@@ -558,8 +558,8 @@ define([
                 me.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
 
                 value = Common.localStorage.getItem("pe-settings-zoom");
-                var zf = (value!==null) ? parseInt(value) : -1;
-                (zf == -1) ? this.api.zoomFitToPage() : this.api.zoom(zf);
+                var zf = (value!==null) ? parseInt(value) : (this.appOptions.customization && this.appOptions.customization.zoom ? parseInt(this.appOptions.customization.zoom) : -1);
+                (zf == -1) ? this.api.zoomFitToPage() : ((zf == -2) ? this.api.zoomFitToWidth() : this.api.zoom(zf>0 ? zf : 100));
 
                 function checkWarns() {
                     if (!window['AscDesktopEditor']) {

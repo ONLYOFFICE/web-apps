@@ -556,7 +556,8 @@ define([
                 me.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
 
                 value = (this.appOptions.isEditMailMerge || this.appOptions.isEditDiagram) ? 100 : Common.localStorage.getItem("sse-settings-zoom");
-                this.api.asc_setZoom(!value?1:parseInt(value)/100);
+                var zf = (value!==null) ? parseInt(value)/100 : (this.appOptions.customization && this.appOptions.customization.zoom ? parseInt(this.appOptions.customization.zoom)/100 : 1);
+                this.api.asc_setZoom(zf>0 ? zf : 1);
 
                 /** coauthoring begin **/
                 value = Common.localStorage.getItem("sse-settings-livecomment");
