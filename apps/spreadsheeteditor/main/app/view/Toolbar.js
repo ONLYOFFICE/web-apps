@@ -885,12 +885,19 @@ define([
             me.mnuZoomIn = dummyCmp();
             me.mnuZoomOut = dummyCmp();
 
+            var clone = function(source) {
+                var obj = {};
+                for (var prop in source)
+                    obj[prop] = (typeof(source[prop])=='object') ? clone(source[prop]) : source[prop];
+                return obj;
+            };
+
             this.mnuitemHideHeadings = {
                 conf: {checked:false},
                 setChecked: function(val) { this.conf.checked = val;},
                 isChecked: function () { return this.conf.checked; }
             };
-            this.mnuitemHideGridlines = _.clone(this.mnuitemHideHeadings);
+            this.mnuitemHideGridlines = clone(this.mnuitemHideHeadings);
             this.mnuZoom = {
                 options: {value: 100}
             };
