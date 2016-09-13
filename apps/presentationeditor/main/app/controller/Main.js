@@ -906,8 +906,12 @@ define([
                         config.msg = this.convertationTimeoutText;
                         break;
 
-                    case Asc.c_oAscError.ID.ConvertationError:
-                        config.msg = this.convertationErrorText;
+                    case Asc.c_oAscError.ID.ConvertationOpenError:
+                        config.msg = this.openErrorText;
+                        break;
+
+                    case Asc.c_oAscError.ID.ConvertationSaveError:
+                        config.msg = this.saveErrorText;
                         break;
 
                     case Asc.c_oAscError.ID.DownloadError:
@@ -1638,7 +1642,6 @@ define([
             reloadButtonText: 'Reload Page',
             unknownErrorText: 'Unknown error.',
             convertationTimeoutText: 'Convertation timeout exceeded.',
-            convertationErrorText: 'Convertation failed.',
             downloadErrorText: 'Download failed.',
             unsupportedBrowserErrorText : 'Your browser is not supported.',
             splitMaxRowsErrorText: 'The number of rows must be less than %1',
@@ -1734,7 +1737,9 @@ define([
             textContactUs: 'Contact sales',
             errorViewerDisconnect: 'Connection is lost. You can still view the document,<br>but will not be able to download until the connection is restored.',
             warnLicenseExp: 'Your license has expired.<br>Please update your license and refresh the page.',
-            titleLicenseExp: 'License expired'
+            titleLicenseExp: 'License expired',
+            openErrorText: 'An error has occurred while opening the file',
+            saveErrorText: 'An error has occurred while saving the file'
         }
     })(), PE.Controllers.Main || {}))
 });
