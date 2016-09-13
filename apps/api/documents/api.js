@@ -106,7 +106,8 @@
                     },
                     chat: false,
                     comments: false,
-                    zoom: 100
+                    zoom: 100,
+                    compactToolbar: false
                 },
                 plugins: {
                     url: '../../../../sdkjs-plugins/',

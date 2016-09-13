@@ -1139,7 +1139,7 @@ define([
             this.trigger('render:before', this);
 
             var value = Common.localStorage.getItem('pe-compact-toolbar');
-            var valueCompact = (value!==null && parseInt(value) == 1);
+            var valueCompact = !!(value!==null && parseInt(value) == 1 || value === null && mode.customization && mode.customization.compactToolbar);
 
             value = Common.localStorage.getItem('pe-hidden-title');
             var valueTitle = (value!==null && parseInt(value) == 1);
