@@ -1,0 +1,162 @@
+//// Tab icons used with permission from Drew Wilson
+//// http://pictos.drewwilson.com/
+//// Pictos icons are (c) 2010 Drew Wilson
+
+.x-tab,
+.x-menu-application .x-button-tab,
+.x-toolbar.x-docked-bottom .x-button,
+.x-toolbar.x-docked-bottom .x-button-tab {
+    min-width: 3.3em;
+    height: 100%;
+    background-color: transparent;
+    border: 0;
+    padding: 0;
+    @include border-radius(0);
+    color: #323232;
+
+    // Blackberry Landscape & Q10 styles
+    .x-landscape &, .x-bb-keyboard & {
+
+        min-width: 60px;
+
+        .x-button-icon:before {
+            line-height: 2em;
+            font-size: 20px;
+        }
+    }
+
+
+    &.bb-default.x-button-pressing .x-button-icon {
+        -webkit-transform: scale(1.1);
+        transform: scale(1.1);
+        &:before {
+            background-color: #087099;
+        }
+    }
+
+
+    &.bb-default .x-button-icon {
+        top: -20px;
+        -webkit-transform: inherit;
+        transform: inherit;
+        -webkit-transition: -webkit-transform $default-button-animation-time;
+        transition: transform $default-button-animation-time;
+
+        &:after {
+            top: 3px;
+            margin: 0 auto;
+            .x-bb-keyboard & {
+                top: 4px;
+            }
+        }
+
+        &:before {
+            background-color: #0092cc;
+            -webkit-transition: background-color $default-button-animation-time;
+            width: 52px;
+            height: 52px;
+            .x-bb-keyboard & {
+                left: 4px;
+            }
+            display: block;
+            border-radius: 100%;
+            text-align: center;
+            position: absolute;
+            margin: 0 auto;
+        }
+    }
+
+    .x-button-icon:before {
+        line-height: 1.7em;
+    }
+
+    .x-button-icon {
+        margin: 0 auto !important;
+        display: block !important;
+        width: 100%;
+        height: 42px;
+        background-size: 32px;
+        background-position: center;
+        @include box-flex(1);
+
+        &:before {
+            font-size: 27px;
+        }
+    }
+
+    &:before {
+        @include border-radius(0);
+    }
+
+    .x-button-icon.x-hidden {
+        display: block !important;
+    }
+
+    .x-landscape & {
+        .x-button-icon {
+            margin-bottom: 0 !important;
+
+            &:before {
+                font-size: 20px;
+            }
+        }
+    }
+}
+
+.x-button.tabmenu {
+    width: 61px;
+    margin-left: 0;
+
+    .x-button-icon:after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-size: 32px !important;
+        background-repeat: no-repeat;
+        background-image: theme_image('bb103', "icons-dark/ic_overflow_tab.png");
+    }
+}
+
+.x-menu-application,
+.x-toolbar.x-docked-bottom,
+.x-tabbar {
+    .x-tab,
+    .x-button,
+    .x-button-tab {
+        @include st-box-orient(vertical);
+        border-color: darken($dark-color, 6);
+        background: none transparent;
+        @include box-shadow(none);
+        border-width: 0 !important;
+        overflow: visible;
+
+        .x-button-icon {
+            margin: 0 auto;
+        }
+
+        .x-button-label {
+            margin: 1px 0;
+            font-size: 11px;
+            line-height: 1.5em;
+            padding-bottom: .5em;
+        }
+
+        .x-badge {
+            margin: 3px;
+        }
+    }
+
+    .x-tab-active,
+    .x-button.x-button-pressing,
+    .x-button-tab.x-button-pressing {
+        background-color: #e6e6e6;
+    }
+
+    .x-button.bb-default.x-button-pressing,
+    .x-button-tab.bb-default.x-button-pressing {
+        background-color: transparent;
+    }
+}

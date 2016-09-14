@@ -153,10 +153,16 @@ Ext.define('Ext.slider.Slider', {
         this.on({
             scope: this,
             delegate: '> thumb',
+            tap: 'onTap',
             dragstart: 'onThumbDragStart',
             drag: 'onThumbDrag',
             dragend: 'onThumbDragEnd'
         });
+
+        var thumb = this.getThumb(0);
+        if(thumb) {
+            thumb.on('resize', 'onThumbResize', this);
+        }
     },
 
     /**
@@ -194,11 +200,15 @@ Ext.define('Ext.slider.Slider', {
         this.offsetValueRatio = trackWidth / valueRange;
     },
 
-    onResize: function(element, info) {
+    onThumbResize: function(){
         var thumb = this.getThumb(0);
         if (thumb) {
             this.thumbWidth = thumb.getElementWidth();
         }
+        this.refresh();
+    },
+
+    onResize: function(element, info) {
         this.elementWidth = info.width;
         this.refresh();
     },
@@ -253,12 +263,14 @@ Ext.define('Ext.slider.Slider', {
     setIndexValue: function(index, value, animation) {
         var thumb = this.getThumb(index),
             values = this.getValue(),
+            minValue = this.getMinValue(),
             offsetValueRatio = this.offsetValueRatio,
+            increment = this.getIncrement(),
             draggable = thumb.getDraggable();
 
-        draggable.setOffset((value - this.getMinValue()) * offsetValueRatio, null, animation);
+        draggable.setOffset((value - minValue) * offsetValueRatio, null, animation);
 
-        values[index] = value;
+        values[index] = minValue + Math.round((draggable.offset.x / offsetValueRatio) / increment) * increment;
     },
 
     onThumbDragEnd: function(thumb, e) {
@@ -305,13 +317,13 @@ Ext.define('Ext.slider.Slider', {
 
     // @private
     onTap: function(e) {
-        if (this.isDisabled()) {
+        if (this.isDisabled() || this.getReadOnly()) {
             return;
         }
 
         var targetElement = Ext.get(e.target);
 
-        if (!targetElement || targetElement.hasCls('x-thumb')) {
+        if (!targetElement || (Ext.browser.engineName == 'WebKit' && targetElement.hasCls('x-thumb'))) {
             return;
         }
 
@@ -482,7 +494,7 @@ Ext.define('Ext.slider.Slider', {
 
     /**
      * Sets the {@link #increment} configuration.
-     * @param  {Number} increment
+     * @param {Number} increment
      * @return {Number}
      */
     applyIncrement: function(increment) {

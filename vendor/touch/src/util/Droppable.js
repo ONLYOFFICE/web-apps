@@ -8,8 +8,8 @@ Ext.define('Ext.util.Droppable', {
 
     config: {
         /**
-         * @cfg
-         * @inheritdoc
+         * The base CSS class to apply to this component's element.
+         * This will also be prepended to other elements within this component.
          */
         baseCls: Ext.baseCSSPrefix + 'droppable'
     },

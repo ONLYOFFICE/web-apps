@@ -1,6 +1,5 @@
 /**
  * @author Ed Spencer
- * @aside guide proxies
  *
  * The Rest proxy is a specialization of the {@link Ext.data.proxy.Ajax AjaxProxy} which simply maps the four actions
  * (create, read, update and destroy) to RESTful HTTP verbs. For example, let's set up a {@link Ext.data.Model Model}
@@ -97,6 +96,12 @@
  * details.
  *
  * [1]: source/Rest.html#Ext-data-proxy-Rest-method-buildUrl
+ *
+ * ###Further Reading
+ * [Sencha Touch Data Overview](../../../core_concepts/data/data_package_overview.html)
+ * [Sencha Touch Store Guide](../../../core_concepts/data/stores.html)
+ * [Sencha Touch Models Guide](../../../core_concepts/data/models.html)
+ * [Sencha Touch Proxy Guide](../../../core_concepts/data/proxies.html)
  */
 Ext.define('Ext.data.proxy.Rest', {
     extend: 'Ext.data.proxy.Ajax',

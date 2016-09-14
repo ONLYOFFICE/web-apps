@@ -9,7 +9,9 @@
  * @private
  */
 Ext.define('Ext.env.Browser', {
-    requires: ['Ext.Version'],
+    requires: [
+        'Ext.Version'
+    ],
 
     statics: {
         browserNames: {
@@ -21,6 +23,7 @@ Ext.define('Ext.env.Browser', {
             dolfin: 'Dolfin',
             webosbrowser: 'webOSBrowser',
             chromeMobile: 'ChromeMobile',
+            chromeiOS: 'ChromeiOS',
             silk: 'Silk',
             other: 'Other'
         },
@@ -42,10 +45,11 @@ Ext.define('Ext.env.Browser', {
             firefox: 'Firefox/',
             chrome: 'Chrome/',
             safari: 'Version/',
-            opera: 'Opera/',
+            opera: 'OPR/',
             dolfin: 'Dolfin/',
             webosbrowser: 'wOSBrowser/',
             chromeMobile: 'CrMo/',
+            chromeiOS: 'CriOS/',
             silk: 'Silk/'
         }
     },
@@ -178,10 +182,6 @@ Ext.define('Ext.env.Browser', {
          */
         this.userAgent = userAgent;
 
-        is = this.is = function(name) {
-            return is[name] === true;
-        };
-
         var statics = this.statics(),
             browserMatch = userAgent.match(new RegExp('((?:' + Ext.Object.getValues(statics.browserPrefixes).join(')|(?:') + '))([\\w\\._]+)')),
             engineMatch = userAgent.match(new RegExp('((?:' + Ext.Object.getValues(statics.enginePrefixes).join(')|(?:') + '))([\\w\\._]+)')),
@@ -194,15 +194,27 @@ Ext.define('Ext.env.Browser', {
             isWebView = false,
             is, i, name;
 
+        is = this.is = function(name) {
+            return is[name] === true;
+        };
+
         if (browserMatch) {
             browserName = browserNames[Ext.Object.getKey(statics.browserPrefixes, browserMatch[1])];
-
             browserVersion = new Ext.Version(browserMatch[2]);
         }
 
         if (engineMatch) {
             engineName = engineNames[Ext.Object.getKey(statics.enginePrefixes, engineMatch[1])];
             engineVersion = new Ext.Version(engineMatch[2]);
+        }
+
+        if (engineName == 'Trident' && browserName != 'IE') {
+            browserName = 'IE';
+            var version = userAgent.match(/.*rv:(\d+.\d+)/);
+            if (version && version.length) {
+                version = version[1];
+                browserVersion = new Ext.Version(version);
+            }
         }
 
         // Facebook changes the userAgent when you view a website within their iOS app. For some reason, the strip out information
@@ -214,6 +226,16 @@ Ext.define('Ext.env.Browser', {
 
         if (userAgent.match(/Android.*Chrome/g)) {
             browserName = 'ChromeMobile';
+        }
+
+        if (userAgent.match(/OPR/)) {
+            browserName = 'Opera';
+            browserMatch = userAgent.match(/OPR\/(\d+.\d+)/);
+            browserVersion = new Ext.Version(browserMatch[1]);
+        }
+
+        if(browserName === 'Safari' && userAgent.match(/BB10/)) {
+            browserName = 'BlackBerry';
         }
 
         Ext.apply(this, {
@@ -255,13 +277,21 @@ Ext.define('Ext.env.Browser', {
 
         this.setFlag('Standalone', !!navigator.standalone);
 
+        this.setFlag('Ripple', !!document.getElementById("tinyhippos-injected") && !Ext.isEmpty(window.top.ripple));
+        this.setFlag('WebWorks', !!window.blackberry);
+
         if (typeof window.PhoneGap != 'undefined' || typeof window.Cordova != 'undefined' || typeof window.cordova != 'undefined') {
             isWebView = true;
             this.setFlag('PhoneGap');
+            this.setFlag('Cordova');
         }
         else if (!!window.isNK) {
             isWebView = true;
             this.setFlag('Sencha');
+        }
+
+        if (/(Glass)/i.test(userAgent)) {
+            this.setFlag('GoogleGlass');
         }
 
         // Check if running in UIWebView
@@ -303,6 +333,19 @@ Ext.define('Ext.env.Browser', {
         }
 
         return name;
+    },
+
+    getPreferredTranslationMethod: function(config) {
+        if (typeof config == 'object' && 'translationMethod' in config && config.translationMethod !== 'auto') {
+            return config.translationMethod;
+        } else {
+            if (this.is.AndroidStock2 || this.is.IE) {
+                return 'scrollposition';
+            }
+            else {
+                return 'csstransform';
+            }
+        }
     }
 
 }, function() {
@@ -326,7 +369,7 @@ Ext.define('Ext.env.Browser', {
      *
      * For a full list of supported values, refer to {@link #is} property/method.
      *
-     * @aside guide environment_package
+     * For more information, see the [Environment Detect Guide](../../../core_concepts/environment_detection.html)
      */
     var browserEnv = Ext.browser = new this(Ext.global.navigator.userAgent);
 

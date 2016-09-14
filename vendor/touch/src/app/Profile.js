@@ -31,7 +31,7 @@
  *         views: ['Main'],
  *
  *         isActive: function() {
- *             return Ext.os.is.Phone;
+ *             return Ext.os.is('Phone');
  *         }
  *     });
  *
@@ -52,7 +52,7 @@
  *         models: ['MyApp.model.Group'],
  *
  *         isActive: function() {
- *             return Ext.os.is.Phone;
+ *             return Ext.os.is('Phone');
  *         }
  *     });
  *
@@ -62,9 +62,7 @@
  * was not injected.
  *
  * For a fuller understanding of the ideas behind Profiles and how best to use them in your app, we suggest you read
- * the [device profiles guide](#!/guide/profiles).
- * 
- * @aside guide profiles
+ * the [device profiles guide](../../../core_concepts/device_profiles.html).
  */
 Ext.define('Ext.app.Profile', {
     mixins: {

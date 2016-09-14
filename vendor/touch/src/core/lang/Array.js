@@ -656,40 +656,37 @@
         intersect: function() {
             var intersect = [],
                 arrays = slice.call(arguments),
-                i, j, k, minArray, array, x, y, ln, arraysLn, arrayLn;
+                item, minArray, itemIndex, arrayIndex;
 
             if (!arrays.length) {
                 return intersect;
             }
 
-            // Find the smallest array
-            for (i = x = 0,ln = arrays.length; i < ln,array = arrays[i]; i++) {
-                if (!minArray || array.length < minArray.length) {
-                    minArray = array;
-                    x = i;
+            //Find the Smallest Array
+            arrays = arrays.sort(function(a, b) {
+                if (a.length > b.length) {
+                    return 1;
+                } else if (a.length < b.length) {
+                    return -1;
+                } else {
+                    return 0;
                 }
-            }
+            });
 
-            minArray = ExtArray.unique(minArray);
-            erase(arrays, x, 1);
+            //Remove duplicates from smallest array
+            minArray = ExtArray.unique(arrays[0]);
 
-            // Use the smallest unique'd array as the anchor loop. If the other array(s) do contain
-            // an item in the small array, we're likely to find it before reaching the end
-            // of the inner loop and can terminate the search early.
-            for (i = 0,ln = minArray.length; i < ln,x = minArray[i]; i++) {
-                var count = 0;
-
-                for (j = 0,arraysLn = arrays.length; j < arraysLn,array = arrays[j]; j++) {
-                    for (k = 0,arrayLn = array.length; k < arrayLn,y = array[k]; k++) {
-                        if (x === y) {
-                            count++;
-                            break;
-                        }
+            //Populate intersecting values
+            for (itemIndex = 0; itemIndex < minArray.length; itemIndex++) {
+                item = minArray[itemIndex];
+                for (arrayIndex = 1; arrayIndex < arrays.length; arrayIndex++) {
+                    if (arrays[arrayIndex].indexOf(item) === -1) {
+                        break;
                     }
-                }
 
-                if (count === arraysLn) {
-                    intersect.push(x);
+                    if (arrayIndex == (arrays.length - 1)) {
+                        intersect.push(item);
+                    }
                 }
             }
 
@@ -978,7 +975,7 @@
 
     /**
      * Old alias to {@link Ext.Array#min}
-     * @deprecated 4.0.0 Please use {@link Ext.Array#min} instead
+     * @deprecated 2.0.0 Please use {@link Ext.Array#min} instead
      * @method
      * @member Ext
      * @alias Ext.Array#min
@@ -987,7 +984,7 @@
 
     /**
      * Old alias to {@link Ext.Array#max}
-     * @deprecated 4.0.0 Please use {@link Ext.Array#max} instead
+     * @deprecated 2.0.0 Please use {@link Ext.Array#max} instead
      * @method
      * @member Ext
      * @alias Ext.Array#max
@@ -996,7 +993,7 @@
 
     /**
      * Old alias to {@link Ext.Array#sum}
-     * @deprecated 4.0.0 Please use {@link Ext.Array#sum} instead
+     * @deprecated 2.0.0 Please use {@link Ext.Array#sum} instead
      * @method
      * @member Ext
      * @alias Ext.Array#sum
@@ -1005,7 +1002,7 @@
 
     /**
      * Old alias to {@link Ext.Array#mean}
-     * @deprecated 4.0.0 Please use {@link Ext.Array#mean} instead
+     * @deprecated 2.0.0 Please use {@link Ext.Array#mean} instead
      * @method
      * @member Ext
      * @alias Ext.Array#mean
@@ -1014,7 +1011,7 @@
 
     /**
      * Old alias to {@link Ext.Array#flatten}
-     * @deprecated 4.0.0 Please use {@link Ext.Array#flatten} instead
+     * @deprecated 2.0.0 Please use {@link Ext.Array#flatten} instead
      * @method
      * @member Ext
      * @alias Ext.Array#flatten
@@ -1023,7 +1020,7 @@
 
     /**
      * Old alias to {@link Ext.Array#clean}
-     * @deprecated 4.0.0 Please use {@link Ext.Array#clean} instead
+     * @deprecated 2.0.0 Please use {@link Ext.Array#clean} instead
      * @method
      * @member Ext
      * @alias Ext.Array#clean
@@ -1032,7 +1029,7 @@
 
     /**
      * Old alias to {@link Ext.Array#unique}
-     * @deprecated 4.0.0 Please use {@link Ext.Array#unique} instead
+     * @deprecated 2.0.0 Please use {@link Ext.Array#unique} instead
      * @method
      * @member Ext
      * @alias Ext.Array#unique
@@ -1041,7 +1038,7 @@
 
     /**
      * Old alias to {@link Ext.Array#pluck Ext.Array.pluck}
-     * @deprecated 4.0.0 Please use {@link Ext.Array#pluck Ext.Array.pluck} instead
+     * @deprecated 2.0.0 Please use {@link Ext.Array#pluck Ext.Array.pluck} instead
      * @method
      * @member Ext
      * @alias Ext.Array#pluck

@@ -1,6 +1,5 @@
 /**
  * @author Ed Spencer
- * @aside guide stores
  *
  * Small helper class to make creating {@link Ext.data.Store}s from Array data easier. An ArrayStore will be
  * automatically configured with a {@link Ext.data.reader.Array}.
@@ -36,6 +35,12 @@
  *
  * **Note:** Although not listed here, this class accepts all of the configuration options of
  * **{@link Ext.data.reader.Array ArrayReader}**.
+ *
+ * ###Further Reading
+ * [Sencha Touch Data Overview](../../../core_concepts/data/data_package_overview.html)
+ * [Sencha Touch Store Guide](../../../core_concepts/data/stores.html)
+ * [Sencha Touch Models Guide](../../../core_concepts/data/models.html)
+ * [Sencha Touch Proxy Guide](../../../core_concepts/data/proxies.html)
  */
 Ext.define('Ext.data.ArrayStore', {
     extend: 'Ext.data.Store',

@@ -64,9 +64,9 @@ Ext.define('Ext.layout.Default', {
         this.callSuper(arguments);
 
         container.on('centeredchange', 'onItemCenteredChange', this, options, 'before')
-                 .on('floatingchange', 'onItemFloatingChange', this, options, 'before')
-                 .on('dockedchange', 'onBeforeItemDockedChange', this, options, 'before')
-                 .on('dockedchange', 'onAfterItemDockedChange', this, options);
+            .on('floatingchange', 'onItemFloatingChange', this, options, 'before')
+            .on('dockedchange', 'onBeforeItemDockedChange', this, options, 'before')
+            .on('afterdockedchange', 'onAfterItemDockedChange', this, options);
     },
 
     monitorSizeStateChange: function() {
@@ -97,10 +97,9 @@ Ext.define('Ext.layout.Default', {
     },
 
     /**
-     *
-     * @param item
-     * @param isInner
-     * @param [destroying]
+     * @param {Ext.Component} item
+     * @param {Boolean} isInner
+     * @param {Boolean} [destroying]
      */
     onItemInnerStateChange: function(item, isInner, destroying) {
         if (isInner) {
@@ -115,8 +114,19 @@ Ext.define('Ext.layout.Default', {
         var container = this.container,
             containerDom = container.innerElement.dom,
             itemDom = item.element.dom,
-            nextSibling = container.getInnerAt(index + 1),
-            nextSiblingDom = nextSibling ? nextSibling.element.dom : null;
+            nextSibling = index !== -1 ? container.getInnerAt(index + 1) : null,
+            nextSiblingDom = null,
+            translatable;
+
+        if (nextSibling) {
+            translatable = nextSibling.getTranslatable();
+            if (translatable && translatable.getUseWrapper()) {
+                nextSiblingDom = translatable.getWrapper().dom;
+            }
+            else {
+                nextSiblingDom = nextSibling ? nextSibling.element.dom : null;
+            }
+        }
 
         containerDom.insertBefore(itemDom, nextSiblingDom);
 
@@ -248,7 +258,7 @@ Ext.define('Ext.layout.Default', {
             direction = positionDirectionMap[item.getDocked()],
             dockInnerWrapper = this.dockInnerWrapper,
             referenceDirection, i, dockedItem, index, previousItem, slice,
-            referenceItem, referenceDocked, referenceWrapper, newWrapper, nestedWrapper;
+            referenceItem, referenceDocked, referenceWrapper, newWrapper, nestedWrapper, oldInnerWrapper;
 
         this.monitorSizeStateChange();
         this.monitorSizeFlagsChange();
@@ -325,7 +335,9 @@ Ext.define('Ext.layout.Default', {
                     newWrapper.setInnerWrapper(nestedWrapper);
                 }
                 else {
-                    newWrapper.setInnerWrapper(referenceWrapper.getInnerWrapper());
+                    oldInnerWrapper = referenceWrapper.getInnerWrapper();
+                    referenceWrapper.setInnerWrapper(null);
+                    newWrapper.setInnerWrapper(oldInnerWrapper);
                     referenceWrapper.setInnerWrapper(newWrapper);
                 }
 

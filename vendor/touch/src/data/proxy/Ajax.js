@@ -1,6 +1,5 @@
 /**
  * @author Ed Spencer
- * @aside guide proxies
  *
  * AjaxProxy is one of the most widely-used ways of getting data into your application. It uses AJAX
  * requests to load data from the server, usually to be placed into a {@link Ext.data.Store Store}.
@@ -206,6 +205,13 @@
  *
  * We can also provide a custom {@link #encodeFilters} function to encode our filters.
  *
+ * ###Further Reading
+ * [Sencha Touch AJAX Guide](../../../core_concepts/using_ajax.html)
+ * [Sencha Touch Data Overview](../../../core_concepts/data/data_package_overview.html)
+ * [Sencha Touch Store Guide](../../../core_concepts/data/stores.html)
+ * [Sencha Touch Models Guide](../../../core_concepts/data/models.html)
+ * [Sencha Touch Proxy Guide](../../../core_concepts/data/proxies.html)
+ * 
  * @constructor
  * Note that if this HttpProxy is being used by a {@link Ext.data.Store Store}, then the Store's
  * call to {@link Ext.data.Store#method-load load} will override any specified callback and params
@@ -230,6 +236,14 @@ Ext.define('Ext.data.proxy.Ajax', {
          * @accessor
          */
         withCredentials: false,
+
+        /**
+         * @cfg {Boolean} useDefaultXhrHeader
+         * Set this to false to not send the default Xhr header (X-Requested-With) with every request.
+         * This should be set to false when making CORS (cross-domain) requests.
+         * @accessor
+         */
+        useDefaultXhrHeader: true,
 
         /**
          * @cfg {String} username
@@ -270,9 +284,9 @@ Ext.define('Ext.data.proxy.Ajax', {
     /**
      * Performs Ajax request.
      * @protected
-     * @param operation
-     * @param callback
-     * @param scope
+     * @param {Ext.data.Operation} operation
+     * @param {Function} callback
+     * @param {Object} scope
      * @return {Object}
      */
     doRequest: function(operation, callback, scope) {
@@ -281,12 +295,13 @@ Ext.define('Ext.data.proxy.Ajax', {
             request = me.buildRequest(operation);
 
         request.setConfig({
-            headers  : me.getHeaders(),
-            timeout  : me.getTimeout(),
-            method   : me.getMethod(request),
-            callback : me.createRequestCallback(request, operation, callback, scope),
-            scope    : me,
-            proxy    : me
+            headers: me.getHeaders(),
+            timeout: me.getTimeout(),
+            method: me.getMethod(request),
+            callback: me.createRequestCallback(request, operation, callback, scope),
+            scope: me,
+            proxy: me,
+            useDefaultXhrHeader: me.getUseDefaultXhrHeader()
         });
 
         if (operation.getWithCredentials() || me.getWithCredentials()) {

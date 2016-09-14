@@ -1,0 +1,8 @@
+.x-grid .x-grid-header {
+    font-weight: normal;
+    font-size: 18px;
+    padding: 0px 10px;
+    border-top-color: #D1D1D1;
+    border-bottom: 2px solid #0AA9DC;
+    @include background(linear-gradient(color-stops(#FEFEFE, #DDDDDD)));
+}

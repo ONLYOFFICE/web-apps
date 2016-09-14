@@ -13,22 +13,41 @@ $icons-default-size         : 24px;
 $icons-default-image-width  : 72px;
 $icons-default-image-height : 144px;
 
-@import 'sencha-touch/default/all';
+@import 'sencha-touch/default';
+
+@import 'sencha-touch/default/src/Class';
+@import 'sencha-touch/default/src/Button';
+//@import 'sencha-touch/default/src/Panel';
+@import 'sencha-touch/default/src/Sheet';
+@import 'sencha-touch/default/src/MessageBox';
+@import 'sencha-touch/default/src/Toolbar';
+//@import 'sencha-touch/default/src/Toast';
+//@import 'sencha-touch/default/src/Menu';
+//@import 'sencha-touch/default/src/carousel/Carousel';
+@import 'sencha-touch/default/src/form/Panel';
+//@import 'sencha-touch/default/src/form/FieldSet';
+//@import 'sencha-touch/default/src/field/Field';
+//@import 'sencha-touch/default/src/field/Checkbox';
+//@import 'sencha-touch/default/src/field/Radio';
+//@import 'sencha-touch/default/src/field/Search';
+//@import 'sencha-touch/default/src/field/Select';
+//@import 'sencha-touch/default/src/field/Slider';
+//@import 'sencha-touch/default/src/field/Spinner';
+//@import 'sencha-touch/default/src/field/TextArea';
+//@import 'sencha-touch/default/src/dataview/IndexBar';
+//@import 'sencha-touch/default/src/dataview/List';
+//@import 'sencha-touch/default/src/picker/Picker';
+//@import 'sencha-touch/default/src/plugin/ListPaging';
+//@import 'sencha-touch/default/src/plugin/PullRefresh';
+//@import 'sencha-touch/default/src/slider/Slider';
+//@import 'sencha-touch/default/src/slider/Toggle';
+//@import 'sencha-touch/default/src/tab/Panel';
+//@import 'sencha-touch/default/src/grid/Grid';
 
 @import 'common-buttons';
 @import 'common-toolbar';
 
 @import 'application-mixins';
-
-@include sencha-panel;
-@include sencha-buttons;
-@include sencha-toolbar;
-@include sencha-toolbar-forms;
-@include sencha-indexbar;
-@include sencha-layout;
-@include sencha-form;
-@include sencha-msgbox;
-@include sencha-loading-spinner;
 
 @include common-toolbar-ui('edit', $base-color);
 @include common-toolbar-ui('search', $base-color);

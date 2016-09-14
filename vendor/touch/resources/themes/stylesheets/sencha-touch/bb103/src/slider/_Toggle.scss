@@ -1,0 +1,43 @@
+.x-toggle {
+    height: 2.15em;
+    @include border-radius(1.05em);
+    width: 65px;
+    background-color: $highlight-color;
+
+    &:before {
+        @include absolute-position;
+        text-align: center;
+        padding: 0 .2em 0 2em;
+        font-size: 16px;
+        line-height: 32px;
+    }
+
+    &.x-item-disabled {
+        &:before {
+            opacity: .8;
+        }
+    }
+
+    .x-thumb {
+        &:after {
+            background-color: #fff;
+            @include absolute-position;
+            line-height: 1.7em;
+            text-align: center;
+        }
+    }
+}
+
+.x-toggle-on {
+    background-color: $base-color;
+    .x-thumb:after {
+        content: "|";
+    }
+}
+
+.x-toggle-off {
+    .x-thumb:after {
+        content: "O";
+        line-height: 1.9em;
+    }
+}
