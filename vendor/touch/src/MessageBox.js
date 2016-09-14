@@ -20,7 +20,8 @@ Ext.define('Ext.MessageBox', {
     requires: [
         'Ext.Toolbar',
         'Ext.field.Text',
-        'Ext.field.TextArea'
+        'Ext.field.TextArea',
+        'Ext.util.InputBlocker'
     ],
 
     config: {
@@ -134,6 +135,22 @@ Ext.define('Ext.MessageBox', {
         }
     },
 
+    platformConfig: [{
+        theme: ['Windows'],
+        ui: 'light',
+        showAnimation: {
+            type: 'fadeIn'
+        },
+        hideAnimation: {
+            type: 'fadeOut'
+        }
+    }, {
+        theme: ['Blackberry', 'Blackberry103'],
+        ui: 'plain'
+    }, {
+        theme: ['MoutainView']
+    }],
+
     statics: {
         OK    : {text: 'OK',     itemId: 'ok',  ui: 'action'},
         YES   : {text: 'Yes',    itemId: 'yes', ui: 'action'},
@@ -209,11 +226,25 @@ Ext.define('Ext.MessageBox', {
             };
         }
 
+        var minHeight = '1.3em';
+        if (Ext.theme.is.Cupertino) {
+            minHeight = '1.5em'
+        } else if (Ext.filterPlatform('blackberry') || Ext.filterPlatform('ie10')) {
+            minHeight = '2.6em';
+        }
+
         Ext.applyIf(config, {
             docked: 'top',
-            minHeight: '1.3em',
+            minHeight: minHeight,
+            ui: Ext.filterPlatform('blackberry') ? 'light' : 'dark',
             cls   : this.getBaseCls() + '-title'
         });
+
+        if (Ext.theme.is.Tizen) {
+            Ext.applyIf(config, {
+                centered: false
+            });
+        }
 
         return Ext.factory(config, Ext.Toolbar, this.getTitle());
     },
@@ -235,25 +266,40 @@ Ext.define('Ext.MessageBox', {
     updateButtons: function(newButtons) {
         var me = this;
 
+        // If there are no new buttons or it is an empty array, set newButtons
+        // to false
+        newButtons = (!newButtons || newButtons.length === 0) ? false : newButtons;
+
         if (newButtons) {
             if (me.buttonsToolbar) {
+                me.buttonsToolbar.show();
                 me.buttonsToolbar.removeAll();
                 me.buttonsToolbar.setItems(newButtons);
             } else {
+                var layout = {
+                    type: 'hbox',
+                    pack: 'center'
+                };
+
+                var isFlexed = Ext.theme.is.CupertinoClassic  || Ext.theme.is.MountainView  || Ext.theme.is.Blackberry || Ext.theme.is.Blackberry103;
+
                 me.buttonsToolbar = Ext.create('Ext.Toolbar', {
-                    docked     : 'bottom',
+                    docked: 'bottom',
                     defaultType: 'button',
-                    layout     : {
-                        type: 'hbox',
-                        pack: 'center'
+                    defaults: {
+                        flex: (isFlexed) ? 1 : undefined,
+                        ui: (Ext.theme.is.Blackberry || Ext.theme.is.Blackberry103) ? 'action' : undefined
                     },
-                    ui         : me.getUi(),
-                    cls        : me.getBaseCls() + '-buttons',
-                    items      : newButtons
+                    layout: layout,
+                    ui: me.getUi(),
+                    cls: me.getBaseCls() + '-buttons',
+                    items: newButtons
                 });
 
                 me.add(me.buttonsToolbar);
             }
+        } else if (me.buttonsToolbar) {
+            me.buttonsToolbar.hide();
         }
     },
 
@@ -307,15 +353,14 @@ Ext.define('Ext.MessageBox', {
      * @private
      */
     updateIconCls: function(newIconCls, oldIconCls) {
-        var me = this;
-
         //ensure the title and button elements are added first
         this.getTitle();
         this.getButtons();
 
         if (newIconCls) {
             this.add(newIconCls);
-        } else {
+        }
+        else {
             this.remove(oldIconCls);
         }
     },
@@ -378,6 +423,7 @@ Ext.define('Ext.MessageBox', {
                 prompt = this.getPrompt();
 
             if (typeof config.fn == 'function') {
+                button.disable();
                 this.on({
                     hiddenchange: function() {
                         config.fn.call(
@@ -386,6 +432,7 @@ Ext.define('Ext.MessageBox', {
                             prompt ? prompt.getValue() : null,
                             config
                         );
+                        button.enable();
                     },
                     single: true,
                     scope: this
@@ -476,6 +523,7 @@ Ext.define('Ext.MessageBox', {
      * @return {Ext.MessageBox} this
      */
     show: function(initialConfig) {
+        Ext.util.InputBlocker.blockInputs();
         //if it has not been added to a container, add it to the Viewport.
         if (!this.getParent() && Ext.Viewport) {
             Ext.Viewport.add(this);
@@ -541,11 +589,11 @@ Ext.define('Ext.MessageBox', {
      *
      * @param {String} title The title bar text.
      * @param {String} message The message box body text.
-     * @param {Function} fn A callback function which is called when the dialog is dismissed by clicking on the configured buttons.
+     * @param {Function} [fn] A callback function which is called when the dialog is dismissed by clicking on the configured buttons.
      * @param {String} fn.buttonId The `itemId` of the button pressed, one of: 'ok', 'yes', 'no', 'cancel'.
      * @param {String} fn.value Value of the input field if either `prompt` or `multiLine` option is `true`.
      * @param {Object} fn.opt The config object passed to show.
-     * @param {Object} scope The scope (`this` reference) in which the callback is executed.
+     * @param {Object} [scope] The scope (`this` reference) in which the callback is executed.
      * Defaults to: the browser window
      *
      * @return {Ext.MessageBox} this
@@ -670,7 +718,7 @@ Ext.define('Ext.MessageBox', {
         /**
          * Sets #icon.
          * @deprecated 2.0 Please use #setIconCls instead.
-         * @param {String} icon A CSS class name or empty string to clear the icon.
+         * @param {String} iconCls A CSS class name or empty string to clear the icon.
          * @return {Ext.MessageBox} this
          */
         setIcon: function(iconCls, doLayout){

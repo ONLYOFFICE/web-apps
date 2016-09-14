@@ -1,7 +1,4 @@
 /**
- * @aside guide layouts
- * @aside video layouts
- *
  * Sometimes you want to show several screens worth of information but you've only got a small screen to work with.
  * TabPanels and Carousels both enable you to see one screen of many at a time, and underneath they both use a Card
  * Layout.
@@ -41,8 +38,8 @@
  * so 1 corresponds to the second item). Normally you're better off using a {@link Ext.tab.Panel tab panel} or a
  * {@link Ext.carousel.Carousel carousel}.
  *
- * For a more detailed overview of what layouts are and the types of layouts shipped with Sencha Touch 2, check out the
- * [Layout Guide](#!/guide/layouts).
+ * For a more detailed overview of Sencha Touch 2 layouts, check out the
+ * [Layout Guide](../../../core_concepts/layouts.html).
  */
 
 
@@ -99,10 +96,14 @@ Ext.define('Ext.layout.Card', {
 
     onContainerInitialized: function() {
         var container = this.container,
+            firstItem = container.getInnerAt(0),
             activeItem = container.getActiveItem();
 
         if (activeItem) {
             activeItem.show();
+            if(firstItem && firstItem !== activeItem) {
+                firstItem.hide();
+            }
         }
 
         container.on('activeitemchange', 'onContainerActiveItemChange', this);

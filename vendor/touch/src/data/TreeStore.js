@@ -1,6 +1,4 @@
 /**
- * @aside guide stores
- *
  * The TreeStore is a store implementation that allows for nested data.
  *
  * It provides convenience methods for loading nodes, as well as the ability to use
@@ -18,6 +16,12 @@
  * For the tree to read nested data, the {@link Ext.data.reader.Reader} must be configured with a root property,
  * so the reader can find nested data for each node. If a root is not specified, it will default to
  * 'children'.
+ *
+ * ###Further Reading
+ * [Sencha Touch Data Overview](../../../core_concepts/data/data_package_overview.html)
+ * [Sencha Touch Store Guide](../../../core_concepts/data/stores.html)
+ * [Sencha Touch Models Guide](../../../core_concepts/data/models.html)
+ * [Sencha Touch Proxy Guide](../../../core_concepts/data/proxies.html)
  */
 Ext.define('Ext.data.TreeStore', {
     extend: 'Ext.data.NodeStore',
@@ -168,6 +172,10 @@ Ext.define('Ext.data.TreeStore', {
      * @return {Ext.data.NodeInterface}
      */
     getNodeById: function(id) {
+        return this.data.getByKey(id);
+    },
+
+    getById: function(id) {
         return this.data.getByKey(id);
     },
 

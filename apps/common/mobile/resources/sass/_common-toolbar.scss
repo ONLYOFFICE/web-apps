@@ -9,6 +9,10 @@ $shadow-width: .065em; // Space between tip and its shadow
   $toolbar-border-color: darken($color, 50%);
   $toolbar-button-color: darken($color, 5%);
 
+  .x-toolbar {
+    background-color: transparent;
+  }
+
   .x-toolbar-#{$ui-label} {
     @if $ui-label == search {
       @include background-gradient($color, color_stops($color, lighten($color, 11%) 20%, lighten($color, 11%)));

@@ -1,18 +1,17 @@
 /**
- * @aside guide forms
- *
  * Wraps an HTML5 number field. Example usage:
  *
  *     @example miniphone
  *     var spinner = Ext.create('Ext.field.Spinner', {
- *         label: 'Spinner Field',
- *         minValue: 0,
- *         maxValue: 100,
- *         increment: 2,
- *         cycle: true
+ *         label     : 'Spinner Field',
+ *         minValue  : 0,
+ *         maxValue  : 100,
+ *         stepValue : 2,
+ *         cycle     : true
  *     });
  *     Ext.Viewport.add({ xtype: 'container', items: [spinner] });
  *
+ * For more information regarding forms and fields, please review [Using Forms in Sencha Touch Guide](../../../components/forms.html)
  */
 Ext.define('Ext.field.Spinner', {
     extend: 'Ext.field.Number',
@@ -125,13 +124,21 @@ Ext.define('Ext.field.Spinner', {
         groupButtons: true,
 
         /**
-         * @cfg
+         * @cfg component
          * @inheritdoc
          */
         component: {
             disabled: true
         }
     },
+
+    platformConfig: [{
+        platform: 'android',
+        component: {
+            disabled: false,
+            readOnly: true
+        }
+    }],
 
     constructor: function() {
         var me = this;
@@ -153,8 +160,7 @@ Ext.define('Ext.field.Spinner', {
     updateComponent: function(newComponent) {
         this.callParent(arguments);
 
-        var innerElement = this.innerElement,
-            cls = this.getCls();
+        var cls = this.getCls();
 
         if (newComponent) {
             this.spinDownButton = Ext.Element.create({
@@ -300,6 +306,15 @@ Ext.define('Ext.field.Spinner', {
     reset: function() {
         this.setValue(this.getDefaultValue());
     },
+
+//    setValue: function(value){
+//        this.callSuper(arguments);
+
+        // @TODO: Isn't this already done by the framework by default?
+//        if(Ext.getThemeName() == 'WP'){
+//            this.getComponent().element.dom.setAttribute('value',value);
+//        }
+//    },
 
     // @private
     destroy: function() {

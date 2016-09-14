@@ -8,6 +8,7 @@ apps/presentationeditor/embed/resources/less/node_modules
 apps/spreadsheeteditor/embed/resources/less/node_modules
 apps/documenteditor/mobile/resources/sass/.sass-cache
 apps/spreadsheeteditor/mobile/resources/sass/.sass-cache
+apps/presentationeditor/mobile/resources/sass/.sass-cache
 
 
 # test documents

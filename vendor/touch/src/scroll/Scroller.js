@@ -10,7 +10,7 @@
  * instantiated in your container.
  *
  * Please note that the {@link Ext.Container#getScrollable} method returns an instance of {@link Ext.scroll.View}.
- * So if you need to get access to the scroller after your container has been instantiated, you must used the
+ * So if you need to get access to the scroller after your container has been instantiated, you must use the
  * {@link Ext.scroll.View#getScroller} method.
  *
  *     // lets assume container is a container you have
@@ -22,14 +22,36 @@
  * Here is a simple example of how to adjust the scroller settings when using a {@link Ext.Container} (or anything
  * that extends it).
  *
- *     @example
- *     var container = Ext.create('Ext.Container', {
- *         fullscreen: true,
- *         html: 'This container is scrollable!',
- *         scrollable: {
- *             direction: 'vertical'
- *         }
- *     });
+ *      @example
+ *      Ext.create('Ext.Container', {
+ *           fullscreen: true,
+ *           html: "Macaroni cheese roquefort<br>" +
+ *                "port-salut. The big cheese<br>" + 
+ *                "fondue camembert de normandie<br>" + 
+ *                "cow boursin cheese swiss stinking<br>" +  
+ *                "bishop. Fromage feta edam fromage<br>" + 
+ *                "frais bavarian bergkase paneer<br>" + 
+ *                "paneer cheese and wine. Cow danish<br>" +  
+ *                "fontina roquefort bocconcini<br>" + 
+ *                "jarlsberg parmesan cheesecake<br>" + 
+ *                "danish fontina. Mascarpone<br>" +
+ *                "bishop. Fromage feta edam fromage<br>" + 
+ *                "frais bavarian bergkase paneer<br>" + 
+ *                "paneer cheese and wine. Cow danish<br>" +  
+ *                "fontina roquefort bocconcini<br>" + 
+ *                "jarlsberg parmesan cheesecake<br>" + 
+ *                "emmental fromage frais cheesy<br>" + 
+ *                "grin say cheese squirty cheese<br>" + 
+ *                "parmesan queso. Cheese triangles<br>" + 
+ *                "st. agur blue cheese chalk and cheese<br>" + 
+ *                "cream cheese lancashire manchego<br>" + 
+ *                "taleggio blue castello. Port-salut<br>" + 
+ *                "paneer monterey jack<br>" + 
+ *                "say cheese fondue.",
+ *           scrollable: {
+ *              direction: 'vertical'
+ *           }
+ *       });
  *
  * As you can see, we are passing the {@link #direction} configuration into the scroller instance in our container.
  *
@@ -276,10 +298,6 @@ Ext.define('Ext.scroll.Scroller', {
     constructor: function(config) {
         var element = config && config.element;
 
-        if (Ext.os.is.Android4 && !Ext.browser.is.Chrome) {
-            this.onDrag = Ext.Function.createThrottled(this.onDrag, 20, this);
-        }
-
         this.listeners = {
             scope: this,
             touchstart: 'onTouchStart',
@@ -334,7 +352,9 @@ Ext.define('Ext.scroll.Scroller', {
     updateElement: function(element) {
         this.initialize();
 
-        element.addCls(this.cls);
+        if (!this.FixedHBoxStretching) {
+            element.addCls(this.cls);
+        }
 
         if (!this.getDisabled()) {
             this.attachListeneners();
@@ -444,11 +464,30 @@ Ext.define('Ext.scroll.Scroller', {
     /**
      * @private
      */
-    updateDirection: function(direction) {
-        var isAxisEnabled = this.isAxisEnabledFlags;
+    updateDirection: function(direction, oldDirection) {
+        var isAxisEnabledFlags = this.isAxisEnabledFlags,
+            verticalCls = this.cls + '-vertical',
+            horizontalCls = this.cls + '-horizontal',
+            element = this.getElement();
 
-        isAxisEnabled.x = (direction === 'both' || direction === 'horizontal');
-        isAxisEnabled.y = (direction === 'both' || direction === 'vertical');
+        if (oldDirection === 'both' || oldDirection === 'horizontal') {
+            element.removeCls(horizontalCls);
+        }
+
+        if (oldDirection === 'both' || oldDirection === 'vertical') {
+            element.removeCls(verticalCls);
+        }
+
+        isAxisEnabledFlags.x = isAxisEnabledFlags.y = false;
+        if (direction === 'both' || direction === 'horizontal') {
+            isAxisEnabledFlags.x = true;
+            element.addCls(horizontalCls);
+        }
+
+        if (direction === 'both' || direction === 'vertical') {
+            isAxisEnabledFlags.y = true;
+            element.addCls(verticalCls);
+        }
     },
 
     /**
@@ -653,10 +692,12 @@ Ext.define('Ext.scroll.Scroller', {
      * Returns the container for this scroller
      */
     getContainer: function() {
-        var container = this.container;
+        var container = this.container,
+            element;
 
         if (!container) {
-            this.container = container = this.getElement().getParent();
+            element = this.getElement().getParent();
+            this.container = container = this.FixedHBoxStretching ? element.getParent() : element;
             //<debug error>
             if (!container) {
                 Ext.Logger.error("Making an element scrollable that doesn't have any container");
@@ -715,6 +756,10 @@ Ext.define('Ext.scroll.Scroller', {
      * @chainable
      */
     scrollTo: function(x, y, animation) {
+        if (this.isDestroyed) {
+            return this;
+        }
+
         //<deprecated product=touch since=2.0>
         if (typeof x != 'number' && arguments.length === 1) {
             //<debug warn>
@@ -733,7 +778,7 @@ Ext.define('Ext.scroll.Scroller', {
             translationX, translationY;
 
         if (this.isAxisEnabled('x')) {
-            if (typeof x != 'number') {
+            if (isNaN(x) || typeof x != 'number') {
                 x = position.x;
             }
             else {
@@ -747,7 +792,7 @@ Ext.define('Ext.scroll.Scroller', {
         }
 
         if (this.isAxisEnabled('y')) {
-            if (typeof y != 'number') {
+            if (isNaN(y) || typeof y != 'number') {
                 y = position.y;
             }
             else {
@@ -761,7 +806,7 @@ Ext.define('Ext.scroll.Scroller', {
         }
 
         if (positionChanged) {
-            if (animation !== undefined) {
+            if (animation !== undefined && animation !== false) {
                 translatable.translateAnimated(translationX, translationY, animation);
             }
             else {
@@ -967,8 +1012,8 @@ Ext.define('Ext.scroll.Scroller', {
 
         this.isDragging = false;
 
-        easingX = this.getAnimationEasing('x');
-        easingY = this.getAnimationEasing('y');
+        easingX = this.getAnimationEasing('x', e);
+        easingY = this.getAnimationEasing('y', e);
 
         if (easingX || easingY) {
             this.getTranslatable().animate(easingX, easingY);
@@ -981,20 +1026,19 @@ Ext.define('Ext.scroll.Scroller', {
     /**
      * @private
      */
-    getAnimationEasing: function(axis) {
+    getAnimationEasing: function(axis, e) {
         if (!this.isAxisEnabled(axis)) {
             return null;
         }
 
         var currentPosition = this.position[axis],
-            flickStartPosition = this.flickStartPosition[axis],
-            flickStartTime = this.flickStartTime[axis],
             minPosition = this.getMinPosition()[axis],
             maxPosition = this.getMaxPosition()[axis],
             maxAbsVelocity = this.getMaxAbsoluteVelocity(),
             boundValue = null,
             dragEndTime = this.dragEndTime,
-            easing, velocity, duration;
+            velocity = e.flick.velocity[axis],
+            easing;
 
         if (currentPosition < minPosition) {
             boundValue = minPosition;
@@ -1015,15 +1059,6 @@ Ext.define('Ext.scroll.Scroller', {
             return easing;
         }
 
-        // Still within boundary, start deceleration
-        duration = dragEndTime - flickStartTime;
-
-        if (duration === 0) {
-            return null;
-        }
-
-        velocity = (currentPosition - flickStartPosition) / (dragEndTime - flickStartTime);
-
         if (velocity === 0) {
             return null;
         }
@@ -1035,11 +1070,15 @@ Ext.define('Ext.scroll.Scroller', {
             velocity = maxAbsVelocity;
         }
 
+        if (Ext.browser.is.IE) {
+            velocity *= 2;
+        }
+
         easing = this.getMomentumEasing()[axis];
         easing.setConfig({
             startTime: dragEndTime,
             startValue: -currentPosition,
-            startVelocity: -velocity,
+            startVelocity: velocity * 1.5,
             minMomentumValue: -maxPosition,
             maxMomentumValue: 0
         });
@@ -1121,13 +1160,14 @@ Ext.define('Ext.scroll.Scroller', {
             snapOffset = this.getSlotSnapOffset()[axis];
             maxPosition = this.getMaxPosition()[axis];
 
-            mod = (position - snapOffset) % snapSize;
+            mod = Math.floor((position - snapOffset) % snapSize);
 
             if (mod !== 0) {
-                if (Math.abs(mod) > snapSize / 2) {
-                    snapPosition = position + ((mod > 0) ? snapSize - mod : mod - snapSize);
-
-                    if (snapPosition > maxPosition) {
+                if (position !== maxPosition) {
+                    if (Math.abs(mod) > snapSize / 2) {
+                        snapPosition = Math.min(maxPosition, position + ((mod > 0) ? snapSize - mod : mod - snapSize));
+                    }
+                    else {
                         snapPosition = position - mod;
                     }
                 }
@@ -1173,7 +1213,8 @@ Ext.define('Ext.scroll.Scroller', {
 
     destroy: function() {
         var element = this.getElement(),
-            sizeMonitors = this.sizeMonitors;
+            sizeMonitors = this.sizeMonitors,
+            container;
 
         if (sizeMonitors) {
             sizeMonitors.element.destroy();
@@ -1182,7 +1223,10 @@ Ext.define('Ext.scroll.Scroller', {
 
         if (element && !element.isDestroyed) {
             element.removeCls(this.cls);
-            this.getContainer().removeCls(this.containerCls);
+            container = this.getContainer();
+            if (container && !container.isDestroyed) {
+                container.removeCls(this.containerCls);
+            }
         }
 
         Ext.destroy(this.getTranslatable());

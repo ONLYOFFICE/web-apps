@@ -14,8 +14,7 @@ Ext.define('Ext.event.publisher.Dom', {
 
     idOrClassSelectorRegex: /^([#|\.])([\w\-]+)$/,
 
-    handledEvents: ['click', 'focus', 'blur', 'paste', 'input',
-                    'mousemove', 'mousedown', 'mouseup', 'mouseover', 'mouseout',
+    handledEvents: ['focus', 'blur', 'paste', 'input', 'change',
                     'keyup', 'keydown', 'keypress', 'submit',
                     'transitionend', 'animationstart', 'animationend'],
 
@@ -76,28 +75,77 @@ Ext.define('Ext.event.publisher.Dom', {
     },
 
     getVendorEventName: function(eventName) {
-        if (eventName === 'transitionend') {
-            eventName = Ext.browser.getVendorProperyName('transitionEnd');
-        }
-        else if (eventName === 'animationstart') {
-            eventName = Ext.browser.getVendorProperyName('animationStart');
-        }
-        else if (eventName === 'animationend') {
-            eventName = Ext.browser.getVendorProperyName('animationEnd');
+        if (Ext.browser.is.WebKit) {
+            if (eventName === 'transitionend') {
+                eventName = Ext.browser.getVendorProperyName('transitionEnd');
+            }
+            else if (eventName === 'animationstart') {
+                eventName = Ext.browser.getVendorProperyName('animationStart');
+            }
+            else if (eventName === 'animationend') {
+                eventName = Ext.browser.getVendorProperyName('animationEnd');
+            }
         }
 
         return eventName;
     },
 
-    attachListener: function(eventName) {
-        document.addEventListener(eventName, this.onEvent, !this.doesEventBubble(eventName));
+    bindListeners: function (doc, bind) {
+        var handlesEvents = this.getHandledEvents(),
+            handlesEventsLength = handlesEvents.length,
+            i;
 
+        for (i = 0; i < handlesEventsLength; i++) {
+            this.bindListener(doc, this.getVendorEventName(handlesEvents[i]), bind);
+        }
+    },
+
+    bindListener: function (doc, eventName, bind) {
+        if (bind) {
+            this.attachListener(eventName, doc);
+        } else {
+            this.removeListener(eventName, doc);
+        }
+        return this
+    },
+
+    attachListener: function(eventName, doc) {
+        if (!doc) {
+            doc = document;
+        }
+
+        var defaultView = doc.defaultView;
+
+        // Some AndroidStock browsers (HP Slate for example) will not process any touch events unless a listener is added to document or body
+        // this listener must be to a touch event (touchstart, touchmove, touchend)
+        if ((Ext.os.is.iOS && Ext.os.version.getMajor() < 5) || Ext.browser.is.AndroidStock) {
+            document.addEventListener(eventName, this.onEvent, !this.doesEventBubble(eventName));
+        }
+        else if (defaultView && defaultView.addEventListener) {
+            doc.defaultView.addEventListener(eventName, this.onEvent, !this.doesEventBubble(eventName));
+        }
+        else {
+            doc.addEventListener(eventName, this.onEvent, !this.doesEventBubble(eventName));
+        }
         return this;
     },
 
-    removeListener: function(eventName) {
-        document.removeEventListener(eventName, this.onEvent, !this.doesEventBubble(eventName));
+    removeListener: function(eventName, doc) {
+        if (!doc) {
+            doc = document;
+        }
 
+        var defaultView = doc.defaultView;
+
+        if ((Ext.os.is.iOS && Ext.os.version.getMajor() < 5) && Ext.browser.is.AndroidStock) {
+            document.removeEventListener(eventName, this.onEvent, !this.doesEventBubble(eventName));
+        }
+        else if (defaultView && defaultView.addEventListener) {
+            doc.defaultView.removeEventListener(eventName, this.onEvent, !this.doesEventBubble(eventName));
+        }
+        else {
+            doc.removeEventListener(eventName, this.onEvent, !this.doesEventBubble(eventName));
+        }
         return this;
     },
 
@@ -286,7 +334,13 @@ Ext.define('Ext.event.publisher.Dom', {
             event.setDelegatedTarget(target);
 
             if (hasIdSubscribers) {
-                id = target.id;
+                // We use getAttribute instead of referencing id here as forms can have there properties overridden by children
+                // Example:
+                //  <form id="myForm">
+                //      <input name="id">
+                //  </form>
+                // form.id === input node named id whereas form.getAttribute("id") === "myForm"
+                id = target.getAttribute("id");
 
                 if (id) {
                     if (idSubscribers.hasOwnProperty(id)) {
@@ -355,17 +409,25 @@ Ext.define('Ext.event.publisher.Dom', {
         return hasDispatched;
     },
 
-    matchesSelector: function(element, selector) {
-        if ('webkitMatchesSelector' in element) {
-            return element.webkitMatchesSelector(selector);
+    matchesSelector: function() {
+        var test = Element.prototype,
+            matchesSelector =
+                ('webkitMatchesSelector' in test) ? 'webkitMatchesSelector' :
+                (('msMatchesSelector' in test) ? 'msMatchesSelector' : ('mozMatchesSelector' in test ? 'mozMatchesSelector' : null));
+
+        if (matchesSelector) {
+            return function(element, selector) {
+                return element[matchesSelector](selector);
+            }
         }
 
-        return Ext.DomQuery.is(element, selector);
-    },
+        return function(element, selector) {
+            Ext.DomQuery.is(element, selector);
+        }
+    }(),
 
     onEvent: function(e) {
         var eventName = this.eventNameMap[e.type];
-
         // Set the current frame start time to be the timestamp of the event.
         Ext.frameStartTime = e.timeStamp;
 

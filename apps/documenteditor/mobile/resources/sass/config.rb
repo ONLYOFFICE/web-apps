@@ -2,7 +2,7 @@
 dir = File.dirname(__FILE__)
 
 # Load the sencha-touch framework automatically.
-load File.join(dir, '..', '..', '..', '..', '..', '3rdparty', 'touch', 'resources', 'themes')
+load File.join(dir, '..', '..', '..', '..', '..', 'vendor', 'touch', 'resources', 'themes')
 
 # Add include path for command styles
 add_import_path File.join(dir, '..', '..', '..', '..', '..', 'apps', 'common', 'mobile', 'resources', 'sass')
@@ -10,5 +10,6 @@ add_import_path File.join(dir, '..', '..', '..', '..', '..', 'apps', 'common', '
 # Compass configurations
 sass_path    = dir
 css_path     = File.join(dir, "..", "css")
+fonts_path   = File.join(dir, '..', '..', '..', '..', '..', 'apps', 'common', 'mobile', 'resources', 'fonts')
 environment  = :production
 output_style = :compressed

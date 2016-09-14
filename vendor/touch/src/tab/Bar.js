@@ -15,7 +15,7 @@ Ext.define('Ext.tab.Bar', {
 
     config: {
         /**
-         * @cfg
+         * @cfg baseCls
          * @inheritdoc
          */
         baseCls: Ext.baseCSSPrefix + 'tabbar',
@@ -48,6 +48,13 @@ Ext.define('Ext.tab.Bar', {
      * @param {Ext.tab.Tab} newTab The new Tab
      * @param {Ext.tab.Tab} oldTab The old Tab
      */
+
+    platformConfig: [{
+        theme: ['Blackberry', 'Blackberry103', 'CupertinoClassic', 'MountainView'],
+        defaults: {
+            flex: 1
+        }
+    }],
 
     initialize: function() {
         var me = this;
@@ -105,6 +112,8 @@ Ext.define('Ext.tab.Bar', {
                 layout.pack = (layout && layout.pack) ? layout.pack : pack;
             }
         }
+
+		this.callParent(arguments);
     },
 
     /**
@@ -129,7 +138,7 @@ Ext.define('Ext.tab.Bar', {
     parseActiveTab: function(tab) {
         //we need to call getItems to initialize the items, otherwise they will not exist yet.
         if (typeof tab == 'number') {
-            return this.getInnerItems()[tab];
+			return this.getItems().items[tab];
         }
         else if (typeof tab == 'string') {
             tab = Ext.getCmp(tab);

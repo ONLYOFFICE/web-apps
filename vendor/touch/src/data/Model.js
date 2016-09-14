@@ -1,6 +1,5 @@
 /**
  * @author Ed Spencer
- * @aside guide models
  *
  * A Model represents some object that your application manages. For example, one might define a Model for Users,
  * Products, Cars, or any other real-world object that we want to model in the system. Models are registered via the
@@ -213,6 +212,12 @@
  * A Store is just a collection of Model instances - usually loaded from a server somewhere. Store can also maintain a
  * set of added, updated and removed Model instances to be synchronized with the server via the Proxy. See the {@link
  * Ext.data.Store Store docs} for more information on Stores.
+ *
+ * ###Further Reading
+ * [Sencha Touch Data Overview](../../../core_concepts/data/data_package_overview.html)
+ * [Sencha Touch Store Guide](../../../core_concepts/data/stores.html)
+ * [Sencha Touch Models Guide](../../../core_concepts/data/models.html)
+ * [Sencha Touch Proxy Guide](../../../core_concepts/data/proxies.html)
  */
 Ext.define('Ext.data.Model', {
     alternateClassName: 'Ext.data.Record',
@@ -320,7 +325,7 @@ Ext.define('Ext.data.Model', {
          * By default this uses the simple identifier strategy that generates id's like 'ext-record-12'. If you are
          * saving these records in localstorage using a LocalStorage proxy you need to ensure that this identifier
          * strategy is set to something that always generates unique id's. We provide one strategy by default that
-         * generates these unique id's which is the uuid strategy.
+         * generates these unique id's which is the {@link Ext.data.identifier.Uuid} strategy.
          */
         identifier: {
             type: 'simple'
@@ -420,8 +425,12 @@ Ext.define('Ext.data.Model', {
          *     });
          *
          * @param {Number} id The id of the model to load
-         * @param {Object} config (optional) config object containing success, failure and callback functions, plus
-         * optional scope
+         * @param {Object} [config] Config object containing fields:
+         * @param {Function} config.success Called on success.
+         * @param {Function} config.failure Called on failure.
+         * @param {Function} config.callback Called after load.
+         * @param {Object} config.scope Value of `this` in the above functions.
+         * @param {Object} [scope] Same as `config.scope`.
          * @static
          * @inheritable
          */
@@ -493,8 +502,8 @@ Ext.define('Ext.data.Model', {
      * Creates new Model instance.
      * @param {Object} data An object containing keys corresponding to this model's fields, and their associated values.
      * @param {Number} id (optional) Unique ID to assign to this model instance.
-     * @param [raw]
-     * @param [convertedData]
+     * @param {Object} [raw]
+     * @param {Object} [convertedData]
      */
     constructor: function(data, id, raw, convertedData) {
         var me = this,
@@ -502,6 +511,26 @@ Ext.define('Ext.data.Model', {
             useCache = me.getUseCache(),
             idProperty = me.getIdProperty();
 
+        data = data || convertedData || {};
+
+        // We begin by checking if an id is passed to the constructor. If this is the case we override
+        // any possible id value that was passed in the data.
+        if (id || id === 0) {
+            // Lets skip using set here since it's so much faster
+            data[idProperty] = me.internalId = id;
+        }
+
+        // If we have an id set in the data we check to see if we already have a cached instance
+        // of this record. If that's the case then we just return that instance with the updated data
+        // passed to this constructor.
+        id = data[idProperty];
+        if (useCache && (id || id === 0)) {
+            cached = Ext.data.Model.cache[Ext.data.Model.generateCacheId(this, id)];
+            if (cached) {
+                cached.raw = raw || cached.raw;
+                return cached.mergeData(convertedData || data || {});
+            }
+        }
 
         /**
          * @property {Object} modified key/value pairs of all fields whose values have changed.
@@ -520,41 +549,32 @@ Ext.define('Ext.data.Model', {
          */
         me.stores = [];
 
-        data = data || convertedData || {};
-
-        // We begin by checking if an id is passed to the constructor. If this is the case we override
-        // any possible id value that was passed in the data.
-        if (id || id === 0) {
-            // Lets skip using set here since it's so much faster
-            data[idProperty] = me.internalId = id;
-        }
-
-        id = data[idProperty];
-        if (useCache && (id || id === 0)) {
-            cached = Ext.data.Model.cache[Ext.data.Model.generateCacheId(this, id)];
-            if (cached) {
-                return cached.mergeData(convertedData || data || {});
-            }
-        }
-
         if (convertedData) {
             me.setConvertedData(data);
         } else {
             me.setData(data);
         }
 
-        // If it does not have an id at this point, we generate it using the id strategy. This means
-        // that we will treat this record as a phantom record from now on
+        // me.id is always set to be randomly generated and should only be used for binding Observable events!
+        me.id = me.getIdentifier().generate(me);
+
+        // If it does not have an id in the data at this point, we use the one generated by the id strategy.
+        // This means that we will treat this record as a phantom record from now on
         id = me.data[idProperty];
         if (!id && id !== 0) {
-            me.data[idProperty] = me.internalId = me.id = me.getIdentifier().generate(me);
+            me.data[idProperty] = me.internalId = me.id;
             me.phantom = true;
 
+            // If we only now set an id on this model, it means we setData won't have handled the inline
+            // association data, which we will have to do now then.
             if (this.associations.length) {
                 this.handleInlineAssociationData(data);
             }
-        } else {
-            me.id = me.getIdentifier().generate(me);
+        }
+        else {
+            // We also want to make sure that the internalId has the same value as the id in
+            // the data object.
+            this.internalId = id;
         }
 
         if (useCache) {
@@ -570,7 +590,7 @@ Ext.define('Ext.data.Model', {
      * Private function that is used when you create a record that already exists in the model cache.
      * In this case we loop over each field, and apply any data to the current instance that is not already
      * marked as being dirty on that instance.
-     * @param data
+     * @param {Object} data
      * @return {Ext.data.Model} This record.
      * @private
      */
@@ -579,6 +599,7 @@ Ext.define('Ext.data.Model', {
             fields = me.getFields().items,
             ln = fields.length,
             modified = me.modified,
+            modifiedFieldNames = [],
             data = me.data,
             i, field, fieldName, value, id;
 
@@ -592,12 +613,27 @@ Ext.define('Ext.data.Model', {
                     value = field._convert(value, me);
                 }
 
+                if(data[fieldName] !== value) {
+                    if(modifiedFieldNames.length === 0 && !me.editing) {
+                        this.beginEdit()
+                    }
+
+                    modifiedFieldNames.push(fieldName);
+                }
+
                 data[fieldName] = value;
-            }
+            } else if (Ext.isFunction(field._convert)) {
+				value = field._convert(value, me);
+				data[fieldName] = value;
+			}
         }
 
         if (me.associations.length) {
             me.handleInlineAssociationData(rawData);
+        }
+
+        if(modifiedFieldNames.length > 0 && me.editing) {
+            this.endEdit(false, modifiedFieldNames);
         }
 
         return this;
@@ -608,7 +644,7 @@ Ext.define('Ext.data.Model', {
      * Note that the existing data is removed. If a field is not specified
      * in the passed data it will use the field's default value. If a convert
      * method is specified for the field it will be called on the value.
-     * @param rawData
+     * @param {Object} rawData
      * @return {Ext.data.Model} This record.
      */
     setData: function(rawData) {
@@ -657,6 +693,8 @@ Ext.define('Ext.data.Model', {
         var associations = this.associations.items,
             ln = associations.length,
             i, association, associationData, reader, proxy, associationKey;
+
+        data = Ext.apply({}, data, this.raw);
 
         for (i = 0; i < ln; i++) {
             association = associations[i];
@@ -714,7 +752,7 @@ Ext.define('Ext.data.Model', {
      * This sets the data directly without converting and applying default values.
      * This method is used when a Record gets instantiated by a Reader. Only use
      * this when you are sure you are passing correctly converted data.
-     * @param data
+     * @param {Object} data
      * @return {Ext.data.Model} This Record.
      */
     setConvertedData: function(data) {
@@ -784,7 +822,7 @@ Ext.define('Ext.data.Model', {
             if (notEditing && modifiedCount) {
                 me.endEdit(false, modifiedFieldNames);
             }
-        } else {
+        } else if(modified) {
             field = fieldMap[fieldName];
             convert = field && field.getConvert();
             if (convert) {
@@ -951,12 +989,14 @@ Ext.define('Ext.data.Model', {
     /**
      * Saves the model instance using the configured proxy.
      *
-     * @param {Object/Function} options Options to pass to the proxy. Config object for {@link Ext.data.Operation}.
-     * If you pass a function, this will automatically become the callback method. For convenience the config
-     * object may also contain `success` and `failure` methods in addition to `callback` - they will all be invoked
-     * with the Model and Operation as arguments.
-     * @param {Object} scope The scope to run your callback method in. This is only used if you passed a function
-     * as the first argument.
+     * @param {Object/Function} [options] Options to pass to the proxy. Config object for {@link
+     * Ext.data.Operation}.  If you pass a function, this will automatically become the callback
+     * method. For convenience the config object may also contain `success` and `failure` methods in
+     * addition to `callback` - they will all be invoked with the Model and Operation as arguments.
+     *
+     * @param {Object} [scope] The scope to run your callback method in.  This is only used if you
+     * passed a function as the first argument.
+     *
      * @return {Ext.data.Model} The Model instance
      */
     save: function(options, scope) {
@@ -1118,6 +1158,7 @@ Ext.define('Ext.data.Model', {
      * If this Model instance has been {@link #join joined} to a {@link Ext.data.Store store}, the store's
      * `afterEdit` method is called.
      * @param {String[]} modifiedFieldNames Array of field names changed during edit.
+     * @param {Object} modified
      */
     afterEdit : function(modifiedFieldNames, modified) {
         this.notifyStores('afterEdit', modifiedFieldNames, modified);
@@ -1150,15 +1191,17 @@ Ext.define('Ext.data.Model', {
      */
     notifyStores: function(fn) {
         var args = Ext.Array.clone(arguments),
-            stores = this.stores,
-            ln = stores.length,
-            i, store;
+            stores = this.stores;
+        if (Ext.isArray(stores)) {
+            var ln = stores.length,
+                i, store;
 
-        args[0] = this;
-        for (i = 0; i < ln; ++i) {
-            store = stores[i];
-            if (store !== undefined && typeof store[fn] == "function") {
-                store[fn].apply(store, args);
+            args[0] = this;
+            for (i = 0; i < ln; ++i) {
+                store = stores[i];
+                if (store !== undefined && typeof store[fn] == "function") {
+                    store[fn].apply(store, args);
+                }
             }
         }
     },
@@ -1239,8 +1282,9 @@ Ext.define('Ext.data.Model', {
         var associations     = record.associations.items,
             associationCount = associations.length,
             associationData  = {},
+            recursiveAssociationQueue = [],
             associatedStore, associationName, associatedRecords, associatedRecord,
-            associatedRecordCount, association, id, i, j, type, allow;
+            associatedRecordCount, association, id, i, j, type, allow, recursiveAssociationItem;
 
         for (i = 0; i < associationCount; i++) {
             association = associations[i];
@@ -1264,6 +1308,7 @@ Ext.define('Ext.data.Model', {
                     associatedRecords = associatedStore.data.items;
                     associatedRecordCount = associatedRecords.length;
 
+                    recursiveAssociationQueue.length = 0;
                     //now we're finally iterating over the records in the association. We do this recursively
                     for (j = 0; j < associatedRecordCount; j++) {
                         associatedRecord = associatedRecords[j];
@@ -1276,8 +1321,19 @@ Ext.define('Ext.data.Model', {
                             ids.push(id);
 
                             associationData[associationName][j] = associatedRecord.getData();
-                            Ext.apply(associationData[associationName][j], this.prepareAssociatedData(associatedRecord, ids, associationType));
+                            recursiveAssociationQueue.push({
+                                associationName:associationName,
+                                j:j,
+                                associatedRecord:associatedRecord,
+                                ids:ids,
+                                associationType:associationType
+                            });
                         }
+                    }
+
+                    while (recursiveAssociationQueue.length > 0) {
+                        recursiveAssociationItem = recursiveAssociationQueue.shift();
+                        Ext.apply(associationData[recursiveAssociationItem.associationName][recursiveAssociationItem.j], this.prepareAssociatedData(recursiveAssociationItem.associatedRecord, recursiveAssociationItem.ids, recursiveAssociationItem.associationType));
                     }
                 }
             } else if (allow && (type.toLowerCase() == 'belongsto' || type.toLowerCase() == 'hasone')) {
@@ -1551,7 +1607,7 @@ Ext.define('Ext.data.Model', {
     /**
      * This method is used by the fields collection to retrieve the key for a field
      * based on it's name.
-     * @param field
+     * @param {String} field
      * @return {String}
      * @private
      */
@@ -1562,8 +1618,8 @@ Ext.define('Ext.data.Model', {
     /**
      * This method is being used to sort the fields based on their convert method. If
      * a field has a custom convert method, we ensure its more to the bottom of the collection.
-     * @param field1
-     * @param field2
+     * @param {String} field1
+     * @param {String} field2
      * @return {Number}
      * @private
      */

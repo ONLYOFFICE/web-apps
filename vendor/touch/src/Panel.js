@@ -1,6 +1,4 @@
 /**
- * @aside guide floating_components
- *
  * Panels are most useful as Overlays - containers that float over your application. They contain extra styling such
  * that when you {@link #showBy} another component, the container will appear in a rounded black box with a 'tip'
  * pointing to a reference component.
@@ -34,6 +32,7 @@
  *          padding: 10
  *      }).showBy(button);
  *
+ * For more information, see our [Floating Components Guide](../../../components/floating_components.html).
  */
 Ext.define('Ext.Panel', {
     extend: 'Ext.Container',
@@ -74,15 +73,21 @@ Ext.define('Ext.Panel', {
     },
 
     getElementConfig: function() {
-        var config = this.callParent();
-
-        config.children.push({
-            reference: 'tipElement',
-            className: 'x-anchor',
-            hidden: true
-        });
-
-        return config;
+        return {
+            reference: 'element',
+            classList: ['x-container', 'x-unsized'],
+            children: [
+                {
+                    reference: 'innerElement',
+                    className: 'x-inner'
+                },
+                {
+                    reference: 'tipElement',
+                    className: 'x-anchor',
+                    hidden: true
+                }
+            ]
+        };
     },
 
     applyBodyPadding: function(bodyPadding) {
@@ -133,7 +138,9 @@ Ext.define('Ext.Panel', {
         this.element.setStyle('border-width', newBodyBorder);
     },
 
-    alignTo: function(component) {
+    alignTo: function(component, alignment) {
+        var alignmentInfo = this.getAlignmentInfo(component, alignment);
+        if(alignmentInfo.isAligned) return;
         var tipElement = this.tipElement;
 
         tipElement.hide();

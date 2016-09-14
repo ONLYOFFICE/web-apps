@@ -1,12 +1,6 @@
 /**
  * @author Ed Spencer
  *
- * @aside guide controllers
- * @aside guide apps_intro
- * @aside guide history_support
- * @aside video mvc-part-1
- * @aside video mvc-part-2
- *
  * Controllers are responsible for responding to events that occur within your app. If your app contains a Logout
  * {@link Ext.Button button} that your user can tap on, a Controller would listen to the Button's tap event and take
  * the appropriate action. It allows the View classes to handle the display of data and the Model classes to handle the
@@ -201,12 +195,12 @@
  * function that is called by that route is completely responsible for loading its data and restoring state. This is
  * because your user could either send that url to another person or simply refresh the page, which we wipe clear any
  * cached data you had already loaded. There is a more thorough discussion of restoring state with routes in the
- * application architecture guides.
+ * [application architecture guides](../../../core_concepts/about_applications.html).
  *
  * ## Advanced Usage
  *
- * See [the Controllers guide](#!/guide/controllers) for advanced Controller usage including before filters
- * and customizing for different devices.
+ * See [the Controllers guide](../../../core_concepts/controllers.html) for advanced Controller 
+ * usage including before filters and customizing for different devices.
  */
 Ext.define('Ext.app.Controller', {
     mixins: {
@@ -696,7 +690,7 @@ Ext.define('Ext.app.Controller', {
 
     /**
      * Returns a reference to a Model.
-     * @param modelName
+     * @param {String} modelName
      * @return {Object}
      * @deprecated 2.0.0 Considered bad practice - please just use the Model name instead
      * (e.g. `MyApp.model.User` vs `this.getModel('User')`).
@@ -715,8 +709,8 @@ Ext.define('Ext.app.Controller', {
 
     /**
      * Returns a reference to another Controller.
-     * @param controllerName
-     * @param profile
+     * @param {String} controllerName
+     * @param {String} profile
      * @return {Object}
      * @deprecated 2.0.0 Considered bad practice - if you need to do this
      * please use this.getApplication().getController() instead

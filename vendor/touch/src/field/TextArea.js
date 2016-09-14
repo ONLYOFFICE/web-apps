@@ -1,6 +1,4 @@
 /**
- * @aside guide forms
- *
  * Creates an HTML textarea field on the page. This is useful whenever you need the user to enter large amounts of text
  * (i.e. more than a few words). Typically, text entry on mobile devices is not a pleasant experience for the user so
  * it's good to limit your use of text areas to only those occasions when free form text is required or alternative
@@ -43,6 +41,8 @@
  *         label: 'About You',
  *         {@link #placeHolder}: 'Tell us about yourself...'
  *     });
+ *
+ * For more information regarding forms and fields, please review [Using Forms in Sencha Touch Guide](../../../components/forms.html)
  */
 Ext.define('Ext.field.TextArea', {
     extend: 'Ext.field.Text',
