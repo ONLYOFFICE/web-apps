@@ -662,6 +662,7 @@ define([
                     (new SSE.Views.ChartSettingsDlg(
                         {
                             chartSettings: props,
+                            isChart: true,
                             api: me.api,
                             handler: function(result, value) {
                                 if (result == 'ok') {

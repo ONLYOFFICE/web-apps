@@ -80,12 +80,15 @@ define([
             this.spinners = [];
             this.lockedControls = [];
             this._locked = false;
-
+            this.defColor = {color: '4f81bd', effectId: 24};
+            this.isChart = true;
+            
             this._noApply = false;
             this._originalProps = null;
 
             this.render();
 
+            // charts
             this.btnChartType = new Common.UI.Button({
                 cls         : 'btn-large-dataview',
                 iconCls     : 'item-chartlist bar-normal',
@@ -221,7 +224,123 @@ define([
                 }
             }, this));
 
+            // sparks
+            this.btnSparkType = new Common.UI.Button({
+                cls         : 'btn-large-dataview',
+                iconCls     : 'item-chartlist spark-column',
+                menu        : new Common.UI.Menu({
+                    style: 'width: 210px;',
+                    items: [
+                        { template: _.template('<div id="id-spark-menu-type" class="menu-insertchart"  style="margin: 5px 5px 5px 10px;"></div>') }
+                    ]
+                })
+            });
+            this.btnSparkType.on('render:after', function(btn) {
+                me.mnuSparkTypePicker = new Common.UI.DataView({
+                    el: $('#id-spark-menu-type'),
+                    parentMenu: btn.menu,
+                    showLast: false,
+                    restoreHeight: 200,
+                    allowScrollbar: false,
+                    groups: new Common.UI.DataViewGroupStore([
+                        { id: 'menu-chart-group-sparkcolumn', caption: me.textColumnSpark },
+                        { id: 'menu-chart-group-sparkline',   caption: me.textLineSpark },
+                        { id: 'menu-chart-group-sparkwin',    caption: me.textWinLossSpark }
+                    ]),
+                    store: new Common.UI.DataViewStore([
+                        { group: 'menu-chart-group-sparkcolumn',   type: Asc.ESparklineType.Column,    allowSelected: true, iconCls: 'spark-column'},
+                        { group: 'menu-chart-group-sparkline',     type: Asc.ESparklineType.Line,      allowSelected: true, iconCls: 'spark-line'},
+                        { group: 'menu-chart-group-sparkwin',      type: Asc.ESparklineType.Stacked,   allowSelected: true, iconCls: 'spark-win'}
+                    ]),
+                    itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist <%= iconCls %>"></div>')
+                });
+            });
+            this.btnSparkType.render($('#spark-button-type'));
+            this.mnuSparkTypePicker.on('item:click', _.bind(this.onSelectSparkType, this, this.btnSparkType));
+            this.lockedControls.push(this.btnSparkType);
+
+            this.btnSparkStyle = new Common.UI.Button({
+                cls         : 'btn-large-dataview',
+                iconCls     : 'item-wrap',
+                menu        : new Common.UI.Menu({
+                    menuAlign: 'tr-br',
+                    items: [
+                        { template: _.template('<div id="id-spark-menu-style" style="width: 245px; margin: 0 5px;"></div>') }
+                    ]
+                })
+            });
+            this.btnSparkStyle.on('render:after', function(btn) {
+                me.mnuSparkStylePicker = new Common.UI.DataView({
+                    el: $('#id-spark-menu-style'),
+                    style: 'max-height: 411px;',
+                    parentMenu: btn.menu,
+                    store: new Common.UI.DataViewStore(),
+                    itemTemplate: _.template('<div id="<%= id %>" class="item-wrap" style="background-image: url(<%= imageUrl %>); background-position: 0 0;"></div>')
+                });
+
+                if (me.btnSparkStyle.menu) {
+                    me.btnSparkStyle.menu.on('show:after', function () {
+                        me.mnuSparkStylePicker.scroller.update({alwaysVisibleY: true});
+                    });
+                }
+            });
+            this.btnSparkStyle.render($('#spark-button-style'));
+            this.mnuSparkStylePicker.on('item:click', _.bind(this.onSelectSparkStyle, this, this.btnSparkStyle));
+            this.lockedControls.push(this.btnSparkStyle);
+
+            this.cmbBorderSize = new Common.UI.ComboBorderSize({
+                el          : $('#spark-combo-line-type'),
+                style       : 'width: 90px;',
+                hasNoBorders: false
+            }).on('selected', _.bind(this.onBorderSizeSelect, this));
+            this.BorderSize = this.cmbBorderSize.store.at(1).get('value');
+            this.cmbBorderSize.setValue(this.BorderSize);
+            this.lockedControls.push(this.cmbBorderSize);
+
+            this.chHighPoint = new Common.UI.CheckBox({
+                el: $('#spark-checkbox-high'),
+                labelText: this.textHighPoint
+            });
+            this.lockedControls.push(this.chHighPoint);
+            this.chLowPoint = new Common.UI.CheckBox({
+                el: $('#spark-checkbox-low'),
+                labelText: this.textLowPoint
+            });
+            this.lockedControls.push(this.chLowPoint);
+            this.chNegativePoint = new Common.UI.CheckBox({
+                el: $('#spark-checkbox-negative'),
+                labelText: this.textNegativePoint
+            });
+            this.lockedControls.push(this.chNegativePoint);
+            this.chFirstPoint = new Common.UI.CheckBox({
+                el: $('#spark-checkbox-first'),
+                labelText: this.textFirstPoint
+            });
+            this.lockedControls.push(this.chFirstPoint);
+            this.chLastPoint = new Common.UI.CheckBox({
+                el: $('#spark-checkbox-last'),
+                labelText: this.textLastPoint
+            });
+            this.lockedControls.push(this.chLastPoint);
+            this.chMarkersPoint = new Common.UI.CheckBox({
+                el: $('#spark-checkbox-markers'),
+                labelText: this.textMarkers
+            });
+            this.lockedControls.push(this.chMarkersPoint);
+
+            this.chHighPoint.on('change', _.bind(this.onCheckPointChange, this, 0));
+            this.chLowPoint.on('change', _.bind(this.onCheckPointChange, this, 1));
+            this.chNegativePoint.on('change', _.bind(this.onCheckPointChange, this, 2));
+            this.chFirstPoint.on('change', _.bind(this.onCheckPointChange, this, 3));
+            this.chLastPoint.on('change', _.bind(this.onCheckPointChange, this, 4));
+            this.chMarkersPoint.on('change', _.bind(this.onCheckPointChange, this, 5));
+
             $(this.el).on('click', '#chart-advanced-link', _.bind(this.openAdvancedSettings, this));
+
+            this.ChartSizeContainer = $('#chart-panel-size');
+            this.ChartTypesContainer = $('#chart-panel-types');
+            this.SparkTypesContainer = $('#spark-panel-types');
+            this.SparkPointsContainer = $('#spark-panel-points');
         },
 
         render: function () {
@@ -247,79 +366,85 @@ define([
                 this._initSettings = false;
             }
 
+            this.ShowHideElem(!!(props && props.asc_getChartProperties && props.asc_getChartProperties()));
             this.disableControls(this._locked);
 
-            if (this.api && props  && props.asc_getChartProperties()){
-                this._originalProps = new Asc.asc_CImgProperty(props);
+            if (this.api && props){
+                if (props.asc_getChartProperties && props.asc_getChartProperties()) { // chart
+                    this._originalProps = new Asc.asc_CImgProperty(props);
+                    this.isChart = true;
 
-                this._noApply = true;
-                this.chartProps = props.asc_getChartProperties();
+                    this._noApply = true;
+                    this.chartProps = props.asc_getChartProperties();
 
-                var value = props.asc_getSeveralCharts() || this._locked;
-                if (this._state.SeveralCharts!==value) {
-                    this.linkAdvanced.toggleClass('disabled', value);
-                    this._state.SeveralCharts=value;
-                }
-
-                value = props.asc_getSeveralChartTypes();
-                if (this._state.SeveralCharts && value) {
-                    this.btnChartType.setIconCls('');
-                    this._state.ChartType = null;
-                } else {
-                    var type = this.chartProps.getType();
-                    if (this._state.ChartType !== type) {
-                        var record = this.mnuChartTypePicker.store.findWhere({type: type});
-                        this.mnuChartTypePicker.selectRecord(record, true);
-                        if (record) {
-                            this.btnChartType.setIconCls('item-chartlist ' + record.get('iconCls'));
-                        }
-                        this.updateChartStyles(this.api.asc_getChartPreviews(type));
-                        this._state.ChartType = type;
+                    var value = props.asc_getSeveralCharts() || this._locked;
+                    if (this._state.SeveralCharts!==value) {
+                        this.linkAdvanced.toggleClass('disabled', value);
+                        this._state.SeveralCharts=value;
                     }
-                }
 
-                value = props.asc_getSeveralChartStyles();
-                if (this._state.SeveralCharts && value) {
-                    var btnIconEl = this.btnChartStyle.cmpEl.find('span.btn-icon');
-                    btnIconEl.css('background-image', 'none');
-                    this.mnuChartStylePicker.selectRecord(null, true);
-                    this._state.ChartStyle = null;
-                } else {
-                    value = this.chartProps.getStyle();
-                    if (this._state.ChartStyle!==value) {
-                        var record = this.mnuChartStylePicker.store.findWhere({data: value});
-                        this.mnuChartStylePicker.selectRecord(record, true);
-                        if (record) {
-                            var btnIconEl = this.btnChartStyle.cmpEl.find('span.btn-icon');
-                            btnIconEl.css('background-image', 'url(' + record.get('imageUrl') + ')');
+                    value = props.asc_getSeveralChartTypes();
+                    if (this._state.SeveralCharts && value) {
+                        this.btnChartType.setIconCls('');
+                        this._state.ChartType = null;
+                    } else {
+                        var type = this.chartProps.getType();
+                        if (this._state.ChartType !== type) {
+                            var record = this.mnuChartTypePicker.store.findWhere({type: type});
+                            this.mnuChartTypePicker.selectRecord(record, true);
+                            if (record) {
+                                this.btnChartType.setIconCls('item-chartlist ' + record.get('iconCls'));
+                            }
+                            this.updateChartStyles(this.api.asc_getChartPreviews(type));
+                            this._state.ChartType = type;
                         }
-                        this._state.ChartStyle=value;
                     }
-                }
 
-                this._noApply = false;
+                    value = props.asc_getSeveralChartStyles();
+                    if (this._state.SeveralCharts && value) {
+                        var btnIconEl = this.btnChartStyle.cmpEl.find('span.btn-icon');
+                        btnIconEl.css('background-image', 'none');
+                        this.mnuChartStylePicker.selectRecord(null, true);
+                        this._state.ChartStyle = null;
+                    } else {
+                        value = this.chartProps.getStyle();
+                        if (this._state.ChartStyle!==value) {
+                            var record = this.mnuChartStylePicker.store.findWhere({data: value});
+                            this.mnuChartStylePicker.selectRecord(record, true);
+                            if (record) {
+                                var btnIconEl = this.btnChartStyle.cmpEl.find('span.btn-icon');
+                                btnIconEl.css('background-image', 'url(' + record.get('imageUrl') + ')');
+                            }
+                            this._state.ChartStyle=value;
+                        }
+                    }
 
-                value = props.asc_getWidth();
-                if ( Math.abs(this._state.Width-value)>0.001 ||
-                    (this._state.Width===null || value===null)&&(this._state.Width!==value)) {
-                    this.spnWidth.setValue((value!==null) ? Common.Utils.Metric.fnRecalcFromMM(value) : '', true);
-                    this._state.Width = value;
-                }
+                    this._noApply = false;
 
-                value = props.asc_getHeight();
-                if ( Math.abs(this._state.Height-value)>0.001 ||
-                    (this._state.Height===null || value===null)&&(this._state.Height!==value)) {
-                    this.spnHeight.setValue((value!==null) ? Common.Utils.Metric.fnRecalcFromMM(value) : '', true);
-                    this._state.Height = value;
-                }
+                    value = props.asc_getWidth();
+                    if ( Math.abs(this._state.Width-value)>0.001 ||
+                        (this._state.Width===null || value===null)&&(this._state.Width!==value)) {
+                        this.spnWidth.setValue((value!==null) ? Common.Utils.Metric.fnRecalcFromMM(value) : '', true);
+                        this._state.Width = value;
+                    }
 
-                if (props.asc_getHeight()>0)
-                    this._nRatio = props.asc_getWidth()/props.asc_getHeight();
+                    value = props.asc_getHeight();
+                    if ( Math.abs(this._state.Height-value)>0.001 ||
+                        (this._state.Height===null || value===null)&&(this._state.Height!==value)) {
+                        this.spnHeight.setValue((value!==null) ? Common.Utils.Metric.fnRecalcFromMM(value) : '', true);
+                        this._state.Height = value;
+                    }
 
-                value = props.asc_getLockAspect();
-                if (this._state.keepRatio!==value) {
-                    this.btnRatio.toggle(value);
-                    this._state.keepRatio=value;
+                    if (props.asc_getHeight()>0)
+                        this._nRatio = props.asc_getWidth()/props.asc_getHeight();
+
+                    value = props.asc_getLockAspect();
+                    if (this._state.keepRatio!==value) {
+                        this.btnRatio.toggle(value);
+                        this._state.keepRatio=value;
+                    }
+                } else { //sparkline
+                    this.isChart = false;
                 }
             }
         },
@@ -334,8 +459,147 @@ define([
             }
         },
 
+        UpdateThemeColors: function() {
+            var defValue;
+            if (!this.btnSparkColor) {
+                defValue = this.defColor;
+                
+                this.btnSparkColor = new Common.UI.ColorButton({
+                    style: "width:45px;",
+                    menu        : new Common.UI.Menu({
+                        items: [
+                            { template: _.template('<div id="spark-color-menu" style="width: 165px; height: 220px; margin: 10px;"></div>') },
+                            { template: _.template('<a id="spark-color-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
+                        ]
+                    })
+                });
+                this.btnSparkColor.render( $('#spark-color-btn'));
+                this.btnSparkColor.setColor('000000');
+                this.lockedControls.push(this.btnSparkColor);
+                this.colorsSpark = new Common.UI.ThemeColorPalette({
+                    el: $('#spark-color-menu'),
+                    value: '000000'
+                });
+                this.colorsSpark.on('select', _.bind(this.onColorsSparkSelect, this));
+                $(this.el).on('click', '#spark-color-new', _.bind(this.addNewColor, this, this.colorsSpark, this.btnSparkColor));
+
+                this.btnHighColor = new Common.UI.ColorButton({
+                    style: "width:45px;",
+                    menu        : new Common.UI.Menu({
+                        items: [
+                            { template: _.template('<div id="spark-high-color-menu" style="width: 165px; height: 220px; margin: 10px;"></div>') },
+                            { template: _.template('<a id="spark-high-color-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
+                        ]
+                    })
+                }).render( $('#spark-high-color-btn'));
+                this.btnHighColor.setColor(this.defColor.color);
+                this.lockedControls.push(this.btnHighColor);
+                this.colorsHigh = new Common.UI.ThemeColorPalette({ el: $('#spark-high-color-menu') });
+                this.colorsHigh.on('select', _.bind(this.onColorsPointSelect, this, 0, this.btnHighColor, this.chHighPoint));
+                $(this.el).on('click', '#spark-high-color-new', _.bind(this.addNewColor, this, this.colorsHigh, this.btnHighColor));
+
+                this.btnLowColor = new Common.UI.ColorButton({
+                    style: "width:45px;",
+                    menu        : new Common.UI.Menu({
+                        items: [
+                            { template: _.template('<div id="spark-low-color-menu" style="width: 165px; height: 220px; margin: 10px;"></div>') },
+                            { template: _.template('<a id="spark-low-color-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
+                        ]
+                    })
+                }).render( $('#spark-low-color-btn'));
+                this.btnLowColor.setColor(this.defColor.color);
+                this.lockedControls.push(this.btnLowColor);
+                this.colorsLow = new Common.UI.ThemeColorPalette({ el: $('#spark-low-color-menu') });
+                this.colorsLow.on('select', _.bind(this.onColorsPointSelect, this, 0, this.btnLowColor, this.chLowPoint));
+                $(this.el).on('click', '#spark-low-color-new', _.bind(this.addNewColor, this, this.colorsLow, this.btnLowColor));
+
+                this.btnNegativeColor = new Common.UI.ColorButton({
+                    style: "width:45px;",
+                    menu        : new Common.UI.Menu({
+                        items: [
+                            { template: _.template('<div id="spark-negative-color-menu" style="width: 165px; height: 220px; margin: 10px;"></div>') },
+                            { template: _.template('<a id="spark-negative-color-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
+                        ]
+                    })
+                }).render( $('#spark-negative-color-btn'));
+                this.btnNegativeColor.setColor(this.defColor.color);
+                this.lockedControls.push(this.btnNegativeColor);
+                this.colorsNegative = new Common.UI.ThemeColorPalette({ el: $('#spark-negative-color-menu') });
+                this.colorsNegative.on('select', _.bind(this.onColorsPointSelect, this, 0, this.btnNegativeColor, this.chNegativePoint));
+                $(this.el).on('click', '#spark-negative-color-new', _.bind(this.addNewColor, this, this.colorsNegative, this.btnNegativeColor));
+
+                this.btnFirstColor = new Common.UI.ColorButton({
+                    style: "width:45px;",
+                    menu        : new Common.UI.Menu({
+                        items: [
+                            { template: _.template('<div id="spark-first-color-menu" style="width: 165px; height: 220px; margin: 10px;"></div>') },
+                            { template: _.template('<a id="spark-first-color-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
+                        ]
+                    })
+                }).render( $('#spark-first-color-btn'));
+                this.lockedControls.push(this.btnFirstColor);
+                this.colorsFirst = new Common.UI.ThemeColorPalette({ el: $('#spark-first-color-menu') });
+                this.colorsFirst.on('select', _.bind(this.onColorsPointSelect, this, 0, this.btnFirstColor, this.chFirstPoint));
+                $(this.el).on('click', '#spark-first-color-new', _.bind(this.addNewColor, this, this.colorsFirst, this.btnFirstColor));
+                this.btnFirstColor.setColor(this.defColor.color);
+
+                this.btnLastColor = new Common.UI.ColorButton({
+                    style: "width:45px;",
+                    menu        : new Common.UI.Menu({
+                        items: [
+                            { template: _.template('<div id="spark-last-color-menu" style="width: 165px; height: 220px; margin: 10px;"></div>') },
+                            { template: _.template('<a id="spark-last-color-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
+                        ]
+                    })
+                }).render( $('#spark-last-color-btn'));
+                this.btnLastColor.setColor(this.defColor.color);
+                this.lockedControls.push(this.btnLastColor);
+                this.colorsLast = new Common.UI.ThemeColorPalette({ el: $('#spark-last-color-menu') });
+                this.colorsLast.on('select', _.bind(this.onColorsPointSelect, this, 0, this.btnLastColor, this.chLastPoint));
+                $(this.el).on('click', '#spark-last-color-new', _.bind(this.addNewColor, this, this.colorsLast, this.btnLastColor));
+
+                this.btnMarkersColor = new Common.UI.ColorButton({
+                    style: "width:45px;",
+                    menu        : new Common.UI.Menu({
+                        items: [
+                            { template: _.template('<div id="spark-markers-color-menu" style="width: 165px; height: 220px; margin: 10px;"></div>') },
+                            { template: _.template('<a id="spark-markers-color-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
+                        ]
+                    })
+                }).render( $('#spark-markers-color-btn'));
+                this.btnMarkersColor.setColor(this.defColor.color);
+                this.lockedControls.push(this.btnMarkersColor);
+                this.colorsMarkers = new Common.UI.ThemeColorPalette({ el: $('#spark-markers-color-menu') });
+                this.colorsMarkers.on('select', _.bind(this.onColorsPointSelect, this, 0, this.btnMarkersColor, this.chMarkersPoint));
+                $(this.el).on('click', '#spark-markers-color-new', _.bind(this.addNewColor, this, this.colorsMarkers, this.btnMarkersColor));
+
+            }
+            this.colorsSpark.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
+            this.colorsHigh.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors(), defValue);
+            this.colorsLow.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors(), defValue);
+            this.colorsNegative.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors(), defValue);
+            this.colorsFirst.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors(), defValue);
+            this.colorsLast.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors(), defValue);
+            this.colorsMarkers.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors(), defValue);
+            this.btnSparkColor.setColor(this.colorsSpark.getColor());
+            this.btnHighColor.setColor(this.colorsHigh.getColor());
+            this.btnLowColor.setColor(this.colorsLow.getColor());
+            this.btnNegativeColor.setColor(this.colorsNegative.getColor());
+            this.btnFirstColor.setColor(this.colorsFirst.getColor());
+            this.btnLastColor.setColor(this.colorsLast.getColor());
+            this.btnMarkersColor.setColor(this.colorsMarkers.getColor());
+        },
+
         createDelayedElements: function() {
             this.updateMetricUnit();
+            this.UpdateThemeColors();
+        },
+
+        ShowHideElem: function(isChart) {
+            this.ChartSizeContainer.toggleClass('settings-hidden', !isChart);
+            this.ChartTypesContainer.toggleClass('settings-hidden', !isChart);
+            this.SparkTypesContainer.toggleClass('settings-hidden', isChart);
+            this.SparkPointsContainer.toggleClass('settings-hidden', isChart);
         },
 
         onWidthChange: function(field, newValue, oldValue, eOpts){
@@ -393,6 +657,7 @@ define([
                     (new SSE.Views.ChartSettingsDlg(
                         {
                             chartSettings: props,
+                            isChart: me.isChart,
                             api: me.api,
                             handler: function(result, value) {
                                 if (result == 'ok') {
@@ -503,6 +768,60 @@ define([
             }
         },
 
+        onSelectSparkType: function(btn, picker, itemView, record) {
+            if (this._noApply) return;
+        },
+
+        onSelectSparkStyle: function(btn, picker, itemView, record) {
+            if (this._noApply) return;
+        },
+
+        onBorderSizeSelect: function(combo, record) {
+            
+        },
+
+        onColorsSparkSelect: function(picker, color) {
+            this.btnSparkColor.setColor(color);
+            this.fireEvent('editcomplete', this);
+        },
+
+        addNewColor: function(picker, btn) {
+            picker.addNewColor((typeof(btn.color) == 'object') ? btn.color.color : btn.color);
+        },
+
+        onCheckPointChange: function(type, field, newValue, oldValue, eOpts) {
+            if (this.api)   {
+                switch (type) {
+                    case 0:
+//                        look.put_FirstRow(field.getValue()=='checked');
+                        break;
+                    case 1:
+//                        look.put_LastRow(field.getValue()=='checked');
+                        break;
+                    case 2:
+//                        look.put_BandHor(field.getValue()=='checked');
+                        break;
+                    case 3:
+//                        look.put_FirstCol(field.getValue()=='checked');
+                        break;
+                    case 4:
+//                        look.put_LastCol(field.getValue()=='checked');
+                        break;
+                    case 5:
+//                        look.put_BandVer(field.getValue()=='checked');
+                        break;
+                }
+            }
+            this.fireEvent('editcomplete', this);
+        },
+
+        onColorsPointSelect: function(type, btn, check, picker, color) {
+            btn.setColor(color);
+            if (check.getValue() !== 'checked')
+                check.setValue(true, true);
+            this.fireEvent('editcomplete', this);
+        },
+        
         setLocked: function (locked) {
             this._locked = locked;
         },
@@ -521,7 +840,7 @@ define([
         textSize:       'Size',
         textWidth:      'Width',
         textHeight:     'Height',
-        textEditData: 'Edit Data',
+        textEditData: 'Edit Data and Location',
         textChartType: 'Change Chart Type',
         textLine:           'Line Chart',
         textColumn:         'Column Chart',
@@ -531,7 +850,20 @@ define([
         textPoint:          'XY (Scatter) Chart',
         textStock:          'Stock Chart',
         textStyle:          'Style',
-        textAdvanced:       'Show advanced settings'
+        textAdvanced:       'Show advanced settings',
+        strSparkType:       'Sparkline Type',
+        strSparkColor:      'Sparkline Color',
+        strLineWeight:      'Line Weight',
+        textMarkers:        'Markers',
+        textNewColor: 'Add New Custom Color',
+        textLineSpark:      'Line',
+        textColumnSpark:    'Column',
+        textWinLossSpark:   'Win/Loss',
+        textHighPoint: 'High Point',
+        textLowPoint: 'Low Point',
+        textNegativePoint: 'Negative Point',
+        textFirstPoint: 'First Point',
+        textLastPoint: 'Last Point'
 
     }, SSE.Views.ChartSettings || {}));
 });

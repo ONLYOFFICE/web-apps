@@ -201,7 +201,8 @@ define([
             toolbar.btnTextOrient.menu.on('item:click',                 _.bind(this.onTextOrientationMenu, this));
             toolbar.btnInsertImage.menu.on('item:click',                _.bind(this.onInsertImageMenu, this));
             toolbar.btnInsertHyperlink.on('click',                      _.bind(this.onHyperlink, this));
-            toolbar.btnInsertChart.on('click',                          _.bind(this.onInsertChart, this));
+            if (toolbar.mnuInsertChartPicker) toolbar.mnuInsertChartPicker.on('item:click', _.bind(this.onSelectChart, this));
+            if (toolbar.mnuInsertSparkPicker) toolbar.mnuInsertSparkPicker.on('item:click', _.bind(this.onSelectSpark, this));
             toolbar.btnEditChart.on('click',                            _.bind(this.onInsertChart, this));
             toolbar.btnInsertText.on('click',                           _.bind(this.onBtnInsertTextClick, this));
             toolbar.btnInsertText.menu.on('item:click',                 _.bind(this.onInsertTextClick, this));
@@ -748,6 +749,7 @@ define([
                         (new SSE.Views.ChartSettingsDlg(
                             {
                                 chartSettings: props,
+                                isChart: true,
                                 api: me.api,
                                 handler: function(result, value) {
                                     if (result == 'ok') {
@@ -761,6 +763,49 @@ define([
                     }
                 }
             }
+        },
+
+        onSelectChart: function(picker, item, record, e) {
+            if (!this.editMode) return;
+            var me = this, info = me.api.asc_getCellInfo();
+            if (info.asc_getFlags().asc_getSelectionType()!=Asc.c_oAscSelectionType.RangeImage) {
+                var win, props;
+                if (me.api){
+                    var ischartedit = ( info.asc_getFlags().asc_getSelectionType() == Asc.c_oAscSelectionType.RangeChart || info.asc_getFlags().asc_getSelectionType() == Asc.c_oAscSelectionType.RangeChartText);
+                    if (ischartedit) {
+                    } else {
+                        props = me.api.asc_getChartObject();
+                        if (props) {
+                            props.putType(record.get('type'));
+                            me.api.asc_addChartDrawingObject(props);
+                        }
+                    }
+                }
+            }
+            if (e.type !== 'click')
+                me.toolbar.btnInsertChart.menu.hide();
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onSelectSpark: function(picker, item, record, e) {
+            if (!this.editMode) return;
+            var me = this, info = me.api.asc_getCellInfo();
+            if (info.asc_getFlags().asc_getSelectionType()!=Asc.c_oAscSelectionType.RangeImage) {
+                var win, props;
+                if (me.api){
+                    var ischartedit = ( info.asc_getFlags().asc_getSelectionType() == Asc.c_oAscSelectionType.RangeChart || info.asc_getFlags().asc_getSelectionType() == Asc.c_oAscSelectionType.RangeChartText);
+                    if (!ischartedit) {
+                        props = me.api.asc_getChartObject();
+                        if (props) {
+                            props.putType(record.get('type'));
+                            me.api.asc_addChartDrawingObject(props);
+                        }
+                    }
+                }
+            }
+            if (e.type !== 'click')
+                me.toolbar.btnInsertChart.menu.hide();
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
         onBtnInsertTextClick: function(btn, e) {

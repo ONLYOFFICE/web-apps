@@ -61,7 +61,9 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                     {panelId: 'id-chart-settings-dlg-style',        panelCaption: this.textTypeData},
                     {panelId: 'id-chart-settings-dlg-layout',       panelCaption: this.textLayout},
                     {panelId: 'id-chart-settings-dlg-vert',         panelCaption: this.textVertAxis},
-                    {panelId: 'id-chart-settings-dlg-hor',          panelCaption: this.textHorAxis}
+                    {panelId: 'id-chart-settings-dlg-hor',          panelCaption: this.textHorAxis},
+                    {panelId: 'id-spark-settings-dlg-style',        panelCaption: this.textTypeData},
+                    {panelId: 'id-spark-settings-dlg-axis',         panelCaption: this.textAxisOptions}
                 ],
                 contentTemplate: _.template(contentTemplate)({
                     scope: this
@@ -86,11 +88,13 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
 
             this.api = this.options.api;
             this.chartSettings = this.options.chartSettings;
+            this.isChart       = this.options.isChart;
             this.vertAxisProps = null;
             this.horAxisProps = null;
             this.currentAxisProps = null;
             this.dataRangeValid = '';
             this.currentChartType = this._state.ChartType;
+            this.storageName = (this.isChart) ? 'sse-chart-settings-adv-category' : 'sse-spark-settings-adv-category';
         },
 
         render: function() {
@@ -799,6 +803,212 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
 
             this.btnsCategory[2].on('click', _.bind(this.onVCategoryClick, this));
             this.btnsCategory[3].on('click', _.bind(this.onHCategoryClick, this));
+
+            // Sparklines
+            this.btnSparkType = new Common.UI.Button({
+                cls         : 'btn-large-dataview',
+                iconCls     : 'item-chartlist spark-column',
+                menu        : new Common.UI.Menu({
+                    style: 'width: 210px;',
+                    additionalAlign: menuAddAlign,
+                    items: [
+                        { template: _.template('<div id="id-spark-dlg-menu-type" class="menu-insertchart"  style="margin: 5px 5px 5px 10px;"></div>') }
+                    ]
+                })
+            });
+            this.btnSparkType.on('render:after', function(btn) {
+                me.mnuSparkTypePicker = new Common.UI.DataView({
+                    el: $('#id-spark-dlg-menu-type'),
+                    parentMenu: btn.menu,
+                    restoreHeight: 200,
+                    groups: new Common.UI.DataViewGroupStore([
+                        { id: 'menu-chart-group-sparkcolumn', caption: me.textColumnSpark },
+                        { id: 'menu-chart-group-sparkline',   caption: me.textLineSpark },
+                        { id: 'menu-chart-group-sparkwin',    caption: me.textWinLossSpark }
+                    ]),
+                    store: new Common.UI.DataViewStore([
+                        { group: 'menu-chart-group-sparkcolumn',   type: Asc.ESparklineType.Column,    allowSelected: true, iconCls: 'spark-column', selected: true},
+                        { group: 'menu-chart-group-sparkline',     type: Asc.ESparklineType.Line,      allowSelected: true, iconCls: 'spark-line'},
+                        { group: 'menu-chart-group-sparkwin',      type: Asc.ESparklineType.Stacked,   allowSelected: true, iconCls: 'spark-win'}
+                    ]),
+                    itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist <%= iconCls %>"></div>')
+                });
+            });
+            this.btnSparkType.render($('#spark-dlg-button-type'));
+            this.mnuSparkTypePicker.on('item:click', _.bind(this.onSelectSparkType, this, this.btnSparkType));
+
+            this.btnSparkStyle = new Common.UI.Button({
+                cls         : 'btn-large-dataview',
+                iconCls     : 'item-wrap',
+                menu        : new Common.UI.Menu({
+                    additionalAlign: menuAddAlign,
+                    items: [
+                        { template: _.template('<div id="id-spark-dlg-menu-style" style="width: 245px; margin: 0 5px;"></div>') }
+                    ]
+                })
+            });
+            this.btnSparkStyle.on('render:after', function(btn) {
+                me.mnuSparkStylePicker = new Common.UI.DataView({
+                    el: $('#id-spark-dlg-menu-style'),
+                    parentMenu: btn.menu,
+                    style: 'max-height: 411px;',
+                    store: new Common.UI.DataViewStore(),
+                    itemTemplate: _.template('<div id="<%= id %>" class="item-wrap" style="background-image: url(<%= imageUrl %>); background-position: 0 0;"></div>')
+                });
+
+                if (me.btnSparkStyle.menu) {
+                    me.btnSparkStyle.menu.on('show:after', function () {
+                        me.mnuSparkStylePicker.scroller.update({alwaysVisibleY: true});
+                    });
+                }
+            });
+            this.btnSparkStyle.render($('#spark-dlg-button-style'));
+//            this.mnuSparkStylePicker.on('item:click', _.bind(this.onSelectSparkStyle, this, this.btnSparkStyle));
+
+            this.radioGroup = new Common.UI.RadioBox({
+                el: $('#spark-dlg-radio-group'),
+                labelText: this.textGroup,
+                name: 'asc-radio-sparkline',
+                checked: true
+            });
+
+            this.radioSingle = new Common.UI.RadioBox({
+                el: $('#spark-dlg-radio-single'),
+                labelText: this.textSingle,
+                name: 'asc-radio-sparkline'
+            });
+
+            this.txtSparkDataRange = new Common.UI.InputField({
+                el          : $('#spark-dlg-txt-range'),
+                name        : 'range',
+                style       : 'width: 100%;',
+                allowBlank  : true,
+                blankError  : this.txtEmpty,
+                validateOnChange: true
+            });
+
+            this.btnSelectSparkData = new Common.UI.Button({
+                el: $('#spark-dlg-btn-data')
+            });
+//            this.btnSelectSparkData.on('click', _.bind(this.onSelectData, this));
+
+            this.txtSparkDataLocation = new Common.UI.InputField({
+                el          : $('#spark-dlg-txt-location'),
+                name        : 'range',
+                style       : 'width: 100%;',
+                allowBlank  : true,
+                blankError  : this.txtEmpty,
+                validateOnChange: true
+            });
+
+            this.btnSelectLocationData = new Common.UI.Button({
+                el: $('#spark-dlg-btn-data')
+            });
+//            this.btnSelectLocationData.on('click', _.bind(this.onSelectData, this));
+            
+            this.cmbEmptyCells = new Common.UI.ComboBox({
+                el          : $('#spark-dlg-combo-empty'),
+                menuStyle   : 'min-width: 188px;',
+                editable    : false,
+                cls         : 'input-group-nr',
+                data        : [
+                    { value: 0, displayValue: this.textGaps },
+                    { value: 1, displayValue: this.textZero },
+                    { value: 2, displayValue: this.textEmptyLine }
+                ]
+            });
+
+            this.chShowEmpty = new Common.UI.CheckBox({
+                el: $('#spark-dlg-check-show-data'),
+                labelText: this.textShowData
+            });
+
+            // Sparkline axis
+
+            this.chShowAxis = new Common.UI.CheckBox({
+                el: $('#spark-dlg-check-show'),
+                labelText: this.textShowSparkAxis
+            });
+
+            this.chReverse = new Common.UI.CheckBox({
+                el: $('#spark-dlg-check-reverse'),
+                labelText: this.textReverseOrder
+            });
+
+            this.cmbSparkMinType = new Common.UI.ComboBox({
+                el          : $('#spark-dlg-combo-mintype'),
+                cls         : 'input-group-nr',
+                menuStyle   : 'min-width: 100px;',
+                editable    : false,
+                data        : [
+                    {displayValue: this.textAutoEach, value: Asc.c_oAscValAxisRule.auto},
+                    {displayValue: this.textSameAll, value: Asc.c_oAscValAxisRule.auto},
+                    {displayValue: this.textFixed, value: Asc.c_oAscValAxisRule.fixed}
+                ]
+            }).on('selected', _.bind(function(combo, record) {
+//                if (this.currentAxisProps) {
+//                    this.currentAxisProps.putMinValRule(record.value);
+//                    if (record.value==Asc.c_oAscValAxisRule.auto) {
+//                        this.spnSparkMinValue.setValue(this._originalAxisVValues.minAuto, true);
+//                    }
+//                }
+            }, this));
+
+            this.spnSparkMinValue = new Common.UI.MetricSpinner({
+                el          : $('#spark-dlg-input-min-value'),
+                maxValue    : 1000000,
+                minValue    : -1000000,
+                step        : 0.1,
+                defaultUnit : "",
+                defaultValue : 0,
+                value       : ''
+            }).on('change', _.bind(function(field, newValue, oldValue) {
+//                this.cmbSparkMinType.suspendEvents();
+//                this.cmbSparkMinType.setValue(Asc.c_oAscValAxisRule.fixed);
+//                this.cmbSparkMinType.resumeEvents();
+//                if (this.currentAxisProps) {
+//                    this.currentAxisProps.putMinValRule(Asc.c_oAscValAxisRule.fixed);
+//                    this.currentAxisProps.putMinVal(field.getNumberValue());
+//                }
+            }, this));
+
+            this.cmbSparkMaxType = new Common.UI.ComboBox({
+                el          : $('#spark-dlg-combo-maxtype'),
+                cls         : 'input-group-nr',
+                menuStyle   : 'min-width: 100px;',
+                editable    : false,
+                data        : [
+                    {displayValue: this.textAutoEach, value: Asc.c_oAscValAxisRule.auto},
+                    {displayValue: this.textSameAll, value: Asc.c_oAscValAxisRule.auto},
+                    {displayValue: this.textFixed, value: Asc.c_oAscValAxisRule.fixed}
+                ]
+            }).on('selected', _.bind(function(combo, record) {
+//                if (this.currentAxisProps) {
+//                    this.currentAxisProps.putMaxValRule(record.value);
+//                    if (record.value==Asc.c_oAscValAxisRule.auto) {
+//                        this.spnMaxValue.setValue(this._originalAxisVValues.maxAuto, true);
+//                    }
+//                }
+            }, this));
+
+            this.spnSparkMaxValue = new Common.UI.MetricSpinner({
+                el          : $('#spark-dlg-input-max-value'),
+                maxValue    : 1000000,
+                minValue    : -1000000,
+                step        : 0.1,
+                defaultUnit : "",
+                defaultValue : 0,
+                value       : ''
+            }).on('change', _.bind(function(field, newValue, oldValue) {
+//                this.cmbSparkMaxType.suspendEvents();
+//                this.cmbSparkMaxType.setValue(Asc.c_oAscValAxisRule.fixed);
+//                this.cmbSparkMaxType.resumeEvents();
+//                if (this.currentAxisProps) {
+//                    this.currentAxisProps.putMaxValRule(Asc.c_oAscValAxisRule.fixed);
+//                    this.currentAxisProps.putMaxVal(field.getNumberValue());
+//                }
+            }, this));
+
             this.afterRender();
         },
 
@@ -808,6 +1018,19 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 this.updateChartStyles(this.api.asc_getChartPreviews(this._state.ChartType));
 
             this._setDefaults(this.chartSettings);
+
+            this.setTitle((this.isChart) ? this.textTitle : this.textTitleSparkline);
+
+            if (this.isChart) {
+                this.btnsCategory[4].setVisible(false);
+                this.btnsCategory[5].setVisible(false);
+            } else {
+                this.btnsCategory[0].setVisible(false);
+                this.btnsCategory[1].setVisible(false);
+                this.btnsCategory[2].setVisible(false);
+                this.btnsCategory[3].setVisible(false);
+            }
+
             if (this.storageName) {
                 var value = Common.localStorage.getItem(this.storageName);
                 this.setActiveCategory((value!==null) ? parseInt(value) : 0);
@@ -1074,73 +1297,99 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
             }
         },
 
+        onSelectSparkType: function(btn, picker, itemView, record) {
+            if (this._noApply) return;
+
+            var rawData = {},
+                isPickerSelect = _.isFunction(record.toJSON);
+
+            if (isPickerSelect){
+                if (record.get('selected')) {
+                    rawData = record.toJSON();
+                } else {
+                    // record deselected
+                    return;
+                }
+            } else {
+                rawData = record;
+            }
+
+            this.btnSparkType.setIconCls('item-chartlist ' + rawData.iconCls);
+//            this.updateSparkStyles(this.api.asc_getSparkPreviews(rawData.type));
+//            this.chartSettings.changeType(rawData.type);
+//            this.updateAxisProps(rawData.type, true);
+        },
+
         _setDefaults: function(props) {
             var me = this;
             if (props ){
                 this.chartSettings = props;
+                if (this.isChart) {
+                    this._state.ChartType = props.getType();
 
-                this._state.ChartType = props.getType();
+                    this._noApply = true;
 
-                this._noApply = true;
+                    // Layout
 
-                // Layout
+                    var record = this.mnuChartTypePicker.store.findWhere({type: this._state.ChartType});
+                    this.mnuChartTypePicker.selectRecord(record, true);
+                    if (record) {
+                        this.btnChartType.setIconCls('item-chartlist ' + record.get('iconCls'));
+                    }
+                    this.updateChartStyles(this.api.asc_getChartPreviews(this._state.ChartType));
 
-                var record = this.mnuChartTypePicker.store.findWhere({type: this._state.ChartType});
-                this.mnuChartTypePicker.selectRecord(record, true);
-                if (record) {
-                    this.btnChartType.setIconCls('item-chartlist ' + record.get('iconCls'));
-                }
-                this.updateChartStyles(this.api.asc_getChartPreviews(this._state.ChartType));
+                    this._noApply = false;
 
-                this._noApply = false;
-
-                this._state.ChartStyle = props.getStyle();
-                record = this.mnuChartStylePicker.store.findWhere({data: this._state.ChartStyle});
-                this.mnuChartStylePicker.selectRecord(record, true);
-                if (record) {
-                    var btnIconEl = this.btnChartStyle.cmpEl.find('span.btn-icon');
-                    btnIconEl.css('background-image', 'url(' + record.get('imageUrl') + ')');
-                }
-
-                var value = props.getRange();
-                this.txtDataRange.setValue((value) ? value : '');
-                this.dataRangeValid = value;
-
-                this.txtDataRange.validation = function(value) {
-                    if (_.isEmpty(value)) {
-                        if (!me.cmbDataDirect.isDisabled()) me.cmbDataDirect.setDisabled(true);
-                        return true;
+                    this._state.ChartStyle = props.getStyle();
+                    record = this.mnuChartStylePicker.store.findWhere({data: this._state.ChartStyle});
+                    this.mnuChartStylePicker.selectRecord(record, true);
+                    if (record) {
+                        var btnIconEl = this.btnChartStyle.cmpEl.find('span.btn-icon');
+                        btnIconEl.css('background-image', 'url(' + record.get('imageUrl') + ')');
                     }
 
-                    if (me.cmbDataDirect.isDisabled()) me.cmbDataDirect.setDisabled(false);
+                    var value = props.getRange();
+                    this.txtDataRange.setValue((value) ? value : '');
+                    this.dataRangeValid = value;
 
-                    var isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, value, false);
-                    return (isvalid==Asc.c_oAscError.ID.DataRangeError) ? me.textInvalidRange : true;
-                };
+                    this.txtDataRange.validation = function(value) {
+                        if (_.isEmpty(value)) {
+                            if (!me.cmbDataDirect.isDisabled()) me.cmbDataDirect.setDisabled(true);
+                            return true;
+                        }
 
-                this.cmbDataDirect.setDisabled(value===null);
-                this.cmbDataDirect.setValue(props.getInColumns() ? 1 : 0);
+                        if (me.cmbDataDirect.isDisabled()) me.cmbDataDirect.setDisabled(false);
 
-                this.cmbChartTitle.setValue(props.getTitle());
-                this.cmbLegendPos.setValue(props.getLegendPos());
+                        var isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, value, false);
+                        return (isvalid==Asc.c_oAscError.ID.DataRangeError) ? me.textInvalidRange : true;
+                    };
 
-                this.updateDataLabels(this._state.ChartType, props.getDataLabelsPos());
+                    this.cmbDataDirect.setDisabled(value===null);
+                    this.cmbDataDirect.setValue(props.getInColumns() ? 1 : 0);
 
-                this.chSeriesName.setValue(this.chartSettings.getShowSerName(), true);
-                this.chCategoryName.setValue(this.chartSettings.getShowCatName(), true);
-                this.chValue.setValue(this.chartSettings.getShowVal(), true);
+                    this.cmbChartTitle.setValue(props.getTitle());
+                    this.cmbLegendPos.setValue(props.getLegendPos());
 
-                value = props.getSeparator();
-                this.txtSeparator.setValue((value) ? value : '');
+                    this.updateDataLabels(this._state.ChartType, props.getDataLabelsPos());
 
-                // Vertical Axis
-                this.vertAxisProps = props.getVertAxisProps();
+                    this.chSeriesName.setValue(this.chartSettings.getShowSerName(), true);
+                    this.chCategoryName.setValue(this.chartSettings.getShowCatName(), true);
+                    this.chValue.setValue(this.chartSettings.getShowVal(), true);
 
-                // Horizontal Axis
-                this.horAxisProps = props.getHorAxisProps();
+                    value = props.getSeparator();
+                    this.txtSeparator.setValue((value) ? value : '');
 
-                this.updateAxisProps(this._state.ChartType);
-                this.currentChartType = this._state.ChartType;
+                    // Vertical Axis
+                    this.vertAxisProps = props.getVertAxisProps();
+
+                    // Horizontal Axis
+                    this.horAxisProps = props.getHorAxisProps();
+
+                    this.updateAxisProps(this._state.ChartType);
+                    this.currentChartType = this._state.ChartType;
+                } else { // sparkline
+
+                }
             }
         },
 
@@ -1376,6 +1625,24 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
         textRight: 'Right',
         textTop: 'Top',
         textBottom: 'Bottom',
-        textFit: 'Fit Width'
+        textFit: 'Fit Width',
+        textSparkRanges: 'Sparkline Ranges',
+        textLocationRange: 'Location Range',
+        textEmptyCells: 'Hidden and Empty cells',
+        textShowEmptyCells: 'Show empty cells as',
+        textShowData: 'Show data in hidden rows and columns',
+        textGroup: 'Group Sparkline',
+        textSingle: 'Single Sparkline',
+        textGaps: 'Gaps',
+        textZero: 'Zero',
+        textEmptyLine: 'Connect data points with line',
+        textLineSpark:      'Line',
+        textColumnSpark:    'Column',
+        textWinLossSpark:   'Win/Loss',
+        textShowSparkAxis: 'Show Axis',
+        textReverseOrder: 'Reverse order',
+        textAutoEach: 'Auto for Each',
+        textSameAll: 'Same for All',
+        textTitleSparkline: 'Sparkline - Advanced Settings'
 }, SSE.Views.ChartSettingsDlg || {}));
 });
