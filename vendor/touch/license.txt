@@ -1,4 +1,4 @@
-Sencha Touch - JavaScript Library
+Sencha Touch & Sencha Touch Charts - JavaScript Libraries
 Copyright (c) 2010-2015, Sencha, Inc.
 All rights reserved.
 licensing@sencha.com
@@ -6,23 +6,43 @@ licensing@sencha.com
 http://www.sencha.com/products/touch/license.php
 
 
-Commercial License
+Open Source License
 ------------------------------------------------------------------------------------------
-This version of Sencha Touch is licensed commercially.
+This version of Sencha Touch and Sencha Touch Charts is licensed under the terms of the Open
+Source GPL 3.0 license.
+
+http://www.gnu.org/licenses/gpl.html
+
+There are several FLOSS exceptions available for use with this release for
+open source applications that are distributed under a license other than the GPL.
+
+* Open Source License Exception for Applications
+
+  http://www.sencha.com/products/floss-exception.php
+
+* Open Source License Exception for Development
+
+  http://www.sencha.com/products/ux-exception.php
+
+
+Alternate Licensing for Sencha Touch
+------------------------------------------------------------------------------------------
+Commercial and OEM Licenses are available for an alternate download of Sencha Touch.
 This is the appropriate option if you are creating proprietary applications and you are
 not prepared to distribute and share the source code of your application under the
 GPL v3 license. Please visit http://www.sencha.com/store/touch/license.php for more details.
 
 
-OEM / Reseller License
+Alternate Licensing for Sencha Touch Charts
 ------------------------------------------------------------------------------------------
-For more details, please visit: http://www.sencha.com/products/touch/license.php
+Commercial and OEM Licenses are available for an alternate download of Sencha Touch Charts.
+This is the appropriate option if you are creating proprietary applications and you are
+not prepared to distribute and share the source code of your application under the
+GPL v3 license.
 
-
-Open Source Licensing
-------------------------------------------------------------------------------------------
-Open Source Licensing is available for an alternate download of Sencha Touch.
-For more details, please visit http://www.sencha.com/store/touch/license.php for more details.
+Sencha Touch Charts is available commercially only as a part of Sencha Complete or Sencha
+Complete Team.  Please visit http://www.sencha.com/products/complete/license or
+http://www.sencha.com/products/complete-team/license for more details.
 
 
 Third Party Content
