@@ -189,6 +189,22 @@
       <!--twitter button-->
 
       <script>
+         var  userAgent = navigator.userAgent.toLowerCase(),
+              check = function(regex){ return regex.test(userAgent); };
+         if (!check(/opera/) && (check(/msie/) || check(/trident/))) {
+              var m = /msie (\d+\.\d+)/.exec(userAgent);
+              if (m && parseFloat(m[1]) < 9.0) {
+                  document.write(
+                      '<div id="id-error-mask" class="errormask">',
+                          '<div class="error-body" align="center">',
+                              '<div id="id-error-mask-title" class="title">Your browser is not supported.</div>',
+                              '<div id="id-error-mask-text">Sorry, ONLYOFFICE Document is currently only supported in the latest versions of the Chrome, Firefox, Safari or Internet Explorer web browsers.</div>',
+                          '</div>',
+                      '</div>'
+                  );
+              }
+         }
+
         function getUrlParams() {
             var e,
                 a = /\+/g,  // Regex for replacing addition symbol with a space
