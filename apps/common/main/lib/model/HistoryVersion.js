@@ -65,7 +65,8 @@ define([
                 docId: '',
                 docIdPrev: '',
                 arrColors: [], // array of user colors for all changes of current version
-                markedAsVersion: false
+                markedAsVersion: false,
+                canRestore: false
             }
         }
     });

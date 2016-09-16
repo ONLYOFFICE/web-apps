@@ -87,7 +87,18 @@ define([
             historyView.btnBackToDocument.on('click', _.bind(this.onClickBackToDocument, this));
         },
 
-        onSelectRevision: function(picker, item, record) {
+        onSelectRevision: function(picker, item, record, e) {
+            if (e) {
+                var btn = $(e.target);
+                if (btn && btn.hasClass('revision-restore')) {
+                    Common.Gateway.requestRestore(record.get('revision'));
+                    return;
+                }
+            }
+
+            if (!picker && record)
+                this.panelHistory.viewHistoryList.scrollToRecord(record);
+
             var url         = record.get('url'),
                 rev         = record.get('revision'),
                 urlGetTime  = new Date();

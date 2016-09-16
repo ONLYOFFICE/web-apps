@@ -162,6 +162,13 @@ Common.Gateway = new(function() {
             });
         },
 
+        requestRestore: function(revision) {
+            _postMessage({
+                event: 'onRequestRestore',
+                data: revision
+            });
+        },
+
         requestEmailAddresses: function() {
             _postMessage({ event: 'onRequestEmailAddresses' });
         },
