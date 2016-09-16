@@ -87,6 +87,24 @@ Ext.define('DE.controller.toolbar.View', {
     launch: function() {
         this.callParent(arguments);
 
+        if (Ext.os.is.iOS) {
+            Ext.each(Ext.ComponentQuery.query('button'), function(button) {
+                button.element.dom.ontouchstart = Ext.emptyFn();
+                button.element.dom.ontouchmove = Ext.emptyFn();
+                button.element.dom.ontouchend = Ext.emptyFn();
+            }, this);
+
+            Ext.each(Ext.ComponentQuery.query('toolbar'), function(toolbar) {
+                var preventFn = function(e){
+                    e.preventDefault();
+                };
+
+                toolbar.element.dom.ontouchstart = preventFn;
+                toolbar.element.dom.ontouchmove = preventFn;
+                toolbar.element.dom.ontouchend = preventFn;
+            }, this);
+        }
+
         Common.Gateway.on('init',           Ext.bind(this.loadConfig, this));
         Common.Gateway.on('opendocument',   Ext.bind(this.loadDocument, this));
         Common.Gateway.on('applyeditrights',Ext.bind(this.onApplyEditRights, this));
