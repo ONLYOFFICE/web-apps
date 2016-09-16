@@ -258,6 +258,8 @@ Ext.define('DE.controller.toolbar.Edit', {
 
     onTapSave: function() {
         this.api && this.api.asc_Save();
+        this.getSaveButton().setDisabled(true);
+
         Common.component.Analytics.trackEvent('ToolBar', 'Save');
     },
 
