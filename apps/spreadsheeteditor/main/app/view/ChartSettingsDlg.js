@@ -827,9 +827,9 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                         { id: 'menu-chart-group-sparkwin',    caption: me.textWinLossSpark }
                     ]),
                     store: new Common.UI.DataViewStore([
-                        { group: 'menu-chart-group-sparkcolumn',   type: Asc.ESparklineType.Column,    allowSelected: true, iconCls: 'spark-column', selected: true},
-                        { group: 'menu-chart-group-sparkline',     type: Asc.ESparklineType.Line,      allowSelected: true, iconCls: 'spark-line'},
-                        { group: 'menu-chart-group-sparkwin',      type: Asc.ESparklineType.Stacked,   allowSelected: true, iconCls: 'spark-win'}
+                        { group: 'menu-chart-group-sparkcolumn',   type: Asc.c_oAscSparklineType.Column,    allowSelected: true, iconCls: 'spark-column', selected: true},
+                        { group: 'menu-chart-group-sparkline',     type: Asc.c_oAscSparklineType.Line,      allowSelected: true, iconCls: 'spark-line'},
+                        { group: 'menu-chart-group-sparkwin',      type: Asc.c_oAscSparklineType.Stacked,   allowSelected: true, iconCls: 'spark-win'}
                     ]),
                     itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist <%= iconCls %>"></div>')
                 });

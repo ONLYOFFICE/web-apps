@@ -789,17 +789,15 @@ define([
 
         onSelectSpark: function(picker, item, record, e) {
             if (!this.editMode) return;
-            var me = this, info = me.api.asc_getCellInfo();
-            if (info.asc_getFlags().asc_getSelectionType()!=Asc.c_oAscSelectionType.RangeImage) {
-                var win, props;
+            var me = this, info = me.api.asc_getCellInfo(), type = info.asc_getFlags().asc_getSelectionType();
+            if (type==Asc.c_oAscSelectionType.RangeCells || type==Asc.c_oAscSelectionType.RangeCol ||
+                type==Asc.c_oAscSelectionType.RangeRow || type==Asc.c_oAscSelectionType.RangeMax) {
+                var props;
                 if (me.api){
-                    var ischartedit = ( info.asc_getFlags().asc_getSelectionType() == Asc.c_oAscSelectionType.RangeChart || info.asc_getFlags().asc_getSelectionType() == Asc.c_oAscSelectionType.RangeChartText);
-                    if (!ischartedit) {
-                        props = me.api.asc_getChartObject();
-                        if (props) {
-                            props.putType(record.get('type'));
-                            me.api.asc_addChartDrawingObject(props);
-                        }
+                    props = me.api.asc_getChartObject();
+                    if (props) {
+                        props.putType(record.get('type'));
+                        me.api.asc_addChartDrawingObject(props);
                     }
                 }
             }
