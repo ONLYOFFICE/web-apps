@@ -166,6 +166,7 @@ Ext.define('DE.controller.toolbar.Edit', {
             this.api.asc_registerCallback('asc_onCanUndo',                  Ext.bind(this.onApiCanUndo, this));
             this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',    Ext.bind(this.onCoAuthoringDisconnect, this));
             this.api.asc_registerCallback('asc_onDocumentModifiedChanged',  Ext.bind(this.onApiDocumentModified, this));
+            this.api.asc_registerCallback('asc_onDocumentCanSaveChanged',   Ext.bind(this.onApiDocumentCanSaveChanged, this));
         }
     },
 
@@ -199,7 +200,7 @@ Ext.define('DE.controller.toolbar.Edit', {
     },
 
     onApiDocumentModified: function() {
-        var isModified = this.api.isDocumentModified();
+        var isModified = this.api.asc_isDocumentCanSave();
         if (this.isDocModified !== isModified) {
             if (this.getSaveButton()) {
                 this.getSaveButton().setDisabled(!isModified);
@@ -207,6 +208,12 @@ Ext.define('DE.controller.toolbar.Edit', {
 
             Common.Gateway.setDocumentModified(isModified);
             this.isDocModified = isModified;
+        }
+    },
+
+    onApiDocumentCanSaveChanged: function (isCanSave) {
+        if (this.getSaveButton()) {
+            this.getSaveButton().setDisabled(!isCanSave);
         }
     },
 

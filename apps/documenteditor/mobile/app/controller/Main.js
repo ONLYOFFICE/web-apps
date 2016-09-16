@@ -209,6 +209,7 @@ Ext.define('DE.controller.Main', {
 
     onLongActionEnd: function(type) {
         Ext.Viewport.unmask();
+        Common.Gateway.setDocumentModified(this.api.isDocumentModified());
     },
 
     onError: function(id, level, errData) {
