@@ -162,11 +162,13 @@ Common.Gateway = new(function() {
             });
         },
 
-        requestRestore: function(revision, url) {
+        requestRestore: function(version, url) {
             _postMessage({
                 event: 'onRequestRestore',
-                data: revision,
-                url: url
+                data: {
+                    version: version,
+                    url: url
+                }
             });
         },
 
