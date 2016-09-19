@@ -72,6 +72,7 @@ define([
 
         setApi: function(api) {
             this.api = api;
+            this.api.asc_registerCallback('asc_onDownloadUrl', _.bind(this.onDownloadUrl, this));
             return this;
         },
 
@@ -87,11 +88,22 @@ define([
             historyView.btnBackToDocument.on('click', _.bind(this.onClickBackToDocument, this));
         },
 
+        onDownloadUrl: function(url) {
+            if (this.isFromSelectRevision !== undefined)
+                Common.Gateway.requestRestore(this.isFromSelectRevision, url);
+            this.isFromSelectRevision = undefined;
+        },
+
         onSelectRevision: function(picker, item, record, e) {
             if (e) {
                 var btn = $(e.target);
                 if (btn && btn.hasClass('revision-restore')) {
-                    Common.Gateway.requestRestore(record.get('revision'));
+                    if (record.get('isRevision'))
+                        Common.Gateway.requestRestore(record.get('revision'));
+                    else {
+                        this.isFromSelectRevision = record.get('revision');
+                        this.api.asc_DownloadAs(Asc.c_oAscFileType.DOCX, true);
+                    }
                     return;
                 }
             }

@@ -324,6 +324,7 @@ define([
             },
 
             onDownloadAs: function() {
+                this._state.isFromGatewayDownloadAs = true;
                 var type = /^(?:(pdf|djvu|xps))$/.exec(this.document.fileType);
                 (type && typeof type[1] === 'string') ? this.api.asc_DownloadOrigin(true) : this.api.asc_DownloadAs(Asc.c_oAscFileType.DOCX, true);
             },
@@ -443,7 +444,9 @@ define([
                                             created: change.created,
                                             docId: version.key,
                                             docIdPrev: docIdPrev,
-                                            selected: false
+                                            selected: false,
+                                            canRestore: this.appOptions.canHistoryRestore,
+                                            isRevision: false
                                         }));
                                         arrColors.push(user.get('colorval'));
                                     }
@@ -1425,7 +1428,9 @@ define([
             },
 
             onDownloadUrl: function(url) {
-                Common.Gateway.downloadAs(url);
+                if (this._state.isFromGatewayDownloadAs)
+                    Common.Gateway.downloadAs(url);
+                this._state.isFromGatewayDownloadAs = false;
             },
 
             onUpdateVersion: function(callback) {
