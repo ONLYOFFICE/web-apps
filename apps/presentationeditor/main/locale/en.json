@@ -80,6 +80,7 @@
   "Common.Views.ExternalDiagramEditor.textTitle": "Chart Editor",
   "Common.Views.Header.openNewTabText": "Open in New Tab",
   "Common.Views.Header.textBack": "Go to Documents",
+  "Common.Views.Header.txtHeaderDeveloper": "DEVELOPER MODE",
   "Common.Views.ImageFromUrlDialog.cancelButtonText": "Cancel",
   "Common.Views.ImageFromUrlDialog.okButtonText": "OK",
   "Common.Views.ImageFromUrlDialog.textUrl": "Paste an image URL:",

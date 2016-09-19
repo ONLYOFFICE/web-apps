@@ -759,9 +759,10 @@ define([
                     this.appOptions.canChat        = this.appOptions.canLicense && !this.appOptions.isOffline && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.chat===false);
 
                     this.appOptions.canBranding  = params.asc_getCanBranding() && (typeof this.editorConfig.customization == 'object');
-                    if (this.appOptions.canBranding) {
+                    if (this.appOptions.canBranding)
                         this.headerView.setBranding(this.editorConfig.customization);
-                    }
+
+                    params.asc_getTrial() && this.headerView.setDeveloperMode(true);
                 }
 
                 this.appOptions.canRequestEditRights = this.editorConfig.canRequestEditRights;

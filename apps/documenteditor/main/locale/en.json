@@ -141,6 +141,7 @@
   "Common.Views.ExternalMergeEditor.textTitle": "Mail Merge Recipients",
   "Common.Views.Header.openNewTabText": "Open in New Tab",
   "Common.Views.Header.textBack": "Go to Documents",
+  "Common.Views.Header.txtHeaderDeveloper": "DEVELOPER MODE",
   "Common.Views.History.textHistoryHeader": "Back to Document",
   "Common.Views.ImageFromUrlDialog.cancelButtonText": "Cancel",
   "Common.Views.ImageFromUrlDialog.okButtonText": "OK",
