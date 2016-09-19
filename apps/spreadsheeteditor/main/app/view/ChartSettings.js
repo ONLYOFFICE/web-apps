@@ -74,7 +74,15 @@ define([
                 ChartType: -1,
                 SeveralCharts: false,
                 DisabledControls: false,
-                keepRatio: false
+                keepRatio: false,
+                SparkType: -1,
+                LineWeight: this._pt2mm(1),
+                MarkersPoint: false,
+                HighPoint: false,
+                LowPoint: false,
+                FirstPoint: false,
+                LastPoint: false,
+                NegativePoint: false
             };
             this._nRatio = 1;
             this.spinners = [];
@@ -239,7 +247,6 @@ define([
                 me.mnuSparkTypePicker = new Common.UI.DataView({
                     el: $('#id-spark-menu-type'),
                     parentMenu: btn.menu,
-                    showLast: false,
                     restoreHeight: 200,
                     allowScrollbar: false,
                     groups: new Common.UI.DataViewGroupStore([
@@ -445,6 +452,68 @@ define([
                     }
                 } else { //sparkline
                     this.isChart = false;
+
+                    var type = props.asc_getType();
+                    if (this._state.SparkType !== type) {
+                        var record = this.mnuSparkTypePicker.store.findWhere({type: type});
+                        this.mnuSparkTypePicker.selectRecord(record, true);
+                        if (record) {
+                            this.btnSparkType.setIconCls('item-chartlist ' + record.get('iconCls'));
+                        }
+//                        this.updateSparkStyles(this.api.asc_getChartPreviews(type));
+                        this._state.SparkType = type;
+                    }
+
+                    var w = props.asc_getLineWeight(),
+                        check_value = (Math.abs(this._state.LineWeight-w)<0.001) && !((new RegExp(this.txtPt + '\\s*$')).test(this.cmbBorderSize.getRawValue()));
+                    if ( Math.abs(this._state.LineWeight-w)>0.001 || check_value ||
+                        (this._state.LineWeight===null || w===null)&&(this._state.LineWeight!==w)) {
+                        this._state.LineWeight = w;
+
+                        if (w!==null) w = this._mm2pt(w);
+                        var _selectedItem = (w===null) ? w : _.find(this.cmbBorderSize.store.models, function(item) {
+                            if ( w<item.attributes.value+0.01 && w>item.attributes.value-0.01) {
+                                return true;
+                            }
+                        });
+                        if (_selectedItem)
+                            this.cmbBorderSize.selectRecord(_selectedItem);
+                        else {
+                            this.cmbBorderSize.setValue((w!==null) ? parseFloat(w.toFixed(2)) + ' ' + this.txtPt : '');
+                        }
+                        this.BorderSize = w;
+                    }
+
+                    var point = props.asc_getMarkersPoint();
+                    if ( this._state.MarkersPoint!==point ) {
+                        this.chMarkersPoint.setValue((point !== null && point !== undefined) ? point : 'indeterminate', true);
+                        this._state.MarkersPoint=point;
+                    }
+                    point = props.asc_getHighPoint();
+                    if ( this._state.HighPoint!==point ) {
+                        this.chHighPoint.setValue((point !== null && point !== undefined) ? point : 'indeterminate', true);
+                        this._state.HighPoint=point;
+                    }
+                    point = props.asc_getLowPoint();
+                    if ( this._state.LowPoint!==point ) {
+                        this.chLowPoint.setValue((point !== null && point !== undefined) ? point : 'indeterminate', true);
+                        this._state.LowPoint=point;
+                    }
+                    point = props.asc_getFirstPoint();
+                    if ( this._state.FirstPoint!==point ) {
+                        this.chFirstPoint.setValue((point !== null && point !== undefined) ? point : 'indeterminate', true);
+                        this._state.FirstPoint=point;
+                    }
+                    point = props.asc_getLastPoint();
+                    if ( this._state.LastPoint!==point ) {
+                        this.chLastPoint.setValue((point !== null && point !== undefined) ? point : 'indeterminate', true);
+                        this._state.LastPoint=point;
+                    }
+                    point = props.asc_getNegativePoint();
+                    if ( this._state.NegativePoint!==point ) {
+                        this.chNegativePoint.setValue((point !== null && point !== undefined) ? point : 'indeterminate', true);
+                        this._state.NegativePoint=point;
+                    }
                 }
             }
         },
@@ -834,6 +903,14 @@ define([
                 });
                 this.linkAdvanced.toggleClass('disabled', disable);
             }
+        },
+
+        _pt2mm: function(value) {
+            return (value * 25.4 / 72.0);
+        },
+
+        _mm2pt: function(value) {
+            return (value * 72.0 / 25.4);
         },
 
         textKeepRatio: 'Constant Proportions',
