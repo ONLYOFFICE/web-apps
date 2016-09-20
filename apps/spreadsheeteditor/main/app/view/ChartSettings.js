@@ -76,7 +76,7 @@ define([
                 DisabledControls: false,
                 keepRatio: false,
                 SparkType: -1,
-                LineWeight: this._pt2mm(1),
+                LineWeight: 1,
                 MarkersPoint: false,
                 HighPoint: false,
                 LowPoint: false,
@@ -458,6 +458,7 @@ define([
                         this._state.keepRatio=value;
                     }
                 } else { //sparkline
+                    this._originalProps = props;
                     this.isChart = false;
 
                     var type = props.asc_getType();
@@ -928,9 +929,8 @@ define([
             var me = this;
             var win, props;
             if (me.api){
-                props = me.api.asc_getChartObject();
+                props = (me.isChart) ? me.api.asc_getChartObject() : me._originalProps;
                 if (props) {
-
                     (new SSE.Views.ChartSettingsDlg(
                         {
                             chartSettings: props,
