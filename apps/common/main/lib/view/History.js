@@ -96,12 +96,28 @@ define([
                 el: $('#history-btn-back'),
                 enableToggle: false
             });
-            
+
+            var me = this;
+            var changetooltip = function (dataview, view, record) {
+                if (record.get('selected')) {
+                    var btns = $(view.el).find('.revision-restore').tooltip({title: me.textRestore, placement: 'cursor'});
+                    if (btns)
+                        view.btnTip = btns.data('bs.tooltip');
+                } else if (view.btnTip) {
+                    view.btnTip.dontShow = true;
+                    view.btnTip.tip().remove();
+                    view.btnTip = null;
+                }
+            };
+            this.viewHistoryList.on('item:add', changetooltip);
+            this.viewHistoryList.on('item:change', changetooltip);
+
             this.trigger('render:after', this);
             return this;
         },
 
-        textHistoryHeader: 'Back to Document'
+        textHistoryHeader: 'Back to Document',
+        textRestore: 'Restore'
         
     }, Common.Views.History || {}))
 });

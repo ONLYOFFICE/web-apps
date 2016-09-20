@@ -142,6 +142,7 @@
   "Common.Views.Header.openNewTabText": "Open in New Tab",
   "Common.Views.Header.textBack": "Go to Documents",
   "Common.Views.History.textHistoryHeader": "Back to Document",
+  "Common.Views.History.textRestore": "Restore",
   "Common.Views.ImageFromUrlDialog.cancelButtonText": "Cancel",
   "Common.Views.ImageFromUrlDialog.okButtonText": "OK",
   "Common.Views.ImageFromUrlDialog.textUrl": "Paste an image URL:",
