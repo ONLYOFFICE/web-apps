@@ -82,7 +82,14 @@ define([
                 LowPoint: false,
                 FirstPoint: false,
                 LastPoint: false,
-                NegativePoint: false
+                NegativePoint: false,
+                SparkColor: '000000',
+                MarkersColor: this.defColor,
+                HighColor: this.defColor,
+                LowColor: this.defColor,
+                FirstColor: this.defColor,
+                LastColor: this.defColor,
+                NegativeColor: this.defColor
             };
             this._nRatio = 1;
             this.spinners = [];
@@ -470,49 +477,250 @@ define([
                         (this._state.LineWeight===null || w===null)&&(this._state.LineWeight!==w)) {
                         this._state.LineWeight = w;
 
-                        if (w!==null) w = this._mm2pt(w);
                         var _selectedItem = (w===null) ? w : _.find(this.cmbBorderSize.store.models, function(item) {
                             if ( w<item.attributes.value+0.01 && w>item.attributes.value-0.01) {
                                 return true;
                             }
                         });
                         if (_selectedItem)
-                            this.cmbBorderSize.selectRecord(_selectedItem);
+                            this.cmbBorderSize.setValue(_selectedItem.get('value'));
                         else {
                             this.cmbBorderSize.setValue((w!==null) ? parseFloat(w.toFixed(2)) + ' ' + this.txtPt : '');
                         }
                         this.BorderSize = w;
                     }
 
+                    var color = props.asc_getColorSeries();
+                    if (color) {
+                        this.SparkColor = (color.asc_getType() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) ?
+                            {color: Common.Utils.ThemeColor.getHexColor(color.asc_getR(), color.asc_getG(), color.asc_getB()), effectValue: color.asc_getValue() } :
+                            Common.Utils.ThemeColor.getHexColor(color.asc_getR(), color.asc_getG(), color.asc_getB());
+
+                        var type1 = typeof(this.SparkColor),
+                            type2 = typeof(this._state.SparkColor);
+                        if ( (type1 !== type2) || (type1=='object' && (this.SparkColor.effectValue!==this._state.SparkColor.effectValue || this._state.SparkColor.color.indexOf(this.SparkColor.color)<0)) ||
+                            (type1!='object' && (this._state.SparkColor.indexOf(this.SparkColor)<0 || typeof(this.btnSparkColor.color)=='object'))) {
+
+                            this.btnSparkColor.setColor(this.SparkColor);
+                            if ( typeof(this.SparkColor) == 'object' ) {
+                                var isselected = false;
+                                for (var i=0; i<10; i++) {
+                                    if ( Common.Utils.ThemeColor.ThemeValues[i] == this.SparkColor.effectValue ) {
+                                        this.colorsSpark.select(this.SparkColor,true);
+                                        isselected = true;
+                                        break;
+                                    }
+                                }
+                                if (!isselected) this.colorsSpark.clearSelection();
+                            } else
+                                this.colorsSpark.select(this.SparkColor,true);
+
+                            this._state.SparkColor = this.SparkColor;
+                        }
+                    }
+
                     var point = props.asc_getMarkersPoint();
+                    color = props.asc_getColorMarkers();
                     if ( this._state.MarkersPoint!==point ) {
                         this.chMarkersPoint.setValue((point !== null && point !== undefined) ? point : 'indeterminate', true);
                         this._state.MarkersPoint=point;
                     }
+                    if (color) {
+                        this.MarkersColor = (color.asc_getType() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) ?
+                            {color: Common.Utils.ThemeColor.getHexColor(color.asc_getR(), color.asc_getG(), color.asc_getB()), effectValue: color.asc_getValue() } :
+                            Common.Utils.ThemeColor.getHexColor(color.asc_getR(), color.asc_getG(), color.asc_getB());
+
+                        var type1 = typeof(this.MarkersColor),
+                            type2 = typeof(this._state.MarkersColor);
+                        if ( (type1 !== type2) || (type1=='object' && (this.MarkersColor.effectValue!==this._state.MarkersColor.effectValue || this._state.MarkersColor.color.indexOf(this.MarkersColor.color)<0)) ||
+                            (type1!='object' && (this._state.MarkersColor.indexOf(this.MarkersColor)<0 || typeof(this.btnMarkersColor.color)=='object'))) {
+
+                            this.btnMarkersColor.setColor(this.MarkersColor);
+                            if ( typeof(this.MarkersColor) == 'object' ) {
+                                var isselected = false;
+                                for (var i=0; i<10; i++) {
+                                    if ( Common.Utils.ThemeColor.ThemeValues[i] == this.MarkersColor.effectValue ) {
+                                        this.colorsMarkers.select(this.MarkersColor,true);
+                                        isselected = true;
+                                        break;
+                                    }
+                                }
+                                if (!isselected) this.colorsMarkers.clearSelection();
+                            } else
+                                this.colorsMarkers.select(this.MarkersColor,true);
+
+                            this._state.MarkersColor = this.MarkersColor;
+                        }
+                    }
+
                     point = props.asc_getHighPoint();
+                    color = props.asc_getColorHigh();
                     if ( this._state.HighPoint!==point ) {
                         this.chHighPoint.setValue((point !== null && point !== undefined) ? point : 'indeterminate', true);
                         this._state.HighPoint=point;
                     }
+                    if (color) {
+                        this.HighColor = (color.asc_getType() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) ?
+                            {color: Common.Utils.ThemeColor.getHexColor(color.asc_getR(), color.asc_getG(), color.asc_getB()), effectValue: color.asc_getValue() } :
+                            Common.Utils.ThemeColor.getHexColor(color.asc_getR(), color.asc_getG(), color.asc_getB());
+
+                        var type1 = typeof(this.HighColor),
+                            type2 = typeof(this._state.HighColor);
+                        if ( (type1 !== type2) || (type1=='object' && (this.HighColor.effectValue!==this._state.HighColor.effectValue || this._state.HighColor.color.indexOf(this.HighColor.color)<0)) ||
+                            (type1!='object' && (this._state.HighColor.indexOf(this.HighColor)<0 || typeof(this.btnHighColor.color)=='object'))) {
+
+                            this.btnHighColor.setColor(this.HighColor);
+                            if ( typeof(this.HighColor) == 'object' ) {
+                                var isselected = false;
+                                for (var i=0; i<10; i++) {
+                                    if ( Common.Utils.ThemeColor.ThemeValues[i] == this.HighColor.effectValue ) {
+                                        this.colorsHigh.select(this.HighColor,true);
+                                        isselected = true;
+                                        break;
+                                    }
+                                }
+                                if (!isselected) this.colorsHigh.clearSelection();
+                            } else
+                                this.colorsHigh.select(this.HighColor,true);
+
+                            this._state.HighColor = this.HighColor;
+                        }
+                    }
+
                     point = props.asc_getLowPoint();
+                    color = props.asc_getColorLow();
                     if ( this._state.LowPoint!==point ) {
                         this.chLowPoint.setValue((point !== null && point !== undefined) ? point : 'indeterminate', true);
                         this._state.LowPoint=point;
                     }
+                    if (color) {
+                        this.LowColor = (color.asc_getType() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) ?
+                            {color: Common.Utils.ThemeColor.getHexColor(color.asc_getR(), color.asc_getG(), color.asc_getB()), effectValue: color.asc_getValue() } :
+                            Common.Utils.ThemeColor.getHexColor(color.asc_getR(), color.asc_getG(), color.asc_getB());
+
+                        var type1 = typeof(this.LowColor),
+                            type2 = typeof(this._state.LowColor);
+                        if ( (type1 !== type2) || (type1=='object' && (this.LowColor.effectValue!==this._state.LowColor.effectValue || this._state.LowColor.color.indexOf(this.LowColor.color)<0)) ||
+                            (type1!='object' && (this._state.LowColor.indexOf(this.LowColor)<0 || typeof(this.btnLowColor.color)=='object'))) {
+
+                            this.btnLowColor.setColor(this.LowColor);
+                            if ( typeof(this.LowColor) == 'object' ) {
+                                var isselected = false;
+                                for (var i=0; i<10; i++) {
+                                    if ( Common.Utils.ThemeColor.ThemeValues[i] == this.LowColor.effectValue ) {
+                                        this.colorsLow.select(this.LowColor,true);
+                                        isselected = true;
+                                        break;
+                                    }
+                                }
+                                if (!isselected) this.colorsLow.clearSelection();
+                            } else
+                                this.colorsLow.select(this.LowColor,true);
+
+                            this._state.LowColor = this.LowColor;
+                        }
+                    }
+
                     point = props.asc_getFirstPoint();
+                    color = props.asc_getColorFirst();
                     if ( this._state.FirstPoint!==point ) {
                         this.chFirstPoint.setValue((point !== null && point !== undefined) ? point : 'indeterminate', true);
                         this._state.FirstPoint=point;
                     }
+                    if (color) {
+                        this.FirstColor = (color.asc_getType() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) ?
+                            {color: Common.Utils.ThemeColor.getHexColor(color.asc_getR(), color.asc_getG(), color.asc_getB()), effectValue: color.asc_getValue() } :
+                            Common.Utils.ThemeColor.getHexColor(color.asc_getR(), color.asc_getG(), color.asc_getB());
+
+                        var type1 = typeof(this.FirstColor),
+                            type2 = typeof(this._state.FirstColor);
+                        if ( (type1 !== type2) || (type1=='object' && (this.FirstColor.effectValue!==this._state.FirstColor.effectValue || this._state.FirstColor.color.indexOf(this.FirstColor.color)<0)) ||
+                            (type1!='object' && (this._state.FirstColor.indexOf(this.FirstColor)<0 || typeof(this.btnFirstColor.color)=='object'))) {
+
+                            this.btnFirstColor.setColor(this.FirstColor);
+                            if ( typeof(this.FirstColor) == 'object' ) {
+                                var isselected = false;
+                                for (var i=0; i<10; i++) {
+                                    if ( Common.Utils.ThemeColor.ThemeValues[i] == this.FirstColor.effectValue ) {
+                                        this.colorsFirst.select(this.FirstColor,true);
+                                        isselected = true;
+                                        break;
+                                    }
+                                }
+                                if (!isselected) this.colorsFirst.clearSelection();
+                            } else
+                                this.colorsFirst.select(this.FirstColor,true);
+
+                            this._state.FirstColor = this.FirstColor;
+                        }
+                    }
+
                     point = props.asc_getLastPoint();
+                    color = props.asc_getColorLast();
                     if ( this._state.LastPoint!==point ) {
                         this.chLastPoint.setValue((point !== null && point !== undefined) ? point : 'indeterminate', true);
                         this._state.LastPoint=point;
                     }
+                    if (color) {
+                        this.LastColor = (color.asc_getType() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) ?
+                            {color: Common.Utils.ThemeColor.getHexColor(color.asc_getR(), color.asc_getG(), color.asc_getB()), effectValue: color.asc_getValue() } :
+                            Common.Utils.ThemeColor.getHexColor(color.asc_getR(), color.asc_getG(), color.asc_getB());
+
+                        var type1 = typeof(this.LastColor),
+                            type2 = typeof(this._state.LastColor);
+                        if ( (type1 !== type2) || (type1=='object' && (this.LastColor.effectValue!==this._state.LastColor.effectValue || this._state.LastColor.color.indexOf(this.LastColor.color)<0)) ||
+                            (type1!='object' && (this._state.LastColor.indexOf(this.LastColor)<0 || typeof(this.btnLastColor.color)=='object'))) {
+
+                            this.btnLastColor.setColor(this.LastColor);
+                            if ( typeof(this.LastColor) == 'object' ) {
+                                var isselected = false;
+                                for (var i=0; i<10; i++) {
+                                    if ( Common.Utils.ThemeColor.ThemeValues[i] == this.LastColor.effectValue ) {
+                                        this.colorsLast.select(this.LastColor,true);
+                                        isselected = true;
+                                        break;
+                                    }
+                                }
+                                if (!isselected) this.colorsLast.clearSelection();
+                            } else
+                                this.colorsLast.select(this.LastColor,true);
+
+                            this._state.LastColor = this.LastColor;
+                        }
+                    }
+
                     point = props.asc_getNegativePoint();
+                    color = props.asc_getColorNegative();
                     if ( this._state.NegativePoint!==point ) {
                         this.chNegativePoint.setValue((point !== null && point !== undefined) ? point : 'indeterminate', true);
                         this._state.NegativePoint=point;
+                    }
+                    if (color) {
+                        this.NegativeColor = (color.asc_getType() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) ?
+                            {color: Common.Utils.ThemeColor.getHexColor(color.asc_getR(), color.asc_getG(), color.asc_getB()), effectValue: color.asc_getValue() } :
+                            Common.Utils.ThemeColor.getHexColor(color.asc_getR(), color.asc_getG(), color.asc_getB());
+
+                        var type1 = typeof(this.NegativeColor),
+                            type2 = typeof(this._state.NegativeColor);
+                        if ( (type1 !== type2) || (type1=='object' && (this.NegativeColor.effectValue!==this._state.NegativeColor.effectValue || this._state.NegativeColor.color.indexOf(this.NegativeColor.color)<0)) ||
+                            (type1!='object' && (this._state.NegativeColor.indexOf(this.NegativeColor)<0 || typeof(this.btnNegativeColor.color)=='object'))) {
+
+                            this.btnNegativeColor.setColor(this.NegativeColor);
+                            if ( typeof(this.NegativeColor) == 'object' ) {
+                                var isselected = false;
+                                for (var i=0; i<10; i++) {
+                                    if ( Common.Utils.ThemeColor.ThemeValues[i] == this.NegativeColor.effectValue ) {
+                                        this.colorsNegative.select(this.NegativeColor,true);
+                                        isselected = true;
+                                        break;
+                                    }
+                                }
+                                if (!isselected) this.colorsNegative.clearSelection();
+                            } else
+                                this.colorsNegative.select(this.NegativeColor,true);
+
+                            this._state.NegativeColor = this.NegativeColor;
+                        }
                     }
                 }
             }
@@ -903,14 +1111,6 @@ define([
                 });
                 this.linkAdvanced.toggleClass('disabled', disable);
             }
-        },
-
-        _pt2mm: function(value) {
-            return (value * 25.4 / 72.0);
-        },
-
-        _mm2pt: function(value) {
-            return (value * 72.0 / 25.4);
         },
 
         textKeepRatio: 'Constant Proportions',
