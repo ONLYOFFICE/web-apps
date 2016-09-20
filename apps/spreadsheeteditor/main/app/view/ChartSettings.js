@@ -526,6 +526,8 @@ define([
                         this.chMarkersPoint.setValue((point !== null && point !== undefined) ? point : 'indeterminate', true);
                         this._state.MarkersPoint=point;
                     }
+                    this.chMarkersPoint.setDisabled(this._locked || this._state.SparkType!==Asc.c_oAscSparklineType.Line);
+
                     if (color) {
                         this.MarkersColor = (color.asc_getType() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) ?
                             {color: Common.Utils.ThemeColor.getHexColor(color.asc_getR(), color.asc_getG(), color.asc_getB()), effectValue: color.asc_getValue() } :

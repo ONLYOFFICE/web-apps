@@ -82,7 +82,8 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
 
             this._state = {
                 ChartStyle: 1,
-                ChartType: Asc.c_oAscChartTypeSettings.barNormal
+                ChartType: Asc.c_oAscChartTypeSettings.barNormal,
+                SparkType: -1
             };
             this._noApply = true;
 
@@ -827,7 +828,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                         { id: 'menu-chart-group-sparkwin',    caption: me.textWinLossSpark }
                     ]),
                     store: new Common.UI.DataViewStore([
-                        { group: 'menu-chart-group-sparkcolumn',   type: Asc.c_oAscSparklineType.Column,    allowSelected: true, iconCls: 'spark-column', selected: true},
+                        { group: 'menu-chart-group-sparkcolumn',   type: Asc.c_oAscSparklineType.Column,    allowSelected: true, iconCls: 'spark-column'},
                         { group: 'menu-chart-group-sparkline',     type: Asc.c_oAscSparklineType.Line,      allowSelected: true, iconCls: 'spark-line'},
                         { group: 'menu-chart-group-sparkwin',      type: Asc.c_oAscSparklineType.Stacked,   allowSelected: true, iconCls: 'spark-win'}
                     ]),
@@ -905,17 +906,17 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 el: $('#spark-dlg-btn-data')
             });
 //            this.btnSelectLocationData.on('click', _.bind(this.onSelectData, this));
-            
+
+            this._arrEmptyCells = [
+                { value: Asc.c_oAscEDispBlanksAs.Gap, displayValue: this.textGaps },
+                { value: Asc.c_oAscEDispBlanksAs.Zero, displayValue: this.textZero },
+                { value: Asc.c_oAscEDispBlanksAs.Span, displayValue: this.textEmptyLine }
+            ];
             this.cmbEmptyCells = new Common.UI.ComboBox({
                 el          : $('#spark-dlg-combo-empty'),
                 menuStyle   : 'min-width: 188px;',
                 editable    : false,
-                cls         : 'input-group-nr',
-                data        : [
-                    { value: 0, displayValue: this.textGaps },
-                    { value: 1, displayValue: this.textZero },
-                    { value: 2, displayValue: this.textEmptyLine }
-                ]
+                cls         : 'input-group-nr'
             });
 
             this.chShowEmpty = new Common.UI.CheckBox({
@@ -941,17 +942,14 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 menuStyle   : 'min-width: 100px;',
                 editable    : false,
                 data        : [
-                    {displayValue: this.textAutoEach, value: Asc.c_oAscValAxisRule.auto},
-                    {displayValue: this.textSameAll, value: Asc.c_oAscValAxisRule.auto},
-                    {displayValue: this.textFixed, value: Asc.c_oAscValAxisRule.fixed}
+                    {displayValue: this.textAutoEach, value: Asc.c_oAscSparklineAxisMinMax.Individual},
+                    {displayValue: this.textSameAll, value: Asc.c_oAscSparklineAxisMinMax.Group},
+                    {displayValue: this.textFixed, value: Asc.c_oAscSparklineAxisMinMax.Custom}
                 ]
             }).on('selected', _.bind(function(combo, record) {
-//                if (this.currentAxisProps) {
-//                    this.currentAxisProps.putMinValRule(record.value);
-//                    if (record.value==Asc.c_oAscValAxisRule.auto) {
-//                        this.spnSparkMinValue.setValue(this._originalAxisVValues.minAuto, true);
-//                    }
-//                }
+                this.spnSparkMinValue.setDisabled(record.value!==Asc.c_oAscSparklineAxisMinMax.Custom);
+//                if (record.value==Asc.c_oAscSparklineAxisMinMax.Custom)
+//                    this.spnSparkMinValue.setValue(this._originalAxisVValues.minAuto, true);
             }, this));
 
             this.spnSparkMinValue = new Common.UI.MetricSpinner({
@@ -978,17 +976,14 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 menuStyle   : 'min-width: 100px;',
                 editable    : false,
                 data        : [
-                    {displayValue: this.textAutoEach, value: Asc.c_oAscValAxisRule.auto},
-                    {displayValue: this.textSameAll, value: Asc.c_oAscValAxisRule.auto},
-                    {displayValue: this.textFixed, value: Asc.c_oAscValAxisRule.fixed}
+                    {displayValue: this.textAutoEach, value: Asc.c_oAscSparklineAxisMinMax.Individual},
+                    {displayValue: this.textSameAll, value: Asc.c_oAscSparklineAxisMinMax.Group},
+                    {displayValue: this.textFixed, value: Asc.c_oAscSparklineAxisMinMax.Custom}
                 ]
             }).on('selected', _.bind(function(combo, record) {
-//                if (this.currentAxisProps) {
-//                    this.currentAxisProps.putMaxValRule(record.value);
-//                    if (record.value==Asc.c_oAscValAxisRule.auto) {
-//                        this.spnMaxValue.setValue(this._originalAxisVValues.maxAuto, true);
-//                    }
-//                }
+                this.spnSparkMaxValue.setDisabled(record.value!==Asc.c_oAscSparklineAxisMinMax.Custom);
+//                    if (record.value==Asc.c_oAscSparklineAxisMinMax.Custom) {
+//                        this.spnSparkMaxValue.setValue(this._originalAxisVValues.maxAuto, true);
             }, this));
 
             this.spnSparkMaxValue = new Common.UI.MetricSpinner({
@@ -1388,7 +1383,26 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                     this.updateAxisProps(this._state.ChartType);
                     this.currentChartType = this._state.ChartType;
                 } else { // sparkline
+                    this._state.SparkType = props.asc_getType();
+                    var record = this.mnuSparkTypePicker.store.findWhere({type: this._state.SparkType});
+                    this.mnuSparkTypePicker.selectRecord(record, true);
+                    if (record)
+                        this.btnSparkType.setIconCls('item-chartlist ' + record.get('iconCls'));
+//                        this.updateSparkStyles(this.api.asc_getChartPreviews(this._state.SparkType));
 
+                    if (this._state.SparkType !== Asc.c_oAscSparklineType.Line)
+                        this._arrEmptyCells.pop();
+                    this.cmbEmptyCells.setData(this._arrEmptyCells);
+                    this.cmbEmptyCells.setValue(props.asc_getDisplayEmpty());
+
+                    this.chShowEmpty.setValue(props.asc_getDisplayHidden(), true);
+                    this.chShowAxis.setValue(props.asc_getDisplayXAxis(), true);
+                    this.chReverse.setValue(props.asc_getRightToLeft(), true);
+
+                    this.cmbSparkMinType.setValue(props.asc_getMinAxisType(), true);
+                    this.cmbSparkMaxType.setValue(props.asc_getMaxAxisType(), true);
+                    this.spnSparkMinValue.setDisabled(props.asc_getMinAxisType()!==Asc.c_oAscSparklineAxisMinMax.Custom);
+                    this.spnSparkMaxValue.setDisabled(props.asc_getMaxAxisType()!==Asc.c_oAscSparklineAxisMinMax.Custom);
                 }
             }
         },
