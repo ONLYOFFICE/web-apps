@@ -920,7 +920,6 @@ define([
                         var options = {};
                         JSON.parse(Common.localStorage.getItem('sse-hidden-title')) && (options.title = true);
                         JSON.parse(Common.localStorage.getItem('sse-hidden-formula')) && (options.formula = true);
-                        JSON.parse(Common.localStorage.getItem('sse-hidden-headings')) && (options.headings = true);
                         application.getController('Toolbar').hideElements(options);
                     } else
                         rightmenuController.getView('RightMenu').hide();
