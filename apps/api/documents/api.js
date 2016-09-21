@@ -216,6 +216,7 @@
         extend(_config, DocsAPI.DocEditor.defaultConfig);
         _config.editorConfig.canUseHistory = _config.events && !!_config.events.onRequestHistory;
         _config.editorConfig.canHistoryClose = _config.events && !!_config.events.onRequestHistoryClose;
+        _config.editorConfig.canHistoryRestore = _config.events && !!_config.events.onRequestRestore;
         _config.editorConfig.canSendEmailAddresses = _config.events && !!_config.events.onRequestEmailAddresses;
         _config.editorConfig.canRequestEditRights = _config.events && !!_config.events.onRequestEditRights;
 
