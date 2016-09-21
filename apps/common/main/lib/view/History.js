@@ -76,7 +76,7 @@ define([
                 store: this.storeHistory,
                 enableKeyEvents: false,
                 itemTemplate: _.template([
-                    '<div id="<%= id %>" class="history-item-wrap" style="display: block;">',
+                    '<div id="<%= id %>" class="history-item-wrap" style="display: block; ' + '<% if (!isRevision) { %>' + 'padding-left: 40px;' + '<% } %>' +'">',
                         '<div class="user-date"><%= created %></div>',
                         '<% if (markedAsVersion) { %>',
                         '<div class="user-version">ver.<%=version%></div>',
