@@ -197,7 +197,7 @@
                 b = (b.length === 1) ? '0' + b : b;
                 return ['#', r, g, b].join('');
             } else {
-                return 'rgba(' + [Math.round(this.r), Math.round(this.g), Math.round(this.b), this.a].join(',') + ')';
+                return 'rgba(' + [Math.round(this.r), Math.round(this.g), Math.round(this.b), this.a.toFixed(15)].join(',') + ')';
             }
         },
 
@@ -297,7 +297,6 @@
         });
         //</deprecated>
 
-        // TODO(zhangbei): do we have a better way to convert color names to rgb?
         this.addStatics({
             /**
              * Returns a flyweight instance of Ext.draw.Color.

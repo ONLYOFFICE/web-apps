@@ -104,15 +104,21 @@ define([
                 this.$window.find('.tool').hide();
                 this.$window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
                 if (this.type == Asc.c_oAscAdvancedOptionsID.DRM) {
-                    var me = this;
-                    me.inputPwd = new Common.UI.InputField({
+                    this.inputPwd = new Common.UI.InputField({
                         el: $('#id-password-txt'),
                         type: 'password',
                         allowBlank: false,
                         validateOnBlur: false
                     });
-                } else
+                    this.$window.find('input').on('keypress', _.bind(this.onKeyPress, this));
+                } else {
+                    var me = this;
                     this.initCodePages();
+                    this.onPrimary = function() {
+                        me.onBtnClick();
+                        return false;
+                    };
+                }
             }
         },
 
@@ -138,9 +144,9 @@ define([
             this.close();
         },
 
-        onPrimary: function() {
-            this.onBtnClick();
-            return false;
+        onKeyPress: function(event) {
+            if (event.keyCode == Common.UI.Keys.RETURN)
+                this.onBtnClick();
         },
 
         initCodePages: function () {

@@ -1,7 +1,4 @@
 /**
- * @class Ext.draw.engine.Canvas
- * @extends Ext.draw.Surface
- *
  * Provides specific methods to draw with 2D Canvas element.
  */
 Ext.define('Ext.draw.engine.Canvas', {
@@ -23,12 +20,16 @@ Ext.define('Ext.draw.engine.Canvas', {
 
     statics: {
         contextOverrides: {
+            /**
+             * @ignore
+             */
             setGradientBBox: function (bbox) {
                 this.bbox = bbox;
             },
 
             /**
              * Fills the subpaths of the current default path or the given path with the current fill style.
+             * @ignore
              */
             fill: function () {
                 var fillStyle = this.fillStyle,
@@ -41,7 +42,7 @@ Ext.define('Ext.draw.engine.Canvas', {
 
                 if (fillStyle !== rgba && fillStyle !== rgba0 && fillOpacity !== 0) {
                     if (fillGradient && bbox) {
-                        this.fillStyle = fillGradient.getGradient(this, bbox);
+                        this.fillStyle = fillGradient.generateGradient(this, bbox);
                     }
 
                     if (fillOpacity !== 1) {
@@ -60,8 +61,9 @@ Ext.define('Ext.draw.engine.Canvas', {
 
             /**
              * Strokes the subpaths of the current default path or the given path with the current stroke style.
+             * @ignore
              */
-            stroke: function (transformFillStroke) {
+            stroke: function () {
                 var strokeStyle = this.strokeStyle,
                     strokeGradient = this.strokeGradient,
                     strokeOpacity = this.strokeOpacity,
@@ -72,7 +74,7 @@ Ext.define('Ext.draw.engine.Canvas', {
 
                 if (strokeStyle !== rgba && strokeStyle !== rgba0 && strokeOpacity !== 0) {
                     if (strokeGradient && bbox) {
-                        this.strokeStyle = strokeGradient.getGradient(this, bbox);
+                        this.strokeStyle = strokeGradient.generateGradient(this, bbox);
                     }
 
                     if (strokeOpacity !== 1) {
@@ -89,6 +91,9 @@ Ext.define('Ext.draw.engine.Canvas', {
                 }
             },
 
+            /**
+             * @ignore
+             */
             fillStroke: function (attr, transformFillStroke) {
                 var ctx = this,
                     fillStyle = this.fillStyle,
@@ -120,15 +125,11 @@ Ext.define('Ext.draw.engine.Canvas', {
             },
 
             /**
-             * Adds points to the subpath such that the arc described by the circumference of the ellipse described by the arguments, starting at the given start angle and ending at the given end angle, going in the given direction (defaulting to clockwise), is added to the path, connected to the previous point by a straight line.
-             * @param cx
-             * @param cy
-             * @param rx
-             * @param ry
-             * @param rotation
-             * @param start
-             * @param end
-             * @param anticlockwise
+             * Adds points to the subpath such that the arc described by the circumference of the
+             * ellipse described by the arguments, starting at the given start angle and ending at
+             * the given end angle, going in the given direction (defaulting to clockwise), is added
+             * to the path, connected to the previous point by a straight line.
+             * @ignore
              */
             ellipse: function (cx, cy, rx, ry, rotation, start, end, anticlockwise) {
                 var cos = Math.cos(rotation),
@@ -143,7 +144,7 @@ Ext.define('Ext.draw.engine.Canvas', {
 
             /**
              * Uses the given path commands to begin a new path on the canvas.
-             * @param path
+             * @ignore
              */
             appendPath: function (path) {
                 var me = this,
@@ -173,7 +174,6 @@ Ext.define('Ext.draw.engine.Canvas', {
                         case "Z":
                             me.closePath();
                             break;
-                        default:
                     }
                 }
             }
@@ -210,15 +210,18 @@ Ext.define('Ext.draw.engine.Canvas', {
         var canvas = Ext.Element.create({
                 tag: 'canvas',
                 cls: 'x-surface'
-            }), name, overrides = Ext.draw.engine.Canvas.contextOverrides,
+            }),
+            overrides = Ext.draw.engine.Canvas.contextOverrides,
             ctx = canvas.dom.getContext('2d'),
             backingStoreRatio = ctx.webkitBackingStorePixelRatio ||
                 ctx.mozBackingStorePixelRatio ||
                 ctx.msBackingStorePixelRatio ||
                 ctx.oBackingStorePixelRatio ||
-                ctx.backingStorePixelRatio || 1;
+                ctx.backingStorePixelRatio || 1,
+            name;
 
-        this.devicePixelRatio /= backingStoreRatio;
+        // Windows Phone does not currently support backingStoreRatio
+        this.devicePixelRatio /= (Ext.os.is.WindowsPhone) ? window.innerWidth / window.screen.width : backingStoreRatio;
 
         if (ctx.ellipse) {
             delete overrides.ellipse;
@@ -322,14 +325,15 @@ Ext.define('Ext.draw.engine.Canvas', {
             comp = {},
             originalCtx = ctx.constructor.prototype;
 
+        /**
+         * @class CanvasRenderingContext2D
+         * @ignore
+         */
         var override = {
             /**
              * Adds a new closed subpath to the path, representing the given rectangle.
-             * @param x
-             * @param y
-             * @param w
-             * @param h
              * @return {*}
+             * @ignore
              */
             rect: function (x, y, w, h) {
                 return originalCtx.rect.call(this, x * xx + dx, y * yy + dy, w * xx, h * yy);
@@ -337,10 +341,7 @@ Ext.define('Ext.draw.engine.Canvas', {
 
             /**
              * Paints the given rectangle onto the canvas, using the current fill style.
-             * @param x
-             * @param y
-             * @param w
-             * @param h
+             * @ignore
              */
             fillRect: function (x, y, w, h) {
                 this.updatePrecisionCompensateRect();
@@ -350,10 +351,7 @@ Ext.define('Ext.draw.engine.Canvas', {
 
             /**
              * Paints the box that outlines the given rectangle onto the canvas, using the current stroke style.
-             * @param x
-             * @param y
-             * @param w
-             * @param h
+             * @ignore
              */
             strokeRect: function (x, y, w, h) {
                 this.updatePrecisionCompensateRect();
@@ -363,10 +361,7 @@ Ext.define('Ext.draw.engine.Canvas', {
 
             /**
              * Clears all pixels on the canvas in the given rectangle to transparent black.
-             * @param x
-             * @param y
-             * @param w
-             * @param h
+             * @ignore
              */
             clearRect: function (x, y, w, h) {
                 return originalCtx.clearRect.call(this, x * xx + dx, y * yy + dy, w * xx, h * yy);
@@ -374,8 +369,7 @@ Ext.define('Ext.draw.engine.Canvas', {
 
             /**
              * Creates a new subpath with the given point.
-             * @param x
-             * @param y
+             * @ignore
              */
             moveTo: function (x, y) {
                 return originalCtx.moveTo.call(this, x * xx + dx, y * yy + dy);
@@ -383,21 +377,18 @@ Ext.define('Ext.draw.engine.Canvas', {
 
             /**
              * Adds the given point to the current subpath, connected to the previous one by a straight line.
-             * @param x
-             * @param y
+             * @ignore
              */
             lineTo: function (x, y) {
                 return originalCtx.lineTo.call(this, x * xx + dx, y * yy + dy);
             },
 
             /**
-             * Adds points to the subpath such that the arc described by the circumference of the circle described by the arguments, starting at the given start angle and ending at the given end angle, going in the given direction (defaulting to clockwise), is added to the path, connected to the previous point by a straight line.
-             * @param x
-             * @param y
-             * @param radius
-             * @param startAngle
-             * @param endAngle
-             * @param anticlockwise
+             * Adds points to the subpath such that the arc described by the circumference of the
+             * circle described by the arguments, starting at the given start angle and ending at
+             * the given end angle, going in the given direction (defaulting to clockwise), is added
+             * to the path, connected to the previous point by a straight line.
+             * @ignore
              */
             arc: function (x, y, radius, startAngle, endAngle, anticlockwise) {
                 this.updatePrecisionCompensateRect();
@@ -406,14 +397,14 @@ Ext.define('Ext.draw.engine.Canvas', {
             },
 
             /**
-             * Adds an arc with the given control points and radius to the current subpath, connected to the previous point by a straight line.
-             * If two radii are provided, the first controls the width of the arc's ellipse, and the second controls the height. If only one is provided, or if they are the same, the arc is from a circle.
-             * In the case of an ellipse, the rotation argument controls the clockwise inclination of the ellipse relative to the x-axis.
-             * @param x1
-             * @param y1
-             * @param x2
-             * @param y2
-             * @param radius
+             * Adds an arc with the given control points and radius to the current subpath,
+             * connected to the previous point by a straight line.  If two radii are provided, the
+             * first controls the width of the arc's ellipse, and the second controls the height. If
+             * only one is provided, or if they are the same, the arc is from a circle.
+             *
+             * In the case of an ellipse, the rotation argument controls the clockwise inclination
+             * of the ellipse relative to the x-axis.
+             * @ignore
              */
             arcTo: function (x1, y1, x2, y2, radius) {
                 this.updatePrecisionCompensateRect();
@@ -423,6 +414,7 @@ Ext.define('Ext.draw.engine.Canvas', {
 
             /**
              * Pushes the context state to the state stack.
+             * @ignore
              */
             save: function () {
                 transStack.push(matrix);
@@ -432,12 +424,17 @@ Ext.define('Ext.draw.engine.Canvas', {
 
             /**
              * Pops the state stack and restores the state.
+             * @ignore
              */
             restore: function () {
                 matrix = transStack.pop();
                 originalCtx.restore.call(this);
                 this.updatePrecisionCompensate();
             },
+
+            /**
+             * @ignore
+             */
             updatePrecisionCompensate: function () {
                 matrix.precisionCompensate(surface.devicePixelRatio, comp);
                 xx = comp.xx;
@@ -446,6 +443,10 @@ Ext.define('Ext.draw.engine.Canvas', {
                 dy = comp.dy;
                 return originalCtx.setTransform.call(this, surface.devicePixelRatio, comp.b, comp.c, comp.d, 0, 0);
             },
+
+            /**
+             * @ignore
+             */
             updatePrecisionCompensateRect: function () {
                 matrix.precisionCompensateRect(surface.devicePixelRatio, comp);
                 xx = comp.xx;
@@ -457,12 +458,7 @@ Ext.define('Ext.draw.engine.Canvas', {
 
             /**
              * Changes the transformation matrix to the matrix given by the arguments as described below.
-             * @param x2x
-             * @param x2y
-             * @param y2x
-             * @param y2y
-             * @param newDx
-             * @param newDy
+             * @ignore
              */
             setTransform: function (x2x, x2y, y2x, y2y, newDx, newDy) {
                 matrix.set(x2x, x2y, y2x, y2y, newDx, newDy);
@@ -471,12 +467,7 @@ Ext.define('Ext.draw.engine.Canvas', {
 
             /**
              * Changes the transformation matrix to apply the matrix given by the arguments as described below.
-             * @param x2x
-             * @param x2y
-             * @param y2x
-             * @param y2y
-             * @param newDx
-             * @param newDy
+             * @ignore
              */
             transform: function (x2x, x2y, y2x, y2y, newDx, newDy) {
                 matrix.append(x2x, x2y, y2x, y2y, newDx, newDy);
@@ -485,9 +476,8 @@ Ext.define('Ext.draw.engine.Canvas', {
 
             /**
              * Scales the transformation matrix.
-             * @param sx
-             * @param sy
              * @return {*}
+             * @ignore
              */
             scale: function (sx, sy) {
                 return this.transform(sx, 0, 0, sy, 0, 0);
@@ -495,9 +485,8 @@ Ext.define('Ext.draw.engine.Canvas', {
 
             /**
              * Translates the transformation matrix.
-             * @param dx
-             * @param dy
              * @return {*}
+             * @ignore
              */
             translate: function (dx, dy) {
                 return this.transform(1, 0, 0, 1, dx, dy);
@@ -505,8 +494,8 @@ Ext.define('Ext.draw.engine.Canvas', {
 
             /**
              * Rotates the transformation matrix.
-             * @param radians
              * @return {*}
+             * @ignore
              */
             rotate: function (radians) {
                 var cos = Math.cos(radians),
@@ -515,12 +504,10 @@ Ext.define('Ext.draw.engine.Canvas', {
             },
 
             /**
-             * Adds the given point to the current subpath, connected to the previous one by a quadratic Bézier curve with the given control point.
-             * @param cx
-             * @param cy
-             * @param x
-             * @param y
+             * Adds the given point to the current subpath, connected to the previous one by a
+             * quadratic Bézier curve with the given control point.
              * @return {*}
+             * @ignore
              */
             quadraticCurveTo: function (cx, cy, x, y) {
                 return originalCtx.quadraticCurveTo.call(this,
@@ -532,14 +519,10 @@ Ext.define('Ext.draw.engine.Canvas', {
             },
 
             /**
-             * Adds the given point to the current subpath, connected to the previous one by a cubic Bézier curve with the given control points.
-             * @param c1x
-             * @param c1y
-             * @param c2x
-             * @param c2y
-             * @param x
-             * @param y
+             * Adds the given point to the current subpath, connected to the previous one by a cubic
+             * Bézier curve with the given control points.
              * @return {*}
+             * @ignore
              */
             bezierCurveTo: function (c1x, c1y, c2x, c2y, x, y) {
                 return originalCtx.bezierCurveTo.call(this,
@@ -553,12 +536,10 @@ Ext.define('Ext.draw.engine.Canvas', {
             },
 
             /**
-             * Returns an object that represents a linear gradient that paints along the line given by the coordinates represented by the arguments.
-             * @param x0
-             * @param y0
-             * @param x1
-             * @param y1
+             * Returns an object that represents a linear gradient that paints along the line given
+             * by the coordinates represented by the arguments.
              * @return {*}
+             * @ignore
              */
             createLinearGradient: function (x0, y0, x1, y1) {
                 this.updatePrecisionCompensateRect();
@@ -573,15 +554,11 @@ Ext.define('Ext.draw.engine.Canvas', {
             },
 
             /**
-             * Returns a CanvasGradient object that represents a radial gradient that paints along the cone given by the circles represented by the arguments.
-             * If either of the radii are negative, throws an IndexSizeError exception.
-             * @param x0
-             * @param y0
-             * @param r0
-             * @param x1
-             * @param y1
-             * @param r1
+             * Returns a CanvasGradient object that represents a radial gradient that paints along
+             * the cone given by the circles represented by the arguments.  If either of the radii
+             * are negative, throws an IndexSizeError exception.
              * @return {*}
+             * @ignore
              */
             createRadialGradient: function (x0, y0, r0, x1, y1, r1) {
                 this.updatePrecisionCompensateRect();
@@ -598,11 +575,9 @@ Ext.define('Ext.draw.engine.Canvas', {
             },
 
             /**
-             * Fills the given text at the given position. If a maximum width is provided, the text will be scaled to fit that width if necessary.
-             * @param text
-             * @param x
-             * @param y
-             * @param maxWidth
+             * Fills the given text at the given position. If a maximum width is provided, the text
+             * will be scaled to fit that width if necessary.
+             * @ignore
              */
             fillText: function (text, x, y, maxWidth) {
                 originalCtx.setTransform.apply(this, matrix.elements);
@@ -615,11 +590,10 @@ Ext.define('Ext.draw.engine.Canvas', {
             },
 
             /**
-             * Strokes the given text at the given position. If a maximum width is provided, the text will be scaled to fit that width if necessary.
-             * @param text
-             * @param x
-             * @param y
-             * @param maxWidth
+             * Strokes the given text at the given position. If a
+             * maximum width is provided, the text will be scaled to
+             * fit that width if necessary.
+             * @ignore
              */
             strokeText: function (text, x, y, maxWidth) {
                 originalCtx.setTransform.apply(this, matrix.elements);
@@ -633,6 +607,7 @@ Ext.define('Ext.draw.engine.Canvas', {
 
             /**
              * Fills the subpaths of the current default path or the given path with the current fill style.
+             * @ignore
              */
             fill: function () {
                 this.updatePrecisionCompensateRect();
@@ -642,6 +617,7 @@ Ext.define('Ext.draw.engine.Canvas', {
 
             /**
              * Strokes the subpaths of the current default path or the given path with the current stroke style.
+             * @ignore
              */
             stroke: function () {
                 this.updatePrecisionCompensateRect();
@@ -650,18 +626,13 @@ Ext.define('Ext.draw.engine.Canvas', {
             },
 
             /**
-             * Draws the given image onto the canvas.
-             * If the first argument isn't an img, canvas, or video element, throws a TypeMismatchError exception. If the image has no image data, throws an InvalidStateError exception. If the one of the source rectangle dimensions is zero, throws an IndexSizeError exception. If the image isn't yet fully decoded, then nothing is drawn.
-             * @param img_elem
-             * @param arg1
-             * @param arg2
-             * @param arg3
-             * @param arg4
-             * @param dst_x
-             * @param dst_y
-             * @param dw
-             * @param dh
+             * Draws the given image onto the canvas.  If the first argument isn't an img, canvas,
+             * or video element, throws a TypeMismatchError exception. If the image has no image
+             * data, throws an InvalidStateError exception. If the one of the source rectangle
+             * dimensions is zero, throws an IndexSizeError exception. If the image isn't yet fully
+             * decoded, then nothing is drawn.
              * @return {*}
+             * @ignore
              */
             drawImage: function (img_elem, arg1, arg2, arg3, arg4, dst_x, dst_y, dw, dh) {
                 switch (arguments.length) {
@@ -677,6 +648,9 @@ Ext.define('Ext.draw.engine.Canvas', {
         Ext.apply(ctx, override);
         this.setDirty(true);
     },
+
+    // Continue docs for the Canvas class
+    /** @class Ext.draw.engine.Canvas */
 
     updateRegion: function (region) {
         this.callSuper([region]);
@@ -788,9 +762,9 @@ Ext.define('Ext.draw.engine.Canvas', {
             try {
                 ctx.save();
                 // Set attributes to context.
-                sprite.useAttributes(ctx);
+                sprite.useAttributes(ctx, region);
                 // Render shape
-                if (false === sprite.render(me, ctx, [left, top, width, bottom - top])) {
+                if (false === sprite.render(me, ctx, [left, top, width, bottom - top], region)) {
                     return false;
                 }
             } finally {
@@ -814,23 +788,12 @@ Ext.define('Ext.draw.engine.Canvas', {
     clear: function () {
         var me = this,
             activeCanvases = this.activeCanvases,
-            i, canvas, ctx, width, height;
+            i, canvas, ctx;
         for (i = 0; i < activeCanvases; i++) {
             canvas = me.canvases[i].dom;
             ctx = me.contexts[i];
-            width = canvas.width;
-            height = canvas.height;
-            if (Ext.os.is.Android && !Ext.os.is.Android4) {
-                // TODO: Verify this is the proper check (Chrome)
-                // On chrome this is faster:
-                //noinspection SillyAssignmentJS
-                canvas.width = canvas.width;
-                // Fill the gap between surface defaults and canvas defaults
-                me.applyDefaults(ctx);
-            } else {
-                ctx.setTransform(1, 0, 0, 1, 0, 0);
-                ctx.clearRect(0, 0, width, height);
-            }
+            ctx.setTransform(1, 0, 0, 1, 0, 0);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
         }
         me.setDirty(true);
     },

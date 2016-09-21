@@ -324,6 +324,7 @@ define([
             },
 
             onDownloadAs: function() {
+                this._state.isFromGatewayDownloadAs = true;
                 var type = /^(?:(pdf|djvu|xps))$/.exec(this.document.fileType);
                 (type && typeof type[1] === 'string') ? this.api.asc_DownloadOrigin(true) : this.api.asc_DownloadAs(Asc.c_oAscFileType.DOCX, true);
             },
@@ -344,7 +345,13 @@ define([
             onRefreshHistory: function(opts) {
                 this.loadMask && this.loadMask.hide();
                 if (opts.data.error || !opts.data.history) {
-                    var config = {
+                    var historyStore = this.getApplication().getCollection('Common.Collections.HistoryVersions');
+                    if (historyStore && historyStore.size()>0) {
+                        historyStore.each(function(item){
+                            item.set('canRestore', false);
+                        });
+                    }
+                    Common.UI.alert({
                         closable: false,
                         title: this.notcriticalErrorTitle,
                         msg: (opts.data.error) ? opts.data.error : this.txtErrorLoadHistory,
@@ -353,8 +360,7 @@ define([
                         callback: _.bind(function(btn){
                             this.onEditComplete();
                         }, this)
-                    };
-                    Common.UI.alert(config);
+                    });
                 } else {
                     this.api.asc_coAuthoringDisconnect();
                     this.getApplication().getController('LeftMenu').getView('LeftMenu').showHistory();
@@ -393,7 +399,8 @@ define([
                                     created: version.created,
                                     docId: version.key,
                                     markedAsVersion: (group!==version.versionGroup),
-                                    selected: (opts.data.currentVersion == version.version)
+                                    selected: (opts.data.currentVersion == version.version),
+                                    canRestore: this.appOptions.canHistoryRestore
                                 }));
                                 if (opts.data.currentVersion == version.version) {
                                     currentVersion = arrVersions[arrVersions.length-1];
@@ -437,7 +444,9 @@ define([
                                             created: change.created,
                                             docId: version.key,
                                             docIdPrev: docIdPrev,
-                                            selected: false
+                                            selected: false,
+                                            canRestore: this.appOptions.canHistoryRestore,
+                                            isRevision: false
                                         }));
                                         arrColors.push(user.get('colorval'));
                                     }
@@ -453,7 +462,7 @@ define([
                             }
                             arrColors = [];
                         }
-                        historyStore[historyStore.size() > 0 ? 'add' : 'reset'](arrVersions);
+                        historyStore.reset(arrVersions);
                         if (currentVersion===null && historyStore.size()>0) {
                             currentVersion = historyStore.at(0);
                             currentVersion.set('selected', true);
@@ -948,8 +957,9 @@ define([
                                                  (!this.appOptions.isReviewOnly || this.appOptions.canLicense); // if isReviewOnly==true -> canLicense must be true
                 this.appOptions.isEdit         = this.appOptions.canLicense && this.appOptions.canEdit && this.editorConfig.mode !== 'view';
                 this.appOptions.canReview      = this.appOptions.canLicense && this.appOptions.isEdit && (this.permissions.review===true);
-                this.appOptions.canUseHistory  = this.appOptions.canLicense && !this.appOptions.isLightVersion && this.editorConfig.canUseHistory && (this.permissions.edit !== false) && this.appOptions.canCoAuthoring && !this.appOptions.isDesktopApp;
+                this.appOptions.canUseHistory  = this.appOptions.canLicense && !this.appOptions.isLightVersion && this.editorConfig.canUseHistory && this.appOptions.canCoAuthoring && !this.appOptions.isDesktopApp;
                 this.appOptions.canHistoryClose  = this.editorConfig.canHistoryClose;
+                this.appOptions.canHistoryRestore= this.editorConfig.canHistoryRestore && !!this.permissions.changeHistory;
                 this.appOptions.canUseMailMerge= this.appOptions.canLicense && this.appOptions.canEdit && !this.appOptions.isDesktopApp;
                 this.appOptions.canSendEmailAddresses  = this.appOptions.canLicense && this.editorConfig.canSendEmailAddresses && this.appOptions.canEdit && this.appOptions.canCoAuthoring;
                 this.appOptions.canComments    = this.appOptions.canLicense && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.comments===false);
@@ -964,13 +974,11 @@ define([
                 this._state.licenseWarning = (licType===Asc.c_oLicenseResult.Connections) && this.appOptions.canEdit && this.editorConfig.mode !== 'view';
 
                 this.appOptions.canBranding  = params.asc_getCanBranding() && (typeof this.editorConfig.customization == 'object');
-                if (this.appOptions.canBranding) {
-                    this.getApplication()
-                        .getController('Viewport')
-                        .getView('Common.Views.Header')
-                        .setBranding(this.editorConfig.customization);
-                }
+                if (this.appOptions.canBranding)
+                    this.getApplication().getController('Viewport').getView('Common.Views.Header').setBranding(this.editorConfig.customization);
 
+                params.asc_getTrial() && this.getApplication().getController('Viewport').getView('Common.Views.Header').setDeveloperMode(true);
+                
                 this.applyModeCommonElements();
                 this.applyModeEditorElements();
 
@@ -1418,7 +1426,9 @@ define([
             },
 
             onDownloadUrl: function(url) {
-                Common.Gateway.downloadAs(url);
+                if (this._state.isFromGatewayDownloadAs)
+                    Common.Gateway.downloadAs(url);
+                this._state.isFromGatewayDownloadAs = false;
             },
 
             onUpdateVersion: function(callback) {

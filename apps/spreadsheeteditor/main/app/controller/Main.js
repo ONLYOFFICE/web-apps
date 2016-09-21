@@ -760,9 +760,10 @@ define([
                     this.appOptions.canChat        = this.appOptions.canLicense && !this.appOptions.isOffline && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.chat===false);
 
                     this.appOptions.canBranding  = params.asc_getCanBranding() && (typeof this.editorConfig.customization == 'object');
-                    if (this.appOptions.canBranding) {
+                    if (this.appOptions.canBranding)
                         this.headerView.setBranding(this.editorConfig.customization);
-                    }
+
+                    params.asc_getTrial() && this.headerView.setDeveloperMode(true);
                 }
 
                 this.appOptions.canRequestEditRights = this.editorConfig.canRequestEditRights;
@@ -919,7 +920,6 @@ define([
                         var options = {};
                         JSON.parse(Common.localStorage.getItem('sse-hidden-title')) && (options.title = true);
                         JSON.parse(Common.localStorage.getItem('sse-hidden-formula')) && (options.formula = true);
-                        JSON.parse(Common.localStorage.getItem('sse-hidden-headings')) && (options.headings = true);
                         application.getController('Toolbar').hideElements(options);
                     } else
                         rightmenuController.getView('RightMenu').hide();

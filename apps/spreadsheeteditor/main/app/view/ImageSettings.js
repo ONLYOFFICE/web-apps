@@ -64,7 +64,6 @@ define([
         },
 
         initialize: function () {
-            var me = this;
             this._initSettings = true;
 
             this._nRatio = 1;
@@ -83,7 +82,33 @@ define([
             this._originalProps = null;
 
             this.render();
+        },
 
+        render: function () {
+            var el = $(this.el);
+            el.html(this.template({
+                scope: this
+            }));
+        },
+
+        setApi: function(api) {
+            if ( api == undefined ) return;
+            this.api = api;
+            return this;
+        },
+
+        updateMetricUnit: function() {
+            if (this.spinners) {
+                for (var i=0; i<this.spinners.length; i++) {
+                    var spinner = this.spinners[i];
+                    spinner.setDefaultUnit(Common.Utils.Metric.getCurrentMetricName());
+                    spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt ? 1 : 0.1);
+                }
+            }
+        },
+
+        createDelayedControls: function() {
+            var me = this;
             this.spnWidth = new Common.UI.MetricSpinner({
                 el: $('#image-spin-width'),
                 step: .1,
@@ -161,33 +186,12 @@ define([
                 Common.NotificationCenter.trigger('edit:complete', this);
             }, this));
             this.btnInsertFromUrl.on('click', _.bind(this.insertFromUrl, this));
-        },
 
-        render: function () {
-            var el = $(this.el);
-            el.html(this.template({
-                scope: this
-            }));
             this.lblReplace = $('#image-lbl-replace');
         },
 
-        setApi: function(api) {
-            if ( api == undefined ) return;
-            this.api = api;
-            return this;
-        },
-
-        updateMetricUnit: function() {
-            if (this.spinners) {
-                for (var i=0; i<this.spinners.length; i++) {
-                    var spinner = this.spinners[i];
-                    spinner.setDefaultUnit(Common.Utils.Metric.getCurrentMetricName());
-                    spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt ? 1 : 0.1);
-                }
-            }
-        },
-
         createDelayedElements: function() {
+            this.createDelayedControls();
             this.updateMetricUnit();
         },
 
@@ -326,6 +330,8 @@ define([
         },
 
         disableControls: function(disable) {
+            if (this._initSettings) return;
+            
             if (this._state.DisabledControls!==disable) {
                 this._state.DisabledControls = disable;
                 _.each(this.lockedControls, function(item) {

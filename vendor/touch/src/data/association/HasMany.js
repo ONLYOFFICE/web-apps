@@ -1,6 +1,4 @@
 /**
- * @aside guide models
- *
  * Represents a one-to-many relationship between two models. Usually created indirectly via a model definition:
  *
  *     Ext.define('Product', {
@@ -25,8 +23,6 @@
  *             hasMany: {model: 'Product', name: 'products'}
  *         }
  *     });
- *
- * `
  *
  * Above we created Product and User models, and linked them by saying that a User hasMany Products. This gives us a new
  * function on every User instance, in this case the function is called 'products' because that is the name we specified
@@ -101,6 +97,9 @@
  *             }
  *         ]
  *     });
+ *
+ * ###Further Reading
+ * [Sencha Touch Models and Associations](../../../core_concepts/data/models.html)
  */
 Ext.define('Ext.data.association.HasMany', {
     extend: 'Ext.data.association.Association',
@@ -260,6 +259,8 @@ Ext.define('Ext.data.association.HasMany', {
 
     /**
      * @private
+     * @deprecated as of v2.0.0 on an association. Instead use the store configuration.
+     *
      * Creates a function that returns an Ext.data.Store which is configured to load a set of data filtered
      * by the owner model's primary key - e.g. in a `hasMany` association where Group `hasMany` Users, this function
      * returns a Store configured to return the filtered set of a single Group's Users.
@@ -267,7 +268,6 @@ Ext.define('Ext.data.association.HasMany', {
      */
     applyStore: function(storeConfig) {
         var me = this,
-            association     = me,
             associatedModel = me.getAssociatedModel(),
             storeName       = me.getStoreName(),
             foreignKey      = me.getForeignKey(),
@@ -308,12 +308,13 @@ Ext.define('Ext.data.association.HasMany', {
                     filters      : [filter],
                     remoteFilter : true,
                     autoSync     : autoSync,
-                    modelDefaults: modelDefaults,
-                    listeners    : listeners
+                    modelDefaults: modelDefaults
                 });
 
                 store = record[storeName] = Ext.create('Ext.data.Store', config);
                 store.boundTo = record;
+
+                store.onAfter(listeners);
 
                 if (autoLoad) {
                     record[storeName].load();

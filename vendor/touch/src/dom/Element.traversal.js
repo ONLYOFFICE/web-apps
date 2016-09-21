@@ -33,7 +33,7 @@ Ext.dom.Element.addMembers({
 
     /**
      * Looks at this node and then at parent nodes for a match of the passed simple selector (e.g. 'div.some-class' or 'span:first-child')
-     * @param {String} selector The simple selector to test.
+     * @param {String} simpleSelector The simple selector to test.
      * @param {Number/String/HTMLElement/Ext.Element} maxDepth (optional)
      * The max depth to search as a number or element (defaults to `50 || document.body`)
      * @param {Boolean} returnEl (optional) `true` to return a Ext.Element object instead of DOM node.
@@ -62,7 +62,7 @@ Ext.dom.Element.addMembers({
 
     /**
      * Looks at parent nodes for a match of the passed simple selector (e.g. 'div.some-class' or 'span:first-child').
-     * @param {String} selector The simple selector to test.
+     * @param {String} simpleSelector The simple selector to test.
      * @param {Number/String/HTMLElement/Ext.Element} maxDepth (optional)
      * The max depth to search as a number or element (defaults to `10 || document.body`).
      * @param {Boolean} returnEl (optional) `true` to return a Ext.Element object instead of DOM node.
@@ -76,7 +76,7 @@ Ext.dom.Element.addMembers({
     /**
      * Walks up the dom looking for a parent node that matches the passed simple selector (e.g. 'div.some-class' or 'span:first-child').
      * This is a shortcut for `findParentNode()` that always returns an Ext.dom.Element.
-     * @param {String} selector The simple selector to test
+     * @param {String} simpleSelector The simple selector to test
      * @param {Number/String/HTMLElement/Ext.Element} maxDepth (optional)
      * The max depth to search as a number or element (defaults to `10 || document.body`).
      * @return {Ext.dom.Element/null} The matching DOM node (or `null` if no match was found).
@@ -85,8 +85,16 @@ Ext.dom.Element.addMembers({
         return this.findParentNode(simpleSelector, maxDepth, true);
     },
 
+    /**
+     * Selects elements based on the passed CSS selector to enable {@link Ext.Element Element} methods
+     * to be applied to many related elements in one statement through the returned. The element is the root of the search.
+     * {@link Ext.dom.CompositeElementLite CompositeElementLite} object.
+     * @param {String/HTMLElement[]} selector The CSS selector or an array of elements
+     * @param {Boolean} composite Return a CompositeElement as opposed to a CompositeElementLite. Defaults to false.
+     * @return {Ext.dom.CompositeElementLite/Ext.dom.CompositeElement}
+     */
     select: function(selector, composite) {
-        return Ext.dom.Element.select(selector, this.dom, composite);
+        return Ext.dom.Element.select(selector, composite, this.dom);
     },
 
     /**

@@ -1,10 +1,10 @@
 /**
  * @class Ext.chart.MarkerHolder
  * @extends Ext.mixin.Mixin
- * 
+ *
  * Mixin that provides the functionality to place markers.
  */
-Ext.define("Ext.chart.MarkerHolder", {
+Ext.define('Ext.chart.MarkerHolder', {
     extend: 'Ext.mixin.Mixin',
     mixinConfig: {
         id: 'markerHolder',
@@ -23,8 +23,8 @@ Ext.define("Ext.chart.MarkerHolder", {
 
     /**
      *
-     * @param name {String}
-     * @param marker {Ext.chart.Markers}
+     * @param {String} name
+     * @param {Ext.chart.Markers} marker
      */
     bindMarker: function (name, marker) {
         if (marker) {
@@ -75,11 +75,35 @@ Ext.define("Ext.chart.MarkerHolder", {
     },
 
     getMarkerBBox: function (name, index, isWithoutTransform) {
-        var boundMarkersItem, i, ln, id = this.getId();
+        var id = this.getId(),
+            left = Infinity,
+            right = -Infinity,
+            top = Infinity,
+            bottom = -Infinity,
+            bbox, boundMarker, i, ln;
+
         if (this.boundMarkers[name]) {
-            for (boundMarkersItem = this.boundMarkers[name], i = 0, ln = boundMarkersItem.length; i < ln; i++) {
-                return boundMarkersItem[i].getMarkerBBoxFor(id, index, isWithoutTransform);
+            for (boundMarker = this.boundMarkers[name], i = 0, ln = boundMarker.length; i < ln; i++) {
+                bbox = boundMarker[i].getMarkerBBoxFor(id, index, isWithoutTransform);
+                if (left > bbox.x) {
+                    left = bbox.x;
+                }
+                if (right < bbox.x + bbox.width) {
+                    right = bbox.x + bbox.width;
+                }
+                if (top > bbox.y) {
+                    top = bbox.y;
+                }
+                if (bottom < bbox.y + bbox.height) {
+                    bottom = bbox.y + bbox.height;
+                }
             }
         }
+        return {
+            x: left,
+            y: top,
+            width: right - left,
+            height: bottom - top
+        };
     }
 });

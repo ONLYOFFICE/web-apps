@@ -4,7 +4,7 @@
  *
  * 99% of the time all you need to use in this class is {@link #getScroller}.
  *
- * This should never should be extended.
+ * This should never be extended.
  */
 Ext.define('Ext.scroll.View', {
     extend: 'Ext.Evented',
@@ -173,8 +173,14 @@ Ext.define('Ext.scroll.View', {
     },
 
     updateElement: function(element) {
-        var scrollerElement = element.getFirstChild().getFirstChild(),
-            scroller = this.getScroller();
+        var scroller = this.getScroller(),
+            scrollerElement;
+
+
+        scrollerElement = element.getFirstChild().getFirstChild();
+        if (this.FixedHBoxStretching) {
+            scrollerElement = scrollerElement.getFirstChild();
+        }
 
         element.addCls(this.getCls());
         element.insertFirst(this.indicatorsGrid);

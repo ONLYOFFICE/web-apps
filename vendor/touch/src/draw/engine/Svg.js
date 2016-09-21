@@ -12,6 +12,13 @@ Ext.define('Ext.draw.engine.Svg', {
         BBoxTextCache: {}
     },
 
+    config: {
+        /**
+         * Nothing needs to be done in high precision mode.
+         */
+        highPrecision: false
+    },
+
     getElementConfig: function () {
         return {
             reference: 'element',
@@ -53,7 +60,7 @@ Ext.define('Ext.draw.engine.Svg', {
 
     /**
      * Creates a DOM element under the SVG namespace of the given type.
-     * @param type The type of the SVG DOM element.
+     * @param {String} type The type of the SVG DOM element.
      * @return {*} The created element.
      */
     createSvgNode: function (type) {
@@ -65,9 +72,9 @@ Ext.define('Ext.draw.engine.Svg', {
      * @private
      * Returns the SVG DOM element at the given position. If it does not already exist or is a different element tag
      * it will be created and inserted into the DOM.
-     * @param group The parent DOM element.
-     * @param tag The SVG element tag.
-     * @param position The position of the element in the DOM.
+     * @param {Ext.dom.Element} group The parent DOM element.
+     * @param {String} tag The SVG element tag.
+     * @param {Number} position The position of the element in the DOM.
      * @return {Ext.dom.Element} The SVG element.
      */
     getSvgElement: function (group, tag, position) {
@@ -94,8 +101,8 @@ Ext.define('Ext.draw.engine.Svg', {
     /**
      * @private
      * Applies attributes to the given element.
-     * @param element The DOM element to be applied.
-     * @param attributes The attributes to apply to the element.
+     * @param {Ext.dom.Element} element The DOM element to be applied.
+     * @param {Object} attributes The attributes to apply to the element.
      */
     setElementAttributes: function (element, attributes) {
         var dom = element.dom,
@@ -113,7 +120,7 @@ Ext.define('Ext.draw.engine.Svg', {
     /**
      * @private
      * Gets the next reference element under the SVG 'defs' tag.
-     * @param tagName The type of reference element.
+     * @param {String} tagName The type of reference element.
      * @return {Ext.dom.Element} The reference element.
      */
     getNextDef: function (tagName) {
@@ -149,10 +156,9 @@ Ext.define('Ext.draw.engine.Svg', {
             return;
         }
         try {
-            ctx.save();
+            sprite.element = ctx.save();
             sprite.preRender(this);
-            sprite.applyTransformations();
-            sprite.useAttributes(ctx);
+            sprite.useAttributes(ctx, region);
             if (false === sprite.render(this, ctx, [0, 0, region[2], region[3]])) {
                 return false;
             }
@@ -172,5 +178,18 @@ Ext.define('Ext.draw.engine.Svg', {
         delete me.mainGroup;
         delete me.ctx;
         me.callSuper(arguments);
+    },
+
+    remove: function (sprite, destroySprite) {
+        if (sprite && sprite.element) {
+            //if sprite has an associated svg element remove it from the surface
+            if (this.ctx) {
+                this.ctx.removeElement(sprite.element);
+            } else {
+                sprite.element.destroy();
+            }
+            sprite.element = null;
+        }
+        this.callSuper(arguments);
     }
 });

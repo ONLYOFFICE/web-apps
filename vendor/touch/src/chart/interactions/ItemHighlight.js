@@ -1,7 +1,7 @@
 /**
  * @class Ext.chart.interactions.ItemHighlight
  * @extends Ext.chart.interactions.Abstract
- * 
+ *
  * The ItemHighlight interaction allows the user to highlight series items in the chart.
  */
 Ext.define('Ext.chart.interactions.ItemHighlight', {
@@ -21,13 +21,14 @@ Ext.define('Ext.chart.interactions.ItemHighlight', {
 
     getGestures: function () {
         var gestures = {};
-        gestures.itemtap = 'onGesture';
-        gestures.tap = 'onFailedGesture';
+        gestures['item' + this.getGesture()] = 'onGesture';
+        gestures[this.getGesture()] = 'onFailedGesture';
         return gestures;
     },
 
     onGesture: function (series, item, e) {
         e.highlightItem = item;
+        return false;
     },
 
     onFailedGesture: function (e) {

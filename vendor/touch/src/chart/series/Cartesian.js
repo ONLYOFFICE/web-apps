@@ -11,18 +11,16 @@ Ext.define('Ext.chart.series.Cartesian', {
     extend: 'Ext.chart.series.Series',
     config: {
         /**
-         * The field used to access the x axis value from the items from the data
-         * source.
+         * The field used to access the x axis value from the items from the data source.
          *
          * @cfg {String} xField
          */
         xField: null,
 
         /**
-         * The field used to access the y-axis value from the items from the data
-         * source.
+         * The field(s) used to access the y-axis value(s) of the items from the data source.
          *
-         * @cfg {String} yField
+         * @cfg {String|String[]} yField
          */
         yField: null,
 
@@ -64,6 +62,9 @@ Ext.define('Ext.chart.series.Cartesian', {
                 store = me.getStore(),
                 item;
 
+            if(me.getHidden()) {
+                return null;
+            }
             if (sprite) {
                 var index = sprite.getIndexNearPoint(x, y);
                 if (index !== -1) {
@@ -84,7 +85,7 @@ Ext.define('Ext.chart.series.Cartesian', {
     createSprite: function () {
         var sprite = this.callSuper(),
             xAxis = this.getXAxis();
-        sprite.setFlipXY(this.getChart().getFlipXY());
+        sprite.setAttributes({flipXY: this.getChart().getFlipXY()});
         if (sprite.setAggregator && xAxis && xAxis.getAggregator) {
             if (xAxis.getAggregator) {
                 sprite.setAggregator({strategy: xAxis.getAggregator()});

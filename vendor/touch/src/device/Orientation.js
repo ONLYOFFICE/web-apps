@@ -3,7 +3,7 @@
  * device your application is running on.
  *
  * The {@link Ext.device.Orientation#orientationchange orientationchange} event gets passes the `alpha`, `beta` and
- * `gamma` values.
+ * `gamma` values. ** These properties only exist when packaging with the Sencha Native Packager. **
  *
  * You can find more information about these values and how to use them on the [W3C device orientation specification](http://dev.w3.org/geo/api/spec-source-orientation.html#deviceorientation).
  *
@@ -11,18 +11,18 @@
  *
  * To listen to the device orientation, you can do the following:
  *
-*     Ext.device.Orientation.on({
-*         scope: this,
-*         orientationchange: function(e) {
-*             console.log('Alpha: ', e.alpha);
-*             console.log('Beta: ', e.beta);
-*             console.log('Gamma: ', e.gamma);
-*         }
-*     });
+ *     Ext.device.Orientation.on({
+ *         scope: this,
+ *         orientationchange: function(e) {
+ *             console.log('Alpha: ', e.alpha);
+ *             console.log('Beta: ', e.beta);
+ *             console.log('Gamma: ', e.gamma);
+ *         }
+ *     });
+ *
+ * For more information regarding Native APIs, please review our [Native APIs guide](../../../packaging/native_apis.html).
  *
  * @mixins Ext.device.orientation.Abstract
- * 
- * @aside guide native_apis
  */
 Ext.define('Ext.device.Orientation', {
     singleton: true,
@@ -39,8 +39,7 @@ Ext.define('Ext.device.Orientation', {
         if (browserEnv.Sencha) {
             return Ext.create('Ext.device.orientation.Sencha');
         }
-        else {
-            return Ext.create('Ext.device.orientation.HTML5');
-        }
+
+        return Ext.create('Ext.device.orientation.HTML5');
     }
 });

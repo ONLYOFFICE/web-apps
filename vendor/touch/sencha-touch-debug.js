@@ -1,7 +1,7 @@
 /*
-This file is part of Sencha Touch 2.1
+This file is part of Sencha Touch 2.4
 
-Copyright (c) 2011-2012 Sencha Inc
+Copyright (c) 2011-2015 Sencha Inc
 
 Contact:  http://www.sencha.com/contact
 
@@ -16,7 +16,7 @@ requirements will be met: http://www.gnu.org/copyleft/gpl.html.
 If you are unsure which license is appropriate for your use, please contact the sales department
 at http://www.sencha.com/contact.
 
-Build date: 2012-11-05 22:31:29 (08c91901ae8449841ff23e5d3fb404d6128d3b0b)
+Build date: 2015-06-10 14:41:48 (dd5f81fb46d0676281fdd021ada1da3ef06abd27)
 */
 //@tag foundation,core
 //@define Ext
@@ -160,7 +160,7 @@ Build date: 2012-11-05 22:31:29 (08c91901ae8449841ff23e5d3fb404d6128d3b0b)
          * @param {Function} superclass
          * @param {Object} overrides
          * @return {Function} The subclass constructor from the `overrides` parameter, or a generated one if not provided.
-         * @deprecated 4.0.0 Please use {@link Ext#define Ext.define} instead
+         * @deprecated 2.0.0 Please use {@link Ext#define Ext.define} instead
          */
         extend: function() {
             // inline overrides
@@ -230,7 +230,7 @@ Build date: 2012-11-05 22:31:29 (08c91901ae8449841ff23e5d3fb404d6128d3b0b)
          * @param {Object} overrides The properties to add to `origClass`. This should be specified as an object literal
          * containing one or more properties.
          * @method override
-         * @deprecated 4.1.0 Please use {@link Ext#define Ext.define} instead.
+         * @deprecated 2.0.0 Please use {@link Ext#define Ext.define} instead.
          */
         override: function(cls, overrides) {
             if (cls.$isClass) {
@@ -364,6 +364,19 @@ Build date: 2012-11-05 22:31:29 (08c91901ae8449841ff23e5d3fb404d6128d3b0b)
          */
         isDate: function(value) {
             return toString.call(value) === '[object Date]';
+        },
+
+        /**
+         * Returns 'true' if the passed value is a String that matches the MS Date JSON encoding format
+         * @param {String} value The string to test
+         * @return {Boolean}
+         */
+        isMSDate: function(value) {
+            if (!Ext.isString(value)) {
+                return false;
+            } else {
+                return value.match("\\\\?/Date\\(([-+])?(\\d+)(?:[+-]\\d{4})?\\)\\\\?/") !== null;
+            }
         },
 
         /**
@@ -625,7 +638,7 @@ Build date: 2012-11-05 22:31:29 (08c91901ae8449841ff23e5d3fb404d6128d3b0b)
 
     /**
      * Old alias to {@link Ext#typeOf}.
-     * @deprecated 4.0.0 Please use {@link Ext#typeOf} instead.
+     * @deprecated 2.0.0 Please use {@link Ext#typeOf} instead.
      * @method
      * @alias Ext#typeOf
      */
@@ -666,7 +679,7 @@ Build date: 2012-11-05 22:31:29 (08c91901ae8449841ff23e5d3fb404d6128d3b0b)
 (function() {
 
 // Current core version
-var version = '4.1.0', Version;
+var version = '2.4.2.571', Version;
     Ext.Version = Version = Ext.extend(Object, {
 
         /**
@@ -705,7 +718,7 @@ var version = '4.1.0', Version;
         },
 
         /**
-         * @param value
+         * @param {Number} value
          * @return {Number}
          */
         toNumber: function(value) {
@@ -823,13 +836,13 @@ var version = '4.1.0', Version;
 
         /**
          * Returns whether this version matches the supplied argument. Example:
-         * 
+         *
          *     var version = new Ext.Version('1.0.2beta');
          *     console.log(version.match(1)); // true
          *     console.log(version.match(1.0)); // true
          *     console.log(version.match('1.0.2')); // true
          *     console.log(version.match('1.0.2RC')); // false
-         * 
+         *
          * @param {String/Number} target The version to compare with.
          * @return {Boolean} `true` if this version matches the target, `false` otherwise.
          */
@@ -1219,8 +1232,8 @@ Ext.String = {
      *     alert(s); // '<div class="my-class">Some text</div>'
      *
      * @param {String} string The tokenized string to be formatted.
-     * @param {String} value1 The value to replace token {0}.
-     * @param {String} value2 Etc...
+     * @param {String...} values First param value to replace token `{0}`, then next
+     * param to replace `{1}` etc.
      * @return {String} The formatted string.
      */
     format: function(format) {
@@ -1935,40 +1948,37 @@ Ext.urlAppend = Ext.String.urlAppend;
         intersect: function() {
             var intersect = [],
                 arrays = slice.call(arguments),
-                i, j, k, minArray, array, x, y, ln, arraysLn, arrayLn;
+                item, minArray, itemIndex, arrayIndex;
 
             if (!arrays.length) {
                 return intersect;
             }
 
-            // Find the smallest array
-            for (i = x = 0,ln = arrays.length; i < ln,array = arrays[i]; i++) {
-                if (!minArray || array.length < minArray.length) {
-                    minArray = array;
-                    x = i;
+            //Find the Smallest Array
+            arrays = arrays.sort(function(a, b) {
+                if (a.length > b.length) {
+                    return 1;
+                } else if (a.length < b.length) {
+                    return -1;
+                } else {
+                    return 0;
                 }
-            }
+            });
 
-            minArray = ExtArray.unique(minArray);
-            erase(arrays, x, 1);
+            //Remove duplicates from smallest array
+            minArray = ExtArray.unique(arrays[0]);
 
-            // Use the smallest unique'd array as the anchor loop. If the other array(s) do contain
-            // an item in the small array, we're likely to find it before reaching the end
-            // of the inner loop and can terminate the search early.
-            for (i = 0,ln = minArray.length; i < ln,x = minArray[i]; i++) {
-                var count = 0;
-
-                for (j = 0,arraysLn = arrays.length; j < arraysLn,array = arrays[j]; j++) {
-                    for (k = 0,arrayLn = array.length; k < arrayLn,y = array[k]; k++) {
-                        if (x === y) {
-                            count++;
-                            break;
-                        }
+            //Populate intersecting values
+            for (itemIndex = 0; itemIndex < minArray.length; itemIndex++) {
+                item = minArray[itemIndex];
+                for (arrayIndex = 1; arrayIndex < arrays.length; arrayIndex++) {
+                    if (arrays[arrayIndex].indexOf(item) === -1) {
+                        break;
                     }
-                }
 
-                if (count === arraysLn) {
-                    intersect.push(x);
+                    if (arrayIndex == (arrays.length - 1)) {
+                        intersect.push(item);
+                    }
                 }
             }
 
@@ -2257,7 +2267,7 @@ Ext.urlAppend = Ext.String.urlAppend;
 
     /**
      * Old alias to {@link Ext.Array#min}
-     * @deprecated 4.0.0 Please use {@link Ext.Array#min} instead
+     * @deprecated 2.0.0 Please use {@link Ext.Array#min} instead
      * @method
      * @member Ext
      * @alias Ext.Array#min
@@ -2266,7 +2276,7 @@ Ext.urlAppend = Ext.String.urlAppend;
 
     /**
      * Old alias to {@link Ext.Array#max}
-     * @deprecated 4.0.0 Please use {@link Ext.Array#max} instead
+     * @deprecated 2.0.0 Please use {@link Ext.Array#max} instead
      * @method
      * @member Ext
      * @alias Ext.Array#max
@@ -2275,7 +2285,7 @@ Ext.urlAppend = Ext.String.urlAppend;
 
     /**
      * Old alias to {@link Ext.Array#sum}
-     * @deprecated 4.0.0 Please use {@link Ext.Array#sum} instead
+     * @deprecated 2.0.0 Please use {@link Ext.Array#sum} instead
      * @method
      * @member Ext
      * @alias Ext.Array#sum
@@ -2284,7 +2294,7 @@ Ext.urlAppend = Ext.String.urlAppend;
 
     /**
      * Old alias to {@link Ext.Array#mean}
-     * @deprecated 4.0.0 Please use {@link Ext.Array#mean} instead
+     * @deprecated 2.0.0 Please use {@link Ext.Array#mean} instead
      * @method
      * @member Ext
      * @alias Ext.Array#mean
@@ -2293,7 +2303,7 @@ Ext.urlAppend = Ext.String.urlAppend;
 
     /**
      * Old alias to {@link Ext.Array#flatten}
-     * @deprecated 4.0.0 Please use {@link Ext.Array#flatten} instead
+     * @deprecated 2.0.0 Please use {@link Ext.Array#flatten} instead
      * @method
      * @member Ext
      * @alias Ext.Array#flatten
@@ -2302,7 +2312,7 @@ Ext.urlAppend = Ext.String.urlAppend;
 
     /**
      * Old alias to {@link Ext.Array#clean}
-     * @deprecated 4.0.0 Please use {@link Ext.Array#clean} instead
+     * @deprecated 2.0.0 Please use {@link Ext.Array#clean} instead
      * @method
      * @member Ext
      * @alias Ext.Array#clean
@@ -2311,7 +2321,7 @@ Ext.urlAppend = Ext.String.urlAppend;
 
     /**
      * Old alias to {@link Ext.Array#unique}
-     * @deprecated 4.0.0 Please use {@link Ext.Array#unique} instead
+     * @deprecated 2.0.0 Please use {@link Ext.Array#unique} instead
      * @method
      * @member Ext
      * @alias Ext.Array#unique
@@ -2320,7 +2330,7 @@ Ext.urlAppend = Ext.String.urlAppend;
 
     /**
      * Old alias to {@link Ext.Array#pluck Ext.Array.pluck}
-     * @deprecated 4.0.0 Please use {@link Ext.Array#pluck Ext.Array.pluck} instead
+     * @deprecated 2.0.0 Please use {@link Ext.Array#pluck Ext.Array.pluck} instead
      * @method
      * @member Ext
      * @alias Ext.Array#pluck
@@ -2441,7 +2451,7 @@ Ext.Number.from('abc', 1); // returns 1
 /**
  * This method is deprecated, please use {@link Ext.Number#from Ext.Number.from} instead
  *
- * @deprecated 4.0.0 Replaced by Ext.Number.from
+ * @deprecated 2.0.0 Replaced by Ext.Number.from
  * @member Ext
  * @method num
  */
@@ -2743,7 +2753,10 @@ var ExtObject = Ext.Object = {
 
     /**
      * Iterate through an object and invoke the given callback function for each iteration. The iteration can be stop
-     * by returning `false` in the callback function. For example:
+     * by returning `false` in the callback function. This method iterates over properties within the current object,
+     * not properties from its prototype. To iterate over a prototype, iterate over obj.proto instead of obj.
+     * In the next example, use Ext.Object.each(Person.proto ....) and so on.
+     * For example:
      *
      *     var person = {
      *         name: 'Jacky',
@@ -2848,8 +2861,7 @@ var ExtObject = Ext.Object = {
     },
 
     /**
-     * @private
-     * @param source
+     * @param {Object} source
      */
     mergeIf: function(source) {
         var i = 1,
@@ -3023,6 +3035,39 @@ var ExtObject = Ext.Object = {
         return objectClass;
     },
 
+    equals: function(origin, target) {
+        var originType = typeof origin,
+            targetType = typeof target,
+            key;
+
+        if (targetType === targetType) {
+            if (originType === 'object') {
+                for (key in origin) {
+                    if (!(key in target)) {
+                        return false;
+                    }
+
+                    if (!ExtObject.equals(origin[key], target[key])) {
+                        return false;
+                    }
+                }
+
+                for (key in target) {
+                    if (!(key in origin)) {
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+            else {
+                return origin === target;
+            }
+        }
+
+        return false;
+    },
+
     defineProperty: ('defineProperty' in Object) ? Object.defineProperty : function(object, name, descriptor) {
         if (descriptor.get) {
             object.__defineGetter__(name, descriptor.get);
@@ -3052,7 +3097,7 @@ Ext.mergeIf = Ext.Object.mergeIf;
  *
  * @member Ext
  * @method urlEncode
- * @deprecated 4.0.0 Please use `{@link Ext.Object#toQueryString Ext.Object.toQueryString}` instead
+ * @deprecated 2.0.0 Please use `{@link Ext.Object#toQueryString Ext.Object.toQueryString}` instead
  */
 Ext.urlEncode = function() {
     var args = Ext.Array.from(arguments),
@@ -3072,7 +3117,7 @@ Ext.urlEncode = function() {
  *
  * @member Ext
  * @method urlDecode
- * @deprecated 4.0.0 Please use {@link Ext.Object#fromQueryString Ext.Object.fromQueryString} instead
+ * @deprecated 2.0.0 Please use {@link Ext.Object#fromQueryString Ext.Object.fromQueryString} instead
  */
 Ext.urlDecode = function() {
     return ExtObject.fromQueryString.apply(ExtObject, arguments);
@@ -3118,7 +3163,7 @@ Ext.Function = {
      *         name3: 'value3'
      *     });
      *
-     * @param {Function} setter
+     * @param {Function} fn
      * @return {Function} flexSetter
      */
     flexSetter: function(fn) {
@@ -3465,24 +3510,81 @@ Ext.Function = {
         };
     },
 
-    interceptBefore: function(object, methodName, fn) {
+
+    /**
+     * Adds behavior to an existing method that is executed before the
+     * original behavior of the function.  For example:
+     *
+     *     var soup = {
+     *         contents: [],
+     *         add: function(ingredient) {
+     *             this.contents.push(ingredient);
+     *         }
+     *     };
+     *     Ext.Function.interceptBefore(soup, "add", function(ingredient){
+     *         if (!this.contents.length && ingredient !== "water") {
+     *             // Always add water to start with
+     *             this.contents.push("water");
+     *         }
+     *     });
+     *     soup.add("onions");
+     *     soup.add("salt");
+     *     soup.contents; // will contain: water, onions, salt
+     *
+     * @param {Object} object The target object
+     * @param {String} methodName Name of the method to override
+     * @param {Function} fn Function with the new behavior.  It will
+     * be called with the same arguments as the original method.  The
+     * return value of this function will be the return value of the
+     * new method.
+     * @param {Object} [scope] The scope to execute the interceptor function. Defaults to the object.
+     * @return {Function} The new function just created.
+     */
+    interceptBefore: function(object, methodName, fn, scope) {
         var method = object[methodName] || Ext.emptyFn;
 
-        return object[methodName] = function() {
-            var ret = fn.apply(this, arguments);
+        return (object[methodName] = function() {
+            var ret = fn.apply(scope || this, arguments);
             method.apply(this, arguments);
 
             return ret;
-        };
+        });
     },
 
-    interceptAfter: function(object, methodName, fn) {
+    /**
+     * Adds behavior to an existing method that is executed after the
+     * original behavior of the function.  For example:
+     *
+     *     var soup = {
+     *         contents: [],
+     *         add: function(ingredient) {
+     *             this.contents.push(ingredient);
+     *         }
+     *     };
+     *     Ext.Function.interceptAfter(soup, "add", function(ingredient){
+     *         // Always add a bit of extra salt
+     *         this.contents.push("salt");
+     *     });
+     *     soup.add("water");
+     *     soup.add("onions");
+     *     soup.contents; // will contain: water, salt, onions, salt
+     *
+     * @param {Object} object The target object
+     * @param {String} methodName Name of the method to override
+     * @param {Function} fn Function with the new behavior.  It will
+     * be called with the same arguments as the original method.  The
+     * return value of this function will be the return value of the
+     * new method.
+     * @param {Object} [scope] The scope to execute the interceptor function. Defaults to the object.
+     * @return {Function} The new function just created.
+     */
+    interceptAfter: function(object, methodName, fn, scope) {
         var method = object[methodName] || Ext.emptyFn;
 
-        return object[methodName] = function() {
+        return (object[methodName] = function() {
             method.apply(this, arguments);
-            return fn.apply(this, arguments);
-        };
+            return fn.apply(scope || this, arguments);
+        });
     }
 };
 
@@ -3545,7 +3647,11 @@ Ext.JSON = new(function() {
         } else if (Ext.isDate(o)) {
             return Ext.JSON.encodeDate(o);
         } else if (Ext.isString(o)) {
-            return encodeString(o);
+            if (Ext.isMSDate(o)) {
+               return encodeMSDate(o);
+            } else {
+                return encodeString(o);
+            }
         } else if (typeof o == "number") {
             //don't use isNumber here, since finite checks happen inside isNumber
             return isFinite(o) ? String(o) : "null";
@@ -3599,6 +3705,9 @@ Ext.JSON = new(function() {
         // Overwrite trailing comma (or empty string)
         a[a.length - 1] = '}';
         return a.join("");
+    },
+    encodeMSDate = function(o) {
+        return '"' + o + '"';
     };
 
     /**
@@ -3606,7 +3715,7 @@ Ext.JSON = new(function() {
      * __The returned value includes enclosing double quotation marks.__
      *
      * The default return format is "yyyy-mm-ddThh:mm:ss".
-     * 
+     *
      * To override this:
      *
      *     Ext.JSON.encodeDate = function(d) {
@@ -3617,7 +3726,7 @@ Ext.JSON = new(function() {
      * @return {String} The string literal to use in a JSON string.
      */
     this.encodeDate = function(o) {
-        return '"' + o.getFullYear() + "-" 
+        return '"' + o.getFullYear() + "-"
         + pad(o.getMonth() + 1) + "-"
         + pad(o.getDate()) + "T"
         + pad(o.getHours()) + ":"
@@ -3673,6 +3782,13 @@ Ext.JSON = new(function() {
     }();
 
 })();
+
+//@private Alias for backwards compatibility
+if (!Ext.util) {
+    Ext.util = {};
+}
+Ext.util.JSON = Ext.JSON;
+
 /**
  * Shorthand for {@link Ext.JSON#encode}.
  * @member Ext
@@ -3704,7 +3820,7 @@ Ext.Error = {
 //@require Ext.Error
 
 /**
- *
+ * Note: Date values are zero-based.
  */
 Ext.Date = {
     /** @ignore */
@@ -3737,17 +3853,14 @@ Ext.Date = {
 
 /**
  * @class Ext.Base
- *
  * @author Jacky Nguyen <jacky@sencha.com>
- * @aside guide class_system
- * @aside video class-system
  *
  * The root of all classes created with {@link Ext#define}.
  *
  * Ext.Base is the building block of all Ext classes. All classes in Ext inherit from Ext.Base. All prototype and static
  * members of this class are inherited by all other classes.
  *
- * See the [Class System Guide](#!/guide/class_system) for more.
+ * See the [Class System Guide](../../../core_concepts/class_system.html) for more.
  *
  */
 (function(flexSetter) {
@@ -4169,7 +4282,7 @@ var noArgs = [],
          *
          *     Ext.define('My.CatOverride', {
          *         override: 'My.Cat',
-         *         
+         *
          *         constructor: function() {
          *             alert("I'm going to be a cat!");
          *
@@ -4198,7 +4311,8 @@ var noArgs = [],
                 enumerables = Ext.enumerables,
                 target = me.prototype,
                 cloneFunction = Ext.Function.clone,
-                name, index, member, statics, names, previous;
+                currentConfig = target.config,
+                name, index, member, statics, names, previous, newConfig, prop;
 
             if (arguments.length === 2) {
                 name = members;
@@ -4216,7 +4330,16 @@ var noArgs = [],
                         statics = members[name];
                     }
                     else if (name == 'config') {
-                        me.addConfig(members[name], true);
+                        newConfig = members[name];
+                        //<debug error>
+                        for (prop in newConfig) {
+                            if (!(prop in currentConfig)) {
+                                throw new Error("Attempting to override a non-existant config property. This is not " +
+                                    "supported, you must extend the Class.");
+                            }
+                        }
+                        //</debug>
+                        me.addConfig(newConfig, true);
                     }
                     else {
                         names.push(name);
@@ -4554,7 +4677,7 @@ var noArgs = [],
          *      });
          *
          *      alert(My.Derived2.method(10)); // now alerts 40
-         * 
+         *
          * To override a method and replace it and also call the superclass method, use
          * {@link #callSuper}. This is often done to patch a method to fix a bug.
          *
@@ -4603,40 +4726,40 @@ var noArgs = [],
          * This method is used by an override to call the superclass method but bypass any
          * overridden method. This is often done to "patch" a method that contains a bug
          * but for whatever reason cannot be fixed directly.
-         * 
+         *
          * Consider:
-         * 
+         *
          *      Ext.define('Ext.some.Class', {
          *          method: function () {
          *              console.log('Good');
          *          }
          *      });
-         * 
+         *
          *      Ext.define('Ext.some.DerivedClass', {
          *          method: function () {
          *              console.log('Bad');
-         * 
+         *
          *              // ... logic but with a bug ...
-         *              
+         *
          *              this.callParent();
          *          }
          *      });
-         * 
+         *
          * To patch the bug in `DerivedClass.method`, the typical solution is to create an
          * override:
-         * 
+         *
          *      Ext.define('App.paches.DerivedClass', {
          *          override: 'Ext.some.DerivedClass',
-         *          
+         *
          *          method: function () {
          *              console.log('Fixed');
-         * 
+         *
          *              // ... logic but with bug fixed ...
          *
          *              this.callSuper();
          *          }
          *      });
-         * 
+         *
          * The patch method cannot use `callParent` to call the superclass `method` since
          * that would call the overridden method containing the bug. In other words, the
          * above patch would only produce "Fixed" then "Good" in the console log, whereas,
@@ -4680,7 +4803,7 @@ var noArgs = [],
 
         /**
          * Call the original method that was previously overridden with {@link Ext.Base#override},
-         * 
+         *
          * This method is deprecated as {@link #callParent} does the same thing.
          *
          *     Ext.define('My.Cat', {
@@ -4709,12 +4832,10 @@ var noArgs = [],
          * from the current method, for example: `this.callOverridden(arguments)`
          * @return {Object} Returns the result of calling the overridden method
          * @protected
-         * @deprecated Use callParent instead
          */
         callOverridden: function(args) {
-            var method;
-
-            return (method = this.callOverridden.caller) && method.$previous.apply(this, args || noArgs);
+            var method = this.callOverridden.caller;
+            return method  && method.$previous.apply(this, args || noArgs);
         },
 
         /**
@@ -5006,8 +5127,8 @@ var noArgs = [],
 
         /**
          * @private
-         * @param name
-         * @param value
+         * @param {String} name
+         * @param {Mixed} value
          * @return {Mixed}
          */
         link: function(name, value) {
@@ -5073,10 +5194,7 @@ var noArgs = [],
 
 /**
  * @class Ext.Class
- *
  * @author Jacky Nguyen <jacky@sencha.com>
- * @aside guide class_system
- * @aside video class-system
  *
  * Handles class creation throughout the framework. This is a low level factory that is used by Ext.ClassManager and generally
  * should not be used directly. If you choose to use Ext.Class you will lose out on the namespace, aliasing and dependency loading
@@ -5087,6 +5205,8 @@ var noArgs = [],
  *
  * Ext.Class is the factory and **not** the superclass of everything. For the base class that **all** Ext classes inherit
  * from, see {@link Ext.Base}.
+ *
+ * For more information about Sencha Touch's Class System, please check out the [class system guide](../../../core_concepts/class_system.html).
  */
 (function() {
     var ExtClass,
@@ -5243,9 +5363,12 @@ var noArgs = [],
          *
          * @param {Function} fn.cls The created class.
          * @param {Object} fn.data The set of properties passed in {@link Ext.Class} constructor.
-         * @param {Function} fn.fn The callback function that __must__ to be executed when this pre-processor finishes,
-         * regardless of whether the processing is synchronous or asynchronous.
-         *
+         * @param {Function} fn.fn The callback function that __must__ to be executed when this
+         * pre-processor finishes, regardless of whether the processing is synchronous or
+         * asynchronous.
+         * @param {String[]} [properties]
+         * @param {String} [position]
+         * @param {Object} [relativeTo]
          * @return {Ext.Class} this
          */
         registerPreprocessor: function(name, fn, properties, position, relativeTo) {
@@ -5422,14 +5545,15 @@ var noArgs = [],
 
                 if (applier) {
                     value = applier.call(this, value, oldValue);
+                    if (typeof value == 'undefined') {
+                        return this;
+                    }
                 }
 
-                if (typeof value != 'undefined') {
-                    this[internalName] = value;
+                this[internalName] = value;
 
-                    if (updater && value !== oldValue) {
-                        updater.call(this, value, oldValue);
-                    }
+                if (updater && value !== oldValue) {
+                    updater.call(this, value, oldValue);
                 }
 
                 return this;
@@ -5560,6 +5684,146 @@ var noArgs = [],
         Class.addInheritableStatics(data.inheritableStatics);
 
         delete data.inheritableStatics;
+    });
+    //</feature>
+
+        //<feature classSystem.platformConfig>
+    /**
+     * @cfg {Object} platformConfig
+     * Allows for setting default config values on specific platforms or themes
+     *
+     *     Ext.define('MyComponent', {
+     *          config: {
+     *              top: 0
+     *          },
+     *
+     *          platformConfig: [{
+     *              platform: ['ie10'],
+     *              theme: ['Windows'],
+     *              top: null,
+     *              bottom: 0
+     *          }]
+     *     });
+     */
+    ExtClass.registerPreprocessor('platformConfig', function(Class, data, hooks) {
+        var platformConfigs = data.platformConfig,
+            config = data.config || {},
+            platform, theme, platformConfig, i, ln, j, ln2, exclude;
+
+        delete data.platformConfig;
+
+        if (!Ext.filterPlatform) {
+            Ext.filterPlatform = function(platform) {
+                var profileMatch = false,
+                    ua = navigator.userAgent,
+                    j, jln;
+
+                platform = [].concat(platform);
+
+                function isPhone(ua) {
+                    var isMobile = /Mobile(\/|\s)/.test(ua);
+
+                    // Either:
+                    // - iOS but not iPad
+                    // - Android 2
+                    // - Android with "Mobile" in the UA
+
+                    return /(iPhone|iPod)/.test(ua) ||
+                              (!/(Silk)/.test(ua) && (/(Android)/.test(ua) && (/(Android 2)/.test(ua) || isMobile))) ||
+                              (/(BlackBerry|BB)/.test(ua) && isMobile) ||
+                              /(Windows Phone)/.test(ua);
+                }
+
+                function isTablet(ua) {
+                    return !isPhone(ua) && (/iPad/.test(ua) || /Android/.test(ua) || /(RIM Tablet OS)/.test(ua) ||
+                        (/MSIE 10/.test(ua) && /; Touch/.test(ua)));
+                }
+
+                // Check if the ?platform parameter is set in the URL
+                var paramsString = window.location.search.substr(1),
+                    paramsArray = paramsString.split("&"),
+                    params = {},
+                    testPlatform, i;
+
+                for (i = 0; i < paramsArray.length; i++) {
+                    var tmpArray = paramsArray[i].split("=");
+                    params[tmpArray[0]] = tmpArray[1];
+                }
+
+                testPlatform = params.platform;
+                if (testPlatform) {
+                    return platform.indexOf(testPlatform) != -1;
+                }
+
+                for (j = 0, jln = platform.length; j < jln; j++) {
+                    switch (platform[j]) {
+                        case 'phone':
+                            profileMatch = isPhone(ua);
+                            break;
+                        case 'tablet':
+                            profileMatch = isTablet(ua);
+                            break;
+                        case 'desktop':
+                            profileMatch = !isPhone(ua) && !isTablet(ua);
+                            break;
+                        case 'ios':
+                            profileMatch = /(iPad|iPhone|iPod)/.test(ua);
+                            break;
+                        case 'android':
+                            profileMatch = /(Android|Silk)/.test(ua);
+                            break;
+                        case 'blackberry':
+                            profileMatch = /(BlackBerry|BB)/.test(ua);
+                            break;
+                        case 'safari':
+                            profileMatch = /Safari/.test(ua) && !(/(BlackBerry|BB)/.test(ua));
+                            break;
+                        case 'chrome':
+                            profileMatch = /Chrome/.test(ua);
+                            break;
+                        case 'ie10':
+                            profileMatch = /MSIE 10/.test(ua);
+                            break;
+                        case 'windows':
+                            profileMatch = /MSIE 10/.test(ua) || /Trident/.test(ua);
+                            break;
+                        case 'tizen':
+                            profileMatch = /Tizen/.test(ua);
+                            break;
+                        case 'firefox':
+                            profileMatch = /Firefox/.test(ua);
+                    }
+                    if (profileMatch) {
+                        return true;
+                    }
+                }
+                return false;
+            };
+        }
+
+        for (i = 0, ln = platformConfigs.length; i < ln; i++) {
+            platformConfig = platformConfigs[i];
+
+            platform = platformConfig.platform;
+            exclude = platformConfig.exclude || [];
+            delete platformConfig.platform;
+
+            theme = [].concat(platformConfig.theme);
+            ln2 = theme.length;
+            delete platformConfig.theme;
+
+            if (platform && Ext.filterPlatform(platform) && !Ext.filterPlatform(exclude)) {
+                Ext.merge(config, platformConfig);
+            }
+
+            if (ln2) {
+                for (j = 0; j < ln2; j++) {
+                    if (Ext.theme.name == theme[j]) {
+                        Ext.merge(config, platformConfig);
+                    }
+                }
+            }
+        }
     });
     //</feature>
 
@@ -5777,15 +6041,23 @@ var noArgs = [],
         members.extend = Parent;
         members.preprocessors = [
             'extend'
+
             //<feature classSystem.statics>
             ,'statics'
             //</feature>
+
             //<feature classSystem.inheritableStatics>
             ,'inheritableStatics'
             //</feature>
+
             //<feature classSystem.mixins>
             ,'mixins'
             //</feature>
+
+            //<feature classSystem.platformConfig>
+            ,'platformConfig'
+            //</feature>
+
             //<feature classSystem.config>
             ,'config'
             //</feature>
@@ -5817,10 +6089,7 @@ var noArgs = [],
 
 /**
  * @class  Ext.ClassManager
- *
  * @author Jacky Nguyen <jacky@sencha.com>
- * @aside guide class_system
- * @aside video class-system
  *
  * Ext.ClassManager manages all classes and handles mapping from string class name to
  * actual class objects throughout the whole framework. It is not generally accessed directly, rather through
@@ -5832,6 +6101,8 @@ var noArgs = [],
  * - {@link Ext#getClass Ext.getClass}
  * - {@link Ext#getClassName Ext.getClassName}
  *
+ * For more information about Sencha Touch's Class System, please check out the [class system guide](../../../core_concepts/class_system.html).
+ * 
  * ## Basic syntax:
  *
  *     Ext.define(className, properties);
@@ -6582,7 +6853,7 @@ var noArgs = [],
             });
         },
 
-        createOverride: function(className, data) {
+        createOverride: function(className, data, createdFn) {
             var overriddenClassName = data.override,
                 requires = Ext.Array.from(data.requires);
 
@@ -6594,7 +6865,17 @@ var noArgs = [],
             Ext.require(requires, function() {
                 // Override the target class right after it's created
                 this.onCreated(function() {
-                    this.get(overriddenClassName).override(data);
+                    var overridenClass = this.get(overriddenClassName);
+                    if (overridenClass.singleton) {
+                        overridenClass.self.override(data);
+                    }
+                    else {
+                        overridenClass.override(data);
+                    }
+
+                    if (createdFn) {
+                        createdFn.call(overridenClass, overridenClass);
+                    }
 
                     // This push the overridding file itself into Ext.Loader.history
                     // Hence if the target class never exists, the overriding file will
@@ -6734,8 +7015,8 @@ var noArgs = [],
 
         /**
          * @private
-         * @param name
-         * @param args
+         * @param {String} name
+         * @param {Array} args
          */
         dynInstantiate: function(name, args) {
             args = arrayFrom(args, true);
@@ -6746,7 +7027,7 @@ var noArgs = [],
 
         /**
          * @private
-         * @param length
+         * @param {Number} length
          */
         getInstantiator: function(length) {
             var instantiators = this.instantiators,
@@ -6783,10 +7064,7 @@ var noArgs = [],
 
         /**
          * Register a post-processor function.
-         *
          * @private
-         * @param {String} name
-         * @param {Function} postprocessor
          */
         registerPostprocessor: function(name, fn, properties, position, relativeTo) {
             if (!position) {
@@ -6812,7 +7090,7 @@ var noArgs = [],
          * Set the default post processors array stack which are applied to every class.
          *
          * @private
-         * @param {String/Array} The name of a registered post processor or an array of registered names.
+         * @param {String/Array} postprocessors The name of a registered post processor or an array of registered names.
          * @return {Ext.ClassManager} this
          */
         setDefaultPostprocessors: function(postprocessors) {
@@ -6941,7 +7219,37 @@ var noArgs = [],
      *     Ext.define('MyApp.CoolPanel', {
      *         extend: 'Ext.panel.Panel',
      *         alias: ['widget.coolpanel'],
-     *         title: 'Yeah!'
+     *
+     *         config: {
+     *             html : 'Yeah!'
+     *         }
+     *     });
+     *
+     *     // Using Ext.create
+     *     Ext.create('widget.coolpanel');
+     *
+     *     // Using the shorthand for widgets and in xtypes
+     *     Ext.widget('panel', {
+     *         items: [
+     *             {xtype: 'coolpanel', html: 'Foo'},
+     *             {xtype: 'coolpanel', html: 'Bar'}
+     *         ]
+     *     });
+     *
+     * For {@link Ext.Component}, you can also use the {@link Ext.Component#xtype} property.
+     */
+    /**
+     * @cfg {String[]} xtype
+     * @member Ext.Component
+     * List of xtypes for {@link Ext.Component}. XTypes must not contain periods.
+     *
+     *     Ext.define('MyApp.CoolPanel', {
+     *         extend: 'Ext.panel.Panel',
+     *         xtype: 'coolpanel',
+     *
+     *         config: {
+     *             html : 'Yeah!'
+     *         }
      *     });
      *
      *     // Using Ext.create
@@ -7064,6 +7372,8 @@ var noArgs = [],
          *
          * @member Ext
          * @method widget
+         * @param {String} name
+         * @return {Object} instance
          */
         widget: function(name) {
             var args = arraySlice.call(arguments);
@@ -7076,6 +7386,9 @@ var noArgs = [],
          * Convenient shorthand, see {@link Ext.ClassManager#instantiateByAlias}.
          * @member Ext
          * @method createByAlias
+         * @param {String} alias
+         * @param {Mixed...} args Additional arguments after the alias will be passed to the class constructor.
+         * @return {Object} instance
          */
         createByAlias: alias(Manager, 'instantiateByAlias'),
 
@@ -7181,6 +7494,7 @@ var noArgs = [],
          *  - `statics`
          *  - `config`
          *  - `alias`
+         *  - `xtype` (for {@link Ext.Component}s only)
          *  - `self`
          *  - `singleton`
          *  - `alternateClassName`
@@ -7276,7 +7590,7 @@ var noArgs = [],
 
     /**
      * Old name for {@link Ext#widget}.
-     * @deprecated 4.0.0 Please use {@link Ext#widget} instead.
+     * @deprecated 2.0.0 Please use {@link Ext#widget} instead.
      * @method createWidget
      * @member Ext
      */
@@ -7389,7 +7703,6 @@ var noArgs = [],
  *
  * @author Jacky Nguyen <jacky@sencha.com>
  * @docauthor Jacky Nguyen <jacky@sencha.com>
- * @aside guide mvc_dependencies
  *
  * Ext.Loader is the heart of the new dynamic dependency loading capability in Ext JS 4+. It is most commonly used
  * via the {@link Ext#require} shorthand. Ext.Loader supports both asynchronous and synchronous loading
@@ -7468,7 +7781,7 @@ var noArgs = [],
  * It has all the advantages combined from asynchronous and synchronous loading. The development flow is simple:
  *
  * ### Step 1: Start writing your application using synchronous approach. ###
- * Ext.Loader will automatically fetch all dependencies on demand as they're 
+ * Ext.Loader will automatically fetch all dependencies on demand as they're
  * needed during run-time. For example:
  *
  *     Ext.onReady(function(){
@@ -7521,9 +7834,7 @@ var noArgs = [],
  * possible. Internally {@link Ext.Loader#history Ext.Loader.history} maintains the list of all dependencies your application
  * needs in the exact loading sequence. It's as simple as concatenating all files in this array into one,
  * then include it on top of your application.
- *
- * This process will be automated with Sencha Command, to be released and documented towards Ext JS 4 Final.
- *
+ * 
  * @singleton
  */
 (function(Manager, Class, flexSetter, alias, pass, arrayFrom, arrayErase, arrayInclude) {
@@ -7617,7 +7928,9 @@ var noArgs = [],
          *
          * Refer to config options of {@link Ext.Loader} for the list of possible properties.
          *
-         * @param {Object} config The config object to override the default values.
+         * @param {Object/String} name The config object to override the default values
+         * or name of a single config setting when also passing the second parameter.
+         * @param {Mixed} [value] The value for the config setting.
          * @return {Ext.Loader} this
          */
         setConfig: function(name, value) {
@@ -7837,7 +8150,7 @@ var noArgs = [],
 
         /**
          * Maintain the queue for all dependencies. Each item in the array is an object of the format:
-         * 
+         *
          *     {
          *         requires: [...], // The required classes for this queue item
          *         callback: function() { ... } // The function to execute when all classes specified in requires exist
@@ -7957,7 +8270,7 @@ var noArgs = [],
          * Inject a script element to document's head, call onLoad and onError accordingly
          * @private
          */
-        injectScriptElement: function(url, onLoad, onError, scope) {
+        injectScriptElement: function(url, onLoad, onError, scope, charset) {
             var script = document.createElement('script'),
                 me = this,
                 onLoadFn = function() {
@@ -7979,6 +8292,10 @@ var noArgs = [],
                 }
             };
 
+            if (charset) {
+                script.charset = charset;
+            }
+            
             this.documentHead.appendChild(script);
 
             return script;
@@ -8012,11 +8329,6 @@ var noArgs = [],
 
         /**
          * Load a script file, supports both asynchronous and synchronous approaches
-         *
-         * @param {String} url
-         * @param {Function} onLoad
-         * @param {Object} scope
-         * @param {Boolean} synchronous
          * @private
          */
         loadScriptFile: function(url, onLoad, onError, scope, synchronous) {
@@ -8182,7 +8494,7 @@ var noArgs = [],
                         if (excluded[possibleClassName] !== true) {
                             references.push(possibleClassName);
 
-                            if (!Manager.isCreated(possibleClassName) && !included[possibleClassName]) {
+                            if (!Manager.isCreated(possibleClassName) && !included[possibleClassName]/* && !this.requiresMap.hasOwnProperty(possibleClassName)*/) {
                                 included[possibleClassName] = true;
                                 classNames.push(possibleClassName);
                             }
@@ -8658,7 +8970,7 @@ var noArgs = [],
         path = path + "../../../";
     }
     //</debug>
-    
+
 
     Loader.setConfig({
         enabled: true,
@@ -8667,7 +8979,7 @@ var noArgs = [],
             'Ext' : path + 'src'
         }
     });
-    
+
 })();
 
 //@tag dom,core
@@ -8698,16 +9010,15 @@ var noArgs = [],
  * functions (like {@link #apply}, {@link #min} and others), but most of the framework that you use day to day exists
  * in specialized classes (for example {@link Ext.Panel}, {@link Ext.Carousel} and others).
  *
- * If you are new to Sencha Touch we recommend starting with the [Getting Started Guide][getting_started] to
+ * If you are new to Sencha Touch we recommend starting with the [Getting Started Guide][../../../getting_started/getting_started.html] to
  * get a feel for how the framework operates. After that, use the more focused guides on subjects like panels, forms and data
- * to broaden your understanding. The MVC guides take you through the process of building full applications using the
- * framework, and detail how to deploy them to production.
+ * to broaden your understanding. 
  *
  * The functions listed below are mostly utility functions used internally by many of the classes shipped in the
  * framework, but also often useful in your own apps.
  *
  * A method that is crucial to beginning your application is {@link #setup Ext.setup}. Please refer to it's documentation, or the
- * [Getting Started Guide][getting_started] as a reference on beginning your application.
+ * [Getting Started Guide][../../../getting_started/getting_started.html] as a reference on beginning your application.
  *
  *     Ext.setup({
  *         onReady: function() {
@@ -8718,9 +9029,10 @@ var noArgs = [],
  *         }
  *     });
  *
- * [getting_started]: #!/guide/getting_started
+ * ###Further Reading
+ * [Getting Started Guide](../../../getting_started/getting_started.html)
  */
-Ext.setVersion('touch', '2.1.0');
+Ext.setVersion('touch', '2.4.2.571');
 
 Ext.apply(Ext, {
     /**
@@ -8747,7 +9059,7 @@ Ext.apply(Ext, {
     },
 
     /**
-     * Generates unique ids. If the element already has an `id`, it is unchanged.
+     * Generates unique ids. If the element is passes and it already has an `id`, it is unchanged.
      * @param {Mixed} el (optional) The element to generate an id for.
      * @param {String} [prefix=ext-gen] (optional) The `id` prefix.
      * @return {String} The generated `id`.
@@ -8760,16 +9072,16 @@ Ext.apply(Ext, {
         el = Ext.getDom(el) || {};
 
         if (el === document || el === document.documentElement) {
-            el.id = 'ext-application';
+            el.id = 'ext-app';
         }
         else if (el === document.body) {
-            el.id = 'ext-viewport';
+            el.id = 'ext-body';
         }
         else if (el === window) {
             el.id = 'ext-window';
         }
 
-        el.id = el.id || ((prefix || 'ext-element-') + (++Ext.idSeed));
+        el.id = el.id || ((prefix || 'ext-') + (++Ext.idSeed));
 
         return el.id;
     },
@@ -8953,13 +9265,16 @@ Ext.apply(Ext, {
                         xclass: 'Ext.event.recognizer.LongPress'
                     },
                     swipe: {
-                        xclass: 'Ext.event.recognizer.HorizontalSwipe'
+                        xclass: 'Ext.event.recognizer.Swipe'
                     },
                     pinch: {
                         xclass: 'Ext.event.recognizer.Pinch'
                     },
                     rotate: {
                         xclass: 'Ext.event.recognizer.Rotate'
+                    },
+                    edgeSwipe: {
+                        xclass: 'Ext.event.recognizer.EdgeSwipe'
                     }
                 }
             },
@@ -9161,11 +9476,11 @@ Ext.apply(Ext, {
      * Please note that there's no automatic fallback mechanism for the startup images. In other words, if you don't specify
      * a valid image for a certain device, nothing will be displayed while the application is being launched on that device.
      *
-     * @param {Boolean} isIconPrecomposed
+     * @param {Boolean} config.isIconPrecomposed
      * True to not having a glossy effect added to the icon by the OS, which will preserve its exact look. This currently
      * only applies to iOS devices.
      *
-     * @param {String} statusBarStyle
+     * @param {String} config.statusBarStyle
      * The style of status bar to be shown on applications added to the iOS home screen. Valid options are:
      *
      * * `default`
@@ -9301,10 +9616,26 @@ Ext.apply(Ext, {
                     Ext.require(requires, callback);
                 }
             });
+
+            if (!Ext.microloaded && navigator.userAgent.match(/IEMobile\/10\.0/)) {
+                var msViewportStyle = document.createElement("style");
+                msViewportStyle.appendChild(
+                    document.createTextNode(
+                        "@media screen and (orientation: portrait) {" +
+                            "@-ms-viewport {width: 320px !important;}" +
+                        "}" +
+                        "@media screen and (orientation: landscape) {" +
+                            "@-ms-viewport {width: 560px !important;}" +
+                        "}"
+                    )
+                );
+                head.appendChild(msViewportStyle);
+            }
         });
 
         function addMeta(name, content) {
             var meta = document.createElement('meta');
+
             meta.setAttribute('name', name);
             meta.setAttribute('content', content);
             head.append(meta);
@@ -9333,17 +9664,21 @@ Ext.apply(Ext, {
         var icon = config.icon,
             isIconPrecomposed = Boolean(config.isIconPrecomposed),
             startupImage = config.startupImage || {},
-            statusBarStyle = config.statusBarStyle,
+            statusBarStyle = config.statusBarStyle || 'black',
             devicePixelRatio = window.devicePixelRatio || 1;
+
 
         if (navigator.standalone) {
             addMeta('viewport', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0');
         }
         else {
-            addMeta('viewport', 'initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0');
+            addMeta('viewport', 'initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, minimum-ui');
         }
         addMeta('apple-mobile-web-app-capable', 'yes');
         addMeta('apple-touch-fullscreen', 'yes');
+        if (Ext.browser.is.ie) {
+            addMeta('msapplication-tap-highlight', 'no');
+        }
 
         // status bar style
         if (statusBarStyle) {
@@ -9592,6 +9927,25 @@ Ext.apply(Ext, {
      *             // ...
      *         }
      *     });
+     *
+     * @param {Function} config.onUpdated
+     * This function will execute once the production microloader determines there are updates to the application and has
+     * merged the updates into the application. You can then alert the user there was an update and can then reload
+     * the application to execute the updated application.
+     *
+     *     Ext.application({
+     *         onUpdated : function() {
+     *             Ext.Msg.confirm(
+     *                 'Application Update',
+     *                 'This application has just successfully been updated to the latest version. Reload now?',
+     *                 function(buttonId) {
+     *                     if (buttonId === 'yes') {
+     *                         window.location.reload();
+     *                     }
+     *                 }
+     *             );
+     *         }
+     *     });
      */
     application: function(config) {
         var appName = config.name,
@@ -9625,8 +9979,8 @@ Ext.apply(Ext, {
 
     /**
      * @private
-     * @param config
-     * @param callback
+     * @param {Object} config
+     * @param {Function} callback
      * @member Ext
      */
     factoryConfig: function(config, callback) {
@@ -9720,7 +10074,7 @@ Ext.apply(Ext, {
      * @param {Object} config  The config object to instantiate or update an instance with.
      * @param {String} classReference  The class to instantiate from.
      * @param {Object} [instance]  The instance to update.
-     * @param [aliasNamespace]
+     * @param {String} [aliasNamespace]
      * @member Ext
      */
     factory: function(config, classReference, instance, aliasNamespace) {
@@ -9996,19 +10350,37 @@ Ext.apply(Ext, {
                 scope: scope
             });
 
-            if (Ext.browser.is.PhoneGap && !Ext.os.is.Desktop) {
+            if ((Ext.browser.is.WebWorks || Ext.browser.is.PhoneGap) && !Ext.os.is.Desktop) {
                 if (!Ext.readyListenerAttached) {
                     Ext.readyListenerAttached = true;
-                    document.addEventListener('deviceready', triggerFn, false);
+                    document.addEventListener(Ext.browser.is.PhoneGap ? 'deviceready' : 'webworksready', triggerFn, false);
                 }
             }
             else {
-                if (document.readyState.match(/interactive|complete|loaded/) !== null) {
+                var readyStateRe =  (/MSIE 10/.test(navigator.userAgent)) ? /complete|loaded/ : /interactive|complete|loaded/;
+                if (document.readyState.match(readyStateRe) !== null) {
                     triggerFn();
                 }
                 else if (!Ext.readyListenerAttached) {
                     Ext.readyListenerAttached = true;
-                    window.addEventListener('DOMContentLoaded', triggerFn, false);
+                    window.addEventListener('DOMContentLoaded', function() {
+                        if (navigator.standalone) {
+                            // When running from Home Screen, the splash screen will not disappear until all
+                            // external resource requests finish.
+                            // The first timeout clears the splash screen
+                            // The second timeout allows inital HTML content to be displayed
+                            setTimeout(function() {
+                                setTimeout(function() {
+                                    triggerFn();
+                                }, 1);
+                            }, 1);
+                        }
+                        else {
+                          setTimeout(function() {
+                              triggerFn();
+                          }, 1);
+                        }
+                    }, false);
                 }
             }
         }
@@ -10063,7 +10435,9 @@ Ext.Object.defineProperty(Ext, 'Msg', {
  * @private
  */
 Ext.define('Ext.env.Browser', {
-    requires: ['Ext.Version'],
+               
+                     
+      
 
     statics: {
         browserNames: {
@@ -10075,6 +10449,7 @@ Ext.define('Ext.env.Browser', {
             dolfin: 'Dolfin',
             webosbrowser: 'webOSBrowser',
             chromeMobile: 'ChromeMobile',
+            chromeiOS: 'ChromeiOS',
             silk: 'Silk',
             other: 'Other'
         },
@@ -10096,10 +10471,11 @@ Ext.define('Ext.env.Browser', {
             firefox: 'Firefox/',
             chrome: 'Chrome/',
             safari: 'Version/',
-            opera: 'Opera/',
+            opera: 'OPR/',
             dolfin: 'Dolfin/',
             webosbrowser: 'wOSBrowser/',
             chromeMobile: 'CrMo/',
+            chromeiOS: 'CriOS/',
             silk: 'Silk/'
         }
     },
@@ -10232,10 +10608,6 @@ Ext.define('Ext.env.Browser', {
          */
         this.userAgent = userAgent;
 
-        is = this.is = function(name) {
-            return is[name] === true;
-        };
-
         var statics = this.statics(),
             browserMatch = userAgent.match(new RegExp('((?:' + Ext.Object.getValues(statics.browserPrefixes).join(')|(?:') + '))([\\w\\._]+)')),
             engineMatch = userAgent.match(new RegExp('((?:' + Ext.Object.getValues(statics.enginePrefixes).join(')|(?:') + '))([\\w\\._]+)')),
@@ -10248,15 +10620,27 @@ Ext.define('Ext.env.Browser', {
             isWebView = false,
             is, i, name;
 
+        is = this.is = function(name) {
+            return is[name] === true;
+        };
+
         if (browserMatch) {
             browserName = browserNames[Ext.Object.getKey(statics.browserPrefixes, browserMatch[1])];
-
             browserVersion = new Ext.Version(browserMatch[2]);
         }
 
         if (engineMatch) {
             engineName = engineNames[Ext.Object.getKey(statics.enginePrefixes, engineMatch[1])];
             engineVersion = new Ext.Version(engineMatch[2]);
+        }
+
+        if (engineName == 'Trident' && browserName != 'IE') {
+            browserName = 'IE';
+            var version = userAgent.match(/.*rv:(\d+.\d+)/);
+            if (version && version.length) {
+                version = version[1];
+                browserVersion = new Ext.Version(version);
+            }
         }
 
         // Facebook changes the userAgent when you view a website within their iOS app. For some reason, the strip out information
@@ -10268,6 +10652,16 @@ Ext.define('Ext.env.Browser', {
 
         if (userAgent.match(/Android.*Chrome/g)) {
             browserName = 'ChromeMobile';
+        }
+
+        if (userAgent.match(/OPR/)) {
+            browserName = 'Opera';
+            browserMatch = userAgent.match(/OPR\/(\d+.\d+)/);
+            browserVersion = new Ext.Version(browserMatch[1]);
+        }
+
+        if(browserName === 'Safari' && userAgent.match(/BB10/)) {
+            browserName = 'BlackBerry';
         }
 
         Ext.apply(this, {
@@ -10309,13 +10703,21 @@ Ext.define('Ext.env.Browser', {
 
         this.setFlag('Standalone', !!navigator.standalone);
 
+        this.setFlag('Ripple', !!document.getElementById("tinyhippos-injected") && !Ext.isEmpty(window.top.ripple));
+        this.setFlag('WebWorks', !!window.blackberry);
+
         if (typeof window.PhoneGap != 'undefined' || typeof window.Cordova != 'undefined' || typeof window.cordova != 'undefined') {
             isWebView = true;
             this.setFlag('PhoneGap');
+            this.setFlag('Cordova');
         }
         else if (!!window.isNK) {
             isWebView = true;
             this.setFlag('Sencha');
+        }
+
+        if (/(Glass)/i.test(userAgent)) {
+            this.setFlag('GoogleGlass');
         }
 
         // Check if running in UIWebView
@@ -10357,6 +10759,19 @@ Ext.define('Ext.env.Browser', {
         }
 
         return name;
+    },
+
+    getPreferredTranslationMethod: function(config) {
+        if (typeof config == 'object' && 'translationMethod' in config && config.translationMethod !== 'auto') {
+            return config.translationMethod;
+        } else {
+            if (this.is.AndroidStock2 || this.is.IE) {
+                return 'scrollposition';
+            }
+            else {
+                return 'csstransform';
+            }
+        }
     }
 
 }, function() {
@@ -10380,7 +10795,7 @@ Ext.define('Ext.env.Browser', {
      *
      * For a full list of supported values, refer to {@link #is} property/method.
      *
-     * @aside guide environment_package
+     * For more information, see the [Environment Detect Guide](../../../core_concepts/environment_detection.html)
      */
     var browserEnv = Ext.browser = new this(Ext.global.navigator.userAgent);
 
@@ -10398,29 +10813,35 @@ Ext.define('Ext.env.Browser', {
  */
 Ext.define('Ext.env.OS', {
 
-    requires: ['Ext.Version'],
+                              
 
     statics: {
         names: {
             ios: 'iOS',
             android: 'Android',
+            windowsPhone: 'WindowsPhone',
             webos: 'webOS',
             blackberry: 'BlackBerry',
             rimTablet: 'RIMTablet',
             mac: 'MacOS',
             win: 'Windows',
+            tizen: 'Tizen',
             linux: 'Linux',
             bada: 'Bada',
+            chrome: 'ChromeOS',
             other: 'Other'
         },
         prefixes: {
+            tizen: '(Tizen )',
             ios: 'i(?:Pad|Phone|Pod)(?:.*)CPU(?: iPhone)? OS ',
             android: '(Android |HTC_|Silk/)', // Some HTC devices ship with an OSX userAgent by default,
                                         // so we need to add a direct check for HTC_
-            blackberry: 'BlackBerry(?:.*)Version\/',
+            windowsPhone: 'Windows Phone ',
+            blackberry: '(?:BlackBerry|BB)(?:.*)Version\/',
             rimTablet: 'RIM Tablet OS ',
             webos: '(?:webOS|hpwOS)\/',
-            bada: 'Bada\/'
+            bada: 'Bada\/',
+            chrome: 'CrOS '
         }
     },
 
@@ -10502,13 +10923,15 @@ Ext.define('Ext.env.OS', {
         return this;
     },
 
-    constructor: function(userAgent, platform) {
+    constructor: function(userAgent, platform, browserScope) {
         var statics = this.statics(),
             names = statics.names,
             prefixes = statics.prefixes,
             name,
             version = '',
-            i, prefix, match, item, is;
+            i, prefix, match, item, is, match1;
+
+        browserScope = browserScope || Ext.browser;
 
         is = this.is = function(name) {
             return this.is[name] === true;
@@ -10522,12 +10945,17 @@ Ext.define('Ext.env.OS', {
 
                 if (match) {
                     name = names[i];
+                    match1 = match[1];
 
                     // This is here because some HTC android devices show an OSX Snow Leopard userAgent by default.
                     // And the Kindle Fire doesn't have any indicator of Android as the OS in its User Agent
-                    if (match[1] && (match[1] == "HTC_" || match[1] == "Silk/")) {
+                    if (match1 && match1 == "HTC_") {
                         version = new Ext.Version("2.3");
-                    } else {
+                    }
+                    else if (match1 && match1 == "Silk/") {
+                        version = new Ext.Version("2.3");
+                    }
+                    else {
                         version = new Ext.Version(match[match.length - 1]);
                     }
 
@@ -10570,6 +10998,19 @@ Ext.define('Ext.env.OS', {
             this.setFlag('iPhone5');
         }
 
+
+        if (browserScope.is.Safari || browserScope.is.Silk) {
+            // Ext.browser.version.shortVersion == 501 is for debugging off device
+            if (this.is.Android2 || this.is.Android3 || browserScope.version.shortVersion == 501) {
+                browserScope.setFlag("AndroidStock");
+                browserScope.setFlag("AndroidStock2");
+            }
+            if (this.is.Android4) {
+                browserScope.setFlag("AndroidStock");
+                browserScope.setFlag("AndroidStock4");
+            }
+        }
+
         return this;
     }
 
@@ -10600,7 +11041,7 @@ Ext.define('Ext.env.OS', {
      *
      * For a full list of supported values, refer to the {@link #is} property/method.
      *
-     * @aside guide environment_package
+     * For more information, see the [Environment Detect Guide](../../../core_concepts/environment_detection.html)
      */
     Ext.os = osEnv = new this(userAgent, navigation.platform);
 
@@ -10621,13 +11062,13 @@ Ext.define('Ext.env.OS', {
         deviceType = 'Tablet';
     }
     else {
-        if (!osEnv.is.Android && !osEnv.is.iOS && /Windows|Linux|MacOS/.test(osName)) {
+        if (!osEnv.is.Android && !osEnv.is.iOS && !osEnv.is.WindowsPhone && /Windows|Linux|MacOS/.test(osName)) {
             deviceType = 'Desktop';
 
-            // always set it to false when you are on a desktop
-            Ext.browser.is.WebView = false;
+            // always set it to false when you are on a desktop not using Ripple Emulation
+            Ext.browser.is.WebView = Ext.browser.is.Ripple ? true : false;
         }
-        else if (osEnv.is.iPad || osEnv.is.Android3 || (osEnv.is.Android4 && userAgent.search(/mobile/i) == -1)) {
+        else if (osEnv.is.iPad || osEnv.is.RIMTablet || osEnv.is.Android3 || Ext.browser.is.Silk || (osEnv.is.Android && userAgent.search(/mobile/i) == -1)) {
             deviceType = 'Tablet';
         }
         else {
@@ -10667,14 +11108,14 @@ Ext.define('Ext.env.OS', {
 
 /**
  * Provides information about browser.
- * 
+ *
  * Should not be manually instantiated unless for unit-testing.
  * Access the global instance stored in {@link Ext.browser} instead.
  * @private
  */
 Ext.define('Ext.env.Feature', {
 
-    requires: ['Ext.env.Browser', 'Ext.env.OS'],
+                                                
 
     constructor: function() {
         this.testElements = {};
@@ -10683,7 +11124,35 @@ Ext.define('Ext.env.Feature', {
             return !!this.has[name];
         };
 
-        return this;
+        if (!Ext.theme) {
+            Ext.theme = {
+                name: 'Default'
+            };
+        }
+
+        Ext.theme.is = {};
+        Ext.theme.is[Ext.theme.name] = true;
+
+        Ext.onDocumentReady(function() {
+            this.registerTest({
+                ProperHBoxStretching: function() {
+                    // IE10 currently has a bug in their flexbox row layout. We feature detect the issue here.
+                    var bodyElement = document.createElement('div'),
+                        innerElement = bodyElement.appendChild(document.createElement('div')),
+                        contentElement = innerElement.appendChild(document.createElement('div')),
+                        innerWidth;
+
+                    bodyElement.setAttribute('style', 'width: 100px; height: 100px; position: relative;');
+                    innerElement.setAttribute('style', 'position: absolute; display: -ms-flexbox; display: -webkit-flex; display: -moz-flexbox; display: flex; -ms-flex-direction: row; -webkit-flex-direction: row; -moz-flex-direction: row; flex-direction: row; min-width: 100%;');
+                    contentElement.setAttribute('style', 'width: 200px; height: 50px;');
+                    document.body.appendChild(bodyElement);
+                    innerWidth = innerElement.offsetWidth;
+                    document.body.removeChild(bodyElement);
+
+                    return (innerWidth > 100);
+                }
+            });
+        }, this);
     },
 
     getTestElement: function(tag, createNew) {
@@ -10711,6 +11180,16 @@ Ext.define('Ext.env.Feature', {
 
         if (typeof elementStyle[name] !== 'undefined'
             || typeof elementStyle[Ext.browser.getStylePrefix(name) + cName] !== 'undefined') {
+            return true;
+        }
+
+        return false;
+    },
+
+    isStyleSupportedWithoutPrefix: function(name, tag) {
+        var elementStyle = this.getTestElement(tag).style;
+
+        if (typeof elementStyle[name] !== 'undefined') {
             return true;
         }
 
@@ -10775,8 +11254,8 @@ Ext.define('Ext.env.Feature', {
      *     }
      *
      * See the {@link #has} property/method for details of the features that can be detected.
-     * 
-     * @aside guide environment_package
+     *
+     * For more information, see the [Environment Detect Guide](../../../core_concepts/environment_detection.html)
      */
     Ext.feature = new this;
 
@@ -10786,7 +11265,7 @@ Ext.define('Ext.env.Feature', {
      * @method has
      * @member Ext.feature
      * Verifies if a browser feature exists or not on the current device.
-     * 
+     *
      * A "hybrid" property, can be either accessed as a method call, i.e:
      *
      *     if (Ext.feature.has('Canvas')) {
@@ -10798,7 +11277,7 @@ Ext.define('Ext.env.Feature', {
      *     if (Ext.feature.has.Canvas) {
      *         // ...
      *     }
-     * 
+     *
      * Possible properties/parameter values:
      *
      * - Canvas
@@ -10822,7 +11301,10 @@ Ext.define('Ext.env.Feature', {
      * - Video - supports the `<video>` tag.
      * - ClassList - supports the HTML5 classList API.
      * - LocalStorage - LocalStorage is supported and can be written to.
-     * 
+     * - NumericInputPlaceHolder - Supports placeholders on numeric input fields
+     * - XHR2 - Supports XMLHttpRequest 
+     * - XHRUploadProgress - Supports XMLHttpRequest upload progress info
+     *
      * [1]: https://developer.mozilla.org/en/DOM/range
      * [2]: https://developer.mozilla.org/en/DOM/range.createContextualFragment
      * [3]: https://developer.mozilla.org/en/DOM/Manipulating_the_browser_history#The_pushState().C2.A0method
@@ -10854,11 +11336,15 @@ Ext.define('Ext.env.Feature', {
         },
 
         Touch: function() {
-            return this.isEventSupported('touchstart') && !(Ext.os && Ext.os.name.match(/Windows|MacOS|Linux/) && !Ext.os.is.BlackBerry6);
+            return Ext.browser.is.Ripple || (this.isEventSupported('touchstart') && !(Ext.os && Ext.os.name.match(/Windows|MacOS|Linux/) && !Ext.os.is.BlackBerry6));
+        },
+
+        Pointer: function() {
+            return !!window.navigator.msPointerEnabled;
         },
 
         Orientation: function() {
-            return ('orientation' in window) && this.isEventSupported('orientationchange');
+            return 'orientation' in window;
         },
 
         OrientationChange: function() {
@@ -10898,9 +11384,20 @@ Ext.define('Ext.env.Feature', {
             return this.isStyleSupported('transform');
         },
 
+        CssTransformNoPrefix: function() {
+            // This extra check is needed to get around a browser bug where both 'transform' and '-webkit-transform' are present
+            // but the device really only uses '-webkit-transform'. This is seen on the HTC One for example.
+            // https://sencha.jira.com/browse/TOUCH-5029
+            if(!Ext.browser.is.AndroidStock) {
+                return this.isStyleSupportedWithoutPrefix('transform')
+            } else {
+                return this.isStyleSupportedWithoutPrefix('transform') && !this.isStyleSupportedWithoutPrefix('-webkit-transform');
+            }
+        },
+
         Css3dTransforms: function() {
             // See https://sencha.jira.com/browse/TOUCH-1544
-            return this.has('CssTransforms') && this.isStyleSupported('perspective') && !Ext.os.is.Android2;
+            return this.has('CssTransforms') && this.isStyleSupported('perspective') && !Ext.browser.is.AndroidStock2;
         },
 
         CssAnimations: function() {
@@ -10937,6 +11434,26 @@ Ext.define('Ext.env.Feature', {
             } catch ( e ) {}
 
             return supported;
+        },
+
+        MatchMedia: function() {
+            return "matchMedia" in window;
+        },
+
+        XHR2 : function() {
+          return window.ProgressEvent && window.FormData && window.XMLHttpRequest && ('withCredentials' in new XMLHttpRequest);
+        },
+
+        XHRUploadProgress : function() {
+            if(window.XMLHttpRequest && !Ext.browser.is.AndroidStock) {
+                var xhr = new XMLHttpRequest();
+                return xhr && ('upload' in xhr) && ('onprogress' in xhr.upload);
+            }
+            return false;
+        },
+
+        NumericInputPlaceHolder: function() {
+            return !(Ext.browser.is.AndroidStock4 && Ext.os.version.getMinor() < 2);
         }
     });
 
@@ -10949,7 +11466,9 @@ Ext.define('Ext.env.Feature', {
 
 /**
  * @class Ext.DomQuery
- * @alternateClassName Ext.dom.Query
+ * @alternateClassName Ext.core.DomQuery
+ * @extend Ext.dom.Query
+ * @singleton
  *
  * Provides functionality to select elements on the page based on a CSS selector. Delegates to
  * document.querySelectorAll. More information can be found at
@@ -11008,6 +11527,13 @@ Ext.define('Ext.env.Feature', {
  * * E{display%=2} CSS value "display" that is evenly divisible by 2
  * * E{display!=none} CSS value "display" that does not equal "none"
  */
+
+/**
+ * See {@link Ext.DomQuery} which is the singleton instance of this
+ * class.  You most likely don't need to instantiate Ext.dom.Query by
+ * yourself.
+ * @private
+ */
 Ext.define('Ext.dom.Query', {
     /**
      * Selects a group of elements.
@@ -11018,11 +11544,7 @@ Ext.define('Ext.dom.Query', {
      */
     select: function(q, root) {
         var results = [],
-            nodes,
-            i,
-            j,
-            qlen,
-            nlen;
+            nodes, i, j, qlen, nlen;
 
         root = root || document;
 
@@ -11069,11 +11591,37 @@ Ext.define('Ext.dom.Query', {
      * @param {String} selector The simple selector to test
      * @return {Boolean}
      */
-    is: function(el, q) {
+    is: function (el, q) {
+        var root, is, i, ln;
+
         if (typeof el == "string") {
             el = document.getElementById(el);
         }
-        return this.select(q).indexOf(el) !== -1;
+
+        if (Ext.isArray(el)) {
+            is = true;
+            ln = el.length;
+            for (i = 0; i < ln; i++) {
+                if (!this.is(el[i], q)) {
+                    is = false;
+                    break;
+                }
+            }
+        }
+        else {
+            root = el.parentNode;
+
+            if (!root) {
+                root = document.createDocumentFragment();
+                root.appendChild(el);
+                is = this.select(q, root).indexOf(el) !== -1;
+                root.removeChild(el);
+                root = null;
+            } else {
+                is = this.select(q, root).indexOf(el) !== -1;
+            }
+        }
+        return is;
     },
 
     isXml: function(el) {
@@ -11084,6 +11632,12 @@ Ext.define('Ext.dom.Query', {
 }, function() {
     Ext.ns('Ext.core');
     Ext.core.DomQuery = Ext.DomQuery = new this();
+    /**
+     * Shorthand of {@link Ext.dom.Query#select}
+     * @member Ext
+     * @method query
+     * @inheritdoc Ext.dom.Query#select
+     */
     Ext.query = Ext.Function.alias(Ext.DomQuery, 'select');
 });
 
@@ -11094,6 +11648,7 @@ Ext.define('Ext.dom.Query', {
 /**
  * @class Ext.DomHelper
  * @alternateClassName Ext.dom.Helper
+ * @singleton
  *
  * The DomHelper class provides a layer of abstraction from DOM and transparently supports creating elements via DOM or
  * using HTML fragments. It also has the ability to create HTML fragment templates from your DOM building code.
@@ -11434,8 +11989,15 @@ Ext.define('Ext.dom.Helper', {
             rangeEl = (isAfterBegin ? 'first' : 'last') + 'Child';
             if (el.firstChild) {
                 if (range) {
-                    range[setStart](el[rangeEl]);
-                    frag = range.createContextualFragment(html);
+                    // Creating ranges on a hidden element throws an error, checking for the element being painted is
+                    // VERY expensive, so we'll catch the error and fall back to using the full fragment
+                    try {
+                        range[setStart](el[rangeEl]);
+                        frag = range.createContextualFragment(html);
+                    }
+                    catch(e) {
+                        frag = this.createContextualFragment(html);
+                    }
                 } else {
                     frag = this.createContextualFragment(html);
                 }
@@ -11619,12 +12181,6 @@ Ext.define('Ext.mixin.Identifiable', {
 /**
  * Encapsulates a DOM element, adding simple DOM manipulation facilities, normalizing for browser differences.
  *
- * All instances of this class inherit the methods of Ext.Fx making visual effects easily available to all DOM elements.
- *
- * Note that the events documented in this class are not Ext events, they encapsulate browser events. To access the
- * underlying browser event, see {@link Ext.EventObject#browserEvent}. Some older browsers may not support the full range of
- * events. Which events are supported is beyond the control of Sencha Touch.
- *
  * ## Usage
  *
  *     // by id
@@ -11643,13 +12199,13 @@ Ext.define('Ext.dom.Element', {
     alternateClassName: 'Ext.Element',
 
     mixins: [
-        'Ext.mixin.Identifiable'
+         Ext.mixin.Identifiable 
     ],
 
-    requires: [
-        'Ext.dom.Query',
-        'Ext.dom.Helper'
-    ],
+               
+                        
+                        
+      
 
     observableType: 'element',
 
@@ -11766,13 +12322,10 @@ Ext.define('Ext.dom.Element', {
         /**
          * Retrieves Ext.dom.Element objects. {@link Ext#get} is alias for {@link Ext.dom.Element#get}.
          *
-         * **This method does not retrieve {@link Ext.Element Element}s.** This method retrieves Ext.dom.Element
-         * objects which encapsulate DOM elements. To retrieve a Element by its ID, use {@link Ext.ElementManager#get}.
-         *
          * Uses simple caching to consistently return the same object. Automatically fixes if an object was recreated with
          * the same id via AJAX or DOM.
          *
-         * @param {String/HTMLElement/Ext.Element} el The `id` of the node, a DOM Node or an existing Element.
+         * @param {String/HTMLElement/Ext.Element} element The `id` of the node, a DOM Node or an existing Element.
          * @return {Ext.dom.Element} The Element object (or `null` if no matching element was found).
          * @static
          * @inheritable
@@ -11785,45 +12338,66 @@ Ext.define('Ext.dom.Element', {
                 return null;
             }
 
+            // DOM Id
             if (typeof element == 'string') {
+                dom = document.getElementById(element);
+
                 if (cache.hasOwnProperty(element)) {
-                    return cache[element];
+                    instance = cache[element];
                 }
 
-                if (!(dom = document.getElementById(element))) {
-                    return null;
+                // Is this in the DOM proper
+                if (dom) {
+                    // Update our Ext Element dom reference with the true DOM (it may have changed)
+                    if (instance) {
+                        instance.dom = dom;
+                    }
+                    else {
+                        // Create a new instance of Ext Element
+                        instance = cache[element] = new this(dom);
+                    }
                 }
-
-                cache[element] = instance = new this(dom);
+                // Not in the DOM, but if its in the cache, we can still use that as a DOM fragment reference, otherwise null
+                else if (!instance) {
+                    instance = null;
+                }
 
                 return instance;
             }
 
-            if ('tagName' in element) { // dom element
+             // DOM element
+            if ('tagName' in element) {
                 id = element.id;
 
                 if (cache.hasOwnProperty(id)) {
-                    return cache[id];
+                    instance = cache[id];
+                    instance.dom = element;
+                    return instance;
                 }
-
-                instance = new this(element);
-                cache[instance.getId()] = instance;
+                else {
+                    instance = new this(element);
+                    cache[instance.getId()] = instance;
+                }
 
                 return instance;
             }
 
+            // Ext Element
             if (element.isElement) {
                 return element;
             }
 
+            // Ext Composite Element
             if (element.isComposite) {
                 return element;
             }
 
+            // Array passed
             if (Ext.isArray(element)) {
                 return this.select(element);
             }
 
+            // DOM Document
             if (element === document) {
                 // create a bogus element object representing the document object
                 if (!this.documentElement) {
@@ -11861,6 +12435,76 @@ Ext.define('Ext.dom.Element', {
             else {
                 return (data[key] = value);
             }
+        },
+
+        /**
+         * Serializes a DOM form into a url encoded string
+         * @param {Object} form The form
+         * @return {String} The url encoded form
+         */
+        serializeForm : function(form) {
+            var fElements = form.elements || (document.forms[form] || Ext.getDom(form)).elements,
+                hasSubmit = false,
+                encoder = encodeURIComponent,
+                data = '',
+                eLen = fElements.length,
+                element, name, type, options, hasValue, e,
+                o, oLen, opt;
+
+            for (e = 0; e < eLen; e++) {
+                element = fElements[e];
+                name = element.name;
+                type = element.type;
+                options = element.options;
+
+                if (!element.disabled && name) {
+                    if (/select-(one|multiple)/i.test(type)) {
+                        oLen = options.length;
+                        for (o = 0; o < oLen; o++) {
+                            opt = options[o];
+                            if (opt.selected) {
+                                hasValue = opt.hasAttribute ? opt.hasAttribute('value') : opt.getAttributeNode('value').specified;
+                                data += Ext.String.format('{0}={1}&', encoder(name), encoder(hasValue ? opt.value : opt.text));
+                            }
+                        }
+                    } else if (!(/file|undefined|reset|button/i.test(type))) {
+                        if (!(/radio|checkbox/i.test(type) && !element.checked) && !(type == 'submit' && hasSubmit)) {
+                            data += encoder(name) + '=' + encoder(element.value) + '&';
+                            hasSubmit = /submit/i.test(type);
+                        }
+                    }
+                }
+            }
+            return data.substr(0, data.length - 1);
+        },
+
+        /**
+         * Serializes a DOM element and its children recursively into a string.
+         * @param {Object} node DOM element to serialize.
+         * @returns {String}
+         */
+        serializeNode: function (node) {
+            var result = '',
+                i, n, attr, child;
+            if (node.nodeType === document.TEXT_NODE) {
+                return node.nodeValue;
+            }
+            result += '<' + node.nodeName;
+            if (node.attributes.length) {
+                for (i = 0, n = node.attributes.length; i < n; i++) {
+                    attr = node.attributes[i];
+                    result += ' ' + attr.name + '="' + attr.value + '"';
+                }
+            }
+            result += '>';
+            if (node.childNodes && node.childNodes.length) {
+                for (i = 0, n = node.childNodes.length; i < n; i++) {
+                    child = node.childNodes[i];
+                    result += this.serializeNode(child);
+                }
+            }
+            result += '</' + node.nodeName + '>';
+            return result;
         }
     },
 
@@ -11928,7 +12572,7 @@ Ext.define('Ext.dom.Element', {
                 dom.id = id = this.mixins.identifiable.getUniqueId.call(this);
             }
 
-            this.self.cache[id] = this;
+            Ext.Element.cache[id] = this;
         }
 
         return id;
@@ -11936,7 +12580,7 @@ Ext.define('Ext.dom.Element', {
 
     setId: function(id) {
         var currentId = this.id,
-            cache = this.self.cache;
+            cache = Ext.Element.cache;
 
         if (currentId) {
             delete cache[currentId];
@@ -11985,10 +12629,15 @@ Ext.define('Ext.dom.Element', {
         domStyle.display = '';
     },
 
-    isPainted: function() {
-        var dom = this.dom;
-        return Boolean(dom && dom.offsetParent);
-    },
+    isPainted: (function() {
+        return !Ext.browser.is.IE ? function() {
+            var dom = this.dom;
+            return Boolean(dom && dom.offsetParent);
+        } : function() {
+            var dom = this.dom;
+            return Boolean(dom && (dom.offsetHeight !== 0 && dom.offsetWidth !== 0));
+        }
+    })(),
 
     /**
      * Sets the passed attributes as attributes of this element (a style attribute can be a string, object or function).
@@ -12113,8 +12762,8 @@ Ext.define('Ext.dom.Element', {
          * {@link Ext.dom.Element#fly}.
          *
          * Use this to make one-time references to DOM elements which are not going to be accessed again either by
-         * application code, or by Ext's classes. If accessing an element which will be processed regularly, then {@link
-         * Ext#get Ext.get} will be more appropriate to take advantage of the caching provided by the {@link Ext.dom.Element}
+         * application code, or by Ext's classes. If accessing an element which will be processed regularly, then {@link Ext#get Ext.get}
+         * will be more appropriate to take advantage of the caching provided by the {@link Ext.dom.Element}
          * class.
          *
          * @param {String/HTMLElement} element The DOM node or `id`.
@@ -12152,7 +12801,7 @@ Ext.define('Ext.dom.Element', {
      * @alias Ext.dom.Element#get
      */
     Ext.get = function(element) {
-        return Element.get.call(Element, element);
+        return Element.get(element);
     };
 
     /**
@@ -12502,7 +13151,7 @@ Ext.dom.Element.addMembers({
 
     /**
      * Replaces the passed element with this element.
-     * @param {String/HTMLElement/Ext.dom.Element} el The element to replace.
+     * @param {String/HTMLElement/Ext.dom.Element} element The element to replace.
      * The id of the node, a DOM Node or an existing Element.
      * @return {Ext.dom.Element} This element.
      */
@@ -12525,7 +13174,7 @@ Ext.dom.Element.addMembers({
 
         if (el.nodeType || el.dom || typeof el == 'string') {
             el = Ext.get(el);
-            me.dom.parentNode.insertBefore(el, me.dom);
+            me.dom.parentNode.insertBefore(el.dom, me.dom);
         } else {
             el = Ext.core.DomHelper.insertBefore(me.dom, el);
         }
@@ -12533,7 +13182,6 @@ Ext.dom.Element.addMembers({
         delete Ext.cache[me.id];
         Ext.removeNode(me.dom);
         me.id = Ext.id(me.dom = el);
-        Ext.dom.Element.addToCache(me.isFlyweight ? new Ext.dom.Element(me.dom) : me);
         return me;
     },
 
@@ -12666,16 +13314,16 @@ Ext.dom.Element.override({
      * Gets the current X position of the element based on page coordinates.  Element must be part of the DOM tree to have page coordinates (`display:none` or elements not appended return `false`).
      * @return {Number} The X position of the element
      */
-    getX: function(el) {
-        return this.getXY(el)[0];
+    getX: function() {
+        return this.getXY()[0];
     },
 
     /**
      * Gets the current Y position of the element based on page coordinates.  Element must be part of the DOM tree to have page coordinates (`display:none` or elements not appended return `false`).
      * @return {Number} The Y position of the element
      */
-    getY: function(el) {
-        return this.getXY(el)[1];
+    getY: function() {
+        return this.getXY()[1];
     },
 
     /**
@@ -12704,8 +13352,7 @@ Ext.dom.Element.override({
 
     /**
      * Sets the X position of the element based on page coordinates.  Element must be part of the DOM tree to have page coordinates (`display:none` or elements not appended return `false`).
-     * @param {Number} The X position of the element
-     * @param {Boolean/Object} animate (optional) `true` for the default animation, or a standard Element animation config object.
+     * @param {Number} x The X position of the element
      * @return {Ext.dom.Element} this
      */
     setX: function(x) {
@@ -12714,8 +13361,7 @@ Ext.dom.Element.override({
 
     /**
      * Sets the Y position of the element based on page coordinates.  Element must be part of the DOM tree to have page coordinates (`display:none` or elements not appended return `false`).
-     * @param {Number} The Y position of the element.
-     * @param {Boolean/Object} animate (optional) `true` for the default animation, or a standard Element animation config object.
+     * @param {Number} y The Y position of the element.
      * @return {Ext.dom.Element} this
      */
     setY: function(y) {
@@ -12725,8 +13371,7 @@ Ext.dom.Element.override({
     /**
      * Sets the position of the element in page coordinates, regardless of how the element is positioned.
      * The element must be part of the DOM tree to have page coordinates (`display:none` or elements not appended return `false`).
-     * @param {Array} pos Contains X & Y [x, y] values for new position (coordinates are page-based).
-     * @param {Boolean/Object} animate (optional) `true` for the default animation, or a standard Element animation config object.
+     * @param {Number[]} pos Contains X & Y [x, y] values for new position (coordinates are page-based).
      * @return {Ext.dom.Element} this
      */
     setXY: function(pos) {
@@ -12926,18 +13571,19 @@ Ext.dom.Element.override({
      */
     getPageBox: function(getRegion) {
         var me = this,
-            el = me.dom,
-            w = el.offsetWidth,
+            el = me.dom;
+
+        if (!el) {
+            return new Ext.util.Region();
+        }
+
+        var w = el.offsetWidth,
             h = el.offsetHeight,
             xy = me.getXY(),
             t = xy[1],
             r = xy[0] + w,
             b = xy[1] + h,
             l = xy[0];
-
-        if (!el) {
-            return new Ext.util.Region();
-        }
 
         if (getRegion) {
             return new Ext.util.Region(t, r, b, l);
@@ -13106,8 +13752,8 @@ Ext.dom.Element.addMembers({
     /**
      * Removes the given CSS class(es) from this Element.
      * @param {String} names The CSS class(es) to remove from this element.
-     * @param {String} [prefix=''] (optional) Prefix to prepend to each class to be removed.
-     * @param {String} [suffix=''] (optional) Suffix to append to each class to be removed.
+     * @param {String} [prefix=''] Prefix to prepend to each class to be removed.
+     * @param {String} [suffix=''] Suffix to append to each class to be removed.
      */
     removeCls: function(names, prefix, suffix) {
         if (!names) {
@@ -13150,18 +13796,72 @@ Ext.dom.Element.addMembers({
     },
 
     /**
-     * Replaces a CSS class on the element with another.  If the old name does not exist, the new name will simply be added.
-     * @param {String} oldClassName The CSS class to replace.
-     * @param {String} newClassName The replacement CSS class.
+     * Replaces a CSS class on the element with another.
+     * If the old name does not exist, the new name will simply be added.
+     * @param {String} oldName The CSS class to replace.
+     * @param {String} newName The replacement CSS class.
+     * @param {String} [prefix=''] Prefix to prepend to each class to be replaced.
+     * @param {String} [suffix=''] Suffix to append to each class to be replaced.
      * @return {Ext.dom.Element} this
      */
     replaceCls: function(oldName, newName, prefix, suffix) {
-        return this.removeCls(oldName, prefix, suffix).addCls(newName, prefix, suffix);
+        if (!oldName && !newName) {
+            return this;
+        }
+
+        oldName = oldName || [];
+        newName = newName || [];
+
+        if (!this.isSynchronized) {
+            this.synchronize();
+        }
+
+        if (!suffix) {
+            suffix = '';
+        }
+
+        var dom = this.dom,
+            map = this.hasClassMap,
+            classList = this.classList,
+            SEPARATOR = this.SEPARATOR,
+            i, ln, name;
+
+        prefix = prefix ? prefix + SEPARATOR : '';
+        suffix = suffix ? SEPARATOR + suffix : '';
+
+        if (typeof oldName == 'string') {
+            oldName = oldName.split(this.spacesRe);
+        }
+        if (typeof newName == 'string') {
+            newName = newName.split(this.spacesRe);
+        }
+
+        for (i = 0, ln = oldName.length; i < ln; i++) {
+            name = prefix + oldName[i] + suffix;
+
+            if (map[name]) {
+                delete map[name];
+                Ext.Array.remove(classList, name);
+            }
+        }
+
+        for (i = 0, ln = newName.length; i < ln; i++) {
+            name = prefix + newName[i] + suffix;
+
+            if (!map[name]) {
+                map[name] = true;
+                classList.push(name);
+            }
+        }
+
+        dom.className = classList.join(' ');
+
+        return this;
     },
 
     /**
      * Checks if the specified CSS class exists on this element's DOM node.
-     * @param {String} className The CSS class to check for.
+     * @param {String} name The CSS class to check for.
      * @return {Boolean} `true` if the class exists, else `false`.
      */
     hasCls: function(name) {
@@ -13170,6 +13870,29 @@ Ext.dom.Element.addMembers({
         }
 
         return this.hasClassMap.hasOwnProperty(name);
+    },
+
+    /**
+     * Sets the specified CSS class on this element's DOM node.
+     * @param {String/Array} className The CSS class to set on this element.
+     */
+    setCls: function(className) {
+        var map = this.hasClassMap,
+            i, ln, name;
+
+        if (typeof className == 'string') {
+            className = className.split(this.spacesRe);
+        }
+
+        for (i = 0, ln = className.length; i < ln; i++) {
+            name = className[i];
+            if (!map[name]) {
+                map[name] = true;
+            }
+        }
+
+        this.classList = className.slice();
+        this.dom.className = className.join(' ');
     },
 
     /**
@@ -13187,10 +13910,10 @@ Ext.dom.Element.addMembers({
 
     /**
      * @private
-     * @param firstClass
-     * @param secondClass
-     * @param flag
-     * @param prefix
+     * @param {String} firstClass
+     * @param {String} secondClass
+     * @param {Boolean} flag
+     * @param {String} prefix
      * @return {Mixed}
      */
     swapCls: function(firstClass, secondClass, flag, prefix) {
@@ -13677,6 +14400,7 @@ Ext.dom.Element.addMembers({
                 this.setStyle(styles);
             }
         }
+        return this;
     },
 
     /**
@@ -13727,7 +14451,15 @@ Ext.dom.Element.addMembers({
         } else {
             return me.addStyles.call(me, side, me.margins);
         }
-    }
+    },
+
+    translate: function() {
+        var transformStyleName = 'webkitTransform' in document.createElement('div').style ? 'webkitTransform' : 'transform';
+
+        return function(x, y, z) {
+            this.dom.style[transformStyleName] = 'translate3d(' + (x || 0) + 'px, ' + (y || 0) + 'px, ' + (z || 0) + 'px)';
+        }
+    }()
 });
 
 
@@ -13766,7 +14498,7 @@ Ext.dom.Element.addMembers({
 
     /**
      * Looks at this node and then at parent nodes for a match of the passed simple selector (e.g. 'div.some-class' or 'span:first-child')
-     * @param {String} selector The simple selector to test.
+     * @param {String} simpleSelector The simple selector to test.
      * @param {Number/String/HTMLElement/Ext.Element} maxDepth (optional)
      * The max depth to search as a number or element (defaults to `50 || document.body`)
      * @param {Boolean} returnEl (optional) `true` to return a Ext.Element object instead of DOM node.
@@ -13795,7 +14527,7 @@ Ext.dom.Element.addMembers({
 
     /**
      * Looks at parent nodes for a match of the passed simple selector (e.g. 'div.some-class' or 'span:first-child').
-     * @param {String} selector The simple selector to test.
+     * @param {String} simpleSelector The simple selector to test.
      * @param {Number/String/HTMLElement/Ext.Element} maxDepth (optional)
      * The max depth to search as a number or element (defaults to `10 || document.body`).
      * @param {Boolean} returnEl (optional) `true` to return a Ext.Element object instead of DOM node.
@@ -13809,7 +14541,7 @@ Ext.dom.Element.addMembers({
     /**
      * Walks up the dom looking for a parent node that matches the passed simple selector (e.g. 'div.some-class' or 'span:first-child').
      * This is a shortcut for `findParentNode()` that always returns an Ext.dom.Element.
-     * @param {String} selector The simple selector to test
+     * @param {String} simpleSelector The simple selector to test
      * @param {Number/String/HTMLElement/Ext.Element} maxDepth (optional)
      * The max depth to search as a number or element (defaults to `10 || document.body`).
      * @return {Ext.dom.Element/null} The matching DOM node (or `null` if no match was found).
@@ -13818,8 +14550,16 @@ Ext.dom.Element.addMembers({
         return this.findParentNode(simpleSelector, maxDepth, true);
     },
 
+    /**
+     * Selects elements based on the passed CSS selector to enable {@link Ext.Element Element} methods
+     * to be applied to many related elements in one statement through the returned. The element is the root of the search.
+     * {@link Ext.dom.CompositeElementLite CompositeElementLite} object.
+     * @param {String/HTMLElement[]} selector The CSS selector or an array of elements
+     * @param {Boolean} composite Return a CompositeElement as opposed to a CompositeElementLite. Defaults to false.
+     * @return {Ext.dom.CompositeElementLite/Ext.dom.CompositeElement}
+     */
     select: function(selector, composite) {
-        return Ext.dom.Element.select(selector, this.dom, composite);
+        return Ext.dom.Element.select(selector, composite, this.dom);
     },
 
     /**
@@ -13957,8 +14697,8 @@ Ext.dom.Element.addMembers({
 Ext.define('Ext.dom.CompositeElementLite', {
     alternateClassName: ['Ext.CompositeElementLite', 'Ext.CompositeElement'],
 
-    requires: ['Ext.dom.Element'],
-    
+                                  
+
     // We use the @mixins tag above to document that CompositeElement has
     // all the same methods as Element, but the @mixins tag also pulls in
     // configs and properties which we don't want, so hide them explicitly:
@@ -14305,36 +15045,42 @@ Ext.define('Ext.dom.CompositeElementLite', {
         name;
 
     for (name in elementPrototype) {
-        if (typeof elementPrototype[name] == 'function'){
+        if (typeof elementPrototype[name] == 'function') {
             (function(key) {
-                prototype[key] = prototype[key] || function() {
-                    return this.invoke(key, arguments);
-                };
+                if (key === 'destroy') {
+                    prototype[key] = function() {
+                        return this.invoke(key, arguments);
+                    };
+                } else {
+                    prototype[key] = prototype[key] || function() {
+                        return this.invoke(key, arguments);
+                    };
+                }
             }).call(prototype, name);
         }
     }
 
     prototype.on = prototype.addListener;
 
-    if (Ext.DomQuery){
-        Element.selectorFunction = Ext.DomQuery.select;
-    }
+    Element.selectorFunction = Ext.DomQuery.select;
 
     /**
      * Selects elements based on the passed CSS selector to enable {@link Ext.Element Element} methods
      * to be applied to many related elements in one statement through the returned
      * {@link Ext.dom.CompositeElementLite CompositeElementLite} object.
      * @param {String/HTMLElement[]} selector The CSS selector or an array of elements
+     * @param {Boolean} composite Return a CompositeElement as opposed to a CompositeElementLite. Defaults to false.
      * @param {HTMLElement/String} [root] The root element of the query or id of the root
-     * @return {Ext.dom.CompositeElementLite}
+     * @return {Ext.dom.CompositeElementLite/Ext.dom.CompositeElement}
      * @member Ext.dom.Element
      * @method select
+     * @static
      */
-   Element.select = function(selector, root) {
+    Ext.dom.Element.select = function(selector, composite, root) {
         var elements;
 
         if (typeof selector == "string") {
-            elements = Element.selectorFunction(selector, root);
+            elements = Ext.dom.Element.selectorFunction(selector, root);
         }
         else if (selector.length !== undefined) {
             elements = selector;
@@ -14345,7 +15091,7 @@ Ext.define('Ext.dom.CompositeElementLite', {
             //</debug>
         }
 
-        return new Ext.CompositeElementLite(elements);
+        return (composite === true) ? new Ext.dom.CompositeElement(elements) : new Ext.dom.CompositeElementLite(elements);
     };
 
     /**
@@ -14359,1435 +15105,1684 @@ Ext.define('Ext.dom.CompositeElementLite', {
 });
 
 Ext.ClassManager.addNameAlternateMappings({
-  "Ext.app.Profile": [],
-  "Ext.event.recognizer.MultiTouch": [],
-  "Ext.fx.Runner": [],
-  "Ext.chart.grid.CircularGrid": [],
-  "Ext.mixin.Templatable": [],
-  "Ext.event.recognizer.Pinch": [],
-  "Ext.util.Format": [],
-  "Ext.direct.JsonProvider": [],
-  "Ext.data.identifier.Simple": [],
-  "Ext.dataview.DataView": [
-    "Ext.DataView"
-  ],
-  "Ext.field.Hidden": [
-    "Ext.form.Hidden"
-  ],
-  "Ext.field.Number": [
-    "Ext.form.Number"
-  ],
-  "Ext.chart.series.CandleStick": [],
-  "Ext.device.Connection": [],
-  "Ext.data.Model": [
-    "Ext.data.Record"
-  ],
-  "Ext.data.reader.Reader": [
-    "Ext.data.Reader",
-    "Ext.data.DataReader"
-  ],
-  "Ext.Sheet": [],
-  "Ext.tab.Tab": [
-    "Ext.Tab"
-  ],
-  "Ext.chart.series.sprite.StackedCartesian": [],
-  "Ext.util.Grouper": [],
-  "Ext.util.translatable.CssPosition": [],
-  "Ext.util.paintmonitor.Abstract": [],
-  "Ext.direct.RemotingProvider": [],
-  "Ext.data.NodeInterface": [
-    "Ext.data.Node"
-  ],
-  "Ext.chart.interactions.PanZoom": [],
-  "Ext.util.PositionMap": [],
-  "Ext.chart.series.ItemPublisher": [],
-  "Ext.util.Sortable": [],
-  "Ext.chart.series.sprite.AbstractRadial": [],
-  "Ext.fx.runner.Css": [],
-  "Ext.fx.runner.CssTransition": [],
-  "Ext.draw.Group": [],
-  "Ext.XTemplateCompiler": [],
-  "Ext.util.Wrapper": [],
-  "Ext.app.Router": [],
-  "Ext.direct.Transaction": [
-    "Ext.Direct.Transaction"
-  ],
-  "Ext.util.Offset": [],
-  "Ext.device.device.Abstract": [],
-  "Ext.mixin.Mixin": [],
-  "Ext.fx.animation.FadeOut": [],
-  "Ext.util.Geolocation": [
-    "Ext.util.GeoLocation"
+  "Ext.AbstractComponent": [],
+  "Ext.AbstractManager": [],
+  "Ext.AbstractPlugin": [],
+  "Ext.ActionSheet": [],
+  "Ext.Ajax": [],
+  "Ext.Anim": [],
+  "Ext.AnimationQueue": [],
+  "Ext.Audio": [],
+  "Ext.BingMap": [],
+  "Ext.Button": [],
+  "Ext.Component": [
+    "Ext.lib.Component"
   ],
   "Ext.ComponentManager": [
     "Ext.ComponentMgr"
   ],
-  "Ext.util.sizemonitor.OverflowChange": [],
-  "Ext.event.publisher.ElementSize": [],
-  "Ext.tab.Bar": [
-    "Ext.TabBar"
+  "Ext.ComponentQuery": [],
+  "Ext.Container": [
+    "Ext.lib.Container"
   ],
-  "Ext.event.Dom": [],
+  "Ext.Decorator": [],
+  "Ext.Evented": [
+    "Ext.EventedBase"
+  ],
+  "Ext.Img": [],
+  "Ext.ItemCollection": [],
+  "Ext.Label": [],
+  "Ext.LoadMask": [],
+  "Ext.Map": [],
+  "Ext.Mask": [],
+  "Ext.Media": [],
+  "Ext.Menu": [],
+  "Ext.MessageBox": [],
+  "Ext.Panel": [
+    "Ext.lib.Panel"
+  ],
+  "Ext.ProgressIndicator": [],
+  "Ext.Promise": [],
+  "Ext.SegmentedButton": [],
+  "Ext.Sheet": [],
+  "Ext.Sortable": [],
+  "Ext.Spacer": [],
+  "Ext.TaskQueue": [],
+  "Ext.Template": [],
+  "Ext.Title": [],
+  "Ext.TitleBar": [],
+  "Ext.Toast": [],
+  "Ext.Toolbar": [],
+  "Ext.Video": [],
+  "Ext.XTemplate": [],
+  "Ext.XTemplateCompiler": [],
+  "Ext.XTemplateParser": [],
+  "Ext.app.Action": [],
   "Ext.app.Application": [],
-  "Ext.dataview.List": [
-    "Ext.List"
+  "Ext.app.Controller": [],
+  "Ext.app.History": [],
+  "Ext.app.Profile": [],
+  "Ext.app.Route": [],
+  "Ext.app.Router": [],
+  "Ext.behavior.Behavior": [],
+  "Ext.behavior.Draggable": [],
+  "Ext.behavior.Scrollable": [],
+  "Ext.behavior.Translatable": [],
+  "Ext.carousel.Carousel": [
+    "Ext.Carousel"
   ],
-  "Ext.util.translatable.Dom": [],
-  "Ext.fx.layout.card.Scroll": [],
-  "Ext.draw.LimitedCache": [],
-  "Ext.device.geolocation.Sencha": [],
-  "Ext.dataview.ListItemHeader": [],
-  "Ext.event.publisher.TouchGesture": [],
-  "Ext.data.SortTypes": [],
-  "Ext.device.contacts.Abstract": [],
-  "Ext.device.push.Sencha": [],
-  "Ext.fx.animation.WipeOut": [],
-  "Ext.slider.Slider": [],
-  "Ext.Component": [
-    "Ext.lib.Component"
+  "Ext.carousel.Indicator": [
+    "Ext.Carousel.Indicator"
   ],
-  "Ext.device.communicator.Default": [],
-  "Ext.fx.runner.CssAnimation": [],
-  "Ext.chart.axis.Axis": [],
-  "Ext.fx.animation.Cube": [],
-  "Ext.chart.Markers": [],
-  "Ext.chart.series.sprite.Radar": [],
-  "Ext.device.device.Simulator": [],
-  "Ext.Ajax": [],
-  "Ext.dataview.component.ListItem": [],
-  "Ext.util.Filter": [],
-  "Ext.layout.wrapper.Inner": [],
-  "Ext.draw.Animator": [],
-  "Ext.device.geolocation.Simulator": [],
-  "Ext.data.association.BelongsTo": [
-    "Ext.data.BelongsToAssociation"
-  ],
-  "Ext.draw.Surface": [],
-  "Ext.scroll.indicator.ScrollPosition": [],
-  "Ext.field.Email": [
-    "Ext.form.Email"
-  ],
-  "Ext.fx.layout.card.Abstract": [],
-  "Ext.event.Controller": [],
-  "Ext.dataview.component.Container": [],
-  "Ext.log.writer.Remote": [],
-  "Ext.fx.layout.card.Style": [],
-  "Ext.device.purchases.Sencha": [],
-  "Ext.chart.axis.segmenter.Segmenter": [],
-  "Ext.viewport.Android": [],
-  "Ext.log.formatter.Identity": [],
-  "Ext.chart.interactions.ItemHighlight": [],
-  "Ext.picker.Picker": [
-    "Ext.Picker"
-  ],
-  "Ext.data.Batch": [],
-  "Ext.draw.modifier.Animation": [],
+  "Ext.carousel.Infinite": [],
+  "Ext.carousel.Item": [],
   "Ext.chart.AbstractChart": [],
-  "Ext.tab.Panel": [
-    "Ext.TabPanel"
+  "Ext.chart.CartesianChart": [
+    "Ext.chart.Chart"
   ],
-  "Ext.draw.Path": [],
-  "Ext.scroll.indicator.Throttled": [],
-  "Ext.fx.animation.SlideOut": [],
-  "Ext.device.connection.Sencha": [],
-  "Ext.fx.layout.card.Pop": [],
+  "Ext.chart.Legend": [],
+  "Ext.chart.MarkerHolder": [],
+  "Ext.chart.Markers": [],
+  "Ext.chart.PolarChart": [],
+  "Ext.chart.SpaceFillingChart": [],
+  "Ext.chart.axis.Axis": [],
+  "Ext.chart.axis.Category": [],
+  "Ext.chart.axis.Numeric": [],
+  "Ext.chart.axis.Time": [],
+  "Ext.chart.axis.layout.CombineDuplicate": [],
+  "Ext.chart.axis.layout.Continuous": [],
   "Ext.chart.axis.layout.Discrete": [],
-  "Ext.data.Field": [],
+  "Ext.chart.axis.layout.Layout": [],
+  "Ext.chart.axis.segmenter.Names": [],
+  "Ext.chart.axis.segmenter.Numeric": [],
+  "Ext.chart.axis.segmenter.Segmenter": [],
+  "Ext.chart.axis.segmenter.Time": [],
+  "Ext.chart.axis.sprite.Axis": [],
+  "Ext.chart.grid.CircularGrid": [],
+  "Ext.chart.grid.HorizontalGrid": [],
+  "Ext.chart.grid.RadialGrid": [],
+  "Ext.chart.grid.VerticalGrid": [],
+  "Ext.chart.interactions.Abstract": [],
+  "Ext.chart.interactions.CrossZoom": [],
+  "Ext.chart.interactions.Crosshair": [],
+  "Ext.chart.interactions.ItemHighlight": [],
+  "Ext.chart.interactions.ItemInfo": [],
+  "Ext.chart.interactions.PanZoom": [],
+  "Ext.chart.interactions.Rotate": [],
+  "Ext.chart.interactions.RotatePie3D": [],
+  "Ext.chart.label.Callout": [],
+  "Ext.chart.label.Label": [],
+  "Ext.chart.series.Area": [],
+  "Ext.chart.series.Bar": [],
+  "Ext.chart.series.CandleStick": [],
+  "Ext.chart.series.Cartesian": [],
   "Ext.chart.series.Gauge": [],
+  "Ext.chart.series.ItemPublisher": [],
+  "Ext.chart.series.Line": [],
+  "Ext.chart.series.Pie": [],
+  "Ext.chart.series.Pie3D": [],
+  "Ext.chart.series.Polar": [],
+  "Ext.chart.series.Radar": [],
+  "Ext.chart.series.Scatter": [],
+  "Ext.chart.series.Series": [],
+  "Ext.chart.series.StackedCartesian": [],
+  "Ext.chart.series.sprite.Aggregative": [],
+  "Ext.chart.series.sprite.Area": [],
+  "Ext.chart.series.sprite.Bar": [],
+  "Ext.chart.series.sprite.CandleStick": [],
+  "Ext.chart.series.sprite.Cartesian": [],
+  "Ext.chart.series.sprite.Line": [],
+  "Ext.chart.series.sprite.Pie3DPart": [],
+  "Ext.chart.series.sprite.PieSlice": [],
+  "Ext.chart.series.sprite.Polar": [],
+  "Ext.chart.series.sprite.Radar": [],
+  "Ext.chart.series.sprite.Scatter": [],
+  "Ext.chart.series.sprite.StackedCartesian": [],
+  "Ext.data.ArrayStore": [],
+  "Ext.data.Batch": [],
+  "Ext.data.Connection": [],
+  "Ext.data.DirectStore": [],
+  "Ext.data.Error": [],
+  "Ext.data.Errors": [],
+  "Ext.data.Field": [],
+  "Ext.data.JsonP": [
+    "Ext.util.JSONP"
+  ],
+  "Ext.data.JsonStore": [],
+  "Ext.data.Model": [
+    "Ext.data.Record"
+  ],
+  "Ext.data.ModelManager": [
+    "Ext.ModelMgr",
+    "Ext.ModelManager"
+  ],
+  "Ext.data.NodeInterface": [
+    "Ext.data.Node"
+  ],
+  "Ext.data.NodeStore": [],
+  "Ext.data.Operation": [],
+  "Ext.data.Request": [],
+  "Ext.data.ResultSet": [],
+  "Ext.data.SortTypes": [],
+  "Ext.data.Store": [],
   "Ext.data.StoreManager": [
     "Ext.StoreMgr",
     "Ext.data.StoreMgr",
     "Ext.StoreManager"
   ],
-  "Ext.fx.animation.PopOut": [],
-  "Ext.chart.label.Callout": [],
-  "Ext.device.push.Abstract": [],
-  "Ext.util.DelayedTask": [],
-  "Ext.fx.easing.Momentum": [],
-  "Ext.fx.easing.Abstract": [],
-  "Ext.Title": [],
-  "Ext.event.recognizer.Drag": [],
-  "Ext.field.TextArea": [
-    "Ext.form.TextArea"
-  ],
-  "Ext.fx.Easing": [],
-  "Ext.chart.series.sprite.Scatter": [],
-  "Ext.data.reader.Array": [
-    "Ext.data.ArrayReader"
-  ],
-  "Ext.picker.Date": [
-    "Ext.DatePicker"
-  ],
-  "Ext.data.proxy.JsonP": [
-    "Ext.data.ScriptTagProxy"
-  ],
-  "Ext.device.communicator.Android": [],
-  "Ext.chart.series.Area": [],
-  "Ext.device.device.PhoneGap": [],
-  "Ext.field.Checkbox": [
-    "Ext.form.Checkbox"
-  ],
-  "Ext.chart.Legend": [],
-  "Ext.Media": [],
-  "Ext.TitleBar": [],
-  "Ext.chart.interactions.RotatePie3D": [],
-  "Ext.draw.gradient.Linear": [],
-  "Ext.util.TapRepeater": [],
-  "Ext.event.Touch": [],
-  "Ext.mixin.Bindable": [],
-  "Ext.data.proxy.Server": [
-    "Ext.data.ServerProxy"
-  ],
-  "Ext.chart.series.Cartesian": [],
-  "Ext.util.sizemonitor.Scroll": [],
-  "Ext.data.ResultSet": [],
-  "Ext.data.association.HasMany": [
-    "Ext.data.HasManyAssociation"
-  ],
-  "Ext.draw.TimingFunctions": [],
-  "Ext.draw.engine.Canvas": [],
-  "Ext.data.proxy.Ajax": [
-    "Ext.data.HttpProxy",
-    "Ext.data.AjaxProxy"
-  ],
-  "Ext.fx.animation.Fade": [
-    "Ext.fx.animation.FadeIn"
-  ],
-  "Ext.layout.Default": [],
-  "Ext.util.paintmonitor.CssAnimation": [],
-  "Ext.data.writer.Writer": [
-    "Ext.data.DataWriter",
-    "Ext.data.Writer"
-  ],
-  "Ext.event.recognizer.Recognizer": [],
-  "Ext.form.FieldSet": [],
-  "Ext.scroll.Indicator": [
-    "Ext.util.Indicator"
-  ],
-  "Ext.XTemplateParser": [],
-  "Ext.behavior.Scrollable": [],
-  "Ext.chart.series.sprite.CandleStick": [],
-  "Ext.data.JsonP": [
-    "Ext.util.JSONP"
-  ],
-  "Ext.device.connection.PhoneGap": [],
-  "Ext.event.publisher.Dom": [],
-  "Ext.fx.layout.card.Fade": [],
-  "Ext.app.Controller": [],
-  "Ext.fx.State": [],
-  "Ext.layout.wrapper.BoxDock": [],
-  "Ext.chart.series.sprite.Pie3DPart": [],
-  "Ext.viewport.Default": [],
-  "Ext.layout.HBox": [],
-  "Ext.ux.auth.model.Session": [],
-  "Ext.scroll.indicator.Default": [],
-  "Ext.data.ModelManager": [
-    "Ext.ModelMgr",
-    "Ext.ModelManager"
-  ],
+  "Ext.data.TreeStore": [],
+  "Ext.data.Types": [],
   "Ext.data.Validations": [
     "Ext.data.validations"
   ],
-  "Ext.util.translatable.Abstract": [],
-  "Ext.scroll.indicator.Abstract": [],
-  "Ext.Button": [],
-  "Ext.field.Radio": [
-    "Ext.form.Radio"
+  "Ext.data.association.Association": [
+    "Ext.data.Association"
   ],
-  "Ext.util.HashMap": [],
-  "Ext.field.Input": [],
-  "Ext.device.Camera": [],
-  "Ext.mixin.Filterable": [],
-  "Ext.draw.TextMeasurer": [],
-  "Ext.dataview.element.Container": [],
-  "Ext.chart.series.sprite.PieSlice": [],
-  "Ext.data.Connection": [],
-  "Ext.direct.ExceptionEvent": [],
-  "Ext.Panel": [
-    "Ext.lib.Panel"
+  "Ext.data.association.BelongsTo": [
+    "Ext.data.BelongsToAssociation"
+  ],
+  "Ext.data.association.HasMany": [
+    "Ext.data.HasManyAssociation"
   ],
   "Ext.data.association.HasOne": [
     "Ext.data.HasOneAssociation"
   ],
-  "Ext.device.geolocation.Abstract": [],
-  "Ext.ActionSheet": [],
-  "Ext.layout.Box": [],
-  "Ext.bb.CrossCut": [],
-  "Ext.Video": [],
-  "Ext.ux.auth.Session": [],
-  "Ext.chart.series.Line": [],
-  "Ext.fx.layout.card.Cube": [],
-  "Ext.event.recognizer.HorizontalSwipe": [],
-  "Ext.data.writer.Json": [
-    "Ext.data.JsonWriter"
-  ],
-  "Ext.layout.Fit": [],
-  "Ext.fx.animation.Slide": [
-    "Ext.fx.animation.SlideIn"
-  ],
-  "Ext.device.Purchases.Purchase": [],
-  "Ext.table.Row": [],
-  "Ext.log.formatter.Formatter": [],
-  "Ext.Container": [
-    "Ext.lib.Container"
-  ],
-  "Ext.fx.animation.Pop": [
-    "Ext.fx.animation.PopIn"
-  ],
-  "Ext.draw.sprite.Circle": [],
-  "Ext.fx.layout.card.Reveal": [],
-  "Ext.fx.layout.card.Cover": [],
-  "Ext.log.Base": [],
-  "Ext.data.reader.Xml": [
-    "Ext.data.XmlReader"
-  ],
-  "Ext.event.publisher.ElementPaint": [],
-  "Ext.chart.axis.Category": [],
-  "Ext.data.reader.Json": [
-    "Ext.data.JsonReader"
-  ],
-  "Ext.Decorator": [],
-  "Ext.data.TreeStore": [],
-  "Ext.device.Purchases": [],
-  "Ext.device.orientation.HTML5": [],
-  "Ext.draw.gradient.Gradient": [],
-  "Ext.event.recognizer.DoubleTap": [],
-  "Ext.log.Logger": [],
-  "Ext.picker.Slot": [
-    "Ext.Picker.Slot"
-  ],
-  "Ext.device.notification.Simulator": [],
-  "Ext.field.Field": [
-    "Ext.form.Field"
-  ],
-  "Ext.log.filter.Priority": [],
-  "Ext.util.sizemonitor.Abstract": [],
-  "Ext.chart.series.sprite.Polar": [],
-  "Ext.util.paintmonitor.OverflowChange": [],
-  "Ext.util.LineSegment": [],
-  "Ext.SegmentedButton": [],
-  "Ext.Sortable": [],
-  "Ext.fx.easing.Linear": [],
-  "Ext.chart.series.sprite.Aggregative": [],
-  "Ext.dom.CompositeElement": [
-    "Ext.CompositeElement"
-  ],
+  "Ext.data.identifier.Sequential": [],
+  "Ext.data.identifier.Simple": [],
   "Ext.data.identifier.Uuid": [],
+  "Ext.data.proxy.Ajax": [
+    "Ext.data.HttpProxy",
+    "Ext.data.AjaxProxy"
+  ],
   "Ext.data.proxy.Client": [
     "Ext.proxy.ClientProxy"
   ],
-  "Ext.fx.easing.Bounce": [],
-  "Ext.data.Types": [],
-  "Ext.chart.series.sprite.Cartesian": [],
-  "Ext.app.Action": [],
-  "Ext.util.Translatable": [],
-  "Ext.device.camera.PhoneGap": [],
-  "Ext.draw.sprite.Path": [],
-  "Ext.LoadMask": [],
-  "Ext.data.association.Association": [
-    "Ext.data.Association"
-  ],
-  "Ext.chart.axis.sprite.Axis": [],
-  "Ext.behavior.Draggable": [],
-  "Ext.chart.grid.RadialGrid": [],
-  "Ext.util.TranslatableGroup": [],
-  "Ext.fx.Animation": [],
-  "Ext.draw.sprite.Ellipse": [],
-  "Ext.util.Inflector": [],
-  "Ext.Map": [],
-  "Ext.XTemplate": [],
-  "Ext.data.NodeStore": [],
-  "Ext.draw.sprite.AttributeParser": [],
-  "Ext.form.Panel": [
-    "Ext.form.FormPanel"
-  ],
-  "Ext.chart.series.Series": [],
-  "Ext.data.Request": [],
-  "Ext.draw.sprite.Text": [],
-  "Ext.layout.Float": [],
-  "Ext.dataview.component.DataItem": [],
-  "Ext.chart.CartesianChart": [
-    "Ext.chart.Chart"
-  ],
-  "Ext.data.proxy.WebStorage": [
-    "Ext.data.WebStorageProxy"
-  ],
-  "Ext.log.writer.Writer": [],
-  "Ext.device.Communicator": [],
-  "Ext.fx.animation.Flip": [],
-  "Ext.util.Point": [],
-  "Ext.chart.series.StackedCartesian": [],
-  "Ext.fx.layout.card.Slide": [],
-  "Ext.Anim": [],
-  "Ext.data.DirectStore": [],
-  "Ext.dataview.NestedList": [
-    "Ext.NestedList"
-  ],
-  "Ext.app.Route": [],
-  "Ext.device.connection.Simulator": [],
-  "Ext.chart.PolarChart": [],
-  "Ext.event.publisher.ComponentSize": [],
-  "Ext.slider.Toggle": [],
-  "Ext.data.identifier.Sequential": [],
-  "Ext.Template": [],
-  "Ext.AbstractComponent": [],
-  "Ext.device.Push": [],
-  "Ext.fx.easing.BoundMomentum": [],
-  "Ext.viewport.Viewport": [],
-  "Ext.chart.series.Polar": [],
-  "Ext.event.recognizer.VerticalSwipe": [],
-  "Ext.event.Event": [
-    "Ext.EventObject"
-  ],
-  "Ext.behavior.Behavior": [],
-  "Ext.chart.grid.VerticalGrid": [],
-  "Ext.chart.label.Label": [],
-  "Ext.draw.sprite.EllipticalArc": [],
-  "Ext.fx.easing.EaseOut": [],
-  "Ext.Toolbar": [],
-  "Ext.event.recognizer.LongPress": [],
-  "Ext.device.notification.Sencha": [],
-  "Ext.chart.series.sprite.Line": [],
-  "Ext.data.ArrayStore": [],
-  "Ext.data.proxy.SQL": [],
-  "Ext.mixin.Sortable": [],
-  "Ext.fx.layout.card.Flip": [],
-  "Ext.chart.interactions.CrossZoom": [],
-  "Ext.event.publisher.ComponentPaint": [],
-  "Ext.event.recognizer.Rotate": [],
-  "Ext.util.TranslatableList": [],
-  "Ext.carousel.Item": [],
-  "Ext.event.recognizer.Swipe": [],
-  "Ext.util.translatable.ScrollPosition": [],
-  "Ext.device.camera.Simulator": [],
-  "Ext.chart.series.sprite.Area": [],
-  "Ext.event.recognizer.Touch": [],
-  "Ext.plugin.ListPaging": [],
-  "Ext.draw.sprite.Sector": [],
-  "Ext.chart.axis.segmenter.Names": [],
-  "Ext.mixin.Observable": [
-    "Ext.util.Observable"
-  ],
-  "Ext.carousel.Infinite": [],
-  "Ext.draw.Matrix": [],
-  "Ext.Mask": [],
-  "Ext.event.publisher.Publisher": [],
-  "Ext.layout.wrapper.Dock": [],
-  "Ext.app.History": [],
   "Ext.data.proxy.Direct": [
     "Ext.data.DirectProxy"
   ],
-  "Ext.chart.axis.layout.Continuous": [],
-  "Ext.table.Cell": [],
-  "Ext.fx.layout.card.ScrollCover": [],
-  "Ext.device.orientation.Sencha": [],
-  "Ext.util.Droppable": [],
-  "Ext.draw.sprite.Composite": [],
-  "Ext.chart.series.Pie": [],
-  "Ext.device.Purchases.Product": [],
-  "Ext.device.Orientation": [],
-  "Ext.direct.Provider": [],
-  "Ext.draw.sprite.Arc": [],
-  "Ext.chart.axis.segmenter.Time": [],
-  "Ext.util.Draggable": [],
-  "Ext.device.contacts.Sencha": [],
-  "Ext.chart.grid.HorizontalGrid": [],
-  "Ext.mixin.Traversable": [],
-  "Ext.util.AbstractMixedCollection": [],
-  "Ext.data.JsonStore": [],
-  "Ext.draw.SegmentTree": [],
-  "Ext.direct.RemotingEvent": [],
-  "Ext.plugin.PullRefresh": [],
-  "Ext.log.writer.Console": [],
-  "Ext.field.Spinner": [
-    "Ext.form.Spinner"
+  "Ext.data.proxy.JsonP": [
+    "Ext.data.ScriptTagProxy"
   ],
-  "Ext.chart.axis.segmenter.Numeric": [],
   "Ext.data.proxy.LocalStorage": [
     "Ext.data.LocalStorageProxy"
   ],
-  "Ext.fx.animation.Wipe": [
-    "Ext.fx.animation.WipeIn"
-  ],
-  "Ext.fx.layout.Card": [],
-  "Ext.TaskQueue": [],
-  "Ext.Label": [],
-  "Ext.util.translatable.CssTransform": [],
-  "Ext.viewport.Ios": [],
-  "Ext.Spacer": [],
-  "Ext.mixin.Selectable": [],
-  "Ext.draw.sprite.Image": [],
-  "Ext.data.proxy.Rest": [
-    "Ext.data.RestProxy"
-  ],
-  "Ext.Img": [],
-  "Ext.chart.series.sprite.Bar": [],
-  "Ext.log.writer.DocumentTitle": [],
-  "Ext.data.Error": [],
-  "Ext.util.Sorter": [],
-  "Ext.draw.gradient.Radial": [],
-  "Ext.layout.Abstract": [],
-  "Ext.device.notification.Abstract": [],
-  "Ext.log.filter.Filter": [],
-  "Ext.device.camera.Sencha": [],
-  "Ext.draw.sprite.Sprite": [],
-  "Ext.draw.Color": [],
-  "Ext.chart.series.Bar": [],
-  "Ext.field.Slider": [
-    "Ext.form.Slider"
-  ],
-  "Ext.field.Search": [
-    "Ext.form.Search"
-  ],
-  "Ext.chart.series.Scatter": [],
-  "Ext.device.Device": [],
-  "Ext.event.Dispatcher": [],
-  "Ext.data.Store": [],
-  "Ext.draw.modifier.Highlight": [],
-  "Ext.behavior.Translatable": [],
-  "Ext.direct.Manager": [
-    "Ext.Direct"
+  "Ext.data.proxy.Memory": [
+    "Ext.data.MemoryProxy"
   ],
   "Ext.data.proxy.Proxy": [
     "Ext.data.DataProxy",
     "Ext.data.Proxy"
   ],
-  "Ext.draw.modifier.Modifier": [],
-  "Ext.navigation.View": [
-    "Ext.NavigationView"
+  "Ext.data.proxy.Rest": [
+    "Ext.data.RestProxy"
   ],
-  "Ext.draw.modifier.Target": [],
-  "Ext.draw.sprite.AttributeDefinition": [],
-  "Ext.device.Notification": [],
-  "Ext.draw.Component": [],
-  "Ext.layout.VBox": [],
-  "Ext.slider.Thumb": [],
-  "Ext.MessageBox": [],
-  "Ext.ux.Faker": [],
-  "Ext.dataview.IndexBar": [
-    "Ext.IndexBar"
+  "Ext.data.proxy.Server": [
+    "Ext.data.ServerProxy"
   ],
-  "Ext.dataview.element.List": [],
-  "Ext.layout.FlexBox": [],
-  "Ext.field.Url": [
-    "Ext.form.Url"
-  ],
-  "Ext.draw.Solver": [],
-  "Ext.data.proxy.Memory": [
-    "Ext.data.MemoryProxy"
-  ],
-  "Ext.chart.axis.Time": [],
-  "Ext.layout.Card": [],
-  "Ext.ComponentQuery": [],
-  "Ext.chart.series.Pie3D": [],
-  "Ext.device.camera.Abstract": [],
-  "Ext.device.device.Sencha": [],
-  "Ext.scroll.View": [
-    "Ext.util.ScrollView"
-  ],
-  "Ext.draw.sprite.Rect": [],
-  "Ext.util.Region": [],
-  "Ext.field.Select": [
-    "Ext.form.Select"
-  ],
-  "Ext.draw.Draw": [],
-  "Ext.ItemCollection": [],
-  "Ext.log.formatter.Default": [],
-  "Ext.navigation.Bar": [],
-  "Ext.chart.axis.layout.CombineDuplicate": [],
-  "Ext.device.Geolocation": [],
-  "Ext.chart.SpaceFillingChart": [],
   "Ext.data.proxy.SessionStorage": [
     "Ext.data.SessionStorageProxy"
   ],
-  "Ext.fx.easing.EaseIn": [],
-  "Ext.draw.sprite.AnimationParser": [],
-  "Ext.field.Password": [
-    "Ext.form.Password"
+  "Ext.data.proxy.Sql": [
+    "Ext.data.proxy.SQL"
   ],
-  "Ext.device.connection.Abstract": [],
-  "Ext.direct.Event": [],
-  "Ext.direct.RemotingMethod": [],
-  "Ext.Evented": [
-    "Ext.EventedBase"
+  "Ext.data.proxy.WebStorage": [
+    "Ext.data.WebStorageProxy"
   ],
-  "Ext.carousel.Indicator": [
-    "Ext.Carousel.Indicator"
+  "Ext.data.reader.Array": [
+    "Ext.data.ArrayReader"
   ],
-  "Ext.util.Collection": [],
-  "Ext.chart.interactions.ItemInfo": [],
-  "Ext.chart.MarkerHolder": [],
-  "Ext.carousel.Carousel": [
-    "Ext.Carousel"
+  "Ext.data.reader.Json": [
+    "Ext.data.JsonReader"
   ],
-  "Ext.Audio": [],
-  "Ext.device.Contacts": [],
-  "Ext.table.Table": [],
-  "Ext.draw.engine.SvgContext.Gradient": [],
-  "Ext.chart.axis.layout.Layout": [],
-  "Ext.data.Errors": [],
-  "Ext.field.Text": [
-    "Ext.form.Text"
+  "Ext.data.reader.Reader": [
+    "Ext.data.Reader",
+    "Ext.data.DataReader"
   ],
-  "Ext.field.TextAreaInput": [],
-  "Ext.field.DatePicker": [
-    "Ext.form.DatePicker"
+  "Ext.data.reader.Xml": [
+    "Ext.data.XmlReader"
   ],
-  "Ext.draw.engine.Svg": [],
-  "Ext.event.recognizer.Tap": [],
-  "Ext.device.orientation.Abstract": [],
-  "Ext.AbstractManager": [],
-  "Ext.chart.series.Radar": [],
-  "Ext.chart.interactions.Abstract": [],
-  "Ext.scroll.indicator.CssTransform": [],
-  "Ext.util.PaintMonitor": [],
-  "Ext.direct.PollingProvider": [],
-  "Ext.device.notification.PhoneGap": [],
+  "Ext.data.writer.Json": [
+    "Ext.data.JsonWriter"
+  ],
+  "Ext.data.writer.Writer": [
+    "Ext.data.DataWriter",
+    "Ext.data.Writer"
+  ],
   "Ext.data.writer.Xml": [
     "Ext.data.XmlWriter"
   ],
-  "Ext.event.recognizer.SingleTouch": [],
+  "Ext.dataview.DataView": [
+    "Ext.DataView"
+  ],
+  "Ext.dataview.IndexBar": [
+    "Ext.IndexBar"
+  ],
+  "Ext.dataview.List": [
+    "Ext.List"
+  ],
+  "Ext.dataview.ListItemHeader": [],
+  "Ext.dataview.NestedList": [
+    "Ext.NestedList"
+  ],
+  "Ext.dataview.component.Container": [],
+  "Ext.dataview.component.DataItem": [],
+  "Ext.dataview.component.ListItem": [],
+  "Ext.dataview.component.SimpleListItem": [],
+  "Ext.dataview.element.Container": [],
+  "Ext.dataview.element.List": [],
+  "Ext.device.Accelerometer": [],
+  "Ext.device.Browser": [],
+  "Ext.device.Camera": [],
+  "Ext.device.Capture": [],
+  "Ext.device.Communicator": [],
+  "Ext.device.Compass": [],
+  "Ext.device.Connection": [],
+  "Ext.device.Contacts": [],
+  "Ext.device.Device": [],
+  "Ext.device.FileSystem": [],
+  "Ext.device.Geolocation": [],
+  "Ext.device.Globalization": [],
+  "Ext.device.Media": [],
+  "Ext.device.Notification": [],
+  "Ext.device.Orientation": [],
+  "Ext.device.Purchases": [],
+  "Ext.device.Purchases.Product": [],
+  "Ext.device.Push": [],
+  "Ext.device.SQLite": [],
+  "Ext.device.Splashscreen": [],
+  "Ext.device.Storage": [],
+  "Ext.device.Tunnel": [],
+  "Ext.device.accelerometer.Abstract": [],
+  "Ext.device.accelerometer.Cordova": [
+    "Ext.device.accelerometer.PhoneGap"
+  ],
+  "Ext.device.accelerometer.Simulator": [],
+  "Ext.device.browser.Abstract": [],
+  "Ext.device.browser.Cordova": [],
+  "Ext.device.browser.Simulator": [],
+  "Ext.device.browser.Window": [],
+  "Ext.device.camera.Abstract": [],
+  "Ext.device.camera.Cordova": [
+    "Ext.device.camera.PhoneGap"
+  ],
+  "Ext.device.camera.Sencha": [],
+  "Ext.device.camera.Simulator": [],
+  "Ext.device.capture.Abstract": [
+    "Ext.device.capture.Simulator"
+  ],
+  "Ext.device.capture.Cordova": [],
+  "Ext.device.communicator.Android": [],
+  "Ext.device.communicator.Default": [],
+  "Ext.device.compass.Abstract": [],
+  "Ext.device.compass.Cordova": [
+    "Ext.device.compass.PhoneGap"
+  ],
+  "Ext.device.compass.Simulator": [],
+  "Ext.device.connection.Abstract": [],
+  "Ext.device.connection.Cordova": [
+    "Ext.device.connection.PhoneGap"
+  ],
+  "Ext.device.connection.Sencha": [],
+  "Ext.device.connection.Simulator": [],
+  "Ext.device.contacts.Abstract": [],
+  "Ext.device.contacts.Cordova": [
+    "Ext.device.contacts.PhoneGap"
+  ],
+  "Ext.device.contacts.Sencha": [],
+  "Ext.device.device.Abstract": [],
+  "Ext.device.device.Cordova": [
+    "Ext.device.device.PhoneGap"
+  ],
+  "Ext.device.device.Sencha": [],
+  "Ext.device.device.Simulator": [],
+  "Ext.device.filesystem.Abstract": [],
+  "Ext.device.filesystem.Chrome": [],
+  "Ext.device.filesystem.Cordova": [
+    "Ext.device.filesystem.PhoneGap"
+  ],
+  "Ext.device.filesystem.DirectoryEntry": [],
+  "Ext.device.filesystem.Entry": [],
+  "Ext.device.filesystem.FileEntry": [],
+  "Ext.device.filesystem.FileSystem": [],
+  "Ext.device.filesystem.HTML5": [],
+  "Ext.device.filesystem.Sencha": [],
+  "Ext.device.filesystem.Simulator": [],
+  "Ext.device.geolocation.Abstract": [],
+  "Ext.device.geolocation.Cordova": [
+    "Ext.device.geolocation.PhoneGap"
+  ],
+  "Ext.device.geolocation.Sencha": [],
+  "Ext.device.geolocation.Simulator": [],
+  "Ext.device.globalization.Abstract": [],
+  "Ext.device.globalization.Cordova": [
+    "Ext.device.globalization.PhoneGap"
+  ],
+  "Ext.device.globalization.Simulator": [],
+  "Ext.device.media.Abstract": [],
+  "Ext.device.media.Cordova": [
+    "Ext.device.media.PhoneGap"
+  ],
+  "Ext.device.notification.Abstract": [],
+  "Ext.device.notification.Cordova": [
+    "Ext.device.notification.PhoneGap"
+  ],
+  "Ext.device.notification.Sencha": [],
+  "Ext.device.notification.Simulator": [],
+  "Ext.device.orientation.Abstract": [],
+  "Ext.device.orientation.HTML5": [],
+  "Ext.device.orientation.Sencha": [],
+  "Ext.device.purchases.Purchase": [],
+  "Ext.device.purchases.Sencha": [],
+  "Ext.device.push.Abstract": [],
+  "Ext.device.push.Cordova": [],
+  "Ext.device.push.Sencha": [],
+  "Ext.device.splashscreen.Abstract": [],
+  "Ext.device.splashscreen.Cordova": [
+    "Ext.device.splashscreen.PhoneGap"
+  ],
+  "Ext.device.splashscreen.Simulator": [],
+  "Ext.device.sqlite.Database": [],
+  "Ext.device.sqlite.SQLResultSet": [],
+  "Ext.device.sqlite.SQLResultSetRowList": [],
+  "Ext.device.sqlite.SQLTransaction": [],
+  "Ext.device.sqlite.Sencha": [],
+  "Ext.device.storage.Abstract": [],
+  "Ext.device.storage.Cordova": [
+    "Ext.device.storage.PhoneGap"
+  ],
+  "Ext.device.storage.HTML5.Database": [],
+  "Ext.device.storage.HTML5.HTML5": [],
+  "Ext.device.storage.HTML5.SQLStatement": [],
+  "Ext.device.storage.Simulator": [],
+  "Ext.device.tunnel.Abstract": [],
+  "Ext.device.tunnel.Connection": [],
+  "Ext.device.tunnel.Sencha": [],
+  "Ext.device.tunnel.Simulator": [],
+  "Ext.direct.Event": [],
+  "Ext.direct.ExceptionEvent": [],
+  "Ext.direct.JsonProvider": [],
+  "Ext.direct.Manager": [
+    "Ext.Direct"
+  ],
+  "Ext.direct.PollingProvider": [],
+  "Ext.direct.Provider": [],
+  "Ext.direct.RemotingEvent": [],
+  "Ext.direct.RemotingMethod": [],
+  "Ext.direct.RemotingProvider": [],
+  "Ext.direct.Transaction": [
+    "Ext.Direct.Transaction"
+  ],
+  "Ext.dom.CompositeElement": [
+    "Ext.CompositeElement"
+  ],
+  "Ext.draw.Animator": [],
+  "Ext.draw.Color": [],
+  "Ext.draw.Component": [],
+  "Ext.draw.Draw": [],
+  "Ext.draw.LimitedCache": [],
+  "Ext.draw.Matrix": [],
+  "Ext.draw.Path": [],
+  "Ext.draw.SegmentTree": [],
+  "Ext.draw.Solver": [],
+  "Ext.draw.Surface": [],
+  "Ext.draw.TextMeasurer": [],
+  "Ext.draw.TimingFunctions": [],
+  "Ext.draw.engine.Canvas": [],
+  "Ext.draw.engine.Svg": [],
+  "Ext.draw.engine.SvgContext": [],
+  "Ext.draw.engine.SvgContext.Gradient": [],
+  "Ext.draw.engine.SvgExporter": [],
+  "Ext.draw.gradient.Gradient": [],
+  "Ext.draw.gradient.GradientDefinition": [],
+  "Ext.draw.gradient.Linear": [],
+  "Ext.draw.gradient.Radial": [],
+  "Ext.draw.modifier.Animation": [],
+  "Ext.draw.modifier.Highlight": [],
+  "Ext.draw.modifier.Modifier": [],
+  "Ext.draw.modifier.Target": [],
+  "Ext.draw.sprite.AnimationParser": [],
+  "Ext.draw.sprite.Arc": [],
+  "Ext.draw.sprite.AttributeDefinition": [],
+  "Ext.draw.sprite.AttributeParser": [],
+  "Ext.draw.sprite.Circle": [],
+  "Ext.draw.sprite.Composite": [],
+  "Ext.draw.sprite.Ellipse": [],
+  "Ext.draw.sprite.EllipticalArc": [],
+  "Ext.draw.sprite.Image": [],
   "Ext.draw.sprite.Instancing": [],
+  "Ext.draw.sprite.Line": [],
+  "Ext.draw.sprite.Path": [],
+  "Ext.draw.sprite.Rect": [],
+  "Ext.draw.sprite.Sector": [],
+  "Ext.draw.sprite.Sprite": [],
+  "Ext.draw.sprite.Text": [],
+  "Ext.event.Controller": [],
+  "Ext.event.Dispatcher": [],
+  "Ext.event.Dom": [],
+  "Ext.event.Event": [
+    "Ext.EventObject"
+  ],
+  "Ext.event.ListenerStack": [],
+  "Ext.event.Touch": [],
   "Ext.event.publisher.ComponentDelegation": [],
-  "Ext.chart.axis.Numeric": [],
+  "Ext.event.publisher.ComponentPaint": [],
+  "Ext.event.publisher.ComponentSize": [],
+  "Ext.event.publisher.Dom": [],
+  "Ext.event.publisher.ElementPaint": [],
+  "Ext.event.publisher.ElementSize": [],
+  "Ext.event.publisher.Publisher": [],
+  "Ext.event.publisher.TouchGesture": [],
+  "Ext.event.recognizer.DoubleTap": [],
+  "Ext.event.recognizer.Drag": [],
+  "Ext.event.recognizer.EdgeSwipe": [],
+  "Ext.event.recognizer.HorizontalSwipe": [],
+  "Ext.event.recognizer.LongPress": [],
+  "Ext.event.recognizer.MultiTouch": [],
+  "Ext.event.recognizer.Pinch": [],
+  "Ext.event.recognizer.Recognizer": [],
+  "Ext.event.recognizer.Rotate": [],
+  "Ext.event.recognizer.SingleTouch": [],
+  "Ext.event.recognizer.Swipe": [],
+  "Ext.event.recognizer.Tap": [],
+  "Ext.event.recognizer.Touch": [],
+  "Ext.event.recognizer.VerticalSwipe": [],
+  "Ext.field.Checkbox": [
+    "Ext.form.Checkbox"
+  ],
+  "Ext.field.DatePicker": [
+    "Ext.form.DatePicker"
+  ],
+  "Ext.field.DatePickerNative": [
+    "Ext.form.DatePickerNative"
+  ],
+  "Ext.field.Email": [
+    "Ext.form.Email"
+  ],
+  "Ext.field.Field": [
+    "Ext.form.Field"
+  ],
+  "Ext.field.File": [],
+  "Ext.field.FileInput": [],
+  "Ext.field.Hidden": [
+    "Ext.form.Hidden"
+  ],
+  "Ext.field.Input": [],
+  "Ext.field.Number": [
+    "Ext.form.Number"
+  ],
+  "Ext.field.Password": [
+    "Ext.form.Password"
+  ],
+  "Ext.field.Radio": [
+    "Ext.form.Radio"
+  ],
+  "Ext.field.Search": [
+    "Ext.form.Search"
+  ],
+  "Ext.field.Select": [
+    "Ext.form.Select"
+  ],
+  "Ext.field.Slider": [
+    "Ext.form.Slider"
+  ],
+  "Ext.field.Spinner": [
+    "Ext.form.Spinner"
+  ],
+  "Ext.field.Text": [
+    "Ext.form.Text"
+  ],
+  "Ext.field.TextArea": [
+    "Ext.form.TextArea"
+  ],
+  "Ext.field.TextAreaInput": [],
   "Ext.field.Toggle": [
     "Ext.form.Toggle"
   ],
-  "Ext.fx.layout.card.ScrollReveal": [],
-  "Ext.data.Operation": [],
-  "Ext.fx.animation.Abstract": [],
-  "Ext.chart.interactions.Rotate": [],
-  "Ext.draw.engine.SvgContext": [],
-  "Ext.scroll.Scroller": [],
-  "Ext.util.SizeMonitor": [],
-  "Ext.event.ListenerStack": [],
-  "Ext.util.MixedCollection": []
-});Ext.ClassManager.addNameAliasMappings({
-  "Ext.app.Profile": [],
-  "Ext.event.recognizer.MultiTouch": [],
+  "Ext.field.Url": [
+    "Ext.form.Url"
+  ],
+  "Ext.form.FieldSet": [],
+  "Ext.form.Panel": [
+    "Ext.form.FormPanel"
+  ],
+  "Ext.fx.Animation": [],
+  "Ext.fx.Easing": [],
   "Ext.fx.Runner": [],
-  "Ext.chart.grid.CircularGrid": [
-    "grid.circular"
+  "Ext.fx.State": [],
+  "Ext.fx.animation.Abstract": [],
+  "Ext.fx.animation.Cube": [],
+  "Ext.fx.animation.Fade": [
+    "Ext.fx.animation.FadeIn"
   ],
+  "Ext.fx.animation.FadeOut": [],
+  "Ext.fx.animation.Flip": [],
+  "Ext.fx.animation.Pop": [
+    "Ext.fx.animation.PopIn"
+  ],
+  "Ext.fx.animation.PopOut": [],
+  "Ext.fx.animation.Slide": [
+    "Ext.fx.animation.SlideIn"
+  ],
+  "Ext.fx.animation.SlideOut": [],
+  "Ext.fx.animation.Wipe": [
+    "Ext.fx.animation.WipeIn"
+  ],
+  "Ext.fx.animation.WipeOut": [],
+  "Ext.fx.easing.Abstract": [],
+  "Ext.fx.easing.Bounce": [],
+  "Ext.fx.easing.BoundMomentum": [],
+  "Ext.fx.easing.EaseIn": [],
+  "Ext.fx.easing.EaseOut": [],
+  "Ext.fx.easing.Linear": [],
+  "Ext.fx.easing.Momentum": [],
+  "Ext.fx.layout.Card": [],
+  "Ext.fx.layout.card.Abstract": [],
+  "Ext.fx.layout.card.Cover": [],
+  "Ext.fx.layout.card.Cube": [],
+  "Ext.fx.layout.card.Fade": [],
+  "Ext.fx.layout.card.Flip": [],
+  "Ext.fx.layout.card.Pop": [],
+  "Ext.fx.layout.card.Reveal": [],
+  "Ext.fx.layout.card.Scroll": [],
+  "Ext.fx.layout.card.ScrollCover": [],
+  "Ext.fx.layout.card.ScrollReveal": [],
+  "Ext.fx.layout.card.Slide": [],
+  "Ext.fx.layout.card.Style": [],
+  "Ext.fx.runner.Css": [],
+  "Ext.fx.runner.CssAnimation": [],
+  "Ext.fx.runner.CssTransition": [],
+  "Ext.layout.Abstract": [],
+  "Ext.layout.Box": [],
+  "Ext.layout.Card": [],
+  "Ext.layout.Default": [],
+  "Ext.layout.Fit": [],
+  "Ext.layout.FlexBox": [],
+  "Ext.layout.Float": [],
+  "Ext.layout.HBox": [],
+  "Ext.layout.VBox": [],
+  "Ext.layout.wrapper.BoxDock": [],
+  "Ext.layout.wrapper.Dock": [],
+  "Ext.layout.wrapper.Inner": [],
+  "Ext.log.Base": [],
+  "Ext.log.Logger": [],
+  "Ext.log.filter.Filter": [],
+  "Ext.log.filter.Priority": [],
+  "Ext.log.formatter.Default": [],
+  "Ext.log.formatter.Formatter": [],
+  "Ext.log.formatter.Identity": [],
+  "Ext.log.writer.Console": [],
+  "Ext.log.writer.DocumentTitle": [],
+  "Ext.log.writer.Remote": [],
+  "Ext.log.writer.Writer": [],
+  "Ext.mixin.Bindable": [],
+  "Ext.mixin.Filterable": [],
+  "Ext.mixin.Mixin": [],
+  "Ext.mixin.Observable": [
+    "Ext.util.Observable"
+  ],
+  "Ext.mixin.Progressable": [],
+  "Ext.mixin.Selectable": [],
+  "Ext.mixin.Sortable": [],
   "Ext.mixin.Templatable": [],
-  "Ext.event.recognizer.Pinch": [],
-  "Ext.util.Format": [],
-  "Ext.direct.JsonProvider": [
-    "direct.jsonprovider"
+  "Ext.mixin.Traversable": [],
+  "Ext.navigation.Bar": [],
+  "Ext.navigation.View": [
+    "Ext.NavigationView"
   ],
-  "Ext.data.identifier.Simple": [
-    "data.identifier.simple"
+  "Ext.picker.Date": [
+    "Ext.DatePicker"
   ],
-  "Ext.dataview.DataView": [
-    "widget.dataview"
+  "Ext.picker.Picker": [
+    "Ext.Picker"
   ],
-  "Ext.field.Hidden": [
-    "widget.hiddenfield"
+  "Ext.picker.Slot": [
+    "Ext.Picker.Slot"
   ],
-  "Ext.field.Number": [
-    "widget.numberfield"
+  "Ext.plugin.ListPaging": [],
+  "Ext.plugin.PullRefresh": [],
+  "Ext.plugin.SortableList": [],
+  "Ext.scroll.Indicator": [
+    "Ext.util.Indicator"
   ],
-  "Ext.chart.series.CandleStick": [
-    "series.candlestick"
+  "Ext.scroll.Scroller": [],
+  "Ext.scroll.View": [
+    "Ext.util.ScrollView"
   ],
-  "Ext.device.Connection": [],
-  "Ext.data.Model": [],
-  "Ext.data.reader.Reader": [],
-  "Ext.Sheet": [
-    "widget.sheet"
+  "Ext.scroll.indicator.Abstract": [],
+  "Ext.scroll.indicator.CssTransform": [],
+  "Ext.scroll.indicator.Rounded": [],
+  "Ext.scroll.indicator.ScrollPosition": [],
+  "Ext.slider.Slider": [],
+  "Ext.slider.Thumb": [],
+  "Ext.slider.Toggle": [],
+  "Ext.tab.Bar": [
+    "Ext.TabBar"
+  ],
+  "Ext.tab.Panel": [
+    "Ext.TabPanel"
   ],
   "Ext.tab.Tab": [
-    "widget.tab"
+    "Ext.Tab"
   ],
-  "Ext.chart.series.sprite.StackedCartesian": [],
+  "Ext.table.Cell": [],
+  "Ext.table.Row": [],
+  "Ext.table.Table": [],
+  "Ext.util.AbstractMixedCollection": [],
+  "Ext.util.Audio": [],
+  "Ext.util.Collection": [],
+  "Ext.util.DelayedTask": [],
+  "Ext.util.Draggable": [],
+  "Ext.util.Droppable": [],
+  "Ext.util.Filter": [],
+  "Ext.util.Format": [],
+  "Ext.util.Geolocation": [
+    "Ext.util.GeoLocation"
+  ],
   "Ext.util.Grouper": [],
-  "Ext.util.translatable.CssPosition": [],
-  "Ext.util.paintmonitor.Abstract": [],
-  "Ext.direct.RemotingProvider": [
-    "direct.remotingprovider"
-  ],
-  "Ext.data.NodeInterface": [],
-  "Ext.chart.interactions.PanZoom": [
-    "interaction.panzoom"
-  ],
-  "Ext.util.PositionMap": [],
-  "Ext.chart.series.ItemPublisher": [],
-  "Ext.util.Sortable": [],
-  "Ext.chart.series.sprite.AbstractRadial": [],
-  "Ext.fx.runner.Css": [],
-  "Ext.fx.runner.CssTransition": [],
-  "Ext.draw.Group": [],
-  "Ext.XTemplateCompiler": [],
-  "Ext.util.Wrapper": [],
-  "Ext.app.Router": [],
-  "Ext.direct.Transaction": [
-    "direct.transaction"
-  ],
+  "Ext.util.HashMap": [],
+  "Ext.util.Inflector": [],
+  "Ext.util.InputBlocker": [],
+  "Ext.util.LineSegment": [],
+  "Ext.util.MixedCollection": [],
   "Ext.util.Offset": [],
-  "Ext.device.device.Abstract": [],
-  "Ext.mixin.Mixin": [],
-  "Ext.fx.animation.FadeOut": [
-    "animation.fadeOut"
-  ],
-  "Ext.util.Geolocation": [],
-  "Ext.ComponentManager": [],
+  "Ext.util.PaintMonitor": [],
+  "Ext.util.Point": [],
+  "Ext.util.PositionMap": [],
+  "Ext.util.Region": [],
+  "Ext.util.SizeMonitor": [],
+  "Ext.util.Sortable": [],
+  "Ext.util.Sorter": [],
+  "Ext.util.TapRepeater": [],
+  "Ext.util.Translatable": [],
+  "Ext.util.TranslatableGroup": [],
+  "Ext.util.TranslatableList": [],
+  "Ext.util.Wrapper": [],
+  "Ext.util.paintmonitor.Abstract": [],
+  "Ext.util.paintmonitor.CssAnimation": [],
+  "Ext.util.paintmonitor.OverflowChange": [],
+  "Ext.util.sizemonitor.Abstract": [],
+  "Ext.util.sizemonitor.Default": [],
   "Ext.util.sizemonitor.OverflowChange": [],
-  "Ext.event.publisher.ElementSize": [],
-  "Ext.tab.Bar": [
-    "widget.tabbar"
-  ],
-  "Ext.event.Dom": [],
-  "Ext.app.Application": [],
-  "Ext.dataview.List": [
-    "widget.list"
-  ],
+  "Ext.util.sizemonitor.Scroll": [],
+  "Ext.util.translatable.Abstract": [],
+  "Ext.util.translatable.CssPosition": [],
+  "Ext.util.translatable.CssTransform": [],
   "Ext.util.translatable.Dom": [],
-  "Ext.fx.layout.card.Scroll": [
-    "fx.layout.card.scroll"
+  "Ext.util.translatable.ScrollPosition": [],
+  "Ext.ux.ActionOverFlowMenuButton": [],
+  "Ext.ux.ApplicationMenu": [],
+  "Ext.ux.ContextMenu": [],
+  "Ext.ux.MenuButton": [],
+  "Ext.ux.TabMenuButton": [],
+  "Ext.ux.device.Analytics": [],
+  "Ext.ux.device.Twitter": [],
+  "Ext.ux.device.analytics.Abstract": [],
+  "Ext.ux.device.analytics.Cordova": [],
+  "Ext.ux.device.twitter.Abstract": [],
+  "Ext.ux.device.twitter.Cordova": [],
+  "Ext.ux.parse.Helper": [
+    "ParseHelper"
   ],
-  "Ext.draw.LimitedCache": [],
-  "Ext.device.geolocation.Sencha": [],
-  "Ext.dataview.ListItemHeader": [
-    "widget.listitemheader"
+  "Ext.ux.parse.Model": [],
+  "Ext.ux.parse.Proxy": [],
+  "Ext.ux.parse.Reader": [],
+  "Ext.ux.parse.Store": [],
+  "Ext.ux.parse.association.Pointer": [],
+  "Ext.ux.parse.association.Relation": [],
+  "Ext.viewport.AndroidStock": [
+    "Ext.viewport.Android"
   ],
-  "Ext.event.publisher.TouchGesture": [],
-  "Ext.data.SortTypes": [],
-  "Ext.device.contacts.Abstract": [],
-  "Ext.device.push.Sencha": [],
-  "Ext.fx.animation.WipeOut": [],
-  "Ext.slider.Slider": [
-    "widget.slider"
+  "Ext.viewport.Default": [],
+  "Ext.viewport.Ios": [],
+  "Ext.viewport.Viewport": [],
+  "Ext.viewport.WindowsPhone": [
+    "Ext.viewport.WP"
+  ]
+});
+Ext.ClassManager.addNameAliasMappings({
+  "Ext.AbstractComponent": [],
+  "Ext.AbstractManager": [],
+  "Ext.AbstractPlugin": [],
+  "Ext.ActionSheet": [
+    "widget.actionsheet"
+  ],
+  "Ext.Ajax": [],
+  "Ext.Anim": [],
+  "Ext.AnimationQueue": [],
+  "Ext.Audio": [
+    "widget.audio"
+  ],
+  "Ext.BingMap": [
+    "widget.bingmap"
+  ],
+  "Ext.Button": [
+    "widget.button"
   ],
   "Ext.Component": [
     "widget.component"
   ],
-  "Ext.device.communicator.Default": [],
-  "Ext.fx.runner.CssAnimation": [],
+  "Ext.ComponentManager": [],
+  "Ext.ComponentQuery": [],
+  "Ext.Container": [
+    "widget.container"
+  ],
+  "Ext.Decorator": [],
+  "Ext.Evented": [],
+  "Ext.Img": [
+    "widget.image",
+    "widget.img"
+  ],
+  "Ext.ItemCollection": [],
+  "Ext.Label": [
+    "widget.label"
+  ],
+  "Ext.LoadMask": [
+    "widget.loadmask"
+  ],
+  "Ext.Map": [
+    "widget.map"
+  ],
+  "Ext.Mask": [
+    "widget.mask"
+  ],
+  "Ext.Media": [
+    "widget.media"
+  ],
+  "Ext.Menu": [
+    "widget.menu"
+  ],
+  "Ext.MessageBox": [],
+  "Ext.Panel": [
+    "widget.panel"
+  ],
+  "Ext.ProgressIndicator": [
+    "widget.progressindicator"
+  ],
+  "Ext.Promise": [],
+  "Ext.SegmentedButton": [
+    "widget.segmentedbutton"
+  ],
+  "Ext.Sheet": [
+    "widget.sheet"
+  ],
+  "Ext.Sortable": [],
+  "Ext.Spacer": [
+    "widget.spacer"
+  ],
+  "Ext.TaskQueue": [],
+  "Ext.Template": [],
+  "Ext.Title": [
+    "widget.title"
+  ],
+  "Ext.TitleBar": [
+    "widget.titlebar"
+  ],
+  "Ext.Toast": [],
+  "Ext.Toolbar": [
+    "widget.toolbar"
+  ],
+  "Ext.Video": [
+    "widget.video"
+  ],
+  "Ext.XTemplate": [],
+  "Ext.XTemplateCompiler": [],
+  "Ext.XTemplateParser": [],
+  "Ext.app.Action": [],
+  "Ext.app.Application": [],
+  "Ext.app.Controller": [],
+  "Ext.app.History": [],
+  "Ext.app.Profile": [],
+  "Ext.app.Route": [],
+  "Ext.app.Router": [],
+  "Ext.behavior.Behavior": [],
+  "Ext.behavior.Draggable": [],
+  "Ext.behavior.Scrollable": [],
+  "Ext.behavior.Translatable": [],
+  "Ext.carousel.Carousel": [
+    "widget.carousel"
+  ],
+  "Ext.carousel.Indicator": [
+    "widget.carouselindicator"
+  ],
+  "Ext.carousel.Infinite": [],
+  "Ext.carousel.Item": [],
+  "Ext.chart.AbstractChart": [],
+  "Ext.chart.CartesianChart": [
+    "Ext.chart.Chart",
+    "widget.chart"
+  ],
+  "Ext.chart.Legend": [
+    "widget.legend"
+  ],
+  "Ext.chart.MarkerHolder": [],
+  "Ext.chart.Markers": [],
+  "Ext.chart.PolarChart": [
+    "widget.polar"
+  ],
+  "Ext.chart.SpaceFillingChart": [
+    "widget.spacefilling"
+  ],
   "Ext.chart.axis.Axis": [
     "widget.axis"
   ],
-  "Ext.fx.animation.Cube": [
-    "animation.cube"
+  "Ext.chart.axis.Category": [
+    "axis.category"
   ],
-  "Ext.chart.Markers": [],
-  "Ext.chart.series.sprite.Radar": [
-    "sprite.radar"
+  "Ext.chart.axis.Numeric": [
+    "axis.numeric"
   ],
-  "Ext.device.device.Simulator": [],
-  "Ext.Ajax": [],
-  "Ext.dataview.component.ListItem": [
-    "widget.listitem"
+  "Ext.chart.axis.Time": [
+    "axis.time"
   ],
-  "Ext.util.Filter": [],
-  "Ext.layout.wrapper.Inner": [],
-  "Ext.draw.Animator": [],
-  "Ext.device.geolocation.Simulator": [],
-  "Ext.data.association.BelongsTo": [
-    "association.belongsto"
+  "Ext.chart.axis.layout.CombineDuplicate": [
+    "axisLayout.combineDuplicate"
   ],
-  "Ext.draw.Surface": [
-    "widget.surface"
-  ],
-  "Ext.scroll.indicator.ScrollPosition": [],
-  "Ext.field.Email": [
-    "widget.emailfield"
-  ],
-  "Ext.fx.layout.card.Abstract": [],
-  "Ext.event.Controller": [],
-  "Ext.dataview.component.Container": [],
-  "Ext.log.writer.Remote": [],
-  "Ext.fx.layout.card.Style": [],
-  "Ext.device.purchases.Sencha": [],
-  "Ext.chart.axis.segmenter.Segmenter": [],
-  "Ext.viewport.Android": [],
-  "Ext.log.formatter.Identity": [],
-  "Ext.chart.interactions.ItemHighlight": [
-    "interaction.itemhighlight"
-  ],
-  "Ext.picker.Picker": [
-    "widget.picker"
-  ],
-  "Ext.data.Batch": [],
-  "Ext.draw.modifier.Animation": [
-    "modifier.animation"
-  ],
-  "Ext.chart.AbstractChart": [],
-  "Ext.tab.Panel": [
-    "widget.tabpanel"
-  ],
-  "Ext.draw.Path": [],
-  "Ext.scroll.indicator.Throttled": [],
-  "Ext.fx.animation.SlideOut": [
-    "animation.slideOut"
-  ],
-  "Ext.device.connection.Sencha": [],
-  "Ext.fx.layout.card.Pop": [
-    "fx.layout.card.pop"
+  "Ext.chart.axis.layout.Continuous": [
+    "axisLayout.continuous"
   ],
   "Ext.chart.axis.layout.Discrete": [
     "axisLayout.discrete"
   ],
-  "Ext.data.Field": [
-    "data.field"
+  "Ext.chart.axis.layout.Layout": [],
+  "Ext.chart.axis.segmenter.Names": [
+    "segmenter.names"
   ],
+  "Ext.chart.axis.segmenter.Numeric": [
+    "segmenter.numeric"
+  ],
+  "Ext.chart.axis.segmenter.Segmenter": [],
+  "Ext.chart.axis.segmenter.Time": [
+    "segmenter.time"
+  ],
+  "Ext.chart.axis.sprite.Axis": [],
+  "Ext.chart.grid.CircularGrid": [
+    "grid.circular"
+  ],
+  "Ext.chart.grid.HorizontalGrid": [
+    "grid.horizontal"
+  ],
+  "Ext.chart.grid.RadialGrid": [
+    "grid.radial"
+  ],
+  "Ext.chart.grid.VerticalGrid": [
+    "grid.vertical"
+  ],
+  "Ext.chart.interactions.Abstract": [
+    "widget.interaction"
+  ],
+  "Ext.chart.interactions.CrossZoom": [
+    "interaction.crosszoom"
+  ],
+  "Ext.chart.interactions.Crosshair": [
+    "interaction.crosshair"
+  ],
+  "Ext.chart.interactions.ItemHighlight": [
+    "interaction.itemhighlight"
+  ],
+  "Ext.chart.interactions.ItemInfo": [
+    "interaction.iteminfo"
+  ],
+  "Ext.chart.interactions.PanZoom": [
+    "interaction.panzoom"
+  ],
+  "Ext.chart.interactions.Rotate": [
+    "interaction.rotate"
+  ],
+  "Ext.chart.interactions.RotatePie3D": [
+    "interaction.rotatePie3d"
+  ],
+  "Ext.chart.label.Callout": [],
+  "Ext.chart.label.Label": [],
+  "Ext.chart.series.Area": [
+    "series.area"
+  ],
+  "Ext.chart.series.Bar": [
+    "series.bar"
+  ],
+  "Ext.chart.series.CandleStick": [
+    "series.candlestick"
+  ],
+  "Ext.chart.series.Cartesian": [],
   "Ext.chart.series.Gauge": [
     "series.gauge"
   ],
-  "Ext.data.StoreManager": [],
-  "Ext.fx.animation.PopOut": [
-    "animation.popOut"
+  "Ext.chart.series.ItemPublisher": [],
+  "Ext.chart.series.Line": [
+    "series.line"
   ],
-  "Ext.chart.label.Callout": [],
-  "Ext.device.push.Abstract": [],
-  "Ext.util.DelayedTask": [],
-  "Ext.fx.easing.Momentum": [],
-  "Ext.fx.easing.Abstract": [],
-  "Ext.Title": [
-    "widget.title"
+  "Ext.chart.series.Pie": [
+    "series.pie"
   ],
-  "Ext.event.recognizer.Drag": [],
-  "Ext.field.TextArea": [
-    "widget.textareafield"
+  "Ext.chart.series.Pie3D": [
+    "series.pie3d"
   ],
-  "Ext.fx.Easing": [],
+  "Ext.chart.series.Polar": [],
+  "Ext.chart.series.Radar": [
+    "series.radar"
+  ],
+  "Ext.chart.series.Scatter": [
+    "series.scatter"
+  ],
+  "Ext.chart.series.Series": [],
+  "Ext.chart.series.StackedCartesian": [],
+  "Ext.chart.series.sprite.Aggregative": [],
+  "Ext.chart.series.sprite.Area": [
+    "sprite.areaSeries"
+  ],
+  "Ext.chart.series.sprite.Bar": [
+    "sprite.barSeries"
+  ],
+  "Ext.chart.series.sprite.CandleStick": [
+    "sprite.candlestickSeries"
+  ],
+  "Ext.chart.series.sprite.Cartesian": [],
+  "Ext.chart.series.sprite.Line": [
+    "sprite.lineSeries"
+  ],
+  "Ext.chart.series.sprite.Pie3DPart": [
+    "sprite.pie3dPart"
+  ],
+  "Ext.chart.series.sprite.PieSlice": [
+    "sprite.pieslice"
+  ],
+  "Ext.chart.series.sprite.Polar": [],
+  "Ext.chart.series.sprite.Radar": [
+    "sprite.radar"
+  ],
   "Ext.chart.series.sprite.Scatter": [
     "sprite.scatterSeries"
   ],
-  "Ext.data.reader.Array": [
-    "reader.array"
+  "Ext.chart.series.sprite.StackedCartesian": [],
+  "Ext.data.ArrayStore": [
+    "store.array"
   ],
-  "Ext.picker.Date": [
-    "widget.datepicker"
+  "Ext.data.Batch": [],
+  "Ext.data.Connection": [],
+  "Ext.data.DirectStore": [
+    "store.direct"
+  ],
+  "Ext.data.Error": [],
+  "Ext.data.Errors": [],
+  "Ext.data.Field": [
+    "data.field"
+  ],
+  "Ext.data.JsonP": [],
+  "Ext.data.JsonStore": [
+    "store.json"
+  ],
+  "Ext.data.Model": [],
+  "Ext.data.ModelManager": [],
+  "Ext.data.NodeInterface": [],
+  "Ext.data.NodeStore": [
+    "store.node"
+  ],
+  "Ext.data.Operation": [],
+  "Ext.data.Request": [],
+  "Ext.data.ResultSet": [],
+  "Ext.data.SortTypes": [],
+  "Ext.data.Store": [
+    "store.store"
+  ],
+  "Ext.data.StoreManager": [],
+  "Ext.data.TreeStore": [
+    "store.tree"
+  ],
+  "Ext.data.Types": [],
+  "Ext.data.Validations": [],
+  "Ext.data.association.Association": [],
+  "Ext.data.association.BelongsTo": [
+    "association.belongsto"
+  ],
+  "Ext.data.association.HasMany": [
+    "association.hasmany"
+  ],
+  "Ext.data.association.HasOne": [
+    "association.hasone"
+  ],
+  "Ext.data.identifier.Sequential": [
+    "data.identifier.sequential"
+  ],
+  "Ext.data.identifier.Simple": [
+    "data.identifier.simple"
+  ],
+  "Ext.data.identifier.Uuid": [
+    "data.identifier.uuid"
+  ],
+  "Ext.data.proxy.Ajax": [
+    "proxy.ajax"
+  ],
+  "Ext.data.proxy.Client": [],
+  "Ext.data.proxy.Direct": [
+    "proxy.direct"
   ],
   "Ext.data.proxy.JsonP": [
     "proxy.jsonp",
     "proxy.scripttag"
   ],
-  "Ext.device.communicator.Android": [],
-  "Ext.chart.series.Area": [
-    "series.area"
+  "Ext.data.proxy.LocalStorage": [
+    "proxy.localstorage"
   ],
-  "Ext.device.device.PhoneGap": [],
-  "Ext.field.Checkbox": [
-    "widget.checkboxfield"
+  "Ext.data.proxy.Memory": [
+    "proxy.memory"
   ],
-  "Ext.chart.Legend": [
-    "widget.legend"
+  "Ext.data.proxy.Proxy": [
+    "proxy.proxy"
   ],
-  "Ext.Media": [
-    "widget.media"
+  "Ext.data.proxy.Rest": [
+    "proxy.rest"
   ],
-  "Ext.TitleBar": [
-    "widget.titlebar"
-  ],
-  "Ext.chart.interactions.RotatePie3D": [
-    "interaction.rotatePie3d"
-  ],
-  "Ext.draw.gradient.Linear": [],
-  "Ext.util.TapRepeater": [],
-  "Ext.event.Touch": [],
-  "Ext.mixin.Bindable": [],
   "Ext.data.proxy.Server": [
     "proxy.server"
   ],
-  "Ext.chart.series.Cartesian": [],
-  "Ext.util.sizemonitor.Scroll": [],
-  "Ext.data.ResultSet": [],
-  "Ext.data.association.HasMany": [
-    "association.hasmany"
+  "Ext.data.proxy.SessionStorage": [
+    "proxy.sessionstorage"
   ],
+  "Ext.data.proxy.Sql": [
+    "proxy.sql"
+  ],
+  "Ext.data.proxy.WebStorage": [],
+  "Ext.data.reader.Array": [
+    "reader.array"
+  ],
+  "Ext.data.reader.Json": [
+    "reader.json"
+  ],
+  "Ext.data.reader.Reader": [],
+  "Ext.data.reader.Xml": [
+    "reader.xml"
+  ],
+  "Ext.data.writer.Json": [
+    "writer.json"
+  ],
+  "Ext.data.writer.Writer": [
+    "writer.base"
+  ],
+  "Ext.data.writer.Xml": [
+    "writer.xml"
+  ],
+  "Ext.dataview.DataView": [
+    "widget.dataview"
+  ],
+  "Ext.dataview.IndexBar": [],
+  "Ext.dataview.List": [
+    "widget.list"
+  ],
+  "Ext.dataview.ListItemHeader": [
+    "widget.listitemheader"
+  ],
+  "Ext.dataview.NestedList": [
+    "widget.nestedlist"
+  ],
+  "Ext.dataview.component.Container": [],
+  "Ext.dataview.component.DataItem": [
+    "widget.dataitem"
+  ],
+  "Ext.dataview.component.ListItem": [
+    "widget.listitem"
+  ],
+  "Ext.dataview.component.SimpleListItem": [
+    "widget.simplelistitem"
+  ],
+  "Ext.dataview.element.Container": [],
+  "Ext.dataview.element.List": [],
+  "Ext.device.Accelerometer": [],
+  "Ext.device.Browser": [],
+  "Ext.device.Camera": [],
+  "Ext.device.Capture": [],
+  "Ext.device.Communicator": [],
+  "Ext.device.Compass": [],
+  "Ext.device.Connection": [],
+  "Ext.device.Contacts": [],
+  "Ext.device.Device": [],
+  "Ext.device.FileSystem": [],
+  "Ext.device.Geolocation": [],
+  "Ext.device.Globalization": [],
+  "Ext.device.Media": [],
+  "Ext.device.Notification": [],
+  "Ext.device.Orientation": [],
+  "Ext.device.Purchases": [],
+  "Ext.device.Purchases.Product": [],
+  "Ext.device.Push": [],
+  "Ext.device.SQLite": [],
+  "Ext.device.Splashscreen": [],
+  "Ext.device.Storage": [],
+  "Ext.device.Tunnel": [],
+  "Ext.device.accelerometer.Abstract": [],
+  "Ext.device.accelerometer.Cordova": [],
+  "Ext.device.accelerometer.Simulator": [],
+  "Ext.device.browser.Abstract": [],
+  "Ext.device.browser.Cordova": [],
+  "Ext.device.browser.Simulator": [],
+  "Ext.device.browser.Window": [],
+  "Ext.device.camera.Abstract": [],
+  "Ext.device.camera.Cordova": [],
+  "Ext.device.camera.Sencha": [],
+  "Ext.device.camera.Simulator": [],
+  "Ext.device.capture.Abstract": [],
+  "Ext.device.capture.Cordova": [],
+  "Ext.device.communicator.Android": [],
+  "Ext.device.communicator.Default": [],
+  "Ext.device.compass.Abstract": [],
+  "Ext.device.compass.Cordova": [],
+  "Ext.device.compass.Simulator": [],
+  "Ext.device.connection.Abstract": [],
+  "Ext.device.connection.Cordova": [],
+  "Ext.device.connection.Sencha": [],
+  "Ext.device.connection.Simulator": [],
+  "Ext.device.contacts.Abstract": [],
+  "Ext.device.contacts.Cordova": [],
+  "Ext.device.contacts.Sencha": [],
+  "Ext.device.device.Abstract": [],
+  "Ext.device.device.Cordova": [],
+  "Ext.device.device.Sencha": [],
+  "Ext.device.device.Simulator": [],
+  "Ext.device.filesystem.Abstract": [],
+  "Ext.device.filesystem.Chrome": [],
+  "Ext.device.filesystem.Cordova": [],
+  "Ext.device.filesystem.DirectoryEntry": [],
+  "Ext.device.filesystem.Entry": [],
+  "Ext.device.filesystem.FileEntry": [],
+  "Ext.device.filesystem.FileSystem": [],
+  "Ext.device.filesystem.HTML5": [],
+  "Ext.device.filesystem.Sencha": [],
+  "Ext.device.filesystem.Simulator": [],
+  "Ext.device.geolocation.Abstract": [],
+  "Ext.device.geolocation.Cordova": [],
+  "Ext.device.geolocation.Sencha": [],
+  "Ext.device.geolocation.Simulator": [],
+  "Ext.device.globalization.Abstract": [],
+  "Ext.device.globalization.Cordova": [],
+  "Ext.device.globalization.Simulator": [],
+  "Ext.device.media.Abstract": [],
+  "Ext.device.media.Cordova": [],
+  "Ext.device.notification.Abstract": [],
+  "Ext.device.notification.Cordova": [],
+  "Ext.device.notification.Sencha": [],
+  "Ext.device.notification.Simulator": [],
+  "Ext.device.orientation.Abstract": [],
+  "Ext.device.orientation.HTML5": [],
+  "Ext.device.orientation.Sencha": [],
+  "Ext.device.purchases.Purchase": [],
+  "Ext.device.purchases.Sencha": [],
+  "Ext.device.push.Abstract": [],
+  "Ext.device.push.Cordova": [],
+  "Ext.device.push.Sencha": [],
+  "Ext.device.splashscreen.Abstract": [],
+  "Ext.device.splashscreen.Cordova": [],
+  "Ext.device.splashscreen.Simulator": [],
+  "Ext.device.sqlite.Database": [],
+  "Ext.device.sqlite.SQLResultSet": [],
+  "Ext.device.sqlite.SQLResultSetRowList": [],
+  "Ext.device.sqlite.SQLTransaction": [],
+  "Ext.device.sqlite.Sencha": [],
+  "Ext.device.storage.Abstract": [],
+  "Ext.device.storage.Cordova": [],
+  "Ext.device.storage.HTML5.Database": [],
+  "Ext.device.storage.HTML5.HTML5": [],
+  "Ext.device.storage.HTML5.SQLStatement": [],
+  "Ext.device.storage.Simulator": [],
+  "Ext.device.tunnel.Abstract": [],
+  "Ext.device.tunnel.Connection": [],
+  "Ext.device.tunnel.Sencha": [],
+  "Ext.device.tunnel.Simulator": [],
+  "Ext.direct.Event": [
+    "direct.event"
+  ],
+  "Ext.direct.ExceptionEvent": [
+    "direct.exception"
+  ],
+  "Ext.direct.JsonProvider": [
+    "direct.jsonprovider"
+  ],
+  "Ext.direct.Manager": [],
+  "Ext.direct.PollingProvider": [
+    "direct.pollingprovider"
+  ],
+  "Ext.direct.Provider": [
+    "direct.provider"
+  ],
+  "Ext.direct.RemotingEvent": [
+    "direct.rpc"
+  ],
+  "Ext.direct.RemotingMethod": [],
+  "Ext.direct.RemotingProvider": [
+    "direct.remotingprovider"
+  ],
+  "Ext.direct.Transaction": [
+    "direct.transaction"
+  ],
+  "Ext.dom.CompositeElement": [],
+  "Ext.draw.Animator": [],
+  "Ext.draw.Color": [],
+  "Ext.draw.Component": [
+    "widget.draw"
+  ],
+  "Ext.draw.Draw": [],
+  "Ext.draw.LimitedCache": [],
+  "Ext.draw.Matrix": [],
+  "Ext.draw.Path": [],
+  "Ext.draw.SegmentTree": [],
+  "Ext.draw.Solver": [],
+  "Ext.draw.Surface": [
+    "widget.surface"
+  ],
+  "Ext.draw.TextMeasurer": [],
   "Ext.draw.TimingFunctions": [],
   "Ext.draw.engine.Canvas": [],
-  "Ext.data.proxy.Ajax": [
-    "proxy.ajax"
+  "Ext.draw.engine.Svg": [],
+  "Ext.draw.engine.SvgContext": [],
+  "Ext.draw.engine.SvgContext.Gradient": [],
+  "Ext.draw.engine.SvgExporter": [],
+  "Ext.draw.gradient.Gradient": [],
+  "Ext.draw.gradient.GradientDefinition": [],
+  "Ext.draw.gradient.Linear": [],
+  "Ext.draw.gradient.Radial": [],
+  "Ext.draw.modifier.Animation": [
+    "modifier.animation"
+  ],
+  "Ext.draw.modifier.Highlight": [
+    "modifier.highlight"
+  ],
+  "Ext.draw.modifier.Modifier": [],
+  "Ext.draw.modifier.Target": [
+    "modifier.target"
+  ],
+  "Ext.draw.sprite.AnimationParser": [],
+  "Ext.draw.sprite.Arc": [
+    "sprite.arc"
+  ],
+  "Ext.draw.sprite.AttributeDefinition": [],
+  "Ext.draw.sprite.AttributeParser": [],
+  "Ext.draw.sprite.Circle": [
+    "sprite.circle"
+  ],
+  "Ext.draw.sprite.Composite": [
+    "sprite.composite"
+  ],
+  "Ext.draw.sprite.Ellipse": [
+    "sprite.ellipse"
+  ],
+  "Ext.draw.sprite.EllipticalArc": [
+    "sprite.ellipticalArc"
+  ],
+  "Ext.draw.sprite.Image": [
+    "sprite.image"
+  ],
+  "Ext.draw.sprite.Instancing": [
+    "sprite.instancing"
+  ],
+  "Ext.draw.sprite.Line": [
+    "sprite.line"
+  ],
+  "Ext.draw.sprite.Path": [
+    "sprite.path"
+  ],
+  "Ext.draw.sprite.Rect": [
+    "sprite.rect"
+  ],
+  "Ext.draw.sprite.Sector": [
+    "sprite.sector"
+  ],
+  "Ext.draw.sprite.Sprite": [
+    "sprite.sprite"
+  ],
+  "Ext.draw.sprite.Text": [
+    "sprite.text"
+  ],
+  "Ext.event.Controller": [],
+  "Ext.event.Dispatcher": [],
+  "Ext.event.Dom": [],
+  "Ext.event.Event": [],
+  "Ext.event.ListenerStack": [],
+  "Ext.event.Touch": [],
+  "Ext.event.publisher.ComponentDelegation": [],
+  "Ext.event.publisher.ComponentPaint": [],
+  "Ext.event.publisher.ComponentSize": [],
+  "Ext.event.publisher.Dom": [],
+  "Ext.event.publisher.ElementPaint": [],
+  "Ext.event.publisher.ElementSize": [],
+  "Ext.event.publisher.Publisher": [],
+  "Ext.event.publisher.TouchGesture": [],
+  "Ext.event.recognizer.DoubleTap": [],
+  "Ext.event.recognizer.Drag": [],
+  "Ext.event.recognizer.EdgeSwipe": [],
+  "Ext.event.recognizer.HorizontalSwipe": [],
+  "Ext.event.recognizer.LongPress": [],
+  "Ext.event.recognizer.MultiTouch": [],
+  "Ext.event.recognizer.Pinch": [],
+  "Ext.event.recognizer.Recognizer": [],
+  "Ext.event.recognizer.Rotate": [],
+  "Ext.event.recognizer.SingleTouch": [],
+  "Ext.event.recognizer.Swipe": [],
+  "Ext.event.recognizer.Tap": [],
+  "Ext.event.recognizer.Touch": [],
+  "Ext.event.recognizer.VerticalSwipe": [],
+  "Ext.field.Checkbox": [
+    "widget.checkboxfield"
+  ],
+  "Ext.field.DatePicker": [
+    "widget.datepickerfield"
+  ],
+  "Ext.field.DatePickerNative": [
+    "widget.datepickernativefield"
+  ],
+  "Ext.field.Email": [
+    "widget.emailfield"
+  ],
+  "Ext.field.Field": [
+    "widget.field"
+  ],
+  "Ext.field.File": [
+    "widget.filefield"
+  ],
+  "Ext.field.FileInput": [
+    "widget.fileinput"
+  ],
+  "Ext.field.Hidden": [
+    "widget.hiddenfield"
+  ],
+  "Ext.field.Input": [
+    "widget.input"
+  ],
+  "Ext.field.Number": [
+    "widget.numberfield"
+  ],
+  "Ext.field.Password": [
+    "widget.passwordfield"
+  ],
+  "Ext.field.Radio": [
+    "widget.radiofield"
+  ],
+  "Ext.field.Search": [
+    "widget.searchfield"
+  ],
+  "Ext.field.Select": [
+    "widget.selectfield"
+  ],
+  "Ext.field.Slider": [
+    "widget.sliderfield"
+  ],
+  "Ext.field.Spinner": [
+    "widget.spinnerfield"
+  ],
+  "Ext.field.Text": [
+    "widget.textfield"
+  ],
+  "Ext.field.TextArea": [
+    "widget.textareafield"
+  ],
+  "Ext.field.TextAreaInput": [
+    "widget.textareainput"
+  ],
+  "Ext.field.Toggle": [
+    "widget.togglefield"
+  ],
+  "Ext.field.Url": [
+    "widget.urlfield"
+  ],
+  "Ext.form.FieldSet": [
+    "widget.fieldset"
+  ],
+  "Ext.form.Panel": [
+    "widget.formpanel"
+  ],
+  "Ext.fx.Animation": [],
+  "Ext.fx.Easing": [],
+  "Ext.fx.Runner": [],
+  "Ext.fx.State": [],
+  "Ext.fx.animation.Abstract": [],
+  "Ext.fx.animation.Cube": [
+    "animation.cube"
   ],
   "Ext.fx.animation.Fade": [
     "animation.fade",
     "animation.fadeIn"
   ],
-  "Ext.layout.Default": [
-    "layout.default",
-    "layout.auto"
+  "Ext.fx.animation.FadeOut": [
+    "animation.fadeOut"
   ],
-  "Ext.util.paintmonitor.CssAnimation": [],
-  "Ext.data.writer.Writer": [
-    "writer.base"
-  ],
-  "Ext.event.recognizer.Recognizer": [],
-  "Ext.form.FieldSet": [
-    "widget.fieldset"
-  ],
-  "Ext.scroll.Indicator": [],
-  "Ext.XTemplateParser": [],
-  "Ext.behavior.Scrollable": [],
-  "Ext.chart.series.sprite.CandleStick": [
-    "sprite.candlestickSeries"
-  ],
-  "Ext.data.JsonP": [],
-  "Ext.device.connection.PhoneGap": [],
-  "Ext.event.publisher.Dom": [],
-  "Ext.fx.layout.card.Fade": [
-    "fx.layout.card.fade"
-  ],
-  "Ext.app.Controller": [],
-  "Ext.fx.State": [],
-  "Ext.layout.wrapper.BoxDock": [],
-  "Ext.chart.series.sprite.Pie3DPart": [
-    "sprite.pie3dPart"
-  ],
-  "Ext.viewport.Default": [
-    "widget.viewport"
-  ],
-  "Ext.layout.HBox": [
-    "layout.hbox"
-  ],
-  "Ext.ux.auth.model.Session": [],
-  "Ext.scroll.indicator.Default": [],
-  "Ext.data.ModelManager": [],
-  "Ext.data.Validations": [],
-  "Ext.util.translatable.Abstract": [],
-  "Ext.scroll.indicator.Abstract": [],
-  "Ext.Button": [
-    "widget.button"
-  ],
-  "Ext.field.Radio": [
-    "widget.radiofield"
-  ],
-  "Ext.util.HashMap": [],
-  "Ext.field.Input": [
-    "widget.input"
-  ],
-  "Ext.device.Camera": [],
-  "Ext.mixin.Filterable": [],
-  "Ext.draw.TextMeasurer": [],
-  "Ext.dataview.element.Container": [],
-  "Ext.chart.series.sprite.PieSlice": [
-    "sprite.pieslice"
-  ],
-  "Ext.data.Connection": [],
-  "Ext.direct.ExceptionEvent": [
-    "direct.exception"
-  ],
-  "Ext.Panel": [
-    "widget.panel"
-  ],
-  "Ext.data.association.HasOne": [
-    "association.hasone"
-  ],
-  "Ext.device.geolocation.Abstract": [],
-  "Ext.ActionSheet": [
-    "widget.actionsheet"
-  ],
-  "Ext.layout.Box": [
-    "layout.tablebox"
-  ],
-  "Ext.bb.CrossCut": [
-    "widget.crosscut"
-  ],
-  "Ext.Video": [
-    "widget.video"
-  ],
-  "Ext.ux.auth.Session": [],
-  "Ext.chart.series.Line": [
-    "series.line"
-  ],
-  "Ext.fx.layout.card.Cube": [
-    "fx.layout.card.cube"
-  ],
-  "Ext.event.recognizer.HorizontalSwipe": [],
-  "Ext.data.writer.Json": [
-    "writer.json"
-  ],
-  "Ext.layout.Fit": [
-    "layout.fit"
-  ],
-  "Ext.fx.animation.Slide": [
-    "animation.slide",
-    "animation.slideIn"
-  ],
-  "Ext.device.Purchases.Purchase": [],
-  "Ext.table.Row": [
-    "widget.tablerow"
-  ],
-  "Ext.log.formatter.Formatter": [],
-  "Ext.Container": [
-    "widget.container"
+  "Ext.fx.animation.Flip": [
+    "animation.flip"
   ],
   "Ext.fx.animation.Pop": [
     "animation.pop",
     "animation.popIn"
   ],
-  "Ext.draw.sprite.Circle": [
-    "sprite.circle"
+  "Ext.fx.animation.PopOut": [
+    "animation.popOut"
   ],
-  "Ext.fx.layout.card.Reveal": [
-    "fx.layout.card.reveal"
+  "Ext.fx.animation.Slide": [
+    "animation.slide",
+    "animation.slideIn"
   ],
-  "Ext.fx.layout.card.Cover": [
-    "fx.layout.card.cover"
+  "Ext.fx.animation.SlideOut": [
+    "animation.slideOut"
   ],
-  "Ext.log.Base": [],
-  "Ext.data.reader.Xml": [
-    "reader.xml"
-  ],
-  "Ext.event.publisher.ElementPaint": [],
-  "Ext.chart.axis.Category": [
-    "axis.category"
-  ],
-  "Ext.data.reader.Json": [
-    "reader.json"
-  ],
-  "Ext.Decorator": [],
-  "Ext.data.TreeStore": [
-    "store.tree"
-  ],
-  "Ext.device.Purchases": [],
-  "Ext.device.orientation.HTML5": [],
-  "Ext.draw.gradient.Gradient": [],
-  "Ext.event.recognizer.DoubleTap": [],
-  "Ext.log.Logger": [],
-  "Ext.picker.Slot": [
-    "widget.pickerslot"
-  ],
-  "Ext.device.notification.Simulator": [],
-  "Ext.field.Field": [
-    "widget.field"
-  ],
-  "Ext.log.filter.Priority": [],
-  "Ext.util.sizemonitor.Abstract": [],
-  "Ext.chart.series.sprite.Polar": [],
-  "Ext.util.paintmonitor.OverflowChange": [],
-  "Ext.util.LineSegment": [],
-  "Ext.SegmentedButton": [
-    "widget.segmentedbutton"
-  ],
-  "Ext.Sortable": [],
-  "Ext.fx.easing.Linear": [
-    "easing.linear"
-  ],
-  "Ext.chart.series.sprite.Aggregative": [],
-  "Ext.dom.CompositeElement": [],
-  "Ext.data.identifier.Uuid": [
-    "data.identifier.uuid"
-  ],
-  "Ext.data.proxy.Client": [],
+  "Ext.fx.animation.Wipe": [],
+  "Ext.fx.animation.WipeOut": [],
+  "Ext.fx.easing.Abstract": [],
   "Ext.fx.easing.Bounce": [],
-  "Ext.data.Types": [],
-  "Ext.chart.series.sprite.Cartesian": [],
-  "Ext.app.Action": [],
-  "Ext.util.Translatable": [],
-  "Ext.device.camera.PhoneGap": [],
-  "Ext.draw.sprite.Path": [
-    "sprite.path"
-  ],
-  "Ext.LoadMask": [
-    "widget.loadmask"
-  ],
-  "Ext.data.association.Association": [],
-  "Ext.chart.axis.sprite.Axis": [],
-  "Ext.behavior.Draggable": [],
-  "Ext.chart.grid.RadialGrid": [
-    "grid.radial"
-  ],
-  "Ext.util.TranslatableGroup": [],
-  "Ext.fx.Animation": [],
-  "Ext.draw.sprite.Ellipse": [
-    "sprite.ellipse"
-  ],
-  "Ext.util.Inflector": [],
-  "Ext.Map": [
-    "widget.map"
-  ],
-  "Ext.XTemplate": [],
-  "Ext.data.NodeStore": [
-    "store.node"
-  ],
-  "Ext.draw.sprite.AttributeParser": [],
-  "Ext.form.Panel": [
-    "widget.formpanel"
-  ],
-  "Ext.chart.series.Series": [],
-  "Ext.data.Request": [],
-  "Ext.draw.sprite.Text": [
-    "sprite.text"
-  ],
-  "Ext.layout.Float": [
-    "layout.float"
-  ],
-  "Ext.dataview.component.DataItem": [
-    "widget.dataitem"
-  ],
-  "Ext.chart.CartesianChart": [
-    "widget.chart",
-    "Ext.chart.Chart"
-  ],
-  "Ext.data.proxy.WebStorage": [],
-  "Ext.log.writer.Writer": [],
-  "Ext.device.Communicator": [],
-  "Ext.fx.animation.Flip": [
-    "animation.flip"
-  ],
-  "Ext.util.Point": [],
-  "Ext.chart.series.StackedCartesian": [],
-  "Ext.fx.layout.card.Slide": [
-    "fx.layout.card.slide"
-  ],
-  "Ext.Anim": [],
-  "Ext.data.DirectStore": [
-    "store.direct"
-  ],
-  "Ext.dataview.NestedList": [
-    "widget.nestedlist"
-  ],
-  "Ext.app.Route": [],
-  "Ext.device.connection.Simulator": [],
-  "Ext.chart.PolarChart": [
-    "widget.polar"
-  ],
-  "Ext.event.publisher.ComponentSize": [],
-  "Ext.slider.Toggle": [],
-  "Ext.data.identifier.Sequential": [
-    "data.identifier.sequential"
-  ],
-  "Ext.Template": [],
-  "Ext.AbstractComponent": [],
-  "Ext.device.Push": [],
   "Ext.fx.easing.BoundMomentum": [],
-  "Ext.viewport.Viewport": [],
-  "Ext.chart.series.Polar": [],
-  "Ext.event.recognizer.VerticalSwipe": [],
-  "Ext.event.Event": [],
-  "Ext.behavior.Behavior": [],
-  "Ext.chart.grid.VerticalGrid": [
-    "grid.vertical"
-  ],
-  "Ext.chart.label.Label": [],
-  "Ext.draw.sprite.EllipticalArc": [
-    "sprite.ellipticalArc"
+  "Ext.fx.easing.EaseIn": [
+    "easing.ease-in"
   ],
   "Ext.fx.easing.EaseOut": [
     "easing.ease-out"
   ],
-  "Ext.Toolbar": [
-    "widget.toolbar"
+  "Ext.fx.easing.Linear": [
+    "easing.linear"
   ],
-  "Ext.event.recognizer.LongPress": [],
-  "Ext.device.notification.Sencha": [],
-  "Ext.chart.series.sprite.Line": [
-    "sprite.lineSeries"
+  "Ext.fx.easing.Momentum": [],
+  "Ext.fx.layout.Card": [],
+  "Ext.fx.layout.card.Abstract": [],
+  "Ext.fx.layout.card.Cover": [
+    "fx.layout.card.cover"
   ],
-  "Ext.data.ArrayStore": [
-    "store.array"
+  "Ext.fx.layout.card.Cube": [
+    "fx.layout.card.cube"
   ],
-  "Ext.data.proxy.SQL": [
-    "proxy.sql"
+  "Ext.fx.layout.card.Fade": [
+    "fx.layout.card.fade"
   ],
-  "Ext.mixin.Sortable": [],
   "Ext.fx.layout.card.Flip": [
     "fx.layout.card.flip"
   ],
-  "Ext.chart.interactions.CrossZoom": [
-    "interaction.crosszoom"
+  "Ext.fx.layout.card.Pop": [
+    "fx.layout.card.pop"
   ],
-  "Ext.event.publisher.ComponentPaint": [],
-  "Ext.event.recognizer.Rotate": [],
-  "Ext.util.TranslatableList": [],
-  "Ext.carousel.Item": [],
-  "Ext.event.recognizer.Swipe": [],
-  "Ext.util.translatable.ScrollPosition": [],
-  "Ext.device.camera.Simulator": [],
-  "Ext.chart.series.sprite.Area": [
-    "sprite.areaSeries"
+  "Ext.fx.layout.card.Reveal": [
+    "fx.layout.card.reveal"
   ],
-  "Ext.event.recognizer.Touch": [],
-  "Ext.plugin.ListPaging": [
-    "plugin.listpaging"
-  ],
-  "Ext.draw.sprite.Sector": [
-    "sprite.sector"
-  ],
-  "Ext.chart.axis.segmenter.Names": [
-    "segmenter.names"
-  ],
-  "Ext.mixin.Observable": [],
-  "Ext.carousel.Infinite": [],
-  "Ext.draw.Matrix": [],
-  "Ext.Mask": [
-    "widget.mask"
-  ],
-  "Ext.event.publisher.Publisher": [],
-  "Ext.layout.wrapper.Dock": [],
-  "Ext.app.History": [],
-  "Ext.data.proxy.Direct": [
-    "proxy.direct"
-  ],
-  "Ext.chart.axis.layout.Continuous": [
-    "axisLayout.continuous"
-  ],
-  "Ext.table.Cell": [
-    "widget.tablecell"
+  "Ext.fx.layout.card.Scroll": [
+    "fx.layout.card.scroll"
   ],
   "Ext.fx.layout.card.ScrollCover": [
     "fx.layout.card.scrollcover"
   ],
-  "Ext.device.orientation.Sencha": [],
-  "Ext.util.Droppable": [],
-  "Ext.draw.sprite.Composite": [
-    "sprite.composite"
+  "Ext.fx.layout.card.ScrollReveal": [
+    "fx.layout.card.scrollreveal"
   ],
-  "Ext.chart.series.Pie": [
-    "series.pie"
+  "Ext.fx.layout.card.Slide": [
+    "fx.layout.card.slide"
   ],
-  "Ext.device.Purchases.Product": [],
-  "Ext.device.Orientation": [],
-  "Ext.direct.Provider": [
-    "direct.provider"
-  ],
-  "Ext.draw.sprite.Arc": [
-    "sprite.arc"
-  ],
-  "Ext.chart.axis.segmenter.Time": [
-    "segmenter.time"
-  ],
-  "Ext.util.Draggable": [],
-  "Ext.device.contacts.Sencha": [],
-  "Ext.chart.grid.HorizontalGrid": [
-    "grid.horizontal"
-  ],
-  "Ext.mixin.Traversable": [],
-  "Ext.util.AbstractMixedCollection": [],
-  "Ext.data.JsonStore": [
-    "store.json"
-  ],
-  "Ext.draw.SegmentTree": [],
-  "Ext.direct.RemotingEvent": [
-    "direct.rpc"
-  ],
-  "Ext.plugin.PullRefresh": [
-    "plugin.pullrefresh"
-  ],
-  "Ext.log.writer.Console": [],
-  "Ext.field.Spinner": [
-    "widget.spinnerfield"
-  ],
-  "Ext.chart.axis.segmenter.Numeric": [
-    "segmenter.numeric"
-  ],
-  "Ext.data.proxy.LocalStorage": [
-    "proxy.localstorage"
-  ],
-  "Ext.fx.animation.Wipe": [],
-  "Ext.fx.layout.Card": [],
-  "Ext.TaskQueue": [],
-  "Ext.Label": [
-    "widget.label"
-  ],
-  "Ext.util.translatable.CssTransform": [],
-  "Ext.viewport.Ios": [],
-  "Ext.Spacer": [
-    "widget.spacer"
-  ],
-  "Ext.mixin.Selectable": [],
-  "Ext.draw.sprite.Image": [
-    "sprite.image"
-  ],
-  "Ext.data.proxy.Rest": [
-    "proxy.rest"
-  ],
-  "Ext.Img": [
-    "widget.img",
-    "widget.image"
-  ],
-  "Ext.chart.series.sprite.Bar": [
-    "sprite.barSeries"
-  ],
-  "Ext.log.writer.DocumentTitle": [],
-  "Ext.data.Error": [],
-  "Ext.util.Sorter": [],
-  "Ext.draw.gradient.Radial": [],
+  "Ext.fx.layout.card.Style": [],
+  "Ext.fx.runner.Css": [],
+  "Ext.fx.runner.CssAnimation": [],
+  "Ext.fx.runner.CssTransition": [],
   "Ext.layout.Abstract": [],
-  "Ext.device.notification.Abstract": [],
-  "Ext.log.filter.Filter": [],
-  "Ext.device.camera.Sencha": [],
-  "Ext.draw.sprite.Sprite": [
-    "sprite.sprite"
-  ],
-  "Ext.draw.Color": [],
-  "Ext.chart.series.Bar": [
-    "series.bar"
-  ],
-  "Ext.field.Slider": [
-    "widget.sliderfield"
-  ],
-  "Ext.field.Search": [
-    "widget.searchfield"
-  ],
-  "Ext.chart.series.Scatter": [
-    "series.scatter"
-  ],
-  "Ext.device.Device": [],
-  "Ext.event.Dispatcher": [],
-  "Ext.data.Store": [
-    "store.store"
-  ],
-  "Ext.draw.modifier.Highlight": [
-    "modifier.highlight"
-  ],
-  "Ext.behavior.Translatable": [],
-  "Ext.direct.Manager": [],
-  "Ext.data.proxy.Proxy": [
-    "proxy.proxy"
-  ],
-  "Ext.draw.modifier.Modifier": [],
-  "Ext.navigation.View": [
-    "widget.navigationview"
-  ],
-  "Ext.draw.modifier.Target": [
-    "modifier.target"
-  ],
-  "Ext.draw.sprite.AttributeDefinition": [],
-  "Ext.device.Notification": [],
-  "Ext.draw.Component": [
-    "widget.draw"
-  ],
-  "Ext.layout.VBox": [
-    "layout.vbox"
-  ],
-  "Ext.slider.Thumb": [
-    "widget.thumb"
-  ],
-  "Ext.MessageBox": [],
-  "Ext.ux.Faker": [],
-  "Ext.dataview.IndexBar": [],
-  "Ext.dataview.element.List": [],
-  "Ext.layout.FlexBox": [
-    "layout.box"
-  ],
-  "Ext.field.Url": [
-    "widget.urlfield"
-  ],
-  "Ext.draw.Solver": [],
-  "Ext.data.proxy.Memory": [
-    "proxy.memory"
-  ],
-  "Ext.chart.axis.Time": [
-    "axis.time"
+  "Ext.layout.Box": [
+    "layout.tablebox"
   ],
   "Ext.layout.Card": [
     "layout.card"
   ],
-  "Ext.ComponentQuery": [],
-  "Ext.chart.series.Pie3D": [
-    "series.pie3d"
+  "Ext.layout.Default": [
+    "layout.auto",
+    "layout.default"
   ],
-  "Ext.device.camera.Abstract": [],
-  "Ext.device.device.Sencha": [],
-  "Ext.scroll.View": [],
-  "Ext.draw.sprite.Rect": [
-    "sprite.rect"
+  "Ext.layout.Fit": [
+    "layout.fit"
   ],
-  "Ext.util.Region": [],
-  "Ext.field.Select": [
-    "widget.selectfield"
+  "Ext.layout.FlexBox": [
+    "layout.box"
   ],
-  "Ext.draw.Draw": [],
-  "Ext.ItemCollection": [],
+  "Ext.layout.Float": [
+    "layout.float"
+  ],
+  "Ext.layout.HBox": [
+    "layout.hbox"
+  ],
+  "Ext.layout.VBox": [
+    "layout.vbox"
+  ],
+  "Ext.layout.wrapper.BoxDock": [],
+  "Ext.layout.wrapper.Dock": [],
+  "Ext.layout.wrapper.Inner": [],
+  "Ext.log.Base": [],
+  "Ext.log.Logger": [],
+  "Ext.log.filter.Filter": [],
+  "Ext.log.filter.Priority": [],
   "Ext.log.formatter.Default": [],
+  "Ext.log.formatter.Formatter": [],
+  "Ext.log.formatter.Identity": [],
+  "Ext.log.writer.Console": [],
+  "Ext.log.writer.DocumentTitle": [],
+  "Ext.log.writer.Remote": [],
+  "Ext.log.writer.Writer": [],
+  "Ext.mixin.Bindable": [],
+  "Ext.mixin.Filterable": [],
+  "Ext.mixin.Mixin": [],
+  "Ext.mixin.Observable": [],
+  "Ext.mixin.Progressable": [],
+  "Ext.mixin.Selectable": [],
+  "Ext.mixin.Sortable": [],
+  "Ext.mixin.Templatable": [],
+  "Ext.mixin.Traversable": [],
   "Ext.navigation.Bar": [],
-  "Ext.chart.axis.layout.CombineDuplicate": [
-    "axisLayout.combineDuplicate"
+  "Ext.navigation.View": [
+    "widget.navigationview"
   ],
-  "Ext.device.Geolocation": [],
-  "Ext.chart.SpaceFillingChart": [
-    "widget.spacefilling"
+  "Ext.picker.Date": [
+    "widget.datepicker"
   ],
-  "Ext.data.proxy.SessionStorage": [
-    "proxy.sessionstorage"
+  "Ext.picker.Picker": [
+    "widget.picker"
   ],
-  "Ext.fx.easing.EaseIn": [
-    "easing.ease-in"
+  "Ext.picker.Slot": [
+    "widget.pickerslot"
   ],
-  "Ext.draw.sprite.AnimationParser": [],
-  "Ext.field.Password": [
-    "widget.passwordfield"
+  "Ext.plugin.ListPaging": [
+    "plugin.listpaging"
   ],
-  "Ext.device.connection.Abstract": [],
-  "Ext.direct.Event": [
-    "direct.event"
+  "Ext.plugin.PullRefresh": [
+    "plugin.pullrefresh"
   ],
-  "Ext.direct.RemotingMethod": [],
-  "Ext.Evented": [],
-  "Ext.carousel.Indicator": [
-    "widget.carouselindicator"
+  "Ext.plugin.SortableList": [
+    "plugin.sortablelist"
   ],
-  "Ext.util.Collection": [],
-  "Ext.chart.interactions.ItemInfo": [
-    "interaction.iteminfo"
+  "Ext.scroll.Indicator": [],
+  "Ext.scroll.Scroller": [],
+  "Ext.scroll.View": [],
+  "Ext.scroll.indicator.Abstract": [],
+  "Ext.scroll.indicator.CssTransform": [],
+  "Ext.scroll.indicator.Rounded": [],
+  "Ext.scroll.indicator.ScrollPosition": [],
+  "Ext.slider.Slider": [
+    "widget.slider"
   ],
-  "Ext.chart.MarkerHolder": [],
-  "Ext.carousel.Carousel": [
-    "widget.carousel"
+  "Ext.slider.Thumb": [
+    "widget.thumb"
   ],
-  "Ext.Audio": [
-    "widget.audio"
+  "Ext.slider.Toggle": [],
+  "Ext.tab.Bar": [
+    "widget.tabbar"
   ],
-  "Ext.device.Contacts": [],
+  "Ext.tab.Panel": [
+    "widget.tabpanel"
+  ],
+  "Ext.tab.Tab": [
+    "widget.tab"
+  ],
+  "Ext.table.Cell": [
+    "widget.tablecell"
+  ],
+  "Ext.table.Row": [
+    "widget.tablerow"
+  ],
   "Ext.table.Table": [
     "widget.table"
   ],
-  "Ext.draw.engine.SvgContext.Gradient": [],
-  "Ext.chart.axis.layout.Layout": [],
-  "Ext.data.Errors": [],
-  "Ext.field.Text": [
-    "widget.textfield"
-  ],
-  "Ext.field.TextAreaInput": [
-    "widget.textareainput"
-  ],
-  "Ext.field.DatePicker": [
-    "widget.datepickerfield"
-  ],
-  "Ext.draw.engine.Svg": [],
-  "Ext.event.recognizer.Tap": [],
-  "Ext.device.orientation.Abstract": [],
-  "Ext.AbstractManager": [],
-  "Ext.chart.series.Radar": [
-    "series.radar"
-  ],
-  "Ext.chart.interactions.Abstract": [
-    "widget.interaction"
-  ],
-  "Ext.scroll.indicator.CssTransform": [],
+  "Ext.util.AbstractMixedCollection": [],
+  "Ext.util.Audio": [],
+  "Ext.util.Collection": [],
+  "Ext.util.DelayedTask": [],
+  "Ext.util.Draggable": [],
+  "Ext.util.Droppable": [],
+  "Ext.util.Filter": [],
+  "Ext.util.Format": [],
+  "Ext.util.Geolocation": [],
+  "Ext.util.Grouper": [],
+  "Ext.util.HashMap": [],
+  "Ext.util.Inflector": [],
+  "Ext.util.InputBlocker": [],
+  "Ext.util.LineSegment": [],
+  "Ext.util.MixedCollection": [],
+  "Ext.util.Offset": [],
   "Ext.util.PaintMonitor": [],
-  "Ext.direct.PollingProvider": [
-    "direct.pollingprovider"
-  ],
-  "Ext.device.notification.PhoneGap": [],
-  "Ext.data.writer.Xml": [
-    "writer.xml"
-  ],
-  "Ext.event.recognizer.SingleTouch": [],
-  "Ext.draw.sprite.Instancing": [
-    "sprite.instancing"
-  ],
-  "Ext.event.publisher.ComponentDelegation": [],
-  "Ext.chart.axis.Numeric": [
-    "axis.numeric"
-  ],
-  "Ext.field.Toggle": [
-    "widget.togglefield"
-  ],
-  "Ext.fx.layout.card.ScrollReveal": [
-    "fx.layout.card.scrollreveal"
-  ],
-  "Ext.data.Operation": [],
-  "Ext.fx.animation.Abstract": [],
-  "Ext.chart.interactions.Rotate": [
-    "interaction.rotate"
-  ],
-  "Ext.draw.engine.SvgContext": [],
-  "Ext.scroll.Scroller": [],
+  "Ext.util.Point": [],
+  "Ext.util.PositionMap": [],
+  "Ext.util.Region": [],
   "Ext.util.SizeMonitor": [],
-  "Ext.event.ListenerStack": [],
-  "Ext.util.MixedCollection": []
+  "Ext.util.Sortable": [],
+  "Ext.util.Sorter": [],
+  "Ext.util.TapRepeater": [],
+  "Ext.util.Translatable": [],
+  "Ext.util.TranslatableGroup": [],
+  "Ext.util.TranslatableList": [],
+  "Ext.util.Wrapper": [],
+  "Ext.util.paintmonitor.Abstract": [],
+  "Ext.util.paintmonitor.CssAnimation": [],
+  "Ext.util.paintmonitor.OverflowChange": [],
+  "Ext.util.sizemonitor.Abstract": [],
+  "Ext.util.sizemonitor.Default": [],
+  "Ext.util.sizemonitor.OverflowChange": [],
+  "Ext.util.sizemonitor.Scroll": [],
+  "Ext.util.translatable.Abstract": [],
+  "Ext.util.translatable.CssPosition": [],
+  "Ext.util.translatable.CssTransform": [],
+  "Ext.util.translatable.Dom": [],
+  "Ext.util.translatable.ScrollPosition": [],
+  "Ext.ux.ActionOverFlowMenuButton": [],
+  "Ext.ux.ApplicationMenu": [],
+  "Ext.ux.ContextMenu": [],
+  "Ext.ux.MenuButton": [],
+  "Ext.ux.TabMenuButton": [],
+  "Ext.ux.device.Analytics": [],
+  "Ext.ux.device.Twitter": [],
+  "Ext.ux.device.analytics.Abstract": [],
+  "Ext.ux.device.analytics.Cordova": [],
+  "Ext.ux.device.twitter.Abstract": [],
+  "Ext.ux.device.twitter.Cordova": [],
+  "Ext.ux.parse.Helper": [],
+  "Ext.ux.parse.Model": [],
+  "Ext.ux.parse.Proxy": [
+    "proxy.parse"
+  ],
+  "Ext.ux.parse.Reader": [
+    "reader.parse"
+  ],
+  "Ext.ux.parse.Store": [],
+  "Ext.ux.parse.association.Pointer": [
+    "association.pointer"
+  ],
+  "Ext.ux.parse.association.Relation": [
+    "association.relation"
+  ],
+  "Ext.viewport.AndroidStock": [],
+  "Ext.viewport.Default": [
+    "widget.viewport"
+  ],
+  "Ext.viewport.Ios": [],
+  "Ext.viewport.Viewport": [],
+  "Ext.viewport.WindowsPhone": []
 });

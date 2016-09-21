@@ -114,7 +114,8 @@ Ext.define('Ext.SegmentedButton', {
         me.onAfter({
             delegate: '> button',
             scope   : me,
-            hiddenchange: 'onButtonHiddenChange'
+            hide: 'onButtonHiddenChange',
+            show: 'onButtonHiddenChange'
         });
     },
 

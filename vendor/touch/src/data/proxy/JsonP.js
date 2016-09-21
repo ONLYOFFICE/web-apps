@@ -1,6 +1,5 @@
 /**
  * @author Ed Spencer
- * @aside guide proxies
  *
  * The JsonP proxy is useful when you need to load data from a domain other than the one your application is running on. If
  * your application is running on http://domainA.com it cannot use {@link Ext.data.proxy.Ajax Ajax} to load its data
@@ -127,6 +126,12 @@
  *         responseString = jsonString;
  *     }
  *     Response.Write(responseString);
+ *
+ * ###Further Reading
+ * [Sencha Touch Data Overview](../../../core_concepts/data/data_package_overview.html)
+ * [Sencha Touch Store Guide](../../../core_concepts/data/stores.html)
+ * [Sencha Touch Models Guide](../../../core_concepts/data/models.html)
+ * [Sencha Touch Proxy Guide](../../../core_concepts/data/proxies.html)
  */
 Ext.define('Ext.data.proxy.JsonP', {
     extend: 'Ext.data.proxy.Server',
@@ -246,7 +251,6 @@ Ext.define('Ext.data.proxy.JsonP', {
             url     = me.callParent(arguments),
             params  = Ext.apply({}, request.getParams()),
             filters = params.filters,
-            records,
             filter, i, value;
 
         delete params.filters;

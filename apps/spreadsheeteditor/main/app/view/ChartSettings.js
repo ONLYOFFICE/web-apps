@@ -64,7 +64,6 @@ define([
         },
 
         initialize: function () {
-            var me = this;
             this._initSettings = true;
 
             this._state = {
@@ -103,254 +102,6 @@ define([
 
             this.render();
 
-            // charts
-            this.btnChartType = new Common.UI.Button({
-                cls         : 'btn-large-dataview',
-                iconCls     : 'item-chartlist bar-normal',
-                menu        : new Common.UI.Menu({
-                    style: 'width: 560px;',
-                    items: [
-                        { template: _.template('<div id="id-chart-menu-type" class="menu-insertchart"  style="margin: 5px 5px 5px 10px;"></div>') }
-                    ]
-                })
-            });
-            this.btnChartType.on('render:after', function(btn) {
-                me.mnuChartTypePicker = new Common.UI.DataView({
-                    el: $('#id-chart-menu-type'),
-                    parentMenu: btn.menu,
-                    restoreHeight: 411,
-                    groups: new Common.UI.DataViewGroupStore([
-                        { id: 'menu-chart-group-bar',     caption: me.textColumn },
-                        { id: 'menu-chart-group-line',    caption: me.textLine },
-                        { id: 'menu-chart-group-pie',     caption: me.textPie },
-                        { id: 'menu-chart-group-hbar',    caption: me.textBar },
-                        { id: 'menu-chart-group-area',    caption: me.textArea },
-                        { id: 'menu-chart-group-scatter', caption: me.textPoint },
-                        { id: 'menu-chart-group-stock',   caption: me.textStock }
-                    ]),
-                    store: new Common.UI.DataViewStore([
-                        { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barNormal,          iconCls: 'column-normal', selected: true},
-                        { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barStacked,         iconCls: 'column-stack'},
-                        { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barStackedPer,      iconCls: 'column-pstack'},
-                        { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barNormal3d,        iconCls: 'column-3d-normal'},
-                        { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barStacked3d,       iconCls: 'column-3d-stack'},
-                        { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barStackedPer3d,    iconCls: 'column-3d-pstack'},
-                        { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barNormal3dPerspective,    iconCls: 'column-3d-normal-per'},
-                        { group: 'menu-chart-group-line',    type: Asc.c_oAscChartTypeSettings.lineNormal,         iconCls: 'line-normal'},
-                        { group: 'menu-chart-group-line',    type: Asc.c_oAscChartTypeSettings.lineStacked,        iconCls: 'line-stack'},
-                        { group: 'menu-chart-group-line',    type: Asc.c_oAscChartTypeSettings.lineStackedPer,     iconCls: 'line-pstack'},
-                        { group: 'menu-chart-group-line',    type: Asc.c_oAscChartTypeSettings.line3d,             iconCls: 'line-3d'},
-                        { group: 'menu-chart-group-pie',     type: Asc.c_oAscChartTypeSettings.pie,                iconCls: 'pie-normal'},
-                        { group: 'menu-chart-group-pie',     type: Asc.c_oAscChartTypeSettings.doughnut,           iconCls: 'pie-doughnut'},
-                        { group: 'menu-chart-group-pie',     type: Asc.c_oAscChartTypeSettings.pie3d,              iconCls: 'pie-3d-normal'},
-                        { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarNormal,         iconCls: 'bar-normal'},
-                        { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarStacked,        iconCls: 'bar-stack'},
-                        { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarStackedPer,     iconCls: 'bar-pstack'},
-                        { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarNormal3d,       iconCls: 'bar-3d-normal'},
-                        { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarStacked3d,      iconCls: 'bar-3d-stack'},
-                        { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarStackedPer3d,   iconCls: 'bar-3d-pstack'},
-                        { group: 'menu-chart-group-area',    type: Asc.c_oAscChartTypeSettings.areaNormal,         iconCls: 'area-normal'},
-                        { group: 'menu-chart-group-area',    type: Asc.c_oAscChartTypeSettings.areaStacked,        iconCls: 'area-stack'},
-                        { group: 'menu-chart-group-area',    type: Asc.c_oAscChartTypeSettings.areaStackedPer,     iconCls: 'area-pstack'},
-                        { group: 'menu-chart-group-scatter', type: Asc.c_oAscChartTypeSettings.scatter,            iconCls: 'point-normal'},
-                        { group: 'menu-chart-group-stock',   type: Asc.c_oAscChartTypeSettings.stock,              iconCls: 'stock-normal'}
-                    ]),
-                    itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist <%= iconCls %>"></div>')
-                });
-            });
-            this.btnChartType.render($('#chart-button-type'));
-            this.mnuChartTypePicker.on('item:click', _.bind(this.onSelectType, this, this.btnChartType));
-            this.lockedControls.push(this.btnChartType);
-
-            this.btnChartStyle = new Common.UI.Button({
-                cls         : 'btn-large-dataview',
-                iconCls     : 'item-wrap',
-                menu        : new Common.UI.Menu({
-                    menuAlign: 'tr-br',
-                    items: [
-                        { template: _.template('<div id="id-chart-menu-style" style="width: 245px; margin: 0 5px;"></div>') }
-                    ]
-                })
-            });
-            this.btnChartStyle.on('render:after', function(btn) {
-                me.mnuChartStylePicker = new Common.UI.DataView({
-                    el: $('#id-chart-menu-style'),
-                    style: 'max-height: 411px;',
-                    parentMenu: btn.menu,
-                    store: new Common.UI.DataViewStore(),
-                    itemTemplate: _.template('<div id="<%= id %>" class="item-wrap" style="background-image: url(<%= imageUrl %>); background-position: 0 0;"></div>')
-                });
-
-                if (me.btnChartStyle.menu) {
-                    me.btnChartStyle.menu.on('show:after', function () {
-                        me.mnuChartStylePicker.scroller.update({alwaysVisibleY: true});
-                    });
-                }
-            });
-            this.btnChartStyle.render($('#chart-button-style'));
-            this.mnuChartStylePicker.on('item:click', _.bind(this.onSelectStyle, this, this.btnChartStyle));
-            this.lockedControls.push(this.btnChartStyle);
-
-            this.spnWidth = new Common.UI.MetricSpinner({
-                el: $('#chart-spin-width'),
-                step: .1,
-                width: 78,
-                defaultUnit : "cm",
-                value: '3 cm',
-                maxValue: 55.88,
-                minValue: 0
-            });
-            this.spinners.push(this.spnWidth);
-            this.lockedControls.push(this.spnWidth);
-
-            this.spnHeight = new Common.UI.MetricSpinner({
-                el: $('#chart-spin-height'),
-                step: .1,
-                width: 78,
-                defaultUnit : "cm",
-                value: '3 cm',
-                maxValue: 55.88,
-                minValue: 0
-            });
-            this.spinners.push(this.spnHeight);
-            this.lockedControls.push(this.spnHeight);
-
-            this.spnWidth.on('change', _.bind(this.onWidthChange, this));
-            this.spnHeight.on('change', _.bind(this.onHeightChange, this));
-
-            this.btnRatio = new Common.UI.Button({
-                cls: 'btn-toolbar',
-                iconCls: 'advanced-btn-ratio',
-                style: 'margin-bottom: 1px;',
-                enableToggle: true,
-                hint: this.textKeepRatio
-            });
-            this.btnRatio.render($('#chart-button-ratio')) ;
-            this.lockedControls.push(this.btnRatio);
-
-            this.btnRatio.on('click', _.bind(function(btn, e) {
-                if (btn.pressed && this.spnHeight.getNumberValue()>0) {
-                    this._nRatio = this.spnWidth.getNumberValue()/this.spnHeight.getNumberValue();
-                }
-                if (this.api)  {
-                    var props = new Asc.asc_CImgProperty();
-                    props.asc_putLockAspect(btn.pressed);
-                    this.api.asc_setGraphicObjectProps(props);
-                }
-            }, this));
-
-            // sparks
-            this.btnSparkType = new Common.UI.Button({
-                cls         : 'btn-large-dataview',
-                iconCls     : 'item-chartlist spark-column',
-                menu        : new Common.UI.Menu({
-                    style: 'width: 210px;',
-                    items: [
-                        { template: _.template('<div id="id-spark-menu-type" class="menu-insertchart"  style="margin: 5px 5px 5px 10px;"></div>') }
-                    ]
-                })
-            });
-            this.btnSparkType.on('render:after', function(btn) {
-                me.mnuSparkTypePicker = new Common.UI.DataView({
-                    el: $('#id-spark-menu-type'),
-                    parentMenu: btn.menu,
-                    restoreHeight: 200,
-                    allowScrollbar: false,
-                    groups: new Common.UI.DataViewGroupStore([
-                        { id: 'menu-chart-group-sparkcolumn', caption: me.textColumnSpark },
-                        { id: 'menu-chart-group-sparkline',   caption: me.textLineSpark },
-                        { id: 'menu-chart-group-sparkwin',    caption: me.textWinLossSpark }
-                    ]),
-                    store: new Common.UI.DataViewStore([
-                        { group: 'menu-chart-group-sparkcolumn',   type: Asc.c_oAscSparklineType.Column,    allowSelected: true, iconCls: 'spark-column'},
-                        { group: 'menu-chart-group-sparkline',     type: Asc.c_oAscSparklineType.Line,      allowSelected: true, iconCls: 'spark-line'},
-                        { group: 'menu-chart-group-sparkwin',      type: Asc.c_oAscSparklineType.Stacked,   allowSelected: true, iconCls: 'spark-win'}
-                    ]),
-                    itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist <%= iconCls %>"></div>')
-                });
-            });
-            this.btnSparkType.render($('#spark-button-type'));
-            this.mnuSparkTypePicker.on('item:click', _.bind(this.onSelectSparkType, this, this.btnSparkType));
-            this.lockedControls.push(this.btnSparkType);
-
-            this.btnSparkStyle = new Common.UI.Button({
-                cls         : 'btn-large-dataview',
-                iconCls     : 'item-wrap',
-                menu        : new Common.UI.Menu({
-                    menuAlign: 'tr-br',
-                    items: [
-                        { template: _.template('<div id="id-spark-menu-style" style="width: 245px; margin: 0 5px;"></div>') }
-                    ]
-                })
-            });
-            this.btnSparkStyle.on('render:after', function(btn) {
-                me.mnuSparkStylePicker = new Common.UI.DataView({
-                    el: $('#id-spark-menu-style'),
-                    style: 'max-height: 411px;',
-                    parentMenu: btn.menu,
-                    store: new Common.UI.DataViewStore(),
-                    itemTemplate: _.template('<div id="<%= id %>" class="item-wrap" style="background-image: url(<%= imageUrl %>); background-position: 0 0;"></div>')
-                });
-
-                if (me.btnSparkStyle.menu) {
-                    me.btnSparkStyle.menu.on('show:after', function () {
-                        me.mnuSparkStylePicker.scroller.update({alwaysVisibleY: true});
-                    });
-                }
-            });
-            this.btnSparkStyle.render($('#spark-button-style'));
-            this.mnuSparkStylePicker.on('item:click', _.bind(this.onSelectSparkStyle, this, this.btnSparkStyle));
-            this.lockedControls.push(this.btnSparkStyle);
-
-            this.cmbBorderSize = new Common.UI.ComboBorderSize({
-                el          : $('#spark-combo-line-type'),
-                style       : 'width: 90px;',
-                hasNoBorders: false
-            }).on('selected', _.bind(this.onBorderSizeSelect, this));
-            this.BorderSize = this.cmbBorderSize.store.at(1).get('value');
-            this.cmbBorderSize.setValue(this.BorderSize);
-            this.lockedControls.push(this.cmbBorderSize);
-
-            this.chHighPoint = new Common.UI.CheckBox({
-                el: $('#spark-checkbox-high'),
-                labelText: this.textHighPoint
-            });
-            this.lockedControls.push(this.chHighPoint);
-            this.chLowPoint = new Common.UI.CheckBox({
-                el: $('#spark-checkbox-low'),
-                labelText: this.textLowPoint
-            });
-            this.lockedControls.push(this.chLowPoint);
-            this.chNegativePoint = new Common.UI.CheckBox({
-                el: $('#spark-checkbox-negative'),
-                labelText: this.textNegativePoint
-            });
-            this.lockedControls.push(this.chNegativePoint);
-            this.chFirstPoint = new Common.UI.CheckBox({
-                el: $('#spark-checkbox-first'),
-                labelText: this.textFirstPoint
-            });
-            this.lockedControls.push(this.chFirstPoint);
-            this.chLastPoint = new Common.UI.CheckBox({
-                el: $('#spark-checkbox-last'),
-                labelText: this.textLastPoint
-            });
-            this.lockedControls.push(this.chLastPoint);
-            this.chMarkersPoint = new Common.UI.CheckBox({
-                el: $('#spark-checkbox-markers'),
-                labelText: this.textMarkers
-            });
-            this.lockedControls.push(this.chMarkersPoint);
-
-            this.chHighPoint.on('change', _.bind(this.onCheckPointChange, this, 0));
-            this.chLowPoint.on('change', _.bind(this.onCheckPointChange, this, 1));
-            this.chNegativePoint.on('change', _.bind(this.onCheckPointChange, this, 2));
-            this.chFirstPoint.on('change', _.bind(this.onCheckPointChange, this, 3));
-            this.chLastPoint.on('change', _.bind(this.onCheckPointChange, this, 4));
-            this.chMarkersPoint.on('change', _.bind(this.onCheckPointChange, this, 5));
-
-            $(this.el).on('click', '#chart-advanced-link', _.bind(this.openAdvancedSettings, this));
-
             this.ChartSizeContainer = $('#chart-panel-size');
             this.ChartTypesContainer = $('#chart-panel-types');
             this.SparkTypesContainer = $('#spark-panel-types');
@@ -362,8 +113,6 @@ define([
             el.html(this.template({
                 scope: this
             }));
-
-            this.linkAdvanced = $('#chart-advanced-link');
         },
 
         setApi: function(api) {
@@ -743,7 +492,7 @@ define([
             var defValue;
             if (!this.btnSparkColor) {
                 defValue = this.defColor;
-                
+
                 this.btnSparkColor = new Common.UI.ColorButton({
                     style: "width:45px;",
                     menu        : new Common.UI.Menu({
@@ -870,7 +619,233 @@ define([
             this.btnMarkersColor.setColor(this.colorsMarkers.getColor());
         },
 
+        createDelayedControls: function() {
+            var me = this;
+
+            // charts
+            this.btnChartType = new Common.UI.Button({
+                cls         : 'btn-large-dataview',
+                iconCls     : 'item-chartlist bar-normal',
+                menu        : new Common.UI.Menu({
+                    style: 'width: 560px;',
+                    items: [
+                        { template: _.template('<div id="id-chart-menu-type" class="menu-insertchart"  style="margin: 5px 5px 5px 10px;"></div>') }
+                    ]
+                })
+            });
+
+            this.btnChartType.on('render:after', function(btn) {
+                me.mnuChartTypePicker = new Common.UI.DataView({
+                    el: $('#id-chart-menu-type'),
+                    parentMenu: btn.menu,
+                    restoreHeight: 411,
+                    groups: new Common.UI.DataViewGroupStore([
+                        { id: 'menu-chart-group-bar',     caption: me.textColumn },
+                        { id: 'menu-chart-group-line',    caption: me.textLine },
+                        { id: 'menu-chart-group-pie',     caption: me.textPie },
+                        { id: 'menu-chart-group-hbar',    caption: me.textBar },
+                        { id: 'menu-chart-group-area',    caption: me.textArea },
+                        { id: 'menu-chart-group-scatter', caption: me.textPoint },
+                        { id: 'menu-chart-group-stock',   caption: me.textStock }
+                    ]),
+                    store: new Common.UI.DataViewStore([
+                        { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barNormal,          iconCls: 'column-normal', selected: true},
+                        { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barStacked,         iconCls: 'column-stack'},
+                        { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barStackedPer,      iconCls: 'column-pstack'},
+                        { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barNormal3d,        iconCls: 'column-3d-normal'},
+                        { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barStacked3d,       iconCls: 'column-3d-stack'},
+                        { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barStackedPer3d,    iconCls: 'column-3d-pstack'},
+                        { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barNormal3dPerspective,    iconCls: 'column-3d-normal-per'},
+                        { group: 'menu-chart-group-line',    type: Asc.c_oAscChartTypeSettings.lineNormal,         iconCls: 'line-normal'},
+                        { group: 'menu-chart-group-line',    type: Asc.c_oAscChartTypeSettings.lineStacked,        iconCls: 'line-stack'},
+                        { group: 'menu-chart-group-line',    type: Asc.c_oAscChartTypeSettings.lineStackedPer,     iconCls: 'line-pstack'},
+                        { group: 'menu-chart-group-line',    type: Asc.c_oAscChartTypeSettings.line3d,             iconCls: 'line-3d'},
+                        { group: 'menu-chart-group-pie',     type: Asc.c_oAscChartTypeSettings.pie,                iconCls: 'pie-normal'},
+                        { group: 'menu-chart-group-pie',     type: Asc.c_oAscChartTypeSettings.doughnut,           iconCls: 'pie-doughnut'},
+                        { group: 'menu-chart-group-pie',     type: Asc.c_oAscChartTypeSettings.pie3d,              iconCls: 'pie-3d-normal'},
+                        { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarNormal,         iconCls: 'bar-normal'},
+                        { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarStacked,        iconCls: 'bar-stack'},
+                        { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarStackedPer,     iconCls: 'bar-pstack'},
+                        { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarNormal3d,       iconCls: 'bar-3d-normal'},
+                        { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarStacked3d,      iconCls: 'bar-3d-stack'},
+                        { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarStackedPer3d,   iconCls: 'bar-3d-pstack'},
+                        { group: 'menu-chart-group-area',    type: Asc.c_oAscChartTypeSettings.areaNormal,         iconCls: 'area-normal'},
+                        { group: 'menu-chart-group-area',    type: Asc.c_oAscChartTypeSettings.areaStacked,        iconCls: 'area-stack'},
+                        { group: 'menu-chart-group-area',    type: Asc.c_oAscChartTypeSettings.areaStackedPer,     iconCls: 'area-pstack'},
+                        { group: 'menu-chart-group-scatter', type: Asc.c_oAscChartTypeSettings.scatter,            iconCls: 'point-normal'},
+                        { group: 'menu-chart-group-stock',   type: Asc.c_oAscChartTypeSettings.stock,              iconCls: 'stock-normal'}
+                    ]),
+                    itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist <%= iconCls %>"></div>')
+                });
+            });
+            this.btnChartType.render($('#chart-button-type'));
+            this.mnuChartTypePicker.on('item:click', _.bind(this.onSelectType, this, this.btnChartType));
+            this.lockedControls.push(this.btnChartType);
+
+            this.spnWidth = new Common.UI.MetricSpinner({
+                el: $('#chart-spin-width'),
+                step: .1,
+                width: 78,
+                defaultUnit : "cm",
+                value: '3 cm',
+                maxValue: 55.88,
+                minValue: 0
+            });
+            this.spinners.push(this.spnWidth);
+            this.lockedControls.push(this.spnWidth);
+
+            this.spnHeight = new Common.UI.MetricSpinner({
+                el: $('#chart-spin-height'),
+                step: .1,
+                width: 78,
+                defaultUnit : "cm",
+                value: '3 cm',
+                maxValue: 55.88,
+                minValue: 0
+            });
+            this.spinners.push(this.spnHeight);
+            this.lockedControls.push(this.spnHeight);
+
+            this.spnWidth.on('change', _.bind(this.onWidthChange, this));
+            this.spnHeight.on('change', _.bind(this.onHeightChange, this));
+
+            this.btnRatio = new Common.UI.Button({
+                cls: 'btn-toolbar',
+                iconCls: 'advanced-btn-ratio',
+                style: 'margin-bottom: 1px;',
+                enableToggle: true,
+                hint: this.textKeepRatio
+            });
+            this.btnRatio.render($('#chart-button-ratio')) ;
+            this.lockedControls.push(this.btnRatio);
+
+            this.btnRatio.on('click', _.bind(function(btn, e) {
+                if (btn.pressed && this.spnHeight.getNumberValue()>0) {
+                    this._nRatio = this.spnWidth.getNumberValue()/this.spnHeight.getNumberValue();
+                }
+                if (this.api)  {
+                    var props = new Asc.asc_CImgProperty();
+                    props.asc_putLockAspect(btn.pressed);
+                    this.api.asc_setGraphicObjectProps(props);
+                }
+            }, this));
+
+            // sparks
+            this.btnSparkType = new Common.UI.Button({
+                cls         : 'btn-large-dataview',
+                iconCls     : 'item-chartlist spark-column',
+                menu        : new Common.UI.Menu({
+                    style: 'width: 210px;',
+                    items: [
+                        { template: _.template('<div id="id-spark-menu-type" class="menu-insertchart"  style="margin: 5px 5px 5px 10px;"></div>') }
+                    ]
+                })
+            });
+            this.btnSparkType.on('render:after', function(btn) {
+                me.mnuSparkTypePicker = new Common.UI.DataView({
+                    el: $('#id-spark-menu-type'),
+                    parentMenu: btn.menu,
+                    restoreHeight: 200,
+                    allowScrollbar: false,
+                    groups: new Common.UI.DataViewGroupStore([
+                        { id: 'menu-chart-group-sparkcolumn', caption: me.textColumnSpark },
+                        { id: 'menu-chart-group-sparkline',   caption: me.textLineSpark },
+                        { id: 'menu-chart-group-sparkwin',    caption: me.textWinLossSpark }
+                    ]),
+                    store: new Common.UI.DataViewStore([
+                        { group: 'menu-chart-group-sparkcolumn',   type: Asc.c_oAscSparklineType.Column,    allowSelected: true, iconCls: 'spark-column'},
+                        { group: 'menu-chart-group-sparkline',     type: Asc.c_oAscSparklineType.Line,      allowSelected: true, iconCls: 'spark-line'},
+                        { group: 'menu-chart-group-sparkwin',      type: Asc.c_oAscSparklineType.Stacked,   allowSelected: true, iconCls: 'spark-win'}
+                    ]),
+                    itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist <%= iconCls %>"></div>')
+                });
+            });
+            this.btnSparkType.render($('#spark-button-type'));
+            this.mnuSparkTypePicker.on('item:click', _.bind(this.onSelectSparkType, this, this.btnSparkType));
+            this.lockedControls.push(this.btnSparkType);
+
+            this.btnSparkStyle = new Common.UI.Button({
+                cls         : 'btn-large-dataview',
+                iconCls     : 'item-wrap',
+                menu        : new Common.UI.Menu({
+                    menuAlign: 'tr-br',
+                    items: [
+                        { template: _.template('<div id="id-spark-menu-style" style="width: 245px; margin: 0 5px;"></div>') }
+                    ]
+                })
+            });
+            this.btnSparkStyle.on('render:after', function(btn) {
+                me.mnuSparkStylePicker = new Common.UI.DataView({
+                    el: $('#id-spark-menu-style'),
+                    style: 'max-height: 411px;',
+                    parentMenu: btn.menu,
+                    store: new Common.UI.DataViewStore(),
+                    itemTemplate: _.template('<div id="<%= id %>" class="item-wrap" style="background-image: url(<%= imageUrl %>); background-position: 0 0;"></div>')
+                });
+
+                if (me.btnSparkStyle.menu) {
+                    me.btnSparkStyle.menu.on('show:after', function () {
+                        me.mnuSparkStylePicker.scroller.update({alwaysVisibleY: true});
+                    });
+                }
+            });
+            this.btnSparkStyle.render($('#spark-button-style'));
+            this.mnuSparkStylePicker.on('item:click', _.bind(this.onSelectSparkStyle, this, this.btnSparkStyle));
+            this.lockedControls.push(this.btnSparkStyle);
+
+            this.cmbBorderSize = new Common.UI.ComboBorderSize({
+                el          : $('#spark-combo-line-type'),
+                style       : 'width: 90px;',
+                hasNoBorders: false
+            }).on('selected', _.bind(this.onBorderSizeSelect, this));
+            this.BorderSize = this.cmbBorderSize.store.at(1).get('value');
+            this.cmbBorderSize.setValue(this.BorderSize);
+            this.lockedControls.push(this.cmbBorderSize);
+
+            this.chHighPoint = new Common.UI.CheckBox({
+                el: $('#spark-checkbox-high'),
+                labelText: this.textHighPoint
+            });
+            this.lockedControls.push(this.chHighPoint);
+            this.chLowPoint = new Common.UI.CheckBox({
+                el: $('#spark-checkbox-low'),
+                labelText: this.textLowPoint
+            });
+            this.lockedControls.push(this.chLowPoint);
+            this.chNegativePoint = new Common.UI.CheckBox({
+                el: $('#spark-checkbox-negative'),
+                labelText: this.textNegativePoint
+            });
+            this.lockedControls.push(this.chNegativePoint);
+            this.chFirstPoint = new Common.UI.CheckBox({
+                el: $('#spark-checkbox-first'),
+                labelText: this.textFirstPoint
+            });
+            this.lockedControls.push(this.chFirstPoint);
+            this.chLastPoint = new Common.UI.CheckBox({
+                el: $('#spark-checkbox-last'),
+                labelText: this.textLastPoint
+            });
+            this.lockedControls.push(this.chLastPoint);
+            this.chMarkersPoint = new Common.UI.CheckBox({
+                el: $('#spark-checkbox-markers'),
+                labelText: this.textMarkers
+            });
+            this.lockedControls.push(this.chMarkersPoint);
+
+            this.chHighPoint.on('change', _.bind(this.onCheckPointChange, this, 0));
+            this.chLowPoint.on('change', _.bind(this.onCheckPointChange, this, 1));
+            this.chNegativePoint.on('change', _.bind(this.onCheckPointChange, this, 2));
+            this.chFirstPoint.on('change', _.bind(this.onCheckPointChange, this, 3));
+            this.chLastPoint.on('change', _.bind(this.onCheckPointChange, this, 4));
+            this.chMarkersPoint.on('change', _.bind(this.onCheckPointChange, this, 5));
+
+            this.linkAdvanced = $('#chart-advanced-link');
+            $(this.el).on('click', '#chart-advanced-link', _.bind(this.openAdvancedSettings, this));
+        },
+
         createDelayedElements: function() {
+            this.createDelayedControls();
             this.updateMetricUnit();
             this.UpdateThemeColors();
         },
@@ -1017,6 +992,36 @@ define([
 
         updateChartStyles: function(styles) {
             var me = this;
+
+            if (!this.btnChartStyle) {
+                this.btnChartStyle = new Common.UI.Button({
+                    cls         : 'btn-large-dataview',
+                    iconCls     : 'item-wrap',
+                    menu        : new Common.UI.Menu({
+                        menuAlign: 'tr-br',
+                        items: [
+                            { template: _.template('<div id="id-chart-menu-style" style="width: 245px; margin: 0 5px;"></div>') }
+                        ]
+                    })
+                });
+                this.btnChartStyle.render($('#chart-button-style'));
+                this.lockedControls.push(this.btnChartStyle);
+                this.mnuChartStylePicker = new Common.UI.DataView({
+                    el: $('#id-chart-menu-style'),
+                    style: 'max-height: 411px;',
+                    parentMenu: this.btnChartStyle.menu,
+                    store: new Common.UI.DataViewStore(),
+                    itemTemplate: _.template('<div id="<%= id %>" class="item-wrap" style="background-image: url(<%= imageUrl %>); background-position: 0 0;"></div>')
+                });
+
+                if (this.btnChartStyle.menu) {
+                    this.btnChartStyle.menu.on('show:after', function () {
+                        me.mnuChartStylePicker.scroller.update({alwaysVisibleY: true});
+                    });
+                }
+                this.mnuChartStylePicker.on('item:click', _.bind(this.onSelectStyle, this, this.btnChartStyle));
+            }
+            
             if (styles && styles.length>0){
                 var stylesStore = this.mnuChartStylePicker.store;
                 if (stylesStore) {
@@ -1106,6 +1111,8 @@ define([
         },
 
         disableControls: function(disable) {
+            if (this._initSettings) return;
+            
             if (this._state.DisabledControls!==disable) {
                 this._state.DisabledControls = disable;
                 _.each(this.lockedControls, function(item) {

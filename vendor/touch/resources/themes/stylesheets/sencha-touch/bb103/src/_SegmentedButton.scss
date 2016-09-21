@@ -1,0 +1,52 @@
+// Segmented Button
+
+.x-segmentedbutton {
+    padding: 0 2px;
+    height: 35px;
+    background-color: $highlight-color;
+
+    .x-button {
+        height: 28px;
+        margin: 3px 0;
+        padding: 0 2px;
+        background: none;
+
+        & {
+            border-right: 1px solid $secondary;
+        }
+
+        &.x-last {
+            border-right: 0px;
+        }
+
+        &:last-child {
+            margin-right: 0;
+        }
+
+        &:before {
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            border: 0;
+            background: none;
+        }
+
+        .x-button-label {
+            padding: 4px;
+            color: $dark-color;
+        }
+
+        .x-button-icon:before {
+            color: #000;
+        }
+    }
+
+    .x-button-pressing,
+    .x-button-pressed, .x-toolbar & .x-button.x-button-pressed {
+        .x-button-label {
+            background-color: #fff;
+            color: $base-color;
+        }
+    }
+}

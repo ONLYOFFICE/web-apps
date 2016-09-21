@@ -1,6 +1,4 @@
 /**
- * @aside guide dataview
- *
  * DataView makes it easy to create lots of components dynamically, usually based off a {@link Ext.data.Store Store}.
  * It's great for rendering lots of data from your server backend or any other data source and is what powers
  * components like {@link Ext.List}.
@@ -80,21 +78,25 @@
  * # Loading data from a server
  *
  * We often want to load data from our server or some other web service so that we don't have to hard code it all
- * locally. Let's say we want to load all of the latest tweets about Sencha Touch into a DataView, and for each one
- * render the user's profile picture, user name and tweet message. To do this all we have to do is modify the
- * {@link #store} and {@link #itemTpl} a little:
+ * locally. Let's say we want to load some horror movies from Rotten Tomatoes into a DataView, and for each one
+ * render the cover image and title. To do this all we have to do is grab an api key from rotten tomatoes (http://developer.rottentomatoes.com/)
+ * and modify the {@link #store} and {@link #itemTpl} a little:
  *
  *     @example portrait
  *     Ext.create('Ext.DataView', {
  *         fullscreen: true,
- *         cls: 'twitterView',
  *         store: {
  *             autoLoad: true,
- *             fields: ['from_user', 'text', 'profile_image_url'],
+ *             fields: ['id', 'title',
+ *              {
+ *                  name:'thumbnail_image',
+ *                  convert: function(v, record) {return record.raw.posters.thumbnail; }
+ *              }],
  *
  *             proxy: {
  *                 type: 'jsonp',
- *                 url: 'http://search.twitter.com/search.json?q=Sencha Touch',
+ *                 // Modify this line with your API key, pretty please...
+ *                 url: 'http://api.rottentomatoes.com/api/public/v1.0/movies.json?apikey=hbjgfgryw8tygxztr5wtag3u&q=Horror',
  *
  *                 reader: {
  *                     type: 'json',
@@ -103,7 +105,7 @@
  *             }
  *         },
  *
- *         itemTpl: '<img src="{profile_image_url}" /><h2>{from_user}</h2><p>{text}</p><div style="clear: both"></div>'
+ *         itemTpl: '<img src="{thumbnail_image}" /><p>{title}</p><div style="clear: both"></div>'
  *     });
  *
  * The Store no longer has hard coded data, instead we've provided a {@link Ext.data.proxy.Proxy Proxy}, which fetches
@@ -115,6 +117,9 @@
  * The last thing we did is update our template to render the image, Twitter username and message. All we need to do
  * now is add a little CSS to style the list the way we want it and we end up with a very basic Twitter viewer. Click
  * the preview button on the example above to see it in action.
+ *
+ * ###Further Reading
+ * [Sencha Touch DataView Guide](../../../components/dataview.html)
  */
 Ext.define('Ext.dataview.DataView', {
     extend: 'Ext.Container',
@@ -275,6 +280,12 @@ Ext.define('Ext.dataview.DataView', {
         store: null,
 
         /**
+         * @cfg {Object[]} data
+         * @inheritdoc
+         */
+        data: null,
+
+        /**
          * @cfg baseCls
          * @inheritdoc
          */
@@ -368,7 +379,7 @@ Ext.define('Ext.dataview.DataView', {
         pressedDelay: 100,
 
         /**
-         * @cfg {String} loadingText
+         * @cfg {String/Boolean} loadingText
          * A string to display during data load operations.  If specified, this text will be
          * displayed in a loading div and the view's contents will be cleared while loading, otherwise the view's
          * contents will continue to display normally until the new data is loaded and the contents are replaced.
@@ -380,7 +391,7 @@ Ext.define('Ext.dataview.DataView', {
          * Flag the use a component based DataView implementation.  This allows the full use of components in the
          * DataView at the cost of some performance.
          *
-         * Checkout the [DataView Guide](#!/guide/dataview) for more information on using this configuration.
+         * Checkout the [Sencha Touch DataView Guide](../../../components/dataview.html) for more information on using this configuration.
          * @accessor
          */
         useComponents: null,
@@ -467,7 +478,8 @@ Ext.define('Ext.dataview.DataView', {
     initialize: function() {
         this.callParent();
         var me = this,
-            container;
+            container,
+            triggerEvent = me.getTriggerEvent();
 
         me.on(me.getTriggerCtEvent(), me.onContainerTrigger, me);
 
@@ -476,7 +488,9 @@ Ext.define('Ext.dataview.DataView', {
         }));
         container.dataview = me;
 
-        me.on(me.getTriggerEvent(), me.onItemTrigger, me);
+        if (triggerEvent) {
+            me.on(triggerEvent, me.onItemTrigger, me);
+        }
 
         container.on({
             itemtouchstart: 'onItemTouchStart',
@@ -530,7 +544,7 @@ Ext.define('Ext.dataview.DataView', {
      * Function which can be overridden to provide custom formatting for each Record that is used by this
      * DataView's {@link #tpl template} to render each node.
      * @param {Object/Object[]} data The raw data object that was used to create the Record.
-     * @param {Number} recordIndex the index number of the Record being prepared for rendering.
+     * @param {Number} index the index number of the Record being prepared for rendering.
      * @param {Ext.data.Model} record The Record being prepared for rendering.
      * @return {Array/Object} The formatted data in a format expected by the internal {@link #tpl template}'s `overwrite()` method.
      * (either an array if your params are numeric (i.e. `{0}`) or an object (i.e. `{foo: 'bar'}`))
@@ -552,7 +566,9 @@ Ext.define('Ext.dataview.DataView', {
 
     // apply to the selection model to maintain visual UI cues
     onItemTrigger: function(me, index) {
-        this.selectWithEvent(this.getStore().getAt(index));
+        if (!this.isDestroyed) {
+            this.selectWithEvent(this.getStore().getAt(index));
+        }
     },
 
     doAddPressedCls: function(record) {
@@ -562,7 +578,11 @@ Ext.define('Ext.dataview.DataView', {
             item = Ext.get(item);
         }
         if (item) {
-            item.addCls(me.getPressedCls());
+            if (item.isComponent) {
+                item.renderElement.addCls(me.getPressedCls());
+            } else {
+                item.addCls(me.getPressedCls());
+            }
         }
     },
 
@@ -598,7 +618,11 @@ Ext.define('Ext.dataview.DataView', {
         }
 
         if (record && target) {
-            target.removeCls(me.getPressedCls());
+            if (target.isComponent) {
+                target.renderElement.removeCls(me.getPressedCls());
+            } else {
+                target.removeCls(me.getPressedCls());
+            }
         }
 
         me.fireEvent('itemtouchend', me, index, target, record, e);
@@ -615,7 +639,11 @@ Ext.define('Ext.dataview.DataView', {
         }
 
         if (record && target) {
-            target.removeCls(me.getPressedCls());
+            if (target.isComponent) {
+                target.renderElement.removeCls(me.getPressedCls());
+            } else {
+                target.removeCls(me.getPressedCls());
+            }
         }
         me.fireEvent('itemtouchmove', me, index, target, record, e);
     },
@@ -678,8 +706,13 @@ Ext.define('Ext.dataview.DataView', {
                 item = Ext.get(item);
             }
             if (item) {
-                item.removeCls(me.getPressedCls());
-                item.addCls(me.getSelectedCls());
+                if (item.isComponent) {
+                    item.renderElement.removeCls(me.getPressedCls());
+                    item.renderElement.addCls(me.getSelectedCls());
+                } else {
+                    item.removeCls(me.getPressedCls());
+                    item.addCls(me.getSelectedCls());
+                }
             }
         }
     },
@@ -705,7 +738,11 @@ Ext.define('Ext.dataview.DataView', {
         }
 
         if (item) {
-            item.removeCls([me.getPressedCls(), me.getSelectedCls()]);
+            if (item.isComponent) {
+                item.renderElement.removeCls([me.getPressedCls(), me.getSelectedCls()]);
+            } else {
+                item.removeCls([me.getPressedCls(), me.getSelectedCls()]);
+            }
         }
     },
 
@@ -713,7 +750,8 @@ Ext.define('Ext.dataview.DataView', {
         var store = this.getStore();
         if (!store) {
             this.setStore(Ext.create('Ext.data.Store', {
-                data: data
+                data: data,
+                autoDestroy: true
             }));
         } else {
             store.add(data);
@@ -761,12 +799,16 @@ Ext.define('Ext.dataview.DataView', {
             proxy, reader;
 
         if (oldStore && Ext.isObject(oldStore) && oldStore.isStore) {
-            me.onStoreClear();
+            oldStore.un(bindEvents);
+
+            if (!me.isDestroyed) {
+                me.onStoreClear();
+            }
+
             if (oldStore.getAutoDestroy()) {
                 oldStore.destroy();
             }
             else {
-                oldStore.un(bindEvents);
                 proxy = oldStore.getProxy();
                 if (proxy) {
                     reader = proxy.getReader();
@@ -931,10 +973,20 @@ Ext.define('Ext.dataview.DataView', {
             item = items[i];
             container.updateListItem(records[i], item);
         }
+
+        if (this.hasSelection()) {
+            var selection = this.getSelection(),
+                selectionLn = this.getSelectionCount(),
+                record;
+            for (i = 0; i < selectionLn; i++) {
+                record = selection[i];
+                this.doItemSelect(this, record);
+            }
+        }
     },
 
     showEmptyText: function() {
-        if (this.getEmptyText() && (this.hasLoadedStore || !this.getDeferEmptyText()) ) {
+        if (this.getEmptyText() && (this.hasLoadedStore || !this.getDeferEmptyText())) {
             this.emptyTextCmp.show();
         }
     },
@@ -946,11 +998,19 @@ Ext.define('Ext.dataview.DataView', {
     },
 
     destroy: function() {
-        var store = this.getStore();
-        if (store && store.getAutoDestroy()) {
-            store.destroy();
+        var store = this.getStore(),
+            proxy = (store && store.getProxy()),
+            reader = (proxy && proxy.getReader());
+
+        if (reader) {
+            // TODO: Use un() instead of clearListeners() when TOUCH-2723 is fixed.
+//          reader.un('exception', 'handleException', this);
+            reader.clearListeners();
         }
+
         this.callParent(arguments);
+
+        this.setStore(null);
     },
 
     onStoreClear: function() {
@@ -964,8 +1024,8 @@ Ext.define('Ext.dataview.DataView', {
 
     /**
      * @private
-     * @param store
-     * @param records
+     * @param {Ext.data.Store} store
+     * @param {Array} records
      */
     onStoreAdd: function(store, records) {
         if (records) {
@@ -976,9 +1036,9 @@ Ext.define('Ext.dataview.DataView', {
 
     /**
      * @private
-     * @param store
-     * @param records
-     * @param indices
+     * @param {Ext.data.Store} store
+     * @param {Array} records
+     * @param {Array} indices
      */
     onStoreRemove: function(store, records, indices) {
         var container = this.container,
@@ -991,14 +1051,15 @@ Ext.define('Ext.dataview.DataView', {
 
     /**
      * @private
-     * @param store
-     * @param record
+     * @param {Ext.data.Store} store
+     * @param {Ext.data.Model} record
      * @param {Number} newIndex
      * @param {Number} oldIndex
      */
     onStoreUpdate: function(store, record, newIndex, oldIndex) {
         var me = this,
-            container = me.container;
+            container = me.container,
+            item;
 
         oldIndex = (typeof oldIndex === 'undefined') ? newIndex : oldIndex;
 
@@ -1009,8 +1070,11 @@ Ext.define('Ext.dataview.DataView', {
             }
         }
         else {
-            // Bypassing setter because sometimes we pass the same record (different data)
-            container.updateListItem(record, me.getViewItems()[newIndex]);
+            item = me.getViewItems()[newIndex];
+            if (item) {
+                // Bypassing setter because sometimes we pass the same record (different data)
+                container.updateListItem(record, item);
+            }
         }
     }
     //<deprecated product=touch since=2.0>

@@ -156,7 +156,7 @@ define([
             // Create toolbar view
             this.toolbar = this.createView('Toolbar');
 
-            this.toolbar.on('render:after', _.bind(this.onToolbarAfterRender, this));
+        //    this.toolbar.on('render:after', _.bind(this.onToolbarAfterRender, this));
         },
 
         onToolbarAfterRender: function(toolbar) {
@@ -1195,6 +1195,9 @@ define([
         createDelayedElements: function() {
             var me = this;
 
+            this.toolbar.createDelayedElements();
+            this.onToolbarAfterRender(this.toolbar);
+
             this.api.asc_registerCallback('asc_onShowChartDialog',          _.bind(this.onApiChartDblClick, this));
             this.api.asc_registerCallback('asc_onCanUndoChanged',           _.bind(this.onApiCanRevert, this, 'undo'));
             this.api.asc_registerCallback('asc_onCanRedoChanged',           _.bind(this.onApiCanRevert, this, 'redo'));
@@ -1489,6 +1492,7 @@ define([
                 case 2: // FitPage
                 case 0:
                 default: {
+                    this.toolbar.mnuZoom.options.value = Math.floor((zf + .005) * 100);
                     $('.menu-zoom .zoom', this.toolbar.el).html(Math.floor((zf + .005) * 100) + '%');
                 }
             }
@@ -1496,13 +1500,9 @@ define([
 
         onApiSheetChanged: function() {
             if (this.api) {
-                var params  = this.api.asc_getSheetViewSettings(),
-                    menu    = this.toolbar.btnShowMode.menu;
-
-                if (menu) {
-                    menu.items[3].setChecked(!params.asc_getShowRowColHeaders());
-                    menu.items[4].setChecked(!params.asc_getShowGridLines());
-                }
+                var params  = this.api.asc_getSheetViewSettings();
+                this.toolbar.mnuitemHideHeadings.setChecked(!params.asc_getShowRowColHeaders());
+                this.toolbar.mnuitemHideGridlines.setChecked(!params.asc_getShowGridLines());
             }
         },
 
@@ -1953,9 +1953,11 @@ define([
             this._state.clrtext_asccolor = undefined;
             this._state.clrshd_asccolor = undefined;
 
-            updateColors(this.toolbar.mnuBorderColorPicker, Common.Utils.ThemeColor.getEffectColors()[1]);
-            this.toolbar.btnBorders.options.borderscolor = this.toolbar.mnuBorderColorPicker.currentColor.color || this.toolbar.mnuBorderColorPicker.currentColor;
-            $('#id-toolbar-mnu-item-border-color .menu-item-icon').css('border-color', '#' + this.toolbar.btnBorders.options.borderscolor);
+            if (this.toolbar.mnuBorderColorPicker) {
+                updateColors(this.toolbar.mnuBorderColorPicker, Common.Utils.ThemeColor.getEffectColors()[1]);
+                this.toolbar.btnBorders.options.borderscolor = this.toolbar.mnuBorderColorPicker.currentColor.color || this.toolbar.mnuBorderColorPicker.currentColor;
+                $('#id-toolbar-mnu-item-border-color .menu-item-icon').css('border-color', '#' + this.toolbar.btnBorders.options.borderscolor);
+            }
         },
 
         hideElements: function(opts) {

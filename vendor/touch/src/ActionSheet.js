@@ -74,5 +74,11 @@ Ext.define('Ext.ActionSheet', {
          * @inheritdoc
          */
         defaultType: 'button'
-    }
+    },
+
+    platformConfig: [{
+        theme: ['Windows'],
+        top: 0,
+        bottom: null
+    }]
 });
