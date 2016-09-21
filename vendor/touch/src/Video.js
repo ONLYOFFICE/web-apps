@@ -1,5 +1,4 @@
 /**
- * @aside example video
  * Provides a simple Container for HTML5 Video.
  *
  * ## Notes
@@ -42,7 +41,7 @@ Ext.define('Ext.Video', {
 
     config: {
         /**
-         * @cfg {String/Array} urls
+         * @cfg {String/Array} url
          * Location of the video to play. This should be in H.264 format and in a .mov file format.
          * @accessor
          */
@@ -58,7 +57,13 @@ Ext.define('Ext.Video', {
          * @cfg
          * @inheritdoc
          */
-        cls: Ext.baseCSSPrefix + 'video'
+        baseCls: Ext.baseCSSPrefix + 'video',
+
+        /**
+         * @cfg {Boolean} controls
+         * Determines if native controls should be shown for this video player.
+         */
+        controls: true
     },
 
     template: [{
@@ -130,6 +135,10 @@ Ext.define('Ext.Video', {
         }
     },
 
+    updateControls: function(value) {
+        this.media.set({controls:value ? true : undefined});
+    },
+
     onErased: function() {
         this.pause();
         this.media.setTop(-2000);
@@ -146,7 +155,7 @@ Ext.define('Ext.Video', {
             ghost = this.ghost;
 
         media.show();
-        if (Ext.os.is.Android2) {
+        if (Ext.browser.is.AndroidStock2) {
             setTimeout(function() {
                 me.play();
                 setTimeout(function() {

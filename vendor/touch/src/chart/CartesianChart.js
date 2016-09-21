@@ -55,10 +55,11 @@ Ext.define('Ext.chart.CartesianChart', {
     performLayout: function () {
         try {
             this.resizing++;
+            this.callSuper();
             this.suspendThicknessChanged();
             var me = this,
                 axes = me.getAxes(), axis,
-                serieses = me.getSeries(), series,
+                seriesList = me.getSeries(), series,
                 axisSurface, thickness,
                 size = me.element.getSize(),
                 width = size.width,
@@ -155,8 +156,8 @@ Ext.define('Ext.chart.CartesianChart', {
                 matrix.inverse(axisSurface.inverseMatrix);
             }
 
-            for (i = 0, ln = serieses.length; i < ln; i++) {
-                series = serieses[i];
+            for (i = 0, ln = seriesList.length; i < ln; i++) {
+                series = seriesList[i];
                 surface = series.getSurface();
                 surface.setRegion(mainRegion);
                 if (flipXY) {
@@ -185,7 +186,9 @@ Ext.define('Ext.chart.CartesianChart', {
             left, right, top, bottom, i, j,
             sprites, xRange, yRange, isSide, attr,
             axisX, axisY, range, visibleRange,
-            flipXY = me.getFlipXY();
+            flipXY = me.getFlipXY(),
+            sprite, zIndex, zBase = 1000,
+            markers, markerCount, markerIndex, markerSprite, markerZIndex;
 
         if (!region) {
             return;
@@ -227,7 +230,36 @@ Ext.define('Ext.chart.CartesianChart', {
 
             sprites = series[i].getSprites();
             for (j = 0; j < sprites.length; j++) {
-                sprites[j].setAttributes(attr, true);
+
+                // All the series now share the same surface, so we must assign
+                // the sprites a zIndex that depends on the index of their series.
+                sprite = sprites[j];
+                zIndex = (sprite.attr.zIndex || 0);
+                if (zIndex < zBase) {
+                    // Set the sprite's zIndex
+                    zIndex += (i+1) * 100 + zBase;
+                    sprite.attr.zIndex = zIndex;
+                    // Iterate through its marker sprites to do the same.
+                    markers = sprite.boundMarkers;
+                    if (markers) {
+                        markerCount = (markers.items ? markers.items.length : 0);
+                        if (markerCount) {
+                            for (markerIndex = 0; markerIndex < markerCount; markerIndex++) {
+                                markerSprite = markers.items[markerIndex];
+                                markerZIndex = (markerSprite.attr.zIndex || 0);
+                                if (markerZIndex == Number.MAX_VALUE) {
+                                    markerSprite.attr.zIndex = zIndex;
+                                } else {
+                                    if (markerZIndex < zBase) {
+                                        markerSprite.attr.zIndex = zIndex + markerZIndex;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                sprite.setAttributes(attr, true);
             }
         }
 

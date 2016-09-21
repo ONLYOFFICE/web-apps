@@ -1,6 +1,5 @@
 /**
  * @author Ed Spencer
- * @aside guide proxies
  *
  * Proxy which uses HTML5 session storage as its data storage/retrieval mechanism. If this proxy is used in a browser
  * where session storage is not supported, the constructor will throw an error. A session storage proxy requires a
@@ -27,6 +26,12 @@
  * Note that session storage is different to local storage (see {@link Ext.data.proxy.LocalStorage}) - if a browser
  * session is ended (e.g. by closing the browser) then all data in a SessionStorageProxy are lost. Browser restarts
  * don't affect the {@link Ext.data.proxy.LocalStorage} - the data are preserved.
+ *
+ * ###Further Reading
+ * [Sencha Touch Data Overview](../../../core_concepts/data/data_package_overview.html)
+ * [Sencha Touch Store Guide](../../../core_concepts/data/stores.html)
+ * [Sencha Touch Models Guide](../../../core_concepts/data/models.html)
+ * [Sencha Touch Proxy Guide](../../../core_concepts/data/proxies.html)
  */
 Ext.define('Ext.data.proxy.SessionStorage', {
     extend: 'Ext.data.proxy.WebStorage',

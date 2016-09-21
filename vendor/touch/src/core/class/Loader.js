@@ -7,7 +7,6 @@
  *
  * @author Jacky Nguyen <jacky@sencha.com>
  * @docauthor Jacky Nguyen <jacky@sencha.com>
- * @aside guide mvc_dependencies
  *
  * Ext.Loader is the heart of the new dynamic dependency loading capability in Ext JS 4+. It is most commonly used
  * via the {@link Ext#require} shorthand. Ext.Loader supports both asynchronous and synchronous loading
@@ -86,7 +85,7 @@
  * It has all the advantages combined from asynchronous and synchronous loading. The development flow is simple:
  *
  * ### Step 1: Start writing your application using synchronous approach. ###
- * Ext.Loader will automatically fetch all dependencies on demand as they're 
+ * Ext.Loader will automatically fetch all dependencies on demand as they're
  * needed during run-time. For example:
  *
  *     Ext.onReady(function(){
@@ -139,9 +138,7 @@
  * possible. Internally {@link Ext.Loader#history Ext.Loader.history} maintains the list of all dependencies your application
  * needs in the exact loading sequence. It's as simple as concatenating all files in this array into one,
  * then include it on top of your application.
- *
- * This process will be automated with Sencha Command, to be released and documented towards Ext JS 4 Final.
- *
+ * 
  * @singleton
  */
 (function(Manager, Class, flexSetter, alias, pass, arrayFrom, arrayErase, arrayInclude) {
@@ -240,7 +237,9 @@
          *
          * Refer to config options of {@link Ext.Loader} for the list of possible properties.
          *
-         * @param {Object} config The config object to override the default values.
+         * @param {Object/String} name The config object to override the default values
+         * or name of a single config setting when also passing the second parameter.
+         * @param {Mixed} [value] The value for the config setting.
          * @return {Ext.Loader} this
          */
         setConfig: function(name, value) {
@@ -460,7 +459,7 @@
 
         /**
          * Maintain the queue for all dependencies. Each item in the array is an object of the format:
-         * 
+         *
          *     {
          *         requires: [...], // The required classes for this queue item
          *         callback: function() { ... } // The function to execute when all classes specified in requires exist
@@ -580,7 +579,7 @@
          * Inject a script element to document's head, call onLoad and onError accordingly
          * @private
          */
-        injectScriptElement: function(url, onLoad, onError, scope) {
+        injectScriptElement: function(url, onLoad, onError, scope, charset) {
             var script = document.createElement('script'),
                 me = this,
                 onLoadFn = function() {
@@ -602,6 +601,10 @@
                 }
             };
 
+            if (charset) {
+                script.charset = charset;
+            }
+            
             this.documentHead.appendChild(script);
 
             return script;
@@ -635,11 +638,6 @@
 
         /**
          * Load a script file, supports both asynchronous and synchronous approaches
-         *
-         * @param {String} url
-         * @param {Function} onLoad
-         * @param {Object} scope
-         * @param {Boolean} synchronous
          * @private
          */
         loadScriptFile: function(url, onLoad, onError, scope, synchronous) {
@@ -805,7 +803,7 @@
                         if (excluded[possibleClassName] !== true) {
                             references.push(possibleClassName);
 
-                            if (!Manager.isCreated(possibleClassName) && !included[possibleClassName]) {
+                            if (!Manager.isCreated(possibleClassName) && !included[possibleClassName]/* && !this.requiresMap.hasOwnProperty(possibleClassName)*/) {
                                 included[possibleClassName] = true;
                                 classNames.push(possibleClassName);
                             }
@@ -1310,7 +1308,7 @@
         path = path + "../../../";
     }
     //</debug>
-    
+
 
     Loader.setConfig({
         enabled: true,
@@ -1319,5 +1317,5 @@
             'Ext' : path + 'src'
         }
     });
-    
+
 })();

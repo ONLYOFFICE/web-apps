@@ -1,9 +1,4 @@
 /**
- * @aside guide tabs
- * @aside video tabs-toolbars
- * @aside example tabs
- * @aside example tabs-bottom
- *
  * Tab Panels are a great way to allow the user to switch between several pages that are all full screen. Each
  * Component in the Tab Panel gets its own Tab, which shows the Component when tapped on. Tabs can be positioned at
  * the top or the bottom of the Tab Panel, and can optionally accept title and icon configurations.
@@ -58,6 +53,7 @@
  *         ]
  *     });
  *
+ * For more information, see our [Tab Panel Guide](../../../components/tabpanel.html).
  */
 Ext.define('Ext.tab.Panel', {
     extend: 'Ext.Container',
@@ -120,14 +116,6 @@ Ext.define('Ext.tab.Panel', {
          */
     },
 
-    delegateListeners: {
-        delegate: '> component',
-        centeredchange: 'onItemCenteredChange',
-        dockedchange: 'onItemDockedChange',
-        floatingchange: 'onItemFloatingChange',
-        disabledchange: 'onItemDisabledChange'
-    },
-
     initialize: function() {
         this.callParent();
 
@@ -137,7 +125,18 @@ Ext.define('Ext.tab.Panel', {
             delegate: '> tabbar',
             scope   : this
         });
+
+        this.on({
+            disabledchange: 'onItemDisabledChange',
+            delegate: '> component',
+            scope   : this
+        });
     },
+
+    platformConfig: [{
+        theme: ['Blackberry', 'Blackberry103'],
+        tabBarPosition: 'bottom'
+    }],
 
     /**
      * Tab panels should not be scrollable. Instead, you should add scrollable to any item that

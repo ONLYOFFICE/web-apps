@@ -1,8 +1,4 @@
 /**
- * @aside guide forms
- * @aside example forms
- * @aside example forms-toolbars
- *
  * A FieldSet is a great way to visually separate elements of a form. It's normally used when you have a form with
  * fields that can be divided into groups - for example a customer's billing details in one fieldset and their shipping
  * address in another. A fieldset can be used inside a form or on its own elsewhere in your app. Fieldsets can
@@ -37,6 +33,8 @@
  * of the form fields are in the same fieldset, but for longer forms we may choose to use multiple fieldsets. We also
  * configured a {@link #title} and {@link #instructions} to give the user more information on filling out the form if
  * required.
+ *
+ * For more information regarding forms and fields, please review [Using Forms in Sencha Touch Guide](../../../components/forms.html)
  */
 Ext.define('Ext.form.FieldSet', {
     extend  : 'Ext.Container',

@@ -32,18 +32,18 @@ Ext.define('Ext.util.sizemonitor.OverflowChange', {
                     }]
                 }
             ]
-        }
+        };
     },
 
     bindListeners: function(bind) {
         var method = bind ? 'addEventListener' : 'removeEventListener';
 
-        this.expandMonitor[method]('overflowchanged', this.onExpand, true);
-        this.shrinkMonitor[method]('overflowchanged', this.onShrink, true);
+        this.expandMonitor[method](Ext.browser.is.Firefox ? 'underflow' : 'overflowchanged', this.onExpand, true);
+        this.shrinkMonitor[method](Ext.browser.is.Firefox ? 'overflow' : 'overflowchanged', this.onShrink, true);
     },
 
     onExpand: function(e) {
-        if (e.horizontalOverflow && e.verticalOverflow) {
+        if (Ext.browser.is.Webkit && e.horizontalOverflow && e.verticalOverflow) {
             return;
         }
 
@@ -51,7 +51,7 @@ Ext.define('Ext.util.sizemonitor.OverflowChange', {
     },
 
     onShrink: function(e) {
-        if (!e.horizontalOverflow && !e.verticalOverflow) {
+        if (Ext.browser.is.Webkit && !e.horizontalOverflow && !e.verticalOverflow) {
             return;
         }
 
@@ -59,18 +59,27 @@ Ext.define('Ext.util.sizemonitor.OverflowChange', {
     },
 
     refreshMonitors: function() {
+        if (this.isDestroyed) {
+            return;
+        }
+
         var expandHelper = this.expandHelper,
             shrinkHelper = this.shrinkHelper,
-            width = this.contentWidth,
-            height = this.contentHeight;
+            contentBounds = this.getContentBounds(),
+            width = contentBounds.width,
+            height = contentBounds.height,
+            style;
 
         if (expandHelper && !expandHelper.isDestroyed) {
-            expandHelper.style.width = (width + 1) + 'px';
-            expandHelper.style.height = (height + 1) + 'px';
+            style = expandHelper.style;
+            style.width = (width + 1) + 'px';
+            style.height = (height + 1) + 'px';
         }
+
         if (shrinkHelper && !shrinkHelper.isDestroyed) {
-            shrinkHelper.style.width = width + 'px';
-            shrinkHelper.style.height = height + 'px';
+            style = shrinkHelper.style;
+            style.width = width  + 'px';
+            style.height = height + 'px';
         }
 
         Ext.TaskQueue.requestRead('refresh', this);

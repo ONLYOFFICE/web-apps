@@ -1,6 +1,4 @@
 /**
- * @aside guide forms
- *
  * The Search field creates an HTML5 search input and is usually created inside a form. Because it creates an HTML
  * search input type, the visual styling of this input is slightly different to normal text input controls (the corners
  * are rounded), though the virtual keyboard displayed by the operating system is the standard keyboard control.
@@ -37,6 +35,8 @@
  * fields provide, including getting and setting the value at runtime, validations and various events that are fired
  * as the user interacts with the component. Check out the {@link Ext.field.Text} docs to see the additional
  * functionality available.
+ *
+ * For more information regarding forms and fields, please review [Using Forms in Sencha Touch Guide](../../../components/forms.html)
  */
 Ext.define('Ext.field.Search', {
     extend: 'Ext.field.Text',
@@ -57,5 +57,12 @@ Ext.define('Ext.field.Search', {
          * @inheritdoc
          */
 	    ui: 'search'
-    }
+    },
+
+    platformConfig: [{
+        platform: 'blackberry',
+        component: {
+            type: 'text'
+        }
+    }]
 });

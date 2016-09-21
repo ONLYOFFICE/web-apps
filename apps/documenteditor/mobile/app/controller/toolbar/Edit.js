@@ -130,6 +130,24 @@ Ext.define('DE.controller.toolbar.Edit', {
             }
         }, this);
 
+        if (Ext.os.is.iOS) {
+            Ext.each(Ext.ComponentQuery.query('button'), function(button) {
+                button.element.dom.ontouchstart = Ext.emptyFn();
+                button.element.dom.ontouchmove = Ext.emptyFn();
+                button.element.dom.ontouchend = Ext.emptyFn();
+            }, this);
+
+            Ext.each(Ext.ComponentQuery.query('toolbar'), function(toolbar) {
+                var preventFn = function(e){
+                    e.preventDefault();
+                };
+
+                toolbar.element.dom.ontouchstart = preventFn;
+                toolbar.element.dom.ontouchmove = preventFn;
+                toolbar.element.dom.ontouchend = preventFn;
+            }, this);
+        }
+
         Common.Gateway.on('init', Ext.bind(this.loadConfig, this));
     },
 
@@ -148,6 +166,7 @@ Ext.define('DE.controller.toolbar.Edit', {
             this.api.asc_registerCallback('asc_onCanUndo',                  Ext.bind(this.onApiCanUndo, this));
             this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',    Ext.bind(this.onCoAuthoringDisconnect, this));
             this.api.asc_registerCallback('asc_onDocumentModifiedChanged',  Ext.bind(this.onApiDocumentModified, this));
+            this.api.asc_registerCallback('asc_onDocumentCanSaveChanged',   Ext.bind(this.onApiDocumentCanSaveChanged, this));
         }
     },
 
@@ -181,7 +200,7 @@ Ext.define('DE.controller.toolbar.Edit', {
     },
 
     onApiDocumentModified: function() {
-        var isModified = this.api.isDocumentModified();
+        var isModified = this.api.asc_isDocumentCanSave();
         if (this.isDocModified !== isModified) {
             if (this.getSaveButton()) {
                 this.getSaveButton().setDisabled(!isModified);
@@ -189,6 +208,12 @@ Ext.define('DE.controller.toolbar.Edit', {
 
             Common.Gateway.setDocumentModified(isModified);
             this.isDocModified = isModified;
+        }
+    },
+
+    onApiDocumentCanSaveChanged: function (isCanSave) {
+        if (this.getSaveButton()) {
+            this.getSaveButton().setDisabled(!isCanSave);
         }
     },
 
@@ -240,6 +265,8 @@ Ext.define('DE.controller.toolbar.Edit', {
 
     onTapSave: function() {
         this.api && this.api.asc_Save();
+        this.getSaveButton().setDisabled(true);
+
         Common.component.Analytics.trackEvent('ToolBar', 'Save');
     },
 

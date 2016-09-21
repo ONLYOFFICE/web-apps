@@ -5,8 +5,9 @@
  * To use this API, all you need to do is require this class (`Ext.device.Contacts`) and then use `Ext.device.Contacts.getContacts()`
  * to retrieve an array of contacts.
  *
- * **Please note that this will *only* work using the Sencha Native Packager.**
- * 
+ * **Please note that getThumbnail and getLocalizedLabel are *only* for the Sencha Native Packager.**
+ * **Both Cordova/PhoneGap and Sencha Native Packager can access the find method though properties of returned contacts will differ.**
+ *
  * # Example
  *
  *     Ext.application({
@@ -25,26 +26,31 @@
  *         }
  *     });
  *
+ * For more information regarding Native APIs, please review our [Native APIs guide](../../../packaging/native_apis.html).
+ *
  * @mixins Ext.device.contacts.Abstract
  * @mixins Ext.device.contacts.Sencha
- *
- * @aside guide native_apis
+ * @mixins Ext.device.contacts.Cordova
  */
 Ext.define('Ext.device.Contacts', {
     singleton: true,
 
     requires: [
         'Ext.device.Communicator',
-        'Ext.device.contacts.Sencha'
+        'Ext.device.contacts.Sencha',
+        'Ext.device.contacts.Cordova'
     ],
 
     constructor: function() {
         var browserEnv = Ext.browser.is;
 
-        if (browserEnv.WebView && !browserEnv.PhoneGap) {
-            return Ext.create('Ext.device.contacts.Sencha');
-        } else {
-            return Ext.create('Ext.device.contacts.Abstract');
+        if (browserEnv.WebView) {
+            if (browserEnv.Cordova) {
+                return Ext.create('Ext.device.contacts.Cordova');
+            }else if (browserEnv.Sencha) {
+                return Ext.create('Ext.device.contacts.Sencha');
+            }
         }
+        return Ext.create('Ext.device.contacts.Abstract');
     }
 });

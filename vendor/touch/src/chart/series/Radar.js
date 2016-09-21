@@ -133,6 +133,9 @@ Ext.define('Ext.chart.series.Radar', {
             marker = me.getMarker(),
             item, th, r;
 
+        if(me.getHidden()) {
+            return null;
+        }
         if (sprite && marker) {
             for (i = 0; i < length; i++) {
                 th = (dataX[i] - minX) / (maxX - minX + 1) * 2 * Math.PI + baseRotation;

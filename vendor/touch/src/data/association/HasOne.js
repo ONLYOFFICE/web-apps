@@ -1,6 +1,4 @@
 /**
- * @aside guide models
- *
  * Represents a one to one association with another model. The owner model is expected to have
  * a foreign key which references the primary key of the associated model:
  *
@@ -14,7 +12,10 @@
  *             ],
  *
  *             // we can use the hasOne shortcut on the model to create a hasOne association
- *             associations: { type: 'hasOne', model: 'Address' }
+ *             hasOne: {
+ *                 model: 'Address',
+ *                 name : 'address'
+ *             }
  *         }
  *     });
  *
@@ -114,14 +115,19 @@
  *                 // ...
  *             ],
  *
- *             associations: [
- *                 { type: 'hasOne', model: 'Address', primaryKey: 'unique_id', foreignKey: 'addr_id' }
- *             ]
+ *             hasOne: {
+ *                 model     : 'Address', 
+ *                 primaryKey: 'unique_id',
+ *                 foreignKey: 'addr_id'
+ *             }
  *         }
  *     });
  *
  * Here we replaced the default primary key (defaults to 'id') and foreign key (calculated as 'address_id')
  * with our own settings. Usually this will not be needed.
+ *
+ * ###Further Reading
+ * [Sencha Touch Models and Associations](../../../core_concepts/data/models.html)
  */
 Ext.define('Ext.data.association.HasOne', {
     extend: 'Ext.data.association.Association',
@@ -277,9 +283,13 @@ Ext.define('Ext.data.association.HasOne', {
 
             this.set(foreignKey, value);
 
-            record = Model.cache[Model.generateCacheId(associatedModel.modelName, value)];
-            if (record) {
-                this[instanceName] = record;
+            if (value || value === 0) {
+                record = Model.cache[Model.generateCacheId(associatedModel.modelName, value)];
+                if (record) {
+                    this[instanceName] = record;
+                }
+            } else {
+                delete this[instanceName];
             }
 
             if (Ext.isFunction(options)) {
@@ -330,7 +340,7 @@ Ext.define('Ext.data.association.HasOne', {
                 options.success = function(rec){
                     model[instanceName] = rec;
                     if (success) {
-                        success.call(this, arguments);
+                        success.apply(this, arguments);
                     }
                 };
 
@@ -361,7 +371,7 @@ Ext.define('Ext.data.association.HasOne', {
         var inverse = this.getInverseAssociation(),
             newRecord = reader.read([associationData]).getRecords()[0];
 
-        record[this.getInstanceName()] = newRecord;
+        record[this.getSetterName()].call(record, newRecord);
 
         //if the inverse association was found, set it now on each record we've just created
         if (inverse) {

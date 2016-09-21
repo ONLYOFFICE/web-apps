@@ -1,6 +1,4 @@
 /**
- * @aside guide forms
- *
  * Specialized {@link Ext.field.Slider} with a single thumb which only supports two {@link #value values}.
  *
  * ## Examples
@@ -50,6 +48,8 @@
  *             ]
  *         }
  *     ]);
+ *
+ * For more information regarding forms and fields, please review [Using Forms in Sencha Touch Guide](../../../components/forms.html)
  */
 Ext.define('Ext.field.Toggle', {
     extend: 'Ext.field.Slider',
@@ -62,8 +62,37 @@ Ext.define('Ext.field.Toggle', {
          * @cfg
          * @inheritdoc
          */
-        cls: 'x-toggle-field'
+        cls: 'x-toggle-field',
+
+        /* @cfg {String} labelAlign The position to render the label relative to the field input.
+         * Available options are: 'top', 'left', 'bottom' and 'right'
+         * @accessor
+         */
+        labelAlign: 'left',
+
+        /**
+         * @cfg {String} activeLabel The label to add to the toggle field when it is toggled on.
+         * Only available in the Blackberry theme.
+         * @accessor
+         */
+        activeLabel: null,
+
+        /**
+         * @cfg {String} inactiveLabel The label to add to the toggle field when it is toggled off.
+         * Only available in the Blackberry theme.
+         * @accessor
+         */
+        inactiveLabel: null
     },
+
+    platformConfig: [{
+        theme: ['Windows'],
+        labelAlign: 'left'
+    }, {
+        theme: ['Blackberry', 'Blackberry103', 'MountainView'],
+        activeLabel: 'On',
+        inactiveLabel: 'Off'
+    }],
 
     /**
      * @event change
@@ -73,13 +102,13 @@ Ext.define('Ext.field.Toggle', {
      *         xtype: 'togglefield',
      *         label: 'Event Example',
      *         listeners: {
-     *             change: function(field, newValue) {
+     *             change: function(field, newValue, oldValue) {
      *                 console.log('Value of this toggle has changed:', (newValue) ? 'ON' : 'OFF');
      *             }
      *         }
      *     });
-     * 
-     * @param {Ext.field.Toggle} me
+     *
+     * @param {Ext.field.Toggle} this
      * @param {Number} newValue the new value of this thumb
      * @param {Number} oldValue the old value of this thumb
      */
@@ -118,9 +147,23 @@ Ext.define('Ext.field.Toggle', {
         return Ext.factory(config, Ext.slider.Toggle);
     },
 
+    // @private
+    updateActiveLabel: function(newActiveLabel, oldActiveLabel) {
+        if (newActiveLabel != oldActiveLabel) {
+            this.getComponent().element.dom.setAttribute('data-activelabel', newActiveLabel);
+        }
+    },
+
+    // @private
+    updateInactiveLabel: function(newInactiveLabel, oldInactiveLabel) {
+        if (newInactiveLabel != oldInactiveLabel) {
+            this.getComponent().element.dom.setAttribute('data-inactivelabel', newInactiveLabel);
+        }
+    },
+
     /**
      * Sets the value of the toggle.
-     * @param {Number} value **1** for toggled, **0** for untoggled.
+     * @param {Number} newValue **1** for toggled, **0** for untoggled.
      * @return {Object} this
      */
     setValue: function(newValue) {
@@ -142,6 +185,10 @@ Ext.define('Ext.field.Toggle', {
         return (this.getComponent().getValue() == 1) ? 1 : 0;
     },
 
+    onSliderChange: function(component, thumb, newValue, oldValue) {
+        this.fireEvent.call(this, 'change', this, newValue, oldValue);
+    },
+
     /**
      * Toggles the value of this toggle field.
      * @return {Object} this
@@ -152,5 +199,9 @@ Ext.define('Ext.field.Toggle', {
         this.setValue((value == 1) ? 0 : 1);
 
         return this;
+    },
+
+    onChange: function(){
+        this.setLabel((this.getValue() == 1) ? this.toggleOnLabel : this.toggleOffLabel);
     }
 });

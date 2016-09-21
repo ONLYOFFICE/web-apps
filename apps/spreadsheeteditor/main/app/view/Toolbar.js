@@ -1139,7 +1139,8 @@ define([
              * Render UI layout
              */
 
-            var isCompactView = !!JSON.parse(Common.localStorage.getItem('sse-toolbar-compact'));
+            var isCompactView = JSON.parse(Common.localStorage.getItem('sse-toolbar-compact'));
+            isCompactView = !!(isCompactView!==null && parseInt(isCompactView) == 1 || isCompactView === null && mode.customization && mode.customization.compactToolbar);
 
             this.trigger('render:before', this);
 
@@ -1353,7 +1354,8 @@ define([
             JSON.parse(Common.localStorage.getItem('sse-hidden-title'))     && (options.title = true);
             JSON.parse(Common.localStorage.getItem('sse-hidden-formula'))   && (options.formula = true);
 //            JSON.parse(Common.localStorage.getItem('sse-hidden-headings'))  && (options.headings = true);
-            var isCompactView = !!JSON.parse(Common.localStorage.getItem('sse-toolbar-compact'));
+            var isCompactView = JSON.parse(Common.localStorage.getItem('sse-toolbar-compact'));
+            isCompactView = !!(isCompactView!==null && parseInt(isCompactView) == 1 || isCompactView === null && this.mode.customization && this.mode.customization.compactToolbar);
 
             this.mnuitemCompactToolbar.setChecked(isCompactView);
             this.mnuitemHideTitleBar.setChecked(!!options.title);

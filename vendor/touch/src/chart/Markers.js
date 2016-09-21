@@ -5,7 +5,7 @@
  * Marker sprite. A specialized version of instancing sprite that groups instances.
  * Putting a marker is grouped by its category id. Clearing removes that category.
  */
-Ext.define("Ext.chart.Markers", {
+Ext.define('Ext.chart.Markers', {
     extend: 'Ext.draw.sprite.Instancing',
     revisions: 0,
 
@@ -56,7 +56,7 @@ Ext.define("Ext.chart.Markers", {
 
     /**
      *
-     * @param {String} id
+     * @param {String} category
      * @param {Mixed} index
      * @param {Boolean} [isWithoutTransform]
      */
@@ -66,6 +66,12 @@ Ext.define("Ext.chart.Markers", {
                 return this.getBBoxFor(this.map[category][index], isWithoutTransform);
             }
         }
+        return {
+            x: Infinity,
+            y: Infinity,
+            width: -Infinity,
+            height: -Infinity
+        };
     },
 
     getBBox: function () { return null; },

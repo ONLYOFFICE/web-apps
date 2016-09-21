@@ -6,9 +6,7 @@
 Ext.define('Ext.util.translatable.ScrollPosition', {
     extend: 'Ext.util.translatable.Dom',
 
-    wrapperWidth: 0,
-
-    wrapperHeight: 0,
+    type: 'scrollposition',
 
     config: {
         useWrapper: true
@@ -26,6 +24,10 @@ Ext.define('Ext.util.translatable.ScrollPosition', {
                 return null;
             }
 
+            if (container.hasCls(Ext.baseCSSPrefix + 'translatable-hboxfix')) {
+                container = container.getParent();
+            }
+
             if (this.getUseWrapper()) {
                 wrapper = element.wrap();
             }
@@ -38,8 +40,11 @@ Ext.define('Ext.util.translatable.ScrollPosition', {
 
             this.wrapper = wrapper;
 
-            wrapper.on('resize', 'onWrapperResize', this);
-            wrapper.on('painted', 'refresh', this);
+            wrapper.on('painted', function() {
+                if (!this.isAnimating) {
+                    this.refresh();
+                }
+            }, this);
 
             this.refresh();
         }
@@ -55,20 +60,13 @@ Ext.define('Ext.util.translatable.ScrollPosition', {
             dom = wrapper.dom;
 
             if (typeof x == 'number') {
-                dom.scrollLeft = this.wrapperWidth - x;
+                dom.scrollLeft = 500000 - x;
             }
 
             if (typeof y == 'number') {
-                dom.scrollTop = this.wrapperHeight - y;
+                dom.scrollTop = 500000 - y;
             }
         }
-    },
-
-    onWrapperResize: function(wrapper, info) {
-        this.wrapperWidth = info.width;
-        this.wrapperHeight = info.height;
-
-        this.refresh();
     },
 
     destroy: function() {
@@ -82,10 +80,10 @@ Ext.define('Ext.util.translatable.ScrollPosition', {
                 }
                 element.removeCls('x-translatable');
             }
-
-            wrapper.removeCls('x-translatable-container');
-            wrapper.un('resize', 'onWrapperResize', this);
-            wrapper.un('painted', 'refresh', this);
+            if (!wrapper.isDestroyed) {
+                wrapper.removeCls('x-translatable-container');
+                wrapper.un('painted', 'refresh', this);
+            }
 
             delete this.wrapper;
             delete this._element;

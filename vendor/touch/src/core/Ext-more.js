@@ -10,16 +10,15 @@
  * functions (like {@link #apply}, {@link #min} and others), but most of the framework that you use day to day exists
  * in specialized classes (for example {@link Ext.Panel}, {@link Ext.Carousel} and others).
  *
- * If you are new to Sencha Touch we recommend starting with the [Getting Started Guide][getting_started] to
+ * If you are new to Sencha Touch we recommend starting with the [Getting Started Guide][../../../getting_started/getting_started.html] to
  * get a feel for how the framework operates. After that, use the more focused guides on subjects like panels, forms and data
- * to broaden your understanding. The MVC guides take you through the process of building full applications using the
- * framework, and detail how to deploy them to production.
+ * to broaden your understanding. 
  *
  * The functions listed below are mostly utility functions used internally by many of the classes shipped in the
  * framework, but also often useful in your own apps.
  *
  * A method that is crucial to beginning your application is {@link #setup Ext.setup}. Please refer to it's documentation, or the
- * [Getting Started Guide][getting_started] as a reference on beginning your application.
+ * [Getting Started Guide][../../../getting_started/getting_started.html] as a reference on beginning your application.
  *
  *     Ext.setup({
  *         onReady: function() {
@@ -30,9 +29,10 @@
  *         }
  *     });
  *
- * [getting_started]: #!/guide/getting_started
+ * ###Further Reading
+ * [Getting Started Guide](../../../getting_started/getting_started.html)
  */
-Ext.setVersion('touch', '2.1.0');
+Ext.setVersion('touch', '2.4.2.571');
 
 Ext.apply(Ext, {
     /**
@@ -59,7 +59,7 @@ Ext.apply(Ext, {
     },
 
     /**
-     * Generates unique ids. If the element already has an `id`, it is unchanged.
+     * Generates unique ids. If the element is passes and it already has an `id`, it is unchanged.
      * @param {Mixed} el (optional) The element to generate an id for.
      * @param {String} [prefix=ext-gen] (optional) The `id` prefix.
      * @return {String} The generated `id`.
@@ -72,16 +72,16 @@ Ext.apply(Ext, {
         el = Ext.getDom(el) || {};
 
         if (el === document || el === document.documentElement) {
-            el.id = 'ext-application';
+            el.id = 'ext-app';
         }
         else if (el === document.body) {
-            el.id = 'ext-viewport';
+            el.id = 'ext-body';
         }
         else if (el === window) {
             el.id = 'ext-window';
         }
 
-        el.id = el.id || ((prefix || 'ext-element-') + (++Ext.idSeed));
+        el.id = el.id || ((prefix || 'ext-') + (++Ext.idSeed));
 
         return el.id;
     },
@@ -265,13 +265,16 @@ Ext.apply(Ext, {
                         xclass: 'Ext.event.recognizer.LongPress'
                     },
                     swipe: {
-                        xclass: 'Ext.event.recognizer.HorizontalSwipe'
+                        xclass: 'Ext.event.recognizer.Swipe'
                     },
                     pinch: {
                         xclass: 'Ext.event.recognizer.Pinch'
                     },
                     rotate: {
                         xclass: 'Ext.event.recognizer.Rotate'
+                    },
+                    edgeSwipe: {
+                        xclass: 'Ext.event.recognizer.EdgeSwipe'
                     }
                 }
             },
@@ -473,11 +476,11 @@ Ext.apply(Ext, {
      * Please note that there's no automatic fallback mechanism for the startup images. In other words, if you don't specify
      * a valid image for a certain device, nothing will be displayed while the application is being launched on that device.
      *
-     * @param {Boolean} isIconPrecomposed
+     * @param {Boolean} config.isIconPrecomposed
      * True to not having a glossy effect added to the icon by the OS, which will preserve its exact look. This currently
      * only applies to iOS devices.
      *
-     * @param {String} statusBarStyle
+     * @param {String} config.statusBarStyle
      * The style of status bar to be shown on applications added to the iOS home screen. Valid options are:
      *
      * * `default`
@@ -613,10 +616,26 @@ Ext.apply(Ext, {
                     Ext.require(requires, callback);
                 }
             });
+
+            if (!Ext.microloaded && navigator.userAgent.match(/IEMobile\/10\.0/)) {
+                var msViewportStyle = document.createElement("style");
+                msViewportStyle.appendChild(
+                    document.createTextNode(
+                        "@media screen and (orientation: portrait) {" +
+                            "@-ms-viewport {width: 320px !important;}" +
+                        "}" +
+                        "@media screen and (orientation: landscape) {" +
+                            "@-ms-viewport {width: 560px !important;}" +
+                        "}"
+                    )
+                );
+                head.appendChild(msViewportStyle);
+            }
         });
 
         function addMeta(name, content) {
             var meta = document.createElement('meta');
+
             meta.setAttribute('name', name);
             meta.setAttribute('content', content);
             head.append(meta);
@@ -645,17 +664,21 @@ Ext.apply(Ext, {
         var icon = config.icon,
             isIconPrecomposed = Boolean(config.isIconPrecomposed),
             startupImage = config.startupImage || {},
-            statusBarStyle = config.statusBarStyle,
+            statusBarStyle = config.statusBarStyle || 'black',
             devicePixelRatio = window.devicePixelRatio || 1;
+
 
         if (navigator.standalone) {
             addMeta('viewport', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0');
         }
         else {
-            addMeta('viewport', 'initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0');
+            addMeta('viewport', 'initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, minimum-ui');
         }
         addMeta('apple-mobile-web-app-capable', 'yes');
         addMeta('apple-touch-fullscreen', 'yes');
+        if (Ext.browser.is.ie) {
+            addMeta('msapplication-tap-highlight', 'no');
+        }
 
         // status bar style
         if (statusBarStyle) {
@@ -929,6 +952,25 @@ Ext.apply(Ext, {
      *             // ...
      *         }
      *     });
+     *
+     * @param {Function} config.onUpdated
+     * This function will execute once the production microloader determines there are updates to the application and has
+     * merged the updates into the application. You can then alert the user there was an update and can then reload
+     * the application to execute the updated application.
+     *
+     *     Ext.application({
+     *         onUpdated : function() {
+     *             Ext.Msg.confirm(
+     *                 'Application Update',
+     *                 'This application has just successfully been updated to the latest version. Reload now?',
+     *                 function(buttonId) {
+     *                     if (buttonId === 'yes') {
+     *                         window.location.reload();
+     *                     }
+     *                 }
+     *             );
+     *         }
+     *     });
      */
     application: function(config) {
         var appName = config.name,
@@ -962,8 +1004,8 @@ Ext.apply(Ext, {
 
     /**
      * @private
-     * @param config
-     * @param callback
+     * @param {Object} config
+     * @param {Function} callback
      * @member Ext
      */
     factoryConfig: function(config, callback) {
@@ -1057,7 +1099,7 @@ Ext.apply(Ext, {
      * @param {Object} config  The config object to instantiate or update an instance with.
      * @param {String} classReference  The class to instantiate from.
      * @param {Object} [instance]  The instance to update.
-     * @param [aliasNamespace]
+     * @param {String} [aliasNamespace]
      * @member Ext
      */
     factory: function(config, classReference, instance, aliasNamespace) {
@@ -1333,19 +1375,37 @@ Ext.apply(Ext, {
                 scope: scope
             });
 
-            if (Ext.browser.is.PhoneGap && !Ext.os.is.Desktop) {
+            if ((Ext.browser.is.WebWorks || Ext.browser.is.PhoneGap) && !Ext.os.is.Desktop) {
                 if (!Ext.readyListenerAttached) {
                     Ext.readyListenerAttached = true;
-                    document.addEventListener('deviceready', triggerFn, false);
+                    document.addEventListener(Ext.browser.is.PhoneGap ? 'deviceready' : 'webworksready', triggerFn, false);
                 }
             }
             else {
-                if (document.readyState.match(/interactive|complete|loaded/) !== null) {
+                var readyStateRe =  (/MSIE 10/.test(navigator.userAgent)) ? /complete|loaded/ : /interactive|complete|loaded/;
+                if (document.readyState.match(readyStateRe) !== null) {
                     triggerFn();
                 }
                 else if (!Ext.readyListenerAttached) {
                     Ext.readyListenerAttached = true;
-                    window.addEventListener('DOMContentLoaded', triggerFn, false);
+                    window.addEventListener('DOMContentLoaded', function() {
+                        if (navigator.standalone) {
+                            // When running from Home Screen, the splash screen will not disappear until all
+                            // external resource requests finish.
+                            // The first timeout clears the splash screen
+                            // The second timeout allows inital HTML content to be displayed
+                            setTimeout(function() {
+                                setTimeout(function() {
+                                    triggerFn();
+                                }, 1);
+                            }, 1);
+                        }
+                        else {
+                          setTimeout(function() {
+                              triggerFn();
+                          }, 1);
+                        }
+                    }, false);
                 }
             }
         }

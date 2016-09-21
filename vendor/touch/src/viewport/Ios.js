@@ -27,7 +27,7 @@ Ext.define('Ext.viewport.Ios', {
         }
 
         var stretchHeights = this.stretchHeights,
-            orientation = this.orientation,
+            orientation = this.getOrientation(),
             currentHeight = this.getWindowHeight(),
             height = stretchHeights[orientation];
 
@@ -70,7 +70,8 @@ Ext.define('Ext.viewport.Ios', {
     },
 
     getScreenHeight: function() {
-        return window.screen[this.orientation === this.PORTRAIT ? 'height' : 'width'];
+        var orientation = this.getOrientation();
+        return window.screen[orientation === this.PORTRAIT ? 'height' : 'width'];
     },
 
     onElementFocus: function() {
@@ -124,8 +125,7 @@ Ext.define('Ext.viewport.Ios', {
             doPreventZooming: function(e) {
                 var target = e.target;
 
-                if (target && target.nodeType === 1 &&
-                    !this.isInputRegex.test(target.tagName) &&
+                if (target && target.nodeType === 1 && !this.isInputRegex.test(target.tagName) &&
                     target.className.indexOf(this.fieldMaskClsTest) == -1) {
                     e.preventDefault();
                 }
@@ -139,5 +139,80 @@ Ext.define('Ext.viewport.Ios', {
                 return true;
             }
         });
+    }
+
+    if (Ext.os.version.gtEq('7')) {
+        // iPad or Homescreen or UIWebView
+        if (Ext.os.deviceType === 'Tablet' || !Ext.browser.is.Safari || window.navigator.standalone) {
+            this.override({
+                constructor: function() {
+                    var stretchHeights = {},
+                        stretchWidths = {},
+                        orientation = this.determineOrientation(),
+                        screenHeight = window.screen.height,
+                        screenWidth = window.screen.width,
+                        menuHeight = orientation === this.PORTRAIT
+                            ? screenHeight - window.innerHeight
+                            : screenWidth - window.innerHeight;
+
+                    stretchHeights[this.PORTRAIT] = screenHeight - menuHeight;
+                    stretchHeights[this.LANDSCAPE] = screenWidth - menuHeight;
+
+                    stretchWidths[this.PORTRAIT] = screenWidth;
+                    stretchWidths[this.LANDSCAPE] = screenHeight;
+
+                    this.stretchHeights = stretchHeights;
+                    this.stretchWidths = stretchWidths;
+
+                    this.callOverridden(arguments);
+
+                    this.on('ready', this.setViewportSizeToAbsolute, this);
+                    this.on('orientationchange', this.setViewportSizeToAbsolute, this);
+                },
+
+                getWindowHeight: function() {
+                    var orientation = this.getOrientation();
+                    return this.stretchHeights[orientation];
+                },
+
+                getWindowWidth: function() {
+                    var orientation = this.getOrientation();
+                    return this.stretchWidths[orientation];
+                },
+
+                setViewportSizeToAbsolute: function() {
+                    this.setWidth(this.getWindowWidth());
+                    this.setHeight(this.getWindowHeight());
+                }
+            });
+        }
+
+        // iPad Only
+        if (Ext.os.deviceType === 'Tablet') {
+            this.override({
+                constructor: function() {
+                    this.callOverridden(arguments);
+
+                    window.addEventListener('scroll', function() {
+                        if (window.scrollX !== 0) {
+                            window.scrollTo(0, window.scrollY);
+                        }
+                    }, false);
+                },
+
+                setViewportSizeToAbsolute: function() {
+                    window.scrollTo(0, 0);
+
+                    this.callOverridden(arguments);
+                },
+
+                onElementBlur: function() {
+                    this.callOverridden(arguments);
+                    if (window.scrollY !== 0) {
+                        window.scrollTo(0, 0);
+                    }
+                }
+            });
+        }
     }
 });

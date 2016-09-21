@@ -1,9 +1,14 @@
 /**
  * @author Ed Spencer
- * @aside guide models
  *
  * This singleton contains a set of validation functions that can be used to validate any type of data. They are most
  * often used in {@link Ext.data.Model Models}, where they are automatically set up and executed.
+ *
+ * ###Further Reading
+ * [Sencha Touch Data Overview](../../../core_concepts/data/data_package_overview.html)
+ * [Sencha Touch Store Guide](../../../core_concepts/data/stores.html)
+ * [Sencha Touch Models Guide](../../../core_concepts/data/models.html)
+ * [Sencha Touch Proxy Guide](../../../core_concepts/data/proxies.html)
  */
 Ext.define('Ext.data.Validations', {
     alternateClassName: 'Ext.data.validations',
@@ -24,7 +29,7 @@ Ext.define('Ext.data.Validations', {
         lengthMessage: 'is the wrong length',
 
         /**
-         * @property {Boolean} formatMessage
+         * @property {String} formatMessage
          * The default error message used when a format validation fails.
          */
         formatMessage: 'is the wrong format',
@@ -157,7 +162,8 @@ Ext.define('Ext.data.Validations', {
     },
 
     /**
-     * Validates that the given value is present in the configured `list`.
+     * Validates that the given value is not present in the configured `list`.
+     * 
      * For example:
      *
      *     validations: [{type: 'exclusion', field: 'username', list: ['Admin', 'Operator']}]

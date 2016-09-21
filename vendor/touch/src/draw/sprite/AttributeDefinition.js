@@ -152,28 +152,28 @@ Ext.define("Ext.draw.sprite.AttributeDefinition", {
         var definition = this,
             processors = definition.getProcessors(),
             aliases = definition.getAliases(),
-            normalized = {}, i, ln,
-            undef, name, val,
+            normalized = {},
+            i, ln, name, val,
             translation, rotation, scaling,
             matrix, subVal, split;
         if ('rotation' in batchedChanges) {
             rotation = batchedChanges.rotation;
         }
         else {
-            rotation = ('rotate' in batchedChanges) ? batchedChanges.rotate : undef;
+            rotation = ('rotate' in batchedChanges) ? batchedChanges.rotate : undefined;
         }
 
         if ('scaling' in batchedChanges) {
             scaling = batchedChanges.scaling;
         }
         else {
-            scaling = ('scale' in batchedChanges) ? batchedChanges.scale : undef;
+            scaling = ('scale' in batchedChanges) ? batchedChanges.scale : undefined;
         }
 
         if ('translation' in batchedChanges) {
             translation = batchedChanges.translation;
         } else {
-            translation = ('translate' in batchedChanges) ? batchedChanges.translate : undef;
+            translation = ('translate' in batchedChanges) ? batchedChanges.translate : undefined;
         }
 
         if (typeof scaling !== 'undefined') {
@@ -257,7 +257,7 @@ Ext.define("Ext.draw.sprite.AttributeDefinition", {
                     normalized[name] = [];
                     for (i = 0, ln = val.length; i < ln; i++) {
                         subVal = processors[name].call(this, val[i]);
-                        if (typeof val !== 'undefined') {
+                        if (typeof subVal !== 'undefined') {
                             normalized[name][i] = subVal;
                         }
                     }
@@ -284,7 +284,7 @@ Ext.define("Ext.draw.sprite.AttributeDefinition", {
     /**
      * Normalizes the changes given via their processors before they are applied as attributes.
      *
-     * @param changes The changes given.
+     * @param {Object} changes The changes given.
      * @return {Object} The normalized values.
      */
     normalize: function (changes, reserveUnrecognized) {

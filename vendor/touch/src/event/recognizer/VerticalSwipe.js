@@ -59,10 +59,10 @@ Ext.define('Ext.event.recognizer.VerticalSwipe', {
             direction = (deltaY < 0) ? 'up' : 'down';
 
             this.fire('swipe', e, [touch], {
-                touch: touch,
-                distance: distance,
-                duration: duration,
-                duration: duration
+                touch     : touch,
+                distance  : distance,
+                duration  : duration,
+                direction : direction
             });
         }
     }

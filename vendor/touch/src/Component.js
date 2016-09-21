@@ -141,7 +141,7 @@
  * ### Common xtypes
  *
  * These are the xtypes that are most commonly used. For an exhaustive list please see the
- * [Components Guide](#!/guide/components).
+ * [Components Guide](../../../core_concepts/components.html).
  *
  * <pre>
  xtype                   Class
@@ -222,11 +222,8 @@
  *
  * ## Further Reading
  *
- * See the [Component & Container Guide](#!/guide/components) for more information, and check out the
+ * See the [Component & Container Guide](../../../core_concepts/components.html) for more information, and check out the
  * {@link Ext.Container} class docs also.
- *
- * @aside guide components
- * @aside guide events
  *
  */
 Ext.define('Ext.Component', {
@@ -453,6 +450,7 @@ Ext.define('Ext.Component', {
          * @cfg {Number/String} width
          * The width of this Component; must be a valid CSS length value, e.g: `300`, `100px`, `30%`, etc.
          * By default, if this is not explicitly set, this Component's element will simply have its own natural size.
+         * If set to `auto`, it will set the width to `null` meaning it will have its own natural size.
          * @accessor
          * @evented
          */
@@ -462,6 +460,7 @@ Ext.define('Ext.Component', {
          * @cfg {Number/String} height
          * The height of this Component; must be a valid CSS length value, e.g: `300`, `100px`, `30%`, etc.
          * By default, if this is not explicitly set, this Component's element will simply have its own natural size.
+         * If set to `auto`, it will set the width to `null` meaning it will have its own natural size.
          * @accessor
          * @evented
          */
@@ -470,6 +469,7 @@ Ext.define('Ext.Component', {
         /**
          * @cfg {Number/String} minWidth
          * The minimum width of this Component; must be a valid CSS length value, e.g: `300`, `100px`, `30%`, etc.
+         * If set to `auto`, it will set the width to `null` meaning it will have its own natural size.
          * @accessor
          * @evented
          */
@@ -478,6 +478,7 @@ Ext.define('Ext.Component', {
         /**
          * @cfg {Number/String} minHeight
          * The minimum height of this Component; must be a valid CSS length value, e.g: `300`, `100px`, `30%`, etc.
+         * If set to `auto`, it will set the width to `null` meaning it will have its own natural size.
          * @accessor
          * @evented
          */
@@ -486,6 +487,7 @@ Ext.define('Ext.Component', {
         /**
          * @cfg {Number/String} maxWidth
          * The maximum width of this Component; must be a valid CSS length value, e.g: `300`, `100px`, `30%`, etc.
+         * If set to `auto`, it will set the width to `null` meaning it will have its own natural size.
          * Note that this config will not apply if the Component is 'floating' (absolutely positioned or centered)
          * @accessor
          * @evented
@@ -495,6 +497,7 @@ Ext.define('Ext.Component', {
         /**
          * @cfg {Number/String} maxHeight
          * The maximum height of this Component; must be a valid CSS length value, e.g: `300`, `100px`, `30%`, etc.
+         * If set to `auto`, it will set the width to `null` meaning it will have its own natural size.
          * Note that this config will not apply if the Component is 'floating' (absolutely positioned or centered)
          * @accessor
          * @evented
@@ -610,7 +613,7 @@ Ext.define('Ext.Component', {
         zIndex: null,
 
         /**
-         * @cfg {String/String[]/Ext.Template[]/Ext.XTemplate[]} tpl
+         * @cfg {String/String[]/Ext.Template/Ext.XTemplate[]} tpl
          * A {@link String}, {@link Ext.Template}, {@link Ext.XTemplate} or an {@link Array} of strings to form an {@link Ext.XTemplate}.
          * Used in conjunction with the {@link #data} and {@link #tplWriteMode} configurations.
          *
@@ -641,7 +644,7 @@ Ext.define('Ext.Component', {
         /**
          * @cfg {String/Mixed} showAnimation
          * Animation effect to apply when the Component is being shown.  Typically you want to use an
-         * inbound animation type such as 'fadeIn' or 'slideIn'.
+         * inbound animation type such as 'fadeIn' or 'slideIn'. For more animations, check the {@link Ext.fx.Animation#type} config.
          * @accessor
          */
         showAnimation: null,
@@ -649,7 +652,7 @@ Ext.define('Ext.Component', {
         /**
          * @cfg {String/Mixed} hideAnimation
          * Animation effect to apply when the Component is being hidden.  Typically you want to use an
-         * outbound animation type such as 'fadeOut' or 'slideOut'.
+         * outbound animation type such as 'fadeOut' or 'slideOut'. For more animations, check the {@link Ext.fx.Animation#type} config.
          * @accessor
          */
         hideAnimation: null,
@@ -669,7 +672,7 @@ Ext.define('Ext.Component', {
         tplWriteMode: 'overwrite',
 
         /**
-         * @cfg {Mixed} data
+         * @cfg {Object} data
          * The initial set of data to apply to the `{@link #tpl}` to
          * update the content area of the Component.
          * @accessor
@@ -831,6 +834,11 @@ Ext.define('Ext.Component', {
      */
 
     /**
+     * @event destroy
+     * Fires when the component is destroyed
+     */
+
+    /**
      * @event beforeorientationchange
      * Fires before orientation changes.
      * @removed 2.0.0 This event is now only available `onBefore` the Viewport's {@link Ext.Viewport#orientationchange}
@@ -851,6 +859,7 @@ Ext.define('Ext.Component', {
     /**
      * @event painted
      * @inheritdoc Ext.dom.Element#painted
+     * @param {Ext.Element} element The component's outer element (this.element)
      */
 
     /**
@@ -863,6 +872,7 @@ Ext.define('Ext.Component', {
     /**
      * @event resize
      * @inheritdoc Ext.dom.Element#resize
+     * @param {Ext.Element} element The component's outer element (this.element)
      */
 
     /**
@@ -894,6 +904,11 @@ Ext.define('Ext.Component', {
      * @private
      */
     isInner: true,
+
+    /**
+     * @private
+     */
+    activeAnimation: null,
 
     /**
      * @readonly
@@ -1054,8 +1069,6 @@ Ext.define('Ext.Component', {
 
     /**
      * @private
-     * @param fn
-     * @param scope
      */
     onInitialized: function(fn, scope, args) {
         var listeners = this.onInitializedListeners;
@@ -1176,15 +1189,28 @@ Ext.define('Ext.Component', {
     },
 
     updateUi: function(newUi, oldUi) {
-        var baseCls = this.getBaseCls();
+        var baseCls = this.getBaseCls(),
+            element = this.element,
+            currentUi = this.currentUi;
 
         if (baseCls) {
             if (oldUi) {
-                this.element.removeCls(oldUi, baseCls);
+                if (currentUi) {
+                    element.removeCls(currentUi);
+                }
+                else {
+                    element.removeCls(baseCls + '-' + oldUi);
+                }
             }
 
             if (newUi) {
-                this.element.addCls(newUi, baseCls);
+                element.addCls(newUi, baseCls);
+                this.currentUi = baseCls + '-' + newUi;
+
+                // The first instance gets stored on the proptotype
+                if (!this.self.prototype.currentUi) {
+                    this.self.prototype.currentUi = this.currentUi;
+                }
             }
         }
     },
@@ -1197,19 +1223,21 @@ Ext.define('Ext.Component', {
         var me = this,
             ui = me.getUi();
 
-        if (newBaseCls) {
-            this.element.addCls(newBaseCls);
-
-            if (ui) {
-                this.element.addCls(newBaseCls, null, ui);
-            }
-        }
 
         if (oldBaseCls) {
             this.element.removeCls(oldBaseCls);
 
             if (ui) {
-                this.element.removeCls(oldBaseCls, null, ui);
+                this.element.removeCls(this.currentUi);
+            }
+        }
+
+        if (newBaseCls) {
+            this.element.addCls(newBaseCls);
+
+            if (ui) {
+                this.element.addCls(newBaseCls, null, ui);
+                this.currentUi = newBaseCls + '-' + ui;
             }
         }
     },
@@ -1332,11 +1360,22 @@ Ext.define('Ext.Component', {
     },
 
     /**
-     * @private
+     * Add or removes a class based on if the class is already added to the Component.
+     *
+     * @param {String} className The class to toggle.
      * @chainable
      */
-    toggleCls: function(className, force) {
-        this.element.toggleCls(className, force);
+    toggleCls: function(className, /* private */ force) {
+        var oldCls = this.getCls(),
+            newCls = (oldCls) ? oldCls.slice() : [];
+
+        if (force || newCls.indexOf(className) == -1) {
+            newCls.push(className);
+        } else {
+            Ext.Array.remove(newCls, className);
+        }
+
+        this.setCls(newCls);
 
         return this;
     },
@@ -1364,8 +1403,9 @@ Ext.define('Ext.Component', {
      * @private
      * All cls methods directly report to the {@link #cls} configuration, so anytime it changes, {@link #updateCls} will be called
      */
-    updateCls: function(newCls, oldCls) {
-        if (oldCls != newCls && this.element) {
+    updateCls: function (newCls, oldCls) {
+        if (this.element && ((newCls && !oldCls) || (!newCls && oldCls) || newCls.length != oldCls.length || Ext.Array.difference(newCls,
+            oldCls).length > 0)) {
             this.element.replaceCls(oldCls, newCls);
         }
     },
@@ -1471,14 +1511,6 @@ Ext.define('Ext.Component', {
         }
     },
 
-    filterPositionValue: function(value) {
-        if (value === '' || value === 'auto') {
-            value = null;
-        }
-
-        return value;
-    },
-
     filterLengthValue: function(value) {
         if (value === 'auto' || (!value && value !== 0)) {
             return null;
@@ -1488,19 +1520,19 @@ Ext.define('Ext.Component', {
     },
 
     applyTop: function(top) {
-        return this.filterPositionValue(top);
+        return this.filterLengthValue(top);
     },
 
     applyRight: function(right) {
-        return this.filterPositionValue(right);
+        return this.filterLengthValue(right);
     },
 
     applyBottom: function(bottom) {
-        return this.filterPositionValue(bottom);
+        return this.filterLengthValue(bottom);
     },
 
     applyLeft: function(left) {
-        return this.filterPositionValue(left);
+        return this.filterLengthValue(left);
     },
 
     applyWidth: function(width) {
@@ -1581,7 +1613,7 @@ Ext.define('Ext.Component', {
     doRefreshSizeState: function() {
         var hasWidth = this.getWidth() !== null || this.widthLayoutSized || (this.getLeft() !== null && this.getRight() !== null),
             hasHeight = this.getHeight() !== null || this.heightLayoutSized || (this.getTop() !== null && this.getBottom() !== null),
-            stretched = this.layoutStretched || (!hasHeight && this.getMinHeight() !== null),
+            stretched = this.layoutStretched || this.hasCSSMinHeight || (!hasHeight && this.getMinHeight() !== null),
             state = hasWidth && hasHeight,
             flags = (hasWidth && this.LAYOUT_WIDTH) | (hasHeight && this.LAYOUT_HEIGHT) | (stretched && this.LAYOUT_STRETCHED);
 
@@ -1604,6 +1636,24 @@ Ext.define('Ext.Component', {
     setSizeFlags: function(flags) {
         if (flags !== this.sizeFlags) {
             this.sizeFlags = flags;
+
+            var hasWidth = !!(flags & this.LAYOUT_WIDTH),
+                hasHeight = !!(flags & this.LAYOUT_HEIGHT),
+                stretched = !!(flags & this.LAYOUT_STRETCHED);
+
+            if (hasWidth && !stretched && !hasHeight) {
+                this.element.addCls('x-has-width');
+            }
+            else {
+                this.element.removeCls('x-has-width');
+            }
+
+            if (hasHeight && !stretched && !hasWidth) {
+                this.element.addCls('x-has-height');
+            }
+            else {
+                this.element.removeCls('x-has-height');
+            }
 
             if (this.initialized) {
                 this.fireEvent('sizeflagschange', this, flags);
@@ -1721,7 +1771,8 @@ Ext.define('Ext.Component', {
         return docked;
     },
 
-    doSetDocked: function(docked) {
+    doSetDocked: function(docked, oldDocked) {
+        this.fireEvent('afterdockedchange', this, docked, oldDocked);
         if (!docked) {
             this.refreshInnerState();
         }
@@ -1761,7 +1812,6 @@ Ext.define('Ext.Component', {
 
         if (floating !== this.floating) {
             this.floating = floating;
-            this.element.toggleCls(floatingCls, floating);
 
             if (floating) {
                 this.refreshInnerState = Ext.emptyFn;
@@ -1778,6 +1828,8 @@ Ext.define('Ext.Component', {
 
                 delete this.refreshInnerState;
             }
+
+            this.element.toggleCls(floatingCls, floating);
 
             if (this.initialized) {
                 this.fireEvent('floatingchange', this, floating);
@@ -1868,29 +1920,33 @@ Ext.define('Ext.Component', {
 
     getInnerHtmlElement: function() {
         var innerHtmlElement = this.innerHtmlElement,
-            styleHtmlCls = this.getStyleHtmlCls();
+            styleHtmlCls;
 
         if (!innerHtmlElement || !innerHtmlElement.dom || !innerHtmlElement.dom.parentNode) {
-            this.innerHtmlElement = innerHtmlElement = this.innerElement.createChild({ cls: 'x-innerhtml ' });
+            this.innerHtmlElement = innerHtmlElement = Ext.Element.create({ cls: 'x-innerhtml' });
 
             if (this.getStyleHtmlContent()) {
+                styleHtmlCls = this.getStyleHtmlCls();
                 this.innerHtmlElement.addCls(styleHtmlCls);
                 this.innerElement.removeCls(styleHtmlCls);
             }
+            this.innerElement.appendChild(innerHtmlElement);
         }
 
         return innerHtmlElement;
     },
 
     updateHtml: function(html) {
-        var innerHtmlElement = this.getInnerHtmlElement();
+        if (!this.isDestroyed) {
+            var innerHtmlElement = this.getInnerHtmlElement();
 
-        if (Ext.isElement(html)){
-            innerHtmlElement.setHtml('');
-            innerHtmlElement.append(html);
-        }
-        else {
-            innerHtmlElement.setHtml(html);
+            if (Ext.isElement(html)){
+                innerHtmlElement.setHtml('');
+                innerHtmlElement.append(html);
+            }
+            else {
+                innerHtmlElement.setHtml(html);
+            }
         }
     },
 
@@ -1934,12 +1990,24 @@ Ext.define('Ext.Component', {
     },
 
     /**
-     * Hides this Component
-     * @param {Object/Boolean} animation (optional)
+     * Hides this Component optionally using an animation.
+     * @param {Object/Boolean} [animation] You can specify an animation here or a bool to use the {@link #hideAnimation} config.
      * @return {Ext.Component}
      * @chainable
      */
     hide: function(animation) {
+        this.setCurrentAlignmentInfo(null);
+        if(this.activeAnimation) {
+            this.activeAnimation.on({
+                animationend: function(){
+                    this.hide(animation);
+                },
+                scope: this,
+                single: true
+            });
+            return this;
+        }
+
         if (!this.getHidden()) {
             if (animation === undefined || (animation && animation.isComponent)) {
                 animation = this.getHideAnimation();
@@ -1961,12 +2029,23 @@ Ext.define('Ext.Component', {
     },
 
     /**
-     * Shows this component.
-     * @param {Object/Boolean} animation (optional)
+     * Shows this component optionally using an animation.
+     * @param {Object/Boolean} [animation] You can specify an animation here or a bool to use the {@link #showAnimation} config.
      * @return {Ext.Component}
      * @chainable
      */
     show: function(animation) {
+        if(this.activeAnimation) {
+            this.activeAnimation.on({
+                animationend: function(){
+                    this.show(animation);
+                },
+                scope: this,
+                single: true
+            });
+            return this;
+        }
+
         var hidden = this.getHidden();
         if (hidden || hidden === null) {
             if (animation === true) {
@@ -1977,6 +2056,7 @@ Ext.define('Ext.Component', {
             }
 
             if (animation) {
+                this.beforeShowAnimation();
                 this.onBefore({
                     hiddenchange: 'animateFn',
                     scope: this,
@@ -1991,20 +2071,30 @@ Ext.define('Ext.Component', {
         return this;
     },
 
+    beforeShowAnimation: function() {
+        if (this.element) {
+            this.renderElement.show();
+            this.element.removeCls(this.getHiddenCls());
+        }
+    },
+
     animateFn: function(animation, component, newState, oldState, options, controller) {
+        var me = this;
         if (animation && (!newState || (newState && this.isPainted()))) {
-            var anim = new Ext.fx.Animation(animation);
 
-            anim.setElement(component.element);
+            this.activeAnimation = new Ext.fx.Animation(animation);
+            this.activeAnimation.setElement(component.element);
 
-            if (newState) {
-                anim.setOnEnd(function() {
+            if (!Ext.isEmpty(newState)) {
+                this.activeAnimation.setOnEnd(function() {
+                    me.activeAnimation = null;
                     controller.resume();
                 });
 
                 controller.pause();
             }
-            Ext.Animator.run(anim);
+
+            Ext.Animator.run(me.activeAnimation);
         }
     },
 
@@ -2214,7 +2304,7 @@ Ext.define('Ext.Component', {
 
     /**
      * @private
-     * @param rendered
+     * @param {Boolean} rendered
      */
     setRendered: function(rendered) {
         var wasRendered = this.rendered;
@@ -2341,25 +2431,79 @@ Ext.define('Ext.Component', {
 
     /**
      * @private
-     * @param component
+     * @param {Ext.Component} component
      */
     onShowByErased: function() {
         Ext.Viewport.un('resize', 'alignTo', this);
     },
 
     /**
+     * Prepares information on aligning this to component using alignment.
+     * Also checks to see if this is already aligned to component according to alignment.
+     * @protected
+     */
+    getAlignmentInfo: function (component, alignment){
+        var alignToElement = component.isComponent ? component.renderElement : component,
+            alignToBox = alignToElement.getPageBox(),
+            element = this.renderElement,
+            box = element.getPageBox(),
+            stats = {
+                alignToBox: alignToBox,
+                alignment: alignment,
+                top: alignToBox.top,
+                left: alignToBox.left,
+                alignToWidth: alignToBox.width,
+                alignToHeight: alignToBox.height,
+                width: box.width,
+                height: box.height
+            },
+            currentAlignmentInfo = this.getCurrentAlignmentInfo(),
+            isAligned = true;
+
+        if (!Ext.isEmpty(currentAlignmentInfo)) {
+            Ext.Object.each(stats, function(key, value) {
+                if (!Ext.isObject(value) && currentAlignmentInfo[key] != value) {
+                    isAligned = false;
+                    return false;
+                }
+                return true;
+            });
+        } else {
+            isAligned = false;
+        }
+
+        return {isAligned: isAligned, stats: stats};
+    },
+
+    /**
+     * Current Alignment information from the last alignTo call
+     * @private
+     */
+    getCurrentAlignmentInfo: function() {
+        return this.$currentAlignmentInfo;
+    },
+
+    /**
+     * Sets the current Alignment information, called by alignTo
+     * @private
+     */
+    setCurrentAlignmentInfo: function(alignmentInfo) {
+        this.$currentAlignmentInfo = Ext.isEmpty(alignmentInfo) ? null : Ext.merge({}, alignmentInfo.stats ? alignmentInfo.stats : alignmentInfo);
+    },
+
+    /**
      * @private
      */
     alignTo: function(component, alignment) {
-        var alignToElement = component.isComponent ? component.renderElement : component,
-            element = this.renderElement,
-            alignToBox = alignToElement.getPageBox(),
+        var alignmentInfo = this.getAlignmentInfo(component, alignment);
+        if(alignmentInfo.isAligned) return;
+
+        var alignToBox = alignmentInfo.stats.alignToBox,
             constrainBox = this.getParent().element.getPageBox(),
-            box = element.getPageBox(),
-            alignToHeight = alignToBox.height,
-            alignToWidth = alignToBox.width,
-            height = box.height,
-            width = box.width;
+            alignToHeight = alignmentInfo.stats.alignToHeight,
+            alignToWidth = alignmentInfo.stats.alignToWidth,
+            height = alignmentInfo.stats.height,
+            width = alignmentInfo.stats.width;
 
         // Keep off the sides...
         constrainBox.bottom -= 5;
@@ -2496,6 +2640,7 @@ Ext.define('Ext.Component', {
 
         this.setLeft(left);
         this.setTop(top);
+        this.setCurrentAlignmentInfo(alignmentInfo);
     },
 
     /**
@@ -2793,13 +2938,6 @@ Ext.define('Ext.Component', {
                 //</debug>
                 this.initComponent();
             }
-
-            if (this.setOrientation !== emptyFn) {
-                //<debug warn>
-                Ext.Logger.deprecate("setOrientation() is deprecated", this);
-                //</debug>
-                this.setOrientation();
-            }
         },
 
         onRender: emptyFn,
@@ -2809,8 +2947,6 @@ Ext.define('Ext.Component', {
         initEvents: emptyFn,
 
         initComponent: emptyFn,
-
-        setOrientation: emptyFn,
 
         show: function() {
             if (this.renderElement.dom) {

@@ -27,6 +27,12 @@
                 bottom: 42%;
                 position: absolute;
                 text-align: center;
+                line-height: 10px;
+            }
+
+            .loader-logo {
+                max-height: 160px;
+                margin-bottom: 10px;
             }
 
             .loader-page-romb {
@@ -254,7 +260,8 @@
                     lang = (params["lang"] || 'en').split("-")[0],
                     customer = params["customer"] ? ('<div class="loader-page-text-customer">' + encodeUrlParam(params["customer"]) + '</div>') : '',
                     margin = (customer !== '') ? 50 : 20,
-                    loading = 'Loading...';
+                    loading = 'Loading...',
+                    logo = params["logo"] ? ((params["logo"] !== 'none') ? ('<img src="' + encodeUrlParam(params["logo"]) + '" class="loader-logo" />') : '') : null;
 
                 if ( lang == 'de')      loading = 'Ladevorgang...';
                 else if ( lang == 'es') loading = 'Cargando...';
@@ -267,12 +274,14 @@
 
                 document.write(
                     '<div id="loading-mask" class="loadmask">' +
-                        '<div class="loader-page" style="margin-bottom: ' + margin + 'px;">' +
-                            '<div class="loader-page-romb">' +
-                            '<div class="romb" id="blue"></div>' +
-                            '<div class="romb" id="green"></div>' +
-                            '<div class="romb" id="red"></div>' +
-                            '</div></div>' +
+                            '<div class="loader-page" style="margin-bottom: ' + margin + 'px;' + ((logo!==null) ? 'height: auto;' : '') + '">' +
+                                ((logo!==null) ? logo :
+                                '<div class="loader-page-romb">' +
+                                    '<div class="romb" id="blue"></div>' +
+                                    '<div class="romb" id="green"></div>' +
+                                    '<div class="romb" id="red"></div>' +
+                                '</div>') +
+                            '</div>' +
                             '<div class="loader-page-text">' +  customer +
                             '<div class="loader-page-text-loading">' + loading + '</div>' +
                         '</div>' +

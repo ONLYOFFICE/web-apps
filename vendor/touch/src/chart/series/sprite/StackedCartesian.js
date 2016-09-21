@@ -1,7 +1,7 @@
 /**
  * @class Ext.chart.series.sprite.StackedCartesian
  * @extends Ext.chart.series.sprite.Cartesian
- * 
+ *
  * Stacked cartesian sprite.
  */
 Ext.define("Ext.chart.series.sprite.StackedCartesian", {
@@ -28,6 +28,7 @@ Ext.define("Ext.chart.series.sprite.StackedCartesian", {
                 dataStartY: 'data'
             },
             defaults: {
+                selectionTolerance: 20,
                 groupCount: 1,
                 groupOffset: 0,
                 dataStartY: null
@@ -45,20 +46,21 @@ Ext.define("Ext.chart.series.sprite.StackedCartesian", {
             dataX = sprite.attr.dataX,
             dataY = sprite.attr.dataY,
             dataStartY = sprite.attr.dataStartY,
-            minX, minY, index = -1,
+            selectionTolerance = sprite.attr.selectionTolerance,
+            minX = 0.5, minY = Infinity, index = -1,
             imat = mat.clone().prependMatrix(this.surfaceMatrix).inverse(),
             center = imat.transformPoint([x, y]),
-            positionLB = imat.transformPoint([x - 22, y - 22]),
-            positionTR = imat.transformPoint([x + 22, y + 22]),
+            positionLB = imat.transformPoint([x - selectionTolerance, y - selectionTolerance]),
+            positionTR = imat.transformPoint([x + selectionTolerance, y + selectionTolerance]),
             dx, dy,
-            left = Math.min(positionLB[0], positionTR[0]),
-            right = Math.max(positionLB[0], positionTR[0]);
+            top = Math.min(positionLB[1], positionTR[1]),
+            bottom = Math.max(positionLB[1], positionTR[1]);
 
         for (var i = 0; i < dataX.length; i++) {
-            if (left <= dataX[i] && dataX[i] <= right && dataStartY[i] <= center[1] && center[1] <= dataY[i]) {
+            if (Math.min(dataStartY[i], dataY[i]) <= bottom && top <= Math.max(dataStartY[i], dataY[i])) {
                 dx = Math.abs(dataX[i] - center[0]);
                 dy = Math.max(-Math.min(dataY[i] - center[1], center[1] - dataStartY[i]), 0);
-                if (index === -1 || dx < minX && dy <= minY) {
+                if (dx < minX && dy <= minY) {
                     minX = dx;
                     minY = dy;
                     index = i;

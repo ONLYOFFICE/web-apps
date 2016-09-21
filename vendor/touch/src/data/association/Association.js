@@ -1,6 +1,5 @@
 /**
  * @author Ed Spencer
- * @aside guide models
  *
  * Associations enable you to express relationships between different {@link Ext.data.Model Models}. Let's say we're
  * writing an ecommerce system where Users can make Orders - there's a relationship between these Models that we can
@@ -116,6 +115,9 @@
  *         });
  *
  *     });
+ *
+ * ###Further Reading
+ * [Sencha Touch Models and Associations](../../../core_concepts/data/models.html)
  */
 Ext.define('Ext.data.association.Association', {
     alternateClassName: 'Ext.data.Association',

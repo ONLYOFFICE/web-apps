@@ -106,7 +106,8 @@
                     },
                     chat: false,
                     comments: false,
-                    zoom: 100
+                    zoom: 100,
+                    compactToolbar: false
                 },
                 plugins: {
                     url: '../../../../sdkjs-plugins/',
@@ -690,6 +691,9 @@
                 if (config.editorConfig.customization.loaderName !== 'none') params += "&customer=" + config.editorConfig.customization.loaderName;
             } else
                 params += "&customer=ONLYOFFICE";
+            if ( (typeof(config.editorConfig.customization) == 'object') && config.editorConfig.customization.loaderLogo) {
+                if (config.editorConfig.customization.loaderLogo !== '') params += "&logo=" + config.editorConfig.customization.loaderLogo;
+            }
         }
         
         return params;
