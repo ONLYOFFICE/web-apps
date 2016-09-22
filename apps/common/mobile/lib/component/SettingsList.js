@@ -63,39 +63,5 @@ Ext.define('Common.component.SettingsList', {
                 }
             }
         )
-    },
-
-    //
-    // Workaround Sencha Touch bug
-    // See https://sencha.jira.com/browse/TOUCH-3718
-    //
-
-    findGroupHeaderIndices: function() {
-        var me = this,
-            store = me.getStore(),
-            storeLn = store.getCount(),
-            groups = store.getGroups(),
-            groupLn = groups.length,
-            headerIndices = me.headerIndices = {},
-            footerIndices = me.footerIndices = {},
-            i, previousIndex, firstGroupedRecord, storeIndex;
-
-
-        me.groups = groups;
-
-        for (i = 0; i < groupLn; i++) {
-            firstGroupedRecord = groups[i].children[0];
-            storeIndex = store.indexOf(firstGroupedRecord);
-            headerIndices[storeIndex] = true;
-
-            previousIndex = storeIndex - 1;
-            if (previousIndex >= 0) {
-                footerIndices[previousIndex] = true;
-            }
-        }
-
-        footerIndices[storeLn - 1] = true;
-
-        return headerIndices;
     }
 });

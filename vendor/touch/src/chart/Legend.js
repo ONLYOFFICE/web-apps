@@ -1,7 +1,7 @@
 /**
  * @class Ext.chart.Legend
  * @extends Ext.dataview.DataView
- * 
+ *
  * A default legend for charts.
  *
  *     @example preview
@@ -69,7 +69,12 @@ Ext.define("Ext.chart.Legend", {
          * @deprecated Use `docked` instead.
          * Delegates to `docked`
          */
-        position: 'top',
+        position: null,
+        /**
+         * @cfg {Boolean} toggleable 'true' if the series items in the legend can be toggled on and off.
+         */
+        toggleable: true,
+        docked: 'top',
         horizontalHeight: 48,
         verticalWidth: 150
     },
@@ -93,28 +98,50 @@ Ext.define("Ext.chart.Legend", {
             // TODO: Remove this when possible
             this.setWidth(null);
             this.setHeight(this.getHorizontalHeight());
-            this.setScrollable({direction: 'horizontal' });
+            if (this.getScrollable()) {
+                this.setScrollable({direction: 'horizontal'});
+            }
         } else {
             this.setLayout({pack: 'center'});
             this.setInline(false);
             // TODO: Remove this when possible
             this.setWidth(this.getVerticalWidth());
             this.setHeight(null);
-            this.setScrollable({direction: 'vertical' });
+            if (this.getScrollable()) {
+                this.setScrollable({direction: 'vertical'});
+            }
         }
     },
 
-    updatePosition: function (position) {
+    setScrollable: function (scrollable) {
+        this.callSuper(arguments);
+        if (scrollable === true) {
+            if (this.getDocked() === 'top' || this.getDocked() === 'bottom') {
+                this.setScrollable({direction: 'horizontal'});
+            } else if (this.getDocked() === 'left' || this.getDocked() === 'right') {
+                this.setScrollable({direction: 'vertical'});
+            }
+        }
+    },
+
+    
+    setPosition: function (position) {
         this.setDocked(position);
+    },
+    
+    getPosition: function () {
+        return this.getDocked();
     },
 
     onItemTap: function (container, target, index, e) {
         this.callSuper(arguments);
-        var me = this,
-            store = me.getStore(),
-            record = store && store.getAt(index);
-        record.beginEdit();
-        record.set('disabled', !record.get('disabled'));
-        record.commit();
+        if(this.getToggleable()) {
+            var me = this,
+                store = me.getStore(),
+                record = store && store.getAt(index);
+            record.beginEdit();
+            record.set('disabled', !record.get('disabled'));
+            record.commit();
+        }
     }
 });

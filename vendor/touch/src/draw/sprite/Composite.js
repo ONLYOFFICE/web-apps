@@ -4,10 +4,11 @@
  * 
  * Represents a group of sprites.
  */
-Ext.define("Ext.draw.sprite.Composite", {
-    extend: "Ext.draw.sprite.Sprite",
+Ext.define('Ext.draw.sprite.Composite', {
+    extend: 'Ext.draw.sprite.Sprite',
     alias: 'sprite.composite',
     type: 'composite',
+
     constructor: function () {
         this.callSuper(arguments);
         this.sprites = [];
@@ -16,6 +17,7 @@ Ext.define("Ext.draw.sprite.Composite", {
 
     /**
      * Adds a sprite to the composite.
+     * @param {Ext.draw.sprite.Sprite|Object} sprite
      */
     add: function (sprite) {
         if (!(sprite instanceof Ext.draw.sprite.Sprite)) {
@@ -38,6 +40,22 @@ Ext.define("Ext.draw.sprite.Composite", {
         this.sprites.map[sprite.id] = sprite.getId();
         attr.bbox.plain.dirty = true;
         attr.bbox.transform.dirty = true;
+        return sprite;
+    },
+
+    /**
+     * Adds a list of sprites to the composite.
+     * @param {Ext.draw.sprite.Sprite[]|Object[]|Ext.draw.sprite.Sprite|Object} sprites
+     */
+    addAll: function (sprites) {
+        if (sprites.isSprite || sprites.type) {
+            this.add(sprites);
+        } else if (Ext.isArray(sprites)) {
+            var i = 0;
+            while (i < sprites.length) {
+                this.add(sprites[i++]);
+            }
+        }
     },
 
     /**

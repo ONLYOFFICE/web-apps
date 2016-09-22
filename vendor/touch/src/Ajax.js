@@ -1,6 +1,4 @@
 /**
- * @aside guide ajax
- *
  * A singleton instance of an {@link Ext.data.Connection}. This class
  * is used to communicate with your server side code. It can be used as follows:
  *
@@ -33,6 +31,9 @@
  * The main reason for creating a separate {@link Ext.data.Connection} is for a
  * series of requests that share common settings that are different to all other
  * requests in the application.
+ *
+ * For more information about utilizing AJAX in Sencha Touch, please review 
+ * our [AJAX Guide](../../../core_concepts/using_ajax.html).
  */
 Ext.define('Ext.Ajax', {
     extend: 'Ext.data.Connection',

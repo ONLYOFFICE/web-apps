@@ -25,7 +25,7 @@ Ext.define('Ext.util.Format', {
      * Truncate a string and add an ellipsis ('...') to the end if it exceeds the specified length.
      * @param {String} value The string to truncate.
      * @param {Number} length The maximum length to allow before truncating.
-     * @param {Boolean} word True to try to find a common word break.
+     * @param {Boolean} [word=false] True to try to find a common word break.
      * @return {String} The converted text.
      */
     ellipsis: function(value, len, word) {
@@ -156,6 +156,9 @@ Ext.define('Ext.util.Format', {
 
     /**
      * Parse a value into a formatted date using the specified format pattern.
+     * Note that this uses the native Javascript Date.parse() method and is therefore subject to its idiosyncrasies.
+     * Most formats assume the local timezone unless specified. One notable exception is 'YYYY-MM-DD' (note the dashes)
+     * which is typically interpreted in UTC and can cause date shifting.
      * @param {String/Date} value The value to format. Strings must conform to the format expected by the JavaScript
      * Date object's [parse() method](http://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Date/parse).
      * @param {String} [format='m/d/Y'] (optional) Any valid date format string.
@@ -171,19 +174,67 @@ Ext.define('Ext.util.Format', {
             if (isNaN(date)) {
                 // Dates with ISO 8601 format are not well supported by mobile devices, this can work around the issue.
                 if (this.iso8601TestRe.test(value)) {
-                    date = value.split(this.iso8601SplitRe);
-                    date = new Date(date[0], date[1]-1, date[2], date[3], date[4], date[5]);
-                }
-                if (isNaN(date)) {
-                    // Dates with the format "2012-01-20" fail, but "2012/01/20" work in some browsers. We'll try and
-                    // get around that.
-                    date = new Date(Date.parse(value.replace(this.dashesRe, "/")));
-                    //<debug>
-                    if (isNaN(date)) {
-                        Ext.Logger.error("Cannot parse the passed value " + value + " into a valid date");
+                    // Fix for older android browsers to properly implement ISO 8601 formatted dates with timezone
+                    if (Ext.os.is.Android && Ext.os.version.isLessThan("3.0")) {
+                        /**
+                         * This code is modified from the following source: <https://github.com/csnover/js-iso8601>
+                         * © 2011 Colin Snover <http://zetafleet.com>
+                         * Released under MIT license.
+                         */
+                        var potentialUndefinedKeys = [ 1, 4, 5, 6, 7, 10, 11 ];
+                        var dateParsed, minutesOffset = 0;
+
+                        // Capture Groups
+                        // 1 YYYY (optional)
+                        // 2 MM
+                        // 3 DD
+                        // 4 HH
+                        // 5 mm (optional)
+                        // 6 ss (optional)
+                        // 7 msec (optional)
+                        // 8 Z (optional)
+                        // 9 ± (optional)
+                        // 10 tzHH (optional)
+                        // 11 tzmm (optional)
+                        if ((dateParsed = /^(\d{4}|[+\-]\d{6})(?:-(\d{2})(?:-(\d{2}))?)?(?:T(\d{2}):(\d{2})(?::(\d{2})(?:\.(\d{3}))?)?(?:(Z)|([+\-])(\d{2})(?::(\d{2}))?)?)?$/.exec(value))) {
+
+                            //Set any undefined values needed for Date to 0
+                            for (var i = 0, k; (k = potentialUndefinedKeys[i]); ++i) {
+                                dateParsed[k] = +dateParsed[k] || 0;
+                            }
+
+                            // Fix undefined month and decrement
+                            dateParsed[2] = (+dateParsed[2] || 1) - 1;
+                            //fix undefined days
+                            dateParsed[3] = +dateParsed[3] || 1;
+
+                            // Correct for timezone
+                            if (dateParsed[8] !== 'Z' && dateParsed[9] !== undefined) {
+                                minutesOffset = dateParsed[10] * 60 + dateParsed[11];
+
+                                if (dateParsed[9] === '+') {
+                                    minutesOffset = 0 - minutesOffset;
+                                }
+                            }
+
+                            // Calculate valid date
+                            date = new Date(Date.UTC(dateParsed[1], dateParsed[2], dateParsed[3], dateParsed[4], dateParsed[5] + minutesOffset, dateParsed[6], dateParsed[7]));
+                        }
+                    } else {
+                        date = value.split(this.iso8601SplitRe);
+                        date = new Date(date[0], date[1] - 1, date[2], date[3], date[4], date[5]);
                     }
-                    //</debug>
                 }
+            }
+            if (isNaN(date)) {
+                // Dates with the format "2012-01-20" fail, but "2012/01/20" work in some browsers. We'll try and
+                // get around that.
+                date = new Date(Date.parse(value.replace(this.dashesRe, "/")));
+                //<debug>
+                if (isNaN(date)) {
+                    Ext.Logger.error("Cannot parse the passed value " + value + " into a valid date");
+                }
+                //</debug>
             }
             value = date;
         }

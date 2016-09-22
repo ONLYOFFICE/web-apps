@@ -1,6 +1,4 @@
 /**
- * @aside guide forms
- *
  * The slider is a way to allow the user to select a value from a given numerical range. You might use it for choosing
  * a percentage, combine two of them to get min and max values, or use three of them to specify the hex values for a
  * color. Each slider contains a single 'thumb' that can be dragged along the slider's length to change the value.
@@ -59,6 +57,8 @@
  * Here we listened to the {@link #change} event on the slider and updated the background image of an
  * {@link Ext.Img image component} based on what size the user selected. Of course, you can use any logic inside your
  * event listener.
+ *
+ * For more information regarding forms and fields, please review [Using Forms in Sencha Touch Guide](../../../components/forms.html)
  */
 Ext.define('Ext.field.Slider', {
     extend  : 'Ext.field.Field',
@@ -170,6 +170,7 @@ Ext.define('Ext.field.Slider', {
         }
 
         this.callParent([config]);
+        this.updateMultipleState();
     },
 
     // @private
@@ -189,6 +190,14 @@ Ext.define('Ext.field.Slider', {
     // @private
     applyComponent: function(config) {
         return Ext.factory(config, Ext.slider.Slider);
+    },
+
+    // @private
+    updateComponent: function(component) {
+        this.callSuper(arguments);
+
+        component.setMinValue(this.getMinValue());
+        component.setMaxValue(this.getMaxValue());
     },
 
     onSliderChange: function() {
@@ -213,6 +222,7 @@ Ext.define('Ext.field.Slider', {
      */
     setValues: function(value) {
         this.setValue(value);
+        this.updateMultipleState();
     },
 
     /**
@@ -246,5 +256,12 @@ Ext.define('Ext.field.Slider', {
         }
 
         return this.getValue() !== this.originalValue;
+    },
+
+    updateMultipleState: function() {
+        var value = this.getValue();
+        if (value && value.length > 1) {
+            this.addCls(Ext.baseCSSPrefix + 'slider-multiple');
+        }
     }
 });

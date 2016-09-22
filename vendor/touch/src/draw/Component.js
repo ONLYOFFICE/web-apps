@@ -6,18 +6,14 @@
  * One way to create a draw component is:
  *
  *     var drawComponent = new Ext.draw.Component({
- *         items: [{
+ *         fullscreen: true,
+ *         sprites: [{
  *             type: 'circle',
  *             fill: '#79BB3F',
  *             radius: 100,
  *             x: 100,
  *             y: 100
  *         }]
- *     });
- *
- *     new Ext.Panel({
- *         fullscreen: true,
- *         items: [drawComponent]
  *     });
  *
  * In this case we created a draw component and added a sprite to it.
@@ -29,7 +25,7 @@
  *
  *     drawComponent.getSurface('main').add({
  *         type: 'circle',
- *         fill: '#79BB3F',
+ *         fill: 'blue',
  *         radius: 100,
  *         x: 100,
  *         y: 100
@@ -47,11 +43,12 @@ Ext.define('Ext.draw.Component', {
     requires: [
         'Ext.draw.Surface',
         'Ext.draw.engine.Svg',
-        'Ext.draw.engine.Canvas'
+        'Ext.draw.engine.Canvas',
+        'Ext.draw.gradient.GradientDefinition'
     ],
     engine: 'Ext.draw.engine.Canvas',
     statics: {
-        WATERMARK: 'Powered by <span style="color:#22E962; font-weight: 900">Sencha Touch</span> <span style="color:#75cdff; font-weight: 900">GPL</span>'
+        WATERMARK: 'Powered by <span style="color:#22E962; font-weight: 900">Sencha Touch</span> <span style="color:#75cdff; font-weight: 900">GPLv3</span>'
     },
     config: {
         cls: 'x-draw-component',
@@ -82,30 +79,108 @@ Ext.define('Ext.draw.Component', {
 
         /**
          * @cfg {Function} [resizeHandler] The resize function that can be configured to have a behavior.
+         *
+         * __Note:__ since resize events trigger {@link #renderFrame} calls automatically,
+         * return `false` from the resize function, if it also calls `renderFrame`, to prevent double rendering.
          */
         resizeHandler: null,
 
         background: null,
 
-        sprites: null
+        sprites: null,
+
+        /**
+         * @cfg {Object[]} gradients
+         * Defines a set of gradients that can be used as color properties
+         * (fillStyle and strokeStyle, but not shadowColor) in sprites.
+         * The gradients array is an array of objects with the following properties:
+         * - **id** - string - The unique name of the gradient.
+         * - **type** - string, optional - The type of the gradient. Available types are: 'linear', 'radial'. Defaults to 'linear'.
+         * - **angle** - number, optional - The angle of the gradient in degrees.
+         * - **stops** - array - An array of objects with 'color' and 'offset' properties, where 'offset' is a real number from 0 to 1.
+         *
+         * For example:
+         *
+         *     gradients: [{
+         *         id: 'gradientId1',
+         *         type: 'linear',
+         *         angle: 45,
+         *         stops: [{
+         *             offset: 0,
+         *             color: 'red'
+         *         }, {
+         *            offset: 1,
+         *            color: 'yellow'
+         *         }]
+         *     }, {
+         *        id: 'gradientId2',
+         *        type: 'radial',
+         *        stops: [{
+         *            offset: 0,
+         *            color: '#555',
+         *        }, {
+         *            offset: 1,
+         *            color: '#ddd',
+         *        }]
+         *     }]
+         *
+         * Then the sprites can use 'gradientId1' and 'gradientId2' by setting the color attributes to those ids, for example:
+         *
+         *     sprite.setAttributes({
+         *         fillStyle: 'url(#gradientId1)',
+         *         strokeStyle: 'url(#gradientId2)'
+         *     });
+         */
+        gradients: []
     },
 
     constructor: function (config) {
         config = config || {};
-        // If use used `items` config, they are actually using `sprites`
-        if (config.items) {
-            config.sprites = config.items;
-            delete config.items;
-        }
         this.callSuper(arguments);
         this.frameCallbackId = Ext.draw.Animator.addFrameCallback('renderFrame', this);
+    },
+
+    applyGradients: function (gradients) {
+        var result = [],
+            i, n, gradient, offset;
+        if (!Ext.isArray(gradients)) {
+            return result;
+        }
+        for (i = 0, n = gradients.length; i < n; i++) {
+            gradient = gradients[i];
+            if (!Ext.isObject(gradient)) {
+                continue;
+            }
+            // ExtJS only supported linear gradients, so we didn't have to specify their type
+            if (typeof gradient.type !== 'string') {
+                gradient.type = 'linear';
+            }
+            if (gradient.angle) {
+                gradient.degrees = gradient.angle;
+                delete gradient.angle;
+            }
+            // Convert ExtJS stops object to Touch stops array
+            if (Ext.isObject(gradient.stops)) {
+                gradient.stops = (function (stops) {
+                    var result = [], stop;
+                    for (offset in stops) {
+                        stop = stops[offset];
+                        stop.offset = offset / 100;
+                        result.push(stop);
+                    }
+                    return result;
+                })(gradient.stops);
+            }
+            result.push(gradient);
+        }
+        Ext.draw.gradient.GradientDefinition.add(result);
+        return result;
     },
 
     initialize: function () {
         var me = this;
         me.callSuper();
         me.element.on('resize', 'onResize', this);
-
     },
 
     applySprites: function (sprites) {
@@ -168,15 +243,15 @@ Ext.define('Ext.draw.Component', {
 
     onResize: function () {
         var me = this,
-            size = me.element.getSize();
+            size = me.element.getSize(),
+            resizeHandler = me.getResizeHandler() || me.resizeHandler,
+            result;
         me.fireEvent('resize', me, size);
-        if (me.getResizeHandler()) {
-            me.getResizeHandler().call(me, size);
-        } else {
-            me.resizeHandler(size);
+        result = resizeHandler.call(me, size);
+        if (result !== false) {
+            me.renderFrame();
+            me.onPlaceWatermark();
         }
-        me.renderFrame();
-        me.onPlaceWatermark();
     },
 
     resizeHandler: function (size) {
@@ -268,10 +343,11 @@ Ext.define('Ext.draw.Component', {
         Ext.draw.Animator.removeFrameCallback(this.frameCallbackId);
         this.callSuper();
     }
+
 }, function () {
     if (location.search.match('svg')) {
         Ext.draw.Component.prototype.engine = 'Ext.draw.engine.Svg';
-    } else if (Ext.os.is.Android4 && !Ext.browser.is.Chrome && Ext.os.version.getMinor() === 1) {
+    } else if ((Ext.os.is.BlackBerry && Ext.os.version.getMajor() === 10) || (Ext.browser.is.AndroidStock4 && (Ext.os.version.getMinor() === 1 || Ext.os.version.getMinor() === 2 || Ext.os.version.getMinor() === 3))) {
         // http://code.google.com/p/android/issues/detail?id=37529
         Ext.draw.Component.prototype.engine = 'Ext.draw.engine.Svg';
     }

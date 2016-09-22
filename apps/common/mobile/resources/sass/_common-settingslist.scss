@@ -7,6 +7,10 @@
   }
 
   &.x-list-round.x-list-grouped {
+    .x-list-footer-wrap.x-list-item-tpl {
+      padding-bottom: 0;
+    }
+
     .x-list-header-wrap {
       .x-dock-horizontal {
         padding-top: 0;

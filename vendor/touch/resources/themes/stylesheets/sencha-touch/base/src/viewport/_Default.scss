@@ -1,0 +1,7 @@
+.x-orientation-inspector {
+  display: none;
+  content: "landscape";
+  @media (orientation : portrait) {
+    content: "portrait";
+  }
+}

@@ -2,7 +2,7 @@
 
 /**
  * Provides information about browser.
- * 
+ *
  * Should not be manually instantiated unless for unit-testing.
  * Access the global instance stored in {@link Ext.browser} instead.
  * @private
@@ -18,7 +18,35 @@ Ext.define('Ext.env.Feature', {
             return !!this.has[name];
         };
 
-        return this;
+        if (!Ext.theme) {
+            Ext.theme = {
+                name: 'Default'
+            };
+        }
+
+        Ext.theme.is = {};
+        Ext.theme.is[Ext.theme.name] = true;
+
+        Ext.onDocumentReady(function() {
+            this.registerTest({
+                ProperHBoxStretching: function() {
+                    // IE10 currently has a bug in their flexbox row layout. We feature detect the issue here.
+                    var bodyElement = document.createElement('div'),
+                        innerElement = bodyElement.appendChild(document.createElement('div')),
+                        contentElement = innerElement.appendChild(document.createElement('div')),
+                        innerWidth;
+
+                    bodyElement.setAttribute('style', 'width: 100px; height: 100px; position: relative;');
+                    innerElement.setAttribute('style', 'position: absolute; display: -ms-flexbox; display: -webkit-flex; display: -moz-flexbox; display: flex; -ms-flex-direction: row; -webkit-flex-direction: row; -moz-flex-direction: row; flex-direction: row; min-width: 100%;');
+                    contentElement.setAttribute('style', 'width: 200px; height: 50px;');
+                    document.body.appendChild(bodyElement);
+                    innerWidth = innerElement.offsetWidth;
+                    document.body.removeChild(bodyElement);
+
+                    return (innerWidth > 100);
+                }
+            });
+        }, this);
     },
 
     getTestElement: function(tag, createNew) {
@@ -46,6 +74,16 @@ Ext.define('Ext.env.Feature', {
 
         if (typeof elementStyle[name] !== 'undefined'
             || typeof elementStyle[Ext.browser.getStylePrefix(name) + cName] !== 'undefined') {
+            return true;
+        }
+
+        return false;
+    },
+
+    isStyleSupportedWithoutPrefix: function(name, tag) {
+        var elementStyle = this.getTestElement(tag).style;
+
+        if (typeof elementStyle[name] !== 'undefined') {
             return true;
         }
 
@@ -110,8 +148,8 @@ Ext.define('Ext.env.Feature', {
      *     }
      *
      * See the {@link #has} property/method for details of the features that can be detected.
-     * 
-     * @aside guide environment_package
+     *
+     * For more information, see the [Environment Detect Guide](../../../core_concepts/environment_detection.html)
      */
     Ext.feature = new this;
 
@@ -121,7 +159,7 @@ Ext.define('Ext.env.Feature', {
      * @method has
      * @member Ext.feature
      * Verifies if a browser feature exists or not on the current device.
-     * 
+     *
      * A "hybrid" property, can be either accessed as a method call, i.e:
      *
      *     if (Ext.feature.has('Canvas')) {
@@ -133,7 +171,7 @@ Ext.define('Ext.env.Feature', {
      *     if (Ext.feature.has.Canvas) {
      *         // ...
      *     }
-     * 
+     *
      * Possible properties/parameter values:
      *
      * - Canvas
@@ -157,7 +195,10 @@ Ext.define('Ext.env.Feature', {
      * - Video - supports the `<video>` tag.
      * - ClassList - supports the HTML5 classList API.
      * - LocalStorage - LocalStorage is supported and can be written to.
-     * 
+     * - NumericInputPlaceHolder - Supports placeholders on numeric input fields
+     * - XHR2 - Supports XMLHttpRequest 
+     * - XHRUploadProgress - Supports XMLHttpRequest upload progress info
+     *
      * [1]: https://developer.mozilla.org/en/DOM/range
      * [2]: https://developer.mozilla.org/en/DOM/range.createContextualFragment
      * [3]: https://developer.mozilla.org/en/DOM/Manipulating_the_browser_history#The_pushState().C2.A0method
@@ -189,11 +230,15 @@ Ext.define('Ext.env.Feature', {
         },
 
         Touch: function() {
-            return this.isEventSupported('touchstart') && !(Ext.os && Ext.os.name.match(/Windows|MacOS|Linux/) && !Ext.os.is.BlackBerry6);
+            return Ext.browser.is.Ripple || (this.isEventSupported('touchstart') && !(Ext.os && Ext.os.name.match(/Windows|MacOS|Linux/) && !Ext.os.is.BlackBerry6));
+        },
+
+        Pointer: function() {
+            return !!window.navigator.msPointerEnabled;
         },
 
         Orientation: function() {
-            return ('orientation' in window) && this.isEventSupported('orientationchange');
+            return 'orientation' in window;
         },
 
         OrientationChange: function() {
@@ -233,9 +278,20 @@ Ext.define('Ext.env.Feature', {
             return this.isStyleSupported('transform');
         },
 
+        CssTransformNoPrefix: function() {
+            // This extra check is needed to get around a browser bug where both 'transform' and '-webkit-transform' are present
+            // but the device really only uses '-webkit-transform'. This is seen on the HTC One for example.
+            // https://sencha.jira.com/browse/TOUCH-5029
+            if(!Ext.browser.is.AndroidStock) {
+                return this.isStyleSupportedWithoutPrefix('transform')
+            } else {
+                return this.isStyleSupportedWithoutPrefix('transform') && !this.isStyleSupportedWithoutPrefix('-webkit-transform');
+            }
+        },
+
         Css3dTransforms: function() {
             // See https://sencha.jira.com/browse/TOUCH-1544
-            return this.has('CssTransforms') && this.isStyleSupported('perspective') && !Ext.os.is.Android2;
+            return this.has('CssTransforms') && this.isStyleSupported('perspective') && !Ext.browser.is.AndroidStock2;
         },
 
         CssAnimations: function() {
@@ -272,6 +328,26 @@ Ext.define('Ext.env.Feature', {
             } catch ( e ) {}
 
             return supported;
+        },
+
+        MatchMedia: function() {
+            return "matchMedia" in window;
+        },
+
+        XHR2 : function() {
+          return window.ProgressEvent && window.FormData && window.XMLHttpRequest && ('withCredentials' in new XMLHttpRequest);
+        },
+
+        XHRUploadProgress : function() {
+            if(window.XMLHttpRequest && !Ext.browser.is.AndroidStock) {
+                var xhr = new XMLHttpRequest();
+                return xhr && ('upload' in xhr) && ('onprogress' in xhr.upload);
+            }
+            return false;
+        },
+
+        NumericInputPlaceHolder: function() {
+            return !(Ext.browser.is.AndroidStock4 && Ext.os.version.getMinor() < 2);
         }
     });
 
@@ -337,6 +413,6 @@ Ext.define('Ext.env.Feature', {
         if (has.hasOwnProperty(name)) {
             Ext.deprecatePropertyValue(Ext.supports, name, has[name], "Ext.supports." + name + " is deprecated, please use Ext.feature.has." + name + " instead");
         }
-    }1
+    }
     //</deprecated>
 });

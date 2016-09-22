@@ -55,7 +55,7 @@ Ext.define("Ext.chart.series.sprite.Pie3DPart", {
                 thickness: "number",
 
                 /**
-                 * @cfg {Number} [thickness=0] The distortion of the 3D pie part.
+                 * @cfg {Number} [distortion=0] The distortion of the 3D pie part.
                  */
                 distortion: "number",
 
@@ -86,7 +86,7 @@ Ext.define("Ext.chart.series.sprite.Pie3DPart", {
                 endRho: "path,bbox",
                 margin: "path,bbox",
                 thickness: "path",
-                baseRotation: "path,partZIndex",
+                baseRotation: "path,partZIndex,partColor",
                 baseColor: 'partZIndex,partColor',
                 part: "path,partZIndex"
             },

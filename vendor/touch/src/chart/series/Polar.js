@@ -66,24 +66,11 @@ Ext.define('Ext.chart.series.Polar', {
     getDefaultSpriteConfig: function () {
         return {
             type: this.seriesType,
+            renderer: this.getRenderer(),
             centerX: 0,
             centerY: 0,
             rotationCenterX: 0,
-            rotationCenterY: 0,
-            fx: {
-                customDuration: {
-                    translationX: 0,
-                    translationY: 0,
-                    centerX: 0,
-                    centerY: 0,
-                    startRho: 0,
-                    endRho: 0,
-                    baseRotation: 0,
-                    rotationCenterX: 0,
-                    rotationCenterY: 0,
-                    rotationRads: 0
-                }
-            }
+            rotationCenterY: 0
         };
     },
 

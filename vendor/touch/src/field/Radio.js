@@ -1,6 +1,4 @@
 /**
- * @aside guide forms
- *
  * The radio field is an enhanced version of the native browser radio controls and is a good way of allowing your user
  * to choose one option out of a selection of several (for example, choosing a favorite color):
  *
@@ -38,6 +36,7 @@
  *     form.getValues(); //looks like {color: 'red'}
  *     form.submit(); //sends a single field back to the server (in this case color: red)
  *
+ * For more information regarding forms and fields, please review [Using Forms in Sencha Touch Guide](../../../components/forms.html)
  */
 Ext.define('Ext.field.Radio', {
     extend: 'Ext.field.Checkbox',
@@ -64,7 +63,7 @@ Ext.define('Ext.field.Radio', {
     },
 
     getValue: function() {
-        return (this._value) ? this._value : null;
+        return (typeof this._value === 'undefined') ? null : this._value;
     },
 
     setValue: function(value) {
@@ -91,7 +90,7 @@ Ext.define('Ext.field.Radio', {
     // @private
     onMaskTap: function(component, e) {
         var me = this,
-            dom = component.input.dom;
+            dom = me.getComponent().input.dom;
 
         if (me.getDisabled()) {
             return false;

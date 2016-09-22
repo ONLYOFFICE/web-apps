@@ -1,6 +1,4 @@
 /**
- * @aside guide forms
- *
  * The Email field creates an HTML5 email input and is usually created inside a form. Because it creates an HTML email
  * input field, most browsers will show a specialized virtual keyboard for email address input. Aside from that, the
  * email field is just a normal text field. Here's an example of how to use it in a form:
@@ -39,6 +37,8 @@
  * provide, including getting and setting the value at runtime, validations and various events that are fired as the
  * user interacts with the component. Check out the {@link Ext.field.Text} docs to see the additional functionality
  * available.
+ *
+ * For more information regarding forms and fields, please review [Using Forms in Sencha Touch Guide](../../../components/forms.html)
  */
 Ext.define('Ext.field.Email', {
     extend: 'Ext.field.Text',

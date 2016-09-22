@@ -1,9 +1,9 @@
 /**
  * @class Ext.chart.SpaceFillingChart
  * @extends Ext.chart.AbstractChart
- * 
+ *
  * Creates a chart that fills the entire area of the chart.
- * e.g. Treemap
+ * e.g. Gauge Charts
  */
 Ext.define('Ext.chart.SpaceFillingChart', {
 
@@ -17,6 +17,7 @@ Ext.define('Ext.chart.SpaceFillingChart', {
     performLayout: function () {
         try {
             this.resizing++;
+            this.callSuper();
             var me = this,
                 size = me.element.getSize(),
                 series = me.getSeries(), seriesItem,
@@ -24,6 +25,7 @@ Ext.define('Ext.chart.SpaceFillingChart', {
                 width = size.width - padding.left - padding.right,
                 height = size.height - padding.top - padding.bottom,
                 region = [padding.left, padding.top, width, height],
+                fullRegion = [0, 0, size.width, size.height],
                 i, ln;
             me.getSurface().setRegion(region);
             me.setMainRegion(region);
@@ -31,6 +33,8 @@ Ext.define('Ext.chart.SpaceFillingChart', {
                 seriesItem = series[i];
                 seriesItem.getSurface().setRegion(region);
                 seriesItem.setRegion(region);
+
+                seriesItem.getOverlaySurface().setRegion(fullRegion);
             }
             me.redraw();
         } finally {
@@ -47,6 +51,8 @@ Ext.define('Ext.chart.SpaceFillingChart', {
             seriesItem = series[i];
             seriesItem.getSprites();
         }
-        this.renderFrame();
+
+        me.renderFrame();
+        me.callSuper(arguments);
     }
 });

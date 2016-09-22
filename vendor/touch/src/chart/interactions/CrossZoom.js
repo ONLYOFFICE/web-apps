@@ -130,6 +130,8 @@ Ext.define('Ext.chart.interactions.CrossZoom', {
 
     stopAnimationBeforeSync: false,
 
+    zoomAnimationInProgress: false,
+
     constructor: function () {
         this.callSuper(arguments);
         this.zoomHistory = [];
@@ -173,7 +175,6 @@ Ext.define('Ext.chart.interactions.CrossZoom', {
                 cls: [],
                 iconCls: 'refresh',
                 text: 'Undo Zoom',
-                iconMask: true,
                 disabled: true,
                 handler: function () {
                     me.undoZoom();
@@ -195,127 +196,163 @@ Ext.define('Ext.chart.interactions.CrossZoom', {
     },
 
     getSurface: function () {
-        return this.getChart() && this.getChart().getSurface("overlay");
+        return this.getChart() && this.getChart().getSurface('main');
+    },
+    
+    setSeriesOpacity: function (opacity) {
+        var surface = this.getChart() && this.getChart().getSurface('series-surface', 'series');
+        if (surface) {
+            surface.element.setStyle('opacity', opacity);
+        }
     },
 
     onGestureStart: function (e) {
         var me = this,
             chart = me.getChart(),
+            surface = me.getSurface(),
             region = chart.getInnerRegion(),
+            chartWidth = region[2],
+            chartHeight = region[3],
             xy = chart.element.getXY(),
-            x = e.pageX - xy[0],
-            y = e.pageY - xy[1],
-            surface = this.getSurface();
-        if (region[0] < x && x < region[0] + region[2] && region[1] < y && y < region[1] + region[3]) {
+            x = e.pageX - xy[0] - region[0],
+            y = e.pageY - xy[1] - region[1];
+
+        if (me.zoomAnimationInProgress) {
+            return;
+        }
+        if (x > 0 && x < chartWidth && y > 0 && y < chartHeight) {
             me.lockEvents(me.getGesture());
             me.startX = x;
             me.startY = y;
             me.selectionRect = surface.add({
                 type: 'rect',
-                globalAlpha: 0.3,
-                fillStyle: 'rgba(80,80,140,0.3)',
+                globalAlpha: 0.5,
+                fillStyle: 'rgba(80,80,140,0.5)',
                 strokeStyle: 'rgba(80,80,140,1)',
                 lineWidth: 2,
                 x: x,
                 y: y,
                 width: 0,
                 height: 0,
-                zIndex: 1000
+                zIndex: 10000
             });
+            me.setSeriesOpacity(0.8);
+            return false;
         }
     },
 
     onGesture: function (e) {
         var me = this;
+        if (me.zoomAnimationInProgress) {
+            return;
+        }
         if (me.getLocks()[me.getGesture()] === me) {
             var chart = me.getChart(),
                 surface = me.getSurface(),
                 region = chart.getInnerRegion(),
+                chartWidth = region[2],
+                chartHeight = region[3],
                 xy = chart.element.getXY(),
-                x = e.pageX - xy[0],
-                y = e.pageY - xy[1];
-            if (x < region[0]) {
-                x = region[0];
-            } else if (x > region[0] + region[2]) {
-                x = region[0] + region[2];
-            }
+                x = e.pageX - xy[0] - region[0],
+                y = e.pageY - xy[1] - region[1];
 
-            if (y < region[1]) {
-                y = region[1];
-            } else if (y > region[1] + region[3]) {
-                y = region[1] + region[3];
+            if (x < 0) {
+                x = 0;
+            } else if (x > chartWidth) {
+                x = chartWidth;
+            }
+            if (y < 0) {
+                y = 0;
+            } else if (y > chartHeight) {
+                y = chartHeight;
             }
             me.selectionRect.setAttributes({
                 width: x - me.startX,
                 height: y - me.startY
             });
             if (Math.abs(me.startX - x) < 11 || Math.abs(me.startY - y) < 11) {
-                me.selectionRect.setAttributes({globalAlpha: 0.3});
+                me.selectionRect.setAttributes({globalAlpha: 0.5});
             } else {
                 me.selectionRect.setAttributes({globalAlpha: 1});
             }
             surface.renderFrame();
+            return false;
         }
     },
 
     onGestureEnd: function (e) {
         var me = this;
+        if (me.zoomAnimationInProgress) {
+            return;
+        }
         if (me.getLocks()[me.getGesture()] === me) {
             var chart = me.getChart(),
                 surface = me.getSurface(),
                 region = chart.getInnerRegion(),
-                selectionRect = me.selectionRect,
+                chartWidth = region[2],
+                chartHeight = region[3],
                 xy = chart.element.getXY(),
-                x = e.pageX - xy[0],
-                y = e.pageY - xy[1];
-            if (x < region[0]) {
-                x = region[0];
-            } else if (x > region[0] + region[2]) {
-                x = region[0] + region[2];
-            }
+                x = e.pageX - xy[0] - region[0],
+                y = e.pageY - xy[1] - region[1];
 
-            if (y < region[1]) {
-                y = region[1];
-            } else if (y > region[1] + region[3]) {
-                y = region[1] + region[3];
+            if (x < 0) {
+                x = 0;
+            } else if (x > chartWidth) {
+                x = chartWidth;
             }
-
+            if (y < 0) {
+                y = 0;
+            } else if (y > chartHeight) {
+                y = chartHeight;
+            }
             if (Math.abs(me.startX - x) < 11 || Math.abs(me.startY - y) < 11) {
                 surface.remove(me.selectionRect);
             } else {
                 me.zoomBy([
-                    (Math.min(me.startX, x) - region[0]) / region[2],
-                    1 - (Math.max(me.startY, y) - region[1]) / region[3],
-                    (Math.max(me.startX, x) - region[0]) / region[2],
-                    1 - (Math.min(me.startY, y) - region[1]) / region[3]
+                    Math.min(me.startX, x) / chartWidth,
+                    1 - Math.max(me.startY, y) / chartHeight,
+                    Math.max(me.startX, x) / chartWidth,
+                    1 - Math.min(me.startY, y) / chartHeight
                 ]);
 
-                selectionRect.setAttributes({
+                me.selectionRect.setAttributes({
                     x: Math.min(me.startX, x),
                     y: Math.min(me.startY, y),
                     width: Math.abs(me.startX - x),
                     height: Math.abs(me.startY - y)
                 });
 
-                selectionRect.fx.setConfig(chart.getAnimate() || {duration: 0});
-                selectionRect.setAttributes({
+                me.selectionRect.fx.setConfig(chart.getAnimate() || {duration: 0});
+                me.selectionRect.setAttributes({
                     globalAlpha: 0,
-                    x: region[0],
-                    y: region[1],
-                    width: region[2],
-                    height: region[3]
+                    x: 0,
+                    y: 0,
+                    width: chartWidth,
+                    height: chartHeight
                 });
+
+                me.zoomAnimationInProgress = true;
+
                 chart.suspendThicknessChanged();
-                selectionRect.fx.on('animationend', function () {
+                me.selectionRect.fx.on('animationend', function () {
                     chart.resumeThicknessChanged();
+
                     surface.remove(me.selectionRect);
+                    me.selectionRect = null;
+
+                    me.zoomAnimationInProgress = false;
                 });
             }
 
-            this.selectionRect = null;
             surface.renderFrame();
             me.sync();
             me.unlockEvents(me.getGesture());
+            me.setSeriesOpacity(1.0);
+
+            if (!me.zoomAnimationInProgress) {
+                surface.remove(me.selectionRect);
+                me.selectionRect = null;
+            }
         }
     },
 

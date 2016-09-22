@@ -83,7 +83,7 @@ Ext.define("Ext.draw.sprite.Instancing", {
         return bbox;
     },
 
-    render: function (surface, ctx, clipRegion) {
+    render: function (surface, ctx, clipRegion, region) {
         var me = this,
             mat = me.attr.matrix,
             template = me.getTemplate(),
@@ -92,8 +92,8 @@ Ext.define("Ext.draw.sprite.Instancing", {
             i, ln = me.position;
 
         mat.toContext(ctx);
-        template.preRender(surface, ctx, clipRegion);
-        template.useAttributes(ctx);
+        template.preRender(surface, ctx, clipRegion, region);
+        template.useAttributes(ctx, region);
         for (i = 0; i < ln; i++) {
             if (instances[i].dirtyZIndex) {
                 break;
@@ -106,8 +106,8 @@ Ext.define("Ext.draw.sprite.Instancing", {
             ctx.save();
             template.attr = instances[i];
             template.applyTransformations();
-            template.useAttributes(ctx);
-            template.render(surface, ctx, clipRegion);
+            template.useAttributes(ctx, region);
+            template.render(surface, ctx, clipRegion, region);
             ctx.restore();
         }
         template.attr = originalAttr;

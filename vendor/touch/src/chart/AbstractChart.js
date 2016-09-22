@@ -45,7 +45,8 @@ Ext.define('Ext.chart.AbstractChart', {
         'Ext.chart.axis.Axis',
         'Ext.data.StoreManager',
         'Ext.chart.Legend',
-        'Ext.data.Store'
+        'Ext.data.Store',
+        'Ext.draw.engine.SvgExporter'
     ],
     /**
      * @event beforerefresh
@@ -291,17 +292,13 @@ Ext.define('Ext.chart.AbstractChart', {
          * Array of {@link Ext.chart.axis.Axis Axis} instances or config objects. For example:
          *
          *     axes: [{
-         *         type: 'Numeric',
+         *         type: 'numeric',
          *         position: 'left',
-         *         fields: ['data1'],
          *         title: 'Number of Hits',
-         *         minimum: 0,
-         *         // one minor tick between two major ticks
-         *         minorTickSteps: 1
+         *         minimum: 0
          *     }, {
-         *         type: 'Category',
+         *         type: 'category',
          *         position: 'bottom',
-         *         fields: ['name'],
          *         title: 'Month of the Year'
          *     }]
          */
@@ -341,7 +338,7 @@ Ext.define('Ext.chart.AbstractChart', {
         },
 
         /**
-         * @cfg {Object|Boolean} background (optional) Set the chart background. This can be a gradient object, image, or color.
+         * @cfg {Object} background Set the chart background. This can be a gradient object, image, or color.
          *
          * For example, if `background` were to be a color we could set the object as
          *
@@ -360,7 +357,7 @@ Ext.define('Ext.chart.AbstractChart', {
          *
          *     background: {
          *         gradient: {
-         *             id: 'gradientId',
+         *             type: 'linear',
          *             angle: 45,
          *             stops: {
          *                 0: {
@@ -464,6 +461,12 @@ Ext.define('Ext.chart.AbstractChart', {
     resizing: 0,
 
     /**
+     * Toggle for chart interactions that require animation to be suspended.
+     * @private
+     */
+    animationSuspended: 0,
+
+    /**
      * @private The z-indexes to use for the various surfaces
      */
     surfaceZIndexes: {
@@ -476,6 +479,8 @@ Ext.define('Ext.chart.AbstractChart', {
     },
 
     animating: 0,
+
+    layoutSuspended: 0,
 
     applyAnimate: function (newAnimate, oldAnimate) {
         if (!newAnimate) {
@@ -526,6 +531,62 @@ Ext.define('Ext.chart.AbstractChart', {
         }
     },
 
+    suspendAnimation: function () {
+        this.animationSuspended++;
+        if (this.animationSuspended === 1) {
+            var series = this.getSeries(), i = -1, n = series.length;
+            while (++i < n) {
+                //update animation config to not animate
+                series[i].setAnimate(this.getAnimate());
+            }
+        }
+    },
+
+    resumeAnimation: function () {
+        this.animationSuspended--;
+        if (this.animationSuspended === 0) {
+            var series = this.getSeries(), i = -1, n = series.length;
+            while (++i < n) {
+                //update animation config to animate
+                series[i].setAnimate(this.getAnimate());
+            }
+        }
+    },
+
+    suspendLayout: function () {
+        this.layoutSuspended++;
+        if (this.layoutSuspended === 1) {
+            if (this.scheduledLayoutId) {
+                this.layoutInSuspension = true;
+                this.cancelLayout();
+            } else {
+                this.layoutInSuspension = false;
+            }
+        }
+    },
+
+    resumeLayout: function () {
+        this.layoutSuspended--;
+        if (this.layoutSuspended === 0) {
+            if (this.layoutInSuspension) {
+                this.scheduleLayout();
+            }
+        }
+    },
+
+    /**
+     * Cancel a scheduled layout.
+     */
+    cancelLayout: function () {
+        if (this.scheduledLayoutId) {
+            Ext.draw.Animator.cancel(this.scheduledLayoutId);
+            this.scheduledLayoutId = null;
+        }
+    },
+
+    /**
+     * Schedule a layout at next frame.
+     */
     scheduleLayout: function () {
         if (!this.scheduledLayoutId) {
             this.scheduledLayoutId = Ext.draw.Animator.schedule('doScheduleLayout', this);
@@ -533,12 +594,15 @@ Ext.define('Ext.chart.AbstractChart', {
     },
 
     doScheduleLayout: function () {
-        this.scheduledLayoutId = null;
-        this.performLayout();
+        if (this.layoutSuspended) {
+            this.layoutInSuspension = true;
+        } else {
+            this.performLayout();
+        }
     },
 
     getAnimate: function () {
-        if (this.resizing) {
+        if (this.resizing || this.animationSuspended) {
             return {
                 duration: 0
             };
@@ -553,19 +617,22 @@ Ext.define('Ext.chart.AbstractChart', {
         me.surfaceMap = {};
         me.legendStore = new Ext.data.Store({
             storeId: this.getId() + '-legendStore',
+            autoDestroy: true,
             fields: [
                 'id', 'name', 'mark', 'disabled', 'series', 'index'
             ]
         });
+        me.suspendLayout();
         me.callSuper(arguments);
         me.refreshLegendStore();
         me.getLegendStore().on('updaterecord', 'onUpdateLegendStore', me);
+        me.resumeLayout();
     },
 
     /**
      * Return the legend store that contains all the legend information. These
      * information are collected from all the series.
-     * @return {Ext.data.Store} 
+     * @return {Ext.data.Store}
      */
     getLegendStore: function () {
         return this.legendStore;
@@ -588,6 +655,20 @@ Ext.define('Ext.chart.AbstractChart', {
         }
     },
 
+    resetLegendStore: function () {
+        if (this.getLegendStore()) {
+            var data = this.getLegendStore().getData().items,
+                i, ln = data.length,
+                record;
+            for (i = 0; i < ln; i++) {
+                record = data[i];
+                record.beginEdit();
+                record.set('disabled', false);
+                record.commit();
+            }
+        }
+    },
+
     onUpdateLegendStore: function (store, record) {
         var series = this.getSeries(), seriesItem;
         if (record && series) {
@@ -599,18 +680,17 @@ Ext.define('Ext.chart.AbstractChart', {
         }
     },
 
-    initialized: function () {
+    initialize: function () {
         var me = this;
         me.callSuper();
         me.getSurface('main');
-        me.getSurface('overlay');
-        me.applyStyles();
+        me.getSurface('overlay-surface', 'overlay').waitFor(me.getSurface('series-surface', 'series'));
     },
 
     resizeHandler: function (size) {
         var me = this;
-        me.getSurface('overlay').setRegion([0, 0, size.width, size.height]);
-        me.performLayout();
+        me.scheduleLayout();
+        return false;
     },
 
     applyMainRegion: function (newRegion, region) {
@@ -648,8 +728,9 @@ Ext.define('Ext.chart.AbstractChart', {
 
     updateColors: function (colors) {
         var series = this.getSeries(),
+            seriesCount = series && series.length,
             seriesItem;
-        for (var i = 0; i < series.length; i++) {
+        for (var i = 0; i < seriesCount; i++) {
             seriesItem = series[i];
             if (!seriesItem.getColors()) {
                 seriesItem.updateColors(colors);
@@ -673,8 +754,8 @@ Ext.define('Ext.chart.AbstractChart', {
                     continue;
                 }
                 axis = Ext.factory(axis, null, oldAxis = oldMap[axis.getId && axis.getId() || axis.id], 'axis');
-                axis.setChart(this);
                 if (axis) {
+                    axis.setChart(this);
                     result.push(axis);
                     result.map[axis.getId()] = axis;
                     if (!oldAxis) {
@@ -685,7 +766,7 @@ Ext.define('Ext.chart.AbstractChart', {
             }
 
             for (i in oldMap) {
-                if (!result.map[oldMap[i]]) {
+                if (!result.map[i]) {
                     oldMap[i].destroy();
                 }
             }
@@ -696,11 +777,7 @@ Ext.define('Ext.chart.AbstractChart', {
     },
 
     updateAxes: function (newAxes) {
-        var i, ln, axis;
-        for (i = 0, ln = newAxes.length; i < ln; i++) {
-            axis = newAxes[i];
-            axis.setChart(this);
-        }
+        this.scheduleLayout();
     },
 
     applySeries: function (newSeries, oldSeries) {
@@ -737,6 +814,7 @@ Ext.define('Ext.chart.AbstractChart', {
                         oldSeriesItem.setConfig(series);
                         series = oldSeriesItem;
                     } else {
+                        // Create a series.
                         if (Ext.isString(series)) {
                             series = Ext.create(series.xclass || ("series." + series), {chart: this});
                         } else {
@@ -754,7 +832,7 @@ Ext.define('Ext.chart.AbstractChart', {
             }
 
             for (i in oldMap) {
-                if (!result.map[oldMap[i]]) {
+                if (!result.map[oldMap[i].getId()]) {
                     oldMap[i].destroy();
                 }
             }
@@ -792,35 +870,33 @@ Ext.define('Ext.chart.AbstractChart', {
         this.resizing++;
         try {
             this.fireEvent('serieschanged', this, newSeries, oldSeries);
-            var i, ln, seriesItem;
-            for (i = 0, ln = newSeries.length; i < ln; i++) {
-                seriesItem = newSeries[i];
-            }
             this.refreshLegendStore();
+            this.scheduleLayout();
         } finally {
             this.resizing--;
         }
     },
 
-    applyInteractions: function (interations, oldInterations) {
-        if (!oldInterations) {
-            oldInterations = [];
-            oldInterations.map = {};
+    applyInteractions: function (interactions, oldInteractions) {
+        if (!oldInteractions) {
+            oldInteractions = [];
+            oldInteractions.map = {};
         }
         var me = this,
-            result = [], oldMap = oldInterations.map;
+            result = [], oldMap = oldInteractions.map,
+            i, ln, interaction;
         result.map = {};
-        interations = Ext.Array.from(interations, true);
-        for (var i = 0, ln = interations.length; i < ln; i++) {
-            var interation = interations[i];
-            if (!interation) {
+        interactions = Ext.Array.from(interactions, true);
+        for (i = 0, ln = interactions.length; i < ln; i++) {
+            interaction = interactions[i];
+            if (!interaction) {
                 continue;
             }
-            interation = Ext.factory(interation, null, oldMap[interation.getId && interation.getId() || interation.id], 'interaction');
-            interation.setChart(me);
-            if (interation) {
-                result.push(interation);
-                result.map[interation.getId()] = interation;
+            interaction = Ext.factory(interaction, null, oldMap[interaction.getId && interaction.getId() || interaction.id], 'interaction');
+            if (interaction) {
+                interaction.setChart(me);
+                result.push(interaction);
+                result.map[interaction.getId()] = interaction;
             }
         }
 
@@ -846,16 +922,21 @@ Ext.define('Ext.chart.AbstractChart', {
         }
         if (newStore) {
             newStore.on('refresh', 'onRefresh', me, null, 'after');
-            me.fireEvent('storechanged', newStore, oldStore);
-            me.onRefresh();
         }
+
+        me.fireEvent('storechanged', newStore, oldStore);
+        me.onRefresh();
     },
 
     /**
      * Redraw the chart. If animations are set this will animate the chart too.
      */
     redraw: function () {
-        this.fireEvent('redraw');
+        this.fireEvent('redraw', this);
+    },
+
+    performLayout: function () {
+        this.cancelLayout();
     },
 
     getEventXY: function (e) {
@@ -942,11 +1023,11 @@ Ext.define('Ext.chart.AbstractChart', {
     },
 
     onAnimationStart: function () {
-        this.fireEvent("animationstart", this);   
+        this.fireEvent('animationstart', this);
     },
 
     onAnimationEnd: function () {
-        this.fireEvent("animationend", this);
+        this.fireEvent('animationend', this);
     },
 
     onThicknessChanged: function () {
@@ -1000,35 +1081,6 @@ Ext.define('Ext.chart.AbstractChart', {
         }
         if (newHighlightItem) {
             newHighlightItem.series.setAttributesForItem(newHighlightItem, {highlighted: true});
-        }
-    },
-
-    /**
-     * Reset the chart back to its initial state, before any user interaction.
-     * @param {Boolean} skipRedraw If `true`, redrawing of the chart will be skipped.
-     */
-    reset: function (skipRedraw) {
-        var me = this,
-            i, ln,
-            axes = me.getAxes(), axis,
-            series = me.getSeries(), seriesItem;
-
-        for (i = 0, ln = axes.length; i < ln; i++) {
-            axis = axes[i];
-            if (axis.reset) {
-                axis.reset();
-            }
-        }
-
-        for (i = 0, ln = series.length; i < ln; i++) {
-            seriesItem = series[i];
-            if (seriesItem.reset) {
-                seriesItem.reset();
-            }
-        }
-
-        if (!skipRedraw) {
-            me.redraw();
         }
     },
 
@@ -1107,14 +1159,25 @@ Ext.define('Ext.chart.AbstractChart', {
     // @private remove gently.
     destroy: function () {
         var me = this,
-            emptyArray = [];
+            emptyArray = [],
+            legend = me.getLegend(),
+            legendStore = me.getLegendStore();
         me.surfaceMap = null;
         me.setHighlightItem(null);
         me.setSeries(emptyArray);
         me.setAxes(emptyArray);
         me.setInteractions(emptyArray);
+        if (legendStore) {
+            legendStore.destroy();
+            me.legendStore = null;
+        }
+        if (legend) {
+            legend.destroy();
+            me.setLegend(null);
+        }
         me.setStore(null);
         Ext.Viewport.un('orientationchange', me.redraw, me);
+        me.cancelLayout();
         this.callSuper(arguments);
     },
 
@@ -1124,7 +1187,7 @@ Ext.define('Ext.chart.AbstractChart', {
 
     /**
      * @private
-     * @param deep
+     * @param {Boolean} deep
      * @return {Array}
      */
     getRefItems: function (deep) {
@@ -1156,5 +1219,95 @@ Ext.define('Ext.chart.AbstractChart', {
         }
 
         return ans;
+    },
+
+    /**
+     * Flattens the given chart surfaces into a single image.
+     * Note: Surfaces whose class name is different from chart's engine will be omitted.
+     * @param {Array} surfaces A list of chart's surfaces to flatten.
+     * @param {String} format If set to 'image', the method will return an Image object. Otherwise, the dataURL
+     *                 of the flattened image will be returned.
+     * @returns {String|Image} An Image DOM element containing the flattened image or its dataURL.
+     */
+    flatten: function (surfaces, format) {
+        var me = this,
+            size = me.element.getSize(),
+            svg, canvas, ctx,
+            i, surface, region,
+            img, dataURL;
+
+        switch (me.engine) {
+            case 'Ext.draw.engine.Canvas':
+                canvas = document.createElement('canvas');
+                canvas.width = size.width;
+                canvas.height = size.height;
+                ctx = canvas.getContext('2d');
+                for (i = 0; i < surfaces.length; i++) {
+                    surface = surfaces[i];
+                    if (Ext.getClassName(surface) !== me.engine) {
+                        continue;
+                    }
+                    region = surface.getRegion();
+                    ctx.drawImage(surface.canvases[0].dom, region[0], region[1]);
+                }
+                dataURL = canvas.toDataURL();
+                break;
+            case 'Ext.draw.engine.Svg':
+                svg = '<?xml version="1.0" standalone="yes"?>';
+                svg += '<svg version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg"' +
+                    ' width="' + size.width + '"' +
+                    ' height="' + size.height + '">';
+                for (i = 0; i < surfaces.length - 1; i++) {
+                    surface = surfaces[i];
+                    if (Ext.getClassName(surface) !== me.engine) {
+                        continue;
+                    }
+                    region = surface.getRegion();
+                    svg += '<g transform="translate(' + region[0] + ',' + region[1] + ')">';
+                    svg += Ext.dom.Element.serializeNode(surface.svgElement.dom);
+                    svg += '</g>';
+                }
+                svg += '</svg>';
+                dataURL = 'data:image/svg+xml;utf8,' + svg;
+                break;
+        }
+        if (format === 'image') {
+            img = new Image();
+            img.src = dataURL;
+            return img;
+        }
+        if (format === 'stream') {
+            return dataURL.replace(/^data:image\/[^;]+/, 'data:application/octet-stream');
+        }
+        return dataURL;
+    },
+
+    save: function (download) {
+        if (download) {
+            // TODO: no control over filename, we are at the browser's mercy
+            // TODO: unfortunatelly, a.download attribute remains a novelty on mobile: http://caniuse.com/#feat=download
+            window.open(this.flatten(this.items.items, 'stream'));
+        } else {
+            Ext.Viewport.add({
+                xtype: 'panel',
+                layout: 'fit',
+                modal: true,
+                width: '90%',
+                height: '90%',
+                hideOnMaskTap: true,
+                centered: true,
+                scrollable: false,
+                items: {
+                    xtype: 'image',
+                    mode: 'img',
+                    src: this.flatten(this.items.items)
+                },
+                listeners: {
+                    hide: function () {
+                        Ext.Viewport.remove(this);
+                    }
+                }
+            }).show();
+        }
     }
 });

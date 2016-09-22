@@ -17,7 +17,7 @@
         position: absolute;
         width: $anchor-width;
         height: $anchor-height;
-        -webkit-mask: 0 0 theme_image($theme-name, "tip_top.png") no-repeat;
+        //-webkit-mask: 0 0 theme_image($theme-name, "tip_top.png") no-repeat;
         -webkit-mask-size: $anchor-width $anchor-height;
         @include background-gradient($base-color, color_stops(lighten($base-color, 15%), lighten($base-color, 13%)));
         top: 1px !important;
@@ -38,7 +38,7 @@
         position: absolute;
         width: $anchor-width;
         height: $anchor-height + .1em;
-        -webkit-mask: 0 0 theme_image($theme-name, "tip_bottom.png") no-repeat;
+        //-webkit-mask: 0 0 theme_image($theme-name, "tip_bottom.png") no-repeat;
         -webkit-mask-size: $anchor-width $anchor-height;
         @include background-gradient($base-color, color_stops($base-color, darken($base-color, 5%)));
         top: -1px !important;
@@ -104,6 +104,19 @@
   }
 
   .round {
-    @include border-radius($panel-border-radius);
+    @include border-radius($form-fieldset-radius);
+  }
+
+  // Hide group header
+  .x-list-header-wrap {
+    @include border-top-radius($form-fieldset-radius !important);
+
+    .x-innerhtml {
+      @include border-top-radius($form-fieldset-radius !important);
+    }
+  }
+
+  .x-list-header {
+    display: none;
   }
 }

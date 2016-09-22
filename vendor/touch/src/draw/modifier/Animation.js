@@ -1,15 +1,12 @@
 /**
- * @class Ext.draw.modifier.Animation
- * @extends Ext.draw.modifier.Modifier
- *
  * The Animation modifier.
- * 
+ *
  * Sencha Touch allows users to use transitional animation on sprites. Simply set the duration
  * and easing in the animation modifier, then all the changes to the sprites will be animated.
- * 
+ *
  * Also, you can use different durations and easing functions on different attributes by using
- * {@link customDuration} and {@link customEasings}.
- * 
+ * {@link #customDuration} and {@link #customEasings}.
+ *
  * By default, an animation modifier will be created during the initialization of a sprite.
  * You can get the modifier of `sprite` by `sprite.fx`.
  *
@@ -109,31 +106,34 @@ Ext.define("Ext.draw.modifier.Animation", {
     },
 
     /**
-     * Set special easings on the given attributes.
-     * @param attrs The source attributes.
-     * @param easing The special easings.
+     * Set special easings on the given attributes. E.g.:
+     *
+     *     circleSprite.fx.setEasingOn('r', 'elasticIn');
+     *
+     * @param {String/Array} attrs The source attribute(s).
+     * @param {String} easing The special easings.
      */
     setEasingOn: function (attrs, easing) {
         attrs = Ext.Array.from(attrs).slice();
-        var customEasing = {},
+        var customEasings = {},
             i = 0,
             ln = attrs.length;
 
         for (; i < ln; i++) {
-            customEasing[attrs[i]] = easing;
+            customEasings[attrs[i]] = easing;
         }
-        this.setDurationEasings(customEasing);
+        this.setCustomEasings(customEasings);
     },
 
     /**
      * Remove special easings on the given attributes.
-     * @param attrs The source attributes.
+     * @param {String/Array} attrs The source attribute(s).
      */
     clearEasingOn: function (attrs) {
         attrs = Ext.Array.from(attrs, true);
         var i = 0, ln = attrs.length;
         for (; i < ln; i++) {
-            delete this._customEasing[attrs[i]];
+            delete this._customEasings[attrs[i]];
         }
     },
 
@@ -155,9 +155,12 @@ Ext.define("Ext.draw.modifier.Animation", {
     },
 
     /**
-     * Set special duration on the given attributes.
-     * @param attrs The source attributes.
-     * @param duration The special duration.
+     * Set special duration on the given attributes. E.g.:
+     *
+     *     rectSprite.fx.setDurationOn('height', 2000);
+     *
+     * @param {String/Array} attrs The source attributes.
+     * @param {Number} duration The special duration.
      */
     setDurationOn: function (attrs, duration) {
         attrs = Ext.Array.from(attrs).slice();
@@ -173,7 +176,7 @@ Ext.define("Ext.draw.modifier.Animation", {
 
     /**
      * Remove special easings on the given attributes.
-     * @param attrs The source attributes.
+     * @param {Object} attrs The source attributes.
      */
     clearDurationOn: function (attrs) {
         attrs = Ext.Array.from(attrs, true);
@@ -187,8 +190,8 @@ Ext.define("Ext.draw.modifier.Animation", {
     /**
      * @private
      * Initializes Animator for the animation.
-     * @param attributes The source attributes.
-     * @param animating The animating flag.
+     * @param {Object} attributes The source attributes.
+     * @param {String} animating The animating flag.
      */
     setAnimating: function (attributes, animating) {
         var me = this,
@@ -323,14 +326,14 @@ Ext.define("Ext.draw.modifier.Animation", {
      * Update attributes to current value according to current animation time.
      * This method will not effect the values of lower layers, but may delete a
      * value from it.
-     * @param attr The source attributes.
+     * @param {Object} attr The source attributes.
      * @return {Object} the changes to popup.
      */
     updateAttributes: function (attr) {
         if (!attr.animating) {
             return {};
         }
-        var changes = {}, change,
+        var changes = {},
             any = false,
             original = attr.animationOriginal,
             timers = attr.timers,

@@ -1,0 +1,9 @@
+.x-grid .x-grid-header {
+    background-color: $grid-header-color;
+    border: 0;
+    padding: 0 1em;
+    .x-innerhtml {
+        font-size: 1.2em;
+        font-weight: 600;
+    }
+}

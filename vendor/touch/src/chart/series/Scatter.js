@@ -92,6 +92,17 @@ Ext.define('Ext.chart.series.Scatter', {
     applyMarker: function (marker) {
         this.getItemInstancing();
         this.setItemInstancing(marker);
+    },
+
+    provideLegendInfo: function (target) {
+        var style = this.config.marker;
+        target.push({
+            name: this.getTitle() || this.getYField() || this.getId(),
+            mark: style.fill || style.stroke || 'black',
+            disabled: false,
+            series: this.getId(),
+            index: 0
+        });
     }
 });
 

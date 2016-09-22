@@ -442,14 +442,21 @@ define([
             this.paragraphControls.push(this.btnMultilevels);
             this.textOnlyControls.push(this.btnMultilevels);
 
+            var clone = function(source) {
+                var obj = {};
+                for (var prop in source)
+                    obj[prop] = (typeof(source[prop])=='object') ? clone(source[prop]) : source[prop];
+                return obj;
+            };
+
             this.mnuMarkersPicker = {
                 conf: {index:0},
                 selectByIndex: function (idx) {
                     this.conf.index = idx;
                 }
             };
-            this.mnuNumbersPicker = _.clone(this.mnuMarkersPicker);
-            this.mnuMultilevelPicker = _.clone(this.mnuMarkersPicker);
+            this.mnuNumbersPicker = clone(this.mnuMarkersPicker);
+            this.mnuMultilevelPicker = clone(this.mnuMarkersPicker);
 
             this.btnInsertTable = new Common.UI.Button({
                 id          : 'id-toolbar-btn-inserttable',
@@ -546,8 +553,8 @@ define([
                     this.conf.disabled = val;
                 }
             };
-            this.mnuPageNumCurrentPos = _.clone(this.mnuPageNumberPosPicker);
-            this.mnuInsertPageNum = _.clone(this.mnuPageNumberPosPicker);
+            this.mnuPageNumCurrentPos = clone(this.mnuPageNumberPosPicker);
+            this.mnuInsertPageNum = clone(this.mnuPageNumberPosPicker);
             this.paragraphControls.push(this.mnuPageNumCurrentPos);
             this.toolbarControls.push(this.btnEditHeader);
 
@@ -747,7 +754,7 @@ define([
                 setChecked: function(val) { this.conf.checked = val;},
                 isChecked: function () { return this.conf.checked; }
             };
-            this.btnFitWidth = _.clone(this.btnFitPage);
+            this.btnFitWidth = clone(this.btnFitPage);
             this.mnuZoom = {options: {value: 100}};
 
             this.btnAdvSettings = new Common.UI.Button({

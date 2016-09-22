@@ -963,13 +963,11 @@ define([
                 this._state.licenseWarning = (licType===Asc.c_oLicenseResult.Connections) && this.appOptions.canEdit && this.editorConfig.mode !== 'view';
 
                 this.appOptions.canBranding  = params.asc_getCanBranding() && (typeof this.editorConfig.customization == 'object');
-                if (this.appOptions.canBranding) {
-                    this.getApplication()
-                        .getController('Viewport')
-                        .getView('Common.Views.Header')
-                        .setBranding(this.editorConfig.customization);
-                }
+                if (this.appOptions.canBranding)
+                    this.getApplication().getController('Viewport').getView('Common.Views.Header').setBranding(this.editorConfig.customization);
 
+                params.asc_getTrial() && this.getApplication().getController('Viewport').getView('Common.Views.Header').setDeveloperMode(true);
+                
                 this.applyModeCommonElements();
                 this.applyModeEditorElements();
 

@@ -92,6 +92,7 @@ Ext.define('Ext.chart.interactions.ItemInfo', {
         panel.show('pop');
         series.setAttributesForItem(item, { highlighted: true });
         me.sync();
+        return false;
     },
 
     reset: function () {
