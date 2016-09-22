@@ -76,48 +76,69 @@ define([
                 store: this.storeHistory,
                 enableKeyEvents: false,
                 itemTemplate: _.template([
-                    '<div id="<%= id %>" class="history-item-wrap" style="display: block; ' + '<% if (!isRevision) { %>' + 'padding-left: 40px;' + '<% } %>' +'">',
+                    '<div id="<%= id %>" class="history-item-wrap ' + '<% if (!isVisible) { %>' + 'hidden' + '<% } %>' + '" ',
+                    'style="display: block; ' + '<% if (!isRevision) { %>' + 'padding-left: 40px;' + '<% } %>' + '<% if (canRestore && selected) { %>' + 'padding-bottom: 6px;' + '<% } %>' +'">',
                         '<div class="user-date"><%= created %></div>',
                         '<% if (markedAsVersion) { %>',
                         '<div class="user-version">ver.<%=version%></div>',
                         '<% } %>',
-                        '<% if (canRestore && selected) { %>',
-                            '<div class="revision-restore img-commonctrl"></div>',
+                        '<% if (isRevision && hasChanges) { %>',
+                            '<div class="revision-expand img-commonctrl ' + '<% if (isExpanded) { %>' + 'up' + '<% } %>' + '"></div>',
                         '<% } %>',
                         '<div class="user-name">',
                             '<div class="color" style="display: inline-block; background-color:' + '<%=usercolor%>;' + '" >',
                             '</div><%= Common.Utils.String.htmlEncode(username) %>',
                         '</div>',
+                        '<% if (canRestore && selected) { %>',
+                            '<label class="revision-restore" role="presentation" tabindex="-1">' + this.textRestore + '</label>',
+                        '<% } %>',
                     '</div>'
                 ].join(''))
             });
+
+            var me = this;
+            this.viewHistoryList.onClickItem = function(view, record, e) {
+                var btn = $(e.target);
+                if (btn && btn.hasClass('revision-expand')) {
+                    var isExpanded = !record.get('isExpanded');
+                    record.set('isExpanded', isExpanded);
+                    var rev, revisions = me.storeHistory.findRevisions(record.get('revision'));
+                    if (revisions && revisions.length>1) {
+                        for(var i=1; i<revisions.length; i++)
+                            revisions[i].set('isVisible', isExpanded);
+                    }
+                } else
+                    Common.UI.DataView.prototype.onClickItem.call(this, view, record, e);
+            };
+
+            var changetooltip = function (dataview, view, record) {
+                if (record.get('isRevision')) {
+                    if (view.btnTip) {
+                        view.btnTip.dontShow = true;
+                        view.btnTip.tip().remove();
+                        view.btnTip = null;
+                    }
+                    var btns = $(view.el).find('.revision-expand').tooltip({title: (record.get('isExpanded')) ? me.textHide : me.textShow, placement: 'cursor'});
+                    if (btns.length>0)
+                        view.btnTip = btns.data('bs.tooltip');
+                }
+            };
+            this.viewHistoryList.on('item:add', changetooltip);
+            this.viewHistoryList.on('item:change', changetooltip);
 
             this.btnBackToDocument = new Common.UI.Button({
                 el: $('#history-btn-back'),
                 enableToggle: false
             });
 
-            var me = this;
-            var changetooltip = function (dataview, view, record) {
-                if (record.get('selected')) {
-                    var btns = $(view.el).find('.revision-restore').tooltip({title: me.textRestore, placement: 'cursor'});
-                    if (btns)
-                        view.btnTip = btns.data('bs.tooltip');
-                } else if (view.btnTip) {
-                    view.btnTip.dontShow = true;
-                    view.btnTip.tip().remove();
-                    view.btnTip = null;
-                }
-            };
-            this.viewHistoryList.on('item:add', changetooltip);
-            this.viewHistoryList.on('item:change', changetooltip);
-
             this.trigger('render:after', this);
             return this;
         },
 
         textHistoryHeader: 'Back to Document',
-        textRestore: 'Restore'
-        
+        textRestore: 'Restore',
+        textShow: 'Show Changes',
+        textHide: 'Hide Changes'
+
     }, Common.Views.History || {}))
 });

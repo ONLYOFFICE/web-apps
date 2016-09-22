@@ -420,6 +420,7 @@ define([
                                 if (changes && changes.length>0) {
                                     arrVersions[arrVersions.length-1].set('changeid', changes.length-1);
                                     arrVersions[arrVersions.length-1].set('docIdPrev', docIdPrev);
+                                    arrVersions[arrVersions.length-1].set('hasChanges', changes.length>1);
                                     for (i=changes.length-2; i>=0; i--) {
                                         change = changes[i];
 

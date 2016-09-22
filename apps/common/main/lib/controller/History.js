@@ -98,11 +98,6 @@ define([
             if (e) {
                 var btn = $(e.target);
                 if (btn && btn.hasClass('revision-restore')) {
-                    var tip = item.btnTip;
-                    if (tip) {
-                        tip.dontShow = true;
-                        tip.tip().remove();
-                    }
                     if (record.get('isRevision'))
                         Common.Gateway.requestRestore(record.get('revision'));
                     else {
