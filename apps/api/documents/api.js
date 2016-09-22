@@ -371,6 +371,9 @@
 
                 if (!_config.document.key) {
                     _config.document.key = 'xxxxxxxxxxxxxxxxxxxx'.replace(/[x]/g, function (c) {var r = Math.random() * 16 | 0; return r.toString(16);});
+                } else if (typeof _config.document.key !== 'string') {
+                    window.alert("The \"document.key\" parameter for the config object must be string. Please correct it.");
+                    return false;
                 }
             }
             
