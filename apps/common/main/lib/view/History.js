@@ -107,6 +107,7 @@ define([
                         for(var i=1; i<revisions.length; i++)
                             revisions[i].set('isVisible', isExpanded);
                     }
+                    this.scroller.update({minScrollbarLength: 40});
                 } else
                     Common.UI.DataView.prototype.onClickItem.call(this, view, record, e);
             };
