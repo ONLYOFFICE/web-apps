@@ -67,7 +67,12 @@ define([
                 arrColors: [], // array of user colors for all changes of current version
                 markedAsVersion: false,
                 canRestore: false,
-                isRevision: true
+                isRevision: true,
+                hasChanges: false,
+                isExpanded: true,
+                isVisible: true,
+                allowSelected: true,
+                selected: false
             }
         }
     });

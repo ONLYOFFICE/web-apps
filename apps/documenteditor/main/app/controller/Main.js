@@ -400,7 +400,8 @@ define([
                                     docId: version.key,
                                     markedAsVersion: (group!==version.versionGroup),
                                     selected: (opts.data.currentVersion == version.version),
-                                    canRestore: this.appOptions.canHistoryRestore
+                                    canRestore: this.appOptions.canHistoryRestore && (ver < versions.length-1),
+                                    isExpanded: false
                                 }));
                                 if (opts.data.currentVersion == version.version) {
                                     currentVersion = arrVersions[arrVersions.length-1];
@@ -420,6 +421,7 @@ define([
                                 if (changes && changes.length>0) {
                                     arrVersions[arrVersions.length-1].set('changeid', changes.length-1);
                                     arrVersions[arrVersions.length-1].set('docIdPrev', docIdPrev);
+                                    arrVersions[arrVersions.length-1].set('hasChanges', changes.length>1);
                                     for (i=changes.length-2; i>=0; i--) {
                                         change = changes[i];
 
@@ -446,7 +448,8 @@ define([
                                             docIdPrev: docIdPrev,
                                             selected: false,
                                             canRestore: this.appOptions.canHistoryRestore,
-                                            isRevision: false
+                                            isRevision: false,
+                                            isVisible: false
                                         }));
                                         arrColors.push(user.get('colorval'));
                                     }
