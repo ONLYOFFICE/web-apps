@@ -1293,198 +1293,203 @@ define([
             this.btnAutofilter.updateHint(this.tipAutofilter);
 
             // set menus
-            this.btnShowMode.setMenu(new Common.UI.Menu({
-                items: [
-                    this.mnuitemCompactToolbar = new Common.UI.MenuItem({
-                        caption     : this.textCompactToolbar,
-                        checkable   : true,
-                        value       : 'compact'
-                    }),
-                    this.mnuitemHideTitleBar = new Common.UI.MenuItem({
-                        caption     : this.textHideTBar,
-                        checkable   : true,
-                        value       : 'title'
-                    }),
-                    this.mnuitemHideFormulaBar = new Common.UI.MenuItem({
-                        caption     : this.textHideFBar,
-                        checkable   : true,
-                        value       : 'formula'
-                    }),
-                    this.mnuitemHideHeadings = new Common.UI.MenuItem({
-                        caption     : this.textHideHeadings,
-                        checkable   : true,
-                        checked     : this.mnuitemHideHeadings.isChecked(),
-                        value       : 'headings'
-                    }),
-                    this.mnuitemHideGridlines = new Common.UI.MenuItem({
-                        caption     : this.textHideGridlines,
-                        checkable   : true,
-                        checked     : this.mnuitemHideGridlines.isChecked(),
-                        value       : 'gridlines'
-                    }),
-                    {caption: '--'},
-                    this.mnuZoom = new Common.UI.MenuItem({
-                        template: _.template([
-                            '<div id="id-toolbar-menu-zoom" class="menu-zoom" style="height: 25px;" ',
-                                '<% if(!_.isUndefined(options.stopPropagation)) { %>',
-                                    'data-stopPropagation="true"',
-                                '<% } %>', '>',
-                                '<label class="title">' + this.textZoom + '</label>',
-                                '<button id="id-menu-zoom-in" type="button" style="float:right; margin: 2px 5px 0 0;" class="btn small btn-toolbar"><span class="btn-icon btn-zoomin">&nbsp;</span></button>',
-                                '<label class="zoom"><%= options.value %>%</label>',
-                                '<button id="id-menu-zoom-out" type="button" style="float:right; margin-top: 2px;" class="btn small btn-toolbar"><span class="btn-icon btn-zoomout">&nbsp;</span></button>',
-                            '</div>'
-                        ].join('')),
-                        stopPropagation: true,
-                        value: this.mnuZoom.options.value
-                    })
-                ]
-            }));
-
-            this.mnuZoomOut = new Common.UI.Button({
-                el  : $('#id-menu-zoom-out'),
-                cls : 'btn-toolbar'
-            });
-            this.mnuZoomIn = new Common.UI.Button({
-                el  : $('#id-menu-zoom-in'),
-                cls : 'btn-toolbar'
-            });
-
-            var options = {};
-            JSON.parse(Common.localStorage.getItem('sse-hidden-title'))     && (options.title = true);
-            JSON.parse(Common.localStorage.getItem('sse-hidden-formula'))   && (options.formula = true);
-//            JSON.parse(Common.localStorage.getItem('sse-hidden-headings'))  && (options.headings = true);
-            var isCompactView = JSON.parse(Common.localStorage.getItem('sse-toolbar-compact'));
-            isCompactView = !!(isCompactView!==null && parseInt(isCompactView) == 1 || isCompactView === null && this.mode.customization && this.mode.customization.compactToolbar);
-
-            this.mnuitemCompactToolbar.setChecked(isCompactView);
-            this.mnuitemHideTitleBar.setChecked(!!options.title);
-            this.mnuitemHideFormulaBar.setChecked(!!options.formula);
-            this.mnuitemHideHeadings.setChecked(!!options.headings);
-
-            if (this.mode.isDesktopApp)
-                this.mnuitemHideTitleBar.hide();
-
-            this.btnBorders.setMenu( new Common.UI.Menu({
-                items: [
-                    {
-                        caption     : this.textOutBorders,
-                        iconCls     : 'mnu-border-out',
-                        icls        : 'btn-border-out',
-                        borderId    : 'outer'
-                    },
-                    {
-                        caption     : this.textAllBorders,
-                        iconCls     : 'mnu-border-all',
-                        icls        : 'btn-border-all',
-                        borderId    : 'all'
-                    },
-                    {
-                        caption     : this.textTopBorders,
-                        iconCls     : 'mnu-border-top',
-                        icls        : 'btn-border-top',
-                        borderId    : Asc.c_oAscBorderOptions.Top
-                    },
-                    {
-                        caption     : this.textBottomBorders,
-                        iconCls     : 'mnu-border-bottom',
-                        icls        : 'btn-border-bottom',
-                        borderId    : Asc.c_oAscBorderOptions.Bottom
-                    },
-                    {
-                        caption     : this.textLeftBorders,
-                        iconCls     : 'mnu-border-left',
-                        icls        : 'btn-border-left',
-                        borderId    : Asc.c_oAscBorderOptions.Left
-                    },
-                    {
-                        caption     : this.textRightBorders,
-                        iconCls     : 'mnu-border-right',
-                        icls        : 'btn-border-right',
-                        borderId    : Asc.c_oAscBorderOptions.Right
-                    },
-                    {
-                        caption     : this.textNoBorders,
-                        iconCls     : 'mnu-border-no',
-                        icls        : 'btn-border-no',
-                        borderId    : 'none'
-                    },
-                    {caption: '--'},
-                    {
-                        caption     : this.textInsideBorders,
-                        iconCls     : 'mnu-border-center',
-                        icls        : 'btn-border-center',
-                        borderId    : 'inner'
-                    },
-                    {
-                        caption     : this.textCenterBorders,
-                        iconCls     : 'mnu-border-vmiddle',
-                        icls        : 'btn-border-vmiddle',
-                        borderId    : Asc.c_oAscBorderOptions.InnerV
-                    },
-                    {
-                        caption     : this.textMiddleBorders,
-                        iconCls     : 'mnu-border-hmiddle',
-                        icls        : 'btn-border-hmiddle',
-                        borderId    : Asc.c_oAscBorderOptions.InnerH
-                    },
-                    {
-                        caption     : this.textDiagUpBorder,
-                        iconCls     : 'mnu-border-diagup',
-                        icls        : 'btn-border-diagup',
-                        borderId    : Asc.c_oAscBorderOptions.DiagU
-                    },
-                    {
-                        caption     : this.textDiagDownBorder,
-                        iconCls     : 'mnu-border-diagdown',
-                        icls        : 'btn-border-diagdown',
-                        borderId    : Asc.c_oAscBorderOptions.DiagD
-                    },
-                    {caption: '--'},
-                    {
-                        id          : 'id-toolbar-mnu-item-border-width',
-                        caption     : this.textBordersWidth,
-                        iconCls     : 'mnu-icon-item mnu-border-width',
-                        template    : _.template('<a id="<%= id %>" tabindex="-1" type="menuitem"><span class="menu-item-icon" style="background-image: none; width: 11px; height: 11px; margin: 2px 7px 0 -9px; border-style: solid; border-width: 1px; border-color: #000;"></span><%= caption %></a>'),
-                        menu        : (function(){
-                            var itemTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem"><div class="border-size-item" style="background-position: 0 -<%= options.offsety %>px;"></div></a>');
-
-                            me.mnuBorderWidth = new Common.UI.Menu({
-                                style       : 'min-width: 100px;',
-                                menuAlign   : 'tl-tr',
-                                id          : 'toolbar-menu-borders-width',
-                                items: [
-                                    { template: itemTemplate, stopPropagation: true, checkable: true, toggleGroup: 'border-width', value: 'thin',   offsety: 0, checked:true},
-                                    { template: itemTemplate, stopPropagation: true, checkable: true, toggleGroup: 'border-width', value: 'medium', offsety: 20},
-                                    { template: itemTemplate, stopPropagation: true, checkable: true, toggleGroup: 'border-width', value: 'thick',  offsety: 40}
-                                ]
-                            });
-
-                            return me.mnuBorderWidth;
-                        })()
-                    },
-                    this.mnuBorderColor = new Common.UI.MenuItem({
-                        id          : 'id-toolbar-mnu-item-border-color',
-                        caption     : this.textBordersColor,
-                        iconCls     : 'mnu-icon-item mnu-border-color',
-                        template    : _.template('<a id="<%= id %>"tabindex="-1" type="menuitem"><span class="menu-item-icon" style="background-image: none; width: 11px; height: 11px; margin: 2px 7px 0 -9px; border-style: solid; border-width: 3px; border-color: #000;"></span><%= caption %></a>'),
-                        menu        : new Common.UI.Menu({
-                            menuAlign   : 'tl-tr',
-                            items       : [
-                                { template: _.template('<div id="id-toolbar-menu-bordercolor" style="width: 165px; height: 220px; margin: 10px;"></div>'), stopPropagation: true },
-                                { template: _.template('<a id="id-toolbar-menu-new-bordercolor" style="padding-left:12px;">' + this.textNewColor + '</a>'),  stopPropagation: true }
-                            ]
+            if (this.btnShowMode.rendered) {
+                this.btnShowMode.setMenu(new Common.UI.Menu({
+                    items: [
+                        this.mnuitemCompactToolbar = new Common.UI.MenuItem({
+                            caption     : this.textCompactToolbar,
+                            checkable   : true,
+                            value       : 'compact'
+                        }),
+                        this.mnuitemHideTitleBar = new Common.UI.MenuItem({
+                            caption     : this.textHideTBar,
+                            checkable   : true,
+                            value       : 'title'
+                        }),
+                        this.mnuitemHideFormulaBar = new Common.UI.MenuItem({
+                            caption     : this.textHideFBar,
+                            checkable   : true,
+                            value       : 'formula'
+                        }),
+                        this.mnuitemHideHeadings = new Common.UI.MenuItem({
+                            caption     : this.textHideHeadings,
+                            checkable   : true,
+                            checked     : this.mnuitemHideHeadings.isChecked(),
+                            value       : 'headings'
+                        }),
+                        this.mnuitemHideGridlines = new Common.UI.MenuItem({
+                            caption     : this.textHideGridlines,
+                            checkable   : true,
+                            checked     : this.mnuitemHideGridlines.isChecked(),
+                            value       : 'gridlines'
+                        }),
+                        {caption: '--'},
+                        this.mnuZoom = new Common.UI.MenuItem({
+                            template: _.template([
+                                '<div id="id-toolbar-menu-zoom" class="menu-zoom" style="height: 25px;" ',
+                                    '<% if(!_.isUndefined(options.stopPropagation)) { %>',
+                                        'data-stopPropagation="true"',
+                                    '<% } %>', '>',
+                                    '<label class="title">' + this.textZoom + '</label>',
+                                    '<button id="id-menu-zoom-in" type="button" style="float:right; margin: 2px 5px 0 0;" class="btn small btn-toolbar"><span class="btn-icon btn-zoomin">&nbsp;</span></button>',
+                                    '<label class="zoom"><%= options.value %>%</label>',
+                                    '<button id="id-menu-zoom-out" type="button" style="float:right; margin-top: 2px;" class="btn small btn-toolbar"><span class="btn-icon btn-zoomout">&nbsp;</span></button>',
+                                '</div>'
+                            ].join('')),
+                            stopPropagation: true,
+                            value: this.mnuZoom.options.value
                         })
-                    })
-                ]
-            }));
-            var colorVal = $('<div class="btn-color-value-line"></div>');
-            $('button:first-child', this.btnBorders.cmpEl).append(colorVal);
-            colorVal.css('background-color', this.btnBorders.currentColor || 'transparent');
+                    ]
+                }));
 
-            this.mnuBorderColorPicker = new Common.UI.ThemeColorPalette({
-                el: $('#id-toolbar-menu-bordercolor')
-            });
+                this.mnuZoomOut = new Common.UI.Button({
+                    el  : $('#id-menu-zoom-out'),
+                    cls : 'btn-toolbar'
+                });
+                this.mnuZoomIn = new Common.UI.Button({
+                    el  : $('#id-menu-zoom-in'),
+                    cls : 'btn-toolbar'
+                });
+
+                var options = {};
+                JSON.parse(Common.localStorage.getItem('sse-hidden-title'))     && (options.title = true);
+                JSON.parse(Common.localStorage.getItem('sse-hidden-formula'))   && (options.formula = true);
+    //            JSON.parse(Common.localStorage.getItem('sse-hidden-headings'))  && (options.headings = true);
+                var isCompactView = JSON.parse(Common.localStorage.getItem('sse-toolbar-compact'));
+                isCompactView = !!(isCompactView!==null && parseInt(isCompactView) == 1 || isCompactView === null && this.mode.customization && this.mode.customization.compactToolbar);
+
+                this.mnuitemCompactToolbar.setChecked(isCompactView);
+                this.mnuitemHideTitleBar.setChecked(!!options.title);
+                this.mnuitemHideFormulaBar.setChecked(!!options.formula);
+                this.mnuitemHideHeadings.setChecked(!!options.headings);
+
+                if (this.mode.isDesktopApp)
+                    this.mnuitemHideTitleBar.hide();
+            }
+            
+            if (this.btnBorders.rendered) {
+                this.btnBorders.setMenu( new Common.UI.Menu({
+                    items: [
+                        {
+                            caption     : this.textOutBorders,
+                            iconCls     : 'mnu-border-out',
+                            icls        : 'btn-border-out',
+                            borderId    : 'outer'
+                        },
+                        {
+                            caption     : this.textAllBorders,
+                            iconCls     : 'mnu-border-all',
+                            icls        : 'btn-border-all',
+                            borderId    : 'all'
+                        },
+                        {
+                            caption     : this.textTopBorders,
+                            iconCls     : 'mnu-border-top',
+                            icls        : 'btn-border-top',
+                            borderId    : Asc.c_oAscBorderOptions.Top
+                        },
+                        {
+                            caption     : this.textBottomBorders,
+                            iconCls     : 'mnu-border-bottom',
+                            icls        : 'btn-border-bottom',
+                            borderId    : Asc.c_oAscBorderOptions.Bottom
+                        },
+                        {
+                            caption     : this.textLeftBorders,
+                            iconCls     : 'mnu-border-left',
+                            icls        : 'btn-border-left',
+                            borderId    : Asc.c_oAscBorderOptions.Left
+                        },
+                        {
+                            caption     : this.textRightBorders,
+                            iconCls     : 'mnu-border-right',
+                            icls        : 'btn-border-right',
+                            borderId    : Asc.c_oAscBorderOptions.Right
+                        },
+                        {
+                            caption     : this.textNoBorders,
+                            iconCls     : 'mnu-border-no',
+                            icls        : 'btn-border-no',
+                            borderId    : 'none'
+                        },
+                        {caption: '--'},
+                        {
+                            caption     : this.textInsideBorders,
+                            iconCls     : 'mnu-border-center',
+                            icls        : 'btn-border-center',
+                            borderId    : 'inner'
+                        },
+                        {
+                            caption     : this.textCenterBorders,
+                            iconCls     : 'mnu-border-vmiddle',
+                            icls        : 'btn-border-vmiddle',
+                            borderId    : Asc.c_oAscBorderOptions.InnerV
+                        },
+                        {
+                            caption     : this.textMiddleBorders,
+                            iconCls     : 'mnu-border-hmiddle',
+                            icls        : 'btn-border-hmiddle',
+                            borderId    : Asc.c_oAscBorderOptions.InnerH
+                        },
+                        {
+                            caption     : this.textDiagUpBorder,
+                            iconCls     : 'mnu-border-diagup',
+                            icls        : 'btn-border-diagup',
+                            borderId    : Asc.c_oAscBorderOptions.DiagU
+                        },
+                        {
+                            caption     : this.textDiagDownBorder,
+                            iconCls     : 'mnu-border-diagdown',
+                            icls        : 'btn-border-diagdown',
+                            borderId    : Asc.c_oAscBorderOptions.DiagD
+                        },
+                        {caption: '--'},
+                        {
+                            id          : 'id-toolbar-mnu-item-border-width',
+                            caption     : this.textBordersWidth,
+                            iconCls     : 'mnu-icon-item mnu-border-width',
+                            template    : _.template('<a id="<%= id %>" tabindex="-1" type="menuitem"><span class="menu-item-icon" style="background-image: none; width: 11px; height: 11px; margin: 2px 7px 0 -9px; border-style: solid; border-width: 1px; border-color: #000;"></span><%= caption %></a>'),
+                            menu        : (function(){
+                                var itemTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem"><div class="border-size-item" style="background-position: 0 -<%= options.offsety %>px;"></div></a>');
+
+                                me.mnuBorderWidth = new Common.UI.Menu({
+                                    style       : 'min-width: 100px;',
+                                    menuAlign   : 'tl-tr',
+                                    id          : 'toolbar-menu-borders-width',
+                                    items: [
+                                        { template: itemTemplate, stopPropagation: true, checkable: true, toggleGroup: 'border-width', value: 'thin',   offsety: 0, checked:true},
+                                        { template: itemTemplate, stopPropagation: true, checkable: true, toggleGroup: 'border-width', value: 'medium', offsety: 20},
+                                        { template: itemTemplate, stopPropagation: true, checkable: true, toggleGroup: 'border-width', value: 'thick',  offsety: 40}
+                                    ]
+                                });
+
+                                return me.mnuBorderWidth;
+                            })()
+                        },
+                        this.mnuBorderColor = new Common.UI.MenuItem({
+                            id          : 'id-toolbar-mnu-item-border-color',
+                            caption     : this.textBordersColor,
+                            iconCls     : 'mnu-icon-item mnu-border-color',
+                            template    : _.template('<a id="<%= id %>"tabindex="-1" type="menuitem"><span class="menu-item-icon" style="background-image: none; width: 11px; height: 11px; margin: 2px 7px 0 -9px; border-style: solid; border-width: 3px; border-color: #000;"></span><%= caption %></a>'),
+                            menu        : new Common.UI.Menu({
+                                menuAlign   : 'tl-tr',
+                                items       : [
+                                    { template: _.template('<div id="id-toolbar-menu-bordercolor" style="width: 165px; height: 220px; margin: 10px;"></div>'), stopPropagation: true },
+                                    { template: _.template('<a id="id-toolbar-menu-new-bordercolor" style="padding-left:12px;">' + this.textNewColor + '</a>'),  stopPropagation: true }
+                                ]
+                            })
+                        })
+                    ]
+                }));
+
+                var colorVal = $('<div class="btn-color-value-line"></div>');
+                $('button:first-child', this.btnBorders.cmpEl).append(colorVal);
+                colorVal.css('background-color', this.btnBorders.currentColor || 'transparent');
+
+                this.mnuBorderColorPicker = new Common.UI.ThemeColorPalette({
+                    el: $('#id-toolbar-menu-bordercolor')
+                });
+            }
 
             var formatTemplate = _.template('<a id="<%= id %>" style="white-space: normal;" tabindex="-1" type="menuitem"><%= caption %><span style="float: right; color: silver;"><%= options.tplval ? options.tplval : options.value %></span></a>');
             this.btnNumberFormat.setMenu( new Common.UI.Menu({
@@ -1692,7 +1697,7 @@ define([
 
                 if (mode.isDesktopApp) {
                     $('.toolbar-group-native').hide();
-                    this.mnuitemHideTitleBar.hide();
+                    this.mnuitemHideTitleBar && this.mnuitemHideTitleBar.hide();
                 }
 
                 this.lockToolbar(SSE.enumLock.cantPrint, !mode.canPrint, {array: [this.btnPrint]});

@@ -183,9 +183,11 @@ define([
             toolbar.mnuTextColorPicker.on('select',                     _.bind(this.onTextColorSelect, this));
             toolbar.mnuBackColorPicker.on('select',                     _.bind(this.onBackColorSelect, this));
             toolbar.btnBorders.on('click',                              _.bind(this.onBorders, this));
-            toolbar.btnBorders.menu.on('item:click',                    _.bind(this.onBordersMenu, this));
-            toolbar.mnuBorderWidth.on('item:toggle',                    _.bind(this.onBordersWidth, this));
-            toolbar.mnuBorderColorPicker.on('select',                   _.bind(this.onBordersColor, this));
+            if (toolbar.btnBorders.rendered) {
+                toolbar.btnBorders.menu.on('item:click',                    _.bind(this.onBordersMenu, this));
+                toolbar.mnuBorderWidth.on('item:toggle',                    _.bind(this.onBordersWidth, this));
+                toolbar.mnuBorderColorPicker.on('select',                   _.bind(this.onBordersColor, this));
+            }
             toolbar.btnAlignLeft.on('click',                            _.bind(this.onHorizontalAlign, this, 'left'));
             toolbar.btnAlignCenter.on('click',                          _.bind(this.onHorizontalAlign, this, 'center'));
             toolbar.btnAlignRight.on('click',                           _.bind(this.onHorizontalAlign, this, 'right'));
@@ -244,11 +246,11 @@ define([
             toolbar.cmbFontSize.on('combo:focusin',                     _.bind(this.onComboOpen, this, false));
             if (toolbar.mnuZoomIn)  toolbar.mnuZoomIn.on('click',       _.bind(this.onZoomInClick, this));
             if (toolbar.mnuZoomOut) toolbar.mnuZoomOut.on('click',      _.bind(this.onZoomOutClick, this));
-            toolbar.btnShowMode.menu.on('item:click',                   _.bind(this.onHideMenu, this));
+            if (toolbar.btnShowMode.rendered) toolbar.btnShowMode.menu.on('item:click', _.bind(this.onHideMenu, this));
             toolbar.listStyles.on('click',                              _.bind(this.onListStyleSelect, this));
-            toolbar.btnNumberFormat.menu.on('item:click',               _.bind(this.onNumberFormatMenu, this));
+            if (toolbar.btnNumberFormat.rendered) toolbar.btnNumberFormat.menu.on('item:click', _.bind(this.onNumberFormatMenu, this));
             toolbar.btnCurrencyStyle.menu.on('item:click',              _.bind(this.onNumberFormatMenu, this));
-            toolbar.mnuitemCompactToolbar.on('toggle',                  _.bind(this.onChangeViewMode, this));
+            if (toolbar.mnuitemCompactToolbar) toolbar.mnuitemCompactToolbar.on('toggle', _.bind(this.onChangeViewMode, this));
             $('#id-toolbar-menu-new-fontcolor').on('click',             _.bind(this.onNewTextColor, this));
             $('#id-toolbar-menu-new-paracolor').on('click',             _.bind(this.onNewBackColor, this));
             $('#id-toolbar-menu-new-bordercolor').on('click',           _.bind(this.onNewBorderColor, this));
@@ -1254,7 +1256,10 @@ define([
                         }
 
                         if (me.toolbar.btnInsertText.rendered)
-                            SSE.getController('Toolbar').fillTextArt();
+                            me.fillTextArt();
+
+                        if (me.toolbar.btnTableTemplate.rendered)
+                            me.fillTableTemplates();
                     }, 100);
                 }
 
@@ -1268,8 +1273,9 @@ define([
         },
 
         fillTableTemplates: function() {
-            var me = this;
+            if (!this.toolbar.btnTableTemplate.rendered) return;
 
+            var me = this;
             function createPicker(element, menu) {
                 var picker = new Common.UI.DataView({
                     el: element,
