@@ -65,6 +65,7 @@ define([
 
         initialize: function () {
             this._initSettings = true;
+            this.txtPt = Common.Utils.Metric.getMetricName(Common.Utils.Metric.c_MetricUnits.pt);
 
             this._state = {
                 Width: 0,
@@ -233,12 +234,13 @@ define([
                             }
                         });
                         if (_selectedItem)
-                            this.cmbBorderSize.setValue(_selectedItem.get('value'));
+                            this.cmbBorderSize.selectRecord(_selectedItem);
                         else {
                             this.cmbBorderSize.setValue((w!==null) ? parseFloat(w.toFixed(2)) + ' ' + this.txtPt : '');
                         }
                         this.BorderSize = w;
                     }
+                    this.cmbBorderSize.setDisabled(this._locked || this._state.SparkType!==Asc.c_oAscSparklineType.Line);
 
                     var color = props.asc_getColorSeries();
                     if (color) {
@@ -793,10 +795,10 @@ define([
             this.mnuSparkStylePicker.on('item:click', _.bind(this.onSelectSparkStyle, this, this.btnSparkStyle));
             this.lockedControls.push(this.btnSparkStyle);
 
-            this.cmbBorderSize = new Common.UI.ComboBorderSize({
+            this.cmbBorderSize = new Common.UI.ComboBorderSizeEditable({
                 el          : $('#spark-combo-line-type'),
                 style       : 'width: 90px;',
-                hasNoBorders: false
+                allowNoBorders: false
             }).on('selected', _.bind(this.onBorderSizeSelect, this));
             this.BorderSize = this.cmbBorderSize.store.at(1).get('value');
             this.cmbBorderSize.setValue(this.BorderSize);

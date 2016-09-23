@@ -75,7 +75,6 @@ define([
     });
 
     Common.UI.ComboBorderSize = Common.UI.ComboBox.extend(_.extend({
-        allowNoBorders: true,
         template: _.template([
             '<div class="input-group combobox combo-border-size input-group-nr <%= cls %>" id="<%= id %>" style="<%= style %>">',
                 '<div class="form-control" style="<%= style %>"></div>',
@@ -105,7 +104,7 @@ define([
                     {displayValue: '4.5 ' + txtPt,   value: 4.5, pxValue: 5, offsety: 100},
                     {displayValue: '6 ' + txtPt,     value: 6,   pxValue: 6, offsety: 120}
                 ];
-            if (options.allowNoBorders)
+            if (options.allowNoBorders !== false)
                 data.unshift({displayValue: this.txtNoBorders, value: 0, pxValue: 0 });
 
             Common.UI.ComboBox.prototype.initialize.call(this, _.extend({
@@ -192,13 +191,8 @@ define([
 
         initialize : function(options) {
             this.txtNoBorders = options.txtNoBorders || this.txtNoBorders;
-            var txtPt = Common.Utils.Metric.getMetricName(Common.Utils.Metric.c_MetricUnits.pt);
-
-            Common.UI.ComboBox.prototype.initialize.call(this, _.extend({
-                editable: true,
-                store: new Common.UI.BordersStore(),
-                data: [
-                    {displayValue: this.txtNoBorders, value: 0, pxValue: 0 },
+            var txtPt = Common.Utils.Metric.getMetricName(Common.Utils.Metric.c_MetricUnits.pt),
+                data = [
                     {displayValue: '0.5 ' + txtPt,   value: 0.5, pxValue: 0.5, offsety: 0},
                     {displayValue: '1 ' + txtPt,     value: 1,   pxValue: 1, offsety: 20},
                     {displayValue: '1.5 ' + txtPt,   value: 1.5, pxValue: 2, offsety: 40},
@@ -206,7 +200,15 @@ define([
                     {displayValue: '3 ' + txtPt,     value: 3,   pxValue: 4, offsety: 80},
                     {displayValue: '4.5 ' + txtPt,   value: 4.5, pxValue: 5, offsety: 100},
                     {displayValue: '6 ' + txtPt,     value: 6,   pxValue: 6, offsety: 120}
-                ],
+                ];
+
+            if (options.allowNoBorders !== false)
+                data.unshift({displayValue: this.txtNoBorders, value: 0, pxValue: 0 });
+
+            Common.UI.ComboBox.prototype.initialize.call(this, _.extend({
+                editable: true,
+                store: new Common.UI.BordersStore(),
+                data: data,
                 menuStyle: 'min-width: 150px;'
             }, options));
         },
