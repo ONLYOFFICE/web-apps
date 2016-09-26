@@ -121,6 +121,7 @@ define([
                 this.api.asc_registerCallback('asc_onDocumentUpdateVersion', _.bind(this.onUpdateVersion, this));
                 this.api.asc_registerCallback('asc_onDocumentName',          _.bind(this.onDocumentName, this));
                 this.api.asc_registerCallback('asc_onPrintUrl',              _.bind(this.onPrintUrl, this));
+                this.api.asc_registerCallback('asc_onMeta',                  _.bind(this.onMeta, this));
                 Common.NotificationCenter.on('api:disconnect',               _.bind(this.onCoAuthoringDisconnect, this));
                 Common.NotificationCenter.on('goback',                       _.bind(this.goBack, this));
                 Common.NotificationCenter.on('namedrange:locked',            _.bind(this.onNamedRangeLocked, this));
@@ -764,6 +765,7 @@ define([
                         this.headerView.setBranding(this.editorConfig.customization);
 
                     params.asc_getTrial() && this.headerView.setDeveloperMode(true);
+                    this.permissions.rename && this.headerView.setCanRename(true);
                 }
 
                 this.appOptions.canRequestEditRights = this.editorConfig.canRequestEditRights;
@@ -1183,7 +1185,8 @@ define([
 
             onCoAuthoringDisconnect: function() {
                 this.getApplication().getController('Viewport').getView('Viewport').setMode({isDisconnected:true});
-                 this._state.isDisconnected = true;
+                this.getApplication().getController('Viewport').getView('Common.Views.Header').setCanRename(false);
+                this._state.isDisconnected = true;
             },
 
             showTips: function(strings) {
@@ -1697,6 +1700,17 @@ define([
             onDocumentName: function(name) {
                 this.headerView.setDocumentCaption(name);
                 this.updateWindowTitle(this.api.asc_isDocumentModified(), true);
+            },
+
+            onMeta: function(meta) {
+                var app = this.getApplication(),
+                    filemenu = app.getController('LeftMenu').getView('LeftMenu').getMenu('file');
+                app.getController('Viewport').getView('Common.Views.Header').setDocumentCaption(meta.title);
+                this.updateWindowTitle(true);
+                this.appOptions.spreadsheet.title = meta.title;
+                filemenu.loadDocument({doc:this.appOptions.spreadsheet});
+                filemenu.panels['info'].updateInfo(this.appOptions.spreadsheet);
+                Common.Gateway.metaChange(meta);
             },
 
             onPrint: function() {

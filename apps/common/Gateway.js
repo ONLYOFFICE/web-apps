@@ -232,6 +232,14 @@ Common.Gateway = new(function() {
         collaborativeChanges: function() {
             _postMessage({event: 'onCollaborativeChanges'});
         },
+        
+        requestRename: function(title) {
+            _postMessage({event: 'onRequestRename', data: title});
+        },
+
+        metaChange: function(meta) {
+            _postMessage({event: 'onMetaChange', data: meta});
+        },
 
         on: function(event, handler){
             var localHandler = function(event, data){
