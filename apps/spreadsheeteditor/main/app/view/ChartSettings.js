@@ -76,6 +76,7 @@ define([
                 DisabledControls: false,
                 keepRatio: false,
                 SparkType: -1,
+                SparkStyle: 1,
                 LineWeight: 1,
                 MarkersPoint: false,
                 HighPoint: false,
@@ -218,9 +219,20 @@ define([
                         if (record) {
                             this.btnSparkType.setIconCls('item-chartlist ' + record.get('iconCls'));
                         }
-//                        this.updateSparkStyles(this.api.asc_getChartPreviews(type));
+                        this.updateSparkStyles(props.asc_getStyles());
                         this._state.SparkType = type;
                     }
+
+//                    var value = props.asc_getStyle();
+//                    if (this._state.SparkStyle!==value) {
+//                        var record = this.mnuSparkStylePicker.store.findWhere({data: value});
+//                        this.mnuSparkStylePicker.selectRecord(record, true);
+//                        if (record) {
+//                            var btnIconEl = this.btnSparkStyle.cmpEl.find('span.btn-icon');
+//                            btnIconEl.css('background-image', 'url(' + record.get('imageUrl') + ')');
+//                        }
+//                        this._state.SparkStyle=value;
+//                    }
 
                     var w = props.asc_getLineWeight(),
                         check_value = (Math.abs(this._state.LineWeight-w)<0.001) && !((new RegExp(this.txtPt + '\\s*$')).test(this.cmbBorderSize.getRawValue()));
@@ -766,35 +778,6 @@ define([
             this.mnuSparkTypePicker.on('item:click', _.bind(this.onSelectSparkType, this, this.btnSparkType));
             this.lockedControls.push(this.btnSparkType);
 
-            this.btnSparkStyle = new Common.UI.Button({
-                cls         : 'btn-large-dataview',
-                iconCls     : 'item-wrap',
-                menu        : new Common.UI.Menu({
-                    menuAlign: 'tr-br',
-                    items: [
-                        { template: _.template('<div id="id-spark-menu-style" style="width: 245px; margin: 0 5px;"></div>') }
-                    ]
-                })
-            });
-            this.btnSparkStyle.on('render:after', function(btn) {
-                me.mnuSparkStylePicker = new Common.UI.DataView({
-                    el: $('#id-spark-menu-style'),
-                    style: 'max-height: 411px;',
-                    parentMenu: btn.menu,
-                    store: new Common.UI.DataViewStore(),
-                    itemTemplate: _.template('<div id="<%= id %>" class="item-wrap" style="background-image: url(<%= imageUrl %>); background-position: 0 0;"></div>')
-                });
-
-                if (me.btnSparkStyle.menu) {
-                    me.btnSparkStyle.menu.on('show:after', function () {
-                        me.mnuSparkStylePicker.scroller.update({alwaysVisibleY: true});
-                    });
-                }
-            });
-            this.btnSparkStyle.render($('#spark-button-style'));
-            this.mnuSparkStylePicker.on('item:click', _.bind(this.onSelectSparkStyle, this, this.btnSparkStyle));
-            this.lockedControls.push(this.btnSparkStyle);
-
             this.cmbBorderSize = new Common.UI.ComboBorderSizeEditable({
                 el          : $('#spark-combo-line-type'),
                 style       : 'width: 90px;',
@@ -1050,6 +1033,69 @@ define([
             if (selectedIdx>=0 && this.btnChartStyle.cmpEl) {
                 var style = 'url(' + selectedUrl + ')';
                 var btnIconEl = this.btnChartStyle.cmpEl.find('span.btn-icon');
+                btnIconEl.css('background-image', style);
+            }
+        },
+        
+        updateSparkStyles: function(styles) {
+            var me = this;
+
+            if (!this.btnSparkStyle) {
+                this.btnSparkStyle = new Common.UI.Button({
+                    cls         : 'btn-large-dataview',
+                    iconCls     : 'item-wrap',
+                    menu        : new Common.UI.Menu({
+                        menuAlign: 'tr-br',
+                        items: [
+                            { template: _.template('<div id="id-spark-menu-style" style="width: 245px; margin: 0 5px;"></div>') }
+                        ]
+                    })
+                });
+                this.btnSparkStyle.render($('#spark-button-style'));
+                this.lockedControls.push(this.btnSparkStyle);
+                this.mnuSparkStylePicker = new Common.UI.DataView({
+                    el: $('#id-spark-menu-style'),
+                    style: 'max-height: 411px;',
+                    parentMenu: this.btnSparkStyle.menu,
+                    store: new Common.UI.DataViewStore(),
+                    itemTemplate: _.template('<div id="<%= id %>" class="item-wrap" style="background-image: url(<%= imageUrl %>); background-position: 0 0;"></div>')
+                });
+
+                if (this.btnSparkStyle.menu) {
+                    this.btnSparkStyle.menu.on('show:after', function () {
+                        me.updateSparkStyles(me._originalProps.asc_getStyles());
+                        me.mnuSparkStylePicker.scroller.update({alwaysVisibleY: true});
+                    });
+                }
+                this.mnuSparkStylePicker.on('item:click', _.bind(this.onSelectSparkStyle, this, this.btnSparkStyle));
+            }
+
+            if (styles && styles.length>0){
+                var stylesStore = this.mnuSparkStylePicker.store;
+                if (stylesStore) {
+                    var stylearray = [],
+                        selectedIdx = -1,
+                        selectedUrl;
+                    _.each(styles, function(item, index){
+                        stylearray.push({
+                            imageUrl: item[1],
+                            data    : item[0]
+//                            tip     : me.textStyle + ' ' + item.asc_getStyle()
+                        });
+//                        if (me._state.SparkStyle == item.asc_getStyle()) {
+//                            selectedIdx = index;
+//                            selectedUrl = item[1];
+//                        }
+
+                    });
+
+                    stylesStore.reset(stylearray, {silent: false});
+                }
+            }
+            this.mnuSparkStylePicker.selectByIndex(selectedIdx, true);
+            if (selectedIdx>=0 && this.btnSparkStyle.cmpEl) {
+                var style = 'url(' + selectedUrl + ')';
+                var btnIconEl = this.btnSparkStyle.cmpEl.find('span.btn-icon');
                 btnIconEl.css('background-image', style);
             }
         },
