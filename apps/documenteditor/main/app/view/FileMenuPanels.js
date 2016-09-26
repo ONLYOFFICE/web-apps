@@ -437,8 +437,8 @@ define([
         textAutoRecover: 'Autorecover',
         strAutoRecover: 'Turn on autorecover',
         txtInch: 'Inch',
-        txtFitPage: 'Fit Page',
-        txtFitWidth: 'Fit Width'
+        txtFitPage: 'Fit to Page',
+        txtFitWidth: 'Fit to Width'
     }, DE.Views.FileMenuPanels.Settings || {}));
 
     DE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
