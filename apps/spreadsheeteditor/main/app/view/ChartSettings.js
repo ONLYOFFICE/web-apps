@@ -213,27 +213,17 @@ define([
                     this._originalProps = props;
                     this.isChart = false;
 
-                    var type = props.asc_getType();
+                    var type = props.asc_getType(),
+                        styleChanged = false;
                     if (this._state.SparkType !== type) {
                         var record = this.mnuSparkTypePicker.store.findWhere({type: type});
                         this.mnuSparkTypePicker.selectRecord(record, true);
                         if (record) {
                             this.btnSparkType.setIconCls('item-chartlist ' + record.get('iconCls'));
                         }
-                        this.updateSparkStyles(props.asc_getStyles());
                         this._state.SparkType = type;
+                        styleChanged = true;
                     }
-
-//                    var value = props.asc_getStyle();
-//                    if (this._state.SparkStyle!==value) {
-//                        var record = this.mnuSparkStylePicker.store.findWhere({data: value});
-//                        this.mnuSparkStylePicker.selectRecord(record, true);
-//                        if (record) {
-//                            var btnIconEl = this.btnSparkStyle.cmpEl.find('span.btn-icon');
-//                            btnIconEl.css('background-image', 'url(' + record.get('imageUrl') + ')');
-//                        }
-//                        this._state.SparkStyle=value;
-//                    }
 
                     var w = props.asc_getLineWeight(),
                         check_value = (Math.abs(this._state.LineWeight-w)<0.001) && !((new RegExp(this.txtPt + '\\s*$')).test(this.cmbBorderSize.getRawValue()));
@@ -289,6 +279,7 @@ define([
                     if ( this._state.MarkersPoint!==point ) {
                         this.chMarkersPoint.setValue((point !== null && point !== undefined) ? point : 'indeterminate', true);
                         this._state.MarkersPoint=point;
+                        styleChanged = true;
                     }
                     this.chMarkersPoint.setDisabled(this._locked || this._state.SparkType!==Asc.c_oAscSparklineType.Line);
                     this.btnMarkersColor.setDisabled(this._locked || this._state.SparkType!==Asc.c_oAscSparklineType.Line);
@@ -318,6 +309,7 @@ define([
                                 this.colorsMarkers.select(this.MarkersColor,true);
 
                             this._state.MarkersColor = this.MarkersColor;
+                            styleChanged = true;
                         }
                     }
 
@@ -326,6 +318,7 @@ define([
                     if ( this._state.HighPoint!==point ) {
                         this.chHighPoint.setValue((point !== null && point !== undefined) ? point : 'indeterminate', true);
                         this._state.HighPoint=point;
+                        styleChanged = true;
                     }
                     if (color) {
                         this.HighColor = (color.asc_getType() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) ?
@@ -352,6 +345,7 @@ define([
                                 this.colorsHigh.select(this.HighColor,true);
 
                             this._state.HighColor = this.HighColor;
+                            styleChanged = true;
                         }
                     }
 
@@ -360,6 +354,7 @@ define([
                     if ( this._state.LowPoint!==point ) {
                         this.chLowPoint.setValue((point !== null && point !== undefined) ? point : 'indeterminate', true);
                         this._state.LowPoint=point;
+                        styleChanged = true;
                     }
                     if (color) {
                         this.LowColor = (color.asc_getType() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) ?
@@ -386,6 +381,7 @@ define([
                                 this.colorsLow.select(this.LowColor,true);
 
                             this._state.LowColor = this.LowColor;
+                            styleChanged = true;
                         }
                     }
 
@@ -394,6 +390,7 @@ define([
                     if ( this._state.FirstPoint!==point ) {
                         this.chFirstPoint.setValue((point !== null && point !== undefined) ? point : 'indeterminate', true);
                         this._state.FirstPoint=point;
+                        styleChanged = true;
                     }
                     if (color) {
                         this.FirstColor = (color.asc_getType() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) ?
@@ -420,6 +417,7 @@ define([
                                 this.colorsFirst.select(this.FirstColor,true);
 
                             this._state.FirstColor = this.FirstColor;
+                            styleChanged = true;
                         }
                     }
 
@@ -428,6 +426,7 @@ define([
                     if ( this._state.LastPoint!==point ) {
                         this.chLastPoint.setValue((point !== null && point !== undefined) ? point : 'indeterminate', true);
                         this._state.LastPoint=point;
+                        styleChanged = true;
                     }
                     if (color) {
                         this.LastColor = (color.asc_getType() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) ?
@@ -454,6 +453,7 @@ define([
                                 this.colorsLast.select(this.LastColor,true);
 
                             this._state.LastColor = this.LastColor;
+                            styleChanged = true;
                         }
                     }
 
@@ -462,6 +462,7 @@ define([
                     if ( this._state.NegativePoint!==point ) {
                         this.chNegativePoint.setValue((point !== null && point !== undefined) ? point : 'indeterminate', true);
                         this._state.NegativePoint=point;
+                        styleChanged = true;
                     }
                     if (color) {
                         this.NegativeColor = (color.asc_getType() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) ?
@@ -488,8 +489,12 @@ define([
                                 this.colorsNegative.select(this.NegativeColor,true);
 
                             this._state.NegativeColor = this.NegativeColor;
+                            styleChanged = true;
                         }
                     }
+
+                    if (styleChanged)
+                        this.updateSparkStyles(props.asc_getStyles());
                 }
             }
         },
@@ -1071,7 +1076,6 @@ define([
 
                 if (this.btnSparkStyle.menu) {
                     this.btnSparkStyle.menu.on('show:after', function () {
-                        me.updateSparkStyles(me._originalProps.asc_getStyles());
                         me.mnuSparkStylePicker.scroller.update({alwaysVisibleY: true});
                     });
                 }
@@ -1082,29 +1086,17 @@ define([
                 var stylesStore = this.mnuSparkStylePicker.store;
                 if (stylesStore) {
                     var stylearray = [],
-                        selectedIdx = -1,
-                        selectedUrl;
-                    _.each(styles, function(item, index){
+                        selectedIdx = styles[styles.length-1];
+                    for (var i=0; i<styles.length-1; i++) {
                         stylearray.push({
-                            imageUrl: item[1],
-                            data    : item[0]
-//                            tip     : me.textStyle + ' ' + item.asc_getStyle()
+                            imageUrl: styles[i],
+                            data    : i
                         });
-//                        if (me._state.SparkStyle == item.asc_getStyle()) {
-//                            selectedIdx = index;
-//                            selectedUrl = item[1];
-//                        }
-
-                    });
-
+                    }
                     stylesStore.reset(stylearray, {silent: false});
+
+                    this.mnuSparkStylePicker.selectByIndex(selectedIdx, true);
                 }
-            }
-            this.mnuSparkStylePicker.selectByIndex(selectedIdx, true);
-            if (selectedIdx>=0 && this.btnSparkStyle.cmpEl) {
-                var style = 'url(' + selectedUrl + ')';
-                var btnIconEl = this.btnSparkStyle.cmpEl.find('span.btn-icon');
-                btnIconEl.css('background-image', style);
             }
         },
 
