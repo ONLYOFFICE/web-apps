@@ -122,6 +122,12 @@ define([
                     canFocused: false
                 }),
                 new Common.UI.MenuItem({
+                    el      : $('#fm-btn-rename',this.el),
+                    action  : 'rename',
+                    caption : this.btnRenameCaption,
+                    canFocused: false
+                }),
+                new Common.UI.MenuItem({
                     el      : $('#fm-btn-recent',this.el),
                     action  : 'recent',
                     caption : this.btnRecentFilesCaption,
@@ -208,9 +214,10 @@ define([
 
         applyMode: function() {
             this.items[5][this.mode.canPrint?'show':'hide']();
-            this.items[6][this.mode.canOpenRecent?'show':'hide']();
-            this.items[7][this.mode.canCreateNew?'show':'hide']();
-            this.items[7].$el.find('+.devider')[this.mode.canCreateNew?'show':'hide']();
+            this.items[6][(this.mode.canRename && !this.mode.isDesktopApp) ?'show':'hide']();
+            this.items[7][this.mode.canOpenRecent?'show':'hide']();
+            this.items[8][this.mode.canCreateNew?'show':'hide']();
+            this.items[8].$el.find('+.devider')[this.mode.canCreateNew?'show':'hide']();
 
             this.items[3][((this.mode.canDownload || this.mode.canDownloadOrigin) && (!this.mode.isDesktopApp || !this.mode.isOffline))?'show':'hide']();
             this.items[4][((this.mode.canDownload || this.mode.canDownloadOrigin) && this.mode.isDesktopApp && this.mode.isOffline)?'show':'hide']();
@@ -219,7 +226,7 @@ define([
             this.items[1][this.mode.isEdit?'show':'hide']();
             this.items[2][!this.mode.isEdit && this.mode.canEdit && this.mode.canRequestEditRights ?'show':'hide']();
 
-            this.items[9][(!this.mode.isOffline && !this.mode.isReviewOnly && this.document&&this.document.info &&
+            this.items[10][(!this.mode.isOffline && !this.mode.isReviewOnly && this.document&&this.document.info &&
                           (this.document.info.sharingSettings&&this.document.info.sharingSettings.length>0 ||
                           this.mode.sharingSettingsUrl&&this.mode.sharingSettingsUrl.length))?'show':'hide']();
 
@@ -232,7 +239,7 @@ define([
 
             if ( this.mode.canCreateNew ) {
                 if (this.mode.templates && this.mode.templates.length) {
-                    $('a',this.items[7].$el).text(this.btnCreateNewCaption + '...');
+                    $('a',this.items[8].$el).text(this.btnCreateNewCaption + '...');
                     this.panels['new'] = ((new DE.Views.FileMenuPanels.CreateNew({menu: this, docs: this.mode.templates})).render());
                 }
             }
@@ -254,8 +261,8 @@ define([
 
             this.panels['help'].setLangConfig(this.mode.lang);
 
-            this.items[10][this.mode.canUseHistory?'show':'hide']();
-            this.items[10].setDisabled(this.mode.isDisconnected);
+            this.items[11][this.mode.canUseHistory?'show':'hide']();
+            this.items[11].setDisabled(this.mode.isDisconnected);
         },
 
         setMode: function(mode, delay) {
@@ -263,6 +270,7 @@ define([
                 this.mode.canEdit = this.mode.isEdit = false;
                 this.mode.canOpenRecent = this.mode.canCreateNew = false;
                 this.mode.isDisconnected = mode.isDisconnected;
+                this.mode.canRename = false;
             } else {
                 this.mode = mode;
             }
@@ -303,6 +311,7 @@ define([
 
         SetDisabled: function(disable) {
             this.items[1][(disable || !this.mode.isEdit)?'hide':'show']();
+            this.items[6][(disable || !this.mode.canRename || this.mode.isDesktopApp) ?'hide':'show']();
         },
 
         btnSaveCaption          : 'Save',
@@ -319,6 +328,7 @@ define([
         btnSettingsCaption      : 'Advanced Settings...',
         btnHistoryCaption       : 'Versions History',
         btnSaveAsCaption        : 'Save as',
-        textDownload            : 'Download'
+        textDownload            : 'Download',
+        btnRenameCaption        : 'Rename...'
     }, DE.Views.FileMenu || {}));
 });

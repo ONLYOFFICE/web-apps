@@ -344,6 +344,7 @@
   "PE.Views.FileMenu.btnInfoCaption": "Presentation Info...",
   "PE.Views.FileMenu.btnPrintCaption": "Print",
   "PE.Views.FileMenu.btnRecentFilesCaption": "Open Recent...",
+  "PE.Views.FileMenu.btnRenameCaption": "Rename...",
   "PE.Views.FileMenu.btnReturnCaption": "Back to Presentation",
   "PE.Views.FileMenu.btnRightsCaption": "Access Rights...",
   "PE.Views.FileMenu.btnSaveAsCaption": "Save as",

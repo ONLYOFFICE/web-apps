@@ -196,6 +196,19 @@ define([
                 if ( isopts ) close_menu = false;
                 else this.onCreateNew(undefined, 'blank');
                 break;
+            case 'rename':
+                var me = this,
+                    documentCaption = me.api.asc_getDocumentName();
+                (new Common.Views.RenameDialog({
+                    filename: documentCaption,
+                    handler: function(result, value) {
+                        if (result == 'ok' && !_.isEmpty(value.trim()) && documentCaption !== value.trim()) {
+                            Common.Gateway.requestRename(value);
+                        }
+                        Common.NotificationCenter.trigger('edit:complete', me);
+                    }
+                })).show();
+                break;
             default: close_menu = false;
             }
 

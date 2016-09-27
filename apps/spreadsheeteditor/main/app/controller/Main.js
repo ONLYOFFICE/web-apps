@@ -759,13 +759,14 @@ define([
                     /** coauthoring end **/
                     this.appOptions.canComments    = this.appOptions.canLicense && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.comments===false);
                     this.appOptions.canChat        = this.appOptions.canLicense && !this.appOptions.isOffline && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.chat===false);
+                    this.appOptions.canRename      = !!this.permissions.rename;
 
                     this.appOptions.canBranding  = params.asc_getCanBranding() && (typeof this.editorConfig.customization == 'object');
                     if (this.appOptions.canBranding)
                         this.headerView.setBranding(this.editorConfig.customization);
 
                     params.asc_getTrial() && this.headerView.setDeveloperMode(true);
-                    this.permissions.rename && this.headerView.setCanRename(true);
+                    this.appOptions.canRename && this.headerView.setCanRename(true);
                 }
 
                 this.appOptions.canRequestEditRights = this.editorConfig.canRequestEditRights;
@@ -1186,6 +1187,7 @@ define([
             onCoAuthoringDisconnect: function() {
                 this.getApplication().getController('Viewport').getView('Viewport').setMode({isDisconnected:true});
                 this.getApplication().getController('Viewport').getView('Common.Views.Header').setCanRename(false);
+                this.appOptions.canRename = false;
                 this._state.isDisconnected = true;
             },
 

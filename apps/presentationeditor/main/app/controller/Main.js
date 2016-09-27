@@ -739,6 +739,7 @@ define([
                 this.appOptions.canComments    = this.appOptions.canLicense && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.comments===false);
                 this.appOptions.canChat        = this.appOptions.canLicense && !this.appOptions.isOffline && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.chat===false);
                 this.appOptions.canPrint       = (this.permissions.print !== false);
+                this.appOptions.canRename      = !!this.permissions.rename;
 
                 this._state.licenseWarning = (licType===Asc.c_oLicenseResult.Connections) && this.appOptions.canEdit && this.editorConfig.mode !== 'view';
 
@@ -748,7 +749,7 @@ define([
                     headerView.setBranding(this.editorConfig.customization);
 
                 params.asc_getTrial() && headerView.setDeveloperMode(true);
-                this.permissions.rename && headerView.setCanRename(true);
+                this.appOptions.canRename && headerView.setCanRename(true);
 
                 this.applyModeCommonElements();
                 this.applyModeEditorElements();
@@ -1034,6 +1035,7 @@ define([
                 // TODO: Disable all except 'Download As' and 'Print'
                 this.getApplication().getController('Viewport').getView('Viewport').setMode({isDisconnected:true});
                 this.getApplication().getController('Viewport').getView('Common.Views.Header').setCanRename(false);
+                this.appOptions.canRename = false;
                 this._state.isDisconnected = true;
 //                this.getFileMenu().setMode({isDisconnected:true});
             },

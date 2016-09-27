@@ -875,6 +875,7 @@
   "DE.Views.FileMenu.btnInfoCaption": "Document Info...",
   "DE.Views.FileMenu.btnPrintCaption": "Print",
   "DE.Views.FileMenu.btnRecentFilesCaption": "Open Recent...",
+  "DE.Views.FileMenu.btnRenameCaption": "Rename...",
   "DE.Views.FileMenu.btnReturnCaption": "Back to Document",
   "DE.Views.FileMenu.btnRightsCaption": "Access Rights...",
   "DE.Views.FileMenu.btnSaveAsCaption": "Save as",

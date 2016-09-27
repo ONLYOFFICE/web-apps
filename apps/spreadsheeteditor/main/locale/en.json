@@ -532,6 +532,7 @@
   "SSE.Views.FileMenu.btnInfoCaption": "Spreadsheet Info...",
   "SSE.Views.FileMenu.btnPrintCaption": "Print",
   "SSE.Views.FileMenu.btnRecentFilesCaption": "Open Recent...",
+  "SSE.Views.FileMenu.btnRenameCaption": "Rename...",
   "SSE.Views.FileMenu.btnReturnCaption": "Back to Spreadsheet",
   "SSE.Views.FileMenu.btnRightsCaption": "Access Rights...",
   "SSE.Views.FileMenu.btnSaveAsCaption": "Save as",

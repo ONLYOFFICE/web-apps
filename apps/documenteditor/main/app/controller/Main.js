@@ -971,6 +971,7 @@ define([
                 this.appOptions.canChat        = this.appOptions.canLicense && !this.appOptions.isOffline && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.chat===false);
                 this.appOptions.canEditStyles  = this.appOptions.canLicense && this.appOptions.canEdit;
                 this.appOptions.canPrint       = (this.permissions.print !== false);
+                this.appOptions.canRename      = !!this.permissions.rename;
 
                 var type = /^(?:(pdf|djvu|xps))$/.exec(this.document.fileType);
                 this.appOptions.canDownloadOrigin = !this.appOptions.nativeApp && this.permissions.download !== false && (type && typeof type[1] === 'string');
@@ -984,7 +985,7 @@ define([
                     headerView.setBranding(this.editorConfig.customization);
 
                 params.asc_getTrial() && headerView.setDeveloperMode(true);
-                this.permissions.rename && headerView.setCanRename(true);
+                this.appOptions.canRename && headerView.setCanRename(true);
                 
                 this.applyModeCommonElements();
                 this.applyModeEditorElements();
@@ -1281,6 +1282,7 @@ define([
             onCoAuthoringDisconnect: function() {
                 this.getApplication().getController('Viewport').getView('Viewport').setMode({isDisconnected:true});
                 this.getApplication().getController('Viewport').getView('Common.Views.Header').setCanRename(false);
+                this.appOptions.canRename = false;
                 this._state.isDisconnected = true;
             },
 
