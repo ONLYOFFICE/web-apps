@@ -864,7 +864,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 }
             });
             this.btnSparkStyle.render($('#spark-dlg-button-style'));
-//            this.mnuSparkStylePicker.on('item:click', _.bind(this.onSelectSparkStyle, this, this.btnSparkStyle));
+            this.mnuSparkStylePicker.on('item:click', _.bind(this.onSelectSparkStyle, this, this.btnSparkStyle));
 
             this.radioGroup = new Common.UI.RadioBox({
                 el: $('#spark-dlg-radio-group'),
@@ -1009,7 +1009,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
 
 
         afterRender: function() {
-            if (this.api)
+            if (this.api && this.isChart)
                 this.updateChartStyles(this.api.asc_getChartPreviews(this._state.ChartType));
 
             this._setDefaults(this.chartSettings);
@@ -1292,6 +1292,25 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
             }
         },
 
+        updateSparkStyles: function(styles) {
+            if (styles && styles.length>0){
+                var stylesStore = this.mnuSparkStylePicker.store;
+                if (stylesStore) {
+                    var stylearray = [],
+                        selectedIdx = styles[styles.length-1];
+                    for (var i=0; i<styles.length-1; i++) {
+                        stylearray.push({
+                            imageUrl: styles[i],
+                            data    : i
+                        });
+                    }
+                    stylesStore.reset(stylearray, {silent: false});
+
+                    this.mnuSparkStylePicker.selectByIndex(selectedIdx, true);
+                }
+            }
+        },
+
         onSelectSparkType: function(btn, picker, itemView, record) {
             if (this._noApply) return;
 
@@ -1315,6 +1334,11 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
 //            this.updateAxisProps(rawData.type, true);
         },
 
+
+        onSelectSparkStyle: function(btn, picker, itemView, record) {
+            if (this._noApply) return;
+        },
+        
         _setDefaults: function(props) {
             var me = this;
             if (props ){
@@ -1388,7 +1412,8 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                     this.mnuSparkTypePicker.selectRecord(record, true);
                     if (record)
                         this.btnSparkType.setIconCls('item-chartlist ' + record.get('iconCls'));
-//                        this.updateSparkStyles(this.api.asc_getChartPreviews(this._state.SparkType));
+
+                    this.updateSparkStyles(this.chartSettings.asc_getStyles());
 
                     if (this._state.SparkType !== Asc.c_oAscSparklineType.Line)
                         this._arrEmptyCells.pop();
