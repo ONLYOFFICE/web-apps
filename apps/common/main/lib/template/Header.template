@@ -2,6 +2,6 @@
     <div id="header-logo"></div>
     <div id="header-caption"><div><%= headerCaption %></div></div>
     <div id="header-developer" class="hidden"><div><%= headerDeveloper %></div></div>
-    <div id="header-documentcaption"><%= documentCaption %></div>
+    <div id="header-documentcaption"><span><%= documentCaption %></span></div>
     <div id="header-back" style="display: <%= canBack ? 'table-cell' : 'none' %>;"><div><%= textBack %></div></div>
 </div>

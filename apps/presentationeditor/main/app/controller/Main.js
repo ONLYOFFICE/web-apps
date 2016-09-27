@@ -121,6 +121,7 @@ define([
                     this.api.asc_registerCallback('asc_onDocumentUpdateVersion',    _.bind(this.onUpdateVersion, this));
                     this.api.asc_registerCallback('asc_onDocumentName',             _.bind(this.onDocumentName, this));
                     this.api.asc_registerCallback('asc_onPrintUrl',                 _.bind(this.onPrintUrl, this));
+                    this.api.asc_registerCallback('asc_onMeta',                     _.bind(this.onMeta, this));
                     Common.NotificationCenter.on('api:disconnect',                  _.bind(this.onCoAuthoringDisconnect, this));
                     Common.NotificationCenter.on('goback',                          _.bind(this.goBack, this));
 
@@ -738,14 +739,17 @@ define([
                 this.appOptions.canComments    = this.appOptions.canLicense && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.comments===false);
                 this.appOptions.canChat        = this.appOptions.canLicense && !this.appOptions.isOffline && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.chat===false);
                 this.appOptions.canPrint       = (this.permissions.print !== false);
+                this.appOptions.canRename      = !!this.permissions.rename;
 
                 this._state.licenseWarning = (licType===Asc.c_oLicenseResult.Connections) && this.appOptions.canEdit && this.editorConfig.mode !== 'view';
 
+                var headerView = this.getApplication().getController('Viewport').getView('Common.Views.Header');
                 this.appOptions.canBranding  = params.asc_getCanBranding() && (typeof this.editorConfig.customization == 'object');
                 if (this.appOptions.canBranding)
-                    this.getApplication().getController('Viewport').getView('Common.Views.Header').setBranding(this.editorConfig.customization);
+                    headerView.setBranding(this.editorConfig.customization);
 
-                params.asc_getTrial() && this.getApplication().getController('Viewport').getView('Common.Views.Header').setDeveloperMode(true);
+                params.asc_getTrial() && headerView.setDeveloperMode(true);
+                this.appOptions.canRename && headerView.setCanRename(true);
 
                 this.applyModeCommonElements();
                 this.applyModeEditorElements();
@@ -1030,6 +1034,8 @@ define([
             onCoAuthoringDisconnect: function() {
                 // TODO: Disable all except 'Download As' and 'Print'
                 this.getApplication().getController('Viewport').getView('Viewport').setMode({isDisconnected:true});
+                this.getApplication().getController('Viewport').getView('Common.Views.Header').setCanRename(false);
+                this.appOptions.canRename = false;
                 this._state.isDisconnected = true;
 //                this.getFileMenu().setMode({isDisconnected:true});
             },
@@ -1462,6 +1468,17 @@ define([
             onDocumentName: function(name) {
                 this.getApplication().getController('Viewport').getView('Common.Views.Header').setDocumentCaption(name);
                 this.updateWindowTitle(true);
+            },
+
+            onMeta: function(meta) {
+                var app = this.getApplication(),
+                    filemenu = app.getController('LeftMenu').getView('LeftMenu').getMenu('file');
+                app.getController('Viewport').getView('Common.Views.Header').setDocumentCaption(meta.title);
+                this.updateWindowTitle(true);
+                this.document.title = meta.title;
+                filemenu.loadDocument({doc:this.document});
+                filemenu.panels['info'].updateInfo(this.document);
+                Common.Gateway.metaChange(meta);
             },
 
             onPrint: function() {
