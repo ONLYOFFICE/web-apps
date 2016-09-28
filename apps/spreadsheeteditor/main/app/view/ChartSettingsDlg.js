@@ -838,33 +838,22 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
             this.btnSparkType.render($('#spark-dlg-button-type'));
             this.mnuSparkTypePicker.on('item:click', _.bind(this.onSelectSparkType, this, this.btnSparkType));
 
-            this.btnSparkStyle = new Common.UI.Button({
-                cls         : 'btn-large-dataview',
-                iconCls     : 'item-wrap',
-                menu        : new Common.UI.Menu({
-                    additionalAlign: menuAddAlign,
-                    items: [
-                        { template: _.template('<div id="id-spark-dlg-menu-style" style="width: 245px; margin: 0 5px;"></div>') }
-                    ]
-                })
+            this.cmbSparkStyle = new Common.UI.ComboDataView({
+                itemWidth: 50,
+                itemHeight: 50,
+                menuMaxHeight: 272,
+                enableKeyEvents: true,
+                cls: 'combo-spark-style'
             });
-            this.btnSparkStyle.on('render:after', function(btn) {
-                me.mnuSparkStylePicker = new Common.UI.DataView({
-                    el: $('#id-spark-dlg-menu-style'),
-                    parentMenu: btn.menu,
-                    style: 'max-height: 411px;',
-                    store: new Common.UI.DataViewStore(),
-                    itemTemplate: _.template('<div id="<%= id %>" class="item-wrap" style="background-image: url(<%= imageUrl %>); background-position: 0 0;"></div>')
-                });
-
-                if (me.btnSparkStyle.menu) {
-                    me.btnSparkStyle.menu.on('show:after', function () {
-                        me.mnuSparkStylePicker.scroller.update({alwaysVisibleY: true});
-                    });
-                }
+            this.cmbSparkStyle.render($('#spark-dlg-combo-style'));
+            this.cmbSparkStyle.openButton.menu.cmpEl.css({
+                'min-width': 178,
+                'max-width': 178
             });
-            this.btnSparkStyle.render($('#spark-dlg-button-style'));
-            this.mnuSparkStylePicker.on('item:click', _.bind(this.onSelectSparkStyle, this, this.btnSparkStyle));
+            this.cmbSparkStyle.on('click', _.bind(this.onSelectSparkStyle, this));
+            this.cmbSparkStyle.openButton.menu.on('show:after', function () {
+                me.cmbSparkStyle.menuPicker.scroller.update({alwaysVisibleY: true});
+            });
 
             this.radioGroup = new Common.UI.RadioBox({
                 el: $('#spark-dlg-radio-group'),
@@ -1293,9 +1282,15 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
         },
 
         updateSparkStyles: function(styles) {
-            if (styles && styles.length>0){
-                var stylesStore = this.mnuSparkStylePicker.store;
-                if (stylesStore) {
+             if (styles && styles.length>1){
+                var picker = this.cmbSparkStyle.menuPicker,
+                    stylesStore = picker.store;
+                if (stylesStore.length == styles.length-1) {
+                    var data = stylesStore.models;
+                    for (var i=0; i<styles.length-1; i++) {
+                        data[i].set('imageUrl', styles[i]);
+                    }
+                } else {
                     var stylearray = [],
                         selectedIdx = styles[styles.length-1];
                     for (var i=0; i<styles.length-1; i++) {
@@ -1305,8 +1300,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                         });
                     }
                     stylesStore.reset(stylearray, {silent: false});
-
-                    this.mnuSparkStylePicker.selectByIndex(selectedIdx, true);
+                    this.cmbSparkStyle.fillComboView(stylesStore.at(selectedIdx<0 ? 0 : selectedIdx), selectedIdx>-1);
                 }
             }
         },

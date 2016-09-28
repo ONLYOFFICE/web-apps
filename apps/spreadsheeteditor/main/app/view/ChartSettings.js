@@ -1053,40 +1053,42 @@ define([
         updateSparkStyles: function(styles) {
             var me = this;
 
-            if (!this.btnSparkStyle) {
-                this.btnSparkStyle = new Common.UI.Button({
-                    cls         : 'btn-large-dataview',
-                    iconCls     : 'item-wrap',
-                    menu        : new Common.UI.Menu({
-                        menuAlign: 'tr-br',
-                        items: [
-                            { template: _.template('<div id="id-spark-menu-style" style="width: 245px; margin: 0 5px;"></div>') }
-                        ]
-                    })
+            if (!this.cmbSparkStyle) {
+                this.cmbSparkStyle = new Common.UI.ComboDataView({
+                    itemWidth: 50,
+                    itemHeight: 50,
+                    menuMaxHeight: 272,
+                    enableKeyEvents: true,
+                    cls: 'combo-spark-style'
                 });
-                this.btnSparkStyle.render($('#spark-button-style'));
-                this.lockedControls.push(this.btnSparkStyle);
-                this.mnuSparkStylePicker = new Common.UI.DataView({
-                    el: $('#id-spark-menu-style'),
-                    style: 'max-height: 411px;',
-                    parentMenu: this.btnSparkStyle.menu,
-                    store: new Common.UI.DataViewStore(),
-                    itemTemplate: _.template('<div id="<%= id %>" class="item-wrap" style="background-image: url(<%= imageUrl %>); background-position: 0 0;"></div>')
+                this.cmbSparkStyle.render($('#spark-combo-style'));
+                this.cmbSparkStyle.openButton.menu.cmpEl.css({
+                    'min-width': 178,
+                    'max-width': 178
                 });
-
-                if (this.btnSparkStyle.menu) {
-                    this.btnSparkStyle.menu.on('show:after', function () {
-                        me.mnuSparkStylePicker.scroller.update({alwaysVisibleY: true});
-                    });
-                }
-                this.mnuSparkStylePicker.on('item:click', _.bind(this.onSelectSparkStyle, this, this.btnSparkStyle));
+                this.cmbSparkStyle.on('click', _.bind(this.onSelectSparkStyle, this));
+                this.cmbSparkStyle.openButton.menu.on('show:after', function () {
+                    me.cmbSparkStyle.menuPicker.scroller.update({alwaysVisibleY: true});
+                });
+                this.lockedControls.push(this.cmbSparkStyle);
             }
 
-            if (styles && styles.length>0){
-                var stylesStore = this.mnuSparkStylePicker.store;
-                if (stylesStore) {
-                    var stylearray = [],
-                        selectedIdx = styles[styles.length-1];
+            if (styles && styles.length>1){
+                var stylesStore = this.cmbSparkStyle.menuPicker.store,
+                    selectedIdx = styles[styles.length-1];
+                if (stylesStore.length == styles.length-1) {
+                    var data = stylesStore.models;
+                    for (var i=0; i<styles.length-1; i++) {
+                        data[i].set('imageUrl', styles[i]);
+                    }
+                    if (selectedIdx<0) {
+                        this.cmbSparkStyle.fillComboView(stylesStore.at(0), false);
+                        this.cmbSparkStyle.fieldPicker.deselectAll();
+                        this.cmbSparkStyle.menuPicker.deselectAll();
+                    } else
+                        this.cmbSparkStyle.menuPicker.selectRecord(stylesStore.at(selectedIdx));
+                } else {
+                    var stylearray = [];
                     for (var i=0; i<styles.length-1; i++) {
                         stylearray.push({
                             imageUrl: styles[i],
@@ -1094,8 +1096,7 @@ define([
                         });
                     }
                     stylesStore.reset(stylearray, {silent: false});
-
-                    this.mnuSparkStylePicker.selectByIndex(selectedIdx, true);
+                    this.cmbSparkStyle.fillComboView(stylesStore.at(selectedIdx<0 ? 0 : selectedIdx), selectedIdx>-1);
                 }
             }
         },
@@ -1186,7 +1187,7 @@ define([
         textStyle:          'Style',
         textAdvanced:       'Show advanced settings',
         strSparkType:       'Sparkline Type',
-        strSparkColor:      'Sparkline Color',
+        strSparkColor:      'Color',
         strLineWeight:      'Line Weight',
         textMarkers:        'Markers',
         textNewColor: 'Add New Custom Color',

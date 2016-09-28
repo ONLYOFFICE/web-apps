@@ -327,7 +327,7 @@
                 </td>
                 <td class="padding-large">
                     <label class="header"><%= scope.textStyle %></label>
-                    <div id="spark-dlg-button-style" style=""></div>
+                    <div id="spark-dlg-combo-style" style="width: 190px;"></div>
                 </td>
             </tr>
         </table>

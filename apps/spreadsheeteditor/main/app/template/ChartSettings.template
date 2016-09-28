@@ -38,9 +38,9 @@
         </td>
     </tr>
 </table>
-<table cols="2" id="spark-panel-types">
+<table cols="1" id="spark-panel-types">
     <tr>
-        <td colspan=2>
+        <td>
             <label class="header"><%= scope.strSparkType %></label>
         </td>
     </tr>
@@ -48,26 +48,22 @@
         <td class="padding-large">
             <div id="spark-button-type" style=""></div>
         </td>
-        <td class="padding-large">
-            <div id="spark-button-style" style=""></div>
-        </td>
     </tr>
-</table>
-<table cols="1" id="spark-panel-points">
     <tr>
-        <td>
-            <div style="width: 100%; height: 25px;">
-                <label class="input-label" style="margin-top: 4px;"><%= scope.strSparkColor %></label>
-                <div id="spark-color-btn" style="display: inline-block; float:right;"></div>
-            </div>
+        <td class="padding-large">
+            <div class="" id="spark-combo-style" style="width: 100%;"></div>
         </td>
     </tr>
     <tr>
         <td class="padding-small">
-        <div style="display:inline-block;width:100px;vertical-align: middle;">
-            <label class="input-label" style=""><%= scope.strLineWeight %></label>
-            <div id="spark-combo-line-type" style="width: 93px;"></div>
-        </div>
+            <div style="display:inline-block;vertical-align: middle;width:55px;">
+                <label class="input-label" style=""><%= scope.strSparkColor %></label>
+                <div id="spark-color-btn" style=""></div>
+            </div>
+            <div style="display:inline-block;vertical-align: middle;">
+                <label class="input-label" style=""><%= scope.strLineWeight %></label>
+                <div id="spark-combo-line-type" style="width: 93px;"></div>
+            </div>
         </td>
     </tr>
     <tr>
@@ -75,6 +71,8 @@
             <div class="separator horizontal"></div>
         </td>
     </tr>
+</table>
+<table cols="1" id="spark-panel-points">
     <tr>
         <td class="padding-small">
             <label class="header" style="margin-bottom: 8px;"><%= scope.textMarkers %></label>
@@ -102,16 +100,6 @@
                 <div id="spark-checkbox-markers" style="display: inline-block;margin-top: 4px;"></div>
                 <div id="spark-markers-color-btn" style="display: inline-block; float:right;"></div>
             </div>
-        </td>
-    </tr>
-    <tr>
-        <td class="padding-small">
-            <div class="separator horizontal"></div>
-        </td>
-    </tr>
-    <tr>
-        <td class="padding-small">
-            <button type="button" class="btn btn-text-default" id="spark-button-edit-data" style="width:100%;"><%= scope.textEditData %></button>
         </td>
     </tr>
 </table>
