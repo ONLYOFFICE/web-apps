@@ -1186,7 +1186,7 @@ define([
         textStock:          'Stock Chart',
         textStyle:          'Style',
         textAdvanced:       'Show advanced settings',
-        strSparkType:       'Sparkline Type',
+        strSparkType:       'Type',
         strSparkColor:      'Color',
         strLineWeight:      'Line Weight',
         textMarkers:        'Markers',
@@ -1198,7 +1198,9 @@ define([
         textLowPoint: 'Low Point',
         textNegativePoint: 'Negative Point',
         textFirstPoint: 'First Point',
-        textLastPoint: 'Last Point'
+        textLastPoint: 'Last Point',
+        strTemplate: 'Template',
+        textShow: 'Show'
 
     }, SSE.Views.ChartSettings || {}));
 });

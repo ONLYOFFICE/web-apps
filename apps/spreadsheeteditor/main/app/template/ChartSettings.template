@@ -45,12 +45,23 @@
         </td>
     </tr>
     <tr>
-        <td class="padding-large">
+        <td class="padding-small">
             <div id="spark-button-type" style=""></div>
         </td>
     </tr>
     <tr>
-        <td class="padding-large">
+        <td class="padding-small">
+            <div class="separator horizontal"></div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label class="header"><%= scope.textStyle %></label>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small">
+            <label class="input-label" style=""><%= scope.strTemplate %></label>
             <div class="" id="spark-combo-style" style="width: 100%;"></div>
         </td>
     </tr>
@@ -75,7 +86,7 @@
 <table cols="1" id="spark-panel-points">
     <tr>
         <td class="padding-small">
-            <label class="header" style="margin-bottom: 8px;"><%= scope.textMarkers %></label>
+            <label class="header" style="margin-bottom: 4px;"><%= scope.textShow %></label>
             <div style="width: 100%; height: 25px; margin-bottom: 8px;">
                 <div id="spark-checkbox-high" style="display: inline-block;margin-top: 4px;"></div>
                 <div id="spark-high-color-btn" style="display: inline-block; float:right;"></div>
