@@ -96,11 +96,11 @@ Common.Utils = _.extend(new(function() {
             Table      : 1,
             Image      : 2,
             Header     : 3,
-            Shape      : 4,
-            Slide      : 5,
-            Chart      : 6,
-            MailMerge  : 7,
-            TextArt    : 8
+            TextArt    : 4,
+            Shape      : 5,
+            Slide      : 6,
+            Chart      : 7,
+            MailMerge  : 8
         },
         me = this,
         checkSize = function() {

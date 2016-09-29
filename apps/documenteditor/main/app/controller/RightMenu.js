@@ -212,8 +212,6 @@ define([
 
             this._settings[Common.Utils.documentSettingsType.Image].needShow = false;
             this._settings[Common.Utils.documentSettingsType.Chart].needShow = false;
-            this._settings[Common.Utils.documentSettingsType.Shape].needShow = false;
-            this._settings[Common.Utils.documentSettingsType.TextArt].needShow = false;
         },
 
         onCoAuthoringDisconnect: function() {
