@@ -960,14 +960,14 @@ define([
                     };
 
                 var win = new SSE.Views.CellRangeDialog({
-                    handler: handlerDlg,
-                    validation: validation
+                    handler: handlerDlg
                 });
 
                 win.show();
                 win.setSettings({
                     api     : me.api,
-                    range   : props.getRange()
+                    range   : props.getRange(),
+                    validation: validation
                 });
             }
         },
