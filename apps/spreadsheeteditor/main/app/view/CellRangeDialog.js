@@ -119,8 +119,8 @@ define([
             }
 
             me.inputRange.validation = function(value) {
-                if (me.options.validation) {
-                    return me.options.validation.call(me, value);
+                if (settings.validation) {
+                    return settings.validation.call(me, value);
                 } else {
                     var isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, value, false);
                     return (isvalid==Asc.c_oAscError.ID.DataRangeError) ? me.txtInvalidRange : true;
