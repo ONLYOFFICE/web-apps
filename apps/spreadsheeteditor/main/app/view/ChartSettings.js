@@ -303,6 +303,12 @@ define([
                 }
             }, this));
 
+            this.btnSelectData = new Common.UI.Button({
+                el: $('#chart-btn-select-data')
+            });
+            this.btnSelectData.on('click', _.bind(this.onSelectData, this));
+            this.lockedControls.push(this.btnSelectData);
+
             this.linkAdvanced = $('#chart-advanced-link');
             $(this.el).on('click', '#chart-advanced-link', _.bind(this.openAdvancedSettings, this));
         },
@@ -381,6 +387,48 @@ define([
             }
         },
 
+        onSelectData: function() {
+            var me = this;
+            if (me.api) {
+                var props = me.api.asc_getChartObject(),
+                    handlerDlg = function(dlg, result) {
+                        if (result == 'ok') {
+                            props.putRange(dlg.getSettings());
+                            me.api.asc_setSelectionDialogMode(Asc.c_oAscSelectionDialogType.None);
+                            me.api.asc_editChartDrawingObject(props);
+                        }
+
+                        Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                    },
+                    validation = function(value) {
+                        var isvalid;
+                        if (!_.isEmpty(value)) {
+                            isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, value, true, !props.getInColumns(), me._state.ChartType);
+                            if (isvalid == Asc.c_oAscError.ID.No)
+                                return true;
+                        } else return '';
+
+                        if (isvalid == Asc.c_oAscError.ID.StockChartError) {
+                            return this.errorStockChart;
+                        } else if (isvalid == Asc.c_oAscError.ID.MaxDataSeriesError) {
+                            return this.errorMaxRows;
+                        }
+                        return this.txtInvalidRange;
+                    };
+
+                var win = new SSE.Views.CellRangeDialog({
+                    handler: handlerDlg,
+                    validation: validation
+                });
+
+                win.show();
+                win.setSettings({
+                    api     : me.api,
+                    range   : props.getRange()
+                });
+            }
+        },
+        
         onSelectType: function(btn, picker, itemView, record) {
             if (this._noApply) return;
 
@@ -537,7 +585,10 @@ define([
         textPoint:          'XY (Scatter) Chart',
         textStock:          'Stock Chart',
         textStyle:          'Style',
-        textAdvanced:       'Show advanced settings'
+        textAdvanced:       'Show advanced settings',
+        textType:           'Type',
+        textSelectData: 'Select Data',
+        textRanges: 'Data Range'
 
     }, SSE.Views.ChartSettings || {}));
 });

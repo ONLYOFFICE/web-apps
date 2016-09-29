@@ -25,16 +25,24 @@
         </td>
     </tr>
     <tr>
-        <td colspan=2>
-            <label class="header"><%= scope.textChartType %></label>
-        </td>
-    </tr>
-    <tr>
         <td class="padding-small">
+            <label class="header"><%= scope.textType %></label>
             <div id="chart-button-type" style=""></div>
         </td>
         <td class="padding-small">
+            <label class="header"><%= scope.textStyle %></label>
             <div id="chart-button-style" style=""></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small" colspan=2>
+            <div class="separator horizontal"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small" colspan=2>
+            <label class="header"><%= scope.textRanges %></label>
+            <button type="button" class="btn btn-text-default" id="chart-btn-select-data" style="min-width: 100px; display: block;"><%= scope.textSelectData %></button>
         </td>
     </tr>
     <tr>
