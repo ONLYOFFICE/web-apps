@@ -217,6 +217,8 @@ define([
                             me._changedProps.get_Shade().put_Color(Common.Utils.ThemeColor.getRgbColor(color));
                         }
                     }
+                    var colorstr = (typeof(color) == 'object') ? color.color : color;
+                    me.tableStyler.setCellsColor(colorstr);
                 }, me));
             });
             this.btnBackColor.render( $('#drop-advanced-button-color'));
@@ -705,6 +707,9 @@ define([
                 }
                 this._UpdateTableBordersStyle(ct, border, size, color, this.Borders);
             }, this);
+
+            var colorstr = (typeof(this.paragraphShade) == 'object') ? this.paragraphShade.color : this.paragraphShade;
+            this.tableStyler.setCellsColor(colorstr);
 
             if (this.isFrame)
                 this.setHeight(500);

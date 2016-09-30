@@ -733,6 +733,9 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                 this._UpdateTableBordersStyle(ct, border, size, color, this.Borders);
             }, this);
 
+            var colorstr = (typeof(this.paragraphShade) == 'object') ? this.paragraphShade.color : this.paragraphShade;
+            this.BordersImage.setCellsColor(colorstr);
+
             if (this.storageName) {
                 var value = Common.localStorage.getItem(this.storageName);
                 this.setActiveCategory((value!==null) ? parseInt(value) : 0);
@@ -888,6 +891,8 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                     this._changedProps.get_Shade().put_Color(Common.Utils.ThemeColor.getRgbColor(this.paragraphShade));
                 }
             }
+            var colorstr = (typeof(color) == 'object') ? color.color : color;
+            this.BordersImage.setCellsColor(colorstr);
         },
 
 
