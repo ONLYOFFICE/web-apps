@@ -1386,6 +1386,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
 
             }
             this._changedProps = new Asc.CTableProp();
+            this._changedProps.put_CellSelect(!this._allTable);
             this._cellBackground = null;
             this.ChangedTableBorders = undefined;
             this.ChangedCellBorders = undefined;
