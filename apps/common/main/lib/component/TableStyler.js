@@ -505,6 +505,8 @@ define([
                 table_content           = $('#' + meId + '-table-content');
                 cells_content           = table_content.find('.cell-content');
 
+                table_content.find('.content-box').css('height', (me.rows>1) ? '50%' : 'auto');
+
                 topBorderSelector.on('click', function(e){
                     if (me.overwriteStyle){
                         if (borderSize.top != virtualBorderSize || !borderColor.top.isEqual(virtualBorderColor)){
