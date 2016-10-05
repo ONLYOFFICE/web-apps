@@ -166,7 +166,7 @@ define([
             if (!value)
                 value = '';
 
-            var dc = $('#header-documentcaption span');
+            var dc = $('#header-documentcaption div');
             if (dc)
                 dc.html(Common.Utils.String.htmlEncode(value));
 
@@ -228,7 +228,7 @@ define([
         },
 
         setCanRename: function(rename) {
-            var dc = $('#header-documentcaption span');
+            var dc = $('#header-documentcaption div');
             if (rename) {
                 var me = this;
                 dc.tooltip({title: me.txtRename, placement: 'cursor'});
@@ -252,6 +252,7 @@ define([
                 dc.off('click');
             }
             dc.css('cursor', rename ? 'pointer' : 'default');
+            dc.toggleClass('renamed', rename);
         },
 
         textBack: 'Go to Documents',
