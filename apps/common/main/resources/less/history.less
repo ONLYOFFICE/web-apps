@@ -26,10 +26,33 @@
     }
 }
 
+#history-expand-changes {
+    position: absolute;
+    height: 45px;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    overflow: hidden;
+    border-top: 1px solid @gray-dark;
+
+    #history-btn-expand {
+        height: 27px;
+        margin-top: 8px;
+        padding-top: 4px;
+        padding-left: 20px;
+        font-size: 13px;
+        cursor: pointer;
+
+        &:hover {
+            background-color: @secondary;
+        }
+    }
+}
+
 #history-list {
     height: 100%;
     overflow: hidden;
-    padding-top: 45px;
+    padding: 45px 0;
 
     .item {
         display: block;

@@ -190,10 +190,6 @@ define([
             var close_menu = true;
             switch (action) {
             case 'back':
-                if (this.mode.canUseHistory && this.leftMenu.panelHistory.isVisible()) {
-                    // reload editor
-                    Common.Gateway.requestHistoryClose();
-                }
                 break;
             case 'save': this.api.asc_Save(); break;
             case 'save-desktop': this.api.asc_DownloadAs(); break;
