@@ -344,6 +344,7 @@
   "PE.Views.DocumentPreview.txtPrev": "Previous Slide",
   "PE.Views.FileMenu.btnAboutCaption": "About",
   "PE.Views.FileMenu.btnBackCaption": "Go to Documents",
+  "PE.Views.FileMenu.btnCloseMenuCaption": "Close Menu",
   "PE.Views.FileMenu.btnCreateNewCaption": "Create New",
   "PE.Views.FileMenu.btnDownloadCaption": "Download as...",
   "PE.Views.FileMenu.btnHelpCaption": "Help...",
