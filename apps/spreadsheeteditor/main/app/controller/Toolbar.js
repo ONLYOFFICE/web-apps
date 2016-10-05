@@ -2159,7 +2159,7 @@ define([
             var me = this;
 
             if (me.api.isRangeSelection !== true) {
-                if (me.api.asc_getAddFormatTableOptions() != false) {
+                if (!me.api.asc_getCellInfo().asc_getFormatTableInfo()) {
                     var handlerDlg = function(dlg, result) {
                         if (result == 'ok') {
                             me._state.filter = undefined;
