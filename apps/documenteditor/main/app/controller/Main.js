@@ -422,7 +422,7 @@ define([
                                 var changes = version.changes, change, i;
                                 if (changes && changes.length>0) {
                                     arrVersions[arrVersions.length-1].set('docIdPrev', docIdPrev);
-                                    if (version.buildVersion && version.buildVersion == this.appOptions.buildVersion) {
+                                    if (!_.isEmpty(version.serverVersion) && version.serverVersion == this.appOptions.buildVersion) {
                                         arrVersions[arrVersions.length-1].set('changeid', changes.length-1);
                                         arrVersions[arrVersions.length-1].set('hasChanges', changes.length>1);
                                         for (i=changes.length-2; i>=0; i--) {
