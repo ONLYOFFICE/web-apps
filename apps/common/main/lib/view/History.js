@@ -55,9 +55,12 @@ define([
         template: _.template([
             '<div id="history-box" class="layout-ct vbox">',
                 '<div id="history-header" class="">',
-                    '<div id="history-btn-back"><%=scope.textHistoryHeader%></div>',
+                    '<div id="history-btn-back"><%=scope.textCloseHistory%></div>',
                 '</div>',
                 '<div id="history-list" class="">',
+                '</div>',
+                '<div id="history-expand-changes" class="">',
+                    '<div id="history-btn-expand"><%=scope.textHideAll%></div>',
                 '</div>',
             '</div>'
         ].join('')),
@@ -110,6 +113,7 @@ define([
                     this.scroller.update({minScrollbarLength: 40});
                 } else
                     Common.UI.DataView.prototype.onClickItem.call(this, view, record, e);
+                me.btnExpand.cmpEl.text(me.storeHistory.hasCollapsed() ? me.textShowAll : me.textHideAll);
             };
 
             var changetooltip = function (dataview, view, record) {
@@ -132,14 +136,22 @@ define([
                 enableToggle: false
             });
 
+            this.btnExpand = new Common.UI.Button({
+                el: $('#history-btn-expand'),
+                enableToggle: false
+            });
+
             this.trigger('render:after', this);
             return this;
         },
 
         textHistoryHeader: 'Back to Document',
         textRestore: 'Restore',
-        textShow: 'Show Changes',
-        textHide: 'Hide Changes'
+        textShow: 'Expand',
+        textHide: 'Collapse',
+        textCloseHistory: 'Close History',
+        textHideAll: 'Hide detailed changes',
+        textShowAll: 'Show detailed changes'
 
     }, Common.Views.History || {}))
 });

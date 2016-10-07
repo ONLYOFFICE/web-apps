@@ -80,8 +80,17 @@
     overflow: hidden;
     text-overflow: ellipsis;
     background-color: @app-header-bg-color;
-    padding: 0 15px + @app-header-height / 3;
+    padding: 0 7px + @app-header-height / 3;
     cursor: default;
+
+    div {
+        display: inline-block;
+        padding: 2px 8px;
+
+        &.renamed {
+            background-color: @app-header-bg-color-dark;
+        }
+    }
 }
 
 #header-back {

@@ -48,6 +48,7 @@ define([
     'common/main/lib/component/Tooltip',
     'common/main/lib/controller/Fonts',
     'common/main/lib/collection/TextArt',
+    'common/main/lib/view/OpenDialog',
     'presentationeditor/main/app/collection/ShapeGroups',
     'presentationeditor/main/app/collection/SlideLayouts'
 ], function () { 'use strict';
@@ -122,8 +123,11 @@ define([
                     this.api.asc_registerCallback('asc_onDocumentName',             _.bind(this.onDocumentName, this));
                     this.api.asc_registerCallback('asc_onPrintUrl',                 _.bind(this.onPrintUrl, this));
                     this.api.asc_registerCallback('asc_onMeta',                     _.bind(this.onMeta, this));
+                    this.api.asc_registerCallback('asc_onAdvancedOptions',          _.bind(this.onAdvancedOptions, this));
                     Common.NotificationCenter.on('api:disconnect',                  _.bind(this.onCoAuthoringDisconnect, this));
                     Common.NotificationCenter.on('goback',                          _.bind(this.goBack, this));
+
+                    this.isShowOpenDialog = false;
 
                     // Initialize api gateway
                     this.editorConfig = {};
@@ -473,7 +477,9 @@ define([
                         this.loadMask = new Common.UI.LoadMask({owner: $('#viewport')});
 
                     this.loadMask.setTitle(title);
-                    this.loadMask.show();
+
+                    if (!this.isShowOpenDialog)
+                        this.loadMask.show();
                 }
                 else {
                     this.getApplication().getController('Statusbar').setStatusCaption(text);
@@ -1512,6 +1518,29 @@ define([
                     };
                 }
                 if (url) this.iframePrint.src = url;
+            },
+
+            onAdvancedOptions: function(advOptions) {
+                var type = advOptions.asc_getOptionId(),
+                    me = this, dlg;
+                if (type == Asc.c_oAscAdvancedOptionsID.DRM) {
+                    dlg = new Common.Views.OpenDialog({
+                        type: type,
+                        handler: function (value) {
+                            me.isShowOpenDialog = false;
+                            if (me && me.api) {
+                                me.api.asc_setAdvancedOptions(type, new Asc.asc_CDRMAdvancedOptions(value));
+                                me.loadMask && me.loadMask.show();
+                            }
+                        }
+                    });
+                }
+                if (dlg) {
+                    this.isShowOpenDialog = true;
+                    this.loadMask && this.loadMask.hide();
+                    this.onLongActionEnd(Asc.c_oAscAsyncActionType.BlockInteraction, LoadingDocument);
+                    dlg.show();
+                }
             },
 
             updatePlugins: function(plugins) { // plugins from config

@@ -318,7 +318,7 @@ define([
         strInputMode:   'Turn on hieroglyphs',
         strZoom: 'Default Zoom Value',
         okButtonText: 'Apply',
-        txtFitSlide: 'Fit Slide',
+        txtFitSlide: 'Fit to Slide',
         txtInput: 'Alternate Input',
         strUnit: 'Unit of Measurement',
         txtCm: 'Centimeter',
@@ -340,7 +340,7 @@ define([
         textAutoRecover: 'Autorecover',
         strAutoRecover: 'Turn on autorecover',
         txtInch: 'Inch',
-        txtFitWidth: 'Fit Width'
+        txtFitWidth: 'Fit to Width'
     }, PE.Views.FileMenuPanels.Settings || {}));
 
     PE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({

@@ -555,7 +555,9 @@ define([
             };
             this.mnuPageNumCurrentPos = clone(this.mnuPageNumberPosPicker);
             this.mnuInsertPageNum = clone(this.mnuPageNumberPosPicker);
+            this.mnuInsertPageCount = clone(this.mnuPageNumberPosPicker);
             this.paragraphControls.push(this.mnuPageNumCurrentPos);
+            this.paragraphControls.push(this.mnuInsertPageCount);
             this.toolbarControls.push(this.btnEditHeader);
 
             this.btnInsertShape = new Common.UI.Button({
@@ -1262,11 +1264,16 @@ define([
                                     })
                                 ]
                             })
+                        }),
+                        this.mnuInsertPageCount = new Common.UI.MenuItem({
+                            caption: this.textInsertPageCount,
+                            disabled: this.mnuInsertPageCount.isDisabled()
                         })
                     ]
                 })
             );
             this.paragraphControls.push(this.mnuPageNumCurrentPos);
+            this.paragraphControls.push(this.mnuInsertPageCount);
 
             this.mnuZoomOut = new Common.UI.Button({
                 el  : $('#id-menu-zoom-out'),
@@ -1900,7 +1907,8 @@ define([
         textRight: 'Right: ',
         textPageSizeCustom: 'Custom Page Size',
         textPortrait: 'Portrait',
-        textLandscape: 'Landscape'
+        textLandscape: 'Landscape',
+        textInsertPageCount: 'Insert number of pages'
         
     }, DE.Views.Toolbar || {}));
 });

@@ -91,7 +91,7 @@ define([
                 new Common.UI.MenuItem({
                     el      : $('#fm-btn-return',this.el),
                     action  : 'back',
-                    caption : this.btnReturnCaption,
+                    caption : this.btnCloseMenuCaption,
                     canFocused: false
                 }),
                 new Common.UI.MenuItem({
@@ -324,6 +324,7 @@ define([
         btnBackCaption          : 'Go to Documents',
         btnSettingsCaption      : 'Advanced Settings...',
         btnSaveAsCaption        : 'Save as',
-        btnRenameCaption        : 'Rename...'
+        btnRenameCaption        : 'Rename...',
+        btnCloseMenuCaption     : 'Close Menu'
     }, PE.Views.FileMenu || {}));
 });

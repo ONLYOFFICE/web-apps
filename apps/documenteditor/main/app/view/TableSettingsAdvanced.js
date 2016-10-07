@@ -1083,6 +1083,13 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 this._UpdateTableBordersStyle(ct, border, size, color, (this._allTable) ? this.TableBorders : this.CellBorders, (this._allTable) ? this.ChangedTableBorders : this.ChangedCellBorders);
             }, this);
 
+            var cellcolorstr = (typeof(this.CellColor.Color) == 'object') ? this.CellColor.Color.color : this.CellColor.Color,
+                tablecolorstr = (typeof(this.TableColor.Color) == 'object') ? this.TableColor.Color.color : this.TableColor.Color;
+            this.tableBordersImageSpacing.setTableColor(tablecolorstr);
+            this.tableBordersImage.setTableColor(tablecolorstr);
+            this.tableBordersImageSpacing.setCellsColor(cellcolorstr);
+            this.tableBordersImage.setCellsColor((this._allTable) ? tablecolorstr : cellcolorstr);
+
             if (this.storageName) {
                 var value = Common.localStorage.getItem(this.storageName);
                 this.setActiveCategory((value!==null) ? parseInt(value) : 0);
@@ -1379,6 +1386,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
 
             }
             this._changedProps = new Asc.CTableProp();
+            this._changedProps.put_CellSelect(!this._allTable);
             this._cellBackground = null;
             this.ChangedTableBorders = undefined;
             this.ChangedCellBorders = undefined;
@@ -1673,6 +1681,10 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 this._cellBackground.put_Value(0);
                 this._cellBackground.put_Color(Common.Utils.ThemeColor.getRgbColor(this.CellColor.Color));
             }
+            var colorstr = (typeof(color) == 'object') ? color.color : color;
+            this.tableBordersImageSpacing.setCellsColor(colorstr);
+            if (!this._allTable)
+                this.tableBordersImage.setCellsColor(colorstr);
         },
 
         onColorsTableBackSelect: function(picker, color) {
@@ -1693,6 +1705,11 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                     background.put_Color(Common.Utils.ThemeColor.getRgbColor(this.TableColor.Color));
                 }
             }
+            var colorstr = (typeof(color) == 'object') ? color.color : color;
+            this.tableBordersImageSpacing.setTableColor(colorstr);
+            this.tableBordersImage.setTableColor(colorstr);
+            if (this._allTable)
+                this.tableBordersImage.setCellsColor(colorstr);
         },
 
         _UpdateBordersSpacing_: function (){

@@ -57,6 +57,14 @@ define([
 
         findRevisions: function(revision) {
             return this.where({revision: revision});
+        },
+
+        hasChanges: function() {
+            return !!this.findWhere({isRevision: false});
+        },
+
+        hasCollapsed: function() {
+            return !!this.findWhere({isRevision: true, hasChanges: true, isExpanded: false});
         }
     });
 });

@@ -66,6 +66,7 @@ define([
             this.panelHistory= this.createView('Common.Views.History', {
                 storeHistory: this.getApplication().getCollection('Common.Collections.HistoryVersions')
             });
+            this.panelHistory.storeHistory.on('reset', _.bind(this.onResetStore, this));
             this.panelHistory.on('render:after', _.bind(this.onAfterRender, this));
             Common.Gateway.on('sethistorydata', _.bind(this.onSetHistoryData, this));
         },
@@ -86,6 +87,13 @@ define([
         onAfterRender: function(historyView) {
             historyView.viewHistoryList.on('item:click', _.bind(this.onSelectRevision, this));
             historyView.btnBackToDocument.on('click', _.bind(this.onClickBackToDocument, this));
+            historyView.btnExpand.on('click', _.bind(this.onClickExpand, this));
+        },
+
+        onResetStore: function() {
+            var hasChanges = this.panelHistory.storeHistory.hasChanges();
+            this.panelHistory.$el.find('#history-expand-changes')[hasChanges ? 'show' : 'hide']();
+            this.panelHistory.$el.find('#history-list').css('padding-bottom', hasChanges ? '45px' : 0);
         },
 
         onDownloadUrl: function(url) {
@@ -181,6 +189,20 @@ define([
         onClickBackToDocument: function () {
             // reload editor
             Common.Gateway.requestHistoryClose();
+        },
+
+        onClickExpand: function () {
+            var store = this.panelHistory.storeHistory,
+                needExpand = store.hasCollapsed();
+
+            store.where({isRevision: true, hasChanges: true, isExpanded: !needExpand}).forEach(function(item){
+                item.set('isExpanded', needExpand);
+            });
+            store.where({isRevision: false}).forEach(function(item){
+                item.set('isVisible', needExpand);
+            });
+            this.panelHistory.viewHistoryList.scroller.update({minScrollbarLength: 40});
+            this.panelHistory.btnExpand.cmpEl.text(needExpand ? this.panelHistory.textHideAll : this.panelHistory.textShowAll);
         },
 
         notcriticalErrorTitle: 'Warning'

@@ -88,7 +88,7 @@ define([
                 new Common.UI.MenuItem({
                     el      : $('#fm-btn-return',this.el),
                     action  : 'back',
-                    caption : this.btnReturnCaption,
+                    caption : this.btnCloseMenuCaption,
                     canFocused: false
                 }),
                 new Common.UI.MenuItem({
@@ -329,6 +329,7 @@ define([
         btnHistoryCaption       : 'Versions History',
         btnSaveAsCaption        : 'Save as',
         textDownload            : 'Download',
-        btnRenameCaption        : 'Rename...'
+        btnRenameCaption        : 'Rename...',
+        btnCloseMenuCaption     : 'Close Menu'
     }, DE.Views.FileMenu || {}));
 });

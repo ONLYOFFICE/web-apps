@@ -396,7 +396,7 @@ define([
                     '</div>',
                 '</div>',
                 '<div style="position: absolute; left: <%=scope.tablePadding%>px; top: <%=scope.tablePadding%>px; right: <%=scope.tablePadding%>px; bottom: <%=scope.tablePadding%>px;">',
-                    '<table cols="<%=scope.columns%>" width="100%" height="100%" style="border-collapse: inherit; border-spacing: <%= scope.spacingMode ? scope.cellPadding : 0 %>px;">',
+                    '<table id="<%=scope.id%>-table-content" cols="<%=scope.columns%>" width="100%" height="100%" style="border-collapse: inherit; border-spacing: <%= scope.spacingMode ? scope.cellPadding : 0 %>px;">',
                         '<% for (var row = 0; row < scope.rows; row++) { %>',
                             '<tr>',
                                 '<% for (var col = 0; col < scope.columns; col++) { %>',
@@ -441,7 +441,8 @@ define([
                 topBorder, rightBorder, bottomBorder, leftBorder,
                 topBorderSelector, rightBorderSelector, bottomBorderSelector,
                 leftBorderSelector,
-                virtualBorderSize, virtualBorderColor;
+                virtualBorderSize, virtualBorderColor,
+                table_content, cells_content;
 
             me.id                   = me.options.id || Common.UI.getId();
             me.width                = me.options.width;
@@ -501,6 +502,10 @@ define([
                 rightBorderSelector     = $('#' + meId + '-table-right-border-selector');
                 bottomBorderSelector    = $('#' + meId + '-table-bottom-border-selector');
                 leftBorderSelector      = $('#' + meId + '-table-left-border-selector');
+                table_content           = $('#' + meId + '-table-content');
+                cells_content           = table_content.find('.cell-content');
+
+                table_content.find('.content-box').css('height', (me.rows>1) ? '50%' : 'auto');
 
                 topBorderSelector.on('click', function(e){
                     if (me.overwriteStyle){
@@ -669,6 +674,14 @@ define([
                         return borderColor.left.toHex();
                 }
                 return null;
+            };
+
+            me.setTableColor = function(color) {
+                table_content.css('background-color', (color == 'transparent' ) ? color : ('#'+color));
+            };
+
+            me.setCellsColor = function(color) {
+                cells_content.css('background-color', (color == 'transparent' ) ? color : ('#'+color));
             };
 
             if (me.options.el) {
