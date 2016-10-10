@@ -1708,7 +1708,7 @@ define([
                 var app = this.getApplication(),
                     filemenu = app.getController('LeftMenu').getView('LeftMenu').getMenu('file');
                 app.getController('Viewport').getView('Common.Views.Header').setDocumentCaption(meta.title);
-                this.updateWindowTitle(true);
+                this.updateWindowTitle(this.api.asc_isDocumentModified(), true);
                 this.appOptions.spreadsheet.title = meta.title;
                 filemenu.loadDocument({doc:this.appOptions.spreadsheet});
                 filemenu.panels['info'].updateInfo(this.appOptions.spreadsheet);
