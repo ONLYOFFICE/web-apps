@@ -64,7 +64,6 @@ define([
         },
 
         initialize: function () {
-            var me = this;
             this._initSettings = true;
 
             this._state = {
@@ -83,7 +82,29 @@ define([
 
             this.labelWidth = $(this.el).find('#image-label-width');
             this.labelHeight = $(this.el).find('#image-label-height');
+        },
 
+        render: function () {
+            var el = $(this.el);
+            el.html(this.template({
+                scope: this
+            }));
+        },
+
+        setApi: function(api) {
+            this.api = api;
+            return this;
+        },
+
+        updateMetricUnit: function() {
+            var value = Common.Utils.Metric.fnRecalcFromMM(this._state.Width);
+            this.labelWidth[0].innerHTML = this.textWidth + ': ' + value.toFixed(1) + ' ' + Common.Utils.Metric.getCurrentMetricName();
+
+            value = Common.Utils.Metric.fnRecalcFromMM(this._state.Height);
+            this.labelHeight[0].innerHTML = this.textHeight + ': ' + value.toFixed(1) + ' ' + Common.Utils.Metric.getCurrentMetricName();
+        },
+
+        createDelayedControls: function() {
             this.btnOriginalSize = new Common.UI.Button({
                 el: $('#image-button-original-size')
             });
@@ -103,7 +124,7 @@ define([
                 el: $('#image-button-edit-object')
             });
             this.lockedControls.push(this.btnEditObject);
-            
+
             this.btnOriginalSize.on('click', _.bind(this.setOriginalSize, this));
             this.btnInsertFromFile.on('click', _.bind(function(btn){
                 if (this.api) this.api.ChangeImageFromFile();
@@ -114,33 +135,14 @@ define([
                 if (this.api) this.api.asc_pluginRun(this._originalProps.asc_getPluginGuid(), 0, this._originalProps.asc_getPluginData());
                 this.fireEvent('editcomplete', this);
             }, this));
-            $(this.el).on('click', '#image-advanced-link', _.bind(this.openAdvancedSettings, this));
-        },
-
-        render: function () {
-            var el = $(this.el);
-            el.html(this.template({
-                scope: this
-            }));
 
             this.linkAdvanced = $('#image-advanced-link');
             this.lblReplace = $('#image-lbl-replace');
-        },
-
-        setApi: function(api) {
-            this.api = api;
-            return this;
-        },
-
-        updateMetricUnit: function() {
-            var value = Common.Utils.Metric.fnRecalcFromMM(this._state.Width);
-            this.labelWidth[0].innerHTML = this.textWidth + ': ' + value.toFixed(1) + ' ' + Common.Utils.Metric.getCurrentMetricName();
-
-            value = Common.Utils.Metric.fnRecalcFromMM(this._state.Height);
-            this.labelHeight[0].innerHTML = this.textHeight + ': ' + value.toFixed(1) + ' ' + Common.Utils.Metric.getCurrentMetricName();
+            $(this.el).on('click', '#image-advanced-link', _.bind(this.openAdvancedSettings, this));
         },
 
         createDelayedElements: function() {
+            this.createDelayedControls();
             this.updateMetricUnit();
         },
 
@@ -269,6 +271,8 @@ define([
         },
 
         disableControls: function(disable) {
+            if (this._initSettings) return;
+            
             if (this._state.DisabledControls!==disable) {
                 this._state.DisabledControls = disable;
                 _.each(this.lockedControls, function(item) {
