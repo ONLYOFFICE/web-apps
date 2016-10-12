@@ -269,6 +269,7 @@ define([
             }
 
             if (this.editMode && this.api) {
+                this.rightmenu.shapeSettings.createDelayedElements();
                 var selectedElements = this.api.getSelectedElements();
                 if (selectedElements.length>0) {
                     var open = Common.localStorage.getItem("de-hide-right-settings");

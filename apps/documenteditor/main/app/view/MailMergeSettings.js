@@ -380,13 +380,13 @@ define([
                     this.cmbMergeTo.setValue(this._arrMergeSrc[0].value);
                 }
             }
+
+            this._initSettings = false;
         },
 
         ChangeSettings: function(props) {
-            if (this._initSettings) {
+            if (this._initSettings)
                 this.createDelayedControls();
-                this._initSettings = false;
-            }
 
             this.disableInsertControls(this._locked);
 

@@ -102,10 +102,8 @@ define([
         },
 
         ChangeSettings: function(props) {
-            if (this._initSettings) {
+            if (this._initSettings)
                 this.createDelayedElements();
-                this._initSettings = false;
-            }
 
             this.disableControls(this._locked);
 
@@ -316,6 +314,7 @@ define([
         createDelayedElements: function() {
             this.createDelayedControls();
             this.updateMetricUnit();
+            this._initSettings = false;
         },
 
         onWidthChange: function(field, newValue, oldValue, eOpts){

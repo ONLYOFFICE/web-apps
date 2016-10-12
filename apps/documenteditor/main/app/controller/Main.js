@@ -872,11 +872,11 @@ define([
                             documentHolderController.getView('DocumentHolder').createDelayedElements();
                             me.loadLanguages();
 
-                            rightmenuController.createDelayedElements();
-
                             var shapes = me.api.asc_getPropertyEditorShapes();
                             if (shapes)
                                 me.fillAutoShapes(shapes[0], shapes[1]);
+
+                            rightmenuController.createDelayedElements();
 
                             me.updateThemeColors();
                             toolbarController.activateControls();

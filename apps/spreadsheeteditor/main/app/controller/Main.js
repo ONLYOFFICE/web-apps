@@ -646,7 +646,6 @@ define([
 
                             documentHolderView.createDelayedElements();
                             toolbarController.createDelayedElements();
-                            rightmenuController.createDelayedElements();
 
                             if (!me.appOptions.isEditMailMerge && !me.appOptions.isEditDiagram) {
                                 var shapes = me.api.asc_getPropertyEditorShapes();
@@ -656,6 +655,8 @@ define([
                                 me.fillTextArt(me.api.asc_getTextArtPreviews());
                                 me.updateThemeColors();
                             }
+
+                            rightmenuController.createDelayedElements();
 
                             me.api.asc_registerCallback('asc_onSaveUrl', _.bind(me.onSaveUrl, me));
                             me.api.asc_registerCallback('asc_onDocumentModifiedChanged', _.bind(me.onDocumentModifiedChanged, me));

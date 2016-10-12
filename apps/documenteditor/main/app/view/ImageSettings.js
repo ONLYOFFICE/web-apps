@@ -182,13 +182,12 @@ define([
         createDelayedElements: function() {
             this.createDelayedControls();
             this.updateMetricUnit();
+            this._initSettings = false;
         },
 
         ChangeSettings: function(props) {
-            if (this._initSettings) {
+            if (this._initSettings)
                 this.createDelayedElements();
-                this._initSettings = false;
-            }
 
             this.disableControls(this._locked);
 
