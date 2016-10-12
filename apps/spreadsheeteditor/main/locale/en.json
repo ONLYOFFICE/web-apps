@@ -173,7 +173,7 @@
   "SSE.Controllers.Main.errorUpdateVersion": "The file version has been changed. The page will be reloaded.",
   "SSE.Controllers.Main.errorUserDrop": "The file cannot be accessed right now.",
   "SSE.Controllers.Main.errorUsersExceed": "The number of users allowed by the pricing plan was exceeded",
-  "SSE.Controllers.Main.errorViewerDisconnect": "Connection is lost. You can still view the document,<br>but will not be able to download until the connection is restored.",
+  "SSE.Controllers.Main.errorViewerDisconnect": "Connection is lost. You can still view the document,<br>but will not be able to download or print until the connection is restored.",
   "SSE.Controllers.Main.errorWrongBracketsCount": "An error in the entered formula.<br>Wrong number of brackets is used.",
   "SSE.Controllers.Main.errorWrongOperator": "An error in the entered formula. Wrong operator is used.<br>Please correct the error or use the Esc button to cancel the formula editing.",
   "SSE.Controllers.Main.leavePageText": "You have unsaved changes in this spreadsheet. Click 'Stay on this Page' then 'Save' to save them. Click 'Leave this Page' to discard all the unsaved changes.",

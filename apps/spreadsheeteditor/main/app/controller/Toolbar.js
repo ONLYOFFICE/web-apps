@@ -269,7 +269,7 @@ define([
 
             this.api.asc_registerCallback('asc_onInitTablePictures',    _.bind(this.onApiInitTableTemplates, this));
             this.api.asc_registerCallback('asc_onInitEditorStyles',     _.bind(this.onApiInitEditorStyles, this));
-            this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onApiCoAuthoringDisconnect, this));
+            this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onApiCoAuthoringDisconnect, this, true));
             Common.NotificationCenter.on('api:disconnect',              _.bind(this.onApiCoAuthoringDisconnect, this));
             this.api.asc_registerCallback('asc_onLockDefNameManager',   _.bind(this.onLockDefNameManager, this));
             this.api.asc_registerCallback('asc_onZoomChanged',          _.bind(this.onApiZoomChange, this));
@@ -1374,8 +1374,8 @@ define([
             window.styles_loaded = true;
         },
 
-        onApiCoAuthoringDisconnect: function() {
-            this.toolbar.setMode({isDisconnected:true});
+        onApiCoAuthoringDisconnect: function(disableDownload) {
+            this.toolbar.setMode({isDisconnected:true, disableDownload: !!disableDownload});
             this.editMode = false;
         },
 

@@ -210,7 +210,7 @@
   "DE.Controllers.Main.errorUpdateVersion": "Se ha cambiado la versión del archivo. La página será actualizada.",
   "DE.Controllers.Main.errorUserDrop": "No se puede acceder al archivo ahora.",
   "DE.Controllers.Main.errorUsersExceed": "El número de usuarios permitido según su plan de precios fue excedido",
-  "DE.Controllers.Main.errorViewerDisconnect": "Connection is lost. You can still view the document,<br>but will not be able to download until the connection is restored.",
+  "DE.Controllers.Main.errorViewerDisconnect": "Connection is lost. You can still view the document,<br>but will not be able to download or print until the connection is restored.",
   "DE.Controllers.Main.leavePageText": "Hay cambios no guardados en este documento. Haga clic en 'Permanecer en esta página', después 'Guardar' para guardarlos. Haga clic en 'Abandonar esta página' para descartar todos los cambios no guardados.",
   "DE.Controllers.Main.loadFontsTextText": "Cargando datos...",
   "DE.Controllers.Main.loadFontsTitleText": "Cargando datos",

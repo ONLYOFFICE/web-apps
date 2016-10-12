@@ -1684,6 +1684,7 @@ define([
                 this.lockToolbar( SSE.enumLock.lostConnect, true );
                 this.lockToolbar( SSE.enumLock.lostConnect, true,
                     {array:[this.btnEditChart,this.btnUndo,this.btnRedo,this.btnOpenDocument,this.btnNewDocument,this.btnSave]} );
+                this.lockToolbar(SSE.enumLock.cantPrint, !mode.canPrint || mode.disableDownload, {array: [this.btnPrint]});
             } else {
                 this.mode = mode;
 

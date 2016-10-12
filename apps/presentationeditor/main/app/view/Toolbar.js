@@ -1287,7 +1287,7 @@ define([
                 this.mnuitemHideTitleBar.hide();
             }
 
-            this.lockToolbar(PE.enumLock.cantPrint, !mode.canPrint, {array: [this.btnPrint]});
+            this.lockToolbar(PE.enumLock.cantPrint, !mode.canPrint || mode.disableDownload, {array: [this.btnPrint]});
         },
 
         changeViewMode: function(item, compact) {

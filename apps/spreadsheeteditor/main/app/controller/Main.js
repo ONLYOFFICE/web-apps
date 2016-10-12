@@ -1076,7 +1076,7 @@ define([
                         break;
 
                     case Asc.c_oAscError.ID.CoAuthoringDisconnect:
-                        config.msg = (this.appOptions.isEdit) ? this.errorCoAuthoringDisconnect : this.errorViewerDisconnect;
+                        config.msg = this.errorViewerDisconnect;
                         break;
 
                     case Asc.c_oAscError.ID.ConvertationPassword:
@@ -1969,7 +1969,7 @@ define([
             warnNoLicense: 'You are using an open source version of ONLYOFFICE. The version has limitations for concurrent connections to the document server (20 connections at a time).<br>If you need more please consider purchasing a commercial license.',
             textContactUs: 'Contact sales',
             confirmPutMergeRange: 'The source data contains merged cells.<br>They will be unmerged before they are pasted into the table.',
-            errorViewerDisconnect: 'Connection is lost. You can still view the document,<br>but will not be able to download until the connection is restored.',
+            errorViewerDisconnect: 'Connection is lost. You can still view the document,<br>but will not be able to download or print until the connection is restored.',
             warnLicenseExp: 'Your license has expired.<br>Please update your license and refresh the page.',
             titleLicenseExp: 'License expired',
             openErrorText: 'An error has occurred while opening the file',
