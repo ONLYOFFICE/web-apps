@@ -145,6 +145,7 @@
   "SSE.Controllers.Main.errorBadImageUrl": "Image URL is incorrect",
   "SSE.Controllers.Main.errorCoAuthoringDisconnect": "Server connection lost. The document cannot be edited right now.",
   "SSE.Controllers.Main.errorConnectToServer": "The document could not be saved. Please check connection settings or contact your administrator.<br>When you click the 'OK' button, you will be prompted to download the document.<br><br>Find more information about connecting Document Server <a href=\"https://api.onlyoffice.com/editors/callback\" target=\"_blank\">here</a>",
+  "SSE.Controllers.Main.errorCopyMultiselectArea": "This command cannot be used with multiple selections.<br>Select a single range and try again.",    
   "SSE.Controllers.Main.errorCountArg": "An error in the entered formula.<br>Incorrect number of arguments is used.",
   "SSE.Controllers.Main.errorCountArgExceed": "An error in the entered formula.<br>Number of arguments is exceeded.",
   "SSE.Controllers.Main.errorCreateDefName": "The existing named ranges cannot be edited and the new ones cannot be created<br>at the moment as some of them are being edited.",

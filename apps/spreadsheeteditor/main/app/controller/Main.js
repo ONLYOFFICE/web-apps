@@ -1145,6 +1145,10 @@ define([
                         config.msg = this.errorFrmlWrongReferences;
                         break;
 
+                    case Asc.c_oAscError.ID.CopyMultiselectAreaError:
+                        config.msg = this.errorCopyMultiselectArea;
+                        break;
+
                     default:
                         config.msg = this.errorDefaultMessage.replace('%1', id);
                         break;
@@ -1974,7 +1978,8 @@ define([
             warnLicenseExp: 'Your license has expired.<br>Please update your license and refresh the page.',
             titleLicenseExp: 'License expired',
             openErrorText: 'An error has occurred while opening the file',
-            saveErrorText: 'An error has occurred while saving the file'
+            saveErrorText: 'An error has occurred while saving the file',
+            errorCopyMultiselectArea: 'This command cannot be used with multiple selections.<br>Select a single range and try again.'
         }
     })(), SSE.Controllers.Main || {}))
 });
