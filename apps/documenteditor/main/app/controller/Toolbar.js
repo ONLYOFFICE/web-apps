@@ -2554,7 +2554,7 @@ define([
                 me.api.SetMarkerFormat(true, true, parseInt(r, 16), parseInt(g, 16), parseInt(b, 16));
             }
 
-            Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+            Common.NotificationCenter.trigger('edit:complete', me.toolbar, me.toolbar.btnHighlightColor);
             Common.component.Analytics.trackEvent('ToolBar', 'Highlight Color');
         },
 
