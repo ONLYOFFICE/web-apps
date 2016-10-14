@@ -159,12 +159,15 @@ define([
 
                 $(document.body).on('blur', 'input, textarea', function(e) {
                     if (this.isAppDisabled === true) return;
-                    if (!me.isModalShowed && !(me.loadMask && me.loadMask.isVisible()) &&
-                        (!/area_id/.test(e.target.id) && $(e.target).parent().find(e.relatedTarget).length<1 /* When focus in combobox goes from input to it's menu button or menu items */
-                        || !e.relatedTarget)) {
-                        me.api.asc_enableKeyEvents(true);
-                        if (/msg-reply/.test(e.target.className))
-                            me.dontCloseDummyComment = false;
+                    if (!me.isModalShowed && !(me.loadMask && me.loadMask.isVisible())) {
+                        if (!e.relatedTarget ||
+                            !/area_id/.test(e.target.id) && $(e.target).parent().find(e.relatedTarget).length<1 /* Check if focus in combobox goes from input to it's menu button or menu items */
+                            && (e.relatedTarget.localName != 'input' || !/form-control/.test(e.relatedTarget.className)) /* Check if focus goes to text input with class "form-control" */
+                            && (e.relatedTarget.localName != 'textarea' || /area_id/.test(e.relatedTarget.id))) /* Check if focus goes to textarea, but not to "area_id" */ {
+                            me.api.asc_enableKeyEvents(true);
+                            if (/msg-reply/.test(e.target.className))
+                                me.dontCloseDummyComment = false;
+                        }
                     }
                 }).on('dragover', function(e) {
                     var event = e.originalEvent;
