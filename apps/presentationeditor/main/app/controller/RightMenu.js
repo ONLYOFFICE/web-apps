@@ -245,6 +245,7 @@ define([
             if (this.editMode && this.api) {
                 this.api.asc_registerCallback('asc_doubleClickOnObject', _.bind(this.onDoubleClickOnObject, this));
 
+                this.rightmenu.shapeSettings.createDelayedElements();
                 var selectedElements = this.api.getSelectedElements();
                 if (selectedElements.length>0) {
                     var open = Common.localStorage.getItem("pe-hide-right-settings");

@@ -655,14 +655,15 @@ define([
 
                             documentHolderController.getView('DocumentHolder').createDelayedElements();
 
-                            rightmenuController.createDelayedElements();
-
-                            me.api.asc_registerCallback('asc_onFocusObject',        _.bind(me.onFocusObject, me));
                             me.api.asc_registerCallback('asc_onUpdateLayout',       _.bind(me.fillLayoutsStore, me)); // slide layouts loading
                             me.updateThemeColors();
                             var shapes = me.api.asc_getPropertyEditorShapes();
                             if (shapes)
                                 me.fillAutoShapes(shapes[0], shapes[1]);
+                            rightmenuController.createDelayedElements();
+
+                            me.api.asc_registerCallback('asc_onFocusObject',        _.bind(me.onFocusObject, me));
+
                             me.fillTextArt(me.api.asc_getTextArtPreviews());
                             toolbarController.activateControls();
                             if (me.needToUpdateVersion)

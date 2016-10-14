@@ -895,6 +895,7 @@ define([
             }
 
             this.UpdateThemeColors();
+            this._initSettings = false;
         },
 
         onInitStandartTextures: function(texture) {
@@ -1076,7 +1077,6 @@ define([
         ChangeSettings: function(props) {
             if (this._initSettings)
                 this.createDelayedElements();
-            this._initSettings = false;
 
             if (props)
             {
