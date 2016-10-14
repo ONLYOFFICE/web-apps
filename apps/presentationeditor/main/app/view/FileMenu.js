@@ -212,6 +212,7 @@ define([
         applyMode: function() {
             this.items[5][this.mode.canPrint?'show':'hide']();
             this.items[6][(this.mode.canRename && !this.mode.isDesktopApp) ?'show':'hide']();
+            this.items[6].$el.find('+.devider')[!this.mode.isDisconnected?'show':'hide']();
             this.items[7][this.mode.canOpenRecent?'show':'hide']();
             this.items[8][this.mode.canCreateNew?'show':'hide']();
             this.items[8].$el.find('+.devider')[this.mode.canCreateNew?'show':'hide']();
@@ -258,7 +259,10 @@ define([
             if (mode.isDisconnected) {
                 this.mode.canEdit = this.mode.isEdit = false;
                 this.mode.canOpenRecent = this.mode.canCreateNew = false;
+                this.mode.isDisconnected = mode.isDisconnected;
                 this.mode.canRename = false;
+                this.mode.canPrint = false;
+                this.mode.canDownload = false;
             } else {
                 this.mode = mode;
             }

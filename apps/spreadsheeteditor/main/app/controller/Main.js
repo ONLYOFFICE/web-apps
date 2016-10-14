@@ -646,7 +646,6 @@ define([
 
                             documentHolderView.createDelayedElements();
                             toolbarController.createDelayedElements();
-                            rightmenuController.createDelayedElements();
 
                             if (!me.appOptions.isEditMailMerge && !me.appOptions.isEditDiagram) {
                                 var shapes = me.api.asc_getPropertyEditorShapes();
@@ -656,6 +655,8 @@ define([
                                 me.fillTextArt(me.api.asc_getTextArtPreviews());
                                 me.updateThemeColors();
                             }
+
+                            rightmenuController.createDelayedElements();
 
                             me.api.asc_registerCallback('asc_onSaveUrl', _.bind(me.onSaveUrl, me));
                             me.api.asc_registerCallback('asc_onDocumentModifiedChanged', _.bind(me.onDocumentModifiedChanged, me));
@@ -1076,7 +1077,7 @@ define([
                         break;
 
                     case Asc.c_oAscError.ID.CoAuthoringDisconnect:
-                        config.msg = (this.appOptions.isEdit) ? this.errorCoAuthoringDisconnect : this.errorViewerDisconnect;
+                        config.msg = this.errorViewerDisconnect;
                         break;
 
                     case Asc.c_oAscError.ID.ConvertationPassword:
@@ -1142,6 +1143,10 @@ define([
 
                     case Asc.c_oAscError.ID.FrmlWrongReferences:
                         config.msg = this.errorFrmlWrongReferences;
+                        break;
+
+                    case Asc.c_oAscError.ID.CopyMultiselectAreaError:
+                        config.msg = this.errorCopyMultiselectArea;
                         break;
 
                     default:
@@ -1708,7 +1713,7 @@ define([
                 var app = this.getApplication(),
                     filemenu = app.getController('LeftMenu').getView('LeftMenu').getMenu('file');
                 app.getController('Viewport').getView('Common.Views.Header').setDocumentCaption(meta.title);
-                this.updateWindowTitle(true);
+                this.updateWindowTitle(this.api.asc_isDocumentModified(), true);
                 this.appOptions.spreadsheet.title = meta.title;
                 filemenu.loadDocument({doc:this.appOptions.spreadsheet});
                 filemenu.panels['info'].updateInfo(this.appOptions.spreadsheet);
@@ -1969,11 +1974,12 @@ define([
             warnNoLicense: 'You are using an open source version of ONLYOFFICE. The version has limitations for concurrent connections to the document server (20 connections at a time).<br>If you need more please consider purchasing a commercial license.',
             textContactUs: 'Contact sales',
             confirmPutMergeRange: 'The source data contains merged cells.<br>They will be unmerged before they are pasted into the table.',
-            errorViewerDisconnect: 'Connection is lost. You can still view the document,<br>but will not be able to download until the connection is restored.',
+            errorViewerDisconnect: 'Connection is lost. You can still view the document,<br>but will not be able to download or print until the connection is restored.',
             warnLicenseExp: 'Your license has expired.<br>Please update your license and refresh the page.',
             titleLicenseExp: 'License expired',
             openErrorText: 'An error has occurred while opening the file',
-            saveErrorText: 'An error has occurred while saving the file'
+            saveErrorText: 'An error has occurred while saving the file',
+            errorCopyMultiselectArea: 'This command cannot be used with multiple selections.<br>Select a single range and try again.'
         }
     })(), SSE.Controllers.Main || {}))
 });

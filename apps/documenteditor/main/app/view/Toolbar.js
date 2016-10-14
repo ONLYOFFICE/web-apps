@@ -1517,6 +1517,8 @@ define([
                 this.cmbFontName.setDisabled(true);
                 this.cmbFontSize.setDisabled(true);
                 this.listStyles.setDisabled(true);
+                if (mode.disableDownload)
+                    this.btnPrint.setDisabled(true);
             }
 
             this.mode = mode;

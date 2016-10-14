@@ -123,7 +123,7 @@
   "PE.Controllers.Main.errorUpdateVersion": "Se ha cambiado la versión del archivo. La página será actualizada.",
   "PE.Controllers.Main.errorUserDrop": "No se puede acceder al archivo ahora.",
   "PE.Controllers.Main.errorUsersExceed": "El número de usuarios permitido según su plan de precios fue excedido",
-  "PE.Controllers.Main.errorViewerDisconnect": "Connection is lost. You can still view the document,<br>but will not be able to download until the connection is restored.",
+  "PE.Controllers.Main.errorViewerDisconnect": "Connection is lost. You can still view the document,<br>but will not be able to download or print until the connection is restored.",
   "PE.Controllers.Main.leavePageText": "Hay cambios no guardados en esta presentación. Pulse \"Permanecer en esta página\", después \"Guardar\" para guardadarlos. Pulse \"Abandonar esta página\" para descartar todos los cambios no guardados.",
   "PE.Controllers.Main.loadFontsTextText": "Cargando datos...",
   "PE.Controllers.Main.loadFontsTitleText": "Cargando datos",

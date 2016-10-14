@@ -1312,6 +1312,7 @@ define([
                     item.setDisabled(isCellLocked);
                 });
                 documentHolder.pmiCopy.setDisabled(false);
+                documentHolder.pmiFilterCells.setDisabled(isCellLocked || (filterInfo==null));
                 documentHolder.pmiSortCells.setDisabled(isCellLocked || (filterInfo==null));
                 documentHolder.pmiReapply.setDisabled(isCellLocked || (isApplyAutoFilter!==true));
                 if (showMenu) this.showPopupMenu(documentHolder.ssMenu, {}, event);

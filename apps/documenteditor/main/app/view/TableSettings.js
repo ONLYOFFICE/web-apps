@@ -423,12 +423,12 @@ define([
         createDelayedElements: function() {
             this.createDelayedControls();
             this.UpdateThemeColors();
+            this._initSettings = false;
         },
 
         ChangeSettings: function(props) {
             if (this._initSettings)
                 this.createDelayedElements();
-            this._initSettings = false;
 
             this.disableControls(this._locked);
 
