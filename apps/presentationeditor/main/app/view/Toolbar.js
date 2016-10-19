@@ -122,8 +122,7 @@ define([
                 id          : 'id-toolbar-btn-newdocument',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-newdocument',
-                lock        : [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides],
-                hint        : me.tipNewDocument
+                lock        : [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides]
             });
             me.paragraphControls.push(me.btnNewDocument);
 
@@ -131,8 +130,7 @@ define([
                 id          : 'id-toolbar-btn-opendocument',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-opendocument',
-                lock        : [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides],
-                hint        : me.tipOpenDocument
+                lock        : [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides]
             });
             me.paragraphControls.push(me.btnOpenDocument);
 
@@ -140,7 +138,6 @@ define([
                 id          : 'id-toolbar-button-add-slide',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-addslide',
-                hint        : me.tipAddSlide + Common.Utils.String.platformKey('Ctrl+M'),
                 split       : true,
                 lock        : [_set.menuFileOpen, _set.slideDeleted, _set.lostConnect, _set.disableOnStart],
                 menu        : new Common.UI.Menu({
@@ -180,7 +177,6 @@ define([
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-changeslide',
                 lock        : [_set.menuFileOpen, _set.slideDeleted, _set.slideLock, _set.lostConnect, _set.noSlides, _set.disableOnStart],
-                hint        : me.tipChangeSlide,
                 menu        : new Common.UI.Menu({
                     items: [
                         { template: _.template('<div id="id-toolbar-menu-changeslide" class="menu-layouts" style="width: 302px; margin: 0 4px;"></div>') }
@@ -223,7 +219,6 @@ define([
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-preview',
                 lock        : [_set.menuFileOpen, _set.slideDeleted, _set.noSlides, _set.disableOnStart],
-                hint        : me.tipPreview,
                 split       : true,
                 menu        : new Common.UI.Menu({
                     items : [
@@ -244,8 +239,7 @@ define([
                 id          : 'id-toolbar-btn-print',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-print',
-                lock        : [_set.slideDeleted, _set.noSlides, _set.cantPrint],
-                hint        : me.tipPrint + Common.Utils.String.platformKey('Ctrl+P')
+                lock        : [_set.slideDeleted, _set.noSlides, _set.cantPrint]
             });
             me.paragraphControls.push(me.btnPrint);
 
@@ -253,16 +247,14 @@ define([
                 id          : 'id-toolbar-btn-save',
                 cls         : 'btn-toolbar',
                 iconCls     : me.btnSaveCls,
-                lock        : [_set.lostConnect],
-                hint        : me.btnSaveTip
+                lock        : [_set.lostConnect]
             });
 
             me.btnUndo = new Common.UI.Button({
                 id          : 'id-toolbar-btn-undo',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-undo',
-                lock        : [_set.undoLock, _set.slideDeleted, _set.lostConnect, _set.disableOnStart],
-                hint        : me.tipUndo + Common.Utils.String.platformKey('Ctrl+Z')
+                lock        : [_set.undoLock, _set.slideDeleted, _set.lostConnect, _set.disableOnStart]
             });
             me.slideOnlyControls.push(me.btnUndo);
 
@@ -270,8 +262,7 @@ define([
                 id          : 'id-toolbar-btn-redo',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-redo',
-                lock        : [_set.redoLock, _set.slideDeleted, _set.lostConnect, _set.disableOnStart],
-                hint        : me.tipRedo + Common.Utils.String.platformKey('Ctrl+Y')
+                lock        : [_set.redoLock, _set.slideDeleted, _set.lostConnect, _set.disableOnStart]
             });
             me.slideOnlyControls.push(me.btnRedo);
 
@@ -279,8 +270,7 @@ define([
                 id          : 'id-toolbar-btn-copy',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-copy',
-                lock        : [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart],
-                hint        : me.tipCopy + Common.Utils.String.platformKey('Ctrl+C')
+                lock        : [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart]
             });
             me.slideOnlyControls.push(me.btnCopy);
 
@@ -288,8 +278,7 @@ define([
                 id          : 'id-toolbar-btn-paste',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-paste',
-                lock        : [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides],
-                hint        : me.tipPaste + Common.Utils.String.platformKey('Ctrl+V')
+                lock        : [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides]
             });
             me.paragraphControls.push(me.btnPaste);
 
@@ -334,7 +323,6 @@ define([
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-bold',
                 lock        : [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noTextSelected, _set.shapeLock],
-                hint        : me.textBold + Common.Utils.String.platformKey('Ctrl+B'),
                 enableToggle: true
             });
             me.paragraphControls.push(me.btnBold);
@@ -344,7 +332,6 @@ define([
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-italic',
                 lock        : [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noTextSelected, _set.shapeLock],
-                hint        : me.textItalic + Common.Utils.String.platformKey('Ctrl+I'),
                 enableToggle: true
             });
             me.paragraphControls.push(me.btnItalic);
@@ -354,7 +341,6 @@ define([
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-underline',
                 lock        : [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noTextSelected, _set.shapeLock],
-                hint        : me.textUnderline + Common.Utils.String.platformKey('Ctrl+U'),
                 enableToggle: true
             });
             me.paragraphControls.push(me.btnUnderline);
@@ -364,7 +350,6 @@ define([
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-strikeout',
                 lock        : [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noTextSelected, _set.shapeLock],
-                hint        : me.textStrikeout,
                 enableToggle: true
             });
             me.paragraphControls.push(me.btnStrikeout);
@@ -374,7 +359,6 @@ define([
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-superscript',
                 lock        : [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noTextSelected, _set.shapeLock],
-                hint        : me.textSuperscript,
                 enableToggle: true,
                 toggleGroup : 'superscriptGroup'
             });
@@ -385,7 +369,6 @@ define([
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-subscript',
                 lock        : [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noTextSelected, _set.shapeLock],
-                hint        : me.textSubscript,
                 enableToggle: true,
                 toggleGroup : 'superscriptGroup'
             });
@@ -396,7 +379,6 @@ define([
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-fontcolor',
                 lock        : [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noTextSelected, _set.shapeLock],
-                hint        : me.tipFontColor,
                 split       : true,
                 menu        : new Common.UI.Menu({
                     items: [
@@ -419,8 +401,7 @@ define([
                 id          : 'id-toolbar-btn-clearstyle',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-clearstyle',
-                lock        : [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected],
-                hint        : me.tipClearStyle
+                lock        : [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected]
             });
             me.paragraphControls.push(me.btnClearStyle);
 
@@ -429,7 +410,6 @@ define([
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-copystyle',
                 lock        : [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.noParagraphSelected, _set.disableOnStart],
-                hint        : me.tipCopyStyle + Common.Utils.String.platformKey('Ctrl+Shift+C'),
                 enableToggle: true
             });
             me.slideOnlyControls.push(me.btnCopyStyle);
@@ -439,7 +419,6 @@ define([
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-setmarkers',
                 lock        : [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected],
-                hint        : me.tipMarkers,
                 enableToggle: true,
                 toggleGroup : 'markersGroup',
                 split       : true,
@@ -474,7 +453,6 @@ define([
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-numbering',
                 lock        : [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected],
-                hint        : me.tipNumbers,
                 enableToggle: true,
                 toggleGroup : 'markersGroup',
                 split       : true,
@@ -509,7 +487,6 @@ define([
                 iconCls     : 'btn-align-left',
                 icls        : 'btn-align-left',
                 lock        : [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected],
-                hint        : me.tipHAligh,
                 menu        : new Common.UI.Menu({
                     items: [
                         {
@@ -554,7 +531,6 @@ define([
                 id          : 'id-toolbar-btn-valign',
                 cls         : 'btn-toolbar',
                 lock        : [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected],
-                hint        : me.tipVAligh,
                 iconCls     : 'btn-align-middle',
                 icls        : 'btn-align-middle',
                 menu        : new Common.UI.Menu({
@@ -593,8 +569,7 @@ define([
                 id          : 'id-toolbar-btn-decoffset',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-decoffset',
-                lock        : [_set.decIndentLock, _set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected],
-                hint        : me.tipDecPrLeft + Common.Utils.String.platformKey('Ctrl+Shift+M')
+                lock        : [_set.decIndentLock, _set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected]
             });
             me.paragraphControls.push(me.btnDecLeftOffset);
 
@@ -602,8 +577,7 @@ define([
                 id          : 'id-toolbar-btn-incoffset',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-incoffset',
-                lock        : [_set.incIndentLock, _set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected],
-                hint        : me.tipIncPrLeft
+                lock        : [_set.incIndentLock, _set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected]
             });
             me.paragraphControls.push(me.btnIncLeftOffset);
 
@@ -612,7 +586,6 @@ define([
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-linespace',
                 lock        : [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected],
-                hint        : me.tipLineSpace,
                 menu        : new Common.UI.Menu({
                     style: 'min-width: 60px;',
                     items: [
@@ -632,7 +605,6 @@ define([
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-inserttable',
                 lock        : [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart],
-                hint        : me.tipInsertTable,
                 menu        : new Common.UI.Menu({
                     items: [
                         { template: _.template('<div id="id-toolbar-menu-tablepicker" class="dimension-picker" style="margin: 5px 10px;"></div>') },
@@ -655,7 +627,6 @@ define([
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-insertimage',
                 lock        : [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart],
-                hint        : me.tipInsertImage,
                 menu        : new Common.UI.Menu({
                     items: [
                         { caption: me.mniImageFromFile, value: 'file' },
@@ -670,7 +641,6 @@ define([
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-insertchart',
                 lock        : [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart],
-                hint        : me.tipInsertChart,
                 menu        : new Common.UI.Menu({
                     style: 'width: 560px;',
                     items: [
@@ -730,7 +700,6 @@ define([
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-inserttext',
                 lock        : [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart],
-                hint        : me.tipInsertText,
                 enableToggle: true,
                 split       : true,
                 menu        : new Common.UI.Menu({
@@ -756,8 +725,7 @@ define([
                 id          : 'id-toolbar-btn-inserthyperlink',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-inserthyperlink',
-                lock        : [_set.hyperlinkLock, _set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected],
-                hint        : me.tipInsertHyperlink + Common.Utils.String.platformKey('Ctrl+K')
+                lock        : [_set.hyperlinkLock, _set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected]
             });
             me.paragraphControls.push(me.btnInsertHyperlink);
 
@@ -766,7 +734,6 @@ define([
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-insertshape',
                 lock        : [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart],
-                hint        : me.tipInsertShape,
                 enableToggle: true,
                 menu        : new Common.UI.Menu({cls: 'menu-shapes'})
             });
@@ -777,7 +744,6 @@ define([
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-colorschemas',
                 lock        : [_set.themeLock, _set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart],
-                hint        : me.tipColorSchemas,
                 menu        : new Common.UI.Menu({
                     items       : [],
                     maxHeight   : 600,
@@ -815,7 +781,6 @@ define([
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-hidebars',
                 lock        : [_set.menuFileOpen, _set.slideDeleted, _set.disableOnStart],
-                hint        : me.tipViewSettings,
                 menu        : new Common.UI.Menu({
                     cls: 'pull-right',
                     style: 'min-width: 180px;',
@@ -878,8 +843,7 @@ define([
                 id          : 'id-toolbar-btn-settings',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-settings',
-                lock        : [_set.slideDeleted, _set.disableOnStart],
-                hint        : me.tipAdvSettings
+                lock        : [_set.slideDeleted, _set.disableOnStart]
             });
             me.slideOnlyControls.push(me.btnAdvSettings);
 
@@ -888,7 +852,6 @@ define([
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-align-shape',
                 lock        : [_set.slideDeleted, _set.shapeLock, _set.lostConnect, _set.noSlides, _set.noObjectSelected, _set.disableOnStart],
-                hint        : me.tipShapeAlign,
                 menu        : new Common.UI.Menu({
                     items: [
                         {
@@ -943,7 +906,6 @@ define([
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-arrange-shape',
                 lock        : [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.noObjectSelected, _set.disableOnStart],
-                hint        : me.tipShapeArrange,
                 menu        : new Common.UI.Menu({
                     items: [
                         {
@@ -987,7 +949,6 @@ define([
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-slidesize',
                 lock        : [_set.docPropsLock, _set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart],
-                hint        : me.tipSlideSize,
                 menu        : new Common.UI.Menu({
                     items: [
                         {
@@ -1238,6 +1199,47 @@ define([
         },
 
         createDelayedElements: function() {
+            // set hints
+            this.btnNewDocument.updateHint(this.tipNewDocument);
+            this.btnOpenDocument.updateHint(this.tipOpenDocument);
+            this.btnAddSlide.updateHint(this.tipAddSlide + Common.Utils.String.platformKey('Ctrl+M'));
+            this.btnChangeSlide.updateHint(this.tipChangeSlide);
+            this.btnPreview.updateHint(this.tipPreview);
+            this.btnPrint.updateHint(this.tipPrint + Common.Utils.String.platformKey('Ctrl+P'));
+            this.btnSave.updateHint(this.btnSaveTip);
+            this.btnUndo.updateHint(this.tipUndo + Common.Utils.String.platformKey('Ctrl+Z'));
+            this.btnRedo.updateHint(this.tipRedo + Common.Utils.String.platformKey('Ctrl+Y'));
+            this.btnCopy.updateHint(this.tipCopy + Common.Utils.String.platformKey('Ctrl+C'));
+            this.btnPaste.updateHint(this.tipPaste + Common.Utils.String.platformKey('Ctrl+V'));
+            this.btnBold.updateHint(this.textBold + Common.Utils.String.platformKey('Ctrl+B'));
+            this.btnItalic.updateHint(this.textItalic + Common.Utils.String.platformKey('Ctrl+I'));
+            this.btnUnderline.updateHint(this.textUnderline + Common.Utils.String.platformKey('Ctrl+U'));
+            this.btnStrikeout.updateHint(this.textStrikeout);
+            this.btnSuperscript.updateHint(this.textSuperscript);
+            this.btnSubscript.updateHint(this.textSubscript);
+            this.btnFontColor.updateHint(this.tipFontColor);
+            this.btnClearStyle.updateHint(this.tipClearStyle);
+            this.btnCopyStyle.updateHint(this.tipCopyStyle + Common.Utils.String.platformKey('Ctrl+Shift+C'));
+            this.btnMarkers.updateHint(this.tipMarkers);
+            this.btnNumbers.updateHint(this.tipNumbers);
+            this.btnHorizontalAlign.updateHint(this.tipHAligh);
+            this.btnVerticalAlign.updateHint(this.tipVAligh);
+            this.btnDecLeftOffset.updateHint(this.tipDecPrLeft + Common.Utils.String.platformKey('Ctrl+Shift+M'));
+            this.btnIncLeftOffset.updateHint(this.tipIncPrLeft);
+            this.btnLineSpace.updateHint(this.tipLineSpace);
+            this.btnInsertTable.updateHint(this.tipInsertTable);
+            this.btnInsertImage.updateHint(this.tipInsertImage);
+            this.btnInsertChart.updateHint(this.tipInsertChart);
+            this.btnInsertText.updateHint(this.tipInsertText);
+            this.btnInsertHyperlink.updateHint(this.tipInsertHyperlink + Common.Utils.String.platformKey('Ctrl+K'));
+            this.btnInsertShape.updateHint(this.tipInsertShape);
+            this.btnColorSchemas.updateHint(this.tipColorSchemas);
+            this.btnHide.updateHint(this.tipViewSettings);
+            this.btnAdvSettings.updateHint(this.tipAdvSettings);
+            this.btnShapeAlign.updateHint(this.tipShapeAlign);
+            this.btnShapeArrange.updateHint(this.tipShapeArrange);
+            this.btnSlideSize.updateHint(this.tipSlideSize);
+
 //            // Enable none paragraph components
             this.lockToolbar(PE.enumLock.disableOnStart, false, {array: this.slideOnlyControls.concat(this.shapeControls)});
 

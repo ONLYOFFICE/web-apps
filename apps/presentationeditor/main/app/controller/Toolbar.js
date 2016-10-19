@@ -171,7 +171,7 @@ define([
             // Create toolbar view
             this.toolbar = this.createView('Toolbar');
 
-            this.toolbar.on('render:after', _.bind(this.onToolbarAfterRender, this));
+//            this.toolbar.on('render:after', _.bind(this.onToolbarAfterRender, this));
         },
 
         onToolbarAfterRender: function(toolbar) {
@@ -1827,6 +1827,11 @@ define([
                 mask.remove();
                 Common.util.Shortcuts.resumeEvents('command+k, ctrl+k, alt+h, command+f5, ctrl+f5');
             }
+        },
+
+        createDelayedElements: function() {
+            this.toolbar.createDelayedElements();
+            this.onToolbarAfterRender(this.toolbar);
         },
 
         textEmptyImgUrl : 'You need to specify image URL.',
