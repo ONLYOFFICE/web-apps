@@ -300,7 +300,7 @@ define([
                         });
                     });
 
-                this.tabbar.$el.append('<div class="menu-backdrop" data-toggle="dropdown" style="width:0; height:0;"/>');
+                this.tabbar.$el.append('<div class="menu-backdrop dropdown-toggle" data-toggle="dropdown" style="width:0; height:0;"/>');
                 this.tabMenu.render(this.tabbar.$el);
                 this.tabMenu.on('show:after', _.bind(this.onTabMenuAfterShow, this));
                 this.tabMenu.on('hide:after', _.bind(this.onTabMenuAfterHide, this));
@@ -445,6 +445,7 @@ define([
                     usertip.setContent();
                 }
                 (length > 1) ? this.panelUsersBlock.attr('data-toggle', 'dropdown') : this.panelUsersBlock.removeAttr('data-toggle');
+                this.panelUsersBlock.toggleClass('dropdown-toggle', length > 1);
                 (length > 1) ? this.panelUsersBlock.off('click') : this.panelUsersBlock.on('click', _.bind(this.onUsersClick, this));
             },
 

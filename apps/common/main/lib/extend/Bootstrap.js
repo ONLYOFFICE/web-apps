@@ -186,6 +186,16 @@ function getParent($this) {
     return $parent && $parent.length ? $parent : $this.parent();
 }
 
+function clearMenus() {
+    $('.dropdown-toggle').each(function (e) {
+        var $parent = ($(this)).parent();
+        if (!$parent.hasClass('open')) return;
+        $parent.trigger(e = $.Event('hide.bs.dropdown'));
+        if (e.isDefaultPrevented()) return;
+        $parent.removeClass('open').trigger('hidden.bs.dropdown');
+    })
+}
+
 $(document)
     .off('keydown.bs.dropdown.data-api')
     .on('keydown.bs.dropdown.data-api', '[data-toggle=dropdown], [role=menu]' , onDropDownKeyDown);
@@ -206,9 +216,8 @@ $(document)
     }
 
     function onDropDownClick(e) {
-        if ((e.which == 1 || e.which == undefined) && !!clickDefHandler) {
-            clickDefHandler(e);
-        }
+        if (e.which == 1 || e.which == undefined)
+            clearMenus();
     }
 
     if (!!clickDefHandler) {
