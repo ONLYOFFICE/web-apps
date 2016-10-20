@@ -699,6 +699,7 @@ define([
                 $('.menu-zoom .zoom', this.toolbar.el).html(percent + '%');
                 this._state.zoom_percent = percent;
             }
+            this.toolbar.mnuZoom.options.value = percent;
         },
 
         onApiInitEditorStyles: function(themes) {
