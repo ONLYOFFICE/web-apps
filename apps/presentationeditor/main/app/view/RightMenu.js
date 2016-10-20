@@ -254,7 +254,7 @@ define([
         },
 
         GetActivePane: function() {
-            return (this.minimizedMode) ? null : $(".settings-panel.active")[0].id;
+            return (this.minimizedMode) ? null : this.$el.find(".settings-panel.active")[0].id;
         },
 
         SetDisabled: function(id, disabled, all) {

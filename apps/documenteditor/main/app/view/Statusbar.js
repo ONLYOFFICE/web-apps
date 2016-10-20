@@ -417,6 +417,7 @@ define([
                     usertip.setContent();
                 }
                 (length > 1) ? this.panelUsersBlock.attr('data-toggle', 'dropdown') : this.panelUsersBlock.removeAttr('data-toggle');
+                this.panelUsersBlock.toggleClass('dropdown-toggle', length > 1);
                 (length > 1) ? this.panelUsersBlock.off('click') : this.panelUsersBlock.on('click', _.bind(this.onUsersClick, this));
             },
 

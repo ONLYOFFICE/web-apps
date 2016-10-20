@@ -423,39 +423,41 @@ define([
 
                                 var changes = version.changes, change, i;
                                 if (changes && changes.length>0) {
-                                    arrVersions[arrVersions.length-1].set('changeid', changes.length-1);
                                     arrVersions[arrVersions.length-1].set('docIdPrev', docIdPrev);
-                                    arrVersions[arrVersions.length-1].set('hasChanges', changes.length>1);
-                                    for (i=changes.length-2; i>=0; i--) {
-                                        change = changes[i];
+                                    if (!_.isEmpty(version.serverVersion) && version.serverVersion == this.appOptions.buildVersion) {
+                                        arrVersions[arrVersions.length-1].set('changeid', changes.length-1);
+                                        arrVersions[arrVersions.length-1].set('hasChanges', changes.length>1);
+                                        for (i=changes.length-2; i>=0; i--) {
+                                            change = changes[i];
 
-                                        user = usersStore.findUser(change.user.id);
-                                        if (!user) {
-                                            user = new Common.Models.User({
-                                                id          : change.user.id,
-                                                username    : change.user.name,
-                                                colorval    : Asc.c_oAscArrUserColors[usersCnt],
-                                                color       : this.generateUserColor(Asc.c_oAscArrUserColors[usersCnt++])
-                                            });
-                                            usersStore.add(user);
+                                            user = usersStore.findUser(change.user.id);
+                                            if (!user) {
+                                                user = new Common.Models.User({
+                                                    id          : change.user.id,
+                                                    username    : change.user.name,
+                                                    colorval    : Asc.c_oAscArrUserColors[usersCnt],
+                                                    color       : this.generateUserColor(Asc.c_oAscArrUserColors[usersCnt++])
+                                                });
+                                                usersStore.add(user);
+                                            }
+
+                                            arrVersions.push(new Common.Models.HistoryVersion({
+                                                version: version.versionGroup,
+                                                revision: version.version,
+                                                changeid: i,
+                                                userid : change.user.id,
+                                                username : change.user.name,
+                                                usercolor: user.get('color'),
+                                                created: change.created,
+                                                docId: version.key,
+                                                docIdPrev: docIdPrev,
+                                                selected: false,
+                                                canRestore: this.appOptions.canHistoryRestore,
+                                                isRevision: false,
+                                                isVisible: true
+                                            }));
+                                            arrColors.push(user.get('colorval'));
                                         }
-
-                                        arrVersions.push(new Common.Models.HistoryVersion({
-                                            version: version.versionGroup,
-                                            revision: version.version,
-                                            changeid: i,
-                                            userid : change.user.id,
-                                            username : change.user.name,
-                                            usercolor: user.get('color'),
-                                            created: change.created,
-                                            docId: version.key,
-                                            docIdPrev: docIdPrev,
-                                            selected: false,
-                                            canRestore: this.appOptions.canHistoryRestore,
-                                            isRevision: false,
-                                            isVisible: true
-                                        }));
-                                        arrColors.push(user.get('colorval'));
                                     }
                                 } else if (ver==0 && versions.length==1) {
                                      arrVersions[arrVersions.length-1].set('docId', version.key + '1');
@@ -954,6 +956,10 @@ define([
                 }
 
                 this.permissions.review = (this.permissions.review === undefined) ? (this.permissions.edit !== false) : this.permissions.review;
+
+                if (params.asc_getRights() !== Asc.c_oRights.Edit)
+                    this.permissions.edit = this.permissions.review = false;
+
                 this.appOptions.canAnalytics   = params.asc_getIsAnalyticsEnable();
                 this.appOptions.canLicense     = (licType === Asc.c_oLicenseResult.Success);
                 this.appOptions.isLightVersion = params.asc_getIsLight();
@@ -978,6 +984,7 @@ define([
                 this.appOptions.canEditStyles  = this.appOptions.canLicense && this.appOptions.canEdit;
                 this.appOptions.canPrint       = (this.permissions.print !== false);
                 this.appOptions.canRename      = !!this.permissions.rename;
+                this.appOptions.buildVersion   = params.asc_getBuildVersion();
 
                 var type = /^(?:(pdf|djvu|xps))$/.exec(this.document.fileType);
                 this.appOptions.canDownloadOrigin = !this.appOptions.nativeApp && this.permissions.download !== false && (type && typeof type[1] === 'string');

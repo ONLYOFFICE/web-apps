@@ -733,6 +733,9 @@ define([
                     return;
                 }
 
+                if (params.asc_getRights() !== Asc.c_oRights.Edit)
+                    this.permissions.edit = false;
+
                 this.appOptions.isOffline      = this.api.asc_isOffline();
                 this.appOptions.canLicense     = (licType === Asc.c_oLicenseResult.Success);
                 this.appOptions.isLightVersion = params.asc_getIsLight();
