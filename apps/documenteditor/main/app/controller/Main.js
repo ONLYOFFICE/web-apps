@@ -956,6 +956,10 @@ define([
                 }
 
                 this.permissions.review = (this.permissions.review === undefined) ? (this.permissions.edit !== false) : this.permissions.review;
+
+                if (params.asc_getRights() !== Asc.c_oRights.Edit)
+                    this.permissions.edit = this.permissions.review = false;
+
                 this.appOptions.canAnalytics   = params.asc_getIsAnalyticsEnable();
                 this.appOptions.canLicense     = (licType === Asc.c_oLicenseResult.Success);
                 this.appOptions.isLightVersion = params.asc_getIsLight();

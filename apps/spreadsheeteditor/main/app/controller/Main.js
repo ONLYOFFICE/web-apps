@@ -752,6 +752,9 @@ define([
                         return;
                     }
 
+                    if (params.asc_getRights() !== Asc.c_oRights.Edit)
+                        this.permissions.edit = false;
+
                     this.appOptions.canAutosave = true;
                     this.appOptions.canAnalytics = params.asc_getIsAnalyticsEnable();
 
