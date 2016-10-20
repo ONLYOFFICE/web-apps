@@ -171,7 +171,7 @@ define([
             // Create toolbar view
             this.toolbar = this.createView('Toolbar');
 
-            this.toolbar.on('render:after', _.bind(this.onToolbarAfterRender, this));
+//            this.toolbar.on('render:after', _.bind(this.onToolbarAfterRender, this));
         },
 
         onToolbarAfterRender: function(toolbar) {
@@ -699,6 +699,7 @@ define([
                 $('.menu-zoom .zoom', this.toolbar.el).html(percent + '%');
                 this._state.zoom_percent = percent;
             }
+            this.toolbar.mnuZoom.options.value = percent;
         },
 
         onApiInitEditorStyles: function(themes) {
@@ -1827,6 +1828,11 @@ define([
                 mask.remove();
                 Common.util.Shortcuts.resumeEvents('command+k, ctrl+k, alt+h, command+f5, ctrl+f5');
             }
+        },
+
+        createDelayedElements: function() {
+            this.toolbar.createDelayedElements();
+            this.onToolbarAfterRender(this.toolbar);
         },
 
         textEmptyImgUrl : 'You need to specify image URL.',

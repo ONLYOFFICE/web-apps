@@ -64,7 +64,6 @@ define([
         },
 
         initialize: function () {
-            var me = this;
             this._initSettings = true;
 
             this._state = {
@@ -79,68 +78,6 @@ define([
             this._locked = false;
 
             this.render();
-
-            this._arrLineRule = [
-                {displayValue: this.textAuto,   defaultValue: 1, value: c_paragraphLinerule.LINERULE_AUTO, minValue: 0.5,    step: 0.01, defaultUnit: ''},
-                {displayValue: this.textExact,  defaultValue: 5, value: c_paragraphLinerule.LINERULE_EXACT, minValue: 0.03,   step: 0.01, defaultUnit: 'cm'}
-            ];
-
-            // Short Size
-            this.cmbLineRule = new Common.UI.ComboBox({
-                el: $('#paragraph-combo-line-rule'),
-                cls: 'input-group-nr',
-                menuStyle: 'min-width: 85px;',
-                editable: false,
-                data: this._arrLineRule
-            });
-            this.cmbLineRule.setValue(c_paragraphLinerule.LINERULE_AUTO);
-            this.lockedControls.push(this.cmbLineRule);
-
-            this.numLineHeight = new Common.UI.MetricSpinner({
-                el: $('#paragraph-spin-line-height'),
-                step: .01,
-                width: 85,
-                value: '1.5',
-                defaultUnit : "",
-                maxValue: 132,
-                minValue: 0.5
-            });
-            this.lockedControls.push(this.numLineHeight);
-
-            this.numSpacingBefore = new Common.UI.MetricSpinner({
-                el: $('#paragraph-spin-spacing-before'),
-                step: .1,
-                width: 85,
-                value: '0 cm',
-                defaultUnit : "cm",
-                maxValue: 55.88,
-                minValue: 0,
-                allowAuto   : true,
-                autoText    : this.txtAutoText
-            });
-            this.spinners.push(this.numSpacingBefore);
-            this.lockedControls.push(this.numSpacingBefore);
-
-            this.numSpacingAfter = new Common.UI.MetricSpinner({
-                el: $('#paragraph-spin-spacing-after'),
-                step: .1,
-                width: 85,
-                value: '0.35 cm',
-                defaultUnit : "cm",
-                maxValue: 55.88,
-                minValue: 0,
-                allowAuto   : true,
-                autoText    : this.txtAutoText
-            });
-            this.spinners.push(this.numSpacingAfter);
-            this.lockedControls.push(this.numSpacingAfter);
-
-            this.numLineHeight.on('change', _.bind(this.onNumLineHeightChange, this));
-            this.numSpacingBefore.on('change', _.bind(this.onNumSpacingBeforeChange, this));
-            this.numSpacingAfter.on('change', _.bind(this.onNumSpacingAfterChange, this));
-            this.cmbLineRule.on('selected', _.bind(this.onLineRuleSelect, this));
-            this.cmbLineRule.on('hide:after', _.bind(this.onHideMenus, this));
-            $(this.el).on('click', '#paragraph-advanced-link', _.bind(this.openAdvancedSettings, this));
         },
 
         render: function () {
@@ -200,6 +137,8 @@ define([
         },
 
         _onLineSpacing: function(value) {
+            if (this._initSettings) return;
+            
             var linerule = value.get_LineRule();
             var line = value.get_Line();
 
@@ -229,10 +168,8 @@ define([
         },
 
         ChangeSettings: function(prop) {
-            if (this._initSettings) {
+            if (this._initSettings)
                 this.createDelayedElements();
-                this._initSettings = false;
-            }
 
             this.disableControls(this._locked);
 
@@ -297,22 +234,92 @@ define([
                     spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt ? 1 : 0.01);
                 }
             }
-            var rec = this.cmbLineRule.store.at(1);
-            rec.set({defaultUnit: Common.Utils.Metric.getCurrentMetricName(),
-                    minValue: parseFloat(Common.Utils.Metric.fnRecalcFromMM(0.3).toFixed(2)),
-                    step: (Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt) ? 1 : 0.01});
+            if (this.cmbLineRule) {
+                var rec = this.cmbLineRule.store.at(1);
+                rec.set({defaultUnit: Common.Utils.Metric.getCurrentMetricName(),
+                        minValue: parseFloat(Common.Utils.Metric.fnRecalcFromMM(0.3).toFixed(2)),
+                        step: (Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt) ? 1 : 0.01});
 
-            if (this._state.LineRule !== null) {
-                var obj;
-                rec = this.cmbLineRule.store.findWhere((obj={}, obj['value']=this._state.LineRule, obj));
-                if (!rec) rec = this.cmbLineRule.store.at(0);
-                this.numLineHeight.setDefaultUnit(rec.get('defaultUnit'));
-                this.numLineHeight.setStep(rec.get('step'));
+                if (this._state.LineRule !== null) {
+                    var obj;
+                    rec = this.cmbLineRule.store.findWhere((obj={}, obj['value']=this._state.LineRule, obj));
+                    if (!rec) rec = this.cmbLineRule.store.at(0);
+                    this.numLineHeight.setDefaultUnit(rec.get('defaultUnit'));
+                    this.numLineHeight.setStep(rec.get('step'));
+                }
             }
         },
 
+        createDelayedControls: function() {
+            var me = this;
+            this._arrLineRule = [
+                {displayValue: this.textAuto,   defaultValue: 1, value: c_paragraphLinerule.LINERULE_AUTO, minValue: 0.5,    step: 0.01, defaultUnit: ''},
+                {displayValue: this.textExact,  defaultValue: 5, value: c_paragraphLinerule.LINERULE_EXACT, minValue: 0.03,   step: 0.01, defaultUnit: 'cm'}
+            ];
+
+            // Short Size
+            this.cmbLineRule = new Common.UI.ComboBox({
+                el: $('#paragraph-combo-line-rule'),
+                cls: 'input-group-nr',
+                menuStyle: 'min-width: 85px;',
+                editable: false,
+                data: this._arrLineRule
+            });
+            this.cmbLineRule.setValue(c_paragraphLinerule.LINERULE_AUTO);
+            this.lockedControls.push(this.cmbLineRule);
+
+            this.numLineHeight = new Common.UI.MetricSpinner({
+                el: $('#paragraph-spin-line-height'),
+                step: .01,
+                width: 85,
+                value: '1.5',
+                defaultUnit : "",
+                maxValue: 132,
+                minValue: 0.5
+            });
+            this.lockedControls.push(this.numLineHeight);
+
+            this.numSpacingBefore = new Common.UI.MetricSpinner({
+                el: $('#paragraph-spin-spacing-before'),
+                step: .1,
+                width: 85,
+                value: '0 cm',
+                defaultUnit : "cm",
+                maxValue: 55.88,
+                minValue: 0,
+                allowAuto   : true,
+                autoText    : this.txtAutoText
+            });
+            this.spinners.push(this.numSpacingBefore);
+            this.lockedControls.push(this.numSpacingBefore);
+
+            this.numSpacingAfter = new Common.UI.MetricSpinner({
+                el: $('#paragraph-spin-spacing-after'),
+                step: .1,
+                width: 85,
+                value: '0.35 cm',
+                defaultUnit : "cm",
+                maxValue: 55.88,
+                minValue: 0,
+                allowAuto   : true,
+                autoText    : this.txtAutoText
+            });
+            this.spinners.push(this.numSpacingAfter);
+            this.lockedControls.push(this.numSpacingAfter);
+
+            this.numLineHeight.on('change', _.bind(this.onNumLineHeightChange, this));
+            this.numSpacingBefore.on('change', _.bind(this.onNumSpacingBeforeChange, this));
+            this.numSpacingAfter.on('change', _.bind(this.onNumSpacingAfterChange, this));
+            this.cmbLineRule.on('selected', _.bind(this.onLineRuleSelect, this));
+            this.cmbLineRule.on('hide:after', _.bind(this.onHideMenus, this));
+            $(this.el).on('click', '#paragraph-advanced-link', _.bind(this.openAdvancedSettings, this));
+
+        },
+
         createDelayedElements: function() {
+            this.createDelayedControls();
             this.updateMetricUnit();
+            this._initSettings = false;
         },
 
         openAdvancedSettings: function(e) {
@@ -357,6 +364,8 @@ define([
         },
 
         disableControls: function(disable) {
+            if (this._initSettings) return;
+            
             if (this._state.DisabledControls!==disable) {
                 this._state.DisabledControls = disable;
                 _.each(this.lockedControls, function(item) {
