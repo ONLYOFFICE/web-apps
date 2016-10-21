@@ -224,7 +224,8 @@ define([
                     url = ((plugin.get_BaseUrl().length == 0) ? this.panelPlugins.pluginsPath : plugin.get_BaseUrl()) + url;
 
                 if (variation.get_InsideMode()) {
-                    this.panelPlugins.openInsideMode(plugin.get_Name(), url);
+                    if (!this.panelPlugins.openInsideMode(plugin.get_Name(), url))
+                        this.api.asc_pluginButtonClick(-1);
                 } else {
                     var me = this,
                         arrBtns = variation.get_Buttons(),

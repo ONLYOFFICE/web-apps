@@ -1771,6 +1771,7 @@ define([
 
                 if (arr.length>0)
                     this.updatePluginsList({
+                        autoStartGuid: plugins.autoStartGuid,
                         url: plugins.url,
                         pluginsData: arr
                     });
@@ -1829,8 +1830,11 @@ define([
                     this.appOptions.pluginsPath = '';
                     this.appOptions.canPlugins = false;
                 }
-                if (this.appOptions.canPlugins)
+                if (this.appOptions.canPlugins) {
                     this.getApplication().getController('Common.Controllers.Plugins').setMode(this.appOptions);
+                    if (plugins.autoStartGuid)
+                        this.api.asc_pluginRun(plugins.autoStartGuid, 0, '');
+                }
                 this.getApplication().getController('LeftMenu').enablePlugins();
             },
 
