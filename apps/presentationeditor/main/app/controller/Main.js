@@ -59,7 +59,10 @@ define([
         var mapCustomizationElements = {
             about: 'button#left-btn-about',
             feedback: 'button#left-btn-support',
-            goback: '#fm-btn-back > a, #header-back > div'
+            goback: '#fm-btn-back > a, #header-back > div',
+            toolbar: '#viewport #toolbar',
+            leftMenu: '#viewport #left-menu',
+            rightMenu: '#viewport #right-menu'
         };
 
         Common.localStorage.setId('presentation');

@@ -105,7 +105,10 @@
                         text: 'Go to London'
                     },
                     chat: false,
-                    comments: false
+                    comments: false,
+                    leftMenu: true,
+                    rightMenu: true,
+                    toolbar: true
                 },
                 plugins: {
                     url: '../../../../sdkjs-plugins/',
