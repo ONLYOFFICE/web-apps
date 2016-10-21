@@ -52,6 +52,7 @@ define([
     'common/main/lib/util/LanguageInfo',
     'spreadsheeteditor/main/app/collection/ShapeGroups',
     'spreadsheeteditor/main/app/collection/TableTemplates',
+    'spreadsheeteditor/main/app/collection/EquationGroups',
     'spreadsheeteditor/main/app/controller/FormulaDialog',
     'spreadsheeteditor/main/app/view/FormulaLang'
 ], function () {
