@@ -558,12 +558,17 @@ define([
                 value       : 'paste'
             });
 
+            me.menuEquationSeparator = new Common.UI.MenuItem({
+                caption     : '--'
+            });
+
             this.textInShapeMenu = new Common.UI.Menu({
                 items: [
                     me.pmiTextCut,
                     me.pmiTextCopy,
                     me.pmiTextPaste,
                     {caption: '--'},
+                    me.menuEquationSeparator,
                     me.menuParagraphVAlign,
                     me.menuParagraphDirection,
                     me.menuAddHyperlinkShape,

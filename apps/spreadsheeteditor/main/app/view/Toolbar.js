@@ -75,8 +75,7 @@ define([
         ruleFilter:     'rule-filter',
         ruleDelFilter:  'rule-clear-filter',
         menuFileOpen:   'menu-file-open',
-        cantPrint:      'cant-print',
-        selEquation:    'sel-equation'
+        cantPrint:      'cant-print'
     };
 
     SSE.Views.Toolbar =  Backbone.View.extend(_.extend({
@@ -326,7 +325,7 @@ define([
                 icls        : 'btn-border-out',
                 borderId    : 'outer',
                 borderswidth: 'thin',
-                lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selEquation, _set.lostConnect, _set.coAuth],
+                lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth],
                 split       : true,
                 menu        : true
             });
@@ -374,7 +373,7 @@ define([
                 enableToggle: true,
                 allowDepress: true,
                 split       : true,
-                lock        : [_set.editCell, _set.selShape, _set.selShapeText, _set.selChart, _set.selChartText, _set.selImage, _set.selEquation, _set.lostConnect, _set.coAuth, _set.ruleMerge],
+                lock        : [_set.editCell, _set.selShape, _set.selShapeText, _set.selChart, _set.selChartText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleMerge],
                 menu        : new Common.UI.Menu({
                     items: [
                         {
@@ -428,7 +427,7 @@ define([
                 id          : 'id-toolbar-rtn-wrap',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-wrap',
-                lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selEquation, _set.lostConnect, _set.coAuth],
+                lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth],
                 enableToggle: true,
                 allowDepress: true
             });
@@ -437,7 +436,7 @@ define([
                 id          : 'id-toolbar-rtn-textorient',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-text-orient',
-                lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selEquation, _set.lostConnect, _set.coAuth],
+                lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth],
                 menu        : new Common.UI.Menu({
                     items: [
                         {
@@ -561,21 +560,21 @@ define([
                 id          : 'id-toolbar-btn-sort-down',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-sort-down',
-                lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selEquation, _set.lostConnect, _set.coAuth, _set.ruleFilter]
+                lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter]
             });
 
             me.btnSortUp = new Common.UI.Button({
                 id          : 'id-toolbar-btn-sort-up',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-sort-up',
-                lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selEquation, _set.lostConnect, _set.coAuth, _set.ruleFilter]
+                lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter]
             });
 
             me.btnSetAutofilter = new Common.UI.Button({
                 id          : 'id-toolbar-btn-setautofilter',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-autofilter',
-                lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selEquation, _set.lostConnect, _set.coAuth, _set.ruleFilter],
+                lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter],
                 enableToggle: true
             });
 
@@ -583,7 +582,7 @@ define([
                 id          : 'id-toolbar-btn-clearfilter',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-clear-filter',
-                lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selEquation, _set.lostConnect, _set.coAuth, _set.ruleDelFilter]
+                lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleDelFilter]
             });
             
             me.btnSearch = new Common.UI.Button({
@@ -597,7 +596,7 @@ define([
                 id          : 'id-toolbar-btn-ttempl',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-ttempl',
-                lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selEquation, _set.lostConnect, _set.coAuth, _set.ruleFilter],
+                lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter],
                 menu        : new Common.UI.Menu({
                     items: [
                         { template: _.template('<div id="id-toolbar-menu-table-templates" style="width: 288px; height: 300px; margin: 0px 4px;"></div>') }
@@ -612,7 +611,7 @@ define([
                 itemHeight      : 38,
                 hint            : this.tipCellStyle,
                 menuMaxHeight   : 226,
-                lock            : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selEquation, _set.lostConnect, _set.coAuth],
+                lock            : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth],
                 beforeOpenHandler: function(e) {
                     var cmp = this,
                         menu = cmp.openButton.menu,
@@ -648,7 +647,7 @@ define([
                 cls         : 'btn-toolbar btn-text-value',
                 caption     : me.txtGeneral,
                 style       : 'width: 100%;',
-                lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selRange, _set.selEquation, _set.lostConnect, _set.coAuth],
+                lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selRange, _set.lostConnect, _set.coAuth],
                 menu        : true
             });
 
@@ -656,7 +655,7 @@ define([
                 id          : 'id-toolbar-btn-percent-style',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-percent-style',
-                lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selEquation, _set.lostConnect, _set.coAuth],
+                lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth],
                 styleName   : 'Percent'
             });
 
@@ -664,7 +663,7 @@ define([
                 id          : 'id-toolbar-btn-accounting-style',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-currency-style',
-                lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selEquation, _set.lostConnect, _set.coAuth],
+                lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth],
                 styleName    : 'Currency',
                 split       : true,
                 menu        : new Common.UI.Menu({
@@ -698,14 +697,14 @@ define([
                 id          : 'id-toolbar-btn-decdecimal',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-decdecimal',
-                lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selEquation, _set.lostConnect, _set.coAuth]
+                lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth]
             });
 
             me.btnIncDecimal = new Common.UI.Button({
                 id          : 'id-toolbar-btn-incdecimal',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-incdecimal',
-                lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selEquation, _set.lostConnect, _set.coAuth]
+                lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth]
             });
 
             me.btnInsertFormula = new Common.UI.Button({
@@ -713,7 +712,7 @@ define([
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-formula',
                 split       : true,
-                lock        : [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selRange, _set.selEquation, _set.lostConnect, _set.coAuth],
+                lock        : [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selRange, _set.lostConnect, _set.coAuth],
                 menu        : new Common.UI.Menu({
                     style : 'min-width: 110px',
                     items : [
@@ -734,7 +733,7 @@ define([
                 id          : 'id-toolbar-btn-insertrange',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-named-range',
-                lock        : [_set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selEquation, _set.lostConnect, _set.coAuth, _set.selRange],
+                lock        : [_set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.selRange],
                 menu        : new Common.UI.Menu({
                     style : 'min-width: 110px',
                     items : [
@@ -770,22 +769,22 @@ define([
                         },
                         {
                             caption : me.txtClearText,
-                            lock    : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selEquation, _set.coAuth],
+                            lock    : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.coAuth],
                             value   : Asc.c_oAscCleanOptions.Text
                         },
                         {
                             caption : me.txtClearFormat,
-                            lock    : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selEquation, _set.coAuth],
+                            lock    : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.coAuth],
                             value   : Asc.c_oAscCleanOptions.Format
                         },
                         {
                             caption : me.txtClearComments,
-                            lock    : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selEquation, _set.coAuth],
+                            lock    : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.coAuth],
                             value   : Asc.c_oAscCleanOptions.Comments
                         },
                         {
                             caption : me.txtClearHyper,
-                            lock    : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selEquation, _set.coAuth],
+                            lock    : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.coAuth],
                             value   : Asc.c_oAscCleanOptions.Hyperlinks
                         }
                     ]
@@ -804,7 +803,7 @@ define([
                 id          : 'id-toolbar-btn-addcell',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-addcell',
-                lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selEquation, _set.lostConnect, _set.coAuth],
+                lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth],
                 menu        : new Common.UI.Menu({
                     items : [
                         {
@@ -831,7 +830,7 @@ define([
                 id          : 'id-toolbar-btn-delcell',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-delcell',
-                lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selEquation, _set.lostConnect, _set.coAuth],
+                lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth],
                 menu        : new Common.UI.Menu({
                     items : [
                         {
@@ -1021,32 +1020,32 @@ define([
                 id          : 'id-toolbar-btn-autofilter',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-autofilter',
-                lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selEquation, _set.lostConnect, _set.coAuth, _set.ruleFilter],
+                lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter],
                 menu        : new Common.UI.Menu({
                     items : [
                         me.mnuitemSortAZ = new Common.UI.MenuItem({
                             caption : me.txtSortAZ,
                             iconCls : 'mnu-sort-asc',
-                            lock    : [_set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selEquation, _set.coAuth, _set.ruleFilter],
+                            lock    : [_set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.coAuth, _set.ruleFilter],
                             value   : Asc.c_oAscSortOptions.Ascending
                         }),
                         me.mnuitemSortZA = new Common.UI.MenuItem({
                             caption : me.txtSortZA,
                             iconCls : 'mnu-sort-desc',
-                            lock    : [_set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selEquation, _set.coAuth, _set.ruleFilter],
+                            lock    : [_set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.coAuth, _set.ruleFilter],
                             value   : Asc.c_oAscSortOptions.Descending
                         }),
                         me.mnuitemAutoFilter = new Common.UI.MenuItem({
                             caption : me.txtFilter,
                             iconCls : 'mnu-filter-add',
                             checkable: true,
-                            lock    : [_set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selEquation, _set.coAuth, _set.ruleFilter],
+                            lock    : [_set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.coAuth, _set.ruleFilter],
                             value   : 'set-filter'
                         }),
                         me.mnuitemClearFilter = new Common.UI.MenuItem({
                             caption : me.txtClearFilter,
                             iconCls : 'mnu-filter-clear',
-                            lock    : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selEquation, _set.coAuth, _set.ruleDelFilter],
+                            lock    : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.coAuth, _set.ruleDelFilter],
                             value   : 'clear-filter'
                         })
                         /*,{
