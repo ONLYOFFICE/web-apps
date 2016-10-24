@@ -1243,12 +1243,11 @@ define([
                     eqlen = this.addEquationMenu(4);
                 } else
                     this.clearEquationMenu(4);
-                documentHolder.menuEquationSeparator.setVisible(isEquation && eqlen>0);
 
                 if (showMenu) this.showPopupMenu(documentHolder.textInShapeMenu, {}, event);
                 documentHolder.textInShapeMenu.items[3].setVisible( documentHolder.menuHyperlinkShape.isVisible() ||
                                                                     documentHolder.menuAddHyperlinkShape.isVisible() ||
-                                                                    documentHolder.menuParagraphVAlign.isVisible());
+                                                                    documentHolder.menuParagraphVAlign.isVisible() || isEquation);
             } else if (!this.permissions.isEditMailMerge && !this.permissions.isEditDiagram || (seltype !== Asc.c_oAscSelectionType.RangeImage && seltype !== Asc.c_oAscSelectionType.RangeShape &&
             seltype !== Asc.c_oAscSelectionType.RangeChart && seltype !== Asc.c_oAscSelectionType.RangeChartText && seltype !== Asc.c_oAscSelectionType.RangeShapeText)) {
                 if (!showMenu && !documentHolder.ssMenu.isVisible()) return;
@@ -1561,7 +1560,7 @@ define([
         },
 
         initEquationMenu: function() {
-            if (!me._currentMathObj) return;
+            if (!this._currentMathObj) return;
             var me = this,
                 type = me._currentMathObj.get_Type(),
                 value = me._currentMathObj,
