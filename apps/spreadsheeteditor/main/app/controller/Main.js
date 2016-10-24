@@ -77,6 +77,7 @@ define([
             models: [],
             collections: [
                 'ShapeGroups',
+                'EquationGroups',
                 'TableTemplates',
                 'Common.Collections.TextArt'
             ],

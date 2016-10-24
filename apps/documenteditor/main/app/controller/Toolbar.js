@@ -2198,7 +2198,7 @@ define([
         },
 
         fillEquations: function() {
-            if (!this.toolbar.btnInsertEquation.rendered) return;
+            if (!this.toolbar.btnInsertEquation.rendered || this.toolbar.btnInsertEquation.menu.items.length>0) return;
 
             var me = this, equationsStore = this.getApplication().getCollection('EquationGroups');
 
