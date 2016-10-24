@@ -123,7 +123,7 @@
   "PE.Controllers.Main.errorUpdateVersion": "La version du fichier a été changée. La page sera rechargée.",
   "PE.Controllers.Main.errorUserDrop": "Impossible d'accéder au fichier",
   "PE.Controllers.Main.errorUsersExceed": "Le nombre d'utilisateurs autorisés par le plan tarifaire a été dépassé",
-  "PE.Controllers.Main.errorViewerDisconnect": "Connection is lost. You can still view the document,<br>but will not be able to download until the connection is restored.",
+  "PE.Controllers.Main.errorViewerDisconnect": "Connection is lost. You can still view the document,<br>but will not be able to download or print until the connection is restored.",
   "PE.Controllers.Main.leavePageText": "Vous avez des modifications non enregistrées dans cette présentation. Cliquez sur \"Rester sur cette page\", ensuite sur \"Enregistrer\" pour enregistrer les modifications. Cliquez sur \"Quitter cette page\" pour annuler toutes les modifications non enregistrées.",
   "PE.Controllers.Main.loadFontsTextText": "Chargement des données...",
   "PE.Controllers.Main.loadFontsTitleText": "Chargement des données",

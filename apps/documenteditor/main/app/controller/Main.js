@@ -163,8 +163,10 @@ define([
 
                     $(document.body).on('blur', 'input, textarea', function(e) {
                         if (!me.isModalShowed) {
-                            if (!/area_id/.test(e.target.id) && $(e.target).parent().find(e.relatedTarget).length<1 /* When focus in combobox goes from input to it's menu button or menu items */
-                                || !e.relatedTarget) {
+                            if (!e.relatedTarget ||
+                                !/area_id/.test(e.target.id) && $(e.target).parent().find(e.relatedTarget).length<1 /* Check if focus in combobox goes from input to it's menu button or menu items */
+                                && (e.relatedTarget.localName != 'input' || !/form-control/.test(e.relatedTarget.className)) /* Check if focus goes to text input with class "form-control" */
+                                && (e.relatedTarget.localName != 'textarea' || /area_id/.test(e.relatedTarget.id))) /* Check if focus goes to textarea, but not to "area_id" */ {
                                 me.api.asc_enableKeyEvents(true);
                                 if (/msg-reply/.test(e.target.className))
                                     me.dontCloseDummyComment = false;
@@ -421,39 +423,41 @@ define([
 
                                 var changes = version.changes, change, i;
                                 if (changes && changes.length>0) {
-                                    arrVersions[arrVersions.length-1].set('changeid', changes.length-1);
                                     arrVersions[arrVersions.length-1].set('docIdPrev', docIdPrev);
-                                    arrVersions[arrVersions.length-1].set('hasChanges', changes.length>1);
-                                    for (i=changes.length-2; i>=0; i--) {
-                                        change = changes[i];
+                                    if (!_.isEmpty(version.serverVersion) && version.serverVersion == this.appOptions.buildVersion) {
+                                        arrVersions[arrVersions.length-1].set('changeid', changes.length-1);
+                                        arrVersions[arrVersions.length-1].set('hasChanges', changes.length>1);
+                                        for (i=changes.length-2; i>=0; i--) {
+                                            change = changes[i];
 
-                                        user = usersStore.findUser(change.user.id);
-                                        if (!user) {
-                                            user = new Common.Models.User({
-                                                id          : change.user.id,
-                                                username    : change.user.name,
-                                                colorval    : Asc.c_oAscArrUserColors[usersCnt],
-                                                color       : this.generateUserColor(Asc.c_oAscArrUserColors[usersCnt++])
-                                            });
-                                            usersStore.add(user);
+                                            user = usersStore.findUser(change.user.id);
+                                            if (!user) {
+                                                user = new Common.Models.User({
+                                                    id          : change.user.id,
+                                                    username    : change.user.name,
+                                                    colorval    : Asc.c_oAscArrUserColors[usersCnt],
+                                                    color       : this.generateUserColor(Asc.c_oAscArrUserColors[usersCnt++])
+                                                });
+                                                usersStore.add(user);
+                                            }
+
+                                            arrVersions.push(new Common.Models.HistoryVersion({
+                                                version: version.versionGroup,
+                                                revision: version.version,
+                                                changeid: i,
+                                                userid : change.user.id,
+                                                username : change.user.name,
+                                                usercolor: user.get('color'),
+                                                created: change.created,
+                                                docId: version.key,
+                                                docIdPrev: docIdPrev,
+                                                selected: false,
+                                                canRestore: this.appOptions.canHistoryRestore,
+                                                isRevision: false,
+                                                isVisible: true
+                                            }));
+                                            arrColors.push(user.get('colorval'));
                                         }
-
-                                        arrVersions.push(new Common.Models.HistoryVersion({
-                                            version: version.versionGroup,
-                                            revision: version.version,
-                                            changeid: i,
-                                            userid : change.user.id,
-                                            username : change.user.name,
-                                            usercolor: user.get('color'),
-                                            created: change.created,
-                                            docId: version.key,
-                                            docIdPrev: docIdPrev,
-                                            selected: false,
-                                            canRestore: this.appOptions.canHistoryRestore,
-                                            isRevision: false,
-                                            isVisible: true
-                                        }));
-                                        arrColors.push(user.get('colorval'));
                                     }
                                 } else if (ver==0 && versions.length==1) {
                                      arrVersions[arrVersions.length-1].set('docId', version.key + '1');
@@ -520,7 +524,11 @@ define([
                     toolbarView.btnInsertShape.toggle(false, false);
                     toolbarView.btnInsertText.toggle(false, false);
                 }
-
+                if (this.appOptions.isEdit && toolbarView && toolbarView.btnHighlightColor.pressed &&
+                    ( !_.isObject(arguments[1]) || arguments[1].id !== 'id-toolbar-btn-highlight')) {
+                    this.api.SetMarkerFormat(false);
+                    toolbarView.btnHighlightColor.toggle(false, false);
+                }
                 application.getController('DocumentHolder').getView('DocumentHolder').focus();
 
                 if (this.api) {
@@ -872,11 +880,11 @@ define([
                             documentHolderController.getView('DocumentHolder').createDelayedElements();
                             me.loadLanguages();
 
-                            rightmenuController.createDelayedElements();
-
                             var shapes = me.api.asc_getPropertyEditorShapes();
                             if (shapes)
                                 me.fillAutoShapes(shapes[0], shapes[1]);
+
+                            rightmenuController.createDelayedElements();
 
                             me.updateThemeColors();
                             toolbarController.activateControls();
@@ -948,6 +956,10 @@ define([
                 }
 
                 this.permissions.review = (this.permissions.review === undefined) ? (this.permissions.edit !== false) : this.permissions.review;
+
+                if (params.asc_getRights() !== Asc.c_oRights.Edit)
+                    this.permissions.edit = this.permissions.review = false;
+
                 this.appOptions.canAnalytics   = params.asc_getIsAnalyticsEnable();
                 this.appOptions.canLicense     = (licType === Asc.c_oLicenseResult.Success);
                 this.appOptions.isLightVersion = params.asc_getIsLight();
@@ -972,6 +984,7 @@ define([
                 this.appOptions.canEditStyles  = this.appOptions.canLicense && this.appOptions.canEdit;
                 this.appOptions.canPrint       = (this.permissions.print !== false);
                 this.appOptions.canRename      = !!this.permissions.rename;
+                this.appOptions.buildVersion   = params.asc_getBuildVersion();
 
                 var type = /^(?:(pdf|djvu|xps))$/.exec(this.document.fileType);
                 this.appOptions.canDownloadOrigin = !this.appOptions.nativeApp && this.permissions.download !== false && (type && typeof type[1] === 'string');
@@ -1195,7 +1208,7 @@ define([
                         break;
 
                     case Asc.c_oAscError.ID.CoAuthoringDisconnect:
-                        config.msg = (this.appOptions.isEdit) ? this.errorCoAuthoringDisconnect : this.errorViewerDisconnect;
+                        config.msg = this.errorViewerDisconnect;
                         break;
 
                     case Asc.c_oAscError.ID.ConvertationPassword:
@@ -1964,7 +1977,7 @@ define([
             textNoLicenseTitle: 'ONLYOFFICE open source version',
             warnNoLicense: 'You are using an open source version of ONLYOFFICE. The version has limitations for concurrent connections to the document server (20 connections at a time).<br>If you need more please consider purchasing a commercial license.',
             textContactUs: 'Contact sales',
-            errorViewerDisconnect: 'Connection is lost. You can still view the document,<br>but will not be able to download until the connection is restored.',
+            errorViewerDisconnect: 'Connection is lost. You can still view the document,<br>but will not be able to download or print until the connection is restored.',
             warnLicenseExp: 'Your license has expired.<br>Please update your license and refresh the page.',
             titleLicenseExp: 'License expired',
             openErrorText: 'An error has occurred while opening the file',

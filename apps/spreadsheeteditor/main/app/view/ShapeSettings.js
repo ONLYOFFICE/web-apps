@@ -698,7 +698,6 @@ define([
         ChangeSettings: function(props) {
             if (this._initSettings)
                 this.createDelayedElements();
-            this._initSettings = false;
 
             if (this.imgprops==null)
                 this.imgprops = new Asc.asc_CImgProperty();
@@ -1336,6 +1335,7 @@ define([
 
             this.fillAutoShapes();
             this.UpdateThemeColors();
+            this._initSettings = false;
         },
 
         onInitStandartTextures: function(texture) {

@@ -151,8 +151,10 @@ define([
 
                     $(document.body).on('blur', 'input, textarea', function(e) {
                         if (!me.isModalShowed) {
-                            if (!/area_id/.test(e.target.id) && $(e.target).parent().find(e.relatedTarget).length<1 /* When focus in combobox goes from input to it's menu button or menu items */
-                                || !e.relatedTarget) {
+                            if (!e.relatedTarget ||
+                                !/area_id/.test(e.target.id) && $(e.target).parent().find(e.relatedTarget).length<1 /* Check if focus in combobox goes from input to it's menu button or menu items */
+                                && (e.relatedTarget.localName != 'input' || !/form-control/.test(e.relatedTarget.className)) /* Check if focus goes to text input with class "form-control" */
+                                && (e.relatedTarget.localName != 'textarea' || /area_id/.test(e.relatedTarget.id))) /* Check if focus goes to textarea, but not to "area_id" */ {
                                 me.api.asc_enableKeyEvents(true);
                                 if (/msg-reply/.test(e.target.className))
                                     me.dontCloseDummyComment = false;
@@ -651,18 +653,19 @@ define([
                         if (window.styles_loaded) {
                             clearInterval(timer_sl);
 
-                            toolbarController.getView('Toolbar').createDelayedElements();
+                            toolbarController.createDelayedElements();
 
                             documentHolderController.getView('DocumentHolder').createDelayedElements();
 
-                            rightmenuController.createDelayedElements();
-
-                            me.api.asc_registerCallback('asc_onFocusObject',        _.bind(me.onFocusObject, me));
                             me.api.asc_registerCallback('asc_onUpdateLayout',       _.bind(me.fillLayoutsStore, me)); // slide layouts loading
                             me.updateThemeColors();
                             var shapes = me.api.asc_getPropertyEditorShapes();
                             if (shapes)
                                 me.fillAutoShapes(shapes[0], shapes[1]);
+                            rightmenuController.createDelayedElements();
+
+                            me.api.asc_registerCallback('asc_onFocusObject',        _.bind(me.onFocusObject, me));
+
                             me.fillTextArt(me.api.asc_getTextArtPreviews());
                             toolbarController.activateControls();
                             if (me.needToUpdateVersion)
@@ -729,6 +732,9 @@ define([
                     });
                     return;
                 }
+
+                if (params.asc_getRights() !== Asc.c_oRights.Edit)
+                    this.permissions.edit = false;
 
                 this.appOptions.isOffline      = this.api.asc_isOffline();
                 this.appOptions.canLicense     = (licType === Asc.c_oLicenseResult.Success);
@@ -963,7 +969,7 @@ define([
                         break;
 
                     case Asc.c_oAscError.ID.CoAuthoringDisconnect:
-                        config.msg = (this.appOptions.isEdit) ? this.errorCoAuthoringDisconnect : this.errorViewerDisconnect;
+                        config.msg = this.errorViewerDisconnect;
                         break;
 
                     case Asc.c_oAscError.ID.ConvertationPassword:
@@ -1779,7 +1785,7 @@ define([
             textNoLicenseTitle: 'ONLYOFFICE open source version',
             warnNoLicense: 'You are using an open source version of ONLYOFFICE. The version has limitations for concurrent connections to the document server (20 connections at a time).<br>If you need more please consider purchasing a commercial license.',
             textContactUs: 'Contact sales',
-            errorViewerDisconnect: 'Connection is lost. You can still view the document,<br>but will not be able to download until the connection is restored.',
+            errorViewerDisconnect: 'Connection is lost. You can still view the document,<br>but will not be able to download or print until the connection is restored.',
             warnLicenseExp: 'Your license has expired.<br>Please update your license and refresh the page.',
             titleLicenseExp: 'License expired',
             openErrorText: 'An error has occurred while opening the file',

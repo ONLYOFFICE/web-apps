@@ -127,10 +127,8 @@ define([
         },
 
         ChangeSettings: function(props) {
-            if (this._initSettings) {
+            if (this._initSettings)
                 this.createDelayedElements();
-                this._initSettings = false;
-            }
 
             this.ShowHideElem(!!(props && props.asc_getChartProperties && props.asc_getChartProperties()));
             this.disableControls(this._locked);
@@ -852,6 +850,7 @@ define([
             this.createDelayedControls();
             this.updateMetricUnit();
             this.UpdateThemeColors();
+            this._initSettings = false;
         },
 
         ShowHideElem: function(isChart) {

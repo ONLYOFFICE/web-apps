@@ -167,7 +167,7 @@
   "SSE.Controllers.Main.errorUpdateVersion": "La version du fichier a été changée. La page sera rechargée.",
   "SSE.Controllers.Main.errorUserDrop": "Impossible d'accéder au fichier",
   "SSE.Controllers.Main.errorUsersExceed": "Le nombre d'utilisateurs autorisés par le plan tarifaire a été dépassé",
-  "SSE.Controllers.Main.errorViewerDisconnect": "Connection is lost. You can still view the document,<br>but will not be able to download until the connection is restored.",
+  "SSE.Controllers.Main.errorViewerDisconnect": "Connection is lost. You can still view the document,<br>but will not be able to download or print until the connection is restored.",
   "SSE.Controllers.Main.errorWrongBracketsCount": "Une erreur dans la formule entrée.<br>Nombre utilisé entre parenthèses est incorrect.",
   "SSE.Controllers.Main.errorWrongOperator": "Une erreur dans la formule entrée.<br>Opérateur utilisé est incorrect.<br>Veuillez corriger l'erreur ou utilisez le bouton Esc pour annuler l'édition de formule.",
   "SSE.Controllers.Main.leavePageText": "Vous avez des modifications non enregistrées dans cette feuille de calcul. Cliquez sur 'Rester sur cette page ' ensuite 'Enregistrer' pour les enregistrer. Cliquez sur 'Quitter cette page' pour annuler toutes les modifications non enregistrées.",

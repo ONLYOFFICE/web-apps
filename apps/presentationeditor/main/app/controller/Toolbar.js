@@ -171,7 +171,7 @@ define([
             // Create toolbar view
             this.toolbar = this.createView('Toolbar');
 
-            this.toolbar.on('render:after', _.bind(this.onToolbarAfterRender, this));
+//            this.toolbar.on('render:after', _.bind(this.onToolbarAfterRender, this));
         },
 
         onToolbarAfterRender: function(toolbar) {
@@ -278,7 +278,7 @@ define([
             this.api.asc_registerCallback('asc_onCanUnGroup',           _.bind(this.onApiCanUnGroup, this));
             this.api.asc_registerCallback('asc_onPresentationSize',     _.bind(this.onApiPageSize, this));
 
-            this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onApiCoAuthoringDisconnect, this));
+            this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onApiCoAuthoringDisconnect, this, true));
             Common.NotificationCenter.on('api:disconnect',              _.bind(this.onApiCoAuthoringDisconnect, this));
             this.api.asc_registerCallback('asc_onZoomChange',           _.bind(this.onApiZoomChange, this));
             this.api.asc_registerCallback('asc_onFocusObject',          _.bind(this.onApiFocusObject, this));
@@ -684,8 +684,8 @@ define([
             this.toolbar.lockToolbar(PE.enumLock.themeLock, false, {array: [this.toolbar.btnColorSchemas]});
         },
 
-        onApiCoAuthoringDisconnect: function() {
-            this.toolbar.setMode({isDisconnected:true});
+        onApiCoAuthoringDisconnect: function(disableDownload) {
+            this.toolbar.setMode({isDisconnected:true, disableDownload: !!disableDownload});
             this.editMode = false;
         },
 
@@ -699,6 +699,7 @@ define([
                 $('.menu-zoom .zoom', this.toolbar.el).html(percent + '%');
                 this._state.zoom_percent = percent;
             }
+            this.toolbar.mnuZoom.options.value = percent;
         },
 
         onApiInitEditorStyles: function(themes) {
@@ -1827,6 +1828,11 @@ define([
                 mask.remove();
                 Common.util.Shortcuts.resumeEvents('command+k, ctrl+k, alt+h, command+f5, ctrl+f5');
             }
+        },
+
+        createDelayedElements: function() {
+            this.toolbar.createDelayedElements();
+            this.onToolbarAfterRender(this.toolbar);
         },
 
         textEmptyImgUrl : 'You need to specify image URL.',

@@ -78,7 +78,7 @@ define([
                     '<div class="separator"/>',
                     '</div>',
                     '<div class="preview-group dropup">',
-                        '<label id="preview-label-slides" class="status-label" data-toggle="dropdown">Slide 1 of 1</label>',
+                        '<label id="preview-label-slides" class="status-label dropdown-toggle" data-toggle="dropdown">Slide 1 of 1</label>',
                         '<div id="preview-goto-box" class="dropdown-menu">',
                             '<label style="float:left;line-height:22px;">' + this.goToSlideText + '</label>',
                             '<div id="preview-goto-page" style="display:inline-block;"></div>',

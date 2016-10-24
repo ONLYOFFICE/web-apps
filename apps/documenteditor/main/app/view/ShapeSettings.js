@@ -764,7 +764,6 @@ define([
 
             if (this._initSettings)
                 this.createDelayedElements();
-            this._initSettings = false;
 
             if (props && props.get_ShapeProperties())
             {
@@ -1450,6 +1449,7 @@ define([
 
             this.fillAutoShapes();
             this.UpdateThemeColors();
+            this._initSettings = false;
         },
 
         onInitStandartTextures: function(texture) {

@@ -185,7 +185,8 @@ define([
                 this._settings[settingsType].hidden = 0;
             }
 
-            var lastactive = -1, currentactive, priorityactive = -1;
+            var lastactive = -1, currentactive, priorityactive = -1,
+                activePane = this.rightmenu.GetActivePane();
             for (i=0; i<this._settings.length; ++i) {
                 var pnl = this._settings[i];
                 if (pnl===undefined) continue;
@@ -193,7 +194,7 @@ define([
                 if ( pnl.hidden ) {
                     if ( !pnl.btn.isDisabled() )
                         pnl.btn.setDisabled(true);
-                    if (this.rightmenu.GetActivePane() == pnl.panelId)
+                    if (activePane == pnl.panelId)
                         currentactive = -1;
                 } else {
                     if ( pnl.btn.isDisabled() )
@@ -202,7 +203,7 @@ define([
                     if ( pnl.needShow ) {
                         pnl.needShow = false;
                         priorityactive = i;
-                    } else if (this.rightmenu.GetActivePane() == pnl.panelId)
+                    } else if (activePane == pnl.panelId)
                         currentactive = i;
                     pnl.panel.setLocked(pnl.locked);
                 }
@@ -275,6 +276,7 @@ define([
                 this.api.asc_registerCallback('asc_onFocusObject', _.bind(this.onFocusObject, this));
                 this.api.asc_registerCallback('asc_onSelectionChanged', _.bind(this.onSelectionChanged, this));
                 this.api.asc_registerCallback('asc_doubleClickOnObject', _.bind(this.onDoubleClickOnObject, this));
+                this.rightmenu.shapeSettings.createDelayedElements();
                 this.onSelectionChanged(this.api.asc_getCellInfo());
             }
         },

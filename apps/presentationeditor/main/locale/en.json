@@ -135,7 +135,7 @@
   "PE.Controllers.Main.errorUpdateVersion": "The file version has been changed. The page will be reloaded.",
   "PE.Controllers.Main.errorUserDrop": "The file cannot be accessed right now.",
   "PE.Controllers.Main.errorUsersExceed": "The number of users allowed by the pricing plan was exceeded",
-  "PE.Controllers.Main.errorViewerDisconnect": "Connection is lost. You can still view the document,<br>but will not be able to download until the connection is restored.",
+  "PE.Controllers.Main.errorViewerDisconnect": "Connection is lost. You can still view the document,<br>but will not be able to download or print until the connection is restored.",
   "PE.Controllers.Main.leavePageText": "You have unsaved changes in this presentation. Click \"Stay on This Page\", then \"Save\" to save them. Click \"Leave This Page\" to discard all the unsaved changes.",
   "PE.Controllers.Main.loadFontsTextText": "Loading data...",
   "PE.Controllers.Main.loadFontsTitleText": "Loading Data",

@@ -664,7 +664,6 @@ define([
 
             if (this._initSettings)
                 this.createDelayedElements();
-            this._initSettings = false;
 
             if (props && props.asc_getShapeProperties() && props.asc_getShapeProperties().get_TextArtProperties())
             {
@@ -1310,6 +1309,7 @@ define([
 
             this.UpdateThemeColors();
             this.fillTransform(this.api.asc_getPropertyEditorTextArts());
+            this._initSettings = false;
         },
 
         onInitStandartTextures: function(texture) {
