@@ -50,7 +50,8 @@ define([
     'common/main/lib/collection/TextArt',
     'common/main/lib/view/OpenDialog',
     'presentationeditor/main/app/collection/ShapeGroups',
-    'presentationeditor/main/app/collection/SlideLayouts'
+    'presentationeditor/main/app/collection/SlideLayouts',
+    'presentationeditor/main/app/collection/EquationGroups'
 ], function () { 'use strict';
 
     PE.Controllers.Main = Backbone.Controller.extend(_.extend((function() {
@@ -72,6 +73,7 @@ define([
             collections: [
                 'ShapeGroups',
                 'SlideLayouts',
+                'EquationGroups',
                 'Common.Collections.TextArt'
             ],
             views: [],

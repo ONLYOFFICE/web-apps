@@ -80,7 +80,8 @@ define([
         noObjectSelected:  'no-object',
         disableOnStart: 'on-start',
         cantPrint:      'cant-print',
-        noTextSelected:  'no-text'
+        noTextSelected:  'no-text',
+        inEquation: 'in-equation'
     };
 
     PE.Views.Toolbar =  Backbone.View.extend(_.extend({
@@ -297,7 +298,7 @@ define([
                 id          : 'id-toolbar-btn-superscript',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-superscript',
-                lock        : [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noTextSelected, _set.shapeLock],
+                lock        : [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noTextSelected, _set.shapeLock, _set.inEquation],
                 enableToggle: true,
                 toggleGroup : 'superscriptGroup'
             });
@@ -307,7 +308,7 @@ define([
                 id          : 'id-toolbar-btn-subscript',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-subscript',
-                lock        : [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noTextSelected, _set.shapeLock],
+                lock        : [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noTextSelected, _set.shapeLock, _set.inEquation],
                 enableToggle: true,
                 toggleGroup : 'superscriptGroup'
             });
@@ -632,6 +633,16 @@ define([
             });
             me.slideOnlyControls.push(me.btnInsertText);
 
+            this.btnInsertEquation = new Common.UI.Button({
+                id          : 'id-toolbar-btn-insertequation',
+                cls         : 'btn-toolbar',
+                iconCls     : 'btn-insertequation',
+                lock        : [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart],
+                split       : true,
+                menu        : new Common.UI.Menu({cls: 'menu-shapes'})
+            });
+            this.slideOnlyControls.push(this.btnInsertEquation);
+
             me.btnInsertHyperlink = new Common.UI.Button({
                 id          : 'id-toolbar-btn-inserthyperlink',
                 cls         : 'btn-toolbar',
@@ -899,7 +910,7 @@ define([
                 this.btnSubscript, this.btnFontColor, this.btnClearStyle, this.btnCopyStyle, this.btnMarkers,
                 this.btnNumbers, this.btnDecLeftOffset, this.btnIncLeftOffset, this.btnLineSpace, this.btnHorizontalAlign,
                 this.btnVerticalAlign, this.btnShapeArrange, this.btnShapeAlign, this.btnInsertTable, this.btnInsertImage,
-                this.btnInsertChart, this.btnInsertText,
+                this.btnInsertChart, this.btnInsertText, this.btnInsertEquation,
                 this.btnInsertHyperlink, this.btnInsertShape, this.btnColorSchemas, this.btnSlideSize, this.listTheme, this.mnuShowSettings
             ];
 
@@ -1034,6 +1045,7 @@ define([
             replacePlacholder('#id-toolbar-' + prefix + '-placeholder-btn-align-shape',    this.btnShapeAlign);
             replacePlacholder('#id-toolbar-' + prefix + '-placeholder-btn-insertshape',    this.btnInsertShape);
             replacePlacholder('#id-toolbar-' + prefix + '-placeholder-btn-inserttext',     this.btnInsertText);
+            replacePlacholder('#id-toolbar-' + prefix + '-placeholder-btn-insertequation', this.btnInsertEquation);
             replacePlacholder('#id-toolbar-' + prefix + '-placeholder-btn-inserthyperlink',this.btnInsertHyperlink);
             replacePlacholder('#id-toolbar-' + prefix + '-placeholder-btn-inserttable',    this.btnInsertTable);
             replacePlacholder('#id-toolbar-' + prefix + '-placeholder-btn-insertimage',    this.btnInsertImage);
@@ -1080,6 +1092,7 @@ define([
             this.btnInsertImage.updateHint(this.tipInsertImage);
             this.btnInsertChart.updateHint(this.tipInsertChart);
             this.btnInsertText.updateHint(this.tipInsertText);
+            this.btnInsertEquation.updateHint(this.tipInsertEquation);
             this.btnInsertHyperlink.updateHint(this.tipInsertHyperlink + Common.Utils.String.platformKey('Ctrl+K'));
             this.btnInsertShape.updateHint(this.tipInsertShape);
             this.btnColorSchemas.updateHint(this.tipColorSchemas);
@@ -1397,6 +1410,10 @@ define([
                         if (me.listTheme.menuPicker.store.length > 0 && listStylesVisible){
                             me.listTheme.fillComboView(me.listTheme.menuPicker.getSelectedRec(), true);
                         }
+
+                        if (me.btnInsertEquation.rendered)
+                            PE.getController('Toolbar').fillEquations();
+
                     }, 100);
                 }
 
@@ -1694,6 +1711,7 @@ define([
         textInsTextArt:         'Insert Text Art',
         textShowBegin:          'Show from Beginning',
         textShowCurrent:        'Show from Current slide',
-        textShowSettings:       'Show Settings'
+        textShowSettings:       'Show Settings',
+        tipInsertEquation: 'Insert Equation'
     }, PE.Views.Toolbar || {}));
 });

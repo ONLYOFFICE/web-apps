@@ -2128,7 +2128,7 @@ define([
         },
 
         onInsertEquationClick: function() {
-            if (this.api && !this._state.in_equation) {
+            if (this.api) {
                 this.api.asc_AddMath();
                 Common.component.Analytics.trackEvent('ToolBar', 'Add Equation');
             }
