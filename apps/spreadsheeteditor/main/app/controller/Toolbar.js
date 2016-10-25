@@ -2097,7 +2097,7 @@ define([
         },
 
         fillEquations: function() {
-            if (!this.toolbar.btnInsertEquation.rendered) return;
+            if (!this.toolbar.btnInsertEquation.rendered || this.toolbar.btnInsertEquation.menu.items.length>0) return;
 
             var me = this, equationsStore = this.getApplication().getCollection('EquationGroups');
 
@@ -2171,7 +2171,7 @@ define([
         },
 
         onInsertEquationClick: function() {
-            if (this.api && !this._state.in_equation) {
+            if (this.api) {
                 this.api.asc_AddMath();
                 Common.component.Analytics.trackEvent('ToolBar', 'Add Equation');
             }
@@ -2339,8 +2339,7 @@ define([
                 is_shape_text   = seltype == Asc.c_oAscSelectionType.RangeShapeText,
                 is_shape        = seltype == Asc.c_oAscSelectionType.RangeShape,
                 is_image        = seltype == Asc.c_oAscSelectionType.RangeImage,
-                is_equation     = seltype == Asc.c_oAscSelectionType.RangeMath,
-                is_mode_2       = is_shape_text || is_shape || is_chart_text || is_chart || is_equation;
+                is_mode_2       = is_shape_text || is_shape || is_chart_text || is_chart;
 
             if ( coauth_disable ) {
                 toolbar.lockToolbar(SSE.enumLock.coAuth, coauth_disable);
@@ -2353,7 +2352,6 @@ define([
                 case Asc.c_oAscSelectionType.RangeShapeText:    type = _set.selShapeText; break;
                 case Asc.c_oAscSelectionType.RangeChart:        type = _set.selChart; break;
                 case Asc.c_oAscSelectionType.RangeChartText:    type = _set.selChartText; break;
-                case Asc.c_oAscSelectionType.RangeMath:         type = _set.selEquation; break;
                 }
 
                 toolbar.lockToolbar(type, type != seltype, {
@@ -2368,7 +2366,7 @@ define([
                         toolbar.mnuitemClearFilter
                     ],
                     merge: true,
-                    clear: [_set.selImage, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selEquation, _set.coAuth]
+                    clear: [_set.selImage, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.coAuth]
                 });
             }
 
