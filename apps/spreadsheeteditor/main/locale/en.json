@@ -795,7 +795,7 @@
   "SSE.Views.ChartSettingsDlg.textOuterTop": "Outer Top",
   "SSE.Views.ChartSettingsDlg.textOverlay": "Overlay",
   "SSE.Views.ChartSettingsDlg.textPie": "Pie Chart",
-  "SSE.Views.ChartSettingsDlg.textPoint": "Point Chart",
+  "SSE.Views.ChartSettingsDlg.textPoint": "XY (Scatter) Chart",
   "SSE.Views.ChartSettingsDlg.textReverse": "Values in reverse order",
   "SSE.Views.ChartSettingsDlg.textRight": "Right",
   "SSE.Views.ChartSettingsDlg.textRightOverlay": "Right Overlay",

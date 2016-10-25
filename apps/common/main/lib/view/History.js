@@ -145,7 +145,6 @@ define([
             return this;
         },
 
-        textHistoryHeader: 'Back to Document',
         textRestore: 'Restore',
         textShow: 'Expand',
         textHide: 'Collapse',
