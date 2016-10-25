@@ -345,6 +345,10 @@ define([
                 caption     : me.textFreezePanes
             });
 
+            me.pmiEntriesList = new Common.UI.MenuItem({
+                caption     : me.textEntriesList
+            });
+
             me.ssMenu = new Common.UI.Menu({
                 id          : 'id-context-menu-cell',
                 items       : [
@@ -367,6 +371,7 @@ define([
                     {caption: '--'},
                     me.pmiAddComment,
                     me.pmiCellMenuSeparator,
+                    me.pmiEntriesList,
                     me.pmiAddNamedRange,
                     me.pmiInsFunction,
                     me.menuAddHyperlink,
@@ -578,7 +583,6 @@ define([
                 cyclic: false,
                 items: []
             }).on('render:after', function(mnu) {
-                mnu.cmpEl.removeAttr('oo_editor_input').attr('oo_editor_keyboard', true);
                 this.scroller = new Common.UI.Scroller({
                     el: $(this.el).find('.dropdown-menu '),
                     useKeyboard: this.enableKeyEvents && !this.handleSelect,
@@ -686,7 +690,8 @@ define([
         txtAutoColumnWidth: 'Auto Fit Column Width',
         txtAutoRowHeight: 'Auto Fit Row Height',
         txtCustomColumnWidth: 'Custom Column Width',
-        txtCustomRowHeight: 'Custom Row Height'
+        txtCustomRowHeight: 'Custom Row Height',
+        textEntriesList: 'Select from drop-down list'
 
     }, SSE.Views.DocumentHolder || {}));
 });

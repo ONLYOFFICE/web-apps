@@ -169,6 +169,7 @@ define([
             view.pmiEntireHide.on('click',                      _.bind(me.onEntireHide, me));
             view.pmiEntireShow.on('click',                      _.bind(me.onEntireShow, me));
             view.pmiFreezePanes.on('click',                     _.bind(me.onFreezePanes, me));
+            view.pmiEntriesList.on('click',                     _.bind(me.onEntriesList, me));
             /** coauthoring begin **/
             view.pmiAddComment.on('click',                      _.bind(me.onAddComment, me));
             /** coauthoring end **/
@@ -249,7 +250,7 @@ define([
             this.api.asc_registerCallback('asc_onEditCell',             _.bind(this.onApiEditCell, this));
             this.api.asc_registerCallback('asc_onLockDefNameManager',   _.bind(this.onLockDefNameManager, this));
             this.api.asc_registerCallback('asc_onSelectionChanged',     _.bind(this.onSelectionChanged, this));
-            this.api.asc_registerCallback('asc_onEntriesListMenu',      _.bind(this.onEntriesListMenu, this));
+            this.api.asc_registerCallback('asc_onEntriesListMenu',      _.bind(this.onEntriesListMenu, this)); // Alt + Down
             this.api.asc_registerCallback('asc_onFormulaCompleteMenu',  _.bind(this.onFormulaCompleteMenu, this));
 
             return this;
@@ -515,6 +516,15 @@ define([
         onFreezePanes: function(item) {
             if (this.api)
                 this.api.asc_freezePane();
+        },
+
+        onEntriesList: function(item) {
+            if (this.api) {
+                var me = this;
+                setTimeout(function() {
+                    me.api.asc_showAutoComplete();
+                }, 10);
+            }
         },
 
         onAddComment: function(item) {
@@ -1296,6 +1306,7 @@ define([
                 documentHolder.pmiEntireShow.setVisible(iscolmenu||isrowmenu);
                 documentHolder.pmiFreezePanes.setVisible(!iscelledit);
                 documentHolder.pmiFreezePanes.setCaption(this.api.asc_getSheetViewSettings().asc_getIsFreezePane() ? documentHolder.textUnFreezePanes : documentHolder.textFreezePanes);
+                documentHolder.pmiEntriesList.setVisible(!iscelledit);
 
                 /** coauthoring begin **/
                 documentHolder.ssMenu.items[16].setVisible(iscellmenu && !iscelledit && this.permissions.canCoAuthoring && this.permissions.canComments);
