@@ -61,7 +61,10 @@ define([
         var mapCustomizationElements = {
             about: 'button#left-btn-about',
             feedback: 'button#left-btn-support',
-            goback: '#fm-btn-back > a, #header-back > div'
+            goback: '#fm-btn-back > a, #header-back > div',
+            toolbar: '#viewport #toolbar',
+            leftMenu: '#viewport #left-menu',
+            rightMenu: '#viewport #right-menu'
         };
 
         Common.localStorage.setId('text');
@@ -1768,6 +1771,7 @@ define([
 
                 if (arr.length>0)
                     this.updatePluginsList({
+                        autoStartGuid: plugins.autoStartGuid,
                         url: plugins.url,
                         pluginsData: arr
                     });
@@ -1826,8 +1830,11 @@ define([
                     this.appOptions.pluginsPath = '';
                     this.appOptions.canPlugins = false;
                 }
-                if (this.appOptions.canPlugins)
+                if (this.appOptions.canPlugins) {
                     this.getApplication().getController('Common.Controllers.Plugins').setMode(this.appOptions);
+                    if (plugins.autoStartGuid)
+                        this.api.asc_pluginRun(plugins.autoStartGuid, 0, '');
+                }
                 this.getApplication().getController('LeftMenu').enablePlugins();
             },
 
