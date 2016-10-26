@@ -90,7 +90,8 @@ define([
                 LowColor: this.defColor,
                 FirstColor: this.defColor,
                 LastColor: this.defColor,
-                NegativeColor: this.defColor
+                NegativeColor: this.defColor,
+                SparkId: undefined
             };
             this._nRatio = 1;
             this.spinners = [];
@@ -210,6 +211,7 @@ define([
                 } else { //sparkline
                     this._originalProps = props;
                     this.isChart = false;
+                    this._state.SparkId = props.asc_getId();
 
                     var type = props.asc_getType(),
                         styleChanged = false;
@@ -787,7 +789,9 @@ define([
                 el          : $('#spark-combo-line-type'),
                 style       : 'width: 90px;',
                 allowNoBorders: false
-            }).on('selected', _.bind(this.onBorderSizeSelect, this));
+            }).on('selected', _.bind(this.onBorderSizeSelect, this))
+            .on('changed:before', _.bind(this.onBorderSizeChanged, this, true))
+            .on('changed:after',  _.bind(this.onBorderSizeChanged, this, false));
             this.BorderSize = this.cmbBorderSize.store.at(1).get('value');
             this.cmbBorderSize.setValue(this.BorderSize);
             this.lockedControls.push(this.cmbBorderSize);
@@ -1149,20 +1153,87 @@ define([
         },
 
         onSelectSparkType: function(btn, picker, itemView, record) {
-            if (this._noApply) return;
+            var rawData = {},
+                isPickerSelect = _.isFunction(record.toJSON);
+
+            if (isPickerSelect){
+                if (record.get('selected')) {
+                    rawData = record.toJSON();
+                } else {
+                    // record deselected
+                    return;
+                }
+            } else {
+                rawData = record;
+            }
+
+            this.btnSparkType.setIconCls('item-chartlist ' + rawData.iconCls);
+            this._state.SparkType = -1;
+
+            if (this.api && !this._noApply && this._originalProps) {
+                var props = new Asc.sparklineGroup();
+                props.asc_setType(rawData.type);
+                this.api.asc_setSparklineGroup(this._state.SparkId, props);
+            }
+            Common.NotificationCenter.trigger('edit:complete', this);
         },
 
-        onSelectSparkStyle: function(btn, picker, itemView, record) {
+        onSelectSparkStyle: function(combo, record) {
             if (this._noApply) return;
+
+            if (this.api && !this._noApply && this._originalProps) {
+                var props = new Asc.sparklineGroup();
+                props.asc_setStyle(record.get('data'));
+                this.api.asc_setSparklineGroup(this._state.SparkId, props);
+            }
+            Common.NotificationCenter.trigger('edit:complete', this);
+        },
+        
+        applyBorderSize: function(value) {
+            value = parseFloat(value);
+            value = isNaN(value) ? 1 : Math.max(0.01, Math.min(1584, value));
+
+            this.BorderSize = value;
+            if (this.api && !this._noApply && this._originalProps) {
+                var props = new Asc.sparklineGroup();
+                props.asc_setLineWeight(this.BorderSize);
+                this.api.asc_setSparklineGroup(this._state.SparkId, props);
+                Common.NotificationCenter.trigger('edit:complete', this);
+            }
+        },
+
+        onBorderSizeChanged: function(before, combo, record, e) {
+            var me = this;
+            if (before) {
+                var value = parseFloat(record.value),
+                    expr = new RegExp('^\\s*(\\d*(\\.|,)?\\d+)\\s*(' + me.txtPt + ')?\\s*$');
+                if (!(expr.exec(record.value)) || value<0.01 || value>1584) {
+                    this._state.LineWeight = -1;
+                    Common.UI.error({
+                        msg: this.textBorderSizeErr,
+                        callback: function() {
+                            _.defer(function(btn) {
+                                Common.NotificationCenter.trigger('edit:complete', me);
+                            })
+                        }
+                    });
+                }
+            } else
+                this.applyBorderSize(record.value);
         },
 
         onBorderSizeSelect: function(combo, record) {
-            
+            this.applyBorderSize(record.value);
         },
 
         onColorsSparkSelect: function(picker, color) {
             this.btnSparkColor.setColor(color);
-            this.fireEvent('editcomplete', this);
+            if (this.api && !this._noApply && this._originalProps) {
+                var props = new Asc.sparklineGroup();
+                props.asc_setColorSeries(Common.Utils.ThemeColor.getRgbColor(color));
+                this.api.asc_setSparklineGroup(this._state.SparkId, props);
+            }
+            Common.NotificationCenter.trigger('edit:complete', this);
         },
 
         addNewColor: function(picker, btn) {
@@ -1170,36 +1241,68 @@ define([
         },
 
         onCheckPointChange: function(type, field, newValue, oldValue, eOpts) {
-            if (this.api)   {
+            if (this.api && !this._noApply && this._originalProps) {
+                var props = new Asc.sparklineGroup();
                 switch (type) {
                     case 0:
-//                        look.put_FirstRow(field.getValue()=='checked');
-                        break;
+                        props.asc_setHighPoint(field.getValue()=='checked');
+                    break;
                     case 1:
-//                        look.put_LastRow(field.getValue()=='checked');
-                        break;
+                        props.asc_setLowPoint(field.getValue()=='checked');
+                    break;
                     case 2:
-//                        look.put_BandHor(field.getValue()=='checked');
-                        break;
+                        props.asc_setNegativePoint(field.getValue()=='checked');
+                    break;
                     case 3:
-//                        look.put_FirstCol(field.getValue()=='checked');
-                        break;
+                        props.asc_setFirstPoint(field.getValue()=='checked');
+                    break;
                     case 4:
-//                        look.put_LastCol(field.getValue()=='checked');
-                        break;
+                        props.asc_setLastPoint(field.getValue()=='checked');
+                    break;
                     case 5:
-//                        look.put_BandVer(field.getValue()=='checked');
-                        break;
+                        props.asc_setMarkersPoint(field.getValue()=='checked');
+                    break;
                 }
+                this.api.asc_setSparklineGroup(this._state.SparkId, props);
             }
-            this.fireEvent('editcomplete', this);
+            Common.NotificationCenter.trigger('edit:complete', this);
         },
 
         onColorsPointSelect: function(type, btn, picker, color) {
             btn.setColor(color);
             if (this.chPoints[type].getValue() !== 'checked')
                 this.chPoints[type].setValue(true, true);
-            this.fireEvent('editcomplete', this);
+            if (this.api && !this._noApply && this._originalProps) {
+                var props = new Asc.sparklineGroup();
+                switch (type) {
+                    case 0:
+                        props.asc_setHighPoint(true);
+                        props.asc_setColorHigh(Common.Utils.ThemeColor.getRgbColor(color));
+                    break;
+                    case 1:
+                        props.asc_setLowPoint(true);
+                        props.asc_setColorLow(Common.Utils.ThemeColor.getRgbColor(color));
+                    break;
+                    case 2:
+                        props.asc_setNegativePoint(true);
+                        props.asc_setColorNegative(Common.Utils.ThemeColor.getRgbColor(color));
+                    break;
+                    case 3:
+                        props.asc_setFirstPoint(true);
+                        props.asc_setColorFirst(Common.Utils.ThemeColor.getRgbColor(color));
+                    break;
+                    case 4:
+                        props.asc_setLastPoint(true);
+                        props.asc_setColorLast(Common.Utils.ThemeColor.getRgbColor(color));
+                    break;
+                    case 5:
+                        props.asc_setMarkersPoint(true);
+                        props.asc_setColorMarkers(Common.Utils.ThemeColor.getRgbColor(color));
+                    break;
+                }
+                this.api.asc_setSparklineGroup(this._state.SparkId, props);
+            }
+            Common.NotificationCenter.trigger('edit:complete', this);
         },
         
         setLocked: function (locked) {
@@ -1249,7 +1352,8 @@ define([
         textShow: 'Show',
         textType:           'Type',
         textSelectData: 'Select Data',
-        textRanges: 'Data Range'
+        textRanges: 'Data Range',
+        textBorderSizeErr: 'The entered value is incorrect.<br>Please enter a value between 0 pt and 1584 pt.'
 
     }, SSE.Views.ChartSettings || {}));
 });
