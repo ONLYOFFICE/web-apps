@@ -2269,8 +2269,19 @@ define([
         txtAlignToChar: 'Align to character',
         txtDeleteRadical: 'Delete radical',
         txtDeleteChars: 'Delete enclosing characters',
-        txtDeleteCharsAndSeparators: 'Delete enclosing characters and separators'
-
+        txtDeleteCharsAndSeparators: 'Delete enclosing characters and separators',
+        insertText: 'Insert',
+        alignmentText: 'Alignment',
+        leftText: 'Left',
+        rightText: 'Right',
+        centerText: 'Center',
+        insertRowAboveText      : 'Row Above',
+        insertRowBelowText      : 'Row Below',
+        insertColumnLeftText    : 'Column Left',
+        insertColumnRightText   : 'Column Right',
+        deleteText              : 'Delete',
+        deleteRowText           : 'Delete Row',
+        deleteColumnText        : 'Delete Column'
 
     }, SSE.Controllers.DocumentHolder || {}));
 });
