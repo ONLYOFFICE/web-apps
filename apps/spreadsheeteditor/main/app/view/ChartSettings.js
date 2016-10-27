@@ -923,7 +923,10 @@ define([
                             handler: function(result, value) {
                                 if (result == 'ok') {
                                     if (me.api) {
-                                        me.api.asc_editChartDrawingObject(value.chartSettings);
+                                        if (me.isChart)
+                                            me.api.asc_editChartDrawingObject(value.chartSettings);
+                                        else
+                                            me.api.asc_setSparklineGroup(me._state.SparkId, value.chartSettings);
                                     }
                                 }
                                 Common.NotificationCenter.trigger('edit:complete', me);
