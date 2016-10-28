@@ -163,19 +163,32 @@ define([
                 if (historyStore && data!==null) {
                     var rev, revisions = historyStore.findRevisions(data.version),
                         urlGetTime = new Date();
-                    var diff = opts.data.urlDiff || opts.data.changesUrl;
+                    var diff = opts.data.urlDiff || opts.data.changesUrl,
+                        url, docId;
+                    if (opts.data.current && opts.data.previous) {
+                        url = _.isEmpty(diff) ? opts.data.current.url : opts.data.previous.url;
+                        docId = _.isEmpty(diff) ? opts.data.current.key : opts.data.previous.key;
+                    } else {
+                        url = opts.data.url;
+                        docId = _.isEmpty(diff) ? this.currentDocId : this.currentDocIdPrev;
+                    }
+
                     if (revisions && revisions.length>0) {
                         for(var i=0; i<revisions.length; i++) {
                             rev = revisions[i];
-                            rev.set('url', opts.data.url, {silent: true});
+                            rev.set('url', url, {silent: true});
                             rev.set('urlDiff', diff, {silent: true});
                             rev.set('urlGetTime', urlGetTime, {silent: true});
+                            if (opts.data.current && opts.data.previous) {
+                                rev.set('docId', opts.data.current.key, {silent: true});
+                                rev.set('docIdPrev', opts.data.previous.key, {silent: true});
+                            }
                         }
                     }
                     var hist = new Asc.asc_CVersionHistory();
-                    hist.asc_setUrl(opts.data.url);
+                    hist.asc_setUrl(url);
                     hist.asc_setUrlChanges(diff);
-                    hist.asc_setDocId(_.isEmpty(diff) ? this.currentDocId : this.currentDocIdPrev);
+                    hist.asc_setDocId(docId);
                     hist.asc_setCurrentChangeId(this.currentChangeId);
                     hist.asc_setArrColors(this.currentArrColors);
                     this.api.asc_showRevision(hist);
