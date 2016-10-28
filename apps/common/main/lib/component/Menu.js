@@ -125,7 +125,7 @@ define([
 
                     if (active && active.length > 0) {
                         _.each(active, function(menu) {
-                            menu.hide();
+                            if (menu) menu.hide();
                         });
                         return true;
                     }

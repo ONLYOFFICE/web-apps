@@ -154,8 +154,8 @@ require([
             'Main',
             'Common.Controllers.Fonts'
             /** coauthoring begin **/
-            , 'Common.Controllers.Chat',
-            'Common.Controllers.Comments',
+            , 'Common.Controllers.Chat'
+            ,'Common.Controllers.Comments'
             /** coauthoring end **/
             ,'Common.Controllers.Plugins'
             ,'Common.Controllers.ExternalDiagramEditor'

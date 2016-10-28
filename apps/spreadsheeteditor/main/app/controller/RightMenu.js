@@ -126,7 +126,7 @@ define([
 
             if (this._state.prevDisabled != need_disable) {
                 this._state.prevDisabled = need_disable;
-                _.each(this._settings, function(item){
+                this._settings.forEach(function(item){
                     item.panel.setLocked(need_disable);
                 });
             }
