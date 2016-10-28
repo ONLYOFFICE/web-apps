@@ -42,7 +42,7 @@
     <tr>
         <td class="padding-small" colspan=2>
             <label class="header"><%= scope.textRanges %></label>
-            <button type="button" class="btn btn-text-default" id="chart-btn-select-data" style="min-width: 100px; display: block;"><%= scope.textSelectData %></button>
+            <button type="button" class="btn btn-text-default" id="chart-btn-select-data" style="min-width: 100px; width: auto; display: block;"><%= scope.textSelectData %></button>
         </td>
     </tr>
     <tr>

@@ -26,7 +26,7 @@
                     <div id="chart-dlg-txt-range" class="input-row" style="margin-right: 10px;"></div>
                 </td>
                 <td class="padding-small" style="text-align: right;">
-                    <button type="button" class="btn btn-text-default" id="chart-dlg-btn-data" style="min-width: 100px;"><%= scope.textSelectData %></button>
+                    <button type="button" class="btn btn-text-default" id="chart-dlg-btn-data" style="min-width: 100px;width: auto;"><%= scope.textSelectData %></button>
                 </td>
             </tr>
             <tr>
