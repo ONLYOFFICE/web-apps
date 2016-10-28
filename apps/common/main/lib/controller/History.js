@@ -163,7 +163,7 @@ define([
                 if (historyStore && data!==null) {
                     var rev, revisions = historyStore.findRevisions(data.version),
                         urlGetTime = new Date();
-                    var diff = opts.data.urlDiff || opts.data.changesUrl,
+                    var diff = opts.data.changesUrl,
                         url, docId;
                     if (opts.data.current && opts.data.previous) {
                         url = _.isEmpty(diff) ? opts.data.current.url : opts.data.previous.url;
