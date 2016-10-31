@@ -61,16 +61,6 @@ var ApplicationController = new(function(){
     }
 
 
-    // Initialize ZeroClipboard
-    // -------------------------
-
-    ZeroClipboard.setMoviePath('../../../vendor/ZeroClipboard/ZeroClipboard10.swf');
-    var clipShortUrl = new ZeroClipboard.Client();
-    var clipEmbedObj = new ZeroClipboard.Client();
-    clipShortUrl.zIndex = maxZIndex;
-    clipEmbedObj.zIndex = maxZIndex;
-
-
     // Utils
     // -------------------------
 
@@ -315,6 +305,13 @@ var ApplicationController = new(function(){
         handlerToolbarSize();
         hidePreloader();
 
+        function _copytext(el, event) {
+            el.select();
+            if ( !document.execCommand('copy') ) {
+                window.alert('Browser\'s error! Use keyboard shortcut [Ctrl] + [C]');
+            }
+        }
+
         Common.Analytics.trackEvent('Load', 'Complete');
     }
 
@@ -555,41 +552,6 @@ var ApplicationController = new(function(){
         created = true;
 
         var documentMoveTimer;
-
-        // Initialize clipboard objects
-
-        clipShortUrl.addEventListener('mousedown', function() {
-            if ($('#id-btn-copy-short').hasClass('copied'))
-                return;
-
-            $('#id-btn-copy-short').button('copied');
-            $('#id-btn-copy-short').addClass('copied');
-
-            clipShortUrl.setText($('#id-short-url').val());
-
-            setTimeout(function(){
-                $('#id-btn-copy-short').button('reset');
-                $('#id-btn-copy-short').removeClass('copied');
-            }, 2000);
-        });
-
-        clipEmbedObj.addEventListener('mousedown', function(){
-            if ($('#id-btn-copy-embed').hasClass('copied'))
-                return;
-
-            $('#id-btn-copy-embed').button('copied');
-            $('#id-btn-copy-embed').addClass('copied');
-
-            clipEmbedObj.setText($('#id-textarea-embed').text());
-
-            setTimeout(function(){
-                $('#id-btn-copy-embed').button('reset');
-                $('#id-btn-copy-embed').removeClass('copied');
-            }, 2000);
-        });
-
-        clipShortUrl.glue('id-btn-copy-short');
-        clipEmbedObj.glue('id-btn-copy-embed');
 
 
         // popover ui handlers
