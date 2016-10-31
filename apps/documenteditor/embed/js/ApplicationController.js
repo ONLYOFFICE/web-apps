@@ -38,11 +38,9 @@ var ApplicationController = new(function(){
         embedConfig = {},
         permissions = {},
         maxPages = 0,
-        minToolbarWidth = 550,
         minEmbedWidth = 400,
         minEmbedHeight = 600,
         embedCode = '<iframe allowtransparency="true" frameborder="0" scrolling="no" src="{embed-url}" width="{width}" height="{height}"></iframe>',
-        maxZIndex = 9090,
         created = false,
         iframePrint = null;
 
@@ -64,41 +62,9 @@ var ApplicationController = new(function(){
     // Utils
     // -------------------------
 
-    function emptyFn(){}
-
     function htmlEncode(value){
         return $('<div/>').text(value).html();
     }
-
-    function createBuffered(fn, buffer, scope, args) {
-        return function(){
-            var timerId;
-            return function() {
-                var me = this;
-                if (timerId) {
-                    clearTimeout(timerId);
-                    timerId = null;
-                }
-                timerId = setTimeout(function(){
-                    fn.apply(scope || me, args || arguments);
-                }, buffer);
-            };
-        }();
-    }
-
-    function updateSocial() {
-        var $socialPanel = $('#id-popover-social-container');
-
-        if ($socialPanel.length > 0) {
-            if ($socialPanel.attr('data-loaded') == 'false') {
-                typeof FB !== 'undefined' && FB.XFBML && FB.XFBML.parse();
-                typeof twttr !== 'undefined' && twttr.widgets && twttr.widgets.load();
-
-                $socialPanel.attr('data-loaded', 'true');
-            }
-        }
-    }
-
 
     // Handlers
     // -------------------------
@@ -107,33 +73,14 @@ var ApplicationController = new(function(){
         config = $.extend(config, data.config);
         embedConfig = $.extend(embedConfig, data.config.embedded);
 
-        $('#id-short-url').val(embedConfig.shareUrl || 'Unavailable');
-        $('#id-textarea-embed').text(embedCode.replace('{embed-url}', embedConfig.embedUrl).replace('{width}', minEmbedWidth).replace('{height}', minEmbedHeight));
+        if ( !embedConfig.shareUrl )
+            $('#idt-share').hide();
 
-        if (typeof embedConfig.shareUrl !== 'undefined' && embedConfig.shareUrl != ''){
-            (function(d, s, id) {
-                  var js, fjs = d.getElementsByTagName(s)[0];
-                  if (d.getElementById(id)) return;
-                  js = d.createElement(s); js.id = id;
-                  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
-                  fjs.parentNode.insertBefore(js, fjs);
-            }(document, 'script', 'facebook-jssdk'));
-            !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
-
-            if ($('#id-popover-social-container ul')){
-                $('#id-popover-social-container ul').append('<li><div class="fb-like" data-href="' + embedConfig.shareUrl + '" data-send="false" data-layout="button_count" data-width="450" data-show-faces="false"></div></li>');
-                $('#id-popover-social-container ul').append('<li class="share-twitter"><a href="https://twitter.com/share" class="twitter-share-button" data-url="' + embedConfig.shareUrl + '">Tweet</a></li>'); //data-count="none"
-                $('#id-popover-social-container ul').append('<li class="share-mail"><a class="btn btn-xs btn-default" href="mailto:?subject=I have shared a document with you: ' + embedConfig.docTitle + '&body=I have shared a document with you: ' + embedConfig.shareUrl + '"><span class="glyphicon glyphicon-envelope"></span>Email</a></li>');
-            }
-        }
-        if (typeof embedConfig.shareUrl === 'undefined')
-            $('#id-btn-share').hide();
-
-        if (typeof embedConfig.embedUrl === 'undefined')
-            $('#id-btn-embed').hide();
+        if ( !embedConfig.embedUrl )
+            $('#idt-embed').hide();
 
         if (typeof embedConfig.fullscreenUrl === 'undefined')
-            $('#id-btn-fullscreen').hide();
+            $('#idt-fullscr').hide();
 
         if (config.canBackToFolder === false || !(config.customization && config.customization.goback && config.customization.goback.url))
             $('#id-btn-close').hide();
@@ -149,7 +96,7 @@ var ApplicationController = new(function(){
         }
 
         // Hide last separator
-        if (!$('#id-btn-fullscreen').is(":visible") && !$('#id-btn-close').is(":visible")) {
+        if (!$('#id-btn-close').is(":visible")) {
             $('#toolbar .right .separator').hide();
             $('#pages').css('margin-right', '12px');
         }
@@ -177,11 +124,8 @@ var ApplicationController = new(function(){
                 Common.Analytics.trackEvent('Load', 'Start');
             }
 
-            if (typeof embedConfig.saveUrl === 'undefined' && permissions.print === false)
-                $('#id-btn-copy').hide();
-
-            if (!$('#id-btn-copy').is(":visible") && !$('#id-btn-share').is(":visible") && !$('#id-btn-embed').is(":visible") )
-                $('#toolbar .left .separator').hide();
+            if ( !embedConfig.saveUrl && permissions.print === false)
+                $('#idt-copy').hide();
         }
     }
 
@@ -230,32 +174,43 @@ var ApplicationController = new(function(){
 
     function onDocMouseMoveEnd() {
         if (me.isHideBodyTip) {
-            var $tipHyperlink = $('#id-tip-hyperlink');
-
-            if ($tipHyperlink.length > 0) {
-                $tipHyperlink.hide();
+            if ( $tooltip ) {
+                $tooltip.tooltip('hide');
+                $tooltip = false;
             }
         }
     }
 
+    var $ttEl, $tooltip;
     function onDocMouseMove(data) {
         if (data) {
             if (data.get_Type() == 1) { // hyperlink
                 me.isHideBodyTip = false;
 
-                var $tipHyperlink   = $('#id-tip-hyperlink'),
-                    hyperProps      = data.get_Hyperlink(),
-                    toolTip         = (hyperProps.get_ToolTip()) ? hyperProps.get_ToolTip() : hyperProps.get_Value();
+                if ( !$ttEl ) {
+                    $ttEl = $('.hyperlink-tooltip');
+                    $ttEl.tooltip({'container':'body', 'trigger':'manual'});
+                    $ttEl.on('shown.bs.tooltip', function(e) {
+                        $tooltip = $ttEl.data('bs.tooltip').tip();
 
-                if ($tipHyperlink.length > 0) {
-                    $tipHyperlink.find('.popover-content p').html(htmlEncode(toolTip) + '<br><b>Press Ctrl and click link</b>');
-                    $tipHyperlink.show();
+                        $tooltip.css({
+                            left: $ttEl.ttpos[0] - 10,
+                            top: $ttEl.ttpos[1] - 5
+                        });
+
+                        $tooltip.find('.tooltip-arrow').css({left: 10});
+                    });
                 }
 
-                $tipHyperlink.css({
-                    left: data.get_X() - 10,
-                    top : data.get_Y() - 25
-                })
+                if ( !$tooltip ) {
+                    $ttEl.ttpos = [data.get_X(), data.get_Y()];
+                    $ttEl.tooltip('show');
+                } else {
+                    $tooltip.css({
+                        left:data.get_X() - 10,
+                        top:data.get_Y() - 5
+                    });
+                }
             }
         }
     }
@@ -298,12 +253,21 @@ var ApplicationController = new(function(){
     }
 
     function onDocumentContentReady() {
-        setVisiblePopover($('#id-popover-share'), false);
-        setVisiblePopover($('#id-popover-embed'), false);
-        $('#id-tip-hyperlink').hide();
-
-        handlerToolbarSize();
         hidePreloader();
+
+        ApplicationView.modals.create(embedConfig);
+
+        api.asc_registerCallback('asc_onStartAction',           onLongActionBegin);
+        api.asc_registerCallback('asc_onEndAction',             onLongActionEnd);
+        api.asc_registerCallback('asc_onMouseMoveStart',        onDocMouseMoveStart);
+        api.asc_registerCallback('asc_onMouseMoveEnd',          onDocMouseMoveEnd);
+        api.asc_registerCallback('asc_onMouseMove',             onDocMouseMove);
+        api.asc_registerCallback('asc_onHyperlinkClick',        onHyperlinkClick);
+        api.asc_registerCallback('asc_onDownloadUrl',           onDownloadUrl);
+        api.asc_registerCallback('asc_onPrint',                 onPrint);
+
+        Common.Gateway.on('processmouse',       onProcessMouse);
+        Common.Gateway.on('downloadas',         onDownloadAs);
 
         function _copytext(el, event) {
             el.select();
@@ -311,6 +275,115 @@ var ApplicationController = new(function(){
                 window.alert('Browser\'s error! Use keyboard shortcut [Ctrl] + [C]');
             }
         }
+
+        var m = ApplicationView.modals.get('share');
+        m.find('#btn-copyshort').on('click', _copytext.bind(this, m.find('#id-short-url')));
+        m.find('.share-buttons > span').on('click', function(e){
+            var _url;
+            switch ($(e.target).attr('data-name')) {
+            case 'facebook':
+                _url = 'https://www.facebook.com/sharer/sharer.php?u=' + embedConfig.shareUrl + '&t=' + embedConfig.docTitle;
+                window.open(_url, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=300,width=600');
+                break;
+            case 'twitter':
+                _url = 'https://twitter.com/share?url='+ embedConfig.shareUrl;
+                !!embedConfig.docTitle && (_url += '&text=' + embedConfig.docTitle);
+                window.open(_url, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=300,width=600');
+                break;
+            case 'gplus':
+                _url = 'https://plus.google.com/share?url=' + embedConfig.shareUrl;
+                window.open(_url, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes');
+                break;
+            case 'email':
+                window.open('mailto:?subject=I have shared a document with you: ' + embedConfig.docTitle + '&body=I have shared a document with you: ' + embedConfig.shareUrl + '"', '_self');
+                break;
+            }
+        });
+
+        var dlgembed = ApplicationView.modals.get('embed');
+        var txtembed = dlgembed.find('#txt-embed-url');
+        txtembed.text(embedCode.replace('{embed-url}', embedConfig.embedUrl).replace('{width}', minEmbedWidth).replace('{height}', minEmbedHeight));
+        dlgembed.find('#btn-copyembed').on('click', _copytext.bind(this, txtembed));
+        dlgembed.find('#txt-embed-width, #txt-embed-height').on({
+            'keypress': function(e){
+                if (e.keyCode == 13)
+                    updateEmbedCode();
+            }
+            , 'focusout': function(e){
+                updateEmbedCode();
+            }
+        });
+
+        ApplicationView.tools.get('#idt-fullscreen')
+            .on('click', function(){
+                openLink(embedConfig.fullscreenUrl);
+            });
+
+        ApplicationView.tools.get('#idt-download')
+            .on('click', function(){
+                    if ( !!embedConfig.saveUrl ){
+                        openLink(embedConfig.saveUrl);
+                    } else
+                    if (api && permissions.print!==false){
+                        api.asc_Print($.browser.chrome || $.browser.safari || $.browser.opera);
+                    }
+
+                    Common.Analytics.trackEvent('Save');
+            });
+
+        $('#id-btn-close').on('click', function(){
+            if (config.customization && config.customization.goback && config.customization.goback.url)
+                window.parent.location.href = config.customization.goback.url;
+        });
+
+        $('#id-btn-zoom-in').on('click', api.zoomIn.bind(this));
+        $('#id-btn-zoom-out').on('click', api.zoomOut.bind(this));
+
+        var $pagenum = $('#page-number');
+        $pagenum.on({
+            'keyup': function(e){
+                if ( e.keyCode == 13 ){
+                    var newPage = parseInt($('#page-number').val());
+
+                    if ( newPage > maxPages ) newPage = maxPages;
+                    if (newPage < 2 || isNaN(newPage)) newPage = 1;
+
+                    api.goToPage(newPage-1);
+                    $pagenum.blur();
+                }
+            }
+            , 'focusin' : function(e) {
+                $pagenum.removeClass('masked');
+            }
+            , 'focusout': function(e){
+                !$pagenum.hasClass('masked') && $pagenum.addClass('masked');
+            }
+        });
+
+        $('#pages').on('click', function(e) {
+            $pagenum.focus();
+        });
+
+        var documentMoveTimer;
+        var ismoved = false;
+        $(document).mousemove(function(event){
+            $('#id-btn-zoom-in').fadeIn();
+            $('#id-btn-zoom-out').fadeIn();
+
+            ismoved = true;
+            if ( !documentMoveTimer ) {
+                documentMoveTimer = setInterval(function(){
+                    if ( !ismoved ) {
+                        $('#id-btn-zoom-in').fadeOut();
+                        $('#id-btn-zoom-out').fadeOut();
+                        clearInterval(documentMoveTimer);
+                        documentMoveTimer = undefined;
+                    }
+
+                    ismoved = false;
+                }, 2000);
+            }
+        });
 
         Common.Analytics.trackEvent('Load', 'Complete');
     }
@@ -436,95 +509,16 @@ var ApplicationController = new(function(){
     // Helpers
     // -------------------------
 
-    var handlerToolbarSize = createBuffered(function(size){
-        var visibleCaption = function(btn, visible){
-            if (visible){
-                $(btn + ' button').addClass('no-caption');
-                $(btn + ' button span').css('display', 'none');
-            } else {
-                $(btn + ' button').removeClass('no-caption');
-                $(btn + ' button span').css('display', 'inline');
-            }
-        };
-
-        var isMinimize = $('#toolbar').width() < minToolbarWidth;
-
-        visibleCaption('#id-btn-copy',  isMinimize);
-        visibleCaption('#id-btn-share', isMinimize);
-        visibleCaption('#id-btn-embed', isMinimize);
-    }, 10);
-
     function onDocumentResize() {
-        if (api)
-            api.Resize();
-
-        handlerToolbarSize();
-    }
-
-    function isVisiblePopover(popover){
-        return popover.hasClass('in');
-    }
-
-    function setVisiblePopover(popover, visible, owner){
-        api && api.asc_enableKeyEvents(!visible);
-
-        if (visible){
-            if (owner){
-                popover.css('display', 'block');
-
-                var popoverData     = owner.data('bs.popover'),
-                    $tip            = popoverData.tip(),
-                    pos             = popoverData.getPosition(false),
-                    actualHeight    = $tip[0].offsetHeight,
-                    placement       = (embedConfig.toolbarDocked === 'top') ? 'bottom' : 'top',
-                    tp;
-
-                $tip.removeClass('fade in top bottom left right');
-
-                switch (placement) {
-                    case 'bottom':
-                        tp = {
-                            top : pos.top + pos.height,
-                            left: owner.position().left + (owner.width() - popover.width()) * 0.5
-                        };
-                        break;
-
-                    default:
-                    case 'top':
-                        tp = {
-                            top : pos.top - actualHeight,
-                            left: owner.position().left + (owner.width() - popover.width()) * 0.5
-                        };
-                        break;
-
-                }
-
-                $tip
-                    .css(tp)
-                    .addClass(placement)
-                    .addClass('in')
-            }
-
-            if (popover.hasClass('embed')) {
-                clipEmbedObj.show();
-            }
-
-            if (popover.hasClass('share')) {
-                clipShortUrl.show();
-                updateSocial();
-            }
-        } else {
-            popover.removeClass('in');
-            popover.css('display', 'none');
-
-            popover.hasClass('embed') && clipEmbedObj.hide();
-            popover.hasClass('share') && clipShortUrl.hide();
-        }
+        api && api.Resize();
     }
 
     function updateEmbedCode(){
-        var newWidth  = parseInt($('#id-input-embed-width').val()),
-            newHeight = parseInt($('#id-input-embed-height').val());
+        var $dlg = ApplicationView.modals.get('emded');
+        var $txtwidth = $dlg.find('#txt-embed-width');
+        var $txtheight = $dlg.find('#txt-embed-height');
+        var newWidth  = parseInt($txtwidth.val()),
+            newHeight = parseInt($txtheight.val());
 
         if (newWidth < minEmbedWidth)
             newWidth = minEmbedWidth;
@@ -532,10 +526,10 @@ var ApplicationController = new(function(){
         if (newHeight < minEmbedHeight)
             newHeight = minEmbedHeight;
 
-        $('#id-textarea-embed').text(embedCode.replace('{embed-url}', embedConfig.embedUrl).replace('{width}', newWidth).replace('{height}', newHeight));
+        $dlg.find('#txt-embed-url').text(embedCode.replace('{embed-url}', embedConfig.embedUrl).replace('{width}', newWidth).replace('{height}', newHeight));
 
-        $('#id-input-embed-width').val(newWidth + 'px');
-        $('#id-input-embed-height').val(newHeight + 'px');
+        $txtwidth.val(newWidth + 'px');
+        $txtheight.val(newHeight + 'px');
     }
 
     function openLink(url){
@@ -551,124 +545,40 @@ var ApplicationController = new(function(){
         me = this;
         created = true;
 
-        var documentMoveTimer;
-
-
-        // popover ui handlers
-
-        $('#id-btn-copy').on('click', function(){
-            var saveUrl = embedConfig.saveUrl;
-            if (typeof saveUrl !== 'undefined' && saveUrl.length > 0){
-                openLink(saveUrl);
-            } else if (api && permissions.print!==false){
-                api.asc_Print($.browser.chrome || $.browser.safari || $.browser.opera);
-            }
-
-            Common.Analytics.trackEvent('Save');
-        });
-
-        $('#id-btn-share').on('click', function(event){
-            setVisiblePopover($('#id-popover-share'), !isVisiblePopover($('#id-popover-share')), $('#id-btn-share'));
-            setVisiblePopover($('#id-popover-embed'), false);
-
-            event.preventDefault();
-            event.stopPropagation();
-        });
-
-        $('#id-btn-embed').on('click', function(event){
-            setVisiblePopover($('#id-popover-embed'), !isVisiblePopover($('#id-popover-embed')), $('#id-btn-embed'));
-            setVisiblePopover($('#id-popover-share'), false);
-
-            event.preventDefault();
-            event.stopPropagation();
-        });
-
-        $('#id-input-embed-width').on('keypress', function(e){
-            if (e.keyCode == 13)
-                updateEmbedCode();
-        });
-
-        $('#id-input-embed-height').on('keypress', function(e){
-            if (e.keyCode == 13)
-                updateEmbedCode();
-        });
-
-        $('#id-input-embed-width').on('focusin', function(e){
-            api && api.asc_enableKeyEvents(false);
-        });
-
-        $('#id-input-embed-height').on('focusin', function(e){
-            api && api.asc_enableKeyEvents(false);
-        });
-
-        $('#id-input-embed-width').on('focusout', function(e){
-            updateEmbedCode();
-            api && api.asc_enableKeyEvents(true);
-        });
-
-        $('#id-input-embed-height').on('focusout', function(e){
-            updateEmbedCode();
-            api && api.asc_enableKeyEvents(true);
-        });
-
-        $('#page-number').on('keyup', function(e){
-            if (e.keyCode == 13){
-                var newPage = parseInt($('#page-number').val());
-
-                if (newPage > maxPages)
-                    newPage = maxPages;
-                if (newPage < 2 || isNaN(newPage))
-                    newPage = 1;
-
-                if (api)
-                    api.goToPage(newPage-1);
-            }
-        });
-
-        $('#page-number').on('focusout', function(e){
-            api && api.asc_enableKeyEvents(true);
-        });
-
-        $('#id-btn-fullscreen').on('click', function(){
-            openLink(embedConfig.fullscreenUrl);
-        });
-
-        $('#id-btn-close').on('click', function(){
-            if (config.customization && config.customization.goback && config.customization.goback.url)
-                window.parent.location.href = config.customization.goback.url;
-        });
-
-        $('#id-btn-zoom-in').on('click', function(){
-            if (api)
-                api.zoomIn();
-        });
-
-        $('#id-btn-zoom-out').on('click', function(){
-            if (api)
-                api.zoomOut();
-        });
-
         $(window).resize(function(){
             onDocumentResize();
         });
 
-        $(document).click(function(event){
-            if (event && event.target && $(event.target).closest('.popover').length > 0)
-                return;
+        var ismodalshown = false;
+        $(document.body).on('show.bs.modal', '.modal',
+            function(e) {
+                ismodalshown = true;
+                api.asc_enableKeyEvents(false);
+            }
+        ).on('hidden.bs.modal', '.modal',
+            function(e) {
+                ismodalshown = false;
+                api.asc_enableKeyEvents(true);
+            }
+        ).on('hidden.bs.dropdown', '.dropdown',
+            function(e) {
+                if ( !ismodalshown )
+                    api.asc_enableKeyEvents(true);
+            }
+        ).on('blur', 'input, textarea',
+            function(e) {
+                if ( !ismodalshown ) {
+                    if (!/area_id/.test(e.target.id) ) {
+                        api.asc_enableKeyEvents(true);
+                    }
+                }
+            }
+        );
 
-            setVisiblePopover($('#id-popover-share'), false);
-            setVisiblePopover($('#id-popover-embed'), false);
-        });
-
-        $(document).mousemove(function(event){
-            $('#id-btn-zoom-in').fadeIn();
-            $('#id-btn-zoom-out').fadeIn();
-
-            clearTimeout(documentMoveTimer);
-            documentMoveTimer = setTimeout(function(){
-                $('#id-btn-zoom-in').fadeOut();
-                $('#id-btn-zoom-out').fadeOut();
-            }, 2000);
+        $('#editor_sdk').on('click', function(e) {
+            if ( e.target.localName == 'canvas' ) {
+                e.currentTarget.focus();
+            }
         });
 
         window["flat_desine"] = true;
@@ -680,27 +590,16 @@ var ApplicationController = new(function(){
             api.asc_registerCallback('asc_onError',                 onError);
             api.asc_registerCallback('asc_onDocumentContentReady',  onDocumentContentReady);
             api.asc_registerCallback('asc_onOpenDocumentProgress',  onOpenDocument);
+            api.asc_registerCallback('asc_onPrintUrl',              onPrintUrl);
+
             api.asc_registerCallback('asc_onCountPages',            onCountPages);
 //            api.asc_registerCallback('OnCurrentVisiblePage',    onCurrentPage);
             api.asc_registerCallback('asc_onCurrentPage',           onCurrentPage);
-            api.asc_registerCallback('asc_onHyperlinkClick',        onHyperlinkClick);
-            api.asc_registerCallback('asc_onStartAction',           onLongActionBegin);
-            api.asc_registerCallback('asc_onEndAction',             onLongActionEnd);
-
-            api.asc_registerCallback('asc_onMouseMoveStart',        onDocMouseMoveStart);
-            api.asc_registerCallback('asc_onMouseMoveEnd',          onDocMouseMoveEnd);
-            api.asc_registerCallback('asc_onMouseMove',             onDocMouseMove);
-
-            api.asc_registerCallback('asc_onDownloadUrl',           onDownloadUrl);
-            api.asc_registerCallback('asc_onPrint',                 onPrint);
-            api.asc_registerCallback('asc_onPrintUrl',              onPrintUrl);
 
             // Initialize api gateway
             Common.Gateway.on('init',               loadConfig);
             Common.Gateway.on('opendocument',       loadDocument);
             Common.Gateway.on('showerror',          onExternalError);
-            Common.Gateway.on('processmouse',       onProcessMouse);
-            Common.Gateway.on('downloadas',         onDownloadAs);
             Common.Gateway.ready();
         }
 
