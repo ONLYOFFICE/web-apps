@@ -99,7 +99,8 @@ define([
                 tablestylename: undefined,
                 tablename: undefined,
                 namedrange_locked: false,
-                fontsize: undefined
+                fontsize: undefined,
+                multiselect: false
             };
 
             var checkInsertAutoshape =  function(e, action) {
@@ -1172,7 +1173,7 @@ define([
             Common.util.Shortcuts.delegateShortcuts({
                 shortcuts: {
                     'command+l,ctrl+l': function(e) {
-                        if (me.editMode) {
+                        if (me.editMode && !me._state.multiselect) {
                             if (!me.api.asc_getCellInfo().asc_getFormatTableInfo())
                                 me._setTableFormat(me.toolbar.mnuTableTemplatePicker.store.at(23).get('name'));
                         }
@@ -1197,7 +1198,7 @@ define([
                         e.stopPropagation();
                     },
                     'command+k,ctrl+k': function (e) {
-                        if (me.editMode && !me.toolbar.mode.isEditMailMerge && !me.toolbar.mode.isEditDiagram && !me.api.isCellEdited)
+                        if (me.editMode && !me.toolbar.mode.isEditMailMerge && !me.toolbar.mode.isEditDiagram && !me.api.isCellEdited && !me._state.multiselect)
                             me.onHyperlink();
                         e.preventDefault();
                     }
@@ -1808,6 +1809,9 @@ define([
 
                 need_disable =  this._state.controlsdisabled.filters || !filterInfo || (filterInfo.asc_getIsApplyAutoFilter()!==true);
                 toolbar.lockToolbar(SSE.enumLock.ruleDelFilter, need_disable, {array:[toolbar.btnClearAutofilter,toolbar.mnuitemClearFilter]});
+
+                this._state.multiselect = info.asc_getFlags().asc_getMultiselect();
+                toolbar.lockToolbar(SSE.enumLock.multiselect, this._state.multiselect, { array: [toolbar.btnTableTemplate, toolbar.btnInsertHyperlink]});
             }
 
             fontparam = toolbar.numFormatTypes[info.asc_getNumFormatType()];
