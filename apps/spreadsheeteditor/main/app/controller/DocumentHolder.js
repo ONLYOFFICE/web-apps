@@ -1264,7 +1264,8 @@ define([
                 
                 var iscelledit = this.api.isCellEdited,
                     formatTableInfo = cellinfo.asc_getFormatTableInfo(),
-                    isintable = (formatTableInfo !== null);
+                    isintable = (formatTableInfo !== null),
+                    ismultiselect = cellinfo.asc_getFlags().asc_getMultiselect();
                 documentHolder.ssMenu.formatTableName = (isintable) ? formatTableInfo.asc_getTableName() : null;
                 documentHolder.ssMenu.cellColor = cellinfo.asc_getFill().asc_getColor();
                 documentHolder.ssMenu.fontColor = cellinfo.asc_getFont().asc_getColor();
@@ -1297,8 +1298,8 @@ define([
                 }
 
                 var hyperinfo = cellinfo.asc_getHyperlink();
-                documentHolder.menuHyperlink.setVisible(iscellmenu && hyperinfo && !iscelledit);
-                documentHolder.menuAddHyperlink.setVisible(iscellmenu && !hyperinfo && !iscelledit);
+                documentHolder.menuHyperlink.setVisible(iscellmenu && hyperinfo && !iscelledit && !ismultiselect);
+                documentHolder.menuAddHyperlink.setVisible(iscellmenu && !hyperinfo && !iscelledit && !ismultiselect);
 
                 documentHolder.pmiRowHeight.setVisible(isrowmenu||isallmenu);
                 documentHolder.pmiColumnWidth.setVisible(iscolmenu||isallmenu);
