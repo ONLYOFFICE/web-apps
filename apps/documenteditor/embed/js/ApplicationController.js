@@ -79,6 +79,8 @@ var ApplicationController = new(function(){
         } else {
             $('#toolbar').addClass('bottom');
             $('#editor_sdk').addClass('bottom');
+            $('#box-tools').removeClass('dropdown').addClass('dropup');
+            ttOffset[1] = -40;
         }
 
         if (config.canBackToFolder === false || !(config.customization && config.customization.goback && config.customization.goback.url)) {
