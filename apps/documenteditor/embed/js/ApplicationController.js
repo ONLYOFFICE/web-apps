@@ -71,18 +71,6 @@ var ApplicationController = new(function(){
         embedConfig = $.extend(embedConfig, data.config.embedded);
 
         common.controller.modals.init(embedConfig);
-        if ( !embedConfig.shareUrl )
-            $('#idt-share').hide();
-
-        if ( !embedConfig.embedUrl )
-            $('#idt-embed').hide();
-
-        if (typeof embedConfig.fullscreenUrl === 'undefined')
-            $('#idt-fullscr').hide();
-
-        if (config.canBackToFolder === false || !(config.customization && config.customization.goback && config.customization.goback.url))
-            $('#id-btn-close').hide();
-
 
         // Docked toolbar
         if (embedConfig.toolbarDocked === 'top') {
@@ -93,8 +81,10 @@ var ApplicationController = new(function(){
             $('#editor_sdk').addClass('bottom');
         }
 
-        // Hide last separator
-        if (!$('#id-btn-close').is(":visible")) {
+        if (config.canBackToFolder === false || !(config.customization && config.customization.goback && config.customization.goback.url)) {
+            $('#id-btn-close').hide();
+
+            // Hide last separator
             $('#toolbar .right .separator').hide();
             $('#pages').css('margin-right', '12px');
         }
@@ -184,8 +174,8 @@ var ApplicationController = new(function(){
                         $tooltip = $ttEl.data('bs.tooltip').tip();
 
                         $tooltip.css({
-                            left: $ttEl.ttpos[0] - 10,
-                            top: $ttEl.ttpos[1] - 5
+                            left: $ttEl.ttpos[0] + ttOffset[0],
+                            top: $ttEl.ttpos[1] + ttOffset[1]
                         });
 
                         $tooltip.find('.tooltip-arrow').css({left: 10});
@@ -197,8 +187,8 @@ var ApplicationController = new(function(){
                     $ttEl.tooltip('show');
                 } else {
                     $tooltip.css({
-                        left:data.get_X() - 10,
-                        top:data.get_Y() - 5
+                        left:data.get_X() + ttOffset[0],
+                        top:data.get_Y() + ttOffset[1]
                     });
                 }
             }
@@ -210,7 +200,7 @@ var ApplicationController = new(function(){
     }
 
     function onPrint() {
-        if (api && permissions.print!==false)
+        if ( permissions.print!==false )
             api.asc_Print($.browser.chrome || $.browser.safari || $.browser.opera);
     }
 
@@ -225,6 +215,15 @@ var ApplicationController = new(function(){
     function onDocumentContentReady() {
         hidePreloader();
 
+        if ( !embedConfig.shareUrl )
+            $('#idt-share').hide();
+
+        if ( !embedConfig.embedUrl )
+            $('#idt-embed').hide();
+
+        if ( !embedConfig.fullscreenUrl )
+            $('#idt-fullscr').hide();
+
         common.controller.modals.attach({
             share: '#idt-share',
             embed: '#idt-embed'
@@ -238,6 +237,7 @@ var ApplicationController = new(function(){
         api.asc_registerCallback('asc_onHyperlinkClick',        common.utils.openLink);
         api.asc_registerCallback('asc_onDownloadUrl',           onDownloadUrl);
         api.asc_registerCallback('asc_onPrint',                 onPrint);
+        api.asc_registerCallback('asc_onPrintUrl',              onPrintUrl);
 
         Common.Gateway.on('processmouse',       onProcessMouse);
         Common.Gateway.on('downloadas',         onDownloadAs);
@@ -493,7 +493,6 @@ var ApplicationController = new(function(){
             api.asc_registerCallback('asc_onError',                 onError);
             api.asc_registerCallback('asc_onDocumentContentReady',  onDocumentContentReady);
             api.asc_registerCallback('asc_onOpenDocumentProgress',  onOpenDocument);
-            api.asc_registerCallback('asc_onPrintUrl',              onPrintUrl);
 
             api.asc_registerCallback('asc_onCountPages',            onCountPages);
 //            api.asc_registerCallback('OnCurrentVisiblePage',    onCurrentPage);
