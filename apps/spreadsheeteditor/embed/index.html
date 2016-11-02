@@ -8,6 +8,7 @@
     <meta name="author" content="">
 
     <!-- debug begin -->
+    <link rel="stylesheet" type="text/css" href="../../../../sdkjs/cell/css/main.css"/>
     <link rel="stylesheet/less" type="text/css" href="resources/less/application.less" />
     <!-- debug end -->
 
@@ -275,23 +276,23 @@
 
       <div class="overlay-controls" style="margin-left: -32px">
           <ul class="left">
-              <li id="id-btn-zoom-in"><button class="overlay"><i class="overlay-icon-zoom-in"></i></button></li>
-              <li id="id-btn-zoom-out"><button class="overlay"><i class="overlay-icon-zoom-out"></i></button></li>
+              <li id="id-btn-zoom-in"><button class="overlay svg-icon zoom-up"></button></li>
+              <li id="id-btn-zoom-out"><button class="overlay svg-icon zoom-down"></button></li>
           </ul>
       </div>
 
       <div class="toolbar" id="toolbar">
-          <ul class="left">
-              <li><a id="header-logo" class="brand-logo" href="http://www.onlyoffice.com/" target="_blank"></a></li>
-              <li class="separator"></li>
-              <li id="id-btn-copy"><button class="control-btn"><i class="control-icon-save"></i><span>Save Copy</span></button></li>
-              <li id="id-btn-share"><button class="control-btn"><i class="control-icon-share"></i><span>Share</span></button></li>
-              <li id="id-btn-embed"><button class="control-btn"><i class="control-icon-embed"></i><span>Embed</span></button></li>
-          </ul>
-          <ul class="right">
-              <li><button id="id-btn-fullscreen" class="control-btn no-caption"><i class="control-icon-fullscreen"></i></button></li>
-              <li><button id="id-btn-close" class="control-btn no-caption"><i class="control-icon-close"></i></button></li>
-          </ul>
+          <div class="group left">
+              <div id="box-tools" class="dropdown">
+                  <button class="control-btn svg-icon tools"></button>
+              </div>
+          </div>
+          <div class="group center">
+              <span><a id="header-logo" class="brand-logo" href="http://www.onlyoffice.com/" target="_blank"></a></span>
+          </div>
+          <div class="group right">
+              <div class="item"><button id="id-btn-close" class="control-btn close"><span aria-hidden="true">&times;</span></button></div>
+          </div>
       </div>
 
       <div class="modal fade error" id="id-critical-error-dialog" tabindex="-1" role="dialog">
@@ -315,11 +316,12 @@
           <div class="cmd-loader-title">Please wait...</div>
       </div>
 
+      <div class="hyperlink-tooltip" data-toggle="tooltip" title="Press Ctrl and click the link" style="display:none;"></div>
+
       <!--vendor-->
       <script type="text/javascript" src="../../../vendor/jquery/jquery.min.js"></script>
       <script type="text/javascript" src="../../../vendor/jquery.browser/dist/jquery.browser.min.js"></script>
       <script type="text/javascript" src="../../../vendor/bootstrap/dist/js/bootstrap.js"></script>
-      <script type="text/javascript" src="../../../vendor/ZeroClipboard/ZeroClipboard.min.js"></script>
       <script type="text/javascript" src="../../../vendor/sockjs/sockjs.min.js"></script>
       <script type="text/javascript" src="../../../vendor/underscore/underscore-min.js"></script>
       <script type="text/javascript" src="../../../vendor/xregexp/xregexp-all-min.js"></script>
@@ -337,6 +339,9 @@
       <!--application-->
       <script type="text/javascript" src="../../common/Gateway.js"></script>
       <script type="text/javascript" src="../../common/Analytics.js"></script>
+      <script type="text/javascript" src="../../common/embed/lib/util/utils.js"></script>
+      <script type="text/javascript" src="../../common/embed/lib/view/modals.js"></script>
+      <script type="text/javascript" src="../../common/embed/lib/controller/modals.js"></script>
       <script type="text/javascript" src="js/ApplicationView.js"></script>
       <script type="text/javascript" src="js/ApplicationController.js"></script>
       <script type="text/javascript" src="js/application.js"></script>
