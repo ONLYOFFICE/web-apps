@@ -38,9 +38,6 @@ var ApplicationController = new(function(){
         embedConfig = {},
         permissions = {},
         maxPages = 0,
-        minEmbedWidth = 400,
-        minEmbedHeight = 600,
-        embedCode = '<iframe allowtransparency="true" frameborder="0" scrolling="no" src="{embed-url}" width="{width}" height="{height}"></iframe>',
         created = false,
         ttOffset = [0, -10];
 
@@ -73,6 +70,7 @@ var ApplicationController = new(function(){
         config = $.extend(config, data.config);
         embedConfig = $.extend(embedConfig, data.config.embedded);
 
+        common.controller.modals.init(embedConfig);
         if ( !embedConfig.shareUrl )
             $('#idt-share').hide();
 
@@ -227,7 +225,10 @@ var ApplicationController = new(function(){
     function onDocumentContentReady() {
         hidePreloader();
 
-        ApplicationView.modals.create(embedConfig);
+        common.controller.modals.attach({
+            share: '#idt-share',
+            embed: '#idt-embed'
+        });
 
         api.asc_registerCallback('asc_onStartAction',           onLongActionBegin);
         api.asc_registerCallback('asc_onEndAction',             onLongActionEnd);
@@ -240,51 +241,6 @@ var ApplicationController = new(function(){
 
         Common.Gateway.on('processmouse',       onProcessMouse);
         Common.Gateway.on('downloadas',         onDownloadAs);
-
-        function _copytext(el, event) {
-            el.select();
-            if ( !document.execCommand('copy') ) {
-                window.alert('Browser\'s error! Use keyboard shortcut [Ctrl] + [C]');
-            }
-        }
-
-        var m = ApplicationView.modals.get('share');
-        m.find('#btn-copyshort').on('click', _copytext.bind(this, m.find('#id-short-url')));
-        m.find('.share-buttons > span').on('click', function(e){
-            var _url;
-            switch ($(e.target).attr('data-name')) {
-            case 'facebook':
-                _url = 'https://www.facebook.com/sharer/sharer.php?u=' + embedConfig.shareUrl + '&t=' + embedConfig.docTitle;
-                window.open(_url, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=300,width=600');
-                break;
-            case 'twitter':
-                _url = 'https://twitter.com/share?url='+ embedConfig.shareUrl;
-                !!embedConfig.docTitle && (_url += '&text=' + embedConfig.docTitle);
-                window.open(_url, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=300,width=600');
-                break;
-            case 'gplus':
-                _url = 'https://plus.google.com/share?url=' + embedConfig.shareUrl;
-                window.open(_url, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes');
-                break;
-            case 'email':
-                window.open('mailto:?subject=I have shared a document with you: ' + embedConfig.docTitle + '&body=I have shared a document with you: ' + embedConfig.shareUrl + '"', '_self');
-                break;
-            }
-        });
-
-        var dlgembed = ApplicationView.modals.get('embed');
-        var txtembed = dlgembed.find('#txt-embed-url');
-        txtembed.text(embedCode.replace('{embed-url}', embedConfig.embedUrl).replace('{width}', minEmbedWidth).replace('{height}', minEmbedHeight));
-        dlgembed.find('#btn-copyembed').on('click', _copytext.bind(this, txtembed));
-        dlgembed.find('#txt-embed-width, #txt-embed-height').on({
-            'keypress': function(e){
-                if (e.keyCode == 13)
-                    updateEmbedCode();
-            }
-            , 'focusout': function(e){
-                updateEmbedCode();
-            }
-        });
 
         ApplicationView.tools.get('#idt-fullscreen')
             .on('click', function(){
@@ -483,25 +439,6 @@ var ApplicationController = new(function(){
 
     function onDocumentResize() {
         api && api.Resize();
-    }
-
-    function updateEmbedCode(){
-        var $dlg = ApplicationView.modals.get('emded');
-        var $txtwidth = $dlg.find('#txt-embed-width');
-        var $txtheight = $dlg.find('#txt-embed-height');
-        var newWidth  = parseInt($txtwidth.val()),
-            newHeight = parseInt($txtheight.val());
-
-        if (newWidth < minEmbedWidth)
-            newWidth = minEmbedWidth;
-
-        if (newHeight < minEmbedHeight)
-            newHeight = minEmbedHeight;
-
-        $dlg.find('#txt-embed-url').text(embedCode.replace('{embed-url}', embedConfig.embedUrl).replace('{width}', newWidth).replace('{height}', newHeight));
-
-        $txtwidth.val(newWidth + 'px');
-        $txtheight.val(newHeight + 'px');
     }
 
     function createController(){

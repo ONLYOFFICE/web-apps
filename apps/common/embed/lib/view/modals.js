@@ -31,8 +31,9 @@
  *
 */
 
-!window.utils && (window.utils = {});
-utils.modals = new(function() {
+!window.common && (window.common = {});
+!common.view && (common.view = {});
+common.view.modals = new(function() {
     var tplDialog = '<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="idm-title" aria-hidden="true">' +
                         '<div class="modal-dialog" role="document">' +
                             '<div class="modal-content">' +

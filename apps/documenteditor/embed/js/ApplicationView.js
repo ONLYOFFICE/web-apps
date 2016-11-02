@@ -31,10 +31,7 @@
  *
 */
 var ApplicationView = new(function(){
-
     var $btnTools;
-    var $dlgEmbed,
-        $dlgShare;
 
     // Initialize view
 
@@ -55,33 +52,10 @@ var ApplicationView = new(function(){
         return $btnTools.parent().find(name);
     }
 
-    function getModal(name) {
-        switch (name) {
-        case 'embed': return $dlgEmbed;
-        case 'share': return $dlgShare;
-        }
-    }
-
     return {
         create: createView
         , tools: {
             get: getTools
-        }
-        , modals: {
-            get: getModal
-            , create: function (config) {
-                if ( !$dlgShare && !!config.shareUrl ) {
-                    $dlgShare = utils.modals.create('share');
-                    $btnTools.parent().find('#idt-share').attr('data-target', "#" + $dlgShare.attr('id'));
-
-                    $dlgShare.find('#id-short-url').val(config.shareUrl);
-                }
-
-                if ( !$dlgEmbed && !!config.embedUrl ) {
-                    $dlgEmbed = utils.modals.create('embed');
-                    $btnTools.parent().find('#idt-embed').attr('data-target', "#"+ $dlgEmbed.attr('id'));
-                }
-            }
         }
     }
 })();
