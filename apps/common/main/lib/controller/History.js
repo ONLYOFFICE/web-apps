@@ -163,7 +163,7 @@ define([
                 if (historyStore && data!==null) {
                     var rev, revisions = historyStore.findRevisions(data.version),
                         urlGetTime = new Date();
-                    var diff = opts.data.changesUrl,
+                    var diff = (this.currentChangeId===undefined) ? null : opts.data.changesUrl, // if revision has changes, but serverVersion !== app.buildVersion -> hide revision changes
                         url = (!_.isEmpty(diff) && opts.data.previous) ? opts.data.previous.url : opts.data.url,
                         docId = opts.data.key ? opts.data.key : this.currentDocId,
                         docIdPrev = opts.data.previous && opts.data.previous.key ? opts.data.previous.key : this.currentDocIdPrev;
