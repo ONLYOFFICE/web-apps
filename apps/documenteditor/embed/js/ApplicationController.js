@@ -42,7 +42,7 @@ var ApplicationController = new(function(){
         minEmbedHeight = 600,
         embedCode = '<iframe allowtransparency="true" frameborder="0" scrolling="no" src="{embed-url}" width="{width}" height="{height}"></iframe>',
         created = false,
-        iframePrint = null;
+        ttOffset = [0, -10];
 
     // Initialize analytics
     // -------------------------
@@ -138,14 +138,6 @@ var ApplicationController = new(function(){
         $('#page-number').val(number + 1);
     }
 
-    function onHyperlinkClick(url) {
-        if (url) {
-            var newDocumentPage = window.open(url, '_blank');
-            if (newDocumentPage)
-                newDocumentPage.focus();
-        }
-    }
-
     function onLongActionBegin(type, id) {
         var text = '';
         switch (id)
@@ -225,27 +217,7 @@ var ApplicationController = new(function(){
     }
 
     function onPrintUrl(url) {
-        if (iframePrint) {
-            iframePrint.parentNode.removeChild(iframePrint);
-            iframePrint = null;
-        }
-        if (!iframePrint) {
-            iframePrint = document.createElement("iframe");
-            iframePrint.id = "id-print-frame";
-            iframePrint.style.display = 'none';
-            iframePrint.style.visibility = "hidden";
-            iframePrint.style.position = "fixed";
-            iframePrint.style.right = "0";
-            iframePrint.style.bottom = "0";
-            document.body.appendChild(iframePrint);
-            iframePrint.onload = function() {
-                iframePrint.contentWindow.focus();
-                iframePrint.contentWindow.print();
-                iframePrint.contentWindow.blur();
-                window.focus();
-            };
-        }
-        if (url) iframePrint.src = url;
+        common.utils.dialogPrint(url);
     }
 
     function hidePreloader() {
@@ -262,7 +234,7 @@ var ApplicationController = new(function(){
         api.asc_registerCallback('asc_onMouseMoveStart',        onDocMouseMoveStart);
         api.asc_registerCallback('asc_onMouseMoveEnd',          onDocMouseMoveEnd);
         api.asc_registerCallback('asc_onMouseMove',             onDocMouseMove);
-        api.asc_registerCallback('asc_onHyperlinkClick',        onHyperlinkClick);
+        api.asc_registerCallback('asc_onHyperlinkClick',        common.utils.openLink);
         api.asc_registerCallback('asc_onDownloadUrl',           onDownloadUrl);
         api.asc_registerCallback('asc_onPrint',                 onPrint);
 
@@ -316,13 +288,13 @@ var ApplicationController = new(function(){
 
         ApplicationView.tools.get('#idt-fullscreen')
             .on('click', function(){
-                openLink(embedConfig.fullscreenUrl);
+                common.utils.openLink(embedConfig.fullscreenUrl);
             });
 
         ApplicationView.tools.get('#idt-download')
             .on('click', function(){
                     if ( !!embedConfig.saveUrl ){
-                        openLink(embedConfig.saveUrl);
+                        common.utils.openLink(embedConfig.saveUrl);
                     } else
                     if (api && permissions.print!==false){
                         api.asc_Print($.browser.chrome || $.browser.safari || $.browser.opera);
@@ -530,12 +502,6 @@ var ApplicationController = new(function(){
 
         $txtwidth.val(newWidth + 'px');
         $txtheight.val(newHeight + 'px');
-    }
-
-    function openLink(url){
-        var newDocumentPage = window.open(url);
-        if (newDocumentPage)
-            newDocumentPage.focus();
     }
 
     function createController(){
