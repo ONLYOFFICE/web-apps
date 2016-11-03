@@ -1183,7 +1183,7 @@ define([
                     'command+shift+l,ctrl+shift+l': function(e) {
                         var state = me._state.filter;
                         me._state.filter = undefined;
-                        if (me.editMode && me.api) {
+                        if (me.editMode && me.api && !me._state.multiselect) {
                             if (me._state.tablename || state)
                                 me.api.asc_changeAutoFilter(me._state.tablename, Asc.c_oAscChangeFilterOptions.filter, !state);
                             else
