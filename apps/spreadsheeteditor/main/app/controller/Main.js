@@ -65,10 +65,14 @@ define([
         var mapCustomizationElements = {
             about: 'button#left-btn-about',
             feedback: 'button#left-btn-support',
-            goback: '#fm-btn-back > a, #header-back > div',
+            goback: '#fm-btn-back > a, #header-back > div'
+        };
+
+        var mapCustomizationExtElements = {
             toolbar: '#viewport #toolbar',
-            leftMenu: '#viewport #left-menu',
-            rightMenu: '#viewport #right-menu'
+            leftMenu: '#viewport #left-menu, #viewport #id-toolbar-full-placeholder-btn-settings, #viewport #id-toolbar-short-placeholder-btn-settings',
+            rightMenu: '#viewport #right-menu',
+            header: '#viewport #header'
         };
 
         Common.localStorage.setId('table');
@@ -761,9 +765,11 @@ define([
                     this.appOptions.canComments    = this.appOptions.canLicense && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.comments===false);
                     this.appOptions.canChat        = this.appOptions.canLicense && !this.appOptions.isOffline && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.chat===false);
 
-                    this.appOptions.canBranding  = params.asc_getCanBranding() && (typeof this.editorConfig.customization == 'object');
+                    this.appOptions.canBranding  = (licType!==Asc.c_oLicenseResult.Error) && (typeof this.editorConfig.customization == 'object');
                     if (this.appOptions.canBranding)
                         this.headerView.setBranding(this.editorConfig.customization);
+
+                    this.appOptions.canBrandingExt = params.asc_getCanBranding() && (typeof this.editorConfig.customization == 'object');
 
                     params.asc_getTrial() && this.headerView.setDeveloperMode(true);
                 }
@@ -1297,6 +1303,8 @@ define([
                     if (!this.appOptions.isDesktopApp)
                         this.appOptions.customization.about = true;
                     Common.Utils.applyCustomization(this.appOptions.customization, mapCustomizationElements);
+                    if (this.appOptions.canBrandingExt)
+                        Common.Utils.applyCustomization(this.appOptions.customization, mapCustomizationExtElements);
                 }
                 
                 this.stackLongActions.pop({id: InitApplication, type: Asc.c_oAscAsyncActionType.BlockInteraction});

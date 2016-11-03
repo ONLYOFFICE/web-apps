@@ -1650,10 +1650,10 @@ define([
                     }
                 } 
 
-                if (mode.isDesktopApp) {
+                if (mode.isDesktopApp)
                     $('.toolbar-group-native').hide();
+                if (mode.isDesktopApp || mode.canBrandingExt && mode.customization && mode.customization.header===false)
                     this.mnuitemHideTitleBar.hide();
-                }
 
                 this.lockToolbar(SSE.enumLock.cantPrint, !mode.canPrint, {array: [this.btnPrint]});
             }
