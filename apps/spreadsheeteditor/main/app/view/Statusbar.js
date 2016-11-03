@@ -501,7 +501,8 @@ define([
 
             onTabMenu: function (o, index, tab) {
                 if (this.mode.isEdit && !this.isEditFormula && (this.rangeSelectionMode !== Asc.c_oAscSelectionDialogType.Chart) &&
-                                                               (this.rangeSelectionMode !== Asc.c_oAscSelectionDialogType.FormatTable)) {
+                                                               (this.rangeSelectionMode !== Asc.c_oAscSelectionDialogType.FormatTable) &&
+                    !this.mode.isDisconnected ) {
                     if (tab && tab.sheetindex >= 0) {
                         var rect = tab.$el.get(0).getBoundingClientRect(),
                             childPos = tab.$el.offset(),
