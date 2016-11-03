@@ -107,7 +107,6 @@
     font-size: @toolbarFontSize;
     min-width: 340px;
     z-index: 100;
-    //#gradient > .vertical(@toolbarTopColor, @toolbarBottomColor);
     background-color: @toolbarTopColor;
 
     &.top {
@@ -146,8 +145,6 @@
                 display: inline-block;
                 width: 35px;
                 padding: 0;
-                //height: 25px;
-                //margin: 0 3px;
                 text-align: right;
             }
 
@@ -208,39 +205,16 @@
     display: block;
     width: 100px;
     height: 24px;
-    //background-image: url("@{iconSpriteCommonPath}");
-    //background-position: 0 -100px;
     background: data-uri('../../../../common/embed/resources/img/logo.svg') no-repeat;
 }
-
-// Sprite icons path
-// -------------------------
-[class^="overlay-icon-"],
-[class*=" overlay-icon-"] {
-    display: inline-block;
-    width: 32px;
-    height: 32px;
-    vertical-align: text-top;
-    background-image: url("@{iconSpriteCommonPath}");
-    background-repeat: no-repeat;
-    opacity: .3;
-}
-
-.overlay-icon-zoom-in       { background-position: 0        -120px; }
-.overlay-icon-zoom-out      { background-position: -32px    -120px; }
 
 // Control buttons
 // -------------------------
 .control-btn {
     display: inline-block;
-    //padding: 1px 5px;
-    //font-size: @toolbarFontSize;
-    //line-height: 20px;
-    //text-align: center;
     vertical-align: middle;
     cursor: pointer;
     background-color: transparent;
-    //background-image: none;
     border: 1px solid transparent;
     border-radius: 2px;
     //margin: 0;
@@ -268,8 +242,6 @@
         outline: none;
         border: 1px solid @btnActiveColor;
         background-color: @btnActiveColor;
-        //#gradient > .vertical(@controlBtnHoverTopColor, @controlBtnHoverBottomColor);
-        //text-shadow: 0 1px 0 darken(@toolbarBorderColor, 20%);
     }
 }
 
@@ -304,17 +276,16 @@
         height: 32px;
 
         display: inline-block;
-        //text-align: center;
-        //vertical-align: middle;
         cursor: pointer;
         background-color: black;
-        //background-image: none;
         border: 5px solid black;
         border-radius: 50%;
-        //padding: 0;
-        //line-height: 0;
         outline: none;
         opacity: 0.3;
+
+        -webkit-box-shadow: 0 0 0 2px rgba(255,255,255,0.3);
+        -moz-box-shadow: 0 0 0 2px rgba(255,255,255,0.3);
+        box-shadow: 0 0 0 2px rgba(255,255,255,0.3);
 
         &:hover {
             opacity: .6;
@@ -352,87 +323,6 @@
             font-weight: bold;
             font-size: 1.6em;
             padding-bottom: 10px;
-        }
-    }
-}
-
-// Share popover
-// -------------------------
-.popover{
-    .popover-content {
-        padding: 14px;
-    }
-
-    &.share {
-        width: 280px;
-
-        .share-link {
-            margin-bottom: 5px;
-
-            .caption {
-                margin-top: 3px;
-                margin-right: 8px;
-                float: left;
-            }
-
-            input[readonly] {
-                display: inline-block;
-                font-size: 1em;
-                padding: 0 4px;
-                margin-right: 5px;
-                border-radius: 0;
-                cursor: text;
-                background-color: #fff;
-                -moz-user-select: text;
-                -khtml-user-select: text;
-                -webkit-user-select: text;
-                -ms-user-select: text;
-                user-select: text;
-            }
-
-            .input-xs {
-                width: 130px;
-            }
-
-            .btn {
-                float: right;
-            }
-        }
-    }
-
-    &.embed {
-        width: 270px;
-
-        .size-manual {
-            margin-bottom: 10px;
-        }
-
-        .right {
-            float: right;
-        }
-
-        .caption {
-            margin-top: 2px;
-            margin-right: 8px;
-        }
-
-        input {
-            display: inline-block;
-            font-size: 1em;
-            padding: 0 4px;
-            border-radius: 0;
-            margin: 0;
-            margin-top: -1px;
-
-            &.input-xs {
-                width: 50px;
-            }
-        }
-
-        button {
-            float: right;
-            margin: 10px 0 15px;
-            width: 86px;
         }
     }
 }
@@ -512,22 +402,12 @@
     }
 }
 
-.list-hor-align {
-    li {
-        float: left;
-
-        a {
-            display: block;
-        }
-    }
-}
-
 .socnet-btn(@index) {
-        background-position: -@icon-socnet-size*@index 0;
+    background-position: -@icon-socnet-size*@index 0;
 
-        &:hover {
-            background-position: -@icon-socnet-size*@index -@icon-socnet-size;
-        }
+    &:hover {
+        background-position: -@icon-socnet-size*@index -@icon-socnet-size;
+    }
 }
 
 .svg {

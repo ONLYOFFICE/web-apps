@@ -55,14 +55,6 @@ var ApplicationController = new(function(){
         return;
     }
 
-
-    // Utils
-    // -------------------------
-
-    function htmlEncode(value){
-        return $('<div/>').text(value).html();
-    }
-
     // Handlers
     // -------------------------
 

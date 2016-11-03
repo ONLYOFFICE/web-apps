@@ -67,7 +67,9 @@
 
                     iframePrint.src = url;
                 }
-
+            },
+            htmlEncode: function(value) {
+                return $('<div/>').text(value).html();
             }
         };
     })();
