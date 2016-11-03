@@ -1157,7 +1157,7 @@ define([
                     ]
                 })
             );
-            if (this.mode.isDesktopApp)
+            if (this.mode.isDesktopApp || this.mode.canBrandingExt && this.mode.customization && this.mode.customization.header===false)
                 this.mnuitemHideTitleBar.hide();
 
             this.mnuZoomOut = new Common.UI.Button({

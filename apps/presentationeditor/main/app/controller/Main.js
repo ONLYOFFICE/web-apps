@@ -61,10 +61,14 @@ define([
         var mapCustomizationElements = {
             about: 'button#left-btn-about',
             feedback: 'button#left-btn-support',
-            goback: '#fm-btn-back > a, #header-back > div',
+            goback: '#fm-btn-back > a, #header-back > div'
+        };
+
+        var mapCustomizationExtElements = {
             toolbar: '#viewport #toolbar',
-            leftMenu: '#viewport #left-menu',
-            rightMenu: '#viewport #right-menu'
+            leftMenu: '#viewport #left-menu, #viewport #id-toolbar-full-placeholder-btn-settings, #viewport #id-toolbar-short-placeholder-btn-settings',
+            rightMenu: '#viewport #right-menu',
+            header: '#viewport #header'
         };
 
         Common.localStorage.setId('presentation');
@@ -761,12 +765,14 @@ define([
                 this._state.licenseWarning = (licType===Asc.c_oLicenseResult.Connections) && this.appOptions.canEdit && this.editorConfig.mode !== 'view';
 
                 var headerView = this.getApplication().getController('Viewport').getView('Common.Views.Header');
-                this.appOptions.canBranding  = params.asc_getCanBranding() && (typeof this.editorConfig.customization == 'object');
+                this.appOptions.canBranding  = (licType!==Asc.c_oLicenseResult.Error) && (typeof this.editorConfig.customization == 'object');
                 if (this.appOptions.canBranding)
                     headerView.setBranding(this.editorConfig.customization);
 
                 params.asc_getTrial() && headerView.setDeveloperMode(true);
                 this.appOptions.canRename && headerView.setCanRename(true);
+
+                this.appOptions.canBrandingExt = params.asc_getCanBranding() && (typeof this.editorConfig.customization == 'object');
 
                 this.applyModeCommonElements();
                 this.applyModeEditorElements();
@@ -1194,6 +1200,8 @@ define([
                     if (!this.appOptions.isDesktopApp)
                         this.appOptions.customization.about = true;
                     Common.Utils.applyCustomization(this.appOptions.customization, mapCustomizationElements);
+                    if (this.appOptions.canBrandingExt)
+                        Common.Utils.applyCustomization(this.appOptions.customization, mapCustomizationExtElements);
                 }
 
                 Common.NotificationCenter.trigger('layout:changed', 'main');
