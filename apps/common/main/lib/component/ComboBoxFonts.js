@@ -453,7 +453,7 @@ define([
                 if (!me.tiles) me.tiles = [];
                 if (storeCount !== me.tiles.length) {
                     for (j =  me.tiles.length; j < storeCount; ++j) {
-                        me.tiles.push(null);
+                        me.tiles.unshift(null);
                     }
                 }
 
