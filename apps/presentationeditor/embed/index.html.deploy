@@ -309,7 +309,6 @@
       <script type="text/javascript" src="../../../vendor/jquery/jquery.min.js"></script>
       <script type="text/javascript" src="../../../vendor/jquery/jquery.browser.min.js"></script>
       <script type="text/javascript" src="../../../vendor/bootstrap/dist/js/bootstrap.min.js"></script>
-      <script type="text/javascript" src="../../../vendor/ZeroClipboard/ZeroClipboard.min.js"></script>
       <script type="text/javascript" src="../../../vendor/sockjs/sockjs.min.js"></script>
       <script type="text/javascript" src="../../../vendor/xregexp/xregexp-all-min.js"></script>
       <script type="text/javascript" src="../../../vendor/jszip/jszip.min.js"></script>

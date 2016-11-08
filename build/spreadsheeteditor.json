@@ -489,21 +489,6 @@
             "dest": "../deploy/web-apps/vendor/requirejs/require.js"
         }
     },
-    "zeroclipboard": {
-        "clean": [
-            "../deploy/web-apps/vendor/ZeroClipboard"
-        ],
-        "copy": {
-            "script": {
-                "expand": true,
-                "cwd": "../vendor/ZeroClipboard/",
-                "src": [
-                    "**"
-                ],
-                "dest": "../deploy/web-apps/vendor/ZeroClipboard/"
-            }
-        }
-    },
     "obf": {
         "api": "../deploy/sdkjs/cell/sdk-all.js",
         "pat": "asc_\\w+",
@@ -528,7 +513,6 @@
             "deploy-touch",
             "deploy-jquery",
             "deploy-underscore",
-            "deploy-zeroclipboard",
             "deploy-bootstrap",
             "deploy-jszip",
             "deploy-jsziputils",
