@@ -46,6 +46,7 @@
 
 @link-color:            @brand-primary;
 @link-hover-color:      darken(@link-color, 15%);
+@link-hover-decoration: underline;
 
 // Typography
 // -------------------------
@@ -157,6 +158,10 @@
 
 @btn-link-disabled-color:        @gray-light;
 
+// Allows for customizing button radius independently from global border radius
+@btn-border-radius-base:         @border-radius-base;
+@btn-border-radius-large:        @border-radius-large;
+@btn-border-radius-small:        @border-radius-small;
 
 // Forms
 // -------------------------
@@ -169,11 +174,22 @@
 @input-border-radius:            @border-radius-base;
 @input-border-focus:             #66afe9;
 
+// TODO: Rename `@input-border-radius` to `@input-border-radius-base` in v4
+//** Default `.form-control` border radius
+// This has no effect on `<select>`s in some browsers, due to the limited stylability of `<select>`s in CSS.
+@input-border-radius:            @border-radius-base;
+//** Large `.form-control` border radius
+@input-border-radius-large:      @border-radius-large;
+//** Small `.form-control` border radius
+@input-border-radius-small:      @border-radius-small;
+
 @input-color-placeholder:        @gray;
 
 @input-height-base:              (floor(@font-size-base * @line-height-base) + (@padding-base-vertical * 2) + 5);
 @input-height-large:             (ceil(@font-size-large * @line-height-large) + (@padding-large-vertical * 2) + 2);
 @input-height-small:             (floor(@font-size-small * @line-height-small) + (@padding-small-vertical * 2) + 2);
+
+@form-group-margin-bottom:       15px;
 
 @legend-color:                   @gray-dark;
 @legend-border-color:            #e5e5e5;
@@ -181,6 +197,7 @@
 @input-group-addon-bg:           @input-bg;
 @input-group-addon-border-color: @input-border;
 
+@cursor-disabled:                not-allowed;
 
 // Dropdowns
 // -------------------------
@@ -414,6 +431,7 @@
 @tooltip-max-width:           200px;
 @tooltip-color:               #fff;
 @tooltip-bg:                  #000;
+@tooltip-opacity:             .9;
 
 @tooltip-arrow-width:         5px;
 @tooltip-arrow-color:         @tooltip-bg;
@@ -636,6 +654,9 @@
 
 // Horizontal forms & lists
 @component-offset-horizontal: 180px;
+@blockquote-font-size:        (@font-size-base * 1.25);
+@dl-horizontal-offset:        @component-offset-horizontal;
+@dl-horizontal-breakpoint:    @grid-float-breakpoint;
 
 
 // Container sizes

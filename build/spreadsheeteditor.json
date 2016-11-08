@@ -1,7 +1,7 @@
 {
     "name": "spreadsheeteditor",
-    "version": "4.6.0",
-    "build": 874,
+    "version": "4.7.0",
+    "build": 877,
     "homepage": "http://www.onlyoffice.com",
     "private": true,
     "sdk": {
@@ -313,13 +313,21 @@
         }
     },
     "embed": {
-        "clean": [
-            "../deploy/web-apps/apps/spreadsheeteditor/embed"
-        ],
+        "clean": {
+            "prebuild": [
+                "../deploy/web-apps/apps/spreadsheeteditor/embed"
+            ],
+            "postbuild": [
+                "../deploy/web-apps/apps/spreadsheeteditor/embed/resources/img"
+            ]
+        },
         "js": {
             "src": [
                 "../apps/common/Gateway.js",
                 "../apps/common/Analytics.js",
+                "../apps/common/embed/lib/util/utils.js",
+                "../apps/common/embed/lib/view/modals.js",
+                "../apps/common/embed/lib/controller/modals.js",
                 "../apps/spreadsheeteditor/embed/js/ApplicationView.js",
                 "../apps/spreadsheeteditor/embed/js/ApplicationController.js",
                 "../apps/spreadsheeteditor/embed/js/application.js"

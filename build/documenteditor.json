@@ -1,7 +1,7 @@
 {
     "name": "documenteditor",
-    "version": "4.6.0",
-    "build": 1064,
+    "version": "4.7.0",
+    "build": 1110,
     "homepage": "http://www.onlyoffice.com",
     "private": true,
     "sdk": {
@@ -307,13 +307,21 @@
         }
     },
     "embed": {
-        "clean": [
-            "../deploy/web-apps/apps/documenteditor/embed"
-        ],
+        "clean": {
+            "prebuild": [
+                "../deploy/web-apps/apps/documenteditor/embed"
+            ],
+            "postbuild": [
+                "../deploy/web-apps/apps/documenteditor/embed/resources/img"
+            ]
+        },
         "js": {
             "src": [
                 "../apps/common/Gateway.js",
                 "../apps/common/Analytics.js",
+                "../apps/common/embed/lib/util/utils.js",
+                "../apps/common/embed/lib/view/modals.js",
+                "../apps/common/embed/lib/controller/modals.js",
                 "../apps/documenteditor/embed/js/ApplicationView.js",
                 "../apps/documenteditor/embed/js/ApplicationController.js",
                 "../apps/documenteditor/embed/js/application.js"

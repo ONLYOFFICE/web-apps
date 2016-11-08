@@ -1,7 +1,7 @@
 {
     "name": "presentationeditor",
-    "version": "4.6.0",
-    "build": 771,
+    "version": "4.7.0",
+    "build": 774,
     "homepage": "http://www.onlyoffice.com",
     "sdk": {
         "clean": [
@@ -283,13 +283,21 @@
         }
     },
     "embed": {
-        "clean": [
-            "../deploy/web-apps/apps/presentationeditor/embed"
-        ],
+        "clean": {
+            "prebuild": [
+                "../deploy/web-apps/apps/presentationeditor/embed"
+            ],
+            "postbuild": [
+                "../deploy/web-apps/apps/presentationeditor/embed/resources/img"
+            ]
+        },
         "js": {
             "src": [
                 "../apps/common/Gateway.js",
                 "../apps/common/Analytics.js",
+                "../apps/common/embed/lib/util/utils.js",
+                "../apps/common/embed/lib/view/modals.js",
+                "../apps/common/embed/lib/controller/modals.js",
                 "../apps/presentationeditor/embed/js/ApplicationView.js",
                 "../apps/presentationeditor/embed/js/ApplicationController.js",
                 "../apps/presentationeditor/embed/js/application.js"

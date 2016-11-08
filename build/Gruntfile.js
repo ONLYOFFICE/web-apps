@@ -311,7 +311,8 @@ module.exports = function(grunt) {
                 options: {
                     force: true
                 },
-                files: packageFile['embed']['clean']
+                postbuild: packageFile['embed']['clean']['postbuild'],
+                prebuild: packageFile['embed']['clean']['prebuild']
             },
 
             uglify: {
@@ -333,7 +334,8 @@ module.exports = function(grunt) {
             less: {
                 production: {
                     options: {
-                        cleancss: true
+                        compress: true,
+                        ieCompat: false
                     },
                     files: {
                         "<%= pkg.embed.less.files.dist %>": packageFile['embed']['less']['files']['src']
@@ -377,7 +379,6 @@ module.exports = function(grunt) {
     grunt.registerTask('deploy-touch',                  ['touch-init', 'clean', 'copy']);
     grunt.registerTask('deploy-jquery',                 ['jquery-init', 'clean', 'copy']);
     grunt.registerTask('deploy-underscore',             ['underscore-init', 'clean', 'copy']);
-    grunt.registerTask('deploy-zeroclipboard',          ['zeroclipboard-init', 'clean', 'copy']);
     grunt.registerTask('deploy-bootstrap',              ['bootstrap-init', 'clean', 'copy']);
     grunt.registerTask('deploy-jszip',                  ['jszip-init', 'clean', 'copy']);
     grunt.registerTask('deploy-jsziputils',             ['jsziputils-init', 'clean', 'copy']);
@@ -386,7 +387,7 @@ module.exports = function(grunt) {
 
     grunt.registerTask('deploy-app-main',               ['main-app-init', 'clean', 'less', 'replace:fixLessUrl', 'requirejs', 'concat', 'imagemin', 'copy', 'lessPostFix']);
     grunt.registerTask('deploy-app-mobile',             ['mobile-app-init', 'clean', 'uglify', 'cssmin:styles', 'copy']);
-    grunt.registerTask('deploy-app-embed',              ['embed-app-init', 'clean', 'uglify', 'less', 'replace:fixLessUrl', 'copy']);
+    grunt.registerTask('deploy-app-embed',              ['embed-app-init', 'clean:prebuild', 'uglify', 'less', 'replace:fixLessUrl', 'copy', 'clean:postbuild']);
 
 
     doRegisterInitializeAppTask('documenteditor',       'DocumentEditor',       'documenteditor.json');
