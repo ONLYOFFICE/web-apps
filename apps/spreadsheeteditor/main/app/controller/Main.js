@@ -1166,6 +1166,10 @@ define([
                         config.msg = this.errorCopyMultiselectArea;
                         break;
 
+                    case Asc.c_oAscError.ID.PrintMaxPagesCount:
+                        config.msg = this.errorPrintMaxPagesCount;
+                        break;
+
                     default:
                         config.msg = this.errorDefaultMessage.replace('%1', id);
                         break;
@@ -2002,7 +2006,8 @@ define([
             titleLicenseExp: 'License expired',
             openErrorText: 'An error has occurred while opening the file',
             saveErrorText: 'An error has occurred while saving the file',
-            errorCopyMultiselectArea: 'This command cannot be used with multiple selections.<br>Select a single range and try again.'
+            errorCopyMultiselectArea: 'This command cannot be used with multiple selections.<br>Select a single range and try again.',
+            errorPrintMaxPagesCount: 'Unfortunately, it’s not possible to print more than 1500 pages at once in the current version of the program.<br>This restriction will be eliminated in upcoming releases.'
         }
     })(), SSE.Controllers.Main || {}))
 });
