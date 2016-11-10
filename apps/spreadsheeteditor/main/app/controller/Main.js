@@ -69,6 +69,13 @@ define([
             goback: '#fm-btn-back > a, #header-back > div'
         };
 
+        var mapCustomizationExtElements = {
+            toolbar: '#viewport #toolbar',
+            leftMenu: '#viewport #left-menu, #viewport #id-toolbar-full-placeholder-btn-settings, #viewport #id-toolbar-short-placeholder-btn-settings',
+            rightMenu: '#viewport #right-menu',
+            header: '#viewport #header'
+        };
+
         Common.localStorage.setId('table');
         Common.localStorage.setKeysFilter('sse-,asc.table');
         Common.localStorage.sync();
@@ -328,6 +335,7 @@ define([
                     this._state.lostEditingRights = !this._state.lostEditingRights;
                     this.api.asc_coAuthoringDisconnect();
                     this.getApplication().getController('LeftMenu').leftMenu.getMenu('file').panels['rights'].onLostEditRights();
+                    Common.NotificationCenter.trigger('api:disconnect');
                     if (!old_rights)
                         Common.UI.warning({
                             title: this.notcriticalErrorTitle,
@@ -770,9 +778,11 @@ define([
                     this.appOptions.canChat        = this.appOptions.canLicense && !this.appOptions.isOffline && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.chat===false);
                     this.appOptions.canRename      = !!this.permissions.rename;
 
-                    this.appOptions.canBranding  = params.asc_getCanBranding() && (typeof this.editorConfig.customization == 'object');
+                    this.appOptions.canBranding  = (licType!==Asc.c_oLicenseResult.Error) && (typeof this.editorConfig.customization == 'object');
                     if (this.appOptions.canBranding)
                         this.headerView.setBranding(this.editorConfig.customization);
+
+                    this.appOptions.canBrandingExt = params.asc_getCanBranding() && (typeof this.editorConfig.customization == 'object');
 
                     params.asc_getTrial() && this.headerView.setDeveloperMode(true);
                     this.appOptions.canRename && this.headerView.setCanRename(true);
@@ -1157,6 +1167,10 @@ define([
                         config.msg = this.errorCopyMultiselectArea;
                         break;
 
+                    case Asc.c_oAscError.ID.PrintMaxPagesCount:
+                        config.msg = this.errorPrintMaxPagesCount;
+                        break;
+
                     default:
                         config.msg = this.errorDefaultMessage.replace('%1', id);
                         break;
@@ -1316,6 +1330,8 @@ define([
                     if (!this.appOptions.isDesktopApp)
                         this.appOptions.customization.about = true;
                     Common.Utils.applyCustomization(this.appOptions.customization, mapCustomizationElements);
+                    if (this.appOptions.canBrandingExt)
+                        Common.Utils.applyCustomization(this.appOptions.customization, mapCustomizationExtElements);
                 }
                 
                 this.stackLongActions.pop({id: InitApplication, type: Asc.c_oAscAsyncActionType.BlockInteraction});
@@ -1807,6 +1823,7 @@ define([
 
                 if (arr.length>0)
                     this.updatePluginsList({
+                        autoStartGuid: plugins.autoStartGuid,
                         url: plugins.url,
                         pluginsData: arr
                     });
@@ -1865,8 +1882,11 @@ define([
                     this.appOptions.pluginsPath = '';
                     this.appOptions.canPlugins = false;
                 }
-                if (this.appOptions.canPlugins)
+                if (this.appOptions.canPlugins) {
                     this.getApplication().getController('Common.Controllers.Plugins').setMode(this.appOptions);
+                    if (plugins.autoStartGuid)
+                        this.api.asc_pluginRun(plugins.autoStartGuid, 0, '');
+                }
                 this.getApplication().getController('LeftMenu').enablePlugins();
             },
             
@@ -1987,7 +2007,8 @@ define([
             titleLicenseExp: 'License expired',
             openErrorText: 'An error has occurred while opening the file',
             saveErrorText: 'An error has occurred while saving the file',
-            errorCopyMultiselectArea: 'This command cannot be used with multiple selections.<br>Select a single range and try again.'
+            errorCopyMultiselectArea: 'This command cannot be used with multiple selections.<br>Select a single range and try again.',
+            errorPrintMaxPagesCount: 'Unfortunately, it’s not possible to print more than 1500 pages at once in the current version of the program.<br>This restriction will be eliminated in upcoming releases.'
         }
     })(), SSE.Controllers.Main || {}))
 });

@@ -2696,21 +2696,21 @@ define([
                             checkable   : true,
                             checked     : false,
                             toggleGroup : 'popupparagraphvalign',
-                            valign      : Asc.c_oAscVerticalTextAlign.TEXT_ALIGN_TOP
+                            valign      : Asc.c_oAscVAlign.Top
                         }).on('click', _.bind(paragraphVAlign, me)),
                         me.menuParagraphCenter = new Common.UI.MenuItem({
                             caption     : me.centerCellText,
                             checkable   : true,
                             checked     : false,
                             toggleGroup : 'popupparagraphvalign',
-                            valign      : Asc.c_oAscVerticalTextAlign.TEXT_ALIGN_CTR
+                            valign      : Asc.c_oAscVAlign.Center
                         }).on('click', _.bind(paragraphVAlign, me)),
                         me.menuParagraphBottom = new Common.UI.MenuItem({
                             caption     : me.bottomCellText,
                             checkable   : true,
                             checked     : false,
                             toggleGroup : 'popupparagraphvalign',
-                            valign      : Asc.c_oAscVerticalTextAlign.TEXT_ALIGN_BOTTOM
+                            valign      : Asc.c_oAscVAlign.Bottom
                         }).on('click', _.bind(paragraphVAlign, me))
                     ]
                 })
@@ -2915,9 +2915,9 @@ define([
                     menuParagraphDirection.setVisible(isInShape && !isInChart && !isEquation); // после того, как заголовок можно будет растягивать по вертикали, вернуть "|| isInChart" !!
                     if ( isInShape || isInChart ) {
                         var align = value.imgProps.value.get_VerticalTextAlign();
-                        me.menuParagraphTop.setChecked(align == Asc.c_oAscVerticalTextAlign.TEXT_ALIGN_TOP);
-                        me.menuParagraphCenter.setChecked(align == Asc.c_oAscVerticalTextAlign.TEXT_ALIGN_CTR);
-                        me.menuParagraphBottom.setChecked(align == Asc.c_oAscVerticalTextAlign.TEXT_ALIGN_BOTTOM);
+                        me.menuParagraphTop.setChecked(align == Asc.c_oAscVAlign.Top);
+                        me.menuParagraphCenter.setChecked(align == Asc.c_oAscVAlign.Center);
+                        me.menuParagraphBottom.setChecked(align == Asc.c_oAscVAlign.Bottom);
 
                         var dir = value.imgProps.value.get_Vert();
                         me.menuParagraphDirectH.setChecked(dir == Asc.c_oAscVertDrawingText.normal);

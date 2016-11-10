@@ -75,7 +75,8 @@ define([
         ruleFilter:     'rule-filter',
         ruleDelFilter:  'rule-clear-filter',
         menuFileOpen:   'menu-file-open',
-        cantPrint:      'cant-print'
+        cantPrint:      'cant-print',
+        multiselect:    'is-multiselect'
     };
 
     SSE.Views.Toolbar =  Backbone.View.extend(_.extend({
@@ -495,7 +496,7 @@ define([
                 id          : 'id-toolbar-btn-inserthyperlink',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-inserthyperlink',
-                lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selImage, _set.selShape, _set.lostConnect, _set.coAuth]
+                lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selImage, _set.selShape, _set.multiselect, _set.lostConnect, _set.coAuth]
             });
 
             me.btnInsertChart = new Common.UI.Button({
@@ -622,7 +623,7 @@ define([
                 id          : 'id-toolbar-btn-ttempl',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-ttempl',
-                lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter],
+                lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.multiselect],
                 menu        : new Common.UI.Menu({
                     items: [
                         { template: _.template('<div id="id-toolbar-menu-table-templates" style="width: 288px; height: 300px; margin: 0px 4px;"></div>') }
@@ -1400,7 +1401,7 @@ define([
                 this.mnuitemHideFormulaBar.setChecked(!!options.formula);
                 this.mnuitemHideHeadings.setChecked(!!options.headings);
 
-                if (this.mode.isDesktopApp)
+                if (this.mode.isDesktopApp || this.mode.canBrandingExt && this.mode.customization && this.mode.customization.header===false)
                     this.mnuitemHideTitleBar.hide();
             }
             
@@ -1795,10 +1796,8 @@ define([
                     }
                 } 
 
-                if (mode.isDesktopApp) {
+                if (mode.isDesktopApp)
                     $('.toolbar-group-native').hide();
-                    this.mnuitemHideTitleBar && this.mnuitemHideTitleBar.hide();
-                }
 
                 this.lockToolbar(SSE.enumLock.cantPrint, !mode.canPrint, {array: [this.btnPrint]});
             }

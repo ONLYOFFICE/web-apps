@@ -280,7 +280,7 @@ define([
 
             var target_pane = $(".right-panel");
             target_pane.find('> .active').removeClass('active');
-            _.each(this._settings, function(item){
+            this._settings.forEach(function(item){
                 if (item.btn.isActive())
                     item.btn.toggle(false, true);
             });

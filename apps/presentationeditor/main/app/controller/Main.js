@@ -64,6 +64,13 @@ define([
             goback: '#fm-btn-back > a, #header-back > div'
         };
 
+        var mapCustomizationExtElements = {
+            toolbar: '#viewport #toolbar',
+            leftMenu: '#viewport #left-menu, #viewport #id-toolbar-full-placeholder-btn-settings, #viewport #id-toolbar-short-placeholder-btn-settings',
+            rightMenu: '#viewport #right-menu',
+            header: '#viewport #header'
+        };
+
         Common.localStorage.setId('presentation');
         Common.localStorage.setKeysFilter('pe-,asc.presentation');
         Common.localStorage.sync();
@@ -300,6 +307,7 @@ define([
                     this._state.lostEditingRights = !this._state.lostEditingRights;
                     this.api.asc_coAuthoringDisconnect();
                     this.getApplication().getController('LeftMenu').leftMenu.getMenu('file').panels['rights'].onLostEditRights();
+                    Common.NotificationCenter.trigger('api:disconnect');
                     if (!old_rights)
                         Common.UI.warning({
                             title: this.notcriticalErrorTitle,
@@ -758,12 +766,14 @@ define([
                 this._state.licenseWarning = (licType===Asc.c_oLicenseResult.Connections) && this.appOptions.canEdit && this.editorConfig.mode !== 'view';
 
                 var headerView = this.getApplication().getController('Viewport').getView('Common.Views.Header');
-                this.appOptions.canBranding  = params.asc_getCanBranding() && (typeof this.editorConfig.customization == 'object');
+                this.appOptions.canBranding  = (licType!==Asc.c_oLicenseResult.Error) && (typeof this.editorConfig.customization == 'object');
                 if (this.appOptions.canBranding)
                     headerView.setBranding(this.editorConfig.customization);
 
                 params.asc_getTrial() && headerView.setDeveloperMode(true);
                 this.appOptions.canRename && headerView.setCanRename(true);
+
+                this.appOptions.canBrandingExt = params.asc_getCanBranding() && (typeof this.editorConfig.customization == 'object');
 
                 this.applyModeCommonElements();
                 this.applyModeEditorElements();
@@ -1191,6 +1201,8 @@ define([
                     if (!this.appOptions.isDesktopApp)
                         this.appOptions.customization.about = true;
                     Common.Utils.applyCustomization(this.appOptions.customization, mapCustomizationElements);
+                    if (this.appOptions.canBrandingExt)
+                        Common.Utils.applyCustomization(this.appOptions.customization, mapCustomizationExtElements);
                 }
 
                 Common.NotificationCenter.trigger('layout:changed', 'main');
@@ -1600,6 +1612,7 @@ define([
 
                 if (arr.length>0)
                     this.updatePluginsList({
+                        autoStartGuid: plugins.autoStartGuid,
                         url: plugins.url,
                         pluginsData: arr
                     });
@@ -1658,8 +1671,11 @@ define([
                     this.appOptions.pluginsPath = '';
                     this.appOptions.canPlugins = false;
                 }
-                if (this.appOptions.canPlugins)
+                if (this.appOptions.canPlugins) {
                     this.getApplication().getController('Common.Controllers.Plugins').setMode(this.appOptions);
+                    if (plugins.autoStartGuid)
+                        this.api.asc_pluginRun(plugins.autoStartGuid, 0, '');
+                }
                 this.getApplication().getController('LeftMenu').enablePlugins();
             },
 

@@ -99,7 +99,8 @@ define([
                 tablestylename: undefined,
                 tablename: undefined,
                 namedrange_locked: false,
-                fontsize: undefined
+                fontsize: undefined,
+                multiselect: false
             };
 
             var checkInsertAutoshape =  function(e, action) {
@@ -1215,7 +1216,7 @@ define([
             Common.util.Shortcuts.delegateShortcuts({
                 shortcuts: {
                     'command+l,ctrl+l': function(e) {
-                        if (me.editMode) {
+                        if (me.editMode && !me._state.multiselect) {
                             if (!me.api.asc_getCellInfo().asc_getFormatTableInfo())
                                 me._setTableFormat(me.toolbar.mnuTableTemplatePicker.store.at(23).get('name'));
                         }
@@ -1225,7 +1226,7 @@ define([
                     'command+shift+l,ctrl+shift+l': function(e) {
                         var state = me._state.filter;
                         me._state.filter = undefined;
-                        if (me.editMode && me.api) {
+                        if (me.editMode && me.api && !me._state.multiselect) {
                             if (me._state.tablename || state)
                                 me.api.asc_changeAutoFilter(me._state.tablename, Asc.c_oAscChangeFilterOptions.filter, !state);
                             else
@@ -1240,7 +1241,7 @@ define([
                         e.stopPropagation();
                     },
                     'command+k,ctrl+k': function (e) {
-                        if (me.editMode && !me.toolbar.mode.isEditMailMerge && !me.toolbar.mode.isEditDiagram && !me.api.isCellEdited)
+                        if (me.editMode && !me.toolbar.mode.isEditMailMerge && !me.toolbar.mode.isEditDiagram && !me.api.isCellEdited && !me._state.multiselect)
                             me.onHyperlink();
                         e.preventDefault();
                     }
@@ -1599,13 +1600,10 @@ define([
         onApiSelectionChanged: function(info) {
             if (!this.editMode) return;
 
-            var selectionType = info.asc_getFlags().asc_getSelectionType();
-            var coauth_disable = (!this.toolbar.mode.isEditMailMerge && !this.toolbar.mode.isEditDiagram) ? (info.asc_getLocked()===true) : false;
-            if (this._disableEditOptions(selectionType, coauth_disable)) {
-                return;
-            }
-
-            var me = this,
+            var selectionType = info.asc_getFlags().asc_getSelectionType(),
+                coauth_disable = (!this.toolbar.mode.isEditMailMerge && !this.toolbar.mode.isEditDiagram) ? (info.asc_getLocked()===true) : false,
+                editOptionsDisabled = this._disableEditOptions(selectionType, coauth_disable),
+                me = this,
                 toolbar = this.toolbar,
                 fontobj = info.asc_getFont(),
                 val, need_disable = false;
@@ -1615,6 +1613,15 @@ define([
             if (fontparam != toolbar.cmbFontName.getValue()) {
                 Common.NotificationCenter.trigger('fonts:change', fontobj);
             }
+
+            /* read font size */
+            var str_size = fontobj.asc_getSize();
+            if (this._state.fontsize !== str_size) {
+                toolbar.cmbFontSize.setValue((str_size!==undefined) ? str_size : '');
+                this._state.fontsize = str_size;
+            }
+
+            if (editOptionsDisabled) return;
 
             /* read font params */
             if (!toolbar.mode.isEditMailMerge && !toolbar.mode.isEditDiagram) {
@@ -1633,13 +1640,6 @@ define([
                     toolbar.btnUnderline.toggle(val === true, true);
                     this._state.underline = val;
                 }
-            }
-
-            /* read font size */
-            var str_size = fontobj.asc_getSize();
-            if (this._state.fontsize !== str_size) {
-                toolbar.cmbFontSize.setValue((str_size!==undefined) ? str_size : '');
-                this._state.fontsize = str_size;
             }
 
             /* read font color */
@@ -1851,6 +1851,9 @@ define([
 
                 need_disable =  this._state.controlsdisabled.filters || !filterInfo || (filterInfo.asc_getIsApplyAutoFilter()!==true);
                 toolbar.lockToolbar(SSE.enumLock.ruleDelFilter, need_disable, {array:[toolbar.btnClearAutofilter,toolbar.mnuitemClearFilter]});
+
+                this._state.multiselect = info.asc_getFlags().asc_getMultiselect();
+                toolbar.lockToolbar(SSE.enumLock.multiselect, this._state.multiselect, { array: [toolbar.btnTableTemplate, toolbar.btnInsertHyperlink]});
             }
 
             fontparam = toolbar.numFormatTypes[info.asc_getNumFormatType()];

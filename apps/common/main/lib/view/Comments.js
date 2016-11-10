@@ -473,19 +473,17 @@ define([
                     });
                     me.on({
                         'show': function () {
-
-    //                        me.calculateSizeOfContent();
                             me.commentsView.autoHeightTextBox();
-
-                            var text = me.$window.find('textarea');
-                            if (text && text.length)
-                                text.focus();
-
-                            text.keydown(function (event) {
+                            me.$window.find('textarea').keydown(function (event) {
                                 if (event.keyCode == Common.UI.Keys.ESC) {
                                     me.hide();
                                 }
                             });
+                        },
+                        'animate:before': function () {
+                            var text = me.$window.find('textarea');
+                            if (text && text.length)
+                                text.focus();
                         }
                     });
                 }

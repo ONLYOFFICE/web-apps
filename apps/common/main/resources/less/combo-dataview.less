@@ -254,3 +254,20 @@
 .combo-spark-style {
     .combo-textart(58px, 2px);
 }
+
+.combo-chart-style {
+    .combo-textart(58px, 2px);
+
+    .item {
+        margin-left: 4px;
+        .box-shadow(0 0 0 1px @gray);
+    }
+
+    &.disabled {
+        .item {
+            &:hover:not(.selected) {
+                .box-shadow(0 0 0 1px @gray);
+            }
+        }
+    }
+}

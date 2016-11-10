@@ -169,6 +169,7 @@ define([
             view.pmiEntireHide.on('click',                      _.bind(me.onEntireHide, me));
             view.pmiEntireShow.on('click',                      _.bind(me.onEntireShow, me));
             view.pmiFreezePanes.on('click',                     _.bind(me.onFreezePanes, me));
+            view.pmiEntriesList.on('click',                     _.bind(me.onEntriesList, me));
             /** coauthoring begin **/
             view.pmiAddComment.on('click',                      _.bind(me.onAddComment, me));
             /** coauthoring end **/
@@ -249,7 +250,7 @@ define([
             this.api.asc_registerCallback('asc_onEditCell',             _.bind(this.onApiEditCell, this));
             this.api.asc_registerCallback('asc_onLockDefNameManager',   _.bind(this.onLockDefNameManager, this));
             this.api.asc_registerCallback('asc_onSelectionChanged',     _.bind(this.onSelectionChanged, this));
-            this.api.asc_registerCallback('asc_onEntriesListMenu',      _.bind(this.onEntriesListMenu, this));
+            this.api.asc_registerCallback('asc_onEntriesListMenu',      _.bind(this.onEntriesListMenu, this)); // Alt + Down
             this.api.asc_registerCallback('asc_onFormulaCompleteMenu',  _.bind(this.onFormulaCompleteMenu, this));
 
             return this;
@@ -515,6 +516,15 @@ define([
         onFreezePanes: function(item) {
             if (this.api)
                 this.api.asc_freezePane();
+        },
+
+        onEntriesList: function(item) {
+            if (this.api) {
+                var me = this;
+                setTimeout(function() {
+                    me.api.asc_showAutoComplete();
+                }, 10);
+            }
         },
 
         onAddComment: function(item) {
@@ -1207,9 +1217,9 @@ define([
                             align = value.asc_getVerticalTextAlign(),
                             direct = value.asc_getVert();
                         isObjLocked = isObjLocked || value.asc_getLocked();
-                        documentHolder.menuParagraphTop.setChecked(align == Asc.c_oAscVerticalTextAlign.TEXT_ALIGN_TOP);
-                        documentHolder.menuParagraphCenter.setChecked(align == Asc.c_oAscVerticalTextAlign.TEXT_ALIGN_CTR);
-                        documentHolder.menuParagraphBottom.setChecked(align == Asc.c_oAscVerticalTextAlign.TEXT_ALIGN_BOTTOM);
+                        documentHolder.menuParagraphTop.setChecked(align == Asc.c_oAscVAlign.Top);
+                        documentHolder.menuParagraphCenter.setChecked(align == Asc.c_oAscVAlign.Center);
+                        documentHolder.menuParagraphBottom.setChecked(align == Asc.c_oAscVAlign.Bottom);
 
                         documentHolder.menuParagraphDirectH.setChecked(direct == Asc.c_oAscVertDrawingText.normal);
                         documentHolder.menuParagraphDirect90.setChecked(direct == Asc.c_oAscVertDrawingText.vert);
@@ -1255,7 +1265,8 @@ define([
                 
                 var iscelledit = this.api.isCellEdited,
                     formatTableInfo = cellinfo.asc_getFormatTableInfo(),
-                    isintable = (formatTableInfo !== null);
+                    isintable = (formatTableInfo !== null),
+                    ismultiselect = cellinfo.asc_getFlags().asc_getMultiselect();
                 documentHolder.ssMenu.formatTableName = (isintable) ? formatTableInfo.asc_getTableName() : null;
                 documentHolder.ssMenu.cellColor = cellinfo.asc_getFill().asc_getColor();
                 documentHolder.ssMenu.fontColor = cellinfo.asc_getFont().asc_getColor();
@@ -1288,8 +1299,8 @@ define([
                 }
 
                 var hyperinfo = cellinfo.asc_getHyperlink();
-                documentHolder.menuHyperlink.setVisible(iscellmenu && hyperinfo && !iscelledit);
-                documentHolder.menuAddHyperlink.setVisible(iscellmenu && !hyperinfo && !iscelledit);
+                documentHolder.menuHyperlink.setVisible(iscellmenu && hyperinfo && !iscelledit && !ismultiselect);
+                documentHolder.menuAddHyperlink.setVisible(iscellmenu && !hyperinfo && !iscelledit && !ismultiselect);
 
                 documentHolder.pmiRowHeight.setVisible(isrowmenu||isallmenu);
                 documentHolder.pmiColumnWidth.setVisible(iscolmenu||isallmenu);
@@ -1297,6 +1308,7 @@ define([
                 documentHolder.pmiEntireShow.setVisible(iscolmenu||isrowmenu);
                 documentHolder.pmiFreezePanes.setVisible(!iscelledit);
                 documentHolder.pmiFreezePanes.setCaption(this.api.asc_getSheetViewSettings().asc_getIsFreezePane() ? documentHolder.textUnFreezePanes : documentHolder.textFreezePanes);
+                documentHolder.pmiEntriesList.setVisible(!iscelledit);
 
                 /** coauthoring begin **/
                 documentHolder.ssMenu.items[16].setVisible(iscellmenu && !iscelledit && this.permissions.canCoAuthoring && this.permissions.canComments);
@@ -2259,8 +2271,19 @@ define([
         txtAlignToChar: 'Align to character',
         txtDeleteRadical: 'Delete radical',
         txtDeleteChars: 'Delete enclosing characters',
-        txtDeleteCharsAndSeparators: 'Delete enclosing characters and separators'
-
+        txtDeleteCharsAndSeparators: 'Delete enclosing characters and separators',
+        insertText: 'Insert',
+        alignmentText: 'Alignment',
+        leftText: 'Left',
+        rightText: 'Right',
+        centerText: 'Center',
+        insertRowAboveText      : 'Row Above',
+        insertRowBelowText      : 'Row Below',
+        insertColumnLeftText    : 'Column Left',
+        insertColumnRightText   : 'Column Right',
+        deleteText              : 'Delete',
+        deleteRowText           : 'Delete Row',
+        deleteColumnText        : 'Delete Column'
 
     }, SSE.Controllers.DocumentHolder || {}));
 });

@@ -2169,19 +2169,19 @@ define([
                                 caption     : me.topCellText,
                                 checkable   : true,
                                 toggleGroup : 'popupparagraphvalign',
-                                value       : Asc.c_oAscVerticalTextAlign.TEXT_ALIGN_TOP
+                                value       : Asc.c_oAscVAlign.Top
                             }).on('click', _.bind(onItemClick, me)),
                             me.menuParagraphCenter = new Common.UI.MenuItem({
                                 caption     : me.centerCellText,
                                 checkable   : true,
                                 toggleGroup : 'popupparagraphvalign',
-                                value       : Asc.c_oAscVerticalTextAlign.TEXT_ALIGN_CTR
+                                value       : Asc.c_oAscVAlign.Center
                             }).on('click', _.bind(onItemClick, me)),
                             me.menuParagraphBottom = new Common.UI.MenuItem({
                                 caption     : me.bottomCellText,
                                 checkable   : true,
                                 toggleGroup : 'popupparagraphvalign',
-                                value       : Asc.c_oAscVerticalTextAlign.TEXT_ALIGN_BOTTOM
+                                value       : Asc.c_oAscVAlign.Bottom
                             }).on('click', _.bind(onItemClick, me))
                         ]
                     })
@@ -2345,9 +2345,9 @@ define([
                     menuParagraphDirection.setVisible(isInShape && !isInChart && !isEquation); // после того, как заголовок можно будет растягивать по вертикали, вернуть "|| isInChart" !!
                     if (isInShape || isInChart) {
                         var align = value.shapeProps.value.get_VerticalTextAlign();
-                        me.menuParagraphTop.setChecked(align == Asc.c_oAscVerticalTextAlign.TEXT_ALIGN_TOP);
-                        me.menuParagraphCenter.setChecked(align == Asc.c_oAscVerticalTextAlign.TEXT_ALIGN_CTR);
-                        me.menuParagraphBottom.setChecked(align == Asc.c_oAscVerticalTextAlign.TEXT_ALIGN_BOTTOM);
+                        me.menuParagraphTop.setChecked(align == Asc.c_oAscVAlign.Top);
+                        me.menuParagraphCenter.setChecked(align == Asc.c_oAscVAlign.Center);
+                        me.menuParagraphBottom.setChecked(align == Asc.c_oAscVAlign.Bottom);
 
                         var dir = value.shapeProps.value.get_Vert();
                         me.menuParagraphDirectH.setChecked(dir == Asc.c_oAscVertDrawingText.normal);
@@ -2811,8 +2811,11 @@ define([
         txtAlignToChar: 'Align to character',
         txtDeleteRadical: 'Delete radical',
         txtDeleteChars: 'Delete enclosing characters',
-        txtDeleteCharsAndSeparators: 'Delete enclosing characters and separators'
-
+        txtDeleteCharsAndSeparators: 'Delete enclosing characters and separators',
+        alignmentText: 'Alignment',
+        leftText: 'Left',
+        rightText: 'Right',
+        centerText: 'Center'
 
     }, PE.Views.DocumentHolder || {}));
 });

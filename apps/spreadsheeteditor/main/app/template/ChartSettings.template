@@ -18,9 +18,9 @@
         </td>
     </tr>
 </table>
-<table cols="2" id="chart-panel-types">
+<table cols="1" id="chart-panel-types">
     <tr>
-        <td class="padding-small" colspan=2>
+        <td class="padding-small">
             <div class="separator horizontal"></div>
         </td>
     </tr>
@@ -29,20 +29,22 @@
             <label class="header"><%= scope.textType %></label>
             <div id="chart-button-type" style=""></div>
         </td>
+    </tr>
+    <tr>
         <td class="padding-small">
-            <label class="header"><%= scope.textStyle %></label>
-            <div id="chart-button-style" style=""></div>
+            <label class="header" style=""><%= scope.textStyle %></label>
+            <div class="" id="chart-combo-style" style="width: 100%;"></div>
         </td>
     </tr>
     <tr>
-        <td class="padding-small" colspan=2>
+        <td class="padding-small">
             <div class="separator horizontal"></div>
         </td>
     </tr>
     <tr>
-        <td class="padding-small" colspan=2>
+        <td class="padding-small">
             <label class="header"><%= scope.textRanges %></label>
-            <button type="button" class="btn btn-text-default" id="chart-btn-select-data" style="min-width: 100px; display: block;"><%= scope.textSelectData %></button>
+            <button type="button" class="btn btn-text-default" id="chart-btn-select-data" style="min-width: 100px; width: auto; display: block;"><%= scope.textSelectData %></button>
         </td>
     </tr>
 </table>
