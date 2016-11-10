@@ -1,14 +1,10 @@
 <div id="id-chart-settings-dlg-style" class="settings-panel active">
     <div class="inner-content">
-        <table cols="2" style="">
+        <table cols="1" style="">
             <tr>
                 <td class="padding-large">
                     <label class="header"><%= scope.textType %></label>
                     <div id="chart-dlg-button-type" style="margin-right: 15px;"></div>
-                </td>
-                <td class="padding-large">
-                    <label class="header"><%= scope.textStyle %></label>
-                    <div id="chart-dlg-button-style" style=""></div>
                 </td>
             </tr>
         </table>
