@@ -305,14 +305,6 @@ module.exports = function(grunt) {
                 }
             },
 
-            replace: {
-                fixLessUrl: {
-                    src: ['<%= pkg.embed.less.files.dist %>'],
-                    overwrite: true,
-                    replacements: packageFile['embed']['less']['replacements']
-                }
-            },
-
             copy: {
                 'index-page': {
                     files: packageFile['embed']['copy']['index-page']
@@ -349,7 +341,7 @@ module.exports = function(grunt) {
 
     grunt.registerTask('deploy-app-main',               ['main-app-init', 'clean', 'imagemin', 'less', 'requirejs', 'concat', 'copy', 'replace:writeVersion']);
     grunt.registerTask('deploy-app-mobile',             ['mobile-app-init', 'clean', 'uglify', 'cssmin:styles', 'copy']);
-    grunt.registerTask('deploy-app-embed',              ['embed-app-init', 'clean:prebuild', 'uglify', 'less', 'replace:fixLessUrl', 'copy', 'clean:postbuild']);
+    grunt.registerTask('deploy-app-embed',              ['embed-app-init', 'clean:prebuild', 'uglify', 'less', 'copy', 'clean:postbuild']);
 
 
     doRegisterInitializeAppTask('documenteditor',       'DocumentEditor',       'documenteditor.json');

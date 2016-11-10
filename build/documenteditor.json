@@ -327,13 +327,7 @@
             "files": {
                 "src": "../apps/documenteditor/embed/resources/less/application.less",
                 "dist": "../deploy/web-apps/apps/documenteditor/embed/resources/css/app-all.css"
-            },
-            "replacements": [
-                {
-                    "from": "../../../../common/embed/resources/img/",
-                    "to": "../img/"
-                }
-            ]
+            }
         },
         "copy": {
             "index-page": {
