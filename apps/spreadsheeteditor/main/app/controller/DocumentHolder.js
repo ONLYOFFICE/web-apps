@@ -1216,9 +1216,9 @@ define([
                             align = value.asc_getVerticalTextAlign(),
                             direct = value.asc_getVert();
                         isObjLocked = isObjLocked || value.asc_getLocked();
-                        documentHolder.menuParagraphTop.setChecked(align == Asc.c_oAscVerticalTextAlign.TEXT_ALIGN_TOP);
-                        documentHolder.menuParagraphCenter.setChecked(align == Asc.c_oAscVerticalTextAlign.TEXT_ALIGN_CTR);
-                        documentHolder.menuParagraphBottom.setChecked(align == Asc.c_oAscVerticalTextAlign.TEXT_ALIGN_BOTTOM);
+                        documentHolder.menuParagraphTop.setChecked(align == Asc.c_oAscVAlign.Top);
+                        documentHolder.menuParagraphCenter.setChecked(align == Asc.c_oAscVAlign.Center);
+                        documentHolder.menuParagraphBottom.setChecked(align == Asc.c_oAscVAlign.Bottom);
 
                         documentHolder.menuParagraphDirectH.setChecked(direct == Asc.c_oAscVertDrawingText.normal);
                         documentHolder.menuParagraphDirect90.setChecked(direct == Asc.c_oAscVertDrawingText.vert);

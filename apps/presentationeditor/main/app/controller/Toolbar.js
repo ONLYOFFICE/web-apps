@@ -466,9 +466,9 @@ define([
                     btnVerticalAlign = this.toolbar.btnVerticalAlign;
 
                 switch (v) {
-                    case Asc.c_oAscVerticalTextAlign.TEXT_ALIGN_TOP:    index = 0; align = 'btn-align-top';    break;
-                    case Asc.c_oAscVerticalTextAlign.TEXT_ALIGN_CTR:    index = 1; align = 'btn-align-middle'; break;
-                    case Asc.c_oAscVerticalTextAlign.TEXT_ALIGN_BOTTOM: index = 2; align = 'btn-align-bottom'; break;
+                    case Asc.c_oAscVAlign.Top:    index = 0; align = 'btn-align-top';    break;
+                    case Asc.c_oAscVAlign.Center:    index = 1; align = 'btn-align-middle'; break;
+                    case Asc.c_oAscVAlign.Bottom: index = 2; align = 'btn-align-bottom'; break;
                     default:  index = -255; align = 'btn-align-middle'; break;
                 }
 
