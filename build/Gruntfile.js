@@ -141,8 +141,10 @@ module.exports = function(grunt) {
                 production: {
                     options: {
                         compress: true,
+                        ieCompat: false,
+                        modifyVars: packageFile['main']['less']['vars'],
                         plugins: [
-                            // new (require('less-plugin-clean-css'))()
+                            new (require('less-plugin-clean-css'))()
                         ]
                     },
                     files: {
@@ -158,10 +160,16 @@ module.exports = function(grunt) {
             },
 
             replace: {
-                fixLessUrl: {
-                    src: ['<%= pkg.main.less.files.dest %>'],
+                writeVersion: {
+                    src: ['<%= pkg.api.copy.script.dest %>' + '/documents/api.js'],
                     overwrite: true,
-                    replacements: packageFile['main']['less']['replacements']
+                    replacements: [{
+                        from: /(\#{2}BN\#)/,
+                        to: function(matchedWord, index, fullText, regexMatches) {
+                            // return content.replace(/(\#{2}BN\#)/, "." + (process.env['BUILD_NUMBER'] || packageFile.build));
+                            return "." + (process.env['BUILD_NUMBER'] || packageFile.build);
+                        }
+                    }]
                 }
             },
 
@@ -205,52 +213,6 @@ module.exports = function(grunt) {
                 }
             }
         });
-    });
-
-    grunt.registerTask('lessPostFix', function(){
-        if (packageFile.main.less.embedImages) {
-            grunt.config('replace.urlToUri', {
-                    src: ['<%= pkg.main.less.files.dest %>'],
-                    overwrite: true,
-                    replacements: [{
-                        from: /url\(\'?(?!data\:image)([^\)\'\"]+)\'?/g,
-                        to: function(matchedWord, index, fullText, regexMatches) {
-                            return 'data-uri(\'' + regexMatches + '\'';
-                        }
-                    },{
-                        from: /filter\:\s?alpha\(opacity\s?=\s?[0-9]{1,3}\)\;/g,
-                        to: ''
-                    }]                
-            });
-
-            grunt.config('less.uriPostfix', {
-                    options: {
-                        compress: true,
-                        ieCompat: false
-                    },
-                    files: {
-                        "<%= pkg.main.less.files.dest %>": "<%= pkg.main.less.files.dest %>"
-                    }
-            });
-
-            grunt.config('clean.files', '<%= pkg.main.clean %>/resources/img');
-
-            grunt.task.run('replace:urlToUri', 'less:uriPostfix', 'clean');
-        }
-
-        grunt.config('replace.writeVersion', {
-                    src: ['<%= pkg.api.copy.script.dest %>' + '/documents/api.js'],
-                    overwrite: true,
-                    replacements: [{
-                        from: /(\#{2}BN\#)/,
-                        to: function(matchedWord, index, fullText, regexMatches) {
-                    // return content.replace(/(\#{2}BN\#)/, "." + (process.env['BUILD_NUMBER'] || packageFile.build));
-                            return "." + (process.env['BUILD_NUMBER'] || packageFile.build);
-                        }
-                    }]                
-        });
-
-        grunt.task.run('replace:writeVersion');
     });
 
     grunt.registerTask('mobile-app-init', function() {
@@ -385,7 +347,7 @@ module.exports = function(grunt) {
     grunt.registerTask('deploy-jsrsasign',              ['jsrsasign-init', 'clean', 'copy']);
     grunt.registerTask('deploy-requirejs',              ['requirejs-init', 'clean', 'uglify']);
 
-    grunt.registerTask('deploy-app-main',               ['main-app-init', 'clean', 'less', 'replace:fixLessUrl', 'requirejs', 'concat', 'imagemin', 'copy', 'lessPostFix']);
+    grunt.registerTask('deploy-app-main',               ['main-app-init', 'clean', 'imagemin', 'less', 'requirejs', 'concat', 'copy', 'replace:writeVersion']);
     grunt.registerTask('deploy-app-mobile',             ['mobile-app-init', 'clean', 'uglify', 'cssmin:styles', 'copy']);
     grunt.registerTask('deploy-app-embed',              ['embed-app-init', 'clean:prebuild', 'uglify', 'less', 'replace:fixLessUrl', 'copy', 'clean:postbuild']);
 
