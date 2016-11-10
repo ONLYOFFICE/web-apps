@@ -337,7 +337,7 @@ define([
                         me.cmpEl.removeClass('over');
                 }, 200);
 
-                if (e.type !== 'focusout') { // when mouseleave from clicked menu item with submenu
+                if (e && e.type !== 'focusout') { // when mouseleave from clicked menu item with submenu
                     var focused = me.cmpEl.children(':focus');
                     if (focused.length>0) {
                         focused.blur();
