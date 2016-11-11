@@ -53,7 +53,7 @@
 @import "../../../../../vendor/bootstrap/less/responsive-utilities.less";
 
 
-@toolbarBorderColor:            #929292;
+@toolbarBorderColor:            #dbdbdb;
 @toolbarBorderShadowColor:      #FAFAFA;
 @toolbarTopColor:               #EBEBEB;
 @toolbarBottomColor:            #CCCCCC;
@@ -61,6 +61,7 @@
 @toolbarFontSize:               12px;
 @controlBtnHoverTopColor:       #6180C4;
 @controlBtnHoverBottomColor:    #8AACF1;
+@btnColor:                      #d8dadc;
 @btnActiveColor:                #7d858c;
 @iconSpriteCommonPath:          "../../../../common/embed/resources/img/glyphicons.png";
 @icon-socnet-size: 40px;
@@ -469,13 +470,15 @@
     height: 22px;
     //display: inline-block;
     float: left;
-    margin: -1px 5px 0 -15px;
+    margin: -1px 15px 0 -15px;
 }
 
 .btn, button {
     &:focus, &:active:focus {
         outline: 0 none;
     }
+
+    background-color: @btnColor;
 }
 
 .modal-dialog {
@@ -502,6 +505,11 @@
 
     .close {
         margin-top: 0;
+        opacity: 0.5;
+
+        &:hover {
+            opacity: 0.7;
+        }
     }
 }
 
@@ -529,8 +537,9 @@
 
 .dropdown-menu {
     > li > a {
+        padding: 8px 20px 8px 31px;
         &:hover, &:focus {
-            background-color: #d8dadc;
+            background-color: @btnColor;
             outline: 0 none;
         }
     }
@@ -559,6 +568,7 @@
 .masked {
     background-color: transparent;
     border-color: transparent;
+    -webkit-box-shadow: none;
     box-shadow: none;
 }
 
@@ -588,5 +598,12 @@
 
     .tooltip-arrow {
         display: none;
+    }
+}
+
+.form-control {
+    &:focus {
+        -webkit-box-shadow: none;
+        box-shadow: none;
     }
 }
