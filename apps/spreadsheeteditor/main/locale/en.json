@@ -172,6 +172,7 @@
   "SSE.Controllers.DocumentHolder.txtLimitUnder": "Limit under text",
   "SSE.Controllers.DocumentHolder.txtMatchBrackets": "Match brackets to argument height",
   "SSE.Controllers.DocumentHolder.txtMatrixAlign": "Matrix alignment",
+  "SSE.Controllers.DocumentHolder.txtNoChoices": "There are no choices for filling the cell.<br>Only text values from the column can be selected for replacement.",
   "SSE.Controllers.DocumentHolder.txtOverbar": "Bar over text",
   "SSE.Controllers.DocumentHolder.txtRemFractionBar": "Remove fraction bar",
   "SSE.Controllers.DocumentHolder.txtRemLimit": "Remove limit",
