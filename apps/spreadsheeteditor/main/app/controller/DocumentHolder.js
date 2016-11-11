@@ -821,7 +821,7 @@ define([
 
                 if (index_column!==undefined || index_row!==undefined) {
                     var data  = dataarray[(index_column!==undefined) ? (index_column-1) : (index_row-1)];
-                    var str = Common.Utils.String.format((index_column!==undefined) ? this.textChangeColumnWidth : this.textChangeRowHeight, data.asc_getSizeCCOrPt().toFixed(2), data.asc_getSizePx());
+                    var str = Common.Utils.String.format((index_column!==undefined) ? this.textChangeColumnWidth : this.textChangeRowHeight, data.asc_getSizeCCOrPt().toFixed(2), data.asc_getSizePx().toFixed());
                     if (row_columnTip.ref && row_columnTip.ref.isVisible()) {
                         if (row_columnTip.text != str) {
                             row_columnTip.text = str;
