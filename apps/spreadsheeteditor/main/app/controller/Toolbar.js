@@ -43,6 +43,7 @@ define([
     'common/main/lib/component/Window',
     'common/main/lib/view/CopyWarningDialog',
     'common/main/lib/view/ImageFromUrlDialog',
+    'common/main/lib/util/define',
     'spreadsheeteditor/main/app/view/Toolbar',
     'spreadsheeteditor/main/app/collection/TableTemplates',
     'spreadsheeteditor/main/app/view/HyperlinkSettingsDialog',
@@ -98,7 +99,8 @@ define([
                 tablestylename: undefined,
                 tablename: undefined,
                 namedrange_locked: false,
-                fontsize: undefined
+                fontsize: undefined,
+                multiselect: false
             };
 
             var checkInsertAutoshape =  function(e, action) {
@@ -208,6 +210,7 @@ define([
             toolbar.btnInsertText.on('click',                           _.bind(this.onBtnInsertTextClick, this));
             toolbar.btnInsertText.menu.on('item:click',                 _.bind(this.onInsertTextClick, this));
             toolbar.btnInsertShape.menu.on('hide:after',                _.bind(this.onInsertShapeHide, this));
+            toolbar.btnInsertEquation.on('click',                       _.bind(this.onInsertEquationClick, this));
             toolbar.btnSortDown.on('click',                             _.bind(this.onSortType, this, Asc.c_oAscSortOptions.Ascending));
             toolbar.btnSortUp.on('click',                               _.bind(this.onSortType, this, Asc.c_oAscSortOptions.Descending));
             toolbar.mnuitemSortAZ.on('click',                           _.bind(this.onSortType, this, Asc.c_oAscSortOptions.Ascending));
@@ -269,10 +272,11 @@ define([
 
             this.api.asc_registerCallback('asc_onInitTablePictures',    _.bind(this.onApiInitTableTemplates, this));
             this.api.asc_registerCallback('asc_onInitEditorStyles',     _.bind(this.onApiInitEditorStyles, this));
-            this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onApiCoAuthoringDisconnect, this));
+            this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onApiCoAuthoringDisconnect, this, true));
             Common.NotificationCenter.on('api:disconnect',              _.bind(this.onApiCoAuthoringDisconnect, this));
             this.api.asc_registerCallback('asc_onLockDefNameManager',   _.bind(this.onLockDefNameManager, this));
             this.api.asc_registerCallback('asc_onZoomChanged',          _.bind(this.onApiZoomChange, this));
+            this.api.asc_registerCallback('asc_onMathTypes',            _.bind(this.onMathTypes, this));
         },
 
         onNewDocument: function(btn, e) {
@@ -1169,7 +1173,7 @@ define([
             Common.util.Shortcuts.delegateShortcuts({
                 shortcuts: {
                     'command+l,ctrl+l': function(e) {
-                        if (me.editMode) {
+                        if (me.editMode && !me._state.multiselect) {
                             if (!me.api.asc_getCellInfo().asc_getFormatTableInfo())
                                 me._setTableFormat(me.toolbar.mnuTableTemplatePicker.store.at(23).get('name'));
                         }
@@ -1179,7 +1183,7 @@ define([
                     'command+shift+l,ctrl+shift+l': function(e) {
                         var state = me._state.filter;
                         me._state.filter = undefined;
-                        if (me.editMode && me.api) {
+                        if (me.editMode && me.api && !me._state.multiselect) {
                             if (me._state.tablename || state)
                                 me.api.asc_changeAutoFilter(me._state.tablename, Asc.c_oAscChangeFilterOptions.filter, !state);
                             else
@@ -1194,7 +1198,7 @@ define([
                         e.stopPropagation();
                     },
                     'command+k,ctrl+k': function (e) {
-                        if (me.editMode && !me.toolbar.mode.isEditMailMerge && !me.toolbar.mode.isEditDiagram && !me.api.isCellEdited)
+                        if (me.editMode && !me.toolbar.mode.isEditMailMerge && !me.toolbar.mode.isEditDiagram && !me.api.isCellEdited && !me._state.multiselect)
                             me.onHyperlink();
                         e.preventDefault();
                     }
@@ -1260,6 +1264,9 @@ define([
 
                         if (me.toolbar.btnTableTemplate.rendered)
                             me.fillTableTemplates();
+
+                        if (me.toolbar.btnInsertEquation.rendered)
+                            me.fillEquations();
                     }, 100);
                 }
 
@@ -1374,8 +1381,8 @@ define([
             window.styles_loaded = true;
         },
 
-        onApiCoAuthoringDisconnect: function() {
-            this.toolbar.setMode({isDisconnected:true});
+        onApiCoAuthoringDisconnect: function(disableDownload) {
+            this.toolbar.setMode({isDisconnected:true, disableDownload: !!disableDownload});
             this.editMode = false;
         },
 
@@ -1550,13 +1557,10 @@ define([
         onApiSelectionChanged: function(info) {
             if (!this.editMode) return;
 
-            var selectionType = info.asc_getFlags().asc_getSelectionType();
-            var coauth_disable = (!this.toolbar.mode.isEditMailMerge && !this.toolbar.mode.isEditDiagram) ? (info.asc_getLocked()===true) : false;
-            if (this._disableEditOptions(selectionType, coauth_disable)) {
-                return;
-            }
-
-            var me = this,
+            var selectionType = info.asc_getFlags().asc_getSelectionType(),
+                coauth_disable = (!this.toolbar.mode.isEditMailMerge && !this.toolbar.mode.isEditDiagram) ? (info.asc_getLocked()===true) : false,
+                editOptionsDisabled = this._disableEditOptions(selectionType, coauth_disable),
+                me = this,
                 toolbar = this.toolbar,
                 fontobj = info.asc_getFont(),
                 val, need_disable = false;
@@ -1566,6 +1570,15 @@ define([
             if (fontparam != toolbar.cmbFontName.getValue()) {
                 Common.NotificationCenter.trigger('fonts:change', fontobj);
             }
+
+            /* read font size */
+            var str_size = fontobj.asc_getSize();
+            if (this._state.fontsize !== str_size) {
+                toolbar.cmbFontSize.setValue((str_size!==undefined) ? str_size : '');
+                this._state.fontsize = str_size;
+            }
+
+            if (editOptionsDisabled) return;
 
             /* read font params */
             if (!toolbar.mode.isEditMailMerge && !toolbar.mode.isEditDiagram) {
@@ -1584,13 +1597,6 @@ define([
                     toolbar.btnUnderline.toggle(val === true, true);
                     this._state.underline = val;
                 }
-            }
-
-            /* read font size */
-            var str_size = fontobj.asc_getSize();
-            if (this._state.fontsize !== str_size) {
-                toolbar.cmbFontSize.setValue((str_size!==undefined) ? str_size : '');
-                this._state.fontsize = str_size;
             }
 
             /* read font color */
@@ -1802,6 +1808,9 @@ define([
 
                 need_disable =  this._state.controlsdisabled.filters || !filterInfo || (filterInfo.asc_getIsApplyAutoFilter()!==true);
                 toolbar.lockToolbar(SSE.enumLock.ruleDelFilter, need_disable, {array:[toolbar.btnClearAutofilter,toolbar.mnuitemClearFilter]});
+
+                this._state.multiselect = info.asc_getFlags().asc_getMultiselect();
+                toolbar.lockToolbar(SSE.enumLock.multiselect, this._state.multiselect, { array: [toolbar.btnTableTemplate, toolbar.btnInsertHyperlink]});
             }
 
             fontparam = toolbar.numFormatTypes[info.asc_getNumFormatType()];
@@ -2047,6 +2056,200 @@ define([
             }
         },
 
+        fillEquations: function() {
+            if (!this.toolbar.btnInsertEquation.rendered || this.toolbar.btnInsertEquation.menu.items.length>0) return;
+
+            var me = this, equationsStore = this.getApplication().getCollection('EquationGroups');
+
+            me.equationPickers = [];
+            me.toolbar.btnInsertEquation.menu.removeAll();
+
+            for (var i = 0; i < equationsStore.length; ++i) {
+                var equationGroup = equationsStore.at(i);
+
+                var menuItem = new Common.UI.MenuItem({
+                    caption: equationGroup.get('groupName'),
+                    menu: new Common.UI.Menu({
+                        menuAlign: 'tl-tr',
+                        items: [
+                            { template: _.template('<div id="id-toolbar-menu-equationgroup' + i +
+                                '" class="menu-shape" style="width:' + (equationGroup.get('groupWidth') + 8) + 'px; ' +
+                                equationGroup.get('groupHeight') + 'margin-left:5px;"></div>') }
+                        ]
+                    })
+                });
+
+                me.toolbar.btnInsertEquation.menu.addItem(menuItem);
+
+                var equationPicker = new Common.UI.DataView({
+                    el: $('#id-toolbar-menu-equationgroup' + i),
+                    store: equationGroup.get('groupStore'),
+                    parentMenu: menuItem.menu,
+                    showLast: false,
+                    itemTemplate: _.template('<div class="item-equation" '+
+                        'style="background-position:<%= posX %>px <%= posY %>px;" >' +
+                        '<div style="width:<%= width %>px;height:<%= height %>px;" id="<%= id %>">')
+                });
+                if (equationGroup.get('groupHeight').length) {
+
+                    me.equationPickers.push(equationPicker);
+                    me.toolbar.btnInsertEquation.menu.on('show:after', function () {
+
+                        if (me.equationPickers.length) {
+                            var element = $(this.el).find('.over').find('.menu-shape');
+                            if (element.length) {
+                                for (var i = 0; i < me.equationPickers.length; ++i) {
+                                    if (element[0].id == me.equationPickers[i].el.id) {
+                                        me.equationPickers[i].scroller.update({alwaysVisibleY: true});
+                                        me.equationPickers.splice(i, 1);
+                                        return;
+                                    }
+                                }
+                            }
+                        }
+                    });
+                }
+
+                equationPicker.on('item:click', function(picker, item, record, e) {
+                    if (me.api) {
+                        me.api.asc_AddMath(record.get('data').equationType);
+
+                        if (me.toolbar.btnInsertText.pressed) {
+                            me.toolbar.btnInsertText.toggle(false, true);
+                        }
+                        if (me.toolbar.btnInsertShape.pressed) {
+                            me.toolbar.btnInsertShape.toggle(false, true);
+                        }
+
+                         if (e.type !== 'click')
+                             me.toolbar.btnInsertEquation.menu.hide();
+                        Common.NotificationCenter.trigger('edit:complete', me.toolbar, me.toolbar.btnInsertEquation);
+                        Common.component.Analytics.trackEvent('ToolBar', 'Add Equation');
+                    }
+                });
+            }
+        },
+
+        onInsertEquationClick: function() {
+            if (this.api) {
+                this.api.asc_AddMath();
+                Common.component.Analytics.trackEvent('ToolBar', 'Add Equation');
+            }
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar, this.toolbar.btnInsertEquation);
+        },
+
+        onMathTypes: function(equation) {
+            var equationgrouparray = [],
+                equationsStore = this.getCollection('EquationGroups');
+
+            equationsStore.reset();
+
+            // equations groups
+
+            var c_oAscMathMainTypeStrings = {};
+
+            // [translate, count cells, scroll]
+
+            c_oAscMathMainTypeStrings[Common.define.c_oAscMathMainType.Symbol       ] = [this.textSymbols, 11];
+            c_oAscMathMainTypeStrings[Common.define.c_oAscMathMainType.Fraction     ] = [this.textFraction, 4];
+            c_oAscMathMainTypeStrings[Common.define.c_oAscMathMainType.Script       ] = [this.textScript, 4];
+            c_oAscMathMainTypeStrings[Common.define.c_oAscMathMainType.Radical      ] = [this.textRadical, 4];
+            c_oAscMathMainTypeStrings[Common.define.c_oAscMathMainType.Integral     ] = [this.textIntegral, 3, true];
+            c_oAscMathMainTypeStrings[Common.define.c_oAscMathMainType.LargeOperator] = [this.textLargeOperator, 5, true];
+            c_oAscMathMainTypeStrings[Common.define.c_oAscMathMainType.Bracket      ] = [this.textBracket, 4, true];
+            c_oAscMathMainTypeStrings[Common.define.c_oAscMathMainType.Function     ] = [this.textFunction, 3, true];
+            c_oAscMathMainTypeStrings[Common.define.c_oAscMathMainType.Accent       ] = [this.textAccent, 4];
+            c_oAscMathMainTypeStrings[Common.define.c_oAscMathMainType.LimitLog     ] = [this.textLimitAndLog, 3];
+            c_oAscMathMainTypeStrings[Common.define.c_oAscMathMainType.Operator     ] = [this.textOperator, 4];
+            c_oAscMathMainTypeStrings[Common.define.c_oAscMathMainType.Matrix       ] = [this.textMatrix, 4, true];
+
+            // equations sub groups
+
+            // equations types
+
+            var translationTable = {}, name = '', translate = '';
+            for (name in Common.define.c_oAscMathType) {
+                if (Common.define.c_oAscMathType.hasOwnProperty(name)) {
+                    var arr = name.split('_');
+                    if (arr.length==2 && arr[0]=='Symbol') {
+                        translate = 'txt' + arr[0] + '_' + arr[1].toLocaleLowerCase();
+                    } else
+                        translate = 'txt' + name;
+                    translationTable[Common.define.c_oAscMathType[name]] = this[translate];
+                }
+            }
+
+            var i,id = 0, count = 0, length = 0, width = 0, height = 0, store = null, list = null, eqStore = null, eq = null;
+
+            if (equation) {
+
+                count = equation.get_Data().length;
+
+                if (count) {
+                    for (var j = 0; j < count; ++j) {
+                        id = equation.get_Data()[j].get_Id();
+                        width = equation.get_Data()[j].get_W();
+                        height = equation.get_Data()[j].get_H();
+
+                        store = new Backbone.Collection([], {
+                            model: SSE.Models.EquationModel
+                        });
+
+                        if (store) {
+
+                            var allItemsCount = 0, itemsCount = 0, ids = 0;
+
+                            length = equation.get_Data()[j].get_Data().length;
+
+                            for (i = 0; i < length; ++i) {
+                                eqStore = equation.get_Data()[j].get_Data()[i];
+
+                                itemsCount = eqStore.get_Data().length;
+                                for (var p = 0; p < itemsCount; ++p) {
+
+                                    eq = eqStore.get_Data()[p];
+                                    ids = eq.get_Id();
+
+                                    translate = '';
+
+                                    if (translationTable.hasOwnProperty(ids)) {
+                                        translate = translationTable[ids];
+                                    }
+
+                                    store.add({
+                                        data            : {equationType: ids},
+                                        tip             : translate,
+                                        allowSelected   : true,
+                                        selected        : false,
+                                        width           : eqStore.get_W(),
+                                        height          : eqStore.get_H(),
+                                        posX            : -eq.get_X(),
+                                        posY            : -eq.get_Y()
+                                    });
+                                }
+
+                                allItemsCount += itemsCount;
+                            }
+
+                            width = c_oAscMathMainTypeStrings[id][1] * (width + 10);  // 4px margin + 4px margin + 1px border + 1px border
+
+                            var normHeight = parseInt(370 / (height + 10)) * (height + 10);
+                            equationgrouparray.push({
+                                groupName   : c_oAscMathMainTypeStrings[id][0],
+                                groupStore  : store,
+                                groupWidth  : width,
+                                groupHeight : c_oAscMathMainTypeStrings[id][2] ? ' height:'+ normHeight +'px!important; ' : ''
+                            });
+                        }
+                    }
+
+                    equationsStore.add(equationgrouparray);
+
+                    this.fillEquations();
+                }
+            }
+        },
+
         attachToControlEvents: function() {
 //            this.control({
 //                'menu[action=table-templates]':{
@@ -2275,6 +2478,347 @@ define([
         textWarning         : 'Warning',
         textFontSizeErr     : 'The entered value is incorrect.<br>Please enter a numeric value between 1 and 409',
         textCancel          : 'Cancel',
-        confirmAddFontName  : 'The font you are going to save is not available on the current device.<br>The text style will be displayed using one of the device fonts, the saved font will be used when it is available.<br>Do you want to continue?'
+        confirmAddFontName  : 'The font you are going to save is not available on the current device.<br>The text style will be displayed using one of the device fonts, the saved font will be used when it is available.<br>Do you want to continue?',
+        textSymbols                                : 'Symbols',
+        textFraction                               : 'Fraction',
+        textScript                                 : 'Script',
+        textRadical                                : 'Radical',
+        textIntegral                               : 'Integral',
+        textLargeOperator                          : 'Large Operator',
+        textBracket                                : 'Bracket',
+        textFunction                               : 'Function',
+        textAccent                                 : 'Accent',
+        textLimitAndLog                            : 'Limit And Log',
+        textOperator                               : 'Operator',
+        textMatrix                                 : 'Matrix',
+
+        txtSymbol_pm                               : 'Plus Minus',
+        txtSymbol_infinity                         : 'Infinity',
+        txtSymbol_equals                           : 'Equal',
+        txtSymbol_neq                              : 'Not Equal To',
+        txtSymbol_about                            : 'Approximately',
+        txtSymbol_times                            : 'Multiplication Sign',
+        txtSymbol_div                              : 'Division Sign',
+        txtSymbol_factorial                        : 'Factorial',
+        txtSymbol_propto                           : 'Proportional To',
+        txtSymbol_less                             : 'Less Than',
+        txtSymbol_ll                               : 'Much Less Than',
+        txtSymbol_greater                          : 'Greater Than',
+        txtSymbol_gg                               : 'Much Greater Than',
+        txtSymbol_leq                              : 'Less Than or Equal To',
+        txtSymbol_geq                              : 'Greater Than or Equal To',
+        txtSymbol_mp                               : 'Minus Plus',
+        txtSymbol_cong                             : 'Approximately Equal To',
+        txtSymbol_approx                           : 'Almost Equal To',
+        txtSymbol_equiv                            : 'Identical To',
+        txtSymbol_forall                           : 'For All',
+        txtSymbol_additional                       : 'Complement',
+        txtSymbol_partial                          : 'Partial Differential',
+        txtSymbol_sqrt                             : 'Radical Sign',
+        txtSymbol_cbrt                             : 'Cube Root',
+        txtSymbol_qdrt                             : 'Fourth Root',
+        txtSymbol_cup                              : 'Union',
+        txtSymbol_cap                              : 'Intersection',
+        txtSymbol_emptyset                         : 'Empty Set',
+        txtSymbol_percent                          : 'Percentage',
+        txtSymbol_degree                           : 'Degrees',
+        txtSymbol_fahrenheit                       : 'Degrees Fahrenheit',
+        txtSymbol_celsius                          : 'Degrees Celsius',
+        txtSymbol_inc                              : 'Increment',
+        txtSymbol_nabla                            : 'Nabla',
+        txtSymbol_exists                           : 'There Exist',
+        txtSymbol_notexists                        : 'There Does Not Exist',
+        txtSymbol_in                               : 'Element Of',
+        txtSymbol_ni                               : 'Contains as Member',
+        txtSymbol_leftarrow                        : 'Left Arrow',
+        txtSymbol_uparrow                          : 'Up Arrow',
+        txtSymbol_rightarrow                       : 'Right Arrow',
+        txtSymbol_downarrow                        : 'Down Arrow',
+        txtSymbol_leftrightarrow                   : 'Left-Right Arrow',
+        txtSymbol_therefore                        : 'Therefore',
+        txtSymbol_plus                             : 'Plus',
+        txtSymbol_minus                            : 'Minus',
+        txtSymbol_not                              : 'Not Sign',
+        txtSymbol_ast                              : 'Asterisk Operator',
+        txtSymbol_bullet                           : 'Bulet Operator',
+        txtSymbol_vdots                            : 'Vertical Ellipsis',
+        txtSymbol_cdots                            : 'Midline Horizontal Ellipsis',
+        txtSymbol_rddots                           : 'Up Right Diagonal Ellipsis',
+        txtSymbol_ddots                            : 'Down Right Diagonal Ellipsis',
+        txtSymbol_aleph                            : 'Alef',
+        txtSymbol_beth                             : 'Bet',
+        txtSymbol_qed                              : 'End of Proof',
+        txtSymbol_alpha                            : 'Alpha',
+        txtSymbol_beta                             : 'Beta',
+        txtSymbol_gamma                            : 'Gamma',
+        txtSymbol_delta                            : 'Delta',
+        txtSymbol_varepsilon                       : 'Epsilon Variant',
+        txtSymbol_epsilon                          : 'Epsilon',
+        txtSymbol_zeta                             : 'Zeta',
+        txtSymbol_eta                              : 'Eta',
+        txtSymbol_theta                            : 'Theta',
+        txtSymbol_vartheta                         : 'Theta Variant',
+        txtSymbol_iota                             : 'Iota',
+        txtSymbol_kappa                            : 'Kappa',
+        txtSymbol_lambda                           : 'Lambda',
+        txtSymbol_mu                               : 'Mu',
+        txtSymbol_nu                               : 'Nu',
+        txtSymbol_xsi                              : 'Xi',
+        txtSymbol_o                                : 'Omicron',
+        txtSymbol_pi                               : 'Pi',
+        txtSymbol_varpi                            : 'Pi Variant',
+        txtSymbol_rho                              : 'Rho',
+        txtSymbol_varrho                           : 'Rho Variant',
+        txtSymbol_sigma                            : 'Sigma',
+        txtSymbol_varsigma                         : 'Sigma Variant',
+        txtSymbol_tau                              : 'Tau',
+        txtSymbol_upsilon                          : 'Upsilon',
+        txtSymbol_varphi                           : 'Phi Variant',
+        txtSymbol_phi                              : 'Phi',
+        txtSymbol_chi                              : 'Chi',
+        txtSymbol_psi                              : 'Psi',
+        txtSymbol_omega                            : 'Omega',
+
+        txtFractionVertical                        : 'Stacked Fraction',
+        txtFractionDiagonal                        : 'Skewed Fraction',
+        txtFractionHorizontal                      : 'Linear Fraction',
+        txtFractionSmall                           : 'Small Fraction',
+        txtFractionDifferential_1                  : 'Differential',
+        txtFractionDifferential_2                  : 'Differential',
+        txtFractionDifferential_3                  : 'Differential',
+        txtFractionDifferential_4                  : 'Differential',
+        txtFractionPi_2                            : 'Pi Over 2',
+
+        txtScriptSup                               : 'Superscript',
+        txtScriptSub                               : 'Subscript',
+        txtScriptSubSup                            : 'Subscript-Superscript',
+        txtScriptSubSupLeft                        : 'Left Subscript-Superscript',
+        txtScriptCustom_1                          : 'Script',
+        txtScriptCustom_2                          : 'Script',
+        txtScriptCustom_3                          : 'Script',
+        txtScriptCustom_4                          : 'Script',
+
+        txtRadicalSqrt                             : 'Square Root',
+        txtRadicalRoot_n                           : 'Radical With Degree',
+        txtRadicalRoot_2                           : 'Square Root With Degree',
+        txtRadicalRoot_3                           : 'Cubic Root',
+        txtRadicalCustom_1                         : 'Radical',
+        txtRadicalCustom_2                         : 'Radical',
+
+        txtIntegral                                : 'Integral',
+        txtIntegralSubSup                          : 'Integral',
+        txtIntegralCenterSubSup                    : 'Integral',
+        txtIntegralDouble                          : 'Double Integral',
+        txtIntegralDoubleSubSup                    : 'Double Integral',
+        txtIntegralDoubleCenterSubSup              : 'Double Integral',
+        txtIntegralTriple                          : 'Triple Integral',
+        txtIntegralTripleSubSup                    : 'Triple Integral',
+        txtIntegralTripleCenterSubSup              : 'Triple Integral',
+        txtIntegralOriented                        : 'Contour Integral',
+        txtIntegralOrientedSubSup                  : 'Contour Integral',
+        txtIntegralOrientedCenterSubSup            : 'Contour Integral',
+        txtIntegralOrientedDouble                  : 'Surface Integral',
+        txtIntegralOrientedDoubleSubSup            : 'Surface Integral',
+        txtIntegralOrientedDoubleCenterSubSup      : 'Surface Integral',
+        txtIntegralOrientedTriple                  : 'Volume Integral',
+        txtIntegralOrientedTripleSubSup            : 'Volume Integral',
+        txtIntegralOrientedTripleCenterSubSup      : 'Volume Integral',
+        txtIntegral_dx                             : 'Differential x',
+        txtIntegral_dy                             : 'Differential y',
+        txtIntegral_dtheta                         : 'Differential theta',
+
+        txtLargeOperator_Sum                       : 'Summation',
+        txtLargeOperator_Sum_CenterSubSup          : 'Summation',
+        txtLargeOperator_Sum_SubSup                : 'Summation',
+        txtLargeOperator_Sum_CenterSub             : 'Summation',
+        txtLargeOperator_Sum_Sub                   : 'Summation',
+        txtLargeOperator_Prod                      : 'Product',
+        txtLargeOperator_Prod_CenterSubSup         : 'Product',
+        txtLargeOperator_Prod_SubSup               : 'Product',
+        txtLargeOperator_Prod_CenterSub            : 'Product',
+        txtLargeOperator_Prod_Sub                  : 'Product',
+        txtLargeOperator_CoProd                    : 'Co-Product',
+        txtLargeOperator_CoProd_CenterSubSup       : 'Co-Product',
+        txtLargeOperator_CoProd_SubSup             : 'Co-Product',
+        txtLargeOperator_CoProd_CenterSub          : 'Co-Product',
+        txtLargeOperator_CoProd_Sub                : 'Co-Product',
+        txtLargeOperator_Union                     : 'Union',
+        txtLargeOperator_Union_CenterSubSup        : 'Union',
+        txtLargeOperator_Union_SubSup              : 'Union',
+        txtLargeOperator_Union_CenterSub           : 'Union',
+        txtLargeOperator_Union_Sub                 : 'Union',
+        txtLargeOperator_Intersection              : 'Intersection',
+        txtLargeOperator_Intersection_CenterSubSup : 'Intersection',
+        txtLargeOperator_Intersection_SubSup       : 'Intersection',
+        txtLargeOperator_Intersection_CenterSub    : 'Intersection',
+        txtLargeOperator_Intersection_Sub          : 'Intersection',
+        txtLargeOperator_Disjunction               : 'Vee',
+        txtLargeOperator_Disjunction_CenterSubSup  : 'Vee',
+        txtLargeOperator_Disjunction_SubSup        : 'Vee',
+        txtLargeOperator_Disjunction_CenterSub     : 'Vee',
+        txtLargeOperator_Disjunction_Sub           : 'Vee',
+        txtLargeOperator_Conjunction               : 'Wedge',
+        txtLargeOperator_Conjunction_CenterSubSup  : 'Wedge',
+        txtLargeOperator_Conjunction_SubSup        : 'Wedge',
+        txtLargeOperator_Conjunction_CenterSub     : 'Wedge',
+        txtLargeOperator_Conjunction_Sub           : 'Wedge',
+        txtLargeOperator_Custom_1                  : 'Summation',
+        txtLargeOperator_Custom_2                  : 'Summation',
+        txtLargeOperator_Custom_3                  : 'Summation',
+        txtLargeOperator_Custom_4                  : 'Product',
+        txtLargeOperator_Custom_5                  : 'Union',
+
+        txtBracket_Round                           : 'Brackets',
+        txtBracket_Square                          : 'Brackets',
+        txtBracket_Curve                           : 'Brackets',
+        txtBracket_Angle                           : 'Brackets',
+        txtBracket_LowLim                          : 'Brackets',
+        txtBracket_UppLim                          : 'Brackets',
+        txtBracket_Line                            : 'Brackets',
+        txtBracket_LineDouble                      : 'Brackets',
+        txtBracket_Square_OpenOpen                 : 'Brackets',
+        txtBracket_Square_CloseClose               : 'Brackets',
+        txtBracket_Square_CloseOpen                : 'Brackets',
+        txtBracket_SquareDouble                    : 'Brackets',
+
+        txtBracket_Round_Delimiter_2               : 'Brackets with Separators',
+        txtBracket_Curve_Delimiter_2               : 'Brackets with Separators',
+        txtBracket_Angle_Delimiter_2               : 'Brackets with Separators',
+        txtBracket_Angle_Delimiter_3               : 'Brackets with Separators',
+        txtBracket_Round_OpenNone                  : 'Single Bracket',
+        txtBracket_Round_NoneOpen                  : 'Single Bracket',
+        txtBracket_Square_OpenNone                 : 'Single Bracket',
+        txtBracket_Square_NoneOpen                 : 'Single Bracket',
+        txtBracket_Curve_OpenNone                  : 'Single Bracket',
+        txtBracket_Curve_NoneOpen                  : 'Single Bracket',
+        txtBracket_Angle_OpenNone                  : 'Single Bracket',
+        txtBracket_Angle_NoneOpen                  : 'Single Bracket',
+        txtBracket_LowLim_OpenNone                 : 'Single Bracket',
+        txtBracket_LowLim_NoneNone                 : 'Single Bracket',
+        txtBracket_UppLim_OpenNone                 : 'Single Bracket',
+        txtBracket_UppLim_NoneOpen                 : 'Single Bracket',
+        txtBracket_Line_OpenNone                   : 'Single Bracket',
+        txtBracket_Line_NoneOpen                   : 'Single Bracket',
+        txtBracket_LineDouble_OpenNone             : 'Single Bracket',
+        txtBracket_LineDouble_NoneOpen             : 'Single Bracket',
+        txtBracket_SquareDouble_OpenNone           : 'Single Bracket',
+        txtBracket_SquareDouble_NoneOpen           : 'Single Bracket',
+        txtBracket_Custom_1                        : 'Case (Two Conditions)',
+        txtBracket_Custom_2                        : 'Cases (Three Conditions)',
+        txtBracket_Custom_3                        : 'Stack Object',
+        txtBracket_Custom_4                        : 'Stack Object',
+        txtBracket_Custom_5                        : 'Cases Example',
+        txtBracket_Custom_6                        : 'Binomial Coefficient',
+        txtBracket_Custom_7                        : 'Binomial Coefficient',
+
+        txtFunction_Sin                            : 'Sine Function',
+        txtFunction_Cos                            : 'Cosine Function',
+        txtFunction_Tan                            : 'Tangent Function',
+        txtFunction_Csc                            : 'Cosecant Function',
+        txtFunction_Sec                            : 'Secant Function',
+        txtFunction_Cot                            : 'Cotangent Function',
+        txtFunction_1_Sin                          : 'Inverse Sine Function',
+        txtFunction_1_Cos                          : 'Inverse Cosine Function',
+        txtFunction_1_Tan                          : 'Inverse Tangent Function',
+        txtFunction_1_Csc                          : 'Inverse Cosecant Function',
+        txtFunction_1_Sec                          : 'Inverse Secant Function',
+        txtFunction_1_Cot                          : 'Inverse Cotangent Function',
+        txtFunction_Sinh                           : 'Hyperbolic Sine Function',
+        txtFunction_Cosh                           : 'Hyperbolic Cosine Function',
+        txtFunction_Tanh                           : 'Hyperbolic Tangent Function',
+        txtFunction_Csch                           : 'Hyperbolic Cosecant Function',
+        txtFunction_Sech                           : 'Hyperbolic Secant Function',
+        txtFunction_Coth                           : 'Hyperbolic Cotangent Function',
+        txtFunction_1_Sinh                         : 'Hyperbolic Inverse Sine Function',
+        txtFunction_1_Cosh                         : 'Hyperbolic Inverse Cosine Function',
+        txtFunction_1_Tanh                         : 'Hyperbolic Inverse Tangent Function',
+        txtFunction_1_Csch                         : 'Hyperbolic Inverse Cosecant Function',
+        txtFunction_1_Sech                         : 'Hyperbolic Inverse Secant Function',
+        txtFunction_1_Coth                         : 'Hyperbolic Inverse Cotangent Function',
+        txtFunction_Custom_1                       : 'Sine theta',
+        txtFunction_Custom_2                       : 'Cos 2x',
+        txtFunction_Custom_3                       : 'Tangent formula',
+
+        txtAccent_Dot                              : 'Dot',
+        txtAccent_DDot                             : 'Double Dot',
+        txtAccent_DDDot                            : 'Triple Dot',
+        txtAccent_Hat                              : 'Hat',
+        txtAccent_Check                            : 'Check',
+        txtAccent_Accent                           : 'Acute',
+        txtAccent_Grave                            : 'Grave',
+        txtAccent_Smile                            : 'Breve',
+        txtAccent_Tilde                            : 'Tilde',
+        txtAccent_Bar                              : 'Bar',
+        txtAccent_DoubleBar                        : 'Double Overbar',
+        txtAccent_CurveBracketTop                  : 'Overbrace',
+        txtAccent_CurveBracketBot                  : 'Underbrace',
+        txtAccent_GroupTop                         : 'Grouping Character Above',
+        txtAccent_GroupBot                         : 'Grouping Character Below',
+        txtAccent_ArrowL                           : 'Leftwards Arrow Above',
+        txtAccent_ArrowR                           : 'Rightwards Arrow Above',
+        txtAccent_ArrowD                           : 'Right-Left Arrow Above',
+        txtAccent_HarpoonL                         : 'Leftwards Harpoon Above',
+        txtAccent_HarpoonR                         : 'Rightwards Harpoon Above',
+        txtAccent_BorderBox                        : 'Boxed Formula (With Placeholder)',
+        txtAccent_BorderBoxCustom                  : 'Boxed Formula (Example)',
+        txtAccent_BarTop                           : 'Overbar',
+        txtAccent_BarBot                           : 'Underbar',
+        txtAccent_Custom_1                         : 'Vector A',
+        txtAccent_Custom_2                         : 'ABC With Overbar',
+        txtAccent_Custom_3                         : 'x XOR y With Overbar',
+
+        txtLimitLog_LogBase                        : 'Logarithm',
+        txtLimitLog_Log                            : 'Logarithm',
+        txtLimitLog_Lim                            : 'Limit',
+        txtLimitLog_Min                            : 'Minimum',
+        txtLimitLog_Max                            : 'Maximum',
+        txtLimitLog_Ln                             : 'Natural Logarithm',
+        txtLimitLog_Custom_1                       : 'Limit Example',
+        txtLimitLog_Custom_2                       : 'Maximum Example',
+
+        txtOperator_ColonEquals                    : 'Colon Equal',
+        txtOperator_EqualsEquals                   : 'Equal Equal',
+        txtOperator_PlusEquals                     : 'Plus Equal',
+        txtOperator_MinusEquals                    : 'Minus Equal',
+        txtOperator_Definition                     : 'Equal to By Definition',
+        txtOperator_UnitOfMeasure                  : 'Measured By',
+        txtOperator_DeltaEquals                    : 'Delta Equal To',
+        txtOperator_ArrowL_Top                     : 'Leftwards Arrow Above',
+        txtOperator_ArrowR_Top                     : 'Rightwards Arrow Above',
+        txtOperator_ArrowL_Bot                     : 'Leftwards Arrow Below',
+        txtOperator_ArrowR_Bot                     : 'Rightwards Arrow Below',
+        txtOperator_DoubleArrowL_Top               : 'Leftwards Arrow Above',
+        txtOperator_DoubleArrowR_Top               : 'Rightwards Arrow Above',
+        txtOperator_DoubleArrowL_Bot               : 'Leftwards Arrow Below',
+        txtOperator_DoubleArrowR_Bot               : 'Rightwards Arrow Below',
+        txtOperator_ArrowD_Top                     : 'Right-Left Arrow Above',
+        txtOperator_ArrowD_Bot                     : 'Right-Left Arrow Above',
+        txtOperator_DoubleArrowD_Top               : 'Right-Left Arrow Below',
+        txtOperator_DoubleArrowD_Bot               : 'Right-Left Arrow Below',
+        txtOperator_Custom_1                       : 'Yileds',
+        txtOperator_Custom_2                       : 'Delta Yields',
+
+        txtMatrix_1_2                              : '1x2 Empty Matrix',
+        txtMatrix_2_1                              : '2x1 Empty Matrix',
+        txtMatrix_1_3                              : '1x3 Empty Matrix',
+        txtMatrix_3_1                              : '3x1 Empty Matrix',
+        txtMatrix_2_2                              : '2x2 Empty Matrix',
+        txtMatrix_2_3                              : '2x3 Empty Matrix',
+        txtMatrix_3_2                              : '3x2 Empty Matrix',
+        txtMatrix_3_3                              : '3x3 Empty Matrix',
+        txtMatrix_Dots_Center                      : 'Midline Dots',
+        txtMatrix_Dots_Baseline                    : 'Baseline Dots',
+        txtMatrix_Dots_Vertical                    : 'Vertical Dots',
+        txtMatrix_Dots_Diagonal                    : 'Diagonal Dots',
+        txtMatrix_Identity_2                       : '2x2 Identity Matrix',
+        txtMatrix_Identity_2_NoZeros               : '3x3 Identity Matrix',
+        txtMatrix_Identity_3                       : '3x3 Identity Matrix',
+        txtMatrix_Identity_3_NoZeros               : '3x3 Identity Matrix',
+        txtMatrix_2_2_RoundBracket                 : 'Empty Matrix with Brackets',
+        txtMatrix_2_2_SquareBracket                : 'Empty Matrix with Brackets',
+        txtMatrix_2_2_LineBracket                  : 'Empty Matrix with Brackets',
+        txtMatrix_2_2_DLineBracket                 : 'Empty Matrix with Brackets',
+        txtMatrix_Flat_Round                       : 'Sparse Matrix',
+        txtMatrix_Flat_Square                      : 'Sparse Matrix'
     }, SSE.Controllers.Toolbar || {}));
 });

@@ -31,11 +31,15 @@
  *
 */
 
+if (Common === undefined) {
+    var Common = {};
+}
+
 define(function(){ 'use strict';
 
-    DE.define = {};
+    Common.define = {};
 
-    DE.define.c_oAscMathMainType = {
+    Common.define.c_oAscMathMainType = {
         Symbol       :  0x00,
         Fraction     :  0x01,
         Script       :  0x02,
@@ -56,7 +60,7 @@ define(function(){ 'use strict';
 
 // equations types
 
-    DE.define.c_oAscMathType = {
+    Common.define.c_oAscMathType = {
         Symbol_pm                               : 0x00000000,
         Symbol_infinity                         : 0x00000001,
         Symbol_equals                           : 0x00000002,

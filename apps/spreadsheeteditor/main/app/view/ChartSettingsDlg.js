@@ -79,7 +79,6 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
 
             this._state = {
-                ChartStyle: 1,
                 ChartType: Asc.c_oAscChartTypeSettings.barNormal
             };
             this._noApply = true;
@@ -173,34 +172,6 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
             });
             this.btnChartType.render($('#chart-dlg-button-type'));
             this.mnuChartTypePicker.on('item:click', _.bind(this.onSelectType, this, this.btnChartType));
-
-            this.btnChartStyle = new Common.UI.Button({
-                cls         : 'btn-large-dataview',
-                iconCls     : 'item-wrap',
-                menu        : new Common.UI.Menu({
-                    additionalAlign: menuAddAlign,
-                    items: [
-                        { template: _.template('<div id="id-chart-dlg-menu-style" style="width: 245px; margin: 0 5px;"></div>') }
-                    ]
-                })
-            });
-            this.btnChartStyle.on('render:after', function(btn) {
-                me.mnuChartStylePicker = new Common.UI.DataView({
-                    el: $('#id-chart-dlg-menu-style'),
-                    parentMenu: btn.menu,
-                    style: 'max-height: 411px;',
-                    store: new Common.UI.DataViewStore(),
-                    itemTemplate: _.template('<div id="<%= id %>" class="item-wrap" style="background-image: url(<%= imageUrl %>); background-position: 0 0;"></div>')
-                });
-
-                if (me.btnChartStyle.menu) {
-                    me.btnChartStyle.menu.on('show:after', function () {
-                        me.mnuChartStylePicker.scroller.update({alwaysVisibleY: true});
-                    });
-                }
-            });
-            this.btnChartStyle.render($('#chart-dlg-button-style'));
-            this.mnuChartStylePicker.on('item:click', _.bind(this.onSelectStyle, this, this.btnChartStyle));
 
             this.cmbDataDirect = new Common.UI.ComboBox({
                 el          : $('#chart-dlg-combo-range'),
@@ -804,9 +775,6 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
 
 
         afterRender: function() {
-            if (this.api)
-                this.updateChartStyles(this.api.asc_getChartPreviews(this._state.ChartType));
-
             this._setDefaults(this.chartSettings);
             if (this.storageName) {
                 var value = Common.localStorage.getItem(this.storageName);
@@ -835,7 +803,6 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
             }
 
             this.btnChartType.setIconCls('item-chartlist ' + rawData.iconCls);
-            this.updateChartStyles(this.api.asc_getChartPreviews(rawData.type));
             this.chartSettings.changeType(rawData.type);
             this.updateAxisProps(rawData.type, true);
             this.vertAxisProps = this.chartSettings.getVertAxisProps();
@@ -1018,62 +985,6 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
             this.currentAxisProps = props;
         },
 
-        onSelectStyle: function(btn, picker, itemView, record) {
-            if (this._noApply) return;
-
-            var rawData = {},
-                isPickerSelect = _.isFunction(record.toJSON);
-
-            if (isPickerSelect){
-                if (record.get('selected')) {
-                    rawData = record.toJSON();
-                } else {
-                    // record deselected
-                    return;
-                }
-            } else {
-                rawData = record;
-            }
-
-            var style = 'url(' + rawData.imageUrl + ')';
-            var btnIconEl = this.btnChartStyle.cmpEl.find('span.btn-icon');
-            btnIconEl.css('background-image', style);
-
-            this._state.ChartStyle = rawData.data;
-        },
-
-        updateChartStyles: function(styles) {
-            var me = this;
-            if (styles && styles.length>0){
-                var stylesStore = this.mnuChartStylePicker.store;
-                if (stylesStore) {
-                    var stylearray = [],
-                        selectedIdx = -1,
-                        selectedUrl;
-                    _.each(styles, function(item, index){
-                        stylearray.push({
-                            imageUrl: item.asc_getImageUrl(),
-                            data    : item.asc_getStyle(),
-                            tip     : me.textStyle + ' ' + item.asc_getStyle()
-                        });
-                        if (me._state.ChartStyle == item.asc_getStyle()) {
-                            selectedIdx = index;
-                            selectedUrl = item.asc_getImageUrl();
-                        }
-
-                    });
-
-                    stylesStore.reset(stylearray, {silent: false});
-                }
-            }
-            this.mnuChartStylePicker.selectByIndex(selectedIdx, true);
-            if (selectedIdx>=0 && this.btnChartStyle.cmpEl) {
-                var style = 'url(' + selectedUrl + ')';
-                var btnIconEl = this.btnChartStyle.cmpEl.find('span.btn-icon');
-                btnIconEl.css('background-image', style);
-            }
-        },
-
         _setDefaults: function(props) {
             var me = this;
             if (props ){
@@ -1090,17 +1001,8 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 if (record) {
                     this.btnChartType.setIconCls('item-chartlist ' + record.get('iconCls'));
                 }
-                this.updateChartStyles(this.api.asc_getChartPreviews(this._state.ChartType));
 
                 this._noApply = false;
-
-                this._state.ChartStyle = props.getStyle();
-                record = this.mnuChartStylePicker.store.findWhere({data: this._state.ChartStyle});
-                this.mnuChartStylePicker.selectRecord(record, true);
-                if (record) {
-                    var btnIconEl = this.btnChartStyle.cmpEl.find('span.btn-icon');
-                    btnIconEl.css('background-image', 'url(' + record.get('imageUrl') + ')');
-                }
 
                 var value = props.getRange();
                 this.txtDataRange.setValue((value) ? value : '');
@@ -1151,7 +1053,6 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
             // Layout
 
             this.chartSettings.putType(type);
-            this.chartSettings.putStyle(this._state.ChartStyle);
 
             this.chartSettings.putInColumns(this.cmbDataDirect.getValue()==1);
             this.chartSettings.putRange(this.txtDataRange.getValue());

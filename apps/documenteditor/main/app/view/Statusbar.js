@@ -150,7 +150,8 @@ define([
                 this.btnDocLanguage = new Common.UI.Button({
                     el: $('#btn-doc-lang',this.el),
                     hint: this.tipSetDocLang,
-                    hintAnchor: 'top'
+                    hintAnchor: 'top',
+                    disabled: true
                 });
 
                 this.btnSetSpelling = new Common.UI.Button({
@@ -203,7 +204,8 @@ define([
                 this.btnLanguage = new Common.UI.Button({
                     el: panelLang,
                     hint: this.tipSetLang,
-                    hintAnchor: 'top-left'
+                    hintAnchor: 'top-left',
+                    disabled: true
                 });
                 this.btnLanguage.cmpEl.on({
                     'show.bs.dropdown': function () {
@@ -417,6 +419,7 @@ define([
                     usertip.setContent();
                 }
                 (length > 1) ? this.panelUsersBlock.attr('data-toggle', 'dropdown') : this.panelUsersBlock.removeAttr('data-toggle');
+                this.panelUsersBlock.toggleClass('dropdown-toggle', length > 1);
                 (length > 1) ? this.panelUsersBlock.off('click') : this.panelUsersBlock.on('click', _.bind(this.onUsersClick, this));
             },
 
@@ -464,6 +467,10 @@ define([
                 }, this);
 
                 this.langMenu.doLayout();
+                if (this.langMenu.items.length>0) {
+                    this.btnLanguage.setDisabled(false);
+                    this.btnDocLanguage.setDisabled(false);
+                }
             },
 
             setLanguage: function(info) {
@@ -492,8 +499,9 @@ define([
             },
 
             SetDisabled: function(disable) {
-                this.btnLanguage.setDisabled(disable);
-                this.btnDocLanguage.setDisabled(disable);
+                var langs = this.langMenu.items.length>0;
+                this.btnLanguage.setDisabled(disable || !langs);
+                this.btnDocLanguage.setDisabled(disable || !langs);
                 if (disable) {
                     this.state.changespanel = this.mnuChangesPanel.checked;
                 }

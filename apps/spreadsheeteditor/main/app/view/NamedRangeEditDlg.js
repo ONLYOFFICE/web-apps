@@ -86,7 +86,7 @@ define([
                                             '<div id="named-range-txt-range" class="input-row" style="margin-right: 10px;"></div>',
                                         '</td>',
                                         '<td class="padding-small" style="text-align: right;" width="100">',
-                                            '<button type="button" class="btn btn-text-default" id="named-range-btn-data" style="min-width: 100px;">', me.textSelectData,'</button>',
+                                            '<button type="button" class="btn btn-text-default" id="named-range-btn-data" style="min-width: 100px;width: auto;">', me.textSelectData,'</button>',
                                         '</td>',
                                     '</tr>',
                                 '</table>',

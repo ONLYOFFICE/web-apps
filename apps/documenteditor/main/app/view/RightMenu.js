@@ -258,7 +258,7 @@ define([
                 this._settings[type].btn.toggle(true, false);
                 this._settings[type].btn.trigger('click', this._settings[type].btn);
             } else {
-                var target_pane = $("#" + this._settings[type].panel );
+                var target_pane = this.$el.find("#" + this._settings[type].panel );
                 if ( !target_pane.hasClass('active') ) {
                     target_pane.parent().find('> .active').removeClass('active');
                     target_pane.addClass("active");
@@ -271,7 +271,7 @@ define([
         },
 
         GetActivePane: function() {
-            return (this.minimizedMode) ? null : $(".settings-panel.active")[0].id;
+            return (this.minimizedMode) ? null : this.$el.find(".settings-panel.active")[0].id;
         },
 
         clearSelection: function() {
@@ -280,7 +280,7 @@ define([
 
             var target_pane = $(".right-panel");
             target_pane.find('> .active').removeClass('active');
-            _.each(this._settings, function(item){
+            this._settings.forEach(function(item){
                 if (item.btn.isActive())
                     item.btn.toggle(false, true);
             });

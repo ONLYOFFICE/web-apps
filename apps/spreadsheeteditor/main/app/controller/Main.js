@@ -52,6 +52,7 @@ define([
     'common/main/lib/util/LanguageInfo',
     'spreadsheeteditor/main/app/collection/ShapeGroups',
     'spreadsheeteditor/main/app/collection/TableTemplates',
+    'spreadsheeteditor/main/app/collection/EquationGroups',
     'spreadsheeteditor/main/app/controller/FormulaDialog',
     'spreadsheeteditor/main/app/view/FormulaLang'
 ], function () {
@@ -68,6 +69,13 @@ define([
             goback: '#fm-btn-back > a, #header-back > div'
         };
 
+        var mapCustomizationExtElements = {
+            toolbar: '#viewport #toolbar',
+            leftMenu: '#viewport #left-menu, #viewport #id-toolbar-full-placeholder-btn-settings, #viewport #id-toolbar-short-placeholder-btn-settings',
+            rightMenu: '#viewport #right-menu',
+            header: '#viewport #header'
+        };
+
         Common.localStorage.setId('table');
         Common.localStorage.setKeysFilter('sse-,asc.table');
         Common.localStorage.sync();
@@ -76,6 +84,7 @@ define([
             models: [],
             collections: [
                 'ShapeGroups',
+                'EquationGroups',
                 'TableTemplates',
                 'Common.Collections.TextArt'
             ],
@@ -159,12 +168,15 @@ define([
 
                 $(document.body).on('blur', 'input, textarea', function(e) {
                     if (this.isAppDisabled === true) return;
-                    if (!me.isModalShowed && !(me.loadMask && me.loadMask.isVisible()) &&
-                        (!/area_id/.test(e.target.id) && $(e.target).parent().find(e.relatedTarget).length<1 /* When focus in combobox goes from input to it's menu button or menu items */
-                        || !e.relatedTarget)) {
-                        me.api.asc_enableKeyEvents(true);
-                        if (/msg-reply/.test(e.target.className))
-                            me.dontCloseDummyComment = false;
+                    if (!me.isModalShowed && !(me.loadMask && me.loadMask.isVisible())) {
+                        if (!e.relatedTarget ||
+                            !/area_id/.test(e.target.id) && $(e.target).parent().find(e.relatedTarget).length<1 /* Check if focus in combobox goes from input to it's menu button or menu items */
+                            && (e.relatedTarget.localName != 'input' || !/form-control/.test(e.relatedTarget.className)) /* Check if focus goes to text input with class "form-control" */
+                            && (e.relatedTarget.localName != 'textarea' || /area_id/.test(e.relatedTarget.id))) /* Check if focus goes to textarea, but not to "area_id" */ {
+                            me.api.asc_enableKeyEvents(true);
+                            if (/msg-reply/.test(e.target.className))
+                                me.dontCloseDummyComment = false;
+                        }
                     }
                 }).on('dragover', function(e) {
                     var event = e.originalEvent;
@@ -323,6 +335,7 @@ define([
                     this._state.lostEditingRights = !this._state.lostEditingRights;
                     this.api.asc_coAuthoringDisconnect();
                     this.getApplication().getController('LeftMenu').leftMenu.getMenu('file').panels['rights'].onLostEditRights();
+                    Common.NotificationCenter.trigger('api:disconnect');
                     if (!old_rights)
                         Common.UI.warning({
                             title: this.notcriticalErrorTitle,
@@ -646,7 +659,6 @@ define([
 
                             documentHolderView.createDelayedElements();
                             toolbarController.createDelayedElements();
-                            rightmenuController.createDelayedElements();
 
                             if (!me.appOptions.isEditMailMerge && !me.appOptions.isEditDiagram) {
                                 var shapes = me.api.asc_getPropertyEditorShapes();
@@ -656,6 +668,8 @@ define([
                                 me.fillTextArt(me.api.asc_getTextArtPreviews());
                                 me.updateThemeColors();
                             }
+
+                            rightmenuController.createDelayedElements();
 
                             me.api.asc_registerCallback('asc_onSaveUrl', _.bind(me.onSaveUrl, me));
                             me.api.asc_registerCallback('asc_onDocumentModifiedChanged', _.bind(me.onDocumentModifiedChanged, me));
@@ -748,6 +762,9 @@ define([
                         return;
                     }
 
+                    if (params.asc_getRights() !== Asc.c_oRights.Edit)
+                        this.permissions.edit = false;
+
                     this.appOptions.canAutosave = true;
                     this.appOptions.canAnalytics = params.asc_getIsAnalyticsEnable();
 
@@ -761,9 +778,11 @@ define([
                     this.appOptions.canChat        = this.appOptions.canLicense && !this.appOptions.isOffline && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.chat===false);
                     this.appOptions.canRename      = !!this.permissions.rename;
 
-                    this.appOptions.canBranding  = params.asc_getCanBranding() && (typeof this.editorConfig.customization == 'object');
+                    this.appOptions.canBranding  = (licType!==Asc.c_oLicenseResult.Error) && (typeof this.editorConfig.customization == 'object');
                     if (this.appOptions.canBranding)
                         this.headerView.setBranding(this.editorConfig.customization);
+
+                    this.appOptions.canBrandingExt = params.asc_getCanBranding() && (typeof this.editorConfig.customization == 'object');
 
                     params.asc_getTrial() && this.headerView.setDeveloperMode(true);
                     this.appOptions.canRename && this.headerView.setCanRename(true);
@@ -1076,7 +1095,7 @@ define([
                         break;
 
                     case Asc.c_oAscError.ID.CoAuthoringDisconnect:
-                        config.msg = (this.appOptions.isEdit) ? this.errorCoAuthoringDisconnect : this.errorViewerDisconnect;
+                        config.msg = this.errorViewerDisconnect;
                         break;
 
                     case Asc.c_oAscError.ID.ConvertationPassword:
@@ -1142,6 +1161,14 @@ define([
 
                     case Asc.c_oAscError.ID.FrmlWrongReferences:
                         config.msg = this.errorFrmlWrongReferences;
+                        break;
+
+                    case Asc.c_oAscError.ID.CopyMultiselectAreaError:
+                        config.msg = this.errorCopyMultiselectArea;
+                        break;
+
+                    case Asc.c_oAscError.ID.PrintMaxPagesCount:
+                        config.msg = this.errorPrintMaxPagesCount;
                         break;
 
                     default:
@@ -1303,6 +1330,8 @@ define([
                     if (!this.appOptions.isDesktopApp)
                         this.appOptions.customization.about = true;
                     Common.Utils.applyCustomization(this.appOptions.customization, mapCustomizationElements);
+                    if (this.appOptions.canBrandingExt)
+                        Common.Utils.applyCustomization(this.appOptions.customization, mapCustomizationExtElements);
                 }
                 
                 this.stackLongActions.pop({id: InitApplication, type: Asc.c_oAscAsyncActionType.BlockInteraction});
@@ -1794,6 +1823,7 @@ define([
 
                 if (arr.length>0)
                     this.updatePluginsList({
+                        autoStartGuid: plugins.autoStartGuid,
                         url: plugins.url,
                         pluginsData: arr
                     });
@@ -1852,8 +1882,11 @@ define([
                     this.appOptions.pluginsPath = '';
                     this.appOptions.canPlugins = false;
                 }
-                if (this.appOptions.canPlugins)
+                if (this.appOptions.canPlugins) {
                     this.getApplication().getController('Common.Controllers.Plugins').setMode(this.appOptions);
+                    if (plugins.autoStartGuid)
+                        this.api.asc_pluginRun(plugins.autoStartGuid, 0, '');
+                }
                 this.getApplication().getController('LeftMenu').enablePlugins();
             },
             
@@ -1969,11 +2002,13 @@ define([
             warnNoLicense: 'You are using an open source version of ONLYOFFICE. The version has limitations for concurrent connections to the document server (20 connections at a time).<br>If you need more please consider purchasing a commercial license.',
             textContactUs: 'Contact sales',
             confirmPutMergeRange: 'The source data contains merged cells.<br>They will be unmerged before they are pasted into the table.',
-            errorViewerDisconnect: 'Connection is lost. You can still view the document,<br>but will not be able to download until the connection is restored.',
+            errorViewerDisconnect: 'Connection is lost. You can still view the document,<br>but will not be able to download or print until the connection is restored.',
             warnLicenseExp: 'Your license has expired.<br>Please update your license and refresh the page.',
             titleLicenseExp: 'License expired',
             openErrorText: 'An error has occurred while opening the file',
-            saveErrorText: 'An error has occurred while saving the file'
+            saveErrorText: 'An error has occurred while saving the file',
+            errorCopyMultiselectArea: 'This command cannot be used with multiple selections.<br>Select a single range and try again.',
+            errorPrintMaxPagesCount: 'Unfortunately, it’s not possible to print more than 1500 pages at once in the current version of the program.<br>This restriction will be eliminated in upcoming releases.'
         }
     })(), SSE.Controllers.Main || {}))
 });

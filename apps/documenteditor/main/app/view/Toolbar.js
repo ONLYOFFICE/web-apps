@@ -1197,7 +1197,7 @@ define([
                     ]
                 })
             );
-            if (this.mode.isDesktopApp)
+            if (this.mode.isDesktopApp || this.mode.canBrandingExt && this.mode.customization && this.mode.customization.header===false)
                 this.mnuitemHideTitleBar.hide();
             
             this.btnMarkers.setMenu(
@@ -1517,6 +1517,8 @@ define([
                 this.cmbFontName.setDisabled(true);
                 this.cmbFontSize.setDisabled(true);
                 this.listStyles.setDisabled(true);
+                if (mode.disableDownload)
+                    this.btnPrint.setDisabled(true);
             }
 
             this.mode = mode;

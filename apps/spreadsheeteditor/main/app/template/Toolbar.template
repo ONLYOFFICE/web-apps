@@ -222,7 +222,8 @@
             </div>
             <div class="toolbar-row">
                 <span class="btn-placeholder split" id="id-toolbar-full-placeholder-btn-inserthyperlink"></span>
-                <span class="btn-placeholder " id="id-toolbar-full-placeholder-btn-insertshape"></span>
+                <span class="btn-placeholder split" id="id-toolbar-full-placeholder-btn-insertshape"></span>
+                <span class="btn-placeholder" id="id-toolbar-full-placeholder-btn-insertequation"></span>
             </div>
         </div>
         <div class="separator long"></div>

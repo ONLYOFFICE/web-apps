@@ -138,6 +138,8 @@ define([
         },
 
         openInsideMode: function(name, url) {
+            if (!this.pluginsPanel) return false;
+
             this.pluginsPanel.toggleClass('hidden', true);
             this.currentPluginPanel.toggleClass('hidden', false);
 
@@ -161,9 +163,12 @@ define([
 
                 this.iframePlugin.src = url;
             }
+            return true;
         },
 
         closeInsideMode: function() {
+            if (!this.pluginsPanel) return;
+
             if (this.iframePlugin) {
                 this.currentPluginFrame.empty();
                 this.iframePlugin = null;

@@ -515,7 +515,6 @@ define([
 
             if (this._initSettings)
                 this.createDelayedElements();
-            this._initSettings = false;
 
             if (props && props.get_ShapeProperties() && props.get_ShapeProperties().get_TextArtProperties())
             {
@@ -965,6 +964,7 @@ define([
             this.createDelayedControls();
             this.UpdateThemeColors();
             this.fillTransform(this.api.asc_getPropertyEditorTextArts());
+            this._initSettings = false;
         },
 
         fillTextArt: function() {

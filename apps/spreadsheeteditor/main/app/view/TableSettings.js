@@ -249,13 +249,13 @@ define([
             }, this));
             this.btnEdit.menu.on('item:click', _.bind(this.onEditClick, this));
             this.lockedControls.push(this.btnEdit);
+
+            this._initSettings = false;
         },
 
         ChangeSettings: function(props) {
-            if (this._initSettings) {
+            if (this._initSettings)
                 this.createDelayedControls();
-                this._initSettings = false;
-            }
 
             this.disableControls(this._locked);
 

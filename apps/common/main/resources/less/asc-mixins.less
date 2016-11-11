@@ -99,8 +99,8 @@
 .button-otherstates-icon(@icon-class, @icon-size) {
     button.over     > .@{icon-class} {background-position-x: -1*@icon-size; --bgX: -(1*@icon-size);}
     button.active   > .@{icon-class},
-    button:active   > .@{icon-class} {background-position-x: -2*@icon-size; --bgX: -(2*@icon-size);}
-    button.disabled > .@{icon-class} {background-position-x: -3*@icon-size; --bgX: -(3*@icon-size);}
+    button:active   > .@{icon-class} {background-position-x: -2*@icon-size !important; --bgX: -(2*@icon-size);}
+    button.disabled > .@{icon-class} {background-position-x: -3*@icon-size !important; --bgX: -(3*@icon-size);}
 }
 
 .button-otherstates-icon2(@icon-class, @icon-size) {
@@ -137,9 +137,11 @@
 }
 
 @common-controls-width: 100px;
-.img-commonctrl,
-        .theme-colorpalette .color-transparent, .palette-color-ext .color-transparent, .dropdown-menu li .checked:before, .input-error:before {
-    background: data-uri(%("%s",'@{common-image-path}/@{common-controls}')) no-repeat;
+.img-commonctrl, 
+        .theme-colorpalette .color-transparent, .palette-color-ext .color-transparent, .dropdown-menu li .checked:before, .input-error:before,
+        .btn-toolbar .btn-icon.img-commonctrl {
+    background-image: data-uri(%("%s",'@{common-image-path}/@{common-controls}'));
+    background-repeat: no-repeat;
 
     @media
     only screen and (-webkit-min-device-pixel-ratio: 2),

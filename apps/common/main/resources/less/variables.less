@@ -84,7 +84,7 @@
 
 @icon-font-path:          "../fonts/";
 @icon-font-name:          "glyphicons-halflings-regular";
-
+@icon-font-svg-id:        "glyphicons_halflingsregular";
 
 // Components
 // -------------------------
@@ -174,6 +174,8 @@
 @input-color:                    #000;
 @input-border:                   @gray;
 @input-border-radius:            @border-radius-base;
+@input-border-radius-large:      @border-radius-large;
+@input-border-radius-small:      @border-radius-small;
 @input-border-focus:             #66afe9;
 
 // TODO: Rename `@input-border-radius` to `@input-border-radius-base` in v4
@@ -199,7 +201,8 @@
 @input-group-addon-bg:           @input-bg;
 @input-group-addon-border-color: @input-border;
 
-@cursor-disabled:                not-allowed;
+// Disabled cursor for form controls and buttons.
+@cursor-disabled:                default;
 
 // Dropdowns
 // -------------------------
@@ -296,6 +299,7 @@
 @navbar-border-radius:             @border-radius-base;
 @navbar-padding-horizontal:        floor(@grid-gutter-width / 2);
 @navbar-padding-vertical:          ((@navbar-height - @line-height-computed) / 2);
+@navbar-collapse-max-height:       340px;
 
 @navbar-default-color:             #777;
 @navbar-default-bg:                #f8f8f8;
@@ -379,22 +383,33 @@
 
 // Pagination
 // -------------------------
-
+@pagination-color:                     @link-color;
 @pagination-bg:                        #fff;
 @pagination-border:                    #ddd;
 
+@pagination-hover-color:               @link-hover-color;
 @pagination-hover-bg:                  @gray-lighter;
+@pagination-hover-border:              #ddd;
 
 @pagination-active-bg:                 @brand-primary;
 @pagination-active-color:              #fff;
+@pagination-active-border:             @brand-primary;
 
 @pagination-disabled-color:            @gray-light;
-
+@pagination-disabled-bg:               #fff;
+@pagination-disabled-border:           #ddd;
 
 // Pager
 // -------------------------
-
+@pager-bg:                             @pagination-bg;
+@pager-border:                         @pagination-border;
 @pager-border-radius:                  15px;
+
+@pager-hover-bg:                       @pagination-hover-bg;
+
+@pager-active-bg:                      @pagination-active-bg;
+@pager-active-color:                   @pagination-active-color;
+
 @pager-disabled-color:                 @gray-light;
 
 
@@ -406,7 +421,7 @@
 @jumbotron-bg:                   @gray-lighter;
 @jumbotron-heading-color:        inherit;
 @jumbotron-font-size:            ceil(@font-size-base * 1.5);
-
+@jumbotron-heading-font-size:    ceil((@font-size-base * 4.5));
 
 // Form states and alerts
 // -------------------------
@@ -482,9 +497,13 @@
 @modal-content-fallback-border-color:          #999;
 
 @modal-backdrop-bg:           #000;
+@modal-backdrop-opacity:      .5;
 @modal-header-border-color:   #e5e5e5;
 @modal-footer-border-color:   @modal-header-border-color;
 
+@modal-lg:                    900px;
+@modal-md:                    600px;
+@modal-sm:                    300px;
 
 // Alerts
 // -------------------------
@@ -513,6 +532,7 @@
 // -------------------------
 @progress-bg:                 #f5f5f5;
 @progress-bar-color:          #fff;
+@progress-border-radius:      @border-radius-base;
 
 @progress-bar-bg:             @brand-primary;
 @progress-bar-success-bg:     @brand-success;
@@ -531,14 +551,23 @@
 @list-group-active-color:     @component-active-color;
 @list-group-active-bg:        @component-active-bg;
 @list-group-active-border:    @list-group-active-bg;
+@list-group-active-text-color:  lighten(@list-group-active-bg, 40%);
+
+@list-group-disabled-color:      @gray-light;
+@list-group-disabled-bg:         @gray-lighter;
+@list-group-disabled-text-color: @list-group-disabled-color;
 
 @list-group-link-color:          #555;
+@list-group-link-hover-color:   @list-group-link-color;
 @list-group-link-heading-color:  #333;
 
 
 // Panels
 // -------------------------
 @panel-bg:                    #fff;
+@panel-body-padding:          15px;
+@panel-heading-padding:       10px 15px;
+@panel-footer-padding:        @panel-heading-padding;
 @panel-inner-border:          #ddd;
 @panel-border-radius:         @border-radius-base;
 @panel-footer-bg:             #f5f5f5;
@@ -582,7 +611,7 @@
 // Wells
 // -------------------------
 @well-bg:                     #f5f5f5;
-
+@well-border:                 darken(@well-bg, 7%);
 
 // Badges
 // -------------------------
@@ -600,6 +629,8 @@
 
 // Breadcrumbs
 // -------------------------
+@breadcrumb-padding-vertical:   8px;
+@breadcrumb-padding-horizontal: 15px;
 @breadcrumb-bg:               #f5f5f5;
 @breadcrumb-color:            #ccc;
 @breadcrumb-active-color:     @gray-light;
@@ -634,6 +665,9 @@
 @code-color:                  #c7254e;
 @code-bg:                     #f9f2f4;
 
+@kbd-color:                   #fff;
+@kbd-bg:                      #333;
+
 @pre-bg:                      #f5f5f5;
 @pre-color:                   @gray-dark;
 @pre-border-color:            #ccc;
@@ -645,6 +679,7 @@
 @abbr-border-color:           @gray-light;
 @headings-small-color:        @gray-light;
 @blockquote-small-color:      @gray-light;
+@blockquote-font-size:        (@font-size-base * 1.25);
 @blockquote-border-color:     @gray-lighter;
 @page-header-border-color:    @gray-lighter;
 
@@ -747,3 +782,7 @@
 // Plus
 @plus-offset-x: -81px;
 @plus-offset-y: -184px;
+
+@dl-horizontal-offset:        @component-offset-horizontal;
+// Point at which .dl-horizontal becomes horizontal
+@dl-horizontal-breakpoint:    @grid-float-breakpoint;

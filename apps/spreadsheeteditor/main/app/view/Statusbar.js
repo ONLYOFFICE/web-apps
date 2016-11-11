@@ -244,7 +244,17 @@ define([
                 });
 
                 var menuHiddenItems = new Common.UI.Menu({
+                    maxHeight: 260,
                     menuAlign: 'tl-tr'
+                }).on('render:after', function(mnu) {
+                    this.scroller = new Common.UI.Scroller({
+                        el: $(this.el).find('.dropdown-menu '),
+                        useKeyboard: this.enableKeyEvents && !this.handleSelect,
+                        minScrollbarLength  : 40,
+                        alwaysVisibleY: true
+                    });
+                }).on('show:after', function () {
+                    this.scroller.update({alwaysVisibleY: true});
                 });
                 menuHiddenItems.on('item:click', function(obj,item,e) {
                     me.fireEvent('show:hidden', [me, item.value]);
@@ -300,7 +310,7 @@ define([
                         });
                     });
 
-                this.tabbar.$el.append('<div class="menu-backdrop" data-toggle="dropdown" style="width:0; height:0;"/>');
+                this.tabbar.$el.append('<div class="menu-backdrop dropdown-toggle" data-toggle="dropdown" style="width:0; height:0;"/>');
                 this.tabMenu.render(this.tabbar.$el);
                 this.tabMenu.on('show:after', _.bind(this.onTabMenuAfterShow, this));
                 this.tabMenu.on('hide:after', _.bind(this.onTabMenuAfterHide, this));
@@ -445,6 +455,7 @@ define([
                     usertip.setContent();
                 }
                 (length > 1) ? this.panelUsersBlock.attr('data-toggle', 'dropdown') : this.panelUsersBlock.removeAttr('data-toggle');
+                this.panelUsersBlock.toggleClass('dropdown-toggle', length > 1);
                 (length > 1) ? this.panelUsersBlock.off('click') : this.panelUsersBlock.on('click', _.bind(this.onUsersClick, this));
             },
 
@@ -500,7 +511,8 @@ define([
 
             onTabMenu: function (o, index, tab) {
                 if (this.mode.isEdit && !this.isEditFormula && (this.rangeSelectionMode !== Asc.c_oAscSelectionDialogType.Chart) &&
-                                                               (this.rangeSelectionMode !== Asc.c_oAscSelectionDialogType.FormatTable)) {
+                                                               (this.rangeSelectionMode !== Asc.c_oAscSelectionDialogType.FormatTable) &&
+                    !this.mode.isDisconnected ) {
                     if (tab && tab.sheetindex >= 0) {
                         var rect = tab.$el.get(0).getBoundingClientRect(),
                             childPos = tab.$el.offset(),

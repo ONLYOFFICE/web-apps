@@ -127,7 +127,7 @@ define([
         setApi: function(api) {
             this.api = api;
             this.api.asc_registerCallback('asc_onRenameCellTextEnd',    _.bind(this.onRenameText, this));
-            this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onApiServerDisconnect, this));
+            this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onApiServerDisconnect, this, true));
             Common.NotificationCenter.on('api:disconnect',              _.bind(this.onApiServerDisconnect, this));
             /** coauthoring begin **/
             if (this.mode.canCoAuthoring) {
@@ -509,7 +509,7 @@ define([
             }
         },
 
-        onApiServerDisconnect: function() {
+        onApiServerDisconnect: function(disableDownload) {
             this.mode.isEdit = false;
             this.leftMenu.close();
 
@@ -519,7 +519,7 @@ define([
             /** coauthoring end **/
             this.leftMenu.btnPlugins.setDisabled(true);
 
-            this.leftMenu.getMenu('file').setMode({isDisconnected: true});
+            this.leftMenu.getMenu('file').setMode({isDisconnected: true, disableDownload: !!disableDownload});
             if ( this.dlgSearch ) {
                 this.leftMenu.btnSearch.toggle(false, true);
                 this.dlgSearch['hide']();

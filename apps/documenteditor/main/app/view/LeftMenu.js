@@ -309,7 +309,7 @@ define([
 
         showMenu: function(menu, opts) {
             var re = /^(\w+):?(\w*)$/.exec(menu);
-            if (re[1] == 'file') {
+            if (re[1] == 'file' && this.btnFile.isVisible() ) {
                 if (!this.btnFile.pressed) {
                     this.btnFile.toggle(true);
 //                    this.onBtnMenuClick(this.btnFile);

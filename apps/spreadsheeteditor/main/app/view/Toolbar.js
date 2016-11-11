@@ -75,7 +75,8 @@ define([
         ruleFilter:     'rule-filter',
         ruleDelFilter:  'rule-clear-filter',
         menuFileOpen:   'menu-file-open',
-        cantPrint:      'cant-print'
+        cantPrint:      'cant-print',
+        multiselect:    'is-multiselect'
     };
 
     SSE.Views.Toolbar =  Backbone.View.extend(_.extend({
@@ -495,7 +496,7 @@ define([
                 id          : 'id-toolbar-btn-inserthyperlink',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-inserthyperlink',
-                lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selImage, _set.selShape, _set.lostConnect, _set.coAuth]
+                lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selImage, _set.selShape, _set.multiselect, _set.lostConnect, _set.coAuth]
             });
 
             me.btnInsertChart = new Common.UI.Button({
@@ -547,6 +548,15 @@ define([
                 })
             });
 
+            this.btnInsertEquation = new Common.UI.Button({
+                id          : 'id-toolbar-btn-insertequation',
+                cls         : 'btn-toolbar',
+                iconCls     : 'btn-insertequation',
+                split       : true,
+                lock        : [_set.editCell, _set.selChartText, _set.selImage, _set.lostConnect, _set.coAuth],
+                menu        : new Common.UI.Menu({cls: 'menu-shapes'})
+            });
+
             me.btnSortDown = new Common.UI.Button({
                 id          : 'id-toolbar-btn-sort-down',
                 cls         : 'btn-toolbar',
@@ -587,7 +597,7 @@ define([
                 id          : 'id-toolbar-btn-ttempl',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-ttempl',
-                lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter],
+                lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.multiselect],
                 menu        : new Common.UI.Menu({
                     items: [
                         { template: _.template('<div id="id-toolbar-menu-table-templates" style="width: 288px; height: 300px; margin: 0px 4px;"></div>') }
@@ -598,7 +608,7 @@ define([
             me.listStyles = new Common.UI.ComboDataView({
                 cls             : 'combo-styles',
                 enableKeyEvents : true,
-                itemWidth       : 104,
+                itemWidth       : 112,
                 itemHeight      : 38,
                 hint            : this.tipCellStyle,
                 menuMaxHeight   : 226,
@@ -1058,7 +1068,7 @@ define([
                 me.btnItalic, me.btnUnderline, me.btnTextColor, me.btnHorizontalAlign, me.btnAlignLeft,
                 me.btnAlignCenter,me.btnAlignRight,me.btnAlignJust, me.btnVerticalAlign, me.btnAlignTop,
                 me.btnAlignMiddle, me.btnAlignBottom, me.btnWrap, me.btnTextOrient, me.btnBackColor,
-                me.btnMerge, me.btnInsertFormula, me.btnNamedRange, me.btnIncDecimal, me.btnInsertShape,
+                me.btnMerge, me.btnInsertFormula, me.btnNamedRange, me.btnIncDecimal, me.btnInsertShape, me.btnInsertEquation,
                 me.btnInsertText, me.btnSortUp, me.btnSortDown, me.btnSetAutofilter, me.btnClearAutofilter, me.btnTableTemplate,
                 me.btnPercentStyle, me.btnCurrencyStyle, me.btnDecDecimal, me.btnAddCell, me.btnDeleteCell,
                 me.btnNumberFormat, me.btnBorders, me.btnInsertImage, me.btnInsertHyperlink,
@@ -1075,7 +1085,7 @@ define([
 
             var _temp_array = [me.cmbFontName, me.cmbFontSize, me.btnAlignLeft,me.btnAlignCenter,me.btnAlignRight,me.btnAlignJust,me.btnAlignTop,
                                 me.btnAlignMiddle, me.btnAlignBottom, me.btnHorizontalAlign, me.btnVerticalAlign,
-                                me.btnInsertImage, me.btnInsertText, me.btnInsertShape, me.btnIncFontSize, me.btnDecFontSize,
+                                me.btnInsertImage, me.btnInsertText, me.btnInsertShape, me.btnInsertEquation, me.btnIncFontSize, me.btnDecFontSize,
                                 me.btnBold, me.btnItalic, me.btnUnderline, me.btnTextColor, me.btnBackColor,
                                 me.btnInsertHyperlink, me.btnBorders, me.btnTextOrient, me.btnPercentStyle, me.btnCurrencyStyle, me.btnColorSchemas,
                                 me.btnSettings, me.btnInsertFormula, me.btnNamedRange, me.btnDecDecimal, me.btnIncDecimal, me.btnNumberFormat, me.btnWrap,
@@ -1204,6 +1214,7 @@ define([
             replacePlacholder('#id-toolbar-' + mode + '-placeholder-btn-inserthyperlink',this.btnInsertHyperlink);
             replacePlacholder('#id-toolbar-' + mode + '-placeholder-btn-insertshape',    this.btnInsertShape);
             replacePlacholder('#id-toolbar-' + mode + '-placeholder-btn-text',           this.btnInsertText);
+            replacePlacholder('#id-toolbar-' + mode + '-placeholder-btn-insertequation',  this.btnInsertEquation);
             replacePlacholder('#id-toolbar-' + mode + '-placeholder-btn-sortdesc',       this.btnSortDown);
             replacePlacholder('#id-toolbar-' + mode + '-placeholder-btn-sortasc',        this.btnSortUp);
             replacePlacholder('#id-toolbar-' + mode + '-placeholder-btn-setfilter',      this.btnSetAutofilter);
@@ -1268,6 +1279,7 @@ define([
             this.btnInsertText.updateHint(this.tipInsertText);
             this.btnInsertHyperlink.updateHint(this.tipInsertHyperlink + Common.Utils.String.platformKey('Ctrl+K'));
             this.btnInsertShape.updateHint(this.tipInsertShape);
+            this.btnInsertEquation.updateHint(this.tipInsertEquation);
             this.btnSortDown.updateHint(this.txtSortAZ);
             this.btnSortUp.updateHint(this.txtSortZA);
             this.btnSetAutofilter.updateHint(this.txtFilter + ' (Ctrl+Shift+L)');
@@ -1363,7 +1375,7 @@ define([
                 this.mnuitemHideFormulaBar.setChecked(!!options.formula);
                 this.mnuitemHideHeadings.setChecked(!!options.headings);
 
-                if (this.mode.isDesktopApp)
+                if (this.mode.isDesktopApp || this.mode.canBrandingExt && this.mode.customization && this.mode.customization.header===false)
                     this.mnuitemHideTitleBar.hide();
             }
             
@@ -1684,6 +1696,7 @@ define([
                 this.lockToolbar( SSE.enumLock.lostConnect, true );
                 this.lockToolbar( SSE.enumLock.lostConnect, true,
                     {array:[this.btnEditChart,this.btnUndo,this.btnRedo,this.btnOpenDocument,this.btnNewDocument,this.btnSave]} );
+                this.lockToolbar(SSE.enumLock.cantPrint, !mode.canPrint || mode.disableDownload, {array: [this.btnPrint]});
             } else {
                 this.mode = mode;
 
@@ -1695,10 +1708,8 @@ define([
                     }
                 } 
 
-                if (mode.isDesktopApp) {
+                if (mode.isDesktopApp)
                     $('.toolbar-group-native').hide();
-                    this.mnuitemHideTitleBar && this.mnuitemHideTitleBar.hide();
-                }
 
                 this.lockToolbar(SSE.enumLock.cantPrint, !mode.canPrint, {array: [this.btnPrint]});
             }
@@ -2009,6 +2020,7 @@ define([
         txtManageRange:     'Name manager',
         txtPasteRange:      'Paste name',
         textInsText:        'Insert text box',
-        textInsTextArt:     'Insert Text Art'
+        textInsTextArt:     'Insert Text Art',
+        tipInsertEquation:  'Insert Equation'
     }, SSE.Views.Toolbar || {}));
 });

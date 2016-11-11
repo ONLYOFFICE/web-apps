@@ -60,6 +60,14 @@
             background-position: @arrow-small-offset-x - 7px @arrow-small-offset-y;
         }
     }
+
+    &:active,
+    &.active {
+        &:focus,
+        &.focus {
+            outline: none;
+        }
+    }
 }
 
 .btn-toolbar {
@@ -79,8 +87,8 @@
         display: none;
     }
 
-    &:hover,
-    .over {
+    &:hover:not(.disabled),
+    .over:not(.disabled) {
         background-color: @secondary;
     }
 
@@ -141,8 +149,8 @@
     background-color: transparent;
     font-weight: bold;
 
-    &:hover,
-    .over {
+    &:hover:not(.disabled),
+    .over:not(.disabled) {
         background-color: @secondary;
     }
 
@@ -312,13 +320,13 @@
     border: 1px solid @input-border;
     .border-radius(@border-radius-small);
 
-    &:hover,
-    .over {
+    &:hover:not(.disabled),
+    .over:not(.disabled) {
         background-color: @secondary !important;
     }
 
-    &:active,
-    &.active {
+    &:active:not(.disabled),
+    &.active:not(.disabled) {
         background-color: @primary !important;
         color: white;
     }
@@ -346,13 +354,13 @@
         margin-top: 5px;
     }
 
-    &:hover,
-    .over {
+    &:hover:not(.disabled),
+    .over:not(.disabled) {
         background-color: @secondary !important;
     }
 
-    &:active,
-    &.active {
+    &:active:not(.disabled),
+    &.active:not(.disabled) {
         background-color: @primary !important;
         color: white;
     }
@@ -379,13 +387,13 @@
         background-repeat: no-repeat;
     }
 
-    &:hover,
-    .over {
+    &:hover:not(.disabled),
+    .over:not(.disabled) {
         background-color: @secondary !important;
     }
 
-    &:active,
-    &.active {
+    &:active:not(.disabled),
+    &.active:not(.disabled) {
         background-color: @primary !important;
     }
 
