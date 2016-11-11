@@ -12,6 +12,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-imagemin');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
+    grunt.loadNpmTasks('grunt-contrib-htmlmin');
     grunt.loadNpmTasks('grunt-text-replace');
     grunt.loadNpmTasks('grunt-mocha');
 
@@ -220,7 +221,7 @@ module.exports = function(grunt) {
                     },{
                         from: /filter\:\s?alpha\(opacity\s?=\s?[0-9]{1,3}\)\;/g,
                         to: ''
-                    }]                
+                    }]
             });
 
             grunt.config('less.uriPostfix', {
@@ -247,7 +248,7 @@ module.exports = function(grunt) {
                     // return content.replace(/(\#{2}BN\#)/, "." + (process.env['BUILD_NUMBER'] || packageFile.build));
                             return "." + (process.env['BUILD_NUMBER'] || packageFile.build);
                         }
-                    }]                
+                    }]
         });
 
         grunt.task.run('replace:writeVersion');
@@ -261,7 +262,14 @@ module.exports = function(grunt) {
                 options: {
                     force: true
                 },
-                files: packageFile['mobile']['clean']
+                'deploy': packageFile['mobile']['clean']['deploy'],
+                'template-backup': packageFile['mobile']['clean']['template-backup'],
+            },
+
+            requirejs: {
+                compile: {
+                    options: packageFile['mobile']['js']['requirejs']['options']
+                }
             },
 
             uglify: {
@@ -283,14 +291,30 @@ module.exports = function(grunt) {
             cssmin: {
                 styles: {
                     files: {
-                        "<%= pkg.mobile.css.normal.dist %>" : packageFile['mobile']['css']['normal']['src'],
-                        "<%= pkg.mobile.css.retina.dist %>" : packageFile['mobile']['css']['retina']['src']
+                        "<%= pkg.mobile.css.ios.dist %>" : packageFile['mobile']['css']['ios']['src'],
+                        "<%= pkg.mobile.css.material.dist %>" : packageFile['mobile']['css']['material']['src']
                     }
                 }
             },
 
+            htmlmin: {
+                dist: {
+                    options: {
+                        removeComments: true,
+                        collapseWhitespace: true
+                    },
+                    files: packageFile['mobile']['htmlmin']['templates']
+                }
+            },
+
             copy: {
-                localization: {
+                'template-backup': {
+                    files: packageFile['mobile']['copy']['template-backup']
+                },
+                'template-restore': {
+                    files: packageFile['mobile']['copy']['template-restore']
+                },
+                'localization': {
                     files: packageFile['mobile']['copy']['localization']
                 },
                 'index-page': {
@@ -385,7 +409,7 @@ module.exports = function(grunt) {
     grunt.registerTask('deploy-requirejs',              ['requirejs-init', 'clean', 'uglify']);
 
     grunt.registerTask('deploy-app-main',               ['main-app-init', 'clean', 'less', 'replace:fixLessUrl', 'requirejs', 'concat', 'imagemin', 'copy', 'lessPostFix']);
-    grunt.registerTask('deploy-app-mobile',             ['mobile-app-init', 'clean', 'uglify', 'cssmin:styles', 'copy']);
+    grunt.registerTask('deploy-app-mobile',             ['mobile-app-init', 'clean:deploy', 'cssmin:styles', 'copy:template-backup', 'htmlmin', 'requirejs', 'copy:template-restore', 'clean:template-backup', 'copy:localization', 'copy:index-page', 'copy:images-app']);
     grunt.registerTask('deploy-app-embed',              ['embed-app-init', 'clean', 'uglify', 'less', 'replace:fixLessUrl', 'copy']);
 
 

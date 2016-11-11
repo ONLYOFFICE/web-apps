@@ -1,0 +1,366 @@
+<!-- Root view -->
+<div id="edit-image-root">
+    <div class="list-block">
+        <ul>
+            <li>
+                <a id="image-wrap" class="item-link">
+                    <div class="item-content">
+                        <div class="item-inner">
+                            <div class="item-title">Wrap</div>
+                        </div>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a id="image-replace" class="item-link">
+                    <div class="item-content">
+                        <div class="item-inner">
+                            <div class="item-title">Replace</div>
+                        </div>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a id="image-reorder" class="item-link">
+                    <div class="item-content">
+                        <div class="item-inner">
+                            <div class="item-title">Reorder</div>
+                        </div>
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="list-block">
+        <ul>
+            <li>
+                <% if (android) { %>
+                <a id="image-default" class="button button-raised button-fill" style="margin: 20px 16px;">Default Size</a>
+                <% } else { %>
+                <a id="image-default" class="item-link list-button" style="text-align: center;">Default Size</a>
+                <% } %>
+            </li>
+            <li>
+                <% if (android) { %>
+                <a id="image-default" class="button button-raised button-fill" style="margin: 20px 16px; background-color: #f44336;">Remove Image</a>
+                <% } else { %>
+                <a id="image-remove" class="item-link list-button" style="text-align: center; color: #f00">Remove Image</a>
+                <% } %>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<!-- Reorder view -->
+<div id="edit-image-reorder-view">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left sliding"><a href="#" class="back link"><i class="icon icon-back"></i><% if (!android) { %><span>Back</span><% } %></a></div>
+            <div class="center sliding">Reorder</div>
+            <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
+        </div>
+    </div>
+    <div class="page image-reorder">
+        <div class="page-content">
+            <div class="list-block">
+                <ul>
+                    <li>
+                        <a data-type="all-up" class="item-link no-indicator">
+                            <div class="item-content">
+                                <div class="item-media"><i class="icon icon-search"></i></div>
+                                <div class="item-inner">
+                                    <div class="item-title">Bring to Foreground</div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-type="all-down" class="item-link no-indicator">
+                            <div class="item-content">
+                                <div class="item-media"><i class="icon icon-search"></i></div>
+                                <div class="item-inner">
+                                    <div class="item-title">Send to Background</div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-type="move-up" class="item-link no-indicator">
+                            <div class="item-content">
+                                <div class="item-media"><i class="icon icon-search"></i></div>
+                                <div class="item-inner">
+                                    <div class="item-title">Move Forward</div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-type="move-down" class="item-link no-indicator">
+                            <div data-type="move-down" class="item-content">
+                                <div class="item-media"><i class="icon icon-search"></i></div>
+                                <div class="item-inner">
+                                    <div class="item-title">Move Backward</div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Wrap view -->
+<div id="edit-image-wrap-view">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left sliding"><a href="#" class="back link"><i class="icon icon-back"></i><% if (!android) { %><span>Back</span><% } %></a></div>
+            <div class="center sliding">Wrap</div>
+            <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
+        </div>
+    </div>
+    <div class="page image-wrap">
+        <div class="page-content">
+            <div class="list-block image-wrap-types">
+                <ul>
+                    <li>
+                        <label class="label-radio item-content">
+                            <input type="radio" name="image-wrap" value="inline">
+                            <% if (android) { %>
+                            <div class="item-media"><i class="icon icon-form-radio"></i></div>
+                            <% } else { %>
+                            <div class="item-media"><i class="icon icon-search"></i></div>
+                            <% } %>
+                            <div class="item-inner">
+                                <div class="item-title">Inline</div>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="label-radio item-content">
+                            <input type="radio" name="image-wrap" value="square">
+                            <% if (android) { %>
+                            <div class="item-media"><i class="icon icon-form-radio"></i></div>
+                            <% } else { %>
+                            <div class="item-media"><i class="icon icon-search"></i></div>
+                            <% } %>
+                            <div class="item-inner">
+                                <div class="item-title">Square</div>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="label-radio item-content">
+                            <input type="radio" name="image-wrap" value="tight">
+                            <% if (android) { %>
+                            <div class="item-media"><i class="icon icon-form-radio"></i></div>
+                            <% } else { %>
+                            <div class="item-media"><i class="icon icon-search"></i></div>
+                            <% } %>
+                            <div class="item-inner">
+                                <div class="item-title">Tight</div>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="label-radio item-content">
+                            <input type="radio" name="image-wrap" value="through">
+                            <% if (android) { %>
+                            <div class="item-media"><i class="icon icon-form-radio"></i></div>
+                            <% } else { %>
+                            <div class="item-media"><i class="icon icon-search"></i></div>
+                            <% } %>
+                            <div class="item-inner">
+                                <div class="item-title">Through</div>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="label-radio item-content">
+                            <input type="radio" name="image-wrap" value="top-bottom">
+                            <% if (android) { %>
+                            <div class="item-media"><i class="icon icon-form-radio"></i></div>
+                            <% } else { %>
+                            <div class="item-media"><i class="icon icon-search"></i></div>
+                            <% } %>
+                            <div class="item-inner">
+                                <div class="item-title">Top and Bottom</div>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="label-radio item-content">
+                            <input type="radio" name="image-wrap" value="infront">
+                            <% if (android) { %>
+                            <div class="item-media"><i class="icon icon-form-radio"></i></div>
+                            <% } else { %>
+                            <div class="item-media"><i class="icon icon-search"></i></div>
+                            <% } %>
+                            <div class="item-inner">
+                                <div class="item-title">In Front</div>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="label-radio item-content">
+                            <input type="radio" name="image-wrap" value="behind">
+                            <% if (android) { %>
+                            <div class="item-media"><i class="icon icon-form-radio"></i></div>
+                            <% } else { %>
+                            <div class="item-media"><i class="icon icon-search"></i></div>
+                            <% } %>
+                            <div class="item-inner">
+                                <div class="item-title">Behind</div>
+                            </div>
+                        </label>
+                    </li>
+                </ul>
+            </div>
+            <div class="content-block-title align">Align</div>
+            <div class="list-block align">
+                <ul>
+                    <li id="edit-image-align">
+                        <div class="item-content buttons">
+                            <div class="item-inner">
+                                <div class="row">
+                                    <a data-type="left" class="button no-ripple"><i class="icon icon-text-align-left"></i></a>
+                                    <a data-type="center" class="button no-ripple"><i class="icon icon-text-align-center"></i></a>
+                                    <a data-type="right" class="button no-ripple"><i class="icon icon-text-align-right"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="list-block inline">
+                <ul>
+                    <li id="edit-image-movetext">
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title">Move with Text</div>
+                                <div class="item-after">
+                                    <label class="label-switch">
+                                        <input type="checkbox">
+                                        <div class="checkbox"></div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li id="edit-image-overlap">
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title">Allow Overlap</div>
+                                <div class="item-after">
+                                    <label class="label-switch">
+                                        <input type="checkbox">
+                                        <div class="checkbox"></div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="content-block-title distance">Distance from text</div>
+            <div class="list-block distance" style="margin-bottom: 40px;">
+                <ul>
+                    <li id="table-distance">
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <div class="item-input">
+                                    <div class="range-slider">
+                                        <input type="range" min="0" max="200" value="0" step="1">
+                                    </div>
+                                </div>
+                                <div class="item-after value">0 pt</div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Replace view -->
+<div id="edit-image-replace-view">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left sliding"><a href="#" class="back link"><i class="icon icon-back"></i><% if (!android) { %><span>Back</span><% } %></a></div>
+            <div class="center sliding">Replace</div>
+            <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
+        </div>
+    </div>
+    <div class="page">
+        <div class="page-content">
+            <div class="list-block">
+                <ul>
+                    <li>
+                        <a id="edit-image-file" class="item-link no-indicator">
+                            <div class="item-content">
+                                <div class="item-media">
+                                    <i class="icon icon-search"></i>
+                                </div>
+                                <div class="item-inner">
+                                    <div class="item-title">Picture from Library</div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a id="edit-image-url" class="item-link">
+                            <div class="item-content">
+                                <div class="item-media">
+                                    <i class="icon icon-search"></i>
+                                </div>
+                                <div class="item-inner">
+                                    <div class="item-title">Picture from URL</div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Url view -->
+<div id="edit-image-url-view">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left sliding"><a href="#" class="back link"><i class="icon icon-back"></i><% if (!android) { %><span>Back</span><% } %></a></div>
+            <div class="center sliding">Link Settings</div>
+        </div>
+    </div>
+    <div class="page edit-image-url-link">
+        <div class="page-content">
+            <div class="content-block-title">Address</div>
+            <div class="list-block">
+                <ul>
+                    <li>
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <div class="item-input">
+                                    <input type="url" placeholder="Image URL">
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="list-block disabled buttons">
+                <% if (android) { %>
+                <a href="#" class="button button-fill button-raised" style="margin: 20px 16px;">Replace Image</a>
+                <% } else { %>
+                <ul>
+                    <li>
+                        <a href="#" class="list-button item-link">Replace Image</a>
+                    </li>
+                </ul>
+                <% } %>
+            </div>
+        </div>
+    </div>
+</div>
