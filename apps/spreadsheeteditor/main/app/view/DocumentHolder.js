@@ -470,19 +470,19 @@ define([
                             caption     : me.topCellText,
                             checkable   : true,
                             toggleGroup : 'popupparagraphvalign',
-                            value       : Asc.c_oAscVerticalTextAlign.TEXT_ALIGN_TOP
+                            value       : Asc.c_oAscVAlign.Top
                         }),
                         me.menuParagraphCenter = new Common.UI.MenuItem({
                             caption     : me.centerCellText,
                             checkable   : true,
                             toggleGroup : 'popupparagraphvalign',
-                            value       : Asc.c_oAscVerticalTextAlign.TEXT_ALIGN_CTR
+                            value       : Asc.c_oAscVAlign.Center
                         }),
                         this.menuParagraphBottom = new Common.UI.MenuItem({
                             caption     : me.bottomCellText,
                             checkable   : true,
                             toggleGroup : 'popupparagraphvalign',
-                            value       : Asc.c_oAscVerticalTextAlign.TEXT_ALIGN_BOTTOM
+                            value       : Asc.c_oAscVAlign.Bottom
                         })
                     ]
                 })

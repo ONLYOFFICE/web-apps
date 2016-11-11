@@ -453,7 +453,7 @@ define([
                             icls        : 'btn-align-top',
                             checkable   : true,
                             toggleGroup : 'valignGroup',
-                            value       : Asc.c_oAscVerticalTextAlign.TEXT_ALIGN_TOP
+                            value       : Asc.c_oAscVAlign.Top
                         },
                         {
                             caption     : me.textAlignMiddle,
@@ -461,7 +461,7 @@ define([
                             icls        : 'btn-align-middle',
                             checkable   : true,
                             toggleGroup : 'valignGroup',
-                            value       : Asc.c_oAscVerticalTextAlign.TEXT_ALIGN_CTR,
+                            value       : Asc.c_oAscVAlign.Center,
                             checked     : true
                         },
                         {
@@ -470,7 +470,7 @@ define([
                             icls        : 'btn-align-bottom',
                             checkable   : true,
                             toggleGroup : 'valignGroup',
-                            value       : Asc.c_oAscVerticalTextAlign.TEXT_ALIGN_BOTTOM
+                            value       : Asc.c_oAscVAlign.Bottom
                         }
                     ]
                 })
@@ -1157,7 +1157,7 @@ define([
                     ]
                 })
             );
-            if (this.mode.isDesktopApp)
+            if (this.mode.isDesktopApp || this.mode.canBrandingExt && this.mode.customization && this.mode.customization.header===false)
                 this.mnuitemHideTitleBar.hide();
 
             this.mnuZoomOut = new Common.UI.Button({

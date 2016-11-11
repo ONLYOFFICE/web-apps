@@ -244,7 +244,17 @@ define([
                 });
 
                 var menuHiddenItems = new Common.UI.Menu({
+                    maxHeight: 260,
                     menuAlign: 'tl-tr'
+                }).on('render:after', function(mnu) {
+                    this.scroller = new Common.UI.Scroller({
+                        el: $(this.el).find('.dropdown-menu '),
+                        useKeyboard: this.enableKeyEvents && !this.handleSelect,
+                        minScrollbarLength  : 40,
+                        alwaysVisibleY: true
+                    });
+                }).on('show:after', function () {
+                    this.scroller.update({alwaysVisibleY: true});
                 });
                 menuHiddenItems.on('item:click', function(obj,item,e) {
                     me.fireEvent('show:hidden', [me, item.value]);
@@ -501,7 +511,8 @@ define([
 
             onTabMenu: function (o, index, tab) {
                 if (this.mode.isEdit && !this.isEditFormula && (this.rangeSelectionMode !== Asc.c_oAscSelectionDialogType.Chart) &&
-                                                               (this.rangeSelectionMode !== Asc.c_oAscSelectionDialogType.FormatTable)) {
+                                                               (this.rangeSelectionMode !== Asc.c_oAscSelectionDialogType.FormatTable) &&
+                    !this.mode.isDisconnected ) {
                     if (tab && tab.sheetindex >= 0) {
                         var rect = tab.$el.get(0).getBoundingClientRect(),
                             childPos = tab.$el.offset(),

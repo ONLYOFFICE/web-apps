@@ -447,7 +447,7 @@ define([
 
             this.btnPrev = new Common.UI.Button({
                 cls: 'btn-toolbar',
-                iconCls: 'review-prev',
+                iconCls: 'img-commonctrl review-prev',
                 value: 1,
                 hint: this.txtPrev,
                 hintAnchor: 'top'
@@ -456,7 +456,7 @@ define([
 
             this.btnNext = new Common.UI.Button({
                 cls: 'btn-toolbar',
-                iconCls: 'review-next',
+                iconCls: 'img-commonctrl review-next',
                 value: 2,
                 hint: this.txtNext,
                 hintAnchor: 'top'
@@ -507,7 +507,7 @@ define([
 
             this.btnClose = new Common.UI.Button({
                 cls: 'btn-toolbar',
-                iconCls: 'review-close',
+                iconCls: 'img-commonctrl review-close',
                 hint: this.txtClose,
                 hintAnchor: 'top'
             });

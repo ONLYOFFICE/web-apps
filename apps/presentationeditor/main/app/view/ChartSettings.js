@@ -43,7 +43,8 @@ define([
     'jquery',
     'underscore',
     'backbone',
-    'common/main/lib/component/Button'
+    'common/main/lib/component/Button',
+    'common/main/lib/component/ComboDataView'
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
 
@@ -134,22 +135,27 @@ define([
 
                 value = props.get_SeveralChartStyles();
                 if (this._state.SeveralCharts && value) {
-                    var btnIconEl = this.btnChartStyle.cmpEl.find('span.btn-icon');
-                    btnIconEl.css('background-image', 'none');
-                    this.mnuChartStylePicker.selectRecord(null, true);
+                    this.cmbChartStyle.fieldPicker.deselectAll();
+                    this.cmbChartStyle.menuPicker.deselectAll();
                     this._state.ChartStyle = null;
                 } else {
                     value = props.getStyle();
-                    if (this._state.ChartStyle!==value) {
-                        var record = this.mnuChartStylePicker.store.findWhere({data: value});
-                        this.mnuChartStylePicker.selectRecord(record, true);
-                        if (record) {
-                            var btnIconEl = this.btnChartStyle.cmpEl.find('span.btn-icon');
-                            btnIconEl.css('background-image', 'url(' + record.get('imageUrl') + ')');
+                    if (this._state.ChartStyle!==value || this._isChartStylesChanged) {
+                        this.cmbChartStyle.suspendEvents();
+                        var rec = this.cmbChartStyle.menuPicker.store.findWhere({data: value});
+                        this.cmbChartStyle.menuPicker.selectRecord(rec);
+                        this.cmbChartStyle.resumeEvents();
+
+                        if (this._isChartStylesChanged) {
+                            if (rec)
+                                this.cmbChartStyle.fillComboView(this.cmbChartStyle.menuPicker.getSelectedRec(),true);
+                            else
+                                this.cmbChartStyle.fillComboView(this.cmbChartStyle.menuPicker.store.at(0), true);
                         }
                         this._state.ChartStyle=value;
                     }
                 }
+                this._isChartStylesChanged = false;
 
                 this._noApply = false;
 
@@ -352,33 +358,14 @@ define([
             this.fireEvent('editcomplete', this);
         },
 
-        onSelectStyle: function(btn, picker, itemView, record) {
+        onSelectStyle: function(combo, record) {
             if (this._noApply) return;
-
-            var rawData = {},
-                isPickerSelect = _.isFunction(record.toJSON);
-
-            if (isPickerSelect){
-                if (record.get('selected')) {
-                    rawData = record.toJSON();
-                } else {
-                    // record deselected
-                    return;
-                }
-            } else {
-                rawData = record;
-            }
-
-            var style = 'url(' + rawData.imageUrl + ')';
-            var btnIconEl = this.btnChartStyle.cmpEl.find('span.btn-icon');
-            btnIconEl.css('background-image', style);
 
             if (this.api && !this._noApply) {
                 var props = new Asc.CAscChartProp();
-                props.putStyle(rawData.data);
+                props.putStyle(record.get('data'));
                 this.api.ChartApply(props);
             }
-
             this.fireEvent('editcomplete', this);
         },
 
@@ -389,63 +376,50 @@ define([
 
         updateChartStyles: function(styles) {
             var me = this;
+            this._isChartStylesChanged = true;
 
-            if (!this.btnChartStyle) {
-                this.btnChartStyle = new Common.UI.Button({
-                    cls         : 'btn-large-dataview',
-                    iconCls     : 'item-wrap',
-                    menu        : new Common.UI.Menu({
-                        menuAlign: 'tr-br',
-                        items: [
-                            { template: _.template('<div id="id-chart-menu-style" style="width: 245px; margin: 0 5px;"></div>') }
-                        ]
-                    })
+            if (!this.cmbChartStyle) {
+                this.cmbChartStyle = new Common.UI.ComboDataView({
+                    itemWidth: 50,
+                    itemHeight: 50,
+                    menuMaxHeight: 270,
+                    enableKeyEvents: true,
+                    cls: 'combo-chart-style'
                 });
-                this.btnChartStyle.render($('#chart-button-style'));
-                this.lockedControls.push(this.btnChartStyle);
-                this.mnuChartStylePicker = new Common.UI.DataView({
-                    el: $('#id-chart-menu-style'),
-                    style: 'max-height: 411px;',
-                    parentMenu: this.btnChartStyle.menu,
-                    store: new Common.UI.DataViewStore(),
-                    itemTemplate: _.template('<div id="<%= id %>" class="item-wrap" style="background-image: url(<%= imageUrl %>); background-position: 0 0;"></div>')
+                this.cmbChartStyle.render($('#chart-combo-style'));
+                this.cmbChartStyle.openButton.menu.cmpEl.css({
+                    'min-width': 178,
+                    'max-width': 178
                 });
-
-                if (this.btnChartStyle.menu) {
-                    this.btnChartStyle.menu.on('show:after', function () {
-                        me.mnuChartStylePicker.scroller.update({alwaysVisibleY: true});
-                    });
-                }
-                this.mnuChartStylePicker.on('item:click', _.bind(this.onSelectStyle, this, this.btnChartStyle));
+                this.cmbChartStyle.on('click', _.bind(this.onSelectStyle, this));
+                this.cmbChartStyle.openButton.menu.on('show:after', function () {
+                    me.cmbChartStyle.menuPicker.scroller.update({alwaysVisibleY: true});
+                });
+                this.lockedControls.push(this.cmbChartStyle);
             }
             
             if (styles && styles.length>0){
-                var stylesStore = this.mnuChartStylePicker.store;
+                var stylesStore = this.cmbChartStyle.menuPicker.store;
                 if (stylesStore) {
-                    var stylearray = [],
-                        selectedIdx = -1,
-                        selectedUrl;
-                    _.each(styles, function(item, index){
-                        stylearray.push({
-                            imageUrl: item.asc_getImageUrl(),
-                            data    : item.asc_getStyle(),
-                            tip     : me.textStyle + ' ' + item.asc_getStyle()
+                    var count = stylesStore.length;
+                    if (count>0 && count==styles.length) {
+                        var data = stylesStore.models;
+                        _.each(styles, function(style, index){
+                            data[index].set('imageUrl', style.asc_getImageUrl());
                         });
-                        if (me._state.ChartStyle == item.asc_getStyle()) {
-                            selectedIdx = index;
-                            selectedUrl = item.asc_getImageUrl();
-                        }
-
-                    });
-
-                    stylesStore.reset(stylearray, {silent: false});
+                    } else {
+                        var stylearray = [],
+                            selectedIdx = -1;
+                        _.each(styles, function(item, index){
+                            stylearray.push({
+                                imageUrl: item.asc_getImageUrl(),
+                                data    : item.asc_getStyle(),
+                                tip     : me.textStyle + ' ' + item.asc_getStyle()
+                            });
+                        });
+                        stylesStore.reset(stylearray, {silent: false});
+                    }
                 }
-            }
-            this.mnuChartStylePicker.selectByIndex(selectedIdx, true);
-            if (selectedIdx>=0 && this.btnChartStyle.cmpEl) {
-                var style = 'url(' + selectedUrl + ')';
-                var btnIconEl = this.btnChartStyle.cmpEl.find('span.btn-icon');
-                btnIconEl.css('background-image', style);
             }
         },
 

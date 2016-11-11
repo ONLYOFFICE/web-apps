@@ -18,14 +18,14 @@
         </td>
     </tr>
 </table>
-<table cols="2">
+<table cols="1">
     <tr>
-        <td class="padding-small" colspan=2>
+        <td class="padding-small">
             <div class="separator horizontal"></div>
         </td>
     </tr>
     <tr>
-        <td colspan=2>
+        <td>
             <label class="header"><%= scope.textChartType %></label>
         </td>
     </tr>
@@ -33,17 +33,19 @@
         <td class="padding-small">
             <div id="chart-button-type" style=""></div>
         </td>
+    </tr>
+    <tr>
         <td class="padding-small">
-            <div id="chart-button-style" style=""></div>
+            <div id="chart-combo-style" style=""></div>
         </td>
     </tr>
     <tr>
-        <td class="padding-small" colspan=2>
+        <td class="padding-small">
             <div class="separator horizontal"></div>
         </td>
     </tr>
     <tr>
-        <td colspan=2>
+        <td>
             <button type="button" class="btn btn-text-default" id="chart-button-edit-data" style="width:115px;"><%= scope.textEditData %></button>
         </td>
     </tr>

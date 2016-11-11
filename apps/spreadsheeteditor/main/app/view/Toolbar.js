@@ -1375,7 +1375,7 @@ define([
                 this.mnuitemHideFormulaBar.setChecked(!!options.formula);
                 this.mnuitemHideHeadings.setChecked(!!options.headings);
 
-                if (this.mode.isDesktopApp)
+                if (this.mode.isDesktopApp || this.mode.canBrandingExt && this.mode.customization && this.mode.customization.header===false)
                     this.mnuitemHideTitleBar.hide();
             }
             
@@ -1708,10 +1708,8 @@ define([
                     }
                 } 
 
-                if (mode.isDesktopApp) {
+                if (mode.isDesktopApp)
                     $('.toolbar-group-native').hide();
-                    this.mnuitemHideTitleBar && this.mnuitemHideTitleBar.hide();
-                }
 
                 this.lockToolbar(SSE.enumLock.cantPrint, !mode.canPrint, {array: [this.btnPrint]});
             }
