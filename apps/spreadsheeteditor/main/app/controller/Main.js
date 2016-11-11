@@ -1419,7 +1419,6 @@ define([
                 var me = this;
                 if (id == Asc.c_oAscConfirm.ConfirmReplaceRange) {
                     Common.UI.warning({
-                        closable: false,
                         title: this.notcriticalErrorTitle,
                         msg: this.confirmMoveCellRange,
                         buttons: ['yes', 'no'],
