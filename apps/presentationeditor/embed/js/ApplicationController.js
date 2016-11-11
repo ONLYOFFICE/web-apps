@@ -212,6 +212,7 @@ var ApplicationController = new(function(){
         api.ShowThumbnails(false);
         api.asc_DeleteVerticalScroll();
 
+        if (!embedConfig.autostart || embedConfig.autostart == 'player') onPlayStart();
         hidePreloader();
 
         if ( !embedConfig.shareUrl )
