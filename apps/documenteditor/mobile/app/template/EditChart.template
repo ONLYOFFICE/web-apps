@@ -307,13 +307,15 @@
         <div class="tabs-animated-wrap">
             <div class="tabs">
                 <div id="tab-chart-type" class="page-content tab active dataview chart-types">
-                    <ul>
-                        <% _.each(types, function(type) { %>
+                    <% _.each(types, function(row) { %>
+                    <ul class="row">
+                        <% _.each(row, function(type) { %>
                         <li data-type="<%= type.type %>">
                             <div class="thumb" style="background-image:url('../mobile/resources/img/charts/<%= type.thumb %>')"></div>
                         </li>
                         <% }); %>
                     </ul>
+                    <% }); %>
                 </div>
                 <div id="tab-chart-style" class="page-content tab">
                     <div class="list-block">

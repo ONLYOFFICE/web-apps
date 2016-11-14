@@ -80,6 +80,7 @@ define([
             { type: Asc.c_oAscChartTypeSettings.hBarStackedPer3d,        thumb: 'chart-23.png'},
             { type: Asc.c_oAscChartTypeSettings.barNormal3dPerspective,  thumb: 'chart-20.png'}
         ];
+
         return {
             // el: '.view-main',
 
@@ -119,10 +120,15 @@ define([
 
             // Render layout
             render: function () {
+                var elementsInRow = 3;
+                var groupsOfTypes = _.chain(_types).groupBy(function(element, index){
+                    return Math.floor(index/elementsInRow);
+                }).toArray().value();
+
                 this.layout = $('<div/>').append(this.template({
                     android : Common.SharedSettings.get('android'),
                     phone   : Common.SharedSettings.get('phone'),
-                    types   : _types
+                    types   : groupsOfTypes
                 }));
 
                 return this;

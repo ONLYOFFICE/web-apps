@@ -235,17 +235,17 @@ define([
                             event: 'addlink'
                         });
                     }
-
-                    if (isLink) {
-                        menuItems.push({
-                            caption: 'Open Link',
-                            event: 'openlink'
-                        });
-                    }
                 }
 
                 if (Common.SharedSettings.get('phone') && menuItems.length > 3) {
                     menuItems = menuItems.slice(0, 3);
+                }
+
+                if (isLink) {
+                    menuItems.push({
+                        caption: 'Open Link',
+                        event: 'openlink'
+                    });
                 }
 
                 return menuItems;

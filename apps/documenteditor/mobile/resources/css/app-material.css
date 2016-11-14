@@ -5631,6 +5631,14 @@ a.item-link,
 .phone.android .container-edit .page-content .list-block:first-child {
   margin-top: -1px;
 }
+.container-edit.popup,
+.container-add.popup,
+.container-settings.popup,
+.container-edit.popover,
+.container-add.popover,
+.container-settings.popover {
+  width: 360px;
+}
 .container-edit.popup .list-block ul,
 .container-add.popup .list-block ul,
 .container-settings.popup .list-block ul,
@@ -5789,9 +5797,13 @@ a.item-link,
 #add-shape .page {
   background-color: #fff;
 }
+.dataview .row {
+  justify-content: space-around;
+}
 .dataview ul {
   padding: 0 10px;
   list-style: none;
+  justify-content: space-around;
 }
 .dataview ul li {
   display: inline-block;
@@ -5807,6 +5819,10 @@ a.item-link,
   position: absolute;
   right: 0;
   bottom: 0;
+}
+.table-styles .row,
+.table-styles .row li {
+  margin-bottom: 12px;
 }
 .table-styles li {
   margin: 0;
@@ -5854,15 +5870,6 @@ html.pixel-ratio-2 .numbers li {
 html.pixel-ratio-3 .bullets li,
 html.pixel-ratio-3 .numbers li {
   border: 0.33px solid #c4c4c4;
-}
-.bullets li.active,
-.numbers li.active {
-  border: none;
-  filter: invert();
-}
-.bullets li.active .thumb,
-.numbers li.active .thumb {
-  background-color: #c9a65a;
 }
 .bullets li .thumb,
 .numbers li .thumb {

@@ -188,8 +188,13 @@ define([
                     }
                 ];
 
-                Common.SharedSettings.set('shapes', _styles);
-                Common.NotificationCenter.trigger('shapes:load', _styles);
+                var elementsInRow = 4;
+                var groups = _.chain(_styles).groupBy(function(element, index){
+                    return Math.floor(index/elementsInRow);
+                }).toArray().value();
+
+                Common.SharedSettings.set('shapes', groups);
+                Common.NotificationCenter.trigger('shapes:load', groups);
             },
 
             setApi: function (api) {

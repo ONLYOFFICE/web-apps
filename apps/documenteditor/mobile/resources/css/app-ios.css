@@ -5867,6 +5867,14 @@ html.pixel-ratio-3 .phone.ios .container-edit .navbar:before {
 .phone.ios .container-edit .page-content .list-block:first-child {
   margin-top: -1px;
 }
+.container-edit.popup,
+.container-add.popup,
+.container-settings.popup,
+.container-edit.popover,
+.container-add.popover,
+.container-settings.popover {
+  width: 360px;
+}
 .container-edit.popup .list-block ul,
 .container-add.popup .list-block ul,
 .container-settings.popup .list-block ul,
@@ -5941,6 +5949,11 @@ html.pixel-ratio-3 .phone.ios .container-edit .navbar:before {
 .container-add .categories > .buttons-row,
 .container-settings .categories > .buttons-row {
   width: 100%;
+}
+.container-edit .categories > .buttons-row .button,
+.container-add .categories > .buttons-row .button,
+.container-settings .categories > .buttons-row .button {
+  padding: 0 1px;
 }
 .container-edit .popover-inner,
 .container-add .popover-inner,
@@ -6052,6 +6065,9 @@ html.pixel-ratio-3 .item-content i .color-preview {
 .dataview.page-content {
   background: #ffffff;
 }
+.dataview .row {
+  justify-content: space-around;
+}
 .dataview ul {
   padding: 0 10px;
   list-style: none;
@@ -6070,6 +6086,10 @@ html.pixel-ratio-3 .item-content i .color-preview {
   position: absolute;
   right: 0;
   bottom: 0;
+}
+.table-styles .row,
+.table-styles .row li {
+  margin-bottom: 12px;
 }
 .table-styles li {
   margin: 0;
@@ -6117,15 +6137,6 @@ html.pixel-ratio-2 .numbers li {
 html.pixel-ratio-3 .bullets li,
 html.pixel-ratio-3 .numbers li {
   border: 0.33px solid #c4c4c4;
-}
-.bullets li.active,
-.numbers li.active {
-  border: none;
-  filter: invert();
-}
-.bullets li.active .thumb,
-.numbers li.active .thumb {
-  background-color: #d7b140;
 }
 .bullets li .thumb,
 .numbers li .thumb {

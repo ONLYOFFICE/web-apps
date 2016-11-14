@@ -55,25 +55,33 @@ define([
             _editTextController;
 
         var _bullets = [
-            {type: -1, thumb: ''},
-            {type: 1, thumb: 'bullet-01.png'},
-            {type: 2, thumb: 'bullet-02.png'},
-            {type: 3, thumb: 'bullet-03.png'},
-            {type: 4, thumb: 'bullet-04.png'},
-            {type: 5, thumb: 'bullet-05.png'},
-            {type: 6, thumb: 'bullet-06.png'},
-            {type: 7, thumb: 'bullet-07.png'}
+            [
+                {type: -1, thumb: ''},
+                {type: 1, thumb: 'bullet-01.png'},
+                {type: 2, thumb: 'bullet-02.png'},
+                {type: 3, thumb: 'bullet-03.png'}
+            ],
+            [
+                {type: 4, thumb: 'bullet-04.png'},
+                {type: 5, thumb: 'bullet-05.png'},
+                {type: 6, thumb: 'bullet-06.png'},
+                {type: 7, thumb: 'bullet-07.png'}
+            ]
         ];
 
         var _numbers = [
-            {type: -1, thumb: ''},
-            {type: 4, thumb: 'number-01.png'},
-            {type: 5, thumb: 'number-02.png'},
-            {type: 6, thumb: 'number-03.png'},
-            {type: 1, thumb: 'number-04.png'},
-            {type: 2, thumb: 'number-05.png'},
-            {type: 3, thumb: 'number-06.png'},
-            {type: 7, thumb: 'number-07.png'}
+            [
+                {type: -1, thumb: ''},
+                {type: 4, thumb: 'number-01.png'},
+                {type: 5, thumb: 'number-02.png'},
+                {type: 6, thumb: 'number-03.png'}
+            ],
+            [
+                {type: 1, thumb: 'number-04.png'},
+                {type: 2, thumb: 'number-05.png'},
+                {type: 3, thumb: 'number-06.png'},
+                {type: 7, thumb: 'number-07.png'}
+            ]
         ];
 
         return {

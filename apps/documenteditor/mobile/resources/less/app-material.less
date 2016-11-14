@@ -62,6 +62,8 @@
 .container-settings {
   &.popup,
   &.popover {
+    width: 360px;
+
     .list-block {
 
       ul {
@@ -238,9 +240,14 @@
 // Data view
 
 .dataview {
+  .row {
+    justify-content: space-around;
+  }
+
   ul {
     padding: 0 10px;
     list-style: none;
+    justify-content: space-around;
 
     li {
       display: inline-block;
@@ -264,6 +271,12 @@
 // Table styles
 
 .table-styles {
+  .row {
+    &, li {
+      margin-bottom: 12px;
+    }
+  }
+
   li {
     margin: 0;
     padding: 1px;
@@ -328,12 +341,7 @@
     }
 
     &.active {
-      border: none;
-      filter: invert();
-
-      .thumb {
-        background-color:spin(@themeColor, 180);//lighten(@themeColor, 20%);
-      }
+      //
     }
 
     .thumb {

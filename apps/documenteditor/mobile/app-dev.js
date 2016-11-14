@@ -80,11 +80,6 @@ require.config({
             ],
             exports: 'Backbone'
         },
-        notification: {
-            deps: [
-                'backbone'
-            ]
-        },
         core: {
             deps: [
                 'backbone',
