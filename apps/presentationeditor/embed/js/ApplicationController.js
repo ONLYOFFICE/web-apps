@@ -212,7 +212,10 @@ var ApplicationController = new(function(){
         api.ShowThumbnails(false);
         api.asc_DeleteVerticalScroll();
 
-        if (!embedConfig.autostart || embedConfig.autostart == 'player') onPlayStart();
+        if (!embedConfig.autostart || embedConfig.autostart == 'player') {
+            api.SetDemonstrationModeOnly();
+            onPlayStart();
+        }
         hidePreloader();
 
         if ( !embedConfig.shareUrl )
@@ -547,7 +550,8 @@ var ApplicationController = new(function(){
         });
 
         api = new Asc.asc_docs_api({
-            'id-view'  : 'editor_sdk'
+            'id-view'  : 'editor_sdk',
+            'embedded' : true
         });
 
         if (api){
