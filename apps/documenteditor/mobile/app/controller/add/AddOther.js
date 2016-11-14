@@ -129,11 +129,10 @@ define([
 
                 url = url.replace(new RegExp("%20",'g')," ");
 
-                var props = new Asc.asc_CHyperlink();
-                // props.asc_setType(1);
-                props.asc_setHyperlinkUrl(url);
-                props.asc_setText(_.isEmpty(display) ? url : display);
-                props.asc_setTooltip(tip);
+                var props = new Asc.CHyperlinkProperty();
+                props.put_Value(url);
+                props.put_Text(_.isEmpty(display) ? url : display);
+                props.put_ToolTip(tip);
 
                 me.api.add_Hyperlink(props);
 

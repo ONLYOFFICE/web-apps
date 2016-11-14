@@ -49,7 +49,8 @@ define([
 
     DE.Controllers.DocumentHolder = Backbone.Controller.extend((function() {
         // private
-        var _isEdit = false;
+        var _stack,
+            _isEdit = false;
 
         return {
             models: [],
@@ -71,7 +72,6 @@ define([
 
                 this.api.asc_registerCallback('asc_onShowPopMenu',      _.bind(this.onApiShowPopMenu, this));
                 this.api.asc_registerCallback('asc_onHidePopMenu',      _.bind(this.onApiHidePopMenu, this));
-                this.api.asc_registerCallback('asc_onFocusObject',      _.bind(this.onApiFocusObject, this));
             },
 
             setMode: function (mode) {
@@ -109,6 +109,13 @@ define([
 
                     DE.getController('AddContainer').showModal();
                     DE.getController('AddOther').getView('AddOther').showLink();
+                } else if ('openlink' == eventName) {
+                    _.some(_stack, function (item) {
+                        if (item.get_ObjectType() == Asc.c_oAscTypeSelectElement.Hyperlink) {
+                            me._openLink(item.get_ObjectValue().get_Value());
+                            return true;
+                        }
+                    });
                 }
 
                 me.view.hideMenu();
@@ -122,7 +129,10 @@ define([
 
             onApiShowPopMenu: function(posX, posY) {
                 var me = this,
-                    items = me._initMenu(me.api.getSelectedElements());
+                    items;
+
+                _stack = me.api.getSelectedElements();
+                items = me._initMenu(_stack);
 
                 me.view.showMenu(items, posX, posY);
             },
@@ -131,11 +141,17 @@ define([
                 this.view.hideMenu();
             },
 
-            onApiFocusObject: function (objects) {
-                //
-            },
-
             // Internal
+
+            _openLink: function(url) {
+                if (this.api.asc_getUrlType(url) > 0) {
+                    var newDocumentPage = window.open(url, '_blank');
+
+                    if (newDocumentPage) {
+                        newDocumentPage.focus();
+                    }
+                }
+            },
 
             _initMenu: function (stack) {
                 var me = this,
@@ -148,6 +164,34 @@ define([
                         event: 'copy'
                     });
                 }
+
+                var isText = false,
+                    isTable = false,
+                    isImage = false,
+                    isChart = false,
+                    isShape = false,
+                    isLink = false;
+
+                _.each(stack, function (item) {
+                    var objectType = item.get_ObjectType(),
+                        objectValue = item.get_ObjectValue();
+
+                    if (objectType == Asc.c_oAscTypeSelectElement.Text) {
+                        isText = true;
+                    } else if (objectType == Asc.c_oAscTypeSelectElement.Image) {
+                        if (objectValue && objectValue.get_ChartProperties()) {
+                            isChart = true;
+                        } else if (objectType && objectValue.get_ShapeProperties()) {
+                            isShape = true;
+                        } else {
+                            isImage = true;
+                        }
+                    } else if (objectType == Asc.c_oAscTypeSelectElement.Table) {
+                        isTable = true;
+                    } else if (objectType == Asc.c_oAscTypeSelectElement.Hyperlink) {
+                        isLink = true;
+                    }
+                });
 
                 if (stack.length > 0) {
                     var topObject = stack[stack.length - 1],
@@ -187,13 +231,16 @@ define([
 
                     if (!_.isEmpty(text)) {
                         menuItems.push({
-                            caption: 'Add Hyperlink',
+                            caption: 'Add Link',
                             event: 'addlink'
                         });
                     }
 
-                    if (Asc.c_oAscTypeSelectElement.Paragraph == topObjectType) {
-                        //
+                    if (isLink) {
+                        menuItems.push({
+                            caption: 'Open Link',
+                            event: 'openlink'
+                        });
                     }
                 }
 
