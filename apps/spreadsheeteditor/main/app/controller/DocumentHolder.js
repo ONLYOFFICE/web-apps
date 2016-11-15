@@ -1454,6 +1454,14 @@ define([
                 }, 10);
             } else {
                 this.documentHolder.entriesMenu.hide();
+                Common.UI.warning({
+                    title: this.notcriticalErrorTitle,
+                    maxwidth: 600,
+                    msg  : this.txtNoChoices,
+                    callback: _.bind(function(btn){
+                        Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+                    }, this)
+                });
             }
         },
 
@@ -2282,7 +2290,8 @@ define([
         insertColumnRightText   : 'Column Right',
         deleteText              : 'Delete',
         deleteRowText           : 'Delete Row',
-        deleteColumnText        : 'Delete Column'
+        deleteColumnText        : 'Delete Column',
+        txtNoChoices: 'There are no choices for filling the cell.<br>Only text values from the column can be selected for replacement.'
 
     }, SSE.Controllers.DocumentHolder || {}));
 });

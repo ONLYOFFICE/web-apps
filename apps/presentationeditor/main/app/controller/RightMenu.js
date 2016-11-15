@@ -114,7 +114,7 @@ define([
                     this._settings[i].locked = undefined;
                 }
             }
-            this._settings[Common.Utils.documentSettingsType.Slide].hidden = 0;
+            this._settings[Common.Utils.documentSettingsType.Slide].hidden = (SelectedObjects.length>0) ? 0 : 1;
 
             for (i=0; i<SelectedObjects.length; i++)
             {
