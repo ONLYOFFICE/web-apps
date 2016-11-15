@@ -99,8 +99,8 @@
 .button-otherstates-icon(@icon-class, @icon-size) {
     button.over     > .@{icon-class} {background-position-x: -1*@icon-size; --bgX: -(1*@icon-size);}
     button.active   > .@{icon-class},
-    button:active   > .@{icon-class} {background-position-x: -2*@icon-size; --bgX: -(2*@icon-size);}
-    button.disabled > .@{icon-class} {background-position-x: -3*@icon-size; --bgX: -(3*@icon-size);}
+    button:active   > .@{icon-class} {background-position-x: -2*@icon-size !important; --bgX: -(2*@icon-size);}
+    button.disabled > .@{icon-class} {background-position-x: -3*@icon-size !important; --bgX: -(3*@icon-size);}
 }
 
 .button-otherstates-icon2(@icon-class, @icon-size) {
@@ -125,13 +125,13 @@
 /**/
 
 .background-ximage(@image, @image2x, @w: auto, @h: auto) {
-    background-image: e(%("url(%s)",@image));
+    background-image: data-uri(%("%s",@image));
 
     @media
     only screen and (-webkit-min-device-pixel-ratio: 2),
     only screen and (min-resolution: 2dppx),
     only screen and (min-resolution: 192dpi) {
-        background-image: e(%("url(%s)",@image2x));
+        background-image: data-uri(%("%s",@image2x));
         background-size: @w @h;
     }
 }
@@ -140,14 +140,14 @@
 .img-commonctrl, 
         .theme-colorpalette .color-transparent, .palette-color-ext .color-transparent, .dropdown-menu li .checked:before, .input-error:before,
         .btn-toolbar .btn-icon.img-commonctrl {
-    background-image: e(%("url(%s)",'@{common-image-path}/@{common-controls}'));
+    background-image: data-uri(%("%s",'@{common-image-path}/@{common-controls}'));
     background-repeat: no-repeat;
 
     @media
     only screen and (-webkit-min-device-pixel-ratio: 2),
     only screen and (min-resolution: 2dppx),
     only screen and (min-resolution: 192dpi) {
-        background-image: e(%("url(%s)",'@{common-image-path}/@{common-controls2x}'));
+        background-image: data-uri(%("%s",'@{common-image-path}/@{common-controls2x}'));
         background-size:  @common-controls-width auto;
     }
 }
@@ -155,13 +155,13 @@
 @img-toolbarmenu-width: 60px;
 .img-toolbarmenu
 {
-    background: e(%("url(%s)",'@{app-image-path}/toolbar-menu.png')) no-repeat;
+    background: data-uri(%("%s",'@{app-image-path}/toolbar-menu.png')) no-repeat;
 
     @media
     only screen and (-webkit-min-device-pixel-ratio: 2),
     only screen and (min-resolution: 2dppx),
     only screen and (min-resolution: 192dpi) {
-        background-image: e(%("url(%s)",'@{app-image-path}/toolbar-menu@2x.png'));
+        background-image: data-uri(%("%s",'@{app-image-path}/toolbar-menu@2x.png'));
         background-size:  @img-toolbarmenu-width auto;
     }
 }
@@ -169,13 +169,13 @@
 @img-colorpicker-width: 205px;
 .img-colorpicker,
     .color-transparent, .hsb-colorpicker .empty-color:before {
-    background: e(%("url(%s)",'@{common-image-path}/hsbcolorpicker/hsb-colorpicker.png')) no-repeat;
+    background: data-uri(%("%s",'@{common-image-path}/hsbcolorpicker/hsb-colorpicker.png')) no-repeat;
 
     @media
     only screen and (-webkit-min-device-pixel-ratio: 2),
     only screen and (min-resolution: 2dppx),
     only screen and (min-resolution: 192dpi) {
-        background-image: e(%("url(%s)",'@{common-image-path}/hsbcolorpicker/hsb-colorpicker@2x.png'));
+        background-image: data-uri(%("%s",'@{common-image-path}/hsbcolorpicker/hsb-colorpicker@2x.png'));
         background-size:  @img-colorpicker-width auto;
     }
 }

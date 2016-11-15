@@ -32,9 +32,7 @@
 */
 (function ($) {
 
-    $(function(){
-        ApplicationView.create();
-        ApplicationController.create();
-    })
+    ApplicationView.create();
+    ApplicationController.create();
 
 })(window.jQuery);

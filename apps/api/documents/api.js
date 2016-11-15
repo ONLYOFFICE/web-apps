@@ -149,6 +149,7 @@
             editorConfig: {
                 licenseUrl: <url for license>,
                 customerId: <customer id>,
+                autostart: 'document',    // action for app's autostart. for presentations default value is 'player'
                 embedded: {
                      embedUrl: 'url',
                      fullscreenUrl: 'url',
