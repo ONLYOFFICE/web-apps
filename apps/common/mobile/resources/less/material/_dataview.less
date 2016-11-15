@@ -1,0 +1,31 @@
+// Data view
+
+.dataview {
+  .row {
+    justify-content: space-around;
+  }
+
+  ul {
+    padding: 0 10px;
+    list-style: none;
+    justify-content: space-around;
+
+    li {
+      display: inline-block;
+    }
+  }
+
+  .active {
+    position: relative;
+
+    &::after {
+      content: '';
+      width: 20px;
+      height: 20px;
+      background-color: red;
+      position: absolute;
+      right: 0;
+      bottom: 0;
+    }
+  }
+}

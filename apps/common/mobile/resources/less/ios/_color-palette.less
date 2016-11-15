@@ -1,0 +1,48 @@
+// Color palette
+
+.color-palette {
+  a {
+    flex-grow: 1;
+    position: relative;
+    min-width: 10px;
+    min-height: 26px;
+    margin: 1px 1px 0 0;
+    border: 0.5px solid #c4c4c4;
+    html.pixel-ratio-2 & {
+      border: 0.5px solid #c4c4c4;
+    }
+    html.pixel-ratio-3 & {
+      border: 0.33px solid #c4c4c4;
+    }
+
+    &.active {
+      &:after {
+        content:' ';
+        position: absolute;
+        left: 50%;
+        margin-left: -6px;
+        top: 50%;
+        margin-top: -4px;
+        width: 12px;
+        height: 9px;
+        background: no-repeat center;
+        .encoded-svg-background("<svg xmlns='http://www.w3.org/2000/svg' x='0px' y='0px' viewBox='0 0 12 9' xml:space='preserve'><polygon fill='#fff' points='12,0.7 11.3,0 3.9,7.4 0.7,4.2 0,4.9 3.9,8.8 3.9,8.8 3.9,8.8 '/></svg>");
+        -webkit-background-size: 12px 9px;
+        background-size: 12px 9px;
+        filter: drop-shadow(0px 0px 1px #000);
+      }
+    }
+
+    &.transparent {
+      background-repeat: no-repeat;
+      background-size: 100% 100%;
+      .encoded-svg-background("<svg xmlns='http://www.w3.org/2000/svg' x='0px' y='0px' viewBox='0 0 22 22' xml:space='preserve'><line stroke='#ff0000' stroke-linecap='undefined' stroke-linejoin='undefined' id='svg_1' y2='0' x2='22' y1='22' x1='0' stroke-width='2' fill='none'/></svg>");
+    }
+  }
+
+  .theme-colors {
+    .item-inner {
+      display: inline-block;
+    }
+  }
+}

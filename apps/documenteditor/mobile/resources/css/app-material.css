@@ -5631,9 +5631,6 @@ a.item-link,
 .phone.android .container-edit .page-content .list-block:first-child {
   margin-top: -1px;
 }
-.container-edit.popup,
-.container-add.popup,
-.container-settings.popup,
 .container-edit.popover,
 .container-add.popover,
 .container-settings.popover {
@@ -5716,6 +5713,29 @@ a.item-link,
 .container-settings .popover-inner {
   height: 400px;
 }
+.dataview .row {
+  justify-content: space-around;
+}
+.dataview ul {
+  padding: 0 10px;
+  list-style: none;
+  justify-content: space-around;
+}
+.dataview ul li {
+  display: inline-block;
+}
+.dataview .active {
+  position: relative;
+}
+.dataview .active::after {
+  content: '';
+  width: 20px;
+  height: 20px;
+  background-color: red;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}
 .item-content .item-after.splitter label {
   color: #000;
   margin: 0 5px;
@@ -5761,129 +5781,21 @@ a.item-link,
 .item-link.no-indicator .item-inner {
   background-image: none;
 }
-.about .page-content {
-  text-align: center;
-}
-.about .content-block:first-child {
-  margin: 15px 0;
-}
-.about .content-block {
-  margin: 0 auto 15px;
-}
-.about .content-block a {
-  color: #000;
-}
-.about h3 {
-  font-weight: normal;
-  margin: 0;
-}
-.about h3.vendor {
-  color: #000;
-  font-weight: bold;
-  margin-top: 15px;
-}
-.about p > label {
-  margin-right: 5px;
-}
-.about .logo {
-  background: url('../../../../common/mobile/resources/img/about/onlyoffice.png') 50% 50% no-repeat;
-}
-@media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min-resolution: 2dppx), only screen and (min-resolution: 192dpi) {
-  .about .logo {
-    background-image: url('../../../../common/mobile/resources/img/about/onlyoffice@2x.png');
-  }
-}
-#add-table .page,
-#add-shape .page {
+.button.active i.icon {
   background-color: #fff;
 }
-.dataview .row {
-  justify-content: space-around;
+.document-menu {
+  width: auto;
+  line-height: 1 !important;
 }
-.dataview ul {
-  padding: 0 10px;
-  list-style: none;
-  justify-content: space-around;
+.document-menu .popover-inner {
+  overflow: hidden;
 }
-.dataview ul li {
+.document-menu .list-block ul {
+  height: 48px;
+}
+.document-menu .list-block li {
   display: inline-block;
-}
-.dataview .active {
-  position: relative;
-}
-.dataview .active::after {
-  content: '';
-  width: 20px;
-  height: 20px;
-  background-color: red;
-  position: absolute;
-  right: 0;
-  bottom: 0;
-}
-.table-styles .row,
-.table-styles .row li {
-  margin-bottom: 12px;
-}
-.table-styles li {
-  margin: 0;
-  padding: 1px;
-}
-.table-styles li img {
-  width: 70px;
-  height: 50px;
-}
-.shapes li {
-  width: 70px;
-  height: 70px;
-  margin: 0 1px;
-}
-.shapes li .thumb {
-  width: 100%;
-  height: 100%;
-  background-color: #5a7dc9;
-}
-.chart-types li {
-  width: 60px;
-  height: 60px;
-  margin: 6px;
-}
-.chart-types li .thumb {
-  width: 100%;
-  height: 100%;
-  background-size: contain;
-}
-.bullets ul,
-.numbers ul {
-  margin-top: 10px;
-}
-.bullets li,
-.numbers li {
-  width: 70px;
-  height: 70px;
-  margin-right: 1px;
-  border: 1px solid #c4c4c4;
-}
-html.pixel-ratio-2 .bullets li,
-html.pixel-ratio-2 .numbers li {
-  border: 0.5px solid #c4c4c4;
-}
-html.pixel-ratio-3 .bullets li,
-html.pixel-ratio-3 .numbers li {
-  border: 0.33px solid #c4c4c4;
-}
-.bullets li .thumb,
-.numbers li .thumb {
-  width: 100%;
-  height: 100%;
-  background-color: #ffffff;
-  background-size: cover;
-}
-.bullets li .thumb label,
-.numbers li .thumb label {
-  width: 100%;
-  text-align: center;
-  position: absolute;
-  top: 34%;
 }
 .color-palette a {
   flex-grow: 1;
@@ -5922,21 +5834,37 @@ html.pixel-ratio-3 .color-palette a {
 .color-palette .theme-colors .item-inner {
   display: inline-block;
 }
-.document-menu {
-  width: auto;
-  line-height: 1 !important;
+.about .page-content {
+  text-align: center;
 }
-.document-menu .popover-inner {
-  overflow: hidden;
+.about .content-block:first-child {
+  margin: 15px 0;
 }
-.document-menu .list-block ul {
-  height: 48px;
+.about .content-block {
+  margin: 0 auto 15px;
 }
-.document-menu .list-block li {
-  display: inline-block;
+.about .content-block a {
+  color: #000;
 }
-.button.active i.icon {
-  background-color: #fff;
+.about h3 {
+  font-weight: normal;
+  margin: 0;
+}
+.about h3.vendor {
+  color: #000;
+  font-weight: bold;
+  margin-top: 15px;
+}
+.about p > label {
+  margin-right: 5px;
+}
+.about .logo {
+  background: url('../../../../common/mobile/resources/img/about/onlyoffice.png') 50% 50% no-repeat;
+}
+@media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min-resolution: 2dppx), only screen and (min-resolution: 192dpi) {
+  .about .logo {
+    background-image: url('../../../../common/mobile/resources/img/about/onlyoffice@2x.png');
+  }
 }
 i.icon.icon-expand-up {
   width: 17px;
@@ -6128,4 +6056,73 @@ i.icon.icon-link {
   width: 22px;
   height: 22px;
   background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20x%3D%220px%22%20y%3D%220px%22%20viewBox%3D%220%200%2022%2022%22%20fill%3D%22%23fff%22%3E%3Cg%3E%3Cpolygon%20points%3D%2210.9%2C16.9%202%2C8.1%204.1%2C6%2011.1%2C12.8%2017.9%2C6%2020%2C8.1%2011.2%2C16.9%2011.1%2C17%20%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E");
+}
+#add-table .page,
+#add-shape .page {
+  background-color: #fff;
+}
+.table-styles .row,
+.table-styles .row li {
+  margin-bottom: 12px;
+}
+.table-styles li {
+  margin: 0;
+  padding: 1px;
+}
+.table-styles li img {
+  width: 70px;
+  height: 50px;
+}
+.shapes li {
+  width: 70px;
+  height: 70px;
+  margin: 0 1px;
+}
+.shapes li .thumb {
+  width: 100%;
+  height: 100%;
+  background-color: #5a7dc9;
+}
+.chart-types li {
+  width: 60px;
+  height: 60px;
+  margin: 6px;
+}
+.chart-types li .thumb {
+  width: 100%;
+  height: 100%;
+  background-size: contain;
+}
+.bullets ul,
+.numbers ul {
+  margin-top: 10px;
+}
+.bullets li,
+.numbers li {
+  width: 70px;
+  height: 70px;
+  margin-right: 1px;
+  border: 1px solid #c4c4c4;
+}
+html.pixel-ratio-2 .bullets li,
+html.pixel-ratio-2 .numbers li {
+  border: 0.5px solid #c4c4c4;
+}
+html.pixel-ratio-3 .bullets li,
+html.pixel-ratio-3 .numbers li {
+  border: 0.33px solid #c4c4c4;
+}
+.bullets li .thumb,
+.numbers li .thumb {
+  width: 100%;
+  height: 100%;
+  background-color: #ffffff;
+  background-size: cover;
+}
+.bullets li .thumb label,
+.numbers li .thumb label {
+  width: 100%;
+  text-align: center;
+  position: absolute;
+  top: 34%;
 }

@@ -1,0 +1,68 @@
+// List extend
+
+.item-content{
+  .item-after {
+    &.splitter {
+      label {
+        color: #000;
+        margin:0 5px;
+        line-height: 36px;
+      }
+
+      .button {
+        min-width: 40px;
+        margin-left: 0;
+      }
+    }
+
+    &.value {
+      display: block;
+      min-width: 50px;
+      color: @black;
+      margin-left: 10px;
+      text-align: right;
+    }
+  }
+
+  &.buttons {
+    .item-inner {
+      padding-top: 0;
+      padding-bottom: 0;
+
+      > .row {
+        width: 100%;
+
+        .button {
+          flex: 1;
+          font-size: 17px;
+          margin-left: 5px;
+
+          &:first-child {
+            margin-left: 0;
+          }
+
+          &.active {
+            color: #fff;
+            background-color: @themeColor;
+          }
+        }
+      }
+    }
+  }
+
+  .color-preview {
+    width: 30px;
+    height: 30px;
+    border-radius: 16px;
+    margin-top: -3px;
+    border: 0.5px solid gray;
+  }
+}
+
+.item-link {
+  &.no-indicator {
+    .item-inner {
+      background-image: none;
+    }
+  }
+}

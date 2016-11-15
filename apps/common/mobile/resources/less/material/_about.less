@@ -1,0 +1,45 @@
+// About
+
+.about {
+  .page-content {
+    text-align: center;
+  }
+
+  .content-block:first-child {
+    margin: 15px 0;
+  }
+
+  .content-block {
+    margin: 0 auto 15px;
+
+    a {
+      color: #000;
+    }
+  }
+
+  h3 {
+    font-weight: normal;
+    margin: 0;
+
+    &.vendor {
+      color: #000;
+      font-weight: bold;
+      margin-top: 15px;
+    }
+  }
+
+  p > label {
+    margin-right: 5px;
+  }
+
+  .logo {
+    background: url('../../../../common/mobile/resources/img/about/onlyoffice.png') 50% 50% no-repeat;
+
+    @media
+    only screen and (-webkit-min-device-pixel-ratio: 2),
+    only screen and (min-resolution: 2dppx),
+    only screen and (min-resolution: 192dpi) {
+      background-image: url('../../../../common/mobile/resources/img/about/onlyoffice@2x.png');
+    }
+  }
+}
