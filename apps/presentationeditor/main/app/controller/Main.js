@@ -1335,11 +1335,8 @@ define([
             },
 
             onFocusObject: function(SelectedObjects) {
-                if (SelectedObjects.length>0) {
                     var rightpan = this.getApplication().getController('RightMenu');
-//                    var docPreview = this.getApplication().getController('Viewport').getView('DocumentPreview');
-                    if (rightpan /*&& !docPreview.isVisible()*/) rightpan.onFocusObject.call(rightpan, SelectedObjects);
-                }
+                    if (rightpan) rightpan.onFocusObject.call(rightpan, SelectedObjects);
             },
 
             _onChangeObjectLock: function() {
