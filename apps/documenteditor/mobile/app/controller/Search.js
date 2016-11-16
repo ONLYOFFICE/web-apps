@@ -81,7 +81,8 @@ define([
                     'Search': {
                         'searchbar:show'        : this.onSearchbarShow,
                         'searchbar:hide'        : this.onSearchbarHide,
-                        'searchbar:render'      : this.onSearchbarRender
+                        'searchbar:render'      : this.onSearchbarRender,
+                        'searchbar:showsettings': this.onSearchbarSettings
                     }
                 });
             },
@@ -129,7 +130,9 @@ define([
             },
 
             onSearchbarRender: function(bar) {
-                var me = this;
+                var me              = this,
+                    searchString    = Common.SharedSettings.get('search-search') || '',
+                    replaceString   = Common.SharedSettings.get('search-replace')|| '';
 
                 me.searchBar = uiApp.searchbar('.searchbar.document .searchbar.search', {
                     customSearch: true,
@@ -147,9 +150,39 @@ define([
 
                 me.searchPrev = $('.searchbar.document .prev');
                 me.searchNext = $('.searchbar.document .next');
+                me.replaceBtn = $('.searchbar.document .link.replace');
 
                 me.searchPrev.single('click', _.bind(me.onSearchPrev, me));
                 me.searchNext.single('click', _.bind(me.onSearchNext, me));
+                me.replaceBtn.single('click', _.bind(me.onReplace, me));
+
+                me.searchBar.search(searchString);
+                me.replaceBar.search(replaceString);
+            },
+
+            onSearchbarSettings: function (view) {
+                var strictBool = function (settingName) {
+                    var value = Common.SharedSettings.get(settingName);
+                    return !_.isUndefined(value) && (value === true);
+                };
+
+                var me              = this,
+                    isReplace       = strictBool('search-is-replace'),
+                    isCaseSensitive = strictBool('search-case-sensitive'),
+                    isHighlight     = strictBool('search-highlight'),
+                    $pageSettings   = $('.page[data-page=search-settings]'),
+                    $inputType      = $pageSettings.find('input[name=search-type]'),
+                    $inputCase      = $pageSettings.find('#search-case-sensitive input:checkbox'),
+                    $inputHighlight = $pageSettings.find('#search-highlight-results input:checkbox');
+
+                $inputType.val([isReplace ? 'replace' : 'search']);
+                $inputCase.attr('checked', isCaseSensitive);
+                $inputHighlight.attr('checked', isHighlight);
+
+                // init events
+                $inputType.single('change',     _.bind(me.onTypeChange, me));
+                $inputCase.single('click',      _.bind(me.onCaseClick, me));
+                $inputHighlight.single('click', _.bind(me.onHighlightClick, me));
             },
 
             onSearchbarShow: function(bar) {
@@ -168,12 +201,15 @@ define([
                 var me = this,
                     isEmpty = (search.query.trim().length < 1);
 
-                _.each([me.searchPrev, me.searchNext], function(btn) {
-                    btn[isEmpty ? 'addClass' : 'removeClass']('disabled');
+                Common.SharedSettings.set('search-search', search.query);
+
+                _.each([me.searchPrev, me.searchNext, me.replaceBtn], function(btn) {
+                    btn.toggleClass('disabled', isEmpty);
                 });
             },
 
             onSearchClear: function(search) {
+                Common.SharedSettings.set('search-search', '');
 //            window.focus();
 //            document.activeElement.blur();
             },
@@ -182,6 +218,7 @@ define([
                 var me = this,
                     isEmpty = (replace.query.trim().length < 1);
 
+                Common.SharedSettings.set('search-replace', replace.query);
             },
 
             onReplaceEnable: function (bar) {
@@ -189,7 +226,7 @@ define([
             },
 
             onReplaceClear: function(replace) {
-                //
+                Common.SharedSettings.set('search-replace', '');
             },
 
             onSearchPrev: function(btn) {
@@ -200,9 +237,16 @@ define([
                 this.onQuerySearch(this.searchBar.query, 'next');
             },
 
-            onQuerySearch: function(query, direction, opts) {
+            onReplace: function (btn) {
+                this.onQueryReplace(this.searchBar.query, this.replaceBar.query);
+            },
+
+            onQuerySearch: function(query, direction) {
+                var matchcase = Common.SharedSettings.get('search-case-sensitive') || false,
+                    matchword = Common.SharedSettings.get('search-highlight') || false;
+
                 if (query && query.length) {
-                    if (!this.api.asc_findText(query, direction != 'back', opts && opts.matchcase, opts && opts.matchword)) {
+                    if (!this.api.asc_findText(query, direction != 'back', matchcase, matchword)) {
                         var me = this;
                         uiApp.alert(
                             '',
@@ -213,6 +257,50 @@ define([
                         );
                     }
                 }
+            },
+
+            onQueryReplace: function(search, replace) {
+                var matchcase = Common.SharedSettings.get('search-case-sensitive') || false,
+                    matchword = Common.SharedSettings.get('search-highlight') || false;
+
+                if (search && search.length) {
+                    if (!this.api.asc_replaceText(search, replace, false, matchcase, matchword)) {
+                        var me = this;
+                        uiApp.alert(
+                            '',
+                            me.textNoTextFound,
+                            function () {
+                                me.searchBar.input.focus();
+                            }
+                        );
+                    }
+                }
+            },
+
+            onQueryReplaceAll: function(search, replace) {
+                var matchcase = Common.SharedSettings.get('search-case-sensitive') || false,
+                    matchword = Common.SharedSettings.get('search-highlight') || false;
+
+                if (search && search.length) {
+                    this.api.asc_replaceText(search, replace, true, matchcase, matchword);
+                }
+            },
+
+            onTypeChange: function (e) {
+                var me = this,
+                    $target = $(e.currentTarget),
+                    isReplace = ($target.val() === 'replace');
+
+                Common.SharedSettings.set('search-is-replace', isReplace);
+                $('.searchbar.document').toggleClass('replace', isReplace);
+            },
+
+            onCaseClick: function (e) {
+                Common.SharedSettings.set('search-case-sensitive', $(e.currentTarget).is(':checked'));
+            },
+
+            onHighlightClick: function (e) {
+                Common.SharedSettings.set('search-highlight', $(e.currentTarget).is(':checked'));
             },
 
             // API handlers

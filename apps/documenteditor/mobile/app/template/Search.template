@@ -1,6 +1,6 @@
 <!--Toolbar panel-->
 <div id="search-panel-view">
-    <div class="searchbar document navbar navbar-hidden replace">
+    <div class="searchbar document navbar navbar-hidden">
         <div class="navbar-inner">
             <div class="left">
                 <a id="search-settings" href="#" class="link icon-only"><i class="icon icon-settings"></i></a>
@@ -42,12 +42,13 @@
 <div id="search-settings-view">
     <div class="navbar">
         <div class="navbar-inner">
-            <div class="center sliding">Find and Replace</div>
+            <div class="center sliding"><% if (isEdit) { %>Find and Replace<% } else { %>Find<% } %></div>
             <div class="right"><% if (phone) { %><a href="#" class="link close-popup"><b>Done</b></a><% } %></div>
         </div>
     </div>
-    <div class="page">
+    <div class="page" data-page="search-settings">
         <div class="page-content">
+            <% if (isEdit) { %>
             <div class="list-block">
                 <ul>
                     <li>
@@ -70,6 +71,7 @@
                     </li>
                 </ul>
             </div>
+            <% } %>
             <div class="list-block">
                 <ul>
                     <li>

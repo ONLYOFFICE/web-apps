@@ -132,6 +132,8 @@ define([
                     $$('.view.search-settings-view.navbar-through').removeClass('navbar-through').addClass('navbar-fixed');
                     $$('.view.search-settings-view .navbar').prependTo('.view.search-settings-view > .pages > .page');
                 }
+
+                me.fireEvent('searchbar:showsettings', me);
             },
 
             showSearch: function () {
@@ -140,6 +142,10 @@ define([
 
                 if (searchBar.length < 1) {
                     $(me.el).find('.pages .page').first().prepend(_layout.find('#search-panel-view').html());
+
+                    // Show replace mode if needed
+                    var isReplace = Common.SharedSettings.get('search-is-replace');
+                    $('.searchbar.document').toggleClass('replace', !_.isUndefined(isReplace) && (isReplace === true));
 
                     me.fireEvent('searchbar:render', me);
                     me.fireEvent('searchbar:show', me);
