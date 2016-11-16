@@ -104,8 +104,10 @@ define([
 //                }
 
                 var value = Common.localStorage.getItem("de-settings-fontrender");
-                if (value === null)
+
+                if (value === null) {
                     window.devicePixelRatio > 1 ? value = '1' : '0';
+                }
 
                 // Initialize api
 
@@ -156,32 +158,34 @@ define([
             },
 
             loadConfig: function(data) {
-                this.editorConfig = $.extend(this.editorConfig, data.config);
+                var me = this;
 
-                this.editorConfig.user          =
-                this.appOptions.user            = fillUserInfo(this.editorConfig.user, this.editorConfig.lang, this.textAnonymous);
-                this.appOptions.nativeApp       = this.editorConfig.nativeApp === true;
-                this.appOptions.isDesktopApp    = this.editorConfig.targetApp == 'desktop';
-                this.appOptions.canCreateNew    = !_.isEmpty(this.editorConfig.createUrl) && !this.appOptions.isDesktopApp;
-                this.appOptions.canOpenRecent   = this.editorConfig.nativeApp !== true && this.editorConfig.recent !== undefined && !this.appOptions.isDesktopApp;
-                this.appOptions.templates       = this.editorConfig.templates;
-                this.appOptions.recent          = this.editorConfig.recent;
-                this.appOptions.createUrl       = this.editorConfig.createUrl;
-                this.appOptions.lang            = this.editorConfig.lang;
-                this.appOptions.location        = (typeof (this.editorConfig.location) == 'string') ? this.editorConfig.location.toLowerCase() : '';
-                this.appOptions.sharingSettingsUrl = this.editorConfig.sharingSettingsUrl;
-                this.appOptions.fileChoiceUrl   = this.editorConfig.fileChoiceUrl;
-                this.appOptions.mergeFolderUrl  = this.editorConfig.mergeFolderUrl;
-                this.appOptions.canAnalytics    = false;
-                this.appOptions.customization   = this.editorConfig.customization;
-                this.appOptions.canBackToFolder = (this.editorConfig.canBackToFolder!==false) && (typeof (this.editorConfig.customization) == 'object')
-                    && (typeof (this.editorConfig.customization.goback) == 'object') && !_.isEmpty(this.editorConfig.customization.goback.url);
-                this.appOptions.canBack         = this.editorConfig.nativeApp !== true && this.appOptions.canBackToFolder === true;
-                this.appOptions.canPlugins      = false;
-                this.plugins                    = this.editorConfig.plugins;
+                me.editorConfig = $.extend(me.editorConfig, data.config);
 
-                if (this.editorConfig.lang)
-                    this.api.asc_setLocale(this.editorConfig.lang);
+                me.editorConfig.user          =
+                me.appOptions.user            = fillUserInfo(me.editorConfig.user, me.editorConfig.lang, me.textAnonymous);
+                me.appOptions.nativeApp       = me.editorConfig.nativeApp === true;
+                me.appOptions.isDesktopApp    = me.editorConfig.targetApp == 'desktop';
+                me.appOptions.canCreateNew    = !_.isEmpty(me.editorConfig.createUrl) && !me.appOptions.isDesktopApp;
+                me.appOptions.canOpenRecent   = me.editorConfig.nativeApp !== true && me.editorConfig.recent !== undefined && !me.appOptions.isDesktopApp;
+                me.appOptions.templates       = me.editorConfig.templates;
+                me.appOptions.recent          = me.editorConfig.recent;
+                me.appOptions.createUrl       = me.editorConfig.createUrl;
+                me.appOptions.lang            = me.editorConfig.lang;
+                me.appOptions.location        = (typeof (me.editorConfig.location) == 'string') ? me.editorConfig.location.toLowerCase() : '';
+                me.appOptions.sharingSettingsUrl = me.editorConfig.sharingSettingsUrl;
+                me.appOptions.fileChoiceUrl   = me.editorConfig.fileChoiceUrl;
+                me.appOptions.mergeFolderUrl  = me.editorConfig.mergeFolderUrl;
+                me.appOptions.canAnalytics    = false;
+                me.appOptions.customization   = me.editorConfig.customization;
+                me.appOptions.canBackToFolder = (me.editorConfig.canBackToFolder!==false) && (typeof (me.editorConfig.customization) == 'object')
+                    && (typeof (me.editorConfig.customization.goback) == 'object') && !_.isEmpty(me.editorConfig.customization.goback.url);
+                me.appOptions.canBack         = me.editorConfig.nativeApp !== true && me.appOptions.canBackToFolder === true;
+                me.appOptions.canPlugins      = false;
+                me.plugins                    = me.editorConfig.plugins;
+
+                if (me.editorConfig.lang)
+                    me.api.asc_setLocale(me.editorConfig.lang);
 
 //                if (this.appOptions.location == 'us' || this.appOptions.location == 'ca')
 //                    Common.Utils.Metric.setDefaultMetric(Common.Utils.Metric.c_MetricUnits.inch);
@@ -219,11 +223,8 @@ define([
 
                 Common.SharedSettings.set('document', data.doc);
 
-
                 if (data.doc) {
-                    this.getApplication()
-                       .getController('Toolbar')
-                       .setDocumentTitle(data.doc.title);
+                    DE.getController('Toolbar').setDocumentTitle(data.doc.title);
                 }
             },
 
@@ -245,6 +246,7 @@ define([
 
             onProcessSaveResult: function(data) {
                 this.api.asc_OnSaveEnd(data.result);
+
                 if (data && data.result === false) {
                     uiApp.alert(
                         _.isEmpty(data.message) ? this.errorProcessSaveResult : data.message,
@@ -277,153 +279,6 @@ define([
 //                this._state.isFromGatewayDownloadAs = true;
 //                var type = /^(?:(pdf|djvu|xps))$/.exec(this.document.fileType);
 //                (type && typeof type[1] === 'string') ? this.api.asc_DownloadOrigin(true) : this.api.asc_DownloadAs(Asc.c_oAscFileType.DOCX, true);
-            },
-
-
-            onRefreshHistory: function(opts) {
-//                this.loadMask && this.loadMask.hide();
-//                if (opts.data.error || !opts.data.history) {
-//                    var historyStore = this.getApplication().getCollection('Common.Collections.HistoryVersions');
-//                    if (historyStore && historyStore.size()>0) {
-//                        historyStore.each(function(item){
-//                            item.set('canRestore', false);
-//                        });
-//                    }
-//                    Common.UI.alert({
-//                        closable: false,
-//                        title: this.notcriticalErrorTitle,
-//                        msg: (opts.data.error) ? opts.data.error : this.txtErrorLoadHistory,
-//                        iconCls: 'warn',
-//                        buttons: ['ok'],
-//                        callback: _.bind(function(btn){
-//                            this.onEditComplete();
-//                        }, this)
-//                    });
-//                } else {
-//                    this.api.asc_coAuthoringDisconnect();
-//                    this.getApplication().getController('LeftMenu').getView('LeftMenu').showHistory();
-//                    this.disableEditing(true);
-//                    var versions = opts.data.history,
-//                        historyStore = this.getApplication().getCollection('Common.Collections.HistoryVersions'),
-//                        currentVersion = null;
-//                    if (historyStore) {
-//                        var arrVersions = [], ver, version, group = -1, prev_ver = -1, arrColors = [], docIdPrev = '',
-//                            usersStore = this.getApplication().getCollection('Common.Collections.HistoryUsers'), user = null, usersCnt = 0;
-//
-//                        for (ver=versions.length-1; ver>=0; ver--) {
-//                            version = versions[ver];
-//                            if (version.versionGroup===undefined || version.versionGroup===null)
-//                                version.versionGroup = version.version;
-//                            if (version) {
-//                                if (!version.user) version.user = {};
-//                                docIdPrev = (ver>0 && versions[ver-1]) ? versions[ver-1].key : version.key + '0';
-//                                user = usersStore.findUser(version.user.id);
-//                                if (!user) {
-//                                    user = new Common.Models.User({
-//                                        id          : version.user.id,
-//                                        username    : version.user.name,
-//                                        colorval    : Asc.c_oAscArrUserColors[usersCnt],
-//                                        color       : this.generateUserColor(Asc.c_oAscArrUserColors[usersCnt++])
-//                                    });
-//                                    usersStore.add(user);
-//                                }
-//
-//                                arrVersions.push(new Common.Models.HistoryVersion({
-//                                    version: version.versionGroup,
-//                                    revision: version.version,
-//                                    userid : version.user.id,
-//                                    username : version.user.name,
-//                                    usercolor: user.get('color'),
-//                                    created: version.created,
-//                                    docId: version.key,
-//                                    markedAsVersion: (group!==version.versionGroup),
-//                                    selected: (opts.data.currentVersion == version.version),
-//                                    canRestore: this.appOptions.canHistoryRestore
-//                                }));
-//                                if (opts.data.currentVersion == version.version) {
-//                                    currentVersion = arrVersions[arrVersions.length-1];
-//                                }
-//                                group = version.versionGroup;
-//                                if (prev_ver!==version.version) {
-//                                    prev_ver = version.version;
-//                                    arrColors.reverse();
-//                                    for (i=0; i<arrColors.length; i++) {
-//                                        arrVersions[arrVersions.length-i-2].set('arrColors',arrColors);
-//                                    }
-//                                    arrColors = [];
-//                                }
-//                                arrColors.push(user.get('colorval'));
-//
-//                                var changes = version.changes, change, i;
-//                                if (changes && changes.length>0) {
-//                                    arrVersions[arrVersions.length-1].set('changeid', changes.length-1);
-//                                    arrVersions[arrVersions.length-1].set('docIdPrev', docIdPrev);
-//                                    for (i=changes.length-2; i>=0; i--) {
-//                                        change = changes[i];
-//
-//                                        user = usersStore.findUser(change.user.id);
-//                                        if (!user) {
-//                                            user = new Common.Models.User({
-//                                                id          : change.user.id,
-//                                                username    : change.user.name,
-//                                                colorval    : Asc.c_oAscArrUserColors[usersCnt],
-//                                                color       : this.generateUserColor(Asc.c_oAscArrUserColors[usersCnt++])
-//                                            });
-//                                            usersStore.add(user);
-//                                        }
-//
-//                                        arrVersions.push(new Common.Models.HistoryVersion({
-//                                            version: version.versionGroup,
-//                                            revision: version.version,
-//                                            changeid: i,
-//                                            userid : change.user.id,
-//                                            username : change.user.name,
-//                                            usercolor: user.get('color'),
-//                                            created: change.created,
-//                                            docId: version.key,
-//                                            docIdPrev: docIdPrev,
-//                                            selected: false,
-//                                            canRestore: this.appOptions.canHistoryRestore,
-//                                            isRevision: false
-//                                        }));
-//                                        arrColors.push(user.get('colorval'));
-//                                    }
-//                                } else if (ver==0 && versions.length==1) {
-//                                    arrVersions[arrVersions.length-1].set('docId', version.key + '1');
-//                                }
-//                            }
-//                        }
-//                        if (arrColors.length>0) {
-//                            arrColors.reverse();
-//                            for (i=0; i<arrColors.length; i++) {
-//                                arrVersions[arrVersions.length-i-1].set('arrColors',arrColors);
-//                            }
-//                            arrColors = [];
-//                        }
-//                        historyStore.reset(arrVersions);
-//                        if (currentVersion===null && historyStore.size()>0) {
-//                            currentVersion = historyStore.at(0);
-//                            currentVersion.set('selected', true);
-//                        }
-//                        if (currentVersion)
-//                            this.getApplication().getController('Common.Controllers.History').onSelectRevision(null, null, currentVersion);
-//                    }
-//                }
-            },
-
-
-            disableEditing: function(disable) {
-               var app = this.getApplication();
-//                if (this.appOptions.canEdit && this.editorConfig.mode !== 'view') {
-//                    app.getController('RightMenu').getView('RightMenu').clearSelection();
-//                    app.getController('Toolbar').DisableToolbar(disable, disable);
-//                    app.getController('RightMenu').SetDisabled(disable, false);
-//                    app.getController('Statusbar').getView('Statusbar').SetDisabled(disable);
-//
-//                    var tooltip = app.getController('Toolbar').getView('Toolbar').synchTooltip;
-//                    if (tooltip) tooltip.hide();
-//                }
-//                app.getController('LeftMenu').SetDisabled(disable, true);
             },
 
             goBack: function(blank) {
@@ -494,7 +349,7 @@ define([
                                 }
                             }, 500);
                     } else {
-                        console.debug('End long action');
+                        // console.debug('End long action');
                     }
                 }
 
@@ -600,8 +455,7 @@ define([
                 }
 
                 if (action.type == Asc.c_oAscAsyncActionType['BlockInteraction']) {
-                    if (!this.loadMask)
-                        this.loadMask = uiApp.showPreloader(title);
+                    this.loadMask = uiApp.showPreloader(title);
                 }
                 else {
 //                    this.getApplication().getController('Statusbar').setStatusCaption(text);
@@ -808,7 +662,6 @@ define([
                 Common.Gateway.on('applyeditrights',        _.bind(me.onApplyEditRights, me));
                 Common.Gateway.on('processsaveresult',      _.bind(me.onProcessSaveResult, me));
                 Common.Gateway.on('processrightschange',    _.bind(me.onProcessRightsChange, me));
-                Common.Gateway.on('refreshhistory',         _.bind(me.onRefreshHistory, me));
                 Common.Gateway.on('downloadas',             _.bind(me.onDownloadAs, me));
 
                 Common.Gateway.sendInfo({
@@ -885,9 +738,9 @@ define([
                 me.appOptions.isEdit          = me.appOptions.canLicense && me.appOptions.canEdit && me.editorConfig.mode !== 'view';
                 me.appOptions.canReview       = me.appOptions.canLicense && me.appOptions.isEdit && (me.permissions.review===true);
                 me.appOptions.canUseHistory   = me.appOptions.canLicense && !me.appOptions.isLightVersion && me.editorConfig.canUseHistory && me.appOptions.canCoAuthoring && !me.appOptions.isDesktopApp;
-                me.appOptions.canHistoryClose  = me.editorConfig.canHistoryClose;
+                me.appOptions.canHistoryClose = me.editorConfig.canHistoryClose;
                 me.appOptions.canHistoryRestore= me.editorConfig.canHistoryRestore && !!me.permissions.changeHistory;
-                me.appOptions.canUseMailMerge= me.appOptions.canLicense && me.appOptions.canEdit && !me.appOptions.isDesktopApp;
+                me.appOptions.canUseMailMerge = me.appOptions.canLicense && me.appOptions.canEdit && !me.appOptions.isDesktopApp;
                 me.appOptions.canSendEmailAddresses  = me.appOptions.canLicense && me.editorConfig.canSendEmailAddresses && me.appOptions.canEdit && me.appOptions.canCoAuthoring;
                 me.appOptions.canComments     = me.appOptions.canLicense && !((typeof (me.editorConfig.customization) == 'object') && me.editorConfig.customization.comments===false);
                 me.appOptions.canChat         = me.appOptions.canLicense && !me.appOptions.isOffline && !((typeof (me.editorConfig.customization) == 'object') && me.editorConfig.customization.chat===false);
@@ -1354,20 +1207,6 @@ define([
                 this._state.hasCollaborativeChanges = false;
             },
 
-            initNames: function() {
-                this.shapeGroupNames = [
-                    this.txtBasicShapes,
-                    this.txtFiguredArrows,
-                    this.txtMath,
-                    this.txtCharts,
-                    this.txtStarsRibbons,
-                    this.txtCallouts,
-                    this.txtButtons,
-                    this.txtRectangles,
-                    this.txtLines
-                ];
-            },
-
             fillAutoShapes: function(groupNames, shapes){
 //                if (_.isEmpty(shapes) || _.isEmpty(groupNames) || shapes.length != groupNames.length)
 //                    return;
@@ -1469,39 +1308,82 @@ define([
             },
 
             onAdvancedOptions: function(advOptions) {
-//                var type = advOptions.asc_getOptionId(),
-//                    me = this, dlg;
-//                if (type == Asc.c_oAscAdvancedOptionsID.TXT) {
-//                    dlg = new Common.Views.OpenDialog({
-//                        type: type,
-//                        codepages: advOptions.asc_getOptions().asc_getCodePages(),
-//                        settings: advOptions.asc_getOptions().asc_getRecommendedSettings(),
-//                        handler: function (encoding) {
-//                            me.isShowOpenDialog = false;
-//                            if (me && me.api) {
-//                                me.api.asc_setAdvancedOptions(type, new Asc.asc_CTXTAdvancedOptions(encoding));
-//                                me.loadMask && me.loadMask.show();
-//                            }
-//                        }
-//                    });
-//                } else if (type == Asc.c_oAscAdvancedOptionsID.DRM) {
-//                    dlg = new Common.Views.OpenDialog({
-//                        type: type,
-//                        handler: function (value) {
-//                            me.isShowOpenDialog = false;
-//                            if (me && me.api) {
-//                                me.api.asc_setAdvancedOptions(type, new Asc.asc_CDRMAdvancedOptions(value));
-//                                me.loadMask && me.loadMask.show();
-//                            }
-//                        }
-//                    });
-//                }
-//                if (dlg) {
-//                    this.isShowOpenDialog = true;
-//                    this.loadMask && this.loadMask.hide();
-//                    this.onLongActionEnd(Asc.c_oAscAsyncActionType.BlockInteraction, LoadingDocument);
-//                    dlg.show();
-//                }
+                var type = advOptions.asc_getOptionId(),
+                    me = this, modal;
+                if (type == Asc.c_oAscAdvancedOptionsID.TXT) {
+                    var picker,
+                        pages = [],
+                        pagesName = [];
+
+                    _.each(advOptions.asc_getOptions().asc_getCodePages(), function(page) {
+                        pages.push(page.asc_getCodePage());
+                        pagesName.push(page.asc_getCodePageName());
+                    });
+
+                    $(me.loadMask).hasClass('modal-in') && uiApp.closeModal(me.loadMask);
+
+                    me.onLongActionEnd(Asc.c_oAscAsyncActionType.BlockInteraction, LoadingDocument);
+
+                    modal = uiApp.modal({
+                        title: "Choose TXT options",
+                        text: '',
+                        afterText:
+                        '<div class="content-block">' +
+                            '<div class="row">' +
+                                '<div class="col-100">Encoding</div>' +
+                            '</div>' +
+                            '<div id="txt-encoding"></div>' +
+                        '</div>',
+                        buttons: [
+                            {
+                                text: 'OK',
+                                bold: true,
+                                onClick: function() {
+                                    var encoding = picker.value;
+
+                                    if (me.api) {
+                                        me.api.asc_setAdvancedOptions(type, new Asc.asc_CTXTAdvancedOptions(encoding));
+                                        me.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
+                                    }
+                                }
+                            }
+                        ]
+                    });
+
+                    picker = uiApp.picker({
+                        container: '#txt-encoding',
+                        toolbar: false,
+                        rotateEffect: true,
+                        value: [advOptions.asc_getOptions().asc_getRecommendedSettings().asc_getCodePage()],
+                        cols: [{
+                            values: pages,
+                            displayValues: pagesName
+                        }]
+                    });
+
+                    // Vertical align
+                    $$(modal).css({
+                        marginTop: - Math.round($$(modal).outerHeight() / 2) + 'px'
+                    });
+
+                } else if (type == Asc.c_oAscAdvancedOptionsID.DRM) {
+                    modal = uiApp.modal({
+                        title: 'Protected File',
+                        text: 'You password please:',
+                        afterText: '<div class="input-field"><input type="password" name="modal-password" placeholder="' + 'Password' + '" class="modal-text-input"></div>',
+                        buttons: [
+                            {
+                                text: 'OK',
+                                bold: true,
+                                onClick: function () {
+                                    var password = $(modal).find('.modal-text-input[name="modal-password"]').val();
+                                    me.api.asc_setAdvancedOptions(type, new Asc.asc_CDRMAdvancedOptions(password));
+                                    me.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
+                                }
+                            }
+                        ]
+                    });
+                }
             },
 
             onTryUndoInFastCollaborative: function() {
@@ -1636,15 +1518,6 @@ define([
             errorUsersExceed: 'Count of users was exceed',
             errorCoAuthoringDisconnect: 'Server connection lost. You can\'t edit anymore.',
             errorFilePassProtect: 'The document is password protected.',
-            txtBasicShapes: 'Basic Shapes',
-            txtFiguredArrows: 'Figured Arrows',
-            txtMath: 'Math',
-            txtCharts: 'Charts',
-            txtStarsRibbons: 'Stars & Ribbons',
-            txtCallouts: 'Callouts',
-            txtButtons: 'Buttons',
-            txtRectangles: 'Rectangles',
-            txtLines: 'Lines',
             txtEditingMode: 'Set editing mode...',
             textAnonymous: 'Anonymous',
             loadingDocumentTitleText: 'Loading document',
