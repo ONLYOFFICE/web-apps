@@ -602,6 +602,48 @@ Common.Utils.applyCustomization = function(config, elmap) {
     }
 };
 
+Common.Utils.applyCustomizationPlugins = function(plugins) {
+    if (!plugins || plugins.length<1) return;
+
+    var _createXMLHTTPObject = function() {
+        var xmlhttp;
+        try {
+            xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
+        }
+        catch (e) {
+            try {
+                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            catch (E) {
+                xmlhttp = false;
+            }
+        }
+        if (!xmlhttp && typeof XMLHttpRequest != 'undefined') {
+            xmlhttp = new XMLHttpRequest();
+        }
+        return xmlhttp;
+    };
+
+    var _getPluginCode = function(url) {
+        if (!url) return '';
+        try {
+            var xhrObj = _createXMLHTTPObject();
+            if (xhrObj && url) {
+                xhrObj.open('GET', url, false);
+                xhrObj.send('');
+                if (xhrObj.status == 200)
+                    eval(xhrObj.responseText);
+            }
+        }
+        catch (e) {}
+        return null;
+    };
+
+    plugins.forEach(function(url){
+        if (url) _getPluginCode(url);
+    });
+};
+
 Common.Utils.fillUserInfo = function(info, lang, defname) {
     var _user = info || {};
     !_user.id && (_user.id = ('uid-' + Date.now()));
