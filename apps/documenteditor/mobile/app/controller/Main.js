@@ -364,7 +364,7 @@ define([
                 }
 
                 if (id==Asc.c_oAscAsyncAction['Save'] && (!this._state.fastCoauth || this._state.usersCount<2)) {
-                    this.synchronizeChanges();
+                    // this.synchronizeChanges();
                 }
             },
 
@@ -668,35 +668,39 @@ define([
                     mode: me.appOptions.isEdit?'edit':'view'
                 });
 
-                if (this.api) {
-                    this.api.Resize();
-                    this.api.zoomFitToWidth();
+                if (me.api) {
+                    me.api.Resize();
+                    me.api.zoomFitToWidth();
                 }
 
-//                if (this._state.licenseWarning) {
-//                    value = Common.localStorage.getItem("de-license-warning");
-//                    value = (value!==null) ? parseInt(value) : 0;
-//                    var now = (new Date).getTime();
-//                    if (now - value > 86400000) {
-//                        Common.localStorage.setItem("de-license-warning", now);
-//                        Common.UI.info({
-//                            width: 500,
-//                            title: this.textNoLicenseTitle,
-//                            msg  : this.warnNoLicense,
-//                            buttons: [
-//                                {value: 'buynow', caption: this.textBuyNow},
-//                                {value: 'contact', caption: this.textContactUs}
-//                            ],
-//                            primary: 'buynow',
-//                            callback: function(btn) {
-//                                if (btn == 'buynow')
-//                                    window.open('http://www.onlyoffice.com/enterprise-edition.aspx', "_blank");
-//                                else if (btn == 'contact')
-//                                    window.open('mailto:sales@onlyoffice.com', "_blank");
-//                            }
-//                        });
-//                    }
-//                }
+               if (me._state.licenseWarning) {
+                   value = Common.localStorage.getItem("de-license-warning");
+                   value = (value!==null) ? parseInt(value) : 0;
+                   var now = (new Date).getTime();
+
+                   if (now - value > 86400000) {
+                       Common.localStorage.setItem("de-license-warning", now);
+                       uiApp.modal({
+                           title: me.textNoLicenseTitle,
+                           text : me.warnNoLicense,
+                           buttons: [
+                               {
+                                   text: me.textBuyNow,
+                                   bold: true,
+                                   onClick: function() {
+                                       window.open('http://www.onlyoffice.com/enterprise-edition.aspx', "_blank");
+                                   }
+                               },
+                               {
+                                   text: me.textContactUs,
+                                   onClick: function() {
+                                       window.open('mailto:sales@onlyoffice.com', "_blank");
+                                   }
+                               }
+                           ],
+                       });
+                   }
+               }
             },
 
             onOpenDocument: function(progress) {
@@ -1122,6 +1126,7 @@ define([
 //                        toolbarView.btnSave.setDisabled(!isModified && !isSyncButton || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1);
 //                }
             },
+
             onDocumentCanSaveChanged: function (isCanSave) {
 //                var application = this.getApplication(),
 //                    toolbarController = application.getController('Toolbar'),
@@ -1198,87 +1203,6 @@ define([
             },
             /** coauthoring end **/
 
-            synchronizeChanges: function() {
-//                this.getApplication().getController('Statusbar').synchronizeChanges();
-//                this.getApplication().getController('DocumentHolder').getView('DocumentHolder').hideTips();
-//                /** coauthoring begin **/
-//                this.getApplication().getController('Toolbar').getView('Toolbar').synchronizeChanges();
-//                /** coauthoring end **/
-                this._state.hasCollaborativeChanges = false;
-            },
-
-            fillAutoShapes: function(groupNames, shapes){
-//                if (_.isEmpty(shapes) || _.isEmpty(groupNames) || shapes.length != groupNames.length)
-//                    return;
-//
-//                var me = this,
-//                    shapegrouparray = [],
-//                    shapeStore = this.getCollection('ShapeGroups');
-//
-//                shapeStore.reset();
-//
-//                var groupscount = groupNames.length;
-//                _.each(groupNames, function(groupName, index){
-//                    var store = new Backbone.Collection([], {
-//                        model: DE.Models.ShapeModel
-//                    });
-//
-//                    var cols = (shapes[index].length) > 18 ? 7 : 6,
-//                        height = Math.ceil(shapes[index].length/cols) * 35 + 3,
-//                        width = 30 * cols;
-//
-//                    _.each(shapes[index], function(shape, idx){
-//                        store.add({
-//                            imageUrl : shape.Image,
-//                            data     : {shapeType: shape.Type},
-//                            tip      : me.textShape + ' ' + (idx+1),
-//                            allowSelected : true,
-//                            selected: false
-//                        });
-//                    });
-//
-//                    shapegrouparray.push({
-//                        groupName   : me.shapeGroupNames[index],
-//                        groupStore  : store,
-//                        groupWidth  : width,
-//                        groupHeight : height
-//                    });
-//                });
-//
-//                shapeStore.add(shapegrouparray);
-//
-//                setTimeout(function(){
-//                    me.getApplication().getController('Toolbar').fillAutoShapes();
-//                }, 50);
-
-            },
-
-            fillTextArt: function(shapes){
-//                if (_.isEmpty(shapes)) return;
-//
-//                var me = this, arr = [],
-//                    artStore = this.getCollection('Common.Collections.TextArt');
-//
-//                _.each(shapes, function(shape, index){
-//                    arr.push({
-//                        imageUrl : shape,
-//                        data     : index,
-//                        allowSelected : true,
-//                        selected: false
-//                    });
-//                });
-//                artStore.reset(arr);
-//
-//                setTimeout(function(){
-//                    me.getApplication().getController('Toolbar').fillTextArt();
-//                }, 50);
-//
-//                setTimeout(function(){
-//                    me.getApplication().getController('RightMenu').fillTextArt();
-//                }, 50);
-
-            },
-
             updateThemeColors: function() {
 //                var me = this;
 //                setTimeout(function(){
@@ -1299,12 +1223,6 @@ define([
 //                    this.updateThemeColors();
 //                    this.fillTextArt(this.api.asc_getTextArtPreviews());
 //                }
-            },
-
-            loadLanguages: function() {
-//                var langs = this.api.asc_getSpellCheckLanguages();
-//                this.getApplication().getController('DocumentHolder').getView('DocumentHolder').setLanguages(langs);
-//                this.getApplication().getController('Statusbar').setLanguages(langs);
             },
 
             onAdvancedOptions: function(advOptions) {
@@ -1343,7 +1261,10 @@ define([
 
                                     if (me.api) {
                                         me.api.asc_setAdvancedOptions(type, new Asc.asc_CTXTAdvancedOptions(encoding));
-                                        me.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
+
+                                        if (!me._isDocReady) {
+                                            me.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
+                                        }
                                     }
                                 }
                             }
@@ -1378,7 +1299,10 @@ define([
                                 onClick: function () {
                                     var password = $(modal).find('.modal-text-input[name="modal-password"]').val();
                                     me.api.asc_setAdvancedOptions(type, new Asc.asc_CDRMAdvancedOptions(password));
-                                    me.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
+
+                                    if (!me._isDocReady) {
+                                        me.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
+                                    }
                                 }
                             }
                         ]
@@ -1387,28 +1311,10 @@ define([
             },
 
             onTryUndoInFastCollaborative: function() {
-//                var val = window.localStorage.getItem("de-hide-try-undoredo");
-//                if (!(val && parseInt(val) == 1))
-//                    Common.UI.info({
-//                        width: 500,
-//                        msg: this.textTryUndoRedo,
-//                        iconCls: 'info',
-//                        buttons: ['custom', 'cancel'],
-//                        primary: 'custom',
-//                        customButtonText: this.textStrict,
-//                        dontshow: true,
-//                        callback: _.bind(function(btn, dontshow){
-//                            if (dontshow) window.localStorage.setItem("de-hide-try-undoredo", 1);
-//                            if (btn == 'custom') {
-//                                Common.localStorage.setItem("de-settings-coauthmode", 0);
-//                                this.api.asc_SetFastCollaborative(false);
-//                                this._state.fastCoauth = false;
-//                                Common.localStorage.setItem("de-settings-showchanges-strict", 'last');
-//                                this.api.SetCollaborativeMarksShowType(Asc.c_oAscCollaborativeMarksShowType.LastChanges);
-//                            }
-//                            this.fireEvent('editcomplete', this);
-//                        }, this)
-//                    });
+                uiApp.alert(
+                    this.textTryUndoRedo,
+                    this.notcriticalErrorTitle
+                );
             },
 
             onAuthParticipantsChanged: function(users) {
@@ -1418,16 +1324,6 @@ define([
                         length++;
                 });
                 this._state.usersCount = length;
-            },
-
-            applySettings: function() {
-                if (this.appOptions.isEdit && this.appOptions.canLicense && !this.appOptions.isOffline && this.appOptions.canCoAuthoring) {
-                    var value = Common.localStorage.getItem("de-settings-coauthmode"),
-                        oldval = this._state.fastCoauth;
-                    this._state.fastCoauth = (value===null || parseInt(value) == 1);
-                    if (this._state.fastCoauth && !oldval)
-                        this.synchronizeChanges();
-                }
             },
 
             onDocumentName: function(name) {
@@ -1547,7 +1443,7 @@ define([
             txtArt: 'Your text here',
             errorConnectToServer: ' The document could not be saved. Please check connection settings or contact your administrator.<br>When you click the \'OK\' button, you will be prompted to download the document.<br><br>' +
                 'Find more information about connecting Document Server <a href=\"https://api.onlyoffice.com/editors/callback\" target=\"_blank\">here</a>',
-            textTryUndoRedo: 'The Undo/Redo functions are disabled for the Fast co-editing mode.<br>Click the \'Strict mode\' button to switch to the Strict co-editing mode to edit the file without other users interference and send your changes only after you save them. You can switch between the co-editing modes using the editor Advanced settings.',
+            textTryUndoRedo: 'The Undo/Redo functions are disabled for the Fast co-editing mode.',
             textStrict: 'Strict mode',
             txtErrorLoadHistory: 'Loading history failed',
             textBuyNow: 'Visit website',

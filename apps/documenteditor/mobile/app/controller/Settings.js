@@ -249,13 +249,15 @@ define([
 
                 if (format) {
                     if (format == Asc.c_oAscFileType.TXT) {
-                        uiApp.confirm(
-                            me.warnDownloadAs,
-                            me.notcriticalErrorTitle,
-                            function () {
-                                me.api.asc_DownloadAs(format);
-                            }
-                        );
+                        _.delay(function () {
+                            uiApp.confirm(
+                                me.warnDownloadAs,
+                                me.notcriticalErrorTitle,
+                                function () {
+                                    me.api.asc_DownloadAs(format);
+                                }
+                            );
+                        }, 300);
                     } else {
                         me.api.asc_DownloadAs(format);
                     }
