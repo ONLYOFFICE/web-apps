@@ -167,7 +167,7 @@
   "PE.Controllers.Main.splitMaxRowsErrorText": "The number of rows must be less than %1.",
   "PE.Controllers.Main.textAnonymous": "Anonymous",
   "PE.Controllers.Main.textBuyNow": "Visit website",
-  "PE.Controllers.Main.textCloseTip": "\nClick to close the tip",
+  "PE.Controllers.Main.textCloseTip": "Click to close the tip",
   "PE.Controllers.Main.textContactUs": "Contact sales",
   "PE.Controllers.Main.textLoadingDocument": "Loading presentation",
   "PE.Controllers.Main.textNoLicenseTitle": "ONLYOFFICE open source version",

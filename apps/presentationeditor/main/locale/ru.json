@@ -167,7 +167,7 @@
   "PE.Controllers.Main.splitMaxRowsErrorText": "Число строк должно быть меньше, чем %1.",
   "PE.Controllers.Main.textAnonymous": "Аноним",
   "PE.Controllers.Main.textBuyNow": "Перейти на сайт",
-  "PE.Controllers.Main.textCloseTip": "\nЩелкните, чтобы закрыть эту подсказку",
+  "PE.Controllers.Main.textCloseTip": "Щелкните, чтобы закрыть эту подсказку",
   "PE.Controllers.Main.textContactUs": "Связаться с отделом продаж",
   "PE.Controllers.Main.textLoadingDocument": "Загрузка презентации",
   "PE.Controllers.Main.textNoLicenseTitle": "Open source версия ONLYOFFICE",

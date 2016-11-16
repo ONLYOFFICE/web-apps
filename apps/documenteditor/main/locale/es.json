@@ -245,7 +245,7 @@
   "DE.Controllers.Main.splitMaxRowsErrorText": "El número de filas debe ser menos que %1.",
   "DE.Controllers.Main.textAnonymous": "Anónimo",
   "DE.Controllers.Main.textBuyNow": "Visit website",
-  "DE.Controllers.Main.textCloseTip": "\nPulse para cerrar el consejo",
+  "DE.Controllers.Main.textCloseTip": "Pulse para cerrar el consejo",
   "DE.Controllers.Main.textContactUs": "Contact sales",
   "DE.Controllers.Main.textLoadingDocument": "Cargando documento",
   "DE.Controllers.Main.textNoLicenseTitle": "ONLYOFFICE open source version",

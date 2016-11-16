@@ -177,7 +177,7 @@
   "SSE.Controllers.Main.saveTextText": "Spreadsheet kaydediliyor...",
   "SSE.Controllers.Main.saveTitleText": "Spreadsheet Kaydediliyor",
   "SSE.Controllers.Main.textAnonymous": "Anonim",
-  "SSE.Controllers.Main.textCloseTip": "\nUcu kapamak için tıklayın",
+  "SSE.Controllers.Main.textCloseTip": "Ucu kapamak için tıklayın",
   "SSE.Controllers.Main.textConfirm": "Konfirmasyon",
   "SSE.Controllers.Main.textLoadingDocument": "Spreadsheet yükleniyor",
   "SSE.Controllers.Main.textNo": "Hayır",

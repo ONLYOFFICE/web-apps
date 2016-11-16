@@ -1075,7 +1075,7 @@ define([
                 function showNextTip() {
                     var str_tip = strings.shift();
                     if (str_tip) {
-                        str_tip += me.textCloseTip;
+                        str_tip += '\n' + me.textCloseTip;
                         tooltip.setTitle(str_tip);
                         tooltip.show();
                     }
@@ -1780,7 +1780,7 @@ define([
             loadingDocumentTextText: 'Loading presentation...',
             warnProcessRightsChange: 'You have been denied the right to edit the file.',
             errorProcessSaveResult: 'Saving is failed.',
-            textCloseTip: '\nClick to close the tip.',
+            textCloseTip: 'Click to close the tip.',
             textShape: 'Shape',
             errorStockChart: 'Incorrect row order. To build a stock chart place the data on the sheet in the following order:<br> opening price, max price, min price, closing price.',
             errorDataRange: 'Incorrect data range.',

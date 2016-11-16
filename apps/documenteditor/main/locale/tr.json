@@ -230,7 +230,7 @@
   "DE.Controllers.Main.splitMaxColsErrorText": "Sütun sayısı %1'den az olmalıdır.",
   "DE.Controllers.Main.splitMaxRowsErrorText": "Satır sayısı %1'den az olmalıdır.",
   "DE.Controllers.Main.textAnonymous": "Anonim",
-  "DE.Controllers.Main.textCloseTip": "\nUcu kapamak için tıklayın",
+  "DE.Controllers.Main.textCloseTip": "Ucu kapamak için tıklayın",
   "DE.Controllers.Main.textLoadingDocument": "Döküman yükleniyor",
   "DE.Controllers.Main.textStrict": "Strict mode",
   "DE.Controllers.Main.textTryUndoRedo": "The Undo/Redo functions are disabled for the Fast co-editing mode.<br>Click the 'Strict mode' button to switch to the Strict co-editing mode to edit the file without other users interference and send your changes only after you save them. You can switch between the co-editing modes using the editor Advanced settings.",

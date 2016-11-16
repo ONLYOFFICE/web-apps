@@ -177,7 +177,7 @@
   "SSE.Controllers.Main.saveTextText": "Salvataggio del foglio elettronico in corso...",
   "SSE.Controllers.Main.saveTitleText": "Salvataggio del foglio elettronico",
   "SSE.Controllers.Main.textAnonymous": "Anonimo",
-  "SSE.Controllers.Main.textCloseTip": "\nClicca per chiudere il consiglio",
+  "SSE.Controllers.Main.textCloseTip": "Clicca per chiudere il consiglio",
   "SSE.Controllers.Main.textConfirm": "Conferma",
   "SSE.Controllers.Main.textLoadingDocument": "Caricamento del foglio elettronico",
   "SSE.Controllers.Main.textNo": "No",

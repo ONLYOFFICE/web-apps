@@ -177,7 +177,7 @@
   "SSE.Controllers.Main.saveTextText": "Shranjevanje razpredelnice...",
   "SSE.Controllers.Main.saveTitleText": "Shranjevanje razpredelnice",
   "SSE.Controllers.Main.textAnonymous": "Anonimno",
-  "SSE.Controllers.Main.textCloseTip": "\nPritisni za zapiranje namiga",
+  "SSE.Controllers.Main.textCloseTip": "Pritisni za zapiranje namiga",
   "SSE.Controllers.Main.textConfirm": "Potrditev",
   "SSE.Controllers.Main.textLoadingDocument": "Nalaganje razpredelnice",
   "SSE.Controllers.Main.textNo": "Ne",

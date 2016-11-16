@@ -285,7 +285,7 @@
   "SSE.Controllers.Main.saveTitleText": "Сохранение электронной таблицы",
   "SSE.Controllers.Main.textAnonymous": "Аноним",
   "SSE.Controllers.Main.textBuyNow": "Перейти на сайт",
-  "SSE.Controllers.Main.textCloseTip": "\nЩелкните, чтобы закрыть эту подсказку",
+  "SSE.Controllers.Main.textCloseTip": "Щелкните, чтобы закрыть эту подсказку",
   "SSE.Controllers.Main.textConfirm": "Подтверждение",
   "SSE.Controllers.Main.textContactUs": "Связаться с отделом продаж",
   "SSE.Controllers.Main.textLoadingDocument": "Загрузка таблицы",

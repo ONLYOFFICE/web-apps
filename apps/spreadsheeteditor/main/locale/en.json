@@ -287,7 +287,7 @@
   "SSE.Controllers.Main.saveTitleText": "Saving Spreadsheet",
   "SSE.Controllers.Main.textAnonymous": "Anonymous",
   "SSE.Controllers.Main.textBuyNow": "Visit website",
-  "SSE.Controllers.Main.textCloseTip": "\nClick to close the tip",
+  "SSE.Controllers.Main.textCloseTip": "Click to close the tip",
   "SSE.Controllers.Main.textConfirm": "Confirmation",
   "SSE.Controllers.Main.textContactUs": "Contact sales",
   "SSE.Controllers.Main.textLoadingDocument": "Loading spreadsheet",

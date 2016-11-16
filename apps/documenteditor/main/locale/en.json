@@ -255,7 +255,7 @@
   "DE.Controllers.Main.splitMaxRowsErrorText": "The number of rows must be less than %1.",
   "DE.Controllers.Main.textAnonymous": "Anonymous",
   "DE.Controllers.Main.textBuyNow": "Visit website",
-  "DE.Controllers.Main.textCloseTip": "\nClick to close the tip",
+  "DE.Controllers.Main.textCloseTip": "Click to close the tip",
   "DE.Controllers.Main.textContactUs": "Contact sales",
   "DE.Controllers.Main.textLoadingDocument": "Loading document",
   "DE.Controllers.Main.textNoLicenseTitle": "ONLYOFFICE open source version",

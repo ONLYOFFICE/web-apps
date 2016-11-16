@@ -1226,7 +1226,7 @@ define([
                 function showNextTip() {
                     var str_tip = strings.shift();
                     if (str_tip) {
-                        str_tip += me.textCloseTip;
+                        str_tip += '\n' + me.textCloseTip;
                         tooltip.setTitle(str_tip);
                         tooltip.show();
                     }
@@ -1979,7 +1979,7 @@ define([
             errorAutoFilterChangeFormatTable: 'The operation could not be done for the selected cells as you cannot move a part of the table.<br>Select another data range so that the whole table was shifted and try again.',
             errorAutoFilterHiddenRange: 'The operation cannot be performed because the area contains filtered cells.<br>Please unhide the filtered elements and try again.',
             errorAutoFilterChange: 'The operation is not allowed, as it is attempting to shift cells in a table on your worksheet.',
-            textCloseTip: '\nClick to close the tip.',
+            textCloseTip: 'Click to close the tip.',
             textShape: 'Shape',
             errorFillRange: 'Could not fill the selected range of cells.<br>All the merged cells need to be the same size.',
             errorUpdateVersion: 'The file version has been changed. The page will be reloaded.',

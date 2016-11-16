@@ -177,7 +177,7 @@
   "SSE.Controllers.Main.saveTextText": "Salvando planilha...",
   "SSE.Controllers.Main.saveTitleText": "Salvando planilha",
   "SSE.Controllers.Main.textAnonymous": "Anônimo",
-  "SSE.Controllers.Main.textCloseTip": "\nClique para fechar a dica",
+  "SSE.Controllers.Main.textCloseTip": "Clique para fechar a dica",
   "SSE.Controllers.Main.textConfirm": "Confirmação",
   "SSE.Controllers.Main.textLoadingDocument": "Carregando planilha",
   "SSE.Controllers.Main.textNo": "Não",
