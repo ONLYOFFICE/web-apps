@@ -102,6 +102,7 @@ define([
                     if (isEdit) {
                         $layour.find('#settings-edit-document').hide();
                         $layour.find('#settings-readermode').hide();
+                        $layour.find('#settings-search .item-title').text('Find and Replace')
                     } else {
                         $layour.find('#settings-readermode input:checkbox')
                             .attr('checked', Common.SharedSettings.get('readerMode'))

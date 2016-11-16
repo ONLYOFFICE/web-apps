@@ -5842,6 +5842,9 @@ html.pixel-ratio-3 .color-palette a {
 .tablet .searchbar.document.replace .right .replace {
   display: flex;
 }
+.tablet .searchbar.document.replace .link.replace {
+  font-size: 16px;
+}
 .tablet .searchbar.document .center {
   width: 100%;
   display: flex;
@@ -5862,6 +5865,9 @@ html.pixel-ratio-3 .color-palette a {
 }
 .phone .searchbar.document.replace {
   height: 96px;
+}
+.phone .searchbar.document.replace .link.replace {
+  font-size: 16px;
 }
 .phone .searchbar.document.replace .left {
   margin-top: -48px;
