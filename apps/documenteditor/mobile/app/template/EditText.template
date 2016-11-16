@@ -358,21 +358,19 @@
     </div>
     <div class="page" id="page-text-bullets">
         <div class="page-content dataview bullets">
-            <div class="list-block">
-                <% _.each(bullets, function(row) { %>
-                <ul class="row">
-                    <% _.each(row, function(bullet) { %>
-                    <li data-type="<%= bullet.type %>">
-                        <% if (bullet.thumb.length < 1) { %>
-                        <div class="thumb"><label>None</label></div>
-                        <% } else { %>
-                        <div class="thumb" style="background-image:url('../mobile/resources/img/bullets/<%= bullet.thumb %>')"></div>
-                        <% } %>
-                    </li>
-                    <% }); %>
-                </ul>
+            <% _.each(bullets, function(row) { %>
+            <ul class="row">
+                <% _.each(row, function(bullet) { %>
+                <li data-type="<%= bullet.type %>">
+                    <% if (bullet.thumb.length < 1) { %>
+                    <div class="thumb" style="position: relative;"><label>None</label></div>
+                    <% } else { %>
+                    <div class="thumb" style="background-image:url('../mobile/resources/img/bullets/<%= bullet.thumb %>')"></div>
+                    <% } %>
+                </li>
                 <% }); %>
-            </div>
+            </ul>
+            <% }); %>
         </div>
     </div>
 </div>
@@ -388,21 +386,19 @@
     </div>
     <div class="page" id="page-text-numbers">
         <div class="page-content dataview numbers">
-            <div class="list-block">
-                <% _.each(numbers, function(row) { %>
-                <ul class="row">
-                    <% _.each(row, function(number) { %>
-                    <li data-type="<%= number.type %>">
-                        <% if (number.thumb.length < 1) { %>
-                        <div class="thumb"><label>None</label></div>
-                        <% } else { %>
-                        <div class="thumb" style="background-image:url('../mobile/resources/img/numbers/<%= number.thumb %>')"></div>
-                        <% } %>
-                    </li>
-                    <% }); %>
-                </ul>
+            <% _.each(numbers, function(row) { %>
+            <ul class="row">
+                <% _.each(row, function(number) { %>
+                <li data-type="<%= number.type %>">
+                    <% if (number.thumb.length < 1) { %>
+                    <div class="thumb" style="position: relative;"><label>None</label></div>
+                    <% } else { %>
+                    <div class="thumb" style="background-image:url('../mobile/resources/img/numbers/<%= number.thumb %>')"></div>
+                    <% } %>
+                </li>
                 <% }); %>
-            </div>
+            </ul>
+            <% }); %>
         </div>
     </div>
 </div>
