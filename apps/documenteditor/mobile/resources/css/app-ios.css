@@ -6261,7 +6261,7 @@ html.pixel-ratio-3 .color-palette a {
 .phone .searchbar.document.replace .center .replace {
   display: block;
 }
-.phone .searchbar.document.replace .right .replace {
+.phone .searchbar.document.replace .right > .replace {
   display: flex;
 }
 .phone .searchbar.document .left,
@@ -6289,7 +6289,7 @@ html.pixel-ratio-3 .color-palette a {
 .phone .searchbar.document .right > p {
   margin: 0;
 }
-.phone .searchbar.document .right .replace {
+.phone .searchbar.document .right > .replace {
   display: none;
 }
 .searchbar.document {

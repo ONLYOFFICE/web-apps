@@ -24,7 +24,7 @@
                     <a href="#" class="link icon-only next disabled"><i class="icon icon-next"></i></a>
                 </p>
                 <p class="buttons-row replace">
-                    <a href="#" class="link disabled">Replace</a>
+                    <a href="#" class="link replace disabled">Replace</a>
                 </p>
                 <% } else { %>
                 <p class="buttons-row">

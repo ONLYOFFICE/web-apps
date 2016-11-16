@@ -5636,6 +5636,10 @@ a.item-link,
 .container-settings.popover {
   width: 360px;
 }
+.settings.popup .list-block,
+.settings.popover .list-block {
+  margin: 32px 0;
+}
 .settings.popup .list-block ul,
 .settings.popover .list-block ul {
   border-radius: 0;
@@ -5865,7 +5869,7 @@ html.pixel-ratio-3 .color-palette a {
 .phone .searchbar.document.replace .center .replace {
   display: block;
 }
-.phone .searchbar.document.replace .right .replace {
+.phone .searchbar.document.replace .right > .replace {
   display: flex;
 }
 .phone .searchbar.document .left,
@@ -5890,7 +5894,7 @@ html.pixel-ratio-3 .color-palette a {
 .phone .searchbar.document .right > p a.link {
   height: 48px;
 }
-.phone .searchbar.document .right .replace {
+.phone .searchbar.document .right > .replace {
   display: none;
 }
 i.icon.icon-expand-up {
