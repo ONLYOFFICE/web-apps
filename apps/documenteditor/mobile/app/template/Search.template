@@ -1,0 +1,105 @@
+<!--Toolbar panel-->
+<div id="search-panel-view">
+    <div class="searchbar document navbar navbar-hidden replace">
+        <div class="navbar-inner">
+            <div class="left">
+                <a id="search-settings" href="#" class="link icon-only"><i class="icon icon-settings"></i></a>
+            </div>
+            <div class="center">
+                <form class="searchbar search">
+                    <div class="searchbar-input search">
+                        <input type="search" placeholder="Search"><a href="#" class="searchbar-clear"></a>
+                    </div>
+                </form>
+                <form class="searchbar replace">
+                    <div class="searchbar-input replace">
+                        <input type="search" placeholder="Replace"><a href="#" class="searchbar-clear"></a>
+                    </div>
+                </form>
+            </div>
+            <div class="right">
+                <% if (phone) { %>
+                <p class="buttons-row">
+                    <a href="#" class="link icon-only prev disabled"><i class="icon icon-prev"></i></a>
+                    <a href="#" class="link icon-only next disabled"><i class="icon icon-next"></i></a>
+                </p>
+                <p class="buttons-row replace">
+                    <a href="#" class="link disabled">Replace</a>
+                </p>
+                <% } else { %>
+                <p class="buttons-row">
+                    <a href="#" class="link replace disabled">Replace</a>
+                    <a href="#" class="link icon-only prev disabled"><i class="icon icon-prev"></i></a>
+                    <a href="#" class="link icon-only next disabled"><i class="icon icon-next"></i></a>
+                </p>
+                <% } %>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Settings-->
+<div id="search-settings-view">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="center sliding">Find and Replace</div>
+            <div class="right"><% if (phone) { %><a href="#" class="link close-popup"><b>Done</b></a><% } %></div>
+        </div>
+    </div>
+    <div class="page">
+        <div class="page-content">
+            <div class="list-block">
+                <ul>
+                    <li>
+                        <label class="label-radio item-content">
+                            <input type="radio" name="search-type" value="search">
+                            <% if (android) { %><div class="item-media"><i class="icon icon-form-radio"></i></div><% } %>
+                            <div class="item-inner">
+                                <div class="item-title">Find</div>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="label-radio item-content">
+                            <input type="radio" name="search-type" value="replace">
+                            <% if (android) { %><div class="item-media"><i class="icon icon-form-radio"></i></div><% } %>
+                            <div class="item-inner">
+                                <div class="item-title">Find and Replace</div>
+                            </div>
+                        </label>
+                    </li>
+                </ul>
+            </div>
+            <div class="list-block">
+                <ul>
+                    <li>
+                        <div id="search-case-sensitive" class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title">Case sensitive</div>
+                                <div class="item-after">
+                                    <label class="label-switch">
+                                        <input type="checkbox">
+                                        <div class="checkbox"></div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div id="search-highlight-results" class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title">Highlight results</div>
+                                <div class="item-after">
+                                    <label class="label-switch">
+                                        <input type="checkbox">
+                                        <div class="checkbox"></div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

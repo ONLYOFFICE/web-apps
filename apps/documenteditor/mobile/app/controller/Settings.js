@@ -107,7 +107,7 @@ define([
             showModal: function() {
                 if (Common.SharedSettings.get('phone')) {
                     modalView = uiApp.popup(
-                        '<div class="popup container-settings">' +
+                        '<div class="popup settings container-settings">' +
                             '<div class="content-block">' +
                                 '<div class="view settings-root-view navbar-through">' +
                                     this.getView('Settings').rootLayout() +
@@ -117,7 +117,7 @@ define([
                     );
                 } else {
                     modalView = uiApp.popover(
-                        '<div class="popover container-settings">' +
+                        '<div class="popover settings container-settings">' +
                             '<div class="popover-angle"></div>' +
                             '<div class="popover-inner">' +
                                 '<div class="content-block">' +

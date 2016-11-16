@@ -42,8 +42,11 @@
 
 define([
     'core',
+    'jquery',
+    'underscore',
+    'backbone',
     'documenteditor/mobile/app/view/Toolbar'
-], function (core) {
+], function (core, $, _, Backbone) {
     'use strict';
 
     DE.Controllers.Toolbar = Backbone.Controller.extend((function() {
@@ -58,13 +61,6 @@ define([
             ],
 
             initialize: function() {
-                this.addListeners({
-                    'Toolbar': {
-                        'searchbar:show'        : this.onSearchbarShow,
-                        'searchbar:render'      : this.onSearchbarRender
-                    }
-                });
-
                 Common.Gateway.on('init', _.bind(this.loadConfig, this));
             },
 
@@ -98,74 +94,6 @@ define([
 
             setDocumentTitle: function (title) {
                 $('#toolbar-title').html(title);
-            },
-
-            // Search
-
-            onSearchbarRender: function(bar) {
-                var me = this;
-                me.searchBar = uiApp.searchbar('.searchbar.document', {
-                    customSearch: true,
-                    onSearch    : _.bind(me.onSearchChange, me),
-                    onEnable    : _.bind(me.onSearchEnable, me),
-                    onDisable   : _.bind(me.onSearchDisable, me),
-                    onClear     : _.bind(me.onSearchClear, me)
-                });
-
-                me.searchPrev = $('.searchbar.document .prev');
-                me.searchNext = $('.searchbar.document .next');
-
-                me.searchPrev.on('click', _.bind(me.onSearchPrev, me));
-                me.searchNext.on('click', _.bind(me.onSearchNext, me));
-            },
-
-            onSearchbarShow: function(bar) {
-                //
-            },
-
-            onSearchChange: function(search) {
-                var me = this,
-                    isEmpty = (search.query.trim().length < 1);
-
-                _.each([me.searchPrev, me.searchNext], function(btn) {
-                    btn[isEmpty ? 'addClass' : 'removeClass']('disabled');
-                });
-            },
-
-            onSearchEnable: function(search) {
-                //
-            },
-
-            onSearchDisable: function(search) {
-                //
-            },
-
-            onSearchClear: function(search) {
-//            window.focus();
-//            document.activeElement.blur();
-            },
-
-            onSearchPrev: function(btn) {
-                this.onQuerySearch(this.searchBar.query, 'back');
-            },
-
-            onSearchNext: function(btn) {
-                this.onQuerySearch(this.searchBar.query, 'next');
-            },
-
-            onQuerySearch: function(query, direction, opts) {
-                if (query && query.length) {
-                    if (!this.api.asc_findText(query, direction != 'back', opts && opts.matchcase, opts && opts.matchword)) {
-                        var me = this;
-                        uiApp.alert(
-                            '',
-                            me.textNoTextFound,
-                            function () {
-                                me.searchBar.input.focus();
-                            }
-                        );
-                    }
-                }
             },
 
             // Handlers
@@ -219,8 +147,7 @@ define([
             dlgLeaveTitleText   : 'You leave the application',
             dlgLeaveMsgText     : 'You have unsaved changes in this document. Click \'Stay on this Page\' to await the autosave of the document. Click \'Leave this Page\' to discard all the unsaved changes.',
             leaveButtonText     : 'Leave this Page',
-            stayButtonText      : 'Stay on this Page',
-            textNoTextFound     : 'Text not found',
+            stayButtonText      : 'Stay on this Page'
         }
     })());
 });

@@ -265,7 +265,7 @@ define([
 
                 if (isPhone) {
                     me.picker = $$(uiApp.pickerModal(
-                        '<div class="picker-modal container-edit">' +
+                        '<div class="picker-modal settings container-edit">' +
                             '<div class="view edit-root-view navbar-through">' +
                                 $layoutNavbar.prop('outerHTML') +
                                 $layoutPages.prop('outerHTML') +
@@ -277,7 +277,7 @@ define([
                     mainView.hideNavbar();
                 } else {
                     me.picker = uiApp.popover(
-                        '<div class="popover container-edit">' +
+                        '<div class="popover settings container-edit">' +
                             '<div class="popover-angle"></div>' +
                             '<div class="popover-inner">' +
                                 '<div class="content-block">' +

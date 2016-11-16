@@ -4,12 +4,12 @@
   // Replace mode
   .searchbar.document.replace {
     .center {
-      .searchbar-input:first-child {
+      .searchbar:first-child {
         margin-right: 10px;
       }
 
       .replace {
-        display: block;
+        display: flex;
       }
     }
 
@@ -25,6 +25,11 @@
   .searchbar.document {
     .center {
       width: 100%;
+
+      .searchbar {
+        background: inherit;
+        padding: 0;
+      }
 
       .replace {
         display: none;
@@ -84,6 +89,15 @@
 
     .center {
       width: 100%;
+
+      .searchbar {
+        background: inherit;
+        padding: 0;
+
+        &:after {
+          content: none;
+        }
+      }
 
       .replace {
         display: none;

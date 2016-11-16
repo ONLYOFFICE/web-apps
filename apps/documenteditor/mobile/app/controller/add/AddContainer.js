@@ -220,7 +220,7 @@ define([
 
                 if (isPhone) {
                     me.picker = $$(uiApp.popup(
-                        '<div class="popup container-add">' +
+                        '<div class="popup settings container-add">' +
                             '<div class="view add-root-view navbar-through">' +
                                 $layoutNavbar.prop('outerHTML') +
                                 $layoutPages.prop('outerHTML') +
@@ -229,7 +229,7 @@ define([
                     ))
                 } else {
                     me.picker = uiApp.popover(
-                        '<div class="popover container-add">' +
+                        '<div class="popover settings container-add">' +
                             '<div class="popover-angle"></div>' +
                             '<div class="popover-inner">' +
                                 '<div class="content-block">' +

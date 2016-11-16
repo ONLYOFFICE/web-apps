@@ -19,7 +19,9 @@
   &.popover {
     width: 360px;
   }
+}
 
+.settings {
   &.popup,
   &.popover {
     .list-block {
@@ -27,6 +29,10 @@
       ul {
         border-radius: 0 !important;
         background: #fff;
+
+        &:last-child {
+          .hairline(bottom, @listBlockBorderColor);
+        }
       }
 
       &:first-child {
@@ -70,6 +76,7 @@
       }
     }
   }
+
   .popover-inner {
     height: 400px;
   }

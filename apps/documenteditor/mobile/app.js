@@ -145,6 +145,7 @@ require([
         controllers : [
             'Editor',
             'Toolbar',
+            'Search',
             'Main',
             'DocumentHolder',
             'Settings',
@@ -209,6 +210,7 @@ require([
         'common/main/lib/util/utils',
         'documenteditor/mobile/app/controller/Editor',
         'documenteditor/mobile/app/controller/Toolbar',
+        'documenteditor/mobile/app/controller/Search',
         'documenteditor/mobile/app/controller/Main',
         'documenteditor/mobile/app/controller/DocumentHolder',
         'documenteditor/mobile/app/controller/Settings',
