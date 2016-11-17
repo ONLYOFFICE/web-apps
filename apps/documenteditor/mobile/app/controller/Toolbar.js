@@ -49,7 +49,7 @@ define([
 ], function (core, $, _, Backbone) {
     'use strict';
 
-    DE.Controllers.Toolbar = Backbone.Controller.extend((function() {
+    DE.Controllers.Toolbar = Backbone.Controller.extend(_.extend((function() {
         // private
         var _backUrl;
 
@@ -149,5 +149,5 @@ define([
             leaveButtonText     : 'Leave this Page',
             stayButtonText      : 'Stay on this Page'
         }
-    })());
+    })(), DE.Controllers.Toolbar || {}))
 });

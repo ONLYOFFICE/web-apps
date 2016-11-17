@@ -129,5 +129,11 @@
   "DE.Views.Settings.textVersion": "Version",
   "DE.Views.Settings.textAddress": "address",
   "DE.Views.Settings.textEmail": "email",
-  "DE.Views.Settings.textTel": "tel"
+  "DE.Views.Settings.textTel": "tel",
+
+  "DE.Controllers.Toolbar.dlgLeaveTitleText": "You leave the application",
+  "DE.Controllers.Toolbar.dlgLeaveMsgText": "You have unsaved changes in this document. Click 'Stay on this Page' to await the autosave of the document. Click 'Leave this Page' to discard all the unsaved changes.",
+  "DE.Controllers.Toolbar.leaveButtonText": "Leave this Page",
+  "DE.Controllers.Toolbar.stayButtonText": "Stay on this Page",
+  "DE.Views.Toolbar.textBack": "Back"
 }

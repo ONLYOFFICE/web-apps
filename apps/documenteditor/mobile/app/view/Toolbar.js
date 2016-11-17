@@ -48,7 +48,7 @@ define([
 ], function (toolbarTemplate, $, _, Backbone) {
     'use strict';
 
-    DE.Views.Toolbar = Backbone.View.extend((function() {
+    DE.Views.Toolbar = Backbone.View.extend(_.extend((function() {
         // private
 
         return {
@@ -86,7 +86,8 @@ define([
                 $el.prepend(this.template({
                     android     : Common.SharedSettings.get('android'),
                     phone       : Common.SharedSettings.get('phone'),
-                    backTitle   : Common.SharedSettings.get('android') ? '' : 'Back'
+                    backTitle   : Common.SharedSettings.get('android') ? '' : this.textBack,
+                    scope       : this
                 }));
 
                 return this;
@@ -131,7 +132,9 @@ define([
             // Settings
             showSettings: function () {
                 DE.getController('Settings').showModal();
-            }
+            },
+
+            textBack: 'Back'
         }
-    })());
+    })(), DE.Views.Toolbar || {}))
 });
