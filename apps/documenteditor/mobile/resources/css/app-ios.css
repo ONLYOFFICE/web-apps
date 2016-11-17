@@ -5826,6 +5826,16 @@ html.ios-gt-8 .notifications .item-subtitle {
 [disabled] [disabled] {
   opacity: 1;
 }
+* {
+  -webkit-user-select: none;
+  user-select: none;
+}
+input,
+textarea {
+  -webkit-touch-callout: default;
+  -webkit-user-select: text;
+  user-select: text;
+}
 #editor-navbar.navbar .right a + a,
 #editor-navbar.navbar .left a + a {
   margin-left: 0;

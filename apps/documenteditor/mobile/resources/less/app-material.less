@@ -56,6 +56,18 @@
 @import url('material/_search.less');
 @import url('material/_icons.less');
 
+// Disable text select
+* {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+input, textarea {
+  -webkit-touch-callout:default;
+  -webkit-user-select:text;
+  user-select:text;
+}
+
 // Add Container
 
 #add-table,
