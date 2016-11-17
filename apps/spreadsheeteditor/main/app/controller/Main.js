@@ -580,6 +580,10 @@ define([
 
                 if (this.appOptions.isEdit && this.appOptions.canLicense && !this.appOptions.isOffline && this.appOptions.canCoAuthoring) {
                     value = Common.localStorage.getItem("sse-settings-coauthmode");
+                    if (value===null && Common.localStorage.getItem("sse-settings-autosave")===null &&
+                        this.appOptions.customization && this.appOptions.customization.autosave===false) {
+                        value = 0; // use customization.autosave only when sse-settings-coauthmode and sse-settings-autosave are null
+                    }
                     this._state.fastCoauth = (value===null || parseInt(value) == 1);
                 } else
                     this._state.fastCoauth = false;
@@ -638,6 +642,8 @@ define([
                 if (me.appOptions.isEdit) {
                     if (me.appOptions.canAutosave) {
                         value = Common.localStorage.getItem("sse-settings-autosave");
+                        if (value===null && me.appOptions.customization && me.appOptions.customization.autosave===false)
+                            value = 0;
                         value = (!me._state.fastCoauth && value!==null) ? parseInt(value) : (me.appOptions.canCoAuthoring ? 1 : 0);
                     } else {
                         value = 0;

@@ -275,6 +275,9 @@ define([
 
             /** coauthoring begin **/
             value = Common.localStorage.getItem("pe-settings-coauthmode");
+            if (value===null && Common.localStorage.getItem("pe-settings-autosave")===null &&
+                this.mode.customization && this.mode.customization.autosave===false)
+                value = 0; // use customization.autosave only when pe-settings-coauthmode and pe-settings-autosave are null
             var fast_coauth = (value===null || parseInt(value) == 1) && !(this.mode.isDesktopApp && this.mode.isOffline) && this.mode.canCoAuthoring;
 
             item = this.cmbCoAuthMode.store.findWhere({value: parseInt(value)});
@@ -288,6 +291,8 @@ define([
             this._oldUnits = this.cmbUnit.getValue();
 
             value = Common.localStorage.getItem("pe-settings-autosave");
+            if (value===null && this.mode.customization && this.mode.customization.autosave===false)
+                value = 0;
             this.chAutosave.setValue(fast_coauth || (value===null ? this.mode.canCoAuthoring : parseInt(value) == 1));
 
             value = Common.localStorage.getItem("pe-settings-showsnaplines");

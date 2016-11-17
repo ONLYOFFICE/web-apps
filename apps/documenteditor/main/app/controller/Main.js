@@ -824,6 +824,10 @@ define([
                 /** coauthoring begin **/
                 if (me.appOptions.isEdit && me.appOptions.canLicense && !me.appOptions.isOffline && me.appOptions.canCoAuthoring) {
                     value = Common.localStorage.getItem("de-settings-coauthmode");
+                    if (value===null && Common.localStorage.getItem("de-settings-autosave")===null &&
+                        me.appOptions.customization && me.appOptions.customization.autosave===false) {
+                        value = 0; // use customization.autosave only when de-settings-coauthmode and de-settings-autosave are null
+                    }
                     me._state.fastCoauth = (value===null || parseInt(value) == 1);
                     me.api.asc_SetFastCollaborative(me._state.fastCoauth);
 
@@ -873,6 +877,8 @@ define([
 
                 if (me.appOptions.isEdit) {
                     value = Common.localStorage.getItem("de-settings-autosave");
+                    if (value===null && me.appOptions.customization && me.appOptions.customization.autosave===false)
+                        value = 0;
                     value = (!me._state.fastCoauth && value!==null) ? parseInt(value) : (me.appOptions.canCoAuthoring ? 1 : 0);
 
                     me.api.asc_setAutoSaveGap(value);

@@ -111,7 +111,8 @@
                     leftMenu: true,
                     rightMenu: true,
                     toolbar: true,
-                    header: true
+                    header: true,
+                    autosave: true
                 },
                 plugins: {
                     autoStartGuid: 'asc.{FFE1F462-1EA2-4391-990D-4CC84940B754}',
