@@ -216,7 +216,7 @@ var ApplicationController = new(function(){
             $('#idt-embed').hide();
 
         if ( !embedConfig.fullscreenUrl )
-            $('#idt-fullscr').hide();
+            $('#idt-fullscreen').hide();
 
         common.controller.modals.attach({
             share: '#idt-share',
