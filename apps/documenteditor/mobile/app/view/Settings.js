@@ -48,7 +48,7 @@ define([
 ], function (settingsTemplate, $, _, Backbone) {
     'use strict';
 
-    DE.Views.Settings = Backbone.View.extend((function() {
+    DE.Views.Settings = Backbone.View.extend(_.extend((function() {
         // private
         var isEdit;
 
@@ -83,7 +83,8 @@ define([
             render: function() {
                 this.layout = $('<div/>').append(this.template({
                     android : Common.SharedSettings.get('android'),
-                    phone   : Common.SharedSettings.get('phone')
+                    phone   : Common.SharedSettings.get('phone'),
+                    scope   : this
                 }));
 
                 return this;
@@ -95,14 +96,13 @@ define([
 
             rootLayout: function () {
                 if (this.layout) {
-                    var $layour = this.layout
-                        .find('#settings-root-view');
-                    var isPhone = Common.SharedSettings.get('phone');
+                    var $layour = this.layout.find('#settings-root-view'),
+                        isPhone = Common.SharedSettings.get('phone');
 
                     if (isEdit) {
                         $layour.find('#settings-edit-document').hide();
                         $layour.find('#settings-readermode').hide();
-                        $layour.find('#settings-search .item-title').text('Find and Replace')
+                        $layour.find('#settings-search .item-title').text(this.textFindAndReplace)
                     } else {
                         $layour.find('#settings-readermode input:checkbox')
                             .attr('checked', Common.SharedSettings.get('readerMode'))
@@ -183,7 +183,34 @@ define([
                 }
             },
 
-            unknownText: 'Unknown'
-        }
-    })());
+            unknownText: 'Unknown',
+            textFindAndReplace: 'Find and Replace',
+            textSettings: 'Settings',
+            textDone: 'Done',
+            textFind: 'Find',
+            textEditDoc: 'Edit Document',
+            textReader: 'Reader Mode',
+            textDownload: 'Download',
+            textDocInfo: 'Document Info',
+            textHelp: 'Help',
+            textAbout: 'About',
+            textBack: 'Back',
+            textDocTitle: 'Document title',
+            textLoading: 'Loading...',
+            textAuthor: 'Author',
+            textCreateDate: 'Create date',
+            textStatistic: 'Statistic',
+            textPages: 'Pages',
+            textParagraphs: 'Paragraphs',
+            textWords: 'Words',
+            textSymbols: 'Symbols',
+            textSpaces: 'Spaces',
+            textDownloadAs: 'Download As...',
+            textVersion: 'Version',
+            textAddress: 'address',
+            textEmail: 'email',
+            textTel: 'tel'
+
+    }
+    })(), DE.Views.Settings || {}))
 });

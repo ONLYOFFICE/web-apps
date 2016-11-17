@@ -47,7 +47,7 @@ define([
 ], function (core) {
     'use strict';
 
-    DE.Controllers.Settings = Backbone.Controller.extend((function() {
+    DE.Controllers.Settings = Backbone.Controller.extend(_.extend((function() {
         // private
         var rootView,
             inProgress,
@@ -92,12 +92,6 @@ define([
             },
 
             initEvents: function () {
-
-
-                // $('#font-bold').single('click',             _.bind(me.onBold, me));
-                // $('#font-italic').single('click',           _.bind(me.onItalic, me));
-                // $('#font-underline').single('click',        _.bind(me.onUnderline, me));
-                // $('#font-strikethrough').single('click',    _.bind(me.onStrikethrough, me));
             },
 
             rootView : function() {
@@ -272,5 +266,5 @@ define([
             notcriticalErrorTitle   : 'Warning',
             warnDownloadAs          : 'If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?'
         }
-    })());
+    })(), DE.Controllers.Settings || {}))
 });

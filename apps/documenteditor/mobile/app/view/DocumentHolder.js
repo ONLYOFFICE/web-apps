@@ -67,14 +67,7 @@ define([
             // Render layout
             render: function() {
                 var el = $(this.el);
-
-                el.append(this.template({
-                    //
-                }));
-
-                // this.f7View = uiApp.addView('.view-main', {
-                //     // params
-                // });
+                el.append(this.template({}));
 
                 return this;
             },

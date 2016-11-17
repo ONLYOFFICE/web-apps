@@ -48,7 +48,7 @@ define([
 ], function (searchTemplate, $, _, Backbone) {
     'use strict';
 
-    DE.Views.Search = Backbone.View.extend((function() {
+    DE.Views.Search = Backbone.View.extend(_.extend((function() {
         // private
         var _isEdit = false,
             _layout;
@@ -76,7 +76,8 @@ define([
                 _layout = $('<div/>').append(this.template({
                     android : Common.SharedSettings.get('android'),
                     phone   : Common.SharedSettings.get('phone'),
-                    isEdit  : _isEdit
+                    isEdit  : _isEdit,
+                    scope   : this
                 }));
 
                 return this;
@@ -183,7 +184,14 @@ define([
                         uiApp.hideNavbar(searchBar);
                     }, 10);
                 }
-            }
+            },
+
+            textFind: 'Find',
+            textFindAndReplace: 'Find and Replace',
+            textDone: 'Done',
+            textReplace: 'Replace',
+            textCase: 'Case sensitive',
+            textHighlight: 'Highlight results'
         }
-    })());
+    })(), DE.Views.Search || {}))
 });

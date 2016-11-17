@@ -2,8 +2,8 @@
 <div id="settings-root-view">
     <div class="navbar">
         <div class="navbar-inner">
-            <div class="center sliding">Settings</div>
-            <div class="right"><% if (phone) { %><a href="#" class="link close-popup">Done</a><% } %></div>
+            <div class="center sliding"><%= scope.textSettings %></div>
+            <div class="right"><% if (phone) { %><a href="#" class="link close-popup"><%= scope.textDone %></a><% } %></div>
         </div>
     </div>
     <div class="pages">
@@ -18,7 +18,7 @@
                                         <i class="icon icon-search"></i>
                                     </div>
                                     <div class="item-inner">
-                                        <div class="item-title">Find</div>
+                                        <div class="item-title"><%= scope.textFind %></div>
                                     </div>
                                 </div>
                             </a>
@@ -30,7 +30,7 @@
                                         <i class="icon icon-edit"></i>
                                     </div>
                                     <div class="item-inner">
-                                        <div class="item-title">Edit Document</div>
+                                        <div class="item-title"><%= scope.textEditDoc %></div>
                                     </div>
                                 </div>
                             </a>
@@ -41,7 +41,7 @@
                                     <i class="icon icon-reader"></i>
                                 </div>
                                 <div class="item-inner">
-                                    <div class="item-title">Reader Mode</div>
+                                    <div class="item-title"><%= scope.textReader %></div>
                                     <div class="item-after">
                                         <label class="label-switch">
                                             <input type="checkbox">
@@ -58,7 +58,7 @@
                                         <i class="icon icon-download"></i>
                                     </div>
                                     <div class="item-inner">
-                                        <div class="item-title">Download</div>
+                                        <div class="item-title"><%= scope.textDownload %></div>
                                     </div>
                                 </div>
                             </a>
@@ -70,7 +70,7 @@
                                         <i class="icon icon-info"></i>
                                     </div>
                                     <div class="item-inner">
-                                        <div class="item-title">Document Info</div>
+                                        <div class="item-title"><%= scope.textDocInfo %></div>
                                     </div>
                                 </div>
                             </a>
@@ -94,7 +94,7 @@
                                         <i class="icon icon-help"></i>
                                     </div>
                                     <div class="item-inner">
-                                        <div class="item-title">Help</div>
+                                        <div class="item-title"><%= scope.textHelp %></div>
                                     </div>
                                 </div>
                             </a>
@@ -106,7 +106,7 @@
                                         <i class="icon icon-about"></i>
                                     </div>
                                     <div class="item-inner">
-                                        <div class="item-title">About</div>
+                                        <div class="item-title"><%= scope.textAbout %></div>
                                     </div>
                                 </div>
                             </a>
@@ -124,78 +124,75 @@
         <div class="navbar-inner">
             <div class="left sliding">
                 <a href="#" class="back link">
-                    <i class="icon icon-back"></i>
-                    <% if (!android) { %>
-                        <span>Back</span>
-                    <% } %>
+                    <i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %>
                 </a>
             </div>
-            <div class="center sliding">Document Info</div>
+            <div class="center sliding"><%= scope.textDocInfo %></div>
         </div>
     </div>
     <div class="pages">
         <div class="page" data-page="settings-info-view">
             <div class="page-content">
-                <div class="content-block-title">Document title</div>
+                <div class="content-block-title"><%= scope.textDocTitle %></div>
                 <div class="list-block">
                     <ul>
                         <li class="item-content">
                             <div class="item-inner">
-                                <div id="settings-document-title" class="item-title">Loading...</div>
+                                <div id="settings-document-title" class="item-title"><%= scope.textLoading %></div>
                             </div>
                         </li>
                     </ul>
                 </div>
-                <div class="content-block-title">Author</div>
+                <div class="content-block-title"><%= scope.textAuthor %></div>
                 <div class="list-block">
                     <ul>
                         <li class="item-content">
                             <div class="item-inner">
-                                <div id="settings-document-autor" class="item-title">Loading...</div>
+                                <div id="settings-document-autor" class="item-title"><%= scope.textLoading %></div>
                             </div>
                         </li>
                     </ul>
                 </div>
-                <div class="content-block-title">Create date</div>
+                <div class="content-block-title"><%= scope.textCreateDate %></div>
                 <div class="list-block">
                     <ul>
                         <li class="item-content">
                             <div class="item-inner">
-                                <div id="settings-document-date" class="item-title">Loading...</div>
+                                <div id="settings-document-date" class="item-title"><%= scope.textLoading %></div>
                             </div>
                         </li>
                     </ul>
                 </div>
-                <div class="content-block-title">Statistic</div>
+                <div class="content-block-title"><%= scope.textStatistic %></div>
                 <div class="list-block">
                     <ul>
                         <li class="item-content">
                             <div class="item-inner">
-                                <div class="item-title">Pages</div>
+                                <div class="item-title"><%= scope.textPages %></div>
                                 <div class="item-after" id="statistic-pages">0</div>
                             </div>
                         </li>
                         <li class="item-content">
                             <div class="item-inner">
-                                <div class="item-title">Paragraphs</div>
+                                <div class="item-title"><%= scope.textParagraphs %></div>
                                 <div class="item-after" id="statistic-paragraphs">0</div>
                             </div>
                         </li>
                         <li class="item-content">
                             <div class="item-inner">
-                                <div class="item-title">Words</div>
+                                <div class="item-title"><%= scope.textWords %></div>
                                 <div class="item-after" id="statistic-words">0</div>
                             </div>
                         </li>
                         <li class="item-content">
                             <div class="item-inner">
-                                <div class="item-title">Symbols</div>
+                                <div class="item-title"><%= scope.textSymbols %></div>
                                 <div class="item-after" id="statistic-symbols">0</div>
                             </div>
                         </li>
                         <li class="item-content">
                             <div class="item-inner">
-                                <div class="item-title">Spaces</div>
+                                <div class="item-title"><%= scope.textSpaces %></div>
                                 <div class="item-after" id="statistic-spaces">0</div>
                             </div>
                         </li>
@@ -212,16 +209,16 @@
         <div class="navbar-inner">
             <div class="left sliding">
                 <a href="#" class="back link">
-                    <i class="icon icon-back"></i><% if (!android) { %><span>Back</span><% } %>
+                    <i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %>
                 </a>
             </div>
-            <div class="center sliding">Download</div>
+            <div class="center sliding"><%= scope.textDownload %></div>
         </div>
     </div>
     <div class="pages">
         <div class="page formats" data-page="settings-download-view">
             <div class="page-content">
-                <div class="content-block-title">Download As...</div>
+                <div class="content-block-title"><%= scope.textDownloadAs %></div>
                 <div class="list-block">
                     <ul>
                         <li>
@@ -297,10 +294,7 @@
         <div class="navbar-inner">
             <div class="left sliding">
                 <a href="#" class="back link">
-                    <i class="icon icon-back"></i>
-                    <% if (!android) { %>
-                    <span>Back</span>
-                    <% } %>
+                    <i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %>
                 </a>
             </div>
             <div class="center sliding">Version History</div>
@@ -326,13 +320,10 @@
         <div class="navbar-inner">
             <div class="left sliding">
                 <a href="#" class="back link">
-                    <i class="icon icon-back"></i>
-                    <% if (!android) { %>
-                    <span>Back</span>
-                    <% } %>
+                    <i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %>
                 </a>
             </div>
-            <div class="center sliding">About</div>
+            <div class="center sliding"><%= scope.textAbout %></div>
         </div>
     </div>
     <div class="pages">
@@ -343,13 +334,13 @@
                 </div>
                 <div class="content-block">
                     <h3>DOCUMENT EDITOR</h3>
-                    <h3>Version 4.1</h3>
+                    <h3><%= scope.textVersion %> 4.2</h3>
                 </div>
                 <div class="content-block">
                     <h3 class="vendor">Ascensio System SIA</h3>
-                    <p><label>address:</label><a class="external" href="#">Lubanas st. 125a-25, Riga, Latvia, EU, LV-1021</a></p>
-                    <p><label>email:</label><a class="external" target="_blank" href="mailto:support@onlyoffice.com">support@onlyoffice.com</a></p>
-                    <p><label>tel:</label><a class="external" target="_blank" href="tel:+371 660-16425">+371 660-16425</a></p>
+                    <p><label><%= scope.textAddress %>:</label><a class="external" href="#">Lubanas st. 125a-25, Riga, Latvia, EU, LV-1021</a></p>
+                    <p><label><%= scope.textEmail %>:</label><a class="external" target="_blank" href="mailto:support@onlyoffice.com">support@onlyoffice.com</a></p>
+                    <p><label><%= scope.textTel %>:</label><a class="external" target="_blank" href="tel:+371 660-16425">+371 660-16425</a></p>
                     <p><a class="external" target="_blank" href="http://www.onlyoffice.com">www.onlyoffice.com</a></p>
                 </div>
             </div>

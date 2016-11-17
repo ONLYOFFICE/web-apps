@@ -24,11 +24,11 @@
                     <a href="#" class="link icon-only next disabled"><i class="icon icon-next"></i></a>
                 </p>
                 <p class="buttons-row replace">
-                    <a href="#" class="link replace disabled">Replace</a>
+                    <a href="#" class="link replace disabled"><%= scope.textReplace %></a>
                 </p>
                 <% } else { %>
                 <p class="buttons-row">
-                    <a href="#" class="link replace disabled">Replace</a>
+                    <a href="#" class="link replace disabled"><%= scope.textReplace %></a>
                     <a href="#" class="link icon-only prev disabled"><i class="icon icon-prev"></i></a>
                     <a href="#" class="link icon-only next disabled"><i class="icon icon-next"></i></a>
                 </p>
@@ -42,8 +42,8 @@
 <div id="search-settings-view">
     <div class="navbar">
         <div class="navbar-inner">
-            <div class="center sliding"><% if (isEdit) { %>Find and Replace<% } else { %>Find<% } %></div>
-            <div class="right"><% if (phone) { %><a href="#" class="link close-popup"><b>Done</b></a><% } %></div>
+            <div class="center sliding"><%= isEdit ? scope.textFindAndReplace : scope.textFind %></div>
+            <div class="right"><% if (phone) { %><a href="#" class="link close-popup"><b><%= scope.textDone %></b></a><% } %></div>
         </div>
     </div>
     <div class="page" data-page="search-settings">
@@ -56,7 +56,7 @@
                             <input type="radio" name="search-type" value="search">
                             <% if (android) { %><div class="item-media"><i class="icon icon-form-radio"></i></div><% } %>
                             <div class="item-inner">
-                                <div class="item-title">Find</div>
+                                <div class="item-title"><%= scope.textFind %></div>
                             </div>
                         </label>
                     </li>
@@ -65,7 +65,7 @@
                             <input type="radio" name="search-type" value="replace">
                             <% if (android) { %><div class="item-media"><i class="icon icon-form-radio"></i></div><% } %>
                             <div class="item-inner">
-                                <div class="item-title">Find and Replace</div>
+                                <div class="item-title"><%= scope.textFindAndReplace %></div>
                             </div>
                         </label>
                     </li>
@@ -77,7 +77,7 @@
                     <li>
                         <div id="search-case-sensitive" class="item-content">
                             <div class="item-inner">
-                                <div class="item-title">Case sensitive</div>
+                                <div class="item-title"><%= scope.textCase %></div>
                                 <div class="item-after">
                                     <label class="label-switch">
                                         <input type="checkbox">
@@ -90,7 +90,7 @@
                     <li>
                         <div id="search-highlight-results" class="item-content">
                             <div class="item-inner">
-                                <div class="item-title">Highlight results</div>
+                                <div class="item-title"><%= scope.textHighlight %></div>
                                 <div class="item-after">
                                     <label class="label-switch">
                                         <input type="checkbox">

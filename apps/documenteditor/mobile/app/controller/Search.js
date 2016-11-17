@@ -50,7 +50,7 @@ define([
 ], function (core, $, _, Backbone) {
     'use strict';
 
-    DE.Controllers.Search = Backbone.Controller.extend((function() {
+    DE.Controllers.Search = Backbone.Controller.extend(_.extend((function() {
         // private
 
         var _isShow = false,
@@ -305,7 +305,7 @@ define([
 
             // API handlers
 
-            textNoTextFound     : 'Text not found',
+            textNoTextFound     : 'Text not found'
         }
-    })());
+    })(), DE.Controllers.Search || {}))
 });
