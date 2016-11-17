@@ -249,7 +249,7 @@ define([
 
                 if (format) {
                     if (format == Asc.c_oAscFileType.TXT) {
-                        _.delay(function () {
+                        _.defer(function () {
                             uiApp.confirm(
                                 me.warnDownloadAs,
                                 me.notcriticalErrorTitle,
@@ -257,9 +257,11 @@ define([
                                     me.api.asc_DownloadAs(format);
                                 }
                             );
-                        }, 300);
+                        });
                     } else {
-                        me.api.asc_DownloadAs(format);
+                        _.defer(function () {
+                            me.api.asc_DownloadAs(format);
+                        });
                     }
 
                     me.hideModal();

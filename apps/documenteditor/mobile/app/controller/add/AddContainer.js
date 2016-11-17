@@ -87,20 +87,6 @@ define([
                 }
             },
 
-            _dummyEditController: function () {
-                var layout =
-                    '<div class="content-block inset">' +
-                        '<div class="content-block-inner"> ' +
-                            '<p>Implement add view!!!!</p>' +
-                        '</div>' +
-                    '</div>';
-
-                return {
-                    caption: 'Dummy',
-                    layout: layout
-                }
-            },
-
             _layoutEditorsByStack: function () {
                 var addViews = [];
 
