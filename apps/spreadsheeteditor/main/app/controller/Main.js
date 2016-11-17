@@ -1020,30 +1020,37 @@ define([
 
                     case Asc.c_oAscError.ID.FrmlWrongCountParentheses:
                         config.msg = this.errorWrongBracketsCount;
+                        config.closable = true;
                         break;
 
                     case Asc.c_oAscError.ID.FrmlWrongOperator:
                         config.msg = this.errorWrongOperator;
+                        config.closable = true;
                         break;
 
                     case Asc.c_oAscError.ID.FrmlWrongMaxArgument:
                         config.msg = this.errorCountArgExceed;
+                        config.closable = true;
                         break;
 
                     case Asc.c_oAscError.ID.FrmlWrongCountArgument:
                         config.msg = this.errorCountArg;
+                        config.closable = true;
                         break;
 
                     case Asc.c_oAscError.ID.FrmlWrongFunctionName:
                         config.msg = this.errorFormulaName;
+                        config.closable = true;
                         break;
 
                     case Asc.c_oAscError.ID.FrmlAnotherParsingError:
                         config.msg = this.errorFormulaParsing;
+                        config.closable = true;
                         break;
 
                     case Asc.c_oAscError.ID.FrmlWrongArgumentRange:
                         config.msg = this.errorArgsRange;
+                        config.closable = true;
                         break;
 
                     case Asc.c_oAscError.ID.UnexpectedGuid:
