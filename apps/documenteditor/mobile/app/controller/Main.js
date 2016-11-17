@@ -981,7 +981,7 @@ define([
                     me.onLongActionEnd(Asc.c_oAscAsyncActionType.BlockInteraction, LoadingDocument);
 
                     modal = uiApp.modal({
-                        title: "Choose TXT options",
+                        title: me.advTxtOptions,
                         text: '',
                         afterText:
                         '<div class="content-block">' +
@@ -1027,9 +1027,9 @@ define([
 
                 } else if (type == Asc.c_oAscAdvancedOptionsID.DRM) {
                     modal = uiApp.modal({
-                        title: 'Protected File',
-                        text: 'You password please:',
-                        afterText: '<div class="input-field"><input type="password" name="modal-password" placeholder="' + 'Password' + '" class="modal-text-input"></div>',
+                        title: me.advDRMOptions,
+                        text: me.advDRMEnterPassword,
+                        afterText: '<div class="input-field"><input type="password" name="modal-password" placeholder="' + me.advDRMPassword + '" class="modal-text-input"></div>',
                         buttons: [
                             {
                                 text: 'OK',
@@ -1107,7 +1107,7 @@ define([
                 }
             },
 
-            leavePageText: 'You have unsaved changes in this document. Click \'Stay on this Page\' then \'Save\' to save them. Click \'Leave this Page\' to discard all the unsaved changes.',
+            leavePageText: 'You have unsaved changes in this document. Click \'Stay on this Page\' to await the autosave of the document. Click \'Leave this Page\' to discard all the unsaved changes.',
             defaultTitleText: 'ONLYOFFICE Document Editor',
             criticalErrorTitle: 'Error',
             notcriticalErrorTitle: 'Warning',
@@ -1136,7 +1136,6 @@ define([
             uploadImageSizeMessage: 'Maximium image size limit exceeded.',
             uploadImageExtMessage: 'Unknown image format.',
             uploadImageFileCountMessage: 'No images uploaded.',
-            reloadButtonText: 'Reload Page',
             unknownErrorText: 'Unknown error.',
             convertationTimeoutText: 'Convertation timeout exceeded.',
             downloadErrorText: 'Download failed.',
@@ -1144,12 +1143,7 @@ define([
             splitMaxRowsErrorText: 'The number of rows must be less than %1',
             splitMaxColsErrorText: 'The number of columns must be less than %1',
             splitDividerErrorText: 'The number of rows must be a divisor of %1',
-            requestEditFailedTitleText: 'Access denied',
-            requestEditFailedMessageText: 'Someone is editing this document right now. Please try again later.',
-            txtNeedSynchronize: 'You have an updates',
             textLoadingDocument: 'Loading document',
-            warnBrowserZoom: 'Your browser\'s current zoom setting is not fully supported. Please reset to the default zoom by pressing Ctrl+0.',
-            warnBrowserIE9: 'The application has low capabilities on IE9. Use IE10 or higher',
             applyChangesTitleText: 'Loading Data',
             applyChangesTextText: 'Loading data...',
             errorKeyEncrypt: 'Unknown key descriptor',
@@ -1163,8 +1157,6 @@ define([
             loadingDocumentTextText: 'Loading document...',
             warnProcessRightsChange: 'You have been denied the right to edit the file.',
             errorProcessSaveResult: 'Saving is failed.',
-            textCloseTip: '\nClick to close the tip.',
-            textShape: 'Shape',
             errorStockChart: 'Incorrect row order. To build a stock chart place the data on the sheet in the following order:<br> opening price, max price, min price, closing price.',
             errorDataRange: 'Incorrect data range.',
             errorDatabaseConnection: 'External error.<br>Database connection error. Please, contact support.',
@@ -1184,11 +1176,8 @@ define([
             sendMergeTitle: 'Sending Merge',
             sendMergeText: 'Sending Merge...',
             txtArt: 'Your text here',
-            errorConnectToServer: ' The document could not be saved. Please check connection settings or contact your administrator.<br>When you click the \'OK\' button, you will be prompted to download the document.<br><br>' +
-                'Find more information about connecting Document Server <a href=\"https://api.onlyoffice.com/editors/callback\" target=\"_blank\">here</a>',
+            errorConnectToServer: ' The document could not be saved. Please check connection settings or contact your administrator.<br>When you click the \'OK\' button, you will be prompted to download the document.<br><br>Find more information about connecting Document Server <a href=\"https://api.onlyoffice.com/editors/callback\" target=\"_blank\">here</a>',
             textTryUndoRedo: 'The Undo/Redo functions are disabled for the Fast co-editing mode.',
-            textStrict: 'Strict mode',
-            txtErrorLoadHistory: 'Loading history failed',
             textBuyNow: 'Visit website',
             textNoLicenseTitle: 'ONLYOFFICE open source version',
             warnNoLicense: 'You are using an open source version of ONLYOFFICE. The version has limitations for concurrent connections to the document server (20 connections at a time).<br>If you need more please consider purchasing a commercial license.',
@@ -1197,7 +1186,11 @@ define([
             warnLicenseExp: 'Your license has expired.<br>Please update your license and refresh the page.',
             titleLicenseExp: 'License expired',
             openErrorText: 'An error has occurred while opening the file',
-            saveErrorText: 'An error has occurred while saving the file'
+            saveErrorText: 'An error has occurred while saving the file',
+            advTxtOptions: 'Choose TXT Options',
+            advDRMOptions: 'Protected File',
+            advDRMEnterPassword: 'You password please:',
+            advDRMPassword: 'Password'
         }
     })(), DE.Controllers.Main || {}))
 });

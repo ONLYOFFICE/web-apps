@@ -47,7 +47,7 @@ define([
 ], function (core) {
     'use strict';
 
-    DE.Controllers.DocumentHolder = Backbone.Controller.extend((function() {
+    DE.Controllers.DocumentHolder = Backbone.Controller.extend(_.extend((function() {
         // private
         var _stack,
             _isEdit = false;
@@ -160,7 +160,7 @@ define([
 
                 if (canCopy) {
                     menuItems.push({
-                        caption: 'Copy',
+                        caption: me.menuCopy,
                         event: 'copy'
                     });
                 }
@@ -205,11 +205,11 @@ define([
 
                     if (!objectLocked && _isEdit) {
                         menuItems.push({
-                            caption: 'Cut',
+                            caption: me.menuCut,
                             event: 'cut'
                         });
                         menuItems.push({
-                            caption: 'Paste',
+                            caption: me.menuPaste,
                             event: 'paste'
                         });
 
@@ -217,12 +217,12 @@ define([
                         swapItems(menuItems, 0, 1);
 
                         menuItems.push({
-                            caption: 'Delete',
+                            caption: me.menuDelete,
                             event: 'delete'
                         });
 
                         menuItems.push({
-                            caption: 'Edit',
+                            caption: me.menuEdit,
                             event: 'edit'
                         });
                     }
@@ -231,7 +231,7 @@ define([
 
                     if (!_.isEmpty(text)) {
                         menuItems.push({
-                            caption: 'Add Link',
+                            caption: me.menuAddLink,
                             event: 'addlink'
                         });
                     }
@@ -243,13 +243,21 @@ define([
 
                 if (isLink) {
                     menuItems.push({
-                        caption: 'Open Link',
+                        caption: me.menuOpenLink,
                         event: 'openlink'
                     });
                 }
 
                 return menuItems;
-            }
+            },
+
+            menuCut: 'Cut',
+            menuCopy: 'Copy',
+            menuPaste: 'Paste',
+            menuEdit: 'Edit',
+            menuDelete: 'Delete',
+            menuAddLink: 'Add Link',
+            menuOpenLink: 'Open Link'
         }
-    })());
+    })(), DE.Controllers.DocumentHolder || {}))
 });
