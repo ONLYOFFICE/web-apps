@@ -140,5 +140,15 @@
   "DE.Controllers.AddContainer.textTable": "Table",
   "DE.Controllers.AddContainer.textShape": "Shape",
   "DE.Controllers.AddContainer.textImage": "Image",
-  "DE.Controllers.AddContainer.textOther": "Other"
+  "DE.Controllers.AddContainer.textOther": "Other",
+
+  "DE.Controllers.AddImage.textEmptyImgUrl": "You need to specify image URL.",
+  "DE.Controllers.AddImage.txtNotUrl": "This field should be a URL in the format 'http://www.example.com'",
+  "DE.Views.AddImage.textFromLibrary": "Picture from Library",
+  "DE.Views.AddImage.textFromURL": "Picture from URL",
+  "DE.Views.AddImage.textBack": "Back",
+  "DE.Views.AddImage.textLinkSettings": "Link Settings",
+  "DE.Views.AddImage.textAddress": "Address",
+  "DE.Views.AddImage.textImageURL": "Image URL",
+  "DE.Views.AddImage.textInsertImage": "Insert Image"
 }

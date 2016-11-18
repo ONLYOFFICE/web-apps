@@ -84,11 +84,10 @@ define([
                 var me = this;
 
                 $('#addimage-insert a').single('click', _.buffered(me.onInsertByUrl, 100, me));
-
-                $('#addimage-url input[type="url"]').single('input', _.bind(me.onUrlChange, me));
+                $('#addimage-url input[type=url]').single('input', _.bind(me.onUrlChange, me));
 
                 _.delay(function () {
-                    $('#addimage-link-url input[type="url"]').focus();
+                    $('#addimage-link-url input[type=url]').focus();
                 }, 1000);
             },
 

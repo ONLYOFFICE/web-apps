@@ -49,7 +49,7 @@ define([
 ], function (addTemplate, $, _, Backbone) {
     'use strict';
 
-    DE.Views.AddImage = Backbone.View.extend((function() {
+    DE.Views.AddImage = Backbone.View.extend(_.extend((function() {
         // private
 
         return {
@@ -76,7 +76,8 @@ define([
             render: function () {
                 this.layout = $('<div/>').append(this.template({
                     android : Common.SharedSettings.get('android'),
-                    phone   : Common.SharedSettings.get('phone')
+                    phone   : Common.SharedSettings.get('phone'),
+                    scope   : this
                 }));
 
                 return this;
@@ -117,7 +118,15 @@ define([
 
             showImageUrl: function () {
                 this.showPage('#addimage-url-view');
-            }
+            },
+
+            textFromLibrary: 'Picture from Library',
+            textFromURL: 'Picture from URL',
+            textBack: 'Back', 
+            textLinkSettings: 'Link Settings',
+            textAddress: 'Address',
+            textImageURL: 'Image URL',
+            textInsertImage: 'Insert Image'
         }
-    })());
+    })(), DE.Views.AddImage || {}))
 });
