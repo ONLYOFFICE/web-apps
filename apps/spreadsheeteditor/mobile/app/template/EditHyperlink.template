@@ -1,0 +1,52 @@
+<!-- Link view -->
+<div id="edit-link-root">
+    <div class="list-block">
+        <ul>
+            <li>
+                <div id="edit-link-url" class="item-content">
+                    <div class="item-inner">
+                        <div class="item-title label">Link</div>
+                        <div class="item-input">
+                            <input type="url" placeholder="Link">
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div id="edit-link-display" class="item-content">
+                    <div class="item-inner">
+                        <div class="item-title label">Display</div>
+                        <div class="item-input">
+                            <input type="text" placeholder="Display">
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div id="edit-link-tip" class="item-content">
+                    <div class="item-inner">
+                        <div class="item-title label">Screen Tip</div>
+                        <div class="item-input">
+                            <input type="text" placeholder="Screen Tip">
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="list-block">
+        <% if (android) { %>
+        <a href="#" id="edit-link-edit" class="button button-raised button-fill disabled" style="margin: 20px 16px;">Edit Link</a>
+        <a href="#" id="edit-link-remove" class="button button-raised button-fill" style="margin: 20px 16px; background-color: #f44336;">Remove Link</a>
+        <% } else { %>
+        <ul>
+            <li>
+                <a href="#" id="edit-link-edit" class="list-button item-link disabled" style="text-align: center;">Edit Link</a>
+            </li>
+            <li>
+                <a href="#" id="edit-link-remove" class="list-button item-link" style="text-align: center; color: #f00">Remove Link</a>
+            </li>
+        </ul>
+        <% } %>
+    </div>
+</div>

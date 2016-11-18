@@ -1,0 +1,14 @@
+<!-- Root view -->
+<div id="add-shapes-root">
+    <div class="page-content dataview shapes">
+        <% _.each(shapes, function(row) { %>
+        <ul class="row">
+            <% _.each(row, function(shape) { %>
+            <li data-type="<%= shape.type %>">
+                <div class="thumb" style="-webkit-mask-image:url('../mobile/resources/img/shapes/<%= shape.thumb %>')"></div>
+            </li>
+            <% }); %>
+        </ul>
+        <% }); %>
+    </div>
+</div>
