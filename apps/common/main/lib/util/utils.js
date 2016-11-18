@@ -605,14 +605,16 @@ Common.Utils.applyCustomization = function(config, elmap) {
 Common.Utils.fillUserInfo = function(info, lang, defname) {
     var _user = info || {};
     !_user.id && (_user.id = ('uid-' + Date.now()));
-    _.isEmpty(_user.firstname) && _.isEmpty(_user.lastname) && (_user.firstname = defname);
-    if (_.isEmpty(_user.firstname))
-        _user.fullname = _user.lastname;
-    else if (_.isEmpty(_user.lastname))
-        _user.fullname = _user.firstname;
-    else
-        _user.fullname = /^ru/.test(lang) ? _user.lastname + ' ' + _user.firstname :  _user.firstname + ' ' + _user.lastname;
-
+    if (_.isEmpty(_user.name)) {
+        _.isEmpty(_user.firstname) && _.isEmpty(_user.lastname) && (_user.firstname = defname);
+        if (_.isEmpty(_user.firstname))
+            _user.fullname = _user.lastname;
+        else if (_.isEmpty(_user.lastname))
+            _user.fullname = _user.firstname;
+        else
+            _user.fullname = /^ru/.test(lang) ? _user.lastname + ' ' + _user.firstname :  _user.firstname + ' ' + _user.lastname;
+    } else
+        _user.fullname = _user.name;
     return _user;
 };
 

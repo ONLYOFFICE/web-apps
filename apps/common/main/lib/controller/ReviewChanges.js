@@ -99,8 +99,6 @@ define([
             this.setApi(api);
 
             if (data) {
-                this.currentUserId      =   data.config.user.id;
-                this.currentUserName    =   data.config.user.name;
                 this.sdkViewName        =   data['sdkviewname'] || this.sdkViewName;
             }
         },

@@ -62,8 +62,7 @@
 
                 user: {
                     id: 'user id',
-                    firstname: 'user first name',
-                    lastname: 'user last name'
+                    name: 'user name'
                 },
                 recent: [
                     {

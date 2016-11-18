@@ -296,8 +296,6 @@ define([
 
                     var _user = new Asc.asc_CUserInfo();
                     _user.put_Id(this.appOptions.user.id);
-                    _user.put_FirstName(this.appOptions.user.firstname);
-                    _user.put_LastName(this.appOptions.user.lastname);
                     _user.put_FullName(this.appOptions.user.fullname);
 
                     docInfo = new Asc.asc_CDocInfo();
