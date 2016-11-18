@@ -107,6 +107,7 @@ var ApplicationController = new(function(){
                 Common.Analytics.trackEvent('Load', 'Start');
             }
 
+            embedConfig.docTitle = docConfig.title;
             if (!embedConfig.saveUrl && permissions.print === false)
                 $('#idt-copy').hide();
         }
