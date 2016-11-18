@@ -61,7 +61,9 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                     {panelId: 'id-chart-settings-dlg-style',        panelCaption: this.textTypeData},
                     {panelId: 'id-chart-settings-dlg-layout',       panelCaption: this.textLayout},
                     {panelId: 'id-chart-settings-dlg-vert',         panelCaption: this.textVertAxis},
-                    {panelId: 'id-chart-settings-dlg-hor',          panelCaption: this.textHorAxis}
+                    {panelId: 'id-chart-settings-dlg-hor',          panelCaption: this.textHorAxis},
+                    {panelId: 'id-spark-settings-dlg-style',        panelCaption: this.textTypeData},
+                    {panelId: 'id-spark-settings-dlg-axis',         panelCaption: this.textAxisOptions}
                 ],
                 contentTemplate: _.template(contentTemplate)({
                     scope: this
@@ -79,17 +81,21 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
 
             this._state = {
-                ChartType: Asc.c_oAscChartTypeSettings.barNormal
+                ChartType: Asc.c_oAscChartTypeSettings.barNormal,
+                SparkType: -1
             };
             this._noApply = true;
+            this._changedProps = null;
 
             this.api = this.options.api;
             this.chartSettings = this.options.chartSettings;
+            this.isChart       = this.options.isChart;
             this.vertAxisProps = null;
             this.horAxisProps = null;
             this.currentAxisProps = null;
             this.dataRangeValid = '';
             this.currentChartType = this._state.ChartType;
+            this.storageName = (this.isChart) ? 'sse-chart-settings-adv-category' : 'sse-spark-settings-adv-category';
         },
 
         render: function() {
@@ -770,12 +776,231 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
 
             this.btnsCategory[2].on('click', _.bind(this.onVCategoryClick, this));
             this.btnsCategory[3].on('click', _.bind(this.onHCategoryClick, this));
+
+            // Sparklines
+            this.btnSparkType = new Common.UI.Button({
+                cls         : 'btn-large-dataview',
+                iconCls     : 'item-chartlist spark-column',
+                menu        : new Common.UI.Menu({
+                    style: 'width: 210px;',
+                    additionalAlign: menuAddAlign,
+                    items: [
+                        { template: _.template('<div id="id-spark-dlg-menu-type" class="menu-insertchart"  style="margin: 5px 5px 5px 10px;"></div>') }
+                    ]
+                })
+            });
+            this.btnSparkType.on('render:after', function(btn) {
+                me.mnuSparkTypePicker = new Common.UI.DataView({
+                    el: $('#id-spark-dlg-menu-type'),
+                    parentMenu: btn.menu,
+                    restoreHeight: 200,
+                    groups: new Common.UI.DataViewGroupStore([
+                        { id: 'menu-chart-group-sparkcolumn', caption: me.textColumnSpark },
+                        { id: 'menu-chart-group-sparkline',   caption: me.textLineSpark },
+                        { id: 'menu-chart-group-sparkwin',    caption: me.textWinLossSpark }
+                    ]),
+                    store: new Common.UI.DataViewStore([
+                        { group: 'menu-chart-group-sparkcolumn',   type: Asc.c_oAscSparklineType.Column,    allowSelected: true, iconCls: 'spark-column'},
+                        { group: 'menu-chart-group-sparkline',     type: Asc.c_oAscSparklineType.Line,      allowSelected: true, iconCls: 'spark-line'},
+                        { group: 'menu-chart-group-sparkwin',      type: Asc.c_oAscSparklineType.Stacked,   allowSelected: true, iconCls: 'spark-win'}
+                    ]),
+                    itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist <%= iconCls %>"></div>')
+                });
+            });
+            this.btnSparkType.render($('#spark-dlg-button-type'));
+            this.mnuSparkTypePicker.on('item:click', _.bind(this.onSelectSparkType, this, this.btnSparkType));
+
+            this.cmbSparkStyle = new Common.UI.ComboDataView({
+                itemWidth: 50,
+                itemHeight: 50,
+                menuMaxHeight: 272,
+                enableKeyEvents: true,
+                cls: 'combo-spark-style'
+            });
+            this.cmbSparkStyle.render($('#spark-dlg-combo-style'));
+            this.cmbSparkStyle.openButton.menu.cmpEl.css({
+                'min-width': 178,
+                'max-width': 178
+            });
+            this.cmbSparkStyle.on('click', _.bind(this.onSelectSparkStyle, this));
+            this.cmbSparkStyle.openButton.menu.on('show:after', function () {
+                me.cmbSparkStyle.menuPicker.scroller.update({alwaysVisibleY: true});
+            });
+
+            this.radioGroup = new Common.UI.RadioBox({
+                el: $('#spark-dlg-radio-group'),
+                labelText: this.textGroup,
+                name: 'asc-radio-sparkline',
+                checked: true
+            });
+
+            this.radioSingle = new Common.UI.RadioBox({
+                el: $('#spark-dlg-radio-single'),
+                labelText: this.textSingle,
+                name: 'asc-radio-sparkline'
+            });
+
+            this.txtSparkDataRange = new Common.UI.InputField({
+                el          : $('#spark-dlg-txt-range'),
+                name        : 'range',
+                style       : 'width: 100%;',
+                allowBlank  : true,
+                blankError  : this.txtEmpty,
+                validateOnChange: true
+            });
+
+            this.btnSelectSparkData = new Common.UI.Button({
+                el: $('#spark-dlg-btn-data')
+            });
+//            this.btnSelectSparkData.on('click', _.bind(this.onSelectData, this));
+
+            this.txtSparkDataLocation = new Common.UI.InputField({
+                el          : $('#spark-dlg-txt-location'),
+                name        : 'range',
+                style       : 'width: 100%;',
+                allowBlank  : true,
+                blankError  : this.txtEmpty,
+                validateOnChange: true
+            });
+
+            this.btnSelectLocationData = new Common.UI.Button({
+                el: $('#spark-dlg-btn-data')
+            });
+//            this.btnSelectLocationData.on('click', _.bind(this.onSelectData, this));
+
+            this._arrEmptyCells = [
+                { value: Asc.c_oAscEDispBlanksAs.Gap, displayValue: this.textGaps },
+                { value: Asc.c_oAscEDispBlanksAs.Zero, displayValue: this.textZero },
+                { value: Asc.c_oAscEDispBlanksAs.Span, displayValue: this.textEmptyLine }
+            ];
+            this.cmbEmptyCells = new Common.UI.ComboBox({
+                el          : $('#spark-dlg-combo-empty'),
+                menuStyle   : 'min-width: 188px;',
+                editable    : false,
+                cls         : 'input-group-nr'
+            });
+            this.cmbEmptyCells.on('selected', _.bind(function(combo, record){
+                if (this._changedProps) {
+                    this._changedProps.asc_setDisplayEmpty(record.value);
+                }
+            }, this));
+
+            this.chShowEmpty = new Common.UI.CheckBox({
+                el: $('#spark-dlg-check-show-data'),
+                labelText: this.textShowData
+            });
+            this.chShowEmpty.on('change', _.bind(function(field, newValue, oldValue, eOpts){
+                if (this._changedProps) {
+                    this._changedProps.asc_setDisplayHidden(field.getValue()=='checked');
+                }
+            }, this));
+
+            // Sparkline axis
+
+            this.chShowAxis = new Common.UI.CheckBox({
+                el: $('#spark-dlg-check-show'),
+                labelText: this.textShowSparkAxis
+            });
+            this.chShowAxis.on('change', _.bind(function(field, newValue, oldValue, eOpts){
+                if (this._changedProps) {
+                    this._changedProps.asc_setDisplayXAxis(field.getValue()=='checked');
+                }
+            }, this));
+
+            this.chReverse = new Common.UI.CheckBox({
+                el: $('#spark-dlg-check-reverse'),
+                labelText: this.textReverseOrder
+            });
+            this.chReverse.on('change', _.bind(function(field, newValue, oldValue, eOpts){
+                if (this._changedProps) {
+                    this._changedProps.asc_setRightToLeft(field.getValue()=='checked');
+                }
+            }, this));
+
+            this.cmbSparkMinType = new Common.UI.ComboBox({
+                el          : $('#spark-dlg-combo-mintype'),
+                cls         : 'input-group-nr',
+                menuStyle   : 'min-width: 100px;',
+                editable    : false,
+                data        : [
+                    {displayValue: this.textAutoEach, value: Asc.c_oAscSparklineAxisMinMax.Individual},
+                    {displayValue: this.textSameAll, value: Asc.c_oAscSparklineAxisMinMax.Group},
+                    {displayValue: this.textFixed, value: Asc.c_oAscSparklineAxisMinMax.Custom}
+                ]
+            }).on('selected', _.bind(function(combo, record) {
+                this.spnSparkMinValue.setDisabled(record.value!==Asc.c_oAscSparklineAxisMinMax.Custom);
+                if (this._changedProps) {
+                    this._changedProps.asc_setMinAxisType(record.value);
+                }
+                if (record.value==Asc.c_oAscSparklineAxisMinMax.Custom && _.isEmpty(this.spnSparkMinValue.getValue()))
+                    this.spnSparkMinValue.setValue(0);
+            }, this));
+
+            this.spnSparkMinValue = new Common.UI.MetricSpinner({
+                el          : $('#spark-dlg-input-min-value'),
+                maxValue    : 1000000,
+                minValue    : -1000000,
+                step        : 0.1,
+                defaultUnit : "",
+                defaultValue : 0,
+                value       : ''
+            }).on('change', _.bind(function(field, newValue, oldValue) {
+                if (this._changedProps) {
+                    this._changedProps.asc_setManualMin(field.getNumberValue());
+                }
+            }, this));
+
+            this.cmbSparkMaxType = new Common.UI.ComboBox({
+                el          : $('#spark-dlg-combo-maxtype'),
+                cls         : 'input-group-nr',
+                menuStyle   : 'min-width: 100px;',
+                editable    : false,
+                data        : [
+                    {displayValue: this.textAutoEach, value: Asc.c_oAscSparklineAxisMinMax.Individual},
+                    {displayValue: this.textSameAll, value: Asc.c_oAscSparklineAxisMinMax.Group},
+                    {displayValue: this.textFixed, value: Asc.c_oAscSparklineAxisMinMax.Custom}
+                ]
+            }).on('selected', _.bind(function(combo, record) {
+                this.spnSparkMaxValue.setDisabled(record.value!==Asc.c_oAscSparklineAxisMinMax.Custom);
+                if (this._changedProps) {
+                    this._changedProps.asc_setMaxAxisType(record.value);
+                }
+                if (record.value==Asc.c_oAscSparklineAxisMinMax.Custom && _.isEmpty(this.spnSparkMaxValue.getValue()))
+                    this.spnSparkMaxValue.setValue(0);
+            }, this));
+
+            this.spnSparkMaxValue = new Common.UI.MetricSpinner({
+                el          : $('#spark-dlg-input-max-value'),
+                maxValue    : 1000000,
+                minValue    : -1000000,
+                step        : 0.1,
+                defaultUnit : "",
+                defaultValue : 0,
+                value       : ''
+            }).on('change', _.bind(function(field, newValue, oldValue) {
+                if (this._changedProps) {
+                    this._changedProps.asc_setManualMax(field.getNumberValue());
+                }
+            }, this));
+
             this.afterRender();
         },
 
-
         afterRender: function() {
             this._setDefaults(this.chartSettings);
+
+            this.setTitle((this.isChart) ? this.textTitle : this.textTitleSparkline);
+
+            if (this.isChart) {
+                this.btnsCategory[4].setVisible(false);
+                this.btnsCategory[5].setVisible(false);
+            } else {
+                this.btnsCategory[0].setVisible(false);
+                this.btnsCategory[1].setVisible(false);
+                this.btnsCategory[2].setVisible(false);
+                this.btnsCategory[3].setVisible(false);
+            }
+
             if (this.storageName) {
                 var value = Common.localStorage.getItem(this.storageName);
                 this.setActiveCategory((value!==null) ? parseInt(value) : 0);
@@ -985,64 +1210,170 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
             this.currentAxisProps = props;
         },
 
+        updateSparkStyles: function(styles) {
+             if (styles && styles.length>1){
+                var picker = this.cmbSparkStyle.menuPicker,
+                    stylesStore = picker.store;
+                if (stylesStore.length == styles.length-1) {
+                    var data = stylesStore.models;
+                    for (var i=0; i<styles.length-1; i++) {
+                        data[i].set('imageUrl', styles[i]);
+                    }
+                } else {
+                    var stylearray = [],
+                        selectedIdx = styles[styles.length-1];
+                    for (var i=0; i<styles.length-1; i++) {
+                        stylearray.push({
+                            imageUrl: styles[i],
+                            data    : i
+                        });
+                    }
+                    stylesStore.reset(stylearray, {silent: false});
+                    this.cmbSparkStyle.fillComboView(stylesStore.at(selectedIdx<0 ? 0 : selectedIdx), selectedIdx>-1);
+                }
+            }
+        },
+
+        onSelectSparkType: function(btn, picker, itemView, record) {
+            if (this._noApply) return;
+
+            var rawData = {},
+                isPickerSelect = _.isFunction(record.toJSON);
+
+            if (isPickerSelect){
+                if (record.get('selected')) {
+                    rawData = record.toJSON();
+                } else {
+                    // record deselected
+                    return;
+                }
+            } else {
+                rawData = record;
+            }
+
+            this.btnSparkType.setIconCls('item-chartlist ' + rawData.iconCls);
+            if (this._changedProps) {
+                this._changedProps.asc_setType(rawData.type);
+            }
+            this.chartSettings.asc_setType(rawData.type);
+            this._state.SparkType = rawData.type;
+
+            var changed = false,
+                value = this.cmbEmptyCells.getValue();
+            if (rawData.type !== Asc.c_oAscSparklineType.Line && this._arrEmptyCells.length>2) {
+                if (value == Asc.c_oAscEDispBlanksAs.Span)
+                    value = Asc.c_oAscEDispBlanksAs.Gap;
+                this._arrEmptyCells.pop();
+                changed = true;
+            } else if (rawData.type == Asc.c_oAscSparklineType.Line && this._arrEmptyCells.length<3) {
+                this._arrEmptyCells.push({ value: Asc.c_oAscEDispBlanksAs.Span, displayValue: this.textEmptyLine });
+                changed = true;
+            }
+            if (changed) {
+                this.cmbEmptyCells.setData(this._arrEmptyCells);
+                this.cmbEmptyCells.setValue(value);
+                if (this._changedProps)
+                    this._changedProps.asc_setDisplayEmpty(value);
+            }
+
+            this.updateSparkStyles(this.chartSettings.asc_getStyles());
+        },
+
+
+        onSelectSparkStyle: function(combo, record) {
+            if (this._noApply) return;
+
+            if (this._changedProps) {
+                this._changedProps.asc_setStyle(record.get('data'));
+            }
+        },
+        
         _setDefaults: function(props) {
             var me = this;
             if (props ){
                 this.chartSettings = props;
+                if (this.isChart) {
+                    this._state.ChartType = props.getType();
 
-                this._state.ChartType = props.getType();
+                    this._noApply = true;
 
-                this._noApply = true;
+                    // Layout
 
-                // Layout
-
-                var record = this.mnuChartTypePicker.store.findWhere({type: this._state.ChartType});
-                this.mnuChartTypePicker.selectRecord(record, true);
-                if (record) {
-                    this.btnChartType.setIconCls('item-chartlist ' + record.get('iconCls'));
-                }
-
-                this._noApply = false;
-
-                var value = props.getRange();
-                this.txtDataRange.setValue((value) ? value : '');
-                this.dataRangeValid = value;
-
-                this.txtDataRange.validation = function(value) {
-                    if (_.isEmpty(value)) {
-                        if (!me.cmbDataDirect.isDisabled()) me.cmbDataDirect.setDisabled(true);
-                        return true;
+                    var record = this.mnuChartTypePicker.store.findWhere({type: this._state.ChartType});
+                    this.mnuChartTypePicker.selectRecord(record, true);
+                    if (record) {
+                        this.btnChartType.setIconCls('item-chartlist ' + record.get('iconCls'));
                     }
 
-                    if (me.cmbDataDirect.isDisabled()) me.cmbDataDirect.setDisabled(false);
+                    this._noApply = false;
 
-                    var isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, value, false);
-                    return (isvalid==Asc.c_oAscError.ID.DataRangeError) ? me.textInvalidRange : true;
-                };
+                    var value = props.getRange();
+                    this.txtDataRange.setValue((value) ? value : '');
+                    this.dataRangeValid = value;
 
-                this.cmbDataDirect.setDisabled(value===null);
-                this.cmbDataDirect.setValue(props.getInColumns() ? 1 : 0);
+                    this.txtDataRange.validation = function(value) {
+                        if (_.isEmpty(value)) {
+                            if (!me.cmbDataDirect.isDisabled()) me.cmbDataDirect.setDisabled(true);
+                            return true;
+                        }
 
-                this.cmbChartTitle.setValue(props.getTitle());
-                this.cmbLegendPos.setValue(props.getLegendPos());
+                        if (me.cmbDataDirect.isDisabled()) me.cmbDataDirect.setDisabled(false);
 
-                this.updateDataLabels(this._state.ChartType, props.getDataLabelsPos());
+                        var isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, value, false);
+                        return (isvalid==Asc.c_oAscError.ID.DataRangeError) ? me.textInvalidRange : true;
+                    };
 
-                this.chSeriesName.setValue(this.chartSettings.getShowSerName(), true);
-                this.chCategoryName.setValue(this.chartSettings.getShowCatName(), true);
-                this.chValue.setValue(this.chartSettings.getShowVal(), true);
+                    this.cmbDataDirect.setDisabled(value===null);
+                    this.cmbDataDirect.setValue(props.getInColumns() ? 1 : 0);
 
-                value = props.getSeparator();
-                this.txtSeparator.setValue((value) ? value : '');
+                    this.cmbChartTitle.setValue(props.getTitle());
+                    this.cmbLegendPos.setValue(props.getLegendPos());
 
-                // Vertical Axis
-                this.vertAxisProps = props.getVertAxisProps();
+                    this.updateDataLabels(this._state.ChartType, props.getDataLabelsPos());
 
-                // Horizontal Axis
-                this.horAxisProps = props.getHorAxisProps();
+                    this.chSeriesName.setValue(this.chartSettings.getShowSerName(), true);
+                    this.chCategoryName.setValue(this.chartSettings.getShowCatName(), true);
+                    this.chValue.setValue(this.chartSettings.getShowVal(), true);
 
-                this.updateAxisProps(this._state.ChartType);
-                this.currentChartType = this._state.ChartType;
+                    value = props.getSeparator();
+                    this.txtSeparator.setValue((value) ? value : '');
+
+                    // Vertical Axis
+                    this.vertAxisProps = props.getVertAxisProps();
+
+                    // Horizontal Axis
+                    this.horAxisProps = props.getHorAxisProps();
+
+                    this.updateAxisProps(this._state.ChartType);
+                    this.currentChartType = this._state.ChartType;
+                } else { // sparkline
+                    this._state.SparkType = props.asc_getType();
+                    var record = this.mnuSparkTypePicker.store.findWhere({type: this._state.SparkType});
+                    this.mnuSparkTypePicker.selectRecord(record, true);
+                    if (record)
+                        this.btnSparkType.setIconCls('item-chartlist ' + record.get('iconCls'));
+
+                    this.updateSparkStyles(props.asc_getStyles());
+
+                    if (this._state.SparkType !== Asc.c_oAscSparklineType.Line)
+                        this._arrEmptyCells.pop();
+                    this.cmbEmptyCells.setData(this._arrEmptyCells);
+                    this.cmbEmptyCells.setValue(props.asc_getDisplayEmpty());
+
+                    this.chShowEmpty.setValue(props.asc_getDisplayHidden(), true);
+                    this.chShowAxis.setValue(props.asc_getDisplayXAxis(), true);
+                    this.chReverse.setValue(props.asc_getRightToLeft(), true);
+
+                    this.cmbSparkMinType.setValue(props.asc_getMinAxisType(), true);
+                    this.cmbSparkMaxType.setValue(props.asc_getMaxAxisType(), true);
+                    this.spnSparkMinValue.setDisabled(props.asc_getMinAxisType()!==Asc.c_oAscSparklineAxisMinMax.Custom);
+                    this.spnSparkMaxValue.setDisabled(props.asc_getMaxAxisType()!==Asc.c_oAscSparklineAxisMinMax.Custom);
+                    this.spnSparkMinValue.setValue((props.asc_getManualMin() !== null) ? props.asc_getManualMin() : '', true);
+                    this.spnSparkMaxValue.setValue((props.asc_getManualMax() !== null) ? props.asc_getManualMax() : '', true);
+
+                    this._changedProps = new Asc.sparklineGroup();
+                    this._noApply = false;
+                }
             }
         },
 
@@ -1050,67 +1381,72 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
             var value,
                 type = this.mnuChartTypePicker.getSelectedRec()[0].get('type');
 
-            // Layout
+            if (this.isChart) {
+                this.chartSettings.putType(type);
 
-            this.chartSettings.putType(type);
+                this.chartSettings.putInColumns(this.cmbDataDirect.getValue()==1);
+                this.chartSettings.putRange(this.txtDataRange.getValue());
 
-            this.chartSettings.putInColumns(this.cmbDataDirect.getValue()==1);
-            this.chartSettings.putRange(this.txtDataRange.getValue());
+                this.chartSettings.putTitle(this.cmbChartTitle.getValue());
+                this.chartSettings.putLegendPos(this.cmbLegendPos.getValue());
 
-            this.chartSettings.putTitle(this.cmbChartTitle.getValue());
-            this.chartSettings.putLegendPos(this.cmbLegendPos.getValue());
+                this.chartSettings.putShowHorAxis(this.cmbHorShow.getValue());
+                this.chartSettings.putShowVerAxis(this.cmbVertShow.getValue());
 
-            this.chartSettings.putShowHorAxis(this.cmbHorShow.getValue());
-            this.chartSettings.putShowVerAxis(this.cmbVertShow.getValue());
+                this.chartSettings.putHorAxisLabel(this.cmbHorTitle.getValue());
+                this.chartSettings.putVertAxisLabel(this.cmbVertTitle.getValue());
 
-            this.chartSettings.putHorAxisLabel(this.cmbHorTitle.getValue());
-            this.chartSettings.putVertAxisLabel(this.cmbVertTitle.getValue());
+                this.chartSettings.putHorGridLines(this.cmbHorGrid.getValue());
+                this.chartSettings.putVertGridLines(this.cmbVertGrid.getValue());
 
-            this.chartSettings.putHorGridLines(this.cmbHorGrid.getValue());
-            this.chartSettings.putVertGridLines(this.cmbVertGrid.getValue());
+                this.chartSettings.putDataLabelsPos(this.cmbDataLabels.getValue());
 
-            this.chartSettings.putDataLabelsPos(this.cmbDataLabels.getValue());
+                this.chartSettings.putShowSerName(this.chSeriesName.getValue()=='checked');
+                this.chartSettings.putShowCatName(this.chCategoryName.getValue()=='checked');
+                this.chartSettings.putShowVal(this.chValue.getValue()=='checked');
 
-            this.chartSettings.putShowSerName(this.chSeriesName.getValue()=='checked');
-            this.chartSettings.putShowCatName(this.chCategoryName.getValue()=='checked');
-            this.chartSettings.putShowVal(this.chValue.getValue()=='checked');
+                this.chartSettings.putSeparator(_.isEmpty(this.txtSeparator.getValue()) ? ' ' : this.txtSeparator.getValue());
 
-            this.chartSettings.putSeparator(_.isEmpty(this.txtSeparator.getValue()) ? ' ' : this.txtSeparator.getValue());
+                this.chartSettings.putShowMarker(this.chMarkers.getValue()=='checked');
 
-            this.chartSettings.putShowMarker(this.chMarkers.getValue()=='checked');
+                value = (type == Asc.c_oAscChartTypeSettings.lineNormal || type == Asc.c_oAscChartTypeSettings.lineStacked ||
+                          type == Asc.c_oAscChartTypeSettings.lineStackedPer || type == Asc.c_oAscChartTypeSettings.scatter);
+                if (value) {
+                    value = this.cmbLines.getValue();
+                    this.chartSettings.putLine(value!==0);
+                    if (value>0)
+                        this.chartSettings.putSmooth(value==2);
+                }
 
-            value = (type == Asc.c_oAscChartTypeSettings.lineNormal || type == Asc.c_oAscChartTypeSettings.lineStacked ||
-                      type == Asc.c_oAscChartTypeSettings.lineStackedPer || type == Asc.c_oAscChartTypeSettings.scatter);
-            if (value) {
-                value = this.cmbLines.getValue();
-                this.chartSettings.putLine(value!==0);
-                if (value>0)
-                    this.chartSettings.putSmooth(value==2);
+                this.chartSettings.putVertAxisProps(this.vertAxisProps);
+                this.chartSettings.putHorAxisProps(this.horAxisProps);
+
+                return { chartSettings: this.chartSettings };
+            } else {
+                return { chartSettings: this._changedProps };
             }
-
-            this.chartSettings.putVertAxisProps(this.vertAxisProps);
-            this.chartSettings.putHorAxisProps(this.horAxisProps);
-
-            return { chartSettings: this.chartSettings };
         },
 
         isRangeValid: function() {
-            var isvalid;
-            if (!_.isEmpty(this.txtDataRange.getValue())) {
-                isvalid = this.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, this.txtDataRange.getValue(), true, this.cmbDataDirect.getValue()==0, this.mnuChartTypePicker.getSelectedRec()[0].get('type'));
-                if (isvalid == Asc.c_oAscError.ID.No)
-                    return true;
-            } else
-                this.txtDataRange.showError([this.txtEmpty]);
+            if (this.isChart) {
+                var isvalid;
+                if (!_.isEmpty(this.txtDataRange.getValue())) {
+                    isvalid = this.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, this.txtDataRange.getValue(), true, this.cmbDataDirect.getValue()==0, this.mnuChartTypePicker.getSelectedRec()[0].get('type'));
+                    if (isvalid == Asc.c_oAscError.ID.No)
+                        return true;
+                } else
+                    this.txtDataRange.showError([this.txtEmpty]);
 
-            this.setActiveCategory(0);
-            if (isvalid == Asc.c_oAscError.ID.StockChartError) {
-                Common.UI.warning({msg: this.errorStockChart});
-            } else if (isvalid == Asc.c_oAscError.ID.MaxDataSeriesError) {
-                Common.UI.warning({msg: this.errorMaxRows});
+                this.setActiveCategory(0);
+                if (isvalid == Asc.c_oAscError.ID.StockChartError) {
+                    Common.UI.warning({msg: this.errorStockChart});
+                } else if (isvalid == Asc.c_oAscError.ID.MaxDataSeriesError) {
+                    Common.UI.warning({msg: this.errorMaxRows});
+                } else
+                    this.txtDataRange.cmpEl.find('input').focus();
+                return false;
             } else
-                this.txtDataRange.cmpEl.find('input').focus();
-            return false;
+                return true;
         },
 
         onSelectData: function() {
@@ -1277,6 +1613,24 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
         textRight: 'Right',
         textTop: 'Top',
         textBottom: 'Bottom',
-        textFit: 'Fit Width'
+        textFit: 'Fit Width',
+        textSparkRanges: 'Sparkline Ranges',
+        textLocationRange: 'Location Range',
+        textEmptyCells: 'Hidden and Empty cells',
+        textShowEmptyCells: 'Show empty cells as',
+        textShowData: 'Show data in hidden rows and columns',
+        textGroup: 'Group Sparkline',
+        textSingle: 'Single Sparkline',
+        textGaps: 'Gaps',
+        textZero: 'Zero',
+        textEmptyLine: 'Connect data points with line',
+        textLineSpark:      'Line',
+        textColumnSpark:    'Column',
+        textWinLossSpark:   'Win/Loss',
+        textShowSparkAxis: 'Show Axis',
+        textReverseOrder: 'Reverse order',
+        textAutoEach: 'Auto for Each',
+        textSameAll: 'Same for All',
+        textTitleSparkline: 'Sparkline - Advanced Settings'
 }, SSE.Views.ChartSettingsDlg || {}));
 });

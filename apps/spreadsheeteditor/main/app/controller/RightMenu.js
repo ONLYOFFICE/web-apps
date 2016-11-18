@@ -108,21 +108,22 @@ define([
             
             var SelectedObjects = [],
                 selectType = info.asc_getFlags().asc_getSelectionType(),
-                formatTableInfo = info.asc_getFormatTableInfo();
+                formatTableInfo = info.asc_getFormatTableInfo(),
+                sparkLineInfo = info.asc_getSparklineInfo();
 
             if (selectType == Asc.c_oAscSelectionType.RangeImage || selectType == Asc.c_oAscSelectionType.RangeShape ||
                 selectType == Asc.c_oAscSelectionType.RangeChart || selectType == Asc.c_oAscSelectionType.RangeChartText || selectType == Asc.c_oAscSelectionType.RangeShapeText) {
                 SelectedObjects = this.api.asc_getGraphicObjectProps();
             }
             
-            if (SelectedObjects.length<=0 && !formatTableInfo && !this.rightmenu.minimizedMode) {
+            if (SelectedObjects.length<=0 && !formatTableInfo && !sparkLineInfo && !this.rightmenu.minimizedMode) {
                 this.rightmenu.clearSelection();
                 this._openRightMenu = true;
             }
 
             var need_disable = info.asc_getLocked();
 
-            this.onFocusObject(SelectedObjects, formatTableInfo, need_disable);
+            this.onFocusObject(SelectedObjects, formatTableInfo, sparkLineInfo, need_disable);
 
             if (this._state.prevDisabled != need_disable) {
                 this._state.prevDisabled = need_disable;
@@ -132,7 +133,7 @@ define([
             }
         },
 
-        onFocusObject: function(SelectedObjects, formatTableInfo, isCellLocked) {
+        onFocusObject: function(SelectedObjects, formatTableInfo, sparkLineInfo, isCellLocked) {
             if (!this.editMode)
                 return;
 
@@ -176,7 +177,14 @@ define([
                 this._settings[settingsType].locked = isCellLocked;
                 this._settings[settingsType].hidden = 0;
             }
-            
+
+            if (sparkLineInfo) {
+                settingsType = Common.Utils.documentSettingsType.Chart;
+                this._settings[settingsType].props = sparkLineInfo;
+                this._settings[settingsType].locked = isCellLocked;
+                this._settings[settingsType].hidden = 0;
+            }
+
             var lastactive = -1, currentactive, priorityactive = -1,
                 activePane = this.rightmenu.GetActivePane();
             for (i=0; i<this._settings.length; ++i) {
@@ -246,6 +254,7 @@ define([
         UpdateThemeColors:  function() {
             this.rightmenu.shapeSettings.UpdateThemeColors();
             this.rightmenu.textartSettings.UpdateThemeColors();
+            this.rightmenu.chartSettings.UpdateThemeColors();
         },
 
         updateMetricUnit: function() {

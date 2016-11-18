@@ -309,7 +309,7 @@ define([
             }
         },
 
-        updateColors: function(effectcolors, standartcolors) {
+        updateColors: function(effectcolors, standartcolors, value) {
             if (effectcolors===undefined || standartcolors===undefined) return;
 
             var me = this,
@@ -366,11 +366,14 @@ define([
                 }
             }
 
-            var selected = $(this.el).find('a.' + this.selectedCls);
-            if (selected.length && selected.hasClass('palette-color-effect')) {
-                this.value = selected[0].className.match(this.colorRe)[1].toUpperCase();
+            if (value)
+                this.select(value, true);
+            else {
+                var selected = $(this.el).find('a.' + this.selectedCls);
+                if (selected.length && selected.hasClass('palette-color-effect')) {
+                    this.value = selected[0].className.match(this.colorRe)[1].toUpperCase();
+                }
             }
-
             this.options.updateColorsArr = undefined;
         },
 

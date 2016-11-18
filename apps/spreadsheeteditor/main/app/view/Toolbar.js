@@ -503,7 +503,33 @@ define([
                 id          : 'id-toolbar-btn-insertchart',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-insertchart',
-                lock        : [_set.editCell, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth]
+                lock        : [_set.editCell, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth],
+                menu        : new Common.UI.Menu({
+                    items : [
+                        this.mnuInsertChart = new Common.UI.MenuItem({
+                            caption: this.textInsCharts,
+                            value: 'chart',
+                            menu: new Common.UI.Menu({
+                                menuAlign: 'tl-tr',
+                                style: 'width: 560px;',
+                                items: [
+                                    { template: _.template('<div id="id-toolbar-menu-insertchart" class="menu-insertchart" style="margin: 5px 5px 5px 10px;"></div>') }
+                                ]
+                            })
+                        }),
+                        this.mnuInsertSparkline = new Common.UI.MenuItem({
+                            caption: this.textInsSparklines,
+                            value: 'chart',
+                            menu: new Common.UI.Menu({
+                                menuAlign: 'tl-tr',
+                                style: 'width: 210px;',
+                                items: [
+                                    { template: _.template('<div id="id-toolbar-menu-insertspark" class="menu-insertchart" style="margin: 5px 5px 5px 10px;"></div>') }
+                                ]
+                            })
+                        })
+                    ]
+                })
             });
 
             me.btnEditChart = new Common.UI.Button({
@@ -1685,6 +1711,68 @@ define([
                     }
                 ]
             }));
+
+            this.mnuInsertChartPicker = new Common.UI.DataView({
+                el: $('#id-toolbar-menu-insertchart'),
+                parentMenu: this.mnuInsertChart.menu,
+                showLast: false,
+                restoreHeight: 411,
+                groups: new Common.UI.DataViewGroupStore([
+                    { id: 'menu-chart-group-bar',     caption: this.textColumn },
+                    { id: 'menu-chart-group-line',    caption: this.textLine },
+                    { id: 'menu-chart-group-pie',     caption: this.textPie },
+                    { id: 'menu-chart-group-hbar',    caption: this.textBar },
+                    { id: 'menu-chart-group-area',    caption: this.textArea },
+                    { id: 'menu-chart-group-scatter', caption: this.textPoint },
+                    { id: 'menu-chart-group-stock',   caption: this.textStock }
+                ]),
+                store: new Common.UI.DataViewStore([
+                    { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barNormal,          allowSelected: true, iconCls: 'column-normal', selected: true},
+                    { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barStacked,         allowSelected: true, iconCls: 'column-stack'},
+                    { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barStackedPer,      allowSelected: true, iconCls: 'column-pstack'},
+                    { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barNormal3d,        allowSelected: true, iconCls: 'column-3d-normal'},
+                    { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barStacked3d,       allowSelected: true, iconCls: 'column-3d-stack'},
+                    { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barStackedPer3d,    allowSelected: true, iconCls: 'column-3d-pstack'},
+                    { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barNormal3dPerspective,    allowSelected: true, iconCls: 'column-3d-normal-per'},
+                    { group: 'menu-chart-group-line',    type: Asc.c_oAscChartTypeSettings.lineNormal,         allowSelected: true, iconCls: 'line-normal'},
+                    { group: 'menu-chart-group-line',    type: Asc.c_oAscChartTypeSettings.lineStacked,        allowSelected: true, iconCls: 'line-stack'},
+                    { group: 'menu-chart-group-line',    type: Asc.c_oAscChartTypeSettings.lineStackedPer,     allowSelected: true, iconCls: 'line-pstack'},
+                    { group: 'menu-chart-group-line',    type: Asc.c_oAscChartTypeSettings.line3d,             allowSelected: true, iconCls: 'line-3d'},
+                    { group: 'menu-chart-group-pie',     type: Asc.c_oAscChartTypeSettings.pie,                allowSelected: true, iconCls: 'pie-normal'},
+                    { group: 'menu-chart-group-pie',     type: Asc.c_oAscChartTypeSettings.doughnut,           allowSelected: true, iconCls: 'pie-doughnut'},
+                    { group: 'menu-chart-group-pie',     type: Asc.c_oAscChartTypeSettings.pie3d,              allowSelected: true, iconCls: 'pie-3d-normal'},
+                    { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarNormal,         allowSelected: true, iconCls: 'bar-normal'},
+                    { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarStacked,        allowSelected: true, iconCls: 'bar-stack'},
+                    { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarStackedPer,     allowSelected: true, iconCls: 'bar-pstack'},
+                    { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarNormal3d,       allowSelected: true, iconCls: 'bar-3d-normal'},
+                    { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarStacked3d,      allowSelected: true, iconCls: 'bar-3d-stack'},
+                    { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarStackedPer3d,   allowSelected: true, iconCls: 'bar-3d-pstack'},
+                    { group: 'menu-chart-group-area',    type: Asc.c_oAscChartTypeSettings.areaNormal,         allowSelected: true, iconCls: 'area-normal'},
+                    { group: 'menu-chart-group-area',    type: Asc.c_oAscChartTypeSettings.areaStacked,        allowSelected: true, iconCls: 'area-stack'},
+                    { group: 'menu-chart-group-area',    type: Asc.c_oAscChartTypeSettings.areaStackedPer,     allowSelected: true, iconCls: 'area-pstack'},
+                    { group: 'menu-chart-group-scatter', type: Asc.c_oAscChartTypeSettings.scatter,            allowSelected: true, iconCls: 'point-normal'},
+                    { group: 'menu-chart-group-stock',   type: Asc.c_oAscChartTypeSettings.stock,              allowSelected: true, iconCls: 'stock-normal'}
+                ]),
+                itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist <%= iconCls %>"></div>')
+            });
+            this.mnuInsertSparkPicker = new Common.UI.DataView({
+                el: $('#id-toolbar-menu-insertspark'),
+                parentMenu: this.mnuInsertSparkline.menu,
+                showLast: false,
+                restoreHeight: 200,
+                allowScrollbar: false,
+                groups: new Common.UI.DataViewGroupStore([
+                    { id: 'menu-chart-group-sparkcolumn', caption: this.textColumnSpark },
+                    { id: 'menu-chart-group-sparkline',   caption: this.textLineSpark },
+                    { id: 'menu-chart-group-sparkwin',    caption: this.textWinLossSpark }
+                ]),
+                store: new Common.UI.DataViewStore([
+                    { group: 'menu-chart-group-sparkcolumn',   type: Asc.c_oAscSparklineType.Column,    allowSelected: true, iconCls: 'spark-column'},
+                    { group: 'menu-chart-group-sparkline',     type: Asc.c_oAscSparklineType.Line,      allowSelected: true, iconCls: 'spark-line'},
+                    { group: 'menu-chart-group-sparkwin',      type: Asc.c_oAscSparklineType.Stacked,   allowSelected: true, iconCls: 'spark-win'}
+                ]),
+                itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist <%= iconCls %>"></div>')
+            })
         },
 
         setApi: function(api) {
@@ -2031,6 +2119,18 @@ define([
         txtPasteRange:      'Paste name',
         textInsText:        'Insert text box',
         textInsTextArt:     'Insert Text Art',
+        textInsCharts:      'Charts',
+        textLine:           'Line Chart',
+        textColumn:         'Column Chart',
+        textBar:            'Bar Chart',
+        textArea:           'Area Chart',
+        textPie:            'Pie Chart',
+        textPoint:          'Point Chart',
+        textStock:          'Stock Chart',
+        textInsSparklines:  'Sparklines',
+        textLineSpark:      'Line',
+        textColumnSpark:    'Column',
+        textWinLossSpark:   'Win/Loss',
         tipInsertEquation:  'Insert Equation'
     }, SSE.Views.Toolbar || {}));
 });
