@@ -57,6 +57,7 @@ common.view.modals = new(function() {
                             '<span class="svg big-twitter" data-name="twitter"></span>' +
                             '<span class="svg big-gplus" data-name="gplus"></span>' +
                             '<span class="svg big-email" data-name="email"></span>' +
+                            '<div class="autotest" id="email" style="display: none"></div>' +
                         '</div>';
 
     var _tplbody_embed = '<div class="size-manual">' +

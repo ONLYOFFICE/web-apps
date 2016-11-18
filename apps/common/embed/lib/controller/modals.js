@@ -52,6 +52,8 @@
         var createDlgShare = function () {
             $dlgShare = common.view.modals.create('share');
 
+            var _mailto = 'mailto:?subject=I have shared a document with you: ' + appConfig.docTitle + '&body=I have shared a document with you: ' + appConfig.shareUrl + '"';
+
             $dlgShare.find('#btn-copyshort').on('click', copytext.bind(this, $dlgShare.find('#id-short-url')));
             $dlgShare.find('.share-buttons > span').on('click', function(e){
                 var _url;
@@ -70,12 +72,13 @@
                         window.open(_url, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes');
                         break;
                     case 'email':
-                        window.open('mailto:?subject=I have shared a document with you: ' + appConfig.docTitle + '&body=I have shared a document with you: ' + appConfig.shareUrl + '"', '_self');
+                        window.open(_mailto, '_self');
                         break;
                 }
             });
 
             $dlgShare.find('#id-short-url').val(appConfig.shareUrl);
+            $dlgShare.find('.share-buttons > #email.autotest').attr('data-test', _mailto);
         };
 
         var createDlgEmbed =function () {
