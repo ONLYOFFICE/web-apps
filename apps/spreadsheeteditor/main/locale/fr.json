@@ -1422,6 +1422,7 @@
   "SSE.Views.Toolbar.textDiagUpBorder": "Bordure diagonale haut",
   "SSE.Views.Toolbar.textEntireCol": "Colonne entière",
   "SSE.Views.Toolbar.textEntireRow": "Ligne entière",
+  "SSE.Views.Toolbar.textFreezePanes": "Verrouiller les volets",
   "SSE.Views.Toolbar.textHideFBar": "Masquer la barre de formule",
   "SSE.Views.Toolbar.textHideGridlines": "Masquer le quadrillage",
   "SSE.Views.Toolbar.textHideHeadings": "Masquer les en-têtes",

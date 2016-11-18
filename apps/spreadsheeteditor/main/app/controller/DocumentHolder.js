@@ -1554,12 +1554,10 @@ define([
                     _.delay(function() {
                         menu.cmpEl.find('li:first a').addClass('focus');
                     }, 10);
-//                    } else {
-//                        _.delay(function() {
-//                            menu.cmpEl.focus();
-//                            menu.cmpEl.find('li:first a').focus();
-//                        }, 10);
-//                    }
+                    if (!infocus)
+                        _.delay(function() {
+                            menu.cmpEl.focus();
+                        }, 10);
                 }, 1);
             } else {
                 this.documentHolder.funcMenu.hide();

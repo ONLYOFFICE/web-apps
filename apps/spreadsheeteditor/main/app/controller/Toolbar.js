@@ -1137,6 +1137,7 @@ define([
                 case 'formula':     params.formula = item.checked;    option = 'sse-hidden-formula';    break;
                 case 'headings':    params.headings = item.checked;   break;
                 case 'gridlines':   params.gridlines = item.checked;  break;
+                case 'freezepanes': params.freezepanes = item.checked;  break;
             }
 
             this.hideElements(params);
@@ -1473,6 +1474,7 @@ define([
                 var params  = this.api.asc_getSheetViewSettings();
                 this.toolbar.mnuitemHideHeadings.setChecked(!params.asc_getShowRowColHeaders());
                 this.toolbar.mnuitemHideGridlines.setChecked(!params.asc_getShowGridLines());
+                this.toolbar.mnuitemFreezePanes.setChecked(params.asc_getIsFreezePane());
             }
         },
 
@@ -1964,6 +1966,12 @@ define([
                     current = this.api.asc_getSheetViewSettings();
                     current.asc_setShowGridLines(!opts.gridlines);
                     this.api.asc_setSheetViewSettings(current);
+                }
+            }
+
+            if (!_.isUndefined(opts.freezepanes)) {
+                if (this.api) {
+                    this.api.asc_freezePane();
                 }
             }
 

@@ -310,8 +310,9 @@ define([
                         });
                     });
 
-                this.tabbar.$el.append('<div class="menu-backdrop dropdown-toggle" data-toggle="dropdown" style="width:0; height:0;"/>');
+                this.tabbar.$el.append('<div class="dropdown-toggle" data-toggle="dropdown" style="width:0; height:0;"/>');
                 this.tabMenu.render(this.tabbar.$el);
+                this.tabMenu.cmpEl.attr({tabindex: -1});
                 this.tabMenu.on('show:after', _.bind(this.onTabMenuAfterShow, this));
                 this.tabMenu.on('hide:after', _.bind(this.onTabMenuAfterHide, this));
                 this.tabMenu.on('item:click', _.bind(this.onTabMenuClick, this));
@@ -552,6 +553,9 @@ define([
                 if (obj.atposition) {
                     obj.setOffset(obj.atposition.left);
                 }
+                _.defer(function(){
+                    obj.cmpEl.focus();
+                }, 100);
 
                 this.enableKeyEvents = true;
             },
