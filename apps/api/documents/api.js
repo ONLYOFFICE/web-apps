@@ -37,10 +37,12 @@
                 },
                 permissions: {
                     edit: <can edit>, // default = true
-                    download: <can download>,
-                    reader: <can view in readable mode>
-                    review: <can review> // default = edit,
-                    print: <can print> // default = true
+                    download: <can download>, // default = true
+                    reader: <can view in readable mode>,
+                    review: <can review>, // default = edit
+                    print: <can print>, // default = true
+                    rename: <can rename>, // default = false
+                    changeHistory: <can change history>, // default = false
                 }
             },
             editorConfig: {
