@@ -46,7 +46,7 @@ define([
 ], function (core) {
     'use strict';
 
-    DE.Controllers.EditChart = Backbone.Controller.extend((function() {
+    DE.Controllers.EditChart = Backbone.Controller.extend(_.extend((function() {
         // Private
         var _stack = [],
             _chartObject = undefined,
@@ -593,5 +593,5 @@ define([
                 return chartExist;
             }
         };
-    })());
+    })(), DE.Controllers.EditChart || {}))
 });

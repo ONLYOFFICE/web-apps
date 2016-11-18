@@ -49,7 +49,7 @@ define([
 ], function (editTemplate, $, _, Backbone) {
     'use strict';
 
-    DE.Views.EditChart = Backbone.View.extend((function() {
+    DE.Views.EditChart = Backbone.View.extend(_.extend((function() {
         // private
         var _styles = [];
 
@@ -128,7 +128,8 @@ define([
                 this.layout = $('<div/>').append(this.template({
                     android : Common.SharedSettings.get('android'),
                     phone   : Common.SharedSettings.get('phone'),
-                    types   : groupsOfTypes
+                    types   : groupsOfTypes,
+                    scope   : this
                 }));
 
                 return this;
@@ -241,7 +242,33 @@ define([
                 });
 
                 this.fireEvent('page:show', [this, selector]);
-            }
+            },
+
+            textStyle: 'Style',
+            textWrap: 'Wrap',
+            textReorder: 'Reorder',
+            textRemoveChart: 'Remove Chart',
+            textBack: 'Back',
+            textToForeground: 'Bring to Foreground',
+            textToBackground: 'Send to Background',
+            textForward: 'Move Forward',
+            textBackward: 'Move Backward',
+            textInline: 'Inline',
+            textSquare: 'Square',
+            textTight: 'Tight',
+            textThrough: 'Through',
+            textTopBottom: 'Top and Bottom',
+            textInFront: 'In Front',
+            textBehind: 'Behind',
+            textAlign: 'Align',
+            textMoveText: 'Move with Text',
+            textOverlap: 'Allow Overlap',
+            textDistanceText: 'Distance from Text',
+            textType: 'Type',
+            textFill: 'Fill',
+            textBorder: 'Border',
+            textSize: 'Size',
+            textColor: 'Color'
         }
-    })());
+    })(), DE.Views.EditChart || {}))
 });
