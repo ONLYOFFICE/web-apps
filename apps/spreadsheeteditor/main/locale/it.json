@@ -872,6 +872,7 @@
   "SSE.Views.Toolbar.textDiagUpBorder": "Bordo diagonale superiore",
   "SSE.Views.Toolbar.textEntireCol": "Colonna intera",
   "SSE.Views.Toolbar.textEntireRow": "Riga intera",
+  "SSE.Views.Toolbar.textFreezePanes": "Blocca riquadri",
   "SSE.Views.Toolbar.textHideFBar": "Nascondi barra di formula",
   "SSE.Views.Toolbar.textHideGridlines": "Nascondi griglia",
   "SSE.Views.Toolbar.textHideHeadings": "Nascondi titoli",

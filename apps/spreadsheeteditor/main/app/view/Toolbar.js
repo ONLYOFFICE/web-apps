@@ -908,6 +908,7 @@ define([
                 isChecked: function () { return this.conf.checked; }
             };
             this.mnuitemHideGridlines = clone(this.mnuitemHideHeadings);
+            this.mnuitemFreezePanes = clone(this.mnuitemHideHeadings);
             this.mnuZoom = {
                 options: {value: 100}
             };
@@ -1323,6 +1324,7 @@ define([
                             checkable   : true,
                             value       : 'formula'
                         }),
+                        {caption: '--'},
                         this.mnuitemHideHeadings = new Common.UI.MenuItem({
                             caption     : this.textHideHeadings,
                             checkable   : true,
@@ -1334,6 +1336,13 @@ define([
                             checkable   : true,
                             checked     : this.mnuitemHideGridlines.isChecked(),
                             value       : 'gridlines'
+                        }),
+                        {caption: '--'},
+                        this.mnuitemFreezePanes = new Common.UI.MenuItem({
+                            caption     : this.textFreezePanes,
+                            checkable   : true,
+                            checked     : this.mnuitemFreezePanes.isChecked(),
+                            value       : 'freezepanes'
                         }),
                         {caption: '--'},
                         this.mnuZoom = new Common.UI.MenuItem({
@@ -1991,6 +2000,7 @@ define([
         textHideFBar:       'Hide Formula Bar',
         textHideHeadings:   'Hide Headings',
         textHideGridlines:  'Hide Gridlines',
+        textFreezePanes:    'Freeze Panes',
         txtScheme1:         'Office',
         txtScheme2:         'Grayscale',
         txtScheme3:         'Apex',
