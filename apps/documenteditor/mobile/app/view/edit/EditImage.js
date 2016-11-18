@@ -48,7 +48,7 @@ define([
 ], function (editTemplate, $, _, Backbone) {
     'use strict';
 
-    DE.Views.EditImage = Backbone.View.extend((function() {
+    DE.Views.EditImage = Backbone.View.extend(_.extend((function() {
         // private
 
         return {
@@ -83,7 +83,8 @@ define([
             render: function () {
                 this.layout = $('<div/>').append(this.template({
                     android : Common.SharedSettings.get('android'),
-                    phone   : Common.SharedSettings.get('phone')
+                    phone   : Common.SharedSettings.get('phone'),
+                    scope   : this
                 }));
 
                 return this;
@@ -149,7 +150,35 @@ define([
                 _.delay(function () {
                     $('.edit-image-url-link input[type="url"]').focus();
                 }, 1000);
-            }
+            },
+
+            textWrap: 'Wrap',
+            textReplace: 'Replace',
+            textReorder: 'Reorder',
+            textDefault: 'Default Size',
+            textRemove: 'Remove Image',
+            textBack: 'Back',
+            textToForeground: 'Bring to Foreground',
+            textToBackground: 'Send to Background',
+            textForward: 'Move Forward',
+            textBackward: 'Move Backward',
+            textInline: 'Inline',
+            textSquare: 'Square',
+            textTight: 'Tight',
+            textThrough: 'Through',
+            textTopBottom: 'Top and Bottom',
+            textInFront: 'In Front',
+            textBehind: 'Behind',
+            textAlign: 'Align',
+            textMoveText: 'Move with Text',
+            textOverlap: 'Allow Overlap',
+            textDistanceText: 'Distance from Text', 
+            textFromLibrary: 'Picture from Library',
+            textFromURL: 'Picture from URL',
+            textLinkSettings: 'Link Settings',
+            textAddress: 'Address',
+            textImageURL: 'Image URL',
+            textReplaceImg: 'Replace Image'
         }
-    })());
+    })(), DE.Views.EditImage || {}))
 });

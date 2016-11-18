@@ -46,7 +46,7 @@ define([
 ], function (core) {
     'use strict';
 
-    DE.Controllers.EditImage = Backbone.Controller.extend((function() {
+    DE.Controllers.EditImage = Backbone.Controller.extend(_.extend((function() {
         // Private
         var _stack = [],
             _imageObject = undefined,
@@ -303,20 +303,20 @@ define([
                 if ($input) {
                     var value = ($input.val()).replace(/ /g, '');
 
-                    _.delay(function () {
-                        if (!_.isEmpty(value)) {
-                            if ((/((^https?)|(^ftp)):\/\/.+/i.test(value))) {
+                    if (!_.isEmpty(value)) {
+                        if ((/((^https?)|(^ftp)):\/\/.+/i.test(value))) {
+                            DE.getController('EditContainer').hideModal();
+                            _.defer(function () {
                                 var image = new Asc.asc_CImgProperty();
                                 image.put_ImageUrl(value);
                                 me.api.ImgApply(image);
-                                DE.getController('EditContainer').hideModal();
-                            } else {
-                                uiApp.alert(me.txtNotUrl);
-                            }
+                            });
                         } else {
-                            uiApp.alert(me.textEmptyImgUrl);
+                            uiApp.alert(me.txtNotUrl);
                         }
-                    }, 300);
+                    } else {
+                        uiApp.alert(me.textEmptyImgUrl);
+                    }
                 }
             },
 
@@ -393,8 +393,8 @@ define([
                 return imageExist;
             },
 
-            textEmptyImgUrl : 'You need to specify image URL.',
-            txtNotUrl       : 'This field should be a URL in the format \"http://www.example.com\"'
-        };
-    })());
+            textEmptyImgUrl: 'You need to specify image URL.',
+            txtNotUrl: 'This field should be a URL in the format \"http://www.example.com\"'
+        }
+    })(), DE.Controllers.EditImage || {}))
 });
