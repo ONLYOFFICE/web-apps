@@ -45,7 +45,7 @@ define([
 ], function (core) {
     'use strict';
 
-    DE.Controllers.AddOther = Backbone.Controller.extend((function() {
+    DE.Controllers.AddOther = Backbone.Controller.extend(_.extend((function() {
         var c_pageNumPosition = {
             PAGE_NUM_POSITION_TOP: 0x01,
             PAGE_NUM_POSITION_BOTTOM: 0x02,
@@ -205,8 +205,8 @@ define([
                 DE.getController('AddContainer').hideModal();
             },
 
-            txtNotUrl:          'This field should be a URL in the format \"http://www.example.com\"'
+            txtNotUrl: 'This field should be a URL in the format \"http://www.example.com\"'
 
         }
-    })());
+    })(), DE.Controllers.AddOther || {}))
 });

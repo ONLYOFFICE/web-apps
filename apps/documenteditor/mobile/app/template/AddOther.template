@@ -9,7 +9,7 @@
                             <i class="icon icon-pagebreak"></i>
                         </div>
                         <div class="item-inner">
-                            <div class="item-title">Page Break</div>
+                            <div class="item-title"><%= scope.textPageBreak %></div>
                         </div>
                     </div>
                 </a>
@@ -21,7 +21,7 @@
                             <i class="icon icon-sectionbreak"></i>
                         </div>
                         <div class="item-inner">
-                            <div class="item-title">Section Break</div>
+                            <div class="item-title"><%= scope.textSectionBreak %></div>
                         </div>
                     </div>
                 </a>
@@ -33,7 +33,7 @@
                             <i class="icon icon-stringbreak"></i>
                         </div>
                         <div class="item-inner">
-                            <div class="item-title">Line Break</div>
+                            <div class="item-title"><%= scope.textLineBreak %></div>
                         </div>
                     </div>
                 </a>
@@ -45,7 +45,7 @@
                             <i class="icon icon-link"></i>
                         </div>
                         <div class="item-inner">
-                            <div class="item-title">Link</div>
+                            <div class="item-title"><%= scope.textLink %></div>
                         </div>
                     </div>
                 </a>
@@ -57,7 +57,7 @@
                             <i class="icon icon-pagenumber"></i>
                         </div>
                         <div class="item-inner">
-                            <div class="item-title">Page Number</div>
+                            <div class="item-title"><%= scope.textPageNumber %></div>
                         </div>
                     </div>
                 </a>
@@ -70,8 +70,8 @@
 <div id="addother-sectionbreak">
     <div class="navbar">
         <div class="navbar-inner">
-            <div class="left sliding"><a href="#" class="back link"><i class="icon icon-back"></i><% if (!android) { %><span>Back</span><% } %></a></div>
-            <div class="center sliding">Section Break</div>
+            <div class="left sliding"><a href="#" class="back link"><i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding"><%= scope.textSectionBreak %></div>
         </div>
     </div>
     <div class="page" data-page="addother-sectionbreak">
@@ -82,7 +82,7 @@
                         <a data-type="next" class="item-link no-indicator">
                             <div class="item-content">
                                 <div class="item-inner">
-                                    <div class="item-title">Next Page</div>
+                                    <div class="item-title"><%= scope.textNextPage %></div>
                                 </div>
                             </div>
                         </a>
@@ -91,7 +91,7 @@
                         <a data-type="continuous" class="item-link no-indicator">
                             <div class="item-content">
                                 <div class="item-inner">
-                                    <div class="item-title">Continuous Page</div>
+                                    <div class="item-title"><%= scope.textContPage %></div>
                                 </div>
                             </div>
                         </a>
@@ -100,7 +100,7 @@
                         <a data-type="even" class="item-link no-indicator">
                             <div class="item-content">
                                 <div class="item-inner">
-                                    <div class="item-title">Even Page</div>
+                                    <div class="item-title"><%= scope.textEvenPage %></div>
                                 </div>
                             </div>
                         </a>
@@ -109,7 +109,7 @@
                         <a data-type="odd" class="item-link no-indicator">
                             <div class="item-content">
                                 <div class="item-inner">
-                                    <div class="item-title">Odd Page</div>
+                                    <div class="item-title"><%= scope.textOddPage %></div>
                                 </div>
                             </div>
                         </a>
@@ -124,8 +124,8 @@
 <div id="addother-link">
     <div class="navbar">
         <div class="navbar-inner">
-            <div class="left sliding"><a href="#" class="back link"><i class="icon icon-back"></i><% if (!android) { %><span>Back</span><% } %></a></div>
-            <div class="center sliding">Add Link</div>
+            <div class="left sliding"><a href="#" class="back link"><i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding"><%= scope.textAddLink %></div>
         </div>
     </div>
     <div class="page" data-page="addother-link">
@@ -135,9 +135,9 @@
                     <li>
                         <div id="add-link-url" class="item-content">
                             <div class="item-inner">
-                                <div class="item-title label">Link</div>
+                                <div class="item-title label"><%= scope.textLink %></div>
                                 <div class="item-input">
-                                    <input type="url" placeholder="Link">
+                                    <input type="url" placeholder="<%= scope.textLink %>">
                                 </div>
                             </div>
                         </div>
@@ -145,9 +145,9 @@
                     <li>
                         <div id="add-link-display" class="item-content">
                             <div class="item-inner">
-                                <div class="item-title label">Display</div>
+                                <div class="item-title label"><%= scope.textDisplay %></div>
                                 <div class="item-input">
-                                    <input type="text" placeholder="Display">
+                                    <input type="text" placeholder="<%= scope.textDisplay %>">
                                 </div>
                             </div>
                         </div>
@@ -155,9 +155,9 @@
                     <li>
                         <div id="add-link-tip" class="item-content">
                             <div class="item-inner">
-                                <div class="item-title label">Screen Tip</div>
+                                <div class="item-title label"><%= scope.textTip %></div>
                                 <div class="item-input">
-                                    <input type="text" placeholder="Screen Tip">
+                                    <input type="text" placeholder="<%= scope.textTip %>">
                                 </div>
                             </div>
                         </div>
@@ -166,11 +166,11 @@
             </div>
             <div class="list-block disabled" id="add-link-insert">
                 <% if (android) { %>
-                <a href="#" class="button button-fill button-raised" style="margin: 20px 16px;">Insert</a>
+                <a href="#" class="button button-fill button-raised" style="margin: 20px 16px;"><%= scope.textInsert %></a>
                 <% } else { %>
                 <ul>
                     <li>
-                        <a href="#" class="list-button item-link">Insert</a>
+                        <a href="#" class="list-button item-link"><%= scope.textInsert %></a>
                     </li>
                 </ul>
                 <% } %>
@@ -183,8 +183,8 @@
 <div id="addother-pagenumber">
     <div class="navbar">
         <div class="navbar-inner">
-            <div class="left sliding"><a href="#" class="back link"><i class="icon icon-back"></i><% if (!android) { %><span>Back</span><% } %></a></div>
-            <div class="center sliding">Position</div>
+            <div class="left sliding"><a href="#" class="back link"><i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding"><%= scope.textPosition %></div>
         </div>
     </div>
     <div class="page" data-page="addother-pagenumber">
@@ -195,7 +195,7 @@
                         <a data-type="lt" class="item-link no-indicator">
                             <div class="item-content">
                                 <div class="item-inner">
-                                    <div class="item-title">Left Top</div>
+                                    <div class="item-title"><%= scope.textLeftTop %></div>
                                 </div>
                             </div>
                         </a>
@@ -204,7 +204,7 @@
                         <a data-type="ct" class="item-link no-indicator">
                             <div class="item-content">
                                 <div class="item-inner">
-                                    <div class="item-title">Center Top</div>
+                                    <div class="item-title"><%= scope.textCenterTop %></div>
                                 </div>
                             </div>
                         </a>
@@ -213,7 +213,7 @@
                         <a data-type="rt" class="item-link no-indicator">
                             <div class="item-content">
                                 <div class="item-inner">
-                                    <div class="item-title">Right Top</div>
+                                    <div class="item-title"><%= scope.textRightTop %></div>
                                 </div>
                             </div>
                         </a>
@@ -222,7 +222,7 @@
                         <a data-type="lb" class="item-link no-indicator">
                             <div class="item-content">
                                 <div class="item-inner">
-                                    <div class="item-title">Left Bottom</div>
+                                    <div class="item-title"><%= scope.textLeftBottom %></div>
                                 </div>
                             </div>
                         </a>
@@ -231,7 +231,7 @@
                         <a data-type="cb" class="item-link no-indicator">
                             <div class="item-content">
                                 <div class="item-inner">
-                                    <div class="item-title">Center Bottom</div>
+                                    <div class="item-title"><%= scope.textCenterBottom %></div>
                                 </div>
                             </div>
                         </a>
@@ -240,7 +240,7 @@
                         <a data-type="rb" class="item-link no-indicator">
                             <div class="item-content">
                                 <div class="item-inner">
-                                    <div class="item-title">Right Bottom</div>
+                                    <div class="item-title"><%= scope.textRightBottom %></div>
                                 </div>
                             </div>
                         </a>
@@ -249,7 +249,7 @@
                         <a data-type="current" class="item-link no-indicator">
                             <div class="item-content">
                                 <div class="item-inner">
-                                    <div class="item-title">Current Position</div>
+                                    <div class="item-title"><%= scope.textCurrentPos %></div>
                                 </div>
                             </div>
                         </a>

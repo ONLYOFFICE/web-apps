@@ -48,9 +48,8 @@ define([
 ], function (addTemplate, $, _, Backbone) {
     'use strict';
 
-    DE.Views.AddOther = Backbone.View.extend((function() {
+    DE.Views.AddOther = Backbone.View.extend(_.extend((function() {
         // private
-        var fontNames;
 
         return {
             // el: '.view-main',
@@ -78,7 +77,8 @@ define([
             render: function () {
                 this.layout = $('<div/>').append(this.template({
                     android : Common.SharedSettings.get('android'),
-                    phone   : Common.SharedSettings.get('phone')
+                    phone   : Common.SharedSettings.get('phone'),
+                    scope   : this
                 }));
 
                 return this;
@@ -135,7 +135,32 @@ define([
 
             showPagePosition: function () {
                 this.showPage('#addother-pagenumber');
-            }
+            },
+
+            textPageBreak: 'Page Break',
+            textSectionBreak: 'Section Break',
+            textLineBreak: 'Line Break',
+            textLink: 'Link',
+            textPageNumber: 'Page Number',
+            textBack: 'Back',
+            textAddLink: 'Add Link',
+            textDisplay: 'Display',
+            textTip: 'Screen Tip',
+            textInsert: 'Insert',
+            textPosition: 'Position',
+            textLeftTop: 'Left Top',
+            textCenterTop: 'Center Top',
+            textRightTop: 'Right Top',
+            textLeftBottom: 'Left Bottom',
+            textCenterBottom: 'Center Bottom',
+            textRightBottom: 'Right Bottom',
+            textCurrentPos: 'Current Position',
+            textNextPage: 'Next Page',
+            textContPage: 'Continuous Page',
+            textEvenPage: 'Even Page',
+            textOddPage: 'Odd Page'
+        
+        
         }
-    })());
+    })(), DE.Views.AddOther || {}))
 });
