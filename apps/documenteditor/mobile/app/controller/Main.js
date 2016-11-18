@@ -333,7 +333,7 @@ define([
                 } else {
                     _.delay(function () {
                         $(me.loadMask).hasClass('modal-in') && uiApp.closeModal(me.loadMask);
-                    }, 200);
+                    }, 300);
                 }
 
                 if (id==Asc.c_oAscAsyncAction['Save'] && (!me._state.fastCoauth || me._state.usersCount<2)) {
@@ -342,93 +342,99 @@ define([
             },
 
             setLongActionView: function(action) {
-                var title = '', text = '';
+                var me = this,
+                    title = '',
+                    text = '';
 
                 switch (action.id) {
                     case Asc.c_oAscAsyncAction['Open']:
-                        title   = this.openTitleText;
-                        text    = this.openTextText;
+                        title   = me.openTitleText;
+                        text    = me.openTextText;
                         break;
 
                     case Asc.c_oAscAsyncAction['Save']:
-                        this._state.isSaving = new Date();
-                        title   = this.saveTitleText;
-                        text    = this.saveTextText;
+                        me._state.isSaving = new Date();
+                        title   = me.saveTitleText;
+                        text    = me.saveTextText;
                         break;
 
                     case Asc.c_oAscAsyncAction['LoadDocumentFonts']:
-                        title   = this.loadFontsTitleText;
-                        text    = this.loadFontsTextText;
+                        title   = me.loadFontsTitleText;
+                        text    = me.loadFontsTextText;
                         break;
 
                     case Asc.c_oAscAsyncAction['LoadDocumentImages']:
-                        title   = this.loadImagesTitleText;
-                        text    = this.loadImagesTextText;
+                        title   = me.loadImagesTitleText;
+                        text    = me.loadImagesTextText;
                         break;
 
                     case Asc.c_oAscAsyncAction['LoadFont']:
-                        title   = this.loadFontTitleText;
-                        text    = this.loadFontTextText;
+                        title   = me.loadFontTitleText;
+                        text    = me.loadFontTextText;
                         break;
 
                     case Asc.c_oAscAsyncAction['LoadImage']:
-                        title   = this.loadImageTitleText;
-                        text    = this.loadImageTextText;
+                        title   = me.loadImageTitleText;
+                        text    = me.loadImageTextText;
                         break;
 
                     case Asc.c_oAscAsyncAction['DownloadAs']:
-                        title   = this.downloadTitleText;
-                        text    = this.downloadTextText;
+                        title   = me.downloadTitleText;
+                        text    = me.downloadTextText;
                         break;
 
                     case Asc.c_oAscAsyncAction['Print']:
-                        title   = this.printTitleText;
-                        text    = this.printTextText;
+                        title   = me.printTitleText;
+                        text    = me.printTextText;
                         break;
 
                     case Asc.c_oAscAsyncAction['UploadImage']:
-                        title   = this.uploadImageTitleText;
-                        text    = this.uploadImageTextText;
+                        title   = me.uploadImageTitleText;
+                        text    = me.uploadImageTextText;
                         break;
 
                     case Asc.c_oAscAsyncAction['ApplyChanges']:
-                        title   = this.applyChangesTitleText;
-                        text    = this.applyChangesTextText;
+                        title   = me.applyChangesTitleText;
+                        text    = me.applyChangesTextText;
                         break;
 
                     case Asc.c_oAscAsyncAction['PrepareToSave']:
-                        title   = this.savePreparingText;
-                        text    = this.savePreparingTitle;
+                        title   = me.savePreparingText;
+                        text    = me.savePreparingTitle;
                         break;
 
                     case Asc.c_oAscAsyncAction['MailMergeLoadFile']:
-                        title   = this.mailMergeLoadFileText;
-                        text    = this.mailMergeLoadFileTitle;
+                        title   = me.mailMergeLoadFileText;
+                        text    = me.mailMergeLoadFileTitle;
                         break;
 
                     case Asc.c_oAscAsyncAction['DownloadMerge']:
-                        title   = this.downloadMergeTitle;
-                        text    = this.downloadMergeText;
+                        title   = me.downloadMergeTitle;
+                        text    = me.downloadMergeText;
                         break;
 
                     case Asc.c_oAscAsyncAction['SendMailMerge']:
-                        title   = this.sendMergeTitle;
-                        text    = this.sendMergeText;
+                        title   = me.sendMergeTitle;
+                        text    = me.sendMergeText;
                         break;
 
                     case ApplyEditRights:
-                        title   = this.txtEditingMode;
-                        text    = this.txtEditingMode;
+                        title   = me.txtEditingMode;
+                        text    = me.txtEditingMode;
                         break;
 
                     case LoadingDocument:
-                        title   = this.loadingDocumentTitleText;
-                        text    = this.loadingDocumentTextText;
+                        title   = me.loadingDocumentTitleText;
+                        text    = me.loadingDocumentTextText;
                         break;
                 }
 
                 if (action.type == Asc.c_oAscAsyncActionType['BlockInteraction']) {
-                    this.loadMask = uiApp.showPreloader(title);
+                    if (me.loadMask && $(me.loadMask).hasClass('modal-in')) {
+                        $$(me.loadMask).find('.modal-title').text(title);
+                    } else {
+                        me.loadMask = uiApp.showPreloader(title);
+                    }
                 }
                 else {
 //                    this.getApplication().getController('Statusbar').setStatusCaption(text);

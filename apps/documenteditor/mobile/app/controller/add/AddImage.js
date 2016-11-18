@@ -47,7 +47,7 @@ define([
 ], function (core) {
     'use strict';
 
-    DE.Controllers.AddImage = Backbone.Controller.extend((function() {
+    DE.Controllers.AddImage = Backbone.Controller.extend(_.extend((function() {
         //
 
         return {
@@ -103,33 +103,33 @@ define([
             },
 
             onUrlChange: function (e) {
-                $('#addimage-insert')[_.isEmpty($(e.currentTarget).val()) ? 'addClass' : 'removeClass']('disabled');
+                $('#addimage-insert').toggleClass('disabled', _.isEmpty($(e.currentTarget).val()));
             },
 
             onInsertByUrl: function (e) {
                 var me = this,
-                    $input = $('#addimage-link-url input[type="url"]');
+                    $input = $('#addimage-link-url input[type=url]');
 
                 if ($input) {
                     var value = ($input.val()).replace(/ /g, '');
 
-                    _.delay(function () {
-                        if (!_.isEmpty(value)) {
-                            if ((/((^https?)|(^ftp)):\/\/.+/i.test(value))) {
+                    if (!_.isEmpty(value)) {
+                        if ((/((^https?)|(^ftp)):\/\/.+/i.test(value))) {
+                            DE.getController('AddContainer').hideModal();
+                            _.defer(function () {
                                 me.api.AddImageUrl(value);
-                                DE.getController('AddContainer').hideModal();
-                            } else {
-                                uiApp.alert(me.txtNotUrl);
-                            }
+                            });
                         } else {
-                            uiApp.alert(me.textEmptyImgUrl);
+                            uiApp.alert(me.txtNotUrl);
                         }
-                    }, 300);
+                    } else {
+                        uiApp.alert(me.textEmptyImgUrl);
+                    }
                 }
             },
 
             textEmptyImgUrl : 'You need to specify image URL.',
             txtNotUrl       : 'This field should be a URL in the format \"http://www.example.com\"'
         }
-    })());
+    })(), DE.Controllers.AddImage || {}))
 });

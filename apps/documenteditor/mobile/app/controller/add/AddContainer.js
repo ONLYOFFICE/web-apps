@@ -45,7 +45,7 @@ define([
 ], function (core) {
     'use strict';
 
-    DE.Controllers.AddContainer = Backbone.Controller.extend((function() {
+    DE.Controllers.AddContainer = Backbone.Controller.extend(_.extend((function() {
         // private
 
         return {
@@ -66,9 +66,7 @@ define([
             },
 
             showModal: function() {
-                var me = this,
-                    mainView = DE.getController('Editor').getView('Editor').f7View,
-                    isAndroid = Framework7.prototype.device.android === true;
+                var me = this;
 
                 if ($$('.container-add.modal-in').length > 0) {
                     return;
@@ -88,10 +86,11 @@ define([
             },
 
             _layoutEditorsByStack: function () {
-                var addViews = [];
+                var me = this,
+                    addViews = [];
 
                 addViews.push({
-                    caption: 'Table',
+                    caption: me.textTable,
                     id: 'add-table',
                     layout: DE.getController('AddTable')
                         .getView('AddTable')
@@ -99,7 +98,7 @@ define([
                 });
 
                 addViews.push({
-                    caption: 'Shape',
+                    caption: me.textShape,
                     id: 'add-shape',
                     layout: DE.getController('AddShape')
                         .getView('AddShape')
@@ -107,7 +106,7 @@ define([
                 });
 
                 addViews.push({
-                    caption: 'Image',
+                    caption: me.textImage,
                     id: 'add-image',
                     layout: DE.getController('AddImage')
                         .getView('AddImage')
@@ -115,7 +114,7 @@ define([
                 });
 
                 addViews.push({
-                    caption: 'Other',
+                    caption: me.textOther,
                     id: 'add-other',
                     layout: DE.getController('AddOther')
                         .getView('AddOther')
@@ -127,7 +126,6 @@ define([
 
             _showByStack: function(isPhone) {
                 var me = this,
-                    mainView = DE.getController('Editor').getView('Editor').f7View,
                     isAndroid = Framework7.prototype.device.android === true,
                     layoutAdds = me._layoutEditorsByStack();
 
@@ -253,7 +251,12 @@ define([
                 });
 
                 Common.NotificationCenter.trigger('addcontainer:show');
-            }
+            },
+
+            textTable: 'Table',
+            textShape: 'Shape',
+            textImage: 'Image',
+            textOther: 'Other'
         }
-    })());
+    })(), DE.Controllers.AddContainer || {}))
 });
