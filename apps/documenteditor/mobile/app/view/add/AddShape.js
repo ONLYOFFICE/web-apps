@@ -49,7 +49,7 @@ define([
 ], function (addTemplate, $, _, Backbone) {
     'use strict';
 
-    DE.Views.AddShape = Backbone.View.extend((function() {
+    DE.Views.AddShape = Backbone.View.extend(_.extend((function() {
         // private
 
         return {
@@ -66,9 +66,7 @@ define([
             },
 
             initEvents: function () {
-                var me = this;
-
-                me.initControls();
+                this.initControls();
             },
 
             // Render layout
@@ -96,5 +94,5 @@ define([
                 //
             }
         }
-    })());
+    })(), DE.Views.AddShape || {}))
 });

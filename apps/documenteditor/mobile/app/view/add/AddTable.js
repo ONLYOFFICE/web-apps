@@ -48,7 +48,7 @@ define([
 ], function (addTemplate, $, _, Backbone) {
     'use strict';
 
-    DE.Views.AddTable = Backbone.View.extend((function() {
+    DE.Views.AddTable = Backbone.View.extend(_.extend((function() {
         // private
 
         return {
@@ -100,5 +100,5 @@ define([
                 //
             }
         }
-    })());
+    })(), DE.Views.AddTable || {}))
 });

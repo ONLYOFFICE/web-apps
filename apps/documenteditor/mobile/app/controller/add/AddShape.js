@@ -46,7 +46,7 @@ define([
 ], function (core) {
     'use strict';
 
-    DE.Controllers.AddShape = Backbone.Controller.extend((function() {
+    DE.Controllers.AddShape = Backbone.Controller.extend(_.extend((function() {
         var _styles = [];
 
         return {
@@ -228,5 +228,5 @@ define([
                 return _styles;
             }
         }
-    })());
+    })(), DE.Controllers.AddShape || {}))
 });

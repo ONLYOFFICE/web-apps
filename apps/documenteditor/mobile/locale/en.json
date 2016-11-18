@@ -174,5 +174,10 @@
   "DE.Views.AddOther.textNextPage": "Next Page",
   "DE.Views.AddOther.textContPage": "Continuous Page",
   "DE.Views.AddOther.textEvenPage": "Even Page",
-  "DE.Views.AddOther.textOddPage": "Odd Page"
+  "DE.Views.AddOther.textOddPage": "Odd Page",
+
+  "DE.Controllers.AddTable.textTableSize": "Table Size",
+  "DE.Controllers.AddTable.textColumns": "Columns",
+  "DE.Controllers.AddTable.textRows": "Rows",
+  "DE.Controllers.AddTable.textCancel": "Cancel"
 }

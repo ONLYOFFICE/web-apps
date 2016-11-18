@@ -47,7 +47,7 @@ define([
 ], function (core) {
     'use strict';
 
-    DE.Controllers.AddTable = Backbone.Controller.extend((function() {
+    DE.Controllers.AddTable = Backbone.Controller.extend(_.extend((function() {
         var _styles = [];
 
         return {
@@ -92,19 +92,19 @@ define([
                     if ($target) {
                         var picker;
                         var modal = uiApp.modal({
-                            title: 'Table Size',
+                            title: me.textTableSize,
                             text: '',
                             afterText:
                             '<div class="content-block">' +
                                 '<div class="row">' +
-                                    '<div class="col-50">Columns</div>' +
-                                    '<div class="col-50">Rows</div>' +
+                                    '<div class="col-50">' + me.textColumns + '</div>' +
+                                    '<div class="col-50">' + me.textRows + '</div>' +
                                 '</div>' +
                             '<div id="picker-table-size"></div>' +
                             '</div>',
                             buttons: [
                                 {
-                                    text: 'Cancel'
+                                    text: me.textCancel
                                 },
                                 {
                                     text: 'OK',
@@ -161,7 +161,12 @@ define([
 
                 Common.SharedSettings.set('tablestyles', _styles);
                 Common.NotificationCenter.trigger('tablestyles:load', _styles);
-            }
+            },
+
+            textTableSize: 'Table Size',
+            textColumns: 'Columns',
+            textRows: 'Rows',
+            textCancel: 'Cancel'
         }
-    })());
+    })(), DE.Controllers.AddTable || {}))
 });
