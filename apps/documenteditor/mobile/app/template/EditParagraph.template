@@ -6,7 +6,7 @@
                 <a id="paragraph-background" class="item-link">
                 <div class="item-content">
                     <div class="item-inner">
-                        <div class="item-title">Background</div>
+                        <div class="item-title"><%= scope.textBackground %></div>
                         <div class="item-after"><div class="color-preview"></div></div>
                     </div>
                 </div>
@@ -20,14 +20,14 @@
                 <a id="paragraph-advanced" class="item-link">
                     <div class="item-content">
                         <div class="item-inner">
-                            <div class="item-title">Advanced settings</div>
+                            <div class="item-title"><%= scope.textAdvSettings %></div>
                         </div>
                     </div>
                 </a>
             </li>
         </ul>
     </div>
-    <div class="content-block-title">Paragraph styles</div>
+    <div class="content-block-title"><%= scope.textPrgStyles %></div>
     <div id="paragraph-list" class="list-block">
         <ul></ul>
     </div>
@@ -37,8 +37,8 @@
 <div id="edit-paragraph-color">
     <div class="navbar">
         <div class="navbar-inner">
-            <div class="left sliding"><a href="#" class="back link"><i class="icon icon-back"></i><% if (!android) { %><span>Back</span><% } %></a></div>
-            <div class="center sliding">Background</div>
+            <div class="left sliding"><a href="#" class="back link"><i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding"><%= scope.textBackground %></div>
             <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
         </div>
     </div>
@@ -52,25 +52,25 @@
 <div id="edit-paragraph-advanced">
     <div class="navbar">
         <div class="navbar-inner">
-            <div class="left sliding"><a href="#" class="back link"><i class="icon icon-back"></i><% if (!android) { %><span>Back</span><% } %></a></div>
-            <div class="center sliding">Advanced</div>
+            <div class="left sliding"><a href="#" class="back link"><i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding"><%= scope.textAdvanced %></div>
             <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
         </div>
     </div>
     <div class="page" data-page="edit-paragraph-advanced">
         <div class="page-content">
-            <div class="content-block-title">Distance from text</div>
+            <div class="content-block-title"><%= scope.textFromText %></div>
             <div class="list-block">
                 <ul>
                     <li id="paragraph-distance-before">
                         <div class="item-content">
                             <div class="item-inner">
-                                <div class="item-title">Before</div>
+                                <div class="item-title"><%= scope.textBefore %></div>
                                 <div class="item-after splitter">
-                                    <% if (!android) { %><label>Auto</label><% } %>
+                                    <% if (!android) { %><label><%= scope.textAuto %></label><% } %>
                                     <p class="buttons-row">
                                         <span class="button decrement"><% if (android) { %><i class="icon icon-expand-down"></i><% } else { %>-<% } %></span>
-                                        <% if (android) { %><label>Auto</label><% } %>
+                                        <% if (android) { %><label><%= scope.textAuto %></label><% } %>
                                         <span class="button increment"><% if (android) { %><i class="icon icon-expand-up"></i><% } else { %>+<% } %></span>
                                     </p>
                                 </div>
@@ -80,12 +80,12 @@
                     <li id="paragraph-distance-after">
                         <div class="item-content">
                             <div class="item-inner">
-                                <div class="item-title">After</div>
+                                <div class="item-title"><%= scope.textAfter %></div>
                                 <div class="item-after splitter">
-                                    <% if (!android) { %><label>Auto</label><% } %>
+                                    <% if (!android) { %><label><%= scope.textAuto %></label><% } %>
                                     <p class="buttons-row">
                                         <span class="button decrement"><% if (android) { %><i class="icon icon-expand-down"></i><% } else { %>-<% } %></span>
-                                        <% if (android) { %><label>Auto</label><% } %>
+                                        <% if (android) { %><label><%= scope.textAuto %></label><% } %>
                                         <span class="button increment"><% if (android) { %><i class="icon icon-expand-up"></i><% } else { %>+<% } %></span>
                                     </p>
                                 </div>
@@ -99,7 +99,7 @@
                     <li id="paragraph-space">
                         <div class="item-content">
                             <div class="item-inner">
-                                <div class="item-title">Space Between Paragraphs</div>
+                                <div class="item-title"><%= scope.textSpaceBetween %></div>
                                 <div class="item-after">
                                     <label class="label-switch">
                                         <input type="checkbox">
@@ -116,7 +116,7 @@
                     <li id="paragraph-page-break">
                         <div class="item-content">
                             <div class="item-inner">
-                                <div class="item-title">Page Break Before</div>
+                                <div class="item-title"><%= scope.textPageBreak %></div>
                                 <div class="item-after">
                                     <label class="label-switch">
                                         <input type="checkbox">
@@ -129,7 +129,7 @@
                     <li id="paragraph-page-orphan">
                         <div class="item-content">
                             <div class="item-inner">
-                                <div class="item-title">Orphan Control</div>
+                                <div class="item-title"><%= scope.textOrphan %></div>
                                 <div class="item-after">
                                     <label class="label-switch">
                                         <input type="checkbox">
@@ -142,7 +142,7 @@
                     <li id="paragraph-page-keeptogether">
                         <div class="item-content">
                             <div class="item-inner">
-                                <div class="item-title">Keep Lines Together</div>
+                                <div class="item-title"><%= scope.textKeepLines %></div>
                                 <div class="item-after">
                                     <label class="label-switch">
                                         <input type="checkbox">
@@ -155,7 +155,7 @@
                     <li id="paragraph-page-keepnext">
                         <div class="item-content">
                             <div class="item-inner">
-                                <div class="item-title">Keep with Next</div>
+                                <div class="item-title"><%= scope.textKeepNext %></div>
                                 <div class="item-after">
                                     <label class="label-switch">
                                         <input type="checkbox">

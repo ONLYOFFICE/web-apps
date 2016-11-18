@@ -250,5 +250,20 @@
   "DE.Views.EditImage.textLinkSettings": "Link Settings",
   "DE.Views.EditImage.textAddress": "Address",
   "DE.Views.EditImage.textImageURL": "Image URL",
-  "DE.Views.EditImage.textReplaceImg": "Replace Image"
+  "DE.Views.EditImage.textReplaceImg": "Replace Image",
+
+  "DE.Views.EditParagraph.textBackground": "Background",
+  "DE.Views.EditParagraph.textAdvSettings": "Advanced settings",
+  "DE.Views.EditParagraph.textPrgStyles": "Paragraph styles",
+  "DE.Views.EditParagraph.textBack": "Back",
+  "DE.Views.EditParagraph.textAdvanced": "Advanced",
+  "DE.Views.EditParagraph.textFromText": "Distance from Text",
+  "DE.Views.EditParagraph.textBefore": "Before",
+  "DE.Views.EditParagraph.textAuto": "Auto",
+  "DE.Views.EditParagraph.textAfter": "After",
+  "DE.Views.EditParagraph.textSpaceBetween": "Space Between Paragraphs",
+  "DE.Views.EditParagraph.textPageBreak": "Page Break Before",
+  "DE.Views.EditParagraph.textOrphan": "Orphan Control",
+  "DE.Views.EditParagraph.textKeepLines": "Keep Lines Together",
+  "DE.Views.EditParagraph.textKeepNext": "Keep with Next",
 }

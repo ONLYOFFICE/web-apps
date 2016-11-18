@@ -48,7 +48,7 @@ define([
 ], function (editTemplate, $, _, Backbone) {
     'use strict';
 
-    DE.Views.EditParagraph = Backbone.View.extend((function() {
+    DE.Views.EditParagraph = Backbone.View.extend(_.extend((function() {
         // private
         // var _paragraphStyles;
 
@@ -81,7 +81,8 @@ define([
             render: function () {
                 this.layout = $('<div/>').append(this.template({
                     android : Common.SharedSettings.get('android'),
-                    phone   : Common.SharedSettings.get('phone')
+                    phone   : Common.SharedSettings.get('phone'),
+                    scope   : this
                 }));
 
                 return this;
@@ -154,7 +155,22 @@ define([
 
             showAdvanced: function () {
                 this.showPage('#edit-paragraph-advanced');
-            }
+            },
+
+            textBackground: 'Background',
+            textAdvSettings: 'Advanced settings',
+            textPrgStyles: 'Paragraph styles',
+            textBack: 'Back',
+            textAdvanced: 'Advanced',
+            textFromText: 'Distance from Text',
+            textBefore: 'Before',
+            textAuto: 'Auto',
+            textAfter: 'After',
+            textSpaceBetween: 'Space Between Paragraphs',
+            textPageBreak: 'Page Break Before',
+            textOrphan: 'Orphan Control',
+            textKeepLines: 'Keep Lines Together',
+            textKeepNext: 'Keep with Next'
         }
-    })());
+    })(), DE.Views.EditParagraph || {}))
 });

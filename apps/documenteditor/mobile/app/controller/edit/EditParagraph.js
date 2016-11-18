@@ -46,7 +46,7 @@ define([
 ], function (core) {
     'use strict';
 
-    DE.Controllers.EditParagraph = Backbone.Controller.extend((function() {
+    DE.Controllers.EditParagraph = Backbone.Controller.extend(_.extend((function() {
         // Private
         var _stack = [],
             _paragraphInfo = {},
@@ -323,5 +323,5 @@ define([
                 $('#paragraph-list input[name=paragraph-style]').val([name]);
             }
         }
-    })());
+    })(), DE.Controllers.EditParagraph || {}))
 });
