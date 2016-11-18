@@ -44,7 +44,7 @@ define([
 ], function (core) {
     'use strict';
 
-    DE.Controllers.EditContainer = Backbone.Controller.extend((function() {
+    DE.Controllers.EditContainer = Backbone.Controller.extend(_.extend((function() {
         // Private
         var _settings = [];
 
@@ -90,20 +90,6 @@ define([
                 }
             },
 
-            _dummyEditController: function () {
-                var layout =
-                    '<div class="content-block inset">' +
-                        '<div class="content-block-inner"> ' +
-                            '<p>Implement settings!!!!</p>' +
-                        '</div>' +
-                    '</div>';
-
-                return {
-                    caption: 'Dummy',
-                    layout: layout
-                }
-            },
-
             _emptyEditController: function () {
                 var layout =
                     '<div class="content-block inset">' +
@@ -113,62 +99,63 @@ define([
                     '</div>';
 
                 return {
-                    caption: 'Settings',
+                    caption: this.textSettings,
                     layout: layout
                 }
             },
 
             _layoutEditorsByStack: function () {
-                var editors = [];
+                var me = this,
+                    editors = [];
 
                 if (_settings.length < 0) {
-                    editors.push(this._emptyEditController());
+                    editors.push(me._emptyEditController());
                 } else {
                     if (_.contains(_settings, 'text')) {
                         editors.push({
-                            caption: 'Text',
+                            caption: me.textText,
                             id: 'edit-text',
                             layout: DE.getController('EditText').getView('EditText').rootLayout()
                         })
                     }
                     if (_.contains(_settings, 'paragraph')) {
                         editors.push({
-                            caption: 'Paragraph',
+                            caption: me.textParagraph,
                             id: 'edit-paragraph',
                             layout: DE.getController('EditParagraph').getView('EditParagraph').rootLayout()
                         })
                     }
                     if (_.contains(_settings, 'table')) {
                         editors.push({
-                            caption: 'Table',
+                            caption: me.textTable,
                             id: 'edit-table',
                             layout: DE.getController('EditTable').getView('EditTable').rootLayout()
                         })
                     }
                     if (_.contains(_settings, 'shape')) {
                         editors.push({
-                            caption: 'Shape',
+                            caption: me.textShape,
                             id: 'edit-shape',
                             layout: DE.getController('EditShape').getView('EditShape').rootLayout()
                         })
                     }
                     if (_.contains(_settings, 'image')) {
                         editors.push({
-                            caption: 'Image',
+                            caption: me.textImage,
                             id: 'edit-image',
                             layout: DE.getController('EditImage').getView('EditImage').rootLayout()
                         })
                     }
                     if (_.contains(_settings, 'chart')) {
                         editors.push({
-                            caption: 'Chart',
+                            caption: me.textChart,
                             id: 'edit-chart',
                             layout: DE.getController('EditChart').getView('EditChart').rootLayout()
                         })
                     }
                     if (_.contains(_settings, 'hyperlink')) {
                         editors.push({
-                            caption: 'Hyperlink',
+                            caption: me.textHyperlink,
                             id: 'edit-link',
                             layout: DE.getController('EditHyperlink').getView('EditHyperlink').rootLayout()
                         })
@@ -363,7 +350,17 @@ define([
                 }
 
                 _settings = _.uniq(_settings);
-            }
+            },
+
+            textSettings: 'Settings',
+            textText: 'Text',
+            textParagraph: 'Paragraph',
+            textTable: 'Table',
+            textShape: 'Shape',
+            textImage: 'Image',
+            textChart: 'Chart',
+            textHyperlink: 'Hyperlink'
+
         }
-    })());
+    })(), DE.Controllers.EditContainer || {}))
 });

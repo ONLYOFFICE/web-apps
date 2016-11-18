@@ -205,5 +205,22 @@
   "DE.Views.EditChart.textFill": "Fill",
   "DE.Views.EditChart.textBorder": "Border",
   "DE.Views.EditChart.textSize": "Size",
-  "DE.Views.EditChart.textColor": "Color"
+  "DE.Views.EditChart.textColor": "Color",
+
+  "DE.Controllers.EditContainer.textSettings": "Settings",
+  "DE.Controllers.EditContainer.textText": "Text",
+  "DE.Controllers.EditContainer.textParagraph": "Paragraph",
+  "DE.Controllers.EditContainer.textTable": "Table",
+  "DE.Controllers.EditContainer.textShape": "Shape",
+  "DE.Controllers.EditContainer.textImage": "Image",
+  "DE.Controllers.EditContainer.textChart": "Chart",
+  "DE.Controllers.EditContainer.textHyperlink": "Hyperlink",
+
+  "DE.Views.EditHyperlink.textLink": "Link",
+  "DE.Views.EditHyperlink.textDisplay": "Display",
+  "DE.Views.EditHyperlink.textTip": "Screen Tip",
+  "DE.Views.EditHyperlink.textEdit": "Edit Link",
+  "DE.Views.EditHyperlink.textRemove": "Remove Link"
+
+
 }

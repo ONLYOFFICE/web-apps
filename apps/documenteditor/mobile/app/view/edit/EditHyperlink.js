@@ -49,7 +49,7 @@ define([
 ], function (editTemplate, $, _, Backbone) {
     'use strict';
 
-    DE.Views.EditHyperlink = Backbone.View.extend((function() {
+    DE.Views.EditHyperlink = Backbone.View.extend(_.extend((function() {
         // private
 
         return {
@@ -79,7 +79,8 @@ define([
             render: function () {
                 this.layout = $('<div/>').append(this.template({
                     android : Common.SharedSettings.get('android'),
-                    phone   : Common.SharedSettings.get('phone')
+                    phone   : Common.SharedSettings.get('phone'),
+                    scope   : this
                 }));
 
                 return this;
@@ -93,7 +94,13 @@ define([
                 }
 
                 return '';
-            }
+            },
+
+            textLink: 'Link',
+            textDisplay: 'Display',
+            textTip: 'Screen Tip',
+            textEdit: 'Edit Link',
+            textRemove: 'Remove Link'
         }
-    })());
+    })(), DE.Views.EditHyperlink || {}))
 });

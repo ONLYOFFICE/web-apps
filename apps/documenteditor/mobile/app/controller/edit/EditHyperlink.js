@@ -47,7 +47,7 @@ define([
 ], function (core) {
     'use strict';
 
-    DE.Controllers.EditHyperlink = Backbone.Controller.extend((function() {
+    DE.Controllers.EditHyperlink = Backbone.Controller.extend(_.extend((function() {
         // Private
         var _stack = [],
             _linkObject = undefined;
@@ -169,8 +169,8 @@ define([
                 }
             },
 
-            textEmptyImgUrl : 'You need to specify image URL.',
-            txtNotUrl       : 'This field should be a URL in the format \"http://www.example.com\"'
+            textEmptyImgUrl: 'You need to specify image URL.',
+            txtNotUrl: 'This field should be a URL in the format \"http://www.example.com\"'
         };
-    })());
+    })(), DE.Controllers.EditHyperlink || {}))
 });
