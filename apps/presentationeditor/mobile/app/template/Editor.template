@@ -1,0 +1,10 @@
+<div class="views">
+    <div id="pe-preview" style="position:absolute; left: 0; top: 0; display:none; width:100%; height:100%; z-index: 1;"></div>
+    <div class="view view-main">
+        <div class="pages navbar-through">
+            <div data-page="index" class="page">
+                <div id="editor_sdk" class="page-content no-fastclick"></div>
+            </div>
+        </div>
+    </div>
+</div>

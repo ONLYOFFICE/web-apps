@@ -55,8 +55,6 @@ require.config({
         jszip           : '../vendor/jszip/jszip.min',
         jsziputils      : '../vendor/jszip-utils/jszip-utils.min',
         jsrsasign       : '../vendor/jsrsasign/jsrsasign-latest-all-min',
-        allfonts        : '../../sdkjs/common/AllFonts',
-        sdk             : '../../sdkjs/word/sdk-all-min',
         api             : 'api/documents/api',
         core            : 'common/main/lib/core/application',
         extendes        : 'common/mobile/utils/extendes',
@@ -98,18 +96,6 @@ require.config({
                 'framework7'
             ]
         },
-        sdk: {
-            deps: [
-                'jquery',
-                'underscore',
-                'allfonts',
-                'xregexp',
-                'sockjs',
-                'jszip',
-                'jsziputils',
-                'jsrsasign'
-            ]
-        },
         gateway: {
             deps: [
                 'jquery'
@@ -129,16 +115,19 @@ require([
     'core',
     'underscore',
     'extendes',
-    'sdk',
     'api',
     'analytics',
     'gateway',
-    'locale'
+    'locale',
+    'jszip',
+    'jsziputils',
+    'jsrsasign',
+    'sockjs'
 ], function (Backbone, Framework7, Core) {
     Backbone.history.start();
 
     /**
-     * Application instance with PE namespace defined
+     * Application instance with DE namespace defined
      */
     var app = new Backbone.Application({
         nameSpace: 'PE',
@@ -228,6 +217,7 @@ require([
         // 'presentationeditor/mobile/app/controller/add/AddShape',
         // 'presentationeditor/mobile/app/controller/add/AddImage',
         // 'presentationeditor/mobile/app/controller/add/AddOther'
+
     ], function() {
         app.start();
     });

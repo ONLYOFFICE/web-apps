@@ -1064,41 +1064,6 @@ define([
 //                this.getFileMenu().setMode({isDisconnected:true});
             },
 
-            showTips: function(strings) {
-                var me = this;
-                if (!strings.length) return;
-                if (typeof(strings)!='object') strings = [strings];
-
-//                var top_elem = Ext.ComponentQuery.query('petoolbar');
-//                !top_elem.length && (top_elem = Ext.select('.common-header').first()) || (top_elem = top_elem[0].getEl());
-//
-                function showNextTip() {
-                    var str_tip = strings.shift();
-                    if (str_tip) {
-                        str_tip += me.textCloseTip;
-                        tooltip.setTitle(str_tip);
-                        tooltip.show();
-                    }
-                }
-
-                if (!this.tooltip) {
-                    this.tooltip = new Common.UI.Tooltip({
-                        owner: this.getApplication().getController('Toolbar').getView('Toolbar'),
-                        hideonclick: true,
-                        placement: 'bottom',
-                        cls: 'main-info',
-                        offset: 30
-                    });
-                }
-
-                var tooltip = this.tooltip;
-                tooltip.on('tooltip:hide', function(){
-                    setTimeout(showNextTip, 300);
-                });
-
-                showNextTip();
-            },
-
             updateWindowTitle: function(force) {
                 var isModified = this.api.isDocumentModified();
                 if (this._state.isDocModified !== isModified || force) {
