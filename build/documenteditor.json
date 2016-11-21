@@ -251,7 +251,7 @@
                         "sdk": "empty:",
                         "api": "empty:",
                         "core": "common/main/lib/core/application",
-                        "extendes": "common/main/lib/core/extendes",
+                        "extendes": "common/mobile/utils/extendes",
                         "notification": "common/main/lib/core/NotificationCenter",
                         "localstorage": "common/main/lib/util/LocalStorage",
                         "analytics": "common/Analytics",
