@@ -545,6 +545,10 @@ define([
 
                         this.tabMenu.hide();
                         this.tabMenu.show();
+                        var menu = this.tabMenu;
+                        _.defer(function(){
+                            menu.cmpEl.focus();
+                        }, 10);
                     }
                 }
             },
@@ -553,9 +557,6 @@ define([
                 if (obj.atposition) {
                     obj.setOffset(obj.atposition.left);
                 }
-                _.defer(function(){
-                    obj.cmpEl.focus();
-                }, 100);
 
                 this.enableKeyEvents = true;
             },
