@@ -205,8 +205,9 @@ define([
             toolbar.btnTextOrient.menu.on('item:click',                 _.bind(this.onTextOrientationMenu, this));
             toolbar.btnInsertImage.menu.on('item:click',                _.bind(this.onInsertImageMenu, this));
             toolbar.btnInsertHyperlink.on('click',                      _.bind(this.onHyperlink, this));
-            if (toolbar.mnuInsertChartPicker) toolbar.mnuInsertChartPicker.on('item:click', _.bind(this.onSelectChart, this));
-            if (toolbar.mnuInsertSparkPicker) toolbar.mnuInsertSparkPicker.on('item:click', _.bind(this.onSelectSpark, this));
+            toolbar.btnInsertChart.on('click',                          _.bind(this.onInsertChart, this));
+//            if (toolbar.mnuInsertChartPicker) toolbar.mnuInsertChartPicker.on('item:click', _.bind(this.onSelectChart, this));
+//            if (toolbar.mnuInsertSparkPicker) toolbar.mnuInsertSparkPicker.on('item:click', _.bind(this.onSelectSpark, this));
             toolbar.btnEditChart.on('click',                            _.bind(this.onInsertChart, this));
             toolbar.btnInsertText.on('click',                           _.bind(this.onBtnInsertTextClick, this));
             toolbar.btnInsertText.menu.on('item:click',                 _.bind(this.onInsertTextClick, this));

@@ -503,8 +503,8 @@ define([
                 id          : 'id-toolbar-btn-insertchart',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-insertchart',
-                lock        : [_set.editCell, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth],
-                menu        : new Common.UI.Menu({
+                lock        : [_set.editCell, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth]
+                /*,menu        : new Common.UI.Menu({
                     items : [
                         this.mnuInsertChart = new Common.UI.MenuItem({
                             caption: this.textInsCharts,
@@ -529,7 +529,7 @@ define([
                             })
                         })
                     ]
-                })
+                })*/
             });
 
             me.btnEditChart = new Common.UI.Button({
@@ -1712,6 +1712,7 @@ define([
                 ]
             }));
 
+            /*
             this.mnuInsertChartPicker = new Common.UI.DataView({
                 el: $('#id-toolbar-menu-insertchart'),
                 parentMenu: this.mnuInsertChart.menu,
@@ -1773,6 +1774,7 @@ define([
                 ]),
                 itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist <%= iconCls %>"></div>')
             })
+            */
         },
 
         setApi: function(api) {
