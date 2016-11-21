@@ -1,4 +1,7 @@
 {
+  "Common.UI.ThemeColorPalette.textThemeColors": "Theme Colors",
+  "Common.UI.ThemeColorPalette.textStandartColors": "Standard Colors",
+
   "DE.Controllers.Main.leavePageText": "You have unsaved changes in this document. Click 'Stay on this Page' to await the autosave of the document. Click 'Leave this Page' to discard all the unsaved changes.",
   "DE.Controllers.Main.defaultTitleText": "ONLYOFFICE Document Editor",
   "DE.Controllers.Main.criticalErrorTitle": "Error",
@@ -319,5 +322,30 @@
   "DE.Views.EditTabletextBandedRow": "Banded Row",
   "DE.Views.EditTabletextFirstColumn": "First Column",
   "DE.Views.EditTabletextLastColumn": "Last Column",
-  "DE.Views.EditTabletextBandedColumn": "Banded Column"
+  "DE.Views.EditTabletextBandedColumn": "Banded Column",
+
+  "DE.Controllers.EditText.textFonts": "Fonts",
+  "DE.Controllers.EditText.textAuto": "Auto",
+  "DE.Controllers.EditText.textPt": "pt",
+  "DE.Views.EditText.textFonts": "Fonts",
+  "DE.Views.EditText.textFontColor": "Font Color",
+  "DE.Views.EditText.textHighlightColor": "Highlight Color",
+  "DE.Views.EditText.textAdditionalFormat": "Additional Formatting",
+  "DE.Views.EditText.textBack": "Back",
+  "DE.Views.EditText.textSize": "Size",
+  "DE.Views.EditText.textFontColors": "Font Colors",
+  "DE.Views.EditText.textAutomatic": "Automatic",
+  "DE.Views.EditText.textHighlightColors": "Highlight Colors",
+  "DE.Views.EditText.textAdditional": "Additional",
+  "DE.Views.EditText.textStrikethrough": "Strikethrough",
+  "DE.Views.EditText.textDblStrikethrough": "Double Strikethrough",
+  "DE.Views.EditText.textDblSuperscript": "Superscript",
+  "DE.Views.EditText.textSubscript": "Subscript",
+  "DE.Views.EditText.textSmallCaps": "Small Caps",
+  "DE.Views.EditText.textAllCaps": "All Caps",
+  "DE.Views.EditText.textLetterSpacing": "Letter Spacing",
+  "DE.Views.EditText.textLineSpacing": "Line Spacing",
+  "DE.Views.EditText.textBullets": "Bullets",
+  "DE.Views.EditText.textNone": "None",
+  "DE.Views.EditText.textNumbers": "Numbers"
 }

@@ -204,6 +204,6 @@ define([
         },
 
         textThemeColors: 'Theme Colors',
-        textStandartColors: 'Standart Colors'
+        textStandartColors: 'Standard Colors'
     }, Common.UI.ThemeColorPalette || {}));
 });

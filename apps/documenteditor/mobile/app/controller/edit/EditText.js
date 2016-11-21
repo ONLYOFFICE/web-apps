@@ -46,7 +46,7 @@ define([
 ], function (core) {
     'use strict';
 
-    DE.Controllers.EditText = Backbone.Controller.extend((function() {
+    DE.Controllers.EditText = Backbone.Controller.extend(_.extend((function() {
         var _fontsArray = [],
             _stack = [],
             _paragraphObject = undefined,
@@ -491,7 +491,7 @@ define([
             },
 
             onApiChangeFont: function(font) {
-                var name = (_.isFunction(font.get_Name) ?  font.get_Name() : font.asc_getName()) || 'Fonts';
+                var name = (_.isFunction(font.get_Name) ?  font.get_Name() : font.asc_getName()) || this.textFonts;
                 _fontInfo.name = name;
 
                 $('#font-fonts .item-title').html(name);
@@ -501,7 +501,7 @@ define([
                 _fontInfo.size = size;
                 var displaySize = _fontInfo.size;
 
-                _.isUndefined(displaySize) ? displaySize = 'Auto' : displaySize = displaySize + ' ' + 'pt';
+                _.isUndefined(displaySize) ? displaySize = this.textAuto : displaySize = displaySize + ' ' + this.textPt;
 
                 $('#font-fonts .item-after span:first-child').html(displaySize);
                 $('#font-size .item-after label').html(displaySize);
@@ -592,7 +592,11 @@ define([
             // Helpers
             _toggleButton: function (e) {
                 return $(e.currentTarget).toggleClass('active').hasClass('active');
-            }
+            },
+
+            textFonts: 'Fonts',
+            textAuto: 'Auto',
+            textPt: 'pt'
         }
-    })());
+    })(), DE.Controllers.EditText || {}))
 });

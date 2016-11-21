@@ -5,7 +5,7 @@
             <li><a id="font-fonts" class="item-link">
                 <div class="item-content">
                     <div class="item-inner">
-                        <div class="item-title">Fonts</div>
+                        <div class="item-title"><%= scope.textFonts %></div>
                         <div class="item-after" style="color: #000;"><span></span><span style="margin-left: 5px;"></span></div>
                     </div>
                 </div></a></li>
@@ -24,7 +24,7 @@
                     <div class="item-content">
                         <% if (!android) { %><div class="item-media"><i class="icon icon-text-color"><span class="color-preview"></span></i></div><% } %>
                         <div class="item-inner">
-                            <div class="item-title">Font color</div>
+                            <div class="item-title"><%= scope.textFontColor %></div>
                             <% if (android) { %><div class="item-after"><div class="color-preview"></div></div><% } %>
                         </div>
                     </div>
@@ -34,7 +34,7 @@
                 <div class="item-content">
                     <% if (!android) { %><div class="item-media"><i class="icon icon-text-selection"><span class="color-preview"></span></i></div><% } %>
                     <div class="item-inner">
-                        <div class="item-title">Highlight color</div>
+                        <div class="item-title"><%= scope.textHighlightColor %></div>
                         <% if (android) { %><div class="item-after"><div class="color-preview"></div></div><% } %>
                     </div>
                 </div>
@@ -45,7 +45,7 @@
                     <div class="item-content">
                         <% if (!android) { %><div class="item-media"><i class="icon icon-text-additional"></i></div><% } %>
                         <div class="item-inner">
-                            <div class="item-title">Additional formatting</div>
+                            <div class="item-title"><%= scope.textAdditionalFormat %></div>
                         </div>
                     </div>
                 </a>
@@ -76,21 +76,21 @@
                 <div class="item-content">
                     <% if (!android) { %><div class="item-media"><i class="icon icon-bullets"></i></div><% } %>
                     <div class="item-inner">
-                        <div class="item-title">Bullets</div>
+                        <div class="item-title"><%= scope.textBullets %></div>
                     </div>
                 </div></a></li>
             <li><a id="font-numbers" class="item-link">
                 <div class="item-content">
                     <% if (!android) { %><div class="item-media"><i class="icon icon-numbers"></i></div><% } %>
                     <div class="item-inner">
-                        <div class="item-title">Numbers</div>
+                        <div class="item-title"><%= scope.textNumbers %></div>
                     </div>
                 </div></a></li>
             <li><a id="font-line-spacing" class="item-link">
                 <div class="item-content">
                     <% if (!android) { %><div class="item-media"><i class="icon icon-linespacing"></i></div><% } %>
                     <div class="item-inner">
-                        <div class="item-title">Line Spacing</div>
+                        <div class="item-title"><%= scope.textLineSpacing %></div>
                     </div>
                 </div></a></li>
         </ul>
@@ -101,8 +101,8 @@
 <div id="edit-text-fonts">
     <div class="navbar">
         <div class="navbar-inner">
-            <div class="left sliding"><a href="#" class="back link"><i class="icon icon-back"></i><% if (!android) { %><span>Back</span><% } %></a></div>
-            <div class="center sliding">Fonts</div>
+            <div class="left sliding"><a href="#" class="back link"><i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding"><%= scope.textFonts %></div>
             <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
         </div>
     </div>
@@ -113,7 +113,7 @@
                     <li id="font-size">
                         <div class="item-content">
                             <div class="item-inner">
-                                <div class="item-title">Size</div>
+                                <div class="item-title"><%= scope.textSize %></div>
                                 <div class="item-after splitter">
                                     <% if (!android) { %><label></label><% } %>
                                     <p class="buttons-row">
@@ -127,7 +127,7 @@
                     </li>
                 </ul>
             </div>
-            <div class="content-block-title">Fonts</div>
+            <div class="content-block-title"><%= scope.textFonts %></div>
             <div id="font-list" class="list-block virtual-list">
                 <!-- Fonts List -->
             </div>
@@ -139,8 +139,8 @@
 <div id="edit-text-color">
     <div class="navbar">
         <div class="navbar-inner">
-            <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><% if (!android) { %><span>Back</span><% } %></a></a></div>
-            <div class="center sliding">Font Colors</div>
+            <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></a></div>
+            <div class="center sliding"><%= scope.textFontColors %></div>
             <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
         </div>
     </div>
@@ -155,7 +155,7 @@
                                     <div style="width:22px; height: 22px; background-color: #000;"></div>
                                 </div>
                                 <div class="item-inner">
-                                    <div class="item-title">Automatic</div>
+                                    <div class="item-title"><%= scope.textAutomatic %></div>
                                 </div>
                             </div>
                         </a>
@@ -170,8 +170,8 @@
 <div id="edit-text-background">
     <div class="navbar">
         <div class="navbar-inner">
-            <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><% if (!android) { %><span>Back</span><% } %></a></a></div>
-            <div class="center sliding">Highlight Colors</div>
+            <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></a></div>
+            <div class="center sliding"><%= scope.textHighlightColors %></div>
             <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
         </div>
     </div>
@@ -186,8 +186,8 @@
 <div id="edit-text-additional">
     <div class="navbar">
         <div class="navbar-inner">
-            <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><% if (!android) { %><span>Back</span><% } %></a></a></div>
-            <div class="center sliding">Additional</div>
+            <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></a></div>
+            <div class="center sliding"><%= scope.textAdditional %></div>
             <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
         </div>
     </div>
@@ -200,7 +200,7 @@
                             <input type="radio" name="text-strikethrough" value="strikethrough">
                             <% if (android) { %><div class="item-media"><i class="icon icon-form-radio"></i></div><% } %>
                             <div class="item-inner">
-                                <div class="item-title">Strikethrough</div>
+                                <div class="item-title"><%= scope.textStrikethrough %></div>
                             </div>
                         </label>
                     </li>
@@ -209,7 +209,7 @@
                             <input type="radio" name="text-strikethrough" value="double-strikethrough">
                             <% if (android) { %><div class="item-media"><i class="icon icon-form-radio"></i></div><% } %>
                             <div class="item-inner">
-                                <div class="item-title">Double Strikethrough</div>
+                                <div class="item-title"><%= scope.textDblStrikethrough %></div>
                             </div>
                         </label>
                     </li>
@@ -218,7 +218,7 @@
                             <input type="radio" name="text-script" value="superscript">
                             <% if (android) { %><div class="item-media"><i class="icon icon-form-radio"></i></div><% } %>
                             <div class="item-inner">
-                                <div class="item-title">Superscript</div>
+                                <div class="item-title"><%= scope.textDblSuperscript %></div>
                             </div>
                         </label>
                     </li>
@@ -227,7 +227,7 @@
                             <input type="radio" name="text-script" value="subscript">
                             <% if (android) { %><div class="item-media"><i class="icon icon-form-radio"></i></div><% } %>
                             <div class="item-inner">
-                                <div class="item-title">Subscript</div>
+                                <div class="item-title"><%= scope.textSubscript %></div>
                             </div>
                         </label>
                     </li>
@@ -236,7 +236,7 @@
                             <input type="radio" name="text-caps" value="small">
                             <% if (android) { %><div class="item-media"><i class="icon icon-form-radio"></i></div><% } %>
                             <div class="item-inner">
-                                <div class="item-title">Small Caps</div>
+                                <div class="item-title"><%= scope.textSmallCaps %></div>
                             </div>
                         </label>
                     </li>
@@ -245,7 +245,7 @@
                             <input type="radio" name="text-caps" value="all">
                             <% if (android) { %><div class="item-media"><i class="icon icon-form-radio"></i></div><% } %>
                             <div class="item-inner">
-                                <div class="item-title">All Caps</div>
+                                <div class="item-title"><%= scope.textAllCaps %></div>
                             </div>
                         </label>
                     </li>
@@ -256,7 +256,7 @@
                     <li id="letter-spacing" id="letter-spacing">
                         <div class="item-content">
                             <div class="item-inner">
-                                <div class="item-title">Letter Spacing</div>
+                                <div class="item-title"><%= scope.textLetterSpacing %></div>
                                 <div class="item-after splitter">
                                     <% if (!android) { %><label></label><% } %>
                                     <p class="buttons-row">
@@ -278,8 +278,8 @@
 <div id="edit-text-linespacing">
     <div class="navbar">
         <div class="navbar-inner">
-            <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><% if (!android) { %><span>Back</span><% } %></a></a></div>
-            <div class="center sliding">Line Spacing</div>
+            <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></a></div>
+            <div class="center sliding"><%= scope.textLineSpacing %></div>
             <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
         </div>
     </div>
@@ -351,8 +351,8 @@
 <div id="edit-text-bullets">
     <div class="navbar">
         <div class="navbar-inner">
-            <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><% if (!android) { %><span>Back</span><% } %></a></a></div>
-            <div class="center sliding">Bullets</div>
+            <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></a></div>
+            <div class="center sliding"><%= scope.textBullets %></div>
             <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
         </div>
     </div>
@@ -363,7 +363,7 @@
                 <% _.each(row, function(bullet) { %>
                 <li data-type="<%= bullet.type %>">
                     <% if (bullet.thumb.length < 1) { %>
-                    <div class="thumb" style="position: relative;"><label>None</label></div>
+                    <div class="thumb" style="position: relative;"><label><%= scope.textNone %></label></div>
                     <% } else { %>
                     <div class="thumb" style="background-image:url('../mobile/resources/img/bullets/<%= bullet.thumb %>')"></div>
                     <% } %>
@@ -379,8 +379,8 @@
 <div id="edit-text-numbers">
     <div class="navbar">
         <div class="navbar-inner">
-            <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><% if (!android) { %><span>Back</span><% } %></a></a></div>
-            <div class="center sliding">Numbers</div>
+            <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></a></div>
+            <div class="center sliding"><%= scope.textNumbers %></div>
             <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
         </div>
     </div>
@@ -391,7 +391,7 @@
                 <% _.each(row, function(number) { %>
                 <li data-type="<%= number.type %>">
                     <% if (number.thumb.length < 1) { %>
-                    <div class="thumb" style="position: relative;"><label>None</label></div>
+                    <div class="thumb" style="position: relative;"><label><%= scope.textNone %></label></div>
                     <% } else { %>
                     <div class="thumb" style="background-image:url('../mobile/resources/img/numbers/<%= number.thumb %>')"></div>
                     <% } %>

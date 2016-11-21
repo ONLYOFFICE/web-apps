@@ -49,7 +49,7 @@ define([
 ], function (editTemplate, $, _, Backbone) {
     'use strict';
 
-    DE.Views.EditText = Backbone.View.extend((function() {
+    DE.Views.EditText = Backbone.View.extend(_.extend((function() {
         // private
         var _fontsList,
             _editTextController;
@@ -116,6 +116,7 @@ define([
                 this.layout = $('<div/>').append(this.template({
                     android : Common.SharedSettings.get('android'),
                     phone   : Common.SharedSettings.get('phone'),
+                    scope   : this,
                     bullets : _bullets,
                     numbers : _numbers
                 }));
@@ -225,8 +226,29 @@ define([
 
             showNumbers: function () {
                 this.showPage('#edit-text-numbers');
-            }
+            },
 
+            textFonts: 'Fonts',
+            textFontColor: 'Font Color',
+            textHighlightColor: 'Highlight Color',
+            textAdditionalFormat: 'Additional Formatting',
+            textBack: 'Back',
+            textSize: 'Size',
+            textFontColors: 'Font Colors',
+            textAutomatic: 'Automatic',
+            textHighlightColors: 'Highlight Colors',
+            textAdditional: 'Additional',
+            textStrikethrough: 'Strikethrough',
+            textDblStrikethrough: 'Double Strikethrough',
+            textDblSuperscript: 'Superscript',
+            textSubscript: 'Subscript',
+            textSmallCaps: 'Small Caps',
+            textAllCaps: 'All Caps',
+            textLetterSpacing: 'Letter Spacing',
+            textLineSpacing: 'Line Spacing',
+            textBullets: 'Bullets',
+            textNone: 'None',
+            textNumbers: 'Numbers'
         }
-    })());
+    })(), DE.Views.EditText || {}))
 });
