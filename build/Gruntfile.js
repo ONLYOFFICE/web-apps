@@ -99,7 +99,6 @@ module.exports = function(grunt) {
     doRegisterTask('sockjs');
     doRegisterTask('xregexp');
     doRegisterTask('megapixel');
-    doRegisterTask('touch');
     doRegisterTask('jquery');
     doRegisterTask('underscore');
     doRegisterTask('zeroclipboard');
@@ -398,7 +397,6 @@ module.exports = function(grunt) {
     grunt.registerTask('deploy-sockjs',                 ['sockjs-init', 'clean', 'copy']);
     grunt.registerTask('deploy-xregexp',                ['xregexp-init', 'clean', 'copy']);
     grunt.registerTask('deploy-megapixel',              ['megapixel-init', 'clean', 'copy']);
-    grunt.registerTask('deploy-touch',                  ['touch-init', 'clean', 'copy']);
     grunt.registerTask('deploy-jquery',                 ['jquery-init', 'clean', 'copy']);
     grunt.registerTask('deploy-underscore',             ['underscore-init', 'clean', 'copy']);
     grunt.registerTask('deploy-zeroclipboard',          ['zeroclipboard-init', 'clean', 'copy']);

@@ -77,18 +77,6 @@ module.exports = function(grunt) {
         });
     });
 
-    grunt.registerTask('touch-init', function() {
-        grunt.initConfig({
-            clean: packageFile['touch']['clean'],
-
-            copy: {
-                script: {
-                    files: packageFile['touch']["copy"]["script"]
-                }
-            }
-        });
-    });
-
     grunt.registerTask('jquery-init', function() {
         grunt.initConfig({
             clean: packageFile['jquery']['clean'],
@@ -307,7 +295,6 @@ module.exports = function(grunt) {
     grunt.registerTask('deploy-3rdparty-bootstrap',     'bootstrap-init clean copy');
     grunt.registerTask('deploy-3rdparty-extjs',         'extjs-init clean copy');
     grunt.registerTask('deploy-3rdparty-megapixel',     'megapixel-init clean copy');
-    grunt.registerTask('deploy-3rdparty-touch',         'touch-init clean copy');
     grunt.registerTask('deploy-3rdparty-jquery',        'jquery-init clean copy');
     grunt.registerTask('deploy-3rdparty-sockjs',        'sockjs-init clean copy');
     grunt.registerTask('deploy-3rdparty-xregexp',       'xregexp-init clean copy');
@@ -380,7 +367,7 @@ module.exports = function(grunt) {
           }
         });
     });
-    
+
     grunt.registerTask('init-obfuscate-api', 'Obfuscate api.', function(){
         grunt.initConfig({
           exec: {
@@ -401,10 +388,10 @@ module.exports = function(grunt) {
           }
         });
     });
-    
+
     grunt.registerTask('obfuscate-api',             'init-obfuscate-api exec');
     grunt.registerTask('obfuscate-app',             'init-obfuscate-app exec');
-    
+
     grunt.registerTask('deploy-documenteditor',     'init-build-documenteditor deploy-app');
     grunt.registerTask('deploy-spreadsheeteditor',  'init-build-spreadsheeteditor deploy-app');
     grunt.registerTask('deploy-presentationeditor', 'init-build-presentationeditor deploy-app');
@@ -412,59 +399,59 @@ module.exports = function(grunt) {
     grunt.registerTask('obfuscate-documenteditor',     'deploy-documenteditor obfuscate-api obfuscate-app');
     grunt.registerTask('obfuscate-spreadsheeteditor',  'deploy-spreadsheeteditor obfuscate-app');
     grunt.registerTask('obfuscate-presentationeditor', 'deploy-presentationeditor obfuscate-api obfuscate-app');
-	
+
 	grunt.registerTask('obfuscate-all', 'obfuscate-documenteditor obfuscate-spreadsheeteditor obfuscate-presentationeditor');
-	
+
 	grunt.registerTask('init-deploy-isa209', 'Initialize deploy to isa209.', function(){
         deployConfig = 'isa209.json';
-		
+
 		deployFile = require('./' + deployConfig);
-		
-        if (deployFile)		
+
+        if (deployFile)
             grunt.log.ok('isa209 config loaded successfully'.green);
         else
             grunt.log.error().writeln('Could not load config file'.red);
 	});
-	
+
 	grunt.registerTask('init-deploy-testserver', 'Initialize deploy to testserver.', function(){
         deployConfig = 'testserver.json';
-		
+
 		deployFile = require('./' + deployConfig);
-		
-        if (deployFile)		
+
+        if (deployFile)
             grunt.log.ok('testserver config loaded successfully'.green);
         else
             grunt.log.error().writeln('Could not load config file'.red);
 	});
-	
+
 	grunt.registerTask('init-deploy-com', 'Initialize deploy to com.', function(){
         deployConfig = 'com.json';
-		
+
 		deployFile = require('./' + deployConfig);
-		
-        if (deployFile)		
+
+        if (deployFile)
             grunt.log.ok('com config loaded successfully'.green);
         else
             grunt.log.error().writeln('Could not load config file'.red);
 	});
-	
+
 	grunt.registerTask('init-deploy-com.eu', 'Initialize deploy to com.', function(){
         deployConfig = 'com.eu.json';
-		
+
 		deployFile = require('./' + deployConfig);
-		
-        if (deployFile)		
+
+        if (deployFile)
             grunt.log.ok('com config loaded successfully'.green);
         else
             grunt.log.error().writeln('Could not load config file'.red);
 	});
-	
+
 	grunt.registerTask('init-deploy-nct', 'Initialize deploy to nct.', function(){
         deployConfig = 'nct.json';
-		
+
 		deployFile = require('./' + deployConfig);
-		
-        if (deployFile)		
+
+        if (deployFile)
             grunt.log.ok('nct config loaded successfully'.green);
         else
             grunt.log.error().writeln('Could not load config file'.red);
@@ -472,15 +459,15 @@ module.exports = function(grunt) {
 
 	grunt.registerTask('init-deploy-doc-test', 'Initialize deploy to doc-test.', function(){
         deployConfig = 'doc-test.json';
-		
+
 		deployFile = require('./' + deployConfig);
-		
-        if (deployFile)		
+
+        if (deployFile)
             grunt.log.ok('doc-test config loaded successfully'.green);
         else
             grunt.log.error().writeln('Could not load config file'.red);
 	});
-	
+
 	grunt.registerTask('run-deploy-task', 'Run deploy task.', function(){
         if (deployFile) {
             if (deployFile['tasks']['deploy'])
@@ -491,52 +478,52 @@ module.exports = function(grunt) {
             grunt.log.error().writeln('Is not load configure file.'.red);
         }
     });
-	
+
 	grunt.registerTask('insert-version-to-url', function() {
 		var dst_folder = 'v' + deployFile['version']['major'] + '.' + deployFile['version']['minor'];
-		
+
 		if(undefined !== process.env['BUILD_NUMBER'])
 		{
-			grunt.log.ok('Use Jenkins build number as minor version!'.yellow);			
+			grunt.log.ok('Use Jenkins build number as minor version!'.yellow);
 			dst_folder = 'v' + deployFile['version']['major'] + '.' + process.env['BUILD_NUMBER'];
 		}
-		
+
 		//change current config:
 		//set version's named folder as rootDir for archived sources
 		if(undefined !== deployFile['compress'])
 			deployFile['compress']['dist']['options']['rootDir'] = dst_folder;
-		
+
 		if(undefined !== deployFile['dst'])
 			deployFile['dst'] = deployFile['dst'] + '/' + dst_folder;
 
 		//add version's named folder to full path url
 		var full_url = deployFile['replace']['url']['options']['variables'];
-		for(var i in full_url){	
+		for(var i in full_url){
 			full_url[i] = full_url[i] + dst_folder + '/';
 		}
     });
-	
+
 	grunt.registerTask('increment-deploy-version', function() {
 
 		var pkg = grunt.file.readJSON(deployConfig);
         pkg.version.minor = parseInt(pkg.version.minor) + 1;
-		
+
 		//write changes
         grunt.file.write(deployConfig, JSON.stringify(pkg, null, 4));
     });
-	
+
 	grunt.registerTask('init-deploy-compress', function(){
 		grunt.initConfig({
 			pkg: '<json:' + deployConfig + '>',
 			compress: deployFile['compress']
 		});
     });
-	
-	grunt.registerTask('deploy-compress-all', 'init-deploy-compress'); 
-   
+
+	grunt.registerTask('deploy-compress-all', 'init-deploy-compress');
+
 	grunt.registerTask('init-deploy-configure', 'Init configure task.', function(){
 		var replace_path_array = {};
-		
+
 		if(deployFile['path']){
 			//Generate structure for the replace tasks
 			//for each pattern
@@ -544,10 +531,10 @@ module.exports = function(grunt) {
 				//and for each file
 				for(var j in deployFile['path']['src_path']){
 					var replace_task_name = 'path_subtask_' + i + j;
-					replace_path_array[replace_task_name] = {};				
+					replace_path_array[replace_task_name] = {};
 					replace_path_array[replace_task_name]['options'] = {};
 					var find = deployFile['path']['pattern'][i];
-					
+
 					var replace = '';
 					//find the count of slash
 					var start_index = 0;
@@ -565,14 +552,14 @@ module.exports = function(grunt) {
 					if(last_slash != -1)
 						replace = replace + deployFile['path']['src_path'][j].substring(0, last_slash + 1);
 					replace = replace + find;
-					
+
 					replace_path_array[replace_task_name]['options']['variables'] = {};
 					replace_path_array[replace_task_name]['options']['variables'][find] = replace;
 					replace_path_array[replace_task_name]['options']['prefix'] = "";
 					var file = deployFile['path']['base_path'] + '/' + deployFile['path']['src_path'][j];
 					replace_path_array[replace_task_name]['files'] = {};
 					replace_path_array[replace_task_name]['files'][file] = file;
-					grunt.log.ok(JSON.stringify(replace_path_array[replace_task_name], null, 4).green);				
+					grunt.log.ok(JSON.stringify(replace_path_array[replace_task_name], null, 4).green);
 				}
 			}
 		}
@@ -580,7 +567,7 @@ module.exports = function(grunt) {
 		for(var i in deployFile['replace']){
 			replace_path_array[i] = deployFile['replace'][i];
 		}
-		
+
         grunt.initConfig({
 			pkg: deployFile,
 			pkg_origin: '<json:' + deployConfig + '>',
@@ -592,12 +579,12 @@ module.exports = function(grunt) {
 					}
                 }
 			},
-			replace: replace_path_array 
+			replace: replace_path_array
         });
     });
-	
-	grunt.registerTask('deploy-configure-all', 'init-deploy-configure clean copy replace'); 
-	
+
+	grunt.registerTask('deploy-configure-all', 'init-deploy-configure clean copy replace');
+
     grunt.registerTask('deploy-to-isa209', 'init-deploy-isa209 run-deploy-task');
 	grunt.registerTask('deploy-to-testserver', 'init-deploy-testserver run-deploy-task');
 	grunt.registerTask('deploy-to-com', 'init-deploy-com run-deploy-task');
@@ -605,6 +592,6 @@ module.exports = function(grunt) {
 	grunt.registerTask('deploy-to-nct', 'init-deploy-nct run-deploy-task');
 	grunt.registerTask('deploy-to-doc-test', 'init-deploy-doc-test run-deploy-task');
 	grunt.registerTask('deploy-to-all', 'deploy-to-isa209 deploy-to-testserver deploy-to-com deploy-to-com.eu deploy-to-nct deploy-to-doc-test');
-    
+
     grunt.registerTask('default', 'deploy-documenteditor deploy-spreadsheeteditor deploy-presentationeditor');
 };

@@ -352,17 +352,6 @@
             ]
         }
     },
-    "touch": {
-        "clean": [
-            "../deploy/web-apps/vendor/touch"
-        ],
-        "copy": {
-            "script": {
-                "src": "../vendor/touch/sencha-touch-all.js",
-                "dest": "../deploy/web-apps/vendor/touch/sencha-touch-all.js"
-            }
-        }
-    },
     "bootstrap": {
         "clean": [
             "../deploy/web-apps/vendor/bootstrap"
@@ -525,7 +514,6 @@
             "deploy-xregexp",
             "deploy-requirejs",
             "deploy-megapixel",
-            "deploy-touch",
             "deploy-jquery",
             "deploy-underscore",
             "deploy-zeroclipboard",

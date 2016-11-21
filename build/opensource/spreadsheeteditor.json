@@ -291,16 +291,6 @@
             }
         }
     },
-    "touch": {
-        "clean": [
-            "../../deploy/3rdparty/touch"
-        ],
-        "copy": {
-            "script": {
-                "../../deploy/3rdparty/touch/": "../../3rdparty/touch/sencha-touch-all.js"
-            }
-        }
-    },
     "bootstrap": {
         "clean": [
             "../../deploy/3rdparty/bootstrap"
@@ -376,6 +366,6 @@
         }
     },
     "tasks": {
-        "deploy": "increment-build deploy-api deploy-sdk deploy-3rdparty-bootstrap deploy-3rdparty-extjs deploy-3rdparty-touch deploy-3rdparty-jquery deploy-3rdparty-sockjs deploy-3rdparty-xregexp deploy-3rdparty-underscore deploy-3rdparty-zeroclipboard deploy-app-main deploy-app-mobile deploy-app-embed"
+        "deploy": "increment-build deploy-api deploy-sdk deploy-3rdparty-bootstrap deploy-3rdparty-extjs deploy-3rdparty-jquery deploy-3rdparty-sockjs deploy-3rdparty-xregexp deploy-3rdparty-underscore deploy-3rdparty-zeroclipboard deploy-app-main deploy-app-mobile deploy-app-embed"
     }
 }

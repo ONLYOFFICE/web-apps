@@ -75,18 +75,6 @@ module.exports = function(grunt) {
         });
     });
 
-    grunt.registerTask('touch-init', function() {
-        grunt.initConfig({
-            clean: packageFile['touch']['clean'],
-
-            copy: {
-                script: {
-                    files: packageFile['touch']["copy"]["script"]
-                }
-            }
-        });
-    });
-
     grunt.registerTask('jquery-init', function() {
         grunt.initConfig({
             clean: packageFile['jquery']['clean'],
@@ -329,7 +317,6 @@ module.exports = function(grunt) {
     grunt.registerTask('deploy-3rdparty-bootstrap',     'bootstrap-init clean copy');
     grunt.registerTask('deploy-3rdparty-extjs',         'extjs-init clean copy');
     grunt.registerTask('deploy-3rdparty-megapixel',     'megapixel-init clean copy');
-    grunt.registerTask('deploy-3rdparty-touch',         'touch-init clean copy');
     grunt.registerTask('deploy-3rdparty-jquery',        'jquery-init clean copy');
     grunt.registerTask('deploy-3rdparty-sockjs',        'sockjs-init clean copy');
     grunt.registerTask('deploy-3rdparty-xregexp',       'xregexp-init clean copy');
