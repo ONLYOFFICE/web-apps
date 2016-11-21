@@ -46,7 +46,7 @@ define([
 ], function (core) {
     'use strict';
 
-    DE.Controllers.EditTable = Backbone.Controller.extend((function() {
+    DE.Controllers.EditTable = Backbone.Controller.extend(_.extend((function() {
         // Private
         var _stack = [],
             _metricText = Common.Utils.Metric.getCurrentMetricName(),
@@ -646,5 +646,5 @@ define([
                 }
             }
         }
-    })());
+    })(), DE.Controllers.EditTable || {}))
 });

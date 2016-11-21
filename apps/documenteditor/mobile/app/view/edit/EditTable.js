@@ -49,7 +49,7 @@ define([
 ], function (editTemplate, $, _, Backbone) {
     'use strict';
 
-    DE.Views.EditTable = Backbone.View.extend((function() {
+    DE.Views.EditTable = Backbone.View.extend(_.extend((function() {
         // private
         var _styles = [];
 
@@ -87,7 +87,8 @@ define([
             render: function () {
                 this.layout = $('<div/>').append(this.template({
                     android : Common.SharedSettings.get('android'),
-                    phone   : Common.SharedSettings.get('phone')
+                    phone   : Common.SharedSettings.get('phone'),
+                    scope   : this
                 }));
 
                 return this;
@@ -213,8 +214,33 @@ define([
 
             showTableStyleOptions: function () {
                 this.showPage('#edit-table-style-options-view');
-            }
+            },
 
+            textRemoveTable: 'Remove Table',
+            textTableOptions: 'Table Options',
+            textStyle: 'Style',
+            textWrap: 'Wrap',
+            textBack: 'Back',
+            textInline: 'Inline',
+            textFlow: 'Flow',
+            textWithText: 'Move with Text',
+            textFromText: 'Distance from Text',
+            textAlign: 'Align',
+            textOptions: 'Options',
+            textRepeatHeader: 'Repeat as Header Row',
+            textResizeFit: 'Resize to Fit Content',
+            textCellMargins: 'Cell Margins',
+            textFill: 'Fill',
+            textBorder: 'Border',
+            textStyleOptions: 'Style Options',
+            textSize: 'Size',
+            textColor: 'Color',
+            textHeaderRow: 'Header Row',
+            textTotalRow: 'Total Row',
+            textBandedRow: 'Banded Row',
+            textFirstColumn: 'First Column',
+            textLastColumn: 'Last Column',
+            textBandedColumn: 'Banded Column'
         }
-    })());
+    })(), DE.Views.EditTable || {}))
 });
