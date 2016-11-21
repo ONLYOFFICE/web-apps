@@ -99,7 +99,7 @@ define([
                 } else if ('paste' == eventName) {
                     me.api.Paste();
                 } else if ('delete' == eventName) {
-                    console.debug('IMPLEMENT: Delete fragment');
+                    me.api.asc_Remove();
                 } else if ('edit' == eventName) {
                     me.view.hideMenu();
 

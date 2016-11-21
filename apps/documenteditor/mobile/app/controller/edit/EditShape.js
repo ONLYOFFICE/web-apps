@@ -276,7 +276,8 @@ define([
             // Handlers
 
             onRemoveShape: function () {
-                console.debug('REMOVE SHAPE!!!');
+                this.api.asc_Remove();
+                DE.getController('EditContainer').hideModal();
             },
 
             onReorder: function (e) {

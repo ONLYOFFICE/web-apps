@@ -317,7 +317,8 @@ define([
             },
 
             onRemoveChart: function () {
-                console.debug('REMOVE Chart!!!');
+                this.api.asc_Remove();
+                DE.getController('EditContainer').hideModal();
             },
 
             onReorder: function (e) {

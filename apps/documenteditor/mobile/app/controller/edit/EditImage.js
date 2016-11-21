@@ -200,7 +200,8 @@ define([
             },
 
             onRemoveImage: function () {
-                console.debug('REMOVE image!!!');
+                this.api.asc_Remove();
+                DE.getController('EditContainer').hideModal();
             },
 
             onWrapType: function (e) {
