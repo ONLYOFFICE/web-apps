@@ -59,12 +59,12 @@
                 var _url;
                 switch ($(e.target).attr('data-name')) {
                     case 'facebook':
-                        _url = 'https://www.facebook.com/sharer/sharer.php?u=' + appConfig.shareUrl + '&t=' + appConfig.docTitle;
+                        _url = 'https://www.facebook.com/sharer/sharer.php?u=' + appConfig.shareUrl + '&t=' + encodeURI(appConfig.docTitle);
                         window.open(_url, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=300,width=600');
                         break;
                     case 'twitter':
-                        _url = 'https://twitter.com/share?url='+ appConfig.shareUrl;
-                        !!appConfig.docTitle && (_url += '&text=' + appConfig.docTitle);
+                        _url = 'https://twitter.com/share?url='+ encodeURIComponent(appConfig.shareUrl);
+                        !!appConfig.docTitle && (_url += encodeURIComponent('&text=' + appConfig.docTitle));
                         window.open(_url, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=300,width=600');
                         break;
                     case 'gplus':
