@@ -49,6 +49,7 @@ define([
     'common/main/lib/controller/Fonts',
     'common/main/lib/collection/TextArt',
     'common/main/lib/view/OpenDialog',
+    'common/main/lib/util/LocalStorage',
     'documenteditor/main/app/collection/ShapeGroups',
     'documenteditor/main/app/collection/EquationGroups'
 ], function () {
