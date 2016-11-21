@@ -81,16 +81,19 @@ define([
 
             // Render layout
             render: function() {
-                var $el = $(this.el);
+                var me = this,
+                    $el = $(me.el);
 
-                $el.prepend(this.template({
+                $el.prepend(me.template({
                     android     : Common.SharedSettings.get('android'),
                     phone       : Common.SharedSettings.get('phone'),
-                    backTitle   : Common.SharedSettings.get('android') ? '' : this.textBack,
-                    scope       : this
+                    backTitle   : Common.SharedSettings.get('android') ? '' : me.textBack,
+                    scope       : me
                 }));
 
-                return this;
+                $('.view-main .navbar').on('addClass removeClass', _.bind(me.onDisplayMainNavbar, me));
+
+                return me;
             },
 
             setMode: function (mode) {
@@ -99,6 +102,11 @@ define([
                 if (isEdit) {
                     $('#toolbar-edit, #toolbar-add, #toolbar-undo, #toolbar-redo').show();
                 }
+            },
+
+            onDisplayMainNavbar: function (e) {
+                var $target = $(e.currentTarget);
+                $('#editor_sdk').css('marginTop', $target.hasClass('navbar-hidden') ? 0 : '');
             },
 
             // Search

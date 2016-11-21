@@ -6104,6 +6104,11 @@ textarea {
   -webkit-user-select: text;
   user-select: text;
 }
+#editor_sdk {
+  margin-top: 48px;
+  -webkit-transition-duration: 300ms;
+  transition-duration: 300ms;
+}
 #add-table .page,
 #add-shape .page {
   background-color: #fff;
