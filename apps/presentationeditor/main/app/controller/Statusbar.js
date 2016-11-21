@@ -133,7 +133,7 @@ define([
 
                     Common.component.Analytics.trackEvent('Status Bar', 'Preview');
                 };
-                if (!me.statusbar.mode.isDesktopApp) {
+                if (!me.statusbar.mode.isDesktopApp && !Common.Utils.isIE11) {
                     Common.NotificationCenter.on('window:resize', onWindowResize);
                     me.fullScreen(document.documentElement);
                 } else

@@ -296,7 +296,7 @@ define([
 
         setMode: function(mode) {
             this.mode = mode;
-            if (this.mode.isDesktopApp) {
+            if (this.mode.isDesktopApp || Common.Utils.isIE11) {
                 this.btnFullScreen.setVisible(false);
                 this.separatorFullScreen.hide();
                 $(document).off("webkitfullscreenchange mozfullscreenchange fullscreenchange MSFullscreenChange");
@@ -336,7 +336,7 @@ define([
         },
 
         fullScreen: function(element) {
-            if (this.mode.isDesktopApp) return;
+            if (this.mode.isDesktopApp || Common.Utils.isIE11) return;
             if (element) {
                 if(element.requestFullscreen) {
                     element.requestFullscreen();
@@ -351,7 +351,7 @@ define([
         },
 
         fullScreenCancel: function () {
-            if (this.mode.isDesktopApp) return;
+            if (this.mode.isDesktopApp || Common.Utils.isIE11) return;
             if(document.cancelFullScreen) {
                 document.cancelFullScreen();
             } else if(document.webkitCancelFullScreen ) {
