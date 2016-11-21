@@ -409,18 +409,15 @@ var ApplicationController = new(function(){
     var isplaymode;
     function onPlayStart(e) {
         if ( !isplaymode ) {
-            if ( isplaymode === undefined ) {
-                $('#box-preview').show();
-                api.StartDemonstration('id-preview', currentPage);
-            } else
-                api.DemonstrationPlay();
-
-            $('#btn-play button').addClass('pause');
+            $('#box-preview').show();
+            api.StartDemonstration('id-preview', currentPage);
         } else {
-            $('#btn-play button').removeClass('pause');
-            api.DemonstrationPause();
+            isplaymode == 'play' ?
+                api.DemonstrationPause() : api.DemonstrationPlay();
         }
-        isplaymode = !isplaymode;
+
+        isplaymode != 'play' ? ($('#btn-play button').addClass('pause'), isplaymode = 'play') :
+                                    ($('#btn-play button').removeClass('pause'), isplaymode = 'pause');
     }
 
     function onPlayStop() {
