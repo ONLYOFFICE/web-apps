@@ -48,7 +48,7 @@ define([
 ], function (editTemplate, $, _, Backbone) {
     'use strict';
 
-    DE.Views.EditShape = Backbone.View.extend((function() {
+    DE.Views.EditShape = Backbone.View.extend(_.extend((function() {
         // private
 
         return {
@@ -89,7 +89,8 @@ define([
                 this.layout = $('<div/>').append(this.template({
                     android : Common.SharedSettings.get('android'),
                     phone   : Common.SharedSettings.get('phone'),
-                    shapes  : Common.SharedSettings.get('shapes')
+                    shapes  : Common.SharedSettings.get('shapes'),
+                    scope   : this
                 }));
 
                 return this;
@@ -170,7 +171,35 @@ define([
                 });
 
                 this.fireEvent('page:show', [this, selector]);
-            }
+            },
+
+            textStyle: 'Style',
+            textWrap: 'Wrap',
+            textReplace: 'Replace',
+            textReorder: 'Reorder',
+            textRemoveShape: 'Remove Shape',
+            textBack: 'Back',
+            textToForeground: 'Bring to Foreground',
+            textToBackground: 'Send to Background',
+            textForward: 'Move Forward',
+            textBackward: 'Move Backward',
+            textInline: 'Inline',
+            textSquare: 'Square',
+            textTight: 'Tight',
+            textThrough: 'Through',
+            textTopAndBottom: 'Top and Bottom',
+            textInFront: 'In Front',
+            textBehind: 'Behind',
+            textAlign: 'Align',
+            textWithText: 'Move with Text',
+            textOverlap: 'Allow Overlap',
+            textFromText: 'Distance from Text',
+            textFill: 'Fill',
+            textBorder: 'Border',
+            textEffects: 'Effects',
+            textSize: 'Size',
+            textColor: 'Color',
+            textOpacity: 'Opacity'
         }
-    })());
+    })(), DE.Views.EditShape || {}))
 });

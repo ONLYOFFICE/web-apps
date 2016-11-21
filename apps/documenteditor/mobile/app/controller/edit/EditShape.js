@@ -46,7 +46,7 @@ define([
 ], function (core) {
     'use strict';
 
-    DE.Controllers.EditShape = Backbone.Controller.extend((function() {
+    DE.Controllers.EditShape = Backbone.Controller.extend(_.extend((function() {
         // Private
         var _stack = [],
             _shapeObject = undefined,
@@ -558,5 +558,5 @@ define([
                 return shapeExist;
             }
         };
-    })());
+    })(), DE.Controllers.EditShape || {}))
 });
