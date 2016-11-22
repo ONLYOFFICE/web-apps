@@ -306,8 +306,8 @@ define([
 
                 _styles = [],
                 _styleTumbSize = {
-                    width   : styles.STYLE_THUMBNAIL_WIDTH,
-                    height  : styles.STYLE_THUMBNAIL_HEIGHT
+                    width   : styles.STYLE_THUMBNAIL_WIDTH / uiApp.device.pixelRatio,
+                    height  : styles.STYLE_THUMBNAIL_HEIGHT / uiApp.device.pixelRatio
                 };
 
                 _.each(styles.get_MergedStyles(), function(style){
