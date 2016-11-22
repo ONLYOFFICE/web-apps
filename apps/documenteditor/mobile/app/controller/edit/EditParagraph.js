@@ -78,6 +78,8 @@ define([
                 var me = this;
                 me.api = api;
 
+                me.api.asc_setParagraphStylesSizes(330, 38);
+
                 me.api.asc_registerCallback('asc_onInitEditorStyles',   _.bind(me.onApiInitEditorStyles, me));
                 me.api.asc_registerCallback('asc_onFocusObject',        _.bind(me.onApiFocusObject, me));
                 me.api.asc_registerCallback('asc_onParaStyleName',      _.bind(me.onApiParagraphStyleChange, me));
@@ -302,11 +304,10 @@ define([
                     return;
                 }
 
-                _styles = [];
-
+                _styles = [],
                 _styleTumbSize = {
-                    width   : styles.STYLE_THUMBNAIL_WIDTH / uiApp.device.pixelRatio,
-                    height  : styles.STYLE_THUMBNAIL_HEIGHT / uiApp.device.pixelRatio
+                    width   : styles.STYLE_THUMBNAIL_WIDTH,
+                    height  : styles.STYLE_THUMBNAIL_HEIGHT
                 };
 
                 _.each(styles.get_MergedStyles(), function(style){
