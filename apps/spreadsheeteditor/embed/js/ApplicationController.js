@@ -280,6 +280,13 @@ var ApplicationController = new(function(){
             }
         });
 
+        $(document).on('mousewheel', function (e) {
+            if ((e.ctrlKey || e.metaKey) && !e.altKey) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+        });
+
         Common.Analytics.trackEvent('Load', 'Complete');
     }
 
