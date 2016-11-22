@@ -135,7 +135,7 @@ require([
         controllers : [
             'Editor',
             'Toolbar',
-            // 'Search',
+            'Search',
             'Main'
             // 'DocumentHolder',
             // 'Settings',
@@ -200,7 +200,7 @@ require([
         'common/main/lib/util/utils',
         'presentationeditor/mobile/app/controller/Editor',
         'presentationeditor/mobile/app/controller/Toolbar',
-        // 'presentationeditor/mobile/app/controller/Search',
+        'presentationeditor/mobile/app/controller/Search',
         'presentationeditor/mobile/app/controller/Main'
         // 'presentationeditor/mobile/app/controller/DocumentHolder',
         // 'presentationeditor/mobile/app/controller/Settings',

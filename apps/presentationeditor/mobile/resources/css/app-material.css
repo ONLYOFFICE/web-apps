@@ -5836,15 +5836,6 @@ html.pixel-ratio-3 .color-palette a {
     background-image: url('../../../../common/mobile/resources/img/about/onlyoffice@2x.png');
   }
 }
-.tablet .searchbar.document.replace .center > .replace {
-  display: flex;
-}
-.tablet .searchbar.document.replace .right .replace {
-  display: flex;
-}
-.tablet .searchbar.document.replace .link.replace {
-  font-size: 16px;
-}
 .tablet .searchbar.document .center {
   width: 100%;
   display: flex;
@@ -5856,27 +5847,6 @@ html.pixel-ratio-3 .color-palette a {
 }
 .tablet .searchbar.document .center .searchbar.search {
   padding: 0;
-}
-.tablet .searchbar.document .center > .replace {
-  display: none;
-}
-.tablet .searchbar.document .right .replace {
-  display: none;
-}
-.phone .searchbar.document.replace {
-  height: 96px;
-}
-.phone .searchbar.document.replace .link.replace {
-  font-size: 16px;
-}
-.phone .searchbar.document.replace .left {
-  margin-top: -48px;
-}
-.phone .searchbar.document.replace .center .replace {
-  display: block;
-}
-.phone .searchbar.document.replace .right > .replace {
-  display: flex;
 }
 .phone .searchbar.document .left,
 .phone .searchbar.document .center,
@@ -5891,17 +5861,11 @@ html.pixel-ratio-3 .color-palette a {
 .phone .searchbar.document .center .searchbar {
   padding: 0;
 }
-.phone .searchbar.document .center .replace {
-  display: none;
-}
 .phone .searchbar.document .right > p {
   margin: 0;
 }
 .phone .searchbar.document .right > p a.link {
   height: 48px;
-}
-.phone .searchbar.document .right > .replace {
-  display: none;
 }
 i.icon.icon-expand-up {
   width: 17px;

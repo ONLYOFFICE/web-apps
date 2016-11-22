@@ -1,27 +1,6 @@
 // Search
 
 .tablet {
-  // Replace mode
-  .searchbar.document.replace {
-    .center {
-      .searchbar:first-child {
-        margin-right: 10px;
-      }
-
-      .replace {
-        display: flex;
-      }
-    }
-
-    .right {
-      .replace {
-        display: flex;
-        margin: 0 10px;
-      }
-    }
-  }
-
-  // Search mode
   .searchbar.document {
     .center {
       width: 100%;
@@ -30,51 +9,17 @@
         background: inherit;
         padding: 0;
       }
-
-      .replace {
-        display: none;
-      }
     }
 
     .right {
       .prev {
         margin-left: 0;
       }
-
-      .replace {
-        display: none;
-      }
     }
   }
 }
 
 .phone {
-  // Replace mode
-  .searchbar.document.replace {
-    height: 88px;
-
-    .left {
-      margin-top: -44px;
-    }
-
-    .center {
-      .searchbar-input {
-        margin: 8px 0;
-      }
-
-      .replace {
-        display: block;
-      }
-    }
-
-    .right {
-      > .replace {
-        display: flex;
-      }
-    }
-  }
-
-  // Search mode
   .searchbar.document {
     .left,
     .center,
@@ -98,19 +43,11 @@
           content: none;
         }
       }
-
-      .replace {
-        display: none;
-      }
     }
 
     .right {
       > p {
         margin: 0;
-      }
-
-      > .replace {
-        display: none;
       }
     }
   }
