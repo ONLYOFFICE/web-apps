@@ -827,6 +827,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 me.cmbSparkStyle.menuPicker.scroller.update({alwaysVisibleY: true});
             });
 
+            /*
             this.radioGroup = new Common.UI.RadioBox({
                 el: $('#spark-dlg-radio-group'),
                 labelText: this.textGroup,
@@ -867,7 +868,8 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 el: $('#spark-dlg-btn-data')
             });
 //            this.btnSelectLocationData.on('click', _.bind(this.onSelectData, this));
-
+            */
+            
             this._arrEmptyCells = [
                 { value: Asc.c_oAscEDispBlanksAs.Gap, displayValue: this.textGaps },
                 { value: Asc.c_oAscEDispBlanksAs.Zero, displayValue: this.textZero },
