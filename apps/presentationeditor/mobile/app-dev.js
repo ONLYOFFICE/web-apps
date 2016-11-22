@@ -138,8 +138,8 @@ require([
             'Search',
             'Main',
             // 'DocumentHolder',
-            'Settings'
-            // 'EditContainer',
+            'Settings',
+            'EditContainer',
             // 'EditText',
             // 'EditParagraph',
             // 'EditTable',
@@ -147,7 +147,7 @@ require([
             // 'EditShape',
             // 'EditChart',
             // 'EditHyperlink',
-            // 'AddContainer',
+            'AddContainer'
             // 'AddTable',
             // 'AddShape',
             // 'AddImage',
@@ -203,8 +203,8 @@ require([
         'presentationeditor/mobile/app/controller/Search',
         'presentationeditor/mobile/app/controller/Main',
         // 'presentationeditor/mobile/app/controller/DocumentHolder',
-        'presentationeditor/mobile/app/controller/Settings'
-        // 'presentationeditor/mobile/app/controller/edit/EditContainer',
+        'presentationeditor/mobile/app/controller/Settings',
+        'presentationeditor/mobile/app/controller/edit/EditContainer',
         // 'presentationeditor/mobile/app/controller/edit/EditText',
         // 'presentationeditor/mobile/app/controller/edit/EditParagraph',
         // 'presentationeditor/mobile/app/controller/edit/EditTable',
@@ -212,7 +212,7 @@ require([
         // 'presentationeditor/mobile/app/controller/edit/EditShape',
         // 'presentationeditor/mobile/app/controller/edit/EditChart',
         // 'presentationeditor/mobile/app/controller/edit/EditHyperlink',
-        // 'presentationeditor/mobile/app/controller/add/AddContainer',
+        'presentationeditor/mobile/app/controller/add/AddContainer'
         // 'presentationeditor/mobile/app/controller/add/AddTable',
         // 'presentationeditor/mobile/app/controller/add/AddShape',
         // 'presentationeditor/mobile/app/controller/add/AddImage',
