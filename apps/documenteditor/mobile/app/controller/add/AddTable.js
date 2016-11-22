@@ -84,7 +84,8 @@ define([
 
             onStyleClick: function (e) {
                 var me = this,
-                    $target = $(e.currentTarget);
+                    $target = $(e.currentTarget),
+                    type = $target.data('type');
 
                 DE.getController('AddContainer').hideModal();
 
@@ -114,7 +115,11 @@ define([
 
                                         if (me.api) {
                                             me.api.put_Table(parseInt(size[0]), parseInt(size[1]));
-                                            //TODO: Style ?
+
+                                            var properties = new Asc.CTableProp();
+                                            properties.put_TableStyle(type);
+
+                                            me.api.tblApply(properties);
                                         }
                                     }
                                 }
