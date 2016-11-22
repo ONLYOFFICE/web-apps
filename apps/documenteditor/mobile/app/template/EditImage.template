@@ -297,7 +297,7 @@
             <div class="list-block">
                 <ul>
                     <li>
-                        <a id="edit-image-file" class="item-link no-indicator">
+                        <a id="edit-image-file" class="item-link no-indicator no-fastclick">
                             <div class="item-content">
                                 <div class="item-media">
                                     <i class="icon icon-search"></i>
