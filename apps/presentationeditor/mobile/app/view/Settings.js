@@ -179,6 +179,7 @@ define([
 
             unknownText: 'Unknown',
             textSettings: 'Settings',
+            textFind: 'Find',
             textDone: 'Done',
             textEditPresent: 'Edit Presentation',
             textPresentSetup: 'Presentation Setup',
