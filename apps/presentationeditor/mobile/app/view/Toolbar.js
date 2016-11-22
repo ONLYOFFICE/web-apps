@@ -120,13 +120,13 @@ define([
 
             // Editor
             showEdition: function () {
-                PE.getController('EditContainer').showModal();
+                // PE.getController('EditContainer').showModal();
             },
 
             // Inserts
 
             showInserts: function () {
-                PE.getController('AddContainer').showModal();
+                // PE.getController('AddContainer').showModal();
             },
 
             // Settings

@@ -136,9 +136,9 @@ require([
             'Editor',
             'Toolbar',
             'Search',
-            'Main'
+            'Main',
             // 'DocumentHolder',
-            // 'Settings',
+            'Settings'
             // 'EditContainer',
             // 'EditText',
             // 'EditParagraph',
@@ -201,9 +201,9 @@ require([
         'presentationeditor/mobile/app/controller/Editor',
         'presentationeditor/mobile/app/controller/Toolbar',
         'presentationeditor/mobile/app/controller/Search',
-        'presentationeditor/mobile/app/controller/Main'
+        'presentationeditor/mobile/app/controller/Main',
         // 'presentationeditor/mobile/app/controller/DocumentHolder',
-        // 'presentationeditor/mobile/app/controller/Settings',
+        'presentationeditor/mobile/app/controller/Settings'
         // 'presentationeditor/mobile/app/controller/edit/EditContainer',
         // 'presentationeditor/mobile/app/controller/edit/EditText',
         // 'presentationeditor/mobile/app/controller/edit/EditParagraph',
