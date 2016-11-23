@@ -149,7 +149,7 @@ define([
 
                 $('#' + _anchorId)
                     .css('left', posX)
-                    .css('top', posY);
+                    .css('top', Math.max(0, posY));
 
                 uiApp.closeModal('.document-menu.modal-in');
 
