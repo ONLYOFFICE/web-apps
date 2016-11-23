@@ -204,17 +204,20 @@ define([
                     };
 
                     if (!objectLocked && _isEdit) {
-                        menuItems.push({
-                            caption: me.menuCut,
-                            event: 'cut'
-                        });
+                        if (canCopy) {
+                            menuItems.push({
+                                caption: me.menuCut,
+                                event: 'cut'
+                            });
+
+                            // Swap 'Copy' and 'Cut'
+                            swapItems(menuItems, 0, 1);
+                        }
+
                         menuItems.push({
                             caption: me.menuPaste,
                             event: 'paste'
                         });
-
-                        // Swap 'Copy' and 'Cut'
-                        swapItems(menuItems, 0, 1);
 
                         menuItems.push({
                             caption: me.menuDelete,
@@ -225,15 +228,13 @@ define([
                             caption: me.menuEdit,
                             event: 'edit'
                         });
-                    }
 
-                    var text = me.api.can_AddHyperlink();
-
-                    if (!_.isEmpty(text)) {
-                        menuItems.push({
-                            caption: me.menuAddLink,
-                            event: 'addlink'
-                        });
+                        if (!_.isEmpty(me.api.can_AddHyperlink())) {
+                            menuItems.push({
+                                caption: me.menuAddLink,
+                                event: 'addlink'
+                            });
+                        }
                     }
                 }
 
