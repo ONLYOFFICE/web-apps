@@ -42,8 +42,12 @@
 
 define([
     'core',
-    'documenteditor/mobile/app/view/edit/EditText'
-], function (core) {
+    'documenteditor/mobile/app/view/edit/EditText',
+    'jquery',
+    'underscore',
+    'backbone',
+    'common/mobile/lib/component/ThemeColorPalette'
+], function (core, view, $, _, Backbone) {
     'use strict';
 
     DE.Controllers.EditText = Backbone.Controller.extend(_.extend((function() {
@@ -98,35 +102,11 @@ define([
                 me.api.asc_registerCallback('asc_onUnderline',          _.bind(me.onApiUnderline, me));
                 me.api.asc_registerCallback('asc_onStrikeout',          _.bind(me.onApiStrikeout, me));
                 me.api.asc_registerCallback('asc_onVerticalAlign',      _.bind(me.onApiVerticalAlign, me));
-                // this.api.asc_registerCallback('asc_onCanUndo',              _.bind(this.onApiCanRevert, this, 'undo'));
-                // this.api.asc_registerCallback('asc_onCanRedo',              _.bind(this.onApiCanRevert, this, 'redo'));
                 me.api.asc_registerCallback('asc_onListType',           _.bind(me.onApiBullets, me));
                 me.api.asc_registerCallback('asc_onPrAlign',            _.bind(me.onApiParagraphAlign, me));
                 me.api.asc_registerCallback('asc_onTextColor',          _.bind(me.onApiTextColor, me));
                 me.api.asc_registerCallback('asc_onParaSpacingLine',    _.bind(me.onApiLineSpacing, me));
-                // this.api.asc_registerCallback('asc_onCanAddHyperlink',      _.bind(this.onApiCanAddHyperlink, this));
-                // this.api.asc_registerCallback('asc_onFocusObject',          _.bind(this.onApiFocusObject, this));
-                // this.api.asc_registerCallback('asc_onDocSize',              _.bind(this.onApiPageSize, this));
-                // this.api.asc_registerCallback('asc_onPaintFormatChanged',   _.bind(this.onApiStyleChange, this));
-                // this.api.asc_registerCallback('asc_onParaStyleName',        _.bind(this.onApiParagraphStyleChange, this));
-                // this.api.asc_registerCallback('asc_onEndAddShape',          _.bind(this.onApiEndAddShape, this)); //for shapes
-                // this.api.asc_registerCallback('asc_onPageOrient',           _.bind(this.onApiPageOrient, this));
-                // this.api.asc_registerCallback('asc_onLockDocumentProps',    _.bind(this.onApiLockDocumentProps, this));
-                // this.api.asc_registerCallback('asc_onUnLockDocumentProps',  _.bind(this.onApiUnLockDocumentProps, this));
-                // this.api.asc_registerCallback('asc_onLockDocumentSchema',   _.bind(this.onApiLockDocumentSchema, this));
-                // this.api.asc_registerCallback('asc_onUnLockDocumentSchema', _.bind(this.onApiUnLockDocumentSchema, this));
-                // this.api.asc_registerCallback('asc_onLockHeaderFooters',    _.bind(this.onApiLockHeaderFooters, this));
-                // this.api.asc_registerCallback('asc_onUnLockHeaderFooters',  _.bind(this.onApiUnLockHeaderFooters, this));
-                // this.api.asc_registerCallback('asc_onZoomChange',           _.bind(this.onApiZoomChange, this));
-                // this.api.asc_registerCallback('asc_onMarkerFormatChanged',  _.bind(this.onApiStartHighlight, this));
-                // this.api.asc_registerCallback('asc_onTextHighLight',        _.bind(this.onApiHighlightColor, this));
-                // this.api.asc_registerCallback('asc_onInitEditorStyles',     _.bind(this.onApiInitEditorStyles, this));
-                // this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onApiCoAuthoringDisconnect, this));
-                // Common.NotificationCenter.on('api:disconnect',              _.bind(this.onApiCoAuthoringDisconnect, this));
-                // this.api.asc_registerCallback('asc_onCanCopyCut',           _.bind(this.onApiCanCopyCut, this));
-                // this.api.asc_registerCallback('asc_onMathTypes',            _.bind(this.onMathTypes, this));
-                // this.api.asc_registerCallback('asc_onColumnsProps',         _.bind(this.onColumnsProps, this));
-                // this.api.asc_registerCallback('asc_onSectionProps',         _.bind(this.onSectionProps, this));
+                me.api.asc_registerCallback('asc_onTextShd',            _.bind(me.onApiTextShd, me));
             },
 
             onLaunch: function () {
@@ -169,7 +149,7 @@ define([
             initSettings: function (pageId) {
                 var me = this;
 
-                me.api && me.api.UpdateInterfaceState(); // TODO: refactor me
+                me.api && me.api.UpdateInterfaceState();
 
                 if (_paragraphObject) {
                     var $inputStrikethrough = $('#text-additional input[name=text-strikethrough]');
@@ -183,34 +163,6 @@ define([
 
                     _fontInfo.letterSpacing = Common.Utils.Metric.fnRecalcFromMM(_paragraphObject.get_TextSpacing());
                     $('#letter-spacing .item-after label').text(_fontInfo.letterSpacing + ' ' + Common.Utils.Metric.getCurrentMetricName());
-
-                    // Background color
-                    var shade = _paragraphObject.get_Shade(),
-                        backColor = 'transparent';
-
-                    if (!_.isNull(shade) && !_.isUndefined(shade) && shade.get_Value()===Asc.c_oAscShdClear) {
-                        var color = shade.get_Color();
-                        if (color) {
-                            if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
-                                backColor = {
-                                    color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()),
-                                    effectValue: color.get_value()
-                                };
-                            } else {
-                                backColor = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b());
-                            }
-                        }
-                    }
-
-                    $('#font-background .color-preview').css('background-color', '#' + (_.isObject(backColor) ? backColor.color : backColor));
-
-                    if (pageId == '#edit-text-background') {
-                        var palette = me.getView('EditText').paletteBackgroundColor;
-
-                        if (palette) {
-                            palette.select(backColor);
-                        }
-                    }
                 }
             },
 
@@ -559,7 +511,7 @@ define([
                 var me = this;
 
                 if (color.get_auto()) {
-                    // on auto
+                    $('#font-color .color-preview').css('background-color', '#000');
                 } else {
                     var palette = me.getView('EditText').paletteTextColor,
                         clr;
@@ -587,6 +539,28 @@ define([
                 var line = (vc.get_Line() === null || vc.get_LineRule() === null || vc.get_LineRule() != 1) ? -1 : vc.get_Line();
 
                 $('#page-text-linespacing input').val([line]);
+            },
+
+            onApiTextShd: function(shd) {
+                var color = shd.get_Color(),
+                    uiColor;
+
+                if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
+                    uiColor = {
+                        color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()),
+                        effectValue: color.get_value()
+                    }
+                } else {
+                    uiColor = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b());
+                }
+
+                $('#font-background .color-preview').css('background-color', '#' + (_.isObject(uiColor) ? uiColor.color : uiColor));
+
+                var palette = this.getView('EditText').paletteBackgroundColor;
+
+                if (palette) {
+                    palette.select(uiColor);
+                }
             },
 
             // Helpers
