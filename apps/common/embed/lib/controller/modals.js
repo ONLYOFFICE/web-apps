@@ -52,7 +52,8 @@
         var createDlgShare = function () {
             $dlgShare = common.view.modals.create('share');
 
-            var _mailto = 'mailto:?subject=I have shared a document with you: ' + appConfig.docTitle + '&body=I have shared a document with you: ' + appConfig.shareUrl + '"';
+            var _encoded = encodeURIComponent(appConfig.shareUrl);
+            var _mailto = 'mailto:?subject=I have shared a document with you: ' + appConfig.docTitle + '&body=I have shared a document with you: ' + _encoded + '"';
 
             $dlgShare.find('#btn-copyshort').on('click', copytext.bind(this, $dlgShare.find('#id-short-url')));
             $dlgShare.find('.share-buttons > span').on('click', function(e){
@@ -63,7 +64,7 @@
                         window.open(_url, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=300,width=600');
                         break;
                     case 'twitter':
-                        _url = 'https://twitter.com/share?url='+ encodeURIComponent(appConfig.shareUrl);
+                        _url = 'https://twitter.com/share?url='+ _encoded;
                         !!appConfig.docTitle && (_url += encodeURIComponent('&text=' + appConfig.docTitle));
                         window.open(_url, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=300,width=600');
                         break;
