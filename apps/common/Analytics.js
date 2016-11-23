@@ -35,7 +35,6 @@ if (Common === undefined)
 
 Common.component = Common.component || {};
 
-define(['jquery'], function($){
     Common.Analytics = Common.component.Analytics = new(function() {
         var _category;
 
@@ -85,4 +84,3 @@ define(['jquery'], function($){
             }
         }
     })();
-});

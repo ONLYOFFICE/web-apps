@@ -35,7 +35,6 @@ if (Common === undefined) {
     var Common = {};
 }
 
-define(['jquery'], function ($) {
     Common.Gateway = new(function() {
         var me = this,
             $me = $(me);
@@ -253,4 +252,3 @@ define(['jquery'], function ($) {
         }
 
     })();
-});
