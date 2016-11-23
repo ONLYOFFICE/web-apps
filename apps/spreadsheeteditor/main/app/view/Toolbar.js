@@ -76,7 +76,8 @@ define([
         ruleDelFilter:  'rule-clear-filter',
         menuFileOpen:   'menu-file-open',
         cantPrint:      'cant-print',
-        multiselect:    'is-multiselect'
+        multiselect:    'is-multiselect',
+        cantHyperlink:  'cant-hyperlink'
     };
 
     SSE.Views.Toolbar =  Backbone.View.extend(_.extend({
@@ -496,7 +497,7 @@ define([
                 id          : 'id-toolbar-btn-inserthyperlink',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-inserthyperlink',
-                lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selImage, _set.selShape, _set.multiselect, _set.lostConnect, _set.coAuth]
+                lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selImage, _set.selShape, _set.cantHyperlink, _set.multiselect, _set.lostConnect, _set.coAuth]
             });
 
             me.btnInsertChart = new Common.UI.Button({

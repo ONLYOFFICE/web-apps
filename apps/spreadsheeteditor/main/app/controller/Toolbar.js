@@ -1624,6 +1624,8 @@ define([
                 this._state.fontsize = str_size;
             }
 
+            toolbar.lockToolbar(SSE.enumLock.cantHyperlink, (selectionType == Asc.c_oAscSelectionType.RangeShapeText) && (this.api.asc_canAddShapeHyperlink()===false), { array: [toolbar.btnInsertHyperlink]});
+
             if (editOptionsDisabled) return;
 
             /* read font params */
