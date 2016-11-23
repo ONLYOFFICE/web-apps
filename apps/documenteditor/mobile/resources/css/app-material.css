@@ -6105,7 +6105,12 @@ textarea {
   user-select: text;
 }
 #editor_sdk {
-  margin-top: 48px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 48px;
+  bottom: 0;
+  height: auto;
   -webkit-transition-duration: 300ms;
   transition-duration: 300ms;
 }
