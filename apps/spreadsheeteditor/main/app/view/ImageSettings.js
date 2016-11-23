@@ -182,7 +182,7 @@ define([
                 Common.NotificationCenter.trigger('edit:complete', this);
             }, this));
             this.btnEditObject.on('click', _.bind(function(btn){
-                if (this.api) this.api.asc_pluginRun(this._originalProps.asc_getPluginGuid(), 0, this._originalProps.asc_getPluginData());
+                if (this.api) this.api.asc_startEditCurrentOleObject();
                 Common.NotificationCenter.trigger('edit:complete', this);
             }, this));
             this.btnInsertFromUrl.on('click', _.bind(this.insertFromUrl, this));
