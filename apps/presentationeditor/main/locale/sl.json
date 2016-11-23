@@ -143,7 +143,7 @@
   "PE.Controllers.Main.splitMaxColsErrorText": "Število stolpcev mora biti manj kot 1%.",
   "PE.Controllers.Main.splitMaxRowsErrorText": "Število vrstic mora biti manj kot %1.",
   "PE.Controllers.Main.textAnonymous": "Anonimno",
-  "PE.Controllers.Main.textCloseTip": "\nPritisni za zapiranje namiga",
+  "PE.Controllers.Main.textCloseTip": "Pritisni za zapiranje namiga",
   "PE.Controllers.Main.textLoadingDocument": "Nalaganje predstavitve",
   "PE.Controllers.Main.textShape": "Oblika",
   "PE.Controllers.Main.textStrict": "Strict mode",

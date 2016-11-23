@@ -674,6 +674,7 @@ define([
                     (new SSE.Views.ChartSettingsDlg(
                         {
                             chartSettings: props,
+                            isChart: true,
                             api: me.api,
                             handler: function(result, value) {
                                 if (result == 'ok') {
@@ -1454,6 +1455,14 @@ define([
                 }, 10);
             } else {
                 this.documentHolder.entriesMenu.hide();
+                Common.UI.warning({
+                    title: this.notcriticalErrorTitle,
+                    maxwidth: 600,
+                    msg  : this.txtNoChoices,
+                    callback: _.bind(function(btn){
+                        Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+                    }, this)
+                });
             }
         },
 
@@ -1546,12 +1555,10 @@ define([
                     _.delay(function() {
                         menu.cmpEl.find('li:first a').addClass('focus');
                     }, 10);
-//                    } else {
-//                        _.delay(function() {
-//                            menu.cmpEl.focus();
-//                            menu.cmpEl.find('li:first a').focus();
-//                        }, 10);
-//                    }
+                    if (!infocus)
+                        _.delay(function() {
+                            menu.cmpEl.focus();
+                        }, 10);
                 }, 1);
             } else {
                 this.documentHolder.funcMenu.hide();
@@ -2282,7 +2289,8 @@ define([
         insertColumnRightText   : 'Column Right',
         deleteText              : 'Delete',
         deleteRowText           : 'Delete Row',
-        deleteColumnText        : 'Delete Column'
+        deleteColumnText        : 'Delete Column',
+        txtNoChoices: 'There are no choices for filling the cell.<br>Only text values from the column can be selected for replacement.'
 
     }, SSE.Controllers.DocumentHolder || {}));
 });

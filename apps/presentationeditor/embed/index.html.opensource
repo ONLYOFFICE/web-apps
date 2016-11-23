@@ -7,6 +7,8 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
+    <link href="resources/css/application.css" rel="stylesheet">
+
     <!-- splash -->
 
     <style type="text/css">
@@ -40,16 +42,11 @@
     <link href="../../../3rdparty/bootstrap/css/bootstrap.css" rel="stylesheet">
 
     <!--[if lt IE 9]>
-      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+      <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.1/html5shiv.js"></script>
     <![endif]-->
   </head>
 
   <body class="embed-body">
-
-      <!--facebook button-->
-      <div id="fb-root"></div>
-
-      <!--twitter button-->
 
       <div id="loading-mask" class="loadmask">
           <div class="loadmask-body" align="center">
@@ -57,29 +54,33 @@
           </div>
       </div>
 
-      <div id="editor_sdk" class="viewer" style="overflow: hidden;"></div>
+      <div id="box-preview">
+          <div id="id-preview" tabindex="-1"></div>
+      </div>
+      <div id="editor_sdk" class="viewer" style="overflow: hidden;" tabindex="-1"></div>
 
       <div class="overlay-controls" style="margin-left: -32px">
           <ul class="left" style="width: 90px;">
-              <li id="id-btn-move-left"><button class="overlay"><i class="overlay-icon-move-left"></i></button></li>
-              <li id="id-btn-move-right"><button class="overlay"><i class="overlay-icon-move-right"></i></button></li>
+              <li id="btn-left"><button class="overlay svg-icon slide-prev"></button></li>
+              <li id="btn-play"><button class="overlay svg-icon play"></button></li>
+              <li id="btn-right"><button class="overlay svg-icon slide-next"></button></li>
           </ul>
       </div>
 
       <div class="toolbar" id="toolbar">
-          <ul class="left">
-              <li><a class="brand-logo" href="http://www.onlyoffice.com/" target="_blank"></a></li>
-              <li class="separator"></li>
-              <li id="id-btn-copy"><button class="control-btn"><i class="control-icon-save"></i><span>Save Copy</span></button></li>
-              <li id="id-btn-share"><button class="control-btn"><i class="control-icon-share"></i><span>Share</span></button></li>
-              <li id="id-btn-embed"><button class="control-btn"><i class="control-icon-embed"></i><span>Embed</span></button></li>
-          </ul>
-          <ul class="right">
-              <li><input id="page-number" style="width: 25px" type="text" value="0"><span class="text" id="pages">of 0</span></li>
-              <li class="separator"></li>
-              <li><button id="id-btn-fullscreen" class="control-btn no-caption"><i class="control-icon-fullscreen"></i></button></li>
-              <li><button id="id-btn-close" class="control-btn no-caption"><i class="control-icon-close"></i></button></li>
-          </ul>
+          <div class="group left">
+              <div id="box-tools" class="dropdown">
+                  <button class="control-btn svg-icon tools"></button>
+              </div>
+          </div>
+          <div class="group center">
+              <span><a id="header-logo" class="brand-logo" href="http://www.onlyoffice.com/" target="_blank"></a></span>
+          </div>
+          <div class="group right">
+              <div class="item"><input id="page-number" class="form-control input-xs masked" type="text" value="0"><span class="text" id="pages" tabindex="-1">of 0</span></div>
+              <div class="item separator"></div>
+              <div class="item"><button id="id-btn-close" class="control-btn close"><span aria-hidden="true">&times;</span></button></div>
+          </div>
       </div>
 
       <div class="error modal hide" id="id-critical-error-dialog" tabindex="-1" role="dialog">
@@ -99,10 +100,11 @@
           <div class="cmd-loader-title">Please wait...</div>
       </div>
 
+      <div class="hyperlink-tooltip" data-toggle="tooltip" title="Press Ctrl and click the link" style="display:none;"></div>
+
       <!--3td party-->
       <script type="text/javascript" src="../../../3rdparty/jquery/jquery-1.8.1.min.js"></script>
       <script type="text/javascript" src="../../../3rdparty/bootstrap/js/bootstrap.js"></script>
-      <script type="text/javascript" src="../../../3rdparty/ZeroClipboard/ZeroClipboard.min.js"></script>
       <script type="text/javascript" src="../../../3rdparty/sockjs/sockjs-0.3.min.js"></script>
       <script type="text/javascript" src="../../../3rdparty/xregexp/xregexp-all-min.js"></script> 
 
@@ -203,9 +205,11 @@
       <script type="text/javascript" src="../../../sdk/PowerPoint/themes/Themes.js"></script>
 
       <!--application-->
-      <link href="resources/css/application.css" rel="stylesheet">
       <script type="text/javascript" src="../../common/Gateway.js"></script>
       <script type="text/javascript" src="../../common/Analytics.js"></script>
+      <script type="text/javascript" src="../../common/embed/lib/util/utils.js"></script>
+      <script type="text/javascript" src="../../common/embed/lib/view/modals.js"></script>
+      <script type="text/javascript" src="../../common/embed/lib/controller/modals.js"></script>
       <script type="text/javascript" src="js/ApplicationView.js"></script>
       <script type="text/javascript" src="js/ApplicationController.js"></script>
       <script type="text/javascript" src="js/application.js"></script>

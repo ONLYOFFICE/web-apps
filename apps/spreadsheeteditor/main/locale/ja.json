@@ -976,6 +976,7 @@
   "SSE.Views.Toolbar.textDiagUpBorder": "斜め罫線 ​​(右上がり)",
   "SSE.Views.Toolbar.textEntireCol": "列全体",
   "SSE.Views.Toolbar.textEntireRow": "行全体",
+  "SSE.Views.Toolbar.textFreezePanes": "枠の固定",
   "SSE.Views.Toolbar.textHideFBar": "数式バーの非表示",
   "SSE.Views.Toolbar.textHideGridlines": "表のグリッド線を表示しない",
   "SSE.Views.Toolbar.textHideHeadings": "ヘッダー情報を表示しない",

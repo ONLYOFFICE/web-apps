@@ -262,8 +262,6 @@ define([
 
                     var _user = new Asc.asc_CUserInfo();
                     _user.put_Id(this.appOptions.user.id);
-                    _user.put_FirstName(this.appOptions.user.firstname);
-                    _user.put_LastName(this.appOptions.user.lastname);
                     _user.put_FullName(this.appOptions.user.fullname);
 
                     docInfo = new Asc.asc_CDocInfo();
@@ -612,6 +610,10 @@ define([
                 /** coauthoring begin **/
                 if (me.appOptions.isEdit && me.appOptions.canLicense && !me.appOptions.isOffline && me.appOptions.canCoAuthoring) {
                     value = Common.localStorage.getItem("pe-settings-coauthmode");
+                    if (value===null && Common.localStorage.getItem("pe-settings-autosave")===null &&
+                        me.appOptions.customization && me.appOptions.customization.autosave===false) {
+                        value = 0; // use customization.autosave only when pe-settings-coauthmode and pe-settings-autosave are null
+                    }
                     me._state.fastCoauth = (value===null || parseInt(value) == 1);
                 } else
                     me._state.fastCoauth = false;
@@ -654,6 +656,8 @@ define([
 
                 if (me.appOptions.isEdit) {
                     value = Common.localStorage.getItem("pe-settings-autosave");
+                    if (value===null && me.appOptions.customization && me.appOptions.customization.autosave===false)
+                        value = 0;
                     value = (!me._state.fastCoauth && value!==null) ? parseInt(value) : (me.appOptions.canCoAuthoring ? 1 : 0);
                     me.api.asc_setAutoSaveGap(value);
 
@@ -1064,6 +1068,41 @@ define([
 //                this.getFileMenu().setMode({isDisconnected:true});
             },
 
+            showTips: function(strings) {
+                var me = this;
+                if (!strings.length) return;
+                if (typeof(strings)!='object') strings = [strings];
+
+//                var top_elem = Ext.ComponentQuery.query('petoolbar');
+//                !top_elem.length && (top_elem = Ext.select('.common-header').first()) || (top_elem = top_elem[0].getEl());
+//
+                function showNextTip() {
+                    var str_tip = strings.shift();
+                    if (str_tip) {
+                        str_tip += '\n' + me.textCloseTip;
+                        tooltip.setTitle(str_tip);
+                        tooltip.show();
+                    }
+                }
+
+                if (!this.tooltip) {
+                    this.tooltip = new Common.UI.Tooltip({
+                        owner: this.getApplication().getController('Toolbar').getView('Toolbar'),
+                        hideonclick: true,
+                        placement: 'bottom',
+                        cls: 'main-info',
+                        offset: 30
+                    });
+                }
+
+                var tooltip = this.tooltip;
+                tooltip.on('tooltip:hide', function(){
+                    setTimeout(showNextTip, 300);
+                });
+
+                showNextTip();
+            },
+
             updateWindowTitle: function(force) {
                 var isModified = this.api.isDocumentModified();
                 if (this._state.isDocModified !== isModified || force) {
@@ -1300,11 +1339,8 @@ define([
             },
 
             onFocusObject: function(SelectedObjects) {
-                if (SelectedObjects.length>0) {
                     var rightpan = this.getApplication().getController('RightMenu');
-//                    var docPreview = this.getApplication().getController('Viewport').getView('DocumentPreview');
-                    if (rightpan /*&& !docPreview.isVisible()*/) rightpan.onFocusObject.call(rightpan, SelectedObjects);
-                }
+                    if (rightpan) rightpan.onFocusObject.call(rightpan, SelectedObjects);
             },
 
             _onChangeObjectLock: function() {
@@ -1748,7 +1784,7 @@ define([
             loadingDocumentTextText: 'Loading presentation...',
             warnProcessRightsChange: 'You have been denied the right to edit the file.',
             errorProcessSaveResult: 'Saving is failed.',
-            textCloseTip: '\nClick to close the tip.',
+            textCloseTip: 'Click to close the tip.',
             textShape: 'Shape',
             errorStockChart: 'Incorrect row order. To build a stock chart place the data on the sheet in the following order:<br> opening price, max price, min price, closing price.',
             errorDataRange: 'Incorrect data range.',

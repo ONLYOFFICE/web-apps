@@ -37,10 +37,12 @@
                 },
                 permissions: {
                     edit: <can edit>, // default = true
-                    download: <can download>,
-                    reader: <can view in readable mode>
-                    review: <can review> // default = edit,
-                    print: <can print> // default = true
+                    download: <can download>, // default = true
+                    reader: <can view in readable mode>,
+                    review: <can review>, // default = edit
+                    print: <can print>, // default = true
+                    rename: <can rename>, // default = false
+                    changeHistory: <can change history>, // default = false
                 }
             },
             editorConfig: {
@@ -60,8 +62,7 @@
 
                 user: {
                     id: 'user id',
-                    firstname: 'user first name',
-                    lastname: 'user last name'
+                    name: 'user name'
                 },
                 recent: [
                     {
@@ -111,7 +112,8 @@
                     leftMenu: true,
                     rightMenu: true,
                     toolbar: true,
-                    header: true
+                    header: true,
+                    autosave: true
                 },
                 plugins: {
                     autoStartGuid: 'asc.{FFE1F462-1EA2-4391-990D-4CC84940B754}',
@@ -149,6 +151,7 @@
             editorConfig: {
                 licenseUrl: <url for license>,
                 customerId: <customer id>,
+                autostart: 'document',    // action for app's autostart. for presentations default value is 'player'
                 embedded: {
                      embedUrl: 'url',
                      fullscreenUrl: 'url',

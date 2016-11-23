@@ -1222,12 +1222,14 @@ define([
 
                     for (i = 0; i < comments.length; ++i) {
                         comment = this.findComment(comments[i].asc_getId());
-                        comment.set('editTextInPopover', true);
-                        comment.set('hint', false);
-                        this.popoverComments.push(comment);
+                        if (comment) {
+                            comment.set('editTextInPopover', true);
+                            comment.set('hint', false);
+                            this.popoverComments.push(comment);
+                        }
                     }
 
-                    if (this.getPopover()) {
+                    if (this.getPopover() && this.popoverComments.length>0) {
                         if (this.getPopover().isVisible()) {
                             this.getPopover().hide();
                         }

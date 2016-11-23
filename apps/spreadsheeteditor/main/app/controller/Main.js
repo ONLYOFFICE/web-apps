@@ -296,8 +296,6 @@ define([
 
                     var _user = new Asc.asc_CUserInfo();
                     _user.put_Id(this.appOptions.user.id);
-                    _user.put_FirstName(this.appOptions.user.firstname);
-                    _user.put_LastName(this.appOptions.user.lastname);
                     _user.put_FullName(this.appOptions.user.fullname);
 
                     docInfo = new Asc.asc_CDocInfo();
@@ -580,6 +578,10 @@ define([
 
                 if (this.appOptions.isEdit && this.appOptions.canLicense && !this.appOptions.isOffline && this.appOptions.canCoAuthoring) {
                     value = Common.localStorage.getItem("sse-settings-coauthmode");
+                    if (value===null && Common.localStorage.getItem("sse-settings-autosave")===null &&
+                        this.appOptions.customization && this.appOptions.customization.autosave===false) {
+                        value = 0; // use customization.autosave only when sse-settings-coauthmode and sse-settings-autosave are null
+                    }
                     this._state.fastCoauth = (value===null || parseInt(value) == 1);
                 } else
                     this._state.fastCoauth = false;
@@ -638,6 +640,8 @@ define([
                 if (me.appOptions.isEdit) {
                     if (me.appOptions.canAutosave) {
                         value = Common.localStorage.getItem("sse-settings-autosave");
+                        if (value===null && me.appOptions.customization && me.appOptions.customization.autosave===false)
+                            value = 0;
                         value = (!me._state.fastCoauth && value!==null) ? parseInt(value) : (me.appOptions.canCoAuthoring ? 1 : 0);
                     } else {
                         value = 0;
@@ -1020,30 +1024,37 @@ define([
 
                     case Asc.c_oAscError.ID.FrmlWrongCountParentheses:
                         config.msg = this.errorWrongBracketsCount;
+                        config.closable = true;
                         break;
 
                     case Asc.c_oAscError.ID.FrmlWrongOperator:
                         config.msg = this.errorWrongOperator;
+                        config.closable = true;
                         break;
 
                     case Asc.c_oAscError.ID.FrmlWrongMaxArgument:
                         config.msg = this.errorCountArgExceed;
+                        config.closable = true;
                         break;
 
                     case Asc.c_oAscError.ID.FrmlWrongCountArgument:
                         config.msg = this.errorCountArg;
+                        config.closable = true;
                         break;
 
                     case Asc.c_oAscError.ID.FrmlWrongFunctionName:
                         config.msg = this.errorFormulaName;
+                        config.closable = true;
                         break;
 
                     case Asc.c_oAscError.ID.FrmlAnotherParsingError:
                         config.msg = this.errorFormulaParsing;
+                        config.closable = true;
                         break;
 
                     case Asc.c_oAscError.ID.FrmlWrongArgumentRange:
                         config.msg = this.errorArgsRange;
+                        config.closable = true;
                         break;
 
                     case Asc.c_oAscError.ID.UnexpectedGuid:
@@ -1226,7 +1237,7 @@ define([
                 function showNextTip() {
                     var str_tip = strings.shift();
                     if (str_tip) {
-                        str_tip += me.textCloseTip;
+                        str_tip += '\n' + me.textCloseTip;
                         tooltip.setTitle(str_tip);
                         tooltip.show();
                     }
@@ -1419,7 +1430,6 @@ define([
                 var me = this;
                 if (id == Asc.c_oAscConfirm.ConfirmReplaceRange) {
                     Common.UI.warning({
-                        closable: false,
                         title: this.notcriticalErrorTitle,
                         msg: this.confirmMoveCellRange,
                         buttons: ['yes', 'no'],
@@ -1980,7 +1990,7 @@ define([
             errorAutoFilterChangeFormatTable: 'The operation could not be done for the selected cells as you cannot move a part of the table.<br>Select another data range so that the whole table was shifted and try again.',
             errorAutoFilterHiddenRange: 'The operation cannot be performed because the area contains filtered cells.<br>Please unhide the filtered elements and try again.',
             errorAutoFilterChange: 'The operation is not allowed, as it is attempting to shift cells in a table on your worksheet.',
-            textCloseTip: '\nClick to close the tip.',
+            textCloseTip: 'Click to close the tip.',
             textShape: 'Shape',
             errorFillRange: 'Could not fill the selected range of cells.<br>All the merged cells need to be the same size.',
             errorUpdateVersion: 'The file version has been changed. The page will be reloaded.',

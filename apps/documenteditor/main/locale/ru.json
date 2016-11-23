@@ -255,7 +255,7 @@
   "DE.Controllers.Main.splitMaxRowsErrorText": "Число строк должно быть меньше, чем %1.",
   "DE.Controllers.Main.textAnonymous": "Аноним",
   "DE.Controllers.Main.textBuyNow": "Перейти на сайт",
-  "DE.Controllers.Main.textCloseTip": "\nЩелкните, чтобы закрыть эту подсказку",
+  "DE.Controllers.Main.textCloseTip": "Щелкните, чтобы закрыть эту подсказку",
   "DE.Controllers.Main.textContactUs": "Связаться с отделом продаж",
   "DE.Controllers.Main.textLoadingDocument": "Загрузка документа",
   "DE.Controllers.Main.textNoLicenseTitle": "Open source версия ONLYOFFICE",

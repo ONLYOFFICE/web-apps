@@ -275,8 +275,6 @@ define([
 
                     var _user = new Asc.asc_CUserInfo();
                     _user.put_Id(this.appOptions.user.id);
-                    _user.put_FirstName(this.appOptions.user.firstname);
-                    _user.put_LastName(this.appOptions.user.lastname);
                     _user.put_FullName(this.appOptions.user.fullname);
 
                     docInfo = new Asc.asc_CDocInfo();
@@ -825,6 +823,10 @@ define([
                 /** coauthoring begin **/
                 if (me.appOptions.isEdit && me.appOptions.canLicense && !me.appOptions.isOffline && me.appOptions.canCoAuthoring) {
                     value = Common.localStorage.getItem("de-settings-coauthmode");
+                    if (value===null && Common.localStorage.getItem("de-settings-autosave")===null &&
+                        me.appOptions.customization && me.appOptions.customization.autosave===false) {
+                        value = 0; // use customization.autosave only when de-settings-coauthmode and de-settings-autosave are null
+                    }
                     me._state.fastCoauth = (value===null || parseInt(value) == 1);
                     me.api.asc_SetFastCollaborative(me._state.fastCoauth);
 
@@ -874,6 +876,8 @@ define([
 
                 if (me.appOptions.isEdit) {
                     value = Common.localStorage.getItem("de-settings-autosave");
+                    if (value===null && me.appOptions.customization && me.appOptions.customization.autosave===false)
+                        value = 0;
                     value = (!me._state.fastCoauth && value!==null) ? parseInt(value) : (me.appOptions.canCoAuthoring ? 1 : 0);
 
                     me.api.asc_setAutoSaveGap(value);
@@ -1318,7 +1322,7 @@ define([
                 function showNextTip() {
                     var str_tip = strings.shift();
                     if (str_tip) {
-                        str_tip += me.textCloseTip;
+                        str_tip += '\n' + me.textCloseTip;
                         tooltip.setTitle(str_tip);
                         tooltip.show();
                     }
@@ -1964,7 +1968,7 @@ define([
             loadingDocumentTextText: 'Loading document...',
             warnProcessRightsChange: 'You have been denied the right to edit the file.',
             errorProcessSaveResult: 'Saving is failed.',
-            textCloseTip: '\nClick to close the tip.',
+            textCloseTip: 'Click to close the tip.',
             textShape: 'Shape',
             errorStockChart: 'Incorrect row order. To build a stock chart place the data on the sheet in the following order:<br> opening price, max price, min price, closing price.',
             errorDataRange: 'Incorrect data range.',

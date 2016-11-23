@@ -1301,7 +1301,7 @@ define([
                             Common.NotificationCenter.off('window:resize', onWindowResize);
                             me.api.StartDemonstration('presentation-preview', 0);
                         };
-                        if (!me.mode.isDesktopApp) {
+                        if (!me.mode.isDesktopApp && !Common.Utils.isIE11) {
                             Common.NotificationCenter.on('window:resize', onWindowResize);
                             me.fullScreen(document.documentElement);
                         } else
@@ -1569,7 +1569,7 @@ define([
 
                         Common.component.Analytics.trackEvent('DocumentHolder', 'Preview');
                     };
-                    if (!me.mode.isDesktopApp) {
+                    if (!me.mode.isDesktopApp && !Common.Utils.isIE11) {
                         Common.NotificationCenter.on('window:resize', onWindowResize);
                         me.fullScreen(document.documentElement);
                     } else

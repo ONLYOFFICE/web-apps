@@ -143,7 +143,7 @@
   "PE.Controllers.Main.splitMaxColsErrorText": "O número de colunas deve ser inferior a %1.",
   "PE.Controllers.Main.splitMaxRowsErrorText": "O número de linhas deve ser inferior a %1.",
   "PE.Controllers.Main.textAnonymous": "Anônimo",
-  "PE.Controllers.Main.textCloseTip": "\nClique para fechar a dica",
+  "PE.Controllers.Main.textCloseTip": "Clique para fechar a dica",
   "PE.Controllers.Main.textLoadingDocument": "Carregando apresentação",
   "PE.Controllers.Main.textShape": "Forma",
   "PE.Controllers.Main.textStrict": "Strict mode",

@@ -143,7 +143,7 @@
   "PE.Controllers.Main.splitMaxColsErrorText": "Sütun sayısı %1'den az olmalıdır.",
   "PE.Controllers.Main.splitMaxRowsErrorText": "Satır sayısı %1'den az olmalıdır.",
   "PE.Controllers.Main.textAnonymous": "Anonim",
-  "PE.Controllers.Main.textCloseTip": "\nUcu kapamak için tıklayın",
+  "PE.Controllers.Main.textCloseTip": "Ucu kapamak için tıklayın",
   "PE.Controllers.Main.textLoadingDocument": "Sunum yükleniyor",
   "PE.Controllers.Main.textShape": "Şekil",
   "PE.Controllers.Main.textStrict": "Strict mode",

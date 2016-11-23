@@ -771,7 +771,7 @@ define([
                     me.api.StartDemonstration('presentation-preview', _.isNumber(slidenum) ? slidenum : 0);
                     Common.component.Analytics.trackEvent('ToolBar', 'Preview');
                 };
-                if (!me.toolbar.mode.isDesktopApp) {
+                if (!me.toolbar.mode.isDesktopApp && !Common.Utils.isIE11) {
                     Common.NotificationCenter.on('window:resize', onWindowResize);
                     me.fullScreen(document.documentElement);
                 } else

@@ -30,11 +30,7 @@
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
 */
-(function ($) {
-
-    $(function(){
-        ApplicationView.create();
-        ApplicationController.create();
-    })
-
-})(window.jQuery);
++function ($) {
+    ApplicationView.create();
+    ApplicationController.create();
+}();

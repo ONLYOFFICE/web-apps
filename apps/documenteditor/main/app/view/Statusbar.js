@@ -314,9 +314,9 @@ define([
                         return me.txtPageNumInvalid;
                     }
                 }).on('keypress:after', function(input, e) {
-                        var box = me.$el.find('#status-goto-box');
                         if (e.keyCode === Common.UI.Keys.RETURN) {
-                            var edit = box.find('input[type=text]'), page = parseInt(edit.val());
+                            var box = me.$el.find('#status-goto-box'),
+                                edit = box.find('input[type=text]'), page = parseInt(edit.val());
                             if (!page || page-- > me.pages.get('count') || page < 0) {
                                 edit.select();
                                 return false;
@@ -328,6 +328,15 @@ define([
                             me.api.goToPage(page);
                             me.api.asc_enableKeyEvents(true);
 
+                            return false;
+                        }
+                    }
+                ).on('keyup:after', function(input, e) {
+                        if (e.keyCode === Common.UI.Keys.ESC) {
+                            var box = me.$el.find('#status-goto-box');
+                            box.focus();                        // for IE
+                            box.parent().removeClass('open');
+                            me.api.asc_enableKeyEvents(true);
                             return false;
                         }
                     }
