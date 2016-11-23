@@ -129,7 +129,7 @@ define([
                                 '<input type="radio" name="paragraph-style" value="<%= name %>">' +
                                 (Framework7.prototype.device.android ? '<div class="item-media"><i class="icon icon-form-radio"></i></div>' : '') +
                                 '<div class="item-inner">' +
-                                    '<div data-name="<%= name %>" class="item-title style" style="background-image: url(<%= image %>); width: ' +  thimbSize.width + 'px; height: ' + thimbSize.height + 'px; background-size: contain;"></div>' +
+                                    '<div data-name="<%= name %>" class="item-title style" style="background-image: url(<%= image %>); width:{0}px; height:{1}px; background-size:{0}px {1}px; background-repeat: no-repeat;"></div>'.format(thimbSize.width, thimbSize.height) +
                                 '</div>' +
                             '</label>' +
                         '</li>'
