@@ -109,13 +109,20 @@ define([
                     editors = [];
 
                 // TODO: Debug only
-                editors.push(me._emptyEditController());
-                return editors;
+                // editors.push(me._emptyEditController());
+                // return editors;
 
 
                 if (_settings.length < 0) {
                     editors.push(me._emptyEditController());
                 } else {
+                    if (_.contains(_settings, 'slide')) {
+                        editors.push({
+                            caption: me.textSlide,
+                            id: 'edit-text',
+                            layout: PE.getController('EditText').getView('EditSlide').rootLayout()
+                        })
+                    }
                     if (_.contains(_settings, 'text')) {
                         editors.push({
                             caption: me.textText,
@@ -319,35 +326,33 @@ define([
             onApiFocusObject: function (objects) {
                 _settings = [];
 
-                // Paragraph  : 0,
-                // Table      : 1,
-                // Image      : 2,
-                // Header     : 3,
-                // Shape      : 4,
-                // Slide      : 5,
-                // Chart      : 6,
-                // MailMerge  : 7,
-                // TextArt    : 8
-
+                var no_text = true;
                 _.each(objects, function(object) {
                     var type = object.get_ObjectType();
 
                     if (Asc.c_oAscTypeSelectElement.Paragraph == type) {
-                        _settings.push('text', 'paragraph');
+                        _settings.push('paragraph');
+                        no_text = false;
                     } else if (Asc.c_oAscTypeSelectElement.Table == type) {
-                        _settings.push('table');
+                        // _settings.push('table');
+                        no_text = false;
+                    } else if (Asc.c_oAscTypeSelectElement.Slide == type) {
+                        // _settings.push('slide');
+                        no_text = false;
                     } else if (Asc.c_oAscTypeSelectElement.Image == type) {
-                        if (object.get_ObjectValue().get_ChartProperties()) {
-                            _settings.push('chart');
-                        } else if (object.get_ObjectValue().get_ShapeProperties()) {
-                            _settings.push('shape');
-                        } else {
-                            _settings.push('image');
-                        }
+                        // _settings.push('image');
+                    } else if (Asc.c_oAscTypeSelectElement.Chart == type) {
+                        // _settings.push('chart');
+                        no_text = false;
+                    } else if (Asc.c_oAscTypeSelectElement.Shape == type) {
+                        // _settings.push('shape');
+                        no_text = false;
                     } else if (Asc.c_oAscTypeSelectElement.Hyperlink == type) {
-                        _settings.push('hyperlink');
+                        // _settings.push('hyperlink');
                     }
                 });
+                if (!no_text)
+                    _settings.unshift('text');
 
                 // Exclude shapes if chart exist
                 if (_settings.indexOf('chart') > -1) {
@@ -364,7 +369,8 @@ define([
             textShape: 'Shape',
             textImage: 'Image',
             textChart: 'Chart',
-            textHyperlink: 'Hyperlink'
+            textHyperlink: 'Hyperlink',
+            textSlide: 'Slide'
 
         }
     })(), PE.Controllers.EditContainer || {}))

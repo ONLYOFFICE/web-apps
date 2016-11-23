@@ -6099,3 +6099,36 @@ textarea {
   height: 100%;
   background-color: #DF6737;
 }
+.bullets ul,
+.numbers ul {
+  margin-top: 10px;
+}
+.bullets li,
+.numbers li {
+  width: 70px;
+  height: 70px;
+  margin-right: 1px;
+  border: 1px solid #c4c4c4;
+}
+html.pixel-ratio-2 .bullets li,
+html.pixel-ratio-2 .numbers li {
+  border: 0.5px solid #c4c4c4;
+}
+html.pixel-ratio-3 .bullets li,
+html.pixel-ratio-3 .numbers li {
+  border: 0.33px solid #c4c4c4;
+}
+.bullets li .thumb,
+.numbers li .thumb {
+  width: 100%;
+  height: 100%;
+  background-color: #ffffff;
+  background-size: cover;
+}
+.bullets li .thumb label,
+.numbers li .thumb label {
+  width: 100%;
+  text-align: center;
+  position: absolute;
+  top: 34%;
+}
