@@ -42,8 +42,11 @@
 
 define([
     'core',
-    'documenteditor/mobile/app/view/edit/EditChart'
-], function (core) {
+    'documenteditor/mobile/app/view/edit/EditChart',
+    'jquery',
+    'underscore',
+    'backbone'
+], function (core, view, $, _, Backbone) {
     'use strict';
 
     DE.Controllers.EditChart = Backbone.Controller.extend(_.extend((function() {
@@ -564,7 +567,7 @@ define([
                 Common.SharedSettings.set('chartstyles', styles);
                 Common.NotificationCenter.trigger('chartstyles:load', styles);
 
-                $('#tab-chart-style .dataview .row div').single('click',    _.bind(this.onStyle, this));
+                $('#tab-chart-style li').single('click',    _.bind(this.onStyle, this));
             },
 
             _uiTransformByWrap: function(type) {

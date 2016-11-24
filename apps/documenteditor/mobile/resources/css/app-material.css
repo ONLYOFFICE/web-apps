@@ -6182,6 +6182,15 @@ textarea {
   width: 70px;
   height: 50px;
 }
+.chart-styles .row,
+.chart-styles .row li {
+  margin-bottom: 12px;
+}
+.chart-styles li,
+.chart-styles .row div {
+  margin: 0;
+  padding: 1px;
+}
 .shapes li {
   width: 70px;
   height: 70px;

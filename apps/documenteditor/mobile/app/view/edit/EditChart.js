@@ -178,10 +178,10 @@ define([
             },
 
             renderStyles: function() {
-                var $styleContainer = $('#edit-chart-styles .item-inner');
+                var $styleContainer = $('#tab-chart-style');
 
                 if ($styleContainer.length > 0) {
-                    var columns = parseInt($styleContainer.width() / 60), // magic
+                    var columns = parseInt($styleContainer.width() / 70), // magic
                         row = -1,
                         styles = [];
 
@@ -194,17 +194,15 @@ define([
                     });
 
                     var template = _.template([
-                        '<div class="dataview chart-styles" style="width: 100%;">',
-                            '<% _.each(styles, function(row) { %>',
-                            '<div class="row">',
-                                '<% _.each(row, function(style) { %>',
-                                '<div data-type="<%= style.asc_getStyle() %>">',
-                                    '<img src="<%= style.asc_getImageUrl() %>" width="50px" height="50px">',
-                                '</div>',
-                                '<% }); %>',
-                            '</div>',
+                        '<% _.each(styles, function(row) { %>',
+                        '<ul class="row">',
+                            '<% _.each(row, function(style) { %>',
+                            '<li data-type="<%= style.asc_getStyle() %>">',
+                                '<img src="<%= style.asc_getImageUrl() %>" width="50px" height="50px">',
+                            '</li>',
                             '<% }); %>',
-                        '</div>'
+                        '</ul>',
+                        '<% }); %>'
                     ].join(''), {
                         styles: styles
                     });

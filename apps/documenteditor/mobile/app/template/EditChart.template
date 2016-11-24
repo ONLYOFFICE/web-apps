@@ -317,16 +317,8 @@
                     </ul>
                     <% }); %>
                 </div>
-                <div id="tab-chart-style" class="page-content tab">
-                    <div class="list-block">
-                        <ul>
-                            <li id="edit-chart-styles">
-                                <div class="item-content">
-                                    <div class="item-inner"></div>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
+                <div id="tab-chart-style" class="page-content tab dataview chart-styles">
+                    <!--Styles-->
                 </div>
                 <div id="tab-chart-fill" class="page-content tab">
                     <!--Fill colors-->
