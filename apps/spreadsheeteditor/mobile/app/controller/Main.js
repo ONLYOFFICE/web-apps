@@ -98,7 +98,7 @@ define([
                 me.api = new Asc.spreadsheet_api({
                     'id-view'  : 'editor_sdk',
                     'id-input' : 'ce-cell-content'
-                    ,'mobile'   : true
+                    ,'mobile'  : true
                 });
 
                 if (me.api){
@@ -115,6 +115,7 @@ define([
                     me.api.asc_registerCallback('asc_onPrintUrl',                   _.bind(me.onPrintUrl, me));
                     me.api.asc_registerCallback('asc_onDocumentName',               _.bind(me.onDocumentName, me));
                     me.api.asc_registerCallback('asc_onEndAction',                  _.bind(me.onLongActionEnd, me));
+                    me.api.asc_registerCallback('asc_onSelectionNameChanged',       _.bind(me.onApiCellSelection, me));
 /**/
                     // this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onCoAuthoringDisconnect, this));
                     // this.api.asc_registerCallback('asc_onPrintUrl',              _.bind(this.onPrintUrl, this));
@@ -311,6 +312,15 @@ define([
 //                    if (toolbarView.btnSave.isDisabled() !== (!cansave && !isSyncButton || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1))
 //                        toolbarView.btnSave.setDisabled(!cansave && !isSyncButton || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1);
 //                }
+            },
+
+            onApiCellSelection: function(info) {
+                if ( info ) {
+                    if ( !this.$cellname )
+                        this.$cellname = $('#ce-cell-name');
+
+                    this.$cellname.html(typeof(info)=='string' ? info : info.asc_getName());
+                }
             },
 
             onLongActionBegin: function(type, id) {

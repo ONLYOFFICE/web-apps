@@ -1,0 +1,132 @@
+@gray-dark:             #c4c4c4;
+@gray-darker:           #848484; //rgb(132, 132, 132)
+@gray-light:            #f1f1f1; //rgb(241, 241, 241)
+
+@cellEditorHeight: 30px;
+
+.border-radius(@radius: 2px) {
+    border-radius: @radius;
+}
+
+#cell-editing-box {
+    * {
+        box-sizing: border-box;
+    }
+
+    border-bottom: solid 1px @gray-dark;
+    min-height: @cellEditorHeight;
+    background-color: #fff;
+
+    .btn {
+        border: 0 none;
+        height: @cellEditorHeight;
+        background-color: transparent;
+    }
+
+    .caret {
+        display: block;
+        transform: rotate(90deg);
+        font-size: 16px;
+    }
+
+    .ce-group {
+        height: @cellEditorHeight;
+    }
+
+    .group-name {
+        float: left;
+        background-color: @gray-light;
+    }
+
+    #ce-cell-name {
+        display: inline-block;
+        width: 90px;
+        //height: 100%;
+        padding: 0px 4px;
+        //vertical-align: top;
+        display: inline-block;
+        border: 0 none;
+        line-height: 30px;
+        font-size: 17px;
+        text-align: center;
+        //transition: none;
+        //-webkit-transition: none;
+
+        &[disabled] {
+            color: @gray-darker;
+            opacity: 0.5;
+        }
+    }
+
+    #ce-func-label {
+        width: 34px;
+
+        span.btn-icon {
+            font-size: 17px;
+            //display: block;
+            //margin-top: -5px;
+        }
+
+        &.disabled {
+            span.btn-icon {
+                opacity: 0.6;
+            }
+        }
+    }
+
+    .group-expand {
+        float: right;
+
+        #ce-btn-expand {
+            width: @cellEditorHeight;
+            background: transparent;
+            padding: 0 2px 0;
+
+            &:active,
+            &.active {
+                .caret {
+                    background-color: #5d6c35;
+                    //background-position: @arrow-small-offset-x @arrow-small-offset-y;
+                }
+            }
+
+            &.btn-collapse {
+                .caret {
+                    background-color: #5d6c35;
+                    //background-position: @arrow-up-small-offset-x @arrow-up-small-offset-y;
+                }
+            }
+        }
+    }
+
+    .group-content {
+        padding-left: 1px;
+        margin: 0 30px 0 128px;
+        border-left: 1px solid @gray-dark;
+    }
+
+    #ce-cell-content {
+        display: block;
+        width: 100%;
+        padding: 3px 3px;
+        line-height: 1.428571429;
+        color: #000;
+        vertical-align: middle;
+        background-color: #fff;
+
+        height: 100%;
+        resize: none;
+        min-height: 19px;
+        border: 0 none;
+        font-size: 16px;
+
+        &[disabled] {
+            color: @gray-darker;
+            opacity: 0.5;
+        }
+    }
+
+    #ce-cell-name, #ce-cell-content {
+        border-radius: 0;
+    }
+}

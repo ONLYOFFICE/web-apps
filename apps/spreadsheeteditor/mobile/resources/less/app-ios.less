@@ -2,7 +2,9 @@
 @import url('../../../../../vendor/framework7/src/less/ios/_colors-vars.less');
 
 // Colors
-@themeColor: #8ca946; // (64,102,215)
+@themeColor: #8ca946; // (140,169,70)
+
+@appToolbarHeight: @toolbarSize;
 
 @import url('../../../../../vendor/framework7/src/less/ios/intro.less');
 @import url('../../../../../vendor/framework7/src/less/ios/grid.less');
@@ -62,18 +64,8 @@
 
 @import url('ios/_search.less');
 @import url('ios/_icons.less');
-
-// Top offset
-
-#editor_sdk {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: @toolbarSize;
-  bottom: 0;
-  height: auto;
-  .transition(300ms);
-}
+@import url('app-common');
+@import url('celleditor');
 
 // Add Container
 
@@ -174,9 +166,4 @@
       }
     }
   }
-}
-
-#editor_sdk {
-  //position: absolute;
-  //left: 0;
 }
