@@ -1141,6 +1141,7 @@ define([
                 documentHolder      = this.documentHolder,
                 seltype             = cellinfo.asc_getFlags().asc_getSelectionType(),
                 isCellLocked        = cellinfo.asc_getLocked(),
+                isTableLocked       = cellinfo.asc_getLockedTable()===true,
                 isObjLocked         = false,
                 commentsController  = this.getApplication().getController('Common.Controllers.Comments'),
                 insfunc             = false,
@@ -1341,9 +1342,15 @@ define([
                     item.setDisabled(isCellLocked);
                 });
                 documentHolder.pmiCopy.setDisabled(false);
-                documentHolder.pmiFilterCells.setDisabled(isCellLocked || (filterInfo==null));
-                documentHolder.pmiSortCells.setDisabled(isCellLocked || (filterInfo==null));
-                documentHolder.pmiReapply.setDisabled(isCellLocked || (isApplyAutoFilter!==true));
+                documentHolder.pmiInsertEntire.setDisabled(isCellLocked || isTableLocked);
+                documentHolder.pmiInsertCells.setDisabled(isCellLocked || isTableLocked);
+                documentHolder.pmiInsertTable.setDisabled(isCellLocked || isTableLocked);
+                documentHolder.pmiDeleteEntire.setDisabled(isCellLocked || isTableLocked);
+                documentHolder.pmiDeleteCells.setDisabled(isCellLocked || isTableLocked);
+                documentHolder.pmiDeleteTable.setDisabled(isCellLocked || isTableLocked);
+                documentHolder.pmiFilterCells.setDisabled(isCellLocked || isTableLocked|| (filterInfo==null));
+                documentHolder.pmiSortCells.setDisabled(isCellLocked || isTableLocked|| (filterInfo==null));
+                documentHolder.pmiReapply.setDisabled(isCellLocked || isTableLocked|| (isApplyAutoFilter!==true));
                 if (showMenu) this.showPopupMenu(documentHolder.ssMenu, {}, event);
             } else if (this.permissions.isEditDiagram && seltype == Asc.c_oAscSelectionType.RangeChartText) {
                 if (!showMenu && !documentHolder.textInShapeMenu.isVisible()) return;

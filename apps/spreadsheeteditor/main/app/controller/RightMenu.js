@@ -121,9 +121,10 @@ define([
                 this._openRightMenu = true;
             }
 
-            var need_disable = info.asc_getLocked();
+            var need_disable = info.asc_getLocked(),
+                need_disable_table = (info.asc_getLockedTable()===true);
 
-            this.onFocusObject(SelectedObjects, formatTableInfo, sparkLineInfo, need_disable);
+            this.onFocusObject(SelectedObjects, formatTableInfo, sparkLineInfo, need_disable, need_disable_table);
 
             if (this._state.prevDisabled != need_disable) {
                 this._state.prevDisabled = need_disable;
@@ -133,7 +134,7 @@ define([
             }
         },
 
-        onFocusObject: function(SelectedObjects, formatTableInfo, sparkLineInfo, isCellLocked) {
+        onFocusObject: function(SelectedObjects, formatTableInfo, sparkLineInfo, isCellLocked, isTableLocked) {
             if (!this.editMode)
                 return;
 
@@ -174,7 +175,7 @@ define([
             if (formatTableInfo) {
                 settingsType = Common.Utils.documentSettingsType.Table;
                 this._settings[settingsType].props = formatTableInfo;
-                this._settings[settingsType].locked = isCellLocked;
+                this._settings[settingsType].locked = isTableLocked;
                 this._settings[settingsType].hidden = 0;
             }
 
