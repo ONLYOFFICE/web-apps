@@ -336,6 +336,8 @@
                     window.alert("The \"document.key\" parameter for the config object must be string. Please correct it.");
                     return false;
                 }
+
+                _config.document.token = _config.token;
             }
             
             return true;
