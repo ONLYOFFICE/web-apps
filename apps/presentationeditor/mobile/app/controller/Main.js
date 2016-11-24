@@ -211,6 +211,7 @@ define([
                     docInfo.put_Options(data.doc.options);
                     docInfo.put_UserInfo(_user);
                     docInfo.put_CallbackUrl(this.editorConfig.callbackUrl);
+                    docInfo.put_Token(data.doc.token);
                 }
 
                 this.api.asc_registerCallback('asc_onGetEditorPermissions', _.bind(this.onEditorPermissions, this));
