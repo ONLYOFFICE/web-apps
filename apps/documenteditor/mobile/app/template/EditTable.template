@@ -309,20 +309,20 @@
                                 <div class="item-content buttons" style="-webkit-flex-flow: row wrap;justify-content: space-around;">
                                     <div class="item-inner" style="margin: 20px 0;">
                                         <div class="row">
-                                            <a class="button no-ripple" style="min-width:0;" data-type="lrtbcm"><i class="icon icon-text-align-left"></i></a>
-                                            <a class="button no-ripple" style="min-width:0;" data-type=""><i class="icon icon-text-align-left"></i></a>
-                                            <a class="button no-ripple" style="min-width:0;" data-type="cm"><i class="icon icon-text-align-left"></i></a>
-                                            <a class="button no-ripple" style="min-width:0;" data-type="lrtb"><i class="icon icon-text-align-left"></i></a>
-                                            <a class="button no-ripple" style="min-width:0;" data-type="l"><i class="icon icon-text-align-left"></i></a>
+                                            <a class="button no-ripple" style="min-width:0;" data-type="lrtbcm"><i class="icon icon-table-borders-all"></i></a>
+                                            <a class="button no-ripple" style="min-width:0;" data-type=""><i class="icon icon-table-borders-none"></i></a>
+                                            <a class="button no-ripple" style="min-width:0;" data-type="cm"><i class="icon icon-table-borders-inner"></i></a>
+                                            <a class="button no-ripple" style="min-width:0;" data-type="lrtb"><i class="icon icon-table-borders-outer"></i></a>
+                                            <a class="button no-ripple" style="min-width:0;" data-type="l"><i class="icon icon-table-borders-left"></i></a>
                                         </div>
                                     </div>
                                     <div class="item-inner" style="margin: 0 0 20px;">
                                         <div class="row">
-                                            <a class="button no-ripple" style="min-width:0;" data-type="c"><i class="icon icon-text-align-left"></i></a>
-                                            <a class="button no-ripple" style="min-width:0;" data-type="r"><i class="icon icon-text-align-left"></i></a>
-                                            <a class="button no-ripple" style="min-width:0;" data-type="t"><i class="icon icon-text-align-left"></i></a>
-                                            <a class="button no-ripple" style="min-width:0;" data-type="m"><i class="icon icon-text-align-left"></i></a>
-                                            <a class="button no-ripple" style="min-width:0;" data-type="b"><i class="icon icon-text-align-left"></i></a>
+                                            <a class="button no-ripple" style="min-width:0;" data-type="c"><i class="icon icon-table-borders-center"></i></a>
+                                            <a class="button no-ripple" style="min-width:0;" data-type="r"><i class="icon icon-table-borders-right"></i></a>
+                                            <a class="button no-ripple" style="min-width:0;" data-type="t"><i class="icon icon-table-borders-top"></i></a>
+                                            <a class="button no-ripple" style="min-width:0;" data-type="m"><i class="icon icon-table-borders-middle"></i></a>
+                                            <a class="button no-ripple" style="min-width:0;" data-type="b"><i class="icon icon-table-borders-bottom"></i></a>
                                         </div>
                                     </div>
                                 </div>
