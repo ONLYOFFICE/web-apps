@@ -122,19 +122,13 @@ define([
             }
 
             var need_disable = info.asc_getLocked(),
-                need_disable_table = (info.asc_getLockedTable()===true);
+                need_disable_table = (info.asc_getLockedTable()===true),
+                need_disable_spark = (info.asc_getLockedSparkline()===true);
 
-            this.onFocusObject(SelectedObjects, formatTableInfo, sparkLineInfo, need_disable, need_disable_table);
-
-            if (this._state.prevDisabled != need_disable) {
-                this._state.prevDisabled = need_disable;
-                this._settings.forEach(function(item){
-                    item.panel.setLocked(need_disable);
-                });
-            }
+            this.onFocusObject(SelectedObjects, formatTableInfo, sparkLineInfo, need_disable, need_disable_table, need_disable_spark);
         },
 
-        onFocusObject: function(SelectedObjects, formatTableInfo, sparkLineInfo, isCellLocked, isTableLocked) {
+        onFocusObject: function(SelectedObjects, formatTableInfo, sparkLineInfo, isCellLocked, isTableLocked, isSparkLocked) {
             if (!this.editMode)
                 return;
 
@@ -181,7 +175,7 @@ define([
             if (sparkLineInfo) {
                 settingsType = Common.Utils.documentSettingsType.Chart;
                 this._settings[settingsType].props = sparkLineInfo;
-                this._settings[settingsType].locked = isCellLocked;
+                this._settings[settingsType].locked = isSparkLocked;
                 this._settings[settingsType].hidden = 0;
             }
 
