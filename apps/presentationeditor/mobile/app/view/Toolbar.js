@@ -105,8 +105,14 @@ define([
             },
 
             onDisplayMainNavbar: function (e) {
-                var $target = $(e.currentTarget);
-                $('#editor_sdk').css('marginTop', $target.hasClass('navbar-hidden') ? 0 : '');
+                var $target = $(e.currentTarget),
+                    navbarHidden = $target.hasClass('navbar-hidden'),
+                    pickerHeight = $('.picker-modal').height() || 260;
+
+                $('#editor_sdk').css({
+                    top     : navbarHidden ? 0 : '',
+                    bottom  : navbarHidden ? pickerHeight : ''
+                });
             },
 
             // Search

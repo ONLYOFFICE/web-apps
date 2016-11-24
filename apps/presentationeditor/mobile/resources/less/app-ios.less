@@ -78,7 +78,12 @@ input, textarea {
 // Top offset
 
 #editor_sdk {
-  margin-top: @toolbarSize;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: @toolbarSize;
+  bottom: 0;
+  height: auto;
   .transition(300ms);
 }
 
