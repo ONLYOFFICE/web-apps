@@ -71,6 +71,7 @@ define([
         selRange:       'sel-range',
         lostConnect:    'disconnect',
         coAuth:         'co-auth',
+        coAuthText:     'co-auth-text',
         ruleMerge:      'rule-btn-merge',
         ruleFilter:     'rule-filter',
         ruleDelFilter:  'rule-clear-filter',
@@ -149,7 +150,7 @@ define([
                 cls         : 'input-group-nr',
                 menuStyle   : 'min-width: 55px;',
                 hint        : me.tipFontSize,
-                lock        : [_set.selImage, _set.editFormula, _set.selRange, _set.coAuth, _set.lostConnect],
+                lock        : [_set.selImage, _set.editFormula, _set.selRange, _set.coAuth, _set.coAuthText, _set.lostConnect],
                 data        : [
                     { value: 8, displayValue: "8" },
                     { value: 9, displayValue: "9" },
@@ -189,7 +190,7 @@ define([
                 menuCls     : 'scrollable-menu',
                 menuStyle   : 'min-width: 325px;',
                 hint        : me.tipFontName,
-                lock        : [_set.selImage, _set.editFormula, _set.selRange, _set.coAuth, _set.lostConnect],
+                lock        : [_set.selImage, _set.editFormula, _set.selRange, _set.coAuth, _set.coAuthText, _set.lostConnect],
                 store       : new Common.Collections.Fonts()
             });
 
@@ -239,21 +240,21 @@ define([
                 id          : 'id-toolbar-btn-incfont',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-incfont',
-                lock        : [_set.selImage, _set.editFormula, _set.selRange, _set.coAuth, _set.lostConnect]
+                lock        : [_set.selImage, _set.editFormula, _set.selRange, _set.coAuth, _set.coAuthText, _set.lostConnect]
             });
 
             me.btnDecFontSize = new Common.UI.Button({
                 id          : 'id-toolbar-btn-decfont',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-decfont',
-                lock        : [_set.selImage, _set.editFormula, _set.selRange, _set.coAuth, _set.lostConnect]
+                lock        : [_set.selImage, _set.editFormula, _set.selRange, _set.coAuth, _set.coAuthText, _set.lostConnect]
             });
 
             me.btnBold = new Common.UI.Button({
                 id          : 'id-toolbar-btn-bold',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-bold',
-                lock        : [_set.selImage, _set.editFormula, _set.selRange, _set.coAuth, _set.lostConnect],
+                lock        : [_set.selImage, _set.editFormula, _set.selRange, _set.coAuth, _set.coAuthText, _set.lostConnect],
                 enableToggle: true
             });
 
@@ -261,7 +262,7 @@ define([
                 id          : 'id-toolbar-btn-italic',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-italic',
-                lock        : [_set.selImage, _set.editFormula, _set.selRange, _set.coAuth, _set.lostConnect],
+                lock        : [_set.selImage, _set.editFormula, _set.selRange, _set.coAuth, _set.coAuthText, _set.lostConnect],
                 enableToggle: true
             });
 
@@ -269,7 +270,7 @@ define([
                 id          : 'id-toolbar-btn-underline',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-underline',
-                lock        : [_set.selImage, _set.editFormula, _set.selRange, _set.coAuth, _set.lostConnect],
+                lock        : [_set.selImage, _set.editFormula, _set.selRange, _set.coAuth, _set.coAuthText, _set.lostConnect],
                 enableToggle: true
             });
 
@@ -279,7 +280,7 @@ define([
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-fontcolor',
                 split       : true,
-                lock        : [_set.selImage, _set.editFormula, _set.selRange, _set.coAuth, _set.lostConnect],
+                lock        : [_set.selImage, _set.editFormula, _set.selRange, _set.coAuth, _set.coAuthText, _set.lostConnect],
                 menu        : new Common.UI.Menu({
                     items: [
                         { template: _.template('<div id="id-toolbar-menu-fontcolor" style="width: 165px; height: 220px; margin: 10px;"></div>') },
@@ -302,7 +303,7 @@ define([
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-fillparag',
                 split       : true,
-                lock        : [_set.selImage, _set.editCell, _set.coAuth, _set.lostConnect],
+                lock        : [_set.selImage, _set.editCell, _set.coAuth, _set.coAuthText, _set.lostConnect],
                 menu        : new Common.UI.Menu({
                     items: [
                         { template: _.template('<div id="id-toolbar-menu-paracolor" style="width: 165px; height: 220px; margin: 10px;"></div>') },
@@ -337,7 +338,7 @@ define([
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-align-left',
                 enableToggle: true,
-                lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selImage, _set.lostConnect, _set.coAuth],
+                lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selImage, _set.lostConnect, _set.coAuth, _set.coAuthText],
                 toggleGroup : 'alignGroup'
             });
 
@@ -346,7 +347,7 @@ define([
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-align-center',
                 enableToggle: true,
-                lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selImage, _set.lostConnect, _set.coAuth],
+                lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selImage, _set.lostConnect, _set.coAuth, _set.coAuthText],
                 toggleGroup : 'alignGroup'
             });
 
@@ -355,7 +356,7 @@ define([
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-align-right',
                 enableToggle: true,
-                lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selImage, _set.lostConnect, _set.coAuth],
+                lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selImage, _set.lostConnect, _set.coAuth, _set.coAuthText],
                 toggleGroup : 'alignGroup'
             });
 
@@ -364,7 +365,7 @@ define([
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-align-just',
                 enableToggle: true,
-                lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selImage, _set.lostConnect, _set.coAuth],
+                lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selImage, _set.lostConnect, _set.coAuth, _set.coAuthText],
                 toggleGroup: 'alignGroup'
             });
 
@@ -402,7 +403,7 @@ define([
                 id          : 'id-toolbar-rtn-valign-top',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-valign-top',
-                lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selImage, _set.lostConnect, _set.coAuth],
+                lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selImage, _set.lostConnect, _set.coAuth, _set.coAuthText],
                 enableToggle: true,
                 toggleGroup : 'vAlignGroup'
             });
@@ -412,7 +413,7 @@ define([
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-valign-middle',
                 enableToggle: true,
-                lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selImage, _set.lostConnect, _set.coAuth],
+                lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selImage, _set.lostConnect, _set.coAuth, _set.coAuthText],
                 toggleGroup : 'vAlignGroup'
             });
 
@@ -420,7 +421,7 @@ define([
                 id          : 'id-toolbar-rtn-valign-bottom',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-valign-bottom',
-                lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selImage, _set.lostConnect, _set.coAuth],
+                lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selImage, _set.lostConnect, _set.coAuth, _set.coAuthText],
                 enableToggle: true,
                 toggleGroup : 'vAlignGroup'
             });
@@ -438,7 +439,7 @@ define([
                 id          : 'id-toolbar-rtn-textorient',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-text-orient',
-                lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth],
+                lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.coAuthText],
                 menu        : new Common.UI.Menu({
                     items: [
                         {
@@ -961,7 +962,7 @@ define([
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-align-left',
                 icls        : 'btn-align-left',
-                lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.lostConnect, _set.coAuth],
+                lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.lostConnect, _set.coAuth, _set.coAuthText],
                 menu        : new Common.UI.Menu({
                     items: [
                         {
@@ -1010,7 +1011,7 @@ define([
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-valign-bottom',
                 icls        : 'btn-valign-bottom',
-                lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.lostConnect, _set.coAuth],
+                lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.lostConnect, _set.coAuth, _set.coAuthText],
                 menu        : new Common.UI.Menu({
                     items: [
                         {

@@ -147,7 +147,6 @@ define([
 
             for (i=0; i<SelectedObjects.length; ++i)
             {
-                var type = SelectedObjects[i].asc_getObjectType();
                 var eltype = SelectedObjects[i].asc_getObjectType(),
                     settingsType = this.getDocumentSettingsType(eltype);
                 if (settingsType===undefined || settingsType>=this._settings.length || this._settings[settingsType]===undefined)
