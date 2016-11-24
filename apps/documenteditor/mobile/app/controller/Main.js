@@ -55,20 +55,6 @@ define([
         Common.localStorage.setKeysFilter('de-,asc.text');
         Common.localStorage.sync();
 
-        var fillUserInfo = function(info, lang, defname) {
-            var user = info || {};
-            !user.id && (user.id = ('uid-' + Date.now()));
-            _.isEmpty(user.firstname) && _.isEmpty(user.lastname) && (user.firstname = defname);
-            if (_.isEmpty(user.firstname))
-                user.fullname = user.lastname;
-            else if (_.isEmpty(user.lastname))
-                user.fullname = user.firstname;
-            else
-                user.fullname = /^ru/.test(lang) ? user.lastname + ' ' + user.firstname :  user.firstname + ' ' + user.lastname;
-
-            return user;
-        };
-
         return {
             models: [],
             collections: [],
@@ -163,7 +149,7 @@ define([
                 me.editorConfig = $.extend(me.editorConfig, data.config);
 
                 me.editorConfig.user          =
-                me.appOptions.user            = fillUserInfo(me.editorConfig.user, me.editorConfig.lang, me.textAnonymous);
+                me.appOptions.user            = Common.Utils.fillUserInfo(me.editorConfig.user, me.editorConfig.lang, me.textAnonymous);
                 me.appOptions.nativeApp       = me.editorConfig.nativeApp === true;
                 me.appOptions.isDesktopApp    = me.editorConfig.targetApp == 'desktop';
                 me.appOptions.canCreateNew    = !_.isEmpty(me.editorConfig.createUrl) && !me.appOptions.isDesktopApp;
@@ -202,8 +188,6 @@ define([
 
                     var _user = new Asc.asc_CUserInfo();
                     _user.put_Id(this.appOptions.user.id);
-                    _user.put_FirstName(this.appOptions.user.firstname);
-                    _user.put_LastName(this.appOptions.user.lastname);
                     _user.put_FullName(this.appOptions.user.fullname);
 
                     docInfo = new Asc.asc_CDocInfo();
