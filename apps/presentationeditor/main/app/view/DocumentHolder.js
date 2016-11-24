@@ -1291,6 +1291,7 @@ define([
 
             var hkPreview = 'command+f5,ctrl+f5';
             keymap[hkPreview] = function(e) {
+                var isResized = false;
                 e.preventDefault();
                 e.stopPropagation();
                 if (me.slidesCount>0) {
@@ -1298,12 +1299,17 @@ define([
                     if (previewPanel && !previewPanel.isVisible() && me.api) {
                         previewPanel.show();
                         var onWindowResize = function() {
+                            if (isResized) return;
+                            isResized = true;
                             Common.NotificationCenter.off('window:resize', onWindowResize);
                             me.api.StartDemonstration('presentation-preview', 0);
                         };
                         if (!me.mode.isDesktopApp && !Common.Utils.isIE11) {
                             Common.NotificationCenter.on('window:resize', onWindowResize);
                             me.fullScreen(document.documentElement);
+                            setTimeout(function(){
+                                onWindowResize();
+                            }, 100);
                         } else
                             onWindowResize();
                     }
@@ -1558,10 +1564,13 @@ define([
             var mnuPreview = new Common.UI.MenuItem({
                 caption : me.txtPreview
             }).on('click', function(item) {
-                var previewPanel = PE.getController('Viewport').getView('DocumentPreview');
+                var previewPanel = PE.getController('Viewport').getView('DocumentPreview'),
+                    isResized = false;
                 if (previewPanel && me.api) {
                     previewPanel.show();
                     var onWindowResize = function() {
+                        if (isResized) return;
+                        isResized = true;
                         Common.NotificationCenter.off('window:resize', onWindowResize);
 
                         var current = me.api.getCurrentPage();
@@ -1572,6 +1581,9 @@ define([
                     if (!me.mode.isDesktopApp && !Common.Utils.isIE11) {
                         Common.NotificationCenter.on('window:resize', onWindowResize);
                         me.fullScreen(document.documentElement);
+                        setTimeout(function(){
+                            onWindowResize();
+                        }, 100);
                     } else
                         onWindowResize();
                 }

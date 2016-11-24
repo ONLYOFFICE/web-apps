@@ -96,6 +96,7 @@ var ApplicationController = new(function(){
             docInfo.put_Title(docConfig.title);
             docInfo.put_Format(docConfig.fileType);
             docInfo.put_VKey(docConfig.vkey);
+            docInfo.put_Token(docConfig.token);
 
             if (api) {
                 api.asc_registerCallback('asc_onGetEditorPermissions', onEditorPermissions);
