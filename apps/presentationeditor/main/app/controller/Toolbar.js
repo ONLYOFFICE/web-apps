@@ -763,10 +763,13 @@ define([
 
         onPreview: function(slidenum) {
             var previewPanel = PE.getController('Viewport').getView('DocumentPreview'),
-                me = this;
+                me = this,
+                isResized = false;
             if (previewPanel && me.api) {
                 previewPanel.show();
                 var onWindowResize = function() {
+                    if (isResized) return;
+                    isResized = true;
                     Common.NotificationCenter.off('window:resize', onWindowResize);
                     me.api.StartDemonstration('presentation-preview', _.isNumber(slidenum) ? slidenum : 0);
                     Common.component.Analytics.trackEvent('ToolBar', 'Preview');
@@ -774,6 +777,9 @@ define([
                 if (!me.toolbar.mode.isDesktopApp && !Common.Utils.isIE11) {
                     Common.NotificationCenter.on('window:resize', onWindowResize);
                     me.fullScreen(document.documentElement);
+                    setTimeout(function(){
+                        onWindowResize();
+                    }, 100);
                 } else
                     onWindowResize();
             }

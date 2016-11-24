@@ -936,11 +936,9 @@ define([
                             $(document.body).append(src);
 
                             showPoint = [
-                                coAuthTip.x_point + coAuthTip.XY[0],
+                                (is_sheet_lock) ? (coAuthTip.x_point + coAuthTip.rightMenuWidth) : (coAuthTip.bodyWidth - (coAuthTip.x_point + coAuthTip.XY[0])),
                                 coAuthTip.y_point + coAuthTip.XY[1]
                             ];
-
-                            !is_sheet_lock && (showPoint[0] = coAuthTip.bodyWidth - showPoint[0]);
 
                             if (showPoint[1] > coAuthTip.XY[1] &&
                                 showPoint[1] + coAuthTip.ttHeight < coAuthTip.XY[1] + coAuthTip.apiHeight) {
@@ -1042,6 +1040,7 @@ define([
                     me.documentHolder.cmpEl.offset().top  - $(window).scrollTop()
                 ];
                 me.tooltips.coauth.apiHeight = me.documentHolder.cmpEl.height();
+                me.tooltips.coauth.rightMenuWidth = $('#right-menu').width();
                 me.tooltips.coauth.bodyWidth = $(window).width();
             }
         },
@@ -1141,6 +1140,7 @@ define([
                 documentHolder      = this.documentHolder,
                 seltype             = cellinfo.asc_getFlags().asc_getSelectionType(),
                 isCellLocked        = cellinfo.asc_getLocked(),
+                isTableLocked       = cellinfo.asc_getLockedTable()===true,
                 isObjLocked         = false,
                 commentsController  = this.getApplication().getController('Common.Controllers.Comments'),
                 insfunc             = false,
@@ -1341,9 +1341,15 @@ define([
                     item.setDisabled(isCellLocked);
                 });
                 documentHolder.pmiCopy.setDisabled(false);
-                documentHolder.pmiFilterCells.setDisabled(isCellLocked || (filterInfo==null));
-                documentHolder.pmiSortCells.setDisabled(isCellLocked || (filterInfo==null));
-                documentHolder.pmiReapply.setDisabled(isCellLocked || (isApplyAutoFilter!==true));
+                documentHolder.pmiInsertEntire.setDisabled(isCellLocked || isTableLocked);
+                documentHolder.pmiInsertCells.setDisabled(isCellLocked || isTableLocked);
+                documentHolder.pmiInsertTable.setDisabled(isCellLocked || isTableLocked);
+                documentHolder.pmiDeleteEntire.setDisabled(isCellLocked || isTableLocked);
+                documentHolder.pmiDeleteCells.setDisabled(isCellLocked || isTableLocked);
+                documentHolder.pmiDeleteTable.setDisabled(isCellLocked || isTableLocked);
+                documentHolder.pmiFilterCells.setDisabled(isCellLocked || isTableLocked|| (filterInfo==null));
+                documentHolder.pmiSortCells.setDisabled(isCellLocked || isTableLocked|| (filterInfo==null));
+                documentHolder.pmiReapply.setDisabled(isCellLocked || isTableLocked|| (isApplyAutoFilter!==true));
                 if (showMenu) this.showPopupMenu(documentHolder.ssMenu, {}, event);
             } else if (this.permissions.isEditDiagram && seltype == Asc.c_oAscSelectionType.RangeChartText) {
                 if (!showMenu && !documentHolder.textInShapeMenu.isVisible()) return;

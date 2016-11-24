@@ -1604,7 +1604,7 @@ define([
             if (!this.editMode) return;
 
             var selectionType = info.asc_getFlags().asc_getSelectionType(),
-                coauth_disable = (!this.toolbar.mode.isEditMailMerge && !this.toolbar.mode.isEditDiagram) ? (info.asc_getLocked()===true) : false,
+                coauth_disable = (!this.toolbar.mode.isEditMailMerge && !this.toolbar.mode.isEditDiagram) ? (info.asc_getLocked()===true || info.asc_getLockedTable()===true) : false,
                 editOptionsDisabled = this._disableEditOptions(selectionType, coauth_disable),
                 me = this,
                 toolbar = this.toolbar,
@@ -2345,7 +2345,6 @@ define([
         _disableEditOptions: function(seltype, coauth_disable) {
             if (this.api.isCellEdited) return true;
             if (this.api.isRangeSelection) return true;
-            if (this._state.selection_type===seltype && this._state.coauthdisable===coauth_disable) return (seltype===Asc.c_oAscSelectionType.RangeImage);
 
             var toolbar = this.toolbar,
                 is_chart_text   = seltype == Asc.c_oAscSelectionType.RangeChartText,
@@ -2353,7 +2352,19 @@ define([
                 is_shape_text   = seltype == Asc.c_oAscSelectionType.RangeShapeText,
                 is_shape        = seltype == Asc.c_oAscSelectionType.RangeShape,
                 is_image        = seltype == Asc.c_oAscSelectionType.RangeImage,
-                is_mode_2       = is_shape_text || is_shape || is_chart_text || is_chart;
+                is_mode_2       = is_shape_text || is_shape || is_chart_text || is_chart,
+                is_objLocked    = false;
+
+            if (!(is_mode_2 || is_image) && this._state.selection_type===seltype && this._state.coauthdisable===coauth_disable) return (seltype===Asc.c_oAscSelectionType.RangeImage);
+
+            if (is_mode_2) {
+                var SelectedObjects = this.api.asc_getGraphicObjectProps();
+                for (var i=0; i<SelectedObjects.length; ++i)
+                {
+                    if (SelectedObjects[i].asc_getObjectType() == Asc.c_oAscTypeSelectElement.Image)
+                        is_objLocked = is_objLocked || SelectedObjects[i].asc_getObjectValue().asc_getLocked();
+                }
+            }
 
             if ( coauth_disable ) {
                 toolbar.lockToolbar(SSE.enumLock.coAuth, coauth_disable);
@@ -2382,6 +2393,7 @@ define([
                     merge: true,
                     clear: [_set.selImage, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.coAuth]
                 });
+                toolbar.lockToolbar(SSE.enumLock.coAuthText, is_objLocked);
             }
 
             $('#ce-func-label').toggleClass('disabled', is_image || is_mode_2 || coauth_disable);

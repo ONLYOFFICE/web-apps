@@ -121,19 +121,14 @@ define([
                 this._openRightMenu = true;
             }
 
-            var need_disable = info.asc_getLocked();
+            var need_disable = info.asc_getLocked(),
+                need_disable_table = (info.asc_getLockedTable()===true),
+                need_disable_spark = (info.asc_getLockedSparkline()===true);
 
-            this.onFocusObject(SelectedObjects, formatTableInfo, sparkLineInfo, need_disable);
-
-            if (this._state.prevDisabled != need_disable) {
-                this._state.prevDisabled = need_disable;
-                this._settings.forEach(function(item){
-                    item.panel.setLocked(need_disable);
-                });
-            }
+            this.onFocusObject(SelectedObjects, formatTableInfo, sparkLineInfo, need_disable, need_disable_table, need_disable_spark);
         },
 
-        onFocusObject: function(SelectedObjects, formatTableInfo, sparkLineInfo, isCellLocked) {
+        onFocusObject: function(SelectedObjects, formatTableInfo, sparkLineInfo, isCellLocked, isTableLocked, isSparkLocked) {
             if (!this.editMode)
                 return;
 
@@ -146,7 +141,6 @@ define([
 
             for (i=0; i<SelectedObjects.length; ++i)
             {
-                var type = SelectedObjects[i].asc_getObjectType();
                 var eltype = SelectedObjects[i].asc_getObjectType(),
                     settingsType = this.getDocumentSettingsType(eltype);
                 if (settingsType===undefined || settingsType>=this._settings.length || this._settings[settingsType]===undefined)
@@ -174,14 +168,14 @@ define([
             if (formatTableInfo) {
                 settingsType = Common.Utils.documentSettingsType.Table;
                 this._settings[settingsType].props = formatTableInfo;
-                this._settings[settingsType].locked = isCellLocked;
+                this._settings[settingsType].locked = isTableLocked;
                 this._settings[settingsType].hidden = 0;
             }
 
             if (sparkLineInfo) {
                 settingsType = Common.Utils.documentSettingsType.Chart;
                 this._settings[settingsType].props = sparkLineInfo;
-                this._settings[settingsType].locked = isCellLocked;
+                this._settings[settingsType].locked = isSparkLocked;
                 this._settings[settingsType].hidden = 0;
             }
 
