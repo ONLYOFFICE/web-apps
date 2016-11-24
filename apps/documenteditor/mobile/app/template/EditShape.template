@@ -155,7 +155,7 @@
                             <% if (android) { %>
                             <div class="item-media"><i class="icon icon-form-radio"></i></div>
                             <% } else { %>
-                            <div class="item-media"><i class="icon icon-search"></i></div>
+                            <div class="item-media"><i class="icon icon-wrap-inline"></i></div>
                             <% } %>
                             <div class="item-inner">
                                 <div class="item-title"><%= scope.textInline %></div>
@@ -168,7 +168,7 @@
                             <% if (android) { %>
                             <div class="item-media"><i class="icon icon-form-radio"></i></div>
                             <% } else { %>
-                            <div class="item-media"><i class="icon icon-search"></i></div>
+                            <div class="item-media"><i class="icon icon-wrap-square"></i></div>
                             <% } %>
                             <div class="item-inner">
                                 <div class="item-title"><%= scope.textSquare %></div>
@@ -181,7 +181,7 @@
                             <% if (android) { %>
                             <div class="item-media"><i class="icon icon-form-radio"></i></div>
                             <% } else { %>
-                            <div class="item-media"><i class="icon icon-search"></i></div>
+                            <div class="item-media"><i class="icon icon-wrap-tight"></i></div>
                             <% } %>
                             <div class="item-inner">
                                 <div class="item-title"><%= scope.textTight %></div>
@@ -194,7 +194,7 @@
                             <% if (android) { %>
                             <div class="item-media"><i class="icon icon-form-radio"></i></div>
                             <% } else { %>
-                            <div class="item-media"><i class="icon icon-search"></i></div>
+                            <div class="item-media"><i class="icon icon-wrap-through"></i></div>
                             <% } %>
                             <div class="item-inner">
                                 <div class="item-title"><%= scope.textThrough %></div>
@@ -207,7 +207,7 @@
                             <% if (android) { %>
                             <div class="item-media"><i class="icon icon-form-radio"></i></div>
                             <% } else { %>
-                            <div class="item-media"><i class="icon icon-search"></i></div>
+                            <div class="item-media"><i class="icon icon-wrap-top-bottom"></i></div>
                             <% } %>
                             <div class="item-inner">
                                 <div class="item-title"><%= scope.textTopAndBottom %></div>
@@ -220,7 +220,7 @@
                             <% if (android) { %>
                             <div class="item-media"><i class="icon icon-form-radio"></i></div>
                             <% } else { %>
-                            <div class="item-media"><i class="icon icon-search"></i></div>
+                            <div class="item-media"><i class="icon icon-wrap-infront"></i></div>
                             <% } %>
                             <div class="item-inner">
                                 <div class="item-title"><%= scope.textInFront %></div>
@@ -233,7 +233,7 @@
                             <% if (android) { %>
                             <div class="item-media"><i class="icon icon-form-radio"></i></div>
                             <% } else { %>
-                            <div class="item-media"><i class="icon icon-search"></i></div>
+                            <div class="item-media"><i class="icon icon-wrap-behind"></i></div>
                             <% } %>
                             <div class="item-inner">
                                 <div class="item-title"><%= scope.textBehind %></div>
