@@ -936,11 +936,9 @@ define([
                             $(document.body).append(src);
 
                             showPoint = [
-                                coAuthTip.x_point + coAuthTip.XY[0],
+                                (is_sheet_lock) ? (coAuthTip.x_point + coAuthTip.rightMenuWidth) : (coAuthTip.bodyWidth - (coAuthTip.x_point + coAuthTip.XY[0])),
                                 coAuthTip.y_point + coAuthTip.XY[1]
                             ];
-
-                            !is_sheet_lock && (showPoint[0] = coAuthTip.bodyWidth - showPoint[0]);
 
                             if (showPoint[1] > coAuthTip.XY[1] &&
                                 showPoint[1] + coAuthTip.ttHeight < coAuthTip.XY[1] + coAuthTip.apiHeight) {
@@ -1042,6 +1040,7 @@ define([
                     me.documentHolder.cmpEl.offset().top  - $(window).scrollTop()
                 ];
                 me.tooltips.coauth.apiHeight = me.documentHolder.cmpEl.height();
+                me.tooltips.coauth.rightMenuWidth = $('#right-menu').width();
                 me.tooltips.coauth.bodyWidth = $(window).width();
             }
         },
