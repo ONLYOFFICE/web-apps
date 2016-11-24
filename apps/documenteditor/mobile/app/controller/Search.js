@@ -156,6 +156,8 @@ define([
                 me.searchNext.single('click', _.bind(me.onSearchNext, me));
                 me.replaceBtn.single('click', _.bind(me.onReplace, me));
 
+                $$('.searchbar.document .link.replace').on('taphold', _.bind(me.onReplaceAll, me));
+
                 me.searchBar.search(searchString);
                 me.replaceBar.search(replaceString);
             },
@@ -241,6 +243,28 @@ define([
                 this.onQueryReplace(this.searchBar.query, this.replaceBar.query);
             },
 
+            onReplaceAll: function (e) {
+                var me = this,
+                    popover =[
+                    '<div class="popover" style="width: auto;">',
+                        '<div class="popover-inner">',
+                            '<div class="list-block">',
+                                '<ul>',
+                                    '<li><a href="#" id="replace-all" class="item-link list-button">{0}</li>'.format(me.textReplaceAll),
+                                '</ul>',
+                            '</div>',
+                        '</div>',
+                    '</div>'
+                    ].join('');
+
+                popover = uiApp.popover(popover, $$(e.currentTarget));
+
+                $('#replace-all').single('click', _.bind(function () {
+                    me.onQueryReplaceAll(this.searchBar.query, this.replaceBar.query);
+                    uiApp.closeModal(popover);
+                }, me))
+            },
+
             onQuerySearch: function(query, direction) {
                 var matchcase = Common.SharedSettings.get('search-case-sensitive') || false,
                     matchword = Common.SharedSettings.get('search-highlight') || false;
@@ -305,7 +329,8 @@ define([
 
             // API handlers
 
-            textNoTextFound     : 'Text not found'
+            textNoTextFound: 'Text not found',
+            textReplaceAll: 'Replace All'
         }
     })(), DE.Controllers.Search || {}))
 });

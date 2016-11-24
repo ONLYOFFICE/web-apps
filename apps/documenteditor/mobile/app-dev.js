@@ -173,6 +173,9 @@ require([
         // Default title for modals
         modalTitle: 'ONLYOFFICE',
 
+        // Enable tap hold events
+        tapHold: true,
+
         // If it is webapp, we can enable hash navigation:
 //        pushState: false,
 

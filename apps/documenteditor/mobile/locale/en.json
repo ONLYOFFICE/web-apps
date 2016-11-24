@@ -96,6 +96,7 @@
   "DE.Controllers.DocumentHolder.menuOpenLink": "Open Link",
 
   "DE.Controllers.Search.textNoTextFound": "Text not Found",
+  "DE.Controllers.Search.textReplaceAll": "Replace All",
   "DE.Views.Search.textFind": "Find",
   "DE.Views.Search.textFindAndReplace": "Find and Replace",
   "DE.Views.Search.textDone": "Done",
