@@ -81,15 +81,18 @@ define([
 
             // Render layout
             render: function() {
-                var $el = $(this.el);
+                var me = this,
+                    $el = $(me.el);
 
-                $el.prepend(this.template({
+                $el.prepend(me.template({
                     android     : Common.SharedSettings.get('android'),
                     phone       : Common.SharedSettings.get('phone'),
                     backTitle   : Common.SharedSettings.get('android') ? '' : 'Back'
                 }));
 
-                return this;
+                $('.view-main .navbar').on('addClass removeClass', _.bind(me.onDisplayMainNavbar, me));
+
+                return me;
             },
 
             setMode: function (mode) {
@@ -98,6 +101,17 @@ define([
                 if (isEdit) {
                     $('#toolbar-edit, #toolbar-add, #toolbar-undo, #toolbar-redo').show();
                 }
+            },
+
+            onDisplayMainNavbar: function (e) {
+                var $target = $(e.currentTarget),
+                    navbarHidden = $target.hasClass('navbar-hidden'),
+                    pickerHeight = $('.picker-modal').height() || 260;
+
+                $('#editor_sdk').css({
+                    top     : navbarHidden ? 0 : '',
+                    bottom  : navbarHidden ? pickerHeight : ''
+                });
             },
 
             // Search

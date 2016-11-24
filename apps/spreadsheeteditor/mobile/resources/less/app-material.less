@@ -56,6 +56,19 @@
 @import url('material/_search.less');
 @import url('material/_icons.less');
 
+// Top offset
+
+#editor_sdk {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: @toolbarSize;
+  bottom: 0;
+  height: auto;
+  .transition(300ms);
+}
+
+
 // Add Container
 
 #add-table,

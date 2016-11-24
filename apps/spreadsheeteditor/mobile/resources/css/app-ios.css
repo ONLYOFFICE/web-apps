@@ -5865,89 +5865,75 @@ html.pixel-ratio-3 .phone.ios .container-edit .navbar:before {
 .container-settings.popover {
   width: 360px;
 }
-.container-edit.popup .list-block ul,
-.container-add.popup .list-block ul,
-.container-settings.popup .list-block ul,
-.container-edit.popover .list-block ul,
-.container-add.popover .list-block ul,
-.container-settings.popover .list-block ul {
+.settings.popup .list-block ul,
+.settings.popover .list-block ul {
   border-radius: 0 !important;
   background: #fff;
 }
-.container-edit.popup .list-block:first-child,
-.container-add.popup .list-block:first-child,
-.container-settings.popup .list-block:first-child,
-.container-edit.popover .list-block:first-child,
-.container-add.popover .list-block:first-child,
-.container-settings.popover .list-block:first-child {
+.settings.popup .list-block ul:last-child:after,
+.settings.popover .list-block ul:last-child:after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  right: auto;
+  top: auto;
+  height: 1px;
+  width: 100%;
+  background-color: #c8c7cc;
+  display: block;
+  z-index: 15;
+  -webkit-transform-origin: 50% 100%;
+  transform-origin: 50% 100%;
+}
+html.pixel-ratio-2 .settings.popup .list-block ul:last-child:after,
+html.pixel-ratio-2 .settings.popover .list-block ul:last-child:after {
+  -webkit-transform: scaleY(0.5);
+  transform: scaleY(0.5);
+}
+html.pixel-ratio-3 .settings.popup .list-block ul:last-child:after,
+html.pixel-ratio-3 .settings.popover .list-block ul:last-child:after {
+  -webkit-transform: scaleY(0.33);
+  transform: scaleY(0.33);
+}
+.settings.popup .list-block:first-child,
+.settings.popover .list-block:first-child {
   margin-top: 0;
 }
-.container-edit.popup .list-block li:first-child a,
-.container-add.popup .list-block li:first-child a,
-.container-settings.popup .list-block li:first-child a,
-.container-edit.popover .list-block li:first-child a,
-.container-add.popover .list-block li:first-child a,
-.container-settings.popover .list-block li:first-child a,
-.container-edit.popup .list-block li:last-child a,
-.container-add.popup .list-block li:last-child a,
-.container-settings.popup .list-block li:last-child a,
-.container-edit.popover .list-block li:last-child a,
-.container-add.popover .list-block li:last-child a,
-.container-settings.popover .list-block li:last-child a {
+.settings.popup .list-block li:first-child a,
+.settings.popover .list-block li:first-child a,
+.settings.popup .list-block li:last-child a,
+.settings.popover .list-block li:last-child a {
   border-radius: 0 !important;
 }
-.container-edit.popup > .content-block,
-.container-add.popup > .content-block,
-.container-settings.popup > .content-block,
-.container-edit.popover > .content-block,
-.container-add.popover > .content-block,
-.container-settings.popover > .content-block,
-.container-edit.popup .popover-inner > .content-block,
-.container-add.popup .popover-inner > .content-block,
-.container-settings.popup .popover-inner > .content-block,
-.container-edit.popover .popover-inner > .content-block,
-.container-add.popover .popover-inner > .content-block,
-.container-settings.popover .popover-inner > .content-block {
+.settings.popup > .content-block,
+.settings.popover > .content-block,
+.settings.popup .popover-inner > .content-block,
+.settings.popover .popover-inner > .content-block {
   width: 100%;
   height: 100%;
   margin: 0;
   padding: 0;
   color: #000;
 }
-.container-edit.popup .popover-view,
-.container-add.popup .popover-view,
-.container-settings.popup .popover-view,
-.container-edit.popover .popover-view,
-.container-add.popover .popover-view,
-.container-settings.popover .popover-view {
+.settings.popup .popover-view,
+.settings.popover .popover-view {
   border-radius: 13px;
 }
-.container-edit.popup .popover-view > .pages,
-.container-add.popup .popover-view > .pages,
-.container-settings.popup .popover-view > .pages,
-.container-edit.popover .popover-view > .pages,
-.container-add.popover .popover-view > .pages,
-.container-settings.popover .popover-view > .pages {
+.settings.popup .popover-view > .pages,
+.settings.popover .popover-view > .pages {
   border-radius: 13px;
 }
-.container-edit .categories,
-.container-add .categories,
-.container-settings .categories {
+.settings .categories {
   width: 100%;
 }
-.container-edit .categories > .buttons-row,
-.container-add .categories > .buttons-row,
-.container-settings .categories > .buttons-row {
+.settings .categories > .buttons-row {
   width: 100%;
 }
-.container-edit .categories > .buttons-row .button,
-.container-add .categories > .buttons-row .button,
-.container-settings .categories > .buttons-row .button {
+.settings .categories > .buttons-row .button {
   padding: 0 1px;
 }
-.container-edit .popover-inner,
-.container-add .popover-inner,
-.container-settings .popover-inner {
+.settings .popover-inner {
   height: 400px;
 }
 .dataview.page-content {
@@ -6498,6 +6484,16 @@ i.icon.icon-link {
   width: 22px;
   height: 22px;
   background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20x%3D%220px%22%20y%3D%220px%22%20viewBox%3D%220%200%2022%2022%22%20fill%3D%22%238ca946%22%3E%3Cg%3E%3Cpath%20d%3D%22M12.4%2C9.8c0%2C0-2.1-0.1-3.8%2C1.2c-2.8%2C2-3.3%2C4.3-3.3%2C4.3s1.6-1.7%2C3.5-2.5c1.7-0.7%2C3.7-0.4%2C3.7-0.4v1.9l4.8-3.3V11l-4.8-3.3V9.8z%20M11%2C1C5.5%2C1%2C1%2C5.5%2C1%2C11c0%2C5.5%2C4.5%2C10%2C10%2C10s10-4.5%2C10-10C21%2C5.5%2C16.5%2C1%2C11%2C1z%20M11%2C20c-5%2C0-9-4.1-9-9C2%2C6%2C6%2C2%2C11%2C2s9%2C4.1%2C9%2C9C20%2C16%2C16%2C20%2C11%2C20z%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E");
+}
+#editor_sdk {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 44px;
+  bottom: 0;
+  height: auto;
+  -webkit-transition-duration: 300ms;
+  transition-duration: 300ms;
 }
 #add-table .page,
 #add-shape .page {
