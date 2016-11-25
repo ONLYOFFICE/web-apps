@@ -151,8 +151,8 @@ require([
             // 'DocumentHolder',
             // 'Settings',
             // 'EditContainer',
-            'EditText',
-            'EditParagraph'
+            'EditText'
+            // 'EditParagraph'
             // 'EditTable',
             // 'EditImage',
             // 'EditShape',
@@ -216,8 +216,8 @@ require([
         // 'presentationeditor/mobile/app/controller/DocumentHolder',
         // 'presentationeditor/mobile/app/controller/Settings',
         'presentationeditor/mobile/app/controller/edit/EditContainer',
-        'presentationeditor/mobile/app/controller/edit/EditText',
-        'presentationeditor/mobile/app/controller/edit/EditParagraph'
+        'presentationeditor/mobile/app/controller/edit/EditText'
+        // 'presentationeditor/mobile/app/controller/edit/EditParagraph'
         // 'presentationeditor/mobile/app/controller/edit/EditTable',
         // 'presentationeditor/mobile/app/controller/edit/EditImage',
         // 'presentationeditor/mobile/app/controller/edit/EditShape',

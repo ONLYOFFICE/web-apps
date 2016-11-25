@@ -119,7 +119,7 @@ define([
                     if (_.contains(_settings, 'slide')) {
                         editors.push({
                             caption: me.textSlide,
-                            id: 'edit-text',
+                            id: 'edit-slide',
                             layout: PE.getController('EditText').getView('EditSlide').rootLayout()
                         })
                     }
@@ -128,13 +128,6 @@ define([
                             caption: me.textText,
                             id: 'edit-text',
                             layout: PE.getController('EditText').getView('EditText').rootLayout()
-                        })
-                    }
-                    if (_.contains(_settings, 'paragraph')) {
-                        editors.push({
-                            caption: me.textParagraph,
-                            id: 'edit-paragraph',
-                            layout: PE.getController('EditParagraph').getView('EditParagraph').rootLayout()
                         })
                     }
                     if (_.contains(_settings, 'table')) {
@@ -331,7 +324,6 @@ define([
                     var type = object.get_ObjectType();
 
                     if (Asc.c_oAscTypeSelectElement.Paragraph == type) {
-                        _settings.push('paragraph');
                         no_text = false;
                     } else if (Asc.c_oAscTypeSelectElement.Table == type) {
                         // _settings.push('table');
@@ -364,7 +356,6 @@ define([
 
             textSettings: 'Settings',
             textText: 'Text',
-            textParagraph: 'Paragraph',
             textTable: 'Table',
             textShape: 'Shape',
             textImage: 'Image',

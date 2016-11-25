@@ -50,7 +50,9 @@ define([
         var _fontsArray = [],
             _stack = [],
             _paragraphObject = undefined,
-            _fontInfo = {};
+            _fontInfo = {},
+            _paragraphInfo = {},
+            metricText = Common.Utils.Metric.getCurrentMetricName();
 
         function onApiLoadFonts(fonts, select) {
             _.each(fonts, function(font){
@@ -76,6 +78,7 @@ define([
 
             initialize: function () {
                 Common.NotificationCenter.on('editcontainer:show', _.bind(this.initEvents, this));
+                Common.NotificationCenter.on('editcategory:show',  _.bind(this.categoryShow, this));
 
                 this.addListeners({
                     'EditText': {
@@ -100,6 +103,13 @@ define([
                 me.api.asc_registerCallback('asc_onVerticalAlign',      _.bind(me.onApiVerticalAlign, me));
                 me.api.asc_registerCallback('asc_onTextColor',          _.bind(me.onApiTextColor, me));
 
+                me.api.asc_registerCallback('asc_onListType',           _.bind(me.onApiBullets, me));
+                me.api.asc_registerCallback('asc_onPrAlign',            _.bind(me.onApiParagraphAlign, me));
+                me.api.asc_registerCallback('asc_canIncreaseIndent',      _.bind(me.onApiCanIncreaseIndent, me));
+                me.api.asc_registerCallback('asc_canDecreaseIndent',      _.bind(me.onApiCanDecreaseIndent, me));
+                me.api.asc_registerCallback('asc_onLineSpacing',          _.bind(me.onApiLineSpacing, me));
+                me.api.asc_registerCallback('asc_onVerticalTextAlign',    _.bind(me.onApiVerticalTextAlign, me));
+
                 // me.api.asc_registerCallback('asc_onUpdateThemeIndex',     _.bind(this.onApiUpdateThemeIndex, this));
                 // me.api.asc_registerCallback('asc_onCanGroup',             _.bind(this.onApiCanGroup, this));
                 // me.api.asc_registerCallback('asc_onCanUnGroup',           _.bind(this.onApiCanUnGroup, this));
@@ -118,7 +128,22 @@ define([
                 $('#font-underline').single('click',            _.bind(me.onUnderline, me));
                 $('#font-strikethrough').single('click',        _.bind(me.onStrikethrough, me));
 
-                me.initSettings();
+                $('#paragraph-align .button').single('click',   _.bind(me.onParagraphAlign, me));
+                $('#paragraph-valign .button').single('click',   _.bind(me.onParagraphVAlign, me));
+                $('#font-moveleft, #font-moveright').single('click',   _.bind(me.onParagraphMove, me));
+
+                $('#paragraph-distance-before .button').single('click',         _.bind(me.onDistanceBefore, me));
+                $('#paragraph-distance-after .button').single('click',          _.bind(me.onDistanceAfter, me));
+
+                // me.initSettings();
+            },
+
+            categoryShow: function (e) {
+                var $target = $(e.currentTarget);
+
+                if ($target && $target.prop('id') === 'edit-text') {
+                    this.initSettings();
+                }
             },
 
             onPageShow: function (view, pageId) {
@@ -144,17 +169,24 @@ define([
                 me.api && me.api.UpdateInterfaceState(); // TODO: refactor me
 
                 if (_paragraphObject) {
-                    var $inputStrikethrough = $('#text-additional input[name=text-strikethrough]');
-                    var $inputTextCaps = $('#text-additional input[name=text-caps]');
+                    if (pageId == '#edit-text-additional') {
+                        var $inputStrikethrough = $('#text-additional input[name=text-strikethrough]');
+                        var $inputTextCaps = $('#text-additional input[name=text-caps]');
 
-                    _paragraphObject.get_Strikeout() && $inputStrikethrough.val(['strikethrough']).prop('prevValue', 'strikethrough');
-                    _paragraphObject.get_DStrikeout() && $inputStrikethrough.val(['double-strikethrough']).prop('prevValue', 'double-strikethrough');
+                        _paragraphObject.get_Strikeout() && $inputStrikethrough.val(['strikethrough']).prop('prevValue', 'strikethrough');
+                        _paragraphObject.get_DStrikeout() && $inputStrikethrough.val(['double-strikethrough']).prop('prevValue', 'double-strikethrough');
 
-                    _paragraphObject.get_SmallCaps() && $inputTextCaps.val(['small']).prop('prevValue', 'small');
-                    _paragraphObject.get_AllCaps() && $inputTextCaps.val(['all']).prop('prevValue', 'all');
+                        _paragraphObject.get_SmallCaps() && $inputTextCaps.val(['small']).prop('prevValue', 'small');
+                        _paragraphObject.get_AllCaps() && $inputTextCaps.val(['all']).prop('prevValue', 'all');
 
-                    _fontInfo.letterSpacing = Common.Utils.Metric.fnRecalcFromMM(_paragraphObject.get_TextSpacing());
-                    $('#letter-spacing .item-after label').text(_fontInfo.letterSpacing + ' ' + Common.Utils.Metric.getCurrentMetricName());
+                        _fontInfo.letterSpacing = Common.Utils.Metric.fnRecalcFromMM(_paragraphObject.get_TextSpacing());
+                        $('#letter-spacing .item-after label').text(_fontInfo.letterSpacing + ' ' + Common.Utils.Metric.getCurrentMetricName());
+                    }
+
+                    _paragraphInfo.spaceBefore = _paragraphObject.get_Spacing().get_Before() < 0 ? _paragraphObject.get_Spacing().get_Before() : Common.Utils.Metric.fnRecalcFromMM(_paragraphObject.get_Spacing().get_Before());
+                    _paragraphInfo.spaceAfter  = _paragraphObject.get_Spacing().get_After() < 0 ? _paragraphObject.get_Spacing().get_After() : Common.Utils.Metric.fnRecalcFromMM(_paragraphObject.get_Spacing().get_After());
+                    $('#paragraph-distance-before .item-after label').text(_paragraphInfo.spaceBefore < 0 ? 'Auto' : _paragraphInfo.spaceBefore + ' ' + metricText);
+                    $('#paragraph-distance-after .item-after label').text(_paragraphInfo.spaceAfter < 0 ? 'Auto' : _paragraphInfo.spaceAfter + ' ' + metricText);
                 }
             },
 
@@ -327,6 +359,127 @@ define([
                 }
             },
 
+            onParagraphAlign: function (e) {
+                var $target = $(e.currentTarget);
+
+                if ($target) {
+                    var id = $target.attr('id'),
+                        type = 1;
+
+                    if ('font-just' == id) {
+                        type = 3;
+                    } else if ('font-right' == id) {
+                        type = 0;
+                    } else if ('font-center' == id) {
+                        type = 2;
+                    }
+
+                    $('#paragraph-align .button').removeClass('active');
+                    $target.addClass('active');
+
+                    this.api.put_PrAlign(type);
+                }
+            },
+
+            onParagraphVAlign: function (e) {
+                var $target = $(e.currentTarget);
+
+                if ($target) {
+                    var id = $target.attr('id'),
+                        type = Asc.c_oAscVAlign.Bottom;
+
+                    if ('font-top' == id) {
+                        type = Asc.c_oAscVAlign.Top;
+                    } else if ('font-middle' == id) {
+                        type = Asc.c_oAscVAlign.Center;
+                    }
+
+                    $('#paragraph-align .button').removeClass('active');
+                    $target.addClass('active');
+
+                    this.api.setVerticalAlign(type);
+                }
+            },
+
+            onParagraphMove: function (e) {
+                var $target = $(e.currentTarget);
+
+                if ($target && this.api) {
+                    var id = $target.attr('id');
+
+                    if ('font-moveleft' == id) {
+                        this.api.DecreaseIndent();
+                    } else {
+                        this.api.IncreaseIndent();
+                    }
+                }
+            },
+
+            onLineSpacing: function (e) {
+                var $target = $(e.currentTarget).find('input');
+
+                if ($target && this.api) {
+                    var value = parseFloat($target.prop('value')),
+                        LINERULE_AUTO = 1;
+
+                    this.api.put_PrLineSpacing(LINERULE_AUTO, value);
+                }
+            },
+
+            onBullet: function (e) {
+                var $bullet = $(e.currentTarget),
+                    type = $bullet.data('type');
+
+                $('.dataview.bullets li').removeClass('active');
+                $bullet.addClass('active');
+
+                this.api.put_ListType(0, parseInt(type));
+            },
+
+            onNumber: function (e) {
+                var $number = $(e.currentTarget),
+                    type = $number.data('type');
+
+                $('.dataview.numbers li').removeClass('active');
+                $number.addClass('active');
+
+                this.api.put_ListType(1, parseInt(type));
+            },
+
+            onDistanceBefore: function (e) {
+                var $button = $(e.currentTarget),
+                    distance = _paragraphInfo.spaceBefore;
+
+                if ($button.hasClass('decrement')) {
+                    distance = Math.max(-1, --distance);
+                } else {
+                    distance = Math.min(100, ++distance);
+                }
+
+                _paragraphInfo.spaceBefore = distance;
+
+                $('#paragraph-distance-before .item-after label').text(_paragraphInfo.spaceBefore < 0 ? 'Auto' : (_paragraphInfo.spaceBefore) + ' ' + metricText);
+
+                this.api.put_LineSpacingBeforeAfter(0, (_paragraphInfo.spaceBefore < 0) ? -1 : Common.Utils.Metric.fnRecalcToMM(_paragraphInfo.spaceBefore));
+            },
+
+            onDistanceAfter: function (e) {
+                var $button = $(e.currentTarget),
+                    distance = _paragraphInfo.spaceAfter;
+
+                if ($button.hasClass('decrement')) {
+                    distance = Math.max(-1, --distance);
+                } else {
+                    distance = Math.min(100, ++distance);
+                }
+
+                _paragraphInfo.spaceAfter = distance;
+
+                $('#paragraph-distance-after .item-after label').text(_paragraphInfo.spaceAfter < 0 ? 'Auto' : (_paragraphInfo.spaceAfter) + ' ' + metricText);
+
+                this.api.put_LineSpacingBeforeAfter(1, (_paragraphInfo.spaceAfter < 0) ? -1 : Common.Utils.Metric.fnRecalcToMM(_paragraphInfo.spaceAfter));
+            },
+
             // API handlers
 
             onApiFocusObject: function (objects) {
@@ -346,6 +499,7 @@ define([
                 } else {
                     _paragraphObject = undefined;
                 }
+                $('#edit-text div.edit-paragraph')[(paragraphs.length > 0) ? 'show' : 'hide']();
             },
 
             onApiChangeFont: function(font) {
@@ -418,6 +572,47 @@ define([
                         palette.select(clr);
                     }
                 }
+            },
+
+            onApiBullets: function(data) {
+                var type    = data.get_ListType(),
+                    subtype = data.get_ListSubType();
+
+                switch (type) {
+                    case 0:
+                        $('.dataview.bullets li[data-type=' + subtype + ']').addClass('active');
+                        break;
+                    case 1:
+                        $('.dataview.numbers li[data-type=' + subtype + ']').addClass('active');
+                        break;
+                }
+            },
+
+            onApiParagraphAlign: function(align) {
+                $('#font-right').toggleClass('active', align===0);
+                $('#font-left').toggleClass('active', align===1);
+                $('#font-center').toggleClass('active', align===2);
+                $('#font-just').toggleClass('active', align===3);
+            },
+
+            onApiVerticalTextAlign: function(align) {
+                $('#font-top').toggleClass('active', align===Asc.c_oAscVAlign.Top);
+                $('#font-middle').toggleClass('active', align===Asc.c_oAscVAlign.Center);
+                $('#font-bottom').toggleClass('active', align===Asc.c_oAscVAlign.Bottom);
+            },
+
+            onApiLineSpacing: function(vc) {
+                var line = (vc.get_Line() === null || vc.get_LineRule() === null || vc.get_LineRule() != 1) ? -1 : vc.get_Line();
+
+                $('#page-text-linespacing input').val([line]);
+            },
+
+            onApiCanIncreaseIndent: function(value) {
+                $('#font-moveright').toggleClass('disabled', !value);
+            },
+
+            onApiCanDecreaseIndent: function(value) {
+                $('#font-moveleft').toggleClass('disabled', !value);
             },
 
             // Helpers
