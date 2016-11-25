@@ -210,9 +210,9 @@ define([
                     paletteBorderColor = me.getView('EditShape').paletteBorderColor;
 
                 // Init style border size
-                var borderSize = borderSizeTransform.sizeByValue(shapeProperties.get_stroke().get_width());
-                $('#edit-shape-bordersize input').val([borderSizeTransform.sizeByIndex(shapeProperties.get_stroke().get_width())]);
-                $('#edit-shape-bordersize .item-after').text(borderSize + ' ' + _metricText);
+                var borderSize = shapeProperties.get_stroke().get_width() * 72.0 / 25.4;
+                $('#edit-shape-bordersize input').val([borderSizeTransform.sizeByIndex(borderSize)]);
+                $('#edit-shape-bordersize .item-after').text(borderSizeTransform.sizeByValue(borderSize) + ' ' + _metricText);
 
                 // Init style opacity
                 $('#edit-shape-effect input').val([shapeProperties.get_fill().transparent ? shapeProperties.get_fill().transparent / 2.55 : 100]);

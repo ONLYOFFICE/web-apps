@@ -223,10 +223,9 @@ define([
                 $('.chart-types li[data-type=' + type + ']').addClass('active');
 
                 // Init style border size
-                var borderSize = borderSizeTransform.sizeByValue(shapeProperties.get_stroke().get_width());
-                $('#edit-chart-bordersize input').val([borderSizeTransform.sizeByIndex(shapeProperties.get_stroke().get_width())]);
-                $('#edit-chart-bordersize .item-after').text(borderSize + ' ' + _metricText);
-
+                var borderSize = shapeProperties.get_stroke().get_width() * 72.0 / 25.4;
+                $('#edit-chart-bordersize input').val([borderSizeTransform.sizeByIndex(borderSize)]);
+                $('#edit-chart-bordersize .item-after').text(borderSizeTransform.sizeByValue(borderSize) + ' ' + _metricText);
 
                 paletteFillColor && paletteFillColor.on('select',       _.bind(me.onFillColor, me));
                 paletteBorderColor && paletteBorderColor.on('select',   _.bind(me.onBorderColor, me));
