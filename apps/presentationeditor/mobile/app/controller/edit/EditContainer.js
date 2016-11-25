@@ -337,7 +337,7 @@ define([
                         // _settings.push('chart');
                         no_text = false;
                     } else if (Asc.c_oAscTypeSelectElement.Shape == type) {
-                        // _settings.push('shape');
+                        _settings.push('shape');
                         no_text = false;
                     } else if (Asc.c_oAscTypeSelectElement.Hyperlink == type) {
                         // _settings.push('hyperlink');
