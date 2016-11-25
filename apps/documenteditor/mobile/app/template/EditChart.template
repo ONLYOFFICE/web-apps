@@ -60,7 +60,7 @@
                     <li>
                         <a data-type="all-up" class="item-link no-indicator">
                             <div class="item-content">
-                                <div class="item-media"><i class="icon icon-search"></i></div>
+                                <div class="item-media"><i class="icon icon-move-foreground"></i></div>
                                 <div class="item-inner">
                                     <div class="item-title"><%= scope.textToForeground %></div>
                                 </div>
@@ -70,7 +70,7 @@
                     <li>
                         <a data-type="all-down" class="item-link no-indicator">
                             <div class="item-content">
-                                <div class="item-media"><i class="icon icon-search"></i></div>
+                                <div class="item-media"><i class="icon icon-move-background"></i></div>
                                 <div class="item-inner">
                                     <div class="item-title"><%= scope.textToBackground %></div>
                                 </div>
@@ -80,7 +80,7 @@
                     <li>
                         <a data-type="move-up" class="item-link no-indicator">
                             <div class="item-content">
-                                <div class="item-media"><i class="icon icon-search"></i></div>
+                                <div class="item-media"><i class="icon icon-move-forward"></i></div>
                                 <div class="item-inner">
                                     <div class="item-title"><%= scope.textForward %></div>
                                 </div>
@@ -90,7 +90,7 @@
                     <li>
                         <a data-type="move-down" class="item-link no-indicator">
                             <div data-type="move-down" class="item-content">
-                                <div class="item-media"><i class="icon icon-search"></i></div>
+                                <div class="item-media"><i class="icon icon-move-backward"></i></div>
                                 <div class="item-inner">
                                     <div class="item-title"><%= scope.textBackward %></div>
                                 </div>

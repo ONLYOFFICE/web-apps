@@ -245,7 +245,7 @@ define([
 
             onReplaceAll: function (e) {
                 var me = this,
-                    popover =[
+                    popover = [
                     '<div class="popover" style="width: auto;">',
                         '<div class="popover-inner">',
                             '<div class="list-block">',

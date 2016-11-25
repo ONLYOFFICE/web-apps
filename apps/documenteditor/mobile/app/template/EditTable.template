@@ -86,7 +86,7 @@
                             <% if (android) { %>
                             <div class="item-media"><i class="icon icon-form-radio"></i></div>
                             <% } else { %>
-                            <div class="item-media"><i class="icon icon-search"></i></div>
+                            <div class="item-media"><i class="icon icon-wrap-table-inline"></i></div>
                             <% } %>
                             <div class="item-inner">
                                 <div class="item-title"><%= scope.textInline %></div>
@@ -99,7 +99,7 @@
                             <% if (android) { %>
                             <div class="item-media"><i class="icon icon-form-radio"></i></div>
                             <% } else { %>
-                            <div class="item-media"><i class="icon icon-search"></i></div>
+                            <div class="item-media"><i class="icon icon-wrap-table-flow"></i></div>
                             <% } %>
                             <div class="item-inner">
                                 <div class="item-title"><%= scope.textFlow %></div>
@@ -149,9 +149,9 @@
                         <div class="item-content buttons">
                             <div class="item-inner">
                                 <div class="row">
-                                    <a id="table-align-left" class="button no-ripple"><i class="icon icon-text-align-left"></i></a>
-                                    <a id="table-align-center" class="button no-ripple"><i class="icon icon-text-align-center"></i></a>
-                                    <a id="table-align-right" class="button no-ripple"><i class="icon icon-text-align-right"></i></a>
+                                    <a id="table-align-left" class="button no-ripple"><i class="icon icon-block-align-left"></i></a>
+                                    <a id="table-align-center" class="button no-ripple"><i class="icon icon-block-align-center"></i></a>
+                                    <a id="table-align-right" class="button no-ripple"><i class="icon icon-block-align-right"></i></a>
                                 </div>
                             </div>
                         </div>
