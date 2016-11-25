@@ -300,7 +300,7 @@
                         <a id="edit-image-file" class="item-link no-indicator no-fastclick">
                             <div class="item-content">
                                 <div class="item-media">
-                                    <i class="icon icon-search"></i>
+                                    <i class="icon icon-image-library"></i>
                                 </div>
                                 <div class="item-inner">
                                     <div class="item-title"><%= scope.textFromLibrary %></div>
@@ -312,7 +312,7 @@
                         <a id="edit-image-url" class="item-link">
                             <div class="item-content">
                                 <div class="item-media">
-                                    <i class="icon icon-search"></i>
+                                    <i class="icon icon-link"></i>
                                 </div>
                                 <div class="item-inner">
                                     <div class="item-title"><%= scope.textFromURL %></div>
