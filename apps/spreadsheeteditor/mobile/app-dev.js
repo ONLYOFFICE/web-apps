@@ -118,6 +118,7 @@ require([
             'Toolbar',
             'Main',
             'DocumentHolder'
+            , 'CellEditor'
             // ,'Settings'
             // ,'EditContainer'
             // ,'EditText'
@@ -182,6 +183,7 @@ require([
         'spreadsheeteditor/mobile/app/controller/Toolbar',
         'spreadsheeteditor/mobile/app/controller/Main',
         'spreadsheeteditor/mobile/app/controller/DocumentHolder'
+        , 'spreadsheeteditor/mobile/app/controller/CellEditor'
         // ,'documenteditor/mobile/app/controller/Settings'
         // ,'documenteditor/mobile/app/controller/edit/EditContainer'
         // ,'documenteditor/mobile/app/controller/edit/EditText'
