@@ -495,7 +495,7 @@ define([
                    value = me._state.fastCoauth; // Common.localStorage.getItem("de-settings-autosave");
                    value = (!me._state.fastCoauth && value!==null) ? parseInt(value) : (me.appOptions.canCoAuthoring ? 1 : 0);
 
-                   me.api.asc_setAutoSaveGap(value);
+                   // me.api.asc_setAutoSaveGap(value);
 
                    if (me.needToUpdateVersion) {
                        Common.NotificationCenter.trigger('api:disconnect');

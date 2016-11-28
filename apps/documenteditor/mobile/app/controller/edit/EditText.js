@@ -90,7 +90,7 @@ define([
             },
 
             setApi: function (api) {
-                var me = this
+                var me = this;
                 me.api = api;
 
                 me.api.asc_registerCallback('asc_onInitEditorFonts',    _.bind(onApiLoadFonts, me));
