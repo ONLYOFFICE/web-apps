@@ -219,7 +219,6 @@ require([
         'documenteditor/mobile/app/controller/add/AddShape',
         'documenteditor/mobile/app/controller/add/AddImage',
         'documenteditor/mobile/app/controller/add/AddOther'
-
     ], function() {
         app.start();
     });
