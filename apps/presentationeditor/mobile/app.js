@@ -155,12 +155,12 @@ require([
             // 'EditParagraph'
             // 'EditTable',
             // 'EditImage',
-            'EditShape'
+            'EditShape',
             // 'EditChart',
             // 'EditHyperlink',
-            // 'AddContainer',
+            'AddContainer',
             // 'AddTable',
-            // 'AddShape',
+            'AddShape'
             // 'AddImage',
             // 'AddOther'
         ]
@@ -220,12 +220,12 @@ require([
         // 'presentationeditor/mobile/app/controller/edit/EditParagraph'
         // 'presentationeditor/mobile/app/controller/edit/EditTable',
         // 'presentationeditor/mobile/app/controller/edit/EditImage',
-        'presentationeditor/mobile/app/controller/edit/EditShape'
+        'presentationeditor/mobile/app/controller/edit/EditShape',
         // 'presentationeditor/mobile/app/controller/edit/EditChart',
         // 'presentationeditor/mobile/app/controller/edit/EditHyperlink',
-        // 'presentationeditor/mobile/app/controller/add/AddContainer',
+        'presentationeditor/mobile/app/controller/add/AddContainer',
         // 'presentationeditor/mobile/app/controller/add/AddTable',
-        // 'presentationeditor/mobile/app/controller/add/AddShape',
+        'presentationeditor/mobile/app/controller/add/AddShape'
         // 'presentationeditor/mobile/app/controller/add/AddImage',
         // 'presentationeditor/mobile/app/controller/add/AddOther'
     ], function() {
