@@ -1087,11 +1087,11 @@ define([
                         break;
 
                     case Asc.c_oAscError.ID.VKeyEncrypt:
-                        config.msg = this.errorKeyEncrypt;
+                        config.msg = this.errorToken;
                         break;
 
                     case Asc.c_oAscError.ID.KeyExpire:
-                        config.msg = this.errorKeyExpire;
+                        config.msg = this.errorTokenExpire;
                         break;
 
                     case Asc.c_oAscError.ID.UserCountExceed:
@@ -1181,6 +1181,22 @@ define([
 
                     case Asc.c_oAscError.ID.PrintMaxPagesCount:
                         config.msg = this.errorPrintMaxPagesCount;
+                        break;
+
+                    case Asc.c_oAscError.ID.SessionAbsolute:
+                        config.msg = this.errorSessionAbsolute;
+                        break;
+
+                    case Asc.c_oAscError.ID.SessionIdle:
+                        config.msg = this.errorSessionIdle;
+                        break;
+
+                    case Asc.c_oAscError.ID.SessionToken:
+                        config.msg = this.errorSessionToken;
+                        break;
+
+                    case Asc.c_oAscError.ID.AccessDeny:
+                        config.msg = this.errorAccessDeny;
                         break;
 
                     default:
@@ -2019,7 +2035,13 @@ define([
             openErrorText: 'An error has occurred while opening the file',
             saveErrorText: 'An error has occurred while saving the file',
             errorCopyMultiselectArea: 'This command cannot be used with multiple selections.<br>Select a single range and try again.',
-            errorPrintMaxPagesCount: 'Unfortunately, it’s not possible to print more than 1500 pages at once in the current version of the program.<br>This restriction will be eliminated in upcoming releases.'
+            errorPrintMaxPagesCount: 'Unfortunately, it’s not possible to print more than 1500 pages at once in the current version of the program.<br>This restriction will be eliminated in upcoming releases.',
+            errorToken: 'The document security token is not correctly formed.<br>Please contact your Document Server administrator.',
+            errorTokenExpire: 'The document security token has expired.<br>Please contact your Document Server administrator.',
+            errorSessionAbsolute: 'The document editing session has expired. Please reload the page.',
+            errorSessionIdle: 'The document has not been edited for quite a long time. Please reload the page.',
+            errorSessionToken: 'The connection to the server has been interrupted. Please reload the page.',
+            errorAccessDeny: 'You are trying to perform an action you do not have rights for.<br>Please contact your Document Server administrator.'
         }
     })(), SSE.Controllers.Main || {}))
 });
