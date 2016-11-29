@@ -227,7 +227,7 @@
                             <a data-format="65" class="item-link no-indicator">
                                 <div class="item-content">
                                     <div class="item-media">
-                                        <i class="icon icon-search"></i>
+                                        <i class="icon icon-format-docx"></i>
                                     </div>
                                     <div class="item-inner">
                                         <div class="item-title">DOCX</div>
@@ -239,7 +239,7 @@
                             <a data-format="513" class="item-link no-indicator">
                                 <div class="item-content">
                                     <div class="item-media">
-                                        <i class="icon icon-search"></i>
+                                        <i class="icon icon-format-pdf"></i>
                                     </div>
                                     <div class="item-inner">
                                         <div class="item-title">PDF</div>
@@ -251,7 +251,7 @@
                             <a data-format="69" class="item-link no-indicator">
                                 <div class="item-content">
                                     <div class="item-media">
-                                        <i class="icon icon-search"></i>
+                                        <i class="icon icon-format-txt"></i>
                                     </div>
                                     <div class="item-inner">
                                         <div class="item-title">TXT</div>
@@ -263,7 +263,7 @@
                             <a data-format="67" class="item-link no-indicator">
                                 <div class="item-content">
                                     <div class="item-media">
-                                        <i class="icon icon-search"></i>
+                                        <i class="icon icon-format-odt"></i>
                                     </div>
                                     <div class="item-inner">
                                         <div class="item-title">ODT</div>
@@ -275,7 +275,7 @@
                             <a data-format="2051" class="item-link no-indicator">
                                 <div class="item-content">
                                     <div class="item-media">
-                                        <i class="icon icon-search"></i>
+                                        <i class="icon icon-format-html"></i>
                                     </div>
                                     <div class="item-inner">
                                         <div class="item-title">HTML</div>
