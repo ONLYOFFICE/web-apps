@@ -272,7 +272,7 @@ define([
         setApi: function(api) {
             this.api = api;
 
-            this.api.asc_registerCallback('asc_onInitTablePictures',    _.bind(this.onApiInitTableTemplates, this));
+            this.api.asc_registerCallback('asc_onSendThemeColors',       _.bind(this.onSendThemeColors, this));
             this.api.asc_registerCallback('asc_onInitEditorStyles',     _.bind(this.onApiInitEditorStyles, this));
             this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onApiCoAuthoringDisconnect, this, true));
             Common.NotificationCenter.on('api:disconnect',              _.bind(this.onApiCoAuthoringDisconnect, this));
@@ -1366,12 +1366,19 @@ define([
         },
 
         onTableTplMenuOpen: function(cmp) {
-            var scroller = this.toolbar.mnuTableTemplatePicker.scroller;
+            this.onApiInitTableTemplates(this.api.asc_getTablePictures(this.api.asc_getCellInfo().asc_getFormatTableInfo()));
 
+            var scroller = this.toolbar.mnuTableTemplatePicker.scroller;
             if (scroller) {
                 scroller.update({alwaysVisibleY: true});
                 scroller.scrollTop(0);
             }
+        },
+
+        onSendThemeColors: function() {
+            // get new table templates
+            if (this.toolbar.btnTableTemplate.rendered && this.toolbar.btnTableTemplate.cmpEl.hasClass('open'))
+                this.onTableTplMenuOpen();
         },
 
         onApiInitTableTemplates: function(images) {
