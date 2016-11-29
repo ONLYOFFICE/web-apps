@@ -105,8 +105,25 @@ Common.Utils = _.extend(new(function() {
         me = this,
         checkSize = function() {
             if (isChrome && !isOpera && document && document.firstElementChild && document.body) {
-                document.firstElementChild.style.zoom = "reset";
-                me.zoom = document.body.clientWidth / window.innerWidth;
+                //document.firstElementChild.style.zoom = "reset";
+                if (window.innerWidth > 300)
+                    me.zoom = window.outerWidth / window.innerWidth;
+
+                if (Math.abs(me.zoom - 1) < 0.1)
+                    me.zoom = 1;
+
+                me.zoom = window.outerWidth / window.innerWidth;
+
+                var _devicePixelRatio = window.devicePixelRatio / me.zoom;
+
+                // device pixel ratio: кратно 0.5
+                _devicePixelRatio = (5 * (((2.5 + 10 * _devicePixelRatio) / 5) >> 0)) / 10;
+
+                me.zoom = window.devicePixelRatio / _devicePixelRatio;
+
+                // chrome 54.x: zoom = "reset" - clear retina zoom (windows)
+                //document.firstElementChild.style.zoom = "reset";
+                document.firstElementChild.style.zoom = 1.0 / me.zoom;
             }
             me.innerWidth = window.innerWidth * me.zoom;
             me.innerHeight = window.innerHeight * me.zoom;
