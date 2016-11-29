@@ -387,7 +387,8 @@ define([
                         type        : template.asc_getType(),
                         imageUrl    : template.asc_getImage(),
                         allowSelected : true,
-                        selected    : false
+                        selected    : false,
+                        tip         : template.asc_getDisplayName()
                     });
                 });
                 self.cmbTableTemplate.menuPicker.store.add(arr);

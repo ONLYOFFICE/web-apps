@@ -1385,7 +1385,8 @@ define([
                         type        : item.asc_getType(),
                         imageUrl    : item.asc_getImage(),
                         allowSelected : true,
-                        selected    : false
+                        selected    : false,
+                        tip         : item.asc_getDisplayName()
                     });
                 });
 
