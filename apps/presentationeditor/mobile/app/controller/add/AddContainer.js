@@ -126,7 +126,9 @@ define([
                 addViews.push({
                     caption: me.textImage,
                     id: 'add-image',
-                    layout: me._dummyEditController().getLayout()
+                    layout: PE.getController('AddImage')
+                        .getView('AddImage')
+                        .rootLayout()
                 });
 
                 addViews.push({
