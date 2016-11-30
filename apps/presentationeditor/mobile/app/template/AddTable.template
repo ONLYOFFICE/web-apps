@@ -1,0 +1,12 @@
+<!-- Root view -->
+<div id="add-table-root">
+    <div class="page-content dataview table-styles">
+        <ul class="row">
+            <% _.each(styles, function(style) { %>
+            <li data-type="<%= style.templateId %>">
+                <img src="<%= style.imageUrl %>">
+            </li>
+            <% }); %>
+        </ul>
+    </div>
+</div>

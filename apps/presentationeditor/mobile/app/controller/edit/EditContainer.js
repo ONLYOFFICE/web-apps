@@ -330,9 +330,8 @@ define([
                         no_text = false;
                     } else if (Asc.c_oAscTypeSelectElement.Slide == type) {
                         // _settings.push('slide');
-                        no_text = false;
                     } else if (Asc.c_oAscTypeSelectElement.Image == type) {
-                        // _settings.push('image');
+                        _settings.push('image');
                     } else if (Asc.c_oAscTypeSelectElement.Chart == type) {
                         // _settings.push('chart');
                         no_text = false;

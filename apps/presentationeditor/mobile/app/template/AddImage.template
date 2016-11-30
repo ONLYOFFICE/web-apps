@@ -1,0 +1,70 @@
+<!-- Root view -->
+<div id="addimage-root-view">
+    <div class="list-block">
+        <ul>
+            <li>
+                <a id="add-image-file" class="item-link no-indicator no-fastclick">
+                    <div class="item-content">
+                        <div class="item-media">
+                            <i class="icon icon-image-library"></i>
+                        </div>
+                        <div class="item-inner">
+                            <div class="item-title"><%= scope.textFromLibrary %></div>
+                        </div>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a id="add-image-url" class="item-link">
+                    <div class="item-content">
+                        <div class="item-media">
+                            <i class="icon icon-link"></i>
+                        </div>
+                        <div class="item-inner">
+                            <div class="item-title"><%= scope.textFromURL %></div>
+                        </div>
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<!-- Url view -->
+<div id="addimage-url-view">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left sliding"><a href="#" class="back link"><i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding"><%= scope.textLinkSettings %></div>
+        </div>
+    </div>
+    <div class="page" id="addimage-url">
+        <div class="page-content">
+            <div class="content-block-title"><%= scope.textAddress %></div>
+            <div class="list-block">
+                <ul>
+                    <li>
+                        <div id="addimage-link-url" class="item-content">
+                            <div class="item-inner">
+                                <div class="item-input">
+                                    <input type="url" placeholder="<%= scope.textImageURL %>">
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="list-block disabled" id="addimage-insert">
+                <% if (android) { %>
+                <a href="#" class="button button-fill button-raised" style="margin: 20px 16px;"><%= scope.textInsertImage %></a>
+                <% } else { %>
+                <ul>
+                    <li>
+                        <a href="#" class="list-button item-link"><%= scope.textInsertImage %></a>
+                    </li>
+                </ul>
+                <% } %>
+            </div>
+        </div>
+    </div>
+</div>
