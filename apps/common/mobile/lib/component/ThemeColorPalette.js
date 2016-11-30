@@ -155,7 +155,7 @@ define([
             el.find('.color-palette a').removeClass('active');
             $target.addClass('active');
 
-            var color = $target.data('color'),
+            var color = $target.data('color').toString(),
                 effectId = $target.data('effectid');
 
             me.currentColor = color;
