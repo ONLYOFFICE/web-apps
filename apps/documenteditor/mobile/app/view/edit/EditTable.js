@@ -157,6 +157,9 @@ define([
             showStyleCategory: function (e) {
                 // remove android specific style
                 $('.page[data-page=edit-table-style] .list-block.inputs-list').removeClass('inputs-list');
+                if ($(e.currentTarget).data('type') == 'fill') {
+                    this.fireEvent('page:show', [this, '#edit-table-style']);
+                }
             },
 
             showPage: function (templateId, suspendEvent) {
