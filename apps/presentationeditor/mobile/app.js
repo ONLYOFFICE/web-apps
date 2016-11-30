@@ -154,7 +154,7 @@ require([
             'EditText',
             // 'EditParagraph'
             // 'EditTable',
-            // 'EditImage',
+            'EditImage',
             'EditShape',
             // 'EditChart',
             // 'EditHyperlink',
@@ -219,7 +219,7 @@ require([
         'presentationeditor/mobile/app/controller/edit/EditText',
         // 'presentationeditor/mobile/app/controller/edit/EditParagraph'
         // 'presentationeditor/mobile/app/controller/edit/EditTable',
-        // 'presentationeditor/mobile/app/controller/edit/EditImage',
+        'presentationeditor/mobile/app/controller/edit/EditImage',
         'presentationeditor/mobile/app/controller/edit/EditShape',
         // 'presentationeditor/mobile/app/controller/edit/EditChart',
         // 'presentationeditor/mobile/app/controller/edit/EditHyperlink',
