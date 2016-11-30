@@ -155,17 +155,17 @@ define([
 
             // API handlers
 
-            onApiInitTemplates: function(templates){
-                _styles = [];
-                _.each(templates, function(template){
-                    _styles.push({
-                        imageUrl    : template.get_Image(),
-                        templateId  : template.get_Id()
+            onApiInitTemplates: function(templates) {
+                if (_styles.length < 1) {
+                    _.each(templates, function(template){
+                        _styles.push({
+                            imageUrl    : template.get_Image(),
+                            templateId  : template.get_Id()
+                        });
                     });
-                });
 
-                Common.SharedSettings.set('tablestyles', _styles);
-                Common.NotificationCenter.trigger('tablestyles:load', _styles);
+                    this.getView('AddTable').render();
+                }
             },
 
             textTableSize: 'Table Size',

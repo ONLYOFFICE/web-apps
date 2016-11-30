@@ -61,7 +61,6 @@ define([
 
             initialize: function () {
                 Common.NotificationCenter.on('addcontainer:show', _.bind(this.initEvents, this));
-                Common.NotificationCenter.on('tablestyles:load',  _.bind(this.render, this));
             },
 
             initEvents: function () {
@@ -75,10 +74,10 @@ define([
                 this.layout = $('<div/>').append(this.template({
                     android : Common.SharedSettings.get('android'),
                     phone   : Common.SharedSettings.get('phone'),
-                    styles  : Common.SharedSettings.get('tablestyles')
+                    styles  : DE.getController('AddTable').getStyles()
                 }));
 
-                var $tableStyles = $('.table-styles');
+                var $tableStyles = $('.container-add .table-styles');
                 if ($tableStyles) {
                     $tableStyles.replaceWith(this.layout.find('#add-table-root').html());
                 }

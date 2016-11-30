@@ -111,6 +111,7 @@ define([
                 me.api = api;
 
                 me.api.asc_registerCallback('asc_onFocusObject',        _.bind(me.onApiFocusObject, me));
+                me.api.asc_registerCallback('asc_onInitTableTemplates', _.bind(me.onApiInitTemplates, me));
             },
 
             onLaunch: function () {
@@ -611,6 +612,19 @@ define([
                 } else {
                     _tableObject = undefined;
                 }
+            },
+
+            onApiInitTemplates: function(templates) {
+                var styles = [];
+
+                _.each(templates, function(template){
+                    styles.push({
+                        imageUrl    : template.get_Image(),
+                        templateId  : template.get_Id()
+                    });
+                });
+
+                this.getView('EditTable').updateStyles(styles);
             },
 
             // Helpers

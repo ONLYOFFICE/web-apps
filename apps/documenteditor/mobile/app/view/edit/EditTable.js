@@ -64,7 +64,6 @@ define([
             initialize: function () {
                 Common.NotificationCenter.on('editcontainer:show', _.bind(this.initEvents, this));
                 Common.NotificationCenter.on('editcategory:show',  _.bind(this.categoryShow, this));
-                Common.NotificationCenter.on('tablestyles:load',   _.bind(this.onStylesLoad, this));
             },
 
             initEvents: function () {
@@ -108,15 +107,15 @@ define([
                 //
             },
 
-            onStylesLoad: function () {
-                _styles = Common.SharedSettings.get('tablestyles');
+            updateStyles: function (styles) {
+                _styles = styles;
+                this.renderStyles();
             },
 
             renderStyles: function() {
-                var $editTableStyle = $('#edit-table-styles .item-inner .dataview.table-styles'),
-                    $styleContainer = $('#edit-table-styles .item-inner');
+                var $styleContainer = $('#edit-table-styles .item-inner');
 
-                if ($editTableStyle.length < 1 && $styleContainer.length > 0) {
+                if ($styleContainer.length > 0) {
                     var columns = parseInt($styleContainer.width() / 70), // magic
                         row = -1,
                         styles = [];
