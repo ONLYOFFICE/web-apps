@@ -159,7 +159,7 @@ require([
             // 'EditChart',
             // 'EditHyperlink',
             'AddContainer',
-            // 'AddTable',
+            'AddTable',
             'AddShape',
             'AddImage'
             // 'AddOther'
@@ -224,7 +224,7 @@ require([
         // 'presentationeditor/mobile/app/controller/edit/EditChart',
         // 'presentationeditor/mobile/app/controller/edit/EditHyperlink',
         'presentationeditor/mobile/app/controller/add/AddContainer',
-        // 'presentationeditor/mobile/app/controller/add/AddTable',
+        'presentationeditor/mobile/app/controller/add/AddTable',
         'presentationeditor/mobile/app/controller/add/AddShape',
         'presentationeditor/mobile/app/controller/add/AddImage'
         // 'presentationeditor/mobile/app/controller/add/AddOther'

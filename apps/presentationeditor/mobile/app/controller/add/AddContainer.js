@@ -112,7 +112,9 @@ define([
                 addViews.push({
                     caption: me.textTable,
                     id: 'add-table',
-                    layout: me._dummyEditController().getLayout()
+                    layout: PE.getController('AddTable')
+                        .getView('AddTable')
+                        .rootLayout()
                 });
 
                 addViews.push({
