@@ -840,7 +840,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 labelText: this.textSingle,
                 name: 'asc-radio-sparkline'
             });
-
+            */
             this.txtSparkDataRange = new Common.UI.InputField({
                 el          : $('#spark-dlg-txt-range'),
                 name        : 'range',
@@ -868,7 +868,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 el: $('#spark-dlg-btn-data')
             });
 //            this.btnSelectLocationData.on('click', _.bind(this.onSelectData, this));
-            */
+
             
             this._arrEmptyCells = [
                 { value: Asc.c_oAscEDispBlanksAs.Gap, displayValue: this.textGaps },
@@ -1372,6 +1372,12 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                     this.spnSparkMaxValue.setDisabled(props.asc_getMaxAxisType()!==Asc.c_oAscSparklineAxisMinMax.Custom);
                     this.spnSparkMinValue.setValue((props.asc_getManualMin() !== null) ? props.asc_getManualMin() : '', true);
                     this.spnSparkMaxValue.setValue((props.asc_getManualMax() !== null) ? props.asc_getManualMax() : '', true);
+
+                    var value = props.asc_getDataRanges();
+                    if (value && value.length==2) {
+                        this.txtSparkDataRange.setValue((value[0]) ? value[0] : '');
+                        this.txtSparkDataLocation.setValue((value[1]) ? value[1] : '');
+                    }
 
                     this._changedProps = new Asc.sparklineGroup();
                     this._noApply = false;
