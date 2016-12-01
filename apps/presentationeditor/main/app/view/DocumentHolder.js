@@ -1323,11 +1323,10 @@ define([
             };
 
             var onApiCurrentPages = function(number) {
-                if (me.currentMenu && me.currentMenu.isVisible()) {
-                    if (me._isFromSlideMenu !== true && me._isFromSlideMenu !== number)
-                        me.currentMenu.hide();
-                    me._isFromSlideMenu = number;
-                }
+                if (me.currentMenu && me.currentMenu.isVisible() && me._isFromSlideMenu !== true && me._isFromSlideMenu !== number)
+                    me.currentMenu.hide();
+
+                me._isFromSlideMenu = number;
             };
 
             this.setApi = function(o) {
