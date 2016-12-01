@@ -48,7 +48,8 @@ define([
     'use strict';
 
     DE.Controllers.AddTable = Backbone.Controller.extend(_.extend((function() {
-        var _styles = [];
+        var _styles = [],
+            _initDefaultStyles = false;
 
         return {
             models: [],
@@ -75,7 +76,10 @@ define([
             initEvents: function () {
                 var me = this;
 
-                if (_styles.length < 1) {
+                if (!_initDefaultStyles) {
+                    _initDefaultStyles = true;
+                    _styles = [];
+
                     me.api.asc_GetDefaultTableStyles();
                 }
 
