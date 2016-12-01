@@ -153,7 +153,7 @@ require([
             // 'EditContainer',
             'EditText',
             // 'EditParagraph'
-            // 'EditTable',
+            'EditTable',
             'EditImage',
             'EditShape',
             // 'EditChart',
@@ -218,7 +218,7 @@ require([
         'presentationeditor/mobile/app/controller/edit/EditContainer',
         'presentationeditor/mobile/app/controller/edit/EditText',
         // 'presentationeditor/mobile/app/controller/edit/EditParagraph'
-        // 'presentationeditor/mobile/app/controller/edit/EditTable',
+        'presentationeditor/mobile/app/controller/edit/EditTable',
         'presentationeditor/mobile/app/controller/edit/EditImage',
         'presentationeditor/mobile/app/controller/edit/EditShape',
         // 'presentationeditor/mobile/app/controller/edit/EditChart',

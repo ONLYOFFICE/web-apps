@@ -326,7 +326,7 @@ define([
                     if (Asc.c_oAscTypeSelectElement.Paragraph == type) {
                         no_text = false;
                     } else if (Asc.c_oAscTypeSelectElement.Table == type) {
-                        // _settings.push('table');
+                        _settings.push('table');
                         no_text = false;
                     } else if (Asc.c_oAscTypeSelectElement.Slide == type) {
                         // _settings.push('slide');

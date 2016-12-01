@@ -156,13 +156,16 @@ define([
             // API handlers
 
             onApiInitTemplates: function(templates){
-                _styles = [];
-                _.each(templates, function(template){
-                    _styles.push({
-                        imageUrl    : template.get_Image(),
-                        templateId  : template.get_Id()
+                if (_styles.length < 1) {
+                    _.each(templates, function(template){
+                        _styles.push({
+                            imageUrl    : template.get_Image(),
+                            templateId  : template.get_Id()
+                        });
                     });
-                });
+
+                    this.getView('AddTable').render();
+                }
 
                 Common.SharedSettings.set('tablestyles', _styles);
                 Common.NotificationCenter.trigger('tablestyles:load', _styles);

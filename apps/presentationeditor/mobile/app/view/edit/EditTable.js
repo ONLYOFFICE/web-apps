@@ -33,15 +33,15 @@
 
 /**
  *  EditTable.js
- *  Document Editor
+ *  Presentation Editor
  *
- *  Created by Alexander Yuzhin on 10/20/16
+ *  Created by Julia Radzhabova on 11/30/16
  *  Copyright (c) 2016 Ascensio System SIA. All rights reserved.
  *
  */
 
 define([
-    'text!documenteditor/mobile/app/template/EditTable.template',
+    'text!presentationeditor/mobile/app/template/EditTable.template',
     'jquery',
     'underscore',
     'backbone',
@@ -49,7 +49,7 @@ define([
 ], function (editTemplate, $, _, Backbone) {
     'use strict';
 
-    DE.Views.EditTable = Backbone.View.extend(_.extend((function() {
+    PE.Views.EditTable = Backbone.View.extend(_.extend((function() {
         // private
         var _styles = [];
 
@@ -69,9 +69,7 @@ define([
             initEvents: function () {
                 var me = this;
 
-                $('#table-wrap').single('click',                        _.bind(me.showTableWrap, me));
                 $('#table-style').single('click',                       _.bind(me.showTableStyle, me));
-                $('#table-options').single('click',                     _.bind(me.showTableOptions, me));
                 $('#edit-table-style-options').single('click',          _.bind(me.showTableStyleOptions, me));
                 $('#edit-table-bordercolor').single('click',            _.bind(me.showBorderColor, me));
                 $('.edit-table-style .categories a').single('click',    _.bind(me.showStyleCategory, me));
@@ -161,7 +159,7 @@ define([
             },
 
             showPage: function (templateId, suspendEvent) {
-                var rootView = DE.getController('EditContainer').rootView;
+                var rootView = PE.getController('EditContainer').rootView;
 
                 if (rootView && this.layout) {
                     var $content = this.layout.find(templateId);
@@ -181,10 +179,6 @@ define([
 
                     this.initEvents();
                 }
-            },
-
-            showTableWrap: function () {
-                this.showPage('#edit-table-wrap');
             },
 
             showTableStyle: function () {
@@ -208,10 +202,6 @@ define([
                 this.fireEvent('page:show', [this, '#edit-table-border-color-view']);
             },
 
-            showTableOptions: function () {
-                this.showPage('#edit-table-options');
-            },
-
             showTableStyleOptions: function () {
                 this.showPage('#edit-table-style-options-view');
             },
@@ -219,16 +209,8 @@ define([
             textRemoveTable: 'Remove Table',
             textTableOptions: 'Table Options',
             textStyle: 'Style',
-            textWrap: 'Wrap',
             textBack: 'Back',
-            textInline: 'Inline',
-            textFlow: 'Flow',
-            textWithText: 'Move with Text',
-            textFromText: 'Distance from Text',
-            textAlign: 'Align',
             textOptions: 'Options',
-            textRepeatHeader: 'Repeat as Header Row',
-            textResizeFit: 'Resize to Fit Content',
             textCellMargins: 'Cell Margins',
             textFill: 'Fill',
             textBorder: 'Border',
@@ -242,5 +224,5 @@ define([
             textLastColumn: 'Last Column',
             textBandedColumn: 'Banded Column'
         }
-    })(), DE.Views.EditTable || {}))
+    })(), PE.Views.EditTable || {}))
 });
