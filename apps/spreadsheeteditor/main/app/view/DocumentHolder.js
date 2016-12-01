@@ -349,6 +349,17 @@ define([
                 caption     : me.textEntriesList
             });
 
+            me.pmiSparklines = new Common.UI.MenuItem({
+                caption     : me.txtSparklines,
+                menu        : new Common.UI.Menu({
+                    menuAlign: 'tl-tr',
+                    items   : [
+                        { caption: me.txtClearSparklines, value: Asc.c_oAscCleanOptions.Sparklines },
+                        { caption: me.txtClearSparklineGroups, value: Asc.c_oAscCleanOptions.SparklineGroups }
+                    ]
+                })
+            });
+
             me.ssMenu = new Common.UI.Menu({
                 id          : 'id-context-menu-cell',
                 items       : [
@@ -365,6 +376,7 @@ define([
                     me.pmiDeleteTable,
                     me.pmiClear,
                     {caption: '--'},
+                    me.pmiSparklines,
                     me.pmiSortCells,
                     me.pmiFilterCells,
                     me.pmiReapply,
@@ -691,7 +703,10 @@ define([
         txtAutoRowHeight: 'Auto Fit Row Height',
         txtCustomColumnWidth: 'Custom Column Width',
         txtCustomRowHeight: 'Custom Row Height',
-        textEntriesList: 'Select from drop-down list'
+        textEntriesList: 'Select from drop-down list',
+        txtSparklines: 'Sparklines',
+        txtClearSparklines: 'Clear Selected Sparklines',
+        txtClearSparklineGroups: 'Clear Selected Sparkline Groups'
 
     }, SSE.Views.DocumentHolder || {}));
 });

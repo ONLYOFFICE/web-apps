@@ -153,6 +153,7 @@ define([
             view.pmiDeleteEntire.on('click',                    _.bind(me.onDeleteEntire, me));
             view.pmiInsertCells.menu.on('item:click',           _.bind(me.onInsertCells, me));
             view.pmiDeleteCells.menu.on('item:click',           _.bind(me.onDeleteCells, me));
+            view.pmiSparklines.menu.on('item:click',            _.bind(me.onClear, me));
             view.pmiSortCells.menu.on('item:click',             _.bind(me.onSortCells, me));
             view.pmiFilterCells.menu.on('item:click',           _.bind(me.onFilterCells, me));
             view.pmiReapply.on('click',                         _.bind(me.onReapply, me));
@@ -1265,6 +1266,7 @@ define([
                 
                 var iscelledit = this.api.isCellEdited,
                     formatTableInfo = cellinfo.asc_getFormatTableInfo(),
+                    isinsparkline = (cellinfo.asc_getSparklineInfo()!==null),
                     isintable = (formatTableInfo !== null),
                     ismultiselect = cellinfo.asc_getFlags().asc_getMultiselect();
                 documentHolder.ssMenu.formatTableName = (isintable) ? formatTableInfo.asc_getTableName() : null;
@@ -1279,10 +1281,11 @@ define([
                 documentHolder.pmiSelectTable.setVisible(iscellmenu && !iscelledit && isintable);
                 documentHolder.pmiInsertTable.setVisible(iscellmenu && !iscelledit && isintable);
                 documentHolder.pmiDeleteTable.setVisible(iscellmenu && !iscelledit && isintable);
+                documentHolder.pmiSparklines.setVisible(isinsparkline);
                 documentHolder.pmiSortCells.setVisible((iscellmenu||isallmenu||cansort) && !iscelledit);
                 documentHolder.pmiFilterCells.setVisible((iscellmenu||cansort) && !iscelledit);
                 documentHolder.pmiReapply.setVisible((iscellmenu||isallmenu||cansort) && !iscelledit);
-                documentHolder.ssMenu.items[12].setVisible((iscellmenu||isallmenu||cansort) && !iscelledit);
+                documentHolder.ssMenu.items[12].setVisible((iscellmenu||isallmenu||cansort||isinsparkline) && !iscelledit);
                 documentHolder.pmiInsFunction.setVisible(iscellmenu||insfunc);
                 documentHolder.pmiAddNamedRange.setVisible(iscellmenu && !iscelledit);
 
@@ -1311,7 +1314,7 @@ define([
                 documentHolder.pmiEntriesList.setVisible(!iscelledit);
 
                 /** coauthoring begin **/
-                documentHolder.ssMenu.items[16].setVisible(iscellmenu && !iscelledit && this.permissions.canCoAuthoring && this.permissions.canComments);
+                documentHolder.ssMenu.items[17].setVisible(iscellmenu && !iscelledit && this.permissions.canCoAuthoring && this.permissions.canComments);
                 documentHolder.pmiAddComment.setVisible(iscellmenu && !iscelledit && this.permissions.canCoAuthoring && this.permissions.canComments);
                 /** coauthoring end **/
                 documentHolder.pmiCellMenuSeparator.setVisible(iscellmenu || isrowmenu || iscolmenu || isallmenu || insfunc);
