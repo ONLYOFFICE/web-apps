@@ -194,7 +194,7 @@ define([
                     $layoutNavbar
                         .find('.center')
                         .removeClass('categories')
-                        .html(layoutEditors[0].caption);
+                        .html(layoutEditors.length>0 ? layoutEditors[0].caption: '');
                 } else {
                     if (isAndroid) {
                         $layoutNavbar
