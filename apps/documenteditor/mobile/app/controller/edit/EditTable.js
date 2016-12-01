@@ -104,6 +104,12 @@ define([
                         'page:show'     : this.onPageShow
                     }
                 });
+
+                var me = this;
+                uiApp.onPageBack('edit-table-style-options', function (page) {
+                    $('.dataview.table-styles .row div').single('click',    _.bind(me.onStyleClick, me));
+                    me.initSettings('#edit-table-style');
+                });
             },
 
             setApi: function (api) {
