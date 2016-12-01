@@ -94,7 +94,7 @@ define([
                     'Common.Views.ExternalMergeEditor': {
                         'setmergedata': _.bind(this.setMergeData, this),
                         'drag': _.bind(function(o, state){
-                            externalEditor.serviceCommand('window:drag', state == 'start');
+                            externalEditor && externalEditor.serviceCommand('window:drag', state == 'start');
                         },this),
                         'show': _.bind(function(cmp){
                             var h = this.mergeEditorView.getHeight(),
@@ -138,7 +138,7 @@ define([
             },
 
             handler: function(result, value) {
-                externalEditor.serviceCommand('queryClose',{mr:result});
+                externalEditor && externalEditor.serviceCommand('queryClose',{mr:result});
                 return true;
             },
 
