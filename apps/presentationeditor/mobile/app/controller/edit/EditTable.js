@@ -134,12 +134,12 @@ define([
                     paletteFillColor = me.getView('EditTable').paletteFillColor,
                     paletteBorderColor = me.getView('EditTable').paletteBorderColor;
 
-                $('#table-options-header-row input').single('click',    _.bind(me.onCheckTemplateChange, me, 0));
-                $('#table-options-total-row input').single('click',     _.bind(me.onCheckTemplateChange, me, 1));
-                $('#table-options-banded-row input').single('click',    _.bind(me.onCheckTemplateChange, me, 2));
-                $('#table-options-first-column input').single('click',  _.bind(me.onCheckTemplateChange, me, 3));
-                $('#table-options-last-column input').single('click',   _.bind(me.onCheckTemplateChange, me, 4));
-                $('#table-options-banded-column input').single('click', _.bind(me.onCheckTemplateChange, me, 5));
+                $('#table-options-header-row input:checkbox').single('change',    _.bind(me.onCheckTemplateChange, me, 0));
+                $('#table-options-total-row input:checkbox').single('change',     _.bind(me.onCheckTemplateChange, me, 1));
+                $('#table-options-banded-row input:checkbox').single('change',    _.bind(me.onCheckTemplateChange, me, 2));
+                $('#table-options-first-column input:checkbox').single('change',  _.bind(me.onCheckTemplateChange, me, 3));
+                $('#table-options-last-column input:checkbox').single('change',   _.bind(me.onCheckTemplateChange, me, 4));
+                $('#table-options-banded-column input:checkbox').single('change', _.bind(me.onCheckTemplateChange, me, 5));
 
                 $('#edit-table-bordertypes a').single('click',          _.bind(me.onBorderTypeClick, me));
 
