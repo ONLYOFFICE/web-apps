@@ -178,17 +178,18 @@ define([
                     $inputHighlight = $pageSettings.find('#search-highlight-results input:checkbox');
 
                 $inputType.val([isReplace ? 'replace' : 'search']);
-                $inputCase.attr('checked', isCaseSensitive);
-                $inputHighlight.attr('checked', isHighlight);
+                $inputCase.prop('checked', isCaseSensitive);
+                $inputHighlight.prop('checked', isHighlight);
 
                 // init events
-                $inputType.single('change',     _.bind(me.onTypeChange, me));
-                $inputCase.single('click',      _.bind(me.onCaseClick, me));
-                $inputHighlight.single('click', _.bind(me.onHighlightClick, me));
+                $inputType.single('change',      _.bind(me.onTypeChange, me));
+                $inputCase.single('change',      _.bind(me.onCaseClick, me));
+                $inputHighlight.single('change', _.bind(me.onHighlightClick, me));
             },
 
             onSearchbarShow: function(bar) {
                 _isShow = true;
+                this.api.asc_selectSearchingResults(Common.SharedSettings.get('search-highlight'));
             },
 
             onSearchEnable: function (bar) {
@@ -197,6 +198,7 @@ define([
 
             onSearchbarHide: function(bar) {
                 _isShow = false;
+                this.api.asc_selectSearchingResults(false);
             },
 
             onSearchChange: function(search) {
@@ -325,6 +327,7 @@ define([
 
             onHighlightClick: function (e) {
                 Common.SharedSettings.set('search-highlight', $(e.currentTarget).is(':checked'));
+                this.api.asc_selectSearchingResults(Common.SharedSettings.get('search-highlight'));
             },
 
             // API handlers
