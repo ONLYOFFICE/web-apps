@@ -42,8 +42,11 @@
 
 define([
     'core',
-    'documenteditor/mobile/app/view/edit/EditShape'
-], function (core) {
+    'documenteditor/mobile/app/view/edit/EditShape',
+    'jquery',
+    'underscore',
+    'backbone'
+], function (core, view, $, _, Backbone) {
     'use strict';
 
     DE.Controllers.EditShape = Backbone.Controller.extend(_.extend((function() {
@@ -145,8 +148,8 @@ define([
                 $('.shape-replace li').single('click',                      _.buffered(me.onReplace, 100, me));
                 $('.shape-wrap .shape-wrap-types li').single('click',       _.buffered(me.onWrapType, 100, me));
                 $('.shape-wrap .align a').single('click',                   _.bind(me.onAlign, me));
-                $('#edit-shape-movetext input').single('click',             _.bind(me.onMoveText, me));
-                $('#edit-shape-overlap input').single('click',              _.bind(me.onOverlap, me));
+                $('#edit-shape-movetext input').single('change',            _.bind(me.onMoveText, me));
+                $('#edit-shape-overlap input').single('change',             _.bind(me.onOverlap, me));
                 $('.shape-wrap .distance input').single('change touchend',  _.buffered(me.onWrapDistance, 100, me));
                 $('.shape-wrap .distance input').single('input',            _.bind(me.onWrapDistanceChanging, me));
 

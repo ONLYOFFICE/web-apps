@@ -105,7 +105,6 @@ define([
                         $layour.find('#settings-search .item-title').text(this.textFindAndReplace)
                     } else {
                         $layour.find('#settings-readermode input:checkbox')
-                            .attr('checked', Common.SharedSettings.get('readerMode'))
                             .prop('checked', Common.SharedSettings.get('readerMode'));
                     }
 

@@ -42,8 +42,11 @@
 
 define([
     'core',
-    'documenteditor/mobile/app/view/edit/EditParagraph'
-], function (core) {
+    'documenteditor/mobile/app/view/edit/EditParagraph',
+    'jquery',
+    'underscore',
+    'backbone'
+], function (core, view, $, _, Backbone) {
     'use strict';
 
     DE.Controllers.EditParagraph = Backbone.Controller.extend(_.extend((function() {
@@ -107,15 +110,15 @@ define([
                 var me = this,
                     paletteBackgroundColor = me.getView('EditParagraph').paletteBackgroundColor;
 
-                $('#paragraph-distance-before .button').single('click',         _.bind(me.onDistanceBefore, me));
-                $('#paragraph-distance-after .button').single('click',          _.bind(me.onDistanceAfter, me));
-                $('#paragraph-space input:checkbox').single('click',            _.bind(me.onSpaceBetween, me));
-                $('#paragraph-page-break input:checkbox').single('click',       _.bind(me.onBreakBefore, me));
-                $('#paragraph-page-orphan input:checkbox').single('click',      _.bind(me.onOrphan, me));
-                $('#paragraph-page-keeptogether input:checkbox').single('click',_.bind(me.onKeepTogether, me));
-                $('#paragraph-page-keepnext input:checkbox').single('click',    _.bind(me.onKeepNext, me));
+                $('#paragraph-distance-before .button').single('click',          _.bind(me.onDistanceBefore, me));
+                $('#paragraph-distance-after .button').single('click',           _.bind(me.onDistanceAfter, me));
+                $('#paragraph-space input:checkbox').single('change',            _.bind(me.onSpaceBetween, me));
+                $('#paragraph-page-break input:checkbox').single('change',       _.bind(me.onBreakBefore, me));
+                $('#paragraph-page-orphan input:checkbox').single('change',      _.bind(me.onOrphan, me));
+                $('#paragraph-page-keeptogether input:checkbox').single('change',_.bind(me.onKeepTogether, me));
+                $('#paragraph-page-keepnext input:checkbox').single('change',    _.bind(me.onKeepNext, me));
 
-                paletteBackgroundColor && paletteBackgroundColor.on('select',   _.bind(me.onBackgroundColor, me));
+                paletteBackgroundColor && paletteBackgroundColor.on('select',    _.bind(me.onBackgroundColor, me));
 
                 me.initSettings();
             },

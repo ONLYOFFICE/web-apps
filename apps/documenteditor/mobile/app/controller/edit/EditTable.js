@@ -42,8 +42,11 @@
 
 define([
     'core',
-    'documenteditor/mobile/app/view/edit/EditTable'
-], function (core) {
+    'documenteditor/mobile/app/view/edit/EditTable',
+    'jquery',
+    'underscore',
+    'backbone'
+], function (core, view, $, _, Backbone) {
     'use strict';
 
     DE.Controllers.EditTable = Backbone.Controller.extend(_.extend((function() {
@@ -143,34 +146,34 @@ define([
                     paletteFillColor = me.getView('EditTable').paletteFillColor,
                     paletteBorderColor = me.getView('EditTable').paletteBorderColor;
 
-                $('#table-wrap-type li').single('click',                _.buffered(me.onWrapType, 100, me));
-                $('#table-move-text input').single('click',             _.bind(me.onWrapMoveText, me));
-                $('#table-distance input').single('change touchend',    _.buffered(me.onWrapDistance, 100, me));
-                $('#table-distance input').single('input',              _.bind(me.onWrapDistanceChanging, me));
-                $('#table-align-left').single('click',                  _.bind(me.onWrapAlign, me, c_tableAlign.TABLE_ALIGN_LEFT));
-                $('#table-align-center').single('click',                _.bind(me.onWrapAlign, me, c_tableAlign.TABLE_ALIGN_CENTER));
-                $('#table-align-right').single('click',                 _.bind(me.onWrapAlign, me, c_tableAlign.TABLE_ALIGN_RIGHT));
+                $('#table-wrap-type li').single('click',                            _.buffered(me.onWrapType, 100, me));
+                $('#table-move-text input:checkbox').single('change',               _.bind(me.onWrapMoveText, me));
+                $('#table-distance input').single('change touchend',                _.buffered(me.onWrapDistance, 100, me));
+                $('#table-distance input').single('input',                          _.bind(me.onWrapDistanceChanging, me));
+                $('#table-align-left').single('click',                              _.bind(me.onWrapAlign, me, c_tableAlign.TABLE_ALIGN_LEFT));
+                $('#table-align-center').single('click',                            _.bind(me.onWrapAlign, me, c_tableAlign.TABLE_ALIGN_CENTER));
+                $('#table-align-right').single('click',                             _.bind(me.onWrapAlign, me, c_tableAlign.TABLE_ALIGN_RIGHT));
 
-                $('#table-option-repeatasheader input').single('click', _.bind(me.onOptionRepeat, me));
-                $('#table-option-resizetofit input').single('click',    _.bind(me.onOptionResize, me));
-                $('#table-options-margins input').single('change touchend',      _.buffered(me.onOptionMargin, 100, me));
-                $('#table-options-margins input').single('input',       _.bind(me.onOptionMarginChanging, me));
+                $('#table-option-repeatasheader input:checkbox').single('change',   _.bind(me.onOptionRepeat, me));
+                $('#table-option-resizetofit input:checkbox').single('change',      _.bind(me.onOptionResize, me));
+                $('#table-options-margins input').single('change touchend',         _.buffered(me.onOptionMargin, 100, me));
+                $('#table-options-margins input').single('input',                   _.bind(me.onOptionMarginChanging, me));
 
-                $('#table-options-header-row input').single('click',    _.bind(me.onCheckTemplateChange, me, 0));
-                $('#table-options-total-row input').single('click',     _.bind(me.onCheckTemplateChange, me, 1));
-                $('#table-options-banded-row input').single('click',    _.bind(me.onCheckTemplateChange, me, 2));
-                $('#table-options-first-column input').single('click',  _.bind(me.onCheckTemplateChange, me, 3));
-                $('#table-options-last-column input').single('click',   _.bind(me.onCheckTemplateChange, me, 4));
-                $('#table-options-banded-column input').single('click', _.bind(me.onCheckTemplateChange, me, 5));
+                $('#table-options-header-row input:checkbox').single('change',      _.bind(me.onCheckTemplateChange, me, 0));
+                $('#table-options-total-row input:checkbox').single('change',       _.bind(me.onCheckTemplateChange, me, 1));
+                $('#table-options-banded-row input:checkbox').single('change',      _.bind(me.onCheckTemplateChange, me, 2));
+                $('#table-options-first-column input:checkbox').single('change',    _.bind(me.onCheckTemplateChange, me, 3));
+                $('#table-options-last-column input:checkbox').single('change',     _.bind(me.onCheckTemplateChange, me, 4));
+                $('#table-options-banded-column input:checkbox').single('change',   _.bind(me.onCheckTemplateChange, me, 5));
 
-                $('#edit-table-bordertypes a').single('click',          _.bind(me.onBorderTypeClick, me));
+                $('#edit-table-bordertypes a').single('click',                      _.bind(me.onBorderTypeClick, me));
 
-                $('.dataview.table-styles .row div').single('click',    _.bind(me.onStyleClick, me));
-                $('#edit-table-bordersize input').single('change touchend',  _.buffered(me.onBorderSize, 100, me));
-                $('#edit-table-bordersize input').single('input',            _.bind(me.onBorderSizeChanging, me));
+                $('.dataview.table-styles .row div').single('click',                _.bind(me.onStyleClick, me));
+                $('#edit-table-bordersize input').single('change touchend',         _.buffered(me.onBorderSize, 100, me));
+                $('#edit-table-bordersize input').single('input',                   _.bind(me.onBorderSizeChanging, me));
 
-                paletteFillColor && paletteFillColor.on('select',       _.bind(me.onFillColor, me));
-                paletteBorderColor && paletteBorderColor.on('select',   _.bind(me.onBorderColor, me));
+                paletteFillColor && paletteFillColor.on('select',                   _.bind(me.onFillColor, me));
+                paletteBorderColor && paletteBorderColor.on('select',               _.bind(me.onBorderColor, me));
 
                 me.initSettings(pageId);
             },
