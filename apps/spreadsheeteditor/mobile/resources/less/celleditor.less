@@ -9,6 +9,7 @@
 }
 
 #cell-editing-box {
+    box-sizing: border-box;
     * {
         box-sizing: border-box;
     }
@@ -18,6 +19,7 @@
     background-color: #fff;
     display: flex;
     align-items: stretch;
+    overflow: hidden;
 
     .btn {
         border: 0 none;
@@ -26,6 +28,7 @@
     }
 
     .ce-group {
+        overflow: hidden;
     }
 
     .group-name {
@@ -88,12 +91,14 @@
         .caret {
             display: block;
             transform: rotate(90deg);
+            transition: transform 0.1s ease;
             font-size: 16px;
         }
 
         &.collapse {
             .caret {
                 transform: rotate(-90deg);
+                transition: transform 0.1s ease;
             }
         }
     }

@@ -36,36 +36,37 @@
  *    CellEditor Controller
  *
  *    Created by Maxim Kadushkin on 11/24/2016
- *    Copyright (c) 2014 Ascensio System SIA. All rights reserved.
+ *    Copyright (c) 2016 Ascensio System SIA. All rights reserved.
  *
  */
 
 define([
-    'core'
-], function (Viewport) {
+    'core',
+    'spreadsheeteditor/mobile/app/view/CellEditor'
+], function (core) {
     'use strict';
 
     SSE.Controllers.CellEditor = Backbone.Controller.extend({
-        defEditorHeight: 30,
-        maxEditorHeight: 70,
+        views: [
+            'CellEditor'
+        ],
 
-        events: function() {
-            return {
+        // events: function() {
+        //     return {
                 // 'keyup input#ce-cell-name': _.bind(this.onCellName,this),
                 // 'keyup textarea#ce-cell-content': _.bind(this.onKeyupCellEditor,this),
                 // 'blur textarea#ce-cell-content': _.bind(this.onBlurCellEditor,this),
-                'click button#ce-btn-expand': _.bind(this.expandEditorField,this),
                 // 'click button#ce-func-label': _.bind(this.onInsertFunction, this)
-            };
-        },
+        //     };
+        // },
 
         initialize: function() {
-            this.addListeners({
-                'CellEditor': {},
-                'Viewport': {
+            // this.addListeners({
+            //     'CellEditor': {},
+            //     'Viewport': {
                     // 'layout:resizedrag': _.bind(this.onLayoutResize, this)
-                }
-            });
+                // }
+            // });
         },
 
         setApi: function(api) {
@@ -100,11 +101,7 @@ define([
         },
 
         onLaunch: function() {
-            this.editor = { $el: $('#cell-editing-box') };
-            this.editor.$el.height(this.defEditorHeight);
-
-            this.editor.$btnexpand = this.editor.$el.find('#ce-btn-expand');
-            this.editor.$btnexpand.on('click', this.expandEditorField.bind(this));
+            this.editor = this.createView('CellEditor').render();
 
             // this.bindViewEvents(this.editor, this.events);
             // this.editor.$el.parent().find('.after').css({zIndex: '4'}); // for spreadsheets - bug 23127
@@ -122,12 +119,7 @@ define([
         },
 
         onApiCellSelection: function(info) {
-            if ( info ) {
-                if ( !this.editor.$cellname )
-                    this.editor.$cellname = this.editor.$el.find('#ce-cell-name');
-
-                this.editor.$cellname.html(typeof(info)=='string' ? info : info.asc_getName());
-            }
+            this.editor.updateCellInfo(info);
         },
 
         onApiDisconnect: function() {
@@ -146,17 +138,6 @@ define([
 
         onCellsRange: function(status) {
             // this.editor.cellNameDisabled(status != Asc.c_oAscSelectionDialogType.None);
-        },
-
-        onLayoutResize: function(o, r) {
-            if (r == 'cell:edit') {
-                if (this.editor.$el.height() > 19) {
-                    if (!this.editor.$btnexpand.hasClass('btn-collapse'))
-                        this.editor.$btnexpand['addClass']('btn-collapse');
-                } else {
-                    this.editor.$btnexpand['removeClass']('btn-collapse');
-                }
-            }
         },
 
         onCellName: function(e) {
@@ -184,19 +165,6 @@ define([
             if(e.keyCode == Common.UI.Keys.RETURN && !e.altKey){
                 this.api.isCEditorFocused = 'clear';
             }
-        },
-
-        expandEditorField: function() {
-            if (this.editor.$el.height() > this.defEditorHeight) {
-                this.editor.$el.height(this.defEditorHeight);
-                this.editor.$btnexpand.removeClass('collapse');
-            } else {
-                this.editor.$el.height(this.maxEditorHeight);
-                this.editor.$btnexpand.addClass('collapse');
-            }
-
-            // Common.NotificationCenter.trigger('layout:changed', 'celleditor');
-            // Common.NotificationCenter.trigger('edit:complete', this.editor, {restorefocus:true});
         },
 
         onInsertFunction: function() {
