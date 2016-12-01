@@ -1,0 +1,54 @@
+@statusBarHeight: 30px;
+
+.statusbar {
+  box-sizing: border-box;
+
+  * {
+    box-sizing: border-box;
+  }
+
+  border-top: 1px solid @gray-dark;
+  height: @statusBarHeight;
+  display: flex;
+  flex-direction: row;
+
+  .box-tabs {
+    flex-grow: 1;
+  }
+}
+
+.box-tabs {
+  ul {
+    margin: 0;
+    padding: 0;
+
+    > li {
+      list-style: none;
+      display: inline;
+
+      &.active {
+        a {
+          background-color: yellow;
+        }
+      }
+
+      a {
+        display: inline-block;
+        border-radius: 0;
+        padding: 0 10px 0;
+        line-height: 24px;
+        margin-right: -1px;
+        background-color: #f1f1f1;
+        outline: none;
+        border-left-color: #cbcbcb;
+        border-right-color: #cbcbcb;
+        border-top-color: #cbcbcb;
+        color: #848484;
+
+        &:hover {
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}

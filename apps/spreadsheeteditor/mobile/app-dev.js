@@ -119,6 +119,7 @@ require([
             'Main',
             'DocumentHolder'
             , 'CellEditor'
+            , 'Statusbar'
             // ,'Settings'
             // ,'EditContainer'
             // ,'EditText'
@@ -184,6 +185,7 @@ require([
         'spreadsheeteditor/mobile/app/controller/Main',
         'spreadsheeteditor/mobile/app/controller/DocumentHolder'
         , 'spreadsheeteditor/mobile/app/controller/CellEditor'
+        , 'spreadsheeteditor/mobile/app/controller/Statusbar'
         // ,'documenteditor/mobile/app/controller/Settings'
         // ,'documenteditor/mobile/app/controller/edit/EditContainer'
         // ,'documenteditor/mobile/app/controller/edit/EditText'
