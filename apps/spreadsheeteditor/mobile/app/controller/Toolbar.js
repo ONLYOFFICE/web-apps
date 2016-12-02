@@ -80,8 +80,8 @@ define([
             setApi: function(api) {
                 this.api = api;
 
-                // this.api.asc_registerCallback('asc_onCanUndo',  _.bind(this.onApiCanRevert, this, 'undo'));
-                // this.api.asc_registerCallback('asc_onCanRedo',  _.bind(this.onApiCanRevert, this, 'redo'));
+                this.api.asc_registerCallback('asc_onCanUndoChanged', _.bind(this.onApiCanRevert, this, 'undo'));
+                this.api.asc_registerCallback('asc_onCanRedoChanged', _.bind(this.onApiCanRevert, this, 'redo'));
             },
 
             setMode: function (mode) {
@@ -155,16 +155,24 @@ define([
 
             onQuerySearch: function(query, direction, opts) {
                 if (query && query.length) {
-                //     if (!this.api.asc_findText(query, direction != 'back', opts && opts.matchcase, opts && opts.matchword)) {
-                        var me = this;
+                    var findOptions = new Asc.asc_CFindOptions();
+                    findOptions.asc_setFindWhat(query);
+                    findOptions.asc_setScanForward(!(direction=='back'));
+                    findOptions.asc_setIsMatchCase(false);
+                    findOptions.asc_setIsWholeCell(false);
+                    findOptions.asc_setScanOnOnlySheet(true);
+                    findOptions.asc_setScanByRows(true);
+                    findOptions.asc_setLookIn(Asc.c_oAscFindLookIn.Formulas);
+
+                    if ( !this.api.asc_findText(findOptions) ) {
                         uiApp.alert(
                             '',
-                            me.textNoTextFound,
+                            this.textNoTextFound,
                             function () {
-                                me.searchBar.input.focus();
-                            }
+                                this.searchBar.input.focus();
+                            }.bind(this)
                         );
-                //     }
+                    }
                 }
             },
 
@@ -218,7 +226,7 @@ define([
             dlgLeaveMsgText     : 'You have unsaved changes in this document. Click \'Stay on this Page\' to await the autosave of the document. Click \'Leave this Page\' to discard all the unsaved changes.',
             leaveButtonText     : 'Leave this Page',
             stayButtonText      : 'Stay on this Page',
-            textNoTextFound     : 'Text not found',
+            textNoTextFound     : 'Text not found'
         }
     })());
 });
