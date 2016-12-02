@@ -1212,11 +1212,11 @@ define([
                         break;
 
                     case Asc.c_oAscError.ID.VKeyEncrypt:
-                        config.msg = this.errorKeyEncrypt;
+                        config.msg = this.errorToken;
                         break;
 
                     case Asc.c_oAscError.ID.KeyExpire:
-                        config.msg = this.errorKeyExpire;
+                        config.msg = this.errorTokenExpire;
                         break;
 
                     case Asc.c_oAscError.ID.UserCountExceed:
@@ -1262,6 +1262,22 @@ define([
 
                     case Asc.c_oAscError.ID.Warning:
                         config.msg = this.errorConnectToServer;
+                        break;
+
+                    case Asc.c_oAscError.ID.SessionAbsolute:
+                        config.msg = this.errorSessionAbsolute;
+                        break;
+
+                    case Asc.c_oAscError.ID.SessionIdle:
+                        config.msg = this.errorSessionIdle;
+                        break;
+
+                    case Asc.c_oAscError.ID.SessionToken:
+                        config.msg = this.errorSessionToken;
+                        break;
+
+                    case Asc.c_oAscError.ID.AccessDeny:
+                        config.msg = this.errorAccessDeny;
                         break;
 
                     default:
@@ -2003,7 +2019,13 @@ define([
             warnLicenseExp: 'Your license has expired.<br>Please update your license and refresh the page.',
             titleLicenseExp: 'License expired',
             openErrorText: 'An error has occurred while opening the file',
-            saveErrorText: 'An error has occurred while saving the file'
+            saveErrorText: 'An error has occurred while saving the file',
+            errorToken: 'The document security token is not correctly formed.<br>Please contact your Document Server administrator.',
+            errorTokenExpire: 'The document security token has expired.<br>Please contact your Document Server administrator.',
+            errorSessionAbsolute: 'The document editing session has expired. Please reload the page.',
+            errorSessionIdle: 'The document has not been edited for quite a long time. Please reload the page.',
+            errorSessionToken: 'The connection to the server has been interrupted. Please reload the page.',
+            errorAccessDeny: 'You are trying to perform an action you do not have rights for.<br>Please contact your Document Server administrator.'
         }
     })(), DE.Controllers.Main || {}))
 });
