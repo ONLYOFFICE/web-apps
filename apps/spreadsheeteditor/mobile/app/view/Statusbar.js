@@ -49,7 +49,7 @@ define([
             el: '.pages > .page',
             template: '<div class="statusbar">' +
                             '<div id="box-addtab" class="status-group">' +
-                                '<button id="btn-addtab" type="button" class="btn small btn-toolbar"><span class="btn-icon">&#10010;</span></button>' +
+                                '<a href="#" id="btn-addtab" class="button"><i class="icon icon-plus"></i></a>' +
                             '</div>' +
                             '<div class="box-tabs">' +
                                 '<ul class="sheet-tabs bottom"></ul>' +
@@ -69,6 +69,10 @@ define([
                 this.$el = $(this.template).appendTo($(this.el));
 
                 this.$boxTabs = this.$el.find('.box-tabs > ul');
+                this.$btnAddTab = this.$el.find('#box-addtab > .button');
+                this.$btnAddTab.on('click', function(e){
+                    me.fireEvent('sheet:addnew');
+                });
 
                 // this.editMode = false;
 
@@ -113,6 +117,11 @@ define([
             },
 
             addSheets: function () {
+            },
+
+            clearTabs: function () {
+                this.$boxTabs.children().off('click');
+                this.$boxTabs.empty();
             },
 
             setActiveTab: function (index) {

@@ -1,4 +1,5 @@
 @statusBarHeight: 30px;
+@fontColor: #000;
 
 .statusbar {
   box-sizing: border-box;
@@ -9,11 +10,28 @@
 
   border-top: 1px solid @gray-dark;
   height: @statusBarHeight;
+  min-height: @statusBarHeight;
   display: flex;
   flex-direction: row;
 
   .box-tabs {
     flex-grow: 1;
+  }
+
+  .button {
+    border: 0 none;
+    color: #000;
+    font-size: 18px;
+    line-height: inherit;
+  }
+
+  i.icon {
+    width: 22px;
+    height: 22px;
+
+    &.icon-plus {
+      .encoded-svg-background('<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 22 22" fill="@{fontColor}"><g><path d="M22,12H12v10h-1V12H1v-1h10V1h1v10h10V12z"/></g></svg>');
+    }
   }
 }
 
@@ -21,29 +39,30 @@
   ul {
     margin: 0;
     padding: 0;
+    white-space: nowrap;
 
     > li {
       list-style: none;
       display: inline;
 
-      &.active {
+      &:not(.active) {
         a {
-          background-color: yellow;
+          color: #848484;
         }
       }
 
       a {
         display: inline-block;
-        border-radius: 0;
         padding: 0 10px 0;
-        line-height: 24px;
+        line-height: @statusBarHeight;
         margin-right: -1px;
         background-color: #f1f1f1;
         outline: none;
-        border-left-color: #cbcbcb;
-        border-right-color: #cbcbcb;
-        border-top-color: #cbcbcb;
-        color: #848484;
+        border: 1px solid #cbcbcb;
+        border-top: 0 none;
+        border-bottom: 0 none;
+        color: #000;
+        height: 100%;
 
         &:hover {
           cursor: pointer;
