@@ -104,27 +104,53 @@ Common.Utils = _.extend(new(function() {
         },
         me = this,
         checkSize = function() {
-            if (isChrome && !isOpera && document && document.firstElementChild && document.body) {
-                //document.firstElementChild.style.zoom = "reset";
-                if (window.innerWidth > 300)
-                    me.zoom = window.outerWidth / window.innerWidth;
+			me.zoom = 1;
+			if (false)
+			{
+				// этот код - рабочий, но только если этот ифрейм открыт на весь размер браузера
+				// (window.outerWidth и window.innerWidth зависимы)
+				if (window.innerWidth > 300)
+					me.zoom = window.outerWidth / window.innerWidth;
 
-                if (Math.abs(me.zoom - 1) < 0.1)
-                    me.zoom = 1;
+				if (Math.abs(me.zoom - 1) < 0.1)
+					me.zoom = 1;
 
-                me.zoom = window.outerWidth / window.innerWidth;
+				me.zoom = window.outerWidth / window.innerWidth;
 
-                var _devicePixelRatio = window.devicePixelRatio / me.zoom;
+				var _devicePixelRatio = window.devicePixelRatio / me.zoom;
 
-                // device pixel ratio: кратно 0.5
-                _devicePixelRatio = (5 * (((2.5 + 10 * _devicePixelRatio) / 5) >> 0)) / 10;
+				// device pixel ratio: кратно 0.5
+				_devicePixelRatio = (5 * (((2.5 + 10 * _devicePixelRatio) / 5) >> 0)) / 10;
+				me.zoom = window.devicePixelRatio / _devicePixelRatio;
 
-                me.zoom = window.devicePixelRatio / _devicePixelRatio;
-
-                // chrome 54.x: zoom = "reset" - clear retina zoom (windows)
-                //document.firstElementChild.style.zoom = "reset";
-                document.firstElementChild.style.zoom = 1.0 / me.zoom;
-            }
+				// chrome 54.x: zoom = "reset" - clear retina zoom (windows)
+				//document.firstElementChild.style.zoom = "reset";
+				document.firstElementChild.style.zoom = 1.0 / me.zoom;
+			}
+			else
+			{
+				// делаем простую проверку
+				// считаем: 0 < window.devicePixelRatio < 2 => _devicePixelRatio = 1; zoom = window.devicePixelRatio / _devicePixelRatio;
+				// считаем: window.devicePixelRatio >= 2 => _devicePixelRatio = 2; zoom = window.devicePixelRatio / _devicePixelRatio;
+				if (window.devicePixelRatio > 0.1)
+				{
+					if (window.devicePixelRatio < 1.99)
+					{
+						var _devicePixelRatio = 1;
+						me.zoom = window.devicePixelRatio / _devicePixelRatio;
+					}
+					else
+					{
+						var _devicePixelRatio = 2;
+						me.zoom = window.devicePixelRatio / _devicePixelRatio;
+					}
+					// chrome 54.x: zoom = "reset" - clear retina zoom (windows)
+					//document.firstElementChild.style.zoom = "reset";
+					document.firstElementChild.style.zoom = 1.0 / me.zoom;
+				}
+				else
+					document.firstElementChild.style.zoom = "normal";
+			}
             me.innerWidth = window.innerWidth * me.zoom;
             me.innerHeight = window.innerHeight * me.zoom;
         };
