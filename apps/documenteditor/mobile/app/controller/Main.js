@@ -42,9 +42,12 @@
 
 define([
     'core',
+    'jquery',
+    'underscore',
+    'backbone',
     'irregularstack',
     'common/main/lib/util/LocalStorage'
-], function () {
+], function (core, $, _, Backbone) {
     'use strict';
 
     DE.Controllers.Main = Backbone.Controller.extend(_.extend((function() {

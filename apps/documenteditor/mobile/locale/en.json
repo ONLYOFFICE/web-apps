@@ -159,7 +159,7 @@
   "DE.Controllers.AddOther.txtNotUrl": "This field should be a URL in the format 'http://www.example.com'",
   "DE.Views.AddOther.textPageBreak": "Page Break",
   "DE.Views.AddOther.textSectionBreak": "Section Break",
-  "DE.Views.AddOther.textLineBreak": "Line Break",
+  "DE.Views.AddOther.textColumnBreak": "Column Break",
   "DE.Views.AddOther.textLink": "Link",
   "DE.Views.AddOther.textPageNumber": "Page Number",
   "DE.Views.AddOther.textBack": "Back",

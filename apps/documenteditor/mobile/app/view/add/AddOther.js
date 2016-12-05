@@ -139,7 +139,7 @@ define([
 
             textPageBreak: 'Page Break',
             textSectionBreak: 'Section Break',
-            textLineBreak: 'Line Break',
+            textColumnBreak: 'Column Break',
             textLink: 'Link',
             textPageNumber: 'Page Number',
             textBack: 'Back',

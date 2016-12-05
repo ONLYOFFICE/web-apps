@@ -86,7 +86,7 @@ define([
             initEvents: function () {
                 var me = this;
                 $('#add-other-pagebreak').single('click',   _.bind(me.onPageBreak, me));
-                $('#add-other-linebreak').single('click',   _.bind(me.onLineBreak, me));
+                $('#add-other-columnbreak').single('click', _.bind(me.onColumnBreak, me));
             },
 
             onPageShow: function (view, pageId) {
@@ -144,8 +144,8 @@ define([
                 DE.getController('AddContainer').hideModal();
             },
 
-            onLineBreak: function (e) {
-                this.api && this.api.put_AddLineBreak();
+            onColumnBreak: function () {
+                this.api && this.api.put_AddColumnBreak();
                 DE.getController('AddContainer').hideModal();
             },
 

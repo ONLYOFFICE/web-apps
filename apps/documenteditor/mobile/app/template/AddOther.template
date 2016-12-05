@@ -15,6 +15,18 @@
                 </a>
             </li>
             <li>
+                <a id="add-other-columnbreak" class="item-link no-indicator">
+                    <div class="item-content">
+                        <div class="item-media">
+                            <i class="icon icon-stringbreak"></i>
+                        </div>
+                        <div class="item-inner">
+                            <div class="item-title"><%= scope.textColumnBreak %></div>
+                        </div>
+                    </div>
+                </a>
+            </li>
+            <li>
                 <a id="add-other-section" class="item-link">
                     <div class="item-content">
                         <div class="item-media">
@@ -22,18 +34,6 @@
                         </div>
                         <div class="item-inner">
                             <div class="item-title"><%= scope.textSectionBreak %></div>
-                        </div>
-                    </div>
-                </a>
-            </li>
-            <li>
-                <a id="add-other-linebreak" class="item-link no-indicator">
-                    <div class="item-content">
-                        <div class="item-media">
-                            <i class="icon icon-stringbreak"></i>
-                        </div>
-                        <div class="item-inner">
-                            <div class="item-title"><%= scope.textLineBreak %></div>
                         </div>
                     </div>
                 </a>
