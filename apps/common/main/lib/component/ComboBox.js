@@ -84,7 +84,8 @@ define([
                 menuCls     : '',
                 menuStyle   : '',
                 displayField: 'displayValue',
-                valueField  : 'value'
+                valueField  : 'value',
+                scrollAlwaysVisible: false
             },
 
             template: _.template([
@@ -117,6 +118,7 @@ define([
                 this.store          = me.options.store || new Common.UI.ComboBoxStore();
                 this.displayField   = me.options.displayField;
                 this.valueField     = me.options.valueField;
+                this.scrollAlwaysVisible = me.options.scrollAlwaysVisible;
                 me.rendered         = me.options.rendered || false;
 
                 this.lastValue = null;
@@ -216,7 +218,8 @@ define([
                         el: $('.dropdown-menu', this.cmpEl),
                         minScrollbarLength: 40,
                         scrollYMarginOffset: 30,
-                        includePadding: true
+                        includePadding: true,
+                        alwaysVisibleY: this.scrollAlwaysVisible
                     }, this.options.scroller));
                 }
 
@@ -239,7 +242,8 @@ define([
                         el: $('.dropdown-menu', this.cmpEl),
                         minScrollbarLength: 40,
                         scrollYMarginOffset: 30,
-                        includePadding: true
+                        includePadding: true,
+                        alwaysVisibleY: this.scrollAlwaysVisible
                     }, this.options.scroller));
                 }
 
@@ -542,7 +546,8 @@ define([
                     el: $('.dropdown-menu', this.cmpEl),
                     minScrollbarLength : 40,
                     scrollYMarginOffset: 30,
-                    includePadding     : true
+                    includePadding     : true,
+                    alwaysVisibleY: this.scrollAlwaysVisible
                 }, this.options.scroller));
             }
         }

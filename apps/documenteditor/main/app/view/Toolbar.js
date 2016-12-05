@@ -253,7 +253,7 @@ define([
                             template    : _.template('<a tabindex="-1" type="menuitem"><span class="menu-item-icon" style="background-image: none; width: 12px; height: 12px; margin: 1px 7px 0 -7px; background-color: #000;"></span><%= caption %></a>')
                         },
                         {caption:'--'},
-                        { template: _.template('<div id="id-toolbar-menu-fontcolor" style="width: 165px; height: 220px; margin: 10px;"></div>') },
+                        { template: _.template('<div id="id-toolbar-menu-fontcolor" style="width: 169px; height: 220px; margin: 10px;"></div>') },
                         { template: _.template('<a id="id-toolbar-menu-new-fontcolor" style="padding-left:12px;">' + this.textNewColor + '</a>') }
                     ]
                 })
@@ -267,7 +267,7 @@ define([
                 split       : true,
                 menu        : new Common.UI.Menu({
                     items: [
-                        { template: _.template('<div id="id-toolbar-menu-paracolor" style="width: 165px; height: 220px; margin: 10px;"></div>') },
+                        { template: _.template('<div id="id-toolbar-menu-paracolor" style="width: 169px; height: 220px; margin: 10px;"></div>') },
                         { template: _.template('<a id="id-toolbar-menu-new-paracolor" style="padding-left:12px;">' + this.textNewColor + '</a>') }
                     ]
                 })
@@ -555,7 +555,9 @@ define([
             };
             this.mnuPageNumCurrentPos = clone(this.mnuPageNumberPosPicker);
             this.mnuInsertPageNum = clone(this.mnuPageNumberPosPicker);
+            this.mnuInsertPageCount = clone(this.mnuPageNumberPosPicker);
             this.paragraphControls.push(this.mnuPageNumCurrentPos);
+            this.paragraphControls.push(this.mnuInsertPageCount);
             this.toolbarControls.push(this.btnEditHeader);
 
             this.btnInsertShape = new Common.UI.Button({
@@ -983,7 +985,7 @@ define([
                 this.btnPageMargins.menu.items[0].setVisible(false);
 
             var value = Common.localStorage.getItem("de-compact-toolbar");
-            var valueCompact = (value !== null && parseInt(value) == 1);
+            var valueCompact = !!(value !== null && parseInt(value) == 1 || value === null && mode.customization && mode.customization.compactToolbar);
 
             me.$el.html(this.template({
                 isCompactView: valueCompact
@@ -1262,11 +1264,16 @@ define([
                                     })
                                 ]
                             })
+                        }),
+                        this.mnuInsertPageCount = new Common.UI.MenuItem({
+                            caption: this.textInsertPageCount,
+                            disabled: this.mnuInsertPageCount.isDisabled()
                         })
                     ]
                 })
             );
             this.paragraphControls.push(this.mnuPageNumCurrentPos);
+            this.paragraphControls.push(this.mnuInsertPageCount);
 
             this.mnuZoomOut = new Common.UI.Button({
                 el  : $('#id-menu-zoom-out'),
@@ -1406,7 +1413,7 @@ define([
             /**/
             var mode = this.mode;
             var value = Common.localStorage.getItem("de-compact-toolbar");
-            var valueCompact = (value !== null && parseInt(value) == 1);
+            var valueCompact = !!(value !== null && parseInt(value) == 1 || value === null && this.mode.customization && this.mode.customization.compactToolbar);
 
             value = Common.localStorage.getItem("de-hidden-title");
             var valueTitle = (value !== null && parseInt(value) == 1);
@@ -1510,6 +1517,8 @@ define([
                 this.cmbFontName.setDisabled(true);
                 this.cmbFontSize.setDisabled(true);
                 this.listStyles.setDisabled(true);
+                if (mode.disableDownload)
+                    this.btnPrint.setDisabled(true);
             }
 
             this.mode = mode;
@@ -1834,8 +1843,8 @@ define([
         textHideTitleBar: 'Hide Title Bar',
         textHideStatusBar: 'Hide Status Bar',
         textHideLines: 'Hide Rulers',
-        textFitPage: 'Fit Page',
-        textFitWidth: 'Fit Width',
+        textFitPage: 'Fit to Page',
+        textFitWidth: 'Fit to Width',
         textZoom: 'Zoom',
         mniEditDropCap: 'Drop Cap Settings',
         textNone: 'None',
@@ -1900,7 +1909,8 @@ define([
         textRight: 'Right: ',
         textPageSizeCustom: 'Custom Page Size',
         textPortrait: 'Portrait',
-        textLandscape: 'Landscape'
+        textLandscape: 'Landscape',
+        textInsertPageCount: 'Insert number of pages'
         
     }, DE.Views.Toolbar || {}));
 });

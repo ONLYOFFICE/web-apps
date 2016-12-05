@@ -116,14 +116,14 @@
 .btn-edit-table                  {background-position: 0      0;}
 button.over .btn-edit-table      {background-position: -28px  0;}
 .btn-group.open .btn-edit-table,
-button.active .btn-edit-table,
-button:active .btn-edit-table    {background-position: -56px  0;}
+button.active:not(.disabled) .btn-edit-table,
+button:active:not(.disabled) .btn-edit-table    {background-position: -56px  0;}
 
 .btn-change-shape                  {background-position: 0      -16px;}
 button.over .btn-change-shape      {background-position: -28px  -16px;}
 .btn-group.open .btn-change-shape,
-button.active .btn-change-shape,
-button:active .btn-change-shape    {background-position: -56px  -16px;}
+button.active:not(.disabled) .btn-change-shape,
+button:active:not(.disabled) .btn-change-shape    {background-position: -56px  -16px;}
 
 .combo-pattern-item {
     .background-ximage('@{app-image-path}/right-panels/patterns.png', '@{app-image-path}/right-panels/patterns@2x.png', 112px);

@@ -96,18 +96,64 @@ Common.Utils = _.extend(new(function() {
             Table      : 1,
             Image      : 2,
             Header     : 3,
-            Shape      : 4,
-            Slide      : 5,
-            Chart      : 6,
-            MailMerge  : 7,
-            TextArt    : 8
+            TextArt    : 4,
+            Shape      : 5,
+            Slide      : 6,
+            Chart      : 7,
+            MailMerge  : 8
         },
         me = this,
         checkSize = function() {
-            if (isChrome && !isOpera && document && document.firstElementChild && document.body) {
-                document.firstElementChild.style.zoom = "reset";
-                me.zoom = document.body.clientWidth / window.innerWidth;
-            }
+			me.zoom = 1;
+			if (isChrome && !isOpera && document && document.firstElementChild && document.body)
+			{
+				if (false)
+				{
+					// этот код - рабочий, но только если этот ифрейм открыт на весь размер браузера
+					// (window.outerWidth и window.innerWidth зависимы)
+					if (window.innerWidth > 300)
+						me.zoom = window.outerWidth / window.innerWidth;
+
+					if (Math.abs(me.zoom - 1) < 0.1)
+						me.zoom = 1;
+
+					me.zoom = window.outerWidth / window.innerWidth;
+
+					var _devicePixelRatio = window.devicePixelRatio / me.zoom;
+
+					// device pixel ratio: кратно 0.5
+					_devicePixelRatio = (5 * (((2.5 + 10 * _devicePixelRatio) / 5) >> 0)) / 10;
+					me.zoom = window.devicePixelRatio / _devicePixelRatio;
+
+					// chrome 54.x: zoom = "reset" - clear retina zoom (windows)
+					//document.firstElementChild.style.zoom = "reset";
+					document.firstElementChild.style.zoom = 1.0 / me.zoom;
+				}
+				else
+				{
+					// делаем простую проверку
+					// считаем: 0 < window.devicePixelRatio < 2 => _devicePixelRatio = 1; zoom = window.devicePixelRatio / _devicePixelRatio;
+					// считаем: window.devicePixelRatio >= 2 => _devicePixelRatio = 2; zoom = window.devicePixelRatio / _devicePixelRatio;
+					if (window.devicePixelRatio > 0.1)
+					{
+						if (window.devicePixelRatio < 1.99)
+						{
+							var _devicePixelRatio = 1;
+							me.zoom = window.devicePixelRatio / _devicePixelRatio;
+						}
+						else
+						{
+							var _devicePixelRatio = 2;
+							me.zoom = window.devicePixelRatio / _devicePixelRatio;
+						}
+						// chrome 54.x: zoom = "reset" - clear retina zoom (windows)
+						//document.firstElementChild.style.zoom = "reset";
+						document.firstElementChild.style.zoom = 1.0 / me.zoom;
+					}
+					else
+						document.firstElementChild.style.zoom = "normal";
+				}
+			}
             me.innerWidth = window.innerWidth * me.zoom;
             me.innerHeight = window.innerHeight * me.zoom;
         };
@@ -605,14 +651,16 @@ Common.Utils.applyCustomization = function(config, elmap) {
 Common.Utils.fillUserInfo = function(info, lang, defname) {
     var _user = info || {};
     !_user.id && (_user.id = ('uid-' + Date.now()));
-    _.isEmpty(_user.firstname) && _.isEmpty(_user.lastname) && (_user.firstname = defname);
-    if (_.isEmpty(_user.firstname))
-        _user.fullname = _user.lastname;
-    else if (_.isEmpty(_user.lastname))
-        _user.fullname = _user.firstname;
-    else
-        _user.fullname = /^ru/.test(lang) ? _user.lastname + ' ' + _user.firstname :  _user.firstname + ' ' + _user.lastname;
-
+    if (_.isEmpty(_user.name)) {
+        _.isEmpty(_user.firstname) && _.isEmpty(_user.lastname) && (_user.firstname = defname);
+        if (_.isEmpty(_user.firstname))
+            _user.fullname = _user.lastname;
+        else if (_.isEmpty(_user.lastname))
+            _user.fullname = _user.firstname;
+        else
+            _user.fullname = /^ru/.test(lang) ? _user.lastname + ' ' + _user.firstname :  _user.firstname + ' ' + _user.lastname;
+    } else
+        _user.fullname = _user.name;
     return _user;
 };
 

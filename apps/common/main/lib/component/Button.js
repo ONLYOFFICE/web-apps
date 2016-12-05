@@ -496,7 +496,8 @@ define([
         setMenu: function (m) {
             if (m && _.isObject(m) && _.isFunction(m.render)){
                 this.menu = m;
-                this.menu.render(this.cmpEl);
+                if (this.rendered)
+                    this.menu.render(this.cmpEl);
             }
         }
     });

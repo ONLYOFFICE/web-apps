@@ -91,7 +91,7 @@ define([
                 new Common.UI.MenuItem({
                     el      : $('#fm-btn-return',this.el),
                     action  : 'back',
-                    caption : this.btnReturnCaption,
+                    caption : this.btnCloseMenuCaption,
                     canFocused: false
                 }),
                 new Common.UI.MenuItem({
@@ -122,6 +122,12 @@ define([
                     el      : $('#fm-btn-print',this.el),
                     action  : 'print',
                     caption : this.btnPrintCaption,
+                    canFocused: false
+                }),
+                new Common.UI.MenuItem({
+                    el      : $('#fm-btn-rename',this.el),
+                    action  : 'rename',
+                    caption : this.btnRenameCaption,
                     canFocused: false
                 }),
                 new Common.UI.MenuItem({
@@ -205,9 +211,11 @@ define([
 
         applyMode: function() {
             this.items[5][this.mode.canPrint?'show':'hide']();
-            this.items[6][this.mode.canOpenRecent?'show':'hide']();
-            this.items[7][this.mode.canCreateNew?'show':'hide']();
-            this.items[7].$el.find('+.devider')[this.mode.canCreateNew?'show':'hide']();
+            this.items[6][(this.mode.canRename && !this.mode.isDesktopApp) ?'show':'hide']();
+            this.items[6].$el.find('+.devider')[!this.mode.isDisconnected?'show':'hide']();
+            this.items[7][this.mode.canOpenRecent?'show':'hide']();
+            this.items[8][this.mode.canCreateNew?'show':'hide']();
+            this.items[8].$el.find('+.devider')[this.mode.canCreateNew?'show':'hide']();
 
             this.items[3][(this.mode.canDownload && (!this.mode.isDesktopApp || !this.mode.isOffline))?'show':'hide']();
             this.items[4][(this.mode.canDownload && this.mode.isDesktopApp && this.mode.isOffline)?'show':'hide']();
@@ -217,7 +225,7 @@ define([
             this.items[1][this.mode.isEdit?'show':'hide']();
             this.items[2][!this.mode.isEdit && this.mode.canEdit && this.mode.canRequestEditRights ?'show':'hide']();
 
-            this.items[9][(!this.mode.isOffline && this.document&&this.document.info&&(this.document.info.sharingSettings&&this.document.info.sharingSettings.length>0 ||
+            this.items[10][(!this.mode.isOffline && this.document&&this.document.info&&(this.document.info.sharingSettings&&this.document.info.sharingSettings.length>0 ||
                                                                                        this.mode.sharingSettingsUrl&&this.mode.sharingSettingsUrl.length))?'show':'hide']();
 
             this.mode.canBack ? this.$el.find('#fm-btn-back').show().prev().show() :
@@ -229,7 +237,7 @@ define([
 
             if ( this.mode.canCreateNew ) {
                 if (this.mode.templates && this.mode.templates.length) {
-                    $('a',this.items[7].$el).text(this.btnCreateNewCaption + '...');
+                    $('a',this.items[8].$el).text(this.btnCreateNewCaption + '...');
                     this.panels['new'] = ((new PE.Views.FileMenuPanels.CreateNew({menu: this, docs: this.mode.templates})).render());
                 }
             }
@@ -251,6 +259,10 @@ define([
             if (mode.isDisconnected) {
                 this.mode.canEdit = this.mode.isEdit = false;
                 this.mode.canOpenRecent = this.mode.canCreateNew = false;
+                this.mode.isDisconnected = mode.isDisconnected;
+                this.mode.canRename = false;
+                this.mode.canPrint = false;
+                this.mode.canDownload = false;
             } else {
                 this.mode = mode;
             }
@@ -315,6 +327,8 @@ define([
         btnToEditCaption        : 'Edit Document',
         btnBackCaption          : 'Go to Documents',
         btnSettingsCaption      : 'Advanced Settings...',
-        btnSaveAsCaption        : 'Save as'
+        btnSaveAsCaption        : 'Save as',
+        btnRenameCaption        : 'Rename...',
+        btnCloseMenuCaption     : 'Close Menu'
     }, PE.Views.FileMenu || {}));
 });

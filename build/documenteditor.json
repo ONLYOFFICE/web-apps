@@ -1,7 +1,7 @@
 {
     "name": "documenteditor",
-    "version": "4.6.0",
-    "build": 1064,
+    "version": "4.7.0",
+    "build": 1110,
     "homepage": "http://www.onlyoffice.com",
     "private": true,
     "sdk": {
@@ -147,21 +147,16 @@
             }
         },
         "less": {
-            "embedImages": true,
             "files": {
                 "src": "../apps/documenteditor/main/resources/less/app.less",
                 "dest": "../deploy/web-apps/apps/documenteditor/main/resources/css/app.css"
             },
-            "replacements": [
-                {
-                    "from": "../../common/main/resources/img/",
-                    "to": "../img/"
-                },
-                {
-                    "from": "resources/img/",
-                    "to": "../img/"
-                }
-            ]
+            "vars": {
+                "app-image-const-path": "'../img'",
+                "common-image-const-path": "'../img'",
+                "app-image-path": "'../../../../../deploy/web-apps/apps/documenteditor/main/resources/img'",
+                "common-image-path": "'../../../../../deploy/web-apps/apps/documenteditor/main/resources/img'"
+            }
         },
         "imagemin": {
             "images-app": [
@@ -307,13 +302,21 @@
         }
     },
     "embed": {
-        "clean": [
-            "../deploy/web-apps/apps/documenteditor/embed"
-        ],
+        "clean": {
+            "prebuild": [
+                "../deploy/web-apps/apps/documenteditor/embed"
+            ],
+            "postbuild": [
+                "../deploy/web-apps/apps/documenteditor/embed/resources/img"
+            ]
+        },
         "js": {
             "src": [
                 "../apps/common/Gateway.js",
                 "../apps/common/Analytics.js",
+                "../apps/common/embed/lib/util/utils.js",
+                "../apps/common/embed/lib/view/modals.js",
+                "../apps/common/embed/lib/controller/modals.js",
                 "../apps/documenteditor/embed/js/ApplicationView.js",
                 "../apps/documenteditor/embed/js/ApplicationController.js",
                 "../apps/documenteditor/embed/js/application.js"
@@ -324,13 +327,7 @@
             "files": {
                 "src": "../apps/documenteditor/embed/resources/less/application.less",
                 "dist": "../deploy/web-apps/apps/documenteditor/embed/resources/css/app-all.css"
-            },
-            "replacements": [
-                {
-                    "from": "../../../../common/embed/resources/img/",
-                    "to": "../img/"
-                }
-            ]
+            }
         },
         "copy": {
             "index-page": {
@@ -483,21 +480,6 @@
             "dest": "../deploy/web-apps/vendor/requirejs/require.js"
         }
     },
-    "zeroclipboard": {
-        "clean": [
-            "../deploy/web-apps/vendor/ZeroClipboard"
-        ],
-        "copy": {
-            "script": {
-                "expand": true,
-                "cwd": "../vendor/ZeroClipboard/",
-                "src": [
-                    "**"
-                ],
-                "dest": "../deploy/web-apps/vendor/ZeroClipboard/"
-            }
-        }
-    },
     "obf_api": {
         "ccvars": "../../sdkjs/word/variable.map",
         "ccprops": "../../sdkjs/word/property.map",
@@ -535,7 +517,6 @@
             "deploy-touch",
             "deploy-jquery",
             "deploy-underscore",
-            "deploy-zeroclipboard",
             "deploy-bootstrap",
             "deploy-jszip",
             "deploy-jsziputils",

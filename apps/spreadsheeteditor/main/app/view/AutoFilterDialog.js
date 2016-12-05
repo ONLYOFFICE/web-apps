@@ -54,7 +54,7 @@ define([
             var t = this, _options = {};
 
             _.extend(_options,  {
-                width           : 500,
+                width           : 501,
                 height          : 230,
                 contentWidth    : 180,
                 header          : true,
@@ -119,9 +119,10 @@ define([
 
             this.cmbCondition1 = new Common.UI.ComboBox({
                 el          : $('#id-search-begin-digital-combo', this.$window),
-                menuStyle   : 'min-width: 225px;',
+                menuStyle   : 'min-width: 225px;max-height: 135px;',
                 cls         : 'input-group-nr',
                 data        : this.conditions,
+                scrollAlwaysVisible: true,
                 editable    : false
             });
             this.cmbCondition1.setValue(Asc.c_oAscCustomAutoFilter.equals);
@@ -130,9 +131,10 @@ define([
 
             this.cmbCondition2 = new Common.UI.ComboBox({
                 el          : $('#id-search-end-digital-combo', this.$window),
-                menuStyle   : 'min-width: 225px;',
+                menuStyle   : 'min-width: 225px;max-height: 135px;',
                 cls         : 'input-group-nr',
                 data        : this.conditions,
+                scrollAlwaysVisible: true,
                 editable    : false
             });
             this.cmbCondition2.setValue(0);
@@ -150,38 +152,33 @@ define([
                 name : 'asc-radio-filter-tab'
             });
 
-            this.txtValue1 = new Common.UI.InputField({
+            this.cmbValue1 = new Common.UI.ComboBox({
                 el          : $('#id-sd-cell-search-begin', this.$window),
-                template: _.template([
-                    '<div class="input-field" style="<%= style %>">',
-                    '<input ',
-                    'type="<%= type %>" ',
-                    'name="<%= name %>" ',
-                    'class="form-control <%= cls %>" style="float:none" ',
-                    'placeholder="<%= placeHolder %>" ',
-                    'value="<%= value %>"',
-                    '>',
-                    '</div>'].join('')),
-                allowBlank  : true,
-                validateOnChange: true,
-                validation  : function () { return true; }
+                cls         : 'input-group-nr',
+                menuStyle   : 'min-width: 225px;max-height: 135px;',
+                scrollAlwaysVisible: true,
+                data        : []
             });
-            this.txtValue2 = new Common.UI.InputField({
+
+            this.cmbValue2 = new Common.UI.ComboBox({
                 el          : $('#id-sd-cell-search-end', this.$window),
-                template: _.template([
-                    '<div class="input-field" style="<%= style %>">',
-                    '<input ',
-                    'type="<%= type %>" ',
-                    'name="<%= name %>" ',
-                    'class="form-control <%= cls %>" style="float:none" ',
-                    'placeholder="<%= placeHolder %>" ',
-                    'value="<%= value %>"',
-                    '>',
-                    '</div>'].join('')),
-                allowBlank  : true,
-                validateOnChange: true,
-                validation  : function () { return true; }
+                cls         : 'input-group-nr',
+                menuStyle   : 'min-width: 225px;max-height: 135px;',
+                scrollAlwaysVisible: true,
+                data        : []
             });
+
+            var comparator = function(item1, item2) {
+                var n1 = item1.get('intval'),
+                    n2 = item2.get('intval'),
+                    isN1 = n1!==undefined,
+                    isN2 = n2!==undefined;
+                if (isN1 !== isN2) return (isN1) ? -1 : 1;
+                !isN1 && (n1 = item1.get('value').toLowerCase()) && (n2 = item2.get('value').toLowerCase());
+                if (n1==n2) return 0;
+                return (n2=='' || n1!=='' && n1<n2) ? -1 : 1;
+            };
+            this.cmbValue1.store.comparator = this.cmbValue2.store.comparator = comparator;
 
             this.$window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
 
@@ -192,8 +189,8 @@ define([
 
             var me  = this;
             _.defer(function () {
-                if (me.txtValue1) {
-                    me.txtValue1.focus();
+                if (me.cmbValue1) {
+                    me.cmbValue1._input.focus();
                 }
             }, 500);
         },
@@ -221,8 +218,18 @@ define([
 
         loadDefaults: function () {
             if (this.properties && this.rbOr && this.rbAnd &&
-                this.cmbCondition1 && this.cmbCondition2 && this.txtValue1 && this.txtValue2) {
+                this.cmbCondition1 && this.cmbCondition2 && this.cmbValue1 && this.cmbValue2) {
 
+                var arr = [];
+                this.properties.asc_getValues().forEach(function (item) {
+                    var value    = item.asc_getText();
+                    if (!_.isEmpty(value)) {
+                        arr.push({value: value, displayValue: value,
+                                  intval: (!isNaN(parseFloat(value)) && isFinite(value)) ? parseFloat(value) : undefined});
+                    }
+                });
+                this.cmbValue1.setData(arr);
+                this.cmbValue2.setData(arr);
                 var filterObj = this.properties.asc_getFilterObj();
                 if (filterObj.asc_getType() == Asc.c_oAscAutoFilterTypes.CustomFilters) {
                     var customFilter = filterObj.asc_getFilter(),
@@ -233,14 +240,14 @@ define([
                     this.cmbCondition1.setValue(customFilters[0].asc_getOperator() || Asc.c_oAscCustomAutoFilter.equals);
                     this.cmbCondition2.setValue((customFilters.length>1) ? (customFilters[1].asc_getOperator() || 0) : 0);
 
-                    this.txtValue1.setValue(null === customFilters[0].asc_getVal() ? '' : customFilters[0].asc_getVal());
-                    this.txtValue2.setValue((customFilters.length>1) ? (null === customFilters[1].asc_getVal() ? '' : customFilters[1].asc_getVal()) : '');
+                    this.cmbValue1.setValue(null === customFilters[0].asc_getVal() ? '' : customFilters[0].asc_getVal());
+                    this.cmbValue2.setValue((customFilters.length>1) ? (null === customFilters[1].asc_getVal() ? '' : customFilters[1].asc_getVal()) : '');
                 }
             }
         },
         save: function () {
             if (this.api && this.properties && this.rbOr && this.rbAnd &&
-                this.cmbCondition1 && this.cmbCondition2 && this.txtValue1 && this.txtValue2) {
+                this.cmbCondition1 && this.cmbCondition2 && this.cmbValue1 && this.cmbValue2) {
 
                 var filterObj = this.properties.asc_getFilterObj();
                 filterObj.asc_setFilter(new Asc.CustomFilters());
@@ -253,10 +260,10 @@ define([
 
                 customFilter.asc_setAnd(this.rbAnd.getValue());
                 customFilters[0].asc_setOperator(this.cmbCondition1.getValue());
-                customFilters[0].asc_setVal(this.txtValue1.getValue());
+                customFilters[0].asc_setVal(this.cmbValue1.getValue());
                 if (this.cmbCondition2.getValue() !== 0) {
                     customFilters[1].asc_setOperator(this.cmbCondition2.getValue() || undefined);
-                    customFilters[1].asc_setVal(this.txtValue2.getValue());
+                    customFilters[1].asc_setVal(this.cmbValue2.getValue());
                 }
 
                 this.api.asc_applyAutoFilter(this.properties);
@@ -390,8 +397,8 @@ define([
 
             var me  = this;
             _.defer(function () {
-                if (me.txtValue1) {
-                    me.txtValue1.focus();
+                if (me.spnCount) {
+                    me.spnCount.$input.focus();
                 }
             }, 500);
         },
@@ -471,7 +478,7 @@ define([
             var t = this, _options = {};
 
             _.extend(_options, {
-                width           : 448,
+                width           : 450,
                 height          : 265,
                 contentWidth    : 400,
                 header          : false,

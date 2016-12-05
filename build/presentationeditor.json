@@ -1,7 +1,7 @@
 {
     "name": "presentationeditor",
-    "version": "4.6.0",
-    "build": 771,
+    "version": "4.7.0",
+    "build": 774,
     "homepage": "http://www.onlyoffice.com",
     "sdk": {
         "clean": [
@@ -151,21 +151,16 @@
             }
         },
         "less": {
-            "embedImages": true,
             "files": {
                 "src": "../apps/presentationeditor/main/resources/less/app.less",
                 "dest": "../deploy/web-apps/apps/presentationeditor/main/resources/css/app.css"
             },
-            "replacements": [
-                {
-                    "from": "../../common/main/resources/img/",
-                    "to": "../img/"
-                },
-                {
-                    "from": "resources/img/",
-                    "to": "../img/"
-                }
-            ]
+            "vars": {
+                "app-image-const-path": "'../img'",
+                "common-image-const-path": "'../img'",
+                "app-image-path": "'../../../../../deploy/web-apps/apps/presentationeditor/main/resources/img'",
+                "common-image-path": "'../../../../../deploy/web-apps/apps/presentationeditor/main/resources/img'"
+            }
         },
         "imagemin": {
             "images-app": [
@@ -283,13 +278,21 @@
         }
     },
     "embed": {
-        "clean": [
-            "../deploy/web-apps/apps/presentationeditor/embed"
-        ],
+        "clean": {
+            "prebuild": [
+                "../deploy/web-apps/apps/presentationeditor/embed"
+            ],
+            "postbuild": [
+                "../deploy/web-apps/apps/presentationeditor/embed/resources/img"
+            ]
+        },
         "js": {
             "src": [
                 "../apps/common/Gateway.js",
                 "../apps/common/Analytics.js",
+                "../apps/common/embed/lib/util/utils.js",
+                "../apps/common/embed/lib/view/modals.js",
+                "../apps/common/embed/lib/controller/modals.js",
                 "../apps/presentationeditor/embed/js/ApplicationView.js",
                 "../apps/presentationeditor/embed/js/ApplicationController.js",
                 "../apps/presentationeditor/embed/js/application.js"
@@ -300,13 +303,7 @@
             "files": {
                 "src": "../apps/presentationeditor/embed/resources/less/application.less",
                 "dist": "../deploy/web-apps/apps/presentationeditor/embed/resources/css/app-all.css"
-            },
-            "replacements": [
-                {
-                    "from": "../../../../common/embed/resources/img/",
-                    "to": "../img/"
-                }
-            ]
+            }
         },
         "copy": {
             "index-page": {
@@ -459,21 +456,6 @@
             "dest": "../deploy/web-apps/vendor/requirejs/require.js"
         }
     },
-    "zeroclipboard": {
-        "clean": [
-            "../deploy/web-apps/vendor/ZeroClipboard"
-        ],
-        "copy": {
-            "script": {
-                "expand": true,
-                "cwd": "../vendor/ZeroClipboard/",
-                "src": [
-                    "**"
-                ],
-                "dest": "../deploy/web-apps/vendor/ZeroClipboard/"
-            }
-        }
-    },
     "obf_api": {
         "ccvars": "../../sdkjs/slide/variable.map",
         "ccprops": "../../sdkjs/slide/property.map",
@@ -510,7 +492,6 @@
             "deploy-touch",
             "deploy-jquery",
             "deploy-underscore",
-            "deploy-zeroclipboard",
             "deploy-bootstrap",
             "deploy-jszip",
             "deploy-jsziputils",

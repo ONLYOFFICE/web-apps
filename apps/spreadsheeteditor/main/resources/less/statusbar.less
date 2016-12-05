@@ -66,7 +66,7 @@
             right: 0;
 
             > label {
-                white-space: initial;
+                white-space: normal;
             }
 
             #status-users-list {
@@ -266,6 +266,9 @@
 
     .status-group {
         white-space: nowrap;
+        &.dropup {
+            position: static;
+        }
     }
 
     .cnt-zoom {
@@ -300,11 +303,6 @@
         &.short {
             height: 25px;
         }
-    }
-
-    .nav-tabs.bottom {
-        margin-bottom: 6px;
-        height: 18px;
     }
 
     &.masked #status-addtabs-box{

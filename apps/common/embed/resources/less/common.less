@@ -20,7 +20,7 @@
 
 // Components
 @import "../../../../../vendor/bootstrap/less/component-animations.less";
-@import "../../../../../vendor/bootstrap/less/glyphicons.less";
+//@import "../../../../../vendor/bootstrap/less/glyphicons.less";
 //@import "dropdowns.less";
 //@import "button-groups.less";
 //@import "input-groups.less";
@@ -39,12 +39,13 @@
 //@import "list-group.less";
 //@import "panels.less";
 //@import "wells.less";
-//@import "close.less";
+@import "../../../../../vendor/bootstrap/less/close.less";
 
 // Components w/ JavaScript
 @import "../../../../../vendor/bootstrap/less/modals.less";
 @import "../../../../../vendor/bootstrap/less/tooltip.less";
-@import "../../../../../vendor/bootstrap/less/popovers.less";
+//@import "../../../../../vendor/bootstrap/less/popovers.less";
+@import "../../../../../vendor/bootstrap/less/dropdowns.less";
 //@import "carousel.less";
 
 // Utility classes
@@ -52,7 +53,7 @@
 @import "../../../../../vendor/bootstrap/less/responsive-utilities.less";
 
 
-@toolbarBorderColor:            #929292;
+@toolbarBorderColor:            #dbdbdb;
 @toolbarBorderShadowColor:      #FAFAFA;
 @toolbarTopColor:               #EBEBEB;
 @toolbarBottomColor:            #CCCCCC;
@@ -60,7 +61,10 @@
 @toolbarFontSize:               12px;
 @controlBtnHoverTopColor:       #6180C4;
 @controlBtnHoverBottomColor:    #8AACF1;
+@btnColor:                      #d8dadc;
+@btnActiveColor:                #7d858c;
 @iconSpriteCommonPath:          "../../../../common/embed/resources/img/glyphicons.png";
+@icon-socnet-size: 40px;
 
 .input-xs {
     .input-size(@input-height-small - 8px; @padding-small-vertical; @padding-small-horizontal; @font-size-small; @line-height-small; @border-radius-small);
@@ -104,7 +108,7 @@
     font-size: @toolbarFontSize;
     min-width: 340px;
     z-index: 100;
-    #gradient > .vertical(@toolbarTopColor, @toolbarBottomColor);
+    background-color: @toolbarTopColor;
 
     &.top {
         top: 0;
@@ -128,20 +132,21 @@
         box-shadow: inset 0 1px 0 @toolbarBorderColor, inset 0 2px 0 @toolbarBorderShadowColor;
     }
 
-    ul {
+    .group {
         position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+
         list-style-type: none;
         margin: 0;
         padding: 0;
 
-        li {
+        .item {
             input {
                 display: inline-block;
-                width: 25px;
+                width: 35px;
                 padding: 0;
-                height: 25px;
-                margin: 3px;
-                text-align: center;
+                text-align: right;
             }
 
             .text {
@@ -151,99 +156,72 @@
 
         &.left {
             left: 0;
+            padding-left: 10px;
 
-            li {
+            .item {
                 float: left;
             }
         }
 
         &.right {
             right: 0;
+            padding-right: 10px;
 
-            li {
+            .item {
                 float: left;
             }
         }
 
+        &.center {
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
         .separator {
-            height: 24px;
-            margin: 4px 9px;
+            height: 22px;
+            margin: 0 9px;
             border-right: 1px solid @toolbarBorderShadowColor;
             border-left: 1px solid @toolbarBorderColor;
         }
     }
+
+    .close {
+        font-size: 28px;
+        color: #666666;
+        opacity: 0.8;
+        display: block;
+        line-height: 22px;
+
+        &:hover {
+            opacity: 1;
+            color: #666666;
+        }
+    }
+
 }
 
 // Logo
 // -------------------------
-a.brand-logo {
+.brand-logo {
     display: block;
-    background-image: url("@{iconSpriteCommonPath}");
-    width: 124px;
-    height: 20px;
-    margin: 5px 0 0 10px;
-    background-position: 0 -100px;
+    width: 100px;
+    height: 24px;
+    background: data-uri('../../../../common/embed/resources/img/logo.svg') no-repeat;
 }
-
-// Sprite icons path
-// -------------------------
-[class^="control-icon-"],
-[class*=" control-icon-"] {
-    display: inline-block;
-    width: 20px;
-    height: 20px;
-    vertical-align: text-top;
-    background-image: url("@{iconSpriteCommonPath}");
-    background-repeat: no-repeat;
-    margin-top: -2px;
-}
-
-[class^="overlay-icon-"],
-[class*=" overlay-icon-"] {
-    display: inline-block;
-    width: 32px;
-    height: 32px;
-    vertical-align: text-top;
-    background-image: url("@{iconSpriteCommonPath}");
-    background-repeat: no-repeat;
-    opacity: .3;
-}
-
-.control-icon-share         { background-position: 0             0; }
-.control-icon-embed         { background-position: 0         -20px; }
-.control-icon-fullscreen    { background-position: 0         -40px; }
-.control-icon-close         { background-position: 0         -60px; }
-.control-icon-save          { background-position: 0         -80px; }
-
-.overlay-icon-zoom-in       { background-position: 0        -120px; }
-.overlay-icon-zoom-out      { background-position: -32px    -120px; }
 
 // Control buttons
 // -------------------------
 .control-btn {
     display: inline-block;
-    padding: 1px 5px;
-    font-size: @toolbarFontSize;
-    line-height: 20px;
-    text-align: center;
     vertical-align: middle;
     cursor: pointer;
     background-color: transparent;
-    background-image: none;
     border: 1px solid transparent;
     border-radius: 2px;
-    margin: 4px 5px 0 0;
-
-    i {
-        margin-right: 5px;
-    }
+    //margin: 0;
 
     &.no-caption {
         padding: 1px 2px;
-
-        i {
-            margin-right: 0;
-        }
     }
 
 // Hover state
@@ -251,12 +229,6 @@ a.brand-logo {
         color: @toolbarHoverColor;
         text-decoration: none;
         text-shadow: 0 1px 0 @toolbarBorderShadowColor;
-
-        .control-icon-share         { background-position: -20px         0; }
-        .control-icon-embed         { background-position: -20px     -20px; }
-        .control-icon-fullscreen    { background-position: -20px     -40px; }
-        .control-icon-close         { background-position: -20px     -60px; }
-        .control-icon-save          { background-position: -20px     -80px; }
     }
 
 // Focus state for keyboard and accessibility
@@ -268,17 +240,9 @@ a.brand-logo {
 // Active state
     &.active,
     &:active {
-        color: #ffffff;
         outline: none;
-        border: 1px solid darken(@controlBtnHoverTopColor, 5%);
-        #gradient > .vertical(@controlBtnHoverTopColor, @controlBtnHoverBottomColor);
-        text-shadow: 0 1px 0 darken(@toolbarBorderColor, 20%);
-
-        .control-icon-share         { background-position: -40px         0; }
-        .control-icon-embed         { background-position: -40px     -20px; }
-        .control-icon-fullscreen    { background-position: -40px     -40px; }
-        .control-icon-close         { background-position: -40px     -60px; }
-        .control-icon-save          { background-position: -40px     -80px; }
+        border: 1px solid @btnActiveColor;
+        background-color: @btnActiveColor;
     }
 }
 
@@ -313,32 +277,26 @@ a.brand-logo {
         height: 32px;
 
         display: inline-block;
-        text-align: center;
-        vertical-align: middle;
         cursor: pointer;
-        background-color: transparent;
-        background-image: none;
-        border: none;
-        padding: 0;
-        line-height: 0;
+        background-color: black;
+        border: 5px solid black;
+        border-radius: 50%;
         outline: none;
+        opacity: 0.3;
+
+        -webkit-box-shadow: 0 0 0 2px rgba(255,255,255,0.3);
+        -moz-box-shadow: 0 0 0 2px rgba(255,255,255,0.3);
+        box-shadow: 0 0 0 2px rgba(255,255,255,0.3);
 
         &:hover {
-[class^="overlay-icon-"],
-[class*=" overlay-icon-"] {
-    opacity: .6;
-}
-    }
+            opacity: .6;
+        }
 
-&.active,
-&:active {
-[class^="overlay-icon-"],
-[class*=" overlay-icon-"] {
-    opacity: .8;
+        &.active, &:active {
+            opacity: .8;
+        }
+    }
 }
-    }
-    }
-    }
 
 // Error mask
 // -------------------------
@@ -370,152 +328,282 @@ a.brand-logo {
     }
 }
 
-// Share popover
-// -------------------------
-.popover{
-    .popover-content {
-        padding: 14px;
-    }
-
-    &.hyperlink {
-        .popover-content {
-            padding: 5px 10px;
-
-            p {
-                display: block;
-                word-wrap: break-word;
-                overflow: hidden;
-                white-space: nowrap;
-                text-overflow: ellipsis;
-            }
-        }
-    }
-
-    &.share {
-        width: 280px;
-
-        .share-link {
-            margin-bottom: 5px;
-
-            .caption {
-                margin-top: 3px;
-                margin-right: 8px;
-                float: left;
-            }
-
-            input[readonly] {
-                display: inline-block;
-                font-size: 1em;
-                padding: 0 4px;
-                margin-right: 5px;
-                border-radius: 0;
-                cursor: text;
-                background-color: #fff;
-                -moz-user-select: text;
-                -khtml-user-select: text;
-                -webkit-user-select: text;
-                -ms-user-select: text;
-                user-select: text;
-            }
-
-            .input-xs {
-                width: 130px;
-            }
-
-            .btn {
-                float: right;
-            }
-        }
-
-        .share-buttons {
-            ul {
-                width: 244px;
-                height: 25px;
-                list-style-type: none;
-                margin: 5px 0 0;
-                overflow: hidden;
-
-                li {
-                    display: inline-block;
-                    float: left;
-                    margin: 1px 5px 0 0;
-                    vertical-align: middle;
-
-                    &.share-mail {
-                        float: right;
-                        padding-right: 1px;
-                        margin: 0;
-
-                        a {
-                            min-width: 64px;
-                        }
-
-                        .glyphicon {
-                            margin-right: 4px;
-                        }
-                    }
-
-                    &.share-twitter {
-                        max-width: 93px;
-                    }
-                }
-            }
-        }
-    }
-
-    &.embed {
-        width: 270px;
-
-        .size-manual {
-            margin-bottom: 10px;
-        }
-
-        .right {
-            float: right;
-        }
-
-        .caption {
-            margin-top: 2px;
-            margin-right: 8px;
-        }
-
-        input {
-            display: inline-block;
-            font-size: 1em;
-            padding: 0 4px;
-            border-radius: 0;
-            margin: 0;
-            margin-top: -1px;
-
-            &.input-xs {
-                width: 50px;
-            }
-        }
-
-        textarea {
-            width: 238px;
-            resize: none;
-            cursor: auto;
-            font-size: 1em;
-            border-radius: 0;
-        }
-
-        button {
-            float: right;
-            margin: 10px 0 15px;
-            width: 86px;
-        }
-    }
-}
-
 // Modals
 // -------------------------
 .modal {
     .modal-header {
-        padding: 5px 15px;
+        //padding: 5px 15px;
     }
 
     .modal-footer {
-        border-top: none;
+        //border-top: none;
+    }
+
+    //&.in .modal-dialog { .translate(0, 100%)}
+}
+
+.share-buttons {
+    ul {
+        width: 244px;
+        //height: 25px;
+        list-style-type: none;
+        margin: 5px 0 0;
+        overflow: hidden;
+
+        li {
+            display: inline-block;
+            float: left;
+            margin: 1px 5px 0 0;
+            vertical-align: middle;
+
+            &.share-mail {
+                float: right;
+                padding-right: 1px;
+                margin: 0;
+
+                a {
+                    min-width: 64px;
+                }
+
+                .glyphicon {
+                    margin-right: 4px;
+                }
+            }
+
+            &.share-twitter {
+                max-width: 93px;
+            }
+        }
+    }
+}
+
+.size-manual {
+    margin-bottom: 10px;
+
+    .right {
+        float: right;
+    }
+
+    .caption {
+        margin-top: 2px;
+        margin-right: 8px;
+    }
+
+    input {
+        display: inline-block;
+        font-size: 1em;
+        padding: 0 4px;
+        //border-radius: 0;
+        margin: 0;
+        margin-top: -1px;
+
+        &.input-xs {
+            width: 50px;
+        }
+    }
+}
+
+.socnet-btn(@index) {
+    background-position: -@icon-socnet-size*@index 0;
+
+    &:hover {
+        background-position: -@icon-socnet-size*@index -@icon-socnet-size;
+    }
+}
+
+.svg {
+    background: data-uri('../../../../common/embed/resources/img/icon-social-sprite.svg');
+
+    width: 40px;
+    height: 40px;
+    background-size: @icon-socnet-size*4 @icon-socnet-size*2;
+
+    &.big-facebook:hover {
+        background-position: 0 -@icon-socnet-size;
+    }
+
+    &.big-twitter { .socnet-btn(1); }
+    &.big-gplus {   .socnet-btn(2); }
+    &.big-email {   .socnet-btn(3); }
+}
+
+.svg-icon {
+    background: data-uri('../../../../common/embed/resources/img/icon-menu-sprite.svg') no-repeat;
+    background-size: 22px*11 22px*2;
+
+    &.download {
+        background-position: -22px 0;
+    }
+    &.share {
+        background-position: -22px*2 0;
+    }
+    &.embed {
+        background-position: -22px*3 0;
+    }
+    &.fullscr {
+        background-position: -22px*4 0;
+    }
+    &.zoom-up {
+        background-position: -22px*5 -22px;
+    }
+    &.zoom-down {
+        background-position: -22px*6 -22px;
+    }
+    &.slide-prev {
+        background-position: -22px*7 -22px;
+    }
+    &.slide-next {
+        background-position: -22px*8 -22px;
+    }
+
+    &.play {
+        background-position: -22px*9 -22px;
+    }
+
+    &.pause {
+        background-position: -22px*10 -22px;
+    }
+}
+
+.mi-icon {
+    width: 22px;
+    height: 22px;
+    //display: inline-block;
+    float: left;
+    margin: -1px 15px 0 -15px;
+}
+
+.btn, button {
+    &:focus, &:active:focus {
+        outline: 0 none;
+    }
+
+    background-color: @btnColor;
+}
+
+.modal-dialog {
+    margin-top: 100px;
+    .share-buttons {
+        height: 40px;
+        text-align: center;
+
+        span {
+            display: inline-block;
+            margin: 0 7px;
+            cursor: pointer;
+        }
+    }
+
+    .share-link {
+        margin: 0 0 15px 0;
+    }
+}
+
+.modal-header {
+    padding-bottom: 10px;
+    text-align: center;
+
+    .close {
+        margin-top: 0;
+        opacity: 0.5;
+
+        &:hover {
+            opacity: 0.7;
+        }
+    }
+}
+
+.modal-body {
+    padding: 20px;
+}
+
+.modal-footer {
+    text-align: center;
+}
+
+#dlg-share, #dlg-embed {
+    .modal-dialog {
+        width: 330px;
+    }
+
+    textarea {
+        width: 288px;
+        resize: none;
+        cursor: auto;
+        font-size: 1em;
+        border-radius: 0;
+    }
+}
+
+.dropdown-menu {
+    > li > a {
+        padding: 8px 20px 8px 31px;
+        &:hover, &:focus {
+            background-color: @btnColor;
+            outline: 0 none;
+        }
+    }
+}
+
+.dropdown {
+    &.open {
+        > button {
+            background-color: @btnActiveColor;
+            background-position: 0 -22px;
+        }
+    }
+}
+
+#box-tools {
+    button {
+        width: 24px;
+        height: 22px;
+
+        &:active {
+            background-position: 0 -22px;
+        }
+    }
+}
+
+.masked {
+    background-color: transparent;
+    border-color: transparent;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+#pages {
+    cursor: pointer;
+    display: inline-block;
+    line-height: 22px;
+    padding: 0 0 0 3px;
+}
+
+#page-number {
+    &.masked {
+        cursor: pointer;
+    }
+}
+
+.tooltip {
+    .tooltip-inner {
+        background-color: #fff;
+        border: 1px solid rgba(0,0,0,0.15);
+        color: #333;
+        font-weight: bold;
+        line-height: 26px;
+        font-size: 11px;
+        box-shadow: 0 6px 12px rgba(0,0,0,0.175);
+    }
+
+    .tooltip-arrow {
+        display: none;
+    }
+}
+
+.form-control {
+    &:focus {
+        -webkit-box-shadow: none;
+        box-shadow: none;
     }
 }

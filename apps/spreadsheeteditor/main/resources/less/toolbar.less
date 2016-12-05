@@ -188,6 +188,7 @@
 .toolbar-btn-icon(btn-border-diagdown,  43, @toolbar-icon-size);
 
 .toolbar-btn-icon(btn-named-range,      77, @toolbar-icon-size);
+.toolbar-btn-icon(btn-insertequation,   82, @toolbar-icon-size);
 
 @menu-icon-size: 22px;
 .menu-btn-icon(mnu-align-center,         0, @menu-icon-size);
@@ -245,10 +246,15 @@
 
 #id-toolbar-mnu-item-border-width {
     .border-size-item {
-        background: ~"url(@{app-image-path}/toolbar/BorderSize.png) repeat-x scroll 0 0";
+        background: ~"url(@{app-image-const-path}/toolbar/BorderSize.png) repeat-x scroll 0 0";
         width: 80px;
         height: 20px;
         margin-top: -3px;
         margin-bottom: -2px;
     }
+}
+
+.item-equation {
+    border: 1px solid @gray;
+    .background-ximage('@{app-image-path}/toolbar/math.png', '@{app-image-path}/toolbar/math@2x.png', 1500px);
 }

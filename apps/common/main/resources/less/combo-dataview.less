@@ -199,9 +199,8 @@
     .combo-template(64px);
 }
 
-.combo-pattern {
+.combo-textart(@combo-dataview-height: 62px, @combo-dataview-item-margins: 4px) {
     @combo-dataview-button-width: 15px;
-    @combo-dataview-height: 40px;
 
     height: @combo-dataview-height;
 
@@ -216,16 +215,8 @@
     }
 
     .item {
-        margin: 4px 0 4px 4px;
+        margin: @combo-dataview-item-margins 0 @combo-dataview-item-margins @combo-dataview-item-margins;
         .box-shadow(none);
-
-        &:hover {
-            .box-shadow(0 0 0 1px @gray);
-        }
-
-//            &.selected {
-//                .box-shadow(0 0 0 2px @primary);
-//            }
     }
 
     &.disabled {
@@ -233,6 +224,16 @@
             &:hover:not(.selected) {
                 .box-shadow(none);
             }
+        }
+    }
+};
+
+.combo-pattern {
+    .combo-textart(40px);
+
+    .item {
+        &:hover {
+            .box-shadow(0 0 0 1px @gray);
         }
     }
 
@@ -247,31 +248,26 @@
 };
 
 .combo-textart {
-    @combo-dataview-button-width: 15px;
-    @combo-dataview-height: 62px;
+    .combo-textart();
+}
 
-    height: @combo-dataview-height;
+.combo-spark-style {
+    .combo-textart(58px, 2px);
+}
 
-    .view {
-        margin-right: -@combo-dataview-button-width;
-        padding-right: @combo-dataview-button-width;
-    }
-
-    .button {
-        width: @combo-dataview-button-width;
-        height: @combo-dataview-height;
-    }
+.combo-chart-style {
+    .combo-textart(58px, 2px);
 
     .item {
-        margin: 4px 0 4px 4px;
-        .box-shadow(none);
+        margin-left: 4px;
+        .box-shadow(0 0 0 1px @gray);
     }
 
     &.disabled {
         .item {
             &:hover:not(.selected) {
-                .box-shadow(none);
+                .box-shadow(0 0 0 1px @gray);
             }
         }
     }
-};
+}

@@ -122,10 +122,13 @@ define([
 
         onPreview: function(btn, e) {
             var previewPanel = PE.getController('Viewport').getView('DocumentPreview'),
-                me = this;
+                me = this,
+                isResized = false;
             if (previewPanel && me.api) {
                 previewPanel.show();
                 var onWindowResize = function() {
+                    if (isResized) return;
+                    isResized = true;
                     Common.NotificationCenter.off('window:resize', onWindowResize);
 
                     var current = me.api.getCurrentPage();
@@ -133,9 +136,12 @@ define([
 
                     Common.component.Analytics.trackEvent('Status Bar', 'Preview');
                 };
-                if (!me.statusbar.mode.isDesktopApp) {
+                if (!me.statusbar.mode.isDesktopApp && !Common.Utils.isIE11) {
                     Common.NotificationCenter.on('window:resize', onWindowResize);
                     me.fullScreen(document.documentElement);
+                    setTimeout(function(){
+                        onWindowResize();
+                    }, 100);
                 } else
                     onWindowResize();
             }

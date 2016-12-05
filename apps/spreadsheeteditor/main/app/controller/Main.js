@@ -52,6 +52,7 @@ define([
     'common/main/lib/util/LanguageInfo',
     'spreadsheeteditor/main/app/collection/ShapeGroups',
     'spreadsheeteditor/main/app/collection/TableTemplates',
+    'spreadsheeteditor/main/app/collection/EquationGroups',
     'spreadsheeteditor/main/app/controller/FormulaDialog',
     'spreadsheeteditor/main/app/view/FormulaLang'
 ], function () {
@@ -83,6 +84,7 @@ define([
             models: [],
             collections: [
                 'ShapeGroups',
+                'EquationGroups',
                 'TableTemplates',
                 'Common.Collections.TextArt'
             ],
@@ -128,6 +130,7 @@ define([
                 this.api.asc_registerCallback('asc_onDocumentUpdateVersion', _.bind(this.onUpdateVersion, this));
                 this.api.asc_registerCallback('asc_onDocumentName',          _.bind(this.onDocumentName, this));
                 this.api.asc_registerCallback('asc_onPrintUrl',              _.bind(this.onPrintUrl, this));
+                this.api.asc_registerCallback('asc_onMeta',                  _.bind(this.onMeta, this));
                 Common.NotificationCenter.on('api:disconnect',               _.bind(this.onCoAuthoringDisconnect, this));
                 Common.NotificationCenter.on('goback',                       _.bind(this.goBack, this));
                 Common.NotificationCenter.on('namedrange:locked',            _.bind(this.onNamedRangeLocked, this));
@@ -165,12 +168,15 @@ define([
 
                 $(document.body).on('blur', 'input, textarea', function(e) {
                     if (this.isAppDisabled === true) return;
-                    if (!me.isModalShowed && !(me.loadMask && me.loadMask.isVisible()) &&
-                        (!/area_id/.test(e.target.id) && $(e.target).parent().find(e.relatedTarget).length<1 /* When focus in combobox goes from input to it's menu button or menu items */
-                        || !e.relatedTarget)) {
-                        me.api.asc_enableKeyEvents(true);
-                        if (/msg-reply/.test(e.target.className))
-                            me.dontCloseDummyComment = false;
+                    if (!me.isModalShowed && !(me.loadMask && me.loadMask.isVisible())) {
+                        if (!e.relatedTarget ||
+                            !/area_id/.test(e.target.id) && $(e.target).parent().find(e.relatedTarget).length<1 /* Check if focus in combobox goes from input to it's menu button or menu items */
+                            && (e.relatedTarget.localName != 'input' || !/form-control/.test(e.relatedTarget.className)) /* Check if focus goes to text input with class "form-control" */
+                            && (e.relatedTarget.localName != 'textarea' || /area_id/.test(e.relatedTarget.id))) /* Check if focus goes to textarea, but not to "area_id" */ {
+                            me.api.asc_enableKeyEvents(true);
+                            if (/msg-reply/.test(e.target.className))
+                                me.dontCloseDummyComment = false;
+                        }
                     }
                 }).on('dragover', function(e) {
                     var event = e.originalEvent;
@@ -290,8 +296,6 @@ define([
 
                     var _user = new Asc.asc_CUserInfo();
                     _user.put_Id(this.appOptions.user.id);
-                    _user.put_FirstName(this.appOptions.user.firstname);
-                    _user.put_LastName(this.appOptions.user.lastname);
                     _user.put_FullName(this.appOptions.user.fullname);
 
                     docInfo = new Asc.asc_CDocInfo();
@@ -303,6 +307,7 @@ define([
                     docInfo.put_Options(data.doc.options);
                     docInfo.put_UserInfo(_user);
                     docInfo.put_CallbackUrl(this.editorConfig.callbackUrl);
+                    docInfo.put_Token(data.doc.token);
 
                     this.headerView.setDocumentCaption(data.doc.title);
                 }
@@ -329,6 +334,7 @@ define([
                     this._state.lostEditingRights = !this._state.lostEditingRights;
                     this.api.asc_coAuthoringDisconnect();
                     this.getApplication().getController('LeftMenu').leftMenu.getMenu('file').panels['rights'].onLostEditRights();
+                    Common.NotificationCenter.trigger('api:disconnect');
                     if (!old_rights)
                         Common.UI.warning({
                             title: this.notcriticalErrorTitle,
@@ -563,7 +569,8 @@ define([
                 me.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
 
                 value = (this.appOptions.isEditMailMerge || this.appOptions.isEditDiagram) ? 100 : Common.localStorage.getItem("sse-settings-zoom");
-                this.api.asc_setZoom(!value?1:parseInt(value)/100);
+                var zf = (value!==null) ? parseInt(value)/100 : (this.appOptions.customization && this.appOptions.customization.zoom ? parseInt(this.appOptions.customization.zoom)/100 : 1);
+                this.api.asc_setZoom(zf>0 ? zf : 1);
 
                 /** coauthoring begin **/
                 value = Common.localStorage.getItem("sse-settings-livecomment");
@@ -572,6 +579,10 @@ define([
 
                 if (this.appOptions.isEdit && this.appOptions.canLicense && !this.appOptions.isOffline && this.appOptions.canCoAuthoring) {
                     value = Common.localStorage.getItem("sse-settings-coauthmode");
+                    if (value===null && Common.localStorage.getItem("sse-settings-autosave")===null &&
+                        this.appOptions.customization && this.appOptions.customization.autosave===false) {
+                        value = 0; // use customization.autosave only when sse-settings-coauthmode and sse-settings-autosave are null
+                    }
                     this._state.fastCoauth = (value===null || parseInt(value) == 1);
                 } else
                     this._state.fastCoauth = false;
@@ -630,6 +641,8 @@ define([
                 if (me.appOptions.isEdit) {
                     if (me.appOptions.canAutosave) {
                         value = Common.localStorage.getItem("sse-settings-autosave");
+                        if (value===null && me.appOptions.customization && me.appOptions.customization.autosave===false)
+                            value = 0;
                         value = (!me._state.fastCoauth && value!==null) ? parseInt(value) : (me.appOptions.canCoAuthoring ? 1 : 0);
                     } else {
                         value = 0;
@@ -651,7 +664,6 @@ define([
 
                             documentHolderView.createDelayedElements();
                             toolbarController.createDelayedElements();
-                            rightmenuController.createDelayedElements();
 
                             if (!me.appOptions.isEditMailMerge && !me.appOptions.isEditDiagram) {
                                 var shapes = me.api.asc_getPropertyEditorShapes();
@@ -661,6 +673,8 @@ define([
                                 me.fillTextArt(me.api.asc_getTextArtPreviews());
                                 me.updateThemeColors();
                             }
+
+                            rightmenuController.createDelayedElements();
 
                             me.api.asc_registerCallback('asc_onSaveUrl', _.bind(me.onSaveUrl, me));
                             me.api.asc_registerCallback('asc_onDocumentModifiedChanged', _.bind(me.onDocumentModifiedChanged, me));
@@ -753,6 +767,9 @@ define([
                         return;
                     }
 
+                    if (params.asc_getRights() !== Asc.c_oRights.Edit)
+                        this.permissions.edit = false;
+
                     this.appOptions.canAutosave = true;
                     this.appOptions.canAnalytics = params.asc_getIsAnalyticsEnable();
 
@@ -764,6 +781,7 @@ define([
                     /** coauthoring end **/
                     this.appOptions.canComments    = this.appOptions.canLicense && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.comments===false);
                     this.appOptions.canChat        = this.appOptions.canLicense && !this.appOptions.isOffline && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.chat===false);
+                    this.appOptions.canRename      = !!this.permissions.rename;
 
                     this.appOptions.canBranding  = (licType!==Asc.c_oLicenseResult.Error) && (typeof this.editorConfig.customization == 'object');
                     if (this.appOptions.canBranding)
@@ -772,6 +790,7 @@ define([
                     this.appOptions.canBrandingExt = params.asc_getCanBranding() && (typeof this.editorConfig.customization == 'object');
 
                     params.asc_getTrial() && this.headerView.setDeveloperMode(true);
+                    this.appOptions.canRename && this.headerView.setCanRename(true);
                 }
 
                 this.appOptions.canRequestEditRights = this.editorConfig.canRequestEditRights;
@@ -928,7 +947,6 @@ define([
                         var options = {};
                         JSON.parse(Common.localStorage.getItem('sse-hidden-title')) && (options.title = true);
                         JSON.parse(Common.localStorage.getItem('sse-hidden-formula')) && (options.formula = true);
-                        JSON.parse(Common.localStorage.getItem('sse-hidden-headings')) && (options.headings = true);
                         application.getController('Toolbar').hideElements(options);
                     } else
                         rightmenuController.getView('RightMenu').hide();
@@ -977,8 +995,12 @@ define([
                         config.msg = this.convertationTimeoutText;
                         break;
 
-                    case Asc.c_oAscError.ID.ConvertationError:
-                        config.msg = this.convertationErrorText;
+                    case Asc.c_oAscError.ID.ConvertationOpenError:
+                        config.msg = this.openErrorText;
+                        break;
+
+                    case Asc.c_oAscError.ID.ConvertationSaveError:
+                        config.msg = this.saveErrorText;
                         break;
 
                     case Asc.c_oAscError.ID.DownloadError:
@@ -1003,30 +1025,37 @@ define([
 
                     case Asc.c_oAscError.ID.FrmlWrongCountParentheses:
                         config.msg = this.errorWrongBracketsCount;
+                        config.closable = true;
                         break;
 
                     case Asc.c_oAscError.ID.FrmlWrongOperator:
                         config.msg = this.errorWrongOperator;
+                        config.closable = true;
                         break;
 
                     case Asc.c_oAscError.ID.FrmlWrongMaxArgument:
                         config.msg = this.errorCountArgExceed;
+                        config.closable = true;
                         break;
 
                     case Asc.c_oAscError.ID.FrmlWrongCountArgument:
                         config.msg = this.errorCountArg;
+                        config.closable = true;
                         break;
 
                     case Asc.c_oAscError.ID.FrmlWrongFunctionName:
                         config.msg = this.errorFormulaName;
+                        config.closable = true;
                         break;
 
                     case Asc.c_oAscError.ID.FrmlAnotherParsingError:
                         config.msg = this.errorFormulaParsing;
+                        config.closable = true;
                         break;
 
                     case Asc.c_oAscError.ID.FrmlWrongArgumentRange:
                         config.msg = this.errorArgsRange;
+                        config.closable = true;
                         break;
 
                     case Asc.c_oAscError.ID.UnexpectedGuid:
@@ -1058,11 +1087,11 @@ define([
                         break;
 
                     case Asc.c_oAscError.ID.VKeyEncrypt:
-                        config.msg = this.errorKeyEncrypt;
+                        config.msg = this.errorToken;
                         break;
 
                     case Asc.c_oAscError.ID.KeyExpire:
-                        config.msg = this.errorKeyExpire;
+                        config.msg = this.errorTokenExpire;
                         break;
 
                     case Asc.c_oAscError.ID.UserCountExceed:
@@ -1078,7 +1107,7 @@ define([
                         break;
 
                     case Asc.c_oAscError.ID.CoAuthoringDisconnect:
-                        config.msg = (this.appOptions.isEdit) ? this.errorCoAuthoringDisconnect : this.errorViewerDisconnect;
+                        config.msg = this.errorViewerDisconnect;
                         break;
 
                     case Asc.c_oAscError.ID.ConvertationPassword:
@@ -1146,6 +1175,30 @@ define([
                         config.msg = this.errorFrmlWrongReferences;
                         break;
 
+                    case Asc.c_oAscError.ID.CopyMultiselectAreaError:
+                        config.msg = this.errorCopyMultiselectArea;
+                        break;
+
+                    case Asc.c_oAscError.ID.PrintMaxPagesCount:
+                        config.msg = this.errorPrintMaxPagesCount;
+                        break;
+
+                    case Asc.c_oAscError.ID.SessionAbsolute:
+                        config.msg = this.errorSessionAbsolute;
+                        break;
+
+                    case Asc.c_oAscError.ID.SessionIdle:
+                        config.msg = this.errorSessionIdle;
+                        break;
+
+                    case Asc.c_oAscError.ID.SessionToken:
+                        config.msg = this.errorSessionToken;
+                        break;
+
+                    case Asc.c_oAscError.ID.AccessDeny:
+                        config.msg = this.errorAccessDeny;
+                        break;
+
                     default:
                         config.msg = this.errorDefaultMessage.replace('%1', id);
                         break;
@@ -1188,7 +1241,9 @@ define([
 
             onCoAuthoringDisconnect: function() {
                 this.getApplication().getController('Viewport').getView('Viewport').setMode({isDisconnected:true});
-                 this._state.isDisconnected = true;
+                this.getApplication().getController('Viewport').getView('Common.Views.Header').setCanRename(false);
+                this.appOptions.canRename = false;
+                this._state.isDisconnected = true;
             },
 
             showTips: function(strings) {
@@ -1199,7 +1254,7 @@ define([
                 function showNextTip() {
                     var str_tip = strings.shift();
                     if (str_tip) {
-                        str_tip += me.textCloseTip;
+                        str_tip += '\n' + me.textCloseTip;
                         tooltip.setTitle(str_tip);
                         tooltip.show();
                     }
@@ -1392,7 +1447,6 @@ define([
                 var me = this;
                 if (id == Asc.c_oAscConfirm.ConfirmReplaceRange) {
                     Common.UI.warning({
-                        closable: false,
                         title: this.notcriticalErrorTitle,
                         msg: this.confirmMoveCellRange,
                         buttons: ['yes', 'no'],
@@ -1706,6 +1760,17 @@ define([
                 this.updateWindowTitle(this.api.asc_isDocumentModified(), true);
             },
 
+            onMeta: function(meta) {
+                var app = this.getApplication(),
+                    filemenu = app.getController('LeftMenu').getView('LeftMenu').getMenu('file');
+                app.getController('Viewport').getView('Common.Views.Header').setDocumentCaption(meta.title);
+                this.updateWindowTitle(this.api.asc_isDocumentModified(), true);
+                this.appOptions.spreadsheet.title = meta.title;
+                filemenu.loadDocument({doc:this.appOptions.spreadsheet});
+                filemenu.panels['info'].updateInfo(this.appOptions.spreadsheet);
+                Common.Gateway.metaChange(meta);
+            },
+
             onPrint: function() {
                 if (!this.appOptions.canPrint) return;
                 Common.NotificationCenter.trigger('print', this);
@@ -1884,7 +1949,6 @@ define([
             reloadButtonText: 'Reload Page',
             unknownErrorText: 'Unknown error.',
             convertationTimeoutText: 'Convertation timeout exceeded.',
-            convertationErrorText: 'Convertation failed.',
             downloadErrorText: 'Download failed.',
             unsupportedBrowserErrorText : 'Your browser is not supported.',
             requestEditFailedTitleText: 'Access denied',
@@ -1943,7 +2007,7 @@ define([
             errorAutoFilterChangeFormatTable: 'The operation could not be done for the selected cells as you cannot move a part of the table.<br>Select another data range so that the whole table was shifted and try again.',
             errorAutoFilterHiddenRange: 'The operation cannot be performed because the area contains filtered cells.<br>Please unhide the filtered elements and try again.',
             errorAutoFilterChange: 'The operation is not allowed, as it is attempting to shift cells in a table on your worksheet.',
-            textCloseTip: '\nClick to close the tip.',
+            textCloseTip: 'Click to close the tip.',
             textShape: 'Shape',
             errorFillRange: 'Could not fill the selected range of cells.<br>All the merged cells need to be the same size.',
             errorUpdateVersion: 'The file version has been changed. The page will be reloaded.',
@@ -1965,9 +2029,19 @@ define([
             warnNoLicense: 'You are using an open source version of ONLYOFFICE. The version has limitations for concurrent connections to the document server (20 connections at a time).<br>If you need more please consider purchasing a commercial license.',
             textContactUs: 'Contact sales',
             confirmPutMergeRange: 'The source data contains merged cells.<br>They will be unmerged before they are pasted into the table.',
-            errorViewerDisconnect: 'Connection is lost. You can still view the document,<br>but will not be able to download until the connection is restored.',
+            errorViewerDisconnect: 'Connection is lost. You can still view the document,<br>but will not be able to download or print until the connection is restored.',
             warnLicenseExp: 'Your license has expired.<br>Please update your license and refresh the page.',
-            titleLicenseExp: 'License expired'
+            titleLicenseExp: 'License expired',
+            openErrorText: 'An error has occurred while opening the file',
+            saveErrorText: 'An error has occurred while saving the file',
+            errorCopyMultiselectArea: 'This command cannot be used with multiple selections.<br>Select a single range and try again.',
+            errorPrintMaxPagesCount: 'Unfortunately, it’s not possible to print more than 1500 pages at once in the current version of the program.<br>This restriction will be eliminated in upcoming releases.',
+            errorToken: 'The document security token is not correctly formed.<br>Please contact your Document Server administrator.',
+            errorTokenExpire: 'The document security token has expired.<br>Please contact your Document Server administrator.',
+            errorSessionAbsolute: 'The document editing session has expired. Please reload the page.',
+            errorSessionIdle: 'The document has not been edited for quite a long time. Please reload the page.',
+            errorSessionToken: 'The connection to the server has been interrupted. Please reload the page.',
+            errorAccessDeny: 'You are trying to perform an action you do not have rights for.<br>Please contact your Document Server administrator.'
         }
     })(), SSE.Controllers.Main || {}))
 });

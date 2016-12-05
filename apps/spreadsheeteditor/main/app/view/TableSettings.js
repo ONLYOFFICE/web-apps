@@ -33,7 +33,7 @@ define([
         },
 
         initialize: function () {
-            var me = this;
+            this._initSettings = true;
 
             this._state = {
                 TableName: '',
@@ -56,126 +56,6 @@ define([
             this._noApply = false;
 
             this.render();
-
-            this.chHeader = new Common.UI.CheckBox({
-                el: $('#table-checkbox-header'),
-                labelText: this.textHeader
-            });
-            this.lockedControls.push(this.chHeader);
-
-            this.chTotal = new Common.UI.CheckBox({
-                el: $('#table-checkbox-total'),
-                labelText: this.textTotal
-            });
-            this.lockedControls.push(this.chTotal);
-
-            this.chBanded = new Common.UI.CheckBox({
-                el: $('#table-checkbox-banded'),
-                labelText: this.textBanded
-            });
-            this.lockedControls.push(this.chBanded);
-
-            this.chFirst = new Common.UI.CheckBox({
-                el: $('#table-checkbox-first'),
-                labelText: this.textFirst
-            });
-            this.lockedControls.push(this.chFirst);
-
-            this.chLast = new Common.UI.CheckBox({
-                el: $('#table-checkbox-last'),
-                labelText: this.textLast
-            });
-            this.lockedControls.push(this.chLast);
-
-            this.chColBanded = new Common.UI.CheckBox({
-                el: $('#table-checkbox-col-banded'),
-                labelText: this.textBanded
-            });
-            this.lockedControls.push(this.chColBanded);
-
-            this.chFilter = new Common.UI.CheckBox({
-                el: $('#table-checkbox-filter'),
-                labelText: this.textFilter
-            });
-            this.lockedControls.push(this.chFilter);
-
-            this.chHeader.on('change', _.bind(this.onCheckTemplateChange, this, Asc.c_oAscChangeTableStyleInfo.rowHeader, 'CheckHeader'));
-            this.chTotal.on('change', _.bind(this.onCheckTemplateChange, this, Asc.c_oAscChangeTableStyleInfo.rowTotal, 'CheckTotal'));
-            this.chBanded.on('change', _.bind(this.onCheckTemplateChange, this, Asc.c_oAscChangeTableStyleInfo.rowBanded, 'CheckBanded'));
-            this.chFirst.on('change', _.bind(this.onCheckTemplateChange, this, Asc.c_oAscChangeTableStyleInfo.columnFirst, 'CheckFirst'));
-            this.chLast.on('change', _.bind(this.onCheckTemplateChange, this, Asc.c_oAscChangeTableStyleInfo.columnLast, 'CheckLast'));
-            this.chColBanded.on('change', _.bind(this.onCheckTemplateChange, this, Asc.c_oAscChangeTableStyleInfo.columnBanded, 'CheckColBanded'));
-            this.chFilter.on('change', _.bind(this.onCheckTemplateChange, this, Asc.c_oAscChangeTableStyleInfo.filterButton, 'CheckFilter'));
-
-            this.cmbTableTemplate = new Common.UI.ComboDataView({
-                itemWidth: 61,
-                itemHeight: 46,
-                menuMaxHeight: 300,
-                enableKeyEvents: true
-            });
-            this.cmbTableTemplate.render($('#table-combo-template'));
-            this.cmbTableTemplate.openButton.menu.cmpEl.css({
-                'min-width': 175,
-                'max-width': 175
-            });
-            this.cmbTableTemplate.on('click', _.bind(this.onTableTemplateSelect, this));
-            this.cmbTableTemplate.openButton.menu.on('show:after', function () {
-                me.cmbTableTemplate.menuPicker.scroller.update({alwaysVisibleY: true});
-            });
-            this.lockedControls.push(this.cmbTableTemplate);
-
-            this.txtTableName = new Common.UI.InputField({
-                el          : $('#table-txt-name'),
-                name        : 'tablename',
-                style       : 'width: 100%;',
-                validateOnBlur: false
-            });
-            this.txtTableName.on('changed:after', _.bind(this.onTableNameChanged, this));
-            this.lockedControls.push(this.txtTableName);
-
-            this.btnSelectData = new Common.UI.Button({
-                el: $('#table-btn-select-data')
-            });
-            this.btnSelectData.on('click', _.bind(this.onSelectData, this));
-            this.lockedControls.push(this.btnSelectData);
-
-            this.btnEdit = new Common.UI.Button({
-                cls: 'btn-icon-default',
-                iconCls: 'btn-edit-table',
-                menu        : new Common.UI.Menu({
-                    menuAlign: 'tr-br',
-                    items: [
-                        { caption: this.selectRowText,      value:  Asc.c_oAscChangeSelectionFormatTable.row,   idx: 0 },
-                        { caption: this.selectColumnText,   value: Asc.c_oAscChangeSelectionFormatTable.column, idx: 1 },
-                        { caption: this.selectDataText,     value: Asc.c_oAscChangeSelectionFormatTable.data,   idx: 2 },
-                        { caption: this.selectTableText,    value: Asc.c_oAscChangeSelectionFormatTable.all,    idx: 3 },
-                        { caption: '--' },
-                        { caption: this.insertRowAboveText, value: Asc.c_oAscInsertOptions.InsertTableRowAbove,     idx: 4 },
-                        { caption: this.insertRowBelowText, value: Asc.c_oAscInsertOptions.InsertTableRowBelow,     idx: 5 },
-                        { caption: this.insertColumnLeftText,  value: Asc.c_oAscInsertOptions.InsertTableColLeft,   idx: 6 },
-                        { caption: this.insertColumnRightText, value: Asc.c_oAscInsertOptions.InsertTableColRight,  idx: 7 },
-                        { caption: '--' },
-                        { caption: this.deleteRowText,      value: Asc.c_oAscDeleteOptions.DeleteRows,      idx: 8 },
-                        { caption: this.deleteColumnText,   value: Asc.c_oAscDeleteOptions.DeleteColumns,   idx: 9 },
-                        { caption: this.deleteTableText,    value: Asc.c_oAscDeleteOptions.DeleteTable,     idx: 10 }
-                    ]
-                })
-            });
-            this.btnEdit.render( $('#table-btn-edit')) ;
-            this.btnEdit.menu.on('show:after', _.bind( function(menu){
-                if (this.api) {
-                    menu.items[5].setDisabled(!this._originalProps.asc_getIsInsertRowAbove());
-                    menu.items[6].setDisabled(!this._originalProps.asc_getIsInsertRowBelow());
-                    menu.items[7].setDisabled(!this._originalProps.asc_getIsInsertColumnLeft());
-                    menu.items[8].setDisabled(!this._originalProps.asc_getIsInsertColumnRight());
-
-                    menu.items[10].setDisabled(!this._originalProps.asc_getIsDeleteRow());
-                    menu.items[11].setDisabled(!this._originalProps.asc_getIsDeleteColumn());
-                    menu.items[12].setDisabled(!this._originalProps.asc_getIsDeleteTable());
-                }
-            }, this));
-            this.btnEdit.menu.on('item:click', _.bind(this.onEditClick, this));
-            this.lockedControls.push(this.btnEdit);
         },
 
         onCheckTemplateChange: function(type, stateName, field, newValue, oldValue, eOpts) {
@@ -265,7 +145,118 @@ define([
             return this;
         },
 
+        createDelayedControls: function() {
+            var me = this;
+            this.chHeader = new Common.UI.CheckBox({
+                el: $('#table-checkbox-header'),
+                labelText: this.textHeader
+            });
+            this.lockedControls.push(this.chHeader);
+
+            this.chTotal = new Common.UI.CheckBox({
+                el: $('#table-checkbox-total'),
+                labelText: this.textTotal
+            });
+            this.lockedControls.push(this.chTotal);
+
+            this.chBanded = new Common.UI.CheckBox({
+                el: $('#table-checkbox-banded'),
+                labelText: this.textBanded
+            });
+            this.lockedControls.push(this.chBanded);
+
+            this.chFirst = new Common.UI.CheckBox({
+                el: $('#table-checkbox-first'),
+                labelText: this.textFirst
+            });
+            this.lockedControls.push(this.chFirst);
+
+            this.chLast = new Common.UI.CheckBox({
+                el: $('#table-checkbox-last'),
+                labelText: this.textLast
+            });
+            this.lockedControls.push(this.chLast);
+
+            this.chColBanded = new Common.UI.CheckBox({
+                el: $('#table-checkbox-col-banded'),
+                labelText: this.textBanded
+            });
+            this.lockedControls.push(this.chColBanded);
+
+            this.chFilter = new Common.UI.CheckBox({
+                el: $('#table-checkbox-filter'),
+                labelText: this.textFilter
+            });
+            this.lockedControls.push(this.chFilter);
+
+            this.chHeader.on('change', _.bind(this.onCheckTemplateChange, this, Asc.c_oAscChangeTableStyleInfo.rowHeader, 'CheckHeader'));
+            this.chTotal.on('change', _.bind(this.onCheckTemplateChange, this, Asc.c_oAscChangeTableStyleInfo.rowTotal, 'CheckTotal'));
+            this.chBanded.on('change', _.bind(this.onCheckTemplateChange, this, Asc.c_oAscChangeTableStyleInfo.rowBanded, 'CheckBanded'));
+            this.chFirst.on('change', _.bind(this.onCheckTemplateChange, this, Asc.c_oAscChangeTableStyleInfo.columnFirst, 'CheckFirst'));
+            this.chLast.on('change', _.bind(this.onCheckTemplateChange, this, Asc.c_oAscChangeTableStyleInfo.columnLast, 'CheckLast'));
+            this.chColBanded.on('change', _.bind(this.onCheckTemplateChange, this, Asc.c_oAscChangeTableStyleInfo.columnBanded, 'CheckColBanded'));
+            this.chFilter.on('change', _.bind(this.onCheckTemplateChange, this, Asc.c_oAscChangeTableStyleInfo.filterButton, 'CheckFilter'));
+
+            this.txtTableName = new Common.UI.InputField({
+                el          : $('#table-txt-name'),
+                name        : 'tablename',
+                style       : 'width: 100%;',
+                validateOnBlur: false
+            });
+            this.txtTableName.on('changed:after', _.bind(this.onTableNameChanged, this));
+            this.lockedControls.push(this.txtTableName);
+
+            this.btnSelectData = new Common.UI.Button({
+                el: $('#table-btn-select-data')
+            });
+            this.btnSelectData.on('click', _.bind(this.onSelectData, this));
+            this.lockedControls.push(this.btnSelectData);
+
+            this.btnEdit = new Common.UI.Button({
+                cls: 'btn-icon-default',
+                iconCls: 'btn-edit-table',
+                menu        : new Common.UI.Menu({
+                    menuAlign: 'tr-br',
+                    items: [
+                        { caption: this.selectRowText,      value:  Asc.c_oAscChangeSelectionFormatTable.row,   idx: 0 },
+                        { caption: this.selectColumnText,   value: Asc.c_oAscChangeSelectionFormatTable.column, idx: 1 },
+                        { caption: this.selectDataText,     value: Asc.c_oAscChangeSelectionFormatTable.data,   idx: 2 },
+                        { caption: this.selectTableText,    value: Asc.c_oAscChangeSelectionFormatTable.all,    idx: 3 },
+                        { caption: '--' },
+                        { caption: this.insertRowAboveText, value: Asc.c_oAscInsertOptions.InsertTableRowAbove,     idx: 4 },
+                        { caption: this.insertRowBelowText, value: Asc.c_oAscInsertOptions.InsertTableRowBelow,     idx: 5 },
+                        { caption: this.insertColumnLeftText,  value: Asc.c_oAscInsertOptions.InsertTableColLeft,   idx: 6 },
+                        { caption: this.insertColumnRightText, value: Asc.c_oAscInsertOptions.InsertTableColRight,  idx: 7 },
+                        { caption: '--' },
+                        { caption: this.deleteRowText,      value: Asc.c_oAscDeleteOptions.DeleteRows,      idx: 8 },
+                        { caption: this.deleteColumnText,   value: Asc.c_oAscDeleteOptions.DeleteColumns,   idx: 9 },
+                        { caption: this.deleteTableText,    value: Asc.c_oAscDeleteOptions.DeleteTable,     idx: 10 }
+                    ]
+                })
+            });
+            this.btnEdit.render( $('#table-btn-edit')) ;
+            this.btnEdit.menu.on('show:after', _.bind( function(menu){
+                if (this.api) {
+                    menu.items[5].setDisabled(!this._originalProps.asc_getIsInsertRowAbove());
+                    menu.items[6].setDisabled(!this._originalProps.asc_getIsInsertRowBelow());
+                    menu.items[7].setDisabled(!this._originalProps.asc_getIsInsertColumnLeft());
+                    menu.items[8].setDisabled(!this._originalProps.asc_getIsInsertColumnRight());
+
+                    menu.items[10].setDisabled(!this._originalProps.asc_getIsDeleteRow());
+                    menu.items[11].setDisabled(!this._originalProps.asc_getIsDeleteColumn());
+                    menu.items[12].setDisabled(!this._originalProps.asc_getIsDeleteTable());
+                }
+            }, this));
+            this.btnEdit.menu.on('item:click', _.bind(this.onEditClick, this));
+            this.lockedControls.push(this.btnEdit);
+
+            this._initSettings = false;
+        },
+
         ChangeSettings: function(props) {
+            if (this._initSettings)
+                this.createDelayedControls();
+
             this.disableControls(this._locked);
 
             if (props )//formatTableInfo
@@ -360,6 +351,25 @@ define([
             var self = this;
             this._isTemplatesChanged = true;
 
+            if (!this.cmbTableTemplate) {
+                this.cmbTableTemplate = new Common.UI.ComboDataView({
+                    itemWidth: 61,
+                    itemHeight: 46,
+                    menuMaxHeight: 300,
+                    enableKeyEvents: true
+                });
+                this.cmbTableTemplate.render($('#table-combo-template'));
+                this.cmbTableTemplate.openButton.menu.cmpEl.css({
+                    'min-width': 175,
+                    'max-width': 175
+                });
+                this.cmbTableTemplate.on('click', _.bind(this.onTableTemplateSelect, this));
+                this.cmbTableTemplate.openButton.menu.on('show:after', function () {
+                    self.cmbTableTemplate.menuPicker.scroller.update({alwaysVisibleY: true});
+                });
+                this.lockedControls.push(this.cmbTableTemplate);
+            }
+
             var count = self.cmbTableTemplate.menuPicker.store.length;
             if (count>0 && count==Templates.length) {
                 var data = self.cmbTableTemplate.menuPicker.store.models;
@@ -413,6 +423,8 @@ define([
         },
 
         disableControls: function(disable) {
+            if (this._initSettings) return;
+            
             if (this._state.DisabledControls!==disable) {
                 this._state.DisabledControls = disable;
                 _.each(this.lockedControls, function(item) {

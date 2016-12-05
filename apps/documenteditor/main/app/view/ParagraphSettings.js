@@ -276,10 +276,8 @@ define([
         },
 
         ChangeSettings: function(prop) {
-            if (this._initSettings) {
+            if (this._initSettings)
                 this.createDelayedElements();
-                this._initSettings = false;
-            }
 
             this.disableControls(this._locked);
             this.hideTextOnlySettings(this.isChart);
@@ -397,6 +395,7 @@ define([
         createDelayedElements: function() {
             this.UpdateThemeColors();
             this.updateMetricUnit();
+            this._initSettings = false;
         },
 
         openAdvancedSettings: function(e) {
@@ -445,7 +444,7 @@ define([
             if (!this.mnuColorPicker) {
                 this.btnColor.setMenu( new Common.UI.Menu({
                     items: [
-                        { template: _.template('<div id="paragraph-color-menu" style="width: 165px; height: 220px; margin: 10px;"></div>') },
+                        { template: _.template('<div id="paragraph-color-menu" style="width: 169px; height: 220px; margin: 10px;"></div>') },
                         { template: _.template('<a id="paragraph-color-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
                     ]
                 }));

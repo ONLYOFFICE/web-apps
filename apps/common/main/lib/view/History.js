@@ -55,9 +55,12 @@ define([
         template: _.template([
             '<div id="history-box" class="layout-ct vbox">',
                 '<div id="history-header" class="">',
-                    '<div id="history-btn-back"><%=scope.textHistoryHeader%></div>',
+                    '<div id="history-btn-back"><%=scope.textCloseHistory%></div>',
                 '</div>',
                 '<div id="history-list" class="">',
+                '</div>',
+                '<div id="history-expand-changes" class="">',
+                    '<div id="history-btn-expand"><%=scope.textHideAll%></div>',
                 '</div>',
             '</div>'
         ].join('')),
@@ -76,29 +79,78 @@ define([
                 store: this.storeHistory,
                 enableKeyEvents: false,
                 itemTemplate: _.template([
-                    '<div id="<%= id %>" class="history-item-wrap" style="display: block;">',
+                    '<div id="<%= id %>" class="history-item-wrap ' + '<% if (!isVisible) { %>' + 'hidden' + '<% } %>' + '" ',
+                    'style="display: block; ' + '<% if (!isRevision) { %>' + 'padding-left: 40px;' + '<% } %>' + '<% if (canRestore && selected) { %>' + 'padding-bottom: 6px;' + '<% } %>' +'">',
                         '<div class="user-date"><%= created %></div>',
                         '<% if (markedAsVersion) { %>',
                         '<div class="user-version">ver.<%=version%></div>',
+                        '<% } %>',
+                        '<% if (isRevision && hasChanges) { %>',
+                            '<div class="revision-expand img-commonctrl ' + '<% if (isExpanded) { %>' + 'up' + '<% } %>' + '"></div>',
                         '<% } %>',
                         '<div class="user-name">',
                             '<div class="color" style="display: inline-block; background-color:' + '<%=usercolor%>;' + '" >',
                             '</div><%= Common.Utils.String.htmlEncode(username) %>',
                         '</div>',
+                        '<% if (canRestore && selected) { %>',
+                            '<label class="revision-restore" role="presentation" tabindex="-1">' + this.textRestore + '</label>',
+                        '<% } %>',
                     '</div>'
                 ].join(''))
             });
+
+            var me = this;
+            this.viewHistoryList.onClickItem = function(view, record, e) {
+                var btn = $(e.target);
+                if (btn && btn.hasClass('revision-expand')) {
+                    var isExpanded = !record.get('isExpanded');
+                    record.set('isExpanded', isExpanded);
+                    var rev, revisions = me.storeHistory.findRevisions(record.get('revision'));
+                    if (revisions && revisions.length>1) {
+                        for(var i=1; i<revisions.length; i++)
+                            revisions[i].set('isVisible', isExpanded);
+                    }
+                    this.scroller.update({minScrollbarLength: 40});
+                } else
+                    Common.UI.DataView.prototype.onClickItem.call(this, view, record, e);
+                me.btnExpand.cmpEl.text(me.storeHistory.hasCollapsed() ? me.textShowAll : me.textHideAll);
+            };
+
+            var changetooltip = function (dataview, view, record) {
+                if (record.get('isRevision')) {
+                    if (view.btnTip) {
+                        view.btnTip.dontShow = true;
+                        view.btnTip.tip().remove();
+                        view.btnTip = null;
+                    }
+                    var btns = $(view.el).find('.revision-expand').tooltip({title: (record.get('isExpanded')) ? me.textHide : me.textShow, placement: 'cursor'});
+                    if (btns.length>0)
+                        view.btnTip = btns.data('bs.tooltip');
+                }
+            };
+            this.viewHistoryList.on('item:add', changetooltip);
+            this.viewHistoryList.on('item:change', changetooltip);
 
             this.btnBackToDocument = new Common.UI.Button({
                 el: $('#history-btn-back'),
                 enableToggle: false
             });
-            
+
+            this.btnExpand = new Common.UI.Button({
+                el: $('#history-btn-expand'),
+                enableToggle: false
+            });
+
             this.trigger('render:after', this);
             return this;
         },
 
-        textHistoryHeader: 'Back to Document'
-        
+        textRestore: 'Restore',
+        textShow: 'Expand',
+        textHide: 'Collapse',
+        textCloseHistory: 'Close History',
+        textHideAll: 'Hide detailed changes',
+        textShowAll: 'Show detailed changes'
+
     }, Common.Views.History || {}))
 });

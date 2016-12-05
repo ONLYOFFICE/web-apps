@@ -36,9 +36,14 @@
     .form-control {
         .border-right-radius(0);
         border-right: 0;
+        position: static;
+        z-index: auto;
+        float: none;
     }
 
-    .btn {
+    .btn,
+    .btn:hover,
+    .btn:focus {
         .border-left-radius(0);
         border-left: 0;
         border-color: @input-border;

@@ -641,6 +641,11 @@ define([
                 $(document).on('keydown.' + this.cid, this.binding.keydown);
 
                 var me = this;
+
+                setTimeout(function () {
+                    me.fireEvent('animate:before', me);
+                }, 10);
+
                 if (this.options.animate !== false) {
                     this.$window.css({
                         '-webkit-transform': 'scale(0.8)',

@@ -46,7 +46,8 @@ Common.Views = Common.Views || {};
 define([
     'backbone',
     'text!common/main/lib/template/Header.template',
-    'core'
+    'core',
+    'common/main/lib/view/RenameDialog'
 ], function (Backbone, headerTemplate) { 'use strict';
 
     Common.Views.Header =  Backbone.View.extend(_.extend({
@@ -165,7 +166,7 @@ define([
             if (!value)
                 value = '';
 
-            var dc = $('#header-documentcaption');
+            var dc = $('#header-documentcaption div');
             if (dc)
                 dc.html(Common.Utils.String.htmlEncode(value));
 
@@ -226,8 +227,37 @@ define([
             $('#header-developer').toggleClass('hidden', !mode);
         },
 
+        setCanRename: function(rename) {
+            var dc = $('#header-documentcaption div');
+            if (rename) {
+                var me = this;
+                dc.tooltip({title: me.txtRename, placement: 'cursor'});
+                dc.on('click', function(e) {
+                    (new Common.Views.RenameDialog({
+                        filename: me.documentCaption,
+                        handler: function(result, value) {
+                            if (result == 'ok' && !_.isEmpty(value.trim()) && me.documentCaption !== value.trim()) {
+                                Common.Gateway.requestRename(value);
+                            }
+                            Common.NotificationCenter.trigger('edit:complete', me);
+                        }
+                    })).show(dc.position().left-1, 20);
+                });
+            } else {
+                var tip = dc.data('bs.tooltip');
+                if (tip) {
+                    tip.options.title = '';
+                    tip.setContent();
+                }
+                dc.off('click');
+            }
+            dc.css('cursor', rename ? 'pointer' : 'default');
+            dc.toggleClass('renamed', rename);
+        },
+
         textBack: 'Go to Documents',
         openNewTabText: 'Open in New Tab',
-        txtHeaderDeveloper: 'DEVELOPER MODE'
+        txtHeaderDeveloper: 'DEVELOPER MODE',
+        txtRename: 'Rename'
     }, Common.Views.Header || {}))
 });

@@ -344,6 +344,7 @@
 .toolbar-btn-icon(btn-zoomin,           61, @toolbar-icon-size);
 .toolbar-btn-icon(btn-zoomout,          60, @toolbar-icon-size);
 .toolbar-btn-icon(btn-save-coauth,      69, @toolbar-icon-size);
+.toolbar-btn-icon(btn-insertequation,   74, @toolbar-icon-size);
 
 // add slide
 .btn-toolbar .btn-addslide {background-position: 0 -120px;}
@@ -393,4 +394,9 @@
     color: #ffffff;
     font: 11px arial;
     white-space: nowrap;
+}
+
+.item-equation {
+    border: 1px solid @gray;
+    .background-ximage('@{app-image-path}/toolbar/math.png', '@{app-image-path}/toolbar/math@2x.png', 1500px);
 }

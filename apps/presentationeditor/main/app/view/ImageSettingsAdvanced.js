@@ -201,11 +201,13 @@ define([    'text!presentationeditor/main/app/template/ImageSettingsAdvanced.tem
 
                 var value = props.asc_getLockAspect();
                 this.btnRatio.toggle(value);
+                if (props.get_Height()>0)
+                    this._nRatio = props.get_Width()/props.get_Height();
 
                 if (props.get_Position()) {
                     var Position = {X: props.get_Position().get_X(), Y: props.get_Position().get_Y()};
-                    if (Position.X !== null && Position.X !== undefined) this.spnX.setValue(Common.Utils.Metric.fnRecalcFromMM(Position.X), true);
-                    if (Position.Y !== null && Position.Y !== undefined) this.spnY.setValue(Common.Utils.Metric.fnRecalcFromMM(Position.Y), true);
+                    this.spnX.setValue((Position.X !== null && Position.X !== undefined) ? Common.Utils.Metric.fnRecalcFromMM(Position.X) : '', true);
+                    this.spnY.setValue((Position.Y !== null && Position.Y !== undefined) ? Common.Utils.Metric.fnRecalcFromMM(Position.Y) : '', true);
                 } else {
                     this.spnX.setValue('', true);
                     this.spnY.setValue('', true);

@@ -1,4 +1,4 @@
-<table cols="3">
+<table cols="3" id="chart-panel-size">
     <tr>
         <td colspan=3>
             <label class="header"><%= scope.textSize %></label>
@@ -18,32 +18,120 @@
         </td>
     </tr>
 </table>
-<table cols="2">
+<table cols="1" id="chart-panel-types">
     <tr>
-        <td class="padding-small" colspan=2>
+        <td class="padding-small">
             <div class="separator horizontal"></div>
         </td>
     </tr>
     <tr>
-        <td colspan=2>
-            <label class="header"><%= scope.textChartType %></label>
-        </td>
-    </tr>
-    <tr>
         <td class="padding-small">
+            <label class="header"><%= scope.textType %></label>
             <div id="chart-button-type" style=""></div>
         </td>
+    </tr>
+    <tr>
         <td class="padding-small">
-            <div id="chart-button-style" style=""></div>
+            <label class="header" style=""><%= scope.textStyle %></label>
+            <div class="" id="chart-combo-style" style="width: 100%;"></div>
         </td>
     </tr>
     <tr>
-        <td class="padding-small" colspan=2>
+        <td class="padding-small">
             <div class="separator horizontal"></div>
         </td>
     </tr>
     <tr>
-        <td align="center" colspan=2>
+        <td class="padding-small">
+            <label class="header"><%= scope.textRanges %></label>
+            <button type="button" class="btn btn-text-default" id="chart-btn-select-data" style="min-width: 100px; width: auto; display: block;"><%= scope.textSelectData %></button>
+        </td>
+    </tr>
+</table>
+<table cols="1" id="spark-panel-types">
+    <tr>
+        <td>
+            <label class="header"><%= scope.textType %></label>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small">
+            <div id="spark-button-type" style=""></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small">
+            <div class="separator horizontal"></div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label class="header"><%= scope.textStyle %></label>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small">
+            <label class="input-label" style=""><%= scope.strTemplate %></label>
+            <div class="" id="spark-combo-style" style="width: 100%;"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small">
+            <div style="display:inline-block;vertical-align: middle;width:55px;">
+                <label class="input-label" style=""><%= scope.strSparkColor %></label>
+                <div id="spark-color-btn" style=""></div>
+            </div>
+            <div style="display:inline-block;vertical-align: middle;">
+                <label class="input-label" style=""><%= scope.strLineWeight %></label>
+                <div id="spark-combo-line-type" style="width: 93px;"></div>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small">
+            <div class="separator horizontal"></div>
+        </td>
+    </tr>
+</table>
+<table cols="1" id="spark-panel-points">
+    <tr>
+        <td class="padding-small">
+            <label class="header" style="margin-bottom: 4px;"><%= scope.textShow %></label>
+            <div style="width: 100%; height: 25px; margin-bottom: 8px;">
+                <div id="spark-checkbox-high" style="display: inline-block;margin-top: 4px;"></div>
+                <div id="spark-high-color-btn" style="display: inline-block; float:right;"></div>
+            </div>
+            <div style="width: 100%; height: 25px; margin-bottom: 8px;">
+                <div id="spark-checkbox-low" style="display: inline-block;margin-top: 4px;"></div>
+                <div id="spark-low-color-btn" style="display: inline-block; float:right;"></div>
+            </div>
+            <div style="width: 100%; height: 25px; margin-bottom: 8px;">
+                <div id="spark-checkbox-negative" style="display: inline-block;margin-top: 4px;"></div>
+                <div id="spark-negative-color-btn" style="display: inline-block; float:right;"></div>
+            </div>
+            <div style="width: 100%; height: 25px; margin-bottom: 8px;">
+                <div id="spark-checkbox-first" style="display: inline-block;margin-top: 4px;"></div>
+                <div id="spark-first-color-btn" style="display: inline-block; float:right;"></div>
+            </div>
+            <div style="width: 100%; height: 25px; margin-bottom: 8px;">
+                <div id="spark-checkbox-last" style="display: inline-block;margin-top: 4px;"></div>
+                <div id="spark-last-color-btn" style="display: inline-block; float:right;"></div>
+            </div>
+            <div style="width: 100%; height: 25px;">
+                <div id="spark-checkbox-markers" style="display: inline-block;margin-top: 4px;"></div>
+                <div id="spark-markers-color-btn" style="display: inline-block; float:right;"></div>
+            </div>
+        </td>
+    </tr>
+</table>
+<table cols="1">
+    <tr>
+        <td class="padding-small">
+            <div class="separator horizontal"></div>
+        </td>
+    </tr>
+    <tr>
+        <td align="center">
             <label class="link" id="chart-advanced-link"><%= scope.textAdvanced %></label>
         </td>
     </tr>

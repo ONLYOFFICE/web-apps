@@ -163,7 +163,7 @@ define([
                 style: "width:45px;",
                 menu        : new Common.UI.Menu({
                     items: [
-                        { template: _.template('<div id="drop-advanced-border-color-menu" style="width: 165px; height: 220px; margin: 10px;"></div>') },
+                        { template: _.template('<div id="drop-advanced-border-color-menu" style="width: 169px; height: 220px; margin: 10px;"></div>') },
                         { template: _.template('<a id="drop-advanced-border-color-new" style="padding-left:12px;">' + me.textNewColor + '</a>') }
                     ]
                 })
@@ -188,7 +188,7 @@ define([
                 style: "width:45px;",
                 menu        : new Common.UI.Menu({
                     items: [
-                        { template: _.template('<div id="drop-advanced-back-color-menu" style="width: 165px; height: 220px; margin: 10px;"></div>') },
+                        { template: _.template('<div id="drop-advanced-back-color-menu" style="width: 169px; height: 220px; margin: 10px;"></div>') },
                         { template: _.template('<a id="drop-advanced-back-color-new" style="padding-left:12px;">' + me.textNewColor + '</a>') }
                     ]
                 })
@@ -217,6 +217,8 @@ define([
                             me._changedProps.get_Shade().put_Color(Common.Utils.ThemeColor.getRgbColor(color));
                         }
                     }
+                    var colorstr = (typeof(color) == 'object') ? color.color : color;
+                    me.tableStyler.setCellsColor(colorstr);
                 }, me));
             });
             this.btnBackColor.render( $('#drop-advanced-button-color'));
@@ -705,6 +707,9 @@ define([
                 }
                 this._UpdateTableBordersStyle(ct, border, size, color, this.Borders);
             }, this);
+
+            var colorstr = (typeof(this.paragraphShade) == 'object') ? this.paragraphShade.color : this.paragraphShade;
+            this.tableStyler.setCellsColor(colorstr);
 
             if (this.isFrame)
                 this.setHeight(500);

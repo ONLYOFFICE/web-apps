@@ -43,7 +43,8 @@ define([
     'jquery',
     'underscore',
     'backbone',
-    'common/main/lib/component/Button'
+    'common/main/lib/component/Button',
+    'common/main/lib/component/ComboDataView'
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
 
@@ -62,7 +63,6 @@ define([
         },
 
         initialize: function () {
-            var me = this;
             this._initSettings = true;
 
             this._state = {
@@ -83,7 +83,119 @@ define([
             this._originalProps = null;
 
             this.render();
+        },
 
+        render: function () {
+            var el = $(this.el);
+            el.html(this.template({
+                scope: this
+            }));
+        },
+
+        setApi: function(api) {
+            this.api = api;
+            if (this.api) {
+                this.api.asc_registerCallback('asc_onUpdateChartStyles', _.bind(this._onUpdateChartStyles, this));
+            }
+            return this;
+        },
+
+        ChangeSettings: function(props) {
+            if (this._initSettings)
+                this.createDelayedElements();
+
+            this.disableControls(this._locked);
+
+            if (props){
+                this._originalProps = new Asc.CAscChartProp(props);
+                this._noApply = true;
+
+                var value = props.get_SeveralCharts() || this._locked;
+                if (this._state.SeveralCharts!==value) {
+                    this.btnEditData.setDisabled(value);
+                    this._state.SeveralCharts=value;
+                }
+
+                value = props.get_SeveralChartTypes();
+                if (this._state.SeveralCharts && value) {
+                    this.btnChartType.setIconCls('');
+                    this._state.ChartType = null;
+                } else {
+                    var type = props.getType();
+                    if (this._state.ChartType !== type) {
+                        var record = this.mnuChartTypePicker.store.findWhere({type: type});
+                        this.mnuChartTypePicker.selectRecord(record, true);
+                        if (record) {
+                            this.btnChartType.setIconCls('item-chartlist ' + record.get('iconCls'));
+                        }
+                        this.updateChartStyles(this.api.asc_getChartPreviews(type));
+                        this._state.ChartType = type;
+                    }
+                }
+
+                value = props.get_SeveralChartStyles();
+                if (this._state.SeveralCharts && value) {
+                    this.cmbChartStyle.fieldPicker.deselectAll();
+                    this.cmbChartStyle.menuPicker.deselectAll();
+                    this._state.ChartStyle = null;
+                } else {
+                    value = props.getStyle();
+                    if (this._state.ChartStyle!==value || this._isChartStylesChanged) {
+                        this.cmbChartStyle.suspendEvents();
+                        var rec = this.cmbChartStyle.menuPicker.store.findWhere({data: value});
+                        this.cmbChartStyle.menuPicker.selectRecord(rec);
+                        this.cmbChartStyle.resumeEvents();
+
+                        if (this._isChartStylesChanged) {
+                            if (rec)
+                                this.cmbChartStyle.fillComboView(this.cmbChartStyle.menuPicker.getSelectedRec(),true);
+                            else
+                                this.cmbChartStyle.fillComboView(this.cmbChartStyle.menuPicker.store.at(0), true);
+                        }
+                        this._state.ChartStyle=value;
+                    }
+                }
+                this._isChartStylesChanged = false;
+
+                this._noApply = false;
+
+                value = props.get_Width();
+                if ( Math.abs(this._state.Width-value)>0.001 ||
+                    (this._state.Width===null || value===null)&&(this._state.Width!==value)) {
+                    this.spnWidth.setValue((value!==null) ? Common.Utils.Metric.fnRecalcFromMM(value) : '', true);
+                    this._state.Width = value;
+                }
+
+                value = props.get_Height();
+                if ( Math.abs(this._state.Height-value)>0.001 ||
+                    (this._state.Height===null || value===null)&&(this._state.Height!==value)) {
+                    this.spnHeight.setValue((value!==null) ? Common.Utils.Metric.fnRecalcFromMM(value) : '', true);
+                    this._state.Height = value;
+                }
+
+                if (props.get_Height()>0)
+                    this._nRatio = props.get_Width()/props.get_Height();
+
+                value = props.asc_getLockAspect();
+                if (this._state.keepRatio!==value) {
+                    this.btnRatio.toggle(value);
+                    this._state.keepRatio=value;
+                }
+            }
+        },
+
+        updateMetricUnit: function() {
+            if (this.spinners) {
+                for (var i=0; i<this.spinners.length; i++) {
+                    var spinner = this.spinners[i];
+                    spinner.setDefaultUnit(Common.Utils.Metric.getCurrentMetricName());
+                    spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt ? 1 : 0.1);
+                }
+            }
+        },
+
+        createDelayedControls: function() {
+            var me = this;
             this.btnChartType = new Common.UI.Button({
                 cls         : 'btn-large-dataview',
                 iconCls     : 'item-chartlist bar-normal',
@@ -142,35 +254,6 @@ define([
             this.mnuChartTypePicker.on('item:click', _.bind(this.onSelectType, this, this.btnChartType));
             this.lockedControls.push(this.btnChartType);
 
-            this.btnChartStyle = new Common.UI.Button({
-                cls         : 'btn-large-dataview',
-                iconCls     : 'item-wrap',
-                menu        : new Common.UI.Menu({
-                    menuAlign: 'tr-br',
-                    items: [
-                        { template: _.template('<div id="id-chart-menu-style" style="width: 245px; margin: 0 5px;"></div>') }
-                    ]
-                })
-            });
-            this.btnChartStyle.on('render:after', function(btn) {
-                me.mnuChartStylePicker = new Common.UI.DataView({
-                    el: $('#id-chart-menu-style'),
-                    style: 'max-height: 411px;',
-                    parentMenu: btn.menu,
-                    store: new Common.UI.DataViewStore(),
-                    itemTemplate: _.template('<div id="<%= id %>" class="item-wrap" style="background-image: url(<%= imageUrl %>); background-position: 0 0;"></div>')
-                });
-
-                if (me.btnChartStyle.menu) {
-                    me.btnChartStyle.menu.on('show:after', function () {
-                        me.mnuChartStylePicker.scroller.update({alwaysVisibleY: true});
-                    });
-                }
-            });
-            this.btnChartStyle.render($('#chart-button-style'));
-            this.mnuChartStylePicker.on('item:click', _.bind(this.onSelectStyle, this, this.btnChartStyle));
-            this.lockedControls.push(this.btnChartStyle);
-
             this.btnEditData = new Common.UI.Button({
                 el: $('#chart-button-edit-data')
             });
@@ -225,116 +308,13 @@ define([
                 }
                 this.fireEvent('editcomplete', this);
             }, this));
-        },
 
-        render: function () {
-            var el = $(this.el);
-            el.html(this.template({
-                scope: this
-            }));
-        },
-
-        setApi: function(api) {
-            this.api = api;
-            if (this.api) {
-                this.api.asc_registerCallback('asc_onUpdateChartStyles', _.bind(this._onUpdateChartStyles, this));
-            }
-            return this;
-        },
-
-        ChangeSettings: function(props) {
-            if (this._initSettings) {
-                this.createDelayedElements();
-                this._initSettings = false;
-            }
-
-            this.disableControls(this._locked);
-
-            if (props){
-                this._originalProps = new Asc.CAscChartProp(props);
-                this._noApply = true;
-
-                var value = props.get_SeveralCharts() || this._locked;
-                if (this._state.SeveralCharts!==value) {
-                    this.btnEditData.setDisabled(value);
-                    this._state.SeveralCharts=value;
-                }
-
-                value = props.get_SeveralChartTypes();
-                if (this._state.SeveralCharts && value) {
-                    this.btnChartType.setIconCls('');
-                    this._state.ChartType = null;
-                } else {
-                    var type = props.getType();
-                    if (this._state.ChartType !== type) {
-                        var record = this.mnuChartTypePicker.store.findWhere({type: type});
-                        this.mnuChartTypePicker.selectRecord(record, true);
-                        if (record) {
-                            this.btnChartType.setIconCls('item-chartlist ' + record.get('iconCls'));
-                        }
-                        this.updateChartStyles(this.api.asc_getChartPreviews(type));
-                        this._state.ChartType = type;
-                    }
-                }
-
-                value = props.get_SeveralChartStyles();
-                if (this._state.SeveralCharts && value) {
-                    var btnIconEl = this.btnChartStyle.cmpEl.find('span.btn-icon');
-                    btnIconEl.css('background-image', 'none');
-                    this.mnuChartStylePicker.selectRecord(null, true);
-                    this._state.ChartStyle = null;
-                } else {
-                    value = props.getStyle();
-                    if (this._state.ChartStyle!==value) {
-                        var record = this.mnuChartStylePicker.store.findWhere({data: value});
-                        this.mnuChartStylePicker.selectRecord(record, true);
-                        if (record) {
-                            var btnIconEl = this.btnChartStyle.cmpEl.find('span.btn-icon');
-                            btnIconEl.css('background-image', 'url(' + record.get('imageUrl') + ')');
-                        }
-                        this._state.ChartStyle=value;
-                    }
-                }
-
-                this._noApply = false;
-
-                value = props.get_Width();
-                if ( Math.abs(this._state.Width-value)>0.001 ||
-                    (this._state.Width===null || value===null)&&(this._state.Width!==value)) {
-                    this.spnWidth.setValue((value!==null) ? Common.Utils.Metric.fnRecalcFromMM(value) : '', true);
-                    this._state.Width = value;
-                }
-
-                value = props.get_Height();
-                if ( Math.abs(this._state.Height-value)>0.001 ||
-                    (this._state.Height===null || value===null)&&(this._state.Height!==value)) {
-                    this.spnHeight.setValue((value!==null) ? Common.Utils.Metric.fnRecalcFromMM(value) : '', true);
-                    this._state.Height = value;
-                }
-
-                if (props.get_Height()>0)
-                    this._nRatio = props.get_Width()/props.get_Height();
-
-                value = props.asc_getLockAspect();
-                if (this._state.keepRatio!==value) {
-                    this.btnRatio.toggle(value);
-                    this._state.keepRatio=value;
-                }
-            }
-        },
-
-        updateMetricUnit: function() {
-            if (this.spinners) {
-                for (var i=0; i<this.spinners.length; i++) {
-                    var spinner = this.spinners[i];
-                    spinner.setDefaultUnit(Common.Utils.Metric.getCurrentMetricName());
-                    spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt ? 1 : 0.1);
-                }
-            }
         },
 
         createDelayedElements: function() {
+            this.createDelayedControls();
             this.updateMetricUnit();
+            this._initSettings = false;
         },
 
         setEditData:   function() {
@@ -378,33 +358,14 @@ define([
             this.fireEvent('editcomplete', this);
         },
 
-        onSelectStyle: function(btn, picker, itemView, record) {
+        onSelectStyle: function(combo, record) {
             if (this._noApply) return;
-
-            var rawData = {},
-                isPickerSelect = _.isFunction(record.toJSON);
-
-            if (isPickerSelect){
-                if (record.get('selected')) {
-                    rawData = record.toJSON();
-                } else {
-                    // record deselected
-                    return;
-                }
-            } else {
-                rawData = record;
-            }
-
-            var style = 'url(' + rawData.imageUrl + ')';
-            var btnIconEl = this.btnChartStyle.cmpEl.find('span.btn-icon');
-            btnIconEl.css('background-image', style);
 
             if (this.api && !this._noApply) {
                 var props = new Asc.CAscChartProp();
-                props.putStyle(rawData.data);
+                props.putStyle(record.get('data'));
                 this.api.ChartApply(props);
             }
-
             this.fireEvent('editcomplete', this);
         },
 
@@ -415,33 +376,50 @@ define([
 
         updateChartStyles: function(styles) {
             var me = this;
-            if (styles && styles.length>0){
-                var stylesStore = this.mnuChartStylePicker.store;
-                if (stylesStore) {
-                    var stylearray = [],
-                        selectedIdx = -1,
-                        selectedUrl;
-                    _.each(styles, function(item, index){
-                        stylearray.push({
-                            imageUrl: item.asc_getImageUrl(),
-                            data    : item.asc_getStyle(),
-                            tip     : me.textStyle + ' ' + item.asc_getStyle()
-                        });
-                        if (me._state.ChartStyle == item.asc_getStyle()) {
-                            selectedIdx = index;
-                            selectedUrl = item.asc_getImageUrl();
-                        }
+            this._isChartStylesChanged = true;
 
-                    });
-
-                    stylesStore.reset(stylearray, {silent: false});
-                }
+            if (!this.cmbChartStyle) {
+                this.cmbChartStyle = new Common.UI.ComboDataView({
+                    itemWidth: 50,
+                    itemHeight: 50,
+                    menuMaxHeight: 270,
+                    enableKeyEvents: true,
+                    cls: 'combo-chart-style'
+                });
+                this.cmbChartStyle.render($('#chart-combo-style'));
+                this.cmbChartStyle.openButton.menu.cmpEl.css({
+                    'min-width': 178,
+                    'max-width': 178
+                });
+                this.cmbChartStyle.on('click', _.bind(this.onSelectStyle, this));
+                this.cmbChartStyle.openButton.menu.on('show:after', function () {
+                    me.cmbChartStyle.menuPicker.scroller.update({alwaysVisibleY: true});
+                });
+                this.lockedControls.push(this.cmbChartStyle);
             }
-            this.mnuChartStylePicker.selectByIndex(selectedIdx, true);
-            if (selectedIdx>=0 && this.btnChartStyle.cmpEl) {
-                var style = 'url(' + selectedUrl + ')';
-                var btnIconEl = this.btnChartStyle.cmpEl.find('span.btn-icon');
-                btnIconEl.css('background-image', style);
+            
+            if (styles && styles.length>0){
+                var stylesStore = this.cmbChartStyle.menuPicker.store;
+                if (stylesStore) {
+                    var count = stylesStore.length;
+                    if (count>0 && count==styles.length) {
+                        var data = stylesStore.models;
+                        _.each(styles, function(style, index){
+                            data[index].set('imageUrl', style.asc_getImageUrl());
+                        });
+                    } else {
+                        var stylearray = [],
+                            selectedIdx = -1;
+                        _.each(styles, function(item, index){
+                            stylearray.push({
+                                imageUrl: item.asc_getImageUrl(),
+                                data    : item.asc_getStyle(),
+                                tip     : me.textStyle + ' ' + item.asc_getStyle()
+                            });
+                        });
+                        stylesStore.reset(stylearray, {silent: false});
+                    }
+                }
             }
         },
 
@@ -493,6 +471,8 @@ define([
         },
 
         disableControls: function(disable) {
+            if (this._initSettings) return;
+            
             if (this._state.DisabledControls!==disable) {
                 this._state.DisabledControls = disable;
                 _.each(this.lockedControls, function(item) {

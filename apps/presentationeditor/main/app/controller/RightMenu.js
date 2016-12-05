@@ -114,7 +114,7 @@ define([
                     this._settings[i].locked = undefined;
                 }
             }
-            this._settings[Common.Utils.documentSettingsType.Slide].hidden = 0;
+            this._settings[Common.Utils.documentSettingsType.Slide].hidden = (SelectedObjects.length>0) ? 0 : 1;
 
             for (i=0; i<SelectedObjects.length; i++)
             {
@@ -148,14 +148,15 @@ define([
                 }
             }
 
-            var lastactive = -1, currentactive, priorityactive = -1;
+            var lastactive = -1, currentactive, priorityactive = -1,
+                activePane = this.rightmenu.GetActivePane();
             for (i=0; i<this._settings.length; i++) {
                 var pnl = this._settings[i];
                 if (pnl===undefined) continue;
 
                 if ( pnl.hidden ) {
                     if (!pnl.btn.isDisabled()) pnl.btn.setDisabled(true);
-                    if (this.rightmenu.GetActivePane() == pnl.panelId)
+                    if (activePane == pnl.panelId)
                         currentactive = -1;
                 } else {
                     if (pnl.btn.isDisabled()) pnl.btn.setDisabled(false);
@@ -165,7 +166,7 @@ define([
                         pnl.needShow = false;
                         priorityactive = i;
                     } else if ( i != Common.Utils.documentSettingsType.Slide || this.rightmenu._settings[i].isCurrent) {
-                        if (this.rightmenu.GetActivePane() == pnl.panelId)
+                        if (activePane == pnl.panelId)
                             currentactive = i;
                     }
 
@@ -245,6 +246,7 @@ define([
             if (this.editMode && this.api) {
                 this.api.asc_registerCallback('asc_doubleClickOnObject', _.bind(this.onDoubleClickOnObject, this));
 
+                this.rightmenu.shapeSettings.createDelayedElements();
                 var selectedElements = this.api.getSelectedElements();
                 if (selectedElements.length>0) {
                     var open = Common.localStorage.getItem("pe-hide-right-settings");

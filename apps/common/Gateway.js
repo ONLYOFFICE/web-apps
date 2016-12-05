@@ -162,6 +162,16 @@ Common.Gateway = new(function() {
             });
         },
 
+        requestRestore: function(version, url) {
+            _postMessage({
+                event: 'onRequestRestore',
+                data: {
+                    version: version,
+                    url: url
+                }
+            });
+        },
+
         requestEmailAddresses: function() {
             _postMessage({ event: 'onRequestEmailAddresses' });
         },
@@ -221,6 +231,14 @@ Common.Gateway = new(function() {
         
         collaborativeChanges: function() {
             _postMessage({event: 'onCollaborativeChanges'});
+        },
+        
+        requestRename: function(title) {
+            _postMessage({event: 'onRequestRename', data: title});
+        },
+
+        metaChange: function(meta) {
+            _postMessage({event: 'onMetaChange', data: meta});
         },
 
         on: function(event, handler){

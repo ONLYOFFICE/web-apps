@@ -515,7 +515,6 @@ define([
 
             if (this._initSettings)
                 this.createDelayedElements();
-            this._initSettings = false;
 
             if (props && props.get_ShapeProperties() && props.get_ShapeProperties().get_TextArtProperties())
             {
@@ -965,6 +964,7 @@ define([
             this.createDelayedControls();
             this.UpdateThemeColors();
             this.fillTransform(this.api.asc_getPropertyEditorTextArts());
+            this._initSettings = false;
         },
 
         fillTextArt: function() {
@@ -1054,7 +1054,7 @@ define([
                     style: "width:45px;",
                     menu        : new Common.UI.Menu({
                         items: [
-                            { template: _.template('<div id="textart-border-color-menu" style="width: 165px; height: 220px; margin: 10px;"></div>') },
+                            { template: _.template('<div id="textart-border-color-menu" style="width: 169px; height: 220px; margin: 10px;"></div>') },
                             { template: _.template('<a id="textart-border-color-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
                         ]
                     })
@@ -1073,7 +1073,7 @@ define([
                     style: "width:45px;",
                     menu        : new Common.UI.Menu({
                         items: [
-                            { template: _.template('<div id="textart-gradient-color-menu" style="width: 165px; height: 220px; margin: 10px;"></div>') },
+                            { template: _.template('<div id="textart-gradient-color-menu" style="width: 169px; height: 220px; margin: 10px;"></div>') },
                             { template: _.template('<a id="textart-gradient-color-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
                         ]
                     })
@@ -1092,7 +1092,7 @@ define([
                     style: "width:45px;",
                     menu        : new Common.UI.Menu({
                         items: [
-                            { template: _.template('<div id="textart-back-color-menu" style="width: 165px; height: 220px; margin: 10px;"></div>') },
+                            { template: _.template('<div id="textart-back-color-menu" style="width: 169px; height: 220px; margin: 10px;"></div>') },
                             { template: _.template('<a id="textart-back-color-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
                         ]
                     })

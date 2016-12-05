@@ -38,11 +38,13 @@
         </td>
     </tr>
     <tr>
-        <td class="padding-small">
+        <td class="padding-small" colspan=2>
             <div id="chart-button-type" style=""></div>
         </td>
-        <td class="padding-small">
-            <div id="chart-button-style" style=""></div>
+    </tr>
+    <tr>
+        <td class="padding-small" colspan=2>
+            <div class="" id="chart-combo-style" style="width: 100%;"></div>
         </td>
     </tr>
     <tr>

@@ -108,31 +108,27 @@ define([
             
             var SelectedObjects = [],
                 selectType = info.asc_getFlags().asc_getSelectionType(),
-                formatTableInfo = info.asc_getFormatTableInfo();
+                formatTableInfo = info.asc_getFormatTableInfo(),
+                sparkLineInfo = info.asc_getSparklineInfo();
 
             if (selectType == Asc.c_oAscSelectionType.RangeImage || selectType == Asc.c_oAscSelectionType.RangeShape ||
                 selectType == Asc.c_oAscSelectionType.RangeChart || selectType == Asc.c_oAscSelectionType.RangeChartText || selectType == Asc.c_oAscSelectionType.RangeShapeText) {
                 SelectedObjects = this.api.asc_getGraphicObjectProps();
             }
             
-            if (SelectedObjects.length<=0 && !formatTableInfo && !this.rightmenu.minimizedMode) {
+            if (SelectedObjects.length<=0 && !formatTableInfo && !sparkLineInfo && !this.rightmenu.minimizedMode) {
                 this.rightmenu.clearSelection();
                 this._openRightMenu = true;
             }
 
-            var need_disable = info.asc_getLocked();
+            var need_disable = info.asc_getLocked(),
+                need_disable_table = (info.asc_getLockedTable()===true),
+                need_disable_spark = (info.asc_getLockedSparkline()===true);
 
-            this.onFocusObject(SelectedObjects, formatTableInfo, need_disable);
-
-            if (this._state.prevDisabled != need_disable) {
-                this._state.prevDisabled = need_disable;
-                this._settings.forEach(function(item){
-                    item.panel.setLocked(need_disable);
-                });
-            }
+            this.onFocusObject(SelectedObjects, formatTableInfo, sparkLineInfo, need_disable, need_disable_table, need_disable_spark);
         },
 
-        onFocusObject: function(SelectedObjects, formatTableInfo, isCellLocked) {
+        onFocusObject: function(SelectedObjects, formatTableInfo, sparkLineInfo, isCellLocked, isTableLocked, isSparkLocked) {
             if (!this.editMode)
                 return;
 
@@ -145,7 +141,6 @@ define([
 
             for (i=0; i<SelectedObjects.length; ++i)
             {
-                var type = SelectedObjects[i].asc_getObjectType();
                 var eltype = SelectedObjects[i].asc_getObjectType(),
                     settingsType = this.getDocumentSettingsType(eltype);
                 if (settingsType===undefined || settingsType>=this._settings.length || this._settings[settingsType]===undefined)
@@ -173,11 +168,19 @@ define([
             if (formatTableInfo) {
                 settingsType = Common.Utils.documentSettingsType.Table;
                 this._settings[settingsType].props = formatTableInfo;
-                this._settings[settingsType].locked = isCellLocked;
+                this._settings[settingsType].locked = isTableLocked;
                 this._settings[settingsType].hidden = 0;
             }
-            
-            var lastactive = -1, currentactive, priorityactive = -1;
+
+            if (sparkLineInfo) {
+                settingsType = Common.Utils.documentSettingsType.Chart;
+                this._settings[settingsType].props = sparkLineInfo;
+                this._settings[settingsType].locked = isSparkLocked;
+                this._settings[settingsType].hidden = 0;
+            }
+
+            var lastactive = -1, currentactive, priorityactive = -1,
+                activePane = this.rightmenu.GetActivePane();
             for (i=0; i<this._settings.length; ++i) {
                 var pnl = this._settings[i];
                 if (pnl===undefined) continue;
@@ -185,7 +188,7 @@ define([
                 if ( pnl.hidden ) {
                     if ( !pnl.btn.isDisabled() )
                         pnl.btn.setDisabled(true);
-                    if (this.rightmenu.GetActivePane() == pnl.panelId)
+                    if (activePane == pnl.panelId)
                         currentactive = -1;
                 } else {
                     if ( pnl.btn.isDisabled() )
@@ -194,7 +197,7 @@ define([
                     if ( pnl.needShow ) {
                         pnl.needShow = false;
                         priorityactive = i;
-                    } else if (this.rightmenu.GetActivePane() == pnl.panelId)
+                    } else if (activePane == pnl.panelId)
                         currentactive = i;
                     pnl.panel.setLocked(pnl.locked);
                 }
@@ -245,6 +248,7 @@ define([
         UpdateThemeColors:  function() {
             this.rightmenu.shapeSettings.UpdateThemeColors();
             this.rightmenu.textartSettings.UpdateThemeColors();
+            this.rightmenu.chartSettings.UpdateThemeColors();
         },
 
         updateMetricUnit: function() {
@@ -266,6 +270,7 @@ define([
                 this.api.asc_registerCallback('asc_onFocusObject', _.bind(this.onFocusObject, this));
                 this.api.asc_registerCallback('asc_onSelectionChanged', _.bind(this.onSelectionChanged, this));
                 this.api.asc_registerCallback('asc_doubleClickOnObject', _.bind(this.onDoubleClickOnObject, this));
+                this.rightmenu.shapeSettings.createDelayedElements();
                 this.onSelectionChanged(this.api.asc_getCellInfo());
             }
         },

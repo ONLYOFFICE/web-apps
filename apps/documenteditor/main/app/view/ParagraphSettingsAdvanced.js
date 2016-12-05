@@ -212,7 +212,7 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                 style: "width:45px;",
                 menu        : new Common.UI.Menu({
                     items: [
-                        { template: _.template('<div id="paragraphadv-border-color-menu" style="width: 165px; height: 220px; margin: 10px;"></div>') },
+                        { template: _.template('<div id="paragraphadv-border-color-menu" style="width: 169px; height: 220px; margin: 10px;"></div>') },
                         { template: _.template('<a id="paragraphadv-border-color-new" style="padding-left:12px;">' + me.textNewColor + '</a>') }
                     ]
                 })
@@ -266,7 +266,7 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                 style: "width:45px;",
                 menu        : new Common.UI.Menu({
                     items: [
-                        { template: _.template('<div id="paragraphadv-back-color-menu" style="width: 165px; height: 220px; margin: 10px;"></div>') },
+                        { template: _.template('<div id="paragraphadv-back-color-menu" style="width: 169px; height: 220px; margin: 10px;"></div>') },
                         { template: _.template('<a id="paragraphadv-back-color-new" style="padding-left:12px;">' + me.textNewColor + '</a>') }
                     ]
                 })
@@ -733,6 +733,9 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                 this._UpdateTableBordersStyle(ct, border, size, color, this.Borders);
             }, this);
 
+            var colorstr = (typeof(this.paragraphShade) == 'object') ? this.paragraphShade.color : this.paragraphShade;
+            this.BordersImage.setCellsColor(colorstr);
+
             if (this.storageName) {
                 var value = Common.localStorage.getItem(this.storageName);
                 this.setActiveCategory((value!==null) ? parseInt(value) : 0);
@@ -888,6 +891,8 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                     this._changedProps.get_Shade().put_Color(Common.Utils.ThemeColor.getRgbColor(this.paragraphShade));
                 }
             }
+            var colorstr = (typeof(color) == 'object') ? color.color : color;
+            this.BordersImage.setCellsColor(colorstr);
         },
 
 

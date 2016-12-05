@@ -78,7 +78,7 @@ define([
                     '<div class="separator"/>',
                     '</div>',
                     '<div class="preview-group dropup">',
-                        '<label id="preview-label-slides" class="status-label" data-toggle="dropdown">Slide 1 of 1</label>',
+                        '<label id="preview-label-slides" class="status-label dropdown-toggle" data-toggle="dropdown">Slide 1 of 1</label>',
                         '<div id="preview-goto-box" class="dropdown-menu">',
                             '<label style="float:left;line-height:22px;">' + this.goToSlideText + '</label>',
                             '<div id="preview-goto-page" style="display:inline-block;"></div>',
@@ -176,9 +176,9 @@ define([
                     return me.txtPageNumInvalid;
                 }
             }).on('keypress:after', function(input, e) {
-                    var box = me.$el.find('#preview-goto-box');
                     if (e.keyCode === Common.UI.Keys.RETURN) {
-                        var edit = box.find('input[type=text]'), page = parseInt(edit.val());
+                        var box = me.$el.find('#preview-goto-box'),
+                            edit = box.find('input[type=text]'), page = parseInt(edit.val());
                         if (!page || page-- > me.pages.get('count') || page < 0) {
                             edit.select();
                             return false;
@@ -190,6 +190,15 @@ define([
                         me.api.DemonstrationGoToSlide(page);
                         me.api.asc_enableKeyEvents(true);
 
+                        return false;
+                    }
+                }
+            ).on('keyup:after', function(input, e) {
+                    if (e.keyCode === Common.UI.Keys.ESC) {
+                        var box = me.$el.find('#preview-goto-box');
+                        box.focus();                        // for IE
+                        box.parent().removeClass('open');
+                        me.api.asc_enableKeyEvents(true);
                         return false;
                     }
                 }
@@ -287,7 +296,7 @@ define([
 
         setMode: function(mode) {
             this.mode = mode;
-            if (this.mode.isDesktopApp) {
+            if (this.mode.isDesktopApp || Common.Utils.isIE11) {
                 this.btnFullScreen.setVisible(false);
                 this.separatorFullScreen.hide();
                 $(document).off("webkitfullscreenchange mozfullscreenchange fullscreenchange MSFullscreenChange");
@@ -327,7 +336,7 @@ define([
         },
 
         fullScreen: function(element) {
-            if (this.mode.isDesktopApp) return;
+            if (this.mode.isDesktopApp || Common.Utils.isIE11) return;
             if (element) {
                 if(element.requestFullscreen) {
                     element.requestFullscreen();
@@ -342,7 +351,7 @@ define([
         },
 
         fullScreenCancel: function () {
-            if (this.mode.isDesktopApp) return;
+            if (this.mode.isDesktopApp || Common.Utils.isIE11) return;
             if(document.cancelFullScreen) {
                 document.cancelFullScreen();
             } else if(document.webkitCancelFullScreen ) {

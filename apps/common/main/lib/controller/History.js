@@ -66,12 +66,14 @@ define([
             this.panelHistory= this.createView('Common.Views.History', {
                 storeHistory: this.getApplication().getCollection('Common.Collections.HistoryVersions')
             });
+            this.panelHistory.storeHistory.on('reset', _.bind(this.onResetStore, this));
             this.panelHistory.on('render:after', _.bind(this.onAfterRender, this));
             Common.Gateway.on('sethistorydata', _.bind(this.onSetHistoryData, this));
         },
 
         setApi: function(api) {
             this.api = api;
+            this.api.asc_registerCallback('asc_onDownloadUrl', _.bind(this.onDownloadUrl, this));
             return this;
         },
 
@@ -85,9 +87,38 @@ define([
         onAfterRender: function(historyView) {
             historyView.viewHistoryList.on('item:click', _.bind(this.onSelectRevision, this));
             historyView.btnBackToDocument.on('click', _.bind(this.onClickBackToDocument, this));
+            historyView.btnExpand.on('click', _.bind(this.onClickExpand, this));
         },
 
-        onSelectRevision: function(picker, item, record) {
+        onResetStore: function() {
+            var hasChanges = this.panelHistory.storeHistory.hasChanges();
+            this.panelHistory.$el.find('#history-expand-changes')[hasChanges ? 'show' : 'hide']();
+            this.panelHistory.$el.find('#history-list').css('padding-bottom', hasChanges ? '45px' : 0);
+        },
+
+        onDownloadUrl: function(url) {
+            if (this.isFromSelectRevision !== undefined)
+                Common.Gateway.requestRestore(this.isFromSelectRevision, url);
+            this.isFromSelectRevision = undefined;
+        },
+
+        onSelectRevision: function(picker, item, record, e) {
+            if (e) {
+                var btn = $(e.target);
+                if (btn && btn.hasClass('revision-restore')) {
+                    if (record.get('isRevision'))
+                        Common.Gateway.requestRestore(record.get('revision'));
+                    else {
+                        this.isFromSelectRevision = record.get('revision');
+                        this.api.asc_DownloadAs(Asc.c_oAscFileType.DOCX, true);
+                    }
+                    return;
+                }
+            }
+
+            if (!picker && record)
+                this.panelHistory.viewHistoryList.scrollToRecord(record);
+
             var url         = record.get('url'),
                 rev         = record.get('revision'),
                 urlGetTime  = new Date();
@@ -132,19 +163,27 @@ define([
                 if (historyStore && data!==null) {
                     var rev, revisions = historyStore.findRevisions(data.version),
                         urlGetTime = new Date();
-                    var diff = opts.data.urlDiff || opts.data.changesUrl;
+                    var diff = (this.currentChangeId===undefined) ? null : opts.data.changesUrl, // if revision has changes, but serverVersion !== app.buildVersion -> hide revision changes
+                        url = (!_.isEmpty(diff) && opts.data.previous) ? opts.data.previous.url : opts.data.url,
+                        docId = opts.data.key ? opts.data.key : this.currentDocId,
+                        docIdPrev = opts.data.previous && opts.data.previous.key ? opts.data.previous.key : this.currentDocIdPrev;
+
                     if (revisions && revisions.length>0) {
                         for(var i=0; i<revisions.length; i++) {
                             rev = revisions[i];
-                            rev.set('url', opts.data.url, {silent: true});
+                            rev.set('url', url, {silent: true});
                             rev.set('urlDiff', diff, {silent: true});
                             rev.set('urlGetTime', urlGetTime, {silent: true});
+                            if (opts.data.key) {
+                                rev.set('docId', docId, {silent: true});
+                                rev.set('docIdPrev', docIdPrev, {silent: true});
+                            }
                         }
                     }
                     var hist = new Asc.asc_CVersionHistory();
-                    hist.asc_setUrl(opts.data.url);
+                    hist.asc_setUrl(url);
                     hist.asc_setUrlChanges(diff);
-                    hist.asc_setDocId(_.isEmpty(diff) ? this.currentDocId : this.currentDocIdPrev);
+                    hist.asc_setDocId(_.isEmpty(diff) ? docId : docIdPrev);
                     hist.asc_setCurrentChangeId(this.currentChangeId);
                     hist.asc_setArrColors(this.currentArrColors);
                     this.api.asc_showRevision(hist);
@@ -158,6 +197,20 @@ define([
         onClickBackToDocument: function () {
             // reload editor
             Common.Gateway.requestHistoryClose();
+        },
+
+        onClickExpand: function () {
+            var store = this.panelHistory.storeHistory,
+                needExpand = store.hasCollapsed();
+
+            store.where({isRevision: true, hasChanges: true, isExpanded: !needExpand}).forEach(function(item){
+                item.set('isExpanded', needExpand);
+            });
+            store.where({isRevision: false}).forEach(function(item){
+                item.set('isVisible', needExpand);
+            });
+            this.panelHistory.viewHistoryList.scroller.update({minScrollbarLength: 40});
+            this.panelHistory.btnExpand.cmpEl.text(needExpand ? this.panelHistory.textHideAll : this.panelHistory.textShowAll);
         },
 
         notcriticalErrorTitle: 'Warning'

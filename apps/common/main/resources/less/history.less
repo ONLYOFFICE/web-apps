@@ -5,7 +5,7 @@
 
 #history-header {
     position: absolute;
-    height: 45px;
+    height: 53px;
     left: 0;
     top: 0;
     right: 0;
@@ -13,6 +13,29 @@
     border-bottom: 1px solid @gray-dark;
 
     #history-btn-back {
+        height: 27px;
+        margin-top: 15px;
+        padding-top: 4px;
+        padding-left: 20px;
+        font-size: 13px;
+        cursor: pointer;
+
+        &:hover {
+            background-color: @secondary;
+        }
+    }
+}
+
+#history-expand-changes {
+    position: absolute;
+    height: 45px;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    overflow: hidden;
+    border-top: 1px solid @gray-dark;
+
+    #history-btn-expand {
         height: 27px;
         margin-top: 8px;
         padding-top: 4px;
@@ -29,7 +52,7 @@
 #history-list {
     height: 100%;
     overflow: hidden;
-    padding-top: 45px;
+    padding: 53px 0 45px 0;
 
     .item {
         display: block;
@@ -56,6 +79,10 @@
             .user-date {
                 color: #fff;
             }
+
+            .revision-expand {
+                background-position: -70px -145px;
+            }
         }
     }
 
@@ -75,7 +102,7 @@
 
         .user-version {
             display: inline-block;
-            width: 36px;
+            max-width: 60px;
             height: 18px;
             color: @primary;
             font-size: 10px;
@@ -83,7 +110,7 @@
             overflow: hidden;
             background-color: #e6e6e6;
             text-align: center;
-            padding: 1px 0;
+            padding: 1px 5px;
             border-radius: 2px;
         }
 
@@ -93,6 +120,9 @@
             overflow: hidden;
             font-size: 12px;
             cursor: pointer;
+            color: @gray-darker;
+            max-width: 210px;
+            text-overflow: ellipsis;
         }
 
         .color {
@@ -101,6 +131,30 @@
             border: 1px solid @gray-dark;
             margin: 0 5px 3px 0;
             vertical-align: middle;
+        }
+
+        .revision-expand {
+            width: 23px;
+            height: 23px;
+            background-position: -43px -145px;
+            margin: 10px 10px;
+            display: inline-block;
+            position: absolute;
+            right: 0;
+
+            &.up {
+                transform: rotate(180deg);
+            }
+        }
+
+        .revision-restore {
+            color: #fff;
+            border-bottom: 1px dotted #fff;
+            height: 16px;
+            margin-top: 5px;
+            white-space: pre-wrap;
+            width: auto;
+            cursor: pointer;
         }
     }
 }

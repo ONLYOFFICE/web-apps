@@ -68,7 +68,6 @@ define([
         },
 
         initialize: function () {
-            var me = this;
             this._initSettings = true;
             this._originalProps = null;
             this._noApply = true;
@@ -130,241 +129,6 @@ define([
             });
             this.cmbFillSrc.setValue('');
             this.cmbFillSrc.on('selected', _.bind(this.onFillSrcSelect, this));
-
-            this.btnBackColor = new Common.UI.ColorButton({
-                style: "width:45px;",
-                disabled: true,
-                menu        : new Common.UI.Menu({
-                    items: [
-                        { template: _.template('<div id="slide-back-color-menu" style="width: 165px; height: 220px; margin: 10px;"></div>') },
-                        { template: _.template('<a id="slide-back-color-new" style="padding-left:12px;">' + me.textNewColor + '</a>') }
-                    ]
-                })
-            });
-            this.FillItems.push(this.btnBackColor);
-
-            this.btnBackColor.on('render:after', function(btn) {
-                me.colorsBack = new Common.UI.ThemeColorPalette({
-                    el: $('#slide-back-color-menu'),
-                    value: 'ffffff',
-                    transparent: true
-                });
-                me.colorsBack.on('select', _.bind(me.onColorsBackSelect, me));
-            });
-            this.btnBackColor.render( $('#slide-back-color-btn'));
-            this.btnBackColor.setColor('ffffff');
-            $(this.el).on('click', '#slide-back-color-new', _.bind(this.addNewColor, this, this.colorsBack, this.btnBackColor));
-
-            this.cmbPattern = new Common.UI.ComboDataView({
-                itemWidth: 28,
-                itemHeight: 28,
-                menuMaxHeight: 300,
-                enableKeyEvents: true,
-                cls: 'combo-pattern'
-            });
-            this.cmbPattern.menuPicker.itemTemplate = this.cmbPattern.fieldPicker.itemTemplate = _.template([
-                '<div class="style" id="<%= id %>">',
-                '<img src="data:image/gif;base64,R0lGODlhAQABAID/AMDAwAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="combo-pattern-item" ',
-                'width="' + this.cmbPattern.itemWidth + '" height="' + this.cmbPattern.itemHeight + '" ',
-                'style="background-position: -<%= offsetx %>px -<%= offsety %>px;"/>',
-                '</div>'
-            ].join(''));
-            this.cmbPattern.render($('#slide-combo-pattern'));
-            this.cmbPattern.openButton.menu.cmpEl.css({
-                'min-width': 178,
-                'max-width': 178
-            });
-            this.cmbPattern.on('click', _.bind(this.onPatternSelect, this));
-            this.FillItems.push(this.cmbPattern);
-
-            this.btnFGColor = new Common.UI.ColorButton({
-                style: "width:45px;",
-                menu        : new Common.UI.Menu({
-                    items: [
-                        { template: _.template('<div id="slide-foreground-color-menu" style="width: 165px; height: 220px; margin: 10px;"></div>') },
-                        { template: _.template('<a id="slide-foreground-color-new" style="padding-left:12px;">' + me.textNewColor + '</a>') }
-                    ]
-                })
-            });
-
-            this.btnFGColor.on('render:after', function(btn) {
-                me.colorsFG = new Common.UI.ThemeColorPalette({
-                    el: $('#slide-foreground-color-menu'),
-                    value: '000000'
-                });
-                me.colorsFG.on('select', _.bind(me.onColorsFGSelect, me));
-            });
-            this.btnFGColor.render( $('#slide-foreground-color-btn'));
-            this.btnFGColor.setColor('000000');
-            $(this.el).on('click', '#slide-foreground-color-new', _.bind(this.addNewColor, this, this.colorsFG, this.btnFGColor));
-            this.FillItems.push(this.btnFGColor);
-
-            this.btnBGColor = new Common.UI.ColorButton({
-                style: "width:45px;",
-                menu        : new Common.UI.Menu({
-                    items: [
-                        { template: _.template('<div id="slide-background-color-menu" style="width: 165px; height: 220px; margin: 10px;"></div>') },
-                        { template: _.template('<a id="slide-background-color-new" style="padding-left:12px;">' + me.textNewColor + '</a>') }
-                    ]
-                })
-            });
-
-            this.btnBGColor.on('render:after', function(btn) {
-                me.colorsBG = new Common.UI.ThemeColorPalette({
-                    el: $('#slide-background-color-menu'),
-                    value: 'ffffff'
-                });
-                me.colorsBG.on('select', _.bind(me.onColorsBGSelect, me));
-            });
-            this.btnBGColor.render( $('#slide-background-color-btn'));
-            this.btnBGColor.setColor('ffffff');
-            $(this.el).on('click', '#slide-background-color-new', _.bind(this.addNewColor, this, this.colorsBG, this.btnBGColor));
-            this.FillItems.push(this.btnBGColor);
-
-            this.btnInsertFromFile = new Common.UI.Button({
-                el: $('#slide-button-from-file')
-            });
-            this.btnInsertFromFile.on('click', _.bind(function(btn){
-                if (this.api) this.api.ChangeSlideImageFromFile();
-                this.fireEvent('editcomplete', this);
-            }, this));
-            this.FillItems.push(this.btnInsertFromFile);
-
-            this.btnInsertFromUrl = new Common.UI.Button({
-                el: $('#slide-button-from-url')
-            });
-            this.btnInsertFromUrl.on('click', _.bind(this.insertFromUrl, this));
-            this.FillItems.push(this.btnInsertFromUrl);
-
-            this._arrFillType = [
-                {displayValue: this.textStretch, value: Asc.c_oAscFillBlipType.STRETCH},
-                {displayValue: this.textTile,    value: Asc.c_oAscFillBlipType.TILE}
-            ];
-
-            this.cmbFillType = new Common.UI.ComboBox({
-                el: $('#slide-combo-fill-type'),
-                cls: 'input-group-nr',
-                menuStyle: 'min-width: 90px;',
-                editable: false,
-                data: this._arrFillType
-            });
-            this.cmbFillType.setValue(this._arrFillType[0].value);
-            this.cmbFillType.on('selected', _.bind(this.onFillTypeSelect, this));
-            this.FillItems.push(this.cmbFillType);
-
-            this.btnTexture = new Common.UI.ComboBox({
-                el: $('#slide-combo-fill-texture'),
-                template: _.template([
-                    '<div class="input-group combobox combo-dataview-menu input-group-nr dropdown-toggle" tabindex="0" data-toggle="dropdown">',
-                    '<div class="form-control text" style="width: 90px;">' + this.textSelectTexture + '</div>',
-                    '<div style="display: table-cell;"></div>',
-                    '<button type="button" class="btn btn-default"><span class="caret img-commonctrl"></span></button>',
-                    '</div>'
-                ].join(''))
-            });
-            this.textureMenu = new Common.UI.Menu({
-                items: [
-                    { template: _.template('<div id="id-slide-menu-texture" style="width: 233px; margin: 0 5px;"></div>') }
-                ]
-            });
-            this.textureMenu.render($('#slide-combo-fill-texture'));
-            this.FillItems.push(this.btnTexture);
-
-            this._arrGradType = [
-                {displayValue: this.textLinear, value: Asc.c_oAscFillGradType.GRAD_LINEAR},
-                {displayValue: this.textRadial, value: Asc.c_oAscFillGradType.GRAD_PATH}
-            ];
-
-            this.cmbGradType = new Common.UI.ComboBox({
-                el: $('#slide-combo-grad-type'),
-                cls: 'input-group-nr',
-                menuStyle: 'min-width: 90px;',
-                editable: false,
-                data: this._arrGradType
-            });
-            this.cmbGradType.setValue(this._arrGradType[0].value);
-            this.cmbGradType.on('selected', _.bind(this.onGradTypeSelect, this));
-            this.FillItems.push(this.cmbGradType);
-
-            this._viewDataLinear = [
-                { offsetx: 0,   offsety: 0,   type:45,  subtype:-1, iconcls:'gradient-left-top' },
-                { offsetx: 50,  offsety: 0,   type:90,  subtype:4,  iconcls:'gradient-top'},
-                { offsetx: 100, offsety: 0,   type:135, subtype:5,  iconcls:'gradient-right-top'},
-                { offsetx: 0,   offsety: 50,  type:0,   subtype:6,  iconcls:'gradient-left', cls: 'item-gradient-separator', selected: true},
-                { offsetx: 100, offsety: 50,  type:180, subtype:1,  iconcls:'gradient-right'},
-                { offsetx: 0,   offsety: 100, type:315, subtype:2,  iconcls:'gradient-left-bottom'},
-                { offsetx: 50,  offsety: 100, type:270, subtype:3,  iconcls:'gradient-bottom'},
-                { offsetx: 100, offsety: 100, type:225, subtype:7,  iconcls:'gradient-right-bottom'}
-            ];
-
-            this._viewDataRadial = [
-                { offsetx: 100, offsety: 150, type:2, subtype:5, iconcls:'gradient-radial-center'}
-            ];
-
-            this.btnDirection = new Common.UI.Button({
-                cls         : 'btn-large-dataview',
-                iconCls     : 'item-gradient gradient-left',
-                menu        : new Common.UI.Menu({
-                    style: 'min-width: 60px;',
-                    menuAlign: 'tr-br',
-                    items: [
-                        { template: _.template('<div id="id-slide-menu-direction" style="width: 175px; margin: 0 5px;"></div>') }
-                    ]
-                })
-            });
-            this.btnDirection.on('render:after', function(btn) {
-                me.mnuDirectionPicker = new Common.UI.DataView({
-                    el: $('#id-slide-menu-direction'),
-                    parentMenu: btn.menu,
-                    restoreHeight: 174,
-                    store: new Common.UI.DataViewStore(me._viewDataLinear),
-                    itemTemplate: _.template('<div id="<%= id %>" class="item-gradient" style="background-position: -<%= offsetx %>px -<%= offsety %>px;"></div>')
-                });
-            });
-            this.btnDirection.render($('#slide-button-direction'));
-            this.mnuDirectionPicker.on('item:click', _.bind(this.onSelectGradient, this, this.btnDirection));
-            this.FillItems.push(this.btnDirection);
-
-            this.btnGradColor = new Common.UI.ColorButton({
-                style: "width:45px;",
-                menu        : new Common.UI.Menu({
-                    items: [
-                        { template: _.template('<div id="slide-gradient-color-menu" style="width: 165px; height: 220px; margin: 10px;"></div>') },
-                        { template: _.template('<a id="slide-gradient-color-new" style="padding-left:12px;">' + me.textNewColor + '</a>') }
-                    ]
-                })
-            });
-            this.btnGradColor.on('render:after', function(btn) {
-                me.colorsGrad = new Common.UI.ThemeColorPalette({
-                    el: $('#slide-gradient-color-menu'),
-                    value: '000000'
-                });
-                me.colorsGrad.on('select', _.bind(me.onColorsGradientSelect, me));
-            });
-            this.btnGradColor.render( $('#slide-gradient-color-btn'));
-            this.btnGradColor.setColor('000000');
-            $(this.el).on('click', '#slide-gradient-color-new', _.bind(this.addNewColor, this, this.colorsGrad, this.btnGradColor));
-            this.FillItems.push(this.btnGradColor);
-
-            this.sldrGradient = new Common.UI.MultiSliderGradient({
-                el: $('#slide-slider-gradient'),
-                width: 125,
-                minValue: 0,
-                maxValue: 100,
-                values: [0, 100]
-            });
-            this.sldrGradient.on('change', _.bind(this.onGradientChange, this));
-            this.sldrGradient.on('changecomplete', _.bind(this.onGradientChangeComplete, this));
-            this.sldrGradient.on('thumbclick', function(cmp, index){
-                me.GradColor.currentIdx = index;
-                var color = me.GradColor.colors[me.GradColor.currentIdx];
-                me.btnGradColor.setColor(color);
-                me.colorsGrad.select(color,false);
-            });
-            this.sldrGradient.on('thumbdblclick', function(cmp){
-                me.btnGradColor.cmpEl.find('button').dropdown('toggle');
-            });
-            this.FillItems.push(this.sldrGradient);
 
             this.FillColorContainer = $('#slide-panel-color-fill');
             this.FillImageContainer = $('#slide-panel-image-fill');
@@ -862,7 +626,142 @@ define([
             })).show();
         },
 
+        createDelayedControls: function() {
+            var me = this;
+
+            this.cmbPattern = new Common.UI.ComboDataView({
+                itemWidth: 28,
+                itemHeight: 28,
+                menuMaxHeight: 300,
+                enableKeyEvents: true,
+                cls: 'combo-pattern'
+            });
+            this.cmbPattern.menuPicker.itemTemplate = this.cmbPattern.fieldPicker.itemTemplate = _.template([
+                '<div class="style" id="<%= id %>">',
+                '<img src="data:image/gif;base64,R0lGODlhAQABAID/AMDAwAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="combo-pattern-item" ',
+                'width="' + this.cmbPattern.itemWidth + '" height="' + this.cmbPattern.itemHeight + '" ',
+                'style="background-position: -<%= offsetx %>px -<%= offsety %>px;"/>',
+                '</div>'
+            ].join(''));
+            this.cmbPattern.render($('#slide-combo-pattern'));
+            this.cmbPattern.openButton.menu.cmpEl.css({
+                'min-width': 178,
+                'max-width': 178
+            });
+            this.cmbPattern.on('click', _.bind(this.onPatternSelect, this));
+            this.FillItems.push(this.cmbPattern);
+
+            this.btnInsertFromFile = new Common.UI.Button({
+                el: $('#slide-button-from-file')
+            });
+            this.btnInsertFromFile.on('click', _.bind(function(btn){
+                if (this.api) this.api.ChangeSlideImageFromFile();
+                this.fireEvent('editcomplete', this);
+            }, this));
+            this.FillItems.push(this.btnInsertFromFile);
+
+            this.btnInsertFromUrl = new Common.UI.Button({
+                el: $('#slide-button-from-url')
+            });
+            this.btnInsertFromUrl.on('click', _.bind(this.insertFromUrl, this));
+            this.FillItems.push(this.btnInsertFromUrl);
+
+            this._arrFillType = [
+                {displayValue: this.textStretch, value: Asc.c_oAscFillBlipType.STRETCH},
+                {displayValue: this.textTile,    value: Asc.c_oAscFillBlipType.TILE}
+            ];
+
+            this.cmbFillType = new Common.UI.ComboBox({
+                el: $('#slide-combo-fill-type'),
+                cls: 'input-group-nr',
+                menuStyle: 'min-width: 90px;',
+                editable: false,
+                data: this._arrFillType
+            });
+            this.cmbFillType.setValue(this._arrFillType[0].value);
+            this.cmbFillType.on('selected', _.bind(this.onFillTypeSelect, this));
+            this.FillItems.push(this.cmbFillType);
+
+            this._arrGradType = [
+                {displayValue: this.textLinear, value: Asc.c_oAscFillGradType.GRAD_LINEAR},
+                {displayValue: this.textRadial, value: Asc.c_oAscFillGradType.GRAD_PATH}
+            ];
+
+            this.cmbGradType = new Common.UI.ComboBox({
+                el: $('#slide-combo-grad-type'),
+                cls: 'input-group-nr',
+                menuStyle: 'min-width: 90px;',
+                editable: false,
+                data: this._arrGradType
+            });
+            this.cmbGradType.setValue(this._arrGradType[0].value);
+            this.cmbGradType.on('selected', _.bind(this.onGradTypeSelect, this));
+            this.FillItems.push(this.cmbGradType);
+
+            this._viewDataLinear = [
+                { offsetx: 0,   offsety: 0,   type:45,  subtype:-1, iconcls:'gradient-left-top' },
+                { offsetx: 50,  offsety: 0,   type:90,  subtype:4,  iconcls:'gradient-top'},
+                { offsetx: 100, offsety: 0,   type:135, subtype:5,  iconcls:'gradient-right-top'},
+                { offsetx: 0,   offsety: 50,  type:0,   subtype:6,  iconcls:'gradient-left', cls: 'item-gradient-separator', selected: true},
+                { offsetx: 100, offsety: 50,  type:180, subtype:1,  iconcls:'gradient-right'},
+                { offsetx: 0,   offsety: 100, type:315, subtype:2,  iconcls:'gradient-left-bottom'},
+                { offsetx: 50,  offsety: 100, type:270, subtype:3,  iconcls:'gradient-bottom'},
+                { offsetx: 100, offsety: 100, type:225, subtype:7,  iconcls:'gradient-right-bottom'}
+            ];
+
+            this._viewDataRadial = [
+                { offsetx: 100, offsety: 150, type:2, subtype:5, iconcls:'gradient-radial-center'}
+            ];
+
+            this.btnDirection = new Common.UI.Button({
+                cls         : 'btn-large-dataview',
+                iconCls     : 'item-gradient gradient-left',
+                menu        : new Common.UI.Menu({
+                    style: 'min-width: 60px;',
+                    menuAlign: 'tr-br',
+                    items: [
+                        { template: _.template('<div id="id-slide-menu-direction" style="width: 175px; margin: 0 5px;"></div>') }
+                    ]
+                })
+            });
+            this.btnDirection.on('render:after', function(btn) {
+                me.mnuDirectionPicker = new Common.UI.DataView({
+                    el: $('#id-slide-menu-direction'),
+                    parentMenu: btn.menu,
+                    restoreHeight: 174,
+                    store: new Common.UI.DataViewStore(me._viewDataLinear),
+                    itemTemplate: _.template('<div id="<%= id %>" class="item-gradient" style="background-position: -<%= offsetx %>px -<%= offsety %>px;"></div>')
+                });
+            });
+            this.btnDirection.render($('#slide-button-direction'));
+            this.mnuDirectionPicker.on('item:click', _.bind(this.onSelectGradient, this, this.btnDirection));
+            this.FillItems.push(this.btnDirection);
+
+            this.sldrGradient = new Common.UI.MultiSliderGradient({
+                el: $('#slide-slider-gradient'),
+                width: 125,
+                minValue: 0,
+                maxValue: 100,
+                values: [0, 100]
+            });
+            this.sldrGradient.on('change', _.bind(this.onGradientChange, this));
+            this.sldrGradient.on('changecomplete', _.bind(this.onGradientChangeComplete, this));
+            this.sldrGradient.on('thumbclick', function(cmp, index){
+                me.GradColor.currentIdx = index;
+                var color = me.GradColor.colors[me.GradColor.currentIdx];
+                me.btnGradColor.setColor(color);
+                me.colorsGrad.select(color,false);
+            });
+            this.sldrGradient.on('thumbdblclick', function(cmp){
+                me.btnGradColor.cmpEl.find('button').dropdown('toggle');
+            });
+            this.FillItems.push(this.sldrGradient);
+
+        },
+        
         createDelayedElements: function() {
+            this.createDelayedControls();
+            
             var global_hatch_menu_map = [
                 0,1,3,2,4,
                 53,5,6,7,8,
@@ -895,11 +794,31 @@ define([
             }
 
             this.UpdateThemeColors();
+            this._initSettings = false;
         },
 
         onInitStandartTextures: function(texture) {
             var me = this;
             if (texture && texture.length>0){
+                if (!this.btnTexture) {
+                    this.btnTexture = new Common.UI.ComboBox({
+                        el: $('#slide-combo-fill-texture'),
+                        template: _.template([
+                            '<div class="input-group combobox combo-dataview-menu input-group-nr dropdown-toggle" tabindex="0" data-toggle="dropdown">',
+                            '<div class="form-control text" style="width: 90px;">' + this.textSelectTexture + '</div>',
+                            '<div style="display: table-cell;"></div>',
+                            '<button type="button" class="btn btn-default"><span class="caret img-commonctrl"></span></button>',
+                            '</div>'
+                        ].join(''))
+                    });
+                    this.textureMenu = new Common.UI.Menu({
+                        items: [
+                            { template: _.template('<div id="id-slide-menu-texture" style="width: 233px; margin: 0 5px;"></div>') }
+                        ]
+                    });
+                    this.textureMenu.render($('#slide-combo-fill-texture'));
+                    this.FillItems.push(this.btnTexture);
+                }
                 var texturearray = [];
                 _.each(texture, function(item){
                     texturearray.push({
@@ -1060,6 +979,86 @@ define([
         },
 
         UpdateThemeColors: function() {
+            if (!this.btnBackColor) {
+                this.btnBackColor = new Common.UI.ColorButton({
+                    style: "width:45px;",
+                    disabled: true,
+                    menu        : new Common.UI.Menu({
+                        items: [
+                            { template: _.template('<div id="slide-back-color-menu" style="width: 169px; height: 220px; margin: 10px;"></div>') },
+                            { template: _.template('<a id="slide-back-color-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
+                        ]
+                    })
+                });
+                this.btnBackColor.render( $('#slide-back-color-btn'));
+                this.btnBackColor.setColor('ffffff');
+                this.FillItems.push(this.btnBackColor);
+                this.colorsBack = new Common.UI.ThemeColorPalette({
+                    el: $('#slide-back-color-menu'),
+                    value: 'ffffff',
+                    transparent: true
+                });
+                this.colorsBack.on('select', _.bind(this.onColorsBackSelect, this));
+                $(this.el).on('click', '#slide-back-color-new', _.bind(this.addNewColor, this, this.colorsBack, this.btnBackColor));
+
+                this.btnFGColor = new Common.UI.ColorButton({
+                    style: "width:45px;",
+                    menu        : new Common.UI.Menu({
+                        items: [
+                            { template: _.template('<div id="slide-foreground-color-menu" style="width: 169px; height: 220px; margin: 10px;"></div>') },
+                            { template: _.template('<a id="slide-foreground-color-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
+                        ]
+                    })
+                });
+                this.btnFGColor.render( $('#slide-foreground-color-btn'));
+                this.btnFGColor.setColor('000000');
+                this.FillItems.push(this.btnFGColor);
+                this.colorsFG = new Common.UI.ThemeColorPalette({
+                    el: $('#slide-foreground-color-menu'),
+                    value: '000000'
+                });
+                this.colorsFG.on('select', _.bind(this.onColorsFGSelect, this));
+                $(this.el).on('click', '#slide-foreground-color-new', _.bind(this.addNewColor, this, this.colorsFG, this.btnFGColor));
+
+                this.btnBGColor = new Common.UI.ColorButton({
+                    style: "width:45px;",
+                    menu        : new Common.UI.Menu({
+                        items: [
+                            { template: _.template('<div id="slide-background-color-menu" style="width: 169px; height: 220px; margin: 10px;"></div>') },
+                            { template: _.template('<a id="slide-background-color-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
+                        ]
+                    })
+                });
+                this.btnBGColor.render( $('#slide-background-color-btn'));
+                this.btnBGColor.setColor('ffffff');
+                this.FillItems.push(this.btnBGColor);
+                this.colorsBG = new Common.UI.ThemeColorPalette({
+                    el: $('#slide-background-color-menu'),
+                    value: 'ffffff'
+                });
+                this.colorsBG.on('select', _.bind(this.onColorsBGSelect, this));
+                $(this.el).on('click', '#slide-background-color-new', _.bind(this.addNewColor, this, this.colorsBG, this.btnBGColor));
+
+                this.btnGradColor = new Common.UI.ColorButton({
+                    style: "width:45px;",
+                    menu        : new Common.UI.Menu({
+                        items: [
+                            { template: _.template('<div id="slide-gradient-color-menu" style="width: 169px; height: 220px; margin: 10px;"></div>') },
+                            { template: _.template('<a id="slide-gradient-color-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
+                        ]
+                    })
+                });
+                this.btnGradColor.render( $('#slide-gradient-color-btn'));
+                this.btnGradColor.setColor('000000');
+                this.FillItems.push(this.btnGradColor);
+                this.colorsGrad = new Common.UI.ThemeColorPalette({
+                    el: $('#slide-gradient-color-menu'),
+                    value: '000000'
+                });
+                this.colorsGrad.on('select', _.bind(this.onColorsGradientSelect, this));
+                $(this.el).on('click', '#slide-gradient-color-new', _.bind(this.addNewColor, this, this.colorsGrad, this.btnGradColor));
+            }
+            
             this.colorsBack.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
             this.colorsFG.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
             this.colorsBG.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
@@ -1076,7 +1075,6 @@ define([
         ChangeSettings: function(props) {
             if (this._initSettings)
                 this.createDelayedElements();
-            this._initSettings = false;
 
             if (props)
             {
@@ -1405,6 +1403,8 @@ define([
         },
 
         SetSlideDisabled: function(background, effects, timing) {
+            if (this._initSettings) return;
+            
             if (background !== this._stateDisabled.background) {
                 this.cmbFillSrc.setDisabled(background);
                 for (var i=0; i<this.FillItems.length; i++) {

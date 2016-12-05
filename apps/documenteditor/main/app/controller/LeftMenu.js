@@ -122,7 +122,7 @@ define([
         setApi: function(api) {
             this.api = api;
             this.api.asc_registerCallback('asc_onReplaceAll', _.bind(this.onApiTextReplaced, this));
-            this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onApiServerDisconnect, this));
+            this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onApiServerDisconnect, this, true));
             Common.NotificationCenter.on('api:disconnect',               _.bind(this.onApiServerDisconnect, this));
             /** coauthoring begin **/
             if (this.mode.canCoAuthoring) {
@@ -190,10 +190,6 @@ define([
             var close_menu = true;
             switch (action) {
             case 'back':
-                if (this.mode.canUseHistory && this.leftMenu.panelHistory.isVisible()) {
-                    // reload editor
-                    Common.Gateway.requestHistoryClose();
-                }
                 break;
             case 'save': this.api.asc_Save(); break;
             case 'save-desktop': this.api.asc_DownloadAs(); break;
@@ -234,6 +230,19 @@ define([
                     } else
                         this.showHistory();
                 }
+                break;
+            case 'rename':
+                var me = this,
+                    documentCaption = me.api.asc_getDocumentName();
+                (new Common.Views.RenameDialog({
+                    filename: documentCaption,
+                    handler: function(result, value) {
+                        if (result == 'ok' && !_.isEmpty(value.trim()) && documentCaption !== value.trim()) {
+                            Common.Gateway.requestRename(value);
+                        }
+                        Common.NotificationCenter.trigger('edit:complete', me);
+                    }
+                })).show();
                 break;
             default: close_menu = false;
             }
@@ -437,7 +446,7 @@ define([
             }
         },
 
-        onApiServerDisconnect: function() {
+        onApiServerDisconnect: function(disableDownload) {
             this.mode.isEdit = false;
             this.leftMenu.close();
 
@@ -447,7 +456,7 @@ define([
             /** coauthoring end **/
             this.leftMenu.btnPlugins.setDisabled(true);
 
-            this.leftMenu.getMenu('file').setMode({isDisconnected: true});
+            this.leftMenu.getMenu('file').setMode({isDisconnected: true, disableDownload: !!disableDownload});
             if ( this.dlgSearch ) {
                 this.leftMenu.btnSearch.toggle(false, true);
                 this.dlgSearch['hide']();

@@ -119,8 +119,12 @@ define([
             }
 
             me.inputRange.validation = function(value) {
-                var isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, value, false);
-                return (isvalid==Asc.c_oAscError.ID.DataRangeError) ? me.txtInvalidRange : true;
+                if (settings.validation) {
+                    return settings.validation.call(me, value);
+                } else {
+                    var isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, value, false);
+                    return (isvalid==Asc.c_oAscError.ID.DataRangeError) ? me.txtInvalidRange : true;
+                }
             };
         },
 
@@ -173,6 +177,7 @@ define([
         textCancel  : 'Cancel',
         txtEmpty    : 'This field is required',
         txtInvalidRange: 'ERROR! Invalid cells range',
-        errorMaxRows: 'ERROR! The maximum number of data series per chart is 255.'
+        errorMaxRows: 'ERROR! The maximum number of data series per chart is 255.',
+        errorStockChart: 'Incorrect row order. To build a stock chart place the data on the sheet in the following order:<br> opening price, max price, min price, closing price.'
     }, SSE.Views.CellRangeDialog || {}))
 });
