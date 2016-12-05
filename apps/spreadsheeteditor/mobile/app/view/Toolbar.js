@@ -68,15 +68,6 @@ define([
             // Set innerHTML and get the references to the DOM elements
             initialize: function() {
                 var me = this;
-
-                Common.NotificationCenter.on('readermode:change', function (reader) {
-                    if (reader) {
-                        me.hideSearch();
-                        $('#toolbar-search').addClass('disabled');
-                    } else {
-                        $('#toolbar-search').removeClass('disabled');
-                    }
-                });
             },
 
             // Render layout
@@ -144,7 +135,7 @@ define([
 
             // Settings
             showSettings: function () {
-                // SSE.getController('Settings').showModal();
+                SSE.getController('Settings').showModal();
             }
         }
     })(), SSE.Views.Toolbar || {}))
