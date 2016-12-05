@@ -81,10 +81,11 @@ define([
 
         expandEditor: function() {
             if (this.$el.height() > this.defEditorHeight) {
-                this.$el.height(this.defEditorHeight);
+                this.$el.height(this.defEditorHeight).removeClass('expanded');
                 this.$btnexpand.removeClass('collapse');
             } else {
-                this.$el.height(this.maxEditorHeight);
+                out_height = this.maxEditorHeight;
+                this.$el.height(this.maxEditorHeight).addClass('expanded');
                 this.$btnexpand.addClass('collapse');
             }
 
