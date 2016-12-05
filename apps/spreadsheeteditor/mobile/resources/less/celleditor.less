@@ -14,12 +14,14 @@
         box-sizing: border-box;
     }
 
-    border-bottom: solid 1px @gray-dark;
+    position: relative;
     min-height: @cellEditorHeight;
     background-color: #fff;
     display: flex;
     align-items: stretch;
     overflow: hidden;
+    z-index: 500;
+    .hairline(bottom, @gray-dark);//@toolbarBorderColor);
 
     .btn {
         border: 0 none;
@@ -33,22 +35,17 @@
 
     .group-name {
         float: left;
-        background-color: @gray-light;
+        background-color: @toolbarBg;
     }
 
     #ce-cell-name {
         display: inline-block;
         width: 90px;
-        //height: 100%;
-        padding: 0px 4px;
-        //vertical-align: top;
-        display: inline-block;
+        padding: 0 4px;
         border: 0 none;
         line-height: 30px;
         font-size: 17px;
         text-align: center;
-        //transition: none;
-        //-webkit-transition: none;
 
         &[disabled] {
             color: @gray-darker;
@@ -77,8 +74,9 @@
     }
 
     .group-content {
+        position: relative;
         padding-left: 1px;
-        border-left: 1px solid @gray-dark;
+        .hairline(left, @gray-dark);
         flex-grow: 1;
         height: 100%;
     }

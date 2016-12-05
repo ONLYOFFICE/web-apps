@@ -33,7 +33,7 @@
 
 /**
  *  Toolbar.js
- *  Document Editor
+ *  Spreadsheet Editor
  *
  *  Created by Maxim Kadushkin on 11/15/16
  *  Copyright (c) 2016 Ascensio System SIA. All rights reserved.
@@ -42,11 +42,14 @@
 
 define([
     'core',
+    'jquery',
+    'underscore',
+    'backbone',
     'spreadsheeteditor/mobile/app/view/Toolbar'
-], function (core) {
+], function (core, $, _, Backbone) {
     'use strict';
 
-    SSE.Controllers.Toolbar = Backbone.Controller.extend((function() {
+    SSE.Controllers.Toolbar = Backbone.Controller.extend(_.extend((function() {
         // private
         var _backUrl;
 
@@ -58,13 +61,6 @@ define([
             ],
 
             initialize: function() {
-                this.addListeners({
-                    'Toolbar': {
-                        'searchbar:show'        : this.onSearchbarShow,
-                        'searchbar:render'      : this.onSearchbarRender
-                    }
-                });
-
                 Common.Gateway.on('init', _.bind(this.loadConfig, this));
             },
 
@@ -100,83 +96,7 @@ define([
                 $('#toolbar-title').html(title);
             },
 
-            // Search
-
-            onSearchbarRender: function(bar) {
-                var me = this;
-                me.searchBar = uiApp.searchbar('.searchbar.document', {
-                    customSearch: true,
-                    onSearch    : _.bind(me.onSearchChange, me),
-                    onEnable    : _.bind(me.onSearchEnable, me),
-                    onDisable   : _.bind(me.onSearchDisable, me),
-                    onClear     : _.bind(me.onSearchClear, me)
-                });
-
-                me.searchPrev = $('.searchbar.document .prev');
-                me.searchNext = $('.searchbar.document .next');
-
-                me.searchPrev.on('click', _.bind(me.onSearchPrev, me));
-                me.searchNext.on('click', _.bind(me.onSearchNext, me));
-            },
-
-            onSearchbarShow: function(bar) {
-                //
-            },
-
-            onSearchChange: function(search) {
-                var me = this,
-                    isEmpty = (search.query.trim().length < 1);
-
-                _.each([me.searchPrev, me.searchNext], function(btn) {
-                    btn[isEmpty ? 'addClass' : 'removeClass']('disabled');
-                });
-            },
-
-            onSearchEnable: function(search) {
-                //
-            },
-
-            onSearchDisable: function(search) {
-                //
-            },
-
-            onSearchClear: function(search) {
-//            window.focus();
-//            document.activeElement.blur();
-            },
-
-            onSearchPrev: function(btn) {
-                this.onQuerySearch(this.searchBar.query, 'back');
-            },
-
-            onSearchNext: function(btn) {
-                this.onQuerySearch(this.searchBar.query, 'next');
-            },
-
-            onQuerySearch: function(query, direction, opts) {
-                if (query && query.length) {
-                    var findOptions = new Asc.asc_CFindOptions();
-                    findOptions.asc_setFindWhat(query);
-                    findOptions.asc_setScanForward(!(direction=='back'));
-                    findOptions.asc_setIsMatchCase(false);
-                    findOptions.asc_setIsWholeCell(false);
-                    findOptions.asc_setScanOnOnlySheet(true);
-                    findOptions.asc_setScanByRows(true);
-                    findOptions.asc_setLookIn(Asc.c_oAscFindLookIn.Formulas);
-
-                    if ( !this.api.asc_findText(findOptions) ) {
-                        uiApp.alert(
-                            '',
-                            this.textNoTextFound,
-                            function () {
-                                this.searchBar.input.focus();
-                            }.bind(this)
-                        );
-                    }
-                }
-            },
-
-            // Handlers
+           // Handlers
 
             onBack: function (e) {
                 var me = this;
@@ -225,8 +145,7 @@ define([
             dlgLeaveTitleText   : 'You leave the application',
             dlgLeaveMsgText     : 'You have unsaved changes in this document. Click \'Stay on this Page\' to await the autosave of the document. Click \'Leave this Page\' to discard all the unsaved changes.',
             leaveButtonText     : 'Leave this Page',
-            stayButtonText      : 'Stay on this Page',
-            textNoTextFound     : 'Text not found'
+            stayButtonText      : 'Stay on this Page'
         }
-    })());
+    })(), SSE.Controllers.Toolbar || {}))
 });

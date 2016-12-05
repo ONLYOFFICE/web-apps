@@ -33,7 +33,7 @@
 
 /**
  *  Toolbar.js
- *  Document Editor
+ *  Spreadsheet Editor
  *
  *  Created by Maxim Kadushkin on 11/15/16
  *  Copyright (c) 2016 Ascensio System SIA. All rights reserved.
@@ -48,7 +48,7 @@ define([
 ], function (toolbarTemplate, $, _, Backbone) {
     'use strict';
 
-    SSE.Views.Toolbar = Backbone.View.extend((function() {
+    SSE.Views.Toolbar = Backbone.View.extend(_.extend((function() {
         // private
 
         return {
@@ -124,64 +124,11 @@ define([
             },
 
             showSearch: function () {
-                var me = this,
-                    searchBar = $$('.searchbar.document');
-
-                if (searchBar.length < 1) {
-                    $(me.el).find('.pages .page').first().prepend(_.template(
-                        '<form class="searchbar document navbar navbar-hidden">' +
-                            '<div class="searchbar-input">' +
-                                '<input type="search" placeholder="Search"><a href="#" class="searchbar-clear"></a>' +
-                            '</div>' +
-                            '<p class="buttons-row">' +
-                                '<a href="#" class="link icon-only prev disabled"><i class="icon icon-prev"></i></a>' +
-                                '<a href="#" class="link icon-only next disabled"><i class="icon icon-next"></i></a>' +
-                            '</p>' +
-                        '</form>', {}
-                    ));
-                    me.fireEvent('searchbar:render', me);
-
-                    searchBar = $$('.searchbar.document');
-
-                    if (Common.SharedSettings.get('android')) {
-                        searchBar.find('.buttons-row').css('margin-left', '10px');
-                        searchBar.find('.buttons-row a').css('min-width', '0px');
-                    } else {
-                        searchBar.find('.buttons-row .next').css('margin-left', '10px');
-                    }
-
-                    _.defer(function() {
-                        uiApp.showNavbar(searchBar);
-
-                        searchBar.transitionEnd(function () {
-                            if (!searchBar.hasClass('navbar-hidden')) {
-                                me.fireEvent('searchbar:show', me);
-                                $('.searchbar input').focus();
-                            }
-                        });
-                    }, 10);
-                }
+                SSE.getController('Search').showSearch();
             },
 
             hideSearch: function () {
-                var me = this,
-                    searchBar = $$('.searchbar.document');
-
-                if (searchBar.length > 0) {
-                    // Animating
-                    if (searchBar.hasClass('.navbar-hidding')) {
-                        return;
-                    }
-
-                    _.defer(function() {
-                        searchBar.transitionEnd(function () {
-                            me.fireEvent('searchbar:hide', me);
-                            searchBar.remove();
-                        });
-
-                        uiApp.hideNavbar(searchBar);
-                    }, 10);
-                }
+                SSE.getController('Search').hideSearch();
             },
 
             // Editor
@@ -200,5 +147,5 @@ define([
                 // SSE.getController('Settings').showModal();
             }
         }
-    })());
+    })(), SSE.Views.Toolbar || {}))
 });

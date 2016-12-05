@@ -43,6 +43,18 @@
 //@import url('../../../../../vendor/framework7/src/less/ios/login-screen.less');
 @import url('../../../../../vendor/framework7/src/less/ios/disabled.less');
 
+// Disable text select
+* {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+input, textarea {
+  -webkit-touch-callout:default;
+  -webkit-user-select:text;
+  user-select:text;
+}
+
 // Main Toolbar
 #editor-navbar.navbar .right a + a,
 #editor-navbar.navbar .left a + a {
@@ -62,11 +74,11 @@
 @import url('../../../../common/mobile/resources/less/ios/_color-palette.less');
 @import url('../../../../common/mobile/resources/less/ios/_about.less');
 
-@import url('ios/_search.less');
 @import url('ios/_icons.less');
 @import url('app-common');
 @import url('celleditor');
 @import url('statusbar');
+@import url('ios/_search.less');
 
 // Add Container
 

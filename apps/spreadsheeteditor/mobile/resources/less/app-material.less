@@ -45,6 +45,17 @@
 @import url('../../../../../vendor/framework7/src/less/material/ripple.less');
 @import url('../../../../../vendor/framework7/src/less/material/disabled.less');
 
+// Disable text select
+* {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+input, textarea {
+  -webkit-touch-callout:default;
+  -webkit-user-select:text;
+  user-select:text;
+}
 
 @import url('../../../../common/mobile/resources/less/_mixins.less');
 @import url('../../../../common/mobile/resources/less/material/_container.less');
@@ -60,6 +71,7 @@
 @import url('app-common');
 @import url('celleditor');
 @import url('statusbar');
+
 
 // Add Container
 

@@ -1,15 +1,20 @@
 // Search
 
+.navbar-through .page > .searchbar {
+  top: @toolbarSize + @cellEditorHeight;
+  //position: relative;
+}
+
 .tablet {
   // Replace mode
   .searchbar.document.replace {
     .center {
-      .searchbar-input:first-child {
+      .searchbar:first-child {
         margin-right: 10px;
       }
 
       .replace {
-        display: block;
+        display: flex;
       }
     }
 
@@ -25,6 +30,11 @@
   .searchbar.document {
     .center {
       width: 100%;
+
+      .searchbar {
+        background: inherit;
+        padding: 0;
+      }
 
       .replace {
         display: none;
@@ -49,7 +59,7 @@
     height: 88px;
 
     .left {
-      margin-top: -44px;
+      margin-top: -(44+30)px;
     }
 
     .center {
@@ -63,7 +73,7 @@
     }
 
     .right {
-      .replace {
+      > .replace {
         display: flex;
       }
     }
@@ -85,6 +95,15 @@
     .center {
       width: 100%;
 
+      .searchbar {
+        background: inherit;
+        padding: 0;
+
+        &:after {
+          content: none;
+        }
+      }
+
       .replace {
         display: none;
       }
@@ -95,7 +114,7 @@
         margin: 0;
       }
 
-      .replace {
+      > .replace {
         display: none;
       }
     }

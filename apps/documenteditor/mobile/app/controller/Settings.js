@@ -43,8 +43,11 @@
 
 define([
     'core',
+    'jquery',
+    'underscore',
+    'backbone',
     'documenteditor/mobile/app/view/Settings'
-], function (core) {
+], function (core, $, _, Backbone) {
     'use strict';
 
     DE.Controllers.Settings = Backbone.Controller.extend(_.extend((function() {

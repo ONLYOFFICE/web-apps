@@ -40,8 +40,10 @@
 
 define([
     'text!spreadsheeteditor/mobile/app/template/CellEditor.template',
+    'jquery',
+    'underscore',
     'backbone'
-], function (template, Backbone) {
+], function (template, $, _, Backbone) {
     'use strict';
 
     SSE.Views.CellEditor = Backbone.View.extend({

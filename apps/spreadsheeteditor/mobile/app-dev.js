@@ -116,6 +116,7 @@ require([
         controllers : [
             'Editor',
             'Toolbar',
+            'Search',
             'Main',
             'DocumentHolder'
             , 'CellEditor'
@@ -156,6 +157,9 @@ require([
         // Default title for modals
         modalTitle: 'ONLYOFFICE',
 
+        // Enable tap hold events
+        tapHold: true,
+
         // If it is webapp, we can enable hash navigation:
 //        pushState: false,
 
@@ -182,6 +186,7 @@ require([
         'common/main/lib/util/utils',
         'spreadsheeteditor/mobile/app/controller/Editor',
         'spreadsheeteditor/mobile/app/controller/Toolbar',
+        'spreadsheeteditor/mobile/app/controller/Search',
         'spreadsheeteditor/mobile/app/controller/Main',
         'spreadsheeteditor/mobile/app/controller/DocumentHolder'
         , 'spreadsheeteditor/mobile/app/controller/CellEditor'
