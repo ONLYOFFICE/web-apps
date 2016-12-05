@@ -322,7 +322,7 @@ define([
                 split       : true,
                 menu        : new Common.UI.Menu({
                     items: [
-                        { template: _.template('<div id="id-toolbar-menu-fontcolor" style="width: 165px; height: 220px; margin: 10px;"></div>') },
+                        { template: _.template('<div id="id-toolbar-menu-fontcolor" style="width: 169px; height: 220px; margin: 10px;"></div>') },
                         { template: _.template('<a id="id-toolbar-menu-new-fontcolor" style="padding-left:12px;">' + me.textNewColor + '</a>') }
                     ]
                 })

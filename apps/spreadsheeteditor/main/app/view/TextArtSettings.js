@@ -1461,7 +1461,7 @@ define([
                     style: "width:45px;",
                     menu        : new Common.UI.Menu({
                         items: [
-                            { template: _.template('<div id="textart-border-color-menu" style="width: 165px; height: 220px; margin: 10px;"></div>') },
+                            { template: _.template('<div id="textart-border-color-menu" style="width: 169px; height: 220px; margin: 10px;"></div>') },
                             { template: _.template('<a id="textart-border-color-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
                         ]
                     })
@@ -1480,7 +1480,7 @@ define([
                     style: "width:45px;",
                     menu        : new Common.UI.Menu({
                         items: [
-                            { template: _.template('<div id="textart-back-color-menu" style="width: 165px; height: 220px; margin: 10px;"></div>') },
+                            { template: _.template('<div id="textart-back-color-menu" style="width: 169px; height: 220px; margin: 10px;"></div>') },
                             { template: _.template('<a id="textart-back-color-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
                         ]
                     })
@@ -1500,7 +1500,7 @@ define([
                     style: "width:45px;",
                     menu        : new Common.UI.Menu({
                         items: [
-                            { template: _.template('<div id="textart-foreground-color-menu" style="width: 165px; height: 220px; margin: 10px;"></div>') },
+                            { template: _.template('<div id="textart-foreground-color-menu" style="width: 169px; height: 220px; margin: 10px;"></div>') },
                             { template: _.template('<a id="textart-foreground-color-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
                         ]
                     })
@@ -1519,7 +1519,7 @@ define([
                     style: "width:45px;",
                     menu        : new Common.UI.Menu({
                         items: [
-                            { template: _.template('<div id="textart-background-color-menu" style="width: 165px; height: 220px; margin: 10px;"></div>') },
+                            { template: _.template('<div id="textart-background-color-menu" style="width: 169px; height: 220px; margin: 10px;"></div>') },
                             { template: _.template('<a id="textart-background-color-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
                         ]
                     })
@@ -1538,7 +1538,7 @@ define([
                     style: "width:45px;",
                     menu        : new Common.UI.Menu({
                         items: [
-                            { template: _.template('<div id="textart-gradient-color-menu" style="width: 165px; height: 220px; margin: 10px;"></div>') },
+                            { template: _.template('<div id="textart-gradient-color-menu" style="width: 169px; height: 220px; margin: 10px;"></div>') },
                             { template: _.template('<a id="textart-gradient-color-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
                         ]
                     })

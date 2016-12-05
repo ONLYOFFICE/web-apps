@@ -881,7 +881,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 style: "width:45px;",
                 menu        : new Common.UI.Menu({
                     items: [
-                        { template: _.template('<div id="tableadv-border-color-menu" style="width: 165px; height: 220px; margin: 10px;"></div>') },
+                        { template: _.template('<div id="tableadv-border-color-menu" style="width: 169px; height: 220px; margin: 10px;"></div>') },
                         { template: _.template('<a id="tableadv-border-color-new" style="padding-left:12px;">' + me.textNewColor + '</a>') }
                     ]
                 })
@@ -901,7 +901,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 style: "width:45px;",
                 menu        : new Common.UI.Menu({
                     items: [
-                        { template: _.template('<div id="tableadv-back-color-menu" style="width: 165px; height: 220px; margin: 10px;"></div>') },
+                        { template: _.template('<div id="tableadv-back-color-menu" style="width: 169px; height: 220px; margin: 10px;"></div>') },
                         { template: _.template('<a id="tableadv-back-color-new" style="padding-left:12px;">' + me.textNewColor + '</a>') }
                     ]
                 })
@@ -921,7 +921,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 style: "width:45px;",
                 menu        : new Common.UI.Menu({
                     items: [
-                        { template: _.template('<div id="tableadv-table-back-color-menu" style="width: 165px; height: 220px; margin: 10px;"></div>') },
+                        { template: _.template('<div id="tableadv-table-back-color-menu" style="width: 169px; height: 220px; margin: 10px;"></div>') },
                         { template: _.template('<a id="tableadv-table-back-color-new" style="padding-left:12px;">' + me.textNewColor + '</a>') }
                     ]
                 })
