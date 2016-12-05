@@ -454,8 +454,8 @@
     color: @gray-deep;
     background-color: @secondary;
 
-    &:hover,
-    &.hover {
+    &:hover:not(.disabled),
+    &.hover:not(.disabled) {
         background-color: @secondary-hover;
     }
 
@@ -463,8 +463,8 @@
         color: #fff;
         background-color: @primary;
 
-        &:hover,
-        &.hover {
+        &:hover:not(.disabled),
+        &.hover:not(.disabled) {
             background-color: @primary-hover;
         }
     }
