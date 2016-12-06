@@ -157,7 +157,7 @@ define([
                         editors.push({
                             caption: me.textHyperlink,
                             id: 'edit-link',
-                            layout: PE.getController('EditHyperlink').getView('EditHyperlink').rootLayout()
+                            layout: PE.getController('EditLink').getView('EditLink').rootLayout()
                         })
                     }
                 }
@@ -334,7 +334,7 @@ define([
                         _settings.push('shape');
                         no_text = false;
                     } else if (Asc.c_oAscTypeSelectElement.Hyperlink == type) {
-                        // _settings.push('hyperlink');
+                        _settings.push('hyperlink');
                     }
                 });
                 if (!no_text)
