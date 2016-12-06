@@ -130,7 +130,7 @@ define([
             // Inserts
 
             showInserts: function () {
-                // SSE.getController('AddContainer').showModal();
+                SSE.getController('AddContainer').showModal();
             },
 
             // Settings
