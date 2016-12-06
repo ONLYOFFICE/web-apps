@@ -40,8 +40,11 @@
  *
  */
 define([
-    'core'
-], function (core) {
+    'core',
+    'jquery',
+    'underscore',
+    'backbone'
+], function (core, $, _, Backbone) {
     'use strict';
 
     DE.Controllers.EditContainer = Backbone.Controller.extend(_.extend((function() {
@@ -108,7 +111,7 @@ define([
                 var me = this,
                     editors = [];
 
-                if (_settings.length < 0) {
+                if (_settings.length < 1) {
                     editors.push(me._emptyEditController());
                 } else {
                     if (_.contains(_settings, 'text')) {

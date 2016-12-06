@@ -124,7 +124,7 @@ define([
 
             // Editor
             showEdition: function () {
-                // SSE.getController('EditContainer').showModal();
+                SSE.getController('EditContainer').showModal();
             },
 
             // Inserts

@@ -33,18 +33,21 @@
 
 /**
  *  EditContainer.js
- *  Document Editor
+ *  Spreadsheet Editor
  *
- *  Created by Alexander Yuzhin on 9/27/16
+ *  Created by Alexander Yuzhin on 12/6/16
  *  Copyright (c) 2016 Ascensio System SIA. All rights reserved.
  *
  */
 define([
-    'core'
-], function (core) {
+    'core',
+    'jquery',
+    'underscore',
+    'backbone'
+], function (core, $, _, Backbone) {
     'use strict';
 
-    DE.Controllers.EditContainer = Backbone.Controller.extend(_.extend((function() {
+    SSE.Controllers.EditContainer = Backbone.Controller.extend(_.extend((function() {
         // Private
         var _settings = [];
 
@@ -68,7 +71,7 @@ define([
 
             showModal: function() {
                 var me = this,
-                    mainView = DE.getController('Editor').getView('Editor').f7View,
+                    mainView = SSE.getController('Editor').getView('Editor').f7View,
                     isAndroid = Framework7.prototype.device.android === true;
 
                 if ($$('.container-edit.modal-in').length > 0) {
@@ -81,7 +84,7 @@ define([
 
                 me._showByStack(Common.SharedSettings.get('phone'));
 
-                DE.getController('Toolbar').getView('Toolbar').hideSearch();
+                SSE.getController('Toolbar').getView('Toolbar').hideSearch();
             },
 
             hideModal: function () {
@@ -108,56 +111,49 @@ define([
                 var me = this,
                     editors = [];
 
-                if (_settings.length < 0) {
+                if (_settings.length < 1) {
                     editors.push(me._emptyEditController());
                 } else {
-                    if (_.contains(_settings, 'text')) {
+                    if (_.contains(_settings, 'cell')) {
                         editors.push({
-                            caption: me.textText,
-                            id: 'edit-text',
-                            layout: DE.getController('EditText').getView('EditText').rootLayout()
-                        })
-                    }
-                    if (_.contains(_settings, 'paragraph')) {
-                        editors.push({
-                            caption: me.textParagraph,
-                            id: 'edit-paragraph',
-                            layout: DE.getController('EditParagraph').getView('EditParagraph').rootLayout()
+                            caption: me.textCell,
+                            id: 'edit-cell',
+                            layout: SSE.getController('EditCell').getView('EditCell').rootLayout()
                         })
                     }
                     if (_.contains(_settings, 'table')) {
                         editors.push({
                             caption: me.textTable,
                             id: 'edit-table',
-                            layout: DE.getController('EditTable').getView('EditTable').rootLayout()
+                            layout: SSE.getController('EditTable').getView('EditTable').rootLayout()
                         })
                     }
                     if (_.contains(_settings, 'shape')) {
                         editors.push({
                             caption: me.textShape,
                             id: 'edit-shape',
-                            layout: DE.getController('EditShape').getView('EditShape').rootLayout()
+                            layout: SSE.getController('EditShape').getView('EditShape').rootLayout()
                         })
                     }
                     if (_.contains(_settings, 'image')) {
                         editors.push({
                             caption: me.textImage,
                             id: 'edit-image',
-                            layout: DE.getController('EditImage').getView('EditImage').rootLayout()
+                            layout: SSE.getController('EditImage').getView('EditImage').rootLayout()
                         })
                     }
                     if (_.contains(_settings, 'chart')) {
                         editors.push({
                             caption: me.textChart,
                             id: 'edit-chart',
-                            layout: DE.getController('EditChart').getView('EditChart').rootLayout()
+                            layout: SSE.getController('EditChart').getView('EditChart').rootLayout()
                         })
                     }
                     if (_.contains(_settings, 'hyperlink')) {
                         editors.push({
                             caption: me.textHyperlink,
                             id: 'edit-link',
-                            layout: DE.getController('EditHyperlink').getView('EditHyperlink').rootLayout()
+                            layout: SSE.getController('EditHyperlink').getView('EditHyperlink').rootLayout()
                         })
                     }
                 }
@@ -167,7 +163,7 @@ define([
 
             _showByStack: function(isPhone) {
                 var me = this,
-                    mainView = DE.getController('Editor').getView('Editor').f7View,
+                    mainView = SSE.getController('Editor').getView('Editor').f7View,
                     isAndroid = Framework7.prototype.device.android === true,
                     layoutEditors = me._layoutEditorsByStack();
 
@@ -350,11 +346,13 @@ define([
                 }
 
                 _settings = _.uniq(_settings);
+
+                //TODO: DEBUG ONLY
+                _settings = [];
             },
 
             textSettings: 'Settings',
-            textText: 'Text',
-            textParagraph: 'Paragraph',
+            textCell: 'Cell',
             textTable: 'Table',
             textShape: 'Shape',
             textImage: 'Image',
@@ -362,5 +360,5 @@ define([
             textHyperlink: 'Hyperlink'
 
         }
-    })(), DE.Controllers.EditContainer || {}))
+    })(), SSE.Controllers.EditContainer || {}))
 });

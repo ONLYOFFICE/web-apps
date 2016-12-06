@@ -108,7 +108,7 @@ define([
                 var me = this,
                     editors = [];
 
-                if (_settings.length < 0) {
+                if (_settings.length < 1) {
                     editors.push(me._emptyEditController());
                 } else {
                     if (_.contains(_settings, 'slide')) {
