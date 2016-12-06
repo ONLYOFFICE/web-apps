@@ -158,7 +158,7 @@ define([
                 var me = this;
                 // Syncronize focus with api
                 $(document.body).on('focus', 'input, textarea:not(#ce-cell-content)', function(e) {
-                    if (this.isAppDisabled === true) return;
+                    if (me.isAppDisabled === true) return;
 
                     if (e && e.target && !/area_id/.test(e.target.id)) {
                         if (/msg-reply/.test(e.target.className))
@@ -167,7 +167,8 @@ define([
                 });
 
                 $(document.body).on('blur', 'input, textarea', function(e) {
-                    if (this.isAppDisabled === true) return;
+                    if (me.isAppDisabled === true || me.isFrameClosed) return;
+
                     if (!me.isModalShowed && !(me.loadMask && me.loadMask.isVisible())) {
                         if (!e.relatedTarget ||
                             !/area_id/.test(e.target.id) && $(e.target).parent().find(e.relatedTarget).length<1 /* Check if focus in combobox goes from input to it's menu button or menu items */
@@ -284,6 +285,8 @@ define([
 
                 if (this.appOptions.location == 'us' || this.appOptions.location == 'ca')
                     Common.Utils.Metric.setDefaultMetric(Common.Utils.Metric.c_MetricUnits.inch);
+
+                this.isFrameClosed = (this.appOptions.isEditDiagram || this.appOptions.isEditMailMerge);
             },
 
             loadDocument: function(data) {
@@ -1617,6 +1620,7 @@ define([
                         break;
                     case 'queryClose':
                         if ($('body .asc-window:visible').length === 0) {
+                            this.isFrameClosed = true;
                             this.api.asc_closeCellEditor();
                             Common.Gateway.internalMessage('canClose', {mr:data.data.mr, answer: true});
                         }
@@ -1634,6 +1638,7 @@ define([
             setChartData: function(chart) {
                 if (typeof chart === 'object' && this.api) {
                     this.api.asc_addChartDrawingObject(chart);
+                    this.isFrameClosed = false;
                 }
             },
 
@@ -1656,6 +1661,7 @@ define([
             setMergeData: function(merge) {
                 if (typeof merge === 'object' && this.api) {
                     this.api.asc_setData(merge);
+                    this.isFrameClosed = false;
                 }
             },
 
