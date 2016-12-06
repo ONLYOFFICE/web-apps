@@ -108,11 +108,6 @@ define([
                 var me = this,
                     editors = [];
 
-                // TODO: Debug only
-                // editors.push(me._emptyEditController());
-                // return editors;
-
-
                 if (_settings.length < 0) {
                     editors.push(me._emptyEditController());
                 } else {

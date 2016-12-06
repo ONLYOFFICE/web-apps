@@ -180,7 +180,7 @@
 <!-- Style options view -->
 <div id="edit-table-style-options-view">
     <div class="navbar">
-        <div class="navbar-inner" data-page="edit-table-style-options">
+        <div class="navbar-inner">
             <div class="left sliding"><a href="#" class="back link"><i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
             <div class="center sliding"><%= scope.textOptions %></div>
             <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>

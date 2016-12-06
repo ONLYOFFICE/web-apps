@@ -47,6 +47,7 @@ define([
 
     PE.Controllers.AddContainer = Backbone.Controller.extend(_.extend((function() {
         // private
+        var _canAddHyperlink = false;
 
         return {
             models: [],
@@ -59,6 +60,7 @@ define([
 
             setApi: function(api) {
                 this.api = api;
+                this.api.asc_registerCallback('asc_onCanAddHyperlink', _.bind(this.onApiCanAddHyperlink, this));
             },
 
             onLaunch: function() {
@@ -133,11 +135,14 @@ define([
                         .rootLayout()
                 });
 
-                addViews.push({
-                    caption: me.textOther,
-                    id: 'add-other',
-                    layout: me._dummyEditController().getLayout()
-                });
+                if (_canAddHyperlink)
+                    addViews.push({
+                        caption: me.textLink,
+                        id: 'add-link',
+                        layout: PE.getController('AddLink')
+                            .getView('AddLink')
+                            .rootLayout()
+                    });
 
                 return addViews;
             },
@@ -259,6 +264,10 @@ define([
                     });
                 }
 
+                $('.container-add .tab').single('show', function (e) {
+                    Common.NotificationCenter.trigger('addcategory:show', e);
+                });
+
                 if (isAndroid) {
                     $$('.view.add-root-view.navbar-through').removeClass('navbar-through').addClass('navbar-fixed');
                     $$('.view.add-root-view .navbar').prependTo('.view.add-root-view > .pages > .page');
@@ -271,11 +280,15 @@ define([
                 Common.NotificationCenter.trigger('addcontainer:show');
             },
 
+            onApiCanAddHyperlink: function(value) {
+                _canAddHyperlink = value;
+            },
+
             textSlide: 'Slide',
             textTable: 'Table',
             textShape: 'Shape',
             textImage: 'Image',
-            textOther: 'Other'
+            textLink:  'Link'
         }
     })(), PE.Controllers.AddContainer || {}))
 });

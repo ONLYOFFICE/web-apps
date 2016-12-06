@@ -161,8 +161,8 @@ require([
             'AddContainer',
             'AddTable',
             'AddShape',
-            'AddImage'
-            // 'AddOther'
+            'AddImage',
+            'AddLink'
         ]
     });
 
@@ -226,8 +226,8 @@ require([
         'presentationeditor/mobile/app/controller/add/AddContainer',
         'presentationeditor/mobile/app/controller/add/AddTable',
         'presentationeditor/mobile/app/controller/add/AddShape',
-        'presentationeditor/mobile/app/controller/add/AddImage'
-        // 'presentationeditor/mobile/app/controller/add/AddOther'
+        'presentationeditor/mobile/app/controller/add/AddImage',
+        'presentationeditor/mobile/app/controller/add/AddLink'
     ], function() {
         app.start();
     });

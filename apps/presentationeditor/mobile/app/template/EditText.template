@@ -259,7 +259,7 @@
             </div>
             <div class="list-block">
                 <ul>
-                    <li id="letter-spacing" id="letter-spacing">
+                    <li id="letter-spacing">
                         <div class="item-content">
                             <div class="item-inner">
                                 <div class="item-title"><%= scope.textLetterSpacing %></div>
