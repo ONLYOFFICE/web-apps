@@ -62,7 +62,8 @@ define([
 
             setApi: function(api) {
                 this.api = api;
-                this.api.asc_registerCallback('asc_onFocusObject',        _.bind(this.onApiFocusObject, this));
+                this.api.asc_registerCallback('asc_onFocusObject',      _.bind(this.onApiFocusObject, this)); //????
+                this.api.asc_registerCallback('asc_onSelectionChanged', _.bind(this.onApiSelectionChanged, this));
             },
 
             onLaunch: function() {
@@ -349,6 +350,220 @@ define([
 
                 //TODO: DEBUG ONLY
                 _settings = [];
+            },
+
+            onApiSelectionChanged: function (cellInfo) {
+                _settings = [];
+
+                var isCell, isRow, isCol, isAll, isChart, isImage, isTextShape, isShape, isTextChart,
+                    selType             = cellInfo.asc_getFlags().asc_getSelectionType(),
+                    isCellLocked        = cellInfo.asc_getLocked(),
+                    isTableLocked       = cellInfo.asc_getLockedTable()===true,
+                    isObjLocked         = false;
+
+                switch (selType) {
+                    case Asc.c_oAscSelectionType.RangeCells:    isCell  = true; break;
+                    case Asc.c_oAscSelectionType.RangeRow:      isRow   = true; break;
+                    case Asc.c_oAscSelectionType.RangeCol:      isCol   = true; break;
+                    case Asc.c_oAscSelectionType.RangeMax:      isAll   = true; break;
+                    case Asc.c_oAscSelectionType.RangeImage:    isImage = true; break;
+                    case Asc.c_oAscSelectionType.RangeShape:    isShape = true; break;
+                    case Asc.c_oAscSelectionType.RangeChart:    isChart = true; break;
+                    case Asc.c_oAscSelectionType.RangeChartText:isTextChart = true; break;
+                    case Asc.c_oAscSelectionType.RangeShapeText: isTextShape = true; break;
+                }
+
+                if (isImage || isShape || isChart) {
+                    if (!showMenu && !documentHolder.imgMenu.isVisible()) return;
+
+                    isImage = isShape = isChart = false;
+                    var has_chartprops = false;
+                    var selectedObjects = this.api.asc_getGraphicObjectProps();
+
+                    for (var i = 0; i < selectedObjects.length; i++) {
+                        if (selectedObjects[i].asc_getObjectType() == Asc.c_oAscTypeSelectElement.Image) {
+                            var elValue = selectedObjects[i].asc_getObjectValue();
+                            isObjLocked = isObjLocked || elValue.asc_getLocked();
+                            var shapeProps = elValue.asc_getShapeProperties();
+
+                            if (shapeProps) {
+                                if (shapeProps.asc_getFromChart()) {
+                                    isChart = true;
+                                } else {
+                                    // documentHolder.mnuShapeAdvanced.shapeInfo = elValue;
+                                    isShape = true;
+                                }
+                            } else if (elValue.asc_getChartProperties()) {
+                                isChart = true;
+                                has_chartprops = true;
+                            }
+                            else
+                                isImage = true;
+                        }
+                    }
+
+                    // documentHolder.mnuUnGroupImg.setDisabled(isObjLocked || !this.api.asc_canUnGroupGraphicsObjects());
+                    // documentHolder.mnuGroupImg.setDisabled(isObjLocked || !this.api.asc_canGroupGraphicsObjects());
+                    // documentHolder.mnuShapeAdvanced.setVisible(isShape && !isImage && !isChart);
+                    // documentHolder.mnuShapeAdvanced.setDisabled(isObjLocked);
+                    // documentHolder.mnuChartEdit.setVisible(isChart && !isImage && !isShape && has_chartprops);
+                    // documentHolder.mnuChartEdit.setDisabled(isObjLocked);
+                    // documentHolder.pmiImgCut.setDisabled(isObjLocked);
+                    // documentHolder.pmiImgPaste.setDisabled(isObjLocked);
+                    // if (showMenu) this.showPopupMenu(documentHolder.imgMenu, {}, event);
+                    // documentHolder.mnuShapeSeparator.setVisible(documentHolder.mnuShapeAdvanced.isVisible() || documentHolder.mnuChartEdit.isVisible());
+                } else if (isTextShape || isTextChart) {
+                    var selectedObjects = this.api.asc_getGraphicObjectProps(),
+                        isEquation = false;
+
+                    for (var i = 0; i < selectedObjects.length; i++) {
+                        var elType = selectedObjects[i].asc_getObjectType();
+                        if (elType == Asc.c_oAscTypeSelectElement.Image) {
+                            var value = selectedObjects[i].asc_getObjectValue(),
+                                align = value.asc_getVerticalTextAlign(),
+                                direct = value.asc_getVert();
+
+                            isObjLocked = isObjLocked || value.asc_getLocked();
+
+                            // documentHolder.menuParagraphTop.setChecked(align == Asc.c_oAscVAlign.Top);
+                            // documentHolder.menuParagraphCenter.setChecked(align == Asc.c_oAscVAlign.Center);
+                            // documentHolder.menuParagraphBottom.setChecked(align == Asc.c_oAscVAlign.Bottom);
+                            //
+                            // documentHolder.menuParagraphDirectH.setChecked(direct == Asc.c_oAscVertDrawingText.normal);
+                            // documentHolder.menuParagraphDirect90.setChecked(direct == Asc.c_oAscVertDrawingText.vert);
+                            // documentHolder.menuParagraphDirect270.setChecked(direct == Asc.c_oAscVertDrawingText.vert270);
+                        } else if (elType == Asc.c_oAscTypeSelectElement.Paragraph) {
+                            // documentHolder.pmiTextAdvanced.textInfo = selectedObjects[i].asc_getObjectValue();
+                            // isObjLocked = isObjLocked || documentHolder.pmiTextAdvanced.textInfo.asc_getLocked();
+                        } else if (elType == Asc.c_oAscTypeSelectElement.Math) {
+                            // this._currentMathObj = selectedObjects[i].asc_getObjectValue();
+                            isEquation = true;
+                        }
+                    }
+
+                    var hyperInfo = cellInfo.asc_getHyperlink(),
+                        can_add_hyperlink = this.api.asc_canAddShapeHyperlink();
+
+                    // documentHolder.menuHyperlinkShape.setVisible(isTextShape && can_add_hyperlink!==false && hyperInfo);
+                    // documentHolder.menuAddHyperlinkShape.setVisible(isTextShape && can_add_hyperlink!==false && !hyperInfo);
+                    // documentHolder.menuParagraphVAlign.setVisible(isTextChart!==true && !isEquation); // убрать после того, как заголовок можно будет растягивать по вертикали!!
+                    // documentHolder.menuParagraphDirection.setVisible(isTextChart!==true && !isEquation); // убрать после того, как заголовок можно будет растягивать по вертикали!!
+                    // documentHolder.pmiTextAdvanced.setVisible(documentHolder.pmiTextAdvanced.textInfo!==undefined);
+                    //
+                    // _.each(documentHolder.textInShapeMenu.items, function(item) {
+                    //     item.setDisabled(isObjLocked);
+                    // });
+                    // documentHolder.pmiTextCopy.setDisabled(false);
+                    //
+                    // //equation menu
+                    // var eqlen = 0;
+                    // this._currentParaObjDisabled = isObjLocked;
+                    // if (isEquation) {
+                    //     eqlen = this.addEquationMenu(4);
+                    // } else
+                    //     this.clearEquationMenu(4);
+                    //
+                    // if (showMenu) this.showPopupMenu(documentHolder.textInShapeMenu, {}, event);
+                    // documentHolder.textInShapeMenu.items[3].setVisible( documentHolder.menuHyperlinkShape.isVisible() ||
+                    //     documentHolder.menuAddHyperlinkShape.isVisible() ||
+                    //     documentHolder.menuParagraphVAlign.isVisible() || isEquation);
+                }
+                // } else if (selType !== Asc.c_oAscSelectionType.RangeImage && selType !== Asc.c_oAscSelectionType.RangeShape &&
+                //     selType !== Asc.c_oAscSelectionType.RangeChart && selType !== Asc.c_oAscSelectionType.RangeChartText && selType !== Asc.c_oAscSelectionType.RangeShapeText) {
+                //
+                //     var isCellEdit = this.api.isCellEdited,
+                //         formatTableInfo = cellInfo.asc_getFormatTableInfo(),
+                //         isinsparkline = (cellInfo.asc_getSparklineInfo()!==null),
+                //         isintable = (formatTableInfo !== null),
+                //         ismultiselect = cellInfo.asc_getFlags().asc_getMultiselect();
+                //     documentHolder.ssMenu.formatTableName = (isintable) ? formatTableInfo.asc_getTableName() : null;
+                //     documentHolder.ssMenu.cellColor = cellInfo.asc_getFill().asc_getColor();
+                //     documentHolder.ssMenu.fontColor = cellInfo.asc_getFont().asc_getColor();
+                //
+                //     documentHolder.pmiInsertEntire.setVisible(isRow||isCol);
+                //     documentHolder.pmiInsertEntire.setCaption((isRow) ? this.textInsertTop : this.textInsertLeft);
+                //     documentHolder.pmiDeleteEntire.setVisible(isRow||isCol);
+                //     documentHolder.pmiInsertCells.setVisible(isCell && !isCellEdit && !isintable);
+                //     documentHolder.pmiDeleteCells.setVisible(isCell && !isCellEdit && !isintable);
+                //     documentHolder.pmiSelectTable.setVisible(isCell && !isCellEdit && isintable);
+                //     documentHolder.pmiInsertTable.setVisible(isCell && !isCellEdit && isintable);
+                //     documentHolder.pmiDeleteTable.setVisible(isCell && !isCellEdit && isintable);
+                //     documentHolder.pmiSparklines.setVisible(isinsparkline);
+                //     documentHolder.pmiSortCells.setVisible((isCell||isAll||cansort) && !isCellEdit);
+                //     documentHolder.pmiFilterCells.setVisible((isCell||cansort) && !isCellEdit);
+                //     documentHolder.pmiReapply.setVisible((isCell||isAll||cansort) && !isCellEdit);
+                //     documentHolder.ssMenu.items[12].setVisible((isCell||isAll||cansort||isinsparkline) && !isCellEdit);
+                //     documentHolder.pmiInsFunction.setVisible(isCell||insfunc);
+                //     documentHolder.pmiAddNamedRange.setVisible(isCell && !isCellEdit);
+                //
+                //     if (isintable) {
+                //         documentHolder.pmiInsertTable.menu.items[0].setDisabled(!formatTableInfo.asc_getIsInsertRowAbove());
+                //         documentHolder.pmiInsertTable.menu.items[1].setDisabled(!formatTableInfo.asc_getIsInsertRowBelow());
+                //         documentHolder.pmiInsertTable.menu.items[2].setDisabled(!formatTableInfo.asc_getIsInsertColumnLeft());
+                //         documentHolder.pmiInsertTable.menu.items[3].setDisabled(!formatTableInfo.asc_getIsInsertColumnRight());
+                //
+                //         documentHolder.pmiDeleteTable.menu.items[0].setDisabled(!formatTableInfo.asc_getIsDeleteRow());
+                //         documentHolder.pmiDeleteTable.menu.items[1].setDisabled(!formatTableInfo.asc_getIsDeleteColumn());
+                //         documentHolder.pmiDeleteTable.menu.items[2].setDisabled(!formatTableInfo.asc_getIsDeleteTable());
+                //
+                //     }
+                //
+                //     var hyperinfo = cellInfo.asc_getHyperlink();
+                //     documentHolder.menuHyperlink.setVisible(isCell && hyperinfo && !isCellEdit && !ismultiselect);
+                //     documentHolder.menuAddHyperlink.setVisible(isCell && !hyperinfo && !isCellEdit && !ismultiselect);
+                //
+                //     documentHolder.pmiRowHeight.setVisible(isRow||isAll);
+                //     documentHolder.pmiColumnWidth.setVisible(isCol||isAll);
+                //     documentHolder.pmiEntireHide.setVisible(isCol||isRow);
+                //     documentHolder.pmiEntireShow.setVisible(isCol||isRow);
+                //     documentHolder.pmiFreezePanes.setVisible(!isCellEdit);
+                //     documentHolder.pmiFreezePanes.setCaption(this.api.asc_getSheetViewSettings().asc_getIsFreezePane() ? documentHolder.textUnFreezePanes : documentHolder.textFreezePanes);
+                //     documentHolder.pmiEntriesList.setVisible(!isCellEdit);
+                //
+                //     /** coauthoring begin **/
+                //     documentHolder.ssMenu.items[17].setVisible(isCell && !isCellEdit && this.permissions.canCoAuthoring && this.permissions.canComments);
+                //     documentHolder.pmiAddComment.setVisible(isCell && !isCellEdit && this.permissions.canCoAuthoring && this.permissions.canComments);
+                //     /** coauthoring end **/
+                //     documentHolder.pmiCellMenuSeparator.setVisible(isCell || isRow || isCol || isAll || insfunc);
+                //     documentHolder.pmiEntireHide.isrowmenu = isRow;
+                //     documentHolder.pmiEntireShow.isrowmenu = isRow;
+                //
+                //     documentHolder.setMenuItemCommentCaptionMode(cellInfo.asc_getComments().length > 0);
+                //     commentsController && commentsController.blockPopover(true);
+                //
+                //     documentHolder.pmiClear.menu.items[1].setDisabled(isCellEdit);
+                //     documentHolder.pmiClear.menu.items[2].setDisabled(isCellEdit);
+                //     documentHolder.pmiClear.menu.items[3].setDisabled(isCellEdit);
+                //     documentHolder.pmiClear.menu.items[4].setDisabled(isCellEdit);
+                //
+                //     documentHolder.pmiClear.menu.items[3].setVisible(!this.permissions.isEditDiagram);
+                //     documentHolder.pmiClear.menu.items[4].setVisible(!this.permissions.isEditDiagram);
+                //
+                //     var filterInfo = cellInfo.asc_getAutoFilterInfo(),
+                //         isApplyAutoFilter = (filterInfo) ? filterInfo.asc_getIsApplyAutoFilter() : false;
+                //     filterInfo = (filterInfo) ? filterInfo.asc_getIsAutoFilter() : null;
+                //     documentHolder.pmiInsertCells.menu.items[0].setDisabled(isApplyAutoFilter);
+                //     documentHolder.pmiDeleteCells.menu.items[0].setDisabled(isApplyAutoFilter);
+                //     documentHolder.pmiInsertCells.menu.items[1].setDisabled(isApplyAutoFilter);
+                //     documentHolder.pmiDeleteCells.menu.items[1].setDisabled(isApplyAutoFilter);
+                //
+                //     _.each(documentHolder.ssMenu.items, function(item) {
+                //         item.setDisabled(isCellLocked);
+                //     });
+                //     documentHolder.pmiCopy.setDisabled(false);
+                //     documentHolder.pmiInsertEntire.setDisabled(isCellLocked || isTableLocked);
+                //     documentHolder.pmiInsertCells.setDisabled(isCellLocked || isTableLocked);
+                //     documentHolder.pmiInsertTable.setDisabled(isCellLocked || isTableLocked);
+                //     documentHolder.pmiDeleteEntire.setDisabled(isCellLocked || isTableLocked);
+                //     documentHolder.pmiDeleteCells.setDisabled(isCellLocked || isTableLocked);
+                //     documentHolder.pmiDeleteTable.setDisabled(isCellLocked || isTableLocked);
+                //     documentHolder.pmiFilterCells.setDisabled(isCellLocked || isTableLocked|| (filterInfo==null));
+                //     documentHolder.pmiSortCells.setDisabled(isCellLocked || isTableLocked|| (filterInfo==null));
+                //     documentHolder.pmiReapply.setDisabled(isCellLocked || isTableLocked|| (isApplyAutoFilter!==true));
+                //     if (showMenu) this.showPopupMenu(documentHolder.ssMenu, {}, event);
+                // }
+
+                _settings.push('cell');
             },
 
             textSettings: 'Settings',

@@ -2,23 +2,28 @@
 <div id="edit-text-root">
     <div class="list-block">
         <ul>
-            <li><a id="font-fonts" class="item-link">
-                <div class="item-content">
-                    <div class="item-inner">
-                        <div class="item-title"><%= scope.textFonts %></div>
-                        <div class="item-after" style="color: #000;"><span></span><span style="margin-left: 5px;"></span></div>
+            <li>
+                <a id="font-fonts" class="item-link">
+                    <div class="item-content">
+                        <div class="item-inner">
+                            <div class="item-title"><%= scope.textFonts %></div>
+                            <div class="item-after" style="color: #000;"><span></span><span style="margin-left: 5px;"></span></div>
+                        </div>
                     </div>
-                </div></a></li>
-            <li><div class="item-content buttons">
-                <div class="item-inner">
-                    <div class="row">
-                        <a id="font-bold" class="button"><b>B</b></a>
-                        <a id="font-italic" class="button"><i>I</i></a>
-                        <a id="font-underline" class="button" style="text-decoration: underline;">U</a>
-                        <a id="font-strikethrough" class="button" style="text-decoration: line-through">S</a>
+                </a>
+            </li>
+            <li>
+                <div class="item-content buttons">
+                    <div class="item-inner">
+                        <div class="row">
+                            <a id="font-bold" class="button"><b>B</b></a>
+                            <a id="font-italic" class="button"><i>I</i></a>
+                            <a id="font-underline" class="button" style="text-decoration: underline;">U</a>
+                            <a id="font-strikethrough" class="button" style="text-decoration: line-through">S</a>
+                        </div>
                     </div>
                 </div>
-            </div></li>
+            </li>
             <li>
                 <a id="font-color" class="item-link">
                     <div class="item-content">
@@ -30,15 +35,16 @@
                     </div>
                 </a>
             </li>
-            <li><a id="font-background" class="item-link">
-                <div class="item-content">
-                    <% if (!android) { %><div class="item-media"><i class="icon icon-text-selection"><span class="color-preview"></span></i></div><% } %>
-                    <div class="item-inner">
-                        <div class="item-title"><%= scope.textHighlightColor %></div>
-                        <% if (android) { %><div class="item-after"><div class="color-preview"></div></div><% } %>
+            <li>
+                <a id="font-background" class="item-link">
+                    <div class="item-content">
+                        <% if (!android) { %><div class="item-media"><i class="icon icon-text-selection"><span class="color-preview"></span></i></div><% } %>
+                        <div class="item-inner">
+                            <div class="item-title"><%= scope.textHighlightColor %></div>
+                            <% if (android) { %><div class="item-after"><div class="color-preview"></div></div><% } %>
+                        </div>
                     </div>
-                </div>
-            </a>
+                </a>
             </li>
             <li>
                 <a id="font-additional" class="item-link">
