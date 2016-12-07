@@ -32,42 +32,43 @@
  */
 
 /**
- *  AddLink.js
+ *  EditLink.js
  *  Presentation Editor
  *
- *  Created by Julia Radzhabova on 12/01/16
+ *  Created by Julia Radzhabova on 12/06/16
  *  Copyright (c) 2016 Ascensio System SIA. All rights reserved.
  *
  */
 
+
 define([
-    'text!presentationeditor/mobile/app/template/AddLink.template',
+    'text!presentationeditor/mobile/app/template/EditLink.template',
     'jquery',
     'underscore',
     'backbone'
-], function (addTemplate, $, _, Backbone) {
+], function (editTemplate, $, _, Backbone) {
     'use strict';
 
-    PE.Views.AddLink = Backbone.View.extend(_.extend((function() {
+    PE.Views.EditLink = Backbone.View.extend(_.extend((function() {
         // private
 
         return {
             // el: '.view-main',
 
-            template: _.template(addTemplate),
+            template: _.template(editTemplate),
 
             events: {
             },
 
             initialize: function () {
-                Common.NotificationCenter.on('addcontainer:show', _.bind(this.initEvents, this));
+                Common.NotificationCenter.on('editcontainer:show', _.bind(this.initEvents, this));
             },
 
             initEvents: function () {
                 var me = this;
 
-                $('#add-link-number').single('click',  _.bind(me.showPageNumber, me));
-                $('#add-link-type').single('click',  _.bind(me.showLinkType, me));
+                $('#edit-link-number').single('click',  _.bind(me.showPageNumber, me));
+                $('#edit-link-type').single('click',  _.bind(me.showLinkType, me));
             },
 
             // Render layout
@@ -84,7 +85,7 @@ define([
             rootLayout: function () {
                 if (this.layout) {
                     return this.layout
-                        .find('#addlink-root-view')
+                        .find('#edit-link-root')
                         .html();
                 }
 
@@ -92,7 +93,7 @@ define([
             },
 
             showPage: function (templateId) {
-                var rootView = PE.getController('AddContainer').rootView;
+                var rootView = PE.getController('EditContainer').rootView;
 
                 if (rootView && this.layout) {
                     var $content = this.layout.find(templateId);
@@ -111,11 +112,11 @@ define([
             },
 
             showLinkType: function () {
-                this.showPage('#addlink-type');
+                this.showPage('#editlink-type');
             },
 
             showPageNumber: function () {
-                this.showPage('#addlink-slidenumber');
+                this.showPage('#editlink-slidenumber');
             },
 
             textLinkType: 'Link Type',
@@ -132,7 +133,9 @@ define([
             textPrev: 'Previous Slide',
             textFirst: 'First Slide',
             textLast: 'Last Slide',
-            textNumber: 'Slide Number'
+            textNumber: 'Slide Number',
+            textEdit: 'Edit Link',
+            textRemove: 'Remove Link'
         }
-    })(), PE.Views.AddLink || {}))
+    })(), PE.Views.EditLink || {}))
 });

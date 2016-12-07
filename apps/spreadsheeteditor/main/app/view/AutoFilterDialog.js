@@ -54,7 +54,7 @@ define([
             var t = this, _options = {};
 
             _.extend(_options,  {
-                width           : 500,
+                width           : 501,
                 height          : 230,
                 contentWidth    : 180,
                 header          : true,
@@ -478,7 +478,7 @@ define([
             var t = this, _options = {};
 
             _.extend(_options, {
-                width           : 448,
+                width           : 450,
                 height          : 265,
                 contentWidth    : 400,
                 header          : false,

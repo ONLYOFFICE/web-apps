@@ -642,7 +642,7 @@ define([
                      style: "width:45px;",
                      menu        : new Common.UI.Menu({
                          items: [
-                             { template: _.template('<div id="table-border-color-menu" style="width: 165px; height: 220px; margin: 10px;"></div>') },
+                             { template: _.template('<div id="table-border-color-menu" style="width: 169px; height: 220px; margin: 10px;"></div>') },
                              { template: _.template('<a id="table-border-color-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
                          ]
                      })
@@ -660,7 +660,7 @@ define([
                      style: "width:45px;",
                      menu        : new Common.UI.Menu({
                          items: [
-                             { template: _.template('<div id="table-back-color-menu" style="width: 165px; height: 220px; margin: 10px;"></div>') },
+                             { template: _.template('<div id="table-back-color-menu" style="width: 169px; height: 220px; margin: 10px;"></div>') },
                              { template: _.template('<a id="table-back-color-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
                          ]
                      })
