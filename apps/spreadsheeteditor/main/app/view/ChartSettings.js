@@ -524,7 +524,7 @@ define([
                     style: "width:45px;",
                     menu        : new Common.UI.Menu({
                         items: [
-                            { template: _.template('<div id="spark-color-menu" style="width: 165px; height: 220px; margin: 10px;"></div>') },
+                            { template: _.template('<div id="spark-color-menu" style="width: 169px; height: 220px; margin: 10px;"></div>') },
                             { template: _.template('<a id="spark-color-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
                         ]
                     })
@@ -543,7 +543,7 @@ define([
                     style: "width:45px;",
                     menu        : new Common.UI.Menu({
                         items: [
-                            { template: _.template('<div id="spark-high-color-menu" style="width: 165px; height: 220px; margin: 10px;"></div>') },
+                            { template: _.template('<div id="spark-high-color-menu" style="width: 169px; height: 220px; margin: 10px;"></div>') },
                             { template: _.template('<a id="spark-high-color-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
                         ]
                     })
@@ -558,7 +558,7 @@ define([
                     style: "width:45px;",
                     menu        : new Common.UI.Menu({
                         items: [
-                            { template: _.template('<div id="spark-low-color-menu" style="width: 165px; height: 220px; margin: 10px;"></div>') },
+                            { template: _.template('<div id="spark-low-color-menu" style="width: 169px; height: 220px; margin: 10px;"></div>') },
                             { template: _.template('<a id="spark-low-color-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
                         ]
                     })
@@ -573,7 +573,7 @@ define([
                     style: "width:45px;",
                     menu        : new Common.UI.Menu({
                         items: [
-                            { template: _.template('<div id="spark-negative-color-menu" style="width: 165px; height: 220px; margin: 10px;"></div>') },
+                            { template: _.template('<div id="spark-negative-color-menu" style="width: 169px; height: 220px; margin: 10px;"></div>') },
                             { template: _.template('<a id="spark-negative-color-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
                         ]
                     })
@@ -588,7 +588,7 @@ define([
                     style: "width:45px;",
                     menu        : new Common.UI.Menu({
                         items: [
-                            { template: _.template('<div id="spark-first-color-menu" style="width: 165px; height: 220px; margin: 10px;"></div>') },
+                            { template: _.template('<div id="spark-first-color-menu" style="width: 169px; height: 220px; margin: 10px;"></div>') },
                             { template: _.template('<a id="spark-first-color-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
                         ]
                     })
@@ -603,7 +603,7 @@ define([
                     style: "width:45px;",
                     menu        : new Common.UI.Menu({
                         items: [
-                            { template: _.template('<div id="spark-last-color-menu" style="width: 165px; height: 220px; margin: 10px;"></div>') },
+                            { template: _.template('<div id="spark-last-color-menu" style="width: 169px; height: 220px; margin: 10px;"></div>') },
                             { template: _.template('<a id="spark-last-color-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
                         ]
                     })
@@ -618,7 +618,7 @@ define([
                     style: "width:45px;",
                     menu        : new Common.UI.Menu({
                         items: [
-                            { template: _.template('<div id="spark-markers-color-menu" style="width: 165px; height: 220px; margin: 10px;"></div>') },
+                            { template: _.template('<div id="spark-markers-color-menu" style="width: 169px; height: 220px; margin: 10px;"></div>') },
                             { template: _.template('<a id="spark-markers-color-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
                         ]
                     })

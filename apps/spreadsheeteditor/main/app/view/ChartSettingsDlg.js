@@ -1263,8 +1263,6 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
             var changed = false,
                 value = this.cmbEmptyCells.getValue();
             if (rawData.type !== Asc.c_oAscSparklineType.Line && this._arrEmptyCells.length>2) {
-                if (value == Asc.c_oAscEDispBlanksAs.Span)
-                    value = Asc.c_oAscEDispBlanksAs.Gap;
                 this._arrEmptyCells.pop();
                 changed = true;
             } else if (rawData.type == Asc.c_oAscSparklineType.Line && this._arrEmptyCells.length<3) {
@@ -1273,9 +1271,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
             }
             if (changed) {
                 this.cmbEmptyCells.setData(this._arrEmptyCells);
-                this.cmbEmptyCells.setValue(value);
-                if (this._changedProps)
-                    this._changedProps.asc_setDisplayEmpty(value);
+                this.cmbEmptyCells.setValue((rawData.type !== Asc.c_oAscSparklineType.Line && value==Asc.c_oAscEDispBlanksAs.Span) ? this.textEmptyLine : value);
             }
 
             this.updateSparkStyles(this.chartSettings.asc_getStyles());
@@ -1360,7 +1356,9 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                     if (this._state.SparkType !== Asc.c_oAscSparklineType.Line)
                         this._arrEmptyCells.pop();
                     this.cmbEmptyCells.setData(this._arrEmptyCells);
-                    this.cmbEmptyCells.setValue(props.asc_getDisplayEmpty());
+
+                    var value = props.asc_getDisplayEmpty();
+                    this.cmbEmptyCells.setValue((this._state.SparkType !== Asc.c_oAscSparklineType.Line && value==Asc.c_oAscEDispBlanksAs.Span) ? this.textEmptyLine : value);
 
                     this.chShowEmpty.setValue(props.asc_getDisplayHidden(), true);
                     this.chShowAxis.setValue(props.asc_getDisplayXAxis(), true);

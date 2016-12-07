@@ -985,7 +985,7 @@ define([
                     disabled: true,
                     menu        : new Common.UI.Menu({
                         items: [
-                            { template: _.template('<div id="slide-back-color-menu" style="width: 165px; height: 220px; margin: 10px;"></div>') },
+                            { template: _.template('<div id="slide-back-color-menu" style="width: 169px; height: 220px; margin: 10px;"></div>') },
                             { template: _.template('<a id="slide-back-color-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
                         ]
                     })
@@ -1005,7 +1005,7 @@ define([
                     style: "width:45px;",
                     menu        : new Common.UI.Menu({
                         items: [
-                            { template: _.template('<div id="slide-foreground-color-menu" style="width: 165px; height: 220px; margin: 10px;"></div>') },
+                            { template: _.template('<div id="slide-foreground-color-menu" style="width: 169px; height: 220px; margin: 10px;"></div>') },
                             { template: _.template('<a id="slide-foreground-color-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
                         ]
                     })
@@ -1024,7 +1024,7 @@ define([
                     style: "width:45px;",
                     menu        : new Common.UI.Menu({
                         items: [
-                            { template: _.template('<div id="slide-background-color-menu" style="width: 165px; height: 220px; margin: 10px;"></div>') },
+                            { template: _.template('<div id="slide-background-color-menu" style="width: 169px; height: 220px; margin: 10px;"></div>') },
                             { template: _.template('<a id="slide-background-color-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
                         ]
                     })
@@ -1043,7 +1043,7 @@ define([
                     style: "width:45px;",
                     menu        : new Common.UI.Menu({
                         items: [
-                            { template: _.template('<div id="slide-gradient-color-menu" style="width: 165px; height: 220px; margin: 10px;"></div>') },
+                            { template: _.template('<div id="slide-gradient-color-menu" style="width: 169px; height: 220px; margin: 10px;"></div>') },
                             { template: _.template('<a id="slide-gradient-color-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
                         ]
                     })

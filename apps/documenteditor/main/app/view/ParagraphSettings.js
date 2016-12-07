@@ -444,7 +444,7 @@ define([
             if (!this.mnuColorPicker) {
                 this.btnColor.setMenu( new Common.UI.Menu({
                     items: [
-                        { template: _.template('<div id="paragraph-color-menu" style="width: 165px; height: 220px; margin: 10px;"></div>') },
+                        { template: _.template('<div id="paragraph-color-menu" style="width: 169px; height: 220px; margin: 10px;"></div>') },
                         { template: _.template('<a id="paragraph-color-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
                     ]
                 }));
