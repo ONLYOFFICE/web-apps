@@ -150,7 +150,8 @@ require([
             'AddTable',
             'AddShape',
             'AddImage',
-            'AddLink'
+            'AddLink',
+            'AddSlide'
         ]
     });
 
@@ -214,7 +215,8 @@ require([
         'presentationeditor/mobile/app/controller/add/AddTable',
         'presentationeditor/mobile/app/controller/add/AddShape',
         'presentationeditor/mobile/app/controller/add/AddImage',
-        'presentationeditor/mobile/app/controller/add/AddLink'
+        'presentationeditor/mobile/app/controller/add/AddLink',
+        'presentationeditor/mobile/app/controller/add/AddSlide'
 
     ], function() {
         app.start();

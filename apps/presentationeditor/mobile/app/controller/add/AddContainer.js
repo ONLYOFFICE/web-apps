@@ -108,7 +108,9 @@ define([
                 addViews.push({
                     caption: me.textSlide,
                     id: 'add-slide',
-                    layout: me._dummyEditController().getLayout()
+                    layout: PE.getController('AddSlide')
+                        .getView('AddSlide')
+                        .rootLayout()
                 });
 
                 addViews.push({
