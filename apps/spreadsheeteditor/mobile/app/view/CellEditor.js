@@ -47,8 +47,6 @@ define([
     'use strict';
 
     SSE.Views.CellEditor = Backbone.View.extend({
-        defEditorHeight: 30,
-        maxEditorHeight: 70,
 
         el: '.pages > .page',
         template: _.template(template),
@@ -68,8 +66,6 @@ define([
             this.$btnexpand = $('#ce-btn-expand', this.el);
             // this.$btnfunc = $('#ce-func-label', this.el);
 
-            // this.$el.height(this.defEditorHeight);
-
             return this;
         },
 
@@ -80,12 +76,11 @@ define([
         },
 
         expandEditor: function() {
-            if (this.$el.height() > this.defEditorHeight) {
-                this.$el.height(this.defEditorHeight).removeClass('expanded');
+            if (this.$el.hasClass('expanded')) {
+                this.$el.removeClass('expanded');
                 this.$btnexpand.removeClass('collapse');
             } else {
-                out_height = this.maxEditorHeight;
-                this.$el.height(this.maxEditorHeight).addClass('expanded');
+                this.$el.addClass('expanded');
                 this.$btnexpand.addClass('collapse');
             }
 
