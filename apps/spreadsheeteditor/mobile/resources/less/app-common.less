@@ -4,6 +4,17 @@
 .navbar-through {
   > .page.editor {
     padding-top: @appToolbarHeight;
+    transition: padding-top .2s ease-in;
+  }
+}
+
+.navbar-through .page {
+  & > .searchbar {
+    top: @appToolbarHeight + @cellEditorHeight;
+  }
+
+  #cell-editing-box.expanded + .searchbar {
+    top: @appToolbarHeight + @cellEditorExpandedHeight;
   }
 }
 
