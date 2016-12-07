@@ -3,7 +3,7 @@
 @gray-light:            #f1f1f1; //rgb(241, 241, 241)
 
 @cellEditorHeight: 30px;
-@cellEditorHeightExp: 70px;
+@cellEditorExpandedHeight: 70px;
 
 .border-radius(@radius: 2px) {
     border-radius: @radius;
@@ -16,13 +16,23 @@
     }
 
     position: relative;
+
+    height: @cellEditorHeight;
     min-height: @cellEditorHeight;
+    transition: min-height .15s;
+
     background-color: #fff;
     display: flex;
-    align-items: stretch;
+    //align-items: stretch;
     overflow: hidden;
     z-index: 500;
     .hairline(bottom, @gray-dark);//@toolbarBorderColor);
+
+    &.expanded {
+        min-height: @cellEditorExpandedHeight;
+        //height: @cellEditorExpandedHeight;
+        transition: min-height .15s;
+    }
 
     .btn {
         border: 0 none;
@@ -32,11 +42,12 @@
 
     .ce-group {
         overflow: hidden;
+        height: 100%;
     }
 
     .group-name {
         float: left;
-        background-color: @toolbarBg;
+        background-color: @gray-light;
     }
 
     #ce-cell-name {
@@ -79,7 +90,7 @@
         padding-left: 1px;
         .hairline(left, @gray-dark);
         flex-grow: 1;
-        height: 100%;
+        //height: 100%;
     }
 
     #ce-btn-expand {

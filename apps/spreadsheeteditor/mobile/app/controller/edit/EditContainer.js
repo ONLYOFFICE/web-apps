@@ -257,8 +257,10 @@ define([
                         '</div>'
                     )).on('close', function (e) {
                         mainView.showNavbar();
+                        Common.NotificationCenter.trigger('layout:changed','navbar', {hidden:false});
                     });
                     mainView.hideNavbar();
+                    Common.NotificationCenter.trigger('layout:changed','navbar', {hidden:true});
                 } else {
                     me.picker = uiApp.popover(
                         '<div class="popover settings container-edit">' +

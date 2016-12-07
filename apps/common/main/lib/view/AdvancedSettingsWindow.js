@@ -104,7 +104,7 @@ define([
             });
             var cnt_panel = $window.find('.content-panel');
             cnt_panel.width(this.contentWidth);
-            $window.width($window.find('.menu-panel').width() + cnt_panel.outerWidth() + 1);
+            $window.width($window.find('.menu-panel').width() + cnt_panel.outerWidth() + 2);
 
             this.content_panels = $window.find('.settings-panel');
             if (this.btnsCategory.length>0)

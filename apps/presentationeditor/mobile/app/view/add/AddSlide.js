@@ -32,24 +32,25 @@
  */
 
 /**
- *  AddLink.js
+ *  AddSlide.js
  *  Presentation Editor
  *
- *  Created by Julia Radzhabova on 12/01/16
+ *  Created by Julia Radzhabova on 12/06/16
  *  Copyright (c) 2016 Ascensio System SIA. All rights reserved.
  *
  */
 
 define([
-    'text!presentationeditor/mobile/app/template/AddLink.template',
+    'text!presentationeditor/mobile/app/template/AddSlide.template',
     'jquery',
     'underscore',
     'backbone'
 ], function (addTemplate, $, _, Backbone) {
     'use strict';
 
-    PE.Views.AddLink = Backbone.View.extend(_.extend((function() {
+    PE.Views.AddSlide = Backbone.View.extend(_.extend((function() {
         // private
+        var _layouts = [];
 
         return {
             // el: '.view-main',
@@ -65,17 +66,14 @@ define([
 
             initEvents: function () {
                 var me = this;
-
-                $('#add-link-number').single('click',  _.bind(me.showPageNumber, me));
-                $('#add-link-type').single('click',  _.bind(me.showLinkType, me));
+                me.initControls();
             },
 
             // Render layout
             render: function () {
                 this.layout = $('<div/>').append(this.template({
                     android : Common.SharedSettings.get('android'),
-                    phone   : Common.SharedSettings.get('phone'),
-                    scope   : this
+                    phone   : Common.SharedSettings.get('phone')
                 }));
 
                 return this;
@@ -84,55 +82,54 @@ define([
             rootLayout: function () {
                 if (this.layout) {
                     return this.layout
-                        .find('#addlink-root-view')
+                        .find('#add-slide-root')
                         .html();
                 }
 
                 return '';
             },
 
-            showPage: function (templateId) {
-                var rootView = PE.getController('AddContainer').rootView;
+            initControls: function () {
+                //
+            },
 
-                if (rootView && this.layout) {
-                    var $content = this.layout.find(templateId);
+            updateLayouts: function (layouts) {
+                _layouts = layouts;
+                this.renderLayouts();
+            },
 
-                    // Android fix for navigation
-                    if (Framework7.prototype.device.android) {
-                        $content.find('.page').append($content.find('.navbar'));
-                    }
+            renderLayouts: function() {
+                var $layoutContainer = $('.container-add .slide-layout');
+                if ($layoutContainer.length > 0 && _layouts.length>0) {
+                    var columns = parseInt(($layoutContainer.width()-20) / (_layouts[0].itemWidth+2)), // magic
+                        row = -1,
+                        layouts = [];
 
-                    rootView.router.load({
-                        content: $content.html()
+                    _.each(_layouts, function (layout, index) {
+                        if (0 == index % columns) {
+                            layouts.push([]);
+                            row++
+                        }
+                        layouts[row].push(layout);
                     });
 
-                    this.fireEvent('page:show', [this, templateId]);
+                    var template = _.template([
+                        '<% _.each(layouts, function(row) { %>',
+                            '<ul class="row">',
+                                '<% _.each(row, function(item) { %>',
+                                    '<li data-type="<%= item.idx %>">',
+                                    '<img src="<%= item.imageUrl %>" width="<%= item.itemWidth %>" height="<%= item.itemHeight %>">',
+                                    '</li>',
+                                '<% }); %>',
+                            '</ul>',
+                        '<% }); %>'
+                    ].join(''), {
+                        layouts: layouts
+                    });
+
+                    $layoutContainer.html(template);
                 }
-            },
-
-            showLinkType: function () {
-                this.showPage('#addlink-type');
-            },
-
-            showPageNumber: function () {
-                this.showPage('#addlink-slidenumber');
-            },
-
-            textLinkType: 'Link Type',
-            textExternalLink: 'External Link',
-            textInternalLink: 'Slide in this Presentation',
-            textLink: 'Link',
-            textLinkSlide: 'Link to',
-            textBack: 'Back',
-            textAddLink: 'Add Link',
-            textDisplay: 'Display',
-            textTip: 'Screen Tip',
-            textInsert: 'Insert',
-            textNext: 'Next Slide',
-            textPrev: 'Previous Slide',
-            textFirst: 'First Slide',
-            textLast: 'Last Slide',
-            textNumber: 'Slide Number'
+            }
         }
-    })(), PE.Views.AddLink || {}))
+    })(), PE.Views.AddSlide || {}))
 });
