@@ -307,7 +307,7 @@ define([
                     return;
                 }
 
-                _styles = [],
+                _styles = [];
                 _styleTumbSize = {
                     width   : styles.STYLE_THUMBNAIL_WIDTH / uiApp.device.pixelRatio,
                     height  : styles.STYLE_THUMBNAIL_HEIGHT / uiApp.device.pixelRatio
