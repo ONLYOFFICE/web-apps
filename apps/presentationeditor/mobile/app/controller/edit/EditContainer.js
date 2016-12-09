@@ -115,7 +115,7 @@ define([
                         editors.push({
                             caption: me.textSlide,
                             id: 'edit-slide',
-                            layout: PE.getController('EditText').getView('EditSlide').rootLayout()
+                            layout: PE.getController('EditSlide').getView('EditSlide').rootLayout()
                         })
                     }
                     if (_.contains(_settings, 'text')) {
@@ -324,7 +324,7 @@ define([
                         _settings.push('table');
                         no_text = false;
                     } else if (Asc.c_oAscTypeSelectElement.Slide == type) {
-                        // _settings.push('slide');
+                        _settings.push('slide');
                     } else if (Asc.c_oAscTypeSelectElement.Image == type) {
                         _settings.push('image');
                     } else if (Asc.c_oAscTypeSelectElement.Chart == type) {

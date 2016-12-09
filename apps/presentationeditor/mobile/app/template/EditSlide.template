@@ -1,0 +1,166 @@
+<!-- Root view -->
+<div id="edit-slide-root">
+    <div class="list-block">
+        <ul>
+            <li>
+                <a id="slide-theme" class="item-link">
+                    <div class="item-content">
+                        <div class="item-inner">
+                            <div class="item-title"><%= scope.textTheme %></div>
+                        </div>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a id="slide-change-layout" class="item-link">
+                    <div class="item-content">
+                        <div class="item-inner">
+                            <div class="item-title"><%= scope.textLayout %></div>
+                        </div>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a id="slide-transition" class="item-link">
+                    <div class="item-content">
+                        <div class="item-inner">
+                            <div class="item-title"><%= scope.textTransition %></div>
+                        </div>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a id="slide-style" class="item-link">
+                    <div class="item-content">
+                        <div class="item-inner">
+                            <div class="item-title"><%= scope.textStyle %></div>
+                        </div>
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="list-block">
+        <ul>
+            <li>
+                <% if (android) { %>
+                <a id="slide-duplicate" class="button button-raised button-fill" style="margin: 20px 16px;"><%= scope.textDuplicateSlide %></a>
+                <% } else { %>
+                <a id="slide-duplicate" class="item-link list-button" style="text-align: center;"><%= scope.textDuplicateSlide %></a>
+                <% } %>
+            </li>
+            <li>
+                <% if (android) { %>
+                <a id="slide-remove" class="button button-raised button-fill" style="margin: 20px 16px; background-color: #f44336;"><%= scope.textRemoveSlide %></a>
+                <% } else { %>
+                <a id="slide-remove" class="item-link list-button" style="text-align: center; color: #f00"><%= scope.textRemoveSlide %></a>
+                <% } %>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<!-- Reorder view -->
+<div id="edit-slide-reorder">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left sliding"><a href="#" class="back link"><i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding"><%= scope.textReorder %></div>
+            <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
+        </div>
+    </div>
+    <div class="page shape-reorder">
+        <div class="page-content">
+            <div class="list-block">
+                <ul>
+                    <li>
+                        <a data-type="all-up" class="item-link no-indicator">
+                            <div class="item-content">
+                                <div class="item-media"><i class="icon icon-move-foreground"></i></div>
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textToForeground %></div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-type="all-down" class="item-link no-indicator">
+                            <div class="item-content">
+                                <div class="item-media"><i class="icon icon-move-background"></i></div>
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textToBackground %></div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-type="move-up" class="item-link no-indicator">
+                            <div class="item-content">
+                                <div class="item-media"><i class="icon icon-move-forward"></i></div>
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textForward %></div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-type="move-down" class="item-link no-indicator">
+                            <div data-type="move-down" class="item-content">
+                                <div class="item-media"><i class="icon icon-move-backward"></i></div>
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textBackward %></div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Replace layout -->
+<div id="edit-slide-layout">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left sliding"><a href="#" class="back link"><i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding"><%= scope.textLayout %></div>
+            <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
+        </div>
+    </div>
+    <div class="page">
+        <div class="page-content dataview slide-layout" style="width: 100%;">
+        </div>
+    </div>
+</div>
+
+<!-- Replace view -->
+<div id="edit-slide-theme">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left sliding"><a href="#" class="back link"><i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding"><%= scope.textTheme %></div>
+            <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
+        </div>
+    </div>
+    <div class="page">
+        <div class="page-content dataview slide-theme" style="width: 100%;">
+        </div>
+    </div>
+</div>
+
+<!-- Styles view -->
+<div id="edit-slide-style">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left sliding"><a href="#" class="back link"><i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding"><%= scope.textFill %></div>
+            <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
+        </div>
+    </div>
+    <div class="page" data-page="edit-slide-style">
+        <div class="page-content">
+            <!--Fill colors-->
+        </div>
+    </div>
+</div>

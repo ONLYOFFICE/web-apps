@@ -5,7 +5,7 @@
             <li>
                 <div id="add-link-type" class="item-content item-link">
                     <div class="item-inner">
-                        <div class="item-title"><%= scope.textLinkType %></div>
+                        <div class="item-title label"><%= scope.textLinkType %></div>
                         <div class="item-after"><%= scope.textExternalLink %></div>
                     </div>
                 </div>
