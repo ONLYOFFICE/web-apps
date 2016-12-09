@@ -247,7 +247,7 @@
                             <% if (android) { %>
                             <div class="item-media"><i class="icon icon-form-radio"></i></div>
                             <% } else { %>
-                            <div class="item-media"><i class="icon icon-wrap-inline"></i></div>
+                            <div class="item-media"><i class="icon icon-text-valign-top"></i></div>
                             <% } %>
                             <div class="item-inner">
                                 <div class="item-title">Align Top</div>
@@ -260,7 +260,7 @@
                             <% if (android) { %>
                             <div class="item-media"><i class="icon icon-form-radio"></i></div>
                             <% } else { %>
-                            <div class="item-media"><i class="icon icon-wrap-inline"></i></div>
+                            <div class="item-media"><i class="icon icon-text-valign-middle"></i></div>
                             <% } %>
                             <div class="item-inner">
                                 <div class="item-title">Align Middle</div>
@@ -273,7 +273,7 @@
                             <% if (android) { %>
                             <div class="item-media"><i class="icon icon-form-radio"></i></div>
                             <% } else { %>
-                            <div class="item-media"><i class="icon icon-wrap-inline"></i></div>
+                            <div class="item-media"><i class="icon icon-text-valign-bottom"></i></div>
                             <% } %>
                             <div class="item-inner">
                                 <div class="item-title">Align Bottom</div>
@@ -286,7 +286,7 @@
                 <ul>
                     <li id="edit-cell-wrap-text">
                         <div class="item-content">
-                            <% if (!android) { %><div class="item-media"><i class="icon icon-text-additional"></i></div><% } %>
+                            <% if (!android) { %><div class="item-media"><i class="icon icon-search"></i></div><% } %>
                             <div class="item-inner">
                                 <div class="item-title">Wrap Text</div>
                                 <div class="item-after">
