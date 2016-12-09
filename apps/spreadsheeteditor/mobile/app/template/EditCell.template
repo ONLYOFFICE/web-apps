@@ -3,7 +3,7 @@
     <div class="list-block">
         <ul>
             <li>
-                <a id="font-fonts" class="item-link" data-page="#edit-text-fonts">
+                <a id="font-fonts" class="item-link">
                     <div class="item-content">
                         <div class="item-inner">
                             <div class="item-title"><%= scope.textFonts %></div>
@@ -24,7 +24,7 @@
                 </div>
             </li>
             <li>
-                <a id="text-color" class="item-link" data-page="#edit-text-color">
+                <a id="text-color" class="item-link">
                     <div class="item-content">
                         <% if (!android) { %><div class="item-media"><i class="icon icon-text-color"><span class="color-preview"></span></i></div><% } %>
                         <div class="item-inner">
@@ -35,7 +35,7 @@
                 </a>
             </li>
             <li>
-                <a id="fill-color" class="item-link" data-page="#edit-fill-color">
+                <a id="fill-color" class="item-link">
                     <div class="item-content">
                         <% if (!android) { %><div class="item-media"><i class="icon icon-text-selection"><span class="color-preview"></span></i></div><% } %>
                         <div class="item-inner">
@@ -131,7 +131,7 @@
 <div id="edit-text-color">
     <div class="navbar">
         <div class="navbar-inner">
-            <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></a></div>
+            <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
             <div class="center sliding"><%= scope.textTextColor %></div>
             <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
         </div>
@@ -146,7 +146,7 @@
 <div id="edit-fill-color">
     <div class="navbar">
         <div class="navbar-inner">
-            <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></a></div>
+            <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
             <div class="center sliding"><%= scope.textFillColor %></div>
             <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
         </div>
@@ -161,7 +161,7 @@
 <div id="edit-text-format">
     <div class="navbar">
         <div class="navbar-inner">
-            <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></a></div>
+            <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
             <div class="center sliding"><%= scope.textTextFormat %></div>
             <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
         </div>
@@ -211,7 +211,7 @@
                     </li>
                     <li>
                         <label class="label-radio item-content">
-                            <input type="radio" name="text-halign" value="justified">
+                            <input type="radio" name="text-halign" value="justify">
                             <% if (android) { %>
                             <div class="item-media"><i class="icon icon-form-radio"></i></div>
                             <% } else { %>
@@ -241,7 +241,7 @@
                     </li>
                     <li>
                         <label class="label-radio item-content">
-                            <input type="radio" name="text-valign" value="middle">
+                            <input type="radio" name="text-valign" value="center">
                             <% if (android) { %>
                             <div class="item-media"><i class="icon icon-form-radio"></i></div>
                             <% } else { %>
@@ -293,7 +293,7 @@
 <div id="edit-border-style">
     <div class="navbar">
         <div class="navbar-inner">
-            <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></a></div>
+            <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
             <div class="center sliding">Border Style</div>
             <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
         </div>
@@ -427,7 +427,7 @@
 <div id="edit-cell-format">
     <div class="navbar">
         <div class="navbar-inner">
-            <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></a></div>
+            <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
             <div class="center sliding">Format</div>
             <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
         </div>
@@ -438,7 +438,7 @@
                 <div class="list-block">
                     <ul>
                         <li>
-                            <a data-type="" class="item-link no-indicator">
+                            <a data-type="R2VuZXJhbA==" class="item-link no-indicator">
                                 <div class="item-content">
                                     <div class="item-media"><i class="icon icon-search"></i></div>
                                     <div class="item-inner"><div class="item-title">General</div></div>
@@ -446,7 +446,7 @@
                             </a>
                         </li>
                         <li>
-                            <a data-type="" class="item-link no-indicator">
+                            <a data-type="MC4wMA==" class="item-link no-indicator">
                                 <div class="item-content">
                                     <div class="item-media"><i class="icon icon-search"></i></div>
                                     <div class="item-inner"><div class="item-title">Number</div></div>
@@ -454,7 +454,7 @@
                             </a>
                         </li>
                         <li>
-                            <a data-type="" class="item-link no-indicator">
+                            <a data-type="JTIzMA==" class="item-link no-indicator">
                                 <div class="item-content">
                                     <div class="item-media"><i class="icon icon-search"></i></div>
                                     <div class="item-inner"><div class="item-title">Integer</div></div>
@@ -462,7 +462,7 @@
                             </a>
                         </li>
                         <li>
-                            <a data-type="" class="item-link no-indicator">
+                            <a data-type="MC4wMEUlMkIwMA==" class="item-link no-indicator">
                                 <div class="item-content">
                                     <div class="item-media"><i class="icon icon-search"></i></div>
                                     <div class="item-inner"><div class="item-title">Scientific</div></div>
@@ -502,7 +502,7 @@
                             </a>
                         </li>
                         <li>
-                            <a data-type="" class="item-link no-indicator">
+                            <a data-type="MC4wMCUyNQ==" class="item-link no-indicator">
                                 <div class="item-content">
                                     <div class="item-media"><i class="icon icon-search"></i></div>
                                     <div class="item-inner"><div class="item-title">Percentage</div></div>
@@ -510,7 +510,7 @@
                             </a>
                         </li>
                         <li>
-                            <a data-type="" class="item-link no-indicator">
+                            <a data-type="JTQw" class="item-link no-indicator">
                                 <div class="item-content">
                                     <div class="item-media"><i class="icon icon-search"></i></div>
                                     <div class="item-inner"><div class="item-title">Text</div></div>
@@ -528,7 +528,7 @@
 <div id="edit-cell-format-accounting">
     <div class="navbar">
         <div class="navbar-inner">
-            <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></a></div>
+            <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
             <div class="center sliding">Accounting</div>
             <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
         </div>
@@ -539,7 +539,7 @@
                 <div class="list-block">
                     <ul>
                         <li>
-                            <a data-type="" class="item-link no-indicator">
+                            <a data-type="XyglMjQqJTIwJTIzJTJDJTIzJTIzMC4wMF8pJTNCXyglMjQqJTIwKCUyMyUyQyUyMyUyMzAuMDApJTNCXyglMjQqJTIwJTIyLSUyMiUzRiUzRl8pJTNCXyglNDBfKQ==" class="item-link no-indicator">
                                 <div class="item-content">
                                     <div class="item-inner">
                                         <div class="item-title">Dollar</div>
@@ -549,7 +549,7 @@
                             </a>
                         </li>
                         <li>
-                            <a data-type="" class="item-link no-indicator">
+                            <a data-type="XyglRTIlODIlQUMqJTIwJTIzJTJDJTIzJTIzMC4wMF8pJTNCXyglRTIlODIlQUMqJTIwKCUyMyUyQyUyMyUyMzAuMDApJTNCXyglRTIlODIlQUMqJTIwJTIyLSUyMiUzRiUzRl8pJTNCXyglNDBfKQ==" class="item-link no-indicator">
                                 <div class="item-content">
                                     <div class="item-inner">
                                         <div class="item-title">Euro</div>
@@ -559,7 +559,7 @@
                             </a>
                         </li>
                         <li>
-                            <a data-type="" class="item-link no-indicator">
+                            <a data-type="XyglQzIlQTMqJTIwJTIzJTJDJTIzJTIzMC4wMF8pJTNCXyglQzIlQTMqJTIwKCUyMyUyQyUyMyUyMzAuMDApJTNCXyglQzIlQTMqJTIwJTIyLSUyMiUzRiUzRl8pJTNCXyglNDBfKQ==" class="item-link no-indicator">
                                 <div class="item-content">
                                     <div class="item-inner">
                                         <div class="item-title">Pound</div>
@@ -569,7 +569,7 @@
                             </a>
                         </li>
                         <li>
-                            <a data-type="" class="item-link no-indicator">
+                            <a data-type="Xy0qJTIwJTIzJTJDJTIzJTIzMC4wMCU1QiUyNCVEMSU4MC4tNDE5JTVEXy0lM0ItKiUyMCUyMyUyQyUyMyUyMzAuMDAlNUIlMjQlRDElODAuLTQxOSU1RF8tJTNCXy0qJTIwJTIyLSUyMiUzRiUzRiU1QiUyNCVEMSU4MC4tNDE5JTVEXy0lM0JfLSU0MF8t" class="item-link no-indicator">
                                 <div class="item-content">
                                     <div class="item-inner">
                                         <div class="item-title">Rouble</div>
@@ -579,7 +579,7 @@
                             </a>
                         </li>
                         <li>
-                            <a data-type="" class="item-link no-indicator">
+                            <a data-type="XyglQzIlQTUqJTIwJTIzJTJDJTIzJTIzMC4wMF8pJTNCXyglQzIlQTUqJTIwKCUyMyUyQyUyMyUyMzAuMDApJTNCXyglQzIlQTUqJTIwJTIyLSUyMiUzRiUzRl8pJTNCXyglNDBfKQ==" class="item-link no-indicator">
                                 <div class="item-content">
                                     <div class="item-inner">
                                         <div class="item-title">Yen</div>
@@ -599,7 +599,7 @@
 <div id="edit-cell-format-currency">
     <div class="navbar">
         <div class="navbar-inner">
-            <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></a></div>
+            <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
             <div class="center sliding">Currency</div>
             <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
         </div>
@@ -610,7 +610,7 @@
                 <div class="list-block">
                     <ul>
                         <li>
-                            <a data-type="" class="item-link no-indicator">
+                            <a data-type="JTI0JTIzJTJDJTIzJTIzMC4wMA==" class="item-link no-indicator">
                                 <div class="item-content">
                                     <div class="item-inner">
                                         <div class="item-title">Dollar</div>
@@ -620,7 +620,7 @@
                             </a>
                         </li>
                         <li>
-                            <a data-type="" class="item-link no-indicator">
+                            <a data-type="JUUyJTgyJUFDJTIzJTJDJTIzJTIzMC4wMA==" class="item-link no-indicator">
                                 <div class="item-content">
                                     <div class="item-inner">
                                         <div class="item-title">Euro</div>
@@ -630,7 +630,7 @@
                             </a>
                         </li>
                         <li>
-                            <a data-type="" class="item-link no-indicator">
+                            <a data-type="JUMyJUEzJTIzJTJDJTIzJTIzMC4wMA==" class="item-link no-indicator">
                                 <div class="item-content">
                                     <div class="item-inner">
                                         <div class="item-title">Pound</div>
@@ -640,7 +640,7 @@
                             </a>
                         </li>
                         <li>
-                            <a data-type="" class="item-link no-indicator">
+                            <a data-type="JTIzJTJDJTIzJTIzMC4wMCUyMiVEMSU4MC4lMjI=" class="item-link no-indicator">
                                 <div class="item-content">
                                     <div class="item-inner">
                                         <div class="item-title">Rouble</div>
@@ -650,7 +650,7 @@
                             </a>
                         </li>
                         <li>
-                            <a data-type="" class="item-link no-indicator">
+                            <a data-type="JUMyJUE1JTIzJTJDJTIzJTIzMC4wMA==" class="item-link no-indicator">
                                 <div class="item-content">
                                     <div class="item-inner">
                                         <div class="item-title">Yen</div>
@@ -670,7 +670,7 @@
 <div id="edit-cell-format-date">
     <div class="navbar">
         <div class="navbar-inner">
-            <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></a></div>
+            <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
             <div class="center sliding">Date</div>
             <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
         </div>
@@ -681,7 +681,7 @@
                 <div class="list-block">
                     <ul>
                         <li>
-                            <a data-type="" class="item-link no-indicator">
+                            <a data-type="TU0tZGQteXk=" class="item-link no-indicator">
                                 <div class="item-content">
                                     <div class="item-inner">
                                         <div class="item-title">07-24-88</div>
@@ -691,7 +691,7 @@
                             </a>
                         </li>
                         <li>
-                            <a data-type="" class="item-link no-indicator">
+                            <a data-type="TU0tZGQteXl5eQ==" class="item-link no-indicator">
                                 <div class="item-content">
                                     <div class="item-inner">
                                         <div class="item-title">07-24-1988</div>
@@ -701,7 +701,7 @@
                             </a>
                         </li>
                         <li>
-                            <a data-type="" class="item-link no-indicator">
+                            <a data-type="ZGQtTU0teXk=" class="item-link no-indicator">
                                 <div class="item-content">
                                     <div class="item-inner">
                                         <div class="item-title">24-07-88</div>
@@ -711,7 +711,7 @@
                             </a>
                         </li>
                         <li>
-                            <a data-type="" class="item-link no-indicator">
+                            <a data-type="ZGQtTU0teXl5eQ==" class="item-link no-indicator">
                                 <div class="item-content">
                                     <div class="item-inner">
                                         <div class="item-title">24-07-1988</div>
@@ -721,7 +721,7 @@
                             </a>
                         </li>
                         <li>
-                            <a data-type="" class="item-link no-indicator">
+                            <a data-type="ZGQtTU1NLXl5eXk=" class="item-link no-indicator">
                                 <div class="item-content">
                                     <div class="item-inner">
                                         <div class="item-title">24-Jul-1988</div>
@@ -731,7 +731,7 @@
                             </a>
                         </li>
                         <li>
-                            <a data-type="" class="item-link no-indicator">
+                            <a data-type="ZGQtTU1N" class="item-link no-indicator">
                                 <div class="item-content">
                                     <div class="item-inner">
                                         <div class="item-title">24-Jul</div>
@@ -741,7 +741,7 @@
                             </a>
                         </li>
                         <li>
-                            <a data-type="" class="item-link no-indicator">
+                            <a data-type="TU1NLXl5" class="item-link no-indicator">
                                 <div class="item-content">
                                     <div class="item-inner">
                                         <div class="item-title">Jul-88</div>
@@ -761,7 +761,7 @@
 <div id="edit-cell-format-time">
     <div class="navbar">
         <div class="navbar-inner">
-            <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></a></div>
+            <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
             <div class="center sliding">Time</div>
             <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
         </div>
@@ -772,7 +772,7 @@
                 <div class="list-block">
                     <ul>
                         <li>
-                            <a data-type="" class="item-link no-indicator">
+                            <a data-type="SEg6bW0=" class="item-link no-indicator">
                                 <div class="item-content">
                                     <div class="item-inner">
                                         <div class="item-title">10:56</div>
@@ -782,7 +782,7 @@
                             </a>
                         </li>
                         <li>
-                            <a data-type="" class="item-link no-indicator">
+                            <a data-type="SEg6TU06c3M=" class="item-link no-indicator">
                                 <div class="item-content">
                                     <div class="item-inner">
                                         <div class="item-title">21:56:00</div>
@@ -792,7 +792,7 @@
                             </a>
                         </li>
                         <li>
-                            <a data-type="" class="item-link no-indicator">
+                            <a data-type="aGg6bW0gdHQ=" class="item-link no-indicator">
                                 <div class="item-content">
                                     <div class="item-inner">
                                         <div class="item-title">05:56 AM</div>
@@ -802,7 +802,7 @@
                             </a>
                         </li>
                         <li>
-                            <a data-type="" class="item-link no-indicator">
+                            <a data-type="aGg6bW06c3MgdHQ=" class="item-link no-indicator">
                                 <div class="item-content">
                                     <div class="item-inner">
                                         <div class="item-title">05:56:00 AM</div>
@@ -812,7 +812,7 @@
                             </a>
                         </li>
                         <li>
-                            <a data-type="" class="item-link no-indicator">
+                            <a data-type="W2hdOm1tOnNz" class="item-link no-indicator">
                                 <div class="item-content">
                                     <div class="item-inner">
                                         <div class="item-title">38:56:00</div>

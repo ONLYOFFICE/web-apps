@@ -75,9 +75,9 @@ define([
 
                 me.updateItemHandlers();
 
-                // $('#font-fonts').single('click',        _.bind(me.showFonts, me));
-                // $('#font-color').single('click',        _.bind(me.showFontColor, me));
-                // $('#font-background').single('click',   _.bind(me.showBackgroundColor, me));
+                $('#font-fonts').single('click',        _.bind(me.showFonts, me));
+                $('#text-color').single('click',        _.bind(me.showTextColor, me));
+                $('#fill-color').single('click',        _.bind(me.showFillColor, me));
                 // $('#font-additional').single('click',   _.bind(me.showAdditional, me));
                 // $('#font-line-spacing').single('click', _.bind(me.showLineSpacing, me));
                 // $('#font-bullets').single('click',      _.bind(me.showBullets, me));
@@ -111,8 +111,42 @@ define([
                 //
             },
 
+            renderStyles: function (cellStyles) {
+                var $styleContainer = $('.cell-styles .item-content');
+
+                if ($styleContainer.length > 0) {
+                    var columns = parseInt($styleContainer.width() / 70), // magic
+                        row = -1,
+                        styles = [];
+
+                    _.each(cellStyles, function (style, index) {
+                        if (0 == index % columns) {
+                            styles.push([]);
+                            row++
+                        }
+                        styles[row].push(style);
+                    });
+
+                    var template = _.template([
+                        '<% _.each(styles, function(row) { %>',
+                        '<ul class="row">',
+                            '<% _.each(row, function(style) { %>',
+                            '<li data-type="<%= style.asc_getName() %>">',
+                                '<img src="<%= style.asc_getImage() %>" width="50px" height="50px">',
+                            '</li>',
+                            '<% }); %>',
+                        '</ul>',
+                        '<% }); %>'
+                    ].join(''), {
+                        styles: styles
+                    });
+
+                    $styleContainer.html(template);
+                }
+            },
+
             updateItemHandlers: function () {
-                $('.container-edit a.item-link').single('click', _.bind(this.onItemClick, this));
+                $('.container-edit a.item-link[data-page]').single('click', _.bind(this.onItemClick, this));
             },
 
             showPage: function (templateId, suspendEvent) {
@@ -177,41 +211,25 @@ define([
                 });
             },
 
-            showFontColor: function () {
+            showTextColor: function () {
                 this.showPage('#edit-text-color', true);
 
                 this.paletteTextColor = new Common.UI.ThemeColorPalette({
-                    el: $('.page[data-page=edit-text-font-color] .page-content')
+                    el: $('.page[data-page=edit-text-color] .page-content')
                 });
 
                 this.fireEvent('page:show', [this, '#edit-text-color']);
             },
 
-            showBackgroundColor: function () {
-                this.showPage('#edit-text-background', true);
+            showFillColor: function () {
+                this.showPage('#edit-fill-color', true);
 
-                this.paletteBackgroundColor = new Common.UI.ThemeColorPalette({
-                    el: $('.page[data-page=edit-text-font-background] .page-content'),
+                this.paletteFillColor = new Common.UI.ThemeColorPalette({
+                    el: $('.page[data-page=edit-fill-color] .page-content'),
                     transparent: true
                 });
 
-                this.fireEvent('page:show', [this, '#edit-text-background']);
-            },
-
-            showAdditional: function () {
-                this.showPage('#edit-text-additional');
-            },
-
-            showLineSpacing: function () {
-                this.showPage('#edit-text-linespacing');
-            },
-
-            showBullets: function () {
-                this.showPage('#edit-text-bullets');
-            },
-
-            showNumbers: function () {
-                this.showPage('#edit-text-numbers');
+                this.fireEvent('page:show', [this, '#edit-fill-color']);
             },
 
             textBack: 'Back',
@@ -220,23 +238,7 @@ define([
             textFillColor: 'Fill Color',
             textTextFormat: 'Text Format',
             textBorderStyle: 'Border Style',
-
-            textSize: 'Size',
-            textFontColors: 'Font Colors',
-            textAutomatic: 'Automatic',
-            textHighlightColors: 'Highlight Colors',
-            textAdditional: 'Additional',
-            textStrikethrough: 'Strikethrough',
-            textDblStrikethrough: 'Double Strikethrough',
-            textDblSuperscript: 'Superscript',
-            textSubscript: 'Subscript',
-            textSmallCaps: 'Small Caps',
-            textAllCaps: 'All Caps',
-            textLetterSpacing: 'Letter Spacing',
-            textLineSpacing: 'Line Spacing',
-            textBullets: 'Bullets',
-            textNone: 'None',
-            textNumbers: 'Numbers'
+            textSize: 'Size'
         }
     })(), SSE.Views.EditCell || {}))
 });
