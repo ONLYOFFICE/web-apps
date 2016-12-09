@@ -56,6 +56,7 @@ define([
             _cellInfo = undefined,
             _cellStyles = [],
             _fontInfo = {},
+            _borderInfo = {color: '000000', width: 'medium'},
             _isEdit = false;
 
         function onApiLoadFonts(fonts, select) {
@@ -153,8 +154,12 @@ define([
                     me.initTextColorPage();
                 } else if ('#edit-fill-color' == pageId) {
                     me.initFillColorPage();
+                } else if ('#edit-cell-border-color' == pageId) {
+                    me.initBorderColorPage();
                 } else if ('#edit-text-format' == pageId) {
                     me.initTextFormat();
+                } else if ('#edit-border-style' == pageId) {
+                    me.initBorderStyle();
                 } else if (!_.isUndefined(pageId) && pageId.indexOf('#edit-cell-format') > -1) {
                     me.initCellFormat();
                 } else {
@@ -228,6 +233,21 @@ define([
                 }
             },
 
+            initBorderColorPage: function () {
+                var me = this,
+                    palette = new Common.UI.ThemeColorPalette({
+                        el: $('.page[data-page=edit-border-color] .page-content')
+                    });
+
+                if (palette) {
+                    palette.select(_borderInfo.color);
+                    palette.on('select', _.bind(function (palette, color) {
+                        _borderInfo.color = color;
+                        $('#edit-border-color .color-preview').css('background-color', '#' + (_.isObject(_borderInfo.color) ? _borderInfo.color.color : _borderInfo.color));
+                    }, me));
+                }
+            },
+
             initTextFormat: function () {
                 var me = this,
                     $pageTextFormat = $('.page[data-page=edit-text-format]'),
@@ -259,6 +279,18 @@ define([
                 if ($pageCellFormat.length > 0) {
                     $pageCellFormat.find('.item-link.no-indicator[data-type]').single('click', _.bind(me.onCellFormat, me));
                 }
+            },
+
+            initBorderStyle: function () {
+                $('.page[data-page=edit-border-style] a[data-type]').single('click', _.bind(this.onBorderStyle, this));
+
+                $('#edit-border-color .color-preview').css('background-color', '#' + _borderInfo.color);
+                $('#edit-border-size select').val(_borderInfo.width);
+                $('#edit-border-size .item-after').text($('#edit-border-size select option[value=' +_borderInfo.width + ']').text());
+
+                $('#edit-border-size select').single('change', function (e) {
+                    _borderInfo.width = $(e.currentTarget).val();
+                })
             },
 
             initFontSettings: function (fontObj) {
@@ -519,6 +551,37 @@ define([
                     type = decodeURIComponent(atob($target.data('type')));
 
                 this.api.asc_setCellFormat(type);
+            },
+
+            onBorderStyle: function (e) {
+                var me = this,
+                    $target = $(e.currentTarget),
+                    type = $target.data('type'),
+                    newBorders = [],
+                    bordersWidth = _borderInfo.width,
+                    bordersColor = Common.Utils.ThemeColor.getRgbColor(_borderInfo.color);
+
+                if (type == 'inner') {
+                    newBorders[Asc.c_oAscBorderOptions.InnerV] = new Asc.asc_CBorder(bordersWidth, bordersColor);
+                    newBorders[Asc.c_oAscBorderOptions.InnerH] = new Asc.asc_CBorder(bordersWidth, bordersColor);
+                } else if (type == 'all') {
+                    newBorders[Asc.c_oAscBorderOptions.InnerV] = new Asc.asc_CBorder(bordersWidth, bordersColor);
+                    newBorders[Asc.c_oAscBorderOptions.InnerH] = new Asc.asc_CBorder(bordersWidth, bordersColor);
+                    newBorders[Asc.c_oAscBorderOptions.Left]   = new Asc.asc_CBorder(bordersWidth, bordersColor);
+                    newBorders[Asc.c_oAscBorderOptions.Top]    = new Asc.asc_CBorder(bordersWidth, bordersColor);
+                    newBorders[Asc.c_oAscBorderOptions.Right]  = new Asc.asc_CBorder(bordersWidth, bordersColor);
+                    newBorders[Asc.c_oAscBorderOptions.Bottom] = new Asc.asc_CBorder(bordersWidth, bordersColor);
+                } else if (type == 'outer') {
+                    newBorders[Asc.c_oAscBorderOptions.Left]   = new Asc.asc_CBorder(bordersWidth, bordersColor);
+                    newBorders[Asc.c_oAscBorderOptions.Top]    = new Asc.asc_CBorder(bordersWidth, bordersColor);
+                    newBorders[Asc.c_oAscBorderOptions.Right]  = new Asc.asc_CBorder(bordersWidth, bordersColor);
+                    newBorders[Asc.c_oAscBorderOptions.Bottom] = new Asc.asc_CBorder(bordersWidth, bordersColor);
+                } else if (type != 'none') {
+                    var borderId = parseInt(type);
+                    newBorders[borderId] = new Asc.asc_CBorder(bordersWidth, bordersColor);
+                }
+
+                me.api.asc_setCellBorders(newBorders);
             },
 
             // API handlers

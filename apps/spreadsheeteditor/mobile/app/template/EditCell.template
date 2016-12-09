@@ -58,7 +58,7 @@
             <li>
                 <a id="border-style" class="item-link" data-page="#edit-border-style">
                     <div class="item-content">
-                        <% if (!android) { %><div class="item-media"><i class="icon icon-text-additional"></i></div><% } %>
+                        <% if (!android) { %><div class="item-media"><i class="icon icon-search"></i></div><% } %>
                         <div class="item-inner">
                             <div class="item-title"><%= scope.textBorderStyle %></div>
                         </div>
@@ -71,7 +71,7 @@
         <ul>
             <a class="item-link" data-page="#edit-cell-format">
                 <div class="item-content">
-                    <% if (!android) { %><div class="item-media"><i class="icon icon-text-additional"></i></div><% } %>
+                    <% if (!android) { %><div class="item-media"><i class="icon icon-search"></i></div><% } %>
                     <div class="item-inner">
                         <div class="item-title">Format</div>
                     </div>
@@ -157,6 +157,21 @@
     </div>
 </div>
 
+<!-- Border color view -->
+<div id="edit-cell-border-color">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding">Border Color</div>
+            <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
+        </div>
+    </div>
+    <div class="page" data-page="edit-border-color">
+        <div class="page-content">
+        </div>
+    </div>
+</div>
+
 <!-- Text Format view -->
 <div id="edit-text-format">
     <div class="navbar">
@@ -176,7 +191,7 @@
                             <% if (android) { %>
                             <div class="item-media"><i class="icon icon-form-radio"></i></div>
                             <% } else { %>
-                            <div class="item-media"><i class="icon icon-wrap-inline"></i></div>
+                            <div class="item-media"><i class="icon icon-text-align-left"></i></div>
                             <% } %>
                             <div class="item-inner">
                                 <div class="item-title">Align Left</div>
@@ -189,7 +204,7 @@
                             <% if (android) { %>
                             <div class="item-media"><i class="icon icon-form-radio"></i></div>
                             <% } else { %>
-                            <div class="item-media"><i class="icon icon-wrap-inline"></i></div>
+                            <div class="item-media"><i class="icon icon-text-align-center"></i></div>
                             <% } %>
                             <div class="item-inner">
                                 <div class="item-title">Align Center</div>
@@ -202,7 +217,7 @@
                             <% if (android) { %>
                             <div class="item-media"><i class="icon icon-form-radio"></i></div>
                             <% } else { %>
-                            <div class="item-media"><i class="icon icon-wrap-inline"></i></div>
+                            <div class="item-media"><i class="icon icon-text-align-right"></i></div>
                             <% } %>
                             <div class="item-inner">
                                 <div class="item-title">Align Right</div>
@@ -215,7 +230,7 @@
                             <% if (android) { %>
                             <div class="item-media"><i class="icon icon-form-radio"></i></div>
                             <% } else { %>
-                            <div class="item-media"><i class="icon icon-wrap-inline"></i></div>
+                            <div class="item-media"><i class="icon icon-text-align-justify"></i></div>
                             <% } %>
                             <div class="item-inner">
                                 <div class="item-title">Justified</div>
@@ -304,7 +319,7 @@
                 <div class="list-block">
                     <ul>
                         <li>
-                            <a data-type="" class="item-link no-indicator">
+                            <a data-type="none" class="item-link no-indicator">
                                 <div class="item-content">
                                     <div class="item-media"><i class="icon icon-table-borders-none"></i></div>
                                     <div class="item-inner"><div class="item-title">No Border</div></div>
@@ -312,7 +327,7 @@
                             </a>
                         </li>
                         <li>
-                            <a data-type="lrtbcm" class="item-link no-indicator">
+                            <a data-type="all" class="item-link no-indicator">
                                 <div class="item-content">
                                     <div class="item-media"><i class="icon icon-table-borders-all"></i></div>
                                     <div class="item-inner"><div class="item-title">All Borders</div></div>
@@ -320,7 +335,7 @@
                             </a>
                         </li>
                         <li>
-                            <a data-type="b" class="item-link no-indicator">
+                            <a data-type="2" class="item-link no-indicator">
                                 <div class="item-content">
                                     <div class="item-media"><i class="icon icon-table-borders-bottom"></i></div>
                                     <div class="item-inner"><div class="item-title">Bottom Border</div></div>
@@ -328,7 +343,7 @@
                             </a>
                         </li>
                         <li>
-                            <a data-type="t" class="item-link no-indicator">
+                            <a data-type="0" class="item-link no-indicator">
                                 <div class="item-content">
                                     <div class="item-media"><i class="icon icon-table-borders-top"></i></div>
                                     <div class="item-inner"><div class="item-title">Top Border</div></div>
@@ -336,7 +351,7 @@
                             </a>
                         </li>
                         <li>
-                            <a data-type="l" class="item-link no-indicator">
+                            <a data-type="3" class="item-link no-indicator">
                                 <div class="item-content">
                                     <div class="item-media"><i class="icon icon-table-borders-left"></i></div>
                                     <div class="item-inner"><div class="item-title">Left Border</div></div>
@@ -344,7 +359,7 @@
                             </a>
                         </li>
                         <li>
-                            <a data-type="r" class="item-link no-indicator">
+                            <a data-type="1" class="item-link no-indicator">
                                 <div class="item-content">
                                     <div class="item-media"><i class="icon icon-table-borders-right"></i></div>
                                     <div class="item-inner"><div class="item-title">Right Border</div></div>
@@ -352,7 +367,7 @@
                             </a>
                         </li>
                         <li>
-                            <a data-type="cm" class="item-link no-indicator">
+                            <a data-type="inner" class="item-link no-indicator">
                                 <div class="item-content">
                                     <div class="item-media"><i class="icon icon-table-borders-inner"></i></div>
                                     <div class="item-inner"><div class="item-title">Inside Borders</div></div>
@@ -360,7 +375,7 @@
                             </a>
                         </li>
                         <li>
-                            <a data-type="c" class="item-link no-indicator">
+                            <a data-type="6" class="item-link no-indicator">
                                 <div class="item-content">
                                     <div class="item-media"><i class="icon icon-table-borders-center"></i></div>
                                     <div class="item-inner"><div class="item-title">Inside Vertical Border</div></div>
@@ -368,7 +383,7 @@
                             </a>
                         </li>
                         <li>
-                            <a data-type="m" class="item-link no-indicator">
+                            <a data-type="7" class="item-link no-indicator">
                                 <div class="item-content">
                                     <div class="item-media"><i class="icon icon-table-borders-middle"></i></div>
                                     <div class="item-inner"><div class="item-title">Inside Horizontal Border</div></div>
@@ -376,17 +391,17 @@
                             </a>
                         </li>
                         <li>
-                            <a data-type="u" class="item-link no-indicator">
+                            <a data-type="5" class="item-link no-indicator">
                                 <div class="item-content">
-                                    <div class="item-media"><i class="icon icon-table-borders-"></i></div>
+                                    <div class="item-media"><i class="icon icon-table-borders-dup"></i></div>
                                     <div class="item-inner"><div class="item-title">Diagonal Up Border</div></div>
                                 </div>
                             </a>
                         </li>
                         <li>
-                            <a data-type="d" class="item-link no-indicator">
+                            <a data-type="4" class="item-link no-indicator">
                                 <div class="item-content">
-                                    <div class="item-media"><i class="icon icon-table-borders-"></i></div>
+                                    <div class="item-media"><i class="icon icon-table-borders-ddown"></i></div>
                                     <div class="item-inner"><div class="item-title">Diagonal Down Border</div></div>
                                 </div>
                             </a>
@@ -397,7 +412,7 @@
                 <div class="list-block">
                     <ul>
                         <li>
-                            <a id="edit-cell-border-color" class="item-link">
+                            <a id="edit-border-color" class="item-link" data-page="#edit-cell-border-color">
                                 <div class="item-content">
                                     <div class="item-inner">
                                         <div class="item-title">Color</div>
@@ -407,7 +422,12 @@
                             </a>
                         </li>
                         <li>
-                            <a id="edit-cell-border-size" class="item-link">
+                            <a id="edit-border-size" class="item-link smart-select" data-back-on-select="true">
+                                <select name="cell-border-size">
+                                    <option value="thin">Thin</option>
+                                    <option value="medium">Medium</option>
+                                    <option value="thick">Thick</option>
+                                </select>
                                 <div class="item-content">
                                     <div class="item-inner">
                                         <div class="item-title">Size</div>
