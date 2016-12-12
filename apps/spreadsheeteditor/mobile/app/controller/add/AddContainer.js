@@ -121,7 +121,7 @@ define([
                 addViews.push({
                     caption: me.textShape,
                     id: 'add-shape',
-                    layout: me._dummyEditController().getLayout()
+                    layout:  SSE.getController('AddShape').getView('AddShape').rootLayout()
                 });
 
                 addViews.push({

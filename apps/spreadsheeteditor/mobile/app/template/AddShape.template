@@ -5,7 +5,7 @@
         <ul class="row">
             <% _.each(row, function(shape) { %>
             <li data-type="<%= shape.type %>">
-                <div class="thumb" style="-webkit-mask-image:url('../mobile/resources/img/shapes/<%= shape.thumb %>')"></div>
+                <div class="thumb" style="-webkit-mask-image:url('<%= imgpath %>/<%= shape.thumb %>')"></div>
             </li>
             <% }); %>
         </ul>

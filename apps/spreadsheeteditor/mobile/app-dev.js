@@ -132,7 +132,7 @@ require([
             // ,'EditHyperlink'
             ,'AddContainer'
             // ,'AddTable'
-            // ,'AddShape'
+            ,'AddShape'
             // ,'AddImage'
             // ,'AddOther'
         ]
@@ -192,7 +192,7 @@ require([
         , 'spreadsheeteditor/mobile/app/controller/CellEditor'
         , 'spreadsheeteditor/mobile/app/controller/Statusbar'
         , 'spreadsheeteditor/mobile/app/controller/Settings'
-        ,'spreadsheeteditor/mobile/app/controller/edit/EditContainer'
+        , 'spreadsheeteditor/mobile/app/controller/edit/EditContainer'
         // ,'spreadsheeteditor/mobile/app/controller/edit/EditText'
         // ,'spreadsheeteditor/mobile/app/controller/edit/EditParagraph'
         // ,'spreadsheeteditor/mobile/app/controller/edit/EditTable'
@@ -202,7 +202,7 @@ require([
         // ,'spreadsheeteditor/mobile/app/controller/edit/EditHyperlink'
         ,'spreadsheeteditor/mobile/app/controller/add/AddContainer'
         // ,'spreadsheeteditor/mobile/app/controller/add/AddTable'
-        // ,'spreadsheeteditor/mobile/app/controller/add/AddShape'
+        ,'spreadsheeteditor/mobile/app/controller/add/AddShape'
         // ,'spreadsheeteditor/mobile/app/controller/add/AddImage'
         // ,'spreadsheeteditor/mobile/app/controller/add/AddOther'
     ], function() {
