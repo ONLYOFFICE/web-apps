@@ -376,8 +376,6 @@ define([
                 }
 
                 if (isImage || isShape || isChart) {
-                    if (!showMenu && !documentHolder.imgMenu.isVisible()) return;
-
                     isImage = isShape = isChart = false;
                     var has_chartprops = false;
                     var selectedObjects = this.api.asc_getGraphicObjectProps();
@@ -398,9 +396,9 @@ define([
                             } else if (elValue.asc_getChartProperties()) {
                                 isChart = true;
                                 has_chartprops = true;
-                            }
-                            else
+                            } else {
                                 isImage = true;
+                            }
                         }
                     }
 
@@ -565,7 +563,11 @@ define([
                 //     if (showMenu) this.showPopupMenu(documentHolder.ssMenu, {}, event);
                 // }
 
-                _settings.push('cell');
+                if (isChart) {
+                    _settings.push('chart');
+                } else {
+                    _settings.push('cell');
+                }
             },
 
             textSettings: 'Settings',

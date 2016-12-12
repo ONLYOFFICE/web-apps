@@ -32,17 +32,16 @@
  */
 
 /**
- *  EditCell.js
+ *  EditChart.js
  *  Spreadsheet Editor
  *
- *  Created by Alexander Yuzhin on 12/6/16
+ *  Created by Alexander Yuzhin on 12/12/16
  *  Copyright (c) 2016 Ascensio System SIA. All rights reserved.
  *
  */
 
-
 define([
-    'text!spreadsheeteditor/mobile/app/template/EditCell.template',
+    'text!spreadsheeteditor/mobile/app/template/EditChart.template',
     'jquery',
     'underscore',
     'backbone',
@@ -50,10 +49,9 @@ define([
 ], function (editTemplate, $, _, Backbone) {
     'use strict';
 
-    SSE.Views.EditCell = Backbone.View.extend(_.extend((function() {
+    SSE.Views.EditChart = Backbone.View.extend(_.extend((function() {
         // private
-        var _fontsList,
-            _editTextController;
+        var _editTextController;
 
         return {
             // el: '.view-main',
@@ -64,7 +62,7 @@ define([
             },
 
             initialize: function () {
-                _editTextController = SSE.getController('EditCell');
+                _editTextController = SSE.getController('EditChart');
 
                 Common.NotificationCenter.on('editcontainer:show', _.bind(this.initEvents, this));
                 this.on('page:show', _.bind(this.updateItemHandlers, this));
@@ -74,11 +72,6 @@ define([
                 var me = this;
 
                 me.updateItemHandlers();
-
-                $('#font-fonts').single('click',        _.bind(me.showFonts, me));
-                $('#text-color').single('click',        _.bind(me.showTextColor, me));
-                $('#fill-color').single('click',        _.bind(me.showFillColor, me));
-
                 me.initControls();
             },
 
@@ -96,7 +89,7 @@ define([
             rootLayout: function () {
                 if (this.layout) {
                     return this.layout
-                        .find('#edit-cell-root')
+                        .find('#edit-chart-root')
                         .html();
                 }
 
@@ -107,15 +100,15 @@ define([
                 //
             },
 
-            renderStyles: function (cellStyles) {
-                var $styleContainer = $('.cell-styles .item-content');
+            renderStyles: function (chartStyles) {
+                var $styleContainer = $('.chart-styles .item-content');
 
                 if ($styleContainer.length > 0) {
                     var columns = parseInt($styleContainer.width() / 70), // magic
                         row = -1,
                         styles = [];
 
-                    _.each(cellStyles, function (style, index) {
+                    _.each(chartStyles, function (style, index) {
                         if (0 == index % columns) {
                             styles.push([]);
                             row++
@@ -126,11 +119,11 @@ define([
                     var template = _.template([
                         '<% _.each(styles, function(row) { %>',
                         '<ul class="row">',
-                            '<% _.each(row, function(style) { %>',
-                            '<li data-type="<%= style.asc_getName() %>">',
-                                '<img src="<%= style.asc_getImage() %>" width="50px" height="50px">',
-                            '</li>',
-                            '<% }); %>',
+                        '<% _.each(row, function(style) { %>',
+                        '<li data-type="<%= style.asc_getName() %>">',
+                        '<img src="<%= style.asc_getImage() %>" width="50px" height="50px">',
+                        '</li>',
+                        '<% }); %>',
                         '</ul>',
                         '<% }); %>'
                     ].join(''), {
@@ -175,67 +168,14 @@ define([
                 }
             },
 
-            showFonts: function () {
-                this.showPage('#edit-text-fonts');
-
-                var me = this,
-                    $template = $(
-                        '<div>' +
-                            '<li>' +
-                                '<label class="label-radio item-content">' +
-                                    '<input type="radio" name="font-name" value="{{name}}">' +
-                                    (Framework7.prototype.device.android ? '<div class="item-media"><i class="icon icon-form-radio"></i></div>' : '') +
-                                    '<div class="item-inner">' +
-                                        '<div class="item-title" style="font-family: \'{{name}}\';">{{name}}</div>' +
-                                    '</div>' +
-                                '</label>' +
-                            '</li>' +
-                        '</div>'
-                    );
-
-                _fontsList = uiApp.virtualList('#font-list.virtual-list', {
-                    items: SSE.getController('EditCell').getFonts(),
-                    template: $template.html(),
-                    onItemsAfterInsert: function (list, fragment) {
-                        var fontInfo = _editTextController.getFontInfo();
-                        $('#font-list input[name=font-name]').val([fontInfo.name]);
-
-                        $('#font-list li').single('click', _.buffered(function (e) {
-                            me.fireEvent('font:click', [me, e]);
-                        }, 100));
-                    }
-                });
-            },
-
-            showTextColor: function () {
-                this.showPage('#edit-text-color', true);
-
-                this.paletteTextColor = new Common.UI.ThemeColorPalette({
-                    el: $('.page[data-page=edit-text-color] .page-content')
-                });
-
-                this.fireEvent('page:show', [this, '#edit-text-color']);
-            },
-
-            showFillColor: function () {
-                this.showPage('#edit-fill-color', true);
-
-                this.paletteFillColor = new Common.UI.ThemeColorPalette({
-                    el: $('.page[data-page=edit-fill-color] .page-content'),
-                    transparent: true
-                });
-
-                this.fireEvent('page:show', [this, '#edit-fill-color']);
-            },
-
             textBack: 'Back',
-            textFonts: 'Fonts',
-            textTextColor: 'Text Color',
-            textFillColor: 'Fill Color',
-            textTextFormat: 'Text Format',
-            textBorderStyle: 'Border Style',
-            textSize: 'Size'
+            textChart: 'Chart',
+            textReorder: 'Reorder',
+            textRemoveChart: 'Remove Chart',
+            textToForeground: 'Bring to Foreground',
+            textToBackground: 'Send to Background',
+            textForward: 'Move Forward',
+            textBackward: 'Move Backward',
         }
-    })(), SSE.Views.EditCell || {}))
+    })(), SSE.Views.EditChart || {}))
 });
- 
