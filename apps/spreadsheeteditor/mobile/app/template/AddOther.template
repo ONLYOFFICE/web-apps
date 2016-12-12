@@ -3,37 +3,25 @@
     <div class="list-block">
         <ul>
             <li>
-                <a id="add-other-pagebreak" class="item-link no-indicator">
+                <a id="add-other-insimage" class="item-link">
                     <div class="item-content">
                         <div class="item-media">
-                            <i class="icon icon-pagebreak"></i>
+                            <i class="icon icon-insimage"></i>
                         </div>
                         <div class="item-inner">
-                            <div class="item-title">Page Break</div>
+                            <div class="item-title"><%= scope.textInsertImage %></div>
                         </div>
                     </div>
                 </a>
             </li>
             <li>
-                <a id="add-other-section" class="item-link">
+                <a id="add-other-sort" class="item-link">
                     <div class="item-content">
                         <div class="item-media">
-                            <i class="icon icon-sectionbreak"></i>
+                            <i class="icon icon-sort"></i>
                         </div>
                         <div class="item-inner">
-                            <div class="item-title">Section Break</div>
-                        </div>
-                    </div>
-                </a>
-            </li>
-            <li>
-                <a id="add-other-linebreak" class="item-link no-indicator">
-                    <div class="item-content">
-                        <div class="item-media">
-                            <i class="icon icon-stringbreak"></i>
-                        </div>
-                        <div class="item-inner">
-                            <div class="item-title">Line Break</div>
+                            <div class="item-title"><%= scope.textSort %></div>
                         </div>
                     </div>
                 </a>
@@ -45,19 +33,7 @@
                             <i class="icon icon-link"></i>
                         </div>
                         <div class="item-inner">
-                            <div class="item-title">Link</div>
-                        </div>
-                    </div>
-                </a>
-            </li>
-            <li>
-                <a id="add-other-pagenumber" class="item-link">
-                    <div class="item-content">
-                        <div class="item-media">
-                            <i class="icon icon-pagenumber"></i>
-                        </div>
-                        <div class="item-inner">
-                            <div class="item-title">Page Number</div>
+                            <div class="item-title"><%= scope.textLink %></div>
                         </div>
                     </div>
                 </a>
@@ -66,66 +42,12 @@
     </div>
 </div>
 
-<!-- Secton break view -->
-<div id="addother-sectionbreak">
-    <div class="navbar">
-        <div class="navbar-inner">
-            <div class="left sliding"><a href="#" class="back link"><i class="icon icon-back"></i><% if (!android) { %><span>Back</span><% } %></a></div>
-            <div class="center sliding">Section Break</div>
-        </div>
-    </div>
-    <div class="page" data-page="addother-sectionbreak">
-        <div class="page-content">
-            <div class="list-block">
-                <ul>
-                    <li>
-                        <a data-type="next" class="item-link no-indicator">
-                            <div class="item-content">
-                                <div class="item-inner">
-                                    <div class="item-title">Next Page</div>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a data-type="continuous" class="item-link no-indicator">
-                            <div class="item-content">
-                                <div class="item-inner">
-                                    <div class="item-title">Continuous Page</div>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a data-type="even" class="item-link no-indicator">
-                            <div class="item-content">
-                                <div class="item-inner">
-                                    <div class="item-title">Even Page</div>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a data-type="odd" class="item-link no-indicator">
-                            <div class="item-content">
-                                <div class="item-inner">
-                                    <div class="item-title">Odd Page</div>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</div>
-
 <!-- Link view -->
 <div id="addother-link">
     <div class="navbar">
         <div class="navbar-inner">
-            <div class="left sliding"><a href="#" class="back link"><i class="icon icon-back"></i><% if (!android) { %><span>Back</span><% } %></a></div>
-            <div class="center sliding">Add Link</div>
+            <div class="left sliding"><a href="#" class="back link"><i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding"><%= scope.textAddLink %></div>
         </div>
     </div>
     <div class="page" data-page="addother-link">
@@ -135,9 +57,9 @@
                     <li>
                         <div id="add-link-url" class="item-content">
                             <div class="item-inner">
-                                <div class="item-title label">Link</div>
+                                <div class="item-title label"><%= scope.textLink %></div>
                                 <div class="item-input">
-                                    <input type="url" placeholder="Link">
+                                    <input type="url" placeholder="<%= scope.textLink %>">
                                 </div>
                             </div>
                         </div>
@@ -145,9 +67,9 @@
                     <li>
                         <div id="add-link-display" class="item-content">
                             <div class="item-inner">
-                                <div class="item-title label">Display</div>
+                                <div class="item-title label"><%= scope.textDisplay %></div>
                                 <div class="item-input">
-                                    <input type="text" placeholder="Display">
+                                    <input type="text" placeholder="<%= scope.textDisplay %>">
                                 </div>
                             </div>
                         </div>
@@ -155,9 +77,9 @@
                     <li>
                         <div id="add-link-tip" class="item-content">
                             <div class="item-inner">
-                                <div class="item-title label">Screen Tip</div>
+                                <div class="item-title label"><%= scope.textTip %></div>
                                 <div class="item-input">
-                                    <input type="text" placeholder="Screen Tip">
+                                    <input type="text" placeholder="<%= scope.textTip %>">
                                 </div>
                             </div>
                         </div>
@@ -166,11 +88,11 @@
             </div>
             <div class="list-block disabled" id="add-link-insert">
                 <% if (android) { %>
-                <a href="#" class="button button-fill button-raised" style="margin: 20px 16px;">Insert</a>
+                <a href="#" class="button button-fill button-raised" style="margin: 20px 16px;"><%= scope.textInsert %></a>
                 <% } else { %>
                 <ul>
                     <li>
-                        <a href="#" class="list-button item-link">Insert</a>
+                        <a href="#" class="list-button item-link"><%= scope.textInsert %></a>
                     </li>
                 </ul>
                 <% } %>
@@ -179,82 +101,82 @@
     </div>
 </div>
 
-<!-- Page Number Position view -->
-<div id="addother-pagenumber">
+<!-- Add image view -->
+<div id="addother-insimage">
     <div class="navbar">
         <div class="navbar-inner">
-            <div class="left sliding"><a href="#" class="back link"><i class="icon icon-back"></i><% if (!android) { %><span>Back</span><% } %></a></div>
-            <div class="center sliding">Position</div>
+            <div class="left sliding"><a href="#" class="back link"><i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding"><%= scope.textInsertImage %></div>
         </div>
     </div>
-    <div class="page" data-page="addother-pagenumber">
+    <div class="page" data-page="addother-image">
         <div class="page-content">
             <div class="list-block">
                 <ul>
                     <li>
-                        <a data-type="lt" class="item-link no-indicator">
+                        <a id="addimage-file" class="item-link no-indicator no-fastclick">
                             <div class="item-content">
+                                <div class="item-media">
+                                    <i class="icon icon-image-library"></i>
+                                </div>
                                 <div class="item-inner">
-                                    <div class="item-title">Left Top</div>
+                                    <div class="item-title"><%= scope.textFromLibrary %></div>
                                 </div>
                             </div>
                         </a>
                     </li>
                     <li>
-                        <a data-type="ct" class="item-link no-indicator">
+                        <a id="addimage-url" class="item-link">
                             <div class="item-content">
-                                <div class="item-inner">
-                                    <div class="item-title">Center Top</div>
+                                <div class="item-media">
+                                    <i class="icon icon-link"></i>
                                 </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a data-type="rt" class="item-link no-indicator">
-                            <div class="item-content">
                                 <div class="item-inner">
-                                    <div class="item-title">Right Top</div>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a data-type="lb" class="item-link no-indicator">
-                            <div class="item-content">
-                                <div class="item-inner">
-                                    <div class="item-title">Left Bottom</div>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a data-type="cb" class="item-link no-indicator">
-                            <div class="item-content">
-                                <div class="item-inner">
-                                    <div class="item-title">Center Bottom</div>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a data-type="rb" class="item-link no-indicator">
-                            <div class="item-content">
-                                <div class="item-inner">
-                                    <div class="item-title">Right Bottom</div>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a data-type="current" class="item-link no-indicator">
-                            <div class="item-content">
-                                <div class="item-inner">
-                                    <div class="item-title">Current Position</div>
+                                    <div class="item-title"><%= scope.textFromURL %></div>
                                 </div>
                             </div>
                         </a>
                     </li>
                 </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Url view -->
+<div id="addother-imagefromurl">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left sliding"><a href="#" class="back link"><i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding"><%= scope.textLinkSettings %></div>
+        </div>
+    </div>
+    <div class="page" id="addimage-url" data-page="addimage-url">
+        <div class="page-content">
+            <div class="content-block-title"><%= scope.textAddress %></div>
+            <div class="list-block">
+                <ul>
+                    <li>
+                        <div id="addimage-link-url" class="item-content">
+                            <div class="item-inner">
+                                <div class="item-input">
+                                    <input type="url" placeholder="<%= scope.textImageURL %>">
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="list-block disabled" id="addimage-insert">
+                <% if (android) { %>
+                <a href="#" class="button button-fill button-raised" style="margin: 20px 16px;"><%= scope.textInsertImage %></a>
+                <% } else { %>
+                <ul>
+                    <li>
+                        <a href="#" class="list-button item-link"><%= scope.textInsertImage %></a>
+                    </li>
+                </ul>
+                <% } %>
             </div>
         </div>
     </div>

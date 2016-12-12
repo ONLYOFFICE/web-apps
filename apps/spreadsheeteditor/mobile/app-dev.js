@@ -108,7 +108,7 @@ require([
     Backbone.history.start();
 
     /**
-     * Application instance with DE namespace defined
+     * Application instance with SSE namespace defined
      */
     var app = new Backbone.Application({
         nameSpace: 'SSE',
@@ -134,7 +134,7 @@ require([
             // ,'AddTable'
             ,'AddShape'
             // ,'AddImage'
-            // ,'AddOther'
+            ,'AddOther'
         ]
     });
 
@@ -204,7 +204,7 @@ require([
         // ,'spreadsheeteditor/mobile/app/controller/add/AddTable'
         ,'spreadsheeteditor/mobile/app/controller/add/AddShape'
         // ,'spreadsheeteditor/mobile/app/controller/add/AddImage'
-        // ,'spreadsheeteditor/mobile/app/controller/add/AddOther'
+        ,'spreadsheeteditor/mobile/app/controller/add/AddOther'
     ], function() {
         app.start();
     });

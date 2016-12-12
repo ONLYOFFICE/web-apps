@@ -127,7 +127,7 @@ define([
                 addViews.push({
                     caption: me.textOther,
                     id: 'add-other',
-                    layout: me._dummyEditController().getLayout()
+                    layout: SSE.getController('AddOther').getView('AddOther').rootLayout()
                 });
 
                 return addViews;
@@ -256,7 +256,8 @@ define([
                 }
 
                 me.rootView = uiApp.addView('.add-root-view', {
-                    dynamicNavbar: true
+                    dynamicNavbar: true,
+                    domCache: true
                 });
 
                 Common.NotificationCenter.trigger('addcontainer:show');
