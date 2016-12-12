@@ -74,10 +74,10 @@ define([
             initEvents: function () {
                 var me = this;
                 me.getView('AddSlide').updateLayouts(_layouts);
-                $('#add-slide .slide-layout li').single('click',  _.buffered(me.onStyleClick, 100, me));
+                $('#add-slide .slide-layout li').single('click',  _.buffered(me.onLayoutClick, 100, me));
             },
 
-            onStyleClick: function (e) {
+            onLayoutClick: function (e) {
                 var me = this,
                     $target = $(e.currentTarget),
                     type = $target.data('type');
@@ -115,7 +115,7 @@ define([
                 Common.NotificationCenter.trigger('slidelayouts:load', _layouts);
 
                 this.getView('AddSlide').updateLayouts(_layouts);
-                $('#add-slide .slide-layout li').single('click',  _.buffered(me.onStyleClick, 100, me));
+                $('#add-slide .slide-layout li').single('click',  _.buffered(me.onLayoutClick, 100, me));
             },
 
             textTableSize: 'Table Size',
