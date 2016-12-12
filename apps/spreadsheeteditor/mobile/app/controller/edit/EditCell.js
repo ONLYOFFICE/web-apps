@@ -118,29 +118,12 @@ define([
                 $('#font-underline').single('click',            _.bind(me.onUnderline, me));
 
                 me.getView('EditCell').renderStyles(_cellStyles);
-                //
-                // $('#paragraph-align .button').single('click',   _.bind(me.onParagraphAlign, me));
-                // $('#font-moveleft, #font-moveright').single('click',   _.bind(me.onParagraphMove, me));
 
                 me.initSettings();
             },
 
             onPageShow: function (view, pageId) {
                 var me = this;
-                //     paletteTextColor = me.getView('EditCell').paletteTextColor,
-                //     paletteBackgroundColor = me.getView('EditCell').paletteBackgroundColor;
-                //
-                // $('#text-additional li').single('click',        _.buffered(me.onAdditional, 100, me));
-                // $('#page-text-linespacing li').single('click',  _.buffered(me.onLineSpacing, 100, me));
-                // $('#font-size .button').single('click',         _.bind(me.onFontSize, me));
-                // $('#letter-spacing .button').single('click',    _.bind(me.onLetterSpacing, me));
-                //
-                // $('.dataview.bullets li').single('click',       _.buffered(me.onBullet, 100, me));
-                // $('.dataview.numbers li').single('click',       _.buffered(me.onNumber, 100, me));
-                //
-                // $('#font-color-auto').single('click',           _.bind(me.onTextColorAuto, me));
-                // paletteTextColor && paletteTextColor.on('select', _.bind(me.onTextColor, me));
-                // paletteBackgroundColor && paletteBackgroundColor.on('select', _.bind(me.onBackgroundColor, me));
 
                 me.initSettings(pageId);
             },
@@ -165,22 +148,6 @@ define([
                 } else {
                     me.initCellSettings(_cellInfo);
                 }
-
-                // me.api && me.api.UpdateInterfaceState();
-                //
-                // if (_cellInfo) {
-                //     var $inputStrikethrough = $('#text-additional input[name=text-strikethrough]');
-                //     var $inputTextCaps = $('#text-additional input[name=text-caps]');
-                //
-                //     _cellInfo.get_Strikeout() && $inputStrikethrough.val(['strikethrough']).prop('prevValue', 'strikethrough');
-                //     _cellInfo.get_DStrikeout() && $inputStrikethrough.val(['double-strikethrough']).prop('prevValue', 'double-strikethrough');
-                //
-                //     _cellInfo.get_SmallCaps() && $inputTextCaps.val(['small']).prop('prevValue', 'small');
-                //     _cellInfo.get_AllCaps() && $inputTextCaps.val(['all']).prop('prevValue', 'all');
-                //
-                //     _fontInfo.letterSpacing = Common.Utils.Metric.fnRecalcFromMM(_cellInfo.get_TextSpacing());
-                //     $('#letter-spacing .item-after label').text(_fontInfo.letterSpacing + ' ' + Common.Utils.Metric.getCurrentMetricName());
-                // }
             },
 
             // Public
@@ -255,7 +222,7 @@ define([
                     vAlign = _cellInfo.asc_getVertAlign() || 'bottom',
                     isWrapText = _cellInfo.asc_getFlags().asc_getWrapText();
 
-                $('#text-format .item-media i').removeClass().addClass(Common.Utils.String.format('icon icon-text-align-{0}', hAlign));
+                $('#text-format .item-media i').removeClass().addClass(Common.Utils.String.format('icon icon-text-align-{0}', hAlign == 'none' ? 'left' : hAlign));
 
                 if ($pageTextFormat.length > 0) {
                     var $radioHAlign = $pageTextFormat.find('input:radio[name=text-halign]'),
@@ -360,101 +327,6 @@ define([
                 }
 
                 me.initTextFormat();
-
-//
-//                     val = (filterInfo) ? filterInfo.asc_getIsAutoFilter() : null;
-//                     if (this._state.filter !== val) {
-//                         toolbar.btnSetAutofilter.toggle(val===true, true);
-//                         toolbar.mnuitemAutoFilter.setChecked(val===true, true);
-//                         this._state.filter = val;
-//                     }
-//                     need_disable =  this._state.controlsdisabled.filters || (val===null);
-//                     toolbar.lockToolbar(SSE.enumLock.ruleFilter, need_disable,
-//                         { array: [toolbar.btnSortDown, toolbar.btnSortUp, toolbar.mnuitemSortAZ, toolbar.mnuitemSortZA,
-//                             toolbar.btnTableTemplate,toolbar.btnSetAutofilter,toolbar.mnuitemAutoFilter,toolbar.btnAutofilter] });
-//
-//                     val = (formatTableInfo) ? formatTableInfo.asc_getTableStyleName() : null;
-//                     if (this._state.tablestylename !== val && this.toolbar.mnuTableTemplatePicker) {
-//                         val = this.toolbar.mnuTableTemplatePicker.store.findWhere({name: val});
-//                         if (val) {
-//                             this.toolbar.mnuTableTemplatePicker.selectRecord(val);
-//                             this._state.tablestylename = val.get('name');
-//                         } else {
-//                             toolbar.mnuTableTemplatePicker.deselectAll();
-//                             this._state.tablestylename = null;
-//                         }
-//                     }
-//
-//                     this._state.tablename = (formatTableInfo) ? formatTableInfo.asc_getTableName() : undefined;
-//
-//                     need_disable =  this._state.controlsdisabled.filters || !filterInfo || (filterInfo.asc_getIsApplyAutoFilter()!==true);
-//                     toolbar.lockToolbar(SSE.enumLock.ruleDelFilter, need_disable, {array:[toolbar.btnClearAutofilter,toolbar.mnuitemClearFilter]});
-//
-//                     this._state.multiselect = cellInfo.asc_getFlags().asc_getMultiselect();
-//                     toolbar.lockToolbar(SSE.enumLock.multiselect, this._state.multiselect, { array: [toolbar.btnTableTemplate, toolbar.btnInsertHyperlink]});
-//                 }
-//
-//                 fontparam = toolbar.numFormatTypes[cellInfo.asc_getNumFormatType()];
-//
-//                 if (!fontparam)
-//                     fontparam = toolbar.numFormatTypes[1];
-//
-//                 toolbar.btnNumberFormat.setCaption(fontparam);
-//
-//                 val = cellInfo.asc_getAngle();
-//                 if (this._state.angle !== val) {
-//                     this._clearChecked(toolbar.btnTextOrient.menu);
-//                     switch(val) {
-//                         case 45:    toolbar.btnTextOrient.menu.items[1].setChecked(true, true); break;
-//                         case -45:   toolbar.btnTextOrient.menu.items[2].setChecked(true, true); break;
-//                         case 90:    toolbar.btnTextOrient.menu.items[3].setChecked(true, true); break;
-//                         case -90:   toolbar.btnTextOrient.menu.items[4].setChecked(true, true); break;
-//                         default:    toolbar.btnTextOrient.menu.items[0].setChecked(true, true); break;
-//                     }
-//                     this._state.angle = val;
-//                 }
-//
-//                 val = cellInfo.asc_getStyleName();
-//                 if (this._state.prstyle != val && !this.toolbar.listStyles.isDisabled()) {
-//                     var listStyle = this.toolbar.listStyles,
-//                         listStylesVisible = (listStyle.rendered);
-//
-//                     if (listStylesVisible) {
-//                         listStyle.suspendEvents();
-//                         var styleRec = listStyle.menuPicker.store.findWhere({
-//                             name: val
-//                         });
-//                         this._state.prstyle = (listStyle.menuPicker.store.length>0) ? val : undefined;
-//
-//                         listStyle.menuPicker.selectRecord(styleRec);
-//                         listStyle.resumeEvents();
-//                     }
-//                 }
-//
-//                 val = (selectionType==Asc.c_oAscSelectionType.RangeRow);
-//                 if ( this._state.controlsdisabled.rows!==val ) {
-//                     this._state.controlsdisabled.rows=val;
-//                     toolbar.btnAddCell.menu.items[3].setDisabled(val);
-//                     toolbar.btnDeleteCell.menu.items[3].setDisabled(val);
-//                 }
-//                 val = (selectionType==Asc.c_oAscSelectionType.RangeCol);
-//                 if ( this._state.controlsdisabled.cols!==val ) {
-//                     this._state.controlsdisabled.cols=val;
-//                     toolbar.btnAddCell.menu.items[2].setDisabled(val);
-//                     toolbar.btnDeleteCell.menu.items[2].setDisabled(val);
-//                 }
-//
-//                 val = filterInfo && filterInfo.asc_getIsApplyAutoFilter();
-//                 if ( this._state.controlsdisabled.cells_right!==(this._state.controlsdisabled.rows || val) ) {
-//                     this._state.controlsdisabled.cells_right = (this._state.controlsdisabled.rows || val);
-//                     toolbar.btnAddCell.menu.items[0].setDisabled(this._state.controlsdisabled.cells_right);
-//                     toolbar.btnDeleteCell.menu.items[0].setDisabled(this._state.controlsdisabled.cells_right);
-//                 }
-//                 if ( this._state.controlsdisabled.cells_down!==(this._state.controlsdisabled.cols || val) ) {
-//                     this._state.controlsdisabled.cells_down = (this._state.controlsdisabled.cols || val);
-//                     toolbar.btnAddCell.menu.items[1].setDisabled(this._state.controlsdisabled.cells_down);
-//                     toolbar.btnDeleteCell.menu.items[1].setDisabled(this._state.controlsdisabled.cells_down);
-//                 }
             },
 
             onApiInitEditorStyles: function(styles){
