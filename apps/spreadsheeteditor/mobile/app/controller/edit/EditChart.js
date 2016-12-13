@@ -53,9 +53,33 @@ define([
 
     SSE.Controllers.EditChart = Backbone.Controller.extend(_.extend((function() {
         var _stack = [],
-            _chartObject = {},
+            _chartObject = undefined,
+            _shapeObject = undefined,
             _borderInfo = {color: '000000', width: 1},
+            _metricText = Common.Utils.Metric.getCurrentMetricName(),
             _isEdit = false;
+
+        var borderSizeTransform = (function() {
+            var _sizes = [0, 0.5, 1, 1.5, 2.25, 3, 4.5, 6];
+
+            return {
+                sizeByIndex: function (index) {
+                    if (index < 1) return _sizes[0];
+                    if (index > _sizes.length - 1) return _sizes[_sizes.length - 1];
+                    return _sizes[index];
+                },
+
+                sizeByValue: function (value) {
+                    var index = 0;
+                    _.each(_sizes, function (size, idx) {
+                        if (Math.abs(size - value) < 0.25) {
+                            index = idx;
+                        }
+                    });
+                    return _sizes[index];
+                }
+            }
+        })();
 
         return {
             models: [],
@@ -79,6 +103,8 @@ define([
                 me.api = api;
 
                 me.api.asc_registerCallback('asc_onSelectionChanged',   _.bind(me.onApiSelectionChanged, me));
+                me.api.asc_registerCallback('asc_onFocusObject',        _.bind(me.onApiFocusObject, me));
+
                 me.api.asc_registerCallback('asc_onUpdateChartStyles',  _.bind(me.onApiUpdateChartStyles, me));
                 // me.api.asc_registerCallback('asc_onSelectionChanged',           _.bind(me.onApiSelectionChanged, me));
                 // me.api.asc_registerCallback('asc_onEditorSelectionChanged',     _.bind(me.onApiEditorSelectionChanged, me));
@@ -110,6 +136,8 @@ define([
 
                 if ('#edit-chart-style' == pageId) {
                     me.initStylePage();
+                } else if ('#edit-chart-border-color-view' == pageId) {
+                    me.initBorderColorPage();
                 } else if ('#edit-chart-reorder' == pageId) {
                     me.initReorderPage();
                 } else {
@@ -129,7 +157,9 @@ define([
 
             initStylePage: function () {
                 var me = this,
-                    chartProperties = _chartObject.get_ChartProperties();
+                    color,
+                    chartProperties = _chartObject.get_ChartProperties(),
+                    shapeProperties = _shapeObject.get_ShapeProperties();
 
                 // Type
 
@@ -143,36 +173,58 @@ define([
                 _.defer(function () {
                     me._updateChartStyles(me.api.asc_getChartPreviews(_chartObject.get_ChartProperties().getType()));
                 });
+
+                // Fill
+
+                var paletteFillColor = new Common.UI.ThemeColorPalette({
+                    el: $('#tab-chart-fill'),
+                    transparent: true
+                });
+
+                paletteFillColor.on('select', _.bind(me.onFillColor, me));
+
+                var fill = shapeProperties.asc_getFill(),
+                    fillType = fill.asc_getType();
+
+                if (fillType == Asc.c_oAscFill.FILL_TYPE_SOLID) {
+                    color = me._sdkToThemeColor(fill.asc_getFill().asc_getColor());
+                }
+
+                paletteFillColor.select(color);
+
+                // Init border
+
+                var borderSize = shapeProperties.get_stroke().get_width() * 72.0 / 25.4;
+                $('#edit-chart-bordersize input').val([borderSizeTransform.sizeByIndex(borderSize)]);
+                $('#edit-chart-bordersize .item-after').text(borderSizeTransform.sizeByValue(borderSize) + ' ' + _metricText);
+
+                $('#edit-chart-bordersize input').single('change touchend', _.buffered(me.onBorderSize, 100, me));
+                $('#edit-chart-bordersize input').single('input',           _.bind(me.onBorderSizeChanging, me));
+
+                var stroke = shapeProperties.get_stroke(),
+                    strokeType = stroke.get_type();
+
+                if (stroke && strokeType == Asc.c_oAscStrokeType.STROKE_COLOR) {
+                    _borderInfo.color = me._sdkToThemeColor(stroke.get_color());
+                }
+
+                $('#edit-chart-bordercolor .color-preview').css('background-color', ('transparent' == _borderInfo.color) ? _borderInfo.color : ('#' + (_.isObject(_borderInfo.color) ? _borderInfo.color.color : _borderInfo.color)))
             },
 
             initReorderPage: function () {
                 $('.page[data-page=edit-chart-reorder] a.item-link').single('click', _.bind(this.onReorder, this));
             },
 
-            initFillColorPage: function () {
-                // var me = this,
-                //     palette = me.getView('EditChart').paletteFillColor,
-                //     color = me._sdkToThemeColor(_cellInfo.asc_getFill().asc_getColor());
-                //
-                // if (palette) {
-                //     palette.select(color);
-                //     palette.on('select', _.bind(me.onFillColor, me));
-                // }
-            },
-
             initBorderColorPage: function () {
-                // var me = this,
-                //     palette = new Common.UI.ThemeColorPalette({
-                //         el: $('.page[data-page=edit-border-color] .page-content')
-                //     });
-                //
-                // if (palette) {
-                //     palette.select(_borderInfo.color);
-                //     palette.on('select', _.bind(function (palette, color) {
-                //         _borderInfo.color = color;
-                //         $('#edit-border-color .color-preview').css('background-color', '#' + (_.isObject(_borderInfo.color) ? _borderInfo.color.color : _borderInfo.color));
-                //     }, me));
-                // }
+                var me = this,
+                    palette = new Common.UI.ThemeColorPalette({
+                        el: $('.page[data-page=edit-chart-border-color] .page-content')
+                    });
+
+                if (palette) {
+                    palette.select(_borderInfo.color);
+                    palette.on('select', _.bind(me.onBorderColor, me));
+                }
             },
 
             // Handlers
@@ -236,7 +288,97 @@ define([
             },
 
             onFillColor:function (palette, color) {
-                this.api.asc_setCellBackgroundColor(color == 'transparent' ? null : Common.Utils.ThemeColor.getRgbColor(color));
+                var me = this;
+
+                if (me.api) {
+                    var image = new Asc.asc_CImgProperty(),
+                        shape = new Asc.asc_CShapeProperty(),
+                        fill = new Asc.asc_CShapeFill();
+
+                    if (color == 'transparent') {
+                        fill.put_type(Asc.c_oAscFill.FILL_TYPE_NOFILL);
+                        fill.put_fill(null);
+                    } else {
+                        fill.put_type(Asc.c_oAscFill.FILL_TYPE_SOLID);
+                        fill.put_fill(new Asc.asc_CFillSolid());
+                        fill.get_fill().put_color(Common.Utils.ThemeColor.getRgbColor(color));
+                    }
+
+                    shape.put_fill(fill);
+                    image.put_ShapeProperties(shape);
+
+                    me.api.asc_setGraphicObjectProps(image);
+                }
+            },
+
+            onBorderSize: function (e) {
+                var me = this,
+                    $target = $(e.currentTarget),
+                    value = $target.val(),
+                    currentShape = _shapeObject.get_ShapeProperties(),
+                    image = new Asc.asc_CImgProperty(),
+                    shape = new Asc.asc_CShapeProperty(),
+                    stroke = new Asc.asc_CStroke(),
+                    currentColor = Common.Utils.ThemeColor.getRgbColor('000000');
+
+                value = borderSizeTransform.sizeByIndex(parseInt(value));
+
+                var currentStroke = currentShape.get_stroke();
+
+                if (currentStroke) {
+                    var currentStrokeType = currentStroke.get_type();
+
+                    if (currentStrokeType == Asc.c_oAscStrokeType.STROKE_COLOR) {
+                        currentColor = currentStroke.get_color();
+                    }
+                }
+
+                if (value < 0.01) {
+                    stroke.put_type(Asc.c_oAscStrokeType.STROKE_NONE);
+                } else {
+                    stroke.put_type(Asc.c_oAscStrokeType.STROKE_COLOR);
+                    stroke.put_color(currentColor);
+                    stroke.put_width(value * 25.4 / 72.0);
+                }
+
+                shape.put_stroke(stroke);
+                image.put_ShapeProperties(shape);
+
+                me.api.asc_setGraphicObjectProps(image);
+            },
+
+            onBorderSizeChanging: function (e) {
+                var $target = $(e.currentTarget);
+                $('#edit-chart-bordersize .item-after').text(borderSizeTransform.sizeByIndex($target.val()) + ' ' + _metricText);
+            },
+
+            onBorderColor: function (palette, color) {
+                var me = this,
+                    currentShape = _shapeObject.get_ShapeProperties();
+
+                $('#edit-chart-bordercolor .color-preview').css('background-color', ('transparent' == color) ? color : ('#' + (_.isObject(color) ? color.color : color)));
+
+                if (me.api && currentShape) {
+                    var image = new Asc.asc_CImgProperty(),
+                        shape = new Asc.asc_CShapeProperty(),
+                        stroke = new Asc.asc_CStroke();
+
+                    _borderInfo.color = Common.Utils.ThemeColor.getRgbColor(color);
+
+                    if (currentShape.get_stroke().get_width() < 0.01) {
+                        stroke.put_type(Asc.c_oAscStrokeType.STROKE_NONE);
+                    } else {
+                        stroke.put_type(Asc.c_oAscStrokeType.STROKE_COLOR);
+                        stroke.put_color(Common.Utils.ThemeColor.getRgbColor(color));
+                        stroke.put_width(currentShape.get_stroke().get_width());
+                        stroke.asc_putPrstDash(currentShape.get_stroke().asc_getPrstDash());
+                    }
+
+                    shape.put_stroke(stroke);
+                    image.put_ShapeProperties(shape);
+
+                    me.api.asc_setGraphicObjectProps(image);
+                }
             },
 
             // API handlers
@@ -247,27 +389,54 @@ define([
                 }
             },
 
-            onApiSelectionChanged: function(cellInfo) {
+            onApiSelectionChanged: function(info) {
                 if (!_isEdit) {
                     return;
                 }
 
-                if (cellInfo.asc_getFlags().asc_getSelectionType() == Asc.c_oAscSelectionType.RangeChart) {
-                    var selectedObjects = this.api.asc_getGraphicObjectProps();
+                var me = this,
+                    selectedObjects = [],
+                    selectType = info.asc_getFlags().asc_getSelectionType();
 
-                    for (var i = 0; i < selectedObjects.length; i++) {
-                        if (selectedObjects[i].asc_getObjectType() == Asc.c_oAscTypeSelectElement.Image) {
-                            var elValue = selectedObjects[i].asc_getObjectValue();
-                            var chartProps = elValue.asc_getChartProperties();
-                            // isObjLocked = isObjLocked || elValue.asc_getLocked();
+                if (selectType == Asc.c_oAscSelectionType.RangeChart) {
+                    selectedObjects = me.api.asc_getGraphicObjectProps();
+                }
 
-                            if (chartProps) {
-                                _chartObject = elValue;
-                                break;
-                            }
+                me.onApiFocusObject(selectedObjects);
+            },
+
+            onApiFocusObject: function (objects) {
+                _stack = objects;
+
+                if (!_isEdit) {
+                    return;
+                }
+
+                var charts = [],
+                    shapes = [];
+
+                _.each(_stack, function (object) {
+                    if (object.get_ObjectType() == Asc.c_oAscTypeSelectElement.Image) {
+                        if (object.get_ObjectValue() && object.get_ObjectValue().get_ChartProperties()) {
+                            charts.push(object);
+                        }
+                        if (object.get_ObjectValue() && object.get_ObjectValue().get_ShapeProperties()) {
+                            shapes.push(object);
                         }
                     }
-                }
+                });
+
+                var getTopObject = function(array) {
+                    if (array.length > 0) {
+                        var object = array[array.length - 1]; // get top
+                        return object.get_ObjectValue();
+                    } else {
+                        return undefined;
+                    }
+                };
+
+                _chartObject = getTopObject(charts);
+                _shapeObject = getTopObject(shapes);
             },
 
             // Helpers
