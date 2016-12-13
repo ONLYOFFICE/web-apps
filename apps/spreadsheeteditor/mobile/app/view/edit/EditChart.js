@@ -52,7 +52,6 @@ define([
     SSE.Views.EditChart = Backbone.View.extend(_.extend((function() {
         // private
         var _editTextController,
-            _styles = [],
             _types = [
             { type: Asc.c_oAscChartTypeSettings.barNormal,               thumb: 'chart-03.png'},
             { type: Asc.c_oAscChartTypeSettings.barStacked,              thumb: 'chart-02.png'},
@@ -136,7 +135,7 @@ define([
             },
 
             renderStyles: function (chartStyles) {
-                var $styleContainer = $('.chart-styles .item-content');
+                var $styleContainer = $('#tab-chart-style');
 
                 if ($styleContainer.length > 0) {
                     var columns = parseInt($styleContainer.width() / 70), // magic
@@ -154,11 +153,11 @@ define([
                     var template = _.template([
                         '<% _.each(styles, function(row) { %>',
                         '<ul class="row">',
-                        '<% _.each(row, function(style) { %>',
-                        '<li data-type="<%= style.asc_getName() %>">',
-                        '<img src="<%= style.asc_getImage() %>" width="50px" height="50px">',
-                        '</li>',
-                        '<% }); %>',
+                            '<% _.each(row, function(style) { %>',
+                            '<li data-type="<%= style.asc_getStyle() %>">',
+                                '<img src="<%= style.asc_getImageUrl() %>" width="50px" height="50px">',
+                            '</li>',
+                            '<% }); %>',
                         '</ul>',
                         '<% }); %>'
                     ].join(''), {

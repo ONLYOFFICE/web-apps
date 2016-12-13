@@ -53,8 +53,7 @@ define([
 
     SSE.Controllers.EditChart = Backbone.Controller.extend(_.extend((function() {
         var _stack = [],
-            _chartInfo = {},
-            _chartStyles = [],
+            _chartObject = {},
             _borderInfo = {color: '000000', width: 1},
             _isEdit = false;
 
@@ -79,6 +78,8 @@ define([
                 var me = this;
                 me.api = api;
 
+                me.api.asc_registerCallback('asc_onSelectionChanged',   _.bind(me.onApiSelectionChanged, me));
+                me.api.asc_registerCallback('asc_onUpdateChartStyles',  _.bind(me.onApiUpdateChartStyles, me));
                 // me.api.asc_registerCallback('asc_onSelectionChanged',           _.bind(me.onApiSelectionChanged, me));
                 // me.api.asc_registerCallback('asc_onEditorSelectionChanged',     _.bind(me.onApiEditorSelectionChanged, me));
                 // me.api.asc_registerCallback('asc_onInitEditorStyles',           _.bind(me.onApiInitEditorStyles, me)); // TODO: It does not work until the error in the SDK
@@ -95,8 +96,6 @@ define([
             initEvents: function () {
                 var me = this;
 
-                me.getView('EditChart').renderStyles(_chartStyles);
-
                 me.initSettings();
             },
 
@@ -109,8 +108,8 @@ define([
             initSettings: function (pageId) {
                 var me = this;
 
-                if ('#edit-chart-styles' == pageId) {
-                    me.initStylesPage();
+                if ('#edit-chart-style' == pageId) {
+                    me.initStylePage();
                 } else if ('#edit-chart-reorder' == pageId) {
                     me.initReorderPage();
                 } else {
@@ -125,11 +124,25 @@ define([
             },
 
             getChart: function () {
-                return _chartInfo;
+                return _chartObject;
             },
 
-            initStylesPage: function () {
-                //
+            initStylePage: function () {
+                var me = this,
+                    chartProperties = _chartObject.get_ChartProperties();
+
+                // Type
+
+                var type = chartProperties.getType();
+                $('.chart-types li').removeClass('active');
+                $('.chart-types li[data-type=' + type + ']').addClass('active');
+                $('#tab-chart-type li').single('click', _.buffered(me.onType, 100, me));
+
+                // Styles
+
+                _.defer(function () {
+                    me._updateChartStyles(me.api.asc_getChartPreviews(_chartObject.get_ChartProperties().getType()));
+                });
             },
 
             initReorderPage: function () {
@@ -186,19 +199,52 @@ define([
                 this.api.asc_setSelectedDrawingObjectLayer(ascType);
             },
 
+            onType: function (e) {
+                var me = this,
+                    $target = $(e.currentTarget),
+                    type = $target.data('type');
+
+                $('.chart-types li').removeClass('active');
+                $target.addClass('active');
+
+                _.defer(function() {
+                    var image = new Asc.asc_CImgProperty(),
+                        chart = _chartObject.get_ChartProperties();
+
+                    chart.changeType(type);
+                    image.put_ChartProperties(chart);
+
+                    me.api.asc_setGraphicObjectProps(image);
+
+                    // Force update styles
+                    me._updateChartStyles(me.api.asc_getChartPreviews(chart.getType()));
+                });
+            },
+
+            onStyle: function (e) {
+                var me = this,
+                    $target = $(e.currentTarget),
+                    type = $target.data('type');
+
+                var image = new Asc.asc_CImgProperty(),
+                    chart = _chartObject.get_ChartProperties();
+
+                chart.putStyle(type);
+                image.put_ChartProperties(chart);
+
+                me.api.asc_setGraphicObjectProps(image);
+            },
+
             onFillColor:function (palette, color) {
                 this.api.asc_setCellBackgroundColor(color == 'transparent' ? null : Common.Utils.ThemeColor.getRgbColor(color));
             },
 
             // API handlers
 
-            onApiEditorSelectionChanged: function(fontObj) {
-                if (!_isEdit) {
-                    return;
+            onApiUpdateChartStyles: function () {
+                if (this.api && _chartObject && _chartObject.get_ChartProperties()) {
+                    this._updateChartStyles(this.api.asc_getChartPreviews(_chartObject.get_ChartProperties().getType()));
                 }
-                //
-                // _fontInfo = fontObj;
-                // this.initFontSettings(fontObj);
             },
 
             onApiSelectionChanged: function(cellInfo) {
@@ -206,11 +252,30 @@ define([
                     return;
                 }
 
-                // _cellInfo = cellInfo;
-                // this.initCellSettings(cellInfo);
+                if (cellInfo.asc_getFlags().asc_getSelectionType() == Asc.c_oAscSelectionType.RangeChart) {
+                    var selectedObjects = this.api.asc_getGraphicObjectProps();
+
+                    for (var i = 0; i < selectedObjects.length; i++) {
+                        if (selectedObjects[i].asc_getObjectType() == Asc.c_oAscTypeSelectElement.Image) {
+                            var elValue = selectedObjects[i].asc_getObjectValue();
+                            var chartProps = elValue.asc_getChartProperties();
+                            // isObjLocked = isObjLocked || elValue.asc_getLocked();
+
+                            if (chartProps) {
+                                _chartObject = elValue;
+                                break;
+                            }
+                        }
+                    }
+                }
             },
 
             // Helpers
+
+            _updateChartStyles: function(styles) {
+                this.getView('EditChart').renderStyles(styles);
+                $('#tab-chart-style li').single('click',    _.bind(this.onStyle, this));
+            },
 
             _sdkToThemeColor: function (color) {
                 var clr = 'transparent';
