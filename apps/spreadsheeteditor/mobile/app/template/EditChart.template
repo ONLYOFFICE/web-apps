@@ -3,7 +3,7 @@
     <div class="list-block">
         <ul>
             <li>
-                <a id="chart-style" class="item-link">
+                <a id="chart-style" class="item-link" data-page="#edit-chart-style">
                     <div class="item-content">
                         <div class="item-inner">
                             <div class="item-title">Style</div>
@@ -116,6 +116,91 @@
                         </a>
                     </li>
                 </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Styles view -->
+<div id="edit-chart-style">
+    <div class="navbar">
+        <div class="navbar-inner edit-chart-style" data-page="edit-chart-style">
+            <div class="left sliding"><a href="#" class="back link"><i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding">Style</div>
+            <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
+            <% if (!android) { %>
+            <div class="subnavbar categories">
+                <div class="buttons-row">
+                    <a href="#tab-chart-type" class="button tab-link active">Type</a>
+                    <a href="#tab-chart-style" class="button tab-link">Style</a>
+                    <a href="#tab-chart-fill" class="button tab-link">Fill</a>
+                    <a href="#tab-chart-border" class="button tab-link">Border</a>
+                </div>
+            </div>
+            <% } %>
+        </div>
+        <% if (android) { %>
+        <div class="subnavbar categories" style="padding: 0;">
+            <div class="toolbar tabbar" style="top: 0;">
+                <div data-page="index" class="toolbar-inner">
+                    <a href="#tab-chart-type" class="tab-link active">Type</a>
+                    <a href="#tab-chart-style" class="tab-link">Style</a>
+                    <a href="#tab-chart-fill" class="tab-link">Fill</a>
+                    <a href="#tab-chart-border" class="tab-link">Border</a>
+                </div>
+            </div>
+        </div>
+        <% } %>
+    </div>
+    <div class="page with-subnavbar" data-page="edit-chart-style">
+        <div class="tabs-animated-wrap">
+            <div class="tabs">
+                <div id="tab-chart-type" class="page-content tab dataview chart-types active">
+                    <% _.each(types, function(row) { %>
+                    <ul class="row">
+                        <% _.each(row, function(type) { %>
+                        <li data-type="<%= type.type %>">
+                            <div class="thumb" style="background-image:url('../mobile/resources/img/charts/<%= type.thumb %>')"></div>
+                        </li>
+                        <% }); %>
+                    </ul>
+                    <% }); %>
+                </div>
+                <div id="tab-chart-style" class="page-content tab dataview chart-styles">
+                    <!--Style-->
+                </div>
+                <div id="tab-chart-fill" class="page-content tab">
+                    <!--Fill-->
+                </div>
+                <div id="tab-chart-border" class="page-content tab">
+                    <div class="list-block">
+                        <ul>
+                            <li id="edit-chart-bordersize">
+                                <div style="padding: 15px 0 0 15px;">Size</div>
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-input">
+                                            <div class="range-slider">
+                                                <input type="range" min="0" max="7" value="0" step="1">
+                                            </div>
+                                        </div>
+                                        <div class="item-after value">0 pt</div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <a id="edit-chart-bordercolor" class="item-link">
+                                    <div class="item-content">
+                                        <div class="item-inner">
+                                            <div class="item-title">Color</div>
+                                            <div class="item-after"><div class="color-preview"></div></div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

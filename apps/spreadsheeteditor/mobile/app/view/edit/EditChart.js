@@ -51,7 +51,36 @@ define([
 
     SSE.Views.EditChart = Backbone.View.extend(_.extend((function() {
         // private
-        var _editTextController;
+        var _editTextController,
+            _styles = [],
+            _types = [
+            { type: Asc.c_oAscChartTypeSettings.barNormal,               thumb: 'chart-03.png'},
+            { type: Asc.c_oAscChartTypeSettings.barStacked,              thumb: 'chart-02.png'},
+            { type: Asc.c_oAscChartTypeSettings.barStackedPer,           thumb: 'chart-01.png'},
+            { type: Asc.c_oAscChartTypeSettings.lineNormal,              thumb: 'chart-06.png'},
+            { type: Asc.c_oAscChartTypeSettings.lineStacked,             thumb: 'chart-05.png'},
+            { type: Asc.c_oAscChartTypeSettings.lineStackedPer,          thumb: 'chart-04.png'},
+            { type: Asc.c_oAscChartTypeSettings.hBarNormal,              thumb: 'chart-09.png'},
+            { type: Asc.c_oAscChartTypeSettings.hBarStacked,             thumb: 'chart-08.png'},
+            { type: Asc.c_oAscChartTypeSettings.hBarStackedPer,          thumb: 'chart-07.png'},
+            { type: Asc.c_oAscChartTypeSettings.areaNormal,              thumb: 'chart-12.png'},
+            { type: Asc.c_oAscChartTypeSettings.areaStacked,             thumb: 'chart-11.png'},
+            { type: Asc.c_oAscChartTypeSettings.areaStackedPer,          thumb: 'chart-10.png'},
+            { type: Asc.c_oAscChartTypeSettings.pie,                     thumb: 'chart-13.png'},
+            { type: Asc.c_oAscChartTypeSettings.doughnut,                thumb: 'chart-14.png'},
+            { type: Asc.c_oAscChartTypeSettings.pie3d,                   thumb: 'chart-22.png'},
+            { type: Asc.c_oAscChartTypeSettings.scatter,                 thumb: 'chart-15.png'},
+            { type: Asc.c_oAscChartTypeSettings.stock,                   thumb: 'chart-16.png'},
+            { type: Asc.c_oAscChartTypeSettings.line3d,                  thumb: 'chart-21.png'},
+            { type: Asc.c_oAscChartTypeSettings.barNormal3d,             thumb: 'chart-17.png'},
+            { type: Asc.c_oAscChartTypeSettings.barStacked3d,            thumb: 'chart-18.png'},
+            { type: Asc.c_oAscChartTypeSettings.barStackedPer3d,         thumb: 'chart-19.png'},
+            { type: Asc.c_oAscChartTypeSettings.hBarNormal3d,            thumb: 'chart-25.png'},
+            { type: Asc.c_oAscChartTypeSettings.hBarStacked3d,           thumb: 'chart-24.png'},
+            { type: Asc.c_oAscChartTypeSettings.hBarStackedPer3d,        thumb: 'chart-23.png'},
+            { type: Asc.c_oAscChartTypeSettings.barNormal3dPerspective,  thumb: 'chart-20.png'}
+        ];
+
 
         return {
             // el: '.view-main',
@@ -77,9 +106,15 @@ define([
 
             // Render layout
             render: function () {
+                var elementsInRow = 3;
+                var groupsOfTypes = _.chain(_types).groupBy(function(element, index){
+                    return Math.floor(index/elementsInRow);
+                }).toArray().value();
+
                 this.layout = $('<div/>').append(this.template({
                     android : Common.SharedSettings.get('android'),
                     phone   : Common.SharedSettings.get('phone'),
+                    types   : groupsOfTypes,
                     scope   : this
                 }));
 
@@ -136,6 +171,9 @@ define([
 
             updateItemHandlers: function () {
                 $('.container-edit a.item-link[data-page]').single('click', _.bind(this.onItemClick, this));
+                $('.subnavbar.categories a').single('click', function () {
+                    $('.page[data-page=edit-chart-style]').find('.list-block.inputs-list').removeClass('inputs-list');
+                });
             },
 
             showPage: function (templateId, suspendEvent) {
