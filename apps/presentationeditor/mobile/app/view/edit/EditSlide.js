@@ -50,7 +50,8 @@ define([
 
     PE.Views.EditSlide = Backbone.View.extend(_.extend((function() {
         // private
-        var _layouts = [];
+        var _layouts = [],
+            _arrCurrentEffectTypes = [];
 
         return {
             // el: '.view-main',
@@ -63,6 +64,40 @@ define([
             initialize: function () {
                 Common.NotificationCenter.on('editcontainer:show', _.bind(this.initEvents, this));
                 Common.NotificationCenter.on('editcategory:show',  _.bind(this.categoryShow, this));
+
+                this._arrEffectType = [
+                    {displayValue: this.textSmoothly,           value: Asc.c_oAscSlideTransitionParams.Fade_Smoothly},
+                    {displayValue: this.textBlack,              value: Asc.c_oAscSlideTransitionParams.Fade_Through_Black},
+                    {displayValue: this.textLeft,               value: Asc.c_oAscSlideTransitionParams.Param_Left},
+                    {displayValue: this.textTop,                value: Asc.c_oAscSlideTransitionParams.Param_Top},
+                    {displayValue: this.textRight,              value: Asc.c_oAscSlideTransitionParams.Param_Right},
+                    {displayValue: this.textBottom,             value: Asc.c_oAscSlideTransitionParams.Param_Bottom},
+                    {displayValue: this.textTopLeft,            value: Asc.c_oAscSlideTransitionParams.Param_TopLeft},
+                    {displayValue: this.textTopRight,           value: Asc.c_oAscSlideTransitionParams.Param_TopRight},
+                    {displayValue: this.textBottomLeft,         value: Asc.c_oAscSlideTransitionParams.Param_BottomLeft},
+                    {displayValue: this.textBottomRight,        value: Asc.c_oAscSlideTransitionParams.Param_BottomRight},
+                    {displayValue: this.textVerticalIn,         value: Asc.c_oAscSlideTransitionParams.Split_VerticalIn},
+                    {displayValue: this.textVerticalOut,        value: Asc.c_oAscSlideTransitionParams.Split_VerticalOut},
+                    {displayValue: this.textHorizontalIn,       value: Asc.c_oAscSlideTransitionParams.Split_HorizontalIn},
+                    {displayValue: this.textHorizontalOut,      value: Asc.c_oAscSlideTransitionParams.Split_HorizontalOut},
+                    {displayValue: this.textClockwise,          value: Asc.c_oAscSlideTransitionParams.Clock_Clockwise},
+                    {displayValue: this.textCounterclockwise,   value: Asc.c_oAscSlideTransitionParams.Clock_Counterclockwise},
+                    {displayValue: this.textWedge,              value: Asc.c_oAscSlideTransitionParams.Clock_Wedge},
+                    {displayValue: this.textZoomIn,             value: Asc.c_oAscSlideTransitionParams.Zoom_In},
+                    {displayValue: this.textZoomOut,            value: Asc.c_oAscSlideTransitionParams.Zoom_Out},
+                    {displayValue: this.textZoomRotate,         value: Asc.c_oAscSlideTransitionParams.Zoom_AndRotate}
+                ];
+                this._arrEffect = [
+                    {displayValue: this.textNone,    value: Asc.c_oAscSlideTransitionTypes.None},
+                    {displayValue: this.textFade,    value: Asc.c_oAscSlideTransitionTypes.Fade},
+                    {displayValue: this.textPush,    value: Asc.c_oAscSlideTransitionTypes.Push},
+                    {displayValue: this.textWipe,    value: Asc.c_oAscSlideTransitionTypes.Wipe},
+                    {displayValue: this.textSplit,   value: Asc.c_oAscSlideTransitionTypes.Split},
+                    {displayValue: this.textUnCover, value: Asc.c_oAscSlideTransitionTypes.UnCover},
+                    {displayValue: this.textCover,   value: Asc.c_oAscSlideTransitionTypes.Cover},
+                    {displayValue: this.textClock,   value: Asc.c_oAscSlideTransitionTypes.Clock},
+                    {displayValue: this.textZoom,    value: Asc.c_oAscSlideTransitionTypes.Zoom}
+                ];
             },
 
             initEvents: function () {
@@ -72,6 +107,8 @@ define([
                 $('#slide-change-layout').single('click',         _.bind(me.showLayout, me));
                 $('#slide-transition').single('click',            _.bind(me.showTransition, me));
                 $('#slide-style').single('click',                 _.bind(me.showStyle, me));
+                $('#edit-slide-effect').single('click',           _.bind(me.showEffect, me));
+                $('#edit-slide-effect-type').single('click',      _.bind(me.showEffectType, me));
 
                 me.initControls();
             },
@@ -157,6 +194,14 @@ define([
                 this.showPage('#edit-slide-transition');
             },
 
+            showEffect: function () {
+                this.showPage('#editslide-effect');
+            },
+
+            showEffectType: function () {
+                this.showPage('#editslide-effect-type');
+            },
+
             updateLayouts: function () {
                 _layouts = Common.SharedSettings.get('slidelayouts');
                 this.renderLayouts();
@@ -228,6 +273,75 @@ define([
                 }
             },
 
+            renderEffectTypes: function() {
+                var $typeContainer = $('#page-editslide-effect-type .list-block ul');
+                if ($typeContainer.length > 0 && _arrCurrentEffectTypes.length>0) {
+                    var template = _.template([
+                        '<% _.each(types, function(item) { %>',
+                        '<li>',
+                            '<label class="label-radio item-content">',
+                                '<input type="radio" name="editslide-effect-type" value="<%= item.value %>">',
+                                '<% if (android) { %><div class="item-media"><i class="icon icon-form-radio"></i></div><% } %>',
+                                '<div class="item-inner">',
+                                    '<div class="item-title"><%= item.displayValue %></div>',
+                                '</div>',
+                            '</label>',
+                        '</li>',
+                        '<% }); %>'
+                    ].join(''), {
+                        android : Common.SharedSettings.get('android'),
+                        types: _arrCurrentEffectTypes
+                    });
+
+                    $typeContainer.html(template);
+                }
+            },
+
+            fillEffectTypes: function (type) {
+                _arrCurrentEffectTypes = [];
+                switch (type) {
+                    case Asc.c_oAscSlideTransitionTypes.Fade:
+                        _arrCurrentEffectTypes.push(this._arrEffectType[0], this._arrEffectType[1]);
+                        break;
+                    case Asc.c_oAscSlideTransitionTypes.Push:
+                        _arrCurrentEffectTypes = this._arrEffectType.slice(2, 6);
+                        break;
+                    case Asc.c_oAscSlideTransitionTypes.Wipe:
+                        _arrCurrentEffectTypes = this._arrEffectType.slice(2, 10);
+                        break;
+                    case Asc.c_oAscSlideTransitionTypes.Split:
+                        _arrCurrentEffectTypes = this._arrEffectType.slice(10, 14);
+                        break;
+                    case Asc.c_oAscSlideTransitionTypes.UnCover:
+                        _arrCurrentEffectTypes = this._arrEffectType.slice(2, 10);
+                        break;
+                    case Asc.c_oAscSlideTransitionTypes.Cover:
+                        _arrCurrentEffectTypes = this._arrEffectType.slice(2, 10);
+                        break;
+                    case Asc.c_oAscSlideTransitionTypes.Clock:
+                        _arrCurrentEffectTypes = this._arrEffectType.slice(14, 17);
+                        break;
+                    case Asc.c_oAscSlideTransitionTypes.Zoom:
+                        _arrCurrentEffectTypes = this._arrEffectType.slice(17);
+                        break;
+                }
+                return (_arrCurrentEffectTypes.length>0) ? _arrCurrentEffectTypes[0].value : -1;
+            },
+
+            getEffectName: function(effect) {
+                for (var i=0; i<this._arrEffect.length; i++) {
+                    if (this._arrEffect[i].value == effect) return this._arrEffect[i].displayValue;
+                }
+                return '';
+            },
+
+            getEffectTypeName: function(type) {
+                for (var i=0; i<_arrCurrentEffectTypes.length; i++) {
+                    if (_arrCurrentEffectTypes[i].value == type) return _arrCurrentEffectTypes[i].displayValue;
+                }
+                return '';
+            },
+
             textTheme: 'Theme',
             textStyle: 'Style',
             textLayout: 'Layout',
@@ -236,10 +350,43 @@ define([
             textDuplicateSlide: 'Duplicate Slide',
             textBack: 'Back',
             textFill: 'Fill',
-            textEffects: 'Effects',
-            textSize: 'Size',
+            textEffect: 'Effect',
+            textType: 'Type',
+            textDuration: 'Duration',
             textColor: 'Color',
-            textOpacity: 'Opacity'
+            textOpacity: 'Opacity',
+            textNone: 'None',
+            textFade: 'Fade',
+            textPush: 'Push',
+            textWipe: 'Wipe',
+            textSplit: 'Split',
+            textUnCover: 'UnCover',
+            textCover: 'Cover',
+            textClock: 'Clock',
+            textZoom: 'Zoom',
+            textSmoothly: 'Smoothly',
+            textBlack: 'Through Black',
+            textLeft: 'Left',
+            textTop: 'Top',
+            textRight: 'Right',
+            textBottom: 'Bottom',
+            textTopLeft: 'Top-Left',
+            textTopRight: 'Top-Right',
+            textBottomLeft: 'Bottom-Left',
+            textBottomRight: 'Bottom-Right',
+            textVerticalIn: 'Vertical In',
+            textVerticalOut: 'Vertical Out',
+            textHorizontalIn: 'Horizontal In',
+            textHorizontalOut: 'Horizontal Out',
+            textClockwise: 'Clockwise',
+            textCounterclockwise: 'Counterclockwise',
+            textWedge: 'Wedge',
+            textZoomIn: 'Zoom In',
+            textZoomOut: 'Zoom Out',
+            textZoomRotate: 'Zoom and Rotate',
+            textStartOnClick: 'Start On Click',
+            textDelay: 'Delay',
+            textApplyAll: 'Apply to All Slides'
         }
     })(), PE.Views.EditSlide || {}))
 });
