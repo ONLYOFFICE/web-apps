@@ -138,6 +138,8 @@ define([
                     me.initStylePage();
                 } else if ('#edit-chart-border-color-view' == pageId) {
                     me.initBorderColorPage();
+                } else if ('#edit-chart-layout' == pageId) {
+                    me.initLayoutPage();
                 } else if ('#edit-chart-reorder' == pageId) {
                     me.initReorderPage();
                 } else {
@@ -208,7 +210,34 @@ define([
                     _borderInfo.color = me._sdkToThemeColor(stroke.get_color());
                 }
 
-                $('#edit-chart-bordercolor .color-preview').css('background-color', ('transparent' == _borderInfo.color) ? _borderInfo.color : ('#' + (_.isObject(_borderInfo.color) ? _borderInfo.color.color : _borderInfo.color)))
+                $('#edit-chart-bordercolor .color-preview').css('background-color',
+                    ('transparent' == _borderInfo.color)
+                        ? _borderInfo.color
+                        : ('#' + (_.isObject(_borderInfo.color) ? _borderInfo.color.color : _borderInfo.color))
+                )
+            },
+
+            initLayoutPage: function () {
+                var me = this,
+                    chartProperties = _chartObject.get_ChartProperties(),
+                    $layoutPage = $('.page[data-page=edit-chart-layout]');
+
+                var setValue = function (id, value) {
+                    var textValue = $layoutPage.find('select[name=' + id + ']')
+                        .val(value)
+                        .find('option[value='+ value +']')
+                        .text();
+                    $layoutPage.find('#' + id + ' .item-after').text(textValue);
+                };
+
+                setValue('chart-layout-title', chartProperties.getTitle());
+                setValue('chart-layout-legend', chartProperties.getLegendPos());
+                setValue('chart-layout-axis-title-horizontal', chartProperties.getHorAxisLabel());
+                setValue('chart-layout-axis-title-vertical', chartProperties.getVertAxisLabel());
+                setValue('chart-layout-gridlines-horizontal', chartProperties.getHorGridLines());
+                setValue('chart-layout-gridlines-vertical', chartProperties.getDataLabelsPos());
+
+                // TODO: Modify Data Labels position by chart type
             },
 
             initReorderPage: function () {

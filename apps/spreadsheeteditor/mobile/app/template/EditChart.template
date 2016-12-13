@@ -12,7 +12,7 @@
                 </a>
             </li>
             <li>
-                <a id="chart-layout" class="item-link">
+                <a id="chart-layout" class="item-link" data-page="#edit-chart-layout">
                     <div class="item-content">
                         <div class="item-inner">
                             <div class="item-title">Layout</div>
@@ -218,6 +218,153 @@
     <div class="page" data-page="edit-chart-border-color">
         <div class="page-content">
             <!--Color palette-->
+        </div>
+    </div>
+</div>
+
+<!-- Layout view -->
+<div id="edit-chart-layout">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding">Layout</div>
+            <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
+        </div>
+    </div>
+    <div class="pages">
+        <div class="page" data-page="edit-chart-layout">
+            <div class="page-content">
+                <div class="list-block">
+                    <ul>
+                        <li>
+                            <a id="chart-layout-title" class="item-link smart-select" data-back-on-select="true">
+                                <select name="chart-layout-title">
+                                    <option value="0" selected>None</option>
+                                    <option value="1">Overlay</option>
+                                    <option value="2">No Overlay</option>
+                                </select>
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title">Chart Title</div>
+                                        <div class="item-after">None</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a id="chart-layout-legend" class="item-link smart-select" data-back-on-select="true">
+                                <select name="chart-layout-legend">
+                                    <option value="0" selected>None</option>
+                                    <option value="1">Left</option>
+                                    <option value="2">Top</option>
+                                    <option value="3">Right</option>
+                                    <option value="4">Bottom</option>
+                                    <option value="5">Left Overlay</option>
+                                    <option value="6">Right Overlay</option>
+                                </select>
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title">Legend</div>
+                                        <div class="item-after">None</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="content-block-title">Axis Title</div>
+                <div class="list-block">
+                    <ul>
+                        <li>
+                            <a id="chart-layout-axis-title-horizontal" class="item-link smart-select" data-back-on-select="true">
+                                <select name="chart-layout-axis-title-horizontal">
+                                    <option value="0" selected>None</option>
+                                    <option value="1">No Overlay</option>
+                                </select>
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title">Horizontal</div>
+                                        <div class="item-after">None</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a id="chart-layout-axis-title-vertical" class="item-link smart-select" data-back-on-select="true">
+                                <select name="chart-layout-axis-title-vertical">
+                                    <option value="0" selected>None</option>
+                                    <option value="1">Rotated</option>
+                                    <option value="3">Horizontal</option>
+                                </select>
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title">Vertical</div>
+                                        <div class="item-after">None</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="content-block-title">Gridlines</div>
+                <div class="list-block">
+                    <ul>
+                        <li>
+                            <a id="chart-layout-gridlines-horizontal" class="item-link smart-select" data-back-on-select="true">
+                                <select name="chart-layout-gridlines-horizontal">
+                                    <option value="0" selected>None</option>
+                                    <option value="1">Major</option>
+                                    <option value="2">Minor</option>
+                                    <option value="3">Major and Minor</option>
+                                </select>
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title">Horizontal</div>
+                                        <div class="item-after">None</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a id="chart-layout-gridlines-vertical" class="item-link smart-select" data-back-on-select="true">
+                                <select name="chart-layout-gridlines-vertical">
+                                    <option value="0" selected>None</option>
+                                    <option value="1">Major</option>
+                                    <option value="2">Minor</option>
+                                    <option value="3">Major and Minor</option>
+                                </select>
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title">Vertical</div>
+                                        <div class="item-after">None</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="list-block">
+                    <ul>
+                        <li>
+                            <a id="chart-layout-data-labels" class="item-link smart-select" data-back-on-select="true">
+                                <select name="chart-layout-data-labels">
+                                    <option value="0" selected>None</option>
+                                    <option value="3">Center</option>
+                                    <option value="4">Inner Bottom</option>
+                                    <option value="5">Inner Top</option>
+                                    <option value="7">Outer Top</option>
+                                </select>
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title">Data Labels</div>
+                                        <div class="item-after">None</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
 </div>
