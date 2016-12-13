@@ -178,6 +178,7 @@ require([
         'documenteditor/main/app/controller/RightMenu',
         'documenteditor/main/app/controller/LeftMenu',
         'documenteditor/main/app/controller/Main',
+        'documenteditor/main/app/view/FileMenuPanels',
         'documenteditor/main/app/view/ParagraphSettings',
         'documenteditor/main/app/view/HeaderFooterSettings',
         'documenteditor/main/app/view/ImageSettings',

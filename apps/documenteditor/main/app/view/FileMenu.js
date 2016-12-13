@@ -178,18 +178,15 @@ define([
             );
 
             var me = this;
-            this.panels = {};
-            require(['documenteditor/main/app/view/FileMenuPanels'], function(){
-                me.panels = {
+            me.panels = {
 //                    'saveas'    : (new DE.Views.FileMenuPanels.ViewSaveAs({menu:me})).render(),
-                    'opts'      : (new DE.Views.FileMenuPanels.Settings({menu:me})).render(),
-                    'info'      : (new DE.Views.FileMenuPanels.DocumentInfo({menu:me})).render(),
-                    'rights'    : (new DE.Views.FileMenuPanels.DocumentRights({menu:me})).render(),
-                    'help'      : (new DE.Views.FileMenuPanels.Help({menu:me})).render()
-                };
+                'opts'      : (new DE.Views.FileMenuPanels.Settings({menu:me})).render(),
+                'info'      : (new DE.Views.FileMenuPanels.DocumentInfo({menu:me})).render(),
+                'rights'    : (new DE.Views.FileMenuPanels.DocumentRights({menu:me})).render(),
+                'help'      : (new DE.Views.FileMenuPanels.Help({menu:me})).render()
+            };
 
-                me.$el.find('.content-box').hide();
-            });
+            me.$el.find('.content-box').hide();
 
             return this;
         },
