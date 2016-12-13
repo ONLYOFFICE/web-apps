@@ -189,7 +189,7 @@
                                 </div>
                             </li>
                             <li>
-                                <a id="edit-chart-bordercolor" class="item-link">
+                                <a id="edit-chart-bordercolor" class="item-link" data-page="#edit-chart-border-color-view">
                                     <div class="item-content">
                                         <div class="item-inner">
                                             <div class="item-title">Color</div>
@@ -202,6 +202,22 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+</div>
+
+<!-- Border color view -->
+<div id="edit-chart-border-color-view">
+    <div class="navbar">
+        <div class="navbar-inner" data-page="edit-chart-border-color">
+            <div class="left sliding"><a href="#" class="back link"><i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding">Color</div>
+            <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
+        </div>
+    </div>
+    <div class="page" data-page="edit-chart-border-color">
+        <div class="page-content">
+            <!--Color palette-->
         </div>
     </div>
 </div>
