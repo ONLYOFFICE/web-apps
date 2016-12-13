@@ -192,6 +192,9 @@ define([
 
             showTransition: function () {
                 this.showPage('#edit-slide-transition');
+
+                // remove android specific style
+                $('.page[data-page=edit-slide-transition] .list-block.inputs-list').removeClass('inputs-list');
             },
 
             showEffect: function () {

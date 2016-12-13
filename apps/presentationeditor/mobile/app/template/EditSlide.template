@@ -69,7 +69,7 @@
             <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
         </div>
     </div>
-    <div class="page">
+    <div class="page" data-page="edit-slide-transition">
         <div class="page-content">
             <div class="list-block">
                 <ul>
@@ -109,33 +109,39 @@
             <div class="list-block">
                 <ul>
                     <li id="edit-slide-start-click">
-                        <div class="item-inner item-content">
-                            <div class="item-title"><%= scope.textStartOnClick %></div>
-                            <div class="item-after">
-                                <label class="label-switch">
-                                    <input type="checkbox" name="slide-start-click">
-                                    <div class="checkbox"></div>
-                                </label>
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textStartOnClick %></div>
+                                <div class="item-after">
+                                    <label class="label-switch">
+                                        <input type="checkbox" name="slide-start-click">
+                                        <div class="checkbox"></div>
+                                    </label>
+                                </div>
                             </div>
                         </div>
                     </li>
                     <li id="edit-slide-delay">
-                        <div class="item-content item-inner">
-                            <div class="item-title"><%= scope.textDelay %></div>
-                            <div class="item-after">
-                                <label class="label-switch">
-                                    <input type="checkbox" name="slide-delay-click">
-                                    <div class="checkbox"></div>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="item-content item-inner">
-                            <div class="item-input">
-                                <div class="range-slider">
-                                    <input type="range" min="0" max="300" value="0" step="1">
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textDelay %></div>
+                                <div class="item-after">
+                                    <label class="label-switch">
+                                        <input type="checkbox" name="slide-delay-click">
+                                        <div class="checkbox"></div>
+                                    </label>
                                 </div>
                             </div>
-                            <div class="item-after value"></div>
+                        </div>
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <div class="item-input">
+                                    <div class="range-slider">
+                                        <input type="range" min="0" max="300" value="0" step="1">
+                                    </div>
+                                </div>
+                                <div class="item-after value"></div>
+                            </div>
                         </div>
                     </li>
                 </ul>
