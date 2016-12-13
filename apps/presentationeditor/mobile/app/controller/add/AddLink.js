@@ -132,8 +132,11 @@ define([
                     $('#add-link-number')[(_linkType==c_oHyperlinkType.WebLink) ? 'hide' : 'show']();
 
                     if (_linkType==c_oHyperlinkType.WebLink) {
+                        $('#add-link-url input[type=url]').single('input', _.bind(function(e) {
+                            $('#add-link-insert').toggleClass('disabled', _.isEmpty($('#add-link-url input').val()));
+                        }, this));
                         _.delay(function () {
-                            $('.page[data-page=addlink-link] input[type=url]').focus();
+                            $('#add-link-url input[type=url]').focus();
                         }, 1000);
                     } else {
                         var slidename = '';
