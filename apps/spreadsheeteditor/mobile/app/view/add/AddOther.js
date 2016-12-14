@@ -33,7 +33,6 @@
 
 /**
  *  AddOther.js
- *  Document Editor
  *
  *  Created by Kadushkin Maxim on 12/07/2016
  *  Copyright (c) 2016 Ascensio System SIA. All rights reserved.

@@ -32,7 +32,6 @@
  */
 /**
  *  AddOther.js
- *  Document Editor
  *
  *  Created by Kadushkin Maxim on 12/07/2016
  *  Copyright (c) 2016 Ascensio System SIA. All rights reserved.
@@ -67,8 +66,8 @@ define([
                 this.addListeners({
                     'AddOther': {
                         'page:show' : this.onPageShow
-                        , 'insert:link': this.onInsertLink
-                        , 'insert:image': this.onInsertImage
+                        , 'link:insert': this.onInsertLink
+                        , 'image:insert': this.onInsertImage
                     }
                 });
             },

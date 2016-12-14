@@ -33,7 +33,6 @@
 
 /**
  *  Main.js
- *  Document Editor
  *
  *  Created by Maxim Kadushkin on 11/15/16
  *  Copyright (c) 2016 Ascensio System SIA. All rights reserved.
@@ -98,7 +97,7 @@ define([
                 me.api = new Asc.spreadsheet_api({
                     'id-view'  : 'editor_sdk',
                     'id-input' : 'ce-cell-content'
-                    ,'mobile'  : true
+                    // ,'mobile'  : true
                 });
 
                 if (me.api){
@@ -1437,7 +1436,7 @@ define([
             },
 
             leavePageText: 'You have unsaved changes in this document. Click \'Stay on this Page\' then \'Save\' to save them. Click \'Leave this Page\' to discard all the unsaved changes.',
-            defaultTitleText: 'ONLYOFFICE Document Editor',
+            defaultTitleText: 'ONLYOFFICE Spreadsheet Editor',
             criticalErrorTitle: 'Error',
             notcriticalErrorTitle: 'Warning',
             errorDefaultMessage: 'Error code: %1',

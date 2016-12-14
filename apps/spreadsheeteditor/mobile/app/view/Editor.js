@@ -33,7 +33,6 @@
 
 /**
  *  Editor.js
- *  Document Editor
  *
  *  Created by Maxim Kadushkin on 11/15/16
  *  Copyright (c) 2016 Ascensio System SIA. All rights reserved.

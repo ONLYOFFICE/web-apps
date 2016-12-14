@@ -33,7 +33,6 @@
 
 /**
  *  DocumentHolder.js
- *  Document Editor
  *
  *  Created by Maxim Kadushkin on 11/8/16
  *  Copyright (c) 2016 Ascensio System SIA. All rights reserved.
