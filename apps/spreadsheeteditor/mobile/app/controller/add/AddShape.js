@@ -33,7 +33,6 @@
 
 /**
  *  AddShape.js
- *  Document Editor
  *
  *  Created by Maxim Kadushkin on 12/07/2016
  *  Copyright (c) 2016 Ascensio System SIA. All rights reserved.
@@ -215,7 +214,7 @@ define([
                 var $target = $(e.currentTarget);
 
                 if ($target && this.api) {
-                    this.api.addShapeOnSheet($target.data('type'));
+                    this.api.asc_addShapeOnSheet($target.data('type'));
                 }
 
                 SSE.getController('AddContainer').hideModal();

@@ -33,7 +33,6 @@
 
 /**
  *  Settings.js
- *  Document Editor
  *
  *  Created by Maxim Kadushkin on 12/05/2016
  *  Copyright (c) 2016 Ascensio System SIA. All rights reserved.

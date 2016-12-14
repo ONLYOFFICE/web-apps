@@ -32,65 +32,58 @@
  */
 
 /**
- *  AddShape.js
+ *  AddTable.js
  *
- *  Created by Maxim Kadushkin on 12/07/2016
+ *  Created by Maxim Kadushkin on 12/13/2016
  *  Copyright (c) 2016 Ascensio System SIA. All rights reserved.
  *
  */
 
 
 define([
-    'text!spreadsheeteditor/mobile/app/template/AddShape.template',
-    'backbone'
-], function (addTemplate, Backbone) {
+    'core',
+    'spreadsheeteditor/mobile/app/view/add/AddChart'
+], function (core) {
     'use strict';
 
-    SSE.Views.AddShape = Backbone.View.extend(_.extend((function() {
-        // private
+    SSE.Controllers.AddChart = Backbone.Controller.extend(_.extend((function() {
 
         return {
-            // el: '.view-main',
-
-            template: _.template(addTemplate),
-
-            events: {
-            },
+            models: [],
+            collections: [],
+            views: [
+                'AddChart'
+            ],
 
             initialize: function () {
-                Common.NotificationCenter.on('addcontainer:show',   _.bind(this.initEvents, this));
-                Common.NotificationCenter.on('shapes:load',         _.bind(this.render, this));
+                Common.NotificationCenter.on('addcontainer:show', _.bind(this.initEvents, this));
+
+                this.addListeners({
+                    'AddChart': {
+                        'chart:insert': this.onInsertChart.bind(this)
+                    }
+                });
+            },
+
+            setApi: function (api) {
+                var me = this;
+                me.api = api;
+            },
+
+            onLaunch: function () {
+                this.createView('AddChart').render();
             },
 
             initEvents: function () {
-                this.initControls();
             },
 
-            // Render layout
-            render: function () {
-                this.layout = $('<div/>').append(this.template({
-                    android : Common.SharedSettings.get('android'),
-                    phone   : Common.SharedSettings.get('phone'),
-                    imgpath : '../../common/mobile/resources/img/shapes',
-                    shapes  : Common.SharedSettings.get('shapes')
-                }));
+            onInsertChart: function (type) {
+                SSE.getController('AddContainer').hideModal();
 
-                return this;
+                var settings = this.api.asc_getChartObject();
+                settings.changeType(type);
+                this.api.asc_addChartDrawingObject(settings);
             },
-
-            rootLayout: function () {
-                if (this.layout) {
-                    return this.layout
-                        .find('#add-shapes-root')
-                        .html();
-                }
-
-                return '';
-            },
-
-            initControls: function () {
-                //
-            }
         }
-    })(), SSE.Views.AddShape || {}))
+    })(), SSE.Controllers.AddChart || {}))
 });
