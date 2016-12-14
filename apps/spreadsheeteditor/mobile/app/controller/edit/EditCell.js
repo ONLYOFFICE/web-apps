@@ -57,6 +57,7 @@ define([
             _cellStyles = [],
             _fontInfo = {},
             _borderInfo = {color: '000000', width: 'medium'},
+            _styleSize = {width: 100, height: 50},
             _isEdit = false;
 
         function onApiLoadFonts(fonts, select) {
@@ -86,8 +87,9 @@ define([
 
                 this.addListeners({
                     'EditCell': {
-                        'page:show' : this.onPageShow,
-                        'font:click': this.onFontClick
+                        'page:show'     : this.onPageShow,
+                        'font:click'    : this.onFontClick,
+                        'style:click'   : this.onStyleClick
                     }
                 });
             },
@@ -95,6 +97,8 @@ define([
             setApi: function (api) {
                 var me = this;
                 me.api = api;
+
+                me.api.asc_setThumbnailStylesSizes(_styleSize.width, _styleSize.height);
 
                 me.api.asc_registerCallback('asc_onInitEditorFonts',            _.bind(onApiLoadFonts, me));
                 me.api.asc_registerCallback('asc_onSelectionChanged',           _.bind(me.onApiSelectionChanged, me));
@@ -121,6 +125,8 @@ define([
 
                 me.initSettings();
             },
+
+
 
             onPageShow: function (view, pageId) {
                 var me = this;
@@ -166,6 +172,10 @@ define([
 
             getCell: function () {
                 return _cellInfo;
+            },
+
+            getStyleSize: function () {
+                return _styleSize;
             },
 
             initFontsPage: function () {
@@ -321,6 +331,8 @@ define([
 
                 $('#fill-color .color-preview').css('background-color', '#' + (_.isObject(clr) ? clr.color : clr));
 
+                var styleName = cellInfo.asc_getStyleName();
+                $('#edit-cell .cell-styles li[data-type="' + styleName + '"]').addClass('active');
 
                 if (selectionType == Asc.c_oAscSelectionType.RangeChart || selectionType == Asc.c_oAscSelectionType.RangeChartText) {
                     return;
@@ -363,6 +375,10 @@ define([
                 if ($item) {
                     this.api.asc_setCellFontName($item.prop('value'));
                 }
+            },
+
+            onStyleClick: function (view, type) {
+                this.api.asc_setCellStyle(type);
             },
 
             onBold: function (e) {

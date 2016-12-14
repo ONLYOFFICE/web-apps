@@ -220,6 +220,7 @@ define([
             initLayoutPage: function () {
                 var me = this,
                     chartProperties = _chartObject.get_ChartProperties(),
+                    chartType = chartProperties.getType(),
                     $layoutPage = $('.page[data-page=edit-chart-layout]');
 
                 var setValue = function (id, value) {
@@ -230,14 +231,74 @@ define([
                     $layoutPage.find('#' + id + ' .item-after').text(textValue);
                 };
 
+                // Init legend position values
+
+                var dataLabelPos = [
+                    { value: Asc.c_oAscChartDataLabelsPos.none, displayValue: me.textNone },
+                    { value: Asc.c_oAscChartDataLabelsPos.ctr, displayValue: me.textCenter }
+                ];
+
+                if (chartType == Asc.c_oAscChartTypeSettings.barNormal ||
+                    chartType == Asc.c_oAscChartTypeSettings.hBarNormal) {
+                    dataLabelPos.push(
+                        {value: Asc.c_oAscChartDataLabelsPos.inBase, displayValue: me.textInnerBottom},
+                        {value: Asc.c_oAscChartDataLabelsPos.inEnd, displayValue: me.textInnerTop},
+                        {value: Asc.c_oAscChartDataLabelsPos.outEnd, displayValue: me.textOuterTop}
+                    );
+                } else if ( chartType == Asc.c_oAscChartTypeSettings.barStacked ||
+                    chartType == Asc.c_oAscChartTypeSettings.barStackedPer ||
+                    chartType == Asc.c_oAscChartTypeSettings.hBarStacked ||
+                    chartType == Asc.c_oAscChartTypeSettings.hBarStackedPer ) {
+                    dataLabelPos.push(
+                        { value: Asc.c_oAscChartDataLabelsPos.inBase, displayValue: me.textInnerBottom },
+                        { value: Asc.c_oAscChartDataLabelsPos.inEnd, displayValue: me.textInnerTop }
+                    );
+                } else if (chartType == Asc.c_oAscChartTypeSettings.lineNormal ||
+                    chartType == Asc.c_oAscChartTypeSettings.lineStacked ||
+                    chartType == Asc.c_oAscChartTypeSettings.lineStackedPer ||
+                    chartType == Asc.c_oAscChartTypeSettings.stock ||
+                    chartType == Asc.c_oAscChartTypeSettings.scatter) {
+                    dataLabelPos.push(
+                        { value: Asc.c_oAscChartDataLabelsPos.l, displayValue: me.textLeft },
+                        { value: Asc.c_oAscChartDataLabelsPos.r, displayValue: me.textRight },
+                        { value: Asc.c_oAscChartDataLabelsPos.t, displayValue: me.textTop },
+                        { value: Asc.c_oAscChartDataLabelsPos.b, displayValue: me.textBottom }
+                    );
+                } else if (chartType == Asc.c_oAscChartTypeSettings.pie ||
+                    chartType == Asc.c_oAscChartTypeSettings.pie3d) {
+                    dataLabelPos.push(
+                        {value: Asc.c_oAscChartDataLabelsPos.bestFit, displayValue: me.textFit},
+                        {value: Asc.c_oAscChartDataLabelsPos.inEnd, displayValue: me.textInnerTop},
+                        {value: Asc.c_oAscChartDataLabelsPos.outEnd, displayValue: me.textOuterTop}
+                    );
+                }
+
+                $layoutPage.find('select[name=chart-layout-data-labels]').html((function () {
+                    var options = [];
+                    _.each(dataLabelPos, function (position) {
+                        options.push(Common.Utils.String.format('<option value="{0}">{1}</option>', position.value, position.displayValue));
+                    });
+                    return options.join('');
+                })());
+
                 setValue('chart-layout-title', chartProperties.getTitle());
                 setValue('chart-layout-legend', chartProperties.getLegendPos());
                 setValue('chart-layout-axis-title-horizontal', chartProperties.getHorAxisLabel());
                 setValue('chart-layout-axis-title-vertical', chartProperties.getVertAxisLabel());
                 setValue('chart-layout-gridlines-horizontal', chartProperties.getHorGridLines());
-                setValue('chart-layout-gridlines-vertical', chartProperties.getDataLabelsPos());
+                setValue('chart-layout-gridlines-vertical', chartProperties.getVertGridLines());
+                setValue('chart-layout-data-labels', chartProperties.getDataLabelsPos() || Asc.c_oAscChartDataLabelsPos.none);
 
-                // TODO: Modify Data Labels position by chart type
+                var disableSetting = (
+                    chartType == Asc.c_oAscChartTypeSettings.pie ||
+                    chartType == Asc.c_oAscChartTypeSettings.doughnut ||
+                    chartType == Asc.c_oAscChartTypeSettings.pie3d
+                );
+
+                $('#chart-layout-axis-title-horizontal').toggleClass('disabled', disableSetting);
+                $('#chart-layout-axis-title-vertical').toggleClass('disabled', disableSetting);
+                $('#chart-layout-gridlines-horizontal').toggleClass('disabled', disableSetting);
+                $('#chart-layout-gridlines-vertical').toggleClass('disabled', disableSetting);
             },
 
             initReorderPage: function () {
@@ -492,7 +553,88 @@ define([
                 return clr;
             },
 
-            textChart: 'Chart'
+            textChart: 'Chart',
+            textLayout: 'Layout',
+            textLegendPos: 'Legend',
+            textHorTitle: 'Horizontal Axis Title',
+            textVertTitle: 'Vertical Axis Title',
+            textDataLabels: 'Data Labels',
+            textSeparator: 'Data Labels Separator',
+            textSeriesName: 'Series Name',
+            textCategoryName: 'Category Name',
+            textValue: 'Value',
+            textAxisOptions: 'Axis Options',
+            textMinValue: 'Minimum Value',
+            textMaxValue: 'Maximum Value',
+            textAxisCrosses: 'Axis Crosses',
+            textUnits: 'Display Units',
+            textTickOptions: 'Tick Options',
+            textMajorType: 'Major Type',
+            textMinorType: 'Minor Type',
+            textLabelOptions: 'Label Options',
+            textLabelPos: 'Label Position',
+            textReverse: 'Values in reverse order',
+            textVertAxis: 'Vertical Axis',
+            textHorAxis: 'Horizontal Axis',
+            textMarksInterval: 'Interval between Marks',
+            textLabelDist: 'Axis Label Distance',
+            textLabelInterval: 'Interval between Labels',
+            textAxisPos: 'Axis Position',
+            textLeftOverlay: 'Left Overlay',
+            textRightOverlay: 'Right Overlay',
+            textOverlay: 'Overlay',
+            textNoOverlay: 'No Overlay',
+            textRotated: 'Rotated',
+            textHorizontal: 'Horizontal',
+            textInnerBottom: 'Inner Bottom',
+            textInnerTop: 'Inner Top',
+            textOuterTop: 'Outer Top',
+            textNone: 'None',
+            textCenter: 'Center',
+            textFixed: 'Fixed',
+            textAuto: 'Auto',
+            textCross: 'Cross',
+            textIn: 'In',
+            textOut: 'Out',
+            textLow: 'Low',
+            textHigh: 'High',
+            textNextToAxis: 'Next to axis',
+            textHundreds: 'Hundreds',
+            textThousands: 'Thousands',
+            textTenThousands: '10 000',
+            textHundredThousands: '100 000',
+            textMillions: 'Millions',
+            textTenMillions: '10 000 000',
+            textHundredMil: '100 000 000',
+            textBillions: 'Billions',
+            textTrillions: 'Trillions',
+            textCustom: 'Custom',
+            textManual: 'Manual',
+            textBetweenTickMarks: 'Between Tick Marks',
+            textOnTickMarks: 'On Tick Marks',
+            textHorGrid: 'Horizontal Gridlines',
+            textVertGrid: 'Vertical Gridlines',
+            textLines: 'Lines',
+            textMarkers: 'Markers',
+            textMajor: 'Major',
+            textMinor: 'Minor',
+            textMajorMinor: 'Major and Minor',
+            textStraight: 'Straight',
+            textSmooth: 'Smooth',
+            textType: 'Type',
+            textTypeData: 'Type & Data',
+            textStyle: 'Style',
+            errorMaxRows: 'ERROR! The maximum number of data series per chart is 255.',
+            errorStockChart: 'Incorrect row order. To build a stock chart place the data on the sheet in the following order:<br> opening price, max price, min price, closing price.',
+            textAxisSettings: 'Axis Settings',
+            textGridLines: 'Gridlines',
+            textShow: 'Show',
+            textHide: 'Hide',
+            textLeft: 'Left',
+            textRight: 'Right',
+            textTop: 'Top',
+            textBottom: 'Bottom',
+            textFit: 'Fit Width'
         }
     })(), SSE.Controllers.EditChart || {}))
 });

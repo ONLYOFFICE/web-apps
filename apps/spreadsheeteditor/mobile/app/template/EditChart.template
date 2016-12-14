@@ -129,7 +129,7 @@
             <div class="center sliding">Style</div>
             <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
             <% if (!android) { %>
-            <div class="subnavbar categories">
+            <div class="edit-chart-style subnavbar categories">
                 <div class="buttons-row">
                     <a href="#tab-chart-type" class="button tab-link active">Type</a>
                     <a href="#tab-chart-style" class="button tab-link">Style</a>
@@ -140,7 +140,7 @@
             <% } %>
         </div>
         <% if (android) { %>
-        <div class="subnavbar categories" style="padding: 0;">
+        <div class="edit-chart-style subnavbar categories" style="padding: 0;">
             <div class="toolbar tabbar" style="top: 0;">
                 <div data-page="index" class="toolbar-inner">
                     <a href="#tab-chart-type" class="tab-link active">Type</a>
@@ -349,10 +349,6 @@
                             <a id="chart-layout-data-labels" class="item-link smart-select" data-back-on-select="true">
                                 <select name="chart-layout-data-labels">
                                     <option value="0" selected>None</option>
-                                    <option value="3">Center</option>
-                                    <option value="4">Inner Bottom</option>
-                                    <option value="5">Inner Top</option>
-                                    <option value="7">Outer Top</option>
                                 </select>
                                 <div class="item-content">
                                     <div class="item-inner">

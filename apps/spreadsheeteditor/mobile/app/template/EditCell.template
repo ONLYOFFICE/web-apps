@@ -82,8 +82,7 @@
     <div class="content-block-title">Cell Styles</div>
     <div class="list-block">
         <ul>
-            <li class="cell-styles">
-                <div class="item-content"></div>
+            <li class="cell-styles dataview">
             </li>
         </ul>
     </div>

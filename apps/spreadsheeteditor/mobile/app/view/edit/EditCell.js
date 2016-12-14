@@ -53,7 +53,7 @@ define([
     SSE.Views.EditCell = Backbone.View.extend(_.extend((function() {
         // private
         var _fontsList,
-            _editTextController;
+            _editCellController;
 
         return {
             // el: '.view-main',
@@ -64,7 +64,7 @@ define([
             },
 
             initialize: function () {
-                _editTextController = SSE.getController('EditCell');
+                _editCellController = SSE.getController('EditCell');
 
                 Common.NotificationCenter.on('editcontainer:show', _.bind(this.initEvents, this));
                 this.on('page:show', _.bind(this.updateItemHandlers, this));
@@ -108,10 +108,11 @@ define([
             },
 
             renderStyles: function (cellStyles) {
-                var $styleContainer = $('.cell-styles .item-content');
+                var $styleContainer = $('#edit-cell .cell-styles');
 
                 if ($styleContainer.length > 0) {
-                    var columns = parseInt($styleContainer.width() / 70), // magic
+                    var styleSize = _editCellController.getStyleSize(),
+                        columns = parseInt($styleContainer.width() / styleSize.width),
                         row = -1,
                         styles = [];
 
@@ -128,21 +129,42 @@ define([
                         '<ul class="row">',
                             '<% _.each(row, function(style) { %>',
                             '<li data-type="<%= style.asc_getName() %>">',
-                                '<img src="<%= style.asc_getImage() %>" width="50px" height="50px">',
+                                '<div class="thumb" style="background-image:url(<%= style.asc_getImage() %>); width: <%= styleSize.width %>px; height: <%= styleSize.height %>px;">',
                             '</li>',
                             '<% }); %>',
                         '</ul>',
                         '<% }); %>'
                     ].join(''), {
-                        styles: styles
+                        styles: styles,
+                        styleSize: styleSize
                     });
 
                     $styleContainer.html(template);
+
+                    $('#edit-cell .cell-styles li').single('click', _.buffered(function (e) {
+                        var $target = $(e.currentTarget),
+                            type = $target.data('type');
+
+                        $('#edit-cell .cell-styles li').removeClass('active');
+                        $target.addClass('active');
+
+                        this.fireEvent('style:click', [this, type]);
+                    }, 100, this));
                 }
             },
 
             updateItemHandlers: function () {
-                $('.container-edit a.item-link[data-page]').single('click', _.bind(this.onItemClick, this));
+                var selectorsDynamicPage = [
+                    '#edit-cell',
+                    '.page[data-page=edit-border-style]',
+                    '.page[data-page=edit-cell-format]'
+                ].map(function (selector) {
+                    return selector + ' a.item-link[data-page]';
+                }).join(', ');
+
+                $(selectorsDynamicPage).single('click', _.bind(this.onItemClick, this));
+
+                // $('.container-edit a.item-link[data-page]').single('click', _.bind(this.onItemClick, this));
             },
 
             showPage: function (templateId, suspendEvent) {
@@ -197,7 +219,7 @@ define([
                     items: SSE.getController('EditCell').getFonts(),
                     template: $template.html(),
                     onItemsAfterInsert: function (list, fragment) {
-                        var fontInfo = _editTextController.getFontInfo();
+                        var fontInfo = _editCellController.getFontInfo();
                         $('#font-list input[name=font-name]').val([fontInfo.name]);
 
                         $('#font-list li').single('click', _.buffered(function (e) {
