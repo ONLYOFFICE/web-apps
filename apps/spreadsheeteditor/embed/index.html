@@ -239,6 +239,8 @@
               loading = 'Loading...',
               logo = params["logo"] ? ((params["logo"] !== 'none') ? ('<img src="' + encodeUrlParam(params["logo"]) + '" class="loader-logo" />') : '') : null;
 
+          window.frameEditorId = params["frameEditorId"];
+
           if ( lang == 'de')      loading = 'Ladevorgang...';
           else if ( lang == 'es') loading = 'Cargando...';
           else if ( lang == 'fr') loading = 'Chargement en cours...';
