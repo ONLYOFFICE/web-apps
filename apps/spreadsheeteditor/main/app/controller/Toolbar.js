@@ -2009,17 +2009,13 @@ define([
 
             if (!_.isUndefined(opts.headings)) {
                 if (this.api) {
-                    var current = this.api.asc_getSheetViewSettings();
-                    current.asc_setShowRowColHeaders(!opts.headings);
-                    this.api.asc_setSheetViewSettings(current);
+                    this.api.asc_setDisplayHeadings(!opts.headings);
                 }
             }
 
             if (!_.isUndefined(opts.gridlines)) {
                 if (this.api) {
-                    current = this.api.asc_getSheetViewSettings();
-                    current.asc_setShowGridLines(!opts.gridlines);
-                    this.api.asc_setSheetViewSettings(current);
+					this.api.asc_setDisplayGridlines(!opts.gridlines);
                 }
             }
 
