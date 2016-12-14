@@ -117,7 +117,7 @@ define([
 
                 $('#addimage-url').single('click', this.showImageFromUrl.bind(this));
                 $('#addimage-file').single('click', function () {
-                    this.fireEvent('insert:image',[{islocal:true}]);
+                    this.fireEvent('image:insert',[{islocal:true}]);
                 }.bind(this));
             },
 
@@ -140,7 +140,7 @@ define([
                     display = $('#add-link-display input').val(),
                     tip     = $('#add-link-tip input').val();
 
-                this.fireEvent('insert:link', [{url:url, text:display, tooltip:tip}]);
+                this.fireEvent('link:insert', [{url:url, text:display, tooltip:tip}]);
             },
 
             showImageFromUrl: function () {
@@ -151,7 +151,7 @@ define([
 
                 $('#addimage-insert a').single('click', _.buffered(function () {
                     var value = ($input.val()).replace(/ /g, '');
-                    me.fireEvent('insert:image', [{islocal:false, url:value}]);
+                    me.fireEvent('image:insert', [{islocal:false, url:value}]);
                 }, 100, me));
 
                 var $btnInsert = $('#addimage-insert');
