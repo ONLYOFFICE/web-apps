@@ -1,0 +1,14 @@
+<!-- Root view -->
+<div id="add-chart-root">
+    <div class="page-content dataview chart-types">
+        <% _.each(types, function(row) { %>
+            <ul class="row">
+                <% _.each(row, function(type) { %>
+                    <li data-type="<%= type.type %>">
+                        <div class="thumb <%= type.thumb %>"></div>
+                    </li>
+                <% }); %>
+            </ul>
+        <% }); %>
+    </div>
+</div>

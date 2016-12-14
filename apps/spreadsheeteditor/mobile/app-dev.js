@@ -119,8 +119,8 @@ require([
             'Search',
             'Main',
             'DocumentHolder'
-            , 'CellEditor'
-            , 'Statusbar'
+            ,'CellEditor'
+            ,'Statusbar'
             ,'Settings'
             ,'EditContainer'
             ,'EditCell'
@@ -131,7 +131,7 @@ require([
             ,'EditChart'
             // ,'EditHyperlink'
             ,'AddContainer'
-            // ,'AddTable'
+            ,'AddChart'
             ,'AddShape'
             // ,'AddImage'
             ,'AddOther'
@@ -189,10 +189,10 @@ require([
         'spreadsheeteditor/mobile/app/controller/Search',
         'spreadsheeteditor/mobile/app/controller/Main',
         'spreadsheeteditor/mobile/app/controller/DocumentHolder'
-        , 'spreadsheeteditor/mobile/app/controller/CellEditor'
-        , 'spreadsheeteditor/mobile/app/controller/Statusbar'
-        , 'spreadsheeteditor/mobile/app/controller/Settings'
-        , 'spreadsheeteditor/mobile/app/controller/edit/EditContainer'
+        ,'spreadsheeteditor/mobile/app/controller/CellEditor'
+        ,'spreadsheeteditor/mobile/app/controller/Statusbar'
+        ,'spreadsheeteditor/mobile/app/controller/Settings'
+        ,'spreadsheeteditor/mobile/app/controller/edit/EditContainer'
         ,'spreadsheeteditor/mobile/app/controller/edit/EditCell'
         // ,'spreadsheeteditor/mobile/app/controller/edit/EditParagraph'
         // ,'spreadsheeteditor/mobile/app/controller/edit/EditTable'
@@ -201,7 +201,7 @@ require([
         ,'spreadsheeteditor/mobile/app/controller/edit/EditChart'
         // ,'spreadsheeteditor/mobile/app/controller/edit/EditHyperlink'
         ,'spreadsheeteditor/mobile/app/controller/add/AddContainer'
-        // ,'spreadsheeteditor/mobile/app/controller/add/AddTable'
+        ,'spreadsheeteditor/mobile/app/controller/add/AddChart'
         ,'spreadsheeteditor/mobile/app/controller/add/AddShape'
         // ,'spreadsheeteditor/mobile/app/controller/add/AddImage'
         ,'spreadsheeteditor/mobile/app/controller/add/AddOther'

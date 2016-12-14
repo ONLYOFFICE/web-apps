@@ -109,7 +109,7 @@ define([
                 addViews.push({
                     caption: me.textChart,
                     id: 'add-chart',
-                    layout: me._dummyEditController().getLayout()
+                    layout: SSE.getController('AddChart').getView('AddChart').rootLayout()
                 });
 
                 addViews.push({
