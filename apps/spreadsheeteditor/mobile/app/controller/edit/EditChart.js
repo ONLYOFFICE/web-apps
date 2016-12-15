@@ -299,6 +299,16 @@ define([
                 $('#chart-layout-axis-title-vertical').toggleClass('disabled', disableSetting);
                 $('#chart-layout-gridlines-horizontal').toggleClass('disabled', disableSetting);
                 $('#chart-layout-gridlines-vertical').toggleClass('disabled', disableSetting);
+
+                // Handlers
+
+                $('#chart-layout-title select').single('change',                _.bind(me.onLayoutTitle, me));
+                $('#chart-layout-legend select').single('change',               _.bind(me.onLayoutLegend, me));
+                $('#chart-layout-axis-title-horizontal select').single('change',_.bind(me.onLayoutAxisTitleHorizontal, me));
+                $('#chart-layout-axis-title-vertical select').single('change',  _.bind(me.onLayoutAxisTitleVertical, me));
+                $('#chart-layout-gridlines-horizontal select').single('change', _.bind(me.onLayoutGridlinesHorizontal, me));
+                $('#chart-layout-gridlines-vertical select').single('change',   _.bind(me.onLayoutGridlinesVertical, me));
+                $('#chart-layout-data-labels select').single('change',          _.bind(me.onLayoutDataLabel, me));
             },
 
             initReorderPage: function () {
@@ -471,6 +481,35 @@ define([
                 }
             },
 
+            onLayoutTitle: function (e) {
+                this._setLayoutProperty('putTitle', e);
+            },
+
+            onLayoutLegend: function(e) {
+                this._setLayoutProperty('putLegendPos', e);
+            },
+
+            onLayoutAxisTitleHorizontal: function(e) {
+                this._setLayoutProperty('putHorAxisLabel', e);
+            },
+
+            onLayoutAxisTitleVertical: function(e) {
+                this._setLayoutProperty('putVertAxisLabel', e);
+            },
+
+            onLayoutGridlinesHorizontal: function(e) {
+                this._setLayoutProperty('putHorGridLines', e);
+            },
+
+            onLayoutGridlinesVertical: function(e) {
+                this._setLayoutProperty('putVertGridLines', e);
+            },
+
+            onLayoutDataLabel: function(e) {
+                this._setLayoutProperty('putDataLabelsPos', e);
+            },
+
+
             // API handlers
 
             onApiUpdateChartStyles: function () {
@@ -530,6 +569,16 @@ define([
             },
 
             // Helpers
+
+            _setLayoutProperty: function (propertyMethod, e) {
+                var value = $(e.currentTarget).val(),
+                    chartObject = this.api.asc_getChartObject();
+
+                if (!_.isUndefined(chartObject) && value && value.length > 0) {
+                    chartObject[propertyMethod](parseInt(value));
+                    this.api.asc_editChartDrawingObject(chartObject);
+                }
+            },
 
             _updateChartStyles: function(styles) {
                 this.getView('EditChart').renderStyles(styles);
