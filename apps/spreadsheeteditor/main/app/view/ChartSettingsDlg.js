@@ -127,7 +127,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 cls         : 'btn-large-dataview',
                 iconCls     : 'item-chartlist bar-normal',
                 menu        : new Common.UI.Menu({
-                    style: 'width: 560px;',
+                    style: 'width: 435px; padding-top: 12px;',
                     additionalAlign: menuAddAlign,
                     items: [
                         { template: _.template('<div id="id-chart-dlg-menu-type" class="menu-insertchart"  style="margin: 5px 5px 5px 10px;"></div>') }
@@ -138,15 +138,15 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 me.mnuChartTypePicker = new Common.UI.DataView({
                     el: $('#id-chart-dlg-menu-type'),
                     parentMenu: btn.menu,
-                    restoreHeight: 411,
+                    restoreHeight: 421,
                     groups: new Common.UI.DataViewGroupStore([
                         { id: 'menu-chart-group-bar',     caption: me.textColumn },
                         { id: 'menu-chart-group-line',    caption: me.textLine },
                         { id: 'menu-chart-group-pie',     caption: me.textPie },
                         { id: 'menu-chart-group-hbar',    caption: me.textBar },
-                        { id: 'menu-chart-group-area',    caption: me.textArea },
-                        { id: 'menu-chart-group-scatter', caption: me.textPoint },
-                        { id: 'menu-chart-group-stock',   caption: me.textStock }
+                        { id: 'menu-chart-group-area',    caption: me.textArea, inline: true },
+                        { id: 'menu-chart-group-scatter', caption: me.textPoint, inline: true },
+                        { id: 'menu-chart-group-stock',   caption: me.textStock, inline: true }
                     ]),
                     store: new Common.UI.DataViewStore([
                         { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barNormal,          iconCls: 'column-normal', selected: true},
@@ -784,10 +784,10 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 cls         : 'btn-large-dataview',
                 iconCls     : 'item-chartlist spark-column',
                 menu        : new Common.UI.Menu({
-                    style: 'width: 210px;',
+                    style: 'width: 200px; padding-top: 12px;',
                     additionalAlign: menuAddAlign,
                     items: [
-                        { template: _.template('<div id="id-spark-dlg-menu-type" class="menu-insertchart"  style="margin: 5px 5px 5px 10px;"></div>') }
+                        { template: _.template('<div id="id-spark-dlg-menu-type" class="menu-insertchart"  style="margin: 5px 5px 0 10px;"></div>') }
                     ]
                 })
             });
@@ -795,16 +795,16 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 me.mnuSparkTypePicker = new Common.UI.DataView({
                     el: $('#id-spark-dlg-menu-type'),
                     parentMenu: btn.menu,
-                    restoreHeight: 200,
+                    restoreHeight: 120,
                     groups: new Common.UI.DataViewGroupStore([
-                        { id: 'menu-chart-group-sparkcolumn', caption: me.textColumnSpark },
-                        { id: 'menu-chart-group-sparkline',   caption: me.textLineSpark },
-                        { id: 'menu-chart-group-sparkwin',    caption: me.textWinLossSpark }
+                        { id: 'menu-chart-group-sparkcolumn',   inline: true },
+                        { id: 'menu-chart-group-sparkline',     inline: true },
+                        { id: 'menu-chart-group-sparkwin',      inline: true }
                     ]),
                     store: new Common.UI.DataViewStore([
-                        { group: 'menu-chart-group-sparkcolumn',   type: Asc.c_oAscSparklineType.Column,    allowSelected: true, iconCls: 'spark-column'},
-                        { group: 'menu-chart-group-sparkline',     type: Asc.c_oAscSparklineType.Line,      allowSelected: true, iconCls: 'spark-line'},
-                        { group: 'menu-chart-group-sparkwin',      type: Asc.c_oAscSparklineType.Stacked,   allowSelected: true, iconCls: 'spark-win'}
+                        { group: 'menu-chart-group-sparkcolumn',   type: Asc.c_oAscSparklineType.Column,    allowSelected: true, iconCls: 'spark-column', tip: me.textColumnSpark},
+                        { group: 'menu-chart-group-sparkline',     type: Asc.c_oAscSparklineType.Line,      allowSelected: true, iconCls: 'spark-line',   tip: me.textLineSpark},
+                        { group: 'menu-chart-group-sparkwin',      type: Asc.c_oAscSparklineType.Stacked,   allowSelected: true, iconCls: 'spark-win',    tip: me.textWinLossSpark}
                     ]),
                     itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist <%= iconCls %>"></div>')
                 });
@@ -1594,7 +1594,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
         textBar:            'Bar',
         textArea:           'Area',
         textPie:            'Pie',
-        textPoint:          'Point',
+        textPoint:          'XY (Scatter)',
         textStock:          'Stock',
         textDataRows:       'in rows',
         textDataColumns:    'in columns',

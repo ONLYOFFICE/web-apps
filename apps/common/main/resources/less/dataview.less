@@ -31,17 +31,21 @@
         clear: left;
         overflow: hidden;
 
-        & > div {
+        &.inline {
             display: inline-block;
+            &.margin .group-items-container {
+                margin-right: 20px;
+            }
         }
 
         .group-items-container {
             overflow: hidden;
+            margin-bottom: 5px;
 
             & > div {
                 display: inline-block;
                 float: left;
-                margin: 4px;
+                margin: 2px 4px 4px;
                 cursor: pointer;
 
                 .box-shadow(0 0 0 1px @gray);
@@ -52,5 +56,11 @@
                 }
             }
         }
+    }
+
+    .header-name {
+        padding: 10px 2px 12px 4px;
+        font-weight: bold;
+        cursor: default;
     }
 }

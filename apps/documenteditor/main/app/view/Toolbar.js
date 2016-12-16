@@ -489,7 +489,7 @@ define([
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-insertchart',
                 menu        : new Common.UI.Menu({
-                    style: 'width: 560px;',
+                    style: 'width: 435px;',
                     items: [
                         { template: _.template('<div id="id-toolbar-menu-insertchart" class="menu-insertchart" style="margin: 5px 5px 5px 10px;"></div>') }
                     ]
@@ -1362,15 +1362,15 @@ define([
                 el: $('#id-toolbar-menu-insertchart'),
                 parentMenu: this.btnInsertChart.menu,
                 showLast: false,
-                restoreHeight: 411,
+                restoreHeight: 421,
                 groups: new Common.UI.DataViewGroupStore([
-                    { id: 'menu-chart-group-bar',     caption: me.textColumn },
+                    { id: 'menu-chart-group-bar',     caption: me.textColumn, headername: me.textCharts },
                     { id: 'menu-chart-group-line',    caption: me.textLine },
                     { id: 'menu-chart-group-pie',     caption: me.textPie },
                     { id: 'menu-chart-group-hbar',    caption: me.textBar },
-                    { id: 'menu-chart-group-area',    caption: me.textArea },
-                    { id: 'menu-chart-group-scatter', caption: me.textPoint },
-                    { id: 'menu-chart-group-stock',   caption: me.textStock }
+                    { id: 'menu-chart-group-area',    caption: me.textArea, inline: true },
+                    { id: 'menu-chart-group-scatter', caption: me.textPoint, inline: true },
+                    { id: 'menu-chart-group-stock',   caption: me.textStock, inline: true }
                 ]),
                 store: new Common.UI.DataViewStore([
                     { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barNormal,          allowSelected: true, iconCls: 'column-normal', selected: true},
@@ -1827,13 +1827,13 @@ define([
         textNewColor: 'Add New Custom Color',
         textAutoColor: 'Automatic',
         tipInsertChart: 'Insert Chart',
-        textLine:           'Line Chart',
-        textColumn:         'Column Chart',
-        textBar:            'Bar Chart',
-        textArea:           'Area Chart',
-        textPie:            'Pie Chart',
-        textPoint:          'XY (Scatter) Chart',
-        textStock:          'Stock Chart',
+        textLine:           'Line',
+        textColumn:         'Column',
+        textBar:            'Bar',
+        textArea:           'Area',
+        textPie:            'Pie',
+        textPoint:          'XY (Scatter)',
+        textStock:          'Stock',
         tipColorSchemas:    'Change Color Scheme',
         tipInsertText: 'Insert Text',
         tipHAligh:          'Horizontal Align',
@@ -1910,7 +1910,8 @@ define([
         textPageSizeCustom: 'Custom Page Size',
         textPortrait: 'Portrait',
         textLandscape: 'Landscape',
-        textInsertPageCount: 'Insert number of pages'
+        textInsertPageCount: 'Insert number of pages',
+        textCharts: 'Charts'
         
     }, DE.Views.Toolbar || {}));
 });
