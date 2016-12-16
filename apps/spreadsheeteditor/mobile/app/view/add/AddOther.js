@@ -62,8 +62,10 @@ define([
             initEvents: function () {
                 var me = this;
 
-                $('#add-other-insimage').single('click',    _.bind(me.showInsertImage, me));
-                $('#add-other-link').single('click',        _.bind(me.showLink, me));
+                var $page = $('#add-other');
+                $page.find('#add-other-insimage').single('click', _.bind(me.showInsertImage, me));
+                $page.find('#add-other-link').single('click', _.bind(me.showLink, me));
+                $page.find('#add-other-sort').single('click', _.bind(me.showSortPage, me));
 
                 me.initControls();
             },
@@ -135,6 +137,10 @@ define([
                 $('#add-link-insert').single('click', _.buffered(this.clickInsertLink, 100, this));
             },
 
+            showSortPage: function (e) {
+                this.showPage('#addother-sort');
+            },
+
             clickInsertLink: function (e) {
                 var url     = $('#add-link-url input').val(),
                     display = $('#add-link-display input').val(),
@@ -170,23 +176,12 @@ define([
             textDisplay: 'Display',
             textTip: 'Screen Tip',
             textInsert: 'Insert',
-            textPosition: 'Position',
-            textLeftTop: 'Left Top',
-            textCenterTop: 'Center Top',
-            textRightTop: 'Right Top',
-            textLeftBottom: 'Left Bottom',
-            textCenterBottom: 'Center Bottom',
-            textRightBottom: 'Right Bottom',
-            textCurrentPos: 'Current Position',
-            textNextPage: 'Next Page',
-            textContPage: 'Continuous Page',
-            textEvenPage: 'Even Page',
-            textOddPage: 'Odd Page'
-            , textFromLibrary: 'Picture from Library'
-            , textFromURL: 'Picture from URL'
-            , textLinkSettings: 'Link Settings'
-            , textAddress: 'Address'
-            , textImageURL: 'Image URL'
+            textFromLibrary: 'Picture from Library',
+            textFromURL: 'Picture from URL',
+            textLinkSettings: 'Link Settings',
+            textAddress: 'Address',
+            textImageURL: 'Image URL',
+            textFilter: 'Filter'
         }
     })(), SSE.Views.AddOther || {}))
 });

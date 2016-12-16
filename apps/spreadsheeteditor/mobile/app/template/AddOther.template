@@ -181,3 +181,46 @@
         </div>
     </div>
 </div>
+
+<!-- View for Sort&Filter -->
+<div id="addother-sort">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left sliding"><a href="#" class="back link"><i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding"><%= scope.textSort %></div>
+        </div>
+    </div>
+    <div class="page">
+        <div class="page-content">
+            <div class="list-block">
+                <ul><li>
+                    <div class="item-content buttons">
+                        <div class="item-inner">
+                            <div class="row">
+                                <a class="button no-ripple"><i class="icon sortdown"></i></a>
+                                <a class="button no-ripple"><i class="icon sortup"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </li></ul>
+            </div>
+            <div class="list-block">
+                <ul>
+                    <li id="paragraph-page-break">
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textFilter %></div>
+                                <div class="item-after">
+                                    <label class="label-switch">
+                                        <input type="checkbox">
+                                        <div class="checkbox"></div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
