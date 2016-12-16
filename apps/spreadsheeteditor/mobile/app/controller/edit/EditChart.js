@@ -57,6 +57,7 @@ define([
             _shapeObject = undefined,
             _borderInfo = {color: '000000', width: 1},
             _metricText = Common.Utils.Metric.getCurrentMetricName(),
+            _reverseAxis = false,
             _isEdit = false;
 
         var borderSizeTransform = (function() {
@@ -132,6 +133,10 @@ define([
             },
 
             initSettings: function (pageId) {
+                if ($('#edit-chart').length < 1) {
+                    return;
+                }
+
                 var me = this;
 
                 if ('#edit-chart-style' == pageId) {
@@ -140,10 +145,14 @@ define([
                     me.initBorderColorPage();
                 } else if ('#edit-chart-layout' == pageId) {
                     me.initLayoutPage();
+                } else if ('#edit-chart-vertical-axis' == pageId) {
+                    me.initVertAxisPage();
+                } else if ('#edit-chart-horizontal-axis' == pageId) {
+                    me.initHorAxisPage();
                 } else if ('#edit-chart-reorder' == pageId) {
                     me.initReorderPage();
                 } else {
-                    $('#chart-remove').single('click', _.bind(me.onRemoveChart, me));
+                    me.initRootPage();
                 }
             },
 
@@ -155,6 +164,11 @@ define([
 
             getChart: function () {
                 return _chartObject;
+            },
+
+            initRootPage: function () {
+                $('#chart-remove').single('click', _.bind(this.onRemoveChart, this));
+                this.updateAxisProps(_chartObject.get_ChartProperties().getType());
             },
 
             initStylePage: function () {
@@ -311,6 +325,130 @@ define([
                 $('#chart-layout-data-labels select').single('change',          _.bind(me.onLayoutDataLabel, me));
             },
 
+            initVertAxisPage: function () {
+                var me = this,
+                    $vertAxisPage = $('.page[data-page=edit-chart-vertical-axis]'),
+                    chartProperty = me.api.asc_getChartObject(),
+                    chartType = chartProperty.getType(),
+                    needReverse = (
+                        chartType == Asc.c_oAscChartTypeSettings.hBarNormal ||
+                        chartType == Asc.c_oAscChartTypeSettings.hBarStacked ||
+                        chartType == Asc.c_oAscChartTypeSettings.hBarStackedPer ||
+                        chartType == Asc.c_oAscChartTypeSettings.hBarNormal3d ||
+                        chartType == Asc.c_oAscChartTypeSettings.hBarStacked3d ||
+                        chartType == Asc.c_oAscChartTypeSettings.hBarStackedPer3d
+                    ),
+                    verAxisProps = chartProperty.getVertAxisProps(),
+                    axisProps = (verAxisProps.getAxisType() == Asc.c_oAscAxisType.val) ? verAxisProps : chartProperty.getHorAxisProps();
+
+                var setValue = function (id, value) {
+                    var textValue = $vertAxisPage.find('select[name=' + id + ']')
+                        .val(value)
+                        .find('option[value='+ value +']')
+                        .text();
+                    $vertAxisPage.find('#' + id + ' .item-after').text(textValue);
+                };
+
+                var setOptions = function (selectName, options) {
+                    $vertAxisPage.find('select[name=' + selectName + ']').html((function () {
+                        var _options = [];
+                        _.each(options, function (option) {
+                            _options.push(Common.Utils.String.format('<option value="{0}">{1}</option>', option.value, option.display));
+                        });
+                        return _options.join('');
+                    })());
+                };
+
+                $('#edit-chart-vertical-axis-title').text(needReverse ? me.textHorAxis : me.textVertAxis);
+
+                // Axis
+                $('#edit-vertical-axis-min-val input').val((axisProps.getMinValRule()==Asc.c_oAscValAxisRule.auto) ? null : axisProps.getMinVal());
+                $('#edit-vertical-axis-max-val input').val((axisProps.getMaxValRule()==Asc.c_oAscValAxisRule.auto) ? null : axisProps.getMaxVal());
+
+                // Cross
+                setOptions('vertical-axis-cross', [
+                    {display: this.textAuto, value: Asc.c_oAscCrossesRule.auto},
+                    {display: this.textValue, value: Asc.c_oAscCrossesRule.value},
+                    {display: this.textMinValue, value: Asc.c_oAscCrossesRule.minValue},
+                    {display: this.textMaxValue, value: Asc.c_oAscCrossesRule.maxValue}
+                ]);
+
+                var crossValue = axisProps.getCrossesRule();
+                setValue('vertical-axis-cross', crossValue);
+
+                if (crossValue == Asc.c_oAscCrossesRule.value) {
+                    $('#edit-vertical-axis-cross-value').css('display', 'block');
+                    $('#edit-vertical-axis-cross-value input').val(axisProps.getCrosses());
+                }
+
+                // Units
+                setOptions('vertical-axis-display-units', [
+                    {display: me.textNone, value: Asc.c_oAscValAxUnits.none},
+                    {display: me.textHundreds, value: Asc.c_oAscValAxUnits.HUNDREDS},
+                    {display: me.textThousands, value: Asc.c_oAscValAxUnits.THOUSANDS},
+                    {display: me.textTenThousands, value: Asc.c_oAscValAxUnits.TEN_THOUSANDS},
+                    {display: me.textHundredThousands, value: Asc.c_oAscValAxUnits.HUNDRED_THOUSANDS},
+                    {display: me.textMillions, value: Asc.c_oAscValAxUnits.MILLIONS},
+                    {display: me.textTenMillions, value: Asc.c_oAscValAxUnits.TEN_MILLIONS},
+                    {display: me.textHundredMil, value: Asc.c_oAscValAxUnits.HUNDRED_MILLIONS},
+                    {display: me.textBillions, value: Asc.c_oAscValAxUnits.BILLIONS},
+                    {display: me.textTrillions, value: Asc.c_oAscValAxUnits.TRILLIONS}
+                ]);
+
+                setValue('vertical-axis-display-units', axisProps.getDispUnitsRule());
+                $('#vertical-axis-in-reverse input').prop('checked', axisProps.getInvertValOrder());
+
+                // Tick
+                var tickOptions = [
+                    {display: this.textNone, value: Asc.c_oAscTickMark.TICK_MARK_NONE},
+                    {display: this.textCross, value: Asc.c_oAscTickMark.TICK_MARK_CROSS},
+                    {display: this.textIn, value: Asc.c_oAscTickMark.TICK_MARK_IN},
+                    {display: this.textOut, value: Asc.c_oAscTickMark.TICK_MARK_OUT}
+                ];
+
+                setOptions('vertical-axis-tick-major', tickOptions);
+                setOptions('vertical-axis-tick-minor', tickOptions);
+
+                setValue('vertical-axis-tick-major', axisProps.getMajorTickMark());
+                setValue('vertical-axis-tick-minor', axisProps.getMinorTickMark());
+
+                // Label
+                setOptions('vertical-axis-label-pos', [
+                    {display: this.textNone, value: Asc.c_oAscTickLabelsPos.TICK_LABEL_POSITION_NONE},
+                    {display: this.textLow, value: Asc.c_oAscTickLabelsPos.TICK_LABEL_POSITION_LOW},
+                    {display: this.textHigh, value: Asc.c_oAscTickLabelsPos.TICK_LABEL_POSITION_HIGH},
+                    {display: this.textNextToAxis, value: Asc.c_oAscTickLabelsPos.TICK_LABEL_POSITION_NEXT_TO}
+                ]);
+                setValue('vertical-axis-label-pos', axisProps.getTickLabelsPos());
+
+                // Handlers
+                $('#edit-vertical-axis-min-val input').single('change',     _.bind(me.onVerAxisMinValue, me));
+                $('#edit-vertical-axis-max-val input').single('change',     _.bind(me.onVerAxisMaxValue, me));
+                $('#vertical-axis-cross select').single('change',           _.bind(me.onVerAxisCrossType, me));
+                $('#edit-vertical-axis-cross-value input').single('change', _.bind(me.onVerAxisCrossValue, me));
+                $('#vertical-axis-display-units select').single('change',   _.bind(me.onVerAxisDisplayUnits, me));
+                $('#vertical-axis-in-reverse input').single('change',       _.bind(me.onVerAxisReverse, me));
+                $('#vertical-axis-tick-major select').single('change',      _.bind(me.onVerAxisTickMajor, me));
+                $('#vertical-axis-tick-minor select').single('change',      _.bind(me.onVerAxisTickMinor, me));
+                $('#vertical-axis-label-pos select').single('change',       _.bind(me.onVerAxisLabelPos, me));
+            },
+
+            initHorAxisPage: function () {
+                var chartType = _chartObject.get_ChartProperties().getType();
+
+                var needReverse = (
+                    chartType == Asc.c_oAscChartTypeSettings.hBarNormal ||
+                    chartType == Asc.c_oAscChartTypeSettings.hBarStacked ||
+                    chartType == Asc.c_oAscChartTypeSettings.hBarStackedPer ||
+                    chartType == Asc.c_oAscChartTypeSettings.hBarNormal3d ||
+                    chartType == Asc.c_oAscChartTypeSettings.hBarStacked3d ||
+                    chartType == Asc.c_oAscChartTypeSettings.hBarStackedPer3d ||
+                    chartType == Asc.c_oAscChartTypeSettings.scatter
+                );
+
+                $('#edit-chart-horizontal-axis-title').text(needReverse ? this.textVertAxis : this.textHorAxis);
+            },
+
             initReorderPage: function () {
                 $('.page[data-page=edit-chart-reorder] a.item-link').single('click', _.bind(this.onReorder, this));
             },
@@ -370,6 +508,8 @@ define([
 
                     // Force update styles
                     me._updateChartStyles(me.api.asc_getChartPreviews(chart.getType()));
+
+                    me.updateAxisProps(type);
                 });
             },
 
@@ -509,6 +649,158 @@ define([
                 this._setLayoutProperty('putDataLabelsPos', e);
             },
 
+            onVerAxisMinValue: function (e) {
+                var value = $(e.currentTarget).val(),
+                    axisProps = this._getVerticalAxisProp(),
+                    axisRule = _.isEmpty(value) ? Asc.c_oAscValAxisRule.auto : Asc.c_oAscValAxisRule.fixed;
+
+                axisProps.putMinValRule(axisRule);
+
+                if (axisRule == Asc.c_oAscValAxisRule.fixed) {
+                    axisProps.putMinVal(parseInt(value));
+                }
+
+                this._setVerticalAxisProp(axisProps);
+            },
+
+            onVerAxisMaxValue: function (e) {
+                var value = $(e.currentTarget).val(),
+                    axisProps = this._getVerticalAxisProp(),
+                    axisRule = _.isEmpty(value) ? Asc.c_oAscValAxisRule.auto : Asc.c_oAscValAxisRule.fixed;
+
+                axisProps.putMaxValRule(axisRule);
+
+                if (axisRule == Asc.c_oAscValAxisRule.fixed) {
+                    axisProps.putMaxVal(parseInt(value));
+                }
+
+                this._setVerticalAxisProp(axisProps);
+            },
+
+            onVerAxisCrossType: function (e) {
+                var value = parseInt($(e.currentTarget).val()),
+                    axisProps = this._getVerticalAxisProp();
+
+                if (value ==  Asc.c_oAscCrossesRule.value) {
+                    $('#edit-vertical-axis-cross-value').css('display', 'block');
+                    $('#edit-vertical-axis-cross-value input').val(axisProps.getCrosses());
+                } else {
+                    $('#edit-vertical-axis-cross-value').css('display', 'none');
+                }
+
+                axisProps.putCrossesRule(value);
+
+                this._setVerticalAxisProp(axisProps);
+            },
+
+            onVerAxisCrossValue: function (e) {
+                var value = $(e.currentTarget).val(),
+                    axisProps = this._getVerticalAxisProp();
+
+                axisProps.putCrossesRule(Asc.c_oAscCrossesRule.value);
+                axisProps.putCrosses(parseInt(value));
+
+                this._setVerticalAxisProp(axisProps);
+            },
+
+            onVerAxisDisplayUnits: function (e) {
+                var value = $(e.currentTarget).val(),
+                    axisProps = this._getVerticalAxisProp();
+
+                axisProps.putDispUnitsRule(parseInt(value));
+
+                this._setVerticalAxisProp(axisProps);
+            },
+
+            onVerAxisReverse: function (e) {
+                var value = $(e.currentTarget).prop('checked'),
+                    axisProps = this._getVerticalAxisProp();
+
+                axisProps.putInvertValOrder(value);
+
+                this._setVerticalAxisProp(axisProps);
+            },
+
+            onVerAxisTickMajor: function (e) {
+                var value = $(e.currentTarget).val(),
+                    axisProps = this._getVerticalAxisProp();
+
+                axisProps.putMajorTickMark(parseInt(value));
+
+                this._setVerticalAxisProp(axisProps);
+            },
+
+            onVerAxisTickMinor: function (e) {
+                var value = $(e.currentTarget).val(),
+                    axisProps = this._getVerticalAxisProp();
+
+                axisProps.putMinorTickMark(parseInt(value));
+
+                this._setVerticalAxisProp(axisProps);
+            },
+
+            onVerAxisLabelPos: function (e) {
+                var value = $(e.currentTarget).val(),
+                    axisProps = this._getVerticalAxisProp();
+
+                axisProps.putTickLabelsPos(parseInt(value));
+
+                this._setVerticalAxisProp(axisProps);
+            },
+
+            updateAxisProps: function(chartType) {
+                // var value = (chartType == Asc.c_oAscChartTypeSettings.lineNormal || chartType == Asc.c_oAscChartTypeSettings.lineStacked ||
+                // chartType == Asc.c_oAscChartTypeSettings.lineStackedPer || chartType == Asc.c_oAscChartTypeSettings.scatter);
+                // this.chMarkers.setVisible(value);
+                // this.cmbLines.setVisible(value);
+                // this.lblLines.toggleClass('hidden', !value);
+                //
+                // if (value) {
+                //     this.chMarkers.setValue(this.chartSettings.getShowMarker(), true);
+                //     this.cmbLines.setValue(this.chartSettings.getLine() ? (this.chartSettings.getSmooth() ? 2 : 1) : 0);
+                // }
+                //
+                // value = (chartType == Asc.c_oAscChartTypeSettings.pie || chartType == Asc.c_oAscChartTypeSettings.doughnut || chartType == Asc.c_oAscChartTypeSettings.pie3d);
+                // this.btnsCategory[2].setDisabled(value);
+                // this.btnsCategory[3].setDisabled(value);
+                // this.cmbHorShow.setDisabled(value);
+                // this.cmbVertShow.setDisabled(value);
+                // this.cmbHorTitle.setDisabled(value);
+                // this.cmbVertTitle.setDisabled(value);
+                // this.cmbHorGrid.setDisabled(value);
+                // this.cmbVertGrid.setDisabled(value);
+                //
+                // this.cmbHorShow.setValue(this.chartSettings.getShowHorAxis());
+                // this.cmbVertShow.setValue(this.chartSettings.getShowVerAxis());
+                // this.cmbHorTitle.setValue(this.chartSettings.getHorAxisLabel());
+                // this.cmbVertTitle.setValue(this.chartSettings.getVertAxisLabel());
+                // this.cmbHorGrid.setValue(this.chartSettings.getHorGridLines());
+                // this.cmbVertGrid.setValue(this.chartSettings.getVertGridLines());
+                //
+                // value = (chartType == Asc.c_oAscChartTypeSettings.barNormal3d || chartType == Asc.c_oAscChartTypeSettings.barStacked3d || chartType == Asc.c_oAscChartTypeSettings.barStackedPer3d ||
+                // chartType == Asc.c_oAscChartTypeSettings.hBarNormal3d || chartType == Asc.c_oAscChartTypeSettings.hBarStacked3d || chartType == Asc.c_oAscChartTypeSettings.hBarStackedPer3d ||
+                // chartType == Asc.c_oAscChartTypeSettings.barNormal3dPerspective);
+                // this.cmbAxisPos.setDisabled(value);
+                //
+                // value = (chartType == Asc.c_oAscChartTypeSettings.hBarNormal || chartType == Asc.c_oAscChartTypeSettings.hBarStacked || chartType == Asc.c_oAscChartTypeSettings.hBarStackedPer ||
+                // chartType == Asc.c_oAscChartTypeSettings.hBarNormal3d || chartType == Asc.c_oAscChartTypeSettings.hBarStacked3d || chartType == Asc.c_oAscChartTypeSettings.hBarStackedPer3d);
+                // this.btnsCategory[2].options.contentTarget = (value) ? 'id-chart-settings-dlg-hor' : 'id-chart-settings-dlg-vert';
+                // this.btnsCategory[3].options.contentTarget = (value || chartType == Asc.c_oAscChartTypeSettings.scatter) ? 'id-chart-settings-dlg-vert' : 'id-chart-settings-dlg-hor';
+
+                // Reverse Axises
+                var needReverse = (
+                    chartType == Asc.c_oAscChartTypeSettings.hBarNormal ||
+                    chartType == Asc.c_oAscChartTypeSettings.hBarStacked ||
+                    chartType == Asc.c_oAscChartTypeSettings.hBarStackedPer ||
+                    chartType == Asc.c_oAscChartTypeSettings.hBarNormal3d ||
+                    chartType == Asc.c_oAscChartTypeSettings.hBarStacked3d ||
+                    chartType == Asc.c_oAscChartTypeSettings.hBarStackedPer3d
+                );
+
+                $('#chart-vaxis').data('page', needReverse ? '#edit-chart-horizontal-axis': '#edit-chart-vertical-axis');
+                $('#chart-haxis').data('page', (needReverse || chartType == Asc.c_oAscChartTypeSettings.scatter) ? '#edit-chart-vertical-axis': '#edit-chart-horizontal-axis');
+            },
+
 
             // API handlers
 
@@ -569,6 +861,40 @@ define([
             },
 
             // Helpers
+
+            _getVerticalAxisProp: function () {
+                var chartObject = this.api.asc_getChartObject(),
+                    verAxisProps = chartObject.getVertAxisProps();
+
+                return (verAxisProps.getAxisType() == Asc.c_oAscAxisType.val) ? verAxisProps : chartObject.getHorAxisProps();
+            },
+
+            _setVerticalAxisProp: function (axisProps) {
+                var chartObject = this.api.asc_getChartObject(),
+                    verAxisProps = chartObject.getVertAxisProps();
+
+                if (!_.isUndefined(chartObject)) {
+                    chartObject[(verAxisProps.getAxisType() == Asc.c_oAscAxisType.val) ? 'putVertAxisProps' : 'putHorAxisProps'](axisProps);
+                    this.api.asc_editChartDrawingObject(chartObject);
+                }
+            },
+
+            _getHorAxisProp: function () {
+                var chartObject = this.api.asc_getChartObject(),
+                    verHorProps = chartObject.getHorAxisProps();
+
+                return (verHorProps.getAxisType() == Asc.c_oAscAxisType.val) ? verHorProps : chartObject.getVertAxisProps();
+            },
+
+            _setHorAxisProp: function (axisProps) {
+                var chartObject = this.api.asc_getChartObject(),
+                    verAxisProps = chartObject.getHorAxisProps();
+
+                if (!_.isUndefined(chartObject)) {
+                    chartObject[(verAxisProps.getAxisType() == Asc.c_oAscAxisType.val) ? 'putHorAxisProps' : 'putVertAxisProps'](axisProps);
+                    this.api.asc_editChartDrawingObject(chartObject);
+                }
+            },
 
             _setLayoutProperty: function (propertyMethod, e) {
                 var value = $(e.currentTarget).val(),

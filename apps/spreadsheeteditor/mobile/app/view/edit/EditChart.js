@@ -169,14 +169,11 @@ define([
             },
 
             updateItemHandlers: function () {
-                var selectorsDynamicPage = [
-                    '#edit-chart',
-                    '.page[data-page=edit-chart-style]'
-                ].map(function (selector) {
-                    return selector + ' a.item-link[data-page]';
-                }).join(', ');
-                
-                $(selectorsDynamicPage).single('click', _.bind(this.onItemClick, this));
+                if ($('#edit-chart').length < 1) {
+                    return;
+                }
+
+                $('.container-edit a.item-link[data-page]').single('click', _.bind(this.onItemClick, this));
 
                 $('.edit-chart-style.subnavbar.categories a').single('click', function () {
                     $('.page[data-page=edit-chart-style]').find('.list-block.inputs-list').removeClass('inputs-list');

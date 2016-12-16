@@ -21,7 +21,7 @@
                 </a>
             </li>
             <li>
-                <a id="chart-vaxis" class="item-link">
+                <a id="chart-vaxis" class="item-link" data-page="#edit-chart-vertical-axis">
                     <div class="item-content">
                         <div class="item-inner">
                             <div class="item-title">Vertical Axis</div>
@@ -30,7 +30,7 @@
                 </a>
             </li>
             <li>
-                <a id="chart-haxis" class="item-link">
+                <a id="chart-haxis" class="item-link" data-page="#edit-chart-horizontal-axis">
                     <div class="item-content">
                         <div class="item-inner">
                             <div class="item-title">Horizontal Axis</div>
@@ -359,6 +359,172 @@
                             </a>
                         </li>
                     </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Vertical Axis view -->
+<div id="edit-chart-vertical-axis">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding" id="edit-chart-vertical-axis-title">Vertical Axis</div>
+            <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
+        </div>
+    </div>
+    <div class="pages">
+        <div class="page" data-page="edit-chart-vertical-axis">
+            <div class="page-content">
+                <div class="content-block-title">Axis Options</div>
+                <div class="list-block">
+                    <ul>
+                        <li id="edit-vertical-axis-min-val">
+                            <div class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-title">Minimum Value</div>
+                                    <div class="item-after">
+                                        <div class="item-input">
+                                            <input class="field right" type="number" placeholder="Auto">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li id="edit-vertical-axis-max-val">
+                            <div class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-title">Maximum Value</div>
+                                    <div class="item-after">
+                                        <div class="item-input">
+                                            <input class="field right" type="number" placeholder="Auto">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="list-block">
+                    <ul>
+                        <li>
+                            <a id="vertical-axis-cross" class="item-link smart-select" data-back-on-select="true">
+                                <select name="vertical-axis-cross"></select>
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title">Axis Crosses</div>
+                                        <div class="item-after">Auto</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li id="edit-vertical-axis-cross-value" style="display: none;">
+                            <div class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-title">Crosses Value</div>
+                                    <div class="item-after">
+                                        <div class="item-input">
+                                            <input class="field right" type="number" placeholder="0">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="list-block">
+                    <ul>
+                        <li>
+                            <a id="vertical-axis-display-units" class="item-link smart-select" data-back-on-select="true">
+                                <select name="vertical-axis-display-units">
+                                </select>
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title">Display Units</div>
+                                        <div class="item-after">None</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li id="vertical-axis-in-reverse">
+                            <div class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-title">Values in Reverse Order</div>
+                                    <div class="item-after">
+                                        <label class="label-switch">
+                                            <input type="checkbox">
+                                            <div class="checkbox"></div>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="content-block-title">Tick Options</div>
+                <div class="list-block">
+                    <ul>
+                        <li>
+                            <a id="vertical-axis-tick-major" class="item-link smart-select" data-back-on-select="true">
+                                <select name="vertical-axis-tick-major"></select>
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title">Major Type</div>
+                                        <div class="item-after">None</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a id="vertical-axis-tick-minor" class="item-link smart-select" data-back-on-select="true">
+                                <select name="vertical-axis-tick-minor"></select>
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title">Minor Type</div>
+                                        <div class="item-after">None</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="content-block-title">Label Options</div>
+                <div class="list-block">
+                    <ul>
+                        <li>
+                            <a id="vertical-axis-label-pos" class="item-link smart-select" data-back-on-select="true">
+                                <select name="vertical-axis-label-pos"></select>
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title">Label Position</div>
+                                        <div class="item-after">None</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Horizontal Axis view -->
+<div id="edit-chart-horizontal-axis">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding" id="edit-chart-horizontal-axis-title">Horizontal Axis</div>
+            <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
+        </div>
+    </div>
+    <div class="pages">
+        <div class="page" data-page="edit-chart-horizontal-axis">
+            <div class="page-content">
+                <div class="content-block-title">Axis Options</div>
+                <div class="list-block">
+
                 </div>
             </div>
         </div>

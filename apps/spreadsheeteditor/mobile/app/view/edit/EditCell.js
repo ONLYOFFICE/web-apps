@@ -154,17 +154,11 @@ define([
             },
 
             updateItemHandlers: function () {
-                var selectorsDynamicPage = [
-                    '#edit-cell',
-                    '.page[data-page=edit-border-style]',
-                    '.page[data-page=edit-cell-format]'
-                ].map(function (selector) {
-                    return selector + ' a.item-link[data-page]';
-                }).join(', ');
+                if ($('#edit-cell').length < 1) {
+                    return;
+                }
 
-                $(selectorsDynamicPage).single('click', _.bind(this.onItemClick, this));
-
-                // $('.container-edit a.item-link[data-page]').single('click', _.bind(this.onItemClick, this));
+                $('.container-edit a.item-link[data-page]').single('click', _.bind(this.onItemClick, this));
             },
 
             showPage: function (templateId, suspendEvent) {

@@ -115,6 +115,10 @@ define([
             },
 
             initEvents: function () {
+                if ($('#edit-cell').length < 1) {
+                    return;
+                }
+
                 var me = this;
 
                 $('#font-bold').single('click',                 _.bind(me.onBold, me));
