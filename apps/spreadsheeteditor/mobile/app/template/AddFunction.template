@@ -19,9 +19,9 @@
                 <% }); %>
             </ul>
         </div>
+        <div class="content-block-title"><%= textGroups %></div>
         <div class="list-block">
             <ul class="groups">
-                <li class="item-divider">CATEGORIES</li>
                 <% for (var g in groups) { %>
                     <li>
                         <a data-type="<%= g %>" class="item-link group">

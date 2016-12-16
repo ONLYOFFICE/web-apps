@@ -114,11 +114,12 @@ define([
                 };
 
                 this.layout = $('<div/>').append(_.template(this.template, {
-                    android : Common.SharedSettings.get('android'),
-                    phone   : Common.SharedSettings.get('phone'),
-                    quick   : quickFunctions,
-                    groups  : this.groups,
-                    view    : 'root'
+                    android     : Common.SharedSettings.get('android'),
+                    phone       : Common.SharedSettings.get('phone'),
+                    textGroups  : this.textGroups,
+                    quick       : quickFunctions,
+                    groups      : this.groups,
+                    view        : 'root'
                 }));
 
                 return this;
@@ -170,6 +171,7 @@ define([
                 _openView.call(this, 'info', this.functions[type]);
             },
 
+            textGroups:                'CATEGORIES',
             sCatLogical:               'Logical',
             // sCatCube:                  'Cube',
             // sCatDatabase:              'Database',
