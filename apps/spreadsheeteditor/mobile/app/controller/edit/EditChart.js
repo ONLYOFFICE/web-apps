@@ -329,15 +329,6 @@ define([
                 var me = this,
                     $vertAxisPage = $('.page[data-page=edit-chart-vertical-axis]'),
                     chartProperty = me.api.asc_getChartObject(),
-                    chartType = chartProperty.getType(),
-                    needReverse = (
-                        chartType == Asc.c_oAscChartTypeSettings.hBarNormal ||
-                        chartType == Asc.c_oAscChartTypeSettings.hBarStacked ||
-                        chartType == Asc.c_oAscChartTypeSettings.hBarStackedPer ||
-                        chartType == Asc.c_oAscChartTypeSettings.hBarNormal3d ||
-                        chartType == Asc.c_oAscChartTypeSettings.hBarStacked3d ||
-                        chartType == Asc.c_oAscChartTypeSettings.hBarStackedPer3d
-                    ),
                     verAxisProps = chartProperty.getVertAxisProps(),
                     axisProps = (verAxisProps.getAxisType() == Asc.c_oAscAxisType.val) ? verAxisProps : chartProperty.getHorAxisProps();
 
@@ -358,8 +349,6 @@ define([
                         return _options.join('');
                     })());
                 };
-
-                $('#edit-chart-vertical-axis-title').text(needReverse ? me.textHorAxis : me.textVertAxis);
 
                 // Axis
                 $('#edit-vertical-axis-min-val input').val((axisProps.getMinValRule()==Asc.c_oAscValAxisRule.auto) ? null : axisProps.getMinVal());
@@ -421,6 +410,8 @@ define([
                 ]);
                 setValue('vertical-axis-label-pos', axisProps.getTickLabelsPos());
 
+                me.updateAxisProps(chartProperty.getType());
+
                 // Handlers
                 $('#edit-vertical-axis-min-val input').single('change',     _.bind(me.onVerAxisMinValue, me));
                 $('#edit-vertical-axis-max-val input').single('change',     _.bind(me.onVerAxisMaxValue, me));
@@ -434,19 +425,88 @@ define([
             },
 
             initHorAxisPage: function () {
-                var chartType = _chartObject.get_ChartProperties().getType();
+                var me = this,
+                    $horAxisPage = $('.page[data-page=edit-chart-horizontal-axis]'),
+                    chartProperty = me.api.asc_getChartObject(),
+                    horAxisProps = chartProperty.getHorAxisProps(),
+                    axisProps = (horAxisProps.getAxisType() == Asc.c_oAscAxisType.val) ? chartProperty.getVertAxisProps() : horAxisProps;
 
-                var needReverse = (
-                    chartType == Asc.c_oAscChartTypeSettings.hBarNormal ||
-                    chartType == Asc.c_oAscChartTypeSettings.hBarStacked ||
-                    chartType == Asc.c_oAscChartTypeSettings.hBarStackedPer ||
-                    chartType == Asc.c_oAscChartTypeSettings.hBarNormal3d ||
-                    chartType == Asc.c_oAscChartTypeSettings.hBarStacked3d ||
-                    chartType == Asc.c_oAscChartTypeSettings.hBarStackedPer3d ||
-                    chartType == Asc.c_oAscChartTypeSettings.scatter
-                );
+                var setValue = function (id, value) {
+                    var textValue = $horAxisPage.find('select[name=' + id + ']')
+                        .val(value)
+                        .find('option[value='+ value +']')
+                        .text();
+                    $horAxisPage.find('#' + id + ' .item-after').text(textValue);
+                };
 
-                $('#edit-chart-horizontal-axis-title').text(needReverse ? this.textVertAxis : this.textHorAxis);
+                var setOptions = function (selectName, options) {
+                    $horAxisPage.find('select[name=' + selectName + ']').html((function () {
+                        var _options = [];
+                        _.each(options, function (option) {
+                            _options.push(Common.Utils.String.format('<option value="{0}">{1}</option>', option.value, option.display));
+                        });
+                        return _options.join('');
+                    })());
+                };
+
+                // Cross
+                setOptions('horizontal-axis-cross', [
+                    {display: this.textAuto, value: Asc.c_oAscCrossesRule.auto},
+                    {display: this.textValue, value: Asc.c_oAscCrossesRule.value},
+                    {display: this.textMinValue, value: Asc.c_oAscCrossesRule.minValue},
+                    {display: this.textMaxValue, value: Asc.c_oAscCrossesRule.maxValue}
+                ]);
+
+                var crossValue = axisProps.getCrossesRule();
+                setValue('horizontal-axis-cross', crossValue);
+
+                if (crossValue == Asc.c_oAscCrossesRule.value) {
+                    $('#edit-horizontal-axis-cross-value').css('display', 'block');
+                    $('#edit-horizontal-axis-cross-value input').val(axisProps.getCrosses());
+                }
+
+                // Pos
+                setOptions('horizontal-axis-position', [
+                    {display: this.textOnTickMarks, value: Asc.c_oAscLabelsPosition.byDivisions},
+                    {display: this.textBetweenTickMarks, value: Asc.c_oAscLabelsPosition.betweenDivisions}
+                ]);
+
+                setValue('horizontal-axis-position', axisProps.getLabelsPosition());
+                $('#horizontal-axis-in-reverse input').prop('checked', axisProps.getInvertCatOrder());
+
+                // Tick
+                var tickOptions = [
+                    {display: this.textNone, value: Asc.c_oAscTickMark.TICK_MARK_NONE},
+                    {display: this.textCross, value: Asc.c_oAscTickMark.TICK_MARK_CROSS},
+                    {display: this.textIn, value: Asc.c_oAscTickMark.TICK_MARK_IN},
+                    {display: this.textOut, value: Asc.c_oAscTickMark.TICK_MARK_OUT}
+                ];
+
+                setOptions('horizontal-axis-tick-major', tickOptions);
+                setOptions('horizontal-axis-tick-minor', tickOptions);
+
+                setValue('horizontal-axis-tick-major', axisProps.getMajorTickMark());
+                setValue('horizontal-axis-tick-minor', axisProps.getMinorTickMark());
+
+                // Label
+                setOptions('horizontal-axis-label-pos', [
+                    {display: this.textNone, value: Asc.c_oAscTickLabelsPos.TICK_LABEL_POSITION_NONE},
+                    {display: this.textLow, value: Asc.c_oAscTickLabelsPos.TICK_LABEL_POSITION_LOW},
+                    {display: this.textHigh, value: Asc.c_oAscTickLabelsPos.TICK_LABEL_POSITION_HIGH},
+                    {display: this.textNextToAxis, value: Asc.c_oAscTickLabelsPos.TICK_LABEL_POSITION_NEXT_TO}
+                ]);
+                setValue('horizontal-axis-label-pos', axisProps.getTickLabelsPos());
+
+                me.updateAxisProps(chartProperty.getType());
+
+                // Handlers
+                $('#horizontal-axis-cross select').single('change',           _.bind(me.onHorAxisCrossType, me));
+                $('#edit-horizontal-axis-cross-value input').single('change', _.bind(me.onHorAxisCrossValue, me));
+                $('#horizontal-axis-position select').single('change',        _.bind(me.onHorAxisPos, me));
+                $('#horizontal-axis-in-reverse input').single('change',       _.bind(me.onHorAxisReverse, me));
+                $('#horizontal-axis-tick-major select').single('change',      _.bind(me.onHorAxisTickMajor, me));
+                $('#horizontal-axis-tick-minor select').single('change',      _.bind(me.onHorAxisTickMinor, me));
+                $('#horizontal-axis-label-pos select').single('change',       _.bind(me.onHorAxisLabelPos, me));
             },
 
             initReorderPage: function () {
@@ -748,6 +808,79 @@ define([
                 this._setVerticalAxisProp(axisProps);
             },
 
+
+            onHorAxisCrossType: function(e) {
+                var value = $(e.currentTarget).val(),
+                    axisProps = this._getHorizontalAxisProp();
+
+                if (value ==  Asc.c_oAscCrossesRule.value) {
+                    $('#edit-horizontal-axis-cross-value').css('display', 'block');
+                    $('#edit-horizontal-axis-cross-value input').val(axisProps.getCrosses());
+                } else {
+                    $('#edit-horizontal-axis-cross-value').css('display', 'none');
+                }
+
+                axisProps.putCrossesRule(parseInt(value));
+
+                this._setHorizontalAxisProp(axisProps);
+            },
+
+            onHorAxisCrossValue: function(e) {
+                var value = $(e.currentTarget).val(),
+                    axisProps = this._getHorizontalAxisProp();
+
+                axisProps.putCrossesRule(Asc.c_oAscCrossesRule.value);
+                axisProps.putCrosses(parseInt(value));
+
+                this._setHorizontalAxisProp(axisProps);
+            },
+
+            onHorAxisPos: function(e) {
+                var value = $(e.currentTarget).val(),
+                    axisProps = this._getHorizontalAxisProp();
+
+                axisProps.putLabelsPosition(parseInt(value));
+
+                this._setHorizontalAxisProp(axisProps);
+            },
+
+            onHorAxisReverse: function(e) {
+                var value = $(e.currentTarget).prop('checked'),
+                    axisProps = this._getHorizontalAxisProp();
+
+                axisProps.putInvertCatOrder(value);
+
+                this._setHorizontalAxisProp(axisProps);
+            },
+
+            onHorAxisTickMajor: function(e) {
+                var value = $(e.currentTarget).val(),
+                    axisProps = this._getHorizontalAxisProp();
+
+                axisProps.putMajorTickMark(parseInt(value));
+
+                this._setHorizontalAxisProp(axisProps);
+            },
+
+            onHorAxisTickMinor: function(e) {
+                var value = $(e.currentTarget).val(),
+                    axisProps = this._getHorizontalAxisProp();
+
+                axisProps.putMinorTickMark(parseInt(value));
+
+                this._setHorizontalAxisProp(axisProps);
+            },
+
+            onHorAxisLabelPos: function(e) {
+                var value = $(e.currentTarget).val(),
+                    axisProps = this._getHorizontalAxisProp();
+
+                axisProps.putTickLabelsPos(parseInt(value));
+
+                this._setHorizontalAxisProp(axisProps);
+            },
+
+
             updateAxisProps: function(chartType) {
                 // var value = (chartType == Asc.c_oAscChartTypeSettings.lineNormal || chartType == Asc.c_oAscChartTypeSettings.lineStacked ||
                 // chartType == Asc.c_oAscChartTypeSettings.lineStackedPer || chartType == Asc.c_oAscChartTypeSettings.scatter);
@@ -759,33 +892,28 @@ define([
                 //     this.chMarkers.setValue(this.chartSettings.getShowMarker(), true);
                 //     this.cmbLines.setValue(this.chartSettings.getLine() ? (this.chartSettings.getSmooth() ? 2 : 1) : 0);
                 // }
-                //
-                // value = (chartType == Asc.c_oAscChartTypeSettings.pie || chartType == Asc.c_oAscChartTypeSettings.doughnut || chartType == Asc.c_oAscChartTypeSettings.pie3d);
-                // this.btnsCategory[2].setDisabled(value);
-                // this.btnsCategory[3].setDisabled(value);
-                // this.cmbHorShow.setDisabled(value);
-                // this.cmbVertShow.setDisabled(value);
-                // this.cmbHorTitle.setDisabled(value);
-                // this.cmbVertTitle.setDisabled(value);
-                // this.cmbHorGrid.setDisabled(value);
-                // this.cmbVertGrid.setDisabled(value);
-                //
-                // this.cmbHorShow.setValue(this.chartSettings.getShowHorAxis());
-                // this.cmbVertShow.setValue(this.chartSettings.getShowVerAxis());
-                // this.cmbHorTitle.setValue(this.chartSettings.getHorAxisLabel());
-                // this.cmbVertTitle.setValue(this.chartSettings.getVertAxisLabel());
-                // this.cmbHorGrid.setValue(this.chartSettings.getHorGridLines());
-                // this.cmbVertGrid.setValue(this.chartSettings.getVertGridLines());
-                //
-                // value = (chartType == Asc.c_oAscChartTypeSettings.barNormal3d || chartType == Asc.c_oAscChartTypeSettings.barStacked3d || chartType == Asc.c_oAscChartTypeSettings.barStackedPer3d ||
-                // chartType == Asc.c_oAscChartTypeSettings.hBarNormal3d || chartType == Asc.c_oAscChartTypeSettings.hBarStacked3d || chartType == Asc.c_oAscChartTypeSettings.hBarStackedPer3d ||
-                // chartType == Asc.c_oAscChartTypeSettings.barNormal3dPerspective);
-                // this.cmbAxisPos.setDisabled(value);
-                //
-                // value = (chartType == Asc.c_oAscChartTypeSettings.hBarNormal || chartType == Asc.c_oAscChartTypeSettings.hBarStacked || chartType == Asc.c_oAscChartTypeSettings.hBarStackedPer ||
-                // chartType == Asc.c_oAscChartTypeSettings.hBarNormal3d || chartType == Asc.c_oAscChartTypeSettings.hBarStacked3d || chartType == Asc.c_oAscChartTypeSettings.hBarStackedPer3d);
-                // this.btnsCategory[2].options.contentTarget = (value) ? 'id-chart-settings-dlg-hor' : 'id-chart-settings-dlg-vert';
-                // this.btnsCategory[3].options.contentTarget = (value || chartType == Asc.c_oAscChartTypeSettings.scatter) ? 'id-chart-settings-dlg-vert' : 'id-chart-settings-dlg-hor';
+
+                // Disable Axises
+
+                var disableEditAxis = (
+                    chartType == Asc.c_oAscChartTypeSettings.pie ||
+                    chartType == Asc.c_oAscChartTypeSettings.doughnut ||
+                    chartType == Asc.c_oAscChartTypeSettings.pie3d
+                );
+
+                $('#chart-vaxis, #chart-haxis').toggleClass('disabled', disableEditAxis);
+
+                var disableAxisPos = (
+                    chartType == Asc.c_oAscChartTypeSettings.barNormal3d ||
+                    chartType == Asc.c_oAscChartTypeSettings.barStacked3d ||
+                    chartType == Asc.c_oAscChartTypeSettings.barStackedPer3d ||
+                    chartType == Asc.c_oAscChartTypeSettings.hBarNormal3d ||
+                    chartType == Asc.c_oAscChartTypeSettings.hBarStacked3d ||
+                    chartType == Asc.c_oAscChartTypeSettings.hBarStackedPer3d ||
+                    chartType == Asc.c_oAscChartTypeSettings.barNormal3dPerspective
+                );
+
+                $('#horizontal-axis-position').toggleClass('disabled', disableAxisPos);
 
                 // Reverse Axises
                 var needReverse = (
@@ -879,19 +1007,19 @@ define([
                 }
             },
 
-            _getHorAxisProp: function () {
+            _getHorizontalAxisProp: function () {
                 var chartObject = this.api.asc_getChartObject(),
                     verHorProps = chartObject.getHorAxisProps();
 
-                return (verHorProps.getAxisType() == Asc.c_oAscAxisType.val) ? verHorProps : chartObject.getVertAxisProps();
+                return (verHorProps.getAxisType() == Asc.c_oAscAxisType.val) ? chartObject.getVertAxisProps() : verHorProps;
             },
 
-            _setHorAxisProp: function (axisProps) {
+            _setHorizontalAxisProp: function (axisProps) {
                 var chartObject = this.api.asc_getChartObject(),
                     verAxisProps = chartObject.getHorAxisProps();
 
                 if (!_.isUndefined(chartObject)) {
-                    chartObject[(verAxisProps.getAxisType() == Asc.c_oAscAxisType.val) ? 'putHorAxisProps' : 'putVertAxisProps'](axisProps);
+                    chartObject[(verAxisProps.getAxisType() == Asc.c_oAscAxisType.val) ? 'putVertAxisProps' : 'putHorAxisProps'](axisProps);
                     this.api.asc_editChartDrawingObject(chartObject);
                 }
             },
