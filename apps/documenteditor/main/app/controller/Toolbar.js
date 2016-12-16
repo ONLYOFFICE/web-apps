@@ -563,6 +563,7 @@ define([
             var pr, sh, i = -1, type,
                 paragraph_locked = false,
                 header_locked = false,
+                image_locked = false,
                 can_add_table = false,
                 can_add_image = false,
                 enable_dropcap = undefined,
@@ -590,6 +591,7 @@ define([
                     in_header = true;
                 } else if (type === Asc.c_oAscTypeSelectElement.Image) {
                     in_image = in_header = true;
+                    image_locked = pr.get_Locked();
                     if (pr && pr.get_ChartProperties())
                         in_chart = true;
                 } else if (type === Asc.c_oAscTypeSelectElement.Math) {
@@ -670,16 +672,18 @@ define([
             }
 
             need_disable = paragraph_locked || header_locked || !can_add_image || in_equation;
-            if (need_disable != toolbar.btnInsertChart.isDisabled()) {
-                toolbar.btnInsertChart.setDisabled(need_disable);
+            if (need_disable != toolbar.btnInsertImage.isDisabled()) {
                 toolbar.btnInsertImage.setDisabled(need_disable);
                 toolbar.btnInsertShape.setDisabled(need_disable);
                 toolbar.btnInsertText.setDisabled(need_disable);
             }
 
-            need_disable = need_disable || in_image;
-            if (need_disable != toolbar.mnuInsertTextArt.isDisabled())
-                toolbar.mnuInsertTextArt.setDisabled(need_disable);
+            if ((need_disable || in_image) != toolbar.mnuInsertTextArt.isDisabled())
+                toolbar.mnuInsertTextArt.setDisabled(need_disable || in_image);
+
+            need_disable = in_chart && image_locked || !in_chart && need_disable;
+            if (need_disable != toolbar.btnInsertChart.isDisabled())
+                toolbar.btnInsertChart.setDisabled(need_disable);
 
             need_disable = paragraph_locked || header_locked || in_chart || !can_add_image&&!in_equation;
             if (need_disable !== toolbar.btnInsertEquation.isDisabled()) toolbar.btnInsertEquation.setDisabled(need_disable);
@@ -1675,20 +1679,43 @@ define([
 
         onSelectChart: function(picker, item, record) {
             var me      = this,
-                type    = record.get('type');
+                type    = record.get('type'),
+                chart = false;
 
-            if (!this.diagramEditor)
-                this.diagramEditor = this.getApplication().getController('Common.Controllers.ExternalDiagramEditor').getView('Common.Views.ExternalDiagramEditor');
-
-            if (this.diagramEditor && me.api) {
-                this.diagramEditor.setEditMode(false);
-                this.diagramEditor.show();
-
-                var chart = me.api.asc_getChartObject(type);
-                if (chart) {
-                    this.diagramEditor.setChartData(new Asc.asc_CChartBinary(chart));
+            var selectedElements = me.api.getSelectedElements();
+            if (selectedElements && _.isArray(selectedElements)) {
+                for (var i = 0; i< selectedElements.length; i++) {
+                    if (Asc.c_oAscTypeSelectElement.Image == selectedElements[i].get_ObjectType()) {
+                        var elValue = selectedElements[i].get_ObjectValue().get_ChartProperties();
+                        if (elValue) {
+                            chart = elValue;
+                            break;
+                        }
+                    }
                 }
-                me.toolbar.fireEvent('insertchart', me.toolbar);
+            }
+
+            if (chart) {
+                var props = new Asc.asc_CImgProperty();
+                chart.changeType(type);
+                props.put_ChartProperties(chart);
+                this.api.ImgApply(props);
+
+                Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            } else {
+                if (!this.diagramEditor)
+                    this.diagramEditor = this.getApplication().getController('Common.Controllers.ExternalDiagramEditor').getView('Common.Views.ExternalDiagramEditor');
+
+                if (this.diagramEditor && me.api) {
+                    this.diagramEditor.setEditMode(false);
+                    this.diagramEditor.show();
+
+                    chart = me.api.asc_getChartObject(type);
+                    if (chart) {
+                        this.diagramEditor.setChartData(new Asc.asc_CChartBinary(chart));
+                    }
+                    me.toolbar.fireEvent('insertchart', me.toolbar);
+                }
             }
         },
 

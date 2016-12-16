@@ -1450,20 +1450,39 @@ define([
 
         onSelectChart: function(picker, item, record) {
             var me      = this,
-                type    = record.get('type');
+                type    = record.get('type'),
+                chart = false;
 
-            if (!this.diagramEditor)
-                this.diagramEditor = this.getApplication().getController('Common.Controllers.ExternalDiagramEditor').getView('Common.Views.ExternalDiagramEditor');
-
-            if (this.diagramEditor && me.api) {
-                this.diagramEditor.setEditMode(false);
-                this.diagramEditor.show();
-
-                var chart = me.api.asc_getChartObject(type);
-                if (chart) {
-                    this.diagramEditor.setChartData(new Asc.asc_CChartBinary(chart));
+            var selectedElements = me.api.getSelectedElements();
+            if (selectedElements && _.isArray(selectedElements)) {
+                for (var i = 0; i< selectedElements.length; i++) {
+                    if (Asc.c_oAscTypeSelectElement.Chart == selectedElements[i].get_ObjectType()) {
+                        chart = true;
+                        break;
+                    }
                 }
-                me.toolbar.fireEvent('insertchart', me.toolbar);
+            }
+
+            if (chart) {
+                var props = new Asc.CAscChartProp();
+                props.changeType(type);
+                this.api.ChartApply(props);
+
+                Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            } else {
+                if (!this.diagramEditor)
+                    this.diagramEditor = this.getApplication().getController('Common.Controllers.ExternalDiagramEditor').getView('Common.Views.ExternalDiagramEditor');
+
+                if (this.diagramEditor && me.api) {
+                    this.diagramEditor.setEditMode(false);
+                    this.diagramEditor.show();
+
+                    chart = me.api.asc_getChartObject(type);
+                    if (chart) {
+                        this.diagramEditor.setChartData(new Asc.asc_CChartBinary(chart));
+                    }
+                    me.toolbar.fireEvent('insertchart', me.toolbar);
+                }
             }
         },
 
