@@ -66,8 +66,14 @@ define([
             },
 
             setApi: function (api) {
-                var me = this;
-                me.api = api;
+                this.api = api;
+
+                var translateChart = new Asc.asc_CChartTranslate();
+                translateChart.asc_setTitle (this.txtDiagramTitle);
+                translateChart.asc_setXAxis (this.txtXAxis);
+                translateChart.asc_setYAxis (this.txtYAxis);
+                translateChart.asc_setSeries(this.txtSeries);
+                this.api.asc_setChartTranslate(translateChart);
             },
 
             onLaunch: function () {
@@ -84,6 +90,11 @@ define([
                 settings.changeType(type);
                 this.api.asc_addChartDrawingObject(settings);
             },
+
+            txtDiagramTitle:    'Chart Title',
+            txtXAxis:           'X Axis',
+            txtYAxis:           'Y Axis',
+            txtSeries:          'Seria'
         }
     })(), SSE.Controllers.AddChart || {}))
 });
