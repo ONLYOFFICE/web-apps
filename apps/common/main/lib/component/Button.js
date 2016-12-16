@@ -430,10 +430,11 @@ define([
                     isGroup && decorateBtn(el.children('button'));
                 }
 
-                if (disabled) {
+                if (disabled || !Common.Utils.isGecko) {
                     var tip = this.cmpEl.data('bs.tooltip');
                     if (tip) {
-                        tip.hide();
+                        disabled && tip.hide();
+                        !Common.Utils.isGecko && (tip.enabled = !disabled);
                     }
                 }
             }
