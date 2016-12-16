@@ -115,7 +115,7 @@ define([
                 addViews.push({
                     caption: me.textFormula,
                     id: 'add-formula',
-                    layout: me._dummyEditController().getLayout()
+                    layout: SSE.getController('AddFunction').getView('AddFunction').rootLayout()
                 });
 
                 addViews.push({
@@ -264,7 +264,7 @@ define([
             },
 
             textChart: 'Chart',
-            textFormula: 'Formula',
+            textFormula: 'Function',
             textShape: 'Shape',
             textOther: 'Other'
         }

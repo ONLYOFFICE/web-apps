@@ -55,7 +55,7 @@ define(
         //Extend jQuery functions
         jQuery.fn.extend( {
             single: function(types, selector, data, fn) {
-                return this.off(types, fn).on(types, selector, data, fn);
+                return this.off(types, selector, fn).on(types, selector, data, fn);
             }
         });
 
