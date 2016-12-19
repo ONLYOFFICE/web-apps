@@ -53,7 +53,8 @@ define([
     'documenteditor/main/app/view/MailMergeRecepients',
     'documenteditor/main/app/view/StyleTitleDialog',
     'documenteditor/main/app/view/PageMarginsDialog',
-    'documenteditor/main/app/view/PageSizeDialog'
+    'documenteditor/main/app/view/PageSizeDialog',
+    'documenteditor/main/app/view/NoteSettingsDialog'
 ], function () {
     'use strict';
 
@@ -264,6 +265,9 @@ define([
             toolbar.mnuZoomIn.on('click',                               _.bind(this.onZoomInClick, this));
             toolbar.mnuZoomOut.on('click',                              _.bind(this.onZoomOutClick, this));
             toolbar.btnInsertEquation.on('click',                       _.bind(this.onInsertEquationClick, this));
+            toolbar.btnNotes.menu.on('item:click',                      _.bind(this.onNotesClick, this));
+            toolbar.mnuGotoFootPrev.on('click',                         _.bind(this.onFootnotePrevClick, this));
+            toolbar.mnuGotoFootNext.on('click',                         _.bind(this.onFootnoteNextClick, this));
 
             $('#id-save-style-plus, #id-save-style-link', toolbar.$el).on('click', this.onMenuSaveStyle.bind(this));
 
@@ -1983,6 +1987,50 @@ define([
         onZoomOutClick: function(btn) {
             if (this.api)
                 this.api.zoomOut();
+
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onNotesClick: function(menu, item) {
+            if (this.api) {
+                if (item.value == 'ins_footnote')
+                    this.api.asc_AddFootnote();
+                else if (item.value == 'delele')
+                    this.api.deleteFootnotes();
+                else if (item.value == 'settings') {
+                    var me = this;
+                    (new DE.Views.NoteSettingsDialog({
+                        api: me.api,
+                        handler: function(result, settings) {
+                            if (settings) {
+                                if (result == 'insert') {
+                                    me.api.asc_SetFootnoteProps(settings);
+                                    me.api.asc_AddFootnote();
+                                } else if (result == 'apply') {
+                                    me.api.asc_SetFootnoteProps(settings);
+                                }
+                            }
+                            Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                        },
+                        props   : me.api.asc_GetFootnoteProps()
+                    })).show();
+                } else
+                    return;
+
+                Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            }
+        },
+
+        onFootnotePrevClick: function(btn) {
+            if (this.api)
+                this.api.GotoFootnotePrev();
+
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onFootnoteNextClick: function(btn) {
+            if (this.api)
+                this.api.GotoFootnoteNext();
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
