@@ -328,9 +328,9 @@ define([
                     } else if (Asc.c_oAscTypeSelectElement.Image == type) {
                         _settings.push('image');
                     } else if (Asc.c_oAscTypeSelectElement.Chart == type) {
-                        // _settings.push('chart');
-                        no_text = false;
-                    } else if (Asc.c_oAscTypeSelectElement.Shape == type) {
+                        _settings.push('chart');
+                        // no_text = false;
+                    } else if (Asc.c_oAscTypeSelectElement.Shape == type && !object.get_ObjectValue().get_FromChart()) {
                         _settings.push('shape');
                         no_text = false;
                     } else if (Asc.c_oAscTypeSelectElement.Hyperlink == type) {
