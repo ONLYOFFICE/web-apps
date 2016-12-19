@@ -249,7 +249,6 @@ define([
                             this.notcriticalErrorTitle,
                             function () {
                                 me._state.lostEditingRights = false;
-                                me.onEditComplete();
                             }
                         );
                     }
@@ -299,11 +298,12 @@ define([
                             me._state.timerSave = setInterval(function(){
                                 if ((new Date()) - me._state.isSaving>500) {
                                     clearInterval(me._state.timerSave);
+                                    // console.debug('End long action');
                                     me._state.timerSave = undefined;
                                 }
                             }, 500);
                     } else {
-                        console.debug('End long action');
+                        // console.debug('End long action');
                     }
                 }
 
@@ -537,7 +537,7 @@ define([
                     } else {
                         value = 0;
                     }
-                    me.api.asc_setAutoSaveGap(value);
+                    // me.api.asc_setAutoSaveGap(value);
 
                     if (me.needToUpdateVersion) {
                         Common.NotificationCenter.trigger('api:disconnect');
@@ -985,7 +985,6 @@ define([
                                 (this.appOptions.canDownload) ? this.getApplication().getController('LeftMenu').leftMenu.showMenu('file:saveas') : this.api.asc_DownloadOrigin();
                         }
                         this._state.lostEditingRights = false;
-                        this.onEditComplete();
                     }, this);
                 }
 
