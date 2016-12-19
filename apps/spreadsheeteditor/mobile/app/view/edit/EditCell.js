@@ -112,7 +112,7 @@ define([
 
                 if ($styleContainer.length > 0) {
                     var styleSize = _editCellController.getStyleSize(),
-                        columns = parseInt($styleContainer.width() / styleSize.width),
+                        columns = parseInt($styleContainer.width() / (styleSize.width + 5)),
                         row = -1,
                         styles = [];
 
