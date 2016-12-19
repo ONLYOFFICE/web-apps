@@ -173,7 +173,7 @@ define([
                     return;
                 }
 
-                $('.container-edit a.item-link[data-page]').single('click', _.bind(this.onItemClick, this));
+                $('.container-edit a.item-link[data-page]').single('click', _.buffered(this.onItemClick, 100, this));
 
                 $('.edit-chart-style.subnavbar.categories a').single('click', function () {
                     $('.page[data-page=edit-chart-style]').find('.list-block.inputs-list').removeClass('inputs-list');

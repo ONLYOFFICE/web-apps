@@ -158,7 +158,7 @@ define([
                     return;
                 }
 
-                $('.container-edit a.item-link[data-page]').single('click', _.bind(this.onItemClick, this));
+                $('.container-edit a.item-link[data-page]').single('click', _.buffered(this.onItemClick, 100, this));
             },
 
             showPage: function (templateId, suspendEvent) {

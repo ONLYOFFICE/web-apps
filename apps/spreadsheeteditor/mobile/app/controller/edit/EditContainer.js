@@ -565,6 +565,10 @@ define([
 
                 if (isChart) {
                     _settings.push('chart');
+                } else if (isShape) {
+                    _settings.push('shape');
+                } else if (isImage) {
+                    _settings.push('image');
                 } else {
                     _settings.push('cell');
                 }

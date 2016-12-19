@@ -57,7 +57,6 @@ define([
             _shapeObject = undefined,
             _borderInfo = {color: '000000', width: 1},
             _metricText = Common.Utils.Metric.getCurrentMetricName(),
-            _reverseAxis = false,
             _isEdit = false;
 
         var borderSizeTransform = (function() {
@@ -528,7 +527,8 @@ define([
             // Handlers
 
             onRemoveChart: function () {
-                console.debug('REMOVE CHART')
+                this.api.asc_Remove();
+                SSE.getController('EditContainer').hideModal();
             },
 
             onReorder: function(e) {
