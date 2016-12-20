@@ -777,16 +777,16 @@ define([
                     this.appOptions.canAnalytics = params.asc_getIsAnalyticsEnable();
 
                     this.appOptions.isOffline      = this.api.asc_isOffline();
-                    this.appOptions.canLicense     = (licType === Asc.c_oLicenseResult.Success);
+                    this.appOptions.canLicense     = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit);
                     this.appOptions.isLightVersion = params.asc_getIsLight();
                     /** coauthoring begin **/
                     this.appOptions.canCoAuthoring = !this.appOptions.isLightVersion;
                     /** coauthoring end **/
-                    this.appOptions.canComments    = this.appOptions.canLicense && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.comments===false);
-                    this.appOptions.canChat        = this.appOptions.canLicense && !this.appOptions.isOffline && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.chat===false);
+                    this.appOptions.canComments    = (licType === Asc.c_oLicenseResult.Success) && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.comments===false);
+                    this.appOptions.canChat        = (licType === Asc.c_oLicenseResult.Success) && !this.appOptions.isOffline && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.chat===false);
                     this.appOptions.canRename      = !!this.permissions.rename;
 
-                    this.appOptions.canBranding  = (licType!==Asc.c_oLicenseResult.Error) && (typeof this.editorConfig.customization == 'object');
+                    this.appOptions.canBranding  = (licType === Asc.c_oLicenseResult.Success) && (typeof this.editorConfig.customization == 'object');
                     if (this.appOptions.canBranding)
                         this.headerView.setBranding(this.editorConfig.customization);
 

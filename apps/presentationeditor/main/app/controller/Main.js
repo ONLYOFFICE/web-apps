@@ -752,7 +752,7 @@ define([
                     this.permissions.edit = false;
 
                 this.appOptions.isOffline      = this.api.asc_isOffline();
-                this.appOptions.canLicense     = (licType === Asc.c_oLicenseResult.Success);
+                this.appOptions.canLicense     = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit);
                 this.appOptions.isLightVersion = params.asc_getIsLight();
                 /** coauthoring begin **/
                 this.appOptions.canCoAuthoring = !this.appOptions.isLightVersion;
@@ -763,15 +763,15 @@ define([
                 this.appOptions.isEdit         = this.appOptions.canLicense && this.appOptions.canEdit && this.editorConfig.mode !== 'view';
                 this.appOptions.canDownload    = !this.appOptions.nativeApp && this.permissions.download !== false;
                 this.appOptions.canAnalytics   = params.asc_getIsAnalyticsEnable();
-                this.appOptions.canComments    = this.appOptions.canLicense && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.comments===false);
-                this.appOptions.canChat        = this.appOptions.canLicense && !this.appOptions.isOffline && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.chat===false);
+                this.appOptions.canComments    = (licType === Asc.c_oLicenseResult.Success) && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.comments===false);
+                this.appOptions.canChat        = (licType === Asc.c_oLicenseResult.Success) && !this.appOptions.isOffline && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.chat===false);
                 this.appOptions.canPrint       = (this.permissions.print !== false);
                 this.appOptions.canRename      = !!this.permissions.rename;
 
                 this._state.licenseWarning = (licType===Asc.c_oLicenseResult.Connections) && this.appOptions.canEdit && this.editorConfig.mode !== 'view';
 
                 var headerView = this.getApplication().getController('Viewport').getView('Common.Views.Header');
-                this.appOptions.canBranding  = (licType!==Asc.c_oLicenseResult.Error) && (typeof this.editorConfig.customization == 'object');
+                this.appOptions.canBranding  = (licType === Asc.c_oLicenseResult.Success) && (typeof this.editorConfig.customization == 'object');
                 if (this.appOptions.canBranding)
                     headerView.setBranding(this.editorConfig.customization);
 
