@@ -55,11 +55,45 @@
             <div class="list-block">
                 <ul>
                     <li>
+                        <a id="add-link-type" class="item-link smart-select">
+                            <select name="linktype">
+                                <option value="ext"><%= scope.textExternalLink %></option>
+                                <option value="int"><%= scope.textInternalLink %></option>
+                            </select>
+                            <div class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-title label"><%= scope.textLinkType %></div>
+                                    <div class="item-after"><%= scope.textExternalLink %></div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a id="add-link-sheet" class="item-link smart-select">
+                            <select>
+                            </select>
+                            <div class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-title label"><%= scope.textSheet %></div>
+                                    <div class="item-after">Sheet 5</div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                        <div id="add-link-range" class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title label"><%= scope.textRange %></div>
+                                <div class="item-input">
+                                    <input type="text" class="field right range" placeholder="<%= scope.textRange %>">
+                                </div>
+                            </div>
+                        </div>
+                    <li>
                         <div id="add-link-url" class="item-content">
                             <div class="item-inner">
                                 <div class="item-title label"><%= scope.textLink %></div>
                                 <div class="item-input">
-                                    <input type="url" placeholder="<%= scope.textLink %>">
+                                    <input type="url" class="field right" placeholder="<%= scope.textLink %>">
                                 </div>
                             </div>
                         </div>
@@ -69,7 +103,7 @@
                             <div class="item-inner">
                                 <div class="item-title label"><%= scope.textDisplay %></div>
                                 <div class="item-input">
-                                    <input type="text" placeholder="<%= scope.textDisplay %>">
+                                    <input type="text" class="field right" placeholder="<%= scope.textDisplay %>">
                                 </div>
                             </div>
                         </div>
@@ -79,7 +113,7 @@
                             <div class="item-inner">
                                 <div class="item-title label"><%= scope.textTip %></div>
                                 <div class="item-input">
-                                    <input type="text" placeholder="<%= scope.textTip %>">
+                                    <input type="text" class="field right" placeholder="<%= scope.textTip %>">
                                 </div>
                             </div>
                         </div>

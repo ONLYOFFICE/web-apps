@@ -68,6 +68,8 @@ define([
                         'page:show' : this.onPageShow
                         , 'link:insert': this.onInsertLink
                         , 'image:insert': this.onInsertImage
+                        , 'link:changetype': this.onChangeLinkType
+                        , 'link:changesheet': this.onChangeLinkSheet
                     }
                 });
             },
@@ -85,53 +87,107 @@ define([
             },
 
             initEvents: function () {
+                var me = this;
+                var wc = me.api.asc_getWorksheetsCount(), items = null;
+                if (wc > 0) {
+                    items = [];
+                    while ( !(--wc < 0) ) {
+                        if ( !this.api.asc_isWorksheetHidden(wc) ) {
+                            items.unshift({
+                                value: wc,
+                                caption: me.api.asc_getWorksheetName(wc)
+                            });
+                        }
+                    }
+                }
+
+                this.optsLink = {
+                    type: 'ext',
+                    sheets: items
+                };
+
+                _.defer(function () {
+                    me.getView('AddOther')
+                        .acceptWorksheets( items )
+                        .setActiveWorksheet( me.api.asc_getActiveWorksheetIndex(),
+                            me.api.asc_getWorksheetName(me.api.asc_getActiveWorksheetIndex()) );
+                });
             },
 
             onPageShow: function (view, pageId) {
                 var me = this;
 
                 if (pageId == '#addother-link') {
-                    if ($('#addother-link-view')) {
-                        _.defer(function () {
-                            var props = me.api.asc_getCellInfo().asc_getHyperlink();
+                    var cell = me.api.asc_getCellInfo(),
+                        celltype = cell.asc_getFlags().asc_getSelectionType();
+                    var allowinternal = (celltype!==Asc.c_oAscSelectionType.RangeImage && celltype!==Asc.c_oAscSelectionType.RangeShape &&
+                    celltype!==Asc.c_oAscSelectionType.RangeShapeText && celltype!==Asc.c_oAscSelectionType.RangeChart &&
+                    celltype!==Asc.c_oAscSelectionType.RangeChartText);
 
-                            // var text = props.asc_getText();
-                            // $('#add-link-display input').val(_.isString(text) ? text : '');
-                        });
-                    }
+                    view.optionDisplayText(cell.asc_getFlags().asc_getLockText() ? 'locked' : cell.asc_getText());
+                    view.optionAllowInternal(allowinternal);
+                    allowinternal && view.optionLinkType( this.optsLink.type );
+                } else
+                if (pageId == '#addother-change-linktype') {
+                    view.optionLinkType( this.optsLink.type );
                 }
             },
 
             // Handlers
 
             onInsertLink: function (args) {
-                return;
+                var link = new Asc.asc_CHyperlink();
 
-                var me      = this,
-                    url     = args.url,
-                    urltype = me.api.asc_getUrlType($.trim(url)),
-                    isEmail = (urltype == 2);
+                if ( args.type == 'ext' ) {
+                    var url     = args.url,
+                        urltype = this.api.asc_getUrlType($.trim(url)),
+                        isEmail = (urltype == 2);
 
-                if (urltype < 1) {
-                    uiApp.alert(me.txtNotUrl);
-                    return;
+                    if (urltype < 1) {
+                        uiApp.alert(this.txtNotUrl);
+                        return;
+                    }
+
+                    url = url.replace(/^\s+|\s+$/g,'');
+
+                    if (! /(((^https?)|(^ftp)):\/\/)|(^mailto:)/i.test(url) )
+                        url = (isEmail ? 'mailto:' : 'http://' ) + url;
+
+                    url = url.replace(new RegExp("%20",'g')," ");
+
+                    link.asc_setType(Asc.c_oAscHyperlinkType.WebLink);
+                    link.asc_setHyperlinkUrl(url);
+                    display = url;
+                } else {
+                     if ( !/^[A-Z]+[1-9]\d*:[A-Z]+[1-9]\d*$/.test(args.url) ||
+                                !/^[A-Z]+[1-9]\d*$/.test(args.url) )
+                     {
+                         uiApp.alert(this.textInvalidRange);
+                         return;
+                     }
+
+                    link.asc_setType(Asc.c_oAscHyperlinkType.RangeLink);
+                    link.asc_setSheet(args.sheet);
+                    link.asc_setRange(args.url);
+
+                    var display = args.sheet + '!' + args.url;
                 }
 
-                url = url.replace(/^\s+|\s+$/g,'');
+                link.asc_setText(args.text == null ? null : !!args.text ? args.text : display);
+                link.asc_setTooltip(args.tooltip);
 
-                if (! /(((^https?)|(^ftp)):\/\/)|(^mailto:)/i.test(url) )
-                    url = (isEmail ? 'mailto:' : 'http://' ) + url;
-
-                url = url.replace(new RegExp("%20",'g')," ");
-
-                var props = new Asc.CHyperlink();
-                props.asc_setHyperlinkUrl(url);
-                props.asc_setText(_.isEmpty(args.text) ? url : args.text);
-                props.asc_setTooltip(args.tooltip);
-
-                me.api.asc_insertHyperlink(props);
+                this.api.asc_insertHyperlink(link);
 
                 SSE.getController('AddContainer').hideModal();
+            },
+
+            onChangeLinkType: function (view, type) {
+                this.optsLink.type = type;
+
+                view.optionLinkType( this.optsLink.type, 'caption' );
+            },
+
+            onChangeLinkSheet: function (view, index) {
             },
 
             onInsertImage: function (args) {
@@ -158,6 +214,7 @@ define([
                 }
             },
 
+            textInvalidRange: 'ERROR! Invalid cells range',
             textEmptyImgUrl : 'You need to specify image URL.',
             txtNotUrl: 'This field should be a URL in the format \"http://www.example.com\"'
         }
