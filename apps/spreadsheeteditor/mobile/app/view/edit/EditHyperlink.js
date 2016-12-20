@@ -32,24 +32,25 @@
  */
 
 /**
- *  EditImage.js
+ *  EditHyperlink.js
  *  Spreadsheet Editor
  *
- *  Created by Alexander Yuzhin on 12/19/16
+ *  Created by Alexander Yuzhin on 12/20/16
  *  Copyright (c) 2016 Ascensio System SIA. All rights reserved.
  *
  */
 
 define([
-    'text!spreadsheeteditor/mobile/app/template/EditImage.template',
+    'text!spreadsheeteditor/mobile/app/template/EditHyperlink.template',
     'jquery',
     'underscore',
     'backbone'
 ], function (editTemplate, $, _, Backbone) {
     'use strict';
 
-    SSE.Views.EditImage = Backbone.View.extend(_.extend((function() {
+    SSE.Views.EditHyperlink = Backbone.View.extend(_.extend((function() {
         // private
+        var _editCellController;
 
         return {
             // el: '.view-main',
@@ -60,22 +61,15 @@ define([
             },
 
             initialize: function () {
+                _editCellController = SSE.getController('EditHyperlink');
+
                 Common.NotificationCenter.on('editcontainer:show', _.bind(this.initEvents, this));
-                Common.NotificationCenter.on('editcategory:show',  _.bind(this.categoryShow, this));
-                this.on('page:show', _.bind(this.updateItemHandlers, this));
             },
 
             initEvents: function () {
                 var me = this;
 
-                me.updateItemHandlers();
                 me.initControls();
-            },
-
-            categoryShow: function(e) {
-                // if ('edit-shape' == $(e.currentTarget).prop('id')) {
-                //     this.initEvents();
-                // }
             },
 
             // Render layout
@@ -92,7 +86,7 @@ define([
             rootLayout: function () {
                 if (this.layout) {
                     return this.layout
-                        .find('#edit-image-root')
+                        .find('#edit-link-root')
                         .html();
                 }
 
@@ -103,64 +97,7 @@ define([
                 //
             },
 
-            updateItemHandlers: function () {
-                var selectorsDynamicPage = [
-                    '#edit-image',
-                    '.page[data-page=edit-image-replace-view]'
-                ].map(function (selector) {
-                    return selector + ' a.item-link[data-page]';
-                }).join(', ');
-
-                $(selectorsDynamicPage).single('click', _.bind(this.onItemClick, this));
-            },
-
-            showPage: function (templateId, suspendEvent) {
-                var rootView = SSE.getController('EditContainer').rootView;
-
-                if (rootView && this.layout) {
-                    var $content = this.layout.find(templateId);
-
-                    // Android fix for navigation
-                    if (Framework7.prototype.device.android) {
-                        $content.find('.page').append($content.find('.navbar'));
-                    }
-
-                    rootView.router.load({
-                        content: $content.html()
-                    });
-
-                    if (suspendEvent !== true) {
-                        this.fireEvent('page:show', [this, templateId]);
-                    }
-
-                    this.initEvents();
-                }
-            },
-
-            onItemClick: function (e) {
-                var $target = $(e.currentTarget),
-                    page = $target.data('page');
-
-                if (page && page.length > 0 ) {
-                    this.showPage(page);
-                }
-            },
-
-            textReplace: 'Replace',
-            textReorder: 'Reorder',
-            textDefault: 'Default Size',
-            textRemove: 'Remove Image',
-            textBack: 'Back',
-            textToForeground: 'Bring to Foreground',
-            textToBackground: 'Send to Background',
-            textForward: 'Move Forward',
-            textBackward: 'Move Backward',
-            textFromLibrary: 'Picture from Library',
-            textFromURL: 'Picture from URL',
-            textLinkSettings: 'Link Settings',
-            textAddress: 'Address',
-            textImageURL: 'Image URL',
-            textReplaceImg: 'Replace Image'
+            textBack: 'Back'
         }
-    })(), SSE.Views.EditImage || {}))
+    })(), SSE.Views.EditHyperlink || {}))
 });

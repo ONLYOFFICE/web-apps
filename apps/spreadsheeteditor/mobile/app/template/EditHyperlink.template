@@ -3,31 +3,74 @@
     <div class="list-block">
         <ul>
             <li>
-                <div id="edit-link-url" class="item-content">
+                <a id="edit-link-type" class="item-link smart-select" data-back-on-select="true">
+                    <select name="edit-link-type">
+                        <option value="1" selected>External Link</option>
+                        <option value="2">Internal Data Range</option>
+                    </select>
+                    <div class="item-content">
+                        <div class="item-inner">
+                            <div class="item-title">Link Type</div>
+                            <div class="item-after">External Link</div>
+                        </div>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a id="edit-link-sheet" class="item-link smart-select" data-back-on-select="true">
+                    <select name="edit-link-sheet"></select>
+                    <div class="item-content">
+                        <div class="item-inner">
+                            <div class="item-title">Sheet</div>
+                            <div class="item-after"></div>
+                        </div>
+                    </div>
+                </a>
+            </li>
+            <li id="edit-link-range">
+                <div class="item-content">
                     <div class="item-inner">
-                        <div class="item-title label">Link</div>
-                        <div class="item-input">
-                            <input type="url" placeholder="Link">
+                        <div class="item-title">Range</div>
+                        <div class="item-after">
+                            <div class="item-input">
+                                <input class="field right" type="text" placeholder="Required">
+                            </div>
                         </div>
                     </div>
                 </div>
             </li>
-            <li>
-                <div id="edit-link-display" class="item-content">
+            <li id="edit-link-link">
+                <div class="item-content">
                     <div class="item-inner">
-                        <div class="item-title label">Display</div>
-                        <div class="item-input">
-                            <input type="text" placeholder="Display">
+                        <div class="item-title">Link</div>
+                        <div class="item-after">
+                            <div class="item-input">
+                                <input class="field right" type="url" placeholder="Required">
+                            </div>
                         </div>
                     </div>
                 </div>
             </li>
-            <li>
-                <div id="edit-link-tip" class="item-content">
+            <li id="edit-link-display">
+                <div class="item-content">
                     <div class="item-inner">
-                        <div class="item-title label">Screen Tip</div>
-                        <div class="item-input">
-                            <input type="text" placeholder="Screen Tip">
+                        <div class="item-title">Display</div>
+                        <div class="item-after">
+                            <div class="item-input">
+                                <input class="field right" type="text" placeholder="Display">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li id="edit-link-tip">
+                <div class="item-content">
+                    <div class="item-inner">
+                        <div class="item-title">Screen Tip</div>
+                        <div class="item-after">
+                            <div class="item-input">
+                                <input class="field right" type="text" placeholder="Screen Tip">
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -107,11 +107,14 @@ define([
             },
 
             updateItemHandlers: function () {
-                if ($('#edit-shape').length < 1) {
-                    return;
-                }
+                var selectorsDynamicPage = [
+                    '#edit-shape',
+                    '.page[data-page=edit-shape-style]'
+                ].map(function (selector) {
+                    return selector + ' a.item-link[data-page]';
+                }).join(', ');
 
-                $('.container-edit a.item-link[data-page]').single('click', _.buffered(this.onItemClick, 100, this));
+                $(selectorsDynamicPage).single('click', _.bind(this.onItemClick, this));
             },
 
             showPage: function (templateId, suspendEvent) {

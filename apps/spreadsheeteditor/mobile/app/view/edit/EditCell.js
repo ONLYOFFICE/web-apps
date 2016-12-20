@@ -40,7 +40,6 @@
  *
  */
 
-
 define([
     'text!spreadsheeteditor/mobile/app/template/EditCell.template',
     'jquery',
@@ -154,11 +153,15 @@ define([
             },
 
             updateItemHandlers: function () {
-                if ($('#edit-cell').length < 1) {
-                    return;
-                }
+                var selectorsDynamicPage = [
+                    '#edit-cell',
+                    '.page[data-page=edit-border-style]',
+                    '.page[data-page=edit-cell-format]'
+                ].map(function (selector) {
+                    return selector + ' a.item-link[data-page]';
+                }).join(', ');
 
-                $('.container-edit a.item-link[data-page]').single('click', _.buffered(this.onItemClick, 100, this));
+                $(selectorsDynamicPage).single('click', _.bind(this.onItemClick, this));
             },
 
             showPage: function (templateId, suspendEvent) {

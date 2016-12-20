@@ -571,6 +571,10 @@ define([
                     _settings.push('image');
                 } else {
                     _settings.push('cell');
+
+                    if (cellInfo.asc_getHyperlink()) {
+                        _settings.push('hyperlink');
+                    }
                 }
             },
 

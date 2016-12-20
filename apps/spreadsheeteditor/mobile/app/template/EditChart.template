@@ -385,7 +385,7 @@
                                     <div class="item-title">Minimum Value</div>
                                     <div class="item-after">
                                         <div class="item-input">
-                                            <input class="field right" type="number" placeholder="Auto">
+                                            <input class="field right placeholder-color" type="number" placeholder="Auto">
                                         </div>
                                     </div>
                                 </div>
@@ -397,7 +397,7 @@
                                     <div class="item-title">Maximum Value</div>
                                     <div class="item-after">
                                         <div class="item-input">
-                                            <input class="field right" type="number" placeholder="Auto">
+                                            <input class="field right placeholder-color" type="number" placeholder="Auto">
                                         </div>
                                     </div>
                                 </div>
@@ -424,7 +424,7 @@
                                     <div class="item-title">Crosses Value</div>
                                     <div class="item-after">
                                         <div class="item-input">
-                                            <input class="field right" type="number" placeholder="0">
+                                            <input class="field right placeholder-color" type="number" placeholder="0">
                                         </div>
                                     </div>
                                 </div>
@@ -540,7 +540,7 @@
                                     <div class="item-title">Crosses Value</div>
                                     <div class="item-after">
                                         <div class="item-input">
-                                            <input class="field right" type="number" placeholder="0">
+                                            <input class="field right placeholder-color" type="number" placeholder="0">
                                         </div>
                                     </div>
                                 </div>
