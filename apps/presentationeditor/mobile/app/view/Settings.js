@@ -74,6 +74,7 @@ define([
                 $('#settings-history').single('click', _.bind(me.showHistory, me));
                 $('#settings-help').single('click', _.bind(me.showHelp, me));
                 $('#settings-about').single('click', _.bind(me.showAbout, me));
+                $('#settings-presentation-setup').single('click', _.bind(me.showSetup, me));
 
                 me.initControls();
             },
@@ -103,6 +104,7 @@ define([
                         $layour.find('#settings-readermode').hide();
                         $layour.find('#settings-search .item-title').text(this.textFindAndReplace)
                     } else {
+                        $layour.find('#settings-presentation-setup').hide();
                         $layour.find('#settings-readermode input:checkbox')
                             .attr('checked', Common.SharedSettings.get('readerMode'))
                             .prop('checked', Common.SharedSettings.get('readerMode'));
@@ -133,7 +135,7 @@ define([
                         content: $content.html()
                     });
 
-                    this.fireEvent('page:show', this);
+                    this.fireEvent('page:show',  [this, templateId]);
                 }
             },
 
@@ -163,6 +165,10 @@ define([
 
             showAbout: function () {
                 this.showPage('#settings-about-view');
+            },
+
+            showSetup: function () {
+                this.showPage('#settings-setup-view');
             },
 
             loadDocument: function (data) {
@@ -196,7 +202,10 @@ define([
             textVersion: 'Version',
             textAddress: 'address',
             textEmail: 'email',
-            textTel: 'tel'
+            textTel: 'tel',
+            textSlideSize: 'Slide Size',
+            mniSlideStandard: 'Standard (4:3)',
+            mniSlideWide: 'Widescreen (16:9)'
         }
     })(), PE.Views.Settings || {}))
 });

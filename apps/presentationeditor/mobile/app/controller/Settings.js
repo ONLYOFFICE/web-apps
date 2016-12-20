@@ -54,6 +54,10 @@ define([
             infoObj,
             modalView;
 
+        var _slideSizeArr = [
+            [254, 190.5], [254, 143]
+        ];
+
         return {
             models: [],
             collections: [],
@@ -74,6 +78,8 @@ define([
 
             setApi: function (api) {
                 this.api = api;
+
+                this.api.asc_registerCallback('asc_onPresentationSize', _.bind(this.onApiPageSize, this));
             },
 
             onLaunch: function () {
@@ -137,16 +143,34 @@ define([
                 }
             },
 
-            onPageShow: function(view) {
+            onPageShow: function(view, pageId) {
                 var me = this;
                 $('#settings-search').single('click',                       _.bind(me._onSearch, me));
                 $('#settings-readermode input:checkbox').single('change',   _.bind(me._onReaderMode, me));
                 $('#settings-edit-presentation').single('click',            _.bind(me._onEditPresentation, me));
                 $(modalView).find('.formats a').single('click',             _.bind(me._onSaveFormat, me));
+                $('#page-settings-setup-view li').single('click',           _.bind(me._onSlideSize, me));
+
+                me.initSettings(pageId);
             },
 
+            initSettings: function (pageId) {
+                var me = this;
+                if (pageId == '#settings-setup-view') {
+                    me.onApiPageSize(me.api.get_PresentationWidth(), me.api.get_PresentationHeight());
+                }
+            },
 
             // API handlers
+
+            onApiPageSize: function(width, height) {
+                for (var i = 0; i < _slideSizeArr.length; i++) {
+                    if (Math.abs(_slideSizeArr[i][0] - width) < 0.001 && Math.abs(_slideSizeArr[i][1] - height) < 0.001) {
+                        $('#page-settings-setup-view input').val([i]);
+                        break;
+                    }
+                }
+            },
 
             _onApiDocumentName: function(name) {
                 $('#settings-presentation-title').html(name ? name : '-');
@@ -193,6 +217,14 @@ define([
                 }
 
                 me.hideModal();
+            },
+
+            _onSlideSize: function(e) {
+                var $target = $(e.currentTarget).find('input');
+                if ($target && this.api) {
+                    var value = parseFloat($target.prop('value'));
+                    this.api.changeSlideSize(_slideSizeArr[value][0], _slideSizeArr[value][1]);
+                }
             },
 
             txtLoading              : 'Loading...',
