@@ -1996,7 +1996,17 @@ define([
                 if (item.value == 'ins_footnote')
                     this.api.asc_AddFootnote();
                 else if (item.value == 'delele')
-                    this.api.deleteFootnotes();
+                    Common.UI.warning({
+                        msg: this.confirmDeleteFootnotes,
+                        buttons: ['yes', 'no'],
+                        primary: 'yes',
+                        callback: _.bind(function(btn) {
+                            if (btn == 'yes') {
+                                this.api.deleteFootnotes();
+                            }
+                            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+                        }, this)
+                    });
                 else if (item.value == 'settings') {
                     var me = this;
                     (new DE.Views.NoteSettingsDialog({
@@ -3067,7 +3077,8 @@ define([
         confirmAddFontName: 'The font you are going to save is not available on the current device.<br>The text style will be displayed using one of the device fonts, the saved font will be used when it is available.<br>Do you want to continue?',
         notcriticalErrorTitle: 'Warning',
         txtMarginsW: 'Left and right margins are too high for a given page wight',
-        txtMarginsH: 'Top and bottom margins are too high for a given page height'
+        txtMarginsH: 'Top and bottom margins are too high for a given page height',
+        confirmDeleteFootnotes: 'Do you want to delete all footnotes?'
 
     }, DE.Controllers.Toolbar || {}));
 });

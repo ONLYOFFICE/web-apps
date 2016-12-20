@@ -1298,7 +1298,6 @@ define([
                 new Common.UI.Menu({
                     items: [
                         { caption: this.mniInsFootnote,  value: 'ins_footnote' },
-                        { caption: this.mniDelFootnote,  value: 'delele' },
                         { caption: '--' },
                         this.mnuGotoFootnote = new Common.UI.MenuItem({
                             template: _.template([
@@ -1314,6 +1313,7 @@ define([
                             stopPropagation: true
                         }),
                         { caption: '--' },
+                        { caption: this.mniDelFootnote,  value: 'delele' },
                         { caption: this.mniNoteSettings, value: 'settings' }
                     ]
                 })

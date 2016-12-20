@@ -50,7 +50,7 @@ define([
     DE.Views.NoteSettingsDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 300,
-            height: 335
+            height: 380
         },
 
         initialize : function(options) {
@@ -79,7 +79,7 @@ define([
                                     '</tr>',
                                     '<tr>',
                                         '<td colspan=2>',
-                                            '<div class="separator horizontal padding-large text-only"></div>',
+                                            '<div class="padding-large text-only"></div>',
                                         '</td>',
                                     '</tr>',
                                     '<tr>',
@@ -99,14 +99,20 @@ define([
                                         '</td>',
                                     '</tr>',
                                     '<tr>',
-                                        '<td colspan=2 class="padding-large">',
+                                        '<td colspan=2 class="padding-small">',
                                             '<label class="input-label">', me.textNumbering, '</label>',
                                             '<div id="note-settings-combo-numbering" class="input-group-nr" style="width:140px;"></div>',
                                         '</td>',
                                     '</tr>',
                                     '<tr>',
+                                        '<td colspan=2 class="padding-large">',
+                                            '<label class="input-label">', me.textCustom, '</label>',
+                                            '<div id="note-settings-txt-custom"></div>',
+                                        '</td>',
+                                    '</tr>',
+                                    '<tr>',
                                         '<td colspan=2>',
-                                            '<div class="separator horizontal padding-large text-only"></div>',
+                                            '<div class="padding-large text-only"></div>',
                                         '</td>',
                                     '</tr>',
                                     '<tr>',
@@ -212,6 +218,18 @@ define([
             });
             this.cmbNumbering.setValue(Asc.c_oAscFootnoteRestart.section_footnote_RestartContinuous);
 
+            this.txtCustom = new Common.UI.InputField({
+                el          : $('#note-settings-txt-custom'),
+                allowBlank  : true,
+                validateOnChange: true,
+                validateOnBlur: false,
+                style       : 'width: 100px; vertical-align: middle;',
+                value       : ''
+            }).on ('changing', function (input, value) {
+                me.cmbFormat.setDisabled(value.length>0);
+                me.spnStart.setDisabled(value.length>0);
+            });
+
             this.cmbApply = new Common.UI.ComboBox({
                 el: $('#note-settings-combo-apply'),
                 cls: 'input-group-nr',
@@ -253,6 +271,11 @@ define([
                 this.cmbNumbering.setValue(val);
 
                 /*
+                val = props.get_Custom();
+                this.txtCustom.setValue(val);
+                this.cmbFormat.setDisabled(!_.isEmpty(val));
+                this.spnStart.setDisabled(!_.isEmpty(val));
+
                 val = props.get_ApplyTo();
                 this.cmbApply.setValue(val);
                 */
@@ -265,13 +288,17 @@ define([
             props.put_Pos(this.cmbFootnote.getValue());
             props.put_NumRestart(this.cmbNumbering.getValue());
 
-            var val = this.cmbFormat.getValue();
-
-            props.put_NumFormat(val);
-            // if (val==1)
+            var val = this.txtCustom.getValue();
+            if (_.isEmpty(val)) {
+                val = this.cmbFormat.getValue();
+                props.put_NumFormat(val);
+                // if (val==1)
                 props.put_NumStart(this.spnStart.getNumberValue());
-            // else
-            //     props.put_NumStart(this.txtStart.getValue());
+                // else
+                //     props.put_NumStart(this.txtStart.getValue());
+            } else {
+                // props.set_Custom(val);
+            }
 
             // props.put_ApplyTo(this.cmbApply.getValue());
 
@@ -368,7 +395,8 @@ define([
         textSection: 'Current section',
         textApply: 'Apply',
         textInsert: 'Insert',
-        textCancel: 'Cancel'
+        textCancel: 'Cancel',
+        textCustom: 'Custom Mark'
 
     }, DE.Views.NoteSettingsDialog || {}))
 });
