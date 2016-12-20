@@ -149,11 +149,11 @@ define([
                 menuStyle: 'min-width: 140px;',
                 editable: false,
                 data: [
-                    { displayValue: this.textPageBottom,   value: Asc.section_footnote_PosPageBottom },
-                    { displayValue: this.textTextBottom,   value: Asc.section_footnote_PosBeneathText }
+                    { displayValue: this.textPageBottom,   value: Asc.c_oAscFootnotePos.section_footnote_PosPageBottom },
+                    { displayValue: this.textTextBottom,   value: Asc.c_oAscFootnotePos.section_footnote_PosBeneathText }
                 ]
             });
-            this.cmbFootnote.setValue(Asc.section_footnote_PosPageBottom);
+            this.cmbFootnote.setValue(Asc.c_oAscFootnotePos.section_footnote_PosPageBottom);
 
             this.cmbFormat = new Common.UI.ComboBox({
                 el: $('#note-settings-combo-format'),
@@ -205,12 +205,12 @@ define([
                 menuStyle: 'min-width: 140px;',
                 editable: false,
                 data: [
-                    { displayValue: this.textContinue,   value: Asc.section_footnote_RestartContinuous },
-                    { displayValue: this.textEachSection,   value: Asc.section_footnote_RestartEachSect },
-                    { displayValue: this.textEachPage,   value: Asc.section_footnote_RestartEachPage }
+                    { displayValue: this.textContinue,   value: Asc.c_oAscFootnoteRestart.section_footnote_RestartContinuous },
+                    { displayValue: this.textEachSection,   value: Asc.c_oAscFootnoteRestart.section_footnote_RestartEachSect },
+                    { displayValue: this.textEachPage,   value: Asc.c_oAscFootnoteRestart.section_footnote_RestartEachPage }
                 ]
             });
-            this.cmbNumbering.setValue(Asc.section_footnote_RestartContinuous);
+            this.cmbNumbering.setValue(Asc.c_oAscFootnoteRestart.section_footnote_RestartContinuous);
 
             this.cmbApply = new Common.UI.ComboBox({
                 el: $('#note-settings-combo-apply'),
