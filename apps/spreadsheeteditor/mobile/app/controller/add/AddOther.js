@@ -68,6 +68,8 @@ define([
                         'page:show' : this.onPageShow
                         , 'link:insert': this.onInsertLink
                         , 'image:insert': this.onInsertImage
+                        , 'insert:sort': this.onInsertSort
+                        , 'insert:filter': this.onInsertFilter
                         , 'link:changetype': this.onChangeLinkType
                         , 'link:changesheet': this.onChangeLinkSheet
                     }
@@ -127,6 +129,10 @@ define([
                     view.optionDisplayText(cell.asc_getFlags().asc_getLockText() ? 'locked' : cell.asc_getText());
                     view.optionAllowInternal(allowinternal);
                     allowinternal && view.optionLinkType( this.optsLink.type );
+                } else
+                if (pageId == '#addother-sort') {
+                    var filterInfo = this.api.asc_getCellInfo().asc_getAutoFilterInfo();
+                    view.optionAutofilter( filterInfo ? filterInfo.asc_getIsAutoFilter() : null)
                 } else
                 if (pageId == '#addother-change-linktype') {
                     view.optionLinkType( this.optsLink.type );
@@ -212,6 +218,18 @@ define([
                 } else {
                     this.api.asc_addImage();
                 }
+            },
+
+            onInsertSort: function(type) {
+                this.api.asc_sortColFilter(type == 'down' ? Asc.c_oAscSortOptions.Ascending : Asc.c_oAscSortOptions.Descending, '');
+            },
+
+            onInsertFilter: function(checked) {
+                var formatTableInfo = this.api.asc_getCellInfo().asc_getFormatTableInfo();
+                var tablename = (formatTableInfo) ? formatTableInfo.asc_getTableName() : undefined;
+                if (checked)
+                    this.api.asc_addAutoFilter(); else
+                    this.api.asc_changeAutoFilter(tablename, Asc.c_oAscChangeFilterOptions.filter, checked);
             },
 
             textInvalidRange: 'ERROR! Invalid cells range',

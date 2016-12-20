@@ -152,6 +152,14 @@ define([
 
             showSortPage: function (e) {
                 this.showPage('#addother-sort');
+
+                var me = this;
+                $('.settings .sortdown').single('click', function (e) {me.fireEvent('insert:sort',['down']);});
+                $('.settings .sortup').single('click', function (e) {me.fireEvent('insert:sort',['up']);});
+                $('.settings #other-chb-insfilter input:checkbox').single('change', function (e) {
+                    var $checkbox = $(e.currentTarget);
+                    me.fireEvent('insert:filter', [$checkbox.is(':checked')]);
+                });
             },
 
             clickInsertLink: function (e) {
@@ -185,6 +193,10 @@ define([
                 });
 
                 _.delay(function () { $input.focus(); }, 1000);
+            },
+
+            optionAutofilter: function (checked) {
+                $('.settings #other-chb-insfilter input:checkbox').prop('checked', checked);
             },
 
             optionLinkType: function (type, opts) {
