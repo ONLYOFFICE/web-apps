@@ -610,7 +610,7 @@ define([
                 me.api.SetTextBoxInputMode(value!==null && parseInt(value) == 1);
 
                 /** coauthoring begin **/
-                if (me.appOptions.isEdit && me.appOptions.canLicense && !me.appOptions.isOffline && me.appOptions.canCoAuthoring) {
+                if (me.appOptions.isEdit && !me.appOptions.isOffline && me.appOptions.canCoAuthoring) {
                     value = Common.localStorage.getItem("pe-settings-coauthmode");
                     if (value===null && Common.localStorage.getItem("pe-settings-autosave")===null &&
                         me.appOptions.customization && me.appOptions.customization.autosave===false) {
@@ -1510,7 +1510,7 @@ define([
             },
 
             applySettings: function() {
-                if (this.appOptions.isEdit && this.appOptions.canLicense && !this.appOptions.isOffline && this.appOptions.canCoAuthoring) {
+                if (this.appOptions.isEdit && !this.appOptions.isOffline && this.appOptions.canCoAuthoring) {
                     var value = Common.localStorage.getItem("pe-settings-coauthmode"),
                         oldval = this._state.fastCoauth;
                     this._state.fastCoauth = (value===null || parseInt(value) == 1);
