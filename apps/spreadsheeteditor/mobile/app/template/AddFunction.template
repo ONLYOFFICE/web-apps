@@ -83,7 +83,7 @@
         </div>
         <div class="page">
             <div class="page-content">
-                <div class="content-block">
+                <div class="list-block">
                     <div class="content-block-inner">
                         <h3><%= args %></h3>
                         <p><%= descr %></p>
