@@ -106,7 +106,7 @@ define([
             },
 
             addSheet: function(model) {
-                let index = this.$boxTabs.children().length;
+                var index = this.$boxTabs.children().length;
                 var $item = $(this.tabtemplate({
                     'label': model.get('name')
                 })).appendTo(this.$boxTabs)

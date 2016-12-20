@@ -101,11 +101,11 @@ define([
                 this.editorView = this.createView('Editor').render();
 
                 $$(window).on('resize', _.bind(this.onWindowResize, this));
-                Common.NotificationCenter.on('layout:changed', (source, args) => {
+                Common.NotificationCenter.on('layout:changed', function(source, args) {
                     if ( source == 'navbar' ) {
                         this.editorView.$el.find('.page.editor')[args.hidden?'addClass':'removeClass']('no-padding');
                     }
-                });
+                }.bind(this));
             },
 
             onWindowResize: function(e) {
