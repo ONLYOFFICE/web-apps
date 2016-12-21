@@ -293,7 +293,8 @@ define([
             textExternalLink: 'External Link',
             textInternalLink: 'Internal Data Range',
             textSheet: 'Sheet',
-            textRange: 'Range'
+            textRange: 'Range',
+            textRequired: 'Required'
         }
     })(), SSE.Views.AddOther || {}))
 });
