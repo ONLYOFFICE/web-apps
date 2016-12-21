@@ -1089,10 +1089,6 @@ define([
 
         createDelayedElements: function() {
             if (this.api) {
-                var schemes = this.api.get_PropertyThemeColorSchemes();
-                if (schemes)
-                    this.onSendThemeColorSchemes(schemes);
-
                 this.mnuNonPrinting.items[0].setChecked(this.api.get_ShowParaMarks(), true);
                 this.mnuNonPrinting.items[1].setChecked(this.api.get_ShowTableEmptyLine(), true);
                 this.btnShowHidenChars.toggle(this.mnuNonPrinting.items[0].checked, true);
@@ -1501,6 +1497,7 @@ define([
         setApi: function(api) {
             this.api = api;
             /** coauthoring begin **/
+            this.api.asc_registerCallback('asc_onSendThemeColorSchemes', _.bind(this.onSendThemeColorSchemes, this));
             this.api.asc_registerCallback('asc_onCollaborativeChanges', _.bind(this.onCollaborativeChanges, this));
             this.api.asc_registerCallback('asc_onAuthParticipantsChanged', _.bind(this.onApiUsersChanged, this));
             this.api.asc_registerCallback('asc_onParticipantsChanged', _.bind(this.onApiUsersChanged, this));
