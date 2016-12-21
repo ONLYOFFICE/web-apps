@@ -6,10 +6,8 @@
     }
 
     .page-content {
-      .list-block, .content-block {
-        &:first-child {
-          margin-top: -1px;
-        }
+      .list-block:first-child {
+        margin-top: -1px;
       }
     }
   }
@@ -67,6 +65,15 @@
 
       > .pages {
         border-radius: 13px;
+      }
+    }
+
+    .content-block:first-child {
+      margin-top: 0;
+      .content-block-inner {
+        &:before {
+          height: 0;
+        }
       }
     }
   }

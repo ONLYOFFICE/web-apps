@@ -117,9 +117,9 @@ require([
             'Editor',
             'Toolbar',
             'Search',
+            'CellEditor',
             'Main',
             'DocumentHolder'
-            ,'CellEditor'
             ,'Statusbar'
             ,'Settings'
             ,'EditContainer'

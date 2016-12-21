@@ -86,7 +86,7 @@ define([
                 var me = this;
 
                 $('.settings').single('click', '.function .info', this.onFunctionInfoClick.bind(this))
-                                .single('click', '.function > a', this.onFunctionClick.bind(this));
+                                .on('click', '.function > a', this.onFunctionClick.bind(this));
                 $('.groups a.group').single('click', this.onGroupClick.bind(this));
 
                 me.initControls();
@@ -142,8 +142,8 @@ define([
             },
 
             onFunctionClick: function (e) {
-                if ( !/\.info/.test(e.target) )
-                    this.fireEvent('function:insert', [$(e.target).data('func')]);
+                // if ( !/info/.test(e.target.className) )
+                    this.fireEvent('function:insert', [$(e.currentTarget).data('func')]);
             },
 
             onFunctionInfoClick: function(e) {
