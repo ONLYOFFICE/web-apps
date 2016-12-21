@@ -26,7 +26,7 @@
             <li>
                 <a id="text-color" class="item-link">
                     <div class="item-content">
-                        <% if (!android) { %><div class="item-media"><i class="icon icon-text-color"><span class="color-preview"></span></i></div><% } %>
+                        <% if (!android) { %><div class="item-media" style="padding-top: 0;"><i class="icon icon-text-color"><span class="color-preview"></span></i></div><% } %>
                         <div class="item-inner">
                             <div class="item-title"><%= scope.textTextColor %></div>
                             <% if (android) { %><div class="item-after"><div class="color-preview"></div></div><% } %>
@@ -37,7 +37,7 @@
             <li>
                 <a id="fill-color" class="item-link">
                     <div class="item-content">
-                        <% if (!android) { %><div class="item-media"><i class="icon icon-text-selection"><span class="color-preview"></span></i></div><% } %>
+                        <% if (!android) { %><div class="item-media" style="padding-top: 0;"><i class="icon icon-text-selection"><span class="color-preview"></span></i></div><% } %>
                         <div class="item-inner">
                             <div class="item-title"><%= scope.textFillColor %></div>
                             <% if (android) { %><div class="item-after"><div class="color-preview"></div></div><% } %>

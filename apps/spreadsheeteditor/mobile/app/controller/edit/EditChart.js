@@ -167,7 +167,10 @@ define([
 
             initRootPage: function () {
                 $('#chart-remove').single('click', _.bind(this.onRemoveChart, this));
-                this.updateAxisProps(_chartObject.get_ChartProperties().getType());
+
+                if (!_.isUndefined(_chartObject)) {
+                    this.updateAxisProps(_chartObject.get_ChartProperties().getType());
+                }
             },
 
             initStylePage: function () {
