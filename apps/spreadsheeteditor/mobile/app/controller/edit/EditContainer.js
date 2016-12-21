@@ -150,6 +150,13 @@ define([
                             layout: SSE.getController('EditChart').getView('EditChart').rootLayout()
                         })
                     }
+                    if (_.contains(_settings, 'text')) {
+                        editors.push({
+                            caption: me.textText,
+                            id: 'edit-text',
+                            layout: SSE.getController('EditText').getView('EditText').rootLayout()
+                        })
+                    }
                     if (_.contains(_settings, 'hyperlink')) {
                         editors.push({
                             caption: me.textHyperlink,
@@ -563,10 +570,19 @@ define([
                 //     if (showMenu) this.showPopupMenu(documentHolder.ssMenu, {}, event);
                 // }
 
-                if (isChart) {
+
+                if (isChart || isTextChart) {
                     _settings.push('chart');
-                } else if (isShape) {
+
+                    if (isTextChart) {
+                        _settings.push('text');
+                    }
+                } else if (isShape || isTextShape) {
                     _settings.push('shape');
+
+                    if (isTextShape) {
+                        _settings.push('text');
+                    }
                 } else if (isImage) {
                     _settings.push('image');
                 } else {
@@ -584,6 +600,7 @@ define([
             textShape: 'Shape',
             textImage: 'Image',
             textChart: 'Chart',
+            textText: 'Text',
             textHyperlink: 'Hyperlink'
 
         }
