@@ -43,7 +43,6 @@ define([
     'common/main/lib/util/utils',
     'common/main/lib/component/MetricSpinner',
     'common/main/lib/component/ComboBox',
-    'common/main/lib/component/InputField',
     'common/main/lib/view/AdvancedSettingsWindow'
 ], function () { 'use strict';
 
@@ -95,7 +94,6 @@ define([
                                         '<td class="padding-small">',
                                             '<label class="input-label">', me.textStart,'</label>',
                                             '<div id="note-settings-spin-start"></div>',
-                                            // '<div id="note-settings-txt-start"></div>',
                                         '</td>',
                                     '</tr>',
                                     '<tr>',
@@ -177,34 +175,19 @@ define([
             this.cmbFormat.setValue(this.FormatType);
             this.cmbFormat.on('selected', _.bind(this.onFormatSelect, this));
 
-            this.spnStart = new Common.UI.MetricSpinner({
+            // this.spnStart = new Common.UI.MetricSpinner({
+            this.spnStart = new Common.UI.CustomSpinner({
                 el: $('#note-settings-spin-start'),
                 step: 1,
                 width: 100,
                 defaultUnit : "",
-                value: '1',
+                value: 1,
                 maxValue: 16383,
-                minValue: 1
+                minValue: 1,
+                allowDecimal: false,
+                maskExp: /[0-9]/
             });
-/*
-            this.txtStart = new Common.UI.InputField({
-                el          : $('#note-settings-txt-start'),
-                allowBlank  : true,
-                validateOnChange: false,
-                style       : 'width: 100px; vertical-align: middle;',
-                cls         : 'masked-field',
-                maskExp     : /[a-z]/,
-                value       : 'a',
-                visible: false,
-                validation  : function(value) {
-                    if (this.options.maskExp.test(value)) {
-                    } else
-                        me.txtFieldNum.setValue('');
 
-                    return true;
-                }
-            });
-*/
             this.cmbNumbering = new Common.UI.ComboBox({
                 el: $('#note-settings-combo-numbering'),
                 cls: 'input-group-nr',
@@ -260,12 +243,10 @@ define([
 
                 val = props.get_NumFormat();
                 this.cmbFormat.setValue(val);
-                // this.spnStart.setVisible(val==1);
-                // this.txtStart.setVisible(val!=1);
+                this.onFormatSelect(this.cmbFormat, this.cmbFormat.getSelectedRecord());
 
                 val = props.get_NumStart();
                 this.spnStart.setValue(val);
-                // this.txtStart.setValue(val);
 
                 val = props.get_NumRestart();
                 this.cmbNumbering.setValue(val);
@@ -320,44 +301,40 @@ define([
         },
 
         onFormatSelect: function(combo, record) {
-            return;
+            if (!record) return;
 
-            this.spnStart.setVisible(record.value == 1);
-            this.txtStart.setVisible(record.value != 1);
+            this.spnStart.setMask(record.maskExp);
 
-            if (record.value !== 1)
-                this.txtStart.setMask(record.maskExp);
-
-            var value = 0;
-            if (this.FormatType == 1) { // from 1,2,3,
-                this.StartValue = value = this.spnStart.getNumberValue();
-
-                if (record.value == 4 || record.value == 5) {
-                    value = this._10toA(value);
-                    this.txtStart.setValue((record.value == 5) ? value.toLocaleLowerCase() : value);
-                } else if (this.FormatType !== record.value)
-                    this.txtStart.setValue(record.defValue);
-            } else if (this.FormatType == 4 || this.FormatType == 5) {
-                if (this.FormatType == 4 && record.value == 5)
-                    this.txtStart.setValue(this.txtStart.getValue().toLocaleLowerCase());
-                else if (this.FormatType == 5 && record.value == 4)
-                    this.txtStart.setValue(this.txtStart.getValue().toLocaleUpperCase());
-                else if (record.value == 1) {
-                    value = this._Ato10((record.value == 5) ? this.txtStart.getValue().toLocaleLowerCase() : this.txtStart.getValue());
-                    this.spnStart.setValue(value);
-                } else if (this.FormatType !== record.value)
-                    this.txtStart.setValue(record.defValue);
-            } else if (this.FormatType !== record.value){
-                if (record.value==1)
-                    this.spnStart.setValue(this.StartValue);
-                else
-                    this.txtStart.setValue(record.defValue);
+            var me = this;
+            switch (record.value) {
+                case 3: // I, II, III, ...
+                    this.spnStart.options.toCustomFormat = this._10toRome;
+                    this.spnStart.options.fromCustomFormat = this._Rometo10;
+                    break;
+                case 7: // i, ii, iii, ...
+                    this.spnStart.options.toCustomFormat = function(value) { return me._10toRome(value).toLocaleLowerCase(); };
+                    this.spnStart.options.fromCustomFormat = function(value) { return me._Rometo10(value.toLocaleUpperCase()); };
+                    break;
+                case 4: // A, B, C, ...
+                    this.spnStart.options.toCustomFormat = this._10toS;
+                    this.spnStart.options.fromCustomFormat = this._Sto10;
+                    break;
+                case 5: // a, b, c, ...
+                    this.spnStart.options.toCustomFormat = function(value) { return me._10toS(value).toLocaleLowerCase(); };
+                    this.spnStart.options.fromCustomFormat = function(value) { return me._Sto10(value.toLocaleUpperCase()); };
+                    break;
+                default: // 1, 2, 3, ...
+                    this.spnStart.options.toCustomFormat = function(value) { return value; };
+                    this.spnStart.options.fromCustomFormat = function(value) { return value; };
+                    break;
             }
 
+            this.spnStart.setValue(this.spnStart.getValue());
             this.FormatType = record.value;
         },
 
-        _10toA: function(value) {
+        _10toS: function(value) {
+            value = parseInt(value);
             var n = Math.ceil(value / 26),
                 code = String.fromCharCode((value-1) % 26 + "A".charCodeAt(0)) ,
                 result = '';
@@ -368,14 +345,85 @@ define([
             return result;
         },
 
-        _Ato10: function(str) {
-            if ( (new RegExp('[^' + str.charAt(0) + ']')).test(str) ) return 1;
+        _Sto10: function(str) {
+            if ( str.length<1 || (new RegExp('[^' + str.charAt(0) + ']')).test(str) || !/[A-Z]/.test(str)) return 1;
 
             var n = str.length-1,
-                value = str.charCodeAt(0) - "A".charCodeAt(0) + 1;
-            value += 26*n;
+                result = str.charCodeAt(0) - "A".charCodeAt(0) + 1;
+            result += 26*n;
 
-            return value;
+            return result;
+        },
+
+        _10toRome: function(value) {
+            value = parseInt(value);
+            var result = '',
+                digits = [
+                ['M',  1000],
+                ['CM', 900],
+                ['D',  500],
+                ['CD', 400],
+                ['C',  100],
+                ['XC', 90],
+                ['L',  50],
+                ['XL', 40],
+                ['X',  10],
+                ['IX', 9],
+                ['V',  5],
+                ['IV', 4],
+                ['I',  1]
+            ];
+
+            var val = digits[0][1],
+                div = Math.floor(value / val),
+                n = 0;
+
+            for (var i=0; i<div; i++)
+                result += digits[n][0];
+            value -= div * val;
+            n++;
+
+            while (value>0) {
+                val = digits[n][1];
+                div = value - val;
+                if (div>=0) {
+                    result += digits[n][0];
+                    value = div;
+                } else
+                    n++;
+            }
+
+            return result;
+        },
+
+        _Rometo10: function(str) {
+            if ( !/[IVXLCDM]/.test(str) || str.length<1 ) return 1;
+
+            var digits = {
+                'I': 1,
+                'V': 5,
+                'X': 10,
+                'L': 50,
+                'C': 100,
+                'D': 500,
+                'M': 1000
+            };
+
+            var n = str.length-1,
+                result = digits[str.charAt(n)],
+                prev = result;
+
+            for (var i=n-1; i>=0; i-- ) {
+                var val = digits[str.charAt(i)];
+                if (val<prev) {
+                    if (prev/val>10) return 1;
+                    val *= -1;
+                }
+
+                result += val;
+            }
+
+            return result;
         },
 
         textTitle:    'Notes Settings',
