@@ -90,11 +90,13 @@ define([
                 var jsonDescr   = JSON.parse(fd);
 
                 var grouparr = this.api.asc_getFormulasInfo();
-                for (var group of grouparr) {
+                for (var g in grouparr) {
+                    var group = grouparr[g];
                     var groupname = group.asc_getGroupName();
                     var funcarr = group.asc_getFormulasArray();
 
-                    for (var func of funcarr) {
+                    for (var f in funcarr) {
+                        var func = funcarr[f];
                         var _name = func.asc_getName();
                         functions[_name] = {
                             type:       _name,
