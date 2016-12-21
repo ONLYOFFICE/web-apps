@@ -51,6 +51,9 @@ define([
     SSE.Controllers.AddContainer = Backbone.Controller.extend(_.extend((function() {
         // private
 
+        var parentButton = null,
+            options;
+
         return {
             models: [],
             collections: [],
@@ -68,7 +71,7 @@ define([
                 //
             },
 
-            showModal: function() {
+            showModal: function(opts) {
                 var me = this;
 
                 if ($$('.container-add.modal-in').length > 0) {
@@ -77,8 +80,11 @@ define([
 
                 uiApp.closeModal();
 
+                options = opts;
+                parentButton = !opts ? '#toolbar-add' : opts.button;
                 me._showByStack(Common.SharedSettings.get('phone'));
 
+                this.api.asc_closeCellEditor();
                 SSE.getController('Toolbar').getView('Toolbar').hideSearch();
             },
 
@@ -88,47 +94,39 @@ define([
                 }
             },
 
-            _dummyEditController: function () {
-                var layout =
-                    '<div class="content-block inset">' +
-                        '<div class="content-block-inner"> ' +
-                            '<p>Under Construction</p>' +
-                        '</div>' +
-                    '</div>';
-
-                return {
-                    getCaption: function () { return 'Dummy' },
-                    getLayout : function () { return layout }
-                }
-            },
-
             _layoutEditorsByStack: function () {
                 var me = this,
                     addViews = [];
 
-                addViews.push({
-                    caption: me.textChart,
-                    id: 'add-chart',
-                    layout: SSE.getController('AddChart').getView('AddChart').rootLayout()
-                });
+                // var seltype = this.api.asc_getCellInfo().asc_getFlags().asc_getSelectionType();
 
-                addViews.push({
-                    caption: me.textFormula,
-                    id: 'add-formula',
-                    layout: SSE.getController('AddFunction').getView('AddFunction').rootLayout()
-                });
+                if ( !options )
+                    addViews.push({
+                        caption: me.textChart,
+                        id: 'add-chart',
+                        layout: SSE.getController('AddChart').getView('AddChart').rootLayout()
+                    });
 
-                addViews.push({
-                    caption: me.textShape,
-                    id: 'add-shape',
-                    layout:  SSE.getController('AddShape').getView('AddShape').rootLayout()
-                });
+                if ( !options || options.panel == 'function' )
+                    addViews.push({
+                        caption: me.textFormula,
+                        id: 'add-formula',
+                        layout: SSE.getController('AddFunction').getView('AddFunction').rootLayout()
+                    });
 
-                addViews.push({
-                    caption: me.textOther,
-                    id: 'add-other',
-                    layout: SSE.getController('AddOther').getView('AddOther').rootLayout()
-                });
+                if ( !options )
+                    addViews.push({
+                        caption: me.textShape,
+                        id: 'add-shape',
+                        layout:  SSE.getController('AddShape').getView('AddShape').rootLayout()
+                    });
+
+                if ( !options )
+                    addViews.push({
+                        caption: me.textOther,
+                        id: 'add-other',
+                        layout: SSE.getController('AddOther').getView('AddOther').rootLayout()
+                    });
 
                 return addViews;
             },
@@ -153,33 +151,40 @@ define([
                 );
 
 
-                if (isAndroid) {
+                if (layoutAdds.length < 2) {
                     $layoutNavbar
                         .find('.center')
-                        .append('<div class="toolbar tabbar"><div data-page="index" class="toolbar-inner"></div></div>');
+                        .removeClass('categories')
+                        .html(layoutAdds[0].caption);
+                } else {
+                    if (isAndroid) {
+                        $layoutNavbar
+                            .find('.center')
+                            .append('<div class="toolbar tabbar"><div data-page="index" class="toolbar-inner"></div></div>');
 
-                    _.each(layoutAdds, function (layout, index) {
+                        _.each(layoutAdds, function (layout, index) {
+                            $layoutNavbar
+                                .find('.toolbar-inner')
+                                .append(
+                                    '<a href="#' + layout.id + '" class="tab-link ' + (index < 1 ? 'active' : '') + '">' + layout.caption + '</a>'
+                                );
+                        });
                         $layoutNavbar
                             .find('.toolbar-inner')
-                            .append(
-                                '<a href="#' + layout.id + '" class="tab-link ' + (index < 1 ? 'active' : '') + '">' + layout.caption + '</a>'
-                            );
-                    });
-                    $layoutNavbar
-                        .find('.toolbar-inner')
-                        .append('<span class="tab-link-highlight" style="width: ' + (100/layoutAdds.length) + '%;"></span>');
-                } else {
-                    $layoutNavbar
-                        .find('.center')
-                        .append('<div class="buttons-row"></div>');
-
-                    _.each(layoutAdds, function (layout, index) {
+                            .append('<span class="tab-link-highlight" style="width: ' + (100 / layoutAdds.length) + '%;"></span>');
+                    } else {
                         $layoutNavbar
-                            .find('.buttons-row')
-                            .append(
-                                '<a href="#' + layout.id + '" class="tab-link button ' + (index < 1 ? 'active' : '') + '">' + layout.caption + '</a>'
-                            );
-                    });
+                            .find('.center')
+                            .append('<div class="buttons-row"></div>');
+
+                        _.each(layoutAdds, function (layout, index) {
+                            $layoutNavbar
+                                .find('.buttons-row')
+                                .append(
+                                    '<a href="#' + layout.id + '" class="tab-link button ' + (index < 1 ? 'active' : '') + '">' + layout.caption + '</a>'
+                                );
+                        });
+                    }
                 }
 
 
@@ -232,7 +237,7 @@ define([
                                     '</div>' +
                                 '</div>' +
                             '</div>',
-                        $$('#toolbar-add')
+                        $$(parentButton)
                     );
 
                     // Prevent hide overlay. Conflict popover and modals.

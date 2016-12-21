@@ -51,22 +51,24 @@ define([
             'CellEditor'
         ],
 
-        // events: function() {
-        //     return {
+        events: function() {
+            return {
                 // 'keyup input#ce-cell-name': _.bind(this.onCellName,this),
                 // 'keyup textarea#ce-cell-content': _.bind(this.onKeyupCellEditor,this),
                 // 'blur textarea#ce-cell-content': _.bind(this.onBlurCellEditor,this),
-                // 'click button#ce-func-label': _.bind(this.onInsertFunction, this)
-        //     };
-        // },
+                // 'click a#ce-function': _.bind(this.onInsertFunction, this)
+            };
+        },
 
         initialize: function() {
-            // this.addListeners({
-            //     'CellEditor': {},
+            this.addListeners({
+                'CellEditor': {
+                    'function:click': this.onInsertFunction.bind(this)
+                }
             //     'Viewport': {
                     // 'layout:resizedrag': _.bind(this.onLayoutResize, this)
                 // }
-            // });
+            });
         },
 
         setApi: function(api) {
@@ -168,13 +170,10 @@ define([
         },
 
         onInsertFunction: function() {
-            if ( this.mode.isEdit && !this.editor.$btnfunc['hasClass']('disabled')) {
-                var controller = this.getApplication().getController('FormulaDialog');
-                if (controller) {
-                    $('#ce-func-label', this.editor.el).blur();
-                    controller.showDialog();
-                }
-            }
+            SSE.getController('AddContainer').showModal({
+                panel: 'function',
+                button: '#ce-function'
+            });
         }
     });
 });

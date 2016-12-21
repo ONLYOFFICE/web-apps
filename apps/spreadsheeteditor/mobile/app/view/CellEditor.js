@@ -52,7 +52,10 @@ define([
         template: _.template(template),
 
         events: {
-            'click button#ce-btn-expand': 'expandEditor'
+            'click button#ce-btn-expand': 'expandEditor',
+            'click #ce-function': function (e) {
+                this.fireEvent('function:click', this);
+            }
         },
 
         initialize: function (options) {
@@ -64,7 +67,7 @@ define([
 
             this.$cellname = $('#ce-cell-name', this.el);
             this.$btnexpand = $('#ce-btn-expand', this.el);
-            // this.$btnfunc = $('#ce-func-label', this.el);
+            // this.$btnfunc = $('#ce-function', this.el);
 
             return this;
         },
