@@ -64,6 +64,7 @@ var sdk_dev_scrpipts = [
 	"../../../../sdkjs/common/Drawings/HatchPattern.js",
 	"../../../../sdkjs/common/scroll.js",
 	"../../../../sdkjs/common/Scrolls/iscroll.js",
+	"../../../../sdkjs/common/Scrolls/mobileTouchManagerBase.js",
 	"../../../../sdkjs/common/wordcopypaste.js",
 	"../../../../sdkjs/cell/apiDefines.js",
 	"../../../../sdkjs/cell/document/empty-workbook.js",
