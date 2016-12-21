@@ -1,7 +1,9 @@
 <div id="cell-editing-box">
     <div class="ce-group group-name">
         <span id="ce-cell-name"></span>
-        <button id="ce-func-label" type="button" class="btn"><span class="btn-icon">&fnof;&#8333;&#8339;&#8334;</span></button>
+        <a href="#" id="ce-function" class="link icon-only">
+            <i class="icon icon-function"></i>
+        </a>
     </div>
     <div class="ce-group group-content">
         <textarea id="ce-cell-content" spellcheck="false" rows="1" cols="20"></textarea>

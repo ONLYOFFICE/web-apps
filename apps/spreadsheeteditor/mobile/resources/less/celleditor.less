@@ -65,20 +65,13 @@
         }
     }
 
-    #ce-func-label {
-        width: 34px;
-
-        span.btn-icon {
-            font-size: 17px;
-            //display: block;
-            //margin-top: -5px;
-        }
-
-        &.disabled {
-            span.btn-icon {
-                opacity: 0.6;
-            }
-        }
+    #ce-function {
+        height: @cellEditorHeight;
+        line-height: @cellEditorHeight;
+        display: flex;
+        align-items: center;
+        padding: 0 10px;
+        float: right;
     }
 
     .group-expand {
