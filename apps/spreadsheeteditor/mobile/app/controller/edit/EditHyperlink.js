@@ -103,7 +103,7 @@ define([
                 $('#edit-link-sheet select').html(sheets.join(''));
 
                 $('#edit-link-type select').val(linkInfo.asc_getType());
-                $('#edit-link-type .item-after').text((linkInfo.asc_getType() == Asc.c_oAscHyperlinkType.RangeLink) ? 'Internal Data Range' : 'External Link');
+                $('#edit-link-type .item-after').text((linkInfo.asc_getType() == Asc.c_oAscHyperlinkType.RangeLink) ? me.textInternalLink : me.textExternalLink);
 
                 $('#edit-link-sheet, #edit-link-range').css('display', (linkInfo.asc_getType() == Asc.c_oAscHyperlinkType.RangeLink) ? 'block' : 'none');
                 $('#edit-link-link').css('display', (linkInfo.asc_getType() != Asc.c_oAscHyperlinkType.RangeLink) ? 'block' : 'none');
@@ -217,6 +217,8 @@ define([
                 SSE.getController('EditContainer').hideModal();
             },
 
+            textExternalLink: 'External Link',
+            textInternalLink: 'Internal Data Range',
             textDefault: 'Selected range',
             textInvalidRange: 'Invalid cells range',
             textEmptyImgUrl: 'You need to specify image URL.',
