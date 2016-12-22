@@ -2002,7 +2002,7 @@ define([
                         primary: 'yes',
                         callback: _.bind(function(btn) {
                             if (btn == 'yes') {
-                                this.api.deleteFootnotes();
+                                this.api.asc_RemoveAllFootnotes();
                             }
                             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
                         }, this)
