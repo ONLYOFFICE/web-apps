@@ -20,6 +20,9 @@
         <div class="center" id="toolbar-title"></div>
         <% } %>
         <div class="right">
+            <a href="#" id="toolbar-preview" class="link icon-only">
+                <i class="icon icon-edit"></i>
+            </a>
             <% if (android) { %>
             <a href="#" id="toolbar-undo" class="link icon-only disabled" style="display: none;">
                 <i class="icon icon-undo"></i>

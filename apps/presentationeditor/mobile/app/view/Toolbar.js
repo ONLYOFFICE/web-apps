@@ -62,7 +62,8 @@ define([
                 "click #toolbar-search"     : "searchToggle",
                 "click #toolbar-edit"       : "showEdition",
                 "click #toolbar-add"        : "showInserts",
-                "click #toolbar-settings"   : "showSettings"
+                "click #toolbar-settings"   : "showSettings",
+                "click #toolbar-preview"    : "showPreview"
             },
 
             // Set innerHTML and get the references to the DOM elements
@@ -146,6 +147,10 @@ define([
             // Settings
             showSettings: function () {
                 PE.getController('Settings').showModal();
+            },
+
+            showPreview: function () {
+                PE.getController('DocumentPreview').show();
             },
 
             textBack: 'Back'
