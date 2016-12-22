@@ -42,8 +42,12 @@
 
 define([
     'core',
-    'presentationeditor/mobile/app/view/edit/EditText'
-], function (core) {
+    'presentationeditor/mobile/app/view/edit/EditText',
+    'jquery',
+    'underscore',
+    'backbone',
+    'common/mobile/lib/component/ThemeColorPalette'
+], function (core, view, $, _, Backbone) {
     'use strict';
 
     PE.Controllers.EditText = Backbone.Controller.extend(_.extend((function() {

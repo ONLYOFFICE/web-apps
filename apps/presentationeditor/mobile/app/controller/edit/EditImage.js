@@ -42,8 +42,11 @@
 
 define([
     'core',
-    'presentationeditor/mobile/app/view/edit/EditImage'
-], function (core) {
+    'presentationeditor/mobile/app/view/edit/EditImage',
+    'jquery',
+    'underscore',
+    'backbone'
+], function (core, view, $, _, Backbone) {
     'use strict';
 
     PE.Controllers.EditImage = Backbone.Controller.extend(_.extend((function() {

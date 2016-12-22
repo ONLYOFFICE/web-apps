@@ -40,8 +40,11 @@
  *
  */
 define([
-    'core'
-], function (core) {
+    'core',
+    'jquery',
+    'underscore',
+    'backbone'
+], function (core, $, _, Backbone) {
     'use strict';
 
     PE.Controllers.EditContainer = Backbone.Controller.extend(_.extend((function() {

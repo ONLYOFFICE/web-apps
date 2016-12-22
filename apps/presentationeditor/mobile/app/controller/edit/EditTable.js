@@ -42,8 +42,11 @@
 
 define([
     'core',
-    'presentationeditor/mobile/app/view/edit/EditTable'
-], function (core) {
+    'presentationeditor/mobile/app/view/edit/EditTable',
+    'jquery',
+    'underscore',
+    'backbone'
+], function (core, view, $, _, Backbone) {
     'use strict';
 
     PE.Controllers.EditTable = Backbone.Controller.extend(_.extend((function() {

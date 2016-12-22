@@ -47,7 +47,7 @@ define([
     'underscore',
     'backbone',
     'presentationeditor/mobile/app/view/DocumentHolder'
-], function (core) {
+], function (core, $, _, Backbone) {
     'use strict';
 
     PE.Controllers.DocumentHolder = Backbone.Controller.extend(_.extend((function() {

@@ -188,7 +188,7 @@
                             <a data-format="513" class="item-link no-indicator">
                                 <div class="item-content">
                                     <div class="item-media">
-                                        <i class="icon icon-search"></i>
+                                        <i class="icon icon-format-pdf"></i>
                                     </div>
                                     <div class="item-inner">
                                         <div class="item-title">PDF</div>
@@ -223,7 +223,7 @@
                 </div>
                 <div class="content-block">
                     <h3>PRESENTATION EDITOR</h3>
-                    <h3><%= scope.textVersion %> 4.2</h3>
+                    <h3><%= scope.textVersion %> 4.3</h3>
                 </div>
                 <div class="content-block">
                     <h3 class="vendor">Ascensio System SIA</h3>

@@ -87,20 +87,6 @@ define([
                 }
             },
 
-            _dummyEditController: function () {
-                var layout =
-                    '<div class="content-block inset">' +
-                        '<div class="content-block-inner"> ' +
-                            '<p>Under Construction</p>' +
-                        '</div>' +
-                    '</div>';
-
-                return {
-                    getCaption: function () { return 'Dummy' },
-                    getLayout : function () { return layout }
-                }
-            },
-
             _layoutEditorsByStack: function () {
                 var me = this,
                     addViews = [];

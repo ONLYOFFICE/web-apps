@@ -47,7 +47,7 @@ define([
     'underscore',
     'backbone',
     'presentationeditor/mobile/app/view/DocumentPreview'
-], function (core) {
+], function (core, $, _, Backbone) {
     'use strict';
 
     PE.Controllers.DocumentPreview = Backbone.Controller.extend(_.extend((function() {

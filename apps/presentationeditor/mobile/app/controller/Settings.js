@@ -43,8 +43,11 @@
 
 define([
     'core',
+    'jquery',
+    'underscore',
+    'backbone',
     'presentationeditor/mobile/app/view/Settings'
-], function (core) {
+], function (core, $, _, Backbone) {
     'use strict';
 
     PE.Controllers.Settings = Backbone.Controller.extend(_.extend((function() {
