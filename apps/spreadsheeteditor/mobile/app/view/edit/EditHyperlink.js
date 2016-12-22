@@ -97,7 +97,17 @@ define([
                 //
             },
 
-            textBack: 'Back'
+            textBack: 'Back',
+            textExternalLink: 'External Link',
+            textInternalLink: 'Internal Data Range',
+            textLinkType: 'Link Type',
+            textSheet: 'Sheet',
+            textRange: 'Range',
+            textLink: 'Link',
+            textDisplay: 'Display',
+            textScreenTip: 'Screen Tip',
+            textEditLink: 'Edit Link',
+            textRemoveLink: 'Remove Link'
         }
     })(), SSE.Views.EditHyperlink || {}))
 });

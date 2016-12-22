@@ -1,0 +1,16 @@
+{
+  "Common.UI.ThemeColorPalette.textThemeColors": "Theme Colors",
+  "Common.UI.ThemeColorPalette.textStandartColors": "Standard Colors",
+
+  "SSE.Views.EditHyperlink.textBack": "Back",
+  "SSE.Views.EditHyperlink.textExternalLink": "External Link",
+  "SSE.Views.EditHyperlink.textInternalLink": "Internal Data Range",
+  "SSE.Views.EditHyperlink.textLinkType": "Link Type",
+  "SSE.Views.EditHyperlink.textSheet": "Sheet",
+  "SSE.Views.EditHyperlink.textRange": "Range",
+  "SSE.Views.EditHyperlink.textLink": "Link",
+  "SSE.Views.EditHyperlink.textDisplay": "Display",
+  "SSE.Views.EditHyperlink.textScreenTip": "Screen Tip",
+  "SSE.Views.EditHyperlink.textEditLink": "Edit Link",
+  "SSE.Views.EditHyperlink.textRemoveLink": "Remove Link"
+}
