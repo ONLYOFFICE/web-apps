@@ -131,7 +131,7 @@ define([
                         uiApp.hideNavbar(searchBar);
                     }, 10);
                 }
-            },
+            }
         }
     })(), PE.Views.Search || {}))
 });

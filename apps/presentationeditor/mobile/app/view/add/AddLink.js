@@ -124,7 +124,6 @@ define([
             textLink: 'Link',
             textLinkSlide: 'Link to',
             textBack: 'Back',
-            textAddLink: 'Add Link',
             textDisplay: 'Display',
             textTip: 'Screen Tip',
             textInsert: 'Insert',
