@@ -1,10 +1,16 @@
 
 @appStatusbarHeight: 30px;
 
+.navbar-hidden + .navbar-through {
+  > .page.editor {
+    padding-top: 0;
+  }
+}
+
 .navbar-through {
   > .page.editor {
     padding-top: @appToolbarHeight;
-    transition: padding-top .2s ease-in;
+    transition: padding-top 400ms ease-in;
   }
 }
 
