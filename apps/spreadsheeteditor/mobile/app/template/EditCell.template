@@ -73,13 +73,13 @@
                 <div class="item-content">
                     <% if (!android) { %><div class="item-media"><i class="icon icon-search"></i></div><% } %>
                     <div class="item-inner">
-                        <div class="item-title">Format</div>
+                        <div class="item-title"><%= scope.textFormat %></div>
                     </div>
                 </div>
             </a>
         </ul>
     </div>
-    <div class="content-block-title">Cell Styles</div>
+    <div class="content-block-title"><%= scope.textCellStyle %></div>
     <div class="list-block">
         <ul>
             <li class="cell-styles dataview">
@@ -161,7 +161,7 @@
     <div class="navbar">
         <div class="navbar-inner">
             <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
-            <div class="center sliding">Border Color</div>
+            <div class="center sliding"><%= scope.textBorderColor %></div>
             <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
         </div>
     </div>
@@ -193,7 +193,7 @@
                             <div class="item-media"><i class="icon icon-text-align-left"></i></div>
                             <% } %>
                             <div class="item-inner">
-                                <div class="item-title">Align Left</div>
+                                <div class="item-title"><%= scope.textAlignLeft %></div>
                             </div>
                         </label>
                     </li>
@@ -206,7 +206,7 @@
                             <div class="item-media"><i class="icon icon-text-align-center"></i></div>
                             <% } %>
                             <div class="item-inner">
-                                <div class="item-title">Align Center</div>
+                                <div class="item-title"><%= scope.textAlignCenter %></div>
                             </div>
                         </label>
                     </li>
@@ -219,7 +219,7 @@
                             <div class="item-media"><i class="icon icon-text-align-right"></i></div>
                             <% } %>
                             <div class="item-inner">
-                                <div class="item-title">Align Right</div>
+                                <div class="item-title"><%= scope.textAlignRight %></div>
                             </div>
                         </label>
                     </li>
@@ -232,7 +232,7 @@
                             <div class="item-media"><i class="icon icon-text-align-justify"></i></div>
                             <% } %>
                             <div class="item-inner">
-                                <div class="item-title">Justified</div>
+                                <div class="item-title"><%= scope.textJustified %></div>
                             </div>
                         </label>
                     </li>
@@ -249,7 +249,7 @@
                             <div class="item-media"><i class="icon icon-text-valign-top"></i></div>
                             <% } %>
                             <div class="item-inner">
-                                <div class="item-title">Align Top</div>
+                                <div class="item-title"><%= scope.textAlignTop %></div>
                             </div>
                         </label>
                     </li>
@@ -262,7 +262,7 @@
                             <div class="item-media"><i class="icon icon-text-valign-middle"></i></div>
                             <% } %>
                             <div class="item-inner">
-                                <div class="item-title">Align Middle</div>
+                                <div class="item-title"><%= scope.textAlignMiddle %></div>
                             </div>
                         </label>
                     </li>
@@ -275,7 +275,7 @@
                             <div class="item-media"><i class="icon icon-text-valign-bottom"></i></div>
                             <% } %>
                             <div class="item-inner">
-                                <div class="item-title">Align Bottom</div>
+                                <div class="item-title"><%= scope.textAlignBottom %></div>
                             </div>
                         </label>
                     </li>
@@ -287,7 +287,7 @@
                         <div class="item-content">
                             <% if (!android) { %><div class="item-media"><i class="icon icon-search"></i></div><% } %>
                             <div class="item-inner">
-                                <div class="item-title">Wrap Text</div>
+                                <div class="item-title"><%= scope.textWrapText %></div>
                                 <div class="item-after">
                                     <label class="label-switch">
                                         <input type="checkbox">
@@ -308,7 +308,7 @@
     <div class="navbar">
         <div class="navbar-inner">
             <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
-            <div class="center sliding">Border Style</div>
+            <div class="center sliding"><%= scope.textBorderStyle %></div>
             <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
         </div>
     </div>
@@ -321,7 +321,7 @@
                             <a data-type="none" class="item-link no-indicator">
                                 <div class="item-content">
                                     <div class="item-media"><i class="icon icon-table-borders-none"></i></div>
-                                    <div class="item-inner"><div class="item-title">No Border</div></div>
+                                    <div class="item-inner"><div class="item-title"><%= scope.textNoBorder %></div></div>
                                 </div>
                             </a>
                         </li>
@@ -329,7 +329,7 @@
                             <a data-type="all" class="item-link no-indicator">
                                 <div class="item-content">
                                     <div class="item-media"><i class="icon icon-table-borders-all"></i></div>
-                                    <div class="item-inner"><div class="item-title">All Borders</div></div>
+                                    <div class="item-inner"><div class="item-title"><%= scope.textAllBorders %></div></div>
                                 </div>
                             </a>
                         </li>
@@ -337,7 +337,7 @@
                             <a data-type="2" class="item-link no-indicator">
                                 <div class="item-content">
                                     <div class="item-media"><i class="icon icon-table-borders-bottom"></i></div>
-                                    <div class="item-inner"><div class="item-title">Bottom Border</div></div>
+                                    <div class="item-inner"><div class="item-title"><%= scope.textBottomBorder %></div></div>
                                 </div>
                             </a>
                         </li>
@@ -345,7 +345,7 @@
                             <a data-type="0" class="item-link no-indicator">
                                 <div class="item-content">
                                     <div class="item-media"><i class="icon icon-table-borders-top"></i></div>
-                                    <div class="item-inner"><div class="item-title">Top Border</div></div>
+                                    <div class="item-inner"><div class="item-title"><%= scope.textTopBorder %></div></div>
                                 </div>
                             </a>
                         </li>
@@ -353,7 +353,7 @@
                             <a data-type="3" class="item-link no-indicator">
                                 <div class="item-content">
                                     <div class="item-media"><i class="icon icon-table-borders-left"></i></div>
-                                    <div class="item-inner"><div class="item-title">Left Border</div></div>
+                                    <div class="item-inner"><div class="item-title"><%= scope.textLeftBorder %></div></div>
                                 </div>
                             </a>
                         </li>
@@ -361,7 +361,7 @@
                             <a data-type="1" class="item-link no-indicator">
                                 <div class="item-content">
                                     <div class="item-media"><i class="icon icon-table-borders-right"></i></div>
-                                    <div class="item-inner"><div class="item-title">Right Border</div></div>
+                                    <div class="item-inner"><div class="item-title"><%= scope.textRightBorder %></div></div>
                                 </div>
                             </a>
                         </li>
@@ -369,7 +369,7 @@
                             <a data-type="inner" class="item-link no-indicator">
                                 <div class="item-content">
                                     <div class="item-media"><i class="icon icon-table-borders-inner"></i></div>
-                                    <div class="item-inner"><div class="item-title">Inside Borders</div></div>
+                                    <div class="item-inner"><div class="item-title"><%= scope.textInBorders %></div></div>
                                 </div>
                             </a>
                         </li>
@@ -377,7 +377,7 @@
                             <a data-type="6" class="item-link no-indicator">
                                 <div class="item-content">
                                     <div class="item-media"><i class="icon icon-table-borders-center"></i></div>
-                                    <div class="item-inner"><div class="item-title">Inside Vertical Border</div></div>
+                                    <div class="item-inner"><div class="item-title"><%= scope.textInVertBorder %></div></div>
                                 </div>
                             </a>
                         </li>
@@ -385,7 +385,7 @@
                             <a data-type="7" class="item-link no-indicator">
                                 <div class="item-content">
                                     <div class="item-media"><i class="icon icon-table-borders-middle"></i></div>
-                                    <div class="item-inner"><div class="item-title">Inside Horizontal Border</div></div>
+                                    <div class="item-inner"><div class="item-title"><%= scope.textInHorBorder %></div></div>
                                 </div>
                             </a>
                         </li>
@@ -393,7 +393,7 @@
                             <a data-type="5" class="item-link no-indicator">
                                 <div class="item-content">
                                     <div class="item-media"><i class="icon icon-table-borders-dup"></i></div>
-                                    <div class="item-inner"><div class="item-title">Diagonal Up Border</div></div>
+                                    <div class="item-inner"><div class="item-title"><%= scope.textDiagUpBorder %></div></div>
                                 </div>
                             </a>
                         </li>
@@ -401,20 +401,20 @@
                             <a data-type="4" class="item-link no-indicator">
                                 <div class="item-content">
                                     <div class="item-media"><i class="icon icon-table-borders-ddown"></i></div>
-                                    <div class="item-inner"><div class="item-title">Diagonal Down Border</div></div>
+                                    <div class="item-inner"><div class="item-title"><%= scope.textDiagDownBorder %></div></div>
                                 </div>
                             </a>
                         </li>
                     </ul>
                 </div>
-                <div class="content-block-title">Style</div>
+                <div class="content-block-title"><%= scope.textStyles %></div>
                 <div class="list-block">
                     <ul>
                         <li>
                             <a id="edit-border-color" class="item-link" data-page="#edit-cell-border-color">
                                 <div class="item-content">
                                     <div class="item-inner">
-                                        <div class="item-title">Color</div>
+                                        <div class="item-title"><%= scope.textColor %></div>
                                         <div class="item-after"><div class="color-preview"></div></div>
                                     </div>
                                 </div>
@@ -423,14 +423,14 @@
                         <li>
                             <a id="edit-border-size" class="item-link smart-select" data-back-on-select="true">
                                 <select name="cell-border-size">
-                                    <option value="thin">Thin</option>
-                                    <option value="medium">Medium</option>
-                                    <option value="thick">Thick</option>
+                                    <option value="thin"><%= scope.textThin %></option>
+                                    <option value="medium"><%= scope.textMedium %></option>
+                                    <option value="thick"><%= scope.textThick %></option>
                                 </select>
                                 <div class="item-content">
                                     <div class="item-inner">
-                                        <div class="item-title">Size</div>
-                                        <div class="item-after">Thin</div>
+                                        <div class="item-title"><%= scope.textSize %></div>
+                                        <div class="item-after"><%= scope.textThin %></div>
                                     </div>
                                 </div>
                             </a>
@@ -447,7 +447,7 @@
     <div class="navbar">
         <div class="navbar-inner">
             <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
-            <div class="center sliding">Format</div>
+            <div class="center sliding"><%= scope.textFormat %></div>
             <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
         </div>
     </div>
@@ -460,7 +460,7 @@
                             <a data-type="R2VuZXJhbA==" class="item-link no-indicator">
                                 <div class="item-content">
                                     <div class="item-media"><i class="icon icon-search"></i></div>
-                                    <div class="item-inner"><div class="item-title">General</div></div>
+                                    <div class="item-inner"><div class="item-title"><%= scope.textGeneral %></div></div>
                                 </div>
                             </a>
                         </li>
@@ -468,7 +468,7 @@
                             <a data-type="MC4wMA==" class="item-link no-indicator">
                                 <div class="item-content">
                                     <div class="item-media"><i class="icon icon-search"></i></div>
-                                    <div class="item-inner"><div class="item-title">Number</div></div>
+                                    <div class="item-inner"><div class="item-title"><%= scope.textNumber %></div></div>
                                 </div>
                             </a>
                         </li>
@@ -476,7 +476,7 @@
                             <a data-type="JTIzMA==" class="item-link no-indicator">
                                 <div class="item-content">
                                     <div class="item-media"><i class="icon icon-search"></i></div>
-                                    <div class="item-inner"><div class="item-title">Integer</div></div>
+                                    <div class="item-inner"><div class="item-title"><%= scope.textInteger %></div></div>
                                 </div>
                             </a>
                         </li>
@@ -484,7 +484,7 @@
                             <a data-type="MC4wMEUlMkIwMA==" class="item-link no-indicator">
                                 <div class="item-content">
                                     <div class="item-media"><i class="icon icon-search"></i></div>
-                                    <div class="item-inner"><div class="item-title">Scientific</div></div>
+                                    <div class="item-inner"><div class="item-title"><%= scope.textScientific %></div></div>
                                 </div>
                             </a>
                         </li>
@@ -492,7 +492,7 @@
                             <a class="item-link" data-page="#edit-cell-format-accounting">
                                 <div class="item-content">
                                     <div class="item-media"><i class="icon icon-search"></i></div>
-                                    <div class="item-inner"><div class="item-title">Accounting</div></div>
+                                    <div class="item-inner"><div class="item-title"><%= scope.textAccounting %></div></div>
                                 </div>
                             </a>
                         </li>
@@ -500,7 +500,7 @@
                             <a class="item-link" data-page="#edit-cell-format-currency">
                                 <div class="item-content">
                                     <div class="item-media"><i class="icon icon-search"></i></div>
-                                    <div class="item-inner"><div class="item-title">Currency</div></div>
+                                    <div class="item-inner"><div class="item-title"><%= scope.textCurrency %></div></div>
                                 </div>
                             </a>
                         </li>
@@ -508,7 +508,7 @@
                             <a class="item-link" data-page="#edit-cell-format-date">
                                 <div class="item-content">
                                     <div class="item-media"><i class="icon icon-search"></i></div>
-                                    <div class="item-inner"><div class="item-title">Date</div></div>
+                                    <div class="item-inner"><div class="item-title"><%= scope.textDate %></div></div>
                                 </div>
                             </a>
                         </li>
@@ -516,7 +516,7 @@
                             <a class="item-link" data-page="#edit-cell-format-time">
                                 <div class="item-content">
                                     <div class="item-media"><i class="icon icon-search"></i></div>
-                                    <div class="item-inner"><div class="item-title">Time</div></div>
+                                    <div class="item-inner"><div class="item-title"><%= scope.textTime %></div></div>
                                 </div>
                             </a>
                         </li>
@@ -524,7 +524,7 @@
                             <a data-type="MC4wMCUyNQ==" class="item-link no-indicator">
                                 <div class="item-content">
                                     <div class="item-media"><i class="icon icon-search"></i></div>
-                                    <div class="item-inner"><div class="item-title">Percentage</div></div>
+                                    <div class="item-inner"><div class="item-title"><%= scope.textPercentage %></div></div>
                                 </div>
                             </a>
                         </li>
@@ -532,7 +532,7 @@
                             <a data-type="JTQw" class="item-link no-indicator">
                                 <div class="item-content">
                                     <div class="item-media"><i class="icon icon-search"></i></div>
-                                    <div class="item-inner"><div class="item-title">Text</div></div>
+                                    <div class="item-inner"><div class="item-title"><%= scope.textText %></div></div>
                                 </div>
                             </a>
                         </li>
@@ -548,7 +548,7 @@
     <div class="navbar">
         <div class="navbar-inner">
             <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
-            <div class="center sliding">Accounting</div>
+            <div class="center sliding"><%= scope.textAccounting %></div>
             <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
         </div>
     </div>
@@ -561,7 +561,7 @@
                             <a data-type="XyglMjQqJTIwJTIzJTJDJTIzJTIzMC4wMF8pJTNCXyglMjQqJTIwKCUyMyUyQyUyMyUyMzAuMDApJTNCXyglMjQqJTIwJTIyLSUyMiUzRiUzRl8pJTNCXyglNDBfKQ==" class="item-link no-indicator">
                                 <div class="item-content">
                                     <div class="item-inner">
-                                        <div class="item-title">Dollar</div>
+                                        <div class="item-title"><%= scope.textDollar %></div>
                                         <div class="item-after">$</div>
                                     </div>
                                 </div>
@@ -571,7 +571,7 @@
                             <a data-type="XyglRTIlODIlQUMqJTIwJTIzJTJDJTIzJTIzMC4wMF8pJTNCXyglRTIlODIlQUMqJTIwKCUyMyUyQyUyMyUyMzAuMDApJTNCXyglRTIlODIlQUMqJTIwJTIyLSUyMiUzRiUzRl8pJTNCXyglNDBfKQ==" class="item-link no-indicator">
                                 <div class="item-content">
                                     <div class="item-inner">
-                                        <div class="item-title">Euro</div>
+                                        <div class="item-title"><%= scope.textEuro %></div>
                                         <div class="item-after">€</div>
                                     </div>
                                 </div>
@@ -581,7 +581,7 @@
                             <a data-type="XyglQzIlQTMqJTIwJTIzJTJDJTIzJTIzMC4wMF8pJTNCXyglQzIlQTMqJTIwKCUyMyUyQyUyMyUyMzAuMDApJTNCXyglQzIlQTMqJTIwJTIyLSUyMiUzRiUzRl8pJTNCXyglNDBfKQ==" class="item-link no-indicator">
                                 <div class="item-content">
                                     <div class="item-inner">
-                                        <div class="item-title">Pound</div>
+                                        <div class="item-title"><%= scope.textPound %></div>
                                         <div class="item-after">£</div>
                                     </div>
                                 </div>
@@ -591,7 +591,7 @@
                             <a data-type="Xy0qJTIwJTIzJTJDJTIzJTIzMC4wMCU1QiUyNCVEMSU4MC4tNDE5JTVEXy0lM0ItKiUyMCUyMyUyQyUyMyUyMzAuMDAlNUIlMjQlRDElODAuLTQxOSU1RF8tJTNCXy0qJTIwJTIyLSUyMiUzRiUzRiU1QiUyNCVEMSU4MC4tNDE5JTVEXy0lM0JfLSU0MF8t" class="item-link no-indicator">
                                 <div class="item-content">
                                     <div class="item-inner">
-                                        <div class="item-title">Rouble</div>
+                                        <div class="item-title"><%= scope.textRouble %></div>
                                         <div class="item-after">₽</div>
                                     </div>
                                 </div>
@@ -601,7 +601,7 @@
                             <a data-type="XyglQzIlQTUqJTIwJTIzJTJDJTIzJTIzMC4wMF8pJTNCXyglQzIlQTUqJTIwKCUyMyUyQyUyMyUyMzAuMDApJTNCXyglQzIlQTUqJTIwJTIyLSUyMiUzRiUzRl8pJTNCXyglNDBfKQ==" class="item-link no-indicator">
                                 <div class="item-content">
                                     <div class="item-inner">
-                                        <div class="item-title">Yen</div>
+                                        <div class="item-title"><%= scope.textYen %></div>
                                         <div class="item-after">¥</div>
                                     </div>
                                 </div>
@@ -619,7 +619,7 @@
     <div class="navbar">
         <div class="navbar-inner">
             <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
-            <div class="center sliding">Currency</div>
+            <div class="center sliding"><%= scope.textCurrency %></div>
             <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
         </div>
     </div>
@@ -632,7 +632,7 @@
                             <a data-type="JTI0JTIzJTJDJTIzJTIzMC4wMA==" class="item-link no-indicator">
                                 <div class="item-content">
                                     <div class="item-inner">
-                                        <div class="item-title">Dollar</div>
+                                        <div class="item-title"><%= scope.textDollar %></div>
                                         <div class="item-after">$</div>
                                     </div>
                                 </div>
@@ -642,7 +642,7 @@
                             <a data-type="JUUyJTgyJUFDJTIzJTJDJTIzJTIzMC4wMA==" class="item-link no-indicator">
                                 <div class="item-content">
                                     <div class="item-inner">
-                                        <div class="item-title">Euro</div>
+                                        <div class="item-title"><%= scope.textEuro %></div>
                                         <div class="item-after">€</div>
                                     </div>
                                 </div>
@@ -652,7 +652,7 @@
                             <a data-type="JUMyJUEzJTIzJTJDJTIzJTIzMC4wMA==" class="item-link no-indicator">
                                 <div class="item-content">
                                     <div class="item-inner">
-                                        <div class="item-title">Pound</div>
+                                        <div class="item-title"><%= scope.textPound %></div>
                                         <div class="item-after">£</div>
                                     </div>
                                 </div>
@@ -662,7 +662,7 @@
                             <a data-type="JTIzJTJDJTIzJTIzMC4wMCUyMiVEMSU4MC4lMjI=" class="item-link no-indicator">
                                 <div class="item-content">
                                     <div class="item-inner">
-                                        <div class="item-title">Rouble</div>
+                                        <div class="item-title"><%= scope.textRouble %></div>
                                         <div class="item-after">₽</div>
                                     </div>
                                 </div>
@@ -672,7 +672,7 @@
                             <a data-type="JUMyJUE1JTIzJTJDJTIzJTIzMC4wMA==" class="item-link no-indicator">
                                 <div class="item-content">
                                     <div class="item-inner">
-                                        <div class="item-title">Yen</div>
+                                        <div class="item-title"><%= scope.textYen %></div>
                                         <div class="item-after">¥</div>
                                     </div>
                                 </div>
@@ -690,7 +690,7 @@
     <div class="navbar">
         <div class="navbar-inner">
             <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
-            <div class="center sliding">Date</div>
+            <div class="center sliding"><%= scope.textDate %></div>
             <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
         </div>
     </div>
@@ -781,7 +781,7 @@
     <div class="navbar">
         <div class="navbar-inner">
             <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
-            <div class="center sliding">Time</div>
+            <div class="center sliding"><%= scope.textTime %></div>
             <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
         </div>
     </div>
