@@ -88,6 +88,7 @@ define([
             });
 
             // this.bindViewEvents(this.statusbar, this.events);
+            Common.NotificationCenter.on('document:ready', this.onApiSheetsChanged.bind(this));
         },
 
         setApi: function(api) {

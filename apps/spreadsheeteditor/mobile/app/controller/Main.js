@@ -284,6 +284,7 @@ define([
 
                 if (type === Asc.c_oAscAsyncActionType.BlockInteraction && id == Asc.c_oAscAsyncAction.Open) {
                     Common.Gateway.internalMessage('documentReady', {});
+                    Common.NotificationCenter.trigger('document:ready');
                     me.onDocumentContentReady();
                 }
 
