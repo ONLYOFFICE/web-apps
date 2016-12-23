@@ -56,6 +56,10 @@ define([
                             '</div>' +
                         '</div>',
             tabtemplate: _.template('<li class="tab"><a><%= label %></a></li>'),
+            menutemplate: _.template(
+                '<% _.each(menuItems, function(item) { %>' +
+                    '<li data-event="<%= item.event %>"><a href="#" class="item-link list-button"><%= item.caption %></li>' +
+                '<% }); %>'),
 
             events: {},
             api: undefined,
@@ -109,7 +113,7 @@ define([
                 var index = this.$boxTabs.children().length;
                 var $item = $(this.tabtemplate({
                     'label': model.get('name')
-                })).appendTo(this.$boxTabs)
+                })).appendTo(this.$boxTabs);
 
                 $item.on('click', this.onSheetClick.bind(this, index, model));
                 model.get('active') && $item.addClass('active');
@@ -187,6 +191,7 @@ define([
 
             onSheetClick: function (index, model, e) {
                 this.fireEvent('sheet:click', [index, model]);
+                return false;
             },
 
             onSheetChanged: function(o, index, tab) {
@@ -233,6 +238,34 @@ define([
 
                 this.tabbar.options.draggable = edit;
                 this.editMode = edit;
+            },
+
+            showTabContextMenu: function (items, model) {
+                uiApp.closeModal('.document-menu.modal-in');
+
+                var popoverHTML =
+                    '<div class="popover document-menu">'+
+                        '<div class="popover-inner">'+
+                            '<div class="list-block">'+
+                                '<ul>'+
+                                    this.menutemplate({menuItems: items}) +
+                                '</ul>'+
+                            '</div>'+
+                        '</div>'+
+                    '</div>';
+
+                uiApp.popover(popoverHTML, model.get('el'));
+
+                $('.modal-overlay').removeClass('modal-overlay-visible');
+
+                $('.document-menu li').single('click', _.buffered(function(e) {
+                    uiApp.closeModal('.document-menu.modal-in');
+
+                    var $target = $(e.currentTarget),
+                        eventName = $target.data('event');
+
+                    this.fireEvent('contextmenu:click', [this, eventName, model]);
+                }, 100, this));
             }
         });
     }

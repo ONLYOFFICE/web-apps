@@ -586,6 +586,10 @@ define([
                         });
                     }
                 }
+
+                $('.view-main').on('click', function (e) {
+                    uiApp.closeModal('.document-menu.modal-in');
+                })
             },
 
             onOpenDocument: function(progress) {

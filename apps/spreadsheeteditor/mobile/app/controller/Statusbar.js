@@ -58,7 +58,8 @@ define([
             this.addListeners({
                 'Statusbar': {
                     'sheet:click': this.onTabClick,
-                    'sheet:addnew': this.onAddTab
+                    'sheet:addnew': this.onAddTab,
+                    'contextmenu:click': this.onTabMenu
                 }
             });
         },
@@ -82,12 +83,15 @@ define([
                 reset   : function (collection, opts) {
                     me.statusbar.clearTabs();
                     collection.each(function(model) {
-                        me.statusbar.addSheet(model);
+                        var $item = me.statusbar.addSheet(model);
+                        model.set('el', $item);
                     });
                 }
             });
 
+            this.hiddensheets = this.getApplication().createCollection('Sheets');
             // this.bindViewEvents(this.statusbar, this.events);
+
             Common.NotificationCenter.on('document:ready', this.onApiSheetsChanged.bind(this));
         },
 
@@ -129,11 +133,11 @@ define([
                     draglocked  : locked
                 };
 
-                this.api.asc_isWorksheetHidden(i)? hiddentems.push(tab) :
-                    items.push(new SSE.Models.Sheet(tab));
+                (this.api.asc_isWorksheetHidden(i) ? hiddentems : items).push(new SSE.Models.Sheet(tab));
             }
 
             this.sheets.reset(items);
+            this.hiddensheets.reset(hiddentems);
 
             return;
 
@@ -200,27 +204,16 @@ define([
 
         createDelayedElements: function() {
             this.statusbar.$el.css('z-index', '');
-            this.statusbar.tabMenu.on('item:click', _.bind(this.onTabMenu, this));
             this.statusbar.btnAddWorksheet.on('click', _.bind(this.onAddWorksheetClick, this));
 
             Common.NotificationCenter.on('window:resize', _.bind(this.onWindowResize, this));
-            Common.NotificationCenter.on('cells:range',   _.bind(this.onRangeDialogMode, this));
+            // Common.NotificationCenter.on('cells:range',   _.bind(this.onRangeDialogMode, this));
         },
 
         onWindowResize: function(area) {
             // this.statusbar.onTabInvisible(undefined, this.statusbar.tabbar.checkInvisible(true));
         },
 
-        onTabMenu: function(obj, item, e) {
-            switch (item.value){
-            case 'ins':
-                this.api.asc_insertWorksheet(this.createSheetName());
-                break;
-            case 'del':     this.deleteWorksheet(); break;
-            case 'copy':    this.moveWorksheet(false); break;
-            case 'hide':    this.hideWorksheet(true); break;
-            }
-        },
 
         createSheetName: function() {
             var items = [], wc = this.api.asc_getWorksheetsCount();
@@ -258,18 +251,14 @@ define([
         deleteWorksheet: function() {
             var me = this;
 
-            if (this.statusbar.tabbar.tabs.length == 1) {
-                Common.UI.warning({msg: this.errorLastSheet});
+            if (this.sheets.length == 1) {
+                uiApp.alert(this.errorLastSheet);
             } else {
-                Common.UI.warning({
-                    msg: this.warnDeleteSheet,
-                    buttons: ['ok','cancel'],
-                    callback: function(btn) {
-                        if (btn == 'ok' && !me.api.asc_deleteWorksheet()) {
-                            _.delay(function(){
-                                Common.UI.error({msg: me.errorRemoveSheet});
-                            },10);
-                        }
+                uiApp.confirm(this.warnDeleteSheet, undefined, function(){
+                    if ( !me.api.asc_deleteWorksheet() ) {
+                        _.defer(function(){
+                            uiApp.alert(me.errorRemoveSheet);
+                        });
                     }
                 });
             }
@@ -277,56 +266,13 @@ define([
 
         hideWorksheet: function(hide, index) {
             if ( hide ) {
-                this.statusbar.tabbar.tabs.length == 1 ?
-                    Common.UI.warning({msg: this.errorLastSheet}) :
+                this.sheets.length == 1 ?
+                    uiApp.alert(this.errorLastSheet) :
                     this.api['asc_hideWorksheet'](index);
             } else {
                 this.api['asc_showWorksheet'](index);
-                this.loadTabColor(index);
+                // this.loadTabColor(index);
             }
-        },
-
-        moveWorksheet: function(cut, silent, index, destPos) {
-            var me = this;
-            var wc = me.api.asc_getWorksheetsCount(), items = [], i = -1;
-            while (++i < wc) {
-                if (!this.api.asc_isWorksheetHidden(i)) {
-                    items.push({
-                        value       : me.api.asc_getWorksheetName(i),
-                        inindex     : i
-                    });
-                }
-            }
-            if (!_.isUndefined(silent)) {
-                me.api.asc_showWorksheet(items[index].inindex);
-
-                Common.NotificationCenter.trigger('comments:updatefilter',
-                    {property: 'uid',
-                        value: new RegExp('^(doc_|sheet' + this.api.asc_getActiveWorksheetId() + '_)')});
-
-                if (!_.isUndefined(destPos)) {
-                    me.api.asc_moveWorksheet(items.length === destPos ? wc : items[destPos].inindex);
-                }
-
-                return;
-            }
-
-            (new SSE.Views.Statusbar.CopyDialog({
-                title   : cut ? me.statusbar.itemMove : me.statusbar.itemCopy,
-                ismove  : cut,
-                names   : items,
-                handler : function(btn, i) {
-                    if (btn == 'ok') {
-                        if (cut) {
-                            me.api.asc_moveWorksheet(i == -255 ? wc : i);
-                        } else {
-                            var new_text = me.createCopyName(me.api.asc_getWorksheetName(me.api.asc_getActiveWorksheetIndex()));
-                            me.api.asc_copyWorksheet(i == -255 ? wc : i, new_text);
-                        }
-                    }
-                    me.api.asc_enableKeyEvents(true);
-                }
-            })).show();
         },
 
         onAddWorksheetClick: function(o, index, opts) {
@@ -477,8 +423,17 @@ define([
         },
 
         onTabClick: function(index, model) {
-            this.api.asc_showWorksheet(model.get('index'));
-            this.statusbar.setActiveTab(index);
+            var opened = $('.document-menu.modal-in').length;
+            uiApp.closeModal('.document-menu.modal-in');
+
+            var newindex = model.get('index');
+            if ( newindex == this.api.asc_getActiveWorksheetIndex () ) {
+                if ( !opened )
+                    this.statusbar.showTabContextMenu(this._getTabMenuItems(), model);
+            } else {
+                this.api.asc_showWorksheet( newindex );
+                this.statusbar.setActiveTab(index);
+            }
         },
 
         onAddTab: function () {
@@ -486,6 +441,68 @@ define([
             this.api.asc_addWorksheet(this.createSheetName());
         },
 
+        onTabMenu: function (view, event, model) {
+            var me = this;
+
+            switch (event) {
+            case 'del': me.deleteWorksheet(); break;
+            case 'hide': me.hideWorksheet(true, model.get('index')); break;
+            case 'ins': me.api.asc_insertWorksheet(me.createSheetName()); break;
+            case 'copy':
+                var name = me.createCopyName(me.api.asc_getWorksheetName(me.api.asc_getActiveWorksheetIndex()));
+                me.api.asc_copyWorksheet(model.get('index'), name);
+                break;
+            case 'unhide':
+                var items = [];
+                _.each(this.hiddensheets.models, function (item) {
+                    items.push({
+                        caption: item.get('name'),
+                        event: 'reveal:' + item.get('index')
+                    })
+                });
+                _.defer(function () {
+                    me.statusbar.showTabContextMenu(items, model);
+                });
+                break;
+            default:
+                var _re = /reveal\:(\d+)/.exec(event);
+                if ( _re && !!_re[1] ) {
+                    me.hideWorksheet(false, parseInt(_re[1]));
+                }
+            }
+
+        },
+
+        _getTabMenuItems: function() {
+            var items = [
+                {
+                    caption: this.menuDuplicate,
+                    event: 'copy'
+                },
+                {
+                    caption: this.menuDelete,
+                    event: 'del'
+                },
+                {
+                    caption: this.menuHide,
+                    event: 'hide'
+                }
+            ];
+
+            if ( this.hiddensheets.length ) {
+                items.push({
+                    caption: this.menuUnhide,
+                    event: 'unhide'
+                });
+            }
+
+            return items;
+        },
+
+        menuDuplicate   : 'Duplicate',
+        menuDelete      : 'Delete',
+        menuHide        : 'Hide',
+        menuUnhide      : 'Unhide',
         errorLastSheet  : 'Workbook must have at least one visible worksheet.',
         errorRemoveSheet: 'Can\'t delete the worksheet.',
         warnDeleteSheet : 'The worksheet maybe has data. Proceed operation?',
