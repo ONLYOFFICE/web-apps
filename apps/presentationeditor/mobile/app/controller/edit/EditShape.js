@@ -42,8 +42,11 @@
 
 define([
     'core',
-    'presentationeditor/mobile/app/view/edit/EditShape'
-], function (core) {
+    'presentationeditor/mobile/app/view/edit/EditShape',
+    'jquery',
+    'underscore',
+    'backbone'
+], function (core, view, $, _, Backbone) {
     'use strict';
 
     PE.Controllers.EditShape = Backbone.Controller.extend(_.extend((function() {

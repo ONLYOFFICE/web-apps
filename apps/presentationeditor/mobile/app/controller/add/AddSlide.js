@@ -116,12 +116,7 @@ define([
 
                 this.getView('AddSlide').updateLayouts(_layouts);
                 $('#add-slide .slide-layout li').single('click',  _.buffered(me.onLayoutClick, 100, me));
-            },
-
-            textTableSize: 'Table Size',
-            textColumns: 'Columns',
-            textRows: 'Rows',
-            textCancel: 'Cancel'
+            }
         }
     })(), PE.Controllers.AddSlide || {}))
 });

@@ -5,13 +5,13 @@
             <li>
                 <a id="edit-link-type" class="item-link smart-select" data-back-on-select="true">
                     <select name="edit-link-type">
-                        <option value="1" selected>External Link</option>
-                        <option value="2">Internal Data Range</option>
+                        <option value="1" selected><%= scope.textExternalLink %></option>
+                        <option value="2"><%= scope.textInternalLink %></option>
                     </select>
                     <div class="item-content">
                         <div class="item-inner">
-                            <div class="item-title">Link Type</div>
-                            <div class="item-after">External Link</div>
+                            <div class="item-title"><%= scope.textLinkType %></div>
+                            <div class="item-after"><%= scope.textExternalLink %></div>
                         </div>
                     </div>
                 </a>
@@ -21,7 +21,7 @@
                     <select name="edit-link-sheet"></select>
                     <div class="item-content">
                         <div class="item-inner">
-                            <div class="item-title">Sheet</div>
+                            <div class="item-title"><%= scope.textSheet %></div>
                             <div class="item-after"></div>
                         </div>
                     </div>
@@ -30,7 +30,7 @@
             <li id="edit-link-range">
                 <div class="item-content">
                     <div class="item-inner">
-                        <div class="item-title">Range</div>
+                        <div class="item-title"><%= scope.textRange %></div>
                         <div class="item-after">
                             <div class="item-input">
                                 <input class="field right" type="text" placeholder="Required">
@@ -42,7 +42,7 @@
             <li id="edit-link-link">
                 <div class="item-content">
                     <div class="item-inner">
-                        <div class="item-title">Link</div>
+                        <div class="item-title"><%= scope.textLink %></div>
                         <div class="item-after">
                             <div class="item-input">
                                 <input class="field right" type="url" placeholder="Required">
@@ -54,10 +54,10 @@
             <li id="edit-link-display">
                 <div class="item-content">
                     <div class="item-inner">
-                        <div class="item-title">Display</div>
+                        <div class="item-title"><%= scope.textDisplay %></div>
                         <div class="item-after">
                             <div class="item-input">
-                                <input class="field right" type="text" placeholder="Display">
+                                <input class="field right" type="text">
                             </div>
                         </div>
                     </div>
@@ -66,10 +66,10 @@
             <li id="edit-link-tip">
                 <div class="item-content">
                     <div class="item-inner">
-                        <div class="item-title">Screen Tip</div>
+                        <div class="item-title"><%= scope.textScreenTip %></div>
                         <div class="item-after">
                             <div class="item-input">
-                                <input class="field right" type="text" placeholder="Screen Tip">
+                                <input class="field right" type="text">
                             </div>
                         </div>
                     </div>
@@ -79,15 +79,15 @@
     </div>
     <div class="list-block">
         <% if (android) { %>
-        <a href="#" id="edit-link-edit" class="button button-raised button-fill disabled" style="margin: 20px 16px;">Edit Link</a>
-        <a href="#" id="edit-link-remove" class="button button-raised button-fill" style="margin: 20px 16px; background-color: #f44336;">Remove Link</a>
+        <a href="#" id="edit-link-edit" class="button button-raised button-fill disabled" style="margin: 20px 16px;"><%= scope.textEditLink %></a>
+        <a href="#" id="edit-link-remove" class="button button-raised button-fill" style="margin: 20px 16px; background-color: #f44336;"><%= scope.textRemoveLink %></a>
         <% } else { %>
         <ul>
             <li>
-                <a href="#" id="edit-link-edit" class="list-button item-link disabled" style="text-align: center;">Edit Link</a>
+                <a href="#" id="edit-link-edit" class="list-button item-link disabled" style="text-align: center;"><%= scope.textEditLink %></a>
             </li>
             <li>
-                <a href="#" id="edit-link-remove" class="list-button item-link" style="text-align: center; color: #f00">Remove Link</a>
+                <a href="#" id="edit-link-remove" class="list-button item-link" style="text-align: center; color: #f00"><%= scope.textRemoveLink %></a>
             </li>
         </ul>
         <% } %>

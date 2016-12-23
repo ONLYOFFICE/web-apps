@@ -453,10 +453,10 @@ define([
 
                 // Cross
                 setOptions('horizontal-axis-cross', [
-                    {display: this.textAuto, value: Asc.c_oAscCrossesRule.auto},
-                    {display: this.textValue, value: Asc.c_oAscCrossesRule.value},
-                    {display: this.textMinValue, value: Asc.c_oAscCrossesRule.minValue},
-                    {display: this.textMaxValue, value: Asc.c_oAscCrossesRule.maxValue}
+                    {display: me.textAuto, value: Asc.c_oAscCrossesRule.auto},
+                    {display: me.textValue, value: Asc.c_oAscCrossesRule.value},
+                    {display: me.textMinValue, value: Asc.c_oAscCrossesRule.minValue},
+                    {display: me.textMaxValue, value: Asc.c_oAscCrossesRule.maxValue}
                 ]);
 
                 var crossValue = axisProps.getCrossesRule();
@@ -469,8 +469,8 @@ define([
 
                 // Pos
                 setOptions('horizontal-axis-position', [
-                    {display: this.textOnTickMarks, value: Asc.c_oAscLabelsPosition.byDivisions},
-                    {display: this.textBetweenTickMarks, value: Asc.c_oAscLabelsPosition.betweenDivisions}
+                    {display: me.textOnTickMarks, value: Asc.c_oAscLabelsPosition.byDivisions},
+                    {display: me.textBetweenTickMarks, value: Asc.c_oAscLabelsPosition.betweenDivisions}
                 ]);
 
                 setValue('horizontal-axis-position', axisProps.getLabelsPosition());
@@ -478,10 +478,10 @@ define([
 
                 // Tick
                 var tickOptions = [
-                    {display: this.textNone, value: Asc.c_oAscTickMark.TICK_MARK_NONE},
-                    {display: this.textCross, value: Asc.c_oAscTickMark.TICK_MARK_CROSS},
-                    {display: this.textIn, value: Asc.c_oAscTickMark.TICK_MARK_IN},
-                    {display: this.textOut, value: Asc.c_oAscTickMark.TICK_MARK_OUT}
+                    {display: me.textNone, value: Asc.c_oAscTickMark.TICK_MARK_NONE},
+                    {display: me.textCross, value: Asc.c_oAscTickMark.TICK_MARK_CROSS},
+                    {display: me.textIn, value: Asc.c_oAscTickMark.TICK_MARK_IN},
+                    {display: me.textOut, value: Asc.c_oAscTickMark.TICK_MARK_OUT}
                 ];
 
                 setOptions('horizontal-axis-tick-major', tickOptions);
@@ -492,10 +492,10 @@ define([
 
                 // Label
                 setOptions('horizontal-axis-label-pos', [
-                    {display: this.textNone, value: Asc.c_oAscTickLabelsPos.TICK_LABEL_POSITION_NONE},
-                    {display: this.textLow, value: Asc.c_oAscTickLabelsPos.TICK_LABEL_POSITION_LOW},
-                    {display: this.textHigh, value: Asc.c_oAscTickLabelsPos.TICK_LABEL_POSITION_HIGH},
-                    {display: this.textNextToAxis, value: Asc.c_oAscTickLabelsPos.TICK_LABEL_POSITION_NEXT_TO}
+                    {display: me.textNone, value: Asc.c_oAscTickLabelsPos.TICK_LABEL_POSITION_NONE},
+                    {display: me.textLow, value: Asc.c_oAscTickLabelsPos.TICK_LABEL_POSITION_LOW},
+                    {display: me.textHigh, value: Asc.c_oAscTickLabelsPos.TICK_LABEL_POSITION_HIGH},
+                    {display: me.textNextToAxis, value: Asc.c_oAscTickLabelsPos.TICK_LABEL_POSITION_NEXT_TO}
                 ]);
                 setValue('horizontal-axis-label-pos', axisProps.getTickLabelsPos());
 
@@ -1059,33 +1059,9 @@ define([
                 return clr;
             },
 
-            textChart: 'Chart',
-            textLayout: 'Layout',
-            textLegendPos: 'Legend',
-            textHorTitle: 'Horizontal Axis Title',
-            textVertTitle: 'Vertical Axis Title',
-            textDataLabels: 'Data Labels',
-            textSeparator: 'Data Labels Separator',
-            textSeriesName: 'Series Name',
-            textCategoryName: 'Category Name',
             textValue: 'Value',
-            textAxisOptions: 'Axis Options',
             textMinValue: 'Minimum Value',
             textMaxValue: 'Maximum Value',
-            textAxisCrosses: 'Axis Crosses',
-            textUnits: 'Display Units',
-            textTickOptions: 'Tick Options',
-            textMajorType: 'Major Type',
-            textMinorType: 'Minor Type',
-            textLabelOptions: 'Label Options',
-            textLabelPos: 'Label Position',
-            textReverse: 'Values in reverse order',
-            textVertAxis: 'Vertical Axis',
-            textHorAxis: 'Horizontal Axis',
-            textMarksInterval: 'Interval between Marks',
-            textLabelDist: 'Axis Label Distance',
-            textLabelInterval: 'Interval between Labels',
-            textAxisPos: 'Axis Position',
             textLeftOverlay: 'Left Overlay',
             textRightOverlay: 'Right Overlay',
             textOverlay: 'Overlay',
@@ -1118,24 +1094,8 @@ define([
             textManual: 'Manual',
             textBetweenTickMarks: 'Between Tick Marks',
             textOnTickMarks: 'On Tick Marks',
-            textHorGrid: 'Horizontal Gridlines',
-            textVertGrid: 'Vertical Gridlines',
-            textLines: 'Lines',
-            textMarkers: 'Markers',
-            textMajor: 'Major',
-            textMinor: 'Minor',
-            textMajorMinor: 'Major and Minor',
-            textStraight: 'Straight',
-            textSmooth: 'Smooth',
-            textType: 'Type',
-            textTypeData: 'Type & Data',
-            textStyle: 'Style',
             errorMaxRows: 'ERROR! The maximum number of data series per chart is 255.',
             errorStockChart: 'Incorrect row order. To build a stock chart place the data on the sheet in the following order:<br> opening price, max price, min price, closing price.',
-            textAxisSettings: 'Axis Settings',
-            textGridLines: 'Gridlines',
-            textShow: 'Show',
-            textHide: 'Hide',
             textLeft: 'Left',
             textRight: 'Right',
             textTop: 'Top',

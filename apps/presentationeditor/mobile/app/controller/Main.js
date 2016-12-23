@@ -42,9 +42,12 @@
 
 define([
     'core',
+    'jquery',
+    'underscore',
+    'backbone',
     'irregularstack',
     'common/main/lib/util/LocalStorage'
-], function () {
+], function (core, $, _, Backbone) {
     'use strict';
 
     PE.Controllers.Main = Backbone.Controller.extend(_.extend((function() {
@@ -1131,8 +1134,6 @@ define([
             txtSldLtTVertTitleAndTxOverChart: 'Vertical Title and Text Over Chart',
             txtSldLtTVertTx: 'Vertical Text',
             textLoadingDocument: 'Loading presentation',
-            warnBrowserZoom: 'Your browser\'s current zoom setting is not fully supported. Please reset to the default zoom by pressing Ctrl+0.',
-            warnBrowserIE9: 'The application has low capabilities on IE9. Use IE10 or higher',
             loadThemeTitleText: 'Loading Theme',
             loadThemeTextText: 'Loading theme...',
             txtBasicShapes: 'Basic Shapes',
@@ -1174,8 +1175,7 @@ define([
             txtArt: 'Your text here',
             errorConnectToServer: ' The document could not be saved. Please check connection settings or contact your administrator.<br>When you click the \'OK\' button, you will be prompted to download the document.<br><br>' +
             'Find more information about connecting Document Server <a href=\"https://api.onlyoffice.com/editors/callback\" target=\"_blank\">here</a>',
-            textTryUndoRedo: 'The Undo/Redo functions are disabled for the Fast co-editing mode.<br>Click the \'Strict mode\' button to switch to the Strict co-editing mode to edit the file without other users interference and send your changes only after you save them. You can switch between the co-editing modes using the editor Advanced settings.',
-            textStrict: 'Strict mode',
+            textTryUndoRedo: 'The Undo/Redo functions are disabled for the Fast co-editing mode.',
             textBuyNow: 'Visit website',
             textNoLicenseTitle: 'ONLYOFFICE open source version',
             warnNoLicense: 'You are using an open source version of ONLYOFFICE. The version has limitations for concurrent connections to the document server (20 connections at a time).<br>If you need more please consider purchasing a commercial license.',

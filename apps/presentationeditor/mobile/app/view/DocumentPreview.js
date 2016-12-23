@@ -32,82 +32,44 @@
  */
 
 /**
- *  EditHyperlink.js
- *  Spreadsheet Editor
+ *  DocumentPreview.js
+ *  Presentation Editor
  *
- *  Created by Alexander Yuzhin on 12/20/16
+ *  Created by Julia Radzhabova on 12/22/16
  *  Copyright (c) 2016 Ascensio System SIA. All rights reserved.
  *
  */
 
 define([
-    'text!spreadsheeteditor/mobile/app/template/EditHyperlink.template',
     'jquery',
     'underscore',
     'backbone'
-], function (editTemplate, $, _, Backbone) {
+], function ($, _, Backbone) {
     'use strict';
 
-    SSE.Views.EditHyperlink = Backbone.View.extend(_.extend((function() {
+    PE.Views.DocumentPreview = Backbone.View.extend((function() {
         // private
-        var _editCellController;
 
         return {
-            // el: '.view-main',
+            el: '#pe-preview',
 
-            template: _.template(editTemplate),
-
+            template: _.template('<div id="presentation-preview" style="width:100%; height:100%"></div>'),
+            // Delegated events for creating new items, and clearing completed ones.
             events: {
             },
 
-            initialize: function () {
-                _editCellController = SSE.getController('EditHyperlink');
-
-                Common.NotificationCenter.on('editcontainer:show', _.bind(this.initEvents, this));
-            },
-
-            initEvents: function () {
-                var me = this;
-
-                me.initControls();
-            },
-
-            // Render layout
-            render: function () {
-                this.layout = $('<div/>').append(this.template({
-                    android : Common.SharedSettings.get('android'),
-                    phone   : Common.SharedSettings.get('phone'),
-                    scope   : this
-                }));
-
-                return this;
-            },
-
-            rootLayout: function () {
-                if (this.layout) {
-                    return this.layout
-                        .find('#edit-link-root')
-                        .html();
-                }
-
-                return '';
-            },
-
-            initControls: function () {
+            // Set innerHTML and get the references to the DOM elements
+            initialize: function() {
                 //
             },
 
-            textBack: 'Back',
-            textExternalLink: 'External Link',
-            textInternalLink: 'Internal Data Range',
-            textLinkType: 'Link Type',
-            textSheet: 'Sheet',
-            textRange: 'Range',
-            textLink: 'Link',
-            textDisplay: 'Display',
-            textScreenTip: 'Screen Tip',
-            textEditLink: 'Edit Link',
-            textRemoveLink: 'Remove Link'
+            // Render layout
+            render: function() {
+                var el = $(this.el);
+                el.append(this.template({}));
+
+                return this;
+            }
         }
-    })(), SSE.Views.EditHyperlink || {}))
+    })());
 });

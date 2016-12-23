@@ -83,8 +83,10 @@
                         <div id="add-link-range" class="item-content">
                             <div class="item-inner">
                                 <div class="item-title label"><%= scope.textRange %></div>
-                                <div class="item-input">
-                                    <input type="text" class="field right range" placeholder="<%= scope.textRange %>">
+                                <div class="item-after">
+                                    <div class="item-input">
+                                        <input type="text" class="field right range" placeholder="<%= scope.textRequired %>">
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -92,8 +94,10 @@
                         <div id="add-link-url" class="item-content">
                             <div class="item-inner">
                                 <div class="item-title label"><%= scope.textLink %></div>
-                                <div class="item-input">
-                                    <input type="url" class="field right" placeholder="<%= scope.textLink %>">
+                                <div class="item-after">
+                                    <div class="item-input">
+                                        <input type="url" class="field right" placeholder="<%= scope.textRequired %>">
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -102,8 +106,10 @@
                         <div id="add-link-display" class="item-content">
                             <div class="item-inner">
                                 <div class="item-title label"><%= scope.textDisplay %></div>
-                                <div class="item-input">
-                                    <input type="text" class="field right" placeholder="<%= scope.textDisplay %>">
+                                <div class="item-after">
+                                    <div class="item-input">
+                                        <input type="text" class="field right">
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -112,8 +118,10 @@
                         <div id="add-link-tip" class="item-content">
                             <div class="item-inner">
                                 <div class="item-title label"><%= scope.textTip %></div>
-                                <div class="item-input">
-                                    <input type="text" class="field right" placeholder="<%= scope.textTip %>">
+                                <div class="item-after">
+                                    <div class="item-input">
+                                        <input type="text" class="field right">
+                                    </div>
                                 </div>
                             </div>
                         </div>

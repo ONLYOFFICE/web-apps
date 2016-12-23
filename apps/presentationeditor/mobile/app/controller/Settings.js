@@ -43,8 +43,11 @@
 
 define([
     'core',
+    'jquery',
+    'underscore',
+    'backbone',
     'presentationeditor/mobile/app/view/Settings'
-], function (core) {
+], function (core, $, _, Backbone) {
     'use strict';
 
     PE.Controllers.Settings = Backbone.Controller.extend(_.extend((function() {
@@ -98,6 +101,8 @@ define([
             },
 
             showModal: function() {
+                uiApp.closeModal();
+
                 if (Common.SharedSettings.get('phone')) {
                     modalView = uiApp.popup(
                         '<div class="popup settings container-settings">' +
@@ -228,8 +233,7 @@ define([
             },
 
             txtLoading              : 'Loading...',
-            notcriticalErrorTitle   : 'Warning',
-            warnDownloadAs          : 'If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?'
+            notcriticalErrorTitle   : 'Warning'
         }
     })(), PE.Controllers.Settings || {}))
 });

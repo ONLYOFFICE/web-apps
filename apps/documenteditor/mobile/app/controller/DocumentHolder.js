@@ -43,13 +43,17 @@
 
 define([
     'core',
+    'jquery',
+    'underscore',
+    'backbone',
     'documenteditor/mobile/app/view/DocumentHolder'
-], function (core) {
+], function (core, $, _, Backbone) {
     'use strict';
 
     DE.Controllers.DocumentHolder = Backbone.Controller.extend(_.extend((function() {
         // private
         var _stack,
+            _view,
             _isEdit = false;
 
         return {
@@ -68,10 +72,12 @@ define([
             },
 
             setApi: function(api) {
-                this.api = api;
+                var me = this;
 
-                this.api.asc_registerCallback('asc_onShowPopMenu',      _.bind(this.onApiShowPopMenu, this));
-                this.api.asc_registerCallback('asc_onHidePopMenu',      _.bind(this.onApiHidePopMenu, this));
+                me.api = api;
+
+                me.api.asc_registerCallback('asc_onShowPopMenu',      _.bind(me.onApiShowPopMenu, me));
+                me.api.asc_registerCallback('asc_onHidePopMenu',      _.bind(me.onApiHidePopMenu, me));
             },
 
             setMode: function (mode) {
@@ -82,7 +88,7 @@ define([
             onLaunch: function() {
                 var me = this;
 
-                me.view = me.createView('DocumentHolder').render();
+                _view = me.createView('DocumentHolder').render();
 
                 $$(window).on('resize', _.bind(me.onEditorResize, me));
             },
@@ -101,11 +107,11 @@ define([
                 } else if ('delete' == eventName) {
                     me.api.asc_Remove();
                 } else if ('edit' == eventName) {
-                    me.view.hideMenu();
+                    _view.hideMenu();
 
                     DE.getController('EditContainer').showModal();
                 } else if ('addlink' == eventName) {
-                    me.view.hideMenu();
+                    _view.hideMenu();
 
                     DE.getController('AddContainer').showModal();
                     DE.getController('AddOther').getView('AddOther').showLink();
@@ -118,7 +124,7 @@ define([
                     });
                 }
 
-                me.view.hideMenu();
+                _view.hideMenu();
             },
 
             // API Handlers
@@ -128,17 +134,21 @@ define([
             },
 
             onApiShowPopMenu: function(posX, posY) {
+                if ($('.popover.settings, .popup.settings, .picker-modal.settings').length > 0) {
+                    return;
+                }
+
                 var me = this,
                     items;
 
                 _stack = me.api.getSelectedElements();
                 items = me._initMenu(_stack);
 
-                me.view.showMenu(items, posX, posY);
+                _view.showMenu(items, posX, posY);
             },
 
             onApiHidePopMenu: function() {
-                this.view.hideMenu();
+                _view && _view.hideMenu();
             },
 
             // Internal

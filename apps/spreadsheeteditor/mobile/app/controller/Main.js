@@ -538,7 +538,7 @@ define([
                     } else {
                         value = 0;
                     }
-                    // me.api.asc_setAutoSaveGap(value);
+                    me.api.asc_setAutoSaveGap(value);
 
                     if (me.needToUpdateVersion) {
                         Common.NotificationCenter.trigger('api:disconnect');

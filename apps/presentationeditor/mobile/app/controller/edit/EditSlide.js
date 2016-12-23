@@ -42,8 +42,11 @@
 
 define([
     'core',
-    'presentationeditor/mobile/app/view/edit/EditSlide'
-], function (core) {
+    'presentationeditor/mobile/app/view/edit/EditSlide',
+    'jquery',
+    'underscore',
+    'backbone'
+], function (core, view, $, _, Backbone) {
     'use strict';
 
     PE.Controllers.EditSlide = Backbone.Controller.extend(_.extend((function() {
