@@ -2033,14 +2033,14 @@ define([
 
         onFootnotePrevClick: function(btn) {
             if (this.api)
-                this.api.GotoFootnotePrev();
+                this.api.asc_GotoFootnote(false);
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
         onFootnoteNextClick: function(btn) {
             if (this.api)
-                this.api.GotoFootnoteNext();
+                this.api.asc_GotoFootnote(true);
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
