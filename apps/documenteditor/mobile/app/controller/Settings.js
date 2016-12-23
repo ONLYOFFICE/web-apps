@@ -102,6 +102,8 @@ define([
             },
 
             showModal: function() {
+                uiApp.closeModal();
+
                 if (Common.SharedSettings.get('phone')) {
                     modalView = uiApp.popup(
                         '<div class="popup settings container-settings">' +
