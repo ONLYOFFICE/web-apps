@@ -74,13 +74,13 @@ define([
 
             this.sheets = this.getApplication().getCollection('Sheets');
             this.sheets.bind({
-                add     : function (model, collection, opts) {
+                add:    function (model, collection, opts) {
                     console.log('add in collection');
                 },
-                change  : function (model) {
+                change: function (model) {
                     console.log('change in collection');
                 },
-                reset   : function (collection, opts) {
+                reset:  function (collection, opts) {
                     me.statusbar.clearTabs();
                     collection.each(function(model) {
                         var $item = me.statusbar.addSheet(model);
