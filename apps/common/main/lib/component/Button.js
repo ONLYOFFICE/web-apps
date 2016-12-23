@@ -467,8 +467,10 @@ define([
             var cmpEl = this.cmpEl,
                 modalParents = cmpEl.closest('.asc-window');
 
+            if (cmpEl.data('bs.tooltip'))
+                cmpEl.removeData('bs.tooltip');
             cmpEl.attr('data-toggle', 'tooltip');
-            cmpEl.tooltip('destroy').tooltip({
+            cmpEl.tooltip({
                 title       : hint,
                 placement   : this.options.hintAnchor || 'cursor'
             });

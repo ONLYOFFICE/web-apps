@@ -1284,7 +1284,7 @@ define([
             this.btnWrap.updateHint(this.tipWrap);
             this.btnTextOrient.updateHint(this.tipTextOrientation);
             this.btnInsertImage.updateHint(this.tipInsertImage);
-            this.btnInsertChart.updateHint(this.tipInsertChart);
+            this.btnInsertChart.updateHint(this.tipInsertChartSpark);
             this.btnInsertText.updateHint(this.tipInsertText);
             this.btnInsertHyperlink.updateHint(this.tipInsertHyperlink + Common.Utils.String.platformKey('Ctrl+K'));
             this.btnInsertShape.updateHint(this.tipInsertShape);
@@ -2102,6 +2102,7 @@ define([
         textWinLossSpark:   'Win/Loss',
         tipInsertEquation:  'Insert Equation',
         textCharts:         'Charts',
-        textSparks:         'Sparklines'
+        textSparks:         'Sparklines',
+        tipInsertChartSpark: 'Insert Chart or Sparkline'
     }, SSE.Views.Toolbar || {}));
 });
