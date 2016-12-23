@@ -91,9 +91,11 @@ define([
             showSettings: function (e) {
                 var me = this;
 
+                uiApp.closeModal();
+
                 if (Common.SharedSettings.get('phone')) {
                     me.picker = $$(uiApp.popup([
-                        '<div class="popup">',
+                        '<div class="popup settings">',
                             '<div class="view search-settings-view navbar-through">',
                                 _layout.find('#search-settings-view').html(),
                             '</div>',

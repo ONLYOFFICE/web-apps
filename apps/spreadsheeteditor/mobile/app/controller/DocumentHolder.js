@@ -127,6 +127,10 @@ define([
             },
 
             onApiShowPopMenu: function(posX, posY) {
+                if ($('.popover.settings, .popup.settings, .picker-modal.settings').length > 0) {
+                    return;
+                }
+
                 var me = this,
                     items;
 
