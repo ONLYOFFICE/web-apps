@@ -315,7 +315,7 @@ define([
                 } else {
                     _.delay(function () {
                         $(me.loadMask).hasClass('modal-in') && uiApp.closeModal(me.loadMask);
-                    }, 200);
+                    }, 300);
                 }
 
                 if (id==Asc.c_oAscAsyncAction['Save'] && (!me._state.fastCoauth || me._state.usersCount<2)) {
@@ -324,98 +324,102 @@ define([
             },
 
             setLongActionView: function(action) {
-                var title = '',
+                var me = this,
+                    title = '',
                     text = '';
 
                 switch (action.id) {
                     case Asc.c_oAscAsyncAction['Open']:
-                        title   = this.openTitleText;
-                        text    = this.openTextText;
+                        title   = me.openTitleText;
+                        text    = me.openTextText;
                         break;
 
                     case Asc.c_oAscAsyncAction['Save']:
-                        this._state.isSaving = new Date();
-                        title   = this.saveTitleText;
-                        text    = this.saveTextText;
+                        me._state.isSaving = new Date();
+                        title   = me.saveTitleText;
+                        text    = me.saveTextText;
                         break;
 
                     case Asc.c_oAscAsyncAction['LoadDocumentFonts']:
-                        title   = this.loadFontsTitleText;
-                        text    = this.loadFontsTextText;
+                        title   = me.loadFontsTitleText;
+                        text    = me.loadFontsTextText;
                         break;
 
                     case Asc.c_oAscAsyncAction['LoadDocumentImages']:
-                        title   = this.loadImagesTitleText;
-                        text    = this.loadImagesTextText;
+                        title   = me.loadImagesTitleText;
+                        text    = me.loadImagesTextText;
                         break;
 
                     case Asc.c_oAscAsyncAction['LoadFont']:
-                        title   = this.loadFontTitleText;
-                        text    = this.loadFontTextText;
+                        title   = me.loadFontTitleText;
+                        text    = me.loadFontTextText;
                         break;
 
                     case Asc.c_oAscAsyncAction['LoadImage']:
-                        title   = this.loadImageTitleText;
-                        text    = this.loadImageTextText;
+                        title   = me.loadImageTitleText;
+                        text    = me.loadImageTextText;
                         break;
 
                     case Asc.c_oAscAsyncAction['DownloadAs']:
-                        title   = this.downloadTitleText;
-                        text    = this.downloadTextText;
+                        title   = me.downloadTitleText;
+                        text    = me.downloadTextText;
                         break;
 
                     case Asc.c_oAscAsyncAction['Print']:
-                        title   = this.printTitleText;
-                        text    = this.printTextText;
+                        title   = me.printTitleText;
+                        text    = me.printTextText;
                         break;
 
                     case Asc.c_oAscAsyncAction['UploadImage']:
-                        title   = this.uploadImageTitleText;
-                        text    = this.uploadImageTextText;
+                        title   = me.uploadImageTitleText;
+                        text    = me.uploadImageTextText;
                         break;
 
                     case Asc.c_oAscAsyncAction['ApplyChanges']:
-                        title   = this.applyChangesTitleText;
-                        text    = this.applyChangesTextText;
+                        title   = me.applyChangesTitleText;
+                        text    = me.applyChangesTextText;
                         break;
 
                     case Asc.c_oAscAsyncAction['PrepareToSave']:
-                        title   = this.savePreparingText;
-                        text    = this.savePreparingTitle;
+                        title   = me.savePreparingText;
+                        text    = me.savePreparingTitle;
                         break;
 
                     case Asc.c_oAscAsyncAction['MailMergeLoadFile']:
-                        title   = this.mailMergeLoadFileText;
-                        text    = this.mailMergeLoadFileTitle;
+                        title   = me.mailMergeLoadFileText;
+                        text    = me.mailMergeLoadFileTitle;
                         break;
 
                     case Asc.c_oAscAsyncAction['DownloadMerge']:
-                        title   = this.downloadMergeTitle;
-                        text    = this.downloadMergeText;
+                        title   = me.downloadMergeTitle;
+                        text    = me.downloadMergeText;
                         break;
 
                     case Asc.c_oAscAsyncAction['SendMailMerge']:
-                        title   = this.sendMergeTitle;
-                        text    = this.sendMergeText;
+                        title   = me.sendMergeTitle;
+                        text    = me.sendMergeText;
                         break;
 
                     case ApplyEditRights:
-                        title   = this.txtEditingMode;
-                        text    = this.txtEditingMode;
+                        title   = me.txtEditingMode;
+                        text    = me.txtEditingMode;
                         break;
 
                     case LoadingDocument:
-                        title   = this.loadingDocumentTitleText;
-                        text    = this.loadingDocumentTextText;
+                        title   = me.loadingDocumentTitleText;
+                        text    = me.loadingDocumentTextText;
                         break;
                 }
 
-                if (action.type == Asc.c_oAscAsyncActionType['BlockInteraction']) {
-                    if (!this.loadMask)
-                        this.loadMask = uiApp.showPreloader(title);
+                if (action.type == Asc.c_oAscAsyncActionType.BlockInteraction) {
+                    if (me.loadMask && $(me.loadMask).hasClass('modal-in')) {
+                        $$(me.loadMask).find('.modal-title').text(title);
+                    } else {
+                        me.loadMask = uiApp.showPreloader(title);
+                    }
                 }
                 else {
-//                    this.getApplication().getController('Statusbar').setStatusCaption(text);
+//                    me.getApplication().getController('Statusbar').setStatusCaption(text);
                 }
             },
 
@@ -428,7 +432,7 @@ define([
 //                        data.requestrights = true;
 //                        this.appOptions.isEdit= true;
 //
-//                        this.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'],ApplyEditRights);
+//                        this.onLongActionBegin(Asc.c_oAscAsyncActionType.BlockInteraction,ApplyEditRights);
 //
 //                        var me = this;
 //                        setTimeout(function(){
@@ -497,7 +501,7 @@ define([
                 // me.api.asc_cleanSelection();
 
                 me.hidePreloader();
-                me.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
+                me.onLongActionEnd(Asc.c_oAscAsyncActionType.BlockInteraction, LoadingDocument);
 
                 value = (this.appOptions.isEditMailMerge || this.appOptions.isEditDiagram) ? 100 : Common.localStorage.getItem("sse-settings-zoom");
                 var zf = (value!==null) ? parseInt(value)/100 : (this.appOptions.customization && this.appOptions.customization.zoom ? parseInt(this.appOptions.customization.zoom)/100 : 1);
@@ -710,11 +714,11 @@ define([
                     if (me.appOptions.isEditDiagram)
                         me.api.asc_registerCallback('asc_onSelectionChanged',        _.bind(me.onSelectionChanged, me));
 
-                    if (me.stackLongActions.exist({id: ApplyEditRights, type: Asc.c_oAscAsyncActionType['BlockInteraction']})) {
-                        me.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], ApplyEditRights);
+                    if (me.stackLongActions.exist({id: ApplyEditRights, type: Asc.c_oAscAsyncActionType.BlockInteraction})) {
+                        me.onLongActionEnd(Asc.c_oAscAsyncActionType.BlockInteraction, ApplyEditRights);
                     } else if (!this._isDocReady) {
                         me.hidePreloader();
-                        me.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
+                        me.onLongActionBegin(Asc.c_oAscAsyncActionType.BlockInteraction, LoadingDocument);
                     }
 
                     // Message on window close
@@ -737,7 +741,7 @@ define([
 
             onError: function(id, level, errData) {
                 this.hidePreloader();
-                this.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
+                this.onLongActionEnd(Asc.c_oAscAsyncActionType.BlockInteraction, LoadingDocument);
 
                 var config = {
                     closable: false
@@ -1085,7 +1089,7 @@ define([
             onUpdateVersion: function(callback) {
                 var me = this;
                 me.needToUpdateVersion = true;
-                me.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
+                me.onLongActionEnd(Asc.c_oAscAsyncActionType.BlockInteraction, LoadingDocument);
 
                 uiApp.alert(
                     me.errorUpdateVersion,
@@ -1098,7 +1102,7 @@ define([
                                 callback.call(me);
                             }
 
-                            me.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
+                            me.onLongActionBegin(Asc.c_oAscAsyncActionType.BlockInteraction, LoadingDocument);
                         })
                 });
             },
@@ -1138,7 +1142,76 @@ define([
                 var type = advOptions.asc_getOptionId(),
                     me = this, modal;
                 if (type == Asc.c_oAscAdvancedOptionsID.CSV) {
-                    // TODO: Fix Open CSV
+                    var picker,
+                        pages = [],
+                        pagesName = [];
+
+                    _.each(advOptions.asc_getOptions().asc_getCodePages(), function(page) {
+                        pages.push(page.asc_getCodePage());
+                        pagesName.push(page.asc_getCodePageName());
+                    });
+
+                    $(me.loadMask).hasClass('modal-in') && uiApp.closeModal(me.loadMask);
+
+                    me.onLongActionEnd(Asc.c_oAscAsyncActionType.BlockInteraction, LoadingDocument);
+
+                    modal = uiApp.modal({
+                        title: me.advCSVOptions,
+                        text: '',
+                        afterText:
+                        '<div class="content-block small-picker" style="padding: 0; margin: 20px 0 0;">' +
+                            '<div class="row">' +
+                                '<div class="col-50" style="text-align: left;">' + me.txtEncoding + '</div>' +
+                                '<div class="col-50" style="text-align: right;">' + me.txtDelimiter + '</div>' +
+                            '</div>' +
+                            '<div id="txt-encoding" class="small"></div>' +
+                        '</div>',
+                        buttons: [
+                            {
+                                text: 'OK',
+                                bold: true,
+                                onClick: function() {
+                                    var encoding  = picker.cols[0].value,
+                                        delimiter = picker.cols[1].value;
+
+                                    if (me.api) {
+                                        me.api.asc_setAdvancedOptions(type, new Asc.asc_CCSVAdvancedOptions(encoding, delimiter));
+
+                                        if (!me._isDocReady) {
+                                            me.onLongActionBegin(Asc.c_oAscAsyncActionType.BlockInteraction, LoadingDocument);
+                                        }
+                                    }
+                                }
+                            }
+                        ]
+                    });
+
+                    var recommendedSettings = advOptions.asc_getOptions().asc_getRecommendedSettings();
+
+                    picker = uiApp.picker({
+                        container: '#txt-encoding',
+                        toolbar: false,
+                        rotateEffect: true,
+                        value: [
+                            recommendedSettings && recommendedSettings.asc_getCodePage(),
+                            (recommendedSettings && recommendedSettings.asc_getDelimiter()) ? recommendedSettings.asc_getDelimiter() : 4
+                        ],
+                        cols: [{
+                            textAlign: 'left',
+                            values: pages,
+                            displayValues: pagesName
+                        },{
+                            textAlign: 'right',
+                            width: 120,
+                            values: [4, 2, 3, 1, 5],
+                            displayValues: [',', ';', ':', this.txtTab, this.txtSpace]
+                        }]
+                    });
+
+                    // Vertical align
+                    $$(modal).css({
+                        marginTop: - Math.round($$(modal).outerHeight() / 2) + 'px'
+                    });
                 } else if (type == Asc.c_oAscAdvancedOptionsID.DRM) {
                     modal = uiApp.modal({
                         title: me.advDRMOptions,
@@ -1153,7 +1226,7 @@ define([
                                     me.api.asc_setAdvancedOptions(type, new Asc.asc_CDRMAdvancedOptions(password));
 
                                     if (!me._isDocReady) {
-                                        me.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
+                                        me.onLongActionBegin(Asc.c_oAscAsyncActionType.BlockInteraction, LoadingDocument);
                                     }
                                 }
                             }
@@ -1324,7 +1397,15 @@ define([
             warnLicenseExp: 'Your license has expired.<br>Please update your license and refresh the page.',
             titleLicenseExp: 'License expired',
             openErrorText: 'An error has occurred while opening the file',
-            saveErrorText: 'An error has occurred while saving the file'
+            saveErrorText: 'An error has occurred while saving the file',
+            txtEncoding: 'Encoding',
+            txtDelimiter: 'Delimiter',
+            txtSpace: 'Space',
+            txtTab: 'Tab',
+            advCSVOptions: 'Choose CSV Options',
+            advDRMOptions: 'Protected File',
+            advDRMEnterPassword: 'You password please:',
+            advDRMPassword: 'Password'
         }
     })(), SSE.Controllers.Main || {}))
 });
