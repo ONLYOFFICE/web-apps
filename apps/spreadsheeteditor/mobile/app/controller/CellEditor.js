@@ -76,7 +76,7 @@ define([
 
             // this.api.isCEditorFocused = false;
             this.api.asc_registerCallback('asc_onSelectionNameChanged', _.bind(this.onApiCellSelection, this));
-            // this.api.asc_registerCallback('asc_onEditCell', _.bind(this.onApiEditCell, this));
+            this.api.asc_registerCallback('asc_onEditCell', _.bind(this.onApiEditCell, this));
             // this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onApiDisconnect,this));
             // Common.NotificationCenter.on('api:disconnect', _.bind(this.onApiDisconnect, this));
             // Common.NotificationCenter.on('cells:range', _.bind(this.onCellsRange, this));
