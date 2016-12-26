@@ -48,8 +48,15 @@ define([
 
     SSE.Controllers.DocumentHolder = Backbone.Controller.extend((function() {
         // private
-        var _stack,
-            _isEdit = false;
+        var _isEdit = false;
+
+        function openLink(url) {
+            var newDocumentPage = window.open(url, '_blank');
+
+            if (newDocumentPage) {
+                newDocumentPage.focus();
+            }
+        }
 
         return {
             models: [],
@@ -69,8 +76,8 @@ define([
             setApi: function(api) {
                 this.api = api;
 
-                // this.api.asc_registerCallback('asc_onShowPopMenu',      _.bind(this.onApiShowPopMenu, this));
-                // this.api.asc_registerCallback('asc_onHidePopMenu',      _.bind(this.onApiHidePopMenu, this));
+                this.api.asc_registerCallback('asc_onShowPopMenu',      _.bind(this.onApiShowPopMenu, this));
+                this.api.asc_registerCallback('asc_onHidePopMenu',      _.bind(this.onApiHidePopMenu, this));
             },
 
             setMode: function (mode) {
@@ -88,33 +95,48 @@ define([
 
             // Handlers
 
-            onContextMenuClick: function (view, eventName) {
+            onContextMenuClick: function (view, event) {
                 var me = this;
+                var info = me.api.asc_getCellInfo();
 
-                if ('cut' == eventName) {
-                    me.api.asc_Cut();
-                } else if ('copy' == eventName) {
-                    me.api.asc_Copy();
-                } else if ('paste' == eventName) {
-                    me.api.asc_Paste();
-                } else if ('delete' == eventName) {
-                    console.debug('IMPLEMENT: Delete fragment');
-                } else if ('edit' == eventName) {
+                switch (event) {
+                case 'cut': me.api.asc_Cut(); break;
+                case 'copy': me.api.asc_Copy(); break;
+                case 'paste': me.api.asc_Paste(); break;
+                case 'del': me.api.asc_emptyCells(Asc.c_oAscCleanOptions.All); break;
+                case 'wrap': me.api.asc_setCellTextWrap(true); break;
+                case 'unwrap': me.api.asc_setCellTextWrap(false); break;
+                case 'edit':
                     me.view.hideMenu();
-
-                    SSE.getController('EditContainer').showModal();
-                } else if ('addlink' == eventName) {
-                    me.view.hideMenu();
-
                     SSE.getController('AddContainer').showModal();
-                    SSE.getController('AddOther').getView('AddOther').showLink();
-                } else if ('openlink' == eventName) {
-                    _.some(_stack, function (item) {
-                        if (item.get_ObjectType() == Asc.c_oAscTypeSelectElement.Hyperlink) {
-                            me._openLink(item.get_ObjectValue().get_Value());
-                            return true;
-                        }
-                    });
+                    // SSE.getController('EditCell').getView('EditCell');
+                    break;
+                case 'merge':
+                    if (me.api.asc_mergeCellsDataLost(Asc.c_oAscMergeOptions.Merge)) {
+                        uiApp.confirm(me.warnMergeLostData, undefined, function(){
+                            me.api.asc_mergeCells(Asc.c_oAscMergeOptions.Merge);
+                        });
+                    } else {
+                        me.api.asc_mergeCells(Asc.c_oAscMergeOptions.Merge);
+                    }
+                    break;
+                case 'unmerge':
+                    me.api.asc_mergeCells(Asc.c_oAscMergeOptions.Unmerge);
+                    break;
+                case 'addlink':
+                    me.view.hideMenu();
+                    SSE.getController('AddContainer').showModal();
+                    SSE.getController('AddOther').getView('AddOther').showInsertLink();
+                    break;
+                case 'openlink':
+                    var linkinfo = info.asc_getHyperlink();
+                    if ( linkinfo.asc_getType() == Asc.c_oAscHyperlinkType.RangeLink ) {
+                        /* not implemented in sdk */
+                    } else {
+                        var url = linkinfo.asc_getHyperlinkUrl().replace(/\s/g, "%20");
+                        me.api.asc_getUrlType(url) > 0 && openLink(url);
+                    }
+                    break;
                 }
 
                 me.view.hideMenu();
@@ -127,6 +149,8 @@ define([
             },
 
             onApiShowPopMenu: function(posX, posY) {
+                // if ( !this.permitions.isEdit ) return;
+
                 if ($('.popover.settings, .popup.settings, .picker-modal.settings').length > 0) {
                     return;
                 }
@@ -134,10 +158,9 @@ define([
                 var me = this,
                     items;
 
-                _stack = me.api.getSelectedElements();
-                items = me._initMenu(_stack);
+                items = me._initMenu(me.api.asc_getCellInfo());
 
-                me.view.showMenu(items, posX, posY);
+                me.view.showMenu(items, posX + 200, posY + 100);
             },
 
             onApiHidePopMenu: function() {
@@ -146,104 +169,108 @@ define([
 
             // Internal
 
-            _openLink: function(url) {
-                if (this.api.asc_getUrlType(url) > 0) {
-                    var newDocumentPage = window.open(url, '_blank');
+            _initMenu: function (cellinfo) {
+                var me = this;
 
-                    if (newDocumentPage) {
-                        newDocumentPage.focus();
-                    }
-                }
-            },
+                if ( this.api.isCellEdited ) {
+                    menuItems = [{
+                            caption: 'Copy',
+                            event: 'copy'
+                        }];
 
-            _initMenu: function (stack) {
-                var me = this,
-                    menuItems = [],
-                    canCopy = me.api.can_CopyCut();
-
-                if (canCopy) {
-                    menuItems.push({
-                        caption: 'Copy',
-                        event: 'copy'
-                    });
-                }
-
-                var isText = false,
-                    isTable = false,
-                    isImage = false,
-                    isChart = false,
-                    isShape = false,
-                    isLink = false;
-
-                _.each(stack, function (item) {
-                    var objectType = item.get_ObjectType(),
-                        objectValue = item.get_ObjectValue();
-
-                    if (objectType == Asc.c_oAscTypeSelectElement.Text) {
-                        isText = true;
-                    } else if (objectType == Asc.c_oAscTypeSelectElement.Image) {
-                        if (objectValue && objectValue.get_ChartProperties()) {
-                            isChart = true;
-                        } else if (objectType && objectValue.get_ShapeProperties()) {
-                            isShape = true;
-                        } else {
-                            isImage = true;
-                        }
-                    } else if (objectType == Asc.c_oAscTypeSelectElement.Table) {
-                        isTable = true;
-                    } else if (objectType == Asc.c_oAscTypeSelectElement.Hyperlink) {
-                        isLink = true;
-                    }
-                });
-
-                if (stack.length > 0) {
-                    var topObject = stack[stack.length - 1],
-                        topObjectType = topObject.get_ObjectType(),
-                        topObjectValue = topObject.get_ObjectValue(),
-                        objectLocked = _.isFunction(topObjectValue.get_Locked) ? topObjectValue.get_Locked() : false;
-
-                    var swapItems = function(items, indexBefore, indexAfter) {
-                        items[indexAfter] = items.splice(indexBefore, 1, items[indexAfter])[0];
-                    };
-
-                    if (!objectLocked && _isEdit) {
-                        menuItems.push({
+                } else {
+                    var menuItems = [
+                        {
                             caption: 'Cut',
                             event: 'cut'
-                        });
-                        menuItems.push({
+                        },
+                        {
+                            caption: 'Copy',
+                            event: 'copy'
+                        },
+                        {
                             caption: 'Paste',
                             event: 'paste'
-                        });
+                        }
+                    ];
 
-                        // Swap 'Copy' and 'Cut'
-                        swapItems(menuItems, 0, 1);
+                    var iscellmenu, isrowmenu, iscolmenu, isallmenu, ischartmenu, isimagemenu, istextshapemenu, isshapemenu, istextchartmenu,
+                        seltype             = cellinfo.asc_getFlags().asc_getSelectionType(),
+                        iscelllocked        = cellinfo.asc_getLocked(),
+                        isTableLocked       = cellinfo.asc_getLockedTable()===true;
 
-                        menuItems.push({
-                            caption: 'Delete',
-                            event: 'delete'
-                        });
+                    switch (seltype) {
+                        case Asc.c_oAscSelectionType.RangeCells:     iscellmenu  = true;     break;
+                        case Asc.c_oAscSelectionType.RangeRow:       isrowmenu   = true;     break;
+                        case Asc.c_oAscSelectionType.RangeCol:       iscolmenu   = true;     break;
+                        case Asc.c_oAscSelectionType.RangeMax:       isallmenu   = true;     break;
+                        case Asc.c_oAscSelectionType.RangeImage:     isimagemenu = true;     break;
+                        case Asc.c_oAscSelectionType.RangeShape:     isshapemenu = true;     break;
+                        case Asc.c_oAscSelectionType.RangeChart:     ischartmenu = true;     break;
+                        case Asc.c_oAscSelectionType.RangeChartText: istextchartmenu = true; break;
+                        case Asc.c_oAscSelectionType.RangeShapeText: istextshapemenu = true; break;
+                    }
 
+                    if (isimagemenu || isshapemenu || ischartmenu) {
                         menuItems.push({
                             caption: 'Edit',
                             event: 'edit'
                         });
-                    }
+                    } else
+                    if (istextshapemenu || istextchartmenu) {
+                    } else {
+                        if ( iscellmenu ) {
+                            !iscelledited &&
+                            menuItems.push({
+                                caption: 'Delete',
+                                event: 'del'
+                            });
 
-                    var text = me.api.can_AddHyperlink();
+                            !iscelllocked &&
+                            menuItems.push({
+                                caption: 'Cell',
+                                event: 'edit'
+                            });
 
-                    if (!_.isEmpty(text)) {
-                        menuItems.push({
-                            caption: 'Add Link',
-                            event: 'addlink'
-                        });
-                    }
+                            menuItems.push({
+                                caption: 'Merge',
+                                event: 'merge'
+                            });
 
-                    if (isLink) {
-                        menuItems.push({
-                            caption: 'Open Link',
-                            event: 'openlink'
-                        });
+                            cellinfo.asc_getFlags().asc_getMerge() &&
+                            menuItems.push({
+                                caption: 'Unmerge',
+                                event: 'unmerge'
+                            });
+
+                            menuItems.push(
+                                cellinfo.asc_getFlags().asc_getWrapText() ?
+                                    {
+                                        caption: 'Unwrap',
+                                        event: 'unwrap'
+                                    } :
+                                    {
+                                        caption: 'Wrap',
+                                        event: 'wrap'
+                                    });
+
+                            if ( cellinfo.asc_getHyperlink() && !iscelledited && !cellinfo.asc_getFlags().asc_getMultiselect() &&
+                                cellinfo.asc_getHyperlink().asc_getType() == Asc.c_oAscHyperlinkType.WebLink )
+                            {
+                                menuItems.push({
+                                    caption: 'Open Link',
+                                    event: 'openlink'
+                                });
+                            } else
+                            if ( !cellinfo.asc_getHyperlink() && !iscelledited && !cellinfo.asc_getFlags().asc_getMultiselect() &&
+                                !cellinfo.asc_getFlags().asc_getLockText() && !!cellinfo.asc_getText() )
+                            {
+                                menuItems.push({
+                                    caption: 'Add Link',
+                                    event: 'addlink'
+                                });
+                            }
+                        }
                     }
                 }
 
@@ -252,7 +279,9 @@ define([
                 }
 
                 return menuItems;
-            }
+            },
+
+            warnMergeLostData: 'Operation can destroy data in the selected cells.<br>Continue?'
         }
     })());
 });

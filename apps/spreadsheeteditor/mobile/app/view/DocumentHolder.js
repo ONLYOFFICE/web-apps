@@ -60,16 +60,14 @@ define([
 
             // Set innerHTML and get the references to the DOM elements
             initialize: function() {
-                //
+                Common.NotificationCenter.on('document:ready', function () {
+                    this.$el.append(this.template());
+                }.bind(this));
             },
 
             // Render layout
             render: function() {
                 var el = $(this.el);
-
-                el.append(this.template({
-                    //
-                }));
 
                 // this.f7View = uiApp.addView('.view-main', {
                 //     // params
@@ -121,8 +119,7 @@ define([
 
             hideMenu: function () {
                 $('#' + _anchorId)
-                    .css('left', -1000)
-                    .css('top', -1000);
+                    .css({'left': -1000, 'top': -1000});
 
                 uiApp.closeModal('.document-menu.modal-in');
             }
