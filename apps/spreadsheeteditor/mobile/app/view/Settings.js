@@ -205,7 +205,6 @@ define([
             textAddress: 'address',
             textEmail: 'email',
             textTel: 'tel'
-
     }
     })(), SSE.Views.Settings || {}))
 });
