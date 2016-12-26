@@ -123,7 +123,7 @@ define([
                     '</div>',
                     '<div class="footer center">',
                     '<button class="btn normal dlg-btn primary" result="insert" style="margin-right: 10px;  width: 86px;">' + me.textInsert + '</button>',
-                    '<button class="btn normal dlg-btn primary" result="apply" style="margin-right: 10px;  width: 86px;">' + me.textApply + '</button>',
+                    '<button id="note-settings-btn-apply" class="btn normal dlg-btn primary" result="apply" style="margin-right: 10px;  width: 86px;">' + me.textApply + '</button>',
                     '<button class="btn normal dlg-btn" result="cancel" style="width: 86px;">' + me.textCancel + '</button>',
                     '</div>'
                 ].join('')
@@ -149,11 +149,11 @@ define([
                 menuStyle: 'min-width: 150px;',
                 editable: false,
                 data: [
-                    { displayValue: this.textPageBottom,   value: Asc.c_oAscFootnotePos.section_footnote_PosPageBottom },
-                    { displayValue: this.textTextBottom,   value: Asc.c_oAscFootnotePos.section_footnote_PosBeneathText }
+                    { displayValue: this.textPageBottom,   value: Asc.c_oAscFootnotePos.PageBottom },
+                    { displayValue: this.textTextBottom,   value: Asc.c_oAscFootnotePos.BeneathText }
                 ]
             });
-            this.cmbFootnote.setValue(Asc.c_oAscFootnotePos.section_footnote_PosPageBottom);
+            this.cmbFootnote.setValue(Asc.c_oAscFootnotePos.PageBottom);
 
             this.cmbFormat = new Common.UI.ComboBox({
                 el: $('#note-settings-combo-format'),
@@ -161,11 +161,11 @@ define([
                 menuStyle: 'min-width: 150px;',
                 editable: false,
                 data: [
-                    { displayValue: '1, 2, 3,...',      value: 1, maskExp: /[0-9]/, defValue: 1 },
-                    { displayValue: 'a, b, c,...',      value: 5, maskExp: /[a-z]/, defValue: 'a' },
-                    { displayValue: 'A, B, C,...',      value: 4, maskExp: /[A-Z]/, defValue: 'A' },
-                    { displayValue: 'i, ii, iii,...',   value: 7, maskExp: /[ivxlcdm]/, defValue: 'i' },
-                    { displayValue: 'I, II, III,...',   value: 3, maskExp: /[IVXLCDM]/, defValue: 'I' }
+                    { displayValue: '1, 2, 3,...',      value: c_oAscNumberingFormat.Decimal, maskExp: /[0-9]/, defValue: 1 },
+                    { displayValue: 'a, b, c,...',      value: c_oAscNumberingFormat.LowerLetter, maskExp: /[a-z]/, defValue: 'a' },
+                    { displayValue: 'A, B, C,...',      value: c_oAscNumberingFormat.UpperLetter, maskExp: /[A-Z]/, defValue: 'A' },
+                    { displayValue: 'i, ii, iii,...',   value: c_oAscNumberingFormat.LowerRoman, maskExp: /[ivxlcdm]/, defValue: 'i' },
+                    { displayValue: 'I, II, III,...',   value: c_oAscNumberingFormat.UpperRoman, maskExp: /[IVXLCDM]/, defValue: 'I' }
                 ]
             });
             this.cmbFormat.setValue(this.FormatType);
@@ -190,12 +190,12 @@ define([
                 menuStyle: 'min-width: 150px;',
                 editable: false,
                 data: [
-                    { displayValue: this.textContinue,   value: Asc.c_oAscFootnoteRestart.section_footnote_RestartContinuous },
-                    { displayValue: this.textEachSection,   value: Asc.c_oAscFootnoteRestart.section_footnote_RestartEachSect },
-                    { displayValue: this.textEachPage,   value: Asc.c_oAscFootnoteRestart.section_footnote_RestartEachPage }
+                    { displayValue: this.textContinue,   value: Asc.c_oAscFootnoteRestart.Continuous },
+                    { displayValue: this.textEachSection,   value: Asc.c_oAscFootnoteRestart.EachSect },
+                    { displayValue: this.textEachPage,   value: Asc.c_oAscFootnoteRestart.EachPage }
                 ]
             });
-            this.cmbNumbering.setValue(Asc.c_oAscFootnoteRestart.section_footnote_RestartContinuous);
+            this.cmbNumbering.setValue(Asc.c_oAscFootnoteRestart.Continuous);
 
             this.txtCustom = new Common.UI.InputField({
                 el          : $('#note-settings-txt-custom'),
@@ -207,6 +207,7 @@ define([
             }).on ('changing', function (input, value) {
                 me.cmbFormat.setDisabled(value.length>0);
                 me.spnStart.setDisabled(value.length>0);
+                me.btnApply.setDisabled(value.length>0);
             });
 
             this.cmbApply = new Common.UI.ComboBox({
@@ -220,6 +221,10 @@ define([
                 ]
             });
             this.cmbApply.setValue(Asc.section_footnote_RestartContinuous);
+
+            this.btnApply = new Common.UI.Button({
+                el: $('#note-settings-btn-apply')
+            });
 
             this.afterRender();
         },
@@ -248,11 +253,6 @@ define([
                 this.cmbNumbering.setValue(val);
 
                 /*
-                val = props.get_Custom();
-                this.txtCustom.setValue(val);
-                this.cmbFormat.setDisabled(!_.isEmpty(val));
-                this.spnStart.setDisabled(!_.isEmpty(val));
-
                 val = props.get_ApplyTo();
                 this.cmbApply.setValue(val);
                 */
@@ -269,17 +269,14 @@ define([
             if (_.isEmpty(val)) {
                 val = this.cmbFormat.getValue();
                 props.put_NumFormat(val);
-                // if (val==1)
                 props.put_NumStart(this.spnStart.getNumberValue());
-                // else
-                //     props.put_NumStart(this.txtStart.getValue());
             } else {
                 // props.set_Custom(val);
             }
 
             // props.put_ApplyTo(this.cmbApply.getValue());
 
-            return props;
+            return {props: props, custom: _.isEmpty(val) ? undefined : val};
         },
 
         onDlgBtnClick: function(event) {
@@ -303,19 +300,19 @@ define([
 
             var me = this;
             switch (record.value) {
-                case 3: // I, II, III, ...
+                case c_oAscNumberingFormat.UpperRoman: // I, II, III, ...
                     this.spnStart.options.toCustomFormat = this._10toRome;
                     this.spnStart.options.fromCustomFormat = this._Rometo10;
                     break;
-                case 7: // i, ii, iii, ...
+                case c_oAscNumberingFormat.LowerRoman: // i, ii, iii, ...
                     this.spnStart.options.toCustomFormat = function(value) { return me._10toRome(value).toLocaleLowerCase(); };
                     this.spnStart.options.fromCustomFormat = function(value) { return me._Rometo10(value.toLocaleUpperCase()); };
                     break;
-                case 4: // A, B, C, ...
+                case c_oAscNumberingFormat.UpperLetter: // A, B, C, ...
                     this.spnStart.options.toCustomFormat = this._10toS;
                     this.spnStart.options.fromCustomFormat = this._Sto10;
                     break;
-                case 5: // a, b, c, ...
+                case c_oAscNumberingFormat.LowerLetter: // a, b, c, ...
                     this.spnStart.options.toCustomFormat = function(value) { return me._10toS(value).toLocaleLowerCase(); };
                     this.spnStart.options.fromCustomFormat = function(value) { return me._Sto10(value.toLocaleUpperCase()); };
                     break;

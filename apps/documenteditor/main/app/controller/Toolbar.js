@@ -2014,10 +2014,10 @@ define([
                         handler: function(result, settings) {
                             if (settings) {
                                 if (result == 'insert') {
-                                    me.api.asc_SetFootnoteProps(settings);
-                                    me.api.asc_AddFootnote();
+                                    me.api.asc_SetFootnoteProps(settings.props);
+                                    me.api.asc_AddFootnote(settings.custom);
                                 } else if (result == 'apply') {
-                                    me.api.asc_SetFootnoteProps(settings);
+                                    me.api.asc_SetFootnoteProps(settings.props);
                                 }
                             }
                             Common.NotificationCenter.trigger('edit:complete', me.toolbar);
