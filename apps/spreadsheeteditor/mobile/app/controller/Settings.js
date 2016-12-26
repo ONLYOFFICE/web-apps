@@ -46,7 +46,7 @@ define([
 ], function (core) {
     'use strict';
 
-    SSE.Controllers.Settings =  Backbone.View.extend(_.extend((function() {
+    SSE.Controllers.Settings =  Backbone.Controller.extend(_.extend((function() {
         // private
         var rootView,
             inProgress,
