@@ -216,11 +216,11 @@ define([
                 menuStyle: 'min-width: 150px;',
                 editable: false,
                 data: [
-                    { displayValue: this.textDocument,   value: Asc.section_footnote_RestartContinuous },
-                    { displayValue: this.textSection,   value: Asc.section_footnote_RestartEachSect }
+                    { displayValue: this.textDocument,   value: 1 },
+                    { displayValue: this.textSection,   value: 0 }
                 ]
             });
-            this.cmbApply.setValue(Asc.section_footnote_RestartContinuous);
+            this.cmbApply.setValue(1);
 
             this.btnApply = new Common.UI.Button({
                 el: $('#note-settings-btn-apply')
@@ -251,11 +251,6 @@ define([
 
                 val = props.get_NumRestart();
                 this.cmbNumbering.setValue(val);
-
-                /*
-                val = props.get_ApplyTo();
-                this.cmbApply.setValue(val);
-                */
             }
         },
 
@@ -270,13 +265,9 @@ define([
                 val = this.cmbFormat.getValue();
                 props.put_NumFormat(val);
                 props.put_NumStart(this.spnStart.getNumberValue());
-            } else {
-                // props.set_Custom(val);
             }
 
-            // props.put_ApplyTo(this.cmbApply.getValue());
-
-            return {props: props, custom: _.isEmpty(val) ? undefined : val};
+            return {props: props, applyToAll: (this.cmbApply.getValue()==1), custom: _.isEmpty(val) ? undefined : val};
         },
 
         onDlgBtnClick: function(event) {

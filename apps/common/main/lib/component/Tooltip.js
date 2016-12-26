@@ -120,8 +120,8 @@
             this.getBSTip().show(at);
         },
 
-        hide: function() {
-            this.getBSTip().hide();
+        hide: function(callback) {
+            this.getBSTip().hide(callback);
         },
 
         setTitle: function(title) {
