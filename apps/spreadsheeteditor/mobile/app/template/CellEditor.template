@@ -9,6 +9,6 @@
         <textarea id="ce-cell-content" spellcheck="false" rows="1" cols="20"></textarea>
     </div>
     <div class="ce-group group-expand">
-        <button id="ce-btn-expand" type="button" class="btn"><span class="caret">&#10095;</span></button>
+        <button id="ce-btn-expand" type="button" class="btn"><span class="caret"></span></button>
     </div>
 </div>
