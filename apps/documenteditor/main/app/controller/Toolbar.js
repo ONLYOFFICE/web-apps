@@ -93,7 +93,8 @@ define([
                 can_copycut: undefined,
                 pgmargins: undefined,
                 fontsize: undefined,
-                in_equation: false
+                in_equation: false,
+                in_chart: false
             };
             this.flg = {};
             this.diagramEditor = null;
@@ -684,6 +685,11 @@ define([
 
             if ((need_disable || in_image) != toolbar.mnuInsertTextArt.isDisabled())
                 toolbar.mnuInsertTextArt.setDisabled(need_disable || in_image);
+
+            if (in_chart !== this._state.in_chart) {
+                toolbar.btnInsertChart.updateHint(in_chart ? toolbar.tipChangeChart : toolbar.tipInsertChart);
+                this._state.in_chart = in_chart;
+            }
 
             need_disable = in_chart && image_locked || !in_chart && need_disable;
             if (need_disable != toolbar.btnInsertChart.isDisabled())

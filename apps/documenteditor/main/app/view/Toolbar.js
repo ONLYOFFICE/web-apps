@@ -1958,7 +1958,8 @@ define([
         mniInsFootnote: 'Insert Footnote',
         mniDelFootnote: 'Delete All Footnotes',
         mniNoteSettings: 'Notes Settings',
-        textGotoFootnote: 'Go to Footnotes'
+        textGotoFootnote: 'Go to Footnotes',
+        tipChangeChart: 'Change Chart Type'
 
     }, DE.Views.Toolbar || {}));
 });

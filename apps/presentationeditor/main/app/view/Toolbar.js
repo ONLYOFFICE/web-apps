@@ -1713,6 +1713,7 @@ define([
         textShowCurrent:        'Show from Current slide',
         textShowSettings:       'Show Settings',
         tipInsertEquation: 'Insert Equation',
-        textCharts:         'Charts'
+        textCharts:         'Charts',
+        tipChangeChart: 'Change Chart Type'
     }, PE.Views.Toolbar || {}));
 });

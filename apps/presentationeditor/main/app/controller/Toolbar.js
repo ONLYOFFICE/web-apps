@@ -95,7 +95,8 @@ define([
                 zoom_type: undefined,
                 zoom_percent: undefined,
                 fontsize: undefined,
-                in_equation: undefined
+                in_equation: undefined,
+                in_chart: false
             };
             this._isAddingShape = false;
             this.slideSizeArr = [
@@ -570,7 +571,8 @@ define([
                 no_paragraph = true,
                 no_text = true,
                 no_object = true,
-                in_equation = false;
+                in_equation = false,
+                in_chart = false;
 
             while (++i < selectedObjects.length) {
                 type = selectedObjects[i].get_ObjectType();
@@ -589,9 +591,15 @@ define([
                     if (type !== Asc.c_oAscTypeSelectElement.Image) {
                         no_text = false;
                     }
+                    in_chart = type == Asc.c_oAscTypeSelectElement.Chart;
                 } else if (type === Asc.c_oAscTypeSelectElement.Math) {
                     in_equation = true;
                 }
+            }
+
+            if (in_chart !== this._state.in_chart) {
+                this.toolbar.btnInsertChart.updateHint(in_chart ? this.toolbar.tipChangeChart : this.toolbar.tipInsertChart);
+                this._state.in_chart = in_chart;
             }
 
             if (paragraph_locked!==undefined && this._state.prcontrolsdisable !== paragraph_locked) {
