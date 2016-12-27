@@ -251,7 +251,8 @@ define([
                 win.show(xy.left + 65, xy.top + 77);
                 win.setSettings({
                     api     : me.api,
-                    range   : (!_.isEmpty(me.txtDataRange.getValue()) && (me.txtDataRange.checkValidate()==true)) ? me.txtDataRange.getValue() : me.dataRangeValid
+                    range   : (!_.isEmpty(me.txtDataRange.getValue()) && (me.txtDataRange.checkValidate()==true)) ? me.txtDataRange.getValue() : me.dataRangeValid,
+                    type    : Asc.c_oAscSelectionDialogType.Chart
                 });
             }
         },

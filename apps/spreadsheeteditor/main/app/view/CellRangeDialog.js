@@ -109,6 +109,9 @@ define([
 
             this.inputRange.setValue(settings.range ? settings.range : '');
 
+            if (settings.type===undefined)
+                settings.type = Asc.c_oAscSelectionDialogType.Chart;
+
             if (settings.api) {
                 me.api = settings.api;
 

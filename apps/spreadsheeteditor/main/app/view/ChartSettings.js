@@ -979,7 +979,8 @@ define([
                 win.setSettings({
                     api     : me.api,
                     range   : props.getRange(),
-                    validation: validation
+                    validation: validation,
+                    type    : Asc.c_oAscSelectionDialogType.Chart
                 });
             }
         },
