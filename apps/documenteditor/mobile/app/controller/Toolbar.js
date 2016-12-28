@@ -76,8 +76,9 @@ define([
             setApi: function(api) {
                 this.api = api;
 
-                this.api.asc_registerCallback('asc_onCanUndo',  _.bind(this.onApiCanRevert, this, 'undo'));
-                this.api.asc_registerCallback('asc_onCanRedo',  _.bind(this.onApiCanRevert, this, 'redo'));
+                this.api.asc_registerCallback('asc_onCanUndo',      _.bind(this.onApiCanRevert, this, 'undo'));
+                this.api.asc_registerCallback('asc_onCanRedo',      _.bind(this.onApiCanRevert, this, 'redo'));
+                this.api.asc_registerCallback('asc_onFocusObject',  _.bind(this.onApiFocusObject, this));
             },
 
             setMode: function (mode) {
@@ -141,6 +142,18 @@ define([
                     $('#toolbar-undo').toggleClass('disabled', !can);
                 } else {
                     $('#toolbar-redo').toggleClass('disabled', !can);
+                }
+            },
+
+            onApiFocusObject: function (objects) {
+                if (objects.length > 0) {
+                    var topObject = _.find(objects.reverse(), function (obj) {
+                            return obj.get_ObjectType() != Asc.c_oAscTypeSelectElement.SpellCheck;
+                        }),
+                        topObjectValue = topObject.get_ObjectValue(),
+                        objectLocked = _.isFunction(topObjectValue.get_Locked) ? topObjectValue.get_Locked() : false;
+
+                    $('#toolbar-add, #toolbar-edit').toggleClass('disabled', objectLocked);
                 }
             },
 

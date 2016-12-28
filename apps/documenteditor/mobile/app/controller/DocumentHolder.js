@@ -204,8 +204,7 @@ define([
                 });
 
                 if (stack.length > 0) {
-                    var topObject = stack[stack.length - 1],
-                        topObjectType = topObject.get_ObjectType(),
+                    var topObject = _.find(stack.reverse(), function(obj){ return obj.get_ObjectType() != Asc.c_oAscTypeSelectElement.SpellCheck; }),
                         topObjectValue = topObject.get_ObjectValue(),
                         objectLocked = _.isFunction(topObjectValue.get_Locked) ? topObjectValue.get_Locked() : false;
 
