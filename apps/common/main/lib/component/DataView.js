@@ -101,7 +101,8 @@ define([
                 id: Common.UI.getId(),
                 selected: false,
                 allowSelected: true,
-                value: null
+                value: null,
+                disabled: false
             }
         }
     });
@@ -142,6 +143,7 @@ define([
             el.off('click').on('click', _.bind(this.onClick, this));
             el.off('dblclick').on('dblclick', _.bind(this.onDblClick, this));
             el.off('contextmenu').on('contextmenu', _.bind(this.onContextMenu, this));
+            el.toggleClass('disabled', this.model.get('disabled'));
 
             if (!_.isUndefined(this.model.get('cls')))
                 el.addClass(this.model.get('cls'));
@@ -159,10 +161,14 @@ define([
         },
 
         onClick: function(e) {
+            if (this.model.get('disabled')) return false;
+
             this.trigger('click', this, this.model, e);
         },
 
         onDblClick: function(e) {
+            if (this.model.get('disabled')) return false;
+
             this.trigger('dblclick', this, this.model, e);
         },
 
