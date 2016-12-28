@@ -319,29 +319,42 @@ define([
 
                 var no_text = true;
                 _.each(objects, function(object) {
-                    var type = object.get_ObjectType();
+                    var type = object.get_ObjectType(),
+                        objectValue = object.get_ObjectValue();
 
                     if (Asc.c_oAscTypeSelectElement.Paragraph == type) {
-                        no_text = false;
+                        if ( !objectValue.get_Locked() )
+                            no_text = false;
                     } else if (Asc.c_oAscTypeSelectElement.Table == type) {
-                        _settings.push('table');
-                        no_text = false;
+                        if ( !objectValue.get_Locked() ) {
+                            _settings.push('table');
+                            no_text = false;
+                        }
                     } else if (Asc.c_oAscTypeSelectElement.Slide == type) {
-                        _settings.push('slide');
+                        if ( !(objectValue.get_LockLayout() || objectValue.get_LockBackground() || objectValue.get_LockTranzition() || objectValue.get_LockTiming() ))
+                            _settings.push('slide');
                     } else if (Asc.c_oAscTypeSelectElement.Image == type) {
-                        _settings.push('image');
+                        if ( !objectValue.get_Locked() )
+                            _settings.push('image');
                     } else if (Asc.c_oAscTypeSelectElement.Chart == type) {
-                        _settings.push('chart');
-                        // no_text = false;
-                    } else if (Asc.c_oAscTypeSelectElement.Shape == type && !object.get_ObjectValue().get_FromChart()) {
-                        _settings.push('shape');
-                        no_text = false;
+                        if ( !objectValue.get_Locked() )
+                            _settings.push('chart');
+                    } else if (Asc.c_oAscTypeSelectElement.Shape == type && !objectValue.get_FromChart()) {
+                        if ( !objectValue.get_Locked() ) {
+                            _settings.push('shape');
+                            no_text = false;
+                        }
                     } else if (Asc.c_oAscTypeSelectElement.Hyperlink == type) {
                         _settings.push('hyperlink');
                     }
                 });
                 if (!no_text)
                     _settings.unshift('text');
+
+                // Exclude hyperlink if text is locked
+                if (_settings.indexOf('hyperlink') > -1 && _settings.indexOf('text')<0) {
+                    _settings = _.without(_settings, 'hyperlink');
+                }
 
                 // Exclude shapes if chart exist
                 if (_settings.indexOf('chart') > -1) {

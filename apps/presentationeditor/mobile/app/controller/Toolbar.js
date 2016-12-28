@@ -78,6 +78,7 @@ define([
 
                 this.api.asc_registerCallback('asc_onCanUndo',  _.bind(this.onApiCanRevert, this, 'undo'));
                 this.api.asc_registerCallback('asc_onCanRedo',  _.bind(this.onApiCanRevert, this, 'redo'));
+                this.api.asc_registerCallback('asc_onFocusObject',  _.bind(this.onApiFocusObject, this));
             },
 
             setMode: function (mode) {
@@ -141,6 +142,29 @@ define([
                     $('#toolbar-undo').toggleClass('disabled', !can);
                 } else {
                     $('#toolbar-redo').toggleClass('disabled', !can);
+                }
+            },
+
+            onApiFocusObject: function (objects) {
+                if (objects.length > 0) {
+                    var slide_deleted = false,
+                        slide_lock = false,
+                        no_object = true,
+                        objectLocked = false;
+                    _.each(objects, function(object) {
+                        var type = object.get_ObjectType(),
+                            objectValue = object.get_ObjectValue();
+                        if (type == Asc.c_oAscTypeSelectElement.Slide) {
+                            slide_deleted = objectValue.get_LockDelete();
+                            slide_lock = objectValue.get_LockLayout() || objectValue.get_LockBackground() || objectValue.get_LockTranzition() || objectValue.get_LockTiming();
+                        } else if (objectValue && _.isFunction(objectValue.get_Locked)) {
+                            no_object = false;
+                            objectLocked = objectLocked || objectValue.get_Locked();
+                        }
+                    });
+
+                    $('#toolbar-add').toggleClass('disabled', slide_deleted);
+                    $('#toolbar-edit').toggleClass('disabled', slide_deleted || (objectLocked || no_object) && slide_lock );
                 }
             },
 

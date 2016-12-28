@@ -47,7 +47,8 @@ define([
 
     PE.Controllers.AddContainer = Backbone.Controller.extend(_.extend((function() {
         // private
-        var _canAddHyperlink = false;
+        var _canAddHyperlink = false,
+            _paragraphLocked = false;
 
         return {
             models: [],
@@ -61,6 +62,7 @@ define([
             setApi: function(api) {
                 this.api = api;
                 this.api.asc_registerCallback('asc_onCanAddHyperlink', _.bind(this.onApiCanAddHyperlink, this));
+                this.api.asc_registerCallback('asc_onFocusObject',     _.bind(this.onApiFocusObject, this));
             },
 
             onLaunch: function() {
@@ -123,7 +125,7 @@ define([
                         .rootLayout()
                 });
 
-                if (_canAddHyperlink)
+                if (_canAddHyperlink && !_paragraphLocked)
                     addViews.push({
                         caption: me.textLink,
                         id: 'add-link',
@@ -270,6 +272,15 @@ define([
 
             onApiCanAddHyperlink: function(value) {
                 _canAddHyperlink = value;
+            },
+
+            onApiFocusObject: function (objects) {
+                _paragraphLocked = false;
+                _.each(objects, function(object) {
+                    if (Asc.c_oAscTypeSelectElement.Paragraph == object.get_ObjectType()) {
+                        _paragraphLocked = object.get_ObjectValue().get_Locked();
+                    }
+                });
             },
 
             textSlide: 'Slide',
