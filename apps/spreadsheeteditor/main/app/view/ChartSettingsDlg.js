@@ -94,6 +94,8 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
             this.horAxisProps = null;
             this.currentAxisProps = null;
             this.dataRangeValid = '';
+            this.sparkDataRangeValid = '';
+            this.dataLocationRangeValid = '';
             this.currentChartType = this._state.ChartType;
             this.storageName = (this.isChart) ? 'sse-chart-settings-adv-category' : 'sse-spark-settings-adv-category';
         },
@@ -125,7 +127,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 cls         : 'btn-large-dataview',
                 iconCls     : 'item-chartlist bar-normal',
                 menu        : new Common.UI.Menu({
-                    style: 'width: 560px;',
+                    style: 'width: 435px; padding-top: 12px;',
                     additionalAlign: menuAddAlign,
                     items: [
                         { template: _.template('<div id="id-chart-dlg-menu-type" class="menu-insertchart"  style="margin: 5px 5px 5px 10px;"></div>') }
@@ -136,15 +138,15 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 me.mnuChartTypePicker = new Common.UI.DataView({
                     el: $('#id-chart-dlg-menu-type'),
                     parentMenu: btn.menu,
-                    restoreHeight: 411,
+                    restoreHeight: 421,
                     groups: new Common.UI.DataViewGroupStore([
                         { id: 'menu-chart-group-bar',     caption: me.textColumn },
                         { id: 'menu-chart-group-line',    caption: me.textLine },
                         { id: 'menu-chart-group-pie',     caption: me.textPie },
                         { id: 'menu-chart-group-hbar',    caption: me.textBar },
-                        { id: 'menu-chart-group-area',    caption: me.textArea },
-                        { id: 'menu-chart-group-scatter', caption: me.textPoint },
-                        { id: 'menu-chart-group-stock',   caption: me.textStock }
+                        { id: 'menu-chart-group-area',    caption: me.textArea, inline: true },
+                        { id: 'menu-chart-group-scatter', caption: me.textPoint, inline: true },
+                        { id: 'menu-chart-group-stock',   caption: me.textStock, inline: true }
                     ]),
                     store: new Common.UI.DataViewStore([
                         { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barNormal,          iconCls: 'column-normal', selected: true},
@@ -782,10 +784,10 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 cls         : 'btn-large-dataview',
                 iconCls     : 'item-chartlist spark-column',
                 menu        : new Common.UI.Menu({
-                    style: 'width: 210px;',
+                    style: 'width: 200px; padding-top: 12px;',
                     additionalAlign: menuAddAlign,
                     items: [
-                        { template: _.template('<div id="id-spark-dlg-menu-type" class="menu-insertchart"  style="margin: 5px 5px 5px 10px;"></div>') }
+                        { template: _.template('<div id="id-spark-dlg-menu-type" class="menu-insertchart"  style="margin: 5px 5px 0 10px;"></div>') }
                     ]
                 })
             });
@@ -793,16 +795,16 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 me.mnuSparkTypePicker = new Common.UI.DataView({
                     el: $('#id-spark-dlg-menu-type'),
                     parentMenu: btn.menu,
-                    restoreHeight: 200,
+                    restoreHeight: 120,
                     groups: new Common.UI.DataViewGroupStore([
-                        { id: 'menu-chart-group-sparkcolumn', caption: me.textColumnSpark },
-                        { id: 'menu-chart-group-sparkline',   caption: me.textLineSpark },
-                        { id: 'menu-chart-group-sparkwin',    caption: me.textWinLossSpark }
+                        { id: 'menu-chart-group-sparkcolumn',   inline: true },
+                        { id: 'menu-chart-group-sparkline',     inline: true },
+                        { id: 'menu-chart-group-sparkwin',      inline: true }
                     ]),
                     store: new Common.UI.DataViewStore([
-                        { group: 'menu-chart-group-sparkcolumn',   type: Asc.c_oAscSparklineType.Column,    allowSelected: true, iconCls: 'spark-column'},
-                        { group: 'menu-chart-group-sparkline',     type: Asc.c_oAscSparklineType.Line,      allowSelected: true, iconCls: 'spark-line'},
-                        { group: 'menu-chart-group-sparkwin',      type: Asc.c_oAscSparklineType.Stacked,   allowSelected: true, iconCls: 'spark-win'}
+                        { group: 'menu-chart-group-sparkcolumn',   type: Asc.c_oAscSparklineType.Column,    allowSelected: true, iconCls: 'spark-column', tip: me.textColumnSpark},
+                        { group: 'menu-chart-group-sparkline',     type: Asc.c_oAscSparklineType.Line,      allowSelected: true, iconCls: 'spark-line',   tip: me.textLineSpark},
+                        { group: 'menu-chart-group-sparkwin',      type: Asc.c_oAscSparklineType.Stacked,   allowSelected: true, iconCls: 'spark-win',    tip: me.textWinLossSpark}
                     ]),
                     itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist <%= iconCls %>"></div>')
                 });
@@ -853,7 +855,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
             this.btnSelectSparkData = new Common.UI.Button({
                 el: $('#spark-dlg-btn-data')
             });
-//            this.btnSelectSparkData.on('click', _.bind(this.onSelectData, this));
+           this.btnSelectSparkData.on('click', _.bind(this.onSelectSparkData, this));
 
             this.txtSparkDataLocation = new Common.UI.InputField({
                 el          : $('#spark-dlg-txt-location'),
@@ -865,11 +867,10 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
             });
 
             this.btnSelectLocationData = new Common.UI.Button({
-                el: $('#spark-dlg-btn-data')
+                el: $('#spark-dlg-btn-location-data')
             });
-//            this.btnSelectLocationData.on('click', _.bind(this.onSelectData, this));
+           this.btnSelectLocationData.on('click', _.bind(this.onSelectLocationData, this));
 
-            
             this._arrEmptyCells = [
                 { value: Asc.c_oAscEDispBlanksAs.Gap, displayValue: this.textGaps },
                 { value: Asc.c_oAscEDispBlanksAs.Zero, displayValue: this.textZero },
@@ -1375,6 +1376,24 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                     if (value && value.length==2) {
                         this.txtSparkDataRange.setValue((value[0]) ? value[0] : '');
                         this.txtSparkDataLocation.setValue((value[1]) ? value[1] : '');
+
+                        this.sparkDataRangeValid = value[0];
+                        this.txtSparkDataRange.validation = function(value) {
+                            if (_.isEmpty(value))
+                                return true;
+
+                            var isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, value, false);
+                            return (isvalid==Asc.c_oAscError.ID.DataRangeError) ? me.textInvalidRange : true;
+                        };
+
+                        this.dataLocationRangeValid = value[1];
+                        this.txtSparkDataLocation.validation = function(value) {
+                            if (_.isEmpty(value))
+                                return true;
+
+                            var isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.FormatTable, value, false);
+                            return (isvalid==Asc.c_oAscError.ID.DataRangeError) ? me.textInvalidRange : true;
+                        };
                     }
 
                     this._changedProps = new Asc.sparklineGroup();
@@ -1478,7 +1497,8 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 win.setSettings({
                     api     : me.api,
                     isRows  : (me.cmbDataDirect.getValue()==0),
-                    range   : (!_.isEmpty(me.txtDataRange.getValue()) && (me.txtDataRange.checkValidate()==true)) ? me.txtDataRange.getValue() : me.dataRangeValid
+                    range   : (!_.isEmpty(me.txtDataRange.getValue()) && (me.txtDataRange.checkValidate()==true)) ? me.txtDataRange.getValue() : me.dataRangeValid,
+                    type    : Asc.c_oAscSelectionDialogType.Chart
                 });
             }
         },
@@ -1492,6 +1512,63 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
             if (!disable && this.chSeriesName.getValue()!=='checked' && this.chCategoryName.getValue()!=='checked'
                          && this.chValue.getValue()!=='checked') {
                 this.chValue.setValue('checked', true);
+            }
+        },
+
+        onSelectSparkData: function() {
+            var me = this;
+            if (me.api) {
+                var handlerDlg = function(dlg, result) {
+                    if (result == 'ok') {
+                        me.sparkDataRangeValid = dlg.getSettings();
+                        me.txtSparkDataRange.setValue(me.sparkDataRangeValid);
+                        me.txtSparkDataRange.checkValidate();
+                    }
+                };
+
+                var win = new SSE.Views.CellRangeDialog({
+                    handler: handlerDlg
+                }).on('close', function() {
+                    me.show();
+                });
+
+                var xy = me.$window.offset();
+                me.hide();
+                win.show(xy.left + 160, xy.top + 125);
+                win.setSettings({
+                    api     : me.api,
+                    range   : (!_.isEmpty(me.txtSparkDataRange.getValue()) && (me.txtSparkDataRange.checkValidate()==true)) ? me.txtSparkDataRange.getValue() : me.sparkDataRangeValid,
+                    type    : Asc.c_oAscSelectionDialogType.Chart
+                });
+            }
+        },
+
+
+        onSelectLocationData: function() {
+            var me = this;
+            if (me.api) {
+                var handlerDlg = function(dlg, result) {
+                    if (result == 'ok') {
+                        me.dataLocationRangeValid = dlg.getSettings();
+                        me.txtSparkDataLocation.setValue(me.dataLocationRangeValid);
+                        me.txtSparkDataLocation.checkValidate();
+                    }
+                };
+
+                var win = new SSE.Views.CellRangeDialog({
+                    handler: handlerDlg
+                }).on('close', function() {
+                    me.show();
+                });
+
+                var xy = me.$window.offset();
+                me.hide();
+                win.show(xy.left + 160, xy.top + 125);
+                win.setSettings({
+                    api     : me.api,
+                    range   : (!_.isEmpty(me.txtSparkDataLocation.getValue()) && (me.txtSparkDataLocation.checkValidate()==true)) ? me.txtSparkDataLocation.getValue() : me.dataLocationRangeValid,
+                    type    : Asc.c_oAscSelectionDialogType.FormatTable
+                });
             }
         },
 
@@ -1517,7 +1594,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
         textBar:            'Bar',
         textArea:           'Area',
         textPie:            'Pie',
-        textPoint:          'Point',
+        textPoint:          'XY (Scatter)',
         textStock:          'Stock',
         textDataRows:       'in rows',
         textDataColumns:    'in columns',

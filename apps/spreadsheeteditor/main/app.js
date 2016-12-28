@@ -174,6 +174,7 @@ require([
         'spreadsheeteditor/main/app/controller/LeftMenu',
         'spreadsheeteditor/main/app/controller/Main',
         'spreadsheeteditor/main/app/controller/Print',
+        'spreadsheeteditor/main/app/view/FileMenuPanels',
         'spreadsheeteditor/main/app/view/ParagraphSettings',
         'spreadsheeteditor/main/app/view/ImageSettings',
         'spreadsheeteditor/main/app/view/ChartSettings',

@@ -147,6 +147,7 @@ define([
                 // Initialize api gateway
                 this.editorConfig = {};
                 this.plugins = undefined;
+                this.UICustomizePlugins = [];
                 Common.Gateway.on('init', _.bind(this.loadConfig, this));
                 Common.Gateway.on('showmessage', _.bind(this.onExternalMessage, this));
                 Common.Gateway.on('opendocument', _.bind(this.loadDocument, this));
@@ -580,7 +581,7 @@ define([
                 this.isLiveCommenting = !(value!==null && parseInt(value) == 0);
                 this.isLiveCommenting?this.api.asc_showComments():this.api.asc_hideComments();
 
-                if (this.appOptions.isEdit && this.appOptions.canLicense && !this.appOptions.isOffline && this.appOptions.canCoAuthoring) {
+                if (this.appOptions.isEdit && !this.appOptions.isOffline && this.appOptions.canCoAuthoring) {
                     value = Common.localStorage.getItem("sse-settings-coauthmode");
                     if (value===null && Common.localStorage.getItem("sse-settings-autosave")===null &&
                         this.appOptions.customization && this.appOptions.customization.autosave===false) {
@@ -620,7 +621,7 @@ define([
 
                  if (!me.appOptions.isEditMailMerge && !me.appOptions.isEditDiagram) {
                     pluginsController.setApi(me.api);
-                    me.updatePlugins(me.plugins);
+                    me.updatePlugins(me.plugins, false);
                     me.api.asc_registerCallback('asc_onPluginsInit', _.bind(me.updatePluginsList, me));
                 }
 
@@ -692,9 +693,13 @@ define([
                             }
                             if (me.needToUpdateVersion)
                                 toolbarController.onApiCoAuthoringDisconnect();
+
+                            if (me.appOptions.canBrandingExt)
+                                Common.NotificationCenter.trigger('document:ready', 'main');
                         }
                     }, 50);
-                }
+                } else if (me.appOptions.canBrandingExt)
+                    Common.NotificationCenter.trigger('document:ready', 'main');
 
                 if (me.appOptions.canAnalytics && false)
                     Common.component.Analytics.initialize('UA-12442749-13', 'Spreadsheet Editor');
@@ -777,20 +782,22 @@ define([
                     this.appOptions.canAnalytics = params.asc_getIsAnalyticsEnable();
 
                     this.appOptions.isOffline      = this.api.asc_isOffline();
-                    this.appOptions.canLicense     = (licType === Asc.c_oLicenseResult.Success);
+                    this.appOptions.canLicense     = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit);
                     this.appOptions.isLightVersion = params.asc_getIsLight();
                     /** coauthoring begin **/
                     this.appOptions.canCoAuthoring = !this.appOptions.isLightVersion;
                     /** coauthoring end **/
-                    this.appOptions.canComments    = this.appOptions.canLicense && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.comments===false);
-                    this.appOptions.canChat        = this.appOptions.canLicense && !this.appOptions.isOffline && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.chat===false);
+                    this.appOptions.canComments    = (licType === Asc.c_oLicenseResult.Success) && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.comments===false);
+                    this.appOptions.canChat        = (licType === Asc.c_oLicenseResult.Success) && !this.appOptions.isOffline && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.chat===false);
                     this.appOptions.canRename      = !!this.permissions.rename;
 
-                    this.appOptions.canBranding  = (licType!==Asc.c_oLicenseResult.Error) && (typeof this.editorConfig.customization == 'object');
+                    this.appOptions.canBranding  = (licType === Asc.c_oLicenseResult.Success) && (typeof this.editorConfig.customization == 'object');
                     if (this.appOptions.canBranding)
                         this.headerView.setBranding(this.editorConfig.customization);
 
-                    this.appOptions.canBrandingExt = params.asc_getCanBranding() && (typeof this.editorConfig.customization == 'object');
+                    this.appOptions.canBrandingExt = params.asc_getCanBranding() && (typeof this.editorConfig.customization == 'object' || this.editorConfig.plugins);
+                    if (this.appOptions.canBrandingExt)
+                        this.updatePlugins(this.plugins, true);
 
                     params.asc_getTrial() && this.headerView.setDeveloperMode(true);
                     this.appOptions.canRename && this.headerView.setCanRename(true);
@@ -1356,13 +1363,15 @@ define([
             },
 
             hidePreloader: function() {
-                if (!!this.appOptions.customization && !this.appOptions.customization.done) {
-                    this.appOptions.customization.done = true;
-                    if (!this.appOptions.isDesktopApp)
+                if (!this._state.customizationDone) {
+                    this._state.customizationDone = true;
+                    if (this.appOptions.customization && !this.appOptions.isDesktopApp)
                         this.appOptions.customization.about = true;
                     Common.Utils.applyCustomization(this.appOptions.customization, mapCustomizationElements);
-                    if (this.appOptions.canBrandingExt)
+                    if (this.appOptions.canBrandingExt) {
                         Common.Utils.applyCustomization(this.appOptions.customization, mapCustomizationExtElements);
+                        Common.Utils.applyCustomizationPlugins(this.UICustomizePlugins);
+                    }
                 }
                 
                 this.stackLongActions.pop({id: InitApplication, type: Asc.c_oAscAsyncActionType.BlockInteraction});
@@ -1752,7 +1761,7 @@ define([
             },
 
             applySettings: function() {
-                if (this.appOptions.isEdit && this.appOptions.canLicense && !this.appOptions.isOffline && this.appOptions.canCoAuthoring) {
+                if (this.appOptions.isEdit && !this.appOptions.isOffline && this.appOptions.canCoAuthoring) {
                     var value = Common.localStorage.getItem("sse-settings-coauthmode"),
                         oldval = this._state.fastCoauth;
                     this._state.fastCoauth = (value===null || parseInt(value) == 1);
@@ -1807,8 +1816,11 @@ define([
                 if (url) this.iframePrint.src = url;
             },
 
-            updatePlugins: function(plugins) { // plugins from config
-                if (!plugins || !plugins.pluginsData || plugins.pluginsData.length<1) return;
+            updatePlugins: function(plugins, uiCustomize) { // plugins from config
+                if (!plugins) return;
+
+                var pluginsData = (uiCustomize) ? plugins.UIpluginsData : plugins.pluginsData;
+                if (!pluginsData || pluginsData.length<1) return;
 
                 var _createXMLHTTPObject = function() {
                     var xmlhttp;
@@ -1846,7 +1858,7 @@ define([
 
                 var arr = [],
                     baseUrl = plugins.url;
-                plugins.pluginsData.forEach(function(item){
+                pluginsData.forEach(function(item){
                     var url = item;
                     if (!/(^https?:\/\/)/i.test(url) && !/(^www.)/i.test(item))
                         url = baseUrl + item;
@@ -1859,14 +1871,14 @@ define([
                         autoStartGuid: plugins.autoStartGuid,
                         url: plugins.url,
                         pluginsData: arr
-                    });
+                    }, !!uiCustomize);
             },
 
-            updatePluginsList: function(plugins) {
+            updatePluginsList: function(plugins, uiCustomize) {
                 var pluginStore = this.getApplication().getCollection('Common.Collections.Plugins'),
                     isEdit = this.appOptions.isEdit;
-                if (pluginStore && plugins) {
-                    var arr = [];
+                if (plugins) {
+                    var arr = [], arrUI = [];
                     plugins.pluginsData.forEach(function(item){
                         var variations = item.variations,
                             variationsArr = [];
@@ -1877,7 +1889,9 @@ define([
                                     isSupported = true; break;
                                 }
                             }
-                            if (isSupported && (isEdit || itemVar.isViewer))
+                            if (isSupported && (isEdit || itemVar.isViewer)) {
+                                var isRelativeUrl = !(/(^https?:\/\/)/i.test(itemVar.url) || /(^www.)/i.test(itemVar.url));
+                                item.isUICustomizer ? arrUI.push((isRelativeUrl) ? ((item.baseUrl ? item.baseUrl : plugins.url) + itemVar.url) : itemVar.url) :
                                 variationsArr.push(new Common.Models.PluginVariation({
                                     description: itemVar.description,
                                     index: variationsArr.length,
@@ -1894,10 +1908,11 @@ define([
                                     buttons: itemVar.buttons,
                                     size: itemVar.size,
                                     initOnSelectionChanged: itemVar.initOnSelectionChanged,
-                                    isRelativeUrl: !(/(^https?:\/\/)/i.test(itemVar.url) || /(^www.)/i.test(itemVar.url))
+                                    isRelativeUrl: isRelativeUrl
                                 }));
+                            }
                         });
-                        if (variationsArr.length>0)
+                        if (variationsArr.length>0 && !item.isUICustomizer)
                             arr.push(new Common.Models.Plugin({
                                 name : item.name,
                                 guid: item.guid,
@@ -1907,11 +1922,15 @@ define([
                             }));
                     });
 
-                    pluginStore.reset(arr);
+                    if (uiCustomize!==false)  // from ui customizer in editor config or desktop event
+                        this.UICustomizePlugins = arrUI;
 
-                    this.appOptions.pluginsPath = (plugins.url);
-                    this.appOptions.canPlugins = (arr.length>0);
-                } else {
+                    if (!uiCustomize) {
+                        if (pluginStore) pluginStore.reset(arr);
+                        this.appOptions.pluginsPath = (plugins.url);
+                        this.appOptions.canPlugins = (arr.length>0);
+                    }
+                } else if (!uiCustomize){
                     this.appOptions.pluginsPath = '';
                     this.appOptions.canPlugins = false;
                 }
@@ -1920,7 +1939,7 @@ define([
                     if (plugins.autoStartGuid)
                         this.api.asc_pluginRun(plugins.autoStartGuid, 0, '');
                 }
-                this.getApplication().getController('LeftMenu').enablePlugins();
+                if (!uiCustomize) this.getApplication().getController('LeftMenu').enablePlugins();
             },
             
             leavePageText: 'You have unsaved changes in this document. Click \'Stay on this Page\' then \'Save\' to save them. Click \'Leave this Page\' to discard all the unsaved changes.',
