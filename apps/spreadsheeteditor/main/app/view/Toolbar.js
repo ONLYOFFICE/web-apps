@@ -505,7 +505,7 @@ define([
                 id          : 'id-toolbar-btn-insertchart',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-insertchart',
-                lock        : [_set.editCell, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth],
+                lock        : [_set.editCell, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.coAuthText],
                 menu        : new Common.UI.Menu({
                     style: 'width: 435px;',
                     items: [

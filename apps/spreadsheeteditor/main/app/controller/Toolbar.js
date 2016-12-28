@@ -2400,6 +2400,7 @@ define([
                     clear: [_set.selImage, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.coAuth]
                 });
                 toolbar.lockToolbar(SSE.enumLock.coAuthText, is_objLocked);
+                toolbar.lockToolbar(SSE.enumLock.coAuthText, is_objLocked && (seltype==Asc.c_oAscSelectionType.RangeChart || seltype==Asc.c_oAscSelectionType.RangeChartText), { array: [toolbar.btnInsertChart] } );
             }
 
             $('#ce-func-label').toggleClass('disabled', is_image || is_mode_2 || coauth_disable);
