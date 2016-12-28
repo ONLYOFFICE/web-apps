@@ -743,7 +743,7 @@ define([
                 iconCls     : 'btn-notes',
                 menu        : true
             });
-            this.toolbarControls.push(this.btnNotes);
+            this.paragraphControls.push(this.btnNotes);
 
             this.btnMailRecepients= new Common.UI.Button({
                 id          : 'id-toolbar-btn-mailrecepients',
