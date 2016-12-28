@@ -55,7 +55,25 @@ define([
         var rootView,
             inProgress,
             infoObj,
-            modalView;
+            modalView,
+            _isPortrait = false,
+            _pageSizesIndex = -1,
+            _pageSizesCurrent = [0, 0],
+            _pageSizes = [
+                { caption: 'US Letter',             subtitle: '21,59cm x 27,94cm',  value: [215.9, 279.4] },
+                { caption: 'US Legal',              subtitle: '21,59cm x 35,56cm',  value: [215.9, 355.6] },
+                { caption: 'A4',                    subtitle: '21cm x 29,7cm',      value: [210, 297] },
+                { caption: 'A5',                    subtitle: '14,81cm x 20,99cm',  value: [148.1, 209.9] },
+                { caption: 'B5',                    subtitle: '17,6cm x 25,01cm',   value: [176, 250.1] },
+                { caption: 'Envelope #10',          subtitle: '10,48cm x 24,13cm',  value: [104.8, 241.3] },
+                { caption: 'Envelope DL',           subtitle: '11,01cm x 22,01cm',  value: [110.1, 220.1] },
+                { caption: 'Tabloid',               subtitle: '27,94cm x 43,17cm',  value: [279.4, 431.7] },
+                { caption: 'A3',                    subtitle: '29,7cm x 42,01cm',   value: [297, 420.1] },
+                { caption: 'Tabloid Oversize',      subtitle: '30,48cm x 45,71cm',  value: [304.8, 457.1] },
+                { caption: 'ROC 16K',               subtitle: '19,68cm x 27,3cm',   value: [196.8, 273] },
+                { caption: 'Envelope Choukei 3',    subtitle: '11,99cm x 23,49cm',  value: [119.9, 234.9] },
+                { caption: 'Super B/A3',            subtitle: '33,02cm x 48,25cm',  value: [330.2, 482.5] }
+            ];
 
         return {
             models: [],
@@ -79,11 +97,13 @@ define([
                 var me = this;
                 me.api = api;
 
-                me.api.asc_registerCallback('asc_onGetDocInfoStart',    _.bind(me._onApiGetDocInfoStart, me));
-                me.api.asc_registerCallback('asc_onGetDocInfoStop',     _.bind(me._onApiGetDocInfoEnd, me));
-                me.api.asc_registerCallback('asc_onDocInfo',            _.bind(me._onApiDocInfo, me));
-                me.api.asc_registerCallback('asc_onGetDocInfoEnd',      _.bind(me._onApiGetDocInfoEnd, me));
-                me.api.asc_registerCallback('asc_onDocumentName',       _.bind(me._onApiDocumentName, me));
+                me.api.asc_registerCallback('asc_onGetDocInfoStart',    _.bind(me.onApiGetDocInfoStart, me));
+                me.api.asc_registerCallback('asc_onGetDocInfoStop',     _.bind(me.onApiGetDocInfoEnd, me));
+                me.api.asc_registerCallback('asc_onDocInfo',            _.bind(me.onApiDocInfo, me));
+                me.api.asc_registerCallback('asc_onGetDocInfoEnd',      _.bind(me.onApiGetDocInfoEnd, me));
+                me.api.asc_registerCallback('asc_onDocumentName',       _.bind(me.onApiDocumentName, me));
+                me.api.asc_registerCallback('asc_onDocSize',            _.bind(me.onApiPageSize, me));
+                me.api.asc_registerCallback('asc_onPageOrient',         _.bind(me.onApiPageOrient, me));
             },
 
             onLaunch: function () {
@@ -136,7 +156,8 @@ define([
                 }
 
                 rootView = uiApp.addView('.settings-root-view', {
-                    dynamicNavbar: true
+                    dynamicNavbar: true,
+                    domCache: true
                 });
 
                 Common.NotificationCenter.trigger('settingscontainer:show');
@@ -149,74 +170,64 @@ define([
                 }
             },
 
-            onPageShow: function(view) {
+            onPageShow: function(view, pageId) {
                 var me = this;
-                $('#settings-search').single('click',                       _.bind(me._onSearch, me));
-                $('#settings-readermode input:checkbox').single('change',   _.bind(me._onReaderMode, me));
-                $('#settings-edit-document').single('click',                _.bind(me._onEditDocumet, me));
-                $(modalView).find('.formats a').single('click',             _.bind(me._onSaveFormat, me));
-            },
 
-
-            // API handlers
-
-            _onApiGetDocInfoStart: function () {
-                var me = this;
-                inProgress = true;
-                infoObj = {
-                    PageCount       : 0,
-                    WordsCount      : 0,
-                    ParagraphCount  : 0,
-                    SymbolsCount    : 0,
-                    SymbolsWSCount  : 0
-                };
-
-                _.defer(function(){
-                    if (!inProgress)
-                        return;
-
-                    $('#statistic-pages').html(me.txtLoading);
-                    $('#statistic-words').html(me.txtLoading);
-                    $('#statistic-paragraphs').html(me.txtLoading);
-                    $('#statistic-symbols').html(me.txtLoading);
-                    $('#statistic-spaces').html(me.txtLoading);
-                }, 2000);
-            },
-
-            _onApiGetDocInfoEnd: function() {
-                inProgress = false;
-
-                $('#statistic-pages').html(infoObj.PageCount);
-                $('#statistic-words').html(infoObj.WordsCount);
-                $('#statistic-paragraphs').html(infoObj.ParagraphCount);
-                $('#statistic-symbols').html(infoObj.SymbolsCount);
-                $('#statistic-spaces').html(infoObj.SymbolsWSCount);
-            },
-
-            _onApiDocInfo: function(obj) {
-                if (obj) {
-                    if (obj.get_PageCount() > -1)
-                        infoObj.PageCount = obj.get_PageCount();
-                    if (obj.get_WordsCount() > -1)
-                        infoObj.WordsCount = obj.get_WordsCount();
-                    if (obj.get_ParagraphCount() > -1)
-                        infoObj.ParagraphCount = obj.get_ParagraphCount();
-                    if (obj.get_SymbolsCount() > -1)
-                        infoObj.SymbolsCount = obj.get_SymbolsCount();
-                    if (obj.get_SymbolsWSCount() > -1)
-                        infoObj.SymbolsWSCount = obj.get_SymbolsWSCount();
+                if ('#settings-document-view' == pageId) {
+                    me.initPageDocumentSettings();
+                } else if ('#settings-document-formats-view' == pageId) {
+                    me.getView('Settings').renderPageSizes(_pageSizes, _pageSizesIndex);
+                    $('.page[data-page=settings-document-formats-view] input:radio[name=document-format]').single('change', _.bind(me.onFormatChange, me));
+                } else if ('#settings-download-view' == pageId) {
+                    $(modalView).find('.formats a').single('click', _.bind(me.onSaveFormat, me));
+                } else if ('#settings-info-view' == pageId) {
+                    me.initPageInfo();
+                } else if ('#settings-about-view' == pageId) {
+                    // About
+                } else {
+                    $('#settings-search').single('click',                       _.bind(me.onSearch, me));
+                    $('#settings-readermode input:checkbox').single('change',   _.bind(me.onReaderMode, me));
+                    $('#settings-edit-document').single('click',                _.bind(me.onEditDocumet, me));
+                    $('#settings-help').single('click',                         _.bind(me.onShowHelp, me));
                 }
             },
 
-            _onApiDocumentName: function(name) {
-                $('#settings-document-title').html(name ? name : '-');
+            initPageDocumentSettings: function () {
+                var me = this,
+                    $pageOrientation = $('.page[data-page=settings-document-view] input:radio[name=doc-orientation]'),
+                    $pageSize = $('#settings-document-format');
+
+                // Init orientation
+                $pageOrientation.val([_isPortrait]);
+                $pageOrientation.single('change', _.bind(me.onOrientationChange, me));
+
+                // Init format
+                $pageSize.find('.item-title').text(_pageSizes[_pageSizesIndex]['caption']);
+                $pageSize.find('.item-subtitle').text(_pageSizes[_pageSizesIndex]['subtitle']);
             },
 
-            _onEditDocumet: function() {
+            initPageInfo: function () {
+                var me = this;
+
+                if (me.api) {
+                    me.api.startGetDocInfo();
+
+                    var document = Common.SharedSettings.get('document') || {},
+                        info = document.info || {};
+
+                    $('#settings-document-title').html(document.title ? document.title : me.unknownText);
+                    $('#settings-document-autor').html(info.author ? info.author : me.unknownText);
+                    $('#settings-document-date').html(info.created ? info.created : me.unknownText);
+                }
+            },
+
+            // Handlers
+
+            onEditDocumet: function() {
                 Common.Gateway.requestEditRights();
             },
 
-            _onSearch: function (e) {
+            onSearch: function (e) {
                 var toolbarView = DE.getController('Toolbar').getView('Toolbar');
 
                 if (toolbarView) {
@@ -226,7 +237,7 @@ define([
                 this.hideModal();
             },
 
-            _onReaderMode: function (e) {
+            onReaderMode: function (e) {
                 var me = this;
 
                 Common.SharedSettings.set('readerMode', !Common.SharedSettings.get('readerMode'));
@@ -242,7 +253,12 @@ define([
                 Common.NotificationCenter.trigger('readermode:change', Common.SharedSettings.get('readerMode'));
             },
 
-            _onSaveFormat: function(e) {
+            onShowHelp: function () {
+                window.open('http://support.onlyoffice.com/', "_blank");
+                this.hideModal();
+            },
+
+            onSaveFormat: function(e) {
                 var me = this,
                     format = $(e.currentTarget).data('format');
 
@@ -267,6 +283,100 @@ define([
                 }
             },
 
+            onFormatChange: function (e) {
+                var me = this,
+                    rawValue = $(e.currentTarget).val(),
+                    value = rawValue.split(',');
+
+                _.delay(function () {
+                    me.api.change_DocSize(parseFloat(value[0]), parseFloat(value[1]));
+                }, 300);
+            },
+
+            onOrientationChange: function (e) {
+                var me = this,
+                    value = $(e.currentTarget).val();
+
+                _.delay(function () {
+                    me.api.change_PageOrient(value === 'true');
+                }, 300);
+            },
+
+            // API handlers
+
+            onApiGetDocInfoStart: function () {
+                var me = this;
+                inProgress = true;
+                infoObj = {
+                    PageCount       : 0,
+                    WordsCount      : 0,
+                    ParagraphCount  : 0,
+                    SymbolsCount    : 0,
+                    SymbolsWSCount  : 0
+                };
+
+                _.defer(function(){
+                    if (!inProgress)
+                        return;
+
+                    $('#statistic-pages').html(me.txtLoading);
+                    $('#statistic-words').html(me.txtLoading);
+                    $('#statistic-paragraphs').html(me.txtLoading);
+                    $('#statistic-symbols').html(me.txtLoading);
+                    $('#statistic-spaces').html(me.txtLoading);
+                });
+            },
+
+            onApiGetDocInfoEnd: function() {
+                inProgress = false;
+
+                $('#statistic-pages').html(infoObj.PageCount);
+                $('#statistic-words').html(infoObj.WordsCount);
+                $('#statistic-paragraphs').html(infoObj.ParagraphCount);
+                $('#statistic-symbols').html(infoObj.SymbolsCount);
+                $('#statistic-spaces').html(infoObj.SymbolsWSCount);
+            },
+
+            onApiDocInfo: function(obj) {
+                if (obj) {
+                    if (obj.get_PageCount() > -1)
+                        infoObj.PageCount = obj.get_PageCount();
+                    if (obj.get_WordsCount() > -1)
+                        infoObj.WordsCount = obj.get_WordsCount();
+                    if (obj.get_ParagraphCount() > -1)
+                        infoObj.ParagraphCount = obj.get_ParagraphCount();
+                    if (obj.get_SymbolsCount() > -1)
+                        infoObj.SymbolsCount = obj.get_SymbolsCount();
+                    if (obj.get_SymbolsWSCount() > -1)
+                        infoObj.SymbolsWSCount = obj.get_SymbolsWSCount();
+                }
+            },
+
+            onApiDocumentName: function(name) {
+                $('#settings-document-title').html(name ? name : '-');
+            },
+
+            onApiPageSize: function(w, h) {
+                if (Math.abs(_pageSizesCurrent[0] - w) > 0.01 ||
+                    Math.abs(_pageSizesCurrent[1] - h) > 0.01) {
+                    _pageSizesCurrent = [w, h];
+
+                    _.find(_pageSizes, function(size, index) {
+                        if (Math.abs(size.value[0] - w) < 0.01 && Math.abs(size.value[1] - h) < 0.01) {
+                            _pageSizesIndex = index;
+                        }
+                    }, this);
+                }
+
+                this.initPageDocumentSettings();
+            },
+
+            onApiPageOrient: function(isPortrait) {
+                _isPortrait = isPortrait;
+            },
+
+
+            unknownText: 'Unknown',
             txtLoading              : 'Loading...',
             notcriticalErrorTitle   : 'Warning',
             warnDownloadAs          : 'If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?'

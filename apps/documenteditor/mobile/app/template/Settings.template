@@ -54,7 +54,19 @@
                             </div>
                         </li>
                         <li>
-                            <a id="settings-download" class="item-link">
+                            <a id="settings-document" class="item-link" data-page="#settings-document-view">
+                                <div class="item-content">
+                                    <div class="item-media">
+                                        <i class="icon icon-doc-setup"></i>
+                                    </div>
+                                    <div class="item-inner">
+                                        <div class="item-title"><%= scope.textDocumentSettings %></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a id="settings-download" class="item-link" data-page="#settings-download-view">
                                 <div class="item-content">
                                     <div class="item-media">
                                         <i class="icon icon-download"></i>
@@ -66,7 +78,7 @@
                             </a>
                         </li>
                         <li>
-                            <a id="settings-document-info" class="item-link">
+                            <a id="settings-document-info" class="item-link" data-page="#settings-info-view">
                                 <div class="item-content">
                                     <div class="item-media">
                                         <i class="icon icon-info"></i>
@@ -78,7 +90,7 @@
                             </a>
                         </li>
                         <!--<li>-->
-                            <!--<a id="settings-history" class="item-link">-->
+                            <!--<a id="settings-history" class="item-link" data-page="#settings-history-view">-->
                                 <!--<div class="item-content">-->
                                     <!--<div class="item-media">-->
                                         <!--<i class="icon icon-versions"></i>-->
@@ -102,7 +114,7 @@
                             </a>
                         </li>
                         <li>
-                            <a id="settings-about" class="item-link">
+                            <a id="settings-about" class="item-link" data-page="#settings-about-view">
                                 <div class="item-content">
                                     <div class="item-media">
                                         <i class="icon icon-about"></i>
@@ -114,6 +126,79 @@
                             </a>
                         </li>
                     </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Document Settings view -->
+<div id="settings-document-view">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding"><%= scope.textDocumentSettings %></div>
+        </div>
+    </div>
+    <div class="pages">
+        <div class="page" data-page="settings-document-view">
+            <div class="page-content">
+                <div class="content-block-title">Orientation</div>
+                <div class="list-block">
+                    <ul>
+                        <li>
+                            <label class="label-radio item-content">
+                                <input type="radio" name="doc-orientation" value="true">
+                                <% if (android) { %><div class="item-media"><i class="icon icon-form-radio"></i></div><% } %>
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textPortrait %></div>
+                                </div>
+                            </label>
+                        </li>
+                        <li>
+                            <label class="label-radio item-content">
+                                <input type="radio" name="doc-orientation" value="false">
+                                <% if (android) { %><div class="item-media"><i class="icon icon-form-radio"></i></div><% } %>
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textLandscape %></div>
+                                </div>
+                            </label>
+                        </li>
+                    </ul>
+                </div>
+                <div class="content-block-title"><%= scope.textFormat %></div>
+                <div class="list-block media-list">
+                    <ul>
+                        <li>
+                            <a id="settings-document-format" class="item-link item-content" data-page="#settings-document-formats-view">
+                                <div class="item-inner">
+                                    <div class="item-title-row">
+                                        <div class="item-title"><%= scope.textCustom %></div>
+                                    </div>
+                                    <div class="item-subtitle"><%= scope.textCustomSize %></div>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Document Formats view -->
+<div id="settings-document-formats-view">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding"><%= scope.textDocumentFormats %></div>
+        </div>
+    </div>
+    <div class="pages">
+        <div class="page" data-page="settings-document-formats-view">
+            <div class="page-content">
+                <div class="list-block media-list">
+                    <ul></ul>
                 </div>
             </div>
         </div>

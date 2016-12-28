@@ -50,7 +50,7 @@ define([
 
     DE.Views.Settings = Backbone.View.extend(_.extend((function() {
         // private
-        var isEdit;
+        var _isEdit = false;
 
         return {
             // el: '.view-main',
@@ -63,19 +63,14 @@ define([
 
             initialize: function() {
                 Common.NotificationCenter.on('settingscontainer:show', _.bind(this.initEvents, this));
-
                 Common.Gateway.on('opendocument', _.bind(this.loadDocument, this));
+                this.on('page:show', _.bind(this.updateItemHandlers, this));
             },
 
             initEvents: function () {
                 var me = this;
 
-                $('#settings-document-info').single('click',    _.bind(me.showDocumentInfo, me));
-                $('#settings-download').single('click',         _.bind(me.showDownload, me));
-                $('#settings-history').single('click',          _.bind(me.showHistory, me));
-                $('#settings-help').single('click',             _.bind(me.showHelp, me));
-                $('#settings-about').single('click',            _.bind(me.showAbout, me));
-
+                me.updateItemHandlers();
                 me.initControls();
             },
 
@@ -91,7 +86,7 @@ define([
             },
 
             setMode: function (mode) {
-                isEdit = (mode === 'edit')
+                _isEdit = (mode === 'edit')
             },
 
             rootLayout: function () {
@@ -99,11 +94,12 @@ define([
                     var $layour = this.layout.find('#settings-root-view'),
                         isPhone = Common.SharedSettings.get('phone');
 
-                    if (isEdit) {
+                    if (_isEdit) {
                         $layour.find('#settings-edit-document').hide();
                         $layour.find('#settings-readermode').hide();
                         $layour.find('#settings-search .item-title').text(this.textFindAndReplace)
                     } else {
+                        $layour.find('#settings-document').hide();
                         $layour.find('#settings-readermode input:checkbox')
                             .prop('checked', Common.SharedSettings.get('readerMode'));
                     }
@@ -118,7 +114,18 @@ define([
                 //
             },
 
-            showPage: function(templateId) {
+            updateItemHandlers: function () {
+                var selectorsDynamicPage = [
+                    '.page[data-page=settings-root-view]',
+                    '.page[data-page=settings-document-view]'
+                ].map(function (selector) {
+                    return selector + ' a.item-link[data-page]';
+                }).join(', ');
+
+                $(selectorsDynamicPage).single('click', _.bind(this.onItemClick, this));
+            },
+
+            showPage: function(templateId, suspendEvent) {
                 var rootView = DE.getController('Settings').rootView();
 
                 if (rootView && this.layout) {
@@ -133,41 +140,50 @@ define([
                         content: $content.html()
                     });
 
-                    this.fireEvent('page:show', this);
+                    if (suspendEvent !== true) {
+                        this.fireEvent('page:show', [this, templateId]);
+                    }
                 }
             },
 
-            showDocumentInfo: function() {
-                this.showPage('#settings-info-view');
+            onItemClick: function (e) {
+                var $target = $(e.currentTarget),
+                    page = $target.data('page');
 
-                var api = DE.getController('Settings').api;
-                if (api) {
-                    api.startGetDocInfo();
-
-                    var document = Common.SharedSettings.get('document') || {},
-                        info = document.info || {};
-
-                    $('#settings-document-title').html(document.title ? document.title : this.unknownText);
-                    $('#settings-document-autor').html(info.author ? info.author : this.unknownText);
-                    $('#settings-document-date').html(info.created ? info.created : this.unknownText);
+                if (page && page.length > 0 ) {
+                    this.showPage(page);
                 }
             },
 
-            showDownload: function () {
-                this.showPage('#settings-download-view');
-            },
+            renderPageSizes: function(sizes, selectIndex) {
+                var $pageFormats = $('.page[data-page=settings-document-formats-view]'),
+                    $list = $pageFormats.find('ul'),
+                    items = [];
 
-            showHistory: function () {
-                this.showPage('#settings-history-view');
-            },
+                _.each(sizes, function (size, index) {
+                    items.push(_.template([
+                        '<li>',
+                            '<label class="label-radio item-content">',
+                                '<input type="radio" name="document-format" value="<%= item.value %>" <% if (index == selectIndex) { %>checked="checked"<% } %> >',
+                                '<% if (android) { %><div class="item-media"><i class="icon icon-form-radio"></i></div><% } %>',
+                                '<div class="item-inner">',
+                                    '<div class="item-title-row">',
+                                        '<div class="item-title"><%= item.caption %></div>',
+                                    '</div>',
+                                    // '<div class="item-subtitle"><%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(item.value[0]).toFixed(2)) %><%= Common.Utils.Metric.getCurrentMetricName() %> x <%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(item.value[1]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %></div>',
+                                    '<div class="item-subtitle"><%= item.subtitle %></div>',
+                                '</div>',
+                            '</label>',
+                        '</li>'
+                    ].join(''), {
+                        android: Framework7.prototype.device.android,
+                        item: size,
+                        index: index,
+                        selectIndex: selectIndex
+                    }));
+                });
 
-            showHelp: function () {
-                window.open('http://support.onlyoffice.com/', "_blank");
-                DE.getController('Settings').hideModal();
-            },
-
-            showAbout: function () {
-                this.showPage('#settings-about-view');
+                $list.html(items.join(''));
             },
 
             loadDocument: function(data) {
@@ -182,7 +198,6 @@ define([
                 }
             },
 
-            unknownText: 'Unknown',
             textFindAndReplace: 'Find and Replace',
             textSettings: 'Settings',
             textDone: 'Done',
@@ -208,7 +223,14 @@ define([
             textVersion: 'Version',
             textAddress: 'address',
             textEmail: 'email',
-            textTel: 'tel'
+            textTel: 'tel',
+            textDocumentSettings: 'Document Settings',
+            textPortrait: 'Portrait',
+            textLandscape: 'Landscape',
+            textFormat: 'Format',
+            textCustom: 'Custom',
+            textCustomSize: 'Custom Size',
+            textDocumentFormats: 'Document Formats'
 
     }
     })(), DE.Views.Settings || {}))

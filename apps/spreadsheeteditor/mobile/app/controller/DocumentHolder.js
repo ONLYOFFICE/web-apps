@@ -151,7 +151,7 @@ define([
             onApiShowPopMenu: function(posX, posY) {
                 // if ( !this.permitions.isEdit ) return;
 
-                if ($('.popover.settings, .popup.settings, .picker-modal.settings').length > 0) {
+                if ($('.popover.settings, .popup.settings, .picker-modal.settings, .modal-in').length > 0) {
                     return;
                 }
 

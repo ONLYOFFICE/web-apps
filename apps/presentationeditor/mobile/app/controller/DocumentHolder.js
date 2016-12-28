@@ -145,7 +145,7 @@ define([
             },
 
             onApiShowPopMenu: function(posX, posY) {
-                if (_isPopMenuHidden || $('.popover.settings, .popup.settings, .picker-modal.settings').length > 0)
+                if (_isPopMenuHidden || $('.popover.settings, .popup.settings, .picker-modal.settings, .modal-in').length > 0)
                     return;
 
                 var me = this,
