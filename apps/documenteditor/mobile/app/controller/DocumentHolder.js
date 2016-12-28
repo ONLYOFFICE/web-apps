@@ -46,7 +46,8 @@ define([
     'jquery',
     'underscore',
     'backbone',
-    'documenteditor/mobile/app/view/DocumentHolder'
+    'documenteditor/mobile/app/view/DocumentHolder',
+    'common/main/lib/collection/Users'
 ], function (core, $, _, Backbone) {
     'use strict';
 
@@ -54,11 +55,14 @@ define([
         // private
         var _stack,
             _view,
+            _fastCoAuthTips = [],
             _isEdit = false;
 
         return {
             models: [],
-            collections: [],
+            collections: [
+                'Common.Collections.Users'
+            ],
             views: [
                 'DocumentHolder'
             ],
@@ -76,8 +80,13 @@ define([
 
                 me.api = api;
 
-                me.api.asc_registerCallback('asc_onShowPopMenu',      _.bind(me.onApiShowPopMenu, me));
-                me.api.asc_registerCallback('asc_onHidePopMenu',      _.bind(me.onApiHidePopMenu, me));
+                me.api.asc_registerCallback('asc_onShowPopMenu',            _.bind(me.onApiShowPopMenu, me));
+                me.api.asc_registerCallback('asc_onHidePopMenu',            _.bind(me.onApiHidePopMenu, me));
+                me.api.asc_registerCallback('asc_onShowForeignCursorLabel', _.bind(me.onApiShowForeignCursorLabel, me));
+                me.api.asc_registerCallback('asc_onHideForeignCursorLabel', _.bind(me.onApiHideForeignCursorLabel, me));
+                me.api.asc_registerCallback('asc_onAuthParticipantsChanged',_.bind(me.onApiUsersChanged, me));
+                me.api.asc_registerCallback('asc_onConnectionStateChanged', _.bind(me.onApiUserConnection, me));
+                me.api.asc_coAuthoringGetUsers();
             },
 
             setMode: function (mode) {
@@ -149,6 +158,105 @@ define([
 
             onApiHidePopMenu: function() {
                 _view && _view.hideMenu();
+            },
+
+            onApiShowForeignCursorLabel: function(userId, X, Y, color) {
+                var me = this,
+                    tipHeight = 20;
+
+                var getUserName = function(id) {
+                    var usersStore = DE.getCollection('Common.Collections.Users');
+
+                    if (usersStore){
+                        var rec = usersStore.findUser(id);
+                        if (rec)
+                            return rec.get('username');
+                    }
+                    return me.textGuest;
+                };
+
+                /** coauthoring begin **/
+                var src = _.find(_fastCoAuthTips, function(tip){ return tip.attr('userid') == userId; });
+
+                if (!src) {
+                    src = $(document.createElement('div'));
+                    src.addClass('username-tip');
+                    src.attr('userid', userId);
+                    src.css({
+                        height: tipHeight + 'px',
+                        position: 'absolute',
+                        zIndex: '900',
+                        display: 'none',
+                        'pointer-events': 'none',
+                        'background-color': '#' + Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b())});
+                    src.text(getUserName(userId));
+                    $('#id_main_view').append(src);
+
+                    _fastCoAuthTips.push(src);
+
+                    src.fadeIn(150);
+                }
+                src.css({
+                    top: (Y - tipHeight) + 'px',
+                    left: X + 'px'});
+                /** coauthoring end **/
+            },
+
+            onApiHideForeignCursorLabel: function(userId) {
+                /** coauthoring begin **/
+                for (var i=0; i<_fastCoAuthTips.length; i++) {
+                    if (_fastCoAuthTips[i].attr('userid') == userId) {
+                        var src = _fastCoAuthTips[i];
+                        _fastCoAuthTips[i].fadeOut(150, function(){src.remove()});
+                        _fastCoAuthTips.splice(i, 1);
+                        break;
+                    }
+                }
+                /** coauthoring end **/
+            },
+
+            onApiUsersChanged: function(users){
+                var usersStore = this.getApplication().getCollection('Common.Collections.Users');
+
+                if (usersStore) {
+                    var arrUsers = [], name, user;
+
+                    for (name in users) {
+                        if (undefined !== name) {
+                            user = users[name];
+                            if (user) {
+                                arrUsers.push(new Common.Models.User({
+                                    id          : user.asc_getId(),
+                                    username    : user.asc_getUserName(),
+                                    online      : true,
+                                    color       : user.asc_getColor(),
+                                    view        : user.asc_getView()
+                                }));
+                            }
+                        }
+                    }
+
+                    usersStore[usersStore.size() > 0 ? 'add' : 'reset'](arrUsers);
+                }
+            },
+
+            onApiUserConnection: function(change){
+                var usersStore = this.getApplication().getCollection('Common.Collections.Users');
+
+                if (usersStore){
+                    var user = usersStore.findUser(change.asc_getId());
+                    if (!user) {
+                        usersStore.add(new Common.Models.User({
+                            id          : change.asc_getId(),
+                            username    : change.asc_getUserName(),
+                            online      : change.asc_getState(),
+                            color       : change.asc_getColor(),
+                            view        : change.asc_getView()
+                        }));
+                    } else {
+                        user.set({online: change.asc_getState()});
+                    }
+                }
             },
 
             // Internal
@@ -261,6 +369,7 @@ define([
                 return menuItems;
             },
 
+            textGuest: 'Guest',
             menuCut: 'Cut',
             menuCopy: 'Copy',
             menuPaste: 'Paste',

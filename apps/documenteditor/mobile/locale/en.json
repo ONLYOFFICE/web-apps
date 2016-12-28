@@ -87,6 +87,7 @@
   "DE.Controllers.Main.advDRMEnterPassword": "You password please:",
   "DE.Controllers.Main.advDRMPassword": "Password",
 
+  "DE.Controllers.DocumentHolder.textGuest": "Guest",
   "DE.Controllers.DocumentHolder.menuCut": "Cut",
   "DE.Controllers.DocumentHolder.menuCopy": "Copy",
   "DE.Controllers.DocumentHolder.menuPaste": "Paste",

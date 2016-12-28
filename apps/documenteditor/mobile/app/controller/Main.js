@@ -418,6 +418,10 @@ define([
                 }
 
                 if (action.type == Asc.c_oAscAsyncActionType['BlockInteraction']) {
+                    if (action.id == Asc.c_oAscAsyncAction['ApplyChanges']) {
+                        return;
+                    }
+
                     if (me.loadMask && $(me.loadMask).hasClass('modal-in')) {
                         $$(me.loadMask).find('.modal-title').text(title);
                     } else {
