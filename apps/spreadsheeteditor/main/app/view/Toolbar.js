@@ -505,33 +505,13 @@ define([
                 id          : 'id-toolbar-btn-insertchart',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-insertchart',
-                lock        : [_set.editCell, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth]
-                /*,menu        : new Common.UI.Menu({
-                    items : [
-                        this.mnuInsertChart = new Common.UI.MenuItem({
-                            caption: this.textInsCharts,
-                            value: 'chart',
-                            menu: new Common.UI.Menu({
-                                menuAlign: 'tl-tr',
-                                style: 'width: 560px;',
-                                items: [
-                                    { template: _.template('<div id="id-toolbar-menu-insertchart" class="menu-insertchart" style="margin: 5px 5px 5px 10px;"></div>') }
-                                ]
-                            })
-                        }),
-                        this.mnuInsertSparkline = new Common.UI.MenuItem({
-                            caption: this.textInsSparklines,
-                            value: 'chart',
-                            menu: new Common.UI.Menu({
-                                menuAlign: 'tl-tr',
-                                style: 'width: 210px;',
-                                items: [
-                                    { template: _.template('<div id="id-toolbar-menu-insertspark" class="menu-insertchart" style="margin: 5px 5px 5px 10px;"></div>') }
-                                ]
-                            })
-                        })
+                lock        : [_set.editCell, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.coAuthText],
+                menu        : new Common.UI.Menu({
+                    style: 'width: 435px;',
+                    items: [
+                        { template: _.template('<div id="id-toolbar-menu-insertchart" class="menu-insertchart" style="margin: 5px 5px 5px 10px;"></div>') }
                     ]
-                })*/
+                })
             });
 
             me.btnEditChart = new Common.UI.Button({
@@ -1304,7 +1284,7 @@ define([
             this.btnWrap.updateHint(this.tipWrap);
             this.btnTextOrient.updateHint(this.tipTextOrientation);
             this.btnInsertImage.updateHint(this.tipInsertImage);
-            this.btnInsertChart.updateHint(this.tipInsertChart);
+            this.btnInsertChart.updateHint(this.tipInsertChartSpark);
             this.btnInsertText.updateHint(this.tipInsertText);
             this.btnInsertHyperlink.updateHint(this.tipInsertHyperlink + Common.Utils.String.platformKey('Ctrl+K'));
             this.btnInsertShape.updateHint(this.tipInsertShape);
@@ -1714,20 +1694,22 @@ define([
                 ]
             }));
 
-            /*
             this.mnuInsertChartPicker = new Common.UI.DataView({
                 el: $('#id-toolbar-menu-insertchart'),
-                parentMenu: this.mnuInsertChart.menu,
+                parentMenu: this.btnInsertChart.menu,
                 showLast: false,
-                restoreHeight: 411,
+                restoreHeight: 539,
                 groups: new Common.UI.DataViewGroupStore([
-                    { id: 'menu-chart-group-bar',     caption: this.textColumn },
-                    { id: 'menu-chart-group-line',    caption: this.textLine },
-                    { id: 'menu-chart-group-pie',     caption: this.textPie },
-                    { id: 'menu-chart-group-hbar',    caption: this.textBar },
-                    { id: 'menu-chart-group-area',    caption: this.textArea },
-                    { id: 'menu-chart-group-scatter', caption: this.textPoint },
-                    { id: 'menu-chart-group-stock',   caption: this.textStock }
+                    { id: 'menu-chart-group-bar',     caption: me.textColumn, headername: me.textCharts },
+                    { id: 'menu-chart-group-line',    caption: me.textLine },
+                    { id: 'menu-chart-group-pie',     caption: me.textPie },
+                    { id: 'menu-chart-group-hbar',    caption: me.textBar },
+                    { id: 'menu-chart-group-area',    caption: me.textArea, inline: true },
+                    { id: 'menu-chart-group-scatter', caption: me.textPoint, inline: true },
+                    { id: 'menu-chart-group-stock',   caption: me.textStock, inline: true },
+                    { id: 'menu-chart-group-sparkcolumn', inline: true, headername: me.textSparks },
+                    { id: 'menu-chart-group-sparkline',   inline: true },
+                    { id: 'menu-chart-group-sparkwin',    inline: true }
                 ]),
                 store: new Common.UI.DataViewStore([
                     { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barNormal,          allowSelected: true, iconCls: 'column-normal', selected: true},
@@ -1754,29 +1736,13 @@ define([
                     { group: 'menu-chart-group-area',    type: Asc.c_oAscChartTypeSettings.areaStacked,        allowSelected: true, iconCls: 'area-stack'},
                     { group: 'menu-chart-group-area',    type: Asc.c_oAscChartTypeSettings.areaStackedPer,     allowSelected: true, iconCls: 'area-pstack'},
                     { group: 'menu-chart-group-scatter', type: Asc.c_oAscChartTypeSettings.scatter,            allowSelected: true, iconCls: 'point-normal'},
-                    { group: 'menu-chart-group-stock',   type: Asc.c_oAscChartTypeSettings.stock,              allowSelected: true, iconCls: 'stock-normal'}
+                    { group: 'menu-chart-group-stock',   type: Asc.c_oAscChartTypeSettings.stock,              allowSelected: true, iconCls: 'stock-normal'},
+                    { group: 'menu-chart-group-sparkcolumn',   type: Asc.c_oAscSparklineType.Column,    allowSelected: true, iconCls: 'spark-column', tip: me.textColumnSpark},
+                    { group: 'menu-chart-group-sparkline',     type: Asc.c_oAscSparklineType.Line,      allowSelected: true, iconCls: 'spark-line', tip: me.textLineSpark},
+                    { group: 'menu-chart-group-sparkwin',      type: Asc.c_oAscSparklineType.Stacked,   allowSelected: true, iconCls: 'spark-win', tip: me.textWinLossSpark}
                 ]),
                 itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist <%= iconCls %>"></div>')
             });
-            this.mnuInsertSparkPicker = new Common.UI.DataView({
-                el: $('#id-toolbar-menu-insertspark'),
-                parentMenu: this.mnuInsertSparkline.menu,
-                showLast: false,
-                restoreHeight: 200,
-                allowScrollbar: false,
-                groups: new Common.UI.DataViewGroupStore([
-                    { id: 'menu-chart-group-sparkcolumn', caption: this.textColumnSpark },
-                    { id: 'menu-chart-group-sparkline',   caption: this.textLineSpark },
-                    { id: 'menu-chart-group-sparkwin',    caption: this.textWinLossSpark }
-                ]),
-                store: new Common.UI.DataViewStore([
-                    { group: 'menu-chart-group-sparkcolumn',   type: Asc.c_oAscSparklineType.Column,    allowSelected: true, iconCls: 'spark-column'},
-                    { group: 'menu-chart-group-sparkline',     type: Asc.c_oAscSparklineType.Line,      allowSelected: true, iconCls: 'spark-line'},
-                    { group: 'menu-chart-group-sparkwin',      type: Asc.c_oAscSparklineType.Stacked,   allowSelected: true, iconCls: 'spark-win'}
-                ]),
-                itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist <%= iconCls %>"></div>')
-            })
-            */
         },
 
         setApi: function(api) {
@@ -2124,17 +2090,19 @@ define([
         textInsText:        'Insert text box',
         textInsTextArt:     'Insert Text Art',
         textInsCharts:      'Charts',
-        textLine:           'Line Chart',
-        textColumn:         'Column Chart',
-        textBar:            'Bar Chart',
-        textArea:           'Area Chart',
-        textPie:            'Pie Chart',
-        textPoint:          'Point Chart',
-        textStock:          'Stock Chart',
-        textInsSparklines:  'Sparklines',
+        textLine:           'Line',
+        textColumn:         'Column',
+        textBar:            'Bar',
+        textArea:           'Area',
+        textPie:            'Pie',
+        textPoint:          'XY (Scatter)',
+        textStock:          'Stock',
         textLineSpark:      'Line',
         textColumnSpark:    'Column',
         textWinLossSpark:   'Win/Loss',
-        tipInsertEquation:  'Insert Equation'
+        tipInsertEquation:  'Insert Equation',
+        textCharts:         'Charts',
+        textSparks:         'Sparklines',
+        tipInsertChartSpark: 'Insert Chart or Sparkline'
     }, SSE.Views.Toolbar || {}));
 });

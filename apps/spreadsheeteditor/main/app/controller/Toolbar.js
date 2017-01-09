@@ -100,7 +100,8 @@ define([
                 tablename: undefined,
                 namedrange_locked: false,
                 fontsize: undefined,
-                multiselect: false
+                multiselect: false,
+                sparklines_disabled: false
             };
 
             var checkInsertAutoshape =  function(e, action) {
@@ -205,10 +206,8 @@ define([
             toolbar.btnTextOrient.menu.on('item:click',                 _.bind(this.onTextOrientationMenu, this));
             toolbar.btnInsertImage.menu.on('item:click',                _.bind(this.onInsertImageMenu, this));
             toolbar.btnInsertHyperlink.on('click',                      _.bind(this.onHyperlink, this));
-            toolbar.btnInsertChart.on('click',                          _.bind(this.onInsertChart, this));
-//            if (toolbar.mnuInsertChartPicker) toolbar.mnuInsertChartPicker.on('item:click', _.bind(this.onSelectChart, this));
-//            if (toolbar.mnuInsertSparkPicker) toolbar.mnuInsertSparkPicker.on('item:click', _.bind(this.onSelectSpark, this));
-            toolbar.btnEditChart.on('click',                            _.bind(this.onInsertChart, this));
+            toolbar.mnuInsertChartPicker.on('item:click',               _.bind(this.onSelectChart, this));
+            toolbar.btnEditChart.on('click',                            _.bind(this.onEditChart, this));
             toolbar.btnInsertText.on('click',                           _.bind(this.onBtnInsertTextClick, this));
             toolbar.btnInsertText.menu.on('item:click',                 _.bind(this.onInsertTextClick, this));
             toolbar.btnInsertShape.menu.on('hide:after',                _.bind(this.onInsertShapeHide, this));
@@ -272,7 +271,7 @@ define([
         setApi: function(api) {
             this.api = api;
 
-            this.api.asc_registerCallback('asc_onInitTablePictures',    _.bind(this.onApiInitTableTemplates, this));
+            this.api.asc_registerCallback('asc_onSendThemeColors',       _.bind(this.onSendThemeColors, this));
             this.api.asc_registerCallback('asc_onInitEditorStyles',     _.bind(this.onApiInitEditorStyles, this));
             this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onApiCoAuthoringDisconnect, this, true));
             Common.NotificationCenter.on('api:disconnect',              _.bind(this.onApiCoAuthoringDisconnect, this));
@@ -743,7 +742,7 @@ define([
             Common.component.Analytics.trackEvent('ToolBar', 'Add Hyperlink');
         },
 
-        onInsertChart: function(btn) {
+        onEditChart: function(btn) {
             if (!this.editMode) return;
             var me = this, info = me.api.asc_getCellInfo();
             if (info.asc_getFlags().asc_getSelectionType()!=Asc.c_oAscSelectionType.RangeImage) {
@@ -774,37 +773,30 @@ define([
 
         onSelectChart: function(picker, item, record, e) {
             if (!this.editMode) return;
-            var me = this, info = me.api.asc_getCellInfo();
-            if (info.asc_getFlags().asc_getSelectionType()!=Asc.c_oAscSelectionType.RangeImage) {
-                var win, props;
-                if (me.api){
-                    var ischartedit = ( info.asc_getFlags().asc_getSelectionType() == Asc.c_oAscSelectionType.RangeChart || info.asc_getFlags().asc_getSelectionType() == Asc.c_oAscSelectionType.RangeChartText);
-                    if (ischartedit) {
-                    } else {
-                        props = me.api.asc_getChartObject();
-                        if (props) {
-                            props.putType(record.get('type'));
-                            me.api.asc_addChartDrawingObject(props);
-                        }
-                    }
-                }
-            }
-            if (e.type !== 'click')
-                me.toolbar.btnInsertChart.menu.hide();
-            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-        },
+            var me = this,
+                info = me.api.asc_getCellInfo(),
+                type = info.asc_getFlags().asc_getSelectionType(),
+                group = record.get('group'),
+                isSpark = (group == 'menu-chart-group-sparkcolumn' || group == 'menu-chart-group-sparkline' || group == 'menu-chart-group-sparkwin');
 
-        onSelectSpark: function(picker, item, record, e) {
-            if (!this.editMode) return;
-            var me = this, info = me.api.asc_getCellInfo(), type = info.asc_getFlags().asc_getSelectionType();
-            if (type==Asc.c_oAscSelectionType.RangeCells || type==Asc.c_oAscSelectionType.RangeCol ||
-                type==Asc.c_oAscSelectionType.RangeRow || type==Asc.c_oAscSelectionType.RangeMax) {
-                var props;
-                if (me.api){
+            if (type!=Asc.c_oAscSelectionType.RangeImage && me.api) {
+                var win, props;
+                if (isSpark && (type==Asc.c_oAscSelectionType.RangeCells || type==Asc.c_oAscSelectionType.RangeCol ||
+                                type==Asc.c_oAscSelectionType.RangeRow || type==Asc.c_oAscSelectionType.RangeMax)) {
+                    var sparkLineInfo = info.asc_getSparklineInfo();
+                    if (!!sparkLineInfo) {
+                        var props = new Asc.sparklineGroup();
+                        props.asc_setType(record.get('type'));
+                        this.api.asc_setSparklineGroup(sparkLineInfo.asc_getId(), props);
+                    } else {
+                        // add sparkline
+                    }
+                } else if (!isSpark) {
+                    var ischartedit = ( type == Asc.c_oAscSelectionType.RangeChart || type == Asc.c_oAscSelectionType.RangeChartText);
                     props = me.api.asc_getChartObject();
                     if (props) {
                         props.putType(record.get('type'));
-                        me.api.asc_addChartDrawingObject(props);
+                        (ischartedit) ? me.api.asc_editChartDrawingObject(props) : me.api.asc_addChartDrawingObject(props);
                     }
                 }
             }
@@ -1366,12 +1358,19 @@ define([
         },
 
         onTableTplMenuOpen: function(cmp) {
-            var scroller = this.toolbar.mnuTableTemplatePicker.scroller;
+            this.onApiInitTableTemplates(this.api.asc_getTablePictures(this.api.asc_getCellInfo().asc_getFormatTableInfo()));
 
+            var scroller = this.toolbar.mnuTableTemplatePicker.scroller;
             if (scroller) {
                 scroller.update({alwaysVisibleY: true});
                 scroller.scrollTop(0);
             }
+        },
+
+        onSendThemeColors: function() {
+            // get new table templates
+            if (this.toolbar.btnTableTemplate.rendered && this.toolbar.btnTableTemplate.cmpEl.hasClass('open'))
+                this.onTableTplMenuOpen();
         },
 
         onApiInitTableTemplates: function(images) {
@@ -1385,7 +1384,8 @@ define([
                         type        : item.asc_getType(),
                         imageUrl    : item.asc_getImage(),
                         allowSelected : true,
-                        selected    : false
+                        selected    : false,
+                        tip         : item.asc_getDisplayName()
                     });
                 });
 
@@ -1432,7 +1432,7 @@ define([
         },
 
         onApiChartDblClick: function() {
-            this.onInsertChart(this.btnInsertChart);
+            this.onEditChart(this.btnInsertChart);
         },
 
         onApiCanRevert: function(which, can) {
@@ -1625,6 +1625,16 @@ define([
             }
 
             toolbar.lockToolbar(SSE.enumLock.cantHyperlink, (selectionType == Asc.c_oAscSelectionType.RangeShapeText) && (this.api.asc_canAddShapeHyperlink()===false), { array: [toolbar.btnInsertHyperlink]});
+
+            need_disable = selectionType != Asc.c_oAscSelectionType.RangeCells && selectionType != Asc.c_oAscSelectionType.RangeCol &&
+                           selectionType != Asc.c_oAscSelectionType.RangeRow && selectionType != Asc.c_oAscSelectionType.RangeMax;
+            if (this._state.sparklines_disabled !== need_disable) {
+                var len = toolbar.mnuInsertChartPicker.store.length;
+                for (var i=0; i<3; i++) {
+                    toolbar.mnuInsertChartPicker.store.at(len-i-1).set({disabled: need_disable});
+                    this._state.sparklines_disabled = need_disable;
+                }
+            }
 
             if (editOptionsDisabled) return;
 
@@ -2001,17 +2011,13 @@ define([
 
             if (!_.isUndefined(opts.headings)) {
                 if (this.api) {
-                    var current = this.api.asc_getSheetViewSettings();
-                    current.asc_setShowRowColHeaders(!opts.headings);
-                    this.api.asc_setSheetViewSettings(current);
+                    this.api.asc_setDisplayHeadings(!opts.headings);
                 }
             }
 
             if (!_.isUndefined(opts.gridlines)) {
                 if (this.api) {
-                    current = this.api.asc_getSheetViewSettings();
-                    current.asc_setShowGridLines(!opts.gridlines);
-                    this.api.asc_setSheetViewSettings(current);
+					this.api.asc_setDisplayGridlines(!opts.gridlines);
                 }
             }
 
@@ -2394,6 +2400,7 @@ define([
                     clear: [_set.selImage, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.coAuth]
                 });
                 toolbar.lockToolbar(SSE.enumLock.coAuthText, is_objLocked);
+                toolbar.lockToolbar(SSE.enumLock.coAuthText, is_objLocked && (seltype==Asc.c_oAscSelectionType.RangeChart || seltype==Asc.c_oAscSelectionType.RangeChartText), { array: [toolbar.btnInsertChart] } );
             }
 
             $('#ce-func-label').toggleClass('disabled', is_image || is_mode_2 || coauth_disable);

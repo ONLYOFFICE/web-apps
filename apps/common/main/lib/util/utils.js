@@ -102,57 +102,33 @@ Common.Utils = _.extend(new(function() {
             Chart      : 7,
             MailMerge  : 8
         },
+        isMobile = /android|avantgo|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od|ad)|iris|kindle|lge |maemo|midp|mmp|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i.test(navigator.userAgent || navigator.vendor || window.opera),
         me = this,
         checkSize = function() {
 			me.zoom = 1;
-			if (isChrome && !isOpera && document && document.firstElementChild && document.body)
+			if (isChrome && !isOpera && !isMobile && document && document.firstElementChild && document.body)
 			{
-				if (false)
-				{
-					// этот код - рабочий, но только если этот ифрейм открыт на весь размер браузера
-					// (window.outerWidth и window.innerWidth зависимы)
-					if (window.innerWidth > 300)
-						me.zoom = window.outerWidth / window.innerWidth;
-
-					if (Math.abs(me.zoom - 1) < 0.1)
-						me.zoom = 1;
-
-					me.zoom = window.outerWidth / window.innerWidth;
-
-					var _devicePixelRatio = window.devicePixelRatio / me.zoom;
-
-					// device pixel ratio: кратно 0.5
-					_devicePixelRatio = (5 * (((2.5 + 10 * _devicePixelRatio) / 5) >> 0)) / 10;
-					me.zoom = window.devicePixelRatio / _devicePixelRatio;
-
-					// chrome 54.x: zoom = "reset" - clear retina zoom (windows)
-					//document.firstElementChild.style.zoom = "reset";
-					document.firstElementChild.style.zoom = 1.0 / me.zoom;
-				}
-				else
-				{
-					// делаем простую проверку
-					// считаем: 0 < window.devicePixelRatio < 2 => _devicePixelRatio = 1; zoom = window.devicePixelRatio / _devicePixelRatio;
-					// считаем: window.devicePixelRatio >= 2 => _devicePixelRatio = 2; zoom = window.devicePixelRatio / _devicePixelRatio;
-					if (window.devicePixelRatio > 0.1)
-					{
-						if (window.devicePixelRatio < 1.99)
-						{
-							var _devicePixelRatio = 1;
-							me.zoom = window.devicePixelRatio / _devicePixelRatio;
-						}
-						else
-						{
-							var _devicePixelRatio = 2;
-							me.zoom = window.devicePixelRatio / _devicePixelRatio;
-						}
-						// chrome 54.x: zoom = "reset" - clear retina zoom (windows)
-						//document.firstElementChild.style.zoom = "reset";
-						document.firstElementChild.style.zoom = 1.0 / me.zoom;
-					}
-					else
-						document.firstElementChild.style.zoom = "normal";
-				}
+                // делаем простую проверку
+                // считаем: 0 < window.devicePixelRatio < 2 => _devicePixelRatio = 1; zoom = window.devicePixelRatio / _devicePixelRatio;
+                // считаем: window.devicePixelRatio >= 2 => _devicePixelRatio = 2; zoom = window.devicePixelRatio / _devicePixelRatio;
+                if (window.devicePixelRatio > 0.1)
+                {
+                    if (window.devicePixelRatio < 1.99)
+                    {
+                        var _devicePixelRatio = 1;
+                        me.zoom = window.devicePixelRatio / _devicePixelRatio;
+                    }
+                    else
+                    {
+                        var _devicePixelRatio = 2;
+                        me.zoom = window.devicePixelRatio / _devicePixelRatio;
+                    }
+                    // chrome 54.x: zoom = "reset" - clear retina zoom (windows)
+                    //document.firstElementChild.style.zoom = "reset";
+                    document.firstElementChild.style.zoom = 1.0 / me.zoom;
+                }
+                else
+                    document.firstElementChild.style.zoom = "normal";
 			}
             me.innerWidth = window.innerWidth * me.zoom;
             me.innerHeight = window.innerHeight * me.zoom;
@@ -646,6 +622,48 @@ Common.Utils.applyCustomization = function(config, elmap) {
             }
         }
     }
+};
+
+Common.Utils.applyCustomizationPlugins = function(plugins) {
+    if (!plugins || plugins.length<1) return;
+
+    var _createXMLHTTPObject = function() {
+        var xmlhttp;
+        try {
+            xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
+        }
+        catch (e) {
+            try {
+                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            catch (E) {
+                xmlhttp = false;
+            }
+        }
+        if (!xmlhttp && typeof XMLHttpRequest != 'undefined') {
+            xmlhttp = new XMLHttpRequest();
+        }
+        return xmlhttp;
+    };
+
+    var _getPluginCode = function(url) {
+        if (!url) return '';
+        try {
+            var xhrObj = _createXMLHTTPObject();
+            if (xhrObj && url) {
+                xhrObj.open('GET', url, false);
+                xhrObj.send('');
+                if (xhrObj.status == 200)
+                    eval(xhrObj.responseText);
+            }
+        }
+        catch (e) {}
+        return null;
+    };
+
+    plugins.forEach(function(url){
+        if (url) _getPluginCode(url);
+    });
 };
 
 Common.Utils.fillUserInfo = function(info, lang, defname) {

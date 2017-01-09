@@ -102,7 +102,6 @@ define([
 
         cellNameDisabled: function(disabled){
             (disabled) ? this.$cellname.attr('disabled', 'disabled') : this.$cellname.removeAttr('disabled');
-            this.$btnfunc.toggleClass('disabled', disabled);
             this.btnNamedRanges.setDisabled(disabled);
         },
 

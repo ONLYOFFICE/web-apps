@@ -652,7 +652,7 @@ define([
                 this.lblAutosave.text(this.textAutoRecover);
             }
             $('tr.coauth', this.el)[mode.canCoAuthoring && mode.isEdit ? 'show' : 'hide']();
-            $('tr.coauth.changes', this.el)[mode.isEdit && mode.canLicense && !mode.isOffline && mode.canCoAuthoring? 'show' : 'hide']();
+            $('tr.coauth.changes', this.el)[mode.isEdit && !mode.isOffline && mode.canCoAuthoring? 'show' : 'hide']();
         },
 
         setApi: function(api) {
@@ -733,7 +733,7 @@ define([
             Common.localStorage.setItem("sse-settings-zoom", this.cmbZoom.getValue());
             /** coauthoring begin **/
             Common.localStorage.setItem("sse-settings-livecomment", this.chLiveComment.isChecked() ? 1 : 0);
-            if (this.mode.isEdit && this.mode.canLicense && !this.mode.isOffline && this.mode.canCoAuthoring)
+            if (this.mode.isEdit && !this.mode.isOffline && this.mode.canCoAuthoring)
                 Common.localStorage.setItem("sse-settings-coauthmode", this.cmbCoAuthMode.getValue());
             /** coauthoring end **/
             Common.localStorage.setItem("sse-settings-fontrender", this.cmbFontRender.getValue());

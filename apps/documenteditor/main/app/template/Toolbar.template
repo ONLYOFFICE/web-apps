@@ -153,6 +153,7 @@
                 <span class="btn-placeholder split" id="id-toolbar-full-placeholder-btn-insertimage"></span>
                 <span class="btn-placeholder split" id="id-toolbar-full-placeholder-btn-insertchart"></span>
                 <span class="btn-placeholder split" id="id-toolbar-full-placeholder-btn-inserttext"></span>
+                <span class="btn-placeholder split" id="id-toolbar-full-placeholder-btn-insertequation"></span>
                 <span class="btn-placeholder split" id="id-toolbar-full-placeholder-btn-dropcap"></span>
             </div>
             <div class="toolbar-row">
@@ -160,7 +161,7 @@
                 <span class="btn-placeholder split" id="id-toolbar-full-placeholder-btn-inserttable"></span>
                 <span class="btn-placeholder split" id="id-toolbar-full-placeholder-btn-inserthyperlink"></span>
                 <span class="btn-placeholder split" id="id-toolbar-full-placeholder-btn-insertshape"></span>
-                <span class="btn-placeholder split" id="id-toolbar-full-placeholder-btn-insertequation"></span>
+                <span class="btn-placeholder split" id="id-toolbar-full-placeholder-btn-notes"></span>
             </div>
         </div>
         <div class="separator long" style="margin-left: 5px;"></div>

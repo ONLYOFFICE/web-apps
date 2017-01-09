@@ -53,7 +53,7 @@
             $dlgShare = common.view.modals.create('share');
 
             var _encoded = encodeURIComponent(appConfig.shareUrl);
-            var _mailto = 'mailto:?subject=I have shared a document with you: ' + appConfig.docTitle + '&body=I have shared a document with you: ' + _encoded + '"';
+            var _mailto = 'mailto:?subject=I have shared a document with you: ' + appConfig.docTitle + '&body=I have shared a document with you: ' + _encoded;
 
             $dlgShare.find('#btn-copyshort').on('click', copytext.bind(this, $dlgShare.find('#id-short-url')));
             $dlgShare.find('.share-buttons > span').on('click', function(e){

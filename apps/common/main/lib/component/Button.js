@@ -430,10 +430,11 @@ define([
                     isGroup && decorateBtn(el.children('button'));
                 }
 
-                if (disabled) {
+                if (disabled || !Common.Utils.isGecko) {
                     var tip = this.cmpEl.data('bs.tooltip');
                     if (tip) {
-                        tip.hide();
+                        disabled && tip.hide();
+                        !Common.Utils.isGecko && (tip.enabled = !disabled);
                     }
                 }
             }
@@ -466,8 +467,10 @@ define([
             var cmpEl = this.cmpEl,
                 modalParents = cmpEl.closest('.asc-window');
 
+            if (cmpEl.data('bs.tooltip'))
+                cmpEl.removeData('bs.tooltip');
             cmpEl.attr('data-toggle', 'tooltip');
-            cmpEl.tooltip('destroy').tooltip({
+            cmpEl.tooltip({
                 title       : hint,
                 placement   : this.options.hintAnchor || 'cursor'
             });
