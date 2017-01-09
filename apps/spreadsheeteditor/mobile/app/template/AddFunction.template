@@ -82,12 +82,10 @@
             </div>
         </div>
         <div class="page">
-            <div class="page-content">
-                <div class="content-block">
-                    <div class="content-block-inner">
-                        <h3><%= args %></h3>
-                        <p><%= descr %></p>
-                    </div>
+            <div class="page-content" style="background-color: #fff;">
+                <div class="content-block" style="color: #000;">
+                    <h3><%= caption %><%= args %></h3>
+                    <p><%= descr %></p>
                 </div>
             </div>
         </div>
