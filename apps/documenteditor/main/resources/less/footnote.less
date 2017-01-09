@@ -1,0 +1,124 @@
+.footnote-tip-root {
+    position: absolute;
+    z-index: @zindex-tooltip + 5;
+    width: 250px;
+
+    .tip-arrow {
+        position: absolute;
+        overflow: hidden;
+    }
+
+    &.bottom {
+        margin: 15px 0 0 0;
+
+        .tip-arrow {
+            left: 50%;
+            top: -15px;
+            width: 26px;
+            height: 15px;
+            margin-left: -13px;
+            &:after {
+                top: 8px;
+                left: 5px;
+                .box-shadow(0 0 8px -1px rgba(0, 0, 0, 0.2));
+            }
+        }
+    }
+
+    &.top {
+        margin: 0 0px 15px 0;
+
+        .tip-arrow {
+            left: 50%;
+            bottom: -15px;
+            width: 26px;
+            height: 15px;
+            margin-left: -13px;
+            &:after {
+                top: -8px;
+                left: 5px;
+            }
+        }
+    }
+}
+
+.asc-footnotetip {
+    padding: 15px 8px 10px 15px;
+    border-radius: 5px;
+    background-color: #fff;
+    overflow: visible;
+
+    .box-shadow(0 4px 15px -2px rgba(0, 0, 0, 0.5));
+    font-size: 11px;
+}
+
+.asc-footnotetip .tip-arrow:after {
+    content: '';
+    position: absolute;
+    top: 5px;
+    left: 8px;
+    background-color: #fff;
+    width: 15px;
+    height: 15px;
+
+    -moz-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    transform: rotate(45deg);
+
+    .box-shadow(0 4px 8px -1px rgba(0, 0, 0, 0.2));
+}
+
+.asc-footnotetip .show-link {
+    margin-top: 15px;
+
+    label {
+        border-bottom: 1px dotted #445799;
+        color: #445799;
+        cursor: pointer;
+    }
+}
+
+.asc-footnotetip .move-ct {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    height: 16px;
+    margin: 8px;
+
+    .prev, .next {
+        width: 16px;
+        height: 16px;
+        display: inline-block;
+        cursor: pointer;
+    }
+
+    .prev {
+        background-position: @search-dlg-offset-x @search-dlg-offset-y;
+    }
+
+    .next {
+        background-position: @search-dlg-offset-x @search-dlg-offset-y - 16px;
+    }
+
+    .btn {
+        &:hover,
+        .over,
+        &:active,
+        &.active {
+            background-color: transparent !important;
+        }
+
+        &.disabled{
+            cursor: default;
+            .prev {
+                background-position: @search-dlg-offset-x - 32px @search-dlg-offset-y;
+            }
+
+            .next{
+                background-position: @search-dlg-offset-x  - 32px @search-dlg-offset-y - 16px;
+            }
+        }
+    }
+}

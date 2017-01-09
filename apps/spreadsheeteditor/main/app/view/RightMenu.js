@@ -255,6 +255,7 @@ define([
         txtShapeSettings:           'Shape Settings',
         txtTextArtSettings:         'Text Art Settings',
         txtChartSettings:           'Chart Settings',
+        txtSparklineSettings:       'Sparkline Settings',
         txtTableSettings:           'Table Settings'
     }, SSE.Views.RightMenu || {}));
 });

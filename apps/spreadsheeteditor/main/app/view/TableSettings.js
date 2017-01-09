@@ -140,7 +140,7 @@ define([
         setApi: function(o) {
             this.api = o;
             if (o) {
-                this.api.asc_registerCallback('asc_onInitTablePictures',    _.bind(this.onApiInitTableTemplates, this));
+                this.api.asc_registerCallback('asc_onSendThemeColors',    _.bind(this.onSendThemeColors, this));
             }
             return this;
         },
@@ -347,6 +347,14 @@ define([
             }
         },
 
+        onSendThemeColors: function() {
+            // get new table templates
+            if (this.cmbTableTemplate) {
+                this.onApiInitTableTemplates(this.api.asc_getTablePictures(this._originalProps));
+                this.cmbTableTemplate.menuPicker.scroller.update({alwaysVisibleY: true});
+            }
+        },
+
         onApiInitTableTemplates: function(Templates){
             var self = this;
             this._isTemplatesChanged = true;
@@ -387,7 +395,8 @@ define([
                         type        : template.asc_getType(),
                         imageUrl    : template.asc_getImage(),
                         allowSelected : true,
-                        selected    : false
+                        selected    : false,
+                        tip         : template.asc_getDisplayName()
                     });
                 });
                 self.cmbTableTemplate.menuPicker.store.add(arr);
