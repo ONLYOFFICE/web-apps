@@ -52,6 +52,10 @@ define([
     SSE.Controllers.Toolbar = Backbone.Controller.extend(_.extend((function() {
         // private
         var _backUrl;
+        var locked = {
+            book: false,
+            sheet: false
+        };
 
         return {
             models: [],
@@ -78,6 +82,12 @@ define([
 
                 this.api.asc_registerCallback('asc_onCanUndoChanged', _.bind(this.onApiCanRevert, this, 'undo'));
                 this.api.asc_registerCallback('asc_onCanRedoChanged', _.bind(this.onApiCanRevert, this, 'redo'));
+                this.api.asc_registerCallback('asc_onSelectionChanged', this.onApiSelectionChanged.bind(this));
+                this.api.asc_registerCallback('asc_onWorkbookLocked', _.bind(this.onApiWorkbookLocked, this));
+                this.api.asc_registerCallback('asc_onWorksheetLocked', _.bind(this.onApiWorksheetLocked, this));
+                this.api.asc_registerCallback('asc_onActiveSheetChanged', _.bind(this.onApiActiveSheetChanged, this));
+
+                Common.NotificationCenter.on('sheet:active', this.onApiActiveSheetChanged.bind(this));
             },
 
             setMode: function (mode) {
@@ -134,12 +144,47 @@ define([
 
             // API handlers
 
+            onApiWorkbookLocked: function (l) {
+                locked.book = l;
+            },
+
+            onApiWorksheetLocked: function (l) {
+                locked.sheet = l;
+            },
+
+            onApiActiveSheetChanged: function (index) {
+                locked.sheet = this.api.asc_isWorksheetLockedOrDeleted(index);
+            },
+
             onApiCanRevert: function(which, can) {
                 if (which == 'undo') {
                     $('#toolbar-undo').toggleClass('disabled', !can);
                 } else {
                     $('#toolbar-redo').toggleClass('disabled', !can);
                 }
+            },
+
+            onApiSelectionChanged: function(info) {
+                var islocked = locked.book || locked.sheet;
+
+                if ( !islocked ) {
+                    switch (info.asc_getFlags().asc_getSelectionType()) {
+                    case Asc.c_oAscSelectionType.RangeCells:
+                        islocked = info.asc_getLocked();
+                        break;
+                    case Asc.c_oAscSelectionType.RangeChart:
+                        var objects = this.api.asc_getGraphicObjectProps();
+                        for ( var i in objects ) {
+                            if ( objects[i].asc_getObjectType() == Asc.c_oAscTypeSelectElement.Image ) {
+                                if ((islocked = objects[i].asc_getObjectValue().asc_getLocked()))
+                                    break;
+                            }
+                        }
+                        break;
+                    }
+                }
+
+                this.getView('Toolbar').disableControl(['add', 'edit'], islocked);
             },
 
             dlgLeaveTitleText   : 'You leave the application',

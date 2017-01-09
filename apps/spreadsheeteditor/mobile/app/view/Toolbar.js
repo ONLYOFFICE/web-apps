@@ -83,6 +83,9 @@ define([
 
                 $('.view-main .navbar').on('addClass removeClass', _.bind(me.onDisplayMainNavbar, me));
 
+                this.$btnEdit = $el.find('#toolbar-edit');
+                this.$btnAdd = $el.find('#toolbar-add');
+
                 return me;
             },
 
@@ -136,6 +139,14 @@ define([
             // Settings
             showSettings: function () {
                 SSE.getController('Settings').showModal();
+            },
+
+            disableControl: function (opts, val) {
+                if (!(opts.indexOf('add') < 0))
+                    this.$btnAdd.toggleClass('disabled', val);
+
+                if (!(opts.indexOf('edit') < 0))
+                    this.$btnEdit.toggleClass('disabled', val);
             }
         }
     })(), SSE.Views.Toolbar || {}))
