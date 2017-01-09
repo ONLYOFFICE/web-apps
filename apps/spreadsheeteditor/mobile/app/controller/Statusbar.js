@@ -426,13 +426,15 @@ define([
             var opened = $('.document-menu.modal-in').length;
             uiApp.closeModal('.document-menu.modal-in');
 
-            var newindex = model.get('index');
-            if ( newindex == this.api.asc_getActiveWorksheetIndex () ) {
+            var sdkindex = model.get('index');
+            if ( sdkindex == this.api.asc_getActiveWorksheetIndex () ) {
                 if ( !opened )
                     this.statusbar.showTabContextMenu(this._getTabMenuItems(), model);
             } else {
-                this.api.asc_showWorksheet( newindex );
+                this.api.asc_showWorksheet( sdkindex );
                 this.statusbar.setActiveTab(index);
+
+                Common.NotificationCenter.trigger('sheet:active', sdkindex);
             }
         },
 

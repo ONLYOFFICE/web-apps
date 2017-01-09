@@ -45,13 +45,6 @@ define([
     'use strict';
 
     SSE.Controllers.AddOther = Backbone.Controller.extend(_.extend((function() {
-        var c_pageNumPosition = {
-            PAGE_NUM_POSITION_TOP: 0x01,
-            PAGE_NUM_POSITION_BOTTOM: 0x02,
-            PAGE_NUM_POSITION_RIGHT: 0,
-            PAGE_NUM_POSITION_LEFT: 1,
-            PAGE_NUM_POSITION_CENTER: 2
-        };
 
         return {
             models: [],

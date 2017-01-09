@@ -80,6 +80,29 @@ define([
 
                 uiApp.closeModal();
 
+                me.api.asc_getCellInfo();
+                var iscellmenu, isrowmenu, iscolmenu, isallmenu, ischartmenu, isimagemenu, istextshapemenu, isshapemenu, istextchartmenu,
+                    seltype             = cellinfo.asc_getFlags().asc_getSelectionType(),
+                    iscelllocked        = cellinfo.asc_getLocked(),
+                    isTableLocked       = cellinfo.asc_getLockedTable()===true;
+
+                switch ( seltype ) {
+                    case Asc.c_oAscSelectionType.RangeCells:     iscellmenu  = true;     break;
+                    case Asc.c_oAscSelectionType.RangeRow:       isrowmenu   = true;     break;
+                    case Asc.c_oAscSelectionType.RangeCol:       iscolmenu   = true;     break;
+                    case Asc.c_oAscSelectionType.RangeMax:       isallmenu   = true;     break;
+                    case Asc.c_oAscSelectionType.RangeImage:     isimagemenu = true;     break;
+                    case Asc.c_oAscSelectionType.RangeShape:     isshapemenu = true;     break;
+                    case Asc.c_oAscSelectionType.RangeChart:     ischartmenu = true;     break;
+                    case Asc.c_oAscSelectionType.RangeChartText: istextchartmenu = true; break;
+                    case Asc.c_oAscSelectionType.RangeShapeText: istextshapemenu = true; break;
+                }
+
+                if ( iscellmenu ) {}
+                else {
+
+                }
+
                 options = opts;
                 parentButton = !opts ? '#toolbar-add' : opts.button;
                 me._showByStack(Common.SharedSettings.get('phone'));

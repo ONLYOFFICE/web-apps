@@ -185,20 +185,16 @@ define([
                         }];
 
                 } else {
-                    var menuItems = [
-                        {
+                    var menuItems = [{
                             caption: 'Cut',
                             event: 'cut'
-                        },
-                        {
+                        },{
                             caption: 'Copy',
                             event: 'copy'
-                        },
-                        {
+                        },{
                             caption: 'Paste',
                             event: 'paste'
-                        }
-                    ];
+                        }];
 
                     var iscellmenu, isrowmenu, iscolmenu, isallmenu, ischartmenu, isimagemenu, istextshapemenu, isshapemenu, istextchartmenu,
                         seltype             = cellinfo.asc_getFlags().asc_getSelectionType(),
@@ -217,13 +213,13 @@ define([
                         case Asc.c_oAscSelectionType.RangeShapeText: istextshapemenu = true; break;
                     }
 
-                    if (isimagemenu || isshapemenu || ischartmenu) {
+                    if (isimagemenu || isshapemenu || ischartmenu ||
+                                istextshapemenu || istextchartmenu )
+                    {
                         menuItems.push({
                             caption: 'Edit',
                             event: 'edit'
                         });
-                    } else
-                    if (istextshapemenu || istextchartmenu) {
                     } else {
                         if ( iscolmenu || isrowmenu) {
                             menuItems.push({
@@ -238,7 +234,6 @@ define([
                                 });
                         } else
                         if ( iscellmenu ) {
-                            !iscelledited &&
                             menuItems.push({
                                 caption: 'Delete',
                                 event: 'del'
@@ -272,7 +267,7 @@ define([
                                         event: 'wrap'
                                     });
 
-                            if ( cellinfo.asc_getHyperlink() && !iscelledited && !cellinfo.asc_getFlags().asc_getMultiselect() &&
+                            if ( cellinfo.asc_getHyperlink() && !cellinfo.asc_getFlags().asc_getMultiselect() &&
                                 cellinfo.asc_getHyperlink().asc_getType() == Asc.c_oAscHyperlinkType.WebLink )
                             {
                                 menuItems.push({
@@ -280,7 +275,7 @@ define([
                                     event: 'openlink'
                                 });
                             } else
-                            if ( !cellinfo.asc_getHyperlink() && !iscelledited && !cellinfo.asc_getFlags().asc_getMultiselect() &&
+                            if ( !cellinfo.asc_getHyperlink() && !cellinfo.asc_getFlags().asc_getMultiselect() &&
                                 !cellinfo.asc_getFlags().asc_getLockText() && !!cellinfo.asc_getText() )
                             {
                                 menuItems.push({
