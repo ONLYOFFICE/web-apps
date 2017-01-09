@@ -46,7 +46,7 @@ define([
 ], function (core) {
     'use strict';
 
-    SSE.Controllers.DocumentHolder = Backbone.Controller.extend((function() {
+    SSE.Controllers.DocumentHolder = Backbone.Controller.extend(_.extend((function() {
         // private
         var _isEdit = false;
 
@@ -296,5 +296,5 @@ define([
 
             warnMergeLostData: 'Operation can destroy data in the selected cells.<br>Continue?'
         }
-    })());
+    })(), SSE.Controllers.DocumentHolder || {}))
 });

@@ -109,6 +109,8 @@
   "SSE.Controllers.Main.advDRMEnterPassword": "You password please:",
   "SSE.Controllers.Main.advDRMPassword": "Password",
 
+  "SSE.Controllers.DocumentHolder.warnMergeLostData": "Operation can destroy data in the selected cells.<br>Continue?",
+
   "SSE.Controllers.Search.textNoTextFound": "Text not found",
   "SSE.Controllers.Search.textReplaceAll": "Replace All",
   "SSE.Views.Search.textFind": "Find",
@@ -152,6 +154,21 @@
   "SSE.Views.Settings.textEmail": "email",
   "SSE.Views.Settings.textTel": "tel",
 
+  "SSE.Controllers.Toolbar.dlgLeaveTitleText": "You leave the application",
+  "SSE.Controllers.Toolbar.dlgLeaveMsgText": "You have unsaved changes in this document. Click \'Stay on this Page\' to await the autosave of the document. Click \'Leave this Page\' to discard all the unsaved changes.",
+  "SSE.Controllers.Toolbar.leaveButtonText": "Leave this Page",
+  "SSE.Controllers.Toolbar.stayButtonText": "Stay on this Page",
+
+  "SSE.Controllers.AddContainer.textChart": "Chart",
+  "SSE.Controllers.AddContainer.textFormula": "Function",
+  "SSE.Controllers.AddContainer.textShape": "Shape",
+  "SSE.Controllers.AddContainer.textOther": "Other",
+
+  "SSE.Controllers.AddChart.txtDiagramTitle": "Chart Title",
+  "SSE.Controllers.AddChart.txtXAxis": "X Axis",
+  "SSE.Controllers.AddChart.txtYAxis": "Y Axis",
+  "SSE.Controllers.AddChart.txtSeries": "Seria",
+
   "SSE.Views.AddFunction.textGroups": "CATEGORIES",
   "SSE.Views.AddFunction.sCatLogical": "Logical",
   "SSE.Views.AddFunction.sCatDateAndTime": "Date and time",
@@ -163,6 +180,9 @@
   "SSE.Views.AddFunction.sCatStatistical": "Statistical",
   "SSE.Views.AddFunction.sCatTextAndData": "Text and data",
 
+  "SSE.Controllers.AddOther.textInvalidRange": "ERROR! Invalid cells range",
+  "SSE.Controllers.AddOther.textEmptyImgUrl": "You need to specify image URL.",
+  "SSE.Controllers.AddOther.txtNotUrl": "This field should be a URL in the format 'http://www.example.com'",
   "SSE.Views.AddOther.textInsertImage": "Insert Image",
   "SSE.Views.AddOther.textSort": "Sort and Filter",
   "SSE.Views.AddOther.textLink": "Link",

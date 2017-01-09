@@ -119,12 +119,7 @@ define([
 
             onFunctionInfo: function (type) {
                 this.getView('AddFunction').openFunctionInfo(type);
-            },
-
-            txtDiagramTitle:    'Chart Title',
-            txtXAxis:           'X Axis',
-            txtYAxis:           'Y Axis',
-            txtSeries:          'Seria'
+            }
         }
-    })(), SSE.Controllers.AddChart || {}))
+    })(), SSE.Controllers.AddFunction || {}))
 });

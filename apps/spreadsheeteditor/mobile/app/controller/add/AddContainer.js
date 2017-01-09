@@ -80,7 +80,7 @@ define([
 
                 uiApp.closeModal();
 
-                me.api.asc_getCellInfo();
+                var cellinfo = me.api.asc_getCellInfo();
                 var iscellmenu, isrowmenu, iscolmenu, isallmenu, ischartmenu, isimagemenu, istextshapemenu, isshapemenu, istextchartmenu,
                     seltype             = cellinfo.asc_getFlags().asc_getSelectionType(),
                     iscelllocked        = cellinfo.asc_getLocked(),
