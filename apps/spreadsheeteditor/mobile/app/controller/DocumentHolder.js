@@ -108,7 +108,7 @@ define([
                 case 'unwrap': me.api.asc_setCellTextWrap(false); break;
                 case 'edit':
                     me.view.hideMenu();
-                    SSE.getController('AddContainer').showModal();
+                    SSE.getController('EditContainer').showModal();
                     // SSE.getController('EditCell').getView('EditCell');
                     break;
                 case 'merge':
