@@ -123,6 +123,12 @@ define([
                 case 'unmerge':
                     me.api.asc_mergeCells(Asc.c_oAscMergeOptions.Unmerge);
                     break;
+                case 'hide':
+                    me.api[info.asc_getFlags().asc_getSelectionType() == Asc.c_oAscSelectionType.RangeRow ? 'asc_hideRows' : 'asc_hideColumns']();
+                    break;
+                case 'show':
+                    me.api[info.asc_getFlags().asc_getSelectionType() == Asc.c_oAscSelectionType.RangeRow ? 'asc_showRows' : 'asc_showColumns']();
+                    break;
                 case 'addlink':
                     me.view.hideMenu();
                     SSE.getController('AddContainer').showModal();
@@ -219,6 +225,18 @@ define([
                     } else
                     if (istextshapemenu || istextchartmenu) {
                     } else {
+                        if ( iscolmenu || isrowmenu) {
+                            menuItems.push({
+                                    caption: 'Delete',
+                                    event: 'del'
+                                },{
+                                    caption: 'Hide',
+                                    event: 'hide'
+                                },{
+                                    caption: 'Show',
+                                    event: 'show'
+                                });
+                        } else
                         if ( iscellmenu ) {
                             !iscelledited &&
                             menuItems.push({
