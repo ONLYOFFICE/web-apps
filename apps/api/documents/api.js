@@ -180,6 +180,7 @@
         _config.editorConfig.canHistoryRestore = _config.events && !!_config.events.onRequestRestore;
         _config.editorConfig.canSendEmailAddresses = _config.events && !!_config.events.onRequestEmailAddresses;
         _config.editorConfig.canRequestEditRights = _config.events && !!_config.events.onRequestEditRights;
+        _config.frameEditorId = placeholderId;
 
         var onMouseUp = function (evt) {
             _processMouse(evt);
@@ -257,7 +258,7 @@
         };
 
         var _onMessage = function(msg) {
-            if (msg) {
+            if (msg && msg.frameEditorId == placeholderId) {
                 var events = _config.events || {},
                     handler = events[msg.event],
                     res;
@@ -662,6 +663,9 @@
                 if (config.editorConfig.customization.loaderLogo !== '') params += "&logo=" + config.editorConfig.customization.loaderLogo;
             }
         }
+
+        if (config.frameEditorId)
+            params += "&frameEditorId=" + config.frameEditorId;
         
         return params;
     }
