@@ -58,7 +58,7 @@
             <li>
                 <a id="border-style" class="item-link" data-page="#edit-border-style">
                     <div class="item-content">
-                        <% if (!android) { %><div class="item-media"><i class="icon icon-search"></i></div><% } %>
+                        <% if (!android) { %><div class="item-media"><i class="icon icon-table-borders-all" style="width: 22px; height: 22px;"></i></div><% } %>
                         <div class="item-inner">
                             <div class="item-title"><%= scope.textBorderStyle %></div>
                         </div>
@@ -71,7 +71,7 @@
         <ul>
             <a class="item-link" data-page="#edit-cell-format">
                 <div class="item-content">
-                    <% if (!android) { %><div class="item-media"><i class="icon icon-search"></i></div><% } %>
+                    <% if (!android) { %><div class="item-media"><i class="icon icon-format-general"></i></div><% } %>
                     <div class="item-inner">
                         <div class="item-title"><%= scope.textFormat %></div>
                     </div>
@@ -459,7 +459,7 @@
                         <li>
                             <a data-type="R2VuZXJhbA==" class="item-link no-indicator">
                                 <div class="item-content">
-                                    <div class="item-media"><i class="icon icon-search"></i></div>
+                                    <div class="item-media"><i class="icon icon-format-general"></i></div>
                                     <div class="item-inner"><div class="item-title"><%= scope.textGeneral %></div></div>
                                 </div>
                             </a>
@@ -467,7 +467,7 @@
                         <li>
                             <a data-type="MC4wMA==" class="item-link no-indicator">
                                 <div class="item-content">
-                                    <div class="item-media"><i class="icon icon-search"></i></div>
+                                    <div class="item-media"><i class="icon icon-format-number"></i></div>
                                     <div class="item-inner"><div class="item-title"><%= scope.textNumber %></div></div>
                                 </div>
                             </a>
@@ -475,7 +475,7 @@
                         <li>
                             <a data-type="JTIzMA==" class="item-link no-indicator">
                                 <div class="item-content">
-                                    <div class="item-media"><i class="icon icon-search"></i></div>
+                                    <div class="item-media"><i class="icon icon-format-integer"></i></div>
                                     <div class="item-inner"><div class="item-title"><%= scope.textInteger %></div></div>
                                 </div>
                             </a>
@@ -483,7 +483,7 @@
                         <li>
                             <a data-type="MC4wMEUlMkIwMA==" class="item-link no-indicator">
                                 <div class="item-content">
-                                    <div class="item-media"><i class="icon icon-search"></i></div>
+                                    <div class="item-media"><i class="icon icon-format-scientific"></i></div>
                                     <div class="item-inner"><div class="item-title"><%= scope.textScientific %></div></div>
                                 </div>
                             </a>
@@ -491,7 +491,7 @@
                         <li>
                             <a class="item-link" data-page="#edit-cell-format-accounting">
                                 <div class="item-content">
-                                    <div class="item-media"><i class="icon icon-search"></i></div>
+                                    <div class="item-media"><i class="icon icon-format-accounting"></i></div>
                                     <div class="item-inner"><div class="item-title"><%= scope.textAccounting %></div></div>
                                 </div>
                             </a>
@@ -499,7 +499,7 @@
                         <li>
                             <a class="item-link" data-page="#edit-cell-format-currency">
                                 <div class="item-content">
-                                    <div class="item-media"><i class="icon icon-search"></i></div>
+                                    <div class="item-media"><i class="icon icon-format-currency"></i></div>
                                     <div class="item-inner"><div class="item-title"><%= scope.textCurrency %></div></div>
                                 </div>
                             </a>
@@ -507,7 +507,7 @@
                         <li>
                             <a class="item-link" data-page="#edit-cell-format-date">
                                 <div class="item-content">
-                                    <div class="item-media"><i class="icon icon-search"></i></div>
+                                    <div class="item-media"><i class="icon icon-format-date"></i></div>
                                     <div class="item-inner"><div class="item-title"><%= scope.textDate %></div></div>
                                 </div>
                             </a>
@@ -515,7 +515,7 @@
                         <li>
                             <a class="item-link" data-page="#edit-cell-format-time">
                                 <div class="item-content">
-                                    <div class="item-media"><i class="icon icon-search"></i></div>
+                                    <div class="item-media"><i class="icon icon-format-time"></i></div>
                                     <div class="item-inner"><div class="item-title"><%= scope.textTime %></div></div>
                                 </div>
                             </a>
@@ -523,7 +523,7 @@
                         <li>
                             <a data-type="MC4wMCUyNQ==" class="item-link no-indicator">
                                 <div class="item-content">
-                                    <div class="item-media"><i class="icon icon-search"></i></div>
+                                    <div class="item-media"><i class="icon icon-format-percentage"></i></div>
                                     <div class="item-inner"><div class="item-title"><%= scope.textPercentage %></div></div>
                                 </div>
                             </a>
@@ -531,7 +531,7 @@
                         <li>
                             <a data-type="JTQw" class="item-link no-indicator">
                                 <div class="item-content">
-                                    <div class="item-media"><i class="icon icon-search"></i></div>
+                                    <div class="item-media"><i class="icon icon-format-text"></i></div>
                                     <div class="item-inner"><div class="item-title"><%= scope.textText %></div></div>
                                 </div>
                             </a>
