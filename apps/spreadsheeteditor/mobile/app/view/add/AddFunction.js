@@ -85,7 +85,7 @@ define([
             initEvents: function () {
                 var me = this;
 
-                $('.settings').single('click', '.function .info', this.onFunctionInfoClick.bind(this))
+                $('.settings').single('click', '.function .icon-info', this.onFunctionInfoClick.bind(this))
                                 .on('click', '.function > a', this.onFunctionClick.bind(this));
                 $('.groups a.group').single('click', this.onGroupClick.bind(this));
 
