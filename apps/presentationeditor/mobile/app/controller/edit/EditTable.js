@@ -153,6 +153,8 @@ define([
                 paletteFillColor && paletteFillColor.on('select',       _.bind(me.onFillColor, me));
                 paletteBorderColor && paletteBorderColor.on('select',   _.bind(me.onBorderColor, me));
 
+                $('.table-reorder a').single('click',                   _.bind(me.onReorder, me));
+
                 me.initSettings(pageId);
             },
 
@@ -454,6 +456,21 @@ define([
             onBorderSizeChanging: function (e) {
                 var $target = $(e.currentTarget);
                 $('#edit-table-bordersize .item-after').text(borderSizeTransform.sizeByIndex($target.val()) + ' ' + _metricText);
+            },
+
+            onReorder: function (e) {
+                var $target = $(e.currentTarget),
+                    type = $target.data('type');
+
+                if ('all-up' == type) {
+                    this.api.shapes_bringToFront();
+                } else if ('all-down' == type) {
+                    this.api.shapes_bringToBack();
+                } else if ('move-up' == type) {
+                    this.api.shapes_bringForward();
+                } else if ('move-down' == type) {
+                    this.api.shapes_bringBackward();
+                }
             },
 
             // API handlers

@@ -73,6 +73,7 @@ define([
                 $('#edit-table-style-options').single('click',          _.bind(me.showTableStyleOptions, me));
                 $('#edit-table-bordercolor').single('click',            _.bind(me.showBorderColor, me));
                 $('.edit-table-style .categories a').single('click',    _.bind(me.showStyleCategory, me));
+                $('#table-reorder').single('click',                     _.bind(me.showReorder, me));
 
                 me.initControls();
                 me.renderStyles();
@@ -206,6 +207,10 @@ define([
                 this.showPage('#edit-table-style-options-view');
             },
 
+            showReorder: function () {
+                this.showPage('#edit-table-reorder');
+            },
+
             textRemoveTable: 'Remove Table',
             textTableOptions: 'Table Options',
             textStyle: 'Style',
@@ -222,7 +227,12 @@ define([
             textBandedRow: 'Banded Row',
             textFirstColumn: 'First Column',
             textLastColumn: 'Last Column',
-            textBandedColumn: 'Banded Column'
+            textBandedColumn: 'Banded Column',
+            textReorder: 'Reorder',
+            textToForeground: 'Bring to Foreground',
+            textToBackground: 'Send to Background',
+            textForward: 'Move Forward',
+            textBackward: 'Move Backward'
         }
     })(), PE.Views.EditTable || {}))
 });

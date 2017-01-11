@@ -363,6 +363,11 @@
   "PE.Views.EditTable.textFirstColumn": "First Column",
   "PE.Views.EditTable.textLastColumn": "Last Column",
   "PE.Views.EditTable.textBandedColumn": "Banded Column",
+  "PE.Views.EditTable.textReorder": "Reorder",
+  "PE.Views.EditTable.textToForeground": "Bring to Foreground",
+  "PE.Views.EditTable.textToBackground": "Send to Background",
+  "PE.Views.EditTable.textForward": "Move Forward",
+  "PE.Views.EditTable.textBackward": "Move Backward",
 
   "PE.Controllers.EditText.textFonts": "Fonts",
   "PE.Controllers.EditText.textAuto": "Auto",
