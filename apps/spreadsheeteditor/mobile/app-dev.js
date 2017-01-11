@@ -136,6 +136,7 @@ require([
             ,'AddShape'
             // ,'AddImage'
             ,'AddOther'
+            ,'AddLink'
         ]
     });
 
@@ -207,6 +208,7 @@ require([
         ,'spreadsheeteditor/mobile/app/controller/add/AddShape'
         // ,'spreadsheeteditor/mobile/app/controller/add/AddImage'
         ,'spreadsheeteditor/mobile/app/controller/add/AddOther'
+        ,'spreadsheeteditor/mobile/app/controller/add/AddLink'
     ], function() {
         app.start();
     });

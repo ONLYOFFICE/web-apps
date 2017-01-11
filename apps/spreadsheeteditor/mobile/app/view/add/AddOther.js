@@ -108,7 +108,6 @@ define([
                 $page.find('#add-other-link').single('click', _.bind(me.showInsertLink, me));
                 $page.find('#add-other-sort').single('click', _.bind(me.showSortPage, me));
 
-                this.link = {type:'ext', internal:{}};
                 me.initControls();
             },
 
@@ -170,29 +169,7 @@ define([
             },
 
             showInsertLink: function () {
-                this.showPage('#addother-link');
-
-                var me = this;
-                var $view = $('.settings');
-                $('.page[data-page=addother-link]').find('input[type=url], input.range')
-                    .single('input', function(e) {
-                        $view.find('#add-link-insert').toggleClass('disabled', _.isEmpty($(e.target).val()));
-                });
-
-                _.delay(function () {
-                    $view.find('.page[data-page=addother-link] input[type=url]').focus();
-                }, 1000);
-
-                $view.find('#add-link-insert').single('click', _.buffered(this.clickInsertLink, 100, this));
-                $view.find('#add-link-type select').single('change', function (e) {
-                    me.fireEvent('link:changetype', [me, $(e.currentTarget).val()]);
-                });
-                $view.find('#add-link-sheet select').single('change', function (e) {
-                    var index = $(e.currentTarget).val(),
-                        caption = $(e.currentTarget[e.currentTarget.selectedIndex]).text();
-                    me.link.internal = { sheet: {index: index, caption: caption}};
-                    me.fireEvent('link:changesheet', [me, $(e.currentTarget).val()]);
-                }).val(me.link.internal.sheet.index);
+                SSE.getController('AddLink').showPage(getNavigation.call(this, '#addlink'));
             },
 
             showSortPage: function (e) {
@@ -207,20 +184,6 @@ define([
                 });
             },
 
-            clickInsertLink: function (e) {
-                var $view = $('.settings');
-                var type = this.link.type;
-                var $text = $view.find('#add-link-display input');
-
-                this.fireEvent('link:insert', [{
-                    type    : type,
-                    sheet   : type == 'ext' ? undefined : this.link.internal.sheet.index,
-                    url     : $view.find(type == 'ext' ? '#add-link-url input' : '#add-link-range input').val(),
-                    text    : $text.is(':disabled') ? null : $text.val(),
-                    tooltip : $view.find('#add-link-tip input').val()
-                }]);
-            },
-
             showImageFromUrl: function () {
                 this.showPage('#addother-imagefromurl');
 
@@ -233,7 +196,7 @@ define([
                 }, 100, me));
 
                 var $btnInsert = $('#addimage-insert');
-                $('#addimage-url input[type=url]').single('input', function (e) {
+                $('#addimage-fromurl input[type=url]').single('input', function (e) {
                     $btnInsert.toggleClass('disabled', _.isEmpty($(e.currentTarget).val()));
                 });
 
@@ -244,102 +207,16 @@ define([
                 $('.settings #other-chb-insfilter input:checkbox').prop('checked', checked);
             },
 
-            optionLinkType: function (type, opts) {
-                this.link.type = type;
-
-                var $view = $('.settings');
-
-                if ( !(opts == 'caption') ) {
-                    $view.find('#add-link-type select').val(type);
-                    $view.find('#add-link-type .item-after').html(
-                        type == 'int' ? this.textInternalLink : this.textExternalLink );
-                }
-
-                var $btnInsertLink = $view.find('#add-link-insert');
-                if ( type == 'int' ) {
-                    $view.find('#add-link-url').hide();
-
-                    $view.find('#add-link-sheet').show()
-                        .find('.item-after').html(this.link.internal.sheet.caption);
-
-                    $view.find('#add-link-range').show();
-                    $btnInsertLink.toggleClass('disabled', _.isEmpty($view.find('#add-link-range input').val()));
-                } else {
-                    $view.find('#add-link-url').show();
-                    $view.find('#add-link-sheet').hide();
-                    $view.find('#add-link-range').hide();
-
-                    $btnInsertLink.toggleClass('disabled', _.isEmpty($view.find('#add-link-url input').val()));
-                }
-            },
-
-            optionAllowInternal: function(allow) {
-                var $view = $('.settings');
-
-                if ( allow )
-                    $view.find('#add-link-type').show();
-                else {
-                    this.optionLinkType('ext');
-                    $view.find('#add-link-type').hide();
-                }
-            },
-
-            optionDisplayText: function (text) {
-                var $view = $('.settings');
-                var disabled = text == 'locked';
-
-                disabled && (text = ' ');
-                $view.find('#add-link-display input').prop('disabled', disabled).val(text);
-                $view.find('#add-link-display .label').toggleClass('disabled', disabled);
-            },
-
-            acceptWorksheets: function (sheets) {
-                this.worksheets = sheets;
-
-                var tpl = '<% _.each(worksheets, function(item){ %>' +
-                            '<option value="<%= item.value %>"><%= item.caption %></option>' +
-                        '<% }) %>';
-
-                this.layout.find('#add-link-sheet select').html(
-                    _.template(tpl, {
-                        worksheets: sheets
-                    })
-                );
-
-                return this;
-            },
-
-            setActiveWorksheet: function (index, caption) {
-                this.link.internal = { sheet: {index: index, caption: caption}};
-
-                var $view = $('.settings');
-                // $view.find('#add-link-sheet .item-after').html(this.link.internal.sheet.caption);
-                $view.find('#add-link-sheet select').val(index);
-                $view.find('#add-link-sheet .item-after').text(caption);
-
-                return this;
-            },
-
             textInsertImage: 'Insert Image',
             textSort: 'Sort and Filter',
             textLink: 'Link',
             textBack: 'Back',
-            textAddLink: 'Add Link',
-            textDisplay: 'Display',
-            textTip: 'Screen Tip',
             textInsert: 'Insert',
             textFromLibrary: 'Picture from Library',
             textFromURL: 'Picture from URL',
-            textLinkSettings: 'Link Settings',
             textAddress: 'Address',
             textImageURL: 'Image URL',
-            textFilter: 'Filter',
-            textLinkType: 'Link Type',
-            textExternalLink: 'External Link',
-            textInternalLink: 'Internal Data Range',
-            textSheet: 'Sheet',
-            textRange: 'Range',
-            textRequired: 'Required'
+            textFilter: 'Filter'
         }
     })(), SSE.Views.AddOther || {}))
 });
