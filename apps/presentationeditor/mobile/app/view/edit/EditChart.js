@@ -103,6 +103,7 @@ define([
                 $('#edit-chart-bordercolor').single('click',        _.bind(me.showBorderColor, me));
 
                 $('.edit-chart-style .categories a').single('click', _.bind(me.showStyleCategory, me));
+                $('#chart-align').single('click',                   _.bind(me.showAlign, me));
 
                 me.initControls();
                 me.renderStyles();
@@ -237,6 +238,10 @@ define([
                 this.fireEvent('page:show', [this, selector]);
             },
 
+            showAlign: function () {
+                this.showPage('#edit-chart-align');
+            },
+
             textStyle: 'Style',
             textReorder: 'Reorder',
             textRemoveChart: 'Remove Chart',
@@ -249,7 +254,16 @@ define([
             textFill: 'Fill',
             textBorder: 'Border',
             textSize: 'Size',
-            textColor: 'Color'
+            textColor: 'Color',
+            textAlign: 'Align',
+            textAlignLeft:     'Align Left',
+            textAlignRight:    'Align Right',
+            textAlignCenter:   'Align Center',
+            textAlignTop:      'Align Top',
+            textAlignBottom:   'Align Bottom',
+            textAlignMiddle:   'Align Middle',
+            txtDistribHor:     'Distribute Horizontally',
+            txtDistribVert:    'Distribute Vertically'
         }
     })(), PE.Views.EditChart || {}))
 });

@@ -99,6 +99,7 @@ define([
                 $('.edit-image-url-link .button, .edit-image-url-link .list-button').single('click', _.bind(me.onReplaceByUrl, me));
 
                 $('.image-reorder a').single('click',                       _.bind(me.onReorder, me));
+                $('.image-align a').single('click',                         _.bind(me.onAlign, me));
 
                 // me.initSettings(pageId);
             },
@@ -174,6 +175,29 @@ define([
                     this.api.shapes_bringForward();
                 } else if ('move-down' == type) {
                     this.api.shapes_bringBackward();
+                }
+            },
+
+            onAlign: function (e) {
+                var $target = $(e.currentTarget),
+                    type = $target.data('type');
+
+                if ('align-left' == type) {
+                    this.api.put_ShapesAlign(Asc.c_oAscAlignShapeType.ALIGN_LEFT);
+                } else if ('align-center' == type) {
+                    this.api.put_ShapesAlign(Asc.c_oAscAlignShapeType.ALIGN_CENTER);
+                } else if ('align-right' == type) {
+                    this.api.put_ShapesAlign(Asc.c_oAscAlignShapeType.ALIGN_RIGHT);
+                } else if ('align-top' == type) {
+                    this.api.put_ShapesAlign(Asc.c_oAscAlignShapeType.ALIGN_TOP);
+                } else if ('align-middle' == type) {
+                    this.api.put_ShapesAlign(Asc.c_oAscAlignShapeType.ALIGN_MIDDLE);
+                }else if ('align-bottom' == type) {
+                    this.api.put_ShapesAlign(Asc.c_oAscAlignShapeType.ALIGN_BOTTOM);
+                }else if ('distrib-hor' == type) {
+                    this.api.DistributeHorizontally();
+                }else if ('distrib-vert' == type) {
+                    this.api.DistributeVertically();
                 }
             },
 

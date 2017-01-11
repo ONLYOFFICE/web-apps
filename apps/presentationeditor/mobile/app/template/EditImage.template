@@ -20,6 +20,15 @@
                     </div>
                 </a>
             </li>
+            <li>
+                <a id="image-align" class="item-link">
+                    <div class="item-content">
+                        <div class="item-inner">
+                            <div class="item-title"><%= scope.textAlign %></div>
+                        </div>
+                    </div>
+                </a>
+            </li>
         </ul>
     </div>
     <div class="list-block">
@@ -178,6 +187,109 @@
                     </li>
                 </ul>
                 <% } %>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Align view -->
+<div id="edit-image-align">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left sliding"><a href="#" class="back link"><i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding"><%= scope.textAlign %></div>
+            <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
+        </div>
+    </div>
+    <div class="page image-align">
+        <div class="page-content">
+            <div class="list-block">
+                <ul>
+                    <li>
+                        <a data-type="align-left" class="item-link no-indicator">
+                            <div class="item-content">
+                                <div class="item-media"><i class="icon icon-move-foreground"></i></div>
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textAlignLeft %></div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-type="align-center" class="item-link no-indicator">
+                            <div class="item-content">
+                                <div class="item-media"><i class="icon icon-move-foreground"></i></div>
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textAlignCenter %></div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-type="align-right" class="item-link no-indicator">
+                            <div class="item-content">
+                                <div class="item-media"><i class="icon icon-move-foreground"></i></div>
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textAlignRight %></div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-type="align-top" class="item-link no-indicator">
+                            <div data-type="move-down" class="item-content">
+                                <div class="item-media"><i class="icon icon-move-foreground"></i></div>
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textAlignTop %></div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-type="align-middle" class="item-link no-indicator">
+                            <div data-type="move-down" class="item-content">
+                                <div class="item-media"><i class="icon icon-move-foreground"></i></div>
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textAlignMiddle %></div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-type="align-bottom" class="item-link no-indicator">
+                            <div data-type="move-down" class="item-content">
+                                <div class="item-media"><i class="icon icon-move-foreground"></i></div>
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textAlignBottom %></div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="list-block">
+                <ul>
+                    <li>
+                        <a data-type="distrib-hor" class="item-link no-indicator">
+                            <div data-type="move-down" class="item-content">
+                                <div class="item-media"><i class="icon icon-move-foreground"></i></div>
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.txtDistribHor %></div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-type="distrib-vert" class="item-link no-indicator">
+                            <div data-type="move-down" class="item-content">
+                                <div class="item-media"><i class="icon icon-move-foreground"></i></div>
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.txtDistribVert %></div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>

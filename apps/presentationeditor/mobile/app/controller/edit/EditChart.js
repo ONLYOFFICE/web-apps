@@ -120,6 +120,7 @@ define([
 
                 $('.chart-reorder a').single('click',                       _.bind(me.onReorder, me));
                 $('.chart-replace li').single('click',                      _.buffered(me.onReplace, 100, me));
+                $('.chart-align a').single('click',                         _.bind(me.onAlign, me));
 
                 $('#edit-chart-bordersize input').single('change touchend', _.buffered(me.onBorderSize, 100, me));
                 $('#edit-chart-bordersize input').single('input',           _.bind(me.onBorderSizeChanging, me));
@@ -260,6 +261,29 @@ define([
                     this.api.shapes_bringForward();
                 } else if ('move-down' == type) {
                     this.api.shapes_bringBackward();
+                }
+            },
+
+            onAlign: function (e) {
+                var $target = $(e.currentTarget),
+                    type = $target.data('type');
+
+                if ('align-left' == type) {
+                    this.api.put_ShapesAlign(Asc.c_oAscAlignShapeType.ALIGN_LEFT);
+                } else if ('align-center' == type) {
+                    this.api.put_ShapesAlign(Asc.c_oAscAlignShapeType.ALIGN_CENTER);
+                } else if ('align-right' == type) {
+                    this.api.put_ShapesAlign(Asc.c_oAscAlignShapeType.ALIGN_RIGHT);
+                } else if ('align-top' == type) {
+                    this.api.put_ShapesAlign(Asc.c_oAscAlignShapeType.ALIGN_TOP);
+                } else if ('align-middle' == type) {
+                    this.api.put_ShapesAlign(Asc.c_oAscAlignShapeType.ALIGN_MIDDLE);
+                }else if ('align-bottom' == type) {
+                    this.api.put_ShapesAlign(Asc.c_oAscAlignShapeType.ALIGN_BOTTOM);
+                }else if ('distrib-hor' == type) {
+                    this.api.DistributeHorizontally();
+                }else if ('distrib-vert' == type) {
+                    this.api.DistributeVertically();
                 }
             },
 

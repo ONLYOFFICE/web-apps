@@ -74,6 +74,7 @@ define([
                 $('#edit-table-bordercolor').single('click',            _.bind(me.showBorderColor, me));
                 $('.edit-table-style .categories a').single('click',    _.bind(me.showStyleCategory, me));
                 $('#table-reorder').single('click',                     _.bind(me.showReorder, me));
+                $('#table-align').single('click',                       _.bind(me.showAlign, me));
 
                 me.initControls();
                 me.renderStyles();
@@ -211,6 +212,10 @@ define([
                 this.showPage('#edit-table-reorder');
             },
 
+            showAlign: function () {
+                this.showPage('#edit-table-align');
+            },
+
             textRemoveTable: 'Remove Table',
             textTableOptions: 'Table Options',
             textStyle: 'Style',
@@ -232,7 +237,16 @@ define([
             textToForeground: 'Bring to Foreground',
             textToBackground: 'Send to Background',
             textForward: 'Move Forward',
-            textBackward: 'Move Backward'
+            textBackward: 'Move Backward',
+            textAlign: 'Align',
+            textAlignLeft:     'Align Left',
+            textAlignRight:    'Align Right',
+            textAlignCenter:   'Align Center',
+            textAlignTop:      'Align Top',
+            textAlignBottom:   'Align Bottom',
+            textAlignMiddle:   'Align Middle',
+            txtDistribHor:     'Distribute Horizontally',
+            txtDistribVert:    'Distribute Vertically'
         }
     })(), PE.Views.EditTable || {}))
 });

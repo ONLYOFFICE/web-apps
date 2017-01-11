@@ -70,6 +70,7 @@ define([
                 $('#image-replace').single('click',                 _.bind(me.showReplace, me));
                 $('#image-reorder').single('click',                 _.bind(me.showReorder, me));
                 $('#edit-image-url').single('click',                _.bind(me.showEditUrl, me));
+                $('#image-align').single('click',                   _.bind(me.showAlign, me));
 
                 me.initControls();
             },
@@ -146,6 +147,10 @@ define([
                 }, 1000);
             },
 
+            showAlign: function () {
+                this.showPage('#edit-image-align');
+            },
+
             textReplace: 'Replace',
             textReorder: 'Reorder',
             textDefault: 'Default Size',
@@ -160,7 +165,16 @@ define([
             textLinkSettings: 'Link Settings',
             textAddress: 'Address',
             textImageURL: 'Image URL',
-            textReplaceImg: 'Replace Image'
+            textReplaceImg: 'Replace Image',
+            textAlign: 'Align',
+            textAlignLeft:     'Align Left',
+            textAlignRight:    'Align Right',
+            textAlignCenter:   'Align Center',
+            textAlignTop:      'Align Top',
+            textAlignBottom:   'Align Bottom',
+            textAlignMiddle:   'Align Middle',
+            txtDistribHor:     'Distribute Horizontally',
+            txtDistribVert:    'Distribute Vertically'
         }
     })(), PE.Views.EditImage || {}))
 });

@@ -70,6 +70,7 @@ define([
                 $('#shape-style').single('click',                   _.bind(me.showStyle, me));
                 $('#shape-replace').single('click',                 _.bind(me.showReplace, me));
                 $('#shape-reorder').single('click',                 _.bind(me.showReorder, me));
+                $('#shape-align').single('click',                   _.bind(me.showAlign, me));
                 $('#edit-shape-bordercolor').single('click',        _.bind(me.showBorderColor, me));
 
                 $('.edit-shape-style .categories a').single('click', _.bind(me.showStyleCategory, me));
@@ -157,6 +158,10 @@ define([
                 this.showPage('#edit-shape-reorder');
             },
 
+            showAlign: function () {
+                this.showPage('#edit-shape-align');
+            },
+
             showBorderColor: function () {
                 var selector = '#edit-shape-border-color-view';
                 this.showPage(selector, true);
@@ -182,7 +187,16 @@ define([
             textEffects: 'Effects',
             textSize: 'Size',
             textColor: 'Color',
-            textOpacity: 'Opacity'
+            textOpacity: 'Opacity',
+            textAlign: 'Align',
+            textAlignLeft:     'Align Left',
+            textAlignRight:    'Align Right',
+            textAlignCenter:   'Align Center',
+            textAlignTop:      'Align Top',
+            textAlignBottom:   'Align Bottom',
+            textAlignMiddle:   'Align Middle',
+            txtDistribHor:     'Distribute Horizontally',
+            txtDistribVert:    'Distribute Vertically'
         }
     })(), PE.Views.EditShape || {}))
 });
