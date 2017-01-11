@@ -2,38 +2,40 @@
 <% if (view == 'root') { %>
 
 <div id="add-function-root">
-    <div class="page-content">
-        <div class="list-block">
-            <ul>
-                <% _.each(quick, function(f) { %>
-                    <li class="function">
-                        <a data-func="<%= f.type %>" class="item-link no-indicator quick">
-                            <div class="item-content">
-                                <div class="item-inner">
-                                    <div class="item-title"><%= f.caption %></div>
-                                    <div class="item-after"><span class="info"></span></div>
+    <div class="page" data-page="add-function">
+        <div class="page-content">
+            <div class="list-block">
+                <ul>
+                    <% _.each(quick, function(f) { %>
+                        <li class="function">
+                            <a data-func="<%= f.type %>" class="item-link no-indicator quick">
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title"><%= f.caption %></div>
+                                        <div class="item-after"><span class="info"></span></div>
+                                    </div>
                                 </div>
-                            </div>
-                        </a>
-                    </li>
-                <% }); %>
-            </ul>
-        </div>
-        <div class="content-block-title"><%= textGroups %></div>
-        <div class="list-block">
-            <ul class="groups">
-                <% for (var g in groups) { %>
-                    <li>
-                        <a data-type="<%= g %>" class="item-link group">
-                            <div class="item-content">
-                                <div class="item-inner">
-                                    <div class="item-title"><%= groups[g] %></div>
+                            </a>
+                        </li>
+                    <% }); %>
+                </ul>
+            </div>
+            <div class="content-block-title"><%= textGroups %></div>
+            <div class="list-block">
+                <ul class="groups">
+                    <% for (var g in groups) { %>
+                        <li>
+                            <a data-type="<%= g %>" class="item-link group">
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title"><%= groups[g] %></div>
+                                    </div>
                                 </div>
-                            </div>
-                        </a>
-                    </li>
-                <% }; %>
-            <ul>
+                            </a>
+                        </li>
+                    <% }; %>
+                </ul>
+            </div>
         </div>
     </div>
 </div>

@@ -137,6 +137,14 @@ define([
                 return '';
             },
 
+            layoutPage: function () {
+                return this.layout ? this.layout.find('#add-function-root').html() : '';
+            },
+
+            layoutPanel: function() {
+                return this.layout ? this.layout.find('#add-function-root .page-content').html() : '';
+            },
+
             initControls: function () {
                 //
             },

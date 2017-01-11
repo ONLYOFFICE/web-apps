@@ -130,12 +130,14 @@ define([
                         layout: SSE.getController('AddChart').getView('AddChart').rootLayout()
                     });
 
-                if ( !options || options.panel == 'function' )
+                if ( !options || options.panel == 'function' ) {
+                    view = SSE.getController('AddFunction').getView('AddFunction');
                     addViews.push({
                         caption: me.textFormula,
                         id: 'add-formula',
-                        layout: SSE.getController('AddFunction').getView('AddFunction').rootLayout()
+                        layout: options ? view.rootLayout() : view.layoutPanel()
                     });
+                }
 
                 if ( !options )
                     addViews.push({
