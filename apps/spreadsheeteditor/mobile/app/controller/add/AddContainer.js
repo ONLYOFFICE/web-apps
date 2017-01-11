@@ -104,7 +104,7 @@ define([
                 }
 
                 options = opts;
-                parentButton = !opts ? '#toolbar-add' : opts.button;
+                parentButton = !opts || !opts.button ? '#toolbar-add' : opts.button;
                 me._showByStack(Common.SharedSettings.get('phone'));
 
                 this.api.asc_closeCellEditor();
@@ -151,6 +151,15 @@ define([
                         layout: SSE.getController('AddOther').getView('AddOther').rootLayout()
                     });
 
+                if ( options && options.panel == 'hyperlink' ) {
+                    var view = SSE.getController('AddLink').getView();
+                    addViews.push({
+                        caption: view.getTitle(),
+                        id: 'add-link',
+                        layout: view.rootLayout()
+                    });
+                }
+
                 return addViews;
             },
 
@@ -174,11 +183,15 @@ define([
                 );
 
 
-                if (layoutAdds.length < 2) {
+                if (layoutAdds.length == 1) {
                     $layoutNavbar
                         .find('.center')
                         .removeClass('categories')
                         .html(layoutAdds[0].caption);
+
+                    $layoutPages = $('<div class="pages">' +
+                                        layoutAdds[0].layout +
+                                    '</div>');
                 } else {
                     if (isAndroid) {
                         $layoutNavbar
@@ -208,36 +221,34 @@ define([
                                 );
                         });
                     }
-                }
 
+                    // Content
 
-                // Content
-
-                var $layoutPages = $(
-                    '<div class="pages">' +
-                        '<div class="page" data-page="index">' +
-                            '<div class="page-content">' +
-                                '<div class="tabs-animated-wrap">' +
-                                    '<div class="tabs"></div>' +
-                                '</div>' +
-                            '</div>' +
-                        '</div>' +
-                    '</div>'
-                );
-
-                _.each(layoutAdds, function (addView, index) {
-                    $layoutPages.find('.tabs').append(
-                        '<div id="' + addView.id + '" class="tab view ' + (index < 1 ? 'active' : '') + '">' +
-                            '<div class="pages">' +
-                                '<div class="page no-navbar">' +
-                                    '<div class="page-content">' +
-                                        addView.layout +
+                    var _arrangePages = _.template(
+                        '<% _.each(pages, function(view, index) { %>' +
+                            '<div id="<%= view.id %>" class="tab view<% if (index < 1) print(" active"); %>">' +
+                                '<div class="pages">' +
+                                    '<div class="page no-navbar">' +
+                                        '<div class="page-content">' +
+                                            '<%= view.layout %>' +
+                                        '</div>' +
                                     '</div>' +
                                 '</div>' +
                             '</div>' +
-                        '</div>'
-                    );
-                });
+                        '<% }); %>');
+
+                    var $layoutPages = $('<div class="pages">' +
+                                            '<div class="page" data-page="index">' +
+                                                '<div class="page-content">' +
+                                                    '<div class="tabs-animated-wrap">' +
+                                                        '<div class="tabs">' +
+                                                            _arrangePages({pages: layoutAdds}) +
+                                                        '</div>' +
+                                                    '</div>' +
+                                                '</div>' +
+                                            '</div>' +
+                                        '</div>');
+                }
 
                 if (isPhone) {
                     me.picker = $$(uiApp.popup(
@@ -288,7 +299,7 @@ define([
                     domCache: true
                 });
 
-                Common.NotificationCenter.trigger('addcontainer:show');
+                Common.NotificationCenter.trigger('addcontainer:show', options);
             },
 
             textChart: 'Chart',

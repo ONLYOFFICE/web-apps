@@ -131,8 +131,9 @@ define([
                     break;
                 case 'addlink':
                     me.view.hideMenu();
-                    SSE.getController('AddContainer').showModal();
-                    SSE.getController('AddOther').getView('AddOther').showInsertLink();
+                    SSE.getController('AddContainer').showModal({
+                        panel: 'hyperlink'
+                    });
                     break;
                 case 'openlink':
                     var linkinfo = info.asc_getHyperlink();
