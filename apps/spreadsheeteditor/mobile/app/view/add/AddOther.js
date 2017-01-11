@@ -132,6 +132,15 @@ define([
                 return '';
             },
 
+            childLayout: function (name) {
+                if (this.layout) {
+                    if ( name == 'image' )
+                        return this.layout.find('#addother-insimage .page-content').html();
+                }
+
+                return '';
+            },
+
             initControls: function () {
                 //
             },

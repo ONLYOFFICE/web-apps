@@ -78,7 +78,10 @@ define([
                 this.createView('AddOther').render();
             },
 
-            initEvents: function () {
+            initEvents: function (args) {
+                if ( args && !(_.indexOf(args.panels, 'image') < 0) ) {
+                    this.onPageShow(this.getView('AddOther'), '#addother-insimage');
+                }
             },
 
             onPageShow: function (view, pageId) {
@@ -87,6 +90,15 @@ define([
                 if (pageId == '#addother-sort') {
                     var filterInfo = me.api.asc_getCellInfo().asc_getAutoFilterInfo();
                     view.optionAutofilter( filterInfo ? filterInfo.asc_getIsAutoFilter() : null)
+                } else
+                if (pageId == '#addother-insimage') {
+                    $('#addimage-url').single('click', function(e) {
+                        view.showImageFromUrl();
+                    });
+
+                    $('#addimage-file').single('click', function () {
+                        me.onInsertImage({islocal:true});
+                    });
                 }
             },
 

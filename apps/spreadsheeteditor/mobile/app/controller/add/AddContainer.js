@@ -86,26 +86,28 @@ define([
                     iscelllocked        = cellinfo.asc_getLocked(),
                     isTableLocked       = cellinfo.asc_getLockedTable()===true;
 
-                switch ( seltype ) {
-                    case Asc.c_oAscSelectionType.RangeCells:     iscellmenu  = true;     break;
-                    case Asc.c_oAscSelectionType.RangeRow:       isrowmenu   = true;     break;
-                    case Asc.c_oAscSelectionType.RangeCol:       iscolmenu   = true;     break;
-                    case Asc.c_oAscSelectionType.RangeMax:       isallmenu   = true;     break;
-                    case Asc.c_oAscSelectionType.RangeImage:     isimagemenu = true;     break;
-                    case Asc.c_oAscSelectionType.RangeShape:     isshapemenu = true;     break;
-                    case Asc.c_oAscSelectionType.RangeChart:     ischartmenu = true;     break;
-                    case Asc.c_oAscSelectionType.RangeChartText: istextchartmenu = true; break;
-                    case Asc.c_oAscSelectionType.RangeShapeText: istextshapemenu = true; break;
+                if ( !iscelllocked ) {
+                    options = opts;
+
+                    if ( !options ) {
+                        switch (seltype) {
+                            case Asc.c_oAscSelectionType.RangeCells:
+                            case Asc.c_oAscSelectionType.RangeRow:
+                            case Asc.c_oAscSelectionType.RangeCol:
+                            case Asc.c_oAscSelectionType.RangeMax: break;
+                            case Asc.c_oAscSelectionType.RangeImage:
+                            case Asc.c_oAscSelectionType.RangeShape:
+                            case Asc.c_oAscSelectionType.RangeChart:
+                            case Asc.c_oAscSelectionType.RangeChartText:
+                            case Asc.c_oAscSelectionType.RangeShapeText:
+                                options = {panels: ['image','shape']};
+                                break;
+                        }
+                    }
+
+                    parentButton = !opts || !opts.button ? '#toolbar-add' : opts.button;
+                    me._showByStack(Common.SharedSettings.get('phone'));
                 }
-
-                if ( iscellmenu ) {}
-                else {
-
-                }
-
-                options = opts;
-                parentButton = !opts || !opts.button ? '#toolbar-add' : opts.button;
-                me._showByStack(Common.SharedSettings.get('phone'));
 
                 this.api.asc_closeCellEditor();
                 SSE.getController('Toolbar').getView('Toolbar').hideSearch();
@@ -139,7 +141,7 @@ define([
                     });
                 }
 
-                if ( !options )
+                if ( !options || !(_.indexOf(options.panels, 'shape') < 0) )
                     addViews.push({
                         caption: me.textShape,
                         id: 'add-shape',
@@ -159,6 +161,14 @@ define([
                         caption: view.getTitle(),
                         id: 'add-link',
                         layout: view.rootLayout()
+                    });
+                }
+
+                if ( options && !(_.indexOf(options.panels, 'image')) ) {
+                    addViews.push({
+                        caption: 'Image',
+                        id: 'add-image',
+                        layout: SSE.getController('AddOther').getView('AddOther').childLayout('image')
                     });
                 }
 
