@@ -44,12 +44,6 @@
 
 <!-- Link view -->
 <div id="addother-link">
-    <div class="navbar">
-        <div class="navbar-inner">
-            <div class="left sliding"><a href="#" class="back link"><i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
-            <div class="center sliding"><%= scope.textAddLink %></div>
-        </div>
-    </div>
     <div class="page" data-page="addother-link">
         <div class="page-content">
             <div class="list-block">
@@ -145,12 +139,6 @@
 
 <!-- Add image view -->
 <div id="addother-insimage">
-    <div class="navbar">
-        <div class="navbar-inner">
-            <div class="left sliding"><a href="#" class="back link"><i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
-            <div class="center sliding"><%= scope.textInsertImage %></div>
-        </div>
-    </div>
     <div class="page" data-page="addother-image">
         <div class="page-content">
             <div class="list-block">
@@ -187,12 +175,6 @@
 
 <!-- Url view -->
 <div id="addother-imagefromurl">
-    <div class="navbar">
-        <div class="navbar-inner">
-            <div class="left sliding"><a href="#" class="back link"><i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
-            <div class="center sliding"><%= scope.textLinkSettings %></div>
-        </div>
-    </div>
     <div class="page" id="addimage-url" data-page="addimage-url">
         <div class="page-content">
             <div class="content-block-title"><%= scope.textAddress %></div>
@@ -226,12 +208,6 @@
 
 <!-- View for Sort&Filter -->
 <div id="addother-sort">
-    <div class="navbar">
-        <div class="navbar-inner">
-            <div class="left sliding"><a href="#" class="back link"><i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
-            <div class="center sliding"><%= scope.textSort %></div>
-        </div>
-    </div>
     <div class="page">
         <div class="page-content">
             <div class="list-block">

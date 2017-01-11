@@ -48,6 +48,47 @@ define([
     SSE.Views.AddOther = Backbone.View.extend(_.extend((function() {
         // private
 
+        var tplNavigation = '<div class="navbar">' +
+                                '<div class="navbar-inner">' +
+                                    '<div class="left sliding">' +
+                                        '<a href="#" class="back link">' +
+                                            '<i class="icon icon-back"></i>' +
+                                            '<% if (!android) { %><span><%= textBack %></span><% } %>' +
+                                        '</a>' +
+                                    '</div>' +
+                                    '<div class="center sliding"><%= title %></div>' +
+                                '</div>' +
+                            '</div>';
+
+        var mapNavigation = {};
+
+        var getNavigation = function (panelid) {
+            var el = mapNavigation[panelid];
+            if ( !el ) {
+                var _title;
+                switch ( panelid ) {
+                case '#addlink':
+                    _title = SSE.getController('AddLink').getView('AddLink').getTitle();
+                    break;
+                case '#addother-insimage': _title = this.textInsertImage; break;
+                case '#addother-sort': _title = this.textSort; break;
+                case '#addother-imagefromurl': _title = this.textLinkSettings; break;
+                }
+
+                mapNavigation =
+                    el = _.template(tplNavigation,
+                        {
+                            android     : Common.SharedSettings.get('android'),
+                            phone       : Common.SharedSettings.get('phone'),
+                            textBack    : this.textBack,
+                            title       : _title
+                        }
+                    );
+            }
+
+            return el;
+        };
+
         return {
             // el: '.view-main',
 
@@ -101,14 +142,18 @@ define([
 
                 if (rootView && this.layout) {
                     var $content = this.layout.find(templateId);
+                    var html, navbar = getNavigation.call(this, templateId);
 
                     // Android fix for navigation
                     if (Framework7.prototype.device.android) {
-                        $content.find('.page').append($content.find('.navbar'));
+                        // $content.find('.page').append($content.find('.navbar'));
+                        html = $content.html() + navbar;
+                    } else {
+                        html = navbar + $content.html();
                     }
 
                     rootView.router.load({
-                        content: $content.html()
+                        content: html
                     });
 
                     this.fireEvent('page:show', [this, templateId]);
