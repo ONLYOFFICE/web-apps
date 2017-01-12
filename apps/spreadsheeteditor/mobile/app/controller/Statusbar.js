@@ -75,17 +75,19 @@ define([
             this.sheets = this.getApplication().getCollection('Sheets');
             this.sheets.bind({
                 add:    function (model, collection, opts) {
-                    console.log('add in collection');
+                    var $item = me.statusbar.addSheet(model);
+                    model.set('el', $item, {silent:true});
                 },
                 change: function (model) {
-                    console.log('change in collection');
+                    if ( model.changed ) {
+                        if ( model.changed.locked != undefined ) {
+                            model.get('el').toggleClass('locked', model.changed.locked);
+                        }
+                    }
                 },
                 reset:  function (collection, opts) {
                     me.statusbar.clearTabs();
-                    collection.each(function(model) {
-                        var $item = me.statusbar.addSheet(model);
-                        model.set('el', $item);
-                    });
+                    me.statusbar.addSheets(collection);
                 }
             });
 
@@ -97,19 +99,20 @@ define([
 
         setApi: function(api) {
             this.api = api;
-            // this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onApiDisconnect, this));
+            this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onApiDisconnect, this));
             // Common.NotificationCenter.on('api:disconnect',               _.bind(this.onApiDisconnect, this));
             // this.api.asc_registerCallback('asc_onUpdateTabColor', _.bind(this.onApiUpdateTabColor, this));
             // this.api.asc_registerCallback('asc_onEditCell', _.bind(this.onApiEditCell, this));
-            /** coauthoring begin **/
-            // this.api.asc_registerCallback('asc_onWorkbookLocked', _.bind(this.onWorkbookLocked, this));
-            // this.api.asc_registerCallback('asc_onWorksheetLocked', _.bind(this.onWorksheetLocked, this));
-            /** coauthoring end **/
+            this.api.asc_registerCallback('asc_onWorkbookLocked', _.bind(this.onWorkbookLocked, this));
+            this.api.asc_registerCallback('asc_onWorksheetLocked', _.bind(this.onWorksheetLocked, this));
             // this.api.asc_registerCallback('asc_onError', _.bind(this.onError, this));
 
-            // this.statusbar.setApi(api);
-
             this.api.asc_registerCallback('asc_onSheetsChanged', this.onApiSheetsChanged.bind(this));
+        },
+
+        setMode: function(mode) {
+            this.statusbar.setMode(mode);
+            this.isEdit = mode == 'edit';
         },
 
         /*
@@ -129,8 +132,9 @@ define([
                     index       : i,
                     active      : active_index == i,
                     name        : me.api.asc_getWorksheetName(i),
-                    cls         : locked ? 'coauth-locked':'',
-                    draglocked  : locked
+                    // cls         : locked ? 'coauth-locked':'',
+                    locked      : locked,
+                    color       : me.api.asc_getWorksheetTabColor(i)
                 };
 
                 (this.api.asc_isWorksheetHidden(i) ? hiddentems : items).push(new SSE.Models.Sheet(tab));
@@ -151,12 +155,14 @@ define([
         },
 
         onApiDisconnect: function() {
-            this.statusbar.setMode({isDisconnected: true});
-            this.statusbar.update();
+            this.statusbar.setMode('disconnect');
+            this.isDisconnected = true;
         },
 
-        /** coauthoring begin **/
         onWorkbookLocked: function(locked) {
+            this.statusbar.$btnAddTab.toggleClass('disabled', locked);
+            return;
+
             this.statusbar.tabbar[locked?'addClass':'removeClass']('coauth-locked');
             this.statusbar.btnAddWorksheet.setDisabled(locked || this.statusbar.rangeSelectionMode==Asc.c_oAscSelectionDialogType.Chart ||
                                                                  this.statusbar.rangeSelectionMode==Asc.c_oAscSelectionDialogType.FormatTable);
@@ -172,18 +178,11 @@ define([
             }
         },
 
-        onWorksheetLocked: function(index,locked) {
-            var count = this.statusbar.tabbar.getCount(), tab;
-            for (var i = count; i-- > 0; ) {
-                tab = this.statusbar.tabbar.getAt(i);
-                if (index == tab.sheetindex) {
-                    tab[locked?'addClass':'removeClass']('coauth-locked');
-                    tab.isLockTheDrag = locked || (this.statusbar.rangeSelectionMode==Asc.c_oAscSelectionDialogType.FormatTable);
-                    break;
-                }
-            }
+        onWorksheetLocked: function(index, locked) {
+            var model = this.sheets.findWhere({index: index});
+            if ( model && model.get('locked') != locked )
+                model.set('locked', locked);
         },
-        /** coauthoring end **/
 
         onApiEditCell: function(state) {
             var disableAdd = (state == Asc.c_oAscCellEditorState.editFormula),
@@ -410,13 +409,6 @@ define([
             }
         },
 
-        onZoomShow: function(e){
-            if (e.target.classList.contains('disabled')) {
-                return false;
-            }
-        },
-
-
         onError: function(id, level, errData) {
             if (id == Asc.c_oAscError.ID.LockedWorksheetRename)
                 this.statusbar.update();
@@ -428,8 +420,13 @@ define([
 
             var sdkindex = model.get('index');
             if ( sdkindex == this.api.asc_getActiveWorksheetIndex () ) {
-                if ( !opened )
-                    this.statusbar.showTabContextMenu(this._getTabMenuItems(), model);
+                if ( !opened ) {
+                    if ( this.isEdit && !this.isDisconnected ) {
+                        this.api.asc_closeCellEditor();
+
+                        this.statusbar.showTabContextMenu(this._getTabMenuItems(model), model);
+                    }
+                }
             } else {
                 this.api.asc_showWorksheet( sdkindex );
                 this.statusbar.setActiveTab(index);
@@ -475,23 +472,26 @@ define([
 
         },
 
-        _getTabMenuItems: function() {
-            var items = [
-                {
-                    caption: this.menuDuplicate,
-                    event: 'copy'
-                },
-                {
-                    caption: this.menuDelete,
-                    event: 'del'
-                },
-                {
-                    caption: this.menuHide,
-                    event: 'hide'
-                }
-            ];
+        _getTabMenuItems: function(model) {
+            var wbLocked = this.api.asc_isWorkbookLocked();
+            var shLocked   = this.api.asc_isWorksheetLockedOrDeleted(model.get('index'));
 
-            if ( this.hiddensheets.length ) {
+            var items = [{
+                    caption: this.menuDuplicate,
+                    event: 'copy',
+                    locked: wbLocked || shLocked
+                },{
+                    caption: this.menuDelete,
+                    event: 'del',
+                    locked: wbLocked || shLocked
+                },{
+                    caption: this.menuHide,
+                    event: 'hide',
+                    locked: wbLocked || shLocked
+                }];
+
+
+            if ( !wbLocked && !shLocked && this.hiddensheets.length ) {
                 items.push({
                     caption: this.menuUnhide,
                     event: 'unhide'

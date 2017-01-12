@@ -49,16 +49,18 @@ define([
             el: '.pages > .page',
             template: '<div class="statusbar">' +
                             '<div id="box-addtab" class="status-group">' +
-                                '<a href="#" id="btn-addtab" class="button"><i class="icon icon-plus"></i></a>' +
+                                '<a href="#" id="btn-addtab" class="button" style="display:none"><i class="icon icon-plus"></i></a>' +
                             '</div>' +
                             '<div class="box-tabs">' +
                                 '<ul class="sheet-tabs bottom"></ul>' +
                             '</div>' +
                         '</div>',
-            tabtemplate: _.template('<li class="tab"><a><%= label %></a></li>'),
+            tabtemplate: _.template('<li class="tab<% if (locked) print(" locked"); %>"><a><%= label %></a></li>'),
             menutemplate: _.template(
                 '<% _.each(menuItems, function(item) { %>' +
-                    '<li data-event="<%= item.event %>"><a href="#" class="item-link list-button"><%= item.caption %></li>' +
+                    '<li data-event="<%= item.event %>" class="<% if (item.locked===true) print("disabled") %>">' +
+                        '<a href="#" class="item-link list-button"><%= item.caption %>' +
+                    '</li>' +
                 '<% }); %>'),
 
             events: {},
@@ -79,30 +81,16 @@ define([
                 });
 
                 // this.editMode = false;
-
-                // this.btnAddWorksheet = new Common.UI.Button({
-                //     el: $('#status-btn-addtab',this.el),
-                //     hint: this.tipAddTab,
-                //     disabled: true,
-                //     hintAnchor: 'top'
-                // });
-
                 return this;
             },
 
-            // setApi: function(api) {
-                // this.api = api;
-                // this.api.asc_registerCallback('asc_onSheetsChanged', _.bind(this.update, this));
-                // return this;
-            // },
-
             setMode: function(mode) {
-                this.mode = _.extend({}, this.mode, mode);
-//                this.$el.find('.el-edit')[mode.isEdit?'show':'hide']();
-                this.btnAddWorksheet.setVisible(this.mode.isEdit);
-                this.btnAddWorksheet.setDisabled(this.mode.isDisconnected);
-                this.lblChangeRights[(!this.mode.isOffline && this.mode.sharingSettingsUrl&&this.mode.sharingSettingsUrl.length)?'show':'hide']();
-                // this.updateTabbarBorders();
+                if ('edit' == mode) {
+                    this.$btnAddTab.show();
+                } else
+                if ('disconnect' == mode) {
+                    this.$btnAddTab.toggleClass('disabled', true);
+                }
             },
 
             setVisible: function(visible) {
@@ -112,7 +100,8 @@ define([
             addSheet: function(model) {
                 var index = this.$boxTabs.children().length;
                 var $item = $(this.tabtemplate({
-                    'label': model.get('name')
+                    label: model.get('name'),
+                    locked: model.get('locked')
                 })).appendTo(this.$boxTabs);
 
                 $item.on('click', this.onSheetClick.bind(this, index, model));
@@ -120,7 +109,12 @@ define([
                 return $item;
             },
 
-            addSheets: function () {
+            addSheets: function (collection) {
+                var me = this;
+                collection.each(function(model) {
+                    var $item = me.addSheet(model);
+                    model.set('el', $item, {silent:true});
+                });
             },
 
             clearTabs: function () {
@@ -211,22 +205,6 @@ define([
                     },
                     false //  hide popover
                 );
-            },
-
-            updateTabbarBorders: function() {
-                var right = parseInt(this.boxZoom.css('width')), visible = false;
-                if (this.boxMath.is(':visible')) {
-                    right   += parseInt(this.boxMath.css('width'));
-                    visible = true;
-                }
-
-                if (this.panelUsers.is(':visible')) {
-                    right   += parseInt(this.panelUsers.css('width'));
-                    visible = true;
-                }
-
-                this.boxZoom.find('.separator').css('border-left-color',visible?'':'transparent');
-                this.tabBarBox.css('right',  right + 'px');
             },
 
             changeViewMode: function (edit) {
