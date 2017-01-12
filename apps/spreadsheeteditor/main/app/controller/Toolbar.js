@@ -101,7 +101,9 @@ define([
                 namedrange_locked: false,
                 fontsize: undefined,
                 multiselect: false,
-                sparklines_disabled: false
+                sparklines_disabled: false,
+                numformattype: undefined,
+                langId: 0x0409
             };
 
             var checkInsertAutoshape =  function(e, action) {
@@ -252,18 +254,13 @@ define([
             if (toolbar.mnuZoomOut) toolbar.mnuZoomOut.on('click',      _.bind(this.onZoomOutClick, this));
             if (toolbar.btnShowMode.rendered) toolbar.btnShowMode.menu.on('item:click', _.bind(this.onHideMenu, this));
             toolbar.listStyles.on('click',                              _.bind(this.onListStyleSelect, this));
-            if (toolbar.btnNumberFormat.rendered) toolbar.btnNumberFormat.menu.on('item:click', _.bind(this.onNumberFormatMenu, this));
+            toolbar.cmbNumberFormat.on('selected',                      _.bind(this.onNumberFormatSelect, this));
+            toolbar.cmbNumberFormat.on('show:before',                   _.bind(this.onNumberFormatOpenBefore, this, true));
             toolbar.btnCurrencyStyle.menu.on('item:click',              _.bind(this.onNumberFormatMenu, this));
             if (toolbar.mnuitemCompactToolbar) toolbar.mnuitemCompactToolbar.on('toggle', _.bind(this.onChangeViewMode, this));
             $('#id-toolbar-menu-new-fontcolor').on('click',             _.bind(this.onNewTextColor, this));
             $('#id-toolbar-menu-new-paracolor').on('click',             _.bind(this.onNewBackColor, this));
             $('#id-toolbar-menu-new-bordercolor').on('click',           _.bind(this.onNewBorderColor, this));
-
-            _.each(toolbar.btnNumberFormat.menu.items, function(item) {
-                if (item.menu) {
-                    item.menu.on('item:click', _.bind(me.onNumberFormatMenu, me));
-                }
-            });
 
             this.onSetupCopyStyleButton();
         },
@@ -885,6 +882,26 @@ define([
             Common.component.Analytics.trackEvent('ToolBar', 'Number Format');
         },
 
+        onNumberFormatSelect: function(combo, record) {
+            if (this.api)
+                this.api.asc_setCellFormat(record.format);
+
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            Common.component.Analytics.trackEvent('ToolBar', 'Number Format');
+        },
+
+        onNumberFormatOpenBefore: function(combo) {
+            if (this.api) {
+                var me = this,
+                    info = me.api.asc_getCellInfo();
+                me.toolbar.numFormatData.forEach( function(item, index) {
+                    item.exampleval = me.api.asc_getLocaleExample2(item.format, info.asc_getText(), me._state.langId);
+                });
+                me.toolbar.cmbNumberFormat.setData(me.toolbar.numFormatData);
+                me.toolbar.cmbNumberFormat.setValue(me._state.numformattype, me.toolbar.txtCustom);
+            }
+        },
+
         onDecrement: function(btn) {
             if (this.api)
                 this.api.asc_decreaseCellDigitNumbers();
@@ -1459,7 +1476,7 @@ define([
             var toolbar = this.toolbar;
             if (toolbar.mode.isEditDiagram || toolbar.mode.isEditMailMerge) {
                 is_cell_edited = (state == Asc.c_oAscCellEditorState.editStart);
-                toolbar.lockToolbar(SSE.enumLock.editCell, state == Asc.c_oAscCellEditorState.editStart, {array: [toolbar.btnDecDecimal,toolbar.btnIncDecimal,toolbar.btnNumberFormat]});
+                toolbar.lockToolbar(SSE.enumLock.editCell, state == Asc.c_oAscCellEditorState.editStart, {array: [toolbar.btnDecDecimal,toolbar.btnIncDecimal,toolbar.cmbNumberFormat]});
             } else
             if (state == Asc.c_oAscCellEditorState.editStart || state == Asc.c_oAscCellEditorState.editEnd) {
                 toolbar.lockToolbar(SSE.enumLock.editCell, state == Asc.c_oAscCellEditorState.editStart, {
@@ -1871,12 +1888,11 @@ define([
                 toolbar.lockToolbar(SSE.enumLock.multiselect, this._state.multiselect, { array: [toolbar.btnTableTemplate, toolbar.btnInsertHyperlink]});
             }
 
-            fontparam = toolbar.numFormatTypes[info.asc_getNumFormatType()];
-
-            if (!fontparam)
-                fontparam = toolbar.numFormatTypes[1];
-
-            toolbar.btnNumberFormat.setCaption(fontparam);
+            val = info.asc_getNumFormatType();
+            if (this._state.numformattype !== val) {
+                toolbar.cmbNumberFormat.setValue(val, toolbar.txtCustom);
+                this._state.numformattype = val;
+            }
 
             val = info.asc_getAngle();
             if (this._state.angle !== val) {
@@ -2544,6 +2560,12 @@ define([
             for (var i=0; i<Math.min(4,formulas.length); i++) {
                 formulas[i].setCaption(this.api.asc_getFormulaLocaleName(formulas[i].value));
             }
+
+            var value = Common.localStorage.getItem("sse-settings-reg-settings");
+            if (value!==null)
+                this._state.langId = parseInt(value);
+            else
+                this._state.langId = ((this.toolbar.mode.lang) ? parseInt(Common.util.LanguageInfo.getLocalLanguageCode(this.toolbar.mode.lang)) : 0x0409);
         },
 
         textEmptyImgUrl     : 'You need to specify image URL.',
