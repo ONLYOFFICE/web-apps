@@ -150,18 +150,19 @@ define([
 
                 if (rootView && this.layout) {
                     var $content = this.layout.find(templateId);
-                    var html, navbar = getNavigation.call(this, templateId);
+                    var navbar = getNavigation.call(this, templateId);
 
-                    // Android fix for navigation
-                    if (Framework7.prototype.device.android) {
-                        // $content.find('.page').append($content.find('.navbar'));
-                        html = $content.html() + navbar;
-                    } else {
-                        html = navbar + $content.html();
+                    if ( !$content.find('.navbar').length ) {
+                        // Android fix for navigation
+                        if (Framework7.prototype.device.android) {
+                            $content.find('.page').append(navbar);
+                        } else {
+                            $content.prepend(navbar);
+                        }
                     }
 
                     rootView.router.load({
-                        content: html
+                        content: $content.html()
                     });
 
                     this.fireEvent('page:show', [this, templateId]);

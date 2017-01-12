@@ -132,15 +132,17 @@ define([
                 if (root && this.layout) {
                     var $content = this.layout;
 
-                    // Android fix for navigation
-                    if (Framework7.prototype.device.android) {
-                        var html = $content.html() + navbar;
-                    } else {
-                        html = navbar + $content.html();
+                    if ( !$content.find('.navbar').length ) {
+                        // Android fix for navigation
+                        if (Framework7.prototype.device.android) {
+                            $content.find('.page').append(navbar);
+                        } else {
+                            $content.prepend(navbar);
+                        }
                     }
 
                     root.router.load({
-                        content: html
+                        content: $content.html()
                     });
 
                     initEvents.call(this);
