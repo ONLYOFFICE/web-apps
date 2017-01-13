@@ -3,6 +3,14 @@ module.exports = function(grunt) {
         defaultConfig,
         packageFile;
 
+    var copyright = '/*\n' +
+                    ' * Copyright (c) Ascensio System SIA <%= grunt.template.today("yyyy") %>. All rights reserved\n' +
+                    ' *\n' +
+                    ' * <%= pkg.homepage %> \n' +
+                    ' *\n' +
+                    ' * Version: ' + process.env['PRODUCT_VERSION'] + ' (build:' + process.env['BUILD_NUMBER'] + ')\n' +
+                    ' */\n';
+
 
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-copy');
@@ -176,13 +184,7 @@ module.exports = function(grunt) {
             concat: {
                 options: {
                     stripBanners: true,
-                    banner: '/*\n' +
-                    ' * Copyright (c) Ascensio System SIA <%= grunt.template.today("yyyy") %>. All rights reserved\n' +
-                    ' *\n' +
-                    ' * <%= pkg.homepage %> \n' +
-                    ' *\n' +
-                    ' * Version: ' + process.env['PRODUCT_VERSION'] + ' (build:' + process.env['BUILD_NUMBER'] + ')\n' +
-                    ' */\n'
+                    banner: copyright
                 },
                 dist: {
                     src: [packageFile['main']['js']['requirejs']['options']['out']],
@@ -224,7 +226,7 @@ module.exports = function(grunt) {
                     force: true
                 },
                 'deploy': packageFile['mobile']['clean']['deploy'],
-                'template-backup': packageFile['mobile']['clean']['template-backup'],
+                'template-backup': packageFile.mobile.copy['template-backup'][0].dest
             },
 
             requirejs: {
@@ -233,19 +235,14 @@ module.exports = function(grunt) {
                 }
             },
 
-            uglify: {
+            concat: {
                 options: {
-                    banner: '/*\n' +
-                            ' * Copyright (c) Ascensio System SIA <%= grunt.template.today("yyyy") %>. All rights reserved\n' +
-                            ' *\n' +
-                            ' * <%= pkg.homepage %>\n' +
-                            ' *\n' +
-                            ' * Version: <%= pkg.version %> (build:<%= pkg.build %>)\n' +
-                            ' */\n'
+                    stripBanners: true,
+                    banner: copyright
                 },
-                build: {
-                    src: packageFile['mobile']['js']['src'],
-                    dest: packageFile['mobile']['js']['dist']
+                dist: {
+                    src: packageFile.mobile.js.requirejs.options.out,
+                    dest: packageFile.mobile.js.requirejs.options.out
                 }
             },
 
@@ -302,13 +299,7 @@ module.exports = function(grunt) {
 
             uglify: {
                 options: {
-                    banner: '/*\n' +
-                            ' * Copyright (c) Ascensio System SIA <%= grunt.template.today("yyyy") %>. All rights reserved\n' +
-                            ' *\n' +
-                            ' * <%= pkg.homepage %>\n' +
-                            ' *\n' +
-                            ' * Version: <%= pkg.version %> (build:<%= pkg.build %>)\n' +
-                            ' */\n'
+                    banner: copyright
                 },
                 build: {
                     src: packageFile['embed']['js']['src'],
@@ -362,7 +353,7 @@ module.exports = function(grunt) {
     grunt.registerTask('deploy-requirejs',              ['requirejs-init', 'clean', 'uglify']);
 
     grunt.registerTask('deploy-app-main',               ['main-app-init', 'clean', 'imagemin', 'less', 'requirejs', 'concat', 'copy', 'replace:writeVersion']);
-    grunt.registerTask('deploy-app-mobile',             ['mobile-app-init', 'clean:deploy', 'cssmin:styles', 'copy:template-backup', 'htmlmin', 'requirejs', 'copy:template-restore', 'clean:template-backup', 'copy:localization', 'copy:index-page', 'copy:images-app']);
+    grunt.registerTask('deploy-app-mobile',             ['mobile-app-init', 'clean:deploy', 'cssmin:styles', 'copy:template-backup', 'htmlmin', 'requirejs', 'concat', 'copy:template-restore', 'clean:template-backup', 'copy:localization', 'copy:index-page', 'copy:images-app']);
     grunt.registerTask('deploy-app-embed',              ['embed-app-init', 'clean:prebuild', 'uglify', 'less', 'copy', 'clean:postbuild']);
 
 
