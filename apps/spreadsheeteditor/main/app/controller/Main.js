@@ -50,6 +50,7 @@ define([
     'common/main/lib/collection/TextArt',
     'common/main/lib/view/OpenDialog',
     'common/main/lib/util/LanguageInfo',
+    'common/main/lib/util/LocalStorage',
     'spreadsheeteditor/main/app/collection/ShapeGroups',
     'spreadsheeteditor/main/app/collection/TableTemplates',
     'spreadsheeteditor/main/app/collection/EquationGroups',
