@@ -125,7 +125,6 @@ require([
             ,'EditContainer'
             ,'EditCell'
             ,'EditText'
-            // ,'EditTable'
             ,'EditImage'
             ,'EditShape'
             ,'EditChart'
@@ -134,7 +133,6 @@ require([
             ,'AddChart'
             ,'AddFunction'
             ,'AddShape'
-            // ,'AddImage'
             ,'AddOther'
             ,'AddLink'
         ]
@@ -197,7 +195,6 @@ require([
         ,'spreadsheeteditor/mobile/app/controller/edit/EditContainer'
         ,'spreadsheeteditor/mobile/app/controller/edit/EditCell'
         ,'spreadsheeteditor/mobile/app/controller/edit/EditText'
-        // ,'spreadsheeteditor/mobile/app/controller/edit/EditTable'
         ,'spreadsheeteditor/mobile/app/controller/edit/EditImage'
         ,'spreadsheeteditor/mobile/app/controller/edit/EditShape'
         ,'spreadsheeteditor/mobile/app/controller/edit/EditChart'
@@ -206,7 +203,6 @@ require([
         ,'spreadsheeteditor/mobile/app/controller/add/AddChart'
         ,'spreadsheeteditor/mobile/app/controller/add/AddFunction'
         ,'spreadsheeteditor/mobile/app/controller/add/AddShape'
-        // ,'spreadsheeteditor/mobile/app/controller/add/AddImage'
         ,'spreadsheeteditor/mobile/app/controller/add/AddOther'
         ,'spreadsheeteditor/mobile/app/controller/add/AddLink'
     ], function() {

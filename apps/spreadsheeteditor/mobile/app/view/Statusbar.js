@@ -127,62 +127,6 @@ define([
                         .eq(index).addClass('active');
             },
 
-            update: function() {
-                var me = this;
-
-                return;
-
-                this.tabbar.empty(true);
-                this.btnAddWorksheet.setDisabled(true);
-
-                if (this.api) {
-                    var wc = this.api.asc_getWorksheetsCount(), i = -1;
-                    var hidentems = [], items = [], tab, locked;
-                    var sindex = this.api.asc_getActiveWorksheetIndex();
-
-                    while (++i < wc) {
-                        locked = me.api.asc_isWorksheetLockedOrDeleted(i);
-                        tab = {
-                            sheetindex    : i,
-                            active        : sindex == i,
-                            label         : me.api.asc_getWorksheetName(i),
-//                          reorderable   : !locked,
-                            cls           : locked ? 'coauth-locked':'',
-                            isLockTheDrag : locked
-                        };
-
-                        this.api.asc_isWorksheetHidden(i)? hidentems.push(tab) : items.push(tab);
-                    }
-
-                    if (hidentems.length) {
-                        hidentems.forEach(function(item){
-                            me.tabMenu.items[6].menu.addItem(new Common.UI.MenuItem({
-                                style: 'white-space: pre-wrap',
-                                caption: Common.Utils.String.htmlEncode(item.label),
-                                value: item.sheetindex
-                            }));
-                        });
-                        this.tabMenu.items[6].show();
-                    }
-
-                    this.tabbar.add(items);
-
-                    if (!_.isUndefined(this.tabBarScroll)) {
-                        this.tabbar.$bar.scrollLeft(this.tabBarScroll.scrollLeft);
-                        this.tabBarScroll = undefined;
-                    }
-                    if (!this.tabbar.isTabVisible(sindex))
-                        this.tabbar.setTabVisible(sindex);
-
-                    this.btnAddWorksheet.setDisabled(me.mode.isDisconnected || me.api.asc_isWorkbookLocked());
-                    $('#status-label-zoom').text(Common.Utils.String.format(this.zoomText, Math.floor((this.api.asc_getZoom() +.005)*100)));
-
-                    me.fireEvent('sheet:changed', [me, sindex]);
-                    me.fireEvent('sheet:updateColors', [true]);
-                    Common.NotificationCenter.trigger('comments:updatefilter', {property: 'uid', value: new RegExp('^(doc_|sheet' + me.api.asc_getActiveWorksheetId() + '_)')}, false);
-                }
-            },
-
             onSheetClick: function (index, model, e) {
                 this.fireEvent('sheet:click', [index, model]);
                 return false;

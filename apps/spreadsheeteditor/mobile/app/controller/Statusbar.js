@@ -410,8 +410,8 @@ define([
         },
 
         onError: function(id, level, errData) {
-            if (id == Asc.c_oAscError.ID.LockedWorksheetRename)
-                this.statusbar.update();
+            // if (id == Asc.c_oAscError.ID.LockedWorksheetRename)
+            //     this.statusbar.update();
         },
 
         onTabClick: function(index, model) {
