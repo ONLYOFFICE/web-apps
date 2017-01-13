@@ -895,7 +895,7 @@ define([
                 var me = this,
                     info = me.api.asc_getCellInfo();
                 me.toolbar.numFormatData.forEach( function(item, index) {
-                    item.exampleval = me.api.asc_getLocaleExample2(item.format, info.asc_getText(), me._state.langId);
+                    item.exampleval = me.api.asc_getLocaleExample2(item.format, null, me._state.langId);
                 });
                 me.toolbar.cmbNumberFormat.setData(me.toolbar.numFormatData);
                 me.toolbar.cmbNumberFormat.setValue(me._state.numformattype, me.toolbar.txtCustom);
