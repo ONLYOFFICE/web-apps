@@ -250,16 +250,16 @@ define([
         deleteWorksheet: function() {
             var me = this;
 
-            if (this.sheets.length == 1) {
-                uiApp.alert(this.errorLastSheet);
+            if (me.sheets.length == 1) {
+                uiApp.alert(me.errorLastSheet);
             } else {
-                uiApp.confirm(this.warnDeleteSheet, undefined, function(){
+                uiApp.confirm(me.warnDeleteSheet, undefined, _.buffered(function() {
                     if ( !me.api.asc_deleteWorksheet() ) {
                         _.defer(function(){
                             uiApp.alert(me.errorRemoveSheet);
                         });
                     }
-                });
+                }, 300));
             }
         },
 

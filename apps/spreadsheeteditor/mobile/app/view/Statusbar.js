@@ -72,16 +72,16 @@ define([
 
             render: function () {
                 var me = this;
-                this.$el = $(this.template).appendTo($(this.el));
+                me.$el = $(me.template).appendTo($(me.el));
 
-                this.$boxTabs = this.$el.find('.box-tabs > ul');
-                this.$btnAddTab = this.$el.find('#box-addtab > .button');
-                this.$btnAddTab.on('click', function(e){
+                me.$boxTabs = me.$el.find('.box-tabs > ul');
+                me.$btnAddTab = me.$el.find('#box-addtab > .button');
+                me.$btnAddTab.single('click', _.buffered(function(e) {
                     me.fireEvent('sheet:addnew');
-                });
+                }, 300));
 
-                // this.editMode = false;
-                return this;
+                // me.editMode = false;
+                return me;
             },
 
             setMode: function(mode) {
