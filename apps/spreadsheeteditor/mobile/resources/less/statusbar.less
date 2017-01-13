@@ -1,14 +1,17 @@
+@statusBarBorderColor: #cbcbcb;
 @statusBarHeight: 30px;
 @fontColor: #000;
 
 .statusbar {
+  position: relative;
   box-sizing: border-box;
+  background-color: @gray-light;
 
   * {
     box-sizing: border-box;
   }
 
-  border-top: 1px solid @gray-dark;
+  .hairline(top, @statusBarBorderColor);
   height: @statusBarHeight;
   min-height: @statusBarHeight;
   display: flex;
@@ -20,9 +23,12 @@
 
   .button {
     border: 0 none;
+    border-radius: 0;
     color: #000;
     font-size: 18px;
     line-height: inherit;
+    min-width: 48px;
+    .hairline(right, @statusBarBorderColor);
   }
 
   i.icon {
@@ -44,25 +50,25 @@
     > li {
       list-style: none;
       display: inline-block;
+      position: relative;
+      .hairline(right, @statusBarBorderColor);
 
       &:not(.active) {
         a {
-          color: #848484;
+          opacity: 0.5;
         }
       }
 
       a {
         display: inline-block;
+        font-size: 12px;
         padding: 0 10px 0;
         line-height: @statusBarHeight;
         margin-right: -1px;
-        background-color: #f1f1f1;
         outline: none;
-        border: 1px solid #cbcbcb;
-        border-top: 0 none;
-        border-bottom: 0 none;
-        color: #000;
+        color: @fontColor;
         height: 100%;
+
 
         &:hover {
           cursor: pointer;
