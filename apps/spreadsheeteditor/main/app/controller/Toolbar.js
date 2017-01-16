@@ -898,7 +898,7 @@ define([
                         }
                         Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                     },
-                    props   : {}
+                    props   : {formatType: me._state.numformattype}
                 })).show();
             }
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);

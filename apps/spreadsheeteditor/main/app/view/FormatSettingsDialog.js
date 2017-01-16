@@ -55,45 +55,30 @@ define([
         initialize : function(options) {
             var me = this;
 
-            me.ascFormatOptions = {
-                General     : 'General',
-                Number      : '0.00',
-                Currency    : '$#,##0.00',
-                Accounting  : '_($* #,##0.00_);_($* (#,##0.00);_($* "-"??_);_(@_)',
-                DateShort   : 'm/d/yyyy',
-                DateLong    : '[$-F800]dddd, mmmm dd, yyyy',
-                Time        : '[$-F400]h:mm:ss AM/PM',
-                Percentage  : '0.00%',
-                Percent     : '0%',
-                Fraction    : '# ?/?',
-                Scientific  : '0.00E+00',
-                Text        : '@'
-            };
-
             me.numFormatData = [
-                { value: Asc.c_oAscNumFormatType.General,   format: this.ascFormatOptions.General,     displayValue: this.txtGeneral,      exampleval: '100' },
-                { value: Asc.c_oAscNumFormatType.Number,    format: this.ascFormatOptions.Number,      displayValue: this.txtNumber,       exampleval: '100,00' },
-                { value: Asc.c_oAscNumFormatType.Scientific,format: this.ascFormatOptions.Scientific,  displayValue: this.txtScientific,   exampleval: '1,00E+02' },
-                { value: Asc.c_oAscNumFormatType.Accounting,format: this.ascFormatOptions.Accounting,  displayValue: this.txtAccounting,   exampleval: '100,00 $' },
-                { value: Asc.c_oAscNumFormatType.Currency,  format: this.ascFormatOptions.Currency,    displayValue: this.txtCurrency,     exampleval: '100,00 $' },
-                { value: Asc.c_oAscNumFormatType.Date,      format: 'MM-dd-yyyy',                      displayValue: this.txtDate,         exampleval: '04-09-1900' },
-                { value: Asc.c_oAscNumFormatType.Time,      format: 'HH:MM:ss',                        displayValue: this.txtTime,         exampleval: '00:00:00' },
-                { value: Asc.c_oAscNumFormatType.Percent,   format: this.ascFormatOptions.Percentage,  displayValue: this.txtPercentage,   exampleval: '100,00%' },
-                { value: Asc.c_oAscNumFormatType.Fraction,  format: this.ascFormatOptions.Fraction,    displayValue: this.txtFraction,     exampleval: '100' },
-                { value: Asc.c_oAscNumFormatType.Text,      format: this.ascFormatOptions.Text,        displayValue: this.txtText,         exampleval: '100' },
-                { value: -1,                                format: '',                                displayValue: this.txtCustom,       exampleval: '100' }
+                { value: Asc.c_oAscNumFormatType.General,   displayValue: this.txtGeneral },
+                { value: Asc.c_oAscNumFormatType.Number,    displayValue: this.txtNumber },
+                { value: Asc.c_oAscNumFormatType.Scientific,displayValue: this.txtScientific },
+                { value: Asc.c_oAscNumFormatType.Accounting,displayValue: this.txtAccounting },
+                { value: Asc.c_oAscNumFormatType.Currency,  displayValue: this.txtCurrency },
+                { value: Asc.c_oAscNumFormatType.Date,      displayValue: this.txtDate },
+                { value: Asc.c_oAscNumFormatType.Time,      displayValue: this.txtTime },
+                { value: Asc.c_oAscNumFormatType.Percent,   displayValue: this.txtPercentage },
+                { value: Asc.c_oAscNumFormatType.Fraction,  displayValue: this.txtFraction },
+                { value: Asc.c_oAscNumFormatType.Text,      displayValue: this.txtText },
+                { value: Asc.c_oAscNumFormatType.Custom,    displayValue: this.txtCustom }
             ];
 
             me.FractionData = [
-                { displayValue: this.txtUpto1,      value: 0 },
-                { displayValue: this.txtUpto2,      value: 1 },
-                { displayValue: this.txtUpto3,      value: 2 },
-                { displayValue: this.txtAs2,        value: 3 },
-                { displayValue: this.txtAs4,        value: 4 },
-                { displayValue: this.txtAs8,        value: 5 },
-                { displayValue: this.txtAs16,       value: 6 },
-                { displayValue: this.txtAs10,       value: 7 },
-                { displayValue: this.txtAs100,      value: 8 }
+                { displayValue: this.txtUpto1,      value: "# ?/?" },
+                { displayValue: this.txtUpto2,      value: "# ??/??" },
+                { displayValue: this.txtUpto3,      value: "# ???/???" },
+                { displayValue: this.txtAs2,        value: "# ?/2" },
+                { displayValue: this.txtAs4,        value: "# ?/4" },
+                { displayValue: this.txtAs8,        value: "# ?/8" },
+                { displayValue: this.txtAs16,       value: "# ??/16" },
+                { displayValue: this.txtAs10,       value: "# ?/10" },
+                { displayValue: this.txtAs100,      value: "# ??/100" }
             ];
 
             _.extend(this.options, {
@@ -168,7 +153,7 @@ define([
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
 
             this.FormatType = Asc.c_oAscNumFormatType.General;
-            this.Format = this.ascFormatOptions.General;
+            this.Format = "General";
         },
 
         render: function() {
@@ -237,7 +222,6 @@ define([
                 data: [],
                 scrollAlwaysVisible: true
             });
-            this.cmbType.setValue(-1);
             this.cmbType.on('selected', _.bind(this.onTypeSelect, this));
 
             this.cmbCode = new Common.UI.ComboBox({
@@ -272,9 +256,11 @@ define([
 
         _setDefaults: function (props) {
             if (props) {
-                // var val = props.get_NumFormat();
-                // this.cmbFormat.setValue(val);
+                this.cmbFormat.setValue(props.formatType, this.txtCustom);
                 this.onFormatSelect(this.cmbFormat, this.cmbFormat.getSelectedRecord());
+                // for fraction - if props.format not in cmbType - setValue(this.txtCustom)
+                // for date/time - if props.format not in cmbType - setValue(this.api.asc_getLocaleExample2(props.format, 37973))
+                // for cmbNegative - if props.format not in cmbNegative - setValue(this.api.asc_getLocaleExample2(props.format))
             }
         },
 
@@ -302,53 +288,54 @@ define([
         },
 
         onSymbolsSelect: function(combo, record) {
-            var info = new Asc.asc_CFormatCellsInfo();
+            var me = this,
+                info = new Asc.asc_CFormatCellsInfo();
             info.asc_setType(this.FormatType);
             info.asc_setDecimalPlaces(this.spnDecimal.getNumberValue());
             info.asc_setSeparator(false);
             info.asc_setSymbol(record.value);
 
-            var format = this.api.asc_getFormatCells(info);
-            if (this.FormatType == Asc.c_oAscNumFormatType.Currency) {
-                var data = [];
-                format.forEach(function(item) {
-                    data.push({value: item, displayValue: item});
-                });
-                this.cmbNegative.setData(data);
-                this.cmbNegative.selectRecord(this.cmbNegative.store.at(0));
-                this.Format = format[0];
-            } else {
-                this.Format = format;
-            }
+            var format = this.api.asc_getFormatCells(info),
+                data = [];
+            format.forEach(function(item) {
+                data.push({value: item, displayValue: me.api.asc_getLocaleExample2(item)});
+            });
+            this.cmbNegative.setData(data);
+            this.cmbNegative.selectRecord(this.cmbNegative.store.at(0));
+            this.cmbNegative.cmpEl.find('li:nth-child(2) a, li:nth-child(4) a').css({color: '#ff0000'});
+            this.Format = format[0];
 
             this.lblExample.text(this.api.asc_getLocaleExample2(this.Format));
         },
 
         onDecimalChange: function(field, newValue, oldValue, eOpts){
-            var info = new Asc.asc_CFormatCellsInfo();
+            var me = this,
+                info = new Asc.asc_CFormatCellsInfo();
             info.asc_setType(this.FormatType);
             info.asc_setDecimalPlaces(field.getNumberValue());
             info.asc_setSeparator((this.FormatType == Asc.c_oAscNumFormatType.Number) ? this.chSeparator.getValue()=='checked' : false);
             info.asc_setSymbol((this.FormatType == Asc.c_oAscNumFormatType.Currency || this.FormatType == Asc.c_oAscNumFormatType.Accounting) ? this.cmbSymbols.getValue() : false);
 
             var format = this.api.asc_getFormatCells(info);
-            if (this.FormatType == Asc.c_oAscNumFormatType.Number || this.FormatType == Asc.c_oAscNumFormatType.Currency) {
+            if (this.FormatType == Asc.c_oAscNumFormatType.Number || this.FormatType == Asc.c_oAscNumFormatType.Currency || this.FormatType == Asc.c_oAscNumFormatType.Accounting) {
                 var data = [];
                 format.forEach(function(item) {
-                    data.push({value: item, displayValue: item});
+                    data.push({value: item, displayValue: me.api.asc_getLocaleExample2(item)});
                 });
                 this.cmbNegative.setData(data);
                 this.cmbNegative.selectRecord(this.cmbNegative.store.at(0));
+                this.cmbNegative.cmpEl.find('li:nth-child(2) a, li:nth-child(4) a').css({color: '#ff0000'});
                 this.Format = format[0];
             } else {
-                this.Format = format;
+                this.Format = format[0];
             }
 
             this.lblExample.text(this.api.asc_getLocaleExample2(this.Format));
         },
 
         onSeparatorChange: function(field, newValue, oldValue, eOpts){
-            var info = new Asc.asc_CFormatCellsInfo();
+            var me = this,
+                info = new Asc.asc_CFormatCellsInfo();
             info.asc_setType(this.FormatType);
             info.asc_setDecimalPlaces(this.spnDecimal.getNumberValue());
             info.asc_setSeparator(field.getValue()=='checked');
@@ -356,28 +343,18 @@ define([
             var format = this.api.asc_getFormatCells(info),
                 data = [];
             format.forEach(function(item) {
-                data.push({value: item, displayValue: item});
+                data.push({value: item, displayValue: me.api.asc_getLocaleExample2(item)});
             });
             this.cmbNegative.setData(data);
             this.cmbNegative.selectRecord(this.cmbNegative.store.at(0));
+            this.cmbNegative.cmpEl.find('li:nth-child(2) a, li:nth-child(4) a').css({color: '#ff0000'});
             this.Format = format[0];
 
             this.lblExample.text(this.api.asc_getLocaleExample2(this.Format));
         },
 
         onTypeSelect: function(combo, record){
-            var info = new Asc.asc_CFormatCellsInfo();
-            info.asc_setType(this.FormatType);
-            info.asc_setDecimalPlaces(0);
-            info.asc_setSeparator(false);
-
-            if (this.FormatType == Asc.c_oAscNumFormatType.Fraction) {
-                info.asc_setFractionType(record.value);
-                this.Format = this.api.asc_getFormatCells(info);
-            } else {
-                this.Format = record.value;
-            }
-
+            this.Format = record.value;
             this.lblExample.text(this.api.asc_getLocaleExample2(this.Format));
         },
 
@@ -393,13 +370,13 @@ define([
 
             var hasDecimal = (record.value == Asc.c_oAscNumFormatType.Number || record.value == Asc.c_oAscNumFormatType.Scientific || record.value == Asc.c_oAscNumFormatType.Accounting ||
                              record.value == Asc.c_oAscNumFormatType.Currency || record.value == Asc.c_oAscNumFormatType.Percent),
-                hasNegative = (record.value == Asc.c_oAscNumFormatType.Number || record.value == Asc.c_oAscNumFormatType.Currency),
+                hasNegative = (record.value == Asc.c_oAscNumFormatType.Number || record.value == Asc.c_oAscNumFormatType.Currency || record.value == Asc.c_oAscNumFormatType.Accounting),
                 hasSeparator = (record.value == Asc.c_oAscNumFormatType.Number),
                 hasType = (record.value == Asc.c_oAscNumFormatType.Date || record.value == Asc.c_oAscNumFormatType.Time || record.value == Asc.c_oAscNumFormatType.Fraction),
                 hasSymbols = (record.value == Asc.c_oAscNumFormatType.Accounting || record.value == Asc.c_oAscNumFormatType.Currency),
-                hasCode = (record.value == -1);
+                hasCode = (record.value == Asc.c_oAscNumFormatType.Custom);
 
-            if (record.value !== -1) {
+            if (record.value !== Asc.c_oAscNumFormatType.Custom) {
                 var info = new Asc.asc_CFormatCellsInfo();
                 info.asc_setType(record.value);
                 info.asc_setDecimalPlaces(hasDecimal ? this.spnDecimal.getNumberValue() : 0);
@@ -408,25 +385,26 @@ define([
 
                 if (hasNegative || record.value == Asc.c_oAscNumFormatType.Date || record.value == Asc.c_oAscNumFormatType.Time) {
                     var formatsarr = this.api.asc_getFormatCells(info),
-                        data = [];
+                        data = [],
+                        me = this;
                     formatsarr.forEach(function(item) {
-                        data.push({value: item, displayValue: item});
+                        data.push({value: item, displayValue: me.api.asc_getLocaleExample2(item)});
                     });
                     if (hasNegative) {
                         this.cmbNegative.setData(data);
                         this.cmbNegative.selectRecord(this.cmbNegative.store.at(0));
+                        this.cmbNegative.cmpEl.find('li:nth-child(2) a, li:nth-child(4) a').css({color: '#ff0000'});
                     } else {
                         this.cmbType.setData(data);
                         this.cmbType.selectRecord(this.cmbType.store.at(0));
                     }
                     this.Format = formatsarr[0];
+                } else if (record.value == Asc.c_oAscNumFormatType.Fraction) {
+                    this.cmbType.setData(this.FractionData);
+                    this.cmbType.selectRecord(this.cmbType.store.at(0));
+                    this.Format = this.cmbType.getValue();
                 } else {
-                    if (record.value == Asc.c_oAscNumFormatType.Fraction) {
-                        this.cmbType.setData(this.FractionData);
-                        this.cmbType.setValue(0);
-                        info.asc_setFractionType(this.cmbType.getValue());
-                    }
-                    this.Format = this.api.asc_getFormatCells(info);
+                    this.Format = this.api.asc_getFormatCells(info)[0];
                 }
 
             } else {
