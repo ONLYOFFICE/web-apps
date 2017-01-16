@@ -282,7 +282,7 @@ define([
                 }
 
                 if (this.scroller)
-                    this.scroller.update();
+                    this.scroller.update({alwaysVisibleY: this.scrollAlwaysVisible});
 
                 this.trigger('show:after', this, e);
             },

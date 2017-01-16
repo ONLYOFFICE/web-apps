@@ -188,9 +188,10 @@ define([
             this.cmbNegative = new Common.UI.ComboBox({
                 el: $('#format-settings-combo-negative'),
                 cls: 'input-group-nr',
-                menuStyle: 'min-width: 140px;',
+                menuStyle: 'min-width: 140px;max-height:210px;',
                 editable: false,
-                data: []
+                data: [],
+                scrollAlwaysVisible: true
             });
             this.cmbNegative.on('selected', _.bind(this.onNegativeSelect, this));
 
@@ -215,7 +216,7 @@ define([
             this.cmbSymbols = new Common.UI.ComboBox({
                 el: $('#format-settings-combo-symbols'),
                 cls: 'input-group-nr',
-                menuStyle: 'min-width: 140px;',
+                menuStyle: 'min-width: 140px',
                 editable: false,
                 data: [
                     { displayValue: this.txtDollar,     value: 0 },
@@ -231,9 +232,10 @@ define([
             this.cmbType = new Common.UI.ComboBox({
                 el: $('#format-settings-combo-type'),
                 cls: 'input-group-nr',
-                menuStyle: 'min-width: 140px;',
+                menuStyle: 'min-width: 140px;max-height:210px;',
                 editable: false,
-                data: []
+                data: [],
+                scrollAlwaysVisible: true
             });
             this.cmbType.setValue(-1);
             this.cmbType.on('selected', _.bind(this.onTypeSelect, this));
@@ -241,11 +243,12 @@ define([
             this.cmbCode = new Common.UI.ComboBox({
                 el: $('#format-settings-combo-code'),
                 cls: 'input-group-nr',
-                menuStyle: 'min-width: 310px;',
+                menuStyle: 'min-width: 310px;max-height:210px;',
                 editable: false,
-                data: []
+                data: [],
+                scrollAlwaysVisible: true
             });
-            // this.cmbCode.on('selected', _.bind(this.onCodeSelect, this));
+            this.cmbCode.on('selected', _.bind(this.onCodeSelect, this));
 
             this._decimalPanel      = this.$window.find('.format-decimal');
             this._negativePanel     = this.$window.find('.format-negative');
@@ -307,7 +310,11 @@ define([
 
             var format = this.api.asc_getFormatCells(info);
             if (this.FormatType == Asc.c_oAscNumFormatType.Currency) {
-                this.cmbNegative.setData(format);
+                var data = [];
+                format.forEach(function(item) {
+                    data.push({value: item, displayValue: item});
+                });
+                this.cmbNegative.setData(data);
                 this.cmbNegative.selectRecord(this.cmbNegative.store.at(0));
                 this.Format = format[0];
             } else {
@@ -326,7 +333,11 @@ define([
 
             var format = this.api.asc_getFormatCells(info);
             if (this.FormatType == Asc.c_oAscNumFormatType.Number || this.FormatType == Asc.c_oAscNumFormatType.Currency) {
-                this.cmbNegative.setData(format);
+                var data = [];
+                format.forEach(function(item) {
+                    data.push({value: item, displayValue: item});
+                });
+                this.cmbNegative.setData(data);
                 this.cmbNegative.selectRecord(this.cmbNegative.store.at(0));
                 this.Format = format[0];
             } else {
@@ -342,8 +353,12 @@ define([
             info.asc_setDecimalPlaces(this.spnDecimal.getNumberValue());
             info.asc_setSeparator(field.getValue()=='checked');
 
-            var format = this.api.asc_getFormatCells(info);
-            this.cmbNegative.setData(format);
+            var format = this.api.asc_getFormatCells(info),
+                data = [];
+            format.forEach(function(item) {
+                data.push({value: item, displayValue: item});
+            });
+            this.cmbNegative.setData(data);
             this.cmbNegative.selectRecord(this.cmbNegative.store.at(0));
             this.Format = format[0];
 
@@ -357,7 +372,7 @@ define([
             info.asc_setSeparator(false);
 
             if (this.FormatType == Asc.c_oAscNumFormatType.Fraction) {
-                // info.asc_setFraction(record.value);
+                info.asc_setFractionType(record.value);
                 this.Format = this.api.asc_getFormatCells(info);
             } else {
                 this.Format = record.value;
@@ -392,12 +407,16 @@ define([
                 info.asc_setSymbol(hasSymbols ? this.cmbSymbols.getValue() : false);
 
                 if (hasNegative || record.value == Asc.c_oAscNumFormatType.Date || record.value == Asc.c_oAscNumFormatType.Time) {
-                    var formatsarr = this.api.asc_getFormatCells(info);
+                    var formatsarr = this.api.asc_getFormatCells(info),
+                        data = [];
+                    formatsarr.forEach(function(item) {
+                        data.push({value: item, displayValue: item});
+                    });
                     if (hasNegative) {
-                        this.cmbNegative.setData(formatsarr);
+                        this.cmbNegative.setData(data);
                         this.cmbNegative.selectRecord(this.cmbNegative.store.at(0));
                     } else {
-                        this.cmbType.setData(formatsarr);
+                        this.cmbType.setData(data);
                         this.cmbType.selectRecord(this.cmbType.store.at(0));
                     }
                     this.Format = formatsarr[0];
@@ -405,18 +424,22 @@ define([
                     if (record.value == Asc.c_oAscNumFormatType.Fraction) {
                         this.cmbType.setData(this.FractionData);
                         this.cmbType.setValue(0);
-                        // info.asc_setFraction(this.cmbType.getValue());
+                        info.asc_setFractionType(this.cmbType.getValue());
                     }
                     this.Format = this.api.asc_getFormatCells(info);
                 }
 
             } else {
-                var formatsarr = this.api.asc_getFormatCells(null);
-                this.cmbCode.setData(formatsarr);
+                var formatsarr = this.api.asc_getFormatCells(null),
+                    data = [];
+                formatsarr.forEach(function(item) {
+                    data.push({value: item, displayValue: item});
+                });
+                this.cmbCode.setData(data);
                 this.cmbCode.setValue(this.Format);
             }
 
-            // this.lblExample.text(this.api.asc_getLocaleExample2(this.Format));
+            this.lblExample.text(this.api.asc_getLocaleExample2(this.Format));
 
             this._decimalPanel.toggleClass('hidden', !hasDecimal);
             this._negativePanel.css('visibility', hasNegative ? '' : 'hidden');
