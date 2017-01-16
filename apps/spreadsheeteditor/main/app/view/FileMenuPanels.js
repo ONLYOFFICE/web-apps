@@ -755,6 +755,10 @@ define([
         updateRegionalExample: function(landId) {
             if (this.api) {
                 var text =  (landId) ? this.api.asc_getLocaleExample(landId, 1000.01, new Date()) : '';
+                //var arr = this.api.asc_getFormatCells(null, landId); // all formats
+                // text = this.api.asc_getLocaleExample2(arr[0], 1000.01, landId);
+                // text = text + ' ' + this.api.asc_getLocaleExample2(arr[3], new Date(), landId);
+                // text = text + ' ' + this.api.asc_getLocaleExample2(arr[5], new Date(), landId);
                 $('#fms-lbl-reg-settings').text(_.isEmpty(text) ? '' : this.strRegSettingsEx + text);
             }
         },

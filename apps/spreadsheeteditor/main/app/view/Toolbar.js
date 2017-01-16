@@ -657,7 +657,9 @@ define([
                     '<div style="position: relative;"><div style="position: absolute; left: 0; width: 100px;"><%= scope.getDisplayValue(item) %></div>',
                     '<div style="display: inline-block; width: 100%; max-width: 300px; overflow: hidden; text-overflow: ellipsis; text-align: right; vertical-align: bottom; padding-left: 100px; color: silver;"><%= item.exampleval ? item.exampleval : "" %></div>',
                 '</div></a></li>',
-                '<% }); %>'
+                '<% }); %>',
+                '<li class="divider">',
+                '<li id="id-toolbar-mnu-item-more-formats" data-value="-1"><a tabindex="-1" type="menuitem">' + me.textMoreFormats + '</a></li>'
             ].join(''));
 
             me.cmbNumberFormat = new Common.UI.ComboBox({
@@ -2112,6 +2114,7 @@ define([
         tipInsertEquation:  'Insert Equation',
         textCharts:         'Charts',
         textSparks:         'Sparklines',
-        tipInsertChartSpark: 'Insert Chart or Sparkline'
+        tipInsertChartSpark: 'Insert Chart or Sparkline',
+        textMoreFormats: 'More formats'
     }, SSE.Views.Toolbar || {}));
 });

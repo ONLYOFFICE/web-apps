@@ -50,7 +50,8 @@ define([
     'spreadsheeteditor/main/app/view/TableOptionsDialog',
     'spreadsheeteditor/main/app/view/NamedRangeEditDlg',
     'spreadsheeteditor/main/app/view/NamedRangePasteDlg',
-    'spreadsheeteditor/main/app/view/NameManagerDlg'
+    'spreadsheeteditor/main/app/view/NameManagerDlg',
+    'spreadsheeteditor/main/app/view/FormatSettingsDialog'
 ], function () { 'use strict';
 
     SSE.Controllers.Toolbar = Backbone.Controller.extend(_.extend({
@@ -102,8 +103,7 @@ define([
                 fontsize: undefined,
                 multiselect: false,
                 sparklines_disabled: false,
-                numformattype: undefined,
-                langId: 0x0409
+                numformattype: undefined
             };
 
             var checkInsertAutoshape =  function(e, action) {
@@ -256,6 +256,8 @@ define([
             toolbar.listStyles.on('click',                              _.bind(this.onListStyleSelect, this));
             toolbar.cmbNumberFormat.on('selected',                      _.bind(this.onNumberFormatSelect, this));
             toolbar.cmbNumberFormat.on('show:before',                   _.bind(this.onNumberFormatOpenBefore, this, true));
+            if (toolbar.cmbNumberFormat.cmpEl)
+                toolbar.cmbNumberFormat.cmpEl.on('click', '#id-toolbar-mnu-item-more-formats a', _.bind(this.onNumberFormatSelect, this));
             toolbar.btnCurrencyStyle.menu.on('item:click',              _.bind(this.onNumberFormatMenu, this));
             if (toolbar.mnuitemCompactToolbar) toolbar.mnuitemCompactToolbar.on('toggle', _.bind(this.onChangeViewMode, this));
             $('#id-toolbar-menu-new-fontcolor').on('click',             _.bind(this.onNewTextColor, this));
@@ -883,9 +885,22 @@ define([
         },
 
         onNumberFormatSelect: function(combo, record) {
-            if (this.api)
-                this.api.asc_setCellFormat(record.format);
-
+            if (record) {
+                if (this.api)
+                    this.api.asc_setCellFormat(record.format);
+            } else {
+                var me = this;
+                (new SSE.Views.FormatSettingsDialog({
+                    api: me.api,
+                    handler: function(result, settings) {
+                        if (settings) {
+                            me.api.asc_setCellFormat(settings.format);
+                        }
+                        Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                    },
+                    props   : {}
+                })).show();
+            }
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             Common.component.Analytics.trackEvent('ToolBar', 'Number Format');
         },
@@ -895,7 +910,7 @@ define([
                 var me = this,
                     info = me.api.asc_getCellInfo();
                 me.toolbar.numFormatData.forEach( function(item, index) {
-                    item.exampleval = me.api.asc_getLocaleExample2(item.format, null, me._state.langId);
+                    item.exampleval = me.api.asc_getLocaleExample2(item.format);
                 });
                 me.toolbar.cmbNumberFormat.setData(me.toolbar.numFormatData);
                 me.toolbar.cmbNumberFormat.setValue(me._state.numformattype, me.toolbar.txtCustom);
@@ -2560,12 +2575,6 @@ define([
             for (var i=0; i<Math.min(4,formulas.length); i++) {
                 formulas[i].setCaption(this.api.asc_getFormulaLocaleName(formulas[i].value));
             }
-
-            var value = Common.localStorage.getItem("sse-settings-reg-settings");
-            if (value!==null)
-                this._state.langId = parseInt(value);
-            else
-                this._state.langId = ((this.toolbar.mode.lang) ? parseInt(Common.util.LanguageInfo.getLocalLanguageCode(this.toolbar.mode.lang)) : 0x0409);
         },
 
         textEmptyImgUrl     : 'You need to specify image URL.',
