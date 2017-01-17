@@ -48,8 +48,8 @@ define([
 
     SSE.Views.FormatSettingsDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
-            contentWidth: 200,
-            height: 330
+            contentWidth: 284,
+            height: 340
         },
 
         initialize : function(options) {
@@ -88,19 +88,23 @@ define([
                 title: this.textTitle,
                 template: [
                     '<div class="box" style="height:' + (me.options.height - 85) + 'px;">',
-                    '<div class="content-panel" style="padding: 0 20px;"><div class="inner-content">',
+                    '<div class="content-panel" style="padding: 0 10px;"><div class="inner-content">',
                     '<div class="settings-panel active">',
                     '<table cols="1" style="width: 100%;">',
                         '<tr>',
                             '<td style="width:170px;padding-bottom: 3px;">',
-                                '<label class="input-label">', me.textTitle,'</label>',
-                                '<div id="format-settings-combo-format" class="input-group-nr" style="width:180px;"></div>',
+                                '<label class="input-label">', me.textCategory,'</label>',
+                                '<div id="format-settings-combo-format" class="input-group-nr" style="width:264px;"></div>',
+                            '</td>',
+                        '</tr>',
+                        '<tr>',
+                            '<td class="padding-large" style="white-space: nowrap;">',
+                                '<label style="vertical-align: middle; margin-right: 3px;">' + me.txtSample + '</label>',
+                                '<label id="format-settings-label-example" style="vertical-align: middle; max-width: 220px; overflow: hidden; text-overflow: ellipsis;>100</label>',
                             '</td>',
                         '</tr>',
                         '<tr>',
                             '<td class="padding-small">',
-                                '<label style="color: #adadad; vertical-align: middle; margin-right: 3px;">' + me.txtSample + '</label>',
-                                '<label id="format-settings-label-example" style="vertical-align: middle; max-width: 180px; overflow: hidden; text-overflow: ellipsis;white-space: nowrap;">100</label>',
                             '</td>',
                         '</tr>',
                         '<tr class="format-decimal">',
@@ -117,31 +121,32 @@ define([
                         '<tr class="format-symbols">',
                             '<td class="padding-large">',
                                 '<label class="input-label">', me.textSymbols,'</label>',
-                                '<div id="format-settings-combo-symbols" class="input-group-nr" style="width:180px;"></div>',
+                                '<div id="format-settings-combo-symbols" class="input-group-nr" style="width:264px;"></div>',
                             '</td>',
                         '</tr>',
                         '<tr class="format-decimal">',
                             '<td class="padding-large format-negative">',
-                                '<label class="input-label">', me.textNegative,'</label>',
-                                '<div id="format-settings-combo-negative" class="input-group-nr" style="width:180px;"></div>',
+                                '<label class="input-label">', me.textFormat,'</label>',
+                                '<div id="format-settings-combo-negative" class="input-group-nr" style="width:264px;"></div>',
                             '</td>',
                         '</tr>',
                         '<tr class="format-type">',
                             '<td class="padding-large">',
-                                '<label class="input-label">', me.textType,'</label>',
-                                '<div id="format-settings-combo-type" class="input-group-nr" style="width:180px;"></div>',
+                                '<label class="input-label">', me.textFormat,'</label>',
+                                '<div id="format-settings-combo-type" class="input-group-nr" style="width:264px;"></div>',
                             '</td>',
                         '</tr>',
                         '<tr class="format-code">',
                             '<td colspan="1" class="padding-large">',
-                                '<label class="input-label">', me.textCode,'</label>',
-                                '<div id="format-settings-combo-code" class="input-group-nr" style="width:180px;"></div>',
+                                '<label class="input-label">', me.textFormat,'</label>',
+                                '<div id="format-settings-combo-code" class="input-group-nr" style="width:264px;"></div>',
                             '</td>',
                         '</tr>',
                     '</table>',
                     '</div></div>',
                     '</div>',
                     '</div>',
+                    '<div class="separator horizontal"/>',
                     '<div class="footer center">',
                         '<button class="btn normal dlg-btn primary" result="ok" style="margin-right: 10px;  width: 86px;">' + me.textOk + '</button>',
                         '<button class="btn normal dlg-btn" result="cancel" style="width: 86px;">' + me.textCancel + '</button>',
@@ -166,7 +171,7 @@ define([
             this.cmbFormat = new Common.UI.ComboBox({
                 el: $('#format-settings-combo-format'),
                 cls: 'input-group-nr',
-                menuStyle: 'min-width: 180px;',
+                menuStyle: 'min-width: 264px;',
                 editable: false,
                 data: this.numFormatData
             });
@@ -176,7 +181,7 @@ define([
             this.cmbNegative = new Common.UI.ComboBox({
                 el: $('#format-settings-combo-negative'),
                 cls: 'input-group-nr',
-                menuStyle: 'min-width: 180px;max-height:210px;',
+                menuStyle: 'min-width: 264px;max-height:210px;',
                 editable: false,
                 data: [],
                 scrollAlwaysVisible: true
@@ -204,7 +209,7 @@ define([
             this.cmbSymbols = new Common.UI.ComboBox({
                 el: $('#format-settings-combo-symbols'),
                 cls: 'input-group-nr',
-                menuStyle: 'min-width: 180px;max-height:210px;',
+                menuStyle: 'min-width: 264px;max-height:210px;',
                 editable: false,
                 data: [],
                 scrollAlwaysVisible: true
@@ -214,7 +219,7 @@ define([
             this.cmbType = new Common.UI.ComboBox({
                 el: $('#format-settings-combo-type'),
                 cls: 'input-group-nr',
-                menuStyle: 'min-width: 180px;max-height:210px;',
+                menuStyle: 'min-width: 264px;max-height:210px;',
                 editable: false,
                 data: [],
                 scrollAlwaysVisible: true
@@ -447,12 +452,11 @@ define([
         },
 
         textTitle: 'Number Format',
+        textCategory: 'Category',
         textDecimal: 'Decimal',
-        textNegative: 'Negative numbers',
         textSeparator: 'Use 1000 separator',
-        textType: 'Type',
+        textFormat: 'Format',
         textSymbols: 'Symbols',
-        textCode: 'Code',
         textCancel: 'Cancel',
         textOk: 'OK',
         txtGeneral:         'General',
@@ -466,11 +470,6 @@ define([
         txtFraction:        'Fraction',
         txtScientific:      'Scientific',
         txtText:            'Text',
-        txtDollar:          '$ Dollar',
-        txtEuro:            '€ Euro',
-        txtRouble:          'р. Rouble',
-        txtPound:           '£ Pound',
-        txtYen:             '¥ Yen',
         txtUpto1: 'Up to one digit',
         txtUpto2: 'Up to two digits',
         txtUpto3: 'Up to three digits',
@@ -481,7 +480,6 @@ define([
         txtAs10:  'As tenths',
         txtAs100: 'As hundredths',
         txtSample: 'Sample:'
-
 
     }, SSE.Views.FormatSettingsDialog || {}))
 });
