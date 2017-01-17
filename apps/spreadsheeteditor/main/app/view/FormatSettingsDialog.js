@@ -264,7 +264,7 @@ define([
         },
 
         getSettings: function () {
-            return {format: ''};
+            return {format: this.Format};
         },
 
         onDlgBtnClick: function(event) {
@@ -424,6 +424,7 @@ define([
             } else {
                 var info = new Asc.asc_CFormatCellsInfo();
                 info.asc_setType(Asc.c_oAscNumFormatType.None);
+                info.asc_setSymbol(this.langId);
 
                 var formatsarr = this.api.asc_getFormatCells(info),
                     data = [];
