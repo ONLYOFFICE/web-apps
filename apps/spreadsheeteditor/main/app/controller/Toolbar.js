@@ -103,7 +103,8 @@ define([
                 fontsize: undefined,
                 multiselect: false,
                 sparklines_disabled: false,
-                numformattype: undefined
+                numformattype: undefined,
+                langId: undefined
             };
 
             var checkInsertAutoshape =  function(e, action) {
@@ -910,8 +911,23 @@ define([
 
         onNumberFormatOpenBefore: function(combo) {
             if (this.api) {
-                var me = this,
-                    info = me.api.asc_getCellInfo();
+                var me = this;
+
+                var value = Common.localStorage.getItem("sse-settings-reg-settings");
+                value = (value!==null) ? parseInt(value) : ((this.toolbar.mode.lang) ? parseInt(Common.util.LanguageInfo.getLocalLanguageCode(this.toolbar.mode.lang)) : 0x0409);
+
+                if (this._state.langId !== value) {
+                    this._state.langId = value;
+
+                    var info = new Asc.asc_CFormatCellsInfo();
+                    info.asc_setType(Asc.c_oAscNumFormatType.None);
+                    info.asc_setSymbol(this._state.langId);
+                    var arr = this.api.asc_getFormatCells(info); // all formats
+                    me.toolbar.numFormatData.forEach( function(item, index) {
+                        me.toolbar.numFormatData[index].format = arr[index];
+                    });
+                }
+
                 me.toolbar.numFormatData.forEach( function(item, index) {
                     item.exampleval = me.api.asc_getLocaleExample(item.format);
                 });
