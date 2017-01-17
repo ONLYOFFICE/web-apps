@@ -266,7 +266,8 @@ define([
             toolbar.mnuZoomIn.on('click',                               _.bind(this.onZoomInClick, this));
             toolbar.mnuZoomOut.on('click',                              _.bind(this.onZoomOutClick, this));
             toolbar.btnInsertEquation.on('click',                       _.bind(this.onInsertEquationClick, this));
-            toolbar.btnNotes.menu.on('item:click',                      _.bind(this.onNotesClick, this));
+            toolbar.btnNotes.on('click',                                _.bind(this.onNotesClick, this));
+            toolbar.btnNotes.menu.on('item:click',                      _.bind(this.onNotesMenuClick, this));
             toolbar.mnuGotoFootPrev.on('click',                         _.bind(this.onFootnotePrevClick, this));
             toolbar.mnuGotoFootNext.on('click',                         _.bind(this.onFootnoteNextClick, this));
 
@@ -1997,7 +1998,12 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
-        onNotesClick: function(menu, item) {
+        onNotesClick: function() {
+            if (this.api)
+              this.api.asc_AddFootnote();
+        },
+
+        onNotesMenuClick: function(menu, item) {
             if (this.api) {
                 if (item.value == 'ins_footnote')
                     this.api.asc_AddFootnote();

@@ -741,6 +741,7 @@ define([
                 id          : 'id-toolbar-btn-notes',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-notes',
+                split       : true,
                 menu        : true
             });
             this.paragraphControls.push(this.btnNotes);
