@@ -890,21 +890,27 @@ define([
                 if (this.api)
                     this.api.asc_setCellFormat(record.format);
             } else {
-                var me = this,
-                    value = Common.localStorage.getItem("sse-settings-reg-settings");
-                value = (value!==null) ? parseInt(value) : ((me.toolbar.mode.lang) ? parseInt(Common.util.LanguageInfo.getLocalLanguageCode(me.toolbar.mode.lang)) : 0x0409);
-
-                (new SSE.Views.FormatSettingsDialog({
-                    api: me.api,
-                    handler: function(result, settings) {
-                        if (settings) {
-                            me.api.asc_setCellFormat(settings.format);
-                        }
-                        Common.NotificationCenter.trigger('edit:complete', me.toolbar);
-                    },
-                    props   : {formatType: me._state.numformattype, langId: value}
-                })).show();
+                this.onCustomNumberFormat();
             }
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            Common.component.Analytics.trackEvent('ToolBar', 'Number Format');
+        },
+
+        onCustomNumberFormat: function() {
+            var me = this,
+                value = Common.localStorage.getItem("sse-settings-reg-settings");
+            value = (value!==null) ? parseInt(value) : ((me.toolbar.mode.lang) ? parseInt(Common.util.LanguageInfo.getLocalLanguageCode(me.toolbar.mode.lang)) : 0x0409);
+
+            (new SSE.Views.FormatSettingsDialog({
+                api: me.api,
+                handler: function(result, settings) {
+                    if (settings) {
+                        me.api.asc_setCellFormat(settings.format);
+                    }
+                    Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                },
+                props   : {formatType: me._state.numformattype, langId: value}
+            })).show();
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             Common.component.Analytics.trackEvent('ToolBar', 'Number Format');
         },
@@ -1289,6 +1295,13 @@ define([
                         if (me.editMode && !me.toolbar.mode.isEditMailMerge && !me.toolbar.mode.isEditDiagram && !me.api.isCellEdited && !me._state.multiselect)
                             me.onHyperlink();
                         e.preventDefault();
+                    },
+                    'command+1,ctrl+1': function(e) {
+                        if (me.editMode && !me.toolbar.mode.isEditMailMerge && !me.api.isCellEdited && !me.toolbar.cmbNumberFormat.isDisabled()) {
+                            me.onCustomNumberFormat();
+                        }
+
+                        return false;
                     }
                 }
             });
@@ -1528,8 +1541,8 @@ define([
                 });
 
                 var is_cell_edited = (state == Asc.c_oAscCellEditorState.editStart);
-                (is_cell_edited) ? Common.util.Shortcuts.suspendEvents('command+l, ctrl+l, command+shift+l, ctrl+shift+l, command+k, ctrl+k, alt+h') :
-                                   Common.util.Shortcuts.resumeEvents('command+l, ctrl+l, command+shift+l, ctrl+shift+l, command+k, ctrl+k, alt+h');
+                (is_cell_edited) ? Common.util.Shortcuts.suspendEvents('command+l, ctrl+l, command+shift+l, ctrl+shift+l, command+k, ctrl+k, alt+h, command+1, ctrl+1') :
+                                   Common.util.Shortcuts.resumeEvents('command+l, ctrl+l, command+shift+l, ctrl+shift+l, command+k, ctrl+k, alt+h, command+1, ctrl+1');
 
                 if (is_cell_edited) {
                     toolbar.listStyles.suspendEvents();
@@ -2582,10 +2595,10 @@ define([
                 var left = toolbar.isCompactView ? 75 : (toolbar.mode.nativeApp ? 80 : 48 );
                 mask.css('left', left + 'px');
                 mask.css('right', (toolbar.isCompactView ? 0 : 45) + 'px');
-                Common.util.Shortcuts.suspendEvents('command+l, ctrl+l, command+shift+l, ctrl+shift+l, command+k, ctrl+k, command+alt+h, ctrl+alt+h');
+                Common.util.Shortcuts.suspendEvents('command+l, ctrl+l, command+shift+l, ctrl+shift+l, command+k, ctrl+k, command+alt+h, ctrl+alt+h, command+1, ctrl+1');
             } else {
                 mask.remove();
-                Common.util.Shortcuts.resumeEvents('command+l, ctrl+l, command+shift+l, ctrl+shift+l, command+k, ctrl+k, command+alt+h, ctrl+alt+h');
+                Common.util.Shortcuts.resumeEvents('command+l, ctrl+l, command+shift+l, ctrl+shift+l, command+k, ctrl+k, command+alt+h, ctrl+alt+h, command+1, ctrl+1');
             }
         },
 
