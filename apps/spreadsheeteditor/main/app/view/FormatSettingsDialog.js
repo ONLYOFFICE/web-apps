@@ -95,7 +95,7 @@ define([
                             '</td>',
                             '<td class="padding-small">',
                                 '<label class="input-label" style="margin-bottom: -1px;">', me.textSample,'</label>',
-                                '<label id="format-settings-label-example" style="display: block; font-size: 18px;">100</label>',
+                                '<label id="format-settings-label-example" style="display: block; font-size: 18px;max-width: 140px; overflow: hidden; text-overflow: ellipsis;">100</label>',
                             '</td>',
                         '</tr>',
                         '<tr class="format-decimal">',
@@ -298,7 +298,7 @@ define([
             var format = this.api.asc_getFormatCells(info),
                 data = [];
             format.forEach(function(item) {
-                data.push({value: item, displayValue: me.api.asc_getLocaleExample2(item)});
+                data.push({value: item, displayValue: me.api.asc_getLocaleExample2(item, 1234.12345678901234567890)});
             });
             this.cmbNegative.setData(data);
             this.cmbNegative.selectRecord(this.cmbNegative.store.at(0));
@@ -320,7 +320,7 @@ define([
             if (this.FormatType == Asc.c_oAscNumFormatType.Number || this.FormatType == Asc.c_oAscNumFormatType.Currency || this.FormatType == Asc.c_oAscNumFormatType.Accounting) {
                 var data = [];
                 format.forEach(function(item) {
-                    data.push({value: item, displayValue: me.api.asc_getLocaleExample2(item)});
+                    data.push({value: item, displayValue: me.api.asc_getLocaleExample2(item, 1234.12345678901234567890)});
                 });
                 this.cmbNegative.setData(data);
                 this.cmbNegative.selectRecord(this.cmbNegative.store.at(0));
@@ -343,7 +343,7 @@ define([
             var format = this.api.asc_getFormatCells(info),
                 data = [];
             format.forEach(function(item) {
-                data.push({value: item, displayValue: me.api.asc_getLocaleExample2(item)});
+                data.push({value: item, displayValue: me.api.asc_getLocaleExample2(item, 1234.12345678901234567890)});
             });
             this.cmbNegative.setData(data);
             this.cmbNegative.selectRecord(this.cmbNegative.store.at(0));
@@ -386,9 +386,10 @@ define([
                 if (hasNegative || record.value == Asc.c_oAscNumFormatType.Date || record.value == Asc.c_oAscNumFormatType.Time) {
                     var formatsarr = this.api.asc_getFormatCells(info),
                         data = [],
+                        exampleVal = (record.value == Asc.c_oAscNumFormatType.Date) ? 37973 : ((record.value == Asc.c_oAscNumFormatType.Time) ? 0.123 : parseFloat("1234.12345678901234567890")),
                         me = this;
                     formatsarr.forEach(function(item) {
-                        data.push({value: item, displayValue: me.api.asc_getLocaleExample2(item)});
+                        data.push({value: item, displayValue: me.api.asc_getLocaleExample2(item, exampleVal)});
                     });
                     if (hasNegative) {
                         this.cmbNegative.setData(data);
