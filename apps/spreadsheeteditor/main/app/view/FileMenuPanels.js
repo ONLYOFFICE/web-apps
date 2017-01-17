@@ -754,11 +754,16 @@ define([
 
         updateRegionalExample: function(landId) {
             if (this.api) {
-                var text =  (landId) ? this.api.asc_getLocaleExample(landId, 1000.01, new Date()) : '';
-                //var arr = this.api.asc_getFormatCells(null, landId); // all formats
-                // text = this.api.asc_getLocaleExample2(arr[0], 1000.01, landId);
-                // text = text + ' ' + this.api.asc_getLocaleExample2(arr[3], new Date(), landId);
-                // text = text + ' ' + this.api.asc_getLocaleExample2(arr[5], new Date(), landId);
+                var text = '';
+                if (landId) {
+                    var info = new Asc.asc_CFormatCellsInfo();
+                    info.asc_setType(Asc.c_oAscNumFormatType.None);
+                    info.asc_setSymbol(landId);
+                    var arr = this.api.asc_getFormatCells(info); // all formats
+                    text = this.api.asc_getLocaleExample2(arr[2], 1000.01, landId);
+                    text = text + ' ' + this.api.asc_getLocaleExample2(arr[4], (new Date()).getExcelDateWithTime(), landId);
+                    text = text + ' ' + this.api.asc_getLocaleExample2(arr[6], (new Date()).getExcelDateWithTime(), landId);
+                }
                 $('#fms-lbl-reg-settings').text(_.isEmpty(text) ? '' : this.strRegSettingsEx + text);
             }
         },
