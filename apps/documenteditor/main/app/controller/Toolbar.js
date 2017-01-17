@@ -2044,14 +2044,20 @@ define([
             if (this.api)
                 this.api.asc_GotoFootnote(false);
 
-            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            var me = this;
+            setTimeout(function() {
+                Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+            }, 50);
         },
 
         onFootnoteNextClick: function(btn) {
             if (this.api)
                 this.api.asc_GotoFootnote(true);
 
-            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            var me = this;
+            setTimeout(function() {
+                Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+            }, 50);
         },
 
         _clearBullets: function() {
