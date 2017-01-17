@@ -889,7 +889,10 @@ define([
                 if (this.api)
                     this.api.asc_setCellFormat(record.format);
             } else {
-                var me = this;
+                var me = this,
+                    value = Common.localStorage.getItem("sse-settings-reg-settings");
+                value = (value!==null) ? parseInt(value) : ((me.toolbar.mode.lang) ? parseInt(Common.util.LanguageInfo.getLocalLanguageCode(me.toolbar.mode.lang)) : 0x0409);
+
                 (new SSE.Views.FormatSettingsDialog({
                     api: me.api,
                     handler: function(result, settings) {
@@ -898,7 +901,7 @@ define([
                         }
                         Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                     },
-                    props   : {formatType: me._state.numformattype}
+                    props   : {formatType: me._state.numformattype, langId: value}
                 })).show();
             }
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);

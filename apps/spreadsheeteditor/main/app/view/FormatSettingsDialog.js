@@ -81,6 +81,9 @@ define([
                 { displayValue: this.txtAs100,      value: "# ??/100" }
             ];
 
+            me.CurrencySymbolsData = null;
+            me.langId = 0x0409;
+
             _.extend(this.options, {
                 title: this.textTitle,
                 template: [
@@ -201,17 +204,11 @@ define([
             this.cmbSymbols = new Common.UI.ComboBox({
                 el: $('#format-settings-combo-symbols'),
                 cls: 'input-group-nr',
-                menuStyle: 'min-width: 140px',
+                menuStyle: 'min-width: 140px;max-height:210px;',
                 editable: false,
-                data: [
-                    { displayValue: this.txtDollar,     value: 0 },
-                    { displayValue: this.txtEuro,       value: 1 },
-                    { displayValue: this.txtPound,      value: 2 },
-                    { displayValue: this.txtRouble,     value: 3 },
-                    { displayValue: this.txtYen,        value: 4 }
-                ]
+                data: [],
+                scrollAlwaysVisible: true
             });
-            this.cmbSymbols.setValue(0);
             this.cmbSymbols.on('selected', _.bind(this.onSymbolsSelect, this));
 
             this.cmbType = new Common.UI.ComboBox({
@@ -256,7 +253,10 @@ define([
 
         _setDefaults: function (props) {
             if (props) {
+                if (this.langId)
+                    this.langId = props.langId;
                 this.cmbFormat.setValue(props.formatType, this.txtCustom);
+
                 this.onFormatSelect(this.cmbFormat, this.cmbFormat.getSelectedRecord());
                 // for fraction - if props.format not in cmbType - setValue(this.txtCustom)
                 // for date/time - if props.format not in cmbType - setValue(this.api.asc_getLocaleExample2(props.format, 37973))
@@ -298,7 +298,7 @@ define([
             var format = this.api.asc_getFormatCells(info),
                 data = [];
             format.forEach(function(item) {
-                data.push({value: item, displayValue: me.api.asc_getLocaleExample2(item, 1234.12345678901234567890)});
+                data.push({value: item, displayValue: me.api.asc_getLocaleExample2(item, -1234.12345678901234567890)});
             });
             this.cmbNegative.setData(data);
             this.cmbNegative.selectRecord(this.cmbNegative.store.at(0));
@@ -320,7 +320,7 @@ define([
             if (this.FormatType == Asc.c_oAscNumFormatType.Number || this.FormatType == Asc.c_oAscNumFormatType.Currency || this.FormatType == Asc.c_oAscNumFormatType.Accounting) {
                 var data = [];
                 format.forEach(function(item) {
-                    data.push({value: item, displayValue: me.api.asc_getLocaleExample2(item, 1234.12345678901234567890)});
+                    data.push({value: item, displayValue: me.api.asc_getLocaleExample2(item, -1234.12345678901234567890)});
                 });
                 this.cmbNegative.setData(data);
                 this.cmbNegative.selectRecord(this.cmbNegative.store.at(0));
@@ -343,7 +343,7 @@ define([
             var format = this.api.asc_getFormatCells(info),
                 data = [];
             format.forEach(function(item) {
-                data.push({value: item, displayValue: me.api.asc_getLocaleExample2(item, 1234.12345678901234567890)});
+                data.push({value: item, displayValue: me.api.asc_getLocaleExample2(item, -1234.12345678901234567890)});
             });
             this.cmbNegative.setData(data);
             this.cmbNegative.selectRecord(this.cmbNegative.store.at(0));
@@ -374,20 +374,34 @@ define([
                 hasSeparator = (record.value == Asc.c_oAscNumFormatType.Number),
                 hasType = (record.value == Asc.c_oAscNumFormatType.Date || record.value == Asc.c_oAscNumFormatType.Time || record.value == Asc.c_oAscNumFormatType.Fraction),
                 hasSymbols = (record.value == Asc.c_oAscNumFormatType.Accounting || record.value == Asc.c_oAscNumFormatType.Currency),
-                hasCode = (record.value == Asc.c_oAscNumFormatType.Custom);
+                hasCode = (record.value == Asc.c_oAscNumFormatType.Custom),
+                me = this;
 
             if (record.value !== Asc.c_oAscNumFormatType.Custom) {
                 var info = new Asc.asc_CFormatCellsInfo();
                 info.asc_setType(record.value);
                 info.asc_setDecimalPlaces(hasDecimal ? this.spnDecimal.getNumberValue() : 0);
                 info.asc_setSeparator(hasSeparator ? this.chSeparator.getValue()=='checked' : false);
-                info.asc_setSymbol(hasSymbols ? this.cmbSymbols.getValue() : false);
 
                 if (hasNegative || record.value == Asc.c_oAscNumFormatType.Date || record.value == Asc.c_oAscNumFormatType.Time) {
+                    if (hasSymbols) {
+                        if (!me.CurrencySymbolsData) {
+                            me.CurrencySymbolsData = [];
+                            var symbolssarr = this.api.asc_getCurrencySymbols();
+                            for (var code in symbolssarr) {
+                                if (symbolssarr.hasOwnProperty(code)) {
+                                    me.CurrencySymbolsData.push({value: parseInt(code), displayValue: symbolssarr[code] + ' ' + Common.util.LanguageInfo.getLocalLanguageName(code)[1]});
+                                }
+                            }
+                            this.cmbSymbols.setData(this.CurrencySymbolsData);
+                            this.cmbSymbols.setValue(this.langId);
+                        }
+                        info.asc_setSymbol(this.cmbSymbols.getValue());
+                    }
+
                     var formatsarr = this.api.asc_getFormatCells(info),
                         data = [],
-                        exampleVal = (record.value == Asc.c_oAscNumFormatType.Date) ? 37973 : ((record.value == Asc.c_oAscNumFormatType.Time) ? 0.123 : parseFloat("1234.12345678901234567890")),
-                        me = this;
+                        exampleVal = (record.value == Asc.c_oAscNumFormatType.Date) ? 37973 : ((record.value == Asc.c_oAscNumFormatType.Time) ? 0.123 : parseFloat("-1234.12345678901234567890"));
                     formatsarr.forEach(function(item) {
                         data.push({value: item, displayValue: me.api.asc_getLocaleExample2(item, exampleVal)});
                     });
