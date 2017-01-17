@@ -760,9 +760,9 @@ define([
                     info.asc_setType(Asc.c_oAscNumFormatType.None);
                     info.asc_setSymbol(landId);
                     var arr = this.api.asc_getFormatCells(info); // all formats
-                    text = this.api.asc_getLocaleExample2(arr[2], 1000.01, landId);
-                    text = text + ' ' + this.api.asc_getLocaleExample2(arr[4], (new Date()).getExcelDateWithTime(), landId);
-                    text = text + ' ' + this.api.asc_getLocaleExample2(arr[6], (new Date()).getExcelDateWithTime(), landId);
+                    text = this.api.asc_getLocaleExample(arr[2], 1000.01, landId);
+                    text = text + ' ' + this.api.asc_getLocaleExample(arr[4], (new Date()).getExcelDateWithTime(), landId);
+                    text = text + ' ' + this.api.asc_getLocaleExample(arr[6], (new Date()).getExcelDateWithTime(), landId);
                 }
                 $('#fms-lbl-reg-settings').text(_.isEmpty(text) ? '' : this.strRegSettingsEx + text);
             }

@@ -259,8 +259,8 @@ define([
 
                 this.onFormatSelect(this.cmbFormat, this.cmbFormat.getSelectedRecord());
                 // for fraction - if props.format not in cmbType - setValue(this.txtCustom)
-                // for date/time - if props.format not in cmbType - setValue(this.api.asc_getLocaleExample2(props.format, 37973))
-                // for cmbNegative - if props.format not in cmbNegative - setValue(this.api.asc_getLocaleExample2(props.format))
+                // for date/time - if props.format not in cmbType - setValue(this.api.asc_getLocaleExample(props.format, 37973))
+                // for cmbNegative - if props.format not in cmbNegative - setValue(this.api.asc_getLocaleExample(props.format))
             }
         },
 
@@ -284,7 +284,7 @@ define([
 
         onNegativeSelect: function(combo, record) {
             this.Format = record.value;
-            this.lblExample.text(this.api.asc_getLocaleExample2(this.Format));
+            this.lblExample.text(this.api.asc_getLocaleExample(this.Format));
         },
 
         onSymbolsSelect: function(combo, record) {
@@ -298,14 +298,14 @@ define([
             var format = this.api.asc_getFormatCells(info),
                 data = [];
             format.forEach(function(item) {
-                data.push({value: item, displayValue: me.api.asc_getLocaleExample2(item, -1234.12345678901234567890)});
+                data.push({value: item, displayValue: me.api.asc_getLocaleExample(item, -1234.12345678901234567890)});
             });
             this.cmbNegative.setData(data);
             this.cmbNegative.selectRecord(this.cmbNegative.store.at(0));
             this.cmbNegative.cmpEl.find('li:nth-child(2) a, li:nth-child(4) a').css({color: '#ff0000'});
             this.Format = format[0];
 
-            this.lblExample.text(this.api.asc_getLocaleExample2(this.Format));
+            this.lblExample.text(this.api.asc_getLocaleExample(this.Format));
         },
 
         onDecimalChange: function(field, newValue, oldValue, eOpts){
@@ -320,7 +320,7 @@ define([
             if (this.FormatType == Asc.c_oAscNumFormatType.Number || this.FormatType == Asc.c_oAscNumFormatType.Currency || this.FormatType == Asc.c_oAscNumFormatType.Accounting) {
                 var data = [];
                 format.forEach(function(item) {
-                    data.push({value: item, displayValue: me.api.asc_getLocaleExample2(item, -1234.12345678901234567890)});
+                    data.push({value: item, displayValue: me.api.asc_getLocaleExample(item, -1234.12345678901234567890)});
                 });
                 this.cmbNegative.setData(data);
                 this.cmbNegative.selectRecord(this.cmbNegative.store.at(0));
@@ -330,7 +330,7 @@ define([
                 this.Format = format[0];
             }
 
-            this.lblExample.text(this.api.asc_getLocaleExample2(this.Format));
+            this.lblExample.text(this.api.asc_getLocaleExample(this.Format));
         },
 
         onSeparatorChange: function(field, newValue, oldValue, eOpts){
@@ -343,24 +343,24 @@ define([
             var format = this.api.asc_getFormatCells(info),
                 data = [];
             format.forEach(function(item) {
-                data.push({value: item, displayValue: me.api.asc_getLocaleExample2(item, -1234.12345678901234567890)});
+                data.push({value: item, displayValue: me.api.asc_getLocaleExample(item, -1234.12345678901234567890)});
             });
             this.cmbNegative.setData(data);
             this.cmbNegative.selectRecord(this.cmbNegative.store.at(0));
             this.cmbNegative.cmpEl.find('li:nth-child(2) a, li:nth-child(4) a').css({color: '#ff0000'});
             this.Format = format[0];
 
-            this.lblExample.text(this.api.asc_getLocaleExample2(this.Format));
+            this.lblExample.text(this.api.asc_getLocaleExample(this.Format));
         },
 
         onTypeSelect: function(combo, record){
             this.Format = record.value;
-            this.lblExample.text(this.api.asc_getLocaleExample2(this.Format));
+            this.lblExample.text(this.api.asc_getLocaleExample(this.Format));
         },
 
         onCodeSelect: function(combo, record){
             this.Format = record.value;
-            this.lblExample.text(this.api.asc_getLocaleExample2(this.Format));
+            this.lblExample.text(this.api.asc_getLocaleExample(this.Format));
         },
 
         onFormatSelect: function(combo, record) {
@@ -403,7 +403,7 @@ define([
                         data = [],
                         exampleVal = (record.value == Asc.c_oAscNumFormatType.Date) ? 37973 : ((record.value == Asc.c_oAscNumFormatType.Time) ? 0.123 : parseFloat("-1234.12345678901234567890"));
                     formatsarr.forEach(function(item) {
-                        data.push({value: item, displayValue: me.api.asc_getLocaleExample2(item, exampleVal)});
+                        data.push({value: item, displayValue: me.api.asc_getLocaleExample(item, exampleVal)});
                     });
                     if (hasNegative) {
                         this.cmbNegative.setData(data);
@@ -432,7 +432,7 @@ define([
                 this.cmbCode.setValue(this.Format);
             }
 
-            this.lblExample.text(this.api.asc_getLocaleExample2(this.Format));
+            this.lblExample.text(this.api.asc_getLocaleExample(this.Format));
 
             this._decimalPanel.toggleClass('hidden', !hasDecimal);
             this._negativePanel.css('visibility', hasNegative ? '' : 'hidden');
