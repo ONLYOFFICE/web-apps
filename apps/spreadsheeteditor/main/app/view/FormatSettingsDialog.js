@@ -99,7 +99,8 @@ define([
                         '</tr>',
                         '<tr>',
                             '<td class="padding-small">',
-                                '<label id="format-settings-label-example" style="max-width: 180px; overflow: hidden; text-overflow: ellipsis;white-space: nowrap;">100</label>',
+                                '<label style="color: #adadad; vertical-align: middle; margin-right: 3px;">' + me.txtSample + '</label>',
+                                '<label id="format-settings-label-example" style="vertical-align: middle; max-width: 180px; overflow: hidden; text-overflow: ellipsis;white-space: nowrap;">100</label>',
                             '</td>',
                         '</tr>',
                         '<tr class="format-decimal">',
@@ -478,7 +479,8 @@ define([
         txtAs4:  'As fourths',
         txtAs16:  'As sixteenths',
         txtAs10:  'As tenths',
-        txtAs100: 'As hundredths'
+        txtAs100: 'As hundredths',
+        txtSample: 'Sample:'
 
 
     }, SSE.Views.FormatSettingsDialog || {}))
