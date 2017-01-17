@@ -48,8 +48,8 @@ define([
 
     SSE.Views.FormatSettingsDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
-            contentWidth: 330,
-            height: 250
+            contentWidth: 200,
+            height: 330
         },
 
         initialize : function(options) {
@@ -88,60 +88,59 @@ define([
                 title: this.textTitle,
                 template: [
                     '<div class="box" style="height:' + (me.options.height - 85) + 'px;">',
-                    '<div class="content-panel" style="padding: 0 5px;"><div class="inner-content">',
+                    '<div class="content-panel" style="padding: 0 20px;"><div class="inner-content">',
                     '<div class="settings-panel active">',
-                    '<table cols="2" style="width: 100%;">',
+                    '<table cols="1" style="width: 100%;">',
                         '<tr>',
-                            '<td class="padding-small" style="width:170px;">',
-                                '<label class="header">', me.textTitle,'</label>',
-                                '<div id="format-settings-combo-format" class="input-group-nr" style="width:140px;"></div>',
+                            '<td style="width:170px;padding-bottom: 3px;">',
+                                '<label class="input-label">', me.textTitle,'</label>',
+                                '<div id="format-settings-combo-format" class="input-group-nr" style="width:180px;"></div>',
                             '</td>',
+                        '</tr>',
+                        '<tr>',
                             '<td class="padding-small">',
-                                '<label class="input-label" style="margin-bottom: -1px;">', me.textSample,'</label>',
-                                '<label id="format-settings-label-example" style="display: block; font-size: 18px;max-width: 140px; overflow: hidden; text-overflow: ellipsis;">100</label>',
+                                '<label id="format-settings-label-example" style="max-width: 180px; overflow: hidden; text-overflow: ellipsis;white-space: nowrap;">100</label>',
+                            '</td>',
+                        '</tr>',
+                        '<tr class="format-decimal">',
+                            '<td class="padding-large" style="vertical-align: bottom;">',
+                                '<label class="input-label">', me.textDecimal,'</label>',
+                                '<div id="format-settings-spin-decimal"></div>',
+                            '</td>',
+                        '</tr>',
+                        '<tr class="format-separator">',
+                            '<td class="padding-large">',
+                                '<div id="format-settings-checkbox-separator"></div>',
+                            '</td>',
+                        '</tr>',
+                        '<tr class="format-symbols">',
+                            '<td class="padding-large">',
+                                '<label class="input-label">', me.textSymbols,'</label>',
+                                '<div id="format-settings-combo-symbols" class="input-group-nr" style="width:180px;"></div>',
                             '</td>',
                         '</tr>',
                         '<tr class="format-decimal">',
                             '<td class="padding-large format-negative">',
                                 '<label class="input-label">', me.textNegative,'</label>',
-                                '<div id="format-settings-combo-negative" class="input-group-nr" style="width:140px;"></div>',
-                            '</td>',
-                            '<td class="padding-large" style="vertical-align: bottom;">',
-                                '<label class="input-label" style="margin-right: 10px;">', me.textDecimal,'</label>',
-                                '<div id="format-settings-spin-decimal" style="display: inline-block;"></div>',
-                            '</td>',
-                        '</tr>',
-                        '<tr class="format-separator">',
-                            '<td class="padding-small"></td>',
-                            '<td class="padding-small">',
-                                '<div id="format-settings-checkbox-separator"></div>',
+                                '<div id="format-settings-combo-negative" class="input-group-nr" style="width:180px;"></div>',
                             '</td>',
                         '</tr>',
                         '<tr class="format-type">',
-                            '<td class="padding-small"></td>',
-                            '<td class="padding-small">',
+                            '<td class="padding-large">',
                                 '<label class="input-label">', me.textType,'</label>',
-                                '<div id="format-settings-combo-type" class="input-group-nr" style="width:140px;"></div>',
-                            '</td>',
-                        '</tr>',
-                        '<tr class="format-symbols">',
-                            '<td class="padding-small"></td>',
-                            '<td class="padding-small">',
-                                '<label class="input-label">', me.textSymbols,'</label>',
-                                '<div id="format-settings-combo-symbols" class="input-group-nr" style="width:140px;"></div>',
+                                '<div id="format-settings-combo-type" class="input-group-nr" style="width:180px;"></div>',
                             '</td>',
                         '</tr>',
                         '<tr class="format-code">',
-                            '<td colspan="2" class="padding-small">',
+                            '<td colspan="1" class="padding-large">',
                                 '<label class="input-label">', me.textCode,'</label>',
-                                '<div id="format-settings-combo-code" class="input-group-nr" style=""></div>',
+                                '<div id="format-settings-combo-code" class="input-group-nr" style="width:180px;"></div>',
                             '</td>',
                         '</tr>',
                     '</table>',
                     '</div></div>',
                     '</div>',
                     '</div>',
-                    '<div class="separator horizontal"/>',
                     '<div class="footer center">',
                         '<button class="btn normal dlg-btn primary" result="ok" style="margin-right: 10px;  width: 86px;">' + me.textOk + '</button>',
                         '<button class="btn normal dlg-btn" result="cancel" style="width: 86px;">' + me.textCancel + '</button>',
@@ -166,7 +165,7 @@ define([
             this.cmbFormat = new Common.UI.ComboBox({
                 el: $('#format-settings-combo-format'),
                 cls: 'input-group-nr',
-                menuStyle: 'min-width: 140px;',
+                menuStyle: 'min-width: 180px;',
                 editable: false,
                 data: this.numFormatData
             });
@@ -176,7 +175,7 @@ define([
             this.cmbNegative = new Common.UI.ComboBox({
                 el: $('#format-settings-combo-negative'),
                 cls: 'input-group-nr',
-                menuStyle: 'min-width: 140px;max-height:210px;',
+                menuStyle: 'min-width: 180px;max-height:210px;',
                 editable: false,
                 data: [],
                 scrollAlwaysVisible: true
@@ -204,7 +203,7 @@ define([
             this.cmbSymbols = new Common.UI.ComboBox({
                 el: $('#format-settings-combo-symbols'),
                 cls: 'input-group-nr',
-                menuStyle: 'min-width: 140px;max-height:210px;',
+                menuStyle: 'min-width: 180px;max-height:210px;',
                 editable: false,
                 data: [],
                 scrollAlwaysVisible: true
@@ -214,7 +213,7 @@ define([
             this.cmbType = new Common.UI.ComboBox({
                 el: $('#format-settings-combo-type'),
                 cls: 'input-group-nr',
-                menuStyle: 'min-width: 140px;max-height:210px;',
+                menuStyle: 'min-width: 180px;max-height:210px;',
                 editable: false,
                 data: [],
                 scrollAlwaysVisible: true
@@ -423,7 +422,10 @@ define([
                 }
 
             } else {
-                var formatsarr = this.api.asc_getFormatCells(null),
+                var info = new Asc.asc_CFormatCellsInfo();
+                info.asc_setType(Asc.c_oAscNumFormatType.None);
+
+                var formatsarr = this.api.asc_getFormatCells(info),
                     data = [];
                 formatsarr.forEach(function(item) {
                     data.push({value: item, displayValue: item});
@@ -443,7 +445,6 @@ define([
         },
 
         textTitle: 'Number Format',
-        textSample: 'Sample',
         textDecimal: 'Decimal',
         textNegative: 'Negative numbers',
         textSeparator: 'Use 1000 separator',
