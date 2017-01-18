@@ -44,7 +44,8 @@ define([
     'underscore',
     'backbone',
     'common/main/lib/component/Button',
-    'common/main/lib/component/ComboDataView'
+    'common/main/lib/component/ComboDataView',
+    'presentationeditor/main/app/view/ChartSettingsAdvanced'
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
 
@@ -309,6 +310,9 @@ define([
                 this.fireEvent('editcomplete', this);
             }, this));
 
+            this.linkAdvanced = $('#chart-advanced-link');
+            $(this.el).on('click', '#chart-advanced-link', _.bind(this.openAdvancedSettings, this));
+
         },
 
         createDelayedElements: function() {
@@ -466,6 +470,38 @@ define([
             this.fireEvent('editcomplete', this);
         },
 
+        openAdvancedSettings: function(e) {
+            if (this.linkAdvanced.hasClass('disabled')) return;
+
+            var me = this;
+            var win;
+            if (me.api && !this._locked){
+                var selectedElements = me.api.getSelectedElements();
+                if (selectedElements && selectedElements.length>0){
+                    var elType, elValue;
+                    for (var i = selectedElements.length - 1; i >= 0; i--) {
+                        elType = selectedElements[i].get_ObjectType();
+                        elValue = selectedElements[i].get_ObjectValue();
+                        if (Asc.c_oAscTypeSelectElement.Chart == elType) {
+                            (new PE.Views.ChartSettingsAdvanced(
+                                {
+                                    chartProps: elValue,
+                                    handler: function(result, value) {
+                                        if (result == 'ok') {
+                                            if (me.api) {
+                                                me.api.ChartApply(value.chartProps);
+                                            }
+                                        }
+                                        me.fireEvent('editcomplete', me);
+                                    }
+                                })).show();
+                            break;
+                        }
+                    }
+                }
+            }
+        },
+
         setLocked: function (locked) {
             this._locked = locked;
         },
@@ -478,6 +514,7 @@ define([
                 _.each(this.lockedControls, function(item) {
                     item.setDisabled(disable);
                 });
+                this.linkAdvanced.toggleClass('disabled', disable);
             }
         },
 
@@ -494,6 +531,7 @@ define([
         textPie:            'Pie',
         textPoint:          'XY (Scatter)',
         textStock:          'Stock',
-        textStyle:          'Style'
+        textStyle:          'Style',
+        textAdvanced:   'Show advanced settings'
     }, PE.Views.ChartSettings || {}));
 });
