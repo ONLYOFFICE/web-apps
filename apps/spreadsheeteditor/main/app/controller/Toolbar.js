@@ -517,7 +517,6 @@ define([
 
         onBordersWidth: function(menu, item, state) {
             if (state) {
-                $('#id-toolbar-mnu-item-border-width .menu-item-icon').css('border-width', (item.value == 'thin' ? 1 : (item.value == 'medium' ? 2 : 3)) + 'px');
                 this.toolbar.btnBorders.options.borderswidth = item.value;
 
                 Common.NotificationCenter.trigger('edit:complete', this.toolbar);
