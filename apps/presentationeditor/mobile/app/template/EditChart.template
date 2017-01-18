@@ -216,7 +216,7 @@
                     <li>
                         <a data-type="align-left" class="item-link no-indicator">
                             <div class="item-content">
-                                <div class="item-media"><i class="icon icon-move-foreground"></i></div>
+                                <div class="item-media"><i class="icon icon-align-left"></i></div>
                                 <div class="item-inner">
                                     <div class="item-title"><%= scope.textAlignLeft %></div>
                                 </div>
@@ -226,7 +226,7 @@
                     <li>
                         <a data-type="align-center" class="item-link no-indicator">
                             <div class="item-content">
-                                <div class="item-media"><i class="icon icon-move-foreground"></i></div>
+                                <div class="item-media"><i class="icon icon-align-center"></i></div>
                                 <div class="item-inner">
                                     <div class="item-title"><%= scope.textAlignCenter %></div>
                                 </div>
@@ -236,7 +236,7 @@
                     <li>
                         <a data-type="align-right" class="item-link no-indicator">
                             <div class="item-content">
-                                <div class="item-media"><i class="icon icon-move-foreground"></i></div>
+                                <div class="item-media"><i class="icon icon-align-right"></i></div>
                                 <div class="item-inner">
                                     <div class="item-title"><%= scope.textAlignRight %></div>
                                 </div>
@@ -246,7 +246,7 @@
                     <li>
                         <a data-type="align-top" class="item-link no-indicator">
                             <div data-type="move-down" class="item-content">
-                                <div class="item-media"><i class="icon icon-move-foreground"></i></div>
+                                <div class="item-media"><i class="icon icon-align-top"></i></div>
                                 <div class="item-inner">
                                     <div class="item-title"><%= scope.textAlignTop %></div>
                                 </div>
@@ -256,7 +256,7 @@
                     <li>
                         <a data-type="align-middle" class="item-link no-indicator">
                             <div data-type="move-down" class="item-content">
-                                <div class="item-media"><i class="icon icon-move-foreground"></i></div>
+                                <div class="item-media"><i class="icon icon-align-middle"></i></div>
                                 <div class="item-inner">
                                     <div class="item-title"><%= scope.textAlignMiddle %></div>
                                 </div>
@@ -266,7 +266,7 @@
                     <li>
                         <a data-type="align-bottom" class="item-link no-indicator">
                             <div data-type="move-down" class="item-content">
-                                <div class="item-media"><i class="icon icon-move-foreground"></i></div>
+                                <div class="item-media"><i class="icon icon-align-bottom"></i></div>
                                 <div class="item-inner">
                                     <div class="item-title"><%= scope.textAlignBottom %></div>
                                 </div>
@@ -280,7 +280,7 @@
                     <li>
                         <a data-type="distrib-hor" class="item-link no-indicator">
                             <div data-type="move-down" class="item-content">
-                                <div class="item-media"><i class="icon icon-move-foreground"></i></div>
+                                <div class="item-media"><i class="icon icon-align-horizontal"></i></div>
                                 <div class="item-inner">
                                     <div class="item-title"><%= scope.txtDistribHor %></div>
                                 </div>
@@ -290,7 +290,7 @@
                     <li>
                         <a data-type="distrib-vert" class="item-link no-indicator">
                             <div data-type="move-down" class="item-content">
-                                <div class="item-media"><i class="icon icon-move-foreground"></i></div>
+                                <div class="item-media"><i class="icon icon-align-vertical"></i></div>
                                 <div class="item-inner">
                                     <div class="item-title"><%= scope.txtDistribVert %></div>
                                 </div>
