@@ -250,7 +250,7 @@
                     <li id="edit-image-overlap">
                         <div class="item-content">
                             <div class="item-inner">
-                                <div class="item-title">><%= scope.textOverlap %></div>
+                                <div class="item-title"><%= scope.textOverlap %></div>
                                 <div class="item-after">
                                     <label class="label-switch">
                                         <input type="checkbox">
