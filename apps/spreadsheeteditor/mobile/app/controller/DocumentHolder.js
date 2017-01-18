@@ -167,7 +167,7 @@ define([
 
                 items = me._initMenu(me.api.asc_getCellInfo());
 
-                me.view.showMenu(items, posX + 200, posY + 100);
+                me.view.showMenu(items, posX, posY);
             },
 
             onApiHidePopMenu: function() {
