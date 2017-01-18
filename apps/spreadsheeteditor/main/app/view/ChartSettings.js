@@ -924,14 +924,17 @@ define([
                     (new SSE.Views.ChartSettingsDlg(
                         {
                             chartSettings: props,
+                            imageSettings: (me.isChart) ? me._originalProps : null,
                             isChart: me.isChart,
                             api: me.api,
                             handler: function(result, value) {
                                 if (result == 'ok') {
                                     if (me.api) {
-                                        if (me.isChart)
+                                        if (me.isChart) {
                                             me.api.asc_editChartDrawingObject(value.chartSettings);
-                                        else
+                                            if (value.imageSettings)
+                                                me.api.asc_setGraphicObjectProps(value.imageSettings);
+                                        } else
                                             me.api.asc_setSparklineGroup(me._state.SparkId, value.chartSettings);
                                     }
                                 }
