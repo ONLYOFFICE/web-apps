@@ -1429,6 +1429,12 @@ define([
                 scroller.update({alwaysVisibleY: true});
                 scroller.scrollTop(0);
             }
+
+            var val = this.toolbar.mnuTableTemplatePicker.store.findWhere({name: this._state.tablestylename});
+            if (val)
+                this.toolbar.mnuTableTemplatePicker.selectRecord(val);
+            else
+                toolbar.mnuTableTemplatePicker.deselectAll();
         },
 
         onSendThemeColors: function() {
