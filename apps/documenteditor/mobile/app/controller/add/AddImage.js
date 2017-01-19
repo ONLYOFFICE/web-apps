@@ -43,8 +43,11 @@
 
 define([
     'core',
-    'documenteditor/mobile/app/view/add/AddImage'
-], function (core) {
+    'documenteditor/mobile/app/view/add/AddImage',
+    'jquery',
+    'underscore',
+    'backbone'
+], function (core, view, $, _, Backbone) {
     'use strict';
 
     DE.Controllers.AddImage = Backbone.Controller.extend(_.extend((function() {

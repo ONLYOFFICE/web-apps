@@ -42,8 +42,11 @@
 
 define([
     'core',
-    'documenteditor/mobile/app/view/add/AddShape'
-], function (core) {
+    'documenteditor/mobile/app/view/add/AddShape',
+    'jquery',
+    'underscore',
+    'backbone'
+], function (core, view, $, _, Backbone) {
     'use strict';
 
     DE.Controllers.AddShape = Backbone.Controller.extend(_.extend((function() {

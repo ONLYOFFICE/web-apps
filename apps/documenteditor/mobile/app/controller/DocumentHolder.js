@@ -123,7 +123,7 @@ define([
                     _view.hideMenu();
 
                     DE.getController('AddContainer').showModal();
-                    DE.getController('AddOther').getView('AddOther').showLink();
+                    DE.getController('AddOther').getView('AddOther').showLink(false);
                 } else if ('openlink' == eventName) {
                     _.some(_stack, function (item) {
                         if (item.get_ObjectType() == Asc.c_oAscTypeSelectElement.Hyperlink) {
@@ -143,7 +143,7 @@ define([
             },
 
             onApiShowPopMenu: function(posX, posY) {
-                if ($('.popover.settings, .popup.settings, .picker-modal.settings').length > 0) {
+                if ($('.popover.settings, .popup.settings, .picker-modal.settings, .modal.modal-in').length > 0) {
                     return;
                 }
 

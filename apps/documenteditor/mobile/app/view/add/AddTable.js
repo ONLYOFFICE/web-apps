@@ -82,6 +82,8 @@ define([
                     $tableStyles.replaceWith(this.layout.find('#add-table-root').html());
                 }
 
+                this.fireEvent('view:render', this);
+
                 return this;
             },
 

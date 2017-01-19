@@ -41,8 +41,11 @@
 
 define([
     'core',
-    'documenteditor/mobile/app/view/add/AddOther'
-], function (core) {
+    'documenteditor/mobile/app/view/add/AddOther',
+    'jquery',
+    'underscore',
+    'backbone'
+], function (core, view, $, _, Backbone) {
     'use strict';
 
     DE.Controllers.AddOther = Backbone.Controller.extend(_.extend((function() {

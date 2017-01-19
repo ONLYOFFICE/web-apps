@@ -98,7 +98,7 @@ define([
                 //
             },
 
-            showPage: function (templateId) {
+            showPage: function (templateId, animate) {
                 var rootView = DE.getController('AddContainer').rootView;
 
                 if (rootView && this.layout) {
@@ -110,7 +110,8 @@ define([
                     }
 
                     rootView.router.load({
-                        content: $content.html()
+                        content: $content.html(),
+                        animatePages: animate !== false
                     });
 
                     this.fireEvent('page:show', [this, templateId]);
@@ -121,8 +122,8 @@ define([
                 this.showPage('#addother-sectionbreak');
             },
 
-            showLink: function () {
-                this.showPage('#addother-link');
+            showLink: function (animate) {
+                this.showPage('#addother-link', animate);
 
                 $('.page[data-page=addother-link] input[type=url]').single('input', _.bind(function(e) {
                     $('#add-link-insert').toggleClass('disabled', _.isEmpty($('#add-link-url input').val()));

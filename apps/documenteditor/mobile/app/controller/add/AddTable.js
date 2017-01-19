@@ -43,8 +43,11 @@
 
 define([
     'core',
-    'documenteditor/mobile/app/view/add/AddTable'
-], function (core) {
+    'documenteditor/mobile/app/view/add/AddTable',
+    'jquery',
+    'underscore',
+    'backbone'
+], function (core, view, $, _, Backbone) {
     'use strict';
 
     DE.Controllers.AddTable = Backbone.Controller.extend(_.extend((function() {
@@ -60,6 +63,12 @@ define([
 
             initialize: function () {
                 Common.NotificationCenter.on('addcontainer:show', _.bind(this.initEvents, this));
+
+                this.addListeners({
+                    'AddTable': {
+                        'view:render' : this.onViewRender
+                    }
+                });
             },
 
             setApi: function (api) {
@@ -83,7 +92,11 @@ define([
                     me.api.asc_GetDefaultTableStyles();
                 }
 
-                $('#add-table li').single('click',  _.buffered(me.onStyleClick, 100, me));
+                $('#add-table li').single('click',  _.buffered(this.onStyleClick, 100, this));
+            },
+
+            onViewRender: function () {
+                $('#add-table li').single('click',  _.buffered(this.onStyleClick, 100, this));
             },
 
             onStyleClick: function (e) {
