@@ -42,8 +42,11 @@
 
 define([
     'core',
+    'jquery',
+    'underscore',
+    'backbone',
     'spreadsheeteditor/mobile/app/view/DocumentHolder'
-], function (core) {
+], function (core, $, _, Backbone) {
     'use strict';
 
     SSE.Controllers.DocumentHolder = Backbone.Controller.extend(_.extend((function() {
@@ -113,8 +116,10 @@ define([
                     break;
                 case 'merge':
                     if (me.api.asc_mergeCellsDataLost(Asc.c_oAscMergeOptions.Merge)) {
-                        uiApp.confirm(me.warnMergeLostData, undefined, function(){
-                            me.api.asc_mergeCells(Asc.c_oAscMergeOptions.Merge);
+                        _.defer(function () {
+                            uiApp.confirm(me.warnMergeLostData, undefined, function(){
+                                me.api.asc_mergeCells(Asc.c_oAscMergeOptions.Merge);
+                            });
                         });
                     } else {
                         me.api.asc_mergeCells(Asc.c_oAscMergeOptions.Merge);
