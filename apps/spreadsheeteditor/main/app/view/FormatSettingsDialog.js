@@ -162,6 +162,7 @@ define([
 
             this.FormatType = Asc.c_oAscNumFormatType.General;
             this.Format = "General";
+            this.CustomFormat = null;
         },
 
         render: function() {
@@ -261,6 +262,9 @@ define([
                 if (this.langId)
                     this.langId = props.langId;
                 this.cmbFormat.setValue(props.formatType, this.txtCustom);
+
+                if ((props.formatType == Asc.c_oAscNumFormatType.Custom) && props.format)
+                    this.CustomFormat = this.Format = props.format;
 
                 this.onFormatSelect(this.cmbFormat, this.cmbFormat.getSelectedRecord());
                 // for fraction - if props.format not in cmbType - setValue(this.txtCustom)
@@ -433,10 +437,16 @@ define([
                 info.asc_setSymbol(this.langId);
 
                 var formatsarr = this.api.asc_getFormatCells(info),
-                    data = [];
+                    data = [],
+                    isCustom = (this.CustomFormat) ? true : false;
                 formatsarr.forEach(function(item) {
                     data.push({value: item, displayValue: item});
+                    if (me.CustomFormat == item)
+                        isCustom = false;
                 });
+                if (isCustom) {
+                    data.push({value: this.CustomFormat, displayValue: this.CustomFormat});
+                }
                 this.cmbCode.setData(data);
                 this.cmbCode.setValue(this.Format);
             }
