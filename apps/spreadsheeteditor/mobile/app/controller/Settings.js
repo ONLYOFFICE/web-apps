@@ -187,7 +187,6 @@ define([
                 }
             },
 
-            txtLoading              : 'Loading...',
             notcriticalErrorTitle   : 'Warning',
             warnDownloadAs          : 'If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?'
         }

@@ -216,7 +216,6 @@ define([
             },
 
             textInvalidRange    : 'ERROR! Invalid cells range',
-            textEmptyImgUrl     : 'You need to specify image URL.',
             txtNotUrl           : 'This field should be a URL in the format \"http://www.example.com\"'
         }
     })(), SSE.Controllers.AddLink || {}))

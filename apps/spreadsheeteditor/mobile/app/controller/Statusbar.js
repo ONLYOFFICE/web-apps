@@ -47,7 +47,7 @@ define([
 ], function () {
     'use strict';
 
-    SSE.Controllers.Statusbar = Backbone.Controller.extend({
+    SSE.Controllers.Statusbar = Backbone.Controller.extend(_.extend({
         models: [],
         collections: ['Sheets'],
         views: [
@@ -509,5 +509,5 @@ define([
         errorRemoveSheet: 'Can\'t delete the worksheet.',
         warnDeleteSheet : 'The worksheet maybe has data. Proceed operation?',
         strSheet        : 'Sheet'
-    });
+    }, SSE.Controllers.Statusbar || {}));
 });
