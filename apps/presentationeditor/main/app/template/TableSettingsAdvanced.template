@@ -59,3 +59,26 @@
         </table>
     </div>
 </div>
+<div id="id-adv-table-alttext" class="settings-panel">
+    <div class="inner-content">
+        <table cols="1" width="100%">
+            <tr>
+                <td class="padding-large">
+                    <label class="header"><%= scope.textAltTitle %></label>
+                    <div id="tableadv-alt-title"></div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label class="header"><%= scope.textAltDescription %></label>
+                    <textarea id="tableadv-alt-description" class="form-control" style="width: 100%; height: 70px;"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label><%= scope.textAltTip %></label>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
