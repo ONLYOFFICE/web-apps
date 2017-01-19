@@ -1434,7 +1434,7 @@ define([
             if (val)
                 this.toolbar.mnuTableTemplatePicker.selectRecord(val);
             else
-                toolbar.mnuTableTemplatePicker.deselectAll();
+                this.toolbar.mnuTableTemplatePicker.deselectAll();
         },
 
         onSendThemeColors: function() {
