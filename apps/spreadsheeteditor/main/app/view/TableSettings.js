@@ -47,7 +47,8 @@ define([
     'common/main/lib/component/Button',
     'common/main/lib/component/CheckBox',
     'common/main/lib/component/ComboDataView',
-    'spreadsheeteditor/main/app/view/TableOptionsDialog'
+    'spreadsheeteditor/main/app/view/TableOptionsDialog',
+    'spreadsheeteditor/main/app/view/TableSettingsAdvanced'
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
 
@@ -168,6 +169,8 @@ define([
             el.html(this.template({
                 scope: this
             }));
+
+            this.linkAdvanced = $('#table-advanced-link');
         },
 
         setApi: function(o) {
@@ -283,7 +286,32 @@ define([
             this.btnEdit.menu.on('item:click', _.bind(this.onEditClick, this));
             this.lockedControls.push(this.btnEdit);
 
+            $(this.el).on('click', '#table-advanced-link', _.bind(this.openAdvancedSettings, this));
+
             this._initSettings = false;
+        },
+
+        openAdvancedSettings: function(e) {
+            if (this.linkAdvanced.hasClass('disabled')) return;
+
+            var me = this;
+            var win;
+            if (me.api && !this._locked){
+                (new SSE.Views.TableSettingsAdvanced(
+                    {
+                        tableProps: me._originalProps,
+                        api: me.api,
+                        handler: function(result, value) {
+                            if (result == 'ok') {
+                                if (me.api) {
+                                    // me.api.asc_setGraphicObjectProps(value.tableProps);
+                                }
+                            }
+
+                            Common.NotificationCenter.trigger('edit:complete', me);
+                        }
+                    })).show();
+            }
         },
 
         ChangeSettings: function(props) {
@@ -472,6 +500,7 @@ define([
                 _.each(this.lockedControls, function(item) {
                     item.setDisabled(disable);
                 });
+                this.linkAdvanced.toggleClass('disabled', disable);
             }
         },
 
@@ -506,7 +535,8 @@ define([
         textExistName           : 'ERROR! Range with such a name already exists',
         textIsLocked            : 'This element is being edited by another user.',
         notcriticalErrorTitle   : 'Warning',
-        textReservedName        : 'The name you are trying to use is already referenced in cell formulas. Please use some other name.'
+        textReservedName        : 'The name you are trying to use is already referenced in cell formulas. Please use some other name.',
+        textAdvanced:   'Show advanced settings'
 
     }, SSE.Views.TableSettings || {}));
 });
