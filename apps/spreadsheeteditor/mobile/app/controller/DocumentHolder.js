@@ -186,19 +186,19 @@ define([
 
                 if ( this.api.isCellEdited ) {
                     menuItems = [{
-                            caption: 'Copy',
+                            caption: me.menuCopy,
                             event: 'copy'
                         }];
 
                 } else {
                     var menuItems = [{
-                            caption: 'Cut',
+                            caption: me.menuCut,
                             event: 'cut'
                         },{
-                            caption: 'Copy',
+                            caption: me.menuCopy,
                             event: 'copy'
                         },{
-                            caption: 'Paste',
+                            caption: me.menuPaste,
                             event: 'paste'
                         }];
 
@@ -223,53 +223,53 @@ define([
                                 istextshapemenu || istextchartmenu )
                     {
                         menuItems.push({
-                            caption: 'Edit',
+                            caption: me.menuEdit,
                             event: 'edit'
                         });
                     } else {
                         if ( iscolmenu || isrowmenu) {
                             menuItems.push({
-                                    caption: 'Delete',
+                                    caption: me.menuDelete,
                                     event: 'del'
                                 },{
-                                    caption: 'Hide',
+                                    caption: me.menuHide,
                                     event: 'hide'
                                 },{
-                                    caption: 'Show',
+                                    caption: me.menuShow,
                                     event: 'show'
                                 });
                         } else
                         if ( iscellmenu ) {
                             menuItems.push({
-                                caption: 'Delete',
+                                caption: me.menuDelete,
                                 event: 'del'
                             });
 
                             !iscelllocked &&
                             menuItems.push({
-                                caption: 'Cell',
+                                caption: me.menuCell,
                                 event: 'edit'
                             });
 
                             menuItems.push({
-                                caption: 'Merge',
+                                caption: me.menuMerge,
                                 event: 'merge'
                             });
 
                             cellinfo.asc_getFlags().asc_getMerge() &&
                             menuItems.push({
-                                caption: 'Unmerge',
+                                caption: me.menuUnmerge,
                                 event: 'unmerge'
                             });
 
                             menuItems.push(
                                 cellinfo.asc_getFlags().asc_getWrapText() ?
                                     {
-                                        caption: 'Unwrap',
+                                        caption: me.menuUnwrap,
                                         event: 'unwrap'
                                     } :
                                     {
-                                        caption: 'Wrap',
+                                        caption: me.menuWrap,
                                         event: 'wrap'
                                     });
 
@@ -277,7 +277,7 @@ define([
                                 cellinfo.asc_getHyperlink().asc_getType() == Asc.c_oAscHyperlinkType.WebLink )
                             {
                                 menuItems.push({
-                                    caption: 'Open Link',
+                                    caption: me.menuOpenLink,
                                     event: 'openlink'
                                 });
                             } else
@@ -285,7 +285,7 @@ define([
                                 !cellinfo.asc_getFlags().asc_getLockText() && !!cellinfo.asc_getText() )
                             {
                                 menuItems.push({
-                                    caption: 'Add Link',
+                                    caption: me.menuAddLink,
                                     event: 'addlink'
                                 });
                             }
@@ -300,7 +300,21 @@ define([
                 return menuItems;
             },
 
-            warnMergeLostData: 'Operation can destroy data in the selected cells.<br>Continue?'
+            warnMergeLostData: 'Operation can destroy data in the selected cells.<br>Continue?',
+            menuCopy:       'Copy',
+            menuCut:        'Cut',
+            menuPaste:      'Paste',
+            menuDelete:     'Delete',
+            menuAddLink:    'Add Link',
+            menuOpenLink:   'Open Link',
+            menuWrap:       'Wrap',
+            menuUnwrap:     'Unwrap',
+            menuMerge:      'Merge',
+            menuUnmerge:    'Unmerge',
+            menuShow:       'Show',
+            menuHide:       'Hide',
+            menuEdit:       'Edit',
+            menuCell:       'Cell'
         }
     })(), SSE.Controllers.DocumentHolder || {}))
 });
