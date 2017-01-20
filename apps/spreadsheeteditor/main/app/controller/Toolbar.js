@@ -1941,11 +1941,14 @@ define([
                 toolbar.lockToolbar(SSE.enumLock.multiselect, this._state.multiselect, { array: [toolbar.btnTableTemplate, toolbar.btnInsertHyperlink]});
             }
 
-            val = info.asc_getNumFormatInfo().asc_getType();
-            this._state.numformat = info.asc_getNumFormat();
-            if (this._state.numformattype !== val) {
-                toolbar.cmbNumberFormat.setValue(val, toolbar.txtCustom);
-                this._state.numformattype = val;
+            val = info.asc_getNumFormatInfo();
+            if (val) {
+				this._state.numformat = info.asc_getNumFormat();
+				val = val.asc_getType();
+				if (this._state.numformattype !== val) {
+					toolbar.cmbNumberFormat.setValue(val, toolbar.txtCustom);
+					this._state.numformattype = val;
+				}
             }
 
             val = info.asc_getAngle();
