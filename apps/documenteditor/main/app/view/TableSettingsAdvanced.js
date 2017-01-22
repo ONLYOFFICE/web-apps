@@ -1022,7 +1022,6 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 }
                 me.isAltDescChanged = true;
             });
-            this.btnsCategory[5].setVisible(false);
 
             this.AlignContainer = $('#tableadv-panel-align');
             this.DistanceContainer = $('#tableadv-panel-distance');
@@ -1139,10 +1138,10 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             }
 
             if (this.isAltTitleChanged)
-                this._changedProps.asc_putTitle(this.inputAltTitle.getValue());
+                this._changedProps.put_TableCaption(this.inputAltTitle.getValue());
 
             if (this.isAltDescChanged)
-                this._changedProps.asc_putDescription(this.textareaAltDescription.val());
+                this._changedProps.put_TableDescription(this.textareaAltDescription.val());
 
             return { tableProps: this._changedProps, borderProps: {borderSize: this.BorderSize, borderColor: this.btnBorderColor.color} };
         },
@@ -1409,11 +1408,11 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
 
                 this.ShowHideSpacing(this.chAllowSpacing.getValue()==='checked');
 
-                // value = props.asc_getTitle();
-                // this.inputAltTitle.setValue(value ? value : '');
-                //
-                // value = props.asc_getDescription();
-                // this.textareaAltDescription.val(value ? value : '');
+                value = props.get_TableCaption();
+                this.inputAltTitle.setValue(value ? value : '');
+
+                value = props.get_TableDescription();
+                this.textareaAltDescription.val(value ? value : '');
             }
             this._changedProps = new Asc.CTableProp();
             this._changedProps.put_CellSelect(!this._allTable);
