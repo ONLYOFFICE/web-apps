@@ -78,7 +78,7 @@ define([
                 $el.prepend(me.template({
                     android     : Common.SharedSettings.get('android'),
                     phone       : Common.SharedSettings.get('phone'),
-                    backTitle   : Common.SharedSettings.get('android') ? '' : 'Back'
+                    backTitle   : Common.SharedSettings.get('android') ? '' : me.textBack
                 }));
 
                 $('.view-main .navbar').on('addClass removeClass', _.bind(me.onDisplayMainNavbar, me));
@@ -147,7 +147,9 @@ define([
 
                 if (!(opts.indexOf('edit') < 0))
                     this.$btnEdit.toggleClass('disabled', val);
-            }
+            },
+
+            textBack: 'Back'
         }
     })(), SSE.Views.Toolbar || {}))
 });

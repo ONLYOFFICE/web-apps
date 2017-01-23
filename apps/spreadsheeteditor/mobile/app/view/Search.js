@@ -193,6 +193,7 @@ define([
             textFind: 'Find',
             textFindAndReplace: 'Find and Replace',
             textDone: 'Done',
+            textSearch: 'Search',
             textReplace: 'Replace',
             textMatchCase: 'Match Case',
             textMatchCell: 'Match Cell',

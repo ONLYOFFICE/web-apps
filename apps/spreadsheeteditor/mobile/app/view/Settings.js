@@ -186,6 +186,8 @@ define([
             textEditDoc: 'Edit Document',
             textDownload: 'Download',
             textDocInfo: 'Document Info',
+            textHelp: 'Help',
+            textAbout: 'About',
             textBack: 'Back',
             textDocTitle: 'Document title',
             textLoading: 'Loading...',

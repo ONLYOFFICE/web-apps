@@ -102,6 +102,17 @@ define([
                     'mobile'   : true
                 });
 
+                // Localization uiApp params
+                uiApp.params.modalButtonOk = me.textOK;
+                uiApp.params.modalButtonCancel = me.textCancel;
+                uiApp.params.modalPreloaderTitle = me.textPreloader;
+                uiApp.params.modalUsernamePlaceholder = me.textUsername;
+                uiApp.params.modalPasswordPlaceholder = me.textPassword;
+                uiApp.params.smartSelectBackText = me.textBack;
+                uiApp.params.smartSelectPopupCloseText = me.textClose;
+                uiApp.params.smartSelectPickerCloseText = me.textDone;
+                uiApp.params.notificationCloseButtonText = me.textClose;
+
                 if (me.api){
                     Common.Utils.Metric.setCurrentMetric(1); //pt
 
@@ -1190,7 +1201,15 @@ define([
             saveErrorText: 'An error has occurred while saving the file',
             advDRMOptions: 'Protected File',
             advDRMEnterPassword: 'You password please:',
-            advDRMPassword: 'Password'
+            advDRMPassword: 'Password',
+            textOK: 'OK',
+            textCancel: 'Cancel',
+            textPreloader: 'Loading... ',
+            textUsername: 'Username',
+            textPassword: 'Password',
+            textBack: 'Back',
+            textClose: 'Close',
+            textDone: 'Done'
         }
     })(), PE.Controllers.Main || {}))
 });
