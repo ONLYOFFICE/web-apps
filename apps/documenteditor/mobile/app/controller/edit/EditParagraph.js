@@ -55,7 +55,7 @@ define([
             _paragraphInfo = {},
             _paragraphObject = undefined,
             _styles = [],
-            _styleTumbSize,
+            _styleThumbSize,
             metricText = Common.Utils.Metric.getCurrentMetricName();
 
         return {
@@ -180,8 +180,8 @@ define([
                 return _styles || [];
             },
 
-            getTumbSize: function () {
-                return _styleTumbSize || {width: 0, height: 0};
+            getThumbSize: function () {
+                return _styleThumbSize || {width: 0, height: 0};
             },
 
             // Handlers
@@ -308,9 +308,9 @@ define([
                 }
 
                 _styles = [];
-                _styleTumbSize = {
-                    width   : styles.STYLE_THUMBNAIL_WIDTH / uiApp.device.pixelRatio,
-                    height  : styles.STYLE_THUMBNAIL_HEIGHT / uiApp.device.pixelRatio
+                _styleThumbSize = {
+                    width   : styles.STYLE_THUMBNAIL_WIDTH,
+                    height  : styles.STYLE_THUMBNAIL_HEIGHT
                 };
 
                 _.each(styles.get_MergedStyles(), function(style){

@@ -121,7 +121,7 @@ define([
 
             renderStyles: function () {
                 var me = this,
-                    thimbSize = DE.getController('EditParagraph').getTumbSize(),
+                    thumbSize = DE.getController('EditParagraph').getThumbSize(),
                     $styleList = $('#paragraph-list ul'),
                     template = _.template(
                         '<li>' +
@@ -129,7 +129,7 @@ define([
                                 '<input type="radio" name="paragraph-style" value="<%= name %>">' +
                                 (Framework7.prototype.device.android ? '<div class="item-media"><i class="icon icon-form-radio"></i></div>' : '') +
                                 '<div class="item-inner">' +
-                                    '<div data-name="<%= name %>" class="item-title style" style="background-image: url(<%= image %>); width:{0}px; height:{1}px; background-size:{0}px {1}px; background-repeat: no-repeat;"></div>'.format(thimbSize.width, thimbSize.height) +
+                                    '<div data-name="<%= name %>" class="item-title style" style="background-image: url(<%= image %>); width:{0}px; height:{1}px; background-size:{0}px {1}px; background-repeat: no-repeat;"></div>'.format(thumbSize.width, thumbSize.height) +
                                 '</div>' +
                             '</label>' +
                         '</li>'
