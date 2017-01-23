@@ -43,8 +43,18 @@
         </td>
     </tr>
     <tr>
-        <td colspan=2>
+        <td class="padding-small" colspan=2>
             <button type="button" class="btn btn-text-default hidden" id="image-button-edit-object" style="width:100px;"><%= scope.textEdit %></button>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small" colspan=2>
+            <div class="separator horizontal"></div>
+        </td>
+    </tr>
+    <tr>
+        <td align="center" colspan=2>
+            <label class="link" id="image-advanced-link"><%= scope.textAdvanced %></label>
         </td>
     </tr>
     <tr class="finish-cell"></tr>

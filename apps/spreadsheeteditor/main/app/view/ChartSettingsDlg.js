@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2016
+ * (c) Copyright Ascensio System Limited 2010-2017
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -63,7 +63,8 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                     {panelId: 'id-chart-settings-dlg-vert',         panelCaption: this.textVertAxis},
                     {panelId: 'id-chart-settings-dlg-hor',          panelCaption: this.textHorAxis},
                     {panelId: 'id-spark-settings-dlg-style',        panelCaption: this.textTypeData},
-                    {panelId: 'id-spark-settings-dlg-axis',         panelCaption: this.textAxisOptions}
+                    {panelId: 'id-spark-settings-dlg-axis',         panelCaption: this.textAxisOptions},
+                    {panelId: 'id-chart-settings-dlg-alttext',      panelCaption: this.textAlt}
                 ],
                 contentTemplate: _.template(contentTemplate)({
                     scope: this
@@ -89,6 +90,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
 
             this.api = this.options.api;
             this.chartSettings = this.options.chartSettings;
+            this.imageSettings = this.options.imageSettings;
             this.isChart       = this.options.isChart;
             this.vertAxisProps = null;
             this.horAxisProps = null;
@@ -986,6 +988,25 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 }
             }, this));
 
+            // Alt Text
+
+            this.inputAltTitle = new Common.UI.InputField({
+                el          : $('#chart-advanced-alt-title'),
+                allowBlank  : true,
+                validateOnBlur: false,
+                style       : 'width: 100%;'
+            }).on('changed:after', function() {
+                me.isAltTitleChanged = true;
+            });
+
+            this.textareaAltDescription = this.$window.find('textarea');
+            this.textareaAltDescription.keydown(function (event) {
+                if (event.keyCode == Common.UI.Keys.RETURN) {
+                    event.stopPropagation();
+                }
+                me.isAltDescChanged = true;
+            });
+
             this.afterRender();
         },
 
@@ -1002,6 +1023,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 this.btnsCategory[1].setVisible(false);
                 this.btnsCategory[2].setVisible(false);
                 this.btnsCategory[3].setVisible(false);
+                this.btnsCategory[6].setVisible(false);
             }
 
             if (this.storageName) {
@@ -1345,6 +1367,14 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
 
                     this.updateAxisProps(this._state.ChartType);
                     this.currentChartType = this._state.ChartType;
+
+                    if (this.imageSettings) {
+                        value = this.imageSettings.asc_getTitle();
+                        this.inputAltTitle.setValue(value ? value : '');
+
+                        value = this.imageSettings.asc_getDescription();
+                        this.textareaAltDescription.val(value ? value : '');
+                    }
                 } else { // sparkline
                     this._state.SparkType = props.asc_getType();
                     var record = this.mnuSparkTypePicker.store.findWhere({type: this._state.SparkType});
@@ -1446,7 +1476,14 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 this.chartSettings.putVertAxisProps(this.vertAxisProps);
                 this.chartSettings.putHorAxisProps(this.horAxisProps);
 
-                return { chartSettings: this.chartSettings };
+                var imagesettings = (this.isAltTitleChanged || this.isAltDescChanged) ? new Asc.asc_CImgProperty() : null;
+                if (this.isAltTitleChanged)
+                    imagesettings.asc_putTitle(this.inputAltTitle.getValue());
+
+                if (this.isAltDescChanged)
+                    imagesettings.asc_putDescription(this.textareaAltDescription.val());
+
+                return { chartSettings: this.chartSettings, imageSettings: imagesettings};
             } else {
                 return { chartSettings: this._changedProps };
             }
@@ -1714,6 +1751,11 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
         textReverseOrder: 'Reverse order',
         textAutoEach: 'Auto for Each',
         textSameAll: 'Same for All',
-        textTitleSparkline: 'Sparkline - Advanced Settings'
-}, SSE.Views.ChartSettingsDlg || {}));
+        textTitleSparkline: 'Sparkline - Advanced Settings',
+        textAlt: 'Alternative Text',
+        textAltTitle: 'Title',
+        textAltDescription: 'Description',
+        textAltTip: 'The alternative text-based representation of the visual object information, which will be read to the people with vision or cognitive impairments to help them better understand what information there is in the image, autoshape, chart or table.'
+
+    }, SSE.Views.ChartSettingsDlg || {}));
 });

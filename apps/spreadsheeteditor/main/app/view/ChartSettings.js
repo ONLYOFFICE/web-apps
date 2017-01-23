@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2016
+ * (c) Copyright Ascensio System Limited 2010-2017
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -924,14 +924,17 @@ define([
                     (new SSE.Views.ChartSettingsDlg(
                         {
                             chartSettings: props,
+                            imageSettings: (me.isChart) ? me._originalProps : null,
                             isChart: me.isChart,
                             api: me.api,
                             handler: function(result, value) {
                                 if (result == 'ok') {
                                     if (me.api) {
-                                        if (me.isChart)
+                                        if (me.isChart) {
                                             me.api.asc_editChartDrawingObject(value.chartSettings);
-                                        else
+                                            if (value.imageSettings)
+                                                me.api.asc_setGraphicObjectProps(value.imageSettings);
+                                        } else
                                             me.api.asc_setSparklineGroup(me._state.SparkId, value.chartSettings);
                                     }
                                 }

@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2016
+ * (c) Copyright Ascensio System Limited 2010-2017
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -100,6 +100,7 @@ if (Common === undefined) {
         var _postMessage = function(msg) {
             // TODO: specify explicit origin
             if (window.parent && window.JSON) {
+            msg.frameEditorId = window.frameEditorId;
                 window.parent.postMessage(window.JSON.stringify(msg), "*");
             }
         };

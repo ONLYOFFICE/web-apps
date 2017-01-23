@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2016
+ * (c) Copyright Ascensio System Limited 2010-2017
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -48,7 +48,7 @@ define([    'text!presentationeditor/main/app/template/ImageSettingsAdvanced.tem
         options: {
             alias: 'ImageSettingsAdvanced',
             contentWidth: 340,
-            height: 235,
+            height: 342,
             sizeOriginal: {width: 0, height: 0},
             sizeMax: {width: 55.88, height: 55.88},
             storageName: 'pe-img-settings-adv-category'
@@ -57,22 +57,15 @@ define([    'text!presentationeditor/main/app/template/ImageSettingsAdvanced.tem
         initialize : function(options) {
             _.extend(this.options, {
                 title: this.textTitle,
-                template: [
-                    '<div class="box" style="height:' + (this.options.height-85) + 'px;">',
-                    '<div class="menu-panel" style="overflow: hidden;">',
-                    '<div style="height: 70px; line-height: 70px;" class="div-category">' + this.textSize + '</div>',
-                    '<div style="height: 75px; line-height: 75px;" class="div-category">' + this.textPosition + '</div>',
-                    '</div>',
-                    '<div class="separator"/>',
-                    '<div class="content-panel">' + _.template(contentTemplate)({scope: this}) + '</div>',
-                    '</div>',
-                    '<div class="separator horizontal"/>',
-                    '<div class="footer center">',
-                    '<button class="btn normal dlg-btn primary" result="ok" style="margin-right: 10px;  width: 86px;">' + this.okButtonText + '</button>',
-                    '<button class="btn normal dlg-btn" result="cancel" style="width: 86px;">' + this.cancelButtonText + '</button>',
-                    '</div>'
-                ].join('')
+                items: [
+                    {panelId: 'id-adv-image-size',       panelCaption: this.textPlacement},
+                    {panelId: 'id-adv-image-alttext',    panelCaption: this.textAlt}
+                ],
+                contentTemplate: _.template(contentTemplate)({
+                    scope: this
+                })
             }, options);
+
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
             this.spinners = [];
 
@@ -178,6 +171,25 @@ define([    'text!presentationeditor/main/app/template/ImageSettingsAdvanced.tem
             });
             this.spinners.push(this.spnY);
 
+            // Alt Text
+
+            this.inputAltTitle = new Common.UI.InputField({
+                el          : $('#image-advanced-alt-title'),
+                allowBlank  : true,
+                validateOnBlur: false,
+                style       : 'width: 100%;'
+            }).on('changed:after', function() {
+                me.isAltTitleChanged = true;
+            });
+
+            this.textareaAltDescription = this.$window.find('textarea');
+            this.textareaAltDescription.keydown(function (event) {
+                if (event.keyCode == Common.UI.Keys.RETURN) {
+                    event.stopPropagation();
+                }
+                me.isAltDescChanged = true;
+            });
+
             this.afterRender();
         },
 
@@ -212,6 +224,12 @@ define([    'text!presentationeditor/main/app/template/ImageSettingsAdvanced.tem
                     this.spnX.setValue('', true);
                     this.spnY.setValue('', true);
                 }
+
+                value = props.asc_getTitle();
+                this.inputAltTitle.setValue(value ? value : '');
+
+                value = props.asc_getDescription();
+                this.textareaAltDescription.val(value ? value : '');
             }
         },
 
@@ -229,6 +247,12 @@ define([    'text!presentationeditor/main/app/template/ImageSettingsAdvanced.tem
             if (this.spnY.getValue() !== '')
                 Position.put_Y(Common.Utils.Metric.fnRecalcToMM(this.spnY.getNumberValue()));
             properties.put_Position(Position);
+
+            if (this.isAltTitleChanged)
+                properties.asc_putTitle(this.inputAltTitle.getValue());
+
+            if (this.isAltDescChanged)
+                properties.asc_putDescription(this.textareaAltDescription.val());
 
             return { imageProps: properties };
         },
@@ -260,7 +284,12 @@ define([    'text!presentationeditor/main/app/template/ImageSettingsAdvanced.tem
         textTitle:      'Image - Advanced Settings',
         textKeepRatio: 'Constant Proportions',
         cancelButtonText: 'Cancel',
-        okButtonText:   'Ok'
+        okButtonText:   'Ok',
+        textPlacement:  'Placement',
+        textAlt: 'Alternative Text',
+        textAltTitle: 'Title',
+        textAltDescription: 'Description',
+        textAltTip: 'The alternative text-based representation of the visual object information, which will be read to the people with vision or cognitive impairments to help them better understand what information there is in the image, autoshape, chart or table.'
 
     }, PE.Views.ImageSettingsAdvanced || {}));
 });

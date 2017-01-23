@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2016
+ * (c) Copyright Ascensio System Limited 2010-2017
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -754,7 +754,16 @@ define([
 
         updateRegionalExample: function(landId) {
             if (this.api) {
-                var text =  (landId) ? this.api.asc_getLocaleExample(landId, 1000.01, new Date()) : '';
+                var text = '';
+                if (landId) {
+                    var info = new Asc.asc_CFormatCellsInfo();
+                    info.asc_setType(Asc.c_oAscNumFormatType.None);
+                    info.asc_setSymbol(landId);
+                    var arr = this.api.asc_getFormatCells(info); // all formats
+                    text = this.api.asc_getLocaleExample(arr[4], 1000.01, landId);
+                    text = text + ' ' + this.api.asc_getLocaleExample(arr[5], (new Date()).getExcelDateWithTime(), landId);
+                    text = text + ' ' + this.api.asc_getLocaleExample(arr[6], (new Date()).getExcelDateWithTime(), landId);
+                }
                 $('#fms-lbl-reg-settings').text(_.isEmpty(text) ? '' : this.strRegSettingsEx + text);
             }
         },

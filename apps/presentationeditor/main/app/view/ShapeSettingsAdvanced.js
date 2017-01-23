@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2016
+ * (c) Copyright Ascensio System Limited 2010-2017
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -48,7 +48,7 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
     PE.Views.ShapeSettingsAdvanced = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 300,
-            height: 332,
+            height: 342,
             toggleGroup: 'shape-adv-settings-group',
             sizeOriginal: {width: 0, height: 0},
             sizeMax: {width: 55.88, height: 55.88},
@@ -62,7 +62,8 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
                 items: [
                     {panelId: 'id-adv-shape-width',      panelCaption: this.textSize},
                     {panelId: 'id-adv-shape-shape',      panelCaption: this.textWeightArrows},
-                    {panelId: 'id-adv-shape-margins',    panelCaption: this.strMargins}
+                    {panelId: 'id-adv-shape-margins',    panelCaption: this.strMargins},
+                    {panelId: 'id-adv-shape-alttext',    panelCaption: this.textAlt}
                 ],
                 contentTemplate: _.template(contentTemplate)({
                     scope: this
@@ -410,6 +411,25 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
             this.mnuEndSizePicker.on('item:click', _.bind(this.onSelectEndSize, this));
             this._selectStyleItem(this.btnEndSize, null);
 
+            // Alt Text
+
+            this.inputAltTitle = new Common.UI.InputField({
+                el          : $('#shape-advanced-alt-title'),
+                allowBlank  : true,
+                validateOnBlur: false,
+                style       : 'width: 100%;'
+            }).on('changed:after', function() {
+                me.isAltTitleChanged = true;
+            });
+
+            this.textareaAltDescription = this.$window.find('textarea');
+            this.textareaAltDescription.keydown(function (event) {
+                if (event.keyCode == Common.UI.Keys.RETURN) {
+                    event.stopPropagation();
+                }
+                me.isAltDescChanged = true;
+            });
+
             this.afterRender();
         },
 
@@ -448,11 +468,23 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
                 }
                 this.btnsCategory[2].setDisabled(null === margins);   // Margins
 
+                value = props.asc_getTitle();
+                this.inputAltTitle.setValue(value ? value : '');
+
+                value = props.asc_getDescription();
+                this.textareaAltDescription.val(value ? value : '');
+
                 this._changedProps = new Asc.asc_CShapeProperty();
             }
         },
 
         getSettings: function() {
+            if (this.isAltTitleChanged)
+                this._changedProps.asc_putTitle(this.inputAltTitle.getValue());
+
+            if (this.isAltDescChanged)
+                this._changedProps.asc_putDescription(this.textareaAltDescription.val());
+
             Common.localStorage.setItem("pe-settings-shaperatio", (this.btnRatio.pressed) ? 1 : 0);
             return { shapeProps: this._changedProps} ;
         },
@@ -645,6 +677,11 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
         textLeft:           'Left',
         textBottom:         'Bottom',
         textRight:          'Right',
-        strMargins: 'Text Padding'
+        strMargins: 'Text Padding',
+        textAlt: 'Alternative Text',
+        textAltTitle: 'Title',
+        textAltDescription: 'Description',
+        textAltTip: 'The alternative text-based representation of the visual object information, which will be read to the people with vision or cognitive impairments to help them better understand what information there is in the image, autoshape, chart or table.'
+
     }, PE.Views.ShapeSettingsAdvanced || {}));
 });

@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2016
+ * (c) Copyright Ascensio System Limited 2010-2017
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -124,19 +124,18 @@ define([
                 Text        : '@'
             };
 
-            me.numFormatTypes = {};
-            me.numFormatTypes[Asc.c_oAscNumFormatType.General]     = me.txtGeneral;
-            me.numFormatTypes[Asc.c_oAscNumFormatType.Custom]      = me.txtCustom;
-            me.numFormatTypes[Asc.c_oAscNumFormatType.Text]        = me.txtText;
-            me.numFormatTypes[Asc.c_oAscNumFormatType.Number]      = me.txtNumber;
-            me.numFormatTypes[Asc.c_oAscNumFormatType.Integer]     = me.txtInteger;
-            me.numFormatTypes[Asc.c_oAscNumFormatType.Scientific]  = me.txtScientific;
-            me.numFormatTypes[Asc.c_oAscNumFormatType.Currency]    = me.txtCurrency;
-            me.numFormatTypes[Asc.c_oAscNumFormatType.Accounting]  = me.txtAccounting;
-            me.numFormatTypes[Asc.c_oAscNumFormatType.Date]        = me.txtDate;
-            me.numFormatTypes[Asc.c_oAscNumFormatType.Time]        = me.txtTime;
-            me.numFormatTypes[Asc.c_oAscNumFormatType.Percent]     = me.txtPercentage;
-            me.numFormatTypes[Asc.c_oAscNumFormatType.Fraction]    = me.txtFraction;
+            me.numFormatData = [
+                { value: Asc.c_oAscNumFormatType.General,   format: this.ascFormatOptions.General,     displayValue: this.txtGeneral,      exampleval: '100' },
+                { value: Asc.c_oAscNumFormatType.Number,    format: this.ascFormatOptions.Number,      displayValue: this.txtNumber,       exampleval: '100,00' },
+                { value: Asc.c_oAscNumFormatType.Scientific,format: this.ascFormatOptions.Scientific,  displayValue: this.txtScientific,   exampleval: '1,00E+02' },
+                { value: Asc.c_oAscNumFormatType.Accounting,format: this.ascFormatOptions.Accounting,  displayValue: this.txtAccounting,   exampleval: '100,00 $' },
+                { value: Asc.c_oAscNumFormatType.Currency,  format: this.ascFormatOptions.Currency,    displayValue: this.txtCurrency,     exampleval: '100,00 $' },
+                { value: Asc.c_oAscNumFormatType.Date,      format: 'MM-dd-yyyy',                      displayValue: this.txtDate,         exampleval: '04-09-1900' },
+                { value: Asc.c_oAscNumFormatType.Time,      format: 'HH:MM:ss',                        displayValue: this.txtTime,         exampleval: '00:00:00' },
+                { value: Asc.c_oAscNumFormatType.Percent,   format: this.ascFormatOptions.Percentage,  displayValue: this.txtPercentage,   exampleval: '100,00%' },
+                { value: Asc.c_oAscNumFormatType.Fraction,  format: this.ascFormatOptions.Fraction,    displayValue: this.txtFraction,     exampleval: '100' },
+                { value: Asc.c_oAscNumFormatType.Text,      format: this.ascFormatOptions.Text,        displayValue: this.txtText,         exampleval: '100' }
+            ];
 
             function dummyCmp() {
                 return {
@@ -505,7 +504,7 @@ define([
                 id          : 'id-toolbar-btn-insertchart',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-insertchart',
-                lock        : [_set.editCell, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth],
+                lock        : [_set.editCell, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.coAuthText],
                 menu        : new Common.UI.Menu({
                     style: 'width: 435px;',
                     items: [
@@ -651,13 +650,26 @@ define([
                 }
             });
 
-            me.btnNumberFormat = new Common.UI.Button({
-                id          : 'id-toolbar-btn-num-format',
-                cls         : 'btn-toolbar btn-text-value',
-                caption     : me.txtGeneral,
-                style       : 'width: 100%;',
+            var formatTemplate =
+                _.template([
+                '<% _.each(items, function(item) { %>',
+                '<li id="<%= item.id %>" data-value="<%= item.value %>"><a tabindex="-1" type="menuitem">',
+                    '<div style="position: relative;"><div style="position: absolute; left: 0; width: 100px;"><%= scope.getDisplayValue(item) %></div>',
+                    '<div style="display: inline-block; width: 100%; max-width: 300px; overflow: hidden; text-overflow: ellipsis; text-align: right; vertical-align: bottom; padding-left: 100px; color: silver;"><%= item.exampleval ? item.exampleval : "" %></div>',
+                '</div></a></li>',
+                '<% }); %>',
+                '<li class="divider">',
+                '<li id="id-toolbar-mnu-item-more-formats" data-value="-1"><a tabindex="-1" type="menuitem">' + me.textMoreFormats + '</a></li>'
+            ].join(''));
+
+            me.cmbNumberFormat = new Common.UI.ComboBox({
+                cls         : 'input-group-nr',
+                menuStyle   : 'min-width: 180px;',
+                hint        : me.tipNumFormat,
                 lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selRange, _set.lostConnect, _set.coAuth],
-                menu        : true
+                itemsTemplate: formatTemplate,
+                editable    : false,
+                data        : me.numFormatData
             });
 
             me.btnPercentStyle = new Common.UI.Button({
@@ -680,7 +692,7 @@ define([
                     items : [
                         {
                             caption : me.txtDollar,
-                            value   : me.ascFormatOptions.Accounting
+                            value   : '_($* #,##0.00_);_($* (#,##0.00);_($* "-"??_);_(@_)'
                         },
                         {
                             caption : me.txtEuro,
@@ -1080,7 +1092,7 @@ define([
                 me.btnMerge, me.btnInsertFormula, me.btnNamedRange, me.btnIncDecimal, me.btnInsertShape, me.btnInsertEquation,
                 me.btnInsertText, me.btnSortUp, me.btnSortDown, me.btnSetAutofilter, me.btnClearAutofilter, me.btnTableTemplate,
                 me.btnPercentStyle, me.btnCurrencyStyle, me.btnDecDecimal, me.btnAddCell, me.btnDeleteCell,
-                me.btnNumberFormat, me.btnBorders, me.btnInsertImage, me.btnInsertHyperlink,
+                me.cmbNumberFormat, me.btnBorders, me.btnInsertImage, me.btnInsertHyperlink,
                 me.btnInsertChart, me.btnColorSchemas,
                 me.btnAutofilter, me.btnCopy, me.btnPaste, me.btnSettings, me.listStyles, me.btnPrint, me.btnShowMode,
                 /*me.btnSave, */me.btnClearStyle, me.btnCopyStyle
@@ -1097,7 +1109,7 @@ define([
                                 me.btnInsertImage, me.btnInsertText, me.btnInsertShape, me.btnInsertEquation, me.btnIncFontSize, me.btnDecFontSize,
                                 me.btnBold, me.btnItalic, me.btnUnderline, me.btnTextColor, me.btnBackColor,
                                 me.btnInsertHyperlink, me.btnBorders, me.btnTextOrient, me.btnPercentStyle, me.btnCurrencyStyle, me.btnColorSchemas,
-                                me.btnSettings, me.btnInsertFormula, me.btnNamedRange, me.btnDecDecimal, me.btnIncDecimal, me.btnNumberFormat, me.btnWrap,
+                                me.btnSettings, me.btnInsertFormula, me.btnNamedRange, me.btnDecDecimal, me.btnIncDecimal, me.cmbNumberFormat, me.btnWrap,
                                 me.btnInsertChart, me.btnMerge, me.btnAddCell, me.btnDeleteCell, me.btnShowMode, me.btnPrint,
                                 me.btnAutofilter, me.btnSortUp, me.btnSortDown, me.btnTableTemplate, me.btnSetAutofilter, me.btnClearAutofilter,
                                 me.btnSave, me.btnClearStyle, me.btnCopyStyle, me.btnCopy, me.btnPaste];
@@ -1229,7 +1241,7 @@ define([
             replacePlacholder('#id-toolbar-' + mode + '-placeholder-btn-setfilter',      this.btnSetAutofilter);
             replacePlacholder('#id-toolbar-' + mode + '-placeholder-btn-clear-filter',   this.btnClearAutofilter);
             replacePlacholder('#id-toolbar-' + mode + '-placeholder-btn-table-tpl',      this.btnTableTemplate);
-            replacePlacholder('#id-toolbar-' + mode + '-placeholder-btn-format',         this.btnNumberFormat);
+            replacePlacholder('#id-toolbar-' + mode + '-placeholder-btn-format',         this.cmbNumberFormat);
             replacePlacholder('#id-toolbar-' + mode + '-placeholder-btn-percents',       this.btnPercentStyle);
             replacePlacholder('#id-toolbar-' + mode + '-placeholder-btn-currency',       this.btnCurrencyStyle);
             replacePlacholder('#id-toolbar-' + mode + '-placeholder-btn-digit-dec',      this.btnDecDecimal);
@@ -1295,7 +1307,6 @@ define([
             this.btnClearAutofilter.updateHint(this.txtClearFilter);
             this.btnSearch.updateHint(this.txtSearch);
             this.btnTableTemplate.updateHint(this.txtTableTemplate);
-            this.btnNumberFormat.updateHint(this.tipNumFormat);
             this.btnPercentStyle.updateHint(this.tipDigStylePercent);
             this.btnCurrencyStyle.updateHint(this.tipDigStyleAccounting);
             this.btnDecDecimal.updateHint(this.tipDecDecimal);
@@ -1475,9 +1486,9 @@ define([
                         {caption: '--'},
                         {
                             id          : 'id-toolbar-mnu-item-border-width',
-                            caption     : this.textBordersWidth,
+                            caption     : this.textBordersStyle,
                             iconCls     : 'mnu-icon-item mnu-border-width',
-                            template    : _.template('<a id="<%= id %>" tabindex="-1" type="menuitem"><span class="menu-item-icon" style="background-image: none; width: 11px; height: 11px; margin: 2px 7px 0 -9px; border-style: solid; border-width: 1px; border-color: #000;"></span><%= caption %></a>'),
+                            template    : _.template('<a id="<%= id %>" tabindex="-1" type="menuitem"><span class="menu-item-icon" style="background-image: none; width: 11px; height: 11px; margin: 2px 7px 0 -9px;"></span><%= caption %></a>'),
                             menu        : (function(){
                                 var itemTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem"><div class="border-size-item" style="background-position: 0 -<%= options.offsety %>px;"></div></a>');
 
@@ -1486,9 +1497,17 @@ define([
                                     menuAlign   : 'tl-tr',
                                     id          : 'toolbar-menu-borders-width',
                                     items: [
-                                        { template: itemTemplate, stopPropagation: true, checkable: true, toggleGroup: 'border-width', value: 'thin',   offsety: 0, checked:true},
-                                        { template: itemTemplate, stopPropagation: true, checkable: true, toggleGroup: 'border-width', value: 'medium', offsety: 20},
-                                        { template: itemTemplate, stopPropagation: true, checkable: true, toggleGroup: 'border-width', value: 'thick',  offsety: 40}
+                                        { template: itemTemplate, stopPropagation: true, checkable: true, toggleGroup: 'border-width', value: Asc.c_oAscBorderStyles.Thin ,   offsety: 0, checked:true},
+                                        { template: itemTemplate, stopPropagation: true, checkable: true, toggleGroup: 'border-width', value: Asc.c_oAscBorderStyles.Hair,   offsety: 20},
+                                        { template: itemTemplate, stopPropagation: true, checkable: true, toggleGroup: 'border-width', value: Asc.c_oAscBorderStyles.Dotted,   offsety: 40},
+                                        { template: itemTemplate, stopPropagation: true, checkable: true, toggleGroup: 'border-width', value: Asc.c_oAscBorderStyles.Dashed,   offsety: 60},
+                                        { template: itemTemplate, stopPropagation: true, checkable: true, toggleGroup: 'border-width', value: Asc.c_oAscBorderStyles.DashDot,   offsety: 80},
+                                        { template: itemTemplate, stopPropagation: true, checkable: true, toggleGroup: 'border-width', value: Asc.c_oAscBorderStyles.DashDotDot,   offsety: 100},
+                                        { template: itemTemplate, stopPropagation: true, checkable: true, toggleGroup: 'border-width', value: Asc.c_oAscBorderStyles.Medium, offsety: 120},
+                                        { template: itemTemplate, stopPropagation: true, checkable: true, toggleGroup: 'border-width', value: Asc.c_oAscBorderStyles.MediumDashed,  offsety: 140},
+                                        { template: itemTemplate, stopPropagation: true, checkable: true, toggleGroup: 'border-width', value: Asc.c_oAscBorderStyles.MediumDashDot,  offsety: 160},
+                                        { template: itemTemplate, stopPropagation: true, checkable: true, toggleGroup: 'border-width', value: Asc.c_oAscBorderStyles.MediumDashDotDot,  offsety: 180},
+                                        { template: itemTemplate, stopPropagation: true, checkable: true, toggleGroup: 'border-width', value: Asc.c_oAscBorderStyles.Thick,  offsety: 200}
                                     ]
                                 });
 
@@ -1519,180 +1538,6 @@ define([
                     el: $('#id-toolbar-menu-bordercolor')
                 });
             }
-
-            var formatTemplate = _.template('<a id="<%= id %>" style="white-space: normal;" tabindex="-1" type="menuitem"><%= caption %><span style="float: right; color: silver;"><%= options.tplval ? options.tplval : options.value %></span></a>');
-            this.btnNumberFormat.setMenu( new Common.UI.Menu({
-                style: 'margin-left: -1px;',
-                items: [
-                    {
-                        caption : this.txtGeneral,
-                        value   : this.ascFormatOptions.General
-                    },
-                    {
-                        caption : this.txtNumber,
-                        value   : this.ascFormatOptions.Number
-                    },
-                    {
-                        caption : this.txtInteger,
-                        value   : '#0'
-                    },
-                    {
-                        caption : this.txtScientific,
-                        value   : this.ascFormatOptions.Scientific
-                    },
-                    {
-                        caption : this.txtAccounting,
-                        menu    : new Common.UI.Menu({
-                            style: 'min-width: 120px;',
-                            menuAlign: 'tl-tr',
-                            items : [
-                                {
-                                    caption : this.txtDollar,
-                                    value   : this.ascFormatOptions.Accounting
-                                },
-                                {
-                                    caption : this.txtEuro,
-                                    value   : '_(€* #,##0.00_);_(€* (#,##0.00);_(€* "-"??_);_(@_)'
-                                },
-                                {
-                                    caption : this.txtPound,
-                                    value   : '_(£* #,##0.00_);_(£* (#,##0.00);_(£* "-"??_);_(@_)'
-                                },
-                                {
-                                    caption : this.txtRouble,
-                                    value   : '_-* #,##0.00[$р.-419]_-;-* #,##0.00[$р.-419]_-;_-* "-"??[$р.-419]_-;_-@_-'
-                                },
-                                {
-                                    caption : this.txtYen,
-                                    value   : '_(¥* #,##0.00_);_(¥* (#,##0.00);_(¥* "-"??_);_(@_)'
-                                }
-                            ]
-                        })
-                    },
-                    {
-                        caption : this.txtCurrency,
-                        menu    : new Common.UI.Menu({
-                            style: 'min-width: 120px;',
-                            menuAlign: 'tl-tr',
-                            items : [
-                                {
-                                    caption : this.txtDollar,
-                                    value   : this.ascFormatOptions.Currency
-                                },
-                                {
-                                    caption : this.txtEuro,
-                                    value   : '€#,##0.00'
-                                },
-                                {
-                                    caption : this.txtPound,
-                                    value   : '£#,##0.00'
-                                },
-                                {
-                                    caption : this.txtRouble,
-                                    value   : '#,##0.00"р."'
-                                },
-                                {
-                                    caption : this.txtYen,
-                                    value   : '¥#,##0.00'
-                                }
-                            ]
-                        })
-                    },
-                    {
-                        caption : this.txtDate,
-                        menu    : new Common.UI.Menu({
-                            style: 'min-width: 200px;',
-                            menuAlign: 'tl-tr',
-                            items: [
-                                {
-                                    caption : '07-24-88',
-                                    value   : 'MM-dd-yy',
-                                    template: formatTemplate
-                                },
-                                {
-                                    caption : '07-24-1988',
-                                    value   : 'MM-dd-yyyy',
-                                    template: formatTemplate
-                                },
-                                {
-                                    caption : '24-07-88',
-                                    value   : 'dd-MM-yy',
-                                    template: formatTemplate
-                                },
-                                {
-                                    caption : '24-07-1988',
-                                    value   : 'dd-MM-yyyy',
-                                    template: formatTemplate
-                                },
-                                {
-                                    caption : '24-Jul-1988',
-                                    value   : 'dd-MMM-yyyy',
-                                    template: formatTemplate
-                                },
-                                {
-                                    caption : '24-Jul',
-                                    value   : 'dd-MMM',
-                                    template: formatTemplate
-                                },
-                                {
-                                    caption : 'Jul-88',
-                                    value   : 'MMM-yy',
-                                    template: formatTemplate
-                                }
-                            ]
-                        })
-                    },
-                    {
-                        caption : this.txtTime,
-                        menu    : new Common.UI.Menu({
-                            style: 'min-width: 200px;',
-                            menuAlign: 'tl-tr',
-                            showSeparator   : false,
-                            items: [
-                                {
-                                    caption : '10:56',
-                                    value   : 'HH:mm',
-                                    template: formatTemplate
-                                },
-                                {
-                                    caption : '21:56:00',
-                                    value   : 'HH:MM:ss',
-                                    template: formatTemplate
-                                },
-                                {
-                                    caption : '05:56 AM',
-                                    tplval  : 'hh:mm tt',
-                                    value   : 'hh:mm AM/PM',
-                                    template: formatTemplate
-                                },
-                                {
-                                    caption : '05:56:00 AM',
-                                    tplval  : 'hh:mm:ss tt',
-                                    value   : 'hh:mm:ss AM/PM',
-                                    template: formatTemplate
-                                },
-                                {
-                                    caption : '38:56:00',
-                                    value   : '[h]:mm:ss',
-                                    template: formatTemplate
-                                }
-                            ]
-                        })
-                    },
-                    {
-                        caption : this.txtPercentage,
-                        value   : this.ascFormatOptions.Percentage
-                    },
-                    {
-                        caption : this.txtFraction,
-                        value   : this.ascFormatOptions.Fraction
-                    },
-                    {
-                        caption : this.txtText,
-                        value   : this.ascFormatOptions.Text
-                    }
-                ]
-            }));
 
             this.mnuInsertChartPicker = new Common.UI.DataView({
                 el: $('#id-toolbar-menu-insertchart'),
@@ -2015,7 +1860,7 @@ define([
         tipAlignTop:        'Align Top',
         tipAlignMiddle:     'Align Middle',
         tipAlignBottom:     'Align Bottom',
-        textBordersWidth:   'Borders Width',
+        textBordersStyle:   'Border Style',
         textBordersColor:   'Borders Color',
         textAlignLeft:      'Left align text',
         textAlignRight:     'Right align text',
@@ -2103,6 +1948,7 @@ define([
         tipInsertEquation:  'Insert Equation',
         textCharts:         'Charts',
         textSparks:         'Sparklines',
-        tipInsertChartSpark: 'Insert Chart or Sparkline'
+        tipInsertChartSpark: 'Insert Chart or Sparkline',
+        textMoreFormats: 'More formats'
     }, SSE.Views.Toolbar || {}));
 });

@@ -325,3 +325,26 @@
         </table>
     </div>
 </div>
+<div id="id-adv-image-alttext" class="settings-panel">
+    <div class="inner-content">
+        <table cols="1" width="100%">
+            <tr>
+                <td class="padding-large">
+                    <label class="header"><%= scope.textAltTitle %></label>
+                    <div id="image-advanced-alt-title"></div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label class="header"><%= scope.textAltDescription %></label>
+                    <textarea id="image-advanced-alt-description" class="form-control" style="width: 100%; height: 120px;"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label><%= scope.textAltTip %></label>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

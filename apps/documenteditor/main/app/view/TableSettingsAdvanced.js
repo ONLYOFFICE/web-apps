@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2016
+ * (c) Copyright Ascensio System Limited 2010-2017
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -67,7 +67,8 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                     {panelId: 'id-adv-table-cell-props', panelCaption: this.textCellProps},
                     {panelId: 'id-adv-table-borders',    panelCaption: this.textBordersBackgroung},
                     {panelId: 'id-adv-table-position',   panelCaption: this.textTablePosition},
-                    {panelId: 'id-adv-table-wrap',       panelCaption: this.textWrap}
+                    {panelId: 'id-adv-table-wrap',       panelCaption: this.textWrap},
+                    {panelId: 'id-adv-table-alttext',    panelCaption: this.textAlt}
                 ],
                 contentTemplate: _.template(contentTemplate)({
                     scope: this
@@ -1003,7 +1004,24 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 this._btnsTableBorderPosition.push( _btn );
             }, this);
 
+            // Alt Text
 
+            this.inputAltTitle = new Common.UI.InputField({
+                el          : $('#table-advanced-alt-title'),
+                allowBlank  : true,
+                validateOnBlur: false,
+                style       : 'width: 100%;'
+            }).on('changed:after', function() {
+                me.isAltTitleChanged = true;
+            });
+
+            this.textareaAltDescription = this.$window.find('textarea');
+            this.textareaAltDescription.keydown(function (event) {
+                if (event.keyCode == Common.UI.Keys.RETURN) {
+                    event.stopPropagation();
+                }
+                me.isAltDescChanged = true;
+            });
 
             this.AlignContainer = $('#tableadv-panel-align');
             this.DistanceContainer = $('#tableadv-panel-distance');
@@ -1118,6 +1136,12 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             } else if (this.ChangedCellBorders !== undefined) {
                 this._changedProps.put_CellBorders(this.ChangedCellBorders);
             }
+
+            if (this.isAltTitleChanged)
+                this._changedProps.put_TableCaption(this.inputAltTitle.getValue());
+
+            if (this.isAltDescChanged)
+                this._changedProps.put_TableDescription(this.textareaAltDescription.val());
 
             return { tableProps: this._changedProps, borderProps: {borderSize: this.BorderSize, borderColor: this.btnBorderColor.color} };
         },
@@ -1384,6 +1408,11 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
 
                 this.ShowHideSpacing(this.chAllowSpacing.getValue()==='checked');
 
+                value = props.get_TableCaption();
+                this.inputAltTitle.setValue(value ? value : '');
+
+                value = props.get_TableDescription();
+                this.textareaAltDescription.val(value ? value : '');
             }
             this._changedProps = new Asc.CTableProp();
             this._changedProps.put_CellSelect(!this._allTable);
@@ -2140,7 +2169,11 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
         textTable: 'Table',
         textTableSize: 'Table Size',
         textTablePosition: 'Table Position',
-        textWrappingStyle: 'Wrapping Style'
+        textWrappingStyle: 'Wrapping Style',
+        textAlt: 'Alternative Text',
+        textAltTitle: 'Title',
+        textAltDescription: 'Description',
+        textAltTip: 'The alternative text-based representation of the visual object information, which will be read to the people with vision or cognitive impairments to help them better understand what information there is in the image, autoshape, chart or table.'
 
     }, DE.Views.TableSettingsAdvanced || {}));
 });
