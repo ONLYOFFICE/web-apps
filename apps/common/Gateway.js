@@ -100,7 +100,7 @@ if (Common === undefined) {
         var _postMessage = function(msg) {
             // TODO: specify explicit origin
             if (window.parent && window.JSON) {
-            msg.frameEditorId = window.frameEditorId;
+                msg.frameEditorId = window.frameEditorId;
                 window.parent.postMessage(window.JSON.stringify(msg), "*");
             }
         };
