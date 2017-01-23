@@ -230,7 +230,8 @@ define([
             textFormat: 'Format',
             textCustom: 'Custom',
             textCustomSize: 'Custom Size',
-            textDocumentFormats: 'Document Formats'
+            textDocumentFormats: 'Document Formats',
+            textOrientation: 'Orientation'
 
     }
     })(), DE.Views.Settings || {}))

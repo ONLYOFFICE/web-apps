@@ -191,6 +191,7 @@ define([
             textFind: 'Find',
             textFindAndReplace: 'Find and Replace',
             textDone: 'Done',
+            textSearch: 'Search',
             textReplace: 'Replace',
             textCase: 'Case sensitive',
             textHighlight: 'Highlight results'
