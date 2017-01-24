@@ -186,6 +186,7 @@ define([
                 } else if ('#settings-about-view' == pageId) {
                     // About
                 } else {
+                    $('#settings-readermode input:checkbox').attr('checked', Common.SharedSettings.get('readerMode'));
                     $('#settings-search').single('click',                       _.bind(me.onSearch, me));
                     $('#settings-readermode input:checkbox').single('change',   _.bind(me.onReaderMode, me));
                     $('#settings-edit-document').single('click',                _.bind(me.onEditDocumet, me));
