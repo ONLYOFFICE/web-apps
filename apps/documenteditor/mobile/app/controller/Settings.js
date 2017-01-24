@@ -59,20 +59,21 @@ define([
             _isPortrait = false,
             _pageSizesIndex = -1,
             _pageSizesCurrent = [0, 0],
+            txtCm = Common.Utils.Metric.getMetricName(Common.Utils.Metric.c_MetricUnits.cm),
             _pageSizes = [
-                { caption: 'US Letter',             subtitle: '21,59cm x 27,94cm',  value: [215.9, 279.4] },
-                { caption: 'US Legal',              subtitle: '21,59cm x 35,56cm',  value: [215.9, 355.6] },
-                { caption: 'A4',                    subtitle: '21cm x 29,7cm',      value: [210, 297] },
-                { caption: 'A5',                    subtitle: '14,81cm x 20,99cm',  value: [148.1, 209.9] },
-                { caption: 'B5',                    subtitle: '17,6cm x 25,01cm',   value: [176, 250.1] },
-                { caption: 'Envelope #10',          subtitle: '10,48cm x 24,13cm',  value: [104.8, 241.3] },
-                { caption: 'Envelope DL',           subtitle: '11,01cm x 22,01cm',  value: [110.1, 220.1] },
-                { caption: 'Tabloid',               subtitle: '27,94cm x 43,17cm',  value: [279.4, 431.7] },
-                { caption: 'A3',                    subtitle: '29,7cm x 42,01cm',   value: [297, 420.1] },
-                { caption: 'Tabloid Oversize',      subtitle: '30,48cm x 45,71cm',  value: [304.8, 457.1] },
-                { caption: 'ROC 16K',               subtitle: '19,68cm x 27,3cm',   value: [196.8, 273] },
-                { caption: 'Envelope Choukei 3',    subtitle: '11,99cm x 23,49cm',  value: [119.9, 234.9] },
-                { caption: 'Super B/A3',            subtitle: '33,02cm x 48,25cm',  value: [330.2, 482.5] }
+                { caption: 'US Letter',             subtitle: Common.Utils.String.format('21,59{0} x 27,94{0}', txtCm),  value: [215.9, 279.4] },
+                { caption: 'US Legal',              subtitle: Common.Utils.String.format('21,59{0} x 35,56{0}', txtCm),  value: [215.9, 355.6] },
+                { caption: 'A4',                    subtitle: Common.Utils.String.format('21{0} x 29,7{0}', txtCm),      value: [210, 297] },
+                { caption: 'A5',                    subtitle: Common.Utils.String.format('14,81{0} x 20,99{0}', txtCm),  value: [148.1, 209.9] },
+                { caption: 'B5',                    subtitle: Common.Utils.String.format('17,6{0} x 25,01{0}', txtCm),   value: [176, 250.1] },
+                { caption: 'Envelope #10',          subtitle: Common.Utils.String.format('10,48{0} x 24,13{0}', txtCm),  value: [104.8, 241.3] },
+                { caption: 'Envelope DL',           subtitle: Common.Utils.String.format('11,01{0} x 22,01{0}', txtCm),  value: [110.1, 220.1] },
+                { caption: 'Tabloid',               subtitle: Common.Utils.String.format('27,94{0} x 43,17{0}', txtCm),  value: [279.4, 431.7] },
+                { caption: 'A3',                    subtitle: Common.Utils.String.format('29,7{0} x 42,01{0}', txtCm),   value: [297, 420.1] },
+                { caption: 'Tabloid Oversize',      subtitle: Common.Utils.String.format('30,48{0} x 45,71{0}', txtCm),  value: [304.8, 457.1] },
+                { caption: 'ROC 16K',               subtitle: Common.Utils.String.format('19,68{0} x 27,3{0}', txtCm),   value: [196.8, 273] },
+                { caption: 'Envelope Choukei 3',    subtitle: Common.Utils.String.format('11,99{0} x 23,49{0}', txtCm),  value: [119.9, 234.9] },
+                { caption: 'Super B/A3',            subtitle: Common.Utils.String.format('33,02{0} x 48,25{0}', txtCm),  value: [330.2, 482.5] }
             ];
 
         return {

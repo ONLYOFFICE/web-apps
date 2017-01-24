@@ -1,6 +1,8 @@
 {
   "Common.UI.ThemeColorPalette.textStandartColors": "Standard Colors",
   "Common.UI.ThemeColorPalette.textThemeColors": "Theme Colors",
+  "Common.Utils.Metric.txtCm": "cm",
+  "Common.Utils.Metric.txtPt": "pt",
   "SSE.Controllers.AddChart.txtDiagramTitle": "Chart Title",
   "SSE.Controllers.AddChart.txtSeries": "Series",
   "SSE.Controllers.AddChart.txtXAxis": "X Axis",
@@ -220,7 +222,7 @@
   "SSE.Views.AddFunction.sCatMathematic": "Math and trigonometry",
   "SSE.Views.AddFunction.sCatStatistical": "Statistical",
   "SSE.Views.AddFunction.sCatTextAndData": "Text and data",
-  "SSE.Views.AddFunction.textGroups": "CATEGORIES",
+  "SSE.Views.AddFunction.textGroups": "Categories",
   "SSE.Views.AddLink.textAddLink": "Add Link",
   "SSE.Views.AddLink.textAddress": "Address",
   "SSE.Views.AddLink.textDisplay": "Display",

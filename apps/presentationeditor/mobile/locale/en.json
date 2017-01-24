@@ -2,6 +2,9 @@
   "Common.UI.ThemeColorPalette.textThemeColors": "Theme Colors",
   "Common.UI.ThemeColorPalette.textStandartColors": "Standard Colors",
 
+  "Common.Utils.Metric.txtCm": "cm",
+  "Common.Utils.Metric.txtPt": "pt",
+
   "PE.Controllers.Main.leavePageText": "You have unsaved changes in this document. Click 'Stay on this Page' to await the autosave of the document. Click 'Leave this Page' to discard all the unsaved changes.",
   "PE.Controllers.Main.defaultTitleText": "ONLYOFFICE Presentation Editor",
   "PE.Controllers.Main.criticalErrorTitle": "Error",

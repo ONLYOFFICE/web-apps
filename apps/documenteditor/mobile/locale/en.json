@@ -1,6 +1,8 @@
 {
   "Common.UI.ThemeColorPalette.textStandartColors": "Standard Colors",
   "Common.UI.ThemeColorPalette.textThemeColors": "Theme Colors",
+  "Common.Utils.Metric.txtCm": "cm",
+  "Common.Utils.Metric.txtPt": "pt",
   "DE.Controllers.AddContainer.textImage": "Image",
   "DE.Controllers.AddContainer.textOther": "Other",
   "DE.Controllers.AddContainer.textShape": "Shape",

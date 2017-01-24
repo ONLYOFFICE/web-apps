@@ -1,7 +1,9 @@
 {
   "Common.UI.ThemeColorPalette.textStandartColors": "Стандартные цвета",
   "Common.UI.ThemeColorPalette.textThemeColors": "Цвета темы",
-  "DE.Controllers.AddContainer.textImage": "Изображение",
+  "Common.Utils.Metric.txtCm": "см",
+  "Common.Utils.Metric.txtPt": "пт",
+  "DE.Controllers.AddContainer.textImage": "Рисунок",
   "DE.Controllers.AddContainer.textOther": "Другое",
   "DE.Controllers.AddContainer.textShape": "Фигура",
   "DE.Controllers.AddContainer.textTable": "Таблица",

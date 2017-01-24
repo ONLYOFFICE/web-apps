@@ -1,6 +1,8 @@
 {
   "Common.UI.ThemeColorPalette.textStandartColors": "Стандартные цвета",
   "Common.UI.ThemeColorPalette.textThemeColors": "Цвета темы",
+  "Common.Utils.Metric.txtCm": "см",
+  "Common.Utils.Metric.txtPt": "пт",
   "SSE.Controllers.AddChart.txtDiagramTitle": "Заголовок диаграммы",
   "SSE.Controllers.AddChart.txtSeries": "Ряд",
   "SSE.Controllers.AddChart.txtXAxis": "Ось X",
@@ -220,7 +222,7 @@
   "SSE.Views.AddFunction.sCatMathematic": "Математические",
   "SSE.Views.AddFunction.sCatStatistical": "Статистические",
   "SSE.Views.AddFunction.sCatTextAndData": "Текст и данные",
-  "SSE.Views.AddFunction.textGroups": "КАТЕГОРИИ",
+  "SSE.Views.AddFunction.textGroups": "Категории",
   "SSE.Views.AddLink.textAddLink": "Добавить ссылку",
   "SSE.Views.AddLink.textAddress": "Адрес",
   "SSE.Views.AddLink.textDisplay": "Отображать",
