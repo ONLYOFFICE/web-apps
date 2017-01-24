@@ -170,10 +170,12 @@ define([
         },
 
         onInsertFunction: function() {
-            SSE.getController('AddContainer').showModal({
-                panel: 'function',
-                button: '#ce-function'
-            });
+            if (this.mode == 'edit') {
+                SSE.getController('AddContainer').showModal({
+                    panel: 'function',
+                    button: '#ce-function'
+                });
+            }
         }
     });
 });
