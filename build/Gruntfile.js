@@ -8,7 +8,7 @@ module.exports = function(grunt) {
                     ' *\n' +
                     ' * <%= pkg.homepage %> \n' +
                     ' *\n' +
-                    ' * Version: ' + process.env['PRODUCT_VERSION'] + ' (build:' + process.env['BUILD_NUMBER'] + ')\n' +
+                    ' * Version: <%= pkg.version %> (build:<%= pkg.build %>)\n' +
                     ' */\n';
 
 
@@ -117,7 +117,7 @@ module.exports = function(grunt) {
     doRegisterTask('requirejs', function(defaultConfig, packageFile) {
         return {
             uglify: {
-                pkg: grunt.file.readJSON(defaultConfig),
+                pkg: packageFile,
 
                 options: {
                     banner: '/** vim: et:ts=4:sw=4:sts=4\n' +
@@ -136,7 +136,7 @@ module.exports = function(grunt) {
 
     grunt.registerTask('main-app-init', function() {
         grunt.initConfig({
-            pkg: grunt.file.readJSON(defaultConfig),
+            pkg: packageFile,
 
             clean: {
                 options: {
@@ -169,13 +169,13 @@ module.exports = function(grunt) {
 
             replace: {
                 writeVersion: {
-                    src: ['<%= pkg.api.copy.script.dest %>' + '/documents/api.js'],
+                    src: ['<%= pkg.api.copy.script.dest %>' + '/documents/api.js',
+                          '<%= pkg.main.js.requirejs.options.out %>'],
                     overwrite: true,
                     replacements: [{
-                        from: /(\#{2}BN\#)/,
+                        from: /\{\{PRODUCT_VERSION\}\}/,
                         to: function(matchedWord, index, fullText, regexMatches) {
-                            // return content.replace(/(\#{2}BN\#)/, "." + (process.env['BUILD_NUMBER'] || packageFile.build));
-                            return "." + (process.env['BUILD_NUMBER'] || packageFile.build);
+                            return packageFile.version;
                         }
                     }]
                 }
@@ -219,7 +219,7 @@ module.exports = function(grunt) {
 
     grunt.registerTask('mobile-app-init', function() {
         grunt.initConfig({
-            pkg: grunt.file.readJSON(defaultConfig),
+            pkg: packageFile,
 
             clean: {
                 options: {
@@ -281,13 +281,26 @@ module.exports = function(grunt) {
                 'images-app': {
                     files: packageFile['mobile']['copy']['images-app']
                 }
+            },
+            
+            replace: {
+                writeVersion: {
+                    src: ['<%= pkg.mobile.js.requirejs.options.out %>'],
+                    overwrite: true,
+                    replacements: [{
+                        from: /\{\{PRODUCT_VERSION\}\}/,
+                        to: function(matchedWord, index, fullText, regexMatches) {
+                            return packageFile.version;
+                        }
+                    }]
+                }
             }
         });
     });
 
     grunt.registerTask('embed-app-init', function() {
         grunt.initConfig({
-            pkg: grunt.file.readJSON(defaultConfig),
+            pkg: packageFile,
 
             clean: {
                 options: {
@@ -334,6 +347,8 @@ module.exports = function(grunt) {
     grunt.registerTask('increment-build', function() {
         var pkg = grunt.file.readJSON(defaultConfig);
         pkg.build = parseInt(pkg.build) + 1;
+        packageFile.version = (process.env['PRODUCT_VERSION'] || pkg.version);
+        packageFile.build = (process.env['BUILD_NUMBER'] || pkg.build);
         grunt.file.write(defaultConfig, JSON.stringify(pkg, null, 4));
     });
 
@@ -353,7 +368,7 @@ module.exports = function(grunt) {
     grunt.registerTask('deploy-requirejs',              ['requirejs-init', 'clean', 'uglify']);
 
     grunt.registerTask('deploy-app-main',               ['main-app-init', 'clean', 'imagemin', 'less', 'requirejs', 'concat', 'copy', 'replace:writeVersion']);
-    grunt.registerTask('deploy-app-mobile',             ['mobile-app-init', 'clean:deploy', 'cssmin:styles', 'copy:template-backup', 'htmlmin', 'requirejs', 'concat', 'copy:template-restore', 'clean:template-backup', 'copy:localization', 'copy:index-page', 'copy:images-app']);
+    grunt.registerTask('deploy-app-mobile',             ['mobile-app-init', 'clean:deploy', 'cssmin:styles', 'copy:template-backup', 'htmlmin', 'requirejs', 'concat', 'copy:template-restore', 'clean:template-backup', 'copy:localization', 'copy:index-page', 'copy:images-app', 'replace:writeVersion']);
     grunt.registerTask('deploy-app-embed',              ['embed-app-init', 'clean:prebuild', 'uglify', 'less', 'copy', 'clean:postbuild']);
 
 

@@ -571,7 +571,7 @@
     };
 
     DocsAPI.DocEditor.version = function() {
-        return '4.3.0';
+        return '{{PRODUCT_VERSION}}';
     };
 
     MessageDispatcher = function(fn, scope) {

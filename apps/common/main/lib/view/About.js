@@ -52,7 +52,7 @@ define([
         initialize: function(options) {
             Common.UI.BaseView.prototype.initialize.call(this,arguments);
 
-            this.txtVersionNum = '4.3';
+            this.txtVersionNum = '{{PRODUCT_VERSION}}';
             this.txtAscMail = 'support@onlyoffice.com';
             this.txtAscTelNum = '+371 660-16425';
             this.txtAscUrl = 'www.onlyoffice.com';
