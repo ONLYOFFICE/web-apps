@@ -488,7 +488,7 @@ define([
 
                 if (me.api) {
                     me.api.Resize();
-                    me.api.zoomFitToWidth();
+                    me.api.zoomFitToPage();
                 }
 
                 if (me._state.licenseWarning) {
