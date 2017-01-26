@@ -599,6 +599,7 @@ define([
                     { value: 0x0405, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x0405)[1] },
                     { value: 0x0407, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x0407)[1] },
                     { value: 0x0408, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x0408)[1] },
+                    { value: 0x0C09, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x0C09)[1] },
                     { value: 0x0809, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x0809)[1] },
                     { value: 0x0409, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x0409)[1] },
                     { value: 0x0C0A, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x0C0A)[1] },
