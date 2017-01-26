@@ -273,7 +273,7 @@
                 </div>
                 <div class="content-block">
                     <h3>SPREADSHEET EDITOR</h3>
-                    <h3><%= scope.textVersion %> 4.3</h3>
+                    <h3><%= scope.textVersion %> {{PRODUCT_VERSION}}</h3>
                 </div>
                 <div class="content-block">
                     <h3 class="vendor">Ascensio System SIA</h3>
