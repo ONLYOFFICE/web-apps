@@ -650,9 +650,6 @@ define([
 
                     me.appOptions.canBranding  = (licType!==Asc.c_oLicenseResult.Error) && (typeof me.editorConfig.customization == 'object');
                     me.appOptions.canBrandingExt = params.asc_getCanBranding() && (typeof me.editorConfig.customization == 'object');
-
-                    params.asc_getTrial() && me.headerView.setDeveloperMode(true);
-                    me.appOptions.canRename && me.headerView.setCanRename(true);
                 }
 
                 me.appOptions.canRequestEditRights = me.editorConfig.canRequestEditRights;
