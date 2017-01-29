@@ -129,7 +129,7 @@
                             <% if (android) { %>
                             <div class="item-media"><i class="icon icon-form-radio"></i></div>
                             <% } else { %>
-                            <div class="item-media"><i class="icon icon-wrap-"></i></div>
+                            <div class="item-media"><i class="icon icon-wrap-inline"></i></div>
                             <% } %>
                             <div class="item-inner">
                                 <div class="item-title"><%= scope.textInline %></div>
