@@ -30,6 +30,7 @@ var sdk_dev_scrpipts = [
 	"../../../../sdkjs/common/Drawings/ColorArray.js",
 	"../../../../sdkjs/common/Drawings/CommonController.js",
 	"../../../../sdkjs/common/Drawings/States.js",
+	"../../../../sdkjs/common/Drawings/DrawingsChanges.js",
 	"../../../../sdkjs/common/Drawings/Format/CreateGeometry.js",
 	"../../../../sdkjs/common/Drawings/Format/Geometry.js",
 	"../../../../sdkjs/common/Drawings/Format/Format.js",
