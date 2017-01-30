@@ -43,6 +43,7 @@ define([
     'jquery',
     'underscore',
     'backbone'
+    , 'common/mobile/utils/utils'
 ], function ($, _, Backbone) {
     'use strict';
 
@@ -87,9 +88,8 @@ define([
                     '<% }); %>'
                 ].join(''));
 
-                $('#' + _anchorId)
-                    .css('left', posX)
-                    .css('top', posY);
+                var $target = $('#' + _anchorId)
+                        .css({left: posX, top: posY});
 
                 uiApp.closeModal('.document-menu.modal-in');
 
@@ -103,18 +103,20 @@ define([
                             '</div>'+
                         '</div>'+
                     '</div>';
-                uiApp.popover(popoverHTML, $('#' + _anchorId));
+                var popover = uiApp.popover(popoverHTML, $target);
+
+                if (Common.SharedSettings.get('android')) {
+                    Common.Utils.androidMenuTop($(popover),  $target);
+                }
 
                 $('.modal-overlay').removeClass('modal-overlay-visible');
 
                 $('.document-menu li').single('click', _.buffered(function(e) {
-                    var $target = $(e.currentTarget),
-                        eventName = $target.data('event');
+                    var $el = $(e.currentTarget),
+                        eventName = $el.data('event');
 
                     this.fireEvent('contextmenu:click', [this, eventName]);
                 }, 100, this));
-
-                // console.log('Show menu at position:', posX, posY);
             },
 
             hideMenu: function () {

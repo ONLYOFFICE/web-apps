@@ -41,6 +41,7 @@
 define([
     'core',
     'underscore'
+    , 'common/mobile/utils/utils'
 ],
     function(template){
         'use strict';
@@ -176,10 +177,14 @@ define([
                         '</div>'+
                     '</div>';
 
-                uiApp.popover(popoverHTML, model.get('el'));
+                var $target = model.get('el');
+                var popover = uiApp.popover(popoverHTML, $target);
+
+                if (Common.SharedSettings.get('android')) {
+                    Common.Utils.androidMenuTop($(popover),  $target);
+                }
 
                 $('.modal-overlay').removeClass('modal-overlay-visible');
-
                 $('.document-menu li').single('click', _.buffered(function(e) {
                     uiApp.closeModal('.document-menu.modal-in');
 
