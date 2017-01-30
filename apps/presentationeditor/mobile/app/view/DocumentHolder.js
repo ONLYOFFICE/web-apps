@@ -43,77 +43,14 @@
 define([
     'jquery',
     'underscore',
-    'backbone'
+    'backbone',
+    'common/mobile/utils/utils'
 ], function ($, _, Backbone) {
     'use strict';
 
     PE.Views.DocumentHolder = Backbone.View.extend((function() {
         // private
         var _anchorId = 'context-menu-target';
-
-        function androidSizeMenu(popover, target) {
-            popover.css({left: '', top: ''});
-            var modalWidth =  popover.width();
-            var modalHeight =  popover.height();
-            var modalAngleSize = 10;
-            var targetWidth = target.outerWidth();
-            var targetHeight = target.outerHeight();
-            var targetOffset = target.offset();
-            var targetParentPage = target.parents('.page');
-            if (targetParentPage.length > 0) {
-                targetOffset.top = targetOffset.top - targetParentPage[0].scrollTop;
-            }
-
-            var windowHeight = $(window).height();
-            var windowWidth = $(window).width();
-
-            var modalTop = 0;
-            var modalLeft = 0;
-
-            // Top Position
-            var modalPosition = 'top';// material ? 'bottom' : 'top';
-            {
-                if ((modalHeight + modalAngleSize) < targetOffset.top) {
-                    // On top
-                    modalTop = targetOffset.top - modalHeight - modalAngleSize;
-                }
-                else if ((modalHeight + modalAngleSize) < windowHeight - targetOffset.top - targetHeight) {
-                    // On bottom
-                    modalPosition = 'bottom';
-                    modalTop = targetOffset.top + targetHeight + modalAngleSize;
-                }
-                else {
-                    // On middle
-                    modalPosition = 'middle';
-                    modalTop = targetHeight / 2 + targetOffset.top - modalHeight / 2;
-
-                    if (modalTop <= 0) {
-                        modalTop = 5;
-                    }
-                    else if (modalTop + modalHeight >= windowHeight) {
-                        modalTop = windowHeight - modalHeight - 5;
-                    }
-                }
-
-                // Horizontal Position
-                if (modalPosition === 'top' || modalPosition === 'bottom') {
-                    modalLeft = targetWidth / 2 + targetOffset.left - modalWidth / 2;
-                    if (modalLeft < 5) modalLeft = 5;
-                    if (modalLeft + modalWidth > windowWidth) modalLeft = windowWidth - modalWidth - 5;
-                }
-                else if (modalPosition === 'middle') {
-                    modalLeft = targetOffset.left - modalWidth - modalAngleSize;
-
-                    if (modalLeft < 5 || (modalLeft + modalWidth > windowWidth)) {
-                        if (modalLeft < 5) modalLeft = targetOffset.left + targetWidth + modalAngleSize;
-                        if (modalLeft + modalWidth > windowWidth) modalLeft = windowWidth - modalWidth - 5;
-                    }
-                }
-            }
-
-            // Apply Styles
-            popover.css({top: modalTop + 'px', left: modalLeft + 'px'});
-        }
 
         return {
             el: '#editor_sdk',
@@ -167,7 +104,7 @@ define([
                 var popover = uiApp.popover(popoverHTML, $('#' + _anchorId));
 
                 if (Common.SharedSettings.get('android')) {
-                    androidSizeMenu($(popover),  $('#' + _anchorId));
+                    Common.Utils.androidMenuTop($(popover),  $('#' + _anchorId));
                 }
 
                 $('.modal-overlay').removeClass('modal-overlay-visible');
