@@ -55,7 +55,7 @@ define([
             _metricText = Common.Utils.Metric.getCurrentMetricName(),
             _tableObject = undefined,
             _tableLook = {},
-            _cellBorders = new Asc.CBorders(),
+            _cellBorders = undefined,
             _cellBorderColor = '000000',
             _cellBorderWidth = 0.5;
 
@@ -402,6 +402,8 @@ define([
 
                 if (me.api) {
                     var properties = new Asc.CTableProp();
+                    _cellBorders = _.isUndefined(_cellBorders) ? new Asc.CBorders() : _cellBorders;
+
                     properties.put_CellBorders(_cellBorders);
                     properties.put_CellSelect(true);
 
