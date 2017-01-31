@@ -91,7 +91,7 @@ define([
             onLaunch: function() {
                 // Device detection
                 var phone = isPhone();
-                console.debug('Layout profile:', phone ? 'Phone' : 'Tablet');
+                // console.debug('Layout profile:', phone ? 'Phone' : 'Tablet');
 
                 Common.SharedSettings.set('android', Framework7.prototype.device.android);
                 Common.SharedSettings.set('phone', phone);
