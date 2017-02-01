@@ -1,10 +1,16 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>ONLYOFFICE Presentation</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-        <meta name="description" content="" />
-        <meta name="keywords" content="" />
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <meta name="mobile-web-app-capable" content="yes">
+
+        <title>ONLYOFFICE Presentations</title>
+
+        <link href="http://fonts.googleapis.com/css?family=Roboto:400,300,500,700" rel="stylesheet" type="text/css">
+        <!-- App styles -->
 
         <!-- splash -->
 
@@ -174,51 +180,69 @@
                 100%    { top:100px; background: #55bce6; }
             }
         </style>
-
-        <!--<script src="http://192.168.3.65:3030/target/target-script-min.js#anonymous"></script>-->
-
-        <!-- vendors -->
-
-        <script type="text/javascript" src="../../../vendor/touch/sencha-touch-debug.js"></script>
-        <script type="text/javascript" src="../../../vendor/jquery/jquery.min.js"></script>
-        <script type="text/javascript" src="../../../vendor/sockjs/sockjs.min.js"></script>
-        <script type="text/javascript" src="../../../vendor/underscore/underscore-min.js"></script>
-        <script type="text/javascript" src="../../../vendor/megapixel/src/megapix-image.js"></script>
-        <script type="text/javascript" src="../../../vendor/xregexp/xregexp-all-min.js"></script>
-        <script type="text/javascript" src="../../../vendor/jszip/jszip.min.js"></script>
-        <script type="text/javascript" src="../../../vendor/jszip-utils/jszip-utils.min.js"></script>
-        <script type="text/javascript" src="../../../vendor/jsrsasign/jsrsasign-latest-all-min.js"></script>
-
-        <!-- Application -->
-
+    </head>
+    <body>
         <script type="text/javascript">
-            var injectStyleElement = function(url) {
-                var style = document.createElement('link'),
-                        documentHead = typeof document != 'undefined' && (document.head || document.getElementsByTagName('head')[0]);
+            function getUrlParams() {
+                var e,
+                    a = /\+/g,  // Regex for replacing addition symbol with a space
+                    r = /([^&=]+)=?([^&]*)/g,
+                    d = function (s) { return decodeURIComponent(s.replace(a, " ")); },
+                    q = window.location.search.substring(1),
+                    urlParams = {};
 
-                style.rel = 'stylesheet';
-                style.href = url;
-                style.type = 'text/css';
+                while (e = r.exec(q))
+                    urlParams[d(e[1])] = d(e[2]);
 
-                if (documentHead) {
-                    documentHead.appendChild(style);
-                    return true;
-                }
+                return urlParams;
+            }
 
-                return false;
-            };
+            function encodeUrlParam(str) {
+                return str.replace(/&/g, '&amp;')
+                        .replace(/"/g, '&quot;')
+                        .replace(/'/g, '&#39;')
+                        .replace(/</g, '&lt;')
+                        .replace(/>/g, '&gt;');
+            }
 
-            injectStyleElement((window.devicePixelRatio > 1)
-                ? 'resources/css/application-retina.css'
-                : 'resources/css/application-normal.css'
-            );
+            var params = getUrlParams(),
+                lang = (params["lang"] || 'en').split("-")[0],
+                customer = params["customer"] ? ('<div class="loader-page-text-customer">' + encodeUrlParam(params["customer"]) + '</div>') : '',
+                margin = (customer !== '') ? 50 : 20,
+                loading = 'Loading...',
+                logo = params["logo"] ? ((params["logo"] !== 'none') ? ('<img src="' + encodeUrlParam(params["logo"]) + '" class="loader-logo" />') : '') : null;
+
+                window.frameEditorId = params["frameEditorId"];
+
+            if ( lang == 'de')      loading = 'Ladevorgang...';
+            else if ( lang == 'es') loading = 'Cargando...';
+            else if ( lang == 'fr') loading = 'Chargement en cours...';
+            else if ( lang == 'it') loading = 'Caricamento in corso...';
+            else if ( lang == 'pt') loading = 'Carregando...';
+            else if ( lang == 'ru') loading = 'Загрузка...';
+            else if ( lang == 'sl') loading = 'Nalaganje...';
+            else if ( lang == 'tr') loading = 'Yükleniyor...';
+
+            document.write(
+                '<div id="loading-mask" class="loadmask">' +
+                    '<div class="loader-page" style="margin-bottom: ' + margin + 'px;' + ((logo!==null) ? 'height: auto;' : '') + '">' +
+                        ((logo!==null) ? logo :
+                        '<div class="loader-page-romb">' +
+                            '<div class="romb" id="blue"></div>' +
+                            '<div class="romb" id="green"></div>' +
+                            '<div class="romb" id="red"></div>' +
+                        '</div>') +
+                    '</div>' +
+                    '<div class="loader-page-text">' +  customer +
+                    '<div class="loader-page-text-loading">' + loading + '</div>' +
+                    '</div>' +
+                '</div>');
         </script>
 
-        <script type="text/javascript" src="../../common/Analytics.js"></script>
-        <script type="text/javascript" src="../../common/Gateway.js"></script>
-        <script type="text/javascript" src="../../common/mobile/loader.js"></script>
-        <script type="text/javascript" src="app.js"></script>
-        <script type="text/javascript" src="../../common/locale.js"></script>
+        <div id="viewport"></div>
+
+        <script type="text/javascript" src="../../../vendor/jquery/jquery.min.js"></script>
+        <script type="text/javascript" src="../../../vendor/xregexp/xregexp-all-min.js"></script>
 
         <script type="text/javascript" src="../sdk_dev_scripts.js"></script>
         <script>
@@ -226,69 +250,8 @@
                 document.write('<script type="text/javascript" src="' + item + '"><\/script>');
             });
         </script>
-    </head>
-    <body>
-        <script type="text/javascript">
-            if (!(Ext.browser.is.WebKit && (Ext.os.is.iOS || Ext.os.is.Android || Ext.os.is.Desktop))) {
-                document.write(
-                    '<div id="unsuported-view-id" class="unsuported-view"></div>'
-                );
-            } else {
-                function getUrlParams() {
-                    var e,
-                        a = /\+/g,  // Regex for replacing addition symbol with a space
-                        r = /([^&=]+)=?([^&]*)/g,
-                        d = function (s) { return decodeURIComponent(s.replace(a, " ")); },
-                        q = window.location.search.substring(1),
-                        urlParams = {};
+        <!-- application -->
+        <script data-main="app-dev" src="../../../vendor/requirejs/require.js"></script>
 
-                    while (e = r.exec(q))
-                        urlParams[d(e[1])] = d(e[2]);
-
-                    return urlParams;
-                }
-
-                function encodeUrlParam(str) {
-                    return str.replace(/&/g, '&amp;')
-                            .replace(/"/g, '&quot;')
-                            .replace(/'/g, '&#39;')
-                            .replace(/</g, '&lt;')
-                            .replace(/>/g, '&gt;');
-                }
-
-                var params = getUrlParams(),
-                    lang = (params["lang"] || 'en').split("-")[0],
-                    customer = params["customer"] ? ('<div class="loader-page-text-customer">' + encodeUrlParam(params["customer"]) + '</div>') : '',
-                    margin = (customer !== '') ? 50 : 20,
-                    loading = 'Loading...',
-                    logo = params["logo"] ? ((params["logo"] !== 'none') ? ('<img src="' + encodeUrlParam(params["logo"]) + '" class="loader-logo" />') : '') : null;
-
-                window.frameEditorId = params["frameEditorId"];
-
-                if ( lang == 'de')      loading = 'Ladevorgang...';
-                else if ( lang == 'es') loading = 'Cargando...';
-                else if ( lang == 'fr') loading = 'Chargement en cours...';
-                else if ( lang == 'it') loading = 'Caricamento in corso...';
-                else if ( lang == 'pt') loading = 'Carregando...';
-                else if ( lang == 'ru') loading = 'Загрузка...';
-                else if ( lang == 'sl') loading = 'Nalaganje...';
-                else if ( lang == 'tr') loading = 'Yükleniyor...';
-
-                document.write(
-                    '<div id="loading-mask" class="loadmask">' +
-                            '<div class="loader-page" style="margin-bottom: ' + margin + 'px;' + ((logo!==null) ? 'height: auto;' : '') + '">' +
-                                ((logo!==null) ? logo :
-                                '<div class="loader-page-romb">' +
-                                    '<div class="romb" id="blue"></div>' +
-                                    '<div class="romb" id="green"></div>' +
-                                    '<div class="romb" id="red"></div>' +
-                                '</div>') +
-                            '</div>' +
-                            '<div class="loader-page-text">' +  customer +
-                            '<div class="loader-page-text-loading">' + loading + '</div>' +
-                        '</div>' +
-                    '</div>');
-            }
-        </script>
     </body>
 </html>

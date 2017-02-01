@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2016
+ * (c) Copyright Ascensio System Limited 2010-2017
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -29,353 +29,1399 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
-Ext.define('SSE.controller.Main', {
-    extend: 'Ext.app.Controller',
-    editMode: false,
+ */
 
-    requires: [
-        'Ext.Anim',
-        'Ext.MessageBox',
-        'SSE.controller.ApiEvents',
-        'SSE.view.OpenCsvPanel'
-    ],
+/**
+ *  Main.js
+ *  Spreadsheet Editor
+ *
+ *  Created by Maxim Kadushkin on 11/15/16
+ *  Copyright (c) 2016 Ascensio System SIA. All rights reserved.
+ *
+ */
 
-    config: {
-        refs: {
-            mainView: 'semainview'
-        }
-    },
+define([
+    'core',
+    'jquery',
+    'underscore',
+    'backbone',
+    'irregularstack',
+    'common/main/lib/util/LocalStorage'
+    ,'common/main/lib/util/LanguageInfo'
+], function (core, $, _, Backbone) {
+    'use strict';
 
-    launch: function() {
-        if (!this._isSupport()){
-            Common.Gateway.reportError(undefined, this.unsupportedBrowserErrorText);
-            return;
-        }
+    SSE.Controllers.Main = Backbone.Controller.extend(_.extend((function() {
+        var ApplyEditRights = -255;
+        var LoadingDocument = -256;
 
-        // Initialize descendants
+        Common.localStorage.setId('table');
+        Common.localStorage.setKeysFilter('sse-,asc.table');
+        Common.localStorage.sync();
 
-        this.initControl();
+        return {
+            models: [],
+            collections: [],
+            views: [],
 
-        // Initialize analytics
+            initialize: function() {
+                //
+            },
 
-//        Common.component.Analytics.initialize('UA-12442749-13', 'Spreadsheet Mobile');
+            onLaunch: function() {
+                var me = this;
 
-        var app = this.getApplication();
-
-        // Initialize api
-        this.api = new Asc.spreadsheet_api({
-            'id-view'  : 'id-sdkeditor',
-            'mobile'   : true
-        });
-
-        this.api.asc_registerCallback('asc_onAdvancedOptions',      Ext.bind(this.onAdvancedOptions, this));
-        this.api.asc_registerCallback('asc_onOpenDocumentProgress', Ext.bind(this.onOpenDocumentProgress, this));
-        this.api.asc_registerCallback('asc_onEndAction',            Ext.bind(this.onLongActionEnd, this));
-        this.api.asc_registerCallback('asc_onError',                Ext.bind(this.onError, this));
-        this.api.asc_registerCallback('asc_onSaveUrl',              Ext.bind(this.onSaveUrl, this));
-        this.api.asc_registerCallback('asc_onGetEditorPermissions', Ext.bind(this.onEditorPermissions, this));
-        this.api.asc_registerCallback('asc_onDownloadUrl',          Ext.bind(this.onDownloadUrl, this));
-
-        // Initialize descendants
-        Ext.each(app.getControllers(), function(controllerName){
-            var controller = app.getController(controllerName);
-            controller && Ext.isFunction(controller.setApi) && controller.setApi(this.api);
-        }, this);
-
-        this.initApi();
-
-        // Initialize api gateway
-        this.editorConfig = {};
-        Common.Gateway.on('init', Ext.bind(this.loadConfig, this));
-        Common.Gateway.on('opendocument', Ext.bind(this.loadDocument, this));
-        Common.Gateway.on('showmessage', Ext.bind(this.onExternalMessage, this));
-        Common.Gateway.on('processsaveresult', Ext.bind(this.onProcessSaveResult, this));
-        Common.Gateway.on('downloadas',        Ext.bind(this.onDownloadAs, this));
-        Common.Gateway.ready();
-    },
-
-    initControl: function() {
-    },
-
-    initApi: function() {
-    },
-
-    loadConfig: function(data) {
-        this.editorConfig = Ext.merge(this.editorConfig, data.config);
-        this.editorConfig.user = this._fillUserInfo(this.editorConfig.user, this.editorConfig.lang, this.textAnonymous);
-    },
-
-    loadDocument: function(data) {
-        if (data.doc) {
-            this.permissions = data.doc.permissions;
-
-            var _user = new Asc.asc_CUserInfo();
-            _user.put_Id(this.editorConfig.user.id);
-            _user.put_FullName(this.editorConfig.user.fullname);
-
-            docInfo = new Asc.asc_CDocInfo();
-            docInfo.put_Id(data.doc.key);
-            docInfo.put_Url(data.doc.url);
-            docInfo.put_Title(data.doc.title);
-            docInfo.put_Format(data.doc.fileType);
-            docInfo.put_VKey(data.doc.vkey);
-            docInfo.put_Options(data.doc.options);
-            docInfo.put_UserInfo(_user);
-
-            this.api.asc_setDocInfo(docInfo);
-            this.api.asc_getEditorPermissions(this.editorConfig.licenseUrl, this.editorConfig.customerId);
-
-            Common.component.Analytics.trackEvent('Load', 'Start');
-        }
-    },
-
-    onEditorPermissions: function(params) {
-        var modeEdit = /*this.permissions.edit === true && this.editorConfig.mode !== 'view'*/false;
-        this.api.asc_setViewMode(!modeEdit);
-        this.api.asc_LoadDocument();
-
-        var profileName = this.getApplication().getCurrentProfile().getName();
-//            this.getApplication().getController(profileName + '.Main').setDocumentName(data.doc.title || 'Unnamed Spreadsheet');
-        this.getApplication().getController(profileName + '.Main').setMode(modeEdit);
-
-    },
-
-    onError: function(id, level) {
-        this._hideLoadSplash();
-
-        var config = {
-            closable: false
-        };
-
-        switch (id)
-        {
-            case Asc.c_oAscError.ID.Unknown:
-                config.message = this.unknownErrorText;
-                break;
-
-            case Asc.c_oAscError.ID.ConvertationTimeout:
-                config.message = this.convertationTimeoutText;
-                break;
-
-            case Asc.c_oAscError.ID.ConvertationError:
-                config.message = this.convertationErrorText;
-                break;
-
-            case Asc.c_oAscError.ID.DownloadError:
-                config.message = this.downloadErrorText;
-                break;
-
-            case Asc.c_oAscError.ID.UplImageSize:
-                config.message = this.uploadImageSizeMessage;
-                break;
-
-            case Asc.c_oAscError.ID.UplImageExt:
-                config.message = this.uploadImageExtMessage;
-                break;
-
-            case Asc.c_oAscError.ID.UplImageFileCount:
-                config.message = this.uploadImageFileCountMessage;
-                break;
-
-            case Asc.c_oAscError.ID.VKeyEncrypt:
-                config.msg = this.errorKeyEncrypt;
-                break;
-
-            case Asc.c_oAscError.ID.KeyExpire:
-                config.msg = this.errorKeyExpire;
-                break;
-
-            case Asc.c_oAscError.ID.UserCountExceed:
-                config.msg = this.errorUsersExceed;
-                break;
-
-            default:
-                config.message = this.errorDefaultMessage.replace('%1', id);
-                break;
-        }
-
-
-
-        if (level == Asc.c_oAscError.Level.Critical) {
-
-            // report only critical errors
-            Common.Gateway.reportError(id, config.message);
-
-            config.title = this.criticalErrorTitle;
-            config.message += '<br/>' + this.criticalErrorExtText;
-            config.buttons = Ext.Msg.OK;
-            config.fn = function(btn) {
-                if (btn == 'ok') {
-                    window.location.reload();
-                }
-            }
-        }
-        else {
-            config.title = this.notcriticalErrorTitle;
-            config.buttons = Ext.Msg.OK;
-            config.fn = Ext.emptyFn;
-        }
-
-        Ext.Msg.show(config);
-    },
-
-    onSaveUrl: function(url) {
-        Common.Gateway.save(url);
-    },
-
-    onDownloadUrl: function(url) {
-        Common.Gateway.downloadAs(url);
-    },
-    
-    onExternalMessage: function(msg) {
-        if (msg) {
-            this._hideLoadSplash();
-            Ext.Msg.show({
-                title: msg.title,
-                msg: '<br/>' + msg.msg,
-                icon: Ext.Msg[msg.severity.toUpperCase()],
-                buttons: Ext.Msg.OK
-            });
-
-            Common.component.Analytics.trackEvent('External Error', msg.title);
-        }
-    },
-
-    onAdvancedOptions: function(advOptions) {
-        if (advOptions.asc_getOptionId() == Asc.c_oAscAdvancedOptionsID['CSV']){
-            var preloader = Ext.get('loading-mask'),
-                me = this;
-
-            Ext.Anim.run(preloader, 'slide', {
-                out         : true,
-                direction   : 'up',
-                duration    : 250,
-                after       : function(){
-                    preloader.hide();
-                }
-            });
-
-            var viewAdvOptionsCsv = Ext.Viewport.add({
-                xtype   : 'seopencsvpanel',
-                left    : 0,
-                top     : 0,
-                width   : '100%',
-                height  : '100%'
-
-            });
-
-            Ext.Anim.run(viewAdvOptionsCsv, 'slide', {
-                out         : false,
-                direction   : 'up',
-                duration    : 1000
-            });
-
-            viewAdvOptionsCsv.on('close', Ext.bind(function(panel, result){
-                preloader.show();
-
-                Ext.Anim.run(preloader, 'slide', {
-                    out         : false,
-                    direction   : 'down',
-                    duration    : 1000
+                me.stackLongActions = new Common.IrregularStack({
+                    strongCompare   : function(obj1, obj2){return obj1.id === obj2.id && obj1.type === obj2.type;},
+                    weakCompare     : function(obj1, obj2){return obj1.type === obj2.type;}
                 });
 
-                Ext.Anim.run(viewAdvOptionsCsv, 'slide', {
-                    out         : true,
-                    direction   : 'down',
-                    duration    : 1000,
-                    after       : function(){
-                        Ext.Viewport.remove(viewAdvOptionsCsv);
-                        if (me.api) {
-                            me.api.asc_setAdvancedOptions(Asc.c_oAscAdvancedOptionsID['CSV'], new Asc.asc_CCSVAdvancedOptions(result.encoding, result.delimiter));
+                this._state = {
+                    isDisconnected      : false,
+                    usersCount          : 1,
+                    fastCoauth          : true,
+                    startModifyDocument : true,
+                    lostEditingRights   : false,
+                    licenseWarning      : false
+                };
+
+                // Initialize viewport
+
+//                if (!Common.Utils.isBrowserSupported()){
+//                    Common.Utils.showBrowserRestriction();
+//                    Common.Gateway.reportError(undefined, this.unsupportedBrowserErrorText);
+//                    return;
+//                }
+
+                // Initialize api
+
+                // window["flat_desine"] = true;
+
+                me.api = new Asc.spreadsheet_api({
+                    'id-view'  : 'editor_sdk',
+                    'id-input' : 'ce-cell-content'
+                    ,'mobile'  : true
+                });
+
+                // Localization uiApp params
+                uiApp.params.modalButtonOk = me.textOK;
+                uiApp.params.modalButtonCancel = me.textCancel;
+                uiApp.params.modalPreloaderTitle = me.textPreloader;
+                uiApp.params.modalUsernamePlaceholder = me.textUsername;
+                uiApp.params.modalPasswordPlaceholder = me.textPassword;
+                uiApp.params.smartSelectBackText = me.textBack;
+                uiApp.params.smartSelectPopupCloseText = me.textClose;
+                uiApp.params.smartSelectPickerCloseText = me.textDone;
+                uiApp.params.notificationCloseButtonText = me.textClose;
+
+                if (me.api){
+                    var value = Common.localStorage.getItem("sse-settings-fontrender");
+                    if (value===null) value = window.devicePixelRatio > 1 ? '1' : '3';
+                    me.api.asc_setFontRenderingMode(parseInt(value));
+
+                    Common.Utils.Metric.setCurrentMetric(1); //pt
+
+                    me.api.asc_registerCallback('asc_onError',                      _.bind(me.onError, me));
+                    me.api.asc_registerCallback('asc_onOpenDocumentProgress',       _.bind(me.onOpenDocument, me));
+                    me.api.asc_registerCallback('asc_onAdvancedOptions',            _.bind(me.onAdvancedOptions, me));
+                    me.api.asc_registerCallback('asc_onDocumentUpdateVersion',      _.bind(me.onUpdateVersion, me));
+                    me.api.asc_registerCallback('asc_onPrintUrl',                   _.bind(me.onPrintUrl, me));
+                    me.api.asc_registerCallback('asc_onDocumentName',               _.bind(me.onDocumentName, me));
+                    me.api.asc_registerCallback('asc_onEndAction',                  _.bind(me.onLongActionEnd, me));
+/**/
+                    // this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onCoAuthoringDisconnect, this));
+                    // this.api.asc_registerCallback('asc_onPrintUrl',              _.bind(this.onPrintUrl, this));
+                    // this.api.asc_registerCallback('asc_onMeta',                  _.bind(this.onMeta, this));
+/**/
+                    Common.NotificationCenter.on('api:disconnect',                  _.bind(me.onCoAuthoringDisconnect, me));
+                    Common.NotificationCenter.on('goback',                          _.bind(me.goBack, me));
+
+                    // Initialize descendants
+                    _.each(me.getApplication().controllers, function(controller) {
+                        if (controller && _.isFunction(controller.setApi)) {
+                            controller.setApi(me.api);
                         }
+                    });
+
+                    // Initialize api gateway
+                    me.editorConfig = {};
+                    me.appOptions   = {};
+                    me.plugins      = undefined;
+
+                    Common.Gateway.on('init',           _.bind(me.loadConfig, me));
+                    Common.Gateway.on('showmessage',    _.bind(me.onExternalMessage, me));
+                    Common.Gateway.on('opendocument',   _.bind(me.loadDocument, me));
+                    Common.Gateway.ready();
+                }
+            },
+
+            loadConfig: function(data) {
+                var me = this;
+
+                me.editorConfig = $.extend(me.editorConfig, data.config);
+
+                me.editorConfig.user          =
+                me.appOptions.user            = Common.Utils.fillUserInfo(me.editorConfig.user, me.editorConfig.lang, me.textAnonymous);
+                me.appOptions.nativeApp       = me.editorConfig.nativeApp === true;
+                me.appOptions.isDesktopApp    = me.editorConfig.targetApp == 'desktop';
+                me.appOptions.canCreateNew    = !_.isEmpty(me.editorConfig.createUrl) && !me.appOptions.isDesktopApp;
+                me.appOptions.canOpenRecent   = me.editorConfig.nativeApp !== true && me.editorConfig.recent !== undefined && !me.appOptions.isDesktopApp;
+                me.appOptions.templates       = me.editorConfig.templates;
+                me.appOptions.recent          = me.editorConfig.recent;
+                me.appOptions.createUrl       = me.editorConfig.createUrl;
+                me.appOptions.lang            = me.editorConfig.lang;
+                me.appOptions.location        = (typeof (me.editorConfig.location) == 'string') ? me.editorConfig.location.toLowerCase() : '';
+                me.appOptions.sharingSettingsUrl = me.editorConfig.sharingSettingsUrl;
+                me.appOptions.fileChoiceUrl   = me.editorConfig.fileChoiceUrl;
+                me.appOptions.mergeFolderUrl  = me.editorConfig.mergeFolderUrl;
+                me.appOptions.canAnalytics    = false;
+                me.appOptions.customization   = me.editorConfig.customization;
+                me.appOptions.canBackToFolder = (me.editorConfig.canBackToFolder!==false) && (typeof (me.editorConfig.customization) == 'object')
+                    && (typeof (me.editorConfig.customization.goback) == 'object') && !_.isEmpty(me.editorConfig.customization.goback.url);
+                me.appOptions.canBack         = me.editorConfig.nativeApp !== true && me.appOptions.canBackToFolder === true;
+                me.appOptions.canPlugins      = false;
+                me.plugins                    = me.editorConfig.plugins;
+
+                if (me.editorConfig.lang)
+                    me.api.asc_setLocale((me.editorConfig.lang) ? parseInt(Common.util.LanguageInfo.getLocalLanguageCode(me.editorConfig.lang)) : 0x0409);
+
+               if (me.appOptions.location == 'us' || me.appOptions.location == 'ca')
+                   Common.Utils.Metric.setDefaultMetric(Common.Utils.Metric.c_MetricUnits.inch);
+            },
+
+            loadDocument: function(data) {
+                this.appOptions.spreadsheet = data.doc;
+                this.permissions = {};
+                var docInfo = {};
+
+                if ( data.doc ) {
+                    this.permissions = $.extend(this.permissions, data.doc.permissions);
+
+                    var _user = new Asc.asc_CUserInfo();
+                    _user.put_Id(this.appOptions.user.id);
+                    _user.put_FullName(this.appOptions.user.fullname);
+
+                    docInfo = new Asc.asc_CDocInfo();
+                    docInfo.put_Id(data.doc.key);
+                    docInfo.put_Url(data.doc.url);
+                    docInfo.put_Title(data.doc.title);
+                    docInfo.put_Format(data.doc.fileType);
+                    docInfo.put_VKey(data.doc.vkey);
+                    docInfo.put_Options(data.doc.options);
+                    docInfo.put_UserInfo(_user);
+                    docInfo.put_CallbackUrl(this.editorConfig.callbackUrl);
+                    docInfo.put_Token(data.doc.token);
+                }
+
+                this.api.asc_registerCallback('asc_onGetEditorPermissions', _.bind(this.onEditorPermissions, this));
+                this.api.asc_setDocInfo(docInfo);
+                this.api.asc_getEditorPermissions(this.editorConfig.licenseUrl, this.editorConfig.customerId);
+
+                Common.SharedSettings.set('document', data.doc);
+
+
+                if (data.doc) {
+                    SSE.getController('Toolbar').setDocumentTitle(data.doc.title);
+                }
+            },
+
+            setMode: function(mode){
+                var me = this;
+
+                Common.SharedSettings.set('mode', mode);
+
+                if ( me.api ) {
+                    me.api.asc_enableKeyEvents(mode == 'edit');
+                    me.api.asc_setViewMode(mode != 'edit');
+                }
+            },
+
+            onProcessSaveResult: function(data) {
+                this.api.asc_OnSaveEnd(data.result);
+
+                if (data && data.result === false) {
+                    uiApp.alert(
+                        _.isEmpty(data.message) ? this.errorProcessSaveResult : data.message,
+                        this.criticalErrorTitle
+                    );
+                }
+            },
+
+            onProcessRightsChange: function(data) {
+                if (data && data.enabled === false) {
+                    var me = this,
+                        old_rights = this._state.lostEditingRights;
+                    this._state.lostEditingRights = !this._state.lostEditingRights;
+                    this.api.asc_coAuthoringDisconnect();
+
+                    if (!old_rights) {
+                        uiApp.alert(
+                            _.isEmpty(data.message) ? this.warnProcessRightsChange : data.message,
+                            this.notcriticalErrorTitle,
+                            function () {
+                                me._state.lostEditingRights = false;
+                            }
+                        );
+                    }
+                }
+            },
+
+            onDownloadAs: function() {
+                this.api.asc_DownloadAs(Asc.c_oAscFileType.XLSX, true);
+            },
+
+            goBack: function(blank) {
+                var href = this.appOptions.customization.goback.url;
+                if (blank) {
+                    window.open(href, "_blank");
+                } else {
+                    parent.location.href = href;
+                }
+            },
+
+            onLongActionBegin: function(type, id) {
+                var action = {id: id, type: type};
+                this.stackLongActions.push(action);
+                this.setLongActionView(action);
+            },
+
+            onLongActionEnd: function(type, id) {
+                var me = this,
+                    action = {id: id, type: type};
+
+                me.stackLongActions.pop(action);
+
+                me.updateWindowTitle(true);
+
+                if (type === Asc.c_oAscAsyncActionType.BlockInteraction && id == Asc.c_oAscAsyncAction.Open) {
+                    Common.Gateway.internalMessage('documentReady', {});
+                    Common.NotificationCenter.trigger('document:ready');
+                    me.onDocumentContentReady();
+                }
+
+                action = me.stackLongActions.get({type: Asc.c_oAscAsyncActionType.Information});
+
+                if (action) {
+                    me.setLongActionView(action)
+                } else {
+                    if (me._state.fastCoauth && me._state.usersCount>1 && id==Asc.c_oAscAsyncAction['Save']) {
+                        var me = me;
+                        if (me._state.timerSave===undefined)
+                            me._state.timerSave = setInterval(function(){
+                                if ((new Date()) - me._state.isSaving>500) {
+                                    clearInterval(me._state.timerSave);
+                                    // console.debug('End long action');
+                                    me._state.timerSave = undefined;
+                                }
+                            }, 500);
+                    } else {
+                        // console.debug('End long action');
+                    }
+                }
+
+                action = me.stackLongActions.get({type: Asc.c_oAscAsyncActionType.BlockInteraction});
+
+                if (action) {
+                    me.setLongActionView(action)
+                } else {
+                    _.delay(function () {
+                        $(me.loadMask).hasClass('modal-in') && uiApp.closeModal(me.loadMask);
+                    }, 300);
+                }
+
+                if (id==Asc.c_oAscAsyncAction['Save'] && (!me._state.fastCoauth || me._state.usersCount<2)) {
+                    this.synchronizeChanges();
+                }
+            },
+
+            setLongActionView: function(action) {
+                var me = this,
+                    title = '',
+                    text = '';
+
+                switch (action.id) {
+                    case Asc.c_oAscAsyncAction['Open']:
+                        title   = me.openTitleText;
+                        text    = me.openTextText;
+                        break;
+
+                    case Asc.c_oAscAsyncAction['Save']:
+                        me._state.isSaving = new Date();
+                        title   = me.saveTitleText;
+                        text    = me.saveTextText;
+                        break;
+
+                    case Asc.c_oAscAsyncAction['LoadDocumentFonts']:
+                        title   = me.loadFontsTitleText;
+                        text    = me.loadFontsTextText;
+                        break;
+
+                    case Asc.c_oAscAsyncAction['LoadDocumentImages']:
+                        title   = me.loadImagesTitleText;
+                        text    = me.loadImagesTextText;
+                        break;
+
+                    case Asc.c_oAscAsyncAction['LoadFont']:
+                        title   = me.loadFontTitleText;
+                        text    = me.loadFontTextText;
+                        break;
+
+                    case Asc.c_oAscAsyncAction['LoadImage']:
+                        title   = me.loadImageTitleText;
+                        text    = me.loadImageTextText;
+                        break;
+
+                    case Asc.c_oAscAsyncAction['DownloadAs']:
+                        title   = me.downloadTitleText;
+                        text    = me.downloadTextText;
+                        break;
+
+                    case Asc.c_oAscAsyncAction['Print']:
+                        title   = me.printTitleText;
+                        text    = me.printTextText;
+                        break;
+
+                    case Asc.c_oAscAsyncAction['UploadImage']:
+                        title   = me.uploadImageTitleText;
+                        text    = me.uploadImageTextText;
+                        break;
+
+                    case Asc.c_oAscAsyncAction['ApplyChanges']:
+                        title   = me.applyChangesTitleText;
+                        text    = me.applyChangesTextText;
+                        break;
+
+                    case Asc.c_oAscAsyncAction['PrepareToSave']:
+                        title   = me.savePreparingText;
+                        text    = me.savePreparingTitle;
+                        break;
+
+                    case Asc.c_oAscAsyncAction['MailMergeLoadFile']:
+                        title   = me.mailMergeLoadFileText;
+                        text    = me.mailMergeLoadFileTitle;
+                        break;
+
+                    case Asc.c_oAscAsyncAction['DownloadMerge']:
+                        title   = me.downloadMergeTitle;
+                        text    = me.downloadMergeText;
+                        break;
+
+                    case Asc.c_oAscAsyncAction['SendMailMerge']:
+                        title   = me.sendMergeTitle;
+                        text    = me.sendMergeText;
+                        break;
+
+                    case ApplyEditRights:
+                        title   = me.txtEditingMode;
+                        text    = me.txtEditingMode;
+                        break;
+
+                    case LoadingDocument:
+                        title   = me.loadingDocumentTitleText;
+                        text    = me.loadingDocumentTextText;
+                        break;
+                }
+
+                if (action.type == Asc.c_oAscAsyncActionType.BlockInteraction) {
+                    if (me.loadMask && $(me.loadMask).hasClass('modal-in')) {
+                        $$(me.loadMask).find('.modal-title').text(title);
+                    } else {
+                        me.loadMask = uiApp.showPreloader(title);
+                    }
+                }
+                else {
+//                    me.getApplication().getController('Statusbar').setStatusCaption(text);
+                }
+            },
+
+            onApplyEditRights: function(data) {
+//                var application = this.getApplication();
+//                application.getController('Statusbar').setStatusCaption('');
+//
+//                if (data) {
+//                    if (data.allowed) {
+//                        data.requestrights = true;
+//                        this.appOptions.isEdit= true;
+//
+//                        this.onLongActionBegin(Asc.c_oAscAsyncActionType.BlockInteraction,ApplyEditRights);
+//
+//                        var me = this;
+//                        setTimeout(function(){
+//                            me.applyModeCommonElements();
+//                            me.applyModeEditorElements();
+//                            me.api.asc_setViewMode(false);
+//
+//                            var timer_rp = setInterval(function(){
+//                                clearInterval(timer_rp);
+//
+//                                var toolbarController           = application.getController('Toolbar'),
+//                                    rightmenuController         = application.getController('RightMenu'),
+//                                    leftmenuController          = application.getController('LeftMenu'),
+//                                    documentHolderController    = application.getController('DocumentHolder'),
+//                                    fontsControllers            = application.getController('Common.Controllers.Fonts');
+//
+//                                leftmenuController.setMode(me.appOptions).createDelayedElements();
+//
+//                                rightmenuController.createDelayedElements();
+//
+//                                Common.NotificationCenter.trigger('layout:changed', 'main');
+//
+//                                var timer_sl = setInterval(function(){
+//                                    if (window.styles_loaded) {
+//                                        clearInterval(timer_sl);
+//
+//                                        documentHolderController.getView('DocumentHolder').createDelayedElements();
+//                                        documentHolderController.getView('DocumentHolder').changePosition();
+//                                        me.loadLanguages();
+//
+//                                        var shapes = me.api.asc_getPropertyEditorShapes();
+//                                        if (shapes)
+//                                            me.fillAutoShapes(shapes[0], shapes[1]);
+//
+//                                        me.fillTextArt(me.api.asc_getTextArtPreviews());
+//                                        me.updateThemeColors();
+//                                        toolbarController.activateControls();
+//
+//                                        me.api.UpdateInterfaceState();
+//                                    }
+//                                }, 50);
+//                            },50);
+//                        }, 100);
+//                    } else {
+//                        Common.UI.info({
+//                            title: this.requestEditFailedTitleText,
+//                            msg: data.message || this.requestEditFailedMessageText
+//                        });
+//                    }
+//                }
+            },
+
+            onDocumentContentReady: function() {
+                if (this._isDocReady)
+                    return;
+
+                var me = this,
+                    value;
+
+                me._isDocReady = true;
+
+                var worksheetsCount = this.api.asc_getWorksheetsCount();
+                var i = me.api.asc_getActiveWorksheetIndex();
+                me.api.asc_showWorksheet(i);
+                me.api.asc_Resize();
+                // me.api.asc_cleanSelection();
+
+                me.hidePreloader();
+                me.onLongActionEnd(Asc.c_oAscAsyncActionType.BlockInteraction, LoadingDocument);
+
+                value = (this.appOptions.isEditMailMerge || this.appOptions.isEditDiagram) ? 100 : Common.localStorage.getItem("sse-settings-zoom");
+                var zf = (value!==null) ? parseInt(value)/100 : (this.appOptions.customization && this.appOptions.customization.zoom ? parseInt(this.appOptions.customization.zoom)/100 : 1);
+                this.api.asc_setZoom(zf>0 ? zf : 1);
+
+                /** coauthoring begin **/
+                value = Common.localStorage.getItem("sse-settings-livecomment");
+                this.isLiveCommenting = !(value!==null && parseInt(value) == 0);
+                this.isLiveCommenting?this.api.asc_showComments():this.api.asc_hideComments();
+
+                if (this.appOptions.isEdit && this.appOptions.canLicense && !this.appOptions.isOffline && this.appOptions.canCoAuthoring) {
+                    value = Common.localStorage.getItem("sse-settings-coauthmode");
+                    if (value===null && Common.localStorage.getItem("sse-settings-autosave")===null &&
+                        this.appOptions.customization && this.appOptions.customization.autosave===false) {
+                        value = 0; // use customization.autosave only when sse-settings-coauthmode and sse-settings-autosave are null
+                    }
+                    this._state.fastCoauth = (value===null || parseInt(value) == 1);
+                } else
+                    this._state.fastCoauth = false;
+                this.api.asc_SetFastCollaborative(this._state.fastCoauth);
+                /** coauthoring end **/
+
+                me.api.asc_registerCallback('asc_onStartAction',            _.bind(me.onLongActionBegin, me));
+                me.api.asc_registerCallback('asc_onEndAction',              _.bind(me.onLongActionEnd, me));
+                me.api.asc_registerCallback('asc_onCoAuthoringDisconnect',  _.bind(me.onCoAuthoringDisconnect, me));
+                me.api.asc_registerCallback('asc_onPrint',                  _.bind(me.onPrint, me));
+
+                me.updateWindowTitle(true);
+
+                if (me.appOptions.isEdit) {
+                    if (me.appOptions.canAutosave) {
+                        value = Common.localStorage.getItem("sse-settings-autosave");
+                        if (value===null && me.appOptions.customization && me.appOptions.customization.autosave===false) {
+                            value = 0;
+                        }
+                        // value = (!me._state.fastCoauth && value!==null) ? parseInt(value) : (me.appOptions.canCoAuthoring ? 1 : 0);
+                        value = 1; // FORCE AUTOSAVE
+                    } else {
+                        value = 0;
+                    }
+                    me.api.asc_setAutoSaveGap(value);
+
+                    if (me.needToUpdateVersion) {
+                        Common.NotificationCenter.trigger('api:disconnect');
+                    }
+                }
+
+                if (me.appOptions.canAnalytics && false) {
+                    Common.component.Analytics.initialize('UA-12442749-13', 'Spreadsheet Editor');
+                }
+
+                Common.Gateway.on('processsaveresult',      _.bind(me.onProcessSaveResult, me));
+                Common.Gateway.on('processrightschange',    _.bind(me.onProcessRightsChange, me));
+                Common.Gateway.on('downloadas',             _.bind(me.onDownloadAs, me));
+
+                Common.Gateway.sendInfo({
+                    mode: me.appOptions.isEdit ? 'edit' : 'view'
+                });
+
+
+                if (me._state.licenseWarning) {
+                    value = Common.localStorage.getItem("sse-license-warning");
+                    value = (value!==null) ? parseInt(value) : 0;
+                    var now = (new Date).getTime();
+
+                    if (now - value > 86400000) {
+                        Common.localStorage.setItem("sse-license-warning", now);
+                        uiApp.modal({
+                            title: me.textNoLicenseTitle,
+                            text : me.warnNoLicense,
+                            buttons: [
+                                {
+                                    text: me.textBuyNow,
+                                    bold: true,
+                                    onClick: function() {
+                                        window.open('http://www.onlyoffice.com/enterprise-edition.aspx', "_blank");
+                                    }
+                                },
+                                {
+                                    text: me.textContactUs,
+                                    onClick: function() {
+                                        window.open('mailto:sales@onlyoffice.com', "_blank");
+                                    }
+                                }
+                            ],
+                        });
+                    }
+                }
+
+                $('.view-main').on('click', function (e) {
+                    uiApp.closeModal('.document-menu.modal-in');
+                })
+            },
+
+            onOpenDocument: function(progress) {
+                if (this.loadMask) {
+                    var $title = $$(this.loadMask).find('.modal-title'),
+                        proc = (progress.asc_getCurrentFont() + progress.asc_getCurrentImage())/(progress.asc_getFontsCount() + progress.asc_getImagesCount());
+
+                    $title.text(this.textLoadingDocument + ': ' + Math.min(Math.round(proc * 100), 100) + '%');
+                }
+            },
+
+            onEditorPermissions: function(params) {
+                var me = this,
+                    licType = params ? params.asc_getLicenseType() : Asc.c_oLicenseResult.Error;
+
+                if (params && !(me.appOptions.isEditDiagram || me.appOptions.isEditMailMerge)) {
+                    if (Asc.c_oLicenseResult.Expired === licType ||
+                        Asc.c_oLicenseResult.Error === licType ||
+                        Asc.c_oLicenseResult.ExpiredTrial === licType) {
+                        uiApp.modal({
+                            title   : me.titleLicenseExp,
+                            text    : me.warnLicenseExp
+                        });
+                        return;
+                    }
+
+                    if (params.asc_getRights() !== Asc.c_oRights.Edit) {
+                        me.permissions.edit = false;
+                    }
+
+                    me.appOptions.canAutosave = true;
+                    me.appOptions.canAnalytics = params.asc_getIsAnalyticsEnable();
+
+                    me.appOptions.isOffline      = me.api.asc_isOffline();
+                    me.appOptions.canLicense     = (licType === Asc.c_oLicenseResult.Success);
+                    me.appOptions.isLightVersion = params.asc_getIsLight();
+                    /** coauthoring begin **/
+                    me.appOptions.canCoAuthoring = !me.appOptions.isLightVersion;
+                    /** coauthoring end **/
+                    me.appOptions.canComments    = me.appOptions.canLicense && !((typeof (me.editorConfig.customization) == 'object') && me.editorConfig.customization.comments===false);
+                    me.appOptions.canChat        = me.appOptions.canLicense && !me.appOptions.isOffline && !((typeof (me.editorConfig.customization) == 'object') && me.editorConfig.customization.chat===false);
+                    me.appOptions.canRename      = !!me.permissions.rename;
+
+                    me.appOptions.canBranding  = (licType!==Asc.c_oLicenseResult.Error) && (typeof me.editorConfig.customization == 'object');
+                    me.appOptions.canBrandingExt = params.asc_getCanBranding() && (typeof me.editorConfig.customization == 'object');
+                }
+
+                me.appOptions.canRequestEditRights = me.editorConfig.canRequestEditRights;
+                me.appOptions.canEdit        = me.permissions.edit !== false && // can edit
+                    (me.editorConfig.canRequestEditRights || me.editorConfig.mode !== 'view'); // if mode=="view" -> canRequestEditRights must be defined
+                me.appOptions.isEdit         = (me.appOptions.canLicense || me.appOptions.isEditDiagram || me.appOptions.isEditMailMerge) && me.permissions.edit !== false && me.editorConfig.mode !== 'view';
+                me.appOptions.canDownload    = !me.appOptions.nativeApp && (me.permissions.download !== false);
+                me.appOptions.canPrint       = (me.permissions.print !== false);
+
+                me._state.licenseWarning = !(me.appOptions.isEditDiagram || me.appOptions.isEditMailMerge) && (licType===Asc.c_oLicenseResult.Connections) && me.appOptions.canEdit && me.editorConfig.mode !== 'view';
+
+                me.applyModeCommonElements();
+                me.applyModeEditorElements();
+
+                me.api.asc_setViewMode(!me.appOptions.isEdit);
+                (me.appOptions.isEditMailMerge || me.appOptions.isEditDiagram) ? me.api.asc_LoadEmptyDocument() : me.api.asc_LoadDocument();
+
+                if (!me.appOptions.isEdit) {
+                    me.hidePreloader();
+                    me.onLongActionBegin(Asc.c_oAscAsyncActionType.BlockInteraction, LoadingDocument);
+                }
+            },
+
+            applyModeCommonElements: function() {
+                var me = this;
+
+                window.editor_elements_prepared = true;
+
+                _.each(me.getApplication().controllers, function(controller) {
+                    if (controller && _.isFunction(controller.setMode)) {
+                        controller.setMode(me.editorConfig.mode);
                     }
                 });
 
-            }, this));
-        }
-    },
+                if (me.api) {
+                    var translateChart = new Asc.asc_CChartTranslate();
+                    translateChart.asc_setTitle(me.txtDiagramTitle);
+                    translateChart.asc_setXAxis(me.txtXAxis);
+                    translateChart.asc_setYAxis(me.txtYAxis);
+                    translateChart.asc_setSeries(me.txtSeries);
+                    me.api.asc_setChartTranslate(translateChart);
 
-    onOpenDocumentProgress: function(progress) {
-        var elem = document.getElementById('loadmask-text');
-        if (elem) {
-            var proc = (progress.asc_getCurrentFont() + progress.asc_getCurrentImage())/(progress.asc_getFontsCount() + progress.asc_getImagesCount());
-            elem.innerHTML = this.textLoadingDocument + ': '+ Math.round(proc*100) + '%';
-        }
-    },
-
-    onOpenDocument: function() {
-        this._hideLoadSplash();
-        this.api.asc_Resize();
-
-        if (this.api)
-            this.api.asc_cleanSelection();
-    },
-
-    onLongActionEnd: function(type, id) {
-        if (type === Asc.c_oAscAsyncActionType['BlockInteraction']){
-            switch (id) {
-                case Asc.c_oAscAsyncAction['Open']:
-                    this.onOpenDocument();
-                    break;
-            }
-        }
-    },
-
-    onDownloadAs: function() {
-       this.api.asc_DownloadAs(Asc.c_oAscFileType.XLSX, true);
-    },
-
-    _hideLoadSplash: function(){
-        var preloader = Ext.get('loading-mask');
-        if (preloader) {
-            Ext.Anim.run(preloader, 'fade', {
-                out     : true,
-                duration: 1000,
-                after   : function(){
-                    preloader.destroy();
+                    var translateArt = new Asc.asc_TextArtTranslate();
+                    translateArt.asc_setDefaultText(me.txtArt);
+                    me.api.asc_setTextArtTranslate(translateArt);
                 }
-            });
+
+                if (!me.appOptions.isEditMailMerge && !me.appOptions.isEditDiagram) {
+                    me.api.asc_registerCallback('asc_onSendThemeColors', _.bind(me.onSendThemeColors, me));
+                }
+            },
+
+            applyModeEditorElements: function() {
+                if (this.appOptions.isEdit) {
+                    var me = this;
+
+                    var value = Common.localStorage.getItem('sse-settings-unit');
+                    Common.Utils.Metric.setCurrentMetric((value!==null) ? parseInt(value) : Common.Utils.Metric.getDefaultMetric());
+
+                    me.api.asc_registerCallback('asc_onDocumentModifiedChanged', _.bind(me.onDocumentModifiedChanged, me));
+                    me.api.asc_registerCallback('asc_onDocumentCanSaveChanged',  _.bind(me.onDocumentCanSaveChanged, me));
+                    me.api.asc_registerCallback('asc_onSaveUrl',                 _.bind(me.onSaveUrl, me));
+                    me.api.asc_registerCallback('asc_onDownloadUrl',             _.bind(me.onDownloadUrl, me));
+                    /** coauthoring begin **/
+                    me.api.asc_registerCallback('asc_onCollaborativeChanges',    _.bind(me.onCollaborativeChanges, me));
+                    me.api.asc_registerCallback('asc_OnTryUndoInFastCollaborative',_.bind(me.onTryUndoInFastCollaborative, me));
+                    me.api.asc_registerCallback('asc_onAuthParticipantsChanged', _.bind(me.onAuthParticipantsChanged, me));
+                    me.api.asc_registerCallback('asc_onParticipantsChanged',     _.bind(me.onAuthParticipantsChanged, me));
+                    /** coauthoring end **/
+                    if (me.appOptions.isEditDiagram)
+                        me.api.asc_registerCallback('asc_onSelectionChanged',        _.bind(me.onSelectionChanged, me));
+
+                    if (me.stackLongActions.exist({id: ApplyEditRights, type: Asc.c_oAscAsyncActionType.BlockInteraction})) {
+                        me.onLongActionEnd(Asc.c_oAscAsyncActionType.BlockInteraction, ApplyEditRights);
+                    } else if (!this._isDocReady) {
+                        me.hidePreloader();
+                        me.onLongActionBegin(Asc.c_oAscAsyncActionType.BlockInteraction, LoadingDocument);
+                    }
+
+                    // Message on window close
+                    window.onbeforeunload = _.bind(me.onBeforeUnload, me);
+                    window.onunload = _.bind(me.onUnload, me);
+                }
+            },
+
+            onExternalMessage: function(msg) {
+                if (msg && msg.msg) {
+                    msg.msg = (msg.msg).toString();
+                    uiApp.addNotification({
+                        title: 'ONLYOFFICE',
+                        message: [msg.msg.charAt(0).toUpperCase() + msg.msg.substring(1)]
+                    });
+
+                    Common.component.Analytics.trackEvent('External Error', msg.title);
+                }
+            },
+
+            onError: function(id, level, errData) {
+                this.hidePreloader();
+                this.onLongActionEnd(Asc.c_oAscAsyncActionType.BlockInteraction, LoadingDocument);
+
+                var config = {
+                    closable: false
+                };
+
+                switch (id) {
+                    case Asc.c_oAscError.ID.Unknown:
+                        config.msg = this.unknownErrorText;
+                        break;
+
+                    case Asc.c_oAscError.ID.ConvertationTimeout:
+                        config.msg = this.convertationTimeoutText;
+                        break;
+
+                    case Asc.c_oAscError.ID.ConvertationOpenError:
+                        config.msg = this.openErrorText;
+                        break;
+
+                    case Asc.c_oAscError.ID.ConvertationSaveError:
+                        config.msg = this.saveErrorText;
+                        break;
+
+                    case Asc.c_oAscError.ID.DownloadError:
+                        config.msg = this.downloadErrorText;
+                        break;
+
+                    case Asc.c_oAscError.ID.UplImageSize:
+                        config.msg = this.uploadImageSizeMessage;
+                        break;
+
+                    case Asc.c_oAscError.ID.UplImageExt:
+                        config.msg = this.uploadImageExtMessage;
+                        break;
+
+                    case Asc.c_oAscError.ID.UplImageFileCount:
+                        config.msg = this.uploadImageFileCountMessage;
+                        break;
+
+                    case Asc.c_oAscError.ID.PastInMergeAreaError:
+                        config.msg = this.pastInMergeAreaError;
+                        break;
+
+                    case Asc.c_oAscError.ID.FrmlWrongCountParentheses:
+                        config.msg = this.errorWrongBracketsCount;
+                        config.closable = true;
+                        break;
+
+                    case Asc.c_oAscError.ID.FrmlWrongOperator:
+                        config.msg = this.errorWrongOperator;
+                        config.closable = true;
+                        break;
+
+                    case Asc.c_oAscError.ID.FrmlWrongMaxArgument:
+                        config.msg = this.errorCountArgExceed;
+                        config.closable = true;
+                        break;
+
+                    case Asc.c_oAscError.ID.FrmlWrongCountArgument:
+                        config.msg = this.errorCountArg;
+                        config.closable = true;
+                        break;
+
+                    case Asc.c_oAscError.ID.FrmlWrongFunctionName:
+                        config.msg = this.errorFormulaName;
+                        config.closable = true;
+                        break;
+
+                    case Asc.c_oAscError.ID.FrmlAnotherParsingError:
+                        config.msg = this.errorFormulaParsing;
+                        config.closable = true;
+                        break;
+
+                    case Asc.c_oAscError.ID.FrmlWrongArgumentRange:
+                        config.msg = this.errorArgsRange;
+                        config.closable = true;
+                        break;
+
+                    case Asc.c_oAscError.ID.UnexpectedGuid:
+                        config.msg = this.errorUnexpectedGuid;
+                        break;
+
+                    case Asc.c_oAscError.ID.Database:
+                        config.msg = this.errorDatabaseConnection;
+                        break;
+
+                    case Asc.c_oAscError.ID.FileRequest:
+                        config.msg = this.errorFileRequest;
+                        break;
+
+                    case Asc.c_oAscError.ID.FileVKey:
+                        config.msg = this.errorFileVKey;
+                        break;
+
+                    case Asc.c_oAscError.ID.StockChartError:
+                        config.msg = this.errorStockChart;
+                        break;
+
+                    case Asc.c_oAscError.ID.DataRangeError:
+                        config.msg = this.errorDataRange;
+                        break;
+
+                    case Asc.c_oAscError.ID.FrmlOperandExpected:
+                        config.msg = this.errorOperandExpected;
+                        break;
+
+                    case Asc.c_oAscError.ID.VKeyEncrypt:
+                        config.msg = this.errorToken;
+                        break;
+
+                    case Asc.c_oAscError.ID.KeyExpire:
+                        config.msg = this.errorTokenExpire;
+                        break;
+
+                    case Asc.c_oAscError.ID.UserCountExceed:
+                        config.msg = this.errorUsersExceed;
+                        break;
+
+                    case Asc.c_oAscError.ID.CannotMoveRange:
+                        config.msg = this.errorMoveRange;
+                        break;
+
+                    case Asc.c_oAscError.ID.UplImageUrl:
+                        config.msg = this.errorBadImageUrl;
+                        break;
+
+                    case Asc.c_oAscError.ID.CoAuthoringDisconnect:
+                        config.msg = this.errorViewerDisconnect;
+                        break;
+
+                    case Asc.c_oAscError.ID.ConvertationPassword:
+                        config.msg = this.errorFilePassProtect;
+                        break;
+
+                    case Asc.c_oAscError.ID.AutoFilterDataRangeError:
+                        config.msg = this.errorAutoFilterDataRange;
+                        break;
+
+                    case Asc.c_oAscError.ID.AutoFilterChangeFormatTableError:
+                        config.msg = this.errorAutoFilterChangeFormatTable;
+                        break;
+
+                    case Asc.c_oAscError.ID.AutoFilterChangeError:
+                        config.msg = this.errorAutoFilterChange;
+                        break;
+
+                    case Asc.c_oAscError.ID.AutoFilterMoveToHiddenRangeError:
+                        config.msg = this.errorAutoFilterHiddenRange;
+                        break;
+
+                    case Asc.c_oAscError.ID.CannotFillRange:
+                        config.msg = this.errorFillRange;
+                        break;
+
+                    case Asc.c_oAscError.ID.UserDrop:
+                        if (this._state.lostEditingRights) {
+                            this._state.lostEditingRights = false;
+                            return;
+                        }
+                        this._state.lostEditingRights = true;
+                        config.msg = this.errorUserDrop;
+                        break;
+
+                    case Asc.c_oAscError.ID.InvalidReferenceOrName:
+                        config.msg = this.errorInvalidRef;
+                        break;
+
+                    case Asc.c_oAscError.ID.LockCreateDefName:
+                        config.msg = this.errorCreateDefName;
+                        break;
+
+                    case Asc.c_oAscError.ID.PasteMaxRangeError:
+                        config.msg = this.errorPasteMaxRange;
+                        break;
+
+                    case Asc.c_oAscError.ID.LockedAllError:
+                        config.msg = this.errorLockedAll;
+                        break;
+
+                    case Asc.c_oAscError.ID.Warning:
+                        config.msg = this.errorConnectToServer;
+                        break;
+
+                    case Asc.c_oAscError.ID.LockedWorksheetRename:
+                        config.msg = this.errorLockedWorksheetRename;
+                        break;
+
+                    case Asc.c_oAscError.ID.OpenWarning:
+                        config.msg = this.errorOpenWarning;
+                        break;
+
+                    case Asc.c_oAscError.ID.FrmlWrongReferences:
+                        config.msg = this.errorFrmlWrongReferences;
+                        break;
+
+                    case Asc.c_oAscError.ID.CopyMultiselectAreaError:
+                        config.msg = this.errorCopyMultiselectArea;
+                        break;
+
+                    case Asc.c_oAscError.ID.PrintMaxPagesCount:
+                        config.msg = this.errorPrintMaxPagesCount;
+                        break;
+
+                    case Asc.c_oAscError.ID.SessionAbsolute:
+                        config.msg = this.errorSessionAbsolute;
+                        break;
+
+                    case Asc.c_oAscError.ID.SessionIdle:
+                        config.msg = this.errorSessionIdle;
+                        break;
+
+                    case Asc.c_oAscError.ID.SessionToken:
+                        config.msg = this.errorSessionToken;
+                        break;
+
+                    case Asc.c_oAscError.ID.AccessDeny:
+                        config.msg = this.errorAccessDeny;
+                        break;
+
+                    default:
+                        config.msg = this.errorDefaultMessage.replace('%1', id);
+                        break;
+                }
+
+
+                if (level == Asc.c_oAscError.Level.Critical) {
+
+                    // report only critical errors
+                    Common.Gateway.reportError(id, config.msg);
+
+                    config.title = this.criticalErrorTitle;
+//                    config.iconCls = 'error';
+
+                    if (this.appOptions.canBackToFolder) {
+                        config.msg += '</br></br>' + this.criticalErrorExtText;
+                        config.callback = function() {
+                            Common.NotificationCenter.trigger('goback');
+                        }
+                    }
+                }
+                else {
+                    config.title    = this.notcriticalErrorTitle;
+//                    config.iconCls  = 'warn';
+//                    config.buttons  = ['ok'];
+                    config.callback = _.bind(function(btn){
+                        if (id == Asc.c_oAscError.ID.Warning && btn == 'ok' && (this.appOptions.canDownload || this.appOptions.canDownloadOrigin)) {
+                            Common.UI.Menu.Manager.hideAll();
+                            if (this.appOptions.isDesktopApp && this.appOptions.isOffline)
+                                this.api.asc_DownloadAs();
+                            else
+                                (this.appOptions.canDownload) ? this.getApplication().getController('LeftMenu').leftMenu.showMenu('file:saveas') : this.api.asc_DownloadOrigin();
+                        }
+                        this._state.lostEditingRights = false;
+                    }, this);
+                }
+
+//                Common.UI.alert(config);
+                uiApp.modal({
+                    title   : config.title,
+                    text    : config.msg,
+                    buttons: [
+                        {
+                            text: 'OK',
+                            onClick: config.callback
+                        }
+                    ]
+                });
+
+                Common.component.Analytics.trackEvent('Internal Error', id.toString());
+            },
+
+            onCoAuthoringDisconnect: function() {
+                this._state.isDisconnected = true;
+            },
+
+            updateWindowTitle: function(force) {
+                var isModified = this.api.asc_isDocumentModified();
+                if (this._state.isDocModified !== isModified || force) {
+                    var title = this.defaultTitleText;
+
+                    if (window.document.title != title)
+                        window.document.title = title;
+
+                    if (!this._state.fastCoauth || this._state.usersCount<2 )
+                        Common.Gateway.setDocumentModified(isModified);
+                    else if ( this._state.startModifyDocument!==undefined && this._state.startModifyDocument === isModified){
+                        Common.Gateway.setDocumentModified(isModified);
+                        this._state.startModifyDocument = (this._state.startModifyDocument) ? !this._state.startModifyDocument : undefined;
+                    }
+
+                    this._state.isDocModified = isModified;
+                }
+            },
+
+            onDocumentModifiedChanged: function() {
+                if (this._state.fastCoauth && this._state.usersCount > 1 && this._state.startModifyDocument===undefined )
+                    return;
+
+                var isModified = this.api.asc_isDocumentCanSave();
+                if (this._state.isDocModified !== isModified) {
+                    Common.Gateway.setDocumentModified(this.api.asc_isDocumentModified());
+                }
+
+                this.updateWindowTitle();
+            },
+            onDocumentCanSaveChanged: function (isCanSave) {
+                //
+            },
+
+            onBeforeUnload: function() {
+                Common.localStorage.save();
+
+                var isEdit = this.permissions.edit !== false && this.editorConfig.mode !== 'view' && this.editorConfig.mode !== 'editdiagram';
+                if (isEdit && this.api.asc_isDocumentModified()) {
+                    var me = this;
+                    this.api.asc_stopSaving();
+                    this.continueSavingTimer = window.setTimeout(function() {
+                        me.api.asc_continueSaving();
+                    }, 500);
+
+                    return this.leavePageText;
+                }
+            },
+
+            onUnload: function() {
+                if (this.continueSavingTimer)
+                    clearTimeout(this.continueSavingTimer);
+            },
+
+            hidePreloader: function() {
+                $('#loading-mask').hide().remove();
+            },
+
+            onSaveUrl: function(url) {
+                Common.Gateway.save(url);
+            },
+
+            onDownloadUrl: function(url) {
+                if (this._state.isFromGatewayDownloadAs) {
+                    Common.Gateway.downloadAs(url);
+                }
+
+                this._state.isFromGatewayDownloadAs = false;
+            },
+
+            onUpdateVersion: function(callback) {
+                var me = this;
+                me.needToUpdateVersion = true;
+                me.onLongActionEnd(Asc.c_oAscAsyncActionType.BlockInteraction, LoadingDocument);
+
+                uiApp.alert(
+                    me.errorUpdateVersion,
+                    me.titleUpdateVersion,
+                    function () {
+                        _.defer(function() {
+                            Common.Gateway.updateVersion();
+
+                            if (callback) {
+                                callback.call(me);
+                            }
+
+                            me.onLongActionBegin(Asc.c_oAscAsyncActionType.BlockInteraction, LoadingDocument);
+                        })
+                });
+            },
+
+            onCollaborativeChanges: function() {
+                //
+            },
+            /** coauthoring end **/
+
+            synchronizeChanges: function() {
+                this._state.hasCollaborativeChanges = false;
+            },
+
+            initNames: function() {
+                this.shapeGroupNames = [
+                    this.txtBasicShapes,
+                    this.txtFiguredArrows,
+                    this.txtMath,
+                    this.txtCharts,
+                    this.txtStarsRibbons,
+                    this.txtCallouts,
+                    this.txtButtons,
+                    this.txtRectangles,
+                    this.txtLines
+                ];
+            },
+
+            updateThemeColors: function() {
+                //
+            },
+
+            onSendThemeColors: function(colors, standart_colors) {
+               Common.Utils.ThemeColor.setColors(colors, standart_colors);
+            },
+
+            onAdvancedOptions: function(advOptions) {
+                var type = advOptions.asc_getOptionId(),
+                    me = this, modal;
+                if (type == Asc.c_oAscAdvancedOptionsID.CSV) {
+                    var picker,
+                        pages = [],
+                        pagesName = [];
+
+                    _.each(advOptions.asc_getOptions().asc_getCodePages(), function(page) {
+                        pages.push(page.asc_getCodePage());
+                        pagesName.push(page.asc_getCodePageName());
+                    });
+
+                    $(me.loadMask).hasClass('modal-in') && uiApp.closeModal(me.loadMask);
+
+                    me.onLongActionEnd(Asc.c_oAscAsyncActionType.BlockInteraction, LoadingDocument);
+
+                    modal = uiApp.modal({
+                        title: me.advCSVOptions,
+                        text: '',
+                        afterText:
+                        '<div class="content-block small-picker" style="padding: 0; margin: 20px 0 0;">' +
+                            '<div class="row">' +
+                                '<div class="col-50" style="text-align: left;">' + me.txtEncoding + '</div>' +
+                                '<div class="col-50" style="text-align: right;">' + me.txtDelimiter + '</div>' +
+                            '</div>' +
+                            '<div id="txt-encoding" class="small"></div>' +
+                        '</div>',
+                        buttons: [
+                            {
+                                text: 'OK',
+                                bold: true,
+                                onClick: function() {
+                                    var encoding  = picker.cols[0].value,
+                                        delimiter = picker.cols[1].value;
+
+                                    if (me.api) {
+                                        me.api.asc_setAdvancedOptions(type, new Asc.asc_CCSVAdvancedOptions(encoding, delimiter));
+
+                                        if (!me._isDocReady) {
+                                            me.onLongActionBegin(Asc.c_oAscAsyncActionType.BlockInteraction, LoadingDocument);
+                                        }
+                                    }
+                                }
+                            }
+                        ]
+                    });
+
+                    var recommendedSettings = advOptions.asc_getOptions().asc_getRecommendedSettings();
+
+                    picker = uiApp.picker({
+                        container: '#txt-encoding',
+                        toolbar: false,
+                        rotateEffect: true,
+                        value: [
+                            recommendedSettings && recommendedSettings.asc_getCodePage(),
+                            (recommendedSettings && recommendedSettings.asc_getDelimiter()) ? recommendedSettings.asc_getDelimiter() : 4
+                        ],
+                        cols: [{
+                            textAlign: 'left',
+                            values: pages,
+                            displayValues: pagesName
+                        },{
+                            textAlign: 'right',
+                            width: 120,
+                            values: [4, 2, 3, 1, 5],
+                            displayValues: [',', ';', ':', this.txtTab, this.txtSpace]
+                        }]
+                    });
+
+                    // Vertical align
+                    $$(modal).css({
+                        marginTop: - Math.round($$(modal).outerHeight() / 2) + 'px'
+                    });
+                } else if (type == Asc.c_oAscAdvancedOptionsID.DRM) {
+                    modal = uiApp.modal({
+                        title: me.advDRMOptions,
+                        text: me.advDRMEnterPassword,
+                        afterText: '<div class="input-field"><input type="password" name="modal-password" placeholder="' + me.advDRMPassword + '" class="modal-text-input"></div>',
+                        buttons: [
+                            {
+                                text: 'OK',
+                                bold: true,
+                                onClick: function () {
+                                    var password = $(modal).find('.modal-text-input[name="modal-password"]').val();
+                                    me.api.asc_setAdvancedOptions(type, new Asc.asc_CDRMAdvancedOptions(password));
+
+                                    if (!me._isDocReady) {
+                                        me.onLongActionBegin(Asc.c_oAscAsyncActionType.BlockInteraction, LoadingDocument);
+                                    }
+                                }
+                            }
+                        ]
+                    });
+                }
+            },
+
+            onTryUndoInFastCollaborative: function() {
+                uiApp.alert(
+                    this.textTryUndoRedo,
+                    this.notcriticalErrorTitle
+                );
+            },
+
+            onAuthParticipantsChanged: function(users) {
+                var length = 0;
+                _.each(users, function(item){
+                    if (!item.asc_getView())
+                        length++;
+                });
+                this._state.usersCount = length;
+            },
+
+            applySettings: function() {
+                if (this.appOptions.isEdit && this.appOptions.canLicense && !this.appOptions.isOffline && this.appOptions.canCoAuthoring) {
+                    var value = Common.localStorage.getItem("sse-settings-coauthmode"),
+                        oldval = this._state.fastCoauth;
+                    this._state.fastCoauth = (value===null || parseInt(value) == 1);
+                    if (this._state.fastCoauth && !oldval)
+                        this.synchronizeChanges();
+                }
+            },
+
+            onDocumentName: function(name) {
+                this.updateWindowTitle(true);
+            },
+
+            onPrint: function() {
+                if (!this.appOptions.canPrint) return;
+
+                if (this.api)
+                    this.api.asc_Print(Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera); // if isChrome or isSafari or isOpera == true use asc_onPrintUrl event
+                Common.component.Analytics.trackEvent('Print');
+            },
+
+            onPrintUrl: function(url) {
+                if (this.iframePrint) {
+                    this.iframePrint.parentNode.removeChild(this.iframePrint);
+                    this.iframePrint = null;
+                }
+                if (!this.iframePrint) {
+                    var me = this;
+                    this.iframePrint = document.createElement("iframe");
+                    this.iframePrint.id = "id-print-frame";
+                    this.iframePrint.style.display = 'none';
+                    this.iframePrint.style.visibility = "hidden";
+                    this.iframePrint.style.position = "fixed";
+                    this.iframePrint.style.right = "0";
+                    this.iframePrint.style.bottom = "0";
+                    document.body.appendChild(this.iframePrint);
+                    this.iframePrint.onload = function() {
+                        me.iframePrint.contentWindow.focus();
+                        me.iframePrint.contentWindow.print();
+                        me.iframePrint.contentWindow.blur();
+                        window.focus();
+                    };
+                }
+                if (url) this.iframePrint.src = url;
+            },
+
+            leavePageText: 'You have unsaved changes in this document. Click \'Stay on this Page\' to await the autosave of the document. Click \'Leave this Page\' to discard all the unsaved changes.',
+            defaultTitleText: 'ONLYOFFICE Spreadsheet Editor',
+            criticalErrorTitle: 'Error',
+            notcriticalErrorTitle: 'Warning',
+            errorDefaultMessage: 'Error code: %1',
+            criticalErrorExtText: 'Press "Ok" to back to document list.',
+            openTitleText: 'Opening Document',
+            openTextText: 'Opening document...',
+            saveTitleText: 'Saving Document',
+            saveTextText: 'Saving document...',
+            loadFontsTitleText: 'Loading Data',
+            loadFontsTextText: 'Loading data...',
+            loadImagesTitleText: 'Loading Images',
+            loadImagesTextText: 'Loading images...',
+            loadFontTitleText: 'Loading Data',
+            loadFontTextText: 'Loading data...',
+            loadImageTitleText: 'Loading Image',
+            loadImageTextText: 'Loading image...',
+            downloadTitleText: 'Downloading Document',
+            downloadTextText: 'Downloading document...',
+            printTitleText: 'Printing Document',
+            printTextText: 'Printing document...',
+            uploadImageTitleText: 'Uploading Image',
+            uploadImageTextText: 'Uploading image...',
+            savePreparingText: 'Preparing to save',
+            savePreparingTitle: 'Preparing to save. Please wait...',
+            uploadImageSizeMessage: 'Maximum image size limit exceeded.',
+            uploadImageExtMessage: 'Unknown image format.',
+            uploadImageFileCountMessage: 'No images uploaded.',
+            reloadButtonText: 'Reload Page',
+            unknownErrorText: 'Unknown error.',
+            convertationTimeoutText: 'Convertation timeout exceeded.',
+            downloadErrorText: 'Download failed.',
+            unsupportedBrowserErrorText : 'Your browser is not supported.',
+            requestEditFailedTitleText: 'Access denied',
+            requestEditFailedMessageText: 'Someone is editing this document right now. Please try again later.',
+            textLoadingDocument: 'Loading document',
+            applyChangesTitleText: 'Loading Data',
+            applyChangesTextText: 'Loading data...',
+            errorKeyEncrypt: 'Unknown key descriptor',
+            errorKeyExpire: 'Key descriptor expired',
+            errorUsersExceed: 'Count of users was exceed',
+            errorCoAuthoringDisconnect: 'Server connection lost. You can\'t edit anymore.',
+            errorFilePassProtect: 'The document is password protected.',
+            txtBasicShapes: 'Basic Shapes',
+            txtFiguredArrows: 'Figured Arrows',
+            txtMath: 'Math',
+            txtCharts: 'Charts',
+            txtStarsRibbons: 'Stars & Ribbons',
+            txtCallouts: 'Callouts',
+            txtButtons: 'Buttons',
+            txtRectangles: 'Rectangles',
+            txtLines: 'Lines',
+            txtEditingMode: 'Set editing mode...',
+            textAnonymous: 'Anonymous',
+            loadingDocumentTitleText: 'Loading document',
+            loadingDocumentTextText: 'Loading document...',
+            warnProcessRightsChange: 'You have been denied the right to edit the file.',
+            errorProcessSaveResult: 'Saving is failed.',
+            textCloseTip: '\nClick to close the tip.',
+            textShape: 'Shape',
+            errorStockChart: 'Incorrect row order. To build a stock chart place the data on the sheet in the following order:<br> opening price, max price, min price, closing price.',
+            errorDataRange: 'Incorrect data range.',
+            errorDatabaseConnection: 'External error.<br>Database connection error. Please, contact support.',
+            titleUpdateVersion: 'Version changed',
+            errorUpdateVersion: 'The file version has been changed. The page will be reloaded.',
+            errorUserDrop: 'The file cannot be accessed right now.',
+            txtDiagramTitle: 'Chart Title',
+            txtXAxis: 'X Axis',
+            txtYAxis: 'Y Axis',
+            txtSeries: 'Series',
+            errorMailMergeLoadFile: 'Loading failed',
+            mailMergeLoadFileText: 'Loading Data Source...',
+            mailMergeLoadFileTitle: 'Loading Data Source',
+            errorMailMergeSaveFile: 'Merge failed.',
+            downloadMergeText: 'Downloading...',
+            downloadMergeTitle: 'Downloading',
+            sendMergeTitle: 'Sending Merge',
+            sendMergeText: 'Sending Merge...',
+            txtArt: 'Your text here',
+            errorConnectToServer: ' The document could not be saved. Please check connection settings or contact your administrator.<br>When you click the \'OK\' button, you will be prompted to download the document.<br><br>' +
+                'Find more information about connecting Document Server <a href=\"https://api.onlyoffice.com/editors/callback\" target=\"_blank\">here</a>',
+            textTryUndoRedo: 'The Undo/Redo functions are disabled for the Fast co-editing mode.<br>Click the \'Strict mode\' button to switch to the Strict co-editing mode to edit the file without other users interference and send your changes only after you save them. You can switch between the co-editing modes using the editor Advanced settings.',
+            textStrict: 'Strict mode',
+            txtErrorLoadHistory: 'Loading history failed',
+            textBuyNow: 'Visit website',
+            textNoLicenseTitle: 'ONLYOFFICE open source version',
+            warnNoLicense: 'You are using an open source version of ONLYOFFICE. The version has limitations for concurrent connections to the document server (20 connections at a time).<br>If you need more please consider purchasing a commercial license.',
+            textContactUs: 'Contact sales',
+            errorViewerDisconnect: 'Connection is lost. You can still view the document,<br>but will not be able to download until the connection is restored.',
+            warnLicenseExp: 'Your license has expired.<br>Please update your license and refresh the page.',
+            titleLicenseExp: 'License expired',
+            openErrorText: 'An error has occurred while opening the file',
+            saveErrorText: 'An error has occurred while saving the file',
+            errorToken: 'The document security token is not correctly formed.<br>Please contact your Document Server administrator.',
+            errorTokenExpire: 'The document security token has expired.<br>Please contact your Document Server administrator.',
+            errorSessionAbsolute: 'The document editing session has expired. Please reload the page.',
+            errorSessionIdle: 'The document has not been edited for quite a long time. Please reload the page.',
+            errorSessionToken: 'The connection to the server has been interrupted. Please reload the page.',
+            errorAccessDeny: 'You are trying to perform an action you do not have rights for.<br>Please contact your Document Server administrator.',
+            txtEncoding: 'Encoding',
+            txtDelimiter: 'Delimiter',
+            txtSpace: 'Space',
+            txtTab: 'Tab',
+            advCSVOptions: 'Choose CSV Options',
+            advDRMOptions: 'Protected File',
+            advDRMEnterPassword: 'You password please:',
+            advDRMPassword: 'Password',
+            textOK: 'OK',
+            textCancel: 'Cancel',
+            textPreloader: 'Loading... ',
+            textUsername: 'Username',
+            textPassword: 'Password',
+            textBack: 'Back',
+            textClose: 'Close',
+            textDone: 'Done'
         }
-    },
-
-    _isSupport: function(){
-        return (Ext.browser.is.WebKit && (Ext.os.is.iOS || Ext.os.is.Android || Ext.os.is.Desktop));
-    },
-
-    _fillUserInfo: function(info, lang, defname) {
-        var _user = info || {};
-        !_user.id && (_user.id = ('uid-' + Date.now()));
-        if (_.isEmpty(_user.name)) {
-            _.isEmpty(_user.firstname) && _.isEmpty(_user.lastname) && (_user.firstname = defname);
-            if (_.isEmpty(_user.firstname))
-                _user.fullname = _user.lastname;
-            else if (_.isEmpty(_user.lastname))
-                _user.fullname = _user.firstname;
-            else
-                _user.fullname = /^ru/.test(lang) ? _user.lastname + ' ' + _user.firstname :  _user.firstname + ' ' + _user.lastname;
-        } else
-            _user.fullname = _user.name;
-
-        return _user;
-    },
-
-    printText: 'Printing...',
-    criticalErrorTitle: 'Error',
-    notcriticalErrorTitle: 'Warning',
-    errorDefaultMessage: 'Error code: %1',
-    criticalErrorExtText: 'Press "Ok" to reload view page.',
-    uploadImageSizeMessage: 'Maximium image size limit exceeded.',
-    uploadImageExtMessage: 'Unknown image format.',
-    uploadImageFileCountMessage: 'No images uploaded.',
-    unknownErrorText: 'Unknown error.',
-    convertationTimeoutText: 'Convertation timeout exceeded.',
-    convertationErrorText: 'Convertation failed.',
-    downloadErrorText: 'Download failed.',
-    unsupportedBrowserErrorText : 'Your browser is not supported.',
-    errorKeyEncrypt: 'Unknown key descriptor',
-    errorKeyExpire: 'Key descriptor expired',
-    errorUsersExceed: 'Count of users was exceed',
-    textAnonymous: 'Anonymous',
-    textLoadingDocument: 'Loading document'
+    })(), SSE.Controllers.Main || {}))
 });

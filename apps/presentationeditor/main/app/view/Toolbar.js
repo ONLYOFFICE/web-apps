@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2016
+ * (c) Copyright Ascensio System Limited 2010-2017
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -554,7 +554,7 @@ define([
                 iconCls     : 'btn-insertchart',
                 lock        : [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart],
                 menu        : new Common.UI.Menu({
-                    style: 'width: 560px;',
+                    style: 'width: 435px;',
                     items: [
                         { template: _.template('<div id="id-toolbar-menu-insertchart" class="menu-insertchart" style="margin: 5px 5px 5px 10px;"></div>') }
                     ]
@@ -564,15 +564,15 @@ define([
                     el: $('#id-toolbar-menu-insertchart'),
                     parentMenu: btn.menu,
                     showLast: false,
-                    restoreHeight: 411,
+                    restoreHeight: 421,
                     groups: new Common.UI.DataViewGroupStore([
-                        { id: 'menu-chart-group-bar',     caption: me.textColumn },
+                        { id: 'menu-chart-group-bar',     caption: me.textColumn, headername: me.textCharts },
                         { id: 'menu-chart-group-line',    caption: me.textLine },
                         { id: 'menu-chart-group-pie',     caption: me.textPie },
                         { id: 'menu-chart-group-hbar',    caption: me.textBar },
-                        { id: 'menu-chart-group-area',    caption: me.textArea },
-                        { id: 'menu-chart-group-scatter', caption: me.textPoint },
-                        { id: 'menu-chart-group-stock',   caption: me.textStock }
+                        { id: 'menu-chart-group-area',    caption: me.textArea, inline: true },
+                        { id: 'menu-chart-group-scatter', caption: me.textPoint, inline: true },
+                        { id: 'menu-chart-group-stock',   caption: me.textStock, inline: true }
                     ]),
                     store: new Common.UI.DataViewStore([
                         { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barNormal,          allowSelected: true, iconCls: 'column-normal', selected: true},
@@ -1676,13 +1676,13 @@ define([
         textFitWidth:           'Fit to Width',
         textZoom:               'Zoom',
         tipInsertChart:         'Insert Chart',
-        textLine:               'Line Chart',
-        textColumn:             'Column Chart',
-        textBar:                'Bar Chart',
-        textArea:               'Area Chart',
-        textPie:                'Pie Chart',
-        textPoint:              'XY (Scatter) Chart',
-        textStock:              'Stock Chart',
+        textLine:               'Line',
+        textColumn:             'Column',
+        textBar:                'Bar',
+        textArea:               'Area',
+        textPie:                'Pie',
+        textPoint:              'XY (Scatter)',
+        textStock:              'Stock',
         tipSynchronize:         'The document has been changed by another user. Please click to save your changes and reload the updates.',
         txtScheme1:             'Office',
         txtScheme2:             'Grayscale',
@@ -1712,6 +1712,8 @@ define([
         textShowBegin:          'Show from Beginning',
         textShowCurrent:        'Show from Current slide',
         textShowSettings:       'Show Settings',
-        tipInsertEquation: 'Insert Equation'
+        tipInsertEquation: 'Insert Equation',
+        textCharts:         'Charts',
+        tipChangeChart: 'Change Chart Type'
     }, PE.Views.Toolbar || {}));
 });

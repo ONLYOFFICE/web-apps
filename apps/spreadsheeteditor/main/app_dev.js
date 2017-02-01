@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2016
+ * (c) Copyright Ascensio System Limited 2010-2017
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -164,6 +164,7 @@ require([
         'spreadsheeteditor/main/app/controller/LeftMenu',
         'spreadsheeteditor/main/app/controller/Main',
         'spreadsheeteditor/main/app/controller/Print',
+        'spreadsheeteditor/main/app/view/FileMenuPanels',
         'spreadsheeteditor/main/app/view/ParagraphSettings',
         'spreadsheeteditor/main/app/view/ImageSettings',
         'spreadsheeteditor/main/app/view/ChartSettings',

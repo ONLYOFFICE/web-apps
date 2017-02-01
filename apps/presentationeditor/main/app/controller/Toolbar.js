@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2016
+ * (c) Copyright Ascensio System Limited 2010-2017
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -95,7 +95,8 @@ define([
                 zoom_type: undefined,
                 zoom_percent: undefined,
                 fontsize: undefined,
-                in_equation: undefined
+                in_equation: undefined,
+                in_chart: false
             };
             this._isAddingShape = false;
             this.slideSizeArr = [
@@ -570,7 +571,8 @@ define([
                 no_paragraph = true,
                 no_text = true,
                 no_object = true,
-                in_equation = false;
+                in_equation = false,
+                in_chart = false;
 
             while (++i < selectedObjects.length) {
                 type = selectedObjects[i].get_ObjectType();
@@ -589,9 +591,15 @@ define([
                     if (type !== Asc.c_oAscTypeSelectElement.Image) {
                         no_text = false;
                     }
+                    in_chart = type == Asc.c_oAscTypeSelectElement.Chart;
                 } else if (type === Asc.c_oAscTypeSelectElement.Math) {
                     in_equation = true;
                 }
+            }
+
+            if (in_chart !== this._state.in_chart) {
+                this.toolbar.btnInsertChart.updateHint(in_chart ? this.toolbar.tipChangeChart : this.toolbar.tipInsertChart);
+                this._state.in_chart = in_chart;
             }
 
             if (paragraph_locked!==undefined && this._state.prcontrolsdisable !== paragraph_locked) {
@@ -1450,20 +1458,39 @@ define([
 
         onSelectChart: function(picker, item, record) {
             var me      = this,
-                type    = record.get('type');
+                type    = record.get('type'),
+                chart = false;
 
-            if (!this.diagramEditor)
-                this.diagramEditor = this.getApplication().getController('Common.Controllers.ExternalDiagramEditor').getView('Common.Views.ExternalDiagramEditor');
-
-            if (this.diagramEditor && me.api) {
-                this.diagramEditor.setEditMode(false);
-                this.diagramEditor.show();
-
-                var chart = me.api.asc_getChartObject(type);
-                if (chart) {
-                    this.diagramEditor.setChartData(new Asc.asc_CChartBinary(chart));
+            var selectedElements = me.api.getSelectedElements();
+            if (selectedElements && _.isArray(selectedElements)) {
+                for (var i = 0; i< selectedElements.length; i++) {
+                    if (Asc.c_oAscTypeSelectElement.Chart == selectedElements[i].get_ObjectType()) {
+                        chart = true;
+                        break;
+                    }
                 }
-                me.toolbar.fireEvent('insertchart', me.toolbar);
+            }
+
+            if (chart) {
+                var props = new Asc.CAscChartProp();
+                props.changeType(type);
+                this.api.ChartApply(props);
+
+                Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            } else {
+                if (!this.diagramEditor)
+                    this.diagramEditor = this.getApplication().getController('Common.Controllers.ExternalDiagramEditor').getView('Common.Views.ExternalDiagramEditor');
+
+                if (this.diagramEditor && me.api) {
+                    this.diagramEditor.setEditMode(false);
+                    this.diagramEditor.show();
+
+                    chart = me.api.asc_getChartObject(type);
+                    if (chart) {
+                        this.diagramEditor.setChartData(new Asc.asc_CChartBinary(chart));
+                    }
+                    me.toolbar.fireEvent('insertchart', me.toolbar);
+                }
             }
         },
 

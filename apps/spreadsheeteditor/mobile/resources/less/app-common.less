@@ -1,0 +1,45 @@
+
+@appStatusbarHeight: 30px;
+@baseZIndex: 10;
+
+.navbar-hidden + .navbar-through {
+  > .page.editor {
+    padding-top: 0;
+  }
+}
+
+.navbar-through {
+  > .page.editor {
+    padding-top: @appToolbarHeight;
+    transition: padding-top 400ms ease-in;
+  }
+}
+
+.navbar-through .page {
+  & > .searchbar {
+    top: @appToolbarHeight + @cellEditorHeight;
+  }
+
+  #cell-editing-box.expanded + .searchbar {
+    top: @appToolbarHeight + @cellEditorExpandedHeight;
+  }
+}
+
+.flex-horizontal {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.flex-vertical {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+}
+
+.small-picker {
+  .picker-item {
+    font-size: 14px;
+    padding: 0;
+  }
+}

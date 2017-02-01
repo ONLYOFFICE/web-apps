@@ -1,0 +1,96 @@
+// Container
+.phone.ios {
+  .container-edit {
+    .navbar {
+      .hairline(top, @toolbarBorderColor);
+    }
+
+    .page-content {
+      .list-block:first-child {
+        margin-top: -1px;
+      }
+    }
+  }
+}
+
+.container-edit,
+.container-add,
+.container-settings {
+  &.popover {
+    width: 360px;
+  }
+}
+
+.settings {
+  &.popup,
+  &.popover {
+    .list-block {
+
+      ul {
+        border-radius: 0 !important;
+        background: #fff;
+
+        &:last-child {
+          .hairline(bottom, @listBlockBorderColor);
+        }
+      }
+
+      &:first-child {
+        margin-top: 0;
+      }
+
+      &:last-child {
+        margin-bottom: 30px;
+      }
+
+      li:first-child a,
+      li:last-child a {
+        border-radius: 0 !important;
+      }
+    }
+
+    &,
+    .popover-inner {
+      > .content-block {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        color: #000;
+      }
+    }
+
+    .popover-view {
+      border-radius: 13px;
+
+      > .pages {
+        border-radius: 13px;
+      }
+    }
+
+    .content-block:first-child {
+      margin-top: 0;
+      .content-block-inner {
+        &:before {
+          height: 0;
+        }
+      }
+    }
+  }
+
+  .categories {
+    width: 100%;
+
+    > .buttons-row {
+      width: 100%;
+
+      .button {
+        padding: 0 1px;
+      }
+    }
+  }
+
+  .popover-inner {
+    height: 400px;
+  }
+}

@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2016
+ * (c) Copyright Ascensio System Limited 2010-2017
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -150,6 +150,7 @@ define([
                 if (settingsType == Common.Utils.documentSettingsType.Image) {
                     if (value.asc_getChartProperties() !== null) {
                         settingsType = Common.Utils.documentSettingsType.Chart;
+                        this._settings[settingsType].btn.updateHint(this.rightmenu.txtChartSettings);
                     } else if (value.asc_getShapeProperties() !== null) {
                         settingsType = Common.Utils.documentSettingsType.Shape;
                         if (value.asc_getShapeProperties().asc_getTextArtProperties()) {
@@ -177,6 +178,7 @@ define([
                 this._settings[settingsType].props = sparkLineInfo;
                 this._settings[settingsType].locked = isSparkLocked;
                 this._settings[settingsType].hidden = 0;
+                this._settings[settingsType].btn.updateHint(this.rightmenu.txtSparklineSettings);
             }
 
             var lastactive = -1, currentactive, priorityactive = -1,

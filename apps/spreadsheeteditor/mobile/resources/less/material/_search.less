@@ -1,0 +1,120 @@
+// Search
+
+.tablet {
+  // Replace mode
+  .searchbar.document.replace {
+    .center {
+      > .replace {
+        display: flex;
+      }
+    }
+
+    .right {
+      .replace {
+        display: flex;
+      }
+    }
+
+    .link.replace {
+      font-size: 16px;
+    }
+  }
+
+  // Search mode
+  .searchbar.document {
+    .center {
+      width: 100%;
+      display: flex;
+      margin: 0;
+      overflow: visible;
+
+      .searchbar {
+        overflow: visible;
+
+        &.search {
+          padding: 0;
+        }
+      }
+
+      > .replace {
+        display: none;
+      }
+    }
+
+    .right {
+      .replace {
+        display: none;
+      }
+    }
+  }
+}
+
+@phoneSearchHeight: 48px;
+
+.phone {
+  // Replace mode
+  .searchbar.document.replace {
+    height: @phoneSearchHeight * 2;
+
+    .link.replace {
+      font-size: 16px;
+    }
+
+    .left {
+      margin-top: -@phoneSearchHeight;
+    }
+
+    .center {
+      .replace {
+        display: block;
+      }
+    }
+
+    .right {
+      > .replace {
+        display: flex;
+      }
+    }
+  }
+
+  // Search mode
+  .searchbar.document {
+    .left,
+    .center,
+    .right {
+      flex-direction: column;
+    }
+
+    .left {
+      //
+    }
+
+    .center {
+      width: 100%;
+      margin: 0;
+      overflow: visible;
+
+      .searchbar {
+        padding: 0;
+      }
+
+      .replace {
+        display: none;
+      }
+    }
+
+    .right {
+      > p {
+        margin: 0;
+
+        a.link {
+          height: @phoneSearchHeight;
+        }
+      }
+
+      > .replace {
+        display: none;
+      }
+    }
+  }
+}

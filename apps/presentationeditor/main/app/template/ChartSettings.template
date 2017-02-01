@@ -45,8 +45,18 @@
         </td>
     </tr>
     <tr>
-        <td>
+        <td class="padding-small">
             <button type="button" class="btn btn-text-default" id="chart-button-edit-data" style="width:115px;"><%= scope.textEditData %></button>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small">
+            <div class="separator horizontal"></div>
+        </td>
+    </tr>
+    <tr>
+        <td align="center">
+            <label class="link" id="chart-advanced-link"><%= scope.textAdvanced %></label>
         </td>
     </tr>
     <tr class="finish-cell"></tr>

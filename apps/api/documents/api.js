@@ -363,7 +363,7 @@
         if (target && _checkConfigParams()) {
             iframe = createIframe(_config);
             target.parentNode && target.parentNode.replaceChild(iframe, target);
-            this._msgDispatcher = new MessageDispatcher(_onMessage, this);
+            var _msgDispatcher = new MessageDispatcher(_onMessage, this);
         }
 
         /*
@@ -372,6 +372,18 @@
          data: <command specific data>
          }
          */
+
+        var _destroyEditor = function(cmd) {
+            var target = document.createElement("div");
+            target.setAttribute('id', placeholderId);
+
+            if (iframe) {
+                _msgDispatcher && _msgDispatcher.unbindEvents();
+                _detachMouseEvents();
+                iframe.parentNode && iframe.parentNode.replaceChild(target, iframe);
+            }
+        };
+
         var _sendCommand = function(cmd) {
             if (iframe && iframe.contentWindow)
                 postMessage(iframe.contentWindow, cmd);
@@ -538,7 +550,8 @@
             downloadAs          : _downloadAs,
             serviceCommand      : _serviceCommand,
             attachMouseEvents   : _attachMouseEvents,
-            detachMouseEvents   : _detachMouseEvents
+            detachMouseEvents   : _detachMouseEvents,
+            destroyEditor       : _destroyEditor
         }
     };
 
@@ -558,23 +571,31 @@
     };
 
     DocsAPI.DocEditor.version = function() {
-        return '4.2.7';
+        return '{{PRODUCT_VERSION}}';
     };
 
     MessageDispatcher = function(fn, scope) {
         var _fn     = fn,
-            _scope  = scope || window;
+            _scope  = scope || window,
+            eventFn = function(msg) {
+                _onMessage(msg);
+            };
 
         var _bindEvents = function() {
             if (window.addEventListener) {
-                window.addEventListener("message", function(msg) {
-                    _onMessage(msg);
-                }, false)
+                window.addEventListener("message", eventFn, false)
             }
             else if (window.attachEvent) {
-                window.attachEvent("onmessage", function(msg) {
-                    _onMessage(msg);
-                });
+                window.attachEvent("onmessage", eventFn);
+            }
+        };
+
+        var _unbindEvents = function() {
+            if (window.removeEventListener) {
+                window.removeEventListener("message", eventFn, false)
+            }
+            else if (window.detachEvent) {
+                window.detachEvent("onmessage", eventFn);
             }
         };
 
@@ -592,6 +613,10 @@
         };
 
         _bindEvents.call(this);
+
+        return {
+            unbindEvents: _unbindEvents
+        }
     };
 
     function getBasePath() {

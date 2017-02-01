@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2016
+ * (c) Copyright Ascensio System Limited 2010-2017
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -55,22 +55,17 @@ define([    'text!presentationeditor/main/app/template/TableSettingsAdvanced.tem
         initialize : function(options) {
             _.extend(this.options, {
                 title: this.textTitle,
-                template: [
-                    '<div class="box" style="height:' + (this.options.height-85) + 'px;">',
-                    '<div class="menu-panel" style="overflow: hidden;">',
-                    '<div style="height: 300px; line-height: 300px;" class="div-category">' + this.textWidthSpaces + '</div>',
-                    '</div>',
-                    '<div class="separator"/>',
-                    '<div class="content-panel">' + _.template(contentTemplate)({scope: this}) + '</div>',
-                    '</div>',
-                    '<div class="separator horizontal"/>',
-                    '<div class="footer center">',
-                    '<button class="btn normal dlg-btn primary" result="ok" style="margin-right: 10px;  width: 86px;">' + this.okButtonText + '</button>',
-                    '<button class="btn normal dlg-btn" result="cancel" style="width: 86px;">' + this.cancelButtonText + '</button>',
-                    '</div>'
-                ].join('')
+                items: [
+                    {panelId: 'id-adv-table-cell-props', panelCaption: this.textWidthSpaces},
+                    {panelId: 'id-adv-table-alttext',    panelCaption: this.textAlt}
+                ],
+                contentTemplate: _.template(contentTemplate)({
+                    scope: this
+                })
             }, options);
+
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
+
             this.spinners = [];
 
             this._changedProps = null;
@@ -298,6 +293,25 @@ define([    'text!presentationeditor/main/app/template/TableSettingsAdvanced.tem
             }, this));
             this.spinners.push(this.spnMarginRight);
 
+            // Alt Text
+
+            this.inputAltTitle = new Common.UI.InputField({
+                el          : $('#tableadv-alt-title'),
+                allowBlank  : true,
+                validateOnBlur: false,
+                style       : 'width: 100%;'
+            }).on('changed:after', function() {
+                me.isAltTitleChanged = true;
+            });
+
+            this.textareaAltDescription = this.$window.find('textarea');
+            this.textareaAltDescription.keydown(function (event) {
+                if (event.keyCode == Common.UI.Keys.RETURN) {
+                    event.stopPropagation();
+                }
+                me.isAltDescChanged = true;
+            });
+            this.btnsCategory[1].setVisible(false);
 
             this.afterRender();
         },
@@ -312,6 +326,12 @@ define([    'text!presentationeditor/main/app/template/TableSettingsAdvanced.tem
         },
 
         getSettings: function() {
+            if (this.isAltTitleChanged)
+                this._changedProps.asc_putTitle(this.inputAltTitle.getValue());
+
+            if (this.isAltDescChanged)
+                this._changedProps.asc_putDescription(this.textareaAltDescription.val());
+
             return { tableProps: this._changedProps };
         },
 
@@ -353,6 +373,13 @@ define([    'text!presentationeditor/main/app/template/TableSettingsAdvanced.tem
                 }
 
                 this.fillMargins(this.CellMargins.Flag);
+
+                // var value = props.asc_getTitle();
+                // this.inputAltTitle.setValue(value ? value : '');
+                //
+                // value = props.asc_getDescription();
+                // this.textareaAltDescription.val(value ? value : '');
+
                 this._changedProps = new Asc.CTableProp();
             }
         },
@@ -401,7 +428,11 @@ define([    'text!presentationeditor/main/app/template/TableSettingsAdvanced.tem
         textDefaultMargins: 'Default Margins',
         textCheckMargins:   'Use default margins',
         cancelButtonText:   'Cancel',
-        okButtonText:       'Ok'
+        okButtonText:       'Ok',
+        textAlt: 'Alternative Text',
+        textAltTitle: 'Title',
+        textAltDescription: 'Description',
+        textAltTip: 'The alternative text-based representation of the visual object information, which will be read to the people with vision or cognitive impairments to help them better understand what information there is in the image, autoshape, chart or table.'
 
     }, PE.Views.TableSettingsAdvanced || {}));
 });

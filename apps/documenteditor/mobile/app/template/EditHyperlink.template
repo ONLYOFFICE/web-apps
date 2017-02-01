@@ -1,0 +1,52 @@
+<!-- Link view -->
+<div id="edit-link-root">
+    <div class="list-block">
+        <ul>
+            <li>
+                <div id="edit-link-url" class="item-content">
+                    <div class="item-inner">
+                        <div class="item-title label"><%= scope.textLink %></div>
+                        <div class="item-input">
+                            <input type="url" placeholder="<%= scope.textLink %>">
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div id="edit-link-display" class="item-content">
+                    <div class="item-inner">
+                        <div class="item-title label"><%= scope.textDisplay %></div>
+                        <div class="item-input">
+                            <input type="text" placeholder="<%= scope.textDisplay %>">
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div id="edit-link-tip" class="item-content">
+                    <div class="item-inner">
+                        <div class="item-title label"><%= scope.textTip %></div>
+                        <div class="item-input">
+                            <input type="text" placeholder="<%= scope.textTip %>">
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="list-block">
+        <% if (android) { %>
+        <a href="#" id="edit-link-edit" class="button button-raised button-fill disabled" style="margin: 20px 16px;"><%= scope.textEdit %></a>
+        <a href="#" id="edit-link-remove" class="button button-raised button-fill" style="margin: 20px 16px; background-color: #f44336;"><%= scope.textRemove %></a>
+        <% } else { %>
+        <ul>
+            <li>
+                <a href="#" id="edit-link-edit" class="list-button item-link disabled" style="text-align: center;"><%= scope.textEdit %></a>
+            </li>
+            <li>
+                <a href="#" id="edit-link-remove" class="list-button item-link" style="text-align: center; color: #f00"><%= scope.textRemove %></a>
+            </li>
+        </ul>
+        <% } %>
+    </div>
+</div>

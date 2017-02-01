@@ -1,13 +1,17 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>ONLYOFFICE Spreadsheet</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-        <meta name="description" content="" />
-        <meta name="keywords" content="" />
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <meta name="mobile-web-app-capable" content="yes">
 
-        <!-- splash -->        
-    
+        <title>ONLYOFFICE Spreadsheet Editor</title>
+
+        <link rel="stylesheet" type="text/css" href="../../../../sdkjs/cell/css/main-mobile.css"/>
+        <link href="http://fonts.googleapis.com/css?family=Roboto:400,300,500,700" rel="stylesheet" type="text/css">
+
         <style type="text/css">
             .loadmask {
                 position: absolute;
@@ -169,118 +173,72 @@
                  14%    { background: #f4f4f4; top:100px; opacity:1; }
                  15%    { background: #f4f4f4; top:0; opacity:1; }
                  20%    { background: #f4f4f4; top:0; opacity:0; }
-                 25%    { background: #f4f4f4; top:0; opacity:0; }
+                 25%    { background: #fff; top:0; opacity:0; }
                  45%    { background: #EFEFEF; top:0; opacity:0,2; }
                 100%    { top:100px; background: #55bce6; }
             }
         </style>
-
-        <!-- vendors -->
-        <link rel="stylesheet" type="text/css" href="../../../../sdkjs/cell/css/main-mobile.css"/>
-
-        <script type="text/javascript" src="../../../vendor/touch/sencha-touch-all.js"></script>
-        <script type="text/javascript" src="../../../vendor/jquery/jquery.min.js"></script>
-        <script type="text/javascript" src="../../../vendor/xregexp/xregexp-all-min.js"></script>
-        <script type="text/javascript" src="../../../vendor/underscore/underscore-min.js"></script>
-        <script type="text/javascript" src="../../../vendor/megapixel/megapix-image-min.js"></script>
-        <script type="text/javascript" src="../../../vendor/sockjs/sockjs.min.js"></script>
-        <script type="text/javascript" src="../../../vendor/jszip/jszip.min.js"></script>
-        <script type="text/javascript" src="../../../vendor/jszip-utils/jszip-utils.min.js"></script>
-        <script type="text/javascript" src="../../../vendor/jsrsasign/jsrsasign-latest-all-min.js"></script>
-
-        <!-- SDK -->
-
-        <script type="text/javascript" src="../../../../sdkjs/common/AllFonts.js"></script>
-        <script type="text/javascript" src="../../../../sdkjs/cell/sdk-all-min.js"></script>
-
-        <!-- Application -->
-
-        <script type="text/javascript">
-            var injectStyleElement = function(url) {
-                var style = document.createElement('link'),
-                        documentHead = typeof document != 'undefined' && (document.head || document.getElementsByTagName('head')[0]);
-
-                style.rel = 'stylesheet';
-                style.href = url;
-                style.type = 'text/css';
-
-                if (documentHead) {
-                    documentHead.appendChild(style);
-                    return true;
-                }
-
-                return false;
-            };
-
-            injectStyleElement((window.devicePixelRatio > 1)
-                ? 'resources/css/application-retina.css'
-                : 'resources/css/application-normal.css'
-            );
-        </script>
-        <script type="text/javascript" src="../../../apps/spreadsheeteditor/mobile/app-all.js"></script>
     </head>
     <body>
         <script type="text/javascript">
-            if (!(Ext.browser.is.WebKit && (Ext.os.is.iOS || Ext.os.is.Android || Ext.os.is.Desktop))) {
-                document.write(
-                        '<div id="unsuported-view-id" class="unsuported-view"></div>'
-                );
-            } else {
-                function getUrlParams() {
-                    var e,
-                        a = /\+/g,  // Regex for replacing addition symbol with a space
-                        r = /([^&=]+)=?([^&]*)/g,
-                        d = function (s) { return decodeURIComponent(s.replace(a, " ")); },
-                        q = window.location.search.substring(1),
-                        urlParams = {};
+            function getUrlParams() {
+                var e,
+                    a = /\+/g,  // Regex for replacing addition symbol with a space
+                    r = /([^&=]+)=?([^&]*)/g,
+                    d = function (s) { return decodeURIComponent(s.replace(a, " ")); },
+                    q = window.location.search.substring(1),
+                    urlParams = {};
 
-                    while (e = r.exec(q))
-                        urlParams[d(e[1])] = d(e[2]);
+                while (e = r.exec(q))
+                    urlParams[d(e[1])] = d(e[2]);
 
-                    return urlParams;
-                }
+                return urlParams;
+            }
 
-                function encodeUrlParam(str) {
-                    return str.replace(/&/g, '&amp;')
-                            .replace(/"/g, '&quot;')
-                            .replace(/'/g, '&#39;')
-                            .replace(/</g, '&lt;')
-                            .replace(/>/g, '&gt;');
-                }
+            function encodeUrlParam(str) {
+                return str.replace(/&/g, '&amp;')
+                        .replace(/"/g, '&quot;')
+                        .replace(/'/g, '&#39;')
+                        .replace(/</g, '&lt;')
+                        .replace(/>/g, '&gt;');
+            }
 
-                var params = getUrlParams(),
-                    lang = (params["lang"] || 'en').split("-")[0],
-                    customer = params["customer"] ? ('<div class="loader-page-text-customer">' + encodeUrlParam(params["customer"]) + '</div>') : '',
-                    margin = (customer !== '') ? 50 : 20,
-                    loading = 'Loading...',
-                    logo = params["logo"] ? ((params["logo"] !== 'none') ? ('<img src="' + encodeUrlParam(params["logo"]) + '" class="loader-logo" />') : '') : null;
+            var params = getUrlParams(),
+                lang = (params["lang"] || 'en').split("-")[0],
+                customer = params["customer"] ? ('<div class="loader-page-text-customer">' + encodeUrlParam(params["customer"]) + '</div>') : '',
+                margin = (customer !== '') ? 50 : 20,
+                loading = 'Loading...',
+                logo = params["logo"] ? ((params["logo"] !== 'none') ? ('<img src="' + encodeUrlParam(params["logo"]) + '" class="loader-logo" />') : '') : null;
 
                 window.frameEditorId = params["frameEditorId"];
 
-                if ( lang == 'de')      loading = 'Ladevorgang...';
-                else if ( lang == 'es') loading = 'Cargando...';
-                else if ( lang == 'fr') loading = 'Chargement en cours...';
-                else if ( lang == 'it') loading = 'Caricamento in corso...';
-                else if ( lang == 'pt') loading = 'Carregando...';
-                else if ( lang == 'ru') loading = 'Загрузка...';
-                else if ( lang == 'sl') loading = 'Nalaganje...';
-                else if ( lang == 'tr') loading = 'Yükleniyor...';
+            if ( lang == 'de')      loading = 'Ladevorgang...';
+            else if ( lang == 'es') loading = 'Cargando...';
+            else if ( lang == 'fr') loading = 'Chargement en cours...';
+            else if ( lang == 'it') loading = 'Caricamento in corso...';
+            else if ( lang == 'pt') loading = 'Carregando...';
+            else if ( lang == 'ru') loading = 'Загрузка...';
+            else if ( lang == 'sl') loading = 'Nalaganje...';
+            else if ( lang == 'tr') loading = 'Yükleniyor...';
 
-                document.write(
-                    '<div id="loading-mask" class="loadmask">' +
-                            '<div class="loader-page" style="margin-bottom: ' + margin + 'px;' + ((logo!==null) ? 'height: auto;' : '') + '">' +
-                                ((logo!==null) ? logo :
-                                '<div class="loader-page-romb">' +
-                                    '<div class="romb" id="blue"></div>' +
-                                    '<div class="romb" id="green"></div>' +
-                                    '<div class="romb" id="red"></div>' +
-                                '</div>') +
-                            '</div>' +
-                            '<div class="loader-page-text">' +  customer +
-                            '<div class="loader-page-text-loading">' + loading + '</div>' +
-                        '</div>' +
-                    '</div>');
-            }
+            document.write(
+                '<div id="loading-mask" class="loadmask">' +
+                    '<div class="loader-page" style="margin-bottom: ' + margin + 'px;' + ((logo!==null) ? 'height: auto;' : '') + '">' +
+                        ((logo!==null) ? logo :
+                        '<div class="loader-page-romb">' +
+                            '<div class="romb" id="blue"></div>' +
+                            '<div class="romb" id="green"></div>' +
+                            '<div class="romb" id="red"></div>' +
+                        '</div>') +
+                    '</div>' +
+                    '<div class="loader-page-text">' +  customer +
+                    '<div class="loader-page-text-loading">' + loading + '</div>' +
+                    '</div>' +
+                '</div>');
         </script>
+
+        <div id="viewport"></div>
+        <script data-main="app" src="../../../vendor/requirejs/require.js"></script>
+
     </body>
 </html>

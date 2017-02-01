@@ -1,0 +1,374 @@
+<!-- Root view -->
+<div id="edit-chart-root">
+    <div class="list-block">
+        <ul>
+            <li>
+                <a id="chart-style" class="item-link">
+                    <div class="item-content">
+                        <div class="item-inner">
+                            <div class="item-title"><%= scope.textStyle %></div>
+                        </div>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a id="chart-wrap" class="item-link">
+                    <div class="item-content">
+                        <div class="item-inner">
+                            <div class="item-title"><%= scope.textWrap %></div>
+                        </div>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a id="chart-reorder" class="item-link">
+                    <div class="item-content">
+                        <div class="item-inner">
+                            <div class="item-title"><%= scope.textReorder %></div>
+                        </div>
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="list-block">
+        <% if (!android) { %>
+        <ul>
+            <li>
+                <a id="chart-remove" class="item-link list-button" style="text-align: center; color: #f00"><%= scope.textRemoveChart %></a>
+            </li>
+        </ul>
+        <% } else { %>
+        <a id="chart-remove" class="button button-raised button-fill" style="margin: 20px 16px; background-color: #f44336;"><%= scope.textRemoveChart %></a>
+        <% } %>
+    </div>
+</div>
+
+<!-- Reorder view -->
+<div id="edit-chart-reorder">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left sliding"><a href="#" class="back link"><i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding"><%= scope.textReorder %></div>
+            <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
+        </div>
+    </div>
+    <div class="page chart-reorder">
+        <div class="page-content">
+            <div class="list-block">
+                <ul>
+                    <li>
+                        <a data-type="all-up" class="item-link no-indicator">
+                            <div class="item-content">
+                                <div class="item-media"><i class="icon icon-move-foreground"></i></div>
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textToForeground %></div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-type="all-down" class="item-link no-indicator">
+                            <div class="item-content">
+                                <div class="item-media"><i class="icon icon-move-background"></i></div>
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textToBackground %></div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-type="move-up" class="item-link no-indicator">
+                            <div class="item-content">
+                                <div class="item-media"><i class="icon icon-move-forward"></i></div>
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textForward %></div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-type="move-down" class="item-link no-indicator">
+                            <div data-type="move-down" class="item-content">
+                                <div class="item-media"><i class="icon icon-move-backward"></i></div>
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textBackward %></div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Wrap view -->
+<div id="edit-chart-wrap">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left sliding"><a href="#" class="back link"><i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding"><%= scope.textWrap %></div>
+            <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
+        </div>
+    </div>
+    <div class="page chart-wrap">
+        <div class="page-content">
+            <div class="list-block chart-wrap-types">
+                <ul>
+                    <li>
+                        <label class="label-radio item-content">
+                            <input type="radio" name="chart-wrap" value="inline">
+                            <% if (android) { %>
+                            <div class="item-media"><i class="icon icon-form-radio"></i></div>
+                            <% } else { %>
+                            <div class="item-media"><i class="icon icon-wrap-inline"></i></div>
+                            <% } %>
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textInline %></div>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="label-radio item-content">
+                            <input type="radio" name="chart-wrap" value="square">
+                            <% if (android) { %>
+                            <div class="item-media"><i class="icon icon-form-radio"></i></div>
+                            <% } else { %>
+                            <div class="item-media"><i class="icon icon-wrap-square"></i></div>
+                            <% } %>
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textSquare %></div>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="label-radio item-content">
+                            <input type="radio" name="chart-wrap" value="tight">
+                            <% if (android) { %>
+                            <div class="item-media"><i class="icon icon-form-radio"></i></div>
+                            <% } else { %>
+                            <div class="item-media"><i class="icon icon-wrap-tight"></i></div>
+                            <% } %>
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textTight %></div>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="label-radio item-content">
+                            <input type="radio" name="chart-wrap" value="through">
+                            <% if (android) { %>
+                            <div class="item-media"><i class="icon icon-form-radio"></i></div>
+                            <% } else { %>
+                            <div class="item-media"><i class="icon icon-wrap-through"></i></div>
+                            <% } %>
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textThrough %></div>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="label-radio item-content">
+                            <input type="radio" name="chart-wrap" value="top-bottom">
+                            <% if (android) { %>
+                            <div class="item-media"><i class="icon icon-form-radio"></i></div>
+                            <% } else { %>
+                            <div class="item-media"><i class="icon icon-wrap-top-bottom"></i></div>
+                            <% } %>
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textTopBottom %></div>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="label-radio item-content">
+                            <input type="radio" name="chart-wrap" value="infront">
+                            <% if (android) { %>
+                            <div class="item-media"><i class="icon icon-form-radio"></i></div>
+                            <% } else { %>
+                            <div class="item-media"><i class="icon icon-wrap-infront"></i></div>
+                            <% } %>
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textInFront %></div>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="label-radio item-content">
+                            <input type="radio" name="chart-wrap" value="behind">
+                            <% if (android) { %>
+                            <div class="item-media"><i class="icon icon-form-radio"></i></div>
+                            <% } else { %>
+                            <div class="item-media"><i class="icon icon-wrap-behind"></i></div>
+                            <% } %>
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textBehind %></div>
+                            </div>
+                        </label>
+                    </li>
+                </ul>
+            </div>
+            <div class="content-block-title align"><%= scope.textAlign %></div>
+            <div class="list-block align">
+                <ul>
+                    <li id="edit-chart-align">
+                        <div class="item-content buttons">
+                            <div class="item-inner">
+                                <div class="row">
+                                    <a data-type="left" class="button no-ripple"><i class="icon icon-text-align-left"></i></a>
+                                    <a data-type="center" class="button no-ripple"><i class="icon icon-text-align-center"></i></a>
+                                    <a data-type="right" class="button no-ripple"><i class="icon icon-text-align-right"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="list-block inline">
+                <ul>
+                    <li id="edit-chart-movetext">
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textMoveText %></div>
+                                <div class="item-after">
+                                    <label class="label-switch">
+                                        <input type="checkbox">
+                                        <div class="checkbox"></div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li id="edit-chart-overlap">
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textOverlap %></div>
+                                <div class="item-after">
+                                    <label class="label-switch">
+                                        <input type="checkbox">
+                                        <div class="checkbox"></div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="content-block-title distance"><%= scope.textDistanceText %></div>
+            <div class="list-block distance" style="margin-bottom: 40px;">
+                <ul>
+                    <li id="table-distance">
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <div class="item-input">
+                                    <div class="range-slider">
+                                        <input type="range" min="0" max="200" value="0" step="1">
+                                    </div>
+                                </div>
+                                <div class="item-after value">0 pt</div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Styles view -->
+<div id="edit-chart-style">
+    <div class="navbar">
+        <div class="navbar-inner edit-chart-style" data-page="edit-chart-style">
+            <div class="left sliding"><a href="#" class="back link"><i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding categories">
+                <% if (android) { %>
+                <div class="toolbar tabbar">
+                    <div data-page="index" class="toolbar-inner">
+                        <a href="#tab-chart-type" data-type="type" class="tab-link active"><%= scope.textType %></a>
+                        <a href="#tab-chart-style" data-type="style" class="tab-link"><%= scope.textStyle %></a>
+                        <a href="#tab-chart-fill" data-type="fill" class="tab-link"><%= scope.textFill %></a>
+                        <a href="#tab-chart-border" data-type="border" class="tab-link"><%= scope.textBorder %></a>
+                    </div>
+                </div>
+                <% } else { %>
+                <div class="buttons-row">
+                    <a href="#tab-chart-type" data-type="type" class="tab-link button active"><%= scope.textType %></a>
+                    <a href="#tab-chart-style" data-type="style" class="tab-link button"><%= scope.textStyle %></a>
+                    <a href="#tab-chart-fill" data-type="fill" class="tab-link button"><%= scope.textFill %></a>
+                    <a href="#tab-chart-border" data-type="border" class="tab-link button"><%= scope.textBorder %></a>
+                </div>
+                <% } %>
+            </div>
+            <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
+        </div>
+    </div>
+    <div class="page" data-page="edit-chart-style">
+        <div class="tabs-animated-wrap">
+            <div class="tabs">
+                <div id="tab-chart-type" class="page-content tab active dataview chart-types">
+                    <% _.each(types, function(row) { %>
+                    <ul class="row">
+                        <% _.each(row, function(type) { %>
+                        <li data-type="<%= type.type %>">
+                            <div class="thumb" style="background-image:url('../mobile/resources/img/charts/<%= type.thumb %>')"></div>
+                        </li>
+                        <% }); %>
+                    </ul>
+                    <% }); %>
+                </div>
+                <div id="tab-chart-style" class="page-content tab dataview chart-styles">
+                    <!--Styles-->
+                </div>
+                <div id="tab-chart-fill" class="page-content tab">
+                    <!--Fill colors-->
+                </div>
+                <div id="tab-chart-border" class="page-content tab">
+                    <div class="list-block">
+                        <ul>
+                            <li id="edit-chart-bordersize">
+                                <div style="padding: 15px 0 0 15px;"><%= scope.textSize %></div>
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-input">
+                                            <div class="range-slider">
+                                                <input type="range" min="0" max="7" value="0" step="1">
+                                            </div>
+                                        </div>
+                                        <div class="item-after value">0 pt</div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <a id="edit-chart-bordercolor" class="item-link">
+                                    <div class="item-content">
+                                        <div class="item-inner">
+                                            <div class="item-title"><%= scope.textColor %></div>
+                                            <div class="item-after"><div class="color-preview"></div></div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Border color view -->
+<div id="edit-chart-border-color-view">
+    <div class="navbar">
+        <div class="navbar-inner" data-page="edit-chart-border-color">
+            <div class="left sliding"><a href="#" class="back link"><i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding"><%= scope.textColor %></div>
+            <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
+        </div>
+    </div>
+    <div class="page" data-page="edit-chart-border-color">
+        <div class="page-content">
+            <!--Color palette-->
+        </div>
+    </div>
+</div>

@@ -1,0 +1,5 @@
+<!-- Root view -->
+<div id="add-slide-root">
+    <div class="page-content dataview slide-layout" style="width: 100%;">
+    </div>
+</div>

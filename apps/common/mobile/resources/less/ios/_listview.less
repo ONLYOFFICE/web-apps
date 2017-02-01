@@ -1,0 +1,93 @@
+// List extend
+
+.item-content {
+  .item-after {
+    &.splitter {
+      color: #000;
+
+      label {
+        margin: 0 5px;
+      }
+
+      .buttons-row {
+        min-width: 90px;
+        margin-left: 10px;
+      }
+    }
+
+    &.value {
+      display: block;
+      min-width: 60px;
+      color: @black;
+      margin-left: 10px;
+      text-align: right;
+    }
+
+    input.field {
+      color: @themeColor;
+
+      &.placeholder-color::-webkit-input-placeholder {
+        color: @themeColor;
+      }
+
+      &.right {
+        text-align: right;
+      }
+    }
+  }
+
+  &.buttons {
+    .item-inner {
+      padding-top: 0;
+      padding-bottom: 0;
+      align-items: stretch;
+
+      > .row {
+        width: 100%;
+        align-items: stretch;
+
+        .button {
+          flex: 1;
+          border: none;
+          height: inherit;
+          border-radius: 0;
+          font-size: 17px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+      }
+    }
+  }
+
+  .item-after .color-preview {
+    width: 75px;
+    height: 30px;
+    margin-top: -3px;
+    box-shadow: 0 0 0 1px rgba(0,0,0,0.15) inset;
+  }
+
+  i .color-preview {
+    width: 22px;
+    height: 8px;
+    display: inline-block;
+    margin-top: 21px;
+    box-sizing: border-box;
+    box-shadow: 0 0 0 1px rgba(0,0,0,0.15) inset;
+  }
+}
+
+.item-link {
+  &.no-indicator {
+    .item-inner {
+      background-image: none;
+      padding-right: 15px;
+    }
+  }
+}
+
+.list-block {
+  .item-link.list-button {
+    color: @themeColor;
+  }
+}

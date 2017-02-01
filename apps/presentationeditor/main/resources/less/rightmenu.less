@@ -83,6 +83,20 @@
     .settings-hidden {
         display: none;
     }
+
+    textarea {
+        .user-select(text);
+        width: 100%;
+        resize: none;
+        margin-bottom: 5px;
+        border: 1px solid @gray-dark;
+        height: 100%;
+
+        &.disabled {
+            opacity: 0.65;
+            cursor: default !important;
+        }
+    }
 }
 
 .item-wrap {

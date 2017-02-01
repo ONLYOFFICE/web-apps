@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2016
+ * (c) Copyright Ascensio System Limited 2010-2017
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -599,6 +599,7 @@ define([
                     { value: 0x0405, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x0405)[1] },
                     { value: 0x0407, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x0407)[1] },
                     { value: 0x0408, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x0408)[1] },
+                    { value: 0x0C09, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x0C09)[1] },
                     { value: 0x0809, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x0809)[1] },
                     { value: 0x0409, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x0409)[1] },
                     { value: 0x0C0A, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x0C0A)[1] },
@@ -652,7 +653,7 @@ define([
                 this.lblAutosave.text(this.textAutoRecover);
             }
             $('tr.coauth', this.el)[mode.canCoAuthoring && mode.isEdit ? 'show' : 'hide']();
-            $('tr.coauth.changes', this.el)[mode.isEdit && mode.canLicense && !mode.isOffline && mode.canCoAuthoring? 'show' : 'hide']();
+            $('tr.coauth.changes', this.el)[mode.isEdit && !mode.isOffline && mode.canCoAuthoring? 'show' : 'hide']();
         },
 
         setApi: function(api) {
@@ -733,7 +734,7 @@ define([
             Common.localStorage.setItem("sse-settings-zoom", this.cmbZoom.getValue());
             /** coauthoring begin **/
             Common.localStorage.setItem("sse-settings-livecomment", this.chLiveComment.isChecked() ? 1 : 0);
-            if (this.mode.isEdit && this.mode.canLicense && !this.mode.isOffline && this.mode.canCoAuthoring)
+            if (this.mode.isEdit && !this.mode.isOffline && this.mode.canCoAuthoring)
                 Common.localStorage.setItem("sse-settings-coauthmode", this.cmbCoAuthMode.getValue());
             /** coauthoring end **/
             Common.localStorage.setItem("sse-settings-fontrender", this.cmbFontRender.getValue());
@@ -754,7 +755,16 @@ define([
 
         updateRegionalExample: function(landId) {
             if (this.api) {
-                var text =  (landId) ? this.api.asc_getLocaleExample(landId, 1000.01, new Date()) : '';
+                var text = '';
+                if (landId) {
+                    var info = new Asc.asc_CFormatCellsInfo();
+                    info.asc_setType(Asc.c_oAscNumFormatType.None);
+                    info.asc_setSymbol(landId);
+                    var arr = this.api.asc_getFormatCells(info); // all formats
+                    text = this.api.asc_getLocaleExample(arr[4], 1000.01, landId);
+                    text = text + ' ' + this.api.asc_getLocaleExample(arr[5], (new Date()).getExcelDateWithTime(), landId);
+                    text = text + ' ' + this.api.asc_getLocaleExample(arr[6], (new Date()).getExcelDateWithTime(), landId);
+                }
                 $('#fms-lbl-reg-settings').text(_.isEmpty(text) ? '' : this.strRegSettingsEx + text);
             }
         },

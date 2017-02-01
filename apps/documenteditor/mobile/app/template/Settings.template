@@ -1,0 +1,436 @@
+<!-- Root view -->
+<div id="settings-root-view">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="center sliding"><%= scope.textSettings %></div>
+            <div class="right"><% if (phone) { %><a href="#" class="link close-popup"><%= scope.textDone %></a><% } %></div>
+        </div>
+    </div>
+    <div class="pages">
+        <div class="page" data-page="settings-root-view">
+            <div class="page-content">
+                <div class="list-block">
+                    <ul>
+                        <% if (phone) { %>
+                        <li>
+                            <a id="settings-search" class="item-link no-indicator">
+                                <div class="item-content">
+                                    <div class="item-media">
+                                        <i class="icon icon-search"></i>
+                                    </div>
+                                    <div class="item-inner">
+                                        <div class="item-title"><%= scope.textFind %></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <% } %>
+                        <li>
+                            <a id="settings-edit-document" class="item-link no-indicator">
+                                <div class="item-content">
+                                    <div class="item-media">
+                                        <i class="icon icon-edit"></i>
+                                    </div>
+                                    <div class="item-inner">
+                                        <div class="item-title"><%= scope.textEditDoc %></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <div id="settings-readermode" class="item-content">
+                                <div class="item-media">
+                                    <i class="icon icon-reader"></i>
+                                </div>
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textReader %></div>
+                                    <div class="item-after">
+                                        <label class="label-switch">
+                                            <input type="checkbox">
+                                            <div class="checkbox"></div>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <a id="settings-document" class="item-link" data-page="#settings-document-view">
+                                <div class="item-content">
+                                    <div class="item-media">
+                                        <i class="icon icon-doc-setup"></i>
+                                    </div>
+                                    <div class="item-inner">
+                                        <div class="item-title"><%= scope.textDocumentSettings %></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a id="settings-download" class="item-link" data-page="#settings-download-view">
+                                <div class="item-content">
+                                    <div class="item-media">
+                                        <i class="icon icon-download"></i>
+                                    </div>
+                                    <div class="item-inner">
+                                        <div class="item-title"><%= scope.textDownload %></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a id="settings-document-info" class="item-link" data-page="#settings-info-view">
+                                <div class="item-content">
+                                    <div class="item-media">
+                                        <i class="icon icon-info"></i>
+                                    </div>
+                                    <div class="item-inner">
+                                        <div class="item-title"><%= scope.textDocInfo %></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <!--<li>-->
+                            <!--<a id="settings-history" class="item-link" data-page="#settings-history-view">-->
+                                <!--<div class="item-content">-->
+                                    <!--<div class="item-media">-->
+                                        <!--<i class="icon icon-versions"></i>-->
+                                    <!--</div>-->
+                                    <!--<div class="item-inner">-->
+                                        <!--<div class="item-title">Document History</div>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</a>-->
+                        <!--</li>-->
+                        <li>
+                            <a id="settings-help" class="item-link">
+                                <div class="item-content">
+                                    <div class="item-media">
+                                        <i class="icon icon-help"></i>
+                                    </div>
+                                    <div class="item-inner">
+                                        <div class="item-title"><%= scope.textHelp %></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a id="settings-about" class="item-link" data-page="#settings-about-view">
+                                <div class="item-content">
+                                    <div class="item-media">
+                                        <i class="icon icon-about"></i>
+                                    </div>
+                                    <div class="item-inner">
+                                        <div class="item-title"><%= scope.textAbout %></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Document Settings view -->
+<div id="settings-document-view">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding"><%= scope.textDocumentSettings %></div>
+        </div>
+    </div>
+    <div class="pages">
+        <div class="page" data-page="settings-document-view">
+            <div class="page-content">
+                <div class="content-block-title"><%= scope.textOrientation %></div>
+                <div class="list-block">
+                    <ul>
+                        <li>
+                            <label class="label-radio item-content">
+                                <input type="radio" name="doc-orientation" value="true">
+                                <% if (android) { %><div class="item-media"><i class="icon icon-form-radio"></i></div><% } %>
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textPortrait %></div>
+                                </div>
+                            </label>
+                        </li>
+                        <li>
+                            <label class="label-radio item-content">
+                                <input type="radio" name="doc-orientation" value="false">
+                                <% if (android) { %><div class="item-media"><i class="icon icon-form-radio"></i></div><% } %>
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textLandscape %></div>
+                                </div>
+                            </label>
+                        </li>
+                    </ul>
+                </div>
+                <div class="content-block-title"><%= scope.textFormat %></div>
+                <div class="list-block media-list">
+                    <ul>
+                        <li>
+                            <a id="settings-document-format" class="item-link item-content" data-page="#settings-document-formats-view">
+                                <div class="item-inner">
+                                    <div class="item-title-row">
+                                        <div class="item-title"><%= scope.textCustom %></div>
+                                    </div>
+                                    <div class="item-subtitle"><%= scope.textCustomSize %></div>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Document Formats view -->
+<div id="settings-document-formats-view">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding"><%= scope.textDocumentFormats %></div>
+        </div>
+    </div>
+    <div class="pages">
+        <div class="page" data-page="settings-document-formats-view">
+            <div class="page-content">
+                <div class="list-block media-list">
+                    <ul></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Document Info view -->
+<div id="settings-info-view">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left sliding">
+                <a href="#" class="back link">
+                    <i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %>
+                </a>
+            </div>
+            <div class="center sliding"><%= scope.textDocInfo %></div>
+        </div>
+    </div>
+    <div class="pages">
+        <div class="page" data-page="settings-info-view">
+            <div class="page-content">
+                <div class="content-block-title"><%= scope.textDocTitle %></div>
+                <div class="list-block">
+                    <ul>
+                        <li class="item-content">
+                            <div class="item-inner">
+                                <div id="settings-document-title" class="item-title"><%= scope.textLoading %></div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="content-block-title"><%= scope.textAuthor %></div>
+                <div class="list-block">
+                    <ul>
+                        <li class="item-content">
+                            <div class="item-inner">
+                                <div id="settings-document-autor" class="item-title"><%= scope.textLoading %></div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="content-block-title"><%= scope.textCreateDate %></div>
+                <div class="list-block">
+                    <ul>
+                        <li class="item-content">
+                            <div class="item-inner">
+                                <div id="settings-document-date" class="item-title"><%= scope.textLoading %></div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="content-block-title"><%= scope.textStatistic %></div>
+                <div class="list-block">
+                    <ul>
+                        <li class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textPages %></div>
+                                <div class="item-after" id="statistic-pages">0</div>
+                            </div>
+                        </li>
+                        <li class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textParagraphs %></div>
+                                <div class="item-after" id="statistic-paragraphs">0</div>
+                            </div>
+                        </li>
+                        <li class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textWords %></div>
+                                <div class="item-after" id="statistic-words">0</div>
+                            </div>
+                        </li>
+                        <li class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textSymbols %></div>
+                                <div class="item-after" id="statistic-symbols">0</div>
+                            </div>
+                        </li>
+                        <li class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textSpaces %></div>
+                                <div class="item-after" id="statistic-spaces">0</div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Download view -->
+<div id="settings-download-view">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left sliding">
+                <a href="#" class="back link">
+                    <i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %>
+                </a>
+            </div>
+            <div class="center sliding"><%= scope.textDownload %></div>
+        </div>
+    </div>
+    <div class="pages">
+        <div class="page formats" data-page="settings-download-view">
+            <div class="page-content">
+                <div class="content-block-title"><%= scope.textDownloadAs %></div>
+                <div class="list-block">
+                    <ul>
+                        <li>
+                            <a data-format="65" class="item-link no-indicator">
+                                <div class="item-content">
+                                    <div class="item-media">
+                                        <i class="icon icon-format-docx"></i>
+                                    </div>
+                                    <div class="item-inner">
+                                        <div class="item-title">DOCX</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a data-format="513" class="item-link no-indicator">
+                                <div class="item-content">
+                                    <div class="item-media">
+                                        <i class="icon icon-format-pdf"></i>
+                                    </div>
+                                    <div class="item-inner">
+                                        <div class="item-title">PDF</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a data-format="69" class="item-link no-indicator">
+                                <div class="item-content">
+                                    <div class="item-media">
+                                        <i class="icon icon-format-txt"></i>
+                                    </div>
+                                    <div class="item-inner">
+                                        <div class="item-title">TXT</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a data-format="67" class="item-link no-indicator">
+                                <div class="item-content">
+                                    <div class="item-media">
+                                        <i class="icon icon-format-odt"></i>
+                                    </div>
+                                    <div class="item-inner">
+                                        <div class="item-title">ODT</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a data-format="2051" class="item-link no-indicator">
+                                <div class="item-content">
+                                    <div class="item-media">
+                                        <i class="icon icon-format-html"></i>
+                                    </div>
+                                    <div class="item-inner">
+                                        <div class="item-title">HTML</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- History view -->
+<div id="settings-history-view">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left sliding">
+                <a href="#" class="back link">
+                    <i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %>
+                </a>
+            </div>
+            <div class="center sliding">Version History</div>
+        </div>
+    </div>
+    <div class="pages">
+        <div class="page" data-page="settings-history-view">
+            <div class="page-content">
+                <div class="content-block-title">Saved versions</div>
+                <div class="content-block inset">
+                    <div class="content-block-inner">
+                        <p>Under construction</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- About view -->
+<div id="settings-about-view">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left sliding">
+                <a href="#" class="back link">
+                    <i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %>
+                </a>
+            </div>
+            <div class="center sliding"><%= scope.textAbout %></div>
+        </div>
+    </div>
+    <div class="pages">
+        <div class="page about" data-page="settings-about-view">
+            <div class="page-content">
+                <div class="content-block">
+                    <div class="logo" style="display: inline-block; width: 100%; height: 55px;"></div>
+                </div>
+                <div class="content-block">
+                    <h3>DOCUMENT EDITOR</h3>
+                    <h3><%= scope.textVersion %> {{PRODUCT_VERSION}}</h3>
+                </div>
+                <div class="content-block">
+                    <h3 class="vendor">Ascensio System SIA</h3>
+                    <p><label><%= scope.textAddress %>:</label><a class="external" href="#">Lubanas st. 125a-25, Riga, Latvia, EU, LV-1021</a></p>
+                    <p><label><%= scope.textEmail %>:</label><a class="external" target="_blank" href="mailto:support@onlyoffice.com">support@onlyoffice.com</a></p>
+                    <p><label><%= scope.textTel %>:</label><a class="external" target="_blank" href="tel:+371 660-16425">+371 660-16425</a></p>
+                    <p><a class="external" target="_blank" href="http://www.onlyoffice.com">www.onlyoffice.com</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

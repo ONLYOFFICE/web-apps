@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2016
+ * (c) Copyright Ascensio System Limited 2010-2017
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -244,7 +244,7 @@ define([
                 cls         : 'btn-large-dataview',
                 iconCls     : 'item-chartlist bar-normal',
                 menu        : new Common.UI.Menu({
-                    style: 'width: 560px;',
+                    style: 'width: 435px; padding-top: 12px;',
                     items: [
                         { template: _.template('<div id="id-chart-menu-type" class="menu-insertchart"  style="margin: 5px 5px 5px 10px;"></div>') }
                     ]
@@ -254,15 +254,15 @@ define([
                 me.mnuChartTypePicker = new Common.UI.DataView({
                     el: $('#id-chart-menu-type'),
                     parentMenu: btn.menu,
-                    restoreHeight: 411,
+                    restoreHeight: 421,
                     groups: new Common.UI.DataViewGroupStore([
                         { id: 'menu-chart-group-bar',     caption: me.textColumn },
                         { id: 'menu-chart-group-line',    caption: me.textLine },
                         { id: 'menu-chart-group-pie',     caption: me.textPie },
                         { id: 'menu-chart-group-hbar',    caption: me.textBar },
-                        { id: 'menu-chart-group-area',    caption: me.textArea },
-                        { id: 'menu-chart-group-scatter', caption: me.textPoint },
-                        { id: 'menu-chart-group-stock',   caption: me.textStock }
+                        { id: 'menu-chart-group-area',    caption: me.textArea, inline: true },
+                        { id: 'menu-chart-group-scatter', caption: me.textPoint, inline: true },
+                        { id: 'menu-chart-group-stock',   caption: me.textStock, inline: true }
                     ]),
                     store: new Common.UI.DataViewStore([
                         { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barNormal,          iconCls: 'column-normal', selected: true},
@@ -545,13 +545,13 @@ define([
         txtInFront: 'In front',
         textEditData: 'Edit Data',
         textChartType: 'Change Chart Type',
-        textLine:           'Line Chart',
-        textColumn:         'Column Chart',
-        textBar:            'Bar Chart',
-        textArea:           'Area Chart',
-        textPie:            'Pie Chart',
-        textPoint:          'XY (Scatter) Chart',
-        textStock:          'Stock Chart',
+        textLine:           'Line',
+        textColumn:         'Column',
+        textBar:            'Bar',
+        textArea:           'Area',
+        textPie:            'Pie',
+        textPoint:          'XY (Scatter)',
+        textStock:          'Stock',
         textStyle:          'Style'
 
     }, DE.Views.ChartSettings || {}));

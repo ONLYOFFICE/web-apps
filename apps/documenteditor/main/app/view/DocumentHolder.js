@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2016
+ * (c) Copyright Ascensio System Limited 2010-2017
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -327,14 +327,14 @@ define([
                 toolTip: new Common.UI.Tooltip({
                     owner: this,
                     html: true,
-                    title: '<br><b>Press Ctrl and click link</b>'
+                    title: '<br><b>Press Ctrl and click link</b>',
+                    cls: 'link-tooltip'
 //                    style: 'word-wrap: break-word;'
                 }),
                 strTip: '',
                 isHidden: true,
                 isVisible: false
             };
-
 
             /** coauthoring begin **/
             var userTooltip = true;
@@ -401,7 +401,6 @@ define([
             };
 
             var onMouseMoveStart = function() {
-
                 screenTip.isHidden = true;
                 /** coauthoring begin **/
                 if (me.usertips.length>0) {
@@ -418,10 +417,18 @@ define([
                 /** coauthoring end **/
             };
 
+            var mouseMoveData = null,
+                isTooltipHiding = false;
+
             var onMouseMoveEnd = function() {
                 if (screenTip.isHidden && screenTip.isVisible) {
                     screenTip.isVisible = false;
-                    screenTip.toolTip.hide();
+                    isTooltipHiding = true;
+                    screenTip.toolTip.hide(function(){
+                        isTooltipHiding = false;
+                        if (mouseMoveData) onMouseMove(mouseMoveData);
+                        mouseMoveData = null;
+                    });
                 }
             };
 
@@ -436,42 +443,63 @@ define([
                 }
 
                 if (moveData) {
-                    var showPoint, ToolTip;
+                    var showPoint, ToolTip,
+                        type = moveData.get_Type();
 
-                    if (moveData.get_Type()==1) { // 1 - hyperlink
-                        var hyperProps = moveData.get_Hyperlink();
-                        var recalc = false;
-                        if (hyperProps) {
-                            screenTip.isHidden = false;
-
-                            ToolTip = (_.isEmpty(hyperProps.get_ToolTip())) ? hyperProps.get_Value() : hyperProps.get_ToolTip();
-                            ToolTip = Common.Utils.String.htmlEncode(ToolTip);
-
-                            if (screenTip.tipLength !== ToolTip.length || screenTip.strTip.indexOf(ToolTip)<0 ) {
-                                screenTip.toolTip.setTitle(ToolTip + '<br><b>' + me.txtPressLink + '</b>');
-                                screenTip.tipLength = ToolTip.length;
-                                screenTip.strTip = ToolTip;
-                                recalc = true;
-                            }
-
-                            showPoint = [moveData.get_X(), moveData.get_Y()];
-                            showPoint[1] += (me._XY[1]-15);
-                            showPoint[0] += (me._XY[0]+5);
-
-                            if (!screenTip.isVisible || recalc) {
-                                screenTip.isVisible = true;
-                                screenTip.toolTip.show([-10000, -10000]);
-                            }
-
-                            if ( recalc ) {
-                                screenTip.tipHeight = screenTip.toolTip.getBSTip().$tip.height();
-                                screenTip.tipWidth = screenTip.toolTip.getBSTip().$tip.width();
-                            }
-                            showPoint[1] -= screenTip.tipHeight;
-                            if (showPoint[0] + screenTip.tipWidth > me._BodyWidth )
-                                showPoint[0] = me._BodyWidth - screenTip.tipWidth;
-                            screenTip.toolTip.getBSTip().$tip.css({top: showPoint[1] + 'px', left: showPoint[0] + 'px'});
+                    if (type==1 || type==3) { // 1 - hyperlink, 3 - footnote
+                        if (isTooltipHiding) {
+                            mouseMoveData = moveData;
+                            return;
                         }
+
+                        if (type==1) {
+                            var hyperProps = moveData.get_Hyperlink();
+                            if (!hyperProps) return;
+                            ToolTip = (_.isEmpty(hyperProps.get_ToolTip())) ? hyperProps.get_Value() : hyperProps.get_ToolTip();
+                        } else {
+                            ToolTip = moveData.get_FootnoteText();
+                            if (ToolTip.length>1000)
+                                ToolTip = ToolTip.substr(0, 1000) + '...';
+                        }
+
+                        var recalc = false;
+                        screenTip.isHidden = false;
+
+                        ToolTip = Common.Utils.String.htmlEncode(ToolTip);
+
+                        if (screenTip.tipType !== type || screenTip.tipLength !== ToolTip.length || screenTip.strTip.indexOf(ToolTip)<0 ) {
+                            screenTip.toolTip.setTitle((type==1) ? (ToolTip + '<br><b>' + me.txtPressLink + '</b>') : ToolTip);
+                            screenTip.tipLength = ToolTip.length;
+                            screenTip.strTip = ToolTip;
+                            screenTip.tipType = type;
+                            recalc = true;
+                        }
+
+                        showPoint = [moveData.get_X(), moveData.get_Y()];
+                        showPoint[1] += (me._XY[1]-15);
+                        showPoint[0] += (me._XY[0]+5);
+
+                        if (!screenTip.isVisible || recalc) {
+                            screenTip.isVisible = true;
+                            screenTip.toolTip.show([-10000, -10000]);
+                        }
+
+                        if ( recalc ) {
+                            screenTip.tipHeight = screenTip.toolTip.getBSTip().$tip.height();
+                            screenTip.tipWidth = screenTip.toolTip.getBSTip().$tip.width();
+                        }
+
+                        recalc = false;
+                        if (showPoint[0] + screenTip.tipWidth > me._BodyWidth ) {
+                            showPoint[0] = me._BodyWidth - screenTip.tipWidth;
+                            recalc = true;
+                        }
+                        if (showPoint[1] - screenTip.tipHeight < 0) {
+                            showPoint[1] = (recalc) ? showPoint[1]+30 : 0;
+                        } else
+                            showPoint[1] -= screenTip.tipHeight;
+
+                        screenTip.toolTip.getBSTip().$tip.css({top: showPoint[1] + 'px', left: showPoint[0] + 'px'});
                     }
                     /** coauthoring begin **/
                     else if (moveData.get_Type()==2 && me.mode.isEdit) { // 2 - locked object

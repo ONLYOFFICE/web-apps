@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2016
+ * (c) Copyright Ascensio System Limited 2010-2017
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -112,6 +112,7 @@ define([
                 this.menuCls        = me.options.menuCls;
                 this.menuStyle      = me.options.menuStyle;
                 this.template       = me.options.template || me.template;
+                this.itemsTemplate  = me.options.itemsTemplate;
                 this.hint           = me.options.hint;
                 this.editable       = me.options.editable;
                 this.disabled       = me.options.disabled;
@@ -134,15 +135,22 @@ define([
                 var me = this;
 
                 if (!me.rendered) {
+                    var items = this.store.toJSON();
                     this.cmpEl = $(this.template({
                         id          : this.id,
                         cls         : this.cls,
                         style       : this.style,
                         menuCls     : this.menuCls,
                         menuStyle   : this.menuStyle,
-                        items       : this.store.toJSON(),
+                        items       : items,
                         scope       : me
                     }));
+                    if (this.itemsTemplate)
+                        this.cmpEl.find('ul').append(
+                            $(this.itemsTemplate({
+                                items       : items,
+                                scope       : me
+                            })));
 
                     if (parentEl) {
                         this.setElement(parentEl, false);
@@ -274,7 +282,7 @@ define([
                 }
 
                 if (this.scroller)
-                    this.scroller.update();
+                    this.scroller.update({alwaysVisibleY: this.scrollAlwaysVisible});
 
                 this.trigger('show:after', this, e);
             },
@@ -441,7 +449,7 @@ define([
                 return this.rendered ? this._input.val() : null;
             },
 
-            setValue: function(value) {
+            setValue: function(value, defValue) {
                 if (!this.rendered)
                     return;
 
@@ -454,7 +462,7 @@ define([
                     this.setRawValue(this._selectedItem.get(this.displayField));
                     $('#' + this._selectedItem.get('id'), $(this.el)).addClass('selected');
                 } else {
-                    this.setRawValue(value);
+                    this.setRawValue((defValue!==undefined) ? defValue : value);
                 }
             },
 
@@ -529,14 +537,21 @@ define([
             },
 
             onResetItems: function() {
-                $(this.el).find('ul').html(_.template([
-                    '<% _.each(items, function(item) { %>',
-                        '<li id="<%= item.id %>" data-value="<%= item.value %>"><a tabindex="-1" type="menuitem"><%= scope.getDisplayValue(item) %></a></li>',
-                    '<% }); %>'
-                ].join(''), {
-                    items: this.store.toJSON(),
-                    scope: this
-                }));
+                if (this.itemsTemplate) {
+                    $(this.el).find('ul').html( $(this.itemsTemplate({
+                        items: this.store.toJSON(),
+                        scope: this
+                    })));
+                } else {
+                    $(this.el).find('ul').html(_.template([
+                        '<% _.each(items, function(item) { %>',
+                           '<li id="<%= item.id %>" data-value="<%= item.value %>"><a tabindex="-1" type="menuitem"><%= scope.getDisplayValue(item) %></a></li>',
+                        '<% }); %>'
+                    ].join(''), {
+                        items: this.store.toJSON(),
+                        scope: this
+                    }));
+                }
 
                 if (!_.isUndefined(this.scroller)) {
                     this.scroller.destroy();

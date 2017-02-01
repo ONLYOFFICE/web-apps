@@ -1,7 +1,7 @@
 {
     "name": "spreadsheeteditor",
-    "version": "4.7.0",
-    "build": 878,
+    "version": "4.3.0",
+    "build": 879,
     "homepage": "http://www.onlyoffice.com",
     "private": true,
     "sdk": {
@@ -237,55 +237,150 @@
         }
     },
     "mobile": {
-        "clean": [
-            "../deploy/web-apps/apps/spreadsheeteditor/mobile"
-        ],
-        "js": {
-            "src": [
-                "../apps/common/Gateway.js",
-                "../apps/common/Analytics.js",
-                "../apps/common/mobile/loader.js",
-                "../apps/spreadsheeteditor/mobile/app/model/Worksheet.js",
-                "../apps/spreadsheeteditor/mobile/app/store/Worksheets.js",
-                "../apps/spreadsheeteditor/mobile/app/view/OpenCsvPanel.js",
-                "../apps/spreadsheeteditor/mobile/app/view/WorksheetList.js",
-                "../apps/spreadsheeteditor/mobile/app/view/Main.js",
-                "../apps/spreadsheeteditor/mobile/app/view/phone/toolbar/Search.js",
-                "../apps/spreadsheeteditor/mobile/app/view/phone/toolbar/View.js",
-                "../apps/spreadsheeteditor/mobile/app/view/phone/Main.js",
-                "../apps/spreadsheeteditor/mobile/app/view/tablet/toolbar/Search.js",
-                "../apps/spreadsheeteditor/mobile/app/view/tablet/toolbar/View.js",
-                "../apps/spreadsheeteditor/mobile/app/view/tablet/Main.js",
-                "../apps/spreadsheeteditor/mobile/app/controller/ApiEvents.js",
-                "../apps/spreadsheeteditor/mobile/app/controller/Document.js",
-                "../apps/spreadsheeteditor/mobile/app/controller/Search.js",
-                "../apps/spreadsheeteditor/mobile/app/controller/WorksheetList.js",
-                "../apps/spreadsheeteditor/mobile/app/controller/Main.js",
-                "../apps/spreadsheeteditor/mobile/app/controller/phone/Main.js",
-                "../apps/spreadsheeteditor/mobile/app/controller/tablet/Main.js",
-                "../apps/spreadsheeteditor/mobile/app/controller/toolbar/View.js",
-                "../apps/spreadsheeteditor/mobile/app/profile/Phone.js",
-                "../apps/spreadsheeteditor/mobile/app/profile/Tablet.js",
-                "../apps/common/locale.js",
-                "../apps/spreadsheeteditor/mobile/app.js"
-            ],
-            "dist": "../deploy/web-apps/apps/spreadsheeteditor/mobile/app-all.js"
+        "clean": {
+            "deploy": [
+                "../deploy/web-apps/apps/spreadsheeteditor/mobile"
+            ]
         },
-        "css": {
-            "normal": {
-                "src": [
-                    "../apps/spreadsheeteditor/mobile/resources/css/application-normal.css"
-                ],
-                "dist": "../deploy/web-apps/apps/spreadsheeteditor/mobile/resources/css/application-normal.css"
-            },
-            "retina": {
-                "src": [
-                    "../apps/spreadsheeteditor/mobile/resources/css/application-retina.css"
-                ],
-                "dist": "../deploy/web-apps/apps/spreadsheeteditor/mobile/resources/css/application-retina.css"
+        "js": {
+            "requirejs": {
+                "options": {
+                    "name": "../apps/spreadsheeteditor/mobile/app.js",
+                    "out": "../deploy/web-apps/apps/spreadsheeteditor/mobile/app.js",
+                    "baseUrl": "../apps/",
+                    "inlineText": true,
+                    "findNestedDependencies": true,
+                    "preserveLicenseComments": false,
+                    "optimizeAllPluginResources": true,
+                    "paths": {
+                        "jquery": "../vendor/jquery/jquery",
+                        "underscore": "../vendor/underscore/underscore",
+                        "backbone": "../vendor/backbone/backbone",
+                        "framework7": "../vendor/framework7/js/framework7",
+                        "text": "../vendor/requirejs-text/text",
+                        "xregexp": "empty:",
+                        "sockjs": "empty:",
+                        "jszip": "empty:",
+                        "jszip-utils": "empty:",
+                        "jsrsasign": "empty:",
+                        "coapisettings": "empty:",
+                        "allfonts": "empty:",
+                        "sdk": "empty:",
+                        "api": "empty:",
+                        "core": "common/main/lib/core/application",
+                        "extendes": "common/mobile/utils/extendes",
+                        "notification": "common/main/lib/core/NotificationCenter",
+                        "localstorage": "common/main/lib/util/LocalStorage",
+                        "analytics": "common/Analytics",
+                        "gateway": "common/Gateway",
+                        "locale": "common/locale",
+                        "irregularstack": "common/IrregularStack",
+                        "sharedsettings": "common/mobile/utils/SharedSettings"
+                    },
+                    "shim": {
+                        "framework7": {
+                            "exports": "Framework7"
+                        },
+                        "underscore": {
+                            "exports": "_"
+                        },
+                        "backbone": {
+                            "deps": [
+                                "underscore",
+                                "jquery"
+                            ],
+                            "exports": "Backbone"
+                        },
+                        "notification": {
+                            "deps": [
+                                "backbone"
+                            ]
+                        },
+                        "core": {
+                            "deps": [
+                                "backbone",
+                                "notification",
+                                "irregularstack",
+                                "sharedsettings"
+                            ]
+                        },
+                        "extendes": {
+                            "deps": [
+                                "underscore",
+                                "jquery",
+                                "framework7"
+                            ]
+                        },
+                        "sdk": {
+                            "deps": [
+                                "jquery",
+                                "underscore",
+                                "coapisettings",
+                                "allfonts",
+                                "xregexp",
+                                "sockjs",
+                                "jszip",
+                                "jszip-utils",
+                                "jsrsasign"
+                            ]
+                        },
+                        "gateway": {
+                            "deps": [
+                                "jquery"
+                            ]
+                        },
+                        "analytics": {
+                            "deps": [
+                                "jquery"
+                            ]
+                        }
+                    }
+                }
             }
         },
+        "css": {
+            "ios": {
+                "src": [
+                    "../apps/spreadsheeteditor/mobile/resources/css/app-ios.css"
+                ],
+                "dist": "../deploy/web-apps/apps/spreadsheeteditor/mobile/resources/css/app-ios.css"
+            },
+            "material": {
+                "src": [
+                    "../apps/spreadsheeteditor/mobile/resources/css/app-material.css"
+                ],
+                "dist": "../deploy/web-apps/apps/spreadsheeteditor/mobile/resources/css/app-material.css"
+            }
+        },
+        "htmlmin": {
+            "templates": [
+                {
+                    "expand": true,
+                    "cwd": "../apps/spreadsheeteditor/mobile/app/template/",
+                    "src": "*.template",
+                    "dest": "../apps/spreadsheeteditor/mobile/app/template/"
+                }
+            ]
+        },
         "copy": {
+            "template-backup": [
+                {
+                    "expand": true,
+                    "cwd": "../apps/spreadsheeteditor/mobile/app/template/",
+                    "src": "*.template",
+                    "dest": "../apps/spreadsheeteditor/mobile/app/template/backup/",
+                    "filter": "isFile"
+                }
+            ],
+            "template-restore": [
+                {
+                    "expand": true,
+                    "cwd": "../apps/spreadsheeteditor/mobile/app/template/backup/",
+                    "src": "*.template",
+                    "dest": "../apps/spreadsheeteditor/mobile/app/template/",
+                    "filter": "isFile"
+                }
+            ],
             "index-page": {
                 "../deploy/web-apps/apps/spreadsheeteditor/mobile/index.html": "../apps/spreadsheeteditor/mobile/index.html.deploy"
             },
@@ -347,17 +442,6 @@
                     "dest": "../deploy/web-apps/apps/spreadsheeteditor/embed/resources/img/"
                 }
             ]
-        }
-    },
-    "touch": {
-        "clean": [
-            "../deploy/web-apps/vendor/touch"
-        ],
-        "copy": {
-            "script": {
-                "src": "../vendor/touch/sencha-touch-all.js",
-                "dest": "../deploy/web-apps/vendor/touch/sencha-touch-all.js"
-            }
         }
     },
     "bootstrap": {
@@ -507,7 +591,6 @@
             "deploy-xregexp",
             "deploy-requirejs",
             "deploy-megapixel",
-            "deploy-touch",
             "deploy-jquery",
             "deploy-underscore",
             "deploy-bootstrap",

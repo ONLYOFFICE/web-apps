@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2016
+ * (c) Copyright Ascensio System Limited 2010-2017
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -654,7 +654,7 @@ define([
                 cls         : 'btn-large-dataview',
                 iconCls     : 'item-chartlist bar-normal',
                 menu        : new Common.UI.Menu({
-                    style: 'width: 560px;',
+                    style: 'width: 435px; padding-top: 12px;',
                     items: [
                         { template: _.template('<div id="id-chart-menu-type" class="menu-insertchart"  style="margin: 5px 5px 5px 10px;"></div>') }
                     ]
@@ -665,15 +665,15 @@ define([
                 me.mnuChartTypePicker = new Common.UI.DataView({
                     el: $('#id-chart-menu-type'),
                     parentMenu: btn.menu,
-                    restoreHeight: 411,
+                    restoreHeight: 421,
                     groups: new Common.UI.DataViewGroupStore([
                         { id: 'menu-chart-group-bar',     caption: me.textColumn },
                         { id: 'menu-chart-group-line',    caption: me.textLine },
                         { id: 'menu-chart-group-pie',     caption: me.textPie },
                         { id: 'menu-chart-group-hbar',    caption: me.textBar },
-                        { id: 'menu-chart-group-area',    caption: me.textArea },
-                        { id: 'menu-chart-group-scatter', caption: me.textPoint },
-                        { id: 'menu-chart-group-stock',   caption: me.textStock }
+                        { id: 'menu-chart-group-area',    caption: me.textArea, inline: true },
+                        { id: 'menu-chart-group-scatter', caption: me.textPoint, inline: true },
+                        { id: 'menu-chart-group-stock',   caption: me.textStock, inline: true }
                     ]),
                     store: new Common.UI.DataViewStore([
                         { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barNormal,          iconCls: 'column-normal', selected: true},
@@ -762,9 +762,9 @@ define([
                 cls         : 'btn-large-dataview',
                 iconCls     : 'item-chartlist spark-column',
                 menu        : new Common.UI.Menu({
-                    style: 'width: 210px;',
+                    style: 'width: 200px; padding-top: 12px;',
                     items: [
-                        { template: _.template('<div id="id-spark-menu-type" class="menu-insertchart"  style="margin: 5px 5px 5px 10px;"></div>') }
+                        { template: _.template('<div id="id-spark-menu-type" class="menu-insertchart"  style="margin: 5px 5px 0 10px;"></div>') }
                     ]
                 })
             });
@@ -772,17 +772,17 @@ define([
                 me.mnuSparkTypePicker = new Common.UI.DataView({
                     el: $('#id-spark-menu-type'),
                     parentMenu: btn.menu,
-                    restoreHeight: 200,
+                    restoreHeight: 120,
                     allowScrollbar: false,
                     groups: new Common.UI.DataViewGroupStore([
-                        { id: 'menu-chart-group-sparkcolumn', caption: me.textColumnSpark },
-                        { id: 'menu-chart-group-sparkline',   caption: me.textLineSpark },
-                        { id: 'menu-chart-group-sparkwin',    caption: me.textWinLossSpark }
+                        { id: 'menu-chart-group-sparkcolumn', inline: true },
+                        { id: 'menu-chart-group-sparkline', inline: true },
+                        { id: 'menu-chart-group-sparkwin', inline: true }
                     ]),
                     store: new Common.UI.DataViewStore([
-                        { group: 'menu-chart-group-sparkcolumn',   type: Asc.c_oAscSparklineType.Column,    allowSelected: true, iconCls: 'spark-column'},
-                        { group: 'menu-chart-group-sparkline',     type: Asc.c_oAscSparklineType.Line,      allowSelected: true, iconCls: 'spark-line'},
-                        { group: 'menu-chart-group-sparkwin',      type: Asc.c_oAscSparklineType.Stacked,   allowSelected: true, iconCls: 'spark-win'}
+                        { group: 'menu-chart-group-sparkcolumn',   type: Asc.c_oAscSparklineType.Column,    allowSelected: true, iconCls: 'spark-column', tip: me.textColumnSpark},
+                        { group: 'menu-chart-group-sparkline',     type: Asc.c_oAscSparklineType.Line,      allowSelected: true, iconCls: 'spark-line',   tip: me.textLineSpark},
+                        { group: 'menu-chart-group-sparkwin',      type: Asc.c_oAscSparklineType.Stacked,   allowSelected: true, iconCls: 'spark-win',    tip: me.textWinLossSpark}
                     ]),
                     itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist <%= iconCls %>"></div>')
                 });
@@ -924,14 +924,17 @@ define([
                     (new SSE.Views.ChartSettingsDlg(
                         {
                             chartSettings: props,
+                            imageSettings: (me.isChart) ? me._originalProps : null,
                             isChart: me.isChart,
                             api: me.api,
                             handler: function(result, value) {
                                 if (result == 'ok') {
                                     if (me.api) {
-                                        if (me.isChart)
+                                        if (me.isChart) {
                                             me.api.asc_editChartDrawingObject(value.chartSettings);
-                                        else
+                                            if (value.imageSettings)
+                                                me.api.asc_setGraphicObjectProps(value.imageSettings);
+                                        } else
                                             me.api.asc_setSparklineGroup(me._state.SparkId, value.chartSettings);
                                     }
                                 }
@@ -979,7 +982,8 @@ define([
                 win.setSettings({
                     api     : me.api,
                     range   : props.getRange(),
-                    validation: validation
+                    validation: validation,
+                    type    : Asc.c_oAscSelectionDialogType.Chart
                 });
             }
         },
@@ -1305,13 +1309,13 @@ define([
         textHeight:     'Height',
         textEditData: 'Edit Data and Location',
         textChartType: 'Change Chart Type',
-        textLine:           'Line Chart',
-        textColumn:         'Column Chart',
-        textBar:            'Bar Chart',
-        textArea:           'Area Chart',
-        textPie:            'Pie Chart',
-        textPoint:          'XY (Scatter) Chart',
-        textStock:          'Stock Chart',
+        textLine:           'Line',
+        textColumn:         'Column',
+        textBar:            'Bar',
+        textArea:           'Area',
+        textPie:            'Pie',
+        textPoint:          'XY (Scatter)',
+        textStock:          'Stock',
         textStyle:          'Style',
         textAdvanced:       'Show advanced settings',
         strSparkColor:      'Color',

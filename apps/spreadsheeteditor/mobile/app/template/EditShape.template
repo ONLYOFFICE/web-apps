@@ -1,0 +1,228 @@
+<!-- Root view -->
+<div id="edit-shape-root">
+    <div class="list-block">
+        <ul>
+            <li>
+                <a id="shape-style" class="item-link" data-page="#edit-shape-style">
+                    <div class="item-content">
+                        <div class="item-inner">
+                            <div class="item-title"><%= scope.textStyle %></div>
+                        </div>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a id="shape-replace" class="item-link" data-page="#edit-shape-replace">
+                    <div class="item-content">
+                        <div class="item-inner">
+                            <div class="item-title"><%= scope.textReplace %></div>
+                        </div>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a id="shape-reorder" class="item-link" data-page="#edit-shape-reorder">
+                    <div class="item-content">
+                        <div class="item-inner">
+                            <div class="item-title"><%= scope.textReorder %></div>
+                        </div>
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="list-block">
+        <ul>
+            <li>
+                <% if (android) { %>
+                <a id="shape-remove" class="button button-raised button-fill" style="margin: 20px 16px; background-color: #f44336;"><%= scope.textRemoveShape %></a>
+                <% } else { %>
+                <a id="shape-remove" class="item-link list-button" style="text-align: center; color: #f00"><%= scope.textRemoveShape %></a>
+                <% } %>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<!-- Reorder view -->
+<div id="edit-shape-reorder">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left sliding"><a href="#" class="back link"><i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding"><%= scope.textReorder %></div>
+            <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
+        </div>
+    </div>
+    <div class="page shape-reorder" data-page="edit-shape-reorder">
+        <div class="page-content">
+            <div class="list-block">
+                <ul>
+                    <li>
+                        <a data-type="all-up" class="item-link no-indicator">
+                            <div class="item-content">
+                                <div class="item-media"><i class="icon icon-move-foreground"></i></div>
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textToForeground %></div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-type="all-down" class="item-link no-indicator">
+                            <div class="item-content">
+                                <div class="item-media"><i class="icon icon-move-background"></i></div>
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textToBackground %></div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-type="move-up" class="item-link no-indicator">
+                            <div class="item-content">
+                                <div class="item-media"><i class="icon icon-move-forward"></i></div>
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textForward %></div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-type="move-down" class="item-link no-indicator">
+                            <div data-type="move-down" class="item-content">
+                                <div class="item-media"><i class="icon icon-move-backward"></i></div>
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textBackward %></div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Replace view -->
+<div id="edit-shape-replace">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left sliding"><a href="#" class="back link"><i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding"><%= scope.textReplace %></div>
+            <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
+        </div>
+    </div>
+    <div class="page shape-replace" data-page="edit-shape-replace">
+        <div class="page-content dataview shapes">
+            <% _.each(shapes, function(row) { %>
+            <ul class="row">
+                <% _.each(row, function(shape) { %>
+                <li data-type="<%= shape.type %>">
+                    <div class="thumb" style="-webkit-mask-image:url('<%= imgpath %>/<%= shape.thumb %>')"></div>
+                </li>
+                <% }); %>
+            </ul>
+            <% }); %>
+        </div>
+    </div>
+</div>
+
+<!-- Styles view -->
+<div id="edit-shape-style">
+    <div class="navbar">
+        <div class="navbar-inner edit-shape-style" data-page="edit-shape-style">
+            <div class="left sliding"><a href="#" class="back link"><i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding categories">
+                <% if (android) { %>
+                <div class="toolbar tabbar">
+                    <div data-page="index" class="toolbar-inner">
+                        <a href="#tab-shape-fill" data-type="fill" class="tab-link active"><%= scope.textFill %></a>
+                        <a href="#tab-shape-border" data-type="border" class="tab-link"><%= scope.textBorder %></a>
+                        <a href="#tab-shape-effects" data-type="effects" class="tab-link"><%= scope.textEffects %></a>
+                    </div>
+                </div>
+                <% } else { %>
+                <div class="buttons-row">
+                    <a href="#tab-shape-fill" data-type="fill" class="tab-link button active"><%= scope.textFill %></a>
+                    <a href="#tab-shape-border" data-type="border" class="tab-link button"><%= scope.textBorder %></a>
+                    <a href="#tab-shape-effects" data-type="effects" class="tab-link button"><%= scope.textEffects %></a>
+                </div>
+                <% } %>
+            </div>
+            <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
+        </div>
+    </div>
+    <div class="page" data-page="edit-shape-style">
+        <div class="tabs-animated-wrap">
+            <div class="tabs">
+                <div id="tab-shape-fill" class="page-content tab active">
+                    <!--Fill colors-->
+                </div>
+                <div id="tab-shape-border" class="page-content tab">
+                    <div class="list-block">
+                        <ul>
+                            <li id="edit-shape-bordersize">
+                                <div style="padding: 15px 0 0 15px;"><%= scope.textSize %></div>
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-input">
+                                            <div class="range-slider">
+                                                <input type="range" min="0" max="7" value="0" step="1">
+                                            </div>
+                                        </div>
+                                        <div class="item-after value">0 pt</div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <a id="edit-shape-bordercolor" class="item-link" data-page="#edit-shape-border-color-view">
+                                    <div class="item-content">
+                                        <div class="item-inner">
+                                            <div class="item-title"><%= scope.textColor %></div>
+                                            <div class="item-after"><div class="color-preview"></div></div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div id="tab-shape-effects" class="page-content tab">
+                    <div class="list-block">
+                        <ul>
+                            <li id="edit-shape-effect">
+                                <div style="padding: 15px 0 0 15px;"><%= scope.textOpacity %></div>
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-input">
+                                            <div class="range-slider">
+                                                <input type="range" min="0" max="100" value="0" step="1">
+                                            </div>
+                                        </div>
+                                        <div class="item-after value">0 %</div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Border color view -->
+<div id="edit-shape-border-color-view">
+    <div class="navbar">
+        <div class="navbar-inner" data-page="edit-shape-border-color">
+            <div class="left sliding"><a href="#" class="back link"><i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding"><%= scope.textColor %></div>
+            <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
+        </div>
+    </div>
+    <div class="page" data-page="edit-shape-border-color-view">
+        <div class="page-content">
+            <!--Color palette-->
+        </div>
+    </div>
+</div>

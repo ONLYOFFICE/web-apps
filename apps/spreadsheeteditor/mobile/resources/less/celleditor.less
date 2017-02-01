@@ -1,0 +1,133 @@
+@gray-dark:             #c4c4c4;
+@gray-darker:           #848484; //rgb(132, 132, 132)
+@gray-light:            #f1f1f1; //rgb(241, 241, 241)
+
+@cellEditorHeight: 30px;
+@cellEditorExpandedHeight: 70px;
+
+.border-radius(@radius: 2px) {
+    border-radius: @radius;
+}
+
+#cell-editing-box {
+    box-sizing: border-box;
+    * {
+        box-sizing: border-box;
+    }
+
+    position: relative;
+
+    height: @cellEditorHeight;
+    min-height: @cellEditorHeight;
+    transition: min-height .1s;
+
+    background-color: #fff;
+    display: flex;
+    //align-items: stretch;
+    overflow: hidden;
+    z-index: 500;
+    .hairline(bottom, @gray-dark);//@toolbarBorderColor);
+
+    &.expanded {
+        min-height: @cellEditorExpandedHeight;
+        //height: @cellEditorExpandedHeight;
+        transition: min-height .1s;
+    }
+
+    .btn {
+        border: 0 none;
+        height: @cellEditorHeight;
+        background-color: transparent;
+    }
+
+    .ce-group {
+        overflow: hidden;
+        height: 100%;
+    }
+
+    .group-name {
+        float: left;
+        background-color: @gray-light;
+    }
+
+    #ce-cell-name {
+        display: inline-block;
+        width: 90px;
+        padding: 0 4px;
+        border: 0 none;
+        line-height: 30px;
+        //font-size: 17px;
+        text-align: center;
+
+        &[disabled] {
+            color: @gray-darker;
+            opacity: 0.5;
+        }
+    }
+
+    #ce-function {
+        height: @cellEditorHeight;
+        line-height: @cellEditorHeight;
+        display: flex;
+        align-items: center;
+        padding: 0 10px;
+        float: right;
+    }
+
+    .group-expand {
+        float: right;
+    }
+
+    .group-content {
+        position: relative;
+        padding-left: 1px;
+        .hairline(left, @gray-dark);
+        flex-grow: 1;
+        //height: 100%;
+    }
+
+    #ce-btn-expand {
+        width: @cellEditorHeight;
+        background: transparent;
+        padding: 0 2px 0;
+
+        .caret {
+            display: block;
+            transition: transform 0.1s ease;
+            width: 16px;
+            height: 16px;
+            .encoded-svg-background('<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 22 22" fill="#000"><g><path d="M20.5,6.5l1.1,1.1L11,18l0,0l0,0L0.5,7.5l1.1-1.1l9.5,9.5L20.5,6.5z"/></g></svg>');
+        }
+
+        &.collapse {
+            .caret {
+                transform: rotate(180deg);
+            }
+        }
+    }
+
+    #ce-cell-content {
+        display: block;
+        width: 100%;
+        padding: 3px 3px;
+        line-height: 1.428571429;
+        color: #000;
+        vertical-align: middle;
+        background-color: #fff;
+
+        height: 100%;
+        resize: none;
+        min-height: @cellEditorHeight;
+        border: 0 none;
+        font-size: 16px;
+
+        &[disabled] {
+            color: @gray-darker;
+            opacity: 0.5;
+        }
+    }
+
+    #ce-cell-name, #ce-cell-content {
+        border-radius: 0;
+    }
+}

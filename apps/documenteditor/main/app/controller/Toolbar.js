@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2016
+ * (c) Copyright Ascensio System Limited 2010-2017
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -53,7 +53,8 @@ define([
     'documenteditor/main/app/view/MailMergeRecepients',
     'documenteditor/main/app/view/StyleTitleDialog',
     'documenteditor/main/app/view/PageMarginsDialog',
-    'documenteditor/main/app/view/PageSizeDialog'
+    'documenteditor/main/app/view/PageSizeDialog',
+    'documenteditor/main/app/view/NoteSettingsDialog'
 ], function () {
     'use strict';
 
@@ -92,7 +93,8 @@ define([
                 can_copycut: undefined,
                 pgmargins: undefined,
                 fontsize: undefined,
-                in_equation: false
+                in_equation: false,
+                in_chart: false
             };
             this.flg = {};
             this.diagramEditor = null;
@@ -264,6 +266,10 @@ define([
             toolbar.mnuZoomIn.on('click',                               _.bind(this.onZoomInClick, this));
             toolbar.mnuZoomOut.on('click',                              _.bind(this.onZoomOutClick, this));
             toolbar.btnInsertEquation.on('click',                       _.bind(this.onInsertEquationClick, this));
+            toolbar.btnNotes.on('click',                                _.bind(this.onNotesClick, this));
+            toolbar.btnNotes.menu.on('item:click',                      _.bind(this.onNotesMenuClick, this));
+            toolbar.mnuGotoFootPrev.on('click',                         _.bind(this.onFootnotePrevClick, this));
+            toolbar.mnuGotoFootNext.on('click',                         _.bind(this.onFootnoteNextClick, this));
 
             $('#id-save-style-plus, #id-save-style-link', toolbar.$el).on('click', this.onMenuSaveStyle.bind(this));
 
@@ -563,6 +569,7 @@ define([
             var pr, sh, i = -1, type,
                 paragraph_locked = false,
                 header_locked = false,
+                image_locked = false,
                 can_add_table = false,
                 can_add_image = false,
                 enable_dropcap = undefined,
@@ -590,6 +597,7 @@ define([
                     in_header = true;
                 } else if (type === Asc.c_oAscTypeSelectElement.Image) {
                     in_image = in_header = true;
+                    image_locked = pr.get_Locked();
                     if (pr && pr.get_ChartProperties())
                         in_chart = true;
                 } else if (type === Asc.c_oAscTypeSelectElement.Math) {
@@ -670,16 +678,23 @@ define([
             }
 
             need_disable = paragraph_locked || header_locked || !can_add_image || in_equation;
-            if (need_disable != toolbar.btnInsertChart.isDisabled()) {
-                toolbar.btnInsertChart.setDisabled(need_disable);
+            if (need_disable != toolbar.btnInsertImage.isDisabled()) {
                 toolbar.btnInsertImage.setDisabled(need_disable);
                 toolbar.btnInsertShape.setDisabled(need_disable);
                 toolbar.btnInsertText.setDisabled(need_disable);
             }
 
-            need_disable = need_disable || in_image;
-            if (need_disable != toolbar.mnuInsertTextArt.isDisabled())
-                toolbar.mnuInsertTextArt.setDisabled(need_disable);
+            if ((need_disable || in_image) != toolbar.mnuInsertTextArt.isDisabled())
+                toolbar.mnuInsertTextArt.setDisabled(need_disable || in_image);
+
+            if (in_chart !== this._state.in_chart) {
+                toolbar.btnInsertChart.updateHint(in_chart ? toolbar.tipChangeChart : toolbar.tipInsertChart);
+                this._state.in_chart = in_chart;
+            }
+
+            need_disable = in_chart && image_locked || !in_chart && need_disable;
+            if (need_disable != toolbar.btnInsertChart.isDisabled())
+                toolbar.btnInsertChart.setDisabled(need_disable);
 
             need_disable = paragraph_locked || header_locked || in_chart || !can_add_image&&!in_equation;
             if (need_disable !== toolbar.btnInsertEquation.isDisabled()) toolbar.btnInsertEquation.setDisabled(need_disable);
@@ -1675,20 +1690,43 @@ define([
 
         onSelectChart: function(picker, item, record) {
             var me      = this,
-                type    = record.get('type');
+                type    = record.get('type'),
+                chart = false;
 
-            if (!this.diagramEditor)
-                this.diagramEditor = this.getApplication().getController('Common.Controllers.ExternalDiagramEditor').getView('Common.Views.ExternalDiagramEditor');
-
-            if (this.diagramEditor && me.api) {
-                this.diagramEditor.setEditMode(false);
-                this.diagramEditor.show();
-
-                var chart = me.api.asc_getChartObject(type);
-                if (chart) {
-                    this.diagramEditor.setChartData(new Asc.asc_CChartBinary(chart));
+            var selectedElements = me.api.getSelectedElements();
+            if (selectedElements && _.isArray(selectedElements)) {
+                for (var i = 0; i< selectedElements.length; i++) {
+                    if (Asc.c_oAscTypeSelectElement.Image == selectedElements[i].get_ObjectType()) {
+                        var elValue = selectedElements[i].get_ObjectValue().get_ChartProperties();
+                        if (elValue) {
+                            chart = elValue;
+                            break;
+                        }
+                    }
                 }
-                me.toolbar.fireEvent('insertchart', me.toolbar);
+            }
+
+            if (chart) {
+                var props = new Asc.asc_CImgProperty();
+                chart.changeType(type);
+                props.put_ChartProperties(chart);
+                this.api.ImgApply(props);
+
+                Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            } else {
+                if (!this.diagramEditor)
+                    this.diagramEditor = this.getApplication().getController('Common.Controllers.ExternalDiagramEditor').getView('Common.Views.ExternalDiagramEditor');
+
+                if (this.diagramEditor && me.api) {
+                    this.diagramEditor.setEditMode(false);
+                    this.diagramEditor.show();
+
+                    chart = me.api.asc_getChartObject(type);
+                    if (chart) {
+                        this.diagramEditor.setChartData(new Asc.asc_CChartBinary(chart));
+                    }
+                    me.toolbar.fireEvent('insertchart', me.toolbar);
+                }
             }
         },
 
@@ -1958,6 +1996,68 @@ define([
                 this.api.zoomOut();
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onNotesClick: function() {
+            if (this.api)
+              this.api.asc_AddFootnote();
+        },
+
+        onNotesMenuClick: function(menu, item) {
+            if (this.api) {
+                if (item.value == 'ins_footnote')
+                    this.api.asc_AddFootnote();
+                else if (item.value == 'delele')
+                    Common.UI.warning({
+                        msg: this.confirmDeleteFootnotes,
+                        buttons: ['yes', 'no'],
+                        primary: 'yes',
+                        callback: _.bind(function(btn) {
+                            if (btn == 'yes') {
+                                this.api.asc_RemoveAllFootnotes();
+                            }
+                            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+                        }, this)
+                    });
+                else if (item.value == 'settings') {
+                    var me = this;
+                    (new DE.Views.NoteSettingsDialog({
+                        api: me.api,
+                        handler: function(result, settings) {
+                            if (settings) {
+                                me.api.asc_SetFootnoteProps(settings.props, settings.applyToAll);
+                                if (result == 'insert')
+                                    me.api.asc_AddFootnote(settings.custom);
+                            }
+                            Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                        },
+                        props   : me.api.asc_GetFootnoteProps()
+                    })).show();
+                } else
+                    return;
+
+                Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            }
+        },
+
+        onFootnotePrevClick: function(btn) {
+            if (this.api)
+                this.api.asc_GotoFootnote(false);
+
+            var me = this;
+            setTimeout(function() {
+                Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+            }, 50);
+        },
+
+        onFootnoteNextClick: function(btn) {
+            if (this.api)
+                this.api.asc_GotoFootnote(true);
+
+            var me = this;
+            setTimeout(function() {
+                Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+            }, 50);
         },
 
         _clearBullets: function() {
@@ -2992,7 +3092,8 @@ define([
         confirmAddFontName: 'The font you are going to save is not available on the current device.<br>The text style will be displayed using one of the device fonts, the saved font will be used when it is available.<br>Do you want to continue?',
         notcriticalErrorTitle: 'Warning',
         txtMarginsW: 'Left and right margins are too high for a given page wight',
-        txtMarginsH: 'Top and bottom margins are too high for a given page height'
+        txtMarginsH: 'Top and bottom margins are too high for a given page height',
+        confirmDeleteFootnotes: 'Do you want to delete all footnotes?'
 
     }, DE.Controllers.Toolbar || {}));
 });

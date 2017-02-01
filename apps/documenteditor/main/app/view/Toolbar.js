@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2016
+ * (c) Copyright Ascensio System Limited 2010-2017
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -489,7 +489,7 @@ define([
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-insertchart',
                 menu        : new Common.UI.Menu({
-                    style: 'width: 560px;',
+                    style: 'width: 435px;',
                     items: [
                         { template: _.template('<div id="id-toolbar-menu-insertchart" class="menu-insertchart" style="margin: 5px 5px 5px 10px;"></div>') }
                     ]
@@ -736,6 +736,15 @@ define([
                  })
             });
             this.toolbarControls.push(this.btnColorSchemas);
+
+            this.btnNotes = new Common.UI.Button({
+                id          : 'id-toolbar-btn-notes',
+                cls         : 'btn-toolbar',
+                iconCls     : 'btn-notes',
+                split       : true,
+                menu        : true
+            });
+            this.paragraphControls.push(this.btnNotes);
 
             this.btnMailRecepients= new Common.UI.Button({
                 id          : 'id-toolbar-btn-mailrecepients',
@@ -1076,14 +1085,11 @@ define([
             replacePlacholder('#id-toolbar-full-placeholder-field-styles',                 this.listStyles);
             replacePlacholder('#id-toolbar-short-placeholder-btn-halign',                  this.btnHorizontalAlign);
             replacePlacholder('#id-toolbar-full-placeholder-btn-mailrecepients',           this.btnMailRecepients);
+            replacePlacholder('#id-toolbar-' + prefix + '-placeholder-btn-notes',      this.btnNotes);
         },
 
         createDelayedElements: function() {
             if (this.api) {
-                var schemes = this.api.get_PropertyThemeColorSchemes();
-                if (schemes)
-                    this.onSendThemeColorSchemes(schemes);
-
                 this.mnuNonPrinting.items[0].setChecked(this.api.get_ShowParaMarks(), true);
                 this.mnuNonPrinting.items[1].setChecked(this.api.get_ShowTableEmptyLine(), true);
                 this.btnShowHidenChars.toggle(this.mnuNonPrinting.items[0].checked, true);
@@ -1143,6 +1149,7 @@ define([
             this.btnMailRecepients.updateHint(this.tipMailRecepients);
             this.btnHide.updateHint(this.tipViewSettings);
             this.btnAdvSettings.updateHint(this.tipAdvSettings);
+            this.btnNotes.updateHint(this.tipNotes);
 
             // set menus
 
@@ -1284,6 +1291,40 @@ define([
                 cls : 'btn-toolbar'
             });
 
+            this.btnNotes.setMenu(
+                new Common.UI.Menu({
+                    items: [
+                        { caption: this.mniInsFootnote,  value: 'ins_footnote' },
+                        { caption: '--' },
+                        this.mnuGotoFootnote = new Common.UI.MenuItem({
+                            template: _.template([
+                                '<div id="id-toolbar-menu-goto-footnote" class="menu-zoom" style="height: 25px;" ',
+                                '<% if(!_.isUndefined(options.stopPropagation)) { %>',
+                                'data-stopPropagation="true"',
+                                '<% } %>', '>',
+                                '<label class="title">' + this.textGotoFootnote + '</label>',
+                                '<button id="id-menu-goto-footnote-next" type="button" style="float:right; margin: 2px 5px 0 0;" class="btn small btn-toolbar"><span class="btn-icon mmerge-next">&nbsp;</span></button>',
+                                '<button id="id-menu-goto-footnote-prev" type="button" style="float:right; margin-top: 2px;" class="btn small btn-toolbar"><span class="btn-icon mmerge-prev">&nbsp;</span></button>',
+                                '</div>'
+                            ].join('')),
+                            stopPropagation: true
+                        }),
+                        { caption: '--' },
+                        { caption: this.mniDelFootnote,  value: 'delele' },
+                        { caption: this.mniNoteSettings, value: 'settings' }
+                    ]
+                })
+            );
+
+            this.mnuGotoFootPrev = new Common.UI.Button({
+                el  : $('#id-menu-goto-footnote-prev'),
+                cls : 'btn-toolbar'
+            });
+            this.mnuGotoFootNext = new Common.UI.Button({
+                el  : $('#id-menu-goto-footnote-next'),
+                cls : 'btn-toolbar'
+            });
+
             // set dataviews
             
             var _conf = this.mnuMarkersPicker.conf;
@@ -1362,15 +1403,15 @@ define([
                 el: $('#id-toolbar-menu-insertchart'),
                 parentMenu: this.btnInsertChart.menu,
                 showLast: false,
-                restoreHeight: 411,
+                restoreHeight: 421,
                 groups: new Common.UI.DataViewGroupStore([
-                    { id: 'menu-chart-group-bar',     caption: me.textColumn },
+                    { id: 'menu-chart-group-bar',     caption: me.textColumn, headername: me.textCharts },
                     { id: 'menu-chart-group-line',    caption: me.textLine },
                     { id: 'menu-chart-group-pie',     caption: me.textPie },
                     { id: 'menu-chart-group-hbar',    caption: me.textBar },
-                    { id: 'menu-chart-group-area',    caption: me.textArea },
-                    { id: 'menu-chart-group-scatter', caption: me.textPoint },
-                    { id: 'menu-chart-group-stock',   caption: me.textStock }
+                    { id: 'menu-chart-group-area',    caption: me.textArea, inline: true },
+                    { id: 'menu-chart-group-scatter', caption: me.textPoint, inline: true },
+                    { id: 'menu-chart-group-stock',   caption: me.textStock, inline: true }
                 ]),
                 store: new Common.UI.DataViewStore([
                     { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barNormal,          allowSelected: true, iconCls: 'column-normal', selected: true},
@@ -1457,6 +1498,7 @@ define([
         setApi: function(api) {
             this.api = api;
             /** coauthoring begin **/
+            this.api.asc_registerCallback('asc_onSendThemeColorSchemes', _.bind(this.onSendThemeColorSchemes, this));
             this.api.asc_registerCallback('asc_onCollaborativeChanges', _.bind(this.onCollaborativeChanges, this));
             this.api.asc_registerCallback('asc_onAuthParticipantsChanged', _.bind(this.onApiUsersChanged, this));
             this.api.asc_registerCallback('asc_onParticipantsChanged', _.bind(this.onApiUsersChanged, this));
@@ -1517,6 +1559,7 @@ define([
                 this.cmbFontName.setDisabled(true);
                 this.cmbFontSize.setDisabled(true);
                 this.listStyles.setDisabled(true);
+                this.btnNotes.setDisabled(true);
                 if (mode.disableDownload)
                     this.btnPrint.setDisabled(true);
             }
@@ -1827,13 +1870,13 @@ define([
         textNewColor: 'Add New Custom Color',
         textAutoColor: 'Automatic',
         tipInsertChart: 'Insert Chart',
-        textLine:           'Line Chart',
-        textColumn:         'Column Chart',
-        textBar:            'Bar Chart',
-        textArea:           'Area Chart',
-        textPie:            'Pie Chart',
-        textPoint:          'XY (Scatter) Chart',
-        textStock:          'Stock Chart',
+        textLine:           'Line',
+        textColumn:         'Column',
+        textBar:            'Bar',
+        textArea:           'Area',
+        textPie:            'Pie',
+        textPoint:          'XY (Scatter)',
+        textStock:          'Stock',
         tipColorSchemas:    'Change Color Scheme',
         tipInsertText: 'Insert Text',
         tipHAligh:          'Horizontal Align',
@@ -1910,7 +1953,14 @@ define([
         textPageSizeCustom: 'Custom Page Size',
         textPortrait: 'Portrait',
         textLandscape: 'Landscape',
-        textInsertPageCount: 'Insert number of pages'
-        
+        textInsertPageCount: 'Insert number of pages',
+        textCharts: 'Charts',
+        tipNotes: 'Footnotes',
+        mniInsFootnote: 'Insert Footnote',
+        mniDelFootnote: 'Delete All Footnotes',
+        mniNoteSettings: 'Notes Settings',
+        textGotoFootnote: 'Go to Footnotes',
+        tipChangeChart: 'Change Chart Type'
+
     }, DE.Views.Toolbar || {}));
 });

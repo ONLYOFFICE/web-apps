@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2016
+ * (c) Copyright Ascensio System Limited 2010-2017
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -44,7 +44,8 @@ define([
     'underscore',
     'backbone',
     'common/main/lib/component/Button',
-    'common/main/lib/component/ComboDataView'
+    'common/main/lib/component/ComboDataView',
+    'presentationeditor/main/app/view/ChartSettingsAdvanced'
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
 
@@ -200,7 +201,7 @@ define([
                 cls         : 'btn-large-dataview',
                 iconCls     : 'item-chartlist bar-normal',
                 menu        : new Common.UI.Menu({
-                    style: 'width: 560px;',
+                    style: 'width: 435px; padding-top: 12px;',
                     items: [
                         { template: _.template('<div id="id-chart-menu-type" class="menu-insertchart"  style="margin: 5px 5px 5px 10px;"></div>') }
                     ]
@@ -210,15 +211,15 @@ define([
                 me.mnuChartTypePicker = new Common.UI.DataView({
                     el: $('#id-chart-menu-type'),
                     parentMenu: btn.menu,
-                    restoreHeight: 411,
+                    restoreHeight: 421,
                     groups: new Common.UI.DataViewGroupStore([
                         { id: 'menu-chart-group-bar',     caption: me.textColumn },
                         { id: 'menu-chart-group-line',    caption: me.textLine },
                         { id: 'menu-chart-group-pie',     caption: me.textPie },
                         { id: 'menu-chart-group-hbar',    caption: me.textBar },
-                        { id: 'menu-chart-group-area',    caption: me.textArea },
-                        { id: 'menu-chart-group-scatter', caption: me.textPoint },
-                        { id: 'menu-chart-group-stock',   caption: me.textStock }
+                        { id: 'menu-chart-group-area',    caption: me.textArea, inline: true },
+                        { id: 'menu-chart-group-scatter', caption: me.textPoint, inline: true },
+                        { id: 'menu-chart-group-stock',   caption: me.textStock, inline: true }
                     ]),
                     store: new Common.UI.DataViewStore([
                         { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barNormal,          iconCls: 'column-normal', selected: true},
@@ -308,6 +309,9 @@ define([
                 }
                 this.fireEvent('editcomplete', this);
             }, this));
+
+            this.linkAdvanced = $('#chart-advanced-link');
+            $(this.el).on('click', '#chart-advanced-link', _.bind(this.openAdvancedSettings, this));
 
         },
 
@@ -466,6 +470,38 @@ define([
             this.fireEvent('editcomplete', this);
         },
 
+        openAdvancedSettings: function(e) {
+            if (this.linkAdvanced.hasClass('disabled')) return;
+
+            var me = this;
+            var win;
+            if (me.api && !this._locked){
+                var selectedElements = me.api.getSelectedElements();
+                if (selectedElements && selectedElements.length>0){
+                    var elType, elValue;
+                    for (var i = selectedElements.length - 1; i >= 0; i--) {
+                        elType = selectedElements[i].get_ObjectType();
+                        elValue = selectedElements[i].get_ObjectValue();
+                        if (Asc.c_oAscTypeSelectElement.Chart == elType) {
+                            (new PE.Views.ChartSettingsAdvanced(
+                                {
+                                    chartProps: elValue,
+                                    handler: function(result, value) {
+                                        if (result == 'ok') {
+                                            if (me.api) {
+                                                me.api.ChartApply(value.chartProps);
+                                            }
+                                        }
+                                        me.fireEvent('editcomplete', me);
+                                    }
+                                })).show();
+                            break;
+                        }
+                    }
+                }
+            }
+        },
+
         setLocked: function (locked) {
             this._locked = locked;
         },
@@ -478,6 +514,7 @@ define([
                 _.each(this.lockedControls, function(item) {
                     item.setDisabled(disable);
                 });
+                this.linkAdvanced.toggleClass('disabled', disable);
             }
         },
 
@@ -487,13 +524,14 @@ define([
         textHeight:     'Height',
         textEditData: 'Edit Data',
         textChartType: 'Change Chart Type',
-        textLine:           'Line Chart',
-        textColumn:         'Column Chart',
-        textBar:            'Bar Chart',
-        textArea:           'Area Chart',
-        textPie:            'Pie Chart',
-        textPoint:          'XY (Scatter) Chart',
-        textStock:          'Stock Chart',
-        textStyle:          'Style'
+        textLine:           'Line',
+        textColumn:         'Column',
+        textBar:            'Bar',
+        textArea:           'Area',
+        textPie:            'Pie',
+        textPoint:          'XY (Scatter)',
+        textStock:          'Stock',
+        textStyle:          'Style',
+        textAdvanced:   'Show advanced settings'
     }, PE.Views.ChartSettings || {}));
 });

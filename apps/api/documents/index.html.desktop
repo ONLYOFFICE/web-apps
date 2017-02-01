@@ -94,7 +94,7 @@
                     mode            : urlParams["mode"] || 'edit',
                     lang            : urlParams["lang"] || 'en',
                     user: {
-                        id: urlParams["userid"], firstname: urlParams["userfname"], lastname: urlParams["userlname"]
+                        id: urlParams["userid"] || 'uid-901', name: urlParams["username"] || 'Chuk.Gek'
                     }
                 };
             }

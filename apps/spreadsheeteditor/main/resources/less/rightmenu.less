@@ -80,6 +80,20 @@
     .settings-hidden {
         display: none;
     }
+
+    textarea {
+        .user-select(text);
+        width: 100%;
+        resize: none;
+        margin-bottom: 5px;
+        border: 1px solid @gray-dark;
+        height: 100%;
+
+        &.disabled {
+            opacity: 0.65;
+            cursor: default !important;
+        }
+    }
 }
 
 .btn-edit-table,
@@ -172,20 +186,12 @@ button:active:not(.disabled) .btn-change-shape    {background-position: -56px  -
 
 .menu-insertchart {
     .group-description {
-        float: left;
-        width: 125px;
-        line-height: 58px;
-        padding-left: 6px;
+        padding-left: 4px;
     }
 
     .group-items-container {
         float: left;
         position: relative;
-
-        & > div {
-            float: left;
-            margin: 0 0 0 14px;
-        }
     }
 }
 

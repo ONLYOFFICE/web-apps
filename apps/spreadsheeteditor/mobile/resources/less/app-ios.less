@@ -1,0 +1,171 @@
+@import url('../../../../../vendor/framework7/src/less/ios/_mixins.less');
+@import url('../../../../../vendor/framework7/src/less/ios/_colors-vars.less');
+
+// Colors
+@themeColor: #4F9E4F; // (79,158,79)
+
+@appToolbarHeight: @toolbarSize;
+
+@import url('../../../../../vendor/framework7/src/less/ios/intro.less');
+@import url('../../../../../vendor/framework7/src/less/ios/grid.less');
+@import url('../../../../../vendor/framework7/src/less/ios/views.less');
+@import url('../../../../../vendor/framework7/src/less/ios/pages.less');
+@import url('../../../../../vendor/framework7/src/less/ios/toolbars.less');
+@import url('../../../../../vendor/framework7/src/less/ios/toolbars-pages.less');
+@import url('../../../../../vendor/framework7/src/less/ios/searchbar.less');
+@import url('../../../../../vendor/framework7/src/less/ios/messagebar.less');
+@import url('../../../../../vendor/framework7/src/less/ios/icons.less');
+//@import url('../../../../../vendor/framework7/src/less/ios/badges.less');
+//@import url('../../../../../vendor/framework7/src/less/ios/chips.less');
+@import url('../../../../../vendor/framework7/src/less/ios/content-block.less');
+@import url('../../../../../vendor/framework7/src/less/ios/lists.less');
+//@import url('../../../../../vendor/framework7/src/less/ios/contacts.less');
+@import url('../../../../../vendor/framework7/src/less/ios/forms.less');
+//@import url('../../../../../vendor/framework7/src/less/ios/floating-button.less');
+//@import url('../../../../../vendor/framework7/src/less/ios/accordion.less');
+@import url('../../../../../vendor/framework7/src/less/ios/cards.less');
+@import url('../../../../../vendor/framework7/src/less/ios/modals.less');
+@import url('../../../../../vendor/framework7/src/less/ios/panels.less');
+//@import url('../../../../../vendor/framework7/src/less/ios/lazy-load.less');
+@import url('../../../../../vendor/framework7/src/less/ios/tabs.less');
+@import url('../../../../../vendor/framework7/src/less/ios/messages.less');
+@import url('../../../../../vendor/framework7/src/less/ios/statusbar.less');
+@import url('../../../../../vendor/framework7/src/less/ios/preloader.less');
+@import url('../../../../../vendor/framework7/src/less/ios/progressbar.less');
+//@import url('../../../../../vendor/framework7/src/less/ios/pull-to-refresh.less');
+//@import url('../../../../../vendor/framework7/src/less/ios/infinite-scroll.less');
+//@import url('../../../../../vendor/framework7/src/less/ios/autocomplete.less');
+@import url('../../../../../vendor/framework7/src/less/ios/swiper.less');
+//@import url('../../../../../vendor/framework7/src/less/ios/photo-browser.less');
+@import url('../../../../../vendor/framework7/src/less/ios/picker.less');
+//@import url('../../../../../vendor/framework7/src/less/ios/calendar.less');
+@import url('../../../../../vendor/framework7/src/less/ios/notifications.less');
+//@import url('../../../../../vendor/framework7/src/less/ios/login-screen.less');
+@import url('../../../../../vendor/framework7/src/less/ios/disabled.less');
+
+// Disable text select
+* {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+input, textarea {
+  -webkit-touch-callout:default;
+  -webkit-user-select:text;
+  user-select:text;
+}
+
+// Main Toolbar
+#editor-navbar.navbar .right a + a,
+#editor-navbar.navbar .left a + a {
+  margin-left: 0;
+
+  html:not(.phone) & {
+    margin-left: 10px;
+  }
+}
+
+@import url('../../../../common/mobile/resources/less/_mixins.less');
+@import url('../../../../common/mobile/resources/less/ios/_container.less');
+@import url('../../../../common/mobile/resources/less/ios/_dataview.less');
+@import url('../../../../common/mobile/resources/less/ios/_listview.less');
+@import url('../../../../common/mobile/resources/less/ios/_button.less');
+@import url('../../../../common/mobile/resources/less/ios/_contextmenu.less');
+@import url('../../../../common/mobile/resources/less/ios/_color-palette.less');
+@import url('../../../../common/mobile/resources/less/ios/_about.less');
+
+@import url('ios/_icons.less');
+@import url('app-common');
+@import url('celleditor');
+@import url('statusbar');
+@import url('ios/_search.less');
+
+// Add Container
+
+#add-table,
+#add-shape {
+  .page {
+    background-color: #fff;
+  }
+}
+
+// Table styles
+
+.table-styles {
+  .row {
+    &, li {
+      margin-bottom: 12px;
+    }
+  }
+
+  li {
+    margin: 0;
+    padding: 1px;
+
+    img {
+      width: 70px;
+      height: 50px;
+    }
+  }
+}
+
+// Shapes
+
+.shapes {
+  li {
+    width: 70px;
+    height: 70px;
+    margin: 0 1px;
+
+    .thumb {
+      width: 100%;
+      height: 100%;
+      background-color: @themeColor;
+    }
+  }
+}
+
+// Charts
+
+.chart-types {
+  li {
+    width: 60px;
+    height: 60px;
+    margin: 6px;
+
+    .thumb {
+      width: 100%;
+      height: 100%;
+      background-size: contain;
+    }
+  }
+}
+
+// Cell style
+.cell-styles.dataview {
+  .active:after {
+    right: 2px;
+    bottom: 2px;
+  }
+
+  .row {
+    padding: 5px;
+
+    li {
+      border: 1px solid @listBlockBorderColor;
+      html.pixel-ratio-2 & {
+        border: 0.5px solid @listBlockBorderColor;
+      }
+      html.pixel-ratio-3 & {
+        border: 0.33px solid @listBlockBorderColor;
+      }
+      padding: 2px;
+
+      .thumb {
+        width: 112px;
+        height: 38px;
+        background-size: contain;
+      }
+    }
+  }
+}

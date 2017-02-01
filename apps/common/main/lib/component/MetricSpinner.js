@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2016
+ * (c) Copyright Ascensio System Limited 2010-2017
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -244,6 +244,10 @@ define([
             if (this.$input) this.$input.val(value);
         },
 
+        getRawValue: function () {
+            return this.$input.val();
+        },
+
         setValue: function(value, suspendchange) {
             var showError = false;
             this._fromKeyDown = false;
@@ -288,6 +292,10 @@ define([
             } else {
                 this.options.value = this.value;
             }
+        },
+
+        setMask: function(value) {
+            this.options.maskExp = value;
         },
 
         onMouseDown: function (type, e) {
@@ -336,7 +344,7 @@ define([
                 }
             } else if (e.keyCode==Common.UI.Keys.RETURN) {
                 if (this.options.defaultUnit && this.options.defaultUnit.length) {
-                    var value = this.$input.val();
+                    var value = this.getRawValue();
                     if (this.value != value) {
                         this.onEnterValue();
                         return false;
@@ -384,7 +392,7 @@ define([
 
         onEnterValue: function() {
             if (this.$input) {
-                var val = this.$input.val();
+                var val = this.getRawValue();
                 this.setValue((val==='') ? this.value : val );
                 this.trigger('entervalue', this);
             }
@@ -392,7 +400,7 @@ define([
 
         onBlur: function(e){
             if (this.$input) {
-                var val = this.$input.val();
+                var val = this.getRawValue();
                 this.setValue((val==='') ? this.value : val );
                 if (this.options.hold && this.switches.fromKeyDown)
                     this._stopSpin();
@@ -430,7 +438,7 @@ define([
             if (!me.readOnly) {
                 var val = me.options.step;
                 if (me._fromKeyDown) {
-                    val = this.$input.val();
+                    val = this.getRawValue();
                     val = _.isEmpty(val) ? me.oldValue : parseFloat(val);
                 } else if(me.getValue() !== '') {
                     if (me.options.allowAuto && me.getValue()==me.options.autoText) {
@@ -451,7 +459,7 @@ define([
             if (!me.readOnly) {
                 var val = me.options.step;
                 if (me._fromKeyDown) {
-                    val = this.$input.val();
+                    val = this.getRawValue();
                     val = _.isEmpty(val) ? me.oldValue : parseFloat(val);
                 } else if(me.getValue() !== '') {
                     if (me.options.allowAuto && me.getValue()==me.options.autoText) {
@@ -520,4 +528,22 @@ define([
             return v_out;
         }
     });
+
+    Common.UI.CustomSpinner = Common.UI.MetricSpinner.extend(_.extend({
+        initialize : function(options) {
+            this.options.toCustomFormat = (options.toCustomFormat) ? options.toCustomFormat : function(value) { return value; };
+            this.options.fromCustomFormat = (options.fromCustomFormat) ? options.fromCustomFormat : function(value) { return value; };
+
+            Common.UI.MetricSpinner.prototype.initialize.call(this, options);
+        },
+
+        setRawValue: function (value) {
+            if (this.$input) this.$input.val(this.options.toCustomFormat(value));
+        },
+
+        getRawValue: function () {
+            return this.options.fromCustomFormat(this.$input.val());
+        }
+
+    }, Common.UI.CustomSpinner || {}));
 });

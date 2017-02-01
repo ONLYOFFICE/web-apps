@@ -31,26 +31,43 @@
         clear: left;
         overflow: hidden;
 
-        & > div {
+        &.inline {
             display: inline-block;
+            &.margin .group-items-container {
+                margin-right: 20px;
+            }
         }
 
         .group-items-container {
             overflow: hidden;
+            margin-bottom: 5px;
 
             & > div {
                 display: inline-block;
                 float: left;
-                margin: 4px;
-                cursor: pointer;
+                margin: 2px 4px 4px;
+
+                &:not(.disabled) {
+                    cursor: pointer;
+                }
+
+                &.disabled {
+                    opacity: 0.5;
+                }
 
                 .box-shadow(0 0 0 1px @gray);
 
-                &:hover,
-                &.selected {
+                &:hover:not(.disabled),
+                &.selected:not(.disabled) {
                     .box-shadow(0 0 0 2px @primary);
                 }
             }
         }
+    }
+
+    .header-name {
+        padding: 10px 2px 12px 4px;
+        font-weight: bold;
+        cursor: default;
     }
 }

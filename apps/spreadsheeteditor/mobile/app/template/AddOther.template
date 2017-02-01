@@ -1,0 +1,149 @@
+<!-- Root view -->
+<div id="addother-root-view">
+    <div class="list-block">
+        <ul>
+            <li>
+                <a id="add-other-insimage" class="item-link">
+                    <div class="item-content">
+                        <div class="item-media">
+                            <i class="icon icon-insimage"></i>
+                        </div>
+                        <div class="item-inner">
+                            <div class="item-title"><%= scope.textInsertImage %></div>
+                        </div>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a id="add-other-sort" class="item-link">
+                    <div class="item-content">
+                        <div class="item-media">
+                            <i class="icon icon-sort"></i>
+                        </div>
+                        <div class="item-inner">
+                            <div class="item-title"><%= scope.textSort %></div>
+                        </div>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a id="add-other-link" class="item-link">
+                    <div class="item-content">
+                        <div class="item-media">
+                            <i class="icon icon-link"></i>
+                        </div>
+                        <div class="item-inner">
+                            <div class="item-title"><%= scope.textLink %></div>
+                        </div>
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<!-- Add image view -->
+<div id="addother-insimage">
+    <div class="page" data-page="addother-image">
+        <div class="page-content">
+            <div class="list-block">
+                <ul>
+                    <li>
+                        <a id="addimage-file" class="item-link no-indicator no-fastclick">
+                            <div class="item-content">
+                                <div class="item-media">
+                                    <i class="icon icon-image-library"></i>
+                                </div>
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textFromLibrary %></div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a id="addimage-url" class="item-link">
+                            <div class="item-content">
+                                <div class="item-media">
+                                    <i class="icon icon-link"></i>
+                                </div>
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textFromURL %></div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Url view -->
+<div id="addother-imagefromurl">
+    <div class="page" id="addimage-fromurl" data-page="addimage-url">
+        <div class="page-content">
+            <div class="content-block-title"><%= scope.textAddress %></div>
+            <div class="list-block">
+                <ul>
+                    <li>
+                        <div id="addimage-link-url" class="item-content">
+                            <div class="item-inner">
+                                <div class="item-input">
+                                    <input type="url" placeholder="<%= scope.textImageURL %>">
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="list-block disabled" id="addimage-insert">
+                <% if (android) { %>
+                <a href="#" class="button button-fill button-raised" style="margin: 20px 16px;"><%= scope.textInsertImage %></a>
+                <% } else { %>
+                <ul>
+                    <li>
+                        <a href="#" class="list-button item-link"><%= scope.textInsertImage %></a>
+                    </li>
+                </ul>
+                <% } %>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- View for Sort&Filter -->
+<div id="addother-sort">
+    <div class="page">
+        <div class="page-content">
+            <div class="list-block">
+                <ul><li>
+                    <div class="item-content buttons">
+                        <div class="item-inner">
+                            <div class="row">
+                                <a class="button no-ripple"><i class="icon sortdown"></i></a>
+                                <a class="button no-ripple"><i class="icon sortup"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </li></ul>
+            </div>
+            <div class="list-block">
+                <ul>
+                    <li id="other-chb-insfilter">
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textFilter %></div>
+                                <div class="item-after">
+                                    <label class="label-switch">
+                                        <input type="checkbox">
+                                        <div class="checkbox"></div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

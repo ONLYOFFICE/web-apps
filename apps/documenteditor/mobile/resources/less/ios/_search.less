@@ -1,0 +1,121 @@
+// Search
+
+.tablet {
+  // Replace mode
+  .searchbar.document.replace {
+    .center {
+      .searchbar:first-child {
+        margin-right: 10px;
+      }
+
+      .replace {
+        display: flex;
+      }
+    }
+
+    .right {
+      .replace {
+        display: flex;
+        margin: 0 10px;
+      }
+    }
+  }
+
+  // Search mode
+  .searchbar.document {
+    .center {
+      width: 100%;
+
+      .searchbar {
+        background: inherit;
+        padding: 0;
+      }
+
+      .replace {
+        display: none;
+      }
+    }
+
+    .right {
+      .prev {
+        margin-left: 0;
+      }
+
+      .replace {
+        display: none;
+      }
+    }
+  }
+}
+
+.phone {
+  // Replace mode
+  .searchbar.document.replace {
+    height: 88px;
+
+    .left {
+      margin-top: -44px;
+    }
+
+    .center {
+      .searchbar-input {
+        margin: 8px 0;
+      }
+
+      .replace {
+        display: block;
+      }
+    }
+
+    .right {
+      > .replace {
+        display: flex;
+      }
+    }
+  }
+
+  // Search mode
+  .searchbar.document {
+    .left,
+    .center,
+    .right {
+      flex-direction: column;
+    }
+
+    .left {
+      min-width: 22px;
+      max-width: 22px;
+    }
+
+    .center {
+      width: 100%;
+
+      .searchbar {
+        background: inherit;
+        padding: 0;
+
+        &:after {
+          content: none;
+        }
+      }
+
+      .replace {
+        display: none;
+      }
+    }
+
+    .right {
+      > p {
+        margin: 0;
+      }
+
+      > .replace {
+        display: none;
+      }
+    }
+  }
+}
+
+.searchbar.document {
+  background: lighten(@searchbarBg, 10%);
+}

@@ -18,3 +18,8 @@ apps/presentationeditor/mobile/document
 apps/spreadsheeteditor/embed/offlinedocs
 apps/spreadsheeteditor/main/offlinedocs
 apps/spreadsheeteditor/mobile/offlinedocs
+
+# tests
+selenium-debug.log
+**/test/bin
+**/test/reports

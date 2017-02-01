@@ -1,0 +1,130 @@
+<!--Search panel-->
+<div id="search-panel-view">
+    <div class="searchbar document navbar navbar-hidden">
+        <div class="navbar-inner">
+            <div class="left">
+                <a id="search-settings" href="#" class="link icon-only"><i class="icon icon-settings"></i></a>
+            </div>
+            <div class="center">
+                <form class="searchbar search">
+                    <div class="searchbar-input search">
+                        <input type="search" placeholder="<%= scope.textSearch %>"><a href="#" class="searchbar-clear"></a>
+                    </div>
+                </form>
+                <form class="searchbar replace">
+                    <div class="searchbar-input replace">
+                        <input type="search" placeholder="<%= scope.textReplace %>"><a href="#" class="searchbar-clear"></a>
+                    </div>
+                </form>
+            </div>
+            <div class="right">
+                <% if (phone) { %>
+                <p class="buttons-row">
+                    <a href="#" class="link icon-only prev disabled"><i class="icon icon-prev"></i></a>
+                    <a href="#" class="link icon-only next disabled"><i class="icon icon-next"></i></a>
+                </p>
+                <p class="buttons-row replace">
+                    <a href="#" class="link replace disabled"><%= scope.textReplace %></a>
+                </p>
+                <% } else { %>
+                <p class="buttons-row">
+                    <a href="#" class="link replace disabled"><%= scope.textReplace %></a>
+                    <a href="#" class="link icon-only prev disabled"><i class="icon icon-prev"></i></a>
+                    <a href="#" class="link icon-only next disabled"><i class="icon icon-next"></i></a>
+                </p>
+                <% } %>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Settings-->
+<div id="search-settings-view">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="center sliding"><%= isEdit ? scope.textFindAndReplace : scope.textFind %></div>
+            <div class="right"><% if (phone) { %><a href="#" class="link close-popup"><b><%= scope.textDone %></b></a><% } %></div>
+        </div>
+    </div>
+    <div class="page" data-page="search-settings">
+        <div class="page-content">
+            <% if (isEdit) { %>
+            <div class="list-block">
+                <ul>
+                    <li>
+                        <label class="label-radio item-content">
+                            <input type="radio" name="search-type" value="search">
+                            <% if (android) { %><div class="item-media"><i class="icon icon-form-radio"></i></div><% } %>
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textFind %></div>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="label-radio item-content">
+                            <input type="radio" name="search-type" value="replace">
+                            <% if (android) { %><div class="item-media"><i class="icon icon-form-radio"></i></div><% } %>
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textFindAndReplace %></div>
+                            </div>
+                        </label>
+                    </li>
+                </ul>
+            </div>
+            <% } %>
+            <div class="content-block-title"><%= scope.textSearchIn %></div>
+            <div class="list-block">
+                <ul>
+                    <li>
+                        <label class="label-radio item-content">
+                            <input type="radio" name="search-in" value="workbook">
+                            <% if (android) { %><div class="item-media"><i class="icon icon-form-radio"></i></div><% } %>
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textWorkbook %></div>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="label-radio item-content">
+                            <input type="radio" name="search-in" value="sheet">
+                            <% if (android) { %><div class="item-media"><i class="icon icon-form-radio"></i></div><% } %>
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textSheet %></div>
+                            </div>
+                        </label>
+                    </li>
+                </ul>
+            </div>
+            <div class="list-block">
+                <ul>
+                    <li>
+                        <div id="search-match-case" class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textMatchCase %></div>
+                                <div class="item-after">
+                                    <label class="label-switch">
+                                        <input type="checkbox">
+                                        <div class="checkbox"></div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div id="search-match-cell" class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textMatchCell %></div>
+                                <div class="item-after">
+                                    <label class="label-switch">
+                                        <input type="checkbox">
+                                        <div class="checkbox"></div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

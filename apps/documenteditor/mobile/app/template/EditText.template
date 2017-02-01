@@ -1,0 +1,410 @@
+<!-- Root view -->
+<div id="edit-text-root">
+    <div class="list-block">
+        <ul>
+            <li>
+                <a id="font-fonts" class="item-link">
+                    <div class="item-content">
+                        <div class="item-inner">
+                            <div class="item-title"><%= scope.textFonts %></div>
+                            <div class="item-after" style="color: #000;"><span></span><span style="margin-left: 5px;"></span></div>
+                        </div>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <div class="item-content buttons">
+                    <div class="item-inner">
+                        <div class="row">
+                            <a id="font-bold" class="button"><b>B</b></a>
+                            <a id="font-italic" class="button"><i>I</i></a>
+                            <a id="font-underline" class="button" style="text-decoration: underline;">U</a>
+                            <a id="font-strikethrough" class="button" style="text-decoration: line-through">S</a>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <a id="font-color" class="item-link">
+                    <div class="item-content">
+                        <% if (!android) { %><div class="item-media"><i class="icon icon-text-color"><span class="color-preview"></span></i></div><% } %>
+                        <div class="item-inner">
+                            <div class="item-title"><%= scope.textFontColor %></div>
+                            <% if (android) { %><div class="item-after"><div class="color-preview"></div></div><% } %>
+                        </div>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a id="font-background" class="item-link">
+                    <div class="item-content">
+                        <% if (!android) { %><div class="item-media"><i class="icon icon-text-selection"><span class="color-preview"></span></i></div><% } %>
+                        <div class="item-inner">
+                            <div class="item-title"><%= scope.textHighlightColor %></div>
+                            <% if (android) { %><div class="item-after"><div class="color-preview"></div></div><% } %>
+                        </div>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a id="font-additional" class="item-link">
+                    <div class="item-content">
+                        <% if (!android) { %><div class="item-media"><i class="icon icon-text-additional"></i></div><% } %>
+                        <div class="item-inner">
+                            <div class="item-title"><%= scope.textAdditionalFormat %></div>
+                        </div>
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="list-block">
+        <ul>
+            <li><div id="paragraph-align" class="item-content buttons">
+                <div class="item-inner">
+                    <div class="row">
+                        <a id="font-left" class="button no-ripple"><i class="icon icon-text-align-left"></i></a>
+                        <a id="font-center" class="button no-ripple"><i class="icon icon-text-align-center"></i></a>
+                        <a id="font-right" class="button no-ripple"><i class="icon icon-text-align-right"></i></a>
+                        <a id="font-just" class="button no-ripple"><i class="icon icon-text-align-jast"></i></a>
+                    </div>
+                </div>
+            </div></li>
+            <li><div class="item-content buttons">
+                <div class="item-inner">
+                    <div class="row">
+                        <a id="font-moveleft" class="button no-ripple"><i class="icon icon-de-indent"></i></a>
+                        <a id="font-moveright" class="button no-ripple"><i class="icon icon-in-indent"></i></a>
+                    </div>
+                </div>
+            </div></li>
+            <li><a id="font-bullets" class="item-link">
+                <div class="item-content">
+                    <% if (!android) { %><div class="item-media"><i class="icon icon-bullets"></i></div><% } %>
+                    <div class="item-inner">
+                        <div class="item-title"><%= scope.textBullets %></div>
+                    </div>
+                </div></a></li>
+            <li><a id="font-numbers" class="item-link">
+                <div class="item-content">
+                    <% if (!android) { %><div class="item-media"><i class="icon icon-numbers"></i></div><% } %>
+                    <div class="item-inner">
+                        <div class="item-title"><%= scope.textNumbers %></div>
+                    </div>
+                </div></a></li>
+            <li><a id="font-line-spacing" class="item-link">
+                <div class="item-content">
+                    <% if (!android) { %><div class="item-media"><i class="icon icon-linespacing"></i></div><% } %>
+                    <div class="item-inner">
+                        <div class="item-title"><%= scope.textLineSpacing %></div>
+                    </div>
+                </div></a></li>
+        </ul>
+    </div>
+</div>
+
+<!-- Fonts view -->
+<div id="edit-text-fonts">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left sliding"><a href="#" class="back link"><i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding"><%= scope.textFonts %></div>
+            <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
+        </div>
+    </div>
+    <div class="page" data-page="edit-text-font-page">
+        <div class="page-content">
+            <div class="list-block">
+                <ul>
+                    <li id="font-size">
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textSize %></div>
+                                <div class="item-after splitter">
+                                    <% if (!android) { %><label></label><% } %>
+                                    <p class="buttons-row">
+                                        <span class="button decrement"><% if (android) { %><i class="icon icon-expand-down"></i><% } else { %>-<% } %></span>
+                                        <% if (android) { %><label></label><% } %>
+                                        <span class="button increment"><% if (android) { %><i class="icon icon-expand-up"></i><% } else { %>+<% } %></span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="content-block-title"><%= scope.textFonts %></div>
+            <div id="font-list" class="list-block virtual-list">
+                <!-- Fonts List -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Font color view -->
+<div id="edit-text-color">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></a></div>
+            <div class="center sliding"><%= scope.textFontColors %></div>
+            <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
+        </div>
+    </div>
+    <div class="page" data-page="edit-text-font-color">
+        <div class="page-content">
+            <div class="list-block" style="<% if (!android) { %>margin-bottom: -36px;<% } %>">
+                <ul>
+                    <li>
+                        <a id="font-color-auto" class="item-link no-indicator">
+                            <div class="item-content">
+                                <div class="item-media">
+                                    <div style="width:22px; height: 22px; background-color: #000;"></div>
+                                </div>
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textAutomatic %></div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Highlight color view -->
+<div id="edit-text-background">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></a></div>
+            <div class="center sliding"><%= scope.textHighlightColors %></div>
+            <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
+        </div>
+    </div>
+    <div class="page" data-page="edit-text-font-background">
+        <div class="page-content">
+        </div>
+    </div>
+</div>
+
+
+<!-- Additional view -->
+<div id="edit-text-additional">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></a></div>
+            <div class="center sliding"><%= scope.textAdditional %></div>
+            <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
+        </div>
+    </div>
+    <div class="page" id="page-text-additional" data-page="edit-text-additional">
+        <div class="page-content">
+            <div class="list-block" id="text-additional">
+                <ul>
+                    <li>
+                        <label class="label-radio item-content">
+                            <input type="radio" name="text-strikethrough" value="strikethrough">
+                            <% if (android) { %><div class="item-media"><i class="icon icon-form-radio"></i></div><% } %>
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textStrikethrough %></div>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="label-radio item-content">
+                            <input type="radio" name="text-strikethrough" value="double-strikethrough">
+                            <% if (android) { %><div class="item-media"><i class="icon icon-form-radio"></i></div><% } %>
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textDblStrikethrough %></div>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="label-radio item-content">
+                            <input type="radio" name="text-script" value="superscript">
+                            <% if (android) { %><div class="item-media"><i class="icon icon-form-radio"></i></div><% } %>
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textDblSuperscript %></div>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="label-radio item-content">
+                            <input type="radio" name="text-script" value="subscript">
+                            <% if (android) { %><div class="item-media"><i class="icon icon-form-radio"></i></div><% } %>
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textSubscript %></div>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="label-radio item-content">
+                            <input type="radio" name="text-caps" value="small">
+                            <% if (android) { %><div class="item-media"><i class="icon icon-form-radio"></i></div><% } %>
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textSmallCaps %></div>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="label-radio item-content">
+                            <input type="radio" name="text-caps" value="all">
+                            <% if (android) { %><div class="item-media"><i class="icon icon-form-radio"></i></div><% } %>
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textAllCaps %></div>
+                            </div>
+                        </label>
+                    </li>
+                </ul>
+            </div>
+            <div class="list-block">
+                <ul>
+                    <li id="letter-spacing" id="letter-spacing">
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textLetterSpacing %></div>
+                                <div class="item-after splitter">
+                                    <% if (!android) { %><label></label><% } %>
+                                    <p class="buttons-row">
+                                        <span class="button decrement"><% if (android) { %><i class="icon icon-expand-down"></i><% } else { %>-<% } %></span>
+                                        <% if (android) { %><label></label><% } %>
+                                        <span class="button increment"><% if (android) { %><i class="icon icon-expand-up"></i><% } else { %>+<% } %></span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Line Spacing view -->
+<div id="edit-text-linespacing">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></a></div>
+            <div class="center sliding"><%= scope.textLineSpacing %></div>
+            <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
+        </div>
+    </div>
+    <div class="page" id="page-text-linespacing" data-page="edit-text-additional">
+        <div class="page-content">
+            <div class="list-block">
+                <ul>
+                    <li>
+                        <label class="label-radio item-content">
+                            <input type="radio" name="line-spacing" value="1">
+                            <% if (android) { %><div class="item-media"><i class="icon icon-form-radio"></i></div><% } %>
+                            <div class="item-inner">
+                                <div class="item-title">1.0</div>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="label-radio item-content">
+                            <input type="radio" name="line-spacing" value="1.15">
+                            <% if (android) { %><div class="item-media"><i class="icon icon-form-radio"></i></div><% } %>
+                            <div class="item-inner">
+                                <div class="item-title">1.15</div>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="label-radio item-content">
+                            <input type="radio" name="line-spacing" value="1.5">
+                            <% if (android) { %><div class="item-media"><i class="icon icon-form-radio"></i></div><% } %>
+                            <div class="item-inner">
+                                <div class="item-title">1.5</div>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="label-radio item-content">
+                            <input type="radio" name="line-spacing" value="2">
+                            <% if (android) { %><div class="item-media"><i class="icon icon-form-radio"></i></div><% } %>
+                            <div class="item-inner">
+                                <div class="item-title">2.0</div>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="label-radio item-content">
+                            <input type="radio" name="line-spacing" value="2.5">
+                            <% if (android) { %><div class="item-media"><i class="icon icon-form-radio"></i></div><% } %>
+                            <div class="item-inner">
+                                <div class="item-title">2.5</div>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="label-radio item-content">
+                            <input type="radio" name="line-spacing" value="3">
+                            <% if (android) { %><div class="item-media"><i class="icon icon-form-radio"></i></div><% } %>
+                            <div class="item-inner">
+                                <div class="item-title">3.0</div>
+                            </div>
+                        </label>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bullets view -->
+<div id="edit-text-bullets">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></a></div>
+            <div class="center sliding"><%= scope.textBullets %></div>
+            <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
+        </div>
+    </div>
+    <div class="page" id="page-text-bullets">
+        <div class="page-content dataview bullets">
+            <% _.each(bullets, function(row) { %>
+            <ul class="row">
+                <% _.each(row, function(bullet) { %>
+                <li data-type="<%= bullet.type %>">
+                    <% if (bullet.thumb.length < 1) { %>
+                    <div class="thumb" style="position: relative;"><label><%= scope.textNone %></label></div>
+                    <% } else { %>
+                    <div class="thumb" style="background-image:url('../mobile/resources/img/bullets/<%= bullet.thumb %>')"></div>
+                    <% } %>
+                </li>
+                <% }); %>
+            </ul>
+            <% }); %>
+        </div>
+    </div>
+</div>
+
+<!-- Numbers view -->
+<div id="edit-text-numbers">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></a></div>
+            <div class="center sliding"><%= scope.textNumbers %></div>
+            <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
+        </div>
+    </div>
+    <div class="page" id="page-text-numbers">
+        <div class="page-content dataview numbers">
+            <% _.each(numbers, function(row) { %>
+            <ul class="row">
+                <% _.each(row, function(number) { %>
+                <li data-type="<%= number.type %>">
+                    <% if (number.thumb.length < 1) { %>
+                    <div class="thumb" style="position: relative;"><label><%= scope.textNone %></label></div>
+                    <% } else { %>
+                    <div class="thumb" style="background-image:url('../mobile/resources/img/numbers/<%= number.thumb %>')"></div>
+                    <% } %>
+                </li>
+                <% }); %>
+            </ul>
+            <% }); %>
+        </div>
+    </div>
+</div>

@@ -335,35 +335,35 @@
             <!--<div id="spark-dlg-radio-single" style="display: block;"></div>-->
         <!--</div>-->
         <table cols="2" style="width: 100%;">
-            <!--<tr>-->
-                <!--<td colspan=2 >-->
-                    <!--<label class="header"><%= scope.textDataRange %></label>-->
-                <!--</td>-->
-            <!--</tr>-->
-            <!--<tr>-->
-                <!--<td class="padding-small" width="200">-->
-                    <!--<div id="spark-dlg-txt-range" class="input-row" style="margin-right: 10px;"></div>-->
-                <!--</td>-->
-                <!--<td class="padding-small" style="text-align: right;">-->
-                    <!--<button type="button" class="btn btn-text-default" id="spark-dlg-btn-data" style="min-width: 100px;"><%= scope.textSelectData %></button>-->
-                <!--</td>-->
-            <!--</tr>-->
-            <!--<tr>-->
-                <!--<td colspan=2 >-->
-                    <!--<label class="header"><%= scope.textLocationRange %></label>-->
-                <!--</td>-->
-            <!--</tr>-->
-            <!--<tr>-->
-                <!--<td class="padding-large" width="200">-->
-                    <!--<div id="spark-dlg-txt-location" class="input-row" style="margin-right: 10px;"></div>-->
-                <!--</td>-->
-                <!--<td class="padding-large" style="text-align: right;">-->
-                    <!--<button type="button" class="btn btn-text-default" id="spark-dlg-btn-location-data" style="min-width: 100px;"><%= scope.textSelectData %></button>-->
-                <!--</td>-->
-            <!--</tr>-->
-            <!--<tr>-->
-                <!--<td colspan=2 class="padding-large"></td>-->
-            <!--</tr>-->
+            <tr>
+                <td colspan=2 >
+                    <label class="header"><%= scope.textDataRange %></label>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-small" width="200">
+                    <div id="spark-dlg-txt-range" class="input-row" style="margin-right: 10px;"></div>
+                </td>
+                <td class="padding-small" style="text-align: right;">
+                    <button type="button" class="btn btn-text-default" id="spark-dlg-btn-data" style="min-width: 100px;"><%= scope.textSelectData %></button>
+                </td>
+            </tr>
+            <tr>
+                <td colspan=2 >
+                    <label class="header"><%= scope.textLocationRange %></label>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-large" width="200">
+                    <div id="spark-dlg-txt-location" class="input-row" style="margin-right: 10px;"></div>
+                </td>
+                <td class="padding-large" style="text-align: right;">
+                    <button type="button" class="btn btn-text-default" id="spark-dlg-btn-location-data" style="min-width: 100px;"><%= scope.textSelectData %></button>
+                </td>
+            </tr>
+            <tr>
+                <td colspan=2 class="padding-large"></td>
+            </tr>
             <tr>
                 <td colspan=2 class="padding-small">
                     <label class="header"><%= scope.textEmptyCells %></label>
@@ -417,6 +417,29 @@
                 </td>
                 <td class="padding-large" width="90">
                     <div id="spark-dlg-input-max-value"></div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div id="id-chart-settings-dlg-alttext" class="settings-panel">
+    <div class="inner-content">
+        <table cols="1" width="100%">
+            <tr>
+                <td class="padding-large">
+                    <label class="header"><%= scope.textAltTitle %></label>
+                    <div id="chart-advanced-alt-title"></div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label class="header"><%= scope.textAltDescription %></label>
+                    <textarea id="chart-advanced-alt-description" class="form-control" style="width: 100%; height: 120px;"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label><%= scope.textAltTip %></label>
                 </td>
             </tr>
         </table>

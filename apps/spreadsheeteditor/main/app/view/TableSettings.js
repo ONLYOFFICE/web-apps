@@ -1,3 +1,36 @@
+/*
+ *
+ * (c) Copyright Ascensio System Limited 2010-2017
+ *
+ * This program is a free software product. You can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License (AGPL)
+ * version 3 as published by the Free Software Foundation. In accordance with
+ * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
+ * that Ascensio System SIA expressly excludes the warranty of non-infringement
+ * of any third-party rights.
+ *
+ * This program is distributed WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
+ * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ *
+ * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
+ * EU, LV-1021.
+ *
+ * The  interactive user interfaces in modified source and object code versions
+ * of the Program must display Appropriate Legal Notices, as required under
+ * Section 5 of the GNU AGPL version 3.
+ *
+ * Pursuant to Section 7(b) of the License you must retain the original Product
+ * logo when distributing the program. Pursuant to Section 7(e) we decline to
+ * grant you any rights under trademark law for use of our trademarks.
+ *
+ * All the Product's GUI elements, including illustrations and icon sets, as
+ * well as technical writing content are licensed under the terms of the
+ * Creative Commons Attribution-ShareAlike 4.0 International. See the License
+ * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ *
+ */
+
 /**
  *  TableSettings.js
  *
@@ -14,7 +47,8 @@ define([
     'common/main/lib/component/Button',
     'common/main/lib/component/CheckBox',
     'common/main/lib/component/ComboDataView',
-    'spreadsheeteditor/main/app/view/TableOptionsDialog'
+    'spreadsheeteditor/main/app/view/TableOptionsDialog',
+    'spreadsheeteditor/main/app/view/TableSettingsAdvanced'
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
 
@@ -135,12 +169,14 @@ define([
             el.html(this.template({
                 scope: this
             }));
+
+            this.linkAdvanced = $('#table-advanced-link');
         },
 
         setApi: function(o) {
             this.api = o;
             if (o) {
-                this.api.asc_registerCallback('asc_onInitTablePictures',    _.bind(this.onApiInitTableTemplates, this));
+                this.api.asc_registerCallback('asc_onSendThemeColors',    _.bind(this.onSendThemeColors, this));
             }
             return this;
         },
@@ -250,7 +286,32 @@ define([
             this.btnEdit.menu.on('item:click', _.bind(this.onEditClick, this));
             this.lockedControls.push(this.btnEdit);
 
+            $(this.el).on('click', '#table-advanced-link', _.bind(this.openAdvancedSettings, this));
+
             this._initSettings = false;
+        },
+
+        openAdvancedSettings: function(e) {
+            if (this.linkAdvanced.hasClass('disabled')) return;
+
+            var me = this;
+            var win;
+            if (me.api && !this._locked){
+                (new SSE.Views.TableSettingsAdvanced(
+                    {
+                        tableProps: me._originalProps,
+                        api: me.api,
+                        handler: function(result, value) {
+                            if (result == 'ok') {
+                                if (me.api) {
+                                    // me.api.asc_setGraphicObjectProps(value.tableProps);
+                                }
+                            }
+
+                            Common.NotificationCenter.trigger('edit:complete', me);
+                        }
+                    })).show();
+            }
         },
 
         ChangeSettings: function(props) {
@@ -347,6 +408,14 @@ define([
             }
         },
 
+        onSendThemeColors: function() {
+            // get new table templates
+            if (this.cmbTableTemplate) {
+                this.onApiInitTableTemplates(this.api.asc_getTablePictures(this._originalProps));
+                this.cmbTableTemplate.menuPicker.scroller.update({alwaysVisibleY: true});
+            }
+        },
+
         onApiInitTableTemplates: function(Templates){
             var self = this;
             this._isTemplatesChanged = true;
@@ -387,7 +456,8 @@ define([
                         type        : template.asc_getType(),
                         imageUrl    : template.asc_getImage(),
                         allowSelected : true,
-                        selected    : false
+                        selected    : false,
+                        tip         : template.asc_getDisplayName()
                     });
                 });
                 self.cmbTableTemplate.menuPicker.store.add(arr);
@@ -430,6 +500,7 @@ define([
                 _.each(this.lockedControls, function(item) {
                     item.setDisabled(disable);
                 });
+                this.linkAdvanced.toggleClass('disabled', disable);
             }
         },
 
@@ -464,7 +535,8 @@ define([
         textExistName           : 'ERROR! Range with such a name already exists',
         textIsLocked            : 'This element is being edited by another user.',
         notcriticalErrorTitle   : 'Warning',
-        textReservedName        : 'The name you are trying to use is already referenced in cell formulas. Please use some other name.'
+        textReservedName        : 'The name you are trying to use is already referenced in cell formulas. Please use some other name.',
+        textAdvanced:   'Show advanced settings'
 
     }, SSE.Views.TableSettings || {}));
 });

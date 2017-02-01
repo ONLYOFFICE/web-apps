@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2016
+ * (c) Copyright Ascensio System Limited 2010-2017
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -175,18 +175,15 @@ define([
             );
 
             var me = this;
-            this.panels = {};
-            require(['presentationeditor/main/app/view/FileMenuPanels'], function(){
-                me.panels = {
-                    'saveas'    : (new PE.Views.FileMenuPanels.ViewSaveAs({menu:me})).render(),
-                    'opts'      : (new PE.Views.FileMenuPanels.Settings({menu:me})).render(),
-                    'info'      : (new PE.Views.FileMenuPanels.DocumentInfo({menu:me})).render(),
-                    'rights'    : (new PE.Views.FileMenuPanels.DocumentRights({menu:me})).render(),
-                    'help'      : (new PE.Views.FileMenuPanels.Help({menu:me})).render()
-                };
+            me.panels = {
+                'saveas'    : (new PE.Views.FileMenuPanels.ViewSaveAs({menu:me})).render(),
+                'opts'      : (new PE.Views.FileMenuPanels.Settings({menu:me})).render(),
+                'info'      : (new PE.Views.FileMenuPanels.DocumentInfo({menu:me})).render(),
+                'rights'    : (new PE.Views.FileMenuPanels.DocumentRights({menu:me})).render(),
+                'help'      : (new PE.Views.FileMenuPanels.Help({menu:me})).render()
+            };
 
-                me.$el.find('.content-box').hide();
-            });
+            me.$el.find('.content-box').hide();
 
             return this;
         },

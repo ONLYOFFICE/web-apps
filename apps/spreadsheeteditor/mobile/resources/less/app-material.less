@@ -1,0 +1,164 @@
+@import url('../../../../../vendor/framework7/src/less/material/_mixins.less');
+@import url('../../../../../vendor/framework7/src/less/material/_colors-vars.less');
+
+// Colors
+@themeColor: #4F9E4F; // (79,158,79)
+@navBarIconColor: #fff;
+
+@appToolbarHeight: @navbarSize;
+
+@import url('../../../../../vendor/framework7/src/less/material/intro.less');
+@import url('../../../../../vendor/framework7/src/less/material/grid.less');
+@import url('../../../../../vendor/framework7/src/less/material/views.less');
+@import url('../../../../../vendor/framework7/src/less/material/pages.less');
+@import url('../../../../../vendor/framework7/src/less/material/toolbars.less');
+@import url('../../../../../vendor/framework7/src/less/material/toolbars-pages.less');
+@import url('../../../../../vendor/framework7/src/less/material/searchbar.less');
+@import url('../../../../../vendor/framework7/src/less/material/messagebar.less');
+@import url('../../../../../vendor/framework7/src/less/material/icons.less');
+@import url('../../../../../vendor/framework7/src/less/material/badges.less');
+//@import url('../../../../../vendor/framework7/src/less/material/chips.less');
+@import url('../../../../../vendor/framework7/src/less/material/content-block.less');
+@import url('../../../../../vendor/framework7/src/less/material/lists.less');
+//@import url('../../../../../vendor/framework7/src/less/material/contacts.less');
+@import url('../../../../../vendor/framework7/src/less/material/forms.less');
+@import url('../../../../../vendor/framework7/src/less/material/floating-button.less');
+//@import url('../../../../../vendor/framework7/src/less/material/accordion.less');
+//@import url('../../../../../vendor/framework7/src/less/material/cards.less');
+@import url('../../../../../vendor/framework7/src/less/material/modals.less');
+@import url('../../../../../vendor/framework7/src/less/material/panels.less');
+//@import url('../../../../../vendor/framework7/src/less/material/lazy-load.less');
+@import url('../../../../../vendor/framework7/src/less/material/tabs.less');
+@import url('../../../../../vendor/framework7/src/less/material/messages.less');
+@import url('../../../../../vendor/framework7/src/less/material/statusbar.less');
+@import url('../../../../../vendor/framework7/src/less/material/preloader.less');
+@import url('../../../../../vendor/framework7/src/less/material/progressbar.less');
+//@import url('../../../../../vendor/framework7/src/less/material/pull-to-refresh.less');
+//@import url('../../../../../vendor/framework7/src/less/material/infinite-scroll.less');
+//@import url('../../../../../vendor/framework7/src/less/material/autocomplete.less');
+//@import url('../../../../../vendor/framework7/src/less/material/swiper.less');
+//@import url('../../../../../vendor/framework7/src/less/material/photo-browser.less');
+@import url('../../../../../vendor/framework7/src/less/material/picker.less');
+//@import url('../../../../../vendor/framework7/src/less/material/calendar.less');
+@import url('../../../../../vendor/framework7/src/less/material/notifications.less');
+//@import url('../../../../../vendor/framework7/src/less/material/login-screen.less');
+@import url('../../../../../vendor/framework7/src/less/material/ripple.less');
+@import url('../../../../../vendor/framework7/src/less/material/disabled.less');
+
+// Disable text select
+* {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+input, textarea {
+  -webkit-touch-callout:default;
+  -webkit-user-select:text;
+  user-select:text;
+}
+
+@import url('../../../../common/mobile/resources/less/_mixins.less');
+@import url('../../../../common/mobile/resources/less/material/_container.less');
+@import url('../../../../common/mobile/resources/less/material/_dataview.less');
+@import url('../../../../common/mobile/resources/less/material/_listview.less');
+@import url('../../../../common/mobile/resources/less/material/_button.less');
+@import url('../../../../common/mobile/resources/less/material/_contextmenu.less');
+@import url('../../../../common/mobile/resources/less/material/_color-palette.less');
+@import url('../../../../common/mobile/resources/less/material/_about.less');
+
+@import url('material/_search.less');
+@import url('material/_icons.less');
+@import url('app-common');
+@import url('celleditor');
+@import url('statusbar');
+
+
+// Add Container
+
+#add-table,
+#add-shape {
+  .page {
+    background-color: #fff;
+  }
+}
+
+// Table styles
+
+.table-styles {
+  .row {
+    &, li {
+      margin-bottom: 12px;
+    }
+  }
+
+  li {
+    margin: 0;
+    padding: 1px;
+
+    img {
+      width: 70px;
+      height: 50px;
+    }
+  }
+}
+
+// Shapes
+
+.shapes {
+  li {
+    width: 70px;
+    height: 70px;
+    margin: 0 1px;
+
+    .thumb {
+      width: 100%;
+      height: 100%;
+      background-color: @themeColor;
+    }
+  }
+}
+
+// Charts
+
+.chart-types {
+  li {
+    width: 60px;
+    height: 60px;
+    margin: 6px;
+
+    .thumb {
+      width: 100%;
+      height: 100%;
+      background-size: contain;
+    }
+  }
+}
+
+// Cell style
+.cell-styles.dataview {
+  .active:after {
+    right: 2px;
+    bottom: 2px;
+  }
+
+  .row {
+    padding: 5px 0;
+
+    li {
+      border: 1px solid @listBlockBorderColor;
+      html.pixel-ratio-2 & {
+        border: 0.5px solid @listBlockBorderColor;
+      }
+      html.pixel-ratio-3 & {
+        border: 0.33px solid @listBlockBorderColor;
+      }
+      padding: 2px;
+
+      .thumb {
+        width: 112px;
+        height: 38px;
+        background-size: contain;
+      }
+    }
+  }
+}

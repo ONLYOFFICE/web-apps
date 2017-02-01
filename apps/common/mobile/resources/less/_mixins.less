@@ -1,0 +1,6 @@
+// Encoded SVG Background
+.encoded-svg-mask(@svg) {
+  @url: `encodeURIComponent(@{svg})`;
+  background-color: @themeColor;
+  -webkit-mask-image: url("data:image/svg+xml;charset=utf-8,@{url}");
+}

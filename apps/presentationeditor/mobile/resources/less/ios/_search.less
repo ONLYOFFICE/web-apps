@@ -1,0 +1,53 @@
+// Search
+
+.tablet {
+  .searchbar.document {
+    .center {
+      width: 100%;
+
+      .searchbar {
+        background: inherit;
+        padding: 0;
+      }
+    }
+
+    .right {
+      .prev {
+        margin-left: 0;
+      }
+    }
+  }
+}
+
+.phone {
+  .searchbar.document {
+    .left,
+    .center,
+    .right {
+      flex-direction: column;
+    }
+
+    .center {
+      width: 100%;
+
+      .searchbar {
+        background: inherit;
+        padding: 0;
+
+        &:after {
+          content: none;
+        }
+      }
+    }
+
+    .right {
+      > p {
+        margin: 0;
+      }
+    }
+  }
+}
+
+.searchbar.document {
+  background: lighten(@searchbarBg, 10%);
+}
