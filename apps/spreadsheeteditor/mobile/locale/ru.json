@@ -334,6 +334,7 @@
   "SSE.Views.EditChart.textRotated": "Повернутое",
   "SSE.Views.EditChart.textSize": "Размер",
   "SSE.Views.EditChart.textStyle": "Стиль",
+  "SSE.Views.EditChart.textDesign": "Design",
   "SSE.Views.EditChart.textTickOptions": "Параметры делений",
   "SSE.Views.EditChart.textToBackground": "Перенести на задний план",
   "SSE.Views.EditChart.textToForeground": "Перенести на передний план",

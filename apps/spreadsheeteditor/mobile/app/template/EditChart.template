@@ -6,7 +6,7 @@
                 <a id="chart-style" class="item-link" data-page="#edit-chart-style">
                     <div class="item-content">
                         <div class="item-inner">
-                            <div class="item-title"><%= scope.textStyle %></div>
+                            <div class="item-title"><%= scope.textDesign %></div>
                         </div>
                     </div>
                 </a>
@@ -126,7 +126,7 @@
     <div class="navbar">
         <div class="navbar-inner edit-chart-style" data-page="edit-chart-style">
             <div class="left sliding"><a href="#" class="back link"><i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
-            <div class="center sliding"><%= scope.textStyle %></div>
+            <div class="center sliding"><%= scope.textDesign %></div>
             <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
             <% if (!android) { %>
             <div class="edit-chart-style subnavbar categories">

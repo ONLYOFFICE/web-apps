@@ -222,6 +222,7 @@ define([
             textForward: 'Move Forward',
             textBackward: 'Move Backward',
             textStyle: 'Style',
+            textDesign: 'Design',
             textLayout: 'Layout',
             textVerAxis: 'Vertical Axis',
             textHorAxis: 'Horizontal Axis',

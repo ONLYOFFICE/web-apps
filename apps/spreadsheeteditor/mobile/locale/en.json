@@ -334,6 +334,7 @@
   "SSE.Views.EditChart.textRotated": "Rotated",
   "SSE.Views.EditChart.textSize": "Size",
   "SSE.Views.EditChart.textStyle": "Style",
+  "SSE.Views.EditChart.textDesign": "Design",
   "SSE.Views.EditChart.textTickOptions": "Tick Options",
   "SSE.Views.EditChart.textToBackground": "Send to Background",
   "SSE.Views.EditChart.textToForeground": "Bring to Foreground",
