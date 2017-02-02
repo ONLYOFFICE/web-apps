@@ -396,6 +396,12 @@
                 {
                     "expand": true,
                     "cwd": "../apps/spreadsheeteditor/mobile/resources/img/",
+                    "src": "**/*.png",
+                    "dest": "../deploy/web-apps/apps/spreadsheeteditor/mobile/resources/img/"
+                },
+                {
+                    "expand": true,
+                    "cwd": "../apps/common/mobile/resources/img/",
                     "src": "**",
                     "dest": "../deploy/web-apps/apps/spreadsheeteditor/mobile/resources/img/"
                 }

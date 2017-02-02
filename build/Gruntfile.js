@@ -247,7 +247,8 @@ module.exports = function(grunt) {
             },
 
             cssmin: {
-                styles: {
+                // options: {level: { 1: { roundingPrecision: 'all=3' }}}, // to round fw7 numbers in styles. need clean-css 4.0
+                target: {
                     files: {
                         "<%= pkg.mobile.css.ios.dist %>" : packageFile['mobile']['css']['ios']['src'],
                         "<%= pkg.mobile.css.material.dist %>" : packageFile['mobile']['css']['material']['src']
@@ -292,6 +293,19 @@ module.exports = function(grunt) {
                         to: function(matchedWord, index, fullText, regexMatches) {
                             return packageFile.version;
                         }
+                    }]
+                },
+                fixResourceUrl: {
+                    src: ['<%= pkg.mobile.js.requirejs.options.out %>',
+                            '<%= pkg.mobile.css.ios.dist %>',
+                            '<%= pkg.mobile.css.material.dist %>'],
+                    overwrite: true,
+                    replacements: [{
+                        from: /(?:\.{2}\/){4}common\/mobile\/resources\/img/g,
+                        to: '../img'
+                    },{
+                        from: /(?:\.{2}\/){2}common\/mobile/g,
+                        to: '../mobile'
                     }]
                 }
             }
@@ -367,9 +381,16 @@ module.exports = function(grunt) {
     grunt.registerTask('deploy-jsrsasign',              ['jsrsasign-init', 'clean', 'copy']);
     grunt.registerTask('deploy-requirejs',              ['requirejs-init', 'clean', 'uglify']);
 
-    grunt.registerTask('deploy-app-main',               ['main-app-init', 'clean', 'imagemin', 'less', 'requirejs', 'concat', 'copy', 'replace:writeVersion']);
-    grunt.registerTask('deploy-app-mobile',             ['mobile-app-init', 'clean:deploy', 'cssmin:styles', 'copy:template-backup', 'htmlmin', 'requirejs', 'concat', 'copy:template-restore', 'clean:template-backup', 'copy:localization', 'copy:index-page', 'copy:images-app', 'replace:writeVersion']);
-    grunt.registerTask('deploy-app-embed',              ['embed-app-init', 'clean:prebuild', 'uglify', 'less', 'copy', 'clean:postbuild']);
+    grunt.registerTask('deploy-app-main',               ['main-app-init', 'clean', 'imagemin', 'less', 'requirejs', 'concat',
+                                                            'copy', 'replace:writeVersion']);
+
+    grunt.registerTask('deploy-app-mobile',             ['mobile-app-init', 'clean:deploy', 'cssmin', 'copy:template-backup',
+                                                            'htmlmin', 'requirejs', 'concat', 'copy:template-restore',
+                                                            'clean:template-backup', 'copy:localization', 'copy:index-page',
+                                                            'copy:images-app', 'replace:writeVersion', 'replace:fixResourceUrl']);
+
+    grunt.registerTask('deploy-app-embed',              ['embed-app-init', 'clean:prebuild', 'uglify', 'less', 'copy', 
+                                                            'clean:postbuild']);
 
 
     doRegisterInitializeAppTask('documenteditor',       'DocumentEditor',       'documenteditor.json');
