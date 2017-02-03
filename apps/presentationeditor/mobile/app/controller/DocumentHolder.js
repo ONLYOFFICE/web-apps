@@ -77,8 +77,9 @@ define([
 
                 me.api = api;
 
-                me.api.asc_registerCallback('asc_onShowPopMenu',      _.bind(me.onApiShowPopMenu, me));
-                me.api.asc_registerCallback('asc_onHidePopMenu',      _.bind(me.onApiHidePopMenu, me));
+                me.api.asc_registerCallback('asc_onShowPopMenu',            _.bind(me.onApiShowPopMenu, me));
+                me.api.asc_registerCallback('asc_onHidePopMenu',            _.bind(me.onApiHidePopMenu, me));
+                me.api.asc_registerCallback('asc_onDocumentContentReady',   _.bind(me.onApiDocumentContentReady, me));
             },
 
             setMode: function (mode) {
@@ -159,6 +160,10 @@ define([
 
             onApiHidePopMenu: function() {
                 _view && _view.hideMenu();
+            },
+
+            onApiDocumentContentReady: function () {
+                _view = this.createView('DocumentHolder').render();
             },
 
             // Internal

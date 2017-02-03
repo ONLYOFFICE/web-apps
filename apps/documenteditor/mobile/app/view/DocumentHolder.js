@@ -68,7 +68,10 @@ define([
             // Render layout
             render: function() {
                 var el = $(this.el);
-                el.append(this.template({}));
+
+                if (el.length > 0 && el.find('#' + _anchorId).length < 1) {
+                    el.append(this.template());
+                }
 
                 return this;
             },

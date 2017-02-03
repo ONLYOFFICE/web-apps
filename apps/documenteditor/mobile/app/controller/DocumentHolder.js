@@ -86,6 +86,7 @@ define([
                 me.api.asc_registerCallback('asc_onHideForeignCursorLabel', _.bind(me.onApiHideForeignCursorLabel, me));
                 me.api.asc_registerCallback('asc_onAuthParticipantsChanged',_.bind(me.onApiUsersChanged, me));
                 me.api.asc_registerCallback('asc_onConnectionStateChanged', _.bind(me.onApiUserConnection, me));
+                me.api.asc_registerCallback('asc_onDocumentContentReady',   _.bind(me.onApiDocumentContentReady, me));
                 me.api.asc_coAuthoringGetUsers();
             },
 
@@ -257,6 +258,10 @@ define([
                         user.set({online: change.asc_getState()});
                     }
                 }
+            },
+
+            onApiDocumentContentReady: function () {
+                _view = this.createView('DocumentHolder').render();
             },
 
             // Internal
