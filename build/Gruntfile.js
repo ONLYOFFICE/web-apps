@@ -91,18 +91,19 @@ module.exports = function(grunt) {
 
     doRegisterTask('sdk');
     doRegisterTask('api', function(defaultConfig, packageFile){
-        // var pkg = grunt.file.readJSON(defaultConfig);
-        // var config = { copy: pkg['api']['copy'] };
-        // config.copy.options = {
-        //     process: function(content, src, dest) {
-        //         if (/api\.js$/.test(src)) {
-        //             return content.replace(/(\#{2}BN\#)/, "." + (process.env['BUILD_NUMBER'] || packageFile.build));
-        //         }
-
-        //         return content;
-        //     }
-        // };
-        // return config;
+        return {
+            pkg: packageFile,
+            replace: {
+                  writeVersion: {
+                      src: ['<%= pkg.api.copy.script.dest %>' +  '/**/*.js'],
+                      overwrite: true,
+                      replacements: [{
+                          from: /\{\{PRODUCT_VERSION\}\}/,
+                          to: packageFile.version
+                      }]
+                  }
+            }
+        }
     });
     doRegisterTask('sockjs');
     doRegisterTask('xregexp');
@@ -169,14 +170,11 @@ module.exports = function(grunt) {
 
             replace: {
                 writeVersion: {
-                    src: ['<%= pkg.api.copy.script.dest %>' + '/documents/api.js',
-                          '<%= pkg.main.js.requirejs.options.out %>'],
+                    src: ['<%= pkg.main.js.requirejs.options.out %>'],
                     overwrite: true,
                     replacements: [{
                         from: /\{\{PRODUCT_VERSION\}\}/,
-                        to: function(matchedWord, index, fullText, regexMatches) {
-                            return packageFile.version;
-                        }
+                        to: packageFile.version
                     }]
                 }
             },
@@ -290,9 +288,7 @@ module.exports = function(grunt) {
                     overwrite: true,
                     replacements: [{
                         from: /\{\{PRODUCT_VERSION\}\}/,
-                        to: function(matchedWord, index, fullText, regexMatches) {
-                            return packageFile.version;
-                        }
+                        to: packageFile.version
                     }]
                 },
                 fixResourceUrl: {
@@ -367,7 +363,7 @@ module.exports = function(grunt) {
     });
 
 
-    grunt.registerTask('deploy-api',                    ['api-init', 'clean', 'copy']);
+    grunt.registerTask('deploy-api',                    ['api-init', 'clean', 'copy', 'replace:writeVersion']);
     grunt.registerTask('deploy-sdk',                    ['sdk-init', 'clean', 'copy']);
 
     grunt.registerTask('deploy-sockjs',                 ['sockjs-init', 'clean', 'copy']);
@@ -392,7 +388,7 @@ module.exports = function(grunt) {
     grunt.registerTask('deploy-app-embed',              ['embed-app-init', 'clean:prebuild', 'uglify', 'less', 'copy', 
                                                             'clean:postbuild']);
 
-
+    doRegisterInitializeAppTask('common',               'Common',               'common.json');
     doRegisterInitializeAppTask('documenteditor',       'DocumentEditor',       'documenteditor.json');
     doRegisterInitializeAppTask('spreadsheeteditor',    'SpreadsheetEditor',    'spreadsheeteditor.json');
     doRegisterInitializeAppTask('presentationeditor',   'PresentationEditor',   'presentationeditor.json');
@@ -409,9 +405,19 @@ module.exports = function(grunt) {
         }
     });
 
-    grunt.registerTask('deploy-documenteditor',     ['init-build-documenteditor', 'deploy-app']);
-    grunt.registerTask('deploy-spreadsheeteditor',  ['init-build-spreadsheeteditor', 'deploy-app']);
-    grunt.registerTask('deploy-presentationeditor', ['init-build-presentationeditor', 'deploy-app']);
+    grunt.registerTask('deploy-common-component',             ['init-build-common', 'deploy-app']);
+    grunt.registerTask('deploy-documenteditor-component',     ['init-build-documenteditor', 'deploy-app']);
+    grunt.registerTask('deploy-spreadsheeteditor-component',  ['init-build-spreadsheeteditor', 'deploy-app']);
+    grunt.registerTask('deploy-presentationeditor-component', ['init-build-presentationeditor', 'deploy-app']);
+    // This task is called from the Makefile, don't delete it.
+    grunt.registerTask('deploy-documents-component',          ['deploy-common-component']);   
 
-    grunt.registerTask('default', ['deploy-documenteditor', 'deploy-spreadsheeteditor', 'deploy-presentationeditor']);
+    grunt.registerTask('deploy-documenteditor',     ['deploy-common-component', 'deploy-documenteditor-component']);
+    grunt.registerTask('deploy-spreadsheeteditor',  ['deploy-common-component', 'deploy-spreadsheeteditor-component']);
+    grunt.registerTask('deploy-presentationeditor', ['deploy-common-component', 'deploy-presentationeditor-component']);
+
+    grunt.registerTask('default', ['deploy-common-component',
+                                   'deploy-documenteditor-component',
+                                   'deploy-spreadsheeteditor-component',
+                                   'deploy-presentationeditor-component']);
 };
