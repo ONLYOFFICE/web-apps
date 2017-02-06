@@ -338,10 +338,31 @@ define([
 
         onSortCells: function(menu, item) {
             if (this.api) {
-                this.api.asc_sortColFilter(item.value, '', undefined, (item.value==Asc.c_oAscSortOptions.ByColorFill) ? this.documentHolder.ssMenu.cellColor : this.documentHolder.ssMenu.fontColor);
+                var res = this.api.asc_sortCellsRangeExpand();
+                if (res) {
+                    var config = {
+                        width: 500,
+                        title: this.txtSorting,
+                        msg: this.txtExpandSort,
+                        iconCls: 'warn',
+                        buttons: [  {caption: this.txtExpand, primary: true, value: 'expand'},
+                                    {caption: this.txtSortSelected, primary: true, value: 'sort'},
+                                    'cancel'],
+                        callback: _.bind(function(btn){
+                            if (btn == 'expand' || btn == 'sort') {
+                                this.api.asc_sortColFilter(item.value, '', undefined, (item.value==Asc.c_oAscSortOptions.ByColorFill) ? this.documentHolder.ssMenu.cellColor : this.documentHolder.ssMenu.fontColor, btn == 'expand');
+                            }
+                            Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+                            Common.component.Analytics.trackEvent('DocumentHolder', 'Sort Cells');
+                        }, this)
+                    };
+                    Common.UI.alert(config);
+                } else {
+                    this.api.asc_sortColFilter(item.value, '', undefined, (item.value==Asc.c_oAscSortOptions.ByColorFill) ? this.documentHolder.ssMenu.cellColor : this.documentHolder.ssMenu.fontColor, res !== null);
 
-                Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
-                Common.component.Analytics.trackEvent('DocumentHolder', 'Sort Cells');
+                    Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+                    Common.component.Analytics.trackEvent('DocumentHolder', 'Sort Cells');
+                }
             }
         },
 
@@ -2299,7 +2320,11 @@ define([
         deleteText              : 'Delete',
         deleteRowText           : 'Delete Row',
         deleteColumnText        : 'Delete Column',
-        txtNoChoices: 'There are no choices for filling the cell.<br>Only text values from the column can be selected for replacement.'
+        txtNoChoices: 'There are no choices for filling the cell.<br>Only text values from the column can be selected for replacement.',
+        txtExpandSort: 'The data next to the selection will not be sorted. Do you want to expand the selection to include the adjacent data or continue with sorting the currently selected cells only?',
+        txtExpand: 'Expand and sort',
+        txtSorting: 'Sorting',
+        txtSortSelected: 'Sort selected'
 
     }, SSE.Controllers.DocumentHolder || {}));
 });

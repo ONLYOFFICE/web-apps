@@ -839,8 +839,27 @@ define([
         },
 
         onSortType: function(type, btn) {
-            if (this.api)
-                this.api.asc_sortColFilter(type, '');
+            if (this.api) {
+                var res = this.api.asc_sortCellsRangeExpand();
+                if (res) {
+                    var config = {
+                        width: 500,
+                        title: this.txtSorting,
+                        msg: this.txtExpandSort,
+                        iconCls: 'warn',
+                        buttons: [  {caption: this.txtExpand, primary: true, value: 'expand'},
+                                    {caption: this.txtSortSelected, primary: true, value: 'sort'},
+                                    'cancel'],
+                        callback: _.bind(function(btn){
+                            if (btn == 'expand' || btn == 'sort') {
+                                this.api.asc_sortColFilter(type, '', undefined, undefined, btn == 'expand');
+                            }
+                        }, this)
+                    };
+                    Common.UI.alert(config);
+                } else
+                    this.api.asc_sortColFilter(type, '', undefined, undefined, res !== null);
+            }
         },
 
         onSearch: function(type, btn) {
@@ -1936,6 +1955,7 @@ define([
 
                 need_disable =  this._state.controlsdisabled.filters || !filterInfo || (filterInfo.asc_getIsApplyAutoFilter()!==true);
                 toolbar.lockToolbar(SSE.enumLock.ruleDelFilter, need_disable, {array:[toolbar.btnClearAutofilter,toolbar.mnuitemClearFilter]});
+                this.getApplication().getController('Statusbar').onApiFilterInfo(!need_disable);
 
                 this._state.multiselect = info.asc_getFlags().asc_getMultiselect();
                 toolbar.lockToolbar(SSE.enumLock.multiselect, this._state.multiselect, { array: [toolbar.btnTableTemplate, toolbar.btnInsertHyperlink]});
@@ -2965,6 +2985,11 @@ define([
         txtMatrix_2_2_LineBracket                  : 'Empty Matrix with Brackets',
         txtMatrix_2_2_DLineBracket                 : 'Empty Matrix with Brackets',
         txtMatrix_Flat_Round                       : 'Sparse Matrix',
-        txtMatrix_Flat_Square                      : 'Sparse Matrix'
+        txtMatrix_Flat_Square                      : 'Sparse Matrix',
+        txtExpandSort: 'The data next to the selection will not be sorted. Do you want to expand the selection to include the adjacent data or continue with sorting the currently selected cells only?',
+        txtExpand: 'Expand and sort',
+        txtSorting: 'Sorting',
+        txtSortSelected: 'Sort selected'
+
     }, SSE.Controllers.Toolbar || {}));
 });

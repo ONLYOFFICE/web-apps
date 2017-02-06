@@ -304,7 +304,10 @@ define([
                         handler: function(result, value) {
                             if (result == 'ok') {
                                 if (me.api) {
-                                    // me.api.asc_setGraphicObjectProps(value.tableProps);
+                                    if (value.tableProps.altTitle)
+                                        me.api.asc_changeFormatTableInfo(me._state.TableName, Asc.c_oAscChangeTableStyleInfo.title, value.tableProps.altTitle);
+                                    if (value.tableProps.altDescription)
+                                        me.api.asc_changeFormatTableInfo(me._state.TableName, Asc.c_oAscChangeTableStyleInfo.description , value.tableProps.altDescription);
                                 }
                             }
 

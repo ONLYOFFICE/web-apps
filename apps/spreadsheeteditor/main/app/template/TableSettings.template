@@ -73,12 +73,12 @@
             <div id="table-btn-edit" style="display: inline-block; float:right;"></div>
         </td>
     </tr>
-    <tr class="hidden">
+    <tr>
         <td class="padding-small" colspan=2>
             <div class="separator horizontal"></div>
         </td>
     </tr>
-    <tr class="hidden">
+    <tr>
         <td align="center" colspan=2>
             <label class="link" id="table-advanced-link"><%= scope.textAdvanced %></label>
         </td>

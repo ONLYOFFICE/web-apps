@@ -39,6 +39,10 @@
         <label id="status-math-count">COUNT: 3</label>
         <label id="status-math-sum">SUM: 5</label>
     </div>
+    <div id="status-filtered-box" class="status-group">
+        <div class="separator short" style="margin-right: 12px;" />
+        <label id="status-filtered-records"></label>
+    </div>
     <div id="status-sheets-bar-box">
         <div id="status-sheets-bar" class="status-group">
         </div>

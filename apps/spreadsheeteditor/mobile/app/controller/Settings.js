@@ -74,10 +74,10 @@ define([
                 });
             },
 
-            // setApi: function (api) {
-            //     var me = this;
-            //     me.api = api;
-            // },
+            setApi: function (api) {
+                var me = this;
+                me.api = api;
+            },
 
             onLaunch: function () {
                 this.createView('Settings').render();
