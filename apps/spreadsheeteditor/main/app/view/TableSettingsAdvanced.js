@@ -106,11 +106,11 @@ define([    'text!spreadsheeteditor/main/app/template/TableSettingsAdvanced.temp
 
         _setDefaults: function(props) {
             if (props ){
-                // var value = props.asc_getTitle();
-                // this.inputAltTitle.setValue(value ? value : '');
-                //
-                // value = props.asc_getDescription();
-                // this.textareaAltDescription.val(value ? value : '');
+                var value = props.asc_getTitle();
+                this.inputAltTitle.setValue(value ? value : '');
+
+                value = props.asc_getDescription();
+                this.textareaAltDescription.val(value ? value : '');
             }
         },
 
