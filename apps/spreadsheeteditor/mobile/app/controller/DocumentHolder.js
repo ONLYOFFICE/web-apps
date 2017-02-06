@@ -184,7 +184,33 @@ define([
             _initMenu: function (cellinfo) {
                 var me = this;
 
-                if ( this.api.isCellEdited ) {
+                var iscellmenu, isrowmenu, iscolmenu, isallmenu, ischartmenu, isimagemenu, istextshapemenu, isshapemenu, istextchartmenu;
+                var iscelllocked    = cellinfo.asc_getLocked(),
+                    seltype         = cellinfo.asc_getFlags().asc_getSelectionType();
+
+                switch (seltype) {
+                    case Asc.c_oAscSelectionType.RangeCells:     iscellmenu  = true;     break;
+                    case Asc.c_oAscSelectionType.RangeRow:       isrowmenu   = true;     break;
+                    case Asc.c_oAscSelectionType.RangeCol:       iscolmenu   = true;     break;
+                    case Asc.c_oAscSelectionType.RangeMax:       isallmenu   = true;     break;
+                    case Asc.c_oAscSelectionType.RangeImage:     isimagemenu = true;     break;
+                    case Asc.c_oAscSelectionType.RangeShape:     isshapemenu = true;     break;
+                    case Asc.c_oAscSelectionType.RangeChart:     ischartmenu = true;     break;
+                    case Asc.c_oAscSelectionType.RangeChartText: istextchartmenu = true; break;
+                    case Asc.c_oAscSelectionType.RangeShapeText: istextshapemenu = true; break;
+                }
+
+                if (!iscelllocked && (isimagemenu || isshapemenu || ischartmenu || istextshapemenu || istextchartmenu)) {
+                    this.api.asc_getGraphicObjectProps().every(function (object) {
+                        if (object.asc_getObjectType() == Asc.c_oAscTypeSelectElement.Image) {
+                            iscelllocked = object.asc_getObjectValue().asc_getLocked();
+                        }
+
+                        return !iscelllocked;
+                    });
+                }
+
+                if ( iscelllocked || this.api.isCellEdited ) {
                     menuItems = [{
                             caption: me.menuCopy,
                             event: 'copy'
@@ -200,24 +226,12 @@ define([
                         },{
                             caption: me.menuPaste,
                             event: 'paste'
+                        },{
+                            caption: me.menuDelete,
+                            event: 'del'
                         }];
 
-                    var iscellmenu, isrowmenu, iscolmenu, isallmenu, ischartmenu, isimagemenu, istextshapemenu, isshapemenu, istextchartmenu,
-                        seltype             = cellinfo.asc_getFlags().asc_getSelectionType(),
-                        iscelllocked        = cellinfo.asc_getLocked(),
-                        isTableLocked       = cellinfo.asc_getLockedTable()===true;
-
-                    switch (seltype) {
-                        case Asc.c_oAscSelectionType.RangeCells:     iscellmenu  = true;     break;
-                        case Asc.c_oAscSelectionType.RangeRow:       isrowmenu   = true;     break;
-                        case Asc.c_oAscSelectionType.RangeCol:       iscolmenu   = true;     break;
-                        case Asc.c_oAscSelectionType.RangeMax:       isallmenu   = true;     break;
-                        case Asc.c_oAscSelectionType.RangeImage:     isimagemenu = true;     break;
-                        case Asc.c_oAscSelectionType.RangeShape:     isshapemenu = true;     break;
-                        case Asc.c_oAscSelectionType.RangeChart:     ischartmenu = true;     break;
-                        case Asc.c_oAscSelectionType.RangeChartText: istextchartmenu = true; break;
-                        case Asc.c_oAscSelectionType.RangeShapeText: istextshapemenu = true; break;
-                    }
+                        // isTableLocked       = cellinfo.asc_getLockedTable()===true;
 
                     if (isimagemenu || isshapemenu || ischartmenu ||
                                 istextshapemenu || istextchartmenu )
@@ -229,9 +243,6 @@ define([
                     } else {
                         if ( iscolmenu || isrowmenu) {
                             menuItems.push({
-                                    caption: me.menuDelete,
-                                    event: 'del'
-                                },{
                                     caption: me.menuHide,
                                     event: 'hide'
                                 },{
@@ -240,11 +251,6 @@ define([
                                 });
                         } else
                         if ( iscellmenu ) {
-                            menuItems.push({
-                                caption: me.menuDelete,
-                                event: 'del'
-                            });
-
                             !iscelllocked &&
                             menuItems.push({
                                 caption: me.menuCell,
