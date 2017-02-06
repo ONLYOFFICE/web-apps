@@ -92,11 +92,11 @@ define([
                     me.api.asc_GetDefaultTableStyles();
                 }
 
-                $('#add-table li').single('click',  _.buffered(this.onStyleClick, 100, this));
+                $('#add-table li').single('click',  _.buffered(this.onStyleClick, 300, this));
             },
 
             onViewRender: function () {
-                $('#add-table li').single('click',  _.buffered(this.onStyleClick, 100, this));
+                $('#add-table li').single('click',  _.buffered(this.onStyleClick, 300, this));
             },
 
             onStyleClick: function (e) {

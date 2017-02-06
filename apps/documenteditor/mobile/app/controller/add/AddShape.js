@@ -211,7 +211,7 @@ define([
             initEvents: function () {
                 var me = this;
 
-                $('#add-shape li').single('click',  _.buffered(me.onShapeClick, 100, me));
+                $('#add-shape li').single('click',  _.buffered(me.onShapeClick, 300, me));
             },
 
             onShapeClick: function (e) {
