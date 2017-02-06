@@ -1414,6 +1414,8 @@
   "SSE.Views.Statusbar.tipZoomOut": "Zoom Out",
   "SSE.Views.Statusbar.txAccessRights": "Change access rights",
   "SSE.Views.Statusbar.zoomText": "Zoom {0}%",
+  "SSE.Views.Statusbar.filteredRecordsText": "{0} of {1} records filtered",
+  "SSE.Views.Statusbar.filteredText": "Filter mode",
   "SSE.Views.TableOptionsDialog.errorAutoFilterDataRange": "The operation could not be done for the selected range of cells.<br>Select a uniform data range different from the existing one and try again.",
   "SSE.Views.TableOptionsDialog.errorFTChangeTableRangeError": "Operation could not be completed for the selected cell range.<br>Select a range so that the first table row was on the same row<br>and the resulting table overlapped the current one.",
   "SSE.Views.TableOptionsDialog.errorFTRangeIncludedOtherTables": "Operation could not be completed for the selected cell range.<br>Select a range which does not include other tables.",
