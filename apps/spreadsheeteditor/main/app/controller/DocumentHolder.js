@@ -344,7 +344,6 @@ define([
                         width: 500,
                         title: this.txtSorting,
                         msg: this.txtExpandSort,
-                        iconCls: 'warn',
                         buttons: [  {caption: this.txtExpand, primary: true, value: 'expand'},
                                     {caption: this.txtSortSelected, primary: true, value: 'sort'},
                                     'cancel'],

@@ -404,8 +404,8 @@ define([
             if (!options.width) options.width = 'auto';
             
             var template =  '<div class="info-box">' +
-                                '<div class="icon img-commonctrl <%= iconCls %>" />' +
-                                '<div class="text"><span><%= msg %></span>' +
+                                '<% if (typeof iconCls !== "undefined") { %><div class="icon img-commonctrl <%= iconCls %>" /><% } %>' +
+                                '<div class="text" <% if (typeof iconCls == "undefined") { %> style="padding-left:10px;" <% } %>><span><%= msg %></span>' +
                                     '<% if (dontshow) { %><div class="dont-show-checkbox"></div><% } %>' +
                                 '</div>' +
                             '</div>' +
