@@ -115,10 +115,14 @@ define([    'text!spreadsheeteditor/main/app/template/TableSettingsAdvanced.temp
         },
 
         getSettings: function() {
-            return { tableProps: {
-                        altTitle: (this.isAltTitleChanged) ? this.inputAltTitle.getValue() : undefined,
-                        altDescription: (this.isAltDescChanged) ? this.textareaAltDescription.val(): undefined
-                    }} ;
+            if (this.isAltTitleChanged || this.isAltDescChanged) {
+                var info = new Asc.AdvancedTableInfoSettings();
+                if (this.isAltTitleChanged)
+                    info.asc_setTitle(this.inputAltTitle.getValue());
+                if (this.isAltDescChanged)
+                    info.asc_setDescription(this.textareaAltDescription.val());
+                return info;
+            }
         },
 
         textTitle:      'Table - Advanced Settings',

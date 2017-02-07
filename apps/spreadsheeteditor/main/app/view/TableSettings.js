@@ -302,13 +302,8 @@ define([
                         tableProps: me._originalProps,
                         api: me.api,
                         handler: function(result, value) {
-                            if (result == 'ok') {
-                                if (me.api) {
-                                    if (value.tableProps.altTitle)
-                                        me.api.asc_changeFormatTableInfo(me._state.TableName, Asc.c_oAscChangeTableStyleInfo.title, value.tableProps.altTitle);
-                                    if (value.tableProps.altDescription)
-                                        me.api.asc_changeFormatTableInfo(me._state.TableName, Asc.c_oAscChangeTableStyleInfo.description , value.tableProps.altDescription);
-                                }
+                            if (result == 'ok' && me.api && value) {
+                                me.api.asc_changeFormatTableInfo(me._state.TableName, Asc.c_oAscChangeTableStyleInfo.advancedSettings, value);
                             }
 
                             Common.NotificationCenter.trigger('edit:complete', me);
