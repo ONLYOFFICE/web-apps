@@ -58,7 +58,8 @@ define([
             ],
 
             initialize: function () {
-                Common.NotificationCenter.on('addcontainer:show', _.bind(this.initEvents, this));
+                Common.NotificationCenter.on('addcontainer:show',   _.bind(this.initEvents, this));
+                Common.NotificationCenter.on('document:ready',      _.bind(this.onDocumentReady, this));
 
                 this.addListeners({
                     'AddFunction': {
@@ -83,6 +84,15 @@ define([
             },
 
             initEvents: function () {
+            },
+
+            onDocumentReady: function () {
+                var me = this;
+
+                _.defer(function () {
+                    me.api.asc_setLocalization(fc);
+                    me.fillFunctions.call(me);
+                });
             },
 
             fillFunctions: function() {
