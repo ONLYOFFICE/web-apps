@@ -103,6 +103,7 @@ define([
                 fontsize: undefined,
                 multiselect: false,
                 sparklines_disabled: false,
+                numformatinfo: undefined,
                 numformattype: undefined,
                 numformat: undefined,
                 langId: undefined
@@ -846,6 +847,7 @@ define([
                         width: 500,
                         title: this.txtSorting,
                         msg: this.txtExpandSort,
+
                         buttons: [  {caption: this.txtExpand, primary: true, value: 'expand'},
                                     {caption: this.txtSortSelected, primary: true, value: 'sort'},
                                     'cancel'],
@@ -927,7 +929,7 @@ define([
                     }
                     Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                 },
-                props   : {formatType: me._state.numformattype, format: me._state.numformat, langId: value}
+                props   : {format: me._state.numformat, formatInfo: me._state.numformatinfo, langId: value}
             })).show();
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             Common.component.Analytics.trackEvent('ToolBar', 'Number Format');
@@ -1963,6 +1965,7 @@ define([
             val = info.asc_getNumFormatInfo();
             if (val) {
 				this._state.numformat = info.asc_getNumFormat();
+				this._state.numformatinfo = val;
 				val = val.asc_getType();
 				if (this._state.numformattype !== val) {
 					toolbar.cmbNumberFormat.setValue(val, toolbar.txtCustom);

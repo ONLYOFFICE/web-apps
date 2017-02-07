@@ -157,6 +157,7 @@ define([
             this.api        = options.api;
             this.handler    = options.handler;
             this.props      = options.props;
+            this._state = {hasDecimal: false, hasNegative: false, hasSeparator: false, hasType: false, hasSymbols: false, hasCode: false};
 
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
 
@@ -258,15 +259,22 @@ define([
         },
 
         _setDefaults: function (props) {
-            if (props) {
+            if (props && props.formatInfo) {
                 if (this.langId)
                     this.langId = props.langId;
-                this.cmbFormat.setValue(props.formatType, this.txtCustom);
+                this.cmbFormat.setValue(props.formatInfo.asc_getType(), this.txtCustom);
 
-                if ((props.formatType == Asc.c_oAscNumFormatType.Custom) && props.format)
+                if ((props.formatInfo.asc_getType() == Asc.c_oAscNumFormatType.Custom) && props.format)
                     this.CustomFormat = this.Format = props.format;
 
                 this.onFormatSelect(this.cmbFormat, this.cmbFormat.getSelectedRecord());
+                if (this._state.hasDecimal)
+                    this.spnDecimal.setValue(props.formatInfo.asc_getDecimalPlaces());
+                if (this._state.hasSeparator)
+                    this.chSeparator.setValue(props.formatInfo.asc_getSeparator());
+                if (this._state.hasSymbols)
+                    this.cmbSymbols.setValue(props.formatInfo.asc_getSymbol());
+
                 // for fraction - if props.format not in cmbType - setValue(this.txtCustom)
                 // for date/time - if props.format not in cmbType - setValue(this.api.asc_getLocaleExample(props.format, 37973))
                 // for cmbNegative - if props.format not in cmbNegative - setValue(this.api.asc_getLocaleExample(props.format))
@@ -459,6 +467,7 @@ define([
             this._typePanel.toggleClass('hidden', !hasType);
             this._symbolsPanel.toggleClass('hidden', !hasSymbols);
             this._codePanel.toggleClass('hidden', !hasCode);
+            this._state = { hasDecimal: hasDecimal, hasNegative: hasNegative, hasSeparator: hasSeparator, hasType: hasType, hasSymbols: hasSymbols, hasCode: hasCode};
         },
 
         textTitle: 'Number Format',
