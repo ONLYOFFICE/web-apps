@@ -147,7 +147,7 @@ define([
                     '</tr>',
                     '<tr>',
                         '<td colspan="3" align="center">',
-                            '<a href="http:\/\/'+ this.txtAscUrl +'" target="_blank">' + this.txtAscUrl + '</a>',
+                            '<label class="asc-about-desc">' + this.txtAscUrl + '</label>',
                         '</td>',
                     '</tr>',
                 '</table>'
