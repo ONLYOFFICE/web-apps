@@ -182,8 +182,7 @@ define([
             _initMenu: function (stack) {
                 var me = this,
                     menuItems = [],
-                    canCopy = true;
-                    // canCopy = me.api.can_CopyCut();
+                    canCopy = me.api.can_CopyCut();
 
                 var isText = false,
                     isTable = false,
