@@ -144,17 +144,8 @@ define([
         /*
         * */
 
-        setLanguages: function(apiLangs) {
-            var langs = this.langs = [], info;
-            _.each(apiLangs, function(lang, index, list){
-                info = Common.util.LanguageInfo.getLocalLanguageName(lang.asc_getId());
-                langs.push({
-                    title:  info[1],
-                    tip:    info[0],
-                    code:   lang.asc_getId()
-                });
-            }, this);
-
+        setLanguages: function(langs) {
+            this.langs = langs;
             this.statusbar.reloadLanguages(langs);
         },
 

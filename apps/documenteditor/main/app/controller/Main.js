@@ -1651,7 +1651,23 @@ define([
             },
 
             loadLanguages: function() {
-                var langs = this.api.asc_getSpellCheckLanguages();
+                var apiLangs = this.api.asc_getSpellCheckLanguages(),
+                    langs = [], info;
+                _.each(apiLangs, function(lang, index, list){
+                    info = Common.util.LanguageInfo.getLocalLanguageName(lang.asc_getId());
+                    langs.push({
+                        title:  info[1],
+                        tip:    info[0],
+                        code:   lang.asc_getId()
+                    });
+                }, this);
+
+                langs.sort(function(a, b){
+                    if (a.tip < b.tip) return -1;
+                    if (a.tip > b.tip) return 1;
+                    return 0;
+                });
+
                 this.getApplication().getController('DocumentHolder').getView('DocumentHolder').setLanguages(langs);
                 this.getApplication().getController('Statusbar').setLanguages(langs);
             },

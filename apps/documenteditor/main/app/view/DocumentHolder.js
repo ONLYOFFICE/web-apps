@@ -3122,10 +3122,10 @@ define([
             if (langs && langs.length > 0) {
                 _.each(langs, function(lang, index){
                     me.langParaMenu.menu.addItem(new Common.UI.MenuItem({
-                        caption     : Common.util.LanguageInfo.getLocalLanguageName(lang.asc_getId())[1],
+                        caption     : lang.title,
                         checkable   : true,
                         toggleGroup : 'popupparalang',
-                        langid      : lang.asc_getId()
+                        langid      : lang.code
                     }).on('click', function(item, e){
                         if (me.api){
                             if (!_.isUndefined(item.options.langid))
@@ -3139,10 +3139,10 @@ define([
                     }));
 
                     me.langTableMenu.menu.addItem(new Common.UI.MenuItem({
-                        caption     : Common.util.LanguageInfo.getLocalLanguageName(lang.asc_getId())[1],
+                        caption     : lang.title,
                         checkable   : true,
                         toggleGroup : 'popuptablelang',
-                        langid      : lang.asc_getId()
+                        langid      : lang.code
                     }).on('click', function(item, e){
                         if (me.api){
                             if (!_.isUndefined(item.options.langid))
