@@ -117,10 +117,8 @@ define([    'text!spreadsheeteditor/main/app/template/TableSettingsAdvanced.temp
         getSettings: function() {
             if (this.isAltTitleChanged || this.isAltDescChanged) {
                 var info = new Asc.AdvancedTableInfoSettings();
-                if (this.isAltTitleChanged)
-                    info.asc_setTitle(this.inputAltTitle.getValue());
-                if (this.isAltDescChanged)
-                    info.asc_setDescription(this.textareaAltDescription.val());
+                info.asc_setTitle(this.inputAltTitle.getValue());
+                info.asc_setDescription(this.textareaAltDescription.val());
                 return info;
             }
         },
