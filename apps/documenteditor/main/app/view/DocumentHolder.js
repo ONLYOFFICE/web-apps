@@ -2686,6 +2686,11 @@ define([
                     menuParagraphAdvancedInTable
                 ]
             }).on('hide:after', function(menu) {
+                if (me.suppressEditComplete) {
+                    me.suppressEditComplete = false;
+                    return;
+                }
+
                 me.fireEvent('editcomplete', me);
                 me.currentMenu = null;
             });
