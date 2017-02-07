@@ -60,9 +60,6 @@ define([
 
         initialize: function () {
             var me = this;
-
-            Common.NotificationCenter.on('document:ready', _.bind(me.onDocumentReady, me));
-
             this.addListeners({
                 'FileMenu': {
                     'settings:apply': function() {
@@ -74,6 +71,32 @@ define([
 
         setApi: function (api) {
             this.api = api;
+
+            if (this.formulasGroups && this.api) {
+                this.loadingFormulas();
+
+                var me = this;
+
+                this.formulas = new SSE.Views.FormulaDialog({
+                    api             : this.api,
+                    toolclose       : 'hide',
+                    formulasGroups  : this.formulasGroups,
+                    handler         : function (func) {
+                        if (func && me.api) {
+                            me.api.asc_insertFormula(func, Asc.c_oAscPopUpSelectorType.Func);
+                        }
+                    }
+                });
+
+                this.formulas.on({
+                    'hide': function () {
+                        if (me.api) {
+                            me.api.asc_enableKeyEvents(true);
+                        }
+                    }
+                });
+            }
+
             return this;
         },
 
@@ -84,33 +107,6 @@ define([
 
         onLaunch: function () {
             this.formulasGroups = this.getApplication().getCollection('FormulaGroups');
-        },
-
-        onDocumentReady: function () {
-            var me = this;
-
-            if (me.formulasGroups && me.api) {
-                me.loadingFormulas();
-
-                me.formulas = new SSE.Views.FormulaDialog({
-                    api             : me.api,
-                    toolclose       : 'hide',
-                    formulasGroups  : me.formulasGroups,
-                    handler         : function (func) {
-                        if (func && me.api) {
-                            me.api.asc_insertFormula(func, Asc.c_oAscPopUpSelectorType.Func);
-                        }
-                    }
-                });
-
-                me.formulas.on({
-                    'hide': function () {
-                        if (me.api) {
-                            me.api.asc_enableKeyEvents(true);
-                        }
-                    }
-                });
-            }
         },
 
         showDialog: function () {
