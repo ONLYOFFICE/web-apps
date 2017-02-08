@@ -483,7 +483,7 @@ define([
                     $target = $(e.currentTarget),
                     value = $target.val(),
                     properties = new Asc.CTableProp(),
-                    margins = new Asc.asc_CPaddings();
+                    margins = new Asc.CMargins();
 
                 $('#table-options-margins .item-after').text(value + ' ' + _metricText);
 
@@ -493,8 +493,9 @@ define([
                 margins.put_Right(value);
                 margins.put_Bottom(value);
                 margins.put_Left(value);
+                margins.put_Flag(2);
 
-                properties.put_DefaultMargins(margins);
+                properties.put_CellMargins(margins);
 
                 me.api.tblApply(properties);
             },
