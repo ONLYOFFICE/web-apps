@@ -56,6 +56,7 @@ define([
             _paragraphObject = undefined,
             _styles = [],
             _styleThumbSize,
+            _styleName,
             metricText = Common.Utils.Metric.getCurrentMetricName();
 
         return {
@@ -164,6 +165,8 @@ define([
                     if (palette) {
                         palette.select(backColor);
                     }
+
+                    $('#paragraph-list input[name=paragraph-style]').val([_styleName]);
                 }
             },
 
@@ -324,7 +327,8 @@ define([
             },
 
             onApiParagraphStyleChange: function(name) {
-                $('#paragraph-list input[name=paragraph-style]').val([name]);
+                _styleName = name;
+                $('#paragraph-list input[name=paragraph-style]').val([_styleName]);
             }
         }
     })(), DE.Controllers.EditParagraph || {}))
