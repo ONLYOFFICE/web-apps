@@ -10,11 +10,14 @@
 	<body>
 		<div class="mainpart">
 			<h1>Insert charts</h1>
+            <h3>Insert a chart</h3>
 			<p>To insert a chart into your document,</p>
 			<ol>
 				<li>put the cursor at the place where you want to add a chart,</li>
 				<li>click the <b>Insert Chart</b> <img alt="Insert Chart icon" src="../images/insertchart.png" /> icon at the top toolbar,</li>
-				<li>select the needed chart type from the available ones - column, line, pie, bar, area, point, stock - and choose its style,</li>
+				<li>select the needed chart type from the available ones -  Column, Line, Pie, Bar, Area, XY (Scatter), or Stock,
+                <p class="note"><b>Note</b>: for <b>Column</b>, <b>Line</b>, <b>Pie</b>, or <b>Bar</b> charts, a 3D format is also available.</p>
+                </li>
 				<li>after that the <b>Chart Editor</b> window will appear where you can enter the necessary data into the cells using the following controls:
 					<ul>
 						<li><img alt="Copy" src="../images/copy.png" /> and <img alt="Paste" src="../images/paste.png" /> for copying and pasting the copied data</li>
@@ -27,9 +30,9 @@
 				</li>
 				<li>change the chart settings clicking the <b>Edit Chart</b> button situated in the <b>Chart Editor</b> window. The <b>Chart - Advanced Settings</b> window will open. 
 					<p><img alt="Chart - Advanced Settings window" src="../images/chartsettings.png" /></p>
-                    <p>The <b>Type &amp Data</b> tab allows you to select the chart type, its style as well as the data you wish to use to create a chart.</p>
+                    <p>The <b>Type &amp Data</b> tab allows you to change the chart type as well as the data you wish to use to create a chart.</p>
                     <ul>
-                        <li>Select a chart <b>Type</b> you wish to insert: line chart, column chart, bar chart, area chart, pie chart, point chart, or stock chart and its <b>Style</b>.</li>
+                        <li>Select a chart <b>Type</b> you wish to apply: Column, Line, Pie, Bar, Area, XY (Scatter), or Stock.</li>
                         <li>Check the selected <b>Data Range</b> and modify it, if necessary, clicking the <b>Select Data</b> button and entering the desired data range in the following format: <em>Sheet1!A1:B4</em>.</li>
                         <li>Choose the way to arrange the data. You can either select the <b>Data series</b> to be used on the X axis: <b>in rows</b> or <b>in columns</b>.</li>
                     </ul>
@@ -59,15 +62,22 @@
                         <li>
                             Specify the <b>Data Labels</b> (i.e. text labels that represent exact values of data points) parameters:<br />
                             <ul>
-                                <li>specify the <b>Data Labels</b> position relative to the data points selecting the necessary option from the drop-down list: <b>Center</b>, <b>Inner Bottom</b>, <b>Inner Top</b>, <b>Outer Top</b>,</li>
+                                <li>specify the <b>Data Labels</b> position relative to the data points selecting the necessary option from the drop-down list. The available options vary depending on the selected chart type.
+                                <ul>
+                                    <li>For <b>Column/Bar</b> charts, you can choose the following options: <b>None</b>, <b>Center</b>, <b>Inner Bottom</b>, <b>Inner Top</b>, <b>Outer Top</b>.</li>
+                                    <li>For <b>Line/XY (Scatter)/Stock</b> charts, you can choose the following options: <b>None</b>, <b>Center</b>, <b>Left</b>, <b>Right</b>, <b>Top</b>, <b>Bottom</b>.</li>
+                                    <li>For <b>Pie</b> charts, you can choose the following options: <b>None</b>, <b>Center</b>, <b>Fit to Width</b>, <b>Inner Top</b>, <b>Outer Top</b>.</li>
+                                    <li>For <b>Area</b> charts as well as for <b>3D</b> <b>Column</b>, <b>Line</b> and <b>Bar</b> charts, you can choose the following options: <b>None</b>, <b>Center</b>.</li>
+                                </ul>
+                                </li>
                                 <li>select the data you wish to include into your labels checking the corresponding boxes: <b>Series Name</b>, <b>Category Name</b>, <b>Value</b>,</li>
                                 <li>enter a character (comma, semicolon etc.) you wish to use for separating several labels into the <b>Data Labels Separator</b> entry field.</li>
                             </ul>
                         </li>
-                        <li><b>Lines</b> - is used to choose a line style for <b>Line/Point charts</b>. You can choose one of the following options: <b>Straight</b> to use straight lines between data points, <b>Smooth</b> to use smooth curves between data points, or <b>None</b> to not display lines.</li>
+                        <li><b>Lines</b> - is used to choose a line style for <b>Line/XY (Scatter) charts</b>. You can choose one of the following options: <b>Straight</b> to use straight lines between data points, <b>Smooth</b> to use smooth curves between data points, or <b>None</b> to not display lines.</li>
                         <li>
-                            <b>Markers</b> - is used to specify whether the markers should be displayed (if the box is checked) or not (if the box is unchecked) for <b>Line/Point charts</b>.
-                            <p class="note"><b>Note</b>: the <b>Lines</b> and <b>Markers</b> options are available for <b>Line charts</b> and <b>Point charts</b> only.</p>
+                            <b>Markers</b> - is used to specify whether the markers should be displayed (if the box is checked) or not (if the box is unchecked) for <b>Line/XY (Scatter) charts</b>.
+                            <p class="note"><b>Note</b>: the <b>Lines</b> and <b>Markers</b> options are available for <b>Line charts</b> and <b>XY (Scatter) charts</b> only.</p>
                         </li>
                         <li>
                             The <b>Axis Settings</b> section allows to specify if you wish to display <b>Horizontal/Vertical Axis</b> or not selecting the <b>Show</b> or <b>Hide</b> option from the drop-down list. You can also specify <b>Horizontal/Vertical Axis Title</b> parameters:
@@ -96,7 +106,7 @@
                     </ul>
                     <p><img alt="Chart - Advanced Settings window" src="../images/chartsettings3.png" /></p>
                     <p class="note"><b>Note</b>: the <b>Vertical/Horizontal Axis</b> tabs will be disabled for <b>Pie charts</b> since charts of this type have no axes.</p>
-                <p>The <b>Vertical Axis</b> tab allows you to change the parameters of the vertical axis also referred to as the values axis or y-axis which displays numeric values. Note that the vertical axis will be the category axis which displays text labels for the <b>Bar charts</b>, therefore in this case the <b>Vertical Axis</b> tab options will correspond to the ones described in the next section. For the <b>Point charts</b>, both axes are value axes.</p>
+                <p>The <b>Vertical Axis</b> tab allows you to change the parameters of the vertical axis also referred to as the values axis or y-axis which displays numeric values. Note that the vertical axis will be the category axis which displays text labels for the <b>Bar charts</b>, therefore in this case the <b>Vertical Axis</b> tab options will correspond to the ones described in the next section. For the <b>XY (Scatter) charts</b>, both axes are value axes.</p>
                 <ul>
                     <li>The <b>Axis Options</b> section allows to set the following parameters:
                     <ul>
@@ -125,7 +135,7 @@
                     </li>
                 </ul>
                     <p><img alt="Chart - Advanced Settings window" src="../images/chartsettings4.png" /></p>
-                    <p>The <b>Horizontal Axis</b> tab allows you to change the parameters of the horizontal axis also referred to as the categories axis or x-axis which displays text labels. Note that the horizontal axis will be the value axis which displays numeric values for the <b>Bar charts</b>, therefore in this case the <b>Horizontal Axis</b> tab options will correspond to the ones described in the previous section. For the <b>Point charts</b>, both axes are value axes.</p>
+                    <p>The <b>Horizontal Axis</b> tab allows you to change the parameters of the horizontal axis also referred to as the categories axis or x-axis which displays text labels. Note that the horizontal axis will be the value axis which displays numeric values for the <b>Bar charts</b>, therefore in this case the <b>Horizontal Axis</b> tab options will correspond to the ones described in the previous section. For the <b>XY (Scatter) charts</b>, both axes are value axes.</p>
                     <ul>
                         <li>The <b>Axis Options</b> section allows to set the following parameters:
                             <ul>
@@ -151,15 +161,26 @@
                     </li>
 			</ol>
 			<hr />
+            <h3>Move and resize charts</h3>
 			<p><img class="floatleft" alt="Moving chart" src="../images/moving_chart.png" />Once the chart is added, you can change its size and position. To change the chart size, drag small squares <img alt="Square icon" src="../images/resize_square.png" /> situated on its edges. To maintain the original proportions of the selected chart while resizing, hold down the <b>Shift</b> key and drag one of the corner icons.</p>
-			<p>To alter the chart position, use the <img alt="Arrow" src="../images/arrow.png" /> icon that appears after hovering your mouse cursor over the chart. Drag the chart to the necessary position without releasing the mouse button. When you move the chart, guide lines are displayed to help you position the object on the page precisely.</p>
+			<p>To alter the chart position, use the <img alt="Arrow" src="../images/arrow.png" /> icon that appears after hovering your mouse cursor over the chart. Drag the chart to the necessary position without releasing the mouse button. When you move the chart, guide lines are displayed to help you position the object on the page precisely (if a wrapping style other than inline is selected).</p>
 			<hr />
-			<p><img class="floatleft" alt="Chart Settings tab" src="../images/right_chart.png" />
+            <h3>Edit chart elements</h3>
+            <p>To edit the chart <b>Title</b>, select the default text with the mouse and type in your own one instead.</p>
+            <p>To change the font formatting within text elements, such as the chart title, axes titles, legend entries, data labels etc., select the necessary text element by left-clicking it. Then use icons on the top toolbar to change the font <a href="../UsageInstructions/FontTypeSizeColor.htm" onclick="onhyperlinkclick(this)">type, size, color</a> or its <a href="../UsageInstructions/DecorationStyles.htm" onclick="onhyperlinkclick(this)">decoration style</a>.</p>
+            <p>To delete a chart element, select it by left-clicking and press the <b>Delete</b> key on the keyboard.</p>
+            <p>You can also rotate 3D charts using the mouse. Left-click within the plot area and hold the mouse button until a blue dashed box appears. Drag the cursor without releasing the mouse button to change the 3D chart orientation.</p>
+            <p><img alt="3D chart" src="../images/3dchart.png" /></p>
+            <hr />
+            <h3>Adjust chart settings</h3>
+            <p><img class="floatleft" alt="Chart Settings tab" src="../images/right_chart.png" /></p>
 			<p>Some of the chart settings can be altered using the <b>Chart Settings</b> tab of the right sidebar. To activate it click the chart and choose the <b>Chart Settings</b> <img alt="Chart Settings icon" src="../images/chart_settings_icon.png" /> icon on the right. Here you can change the following properties:</p>
 			<ul style="margin-left: 280px;">
 				<li><b>Size</b> is used to view the current chart <b>Width</b> and <b>Height</b>.</li>
 				<li><b>Wrapping Style</b> is used to select a text wrapping style from the available ones - inline, square, tight, through, top and bottom, in front, behind (for more information see the advanced settings description below).</li>
-				<li><b>Change Chart Type</b> is used to change the selected chart type and/or style.</li>
+				<li><b>Change Chart Type</b> is used to change the selected chart type and/or style.
+                <p>To select the necessary chart <b>Style</b>, use the second drop-down menu in the <b>Change Chart Type</b> section.</p>
+                </li>
 				<li><b>Edit Data</b> is used to open the 'Chart Editor' window.
                 <p class="note"><b>Note</b>: to quickly open the 'Chart Editor' window you can also double-click the chart in the document.</p>
                 </li>
