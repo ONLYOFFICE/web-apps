@@ -716,7 +716,6 @@ define([
             this.en_data = [
                 {src: "UsageInstructions/SetPageParameters.htm", name: "Set page parameters", headername: "Usage Instructions"},
                 {src: "UsageInstructions/CopyPasteUndoRedo.htm", name: "Copy/paste text passages, undo/redo your actions"},
-                {src: "UsageInstructions/AlignText.htm", name: "Align your text in a line or paragraph"},
                 {src: "UsageInstructions/LineSpacing.htm", name: "Set paragraph line spacing"},
                 {src: "UsageInstructions/CopyClearFormatting.htm", name: "Copy/clear text formatting"},
                 {src: "UsageInstructions/CreateLists.htm", name: "Create lists"},
