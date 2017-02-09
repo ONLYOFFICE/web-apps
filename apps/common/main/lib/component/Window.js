@@ -454,6 +454,8 @@ define([
                     body.height(parseInt(text_cnt.css('height')) + parseInt(footer.css('height')));
                     window.setHeight(parseInt(body.css('height')) + parseInt(header.css('height')));
                 }
+                if (text.height() < icon.height()-10)
+                    text.css({'vertical-align': 'baseline', 'line-height': icon.height()+'px'});
             }
 
             function onBtnClick(event) {
