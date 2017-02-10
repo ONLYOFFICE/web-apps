@@ -15,11 +15,12 @@
   .hairline(top, @statusBarBorderColor);
   height: @statusBarHeight;
   min-height: @statusBarHeight;
-  display: flex;
-  flex-direction: row;
 
   .box-tabs {
-    flex-grow: 1;
+  }
+
+  #box-addtab {
+    float: left;
   }
 
   .button {
@@ -47,6 +48,7 @@
     margin: 0;
     padding: 0;
     white-space: nowrap;
+    overflow: hidden;
 
     > li {
       list-style: none;
