@@ -1651,14 +1651,18 @@ define([
 
                 var mnu = new Common.UI.MenuItem({
                     caption: me._arrSpecialPaste[menuItem],
-                    value: menuItem
+                    value: menuItem,
+                    checkable: true,
+                    toggleGroup : 'specialPasteGroup'
                 }).on('click', function(item, e) {
                     var props = new Asc.SpecialPasteProps();
                     props.asc_setProps(item.value);
                     me.api.asc_SpecialPaste(props);
+                    setTimeout(function(){menu.hide();}, 100);
                 });
                 menu.addItem(mnu);
             });
+            (menu.items.length>0) && menu.items[0].setChecked(true, true);
 
             Common.UI.Menu.Manager.hideAll();
 
@@ -1667,7 +1671,9 @@ define([
         },
 
         onHideSpecialPasteOptions: function() {
-            this.documentHolder.cmpEl.find('#special-paste-container').hide();
+            var pasteContainer = this.documentHolder.cmpEl.find('#special-paste-container');
+            if (pasteContainer.is(':visible'))
+                pasteContainer.hide();
         },
 
         onCellsRange: function(status) {
