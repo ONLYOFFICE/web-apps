@@ -222,3 +222,15 @@ input, textarea {
     }
   }
 }
+
+// Workaround ios 10.3
+
+.range-slider input[type=range]::-webkit-slider-thumb {
+  height: 28px;
+  width: 28px;
+  border-radius: 28px;
+  background: #fff;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+  z-index: 10;
+  -webkit-appearance: none;
+}
