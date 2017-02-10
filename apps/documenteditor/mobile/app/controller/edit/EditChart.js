@@ -94,14 +94,19 @@ define([
                     return _sizes[index];
                 },
 
-                sizeByValue: function (value) {
+                indexSizeByValue: function (value) {
                     var index = 0;
                     _.each(_sizes, function (size, idx) {
                         if (Math.abs(size - value) < 0.25) {
                             index = idx;
                         }
                     });
-                    return _sizes[index];
+
+                    return index
+                },
+
+                sizeByValue: function (value) {
+                    return _sizes[this.indexSizeByValue(value)];
                 }
             }
         })();
@@ -224,8 +229,9 @@ define([
 
                 // Init style border size
                 var borderSize = shapeProperties.get_stroke().get_width() * 72.0 / 25.4;
-                $('#edit-chart-bordersize input').val([borderSizeTransform.sizeByIndex(borderSize)]);
-                $('#edit-chart-bordersize .item-after').text(borderSizeTransform.sizeByValue(borderSize) + ' ' + _metricText);
+                var borderType = shapeProperties.get_stroke().get_type();
+                $('#edit-chart-bordersize input').val([(borderType == Asc.c_oAscStrokeType.STROKE_NONE) ? 0 : borderSizeTransform.indexSizeByValue(borderSize)]);
+                $('#edit-chart-bordersize .item-after').text(((borderType == Asc.c_oAscStrokeType.STROKE_NONE) ? 0 : borderSizeTransform.sizeByValue(borderSize)) + ' ' + _metricText);
 
                 paletteFillColor && paletteFillColor.on('select',       _.bind(me.onFillColor, me));
                 paletteBorderColor && paletteBorderColor.on('select',   _.bind(me.onBorderColor, me));
