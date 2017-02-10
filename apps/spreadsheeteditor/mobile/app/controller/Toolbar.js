@@ -146,10 +146,12 @@ define([
 
             onApiWorkbookLocked: function (l) {
                 locked.book = l;
+                this.onApiSelectionChanged();
             },
 
             onApiWorksheetLocked: function (l) {
                 locked.sheet = l;
+                this.onApiSelectionChanged();
             },
 
             onApiActiveSheetChanged: function (index) {
@@ -165,23 +167,25 @@ define([
             },
 
             onApiSelectionChanged: function(info) {
-                var islocked = locked.book || locked.sheet;
+                if ( !info ) info = this.api.asc_getCellInfo();
+                var islocked = false;
 
-                if ( !islocked ) {
-                    switch (info.asc_getFlags().asc_getSelectionType()) {
-                    case Asc.c_oAscSelectionType.RangeCells:
-                        islocked = info.asc_getLocked();
-                        break;
-                    case Asc.c_oAscSelectionType.RangeChart:
-                        var objects = this.api.asc_getGraphicObjectProps();
-                        for ( var i in objects ) {
-                            if ( objects[i].asc_getObjectType() == Asc.c_oAscTypeSelectElement.Image ) {
-                                if ((islocked = objects[i].asc_getObjectValue().asc_getLocked()))
-                                    break;
-                            }
+                switch (info.asc_getFlags().asc_getSelectionType()) {
+                case Asc.c_oAscSelectionType.RangeChart:
+                case Asc.c_oAscSelectionType.RangeImage:
+                case Asc.c_oAscSelectionType.RangeShape:
+                case Asc.c_oAscSelectionType.RangeChartText:
+                case Asc.c_oAscSelectionType.RangeShapeText:
+                    var objects = this.api.asc_getGraphicObjectProps();
+                    for ( var i in objects ) {
+                        if ( objects[i].asc_getObjectType() == Asc.c_oAscTypeSelectElement.Image ) {
+                            if ((islocked = objects[i].asc_getObjectValue().asc_getLocked()))
+                                break;
                         }
-                        break;
                     }
+                    break;
+                default:
+                    islocked = info.asc_getLocked();
                 }
 
                 this.getView('Toolbar').disableControl(['add', 'edit'], islocked);
