@@ -582,7 +582,8 @@ define([
                 data        : [
                     { value: 'en', displayValue: this.txtEn, exampleValue: this.txtExampleEn },
                     { value: 'de', displayValue: this.txtDe, exampleValue: this.txtExampleDe },
-                    { value: 'ru', displayValue: this.txtRu, exampleValue: this.txtExampleRu }
+                    { value: 'ru', displayValue: this.txtRu, exampleValue: this.txtExampleRu },
+                    { value: 'pl', displayValue: this.txtPl, exampleValue: this.txtExamplePl }
                 ]
             }).on('selected', _.bind(function(combo, record) {
                 this.updateFuncExample(record.exampleValue);
@@ -781,9 +782,11 @@ define([
         txtEn: 'English',
         txtDe: 'Deutsch',
         txtRu: 'Russian',
+        txtPl: 'Polish',
         txtExampleEn: ' SUM; MIN; MAX; COUNT',
         txtExampleDe: ' SUMME; MIN; MAX; ANZAHL',
         txtExampleRu: ' СУММ; МИН; МАКС; СЧЁТ',
+        txtExamplePl: ' SUMA; MIN; MAX; ILE.LICZB',
         strFuncLocale: 'Formula Language',
         strFuncLocaleEx: 'Example: SUM; MIN; MAX; COUNT',
         strRegSettings: 'Regional Settings',
