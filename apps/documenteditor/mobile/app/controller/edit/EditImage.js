@@ -371,7 +371,7 @@ define([
 
             _uiTransformByWrap: function(type) {
                 $('.image-wrap .align')[('inline' == type) ? 'hide' : 'show']();
-                $('.image-wrap .distance')[('behind' == type || 'infront' == type) ? 'hide' : 'show']();
+                $('.image-wrap .distance')[('inline' == type || 'behind' == type || 'infront' == type) ? 'hide' : 'show']();
                 $('#edit-image-movetext').toggleClass('disabled', ('inline' == type));
             },
 
