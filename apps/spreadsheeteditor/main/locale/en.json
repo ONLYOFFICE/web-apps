@@ -1458,6 +1458,7 @@
   "SSE.Views.TableSettings.textTableName": "Table Name",
   "SSE.Views.TableSettings.textTemplate": "Select From Template",
   "SSE.Views.TableSettings.textTotal": "Total",
+  "SSE.Views.TableSettings.textConvertRange": "Convert to range",
   "SSE.Views.TableSettingsAdvanced.cancelButtonText": "Cancel",
   "SSE.Views.TableSettingsAdvanced.okButtonText": "Ok",
   "SSE.Views.TableSettingsAdvanced.textAlt": "Alternative Text",

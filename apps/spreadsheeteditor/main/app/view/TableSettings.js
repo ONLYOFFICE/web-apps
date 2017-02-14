@@ -286,6 +286,15 @@ define([
             this.btnEdit.menu.on('item:click', _.bind(this.onEditClick, this));
             this.lockedControls.push(this.btnEdit);
 
+            this.btnConvertRange = new Common.UI.Button({
+                el: $('#table-btn-convert-range')
+            });
+            this.btnConvertRange.on('click', _.bind(function(btn){
+                if (this.api) this.api.asc_convertTableToRange(this._state.TableName);
+                Common.NotificationCenter.trigger('edit:complete', this);
+            }, this));
+            this.lockedControls.push(this.btnConvertRange);
+
             $(this.el).on('click', '#table-advanced-link', _.bind(this.openAdvancedSettings, this));
 
             this._initSettings = false;
@@ -534,7 +543,8 @@ define([
         textIsLocked            : 'This element is being edited by another user.',
         notcriticalErrorTitle   : 'Warning',
         textReservedName        : 'The name you are trying to use is already referenced in cell formulas. Please use some other name.',
-        textAdvanced:   'Show advanced settings'
+        textAdvanced:   'Show advanced settings',
+        textConvertRange: 'Convert to range'
 
     }, SSE.Views.TableSettings || {}));
 });
