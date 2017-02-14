@@ -42,7 +42,7 @@
             </li>
             <li>
                 <% if (android) { %>
-                <a id="image-default" class="button button-raised button-fill" style="margin: 20px 16px; background-color: #f44336;"><%= scope.textRemove %></a>
+                <a id="image-remove" class="button button-raised button-fill" style="margin: 20px 16px; background-color: #f44336;"><%= scope.textRemove %></a>
                 <% } else { %>
                 <a id="image-remove" class="item-link list-button" style="text-align: center; color: #f00"><%= scope.textRemove %></a>
                 <% } %>
