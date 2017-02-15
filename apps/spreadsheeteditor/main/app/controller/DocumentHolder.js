@@ -1600,7 +1600,6 @@ define([
             var me                  = this,
                 documentHolderView  = me.documentHolder,
                 coord  = specialPasteShowOptions.asc_getCellCoord(),
-                showPoint = [coord.asc_getX() + coord.asc_getWidth() + 3, coord.asc_getY() + coord.asc_getHeight() + 3],
                 pasteContainer = documentHolderView.cmpEl.find('#special-paste-container'),
                 pasteItems = specialPasteShowOptions.asc_getOptions();
 
@@ -1636,38 +1635,45 @@ define([
                 me.btnSpecialPaste.render($('#id-document-holder-btn-special-paste')) ;
             }
 
-            var menu = me.btnSpecialPaste.menu;
-            for (var i = 0; i < menu.items.length; i++) {
-                menu.removeItem(menu.items[i]);
-                i--;
-            }
+            if (pasteItems.length>0) {
+                var menu = me.btnSpecialPaste.menu;
+                for (var i = 0; i < menu.items.length; i++) {
+                    menu.removeItem(menu.items[i]);
+                    i--;
+                }
 
-            var group_prev = -1;
-            _.each(pasteItems, function(menuItem, index) {
-                var group = (menuItem<7) ? 0 : (menuItem>9 ? 2 : 1);
-                if (group_prev !== group && group_prev>=0)
-                    menu.addItem(new Common.UI.MenuItem({ caption: '--' }));
-                group_prev = group;
+                var group_prev = -1;
+                _.each(pasteItems, function(menuItem, index) {
+                    var group = (menuItem<7) ? 0 : (menuItem>9 ? 2 : 1);
+                    if (group_prev !== group && group_prev>=0)
+                        menu.addItem(new Common.UI.MenuItem({ caption: '--' }));
+                    group_prev = group;
 
-                var mnu = new Common.UI.MenuItem({
-                    caption: me._arrSpecialPaste[menuItem],
-                    value: menuItem,
-                    checkable: true,
-                    toggleGroup : 'specialPasteGroup'
-                }).on('click', function(item, e) {
-                    var props = new Asc.SpecialPasteProps();
-                    props.asc_setProps(item.value);
-                    me.api.asc_SpecialPaste(props);
-                    setTimeout(function(){menu.hide();}, 100);
+                    var mnu = new Common.UI.MenuItem({
+                        caption: me._arrSpecialPaste[menuItem],
+                        value: menuItem,
+                        checkable: true,
+                        toggleGroup : 'specialPasteGroup'
+                    }).on('click', function(item, e) {
+                        var props = new Asc.SpecialPasteProps();
+                        props.asc_setProps(item.value);
+                        me.api.asc_SpecialPaste(props);
+                        setTimeout(function(){menu.hide();}, 100);
+                    });
+                    menu.addItem(mnu);
                 });
-                menu.addItem(mnu);
-            });
-            (menu.items.length>0) && menu.items[0].setChecked(true, true);
+                (menu.items.length>0) && menu.items[0].setChecked(true, true);
 
-            Common.UI.Menu.Manager.hideAll();
+                Common.UI.Menu.Manager.hideAll();
 
-            pasteContainer.css({left: showPoint[0], top : showPoint[1]});
-            pasteContainer.show();
+            }
+            if (coord.asc_getX()<0 || coord.asc_getY()<0) {
+                if (pasteContainer.is(':visible')) pasteContainer.hide();
+            } else {
+                var showPoint = [coord.asc_getX() + coord.asc_getWidth() + 3, coord.asc_getY() + coord.asc_getHeight() + 3];
+                pasteContainer.css({left: showPoint[0], top : showPoint[1]});
+                pasteContainer.show();
+            }
         },
 
         onHideSpecialPasteOptions: function() {
