@@ -35,8 +35,8 @@
  *
  *  Toolbar view
  *
- *  Created by Alexander Yuzhin on 1/9/14
- *  Copyright (c) 2014 Ascensio System SIA. All rights reserved.
+ *  Created by Maxim.Kadushkin on 2/13/17
+ *  Copyright (c) 2017 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -56,18 +56,15 @@ define([
     'common/main/lib/component/Window',
     'common/main/lib/component/ComboBoxFonts',
     'common/main/lib/component/ComboDataView'
-    /** coauthoring begin **/
     ,'common/main/lib/component/SynchronizeTip'
-    /** coauthoring end **/
-
-], function ($, _, Backbone, toolbarTemplate) {
+], function ($, _, Backbone, template) {
     'use strict';
 
     DE.Views.Toolbar =  Backbone.View.extend(_.extend({
         el: '#toolbar',
 
         // Compile our stats template
-        template: _.template(toolbarTemplate),
+        template: _.template(template),
 
         // Delegated events for creating new items, and clearing completed ones.
         events: {
@@ -985,22 +982,41 @@ define([
                 left = Common.localStorage.getItem("de-pgmargins-left"),
                 bottom = Common.localStorage.getItem("de-pgmargins-bottom"),
                 right = Common.localStorage.getItem("de-pgmargins-right");
-            if (top!==null && left!==null && bottom!==null && right!==null) {
-                var mnu = this.btnPageMargins.menu.items[0];
-                mnu.options.value = mnu.value = [parseFloat(top), parseFloat(left), parseFloat(bottom), parseFloat(right)];
-                mnu.setVisible(true);
-                $(mnu.el).html(mnu.template({id: Common.UI.getId(), caption : mnu.caption, options : mnu.options}));
-            } else
-                this.btnPageMargins.menu.items[0].setVisible(false);
+            // if (top!==null && left!==null && bottom!==null && right!==null) {
+            //     var mnu = this.btnPageMargins.menu.items[0];
+            //     mnu.options.value = mnu.value = [parseFloat(top), parseFloat(left), parseFloat(bottom), parseFloat(right)];
+            //     mnu.setVisible(true);
+            //     $(mnu.el).html(mnu.template({id: Common.UI.getId(), caption : mnu.caption, options : mnu.options}));
+            // } else
+            //     this.btnPageMargins.menu.items[0].setVisible(false);
 
             var value = Common.localStorage.getItem("de-compact-toolbar");
             var valueCompact = !!(value !== null && parseInt(value) == 1 || value === null && mode.customization && mode.customization.compactToolbar);
 
-            me.$el.html(this.template({
-                isCompactView: valueCompact
-            }));
+            var _tpl_ = this.template({
+                tabs: [{
+                    caption: 'File',
+                    action: 'file'
+                }, {
+                    caption: 'Home',
+                    action: 'home'
+                }, {
+                    caption: 'Insert',
+                    action: 'ins'
+                }, {
+                    caption: 'Page Layout',
+                    action: 'layout'
+                }, {
+                    caption: 'Review',
+                    action: 'review'
+                }, {
+                    caption: 'Plugins',
+                    action: 'plugins'
+                }]
+            });
 
-            me.rendererComponents(valueCompact ? 'short' : 'full');
+            me.$el.html( me.rendererComponents(_tpl_) );
+
             me.isCompactView = valueCompact;
 
             this.trigger('render:after', this);
@@ -1011,81 +1027,95 @@ define([
             this.needShowSynchTip = false;
             /** coauthoring end **/
 
+            var $tabs = me.$el.find('.tabs > ul a');
+            var $panels = me.$el.find('.box-panels > .panel');
+            $tabs.on('click', function (e) {
+                $tabs.parent().removeClass('active');
+                $panels.removeClass('active');
+
+                var tab = $(e.target).data('tab');
+                if ( tab !== 'file' ) {
+                    $panels.filter('[data-tab='+tab+']').addClass('active');
+                }
+
+                var $tp = $(e.target.parentNode);
+                $tp.addClass('active');
+
+                $marker.width($tp.width());
+                $marker.css({left: $tp.position().left});
+            });
+
+            var $marker = me.$el.find('.tabs .marker');
+
             return this;
         },
 
-        rendererComponents: function(mode) {
-            var prefix = (mode === 'short') ? 'short' : 'full';
-
-            var replacePlacholder = function(id, cmp) {
-                var placeholderEl = $(id),
-                    placeholderDom = placeholderEl.get(0);
-
-                if (placeholderDom) {
-                    if (cmp.rendered) {
-                        cmp.el = document.getElementById(cmp.id);
-                        placeholderDom.appendChild(document.getElementById(cmp.id));
-                    } else {
-                        cmp.render(placeholderEl);
-                    }
+        rendererComponents: function(html) {
+            var $host = $(html);
+            var _injectComponent = function(id, cmp) {
+                var $slot = $host.find(id);
+                if ( $slot.length ) {
+                    cmp.rendered ?
+                        $slot.append(cmp.$el) : cmp.render($slot);
                 }
             };
 
-            replacePlacholder('#id-toolbar-' + prefix + '-placeholder-btn-newdocument',    this.btnNewDocument);
-            replacePlacholder('#id-toolbar-' + prefix + '-placeholder-btn-opendocument',   this.btnOpenDocument);
-            replacePlacholder('#id-toolbar-' + prefix + '-placeholder-field-fontname',     this.cmbFontName);
-            replacePlacholder('#id-toolbar-' + prefix + '-placeholder-field-fontsize',     this.cmbFontSize);
-            replacePlacholder('#id-toolbar-' + prefix + '-placeholder-btn-print',          this.btnPrint);
-            replacePlacholder('#id-toolbar-' + prefix + '-placeholder-btn-save',           this.btnSave);
-            replacePlacholder('#id-toolbar-' + prefix + '-placeholder-btn-undo',           this.btnUndo);
-            replacePlacholder('#id-toolbar-' + prefix + '-placeholder-btn-redo',           this.btnRedo);
-            replacePlacholder('#id-toolbar-' + prefix + '-placeholder-btn-copy',           this.btnCopy);
-            replacePlacholder('#id-toolbar-' + prefix + '-placeholder-btn-paste',          this.btnPaste);
-            replacePlacholder('#id-toolbar-' + prefix + '-placeholder-btn-incfont',        this.btnIncFontSize);
-            replacePlacholder('#id-toolbar-' + prefix + '-placeholder-btn-decfont',        this.btnDecFontSize);
-            replacePlacholder('#id-toolbar-' + prefix + '-placeholder-btn-bold',           this.btnBold);
-            replacePlacholder('#id-toolbar-' + prefix + '-placeholder-btn-italic',         this.btnItalic);
-            replacePlacholder('#id-toolbar-' + prefix + '-placeholder-btn-underline',      this.btnUnderline);
-            replacePlacholder('#id-toolbar-' + prefix + '-placeholder-btn-strikeout',      this.btnStrikeout);
-            replacePlacholder('#id-toolbar-' + prefix + '-placeholder-btn-superscript',    this.btnSuperscript);
-            replacePlacholder('#id-toolbar-' + prefix + '-placeholder-btn-subscript',      this.btnSubscript);
-            replacePlacholder('#id-toolbar-' + prefix + '-placeholder-btn-highlight',      this.btnHighlightColor);
-            replacePlacholder('#id-toolbar-' + prefix + '-placeholder-btn-fontcolor',      this.btnFontColor);
-            replacePlacholder('#id-toolbar-' + prefix + '-placeholder-btn-align-left',     this.btnAlignLeft);
-            replacePlacholder('#id-toolbar-' + prefix + '-placeholder-btn-align-center',   this.btnAlignCenter);
-            replacePlacholder('#id-toolbar-' + prefix + '-placeholder-btn-align-right',    this.btnAlignRight);
-            replacePlacholder('#id-toolbar-' + prefix + '-placeholder-btn-align-just',     this.btnAlignJust);
-            replacePlacholder('#id-toolbar-' + prefix + '-placeholder-btn-incoffset',      this.btnIncLeftOffset);
-            replacePlacholder('#id-toolbar-' + prefix + '-placeholder-btn-decoffset',      this.btnDecLeftOffset);
-            replacePlacholder('#id-toolbar-' + prefix + '-placeholder-btn-linespace',      this.btnLineSpace);
-            replacePlacholder('#id-toolbar-' + prefix + '-placeholder-btn-hidenchars',     this.btnShowHidenChars);
-            replacePlacholder('#id-toolbar-' + prefix + '-placeholder-btn-markers',        this.btnMarkers);
-            replacePlacholder('#id-toolbar-' + prefix + '-placeholder-btn-numbering',      this.btnNumbers);
-            replacePlacholder('#id-toolbar-' + prefix + '-placeholder-btn-multilevels',    this.btnMultilevels);
-            replacePlacholder('#id-toolbar-' + prefix + '-placeholder-btn-inserttable',    this.btnInsertTable);
-            replacePlacholder('#id-toolbar-' + prefix + '-placeholder-btn-insertimage',    this.btnInsertImage);
-            replacePlacholder('#id-toolbar-' + prefix + '-placeholder-btn-insertchart',    this.btnInsertChart);
-            replacePlacholder('#id-toolbar-' + prefix + '-placeholder-btn-inserttext',     this.btnInsertText);
-            replacePlacholder('#id-toolbar-' + prefix + '-placeholder-btn-dropcap',        this.btnDropCap);
-            replacePlacholder('#id-toolbar-' + prefix + '-placeholder-btn-columns',        this.btnColumns);
-            replacePlacholder('#id-toolbar-' + prefix + '-placeholder-btn-pagebreak',      this.btnInsertPageBreak);
-            replacePlacholder('#id-toolbar-' + prefix + '-placeholder-btn-inserthyperlink',this.btnInsertHyperlink);
-            replacePlacholder('#id-toolbar-' + prefix + '-placeholder-btn-editheader',     this.btnEditHeader);
-            replacePlacholder('#id-toolbar-' + prefix + '-placeholder-btn-insertshape',    this.btnInsertShape);
-            replacePlacholder('#id-toolbar-' + prefix + '-placeholder-btn-insertequation',  this.btnInsertEquation);
-            replacePlacholder('#id-toolbar-' + prefix + '-placeholder-btn-pageorient',     this.btnPageOrient);
-            replacePlacholder('#id-toolbar-' + prefix + '-placeholder-btn-pagemargins',    this.btnPageMargins);
-            replacePlacholder('#id-toolbar-' + prefix + '-placeholder-btn-pagesize',       this.btnPageSize);
-            replacePlacholder('#id-toolbar-' + prefix + '-placeholder-btn-clearstyle',     this.btnClearStyle);
-            replacePlacholder('#id-toolbar-' + prefix + '-placeholder-btn-copystyle',      this.btnCopyStyle);
-            replacePlacholder('#id-toolbar-' + prefix + '-placeholder-btn-colorschemas',   this.btnColorSchemas);
-            replacePlacholder('#id-toolbar-' + prefix + '-placeholder-btn-hidebars',       this.btnHide);
-            replacePlacholder('#id-toolbar-' + prefix + '-placeholder-btn-settings',       this.btnAdvSettings);
-            replacePlacholder('#id-toolbar-full-placeholder-btn-paracolor',                this.btnParagraphColor);
-            replacePlacholder('#id-toolbar-full-placeholder-field-styles',                 this.listStyles);
-            replacePlacholder('#id-toolbar-short-placeholder-btn-halign',                  this.btnHorizontalAlign);
-            replacePlacholder('#id-toolbar-full-placeholder-btn-mailrecepients',           this.btnMailRecepients);
-            replacePlacholder('#id-toolbar-' + prefix + '-placeholder-btn-notes',      this.btnNotes);
+            _injectComponent('#slot-btn-newdocument',    this.btnNewDocument);
+            _injectComponent('#slot-btn-opendocument',   this.btnOpenDocument);
+            _injectComponent('#slot-field-fontname',     this.cmbFontName);
+            _injectComponent('#slot-field-fontsize',     this.cmbFontSize);
+            _injectComponent('#slot-btn-print',          this.btnPrint);
+            _injectComponent('#slot-btn-save',           this.btnSave);
+            _injectComponent('#slot-btn-undo',           this.btnUndo);
+            _injectComponent('#slot-btn-redo',           this.btnRedo);
+            _injectComponent('#slot-btn-copy',           this.btnCopy);
+            _injectComponent('#slot-btn-paste',          this.btnPaste);
+            _injectComponent('#slot-btn-incfont',        this.btnIncFontSize);
+            _injectComponent('#slot-btn-decfont',        this.btnDecFontSize);
+            _injectComponent('#slot-btn-bold',           this.btnBold);
+            _injectComponent('#slot-btn-italic',         this.btnItalic);
+            _injectComponent('#slot-btn-underline',      this.btnUnderline);
+            _injectComponent('#slot-btn-strikeout',      this.btnStrikeout);
+            _injectComponent('#slot-btn-superscript',    this.btnSuperscript);
+            _injectComponent('#slot-btn-subscript',      this.btnSubscript);
+            _injectComponent('#slot-btn-highlight',      this.btnHighlightColor);
+            _injectComponent('#slot-btn-fontcolor',      this.btnFontColor);
+            _injectComponent('#slot-btn-align-left',     this.btnAlignLeft);
+            _injectComponent('#slot-btn-align-center',   this.btnAlignCenter);
+            _injectComponent('#slot-btn-align-right',    this.btnAlignRight);
+            _injectComponent('#slot-btn-align-just',     this.btnAlignJust);
+            _injectComponent('#slot-btn-incoffset',      this.btnIncLeftOffset);
+            _injectComponent('#slot-btn-decoffset',      this.btnDecLeftOffset);
+            _injectComponent('#slot-btn-linespace',      this.btnLineSpace);
+            _injectComponent('#slot-btn-hidenchars',     this.btnShowHidenChars);
+            _injectComponent('#slot-btn-markers',        this.btnMarkers);
+            _injectComponent('#slot-btn-numbering',      this.btnNumbers);
+            _injectComponent('#slot-btn-multilevels',    this.btnMultilevels);
+            _injectComponent('#slot-btn-instable',    this.btnInsertTable);
+            _injectComponent('#slot-btn-insimage',    this.btnInsertImage);
+            _injectComponent('#slot-btn-inschart',    this.btnInsertChart);
+            _injectComponent('#slot-btn-instext',     this.btnInsertText);
+            _injectComponent('#slot-btn-dropcap',        this.btnDropCap);
+            _injectComponent('#slot-btn-columns',        this.btnColumns);
+            _injectComponent('#slot-btn-pagebreak',      this.btnInsertPageBreak);
+            _injectComponent('#slot-btn-inshyperlink',this.btnInsertHyperlink);
+            _injectComponent('#slot-btn-editheader',     this.btnEditHeader);
+            _injectComponent('#slot-btn-insshape',    this.btnInsertShape);
+            _injectComponent('#slot-btn-insequation',  this.btnInsertEquation);
+            _injectComponent('#slot-btn-pageorient',     this.btnPageOrient);
+            _injectComponent('#slot-btn-pagemargins',    this.btnPageMargins);
+            _injectComponent('#slot-btn-pagesize',       this.btnPageSize);
+            _injectComponent('#slot-btn-clearstyle',     this.btnClearStyle);
+            _injectComponent('#slot-btn-copystyle',      this.btnCopyStyle);
+            _injectComponent('#slot-btn-colorschemas',   this.btnColorSchemas);
+            _injectComponent('#slot-btn-hidebars',       this.btnHide);
+            _injectComponent('#slot-btn-settings',       this.btnAdvSettings);
+            _injectComponent('#slot-btn-paracolor',      this.btnParagraphColor);
+            _injectComponent('#slot-field-styles',       this.listStyles);
+            _injectComponent('#slot-btn-halign',         this.btnHorizontalAlign);
+            _injectComponent('#slot-btn-mailrecepients', this.btnMailRecepients);
+            _injectComponent('#slot-btn-notes',         this.btnNotes);
+            return $host;
         },
 
         createDelayedElements: function() {
@@ -1566,7 +1596,7 @@ define([
 
             this.mode = mode;
             if (!mode.nativeApp) {
-                var nativeBtnGroup = $('.toolbar-group-native');
+                var nativeBtnGroup = this.$el.find('.group.native');
 
                 if (nativeBtnGroup) {
                     nativeBtnGroup.hide();

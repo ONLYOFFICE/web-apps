@@ -1,9 +1,123 @@
+@height-tabs: 42px;
+@height-controls: 67px;
+
 .toolbar {
-    padding: 10px 0;
+    height: @height-tabs + @height-controls;
+
+    .box-tabs {
+        height: @height-tabs;
+
+        display: flex;
+        align-items: stretch;
+
+        .tabs {
+            flex-grow: 1;
+            background-color: #d0ddb6;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+        }
+
+        ul {
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+            flex-grow: 1;
+        }
+
+        li {
+            display: inline-block;
+
+            > a {
+                display: inline-block;
+                line-height: @height-tabs;
+                padding: 0 10px;
+                text-decoration: none;
+                cursor: default;
+                font-size: 14px;
+                text-align: center;
+
+                &::after {
+                    display: block;
+                    content: attr(title);
+                    font-weight: bold;
+                    height: 1px;
+                    overflow: hidden;
+                    visibility: hidden;
+                }
+
+            }
+
+            &.active {
+                > a {
+                    font-weight: bold;
+                }
+            }
+        }
+
+        .marker {
+            position: absolute;
+            border-top: 3px solid green;
+            bottom: 0;
+            -webkit-transition: width .2s, left .2s ease-out;
+            transition: width .2s, left .2s ease-out;
+        }
+
+        .link {
+            line-height: @height-tabs;
+            min-width: 20px;
+            text-align: center;
+        }
+
+        .extra {
+            &.left {
+                //display: inline-block;
+                //float: left;
+                min-width: 240px;
+                height: 42px;
+                .background-ximage('@{common-image-path}/about/OnlyOffice.png', '@{common-image-path}/about/OnlyOffice@2x.png', 240px);
+                background-size: contain;
+                background-repeat: no-repeat;
+
+                background-color: #98ddda;
+            }
+
+            &.right {
+                min-width: 350px;
+                line-height: @height-tabs;
+
+                background-color: #98ddda;
+            }
+        }
+    }
+
+    .box-controls {
+        height: @height-controls;
+        padding: 10px 0;
+        display: flex;
+
+        //background-color: #F2CBBF;
+
+        .panel {
+            display: table;
+            height: 100%;
+        }
+        //width: 100%;
+    }
+
+    .box-panels {
+        .panel:not(.active) {
+            display: none;
+        }
+    }
+    //padding: 10px 0;
+
     background-color: @gray-light;
     .box-inner-shadow(0 -1px 0 @gray-dark);
 
-    .toolbar-group {
+    .toolbar-group, .group {
         display: table-cell;
         vertical-align: top;
         white-space: nowrap;
@@ -14,13 +128,22 @@
         }
     }
 
-    .toolbar-row {
+    .group {
+        //background-color: #a9f261;
+        vertical-align: middle;
+    }
+
+    .toolbar-row, .elset {
         height: 20px;
         font-size: 0;
 
         &:not(:first-child) {
             margin-top: 6px;
         }
+    }
+
+    .elset {
+        //background-color: #f2f254;
     }
 
     .separator {
@@ -35,7 +158,7 @@
         }
     }
 
-    .btn-placeholder {
+    .btn-slot {
 //        background-color: red;
         display: inline-block;
         width: 20px;
@@ -436,4 +559,24 @@
         color: @dropdown-link-disabled-color;
         background-position: @plus-offset-x @plus-offset-y - 16;
     }
+}
+
+#slot-field-fontname {
+    float: left;
+    width: 165px;
+}
+
+#slot-field-fontsize {
+    float: left;
+    width: 45px;
+    margin-left: 2px;
+}
+
+#slot-btn-incfont, #slot-btn-decfont {
+    margin-left: 2px;
+}
+
+#slot-field-styles {
+    width: 100%;
+    min-width: 160px;
 }
