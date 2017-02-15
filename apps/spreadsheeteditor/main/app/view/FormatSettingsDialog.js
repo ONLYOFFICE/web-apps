@@ -183,7 +183,7 @@ define([
             this.cmbNegative = new Common.UI.ComboBox({
                 el: $('#format-settings-combo-negative'),
                 cls: 'input-group-nr',
-                menuStyle: 'min-width: 264px;max-height:210px;',
+                menuStyle: 'min-width: 264px;max-height:235px;',
                 editable: false,
                 data: [],
                 scrollAlwaysVisible: true
@@ -211,7 +211,7 @@ define([
             this.cmbSymbols = new Common.UI.ComboBox({
                 el: $('#format-settings-combo-symbols'),
                 cls: 'input-group-nr',
-                menuStyle: 'min-width: 264px;max-height:210px;',
+                menuStyle: 'min-width: 264px;max-height:235px;',
                 editable: false,
                 data: [],
                 scrollAlwaysVisible: true
@@ -221,7 +221,7 @@ define([
             this.cmbType = new Common.UI.ComboBox({
                 el: $('#format-settings-combo-type'),
                 cls: 'input-group-nr',
-                menuStyle: 'min-width: 264px;max-height:210px;',
+                menuStyle: 'min-width: 264px;max-height:235px;',
                 editable: false,
                 data: [],
                 scrollAlwaysVisible: true
@@ -231,7 +231,7 @@ define([
             this.cmbCode = new Common.UI.ComboBox({
                 el: $('#format-settings-combo-code'),
                 cls: 'input-group-nr',
-                menuStyle: 'min-width: 310px;max-height:210px;',
+                menuStyle: 'min-width: 310px;max-height:235px;',
                 editable: false,
                 data: [],
                 scrollAlwaysVisible: true
@@ -507,15 +507,15 @@ define([
         txtFraction:        'Fraction',
         txtScientific:      'Scientific',
         txtText:            'Text',
-        txtUpto1: 'Up to one digit',
-        txtUpto2: 'Up to two digits',
-        txtUpto3: 'Up to three digits',
-        txtAs2:  'As halfs',
-        txtAs8:  'As eighths',
-        txtAs4:  'As fourths',
-        txtAs16:  'As sixteenths',
-        txtAs10:  'As tenths',
-        txtAs100: 'As hundredths',
+        txtUpto1: 'Up to one digit (1/3)',
+        txtUpto2: 'Up to two digits (12/25)',
+        txtUpto3: 'Up to three digits (131/135)',
+        txtAs2:  'As halfs (1/2)',
+        txtAs8:  'As eighths (4/8)',
+        txtAs4:  'As fourths (2/4)',
+        txtAs16:  'As sixteenths (8/16)',
+        txtAs10:  'As tenths (5/10)',
+        txtAs100: 'As hundredths (50/100)',
         txtSample: 'Sample:'
 
     }, SSE.Views.FormatSettingsDialog || {}))
