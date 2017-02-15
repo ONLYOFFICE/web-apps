@@ -275,6 +275,24 @@ define([
                 if (this._state.hasSymbols)
                     this.cmbSymbols.setValue(props.formatInfo.asc_getSymbol());
 
+                if (props.format) {
+                    if (this._state.hasNegative) {
+                        var selectedItem = this.cmbNegative.store.findWhere({value: props.format});
+                        if (selectedItem)
+                            this.cmbNegative.selectRecord(selectedItem);
+                        else
+                            this.cmbNegative.setValue(this.api.asc_getLocaleExample(props.format));
+                    } else if (this._state.hasType) {
+                        var selectedItem = this.cmbType.store.findWhere({value: props.format});
+                        if (selectedItem)
+                            this.cmbType.selectRecord(selectedItem);
+                        else if (props.formatInfo.asc_getType() == Asc.c_oAscNumFormatType.Fraction)
+                            this.cmbType.setValue(this.txtCustom);
+                        else
+                            this.cmbType.setValue(this.api.asc_getLocaleExample(props.format), 37973);
+                    }
+                    this.Format = props.format;
+                }
                 // for fraction - if props.format not in cmbType - setValue(this.txtCustom)
                 // for date/time - if props.format not in cmbType - setValue(this.api.asc_getLocaleExample(props.format, 37973))
                 // for cmbNegative - if props.format not in cmbNegative - setValue(this.api.asc_getLocaleExample(props.format))
