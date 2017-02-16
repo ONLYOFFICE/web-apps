@@ -249,7 +249,7 @@
   "DE.Views.EditShape.textFromText": "Расстояние до текста",
   "DE.Views.EditShape.textInFront": "Перед текстом",
   "DE.Views.EditShape.textInline": "В тексте",
-  "DE.Views.EditShape.textOpacity": "Прозрачность",
+  "DE.Views.EditShape.textOpacity": "Непрозрачность",
   "DE.Views.EditShape.textOverlap": "Разрешить перекрытие",
   "DE.Views.EditShape.textRemoveShape": "Удалить фигуру",
   "DE.Views.EditShape.textReorder": "Порядок",

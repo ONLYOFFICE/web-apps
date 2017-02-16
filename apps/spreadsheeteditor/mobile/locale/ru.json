@@ -375,7 +375,7 @@
   "SSE.Views.EditShape.textEffects": "Эффекты",
   "SSE.Views.EditShape.textFill": "Заливка",
   "SSE.Views.EditShape.textForward": "Перенести вперед",
-  "SSE.Views.EditShape.textOpacity": "Прозрачность",
+  "SSE.Views.EditShape.textOpacity": "Непрозрачность",
   "SSE.Views.EditShape.textRemoveShape": "Удалить фигуру",
   "SSE.Views.EditShape.textReorder": "Порядок",
   "SSE.Views.EditShape.textReplace": "Заменить",
