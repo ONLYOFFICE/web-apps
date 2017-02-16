@@ -224,7 +224,7 @@ define([
                 $('#edit-shape-bordersize .item-after').text(((borderType == Asc.c_oAscStrokeType.STROKE_NONE) ? 0 : borderSizeTransform.sizeByValue(borderSize)) + ' ' + _metricText);
 
                 // Init style opacity
-                $('#edit-shape-effect input').val([shapeProperties.get_fill().transparent ? shapeProperties.get_fill().transparent / 2.55 : 100]);
+                $('#edit-shape-effect input').val([shapeProperties.get_fill().asc_getTransparent() ? shapeProperties.get_fill().asc_getTransparent() / 2.55 : 100]);
                 $('#edit-shape-effect .item-after').text($('#edit-shape-effect input').val() + ' ' + "%");
 
                 paletteFillColor && paletteFillColor.on('select',       _.bind(me.onFillColor, me));

@@ -195,7 +195,7 @@ define([
 
                 // Effect
                 // Init style opacity
-                $('#edit-shape-effect input').val([shapeProperties.get_fill().transparent ? shapeProperties.get_fill().transparent / 2.55 : 100]);
+                $('#edit-shape-effect input').val([shapeProperties.get_fill().asc_getTransparent() ? shapeProperties.get_fill().asc_getTransparent() / 2.55 : 100]);
                 $('#edit-shape-effect .item-after').text($('#edit-shape-effect input').val() + ' ' + "%");
                 $('#edit-shape-effect input').single('change touchend',     _.buffered(me.onOpacity, 100, me));
                 $('#edit-shape-effect input').single('input',               _.bind(me.onOpacityChanging, me));
