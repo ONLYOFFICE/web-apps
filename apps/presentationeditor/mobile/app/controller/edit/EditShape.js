@@ -151,7 +151,7 @@ define([
                 $('#edit-shape-bordersize .item-after').text(borderSizeTransform.sizeByValue(borderSize) + ' ' + _metricText);
 
                 // Init style opacity
-                $('#edit-shape-effect input').val([_shapeObject.get_fill().transparent ? _shapeObject.get_fill().transparent / 2.55 : 100]);
+                $('#edit-shape-effect input').val([_shapeObject.get_fill().asc_getTransparent() ? _shapeObject.get_fill().asc_getTransparent() / 2.55 : 100]);
                 $('#edit-shape-effect .item-after').text($('#edit-shape-effect input').val() + ' ' + "%");
 
                 paletteFillColor && paletteFillColor.on('select',       _.bind(me.onFillColor, me));
