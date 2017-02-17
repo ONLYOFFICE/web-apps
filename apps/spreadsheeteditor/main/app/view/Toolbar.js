@@ -704,7 +704,7 @@ define([
                         },
                         {
                             caption : me.txtRouble,
-                            value   : '_-* #,##0.00[$р.-419]_-;-* #,##0.00[$р.-419]_-;_-* "-"??[$р.-419]_-;_-@_-'
+                            value   : '_-* #,##0.00[$ ₽-419]_-;-* #,##0.00[$ ₽-419]_-;_-* "-"??[$ ₽-419]_-;_-@_-'
                         },
                         {
                             caption : me.txtYen,
@@ -1801,7 +1801,7 @@ define([
         txtCurrency:        'Currency',
         txtDollar:          '$ Dollar',
         txtEuro:            '€ Euro',
-        txtRouble:          'р. Rouble',
+        txtRouble:          '₽ Rouble',
         txtPound:           '£ Pound',
         txtYen:             '¥ Yen',
 //    txtFranc:           'CHF Swiss franc',
