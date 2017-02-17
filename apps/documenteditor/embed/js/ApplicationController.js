@@ -65,14 +65,14 @@ var ApplicationController = new(function(){
         common.controller.modals.init(embedConfig);
 
         // Docked toolbar
-        if (embedConfig.toolbarDocked === 'top') {
-            $('#toolbar').addClass('top');
-            $('#editor_sdk').addClass('top');
-        } else {
+        if (embedConfig.toolbarDocked === 'bottom') {
             $('#toolbar').addClass('bottom');
             $('#editor_sdk').addClass('bottom');
             $('#box-tools').removeClass('dropdown').addClass('dropup');
             ttOffset[1] = -40;
+        } else {
+            $('#toolbar').addClass('top');
+            $('#editor_sdk').addClass('top');
         }
 
         if (config.canBackToFolder === false || !(config.customization && config.customization.goback && config.customization.goback.url)) {
