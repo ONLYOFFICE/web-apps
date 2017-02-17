@@ -181,6 +181,7 @@ require([
         'presentationeditor/main/app/view/ChartSettings',
         'common/main/lib/controller/ExternalDiagramEditor'
     ], function() {
+        window.compareVersions = true;
         app.start();
     });
 }, function(err) {

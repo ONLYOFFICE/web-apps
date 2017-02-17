@@ -189,6 +189,7 @@ require([
         ,'common/main/lib/controller/ExternalMergeEditor'
         ,'common/main/lib/controller/ReviewChanges'
     ], function() {
+        window.compareVersions = true;
         app.start();
     });
 }, function(err) {

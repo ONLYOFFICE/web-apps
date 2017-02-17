@@ -129,6 +129,7 @@ define([
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onCoAuthoringDisconnect, this));
                 this.api.asc_registerCallback('asc_onAdvancedOptions',       _.bind(this.onAdvancedOptions, this));
                 this.api.asc_registerCallback('asc_onDocumentUpdateVersion', _.bind(this.onUpdateVersion, this));
+                this.api.asc_registerCallback('asc_onServerVersion',         _.bind(this.onServerVersion, this));
                 this.api.asc_registerCallback('asc_onDocumentName',          _.bind(this.onDocumentName, this));
                 this.api.asc_registerCallback('asc_onPrintUrl',              _.bind(this.onPrintUrl, this));
                 this.api.asc_registerCallback('asc_onMeta',                  _.bind(this.onMeta, this));
@@ -776,6 +777,8 @@ define([
                         return;
                     }
 
+                    if ( this.onServerVersion(params.asc_getBuildVersion()) ) return;
+
                     if (params.asc_getRights() !== Asc.c_oRights.Edit)
                         this.permissions.edit = false;
 
@@ -1402,6 +1405,25 @@ define([
                         })
                     }
                 });
+            },
+
+            onServerVersion: function(buildVersion) {
+                if (this.changeServerVersion) return true;
+
+                if (DocsAPI.DocEditor.version() !== buildVersion && !window.compareVersions) {
+                    this.changeServerVersion = true;
+                    Common.UI.warning({
+                        title: this.titleServerVersion,
+                        msg: this.errorServerVersion,
+                        callback: function() {
+                            _.defer(function() {
+                                Common.Gateway.updateVersion();
+                            })
+                        }
+                    });
+                    return true;
+                }
+                return false;
             },
 
             onAdvancedOptions: function(advOptions) {
@@ -2067,7 +2089,9 @@ define([
             errorSessionAbsolute: 'The document editing session has expired. Please reload the page.',
             errorSessionIdle: 'The document has not been edited for quite a long time. Please reload the page.',
             errorSessionToken: 'The connection to the server has been interrupted. Please reload the page.',
-            errorAccessDeny: 'You are trying to perform an action you do not have rights for.<br>Please contact your Document Server administrator.'
+            errorAccessDeny: 'You are trying to perform an action you do not have rights for.<br>Please contact your Document Server administrator.',
+            titleServerVersion: 'Editor updated',
+            errorServerVersion: 'The editor version has been updated. The page will be reloaded to apply the changes.'
         }
     })(), SSE.Controllers.Main || {}))
 });

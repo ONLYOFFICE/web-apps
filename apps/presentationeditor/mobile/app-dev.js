@@ -223,6 +223,7 @@ require([
         'presentationeditor/mobile/app/controller/add/AddSlide'
 
     ], function() {
+        window.compareVersions = true;
         app.start();
     });
 }, function(err) {

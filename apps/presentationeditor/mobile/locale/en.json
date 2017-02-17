@@ -140,6 +140,8 @@
   "PE.Controllers.Main.textBack": "Back",
   "PE.Controllers.Main.textClose": "Close",
   "PE.Controllers.Main.textDone": "Done",
+  "PE.Controllers.Main.titleServerVersion": "Editor updated",
+  "PE.Controllers.Main.errorServerVersion": "The editor version has been updated. The page will be reloaded to apply the changes.",
 
   "PE.Controllers.DocumentHolder.menuCut": "Cut",
   "PE.Controllers.DocumentHolder.menuCopy": "Copy",

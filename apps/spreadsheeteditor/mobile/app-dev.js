@@ -206,6 +206,7 @@ require([
         ,'spreadsheeteditor/mobile/app/controller/add/AddOther'
         ,'spreadsheeteditor/mobile/app/controller/add/AddLink'
     ], function() {
+        window.compareVersions = true;
         app.start();
     });
 }, function(err) {
