@@ -64,6 +64,7 @@ define([
                 urlGetTime : '',
                 docId: '',
                 docIdPrev: '',
+                token: '',
                 arrColors: [], // array of user colors for all changes of current version
                 markedAsVersion: false,
                 canRestore: false,

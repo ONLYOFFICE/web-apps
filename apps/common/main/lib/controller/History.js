@@ -134,12 +134,14 @@ define([
                  }, 10);
             } else {
                 var urlDiff = record.get('urlDiff'),
+                    token   = record.get('token'),
                     hist = new Asc.asc_CVersionHistory();
                 hist.asc_setDocId(_.isEmpty(urlDiff) ? this.currentDocId : this.currentDocIdPrev);
                 hist.asc_setUrl(url);
                 hist.asc_setUrlChanges(urlDiff);
                 hist.asc_setCurrentChangeId(this.currentChangeId);
                 hist.asc_setArrColors(this.currentArrColors);
+                hist.asc_setToken(token);
                 this.api.asc_showRevision(hist);
 
                 var commentsController = this.getApplication().getController('Common.Controllers.Comments');
@@ -166,7 +168,8 @@ define([
                     var diff = (this.currentChangeId===undefined) ? null : opts.data.changesUrl, // if revision has changes, but serverVersion !== app.buildVersion -> hide revision changes
                         url = (!_.isEmpty(diff) && opts.data.previous) ? opts.data.previous.url : opts.data.url,
                         docId = opts.data.key ? opts.data.key : this.currentDocId,
-                        docIdPrev = opts.data.previous && opts.data.previous.key ? opts.data.previous.key : this.currentDocIdPrev;
+                        docIdPrev = opts.data.previous && opts.data.previous.key ? opts.data.previous.key : this.currentDocIdPrev,
+                        token = opts.data.token;
 
                     if (revisions && revisions.length>0) {
                         for(var i=0; i<revisions.length; i++) {
@@ -178,6 +181,7 @@ define([
                                 rev.set('docId', docId, {silent: true});
                                 rev.set('docIdPrev', docIdPrev, {silent: true});
                             }
+                            rev.set('token', token, {silent: true});
                         }
                     }
                     var hist = new Asc.asc_CVersionHistory();
@@ -186,6 +190,7 @@ define([
                     hist.asc_setDocId(_.isEmpty(diff) ? docId : docIdPrev);
                     hist.asc_setCurrentChangeId(this.currentChangeId);
                     hist.asc_setArrColors(this.currentArrColors);
+                    hist.asc_setToken(token);
                     this.api.asc_showRevision(hist);
 
                     var commentsController = this.getApplication().getController('Common.Controllers.Comments');
