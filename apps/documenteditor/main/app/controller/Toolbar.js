@@ -1419,6 +1419,7 @@ define([
         },
 
         onAdvSettingsClick: function(btn, e) {
+            this.toolbar.setTab('file');
             this.toolbar.fireEvent('file:settings', this);
             btn.cmpEl.blur();
         },

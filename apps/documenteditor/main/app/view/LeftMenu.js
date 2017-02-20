@@ -91,15 +91,6 @@ define([
             el.html(this.template({
             }));
 
-            this.btnFile = new Common.UI.Button({
-                action: 'file',
-                el: $('#left-btn-file'),
-                hint: this.tipFile + Common.Utils.String.platformKey('Alt+F'),
-                enableToggle: true,
-                disabled: true,
-                toggleGroup: 'leftMenuGroup'
-            });
-
             this.btnSearch = new Common.UI.Button({
                 action: 'search',
                 el: $('#left-btn-search'),
@@ -160,11 +151,9 @@ define([
 
             this.btnSearch.on('click',          _.bind(this.onBtnMenuClick, this));
             this.btnAbout.on('toggle',          _.bind(this.onBtnMenuToggle, this));
-            this.btnFile.on('toggle',           _.bind(this.onBtnMenuToggle, this));
 
-            var menuFile = new DE.Views.FileMenu({});
-            menuFile.options = {alias:'FileMenu'};
-            this.btnFile.panel = menuFile.render();
+            this.menuFile = new DE.Views.FileMenu();
+            this.menuFile.render();
             this.btnAbout.panel = (new Common.Views.About({el: $('#about-menu-panel'), appName: 'Document Editor'})).render();
 
             return this;
@@ -187,8 +176,12 @@ define([
 
         onBtnMenuClick: function(btn, e) {
             this.supressEvents = true;
-            this.btnFile.toggle(false);
             this.btnAbout.toggle(false);
+
+            if ( this.menuFile.isVisible() ) {
+                this.menuFile.hide();
+                Common.NotificationCenter.trigger('layout:changed', 'menufile');
+            }
 
             if (btn.options.action == 'search') {
             } else {
@@ -264,31 +257,36 @@ define([
         /** coauthoring end **/
 
         close: function(menu) {
-            this.btnFile.toggle(false);
-            this.btnAbout.toggle(false);
-            this.$el.width(SCALE_MIN);
-            /** coauthoring begin **/
-            if (this.mode.canCoAuthoring) {
-                if (this.mode.canComments) {
-                    this.panelComments['hide']();
-                    if (this.btnComments.pressed)
-                        this.fireEvent('comments:hide', this);
-                    this.btnComments.toggle(false, true);
+            if ( this.menuFile.$el.is(':visible') ) {
+                this.menuFile.hide();
+                Common.NotificationCenter.trigger('layout:changed', 'menufile');
+            } else {
+
+                this.btnAbout.toggle(false);
+                this.$el.width(SCALE_MIN);
+                /** coauthoring begin **/
+                if (this.mode.canCoAuthoring) {
+                    if (this.mode.canComments) {
+                        this.panelComments['hide']();
+                        if (this.btnComments.pressed)
+                            this.fireEvent('comments:hide', this);
+                        this.btnComments.toggle(false, true);
+                    }
+                    if (this.mode.canChat) {
+                        this.panelChat['hide']();
+                        this.btnChat.toggle(false, true);
+                    }
                 }
-                if (this.mode.canChat) {
-                    this.panelChat['hide']();
-                    this.btnChat.toggle(false, true);
+                /** coauthoring end **/
+                if (this.mode.canPlugins && this.panelPlugins) {
+                    this.panelPlugins['hide']();
+                    this.btnPlugins.toggle(false, true);
                 }
-            }
-            /** coauthoring end **/
-            if (this.mode.canPlugins && this.panelPlugins) {
-                this.panelPlugins['hide']();
-                this.btnPlugins.toggle(false, true);
             }
         },
 
         isOpened: function() {
-            var isopened = this.btnFile.pressed || this.btnSearch.pressed;
+            var isopened = this.btnSearch.pressed;
             /** coauthoring begin **/
             !isopened && (isopened = this.btnComments.pressed || this.btnChat.pressed);
             /** coauthoring end **/
@@ -296,7 +294,6 @@ define([
         },
 
         disableMenu: function(menu, disable) {
-            this.btnFile.setDisabled(false);
             this.btnSearch.setDisabled(false);
             this.btnAbout.setDisabled(false);
             this.btnSupport.setDisabled(false);
@@ -309,12 +306,11 @@ define([
 
         showMenu: function(menu, opts) {
             var re = /^(\w+):?(\w*)$/.exec(menu);
-            if (re[1] == 'file' && this.btnFile.isVisible() ) {
-                if (!this.btnFile.pressed) {
-                    this.btnFile.toggle(true);
-//                    this.onBtnMenuClick(this.btnFile);
+            if ( re[1] == 'file' ) {
+                if ( !this.menuFile.isVisible() ) {
+                    // this.btnFile.toggle(true);
                 }
-                this.btnFile.panel.show(re[2].length ? re[2] : undefined, opts);
+                this.menuFile.show(re[2].length ? re[2] : undefined, opts);
             } else {
                 /** coauthoring begin **/
                 if (menu == 'chat') {
@@ -341,7 +337,7 @@ define([
         getMenu: function(type) {
             switch (type) {
             default: return null;
-            case 'file': return this.btnFile.panel;
+            case 'file': return this.menuFile;
             case 'about': return this.btnAbout.panel;
             }
         },

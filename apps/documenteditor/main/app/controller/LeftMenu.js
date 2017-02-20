@@ -82,7 +82,9 @@ define([
                     'recent:open': _.bind(this.onOpenRecent, this)
                 },
                 'Toolbar': {
-                    'file:settings': _.bind(this.clickToolbarSettings,this)
+                    'file:settings': _.bind(this.clickToolbarSettings,this),
+                    'file:open': this.clickToolbarTab.bind(this, 'file'),
+                    'file:close': this.clickToolbarTab.bind(this, 'other')
                 },
                 'SearchDialog': {
                     'hide': _.bind(this.onSearchDlgHide, this),
@@ -249,7 +251,7 @@ define([
 
             if (close_menu) {
                 menu.hide();
-                this.leftMenu.btnFile.toggle(false, true);
+                Common.NotificationCenter.trigger('layout:changed', 'menufile');
             }
         },
 
@@ -265,14 +267,14 @@ define([
                             if (btn == 'ok') {
                                 this.api.asc_DownloadAs(format);
                                 menu.hide();
-                                this.leftMenu.btnFile.toggle(false, true);
+                                Common.NotificationCenter.trigger('layout:changed', 'menufile');
                             }
                         }, this)
                     });
                 } else {
                     this.api.asc_DownloadAs(format);
                     menu.hide();
-                    this.leftMenu.btnFile.toggle(false, true);
+                    Common.NotificationCenter.trigger('layout:changed', 'menufile');
                 }
             } else
                 this.api.asc_DownloadOrigin();
@@ -319,7 +321,7 @@ define([
             this.api.put_ShowSnapLines(value===null || parseInt(value) == 1);
 
             menu.hide();
-            this.leftMenu.btnFile.toggle(false, true);
+            Common.NotificationCenter.trigger('layout:changed', 'menufile');
         },
 
         onCreateNew: function(menu, type) {
@@ -332,14 +334,14 @@ define([
 
             if (menu) {
                 menu.hide();
-                this.leftMenu.btnFile.toggle(false, true);
+                Common.NotificationCenter.trigger('layout:changed', 'menufile');
             }
         },
 
         onOpenRecent:  function(menu, url) {
             if (menu) {
                 menu.hide();
-                this.leftMenu.btnFile.toggle(false, true);
+                Common.NotificationCenter.trigger('layout:changed', 'menufile');
             }
 
             var recentDocPage = window.open(url);
@@ -350,15 +352,18 @@ define([
         },
 
         clickToolbarSettings: function(obj) {
-            if (this.leftMenu.btnFile.pressed && this.leftMenu.btnFile.panel.active == 'opts')
+            this.leftMenu.showMenu('file:opts');
+        },
+
+        clickToolbarTab: function (tab, e) {
+            if (tab == 'file')
+                this.leftMenu.showMenu('file'); else
                 this.leftMenu.close();
-            else
-                this.leftMenu.showMenu('file:opts');
         },
 
         /** coauthoring begin **/
         clickStatusbarUsers: function() {
-            this.leftMenu.btnFile.panel.panels['rights'].changeAccessRights();
+            this.leftMenu.menuFile.panels['rights'].changeAccessRights();
         },
 
         onHideChat: function() {
@@ -514,7 +519,7 @@ define([
         },
 
         menuFilesHide: function(obj) {
-            $(this.leftMenu.btnFile.el).blur();
+            // $(this.leftMenu.btnFile.el).blur();
         },
 
         onMenuChange: function (value) {
@@ -536,8 +541,8 @@ define([
                     Common.UI.Menu.Manager.hideAll();
                     this.showSearchDlg(true,s);
                     this.leftMenu.btnSearch.toggle(true,true);
-                    this.leftMenu.btnFile.toggle(false);
                     this.leftMenu.btnAbout.toggle(false);
+                    this.leftMenu.menuFile.hide();
                     return false;
                 case 'save':
                     if (this.mode.canDownload || this.mode.canDownloadOrigin) {
@@ -574,7 +579,7 @@ define([
                             return false;
                         }
                     }
-                    if (this.leftMenu.btnFile.pressed || this.leftMenu.btnAbout.pressed || this.leftMenu.btnPlugins.pressed ||
+                    if (this.leftMenu.menuFile.isVisible() || this.leftMenu.btnAbout.pressed || this.leftMenu.btnPlugins.pressed ||
                         $(e.target).parents('#left-menu').length ) {
                         this.leftMenu.close();
                         Common.NotificationCenter.trigger('layout:changed', 'leftmenu');
