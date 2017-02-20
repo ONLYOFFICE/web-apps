@@ -692,23 +692,23 @@ define([
                     items : [
                         {
                             caption : me.txtDollar,
-                            value   : '_($* #,##0.00_);_($* (#,##0.00);_($* "-"??_);_(@_)'
+                            value   : 0x0409 // $ en-US
                         },
                         {
                             caption : me.txtEuro,
-                            value   : '_(€* #,##0.00_);_(€* (#,##0.00);_(€* "-"??_);_(@_)'
+                            value   : 0x0407 // € de-DE
                         },
                         {
                             caption : me.txtPound,
-                            value   : '_(£* #,##0.00_);_(£* (#,##0.00);_(£* "-"??_);_(@_)'
+                            value   : 0x0809 // £ en-GB
                         },
                         {
                             caption : me.txtRouble,
-                            value   : '_-* #,##0.00[$ ₽-419]_-;-* #,##0.00[$ ₽-419]_-;_-* "-"??[$ ₽-419]_-;_-@_-'
+                            value   : 0x0419 // ₽ ru-RU
                         },
                         {
                             caption : me.txtYen,
-                            value   : '_(¥* #,##0.00_);_(¥* (#,##0.00);_(¥* "-"??_);_(@_)'
+                            value   : 0x0411 // ¥ ja-JP
                         }
                     ]
                 })

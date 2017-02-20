@@ -898,8 +898,15 @@ define([
         },
 
         onNumberFormatMenu: function(menu, item) {
-            if (this.api)
-                this.api.asc_setCellFormat(item.value);
+            if (this.api) {
+                var info = new Asc.asc_CFormatCellsInfo();
+                info.asc_setType(Asc.c_oAscNumFormatType.Accounting);
+                info.asc_setSeparator(false);
+                info.asc_setSymbol(item.value);
+                var format = this.api.asc_getFormatCells(info);
+                if (format && format.length>0)
+                    this.api.asc_setCellFormat(format[0]);
+            }
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             Common.component.Analytics.trackEvent('ToolBar', 'Number Format');
