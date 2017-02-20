@@ -267,7 +267,7 @@ define([
                 if ((props.formatInfo.asc_getType() == Asc.c_oAscNumFormatType.Custom) && props.format)
                     this.CustomFormat = this.Format = props.format;
 
-                this.onFormatSelect(this.cmbFormat, this.cmbFormat.getSelectedRecord());
+                this.onFormatSelect(this.cmbFormat, this.cmbFormat.getSelectedRecord(), null, props.formatInfo);
                 if (this._state.hasDecimal)
                     this.spnDecimal.setValue(props.formatInfo.asc_getDecimalPlaces());
                 if (this._state.hasSeparator)
@@ -398,7 +398,7 @@ define([
             this.lblExample.text(this.api.asc_getLocaleExample(this.Format));
         },
 
-        onFormatSelect: function(combo, record) {
+        onFormatSelect: function(combo, record, e, initFormatInfo) {
             if (!record) return;
 
             this.FormatType = record.value;
@@ -410,13 +410,16 @@ define([
                 hasType = (record.value == Asc.c_oAscNumFormatType.Date || record.value == Asc.c_oAscNumFormatType.Time || record.value == Asc.c_oAscNumFormatType.Fraction),
                 hasSymbols = (record.value == Asc.c_oAscNumFormatType.Accounting || record.value == Asc.c_oAscNumFormatType.Currency),
                 hasCode = (record.value == Asc.c_oAscNumFormatType.Custom),
-                me = this;
+                me = this,
+                valDecimal = (initFormatInfo) ? initFormatInfo.asc_getDecimalPlaces() : this.spnDecimal.getNumberValue(),
+                valSeparator = (initFormatInfo) ? initFormatInfo.asc_getSeparator() : (this.chSeparator.getValue()=='checked'),
+                valSymbol = (initFormatInfo && initFormatInfo.asc_getSymbol()) ? initFormatInfo.asc_getSymbol() : this.langId;
 
             if (record.value !== Asc.c_oAscNumFormatType.Custom) {
                 var info = new Asc.asc_CFormatCellsInfo();
                 info.asc_setType(record.value);
-                info.asc_setDecimalPlaces(hasDecimal ? this.spnDecimal.getNumberValue() : 0);
-                info.asc_setSeparator(hasSeparator ? this.chSeparator.getValue()=='checked' : false);
+                info.asc_setDecimalPlaces(hasDecimal ? valDecimal : 0);
+                info.asc_setSeparator(hasSeparator ? valSeparator : false);
 
                 if (hasNegative || record.value == Asc.c_oAscNumFormatType.Date || record.value == Asc.c_oAscNumFormatType.Time) {
                     if (hasSymbols) {
@@ -429,7 +432,7 @@ define([
                                 }
                             }
                             this.cmbSymbols.setData(this.CurrencySymbolsData);
-                            this.cmbSymbols.setValue(this.langId);
+                            this.cmbSymbols.setValue(valSymbol);
                         }
                         info.asc_setSymbol(this.cmbSymbols.getValue());
                     }
@@ -460,7 +463,7 @@ define([
             } else {
                 var info = new Asc.asc_CFormatCellsInfo();
                 info.asc_setType(Asc.c_oAscNumFormatType.None);
-                info.asc_setSymbol(this.langId);
+                info.asc_setSymbol(valSymbol);
 
                 var formatsarr = this.api.asc_getFormatCells(info),
                     data = [],
