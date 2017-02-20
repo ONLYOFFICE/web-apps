@@ -57,7 +57,7 @@ define([
             infoObj,
             modalView,
             _isPortrait = false,
-            _pageSizesIndex = -1,
+            _pageSizesIndex = 0,
             _pageSizesCurrent = [0, 0],
             txtCm = Common.Utils.Metric.getMetricName(Common.Utils.Metric.c_MetricUnits.cm),
             _pageSizes = [
@@ -359,6 +359,10 @@ define([
             },
 
             onApiPageSize: function(w, h) {
+                if (!_isPortrait) {
+                    var tempW = w; w = h; h = tempW;
+                }
+
                 if (Math.abs(_pageSizesCurrent[0] - w) > 0.01 ||
                     Math.abs(_pageSizesCurrent[1] - h) > 0.01) {
                     _pageSizesCurrent = [w, h];
@@ -376,7 +380,6 @@ define([
             onApiPageOrient: function(isPortrait) {
                 _isPortrait = isPortrait;
             },
-
 
             unknownText: 'Unknown',
             txtLoading              : 'Loading...',
