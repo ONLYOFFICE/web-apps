@@ -2,7 +2,7 @@
     <div class="box-tabs">
         <div class="extra left"></div>
         <section class="tabs">
-            <a href="#" class="link">
+            <a href="#" class="scroll left">
                 <i class="icon">&lt;</i>
             </a>
             <ul>
@@ -11,11 +11,11 @@
                         <a href="#" data-tab="<%= tabs[i].action %>" title="<%= tabs[i].caption %>"><%= tabs[i].caption %></a>
                     </li>
                 <% } %>
+                <div class="marker"></div>
             </ul>
-            <a href="#" class="link">
+            <a href="#" class="scroll right">
                 <i class="icon">&gt;</i>
             </a>
-            <div class="marker"></div>
         </section>
         <div class="extra right">SomeDocument.docx</div>
     </div>

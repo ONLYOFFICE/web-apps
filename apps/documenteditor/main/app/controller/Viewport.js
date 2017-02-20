@@ -133,6 +133,7 @@ define([
 
         onWindowResize: function(e) {
             this.onLayoutChanged('window');
+            Common.NotificationCenter.trigger('window:resize');
         }
     });
 });
