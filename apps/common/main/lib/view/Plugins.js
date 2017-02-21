@@ -72,7 +72,7 @@ define([
 
         initialize: function(options) {
             _.extend(this, options);
-            this.pluginsPath = '../../../../sdkjs-plugins/';
+            this.pluginsPath = '';
             this._locked = false;
             this._state = {
                 DisabledControls: true
