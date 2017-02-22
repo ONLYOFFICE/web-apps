@@ -204,7 +204,7 @@ define([
                 menuContainer.css({left: showPoint[0], top: showPoint[1]});
 
                 menu.menuAlignEl = currentTarget;
-                menu.setOffset(-11, -currentTarget.height()/2 + 2);
+                menu.setOffset(-20, -currentTarget.height()/2 - 3);
                 menu.show();
                 _.delay(function() {
                     menu.cmpEl.focus();
