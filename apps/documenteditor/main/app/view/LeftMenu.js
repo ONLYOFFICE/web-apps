@@ -257,7 +257,7 @@ define([
         /** coauthoring end **/
 
         close: function(menu) {
-            if ( this.menuFile.$el.is(':visible') ) {
+            if ( this.menuFile.isVisible() ) {
                 this.menuFile.hide();
                 Common.NotificationCenter.trigger('layout:changed', 'menufile');
             } else {

@@ -65,6 +65,16 @@ define([
         var $panels, $marker, $scrollL;
         var lastPanel;
 
+        var config = {
+            tabs: [
+                { caption: 'File', action: 'file'},
+                { caption: 'Home', action: 'home'},
+                { caption: 'Insert', action: 'ins'},
+                { caption: 'Page Layout', action: 'layout'},
+                { caption: 'Plugins', action: 'plugins' }
+            ]
+        };
+
         function hasTabInvisible() {
             var _left_bound_ = $boxTabs.offset().left,
                 _right_bound_ = _left_bound_ + $boxTabs.width();
@@ -109,7 +119,7 @@ define([
             el: '#toolbar',
 
             // Compile our stats template
-            template: _.template(template),
+            // template: _.template(template),
 
             // Delegated events for creating new items, and clearing completed ones.
             events: {
@@ -117,6 +127,8 @@ define([
             },
 
             initialize: function () {
+                config.$dom = $(_.template(template, config));
+
                 /**
                  * UI Components
                  */
@@ -1230,29 +1242,7 @@ define([
                 var value = Common.localStorage.getItem("de-compact-toolbar");
                 var valueCompact = !!(value !== null && parseInt(value) == 1 || value === null && mode.customization && mode.customization.compactToolbar);
 
-                var _tpl_ = this.template({
-                    tabs: [{
-                        caption: 'File',
-                        action: 'file'
-                    }, {
-                        caption: 'Home',
-                        action: 'home'
-                    }, {
-                        caption: 'Insert',
-                        action: 'ins'
-                    }, {
-                        caption: 'Page Layout',
-                        action: 'layout'
-                    }, {
-                        caption: 'Review',
-                        action: 'review'
-                    }, {
-                        caption: 'Plugins',
-                        action: 'plugins'
-                    }]
-                });
-
-                me.$el.html(me.rendererComponents(_tpl_));
+                me.$el.html( me.rendererComponents(config.$dom) );
 
                 me.isCompactView = valueCompact;
 
@@ -2283,6 +2273,30 @@ define([
                     if ($scrollL.is(':visible'))
                         $marker.css({left: $tp.position().left + $boxTabs.scrollLeft() - $scrollL.width()});
                     else $marker.css({left: $tp.position().left});
+                }
+            },
+
+            addTab: function (tab, panel, after) {
+                var _tplTab = '<li><a href="#" data-tab="<%= action %>" title="<%= caption %>"><%= caption %></a></li>';
+
+                if ( $tabs ) {
+                    // $tabs.find('a[data-tab=' + after + ']').parent()
+                    //         .after( _.template(_tpl, tab) );
+                } else {
+                    var $toolbar = config.$dom;
+
+                    var $el = $toolbar.find('.tabs a[data-tab=' + after + ']');
+                    if ( $el.length ) {
+                        $el.parent().after( _.template(_tplTab, tab));
+
+                        if ( panel ) {
+                            $el = $toolbar.find('.box-panels > .panel[data-tab=' + after + ']');
+
+                            if ( $el.length ) {
+                                $el.after(panel);
+                            }
+                        }
+                    }
                 }
             },
 
