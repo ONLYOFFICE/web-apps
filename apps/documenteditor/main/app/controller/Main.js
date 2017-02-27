@@ -864,7 +864,7 @@ define([
 
                 pluginsController.setApi(me.api);
                 me.updatePlugins(me.plugins, false);
-                me.requestPlugins('../../../../sdkjs-plugins/config.json');
+                me.requestPlugins('../../../../plugins.json');
                 me.api.asc_registerCallback('asc_onPluginsInit', _.bind(me.updatePluginsList, me));
 
                 documentHolderController.setApi(me.api);
