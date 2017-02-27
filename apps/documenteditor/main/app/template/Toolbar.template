@@ -148,7 +148,6 @@
                     </div>
                 </div>
             </section>
-            <section class="panel" data-tab="review">review panel</section>
             <section class="panel" data-tab="plugins">plugins panel</section>
         </section>
     </section>

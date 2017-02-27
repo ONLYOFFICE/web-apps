@@ -410,6 +410,50 @@ define([
     });
 
     Common.Views.ReviewChanges = Common.UI.BaseView.extend(_.extend((function(){
+        var template =
+            '<section id="review-changes-panel" class="panel" data-tab="review">' +
+                '<div class="group">' +
+                    '<span id="btn-review-on"></span>' +
+                '</div>' +
+                '<div class="separator long"/>' +
+                '<div class="group">' +
+                    '<span id="btn-change-prev"></span>' +
+                    '<span id="btn-change-next"></span>' +
+                '</div>' +
+                '<div class="separator long"/>' +
+                '<div class="group">' +
+                    '<span id="btn-change-accept"></span>' +
+                    '<span id="btn-change-reject"></span>' +
+                '</div>' +
+            '</section>';
+
+        function setEvents() {
+            var me = this;
+            this.btnPrev.on('click', function (e) {
+                me.fireEvent('reviewchange:preview', [me.btnPrev]);
+            });
+
+            this.btnNext.on('click', function (e) {
+                me.fireEvent('reviewchange:preview', [me.btnNext]);
+            });
+
+            this.btnAccept.on('click', function (e) {
+                me.fireEvent('reviewchange:accept', [me.btnAccept, 'current']);
+            });
+
+            this.btnAccept.menu.on('item:click', function (menu, item, e) {
+                me.fireEvent('reviewchange:accept', [menu, item]);
+            });
+
+            this.btnReject.on('click', function (e) {
+                me.fireEvent('reviewchange:reject', [me.btnReject, 'current']);
+            });
+
+            this.btnReject.menu.on('item:click', function (menu, item, e) {
+                me.fireEvent('reviewchange:reject', [menu, item]);
+            });
+        }
+
         return {
             el: '#review-changes-panel',
 
@@ -418,59 +462,26 @@ define([
             initialize: function (options) {
                 Common.UI.BaseView.prototype.initialize.call(this, options);
 
-                this.template = [
-                    '<div class="review-group" style="">',
-                        '<div id="id-review-button-prev" style=""></div>',
-                        '<div id="id-review-button-next" style=""></div>',
-                        '<div class="separator"/>',
-                    '</div>',
-                    '<div class="review-group" style="">',
-                        '<div id="id-review-button-accept" style=""></div>',
-                        '<div id="id-review-button-reject" style=""></div>',
-                        '<div class="separator"/>',
-                    '</div>',
-                    '<div class="review-group">',
-                        '<div id="id-review-button-close" style=""></div>',
-                    '</div>'
-                ].join('');
-
                 this.store = this.options.store;
                 this.popoverChanges = this.options.popoverChanges;
-            },
-
-            render: function () {
-                var el = $(this.el),
-                    me = this;
-                el.addClass('review-changes');
-                el.html(_.template(this.template, {
-                    scope: this
-                }));
 
                 this.btnPrev = new Common.UI.Button({
                     cls: 'btn-toolbar',
                     iconCls: 'img-commonctrl review-prev',
-                    value: 1,
-                    hint: this.txtPrev,
-                    hintAnchor: 'top'
+                    value: 1
                 });
-                this.btnPrev.render($('#id-review-button-prev'));
 
                 this.btnNext = new Common.UI.Button({
                     cls: 'btn-toolbar',
                     iconCls: 'img-commonctrl review-next',
-                    value: 2,
-                    hint: this.txtNext,
-                    hintAnchor: 'top'
+                    value: 2
                 });
-                this.btnNext.render($('#id-review-button-next'));
 
                 this.btnAccept = new Common.UI.Button({
                     cls: 'btn-toolbar',
                     caption: this.txtAccept,
                     split: true,
                     menu: new Common.UI.Menu({
-                        menuAlign: 'bl-tl',
-                        style: 'margin-top:-5px;',
                         items: [
                             this.mnuAcceptCurrent = new Common.UI.MenuItem({
                                 caption: this.txtAcceptCurrent,
@@ -483,15 +494,12 @@ define([
                         ]
                     })
                 });
-                this.btnAccept.render($('#id-review-button-accept'));
 
                 this.btnReject = new Common.UI.Button({
                     cls: 'btn-toolbar',
                     caption: this.txtReject,
                     split: true,
                     menu: new Common.UI.Menu({
-                        menuAlign: 'bl-tl',
-                        style: 'margin-top:-5px;',
                         items: [
                             this.mnuRejectCurrent = new Common.UI.MenuItem({
                                 caption: this.txtRejectCurrent,
@@ -504,36 +512,47 @@ define([
                         ]
                     })
                 });
-                this.btnReject.render($('#id-review-button-reject'));
 
-                this.btnClose = new Common.UI.Button({
+                this.btnTurnOn = new Common.UI.Button({
                     cls: 'btn-toolbar',
-                    iconCls: 'img-commonctrl review-close',
-                    hint: this.txtClose,
-                    hintAnchor: 'top'
+                    iconCls: 'img-commonctrl review-close'
+                    // hint: this.txtClose,
                 });
-                this.btnClose.render($('#id-review-button-close'));
-                this.btnClose.on('click', _.bind(this.onClose, this));
 
-                this.boxSdk = $('#editor_sdk');
-
-                Common.NotificationCenter.on('layout:changed', _.bind(this.onLayoutChanged, this));
+                var me = this;
+                (new Promise(function (resolve) {
+                    Common.NotificationCenter.on('app:ready', function () { resolve(); });
+                })).then(function(){
+                        me.btnPrev.updateHint(me.txtPrev);
+                        me.btnNext.updateHint(me.txtNext);
+                        me.btnTurnOn.updateHint(me.textChangesOn);
+                        setEvents.call(me);
+                    }
+                );
             },
 
-            onClose: function (event) {
-                this.hide();
-                this.fireEvent('hide', this);
+            render: function (el) {
+                this.boxSdk = $('#editor_sdk');
+                if ( el ) el.html( this.getPanel() );
+
+                return this;
+            },
+
+            getPanel: function () {
+                var _html = $(_.template( template, {} ));
+
+                this.btnPrev.render(_html.find('#btn-change-prev'));
+                this.btnNext.render(_html.find('#btn-change-next'));
+                this.btnAccept.render(_html.find('#btn-change-accept'));
+                this.btnReject.render(_html.find('#btn-change-reject'));
+                this.btnTurnOn.render(_html.find('#btn-review-on'));
+
+                return _html;
             },
 
             show: function () {
                 Common.UI.BaseView.prototype.show.call(this);
                 this.fireEvent('show', this);
-            },
-
-            onLayoutChanged: function (area) {
-                if (area == 'rightmenu' && this.boxSdk) {
-                    this.$el.css('right', ($('body').width() - this.boxSdk.offset().left - this.boxSdk.width() + 15) + 'px');
-                }
             },
 
             getPopover: function (sdkViewName) {
@@ -554,13 +573,13 @@ define([
 
             txtPrev: 'To previous change',
             txtNext: 'To next change',
+            textChangesOn: 'Preview changes',
             txtAccept: 'Accept',
             txtAcceptCurrent: 'Accept current Changes',
             txtAcceptAll: 'Accept all Changes',
             txtReject: 'Reject',
             txtRejectCurrent: 'Reject current Changes',
-            txtRejectAll: 'Reject all Changes',
-            txtClose: 'Close'
+            txtRejectAll: 'Reject all Changes'
         }
     }()), Common.Views.ReviewChanges || {}))
 });

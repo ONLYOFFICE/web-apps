@@ -69,7 +69,8 @@ define([
                     // comments handlers
                     'reviewchange:accept':      _.bind(this.onAcceptClick, this),
                     'reviewchange:reject':      _.bind(this.onRejectClick, this),
-                    'reviewchange:delete':      _.bind(this.onDeleteClick, this)
+                    'reviewchange:delete':      _.bind(this.onDeleteClick, this),
+                    'reviewchange:preview':     _.bind(this.onBtnPreviewClick, this)
                 }
             });
         },
@@ -77,21 +78,6 @@ define([
             this.collection     =   this.getApplication().getCollection('Common.Collections.ReviewChanges');
             this.popoverChanges =   new Common.Collections.ReviewChanges();
             this.userCollection =   this.getApplication().getCollection('Common.Collections.Users');
-
-            this.view           =   this.createView('Common.Views.ReviewChanges', {
-                store           :   this.collection,
-                popoverChanges  :   this.popoverChanges
-            });
-            this.view.render();
-            this.bindViewEvents(this.view, this.events);
-
-            var me = this;
-            this.view.btnPrev.on('click', _.bind(this.onBtnPreviewClick, this));
-            this.view.btnNext.on('click', _.bind(this.onBtnPreviewClick, this));
-            this.view.btnAccept.on('click',           _.bind(this.onAcceptClick, this));
-            this.view.btnAccept.menu.on('item:click', _.bind(this.onAcceptClick, this));
-            this.view.btnReject.on('click',           _.bind(this.onRejectClick, this));
-            this.view.btnReject.menu.on('item:click', _.bind(this.onRejectClick, this));
 
             this._state = {posx: -1000, posy: -1000, popoverVisible: false};
         },
@@ -112,9 +98,23 @@ define([
         },
 
         setMode: function(mode) {
-            this.view.isReviewOnly = mode.isReviewOnly;
-            this.view.btnAccept.setDisabled(mode.isReviewOnly);
-            this.view.btnReject.setDisabled(mode.isReviewOnly);
+            if ( mode.canReview || mode.isReviewOnly ) {
+                this.view           =   this.createView('Common.Views.ReviewChanges', {
+                    store           :   this.collection,
+                    popoverChanges  :   this.popoverChanges
+                });
+
+                var tab = {action: 'review', caption: 'Review'};
+                var $panel = this.view.getPanel();
+
+                var toolbar = this.getApplication().getController('Toolbar').getView('Toolbar');
+                toolbar.addTab(tab, $panel, 'layout');
+
+                this.view.isReviewOnly = mode.isReviewOnly;
+                this.view.btnAccept.setDisabled(mode.isReviewOnly);
+                this.view.btnReject.setDisabled(mode.isReviewOnly);
+            }
+
             return this;
         },
 
@@ -413,13 +413,10 @@ define([
 
         onBtnPreviewClick: function(btn, eOpts){
             switch (btn.options.value) {
-                case 1:
-                    this.api.asc_GetPrevRevisionsChange();
-                    break;
-                case 2:
-                    this.api.asc_GetNextRevisionsChange();
-                    break;
+                case 1: this.api.asc_GetPrevRevisionsChange(); break;
+                case 2: this.api.asc_GetNextRevisionsChange(); break;
             }
+
             Common.NotificationCenter.trigger('edit:complete', this.view);
         },
 
