@@ -1,8 +1,25 @@
 @height-tabs: 42px;
 @height-controls: 67px;
 
+#toolbar {
+    z-index: 101;
+}
+
 .toolbar {
-    height: @height-tabs + @height-controls;
+    overflow: hidden;
+
+    &:not(.folded) {
+        height: @height-tabs + @height-controls;
+    }
+
+    &.folded {
+        height: @height-tabs;
+        transition: height .2s;
+
+        &.expanded {
+            height: @height-tabs + @height-controls;
+        }
+    }
 
     .box-tabs {
         height: @height-tabs;

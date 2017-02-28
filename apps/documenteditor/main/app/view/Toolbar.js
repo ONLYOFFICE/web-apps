@@ -64,6 +64,8 @@ define([
         var $tabs, $boxTabs;
         var $panels, $marker, $scrollL;
         var lastPanel;
+        var isFolded = false;
+        var optsFold = {timeout: 2000};
 
         var config = {
             tabs: [
@@ -112,6 +114,69 @@ define([
             var sv = $boxTabs.scrollLeft();
             if ( sv || opts == 'right') {
                 $boxTabs.animate({scrollLeft: opts == 'left' ? sv - 100 : sv + 100}, 200);
+            }
+        }
+
+        function collapseToolbar() {
+            optsFold.$bar.removeClass('expanded');
+        }
+
+        function expandToolbar() {
+            clearTimeout(optsFold.timer);
+
+            optsFold.$bar.addClass('expanded');
+            optsFold.timer = setTimeout(collapseToolbar, optsFold.timeout);
+        }
+
+        function setFolded(f) {
+            isFolded = f;
+
+            if ( isFolded ) {
+                if ( !optsFold.$bar ) optsFold.$bar = this.$el.find('.toolbar');
+                if ( !optsFold.$box ) optsFold.$box = this.$el.find('.box-controls');
+
+                optsFold.$bar.addClass('folded');
+                optsFold.$box.on({
+                    mouseleave: function (e) {
+                        optsFold.timer = setTimeout(collapseToolbar, optsFold.timeout);
+
+                        console.log('mouse out');
+                    },
+                    mouseenter: function (e) {
+                        clearTimeout(optsFold.timer);
+
+                        console.log('mouse in');
+                    }
+                });
+
+                // $(document.body).on('focus', 'input, textarea', function(e) {
+                // });
+                //
+                // $(document.body).on('blur', 'input, textarea', function(e) {
+                // });
+                //
+                // Common.NotificationCenter.on({
+                //     'modal:show': function(){
+                //     },
+                //     'modal:close': function(dlg) {
+                //     },
+                //     'modal:hide': function(dlg) {
+                //     },
+                //     'dataview:focus': function(e){
+                //     },
+                //     'dataview:blur': function(e){
+                //     },
+                //     'menu:show': function(e){
+                //     },
+                //     'menu:hide': function(e){
+                //     },
+                //     'edit:complete': _.bind(me.onEditComplete, me)
+                // });
+
+            } else {
+                clearTimeout(optsFold.timer);
+                optsFold.$bar.removeClass('folded');
+                optsFold.$box.off();
             }
         }
 
@@ -2265,7 +2330,7 @@ define([
                 }
 
                 var $tp = $tabs.find('> a[data-tab=' + tab + ']').parent();
-                if ($tp.length) {
+                if ( $tp.length ) {
                     $tp.addClass('active');
 
                     $marker.width($tp.width());
@@ -2274,6 +2339,8 @@ define([
                         $marker.css({left: $tp.position().left + $boxTabs.scrollLeft() - $scrollL.width()});
                     else $marker.css({left: $tp.position().left});
                 }
+
+                if ( isFolded ) expandToolbar();
             },
 
             addTab: function (tab, panel, after) {
@@ -2298,6 +2365,10 @@ define([
                         }
                     }
                 }
+            },
+
+            setFolded: function (f) {
+                setFolded.call(this, f);
             },
 
             textBold: 'Bold',

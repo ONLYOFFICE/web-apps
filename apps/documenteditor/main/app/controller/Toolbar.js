@@ -169,6 +169,10 @@ define([
             this.toolbar = this.createView('Toolbar');
 
             // this.toolbar.on('render:after', _.bind(this.onToolbarAfterRender, this));
+            var me = this;
+            Common.NotificationCenter.on('app:ready', function () {
+                // me.setToolbarFolding(true);
+            });
         },
 
         onToolbarAfterRender: function(toolbar) {
@@ -2744,6 +2748,16 @@ define([
         createDelayedElements: function() {
             this.toolbar.createDelayedElements();
             this.onToolbarAfterRender(this.toolbar);
+        },
+
+        setToolbarFolding: function (f) {
+            this.toolbar.setFolded(f);
+
+            var viewport  = this.getApplication().getController('Viewport').getView('Viewport');
+            viewport.vlayout.items[1].rely = !f;
+            viewport.vlayout.items[1].height = 42;
+
+            Common.NotificationCenter.trigger('layout:changed', 'toolbar');
         },
 
         textEmptyImgUrl                            : 'You need to specify image URL.',
