@@ -65,14 +65,19 @@ define([
                     return _sizes[index];
                 },
 
-                sizeByValue: function (value) {
+                indexSizeByValue: function (value) {
                     var index = 0;
                     _.each(_sizes, function (size, idx) {
                         if (Math.abs(size - value) < 0.25) {
                             index = idx;
                         }
                     });
-                    return _sizes[index];
+
+                    return index
+                },
+
+                sizeByValue: function (value) {
+                    return _sizes[this.indexSizeByValue(value)];
                 }
             }
         })();
@@ -147,8 +152,9 @@ define([
 
                 // Init style border size
                 var borderSize = _shapeObject.get_stroke().get_width() * 72.0 / 25.4;
-                $('#edit-shape-bordersize input').val([borderSizeTransform.sizeByIndex(borderSize)]);
-                $('#edit-shape-bordersize .item-after').text(borderSizeTransform.sizeByValue(borderSize) + ' ' + _metricText);
+                var borderType = _shapeObject.get_stroke().get_type();
+                $('#edit-shape-bordersize input').val([(borderType == Asc.c_oAscStrokeType.STROKE_NONE) ? 0 : borderSizeTransform.indexSizeByValue(borderSize)]);
+                $('#edit-shape-bordersize .item-after').text(((borderType == Asc.c_oAscStrokeType.STROKE_NONE) ? 0 : borderSizeTransform.sizeByValue(borderSize)) + ' ' + _metricText);
 
                 // Init style opacity
                 $('#edit-shape-effect input').val([_shapeObject.get_fill().asc_getTransparent() ? _shapeObject.get_fill().asc_getTransparent() / 2.55 : 100]);
