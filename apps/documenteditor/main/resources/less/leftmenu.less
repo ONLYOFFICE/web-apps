@@ -66,7 +66,8 @@ button.notify .btn-menu-comments {background-position: -0*@toolbar-icon-size -60
 #file-menu-panel {
     height: calc(~"100% + @{height-controls}");
     top: -@height-controls;
-    box-shadow: -1px 0 0 0 @gray-dark;
+    border-top: 1px solid @gray-dark;
+    .box-shadow(-1px 0 0 0 @gray-dark);
 
     > div {
         height: 100%;

@@ -1,6 +1,7 @@
 @height-tabs: 42px;
 @height-controls: 67px;
 
+@tabs-bg-color: #fff;
 #toolbar {
     z-index: 101;
 }
@@ -23,19 +24,34 @@
 
     .box-tabs {
         height: @height-tabs;
+        .box-shadow(0 1px 0 @gray-dark);
 
         display: flex;
         align-items: stretch;
 
-        .tabs {
-            flex-grow: 1;
-            background-color: #d0ddb6;
-            position: relative;
-            overflow: hidden;
-            display: flex;
-        }
+        .extra {
+            &.left {
+                height: 42px;
+                background-color: @tabs-bg-color;
+            }
 
-        ul {
+            &.right {
+                min-width: 350px;
+                line-height: @height-tabs;
+
+                background-color: @tabs-bg-color;
+            }
+        }
+    }
+
+    .tabs {
+        flex-grow: 1;
+        background-color: @tabs-bg-color;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+
+        > ul {
             padding: 0;
             margin: 0;
             white-space: nowrap;
@@ -58,6 +74,7 @@
                 cursor: default;
                 font-size: 14px;
                 text-align: center;
+                color: @gray-darker;
 
                 &::after {
                     display: block;
@@ -79,13 +96,13 @@
 
         .marker {
             position: relative;
-            border-top: 3px solid green;
+            border-top: 3px solid @gray-darker;
             top: -4px;
             -webkit-transition: width .2s, left .2s ease-out;
             transition: width .2s, left .2s ease-out;
         }
 
-        .tabs:not(.short) {
+        &:not(.short) {
             .scroll {
                 display: none;
             }
@@ -104,28 +121,8 @@
                 box-shadow: -5px 0 20px 5px rgba(208, 221, 182, .8)
             }
         }
-
-        .extra {
-            &.left {
-                //display: inline-block;
-                //float: left;
-                min-width: 240px;
-                height: 42px;
-                .background-ximage('@{common-image-path}/about/OnlyOffice.png', '@{common-image-path}/about/OnlyOffice@2x.png', 240px);
-                background-size: contain;
-                background-repeat: no-repeat;
-
-                background-color: #98ddda;
-            }
-
-            &.right {
-                min-width: 350px;
-                line-height: @height-tabs;
-
-                background-color: #98ddda;
-            }
-        }
     }
+
 
     .box-controls {
         height: @height-controls;
