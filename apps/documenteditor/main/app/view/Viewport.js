@@ -81,27 +81,23 @@ define([
             }
 
             var $container = $('#viewport-vbox-layout', el);
-            var items = $container.find(' > .layout-item');
             this.vlayout = new Common.UI.VBoxLayout({
                 box: $container,
                 items: [{
-                        el: items[0],
+                        el: $container.find(' > .layout-item#toolbar'),
                         rely: true
                     }, {
-                        el: items[1],
-                        rely: true
-                    }, {
-                        el: items[2],
+                        el: $container.find(' > .layout-item.middle'),
                         stretch: true
                     }, {
-                        el: items[3],
+                        el: $container.find(' > .layout-item#statusbar'),
                         height: 25
                     }
                 ]
             });
 
             $container = $('#viewport-hbox-layout', el);
-            items = $container.find(' > .layout-item');
+            var items = $container.find(' > .layout-item');
             this.hlayout = new Common.UI.HBoxLayout({
                 box: $container,
                 items: [{ // left menu chat & comment

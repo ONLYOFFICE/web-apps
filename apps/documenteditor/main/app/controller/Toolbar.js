@@ -2754,8 +2754,8 @@ define([
             this.toolbar.setFolded(f);
 
             var viewport  = this.getApplication().getController('Viewport').getView('Viewport');
-            viewport.vlayout.items[1].rely = !f;
-            viewport.vlayout.items[1].height = 42;
+            viewport.vlayout.items[0].rely = !f;
+            viewport.vlayout.items[0].height = 42;
 
             Common.NotificationCenter.trigger('layout:changed', 'toolbar');
         },
