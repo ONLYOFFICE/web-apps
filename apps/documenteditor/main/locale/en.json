@@ -300,6 +300,7 @@
   "DE.Controllers.Main.warnProcessRightsChange": "You have been denied the right to edit the file.",
   "DE.Controllers.Main.titleServerVersion": "Editor updated",
   "DE.Controllers.Main.errorServerVersion": "The editor version has been updated. The page will be reloaded to apply the changes.",
+  "DE.Controllers.Main.textChangesSaved": "All changes saved",
   "DE.Controllers.Statusbar.textHasChanges": "New changes have been tracked",
   "DE.Controllers.Statusbar.textTrackChanges": "The document is opened with the Track Changes mode enabled",
   "DE.Controllers.Statusbar.zoomText": "Zoom {0}%",
