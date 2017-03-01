@@ -642,6 +642,7 @@ define([
 
                 pluginsController.setApi(me.api);
                 me.updatePlugins(me.plugins, false);
+                me.requestPlugins('../../../../sdkjs-plugins/config.json');
                 me.api.asc_registerCallback('asc_onPluginsInit', _.bind(me.updatePluginsList, me));
 
                 documentHolderController.setApi(me.api);
@@ -1592,6 +1593,49 @@ define([
                 }
             },
 
+            requestPlugins: function(pluginsPath) { // request plugins
+                if (!pluginsPath) return;
+
+                var _createXMLHTTPObject = function() {
+                    var xmlhttp;
+                    try {
+                        xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
+                    }
+                    catch (e) {
+                        try {
+                            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                        }
+                        catch (E) {
+                            xmlhttp = false;
+                        }
+                    }
+                    if (!xmlhttp && typeof XMLHttpRequest != 'undefined') {
+                        xmlhttp = new XMLHttpRequest();
+                    }
+                    return xmlhttp;
+                };
+
+                var _getPluginJson = function(plugin) {
+                    if (!plugin) return '';
+                    try {
+                        var xhrObj = _createXMLHTTPObject();
+                        if (xhrObj && plugin) {
+                            xhrObj.open('GET', plugin, false);
+                            xhrObj.send('');
+                            var pluginJson = eval("(" + xhrObj.responseText + ")");
+                            return pluginJson;
+                        }
+                    }
+                    catch (e) {}
+                    return null;
+                };
+
+                var value = _getPluginJson(pluginsPath);
+                if (value)
+                    this.updatePlugins(value, false);
+            },
+
+
             updatePlugins: function(plugins, uiCustomize) { // plugins from config
                 if (!plugins) return;
 
@@ -1632,20 +1676,18 @@ define([
                     return null;
                 };
 
-                var arr = [],
-                    baseUrl = plugins.url;
+                var arr = [];
                 pluginsData.forEach(function(item){
-                    var url = item;
-                    if (!/(^https?:\/\/)/i.test(url) && !/(^www.)/i.test(item))
-                        url = baseUrl + item;
-                    var value = _getPluginJson(url);
-                    if (value) arr.push(value);
+                    var value = _getPluginJson(item);
+                    if (value) {
+                        value.baseUrl = item.substring(0, item.lastIndexOf("config.json"));
+                        arr.push(value);
+                    }
                 });
 
                 if (arr.length>0)
                     this.updatePluginsList({
                         autoStartGuid: plugins.autoStartGuid,
-                        url: plugins.url,
                         pluginsData: arr
                     }, !!uiCustomize);
             },
@@ -1666,8 +1708,7 @@ define([
                                 }
                             }
                             if (isSupported && (isEdit || itemVar.isViewer)){
-                                var isRelativeUrl = !(/(^https?:\/\/)/i.test(itemVar.url) || /(^www.)/i.test(itemVar.url));
-                                item.isUICustomizer ? arrUI.push((isRelativeUrl) ? ((item.baseUrl ? item.baseUrl : plugins.url) + itemVar.url) : itemVar.url) :
+                                item.isUICustomizer ? arrUI.push(item.baseUrl + itemVar.url) :
                                 variationsArr.push(new Common.Models.PluginVariation({
                                     description: itemVar.description,
                                     index: variationsArr.length,
@@ -1683,8 +1724,7 @@ define([
                                     isUpdateOleOnResize : itemVar.isUpdateOleOnResize,
                                     buttons: itemVar.buttons,
                                     size: itemVar.size,
-                                    initOnSelectionChanged: itemVar.initOnSelectionChanged,
-                                    isRelativeUrl: isRelativeUrl
+                                    initOnSelectionChanged: itemVar.initOnSelectionChanged
                                 }));
                             }
                         });
@@ -1701,13 +1741,14 @@ define([
                     if (uiCustomize!==false)  // from ui customizer in editor config or desktop event
                         this.UICustomizePlugins = arrUI;
 
-                    if (!uiCustomize) {
+                    if (uiCustomize === undefined) { // for desktop
                         if (pluginStore) pluginStore.reset(arr);
-                        this.appOptions.pluginsPath = (plugins.url);
-                        this.appOptions.canPlugins = (arr.length>0);
+                        this.appOptions.canPlugins = (pluginStore.length>0);
+                    } else if (!uiCustomize) {
+                        if (pluginStore) pluginStore.add(arr);
+                        this.appOptions.canPlugins = (pluginStore.length>0);
                     }
                 } else if (!uiCustomize){
-                    this.appOptions.pluginsPath = '';
                     this.appOptions.canPlugins = false;
                 }
                 if (this.appOptions.canPlugins) {

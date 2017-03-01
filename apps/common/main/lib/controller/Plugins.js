@@ -84,7 +84,6 @@ define([
 
         setMode: function(mode) {
             if (mode.canPlugins) {
-                this.panelPlugins.pluginsPath = mode.pluginsPath;
                 this.updatePluginsList();
             }
         },
@@ -143,7 +142,7 @@ define([
                 item.set('pluginObj', plugin);
                 arr.push(plugin);
             });
-            this.api.asc_pluginsRegister(this.panelPlugins.pluginsPath, arr);
+            this.api.asc_pluginsRegister('', arr);
         },
 
         onSelectPlugin: function(picker, item, record, e){
@@ -205,7 +204,7 @@ define([
                 menuContainer.css({left: showPoint[0], top: showPoint[1]});
 
                 menu.menuAlignEl = currentTarget;
-                menu.setOffset(-11, -currentTarget.height()/2 + 2);
+                menu.setOffset(-20, -currentTarget.height()/2 - 3);
                 menu.show();
                 _.delay(function() {
                     menu.cmpEl.focus();
@@ -220,8 +219,7 @@ define([
             var variation = plugin.get_Variations()[variationIndex];
             if (variation.get_Visual()) {
                 var url = variation.get_Url();
-                if (!/(^https?:\/\/)/i.test(url) && !/(^www.)/i.test(url))
-                    url = ((plugin.get_BaseUrl().length == 0) ? this.panelPlugins.pluginsPath : plugin.get_BaseUrl()) + url;
+                url = ((plugin.get_BaseUrl().length == 0) ? url : plugin.get_BaseUrl()) + url;
 
                 if (variation.get_InsideMode()) {
                     if (!this.panelPlugins.openInsideMode(plugin.get_Name(), url))
