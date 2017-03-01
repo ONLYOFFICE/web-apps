@@ -17,7 +17,8 @@
                 <i class="icon">&gt;</i>
             </a>
         </section>
-        <div class="extra right">SomeDocument.docx</div>
+        <div class="extra right">
+        </div>
     </div>
     <section class="box-controls">
         <section class="panel">

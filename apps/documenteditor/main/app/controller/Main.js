@@ -1041,19 +1041,19 @@ define([
             applyModeCommonElements: function() {
                 window.editor_elements_prepared = true;
 
-                var value = Common.localStorage.getItem("de-hidden-title");
-                    value = this.appOptions.isEdit && (value!==null && parseInt(value) == 1);
+                // var value = Common.localStorage.getItem("de-hidden-title");
+                //     value = this.appOptions.isEdit && (value!==null && parseInt(value) == 1);
 
                 var app             = this.getApplication(),
                     viewport        = app.getController('Viewport').getView('Viewport'),
-                    headerView      = app.getController('Viewport').getView('Common.Views.Header'),
+                    // headerView      = app.getController('Viewport').getView('Common.Views.Header'),
                     statusbarView   = app.getController('Statusbar').getView('Statusbar'),
                     documentHolder  = app.getController('DocumentHolder').getView('DocumentHolder');
 
-                if (headerView) {
-                    headerView.setHeaderCaption(this.appOptions.isEdit ? 'Document Editor' : 'Document Viewer');
-                    headerView.setVisible(!this.appOptions.nativeApp && !value && !this.appOptions.isDesktopApp);
-                }
+                // if (headerView) {
+                    // headerView.setHeaderCaption(this.appOptions.isEdit ? 'Document Editor' : 'Document Viewer');
+                    // headerView.setVisible(!this.appOptions.nativeApp && !value && !this.appOptions.isDesktopApp);
+                // }
 
                 if (this.appOptions.nativeApp) {
                     $('body').removeClass('safari');
@@ -1388,10 +1388,10 @@ define([
                     if (isModified) {
                         if (!_.isUndefined(title) && (!this._state.fastCoauth || this._state.usersCount<2 )) {
                             title = '* ' + title;
-                            headerView.setDocumentCaption(headerView.getDocumentCaption() + '*', true);
+                            headerView.setDocumentChanged(true);
                         }
                     } else {
-                        headerView.setDocumentCaption(headerView.getDocumentCaption());
+                        headerView.setDocumentChanged(false);
                     }
 
                     if (window.document.title != title)

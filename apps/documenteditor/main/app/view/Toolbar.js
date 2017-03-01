@@ -1290,7 +1290,7 @@ define([
                  * Render UI layout
                  */
 
-                this.trigger('render:before', this);
+                this.fireEvent('render:before', [this]);
 
                 var top = Common.localStorage.getItem("de-pgmargins-top"),
                     left = Common.localStorage.getItem("de-pgmargins-left"),
@@ -1311,7 +1311,7 @@ define([
 
                 me.isCompactView = valueCompact;
 
-                this.trigger('render:after', this);
+                this.fireEvent('render:after', [this]);
 
                 /** coauthoring begin **/
                 value = Common.localStorage.getItem("de-hide-synch");
@@ -2369,6 +2369,18 @@ define([
 
             setFolded: function (f) {
                 setFolded.call(this, f);
+            },
+
+            setExtra: function (place, el) {
+                if ( $tabs ) {
+                } else {
+                    if ( place == 'right' ) {
+                        config.$dom.find('.extra.right').html(el);
+                    } else
+                    if ( place == 'left' ) {
+                        config.$dom.find('.extra.left').html(el);
+                    }
+                }
             },
 
             textBold: 'Bold',

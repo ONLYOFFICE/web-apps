@@ -65,6 +65,22 @@ define([
         // When controller is created let's setup view event listeners
         initialize: function() {
             // This most important part when we will tell our controller what events should be handled
+
+            var me = this;
+            this.addListeners({
+                'Toolbar': {
+                    'render:before' : function (toolbar) {
+                        toolbar.setExtra('right', me.header.getPanel('right'));
+                        toolbar.setExtra('left', me.header.getPanel('left'));
+                    }
+                },
+                'Common.Views.Header': {
+                    'go:back': function (opts) {
+                        Common.NotificationCenter.trigger('goback', /new/.test(opts));
+                        // Common.component.Analytics.trackEvent('Back to Folder');
+                    }
+                }
+            });
         },
 
         setApi: function(api) {
@@ -78,7 +94,7 @@ define([
             this.viewport = this.createView('Viewport').render();
             this.header   = this.createView('Common.Views.Header', {
                 headerCaption: 'Document Editor'
-            }).render();
+            });
 
             Common.NotificationCenter.on('layout:changed', _.bind(this.onLayoutChanged, this));
             $(window).on('resize', _.bind(this.onWindowResize, this));

@@ -1,118 +1,89 @@
-#header-container {
-    height: @app-header-height;
-    display: table;
+//#header-logo {
+//    background-color: @app-header-bg-color-dark;
+//    min-width: 15px + 90px + 5px;
+//    .background-ximage('@{common-image-path}/header/header-logo.png', '@{common-image-path}/header/header-logo@2x.png', 86px);
+//    background-repeat: no-repeat;
+//    background-position: 15px center;
+//    cursor: pointer;
+//}
 
-    & > div {
-        display: table-cell;
-        height: @app-header-height;
-        white-space: nowrap;
-        vertical-align: middle;
-        color: #fff;
-    }
-}
+//#header-developer {
+//    background-color: #ffb400;
+//    padding-left: 15px + @app-header-height / 3;
+//    & > div {
+//        position: relative;
+//        background-color: #ffb400;
+//        color: #6e4e00 !important;
+//        padding-right: 15px;
+//        cursor: default;
+//        z-index: 1;
+//        white-space: nowrap;
+//        height: @app-header-height;
+//        line-height: @app-header-height;
+//
+//        &:after {
+//            content: '';
+//            position: absolute;
+//            top: 0;
+//            right: -@app-header-height / 2;
+//            width: @app-header-height / 2;
+//            height: @app-header-height;
+//            border-top: @app-header-height / 2 solid transparent;
+//            border-left: @app-header-height / 3 solid #ffb400;
+//            border-bottom: @app-header-height / 2 solid transparent;
+//        }
+//    }
+//}
 
-#header-logo {
-    background-color: @app-header-bg-color-dark;
-    min-width: 15px + 90px + 5px;
-    .background-ximage('@{common-image-path}/header/header-logo.png', '@{common-image-path}/header/header-logo@2x.png', 86px);
-    background-repeat: no-repeat;
-    background-position: 15px center;
-    cursor: pointer;
-}
+//#header-documentcaption {
+//    width: 100%;
+//    max-width: 100px;
+//    overflow: hidden;
+//    text-overflow: ellipsis;
+//    background-color: @app-header-bg-color;
+//    padding: 0 7px + @app-header-height / 3;
+//    cursor: default;
+//
+//    div {
+//        display: inline-block;
+//        padding: 2px 8px;
+//
+//        &.renamed:hover {
+//            background-color: @app-header-bg-color-dark;
+//        }
+//    }
+//}
 
-#header-caption {
-    & > div {
-        position: relative;
-        background-color: @app-header-bg-color-dark;
-        color: lighten(@app-header-bg-color-light, 20%) !important;
-        padding-right: 15px;
-        cursor: default;
-        z-index: 1;
-        white-space: nowrap;
-        height: @app-header-height;
-        line-height: @app-header-height;
-
-        &:after {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: -@app-header-height / 2;
-            width: @app-header-height / 2;
-            height: @app-header-height;
-            border-top: @app-header-height / 2 solid transparent;
-            border-left: @app-header-height / 3 solid @app-header-bg-color-dark;
-            border-bottom: @app-header-height / 2 solid transparent;
+.toolbar {
+    .extra {
+        .elset:not(:first-child) {
+            margin-top: 0;
         }
     }
 }
-
-#header-developer {
-    background-color: #ffb400;
-    padding-left: 15px + @app-header-height / 3;
-    & > div {
-        position: relative;
-        background-color: #ffb400;
-        color: #6e4e00 !important;
-        padding-right: 15px;
-        cursor: default;
-        z-index: 1;
-        white-space: nowrap;
-        height: @app-header-height;
-        line-height: @app-header-height;
-
-        &:after {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: -@app-header-height / 2;
-            width: @app-header-height / 2;
-            height: @app-header-height;
-            border-top: @app-header-height / 2 solid transparent;
-            border-left: @app-header-height / 3 solid #ffb400;
-            border-bottom: @app-header-height / 2 solid transparent;
-        }
+.extra {
+    > section {
+        line-height: 20px;
+        height: 100%;
+        display: flex;
+        align-items: center;
     }
-}
 
-#header-documentcaption {
-    width: 100%;
-    max-width: 100px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    background-color: @app-header-bg-color;
-    padding: 0 7px + @app-header-height / 3;
-    cursor: default;
-
-    div {
-        display: inline-block;
-        padding: 2px 8px;
-
-        &.renamed:hover {
-            background-color: @app-header-bg-color-dark;
-        }
+    &.left {
+        min-width: 150px;
     }
-}
 
-#header-back {
-    & > div {
-        position: relative;
-        background-color: @app-header-bg-color-light;
-        padding: 0 15px 0 15px + @app-header-height / 3;
+    #doc-name {
+        flex-grow: 1;
+    }
+
+    #header-logo {
+        width: 100%;
+        height: 100%;
         cursor: pointer;
-        white-space: nowrap;
-        height: @app-header-height;
-        line-height: @app-header-height - 2px;
 
-        &:after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: @app-header-height / 2;
-            height: @app-header-height;
-            border-top: @app-header-height / 2 solid transparent;
-            border-left: @app-header-height / 3 solid @app-header-bg-color;
-            border-bottom: @app-header-height / 2 solid transparent;
-        }
+        .background-ximage('@{app-image-path}/logo.png', '@{app-image-path}/logo.png', 240px);
+        background-size: contain;
+        background-repeat: no-repeat;
     }
 }
