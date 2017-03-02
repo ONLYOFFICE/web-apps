@@ -268,7 +268,12 @@
                 } else
                 if (msg.event === 'onInternalMessage' && msg.data && msg.data.type == 'localstorage') {
                     _callLocalStorage(msg.data.data);
-                } else {
+                } else {                    
+                    if (msg.type === "onExternalPluginMessage") {
+                        _sendCommand(msg);
+                        return;
+                    }
+
                     if (msg.event === 'onReady') {
                         _onReady();
                     }
