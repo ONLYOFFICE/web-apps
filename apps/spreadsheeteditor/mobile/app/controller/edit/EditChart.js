@@ -1032,7 +1032,12 @@ define([
                     chartObject = this.api.asc_getChartObject();
 
                 if (!_.isUndefined(chartObject) && value && value.length > 0) {
+                    var intValue = parseInt(value);
                     chartObject[propertyMethod](parseInt(value));
+
+                    if ("putDataLabelsPos" == propertyMethod && intValue != 0)
+                        chartObject["putShowVal"](true);
+
                     this.api.asc_editChartDrawingObject(chartObject);
                 }
             },
