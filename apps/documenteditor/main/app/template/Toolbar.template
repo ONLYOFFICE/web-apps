@@ -121,31 +121,69 @@
             <section class="panel" data-tab="ins">
                 <div class="group">
                     <div class="elset">
-                        <span class="btn-slot split" id="slot-btn-pagebreak"></span>
-                        <span class="btn-slot split" id="slot-btn-insimage"></span>
-                        <span class="btn-slot split" id="slot-btn-inschart"></span>
-                        <span class="btn-slot split" id="slot-btn-instext"></span>
-                        <span class="btn-slot split" id="slot-btn-insequation"></span>
-                        <span class="btn-slot split" id="slot-btn-dropcap"></span>
+                        <span class="btn-slot text" id="slot-btn-pagebreak"></span>
                     </div>
                     <div class="elset">
-                        <span class="btn-slot split" id="slot-btn-editheader"></span>
-                        <span class="btn-slot split" id="slot-btn-instable"></span>
-                        <span class="btn-slot split" id="slot-btn-inshyperlink"></span>
-                        <span class="btn-slot split" id="slot-btn-insshape"></span>
-                        <span class="btn-slot split" id="slot-btn-notes"></span>
+                        <span class="btn-slot text" id="slot-btn-editheader"></span>
+                    </div>
+                </div>
+                <div class="separator long"></div>
+                <div class="group">
+                    <div class="elset">
+                        <span class="btn-slot text" id="slot-btn-insimage"></span>
+                    </div>
+                    <div class="elset">
+                        <span class="btn-slot text" id="slot-btn-instable"></span>
+                    </div>
+                </div>
+                <div class="group">
+                    <div class="elset">
+                        <span class="btn-slot text" id="slot-btn-inschart"></span>
+                    </div>
+                    <div class="elset">
+                        <span class="btn-slot text" id="slot-btn-inshyperlink"></span>
+                    </div>
+                </div>
+                <div class="group">
+                    <div class="elset">
+                        <span class="btn-slot text" id="slot-btn-instext"></span>
+                    </div>
+                    <div class="elset">
+                        <span class="btn-slot text" id="slot-btn-insshape"></span>
+                    </div>
+                </div>
+                <div class="separator long"></div>
+                <div class="group">
+                    <div class="elset">
+                        <span class="btn-slot text" id="slot-btn-dropcap"></span>
+                    </div>
+                    <div class="elset">
+                        <span class="btn-slot text" id="slot-btn-insequation"></span>
+                    </div>
+                </div>
+                <div class="group">
+                    <div class="elset">
+                        <span class="btn-slot text" id="slot-btn-notes"></span>
+                    </div>
+                    <div class="elset">
                     </div>
                 </div>
             </section>
             <section class="panel" data-tab="layout">
                 <div class="group">
                     <div class="elset">
-                        <span class="btn-slot split" id="slot-btn-pageorient"></span>
-                        <span class="btn-slot split" id="slot-btn-pagemargins"></span>
+                        <span class="btn-slot text" id="slot-btn-pageorient"></span>
                     </div>
                     <div class="elset">
-                        <span class="btn-slot split" id="slot-btn-pagesize"></span>
-                        <span class="btn-slot split" id="slot-btn-columns"></span>
+                        <span class="btn-slot text" id="slot-btn-pagesize"></span>
+                    </div>
+                </div>
+                <div class="group">
+                    <div class="elset">
+                        <span class="btn-slot text" id="slot-btn-pagemargins"></span>
+                    </div>
+                    <div class="elset">
+                        <span class="btn-slot text" id="slot-btn-columns"></span>
                     </div>
                 </div>
             </section>

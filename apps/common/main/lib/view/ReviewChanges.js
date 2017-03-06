@@ -468,12 +468,14 @@ define([
                 this.btnPrev = new Common.UI.Button({
                     cls: 'btn-toolbar',
                     iconCls: 'img-commonctrl review-prev',
+                    caption: this.txtPrev,
                     value: 1
                 });
 
                 this.btnNext = new Common.UI.Button({
                     cls: 'btn-toolbar',
                     iconCls: 'img-commonctrl review-next',
+                    caption: this.txtNext,
                     value: 2
                 });
 
@@ -517,6 +519,8 @@ define([
                     cls: 'btn-toolbar',
                     iconCls: 'img-commonctrl review-close'
                     // hint: this.txtClose,
+                    iconCls: 'img-commonctrl review-close',
+                    caption: this.txtTurnon
                 });
 
                 var me = this;

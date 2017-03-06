@@ -581,6 +581,7 @@ define([
                     id: 'id-toolbar-btn-inserttable',
                     cls: 'btn-toolbar',
                     iconCls: 'btn-inserttable',
+                    caption: me.capBtnInsTable,
                     menu: new Common.UI.Menu({
                         items: [
                             {template: _.template('<div id="id-toolbar-menu-tablepicker" class="dimension-picker" style="margin: 5px 10px;"></div>')},
@@ -594,6 +595,7 @@ define([
                     id: 'id-toolbar-btn-insertimage',
                     cls: 'btn-toolbar',
                     iconCls: 'btn-insertimage',
+                    caption: me.capBtnInsImage,
                     menu: new Common.UI.Menu({
                         items: [
                             {caption: this.mniImageFromFile, value: 'file'},
@@ -606,6 +608,7 @@ define([
                 this.btnInsertChart = new Common.UI.Button({
                     id: 'id-toolbar-btn-insertchart',
                     cls: 'btn-toolbar',
+                    caption: me.capBtnInsChart,
                     iconCls: 'btn-insertchart',
                     menu: new Common.UI.Menu({
                         style: 'width: 435px;',
@@ -620,6 +623,7 @@ define([
                     id: 'id-toolbar-btn-inserttext',
                     cls: 'btn-toolbar',
                     iconCls: 'btn-text',
+                    caption: me.capBtnInsTextbox,
                     enableToggle: true,
                     split: true,
                     menu: new Common.UI.Menu({
@@ -646,6 +650,7 @@ define([
                     cls: 'btn-toolbar',
                     iconCls: 'btn-pagebreak',
                     split: true,
+                    caption: me.capBtnInsPagebreak,
                     menu: true
                 });
                 this.paragraphControls.push(this.btnInsertPageBreak);
@@ -653,6 +658,7 @@ define([
                 this.btnInsertHyperlink = new Common.UI.Button({
                     id: 'id-toolbar-btn-inserthyperlink',
                     cls: 'btn-toolbar',
+                    caption: me.capBtnInsLink,
                     iconCls: 'btn-inserthyperlink'
                 });
                 this.paragraphControls.push(this.btnInsertHyperlink);
@@ -661,6 +667,7 @@ define([
                     id: 'id-toolbar-btn-editheader',
                     cls: 'btn-toolbar',
                     iconCls: 'btn-editheader',
+                    caption: me.capBtnInsHeader,
                     menu: true
                 });
                 this.mnuPageNumberPosPicker = {
@@ -683,6 +690,7 @@ define([
                     id: 'id-toolbar-btn-insertshape',
                     cls: 'btn-toolbar',
                     iconCls: 'btn-insertshape',
+                    caption: me.capBtnInsShape,
                     enableToggle: true,
                     menu: new Common.UI.Menu({cls: 'menu-shapes'})
                 });
@@ -692,6 +700,7 @@ define([
                     id: 'id-toolbar-btn-insertequation',
                     cls: 'btn-toolbar',
                     iconCls: 'btn-insertequation',
+                    caption: me.capBtnInsEquation,
                     split: true,
                     menu: new Common.UI.Menu({cls: 'menu-shapes'})
                 });
@@ -701,6 +710,7 @@ define([
                     id: 'id-toolbar-btn-dropcap',
                     cls: 'btn-toolbar',
                     iconCls: 'btn-dropcap',
+                    caption: me.capBtnInsDropcap,
                     menu: new Common.UI.Menu({
                         cls: 'ppm-toolbar',
                         items: [
@@ -737,6 +747,7 @@ define([
                     id: 'id-toolbar-btn-columns',
                     cls: 'btn-toolbar',
                     iconCls: 'btn-columns',
+                    caption: me.capBtnColumns,
                     menu: new Common.UI.Menu({
                         cls: 'ppm-toolbar',
                         items: [
@@ -784,6 +795,7 @@ define([
                     id: 'id-toolbar-btn-pageorient',
                     cls: 'btn-toolbar',
                     iconCls: 'btn-pageorient',
+                    caption: me.capBtnPageOrient,
                     menu: new Common.UI.Menu({
                         cls: 'ppm-toolbar',
                         items: [
@@ -819,6 +831,7 @@ define([
                     id: 'id-toolbar-btn-pagemargins',
                     cls: 'btn-toolbar',
                     iconCls: 'btn-pagemargins',
+                    caption: me.capBtnMargins,
                     menu: new Common.UI.Menu({
                         items: [
                             {
@@ -877,6 +890,7 @@ define([
                     id: 'id-toolbar-btn-pagesize',
                     cls: 'btn-toolbar',
                     iconCls: 'btn-pagesize',
+                    caption: me.capBtnPageSize,
                     menu: new Common.UI.Menu({
                         items: [
                             {
@@ -1048,6 +1062,7 @@ define([
                     id: 'id-toolbar-btn-notes',
                     cls: 'btn-toolbar',
                     iconCls: 'btn-notes',
+                    caption: 'Footnotes',
                     split: true,
                     menu: true
                 });
