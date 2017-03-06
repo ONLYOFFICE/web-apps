@@ -99,11 +99,14 @@
         background-color: @primary;
     }
 
-    span.btn-icon {
-        .position();
+    .caption:not(:empty) {
+        padding: 0 5px 0 2px;
+    }
+
+    .btn-icon {
         padding: 0;
         margin: 0;
-        position: absolute;
+        display: inline-block;
         background-repeat: no-repeat;
         .background-ximage('@{app-image-path}/toolbar-menu.png', '@{app-image-path}/toolbar-menu@2x.png', 60px);
 
@@ -119,7 +122,7 @@
     // Large size
     // ------------------------
     &.large {
-        span.btn-icon {
+        .btn-icon {
             width: 30px !important;
             height: 30px;
             line-height: 20px;
@@ -224,12 +227,6 @@
                 &.dropdown-toggle {
                     width: 100%;
                     min-width: 28px;
-
-                    .caret {
-//                        float: right;
-                        position: relative;
-                        right: -8px;
-                    }
                 }
 
                 &.btn-text-value {
@@ -295,7 +292,7 @@
     .box-shadow(none);
     background-color: transparent;
 
-    span.btn-icon {
+    .btn-icon {
         position: relative;
         min-width: inherit;
         height: inherit;
@@ -378,7 +375,7 @@
     border: 1px solid @input-border;
     .border-radius(@border-radius-small);
 
-    span.btn-icon {
+    .btn-icon {
         width: 28px;
         padding: 0;
         margin: 0;
@@ -414,7 +411,7 @@
     border: 1px solid @input-border;
     .border-radius(@border-radius-small);
 
-    span.btn-icon {
+    .btn-icon {
         display: inline-block;
         .btn.btnsize(52px);
         padding: 0;
