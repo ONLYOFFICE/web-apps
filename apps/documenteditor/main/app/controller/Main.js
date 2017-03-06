@@ -526,7 +526,7 @@ define([
                     toolbarView = toolbarController.getView('Toolbar');
 
                 if (this.appOptions.isEdit && toolbarView && (toolbarView.btnInsertShape.pressed || toolbarView.btnInsertText.pressed) &&
-                    ( !_.isObject(arguments[1]) || arguments[1].id !== 'id-toolbar-btn-insertshape')) { // TODO: Event from api is needed to clear btnInsertShape state
+                    ( !_.isObject(arguments[1]) || arguments[1].id !== 'tlb-btn-insshape')) { // TODO: Event from api is needed to clear btnInsertShape state
                     if (this.api)
                         this.api.StartAddShape('', false);
 
@@ -865,7 +865,7 @@ define([
 
                 pluginsController.setApi(me.api);
                 me.updatePlugins(me.plugins, false);
-                me.requestPlugins('../../../../sdkjs-plugins/config.json');
+                me.requestPlugins('../../../../plugins.json');
                 me.api.asc_registerCallback('asc_onPluginsInit', _.bind(me.updatePluginsList, me));
 
                 documentHolderController.setApi(me.api);
@@ -1836,37 +1836,17 @@ define([
             requestPlugins: function(pluginsPath) { // request plugins
                 if (!pluginsPath) return;
 
-                var _createXMLHTTPObject = function() {
-                    var xmlhttp;
-                    try {
-                        xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
-                    }
-                    catch (e) {
-                        try {
-                            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-                        }
-                        catch (E) {
-                            xmlhttp = false;
-                        }
-                    }
-                    if (!xmlhttp && typeof XMLHttpRequest != 'undefined') {
-                        xmlhttp = new XMLHttpRequest();
-                    }
-                    return xmlhttp;
-                };
-
                 var _getPluginJson = function(plugin) {
-                    if (!plugin) return '';
-                    try {
-                        var xhrObj = _createXMLHTTPObject();
-                        if (xhrObj && plugin) {
-                            xhrObj.open('GET', plugin, false);
-                            xhrObj.send('');
-                            var pluginJson = eval("(" + xhrObj.responseText + ")");
-                            return pluginJson;
-                        }
+                    if ( plugin ) {
+                        try {
+                            var xhrObj = Common.Utils.createXhr();
+                            if (xhrObj && plugin) {
+                                xhrObj.open('GET', plugin, false);
+                                xhrObj.send('');
+                                return JSON.parse(xhrObj.responseText);
+                            }
+                        } catch (e) {}
                     }
-                    catch (e) {}
                     return null;
                 };
 
@@ -1881,37 +1861,17 @@ define([
                 var pluginsData = (uiCustomize) ? plugins.UIpluginsData : plugins.pluginsData;
                 if (!pluginsData || pluginsData.length<1) return;
 
-                var _createXMLHTTPObject = function() {
-                    var xmlhttp;
-                    try {
-                        xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
-                    }
-                    catch (e) {
-                        try {
-                            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-                        }
-                        catch (E) {
-                            xmlhttp = false;
-                        }
-                    }
-                    if (!xmlhttp && typeof XMLHttpRequest != 'undefined') {
-                        xmlhttp = new XMLHttpRequest();
-                    }
-                    return xmlhttp;
-                };
-
                 var _getPluginJson = function(plugin) {
-                    if (!plugin) return '';
-                    try {
-                        var xhrObj = _createXMLHTTPObject();
-                        if (xhrObj && plugin) {
-                            xhrObj.open('GET', plugin, false);
-                            xhrObj.send('');
-                            var pluginJson = eval("(" + xhrObj.responseText + ")");
-                            return pluginJson;
-                        }
+                    if ( plugin ) {
+                        try {
+                            var xhrObj = Common.Utils.createXhr();
+                            if (xhrObj && plugin) {
+                                xhrObj.open('GET', plugin, false);
+                                xhrObj.send('');
+                                return JSON.parse(xhrObj.responseText);
+                            }
+                        } catch (e) {}
                     }
-                    catch (e) {}
                     return null;
                 };
 

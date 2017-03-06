@@ -527,8 +527,8 @@ define([
                 (new Promise(function (resolve) {
                     Common.NotificationCenter.on('app:ready', function () { resolve(); });
                 })).then(function(){
-                        me.btnPrev.updateHint(me.txtPrev);
-                        me.btnNext.updateHint(me.txtNext);
+                        me.btnPrev.updateHint(me.hintPrev);
+                        me.btnNext.updateHint(me.hintNext);
                         me.btnTurnOn.updateHint(me.textChangesOn);
                         setEvents.call(me);
                     }
@@ -575,8 +575,6 @@ define([
                 return Common.Utils.String.htmlEncode(username);
             },
 
-            txtPrev: 'To previous change',
-            txtNext: 'To next change',
             textChangesOn: 'Preview changes',
             txtAccept: 'Accept',
             txtAcceptCurrent: 'Accept current Changes',

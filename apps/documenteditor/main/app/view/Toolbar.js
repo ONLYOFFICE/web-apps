@@ -578,7 +578,7 @@ define([
                 this.mnuMultilevelPicker = clone(this.mnuMarkersPicker);
 
                 this.btnInsertTable = new Common.UI.Button({
-                    id: 'id-toolbar-btn-inserttable',
+                    id: 'tlb-btn-instable',
                     cls: 'btn-toolbar',
                     iconCls: 'btn-inserttable',
                     caption: me.capBtnInsTable,
@@ -592,7 +592,7 @@ define([
                 this.paragraphControls.push(this.btnInsertTable);
 
                 this.btnInsertImage = new Common.UI.Button({
-                    id: 'id-toolbar-btn-insertimage',
+                    id: 'tlb-btn-insimage',
                     cls: 'btn-toolbar',
                     iconCls: 'btn-insertimage',
                     caption: me.capBtnInsImage,
@@ -606,7 +606,7 @@ define([
                 this.paragraphControls.push(this.btnInsertImage);
 
                 this.btnInsertChart = new Common.UI.Button({
-                    id: 'id-toolbar-btn-insertchart',
+                    id: 'tlb-btn-inschart',
                     cls: 'btn-toolbar',
                     caption: me.capBtnInsChart,
                     iconCls: 'btn-insertchart',
@@ -620,7 +620,7 @@ define([
                 this.paragraphControls.push(this.btnInsertChart);
 
                 this.btnInsertText = new Common.UI.Button({
-                    id: 'id-toolbar-btn-inserttext',
+                    id: 'tlb-btn-inserttext',
                     cls: 'btn-toolbar',
                     iconCls: 'btn-text',
                     caption: me.capBtnInsTextbox,
@@ -646,7 +646,7 @@ define([
                 this.paragraphControls.push(this.btnInsertText);
 
                 this.btnInsertPageBreak = new Common.UI.Button({
-                    id: 'id-toolbar-btn-pagebreak',
+                    id: 'tlb-btn-pagebreak',
                     cls: 'btn-toolbar',
                     iconCls: 'btn-pagebreak',
                     split: true,
@@ -656,7 +656,7 @@ define([
                 this.paragraphControls.push(this.btnInsertPageBreak);
 
                 this.btnInsertHyperlink = new Common.UI.Button({
-                    id: 'id-toolbar-btn-inserthyperlink',
+                    id: 'tlb-btn-inshyperlink',
                     cls: 'btn-toolbar',
                     caption: me.capBtnInsLink,
                     iconCls: 'btn-inserthyperlink'
@@ -687,7 +687,7 @@ define([
                 this.toolbarControls.push(this.btnEditHeader);
 
                 this.btnInsertShape = new Common.UI.Button({
-                    id: 'id-toolbar-btn-insertshape',
+                    id: 'tlb-btn-insshape',
                     cls: 'btn-toolbar',
                     iconCls: 'btn-insertshape',
                     caption: me.capBtnInsShape,
@@ -697,7 +697,7 @@ define([
                 this.paragraphControls.push(this.btnInsertShape);
 
                 this.btnInsertEquation = new Common.UI.Button({
-                    id: 'id-toolbar-btn-insertequation',
+                    id: 'tlb-btn-insequation',
                     cls: 'btn-toolbar',
                     iconCls: 'btn-insertequation',
                     caption: me.capBtnInsEquation,
@@ -707,7 +707,7 @@ define([
                 this.paragraphControls.push(this.btnInsertEquation);
 
                 this.btnDropCap = new Common.UI.Button({
-                    id: 'id-toolbar-btn-dropcap',
+                    id: 'tlb-btn-dropcap',
                     cls: 'btn-toolbar',
                     iconCls: 'btn-dropcap',
                     caption: me.capBtnInsDropcap,
@@ -744,7 +744,7 @@ define([
                 this.paragraphControls.push(this.btnDropCap);
 
                 this.btnColumns = new Common.UI.Button({
-                    id: 'id-toolbar-btn-columns',
+                    id: 'tlb-btn-columns',
                     cls: 'btn-toolbar',
                     iconCls: 'btn-columns',
                     caption: me.capBtnColumns,
@@ -792,7 +792,7 @@ define([
                 this.paragraphControls.push(this.btnColumns);
 
                 this.btnPageOrient = new Common.UI.Button({
-                    id: 'id-toolbar-btn-pageorient',
+                    id: 'tlb-btn-pageorient',
                     cls: 'btn-toolbar',
                     iconCls: 'btn-pageorient',
                     caption: me.capBtnPageOrient,
@@ -828,7 +828,7 @@ define([
                     '<% } %></a>');
 
                 this.btnPageMargins = new Common.UI.Button({
-                    id: 'id-toolbar-btn-pagemargins',
+                    id: 'tlb-btn-pagemargins',
                     cls: 'btn-toolbar',
                     iconCls: 'btn-pagemargins',
                     caption: me.capBtnMargins,
@@ -887,7 +887,7 @@ define([
                     '<%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(options.value[1]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %></div></a>');
 
                 this.btnPageSize = new Common.UI.Button({
-                    id: 'id-toolbar-btn-pagesize',
+                    id: 'tlb-btn-pagesize',
                     cls: 'btn-toolbar',
                     iconCls: 'btn-pagesize',
                     caption: me.capBtnPageSize,
@@ -2550,7 +2550,6 @@ define([
             mniNoteSettings: 'Notes Settings',
             textGotoFootnote: 'Go to Footnotes',
             tipChangeChart: 'Change Chart Type'
-
         }
     })(), DE.Views.Toolbar || {}));
 });
