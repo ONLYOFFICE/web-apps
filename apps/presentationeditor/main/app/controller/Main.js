@@ -356,10 +356,11 @@ define([
 
                 application.getController('DocumentHolder').getView('DocumentHolder').focus();
                 if (this.api && this.api.asc_isDocumentCanSave) {
-                    var cansave = this.api.asc_isDocumentCanSave();
+                    var cansave = this.api.asc_isDocumentCanSave(),
+                        forcesave = this.appOptions.forcesave;
                     var isSyncButton = $('.btn-icon', toolbarView.btnSave.cmpEl).hasClass('btn-synch');
-                    if (toolbarView.btnSave.isDisabled() !== (!cansave && !isSyncButton || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1))
-                        toolbarView.btnSave.setDisabled(!cansave && !isSyncButton || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1);
+                    if (toolbarView.btnSave.isDisabled() !== (!cansave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave))
+                        toolbarView.btnSave.setDisabled(!cansave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave);
                 }
             },
 
@@ -384,7 +385,7 @@ define([
                 if (action) {
                     this.setLongActionView(action)
                 } else {
-                    if (id==Asc.c_oAscAsyncAction['Save']) {
+                    if (id==Asc.c_oAscAsyncAction['Save'] || id==Asc.c_oAscAsyncAction['ForceSaveButton']) {
                         if (this._state.fastCoauth && this._state.usersCount>1) {
                             var me = this;
                             if (me._state.timerSave===undefined)
@@ -404,7 +405,7 @@ define([
                 action = this.stackLongActions.get({type: Asc.c_oAscAsyncActionType.BlockInteraction});
                 action ? this.setLongActionView(action) : this.loadMask && this.loadMask.hide();
 
-                if (id==Asc.c_oAscAsyncAction['Save'] && (!this._state.fastCoauth || this._state.usersCount<2))
+                if ((id==Asc.c_oAscAsyncAction['Save'] || id==Asc.c_oAscAsyncAction['ForceSaveButton']) && (!this._state.fastCoauth || this._state.usersCount<2))
                     this.synchronizeChanges();
 
                if (type == Asc.c_oAscAsyncActionType.BlockInteraction && !((id == Asc.c_oAscAsyncAction['LoadDocumentFonts'] || id == Asc.c_oAscAsyncAction['ApplyChanges']) && this.dontCloseDummyComment )) {
@@ -423,10 +424,14 @@ define([
                         break;
 
                     case Asc.c_oAscAsyncAction['Save']:
+                    case Asc.c_oAscAsyncAction['ForceSaveButton']:
                         this._state.isSaving = new Date();
                         force = true;
                         title   = this.saveTitleText;
                         text    = this.saveTextText;
+                        break;
+
+                    case Asc.c_oAscAsyncAction['ForceSaveTimeout']:
                         break;
 
                     case Asc.c_oAscAsyncAction['LoadDocumentFonts']:
@@ -670,6 +675,10 @@ define([
                     value = (!me._state.fastCoauth && value!==null) ? parseInt(value) : (me.appOptions.canCoAuthoring ? 1 : 0);
                     me.api.asc_setAutoSaveGap(value);
 
+                    value = Common.localStorage.getItem("pe-settings-forcesave");
+                    me.appOptions.forcesave = (value===null) ? me.appOptions.forcesave : (parseInt(value)==1);
+                    me.api.asc_setIsForceSaveOnUserSave(me.appOptions.forcesave);
+
                     if (me.needToUpdateVersion)
                         Common.NotificationCenter.trigger('api:disconnect');
                     var timer_sl = setInterval(function(){
@@ -782,6 +791,7 @@ define([
                 this.appOptions.canChat        = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit) && !this.appOptions.isOffline && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.chat===false);
                 this.appOptions.canPrint       = (this.permissions.print !== false);
                 this.appOptions.canRename      = !!this.permissions.rename;
+                this.appOptions.forcesave      = this.appOptions.isEdit && (typeof (this.editorConfig.customization) == 'object' && this.editorConfig.customization.forcesave);
 
                 this._state.licenseWarning = (licType===Asc.c_oLicenseResult.Connections) && this.appOptions.canEdit && this.editorConfig.mode !== 'view';
 
@@ -1189,9 +1199,10 @@ define([
 
                 var toolbarView = this.getApplication().getController('Toolbar').getView('Toolbar');
                 if (toolbarView) {
-                    var isSyncButton = $('.btn-icon', toolbarView.btnSave.cmpEl).hasClass('btn-synch');
-                    if (toolbarView.btnSave.isDisabled() !== (!isModified && !isSyncButton || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1))
-                        toolbarView.btnSave.setDisabled(!isModified && !isSyncButton || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1);
+                    var isSyncButton = $('.btn-icon', toolbarView.btnSave.cmpEl).hasClass('btn-synch'),
+                        forcesave = this.appOptions.forcesave;
+                    if (toolbarView.btnSave.isDisabled() !== (!isModified && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave))
+                        toolbarView.btnSave.setDisabled(!isModified && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave);
                 }
             },
             onDocumentCanSaveChanged: function (isCanSave) {
@@ -1199,9 +1210,10 @@ define([
                     toolbarController = application.getController('Toolbar'),
                     toolbarView = toolbarController.getView('Toolbar');
                 if (toolbarView) {
-                    var isSyncButton = $('.btn-icon', toolbarView.btnSave.cmpEl).hasClass('btn-synch');
-                    if (toolbarView.btnSave.isDisabled() !== (!isCanSave && !isSyncButton || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1))
-                        toolbarView.btnSave.setDisabled(!isCanSave && !isSyncButton || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1);
+                    var isSyncButton = $('.btn-icon', toolbarView.btnSave.cmpEl).hasClass('btn-synch'),
+                        forcesave = this.appOptions.forcesave;
+                    if (toolbarView.btnSave.isDisabled() !== (!isCanSave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave))
+                        toolbarView.btnSave.setDisabled(!isCanSave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave);
                 }
             },
 
@@ -1546,6 +1558,11 @@ define([
                     this._state.fastCoauth = (value===null || parseInt(value) == 1);
                     if (this._state.fastCoauth && !oldval)
                         this.synchronizeChanges();
+                }
+                if (this.appOptions.isEdit) {
+                    value = Common.localStorage.getItem("pe-settings-forcesave");
+                    this.appOptions.forcesave = (value===null) ? (typeof (this.appOptions.customization) == 'object' && this.appOptions.customization.forcesave) : (parseInt(value)==1);
+                    this.api.asc_setIsForceSaveOnUserSave(this.appOptions.forcesave);
                 }
             },
 

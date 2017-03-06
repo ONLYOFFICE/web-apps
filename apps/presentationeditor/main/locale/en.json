@@ -819,6 +819,8 @@
   "PE.Views.FileMenuPanels.Settings.txtInput": "Alternate Input",
   "PE.Views.FileMenuPanels.Settings.txtLast": "View Last",
   "PE.Views.FileMenuPanels.Settings.txtPt": "Point",
+  "PE.Views.FileMenuPanels.Settings.textForceSave": "Save to Server",
+  "PE.Views.FileMenuPanels.Settings.strForcesave": "Always save to server (otherwise save to server on document close)",
   "PE.Views.HyperlinkSettingsDialog.cancelButtonText": "Cancel",
   "PE.Views.HyperlinkSettingsDialog.okButtonText": "OK",
   "PE.Views.HyperlinkSettingsDialog.strDisplay": "Display",

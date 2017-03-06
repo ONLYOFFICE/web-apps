@@ -1540,7 +1540,7 @@ define([
                     if (this.synchTooltip)
                         this.synchTooltip.hide();
                     this.btnSave.updateHint(this.btnSaveTip);
-                    this.btnSave.setDisabled(true);
+                    this.btnSave.setDisabled(!this.mode.forcesave);
                     this._state.hasCollaborativeChanges = false;
                 }
             }

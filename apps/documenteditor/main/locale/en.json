@@ -954,6 +954,8 @@
   "DE.Views.FileMenuPanels.Settings.txtPt": "Point",
   "DE.Views.FileMenuPanels.Settings.txtSpellCheck": "Spell Checking",
   "DE.Views.FileMenuPanels.Settings.txtWin": "as Windows",
+  "DE.Views.FileMenuPanels.Settings.textForceSave": "Save to Server",
+  "DE.Views.FileMenuPanels.Settings.strForcesave": "Always save to server (otherwise save to server on document close)",
   "DE.Views.HeaderFooterSettings.textBottomCenter": "Bottom Center",
   "DE.Views.HeaderFooterSettings.textBottomLeft": "Bottom Left",
   "DE.Views.HeaderFooterSettings.textBottomRight": "Bottom Right",

@@ -132,7 +132,11 @@ define([
                     '<td class="left"><label id="fms-lbl-autosave"><%= scope.textAutoSave %></label></td>',
                     '<td class="right"><span id="fms-chb-autosave" /></td>',
                 '</tr>','<tr class="divider autosave"></tr>',
-                /** coauthoring begin **/
+                '<tr class="edit">',
+                    '<td class="left"><label id="fms-lbl-forcesave"><%= scope.textForceSave %></label></td>',
+                    '<td class="right"><span id="fms-chb-forcesave" /></td>',
+                '</tr>','<tr class="divider edit"></tr>',
+            /** coauthoring begin **/
                 '<tr class="coauth changes">',
                     '<td class="left"><label><%= scope.strCoAuthMode %></label></td>',
                     '<td class="right">',
@@ -199,7 +203,12 @@ define([
                 }
             }, this));
             this.lblAutosave = $('#fms-lbl-autosave');
-            
+
+            this.chForcesave = new Common.UI.CheckBox({
+                el: $('#fms-chb-forcesave'),
+                labelText: this.strForcesave
+            });
+
             this.chAlignGuides = new Common.UI.CheckBox({
                 el: $('#fms-chb-align-guides'),
                 labelText: this.strAlignGuides
@@ -363,6 +372,10 @@ define([
                 value = 0;
             this.chAutosave.setValue(fast_coauth || (value===null ? this.mode.canCoAuthoring : parseInt(value) == 1));
 
+            value = Common.localStorage.getItem("de-settings-forcesave");
+            value = (value===null) ? (this.mode.customization && this.mode.customization.forcesave) : (parseInt(value)==1);
+            this.chForcesave.setValue(value);
+
             value = Common.localStorage.getItem("de-settings-spellcheck");
             this.chSpell.setValue(value===null || parseInt(value) == 1);
 
@@ -383,6 +396,7 @@ define([
             Common.localStorage.setItem("de-settings-fontrender", this.cmbFontRender.getValue());
             Common.localStorage.setItem("de-settings-unit", this.cmbUnit.getValue());
             Common.localStorage.setItem("de-settings-autosave", this.chAutosave.isChecked() ? 1 : 0);
+            Common.localStorage.setItem("de-settings-forcesave", this.chForcesave.isChecked() ? 1 : 0);
             Common.localStorage.setItem("de-settings-spellcheck", this.chSpell.isChecked() ? 1 : 0);
             Common.localStorage.setItem("de-settings-showsnaplines", this.chAlignGuides.isChecked() ? 1 : 0);
             Common.localStorage.save();
@@ -443,7 +457,9 @@ define([
         strAutoRecover: 'Turn on autorecover',
         txtInch: 'Inch',
         txtFitPage: 'Fit to Page',
-        txtFitWidth: 'Fit to Width'
+        txtFitWidth: 'Fit to Width',
+        textForceSave: 'Save to Server',
+        strForcesave: 'Always save to server (otherwise save to server on document close)'
     }, DE.Views.FileMenuPanels.Settings || {}));
 
     DE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({

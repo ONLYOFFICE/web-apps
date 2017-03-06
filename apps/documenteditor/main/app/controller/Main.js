@@ -253,14 +253,11 @@ define([
                 this.appOptions.canBack         = this.editorConfig.nativeApp !== true && this.appOptions.canBackToFolder === true;
                 this.appOptions.canPlugins      = false;
                 this.plugins                    = this.editorConfig.plugins;
-                this.appOptions.forcesave       = (typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.forcesave;
 
                 this.getApplication()
                     .getController('Viewport')
                     .getView('Common.Views.Header')
                     .setCanBack(this.appOptions.canBackToFolder === true);
-
-                this.api.asc_setIsForceSaveOnUserSave(this.appOptions.forcesave);
 
                 if (this.editorConfig.lang)
                     this.api.asc_setLocale(this.editorConfig.lang);
@@ -574,7 +571,7 @@ define([
                 if (action) {
                     this.setLongActionView(action)
                 } else {
-                    if (id==Asc.c_oAscAsyncAction['Save']) {
+                    if (id==Asc.c_oAscAsyncAction['Save'] || id==Asc.c_oAscAsyncAction['ForceSaveButton']) {
                         if (this._state.fastCoauth && this._state.usersCount>1) {
                             var me = this;
                             if (me._state.timerSave===undefined)
@@ -594,7 +591,7 @@ define([
                 action = this.stackLongActions.get({type: Asc.c_oAscAsyncActionType.BlockInteraction});
                 action ? this.setLongActionView(action) : this.loadMask && this.loadMask.hide();
 
-                if (id==Asc.c_oAscAsyncAction['Save'] && (!this._state.fastCoauth || this._state.usersCount<2))
+                if ((id==Asc.c_oAscAsyncAction['Save'] || id==Asc.c_oAscAsyncAction['ForceSaveButton']) && (!this._state.fastCoauth || this._state.usersCount<2))
                     this.synchronizeChanges();
 
                 if ( type == Asc.c_oAscAsyncActionType.BlockInteraction &&
@@ -615,10 +612,14 @@ define([
                         break;
 
                     case Asc.c_oAscAsyncAction['Save']:
+                    case Asc.c_oAscAsyncAction['ForceSaveButton']:
                         this._state.isSaving = new Date();
                         force = true;
                         title   = this.saveTitleText;
                         text    = this.saveTextText;
+                        break;
+
+                    case Asc.c_oAscAsyncAction['ForceSaveTimeout']:
                         break;
 
                     case Asc.c_oAscAsyncAction['LoadDocumentFonts']:
@@ -894,6 +895,10 @@ define([
 
                     me.api.asc_setAutoSaveGap(value);
 
+                    value = Common.localStorage.getItem("de-settings-forcesave");
+                    me.appOptions.forcesave = (value===null) ? me.appOptions.forcesave : (parseInt(value)==1);
+                    me.api.asc_setIsForceSaveOnUserSave(me.appOptions.forcesave);
+
                     if (me.needToUpdateVersion)
                         Common.NotificationCenter.trigger('api:disconnect');
                     var timer_sl = setInterval(function(){
@@ -1017,6 +1022,7 @@ define([
                 this.appOptions.canPrint       = (this.permissions.print !== false);
                 this.appOptions.canRename      = !!this.permissions.rename;
                 this.appOptions.buildVersion   = params.asc_getBuildVersion();
+                this.appOptions.forcesave      = this.appOptions.isEdit && (typeof (this.editorConfig.customization) == 'object' && this.editorConfig.customization.forcesave);
 
                 var type = /^(?:(pdf|djvu|xps))$/.exec(this.document.fileType);
                 this.appOptions.canDownloadOrigin = !this.appOptions.nativeApp && this.permissions.download !== false && (type && typeof type[1] === 'string');
@@ -1813,6 +1819,11 @@ define([
                     this._state.fastCoauth = (value===null || parseInt(value) == 1);
                     if (this._state.fastCoauth && !oldval)
                         this.synchronizeChanges();
+                }
+                if (this.appOptions.isEdit) {
+                    value = Common.localStorage.getItem("de-settings-forcesave");
+                    this.appOptions.forcesave = (value===null) ? (typeof (this.appOptions.customization) == 'object' && this.appOptions.customization.forcesave) : (parseInt(value)==1);
+                    this.api.asc_setIsForceSaveOnUserSave(this.appOptions.forcesave);
                 }
             },
 

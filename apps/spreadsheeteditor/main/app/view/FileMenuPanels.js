@@ -447,6 +447,10 @@ define([
                     '<td class="left"><label id="fms-lbl-autosave"><%= scope.textAutoSave %></label></td>',
                     '<td class="right"><span id="fms-chb-autosave" /></td>',
                 '</tr>','<tr class="divider autosave"></tr>',
+                '<tr class="autosave">',
+                    '<td class="left"><label id="fms-lbl-forcesave"><%= scope.textForceSave %></label></td>',
+                    '<td class="right"><span id="fms-chb-forcesave" /></td>',
+                '</tr>','<tr class="divider autosave"></tr>',
                 '<tr class="coauth changes">',
                     '<td class="left"><label><%= scope.strCoAuthMode %></label></td>',
                     '<td class="right">',
@@ -561,7 +565,12 @@ define([
                 }
             }, this));
             this.lblAutosave = $('#fms-lbl-autosave');
-            
+
+            this.chForcesave = new Common.UI.CheckBox({
+                el: $('#fms-chb-forcesave'),
+                labelText: this.strForcesave
+            });
+
             this.cmbUnit = new Common.UI.ComboBox({
                 el          : $('#fms-cmb-unit'),
                 style       : 'width: 160px;',
@@ -696,6 +705,10 @@ define([
                 value = 0;
             this.chAutosave.setValue(fast_coauth || (value===null ? this.mode.canCoAuthoring : parseInt(value) == 1));
 
+            value = Common.localStorage.getItem("sse-settings-forcesave");
+            value = (value===null) ? (this.mode.customization && this.mode.customization.forcesave) : (parseInt(value)==1);
+            this.chForcesave.setValue(value);
+
             value = Common.localStorage.getItem("sse-settings-func-locale");
             if (value===null)
                 value = ((this.mode.lang) ? this.mode.lang : 'en').toLowerCase();
@@ -741,6 +754,7 @@ define([
             Common.localStorage.setItem("sse-settings-fontrender", this.cmbFontRender.getValue());
             Common.localStorage.setItem("sse-settings-unit", this.cmbUnit.getValue());
             Common.localStorage.setItem("sse-settings-autosave", this.chAutosave.isChecked() ? 1 : 0);
+            Common.localStorage.setItem("sse-settings-forcesave", this.chForcesave.isChecked() ? 1 : 0);
             Common.localStorage.setItem("sse-settings-func-locale", this.cmbFuncLocale.getValue());
             if (this.cmbRegSettings.getSelectedRecord())
                 Common.localStorage.setItem("sse-settings-reg-settings", this.cmbRegSettings.getValue());
@@ -808,7 +822,9 @@ define([
         strStrict: 'Strict',
         textAutoRecover: 'Autorecover',
         strAutoRecover: 'Turn on autorecover',
-        txtInch: 'Inch'
+        txtInch: 'Inch',
+        textForceSave: 'Save to Server',
+        strForcesave: 'Always save to server (otherwise save to server on document close)'
     }, SSE.Views.FileMenuPanels.MainSettingsGeneral || {}));
 
     SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({

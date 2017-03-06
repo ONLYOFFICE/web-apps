@@ -878,7 +878,7 @@ define([
                 this.api.asc_Save();
             }
 
-            this.toolbar.btnSave.setDisabled(true);
+            this.toolbar.btnSave.setDisabled(!this.toolbar.mode.forcesave);
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             Common.component.Analytics.trackEvent('Save');
