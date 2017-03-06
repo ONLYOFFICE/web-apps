@@ -466,21 +466,21 @@ define([
                 this.popoverChanges = this.options.popoverChanges;
 
                 this.btnPrev = new Common.UI.Button({
-                    cls: 'btn-toolbar',
+                    cls: 'btn-toolbar x-huge',
                     iconCls: 'img-commonctrl review-prev',
                     caption: this.txtPrev,
                     value: 1
                 });
 
                 this.btnNext = new Common.UI.Button({
-                    cls: 'btn-toolbar',
+                    cls: 'btn-toolbar x-huge',
                     iconCls: 'img-commonctrl review-next',
                     caption: this.txtNext,
                     value: 2
                 });
 
                 this.btnAccept = new Common.UI.Button({
-                    cls: 'btn-toolbar',
+                    cls: 'btn-toolbar x-huge',
                     caption: this.txtAccept,
                     split: true,
                     menu: new Common.UI.Menu({
@@ -498,7 +498,7 @@ define([
                 });
 
                 this.btnReject = new Common.UI.Button({
-                    cls: 'btn-toolbar',
+                    cls: 'btn-toolbar x-huge',
                     caption: this.txtReject,
                     split: true,
                     menu: new Common.UI.Menu({
@@ -516,9 +516,7 @@ define([
                 });
 
                 this.btnTurnOn = new Common.UI.Button({
-                    cls: 'btn-toolbar',
-                    iconCls: 'img-commonctrl review-close'
-                    // hint: this.txtClose,
+                    cls: 'btn-toolbar x-huge',
                     iconCls: 'img-commonctrl review-close',
                     caption: this.txtTurnon
                 });
