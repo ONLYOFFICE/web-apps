@@ -1477,7 +1477,7 @@ define([
                     if (this.appOptions.customization) {
                         if (this.appOptions.isDesktopApp)
                             this.appOptions.customization.about = false;
-                        else if (!this.appOptions.canBranding)
+                        else if (!this.appOptions.canBrandingExt)
                             this.appOptions.customization.about = true;
                     }
                     Common.Utils.applyCustomization(this.appOptions.customization, mapCustomizationElements);
