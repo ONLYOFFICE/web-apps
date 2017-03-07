@@ -6,7 +6,7 @@
             <div class="center">
                 <form class="searchbar search">
                     <div class="searchbar-input search">
-                        <input type="search" placeholder="Search"><a href="#" class="searchbar-clear"></a>
+                        <input type="search" placeholder="<%= scope.textSearch %>"><a href="#" class="searchbar-clear"></a>
                     </div>
                 </form>
             </div>
