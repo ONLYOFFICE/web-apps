@@ -1365,8 +1365,12 @@ define([
             hidePreloader: function() {
                 if (!this._state.customizationDone) {
                     this._state.customizationDone = true;
-                    if (this.appOptions.customization && !this.appOptions.isDesktopApp)
-                        this.appOptions.customization.about = true;
+                    if (this.appOptions.customization) {
+                        if (this.appOptions.isDesktopApp)
+                            this.appOptions.customization.about = false;
+                        else if (!this.appOptions.canBranding)
+                            this.appOptions.customization.about = true;
+                    }
                     Common.Utils.applyCustomization(this.appOptions.customization, mapCustomizationElements);
                     if (this.appOptions.canBrandingExt) {
                         Common.Utils.applyCustomization(this.appOptions.customization, mapCustomizationExtElements);
