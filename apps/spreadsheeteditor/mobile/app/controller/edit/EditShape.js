@@ -399,6 +399,10 @@ define([
                     return;
                 }
 
+                if (_stack.length < 1) {
+                    _stack = this.api.asc_getGraphicObjectProps();
+                }
+
                 var shapes = [];
 
                 _.each(_stack, function (object) {
