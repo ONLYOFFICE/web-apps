@@ -178,7 +178,7 @@ define([
                 this.showNewChangesTip = !(value && parseInt(value) == 1) && !this.statusbar.mode.isLightVersion;
 
                 if (this.statusbar.mode.isReviewOnly) {
-                    var iconEl = $('.btn-icon', this.statusbar.btnReview.cmpEl);
+                    var iconEl = $('.icon', this.statusbar.btnReview.cmpEl);
                     (this.api.asc_HaveRevisionsChanges()) ? iconEl.removeClass(this.statusbar.btnReviewCls).addClass('btn-ic-changes') : iconEl.removeClass('btn-ic-changes').addClass(this.statusbar.btnReviewCls);
                     this.statusbar.mnuTrackChanges.setDisabled(true);
                     this.changeReviewStatus(true);
@@ -195,7 +195,7 @@ define([
                     if (!doc_review)
                         this.changeReviewStatus(false);
                     else {
-                        var iconEl = $('.btn-icon', this.statusbar.btnReview.cmpEl);
+                        var iconEl = $('.icon', this.statusbar.btnReview.cmpEl);
                        (this.api.asc_HaveRevisionsChanges()) ? iconEl.removeClass(this.statusbar.btnReviewCls).addClass('btn-ic-changes') : iconEl.removeClass('btn-ic-changes').addClass(this.statusbar.btnReviewCls);
                         if (value!==null && parseInt(value) == 1) {
                             this.changeReviewStatus(!this.statusbar.mode.isLightVersion);
@@ -302,7 +302,7 @@ define([
             this.setStatusCaption('');
 
             if (this.statusbar.mode.canReview) {
-                var iconEl = $('.btn-icon', this.statusbar.btnReview.cmpEl);
+                var iconEl = $('.icon', this.statusbar.btnReview.cmpEl);
                 (this.api.asc_HaveRevisionsChanges()) ? iconEl.removeClass(this.statusbar.btnReviewCls).addClass('btn-ic-changes') : iconEl.removeClass('btn-ic-changes').addClass(this.statusbar.btnReviewCls);
             }
         },

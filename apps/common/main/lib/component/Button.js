@@ -139,7 +139,7 @@ define([
             '<% if (menu == null) { %>',
                 '<button type="button" class="btn <%= cls %>" id="<%= id %>" style="<%= style %>">',
                     '<% if (iconCls != "") { %>',
-                        '<i class="btn-icon <%= iconCls %>">&nbsp;</i>',
+                        '<i class="icon <%= iconCls %>">&nbsp;</i>',
                     '<% } %>',
                     '<span class="caption"><%= caption %></span>',
                 '</button>',
@@ -147,7 +147,7 @@ define([
                 '<div class="btn-group" id="<%= id %>" style="<%= style %>">',
                     '<button type="button" class="btn dropdown-toggle <%= cls %>" data-toggle="dropdown">',
                         '<% if (iconCls != "") { %>',
-                            '<i class="btn-icon <%= iconCls %>">&nbsp;</i>',
+                            '<i class="icon <%= iconCls %>">&nbsp;</i>',
                         '<% } %>',
                         '<span class="caption"><%= caption %></span>',
                         '<span class="caret img-commonctrl"></span>',
@@ -157,7 +157,7 @@ define([
                 '<div class="btn-group split" id="<%= id %>" style="<%= style %>">',
                     '<button type="button" class="btn <%= cls %>">',
                         '<% if (iconCls != "") { %>',
-                            '<i class="btn-icon <%= iconCls %>">&nbsp;</i>',
+                            '<i class="icon <%= iconCls %>">&nbsp;</i>',
                         '<% } %>',
                         '<span class="caption"><%= caption %></span>',
                     '</button>',
@@ -447,7 +447,7 @@ define([
         },
 
         setIconCls: function(cls) {
-            var btnIconEl = $(this.el).find('span.btn-icon'),
+            var btnIconEl = $(this.el).find('.icon'),
                 oldCls = this.iconCls;
 
             this.iconCls = cls;
