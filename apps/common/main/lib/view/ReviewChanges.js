@@ -466,23 +466,24 @@ define([
                 this.popoverChanges = this.options.popoverChanges;
 
                 this.btnPrev = new Common.UI.Button({
-                    cls: 'btn-toolbar x-huge',
+                    cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'img-commonctrl review-prev',
                     caption: this.txtPrev,
                     value: 1
                 });
 
                 this.btnNext = new Common.UI.Button({
-                    cls: 'btn-toolbar x-huge',
+                    cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'img-commonctrl review-next',
                     caption: this.txtNext,
                     value: 2
                 });
 
                 this.btnAccept = new Common.UI.Button({
-                    cls: 'btn-toolbar x-huge',
+                    cls: 'btn-toolbar x-huge icon-top',
                     caption: this.txtAccept,
                     split: true,
+                    iconCls: 'img-commonctrl review-close',
                     menu: new Common.UI.Menu({
                         items: [
                             this.mnuAcceptCurrent = new Common.UI.MenuItem({
@@ -498,9 +499,10 @@ define([
                 });
 
                 this.btnReject = new Common.UI.Button({
-                    cls: 'btn-toolbar x-huge',
+                    cls: 'btn-toolbar x-huge icon-top',
                     caption: this.txtReject,
                     split: true,
+                    iconCls: 'img-commonctrl review-close',
                     menu: new Common.UI.Menu({
                         items: [
                             this.mnuRejectCurrent = new Common.UI.MenuItem({
@@ -516,7 +518,7 @@ define([
                 });
 
                 this.btnTurnOn = new Common.UI.Button({
-                    cls: 'btn-toolbar x-huge',
+                    cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'img-commonctrl review-close',
                     caption: this.txtTurnon
                 });
