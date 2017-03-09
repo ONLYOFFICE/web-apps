@@ -89,7 +89,7 @@ define([
                 ].join(''));
 
                 var $target = $('#' + _anchorId)
-                        .css({left: posX, top: posY});
+                        .css({left: posX, top: Math.max(0, posY)});
 
                 uiApp.closeModal('.document-menu.modal-in');
 
