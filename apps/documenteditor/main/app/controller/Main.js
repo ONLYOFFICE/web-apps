@@ -1935,11 +1935,18 @@ define([
                     return null;
                 };
 
-                var arr = [];
+                var arr = [],
+                    baseUrl = _.isEmpty(plugins.url) ? "" : plugins.url;
+
+                if (baseUrl !== "")
+                    console.log("Obsolete: The url parameter is deprecated. Please check the documentation for new plugin connection configuration.");
+
                 pluginsData.forEach(function(item){
+                    item = baseUrl + item; // for compatibility with previouse version of server, where plugins.url is used.
                     var value = _getPluginJson(item);
                     if (value) {
                         value.baseUrl = item.substring(0, item.lastIndexOf("config.json"));
+                        value.oldVersion = (baseUrl !== "");
                         arr.push(value);
                     }
                 });
@@ -1957,7 +1964,7 @@ define([
                 if (plugins) {
                     var arr = [], arrUI = [];
                     plugins.pluginsData.forEach(function(item){
-                        if (uiCustomize!==undefined && pluginStore.findWhere({baseUrl : item.baseUrl})) return;
+                        if (uiCustomize!==undefined && (pluginStore.findWhere({baseUrl : item.baseUrl}) || pluginStore.findWhere({guid : item.guid}))) return;
 
                         var variations = item.variations,
                             variationsArr = [];
@@ -1969,12 +1976,19 @@ define([
                                 }
                             }
                             if (isSupported && (isEdit || itemVar.isViewer)) {
+                                var icons = itemVar.icons;
+                                if (item.oldVersion) { // for compatibility with previouse version of server, where plugins.url is used.
+                                    icons = [];
+                                    itemVar.icons.forEach(function(icon){
+                                        icons.push(icon.substring(icon.lastIndexOf("\/")+1));
+                                    });
+                                }
                                 item.isUICustomizer ? arrUI.push(item.baseUrl + itemVar.url) :
                                 variationsArr.push(new Common.Models.PluginVariation({
                                     description: itemVar.description,
                                     index: variationsArr.length,
-                                    url : itemVar.url,
-                                    icons  : itemVar.icons,
+                                    url : (item.oldVersion) ? (itemVar.url.substring(itemVar.url.lastIndexOf("\/")+1) ) : itemVar.url,
+                                    icons  : icons,
                                     isViewer: itemVar.isViewer,
                                     EditorsSupport: itemVar.EditorsSupport,
                                     isVisual: itemVar.isVisual,
