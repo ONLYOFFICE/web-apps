@@ -58,13 +58,15 @@ define([
             ],
 
             initialize: function () {
-                Common.NotificationCenter.on('addcontainer:show',   _.bind(this.initEvents, this));
-                Common.NotificationCenter.on('document:ready',      _.bind(this.onDocumentReady, this));
+                var me = this;
 
-                this.addListeners({
+                Common.NotificationCenter.on('addcontainer:show',   _.bind(me.initEvents, me));
+                Common.NotificationCenter.on('document:ready',      _.bind(me.onDocumentReady, me));
+
+                me.addListeners({
                     'AddFunction': {
-                        'function:insert': this.onInsertFunction.bind(this),
-                        'function:info': this.onFunctionInfo.bind(this)
+                        'function:insert': me.onInsertFunction.bind(me),
+                        'function:info': me.onFunctionInfo.bind(me)
                     }
                 });
             },
@@ -75,12 +77,6 @@ define([
 
             onLaunch: function () {
                 this.createView('AddFunction').render();
-
-                var me = this;
-                _.defer(function () {
-                    me.api.asc_setLocalization(fc);
-                    me.fillFunctions.call(me);
-                });
             },
 
             initEvents: function () {
@@ -90,35 +86,67 @@ define([
                 var me = this;
 
                 _.defer(function () {
-                    me.api.asc_setLocalization(fc);
-                    me.fillFunctions.call(me);
+                    var editorLang = SSE.getController("Main").editorConfig.lang;
+
+                    var localizationFunctions = function(data) {
+                        fc = data;
+                        me.api.asc_setLocalization(fc);
+                        me.fillFunctions.call(me);
+                    };
+
+                    $.getJSON(Common.Utils.String.format("{0}/{1}.json", "resources/l10n/functions", editorLang), function(json) {
+                        localizationFunctions(json);
+                    }).fail(function() {
+                        localizationFunctions(fc);
+                    });
                 });
             },
 
             fillFunctions: function() {
-                var functions = {};
-                var jsonDescr   = JSON.parse(fd);
+                var me = this,
+                    functions = {},
+                    editorLang = SSE.getController("Main").editorConfig.lang;
 
-                var grouparr = this.api.asc_getFormulasInfo();
-                for (var g in grouparr) {
-                    var group = grouparr[g];
-                    var groupname = group.asc_getGroupName();
-                    var funcarr = group.asc_getFormulasArray();
+                var localizationFunctionsDesc = function (data) {
+                    var jsonDesc = {},
+                        view = me.getView('AddFunction');
 
-                    for (var f in funcarr) {
-                        var func = funcarr[f];
-                        var _name = func.asc_getName();
-                        functions[_name] = {
-                            type:       _name,
-                            group:      groupname,
-                            caption:    func.asc_getLocaleName(),
-                            args:       jsonDescr[_name].a || '',
-                            descr:      jsonDescr[_name].d || ''
-                        };
+                    fd = data;
+
+                    try {
+                        jsonDesc = JSON.parse(fd);
+                    } catch (e) {
+                        jsonDesc = fd
                     }
-                }
 
-                this.getView('AddFunction').setFunctions(functions);
+                    var grouparr = me.api.asc_getFormulasInfo();
+                    for (var g in grouparr) {
+                        var group = grouparr[g];
+                        var groupname = group.asc_getGroupName();
+                        var funcarr = group.asc_getFormulasArray();
+
+                        for (var f in funcarr) {
+                            var func = funcarr[f];
+                            var _name = func.asc_getName();
+                            functions[_name] = {
+                                type:       _name,
+                                group:      groupname,
+                                caption:    func.asc_getLocaleName(),
+                                args:       jsonDesc[_name].a || '',
+                                descr:      jsonDesc[_name].d || ''
+                            };
+                        }
+                    }
+
+                    view.setFunctions(functions);
+                    view.render();
+                };
+
+                $.getJSON(Common.Utils.String.format("{0}/{1}_desc.json", "resources/l10n/functions", editorLang), function(json) {
+                    localizationFunctionsDesc(json);
+                }).fail(function() {
+                    localizationFunctionsDesc(fd);
+                });
             },
 
             onInsertFunction: function (type) {
