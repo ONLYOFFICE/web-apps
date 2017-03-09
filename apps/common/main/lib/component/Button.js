@@ -119,6 +119,28 @@ define([
 ], function () {
     'use strict';
 
+    var templateHugeCaption =
+        '<div class="btn-group" id="<%= id %>" style="<%= style %>">' +
+            '<button type="button" class="btn dropdown-toggle <%= cls %>" data-toggle="dropdown">' +
+                '<i class="icon <%= iconCls %>">&nbsp;</i>' +
+                '<div class="inner-box-caption">' +
+                    '<span class="caption"><%= caption %></span>' +
+                    '<span class="caret img-commonctrl"></span>' +
+                '</div>' +
+            '</button>' +
+        '</div>';
+
+    var templateHugeSplitCaption =
+        '<div class="btn-group x-huge split icon-top" id="<%= id %>" style="<%= style %>">' +
+            '<button type="button" class="btn <%= cls %> inner-box-icon">' +
+                '<i class="icon <%= iconCls %>">&nbsp;</i>' +
+            '</button>' +
+            '<button type="button" class="btn <%= cls %> inner-box-caption dropdown-toggle" data-toggle="dropdown">' +
+                '<span class="caption"><%= caption %></span>' +
+                '<span class="caret img-commonctrl"></span>' +
+            '</button>' +
+        '</div>';
+
     Common.UI.Button = Common.UI.BaseView.extend({
         options : {
             id              : null,
@@ -206,6 +228,16 @@ define([
                 me.setElement(parentEl, false);
 
                 if (!me.rendered) {
+                    if ( /icon-top/.test(me.cls) && !!me.caption && /huge/.test(me.cls) ) {
+                        if ( me.split === true ) {
+                            !!me.cls && (me.cls = me.cls.replace(/\s?(?:x-huge|icon-top)/g, ''));
+                            this.template = _.template(templateHugeSplitCaption);
+                        } else
+                        if ( !!me.menu ) {
+                            this.template = _.template(templateHugeCaption);
+                        }
+                    }
+
                     me.cmpEl = $(this.template({
                         id           : me.id,
                         cls          : me.cls,
