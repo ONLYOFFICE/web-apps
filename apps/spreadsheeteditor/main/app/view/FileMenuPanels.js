@@ -761,7 +761,7 @@ define([
                     var info = new Asc.asc_CFormatCellsInfo();
                     info.asc_setType(Asc.c_oAscNumFormatType.None);
                     info.asc_setSymbol(landId);
-                    var arr = this.api.asc_getFormatCells(info, landId); // all formats
+                    var arr = this.api.asc_getFormatCells(info); // all formats
                     text = this.api.asc_getLocaleExample(arr[4], 1000.01, landId);
                     text = text + ' ' + this.api.asc_getLocaleExample(arr[5], (new Date()).getExcelDateWithTime(), landId);
                     text = text + ' ' + this.api.asc_getLocaleExample(arr[6], (new Date()).getExcelDateWithTime(), landId);
