@@ -24,7 +24,7 @@
                 </div>
             </li>
             <li>
-                <a id="text-color" class="item-link" data-page="#edit-text-color">
+                <a id="font-color" class="item-link" data-page="#edit-text-color">
                     <div class="item-content">
                         <% if (!android) { %><div class="item-media" style="padding-top: 0;"><i class="icon icon-text-color"><span class="color-preview"></span></i></div><% } %>
                         <div class="item-inner">
