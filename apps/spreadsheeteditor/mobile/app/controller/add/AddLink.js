@@ -73,9 +73,12 @@ define([
                 link.asc_setHyperlinkUrl(url);
                 display = url;
             } else {
-                if ( !/^[A-Z]+[1-9]\d*:[A-Z]+[1-9]\d*$/.test(args.url) ||
-                    !/^[A-Z]+[1-9]\d*$/.test(args.url) )
-                {
+                var isValid = /^[A-Z]+[1-9]\d*:[A-Z]+[1-9]\d*$/.test(args.url);
+
+                if (!isValid)
+                    isValid = /^[A-Z]+[1-9]\d*$/.test(args.url);
+
+                if (!isValid) {
                     uiApp.alert(this.textInvalidRange);
                     return;
                 }
