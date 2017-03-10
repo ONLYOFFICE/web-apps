@@ -2,7 +2,7 @@
 <div id="addlink-root-view">
     <div class="page" data-page="add-link">
         <div class="page-content">
-            <div class="list-block">
+            <div class="list-block" style="<%= android ? 'margin-bottom: 0' : '' %>">
                 <ul>
                     <li>
                         <a id="add-link-type" class="item-link smart-select">
@@ -30,25 +30,33 @@
                             </div>
                         </a>
                     </li>
-                    <div id="add-link-range" class="item-content">
-                        <div class="item-inner">
-                            <div class="item-title label"><%= scope.textRange %></div>
-                            <div class="item-after">
-                                <div class="item-input">
-                                    <input type="text" class="field right range" placeholder="<%= scope.textRequired %>">
-                                </div>
+                    <% if (android) { %>
+                </ul>
+            </div>
+            <div class="list-block" style="margin-top: 0">
+                <ul>
+                    <% } %>
+                    <li>
+                        <div id="add-link-range" class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title label"><%= scope.textRange %></div>
+                                <% if (!android) { %><div class="item-after"><% } %>
+                                    <div class="item-input">
+                                        <input type="text" class="field right range" placeholder="<%= scope.textRequired %>">
+                                    </div>
+                                <% if (!android) { %></div><% } %>
                             </div>
                         </div>
-                    </div>
+                    </li>
                     <li>
                         <div id="add-link-url" class="item-content">
                             <div class="item-inner">
                                 <div class="item-title label"><%= scope.textLink %></div>
-                                <div class="item-after">
+                                <% if (!android) { %><div class="item-after"><% } %>
                                     <div class="item-input">
                                         <input type="url" class="field right" placeholder="<%= scope.textRequired %>">
                                     </div>
-                                </div>
+                                <% if (!android) { %></div><% } %>
                             </div>
                         </div>
                     </li>
@@ -56,11 +64,11 @@
                         <div id="add-link-display" class="item-content">
                             <div class="item-inner">
                                 <div class="item-title label"><%= scope.textDisplay %></div>
-                                <div class="item-after">
+                                <% if (!android) { %><div class="item-after"><% } %>
                                     <div class="item-input">
                                         <input type="text" class="field right">
                                     </div>
-                                </div>
+                                <% if (!android) { %></div><% } %>
                             </div>
                         </div>
                     </li>
@@ -68,11 +76,11 @@
                         <div id="add-link-tip" class="item-content">
                             <div class="item-inner">
                                 <div class="item-title label"><%= scope.textTip %></div>
-                                <div class="item-after">
+                                <% if (!android) { %><div class="item-after"><% } %>
                                     <div class="item-input">
                                         <input type="text" class="field right">
                                     </div>
-                                </div>
+                                <% if (!android) { %></div><% } %>
                             </div>
                         </div>
                     </li>
