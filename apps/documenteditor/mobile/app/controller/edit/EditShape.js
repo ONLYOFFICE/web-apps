@@ -53,7 +53,8 @@ define([
         // Private
         var _stack = [],
             _shapeObject = undefined,
-            _metricText = Common.Utils.Metric.getCurrentMetricName();
+            _metricText = Common.Utils.Metric.getCurrentMetricName(),
+            _borderColor = 'transparent';
 
         var wrapTypesTransform = (function() {
             var map = [
@@ -79,7 +80,7 @@ define([
                         return obj.ui === type;
                     })[0];
                     return record ? record.sdk : 0;
-                },
+                }
             }
         })();
 
@@ -101,7 +102,7 @@ define([
                         }
                     });
 
-                    return index
+                    return index;
                 },
 
                 sizeByValue: function (value) {
@@ -254,13 +255,18 @@ define([
                 paletteFillColor && paletteFillColor.select(color);
 
                 // Init border color
-                var stroke = shapeProperties.get_stroke(),
-                    strokeType = stroke.get_type();
+                me._initBorderColorView();
+            },
 
-                color = 'transparent';
+            _initBorderColorView: function () {
+                var me = this,
+                    paletteBorderColor = me.getView('EditShape').paletteBorderColor,
+                    stroke = _shapeObject.get_ShapeProperties().get_stroke();
 
-                if (stroke && strokeType == Asc.c_oAscStrokeType.STROKE_COLOR) {
-                    sdkColor = stroke.get_color();
+                var color = 'transparent';
+
+                if (stroke && stroke.get_type() == Asc.c_oAscStrokeType.STROKE_COLOR) {
+                    var sdkColor = stroke.get_color();
 
                     if (sdkColor) {
                         if (sdkColor.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
@@ -271,6 +277,7 @@ define([
                         }
                     }
                 }
+                _borderColor = color;
 
                 paletteBorderColor && paletteBorderColor.select(color);
                 $('#edit-shape-bordercolor .color-preview').css('background-color', ('transparent' == color) ? color : ('#' + (_.isObject(color) ? color.color : color)))
@@ -407,29 +414,20 @@ define([
                 var me = this,
                     $target = $(e.currentTarget),
                     value = $target.val(),
-                    currentShape = _shapeObject.get_ShapeProperties(),
                     image = new Asc.asc_CImgProperty(),
                     shape = new Asc.asc_CShapeProperty(),
-                    stroke = new Asc.asc_CStroke(),
-                    currentColor = Common.Utils.ThemeColor.getRgbColor('000000');
+                    stroke = new Asc.asc_CStroke();
 
                 value = borderSizeTransform.sizeByIndex(parseInt(value));
-
-                var currentStroke = currentShape.get_stroke();
-
-                if (currentStroke) {
-                    var currentStrokeType = currentStroke.get_type();
-
-                    if (currentStrokeType == Asc.c_oAscStrokeType.STROKE_COLOR) {
-                        currentColor = currentStroke.get_color();
-                    }
-                }
 
                 if (value < 0.01) {
                     stroke.put_type(Asc.c_oAscStrokeType.STROKE_NONE);
                 } else {
                     stroke.put_type(Asc.c_oAscStrokeType.STROKE_COLOR);
-                    stroke.put_color(currentColor);
+                    if (_borderColor == 'transparent')
+                        stroke.put_color(Common.Utils.ThemeColor.getRgbColor({color: '000000', effectId: 29}));
+                    else
+                        stroke.put_color(Common.Utils.ThemeColor.getRgbColor(Common.Utils.ThemeColor.colorValue2EffectId(_borderColor)));
                     stroke.put_width(value * 25.4 / 72.0);
                 }
 
@@ -437,6 +435,7 @@ define([
                 image.put_ShapeProperties(shape);
 
                 me.api.ImgApply(image);
+                me._initBorderColorView(); // when select STROKE_NONE or change from STROKE_NONE to STROKE_COLOR
             },
 
             onBorderSizeChanging: function (e) {
@@ -494,8 +493,9 @@ define([
                     currentShape = _shapeObject.get_ShapeProperties();
 
                 $('#edit-shape-bordercolor .color-preview').css('background-color', ('transparent' == color) ? color : ('#' + (_.isObject(color) ? color.color : color)));
+                _borderColor = color;
 
-                if (me.api && currentShape) {
+                if (me.api && currentShape && currentShape.get_stroke().get_type() == Asc.c_oAscStrokeType.STROKE_COLOR) {
                     var image = new Asc.asc_CImgProperty(),
                         shape = new Asc.asc_CShapeProperty(),
                         stroke = new Asc.asc_CStroke();

@@ -54,7 +54,8 @@ define([
         var _stack = [],
             _chartObject = undefined,
             _shapeObject = undefined,
-            _metricText = Common.Utils.Metric.getCurrentMetricName();
+            _metricText = Common.Utils.Metric.getCurrentMetricName(),
+            _borderColor = 'transparent';
 
         var borderSizeTransform = (function() {
             var _sizes = [0, 0.5, 1, 1.5, 2.25, 3, 4.5, 6];
@@ -66,14 +67,19 @@ define([
                     return _sizes[index];
                 },
 
-                sizeByValue: function (value) {
+                indexSizeByValue: function (value) {
                     var index = 0;
                     _.each(_sizes, function (size, idx) {
                         if (Math.abs(size - value) < 0.25) {
                             index = idx;
                         }
                     });
-                    return _sizes[index];
+
+                    return index
+                },
+
+                sizeByValue: function (value) {
+                    return _sizes[this.indexSizeByValue(value)];
                 }
             }
         })();
@@ -157,9 +163,10 @@ define([
                 $('.chart-types li[data-type=' + type + ']').addClass('active');
 
                 // Init style border size
-                var borderSize = shapeProperties.get_stroke().get_width() * 72.0 / 25.4;
-                $('#edit-chart-bordersize input').val([borderSizeTransform.sizeByIndex(borderSize)]);
-                $('#edit-chart-bordersize .item-after').text(borderSizeTransform.sizeByValue(borderSize) + ' ' + _metricText);
+                var borderSize = shapeProperties.get_stroke().get_width() * 72.0 / 25.4,
+                    borderType = _shapeObject.get_stroke().get_type();
+                $('#edit-chart-bordersize input').val([(borderType == Asc.c_oAscStrokeType.STROKE_NONE) ? 0 : borderSizeTransform.indexSizeByValue(borderSize)]);
+                $('#edit-chart-bordersize .item-after').text(((borderType == Asc.c_oAscStrokeType.STROKE_NONE) ? 0 : borderSizeTransform.sizeByValue(borderSize)) + ' ' + _metricText);
 
                 paletteFillColor && paletteFillColor.on('select',       _.bind(me.onFillColor, me));
                 paletteBorderColor && paletteBorderColor.on('select',   _.bind(me.onBorderColor, me));
@@ -188,13 +195,18 @@ define([
                 paletteFillColor && paletteFillColor.select(color);
 
                 // Init border color
-                var stroke = shapeProperties.get_stroke(),
-                    strokeType = stroke.get_type();
+                me._initBorderColorView();
+            },
 
-                color = 'transparent';
+            _initBorderColorView: function () {
+                var me = this,
+                    paletteBorderColor = me.getView('EditChart').paletteBorderColor,
+                    stroke = _shapeObject.get_stroke();
 
-                if (stroke && strokeType == Asc.c_oAscStrokeType.STROKE_COLOR) {
-                    sdkColor = stroke.get_color();
+                var color = 'transparent';
+
+                if (stroke && stroke.get_type() == Asc.c_oAscStrokeType.STROKE_COLOR) {
+                    var sdkColor = stroke.get_color();
 
                     if (sdkColor) {
                         if (sdkColor.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
@@ -205,6 +217,7 @@ define([
                         }
                     }
                 }
+                _borderColor = color;
 
                 paletteBorderColor && paletteBorderColor.select(color);
                 $('#edit-chart-bordercolor .color-preview').css('background-color', ('transparent' == color) ? color : ('#' + (_.isObject(color) ? color.color : color)))
@@ -292,33 +305,25 @@ define([
                     $target = $(e.currentTarget),
                     value = $target.val(),
                     shape = new Asc.asc_CShapeProperty(),
-                    stroke = new Asc.asc_CStroke(),
-                    currentColor = Common.Utils.ThemeColor.getRgbColor('000000');
+                    stroke = new Asc.asc_CStroke();
 
                 value = borderSizeTransform.sizeByIndex(parseInt(value));
-
-                var currentStroke = _shapeObject.get_stroke();
-
-                if (currentStroke) {
-                    var currentStrokeType = currentStroke.get_type();
-
-                    if (currentStrokeType == Asc.c_oAscStrokeType.STROKE_COLOR) {
-                        currentColor = currentStroke.get_color();
-                    }
-                }
 
                 if (value < 0.01) {
                     stroke.put_type(Asc.c_oAscStrokeType.STROKE_NONE);
                 } else {
                     stroke.put_type(Asc.c_oAscStrokeType.STROKE_COLOR);
-                    stroke.put_color(currentColor);
-                    stroke.asc_putPrstDash(currentStroke.asc_getPrstDash());
+                    if (_borderColor == 'transparent')
+                        stroke.put_color(Common.Utils.ThemeColor.getRgbColor({color: '000000', effectId: 29}));
+                    else
+                        stroke.put_color(Common.Utils.ThemeColor.getRgbColor(Common.Utils.ThemeColor.colorValue2EffectId(_borderColor)));
                     stroke.put_width(value * 25.4 / 72.0);
                 }
 
                 shape.put_stroke(stroke);
 
                 me.api.ShapeApply(shape);
+                me._initBorderColorView(); // when select STROKE_NONE or change from STROKE_NONE to STROKE_COLOR
             },
 
             onBorderSizeChanging: function (e) {
@@ -352,8 +357,9 @@ define([
                 var me = this;
 
                 $('#edit-chart-bordercolor .color-preview').css('background-color', ('transparent' == color) ? color : ('#' + (_.isObject(color) ? color.color : color)));
+                _borderColor = color;
 
-                if (me.api && _shapeObject) {
+                if (me.api && _shapeObject && _shapeObject.get_stroke().get_type() == Asc.c_oAscStrokeType.STROKE_COLOR) {
                     var shape = new Asc.asc_CShapeProperty(),
                         stroke = new Asc.asc_CStroke();
 
