@@ -61,7 +61,7 @@ define([
                 'Common.Views.Chat': {
                     'hide': _.bind(this.onHideChat, this)
                 },
-                'Statusbar': {
+                'Common.Views.Header': {
                     'click:users': _.bind(this.clickStatusbarUsers, this)
                 },
                 'LeftMenu': {

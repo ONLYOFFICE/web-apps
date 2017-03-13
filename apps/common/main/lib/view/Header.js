@@ -51,17 +51,149 @@ define([
 ], function (Backbone, headerTemplate) { 'use strict';
 
     Common.Views.Header =  Backbone.View.extend(_.extend(function(){
-        var templateR = '<section>' +
+        var storeUsers, mode;
+        var $userList, $panelUsers, $btnUsers;
+
+        var templateUserItem =
+                '<li id="status-chat-user-<%= user.get("id") %>" class="<% if (!user.get("online")) { %> offline <% } if (user.get("view")) {%> viewmode <% } %>">' +
+                    '<div class="color" style="background-color: <%= user.get("color") %>;" >' +
+                        '<label class="name"><%= fnEncode(user.get("username")) %></label>' +
+                    '</div>' +
+                '</li>';
+
+        var templateUserList = _.template(
+                '<ul>' +
+                    '<% _.each(users, function(item) { %>' +
+                        '<%= usertpl({user: item, fnEncode: fnEncode}) %>' +
+                    '<% }); %>' +
+                '</ul>');
+
+        var templateRightBox = '<section>' +
                             '<label id="doc-name"></label>' +
                             '<div class="elset">' +
-                                '<span class="btn-slot split" id="slot-btn-back"></span>' +
-                                '<span class="btn-slot" id="slot-btn-users"></span>' +
+                                // '<span class="btn-slot text" id="slot-btn-users"></span>' +
+                                '<section id="tlb-box-users" class="box-cousers dropdown"">' +
+                                    '<div class="btn-users">' +
+                                        '<i class="img-commonctrl icon"></i>' +
+                                        '<label class="caption">&plus;</label>' +
+                                    '</div>' +
+                                    '<div class="cousers-menu dropdown-menu">' +
+                                        '<label id="tlb-users-menu-descr"><%= tipUsers %></label>' +
+                                        '<div class="cousers-list"></div>' +
+                                        '<label id="tlb-change-rights" class="link"><%= txtAccessRights %></label>' +
+                                    '</div>' +
+                                '</section>'+
+                                '<div class="btn-slot split" id="slot-btn-back"></div>' +
                             '</div>' +
                         '</section>';
 
-        var templateL = '<section>' +
-                            '<div id="header-logo"></div>'
-                        '</section>';
+        var templateLeftBox = '<section>' +
+                                '<div id="header-logo"></div>'
+                            '</section>';
+
+        function onAddUser(model, collection, opts) {
+            if ( $userList ) {
+                var $ul = $userList.find('ul');
+                if ( !$ul.length ) {
+                    $userList.html( templateUserList({
+                                        users: collection.models,
+                                        usertpl: _.template(templateUserItem),
+                                        fnEncode: Common.Utils.String.htmlEncode
+                                    })
+                    );
+                } else {
+                    $ul.append( _.template(templateUserItem, {
+                        user: model,
+                        fnEncode: Common.Utils.String.htmlEncode
+                    }) );
+                }
+
+                $userList.scroller && $userList.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true});
+            }
+
+            applyUsers( collection.getOnlineCount() );
+        };
+
+        function onUsersChanged(model, collection) {
+            if (model.changed.online != undefined && $userList) {
+                $userList.find('#status-chat-user-'+ model.get('id'))[model.changed.online ? 'removeClass' : 'addClass']('offline');
+                $userList.scroller && $userList.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true});
+            }
+
+            applyUsers(model.collection.getOnlineCount());
+        };
+
+        function onResetUsers(collection, opts) {
+            var usercount = collection.getOnlineCount();
+            if ( $userList ) {
+                if ( usercount > 1 ) {
+                    $userList.html(templateUserList({
+                        users: collection.models,
+                        usertpl: _.template(templateUserItem),
+                        fnEncode: Common.Utils.String.htmlEncode
+                    }));
+
+                    $userList.scroller = new Common.UI.Scroller({
+                        el: $userList.find('ul'),
+                        useKeyboard: true,
+                        minScrollbarLength: 40,
+                        alwaysVisibleY: true
+                    });
+                } else {
+                    $userList.empty();
+                }
+            }
+
+            applyUsers( usercount );
+        };
+
+        function applyUsers(count) {
+            if ( count > 1 ) {
+                $btnUsers
+                    .attr('data-toggle', 'dropdown')
+                    .addClass('dropdown-toggle')
+                    .menu = true;
+
+                $panelUsers['show']();
+            } else {
+                $btnUsers
+                    .removeAttr('data-toggle')
+                    .removeClass('dropdown-toggle')
+                    .menu = false;
+
+                $panelUsers[(mode && !mode.isReviewOnly && mode.sharingSettingsUrl && mode.sharingSettingsUrl.length) ? 'show' : 'hide']();
+            }
+
+            $btnUsers.find('.caption')
+                .css({'font-size': (count > 1 ? '11px' : '14px'),
+                    'font-weight': (count > 1 ? 'bold' : 'normal'),
+                    'margin-top': (count > 1 ? '0' : '-1px')})
+                .html(count > 1 ? count : '&plus;');
+
+            var usertip = $btnUsers.data('bs.tooltip');
+            if ( usertip ) {
+                usertip.options.title = count > 1 ? usertip.options.titleExt : usertip.options.titleNorm;
+                usertip.setContent();
+            }
+        }
+
+        function onUsersClick(e) {
+            if ( !$btnUsers.menu ) {
+                $panelUsers.removeClass('open');
+                this.fireEvent('click:users', this);
+
+                return false;
+            }
+
+            var usertip = $btnUsers.data('bs.tooltip');
+            if ( usertip ) {
+                if ( usertip.dontShow===undefined)
+                    usertip.dontShow = true;
+
+                usertip.hide();
+            }
+        }
+
         return {
             options: {
                 branding: {},
@@ -104,17 +236,20 @@ define([
                     })
                 });
 
-                me.btnUsers = new Common.UI.Button({
-                    cls: 'btn-toolbar',
-                    iconCls: 'img-commonctrl review-next'
+                storeUsers = DE.getCollection('Common.Collections.Users')
+                storeUsers.bind({
+                    add     : onAddUser,
+                    change  : onUsersChanged,
+                    reset   : onResetUsers
                 });
 
-                (new Promise(function (accept, reject) {
-                    Common.NotificationCenter.on('app:ready', function() { accept(); });
-                })).then(function(){
-                    me.btnGoBack.updateHint(me.textBack);
-                    me.btnUsers.updateHint('Users');
 
+                (new Promise(function (accept, reject) {
+                    Common.NotificationCenter.on('app:ready', function(mode) { accept(mode); });
+                })).then(function(m){
+                    mode = m;
+
+                    me.btnGoBack.updateHint(me.textBack);
                     me.btnGoBack.on('click', function (e) {
                         me.fireEvent('go:back', ['page:current']);
                     });
@@ -129,6 +264,31 @@ define([
                         var newDocumentPage = window.open(_url);
                         newDocumentPage && newDocumentPage.focus();
                     })
+
+                    $panelUsers.on('shown.bs.dropdown', function () {
+                        $userList.scroller && $userList.scroller.update({minScrollbarLength: 40, alwaysVisibleY: true});
+                    });
+
+                    $panelUsers.find('.cousers-menu')
+                        .on('click', function (e) {
+                            return false;
+                        });
+
+                    $btnUsers.tooltip({
+                        title: 'Manage document access rights',
+                        titleNorm: me.tipAccessRights,
+                        titleExt: me.tipViewUsers,
+                        placement: 'bottom',
+                        html: true
+                    });
+
+                    $btnUsers.on('click', onUsersClick.bind(me));
+
+                    var $labelChangeRights = $panelUsers.find('#tlb-change-rights');
+                    $labelChangeRights.on('click', onUsersClick.bind(me));
+
+                    $labelChangeRights[(!mode.isOffline && !mode.isReviewOnly && mode.sharingSettingsUrl && mode.sharingSettingsUrl.length)?'show':'hide']();
+                    $panelUsers[(storeUsers.size() > 1 || !mode.isOffline && !mode.isReviewOnly && mode.sharingSettingsUrl && mode.sharingSettingsUrl.length) ? 'show' : 'hide']();
                 });
             },
 
@@ -140,16 +300,18 @@ define([
 
             getPanel: function (role) {
                 if ( role == 'left' ) {
-                    $html = $(templateL);
+                    $html = $(templateLeftBox);
                     this.logo = $html.find('#header-logo');
                     return $html;
                 } else
                 if ( role == 'right' ) {
-                    var $html = $(templateR);
+                    var $html = $(_.template(templateRightBox, {
+                        tipUsers: this.labelCoUsersDescr,
+                        txtAccessRights: this.txtAccessRights
+                    }));
 
                     if ( this.canBack === true ) {
                         this.btnGoBack.render($html.find('#slot-btn-back'));
-                        this.btnUsers.render($html.find('#slot-btn-users'));
                     }
 
                     if ( this.documentCaption ) {
@@ -158,6 +320,11 @@ define([
                     }
 
                     this.labelDocName = $html.find('#doc-name');
+                    $userList = $html.find('.cousers-list');
+                    $panelUsers = $html.find('.box-cousers');
+                    $btnUsers = $html.find('.btn-users');
+
+                    $panelUsers.hide();
 
                     return $html;
                 }

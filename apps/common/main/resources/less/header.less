@@ -71,6 +71,11 @@
 
     &.left {
         min-width: 150px;
+        padding-left: 12px;
+    }
+
+    &.right {
+        padding-right: 12px;
     }
 
     #doc-name {
@@ -85,5 +90,94 @@
         .background-ximage('@{app-image-path}/logo.png', '@{app-image-path}/logo.png', 240px);
         background-size: contain;
         background-repeat: no-repeat;
+    }
+}
+
+#tlb-box-users {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+#tlb-change-rights {
+    margin-top: 15px;
+}
+
+#slot-btn-back {
+    float: right;
+}
+
+.btn-users {
+    display: inline-flex;
+    cursor: pointer;
+    padding: 0 7px;
+
+    .icon {
+        display: inline-block;
+        background-position: -14px -197px;
+        width: 20px;
+        height: 20px;
+    }
+
+    .caption {
+        cursor: pointer;
+        font-size: 14px;
+    }
+}
+
+//.icusers {background-position: -14px -197px;}
+//button.active   > .icusers,
+//button:active   > .icusers {background-position: -14px -197px !important;}
+
+.cousers-menu {
+    position: fixed;
+    top: @height-tabs - 8px;
+    left: 100%;
+    margin-left: -285px;
+
+    padding: 14px;
+    width: 285px;
+    font-size: 12px;
+
+    > label {
+        white-space: normal;
+    }
+
+    .cousers-list {
+        margin-top: 15px;
+
+        ul {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            max-height: 190px;
+            position: relative;
+
+            li {
+                list-style: none;
+                padding: 2px 0;
+                overflow: hidden;
+
+                &.offline, &.viewmode {
+                    display: none;
+                }
+            }
+        }
+
+        .color {
+            width: 12px;
+            height: 12px;
+            display: inline-block;
+            vertical-align: middle;
+            border: 1px solid @gray-dark;
+        }
+
+        .name {
+            display: block;
+            padding-left: 16px;
+            margin-top: -3px;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            vertical-align: middle;
+        }
     }
 }

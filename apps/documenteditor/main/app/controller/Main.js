@@ -763,7 +763,7 @@ define([
                 if (this._isDocReady)
                     return;
 
-                Common.NotificationCenter.trigger('app:ready');
+                Common.NotificationCenter.trigger('app:ready', [this.appOptions]);
 
                 var me = this,
                     value;
