@@ -54,7 +54,7 @@ define([
         getOnlineCount: function() {
             var count = 0;
             this.each(function(user){
-                user.online && count++;
+                user.get('online') && ++count;
             });
 
             return count;
