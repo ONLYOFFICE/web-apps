@@ -151,8 +151,7 @@ define([
                 var color = _fontInfo.asc_getColor(),
                     clr = me._sdkToThemeColor(color);
 
-                $('#text-color .color-preview').css('background-color', '#' + (_.isObject(clr) ? clr.color : clr));
-
+                $('#font-color .color-preview').css('background-color', '#' + (_.isObject(clr) ? clr.color : clr));
 
                 // Align
                 $('#edit-text-align-block').css('display', (_textIn == TextType.inShape) ? 'block' : 'none');
@@ -279,7 +278,7 @@ define([
 
             onTextColor:function (palette, color) {
                 this.api.asc_setCellTextColor(Common.Utils.ThemeColor.getRgbColor(color));
-                $('#text-color .color-preview').css('background-color', '#' + (_.isObject(color) ? color.color : color));
+                $('#font-color .color-preview').css('background-color', '#' + (_.isObject(color) ? color.color : color));
             },
 
             onHAlignChange: function (e) {

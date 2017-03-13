@@ -96,7 +96,7 @@
                         info: 'Some info',
                         logo: ''
                     },
-                    about: false,
+                    about: true,
                     feedback: {
                         visible: false,
                         url: http://...
@@ -521,7 +521,8 @@
             var data = {
                 type: evt.type,
                 x: evt.x - r.left,
-                y: evt.y - r.top
+                y: evt.y - r.top,
+                event: evt
             };
 
             _sendCommand({
@@ -568,7 +569,7 @@
             lang: 'en',
             canCoAuthoring: true,
             customization: {
-                about: false,
+                about: true,
                 feedback: false
             }
         }
