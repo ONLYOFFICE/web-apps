@@ -695,12 +695,15 @@ define([
                     (new SSE.Views.ChartSettingsDlg(
                         {
                             chartSettings: props,
+                            imageSettings: item.chartInfo,
                             isChart: true,
                             api: me.api,
                             handler: function(result, value) {
                                 if (result == 'ok') {
                                     if (me.api) {
                                         me.api.asc_editChartDrawingObject(value.chartSettings);
+                                        if (value.imageSettings)
+                                            me.api.asc_setGraphicObjectProps(value.imageSettings);
                                     }
                                 }
                                 Common.NotificationCenter.trigger('edit:complete', me);
@@ -1205,6 +1208,7 @@ define([
                                 isshapemenu = true;
                             }
                         } else if ( elValue.asc_getChartProperties() ) {
+                            documentHolder.mnuChartEdit.chartInfo = elValue;
                             ischartmenu = true;
                             has_chartprops = true;
                         } 
