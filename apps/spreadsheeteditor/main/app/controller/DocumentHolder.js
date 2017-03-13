@@ -1663,9 +1663,6 @@ define([
                     menu.addItem(mnu);
                 });
                 (menu.items.length>0) && menu.items[0].setChecked(true, true);
-
-                Common.UI.Menu.Manager.hideAll();
-
             }
             if (coord.asc_getX()<0 || coord.asc_getY()<0) {
                 if (pasteContainer.is(':visible')) pasteContainer.hide();
