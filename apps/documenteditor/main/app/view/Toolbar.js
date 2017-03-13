@@ -72,8 +72,7 @@ define([
                 { caption: 'File', action: 'file'},
                 { caption: 'Home', action: 'home'},
                 { caption: 'Insert', action: 'ins'},
-                { caption: 'Page Layout', action: 'layout'},
-                { caption: 'Plugins', action: 'plugins' }
+                { caption: 'Page Layout', action: 'layout'}
             ]
         };
 

@@ -45,12 +45,12 @@
  *  <button type="button" class="btn" id="id-button">Caption</button>
  *
  *  A simple button with icon:
- *  <button type="button" class="btn" id="id-button"><span class="btn-icon">&nbsp;</span></button>
+ *  <button type="button" class="btn" id="id-button"><span class="icon">&nbsp;</span></button>
  *
  *  A button with menu:
  *  <div class="btn-group" id="id-button">
  *      <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">
- *          <span class="btn-icon">&nbsp;</span>
+ *          <span class="icon">&nbsp;</span>
  *          <span class="caret"></span>
  *      </button>
  *      <ul class="dropdown-menu" role="menu">
@@ -59,7 +59,7 @@
  *
  *  A split button:
  *  <div class="btn-group split" id="id-button">
- *      <button type="button" class="btn"><span class="btn-icon">&nbsp;</span></button>
+ *      <button type="button" class="btn"><span class="icon">&nbsp;</span></button>
  *      <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">
  *          <span class="caret"></span>
  *          <span class="sr-only"></span>
@@ -120,9 +120,13 @@ define([
     'use strict';
 
     var templateHugeCaption =
-        '<div class="btn-group" id="<%= id %>" style="<%= style %>">' +
+        '<div class="btn-group icon-top" id="<%= id %>" style="<%= style %>">' +
             '<button type="button" class="btn dropdown-toggle <%= cls %>" data-toggle="dropdown">' +
-                '<i class="icon <%= iconCls %>">&nbsp;</i>' +
+                '<% if ( iconImg ) { %>' +
+                    '<img src="<%= iconImg %>">' +
+                '<% } else { %>' +
+                    '<i class="icon <%= iconCls %>">&nbsp;</i>' +
+                '<% } %>' +
                 '<div class="inner-box-caption">' +
                     '<span class="caption"><%= caption %></span>' +
                     '<span class="caret img-commonctrl"></span>' +
@@ -158,7 +162,7 @@ define([
         },
 
         template: _.template([
-            '<% if (menu == null) { %>',
+            '<% if ( !menu ) { %>',
                 '<button type="button" class="btn <%= cls %>" id="<%= id %>" style="<%= style %>">',
                     '<% if (iconCls != "") { %>',
                         '<i class="icon <%= iconCls %>">&nbsp;</i>',
@@ -202,6 +206,7 @@ define([
             me.allowDepress = me.options.allowDepress;
             me.cls          = me.options.cls;
             me.iconCls      = me.options.iconCls;
+            me.iconImg      = me.options.iconImg,
             me.menu         = me.options.menu;
             me.split        = me.options.split;
             me.toggleGroup  = me.options.toggleGroup;
@@ -242,6 +247,7 @@ define([
                         id           : me.id,
                         cls          : me.cls,
                         iconCls      : me.iconCls,
+                        iconImg      : me.iconImg,
                         menu         : me.menu,
                         split        : me.split,
                         disabled     : me.disabled,

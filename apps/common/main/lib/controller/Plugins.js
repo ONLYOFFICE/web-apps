@@ -53,6 +53,17 @@ define([
         ],
 
         initialize: function() {
+            var me = this;
+            this.addListeners({
+                'Toolbar': {
+                    'render:before' : function (toolbar) {
+                        var tab = {action: 'plugins', caption: 'Addons'};
+                        var $panel = me.panelPlugins.getPanel();
+
+                        toolbar.addTab(tab, $panel, 'review');
+                    }
+                }
+            });
         },
 
         events: function() {
@@ -85,6 +96,12 @@ define([
         setMode: function(mode) {
             if (mode.canPlugins) {
                 this.updatePluginsList();
+
+                var toolbar = this.getApplication().getController('Toolbar').getView('Toolbar');
+                var $panel = toolbar.$el.find('#plugins-panel');
+                if ( $panel ) {
+                    this.panelPlugins.renderTo( $panel );
+                }
             }
         },
 

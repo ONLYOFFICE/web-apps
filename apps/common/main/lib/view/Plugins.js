@@ -117,6 +117,51 @@ define([
             return this;
         },
 
+        getPanel: function () {
+            var _panel = $('<section id="plugins-panel" class="panel" data-tab="plugins"></section>');
+            if ( !this.storePlugins.isEmpty() ) {
+                var _group = $('<div class="group"></div>');
+                this.storePlugins.each(function (model) {
+                    var btn = new Common.UI.Button({
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'img-commonctrl review-prev',
+                        caption: model.get('name'),
+                        value: model.get('guid')
+                    });
+
+                    var $slot = $('<span class="slot"></span>').appendTo(_group);
+                    btn.render($slot);
+                });
+
+                _group.appendTo(_panel);
+            }
+
+            return _panel;
+        },
+
+        renderTo: function (parent) {
+            if ( !this.storePlugins.isEmpty() ) {
+                var _group = $('<div class="group"></div>');
+                this.storePlugins.each(function (model) {
+                    var modes = model.get('variations');
+                    var _icon_url = model.get('baseUrl') + modes[model.get('currentVariation')].get('icons')[(window.devicePixelRatio > 1) ? 1 : 0];
+                    var btn = new Common.UI.Button({
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'img-commonctrl review-prev',
+                        iconImg: _icon_url,
+                        caption: model.get('name'),
+                        menu: modes && modes.length > 1,
+                        value: model.get('guid')
+                    });
+
+                    var $slot = $('<span class="slot"></span>').appendTo(_group);
+                    btn.render($slot);
+                });
+
+                parent.html(_group);
+            }
+        },
+
         setLocked: function (locked) {
             this._locked = locked;
         },
