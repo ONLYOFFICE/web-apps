@@ -96,7 +96,7 @@
                         info: 'Some info',
                         logo: ''
                     },
-                    about: false,
+                    about: true,
                     feedback: {
                         visible: false,
                         url: http://...
@@ -568,7 +568,7 @@
             lang: 'en',
             canCoAuthoring: true,
             customization: {
-                about: false,
+                about: true,
                 feedback: false
             }
         }
