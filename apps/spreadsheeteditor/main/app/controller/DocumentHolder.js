@@ -1624,7 +1624,7 @@ define([
                 me._arrSpecialPaste[Asc.c_oSpecialPasteProps.sourceformatting] = me.txtPasteSourceFormat;
                 me._arrSpecialPaste[Asc.c_oSpecialPasteProps.destinationFormatting] = me.txtPasteDestFormat;
 
-                pasteContainer = $('<div id="special-paste-container" style="position: absolute;"><div id="id-document-holder-btn-special-paste"></div></div>');
+                pasteContainer = $('<div id="special-paste-container" style="position: absolute; z-index: 10000;"><div id="id-document-holder-btn-special-paste"></div></div>');
                 documentHolderView.cmpEl.append(pasteContainer);
 
                 me.btnSpecialPaste = new Common.UI.Button({
