@@ -461,7 +461,7 @@
                         </li>
                     </ul>
                 </div>
-                <div class="content-block-title"><%= scope.textTickOptions %>Tick Options</div>
+                <div class="content-block-title"><%= scope.textTickOptions %></div>
                 <div class="list-block">
                     <ul>
                         <li>
@@ -480,7 +480,7 @@
                                 <select name="vertical-axis-tick-minor"></select>
                                 <div class="item-content">
                                     <div class="item-inner">
-                                        <div class="item-title"><%= scope.textMajorType %></div>
+                                        <div class="item-title"><%= scope.textMinorType %></div>
                                         <div class="item-after"><%= scope.textNone %></div>
                                     </div>
                                 </div>
@@ -596,7 +596,7 @@
                                 <select name="horizontal-axis-tick-minor"></select>
                                 <div class="item-content">
                                     <div class="item-inner">
-                                        <div class="item-title"><%= scope.textMajorType %></div>
+                                        <div class="item-title"><%= scope.textMinorType %></div>
                                         <div class="item-after"><%= scope.textNone %></div>
                                     </div>
                                 </div>

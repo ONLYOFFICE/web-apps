@@ -326,6 +326,7 @@
   "SSE.Views.EditChart.textMajorType": "Major Type",
   "SSE.Views.EditChart.textMaxValue": "Maximum Value",
   "SSE.Views.EditChart.textMinor": "Minor",
+  "SSE.Views.EditChart.textMinorType": "Minor Type",
   "SSE.Views.EditChart.textMinValue": "Minimum Value",
   "SSE.Views.EditChart.textNone": "None",
   "SSE.Views.EditChart.textNoOverlay": "No Overlay",
