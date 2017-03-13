@@ -521,7 +521,8 @@
             var data = {
                 type: evt.type,
                 x: evt.x - r.left,
-                y: evt.y - r.top
+                y: evt.y - r.top,
+                event: evt
             };
 
             _sendCommand({

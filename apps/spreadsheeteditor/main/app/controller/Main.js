@@ -363,7 +363,7 @@ define([
                     var editor = document.getElementById('editor_sdk');
                     if (editor) {
                         var rect = editor.getBoundingClientRect();
-                        var event = window.event || arguments.callee.caller.arguments[0];
+                        var event = data.event || {};
                         this.api.asc_onMouseUp(event, data.x - rect.left, data.y - rect.top);
                     }
                 }
