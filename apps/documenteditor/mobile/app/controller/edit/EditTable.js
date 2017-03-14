@@ -212,7 +212,7 @@ define([
                 $('#table-option-repeatasheader input').prop('checked', _tableObject.get_RowsInHeader());
                 $('#table-option-resizetofit input').prop('checked', _tableObject.get_TableLayout()==Asc.c_oAscTableLayout.AutoFit);
 
-                var margins = _tableObject.get_DefaultMargins();
+                var margins = _tableObject.get_CellMargins();
                 if (margins) {
                     var distance = Common.Utils.Metric.fnRecalcFromMM(margins.get_Left());
                     $('#table-options-margins input').val(distance);
@@ -317,7 +317,7 @@ define([
                 //         }
                 //     });
                 // }
-                
+
                 $('#edit-table-bordersize input').val([borderSizeTransform.indexSizeByValue(_cellBorderWidth)]);
                 $('#edit-table-bordersize .item-after').text(borderSizeTransform.sizeByValue(_cellBorderWidth) + ' ' + _metricText);
 
