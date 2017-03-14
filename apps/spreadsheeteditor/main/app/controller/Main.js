@@ -447,6 +447,12 @@ define([
                         title   = this.saveTitleText;
                         break;
 
+                    case Asc.c_oAscAsyncAction.ForceSaveTimeout:
+                        break;
+
+                    case Asc.c_oAscAsyncAction.ForceSaveButton:
+                        break;
+
                     case Asc.c_oAscAsyncAction.LoadDocumentFonts:
                         title   = this.loadFontsTitleText;
                         break;
@@ -656,6 +662,12 @@ define([
                     }
                     me.api.asc_setAutoSaveGap(value);
 
+                    if (me.appOptions.canForcesave) {// use asc_setIsForceSaveOnUserSave only when customization->forcesave = true
+                        value = Common.localStorage.getItem("sse-settings-forcesave");
+                        me.appOptions.forcesave = (value === null) ? me.appOptions.canForcesave : (parseInt(value) == 1);
+                        me.api.asc_setIsForceSaveOnUserSave(me.appOptions.forcesave);
+                    }
+
                     if (me.needToUpdateVersion) {
                         Common.NotificationCenter.trigger('api:disconnect');
                         toolbarController.onApiCoAuthoringDisconnect();
@@ -813,6 +825,9 @@ define([
                 this.appOptions.isEdit         = (this.appOptions.canLicense || this.appOptions.isEditDiagram || this.appOptions.isEditMailMerge) && this.permissions.edit !== false && this.editorConfig.mode !== 'view';
                 this.appOptions.canDownload    = !this.appOptions.nativeApp && (this.permissions.download !== false);
                 this.appOptions.canPrint       = (this.permissions.print !== false);
+                this.appOptions.canForcesave   = this.appOptions.isEdit && !this.appOptions.isOffline && !(this.appOptions.isEditDiagram || this.appOptions.isEditMailMerge) &&
+                                                (typeof (this.editorConfig.customization) == 'object' && this.editorConfig.customization.forcesave);
+                this.appOptions.forcesave      = this.appOptions.canForcesave;
 
                 this._state.licenseWarning = !(this.appOptions.isEditDiagram || this.appOptions.isEditMailMerge) && (licType===Asc.c_oLicenseResult.Connections) && this.appOptions.canEdit && this.editorConfig.mode !== 'view';
 
@@ -1333,18 +1348,20 @@ define([
                 Common.Gateway.setDocumentModified(change);
 
                 if (this.toolbarView && this.api) {
-                    var isSyncButton = $('.btn-icon', this.toolbarView.btnSave.cmpEl).hasClass('btn-synch');
+                    var isSyncButton = $('.btn-icon', this.toolbarView.btnSave.cmpEl).hasClass('btn-synch'),
+                        forcesave = this.appOptions.forcesave;
                     var cansave = this.api.asc_isDocumentCanSave();
-                    if (this.toolbarView.btnSave.isDisabled() !== (!cansave && !isSyncButton || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1))
-                        this.toolbarView.btnSave.setDisabled(!cansave && !isSyncButton || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1);
+                    if (this.toolbarView.btnSave.isDisabled() !== (!cansave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave))
+                        this.toolbarView.btnSave.setDisabled(!cansave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave);
                 }
             },
 
             onDocumentCanSaveChanged: function (isCanSave) {
                 if (this.toolbarView) {
-                    var isSyncButton = $('.btn-icon', this.toolbarView.btnSave.cmpEl).hasClass('btn-synch');
-                    if (this.toolbarView.btnSave.isDisabled() !== (!isCanSave && !isSyncButton || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1))
-                        this.toolbarView.btnSave.setDisabled(!isCanSave && !isSyncButton || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1);
+                    var isSyncButton = $('.btn-icon', this.toolbarView.btnSave.cmpEl).hasClass('btn-synch'),
+                        forcesave = this.appOptions.forcesave;
+                    if (this.toolbarView.btnSave.isDisabled() !== (!isCanSave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave))
+                        this.toolbarView.btnSave.setDisabled(!isCanSave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave);
                 }
             },
 
@@ -1795,6 +1812,11 @@ define([
                     this._state.fastCoauth = (value===null || parseInt(value) == 1);
                     if (this._state.fastCoauth && !oldval)
                         this.toolbarView.synchronizeChanges();
+                }
+                if (this.appOptions.canForcesave) {
+                    value = Common.localStorage.getItem("sse-settings-forcesave");
+                    this.appOptions.forcesave = (value===null) ? this.appOptions.canForcesave : (parseInt(value)==1);
+                    this.api.asc_setIsForceSaveOnUserSave(this.appOptions.forcesave);
                 }
             },
 

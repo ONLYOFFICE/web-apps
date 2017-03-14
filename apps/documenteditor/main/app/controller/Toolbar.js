@@ -854,13 +854,13 @@ define([
             if (this.api) {
                 var isModified = this.api.asc_isDocumentCanSave();
                 var isSyncButton = $('.btn-icon', this.toolbar.btnSave.cmpEl).hasClass('btn-synch');
-                if (!isModified && !isSyncButton)
+                if (!isModified && !isSyncButton && !this.toolbar.mode.forcesave)
                     return;
 
                 this.api.asc_Save();
             }
 
-            this.toolbar.btnSave.setDisabled(true);
+            this.toolbar.btnSave.setDisabled(!this.toolbar.mode.forcesave);
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
 

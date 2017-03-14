@@ -1075,6 +1075,8 @@
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtPl": "Polish",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtRu": "Russian",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtWin": "as Windows",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.textForceSave": "Save to Server",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strForcesave": "Always save to server (otherwise save to server on document close)",
   "SSE.Views.FileMenuPanels.Settings.txtGeneral": "General",
   "SSE.Views.FileMenuPanels.Settings.txtPageSettings": "Page Settings",
   "SSE.Views.FormatSettingsDialog.textCancel": "Cancel",

@@ -356,10 +356,11 @@ define([
 
                 application.getController('DocumentHolder').getView('DocumentHolder').focus();
                 if (this.api && this.api.asc_isDocumentCanSave) {
-                    var cansave = this.api.asc_isDocumentCanSave();
+                    var cansave = this.api.asc_isDocumentCanSave(),
+                        forcesave = this.appOptions.forcesave;
                     var isSyncButton = $('.btn-icon', toolbarView.btnSave.cmpEl).hasClass('btn-synch');
-                    if (toolbarView.btnSave.isDisabled() !== (!cansave && !isSyncButton || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1))
-                        toolbarView.btnSave.setDisabled(!cansave && !isSyncButton || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1);
+                    if (toolbarView.btnSave.isDisabled() !== (!cansave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave))
+                        toolbarView.btnSave.setDisabled(!cansave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave);
                 }
             },
 
@@ -384,16 +385,19 @@ define([
                 if (action) {
                     this.setLongActionView(action)
                 } else {
-                    if (this._state.fastCoauth && this._state.usersCount>1 && id==Asc.c_oAscAsyncAction['Save']) {
-                        var me = this;
-                        if (me._state.timerSave===undefined)
-                            me._state.timerSave = setInterval(function(){
-                                if ((new Date()) - me._state.isSaving>500) {
-                                    clearInterval(me._state.timerSave);
-                                    me.getApplication().getController('Statusbar').setStatusCaption('');
-                                    me._state.timerSave = undefined;
-                                }
-                            }, 500);
+                    if (id==Asc.c_oAscAsyncAction['Save'] || id==Asc.c_oAscAsyncAction['ForceSaveButton']) {
+                        if (this._state.fastCoauth && this._state.usersCount>1) {
+                            var me = this;
+                            if (me._state.timerSave===undefined)
+                                me._state.timerSave = setInterval(function(){
+                                    if ((new Date()) - me._state.isSaving>500) {
+                                        clearInterval(me._state.timerSave);
+                                        me.getApplication().getController('Statusbar').setStatusCaption(me.textChangesSaved, false, 3000);
+                                        me._state.timerSave = undefined;
+                                    }
+                                }, 500);
+                        } else
+                            this.getApplication().getController('Statusbar').setStatusCaption(this.textChangesSaved, false, 3000);
                     } else
                         this.getApplication().getController('Statusbar').setStatusCaption('');
                 }
@@ -401,7 +405,7 @@ define([
                 action = this.stackLongActions.get({type: Asc.c_oAscAsyncActionType.BlockInteraction});
                 action ? this.setLongActionView(action) : this.loadMask && this.loadMask.hide();
 
-                if (id==Asc.c_oAscAsyncAction['Save'] && (!this._state.fastCoauth || this._state.usersCount<2))
+                if ((id==Asc.c_oAscAsyncAction['Save'] || id==Asc.c_oAscAsyncAction['ForceSaveButton']) && (!this._state.fastCoauth || this._state.usersCount<2))
                     this.synchronizeChanges();
 
                if (type == Asc.c_oAscAsyncActionType.BlockInteraction && !((id == Asc.c_oAscAsyncAction['LoadDocumentFonts'] || id == Asc.c_oAscAsyncAction['ApplyChanges']) && this.dontCloseDummyComment )) {
@@ -411,7 +415,7 @@ define([
             },
 
             setLongActionView: function(action) {
-                var title = '', text = '';
+                var title = '', text = '', force = false;
 
                 switch (action.id) {
                     case Asc.c_oAscAsyncAction['Open']:
@@ -420,9 +424,14 @@ define([
                         break;
 
                     case Asc.c_oAscAsyncAction['Save']:
+                    case Asc.c_oAscAsyncAction['ForceSaveButton']:
                         this._state.isSaving = new Date();
+                        force = true;
                         title   = this.saveTitleText;
                         text    = this.saveTextText;
+                        break;
+
+                    case Asc.c_oAscAsyncAction['ForceSaveTimeout']:
                         break;
 
                     case Asc.c_oAscAsyncAction['LoadDocumentFonts']:
@@ -496,7 +505,7 @@ define([
                         this.loadMask.show();
                 }
                 else {
-                    this.getApplication().getController('Statusbar').setStatusCaption(text);
+                    this.getApplication().getController('Statusbar').setStatusCaption(text, force);
                 }
             },
 
@@ -666,6 +675,12 @@ define([
                     value = (!me._state.fastCoauth && value!==null) ? parseInt(value) : (me.appOptions.canCoAuthoring ? 1 : 0);
                     me.api.asc_setAutoSaveGap(value);
 
+                    if (me.appOptions.canForcesave) {// use asc_setIsForceSaveOnUserSave only when customization->forcesave = true
+                        value = Common.localStorage.getItem("pe-settings-forcesave");
+                        me.appOptions.forcesave = (value===null) ? me.appOptions.canForcesave : (parseInt(value)==1);
+                        me.api.asc_setIsForceSaveOnUserSave(me.appOptions.forcesave);
+                    }
+
                     if (me.needToUpdateVersion)
                         Common.NotificationCenter.trigger('api:disconnect');
                     var timer_sl = setInterval(function(){
@@ -778,6 +793,8 @@ define([
                 this.appOptions.canChat        = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit) && !this.appOptions.isOffline && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.chat===false);
                 this.appOptions.canPrint       = (this.permissions.print !== false);
                 this.appOptions.canRename      = !!this.permissions.rename;
+                this.appOptions.canForcesave   = this.appOptions.isEdit && !this.appOptions.isOffline && (typeof (this.editorConfig.customization) == 'object' && this.editorConfig.customization.forcesave);
+                this.appOptions.forcesave      = this.appOptions.canForcesave;
 
                 this._state.licenseWarning = (licType===Asc.c_oLicenseResult.Connections) && this.appOptions.canEdit && this.editorConfig.mode !== 'view';
 
@@ -1157,9 +1174,11 @@ define([
                     if (window.document.title != title)
                         window.document.title = title;
 
-                    if (!this._state.fastCoauth || this._state.usersCount<2 )
+                    if (!this._state.fastCoauth || this._state.usersCount<2 ) {
                         Common.Gateway.setDocumentModified(isModified);
-                    else if ( this._state.startModifyDocument!==undefined && this._state.startModifyDocument === isModified){
+                        if (isModified)
+                            this.getApplication().getController('Statusbar').setStatusCaption('', true);
+                    } else if ( this._state.startModifyDocument!==undefined && this._state.startModifyDocument === isModified){
                         Common.Gateway.setDocumentModified(isModified);
                         this._state.startModifyDocument = (this._state.startModifyDocument) ? !this._state.startModifyDocument : undefined;
                     }
@@ -1183,9 +1202,10 @@ define([
 
                 var toolbarView = this.getApplication().getController('Toolbar').getView('Toolbar');
                 if (toolbarView) {
-                    var isSyncButton = $('.btn-icon', toolbarView.btnSave.cmpEl).hasClass('btn-synch');
-                    if (toolbarView.btnSave.isDisabled() !== (!isModified && !isSyncButton || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1))
-                        toolbarView.btnSave.setDisabled(!isModified && !isSyncButton || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1);
+                    var isSyncButton = $('.btn-icon', toolbarView.btnSave.cmpEl).hasClass('btn-synch'),
+                        forcesave = this.appOptions.forcesave;
+                    if (toolbarView.btnSave.isDisabled() !== (!isModified && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave))
+                        toolbarView.btnSave.setDisabled(!isModified && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave);
                 }
             },
             onDocumentCanSaveChanged: function (isCanSave) {
@@ -1193,9 +1213,10 @@ define([
                     toolbarController = application.getController('Toolbar'),
                     toolbarView = toolbarController.getView('Toolbar');
                 if (toolbarView) {
-                    var isSyncButton = $('.btn-icon', toolbarView.btnSave.cmpEl).hasClass('btn-synch');
-                    if (toolbarView.btnSave.isDisabled() !== (!isCanSave && !isSyncButton || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1))
-                        toolbarView.btnSave.setDisabled(!isCanSave && !isSyncButton || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1);
+                    var isSyncButton = $('.btn-icon', toolbarView.btnSave.cmpEl).hasClass('btn-synch'),
+                        forcesave = this.appOptions.forcesave;
+                    if (toolbarView.btnSave.isDisabled() !== (!isCanSave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave))
+                        toolbarView.btnSave.setDisabled(!isCanSave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave);
                 }
             },
 
@@ -1306,7 +1327,7 @@ define([
                 if (this._state.hasCollaborativeChanges) return;
                 this._state.hasCollaborativeChanges = true;
                 if (this.appOptions.isEdit)
-                    this.getApplication().getController('Statusbar').setStatusCaption(this.txtNeedSynchronize);
+                    this.getApplication().getController('Statusbar').setStatusCaption(this.txtNeedSynchronize, true);
             },
             /** coauthoring end **/
 
@@ -1544,6 +1565,11 @@ define([
                     this._state.fastCoauth = (value===null || parseInt(value) == 1);
                     if (this._state.fastCoauth && !oldval)
                         this.synchronizeChanges();
+                }
+                if (this.appOptions.canForcesave) {
+                    value = Common.localStorage.getItem("pe-settings-forcesave");
+                    this.appOptions.forcesave = (value===null) ? this.appOptions.canForcesave : (parseInt(value)==1);
+                    this.api.asc_setIsForceSaveOnUserSave(this.appOptions.forcesave);
                 }
             },
 
@@ -1937,7 +1963,8 @@ define([
             errorSessionToken: 'The connection to the server has been interrupted. Please reload the page.',
             errorAccessDeny: 'You are trying to perform an action you do not have rights for.<br>Please contact your Document Server administrator.',
             titleServerVersion: 'Editor updated',
-            errorServerVersion: 'The editor version has been updated. The page will be reloaded to apply the changes.'
+            errorServerVersion: 'The editor version has been updated. The page will be reloaded to apply the changes.',
+            textChangesSaved: 'All changes saved'
         }
     })(), PE.Controllers.Main || {}))
 });
