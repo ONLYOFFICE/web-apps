@@ -895,9 +895,11 @@ define([
 
                     me.api.asc_setAutoSaveGap(value);
 
-                    value = Common.localStorage.getItem("de-settings-forcesave");
-                    me.appOptions.forcesave = (value===null) ? me.appOptions.forcesave : (parseInt(value)==1);
-                    me.api.asc_setIsForceSaveOnUserSave(me.appOptions.forcesave);
+                    if (me.appOptions.canForcesave) {// use asc_setIsForceSaveOnUserSave only when customization->forcesave = true
+                        value = Common.localStorage.getItem("de-settings-forcesave");
+                        me.appOptions.forcesave = (value===null) ? me.appOptions.canForcesave : (parseInt(value)==1);
+                        me.api.asc_setIsForceSaveOnUserSave(me.appOptions.forcesave);
+                    }
 
                     if (me.needToUpdateVersion)
                         Common.NotificationCenter.trigger('api:disconnect');
@@ -1022,7 +1024,8 @@ define([
                 this.appOptions.canPrint       = (this.permissions.print !== false);
                 this.appOptions.canRename      = !!this.permissions.rename;
                 this.appOptions.buildVersion   = params.asc_getBuildVersion();
-                this.appOptions.forcesave      = this.appOptions.isEdit && (typeof (this.editorConfig.customization) == 'object' && this.editorConfig.customization.forcesave);
+                this.appOptions.canForcesave   = this.appOptions.isEdit && !this.appOptions.isOffline && (typeof (this.editorConfig.customization) == 'object' && this.editorConfig.customization.forcesave);
+                this.appOptions.forcesave      = this.appOptions.canForcesave;
 
                 var type = /^(?:(pdf|djvu|xps))$/.exec(this.document.fileType);
                 this.appOptions.canDownloadOrigin = !this.appOptions.nativeApp && this.permissions.download !== false && (type && typeof type[1] === 'string');
@@ -1820,9 +1823,9 @@ define([
                     if (this._state.fastCoauth && !oldval)
                         this.synchronizeChanges();
                 }
-                if (this.appOptions.isEdit) {
+                if (this.appOptions.canForcesave) {
                     value = Common.localStorage.getItem("de-settings-forcesave");
-                    this.appOptions.forcesave = (value===null) ? (typeof (this.appOptions.customization) == 'object' && this.appOptions.customization.forcesave) : (parseInt(value)==1);
+                    this.appOptions.forcesave = (value===null) ? this.appOptions.canForcesave : (parseInt(value)==1);
                     this.api.asc_setIsForceSaveOnUserSave(this.appOptions.forcesave);
                 }
             },
