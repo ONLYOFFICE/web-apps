@@ -30,7 +30,9 @@
                     <div class="user-message"><%=scope.pickLink(item.get("reply"))%></div>
                     <% if (!hint) { %>
                         <div class="btns-reply-ct">
-                            <div class="btn-edit img-commonctrl" data-value="<%=item.get("id")%>"></div>
+                            <% if (item.get("editable")) { %>
+                                <div class="btn-edit img-commonctrl" data-value="<%=item.get("id")%>"></div>
+                            <%}%>
                             <div class="btn-delete img-commonctrl" data-value="<%=item.get("id")%>"></div>
                         </div>
                     <%}%>
@@ -60,7 +62,9 @@
 
     <% if (!editTextInPopover && !lock && !hint) { %>
         <div class="edit-ct">
-            <div class="btn-edit img-commonctrl"></div>
+            <% if (editable) { %>
+                <div class="btn-edit img-commonctrl"></div>
+            <% } %>
             <div class="btn-delete img-commonctrl"></div>
             <% if (resolved) { %>
             <div class="btn-resolve-check img-commonctrl" data-toggle="tooltip"></div>

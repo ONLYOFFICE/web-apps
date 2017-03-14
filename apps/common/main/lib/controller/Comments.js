@@ -692,7 +692,8 @@ define([
                         editText            : false,
                         editTextInPopover   : false,
                         showReplyInPopover  : false,
-                        scope               : t.view
+                        scope               : t.view,
+                        editable            : t.mode.canEditComments || (data.asc_getReply(i).asc_getUserId() == t.currentUserId)
                     }));
                 }
 
@@ -1041,7 +1042,8 @@ define([
                 editTextInPopover   : (this.editPopover ? true : false),
                 showReplyInPopover  : false,
                 hideAddReply        : !_.isUndefined(this.hidereply) ? this.hidereply : (this.showPopover ? true : false),
-                scope               : this.view
+                scope               : this.view,
+                editable            : this.mode.canEditComments || (data.asc_getUserId() == this.currentUserId)
             });
             if (comment) {
                 var replies = this.readSDKReplies(data);
@@ -1072,7 +1074,8 @@ define([
                         editText            : false,
                         editTextInPopover   : false,
                         showReplyInPopover  : false,
-                        scope               : this.view
+                        scope               : this.view,
+                        editable            : this.mode.canEditComments || (data.asc_getReply(i).asc_getUserId() == this.currentUserId)
                     }));
                 }
 
@@ -1223,7 +1226,7 @@ define([
                     for (i = 0; i < comments.length; ++i) {
                         comment = this.findComment(comments[i].asc_getId());
                         if (comment) {
-                            comment.set('editTextInPopover', true);
+                            comment.set('editTextInPopover', t.mode.canEditComments);// dont't edit comment when customization->commentAuthorOnly is true
                             comment.set('hint', false);
                             this.popoverComments.push(comment);
                         }

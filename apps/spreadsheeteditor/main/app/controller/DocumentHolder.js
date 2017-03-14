@@ -1347,7 +1347,7 @@ define([
                 documentHolder.pmiEntireHide.isrowmenu = isrowmenu;
                 documentHolder.pmiEntireShow.isrowmenu = isrowmenu;
 
-                documentHolder.setMenuItemCommentCaptionMode(cellinfo.asc_getComments().length > 0);
+                documentHolder.setMenuItemCommentCaptionMode(cellinfo.asc_getComments().length < 1, this.permissions.canEditComments);
                 commentsController && commentsController.blockPopover(true);
 
                 documentHolder.pmiClear.menu.items[1].setDisabled(iscelledit);

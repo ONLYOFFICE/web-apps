@@ -986,6 +986,7 @@
   "SSE.Views.DocumentHolder.txtDelete": "Delete",
   "SSE.Views.DocumentHolder.txtDescending": "Descending",
   "SSE.Views.DocumentHolder.txtEditComment": "Edit Comment",
+  "SSE.Views.DocumentHolder.txtShowComment": "Show Comment",
   "SSE.Views.DocumentHolder.txtFilter": "Filter",
   "SSE.Views.DocumentHolder.txtFilterCellColor": "Filter by cell's color",
   "SSE.Views.DocumentHolder.txtFilterFontColor": "Filter by font color",

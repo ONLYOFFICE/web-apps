@@ -622,9 +622,8 @@ define([
             me.fireEvent('createdelayedelements', [me]);
         },
 
-        setMenuItemCommentCaptionMode: function (edit) {
-            edit ? this.pmiAddComment.setCaption(this.txtEditComment, true) :
-                this.pmiAddComment.setCaption(this.txtAddComment, true);
+        setMenuItemCommentCaptionMode: function (add, editable) {
+            this.pmiAddComment.setCaption(add ? this.txtAddComment : (editable ? this.txtEditComment : this.txtShowComment), true);
         },
 
         txtSort:                'Sort',
@@ -706,7 +705,8 @@ define([
         textEntriesList: 'Select from drop-down list',
         txtSparklines: 'Sparklines',
         txtClearSparklines: 'Clear Selected Sparklines',
-        txtClearSparklineGroups: 'Clear Selected Sparkline Groups'
+        txtClearSparklineGroups: 'Clear Selected Sparkline Groups',
+        txtShowComment: 'Show Comment'
 
     }, SSE.Views.DocumentHolder || {}));
 });
