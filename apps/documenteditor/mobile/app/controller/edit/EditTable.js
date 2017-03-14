@@ -80,14 +80,19 @@ define([
                     return _sizes[index];
                 },
 
-                sizeByValue: function (value) {
+                indexSizeByValue: function (value) {
                     var index = 0;
                     _.each(_sizes, function (size, idx) {
                         if (Math.abs(size - value) < 0.25) {
                             index = idx;
                         }
                     });
-                    return _sizes[index];
+
+                    return index;
+                },
+
+                sizeByValue: function (value) {
+                    return _sizes[this.indexSizeByValue(value)];
                 }
             }
         })();
@@ -312,8 +317,8 @@ define([
                 //         }
                 //     });
                 // }
-
-                $('#edit-table-bordersize input').val([borderSizeTransform.sizeByIndex(_cellBorderWidth)]);
+                
+                $('#edit-table-bordersize input').val([borderSizeTransform.indexSizeByValue(_cellBorderWidth)]);
                 $('#edit-table-bordersize .item-after').text(borderSizeTransform.sizeByValue(_cellBorderWidth) + ' ' + _metricText);
 
                 var borderPalette = me.getView('EditTable').paletteBorderColor;
