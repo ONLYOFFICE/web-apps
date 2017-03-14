@@ -91,64 +91,66 @@ define([
                     $target = $(e.currentTarget),
                     type = $target.data('type');
 
+                if ($('.modal.modal-in').length > 0) {
+                    return;
+                }
+
                 PE.getController('AddContainer').hideModal();
 
-                _.delay(function () {
-                    if ($target) {
-                        var picker;
-                        var modal = uiApp.modal({
-                            title: me.textTableSize,
-                            text: '',
-                            afterText:
-                            '<div class="content-block">' +
-                                '<div class="row">' +
-                                    '<div class="col-50">' + me.textColumns + '</div>' +
-                                    '<div class="col-50">' + me.textRows + '</div>' +
-                                '</div>' +
-                            '<div id="picker-table-size"></div>' +
-                            '</div>',
-                            buttons: [
-                                {
-                                    text: me.textCancel
-                                },
-                                {
-                                    text: 'OK',
-                                    bold: true,
-                                    onClick: function () {
-                                        var size = picker.value;
+                if ($target) {
+                    var picker;
+                    var modal = uiApp.modal({
+                        title: me.textTableSize,
+                        text: '',
+                        afterText:
+                        '<div class="content-block">' +
+                            '<div class="row">' +
+                                '<div class="col-50">' + me.textColumns + '</div>' +
+                                '<div class="col-50">' + me.textRows + '</div>' +
+                            '</div>' +
+                        '<div id="picker-table-size"></div>' +
+                        '</div>',
+                        buttons: [
+                            {
+                                text: me.textCancel
+                            },
+                            {
+                                text: 'OK',
+                                bold: true,
+                                onClick: function () {
+                                    var size = picker.value;
 
-                                        if (me.api) {
-                                            me.api.put_Table(parseInt(size[0]), parseInt(size[1]));
+                                    if (me.api) {
+                                        me.api.put_Table(parseInt(size[0]), parseInt(size[1]));
 
-                                            var properties = new Asc.CTableProp();
-                                            properties.put_TableStyle(type);
+                                        var properties = new Asc.CTableProp();
+                                        properties.put_TableStyle(type);
 
-                                            me.api.tblApply(properties);
-                                        }
+                                        me.api.tblApply(properties);
                                     }
                                 }
-                            ]
-                        });
+                            }
+                        ]
+                    });
 
-                        picker = uiApp.picker({
-                            container: '#picker-table-size',
-                            toolbar: false,
-                            rotateEffect: true,
-                            value: [3, 3],
-                            cols: [{
-                                textAlign: 'left',
-                                values: [1,2,3,4,5,6,7,8,9,10]
-                            }, {
-                                values: [1,2,3,4,5,6,7,8,9,10]
-                            }]
-                        });
+                    picker = uiApp.picker({
+                        container: '#picker-table-size',
+                        toolbar: false,
+                        rotateEffect: true,
+                        value: [3, 3],
+                        cols: [{
+                            textAlign: 'left',
+                            values: [1,2,3,4,5,6,7,8,9,10]
+                        }, {
+                            values: [1,2,3,4,5,6,7,8,9,10]
+                        }]
+                    });
 
-                        // Vertical align
-                        $$(modal).css({
-                            marginTop: - Math.round($$(modal).outerHeight() / 2) + 'px'
-                        });
-                    }
-                }, 300);
+                    // Vertical align
+                    $$(modal).css({
+                        marginTop: - Math.round($$(modal).outerHeight() / 2) + 'px'
+                    });
+                }
             },
 
             // Public
