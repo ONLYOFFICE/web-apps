@@ -57,6 +57,7 @@ define([
             this.currentArrColors = [];
             this.currentDocId = '';
             this.currentDocIdPrev = '';
+            this.currentRev = 0;
         },
 
         events: {
@@ -74,6 +75,7 @@ define([
         setApi: function(api) {
             this.api = api;
             this.api.asc_registerCallback('asc_onDownloadUrl', _.bind(this.onDownloadUrl, this));
+            this.api.asc_registerCallback('asc_onExpiredToken', _.bind(this.onExpiredToken, this));
             return this;
         },
 
@@ -127,6 +129,7 @@ define([
             this.currentArrColors = record.get('arrColors');
             this.currentDocId = record.get('docId');
             this.currentDocIdPrev = record.get('docIdPrev');
+            this.currentRev = rev;
 
             if ( _.isEmpty(url) || (urlGetTime - record.get('urlGetTime') > 5 * 60000)) {
                  _.delay(function() {
@@ -142,6 +145,7 @@ define([
                 hist.asc_setCurrentChangeId(this.currentChangeId);
                 hist.asc_setArrColors(this.currentArrColors);
                 hist.asc_setToken(token);
+                hist.asc_setIsRequested(false);
                 this.api.asc_showRevision(hist);
 
                 var commentsController = this.getApplication().getController('Common.Controllers.Comments');
@@ -191,12 +195,19 @@ define([
                     hist.asc_setCurrentChangeId(this.currentChangeId);
                     hist.asc_setArrColors(this.currentArrColors);
                     hist.asc_setToken(token);
+                    hist.asc_setIsRequested(true);
                     this.api.asc_showRevision(hist);
 
                     var commentsController = this.getApplication().getController('Common.Controllers.Comments');
                     if (commentsController) commentsController.onApiHideComment();
                 }
             }
+        },
+
+        onExpiredToken: function() {
+            _.delay(function() {
+                Common.Gateway.requestHistoryData(this.currentRev); // получаем url-ы для ревизий
+            }, 10);
         },
 
         onClickBackToDocument: function () {
