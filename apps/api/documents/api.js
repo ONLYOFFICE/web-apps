@@ -96,7 +96,7 @@
                         info: 'Some info',
                         logo: ''
                     },
-                    about: false,
+                    about: true,
                     feedback: {
                         visible: false,
                         url: http://...
@@ -259,25 +259,29 @@
         };
 
         var _onMessage = function(msg) {
-            if (msg && msg.frameEditorId == placeholderId) {
-                var events = _config.events || {},
-                    handler = events[msg.event],
-                    res;
-
-                if (msg.event === 'onRequestEditRights' && !handler) {
-                    _applyEditRights(false, 'handler is\'n defined');
+            if ( msg ) {
+                if ( msg.type === "onExternalPluginMessage" ) {
+                    _sendCommand(msg);
                 } else
-                if (msg.event === 'onInternalMessage' && msg.data && msg.data.type == 'localstorage') {
-                    _callLocalStorage(msg.data.data);
-                } else {
-                    if (msg.event === 'onReady') {
-                        _onReady();
-                    }
+                if ( msg.frameEditorId == placeholderId ) {
+                    var events = _config.events || {},
+                        handler = events[msg.event],
+                        res;
 
-                    if (handler) {
-                        res = handler.call(_self, { target: _self, data: msg.data });
-                        if (msg.event === 'onSave' && res !== false) {
-                            _processSaveResult(true);
+                    if (msg.event === 'onRequestEditRights' && !handler) {
+                        _applyEditRights(false, 'handler is\'n defined');
+                    } else if (msg.event === 'onInternalMessage' && msg.data && msg.data.type == 'localstorage') {
+                        _callLocalStorage(msg.data.data);
+                    } else {
+                        if (msg.event === 'onReady') {
+                            _onReady();
+                        }
+
+                        if (handler) {
+                            res = handler.call(_self, {target: _self, data: msg.data});
+                            if (msg.event === 'onSave' && res !== false) {
+                                _processSaveResult(true);
+                            }
                         }
                     }
                 }
@@ -518,7 +522,8 @@
             var data = {
                 type: evt.type,
                 x: evt.x - r.left,
-                y: evt.y - r.top
+                y: evt.y - r.top,
+                event: evt
             };
 
             _sendCommand({
@@ -565,7 +570,7 @@
             lang: 'en',
             canCoAuthoring: true,
             customization: {
-                about: false,
+                about: true,
                 feedback: false
             }
         }

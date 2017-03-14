@@ -363,7 +363,7 @@ define([
                     var editor = document.getElementById('editor_sdk');
                     if (editor) {
                         var rect = editor.getBoundingClientRect();
-                        var event = window.event || arguments.callee.caller.arguments[0];
+                        var event = data.event || {};
                         this.api.asc_onMouseUp(event, data.x - rect.left, data.y - rect.top);
                     }
                 }
@@ -630,7 +630,7 @@ define([
                  if (!me.appOptions.isEditMailMerge && !me.appOptions.isEditDiagram) {
                     pluginsController.setApi(me.api);
                     me.updatePlugins(me.plugins, false);
-                    me.requestPlugins('../../../../sdkjs-plugins/config.json');
+                    me.requestPlugins('../../../../plugins.json');
                     me.api.asc_registerCallback('asc_onPluginsInit', _.bind(me.updatePluginsList, me));
                 }
 
@@ -1387,8 +1387,12 @@ define([
             hidePreloader: function() {
                 if (!this._state.customizationDone) {
                     this._state.customizationDone = true;
-                    if (this.appOptions.customization && !this.appOptions.isDesktopApp)
-                        this.appOptions.customization.about = true;
+                    if (this.appOptions.customization) {
+                        if (this.appOptions.isDesktopApp)
+                            this.appOptions.customization.about = false;
+                        else if (!this.appOptions.canBrandingExt)
+                            this.appOptions.customization.about = true;
+                    }
                     Common.Utils.applyCustomization(this.appOptions.customization, mapCustomizationElements);
                     if (this.appOptions.canBrandingExt) {
                         Common.Utils.applyCustomization(this.appOptions.customization, mapCustomizationExtElements);
@@ -1944,11 +1948,18 @@ define([
                     return null;
                 };
 
-                var arr = [];
+                var arr = [],
+                    baseUrl = _.isEmpty(plugins.url) ? "" : plugins.url;
+
+                if (baseUrl !== "")
+                    console.log("Obsolete: The url parameter is deprecated. Please check the documentation for new plugin connection configuration.");
+
                 pluginsData.forEach(function(item){
+                    item = baseUrl + item; // for compatibility with previouse version of server, where plugins.url is used.
                     var value = _getPluginJson(item);
                     if (value) {
                         value.baseUrl = item.substring(0, item.lastIndexOf("config.json"));
+                        value.oldVersion = (baseUrl !== "");
                         arr.push(value);
                     }
                 });
@@ -1966,6 +1977,8 @@ define([
                 if (plugins) {
                     var arr = [], arrUI = [];
                     plugins.pluginsData.forEach(function(item){
+                        if (uiCustomize!==undefined && (pluginStore.findWhere({baseUrl : item.baseUrl}) || pluginStore.findWhere({guid : item.guid}))) return;
+
                         var variations = item.variations,
                             variationsArr = [];
                         variations.forEach(function(itemVar){
@@ -1976,12 +1989,19 @@ define([
                                 }
                             }
                             if (isSupported && (isEdit || itemVar.isViewer)) {
+                                var icons = itemVar.icons;
+                                if (item.oldVersion) { // for compatibility with previouse version of server, where plugins.url is used.
+                                    icons = [];
+                                    itemVar.icons.forEach(function(icon){
+                                        icons.push(icon.substring(icon.lastIndexOf("\/")+1));
+                                    });
+                                }
                                 item.isUICustomizer ? arrUI.push(item.baseUrl + itemVar.url) :
                                 variationsArr.push(new Common.Models.PluginVariation({
                                     description: itemVar.description,
                                     index: variationsArr.length,
-                                    url : itemVar.url,
-                                    icons  : itemVar.icons,
+                                    url : (item.oldVersion) ? (itemVar.url.substring(itemVar.url.lastIndexOf("\/")+1) ) : itemVar.url,
+                                    icons  : icons,
                                     isViewer: itemVar.isViewer,
                                     EditorsSupport: itemVar.EditorsSupport,
                                     isVisual: itemVar.isVisual,

@@ -60,8 +60,7 @@ define([
             _linkType = c_oHyperlinkType.WebLink,
             _slideLink = 0,
             _slideNum = 0,
-            _slidesCount = 0,
-            _isDisplayChanged = false;
+            _slidesCount = 0;
 
         return {
             models: [],
@@ -106,7 +105,6 @@ define([
                 if ($target && $target.prop('id') === 'add-link') {
                     _linkType = c_oHyperlinkType.WebLink;
                     _slideLink = _slideNum = 0;
-                    _isDisplayChanged = false;
                     var text = this.api.can_AddHyperlink();
                     if (text !== false) {
                         $('#add-link-display input').val((text !== null) ? text : this.textDefault);
@@ -170,9 +168,6 @@ define([
                 $('#page-addlink-type li').single('click',  _.buffered(me.onLinkType, 100, me));
                 $('#page-addlink-slidenumber li').single('click', _.buffered(me.onSlideLink, 100, me));
                 $('#addlink-slide-number .button').single('click',_.buffered(me.onSlideNumber, 100, me));
-                $('#add-link-display input[type="text"]').single('input', _.bind(function(e) {
-                    _isDisplayChanged = true;
-                }, this));
                 me.initSettings(pageId);
             },
 
@@ -232,7 +227,7 @@ define([
                     def_display = slidetip;
                 }
 
-                if (!$('#add-link-display').hasClass('disabled') && (_isDisplayChanged || _.isEmpty(display))) {
+                if (!$('#add-link-display').hasClass('disabled')) {
                     props.put_Text(_.isEmpty(display) ? def_display : display);
                 } else
                     props.put_Text(null);

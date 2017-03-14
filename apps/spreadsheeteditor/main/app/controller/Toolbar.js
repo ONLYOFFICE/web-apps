@@ -750,18 +750,30 @@ define([
                 var win, props;
                 if (me.api){
                     props = me.api.asc_getChartObject();
+                    var selectedObjects = me.api.asc_getGraphicObjectProps(),
+                        imageSettings = null;
+                    for (var i = 0; i < selectedObjects.length; i++) {
+                        if (selectedObjects[i].asc_getObjectType() == Asc.c_oAscTypeSelectElement.Image) {
+                            var elValue = selectedObjects[i].asc_getObjectValue();
+                            if ( elValue.asc_getChartProperties() )
+                                imageSettings = elValue;
+                        }
+                    }
                     if (props) {
                         var ischartedit = ( me.toolbar.mode.isEditDiagram || info.asc_getFlags().asc_getSelectionType() == Asc.c_oAscSelectionType.RangeChart || info.asc_getFlags().asc_getSelectionType() == Asc.c_oAscSelectionType.RangeChartText);
 
                         (new SSE.Views.ChartSettingsDlg(
                             {
                                 chartSettings: props,
+                                imageSettings: imageSettings,
                                 isChart: true,
                                 api: me.api,
                                 handler: function(result, value) {
                                     if (result == 'ok') {
                                         if (me.api) {
                                             (ischartedit) ? me.api.asc_editChartDrawingObject(value.chartSettings) : me.api.asc_addChartDrawingObject(value.chartSettings);
+                                            if (value.imageSettings)
+                                                me.api.asc_setGraphicObjectProps(value.imageSettings);
                                         }
                                     }
                                     Common.NotificationCenter.trigger('edit:complete', me.toolbar);

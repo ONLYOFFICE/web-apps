@@ -215,6 +215,16 @@ define([
                     })
                 );
 
+                var $view = $('.settings');
+
+                if ($view.length > 0) {
+                    $view.find('#add-link-sheet select').html(
+                        _.template(tpl, {
+                            worksheets: sheets
+                        })
+                    );
+                }
+
                 var active = _.findWhere(sheets, {active:true});
                 if ( active )
                     this.setActiveWorksheet(active.value, active.caption);
