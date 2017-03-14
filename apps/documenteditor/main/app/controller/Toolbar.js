@@ -704,6 +704,10 @@ define([
 
             toolbar.btnEditHeader.setDisabled(in_equation);
 
+            need_disable = paragraph_locked || in_equation || in_image || in_header;
+            if (need_disable !== toolbar.btnNotes.isDisabled())
+                toolbar.btnNotes.setDisabled(need_disable);
+
             if (toolbar.listStylesAdditionalMenuItem && (frame_pr===undefined) !== toolbar.listStylesAdditionalMenuItem.isDisabled())
                 toolbar.listStylesAdditionalMenuItem.setDisabled(frame_pr===undefined);
 
