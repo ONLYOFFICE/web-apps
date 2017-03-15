@@ -193,7 +193,7 @@ define([
                         me.onAfterHideMenu(e);
                     }, 10);
                 } else if (e.keyCode != Common.UI.Keys.RETURN && e.keyCode != Common.UI.Keys.CTRL && e.keyCode != Common.UI.Keys.SHIFT && e.keyCode != Common.UI.Keys.ALT){
-                    if (!this.isMenuOpen())
+                    if (!this.isMenuOpen() && !e.ctrlKey)
                         this.openMenu();
 
                     if (e.keyCode == Common.UI.Keys.UP || e.keyCode == Common.UI.Keys.DOWN) {
