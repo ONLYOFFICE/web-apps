@@ -166,7 +166,7 @@ define([
 
                 if ( options && !(_.indexOf(options.panels, 'image')) ) {
                     addViews.push({
-                        caption: 'Image',
+                        caption: me.textImage,
                         id: 'add-image',
                         layout: SSE.getController('AddOther').getView('AddOther').childLayout('image')
                     });
@@ -317,6 +317,7 @@ define([
             textChart: 'Chart',
             textFormula: 'Function',
             textShape: 'Shape',
+            textImage: 'Image',
             textOther: 'Other'
         }
     })(), SSE.Controllers.AddContainer || {}))
