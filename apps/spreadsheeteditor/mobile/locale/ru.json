@@ -38,7 +38,7 @@
   "SSE.Controllers.EditContainer.textImage": "Картинка",
   "SSE.Controllers.EditContainer.textChart": "Диаграмма",
   "SSE.Controllers.EditContainer.textText": "Текст",
-  "SSE.Controllers.EditContainer.textHyperlink": "Hyperlink",
+  "SSE.Controllers.EditContainer.textHyperlink": "Ссылка",
   "SSE.Controllers.EditCell.textAuto": "Авто",
   "SSE.Controllers.EditCell.textFonts": "Шрифты",
   "SSE.Controllers.EditCell.textPt": "пт",
