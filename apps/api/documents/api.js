@@ -270,7 +270,7 @@
                         res;
 
                     if (msg.event === 'onRequestEditRights' && !handler) {
-                        _applyEditRights(false, 'handler is\'n defined');
+                        _applyEditRights(false, 'handler isn\'t defined');
                     } else if (msg.event === 'onInternalMessage' && msg.data && msg.data.type == 'localstorage') {
                         _callLocalStorage(msg.data.data);
                     } else {
@@ -546,7 +546,6 @@
         return {
             showError           : _showError,
             showMessage         : _showMessage,
-            applyEditRights     : _applyEditRights,
             processSaveResult   : _processSaveResult,
             processRightsChange : _processRightsChange,
             denyEditingRights   : _denyEditingRights,

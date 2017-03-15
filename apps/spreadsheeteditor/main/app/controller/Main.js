@@ -514,57 +514,11 @@ define([
             },
 
             onApplyEditRights: function(data) {
-                if (data) {
-                    if (data.allowed) {
-                        this.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'],ApplyEditRights);
-                        this.appOptions.isEdit = true;
-
-                        var me = this;
-                        setTimeout(function(){
-                            me.applyModeCommonElements();
-                            me.applyModeEditorElements('view');
-                            me.api.asc_setViewMode(false);
-
-                            var application                 = me.getApplication();
-                            var documentHolderController    = application.getController('DocumentHolder');
-
-                            application.getController('LeftMenu').setMode(me.appOptions).createDelayedElements();
-                            Common.NotificationCenter.trigger('layout:changed', 'main');
-
-                            var timer_sl = setInterval(function(){
-                                if (window.styles_loaded) {
-                                    clearInterval(timer_sl);
-
-                                    documentHolderController.getView('DocumentHolder').createDelayedElements();
-                                    documentHolderController.resetApi();
-
-                                    application.getController('Toolbar').createDelayedElements();
-                                    application.getController('RightMenu').createDelayedElements();
-                                    application.getController('Statusbar').getView('Statusbar').update();
-                                    application.getController('CellEditor').setMode(me.appOptions);
-
-                                    me.api.asc_registerCallback('asc_onSaveUrl', _.bind(me.onSaveUrl, me));
-                                    me.api.asc_registerCallback('asc_onDocumentModifiedChanged', _.bind(me.onDocumentModifiedChanged, me));
-                                    me.api.asc_registerCallback('asc_onDocumentCanSaveChanged',  _.bind(me.onDocumentCanSaveChanged, me));
-                                    me.api.asc_registerCallback('asc_onDownloadUrl',             _.bind(me.onDownloadUrl, me));
-                                    var shapes = me.api.asc_getPropertyEditorShapes();
-                                    if (shapes)
-                                        me.fillAutoShapes(shapes[0], shapes[1]);
-
-                                    me.fillTextArt(me.api.asc_getTextArtPreviews());
-                                    me.updateThemeColors();
-
-                                    application.getController('FormulaDialog').setApi(me.api);
-                                }
-                            }, 50);
-                        }, 50);
-                    }
-                    else {
-                        Common.UI.info({
-                            title: this.requestEditFailedTitleText,
-                            msg: data.message || this.requestEditFailedMessageText
-                        });
-                    }
+                if (data && !data.allowed) {
+                    Common.UI.info({
+                        title: this.requestEditFailedTitleText,
+                        msg: data.message || this.requestEditFailedMessageText
+                    });
                 }
             },
 

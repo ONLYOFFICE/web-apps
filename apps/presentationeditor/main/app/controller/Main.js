@@ -510,67 +510,13 @@ define([
             },
 
             onApplyEditRights: function(data) {
-                var application = this.getApplication();
-                application.getController('Statusbar').setStatusCaption('');
+                this.getApplication().getController('Statusbar').setStatusCaption('');
 
-                if (data) {
-                    if (data.allowed) {
-                        data.requestrights = true;
-                        this.appOptions.isEdit= true;
-
-                        this.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'],ApplyEditRights);
-
-                        var me = this;
-                        setTimeout(function(){
-                            me.applyModeCommonElements();
-                            me.applyModeEditorElements('view');
-                            me.api.asc_setViewMode(false);
-
-                            var timer_rp = setInterval(function(){
-                                clearInterval(timer_rp);
-
-                                var toolbarController           = application.getController('Toolbar'),
-                                    viewportController          = application.getController('Viewport'),
-                                    rightmenuController         = application.getController('RightMenu'),
-                                    leftmenuController          = application.getController('LeftMenu'),
-                                    documentHolderController    = application.getController('DocumentHolder'),
-                                    fontsControllers            = application.getController('Common.Controllers.Fonts');
-
-                                leftmenuController.setMode(me.appOptions).createDelayedElements();
-
-                                rightmenuController.createDelayedElements();
-
-                                Common.NotificationCenter.trigger('layout:changed', 'main');
-
-                                var timer_sl = setInterval(function(){
-                                    if (window.styles_loaded) {
-                                        clearInterval(timer_sl);
-
-                                        documentHolderController.getView('DocumentHolder').createDelayedElements();
-                                        documentHolderController.getView('DocumentHolder').changePosition();
-    //                                        me.getController('Common.controller.CommentsPopover').onDocumentContentReady();
-    //                                        me.getController('Search').setMode({isEdit: me.modeEdit});
-
-                                        me.api.asc_registerCallback('asc_onFocusObject',        _.bind(me.onFocusObject, me));
-                                        me.api.asc_registerCallback('asc_onUpdateLayout',       _.bind(me.fillLayoutsStore, me)); // slide layouts loading
-                                        me.updateThemeColors();
-                                        var shapes = me.api.asc_getPropertyEditorShapes();
-                                        if (shapes)
-                                            me.fillAutoShapes(shapes[0], shapes[1]);
-                                        me.fillTextArt(me.api.asc_getTextArtPreviews());
-                                        toolbarController.activateControls();
-
-                                        me.api.UpdateInterfaceState();
-                                    }
-                                }, 50);
-                            },50);
-                        }, 100);
-                    } else {
-                        Common.UI.info({
-                            title: this.requestEditFailedTitleText,
-                            msg: data.message || this.requestEditFailedMessageText
-                        });
-                    }
+                if (data && !data.allowed) {
+                    Common.UI.info({
+                        title: this.requestEditFailedTitleText,
+                        msg: data.message || this.requestEditFailedMessageText
+                    });
                 }
             },
 
