@@ -87,7 +87,6 @@ define([
                 underline: undefined,
                 wrap: undefined,
                 merge: undefined,
-                filter: undefined,
                 angle: undefined,
                 controlsdisabled: {
                     rows: undefined,
@@ -97,6 +96,8 @@ define([
                     filters: undefined
                 },
                 selection_type: undefined,
+                filter: undefined,
+                filterapplied: false,
                 tablestylename: undefined,
                 tablename: undefined,
                 namedrange_locked: false,
@@ -1971,11 +1972,17 @@ define([
                     }
                 }
 
-                this._state.tablename = (formatTableInfo) ? formatTableInfo.asc_getTableName() : undefined;
-
                 need_disable =  this._state.controlsdisabled.filters || !filterInfo || (filterInfo.asc_getIsApplyAutoFilter()!==true);
                 toolbar.lockToolbar(SSE.enumLock.ruleDelFilter, need_disable, {array:[toolbar.btnClearAutofilter,toolbar.mnuitemClearFilter]});
-                this.getApplication().getController('Statusbar').onApiFilterInfo(!need_disable);
+
+                var old_name = this._state.tablename;
+                this._state.tablename = (formatTableInfo) ? formatTableInfo.asc_getTableName() : undefined;
+
+                var old_applied = this._state.filterapplied;
+                this._state.filterapplied = this._state.filter && filterInfo.asc_getIsApplyAutoFilter();
+
+                if (this._state.tablename !== old_name || this._state.filterapplied !== old_applied)
+                    this.getApplication().getController('Statusbar').onApiFilterInfo(!need_disable);
 
                 this._state.multiselect = info.asc_getFlags().asc_getMultiselect();
                 toolbar.lockToolbar(SSE.enumLock.multiselect, this._state.multiselect, { array: [toolbar.btnTableTemplate, toolbar.btnInsertHyperlink]});

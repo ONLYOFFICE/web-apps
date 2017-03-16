@@ -437,8 +437,12 @@ define([
                 } else if (countFilter) {// filter mode
                     if (!this.boxFiltered.is(':visible')) this.boxFiltered.show();
                     this.labelFiltered.text(this.filteredText);
-                } else {
+                } else if (countFilter !== undefined && countFilter !== null){
                     if (this.boxFiltered.is(':visible')) this.boxFiltered.hide();
+                } else {
+                    var filterInfo = this.api.asc_getCellInfo().asc_getAutoFilterInfo(),
+                        need_disable =  !filterInfo || (filterInfo.asc_getIsApplyAutoFilter()!==true);
+                    this.setFilteredInfo(!need_disable);
                 }
 
                 var me = this;
