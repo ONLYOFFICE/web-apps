@@ -62,7 +62,11 @@ define([
                     'hide': _.bind(this.onHideChat, this)
                 },
                 'Common.Views.Header': {
-                    'click:users': _.bind(this.clickStatusbarUsers, this)
+                    'click:users': _.bind(this.clickStatusbarUsers, this),
+                    'history:show': function () {
+                        if ( !this.leftMenu.panelHistory.isVisible() )
+                            this.clickMenuFileItem('header', 'history');
+                    }.bind(this)
                 },
                 'LeftMenu': {
                     'comments:show': _.bind(this.commentsShowHide, this, 'show'),

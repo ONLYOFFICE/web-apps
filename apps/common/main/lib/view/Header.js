@@ -53,6 +53,7 @@ define([
     Common.Views.Header =  Backbone.View.extend(_.extend(function(){
         var storeUsers, appConfig;
         var $userList, $panelUsers, $btnUsers;
+        var $saveStatus;
 
         var templateUserItem =
                 '<li id="status-chat-user-<%= user.get("id") %>" class="<% if (!user.get("online")) { %> offline <% } if (user.get("view")) {%> viewmode <% } %>">' +
@@ -69,7 +70,8 @@ define([
                 '</ul>');
 
         var templateRightBox = '<section>' +
-                            '<label id="doc-name"></label>' +
+                            '<label id="rib-doc-name" class="status-label"></label>' +
+                            '<a href="#" id="rib-save-status" class="status-label">All changes saved</a>' +
                             '<div class="elset">' +
                                 // '<span class="btn-slot text" id="slot-btn-users"></span>' +
                                 '<section id="tlb-box-users" class="box-cousers dropdown"">' +
@@ -194,6 +196,59 @@ define([
             }
         }
 
+        function onAppReady(mode) {
+            appConfig = mode;
+
+            var me = this;
+            me.btnGoBack.updateHint(me.textBack);
+            me.btnGoBack.on('click', function (e) {
+                me.fireEvent('go:back', ['page:current']);
+            });
+            me.btnGoBack.menu.on('item:click', function (e) {
+                me.fireEvent('go:back', ['page:new']);
+            })
+
+            me.logo.on('click', function (e) {
+                var _url = !!me.branding && !!me.branding.logo && !!me.branding.logo.url ?
+                    me.branding.logo.url : 'http://www.onlyoffice.com';
+
+                var newDocumentPage = window.open(_url);
+                newDocumentPage && newDocumentPage.focus();
+            });
+
+            $panelUsers.on('shown.bs.dropdown', function () {
+                $userList.scroller && $userList.scroller.update({minScrollbarLength: 40, alwaysVisibleY: true});
+            });
+
+            $panelUsers.find('.cousers-menu')
+                .on('click', function(e) { return false; });
+
+            $btnUsers.tooltip({
+                title: 'Manage document access rights',
+                titleNorm: me.tipAccessRights,
+                titleExt: me.tipViewUsers,
+                placement: 'bottom',
+                html: true
+            });
+
+            $btnUsers.on('click', onUsersClick.bind(me));
+
+            var $labelChangeRights = $panelUsers.find('#tlb-change-rights');
+            $labelChangeRights.on('click', onUsersClick.bind(me));
+
+            $labelChangeRights[(!mode.isOffline && !mode.isReviewOnly && mode.sharingSettingsUrl && mode.sharingSettingsUrl.length)?'show':'hide']();
+            $panelUsers[(storeUsers.size() > 1 || !mode.isOffline && !mode.isReviewOnly && mode.sharingSettingsUrl && mode.sharingSettingsUrl.length) ? 'show' : 'hide']();
+
+            $saveStatus.attr('data-width', this.textSaveExpander);
+            if ( appConfig.canUseHistory ) {
+                $saveStatus.on('click', function(e) {
+                    me.fireEvent('history:show', ['header']);
+                });
+            } else {
+                $saveStatus.addClass('locked');
+            }
+        }
+
         return {
             options: {
                 branding: {},
@@ -231,7 +286,8 @@ define([
                     menu: new Common.UI.Menu({
                         style: 'min-width: 60px;',
                         items: [
-                            {caption: me.openNewTabText}
+                            {caption: me.itemBackCurrTab},
+                            {caption: me.itemBackNewTab}
                         ]
                     })
                 });
@@ -246,50 +302,7 @@ define([
 
                 (new Promise(function (accept, reject) {
                     Common.NotificationCenter.on('app:ready', function(mode) { accept(mode); });
-                })).then(function(m){
-                    mode = m;
-
-                    me.btnGoBack.updateHint(me.textBack);
-                    me.btnGoBack.on('click', function (e) {
-                        me.fireEvent('go:back', ['page:current']);
-                    });
-                    me.btnGoBack.menu.on('item:click', function (e) {
-                        me.fireEvent('go:back', ['page:new']);
-                    })
-
-                    me.logo.on('click', function (e) {
-                        var _url = !!this.branding && !!this.branding.logo && !!this.branding.logo.url ?
-                                        this.branding.logo.url : 'http://www.onlyoffice.com';
-
-                        var newDocumentPage = window.open(_url);
-                        newDocumentPage && newDocumentPage.focus();
-                    })
-
-                    $panelUsers.on('shown.bs.dropdown', function () {
-                        $userList.scroller && $userList.scroller.update({minScrollbarLength: 40, alwaysVisibleY: true});
-                    });
-
-                    $panelUsers.find('.cousers-menu')
-                        .on('click', function (e) {
-                            return false;
-                        });
-
-                    $btnUsers.tooltip({
-                        title: 'Manage document access rights',
-                        titleNorm: me.tipAccessRights,
-                        titleExt: me.tipViewUsers,
-                        placement: 'bottom',
-                        html: true
-                    });
-
-                    $btnUsers.on('click', onUsersClick.bind(me));
-
-                    var $labelChangeRights = $panelUsers.find('#tlb-change-rights');
-                    $labelChangeRights.on('click', onUsersClick.bind(me));
-
-                    $labelChangeRights[(!mode.isOffline && !mode.isReviewOnly && mode.sharingSettingsUrl && mode.sharingSettingsUrl.length)?'show':'hide']();
-                    $panelUsers[(storeUsers.size() > 1 || !mode.isOffline && !mode.isReviewOnly && mode.sharingSettingsUrl && mode.sharingSettingsUrl.length) ? 'show' : 'hide']();
-                });
+                })).then(onAppReady.bind(me));
             },
 
             render: function (el, role) {
@@ -315,7 +328,7 @@ define([
                     }
 
                     if ( this.documentCaption ) {
-                        $html.find('#doc-name').html(
+                        $html.find('#rib-doc-name').text(
                             Common.Utils.String.htmlEncode(this.documentCaption) );
                     }
 
@@ -323,8 +336,10 @@ define([
                     $userList = $html.find('.cousers-list');
                     $panelUsers = $html.find('.box-cousers');
                     $btnUsers = $html.find('.btn-users');
+                    $saveStatus = $html.find('#rib-save-status');
 
                     $panelUsers.hide();
+                    $saveStatus.hide();
 
                     return $html;
                 }
@@ -423,8 +438,22 @@ define([
                 // dc.toggleClass('renamed', rename);
             },
 
+            setSaveStatus: function (status) {
+                if ( $saveStatus ) {
+                    if ( $saveStatus.is(':hidden') ) $saveStatus.show();
+
+                    var _text;
+                    switch ( status ) {
+                    case 'begin': _text = this.textSaveBegin; break;
+                    case 'changed': _text = this.textSaveChanged; break;
+                    default: _text = this.textSaveEnd;
+                    }
+
+                    $saveStatus.text( _text );
+                }
+            },
+
             textBack: 'Go to Documents',
-            openNewTabText: 'Open in New Tab',
             // txtHeaderDeveloper: 'DEVELOPER MODE',
             txtRename: 'Rename'
         }

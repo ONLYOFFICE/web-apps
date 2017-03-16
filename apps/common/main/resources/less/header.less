@@ -61,6 +61,7 @@
         }
     }
 }
+
 .extra {
     > section {
         line-height: 20px;
@@ -75,11 +76,28 @@
     }
 
     &.right {
+        min-width: 150px;
         padding-right: 12px;
     }
 
-    #doc-name {
+    #rib-doc-name {
         flex-grow: 1;
+    }
+
+    #rib-save-status {
+        &.locked {
+            text-decoration: none;
+            color: @gray-deep;
+            cursor: default;
+        }
+
+        &:after {
+            display: block;
+            content: attr(data-width);
+            height: 1px;
+            overflow: hidden;
+            visibility: hidden;
+        }
     }
 
     #header-logo {
@@ -90,6 +108,10 @@
         .background-ximage('@{app-image-path}/logo.png', '@{app-image-path}/logo.png', 240px);
         background-size: contain;
         background-repeat: no-repeat;
+    }
+
+    .status-label {
+        padding: 0 10px;
     }
 }
 

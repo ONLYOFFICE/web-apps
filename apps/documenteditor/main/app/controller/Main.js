@@ -569,18 +569,23 @@ define([
                 if (action) {
                     this.setLongActionView(action)
                 } else {
-                    if (this._state.fastCoauth && this._state.usersCount>1 && id==Asc.c_oAscAsyncAction['Save']) {
+                    if ( id==Asc.c_oAscAsyncAction.Save ) {
                         var me = this;
-                        if (me._state.timerSave===undefined)
-                            me._state.timerSave = setInterval(function(){
-                                if ((new Date()) - me._state.isSaving>500) {
-                                    clearInterval(me._state.timerSave);
-                                    me.getApplication().getController('Statusbar').setStatusCaption('');
-                                    me._state.timerSave = undefined;
-                                }
-                            }, 500);
-                    } else
+                        if ( me._state.fastCoauth && me._state.usersCount > 1 ) {
+                            if ( !me._state.timerSave &&
+                                        Date.now() - me._state.isSaving < 500 )
+                            {
+                                me._state.timerSave = setTimeout(function () {
+                                    me.getApplication().getController('Viewport').getView('Common.Views.Header').setSaveStatus('end');
+                                    delete me._state.timerSave;
+                                }, 500);
+                            }
+                        } else {
+                            me.getApplication().getController('Viewport').getView('Common.Views.Header').setSaveStatus('end');
+                        }
+                    } else {
                         this.getApplication().getController('Statusbar').setStatusCaption('');
+                    }
                 }
 
                 action = this.stackLongActions.get({type: Asc.c_oAscAsyncActionType.BlockInteraction});
@@ -607,9 +612,9 @@ define([
                         break;
 
                     case Asc.c_oAscAsyncAction['Save']:
-                        this._state.isSaving = new Date();
-                        title   = this.saveTitleText;
-                        text    = this.saveTextText;
+                        this._state.isSaving = Date.now();
+                        // title   = this.saveTitleText;
+                        // text    = this.saveTextText;
                         break;
 
                     case Asc.c_oAscAsyncAction['LoadDocumentFonts']:
@@ -691,8 +696,10 @@ define([
 
                     if (!this.isShowOpenDialog)
                         this.loadMask.show();
-                }
-                else {
+                } else
+                if ( action.id == Asc.c_oAscAsyncAction.Save ) {
+                    this.getApplication().getController('Viewport').getView('Common.Views.Header').setSaveStatus('begin');
+                } else {
                     this.getApplication().getController('Statusbar').setStatusCaption(text);
                 }
             },
@@ -763,7 +770,7 @@ define([
                 if (this._isDocReady)
                     return;
 
-                Common.NotificationCenter.trigger('app:ready', [this.appOptions]);
+                Common.NotificationCenter.trigger('app:ready', this.appOptions);
 
                 var me = this,
                     value;
@@ -1418,6 +1425,9 @@ define([
                 }
 
                 this.updateWindowTitle();
+
+                this.api.isDocumentModified() &&
+                    this.getApplication().getController('Viewport').getView('Common.Views.Header').setSaveStatus('changed');
 
                 var toolbarView = this.getApplication().getController('Toolbar').getView('Toolbar');
 
