@@ -47,7 +47,6 @@
 
     .group-name {
         display: inline-flex;
-        float: left;
         background-color: @gray-light;
     }
 
@@ -69,14 +68,10 @@
     #ce-function {
         height: @cellEditorHeight;
         line-height: @cellEditorHeight;
-        display: flex;
-        align-items: center;
         padding: 0 10px;
-        float: right;
     }
 
     .group-expand {
-        float: right;
     }
 
     .group-content {
@@ -130,5 +125,11 @@
 
     #ce-cell-name, #ce-cell-content {
         border-radius: 0;
+    }
+}
+
+.phone {
+    #cell-editing-box #ce-cell-name {
+        width: 70px;
     }
 }
