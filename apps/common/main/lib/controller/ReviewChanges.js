@@ -108,7 +108,7 @@ define([
                 var $panel = this.view.getPanel();
 
                 var toolbar = this.getApplication().getController('Toolbar').getView('Toolbar');
-                toolbar.addTab(tab, $panel, 'layout');
+                toolbar.addTab(tab, $panel, 3);
 
                 this.view.isReviewOnly = mode.isReviewOnly;
                 this.view.btnAccept.setDisabled(mode.isReviewOnly);

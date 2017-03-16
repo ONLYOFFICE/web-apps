@@ -2333,11 +2333,11 @@ define([
                     this.api.asc_RemoveAllCustomStyles();
             },
 
-            setTab: function (tab, panel) {
+            setTab: function (tab) {
                 $tabs.removeClass('active');
                 $panels.removeClass('active');
 
-                panel = $panels.filter('[data-tab=' + tab + ']');
+                var panel = $panels.filter('[data-tab=' + tab + ']');
                 if ( panel.length ) {
                     lastPanel = tab;
                     panel.addClass('active');
@@ -2358,7 +2358,17 @@ define([
             },
 
             addTab: function (tab, panel, after) {
+                function _get_tab_action(index) {
+                    if ( !config.tabs[index] )
+                        return _get_tab_action(--index);
+
+                    return config.tabs[index].action;
+                }
+
                 var _tplTab = '<li><a href="#" data-tab="<%= action %>" title="<%= caption %>"><%= caption %></a></li>';
+
+                config.tabs[after + 1] = tab;
+                var _after_action = _get_tab_action( after );
 
                 if ( $tabs ) {
                     // $tabs.find('a[data-tab=' + after + ']').parent()
@@ -2366,12 +2376,12 @@ define([
                 } else {
                     var $toolbar = config.$dom;
 
-                    var $el = $toolbar.find('.tabs a[data-tab=' + after + ']');
+                    var $el = $toolbar.find('.tabs a[data-tab=' + _after_action + ']');
                     if ( $el.length ) {
                         $el.parent().after( _.template(_tplTab, tab));
 
                         if ( panel ) {
-                            $el = $toolbar.find('.box-panels > .panel[data-tab=' + after + ']');
+                            $el = $toolbar.find('.box-panels > .panel[data-tab=' + _after_action + ']');
 
                             if ( $el.length ) {
                                 $el.after(panel);

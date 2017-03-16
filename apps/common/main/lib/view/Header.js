@@ -51,7 +51,7 @@ define([
 ], function (Backbone, headerTemplate) { 'use strict';
 
     Common.Views.Header =  Backbone.View.extend(_.extend(function(){
-        var storeUsers, mode;
+        var storeUsers, appConfig;
         var $userList, $panelUsers, $btnUsers;
 
         var templateUserItem =
@@ -161,7 +161,7 @@ define([
                     .removeClass('dropdown-toggle')
                     .menu = false;
 
-                $panelUsers[(mode && !mode.isReviewOnly && mode.sharingSettingsUrl && mode.sharingSettingsUrl.length) ? 'show' : 'hide']();
+                $panelUsers[(appConfig && !appConfig.isReviewOnly && appConfig.sharingSettingsUrl && appConfig.sharingSettingsUrl.length) ? 'show' : 'hide']();
             }
 
             $btnUsers.find('.caption')

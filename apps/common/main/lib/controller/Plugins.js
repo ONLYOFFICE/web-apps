@@ -60,7 +60,9 @@ define([
                         var tab = {action: 'plugins', caption: 'Addons'};
                         var $panel = me.panelPlugins.getPanel();
 
-                        toolbar.addTab(tab, $panel, 'review');
+                        toolbar.addTab(tab, $panel, 4);
+                    }
+                },
                     }
                 }
             });
