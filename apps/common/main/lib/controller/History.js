@@ -205,8 +205,9 @@ define([
         },
 
         onExpiredToken: function() {
+            var me = this;
             _.delay(function() {
-                Common.Gateway.requestHistoryData(this.currentRev); // получаем url-ы для ревизий
+                Common.Gateway.requestHistoryData(me.currentRev); // получаем url-ы для ревизий
             }, 10);
         },
 
