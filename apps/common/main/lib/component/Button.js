@@ -162,19 +162,19 @@ define([
         },
 
         template: _.template([
+            '<% var applyicon = function() { %>',
+                '<% if (iconImg) { print(\'<img src=\"\' + iconImg + \'\">\'); } else %>',
+                '<% if (iconCls != "") { print(\'<i class=\"icon \' + iconCls + \'\">&nbsp;</i>\'); } %>',
+            '<% } %>',
             '<% if ( !menu ) { %>',
                 '<button type="button" class="btn <%= cls %>" id="<%= id %>" style="<%= style %>">',
-                    '<% if (iconCls != "") { %>',
-                        '<i class="icon <%= iconCls %>">&nbsp;</i>',
-                    '<% } %>',
+                    '<% applyicon() %>',
                     '<span class="caption"><%= caption %></span>',
                 '</button>',
             '<% } else if (split == false) {%>',
                 '<div class="btn-group" id="<%= id %>" style="<%= style %>">',
                     '<button type="button" class="btn dropdown-toggle <%= cls %>" data-toggle="dropdown">',
-                        '<% if (iconCls != "") { %>',
-                            '<i class="icon <%= iconCls %>">&nbsp;</i>',
-                        '<% } %>',
+                        '<% applyicon() %>',
                         '<span class="caption"><%= caption %></span>',
                         '<span class="caret img-commonctrl"></span>',
                     '</button>',
@@ -182,9 +182,7 @@ define([
             '<% } else { %>',
                 '<div class="btn-group split" id="<%= id %>" style="<%= style %>">',
                     '<button type="button" class="btn <%= cls %>">',
-                        '<% if (iconCls != "") { %>',
-                            '<i class="icon <%= iconCls %>">&nbsp;</i>',
-                        '<% } %>',
+                        '<% applyicon() %>',
                         '<span class="caption"><%= caption %></span>',
                     '</button>',
                     '<button type="button" class="btn <%= cls %> dropdown-toggle" data-toggle="dropdown">',
@@ -206,7 +204,6 @@ define([
             me.allowDepress = me.options.allowDepress;
             me.cls          = me.options.cls;
             me.iconCls      = me.options.iconCls;
-            me.iconImg      = me.options.iconImg,
             me.menu         = me.options.menu;
             me.split        = me.options.split;
             me.toggleGroup  = me.options.toggleGroup;
@@ -247,7 +244,7 @@ define([
                         id           : me.id,
                         cls          : me.cls,
                         iconCls      : me.iconCls,
-                        iconImg      : me.iconImg,
+                        iconImg      : me.options.iconImg,
                         menu         : me.menu,
                         split        : me.split,
                         disabled     : me.disabled,
