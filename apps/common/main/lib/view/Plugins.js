@@ -78,6 +78,10 @@ define([
             };
             this.lockedControls = [];
             Common.UI.BaseView.prototype.initialize.call(this, arguments);
+
+            (new Promise(function (resolve) {
+                Common.NotificationCenter.on('app:ready', function (m) { resolve(m); });
+            })).then(this._onAppReady.bind(this));
         },
 
         render: function(el) {
@@ -126,7 +130,8 @@ define([
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'img-commonctrl review-prev',
                         caption: model.get('name'),
-                        value: model.get('guid')
+                        value: model.get('guid'),
+                        hint: model.get('name')
                     });
 
                     var $slot = $('<span class="slot"></span>').appendTo(_group);
@@ -141,21 +146,26 @@ define([
 
         renderTo: function (parent) {
             if ( !this.storePlugins.isEmpty() ) {
+                var me = this;
                 var _group = $('<div class="group"></div>');
                 this.storePlugins.each(function (model) {
                     var modes = model.get('variations');
+                    var guid = model.get('guid');
                     var _icon_url = model.get('baseUrl') + modes[model.get('currentVariation')].get('icons')[(window.devicePixelRatio > 1) ? 1 : 0];
                     var btn = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'img-commonctrl review-prev',
                         iconImg: _icon_url,
                         caption: model.get('name'),
-                        menu: modes && modes.length > 1,
-                        value: model.get('guid')
+                        // menu: modes && modes.length > 1,
+                        value: guid,
+                        hint: model.get('name')
                     });
 
                     var $slot = $('<span class="slot"></span>').appendTo(_group);
                     btn.render($slot);
+
+                    model.set('button', btn);
                 });
 
                 parent.html(_group);
@@ -234,6 +244,19 @@ define([
         _onLoad: function() {
             if (this.loadMask)
                 this.loadMask.hide();
+        },
+
+        _onAppReady: function (mode) {
+            var me = this;
+            this.storePlugins.each(function(model) {
+                var _plugin_btn = model.get('button');
+
+                if ( _plugin_btn ) {
+                    _plugin_btn.on('click', function(b, e) {
+                        me.fireEvent('plugin:select', [b.options.value]);
+                    });
+                }
+            });
         },
 
         strPlugins: 'Plugins',

@@ -63,6 +63,9 @@ define([
                         toolbar.addTab(tab, $panel, 4);
                     }
                 },
+                'Common.Views.Plugins': {
+                    'plugin:select': function(guid) {
+                        me.api.asc_pluginRun(guid, 0, '');
                     }
                 }
             });
