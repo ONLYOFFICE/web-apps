@@ -204,8 +204,8 @@ define([
             me.btnGoBack.on('click', function (e) {
                 me.fireEvent('go:back', ['page:current']);
             });
-            me.btnGoBack.menu.on('item:click', function (e) {
-                me.fireEvent('go:back', ['page:new']);
+            me.btnGoBack.menu.on('item:click', function (menu, item, e) {
+                me.fireEvent('go:back', ['page:' + item.value]);
             })
 
             me.logo.on('click', function (e) {
@@ -287,7 +287,7 @@ define([
                         style: 'min-width: 60px;',
                         items: [
                             {caption: me.itemBackCurrTab},
-                            {caption: me.itemBackNewTab}
+                            {caption: me.itemBackNewTab, value: 'new'}
                         ]
                     })
                 });
