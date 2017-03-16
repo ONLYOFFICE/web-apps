@@ -163,8 +163,8 @@ define([
 
         template: _.template([
             '<% var applyicon = function() { %>',
-                '<% if (iconImg) { print(\'<img src=\"\' + iconImg + \'\">\'); } else %>',
-                '<% if (iconCls != "") { print(\'<i class=\"icon \' + iconCls + \'\">&nbsp;</i>\'); } %>',
+                '<% if (iconImg) { print(\'<img src=\"\' + iconImg + \'\">\'); } else { %>',
+                '<% if (iconCls != "") { print(\'<i class=\"icon \' + iconCls + \'\">&nbsp;</i>\'); }} %>',
             '<% } %>',
             '<% if ( !menu ) { %>',
                 '<button type="button" class="btn <%= cls %>" id="<%= id %>" style="<%= style %>">',
