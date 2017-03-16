@@ -30,6 +30,8 @@
   "PE.Controllers.DocumentHolder.menuEdit": "Bearbeiten",
   "PE.Controllers.DocumentHolder.menuOpenLink": "Link öffnen",
   "PE.Controllers.DocumentHolder.menuPaste": "Einfügen",
+  "PE.Controllers.DocumentHolder.menuMore": "More",
+  "PE.Controllers.DocumentHolder.sheetCancel": "Abbrechen",
   "PE.Controllers.EditContainer.textChart": "Diagramm",
   "PE.Controllers.EditContainer.textHyperlink": "Hyperlink",
   "PE.Controllers.EditContainer.textImage": "Bild",

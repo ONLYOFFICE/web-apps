@@ -10,12 +10,20 @@
   }
 
   .list-block {
+    white-space: pre;
+
     ul {
       height: 48px;
     }
 
     li {
       display: inline-block;
+    }
+
+    .item-link {
+      html.phone & {
+        padding: 0 10px;
+      }
     }
   }
 }

@@ -30,6 +30,8 @@
   "PE.Controllers.DocumentHolder.menuEdit": "Редактировать",
   "PE.Controllers.DocumentHolder.menuOpenLink": "Перейти по ссылке",
   "PE.Controllers.DocumentHolder.menuPaste": "Вставить",
+  "PE.Controllers.DocumentHolder.menuMore": "Еще",
+  "PE.Controllers.DocumentHolder.sheetCancel": "Отмена",
   "PE.Controllers.EditContainer.textChart": "Диаграмма",
   "PE.Controllers.EditContainer.textHyperlink": "Гиперссылка",
   "PE.Controllers.EditContainer.textImage": "Изображение",

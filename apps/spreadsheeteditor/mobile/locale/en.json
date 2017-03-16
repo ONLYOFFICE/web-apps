@@ -31,6 +31,8 @@
   "SSE.Controllers.DocumentHolder.menuUnwrap": "Unwrap",
   "SSE.Controllers.DocumentHolder.menuWrap": "Wrap",
   "SSE.Controllers.DocumentHolder.warnMergeLostData": "Operation can destroy data in the selected cells.<br>Continue?",
+  "SSE.Controllers.DocumentHolder.menuMore": "More",
+  "SSE.Controllers.DocumentHolder.sheetCancel": "Cancel",
   "SSE.Controllers.EditContainer.textSettings": "Settings",
   "SSE.Controllers.EditContainer.textCell": "Cell",
   "SSE.Controllers.EditContainer.textTable": "Table",

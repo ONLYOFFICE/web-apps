@@ -51,7 +51,8 @@ define([
 
     SSE.Controllers.DocumentHolder = Backbone.Controller.extend(_.extend((function() {
         // private
-        var _isEdit = false;
+        var _actionSheets = [],
+            _isEdit = false;
 
         function openLink(url) {
             var newDocumentPage = window.open(url, '_blank');
@@ -151,6 +152,24 @@ define([
                     break;
                 }
 
+                if ('showActionSheet' == event && _actionSheets.length > 0) {
+                    _.delay(function () {
+                        _.each(_actionSheets, function (action) {
+                            action.text = action.caption
+                            action.onClick = function () {
+                                me.onContextMenuClick(null, action.event)
+                            }
+                        });
+
+                        uiApp.actions([_actionSheets, [
+                            {
+                                text: me.sheetCancel,
+                                bold: true
+                            }
+                        ]]);
+                    }, 100);
+                }
+
                 me.view.hideMenu();
             },
 
@@ -183,6 +202,8 @@ define([
 
             _initMenu: function (cellinfo) {
                 var me = this;
+
+                _actionSheets = [];
 
                 var iscellmenu, isrowmenu, iscolmenu, isallmenu, ischartmenu, isimagemenu, istextshapemenu, isshapemenu, istextchartmenu;
                 var iscelllocked    = cellinfo.asc_getLocked(),
@@ -300,7 +321,13 @@ define([
                 }
 
                 if (Common.SharedSettings.get('phone') && menuItems.length > 3) {
+                    _actionSheets = menuItems.slice(3);
+
                     menuItems = menuItems.slice(0, 3);
+                    menuItems.push({
+                        caption: me.menuMore,
+                        event: 'showActionSheet'
+                    });
                 }
 
                 return menuItems;
@@ -320,7 +347,9 @@ define([
             menuShow:       'Show',
             menuHide:       'Hide',
             menuEdit:       'Edit',
-            menuCell:       'Cell'
+            menuCell:       'Cell',
+            menuMore:       'More',
+            sheetCancel:    'Cancel'
         }
     })(), SSE.Controllers.DocumentHolder || {}))
 });

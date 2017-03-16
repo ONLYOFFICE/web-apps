@@ -31,6 +31,8 @@
   "SSE.Controllers.DocumentHolder.menuUnwrap": "Umbruch aufheben",
   "SSE.Controllers.DocumentHolder.menuWrap": "Umbrechen",
   "SSE.Controllers.DocumentHolder.warnMergeLostData": "Vorgang kann die Daten in den markierten Zellen zerstören.<br>Fortsenzen? ",
+  "SSE.Controllers.DocumentHolder.menuMore": "More",
+  "SSE.Controllers.DocumentHolder.sheetCancel": "Abbrechen",
   "SSE.Controllers.EditContainer.textSettings": "Settings",
   "SSE.Controllers.EditContainer.textCell": "Cell",
   "SSE.Controllers.EditContainer.textTable": "Table",

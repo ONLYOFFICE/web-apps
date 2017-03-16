@@ -31,6 +31,8 @@
   "SSE.Controllers.DocumentHolder.menuUnwrap": "Убрать перенос",
   "SSE.Controllers.DocumentHolder.menuWrap": "Перенос текста",
   "SSE.Controllers.DocumentHolder.warnMergeLostData": "Операция может уничтожить данные в выделенных ячейках.<br>Продолжить?",
+  "SSE.Controllers.DocumentHolder.menuMore": "Еще",
+  "SSE.Controllers.DocumentHolder.sheetCancel": "Отмена",
   "SSE.Controllers.EditContainer.textSettings": "Настройки",
   "SSE.Controllers.EditContainer.textCell": "Ячейка",
   "SSE.Controllers.EditContainer.textTable": "Таблица",

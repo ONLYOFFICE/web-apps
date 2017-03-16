@@ -31,6 +31,8 @@
   "SSE.Controllers.DocumentHolder.menuUnwrap": "Annuler le renvoi",
   "SSE.Controllers.DocumentHolder.menuWrap": "Renvoi à la ligne",
   "SSE.Controllers.DocumentHolder.warnMergeLostData": "Cette opération détruira les données des cellules sélectionnées. <br>Сontinuer ?",
+  "SSE.Controllers.DocumentHolder.menuMore": "More",
+  "SSE.Controllers.DocumentHolder.sheetCancel": "Annuler",
   "SSE.Controllers.EditContainer.textSettings": "Settings",
   "SSE.Controllers.EditContainer.textCell": "Cell",
   "SSE.Controllers.EditContainer.textTable": "Table",

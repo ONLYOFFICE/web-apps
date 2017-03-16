@@ -20,6 +20,8 @@
   "DE.Controllers.DocumentHolder.menuDelete": "Удалить",
   "DE.Controllers.DocumentHolder.menuEdit": "Редактировать",
   "DE.Controllers.DocumentHolder.menuOpenLink": "Перейти",
+  "DE.Controllers.DocumentHolder.menuMore": "Еще",
+  "DE.Controllers.DocumentHolder.sheetCancel": "Отмена",
   "DE.Controllers.DocumentHolder.menuPaste": "Вставить",
   "DE.Controllers.DocumentHolder.textGuest": "Гость",
   "DE.Controllers.EditContainer.textChart": "Диаграмма",
