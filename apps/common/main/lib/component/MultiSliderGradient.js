@@ -63,7 +63,10 @@ define([
             '<div class="slider multi-slider-gradient">',
             '<div class="track"></div>',
             '<% _.each(items, function(item) { %>',
-            '<div class="thumb img-commonctrl" style=""></div>',
+            '<div class="thumb img-commonctrl" style="">',
+                '<div class="thumb-top"></div>',
+                '<div class="thumb-bottom"></div>',
+            '</div>',
             '<% }); %>',
             '</div>'
         ].join('')),
@@ -98,6 +101,7 @@ define([
                 me.thumbs[i].thumb.on('dblclick', null, function() {
                     me.trigger('thumbdblclick', me);
                 });
+                me.thumbs[i].thumbcolor = me.thumbs[i].thumb.find('> div');
             }
 
             if (me.styleStr!=='') {
@@ -118,6 +122,7 @@ define([
         setColorValue: function(color, index) {
             var ind = (index!==undefined) ? index : this.currentThumb;
             this.colorValues[ind] = color;
+            this.thumbs[ind].thumbcolor.css('background-color', color);
             this.changeGradientStyle();
         },
 
