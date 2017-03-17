@@ -574,6 +574,85 @@ define([
                 /** coauthoring end **/
             };
 
+            var onShowSpecialPasteOptions = function(specialPasteShowOptions) {
+                var coord  = specialPasteShowOptions.asc_getCellCoord(),
+                    pasteContainer = me.cmpEl.find('#special-paste-container'),
+                    pasteItems = specialPasteShowOptions.asc_getOptions();
+
+                // Prepare menu container
+                if (pasteContainer.length < 1) {
+                    me._arrSpecialPaste = [];
+                    me._arrSpecialPaste[Asc.c_oSpecialPasteProps.paste] = me.textPaste;
+                    me._arrSpecialPaste[Asc.c_oSpecialPasteProps.pasteOnlyFormula] = me.txtPasteFormulas;
+                    me._arrSpecialPaste[Asc.c_oSpecialPasteProps.formulaNumberFormat] = me.txtPasteFormulaNumFormat;
+                    me._arrSpecialPaste[Asc.c_oSpecialPasteProps.formulaAllFormatting] = me.txtPasteKeepSourceFormat;
+                    me._arrSpecialPaste[Asc.c_oSpecialPasteProps.formulaWithoutBorders] = me.txtPasteBorders;
+                    me._arrSpecialPaste[Asc.c_oSpecialPasteProps.formulaColumnWidth] = me.txtPasteColWidths;
+                    me._arrSpecialPaste[Asc.c_oSpecialPasteProps.mergeConditionalFormating] = me.txtPasteMerge;
+                    me._arrSpecialPaste[Asc.c_oSpecialPasteProps.pasteOnlyValues] = me.txtPasteValues;
+                    me._arrSpecialPaste[Asc.c_oSpecialPasteProps.valueNumberFormat] = me.txtPasteValNumFormat;
+                    me._arrSpecialPaste[Asc.c_oSpecialPasteProps.valueAllFormating] = me.txtPasteValFormat;
+                    me._arrSpecialPaste[Asc.c_oSpecialPasteProps.pasteOnlyFormating] = me.txtPasteFormat;
+                    me._arrSpecialPaste[Asc.c_oSpecialPasteProps.transpose] = me.txtPasteTranspose;
+                    me._arrSpecialPaste[Asc.c_oSpecialPasteProps.link] = me.txtPasteLink;
+                    me._arrSpecialPaste[Asc.c_oSpecialPasteProps.picture] = me.txtPastePicture;
+                    me._arrSpecialPaste[Asc.c_oSpecialPasteProps.linkedPicture] = me.txtPasteLinkPicture;
+                    me._arrSpecialPaste[Asc.c_oSpecialPasteProps.sourceformatting] = me.txtPasteSourceFormat;
+                    me._arrSpecialPaste[Asc.c_oSpecialPasteProps.destinationFormatting] = me.txtPasteDestFormat;
+
+                    pasteContainer = $('<div id="special-paste-container" style="position: absolute;"><div id="id-document-holder-btn-special-paste"></div></div>');
+                    me.cmpEl.append(pasteContainer);
+
+                    me.btnSpecialPaste = new Common.UI.Button({
+                        cls         : 'btn-toolbar',
+                        iconCls     : 'btn-paste',
+                        menu        : new Common.UI.Menu({items: []})
+                    });
+                    me.btnSpecialPaste.render($('#id-document-holder-btn-special-paste')) ;
+                }
+
+                if (pasteItems.length>0) {
+                    var menu = me.btnSpecialPaste.menu;
+                    for (var i = 0; i < menu.items.length; i++) {
+                        menu.removeItem(menu.items[i]);
+                        i--;
+                    }
+
+                    var group_prev = -1;
+                    _.each(pasteItems, function(menuItem, index) {
+                        var group = (menuItem<7) ? 0 : (menuItem>9 ? 2 : 1);
+                        if (group_prev !== group && group_prev>=0)
+                            menu.addItem(new Common.UI.MenuItem({ caption: '--' }));
+                        group_prev = group;
+
+                        var mnu = new Common.UI.MenuItem({
+                            caption: me._arrSpecialPaste[menuItem],
+                            value: menuItem,
+                            checkable: true,
+                            toggleGroup : 'specialPasteGroup'
+                        }).on('click', function(item, e) {
+                            me.api.asc_SpecialPaste(item.value);
+                            setTimeout(function(){menu.hide();}, 100);
+                        });
+                        menu.addItem(mnu);
+                    });
+                    (menu.items.length>0) && menu.items[0].setChecked(true, true);
+                }
+                if (coord.asc_getX()<0 || coord.asc_getY()<0) {
+                    if (pasteContainer.is(':visible')) pasteContainer.hide();
+                } else {
+                    var showPoint = [coord.asc_getX() + coord.asc_getWidth() + 3, coord.asc_getY() + coord.asc_getHeight() + 3];
+                    pasteContainer.css({left: showPoint[0], top : showPoint[1]});
+                    pasteContainer.show();
+                }
+            };
+
+            var onHideSpecialPasteOptions = function() {
+                var pasteContainer = me.cmpEl.find('#special-paste-container');
+                if (pasteContainer.is(':visible'))
+                    pasteContainer.hide();
+            };
+
             var onDialogAddHyperlink = function() {
                 var win, props, text;
                 if (me.api && me.mode.isEdit){
@@ -1438,6 +1517,9 @@ define([
                     this.api.asc_registerCallback('asc_onShowForeignCursorLabel',       _.bind(onShowForeignCursorLabel, this));
                     this.api.asc_registerCallback('asc_onHideForeignCursorLabel',       _.bind(onHideForeignCursorLabel, this));
                     this.api.asc_registerCallback('asc_onFocusObject',                  _.bind(onFocusObject, this));
+                    this.api.asc_registerCallback('asc_onShowSpecialPasteOptions',      _.bind(onShowSpecialPasteOptions, this));
+                    this.api.asc_registerCallback('asc_onHideSpecialPasteOptions',      _.bind(onHideSpecialPasteOptions, this));
+
                 }
 
                 return this;
@@ -3336,7 +3418,23 @@ define([
         txtAlignToChar: 'Align to character',
         txtDeleteRadical: 'Delete radical',
         txtDeleteChars: 'Delete enclosing characters',
-        txtDeleteCharsAndSeparators: 'Delete enclosing characters and separators'
+        txtDeleteCharsAndSeparators: 'Delete enclosing characters and separators',
+        txtPasteFormulas: 'Paste only formula',
+        txtPasteFormulaNumFormat: 'Formula + number format',
+        txtPasteKeepSourceFormat: 'Formula + all formatting',
+        txtPasteBorders: 'Formula without borders',
+        txtPasteColWidths: 'Formula + column width',
+        txtPasteMerge: 'Merge conditional formatting',
+        txtPasteTranspose: 'Transpose',
+        txtPasteValues: 'Paste only value',
+        txtPasteValNumFormat: 'Value + number format',
+        txtPasteValFormat: 'Value + all formatting',
+        txtPasteFormat: 'Paste only formatting',
+        txtPasteLink: 'Paste Link',
+        txtPastePicture: 'Picture',
+        txtPasteLinkPicture: 'Linked Picture',
+        txtPasteSourceFormat: 'Source formatting',
+        txtPasteDestFormat: 'Destination formatting'
 
     }, DE.Views.DocumentHolder || {}));
 });
