@@ -11,4 +11,7 @@
     <div class="ce-group group-expand">
         <button id="ce-btn-expand" type="button" class="btn"><span class="caret"></span></button>
     </div>
+    <div class="ce-group group-functions-list">
+        <ul class="func-list"></ul>
+    </div>
 </div>

@@ -61,9 +61,15 @@ define([
         },
 
         initialize: function() {
+            var me = this;
             this.addListeners({
                 'CellEditor': {
-                    'function:click': this.onInsertFunction.bind(this)
+                    'function:click': this.onInsertFunction.bind(this),
+                    'function:hint': function (name, type) {
+                        setTimeout(function(){
+                            me.api.asc_insertFormula(name, type, false);
+                        }, 0);
+                    }
                 }
             //     'Viewport': {
                     // 'layout:resizedrag': _.bind(this.onLayoutResize, this)
@@ -77,6 +83,7 @@ define([
             // this.api.isCEditorFocused = false;
             this.api.asc_registerCallback('asc_onSelectionNameChanged', _.bind(this.onApiCellSelection, this));
             this.api.asc_registerCallback('asc_onEditCell', _.bind(this.onApiEditCell, this));
+            this.api.asc_registerCallback('asc_onFormulaCompleteMenu',  _.bind(this.onFormulaCompleteMenu, this));
             // this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onApiDisconnect,this));
             // Common.NotificationCenter.on('api:disconnect', _.bind(this.onApiDisconnect, this));
             // Common.NotificationCenter.on('cells:range', _.bind(this.onCellsRange, this));
@@ -175,6 +182,15 @@ define([
                     panel: 'function',
                     button: '#ce-function'
                 });
+            }
+        },
+
+        onFormulaCompleteMenu: function(funcarr) {
+            if ( funcarr && funcarr.length ) {
+                this.editor.resetFunctionsHint(funcarr);
+                !this.editor.$boxfuncs.hasClass('.opened') && this.editor.$boxfuncs.addClass('opened');
+            } else {
+                this.editor.$boxfuncs.removeClass('opened');
             }
         }
     });
