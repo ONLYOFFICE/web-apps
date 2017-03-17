@@ -114,6 +114,7 @@ define([
                                 createExternalEditor.apply(this);
                             }
                             this.isExternalEditorVisible = true;
+                            this.isHandlerCalled = false;
                         }, this),
                         'hide':  _.bind(function(cmp){
                             if (externalEditor) {
@@ -138,6 +139,8 @@ define([
             },
 
             handler: function(result, value) {
+                if (this.isHandlerCalled) return;
+                this.isHandlerCalled = true;
                 externalEditor && externalEditor.serviceCommand('queryClose',{mr:result});
                 return true;
             },
