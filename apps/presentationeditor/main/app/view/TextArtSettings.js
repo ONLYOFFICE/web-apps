@@ -1224,6 +1224,18 @@ define([
             this.sldrGradient.on('thumbdblclick', function(cmp){
                 me.btnGradColor.cmpEl.find('button').dropdown('toggle');
             });
+            this.sldrGradient.on('sortthumbs', function(cmp, indexes){
+                var colors = [],
+                    currentIdx;
+                _.each (me.GradColor.colors, function(color, index) {
+                    colors[index] = me.GradColor.colors[indexes[index]];
+                    if (me.GradColor.currentIdx == indexes[index])
+                        currentIdx = index;
+                });
+                me.OriginalFillType = null;
+                me.GradColor.colors = colors;
+                me.GradColor.currentIdx = currentIdx;
+            });
             this.lockedControls.push(this.sldrGradient);
 
             this.cmbBorderSize = new Common.UI.ComboBorderSizeEditable({
