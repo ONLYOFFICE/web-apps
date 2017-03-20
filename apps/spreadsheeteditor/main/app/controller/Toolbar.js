@@ -1308,8 +1308,13 @@ define([
                 shortcuts: {
                     'command+l,ctrl+l': function(e) {
                         if (me.editMode && !me._state.multiselect) {
-                            if (!me.api.asc_getCellInfo().asc_getFormatTableInfo())
-                                me._setTableFormat(me.toolbar.mnuTableTemplatePicker.store.at(23).get('name'));
+                            var formattableinfo = me.api.asc_getCellInfo().asc_getFormatTableInfo();
+                            if (!formattableinfo) {
+                                if (_.isUndefined(me.toolbar.mnuTableTemplatePicker))
+                                    me.onApiInitTableTemplates(me.api.asc_getTablePictures(formattableinfo));
+                                var store = me.getCollection('TableTemplates');
+                                me._setTableFormat(store.at(23).get('name'));
+                            }
                         }
 
                         return false;
