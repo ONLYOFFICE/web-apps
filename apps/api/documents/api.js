@@ -50,7 +50,6 @@
                 lang: <language code>,
                 location: <location>,
                 canCoAuthoring: <can coauthoring documents>,
-                canAutosave: <can autosave documents>,
                 canBackToFolder: <can return to folder> - deprecated. use "customization.goback" parameter,
                 createUrl: 'create document url', 
                 sharingSettingsUrl: 'document sharing settings url',
