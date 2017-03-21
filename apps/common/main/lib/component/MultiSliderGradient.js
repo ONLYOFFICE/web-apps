@@ -153,13 +153,13 @@ define([
         },
 
         sortThumbs: function() {
-            var recalc_indexes = Common.UI.MultiSlider.prototype.sortThumbs.call(this);
-            var colors = [],
+            var recalc_indexes = Common.UI.MultiSlider.prototype.sortThumbs.call(this),
+                new_colors = [],
                 me = this;
-            _.each (this.colorValues, function(color, index) {
-                colors[index] = me.colorValues[recalc_indexes[index]];
+            _.each (recalc_indexes, function(recalc_index) {
+                new_colors.push(me.colorValues[recalc_index]);
             });
-            this.colorValues = colors;
+            this.colorValues = new_colors;
             this.trigger('sortthumbs', me, recalc_indexes);
             return recalc_indexes;
         }

@@ -503,15 +503,11 @@ define([
 
         sortThumbs: function() {
             this.thumbs.sort(function(a, b) {
-                if (a.position < b.position)
-                    return -1;
-                if (a.position > b.position)
-                    return 1;
-                return 0;
+                return (a.position - b.position);
             });
             var recalc_indexes = [];
             _.each (this.thumbs, function(thumb, index) {
-                recalc_indexes[index] = thumb.index;
+                recalc_indexes.push(thumb.index);
                 thumb.index = index;
             });
             return recalc_indexes;
