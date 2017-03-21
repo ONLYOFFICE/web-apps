@@ -189,6 +189,8 @@ define([
                 this.panelUsers = $('#status-users-ct', this.el);
                 this.panelUsers.on('shown.bs.dropdown', function () {
                     me.panelUsersList.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true});
+                    var tip = me.panelUsersBlock.data('bs.tooltip');
+                    if (tip) tip.hide();
                 });
 
                 this.panelUsersBlock = this.panelUsers.find('#status-users-block');
