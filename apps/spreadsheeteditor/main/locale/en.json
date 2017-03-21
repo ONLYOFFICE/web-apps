@@ -934,6 +934,7 @@
   "SSE.Views.DigitalFilterDialog.textUse2": "Use * to present any series of character",
   "SSE.Views.DigitalFilterDialog.txtTitle": "Custom Filter",
   "SSE.Views.DocumentHolder.advancedShapeText": "Shape Advanced Settings",
+  "SSE.Views.DocumentHolder.advancedImgText": "Image Advanced Settings",
   "SSE.Views.DocumentHolder.bottomCellText": "Align Bottom",
   "SSE.Views.DocumentHolder.centerCellText": "Align Center",
   "SSE.Views.DocumentHolder.chartText": "Chart Advanced Settings",

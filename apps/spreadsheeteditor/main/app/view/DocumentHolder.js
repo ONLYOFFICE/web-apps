@@ -418,6 +418,10 @@ define([
                 caption : me.advancedShapeText
             });
 
+            me.mnuImgAdvanced = new Common.UI.MenuItem({
+                caption : me.advancedImgText
+            });
+
             me.mnuChartEdit = new Common.UI.MenuItem({
                 caption : me.chartText
             });
@@ -469,7 +473,8 @@ define([
                     me.mnuUnGroupImg,
                     me.mnuShapeSeparator,
                     me.mnuChartEdit,
-                    me.mnuShapeAdvanced
+                    me.mnuShapeAdvanced,
+                    me.mnuImgAdvanced
                 ]
             });
 
@@ -706,7 +711,8 @@ define([
         txtSparklines: 'Sparklines',
         txtClearSparklines: 'Clear Selected Sparklines',
         txtClearSparklineGroups: 'Clear Selected Sparkline Groups',
-        txtShowComment: 'Show Comment'
+        txtShowComment: 'Show Comment',
+        advancedImgText: 'Image Advanced Settings'
 
     }, SSE.Views.DocumentHolder || {}));
 });
