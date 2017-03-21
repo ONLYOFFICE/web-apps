@@ -1,10 +1,12 @@
 <div class="layout-region">
     <div id="viewport-vbox-layout" class="layout-ct vbox">
+        <section class="layout-ct">
+            <div id="file-menu-panel" class="left-menu-full-ct" style="display:none;"></div>
+        </section>
         <div id="toolbar" class="layout-item"></div>
         <div class="layout-item middle">
             <div id="viewport-hbox-layout" class="layout-ct hbox">
                 <div id="left-menu" class="layout-item" style="width: 40px;"></div>
-                <div id="file-menu-panel" class="left-menu-full-ct" style="display:none;"></div>
                 <div id="about-menu-panel" class="left-menu-full-ct" style="display:none;"></div>
                 <div id="editor_sdk" class="layout-item"></div>
                 <div id="right-menu" class="layout-item"></div>
