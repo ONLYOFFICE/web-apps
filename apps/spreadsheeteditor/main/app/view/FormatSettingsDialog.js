@@ -288,8 +288,10 @@ define([
                             this.cmbType.selectRecord(selectedItem);
                         else if (props.formatInfo.asc_getType() == Asc.c_oAscNumFormatType.Fraction)
                             this.cmbType.setValue(this.txtCustom);
+                        else if (props.formatInfo.asc_getType() == Asc.c_oAscNumFormatType.Time)
+                            this.cmbType.setValue(this.api.asc_getLocaleExample(props.format, 1.534));
                         else
-                            this.cmbType.setValue(this.api.asc_getLocaleExample(props.format), 37973);
+                            this.cmbType.setValue(this.api.asc_getLocaleExample(props.format, 37973));
                     }
                     this.Format = props.format;
                 }
@@ -439,7 +441,7 @@ define([
 
                     var formatsarr = this.api.asc_getFormatCells(info),
                         data = [],
-                        exampleVal = (record.value == Asc.c_oAscNumFormatType.Date) ? 37973 : ((record.value == Asc.c_oAscNumFormatType.Time) ? 0.123 : parseFloat("-1234.12345678901234567890"));
+                        exampleVal = (record.value == Asc.c_oAscNumFormatType.Date) ? 37973 : ((record.value == Asc.c_oAscNumFormatType.Time) ? 1.534 : parseFloat("-1234.12345678901234567890"));
                     formatsarr.forEach(function(item) {
                         data.push({value: item, displayValue: me.api.asc_getLocaleExample(item, exampleVal)});
                     });
