@@ -174,6 +174,8 @@ define([
             if (this.mode.canUseHistory)
                 this.leftMenu.setOptionsPanel('history', this.getApplication().getController('Common.Controllers.History').getView('Common.Views.History'));
 
+            this.mode.isTrial && this.leftMenu.setDeveloperMode(true);
+
             Common.util.Shortcuts.resumeEvents();
             return this;
         },
@@ -184,6 +186,7 @@ define([
                 this.leftMenu.setOptionsPanel('plugins', this.getApplication().getController('Common.Controllers.Plugins').getView('Common.Views.Plugins'));
             } else
                 this.leftMenu.btnPlugins.hide();
+            this.mode.isTrial && this.leftMenu.setDeveloperMode(true);
         },
 
         clickMenuFileItem: function(menu, action, isopts) {

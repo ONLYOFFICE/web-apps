@@ -358,6 +358,24 @@ define([
             Common.NotificationCenter.trigger('layout:changed', 'history');
         },
 
+        setDeveloperMode: function(mode) {
+            if ( !this.$el.is(':visible') ) return;
+
+            if (!this.developerHint) {
+                this.developerHint = $('<div id="developer-hint">' + this.txtDeveloper + '</div>').appendTo(this.$el);
+                this.devHeight = this.developerHint.outerHeight();
+                $(window).on('resize', _.bind(this.onWindowResize, this));
+            }
+            this.developerHint.toggleClass('hidden', !mode);
+
+            var lastbtn = this.$el.find('button.btn-category:visible:last-of-type');
+            this.minDevPosition = lastbtn.offset().top - lastbtn.offsetParent().offset().top + lastbtn.height() + 20;
+            this.onWindowResize();
+        },
+
+        onWindowResize: function() {
+            this.developerHint.css('top', Math.max((this.$el.height()-this.devHeight)/2, this.minDevPosition));
+        },
         /** coauthoring begin **/
         tipComments : 'Comments',
         tipChat     : 'Chat',
@@ -366,6 +384,7 @@ define([
         tipSupport  : 'Feedback & Support',
         tipFile     : 'File',
         tipSearch   : 'Search',
-        tipPlugins  : 'Plugins'
+        tipPlugins  : 'Plugins',
+        txtDeveloper: 'DEVELOPER MODE'
     }, DE.Views.LeftMenu || {}));
 });

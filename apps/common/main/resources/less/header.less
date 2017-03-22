@@ -46,34 +46,6 @@
     }
 }
 
-#header-developer {
-    background-color: #ffb400;
-    padding-left: 15px + @app-header-height / 3;
-    & > div {
-        position: relative;
-        background-color: #ffb400;
-        color: #6e4e00 !important;
-        padding-right: 15px;
-        cursor: default;
-        z-index: 1;
-        white-space: nowrap;
-        height: @app-header-height;
-        line-height: @app-header-height;
-
-        &:after {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: -@app-header-height / 2;
-            width: @app-header-height / 2;
-            height: @app-header-height;
-            border-top: @app-header-height / 2 solid transparent;
-            border-left: @app-header-height / 3 solid #ffb400;
-            border-bottom: @app-header-height / 2 solid transparent;
-        }
-    }
-}
-
 #header-documentcaption {
     width: 100%;
     max-width: 100px;

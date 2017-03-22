@@ -759,6 +759,7 @@ define([
                     this.appOptions.canComments    = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit) && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.comments===false);
                     this.appOptions.canChat        = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit) && !this.appOptions.isOffline && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.chat===false);
                     this.appOptions.canRename      = !!this.permissions.rename;
+                    this.appOptions.isTrial        = params.asc_getTrial();
 
                     this.appOptions.canBranding  = (licType === Asc.c_oLicenseResult.Success) && (typeof this.editorConfig.customization == 'object');
                     if (this.appOptions.canBranding)
@@ -768,7 +769,6 @@ define([
                     if (this.appOptions.canBrandingExt)
                         this.updatePlugins(this.plugins, true);
 
-                    params.asc_getTrial() && this.headerView.setDeveloperMode(true);
                     this.appOptions.canRename && this.headerView.setCanRename(true);
                 }
 

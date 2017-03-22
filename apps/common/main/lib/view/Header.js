@@ -54,7 +54,6 @@ define([
         options : {
             branding: {},
             headerCaption: 'Default Caption',
-            headerDeveloper: 'DEVELOPER MODE',
             documentCaption: '',
             canBack: false
         },
@@ -79,7 +78,6 @@ define([
             this.options = this.options ? _({}).extend(this.options, options) : options;
 
             this.headerCaption      = this.options.headerCaption;
-            this.headerDeveloper    = this.txtHeaderDeveloper;
             this.documentCaption    = this.options.documentCaption;
             this.canBack            = this.options.canBack;
             this.branding           = this.options.customization;
@@ -88,7 +86,6 @@ define([
         render: function () {
             $(this.el).html(this.template({
                 headerCaption   : this.headerCaption,
-                headerDeveloper   : this.headerDeveloper,
                 documentCaption : Common.Utils.String.htmlEncode(this.documentCaption),
                 canBack         : this.canBack,
                 textBack        : this.textBack
@@ -223,10 +220,6 @@ define([
             }
         },
 
-        setDeveloperMode: function(mode) {
-            $('#header-developer').toggleClass('hidden', !mode);
-        },
-
         setCanRename: function(rename) {
             var dc = $('#header-documentcaption div');
             if (rename) {
@@ -257,7 +250,6 @@ define([
 
         textBack: 'Go to Documents',
         openNewTabText: 'Open in New Tab',
-        txtHeaderDeveloper: 'DEVELOPER MODE',
         txtRename: 'Rename'
     }, Common.Views.Header || {}))
 });
