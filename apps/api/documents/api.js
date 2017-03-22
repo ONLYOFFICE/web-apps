@@ -130,8 +130,7 @@
             events: {
                 'onReady': <document ready callback>,
                 'onBack': <back to folder callback>,
-                'onDocumentStateChange': <document state changed callback>,
-                'onSave': <save request callback>
+                'onDocumentStateChange': <document state changed callback>
             }
         }
 
@@ -279,9 +278,6 @@
 
                         if (handler) {
                             res = handler.call(_self, {target: _self, data: msg.data});
-                            if (msg.event === 'onSave' && res !== false) {
-                                _processSaveResult(true);
-                            }
                         }
                     }
                 }
