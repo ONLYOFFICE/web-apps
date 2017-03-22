@@ -1159,6 +1159,8 @@ define([
             );
             if (this.mode.isDesktopApp || this.mode.canBrandingExt && this.mode.customization && this.mode.customization.header===false)
                 this.mnuitemHideTitleBar.hide();
+            if (this.mode.canBrandingExt && this.mode.customization && this.mode.customization.statusBar===false)
+                this.mnuitemHideStatusBar.hide();
 
             this.mnuZoomOut = new Common.UI.Button({
                 el  : $('#id-menu-zoom-out'),

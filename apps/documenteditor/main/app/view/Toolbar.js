@@ -1206,7 +1206,9 @@ define([
             );
             if (this.mode.isDesktopApp || this.mode.canBrandingExt && this.mode.customization && this.mode.customization.header===false)
                 this.mnuitemHideTitleBar.hide();
-            
+            if (this.mode.canBrandingExt && this.mode.customization && this.mode.customization.statusBar===false)
+                this.mnuitemHideStatusBar.hide();
+
             this.btnMarkers.setMenu(
                 new Common.UI.Menu({
                     items: [

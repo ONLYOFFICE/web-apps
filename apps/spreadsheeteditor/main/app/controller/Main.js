@@ -74,7 +74,8 @@ define([
             toolbar: '#viewport #toolbar',
             leftMenu: '#viewport #left-menu, #viewport #id-toolbar-full-placeholder-btn-settings, #viewport #id-toolbar-short-placeholder-btn-settings',
             rightMenu: '#viewport #right-menu',
-            header: '#viewport #header'
+            header: '#viewport #header',
+            statusBar: '#statusbar'
         };
 
         Common.localStorage.setId('table');
