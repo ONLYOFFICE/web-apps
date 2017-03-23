@@ -81,6 +81,7 @@ define([
             this.documentCaption    = this.options.documentCaption;
             this.canBack            = this.options.canBack;
             this.branding           = this.options.customization;
+            this.isModified         = false;
         },
 
         render: function () {
@@ -155,13 +156,17 @@ define([
             return this.headerCaption;
         },
 
-        setDocumentCaption: function(value, applyOnly) {
-            if (_.isUndefined(applyOnly)) {
-                this.documentCaption = value;
-            }
+        setDocumentCaption: function(value, isModified) {
+            if (isModified !== undefined)
+                this.isModified = isModified;
+
+            this.documentCaption = value;
 
             if (!value)
                 value = '';
+
+            if (this.isModified)
+                value = value + '*';
 
             var dc = $('#header-documentcaption div');
             if (dc)

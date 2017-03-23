@@ -79,7 +79,6 @@ define([
                     isDisconnected      : false,
                     usersCount          : 1,
                     fastCoauth          : true,
-                    startModifyDocument : true,
                     lostEditingRights   : false,
                     licenseWarning      : false
                 };
@@ -829,21 +828,12 @@ define([
                     if (window.document.title != title)
                         window.document.title = title;
 
-                    if (!this._state.fastCoauth || this._state.usersCount<2 )
-                        Common.Gateway.setDocumentModified(isModified);
-                    else if ( this._state.startModifyDocument!==undefined && this._state.startModifyDocument === isModified){
-                        Common.Gateway.setDocumentModified(isModified);
-                        this._state.startModifyDocument = (this._state.startModifyDocument) ? !this._state.startModifyDocument : undefined;
-                    }
-
+                    Common.Gateway.setDocumentModified(isModified);
                     this._state.isDocModified = isModified;
                 }
             },
 
             onDocumentModifiedChanged: function() {
-                if (this._state.fastCoauth && this._state.usersCount > 1 && this._state.startModifyDocument===undefined )
-                    return;
-
                 var isModified = this.api.asc_isDocumentCanSave();
                 if (this._state.isDocModified !== isModified) {
                     Common.Gateway.setDocumentModified(this.api.isDocumentModified());

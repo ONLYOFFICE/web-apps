@@ -103,7 +103,7 @@ define([
             onLaunch: function() {
 //                $(document.body).css('position', 'absolute');
 
-                this._state = {isDisconnected: false, usersCount: 1, fastCoauth: true, startModifyDocument: true, lostEditingRights: false, licenseWarning: false};
+                this._state = {isDisconnected: false, usersCount: 1, fastCoauth: true, lostEditingRights: false, licenseWarning: false};
 
                 if (!Common.Utils.isBrowserSupported()){
                     Common.Utils.showBrowserRestriction();
@@ -1271,24 +1271,26 @@ define([
                         title = this.headerView.getDocumentCaption() + ' - ' + title;
 
                     if (change) {
-                        if (!_.isUndefined(title) && (!this._state.fastCoauth || this._state.usersCount<2 )) {
+                        clearTimeout(this._state.timerCaption);
+                        if (!_.isUndefined(title)) {
                             title = '* ' + title;
-                            this.headerView.setDocumentCaption(this.headerView.getDocumentCaption() + '*', true);
+                            this.headerView.setDocumentCaption(this.headerView.getDocumentCaption(), true);
                         }
                     } else {
-                        this.headerView.setDocumentCaption(this.headerView.getDocumentCaption());
+                        if (this._state.fastCoauth && this._state.usersCount>1) {
+                            var me = this;
+                            this._state.timerCaption = setTimeout(function () {
+                                me.headerView.setDocumentCaption(me.headerView.getDocumentCaption(), false);
+                            }, 500);
+                        } else
+                            this.headerView.setDocumentCaption(this.headerView.getDocumentCaption(), false);
                     }
 
                     if (window.document.title != title)
                         window.document.title = title;
 
-                    if (!this._state.fastCoauth || this._state.usersCount<2 )
-                        Common.Gateway.setDocumentModified(change);
-                    else if ( this._state.startModifyDocument!==undefined && this._state.startModifyDocument === change){
-                        Common.Gateway.setDocumentModified(change);
-                        this._state.startModifyDocument = (this._state.startModifyDocument) ? !this._state.startModifyDocument : undefined;
-                    }
-                    
+                    Common.Gateway.setDocumentModified(change);
+
                     this._state.isDocModified = change;
                 }
             },
@@ -1297,8 +1299,6 @@ define([
             },
 
             onDocumentModifiedChanged: function(change) {
-                if (this._state.fastCoauth && this._state.usersCount>1 && this._state.startModifyDocument===undefined ) return;
-
                 this.updateWindowTitle(change);
                 Common.Gateway.setDocumentModified(change);
 
