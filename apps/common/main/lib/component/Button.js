@@ -122,6 +122,20 @@ define([
     var templateHugeCaption =
         '<div class="btn-group icon-top" id="<%= id %>" style="<%= style %>">' +
             '<button type="button" class="btn dropdown-toggle <%= cls %>" data-toggle="dropdown">' +
+                '<div class="inner-box-icon">' +
+                '<% if ( iconImg ) { %>' +
+                    '<img src="<%= iconImg %>">' +
+                '<% } else { %>' +
+                    '<i class="icon <%= iconCls %>">&nbsp;</i>' +
+                '<% } %>' +
+                '</div>' +
+                '<span class="caption"><%= caption %></span>' +
+            '</button>' +
+        '</div>';
+
+    var templateHugeMenuCaption =
+        '<div class="btn-group icon-top" id="<%= id %>" style="<%= style %>">' +
+            '<button type="button" class="btn dropdown-toggle <%= cls %>" data-toggle="dropdown">' +
                 '<% if ( iconImg ) { %>' +
                     '<img src="<%= iconImg %>">' +
                 '<% } else { %>' +
@@ -236,6 +250,8 @@ define([
                             this.template = _.template(templateHugeSplitCaption);
                         } else
                         if ( !!me.menu ) {
+                            this.template = _.template(templateHugeMenuCaption);
+                        } else {
                             this.template = _.template(templateHugeCaption);
                         }
                     }
