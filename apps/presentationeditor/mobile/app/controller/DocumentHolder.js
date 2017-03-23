@@ -193,7 +193,7 @@ define([
                         newDocumentPage.focus();
                     }
                 } else
-                    this.api.openInternalLink(url);
+                    this.api.asc_GoToInternalHyperlink(url);
             },
 
             _initMenu: function (stack) {
