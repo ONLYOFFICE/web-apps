@@ -315,13 +315,13 @@ define([
                     }
                 };
 
-                var doSplitSelect = function(select, e) {
+                var doSplitSelect = function(select, element, e) {
                     if (!select) {
                         // Is mouse under button
                         var isUnderMouse = false;
 
-                        _.each($('button', el), function(el){
-                            if ($(el).is(':hover')) {
+                        $('button', el).each(function(index, button){
+                            if ($(button).is(':hover')) {
                                 isUnderMouse = true;
                                 return false;
                             }
@@ -333,15 +333,18 @@ define([
                         }
                     }
 
-                    if (!select && (me.enableToggle && me.allowDepress && me.pressed))
-                        return;
-                    if (select && !isSplit && (me.enableToggle && me.allowDepress && !me.pressed)) { // to depress button with menu
-                        e.preventDefault();
-                        return;
-                    }
+                    if ( element == 'button') {
+                        if (!select && (me.enableToggle && me.allowDepress && me.pressed))
+                            return;
+                        if (select && !isSplit && (me.enableToggle && me.allowDepress && !me.pressed)) { // to depress button with menu
+                            e.preventDefault();
+                            return;
+                        }
 
-                    $('button:first', el).toggleClass('active', select);
-                    $('[data-toggle^=dropdown]', el).toggleClass('active', select);
+                        $('button:first', el).toggleClass('active', select);
+                    } else
+                        $('[data-toggle^=dropdown]', el).toggleClass('active', select);
+
                     el.toggleClass('active', select);
                 };
 
@@ -358,27 +361,29 @@ define([
                                 }
                             }
                             var isOpen = el.hasClass('open');
-                            doSplitSelect(!isOpen, e);
+                            doSplitSelect(!isOpen, 'arrow', e);
                         }
                     }
                 };
 
                 var doSetActiveState = function(e, state) {
                     if (isSplit) {
-                        doSplitSelect(state, e);
+                        doSplitSelect(state, 'button', e);
                     } else {
                         el.toggleClass('active', state);
                         $('button', el).toggleClass('active', state);
                     }
                 };
 
+                var splitElement;
                 var onMouseDown = function (e) {
-                    doSplitSelect(true, e);
+                    splitElement = e.currentTarget.className.match(/dropdown/) ? 'arrow' : 'button';
+                    doSplitSelect(true, splitElement, e);
                     $(document).on('mouseup',   onMouseUp);
                 };
 
                 var onMouseUp = function (e) {
-                    doSplitSelect(false, e);
+                    doSplitSelect(false, splitElement, e);
                     $(document).off('mouseup',   onMouseUp);
                 };
 
@@ -394,8 +399,8 @@ define([
                         $('button', el).on('mousedown', _.bind(onMouseDown, this));
                     }
 
-                    el.on('hide.bs.dropdown', _.bind(doSplitSelect, me, false));
-                    el.on('show.bs.dropdown', _.bind(doSplitSelect, me, true));
+                    el.on('hide.bs.dropdown', _.bind(doSplitSelect, me, false, 'arrow'));
+                    el.on('show.bs.dropdown', _.bind(doSplitSelect, me, true, 'arrow'));
                     el.on('hidden.bs.dropdown', _.bind(onAfterHideMenu, me));
 
                     $('button:first', el).on('click', buttonHandler);
