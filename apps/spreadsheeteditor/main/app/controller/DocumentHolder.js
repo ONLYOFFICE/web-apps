@@ -826,7 +826,7 @@ define([
                             linkstr = props.asc_getHyperlinkUrl() + '<br><b>' + me.textCtrlClick + '</b>';
                         }
                     } else {
-                        linkstr = props.asc_getTooltip() || (props.asc_getSheet() + '!' + props.asc_getRange());
+                        linkstr = props.asc_getTooltip() || (props.asc_getLocation());
                     }
 
                     if (hyperlinkTip.ref && hyperlinkTip.ref.isVisible()) {
