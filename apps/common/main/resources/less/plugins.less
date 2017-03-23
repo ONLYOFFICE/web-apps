@@ -125,7 +125,7 @@
 #plugins-panel {
     .x-huge.icon-top {
         img {
-            height: 27px;
+            height: 20px;
         }
 
         .caption {
@@ -133,7 +133,13 @@
             max-width: 60px;
             overflow: hidden;
         }
+    }
 
-        width: 60px;
+    .slot:not(:first-child) {
+        margin-left: 2px;
+    }
+
+    .dropdown-menu {
+        min-width: 100px;
     }
 }

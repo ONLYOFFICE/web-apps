@@ -64,8 +64,8 @@ define([
                     }
                 },
                 'Common.Views.Plugins': {
-                    'plugin:select': function(guid) {
-                        me.api.asc_pluginRun(guid, 0, '');
+                    'plugin:select': function(guid, type) {
+                        me.api.asc_pluginRun(guid, type, '');
                     }
                 }
             });

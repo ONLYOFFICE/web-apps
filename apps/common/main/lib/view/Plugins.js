@@ -157,7 +157,8 @@ define([
                         iconCls: 'img-commonctrl review-prev',
                         iconImg: _icon_url,
                         caption: model.get('name'),
-                        // menu: modes && modes.length > 1,
+                        menu: modes && modes.length > 1,
+                        split: modes && modes.length > 1,
                         value: guid,
                         hint: model.get('name')
                     });
@@ -253,8 +254,29 @@ define([
 
                 if ( _plugin_btn ) {
                     _plugin_btn.on('click', function(b, e) {
-                        me.fireEvent('plugin:select', [b.options.value]);
+                        me.fireEvent('plugin:select', [b.options.value, 0]);
                     });
+
+                    if ( _plugin_btn.split ) {
+                        var _menu_items = [];
+                        _.each(model.get('variations'), function(version, index) {
+                            _menu_items.push({
+                                caption     : index > 0 ? version.get('description') : me.textStart,
+                                value       : parseInt(version.get('index'))
+                            });
+                        });
+
+                        _plugin_btn.setMenu(
+                            new Common.UI.Menu({
+                                items: _menu_items,
+                                pluginGuid: model.get('guid')
+                            })
+                        );
+
+                        _plugin_btn.menu.on('item:click', function(menu, item, e) {
+                            me.fireEvent('plugin:select', [menu.options.pluginGuid, item.value]);
+                        });
+                    }
                 }
             });
         },
