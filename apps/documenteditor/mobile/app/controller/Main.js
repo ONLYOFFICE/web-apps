@@ -312,14 +312,9 @@ define([
                     me.setLongActionView(action)
                 } else {
                     if (me._state.fastCoauth && me._state.usersCount>1 && id==Asc.c_oAscAsyncAction['Save']) {
-                        if (me._state.timerSave===undefined)
-                            me._state.timerSave = setInterval(function(){
-                                if ((new Date()) - me._state.isSaving>500) {
-                                    clearInterval(me._state.timerSave);
-                                    //console.debug('End long action');
-                                    me._state.timerSave = undefined;
-                                }
-                            }, 500);
+                        // me._state.timerSave = setTimeout(function () {
+                            //console.debug('End long action');
+                        // }, 500);
                     } else {
                         // console.debug('End long action');
                     }
@@ -352,7 +347,7 @@ define([
                         break;
 
                     case Asc.c_oAscAsyncAction['Save']:
-                        me._state.isSaving = new Date();
+                        // clearTimeout(this._state.timerSave);
                         title   = me.saveTitleText;
                         text    = me.saveTextText;
                         break;

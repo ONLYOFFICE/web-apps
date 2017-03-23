@@ -575,14 +575,9 @@ define([
                     if (id==Asc.c_oAscAsyncAction['Save'] || id==Asc.c_oAscAsyncAction['ForceSaveButton']) {
                         if (this._state.fastCoauth && this._state.usersCount>1) {
                             var me = this;
-                            if (me._state.timerSave===undefined)
-                                me._state.timerSave = setInterval(function(){
-                                    if ((new Date()) - me._state.isSaving>500) {
-                                        clearInterval(me._state.timerSave);
-                                        me.getApplication().getController('Statusbar').setStatusCaption(me.textChangesSaved, false, 3000);
-                                        me._state.timerSave = undefined;
-                                    }
-                                }, 500);
+                            me._state.timerSave = setTimeout(function () {
+                                me.getApplication().getController('Statusbar').setStatusCaption(me.textChangesSaved, false, 3000);
+                            }, 500);
                         } else
                             this.getApplication().getController('Statusbar').setStatusCaption(this.textChangesSaved, false, 3000);
                     } else
@@ -614,7 +609,7 @@ define([
 
                     case Asc.c_oAscAsyncAction['Save']:
                     case Asc.c_oAscAsyncAction['ForceSaveButton']:
-                        this._state.isSaving = new Date();
+                        clearTimeout(this._state.timerSave);
                         force = true;
                         title   = this.saveTitleText;
                         text    = this.saveTextText;
