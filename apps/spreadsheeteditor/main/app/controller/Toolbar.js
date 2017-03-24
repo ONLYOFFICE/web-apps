@@ -608,7 +608,7 @@ define([
 
             if (me.api) {
                 var merged = me.api.asc_getCellInfo().asc_getFlags().asc_getMerge();
-                if (!merged && me.api.asc_mergeCellsDataLost(item.value)) {
+                if ((merged !== Asc.c_oAscMergeOptions.Merged) && me.api.asc_mergeCellsDataLost(item.value)) {
                     Common.UI.warning({
                         msg: me.warnMergeLostData,
                         buttons: ['yes', 'no'],
@@ -1940,7 +1940,7 @@ define([
 
                     val = info.asc_getFlags().asc_getMerge();
                     if (this._state.merge !== val) {
-                        toolbar.btnMerge.toggle(val===true, true);
+                        toolbar.btnMerge.toggle(val===Asc.c_oAscMergeOptions.Merged, true);
                         this._state.merge = val;
                     }
 
