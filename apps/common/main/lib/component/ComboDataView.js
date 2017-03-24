@@ -209,7 +209,7 @@ define([
         },
 
         checkSize: function() {
-            if (this.cmpEl) {
+            if (this.cmpEl && this.cmpEl.is(':visible')) {
                 var me = this,
                     width  = this.cmpEl.width(),
                     height = this.cmpEl.height();
