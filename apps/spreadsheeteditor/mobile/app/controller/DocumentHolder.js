@@ -278,12 +278,13 @@ define([
                                 event: 'edit'
                             });
 
+                            (cellinfo.asc_getFlags().asc_getMerge() == Asc.c_oAscMergeOptions.None) &&
                             menuItems.push({
                                 caption: me.menuMerge,
                                 event: 'merge'
                             });
 
-                            cellinfo.asc_getFlags().asc_getMerge() &&
+                            (cellinfo.asc_getFlags().asc_getMerge() ==  Asc.c_oAscMergeOptions.Merged) &&
                             menuItems.push({
                                 caption: me.menuUnmerge,
                                 event: 'unmerge'
