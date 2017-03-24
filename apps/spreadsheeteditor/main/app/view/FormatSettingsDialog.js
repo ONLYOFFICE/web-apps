@@ -294,6 +294,7 @@ define([
                             this.cmbType.setValue(this.api.asc_getLocaleExample(props.format, 38822));
                     }
                     this.Format = props.format;
+                    this.lblExample.text(this.api.asc_getLocaleExample(this.Format));
                 }
                 // for fraction - if props.format not in cmbType - setValue(this.txtCustom)
                 // for date/time - if props.format not in cmbType - setValue(this.api.asc_getLocaleExample(props.format, 38822))
