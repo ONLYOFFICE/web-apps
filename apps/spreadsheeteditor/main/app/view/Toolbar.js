@@ -392,7 +392,7 @@ define([
                         },
                         {
                             caption : me.txtUnmerge,
-                            value   : Asc.c_oAscMergeOptions.Unmerge
+                            value   : Asc.c_oAscMergeOptions.None
                         }
                     ]
                 })
