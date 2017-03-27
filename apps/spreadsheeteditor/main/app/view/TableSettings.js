@@ -405,7 +405,7 @@ define([
 
                     if (this._isTemplatesChanged) {
                         if (rec)
-                            this.cmbTableTemplate.fillComboView(this.cmbTableTemplate.menuPicker.getSelectedRec(),true);
+                            this.cmbTableTemplate.fillComboView(this.cmbTableTemplate.menuPicker.getSelectedRec()[0],true);
                         else
                             this.cmbTableTemplate.fillComboView(this.cmbTableTemplate.menuPicker.store.at(0), true);
                     }
@@ -444,6 +444,7 @@ define([
                     self.cmbTableTemplate.menuPicker.scroller.update({alwaysVisibleY: true});
                 });
                 this.lockedControls.push(this.cmbTableTemplate);
+                if (this._locked) this.cmbTableTemplate.setDisabled(this._locked);
             }
 
             var count = self.cmbTableTemplate.menuPicker.store.length;
