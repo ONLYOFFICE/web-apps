@@ -325,7 +325,7 @@ define([
             if (this._initSettings)
                 this.createDelayedControls();
 
-            this.disableControls(this._locked);
+            var updateState = this.disableControls(this._locked); // need to update combodataview after disabled state
 
             if (props )//formatTableInfo
             {
@@ -395,7 +395,7 @@ define([
 
                 //for table-template
                 value = props.asc_getTableStyleName();
-                if (this._state.TemplateName!==value || this._isTemplatesChanged) {
+                if (this._state.TemplateName!==value || this._isTemplatesChanged || updateState) {
                     this.cmbTableTemplate.suspendEvents();
                     var rec = this.cmbTableTemplate.menuPicker.store.findWhere({
                         name: value
@@ -508,6 +508,7 @@ define([
                     item.setDisabled(disable);
                 });
                 this.linkAdvanced.toggleClass('disabled', disable);
+                return !disable;
             }
         },
 
