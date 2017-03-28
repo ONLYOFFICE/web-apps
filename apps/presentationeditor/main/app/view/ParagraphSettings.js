@@ -355,8 +355,8 @@ define([
             }
         },
 
-        onHideMenus: function(e){
-            this.fireEvent('editcomplete', this);
+        onHideMenus: function(menu, e, isFromInputControl){
+            if (!isFromInputControl) this.fireEvent('editcomplete', this);
         },
 
         setLocked: function (locked) {

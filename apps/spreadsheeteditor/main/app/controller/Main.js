@@ -222,8 +222,8 @@ define([
                     },
                     'menu:show': function(e){
                     },
-                    'menu:hide': function(menu){
-                        if (!me.isModalShowed && (!menu || !menu.cmpEl.hasClass('from-cell-edit'))) {
+                    'menu:hide': function(menu, isFromInputControl){
+                        if (!me.isModalShowed && (!menu || !menu.cmpEl.hasClass('from-cell-edit')) && !isFromInputControl) {
                             me.api.asc_InputClearKeyboardElement();
                             me.api.asc_enableKeyEvents(true);
                         }

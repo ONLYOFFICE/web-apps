@@ -331,7 +331,7 @@ define([
                     $(document).off('mouseup',   onMouseUp);
                 };
 
-                var onAfterHideMenu = function(e) {
+                var onAfterHideMenu = function(e, isFromInputControl) {
                     me.cmpEl.find('.dropdown-toggle').blur();
                     if (me.cmpEl.hasClass('active') !== me.pressed) 
                         me.cmpEl.trigger('button.internal.active', [me.pressed]);

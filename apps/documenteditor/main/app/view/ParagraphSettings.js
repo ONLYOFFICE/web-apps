@@ -457,8 +457,8 @@ define([
             this.mnuColorPicker.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
         },
 
-        onHideMenus: function(e){
-            this.fireEvent('editcomplete', this);
+        onHideMenus: function(menu, e, isFromInputControl){
+            if (!isFromInputControl) this.fireEvent('editcomplete', this);
         },
 
         setLocked: function (locked) {

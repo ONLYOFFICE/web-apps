@@ -2117,8 +2117,8 @@ define([
                     { caption: '--' },
                     menuImageAdvanced
                 ]
-            }).on('hide:after', function(menu) {
-                me.fireEvent('editcomplete', me);
+            }).on('hide:after', function(menu, e, isFromInputControl) {
+                if (!isFromInputControl) me.fireEvent('editcomplete', me);
                 me.currentMenu = null;
             });
 
@@ -2685,13 +2685,13 @@ define([
                     menuHyperlinkSeparator,
                     menuParagraphAdvancedInTable
                 ]
-            }).on('hide:after', function(menu) {
+            }).on('hide:after', function(menu, e, isFromInputControl) {
                 if (me.suppressEditComplete) {
                     me.suppressEditComplete = false;
                     return;
                 }
 
-                me.fireEvent('editcomplete', me);
+                if (!isFromInputControl) me.fireEvent('editcomplete', me);
                 me.currentMenu = null;
             });
 
@@ -3064,13 +3064,13 @@ define([
                     menuStyleSeparator,
                     menuStyle
                 ]
-            }).on('hide:after', function(menu, e) {
+            }).on('hide:after', function(menu, e, isFromInputControl) {
                 if (me.suppressEditComplete) {
                     me.suppressEditComplete = false;
                     return;
                 }
 
-                me.fireEvent('editcomplete', me);
+                if (!isFromInputControl) me.fireEvent('editcomplete', me);
                 me.currentMenu = null;
             });
 
@@ -3096,8 +3096,8 @@ define([
                 items: [
                     menuEditHeaderFooter
                 ]
-            }).on('hide:after', function(menu) {
-                me.fireEvent('editcomplete', me);
+            }).on('hide:after', function(menu, e, isFromInputControl) {
+                if (!isFromInputControl) me.fireEvent('editcomplete', me);
                 me.currentMenu = null;
             });
 

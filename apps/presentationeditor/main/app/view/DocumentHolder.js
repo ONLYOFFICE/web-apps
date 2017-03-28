@@ -1683,13 +1683,13 @@ define([
                     {caption: '--'},
                     mnuPreview
                 ]
-            }).on('hide:after', function(menu) {
+            }).on('hide:after', function(menu, e, isFromInputControl) {
                 if (me.suppressEditComplete) {
                     me.suppressEditComplete = false;
                     return;
                 }
 
-                me.fireEvent('editcomplete', me);
+                if (!isFromInputControl) me.fireEvent('editcomplete', me);
                 me.currentMenu = null;
             }).on('render:after', function(cmp) {
                 me.slideLayoutMenu = new Common.UI.DataView({
@@ -2425,13 +2425,13 @@ define([
                     menuAddHyperlinkPara,
                     menuHyperlinkPara
                 ]
-            }).on('hide:after', function(menu) {
+            }).on('hide:after', function(menu, e, isFromInputControl) {
                 if (me.suppressEditComplete) {
                     me.suppressEditComplete = false;
                     return;
                 }
 
-                me.fireEvent('editcomplete', me);
+                if (!isFromInputControl) me.fireEvent('editcomplete', me);
                 me.currentMenu = null;
             });
 
@@ -2591,13 +2591,13 @@ define([
                     menuAddHyperlinkTable,
                     menuHyperlinkTable
                 ]
-            }).on('hide:after', function(menu) {
+            }).on('hide:after', function(menu, e, isFromInputControl) {
                 if (me.suppressEditComplete) {
                     me.suppressEditComplete = false;
                     return;
                 }
 
-                me.fireEvent('editcomplete', me);
+                if (!isFromInputControl) me.fireEvent('editcomplete', me);
                 me.currentMenu = null;
             });
 
@@ -2654,13 +2654,13 @@ define([
                     menuAddCommentImg
                 /** coauthoring end **/
                 ]
-            }).on('hide:after', function(menu) {
+            }).on('hide:after', function(menu, e, isFromInputControl) {
                 if (me.suppressEditComplete) {
                     me.suppressEditComplete = false;
                     return;
                 }
 
-                me.fireEvent('editcomplete', me);
+                if (!isFromInputControl) me.fireEvent('editcomplete', me);
                 me.currentMenu = null;
             });
 
