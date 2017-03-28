@@ -167,6 +167,8 @@ define([
                     if (e && e.target && !/area_id/.test(e.target.id)) {
                         if (/msg-reply/.test(e.target.className))
                             me.dontCloseDummyComment = true;
+                        else if (/chat-msg-text/.test(e.target.id))
+                            me.dontCloseChat = true;
                     }
                 });
 
@@ -181,6 +183,8 @@ define([
                             me.api.asc_enableKeyEvents(true);
                             if (/msg-reply/.test(e.target.className))
                                 me.dontCloseDummyComment = false;
+                            else if (/chat-msg-text/.test(e.target.id))
+                                me.dontCloseChat = false;
                         }
                     }
                 }).on('dragover', function(e) {
@@ -426,12 +430,12 @@ define([
                     this.setLongActionView(action);
                 } else {
                     if (this.loadMask) {
-                        if (this.loadMask.isVisible() && !this.dontCloseDummyComment)
+                        if (this.loadMask.isVisible() && !this.dontCloseDummyComment && !this.dontCloseChat)
                             this.api.asc_enableKeyEvents(true);
                         this.loadMask.hide();
                     }
 
-                    if (type == Asc.c_oAscAsyncActionType.BlockInteraction && !( (id == Asc.c_oAscAsyncAction['LoadDocumentFonts'] || id == Asc.c_oAscAsyncAction['ApplyChanges']) && this.dontCloseDummyComment ))
+                    if (type == Asc.c_oAscAsyncActionType.BlockInteraction && !( (id == Asc.c_oAscAsyncAction['LoadDocumentFonts'] || id == Asc.c_oAscAsyncAction['ApplyChanges']) && (this.dontCloseDummyComment || this.dontCloseChat) ))
                         this.onEditComplete(this.loadMask, {restorefocus:true});
                 }
             },
