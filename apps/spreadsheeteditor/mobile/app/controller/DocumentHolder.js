@@ -127,7 +127,7 @@ define([
                     }
                     break;
                 case 'unmerge':
-                    me.api.asc_mergeCells(Asc.c_oAscMergeOptions.Unmerge);
+                    me.api.asc_mergeCells(Asc.c_oAscMergeOptions.None);
                     break;
                 case 'hide':
                     me.api[info.asc_getFlags().asc_getSelectionType() == Asc.c_oAscSelectionType.RangeRow ? 'asc_hideRows' : 'asc_hideColumns']();
@@ -284,7 +284,7 @@ define([
                                 event: 'merge'
                             });
 
-                            (cellinfo.asc_getFlags().asc_getMerge() ==  Asc.c_oAscMergeOptions.Merged) &&
+                            (cellinfo.asc_getFlags().asc_getMerge() ==  Asc.c_oAscMergeOptions.Merge) &&
                             menuItems.push({
                                 caption: me.menuUnmerge,
                                 event: 'unmerge'
