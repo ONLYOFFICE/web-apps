@@ -85,6 +85,11 @@ define(['gateway'], function () {
                 return _store[name]===undefined ? null : _store[name];
         };
 
+        var _getItemAsBool = function (name) {
+            var value = _getItem(name);
+            return (value !== null && parseInt(value) != 0);
+        }
+
         try {
             var _lsAllowed = !!window.localStorage;
         } catch (e) {
@@ -99,6 +104,7 @@ define(['gateway'], function () {
                 _storeName = name;
             },
             getItem: _getItem,
+            getBool: _getItemAsBool,
             setItem: _setItem,
             setKeysFilter: function(value) {
                 _filter = value;
