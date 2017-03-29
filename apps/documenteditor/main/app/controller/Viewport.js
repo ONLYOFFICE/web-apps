@@ -93,7 +93,8 @@ define([
             // Create and render main view
             this.viewport = this.createView('Viewport').render();
             this.header   = this.createView('Common.Views.Header', {
-                headerCaption: 'Document Editor'
+                headerCaption: 'Document Editor',
+                storeUsers: DE.getCollection('Common.Collections.Users')
             });
 
             Common.NotificationCenter.on('layout:changed', _.bind(this.onLayoutChanged, this));

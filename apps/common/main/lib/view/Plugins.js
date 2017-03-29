@@ -154,7 +154,6 @@ define([
                     var _icon_url = model.get('baseUrl') + modes[model.get('currentVariation')].get('icons')[(window.devicePixelRatio > 1) ? 1 : 0];
                     var btn = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'img-commonctrl review-prev',
                         iconImg: _icon_url,
                         caption: model.get('name'),
                         menu: modes && modes.length > 1,

@@ -292,7 +292,7 @@ define([
                     })
                 });
 
-                storeUsers = DE.getCollection('Common.Collections.Users')
+                storeUsers = this.options.storeUsers;
                 storeUsers.bind({
                     add     : onAddUser,
                     change  : onUsersChanged,

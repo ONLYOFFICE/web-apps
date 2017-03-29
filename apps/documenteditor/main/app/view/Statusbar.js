@@ -67,7 +67,7 @@ define([
         }
 
         function _clickLanguage(menu, item, state) {
-            var $parent = $(menu.el.parentNode, this.$el);
+            var $parent = menu.$el.parent();
 
             $parent.find('#status-label-lang').text(item.caption);
             $parent.find('.icon-lang-flag')

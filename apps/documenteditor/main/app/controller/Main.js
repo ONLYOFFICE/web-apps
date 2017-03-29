@@ -997,14 +997,14 @@ define([
                 this.appOptions.canCoAuthoring = !this.appOptions.isLightVersion;
                 /** coauthoring end **/
                 this.appOptions.isOffline      = this.api.asc_isOffline();
-                this.appOptions.isReviewOnly   = (this.permissions.review === true) && (this.permissions.edit === false);
                 this.appOptions.canRequestEditRights = this.editorConfig.canRequestEditRights;
                 this.appOptions.canEdit        = (this.permissions.edit !== false || this.permissions.review === true) && // can edit or review
                                                  (this.editorConfig.canRequestEditRights || this.editorConfig.mode !== 'view') && // if mode=="view" -> canRequestEditRights must be defined
                                                  (!this.appOptions.isReviewOnly || this.appOptions.canLicense); // if isReviewOnly==true -> canLicense must be true
                 this.appOptions.isEdit         = this.appOptions.canLicense && this.appOptions.canEdit && this.editorConfig.mode !== 'view';
-                this.appOptions.canReview      = this.appOptions.canLicense && this.appOptions.isEdit && (this.permissions.review===true);
-                this.appOptions.canUseHistory  = this.appOptions.canLicense && !this.appOptions.isLightVersion && this.editorConfig.canUseHistory && this.appOptions.canCoAuthoring && !this.appOptions.isDesktopApp;
+                this.appOptions.canReview      = this.permissions.review === true && this.appOptions.canLicense && this.appOptions.isEdit;
+                this.appOptions.isReviewOnly   = this.permissions.review === true && this.permissions.edit === false;
+                this.appOptions.canUseHistory  = this.appOptions.canLicense && this.editorConfig.canUseHistory && this.appOptions.canCoAuthoring && !this.appOptions.isDesktopApp;
                 this.appOptions.canHistoryClose  = this.editorConfig.canHistoryClose;
                 this.appOptions.canHistoryRestore= this.editorConfig.canHistoryRestore && !!this.permissions.changeHistory;
                 this.appOptions.canUseMailMerge= this.appOptions.canLicense && this.appOptions.canEdit && !this.appOptions.isDesktopApp;
@@ -1015,6 +1015,17 @@ define([
                 this.appOptions.canPrint       = (this.permissions.print !== false);
                 this.appOptions.canRename      = !!this.permissions.rename;
                 this.appOptions.buildVersion   = params.asc_getBuildVersion();
+
+                if ( this.appOptions.isLightVersion ) {
+                    this.appOptions.canUseHistory =
+                    this.appOptions.canReview =
+                    this.appOptions.isReviewOnly = false;
+                }
+
+                if ( !this.appOptions.canCoAuthoring ) {
+                    this.appOptions.canChat =
+                    this.appOptions.canComments = false;
+                }
 
                 var type = /^(?:(pdf|djvu|xps))$/.exec(this.document.fileType);
                 this.appOptions.canDownloadOrigin = !this.appOptions.nativeApp && this.permissions.download !== false && (type && typeof type[1] === 'string');
