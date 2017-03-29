@@ -430,7 +430,7 @@ define([
             if (this._initSettings)
                 this.createDelayedElements();
 
-            var updateState = this.disableControls(this._locked); // need to update combodataview after disabled state
+            this.disableControls(this._locked); // need to update combodataview after disabled state
 
             if (props )
             {
@@ -451,7 +451,7 @@ define([
 
                 //for table-template
                 value = props.get_TableStyle();
-                if (this._state.TemplateId!==value || this._isTemplatesChanged || updateState) {
+                if (this._state.TemplateId!==value || this._isTemplatesChanged) {
                     this.cmbTableTemplate.suspendEvents();
                     var rec = this.cmbTableTemplate.menuPicker.store.findWhere({
                         templateId: value
@@ -773,7 +773,6 @@ define([
                     item.setDisabled(disable);
                 });
                 this.linkAdvanced.toggleClass('disabled', disable);
-                return !disable;
             }
         },
 
