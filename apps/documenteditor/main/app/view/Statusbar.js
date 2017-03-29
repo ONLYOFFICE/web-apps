@@ -102,7 +102,8 @@ define([
             render: function () {
                 var me = this;
                 this.$el.html(this.template({
-                    scope: this
+                    textGotoPage: this.goToPageText,
+                    textPageNumber: Common.Utils.String.format(this.pageIndexText, 1, 1)
                 }));
 
                 this.btnZoomToPage = new Common.UI.Button({

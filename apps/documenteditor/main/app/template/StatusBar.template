@@ -1,9 +1,9 @@
 
 <div class="statusbar" style="display:table;">
     <div class="status-group dropup">
-        <label id="label-pages" class="status-label dropdown-toggle" style="margin-left: 40px;" data-toggle="dropdown"><%= Common.Utils.String.format(scope.pageIndexText, 1, 1) %></label>
+        <label id="label-pages" class="status-label dropdown-toggle" style="margin-left: 40px;" data-toggle="dropdown"><%= textPageNumber %></label>
         <div id="status-goto-box" class="dropdown-menu">
-            <label style="float:left;line-height:22px;"><%= scope.goToPageText %></label>
+            <label style="float:left;line-height:22px;"><%= textGotoPage %></label>
             <div id="status-goto-page" style="display:inline-block;"></div>
         </div>
     </div>
