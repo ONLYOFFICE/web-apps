@@ -70,7 +70,10 @@ define([
             return {
                 'click #btn-zoom-down': _.bind(this.zoomDocument,this,'down'),
                 'click #btn-zoom-up': _.bind(this.zoomDocument,this,'up'),
-                'click #btn-doc-lang':_.bind(this.onBtnLanguage,this)
+                'click #btn-doc-lang':_.bind(this.onBtnLanguage,this),
+                'click #btn-zoom-topage': _.bind(this.onBtnZoomTo, this, 'topage'),
+                'click #btn-zoom-towidth': _.bind(this.onBtnZoomTo, this, 'towidth'),
+                'click #btn-doc-spell': _.bind(this.onBtnSpelling, this)
             };
         },
 
@@ -85,9 +88,6 @@ define([
 
             $('.statusbar #label-zoom').css('min-width', 70);
 
-            this.statusbar.btnSetSpelling.on('click', _.bind(this.onBtnSpelling, this));
-            this.statusbar.btnZoomToPage.on('click', _.bind(this.onBtnZoomTo, this, 'topage'));
-            this.statusbar.btnZoomToWidth.on('click', _.bind(this.onBtnZoomTo, this, 'towidth'));
             this.statusbar.zoomMenu.on('item:click', _.bind(this.menuZoomClick, this));
             this.statusbar.btnReview.menu.on('item:toggle', _.bind(this.onMenuReviewToggle, this));
             this.statusbar.btnReview.on('toggle', _.bind(this.onReviewToggle, this));
