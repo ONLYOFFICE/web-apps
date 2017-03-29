@@ -1298,7 +1298,11 @@ define([
             // MM/dd/yyyy hh:mm AM
 
             return (date.getMonth() + 1) + '/' + (date.getDate()) + '/' + date.getFullYear() + ' ' + format(date);
+        },
+
+        getView: function(name) {
+            return !name && this.view ?
+                this.view : Backbone.Controller.prototype.getView.call(this, name);
         }
-        
     }, Common.Controllers.Comments || {}));
 });
