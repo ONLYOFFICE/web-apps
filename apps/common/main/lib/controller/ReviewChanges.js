@@ -109,10 +109,6 @@ define([
 
                 var toolbar = this.getApplication().getController('Toolbar').getView('Toolbar');
                 toolbar.addTab(tab, $panel, 3);
-
-                this.view.isReviewOnly = mode.isReviewOnly;
-                this.view.btnAccept.setDisabled(mode.isReviewOnly);
-                this.view.btnReject.setDisabled(mode.isReviewOnly);
             }
 
             return this;
@@ -138,7 +134,7 @@ define([
 
                     this.getPopover().show(animate, lock, lockUser);
 
-                    if (!this.view.isReviewOnly &&  this._state.lock !== lock) {
+                    if (!this.view.appConfig.isReviewOnly && this._state.lock !== lock) {
                         this.view.btnAccept.setDisabled(lock==true);
                         this.view.btnReject.setDisabled(lock==true);
                         this._state.lock = lock;
@@ -411,10 +407,10 @@ define([
             return (date.getMonth() + 1) + '/' + (date.getDate()) + '/' + date.getFullYear() + ' ' + format(date);
         },
 
-        onBtnPreviewClick: function(btn, eOpts){
-            switch (btn.options.value) {
-                case 1: this.api.asc_GetPrevRevisionsChange(); break;
-                case 2: this.api.asc_GetNextRevisionsChange(); break;
+        onBtnPreviewClick: function(btn, opts){
+            switch (opts) {
+                case 'prev': this.api.asc_GetPrevRevisionsChange(); break;
+                case 'next': this.api.asc_GetNextRevisionsChange(); break;
             }
 
             Common.NotificationCenter.trigger('edit:complete', this.view);
@@ -457,6 +453,11 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this.view);
         },
 
+
+        getView: function(name) {
+            return !name && this.view ?
+                this.view : Backbone.Controller.prototype.getView.call(this, name);
+        },
         textInserted: '<b>Inserted:</b>',
         textDeleted: '<b>Deleted:</b>',
         textParaInserted: '<b>Paragraph Inserted</b> ',

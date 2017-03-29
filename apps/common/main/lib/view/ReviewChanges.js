@@ -430,11 +430,11 @@ define([
         function setEvents() {
             var me = this;
             this.btnPrev.on('click', function (e) {
-                me.fireEvent('reviewchange:preview', [me.btnPrev]);
+                me.fireEvent('reviewchange:preview', [me.btnPrev, 'prev']);
             });
 
             this.btnNext.on('click', function (e) {
-                me.fireEvent('reviewchange:preview', [me.btnNext]);
+                me.fireEvent('reviewchange:preview', [me.btnNext, 'next']);
             });
 
             this.btnAccept.on('click', function (e) {
@@ -468,53 +468,27 @@ define([
                 this.btnPrev = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'img-commonctrl review-prev',
-                    caption: this.txtPrev,
-                    value: 1
+                    caption: this.txtPrev
                 });
 
                 this.btnNext = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'img-commonctrl review-next',
-                    caption: this.txtNext,
-                    value: 2
+                    caption: this.txtNext
                 });
 
                 this.btnAccept = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
                     caption: this.txtAccept,
                     split: true,
-                    iconCls: 'img-commonctrl review-close',
-                    menu: new Common.UI.Menu({
-                        items: [
-                            this.mnuAcceptCurrent = new Common.UI.MenuItem({
-                                caption: this.txtAcceptCurrent,
-                                value: 'current'
-                            }),
-                            this.mnuAcceptAll = new Common.UI.MenuItem({
-                                caption: this.txtAcceptAll,
-                                value: 'all'
-                            })
-                        ]
-                    })
+                    iconCls: 'img-commonctrl review-close'
                 });
 
                 this.btnReject = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
                     caption: this.txtReject,
                     split: true,
-                    iconCls: 'img-commonctrl review-close',
-                    menu: new Common.UI.Menu({
-                        items: [
-                            this.mnuRejectCurrent = new Common.UI.MenuItem({
-                                caption: this.txtRejectCurrent,
-                                value: 'current'
-                            }),
-                            this.mnuRejectAll = new Common.UI.MenuItem({
-                                caption: this.txtRejectAll,
-                                value: 'all'
-                            })
-                        ]
-                    })
+                    iconCls: 'img-commonctrl review-close'
                 });
 
                 this.btnTurnOn = new Common.UI.Button({
@@ -524,15 +498,47 @@ define([
                 });
 
                 var me = this;
-                (new Promise(function (resolve) {
-                    Common.NotificationCenter.on('app:ready', function () { resolve(); });
-                })).then(function(){
+                var promise = new Promise( function(resolve) { resolve(); });
+
+                Common.NotificationCenter.on('app:ready', function (cfg) {
+                    promise.then(function(){
+                        me.appConfig = cfg;
                         me.btnPrev.updateHint(me.hintPrev);
                         me.btnNext.updateHint(me.hintNext);
                         me.btnTurnOn.updateHint(me.textChangesOn);
+
+                        me.btnAccept.setMenu(
+                            new Common.UI.Menu({
+                                items: [
+                                    {
+                                        caption: me.txtAcceptCurrent,
+                                        value: 'current'
+                                    },
+                                    {
+                                        caption: me.txtAcceptAll,
+                                        value: 'all'
+                                    }
+                                ]
+                            })
+                        );
+
+                        me.btnReject.setMenu(
+                            new Common.UI.Menu({
+                                items: [
+                                    {
+                                        caption: me.txtRejectCurrent,
+                                        value: 'current'
+                                    },
+                                    {
+                                        caption: me.txtRejectAll,
+                                        value: 'all'
+                                    }
+                                ]
+                            })
+                        );
                         setEvents.call(me);
-                    }
-                );
+                    });
+                });
             },
 
             render: function (el) {
