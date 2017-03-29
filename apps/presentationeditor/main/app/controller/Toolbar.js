@@ -697,11 +697,11 @@ define([
         },
 
         onApiLockDocumentTheme: function() {
-            this.toolbar.lockToolbar(PE.enumLock.themeLock, true, {array: [this.toolbar.btnColorSchemas]});
+            this.toolbar.lockToolbar(PE.enumLock.themeLock, true, {array: [this.toolbar.btnColorSchemas, this.toolbar.listTheme]});
         },
 
         onApiUnLockDocumentTheme: function() {
-            this.toolbar.lockToolbar(PE.enumLock.themeLock, false, {array: [this.toolbar.btnColorSchemas]});
+            this.toolbar.lockToolbar(PE.enumLock.themeLock, false, {array: [this.toolbar.btnColorSchemas, this.toolbar.listTheme]});
         },
 
         onApiCoAuthoringDisconnect: function(disableDownload) {
