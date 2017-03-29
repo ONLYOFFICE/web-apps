@@ -69,6 +69,7 @@
   "DE.Controllers.Main.errorUsersExceed": "The number of users was exceeded",
   "DE.Controllers.Main.errorViewerDisconnect": "Connection is lost. You can still view the document,<br>but will not be able to download until the connection is restored.",
   "DE.Controllers.Main.leavePageText": "You have unsaved changes in this document. Click 'Stay on this Page' to await the autosave of the document. Click 'Leave this Page' to discard all the unsaved changes.",
+  "DE.Controllers.Main.errorBadImageUrl": "Image URL is incorrect",
   "DE.Controllers.Main.loadFontsTextText": "Loading data...",
   "DE.Controllers.Main.loadFontsTitleText": "Loading Data",
   "DE.Controllers.Main.loadFontTextText": "Loading data...",

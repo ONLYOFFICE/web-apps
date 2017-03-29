@@ -810,6 +810,10 @@ define([
                         config.msg = this.errorConnectToServer;
                         break;
 
+                    case Asc.c_oAscError.ID.UplImageUrl:
+                        config.msg = this.errorBadImageUrl;
+                        break;
+
                     default:
                         config.msg = this.errorDefaultMessage.replace('%1', id);
                         break;
@@ -1211,7 +1215,8 @@ define([
             textClose: 'Close',
             textDone: 'Done',
             titleServerVersion: 'Editor updated',
-            errorServerVersion: 'The editor version has been updated. The page will be reloaded to apply the changes.'
+            errorServerVersion: 'The editor version has been updated. The page will be reloaded to apply the changes.',
+            errorBadImageUrl: 'Image url is incorrect'
         }
     })(), DE.Controllers.Main || {}))
 });
