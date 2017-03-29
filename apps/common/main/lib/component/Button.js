@@ -120,7 +120,6 @@ define([
     'use strict';
 
     var templateHugeCaption =
-        '<div class="btn-group icon-top" id="<%= id %>" style="<%= style %>">' +
             '<button type="button" class="btn dropdown-toggle <%= cls %>" data-toggle="dropdown">' +
                 '<div class="inner-box-icon">' +
                 '<% if ( iconImg ) { %>' +
@@ -130,17 +129,18 @@ define([
                 '<% } %>' +
                 '</div>' +
                 '<span class="caption"><%= caption %></span>' +
-            '</button>' +
-        '</div>';
+            '</button>';
 
     var templateHugeMenuCaption =
         '<div class="btn-group icon-top" id="<%= id %>" style="<%= style %>">' +
             '<button type="button" class="btn dropdown-toggle <%= cls %>" data-toggle="dropdown">' +
+                '<div class="inner-box-icon">' +
                 '<% if ( iconImg ) { %>' +
                     '<img src="<%= iconImg %>">' +
                 '<% } else { %>' +
                     '<i class="icon <%= iconCls %>">&nbsp;</i>' +
                 '<% } %>' +
+                '</div>' +
                 '<div class="inner-box-caption">' +
                     '<span class="caption"><%= caption %></span>' +
                     '<span class="caret img-commonctrl"></span>' +
@@ -151,7 +151,11 @@ define([
     var templateHugeSplitCaption =
         '<div class="btn-group x-huge split icon-top" id="<%= id %>" style="<%= style %>">' +
             '<button type="button" class="btn <%= cls %> inner-box-icon">' +
-                '<i class="icon <%= iconCls %>">&nbsp;</i>' +
+                '<% if ( iconImg ) { %>' +
+                    '<img src="<%= iconImg %>">' +
+                '<% } else { %>' +
+                    '<i class="icon <%= iconCls %>">&nbsp;</i>' +
+                '<% } %>' +
             '</button>' +
             '<button type="button" class="btn <%= cls %> inner-box-caption dropdown-toggle" data-toggle="dropdown">' +
                 '<span class="caption"><%= caption %></span>' +
