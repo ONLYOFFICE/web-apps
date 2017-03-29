@@ -107,6 +107,8 @@ define([
                     functions = {},
                     editorLang = SSE.getController("Main").editorConfig.lang;
 
+                editorLang = (editorLang ? editorLang : 'en').split("-")[0].toLowerCase();
+
                 var localizationFunctionsDesc = function (data) {
                     var jsonDesc = {},
                         view = me.getView('AddFunction');
