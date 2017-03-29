@@ -61,7 +61,11 @@ define([
                     'settings:apply': _.bind(this.applySettings, this)
                 },
                 'Statusbar': {
-                    'langchanged': this.onLangMenu
+                    'langchanged': this.onLangMenu,
+                    'zoom:value': function(value) {
+                        this.api.zoom(value);
+                        Common.NotificationCenter.trigger('edit:complete', this.statusbar);
+                    }.bind(this)
                 }
             });
         },
@@ -80,17 +84,79 @@ define([
 
         onLaunch: function() {
             this.statusbar = this.createView('Statusbar', {
-                storeUsers: this.getApplication().getCollection('Common.Collections.Users')
-            }).render();
-            this.statusbar.$el.css('z-index', 1);
+                // storeUsers: this.getApplication().getCollection('Common.Collections.Users')
+            });
 
-            this.bindViewEvents(this.statusbar, this.events);
+            var me = this;
+            Common.NotificationCenter.on('app:face', function (cfg) {
+                me.statusbar.render();
+                me.statusbar.$el.css('z-index', 1);
 
-            $('.statusbar #label-zoom').css('min-width', 70);
+                $('.statusbar #label-zoom').css('min-width', 70);
 
-            this.statusbar.zoomMenu.on('item:click', _.bind(this.menuZoomClick, this));
-            this.statusbar.btnReview.menu.on('item:toggle', _.bind(this.onMenuReviewToggle, this));
-            this.statusbar.btnReview.on('toggle', _.bind(this.onReviewToggle, this));
+                if ( cfg.canReview ) {
+                    var review = DE.getController('Common.Controllers.ReviewChanges').getView();
+                    me.btnTurnReview = review.getButton('turn', 'statusbar');
+                    me.btnTurnReview.render( me.statusbar.$layout.find('#btn-doc-review') );
+                } else {
+                    me.statusbar.$el.find('.el-review').hide();
+                }
+
+                if ( !cfg.isEdit ) {
+                    me.statusbar.$el.find('.el-edit')['hide']();
+                }
+            });
+
+            Common.NotificationCenter.on('app:ready', me.onAppReady.bind(this));
+        },
+
+        onAppReady: function (config) {
+            var me = this;
+
+            (new Promise(function(resolve) {
+                resolve();
+            })).then(function () {
+                me.bindViewEvents(me.statusbar, me.events);
+
+                function _process_changestip() {
+                    var showTrackChangesTip = !Common.localStorage.getBool("de-track-changes-tip");
+                    if ( showTrackChangesTip ) {
+                        me.btnTurnReview.updateHint('');
+                        if (me.changesTooltip === undefined)
+                            me.changesTooltip = me.createChangesTip(me.textTrackChanges, 'de-track-changes-tip', false);
+
+                        me.changesTooltip.show();
+                    } else {
+                        me.btnTurnReview.updateHint(me.tipReview);
+                    }
+                }
+
+                var statusbarIsHidden = Common.localStorage.getBool("de-hidden-status");
+                if ( config.canReview && !statusbarIsHidden ) {
+
+                    if ( config.isReviewOnly ) {
+                        _process_changestip();
+                    } else
+                    if ( me.api.asc_IsTrackRevisions() ) {
+                        if ( Common.localStorage.getItem("de-track-changes") ) {
+                            // show tooltip "track changes in this document"
+                            _process_changestip();
+                        } else {
+                            var showNewChangesTip = !Common.localStorage.getBool("de-new-changes");
+                            if ( me.api.asc_HaveRevisionsChanges() && showNewChangesTip ) {
+                                me.btnTurnReview.updateHint('');
+
+                                if (me.newChangesTooltip === undefined)
+                                    me.newChangesTooltip = me.createChangesTip(me.textHasChanges, 'de-new-changes', true);
+
+                                me.newChangesTooltip.show();
+                            } else
+                                me.btnTurnReview.updateHint(me.tipReview);
+                        }
+                    }
+
+                }
+            });
         },
 
         setApi: function(api) {
@@ -101,10 +167,20 @@ define([
             this.statusbar.setApi(api);
         },
 
-        onBtnZoomTo: function(d, b, e) {
-            if (!b.pressed)
+        onBtnZoomTo: function(d, e) {
+            var _btn, _func;
+            if ( d == 'topage' ) {
+                _btn = 'btnZoomToPage';
+                _func = 'zoomFitToPage';
+            } else {
+                _btn = 'btnZoomToWidth';
+                _func = 'zoomFitToWidth';
+            }
+
+            if ( !this.statusbar[ _btn ].pressed )
                 this.api.zoomCustomMode(); else
-                this.api[d=='topage'?'zoomFitToPage':'zoomFitToWidth']();
+                this.api[ _func ]();
+
             Common.NotificationCenter.trigger('edit:complete', this.statusbar);
         },
 
@@ -113,11 +189,6 @@ define([
                 case 'up':      this.api.zoomIn(); break;
                 case 'down':    this.api.zoomOut(); break;
             }
-            Common.NotificationCenter.trigger('edit:complete', this.statusbar);
-        },
-
-        menuZoomClick: function(menu, item) {
-            this.api.zoom(item.value);
             Common.NotificationCenter.trigger('edit:complete', this.statusbar);
         },
 
@@ -158,68 +229,7 @@ define([
         createDelayedElements: function() {
             this.statusbar.$el.css('z-index', '');
 
-            var value = Common.localStorage.getItem("de-hidden-status"),
-                statusbarIsHidden = (value !== null && parseInt(value) == 1);
-
-            value = Common.localStorage.getItem("de-settings-spellcheck");
-            this.statusbar.btnSetSpelling.toggle(value===null || parseInt(value) == 1, true);
-
-            if (this.statusbar.mode.canReview) {
-                var me = this;
-                this.reviewChangesPanel = this.getApplication().getController('Common.Controllers.ReviewChanges').getView('Common.Views.ReviewChanges');
-                this.reviewChangesPanel.on('hide', function(){
-                    me.statusbar.mnuChangesPanel.setChecked(false, true);
-                });
-
-                value = Common.localStorage.getItem("de-track-changes-tip");
-                this.showTrackChangesTip = !(value && parseInt(value) == 1) && !this.statusbar.mode.isLightVersion;
-
-                value = Common.localStorage.getItem("de-new-changes");
-                this.showNewChangesTip = !(value && parseInt(value) == 1) && !this.statusbar.mode.isLightVersion;
-
-                if (this.statusbar.mode.isReviewOnly) {
-                    var iconEl = $('.icon', this.statusbar.btnReview.cmpEl);
-                    (this.api.asc_HaveRevisionsChanges()) ? iconEl.removeClass(this.statusbar.btnReviewCls).addClass('btn-ic-changes') : iconEl.removeClass('btn-ic-changes').addClass(this.statusbar.btnReviewCls);
-                    this.statusbar.mnuTrackChanges.setDisabled(true);
-                    this.changeReviewStatus(true);
-                    if (this.showTrackChangesTip && !statusbarIsHidden){
-                        this.statusbar.btnReview.updateHint('');
-                        if (this.changesTooltip===undefined)
-                            this.changesTooltip = this.createChangesTip(this.textTrackChanges, 'de-track-changes-tip', false);
-                        this.changesTooltip.show();
-                    } else
-                        this.statusbar.btnReview.updateHint(this.statusbar.tipReview);
-                } else {
-                    value = Common.localStorage.getItem("de-track-changes");
-                    var doc_review = this.api.asc_IsTrackRevisions();
-                    if (!doc_review)
-                        this.changeReviewStatus(false);
-                    else {
-                        var iconEl = $('.icon', this.statusbar.btnReview.cmpEl);
-                       (this.api.asc_HaveRevisionsChanges()) ? iconEl.removeClass(this.statusbar.btnReviewCls).addClass('btn-ic-changes') : iconEl.removeClass('btn-ic-changes').addClass(this.statusbar.btnReviewCls);
-                        if (value!==null && parseInt(value) == 1) {
-                            this.changeReviewStatus(!this.statusbar.mode.isLightVersion);
-                            // show tooltip "track changes in this document" and change icon
-                            if (this.showTrackChangesTip && !statusbarIsHidden){
-                                this.statusbar.btnReview.updateHint('');
-                                if (this.changesTooltip===undefined)
-                                    this.changesTooltip = this.createChangesTip(this.textTrackChanges, 'de-track-changes-tip', false);
-                                this.changesTooltip.show();
-                            } else
-                                this.statusbar.btnReview.updateHint(this.statusbar.tipReview);
-                        } else {
-                            this.changeReviewStatus(false);
-                            if (this.api.asc_HaveRevisionsChanges() && this.showNewChangesTip && !statusbarIsHidden){
-                                this.statusbar.btnReview.updateHint('');
-                                if (this.newChangesTooltip===undefined)
-                                    this.newChangesTooltip = this.createChangesTip(this.textHasChanges, 'de-new-changes', true);
-                                this.newChangesTooltip.show();
-                            } else
-                                this.statusbar.btnReview.updateHint(this.statusbar.tipReview);
-                        }
-                    }
-                }
-            }
+            this.statusbar.btnSetSpelling.toggle(Common.localStorage.getBool("de-settings-spellcheck"), true);
         },
 
         onBtnLanguage: function() {
@@ -249,8 +259,9 @@ define([
         },
 
         onBtnSpelling: function(d, b, e) {
-            Common.localStorage.setItem("de-settings-spellcheck", d.pressed ? 1 : 0);
-            this.api.asc_setSpellCheck(d.pressed);
+            var btn = this.statusbar.btnSetSpelling;
+            Common.localStorage.setItem("de-settings-spellcheck", btn.pressed ? 1 : 0);
+            this.api.asc_setSpellCheck(btn.pressed);
             Common.NotificationCenter.trigger('edit:complete', this.statusbar);
         },
 
@@ -259,70 +270,30 @@ define([
             this.statusbar.btnSetSpelling.toggle(value===null || parseInt(value) == 1, true);
         },
 
-        onMenuReviewToggle: function(menu, item, state, e) {
-            if (!this.statusbar.mode.canReview) return;
-
-            var me = this;
-            if (item.value === 'track') {
-                this.statusbar.btnReview.toggle(state);
-            } else if (item.value === 'panel') {
-                // show/hide Changes panel
-                this.showHideReviewChangesPanel(state);
-            }
-            Common.NotificationCenter.trigger('edit:complete', this.statusbar);
-        },
-
-        onReviewToggle: function(btn, state) {
-            if (!this.statusbar.mode.canReview) return;
-            if (this.statusbar.mode.isReviewOnly) {
-                this.statusbar.btnReview.toggle(true, true);
-            } else {
-                this.changeReviewStatus(state);
-                Common.localStorage.setItem("de-track-changes", state ? 1 : 0);
-            }
-            Common.NotificationCenter.trigger('edit:complete', this.statusbar);
-        },
-
-        changeReviewStatus: function(state) {
-            this.statusbar.btnReview.toggle(state, true);
-            this.statusbar.mnuTrackChanges.setChecked(state, true);
-            this.statusbar.mnuChangesPanel.setChecked(state, true);
-
-            if (this.api) {
-                this.api.asc_SetTrackRevisions(state);
-            }
-            this.showHideReviewChangesPanel(state && !this.statusbar.mode.isLightVersion);
-        },
-
-        showHideReviewChangesPanel: function(state) {
-            this.reviewChangesPanel[state ? 'show' : 'hide']();
-        },
-
         synchronizeChanges: function() {
             this.setStatusCaption('');
-
-            if (this.statusbar.mode.canReview) {
-                var iconEl = $('.icon', this.statusbar.btnReview.cmpEl);
-                (this.api.asc_HaveRevisionsChanges()) ? iconEl.removeClass(this.statusbar.btnReviewCls).addClass('btn-ic-changes') : iconEl.removeClass('btn-ic-changes').addClass(this.statusbar.btnReviewCls);
-            }
         },
 
         createChangesTip: function (text, storage, newchanges) {
+            var me = this;
             var tip = new Common.UI.SynchronizeTip({
-                target  : $('#btn-doc-review'),
+                target  : me.btnTurnReview.$el,
                 text    : text,
                 placement: 'top'
             });
-            tip.on('dontshowclick', function() {
-                (newchanges) ? this.showNewChangesTip = false : this.showTrackChangesTip = false;
-                tip.hide();
-                Common.localStorage.setItem(storage, 1);
-                this.statusbar.btnReview.updateHint(this.statusbar.tipReview);
-            }, this);
-            tip.on('closeclick', function() {
-                tip.hide();
-                this.statusbar.btnReview.updateHint(this.statusbar.tipReview);
-            }, this);
+            tip.on({
+                'dontshowclick': function() {
+                    Common.localStorage.setItem(storage, 1);
+
+                    tip.hide();
+                    me.btnTurnReview.updateHint(this.tipReview);
+                },
+                'closeclick': function() {
+                    tip.hide();
+                    me.btnTurnReview.updateHint(this.tipReview);
+                }
+            });
+
             return tip;
         },
 

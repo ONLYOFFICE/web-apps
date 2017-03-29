@@ -80,6 +80,10 @@ define([
             this.userCollection =   this.getApplication().getCollection('Common.Collections.Users');
 
             this._state = {posx: -1000, posy: -1000, popoverVisible: false};
+
+            Common.NotificationCenter.on('reviewchanges:turn', this.onTurnPreview.bind(this));
+            Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
+
         },
         setConfig: function (data, api) {
             this.setApi(api);
@@ -100,15 +104,9 @@ define([
         setMode: function(mode) {
             if ( mode.canReview || mode.isReviewOnly ) {
                 this.view           =   this.createView('Common.Views.ReviewChanges', {
-                    store           :   this.collection,
+                    // store           :   this.collection,
                     popoverChanges  :   this.popoverChanges
                 });
-
-                var tab = {action: 'review', caption: 'Review'};
-                var $panel = this.view.getPanel();
-
-                var toolbar = this.getApplication().getController('Toolbar').getView('Toolbar');
-                toolbar.addTab(tab, $panel, 3);
             }
 
             return this;
@@ -453,11 +451,71 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this.view);
         },
 
+        onTurnPreview: function(state) {
+            if ( this.view.appConfig.isReviewOnly ) {
+                this.view.turnChanges(true);
+            } else
+            if ( this.view.appConfig.canReview ) {
+                state = (state == 'on');
+
+                this.api.asc_SetTrackRevisions(state);
+                Common.localStorage.setItem("de-track-changes", state ? 1 : 0);
+
+                this.view.turnChanges(state);
+            }
+        },
+
+        createToolbarPanel: function() {
+            return this.view.getPanel();
+        },
 
         getView: function(name) {
             return !name && this.view ?
                 this.view : Backbone.Controller.prototype.getView.call(this, name);
         },
+
+        onAppReady: function (config) {
+            if ( config.canReview ) {
+                var me = this;
+
+                this.appConfig = config;
+                (new Promise(function (resolve) {
+                    resolve();
+                })).then(function () {
+                    function _setReviewStatus(state) {
+                        me.view.turnChanges(state);
+                        me.api.asc_SetTrackRevisions(state);
+                    };
+
+                    if ( config.isReviewOnly ) {
+                        me.api.asc_HaveRevisionsChanges() && me.view.markChanges(true);
+
+                        _setReviewStatus(true);
+                    } else
+                    if ( !me.api.asc_IsTrackRevisions() ) {
+                        _setReviewStatus(false);
+                    } else {
+                        me.api.asc_HaveRevisionsChanges() && me.view.markChanges(true);
+
+                        var value = Common.localStorage.getItem("de-track-changes");
+                        if ( value!== null && parseInt(value) == 1) {
+                            _setReviewStatus(true);
+
+                        } else {
+                            _setReviewStatus(false);
+
+                        }
+                    }
+                });
+            }
+        },
+
+        synchronizeChanges: function() {
+            if ( this.appConfig.canReview ) {
+                this.view.markChanges( this.api.asc_HaveRevisionsChanges() );
+            }
+        },
+
         textInserted: '<b>Inserted:</b>',
         textDeleted: '<b>Deleted:</b>',
         textParaInserted: '<b>Paragraph Inserted</b> ',

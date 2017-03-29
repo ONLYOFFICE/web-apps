@@ -165,13 +165,29 @@ define([
         },
 
         onLaunch: function() {
+            var me = this;
+
             // Create toolbar view
             this.toolbar = this.createView('Toolbar');
 
             // this.toolbar.on('render:after', _.bind(this.onToolbarAfterRender, this));
-            var me = this;
+            me.toolbar.on('render:before', function (cmp) {
+            });
+
             Common.NotificationCenter.on('app:ready', function () {
                 // me.setToolbarFolding(true);
+            });
+
+            Common.NotificationCenter.on('app:face', function (config) {
+                var _btnsComment = [];
+                if ( config.canReview ) {
+                    var tab = {action: 'review', caption: 'Review'};
+                    var $panel = DE.getController('Common.Controllers.ReviewChanges').createToolbarPanel();
+
+                    if ( $panel ) {
+                        me.toolbar.addTab(tab, $panel, 3);
+                    }
+                }
             });
         },
 

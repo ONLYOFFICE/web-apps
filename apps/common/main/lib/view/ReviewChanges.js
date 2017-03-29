@@ -452,6 +452,17 @@ define([
             this.btnReject.menu.on('item:click', function (menu, item, e) {
                 me.fireEvent('reviewchange:reject', [menu, item]);
             });
+
+            function _click_turnpreview(btn, e) {
+                if ( me.appConfig.canReview ) {
+                    Common.NotificationCenter.trigger('reviewchanges:turn', btn.pressed ? 'on' : 'off');
+                }
+            };
+
+            this.btnsTurnReview.forEach(function(button) {
+                button.on('click', _click_turnpreview.bind(me));
+                Common.NotificationCenter.trigger('edit:complete', me);
+            });
         }
 
         return {
@@ -462,7 +473,7 @@ define([
             initialize: function (options) {
                 Common.UI.BaseView.prototype.initialize.call(this, options);
 
-                this.store = this.options.store;
+                // this.store = this.options.store;
                 this.popoverChanges = this.options.popoverChanges;
 
                 this.btnPrev = new Common.UI.Button({
@@ -493,9 +504,11 @@ define([
 
                 this.btnTurnOn = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'img-commonctrl review-close',
-                    caption: this.txtTurnon
+                    iconCls: 'btn-ic-review',
+                    caption: this.txtTurnon,
+                    enableToggle: true
                 });
+                this.btnsTurnReview = [this.btnTurnOn];
 
                 var me = this;
                 var promise = new Promise( function(resolve) { resolve(); });
@@ -503,6 +516,7 @@ define([
                 Common.NotificationCenter.on('app:ready', function (cfg) {
                     promise.then(function(){
                         me.appConfig = cfg;
+
                         me.btnPrev.updateHint(me.hintPrev);
                         me.btnNext.updateHint(me.hintNext);
                         me.btnTurnOn.updateHint(me.textChangesOn);
@@ -536,6 +550,10 @@ define([
                                 ]
                             })
                         );
+
+                        me.btnAccept.setDisabled(cfg.isReviewOnly);
+                        me.btnReject.setDisabled(cfg.isReviewOnly);
+
                         setEvents.call(me);
                     });
                 });
@@ -577,8 +595,41 @@ define([
                 return this.popover;
             },
 
+            getButton: function(type, parent) {
+                if ( type == 'turn' && parent == 'statusbar' ) {
+                    var button = new Common.UI.Button({
+                        cls         : 'btn-toolbar',
+                        iconCls     : 'btn-ic-review',
+                        hintAnchor  : 'top',
+                        hint        : this.tipReview,
+                        enableToggle: true
+                    });
+
+                    this.btnsTurnReview.push(button);
+
+                    return button;
+                }
+            },
+
             getUserName: function (username) {
                 return Common.Utils.String.htmlEncode(username);
+            },
+
+            turnChanges: function(state) {
+                this.btnsTurnReview.forEach(function(button) {
+                    if ( button && button.pressed != state ) {
+                        button.toggle(state, true);
+                    }
+                }, this);
+            },
+
+            markChanges: function(status) {
+                this.btnsTurnReview.forEach(function(button) {
+                    if ( button ) {
+                        var _icon_el = $('.icon', button.cmpEl);
+                        _icon_el[status ? 'addClass' : 'removeClass']('btn-ic-changes');
+                    }
+                }, this);
             },
 
             textChangesOn: 'Preview changes',

@@ -1167,6 +1167,8 @@ define([
                     if (me.stackLongActions.exist({id: ApplyEditRights, type: Asc.c_oAscAsyncActionType['BlockInteraction']})) {
                         me.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], ApplyEditRights);
                     } else if (!this._isDocReady) {
+                        Common.NotificationCenter.trigger('app:face', me.appOptions);
+
                         me.hidePreloader();
                         me.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
                     }
@@ -1559,6 +1561,7 @@ define([
 
             synchronizeChanges: function() {
                 this.getApplication().getController('Statusbar').synchronizeChanges();
+                this.getApplication().getController('Common.Controllers.ReviewChanges').synchronizeChanges();
                 this.getApplication().getController('DocumentHolder').getView('DocumentHolder').hideTips();
                 /** coauthoring begin **/
                 this.getApplication().getController('Toolbar').getView('Toolbar').synchronizeChanges();

@@ -79,6 +79,108 @@ define([
             this.fireEvent('langchanged', [this, item.value.code, item.caption]);
         }
 
+        function _onAppReady(config) {
+            var me = this;
+            me.btnZoomToPage.updateHint(me.tipFitPage);
+            me.btnZoomToWidth.updateHint(me.tipFitWidth);
+            me.btnZoomDown.updateHint(me.tipZoomOut + Common.Utils.String.platformKey('Ctrl+-'));
+            me.btnZoomUp.updateHint(me.tipZoomIn + Common.Utils.String.platformKey('Ctrl++'));
+            me.btnDocLanguage.updateHint(me.tipSetDocLang);
+            me.btnSetSpelling.updateHint(me.tipSetSpelling);
+
+            me.btnLanguage.updateHint(me.tipSetLang);
+            me.btnLanguage.cmpEl.on({
+                'show.bs.dropdown': function () {
+                    _.defer(function(){
+                        me.btnLanguage.cmpEl.find('ul').focus();
+                    }, 100);
+                },
+                'hide.bs.dropdown': function () {
+                    _.defer(function(){
+                        me.api.asc_enableKeyEvents(true);
+                    }, 100);
+                },
+                'click': function (e) {
+                    if (me.btnLanguage.isDisabled()) {
+                        return false;
+                    }
+                }
+            });
+            me.langMenu.on('item:click', _.bind(_clickLanguage,this));
+
+            me.cntZoom.updateHint(me.tipZoomFactor);
+            me.cntZoom.cmpEl.on({
+                'show.bs.dropdown': function () {
+                    _.defer(function(){
+                        me.cntZoom.cmpEl.find('ul').focus();
+                    }, 100);
+                },
+                'hide.bs.dropdown': function () {
+                    _.defer(function(){
+                        me.api.asc_enableKeyEvents(true);
+                    }, 100);
+                }
+            });
+
+            me.txtGoToPage.on({
+                    'keypress:after': function (input, e) {
+                        if (e.keyCode === Common.UI.Keys.RETURN) {
+                            var box = me.$el.find('#status-goto-box'),
+                                edit = box.find('input[type=text]'), page = parseInt(edit.val());
+                            if (!page || page-- > me.pages.get('count') || page < 0) {
+                                edit.select();
+                                return false;
+                            }
+
+                            box.focus();                        // for IE
+                            box.parent().removeClass('open');
+
+                            me.api.goToPage(page);
+                            me.api.asc_enableKeyEvents(true);
+
+                            return false;
+                        }
+                    },
+                    'keyup:after': function (input, e) {
+                        if (e.keyCode === Common.UI.Keys.ESC) {
+                            var box = me.$el.find('#status-goto-box');
+                            box.focus();                        // for IE
+                            box.parent().removeClass('open');
+                            me.api.asc_enableKeyEvents(true);
+                            return false;
+                        }
+                    }
+            });
+
+            var goto = me.$el.find('#status-goto-box');
+            goto.on('click', function() {
+                return false;
+            });
+            goto.parent().on({
+                'show.bs.dropdown': function () {
+                    me.txtGoToPage.setValue(me.api.getCurrentPage() + 1);
+                    me.txtGoToPage.checkValidate();
+                    var edit = me.txtGoToPage.$el.find('input');
+                    _.defer(function(){
+                        edit.focus().select();
+                    }, 100);
+                },
+                'hide.bs.dropdown': function () {
+                    var box = me.$el.find('#status-goto-box');
+                    if (me.api && box) {
+                        box.focus();                        // for IE
+                        box.parent().removeClass('open');
+
+                        me.api.asc_enableKeyEvents(true);
+                    }
+                }
+            });
+
+            me.zoomMenu.on('item:click', function(menu, item) {
+                me.fireEvent('zoom:value', [item.value]);
+            });
+        }
+
         if ( DE.Views.Statusbar )
             var LanguageDialog = DE.Views.Statusbar.LanguageDialog || {};
 
@@ -97,141 +199,64 @@ define([
                 this.pages = new DE.Models.Pages({current:1, count:1});
                 this.pages.on('change', _.bind(_updatePagesCaption,this));
                 this.state = {};
-            },
 
-            render: function () {
                 var me = this;
-                this.$el.html(this.template({
+                this.$layout = $(this.template({
                     textGotoPage: this.goToPageText,
                     textPageNumber: Common.Utils.String.format(this.pageIndexText, 1, 1)
                 }));
 
                 this.btnZoomToPage = new Common.UI.Button({
-                    el: $('#btn-zoom-topage',this.el),
-                    hint: this.tipFitPage,
                     hintAnchor: 'top',
                     toggleGroup: 'status-zoom',
                     enableToggle: true
                 });
 
                 this.btnZoomToWidth = new Common.UI.Button({
-                    el: $('#btn-zoom-towidth',this.el),
-                    hint: this.tipFitWidth,
                     hintAnchor: 'top',
                     toggleGroup: 'status-zoom',
                     enableToggle: true
                 });
 
+                this.cntZoom = new Common.UI.Button({
+                    hintAnchor: 'top'
+                });
+
                 this.btnZoomDown = new Common.UI.Button({
-                    el: $('#btn-zoom-down',this.el),
-                    hint: this.tipZoomOut + Common.Utils.String.platformKey('Ctrl+-'),
                     hintAnchor: 'top'
                 });
 
                 this.btnZoomUp = new Common.UI.Button({
-                    el: $('#btn-zoom-up',this.el),
-                    hint: this.tipZoomIn + Common.Utils.String.platformKey('Ctrl++'),
                     hintAnchor: 'top-right'
                 });
 
                 this.btnDocLanguage = new Common.UI.Button({
-                    el: $('#btn-doc-lang',this.el),
-                    hint: this.tipSetDocLang,
                     hintAnchor: 'top',
                     disabled: true
                 });
 
                 this.btnSetSpelling = new Common.UI.Button({
-                    el: $('#btn-doc-spell',this.el),
                     enableToggle: true,
-                    hint: this.tipSetSpelling,
                     hintAnchor: 'top'
                 });
 
-                this.btnReview = new Common.UI.Button({
-                    cls         : 'btn-toolbar',
-                    iconCls     : 'btn-ic-review',
-                    hint        : this.tipReview,
-                    hintAnchor: 'top',
-                    enableToggle: true,
-                    split       : true,
-                    menu        : new Common.UI.Menu({
-                        menuAlign: 'bl-tl',
-                        style: 'margin-top:-5px;',
-                        items: [
-                            this.mnuTrackChanges = new Common.UI.MenuItem({
-                                caption: this.textTrackChanges,
-                                checkable: true,
-                                value: 'track'
-                            }),
-                            this.mnuChangesPanel = new Common.UI.MenuItem({
-                                caption: this.textChangesPanel,
-                                checkable: true,
-                                value: 'panel'
-                            })
-                        ]
-                    })
+                this.btnLanguage = new Common.UI.Button({
+                    // el: panelLang,
+                    hintAnchor: 'top-left',
+                    disabled: true
                 });
-                this.btnReview.render($('#btn-doc-review'));
-                this.btnReviewCls = 'btn-ic-review';
 
-                var panelLang = $('.cnt-lang',this.el);
                 this.langMenu = new Common.UI.Menu({
                     style: 'margin-top:-5px;',
                     maxHeight: 300,
                     itemTemplate: _.template([
                         '<a id="<%= id %>" tabindex="-1" type="menuitem">',
-                            '<span class="lang-item-icon img-toolbarmenu lang-flag <%= iconCls %>"></span>',
-                            '<%= caption %>',
+                        '<span class="lang-item-icon img-toolbarmenu lang-flag <%= iconCls %>"></span>',
+                        '<%= caption %>',
                         '</a>'
                     ].join('')),
                     menuAlign: 'bl-tl'
                 });
-
-                this.btnLanguage = new Common.UI.Button({
-                    el: panelLang,
-                    hint: this.tipSetLang,
-                    hintAnchor: 'top-left',
-                    disabled: true
-                });
-                this.btnLanguage.cmpEl.on({
-                    'show.bs.dropdown': function () {
-                        _.defer(function(){
-                            me.btnLanguage.cmpEl.find('ul').focus();
-                        }, 100);
-                    },
-                    'hide.bs.dropdown': function () {
-                        _.defer(function(){
-                            me.api.asc_enableKeyEvents(true);
-                        }, 100);
-                    },
-                    'click': function (e) {
-                        if (me.btnLanguage.isDisabled()) {
-                            return false;
-                        }
-                    }
-                });
-
-                this.langMenu.render(panelLang);
-                this.langMenu.cmpEl.attr({tabindex: -1});
-
-                this.cntZoom = new Common.UI.Button({
-                    el: $('.cnt-zoom',this.el),
-                    hint: this.tipZoomFactor,
-                    hintAnchor: 'top'
-                });
-                this.cntZoom.cmpEl.on('show.bs.dropdown', function () {
-                        _.defer(function(){
-                            me.cntZoom.cmpEl.find('ul').focus();
-                        }, 100);
-                    }
-                );
-                this.cntZoom.cmpEl.on('hide.bs.dropdown', function () {
-                        _.defer(function(){
-                            me.api.asc_enableKeyEvents(true);
-                        }, 100);
-                    }
-                );
 
                 this.zoomMenu = new Common.UI.Menu({
                     style: 'margin-top:-5px;',
@@ -246,16 +271,8 @@ define([
                         { caption: "200%", value: 200 }
                     ]
                 });
-                this.zoomMenu.render($('.cnt-zoom',this.el));
-                this.zoomMenu.cmpEl.attr({tabindex: -1});
-
-                this.langMenu.prevTip = 'en';
-                this.langMenu.on('item:click', _.bind(_clickLanguage,this));
-
-                // Go To Page
 
                 this.txtGoToPage = new Common.UI.InputField({
-                    el          : $('#status-goto-page', me.$el),
                     allowBlank  : true,
                     validateOnChange: true,
                     style       : 'width: 60px;',
@@ -269,58 +286,49 @@ define([
 
                         return me.txtPageNumInvalid;
                     }
-                }).on('keypress:after', function(input, e) {
-                        if (e.keyCode === Common.UI.Keys.RETURN) {
-                            var box = me.$el.find('#status-goto-box'),
-                                edit = box.find('input[type=text]'), page = parseInt(edit.val());
-                            if (!page || page-- > me.pages.get('count') || page < 0) {
-                                edit.select();
-                                return false;
-                            }
-
-                            box.focus();                        // for IE
-                            box.parent().removeClass('open');
-
-                            me.api.goToPage(page);
-                            me.api.asc_enableKeyEvents(true);
-
-                            return false;
-                        }
-                    }
-                ).on('keyup:after', function(input, e) {
-                        if (e.keyCode === Common.UI.Keys.ESC) {
-                            var box = me.$el.find('#status-goto-box');
-                            box.focus();                        // for IE
-                            box.parent().removeClass('open');
-                            me.api.asc_enableKeyEvents(true);
-                            return false;
-                        }
-                    }
-                );
-
-                var goto = this.$el.find('#status-goto-box');
-                goto.on('click', function() {
-                    return false;
                 });
-                goto.parent().on('show.bs.dropdown',
-                    function () {
-                        me.txtGoToPage.setValue(me.api.getCurrentPage() + 1);
-                        me.txtGoToPage.checkValidate();
-                        var edit = me.txtGoToPage.$el.find('input');
-                        _.defer(function(){edit.focus(); edit.select();}, 100);
 
-                    }
-                );
-                goto.parent().on('hide.bs.dropdown',
-                    function () { var box = me.$el.find('#status-goto-box');
-                        if (me.api && box) {
-                            box.focus();                        // for IE
-                            box.parent().removeClass('open');
+                var promise = new Promise(function (accept, reject) {
+                    accept();
+                });
 
-                            me.api.asc_enableKeyEvents(true);
-                        }
-                    }
-                );
+                Common.NotificationCenter.on('app:ready', function(mode) {
+                    promise.then( _onAppReady.bind(this, mode) );
+                }.bind(this));
+            },
+
+            render: function () {
+                var me = this;
+
+                function _btn_render(button, slot) {
+                    button.el = slot;
+                    button.render();
+                }
+
+                this.fireEvent('render:before', [this.$layout]);
+
+                _btn_render(me.btnZoomToPage, $('#btn-zoom-topage', me.$layout));
+                _btn_render(me.btnZoomToWidth, $('#btn-zoom-towidth', me.$layout));
+                _btn_render(me.cntZoom, $('.cnt-zoom',me.$layout));
+                _btn_render(me.btnZoomDown, $('#btn-zoom-down', me.$layout));
+                _btn_render(me.btnZoomUp, $('#btn-zoom-up', me.$layout));
+                _btn_render(me.btnDocLanguage, $('#btn-doc-lang', me.$layout));
+                _btn_render(me.btnSetSpelling, $('#btn-doc-spell', me.$layout));
+                _btn_render(me.txtGoToPage, $('#status-goto-page', me.$layout));
+
+                var panelLang = $('.cnt-lang', me.$layout);
+                _btn_render(me.btnLanguage, panelLang);
+
+                me.langMenu.render(panelLang);
+                me.zoomMenu.render($('.cnt-zoom',me.$layout));
+
+                me.langMenu.cmpEl.attr({tabindex: -1});
+                me.zoomMenu.cmpEl.attr({tabindex: -1});
+
+                this.$el.html(me.$layout);
+                this.fireEvent('render:after', [this]);
+
+                this.langMenu.prevTip = 'en';
 
                 return this;
             },
@@ -339,8 +347,6 @@ define([
 
             setMode: function(mode) {
                 this.mode = mode;
-                this.$el.find('.el-edit')[mode.isEdit?'show':'hide']();
-                this.$el.find('.el-review')[(mode.canReview && !mode.isLightVersion)?'show':'hide']();
             },
 
             setVisible: function(visible) {
@@ -397,11 +403,6 @@ define([
                 var langs = this.langMenu.items.length>0;
                 this.btnLanguage.setDisabled(disable || !langs);
                 this.btnDocLanguage.setDisabled(disable || !langs);
-                if (disable) {
-                    this.state.changespanel = this.mnuChangesPanel.checked;
-                }
-                this.mnuChangesPanel.setChecked(!disable && (this.state.changespanel==true));
-                this.btnReview.setDisabled(disable);
             },
 
             pageIndexText       : 'Page {0} of {1}',
@@ -415,7 +416,6 @@ define([
             tipSetDocLang       : 'Set Document Language',
             tipSetSpelling      : 'Turn on spell checking option',
             txtPageNumInvalid   : 'Page number invalid',
-            tipReview           : 'Review',
             textTrackChanges    : 'Track Changes',
             textChangesPanel    : 'Changes panel'
         }, DE.Views.Statusbar || {}));
