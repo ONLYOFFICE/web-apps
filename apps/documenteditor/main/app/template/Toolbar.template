@@ -7,7 +7,7 @@
             </a>
             <ul>
                 <% for(var i in tabs) { %>
-                    <li class="rb-tab">
+                    <li class="rib-tab">
                         <a data-tab="<%= tabs[i].action %>" data-title="<%= tabs[i].caption %>"><%= tabs[i].caption %></a>
                     </li>
                 <% } %>
