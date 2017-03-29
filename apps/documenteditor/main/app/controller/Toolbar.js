@@ -174,12 +174,8 @@ define([
             me.toolbar.on('render:before', function (cmp) {
             });
 
-            Common.NotificationCenter.on('app:ready', function () {
-                // me.setToolbarFolding(true);
-            });
-
+            Common.NotificationCenter.on('app:ready', me.onAppReady.bind(me));
             Common.NotificationCenter.on('app:face', function (config) {
-                var _btnsComment = [];
                 if ( config.canReview ) {
                     var tab = {action: 'review', caption: 'Review'};
                     var $panel = DE.getController('Common.Controllers.ReviewChanges').createToolbarPanel();
@@ -2805,6 +2801,35 @@ define([
             viewport.vlayout.items[0].height = 42;
 
             Common.NotificationCenter.trigger('layout:changed', 'toolbar');
+        },
+
+        onAppReady: function (config) {
+            var me = this;
+            // me.setToolbarFolding(true);
+
+            if (config.canComments) {
+                var _btnsComment = [];
+                var slots = me.toolbar.$el.find('.slot-comment');
+                slots.each(function(index, el) {
+                    var _cls = 'btn-toolbar';
+                    /x-huge/.test(el.className) &&
+                        (_cls += ' x-huge icon-top');
+
+                    var button = new Common.UI.Button({
+                        cls: _cls,
+                        iconCls: 'btn-menu-comments',
+                        caption: 'Comment'
+                    }).render( slots.eq(index) );
+
+                    _btnsComment.push(button);
+                });
+
+                _btnsComment.forEach(function(btn) {
+                    btn.on('click', function (btn, e) {
+                        Common.NotificationCenter.trigger('app:comment:add', 'toolbar');
+                    });
+                }, this);
+            }
         },
 
         textEmptyImgUrl                            : 'You need to specify image URL.',

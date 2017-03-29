@@ -101,6 +101,7 @@ define([
             });
 
             Common.NotificationCenter.on('leftmenu:change', _.bind(this.onMenuChange, this));
+            Common.NotificationCenter.on('app:comment:add', _.bind(this.onAppAddComment, this));
         },
 
         onLaunch: function() {
@@ -500,6 +501,22 @@ define([
                     this.leftMenu.markCoauthOptions('comments');
                     break;
                 }
+            }
+        },
+
+        onAppAddComment: function(sender) {
+            var me = this;
+            if ( this.api.can_AddQuotedComment() === false ) {
+                (new Promise(function(resolve, reject) {
+                    resolve();
+                })).then(function () {
+                    Common.UI.Menu.Manager.hideAll();
+                    me.leftMenu.showMenu('comments');
+
+                    var ctrl = DE.getController('Common.Controllers.Comments');
+                    ctrl.getView().showEditContainer(true);
+                    ctrl.onAfterShow();
+                });
             }
         },
 

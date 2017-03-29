@@ -107,6 +107,7 @@ define([
             });
 
             Common.NotificationCenter.on('comments:updatefilter',   _.bind(this.onUpdateFilter, this));
+            Common.NotificationCenter.on('app:comment:add',         _.bind(this.onAppAddComment, this));
         },
         onLaunch: function () {
             this.collection                     =   this.getApplication().getCollection('Common.Collections.Comments');
@@ -580,6 +581,11 @@ define([
                 if (endComment) {
                     endComment.set('last', true);
                 }
+            }
+        },
+        onAppAddComment: function () {
+            if ( this.api.can_AddQuotedComment() !== false ) {
+                this.addDummyComment();
             }
         },
 
