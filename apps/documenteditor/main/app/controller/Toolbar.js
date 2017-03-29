@@ -185,6 +185,37 @@ define([
                     var $panel = DE.getController('Common.Controllers.ReviewChanges').createToolbarPanel();
 
                     if ( $panel ) {
+                        var button = new Common.UI.Button({
+                            cls: 'btn-toolbar x-huge icon-top',
+                            iconCls: 'btn-ic-docspell',
+                            caption: 'Spell checking',
+                            enableToggle: true
+                        }).render($panel.find('#slot-btn-spelling'));
+                        button.on('click', function (e) {
+                            console.log('spell checking button');
+                        });
+
+                        button = new Common.UI.Button({
+                            cls: 'btn-toolbar x-huge icon-top',
+                            iconCls: 'btn-ic-doclang',
+                            caption: 'Language',
+                            menu: new Common.UI.Menu({
+                                items: [
+                                    {
+                                        caption: 'Content\'s language',
+                                        value: 'current'
+                                    }, {
+                                        caption: 'Document\'s language',
+                                        value: 'all'
+                                    }
+                                ]
+                            })
+
+                        }).render($panel.find('#slot-set-lang'));
+                        button.on('click', function (e) {
+                            console.log('lang button');
+                        });
+
                         me.toolbar.addTab(tab, $panel, 3);
                     }
                 }

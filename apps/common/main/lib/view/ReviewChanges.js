@@ -413,17 +413,20 @@ define([
         var template =
             '<section id="review-changes-panel" class="panel" data-tab="review">' +
                 '<div class="group">' +
-                    '<span id="btn-review-on"></span>' +
+                    '<span id="slot-set-lang" class="btn-slot text x-huge"></span>' +
+                    '<span id="slot-btn-spelling" class="btn-slot text x-huge"></span>' +
                 '</div>' +
                 '<div class="separator long"/>' +
                 '<div class="group">' +
-                    '<span id="btn-change-prev"></span>' +
-                    '<span id="btn-change-next"></span>' +
+                    '<span class="btn-slot text x-huge slot-comment"></span>' +
                 '</div>' +
                 '<div class="separator long"/>' +
                 '<div class="group">' +
-                    '<span id="btn-change-accept"></span>' +
-                    '<span id="btn-change-reject"></span>' +
+                    '<span id="btn-review-on" class="btn-slot text x-huge"></span>' +
+                    '<span id="btn-change-prev" class="btn-slot text x-huge"></span>' +
+                    '<span id="btn-change-next" class="btn-slot text x-huge"></span>' +
+                    '<span id="btn-change-accept" class="btn-slot text x-huge"></span>' +
+                    '<span id="btn-change-reject" class="btn-slot text x-huge"></span>' +
                 '</div>' +
             '</section>';
 

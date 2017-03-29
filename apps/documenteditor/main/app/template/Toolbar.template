@@ -127,7 +127,6 @@
                         <span class="btn-slot text" id="slot-btn-editheader"></span>
                     </div>
                 </div>
-                <div class="separator long"></div>
                 <div class="group">
                     <div class="elset">
                         <span class="btn-slot text" id="slot-btn-insimage"></span>
@@ -152,7 +151,6 @@
                         <span class="btn-slot text" id="slot-btn-insshape"></span>
                     </div>
                 </div>
-                <div class="separator long"></div>
                 <div class="group">
                     <div class="elset">
                         <span class="btn-slot text" id="slot-btn-dropcap"></span>
@@ -166,6 +164,7 @@
                         <span class="btn-slot text" id="slot-btn-notes"></span>
                     </div>
                     <div class="elset">
+                        <span class="btn-slot text slot-comment"></span>
                     </div>
                 </div>
             </section>
@@ -184,6 +183,37 @@
                     </div>
                     <div class="elset">
                         <span class="btn-slot text" id="slot-btn-columns"></span>
+                    </div>
+                </div>
+                <div class="group">
+                    <div class="elset">
+                        <span class="btn-slot text slot-break"></span>
+                    </div>
+                    <div class="elset">
+                    </div>
+                </div>
+                <div class="separator long"></div>
+                <div class="group">
+                    <div class="elset">
+                        <span class="btn-slot text" id="slot-img-align"></span>
+                    </div>
+                    <div class="elset">
+                        <span class="btn-slot text" id="slot-img-group"></span>
+                    </div>
+                </div>
+                <div class="group">
+                    <div class="elset">
+                        <span class="btn-slot text" id="slot-img-movefrwd"></span>
+                    </div>
+                    <div class="elset">
+                        <span class="btn-slot text" id="slot-img-movebkwd"></span>
+                    </div>
+                </div>
+                <div class="group">
+                    <div class="elset">
+                        <span class="btn-slot text" id="slot-img-wrapping"></span>
+                    </div>
+                    <div class="elset">
                     </div>
                 </div>
             </section>

@@ -1100,6 +1100,40 @@ define([
                 });
                 this.toolbarControls.push(this.btnAdvSettings);
 
+                me.btnImgAlign = new Common.UI.Button({
+                    cls: 'btn-toolbar',
+                    iconCls: 'btn-hidenchars',
+                    caption: me.capImgAlign,
+                    menu: true
+                });
+
+                me.btnImgGroup = new Common.UI.Button({
+                    cls: 'btn-toolbar',
+                    iconCls: 'btn-hidenchars',
+                    caption: me.capImgGroup,
+                    menu: true
+                });
+                me.btnImgForward = new Common.UI.Button({
+                    cls: 'btn-toolbar',
+                    iconCls: 'btn-hidenchars',
+                    caption: me.capImgForward,
+                    menu: true
+                });
+                me.btnImgBackward = new Common.UI.Button({
+                    cls: 'btn-toolbar',
+                    iconCls: 'btn-hidenchars',
+                    caption: me.capImgBackward,
+                    menu: true
+                });
+                me.btnImgWrapping = new Common.UI.Button({
+                    cls: 'btn-toolbar',
+                    iconCls: 'btn-hidenchars',
+                    caption: me.capImgWrapping,
+                    menu: true
+                });
+                me.toolbarControls.push( me.btnImgAlign,
+                    me.btnImgGroup, me.btnImgForward, me.btnImgBackward, me.btnImgWrapping);
+
                 //
                 // Menus
                 //
@@ -1433,6 +1467,12 @@ define([
                 _injectComponent('#slot-btn-halign', this.btnHorizontalAlign);
                 _injectComponent('#slot-btn-mailrecepients', this.btnMailRecepients);
                 _injectComponent('#slot-btn-notes', this.btnNotes);
+                _injectComponent('#slot-img-align', this.btnImgAlign);
+                _injectComponent('#slot-img-group', this.btnImgGroup);
+                _injectComponent('#slot-img-movefrwd', this.btnImgForward);
+                _injectComponent('#slot-img-movebkwd', this.btnImgBackward);
+                _injectComponent('#slot-img-wrapping', this.btnImgWrapping);
+
                 return $host;
             },
 
@@ -2370,24 +2410,23 @@ define([
                 config.tabs[after + 1] = tab;
                 var _after_action = _get_tab_action( after );
 
-                if ( $tabs ) {
-                    // $tabs.find('a[data-tab=' + after + ']').parent()
-                    //         .after( _.template(_tpl, tab) );
-                } else {
-                    var $toolbar = config.$dom;
+                var _elements = $tabs || config.$dom.find('.tabs');
+                var $target = _elements.find('a[data-tab=' + _after_action + ']');
+                if ( $target.length ) {
+                    $target.parent().after( _.template(_tplTab, tab) );
 
-                    var $el = $toolbar.find('.tabs a[data-tab=' + _after_action + ']');
-                    if ( $el.length ) {
-                        $el.parent().after( _.template(_tplTab, tab));
+                    if ( panel ) {
+                        _elements = $panels || config.$dom.find('.box-panels > .panel');
+                        $target = _elements.filter('[data-tab=' + _after_action + ']');
 
-                        if ( panel ) {
-                            $el = $toolbar.find('.box-panels > .panel[data-tab=' + _after_action + ']');
-
-                            if ( $el.length ) {
-                                $el.after(panel);
-                            }
+                        if ( $target.length ) {
+                            $target.after(panel);
                         }
                     }
+
+                    // synchronize matched elements
+                    $tabs && ($tabs = $boxTabs.find('> li'));
+                    $panels && ($panels = this.$el.find('.box-panels > .panel'));
                 }
             },
 
