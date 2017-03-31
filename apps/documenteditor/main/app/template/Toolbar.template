@@ -121,7 +121,7 @@
             <section class="panel" data-tab="ins">
                 <div class="group">
                     <div class="elset">
-                        <span class="btn-slot text" id="slot-btn-pagebreak"></span>
+                        <span class="btn-slot text btn-pagebreak"></span>
                     </div>
                     <div class="elset">
                         <span class="btn-slot text" id="slot-btn-editheader"></span>
@@ -187,7 +187,7 @@
                 </div>
                 <div class="group">
                     <div class="elset">
-                        <span class="btn-slot text slot-break"></span>
+                        <span class="btn-slot text btn-pagebreak"></span>
                     </div>
                     <div class="elset">
                     </div>

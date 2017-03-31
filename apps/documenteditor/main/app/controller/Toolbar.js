@@ -103,7 +103,8 @@ define([
 
             this.addListeners({
                 'Toolbar': {
-                    'changecompact'     : this.onChangeCompactView
+                    'changecompact'     : this.onChangeCompactView,
+                    'insert:break'      : this.onClickPageBreak
                 }
             });
 
@@ -276,9 +277,6 @@ define([
             toolbar.mnuLineSpace.on('item:toggle',                      _.bind(this.onLineSpaceToggle, this));
             toolbar.mnuNonPrinting.on('item:toggle',                    _.bind(this.onMenuNonPrintingToggle, this));
             toolbar.btnShowHidenChars.on('toggle',                      _.bind(this.onNonPrintingToggle, this));
-            toolbar.btnInsertPageBreak.on('click',                      _.bind(this.onPageBreakClick, this));
-            toolbar.btnInsertPageBreak.menu.on('item:click',            _.bind(this.onPageBreakClick, this));
-            toolbar.mnuInsertSectionBreak.menu.on('item:click',         _.bind(this.onSectionBreakClick, this));
             toolbar.btnInsertHyperlink.on('click',                      _.bind(this.onHyperlinkClick, this));
             toolbar.mnuTablePicker.on('select',                         _.bind(this.onTablePickerSelect, this));
             toolbar.mnuInsertTable.on('item:click',                     _.bind(this.onInsertTableClick, this));
@@ -720,9 +718,7 @@ define([
             }
 
             need_disable = paragraph_locked || header_locked || in_header || in_equation && !btn_eq_state;
-            if (need_disable != toolbar.btnInsertPageBreak.isDisabled()) {
-                toolbar.btnInsertPageBreak.setDisabled(need_disable);
-            }
+            toolbar.btnsPageBreak.disable(need_disable);
 
             need_disable = paragraph_locked || header_locked || !can_add_image || in_equation;
             if (need_disable != toolbar.btnInsertImage.isDisabled()) {
@@ -1265,28 +1261,20 @@ define([
             Common.NotificationCenter.trigger('edit:complete', me);
         },
 
-        onPageBreakClick: function(menu, item, e) {
-            if (this.api) {
-                if (item.value === 'section') {
-                } else if (item.value === 'column') {
-                    this.api.put_AddColumnBreak();
-                    Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-                    Common.component.Analytics.trackEvent('ToolBar', 'Column Break');
-                } else {
-                    this.api.put_AddPageBreak();
-                    Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-                    Common.component.Analytics.trackEvent('ToolBar', 'Page Break');
-                }
-            }
-        },
-
-        onSectionBreakClick: function(menu, item, e) {
-            if (this.api) {
-                this.api.add_SectionBreak(item.value);
-
-                Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        onClickPageBreak: function(value, e) {
+            if ( value === 'column' ) {
+                this.api.put_AddColumnBreak();
+                Common.component.Analytics.trackEvent('ToolBar', 'Column Break');
+            } else
+            if ( value == 'page' ) {
+                this.api.put_AddPageBreak();
+                Common.component.Analytics.trackEvent('ToolBar', 'Page Break');
+            } else {
+                this.api.add_SectionBreak( value );
                 Common.component.Analytics.trackEvent('ToolBar', 'Section Break');
             }
+
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
         onHyperlinkClick: function(btn) {

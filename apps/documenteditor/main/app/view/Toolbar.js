@@ -644,16 +644,6 @@ define([
                 });
                 this.paragraphControls.push(this.btnInsertText);
 
-                this.btnInsertPageBreak = new Common.UI.Button({
-                    id: 'tlb-btn-pagebreak',
-                    cls: 'btn-toolbar',
-                    iconCls: 'btn-pagebreak',
-                    split: true,
-                    caption: me.capBtnInsPagebreak,
-                    menu: true
-                });
-                this.paragraphControls.push(this.btnInsertPageBreak);
-
                 this.btnInsertHyperlink = new Common.UI.Button({
                     id: 'tlb-btn-inshyperlink',
                     cls: 'btn-toolbar',
@@ -1328,6 +1318,8 @@ define([
                     });
                 }
 
+                Common.NotificationCenter.on('app:ready', me.onAppReady.bind(this));
+
                 return this;
             },
 
@@ -1449,7 +1441,6 @@ define([
                 _injectComponent('#slot-btn-instext', this.btnInsertText);
                 _injectComponent('#slot-btn-dropcap', this.btnDropCap);
                 _injectComponent('#slot-btn-columns', this.btnColumns);
-                _injectComponent('#slot-btn-pagebreak', this.btnInsertPageBreak);
                 _injectComponent('#slot-btn-inshyperlink', this.btnInsertHyperlink);
                 _injectComponent('#slot-btn-editheader', this.btnEditHeader);
                 _injectComponent('#slot-btn-insshape', this.btnInsertShape);
@@ -1473,7 +1464,75 @@ define([
                 _injectComponent('#slot-img-movebkwd', this.btnImgBackward);
                 _injectComponent('#slot-img-wrapping', this.btnImgWrapping);
 
+                +function injectBreakButtons() {
+                    var me = this;
+
+                    me.btnsPageBreak = [];
+                    me.btnsPageBreak.disable = function(status) {
+                        this.forEach(function(btn) {
+                            btn.setDisabled(status);
+                        });
+                    };
+
+                    var $slots = $host.find('.btn-slot.btn-pagebreak');
+                    $slots.each(function(index, el) {
+                        var button = new Common.UI.Button({
+                            cls: 'btn-toolbar',
+                            iconCls: 'btn-pagebreak',
+                            caption: me.capBtnInsPagebreak,
+                            split: true,
+                            menu: true
+                        }).render( $slots.eq(index) );
+
+                        me.btnsPageBreak.push(button);
+                    });
+
+                    Array.prototype.push.apply(me.paragraphControls, me.btnsPageBreak);
+                }.call(this);
+
                 return $host;
+            },
+
+            onAppReady: function (config) {
+                var me = this;
+                (new Promise( function(resolve, reject) {
+                    resolve();
+                })).then(function () {
+                    me.btnsPageBreak.forEach( function(btn) {
+                        btn.updateHint( me.tipPageBreak );
+
+                        var _menu_section_break = new Common.UI.Menu({
+                            menuAlign: 'tl-tr',
+                            items: [
+                                {caption: me.textNextPage, value: Asc.c_oAscSectionBreakType.NextPage},
+                                {caption: me.textContPage, value: Asc.c_oAscSectionBreakType.Continuous},
+                                {caption: me.textEvenPage, value: Asc.c_oAscSectionBreakType.EvenPage},
+                                {caption: me.textOddPage, value: Asc.c_oAscSectionBreakType.OddPage}
+                            ]
+                        });
+
+                        var _menu = new Common.UI.Menu({
+                            items: [
+                                {caption: me.textInsPageBreak},
+                                {caption: me.textInsColumnBreak, value: 'column'},
+                                {caption: me.textInsSectionBreak, value: 'section', menu: _menu_section_break}
+                            ]
+                        });
+
+                        _menu_section_break.on('item:click', function (menu, item, e) {
+                            me.fireEvent('insert:break', [item.value]);
+                        });
+                        _menu.on('item:click', function (menu, item, e) {
+                            if ( !(item.value == 'section') )
+                                me.fireEvent('insert:break', [item.value]);
+                        });
+                        btn.on('click', function(e) {
+                            me.fireEvent('insert:break', ['page']);
+                        });
+
+                        btn.setMenu(_menu);
+                    });
+                });
             },
 
             createDelayedElements: function () {
@@ -1521,7 +1580,6 @@ define([
                 this.btnInsertImage.updateHint(this.tipInsertImage);
                 this.btnInsertChart.updateHint(this.tipInsertChart);
                 this.btnInsertText.updateHint(this.tipInsertText);
-                this.btnInsertPageBreak.updateHint(this.tipPageBreak);
                 this.btnInsertHyperlink.updateHint(this.tipInsertHyperlink + Common.Utils.String.platformKey('Ctrl+K'));
                 this.btnEditHeader.updateHint(this.tipEditHeader);
                 this.btnInsertShape.updateHint(this.tipInsertShape);
@@ -1618,26 +1676,6 @@ define([
                         ]
                     })
                 );
-
-                this.btnInsertPageBreak.setMenu(new Common.UI.Menu({
-                    items: [
-                        {caption: this.textInsPageBreak},
-                        {caption: this.textInsColumnBreak, value: 'column'},
-                        this.mnuInsertSectionBreak = new Common.UI.MenuItem({
-                            caption: this.textInsSectionBreak,
-                            value: 'section',
-                            menu: new Common.UI.Menu({
-                                menuAlign: 'tl-tr',
-                                items: [
-                                    {caption: this.textNextPage, value: Asc.c_oAscSectionBreakType.NextPage},
-                                    {caption: this.textContPage, value: Asc.c_oAscSectionBreakType.Continuous},
-                                    {caption: this.textEvenPage, value: Asc.c_oAscSectionBreakType.EvenPage},
-                                    {caption: this.textOddPage, value: Asc.c_oAscSectionBreakType.OddPage}
-                                ]
-                            })
-                        })
-                    ]
-                }));
 
                 this.btnEditHeader.setMenu(
                     new Common.UI.Menu({
@@ -2107,7 +2145,6 @@ define([
                     this.btnInsertText.setDisabled(true);
                     this.btnDropCap.setDisabled(true);
                     this.btnColumns.setDisabled(true);
-                    this.btnInsertPageBreak.setDisabled(true);
                     this.btnInsertHyperlink.setDisabled(true);
                     this.btnEditHeader.setDisabled(true);
                     this.btnInsertShape.setDisabled(true);
@@ -2126,6 +2163,8 @@ define([
                     this.btnNotes.setDisabled(true);
                     if (mode.disableDownload)
                         this.btnPrint.setDisabled(true);
+
+                    this.btnsPageBreak.disable(true);
                 }
 
                 this.mode = mode;
