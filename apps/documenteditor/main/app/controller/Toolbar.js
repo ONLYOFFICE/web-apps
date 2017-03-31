@@ -2800,8 +2800,7 @@ define([
                 var slots = me.toolbar.$el.find('.slot-comment');
                 slots.each(function(index, el) {
                     var _cls = 'btn-toolbar';
-                    /x-huge/.test(el.className) &&
-                        (_cls += ' x-huge icon-top');
+                    /x-huge/.test(el.className) && (_cls += ' x-huge icon-top');
 
                     var button = new Common.UI.Button({
                         cls: _cls,
@@ -2812,11 +2811,14 @@ define([
                     _btnsComment.push(button);
                 });
 
-                _btnsComment.forEach(function(btn) {
-                    btn.on('click', function (btn, e) {
-                        Common.NotificationCenter.trigger('app:comment:add', 'toolbar');
-                    });
-                }, this);
+                if ( _btnsComment.length ) {
+                    Array.prototype.push.apply(me.toolbar.toolbarControls, _btnsComment);
+                    _btnsComment.forEach(function (btn) {
+                        btn.on('click', function (btn, e) {
+                            Common.NotificationCenter.trigger('app:comment:add', 'toolbar');
+                        });
+                    }, this);
+                }
             }
         },
 
