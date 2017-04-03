@@ -1729,8 +1729,8 @@ define([
                                     'data-stopPropagation="true"',
                                     '<% } %>', '>',
                                     '<label class="title">' + this.textGotoFootnote + '</label>',
-                                    '<button id="id-menu-goto-footnote-next" type="button" style="float:right; margin: 2px 5px 0 0;" class="btn small btn-toolbar"><span class="btn-icon mmerge-next">&nbsp;</span></button>',
-                                    '<button id="id-menu-goto-footnote-prev" type="button" style="float:right; margin-top: 2px;" class="btn small btn-toolbar"><span class="btn-icon mmerge-prev">&nbsp;</span></button>',
+                                    '<button id="id-menu-goto-footnote-next" type="button" style="float:right; margin: 2px 5px 0 0;" class="btn small btn-toolbar"><i class="icon mmerge-next">&nbsp;</i></button>',
+                                    '<button id="id-menu-goto-footnote-prev" type="button" style="float:right; margin-top: 2px;" class="btn small btn-toolbar"><i class="icon mmerge-prev">&nbsp;</i></button>',
                                     '</div>'
                                 ].join('')),
                                 stopPropagation: true
