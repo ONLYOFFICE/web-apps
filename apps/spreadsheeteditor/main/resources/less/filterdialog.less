@@ -12,6 +12,16 @@
 
   .border-values {
     border: 1px solid @input-border;
+
+    .item {
+      &.selected {
+        background-color: @secondary;
+        border-color: @secondary;
+        color: @gray-deep;
+        border-style: solid;
+        border-width: 1px 0;
+      }
+    }
   }
 
   .body {

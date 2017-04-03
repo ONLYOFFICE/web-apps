@@ -1,0 +1,261 @@
+<!-- Root view -->
+<div id="addother-root-view">
+    <div class="list-block">
+        <ul>
+            <li>
+                <a id="add-other-pagebreak" class="item-link no-indicator">
+                    <div class="item-content">
+                        <div class="item-media">
+                            <i class="icon icon-pagebreak"></i>
+                        </div>
+                        <div class="item-inner">
+                            <div class="item-title"><%= scope.textPageBreak %></div>
+                        </div>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a id="add-other-columnbreak" class="item-link no-indicator">
+                    <div class="item-content">
+                        <div class="item-media">
+                            <i class="icon icon-stringbreak"></i>
+                        </div>
+                        <div class="item-inner">
+                            <div class="item-title"><%= scope.textColumnBreak %></div>
+                        </div>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a id="add-other-section" class="item-link">
+                    <div class="item-content">
+                        <div class="item-media">
+                            <i class="icon icon-sectionbreak"></i>
+                        </div>
+                        <div class="item-inner">
+                            <div class="item-title"><%= scope.textSectionBreak %></div>
+                        </div>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a id="add-other-link" class="item-link">
+                    <div class="item-content">
+                        <div class="item-media">
+                            <i class="icon icon-link"></i>
+                        </div>
+                        <div class="item-inner">
+                            <div class="item-title"><%= scope.textLink %></div>
+                        </div>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a id="add-other-pagenumber" class="item-link">
+                    <div class="item-content">
+                        <div class="item-media">
+                            <i class="icon icon-pagenumber"></i>
+                        </div>
+                        <div class="item-inner">
+                            <div class="item-title"><%= scope.textPageNumber %></div>
+                        </div>
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<!-- Secton break view -->
+<div id="addother-sectionbreak">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left sliding"><a href="#" class="back link"><i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding"><%= scope.textSectionBreak %></div>
+        </div>
+    </div>
+    <div class="page" data-page="addother-sectionbreak">
+        <div class="page-content">
+            <div class="list-block">
+                <ul>
+                    <li>
+                        <a data-type="next" class="item-link no-indicator">
+                            <div class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textNextPage %></div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-type="continuous" class="item-link no-indicator">
+                            <div class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textContPage %></div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-type="even" class="item-link no-indicator">
+                            <div class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textEvenPage %></div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-type="odd" class="item-link no-indicator">
+                            <div class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textOddPage %></div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Link view -->
+<div id="addother-link">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left sliding"><a href="#" class="back link"><i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding"><%= scope.textAddLink %></div>
+        </div>
+    </div>
+    <div class="page" data-page="addother-link">
+        <div class="page-content">
+            <div class="list-block">
+                <ul>
+                    <li>
+                        <div id="add-link-url" class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title label"><%= scope.textLink %></div>
+                                <div class="item-input">
+                                    <input type="url" placeholder="<%= scope.textLink %>">
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div id="add-link-display" class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title label"><%= scope.textDisplay %></div>
+                                <div class="item-input">
+                                    <input type="text" placeholder="<%= scope.textDisplay %>">
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div id="add-link-tip" class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title label"><%= scope.textTip %></div>
+                                <div class="item-input">
+                                    <input type="text" placeholder="<%= scope.textTip %>">
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="list-block disabled" id="add-link-insert">
+                <% if (android) { %>
+                <a href="#" class="button button-fill button-raised" style="margin: 20px 16px;"><%= scope.textInsert %></a>
+                <% } else { %>
+                <ul>
+                    <li>
+                        <a href="#" class="list-button item-link"><%= scope.textInsert %></a>
+                    </li>
+                </ul>
+                <% } %>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Page Number Position view -->
+<div id="addother-pagenumber">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left sliding"><a href="#" class="back link"><i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding"><%= scope.textPosition %></div>
+        </div>
+    </div>
+    <div class="page" data-page="addother-pagenumber">
+        <div class="page-content">
+            <div class="list-block">
+                <ul>
+                    <li>
+                        <a data-type="lt" class="item-link no-indicator">
+                            <div class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textLeftTop %></div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-type="ct" class="item-link no-indicator">
+                            <div class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textCenterTop %></div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-type="rt" class="item-link no-indicator">
+                            <div class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textRightTop %></div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-type="lb" class="item-link no-indicator">
+                            <div class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textLeftBottom %></div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-type="cb" class="item-link no-indicator">
+                            <div class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textCenterBottom %></div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-type="rb" class="item-link no-indicator">
+                            <div class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textRightBottom %></div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-type="current" class="item-link no-indicator">
+                            <div class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textCurrentPos %></div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2016
+ * (c) Copyright Ascensio System Limited 2010-2017
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -355,8 +355,8 @@ define([
             }
         },
 
-        onHideMenus: function(e){
-            this.fireEvent('editcomplete', this);
+        onHideMenus: function(menu, e, isFromInputControl){
+            if (!isFromInputControl) this.fireEvent('editcomplete', this);
         },
 
         setLocked: function (locked) {

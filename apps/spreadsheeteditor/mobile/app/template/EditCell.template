@@ -1,0 +1,848 @@
+<!-- Root view -->
+<div id="edit-cell-root">
+    <div class="list-block">
+        <ul>
+            <li>
+                <a id="font-fonts" class="item-link">
+                    <div class="item-content">
+                        <div class="item-inner">
+                            <div class="item-title"><%= scope.textFonts %></div>
+                            <div class="item-after" style="color: #000;"><span></span><span style="margin-left: 5px;"></span></div>
+                        </div>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <div class="item-content buttons">
+                    <div class="item-inner">
+                        <div class="row">
+                            <a id="font-bold" class="button"><b>B</b></a>
+                            <a id="font-italic" class="button"><i>I</i></a>
+                            <a id="font-underline" class="button" style="text-decoration: underline;">U</a>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <a id="text-color" class="item-link">
+                    <div class="item-content">
+                        <% if (!android) { %><div class="item-media" style="padding-top: 0;"><i class="icon icon-text-color"><span class="color-preview"></span></i></div><% } %>
+                        <div class="item-inner">
+                            <div class="item-title"><%= scope.textTextColor %></div>
+                            <% if (android) { %><div class="item-after"><div class="color-preview"></div></div><% } %>
+                        </div>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a id="fill-color" class="item-link">
+                    <div class="item-content">
+                        <% if (!android) { %><div class="item-media" style="padding-top: 0;"><i class="icon icon-fill-color"><span class="color-preview"></span></i></div><% } %>
+                        <div class="item-inner">
+                            <div class="item-title"><%= scope.textFillColor %></div>
+                            <% if (android) { %><div class="item-after"><div class="color-preview"></div></div><% } %>
+                        </div>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a id="text-format" class="item-link" data-page="#edit-text-format">
+                    <div class="item-content">
+                        <% if (!android) { %><div class="item-media"><i class="icon icon-text-additional"></i></div><% } %>
+                        <div class="item-inner">
+                            <div class="item-title"><%= scope.textTextFormat %></div>
+                        </div>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a id="border-style" class="item-link" data-page="#edit-border-style">
+                    <div class="item-content">
+                        <% if (!android) { %><div class="item-media"><i class="icon icon-table-borders-all" style="width: 22px; height: 22px;"></i></div><% } %>
+                        <div class="item-inner">
+                            <div class="item-title"><%= scope.textBorderStyle %></div>
+                        </div>
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="list-block">
+        <ul>
+            <a class="item-link" data-page="#edit-cell-format">
+                <div class="item-content">
+                    <% if (!android) { %><div class="item-media"><i class="icon icon-format-general"></i></div><% } %>
+                    <div class="item-inner">
+                        <div class="item-title"><%= scope.textFormat %></div>
+                    </div>
+                </div>
+            </a>
+        </ul>
+    </div>
+    <div class="content-block-title"><%= scope.textCellStyle %></div>
+    <div class="list-block">
+        <ul>
+            <li class="cell-styles dataview">
+            </li>
+        </ul>
+    </div>
+</div>
+
+<!-- Fonts view -->
+<div id="edit-text-fonts">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left sliding"><a href="#" class="back link"><i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding"><%= scope.textFonts %></div>
+            <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
+        </div>
+    </div>
+    <div class="page" data-page="edit-text-font-page">
+        <div class="page-content">
+            <div class="list-block">
+                <ul>
+                    <li id="font-size">
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textSize %></div>
+                                <div class="item-after splitter">
+                                    <% if (!android) { %><label></label><% } %>
+                                    <p class="buttons-row">
+                                        <span class="button decrement"><% if (android) { %><i class="icon icon-expand-down"></i><% } else { %>-<% } %></span>
+                                        <% if (android) { %><label></label><% } %>
+                                        <span class="button increment"><% if (android) { %><i class="icon icon-expand-up"></i><% } else { %>+<% } %></span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="content-block-title"><%= scope.textFonts %></div>
+            <div id="font-list" class="list-block virtual-list">
+                <!-- Fonts List -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Text color view -->
+<div id="edit-text-color">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding"><%= scope.textTextColor %></div>
+            <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
+        </div>
+    </div>
+    <div class="page" data-page="edit-text-color">
+        <div class="page-content">
+        </div>
+    </div>
+</div>
+
+<!-- Fill color view -->
+<div id="edit-fill-color">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding"><%= scope.textFillColor %></div>
+            <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
+        </div>
+    </div>
+    <div class="page" data-page="edit-fill-color">
+        <div class="page-content">
+        </div>
+    </div>
+</div>
+
+<!-- Border color view -->
+<div id="edit-cell-border-color">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding"><%= scope.textBorderColor %></div>
+            <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
+        </div>
+    </div>
+    <div class="page" data-page="edit-border-color">
+        <div class="page-content">
+        </div>
+    </div>
+</div>
+
+<!-- Text Format view -->
+<div id="edit-text-format">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding"><%= scope.textTextFormat %></div>
+            <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
+        </div>
+    </div>
+    <div class="page" data-page="edit-text-format">
+        <div class="page-content">
+            <div class="list-block">
+                <ul>
+                    <li>
+                        <label class="label-radio item-content">
+                            <input type="radio" name="text-halign" value="left">
+                            <% if (android) { %>
+                            <div class="item-media"><i class="icon icon-form-radio"></i></div>
+                            <% } else { %>
+                            <div class="item-media"><i class="icon icon-text-align-left"></i></div>
+                            <% } %>
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textAlignLeft %></div>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="label-radio item-content">
+                            <input type="radio" name="text-halign" value="center">
+                            <% if (android) { %>
+                            <div class="item-media"><i class="icon icon-form-radio"></i></div>
+                            <% } else { %>
+                            <div class="item-media"><i class="icon icon-text-align-center"></i></div>
+                            <% } %>
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textAlignCenter %></div>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="label-radio item-content">
+                            <input type="radio" name="text-halign" value="right">
+                            <% if (android) { %>
+                            <div class="item-media"><i class="icon icon-form-radio"></i></div>
+                            <% } else { %>
+                            <div class="item-media"><i class="icon icon-text-align-right"></i></div>
+                            <% } %>
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textAlignRight %></div>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="label-radio item-content">
+                            <input type="radio" name="text-halign" value="justify">
+                            <% if (android) { %>
+                            <div class="item-media"><i class="icon icon-form-radio"></i></div>
+                            <% } else { %>
+                            <div class="item-media"><i class="icon icon-text-align-justify"></i></div>
+                            <% } %>
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textJustified %></div>
+                            </div>
+                        </label>
+                    </li>
+                </ul>
+            </div>
+            <div class="list-block">
+                <ul>
+                    <li>
+                        <label class="label-radio item-content">
+                            <input type="radio" name="text-valign" value="top">
+                            <% if (android) { %>
+                            <div class="item-media"><i class="icon icon-form-radio"></i></div>
+                            <% } else { %>
+                            <div class="item-media"><i class="icon icon-text-valign-top"></i></div>
+                            <% } %>
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textAlignTop %></div>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="label-radio item-content">
+                            <input type="radio" name="text-valign" value="center">
+                            <% if (android) { %>
+                            <div class="item-media"><i class="icon icon-form-radio"></i></div>
+                            <% } else { %>
+                            <div class="item-media"><i class="icon icon-text-valign-middle"></i></div>
+                            <% } %>
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textAlignMiddle %></div>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="label-radio item-content">
+                            <input type="radio" name="text-valign" value="bottom">
+                            <% if (android) { %>
+                            <div class="item-media"><i class="icon icon-form-radio"></i></div>
+                            <% } else { %>
+                            <div class="item-media"><i class="icon icon-text-valign-bottom"></i></div>
+                            <% } %>
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textAlignBottom %></div>
+                            </div>
+                        </label>
+                    </li>
+                </ul>
+            </div>
+            <div class="list-block">
+                <ul>
+                    <li id="edit-cell-wrap-text">
+                        <div class="item-content">
+                            <% if (!android) { %><div class="item-media"><i class="icon icon-cell-wrap"></i></div><% } %>
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textWrapText %></div>
+                                <div class="item-after">
+                                    <label class="label-switch">
+                                        <input type="checkbox">
+                                        <div class="checkbox"></div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Border Styles view -->
+<div id="edit-border-style">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding"><%= scope.textBorderStyle %></div>
+            <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
+        </div>
+    </div>
+    <div class="pages">
+        <div class="page" data-page="edit-border-style">
+            <div class="page-content">
+                <div class="list-block">
+                    <ul>
+                        <li>
+                            <a data-type="none" class="item-link no-indicator">
+                                <div class="item-content">
+                                    <div class="item-media"><i class="icon icon-table-borders-none"></i></div>
+                                    <div class="item-inner"><div class="item-title"><%= scope.textNoBorder %></div></div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a data-type="all" class="item-link no-indicator">
+                                <div class="item-content">
+                                    <div class="item-media"><i class="icon icon-table-borders-all"></i></div>
+                                    <div class="item-inner"><div class="item-title"><%= scope.textAllBorders %></div></div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a data-type="2" class="item-link no-indicator">
+                                <div class="item-content">
+                                    <div class="item-media"><i class="icon icon-table-borders-bottom"></i></div>
+                                    <div class="item-inner"><div class="item-title"><%= scope.textBottomBorder %></div></div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a data-type="0" class="item-link no-indicator">
+                                <div class="item-content">
+                                    <div class="item-media"><i class="icon icon-table-borders-top"></i></div>
+                                    <div class="item-inner"><div class="item-title"><%= scope.textTopBorder %></div></div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a data-type="3" class="item-link no-indicator">
+                                <div class="item-content">
+                                    <div class="item-media"><i class="icon icon-table-borders-left"></i></div>
+                                    <div class="item-inner"><div class="item-title"><%= scope.textLeftBorder %></div></div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a data-type="1" class="item-link no-indicator">
+                                <div class="item-content">
+                                    <div class="item-media"><i class="icon icon-table-borders-right"></i></div>
+                                    <div class="item-inner"><div class="item-title"><%= scope.textRightBorder %></div></div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a data-type="inner" class="item-link no-indicator">
+                                <div class="item-content">
+                                    <div class="item-media"><i class="icon icon-table-borders-inner"></i></div>
+                                    <div class="item-inner"><div class="item-title"><%= scope.textInBorders %></div></div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a data-type="6" class="item-link no-indicator">
+                                <div class="item-content">
+                                    <div class="item-media"><i class="icon icon-table-borders-center"></i></div>
+                                    <div class="item-inner"><div class="item-title"><%= scope.textInVertBorder %></div></div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a data-type="7" class="item-link no-indicator">
+                                <div class="item-content">
+                                    <div class="item-media"><i class="icon icon-table-borders-middle"></i></div>
+                                    <div class="item-inner"><div class="item-title"><%= scope.textInHorBorder %></div></div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a data-type="5" class="item-link no-indicator">
+                                <div class="item-content">
+                                    <div class="item-media"><i class="icon icon-table-borders-dup"></i></div>
+                                    <div class="item-inner"><div class="item-title"><%= scope.textDiagUpBorder %></div></div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a data-type="4" class="item-link no-indicator">
+                                <div class="item-content">
+                                    <div class="item-media"><i class="icon icon-table-borders-ddown"></i></div>
+                                    <div class="item-inner"><div class="item-title"><%= scope.textDiagDownBorder %></div></div>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="content-block-title"><%= scope.textStyles %></div>
+                <div class="list-block">
+                    <ul>
+                        <li>
+                            <a id="edit-border-color" class="item-link" data-page="#edit-cell-border-color">
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title"><%= scope.textColor %></div>
+                                        <div class="item-after"><div class="color-preview"></div></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a id="edit-border-size" class="item-link smart-select" data-back-on-select="true">
+                                <select name="cell-border-size">
+                                    <option value="thin"><%= scope.textThin %></option>
+                                    <option value="medium"><%= scope.textMedium %></option>
+                                    <option value="thick"><%= scope.textThick %></option>
+                                </select>
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title"><%= scope.textSize %></div>
+                                        <div class="item-after"><%= scope.textThin %></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Cell Format view -->
+<div id="edit-cell-format">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding"><%= scope.textFormat %></div>
+            <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
+        </div>
+    </div>
+    <div class="pages">
+        <div class="page" data-page="edit-cell-format">
+            <div class="page-content">
+                <div class="list-block">
+                    <ul>
+                        <li>
+                            <a data-type="R2VuZXJhbA==" class="item-link no-indicator">
+                                <div class="item-content">
+                                    <div class="item-media"><i class="icon icon-format-general"></i></div>
+                                    <div class="item-inner"><div class="item-title"><%= scope.textGeneral %></div></div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a data-type="MC4wMA==" class="item-link no-indicator">
+                                <div class="item-content">
+                                    <div class="item-media"><i class="icon icon-format-number"></i></div>
+                                    <div class="item-inner"><div class="item-title"><%= scope.textNumber %></div></div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a data-type="JTIzMA==" class="item-link no-indicator">
+                                <div class="item-content">
+                                    <div class="item-media"><i class="icon icon-format-integer"></i></div>
+                                    <div class="item-inner"><div class="item-title"><%= scope.textInteger %></div></div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a data-type="MC4wMEUlMkIwMA==" class="item-link no-indicator">
+                                <div class="item-content">
+                                    <div class="item-media"><i class="icon icon-format-scientific"></i></div>
+                                    <div class="item-inner"><div class="item-title"><%= scope.textScientific %></div></div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="item-link" data-page="#edit-cell-format-accounting">
+                                <div class="item-content">
+                                    <div class="item-media"><i class="icon icon-format-accounting"></i></div>
+                                    <div class="item-inner"><div class="item-title"><%= scope.textAccounting %></div></div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="item-link" data-page="#edit-cell-format-currency">
+                                <div class="item-content">
+                                    <div class="item-media"><i class="icon icon-format-currency"></i></div>
+                                    <div class="item-inner"><div class="item-title"><%= scope.textCurrency %></div></div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="item-link" data-page="#edit-cell-format-date">
+                                <div class="item-content">
+                                    <div class="item-media"><i class="icon icon-format-date"></i></div>
+                                    <div class="item-inner"><div class="item-title"><%= scope.textDate %></div></div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="item-link" data-page="#edit-cell-format-time">
+                                <div class="item-content">
+                                    <div class="item-media"><i class="icon icon-format-time"></i></div>
+                                    <div class="item-inner"><div class="item-title"><%= scope.textTime %></div></div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a data-type="MC4wMCUyNQ==" class="item-link no-indicator">
+                                <div class="item-content">
+                                    <div class="item-media"><i class="icon icon-format-percentage"></i></div>
+                                    <div class="item-inner"><div class="item-title"><%= scope.textPercentage %></div></div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a data-type="JTQw" class="item-link no-indicator">
+                                <div class="item-content">
+                                    <div class="item-media"><i class="icon icon-format-text"></i></div>
+                                    <div class="item-inner"><div class="item-title"><%= scope.textText %></div></div>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Cell Format Accounting view -->
+<div id="edit-cell-format-accounting">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding"><%= scope.textAccounting %></div>
+            <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
+        </div>
+    </div>
+    <div class="pages">
+        <div class="page" data-page="edit-cell-format">
+            <div class="page-content">
+                <div class="list-block">
+                    <ul>
+                        <li>
+                            <a data-type="XyglMjQqJTIwJTIzJTJDJTIzJTIzMC4wMF8pJTNCXyglMjQqJTIwKCUyMyUyQyUyMyUyMzAuMDApJTNCXyglMjQqJTIwJTIyLSUyMiUzRiUzRl8pJTNCXyglNDBfKQ==" class="item-link no-indicator">
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title"><%= scope.textDollar %></div>
+                                        <div class="item-after">$</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a data-type="XyglRTIlODIlQUMqJTIwJTIzJTJDJTIzJTIzMC4wMF8pJTNCXyglRTIlODIlQUMqJTIwKCUyMyUyQyUyMyUyMzAuMDApJTNCXyglRTIlODIlQUMqJTIwJTIyLSUyMiUzRiUzRl8pJTNCXyglNDBfKQ==" class="item-link no-indicator">
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title"><%= scope.textEuro %></div>
+                                        <div class="item-after">€</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a data-type="XyglQzIlQTMqJTIwJTIzJTJDJTIzJTIzMC4wMF8pJTNCXyglQzIlQTMqJTIwKCUyMyUyQyUyMyUyMzAuMDApJTNCXyglQzIlQTMqJTIwJTIyLSUyMiUzRiUzRl8pJTNCXyglNDBfKQ==" class="item-link no-indicator">
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title"><%= scope.textPound %></div>
+                                        <div class="item-after">£</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a data-type="Xy0qJTIwJTIzJTJDJTIzJTIzMC4wMCU1QiUyNCVEMSU4MC4tNDE5JTVEXy0lM0ItKiUyMCUyMyUyQyUyMyUyMzAuMDAlNUIlMjQlRDElODAuLTQxOSU1RF8tJTNCXy0qJTIwJTIyLSUyMiUzRiUzRiU1QiUyNCVEMSU4MC4tNDE5JTVEXy0lM0JfLSU0MF8t" class="item-link no-indicator">
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title"><%= scope.textRouble %></div>
+                                        <div class="item-after">₽</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a data-type="XyglQzIlQTUqJTIwJTIzJTJDJTIzJTIzMC4wMF8pJTNCXyglQzIlQTUqJTIwKCUyMyUyQyUyMyUyMzAuMDApJTNCXyglQzIlQTUqJTIwJTIyLSUyMiUzRiUzRl8pJTNCXyglNDBfKQ==" class="item-link no-indicator">
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title"><%= scope.textYen %></div>
+                                        <div class="item-after">¥</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Cell Format Accounting view -->
+<div id="edit-cell-format-currency">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding"><%= scope.textCurrency %></div>
+            <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
+        </div>
+    </div>
+    <div class="pages">
+        <div class="page" data-page="edit-cell-format">
+            <div class="page-content">
+                <div class="list-block">
+                    <ul>
+                        <li>
+                            <a data-type="JTI0JTIzJTJDJTIzJTIzMC4wMA==" class="item-link no-indicator">
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title"><%= scope.textDollar %></div>
+                                        <div class="item-after">$</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a data-type="JUUyJTgyJUFDJTIzJTJDJTIzJTIzMC4wMA==" class="item-link no-indicator">
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title"><%= scope.textEuro %></div>
+                                        <div class="item-after">€</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a data-type="JUMyJUEzJTIzJTJDJTIzJTIzMC4wMA==" class="item-link no-indicator">
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title"><%= scope.textPound %></div>
+                                        <div class="item-after">£</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a data-type="JTIzJTJDJTIzJTIzMC4wMCUyMiVEMSU4MC4lMjI=" class="item-link no-indicator">
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title"><%= scope.textRouble %></div>
+                                        <div class="item-after">₽</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a data-type="JUMyJUE1JTIzJTJDJTIzJTIzMC4wMA==" class="item-link no-indicator">
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title"><%= scope.textYen %></div>
+                                        <div class="item-after">¥</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Cell Format Date view -->
+<div id="edit-cell-format-date">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding"><%= scope.textDate %></div>
+            <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
+        </div>
+    </div>
+    <div class="pages">
+        <div class="page" data-page="edit-cell-format">
+            <div class="page-content">
+                <div class="list-block">
+                    <ul>
+                        <li>
+                            <a data-type="TU0tZGQteXk=" class="item-link no-indicator">
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title">07-24-88</div>
+                                        <div class="item-after">MM-dd-yy</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a data-type="TU0tZGQteXl5eQ==" class="item-link no-indicator">
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title">07-24-1988</div>
+                                        <div class="item-after">MM-dd-yyyy</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a data-type="ZGQtTU0teXk=" class="item-link no-indicator">
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title">24-07-88</div>
+                                        <div class="item-after">dd-MM-yy</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a data-type="ZGQtTU0teXl5eQ==" class="item-link no-indicator">
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title">24-07-1988</div>
+                                        <div class="item-after">dd-MM-yyyy</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a data-type="ZGQtTU1NLXl5eXk=" class="item-link no-indicator">
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title">24-Jul-1988</div>
+                                        <div class="item-after">dd-MMM-yyyy</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a data-type="ZGQtTU1N" class="item-link no-indicator">
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title">24-Jul</div>
+                                        <div class="item-after">dd-MMM</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a data-type="TU1NLXl5" class="item-link no-indicator">
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title">Jul-88</div>
+                                        <div class="item-after">MMM-yy</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Cell Format Time view -->
+<div id="edit-cell-format-time">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding"><%= scope.textTime %></div>
+            <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
+        </div>
+    </div>
+    <div class="pages">
+        <div class="page" data-page="edit-cell-format">
+            <div class="page-content">
+                <div class="list-block">
+                    <ul>
+                        <li>
+                            <a data-type="SEg6bW0=" class="item-link no-indicator">
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title">10:56</div>
+                                        <div class="item-after">HH:mm</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a data-type="SEg6TU06c3M=" class="item-link no-indicator">
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title">21:56:00</div>
+                                        <div class="item-after">HH:MM:ss</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a data-type="aGg6bW0gdHQ=" class="item-link no-indicator">
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title">05:56 AM</div>
+                                        <div class="item-after">hh:mm tt</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a data-type="aGg6bW06c3MgdHQ=" class="item-link no-indicator">
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title">05:56:00 AM</div>
+                                        <div class="item-after">hh:mm:ss tt</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a data-type="W2hdOm1tOnNz" class="item-link no-indicator">
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title">38:56:00</div>
+                                        <div class="item-after">[h]:mm:ss</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

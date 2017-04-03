@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2016
+ * (c) Copyright Ascensio System Limited 2010-2017
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -67,7 +67,8 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                     {panelId: 'id-adv-image-wrap',       panelCaption: this.textBtnWrap},
                     {panelId: 'id-adv-image-position',   panelCaption: this.textPosition},
                     {panelId: 'id-adv-image-shape',      panelCaption: this.textShape},
-                    {panelId: 'id-adv-image-margins',    panelCaption: this.strMargins}
+                    {panelId: 'id-adv-image-margins',    panelCaption: this.strMargins},
+                    {panelId: 'id-adv-image-alttext',    panelCaption: this.textAlt}
                 ],
                 contentTemplate: _.template(contentTemplate)({
                     scope: this
@@ -1069,6 +1070,25 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             this.mnuEndSizePicker.on('item:click', _.bind(this.onSelectEndSize, this));
             this._selectStyleItem(this.btnEndSize, null);
 
+            // Alt Text
+
+            this.inputAltTitle = new Common.UI.InputField({
+                el          : $('#image-advanced-alt-title'),
+                allowBlank  : true,
+                validateOnBlur: false,
+                style       : 'width: 100%;'
+            }).on('changed:after', function() {
+                me.isAltTitleChanged = true;
+            });
+
+            this.textareaAltDescription = this.$window.find('textarea');
+            this.textareaAltDescription.keydown(function (event) {
+                if (event.keyCode == Common.UI.Keys.RETURN) {
+                    event.stopPropagation();
+                }
+                me.isAltDescChanged = true;
+            });
+
             this.afterRender();
         },
 
@@ -1334,6 +1354,12 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                     this.spnHeight.setValue((value!==undefined) ? Common.Utils.Metric.fnRecalcFromMM(value).toFixed(2) : '', true);
                 }
 
+                value = props.asc_getTitle();
+                this.inputAltTitle.setValue(value ? value : '');
+
+                value = props.asc_getDescription();
+                this.textareaAltDescription.val(value ? value : '');
+
                 this._changedProps = new Asc.asc_CImgProperty();
             }
         },
@@ -1369,6 +1395,12 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                     properties.get_PositionV().put_Value(val);
                 }
             }
+
+            if (this.isAltTitleChanged)
+                properties.asc_putTitle(this.inputAltTitle.getValue());
+
+            if (this.isAltDescChanged)
+                properties.asc_putDescription(this.textareaAltDescription.val());
 
             return { imageProps: properties} ;
         },
@@ -1718,7 +1750,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 this.chMove.setValue(this._state.VPositionFrom==Asc.c_oAscRelativeFromV.Line || this._state.VPositionFrom==Asc.c_oAscRelativeFromV.Paragraph, true);
                 this.chMove.setDisabled(false);
                 this.spnYPc.setDisabled(true);
-                this.cmbVPositionPc.setDisabled(true);            
+                this.cmbVPositionPc.setDisabled(true);
             }
         },
 
@@ -1742,7 +1774,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 this.chMove.setValue(false, true);
                 this.chMove.setDisabled(true);
                 this.spnYPc.setDisabled(false);
-                this.cmbVPositionPc.setDisabled(false);          
+                this.cmbVPositionPc.setDisabled(false);
             }
         },
 
@@ -1995,7 +2027,11 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
         textPositionPc: 'Relative position',
         textAspectRatio: 'Lock aspect ratio',
         textAbsoluteWH: 'Absolute',
-        textRelativeWH: 'Relative'
+        textRelativeWH: 'Relative',
+        textAlt: 'Alternative Text',
+        textAltTitle: 'Title',
+        textAltDescription: 'Description',
+        textAltTip: 'The alternative text-based representation of the visual object information, which will be read to the people with vision or cognitive impairments to help them better understand what information there is in the image, autoshape, chart or table.'
 
     }, DE.Views.ImageSettingsAdvanced || {}));
 });

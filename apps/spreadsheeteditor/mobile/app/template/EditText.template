@@ -1,0 +1,119 @@
+<!-- Root view -->
+<div id="edit-text-root">
+    <div class="list-block">
+        <ul>
+            <li>
+                <a id="font-fonts" class="item-link" data-page="#edit-text-fonts">
+                    <div class="item-content">
+                        <div class="item-inner">
+                            <div class="item-title"><%= scope.textFonts %></div>
+                            <div class="item-after" style="color: #000;"><span></span><span style="margin-left: 5px;"></span></div>
+                        </div>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <div class="item-content buttons">
+                    <div class="item-inner">
+                        <div class="row">
+                            <a id="font-bold" class="button"><b>B</b></a>
+                            <a id="font-italic" class="button"><i>I</i></a>
+                            <a id="font-underline" class="button" style="text-decoration: underline;">U</a>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <a id="font-color" class="item-link" data-page="#edit-text-color">
+                    <div class="item-content">
+                        <% if (!android) { %><div class="item-media" style="padding-top: 0;"><i class="icon icon-text-color"><span class="color-preview"></span></i></div><% } %>
+                        <div class="item-inner">
+                            <div class="item-title"><%= scope.textTextColor %></div>
+                            <% if (android) { %><div class="item-after"><div class="color-preview"></div></div><% } %>
+                        </div>
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="list-block" id="edit-text-align-block">
+        <ul>
+            <li>
+                <div class="item-content buttons">
+                    <div class="item-inner">
+                        <div class="row">
+                            <a id="font-left" class="button no-ripple" data-value="left"><i class="icon icon-text-align-left"></i></a>
+                            <a id="font-center" class="button no-ripple" data-value="center"><i class="icon icon-text-align-center"></i></a>
+                            <a id="font-right" class="button no-ripple" data-value="right"><i class="icon icon-text-align-right"></i></a>
+                            <a id="font-just" class="button no-ripple" data-value="justify"><i class="icon icon-text-align-justify"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="item-content buttons">
+                    <div class="item-inner">
+                        <div class="row">
+                            <a id="font-top" class="button no-ripple" data-value="top"><i class="icon icon-text-valign-top"></i></a>
+                            <a id="font-middle" class="button no-ripple" data-value="center"><i class="icon icon-text-valign-middle"></i></a>
+                            <a id="font-bottom" class="button no-ripple" data-value="bottom"><i class="icon icon-text-valign-bottom"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<!-- Fonts view -->
+<div id="edit-text-fonts">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left sliding"><a href="#" class="back link"><i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding"><%= scope.textFonts %></div>
+            <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
+        </div>
+    </div>
+    <div class="page" data-page="edit-text-fonts">
+        <div class="page-content">
+            <div class="list-block">
+                <ul>
+                    <li id="font-size">
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textSize %></div>
+                                <div class="item-after splitter">
+                                    <% if (!android) { %><label></label><% } %>
+                                    <p class="buttons-row">
+                                        <span class="button decrement"><% if (android) { %><i class="icon icon-expand-down"></i><% } else { %>-<% } %></span>
+                                        <% if (android) { %><label></label><% } %>
+                                        <span class="button increment"><% if (android) { %><i class="icon icon-expand-up"></i><% } else { %>+<% } %></span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="content-block-title"><%= scope.textFonts %></div>
+            <div id="font-list" class="list-block virtual-list">
+                <!-- Fonts List -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Text color view -->
+<div id="edit-text-color">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding"><%= scope.textTextColor %></div>
+            <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
+        </div>
+    </div>
+    <div class="page" data-page="edit-text-color">
+        <div class="page-content">
+        </div>
+    </div>
+</div>

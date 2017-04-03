@@ -4,10 +4,41 @@
 
     .thumb {
         top: 18px;
-        background-position: @multislide-thumb-offset-x @multislide-thumb-offset-y;
+        background: none;
 
-        &.active {
-            background-position: @multislide-thumb-offset-x @multislide-thumb-offset-y - 30px;
+        .thumb-top {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 9px;
+            height: 9px;
+            background-color: #ffffff;
+            -moz-transform: rotate(45deg);
+            -ms-transform: rotate(45deg);
+            -webkit-transform: rotate(45deg);
+            -o-transform: rotate(45deg);
+            transform: rotate(45deg);
+            border-top: solid 1px @gray-darker;
+            border-left: solid 1px @gray-darker;
+            border-radius: 0 3px;
+            box-sizing: content-box;
+        }
+
+        .thumb-bottom {
+            position: absolute;
+            top: 6px;
+            left: 1px;
+            width: 10px;
+            height: 8px;
+            background-color: #ffffff;
+            border: solid 1px @gray-darker;
+            border-top: none;
+            border-radius: 2px;
+            box-sizing: content-box;
+        }
+
+        &.active .thumb-bottom {
+            border-bottom-width: 2px;
         }
     }
 

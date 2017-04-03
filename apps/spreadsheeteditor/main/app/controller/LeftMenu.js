@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2016
+ * (c) Copyright Ascensio System Limited 2010-2017
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -174,6 +174,7 @@ define([
                 this.leftMenu.btnChat.hide();
                 this.leftMenu.btnComments.hide();
             }
+            this.mode.isTrial && this.leftMenu.setDeveloperMode(true);
             /** coauthoring end **/
             Common.util.Shortcuts.resumeEvents();
             if (!this.mode.isEditMailMerge && !this.mode.isEditDiagram)
@@ -187,6 +188,7 @@ define([
                 this.leftMenu.setOptionsPanel('plugins', this.getApplication().getController('Common.Controllers.Plugins').getView('Common.Views.Plugins'));
             } else
                 this.leftMenu.btnPlugins.hide();
+            this.mode.isTrial && this.leftMenu.setDeveloperMode(true);
         },
 
         clickMenuFileItem: function(menu, action, isopts) {
@@ -257,7 +259,7 @@ define([
             (!(value!==null && parseInt(value) == 0)) ? this.api.asc_showComments() : this.api.asc_hideComments();
 //            this.getApplication().getController('DocumentHolder').setLiveCommenting(!(value!==null && parseInt(value) == 0));
 
-            if (this.mode.isEdit && this.mode.canLicense && !this.mode.isOffline && this.mode.canCoAuthoring) {
+            if (this.mode.isEdit && !this.mode.isOffline && this.mode.canCoAuthoring) {
                 value = Common.localStorage.getItem("sse-settings-coauthmode");
                 this.api.asc_SetFastCollaborative(value===null || parseInt(value) == 1);
             }

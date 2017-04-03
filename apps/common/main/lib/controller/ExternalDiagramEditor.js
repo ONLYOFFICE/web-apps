@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2016
+ * (c) Copyright Ascensio System Limited 2010-2017
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -114,6 +114,7 @@ define([
                                 createExternalEditor.apply(this);
                             }
                             this.isExternalEditorVisible = true;
+                            this.isHandlerCalled = false;
                         }, this),
                         'hide':  _.bind(function(cmp){
                             if (externalEditor) {
@@ -138,6 +139,8 @@ define([
             },
 
             handler: function(result, value) {
+                if (this.isHandlerCalled) return;
+                this.isHandlerCalled = true;
                 externalEditor && externalEditor.serviceCommand('queryClose',{mr:result});
                 return true;
             },

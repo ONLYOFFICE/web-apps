@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2016
+ * (c) Copyright Ascensio System Limited 2010-2017
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -104,6 +104,7 @@ define([
             this.api.asc_registerCallback('asc_onWorksheetLocked', _.bind(this.onWorksheetLocked, this));
             /** coauthoring end **/
             this.api.asc_registerCallback('asc_onError', _.bind(this.onError, this));
+            this.api.asc_registerCallback('asc_onFilterInfo',   _.bind(this.onApiFilterInfo , this));
 
             this.statusbar.setApi(api);
         },
@@ -182,6 +183,11 @@ define([
                 average : info.asc_getAverage(),
                 sum     : info.asc_getSum()
             });
+            this.statusbar.updateTabbarBorders();
+        },
+
+        onApiFilterInfo: function(countFilter, countRecords) {
+            this.statusbar.setFilteredInfo(countFilter, countRecords);
             this.statusbar.updateTabbarBorders();
         },
 

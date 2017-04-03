@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2016
+ * (c) Copyright Ascensio System Limited 2010-2017
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -75,7 +75,8 @@ define([
             scope               : null,
             hide                : false,
             hint                : false,
-            dummy               : undefined
+            dummy               : undefined,
+            editable            : true
         }
     });
     Common.Models.Reply = Backbone.Model.extend({
@@ -89,7 +90,8 @@ define([
             id                  : Common.UI.getId(),    //  internal
             editText            : false,
             editTextInPopover   : false,
-            scope               : null
+            scope               : null,
+            editable            : true
         }
     });
 });

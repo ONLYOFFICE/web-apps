@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2016
+ * (c) Copyright Ascensio System Limited 2010-2017
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -418,6 +418,10 @@ define([
                 caption : me.advancedShapeText
             });
 
+            me.mnuImgAdvanced = new Common.UI.MenuItem({
+                caption : me.advancedImgText
+            });
+
             me.mnuChartEdit = new Common.UI.MenuItem({
                 caption : me.chartText
             });
@@ -469,7 +473,8 @@ define([
                     me.mnuUnGroupImg,
                     me.mnuShapeSeparator,
                     me.mnuChartEdit,
-                    me.mnuShapeAdvanced
+                    me.mnuShapeAdvanced,
+                    me.mnuImgAdvanced
                 ]
             });
 
@@ -622,9 +627,8 @@ define([
             me.fireEvent('createdelayedelements', [me]);
         },
 
-        setMenuItemCommentCaptionMode: function (edit) {
-            edit ? this.pmiAddComment.setCaption(this.txtEditComment, true) :
-                this.pmiAddComment.setCaption(this.txtAddComment, true);
+        setMenuItemCommentCaptionMode: function (add, editable) {
+            this.pmiAddComment.setCaption(add ? this.txtAddComment : (editable ? this.txtEditComment : this.txtShowComment), true);
         },
 
         txtSort:                'Sort',
@@ -681,17 +685,17 @@ define([
         textFreezePanes:        'Freeze Panes',
         textUnFreezePanes:      'Unfreeze Panes',
         txtSelect:              'Select',
-        selectRowText           : 'Select Row',
-        selectColumnText        : 'Select Entire Column',
-        selectDataText          : 'Select Column Data',
-        selectTableText         : 'Select Table',
-        insertRowAboveText      : 'Insert Row Above',
-        insertRowBelowText      : 'Insert Row Below',
-        insertColumnLeftText    : 'Insert Column Left',
-        insertColumnRightText   : 'Insert Column Right',
-        deleteRowText           : 'Delete Row',
-        deleteColumnText        : 'Delete Column',
-        deleteTableText         : 'Delete Table',
+        selectRowText           : 'Row',
+        selectColumnText        : 'Entire Column',
+        selectDataText          : 'Column Data',
+        selectTableText         : 'Table',
+        insertRowAboveText      : 'Row Above',
+        insertRowBelowText      : 'Row Below',
+        insertColumnLeftText    : 'Column Left',
+        insertColumnRightText   : 'Column Right',
+        deleteRowText           : 'Row',
+        deleteColumnText        : 'Column',
+        deleteTableText         : 'Table',
         txtFilter: 'Filter',
         txtFilterValue: 'Filter by Selected cell\'s value',
         txtFilterCellColor: 'Filter by cell\'s color',
@@ -706,7 +710,9 @@ define([
         textEntriesList: 'Select from drop-down list',
         txtSparklines: 'Sparklines',
         txtClearSparklines: 'Clear Selected Sparklines',
-        txtClearSparklineGroups: 'Clear Selected Sparkline Groups'
+        txtClearSparklineGroups: 'Clear Selected Sparkline Groups',
+        txtShowComment: 'Show Comment',
+        advancedImgText: 'Image Advanced Settings'
 
     }, SSE.Views.DocumentHolder || {}));
 });

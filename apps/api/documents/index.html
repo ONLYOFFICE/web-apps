@@ -65,7 +65,6 @@
                     'onRequestEmailAddresses': onRequestEmailAddresses,
                     'onRequestStartMailMerge': onRequestStartMailMerge,
                     'onRequestHistoryClose': onRequestHistoryClose,
-                    'onSave': onDocumentSave,
                     'onError': onError
                 }
             });
@@ -193,12 +192,6 @@
             function onRequestEditRights(event) {
                 // occurs whenever the user tryes to enter edit mode
                 docEditor.applyEditRights(true, "Someone is editing this document right now. Please try again later.");
-            }
-
-            function onDocumentSave(event) {
-                var url = event.data;                
-                // if you want to async save process return false
-                // and call api.processSaveResult when ready
             }
 
             function onError(event) {

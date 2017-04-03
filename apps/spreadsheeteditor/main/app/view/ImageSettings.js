@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2016
+ * (c) Copyright Ascensio System Limited 2010-2017
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -45,7 +45,8 @@ define([
     'backbone',
     'common/main/lib/component/Button',
     'common/main/lib/component/MetricSpinner',
-    'common/main/lib/view/ImageFromUrlDialog'
+    'common/main/lib/view/ImageFromUrlDialog',
+    'spreadsheeteditor/main/app/view/ImageSettingsAdvanced'
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
 
@@ -89,6 +90,8 @@ define([
             el.html(this.template({
                 scope: this
             }));
+
+            this.linkAdvanced = $('#image-advanced-link');
         },
 
         setApi: function(api) {
@@ -188,12 +191,48 @@ define([
             this.btnInsertFromUrl.on('click', _.bind(this.insertFromUrl, this));
 
             this.lblReplace = $('#image-lbl-replace');
+
+            $(this.el).on('click', '#image-advanced-link', _.bind(this.openAdvancedSettings, this));
         },
 
         createDelayedElements: function() {
             this.createDelayedControls();
             this.updateMetricUnit();
             this._initSettings = false;
+        },
+
+        openAdvancedSettings: function(e) {
+            if (this.linkAdvanced.hasClass('disabled')) return;
+
+            var me = this;
+            var win;
+            if (me.api && !this._locked){
+                var selectedElements = me.api.asc_getGraphicObjectProps();
+                if (selectedElements && selectedElements.length>0){
+                    var elType, elValue;
+                    for (var i = selectedElements.length - 1; i >= 0; i--) {
+                        elType = selectedElements[i].asc_getObjectType();
+                        elValue = selectedElements[i].asc_getObjectValue();
+                        if (Asc.c_oAscTypeSelectElement.Image == elType) {
+                            (new SSE.Views.ImageSettingsAdvanced(
+                                {
+                                    imageProps: elValue,
+                                    api: me.api,
+                                    handler: function(result, value) {
+                                        if (result == 'ok') {
+                                            if (me.api) {
+                                                me.api.asc_setGraphicObjectProps(value.imageProps);
+                                            }
+                                        }
+
+                                        Common.NotificationCenter.trigger('edit:complete', me);
+                                    }
+                                })).show();
+                            break;
+                        }
+                    }
+                }
+            }
         },
 
         ChangeSettings: function(props) {
@@ -336,6 +375,7 @@ define([
                 _.each(this.lockedControls, function(item) {
                     item.setDisabled(disable);
                 });
+                this.linkAdvanced.toggleClass('disabled', disable);
             }
         },
 
@@ -348,6 +388,7 @@ define([
         textFromUrl:    'From URL',
         textFromFile:   'From File',
         textEditObject: 'Edit Object',
-        textEdit:       'Edit'
+        textEdit:       'Edit',
+        textAdvanced:   'Show advanced settings'
     }, SSE.Views.ImageSettings || {}));
 });

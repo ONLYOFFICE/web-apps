@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2016
+ * (c) Copyright Ascensio System Limited 2010-2017
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -439,9 +439,9 @@ define([
                     e.preventDefault();
             },
 
-            onAfterHideMenu: function(e) {
-                this.trigger('hide:after', this, e);
-                Common.NotificationCenter.trigger('menu:hide', this);
+            onAfterHideMenu: function(e, isFromInputControl) {
+                this.trigger('hide:after', this, e, isFromInputControl);
+                Common.NotificationCenter.trigger('menu:hide', this, isFromInputControl);
             },
 
             onAfterKeydownMenu: function(e) {

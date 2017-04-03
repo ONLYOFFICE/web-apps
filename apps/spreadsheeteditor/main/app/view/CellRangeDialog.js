@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2016
+ * (c) Copyright Ascensio System Limited 2010-2017
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -109,20 +109,23 @@ define([
 
             this.inputRange.setValue(settings.range ? settings.range : '');
 
+            if (settings.type===undefined)
+                settings.type = Asc.c_oAscSelectionDialogType.Chart;
+
             if (settings.api) {
                 me.api = settings.api;
 
-                me.api.asc_setSelectionDialogMode(Asc.c_oAscSelectionDialogType.Chart, settings.range ? settings.range : '');
+                me.api.asc_setSelectionDialogMode(settings.type, settings.range ? settings.range : '');
                 me.api.asc_unregisterCallback('asc_onSelectionRangeChanged', _.bind(me.onApiRangeChanged, me));
                 me.api.asc_registerCallback('asc_onSelectionRangeChanged', _.bind(me.onApiRangeChanged, me));
-                Common.NotificationCenter.trigger('cells:range', Asc.c_oAscSelectionDialogType.Chart);
+                Common.NotificationCenter.trigger('cells:range', settings.type);
             }
 
             me.inputRange.validation = function(value) {
                 if (settings.validation) {
                     return settings.validation.call(me, value);
                 } else {
-                    var isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, value, false);
+                    var isvalid = me.api.asc_checkDataRange(settings.type, value, false);
                     return (isvalid==Asc.c_oAscError.ID.DataRangeError) ? me.txtInvalidRange : true;
                 }
             };

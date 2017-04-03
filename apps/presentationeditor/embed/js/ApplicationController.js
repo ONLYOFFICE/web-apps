@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2016
+ * (c) Copyright Ascensio System Limited 2010-2017
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -274,12 +274,20 @@ var ApplicationController = new(function(){
                 if ( e.keyCode == 13 ){
                     var newPage = parseInt($('#page-number').val());
 
-                    if ( newPage > maxPages ) newPage = maxPages; else
-                    if ( newPage < 2 || isNaN(newPage) ) newPage = 1;
+                    if ( isNaN(newPage) ) {
+                        $('#page-number').val(currentPage + 1);
+                    } else {
+                        if ( newPage > maxPages ) newPage = maxPages; else
+                        if ( newPage < 2 ) newPage = 1;
 
-                    if ( isplaymode )
-                        api.DemonstrationGoToSlide(newPage-1); else
-                        api.goToPage(newPage-1);
+                        if ( newPage == currentPage + 1 ) {
+                            $('#page-number').val( newPage );
+                        } else
+                        if (isplaymode) {
+                            currentPage = newPage - 1;
+                            api.DemonstrationGoToSlide(newPage - 1);
+                        } else api.goToPage(newPage - 1);
+                    }
 
                     $pagenum.blur();
                 }

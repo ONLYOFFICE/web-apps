@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2016
+ * (c) Copyright Ascensio System Limited 2010-2017
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -186,13 +186,13 @@ function getParent($this) {
     return $parent && $parent.length ? $parent : $this.parent();
 }
 
-function clearMenus() {
+function clearMenus(isFromInputControl) {
     $('.dropdown-toggle').each(function (e) {
         var $parent = ($(this)).parent();
         if (!$parent.hasClass('open')) return;
         $parent.trigger(e = $.Event('hide.bs.dropdown'));
         if (e.isDefaultPrevented()) return;
-        $parent.removeClass('open').trigger('hidden.bs.dropdown');
+        $parent.removeClass('open').trigger('hidden.bs.dropdown', isFromInputControl);
     })
 }
 
@@ -217,7 +217,7 @@ $(document)
 
     function onDropDownClick(e) {
         if (e.which == 1 || e.which == undefined)
-            clearMenus();
+            clearMenus(/form-control/.test(e.target.className));
     }
 
     if (!!clickDefHandler) {

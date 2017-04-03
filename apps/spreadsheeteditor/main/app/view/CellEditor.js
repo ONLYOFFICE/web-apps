@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2016
+ * (c) Copyright Ascensio System Limited 2010-2017
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -102,7 +102,6 @@ define([
 
         cellNameDisabled: function(disabled){
             (disabled) ? this.$cellname.attr('disabled', 'disabled') : this.$cellname.removeAttr('disabled');
-            this.$btnfunc.toggleClass('disabled', disabled);
             this.btnNamedRanges.setDisabled(disabled);
         },
 

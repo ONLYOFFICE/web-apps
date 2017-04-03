@@ -1,0 +1,21 @@
+<!--Toolbar panel-->
+<div id="search-panel-view">
+    <div class="searchbar document navbar navbar-hidden">
+        <div class="navbar-inner">
+            <div class="left"></div>
+            <div class="center">
+                <form class="searchbar search">
+                    <div class="searchbar-input search">
+                        <input type="search" placeholder="<%= scope.textSearch %>"><a href="#" class="searchbar-clear"></a>
+                    </div>
+                </form>
+            </div>
+            <div class="right">
+                <p class="buttons-row">
+                    <a href="#" class="link icon-only prev disabled"><i class="icon icon-prev"></i></a>
+                    <a href="#" class="link icon-only next disabled"><i class="icon icon-next"></i></a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

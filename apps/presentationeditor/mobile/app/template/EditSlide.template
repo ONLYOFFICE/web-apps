@@ -1,0 +1,323 @@
+<!-- Root view -->
+<div id="edit-slide-root">
+    <div class="list-block">
+        <ul>
+            <li>
+                <a id="slide-theme" class="item-link">
+                    <div class="item-content">
+                        <div class="item-inner">
+                            <div class="item-title"><%= scope.textTheme %></div>
+                        </div>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a id="slide-change-layout" class="item-link">
+                    <div class="item-content">
+                        <div class="item-inner">
+                            <div class="item-title"><%= scope.textLayout %></div>
+                        </div>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a id="slide-transition" class="item-link">
+                    <div class="item-content">
+                        <div class="item-inner">
+                            <div class="item-title"><%= scope.textTransition %></div>
+                        </div>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a id="slide-style" class="item-link">
+                    <div class="item-content">
+                        <div class="item-inner">
+                            <div class="item-title"><%= scope.textStyle %></div>
+                        </div>
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="list-block">
+        <ul>
+            <li>
+                <% if (android) { %>
+                <a id="slide-duplicate" class="button button-raised button-fill" style="margin: 20px 16px;"><%= scope.textDuplicateSlide %></a>
+                <% } else { %>
+                <a id="slide-duplicate" class="item-link list-button" style="text-align: center;"><%= scope.textDuplicateSlide %></a>
+                <% } %>
+            </li>
+            <li>
+                <% if (android) { %>
+                <a id="slide-remove" class="button button-raised button-fill" style="margin: 20px 16px; background-color: #f44336;"><%= scope.textRemoveSlide %></a>
+                <% } else { %>
+                <a id="slide-remove" class="item-link list-button" style="text-align: center; color: #f00"><%= scope.textRemoveSlide %></a>
+                <% } %>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<!-- Transition view -->
+<div id="edit-slide-transition">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left sliding"><a href="#" class="back link"><i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding"><%= scope.textTransition %></div>
+            <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
+        </div>
+    </div>
+    <div class="page" data-page="edit-slide-transition">
+        <div class="page-content">
+            <div class="list-block">
+                <ul>
+                    <li>
+                        <div id="edit-slide-effect" class="item-content item-link">
+                            <div class="item-inner">
+                                <div class="item-title label"><%= scope.textEffect %></div>
+                                <div class="item-after"><%= scope.textNone %></div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div id="edit-slide-effect-type" class="item-content item-link">
+                            <div class="item-inner">
+                                <div class="item-title label"><%= scope.textType %></div>
+                                <div class="item-after"></div>
+                            </div>
+                        </div>
+                    </li>
+                    <li id="edit-slide-duration">
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textDuration %></div>
+                                <div class="item-after splitter">
+                                    <% if (!android) { %><label></label><% } %>
+                                    <p class="buttons-row">
+                                        <span class="button decrement"><% if (android) { %><i class="icon icon-expand-down"></i><% } else { %>-<% } %></span>
+                                        <% if (android) { %><label></label><% } %>
+                                        <span class="button increment"><% if (android) { %><i class="icon icon-expand-up"></i><% } else { %>+<% } %></span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="list-block">
+                <ul>
+                    <li id="edit-slide-start-click">
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textStartOnClick %></div>
+                                <div class="item-after">
+                                    <label class="label-switch">
+                                        <input type="checkbox" name="slide-start-click">
+                                        <div class="checkbox"></div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li id="edit-slide-delay">
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textDelay %></div>
+                                <div class="item-after">
+                                    <label class="label-switch">
+                                        <input type="checkbox" name="slide-delay-click">
+                                        <div class="checkbox"></div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <div class="item-input">
+                                    <div class="range-slider">
+                                        <input type="range" min="0" max="300" value="0" step="1">
+                                    </div>
+                                </div>
+                                <div class="item-after value"></div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="list-block">
+                <ul>
+                    <li>
+                        <% if (android) { %>
+                        <a id="slide-apply-all" class="button button-raised button-fill" style="margin: 20px 16px;"><%= scope.textApplyAll %></a>
+                        <% } else { %>
+                        <a id="slide-apply-all" class="item-link list-button" style="text-align: center;"><%= scope.textApplyAll %></a>
+                        <% } %>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="editslide-effect">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left sliding"><a href="#" class="back link"><i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding"><%= scope.textEffect %></div>
+        </div>
+    </div>
+    <div class="page" id="page-editslide-effect" data-page="editslide-effect">
+        <div class="page-content">
+            <div class="list-block">
+                <ul>
+                    <li>
+                        <label class="label-radio item-content">
+                            <input type="radio" name="editslide-effect" value="0">
+                            <% if (android) { %><div class="item-media"><i class="icon icon-form-radio"></i></div><% } %>
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textNone %></div>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="label-radio item-content">
+                            <input type="radio" name="editslide-effect" value="1">
+                            <% if (android) { %><div class="item-media"><i class="icon icon-form-radio"></i></div><% } %>
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textFade %></div>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="label-radio item-content">
+                            <input type="radio" name="editslide-effect" value="2">
+                            <% if (android) { %><div class="item-media"><i class="icon icon-form-radio"></i></div><% } %>
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textPush %></div>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="label-radio item-content">
+                            <input type="radio" name="editslide-effect" value="3">
+                            <% if (android) { %><div class="item-media"><i class="icon icon-form-radio"></i></div><% } %>
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textWipe %></div>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="label-radio item-content">
+                            <input type="radio" name="editslide-effect" value="4">
+                            <% if (android) { %><div class="item-media"><i class="icon icon-form-radio"></i></div><% } %>
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textSplit %></div>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="label-radio item-content">
+                            <input type="radio" name="editslide-effect" value="5">
+                            <% if (android) { %><div class="item-media"><i class="icon icon-form-radio"></i></div><% } %>
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textUnCover %></div>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="label-radio item-content">
+                            <input type="radio" name="editslide-effect" value="6">
+                            <% if (android) { %><div class="item-media"><i class="icon icon-form-radio"></i></div><% } %>
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textCover %></div>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="label-radio item-content">
+                            <input type="radio" name="editslide-effect" value="7">
+                            <% if (android) { %><div class="item-media"><i class="icon icon-form-radio"></i></div><% } %>
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textClock %></div>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="label-radio item-content">
+                            <input type="radio" name="editslide-effect" value="8">
+                            <% if (android) { %><div class="item-media"><i class="icon icon-form-radio"></i></div><% } %>
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textZoom %></div>
+                            </div>
+                        </label>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Layout view -->
+<div id="editslide-effect-type">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left sliding"><a href="#" class="back link"><i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding"><%= scope.textType %></div>
+            <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
+        </div>
+    </div>
+    <div class="page" id="page-editslide-effect-type" data-page="editslide-effect-type">
+        <div class="page-content">
+            <div class="list-block"><ul>
+            </ul></div>
+        </div>
+    </div>
+</div>
+
+<!-- Layout view -->
+<div id="edit-slide-layout">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left sliding"><a href="#" class="back link"><i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding"><%= scope.textLayout %></div>
+            <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
+        </div>
+    </div>
+    <div class="page">
+        <div class="page-content dataview slide-layout" style="width: 100%;">
+        </div>
+    </div>
+</div>
+
+<!-- Theme view -->
+<div id="edit-slide-theme">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left sliding"><a href="#" class="back link"><i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding"><%= scope.textTheme %></div>
+            <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
+        </div>
+    </div>
+    <div class="page">
+        <div class="page-content dataview slide-theme" style="width: 100%;">
+        </div>
+    </div>
+</div>
+
+<!-- Styles view -->
+<div id="edit-slide-style">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left sliding"><a href="#" class="back link"><i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding"><%= scope.textFill %></div>
+            <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
+        </div>
+    </div>
+    <div class="page" data-page="edit-slide-style">
+        <div class="page-content">
+            <!--Fill colors-->
+        </div>
+    </div>
+</div>

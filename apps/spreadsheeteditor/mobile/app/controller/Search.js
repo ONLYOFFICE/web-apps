@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2016
+ * (c) Copyright Ascensio System Limited 2010-2017
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -29,98 +29,339 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
-Ext.define('SSE.controller.Search', {
-    extend: 'Ext.app.Controller',
+ */
 
-    config: {
-        refs: {
-            nextResult      : '#id-btn-search-prev',
-            previousResult  : '#id-btn-search-next',
-            searchField     : '#id-field-search'
-        },
+/**
+ *  Search.js
+ *  Spreadsheet Editor
+ *
+ *  Created by Alexander Yuzhin on 12/5/16
+ *  Copyright (c) 2016 Ascensio System SIA. All rights reserved.
+ *
+ */
 
-        control: {
-            '#id-btn-search-prev': {
-                tap: 'onPreviousResult'
-            },
-            '#id-btn-search-next': {
-                tap: 'onNextResult'
-            },
-            '#id-field-search': {
-                keyup: 'onSearchKeyUp',
-                change: 'onSearchChange',
-                clearicontap: 'onSearchClear'
+define([
+    'core',
+    'jquery',
+    'underscore',
+    'backbone',
+    'spreadsheeteditor/mobile/app/view/Search'
+], function (core, $, _, Backbone) {
+    'use strict';
+
+    SSE.Controllers.Search = Backbone.Controller.extend(_.extend((function() {
+        // private
+
+        var _isShow = false,
+            _startPoint = {};
+
+        var pointerEventToXY = function(e){
+            var out = {x:0, y:0};
+            if(e.type == 'touchstart' || e.type == 'touchend'){
+                var touch = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
+                out.x = touch.pageX;
+                out.y = touch.pageY;
+            } else if (e.type == 'mousedown' || e.type == 'mouseup') {
+                out.x = e.pageX;
+                out.y = e.pageY;
             }
+            return out;
+        };
+
+        return {
+            models: [],
+            collections: [],
+            views: [
+                'Search'
+            ],
+
+            initialize: function() {
+                this.addListeners({
+                    'Search': {
+                        'searchbar:show'        : this.onSearchbarShow,
+                        'searchbar:hide'        : this.onSearchbarHide,
+                        'searchbar:render'      : this.onSearchbarRender,
+                        'searchbar:showsettings': this.onSearchbarSettings
+                    }
+                });
+            },
+
+            setApi: function(api) {
+                this.api = api;
+            },
+
+            setMode: function (mode) {
+                this.getView('Search').setMode(mode);
+            },
+
+            onLaunch: function() {
+                var me = this;
+                me.createView('Search').render();
+
+                $('#editor_sdk').single('mousedown touchstart', _.bind(me.onEditorTouchStart, me));
+                $('#editor_sdk').single('mouseup touchend',     _.bind(me.onEditorTouchEnd, me));
+            },
+
+            showSearch: function () {
+                this.getView('Search').showSearch();
+            },
+
+            hideSearch: function () {
+                this.getView('Search').hideSearch();
+            },
+
+            // Handlers
+
+            onEditorTouchStart: function (e) {
+                _startPoint = pointerEventToXY(e);
+            },
+
+            onEditorTouchEnd: function (e) {
+                var _endPoint = pointerEventToXY(e);
+
+                if (_isShow) {
+                    var distance = Math.sqrt((_endPoint.x -= _startPoint.x) * _endPoint.x + (_endPoint.y -= _startPoint.y) * _endPoint.y);
+
+                    if (distance < 1) {
+                        this.hideSearch();
+                    }
+                }
+            },
+
+            onSearchbarRender: function(bar) {
+                var me              = this,
+                    searchString    = Common.SharedSettings.get('search-search') || '',
+                    replaceString   = Common.SharedSettings.get('search-replace')|| '';
+
+                me.searchBar = uiApp.searchbar('.searchbar.document .searchbar.search', {
+                    customSearch: true,
+                    onSearch    : _.bind(me.onSearchChange, me),
+                    onEnable    : _.bind(me.onSearchEnable, me),
+                    onClear     : _.bind(me.onSearchClear, me)
+                });
+
+                me.replaceBar = uiApp.searchbar('.searchbar.document .searchbar.replace', {
+                    customSearch: true,
+                    onSearch    : _.bind(me.onReplaceChange, me),
+                    onEnable    : _.bind(me.onReplaceEnable, me),
+                    onClear     : _.bind(me.onReplaceClear, me)
+                });
+
+                me.searchPrev = $('.searchbar.document .prev');
+                me.searchNext = $('.searchbar.document .next');
+                me.replaceBtn = $('.searchbar.document .link.replace');
+
+                me.searchPrev.single('click', _.bind(me.onSearchPrev, me));
+                me.searchNext.single('click', _.bind(me.onSearchNext, me));
+                me.replaceBtn.single('click', _.bind(me.onReplace, me));
+
+                $$('.searchbar.document .link.replace').on('taphold', _.bind(me.onReplaceAll, me));
+
+                me.searchBar.search(searchString);
+                me.replaceBar.search(replaceString);
+            },
+
+            onSearchbarSettings: function (view) {
+                var me              = this,
+                    isReplace       = Common.SharedSettings.get('search-is-replace') === true,
+                    searchIn        = Common.SharedSettings.get('search-in') === 'sheet' ? 'sheet' : 'workbook',
+                    isMatchCase     = Common.SharedSettings.get('search-match-case') === true,
+                    isMatchCell     = Common.SharedSettings.get('search-match-cell') === true,
+                    $pageSettings   = $('.page[data-page=search-settings]'),
+                    $inputType      = $pageSettings.find('input[name=search-type]'),
+                    $inputSearchIn  = $pageSettings.find('input[name=search-in]'),
+                    $inputMatchCase = $pageSettings.find('#search-match-case input:checkbox'),
+                    $inputMatchCell = $pageSettings.find('#search-match-cell input:checkbox');
+
+                $inputType.val([isReplace ? 'replace' : 'search']);
+                $inputSearchIn.val([searchIn]);
+                $inputMatchCase.prop('checked', isMatchCase);
+                $inputMatchCell.prop('checked', isMatchCell);
+
+                // init events
+                $inputType.single('change',      _.bind(me.onTypeChange, me));
+                $inputSearchIn.single('change',  _.bind(me.onSearchInChange, me));
+                $inputMatchCase.single('change', _.bind(me.onMatchCaseClick, me));
+                $inputMatchCell.single('change', _.bind(me.onMatchCellClick, me));
+            },
+
+            onSearchbarShow: function(bar) {
+                _isShow = true;
+                // this.api.asc_selectSearchingResults(Common.SharedSettings.get('search-highlight'));
+            },
+
+            onSearchEnable: function (bar) {
+                this.replaceBar.container.removeClass('searchbar-active');
+            },
+
+            onSearchbarHide: function(bar) {
+                _isShow = false;
+                // this.api.asc_selectSearchingResults(false);
+            },
+
+            onSearchChange: function(search) {
+                var me = this,
+                    isEmpty = (search.query.trim().length < 1);
+
+                Common.SharedSettings.set('search-search', search.query);
+
+                _.each([me.searchPrev, me.searchNext, me.replaceBtn], function(btn) {
+                    btn.toggleClass('disabled', isEmpty);
+                });
+            },
+
+            onSearchClear: function(search) {
+                Common.SharedSettings.set('search-search', '');
+//            window.focus();
+//            document.activeElement.blur();
+            },
+
+            onReplaceChange: function(replace) {
+                var me = this,
+                    isEmpty = (replace.query.trim().length < 1);
+
+                Common.SharedSettings.set('search-replace', replace.query);
+            },
+
+            onReplaceEnable: function (bar) {
+                this.searchBar.container.removeClass('searchbar-active');
+            },
+
+            onReplaceClear: function(replace) {
+                Common.SharedSettings.set('search-replace', '');
+            },
+
+            onSearchPrev: function(btn) {
+                this.onQuerySearch(this.searchBar.query, 'back');
+            },
+
+            onSearchNext: function(btn) {
+                this.onQuerySearch(this.searchBar.query, 'next');
+            },
+
+            onReplace: function (btn) {
+                this.onQueryReplace(this.searchBar.query, this.replaceBar.query);
+            },
+
+            onReplaceAll: function (e) {
+                var me = this,
+                    popover = [
+                        '<div class="popover" style="width: auto;">',
+                            '<div class="popover-inner">',
+                                '<div class="list-block">',
+                                    '<ul>',
+                                        '<li><a href="#" id="replace-all" class="item-link list-button">{0}</li>'.format(me.textReplaceAll),
+                                    '</ul>',
+                                '</div>',
+                            '</div>',
+                        '</div>'
+                    ].join('');
+
+                popover = uiApp.popover(popover, $$(e.currentTarget));
+
+                $('#replace-all').single('click', _.bind(function () {
+                    me.onQueryReplaceAll(this.searchBar.query, this.replaceBar.query);
+                    uiApp.closeModal(popover);
+                }, me))
+            },
+
+            onQuerySearch: function(query, direction) {
+                var matchCase = Common.SharedSettings.get('search-match-case') || false,
+                    matchCell = Common.SharedSettings.get('search-match-cell') || false,
+                    lookInSheet = Common.SharedSettings.get('search-in') === 'sheet';
+
+                if (query && query.length) {
+                    var options = new Asc.asc_CFindOptions();
+                    options.asc_setFindWhat(query);
+                    options.asc_setScanForward(direction != 'back');
+                    options.asc_setIsMatchCase(matchCase);
+                    options.asc_setIsWholeCell(matchCell);
+                    options.asc_setScanOnOnlySheet(lookInSheet);
+                    // options.asc_setScanByRows(this.dlgSearch.menuSearch.menu.items[0].checked);
+                    // options.asc_setLookIn(this.dlgSearch.menuLookin.menu.items[0].checked?Asc.c_oAscFindLookIn.Formulas:Asc.c_oAscFindLookIn.Value);
+
+                    if (!this.api.asc_findText(options)) {
+                        var me = this;
+                        uiApp.alert(
+                            '',
+                            me.textNoTextFound,
+                            function () {
+                                me.searchBar.input.focus();
+                            }
+                        );
+                    }
+                }
+
+            },
+
+            onQueryReplace: function(search, replace) {
+                var matchCase = Common.SharedSettings.get('search-match-case') || false,
+                    matchCell = Common.SharedSettings.get('search-match-cell') || false,
+                    lookInSheet = Common.SharedSettings.get('search-in') === 'sheet';
+
+                if (search && search.length) {
+                    this.api.isReplaceAll = false;
+
+                    var options = new Asc.asc_CFindOptions();
+                    options.asc_setFindWhat(search);
+                    options.asc_setReplaceWith(replace);
+                    options.asc_setIsMatchCase(matchCase);
+                    options.asc_setIsWholeCell(matchCell);
+                    options.asc_setScanOnOnlySheet(lookInSheet);
+                    // options.asc_setScanByRows(this.dlgSearch.menuSearch.menu.items[0].checked);
+                    // options.asc_setLookIn(this.dlgSearch.menuLookin.menu.items[0].checked?Asc.c_oAscFindLookIn.Formulas:Asc.c_oAscFindLookIn.Value);
+                    options.asc_setIsReplaceAll(false);
+
+                    this.api.asc_replaceText(options);
+                }
+            },
+
+            onQueryReplaceAll: function(search, replace) {
+                var matchCase = Common.SharedSettings.get('search-match-case') || false,
+                    matchCell = Common.SharedSettings.get('search-match-cell') || false,
+                    lookInSheet = Common.SharedSettings.get('search-in') === 'sheet';
+
+                if (search && search.length) {
+                    this.api.isReplaceAll = true;
+
+                    var options = new Asc.asc_CFindOptions();
+                    options.asc_setFindWhat(search);
+                    options.asc_setReplaceWith(replace);
+                    options.asc_setIsMatchCase(matchCase);
+                    options.asc_setIsWholeCell(matchCell);
+                    options.asc_setScanOnOnlySheet(lookInSheet);
+                    // options.asc_setScanByRows(this.dlgSearch.menuSearch.menu.items[0].checked);
+                    // options.asc_setLookIn(this.dlgSearch.menuLookin.menu.items[0].checked?Asc.c_oAscFindLookIn.Formulas:Asc.c_oAscFindLookIn.Value);
+                    options.asc_setIsReplaceAll(true);
+
+                    this.api.asc_replaceText(options);
+                }
+            },
+
+            onTypeChange: function (e) {
+                var $target = $(e.currentTarget),
+                    isReplace = ($target.val() === 'replace');
+
+                Common.SharedSettings.set('search-is-replace', isReplace);
+                $('.searchbar.document').toggleClass('replace', isReplace);
+            },
+
+            onSearchInChange: function (e) {
+                Common.SharedSettings.set('search-in', $(e.currentTarget).val());
+            },
+
+            onMatchCaseClick: function (e) {
+                Common.SharedSettings.set('search-match-case', $(e.currentTarget).is(':checked'));
+            },
+
+            onMatchCellClick: function (e) {
+                Common.SharedSettings.set('search-match-cell', $(e.currentTarget).is(':checked'));
+            },
+
+            // API handlers
+
+            textNoTextFound: 'Text not found',
+            textReplaceAll: 'Replace All'
         }
-    },
-
-    _step: -1,
-
-    init: function() {
-    },
-
-    setApi: function(o) {
-        this.api = o;
-        this.findOptions = new Asc.asc_CFindOptions();
-        this.findOptions.asc_setScanForward(true);
-        this.findOptions.asc_setIsMatchCase(false);
-        this.findOptions.asc_setIsWholeCell(false);
-        this.findOptions.asc_setScanOnOnlySheet(true);
-        this.findOptions.asc_setScanByRows(true);
-        this.findOptions.asc_setLookIn(Asc.c_oAscFindLookIn.Formulas);
-    },
-
-    onNextResult: function(){
-        var searchField = this.getSearchField();
-        if (this.api && searchField){
-            this.findOptions.asc_setFindWhat(searchField.getValue());
-            this.findOptions.asc_setScanForward(true);
-            this.api.asc_findText(this.findOptions);
-        }
-    },
-
-    onPreviousResult: function(){
-        var searchField = this.getSearchField();
-        if (this.api && searchField){
-            this.findOptions.asc_setFindWhat(searchField.getValue());
-            this.findOptions.asc_setScanForward(false);
-            this.api.asc_findText(this.findOptions);
-        }
-    },
-
-    onSearchKeyUp: function(field, e){
-        var keyCode = e.event.keyCode,
-            searchField = this.getSearchField();
-
-        if (keyCode == 13 && this.api) {
-            this.findOptions.asc_setFindWhat(searchField.getValue());
-            this.findOptions.asc_setScanForward(true);
-            this.api.asc_findText(this.findOptions);
-        }
-        this.updateNavigation();
-    },
-
-    onSearchChange: function(field, newValue, oldValue){
-        this.updateNavigation();
-    },
-
-    onSearchClear: function(field, e){
-        this.updateNavigation();
-
-        // workaround blur problem in iframe (bug #12685)
-        window.focus();
-        document.activeElement.blur();
-    },
-
-    updateNavigation: function(){
-        var searchField = this.getSearchField(),
-            nextResult = this.getNextResult(),
-            previousResult = this.getPreviousResult();
-
-        if (searchField && nextResult && previousResult){
-            nextResult.setDisabled(searchField.getValue() == '');
-            previousResult.setDisabled(searchField.getValue() == '');
-        }
-    }
+    })(), SSE.Controllers.Search || {}))
 });

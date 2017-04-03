@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2016
+ * (c) Copyright Ascensio System Limited 2010-2017
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -447,6 +447,10 @@ define([
                     '<td class="left"><label id="fms-lbl-autosave"><%= scope.textAutoSave %></label></td>',
                     '<td class="right"><span id="fms-chb-autosave" /></td>',
                 '</tr>','<tr class="divider autosave"></tr>',
+                '<tr class="forcesave">',
+                    '<td class="left"><label id="fms-lbl-forcesave"><%= scope.textForceSave %></label></td>',
+                    '<td class="right"><span id="fms-chb-forcesave" /></td>',
+                '</tr>','<tr class="divider forcesave"></tr>',
                 '<tr class="coauth changes">',
                     '<td class="left"><label><%= scope.strCoAuthMode %></label></td>',
                     '<td class="right">',
@@ -561,7 +565,12 @@ define([
                 }
             }, this));
             this.lblAutosave = $('#fms-lbl-autosave');
-            
+
+            this.chForcesave = new Common.UI.CheckBox({
+                el: $('#fms-chb-forcesave'),
+                labelText: this.strForcesave
+            });
+
             this.cmbUnit = new Common.UI.ComboBox({
                 el          : $('#fms-cmb-unit'),
                 style       : 'width: 160px;',
@@ -600,6 +609,7 @@ define([
                     { value: 0x0405, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x0405)[1] },
                     { value: 0x0407, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x0407)[1] },
                     { value: 0x0408, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x0408)[1] },
+                    { value: 0x0C09, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x0C09)[1] },
                     { value: 0x0809, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x0809)[1] },
                     { value: 0x0409, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x0409)[1] },
                     { value: 0x0C0A, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x0C0A)[1] },
@@ -652,8 +662,9 @@ define([
                 this.chAutosave.setCaption(this.strAutoRecover);
                 this.lblAutosave.text(this.textAutoRecover);
             }
+            $('tr.forcesave', this.el)[mode.canForcesave ? 'show' : 'hide']();
             $('tr.coauth', this.el)[mode.canCoAuthoring && mode.isEdit ? 'show' : 'hide']();
-            $('tr.coauth.changes', this.el)[mode.isEdit && mode.canLicense && !mode.isOffline && mode.canCoAuthoring? 'show' : 'hide']();
+            $('tr.coauth.changes', this.el)[mode.isEdit && !mode.isOffline && mode.canCoAuthoring? 'show' : 'hide']();
         },
 
         setApi: function(api) {
@@ -695,6 +706,12 @@ define([
                 value = 0;
             this.chAutosave.setValue(fast_coauth || (value===null ? this.mode.canCoAuthoring : parseInt(value) == 1));
 
+            if (this.mode.canForcesave) {
+                value = Common.localStorage.getItem("sse-settings-forcesave");
+                value = (value === null) ? this.mode.canForcesave : (parseInt(value) == 1);
+                this.chForcesave.setValue(value);
+            }
+
             value = Common.localStorage.getItem("sse-settings-func-locale");
             if (value===null)
                 value = ((this.mode.lang) ? this.mode.lang : 'en').toLowerCase();
@@ -734,12 +751,14 @@ define([
             Common.localStorage.setItem("sse-settings-zoom", this.cmbZoom.getValue());
             /** coauthoring begin **/
             Common.localStorage.setItem("sse-settings-livecomment", this.chLiveComment.isChecked() ? 1 : 0);
-            if (this.mode.isEdit && this.mode.canLicense && !this.mode.isOffline && this.mode.canCoAuthoring)
+            if (this.mode.isEdit && !this.mode.isOffline && this.mode.canCoAuthoring)
                 Common.localStorage.setItem("sse-settings-coauthmode", this.cmbCoAuthMode.getValue());
             /** coauthoring end **/
             Common.localStorage.setItem("sse-settings-fontrender", this.cmbFontRender.getValue());
             Common.localStorage.setItem("sse-settings-unit", this.cmbUnit.getValue());
             Common.localStorage.setItem("sse-settings-autosave", this.chAutosave.isChecked() ? 1 : 0);
+            if (this.mode.canForcesave)
+                Common.localStorage.setItem("sse-settings-forcesave", this.chForcesave.isChecked() ? 1 : 0);
             Common.localStorage.setItem("sse-settings-func-locale", this.cmbFuncLocale.getValue());
             if (this.cmbRegSettings.getSelectedRecord())
                 Common.localStorage.setItem("sse-settings-reg-settings", this.cmbRegSettings.getValue());
@@ -755,7 +774,16 @@ define([
 
         updateRegionalExample: function(landId) {
             if (this.api) {
-                var text =  (landId) ? this.api.asc_getLocaleExample(landId, 1000.01, new Date()) : '';
+                var text = '';
+                if (landId) {
+                    var info = new Asc.asc_CFormatCellsInfo();
+                    info.asc_setType(Asc.c_oAscNumFormatType.None);
+                    info.asc_setSymbol(landId);
+                    var arr = this.api.asc_getFormatCells(info); // all formats
+                    text = this.api.asc_getLocaleExample(arr[4], 1000.01, landId);
+                    text = text + ' ' + this.api.asc_getLocaleExample(arr[5], (new Date()).getExcelDateWithTime(), landId);
+                    text = text + ' ' + this.api.asc_getLocaleExample(arr[6], (new Date()).getExcelDateWithTime(), landId);
+                }
                 $('#fms-lbl-reg-settings').text(_.isEmpty(text) ? '' : this.strRegSettingsEx + text);
             }
         },
@@ -798,7 +826,9 @@ define([
         strStrict: 'Strict',
         textAutoRecover: 'Autorecover',
         strAutoRecover: 'Turn on autorecover',
-        txtInch: 'Inch'
+        txtInch: 'Inch',
+        textForceSave: 'Save to Server',
+        strForcesave: 'Always save to server (otherwise save to server on document close)'
     }, SSE.Views.FileMenuPanels.MainSettingsGeneral || {}));
 
     SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({

@@ -1,0 +1,47 @@
+<div class="navbar" id="editor-navbar">
+    <div class="navbar-inner">
+        <div class="left">
+            <a id="document-back" href="#" class="link" style="display: none;">
+                <i class="icon icon-back"></i>
+                <% if (backTitle && !phone) { %>
+                <span class="subtitle"><%= backTitle %></span>
+                <% } %>
+            </a>
+            <% if (!android) { %>
+            <a href="#" id="toolbar-undo" class="link icon-only disabled" style="display: none;">
+                <i class="icon icon-undo"></i>
+            </a>
+            <a href="#" id="toolbar-redo" class="link icon-only disabled" style="display: none;">
+                <i class="icon icon-redo"></i>
+            </a>
+            <% } %>
+        </div>
+        <% if (!phone) { %>
+        <div class="center" id="toolbar-title"></div>
+        <% } %>
+        <div class="right">
+            <% if (android) { %>
+            <a href="#" id="toolbar-undo" class="link icon-only disabled" style="display: none;">
+                <i class="icon icon-undo"></i>
+            </a>
+            <a href="#" id="toolbar-redo" class="link icon-only disabled" style="display: none;">
+                <i class="icon icon-redo"></i>
+            </a>
+            <% } %>
+            <a href="#" id="toolbar-edit" class="link icon-only" style="display: none;">
+                <i class="icon icon-edit"></i>
+            </a>
+            <a href="#" id="toolbar-add" class="link icon-only" style="display: none;">
+                <i class="icon icon-plus"></i>
+            </a>
+            <% if (!phone) { %>
+            <a href="#" id="toolbar-search" class="link icon-only">
+                <i class="icon icon-search"></i>
+            </a>
+            <% } %>
+            <a href="#" id="toolbar-settings" class="link icon-only">
+                <i class="icon icon-settings"></i>
+            </a>
+        </div>
+    </div>
+</div>

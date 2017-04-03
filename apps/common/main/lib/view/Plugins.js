@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2016
+ * (c) Copyright Ascensio System Limited 2010-2017
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -72,7 +72,6 @@ define([
 
         initialize: function(options) {
             _.extend(this, options);
-            this.pluginsPath = '../../../../sdkjs-plugins/';
             this._locked = false;
             this._state = {
                 DisabledControls: true
@@ -92,7 +91,7 @@ define([
                 enableKeyEvents: false,
                 itemTemplate: _.template([
                     '<div id="<%= id %>" class="item-plugins" style="display: block;">',
-                        '<div class="plugin-icon" style="background-image: url(' + '<% if (variations[currentVariation].get("isRelativeUrl")) { if (baseUrl !=="") { %>' + '<%= baseUrl %>' + '<% } else { %>' + this.pluginsPath + '<% } } %>' + '<%= variations[currentVariation].get("icons")[(window.devicePixelRatio > 1) ? 1 : 0] %>);"></div>',
+                        '<div class="plugin-icon" style="background-image: url(' + '<%= baseUrl %>' + '<%= variations[currentVariation].get("icons")[(window.devicePixelRatio > 1) ? 1 : 0] %>);"></div>',
                         '<% if (variations.length>1) { %>',
                         '<div class="plugin-caret img-commonctrl"></div>',
                         '<% } %>',

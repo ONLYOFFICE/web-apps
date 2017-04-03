@@ -1,0 +1,626 @@
+<!-- Root view -->
+<div id="edit-chart-root">
+    <div class="list-block">
+        <ul>
+            <li>
+                <a id="chart-style" class="item-link" data-page="#edit-chart-style">
+                    <div class="item-content">
+                        <div class="item-inner">
+                            <div class="item-title"><%= scope.textDesign %></div>
+                        </div>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a id="chart-layout" class="item-link" data-page="#edit-chart-layout">
+                    <div class="item-content">
+                        <div class="item-inner">
+                            <div class="item-title"><%= scope.textLayout %></div>
+                        </div>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a id="chart-vaxis" class="item-link" data-page="#edit-chart-vertical-axis">
+                    <div class="item-content">
+                        <div class="item-inner">
+                            <div class="item-title"><%= scope.textVerAxis %></div>
+                        </div>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a id="chart-haxis" class="item-link" data-page="#edit-chart-horizontal-axis">
+                    <div class="item-content">
+                        <div class="item-inner">
+                            <div class="item-title"><%= scope.textHorAxis %></div>
+                        </div>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a id="chart-reorder" class="item-link" data-page="#edit-chart-reorder">
+                    <div class="item-content">
+                        <div class="item-inner">
+                            <div class="item-title"><%= scope.textReorder %></div>
+                        </div>
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="list-block">
+        <% if (!android) { %>
+        <ul>
+            <li>
+                <a id="chart-remove" class="item-link list-button" style="text-align: center; color: #f00"><%= scope.textRemoveChart %></a>
+            </li>
+        </ul>
+        <% } else { %>
+        <a id="chart-remove" class="button button-raised button-fill" style="margin: 20px 16px; background-color: #f44336;"><%= scope.textRemoveChart %></a>
+        <% } %>
+    </div>
+</div>
+
+<!-- Reorder view -->
+<div id="edit-chart-reorder">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left sliding"><a href="#" class="back link"><i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding"><%= scope.textReorder %></div>
+            <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
+        </div>
+    </div>
+    <div class="page" data-page="edit-chart-reorder">
+        <div class="page-content">
+            <div class="list-block">
+                <ul>
+                    <li>
+                        <a data-type="all-up" class="item-link no-indicator">
+                            <div class="item-content">
+                                <div class="item-media"><i class="icon icon-move-foreground"></i></div>
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textToForeground %></div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-type="all-down" class="item-link no-indicator">
+                            <div class="item-content">
+                                <div class="item-media"><i class="icon icon-move-background"></i></div>
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textToBackground %></div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-type="move-up" class="item-link no-indicator">
+                            <div class="item-content">
+                                <div class="item-media"><i class="icon icon-move-forward"></i></div>
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textForward %></div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-type="move-down" class="item-link no-indicator">
+                            <div data-type="move-down" class="item-content">
+                                <div class="item-media"><i class="icon icon-move-backward"></i></div>
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textBackward %></div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Styles view -->
+<div id="edit-chart-style">
+    <div class="navbar">
+        <div class="navbar-inner edit-chart-style" data-page="edit-chart-style">
+            <div class="left sliding"><a href="#" class="back link"><i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding"><%= scope.textDesign %></div>
+            <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
+            <% if (!android) { %>
+            <div class="edit-chart-style subnavbar categories">
+                <div class="buttons-row">
+                    <a href="#tab-chart-type" class="button tab-link active"><%= scope.textType %></a>
+                    <a href="#tab-chart-style" class="button tab-link"><%= scope.textStyle %></a>
+                    <a href="#tab-chart-fill" class="button tab-link"><%= scope.textFill %></a>
+                    <a href="#tab-chart-border" class="button tab-link"><%= scope.textBorder %></a>
+                </div>
+            </div>
+            <% } %>
+        </div>
+        <% if (android) { %>
+        <div class="edit-chart-style subnavbar categories" style="padding: 0;">
+            <div class="toolbar tabbar" style="top: 0;">
+                <div data-page="index" class="toolbar-inner">
+                    <a href="#tab-chart-type" class="tab-link active"><%= scope.textType %></a>
+                    <a href="#tab-chart-style" class="tab-link"><%= scope.textStyle %></a>
+                    <a href="#tab-chart-fill" class="tab-link"><%= scope.textFill %></a>
+                    <a href="#tab-chart-border" class="tab-link"><%= scope.textBorder %></a>
+                </div>
+            </div>
+        </div>
+        <% } %>
+    </div>
+    <div class="page with-subnavbar" data-page="edit-chart-style">
+        <div class="tabs-animated-wrap">
+            <div class="tabs">
+                <div id="tab-chart-type" class="page-content tab dataview chart-types active">
+                    <% _.each(types, function(row) { %>
+                    <ul class="row">
+                        <% _.each(row, function(type) { %>
+                        <li data-type="<%= type.type %>">
+                            <div class="thumb" style="background-image:url('../mobile/resources/img/charts/<%= type.thumb %>')"></div>
+                        </li>
+                        <% }); %>
+                    </ul>
+                    <% }); %>
+                </div>
+                <div id="tab-chart-style" class="page-content tab dataview chart-styles">
+                    <!--Style-->
+                </div>
+                <div id="tab-chart-fill" class="page-content tab">
+                    <!--Fill-->
+                </div>
+                <div id="tab-chart-border" class="page-content tab">
+                    <div class="list-block">
+                        <ul>
+                            <li id="edit-chart-bordersize">
+                                <div style="padding: 15px 0 0 15px;"><%= scope.textSize %></div>
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-input">
+                                            <div class="range-slider">
+                                                <input type="range" min="0" max="7" value="0" step="1">
+                                            </div>
+                                        </div>
+                                        <div class="item-after value">0 pt</div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <a id="edit-chart-bordercolor" class="item-link" data-page="#edit-chart-border-color-view">
+                                    <div class="item-content">
+                                        <div class="item-inner">
+                                            <div class="item-title"><%= scope.textColor %></div>
+                                            <div class="item-after"><div class="color-preview"></div></div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Border color view -->
+<div id="edit-chart-border-color-view">
+    <div class="navbar">
+        <div class="navbar-inner" data-page="edit-chart-border-color">
+            <div class="left sliding"><a href="#" class="back link"><i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding"><%= scope.textColor %></div>
+            <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
+        </div>
+    </div>
+    <div class="page" data-page="edit-chart-border-color">
+        <div class="page-content">
+            <!--Color palette-->
+        </div>
+    </div>
+</div>
+
+<!-- Layout view -->
+<div id="edit-chart-layout">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding"><%= scope.textLayout %></div>
+            <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
+        </div>
+    </div>
+    <div class="pages">
+        <div class="page" data-page="edit-chart-layout">
+            <div class="page-content">
+                <div class="list-block">
+                    <ul>
+                        <li>
+                            <a id="chart-layout-title" class="item-link smart-select" data-back-on-select="true">
+                                <select name="chart-layout-title">
+                                    <option value="0" selected><%= scope.textNone %></option>
+                                    <option value="1"><%= scope.textOverlay %></option>
+                                    <option value="2"><%= scope.textNoOverlay %></option>
+                                </select>
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title"><%= scope.textChartTitle %></div>
+                                        <div class="item-after"><%= scope.textNone %></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a id="chart-layout-legend" class="item-link smart-select" data-back-on-select="true">
+                                <select name="chart-layout-legend">
+                                    <option value="0" selected><%= scope.textNone %></option>
+                                    <option value="1"><%= scope.textLeft %></option>
+                                    <option value="2"><%= scope.textTop %></option>
+                                    <option value="3"><%= scope.textRight %></option>
+                                    <option value="4"><%= scope.textBottom %></option>
+                                    <option value="5"><%= scope.textLeftOverlay %></option>
+                                    <option value="6"><%= scope.textRightOverlay %></option>
+                                </select>
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title"><%= scope.textLegend %></div>
+                                        <div class="item-after"><%= scope.textNone %></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="content-block-title"><%= scope.textAxisTitle %></div>
+                <div class="list-block">
+                    <ul>
+                        <li>
+                            <a id="chart-layout-axis-title-horizontal" class="item-link smart-select" data-back-on-select="true">
+                                <select name="chart-layout-axis-title-horizontal">
+                                    <option value="0" selected><%= scope.textNone %></option>
+                                    <option value="1"><%= scope.textNoOverlay %></option>
+                                </select>
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title"><%= scope.textHorizontal %></div>
+                                        <div class="item-after"><%= scope.textNone %></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a id="chart-layout-axis-title-vertical" class="item-link smart-select" data-back-on-select="true">
+                                <select name="chart-layout-axis-title-vertical">
+                                    <option value="0" selected><%= scope.textNone %></option>
+                                    <option value="1"><%= scope.textRotated %></option>
+                                    <option value="3"><%= scope.textHorizontal %></option>
+                                </select>
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title"><%= scope.textVertical %></div>
+                                        <div class="item-after"><%= scope.textNone %></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="content-block-title"><%= scope.textGridlines %></div>
+                <div class="list-block">
+                    <ul>
+                        <li>
+                            <a id="chart-layout-gridlines-horizontal" class="item-link smart-select" data-back-on-select="true">
+                                <select name="chart-layout-gridlines-horizontal">
+                                    <option value="0" selected><%= scope.textNone %></option>
+                                    <option value="1"><%= scope.textMajor %></option>
+                                    <option value="2"><%= scope.textMinor %></option>
+                                    <option value="3"><%= scope.textMajorMinor %></option>
+                                </select>
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title"><%= scope.textHorizontal %></div>
+                                        <div class="item-after"><%= scope.textNone %></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a id="chart-layout-gridlines-vertical" class="item-link smart-select" data-back-on-select="true">
+                                <select name="chart-layout-gridlines-vertical">
+                                    <option value="0" selected><%= scope.textNone %></option>
+                                    <option value="1"><%= scope.textMajor %></option>
+                                    <option value="2"><%= scope.textMinor %></option>
+                                    <option value="3"><%= scope.textMajorMinor %></option>
+                                </select>
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title"><%= scope.textVertical %></div>
+                                        <div class="item-after"><%= scope.textNone %></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="list-block">
+                    <ul>
+                        <li>
+                            <a id="chart-layout-data-labels" class="item-link smart-select" data-back-on-select="true">
+                                <select name="chart-layout-data-labels">
+                                    <option value="0" selected><%= scope.textNone %></option>
+                                </select>
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title"><%= scope.textDataLabels %></div>
+                                        <div class="item-after"><%= scope.textNone %></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Vertical Axis view -->
+<div id="edit-chart-vertical-axis">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding"><%= scope.textAxisOptions %></div>
+            <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
+        </div>
+    </div>
+    <div class="pages">
+        <div class="page" data-page="edit-chart-vertical-axis">
+            <div class="page-content">
+                <div class="list-block">
+                    <ul>
+                        <li id="edit-vertical-axis-min-val">
+                            <div class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textMinValue %></div>
+                                    <div class="item-after">
+                                        <div class="item-input">
+                                            <input class="field right placeholder-color" type="number" placeholder="Auto">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li id="edit-vertical-axis-max-val">
+                            <div class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textMaxValue %></div>
+                                    <div class="item-after">
+                                        <div class="item-input">
+                                            <input class="field right placeholder-color" type="number" placeholder="Auto">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="list-block">
+                    <ul>
+                        <li>
+                            <a id="vertical-axis-cross" class="item-link smart-select" data-back-on-select="true">
+                                <select name="vertical-axis-cross"></select>
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title"><%= scope.textAxisCrosses %></div>
+                                        <div class="item-after"><%= scope.textAuto %></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li id="edit-vertical-axis-cross-value" style="display: none;">
+                            <div class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textCrossesValue %></div>
+                                    <div class="item-after">
+                                        <div class="item-input">
+                                            <input class="field right placeholder-color" type="number" placeholder="0">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="list-block">
+                    <ul>
+                        <li>
+                            <a id="vertical-axis-display-units" class="item-link smart-select" data-back-on-select="true">
+                                <select name="vertical-axis-display-units">
+                                </select>
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title"><%= scope.textDisplayUnits %></div>
+                                        <div class="item-after"><%= scope.textNone %></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li id="vertical-axis-in-reverse">
+                            <div class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textValReverseOrder %></div>
+                                    <div class="item-after">
+                                        <label class="label-switch">
+                                            <input type="checkbox">
+                                            <div class="checkbox"></div>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="content-block-title"><%= scope.textTickOptions %></div>
+                <div class="list-block">
+                    <ul>
+                        <li>
+                            <a id="vertical-axis-tick-major" class="item-link smart-select" data-back-on-select="true">
+                                <select name="vertical-axis-tick-major"></select>
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title"><%= scope.textMajorType %></div>
+                                        <div class="item-after"><%= scope.textNone %></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a id="vertical-axis-tick-minor" class="item-link smart-select" data-back-on-select="true">
+                                <select name="vertical-axis-tick-minor"></select>
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title"><%= scope.textMinorType %></div>
+                                        <div class="item-after"><%= scope.textNone %></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="content-block-title"><%= scope.textLabelOptions %></div>
+                <div class="list-block">
+                    <ul>
+                        <li>
+                            <a id="vertical-axis-label-pos" class="item-link smart-select" data-back-on-select="true">
+                                <select name="vertical-axis-label-pos"></select>
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title"><%= scope.textLabelPos %></div>
+                                        <div class="item-after"><%= scope.textNone %></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Horizontal Axis view -->
+<div id="edit-chart-horizontal-axis">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding"><%= scope.textAxisOptions %></div>
+            <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
+        </div>
+    </div>
+    <div class="pages">
+        <div class="page" data-page="edit-chart-horizontal-axis">
+            <div class="page-content">
+                <div class="list-block">
+                    <ul>
+                        <li>
+                            <a id="horizontal-axis-cross" class="item-link smart-select" data-back-on-select="true">
+                                <select name="horizontal-axis-cross"></select>
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title"><%= scope.textAxisCrosses %></div>
+                                        <div class="item-after"><%= scope.textNone %></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li id="edit-horizontal-axis-cross-value" style="display: none;">
+                            <div class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textCrossesValue %></div>
+                                    <div class="item-after">
+                                        <div class="item-input">
+                                            <input class="field right placeholder-color" type="number" placeholder="0">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="list-block">
+                    <ul>
+                        <li>
+                            <a id="horizontal-axis-position" class="item-link smart-select" data-back-on-select="true">
+                                <select name="horizontal-axis-position">
+                                </select>
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title"><%= scope.textAxisPosition %></div>
+                                        <div class="item-after"><%= scope.textNone %></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li id="horizontal-axis-in-reverse">
+                            <div class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textValReverseOrder %></div>
+                                    <div class="item-after">
+                                        <label class="label-switch">
+                                            <input type="checkbox">
+                                            <div class="checkbox"></div>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="content-block-title"><%= scope.textTickOptions %></div>
+                <div class="list-block">
+                    <ul>
+                        <li>
+                            <a id="horizontal-axis-tick-major" class="item-link smart-select" data-back-on-select="true">
+                                <select name="horizontal-axis-tick-major"></select>
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title"><%= scope.textMajorType %></div>
+                                        <div class="item-after"><%= scope.textNone %></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a id="horizontal-axis-tick-minor" class="item-link smart-select" data-back-on-select="true">
+                                <select name="horizontal-axis-tick-minor"></select>
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title"><%= scope.textMinorType %></div>
+                                        <div class="item-after"><%= scope.textNone %></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="content-block-title"><%= scope.textLabelOptions %></div>
+                <div class="list-block">
+                    <ul>
+                        <li>
+                            <a id="horizontal-axis-label-pos" class="item-link smart-select" data-back-on-select="true">
+                                <select name="horizontal-axis-label-pos"></select>
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title"><%= scope.textLabelPos %></div>
+                                        <div class="item-after"><%= scope.textNone %></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

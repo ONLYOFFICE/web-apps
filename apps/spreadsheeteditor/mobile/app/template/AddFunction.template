@@ -1,0 +1,95 @@
+<!-- Root view -->
+<% if (view == 'root') { %>
+
+<div id="add-function-root">
+    <div class="page" data-page="add-function">
+        <div class="page-content">
+            <div class="list-block">
+                <ul>
+                    <% _.each(quick, function(f) { %>
+                        <li class="function">
+                            <a data-func="<%= f.type %>" class="item-link no-indicator quick">
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title"><%= f.caption %></div>
+                                        <div class="item-after"><i class="icon icon-info"></i></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                    <% }); %>
+                </ul>
+            </div>
+            <div class="content-block-title"><%= textGroups %></div>
+            <div class="list-block">
+                <ul class="groups">
+                    <% for (var g in groups) { %>
+                        <li>
+                            <a data-type="<%= g %>" class="item-link group">
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title"><%= groups[g] %></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                    <% }; %>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<% } %>
+
+<!-- Category view -->
+<% if (view == 'group') { %>
+    <div id="add-function-group">
+        <div class="navbar">
+            <div class="navbar-inner">
+                <div class="left sliding"><a href="#" class="back link"><i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+                <div class="center sliding"><%= groupname %></div>
+            </div>
+        </div>
+        <div class="page">
+            <div class="page-content">
+                <div class="list-block">
+                    <ul>
+                    <% _.each(functions, function(f) { %>
+                        <li class="function">
+                            <a data-func="<%= f.type %>" class="item-link no-indicator">
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title"><%= f.caption %></div>
+                                        <div class="item-after"><i class="icon icon-info"></i></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                    <% }); %>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+<% } %>
+
+<!-- Description view -->
+<% if (view == 'info') { %>
+    <div id="add-function-info">
+        <div class="navbar">
+            <div class="navbar-inner">
+                <div class="left sliding"><a href="#" class="back link"><i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+                <div class="center sliding"><%= caption %></div>
+            </div>
+        </div>
+        <div class="page">
+            <div class="page-content" style="background-color: #fff;">
+                <div class="content-block" style="color: #000;">
+                    <h3><%= caption %><%= args %></h3>
+                    <p><%= descr %></p>
+                </div>
+            </div>
+        </div>
+    </div>
+<% } %>

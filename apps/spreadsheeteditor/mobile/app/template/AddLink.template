@@ -1,0 +1,102 @@
+<!-- Link view -->
+<div id="addlink-root-view">
+    <div class="page" data-page="add-link">
+        <div class="page-content">
+            <div class="list-block" style="<%= android ? 'margin-bottom: 0' : '' %>">
+                <ul>
+                    <li>
+                        <a id="add-link-type" class="item-link smart-select">
+                            <select name="linktype">
+                                <option value="ext"><%= scope.textExternalLink %></option>
+                                <option value="int"><%= scope.textInternalLink %></option>
+                            </select>
+                            <div class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-title label"><%= scope.textLinkType %></div>
+                                    <div class="item-after"><%= scope.textExternalLink %></div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a id="add-link-sheet" class="item-link smart-select">
+                            <select>
+                            </select>
+                            <div class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-title label"><%= scope.textSheet %></div>
+                                    <div class="item-after">Sheet 5</div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <% if (android) { %>
+                </ul>
+            </div>
+            <div class="list-block" style="margin-top: 0">
+                <ul>
+                    <% } %>
+                    <li>
+                        <div id="add-link-range" class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title label"><%= scope.textRange %></div>
+                                <% if (!android) { %><div class="item-after"><% } %>
+                                    <div class="item-input">
+                                        <input type="text" class="field right range" placeholder="<%= scope.textRequired %>">
+                                    </div>
+                                <% if (!android) { %></div><% } %>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div id="add-link-url" class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title label"><%= scope.textLink %></div>
+                                <% if (!android) { %><div class="item-after"><% } %>
+                                    <div class="item-input">
+                                        <input type="url" class="field right" placeholder="<%= scope.textRequired %>">
+                                    </div>
+                                <% if (!android) { %></div><% } %>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div id="add-link-display" class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title label"><%= scope.textDisplay %></div>
+                                <% if (!android) { %><div class="item-after"><% } %>
+                                    <div class="item-input">
+                                        <input type="text" class="field right">
+                                    </div>
+                                <% if (!android) { %></div><% } %>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div id="add-link-tip" class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title label"><%= scope.textTip %></div>
+                                <% if (!android) { %><div class="item-after"><% } %>
+                                    <div class="item-input">
+                                        <input type="text" class="field right">
+                                    </div>
+                                <% if (!android) { %></div><% } %>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="list-block disabled" id="add-link-insert">
+                <% if (android) { %>
+                <a href="#" class="button button-fill button-raised" style="margin: 20px 16px;"><%= scope.textInsert %></a>
+                <% } else { %>
+                <ul>
+                    <li>
+                        <a href="#" class="list-button item-link"><%= scope.textInsert %></a>
+                    </li>
+                </ul>
+                <% } %>
+            </div>
+        </div>
+    </div>
+</div>

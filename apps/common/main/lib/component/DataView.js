@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2016
+ * (c) Copyright Ascensio System Limited 2010-2017
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -84,7 +84,9 @@ define([
         defaults: function() {
             return {
                 id: Common.UI.getId(),
-                caption: ''
+                caption: '',
+                inline: false,
+                headername: undefined
             }
         }
     });
@@ -99,7 +101,8 @@ define([
                 id: Common.UI.getId(),
                 selected: false,
                 allowSelected: true,
-                value: null
+                value: null,
+                disabled: false
             }
         }
     });
@@ -140,6 +143,7 @@ define([
             el.off('click').on('click', _.bind(this.onClick, this));
             el.off('dblclick').on('dblclick', _.bind(this.onDblClick, this));
             el.off('contextmenu').on('contextmenu', _.bind(this.onContextMenu, this));
+            el.toggleClass('disabled', this.model.get('disabled'));
 
             if (!_.isUndefined(this.model.get('cls')))
                 el.addClass(this.model.get('cls'));
@@ -157,10 +161,14 @@ define([
         },
 
         onClick: function(e) {
+            if (this.model.get('disabled')) return false;
+
             this.trigger('click', this, this.model, e);
         },
 
         onDblClick: function(e) {
+            if (this.model.get('disabled')) return false;
+
             this.trigger('dblclick', this, this.model, e);
         },
 
@@ -190,10 +198,15 @@ define([
         template: _.template([
             '<div class="dataview inner" style="<%= style %>">',
                 '<% _.each(groups, function(group) { %>',
-                    '<div class="grouped-data" id="<%= group.id %>">',
-                        '<div class="group-description">',
-                            '<span><b><%= group.caption %></b></span>',
-                        '</div>',
+                    '<% if (group.headername !== undefined) { %>',
+                        '<div class="header-name"><%= group.headername %></div>',
+                    '<% } %>',
+                    '<div class="grouped-data <% if (group.inline) { %> inline <% } %> <% if (!_.isEmpty(group.caption)) { %> margin <% } %>" id="<%= group.id %>">',
+                        '<% if (!_.isEmpty(group.caption)) { %>',
+                            '<div class="group-description">',
+                                '<span><%= group.caption %></span>',
+                            '</div>',
+                        '<% } %>',
                         '<div class="group-items-container">',
                         '</div>',
                     '</div>',
@@ -696,39 +709,29 @@ define([
         fillIndexesArray: function() {
             if (this.dataViewItems.length<=0) return;
 
-            var top, left,
-                el = $(this.dataViewItems[0].el),
-                itemW = el.outerWidth() + parseInt(el.css('margin-left')) + parseInt(el.css('margin-right')),
-                itemH = el.outerHeight() + parseInt(el.css('margin-top')) + parseInt(el.css('margin-bottom')),
-                offsetLeft = this.$el.offset().left,
-                offsetTop = this.$el.offset().top,
-                idxOffset = 0;
-
             this._layoutParams = {
                 itemsIndexes:   [],
                 columns:        0,
                 rows:           0
             };
 
-            if (this.groups && this.groups.length > 0) {
-                var group_desc = this.cmpEl.find('.group-description:first');
-                if (group_desc.length>0)
-                    offsetLeft += group_desc.width();
-            }
+            var el = $(this.dataViewItems[0].el),
+                itemW = el.outerWidth() + parseInt(el.css('margin-left')) + parseInt(el.css('margin-right')),
+                offsetLeft = this.$el.offset().left,
+                prevtop = -1, topIdx = 0, leftIdx = 0;
+
             for (var i=0; i<this.dataViewItems.length; i++) {
-                top = Math.floor(($(this.dataViewItems[i].el).offset().top - offsetTop)/itemH) + idxOffset;
-                left = Math.floor(($(this.dataViewItems[i].el).offset().left - offsetLeft)/itemW);
-                if (top<0) {
-                    idxOffset = -top;
-                    top += idxOffset;
-                }
-                if (top > this._layoutParams.itemsIndexes.length-1) {
+                var top = $(this.dataViewItems[i].el).offset().top;
+                leftIdx = Math.floor(($(this.dataViewItems[i].el).offset().left - offsetLeft)/itemW);
+                if (top>prevtop) {
+                    prevtop = top;
                     this._layoutParams.itemsIndexes.push([]);
+                    topIdx = this._layoutParams.itemsIndexes.length-1;
                 }
-                this._layoutParams.itemsIndexes[top][left] = i;
-                this.dataViewItems[i].topIdx = top;
-                this.dataViewItems[i].leftIdx = left;
-                if (this._layoutParams.columns<left) this._layoutParams.columns = left;
+                this._layoutParams.itemsIndexes[topIdx][leftIdx] = i;
+                this.dataViewItems[i].topIdx = topIdx;
+                this.dataViewItems[i].leftIdx = leftIdx;
+                if (this._layoutParams.columns<leftIdx) this._layoutParams.columns = leftIdx;
             }
             this._layoutParams.rows = this._layoutParams.itemsIndexes.length;
             this._layoutParams.columns++;

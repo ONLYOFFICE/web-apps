@@ -1,0 +1,175 @@
+<!-- Root view -->
+<div id="edit-link-root">
+    <div class="list-block">
+        <ul>
+            <li>
+                <div id="edit-link-type" class="item-content item-link">
+                    <div class="item-inner">
+                        <div class="item-title"><%= scope.textLinkType %></div>
+                        <div class="item-after"><%= scope.textExternalLink %></div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div id="edit-link-url" class="item-content">
+                    <div class="item-inner">
+                        <div class="item-title label"><%= scope.textLink %></div>
+                        <div class="item-input">
+                            <input type="url" placeholder="<%= scope.textLink %>">
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div id="edit-link-number" class="item-content item-link">
+                    <div class="item-inner">
+                        <div class="item-title label"><%= scope.textLinkSlide %></div>
+                        <div class="item-after"><%= scope.textNext %></div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div id="edit-link-display" class="item-content">
+                    <div class="item-inner">
+                        <div class="item-title label"><%= scope.textDisplay %></div>
+                        <div class="item-input">
+                            <input type="text" placeholder="<%= scope.textDisplay %>">
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div id="edit-link-tip" class="item-content">
+                    <div class="item-inner">
+                        <div class="item-title label"><%= scope.textTip %></div>
+                        <div class="item-input">
+                            <input type="text" placeholder="<%= scope.textTip %>">
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="list-block">
+        <% if (android) { %>
+        <a href="#" id="edit-link-edit" class="button button-raised button-fill disabled" style="margin: 20px 16px;"><%= scope.textEdit %></a>
+        <a href="#" id="edit-link-remove" class="button button-raised button-fill" style="margin: 20px 16px; background-color: #f44336;"><%= scope.textRemove %></a>
+        <% } else { %>
+        <ul>
+            <li>
+                <a href="#" id="edit-link-edit" class="list-button item-link disabled" style="text-align: center;"><%= scope.textEdit %></a>
+            </li>
+            <li>
+                <a href="#" id="edit-link-remove" class="list-button item-link" style="text-align: center; color: #f00"><%= scope.textRemove %></a>
+            </li>
+        </ul>
+        <% } %>
+    </div>
+</div>
+
+<!-- Link Type view -->
+<div id="editlink-type">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left sliding"><a href="#" class="back link"><i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding"><%= scope.textLinkType %></div>
+        </div>
+    </div>
+    <div class="page" id="page-editlink-type" data-page="editlink-type">
+        <div class="page-content">
+            <div class="list-block">
+                <ul>
+                    <li>
+                        <label class="label-radio item-content">
+                            <input type="radio" name="editlink-type" value="1">
+                            <% if (android) { %><div class="item-media"><i class="icon icon-form-radio"></i></div><% } %>
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textExternalLink %></div>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="label-radio item-content">
+                            <input type="radio" name="editlink-type" value="0">
+                            <% if (android) { %><div class="item-media"><i class="icon icon-form-radio"></i></div><% } %>
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textInternalLink %></div>
+                            </div>
+                        </label>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide Number view -->
+<div id="editlink-slidenumber">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left sliding"><a href="#" class="back link"><i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding"><%= scope.textLinkSlide %></div>
+        </div>
+    </div>
+    <div class="page" id="page-editlink-slidenumber" data-page="editlink-slidenumber">
+        <div class="page-content">
+            <div class="list-block">
+                <ul>
+                    <li>
+                        <label class="label-radio item-content">
+                            <input type="radio" name="editlink-slide" value="0">
+                            <% if (android) { %><div class="item-media"><i class="icon icon-form-radio"></i></div><% } %>
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textNext %></div>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="label-radio item-content">
+                            <input type="radio" name="editlink-slide" value="1">
+                            <% if (android) { %><div class="item-media"><i class="icon icon-form-radio"></i></div><% } %>
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textPrev %></div>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="label-radio item-content">
+                            <input type="radio" name="editlink-slide" value="2">
+                            <% if (android) { %><div class="item-media"><i class="icon icon-form-radio"></i></div><% } %>
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textFirst %></div>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="label-radio item-content">
+                            <input type="radio" name="editlink-slide" value="3">
+                            <% if (android) { %><div class="item-media"><i class="icon icon-form-radio"></i></div><% } %>
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textLast %></div>
+                            </div>
+                        </label>
+                    </li>
+                    <li id="editlink-slide-number">
+                        <label class="label-radio item-content">
+                            <input type="radio" name="editlink-slide" value="4">
+                            <% if (android) { %><div class="item-media"><i class="icon icon-form-radio"></i></div><% } %>
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textNumber %></div>
+                                <div class="item-after splitter">
+                                    <% if (!android) { %><label></label><% } %>
+                                    <p class="buttons-row">
+                                        <span class="button decrement"><% if (android) { %><i class="icon icon-expand-down"></i><% } else { %>-<% } %></span>
+                                        <% if (android) { %><label></label><% } %>
+                                        <span class="button increment"><% if (android) { %><i class="icon icon-expand-up"></i><% } else { %>+<% } %></span>
+                                    </p>
+                                </div>
+                            </div>
+                        </label>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

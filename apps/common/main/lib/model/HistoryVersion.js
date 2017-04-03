@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2016
+ * (c) Copyright Ascensio System Limited 2010-2017
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -64,6 +64,7 @@ define([
                 urlGetTime : '',
                 docId: '',
                 docIdPrev: '',
+                token: '',
                 arrColors: [], // array of user colors for all changes of current version
                 markedAsVersion: false,
                 canRestore: false,

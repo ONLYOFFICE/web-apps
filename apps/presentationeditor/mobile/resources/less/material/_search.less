@@ -1,0 +1,60 @@
+// Search
+
+.tablet {
+  .searchbar.document {
+    .left {
+      min-width: 15px;
+    }
+
+    .center {
+      width: 100%;
+      display: flex;
+      margin: 0;
+      overflow: visible;
+
+      .searchbar {
+        overflow: visible;
+
+        &.search {
+          padding: 0;
+        }
+      }
+    }
+  }
+}
+
+@phoneSearchHeight: 48px;
+
+.phone {
+  .searchbar.document {
+    .left,
+    .center,
+    .right {
+      flex-direction: column;
+    }
+
+    .left {
+      min-width: 15px;
+    }
+
+    .center {
+      width: 100%;
+      margin: 0;
+      overflow: visible;
+
+      .searchbar {
+        padding: 0;
+      }
+    }
+
+    .right {
+      > p {
+        margin: 0;
+
+        a.link {
+          height: @phoneSearchHeight;
+        }
+      }
+    }
+  }
+}

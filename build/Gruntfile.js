@@ -3,6 +3,14 @@ module.exports = function(grunt) {
         defaultConfig,
         packageFile;
 
+    var copyright = '/*\n' +
+                    ' * Copyright (c) Ascensio System SIA <%= grunt.template.today("yyyy") %>. All rights reserved\n' +
+                    ' *\n' +
+                    ' * <%= pkg.homepage %> \n' +
+                    ' *\n' +
+                    ' * Version: <%= pkg.version %> (build:<%= pkg.build %>)\n' +
+                    ' */\n';
+
 
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-copy');
@@ -12,6 +20,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-imagemin');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
+    grunt.loadNpmTasks('grunt-contrib-htmlmin');
     grunt.loadNpmTasks('grunt-text-replace');
     grunt.loadNpmTasks('grunt-mocha');
 
@@ -82,23 +91,23 @@ module.exports = function(grunt) {
 
     doRegisterTask('sdk');
     doRegisterTask('api', function(defaultConfig, packageFile){
-        // var pkg = grunt.file.readJSON(defaultConfig);
-        // var config = { copy: pkg['api']['copy'] };
-        // config.copy.options = {
-        //     process: function(content, src, dest) {
-        //         if (/api\.js$/.test(src)) {
-        //             return content.replace(/(\#{2}BN\#)/, "." + (process.env['BUILD_NUMBER'] || packageFile.build));
-        //         }
-
-        //         return content;
-        //     }
-        // };
-        // return config;
+        return {
+            pkg: packageFile,
+            replace: {
+                  writeVersion: {
+                      src: ['<%= pkg.api.copy.script.dest %>' +  '/**/*.js'],
+                      overwrite: true,
+                      replacements: [{
+                          from: /\{\{PRODUCT_VERSION\}\}/,
+                          to: packageFile.version
+                      }]
+                  }
+            }
+        }
     });
     doRegisterTask('sockjs');
     doRegisterTask('xregexp');
     doRegisterTask('megapixel');
-    doRegisterTask('touch');
     doRegisterTask('jquery');
     doRegisterTask('underscore');
     doRegisterTask('zeroclipboard');
@@ -109,7 +118,7 @@ module.exports = function(grunt) {
     doRegisterTask('requirejs', function(defaultConfig, packageFile) {
         return {
             uglify: {
-                pkg: grunt.file.readJSON(defaultConfig),
+                pkg: packageFile,
 
                 options: {
                     banner: '/** vim: et:ts=4:sw=4:sts=4\n' +
@@ -128,7 +137,7 @@ module.exports = function(grunt) {
 
     grunt.registerTask('main-app-init', function() {
         grunt.initConfig({
-            pkg: grunt.file.readJSON(defaultConfig),
+            pkg: packageFile,
 
             clean: {
                 options: {
@@ -161,14 +170,11 @@ module.exports = function(grunt) {
 
             replace: {
                 writeVersion: {
-                    src: ['<%= pkg.api.copy.script.dest %>' + '/documents/api.js'],
+                    src: ['<%= pkg.main.js.requirejs.options.out %>'],
                     overwrite: true,
                     replacements: [{
-                        from: /(\#{2}BN\#)/,
-                        to: function(matchedWord, index, fullText, regexMatches) {
-                            // return content.replace(/(\#{2}BN\#)/, "." + (process.env['BUILD_NUMBER'] || packageFile.build));
-                            return "." + (process.env['BUILD_NUMBER'] || packageFile.build);
-                        }
+                        from: /\{\{PRODUCT_VERSION\}\}/,
+                        to: packageFile.version
                     }]
                 }
             },
@@ -176,13 +182,7 @@ module.exports = function(grunt) {
             concat: {
                 options: {
                     stripBanners: true,
-                    banner: '/*\n' +
-                    ' * Copyright (c) Ascensio System SIA <%= grunt.template.today("yyyy") %>. All rights reserved\n' +
-                    ' *\n' +
-                    ' * <%= pkg.homepage %> \n' +
-                    ' *\n' +
-                    ' * Version: ' + process.env['PRODUCT_VERSION'] + ' (build:' + process.env['BUILD_NUMBER'] + ')\n' +
-                    ' */\n'
+                    banner: copyright
                 },
                 dist: {
                     src: [packageFile['main']['js']['requirejs']['options']['out']],
@@ -217,42 +217,61 @@ module.exports = function(grunt) {
 
     grunt.registerTask('mobile-app-init', function() {
         grunt.initConfig({
-            pkg: grunt.file.readJSON(defaultConfig),
+            pkg: packageFile,
 
             clean: {
                 options: {
                     force: true
                 },
-                files: packageFile['mobile']['clean']
+                'deploy': packageFile['mobile']['clean']['deploy'],
+                'template-backup': packageFile.mobile.copy['template-backup'][0].dest
             },
 
-            uglify: {
+            requirejs: {
+                compile: {
+                    options: packageFile['mobile']['js']['requirejs']['options']
+                }
+            },
+
+            concat: {
                 options: {
-                    banner: '/*\n' +
-                            ' * Copyright (c) Ascensio System SIA <%= grunt.template.today("yyyy") %>. All rights reserved\n' +
-                            ' *\n' +
-                            ' * <%= pkg.homepage %>\n' +
-                            ' *\n' +
-                            ' * Version: <%= pkg.version %> (build:<%= pkg.build %>)\n' +
-                            ' */\n'
+                    stripBanners: true,
+                    banner: copyright
                 },
-                build: {
-                    src: packageFile['mobile']['js']['src'],
-                    dest: packageFile['mobile']['js']['dist']
+                dist: {
+                    src: packageFile.mobile.js.requirejs.options.out,
+                    dest: packageFile.mobile.js.requirejs.options.out
                 }
             },
 
             cssmin: {
-                styles: {
+                // options: {level: { 1: { roundingPrecision: 'all=3' }}}, // to round fw7 numbers in styles. need clean-css 4.0
+                target: {
                     files: {
-                        "<%= pkg.mobile.css.normal.dist %>" : packageFile['mobile']['css']['normal']['src'],
-                        "<%= pkg.mobile.css.retina.dist %>" : packageFile['mobile']['css']['retina']['src']
+                        "<%= pkg.mobile.css.ios.dist %>" : packageFile['mobile']['css']['ios']['src'],
+                        "<%= pkg.mobile.css.material.dist %>" : packageFile['mobile']['css']['material']['src']
                     }
                 }
             },
 
+            htmlmin: {
+                dist: {
+                    options: {
+                        removeComments: true,
+                        collapseWhitespace: true
+                    },
+                    files: packageFile['mobile']['htmlmin']['templates']
+                }
+            },
+
             copy: {
-                localization: {
+                'template-backup': {
+                    files: packageFile['mobile']['copy']['template-backup']
+                },
+                'template-restore': {
+                    files: packageFile['mobile']['copy']['template-restore']
+                },
+                'localization': {
                     files: packageFile['mobile']['copy']['localization']
                 },
                 'index-page': {
@@ -261,13 +280,37 @@ module.exports = function(grunt) {
                 'images-app': {
                     files: packageFile['mobile']['copy']['images-app']
                 }
+            },
+            
+            replace: {
+                writeVersion: {
+                    src: ['<%= pkg.mobile.js.requirejs.options.out %>'],
+                    overwrite: true,
+                    replacements: [{
+                        from: /\{\{PRODUCT_VERSION\}\}/,
+                        to: packageFile.version
+                    }]
+                },
+                fixResourceUrl: {
+                    src: ['<%= pkg.mobile.js.requirejs.options.out %>',
+                            '<%= pkg.mobile.css.ios.dist %>',
+                            '<%= pkg.mobile.css.material.dist %>'],
+                    overwrite: true,
+                    replacements: [{
+                        from: /(?:\.{2}\/){4}common\/mobile\/resources\/img/g,
+                        to: '../img'
+                    },{
+                        from: /(?:\.{2}\/){2}common\/mobile/g,
+                        to: '../mobile'
+                    }]
+                }
             }
         });
     });
 
     grunt.registerTask('embed-app-init', function() {
         grunt.initConfig({
-            pkg: grunt.file.readJSON(defaultConfig),
+            pkg: packageFile,
 
             clean: {
                 options: {
@@ -279,13 +322,7 @@ module.exports = function(grunt) {
 
             uglify: {
                 options: {
-                    banner: '/*\n' +
-                            ' * Copyright (c) Ascensio System SIA <%= grunt.template.today("yyyy") %>. All rights reserved\n' +
-                            ' *\n' +
-                            ' * <%= pkg.homepage %>\n' +
-                            ' *\n' +
-                            ' * Version: <%= pkg.version %> (build:<%= pkg.build %>)\n' +
-                            ' */\n'
+                    banner: copyright
                 },
                 build: {
                     src: packageFile['embed']['js']['src'],
@@ -320,17 +357,18 @@ module.exports = function(grunt) {
     grunt.registerTask('increment-build', function() {
         var pkg = grunt.file.readJSON(defaultConfig);
         pkg.build = parseInt(pkg.build) + 1;
+        packageFile.version = (process.env['PRODUCT_VERSION'] || pkg.version);
+        packageFile.build = (process.env['BUILD_NUMBER'] || pkg.build);
         grunt.file.write(defaultConfig, JSON.stringify(pkg, null, 4));
     });
 
 
-    grunt.registerTask('deploy-api',                    ['api-init', 'clean', 'copy']);
+    grunt.registerTask('deploy-api',                    ['api-init', 'clean', 'copy', 'replace:writeVersion']);
     grunt.registerTask('deploy-sdk',                    ['sdk-init', 'clean', 'copy']);
 
     grunt.registerTask('deploy-sockjs',                 ['sockjs-init', 'clean', 'copy']);
     grunt.registerTask('deploy-xregexp',                ['xregexp-init', 'clean', 'copy']);
     grunt.registerTask('deploy-megapixel',              ['megapixel-init', 'clean', 'copy']);
-    grunt.registerTask('deploy-touch',                  ['touch-init', 'clean', 'copy']);
     grunt.registerTask('deploy-jquery',                 ['jquery-init', 'clean', 'copy']);
     grunt.registerTask('deploy-underscore',             ['underscore-init', 'clean', 'copy']);
     grunt.registerTask('deploy-bootstrap',              ['bootstrap-init', 'clean', 'copy']);
@@ -339,11 +377,18 @@ module.exports = function(grunt) {
     grunt.registerTask('deploy-jsrsasign',              ['jsrsasign-init', 'clean', 'copy']);
     grunt.registerTask('deploy-requirejs',              ['requirejs-init', 'clean', 'uglify']);
 
-    grunt.registerTask('deploy-app-main',               ['main-app-init', 'clean', 'imagemin', 'less', 'requirejs', 'concat', 'copy', 'replace:writeVersion']);
-    grunt.registerTask('deploy-app-mobile',             ['mobile-app-init', 'clean', 'uglify', 'cssmin:styles', 'copy']);
-    grunt.registerTask('deploy-app-embed',              ['embed-app-init', 'clean:prebuild', 'uglify', 'less', 'copy', 'clean:postbuild']);
+    grunt.registerTask('deploy-app-main',               ['main-app-init', 'clean', 'imagemin', 'less', 'requirejs', 'concat',
+                                                            'copy', 'replace:writeVersion']);
 
+    grunt.registerTask('deploy-app-mobile',             ['mobile-app-init', 'clean:deploy', 'cssmin', 'copy:template-backup',
+                                                            'htmlmin', 'requirejs', 'concat', 'copy:template-restore',
+                                                            'clean:template-backup', 'copy:localization', 'copy:index-page',
+                                                            'copy:images-app', 'replace:writeVersion', 'replace:fixResourceUrl']);
 
+    grunt.registerTask('deploy-app-embed',              ['embed-app-init', 'clean:prebuild', 'uglify', 'less', 'copy', 
+                                                            'clean:postbuild']);
+
+    doRegisterInitializeAppTask('common',               'Common',               'common.json');
     doRegisterInitializeAppTask('documenteditor',       'DocumentEditor',       'documenteditor.json');
     doRegisterInitializeAppTask('spreadsheeteditor',    'SpreadsheetEditor',    'spreadsheeteditor.json');
     doRegisterInitializeAppTask('presentationeditor',   'PresentationEditor',   'presentationeditor.json');
@@ -360,9 +405,19 @@ module.exports = function(grunt) {
         }
     });
 
-    grunt.registerTask('deploy-documenteditor',     ['init-build-documenteditor', 'deploy-app']);
-    grunt.registerTask('deploy-spreadsheeteditor',  ['init-build-spreadsheeteditor', 'deploy-app']);
-    grunt.registerTask('deploy-presentationeditor', ['init-build-presentationeditor', 'deploy-app']);
+    grunt.registerTask('deploy-common-component',             ['init-build-common', 'deploy-app']);
+    grunt.registerTask('deploy-documenteditor-component',     ['init-build-documenteditor', 'deploy-app']);
+    grunt.registerTask('deploy-spreadsheeteditor-component',  ['init-build-spreadsheeteditor', 'deploy-app']);
+    grunt.registerTask('deploy-presentationeditor-component', ['init-build-presentationeditor', 'deploy-app']);
+    // This task is called from the Makefile, don't delete it.
+    grunt.registerTask('deploy-documents-component',          ['deploy-common-component']);   
 
-    grunt.registerTask('default', ['deploy-documenteditor', 'deploy-spreadsheeteditor', 'deploy-presentationeditor']);
+    grunt.registerTask('deploy-documenteditor',     ['deploy-common-component', 'deploy-documenteditor-component']);
+    grunt.registerTask('deploy-spreadsheeteditor',  ['deploy-common-component', 'deploy-spreadsheeteditor-component']);
+    grunt.registerTask('deploy-presentationeditor', ['deploy-common-component', 'deploy-presentationeditor-component']);
+
+    grunt.registerTask('default', ['deploy-common-component',
+                                   'deploy-documenteditor-component',
+                                   'deploy-spreadsheeteditor-component',
+                                   'deploy-presentationeditor-component']);
 };

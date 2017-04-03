@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2016
+ * (c) Copyright Ascensio System Limited 2010-2017
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -748,10 +748,12 @@ define([
                     itemTemplate: _.template([
                         '<div>',
                             '<label class="checkbox-indeterminate" style="position:absolute;">',
-                                '<% if (!check) { %>',
-                                    '<input type="button" class="img-commonctrl"/>',
-                                '<% } else { %>',
+                                '<% if (check=="indeterminate") { %>',
+                                    '<input type="button" class="indeterminate img-commonctrl"/>',
+                                '<% } else if (check) { %>',
                                     '<input type="button" class="checked img-commonctrl"/>',
+                                '<% } else { %>',
+                                    '<input type="button" class="img-commonctrl"/>',
                                 '<% } %>',
                             '</label>',
                             '<div id="<%= id %>" class="list-item" style="pointer-events:none;margin-left:20px;display:inline-block;width: 185px;"><%= Common.Utils.String.htmlEncode(value) %></div>',
@@ -1035,6 +1037,18 @@ define([
                 } else {
                     record.set('check', check);
                     idxs[parseInt(record.get('throughIndex'))] = check;
+
+                    var selectAllState = check;
+                    for (var i=0; i< this.cells.length; i++) {
+                        var cell = this.cells.at(i);
+                        if ('1' == cell.get('groupid') && cell.get('check') !== check) {
+                            selectAllState = 'indeterminate';
+                            break;
+                        }
+                    }
+                    this.checkCellTrigerBlock = true;
+                    this.cells.at(0).set('check', selectAllState);
+                    this.checkCellTrigerBlock = undefined;
                 }
 
                 this.btnOk.setDisabled(false);
@@ -1182,7 +1196,8 @@ define([
                 isnumber, value,
                 index = 0, throughIndex = 2,
                 applyfilter = true,
-                haveUnselectedCell = false,
+                selectAllState = false,
+                selectedCells = 0,
                 arr = [], arrEx = [],
                 idxs = (me.filter) ? me.filteredIndexes : me.throughIndexes;
 
@@ -1212,9 +1227,7 @@ define([
                         check           : idxs[throughIndex],
                         throughIndex    : throughIndex
                     }));
-                    if (!idxs[throughIndex]) {
-                        haveUnselectedCell = true;
-                    }
+                    if (idxs[throughIndex]) selectedCells++;
                 } else {
                     arrEx.push(new Common.UI.DataViewModel({
                         cellvalue       : value
@@ -1223,6 +1236,9 @@ define([
 
                 ++throughIndex;
             });
+
+            if (selectedCells==arr.length) selectAllState = true;
+            else if (selectedCells>0) selectAllState = 'indeterminate';
 
             if (me.filter || idxs[0]==undefined)
                 idxs[0] = true;
@@ -1255,7 +1271,7 @@ define([
 
             if (this.cells.length) {
                 this.checkCellTrigerBlock = true;
-                this.cells.at(0).set('check', !haveUnselectedCell);
+                this.cells.at(0).set('check', selectAllState);
                 this.checkCellTrigerBlock = undefined;
             }
             this.btnOk.setDisabled(this.cells.length<1);

@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2016
+ * (c) Copyright Ascensio System Limited 2010-2017
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -77,28 +77,32 @@ define([
                 asctype: Common.Utils.documentSettingsType.Paragraph,
                 enableToggle: true,
                 disabled: true,
-                toggleGroup: 'tabpanelbtnsGroup'
+                toggleGroup: 'tabpanelbtnsGroup',
+                allowMouseEventsOnDisabled: true
             });
             this.btnImage = new Common.UI.Button({
                 hint: this.txtImageSettings,
                 asctype: Common.Utils.documentSettingsType.Image,
                 enableToggle: true,
                 disabled: true,
-                toggleGroup: 'tabpanelbtnsGroup'
+                toggleGroup: 'tabpanelbtnsGroup',
+                allowMouseEventsOnDisabled: true
             });
             this.btnChart = new Common.UI.Button({
                 hint: this.txtChartSettings,
                 asctype: Common.Utils.documentSettingsType.Chart,
                 enableToggle: true,
                 disabled: true,
-                toggleGroup: 'tabpanelbtnsGroup'
+                toggleGroup: 'tabpanelbtnsGroup',
+                allowMouseEventsOnDisabled: true
             });
             this.btnShape = new Common.UI.Button({
                 hint: this.txtShapeSettings,
                 asctype: Common.Utils.documentSettingsType.Shape,
                 enableToggle: true,
                 disabled: true,
-                toggleGroup: 'tabpanelbtnsGroup'
+                toggleGroup: 'tabpanelbtnsGroup',
+                allowMouseEventsOnDisabled: true
             });
 
             this.btnTextArt = new Common.UI.Button({
@@ -106,7 +110,8 @@ define([
                 asctype: Common.Utils.documentSettingsType.TextArt,
                 enableToggle: true,
                 disabled: true,
-                toggleGroup: 'tabpanelbtnsGroup'
+                toggleGroup: 'tabpanelbtnsGroup',
+                allowMouseEventsOnDisabled: true
             });
 
             this.btnTable = new Common.UI.Button({
@@ -114,7 +119,8 @@ define([
                 asctype: Common.Utils.documentSettingsType.Table,
                 enableToggle: true,
                 disabled: true,
-                toggleGroup: 'tabpanelbtnsGroup'
+                toggleGroup: 'tabpanelbtnsGroup',
+                allowMouseEventsOnDisabled: true
             });
 
             this._settings = [];
@@ -255,6 +261,7 @@ define([
         txtShapeSettings:           'Shape Settings',
         txtTextArtSettings:         'Text Art Settings',
         txtChartSettings:           'Chart Settings',
+        txtSparklineSettings:       'Sparkline Settings',
         txtTableSettings:           'Table Settings'
     }, SSE.Views.RightMenu || {}));
 });

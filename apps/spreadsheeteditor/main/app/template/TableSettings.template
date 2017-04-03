@@ -62,9 +62,20 @@
         </td>
     </tr>
     <tr>
-        <td class="padding-small" colspan=2>
+        <td class="padding-large" colspan=2>
             <label class="header" style="margin-top: 3px;"><%= scope.textResize %></label>
             <button type="button" class="btn btn-text-default" id="table-btn-select-data" style="display: inline-block; float:right; min-width: 100px;width: auto;"><%= scope.textSelectData %></button>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small" colspan=2>
+            <label class="header" style="margin-top: 3px;"><%= scope.textEdit %></label>
+            <div id="table-btn-edit" style="display: inline-block; float:right;"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small" colspan=2>
+            <button type="button" class="btn btn-text-default" id="table-btn-convert-range" style="width:100%;"><%= scope.textConvertRange %></button>
         </td>
     </tr>
     <tr>
@@ -73,9 +84,8 @@
         </td>
     </tr>
     <tr>
-        <td colspan=2>
-            <label class="header" style="margin-top: 3px;"><%= scope.textEdit %></label>
-            <div id="table-btn-edit" style="display: inline-block; float:right;"></div>
+        <td align="center" colspan=2>
+            <label class="link" id="table-advanced-link"><%= scope.textAdvanced %></label>
         </td>
     </tr>
     <tr class="finish-cell"></tr>

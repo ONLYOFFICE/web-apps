@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2016
+ * (c) Copyright Ascensio System Limited 2010-2017
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -189,6 +189,8 @@ define([
                 this.panelUsers = $('#status-users-ct', this.el);
                 this.panelUsers.on('shown.bs.dropdown', function () {
                     me.panelUsersList.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true});
+                    var tip = me.panelUsersBlock.data('bs.tooltip');
+                    if (tip) tip.hide();
                 });
 
                 this.panelUsersBlock = this.panelUsers.find('#status-users-block');
@@ -323,6 +325,10 @@ define([
                 this.labelAverage = $('#status-math-average', this.boxMath);
                 this.boxMath.hide();
 
+                this.boxFiltered = $('#status-filtered-box', this.el);
+                this.labelFiltered = $('#status-filtered-records', this.boxFiltered);
+                this.boxFiltered.hide();
+
                 this.boxZoom = $('#status-zoom-box', this.el);
                 this.boxZoom.find('.separator').css('border-left-color','transparent');
 
@@ -418,6 +424,27 @@ define([
                     this.labelAverage.text((info.average && info.average.length) ? (this.textAverage + ': ' + info.average) : '');
                 } else {
                     if (this.boxMath.is(':visible')) this.boxMath.hide();
+                }
+
+                var me = this;
+                _.delay(function(){
+                    me.onTabInvisible(undefined, me.tabbar.checkInvisible(true));
+                },30);
+            },
+
+            setFilteredInfo: function(countFilter, countRecords) {
+                if (countFilter>0 && countRecords>0) {//filter is applied
+                    if (!this.boxFiltered.is(':visible')) this.boxFiltered.show();
+                    this.labelFiltered.text(Common.Utils.String.format(this.filteredRecordsText, countFilter, countRecords));
+                } else if (countFilter) {// filter mode
+                    if (!this.boxFiltered.is(':visible')) this.boxFiltered.show();
+                    this.labelFiltered.text(this.filteredText);
+                } else if (countFilter !== undefined && countFilter !== null){
+                    if (this.boxFiltered.is(':visible')) this.boxFiltered.hide();
+                } else {
+                    var filterInfo = this.api.asc_getCellInfo().asc_getAutoFilterInfo(),
+                        need_disable =  !filterInfo || (filterInfo.asc_getIsApplyAutoFilter()!==true);
+                    this.setFilteredInfo(!need_disable);
                 }
 
                 var me = this;
@@ -600,6 +627,11 @@ define([
                     visible = true;
                 }
 
+                if (this.boxFiltered.is(':visible')) {
+                    right   += parseInt(this.boxFiltered.css('width'));
+                    visible = true;
+                }
+
                 if (this.panelUsers.is(':visible')) {
                     right   += parseInt(this.panelUsers.css('width'));
                     visible = true;
@@ -645,7 +677,9 @@ define([
             tipUsers            : 'Document is currently being edited by several users.',
             tipAccessRights     : 'Manage document access rights',
             tipViewUsers        : 'View users and manage document access rights',
-            txAccessRights      : 'Change access rights'
+            txAccessRights      : 'Change access rights',
+            filteredRecordsText : '{0} of {1} records filtered',
+            filteredText        : 'Filter mode'
 
         }, SSE.Views.Statusbar || {}));
 

@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2016
+ * (c) Copyright Ascensio System Limited 2010-2017
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -331,7 +331,7 @@ define([
                     $(document).off('mouseup',   onMouseUp);
                 };
 
-                var onAfterHideMenu = function(e) {
+                var onAfterHideMenu = function(e, isFromInputControl) {
                     me.cmpEl.find('.dropdown-toggle').blur();
                     if (me.cmpEl.hasClass('active') !== me.pressed) 
                         me.cmpEl.trigger('button.internal.active', [me.pressed]);
@@ -416,24 +416,27 @@ define([
         setDisabled: function(disabled) {
             if (this.rendered && this.disabled != disabled) {
                 var el = this.cmpEl,
-                    isGroup = el.hasClass('btn-group');
+                    isGroup = el.hasClass('btn-group'),
+                    me = this;
 
                 disabled = (disabled===true);
 
                 if (disabled !== el.hasClass('disabled')) {
                     var decorateBtn = function(button) {
                         button.toggleClass('disabled', disabled);
-                        (disabled) ? button.attr({disabled: disabled}) : button.removeAttr('disabled');
+                        if (!me.options.allowMouseEventsOnDisabled)
+                            (disabled) ? button.attr({disabled: disabled}) : button.removeAttr('disabled');
                     };
 
                     decorateBtn(el);
                     isGroup && decorateBtn(el.children('button'));
                 }
 
-                if (disabled) {
+                if (disabled || !Common.Utils.isGecko) {
                     var tip = this.cmpEl.data('bs.tooltip');
                     if (tip) {
-                        tip.hide();
+                        disabled && tip.hide();
+                        !Common.Utils.isGecko && (tip.enabled = !disabled);
                     }
                 }
             }
@@ -466,8 +469,10 @@ define([
             var cmpEl = this.cmpEl,
                 modalParents = cmpEl.closest('.asc-window');
 
+            if (cmpEl.data('bs.tooltip'))
+                cmpEl.removeData('bs.tooltip');
             cmpEl.attr('data-toggle', 'tooltip');
-            cmpEl.tooltip('destroy').tooltip({
+            cmpEl.tooltip({
                 title       : hint,
                 placement   : this.options.hintAnchor || 'cursor'
             });

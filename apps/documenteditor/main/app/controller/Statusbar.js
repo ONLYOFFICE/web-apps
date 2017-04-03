@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2016
+ * (c) Copyright Ascensio System Limited 2010-2017
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -144,23 +144,21 @@ define([
         /*
         * */
 
-        setLanguages: function(apiLangs) {
-            var langs = this.langs = [], info;
-            _.each(apiLangs, function(lang, index, list){
-                info = Common.util.LanguageInfo.getLocalLanguageName(lang.asc_getId());
-                langs.push({
-                    title:  info[1],
-                    tip:    info[0],
-                    code:   lang.asc_getId()
-                });
-            }, this);
-
+        setLanguages: function(langs) {
+            this.langs = langs;
             this.statusbar.reloadLanguages(langs);
         },
 
-        setStatusCaption: function(text) {
-            if (text.length)
-                this.statusbar.showStatusMessage(text); else
+        setStatusCaption: function(text, force, delay) {
+            if (this.timerCaption && ( ((new Date()) < this.timerCaption) || text.length==0 ) && !force )
+                return;
+
+            this.timerCaption = undefined;
+            if (text.length) {
+                this.statusbar.showStatusMessage(text);
+                if (delay>0)
+                    this.timerCaption = (new Date()).getTime() + delay;
+            } else
                 this.statusbar.clearStatusMessage();
         },
 

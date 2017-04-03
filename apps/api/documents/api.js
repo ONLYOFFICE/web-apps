@@ -50,7 +50,6 @@
                 lang: <language code>,
                 location: <location>,
                 canCoAuthoring: <can coauthoring documents>,
-                canAutosave: <can autosave documents>,
                 canBackToFolder: <can return to folder> - deprecated. use "customization.goback" parameter,
                 createUrl: 'create document url', 
                 sharingSettingsUrl: 'document sharing settings url',
@@ -105,15 +104,18 @@
                         url: 'http://...',
                         text: 'Go to London'
                     },
-                    chat: false,
-                    comments: false,
+                    chat: true,
+                    comments: true,
                     zoom: 100,
                     compactToolbar: false,
                     leftMenu: true,
                     rightMenu: true,
                     toolbar: true,
                     header: true,
-                    autosave: true
+                    statusBar: true,
+                    autosave: true,
+                    forcesave: false,
+                    commentAuthorOnly: false
                 },
                 plugins: {
                     autoStartGuid: 'asc.{FFE1F462-1EA2-4391-990D-4CC84940B754}',
@@ -129,8 +131,7 @@
             events: {
                 'onReady': <document ready callback>,
                 'onBack': <back to folder callback>,
-                'onDocumentStateChange': <document state changed callback>,
-                'onSave': <save request callback>
+                'onDocumentStateChange': <document state changed callback>
             }
         }
 
@@ -258,25 +259,26 @@
         };
 
         var _onMessage = function(msg) {
-            if (msg && msg.frameEditorId == placeholderId) {
-                var events = _config.events || {},
-                    handler = events[msg.event],
-                    res;
-
-                if (msg.event === 'onRequestEditRights' && !handler) {
-                    _applyEditRights(false, 'handler is\'n defined');
+            if ( msg ) {
+                if ( msg.type === "onExternalPluginMessage" ) {
+                    _sendCommand(msg);
                 } else
-                if (msg.event === 'onInternalMessage' && msg.data && msg.data.type == 'localstorage') {
-                    _callLocalStorage(msg.data.data);
-                } else {
-                    if (msg.event === 'onReady') {
-                        _onReady();
-                    }
+                if ( msg.frameEditorId == placeholderId ) {
+                    var events = _config.events || {},
+                        handler = events[msg.event],
+                        res;
 
-                    if (handler) {
-                        res = handler.call(_self, { target: _self, data: msg.data });
-                        if (msg.event === 'onSave' && res !== false) {
-                            _processSaveResult(true);
+                    if (msg.event === 'onRequestEditRights' && !handler) {
+                        _applyEditRights(false, 'handler isn\'t defined');
+                    } else if (msg.event === 'onInternalMessage' && msg.data && msg.data.type == 'localstorage') {
+                        _callLocalStorage(msg.data.data);
+                    } else {
+                        if (msg.event === 'onReady') {
+                            _onReady();
+                        }
+
+                        if (handler) {
+                            res = handler.call(_self, {target: _self, data: msg.data});
                         }
                     }
                 }
@@ -363,7 +365,7 @@
         if (target && _checkConfigParams()) {
             iframe = createIframe(_config);
             target.parentNode && target.parentNode.replaceChild(iframe, target);
-            this._msgDispatcher = new MessageDispatcher(_onMessage, this);
+            var _msgDispatcher = new MessageDispatcher(_onMessage, this);
         }
 
         /*
@@ -372,6 +374,18 @@
          data: <command specific data>
          }
          */
+
+        var _destroyEditor = function(cmd) {
+            var target = document.createElement("div");
+            target.setAttribute('id', placeholderId);
+
+            if (iframe) {
+                _msgDispatcher && _msgDispatcher.unbindEvents();
+                _detachMouseEvents();
+                iframe.parentNode && iframe.parentNode.replaceChild(target, iframe);
+            }
+        };
+
         var _sendCommand = function(cmd) {
             if (iframe && iframe.contentWindow)
                 postMessage(iframe.contentWindow, cmd);
@@ -505,7 +519,8 @@
             var data = {
                 type: evt.type,
                 x: evt.x - r.left,
-                y: evt.y - r.top
+                y: evt.y - r.top,
+                event: evt
             };
 
             _sendCommand({
@@ -527,7 +542,6 @@
         return {
             showError           : _showError,
             showMessage         : _showMessage,
-            applyEditRights     : _applyEditRights,
             processSaveResult   : _processSaveResult,
             processRightsChange : _processRightsChange,
             denyEditingRights   : _denyEditingRights,
@@ -538,7 +552,8 @@
             downloadAs          : _downloadAs,
             serviceCommand      : _serviceCommand,
             attachMouseEvents   : _attachMouseEvents,
-            detachMouseEvents   : _detachMouseEvents
+            detachMouseEvents   : _detachMouseEvents,
+            destroyEditor       : _destroyEditor
         }
     };
 
@@ -558,23 +573,31 @@
     };
 
     DocsAPI.DocEditor.version = function() {
-        return '4.2.7';
+        return '{{PRODUCT_VERSION}}';
     };
 
     MessageDispatcher = function(fn, scope) {
         var _fn     = fn,
-            _scope  = scope || window;
+            _scope  = scope || window,
+            eventFn = function(msg) {
+                _onMessage(msg);
+            };
 
         var _bindEvents = function() {
             if (window.addEventListener) {
-                window.addEventListener("message", function(msg) {
-                    _onMessage(msg);
-                }, false)
+                window.addEventListener("message", eventFn, false)
             }
             else if (window.attachEvent) {
-                window.attachEvent("onmessage", function(msg) {
-                    _onMessage(msg);
-                });
+                window.attachEvent("onmessage", eventFn);
+            }
+        };
+
+        var _unbindEvents = function() {
+            if (window.removeEventListener) {
+                window.removeEventListener("message", eventFn, false)
+            }
+            else if (window.detachEvent) {
+                window.detachEvent("onmessage", eventFn);
             }
         };
 
@@ -592,6 +615,10 @@
         };
 
         _bindEvents.call(this);
+
+        return {
+            unbindEvents: _unbindEvents
+        }
     };
 
     function getBasePath() {

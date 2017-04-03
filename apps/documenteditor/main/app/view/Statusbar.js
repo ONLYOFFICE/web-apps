@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2016
+ * (c) Copyright Ascensio System Limited 2010-2017
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -276,6 +276,8 @@ define([
                 this.panelUsers = $('#status-users-ct', this.el);
                 this.panelUsers.on('shown.bs.dropdown', function () {
                     me.panelUsersList.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true});
+                    var tip = me.panelUsersBlock.data('bs.tooltip');
+                    if (tip) tip.hide();
                 });
 
                 this.panelUsersBlock = this.panelUsers.find('#status-users-block');

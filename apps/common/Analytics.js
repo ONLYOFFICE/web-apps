@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2016
+ * (c) Copyright Ascensio System Limited 2010-2017
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -35,22 +35,22 @@ if (Common === undefined)
 
 Common.component = Common.component || {};
 
-Common.Analytics = Common.component.Analytics = new(function() {
-    var _category;
+    Common.Analytics = Common.component.Analytics = new(function() {
+        var _category;
 
-    return {
-        initialize: function(id, category) {
+        return {
+            initialize: function(id, category) {
 
-            if (typeof id === 'undefined')
-                throw 'Analytics: invalid id.';
+                if (typeof id === 'undefined')
+                    throw 'Analytics: invalid id.';
 
-            if (typeof category === 'undefined' || Object.prototype.toString.apply(category) !== '[object String]')
-                throw 'Analytics: invalid category type.';
+                if (typeof category === 'undefined' || Object.prototype.toString.apply(category) !== '[object String]')
+                    throw 'Analytics: invalid category type.';
 
-            _category = category;
+                _category = category;
 
-            $('head').append(
-                '<script type="text/javascript">' +
+                $('head').append(
+                    '<script type="text/javascript">' +
                     'var _gaq = _gaq || [];' +
                     '_gaq.push(["_setAccount", "' + id + '"]);' +
                     '_gaq.push(["_trackPageview"]);' +
@@ -60,27 +60,27 @@ Common.Analytics = Common.component.Analytics = new(function() {
                     'var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(ga, s);' +
                     '})();' +
                     '</script>'
-            );
-        },
+                );
+            },
 
-        trackEvent: function(action, label, value) {
+            trackEvent: function(action, label, value) {
 
-            if (typeof action !== 'undefined' && Object.prototype.toString.apply(action) !== '[object String]')
-                throw 'Analytics: invalid action type.';
+                if (typeof action !== 'undefined' && Object.prototype.toString.apply(action) !== '[object String]')
+                    throw 'Analytics: invalid action type.';
 
-            if (typeof label !== 'undefined' && Object.prototype.toString.apply(label) !== '[object String]')
-                throw 'Analytics: invalid label type.';
+                if (typeof label !== 'undefined' && Object.prototype.toString.apply(label) !== '[object String]')
+                    throw 'Analytics: invalid label type.';
 
-            if (typeof value !== 'undefined' && !(Object.prototype.toString.apply(value) === '[object Number]' && isFinite(value)))
-                throw 'Analytics: invalid value type.';
+                if (typeof value !== 'undefined' && !(Object.prototype.toString.apply(value) === '[object Number]' && isFinite(value)))
+                    throw 'Analytics: invalid value type.';
 
-            if (typeof _gaq === 'undefined')
-                return;
+                if (typeof _gaq === 'undefined')
+                    return;
 
-            if (_category === 'undefined')
-                throw 'Analytics is not initialized.';
+                if (_category === 'undefined')
+                    throw 'Analytics is not initialized.';
 
-            _gaq.push(['_trackEvent', _category, action, label, value]);
+                _gaq.push(['_trackEvent', _category, action, label, value]);
+            }
         }
-    }
-})();
+    })();

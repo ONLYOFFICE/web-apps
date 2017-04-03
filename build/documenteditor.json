@@ -1,52 +1,9 @@
 {
     "name": "documenteditor",
-    "version": "4.7.0",
-    "build": 1110,
+    "version": "4.3.0",
+    "build": 1112,
     "homepage": "http://www.onlyoffice.com",
     "private": true,
-    "sdk": {
-        "clean": [
-            "../deploy/sdkjs/common",
-            "../deploy/sdkjs/word"
-        ],
-        "copy": {
-            "script": {
-                "files": [
-                    {
-                        "expand": true,
-                        "cwd": "../../sdkjs/common/",
-                        "src": [
-                            "Images/*.cur",
-                            "Native/*.js"
-                        ],
-                        "dest": "../deploy/sdkjs/common/"
-                    },
-                    {
-                        "expand": true,
-                        "src": "../../sdkjs/word/sdk-*.js",
-                        "dest": "../deploy/sdkjs/word/"
-                    }
-                ]
-            }
-        }
-    },
-    "api": {
-        "clean": [
-            "../deploy/web-apps/apps/api"
-        ],
-        "copy": {
-            "script": {
-                "expand": true,
-                "cwd": "../apps/api/",
-                "src": [
-                    "**",
-                    "!**/*.html",
-                    "!**/*.desktop"
-                ],
-                "dest": "../deploy/web-apps/apps/api/"
-            }
-        }
-    },
     "main": {
         "clean": [
             "../deploy/web-apps/apps/documenteditor/main"
@@ -212,74 +169,153 @@
         }
     },
     "mobile": {
-        "clean": [
-            "../deploy/web-apps/apps/documenteditor/mobile"
-        ],
-        "js": {
-            "src": [
-                "../apps/common/Gateway.js",
-                "../apps/common/Analytics.js",
-                "../apps/common/mobile/loader.js",
-                "../apps/common/mobile/lib/component/PlanarSpinner.js",
-                "../apps/common/mobile/lib/component/RepeatableButton.js",
-                "../apps/common/mobile/lib/component/SettingsList.js",
-                "../apps/common/mobile/lib/model/SettingItem.js",
-                "../apps/common/mobile/lib/store/SettingsList.js",
-                "../apps/common/mobile/lib/view/PopoverPanel.js",
-                "../apps/common/mobile/lib/view/PopClip.js",
-                "../apps/common/mobile/lib/controller/PopClip.js",
-                "../apps/documenteditor/mobile/app/plugin/Pinchemu.js",
-                "../apps/documenteditor/mobile/app/view/Main.js",
-                "../apps/documenteditor/mobile/app/view/phone/toolbar/Search.js",
-                "../apps/documenteditor/mobile/app/view/phone/toolbar/View.js",
-                "../apps/documenteditor/mobile/app/view/phone/Main.js",
-                "../apps/documenteditor/mobile/app/view/tablet/panel/Font.js",
-                "../apps/documenteditor/mobile/app/view/tablet/panel/FontStyle.js",
-                "../apps/documenteditor/mobile/app/view/tablet/panel/Insert.js",
-                "../apps/documenteditor/mobile/app/view/tablet/panel/ListStyle.js",
-                "../apps/documenteditor/mobile/app/view/tablet/panel/ParagraphAlignment.js",
-                "../apps/documenteditor/mobile/app/view/tablet/panel/Spacing.js",
-                "../apps/documenteditor/mobile/app/view/tablet/panel/TextColor.js",
-                "../apps/documenteditor/mobile/app/view/tablet/toolbar/Edit.js",
-                "../apps/documenteditor/mobile/app/view/tablet/toolbar/Search.js",
-                "../apps/documenteditor/mobile/app/view/tablet/toolbar/View.js",
-                "../apps/documenteditor/mobile/app/view/tablet/Main.js",
-                "../apps/documenteditor/mobile/app/controller/Main.js",
-                "../apps/documenteditor/mobile/app/controller/Document.js",
-                "../apps/documenteditor/mobile/app/controller/Search.js",
-                "../apps/documenteditor/mobile/app/controller/phone/Main.js",
-                "../apps/documenteditor/mobile/app/controller/tablet/Main.js",
-                "../apps/documenteditor/mobile/app/controller/tablet/panel/Font.js",
-                "../apps/documenteditor/mobile/app/controller/tablet/panel/FontStyle.js",
-                "../apps/documenteditor/mobile/app/controller/tablet/panel/Insert.js",
-                "../apps/documenteditor/mobile/app/controller/tablet/panel/ParagraphAlignment.js",
-                "../apps/documenteditor/mobile/app/controller/tablet/panel/Spacing.js",
-                "../apps/documenteditor/mobile/app/controller/tablet/panel/Style.js",
-                "../apps/documenteditor/mobile/app/controller/tablet/panel/TextColor.js",
-                "../apps/documenteditor/mobile/app/controller/toolbar/Edit.js",
-                "../apps/documenteditor/mobile/app/controller/toolbar/View.js",
-                "../apps/documenteditor/mobile/app/profile/Phone.js",
-                "../apps/documenteditor/mobile/app/profile/Tablet.js",
-                "../apps/common/locale.js",
-                "../apps/documenteditor/mobile/app.js"
+        "clean": {
+            "deploy": [
+                "../deploy/web-apps/apps/documenteditor/mobile"
             ],
-            "dist": "../deploy/web-apps/apps/documenteditor/mobile/app-all.js"
+            "template-backup": [
+                "../apps/documenteditor/mobile/app/template/backup"
+            ]
         },
-        "css": {
-            "normal": {
-                "src": [
-                    "../apps/documenteditor/mobile/resources/css/application-normal.css"
-                ],
-                "dist": "../deploy/web-apps/apps/documenteditor/mobile/resources/css/application-normal.css"
-            },
-            "retina": {
-                "src": [
-                    "../apps/documenteditor/mobile/resources/css/application-retina.css"
-                ],
-                "dist": "../deploy/web-apps/apps/documenteditor/mobile/resources/css/application-retina.css"
+        "js": {
+            "requirejs": {
+                "options": {
+                    "name": "../apps/documenteditor/mobile/app.js",
+                    "out": "../deploy/web-apps/apps/documenteditor/mobile/app.js",
+                    "baseUrl": "../apps/",
+                    "inlineText": true,
+                    "findNestedDependencies": true,
+                    "preserveLicenseComments": false,
+                    "optimizeAllPluginResources": true,
+                    "paths": {
+                        "jquery": "../vendor/jquery/jquery",
+                        "underscore": "../vendor/underscore/underscore",
+                        "backbone": "../vendor/backbone/backbone",
+                        "framework7": "../vendor/framework7/js/framework7",
+                        "text": "../vendor/requirejs-text/text",
+                        "xregexp": "empty:",
+                        "sockjs": "empty:",
+                        "jszip": "empty:",
+                        "jszip-utils": "empty:",
+                        "jsrsasign": "empty:",
+                        "coapisettings": "empty:",
+                        "allfonts": "empty:",
+                        "sdk": "empty:",
+                        "api": "empty:",
+                        "core": "common/main/lib/core/application",
+                        "extendes": "common/mobile/utils/extendes",
+                        "notification": "common/main/lib/core/NotificationCenter",
+                        "localstorage": "common/main/lib/util/LocalStorage",
+                        "analytics": "common/Analytics",
+                        "gateway": "common/Gateway",
+                        "locale": "common/locale",
+                        "irregularstack": "common/IrregularStack",
+                        "sharedsettings": "common/mobile/utils/SharedSettings"
+                    },
+                    "shim": {
+                        "framework7": {
+                            "exports": "Framework7"
+                        },
+                        "underscore": {
+                            "exports": "_"
+                        },
+                        "backbone": {
+                            "deps": [
+                                "underscore",
+                                "jquery"
+                            ],
+                            "exports": "Backbone"
+                        },
+                        "notification": {
+                            "deps": [
+                                "backbone"
+                            ]
+                        },
+                        "core": {
+                            "deps": [
+                                "backbone",
+                                "notification",
+                                "irregularstack",
+                                "sharedsettings"
+                            ]
+                        },
+                        "extendes": {
+                            "deps": [
+                                "underscore",
+                                "jquery",
+                                "framework7"
+                            ]
+                        },
+                        "sdk": {
+                            "deps": [
+                                "jquery",
+                                "underscore",
+                                "coapisettings",
+                                "allfonts",
+                                "xregexp",
+                                "sockjs",
+                                "jszip",
+                                "jszip-utils",
+                                "jsrsasign"
+                            ]
+                        },
+                        "gateway": {
+                            "deps": [
+                                "jquery"
+                            ]
+                        },
+                        "analytics": {
+                            "deps": [
+                                "jquery"
+                            ]
+                        }
+                    }
+                }
             }
         },
+        "css": {
+            "ios": {
+                "src": [
+                    "../apps/documenteditor/mobile/resources/css/app-ios.css"
+                ],
+                "dist": "../deploy/web-apps/apps/documenteditor/mobile/resources/css/app-ios.css"
+            },
+            "material": {
+                "src": [
+                    "../apps/documenteditor/mobile/resources/css/app-material.css"
+                ],
+                "dist": "../deploy/web-apps/apps/documenteditor/mobile/resources/css/app-material.css"
+            }
+        },
+        "htmlmin": {
+            "templates": [
+                {
+                    "expand": true,
+                    "cwd": "../apps/documenteditor/mobile/app/template/",
+                    "src": "*.template",
+                    "dest": "../apps/documenteditor/mobile/app/template/"
+                }
+            ]
+        },
         "copy": {
+            "template-backup": [
+                {
+                    "expand": true,
+                    "cwd": "../apps/documenteditor/mobile/app/template/",
+                    "src": "*.template",
+                    "dest": "../apps/documenteditor/mobile/app/template/backup/",
+                    "filter": "isFile"
+                }
+            ],
+            "template-restore": [
+                {
+                    "expand": true,
+                    "cwd": "../apps/documenteditor/mobile/app/template/backup/",
+                    "src": "*.template",
+                    "dest": "../apps/documenteditor/mobile/app/template/",
+                    "filter": "isFile"
+                }
+            ],
             "index-page": {
                 "../deploy/web-apps/apps/documenteditor/mobile/index.html": "../apps/documenteditor/mobile/index.html.deploy"
             },
@@ -295,6 +331,12 @@
                 {
                     "expand": true,
                     "cwd": "../apps/documenteditor/mobile/resources/img/",
+                    "src": "**",
+                    "dest": "../deploy/web-apps/apps/documenteditor/mobile/resources/img/"
+                },
+                {
+                    "expand": true,
+                    "cwd": "../apps/common/mobile/resources/img/",
                     "src": "**",
                     "dest": "../deploy/web-apps/apps/documenteditor/mobile/resources/img/"
                 }
@@ -343,184 +385,9 @@
             ]
         }
     },
-    "touch": {
-        "clean": [
-            "../deploy/web-apps/vendor/touch"
-        ],
-        "copy": {
-            "script": {
-                "src": "../vendor/touch/sencha-touch-all.js",
-                "dest": "../deploy/web-apps/vendor/touch/sencha-touch-all.js"
-            }
-        }
-    },
-    "bootstrap": {
-        "clean": [
-            "../deploy/web-apps/vendor/bootstrap"
-        ],
-        "copy": {
-            "script": {
-                "src": "../vendor/bootstrap/dist/js/bootstrap.min.js",
-                "dest": "../deploy/web-apps/vendor/bootstrap/dist/js/bootstrap.min.js"
-            },
-            "font": {
-                "expand": true,
-                "cwd": "../vendor/bootstrap/dist/fonts/",
-                "src": "*",
-                "dest": "../deploy/web-apps/vendor/bootstrap/dist/fonts/"
-            },
-            "css": {
-                "src": "../vendor/bootstrap/dist/css/bootstrap.min.css",
-                "dest": "../deploy/web-apps/vendor/bootstrap/dist/css/bootstrap.min.css"
-            }
-        }
-    },
-    "jquery": {
-        "clean": [
-            "../deploy/web-apps/vendor/jquery"
-        ],
-        "copy": {
-            "script": {
-                "files": [
-                    {
-                        "src": "../vendor/jquery/jquery.min.js",
-                        "dest": "../deploy/web-apps/vendor/jquery/jquery.min.js"
-                    },
-                    {
-                        "src": "../vendor/jquery.browser/dist/jquery.browser.min.js",
-                        "dest": "../deploy/web-apps/vendor/jquery/jquery.browser.min.js"
-                    }
-                ]
-            }
-        }
-    },
-    "megapixel": {
-        "clean": [
-            "../deploy/web-apps/vendor/megapixel"
-        ],
-        "copy": {
-            "script": {
-                "src": "../vendor/megapixel/megapix-image-min.js",
-                "dest": "../deploy/web-apps/vendor/megapixel/megapix-image-min.js"
-            }
-        }
-    },
-    "sockjs": {
-        "clean": [
-            "../deploy/web-apps/vendor/sockjs"
-        ],
-        "copy": {
-            "script": {
-                "src": "../vendor/sockjs/sockjs.min.js",
-                "dest": "../deploy/web-apps/vendor/sockjs/sockjs.min.js"
-            }
-        }
-    },
-    "xregexp": {
-        "clean": [
-            "../deploy/web-apps/vendor/xregexp"
-        ],
-        "copy": {
-            "script": {
-                "src": "../vendor/xregexp/xregexp-all-min.js",
-                "dest": "../deploy/web-apps/vendor/xregexp/xregexp-all-min.js"
-            }
-        }
-    },
-    "jszip": {
-        "clean": [
-            "../deploy/web-apps/vendor/jszip"
-        ],
-        "copy": {
-            "script": {
-                "src": "../vendor/jszip/jszip.min.js",
-                "dest": "../deploy/web-apps/vendor/jszip/jszip.min.js"
-            }
-        }
-    },
-    "jsziputils": {
-        "clean": [
-            "../deploy/web-apps/vendor/jszip-utils"
-        ],
-        "copy": {
-            "script": {
-                "src": "../vendor/jszip-utils/jszip-utils.min.js",
-                "dest": "../deploy/web-apps/vendor/jszip-utils/jszip-utils.min.js"
-            }
-        }
-    },
-    "jsrsasign": {
-        "clean": [
-            "../deploy/web-apps/vendor/jsrsasign"
-        ],
-        "copy": {
-            "script": {
-                "src": "../vendor/jsrsasign/jsrsasign-latest-all-min.js",
-                "dest": "../deploy/web-apps/vendor/jsrsasign/jsrsasign-latest-all-min.js"
-            }
-        }
-    },
-    "underscore": {
-        "clean": [
-            "../deploy/web-apps/vendor/underscore"
-        ],
-        "copy": {
-            "script": {
-                "src": "../vendor/underscore/underscore-min.js",
-                "dest": "../deploy/web-apps/vendor/underscore/underscore-min.js"
-            }
-        }
-    },
-    "requirejs": {
-        "clean": [
-            "../deploy/web-apps/vendor/requirejs"
-        ],
-        "min": {
-            "src": "../vendor/requirejs/require.js",
-            "dest": "../deploy/web-apps/vendor/requirejs/require.js"
-        }
-    },
-    "obf_api": {
-        "ccvars": "../../sdkjs/word/variable.map",
-        "ccprops": "../../sdkjs/word/property.map",
-        "api": "../../sdkjs/word/apiExport.js",
-        "clientjs": [
-            "../deploy/web-apps/apps/documenteditor/main/app-edit.js",
-            "../deploy/web-apps/apps/documenteditor/main/app-view.js",
-            "../deploy/web-apps/apps/documenteditor/mobile/app-all.js",
-            "../deploy/web-apps/apps/documenteditor/embed/app-all.js",
-            "../deploy/web-apps/apps/api/documents/cache-scripts.html"
-        ],
-        "ccres": "../deploy/sdkjs/word/sdk-all.js"
-    },
-    "obf": {
-        "api": "../deploy/sdkjs/word/sdk-all.js",
-        "pat": "asc_\\w+",
-        "keys": "-exp se -use-for-name",
-        "apply": [
-            "../deploy/sdkjs/word/sdk-all.js",
-            "../deploy/web-apps/apps/documenteditor/main/app-edit.js",
-            "../deploy/web-apps/apps/documenteditor/main/app-view.js",
-            "../deploy/web-apps/apps/documenteditor/mobile/app-all.js",
-            "../deploy/web-apps/apps/documenteditor/embed/app-all.js"
-        ]
-    },
     "tasks": {
         "deploy": [
             "increment-build",
-            "deploy-api",
-            "deploy-sdk",
-            "deploy-sockjs",
-            "deploy-xregexp",
-            "deploy-requirejs",
-            "deploy-megapixel",
-            "deploy-touch",
-            "deploy-jquery",
-            "deploy-underscore",
-            "deploy-bootstrap",
-            "deploy-jszip",
-            "deploy-jsziputils",
-            "deploy-jsrsasign",
             "deploy-app-main",
             "deploy-app-mobile",
             "deploy-app-embed"

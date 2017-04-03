@@ -1,0 +1,88 @@
+@statusBarBorderColor: #cbcbcb;
+@statusBarHeight: 30px;
+@fontColor: #000;
+
+.statusbar {
+  position: relative;
+  box-sizing: border-box;
+  background-color: @gray-light;
+  z-index: @baseZIndex + 1;
+
+  * {
+    box-sizing: border-box;
+  }
+
+  .hairline(top, @statusBarBorderColor);
+  height: @statusBarHeight;
+  min-height: @statusBarHeight;
+
+  .box-tabs {
+  }
+
+  #box-addtab {
+    float: left;
+  }
+
+  .button {
+    border: 0 none;
+    border-radius: 0;
+    color: #000;
+    font-size: 18px;
+    line-height: inherit;
+    min-width: 48px;
+    .hairline(right, @statusBarBorderColor);
+  }
+
+  i.icon {
+    width: 22px;
+    height: 22px;
+
+    &.icon-plus {
+      .encoded-svg-background('<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 22 22" fill="@{fontColor}"><g><path d="M22,12H12v10h-1V12H1v-1h10V1h1v10h10V12z"/></g></svg>');
+    }
+  }
+}
+
+.box-tabs {
+  ul {
+    margin: 0;
+    padding: 0;
+    white-space: nowrap;
+    overflow: hidden;
+
+    > li {
+      list-style: none;
+      display: inline-block;
+      position: relative;
+      .hairline(right, @statusBarBorderColor);
+
+      &:not(.active) {
+        a {
+          opacity: 0.5;
+        }
+      }
+
+      a {
+        display: inline-block;
+        font-size: 12px;
+        padding: 0 10px 0;
+        line-height: @statusBarHeight;
+        margin-right: -1px;
+        outline: none;
+        color: @fontColor;
+        height: 100%;
+
+
+        &:hover {
+          cursor: pointer;
+        }
+      }
+    }
+  }
+
+  .locked {
+    a {
+      box-shadow: inset 0 2px #f00;
+    }
+  }
+}

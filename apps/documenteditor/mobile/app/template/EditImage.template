@@ -1,0 +1,366 @@
+<!-- Root view -->
+<div id="edit-image-root">
+    <div class="list-block">
+        <ul>
+            <li>
+                <a id="image-wrap" class="item-link">
+                    <div class="item-content">
+                        <div class="item-inner">
+                            <div class="item-title"><%= scope.textWrap %></div>
+                        </div>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a id="image-replace" class="item-link">
+                    <div class="item-content">
+                        <div class="item-inner">
+                            <div class="item-title"><%= scope.textReplace %></div>
+                        </div>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a id="image-reorder" class="item-link">
+                    <div class="item-content">
+                        <div class="item-inner">
+                            <div class="item-title"><%= scope.textReorder %></div>
+                        </div>
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="list-block">
+        <ul>
+            <li>
+                <% if (android) { %>
+                <a id="image-default" class="button button-raised button-fill" style="margin: 20px 16px;"><%= scope.textDefault %></a>
+                <% } else { %>
+                <a id="image-default" class="item-link list-button" style="text-align: center;"><%= scope.textDefault %></a>
+                <% } %>
+            </li>
+            <li>
+                <% if (android) { %>
+                <a id="image-remove" class="button button-raised button-fill" style="margin: 20px 16px; background-color: #f44336;"><%= scope.textRemove %></a>
+                <% } else { %>
+                <a id="image-remove" class="item-link list-button" style="text-align: center; color: #f00"><%= scope.textRemove %></a>
+                <% } %>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<!-- Reorder view -->
+<div id="edit-image-reorder-view">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left sliding"><a href="#" class="back link"><i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding"><%= scope.textReorder %></div>
+            <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
+        </div>
+    </div>
+    <div class="page image-reorder">
+        <div class="page-content">
+            <div class="list-block">
+                <ul>
+                    <li>
+                        <a data-type="all-up" class="item-link no-indicator">
+                            <div class="item-content">
+                                <div class="item-media"><i class="icon icon-move-foreground"></i></div>
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textToForeground %></div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-type="all-down" class="item-link no-indicator">
+                            <div class="item-content">
+                                <div class="item-media"><i class="icon icon-move-background"></i></div>
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textToBackground %></div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-type="move-up" class="item-link no-indicator">
+                            <div class="item-content">
+                                <div class="item-media"><i class="icon icon-move-forward"></i></div>
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textForward %></div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-type="move-down" class="item-link no-indicator">
+                            <div data-type="move-down" class="item-content">
+                                <div class="item-media"><i class="icon icon-move-backward"></i></div>
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textBackward %></div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Wrap view -->
+<div id="edit-image-wrap-view">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left sliding"><a href="#" class="back link"><i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding"><%= scope.textWrap %></div>
+            <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
+        </div>
+    </div>
+    <div class="page image-wrap">
+        <div class="page-content">
+            <div class="list-block image-wrap-types">
+                <ul>
+                    <li>
+                        <label class="label-radio item-content">
+                            <input type="radio" name="image-wrap" value="inline">
+                            <% if (android) { %>
+                            <div class="item-media"><i class="icon icon-form-radio"></i></div>
+                            <% } else { %>
+                            <div class="item-media"><i class="icon icon-wrap-inline"></i></div>
+                            <% } %>
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textInline %></div>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="label-radio item-content">
+                            <input type="radio" name="image-wrap" value="square">
+                            <% if (android) { %>
+                            <div class="item-media"><i class="icon icon-form-radio"></i></div>
+                            <% } else { %>
+                            <div class="item-media"><i class="icon icon-wrap-inline"></i></div>
+                            <% } %>
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textSquare %></div>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="label-radio item-content">
+                            <input type="radio" name="image-wrap" value="tight">
+                            <% if (android) { %>
+                            <div class="item-media"><i class="icon icon-form-radio"></i></div>
+                            <% } else { %>
+                            <div class="item-media"><i class="icon icon-wrap-tight"></i></div>
+                            <% } %>
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textTight %></div>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="label-radio item-content">
+                            <input type="radio" name="image-wrap" value="through">
+                            <% if (android) { %>
+                            <div class="item-media"><i class="icon icon-form-radio"></i></div>
+                            <% } else { %>
+                            <div class="item-media"><i class="icon icon-wrap-through"></i></div>
+                            <% } %>
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textThrough %></div>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="label-radio item-content">
+                            <input type="radio" name="image-wrap" value="top-bottom">
+                            <% if (android) { %>
+                            <div class="item-media"><i class="icon icon-form-radio"></i></div>
+                            <% } else { %>
+                            <div class="item-media"><i class="icon icon-wrap-top-bottom"></i></div>
+                            <% } %>
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textTopBottom %></div>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="label-radio item-content">
+                            <input type="radio" name="image-wrap" value="infront">
+                            <% if (android) { %>
+                            <div class="item-media"><i class="icon icon-form-radio"></i></div>
+                            <% } else { %>
+                            <div class="item-media"><i class="icon icon-wrap-infront"></i></div>
+                            <% } %>
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textInFront %></div>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="label-radio item-content">
+                            <input type="radio" name="image-wrap" value="behind">
+                            <% if (android) { %>
+                            <div class="item-media"><i class="icon icon-form-radio"></i></div>
+                            <% } else { %>
+                            <div class="item-media"><i class="icon icon-wrap-behind"></i></div>
+                            <% } %>
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textBehind %></div>
+                            </div>
+                        </label>
+                    </li>
+                </ul>
+            </div>
+            <div class="content-block-title align"><%= scope.textAlign %></div>
+            <div class="list-block align">
+                <ul>
+                    <li id="edit-image-align">
+                        <div class="item-content buttons">
+                            <div class="item-inner">
+                                <div class="row">
+                                    <a data-type="left" class="button no-ripple"><i class="icon icon-text-align-left"></i></a>
+                                    <a data-type="center" class="button no-ripple"><i class="icon icon-text-align-center"></i></a>
+                                    <a data-type="right" class="button no-ripple"><i class="icon icon-text-align-right"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="list-block inline">
+                <ul>
+                    <li id="edit-image-movetext">
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textMoveText %></div>
+                                <div class="item-after">
+                                    <label class="label-switch">
+                                        <input type="checkbox">
+                                        <div class="checkbox"></div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li id="edit-image-overlap">
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textOverlap %></div>
+                                <div class="item-after">
+                                    <label class="label-switch">
+                                        <input type="checkbox">
+                                        <div class="checkbox"></div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="content-block-title distance"><%= scope.textDistanceText %></div>
+            <div class="list-block distance" style="margin-bottom: 40px;">
+                <ul>
+                    <li id="table-distance">
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <div class="item-input">
+                                    <div class="range-slider">
+                                        <input type="range" min="0" max="200" value="0" step="1">
+                                    </div>
+                                </div>
+                                <div class="item-after value">0 pt</div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Replace view -->
+<div id="edit-image-replace-view">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left sliding"><a href="#" class="back link"><i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding"><%= scope.textReplace %></div>
+            <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
+        </div>
+    </div>
+    <div class="page">
+        <div class="page-content">
+            <div class="list-block">
+                <ul>
+                    <li>
+                        <a id="edit-image-file" class="item-link no-indicator no-fastclick">
+                            <div class="item-content">
+                                <div class="item-media">
+                                    <i class="icon icon-image-library"></i>
+                                </div>
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textFromLibrary %></div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a id="edit-image-url" class="item-link">
+                            <div class="item-content">
+                                <div class="item-media">
+                                    <i class="icon icon-link"></i>
+                                </div>
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textFromURL %></div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Url view -->
+<div id="edit-image-url-view">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left sliding"><a href="#" class="back link"><i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding"><%= scope.textLinkSettings %></div>
+        </div>
+    </div>
+    <div class="page edit-image-url-link">
+        <div class="page-content">
+            <div class="content-block-title"><%= scope.textAddress %></div>
+            <div class="list-block">
+                <ul>
+                    <li>
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <div class="item-input">
+                                    <input type="url" placeholder="<%= scope.textImageURL %>">
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="list-block disabled buttons">
+                <% if (android) { %>
+                <a href="#" class="button button-fill button-raised" style="margin: 20px 16px;"><%= scope.textReplaceImg %></a>
+                <% } else { %>
+                <ul>
+                    <li>
+                        <a href="#" class="list-button item-link"><%= scope.textReplaceImg %></a>
+                    </li>
+                </ul>
+                <% } %>
+            </div>
+        </div>
+    </div>
+</div>

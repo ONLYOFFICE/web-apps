@@ -1,0 +1,29 @@
+// Context menu
+
+.document-menu {
+  width: auto;
+  line-height: 1 !important;
+  z-index: 12500;
+
+  .popover-inner {
+    overflow: hidden;
+  }
+
+  .list-block {
+    white-space: pre;
+
+    ul {
+      height: 48px;
+    }
+
+    li {
+      display: inline-block;
+    }
+
+    .item-link {
+      html.phone & {
+        padding: 0 10px;
+      }
+    }
+  }
+}

@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2016
+ * (c) Copyright Ascensio System Limited 2010-2017
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -162,18 +162,15 @@ define([
             );
 
             var me = this;
-            this.panels = {};
-            require(['spreadsheeteditor/main/app/view/FileMenuPanels'], function(){
-                me.panels = {
-                    'saveas'    : (new SSE.Views.FileMenuPanels.ViewSaveAs({menu:me})).render(),
-                    'opts'      : (new SSE.Views.FileMenuPanels.Settings({menu:me})).render(),
-                    'info'      : (new SSE.Views.FileMenuPanels.DocumentInfo({menu:me})).render(),
-                    'rights'    : (new SSE.Views.FileMenuPanels.DocumentRights({menu:me})).render(),
-                    'help'      : (new SSE.Views.FileMenuPanels.Help({menu:me})).render()
-                };
+            me.panels = {
+                'saveas'    : (new SSE.Views.FileMenuPanels.ViewSaveAs({menu:me})).render(),
+                'opts'      : (new SSE.Views.FileMenuPanels.Settings({menu:me})).render(),
+                'info'      : (new SSE.Views.FileMenuPanels.DocumentInfo({menu:me})).render(),
+                'rights'    : (new SSE.Views.FileMenuPanels.DocumentRights({menu:me})).render(),
+                'help'      : (new SSE.Views.FileMenuPanels.Help({menu:me})).render()
+            };
 
-                me.$el.find('.content-box').hide();
-            });
+            me.$el.find('.content-box').hide();
 
             return this;
         },

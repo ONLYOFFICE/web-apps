@@ -1,0 +1,475 @@
+<!-- Root view -->
+<div id="edit-table-root">
+    <div class="list-block">
+        <ul>
+            <li id="table-insert">
+                <div class="item-content buttons">
+                    <div class="item-inner">
+                        <div class="row">
+                            <a id="insert-column-left" class="button no-ripple"><i class="icon icon-table-add-column-left"></i></a>
+                            <a id="insert-column-right" class="button no-ripple"><i class="icon icon-table-add-column-right"></i></a>
+                            <a id="insert-row-above" class="button no-ripple"><i class="icon icon-table-add-row-above"></i></a>
+                            <a id="insert-row-below" class="button no-ripple"><i class="icon icon-table-add-row-below"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li id="table-remove">
+                <div class="item-content buttons">
+                    <div class="item-inner">
+                        <div class="row">
+                            <a id="remove-column" class="button no-ripple"><i class="icon icon-table-remove-column"></i></a>
+                            <a id="remove-row" class="button no-ripple"><i class="icon icon-table-remove-row"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <% if (!android) { %>
+                <a id="table-remove-all" class="item-link list-button" style="text-align: center; color: #f00"><%= scope.textRemoveTable %></a>
+                <% } %>
+            </li>
+        </ul>
+        <% if (android) { %>
+        <a id="table-remove-all" class="button button-raised button-fill" style="margin: 20px 16px; background-color: #f44336;"><%= scope.textRemoveTable %></a>
+        <% } %>
+    </div>
+    <div class="list-block">
+        <ul>
+            <li>
+                <a id="table-style" class="item-link">
+                    <div class="item-content">
+                        <div class="item-inner">
+                            <div class="item-title"><%= scope.textStyle %></div>
+                        </div>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a id="table-reorder" class="item-link">
+                    <div class="item-content">
+                        <div class="item-inner">
+                            <div class="item-title"><%= scope.textReorder %></div>
+                        </div>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a id="table-align" class="item-link">
+                    <div class="item-content">
+                        <div class="item-inner">
+                            <div class="item-title"><%= scope.textAlign %></div>
+                        </div>
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="content-block-title"><%= scope.textCellMargins %></div>
+    <div class="list-block" style="margin-bottom: 40px;">
+        <ul>
+            <li id="table-options-margins">
+                <div class="item-content">
+                    <div class="item-inner">
+                        <div class="item-input">
+                            <div class="range-slider">
+                                <input type="range" min="0" max="150" value="0" step="1">
+                            </div>
+                        </div>
+                        <div class="item-after value">0 pt</div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<!-- Styles view -->
+<div id="edit-table-style">
+    <div class="navbar">
+        <div class="navbar-inner edit-table-style" data-page="edit-table-style">
+            <div class="left sliding"><a href="#" class="back link"><i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding categories">
+                <% if (android) { %>
+                <div class="toolbar tabbar">
+                    <div data-page="index" class="toolbar-inner">
+                        <a href="#tab-table-style" data-type="style" class="tab-link active"><%= scope.textStyle %></a>
+                        <a href="#tab-table-fill" data-type="fill" class="tab-link"><%= scope.textFill %></a>
+                        <a href="#tab-table-border" data-type="border" class="tab-link"><%= scope.textBorder %></a>
+                    </div>
+                </div>
+                <% } else { %>
+                <div class="buttons-row">
+                    <a href="#tab-table-style" data-type="style" class="tab-link button active"><%= scope.textStyle %></a>
+                    <a href="#tab-table-fill"  data-type="fill" class="tab-link button"><%= scope.textFill %></a>
+                    <a href="#tab-table-border" data-type="border" class="tab-link button"><%= scope.textBorder %></a>
+                </div>
+                <% } %>
+            </div>
+            <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
+        </div>
+    </div>
+    <div class="page" data-page="edit-table-style">
+        <div class="tabs-animated-wrap">
+            <div class="tabs">
+                <div id="tab-table-style" class="page-content tab active">
+                    <div class="list-block">
+                        <ul>
+                            <li id="edit-table-styles">
+                                <div class="item-content">
+                                    <div class="item-inner"></div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="list-block" style="margin-bottom: 40px;">
+                        <ul>
+                            <li>
+                                <a id="edit-table-style-options" class="item-link">
+                                    <div class="item-content">
+                                        <div class="item-inner">
+                                            <div class="item-title"><%= scope.textStyleOptions %></div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div id="tab-table-fill" class="page-content tab">
+                    <!--Fill colors-->
+                </div>
+                <div id="tab-table-border" class="page-content tab">
+                    <div class="list-block">
+                        <ul>
+                            <li id="edit-table-bordersize">
+                                <div style="padding: 15px 0 0 15px;"><%= scope.textSize %></div>
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-input">
+                                            <div class="range-slider">
+                                                <input type="range" min="0" max="7" value="0" step="1">
+                                            </div>
+                                        </div>
+                                        <div class="item-after value">0 pt</div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <a id="edit-table-bordercolor" class="item-link">
+                                    <div class="item-content">
+                                        <div class="item-inner">
+                                            <div class="item-title"><%= scope.textColor %></div>
+                                            <div class="item-after"><div class="color-preview"></div></div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li id="edit-table-bordertypes">
+                                <div class="item-content buttons" style="-webkit-flex-flow: row wrap;justify-content: space-around;">
+                                    <div class="item-inner" style="margin: 20px 0;">
+                                        <div class="row">
+                                            <a class="button no-ripple" style="min-width:0;" data-type="lrtbcm"><i class="icon icon-table-borders-all"></i></a>
+                                            <a class="button no-ripple" style="min-width:0;" data-type=""><i class="icon icon-table-borders-none"></i></a>
+                                            <a class="button no-ripple" style="min-width:0;" data-type="cm"><i class="icon icon-table-borders-inner"></i></a>
+                                            <a class="button no-ripple" style="min-width:0;" data-type="lrtb"><i class="icon icon-table-borders-outer"></i></a>
+                                            <a class="button no-ripple" style="min-width:0;" data-type="l"><i class="icon icon-table-borders-left"></i></a>
+                                        </div>
+                                    </div>
+                                    <div class="item-inner" style="margin: 0 0 20px;">
+                                        <div class="row">
+                                            <a class="button no-ripple" style="min-width:0;" data-type="c"><i class="icon icon-table-borders-center"></i></a>
+                                            <a class="button no-ripple" style="min-width:0;" data-type="r"><i class="icon icon-table-borders-right"></i></a>
+                                            <a class="button no-ripple" style="min-width:0;" data-type="t"><i class="icon icon-table-borders-top"></i></a>
+                                            <a class="button no-ripple" style="min-width:0;" data-type="m"><i class="icon icon-table-borders-middle"></i></a>
+                                            <a class="button no-ripple" style="min-width:0;" data-type="b"><i class="icon icon-table-borders-bottom"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Style options view -->
+<div id="edit-table-style-options-view">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left sliding"><a href="#" class="back link"><i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding"><%= scope.textOptions %></div>
+            <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
+        </div>
+    </div>
+    <div class="page" data-page="edit-table-style-options">
+        <div class="page-content">
+            <div class="list-block">
+                <ul>
+                    <li id="table-options-header-row">
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textHeaderRow %></div>
+                                <div class="item-after">
+                                    <label class="label-switch">
+                                        <input type="checkbox">
+                                        <div class="checkbox"></div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li id="table-options-total-row">
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textTotalRow %></div>
+                                <div class="item-after">
+                                    <label class="label-switch">
+                                        <input type="checkbox">
+                                        <div class="checkbox"></div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li id="table-options-banded-row">
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textBandedRow %></div>
+                                <div class="item-after">
+                                    <label class="label-switch">
+                                        <input type="checkbox">
+                                        <div class="checkbox"></div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="list-block">
+                <ul>
+                    <li id="table-options-first-column">
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textFirstColumn %></div>
+                                <div class="item-after">
+                                    <label class="label-switch">
+                                        <input type="checkbox">
+                                        <div class="checkbox"></div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li id="table-options-last-column">
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textLastColumn %></div>
+                                <div class="item-after">
+                                    <label class="label-switch">
+                                        <input type="checkbox">
+                                        <div class="checkbox"></div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li id="table-options-banded-column">
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textBandedColumn %></div>
+                                <div class="item-after">
+                                    <label class="label-switch">
+                                        <input type="checkbox">
+                                        <div class="checkbox"></div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Style options view -->
+<div id="edit-table-border-color-view">
+    <div class="navbar">
+        <div class="navbar-inner" data-page="edit-table-border-color">
+            <div class="left sliding"><a href="#" class="back link"><i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding"><%= scope.textColor %></div>
+            <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
+        </div>
+    </div>
+    <div class="page" data-page="edit-table-border-color">
+        <div class="page-content">
+            <!--Color palette-->
+        </div>
+    </div>
+</div>
+
+<!-- Reorder view -->
+<div id="edit-table-reorder">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left sliding"><a href="#" class="back link"><i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding"><%= scope.textReorder %></div>
+            <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
+        </div>
+    </div>
+    <div class="page table-reorder">
+        <div class="page-content">
+            <div class="list-block">
+                <ul>
+                    <li>
+                        <a data-type="all-up" class="item-link no-indicator">
+                            <div class="item-content">
+                                <div class="item-media"><i class="icon icon-move-foreground"></i></div>
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textToForeground %></div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-type="all-down" class="item-link no-indicator">
+                            <div class="item-content">
+                                <div class="item-media"><i class="icon icon-move-background"></i></div>
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textToBackground %></div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-type="move-up" class="item-link no-indicator">
+                            <div class="item-content">
+                                <div class="item-media"><i class="icon icon-move-forward"></i></div>
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textForward %></div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-type="move-down" class="item-link no-indicator">
+                            <div data-type="move-down" class="item-content">
+                                <div class="item-media"><i class="icon icon-move-backward"></i></div>
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textBackward %></div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Align view -->
+<div id="edit-table-align">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left sliding"><a href="#" class="back link"><i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding"><%= scope.textAlign %></div>
+            <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
+        </div>
+    </div>
+    <div class="page table-align">
+        <div class="page-content">
+            <div class="list-block">
+                <ul>
+                    <li>
+                        <a data-type="align-left" class="item-link no-indicator">
+                            <div class="item-content">
+                                <div class="item-media"><i class="icon icon-align-left"></i></div>
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textAlignLeft %></div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-type="align-center" class="item-link no-indicator">
+                            <div class="item-content">
+                                <div class="item-media"><i class="icon icon-align-center"></i></div>
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textAlignCenter %></div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-type="align-right" class="item-link no-indicator">
+                            <div class="item-content">
+                                <div class="item-media"><i class="icon icon-align-right"></i></div>
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textAlignRight %></div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-type="align-top" class="item-link no-indicator">
+                            <div data-type="move-down" class="item-content">
+                                <div class="item-media"><i class="icon icon-align-top"></i></div>
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textAlignTop %></div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-type="align-middle" class="item-link no-indicator">
+                            <div data-type="move-down" class="item-content">
+                                <div class="item-media"><i class="icon icon-align-middle"></i></div>
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textAlignMiddle %></div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-type="align-bottom" class="item-link no-indicator">
+                            <div data-type="move-down" class="item-content">
+                                <div class="item-media"><i class="icon icon-align-bottom"></i></div>
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textAlignBottom %></div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="list-block">
+                <ul>
+                    <li>
+                        <a data-type="distrib-hor" class="item-link no-indicator">
+                            <div data-type="move-down" class="item-content">
+                                <div class="item-media"><i class="icon icon-align-horizontal"></i></div>
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.txtDistribHor %></div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-type="distrib-vert" class="item-link no-indicator">
+                            <div data-type="move-down" class="item-content">
+                                <div class="item-media"><i class="icon icon-align-vertical"></i></div>
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.txtDistribVert %></div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

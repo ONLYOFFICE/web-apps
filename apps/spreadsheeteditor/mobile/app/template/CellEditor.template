@@ -1,0 +1,17 @@
+<div id="cell-editing-box">
+    <div class="ce-group group-name">
+        <span id="ce-cell-name"></span>
+        <a href="#" id="ce-function" class="link icon-only">
+            <i class="icon icon-function"></i>
+        </a>
+    </div>
+    <div class="ce-group group-content">
+        <textarea id="ce-cell-content" spellcheck="false" rows="1" cols="20"></textarea>
+    </div>
+    <div class="ce-group group-expand">
+        <button id="ce-btn-expand" type="button" class="btn"><span class="caret"></span></button>
+    </div>
+    <div class="ce-group group-functions-list">
+        <ul class="func-list"></ul>
+    </div>
+</div>

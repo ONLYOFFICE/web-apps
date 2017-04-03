@@ -1,0 +1,43 @@
+// Color palette
+
+.color-palette {
+  a {
+    flex-grow: 1;
+    position: relative;
+    min-width: 10px;
+    min-height: 26px;
+    margin: 1px 1px 0 0;
+    box-shadow: 0 0 0 1px rgba(0,0,0,0.15) inset;
+
+    &.active {
+      &:after {
+        content:' ';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        box-shadow: 0 0 0 1px white, 0 0 0 4px @themeColor;
+        z-index: 1;
+        border-radius: 1px;
+      }
+    }
+
+    &.transparent {
+      background-repeat: no-repeat;
+      background-size: 100% 100%;
+      .encoded-svg-background("<svg xmlns='http://www.w3.org/2000/svg' x='0px' y='0px' viewBox='0 0 22 22' xml:space='preserve'><line stroke='#ff0000' stroke-linecap='undefined' stroke-linejoin='undefined' id='svg_1' y2='0' x2='22' y1='22' x1='0' stroke-width='2' fill='none'/></svg>");
+    }
+  }
+
+  .theme-colors {
+    .item-inner {
+      display: inline-block;
+      overflow: visible;
+    }
+  }
+
+  .standart-colors {
+    .item-inner {
+      overflow: visible;
+    }
+  }
+}

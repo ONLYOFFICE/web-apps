@@ -1,0 +1,184 @@
+<!-- Root view -->
+<div id="edit-image-root">
+    <div class="list-block">
+        <ul>
+            <li>
+                <a id="image-replace" class="item-link" data-page="#edit-image-replace-view">
+                    <div class="item-content">
+                        <div class="item-inner">
+                            <div class="item-title"><%= scope.textReplace %></div>
+                        </div>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a id="image-reorder" class="item-link" data-page="#edit-image-reorder-view">
+                    <div class="item-content">
+                        <div class="item-inner">
+                            <div class="item-title"><%= scope.textReorder %></div>
+                        </div>
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="list-block">
+        <ul>
+            <li>
+                <% if (android) { %>
+                <a id="image-default" class="button button-raised button-fill" style="margin: 20px 16px;"><%= scope.textDefault %></a>
+                <% } else { %>
+                <a id="image-default" class="item-link list-button" style="text-align: center;"><%= scope.textDefault %></a>
+                <% } %>
+            </li>
+            <li>
+                <% if (android) { %>
+                <a id="image-default" class="button button-raised button-fill" style="margin: 20px 16px; background-color: #f44336;"><%= scope.textRemove %></a>
+                <% } else { %>
+                <a id="image-remove" class="item-link list-button" style="text-align: center; color: #f00"><%= scope.textRemove %></a>
+                <% } %>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<!-- Reorder view -->
+<div id="edit-image-reorder-view">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left sliding"><a href="#" class="back link"><i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding"><%= scope.textReorder %></div>
+            <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
+        </div>
+    </div>
+    <div class="page image-reorder" data-page="edit-image-reorder-view">
+        <div class="page-content">
+            <div class="list-block">
+                <ul>
+                    <li>
+                        <a data-type="all-up" class="item-link no-indicator">
+                            <div class="item-content">
+                                <div class="item-media"><i class="icon icon-move-foreground"></i></div>
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textToForeground %></div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-type="all-down" class="item-link no-indicator">
+                            <div class="item-content">
+                                <div class="item-media"><i class="icon icon-move-background"></i></div>
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textToBackground %></div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-type="move-up" class="item-link no-indicator">
+                            <div class="item-content">
+                                <div class="item-media"><i class="icon icon-move-forward"></i></div>
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textForward %></div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-type="move-down" class="item-link no-indicator">
+                            <div data-type="move-down" class="item-content">
+                                <div class="item-media"><i class="icon icon-move-backward"></i></div>
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textBackward %></div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Replace view -->
+<div id="edit-image-replace-view">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left sliding"><a href="#" class="back link"><i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding"><%= scope.textReplace %></div>
+            <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
+        </div>
+    </div>
+    <div class="page" data-page="edit-image-replace-view">
+        <div class="page-content">
+            <div class="list-block">
+                <ul>
+                    <li>
+                        <a id="edit-image-file" class="item-link no-indicator no-fastclick">
+                            <div class="item-content">
+                                <div class="item-media">
+                                    <i class="icon icon-image-library"></i>
+                                </div>
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textFromLibrary %></div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a id="edit-image-url" class="item-link" data-page="#edit-image-url-view">
+                            <div class="item-content">
+                                <div class="item-media">
+                                    <i class="icon icon-link"></i>
+                                </div>
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textFromURL %></div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Url view -->
+<div id="edit-image-url-view">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left sliding"><a href="#" class="back link"><i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding"><%= scope.textLinkSettings %></div>
+        </div>
+    </div>
+    <div class="page edit-image-url-link" data-page="edit-image-url-view">
+        <div class="page-content">
+            <div class="content-block-title"><%= scope.textAddress %></div>
+            <div class="list-block">
+                <ul>
+                    <li>
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <div class="item-input">
+                                    <input type="url" placeholder="<%= scope.textImageURL %>">
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="list-block disabled buttons">
+                <% if (android) { %>
+                <a href="#" class="button button-fill button-raised" style="margin: 20px 16px;"><%= scope.textReplaceImg %></a>
+                <% } else { %>
+                <ul>
+                    <li>
+                        <a href="#" class="list-button item-link"><%= scope.textReplaceImg %></a>
+                    </li>
+                </ul>
+                <% } %>
+            </div>
+        </div>
+    </div>
+</div>
