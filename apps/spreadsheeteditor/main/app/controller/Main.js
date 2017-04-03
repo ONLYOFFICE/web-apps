@@ -1047,6 +1047,16 @@ define([
                         config.closable = true;
                         break;
 
+                    case Asc.c_oAscError.ID.FrmlOperandExpected:
+                        config.msg = this.errorOperandExpected;
+                        config.closable = true;
+                        break;
+
+                    case Asc.c_oAscError.ID.FrmlWrongReferences:
+                        config.msg = this.errorFrmlWrongReferences;
+                        config.closable = true;
+                        break;
+
                     case Asc.c_oAscError.ID.UnexpectedGuid:
                         config.msg = this.errorUnexpectedGuid;
                         break;
@@ -1069,10 +1079,6 @@ define([
 
                     case Asc.c_oAscError.ID.DataRangeError:
                         config.msg = this.errorDataRange;
-                        break;
-
-                    case Asc.c_oAscError.ID.FrmlOperandExpected:
-                        config.msg = this.errorOperandExpected;
                         break;
 
                     case Asc.c_oAscError.ID.VKeyEncrypt:
@@ -1158,10 +1164,6 @@ define([
                     
                     case Asc.c_oAscError.ID.OpenWarning:
                         config.msg = this.errorOpenWarning;
-                        break;
-
-                    case Asc.c_oAscError.ID.FrmlWrongReferences:
-                        config.msg = this.errorFrmlWrongReferences;
                         break;
 
                     case Asc.c_oAscError.ID.CopyMultiselectAreaError:
@@ -2057,7 +2059,7 @@ define([
             errorFileVKey: 'External error.<br>Incorrect securety key. Please, contact support.',
             errorStockChart: 'Incorrect row order. To build a stock chart place the data on the sheet in the following order:<br> opening price, max price, min price, closing price.',
             errorDataRange: 'Incorrect data range.',
-            errorOperandExpected: 'Operand expected',
+            errorOperandExpected: 'The entered function syntax is not correct. Please check if you are missing one of the parentheses - \'(\' or \')\'.',
             errorKeyEncrypt: 'Unknown key descriptor',
             errorKeyExpire: 'Key descriptor expired',
             errorUsersExceed: 'Count of users was exceed',
