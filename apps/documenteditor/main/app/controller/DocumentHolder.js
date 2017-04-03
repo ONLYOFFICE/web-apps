@@ -144,6 +144,11 @@ define([
                     }
                 }, this));
             }
+        },
+
+        getView: function (name) {
+            return !name ?
+                this.documentHolder : Backbone.Controller.prototype.getView.call()
         }
     });
 });

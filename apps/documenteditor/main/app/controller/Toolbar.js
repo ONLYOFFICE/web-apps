@@ -560,7 +560,7 @@ define([
         onApiCanAddHyperlink: function(value) {
             var need_disable = !value || this._state.prcontrolsdisable;
 
-            if (need_disable != this.toolbar.btnInsertHyperlink.isDisabled() && this.editMode) {
+            if ( this.editMode ) {
                 this.toolbar.btnInsertHyperlink.setDisabled(need_disable);
             }
         },
@@ -700,35 +700,26 @@ define([
             }
 
             need_disable = need_disable || !enable_dropcap || in_equation;
-            if (need_disable !== toolbar.btnDropCap.isDisabled())
-                toolbar.btnDropCap.setDisabled(need_disable);
+            toolbar.btnDropCap.setDisabled(need_disable);
 
-            if (!toolbar.btnDropCap.isDisabled() && disable_dropcapadv!==toolbar.mnuDropCapAdvanced.isDisabled() )
+            if ( !toolbar.btnDropCap.isDisabled() )
                 toolbar.mnuDropCapAdvanced.setDisabled(disable_dropcapadv);
 
             need_disable = !can_add_table || header_locked || in_equation;
-            if (need_disable != toolbar.btnInsertTable.isDisabled()) {
-                toolbar.btnInsertTable.setDisabled(need_disable);
-            }
+            toolbar.btnInsertTable.setDisabled(need_disable);
 
             need_disable = toolbar.mnuPageNumCurrentPos.isDisabled() && toolbar.mnuPageNumberPosPicker.isDisabled();
-
-            if (need_disable != toolbar.mnuInsertPageNum.isDisabled()) {
-                toolbar.mnuInsertPageNum.setDisabled(need_disable);
-            }
+            toolbar.mnuInsertPageNum.setDisabled(need_disable);
 
             need_disable = paragraph_locked || header_locked || in_header || in_equation && !btn_eq_state;
             toolbar.btnsPageBreak.disable(need_disable);
 
             need_disable = paragraph_locked || header_locked || !can_add_image || in_equation;
-            if (need_disable != toolbar.btnInsertImage.isDisabled()) {
-                toolbar.btnInsertImage.setDisabled(need_disable);
-                toolbar.btnInsertShape.setDisabled(need_disable);
-                toolbar.btnInsertText.setDisabled(need_disable);
-            }
+            toolbar.btnInsertImage.setDisabled(need_disable);
+            toolbar.btnInsertShape.setDisabled(need_disable);
+            toolbar.btnInsertText.setDisabled(need_disable);
 
-            if ((need_disable || in_image) != toolbar.mnuInsertTextArt.isDisabled())
-                toolbar.mnuInsertTextArt.setDisabled(need_disable || in_image);
+            toolbar.mnuInsertTextArt.setDisabled(need_disable || in_image);
 
             if (in_chart !== this._state.in_chart) {
                 toolbar.btnInsertChart.updateHint(in_chart ? toolbar.tipChangeChart : toolbar.tipInsertChart);
@@ -736,20 +727,16 @@ define([
             }
 
             need_disable = in_chart && image_locked || !in_chart && need_disable;
-            if (need_disable != toolbar.btnInsertChart.isDisabled())
-                toolbar.btnInsertChart.setDisabled(need_disable);
+            toolbar.btnInsertChart.setDisabled(need_disable);
 
             need_disable = paragraph_locked || header_locked || in_chart || !can_add_image&&!in_equation;
-            if (need_disable !== toolbar.btnInsertEquation.isDisabled()) toolbar.btnInsertEquation.setDisabled(need_disable);
+            toolbar.btnInsertEquation.setDisabled(need_disable);
 
             need_disable = paragraph_locked || header_locked || in_equation;
-            if (need_disable !== toolbar.btnSuperscript.isDisabled()) {
-                toolbar.btnSuperscript.setDisabled(need_disable);
-                toolbar.btnSubscript.setDisabled(need_disable);
-            }
+            toolbar.btnSuperscript.setDisabled(need_disable);
+            toolbar.btnSubscript.setDisabled(need_disable);
 
-            if (in_equation !== toolbar.btnEditHeader.isDisabled())
-                toolbar.btnEditHeader.setDisabled(in_equation);
+            toolbar.btnEditHeader.setDisabled(in_equation);
 
             if (toolbar.listStylesAdditionalMenuItem && (frame_pr===undefined) !== toolbar.listStylesAdditionalMenuItem.isDisabled())
                 toolbar.listStylesAdditionalMenuItem.setDisabled(frame_pr===undefined);

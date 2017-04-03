@@ -538,7 +538,7 @@ define([
                     this.api.SetMarkerFormat(false);
                     toolbarView.btnHighlightColor.toggle(false, false);
                 }
-                application.getController('DocumentHolder').getView('DocumentHolder').focus();
+                application.getController('DocumentHolder').getView().focus();
 
                 if (this.api) {
                     var cansave = this.api.asc_isDocumentCanSave();
@@ -740,8 +740,8 @@ define([
                                     if (window.styles_loaded) {
                                         clearInterval(timer_sl);
 
-                                        documentHolderController.getView('DocumentHolder').createDelayedElements();
-                                        documentHolderController.getView('DocumentHolder').changePosition();
+                                        documentHolderController.getView().createDelayedElements();
+                                        documentHolderController.getView().changePosition();
                                         me.loadLanguages();
 
                                         var shapes = me.api.asc_getPropertyEditorShapes();
@@ -884,7 +884,7 @@ define([
                 if (me.appOptions.canBranding)
                     me.getApplication().getController('LeftMenu').leftMenu.getMenu('about').setLicInfo(me.editorConfig.customization);
 
-                documentHolderController.getView('DocumentHolder').setApi(me.api).on('editcomplete', _.bind(me.onEditComplete, me));
+                documentHolderController.getView().setApi(me.api).on('editcomplete', _.bind(me.onEditComplete, me));
 
                 if (me.appOptions.isEdit) {
                     value = Common.localStorage.getItem("de-settings-autosave");
@@ -902,7 +902,7 @@ define([
 
                             toolbarController.createDelayedElements();
 
-                            documentHolderController.getView('DocumentHolder').createDelayedElements();
+                            documentHolderController.getView().createDelayedElements();
                             me.loadLanguages();
 
                             var shapes = me.api.asc_getPropertyEditorShapes();
@@ -1067,7 +1067,7 @@ define([
                     viewport        = app.getController('Viewport').getView('Viewport'),
                     // headerView      = app.getController('Viewport').getView('Common.Views.Header'),
                     statusbarView   = app.getController('Statusbar').getView('Statusbar'),
-                    documentHolder  = app.getController('DocumentHolder').getView('DocumentHolder');
+                    documentHolder  = app.getController('DocumentHolder').getView();
 
                 // if (headerView) {
                     // headerView.setHeaderCaption(this.appOptions.isEdit ? 'Document Editor' : 'Document Viewer');
@@ -1562,7 +1562,7 @@ define([
             synchronizeChanges: function() {
                 this.getApplication().getController('Statusbar').synchronizeChanges();
                 this.getApplication().getController('Common.Controllers.ReviewChanges').synchronizeChanges();
-                this.getApplication().getController('DocumentHolder').getView('DocumentHolder').hideTips();
+                this.getApplication().getController('DocumentHolder').getView().hideTips();
                 /** coauthoring begin **/
                 this.getApplication().getController('Toolbar').getView('Toolbar').synchronizeChanges();
                 /** coauthoring end **/
@@ -1661,7 +1661,7 @@ define([
                     me.getApplication().getController('RightMenu').UpdateThemeColors();
                 }, 50);
                 setTimeout(function(){
-                    me.getApplication().getController('DocumentHolder').getView('DocumentHolder').updateThemeColors();
+                    me.getApplication().getController('DocumentHolder').getView().updateThemeColors();
                 }, 50);
 
                 setTimeout(function(){
@@ -1695,7 +1695,7 @@ define([
                     return 0;
                 });
 
-                this.getApplication().getController('DocumentHolder').getView('DocumentHolder').setLanguages(langs);
+                this.getApplication().getController('DocumentHolder').getView().setLanguages(langs);
                 this.getApplication().getController('Statusbar').setLanguages(langs);
             },
 
