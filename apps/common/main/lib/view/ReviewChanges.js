@@ -466,6 +466,17 @@ define([
                 button.on('click', _click_turnpreview.bind(me));
                 Common.NotificationCenter.trigger('edit:complete', me);
             });
+
+            this.btnsSpelling.forEach(function(button) {
+                button.on('click', function (b, e) {
+                    Common.NotificationCenter.trigger('spelling:turn', b.pressed ? 'on' : 'off');
+                    Common.NotificationCenter.trigger('edit:complete', me);
+                });
+            });
+
+            this.btnDocLang.on('click', function (btn, e) {
+                me.fireEvent('lang:document', this);
+            });
         }
 
         return {
@@ -513,7 +524,18 @@ define([
                 });
                 this.btnsTurnReview = [this.btnTurnOn];
 
+                this.btnSetSpelling = new Common.UI.Button({
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'btn-ic-docspell',
+                    caption: this.txtSpelling,
+                    enableToggle: true
+                });
+                this.btnsSpelling = [this.btnSetSpelling];
 
+                this.btnDocLang = new Common.UI.Button({
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'btn-ic-doclang',
+                    caption: this.txtDocLang
                 });
 
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
@@ -584,6 +606,8 @@ define([
                 this.btnAccept.render(_html.find('#btn-change-accept'));
                 this.btnReject.render(_html.find('#btn-change-reject'));
                 this.btnTurnOn.render(_html.find('#btn-review-on'));
+                this.btnSetSpelling.render(_html.find('#slot-btn-spelling'));
+                this.btnDocLang.render(_html.find('#slot-set-lang'));
 
                 return _html;
             },
@@ -618,6 +642,18 @@ define([
                     this.btnsTurnReview.push(button);
 
                     return button;
+                } else
+                if ( type == 'spelling' ) {
+                    button = new Common.UI.Button({
+                        cls: 'btn-toolbar',
+                        iconCls: 'btn-ic-docspell',
+                        hintAnchor  : 'top',
+                        hint: this.tipSetSpelling,
+                        enableToggle: true
+                    });
+                    this.btnsSpelling.push(button);
+
+                    return button;
                 }
             },
 
@@ -638,6 +674,14 @@ define([
                     if ( button ) {
                         var _icon_el = $('.icon', button.cmpEl);
                         _icon_el[status ? 'addClass' : 'removeClass']('btn-ic-changes');
+                    }
+                }, this);
+            },
+
+            turnSpelling: function (state) {
+                this.btnsSpelling.forEach(function(button) {
+                    if ( button && button.pressed != state ) {
+                        button.toggle(state, true);
                     }
                 }, this);
             },

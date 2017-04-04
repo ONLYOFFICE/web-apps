@@ -64,13 +64,17 @@ define([
         initialize: function () {
 
             this.addListeners({
+                'FileMenu': {
+                    'settings:apply': this.applySettings.bind(this)
+                },
                 'Common.Views.ReviewChanges': {
 
                     // comments handlers
                     'reviewchange:accept':      _.bind(this.onAcceptClick, this),
                     'reviewchange:reject':      _.bind(this.onRejectClick, this),
                     'reviewchange:delete':      _.bind(this.onDeleteClick, this),
-                    'reviewchange:preview':     _.bind(this.onBtnPreviewClick, this)
+                    'reviewchange:preview':     _.bind(this.onBtnPreviewClick, this),
+                    'lang:document':            _.bind(this.onDocLanguage, this)
                 }
             });
         },
@@ -82,6 +86,7 @@ define([
             this._state = {posx: -1000, posy: -1000, popoverVisible: false};
 
             Common.NotificationCenter.on('reviewchanges:turn', this.onTurnPreview.bind(this));
+            Common.NotificationCenter.on('spelling:turn', this.onTurnSpelling.bind(this));
             Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
 
         },
@@ -465,6 +470,14 @@ define([
             }
         },
 
+        onTurnSpelling: function (state) {
+            state = (state == 'on');
+            this.view.turnSpelling(state);
+
+            Common.localStorage.setItem("de-settings-spellcheck", state ? 1 : 0);
+            this.api.asc_setSpellCheck(state);
+        },
+
         createToolbarPanel: function() {
             return this.view.getPanel();
         },
@@ -506,14 +519,47 @@ define([
 
                         }
                     }
+
+                    if ( Common.localStorage.getBool("de-settings-spellcheck") )
+                        me.view.turnSpelling(true);
                 });
             }
+        },
+
+        applySettings: function(menu) {
+            this.view.turnSpelling( Common.localStorage.getBool("de-settings-spellcheck") );
         },
 
         synchronizeChanges: function() {
             if ( this.appConfig.canReview ) {
                 this.view.markChanges( this.api.asc_HaveRevisionsChanges() );
             }
+        },
+
+        setLanguages: function (array) {
+            this.langs = array;
+        },
+
+        onDocLanguage: function() {
+            var langs = _.map(this.langs, function(item){
+                return {
+                    displayValue:   item.title,
+                    value:          item.tip,
+                    code:           item.code
+                }
+            });
+
+            var me = this;
+            (new DE.Views.Statusbar.LanguageDialog({
+                languages: langs,
+                current: me.api.asc_getDefaultLanguage(),
+                handler: function(result, tip) {
+                    if (result=='ok') {
+                        var record = _.findWhere(langs, {'value':tip});
+                        record && me.api.asc_setDefaultLanguage(record.code);
+                    }
+                }
+            })).show();
         },
 
         textInserted: '<b>Inserted:</b>',

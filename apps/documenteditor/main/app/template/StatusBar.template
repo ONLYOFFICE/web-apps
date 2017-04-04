@@ -19,8 +19,7 @@
                 <div class="caret up img-commonctrl" />
             </div>
         </div>
-        <button id="btn-doc-lang" type="button" class="btn small btn-toolbar el-edit"><span class="icon btn-ic-doclang">&nbsp;</span></button>
-        <button id="btn-doc-spell" type="button" class="btn small btn-toolbar el-edit"><span class="icon btn-ic-docspell">&nbsp;</span></button>
+        <span id="btn-doc-spell" class="el-edit"></span>
         <div class="separator short el-edit"></div>
         <div id="btn-doc-review" class="el-edit el-review" style="display: inline-block;"></div>
         <div class="separator short el-edit el-review"></div>

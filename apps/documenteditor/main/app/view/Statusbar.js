@@ -85,8 +85,6 @@ define([
             me.btnZoomToWidth.updateHint(me.tipFitWidth);
             me.btnZoomDown.updateHint(me.tipZoomOut + Common.Utils.String.platformKey('Ctrl+-'));
             me.btnZoomUp.updateHint(me.tipZoomIn + Common.Utils.String.platformKey('Ctrl++'));
-            me.btnDocLanguage.updateHint(me.tipSetDocLang);
-            me.btnSetSpelling.updateHint(me.tipSetSpelling);
 
             me.btnLanguage.updateHint(me.tipSetLang);
             me.btnLanguage.cmpEl.on({
@@ -230,16 +228,6 @@ define([
                     hintAnchor: 'top-right'
                 });
 
-                this.btnDocLanguage = new Common.UI.Button({
-                    hintAnchor: 'top',
-                    disabled: true
-                });
-
-                this.btnSetSpelling = new Common.UI.Button({
-                    enableToggle: true,
-                    hintAnchor: 'top'
-                });
-
                 this.btnLanguage = new Common.UI.Button({
                     // el: panelLang,
                     hintAnchor: 'top-left',
@@ -312,8 +300,6 @@ define([
                 _btn_render(me.cntZoom, $('.cnt-zoom',me.$layout));
                 _btn_render(me.btnZoomDown, $('#btn-zoom-down', me.$layout));
                 _btn_render(me.btnZoomUp, $('#btn-zoom-up', me.$layout));
-                _btn_render(me.btnDocLanguage, $('#btn-doc-lang', me.$layout));
-                _btn_render(me.btnSetSpelling, $('#btn-doc-spell', me.$layout));
                 _btn_render(me.txtGoToPage, $('#status-goto-page', me.$layout));
 
                 var panelLang = $('.cnt-lang', me.$layout);
@@ -370,7 +356,6 @@ define([
                 this.langMenu.doLayout();
                 if (this.langMenu.items.length>0) {
                     this.btnLanguage.setDisabled(false);
-                    this.btnDocLanguage.setDisabled(false);
                 }
             },
 
@@ -402,7 +387,6 @@ define([
             SetDisabled: function(disable) {
                 var langs = this.langMenu.items.length>0;
                 this.btnLanguage.setDisabled(disable || !langs);
-                this.btnDocLanguage.setDisabled(disable || !langs);
             },
 
             pageIndexText       : 'Page {0} of {1}',
@@ -413,8 +397,6 @@ define([
             tipZoomOut          : 'Zoom Out',
             tipZoomFactor       : 'Magnification',
             tipSetLang          : 'Set Text Language',
-            tipSetDocLang       : 'Set Document Language',
-            tipSetSpelling      : 'Turn on spell checking option',
             txtPageNumInvalid   : 'Page number invalid',
             textTrackChanges    : 'Track Changes',
             textChangesPanel    : 'Changes panel'

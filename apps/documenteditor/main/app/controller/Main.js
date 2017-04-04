@@ -1697,6 +1697,7 @@ define([
 
                 this.getApplication().getController('DocumentHolder').getView().setLanguages(langs);
                 this.getApplication().getController('Statusbar').setLanguages(langs);
+                this.getApplication().getController('Common.Controllers.ReviewChanges').setLanguages(langs);
             },
 
             onInsertTable:  function() {

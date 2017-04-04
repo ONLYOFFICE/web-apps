@@ -176,47 +176,7 @@ define([
             });
 
             Common.NotificationCenter.on('app:ready', me.onAppReady.bind(me));
-            Common.NotificationCenter.on('app:face', function (config) {
-                if ( config.canReview ) {
-                    var tab = {action: 'review', caption: 'Review'};
-                    var $panel = DE.getController('Common.Controllers.ReviewChanges').createToolbarPanel();
-
-                    if ( $panel ) {
-                        var button = new Common.UI.Button({
-                            cls: 'btn-toolbar x-huge icon-top',
-                            iconCls: 'btn-ic-docspell',
-                            caption: 'Spell checking',
-                            enableToggle: true
-                        }).render($panel.find('#slot-btn-spelling'));
-                        button.on('click', function (e) {
-                            console.log('spell checking button');
-                        });
-
-                        button = new Common.UI.Button({
-                            cls: 'btn-toolbar x-huge icon-top',
-                            iconCls: 'btn-ic-doclang',
-                            caption: 'Language',
-                            menu: new Common.UI.Menu({
-                                items: [
-                                    {
-                                        caption: 'Content\'s language',
-                                        value: 'current'
-                                    }, {
-                                        caption: 'Document\'s language',
-                                        value: 'all'
-                                    }
-                                ]
-                            })
-
-                        }).render($panel.find('#slot-set-lang'));
-                        button.on('click', function (e) {
-                            console.log('lang button');
-                        });
-
-                        me.toolbar.addTab(tab, $panel, 3);
-                    }
-                }
-            });
+            Common.NotificationCenter.on('app:face', me.onAppShowed.bind(me));
         },
 
         onToolbarAfterRender: function(toolbar) {
@@ -2776,6 +2736,18 @@ define([
             viewport.vlayout.items[0].height = 42;
 
             Common.NotificationCenter.trigger('layout:changed', 'toolbar');
+        },
+
+        onAppShowed: function (config) {
+            var me = this;
+            if ( config.canReview ) {
+                var tab = {action: 'review', caption: 'Review'};
+                var $panel = DE.getController('Common.Controllers.ReviewChanges').createToolbarPanel();
+
+                if ( $panel ) {
+                    me.toolbar.addTab(tab, $panel, 3);
+                }
+            }
         },
 
         onAppReady: function (config) {
