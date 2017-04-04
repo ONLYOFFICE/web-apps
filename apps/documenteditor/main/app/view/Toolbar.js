@@ -1107,12 +1107,14 @@ define([
                     cls: 'btn-toolbar',
                     iconCls: 'btn-img-frwd',
                     caption: me.capImgForward,
+                    split: true,
                     menu: true
                 });
                 me.btnImgBackward = new Common.UI.Button({
                     cls: 'btn-toolbar',
                     iconCls: 'btn-img-bkwd',
                     caption: me.capImgBackward,
+                    split: true,
                     menu: true
                 });
                 me.btnImgWrapping = new Common.UI.Button({
@@ -1519,19 +1521,127 @@ define([
                             ]
                         });
 
-                        _menu_section_break.on('item:click', function (menu, item, e) {
-                            me.fireEvent('insert:break', [item.value]);
-                        });
-                        _menu.on('item:click', function (menu, item, e) {
-                            if ( !(item.value == 'section') )
-                                me.fireEvent('insert:break', [item.value]);
-                        });
-                        btn.on('click', function(e) {
-                            me.fireEvent('insert:break', ['page']);
-                        });
-
                         btn.setMenu(_menu);
                     });
+
+                    var _holder_view = DE.getController('DocumentHolder').getView();
+                    me.btnImgForward.updateHint(me.tipSendForward);
+                    me.btnImgForward.setMenu(new Common.UI.Menu({
+                        items: [{
+                                caption : _holder_view.textArrangeFront,
+                                iconCls : 'mnu-arrange-front',
+                                valign  : Asc.c_oAscChangeLevel.BringToFront
+                            }, {
+                                caption : _holder_view.textArrangeForward,
+                                iconCls : 'mnu-arrange-forward',
+                                valign  : Asc.c_oAscChangeLevel.BringForward
+                            }
+                        ]})
+                    );
+
+                    me.btnImgBackward.updateHint(me.tipSendBackward);
+                    me.btnImgBackward.setMenu(new Common.UI.Menu({
+                        items: [{
+                                caption : _holder_view.textArrangeBack,
+                                iconCls : 'mnu-arrange-back',
+                                valign  : Asc.c_oAscChangeLevel.SendToBack
+                            }, {
+                                caption : _holder_view.textArrangeBackward,
+                                iconCls : 'mnu-arrange-backward',
+                                valign  : Asc.c_oAscChangeLevel.BringBackward
+                            }]
+                    }));
+
+                    me.btnImgAlign.updateHint(me.tipImgAlign);
+                    me.btnImgAlign.setMenu(new Common.UI.Menu({
+                        items: [{
+                                caption : _holder_view.textShapeAlignLeft,
+                                iconCls : 'mnu-img-align-left',
+                                halign  : Asc.c_oAscAlignH.Left
+                            }, {
+                                caption : _holder_view.textShapeAlignCenter,
+                                iconCls : 'mnu-img-align-center',
+                                halign  : Asc.c_oAscAlignH.Center
+                            }, {
+                                caption : _holder_view.textShapeAlignRight,
+                                iconCls : 'mnu-img-align-right',
+                                halign  : Asc.c_oAscAlignH.Right
+                            }, {
+                                caption : _holder_view.textShapeAlignTop,
+                                iconCls : 'mnu-img-align-top',
+                                valign  : Asc.c_oAscAlignV.Top
+                            }, {
+                                caption : _holder_view.textShapeAlignMiddle,
+                                iconCls : 'mnu-img-align-middle',
+                                valign  : Asc.c_oAscAlignV.Center
+                            }, {
+                                caption : _holder_view.textShapeAlignBottom,
+                                iconCls : 'mnu-img-align-bottom',
+                                valign  : Asc.c_oAscAlignV.Bottom
+                            }]
+                    }));
+
+                    me.btnImgGroup.updateHint(me.tipImgGroup);
+                    me.btnImgGroup.setMenu(new Common.UI.Menu({
+                        items: [{
+                            caption : _holder_view.txtGroup,
+                            iconCls : 'mnu-arrange-group',
+                            groupval: 1
+                        }, {
+                            caption : _holder_view.txtUngroup,
+                            iconCls : 'mnu-arrange-ungroup',
+                            groupval: -1
+                        }]
+                    }));
+
+                    me.btnImgWrapping.updateHint(me.tipImgWrapping);
+                    me.btnImgWrapping.setMenu(new Common.UI.Menu({
+                        cls: 'ppm-toolbar',
+                        items: [{
+                                caption     : _holder_view.txtInline,
+                                iconCls     : 'mnu-wrap-inline',
+                                toggleGroup : 'imgwrapping',
+                                wrapType    : Asc.c_oAscWrapStyle2.Inline,
+                                checkable   : true
+                            }, {
+                                caption     : _holder_view.txtSquare,
+                                iconCls     : 'mnu-wrap-square',
+                                toggleGroup : 'imgwrapping',
+                                wrapType    : Asc.c_oAscWrapStyle2.Square,
+                                checkable   : true
+                            }, {
+                                caption     : _holder_view.txtTight,
+                                iconCls     : 'mnu-wrap-tight',
+                                toggleGroup : 'imgwrapping',
+                                wrapType    : Asc.c_oAscWrapStyle2.Tight,
+                                checkable   : true
+                            }, {
+                                caption     : _holder_view.txtThrough,
+                                iconCls     : 'mnu-wrap-through',
+                                toggleGroup : 'imgwrapping',
+                                wrapType    : Asc.c_oAscWrapStyle2.Through,
+                                checkable   : true
+                            }, {
+                                caption     : _holder_view.txtTopAndBottom,
+                                iconCls     : 'mnu-wrap-topAndBottom',
+                                toggleGroup : 'imgwrapping',
+                                wrapType    : Asc.c_oAscWrapStyle2.TopAndBottom,
+                                checkable   : true
+                            }, {
+                                caption     : _holder_view.txtInFront,
+                                iconCls     : 'mnu-wrap-inFront',
+                                toggleGroup : 'imgwrapping',
+                                wrapType    : Asc.c_oAscWrapStyle2.InFront,
+                                checkable   : true
+                            }, {
+                                caption     : _holder_view.txtBehind,
+                                iconCls     : 'mnu-wrap-behind',
+                                toggleGroup : 'imgwrapping',
+                                wrapType    : Asc.c_oAscWrapStyle2.Behind,
+                                checkable   : true
+                            }
+                        ]
+                    }));
                 });
             },
 

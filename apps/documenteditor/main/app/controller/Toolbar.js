@@ -54,13 +54,15 @@ define([
     'documenteditor/main/app/view/StyleTitleDialog',
     'documenteditor/main/app/view/PageMarginsDialog',
     'documenteditor/main/app/view/PageSizeDialog',
-    'documenteditor/main/app/view/NoteSettingsDialog'
+    'documenteditor/main/app/view/NoteSettingsDialog',
+    'documenteditor/main/app/controller/PageLayout'
 ], function () {
     'use strict';
 
     DE.Controllers.Toolbar = Backbone.Controller.extend(_.extend({
         models: [],
         collections: [],
+        controllers: [],
         views: [
             'Toolbar'
         ],
@@ -2779,6 +2781,21 @@ define([
                     }, this);
                 }
             }
+
+            (new Promise(function(accept) {
+                accept();
+            })).then(function () {
+                if ( config.isEdit ) {
+                    me.controllers.pageLayout = new DE.Controllers.PageLayout({
+                        id: 'ImageLayout',
+                        application: me.getApplication()
+                    });
+
+                    me.controllers.pageLayout.onLaunch(me.toolbar)
+                        .setApi(me.api)
+                        .onAppReady(config);
+                }
+            });
         },
 
         textEmptyImgUrl                            : 'You need to specify image URL.',
