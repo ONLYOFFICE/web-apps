@@ -118,21 +118,20 @@ define([
             })).then(function () {
                 me.bindViewEvents(me.statusbar, me.events);
 
-                function _process_changestip() {
-                    var showTrackChangesTip = !Common.localStorage.getBool("de-track-changes-tip");
-                    if ( showTrackChangesTip ) {
-                        me.btnTurnReview.updateHint('');
-                        if (me.changesTooltip === undefined)
-                            me.changesTooltip = me.createChangesTip(me.textTrackChanges, 'de-track-changes-tip', false);
-
-                        me.changesTooltip.show();
-                    } else {
-                        me.btnTurnReview.updateHint(me.tipReview);
-                    }
-                }
-
                 var statusbarIsHidden = Common.localStorage.getBool("de-hidden-status");
                 if ( config.canReview && !statusbarIsHidden ) {
+                    var _process_changestip = function() {
+                        var showTrackChangesTip = !Common.localStorage.getBool("de-track-changes-tip");
+                        if ( showTrackChangesTip ) {
+                            me.btnTurnReview.updateHint('');
+                            if (me.changesTooltip === undefined)
+                                me.changesTooltip = me.createChangesTip(me.textTrackChanges, 'de-track-changes-tip', false);
+
+                            me.changesTooltip.show();
+                        } else {
+                            me.btnTurnReview.updateHint(me.tipReview);
+                        }
+                    }
 
                     if ( config.isReviewOnly ) {
                         _process_changestip();

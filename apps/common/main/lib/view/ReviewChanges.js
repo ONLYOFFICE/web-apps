@@ -477,7 +477,7 @@ define([
                 Common.UI.BaseView.prototype.initialize.call(this, options);
 
                 // this.store = this.options.store;
-                this.popoverChanges = this.options.popoverChanges;
+                // this.popoverChanges = this.options.popoverChanges;
 
                 this.btnPrev = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
@@ -513,53 +513,10 @@ define([
                 });
                 this.btnsTurnReview = [this.btnTurnOn];
 
-                var me = this;
-                var promise = new Promise( function(resolve) { resolve(); });
 
-                Common.NotificationCenter.on('app:ready', function (cfg) {
-                    promise.then(function(){
-                        me.appConfig = cfg;
-
-                        me.btnPrev.updateHint(me.hintPrev);
-                        me.btnNext.updateHint(me.hintNext);
-                        me.btnTurnOn.updateHint(me.textChangesOn);
-
-                        me.btnAccept.setMenu(
-                            new Common.UI.Menu({
-                                items: [
-                                    {
-                                        caption: me.txtAcceptCurrent,
-                                        value: 'current'
-                                    },
-                                    {
-                                        caption: me.txtAcceptAll,
-                                        value: 'all'
-                                    }
-                                ]
-                            })
-                        );
-
-                        me.btnReject.setMenu(
-                            new Common.UI.Menu({
-                                items: [
-                                    {
-                                        caption: me.txtRejectCurrent,
-                                        value: 'current'
-                                    },
-                                    {
-                                        caption: me.txtRejectAll,
-                                        value: 'all'
-                                    }
-                                ]
-                            })
-                        );
-
-                        me.btnAccept.setDisabled(cfg.isReviewOnly);
-                        me.btnReject.setDisabled(cfg.isReviewOnly);
-
-                        setEvents.call(me);
-                    });
                 });
+
+                Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             },
 
             render: function (el) {
@@ -567,6 +524,56 @@ define([
                 if ( el ) el.html( this.getPanel() );
 
                 return this;
+            },
+
+            onAppReady: function (config) {
+                var me = this;
+                (new Promise(function (accept, reject) {
+                    accept();
+                })).then(function(){
+                    me.appConfig = config;
+
+                    me.btnPrev.updateHint(me.hintPrev);
+                    me.btnNext.updateHint(me.hintNext);
+                    me.btnTurnOn.updateHint(me.textChangesOn);
+                    me.btnDocLang.updateHint(me.tipSetDocLang);
+                    me.btnSetSpelling.updateHint(me.tipSetSpelling);
+
+                    me.btnAccept.setMenu(
+                        new Common.UI.Menu({
+                            items: [
+                                {
+                                    caption: me.txtAcceptCurrent,
+                                    value: 'current'
+                                },
+                                {
+                                    caption: me.txtAcceptAll,
+                                    value: 'all'
+                                }
+                            ]
+                        })
+                    );
+
+                    me.btnReject.setMenu(
+                        new Common.UI.Menu({
+                            items: [
+                                {
+                                    caption: me.txtRejectCurrent,
+                                    value: 'current'
+                                },
+                                {
+                                    caption: me.txtRejectAll,
+                                    value: 'all'
+                                }
+                            ]
+                        })
+                    );
+
+                    me.btnAccept.setDisabled(config.isReviewOnly);
+                    me.btnReject.setDisabled(config.isReviewOnly);
+
+                    setEvents.call(me);
+                });
             },
 
             getPanel: function () {
@@ -589,7 +596,7 @@ define([
             getPopover: function (sdkViewName) {
                 if (_.isUndefined(this.popover)) {
                     this.popover = new Common.Views.ReviewChangesPopover({
-                        store: this.popoverChanges,
+                        store: this.options.popoverChanges,
                         delegate: this,
                         renderTo: sdkViewName
                     });
