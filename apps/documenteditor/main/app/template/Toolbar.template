@@ -60,16 +60,16 @@
                         <span class="btn-slot border" id="slot-btn-incfont"></span>
                         <span class="btn-slot border" id="slot-btn-decfont"></span>
                     </div>
-                    <div class="elset">
-                        <span class="btn-slot split" id="slot-btn-bold"></span>
-                        <span class="btn-slot split" id="slot-btn-italic"></span>
-                        <span class="btn-slot split" id="slot-btn-underline"></span>
-                        <span class="btn-slot split" id="slot-btn-strikeout"></span>
-                        <span class="btn-slot split" id="slot-btn-superscript"></span>
-                        <span class="btn-slot split" id="slot-btn-subscript"></span>
-                        <span class="btn-slot split" id="slot-btn-highlight"></span>
-                        <span class="btn-slot split" id="slot-btn-fontcolor"></span>
-                        <span class="btn-slot split" id="slot-btn-paracolor"></span>
+                    <div class="elset font-attr">
+                        <span class="btn-slot" id="slot-btn-bold"></span>
+                        <span class="btn-slot" id="slot-btn-italic"></span>
+                        <span class="btn-slot" id="slot-btn-underline"></span>
+                        <span class="btn-slot" id="slot-btn-strikeout"></span>
+                        <span class="btn-slot" id="slot-btn-superscript"></span>
+                        <span class="btn-slot" id="slot-btn-subscript"></span>
+                        <span class="btn-slot" id="slot-btn-highlight"></span>
+                        <span class="btn-slot" id="slot-btn-fontcolor"></span>
+                        <span class="btn-slot" id="slot-btn-paracolor"></span>
                     </div>
                 </div>
                 <div class="separator long" style="margin-left: 5px;"></div>
