@@ -1092,32 +1092,32 @@ define([
 
                 me.btnImgAlign = new Common.UI.Button({
                     cls: 'btn-toolbar',
-                    iconCls: 'btn-hidenchars',
+                    iconCls: 'btn-img-align',
                     caption: me.capImgAlign,
                     menu: true
                 });
 
                 me.btnImgGroup = new Common.UI.Button({
                     cls: 'btn-toolbar',
-                    iconCls: 'btn-hidenchars',
+                    iconCls: 'btn-img-group',
                     caption: me.capImgGroup,
                     menu: true
                 });
                 me.btnImgForward = new Common.UI.Button({
                     cls: 'btn-toolbar',
-                    iconCls: 'btn-hidenchars',
+                    iconCls: 'btn-img-frwd',
                     caption: me.capImgForward,
                     menu: true
                 });
                 me.btnImgBackward = new Common.UI.Button({
                     cls: 'btn-toolbar',
-                    iconCls: 'btn-hidenchars',
+                    iconCls: 'btn-img-bkwd',
                     caption: me.capImgBackward,
                     menu: true
                 });
                 me.btnImgWrapping = new Common.UI.Button({
                     cls: 'btn-toolbar',
-                    iconCls: 'btn-hidenchars',
+                    iconCls: 'btn-img-wrap',
                     caption: me.capImgWrapping,
                     menu: true
                 });

@@ -70,7 +70,7 @@ define([
             var $parent = menu.$el.parent();
 
             $parent.find('#status-label-lang').text(item.caption);
-            $parent.find('.icon-lang-flag')
+            $parent.find('.dropdown-toggle > .icon.lang-flag')
                     .removeClass(this.langMenu.prevTip)
                     .addClass(item.value.tip);
 
@@ -251,8 +251,8 @@ define([
                     maxHeight: 300,
                     itemTemplate: _.template([
                         '<a id="<%= id %>" tabindex="-1" type="menuitem">',
-                        '<span class="lang-item-icon img-toolbarmenu lang-flag <%= iconCls %>"></span>',
-                        '<%= caption %>',
+                            '<i class="icon lang-flag <%= iconCls %>"></i>',
+                            '<%= caption %>',
                         '</a>'
                     ].join('')),
                     menuAlign: 'bl-tl'
@@ -377,7 +377,7 @@ define([
             setLanguage: function(info) {
                 if (this.langMenu.prevTip != info.tip) {
                     var $parent = $(this.langMenu.el.parentNode, this.$el);
-                    $parent.find('.icon-lang-flag')
+                    $parent.find('.dropdown-toggle > .icon.lang-flag')
                         .removeClass(this.langMenu.prevTip)
                         .addClass(info.tip);
 
@@ -463,13 +463,13 @@ define([
                     template: _.template([
                         '<span class="input-group combobox <%= cls %> combo-langs" id="<%= id %>" style="<%= style %>">',
                             '<input type="text" class="form-control">',
-                            '<span class="input-lang-icon img-toolbarmenu lang-flag" style="position: absolute;"></span>',
+                            '<span class="icon input-icon lang-flag"></span>',
                             '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret img-commonctrl"></span></button>',
                             '<ul class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">',
                                 '<% _.each(items, function(item) { %>',
                                     '<li id="<%= item.id %>" data-value="<%= item.value %>">',
                                         '<a tabindex="-1" type="menuitem" style="padding-left: 26px !important;">',
-                                            '<span class="lang-item-icon img-toolbarmenu lang-flag <%= item.value %>" style="position: absolute;margin-left:-21px;"></span>',
+                                            '<i class="icon lang-flag <%= item.value %>" style="position: absolute;margin-left:-21px;"></i>',
                                             '<%= scope.getDisplayValue(item) %>',
                                         '</a>',
                                     '</li>',
@@ -502,7 +502,7 @@ define([
             },
 
             onLangSelect: function(cmb, rec, e) {
-                var icon    = cmb.$el.find('.input-lang-icon'),
+                var icon    = cmb.$el.find('.input-icon'),
                     plang   = icon.attr('lang');
 
                 if (plang) icon.removeClass(plang);

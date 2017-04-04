@@ -481,13 +481,13 @@ define([
 
                 this.btnPrev = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'img-commonctrl review-prev',
+                    iconCls: 'review-prev',
                     caption: this.txtPrev
                 });
 
                 this.btnNext = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'img-commonctrl review-next',
+                    iconCls: 'review-next',
                     caption: this.txtNext
                 });
 
@@ -495,14 +495,14 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     caption: this.txtAccept,
                     split: true,
-                    iconCls: 'img-commonctrl review-close'
+                    iconCls: 'review-save'
                 });
 
                 this.btnReject = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
                     caption: this.txtReject,
                     split: true,
-                    iconCls: 'img-commonctrl review-close'
+                    iconCls: 'review-deny'
                 });
 
                 this.btnTurnOn = new Common.UI.Button({
