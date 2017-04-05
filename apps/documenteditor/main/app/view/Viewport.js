@@ -66,8 +66,7 @@ define([
 
         // Render layout
         render: function() {
-            var el = $(this.el);
-            el.html(this.template({}));
+            this.$el.html(this.template({}));
 
             // Workaround Safari's scrolling problem
             if (Common.Utils.isSafari) {
@@ -80,7 +79,7 @@ define([
                 $('body').addClass('chrome');
             }
 
-            var $container = $('#viewport-vbox-layout', el);
+            var $container = $('#viewport-vbox-layout', this.$el);
             this.vlayout = new Common.UI.VBoxLayout({
                 box: $container,
                 items: [{
@@ -96,7 +95,7 @@ define([
                 ]
             });
 
-            $container = $('#viewport-hbox-layout', el);
+            $container = $('#viewport-hbox-layout', this.$el);
             var items = $container.find(' > .layout-item');
             this.hlayout = new Common.UI.HBoxLayout({
                 box: $container,
