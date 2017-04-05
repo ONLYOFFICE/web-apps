@@ -416,11 +416,11 @@ define([
                     '<span id="slot-set-lang" class="btn-slot text x-huge"></span>' +
                     '<span id="slot-btn-spelling" class="btn-slot text x-huge"></span>' +
                 '</div>' +
-                '<div class="separator long"/>' +
+                '<div class="separator long comments"/>' +
                 '<div class="group">' +
                     '<span class="btn-slot text x-huge slot-comment"></span>' +
                 '</div>' +
-                '<div class="separator long"/>' +
+                '<div class="separator long review"/>' +
                 '<div class="group">' +
                     '<span id="btn-review-on" class="btn-slot text x-huge"></span>' +
                     '<span id="btn-change-prev" class="btn-slot text x-huge"></span>' +
@@ -432,40 +432,43 @@ define([
 
         function setEvents() {
             var me = this;
-            this.btnPrev.on('click', function (e) {
-                me.fireEvent('reviewchange:preview', [me.btnPrev, 'prev']);
-            });
 
-            this.btnNext.on('click', function (e) {
-                me.fireEvent('reviewchange:preview', [me.btnNext, 'next']);
-            });
+            if ( me.appConfig.canReview ) {
+                this.btnPrev.on('click', function (e) {
+                    me.fireEvent('reviewchange:preview', [me.btnPrev, 'prev']);
+                });
 
-            this.btnAccept.on('click', function (e) {
-                me.fireEvent('reviewchange:accept', [me.btnAccept, 'current']);
-            });
+                this.btnNext.on('click', function (e) {
+                    me.fireEvent('reviewchange:preview', [me.btnNext, 'next']);
+                });
 
-            this.btnAccept.menu.on('item:click', function (menu, item, e) {
-                me.fireEvent('reviewchange:accept', [menu, item]);
-            });
+                this.btnAccept.on('click', function (e) {
+                    me.fireEvent('reviewchange:accept', [me.btnAccept, 'current']);
+                });
 
-            this.btnReject.on('click', function (e) {
-                me.fireEvent('reviewchange:reject', [me.btnReject, 'current']);
-            });
+                this.btnAccept.menu.on('item:click', function (menu, item, e) {
+                    me.fireEvent('reviewchange:accept', [menu, item]);
+                });
 
-            this.btnReject.menu.on('item:click', function (menu, item, e) {
-                me.fireEvent('reviewchange:reject', [menu, item]);
-            });
+                this.btnReject.on('click', function (e) {
+                    me.fireEvent('reviewchange:reject', [me.btnReject, 'current']);
+                });
 
-            function _click_turnpreview(btn, e) {
-                if ( me.appConfig.canReview ) {
-                    Common.NotificationCenter.trigger('reviewchanges:turn', btn.pressed ? 'on' : 'off');
-                }
-            };
+                this.btnReject.menu.on('item:click', function (menu, item, e) {
+                    me.fireEvent('reviewchange:reject', [menu, item]);
+                });
 
-            this.btnsTurnReview.forEach(function(button) {
-                button.on('click', _click_turnpreview.bind(me));
-                Common.NotificationCenter.trigger('edit:complete', me);
-            });
+                function _click_turnpreview(btn, e) {
+                    if (me.appConfig.canReview) {
+                        Common.NotificationCenter.trigger('reviewchanges:turn', btn.pressed ? 'on' : 'off');
+                    }
+                };
+
+                this.btnsTurnReview.forEach(function (button) {
+                    button.on('click', _click_turnpreview.bind(me));
+                    Common.NotificationCenter.trigger('edit:complete', me);
+                });
+            }
 
             this.btnsSpelling.forEach(function(button) {
                 button.on('click', function (b, e) {
@@ -480,7 +483,7 @@ define([
         }
 
         return {
-            el: '#review-changes-panel',
+            // el: '#review-changes-panel',
 
             options: {},
 
@@ -489,40 +492,43 @@ define([
 
                 // this.store = this.options.store;
                 // this.popoverChanges = this.options.popoverChanges;
+                this.appConfig = options.mode;
 
-                this.btnPrev = new Common.UI.Button({
-                    cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'review-prev',
-                    caption: this.txtPrev
-                });
+                if ( this.appConfig.canReview ) {
+                    this.btnPrev = new Common.UI.Button({
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'review-prev',
+                        caption: this.txtPrev
+                    });
 
-                this.btnNext = new Common.UI.Button({
-                    cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'review-next',
-                    caption: this.txtNext
-                });
+                    this.btnNext = new Common.UI.Button({
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'review-next',
+                        caption: this.txtNext
+                    });
 
-                this.btnAccept = new Common.UI.Button({
-                    cls: 'btn-toolbar x-huge icon-top',
-                    caption: this.txtAccept,
-                    split: true,
-                    iconCls: 'review-save'
-                });
+                    this.btnAccept = new Common.UI.Button({
+                        cls: 'btn-toolbar x-huge icon-top',
+                        caption: this.txtAccept,
+                        split: true,
+                        iconCls: 'review-save'
+                    });
 
-                this.btnReject = new Common.UI.Button({
-                    cls: 'btn-toolbar x-huge icon-top',
-                    caption: this.txtReject,
-                    split: true,
-                    iconCls: 'review-deny'
-                });
+                    this.btnReject = new Common.UI.Button({
+                        cls: 'btn-toolbar x-huge icon-top',
+                        caption: this.txtReject,
+                        split: true,
+                        iconCls: 'review-deny'
+                    });
 
-                this.btnTurnOn = new Common.UI.Button({
-                    cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'btn-ic-review',
-                    caption: this.txtTurnon,
-                    enableToggle: true
-                });
-                this.btnsTurnReview = [this.btnTurnOn];
+                    this.btnTurnOn = new Common.UI.Button({
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'btn-ic-review',
+                        caption: this.txtTurnon,
+                        enableToggle: true
+                    });
+                    this.btnsTurnReview = [this.btnTurnOn];
+                }
 
                 this.btnSetSpelling = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
@@ -553,63 +559,77 @@ define([
                 (new Promise(function (accept, reject) {
                     accept();
                 })).then(function(){
-                    me.appConfig = config;
+                    if ( config.canReview ) {
+                        me.btnPrev.updateHint(me.hintPrev);
+                        me.btnNext.updateHint(me.hintNext);
+                        me.btnTurnOn.updateHint(me.textChangesOn);
 
-                    me.btnPrev.updateHint(me.hintPrev);
-                    me.btnNext.updateHint(me.hintNext);
-                    me.btnTurnOn.updateHint(me.textChangesOn);
+                        me.btnAccept.setMenu(
+                            new Common.UI.Menu({
+                                items: [
+                                    {
+                                        caption: me.txtAcceptCurrent,
+                                        value: 'current'
+                                    },
+                                    {
+                                        caption: me.txtAcceptAll,
+                                        value: 'all'
+                                    }
+                                ]
+                            })
+                        );
+
+                        me.btnReject.setMenu(
+                            new Common.UI.Menu({
+                                items: [
+                                    {
+                                        caption: me.txtRejectCurrent,
+                                        value: 'current'
+                                    },
+                                    {
+                                        caption: me.txtRejectAll,
+                                        value: 'all'
+                                    }
+                                ]
+                            })
+                        );
+
+                        me.btnAccept.setDisabled(config.isReviewOnly);
+                        me.btnReject.setDisabled(config.isReviewOnly);
+                    } else {
+                        me.$el.find('.separator.review')
+                            .hide()
+                            .next('.group').hide();
+                    }
+
+                    if ( !config.canComments ) {
+                        $('.separator.comments', me.$el)
+                            .hide()
+                            .next('.group').hide();
+                    }
+
                     me.btnDocLang.updateHint(me.tipSetDocLang);
                     me.btnSetSpelling.updateHint(me.tipSetSpelling);
-
-                    me.btnAccept.setMenu(
-                        new Common.UI.Menu({
-                            items: [
-                                {
-                                    caption: me.txtAcceptCurrent,
-                                    value: 'current'
-                                },
-                                {
-                                    caption: me.txtAcceptAll,
-                                    value: 'all'
-                                }
-                            ]
-                        })
-                    );
-
-                    me.btnReject.setMenu(
-                        new Common.UI.Menu({
-                            items: [
-                                {
-                                    caption: me.txtRejectCurrent,
-                                    value: 'current'
-                                },
-                                {
-                                    caption: me.txtRejectAll,
-                                    value: 'all'
-                                }
-                            ]
-                        })
-                    );
-
-                    me.btnAccept.setDisabled(config.isReviewOnly);
-                    me.btnReject.setDisabled(config.isReviewOnly);
 
                     setEvents.call(me);
                 });
             },
 
             getPanel: function () {
-                var _html = $(_.template( template, {} ));
+                this.$el = $(_.template( template, {} ));
 
-                this.btnPrev.render(_html.find('#btn-change-prev'));
-                this.btnNext.render(_html.find('#btn-change-next'));
-                this.btnAccept.render(_html.find('#btn-change-accept'));
-                this.btnReject.render(_html.find('#btn-change-reject'));
-                this.btnTurnOn.render(_html.find('#btn-review-on'));
-                this.btnSetSpelling.render(_html.find('#slot-btn-spelling'));
-                this.btnDocLang.render(_html.find('#slot-set-lang'));
+                if ( this.appConfig.canReview ) {
+                    this.btnPrev.render(this.$el.find('#btn-change-prev'));
+                    this.btnNext.render(this.$el.find('#btn-change-next'));
+                    this.btnAccept.render(this.$el.find('#btn-change-accept'));
+                    this.btnReject.render(this.$el.find('#btn-change-reject'));
+                    this.btnTurnOn.render(this.$el.find('#btn-review-on'));
+                }
 
-                return _html;
+                this.btnSetSpelling.render(this.$el.find('#slot-btn-spelling'));
+                this.btnDocLang.render(this.$el.find('#slot-set-lang'));
+
+                return this.$el;
             },
 
             show: function () {

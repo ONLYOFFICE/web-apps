@@ -2742,7 +2742,8 @@ define([
 
         onAppShowed: function (config) {
             var me = this;
-            if ( config.canReview ) {
+            // if ( config.canReview )
+            {
                 var tab = {action: 'review', caption: 'Review'};
                 var $panel = DE.getController('Common.Controllers.ReviewChanges').createToolbarPanel();
 

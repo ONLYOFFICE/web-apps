@@ -43,8 +43,7 @@
 define([
     'core',
     'documenteditor/main/app/view/Statusbar',
-    'common/main/lib/util/LanguageInfo',
-    'common/main/lib/view/ReviewChanges'
+    'common/main/lib/util/LanguageInfo'
 ], function () {
     'use strict';
 
@@ -89,18 +88,18 @@ define([
 
                 $('.statusbar #label-zoom').css('min-width', 70);
 
+                var review = DE.getController('Common.Controllers.ReviewChanges').getView();
                 if ( cfg.canReview ) {
-                    var review = DE.getController('Common.Controllers.ReviewChanges').getView();
                     me.btnTurnReview = review.getButton('turn', 'statusbar');
                     me.btnTurnReview.render( me.statusbar.$layout.find('#btn-doc-review') );
-
-                    me.btnSpelling = review.getButton('spelling', 'statusbar');
-                    me.btnSpelling.render( me.statusbar.$layout.find('#btn-doc-spell') );
                 } else {
                     me.statusbar.$el.find('.el-review').hide();
                 }
 
-                if ( !cfg.isEdit ) {
+                if ( cfg.isEdit ) {
+                    me.btnSpelling = review.getButton('spelling', 'statusbar');
+                    me.btnSpelling.render( me.statusbar.$layout.find('#btn-doc-spell') );
+                } else {
                     me.statusbar.$el.find('.el-edit')['hide']();
                 }
             });

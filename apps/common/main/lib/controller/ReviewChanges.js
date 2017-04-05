@@ -80,7 +80,6 @@ define([
         },
         onLaunch: function () {
             this.collection     =   this.getApplication().getCollection('Common.Collections.ReviewChanges');
-            this.popoverChanges =   new Common.Collections.ReviewChanges();
             this.userCollection =   this.getApplication().getCollection('Common.Collections.Users');
 
             this._state = {posx: -1000, posy: -1000, popoverVisible: false};
@@ -107,12 +106,16 @@ define([
         },
 
         setMode: function(mode) {
-            if ( mode.canReview || mode.isReviewOnly ) {
-                this.view           =   this.createView('Common.Views.ReviewChanges', {
-                    // store           :   this.collection,
-                    popoverChanges  :   this.popoverChanges
-                });
+            this.appConfig = mode;
+            if ( mode.canReview ) {
+                this.popoverChanges = new Common.Collections.ReviewChanges();
             }
+
+            this.view           =   this.createView('Common.Views.ReviewChanges', {
+                // store           :   this.collection,
+                popoverChanges  : this.popoverChanges,
+                mode            : mode
+            });
 
             return this;
         },
@@ -137,7 +140,7 @@ define([
 
                     this.getPopover().show(animate, lock, lockUser);
 
-                    if (!this.view.appConfig.isReviewOnly && this._state.lock !== lock) {
+                    if (!this.appConfig.isReviewOnly && this._state.lock !== lock) {
                         this.view.btnAccept.setDisabled(lock==true);
                         this.view.btnReject.setDisabled(lock==true);
                         this._state.lock = lock;
@@ -457,10 +460,10 @@ define([
         },
 
         onTurnPreview: function(state) {
-            if ( this.view.appConfig.isReviewOnly ) {
+            if ( this.appConfig.isReviewOnly ) {
                 this.view.turnChanges(true);
             } else
-            if ( this.view.appConfig.canReview ) {
+            if ( this.appConfig.canReview ) {
                 state = (state == 'on');
 
                 this.api.asc_SetTrackRevisions(state);
@@ -491,7 +494,6 @@ define([
             if ( config.canReview ) {
                 var me = this;
 
-                this.appConfig = config;
                 (new Promise(function (resolve) {
                     resolve();
                 })).then(function () {
