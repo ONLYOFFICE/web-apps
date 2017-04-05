@@ -59,7 +59,8 @@ define([
             enableKeyEvents     : false,
             beforeOpenHandler   : null,
             additionalMenuItems  : null,
-            showLast: true
+            showLast: true,
+            minWidth: -1
         },
 
         template: _.template([
@@ -86,6 +87,7 @@ define([
             this.rootHeight  = 0;
             this.rendered    = false;
             this.needFillComboView = false;
+            this.minWidth = this.options.minWidth;
 
             this.fieldPicker = new Common.UI.DataView({
                 cls: 'field-picker',
@@ -214,6 +216,8 @@ define([
                 var me = this,
                     width  = this.cmpEl.width(),
                     height = this.cmpEl.height();
+
+                if (width < this.minWidth) return;
 
                 if (this.rootWidth != width || this.rootHeight != height) {
                     this.rootWidth  = width;
@@ -420,7 +424,7 @@ define([
 
                         var indexRec = store.indexOf(record),
                             countRec = store.length,
-                            maxViewCount = Math.floor((fieldPickerEl.width()) / (me.itemWidth + (me.itemMarginLeft || 0) + (me.itemMarginRight || 0) + (me.itemPaddingLeft || 0) + (me.itemPaddingRight || 0) +
+                            maxViewCount = Math.floor(Math.max(fieldPickerEl.width(), me.minWidth) / (me.itemWidth + (me.itemMarginLeft || 0) + (me.itemMarginRight || 0) + (me.itemPaddingLeft || 0) + (me.itemPaddingRight || 0) +
                                                                                                 (me.itemBorderLeft || 0) + (me.itemBorderRight || 0))),
                             newStyles = [];
 
