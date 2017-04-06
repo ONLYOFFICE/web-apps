@@ -2769,8 +2769,10 @@ define([
                 });
 
                 if ( _btnsComment.length ) {
+                    var _comments = DE.getController('Common.Controllers.Comments').getView();
                     Array.prototype.push.apply(me.toolbar.toolbarControls, _btnsComment);
                     _btnsComment.forEach(function (btn) {
+                        btn.updateHint( _comments.textAddComment );
                         btn.on('click', function (btn, e) {
                             Common.NotificationCenter.trigger('app:comment:add', 'toolbar');
                         });

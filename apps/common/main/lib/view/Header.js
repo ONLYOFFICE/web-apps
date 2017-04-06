@@ -300,9 +300,11 @@ define([
                 });
 
 
-                (new Promise(function (accept, reject) {
-                    Common.NotificationCenter.on('app:ready', function(mode) { accept(mode); });
-                })).then(onAppReady.bind(me));
+                Common.NotificationCenter.on('app:ready', function(mode) {
+                    (new Promise(function (accept, reject) {
+                        accept(mode);
+                    })).then(onAppReady.bind(me));
+                });
             },
 
             render: function (el, role) {

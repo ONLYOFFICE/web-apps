@@ -1349,8 +1349,7 @@ define([
                 me.isCompactView = Common.localStorage.getBool("de-compact-toolbar");
 
                 /** coauthoring begin **/
-                value = Common.localStorage.getItem("de-hide-synch");
-                this.showSynchTip = !(value && parseInt(value) == 1);
+                this.showSynchTip = !Common.localStorage.getBool("de-hide-synch");
                 this.needShowSynchTip = false;
                 /** coauthoring end **/
 
@@ -2158,9 +2157,9 @@ define([
                 this.mnuitemCompactToolbar.setChecked(this.isCompactView, true);
                 this.mnuitemCompactToolbar.on('toggle', _.bind(this.changeViewMode, this));
 
-                this.mnuitemHideTitleBar.setChecked(valueTitle, true);
-                this.mnuitemHideStatusBar.setChecked(valueStatus, true);
-                this.mnuitemHideRulers.setChecked(valueRulers, true);
+                this.mnuitemHideTitleBar.setChecked( Common.localStorage.getBool("de-hidden-title"), true );
+                this.mnuitemHideStatusBar.setChecked( Common.localStorage.getBool("de-hidden-status"), true );
+                this.mnuitemHideRulers.setChecked( Common.localStorage.getBool("de-hidden-rulers"), true );
                 /**/
             },
 
@@ -2533,6 +2532,10 @@ define([
                         config.$dom.find('.extra.left').html(el);
                     }
                 }
+            },
+
+            isCompact: function () {
+                return isFolded;
             },
 
             textBold: 'Bold',
