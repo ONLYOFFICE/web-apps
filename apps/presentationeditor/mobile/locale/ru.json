@@ -67,6 +67,7 @@
   "PE.Controllers.Main.downloadErrorText": "Загрузка не удалась.",
   "PE.Controllers.Main.downloadTextText": "Загрузка документа...",
   "PE.Controllers.Main.downloadTitleText": "Загрузка документа",
+  "PE.Controllers.Main.errorBadImageUrl": "Неправильный URL-адрес изображения",
   "PE.Controllers.Main.errorCoAuthoringDisconnect": "Подключение к серверу прервано. Редактирование недоступно.",
   "PE.Controllers.Main.errorConnectToServer": "Не удается сохранить документ. Проверьте параметры подключения или обратитесь к вашему администратору.<br>Когда вы нажмете на кнопку 'OK', вам будет предложено скачать документ.<br><br>Дополнительную информацию о подключении Сервера документов можно найти <a href=\"https://api.onlyoffice.com/editors/callback\" target=\"_blank\">здесь</a>",
   "PE.Controllers.Main.errorDatabaseConnection": "Внешняя ошибка.<br>Ошибка подключения к базе данных. Пожалуйста, обратитесь в службу технической поддержки.",
