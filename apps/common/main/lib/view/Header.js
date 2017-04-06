@@ -71,7 +71,7 @@ define([
 
         var templateRightBox = '<section>' +
                             '<label id="rib-doc-name" class="status-label"></label>' +
-                            '<a href="#" id="rib-save-status" class="status-label">All changes saved</a>' +
+                            '<a href="#" id="rib-save-status" class="status-label locked">All changes saved</a>' +
                             '<div class="elset">' +
                                 // '<span class="btn-slot text" id="slot-btn-users"></span>' +
                                 '<section id="tlb-box-users" class="box-cousers dropdown"">' +
@@ -241,9 +241,9 @@ define([
 
             $saveStatus.attr('data-width', this.textSaveExpander);
             if ( appConfig.canUseHistory ) {
-                $saveStatus.on('click', function(e) {
-                    me.fireEvent('history:show', ['header']);
-                });
+                // $saveStatus.on('click', function(e) {
+                //     me.fireEvent('history:show', ['header']);
+                // });
             } else {
                 $saveStatus.addClass('locked');
             }
