@@ -87,6 +87,7 @@ define([
 
                 _.defer(function () {
                     var editorLang = SSE.getController("Main").editorConfig.lang;
+                    editorLang = (editorLang ? editorLang : 'en').split("-")[0].toLowerCase();
 
                     var localizationFunctions = function(data) {
                         fc = data;
