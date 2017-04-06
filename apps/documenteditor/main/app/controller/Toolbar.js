@@ -105,7 +105,7 @@ define([
 
             this.addListeners({
                 'Toolbar': {
-                    'changecompact'     : this.onChangeCompactView,
+                    'view:compact'      : this.onChangeCompactView,
                     'insert:break'      : this.onClickPageBreak
                 }
             });
@@ -326,8 +326,9 @@ define([
         },
 
         onChangeCompactView: function(view, compact) {
-            Common.localStorage.setItem('de-compact-toolbar', compact ? 1 : 0);
+            this.toolbar.setFolded(compact);
 
+            Common.localStorage.setItem('de-compact-toolbar', compact ? 1 : 0);
             Common.NotificationCenter.trigger('layout:changed', 'toolbar');
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
@@ -2730,16 +2731,6 @@ define([
             this.onToolbarAfterRender(this.toolbar);
         },
 
-        setToolbarFolding: function (f) {
-            this.toolbar.setFolded(f);
-
-            var viewport  = this.getApplication().getController('Viewport').getView('Viewport');
-            viewport.vlayout.items[0].rely = !f;
-            viewport.vlayout.items[0].height = 42;
-
-            Common.NotificationCenter.trigger('layout:changed', 'toolbar');
-        },
-
         onAppShowed: function (config) {
             var me = this;
             // if ( config.canReview )
@@ -2751,13 +2742,17 @@ define([
                     me.toolbar.addTab(tab, $panel, 3);
                 }
             }
+
+            if ( !Common.localStorage.itemExists("de-compact-toolbar") &&
+                    config.customization && config.customization.compactToolbar ) {
+                me.onChangeCompactView(me.toolbar, true);
+            }
         },
 
         onAppReady: function (config) {
             var me = this;
-            // me.setToolbarFolding(true);
 
-            if (config.canComments) {
+            if ( config.canComments ) {
                 var _btnsComment = [];
                 var slots = me.toolbar.$el.find('.slot-comment');
                 slots.each(function(index, el) {

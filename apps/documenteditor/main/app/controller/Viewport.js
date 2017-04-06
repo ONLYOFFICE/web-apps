@@ -72,6 +72,9 @@ define([
                     'render:before' : function (toolbar) {
                         toolbar.setExtra('right', me.header.getPanel('right'));
                         toolbar.setExtra('left', me.header.getPanel('left'));
+                    },
+                    'view:compact'  : function (toolbar, state) {
+                        me.viewport.vlayout.panels[0].height = state ? 40 : 40+67;
                     }
                 },
                 'Common.Views.Header': {

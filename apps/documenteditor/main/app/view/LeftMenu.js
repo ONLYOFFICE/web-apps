@@ -259,7 +259,6 @@ define([
         close: function(menu) {
             if ( this.menuFile.isVisible() ) {
                 this.menuFile.hide();
-                Common.NotificationCenter.trigger('layout:changed', 'menufile');
             } else {
 
                 this.btnAbout.toggle(false);

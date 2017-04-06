@@ -7,7 +7,8 @@
 }
 
 .toolbar {
-    //overflow: hidden;
+    position: relative;
+    z-index: 101;
 
     &:not(.folded) {
         height: @height-tabs + @height-controls;
@@ -16,21 +17,42 @@
     &.folded {
         height: @height-tabs;
         transition: height .2s;
+        overflow: hidden;
 
         &.expanded {
             height: @height-tabs + @height-controls;
+            overflow: visible;
+        }
+
+        &:not(.expanded) {
+            .marker {
+                opacity: 0;
+            }
+
+            .rib-tab.active {
+                > a {
+                    font-weight: normal;
+                }
+            }
         }
     }
 
     .box-tabs {
         height: @height-tabs;
-        .box-shadow(0 1px 0 @gray-dark);
 
         display: flex;
         align-items: stretch;
 
         .extra {
             background-color: @tabs-bg-color;
+        }
+
+        &::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            border-top: 1px solid @gray-dark;
+            top: @height-tabs - 1;
         }
     }
 
@@ -87,9 +109,10 @@
         .marker {
             position: relative;
             border-top: 3px solid @gray-darker;
-            top: -4px;
+            top: -5px;
             -webkit-transition: width .2s, left .2s ease-out;
-            transition: width .2s, left .2s ease-out;
+            opacity: 1;
+            transition: width .2s, left .2s ease-out, opacity .2s;
         }
 
         &:not(.short) {

@@ -127,8 +127,8 @@ define([
             optsFold.timer = setTimeout(collapseToolbar, optsFold.timeout);
         }
 
-        function setFolded(f) {
-            isFolded = f;
+        function setFolded(value) {
+            isFolded = value;
 
             if ( isFolded ) {
                 if ( !optsFold.$bar ) optsFold.$bar = this.$el.find('.toolbar');
@@ -138,13 +138,9 @@ define([
                 optsFold.$box.on({
                     mouseleave: function (e) {
                         optsFold.timer = setTimeout(collapseToolbar, optsFold.timeout);
-
-                        console.log('mouse out');
                     },
                     mouseenter: function (e) {
                         clearTimeout(optsFold.timer);
-
-                        console.log('mouse in');
                     }
                 });
 
@@ -1346,14 +1342,11 @@ define([
                 // } else
                 //     this.btnPageMargins.menu.items[0].setVisible(false);
 
-                var value = Common.localStorage.getItem("de-compact-toolbar");
-                var valueCompact = !!(value !== null && parseInt(value) == 1 || value === null && mode.customization && mode.customization.compactToolbar);
-
                 me.$el.html( me.rendererComponents(config.$dom) );
 
-                me.isCompactView = valueCompact;
-
                 this.fireEvent('render:after', [this]);
+
+                me.isCompactView = Common.localStorage.getBool("de-compact-toolbar");
 
                 /** coauthoring begin **/
                 value = Common.localStorage.getItem("de-hide-synch");
@@ -1391,7 +1384,9 @@ define([
                     }
                 });
 
-                me.setTab('home');
+                if ( me.isCompactView )
+                    me.setFolded(true); else
+                    me.setTab('home');
 
                 return this;
             },
@@ -2157,19 +2152,10 @@ define([
 
                 /**/
                 var mode = this.mode;
-                var value = Common.localStorage.getItem("de-compact-toolbar");
-                var valueCompact = !!(value !== null && parseInt(value) == 1 || value === null && this.mode.customization && this.mode.customization.compactToolbar);
 
-                value = Common.localStorage.getItem("de-hidden-title");
-                var valueTitle = (value !== null && parseInt(value) == 1);
-
-                value = Common.localStorage.getItem("de-hidden-status");
-                var valueStatus = (value !== null && parseInt(value) == 1);
-
-                value = Common.localStorage.getItem("de-hidden-rulers");
-                var valueRulers = (value !== null && parseInt(value) == 1);
-
-                this.mnuitemCompactToolbar.setChecked(valueCompact, true);
+                // value = Common.localStorage.getItem("de-compact-toolbar");
+                // var valueCompact = !!(value !== null && parseInt(value) == 1 || value === null && this.mode.customization && this.mode.customization.compactToolbar);
+                this.mnuitemCompactToolbar.setChecked(this.isCompactView, true);
                 this.mnuitemCompactToolbar.on('toggle', _.bind(this.changeViewMode, this));
 
                 this.mnuitemHideTitleBar.setChecked(valueTitle, true);
@@ -2294,53 +2280,7 @@ define([
             },
 
             changeViewMode: function (item, compact) {
-                var me = this,
-                    toolbarFull = $('#id-toolbar-full'),
-                    toolbarShort = $('#id-toolbar-short');
-
-                me.isCompactView = compact;
-
-                if (toolbarFull && toolbarShort) {
-                    if (compact) {
-                        toolbarShort.css({
-                            display: 'table'
-                        });
-                        toolbarFull.css({
-                            display: 'none'
-                        });
-                        toolbarShort.parent().css({
-                            height: '41px'
-                        });
-                        this.rendererComponents('short');
-                    } else {
-                        toolbarShort.css({
-                            display: 'none'
-                        });
-                        toolbarFull.css({
-                            display: 'table'
-                        });
-                        toolbarShort.parent().css({
-                            height: '67px'
-                        });
-                        this.rendererComponents('full');
-
-                        // layout styles
-                        _.defer(function () {
-                            var listStylesVisible = (me.listStyles.rendered);
-
-                            if (me.listStyles.menuPicker.store.length > 0 && listStylesVisible) {
-                                me.listStyles.fillComboView(me.listStyles.menuPicker.getSelectedRec(), true);
-                            }
-
-                            if (me.btnInsertText.rendered)
-                                DE.getController('Toolbar').fillTextArt();
-                            if (me.btnInsertEquation.rendered)
-                                DE.getController('Toolbar').fillEquations();
-                        }, 100);
-                    }
-
-                    this.fireEvent('changecompact', [this, compact]);
-                }
+                this.fireEvent('view:compact', [this, compact]);
             },
 
             onSendThemeColorSchemes: function (schemas) {

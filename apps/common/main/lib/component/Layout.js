@@ -454,7 +454,7 @@ define([
                     style = {top: height};
                     panel.rely!==true && (style.height = panel.height);
                     panel.el.css(style);
-                    height += this.getElementHeight(panel.el);
+                    height += style.height || this.getElementHeight(panel.el);
                 }
             }, this);
         }

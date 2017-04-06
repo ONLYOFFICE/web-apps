@@ -90,6 +90,11 @@ define(['gateway'], function () {
             return (value !== null && parseInt(value) != 0);
         }
 
+        var _getItemExists = function (name) {
+            var value = _getItem(name);
+            return value !== null;
+        }
+
         try {
             var _lsAllowed = !!window.localStorage;
         } catch (e) {
@@ -109,6 +114,7 @@ define(['gateway'], function () {
             setKeysFilter: function(value) {
                 _filter = value;
             },
+            itemExists: _getItemExists,
             sync: _refresh,
             save: _save
         };
