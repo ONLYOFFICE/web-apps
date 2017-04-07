@@ -24,7 +24,6 @@
     background-color: #fff;
     display: flex;
     //align-items: stretch;
-    overflow: hidden;
     z-index: 500;
     .hairline(bottom, @gray-dark);//@toolbarBorderColor);
 
@@ -37,17 +36,36 @@
     .btn {
         border: 0 none;
         height: @cellEditorHeight;
-        background-color: transparent;
     }
 
     .ce-group {
         overflow: hidden;
         height: 100%;
+        position: relative;
     }
 
     .group-name {
         display: inline-flex;
         background-color: @gray-light;
+        z-index: 1;
+    }
+
+    .group-content {
+        position: relative;
+        padding-left: 1px;
+        .hairline(left, @gray-dark);
+        flex-grow: 1;
+        //height: 100%;
+    }
+
+    .group-name, .group-content,
+    .group-expand {
+        z-index: 1;
+    }
+
+    .group-functions-list {
+        position: absolute;
+        height: @cellEditorHeight;
     }
 
     #ce-cell-name {
@@ -71,20 +89,9 @@
         padding: 0 10px;
     }
 
-    .group-expand {
-    }
-
-    .group-content {
-        position: relative;
-        padding-left: 1px;
-        .hairline(left, @gray-dark);
-        flex-grow: 1;
-        //height: 100%;
-    }
-
     #ce-btn-expand {
         width: @cellEditorHeight;
-        background: transparent;
+        background-color: #fff;
         padding: 0 2px 0;
 
         .caret {
@@ -126,10 +133,51 @@
     #ce-cell-name, #ce-cell-content {
         border-radius: 0;
     }
+
+    &.expanded {
+        .group-functions-list {
+            &.opened {
+                top: @cellEditorExpandedHeight;
+            }
+        }
+    }
+}
+
+.group-functions-list {
+    width: 100%;
+    background-color: #fff;
+    top: 0;
+    .hairline(bottom, @gray-dark);
+
+    transition: top .2s;
+
+    &.opened {
+        top: @cellEditorHeight;
+    }
+
+    &:not(.opened) {
+        display: none;
+    }
+
+    ul {
+        white-space: nowrap;
+        overflow: hidden;
+        padding: 0;
+        margin: 0;
+
+        > li {
+            display: inline-block;
+
+            > a {
+                line-height: 30px;
+                padding: 0 8px 0;
+            }
+        }
+    }
 }
 
 .phone {
     #cell-editing-box #ce-cell-name {
-        width: 70px;
+        display: none;
     }
 }

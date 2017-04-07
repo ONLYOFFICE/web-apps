@@ -74,7 +74,8 @@ define([
             toolbar: '#viewport #toolbar',
             leftMenu: '#viewport #left-menu, #viewport #id-toolbar-full-placeholder-btn-settings, #viewport #id-toolbar-short-placeholder-btn-settings',
             rightMenu: '#viewport #right-menu',
-            header: '#viewport #header'
+            header: '#viewport #header',
+            statusBar: '#statusbar'
         };
 
         Common.localStorage.setId('table');
@@ -102,7 +103,7 @@ define([
             onLaunch: function() {
 //                $(document.body).css('position', 'absolute');
 
-                this._state = {isDisconnected: false, usersCount: 1, fastCoauth: true, startModifyDocument: true, lostEditingRights: false, licenseWarning: false};
+                this._state = {isDisconnected: false, usersCount: 1, fastCoauth: true, lostEditingRights: false, licenseWarning: false};
 
                 if (!Common.Utils.isBrowserSupported()){
                     Common.Utils.showBrowserRestriction();
@@ -166,6 +167,8 @@ define([
                     if (e && e.target && !/area_id/.test(e.target.id)) {
                         if (/msg-reply/.test(e.target.className))
                             me.dontCloseDummyComment = true;
+                        else if (/chat-msg-text/.test(e.target.id))
+                            me.dontCloseChat = true;
                     }
                 });
 
@@ -180,6 +183,8 @@ define([
                             me.api.asc_enableKeyEvents(true);
                             if (/msg-reply/.test(e.target.className))
                                 me.dontCloseDummyComment = false;
+                            else if (/chat-msg-text/.test(e.target.id))
+                                me.dontCloseChat = false;
                         }
                     }
                 }).on('dragover', function(e) {
@@ -217,8 +222,8 @@ define([
                     },
                     'menu:show': function(e){
                     },
-                    'menu:hide': function(menu){
-                        if (!me.isModalShowed && (!menu || !menu.cmpEl.hasClass('from-cell-edit'))) {
+                    'menu:hide': function(menu, isFromInputControl){
+                        if (!me.isModalShowed && (!menu || !menu.cmpEl.hasClass('from-cell-edit')) && !isFromInputControl) {
                             me.api.asc_InputClearKeyboardElement();
                             me.api.asc_enableKeyEvents(true);
                         }
@@ -425,12 +430,12 @@ define([
                     this.setLongActionView(action);
                 } else {
                     if (this.loadMask) {
-                        if (this.loadMask.isVisible() && !this.dontCloseDummyComment)
+                        if (this.loadMask.isVisible() && !this.dontCloseDummyComment && !this.dontCloseChat)
                             this.api.asc_enableKeyEvents(true);
                         this.loadMask.hide();
                     }
 
-                    if (type == Asc.c_oAscAsyncActionType.BlockInteraction && !( (id == Asc.c_oAscAsyncAction['LoadDocumentFonts'] || id == Asc.c_oAscAsyncAction['ApplyChanges']) && this.dontCloseDummyComment ))
+                    if (type == Asc.c_oAscAsyncActionType.BlockInteraction && !( (id == Asc.c_oAscAsyncAction['LoadDocumentFonts'] || id == Asc.c_oAscAsyncAction['ApplyChanges']) && (this.dontCloseDummyComment || this.dontCloseChat) ))
                         this.onEditComplete(this.loadMask, {restorefocus:true});
                 }
             },
@@ -649,7 +654,6 @@ define([
 
                             rightmenuController.createDelayedElements();
 
-                            me.api.asc_registerCallback('asc_onSaveUrl', _.bind(me.onSaveUrl, me));
                             me.api.asc_registerCallback('asc_onDocumentModifiedChanged', _.bind(me.onDocumentModifiedChanged, me));
                             me.api.asc_registerCallback('asc_onDocumentCanSaveChanged',  _.bind(me.onDocumentCanSaveChanged, me));
                             me.api.asc_registerCallback('asc_OnTryUndoInFastCollaborative',_.bind(me.onTryUndoInFastCollaborative, me));
@@ -760,6 +764,7 @@ define([
                     this.appOptions.canComments    = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit) && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.comments===false);
                     this.appOptions.canChat        = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit) && !this.appOptions.isOffline && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.chat===false);
                     this.appOptions.canRename      = !!this.permissions.rename;
+                    this.appOptions.isTrial        = params.asc_getTrial();
 
                     this.appOptions.canBranding  = (licType === Asc.c_oLicenseResult.Success) && (typeof this.editorConfig.customization == 'object');
                     if (this.appOptions.canBranding)
@@ -769,7 +774,6 @@ define([
                     if (this.appOptions.canBrandingExt)
                         this.updatePlugins(this.plugins, true);
 
-                    params.asc_getTrial() && this.headerView.setDeveloperMode(true);
                     this.appOptions.canRename && this.headerView.setCanRename(true);
                 }
 
@@ -1043,6 +1047,16 @@ define([
                         config.closable = true;
                         break;
 
+                    case Asc.c_oAscError.ID.FrmlOperandExpected:
+                        config.msg = this.errorOperandExpected;
+                        config.closable = true;
+                        break;
+
+                    case Asc.c_oAscError.ID.FrmlWrongReferences:
+                        config.msg = this.errorFrmlWrongReferences;
+                        config.closable = true;
+                        break;
+
                     case Asc.c_oAscError.ID.UnexpectedGuid:
                         config.msg = this.errorUnexpectedGuid;
                         break;
@@ -1065,10 +1079,6 @@ define([
 
                     case Asc.c_oAscError.ID.DataRangeError:
                         config.msg = this.errorDataRange;
-                        break;
-
-                    case Asc.c_oAscError.ID.FrmlOperandExpected:
-                        config.msg = this.errorOperandExpected;
                         break;
 
                     case Asc.c_oAscError.ID.VKeyEncrypt:
@@ -1154,10 +1164,6 @@ define([
                     
                     case Asc.c_oAscError.ID.OpenWarning:
                         config.msg = this.errorOpenWarning;
-                        break;
-
-                    case Asc.c_oAscError.ID.FrmlWrongReferences:
-                        config.msg = this.errorFrmlWrongReferences;
                         break;
 
                     case Asc.c_oAscError.ID.CopyMultiselectAreaError:
@@ -1271,24 +1277,26 @@ define([
                         title = this.headerView.getDocumentCaption() + ' - ' + title;
 
                     if (change) {
-                        if (!_.isUndefined(title) && (!this._state.fastCoauth || this._state.usersCount<2 )) {
+                        clearTimeout(this._state.timerCaption);
+                        if (!_.isUndefined(title)) {
                             title = '* ' + title;
-                            this.headerView.setDocumentCaption(this.headerView.getDocumentCaption() + '*', true);
+                            this.headerView.setDocumentCaption(this.headerView.getDocumentCaption(), true);
                         }
                     } else {
-                        this.headerView.setDocumentCaption(this.headerView.getDocumentCaption());
+                        if (this._state.fastCoauth && this._state.usersCount>1) {
+                            var me = this;
+                            this._state.timerCaption = setTimeout(function () {
+                                me.headerView.setDocumentCaption(me.headerView.getDocumentCaption(), false);
+                            }, 500);
+                        } else
+                            this.headerView.setDocumentCaption(this.headerView.getDocumentCaption(), false);
                     }
 
                     if (window.document.title != title)
                         window.document.title = title;
 
-                    if (!this._state.fastCoauth || this._state.usersCount<2 )
-                        Common.Gateway.setDocumentModified(change);
-                    else if ( this._state.startModifyDocument!==undefined && this._state.startModifyDocument === change){
-                        Common.Gateway.setDocumentModified(change);
-                        this._state.startModifyDocument = (this._state.startModifyDocument) ? !this._state.startModifyDocument : undefined;
-                    }
-                    
+                    Common.Gateway.setDocumentModified(change);
+
                     this._state.isDocModified = change;
                 }
             },
@@ -1297,8 +1305,6 @@ define([
             },
 
             onDocumentModifiedChanged: function(change) {
-                if (this._state.fastCoauth && this._state.usersCount>1 && this._state.startModifyDocument===undefined ) return;
-
                 this.updateWindowTitle(change);
                 Common.Gateway.setDocumentModified(change);
 
@@ -1358,10 +1364,6 @@ define([
                 this.stackLongActions.pop({id: InitApplication, type: Asc.c_oAscAsyncActionType.BlockInteraction});
                 Common.NotificationCenter.trigger('layout:changed', 'main');
                 $('#loading-mask').hide().remove();
-            },
-
-            onSaveUrl: function(url) {
-                Common.Gateway.save(url);
             },
 
             onDownloadUrl: function(url) {
@@ -2057,7 +2059,7 @@ define([
             errorFileVKey: 'External error.<br>Incorrect securety key. Please, contact support.',
             errorStockChart: 'Incorrect row order. To build a stock chart place the data on the sheet in the following order:<br> opening price, max price, min price, closing price.',
             errorDataRange: 'Incorrect data range.',
-            errorOperandExpected: 'Operand expected',
+            errorOperandExpected: 'The entered function syntax is not correct. Please check if you are missing one of the parentheses - \'(\' or \')\'.',
             errorKeyEncrypt: 'Unknown key descriptor',
             errorKeyExpire: 'Key descriptor expired',
             errorUsersExceed: 'Count of users was exceed',

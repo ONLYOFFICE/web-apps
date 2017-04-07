@@ -117,7 +117,7 @@ define([
                         text: '',
                         afterText:
                         '<div class="content-block">' +
-                            '<div class="row">' +
+                            '<div class="row no-gutter" style="text-align: center;">' +
                                 '<div class="col-50">' + me.textColumns + '</div>' +
                                 '<div class="col-50">' + me.textRows + '</div>' +
                             '</div>' +
@@ -152,9 +152,12 @@ define([
                         rotateEffect: true,
                         value: [3, 3],
                         cols: [{
-                            textAlign: 'left',
+                            textAlign: 'center',
+                            width: '100%',
                             values: [1,2,3,4,5,6,7,8,9,10]
                         }, {
+                            textAlign: 'center',
+                            width: '100%',
                             values: [1,2,3,4,5,6,7,8,9,10]
                         }]
                     });

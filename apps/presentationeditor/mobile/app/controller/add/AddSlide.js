@@ -103,7 +103,7 @@ define([
                         var name = layout.get_Name();
                         _layouts.push({
                             imageUrl    : layout.get_Image(),
-                            title       : (name !== '') ? name : me.layoutNames[layout.getType()],
+                            title       : (name !== '') ? name : PE.getController('Main').layoutNames[layout.getType()],
                             itemWidth   : layout.get_Width(),
                             itemHeight  : layout.get_Height(),
                             idx         : layout.getIndex()

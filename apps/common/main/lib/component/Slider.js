@@ -338,15 +338,20 @@ define([
                 e.preventDefault();
                 e.stopPropagation();
 
-                var index = e.data,
+                var index = e.data.index,
                     lastValue = me.thumbs[index].value,
                     minValue = (index-1<0) ? 0 : me.thumbs[index-1].position,
                     maxValue = (index+1<me.thumbs.length) ? me.thumbs[index+1].position : 100,
-                    pos = Math.max(minValue, Math.min(maxValue, (Math.round((e.pageX*Common.Utils.zoom() - me.cmpEl.offset().left - me._dragstart) / me.width * 100)))),
+                    position = Math.round((e.pageX*Common.Utils.zoom() - me.cmpEl.offset().left - me._dragstart) / me.width * 100),
+                    need_sort = position < minValue || position > maxValue,
+                    pos = Math.max(0, Math.min(100, position)),
                     value = pos/me.delta + me.minValue;
 
                 me.setThumbPosition(index, pos);
                 me.thumbs[index].value = value;
+
+                if (need_sort)
+                    me.sortThumbs();
 
                 $(document).off('mouseup', onMouseUp);
                 $(document).off('mousemove', onMouseMove);
@@ -362,15 +367,20 @@ define([
                 e.preventDefault();
                 e.stopPropagation();
 
-                var index = e.data,
+                var index = e.data.index,
                     lastValue = me.thumbs[index].value,
                     minValue = (index-1<0) ? 0 : me.thumbs[index-1].position,
                     maxValue = (index+1<me.thumbs.length) ? me.thumbs[index+1].position : 100,
-                    pos = Math.max(minValue, Math.min(maxValue, (Math.round((e.pageX*Common.Utils.zoom() - me.cmpEl.offset().left - me._dragstart) / me.width * 100)))),
+                    position = Math.round((e.pageX*Common.Utils.zoom() - me.cmpEl.offset().left - me._dragstart) / me.width * 100),
+                    need_sort = position < minValue || position > maxValue,
+                    pos = Math.max(0, Math.min(100, position)),
                     value = pos/me.delta + me.minValue;
 
                 me.setThumbPosition(index, pos);
                 me.thumbs[index].value = value;
+
+                if (need_sort)
+                    me.sortThumbs();
 
                 if (Math.abs(value-lastValue)>0.001)
                     me.trigger('change', me, value, lastValue);
@@ -379,7 +389,7 @@ define([
             var onMouseDown = function (e) {
                 if ( me.disabled ) return;
 
-                var index = e.data,
+                var index = e.data.index,
                     thumb = me.thumbs[index].thumb;
 
                 me._dragstart = e.pageX*Common.Utils.zoom() - thumb.offset().left - thumb.width()/2;
@@ -389,8 +399,8 @@ define([
                     (index == idx) ? item.thumb.css('z-index', 500) : item.thumb.css('z-index', '');
                 });
 
-                $(document).on('mouseup', null, index, onMouseUp);
-                $(document).on('mousemove', null, index, onMouseMove);
+                $(document).on('mouseup', null, e.data, onMouseUp);
+                $(document).on('mousemove', null, e.data, onMouseMove);
             };
 
             var onTrackMouseDown = function (e) {
@@ -441,7 +451,7 @@ define([
                     index: index
                 });
                 me.setValue(index, me.options.values[index]);
-                thumb.on('mousedown', null, index, onMouseDown);
+                thumb.on('mousedown', null, me.thumbs[index], onMouseDown);
             });
             me.setActiveThumb(0, true);
 
@@ -489,6 +499,18 @@ define([
             if (disabled !== this.disabled)
                 this.cmpEl.toggleClass('disabled', disabled);
             this.disabled = disabled;
+        },
+
+        sortThumbs: function() {
+            this.thumbs.sort(function(a, b) {
+                return (a.position - b.position);
+            });
+            var recalc_indexes = [];
+            _.each (this.thumbs, function(thumb, index) {
+                recalc_indexes.push(thumb.index);
+                thumb.index = index;
+            });
+            return recalc_indexes;
         }
     });
 });

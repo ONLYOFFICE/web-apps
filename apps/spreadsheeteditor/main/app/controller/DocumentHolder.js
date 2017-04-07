@@ -47,6 +47,7 @@ define([
     'spreadsheeteditor/main/app/view/DocumentHolder',
     'spreadsheeteditor/main/app/view/HyperlinkSettingsDialog',
     'spreadsheeteditor/main/app/view/ParagraphSettingsAdvanced',
+    'spreadsheeteditor/main/app/view/ImageSettingsAdvanced',
     'spreadsheeteditor/main/app/view/SetValueDialog',
     'spreadsheeteditor/main/app/view/AutoFilterDialog'
 ], function () {
@@ -184,6 +185,7 @@ define([
             view.pmiTextAdvanced.on('click',                    _.bind(me.onTextAdvanced, me));
             view.mnuShapeAdvanced.on('click',                   _.bind(me.onShapeAdvanced, me));
             view.mnuChartEdit.on('click',                       _.bind(me.onChartEdit, me));
+            view.mnuImgAdvanced.on('click',                     _.bind(me.onImgAdvanced, me));
 
             var documentHolderEl = view.cmpEl;
 
@@ -688,6 +690,25 @@ define([
             })).show();
         },
 
+        onImgAdvanced: function(item) {
+            var me = this;
+
+            (new SSE.Views.ImageSettingsAdvanced({
+                imageProps  : item.imageInfo,
+                api             : me.api,
+                handler         : function(result, value) {
+                    if (result == 'ok') {
+                        if (me.api) {
+                            me.api.asc_setGraphicObjectProps(value.imageProps);
+
+                            Common.component.Analytics.trackEvent('DocumentHolder', 'Apply advanced image settings');
+                        }
+                    }
+                    Common.NotificationCenter.trigger('edit:complete', me);
+                }
+            })).show();
+        },
+
         onChartEdit: function(item) {
             var me = this;
             var win, props;
@@ -805,7 +826,7 @@ define([
                             linkstr = props.asc_getHyperlinkUrl() + '<br><b>' + me.textCtrlClick + '</b>';
                         }
                     } else {
-                        linkstr = props.asc_getTooltip() || (props.asc_getSheet() + '!' + props.asc_getRange());
+                        linkstr = props.asc_getTooltip() || (props.asc_getLocation());
                     }
 
                     if (hyperlinkTip.ref && hyperlinkTip.ref.isVisible()) {
@@ -1213,9 +1234,10 @@ define([
                             documentHolder.mnuChartEdit.chartInfo = elValue;
                             ischartmenu = true;
                             has_chartprops = true;
-                        } 
-                        else
+                        } else {
+                            documentHolder.mnuImgAdvanced.imageInfo = elValue;
                             isimagemenu = true;
+                        }
                     }
                 }
 
@@ -1227,8 +1249,10 @@ define([
                 documentHolder.mnuChartEdit.setDisabled(isObjLocked);
                 documentHolder.pmiImgCut.setDisabled(isObjLocked);
                 documentHolder.pmiImgPaste.setDisabled(isObjLocked);
+                documentHolder.mnuImgAdvanced.setVisible(isimagemenu && !isshapemenu && !ischartmenu);
+                documentHolder.mnuImgAdvanced.setDisabled(isObjLocked);
                 if (showMenu) this.showPopupMenu(documentHolder.imgMenu, {}, event);
-                documentHolder.mnuShapeSeparator.setVisible(documentHolder.mnuShapeAdvanced.isVisible() || documentHolder.mnuChartEdit.isVisible());
+                documentHolder.mnuShapeSeparator.setVisible(documentHolder.mnuShapeAdvanced.isVisible() || documentHolder.mnuChartEdit.isVisible() || documentHolder.mnuImgAdvanced.isVisible());
             } else if (istextshapemenu || istextchartmenu) {
                 if (!showMenu && !documentHolder.textInShapeMenu.isVisible()) return;
                 

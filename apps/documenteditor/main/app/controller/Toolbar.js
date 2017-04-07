@@ -672,7 +672,7 @@ define([
                 toolbar.mnuInsertPageNum.setDisabled(need_disable);
             }
 
-            need_disable = paragraph_locked || header_locked || in_header || in_equation && !btn_eq_state;
+            need_disable = paragraph_locked || header_locked || in_header || in_equation && !btn_eq_state || this.api.asc_IsCursorInFootnote();
             if (need_disable != toolbar.btnInsertPageBreak.isDisabled()) {
                 toolbar.btnInsertPageBreak.setDisabled(need_disable);
             }

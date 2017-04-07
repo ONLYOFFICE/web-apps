@@ -50,7 +50,6 @@
                 lang: <language code>,
                 location: <location>,
                 canCoAuthoring: <can coauthoring documents>,
-                canAutosave: <can autosave documents>,
                 canBackToFolder: <can return to folder> - deprecated. use "customization.goback" parameter,
                 createUrl: 'create document url', 
                 sharingSettingsUrl: 'document sharing settings url',
@@ -113,6 +112,7 @@
                     rightMenu: true,
                     toolbar: true,
                     header: true,
+                    statusBar: true,
                     autosave: true,
                     forcesave: false,
                     commentAuthorOnly: false
@@ -131,8 +131,7 @@
             events: {
                 'onReady': <document ready callback>,
                 'onBack': <back to folder callback>,
-                'onDocumentStateChange': <document state changed callback>,
-                'onSave': <save request callback>
+                'onDocumentStateChange': <document state changed callback>
             }
         }
 
@@ -280,9 +279,6 @@
 
                         if (handler) {
                             res = handler.call(_self, {target: _self, data: msg.data});
-                            if (msg.event === 'onSave' && res !== false) {
-                                _processSaveResult(true);
-                            }
                         }
                     }
                 }

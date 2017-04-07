@@ -127,7 +127,7 @@ define([
                     }
                     break;
                 case 'unmerge':
-                    me.api.asc_mergeCells(Asc.c_oAscMergeOptions.Unmerge);
+                    me.api.asc_mergeCells(Asc.c_oAscMergeOptions.None);
                     break;
                 case 'hide':
                     me.api[info.asc_getFlags().asc_getSelectionType() == Asc.c_oAscSelectionType.RangeRow ? 'asc_hideRows' : 'asc_hideColumns']();
@@ -182,7 +182,7 @@ define([
             onApiShowPopMenu: function(posX, posY) {
                 if ( !_isEdit ) return;
 
-                if ($('.popover.settings, .popup.settings, .picker-modal.settings, .modal-in').length > 0) {
+                if ($('.popover.settings, .popup.settings, .picker-modal.settings, .modal-in, .actions-modal').length > 0) {
                     return;
                 }
 
@@ -278,12 +278,13 @@ define([
                                 event: 'edit'
                             });
 
+                            (cellinfo.asc_getFlags().asc_getMerge() == Asc.c_oAscMergeOptions.None) &&
                             menuItems.push({
                                 caption: me.menuMerge,
                                 event: 'merge'
                             });
 
-                            cellinfo.asc_getFlags().asc_getMerge() &&
+                            (cellinfo.asc_getFlags().asc_getMerge() ==  Asc.c_oAscMergeOptions.Merge) &&
                             menuItems.push({
                                 caption: me.menuUnmerge,
                                 event: 'unmerge'

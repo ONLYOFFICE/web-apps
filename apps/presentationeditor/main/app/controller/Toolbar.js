@@ -697,11 +697,11 @@ define([
         },
 
         onApiLockDocumentTheme: function() {
-            this.toolbar.lockToolbar(PE.enumLock.themeLock, true, {array: [this.toolbar.btnColorSchemas]});
+            this.toolbar.lockToolbar(PE.enumLock.themeLock, true, {array: [this.toolbar.btnColorSchemas, this.toolbar.listTheme]});
         },
 
         onApiUnLockDocumentTheme: function() {
-            this.toolbar.lockToolbar(PE.enumLock.themeLock, false, {array: [this.toolbar.btnColorSchemas]});
+            this.toolbar.lockToolbar(PE.enumLock.themeLock, false, {array: [this.toolbar.btnColorSchemas, this.toolbar.listTheme]});
         },
 
         onApiCoAuthoringDisconnect: function(disableDownload) {
@@ -872,7 +872,7 @@ define([
             if (this.api && this.api.asc_isDocumentCanSave) {
                 var isModified = this.api.asc_isDocumentCanSave();
                 var isSyncButton = $('.btn-icon', this.toolbar.btnSave.cmpEl).hasClass('btn-synch');
-                if (!isModified && !isSyncButton)
+                if (!isModified && !isSyncButton && !this.toolbar.mode.forcesave)
                     return;
 
                 this.api.asc_Save();

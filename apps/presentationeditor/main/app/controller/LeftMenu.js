@@ -166,6 +166,7 @@ define([
                 this.leftMenu.btnChat.hide();
                 this.leftMenu.btnComments.hide();
             }
+            this.mode.isTrial && this.leftMenu.setDeveloperMode(true);
             /** coauthoring end **/
             Common.util.Shortcuts.resumeEvents();
             this.leftMenu.btnThumbs.toggle(true);
@@ -178,6 +179,7 @@ define([
                 this.leftMenu.setOptionsPanel('plugins', this.getApplication().getController('Common.Controllers.Plugins').getView('Common.Views.Plugins'));
             } else
                 this.leftMenu.btnPlugins.hide();
+            this.mode.isTrial && this.leftMenu.setDeveloperMode(true);
         },
 
         clickMenuFileItem: function(menu, action, isopts) {

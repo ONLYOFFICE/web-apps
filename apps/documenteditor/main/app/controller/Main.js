@@ -69,7 +69,8 @@ define([
             toolbar: '#viewport #toolbar',
             leftMenu: '#viewport #left-menu, #viewport #id-toolbar-full-placeholder-btn-settings, #viewport #id-toolbar-short-placeholder-btn-settings',
             rightMenu: '#viewport #right-menu',
-            header: '#viewport #header'
+            header: '#viewport #header',
+            statusBar: '#statusbar'
         };
 
         Common.localStorage.setId('text');
@@ -103,7 +104,7 @@ define([
                     weakCompare     : function(obj1, obj2){return obj1.type === obj2.type;}
                 });
 
-                this._state = {isDisconnected: false, usersCount: 1, fastCoauth: true, startModifyDocument: true, lostEditingRights: false, licenseWarning: false};
+                this._state = {isDisconnected: false, usersCount: 1, fastCoauth: true, lostEditingRights: false, licenseWarning: false};
 
                 // Initialize viewport
 
@@ -168,6 +169,8 @@ define([
                         if (!/area_id/.test(e.target.id)) {
                             if (/msg-reply/.test(e.target.className))
                                 me.dontCloseDummyComment = true;
+                            else if (/chat-msg-text/.test(e.target.id))
+                                me.dontCloseChat = true;
                         }
                     });
 
@@ -180,6 +183,8 @@ define([
                                 me.api.asc_enableKeyEvents(true);
                                 if (/msg-reply/.test(e.target.className))
                                     me.dontCloseDummyComment = false;
+                                else if (/chat-msg-text/.test(e.target.id))
+                                    me.dontCloseChat = false;
                             }
                         }
                     }).on('dragover', function(e) {
@@ -218,14 +223,23 @@ define([
                         },
                         'menu:show': function(e){
                         },
-                        'menu:hide': function(e){
-                            if (!me.isModalShowed)
+                        'menu:hide': function(e, isFromInputControl){
+                            if (!me.isModalShowed && !isFromInputControl)
                                 me.api.asc_enableKeyEvents(true);
                         },
                         'edit:complete': _.bind(me.onEditComplete, me)
                     });
 
                     this.initNames(); //for shapes
+
+                    Common.util.Shortcuts.delegateShortcuts({
+                        shortcuts: {
+                            'command+s,ctrl+s': _.bind(function (e) {
+                                e.preventDefault();
+                                e.stopPropagation();
+                            }, this)
+                        }
+                    });
                 }
             },
 
@@ -574,14 +588,9 @@ define([
                     if (id==Asc.c_oAscAsyncAction['Save'] || id==Asc.c_oAscAsyncAction['ForceSaveButton']) {
                         if (this._state.fastCoauth && this._state.usersCount>1) {
                             var me = this;
-                            if (me._state.timerSave===undefined)
-                                me._state.timerSave = setInterval(function(){
-                                    if ((new Date()) - me._state.isSaving>500) {
-                                        clearInterval(me._state.timerSave);
-                                        me.getApplication().getController('Statusbar').setStatusCaption(me.textChangesSaved, false, 3000);
-                                        me._state.timerSave = undefined;
-                                    }
-                                }, 500);
+                            me._state.timerSave = setTimeout(function () {
+                                me.getApplication().getController('Statusbar').setStatusCaption(me.textChangesSaved, false, 3000);
+                            }, 500);
                         } else
                             this.getApplication().getController('Statusbar').setStatusCaption(this.textChangesSaved, false, 3000);
                     } else
@@ -596,7 +605,7 @@ define([
 
                 if ( type == Asc.c_oAscAsyncActionType.BlockInteraction &&
                     (!this.getApplication().getController('LeftMenu').dlgSearch || !this.getApplication().getController('LeftMenu').dlgSearch.isVisible()) &&
-                    !( id == Asc.c_oAscAsyncAction['ApplyChanges'] && this.dontCloseDummyComment ) ) {
+                    !( id == Asc.c_oAscAsyncAction['ApplyChanges'] && (this.dontCloseDummyComment || this.dontCloseChat)) ) {
 //                        this.onEditComplete(this.loadMask); //если делать фокус, то при принятии чужих изменений, заканчивается свой композитный ввод
                         this.api.asc_enableKeyEvents(true);
                 }
@@ -613,7 +622,7 @@ define([
 
                     case Asc.c_oAscAsyncAction['Save']:
                     case Asc.c_oAscAsyncAction['ForceSaveButton']:
-                        this._state.isSaving = new Date();
+                        clearTimeout(this._state.timerSave);
                         force = true;
                         title   = this.saveTitleText;
                         text    = this.saveTextText;
@@ -965,7 +974,7 @@ define([
                 this.appOptions.canUseHistory  = this.appOptions.canLicense && !this.appOptions.isLightVersion && this.editorConfig.canUseHistory && this.appOptions.canCoAuthoring && !this.appOptions.isDesktopApp;
                 this.appOptions.canHistoryClose  = this.editorConfig.canHistoryClose;
                 this.appOptions.canHistoryRestore= this.editorConfig.canHistoryRestore && !!this.permissions.changeHistory;
-                this.appOptions.canUseMailMerge= this.appOptions.canLicense && this.appOptions.canEdit && !this.appOptions.isDesktopApp;
+                this.appOptions.canUseMailMerge= this.appOptions.canLicense && this.appOptions.canEdit && /*!this.appOptions.isDesktopApp*/ !this.appOptions.isOffline;
                 this.appOptions.canSendEmailAddresses  = this.appOptions.canLicense && this.editorConfig.canSendEmailAddresses && this.appOptions.canEdit && this.appOptions.canCoAuthoring;
                 this.appOptions.canComments    = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit) && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.comments===false);
                 this.appOptions.canChat        = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit) && !this.appOptions.isOffline && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.chat===false);
@@ -976,6 +985,7 @@ define([
                 this.appOptions.canForcesave   = this.appOptions.isEdit && !this.appOptions.isOffline && (typeof (this.editorConfig.customization) == 'object' && !!this.editorConfig.customization.forcesave);
                 this.appOptions.forcesave      = this.appOptions.canForcesave;
                 this.appOptions.canEditComments= this.appOptions.isOffline || !(typeof (this.editorConfig.customization) == 'object' && this.editorConfig.customization.commentAuthorOnly);
+                this.appOptions.isTrial         = params.asc_getTrial();
 
                 var type = /^(?:(pdf|djvu|xps))$/.exec(this.document.fileType);
                 this.appOptions.canDownloadOrigin = !this.appOptions.nativeApp && this.permissions.download !== false && (type && typeof type[1] === 'string');
@@ -988,7 +998,6 @@ define([
                 if (this.appOptions.canBranding)
                     headerView.setBranding(this.editorConfig.customization);
 
-                params.asc_getTrial() && headerView.setDeveloperMode(true);
                 this.appOptions.canRename && headerView.setCanRename(true);
 
                 this.appOptions.canBrandingExt = params.asc_getCanBranding() && (typeof this.editorConfig.customization == 'object' || this.editorConfig.plugins);
@@ -1106,7 +1115,6 @@ define([
 
                     me.api.asc_registerCallback('asc_onDocumentModifiedChanged', _.bind(me.onDocumentModifiedChanged, me));
                     me.api.asc_registerCallback('asc_onDocumentCanSaveChanged',  _.bind(me.onDocumentCanSaveChanged, me));
-                    me.api.asc_registerCallback('asc_onSaveUrl',                 _.bind(me.onSaveUrl, me));
                     /** coauthoring begin **/
                     me.api.asc_registerCallback('asc_onCollaborativeChanges',    _.bind(me.onCollaborativeChanges, me));
                     me.api.asc_registerCallback('asc_OnTryUndoInFastCollaborative',_.bind(me.onTryUndoInFastCollaborative, me));
@@ -1259,6 +1267,10 @@ define([
                         config.msg = this.errorAccessDeny;
                         break;
 
+                    case Asc.c_oAscError.ID.UplImageUrl:
+                        config.msg = this.errorBadImageUrl;
+                        break;
+
                     default:
                         config.msg = this.errorDefaultMessage.replace('%1', id);
                         break;
@@ -1355,33 +1367,32 @@ define([
                         title = headerView.getDocumentCaption() + ' - ' + title;
 
                     if (isModified) {
-                        if (!_.isUndefined(title) && (!this._state.fastCoauth || this._state.usersCount<2 )) {
+                        clearTimeout(this._state.timerCaption);
+                        if (!_.isUndefined(title)) {
                             title = '* ' + title;
-                            headerView.setDocumentCaption(headerView.getDocumentCaption() + '*', true);
+                            headerView.setDocumentCaption(headerView.getDocumentCaption(), true);
                         }
                     } else {
-                        headerView.setDocumentCaption(headerView.getDocumentCaption());
+                        if (this._state.fastCoauth && this._state.usersCount>1) {
+                            this._state.timerCaption = setTimeout(function () {
+                                headerView.setDocumentCaption(headerView.getDocumentCaption(), false);
+                            }, 500);
+                        } else
+                            headerView.setDocumentCaption(headerView.getDocumentCaption(), false);
                     }
 
                     if (window.document.title != title)
                         window.document.title = title;
 
-                    if (!this._state.fastCoauth || this._state.usersCount<2 ) {
-                        Common.Gateway.setDocumentModified(isModified);
-                        if (isModified)
-                            this.getApplication().getController('Statusbar').setStatusCaption('', true);
-                    } else if ( this._state.startModifyDocument!==undefined && this._state.startModifyDocument === isModified){
-                        Common.Gateway.setDocumentModified(isModified);
-                        this._state.startModifyDocument = (this._state.startModifyDocument) ? !this._state.startModifyDocument : undefined;
-                    }
+                    Common.Gateway.setDocumentModified(isModified);
+                    if (isModified && (!this._state.fastCoauth || this._state.usersCount<2))
+                        this.getApplication().getController('Statusbar').setStatusCaption('', true);
 
                     this._state.isDocModified = isModified;
                 }
             },
 
             onDocumentModifiedChanged: function() {
-                if (this._state.fastCoauth && this._state.usersCount>1 && this._state.startModifyDocument===undefined ) return;
-
                 var isModified = this.api.asc_isDocumentCanSave();
                 if (this._state.isDocModified !== isModified) {
                     Common.Gateway.setDocumentModified(this.api.isDocumentModified());
@@ -1465,10 +1476,6 @@ define([
 
                 Common.NotificationCenter.trigger('layout:changed', 'main');
                 $('#loading-mask').hide().remove();
-            },
-
-            onSaveUrl: function(url) {
-                Common.Gateway.save(url);
             },
 
             onDownloadUrl: function(url) {
@@ -2122,7 +2129,8 @@ define([
             errorAccessDeny: 'You are trying to perform an action you do not have rights for.<br>Please contact your Document Server administrator.',
             titleServerVersion: 'Editor updated',
             errorServerVersion: 'The editor version has been updated. The page will be reloaded to apply the changes.',
-            textChangesSaved: 'All changes saved'
+            textChangesSaved: 'All changes saved',
+            errorBadImageUrl: 'Image url is incorrect'
         }
     })(), DE.Controllers.Main || {}))
 });

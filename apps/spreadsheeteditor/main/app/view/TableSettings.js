@@ -325,7 +325,7 @@ define([
             if (this._initSettings)
                 this.createDelayedControls();
 
-            this.disableControls(this._locked);
+            this.disableControls(this._locked); // need to update combodataview after disabled state
 
             if (props )//formatTableInfo
             {
@@ -405,7 +405,7 @@ define([
 
                     if (this._isTemplatesChanged) {
                         if (rec)
-                            this.cmbTableTemplate.fillComboView(this.cmbTableTemplate.menuPicker.getSelectedRec(),true);
+                            this.cmbTableTemplate.fillComboView(this.cmbTableTemplate.menuPicker.getSelectedRec()[0],true);
                         else
                             this.cmbTableTemplate.fillComboView(this.cmbTableTemplate.menuPicker.store.at(0), true);
                     }
@@ -444,6 +444,7 @@ define([
                     self.cmbTableTemplate.menuPicker.scroller.update({alwaysVisibleY: true});
                 });
                 this.lockedControls.push(this.cmbTableTemplate);
+                if (this._locked) this.cmbTableTemplate.setDisabled(this._locked);
             }
 
             var count = self.cmbTableTemplate.menuPicker.store.length;
@@ -477,10 +478,25 @@ define([
                 var handlerDlg = function(dlg, result) {
                     if (result == 'ok') {
                         me.api.asc_setSelectionDialogMode(Asc.c_oAscSelectionDialogType.None);
-                        me.api.asc_changeTableRange(me._state.TableName, dlg.getSettings());
+
+                        var settings = dlg.getSettings();
+                        if (settings.selectionType == Asc.c_oAscSelectionType.RangeMax || settings.selectionType == Asc.c_oAscSelectionType.RangeRow ||
+                            settings.selectionType == Asc.c_oAscSelectionType.RangeCol)
+                            Common.UI.warning({
+                                title: me.textLongOperation,
+                                msg: me.warnLongOperation,
+                                buttons: ['ok', 'cancel'],
+                                callback: function(btn) {
+                                    if (btn == 'ok')
+                                        setTimeout(function() { me.api.asc_changeTableRange(me._state.TableName, settings.range)}, 1);
+                                    Common.NotificationCenter.trigger('edit:complete', me);
+                                }
+                            });
+                        else
+                            me.api.asc_changeTableRange(me._state.TableName, settings.range);
                     }
 
-                    Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                    Common.NotificationCenter.trigger('edit:complete', me);
                 };
                 var win = new SSE.Views.TableOptionsDialog({
                     handler: handlerDlg
@@ -544,7 +560,9 @@ define([
         notcriticalErrorTitle   : 'Warning',
         textReservedName        : 'The name you are trying to use is already referenced in cell formulas. Please use some other name.',
         textAdvanced:   'Show advanced settings',
-        textConvertRange: 'Convert to range'
+        textConvertRange: 'Convert to range',
+        textLongOperation: 'Long operation',
+        warnLongOperation: 'The operation you are about to perform might take rather much time to complete.<br>Are you sure you want to continue?'
 
     }, SSE.Views.TableSettings || {}));
 });

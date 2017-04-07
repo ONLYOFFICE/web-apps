@@ -79,7 +79,6 @@ define([
                     isDisconnected      : false,
                     usersCount          : 1,
                     fastCoauth          : true,
-                    startModifyDocument : true,
                     lostEditingRights   : false,
                     licenseWarning      : false
                 };
@@ -313,14 +312,9 @@ define([
                     me.setLongActionView(action)
                 } else {
                     if (me._state.fastCoauth && me._state.usersCount>1 && id==Asc.c_oAscAsyncAction['Save']) {
-                        if (me._state.timerSave===undefined)
-                            me._state.timerSave = setInterval(function(){
-                                if ((new Date()) - me._state.isSaving>500) {
-                                    clearInterval(me._state.timerSave);
-                                    //console.debug('End long action');
-                                    me._state.timerSave = undefined;
-                                }
-                            }, 500);
+                        // me._state.timerSave = setTimeout(function () {
+                            //console.debug('End long action');
+                        // }, 500);
                     } else {
                         // console.debug('End long action');
                     }
@@ -353,7 +347,7 @@ define([
                         break;
 
                     case Asc.c_oAscAsyncAction['Save']:
-                        me._state.isSaving = new Date();
+                        // clearTimeout(this._state.timerSave);
                         title   = me.saveTitleText;
                         text    = me.saveTextText;
                         break;
@@ -677,7 +671,6 @@ define([
 
                     me.api.asc_registerCallback('asc_onDocumentModifiedChanged', _.bind(me.onDocumentModifiedChanged, me));
                     me.api.asc_registerCallback('asc_onDocumentCanSaveChanged',  _.bind(me.onDocumentCanSaveChanged, me));
-                    me.api.asc_registerCallback('asc_onSaveUrl',                 _.bind(me.onSaveUrl, me));
                     /** coauthoring begin **/
                     me.api.asc_registerCallback('asc_onCollaborativeChanges',    _.bind(me.onCollaborativeChanges, me));
                     me.api.asc_registerCallback('asc_OnTryUndoInFastCollaborative',_.bind(me.onTryUndoInFastCollaborative, me));
@@ -817,6 +810,10 @@ define([
                         config.msg = this.errorConnectToServer;
                         break;
 
+                    case Asc.c_oAscError.ID.UplImageUrl:
+                        config.msg = this.errorBadImageUrl;
+                        break;
+
                     default:
                         config.msg = this.errorDefaultMessage.replace('%1', id);
                         break;
@@ -879,21 +876,12 @@ define([
                     if (window.document.title != title)
                         window.document.title = title;
 
-                    if (!this._state.fastCoauth || this._state.usersCount<2 )
-                        Common.Gateway.setDocumentModified(isModified);
-                    else if ( this._state.startModifyDocument!==undefined && this._state.startModifyDocument === isModified){
-                        Common.Gateway.setDocumentModified(isModified);
-                        this._state.startModifyDocument = (this._state.startModifyDocument) ? !this._state.startModifyDocument : undefined;
-                    }
-
+                    Common.Gateway.setDocumentModified(isModified);
                     this._state.isDocModified = isModified;
                 }
             },
 
             onDocumentModifiedChanged: function() {
-                if (this._state.fastCoauth && this._state.usersCount > 1 && this._state.startModifyDocument===undefined )
-                    return;
-
                 var isModified = this.api.asc_isDocumentCanSave();
                 if (this._state.isDocModified !== isModified) {
                     Common.Gateway.setDocumentModified(this.api.isDocumentModified());
@@ -927,10 +915,6 @@ define([
 
             hidePreloader: function() {
                 $('#loading-mask').hide().remove();
-            },
-
-            onSaveUrl: function(url) {
-                Common.Gateway.save(url);
             },
 
             onDownloadUrl: function(url) {
@@ -1231,7 +1215,8 @@ define([
             textClose: 'Close',
             textDone: 'Done',
             titleServerVersion: 'Editor updated',
-            errorServerVersion: 'The editor version has been updated. The page will be reloaded to apply the changes.'
+            errorServerVersion: 'The editor version has been updated. The page will be reloaded to apply the changes.',
+            errorBadImageUrl: 'Image url is incorrect'
         }
     })(), DE.Controllers.Main || {}))
 });

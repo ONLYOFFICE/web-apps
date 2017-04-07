@@ -364,8 +364,8 @@ define([
             }
         },
 
-        onHideMenus: function(e){
-            Common.NotificationCenter.trigger('edit:complete', this);
+        onHideMenus: function(menu, e, isFromInputControl){
+            if (!isFromInputControl) Common.NotificationCenter.trigger('edit:complete', this);
         },
 
         setLocked: function (locked) {

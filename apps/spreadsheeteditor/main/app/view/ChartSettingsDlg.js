@@ -91,6 +91,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
             this.api = this.options.api;
             this.chartSettings = this.options.chartSettings;
             this.imageSettings = this.options.imageSettings;
+            this.sparklineStyles = this.options.sparklineStyles;
             this.isChart       = this.options.isChart;
             this.vertAxisProps = null;
             this.horAxisProps = null;
@@ -819,7 +820,8 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 itemHeight: 50,
                 menuMaxHeight: 272,
                 enableKeyEvents: true,
-                cls: 'combo-spark-style'
+                cls: 'combo-spark-style',
+                minWidth: 190
             });
             this.cmbSparkStyle.render($('#spark-dlg-combo-style'));
             this.cmbSparkStyle.openButton.menu.cmpEl.css({
@@ -844,7 +846,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 labelText: this.textSingle,
                 name: 'asc-radio-sparkline'
             });
-            */
+
             this.txtSparkDataRange = new Common.UI.InputField({
                 el          : $('#spark-dlg-txt-range'),
                 name        : 'range',
@@ -872,6 +874,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 el: $('#spark-dlg-btn-location-data')
             });
            this.btnSelectLocationData.on('click', _.bind(this.onSelectLocationData, this));
+             */
 
             this._arrEmptyCells = [
                 { value: Asc.c_oAscEDispBlanksAs.Gap, displayValue: this.textGaps },
@@ -1382,7 +1385,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                     if (record)
                         this.btnSparkType.setIconCls('item-chartlist ' + record.get('iconCls'));
 
-                    this.updateSparkStyles(props.asc_getStyles());
+                    this.updateSparkStyles((this.sparklineStyles) ? this.sparklineStyles : props.asc_getStyles());
 
                     if (this._state.SparkType !== Asc.c_oAscSparklineType.Line)
                         this._arrEmptyCells.pop();
@@ -1402,6 +1405,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                     this.spnSparkMinValue.setValue((props.asc_getManualMin() !== null) ? props.asc_getManualMin() : '', true);
                     this.spnSparkMaxValue.setValue((props.asc_getManualMax() !== null) ? props.asc_getManualMax() : '', true);
 
+                    /*
                     var value = props.asc_getDataRanges();
                     if (value && value.length==2) {
                         this.txtSparkDataRange.setValue((value[0]) ? value[0] : '');
@@ -1425,6 +1429,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                             return (isvalid==Asc.c_oAscError.ID.DataRangeError) ? me.textInvalidRange : true;
                         };
                     }
+                    */
 
                     this._changedProps = new Asc.sparklineGroup();
                     this._noApply = false;

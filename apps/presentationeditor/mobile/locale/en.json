@@ -83,6 +83,7 @@
   "PE.Controllers.Main.errorUsersExceed": "The number of users was exceeded",
   "PE.Controllers.Main.errorViewerDisconnect": "Connection is lost. You can still view the document,<br>but will not be able to download or print until the connection is restored.",
   "PE.Controllers.Main.leavePageText": "You have unsaved changes in this document. Click 'Stay on this Page' to await the autosave of the document. Click 'Leave this Page' to discard all the unsaved changes.",
+  "PE.Controllers.Main.errorBadImageUrl": "Image URL is incorrect",
   "PE.Controllers.Main.loadFontsTextText": "Loading data...",
   "PE.Controllers.Main.loadFontsTitleText": "Loading Data",
   "PE.Controllers.Main.loadFontTextText": "Loading data...",

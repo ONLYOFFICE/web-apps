@@ -54,7 +54,6 @@ define([
         options : {
             branding: {},
             headerCaption: 'Default Caption',
-            headerDeveloper: 'DEVELOPER MODE',
             documentCaption: '',
             canBack: false
         },
@@ -79,16 +78,15 @@ define([
             this.options = this.options ? _({}).extend(this.options, options) : options;
 
             this.headerCaption      = this.options.headerCaption;
-            this.headerDeveloper    = this.txtHeaderDeveloper;
             this.documentCaption    = this.options.documentCaption;
             this.canBack            = this.options.canBack;
             this.branding           = this.options.customization;
+            this.isModified         = false;
         },
 
         render: function () {
             $(this.el).html(this.template({
                 headerCaption   : this.headerCaption,
-                headerDeveloper   : this.headerDeveloper,
                 documentCaption : Common.Utils.String.htmlEncode(this.documentCaption),
                 canBack         : this.canBack,
                 textBack        : this.textBack
@@ -158,13 +156,17 @@ define([
             return this.headerCaption;
         },
 
-        setDocumentCaption: function(value, applyOnly) {
-            if (_.isUndefined(applyOnly)) {
-                this.documentCaption = value;
-            }
+        setDocumentCaption: function(value, isModified) {
+            if (isModified !== undefined)
+                this.isModified = isModified;
+
+            this.documentCaption = value;
 
             if (!value)
                 value = '';
+
+            if (this.isModified)
+                value = value + '*';
 
             var dc = $('#header-documentcaption div');
             if (dc)
@@ -223,10 +225,6 @@ define([
             }
         },
 
-        setDeveloperMode: function(mode) {
-            $('#header-developer').toggleClass('hidden', !mode);
-        },
-
         setCanRename: function(rename) {
             var dc = $('#header-documentcaption div');
             if (rename) {
@@ -257,7 +255,6 @@ define([
 
         textBack: 'Go to Documents',
         openNewTabText: 'Open in New Tab',
-        txtHeaderDeveloper: 'DEVELOPER MODE',
         txtRename: 'Rename'
     }, Common.Views.Header || {}))
 });

@@ -142,13 +142,6 @@ if (Common === undefined) {
                 _postMessage({ event: 'onReady' });
             },
 
-            save: function(url) {
-                _postMessage({
-                    event: 'onSave',
-                    data: url
-                });
-            },
-
             requestEditRights: function() {
                 _postMessage({ event: 'onRequestEditRights' });
             },
