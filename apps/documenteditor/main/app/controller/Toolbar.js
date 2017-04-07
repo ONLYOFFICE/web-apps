@@ -2505,7 +2505,7 @@ define([
                     store: this.getApplication().getCollection('Common.Collections.TextArt'),
                     parentMenu: this.toolbar.mnuInsertTextArt.menu,
                     showLast: false,
-                    itemTemplate: _.template('<div class="item-art"><img src="<%= imageUrl %>" id="<%= id %>"></div>')
+                    itemTemplate: _.template('<div class="item-art"><img src="<%= imageUrl %>" id="<%= id %>" style="width:50px;height:50px;"></div>')
                 });
 
                 this.toolbar.mnuTextArtPicker.on('item:click', function(picker, item, record, e) {
