@@ -180,7 +180,6 @@ define([
 
             if ( this.menuFile.isVisible() ) {
                 this.menuFile.hide();
-                Common.NotificationCenter.trigger('layout:changed', 'menufile');
             }
 
             if (btn.options.action == 'search') {

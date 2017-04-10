@@ -256,7 +256,6 @@ define([
 
             if (close_menu) {
                 menu.hide();
-                Common.NotificationCenter.trigger('layout:changed', 'menufile');
             }
         },
 
@@ -272,14 +271,12 @@ define([
                             if (btn == 'ok') {
                                 this.api.asc_DownloadAs(format);
                                 menu.hide();
-                                Common.NotificationCenter.trigger('layout:changed', 'menufile');
                             }
                         }, this)
                     });
                 } else {
                     this.api.asc_DownloadAs(format);
                     menu.hide();
-                    Common.NotificationCenter.trigger('layout:changed', 'menufile');
                 }
             } else
                 this.api.asc_DownloadOrigin();
@@ -326,7 +323,6 @@ define([
             this.api.put_ShowSnapLines(value===null || parseInt(value) == 1);
 
             menu.hide();
-            Common.NotificationCenter.trigger('layout:changed', 'menufile');
         },
 
         onCreateNew: function(menu, type) {
@@ -339,14 +335,12 @@ define([
 
             if (menu) {
                 menu.hide();
-                Common.NotificationCenter.trigger('layout:changed', 'menufile');
             }
         },
 
         onOpenRecent:  function(menu, url) {
             if (menu) {
                 menu.hide();
-                Common.NotificationCenter.trigger('layout:changed', 'menufile');
             }
 
             var recentDocPage = window.open(url);
