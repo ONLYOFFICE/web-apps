@@ -1051,7 +1051,7 @@ define([
                     Common.NotificationCenter.trigger('app:face', this.appOptions);
 
                     this.hidePreloader();
-                    this.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
+                    this.onLongActionBegin(Asc.c_oAscAsyncActionType.BlockInteraction, LoadingDocument);
                 }
 
                 this.api.asc_setViewMode(!this.appOptions.isEdit);

@@ -136,9 +136,8 @@ define([
 
             me._rightMenu   = rightMenuView.render(this.mode);
 
-            var value = Common.localStorage.getItem('de-hidden-status');
-            if (value !== null && parseInt(value) == 1)
-                statusBarView.setVisible(false);
+            if ( Common.localStorage.getBool('de-hidden-status') )
+                DE.getController('Statusbar').getView('Statusbar').setVisible(false);
         },
 
         setMode: function(mode) {
