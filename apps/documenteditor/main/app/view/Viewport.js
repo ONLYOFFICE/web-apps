@@ -132,11 +132,8 @@ define([
 
         applyEditorMode: function() {
             var me              = this,
-                toolbarView     = DE.getController('Toolbar').getView('Toolbar'),
-                rightMenuView   = DE.getController('RightMenu').getView('RightMenu'),
-                statusBarView   = DE.getController('Statusbar').getView('Statusbar');
+                rightMenuView   = DE.getController('RightMenu').getView('RightMenu');
 
-            me._toolbar     = toolbarView.render(this.mode);
             me._rightMenu   = rightMenuView.render(this.mode);
 
             var value = Common.localStorage.getItem('de-hidden-status');

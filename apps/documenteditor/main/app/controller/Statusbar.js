@@ -83,24 +83,24 @@ define([
 
             var me = this;
             Common.NotificationCenter.on('app:face', function (cfg) {
-                me.statusbar.render();
+                me.statusbar.render(cfg);
                 me.statusbar.$el.css('z-index', 1);
 
                 $('.statusbar #label-zoom').css('min-width', 70);
 
-                var review = DE.getController('Common.Controllers.ReviewChanges').getView();
-                if ( cfg.canReview ) {
-                    me.btnTurnReview = review.getButton('turn', 'statusbar');
-                    me.btnTurnReview.render( me.statusbar.$layout.find('#btn-doc-review') );
-                } else {
-                    me.statusbar.$el.find('.el-review').hide();
-                }
-
                 if ( cfg.isEdit ) {
+                    var review = DE.getController('Common.Controllers.ReviewChanges').getView();
+                    if (cfg.canReview) {
+                        me.btnTurnReview = review.getButton('turn', 'statusbar');
+                        me.btnTurnReview.render(me.statusbar.$layout.find('#btn-doc-review'));
+                    } else {
+                        me.statusbar.$el.find('.el-review').hide();
+                    }
+
                     me.btnSpelling = review.getButton('spelling', 'statusbar');
                     me.btnSpelling.render( me.statusbar.$layout.find('#btn-doc-spell') );
                 } else {
-                    me.statusbar.$el.find('.el-edit')['hide']();
+                    me.statusbar.$el.find('.el-edit, .el-review').hide();
                 }
             });
 

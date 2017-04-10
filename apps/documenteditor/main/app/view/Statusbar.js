@@ -86,25 +86,27 @@ define([
             me.btnZoomDown.updateHint(me.tipZoomOut + Common.Utils.String.platformKey('Ctrl+-'));
             me.btnZoomUp.updateHint(me.tipZoomIn + Common.Utils.String.platformKey('Ctrl++'));
 
-            me.btnLanguage.updateHint(me.tipSetLang);
-            me.btnLanguage.cmpEl.on({
-                'show.bs.dropdown': function () {
-                    _.defer(function(){
-                        me.btnLanguage.cmpEl.find('ul').focus();
-                    }, 100);
-                },
-                'hide.bs.dropdown': function () {
-                    _.defer(function(){
-                        me.api.asc_enableKeyEvents(true);
-                    }, 100);
-                },
-                'click': function (e) {
-                    if (me.btnLanguage.isDisabled()) {
-                        return false;
+            if ( config.isEdit ) {
+                me.btnLanguage.updateHint(me.tipSetLang);
+                me.btnLanguage.cmpEl.on({
+                    'show.bs.dropdown': function () {
+                        _.defer(function () {
+                            me.btnLanguage.cmpEl.find('ul').focus();
+                        }, 100);
+                    },
+                    'hide.bs.dropdown': function () {
+                        _.defer(function () {
+                            me.api.asc_enableKeyEvents(true);
+                        }, 100);
+                    },
+                    'click': function (e) {
+                        if (me.btnLanguage.isDisabled()) {
+                            return false;
+                        }
                     }
-                }
-            });
-            me.langMenu.on('item:click', _.bind(_clickLanguage,this));
+                });
+                me.langMenu.on('item:click', _.bind(_clickLanguage, this));
+            }
 
             me.cntZoom.updateHint(me.tipZoomFactor);
             me.cntZoom.cmpEl.on({
@@ -285,7 +287,7 @@ define([
                 }.bind(this));
             },
 
-            render: function () {
+            render: function(config) {
                 var me = this;
 
                 function _btn_render(button, slot) {
@@ -302,19 +304,20 @@ define([
                 _btn_render(me.btnZoomUp, $('#btn-zoom-up', me.$layout));
                 _btn_render(me.txtGoToPage, $('#status-goto-page', me.$layout));
 
-                var panelLang = $('.cnt-lang', me.$layout);
-                _btn_render(me.btnLanguage, panelLang);
+                if ( !config || config.isEdit ) {
+                    var panelLang = $('.cnt-lang', me.$layout);
+                    _btn_render(me.btnLanguage, panelLang);
 
-                me.langMenu.render(panelLang);
+                    me.langMenu.render(panelLang);
+                    me.langMenu.cmpEl.attr({tabindex: -1});
+                    me.langMenu.prevTip = 'en';
+                }
+
                 me.zoomMenu.render($('.cnt-zoom',me.$layout));
-
-                me.langMenu.cmpEl.attr({tabindex: -1});
                 me.zoomMenu.cmpEl.attr({tabindex: -1});
 
                 this.$el.html(me.$layout);
                 this.fireEvent('render:after', [this]);
-
-                this.langMenu.prevTip = 'en';
 
                 return this;
             },

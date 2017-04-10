@@ -204,9 +204,9 @@ define([
 
         hide: function() {
             this.$el.hide();
-            if (this.mode.isEdit) DE.getController('Toolbar').DisableToolbar(false);
+            // if (this.mode.isEdit) DE.getController('Toolbar').DisableToolbar(false);
             this.fireEvent('filemenu:hide', [this]);
-            this.api.asc_enableKeyEvents(true);
+            // this.api.asc_enableKeyEvents(true);
         },
 
         applyMode: function() {

@@ -112,6 +112,18 @@ define([
 
             this.boxSdk = $('#editor_sdk');
             this.boxSdk.css('border-left', 'none');
+
+            Common.NotificationCenter.on('app:face', this.onAppShowed.bind(this));
+        },
+
+        onAppShowed: function (config) {
+            var me = this;
+
+            if ( !config.isEdit ||
+                ( !Common.localStorage.itemExists("de-compact-toolbar") &&
+                config.customization && config.customization.compactToolbar )) {
+                me.viewport.vlayout.panels[0].height = 40;
+            }
         },
 
         onLayoutChanged: function(area) {

@@ -127,6 +127,14 @@ define([
             optsFold.timer = setTimeout(collapseToolbar, optsFold.timeout);
         }
 
+        function onShowCoveredPanel(state) {
+            collapseToolbar();
+
+            if ( state )
+                optsFold.$bar.addClass('cover'); else
+                optsFold.$bar.removeClass('cover');
+        }
+
         function setFolded(value) {
             isFolded = value;
 
@@ -1316,19 +1324,14 @@ define([
 
                 this.fireEvent('render:before', [this]);
 
-                var top = Common.localStorage.getItem("de-pgmargins-top"),
-                    left = Common.localStorage.getItem("de-pgmargins-left"),
-                    bottom = Common.localStorage.getItem("de-pgmargins-bottom"),
-                    right = Common.localStorage.getItem("de-pgmargins-right");
-                // if (top!==null && left!==null && bottom!==null && right!==null) {
-                //     var mnu = this.btnPageMargins.menu.items[0];
-                //     mnu.options.value = mnu.value = [parseFloat(top), parseFloat(left), parseFloat(bottom), parseFloat(right)];
-                //     mnu.setVisible(true);
-                //     $(mnu.el).html(mnu.template({id: Common.UI.getId(), caption : mnu.caption, options : mnu.options}));
-                // } else
-                //     this.btnPageMargins.menu.items[0].setVisible(false);
+                if ( mode.isEdit )
+                    me.$el.html( me.rendererComponents(config.$dom) );
+                else {
+                    config.$dom.find('[data-tab=home],[data-tab=ins],[data-tab=layout]').hide();
+                    config.$dom.addClass('folded');
 
-                me.$el.html( me.rendererComponents(config.$dom) );
+                    me.$el.html(config.$dom);
+                }
 
                 this.fireEvent('render:after', [this]);
 
@@ -1361,17 +1364,24 @@ define([
                 $scrollR.on('click', onScrollTabs.bind(this, 'right'));
 
                 Common.NotificationCenter.on({
-                    'window:resize': onResize,
-                    'layout:changed': function (opts) {
-                        if ( opts == 'menufile' ) {
-                            me.setTab(lastPanel);
-                        }
-                    }
+                    'window:resize': onResize
                 });
 
                 if ( me.isCompactView )
                     me.setFolded(true); else
                     me.setTab('home');
+
+                var top = Common.localStorage.getItem("de-pgmargins-top"),
+                    left = Common.localStorage.getItem("de-pgmargins-left"),
+                    bottom = Common.localStorage.getItem("de-pgmargins-bottom"),
+                    right = Common.localStorage.getItem("de-pgmargins-right");
+                if ( top!==null && left!==null && bottom!==null && right!==null ) {
+                    var mnu = this.btnPageMargins.menu.items[0];
+                    mnu.options.value = mnu.value = [parseFloat(top), parseFloat(left), parseFloat(bottom), parseFloat(right)];
+                    mnu.setVisible(true);
+                    $(mnu.el).html(mnu.template({id: Common.UI.getId(), caption : mnu.caption, options : mnu.options}));
+                } else
+                    this.btnPageMargins.menu.items[0].setVisible(false);
 
                 return this;
             },
@@ -1478,6 +1488,8 @@ define([
                 (new Promise( function(resolve, reject) {
                     resolve();
                 })).then(function () {
+                    if ( !config.isEdit ) return;
+
                     me.btnsPageBreak.forEach( function(btn) {
                         btn.updateHint( me.tipPageBreak );
 
@@ -2432,27 +2444,38 @@ define([
             },
 
             setTab: function (tab) {
-                $tabs.removeClass('active');
-                $panels.removeClass('active');
-
-                var panel = $panels.filter('[data-tab=' + tab + ']');
-                if ( panel.length ) {
-                    lastPanel = tab;
-                    panel.addClass('active');
+                if ( !tab || !tab.length ) {
+                    if ( isFolded ) onShowCoveredPanel(false);
+                    else tab = lastPanel;
                 }
 
-                var $tp = $tabs.find('> a[data-tab=' + tab + ']').parent();
-                if ( $tp.length ) {
-                    $tp.addClass('active');
+                if ( tab ) {
+                    $tabs.removeClass('active');
+                    $panels.removeClass('active');
 
-                    $marker.width($tp.width());
+                    var panel = $panels.filter('[data-tab=' + tab + ']');
+                    if (panel.length) {
+                        lastPanel = tab;
+                        panel.addClass('active');
+                    }
 
-                    if ($scrollL.is(':visible'))
-                        $marker.css({left: $tp.position().left + $boxTabs.scrollLeft() - $scrollL.width()});
-                    else $marker.css({left: $tp.position().left});
+                    var $tp = $tabs.find('> a[data-tab=' + tab + ']').parent();
+                    if ($tp.length) {
+                        $tp.addClass('active');
+
+                        $marker.width($tp.width());
+
+                        if ($scrollL.is(':visible'))
+                            $marker.css({left: $tp.position().left + $boxTabs.scrollLeft() - $scrollL.width()});
+                        else $marker.css({left: $tp.position().left});
+                    }
+
+                    if ( isFolded ) {
+                        if ( panel.length )
+                            expandToolbar(); else
+                            onShowCoveredPanel(true);
+                    }
                 }
-
-                if ( isFolded ) expandToolbar();
             },
 
             addTab: function (tab, panel, after) {

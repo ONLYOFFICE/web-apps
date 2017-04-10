@@ -1045,15 +1045,17 @@ define([
                     this.updatePlugins(this.plugins, true);
 
                 this.applyModeCommonElements();
-                this.applyModeEditorElements();
+                if ( this.appOptions.isEdit ) {
+                    this.applyModeEditorElements();
+                } else {
+                    Common.NotificationCenter.trigger('app:face', this.appOptions);
 
-                this.api.asc_setViewMode(!this.appOptions.isEdit);
-                this.api.asc_LoadDocument();
-
-                if (!this.appOptions.isEdit) {
                     this.hidePreloader();
                     this.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
                 }
+
+                this.api.asc_setViewMode(!this.appOptions.isEdit);
+                this.api.asc_LoadDocument();
             },
 
             applyModeCommonElements: function() {
