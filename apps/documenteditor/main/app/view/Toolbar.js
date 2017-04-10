@@ -1707,10 +1707,10 @@ define([
                                 caption: this.textCompactView,
                                 checkable: true
                             }),
-                            this.mnuitemHideTitleBar = new Common.UI.MenuItem({
-                                caption: this.textHideTitleBar,
-                                checkable: true
-                            }),
+                            // this.mnuitemHideTitleBar = new Common.UI.MenuItem({
+                            //     caption: this.textHideTitleBar,
+                            //     checkable: true
+                            // }),
                             this.mnuitemHideStatusBar = new Common.UI.MenuItem({
                                 caption: this.textHideStatusBar,
                                 checkable: true
@@ -1748,8 +1748,8 @@ define([
                         ]
                     })
                 );
-                if (this.mode.isDesktopApp || this.mode.canBrandingExt && this.mode.customization && this.mode.customization.header === false)
-                    this.mnuitemHideTitleBar.hide();
+                // if (this.mode.isDesktopApp || this.mode.canBrandingExt && this.mode.customization && this.mode.customization.header === false)
+                //     this.mnuitemHideTitleBar.hide();
 
                 this.btnMarkers.setMenu(
                     new Common.UI.Menu({
@@ -2151,7 +2151,7 @@ define([
                 this.mnuitemCompactToolbar.setChecked(this.isCompactView, true);
                 this.mnuitemCompactToolbar.on('toggle', _.bind(this.changeViewMode, this));
 
-                this.mnuitemHideTitleBar.setChecked( Common.localStorage.getBool("de-hidden-title"), true );
+                // this.mnuitemHideTitleBar.setChecked( Common.localStorage.getBool("de-hidden-title"), true );
                 this.mnuitemHideStatusBar.setChecked( Common.localStorage.getBool("de-hidden-status"), true );
                 this.mnuitemHideRulers.setChecked( Common.localStorage.getBool("de-hidden-rulers"), true );
                 /**/

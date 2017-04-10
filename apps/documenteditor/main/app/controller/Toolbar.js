@@ -268,7 +268,7 @@ define([
             toolbar.listStyles.on('click',                              _.bind(this.onListStyleSelect, this));
             toolbar.listStyles.on('contextmenu',                        _.bind(this.onListStyleContextMenu, this));
             toolbar.styleMenu.on('hide:before',                         _.bind(this.onListStyleBeforeHide, this));
-            toolbar.mnuitemHideTitleBar.on('toggle',                    _.bind(this.onHideTitleBar, this));
+            // toolbar.mnuitemHideTitleBar.on('toggle',                    _.bind(this.onHideTitleBar, this));
             toolbar.mnuitemHideStatusBar.on('toggle',                   _.bind(this.onHideStatusBar, this));
             toolbar.mnuitemHideRulers.on('toggle',                      _.bind(this.onHideRulers, this));
             toolbar.btnFitPage.on('toggle',                             _.bind(this.onZoomToPageToggle, this));
@@ -1922,15 +1922,15 @@ define([
             }
         },
 
-        onHideTitleBar: function(item, checked) {
-            var headerView  = this.getApplication().getController('Viewport').getView('Common.Views.Header');
-            headerView  && headerView.setVisible(!checked);
-
-            Common.localStorage.setItem('de-hidden-title', checked ? 1 : 0);
-
-            Common.NotificationCenter.trigger('layout:changed', 'header');
-            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-        },
+        // onHideTitleBar: function(item, checked) {
+        //     var headerView  = this.getApplication().getController('Viewport').getView('Common.Views.Header');
+        //     headerView  && headerView.setVisible(!checked);
+        //
+        //     Common.localStorage.setItem('de-hidden-title', checked ? 1 : 0);
+        //
+        //     Common.NotificationCenter.trigger('layout:changed', 'header');
+        //     Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        // },
 
         onHideStatusBar: function(item, checked) {
             var headerView  = this.getApplication().getController('Statusbar').getView('Statusbar');
