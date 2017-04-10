@@ -164,10 +164,9 @@ define([
 
                 me.editorConfig.user          =
                 me.appOptions.user            = Common.Utils.fillUserInfo(me.editorConfig.user, me.editorConfig.lang, me.textAnonymous);
-                me.appOptions.nativeApp       = me.editorConfig.nativeApp === true;
                 me.appOptions.isDesktopApp    = me.editorConfig.targetApp == 'desktop';
                 me.appOptions.canCreateNew    = !_.isEmpty(me.editorConfig.createUrl) && !me.appOptions.isDesktopApp;
-                me.appOptions.canOpenRecent   = me.editorConfig.nativeApp !== true && me.editorConfig.recent !== undefined && !me.appOptions.isDesktopApp;
+                me.appOptions.canOpenRecent   = me.editorConfig.recent !== undefined && !me.appOptions.isDesktopApp;
                 me.appOptions.templates       = me.editorConfig.templates;
                 me.appOptions.recent          = me.editorConfig.recent;
                 me.appOptions.createUrl       = me.editorConfig.createUrl;
@@ -180,7 +179,7 @@ define([
                 me.appOptions.customization   = me.editorConfig.customization;
                 me.appOptions.canBackToFolder = (me.editorConfig.canBackToFolder!==false) && (typeof (me.editorConfig.customization) == 'object')
                     && (typeof (me.editorConfig.customization.goback) == 'object') && !_.isEmpty(me.editorConfig.customization.goback.url);
-                me.appOptions.canBack         = me.editorConfig.nativeApp !== true && me.appOptions.canBackToFolder === true;
+                me.appOptions.canBack         = me.appOptions.canBackToFolder === true;
                 me.appOptions.canPlugins      = false;
                 me.plugins                    = me.editorConfig.plugins;
 
@@ -615,8 +614,8 @@ define([
                 me.appOptions.canPrint        = (me.permissions.print !== false);
 
                 var type = /^(?:(pdf|djvu|xps))$/.exec(me.document.fileType);
-                me.appOptions.canDownloadOrigin = !me.appOptions.nativeApp && me.permissions.download !== false && (type && typeof type[1] === 'string');
-                me.appOptions.canDownload       = !me.appOptions.nativeApp && me.permissions.download !== false && (!type || typeof type[1] !== 'string');
+                me.appOptions.canDownloadOrigin = me.permissions.download !== false && (type && typeof type[1] === 'string');
+                me.appOptions.canDownload       = me.permissions.download !== false && (!type || typeof type[1] !== 'string');
 
                 me._state.licenseWarning = (licType===Asc.c_oLicenseResult.Connections) && me.appOptions.canEdit && me.editorConfig.mode !== 'view';
 

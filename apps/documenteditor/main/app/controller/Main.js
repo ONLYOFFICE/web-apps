@@ -233,10 +233,9 @@ define([
 
                 this.editorConfig.user          =
                 this.appOptions.user            = Common.Utils.fillUserInfo(this.editorConfig.user, this.editorConfig.lang, this.textAnonymous);
-                this.appOptions.nativeApp       = this.editorConfig.nativeApp === true;
                 this.appOptions.isDesktopApp    = this.editorConfig.targetApp == 'desktop';
                 this.appOptions.canCreateNew    = !_.isEmpty(this.editorConfig.createUrl) && !this.appOptions.isDesktopApp;
-                this.appOptions.canOpenRecent   = this.editorConfig.nativeApp !== true && this.editorConfig.recent !== undefined && !this.appOptions.isDesktopApp;
+                this.appOptions.canOpenRecent   = this.editorConfig.recent !== undefined && !this.appOptions.isDesktopApp;
                 this.appOptions.templates       = this.editorConfig.templates;
                 this.appOptions.recent          = this.editorConfig.recent;
                 this.appOptions.createUrl       = this.editorConfig.createUrl;
@@ -249,7 +248,7 @@ define([
                 this.appOptions.customization   = this.editorConfig.customization;
                 this.appOptions.canBackToFolder = (this.editorConfig.canBackToFolder!==false) && (typeof (this.editorConfig.customization) == 'object')
                                                   && (typeof (this.editorConfig.customization.goback) == 'object') && !_.isEmpty(this.editorConfig.customization.goback.url);
-                this.appOptions.canBack         = this.editorConfig.nativeApp !== true && this.appOptions.canBackToFolder === true;
+                this.appOptions.canBack         = this.appOptions.canBackToFolder === true;
                 this.appOptions.canPlugins      = false;
                 this.plugins                    = this.editorConfig.plugins;
 
@@ -1028,8 +1027,8 @@ define([
                 }
 
                 var type = /^(?:(pdf|djvu|xps))$/.exec(this.document.fileType);
-                this.appOptions.canDownloadOrigin = !this.appOptions.nativeApp && this.permissions.download !== false && (type && typeof type[1] === 'string');
-                this.appOptions.canDownload       = !this.appOptions.nativeApp && this.permissions.download !== false && (!type || typeof type[1] !== 'string');
+                this.appOptions.canDownloadOrigin = this.permissions.download !== false && (type && typeof type[1] === 'string');
+                this.appOptions.canDownload       = this.permissions.download !== false && (!type || typeof type[1] !== 'string');
 
                 this._state.licenseWarning = (licType===Asc.c_oLicenseResult.Connections) && this.appOptions.canEdit && this.editorConfig.mode !== 'view';
 
@@ -1073,10 +1072,6 @@ define([
                     // headerView.setHeaderCaption(this.appOptions.isEdit ? 'Document Editor' : 'Document Viewer');
                     // headerView.setVisible(!this.appOptions.nativeApp && !value && !this.appOptions.isDesktopApp);
                 // }
-
-                if (this.appOptions.nativeApp) {
-                    $('body').removeClass('safari');
-                }
 
                 viewport && viewport.setMode(this.appOptions);
                 statusbarView && statusbarView.setMode(this.appOptions);

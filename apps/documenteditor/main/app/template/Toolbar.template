@@ -22,14 +22,6 @@
     </div>
     <section class="box-controls">
         <section class="panel">
-            <div class="group native">
-                <div class="elset">
-                    <span class="btn-slot" id="slot-btn-newdocument"></span>
-                </div>
-                <div class="elset">
-                    <span class="btn-slot" id="slot-btn-opendocument"></span>
-                </div>
-            </div>
             <div class="group no-mask">
                 <div class="elset">
                     <span class="btn-slot" id="slot-btn-print"></span>

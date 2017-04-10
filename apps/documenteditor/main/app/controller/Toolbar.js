@@ -186,8 +186,6 @@ define([
              * UI Events
              */
 
-            toolbar.btnNewDocument.on('click',                          _.bind(this.onNewDocument, this));
-            toolbar.btnOpenDocument.on('click',                         _.bind(this.onOpenDocument, this));
             toolbar.btnPrint.on('click',                                _.bind(this.onPrint, this));
             toolbar.btnSave.on('click',                                 _.bind(this.onSave, this));
             toolbar.btnUndo.on('click',                                 _.bind(this.onUndo, this));
@@ -2695,7 +2693,7 @@ define([
             toolbar.btnHide.setDisabled(disable);
             if(disable) {
                 mask = $("<div class='toolbar-mask'>").appendTo(toolbar.$el);
-                var left = toolbar.isCompactView ? 75 : (toolbar.mode.nativeApp ? 80 : 48 );
+                var left = toolbar.isCompactView ? 75 : 48;
                 mask.css('left', left + 'px');
                 mask.css('right', (toolbar.isCompactView ? 0 : 45) + 'px');
                 Common.util.Shortcuts.suspendEvents('alt+h');

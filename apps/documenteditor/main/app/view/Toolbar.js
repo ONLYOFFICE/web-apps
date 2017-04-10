@@ -212,20 +212,6 @@ define([
                 this.btnSaveCls = 'btn-save';
                 this.btnSaveTip = this.tipSave + Common.Utils.String.platformKey('Ctrl+S');
 
-                this.btnNewDocument = new Common.UI.Button({
-                    id: 'id-toolbar-btn-newdocument',
-                    cls: 'btn-toolbar',
-                    iconCls: 'btn-newdocument'
-                });
-                this.toolbarControls.push(this.btnNewDocument);
-
-                this.btnOpenDocument = new Common.UI.Button({
-                    id: 'id-toolbar-btn-opendocument',
-                    cls: 'btn-toolbar',
-                    iconCls: 'btn-opendocument'
-                });
-                this.toolbarControls.push(this.btnOpenDocument);
-
                 this.btnPrint = new Common.UI.Button({
                     id: 'id-toolbar-btn-print',
                     cls: 'btn-toolbar',
@@ -1400,8 +1386,6 @@ define([
                     }
                 };
 
-                _injectComponent('#slot-btn-newdocument', this.btnNewDocument);
-                _injectComponent('#slot-btn-opendocument', this.btnOpenDocument);
                 _injectComponent('#slot-field-fontname', this.cmbFontName);
                 _injectComponent('#slot-field-fontsize', this.cmbFontSize);
                 _injectComponent('#slot-btn-print', this.btnPrint);
@@ -1649,8 +1633,6 @@ define([
                 }
 
                 // set hints
-                this.btnNewDocument.updateHint(this.tipNewDocument);
-                this.btnOpenDocument.updateHint(this.tipOpenDocument);
                 this.btnPrint.updateHint(this.tipPrint + Common.Utils.String.platformKey('Ctrl+P'));
                 this.btnSave.updateHint(this.btnSaveTip);
                 this.btnUndo.updateHint(this.tipUndo + Common.Utils.String.platformKey('Ctrl+Z'));
@@ -2205,8 +2187,6 @@ define([
 
             setMode: function (mode) {
                 if (mode.isDisconnected) {
-                    this.btnNewDocument.setDisabled(true);
-                    this.btnOpenDocument.setDisabled(true);
                     this.btnSave.setDisabled(true);
                     this.btnCopy.setDisabled(true);
                     this.btnPaste.setDisabled(true);
@@ -2263,16 +2243,6 @@ define([
                 }
 
                 this.mode = mode;
-                if (!mode.nativeApp) {
-                    var nativeBtnGroup = this.$el.find('.group.native');
-
-                    if (nativeBtnGroup) {
-                        nativeBtnGroup.hide();
-                    }
-                }
-
-                if (mode.isDesktopApp)
-                    $('.toolbar-group-native').hide();
 
                 this.btnMailRecepients.setVisible(mode.canCoAuthoring == true && mode.canUseMailMerge);
                 this.listStylesAdditionalMenuItem.setVisible(mode.canEditStyles);
@@ -2593,8 +2563,6 @@ define([
             tipInsertHyperlink: 'Add Hyperlink',
             mniHiddenChars: 'Nonprinting Characters',
             mniHiddenBorders: 'Hidden Table Borders',
-            tipNewDocument: 'New Document',
-            tipOpenDocument: 'Open Document',
             tipSynchronize: 'The document has been changed by another user. Please click to save your changes and reload the updates.',
             textNewColor: 'Add New Custom Color',
             textAutoColor: 'Automatic',
