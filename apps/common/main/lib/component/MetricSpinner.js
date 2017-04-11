@@ -347,7 +347,7 @@ define([
                     var value = this.getRawValue();
                     if (this.value != value) {
                         this.onEnterValue();
-                        return false;
+                        return (this.value == value);
                     }
                 } else {
                     this.onEnterValue();
