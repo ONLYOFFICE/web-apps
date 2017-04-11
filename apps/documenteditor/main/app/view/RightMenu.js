@@ -79,42 +79,48 @@ define([
                 asctype: Common.Utils.documentSettingsType.Paragraph,
                 enableToggle: true,
                 disabled: true,
-                toggleGroup: 'tabpanelbtnsGroup'
+                toggleGroup: 'tabpanelbtnsGroup',
+                allowMouseEventsOnDisabled: true
             });
             this.btnTable = new Common.UI.Button({
                 hint: this.txtTableSettings,
                 asctype: Common.Utils.documentSettingsType.Table,
                 enableToggle: true,
                 disabled: true,
-                toggleGroup: 'tabpanelbtnsGroup'
+                toggleGroup: 'tabpanelbtnsGroup',
+                allowMouseEventsOnDisabled: true
             });
             this.btnImage = new Common.UI.Button({
                 hint: this.txtImageSettings,
                 asctype: Common.Utils.documentSettingsType.Image,
                 enableToggle: true,
                 disabled: true,
-                toggleGroup: 'tabpanelbtnsGroup'
+                toggleGroup: 'tabpanelbtnsGroup',
+                allowMouseEventsOnDisabled: true
             });
             this.btnHeaderFooter = new Common.UI.Button({
                 hint: this.txtHeaderFooterSettings,
                 asctype: Common.Utils.documentSettingsType.Header,
                 enableToggle: true,
                 disabled: true,
-                toggleGroup: 'tabpanelbtnsGroup'
+                toggleGroup: 'tabpanelbtnsGroup',
+                allowMouseEventsOnDisabled: true
             });
             this.btnChart = new Common.UI.Button({
                 hint: this.txtChartSettings,
                 asctype: Common.Utils.documentSettingsType.Chart,
                 enableToggle: true,
                 disabled: true,
-                toggleGroup: 'tabpanelbtnsGroup'
+                toggleGroup: 'tabpanelbtnsGroup',
+                allowMouseEventsOnDisabled: true
             });
             this.btnShape = new Common.UI.Button({
                 hint: this.txtShapeSettings,
                 asctype: Common.Utils.documentSettingsType.Shape,
                 enableToggle: true,
                 disabled: true,
-                toggleGroup: 'tabpanelbtnsGroup'
+                toggleGroup: 'tabpanelbtnsGroup',
+                allowMouseEventsOnDisabled: true
             });
 
             this.btnTextArt = new Common.UI.Button({
@@ -122,7 +128,8 @@ define([
                 asctype: Common.Utils.documentSettingsType.TextArt,
                 enableToggle: true,
                 disabled: true,
-                toggleGroup: 'tabpanelbtnsGroup'
+                toggleGroup: 'tabpanelbtnsGroup',
+                allowMouseEventsOnDisabled: true
             });
 
             this._settings = [];
