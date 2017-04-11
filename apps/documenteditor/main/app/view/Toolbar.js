@@ -1737,9 +1737,9 @@ define([
                                     'data-stopPropagation="true"',
                                     '<% } %>', '>',
                                     '<label class="title">' + this.textZoom + '</label>',
-                                    '<button id="id-menu-zoom-in" type="button" style="float:right; margin: 2px 5px 0 0;" class="btn small btn-toolbar"><span class="btn-icon btn-zoomin">&nbsp;</span></button>',
+                                    '<button id="id-menu-zoom-in" type="button" style="float:right; margin: 2px 5px 0 0;" class="btn small btn-toolbar"><i class="icon btn-zoomup">&nbsp;</i></button>',
                                     '<label class="zoom"><%= options.value %>%</label>',
-                                    '<button id="id-menu-zoom-out" type="button" style="float:right; margin-top: 2px;" class="btn small btn-toolbar"><span class="btn-icon btn-zoomout">&nbsp;</span></button>',
+                                    '<button id="id-menu-zoom-out" type="button" style="float:right; margin-top: 2px;" class="btn small btn-toolbar"><i class="icon btn-zoomdown">&nbsp;</i></button>',
                                     '</div>'
                                 ].join('')),
                                 stopPropagation: true,

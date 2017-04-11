@@ -25,12 +25,12 @@
         <div class="separator short el-edit el-review"></div>
         <button id="btn-zoom-topage" type="button" class="btn small btn-toolbar"><span class="icon btn-ic-zoomtopage">&nbsp;</span></button>
         <button id="btn-zoom-towidth" type="button" class="btn small btn-toolbar"><span class="icon btn-ic-zoomtowidth">&nbsp;</span></button>
-        <button id="btn-zoom-down" type="button" class="btn small btn-toolbar"><span class="icon btn-ic-zoomdown">&nbsp;</span></button>
+        <button id="btn-zoom-down" type="button" class="btn small btn-toolbar"><span class="icon btn-zoomdown">&nbsp;</span></button>
         <div class="cnt-zoom">
             <div class="dropdown-toggle" data-toggle="dropdown">
                 <label id="label-zoom" class="status-label">Zoom 100%</label>
             </div>
         </div>
-        <button id="btn-zoom-up" type="button" class="btn small btn-toolbar" style="margin-right:40px;"><span class="icon btn-ic-zoomup">&nbsp;</span></button>
+        <button id="btn-zoom-up" type="button" class="btn small btn-toolbar" style="margin-right:40px;"><span class="icon btn-zoomup">&nbsp;</span></button>
     </div>
 </div>
