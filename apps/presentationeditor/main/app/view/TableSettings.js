@@ -357,7 +357,7 @@ define([
              if (this._initSettings)
                 this.createDelayedElements();
 
-            this.disableControls(this._locked);
+            this.disableControls(this._locked); // need to update combodataview after disabled state
 
             if (props )
             {
@@ -376,7 +376,7 @@ define([
 
                     if (this._isTemplatesChanged) {
                         if (rec)
-                            this.cmbTableTemplate.fillComboView(this.cmbTableTemplate.menuPicker.getSelectedRec(),true);
+                            this.cmbTableTemplate.fillComboView(this.cmbTableTemplate.menuPicker.getSelectedRec()[0],true);
                         else
                             this.cmbTableTemplate.fillComboView(this.cmbTableTemplate.menuPicker.store.at(0), true);
                     }

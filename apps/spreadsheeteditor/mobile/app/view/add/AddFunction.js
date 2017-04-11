@@ -53,7 +53,7 @@ define([
                     android     : Common.SharedSettings.get('android'),
                     phone       : Common.SharedSettings.get('phone'),
                     view        : viewid,
-                    textBack    : 'Back'
+                    scope       : this
                 };
 
                 _.extend(_params, args);
@@ -94,6 +94,8 @@ define([
 
             // Render layout
             render: function () {
+                var me = this;
+
                 var quickFunctions = [
                     {caption: 'SUM',   type: 'SUM'},
                     {caption: 'MIN',   type: 'MIN'},
@@ -101,24 +103,30 @@ define([
                     {caption: 'COUNT', type: 'COUNT'}
                 ];
 
-                this.groups = {
-                    'DateAndTime':          this.sCatDateAndTime,
-                    'Engineering':          this.sCatEngineering,
-                    'TextAndData':          this.sCatTextAndData,
-                    'Statistical':          this.sCatStatistical,
-                    'Financial':            this.sCatFinancial,
-                    'Mathematic':           this.sCatMathematic,
-                    'LookupAndReference':   this.sCatLookupAndReference,
-                    'Information':          this.sCatInformation,
-                    'Logical':              this.sCatLogical
+                if (me.functions) {
+                    _.each(quickFunctions, function (quickFunction) {
+                        quickFunction.caption = me.functions[quickFunction.type].caption
+                    });
+                }
+
+                me.groups = {
+                    'DateAndTime':          me.sCatDateAndTime,
+                    'Engineering':          me.sCatEngineering,
+                    'TextAndData':          me.sCatTextAndData,
+                    'Statistical':          me.sCatStatistical,
+                    'Financial':            me.sCatFinancial,
+                    'Mathematic':           me.sCatMathematic,
+                    'LookupAndReference':   me.sCatLookupAndReference,
+                    'Information':          me.sCatInformation,
+                    'Logical':              me.sCatLogical
                 };
 
-                this.layout = $('<div/>').append(_.template(this.template, {
+                me.layout = $('<div/>').append(_.template(me.template, {
                     android     : Common.SharedSettings.get('android'),
                     phone       : Common.SharedSettings.get('phone'),
-                    textGroups  : this.textGroups,
+                    textGroups  : me.textGroups,
                     quick       : quickFunctions,
-                    groups      : this.groups,
+                    groups      : me.groups,
                     view        : 'root'
                 }));
 
@@ -180,6 +188,7 @@ define([
             },
 
             textGroups:                'CATEGORIES',
+            textBack:                  'Back',
             sCatLogical:               'Logical',
             // sCatCube:                  'Cube',
             // sCatDatabase:              'Database',

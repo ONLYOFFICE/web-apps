@@ -51,7 +51,8 @@ define([
 
     SSE.Controllers.DocumentHolder = Backbone.Controller.extend(_.extend((function() {
         // private
-        var _isEdit = false;
+        var _actionSheets = [],
+            _isEdit = false;
 
         function openLink(url) {
             var newDocumentPage = window.open(url, '_blank');
@@ -126,7 +127,7 @@ define([
                     }
                     break;
                 case 'unmerge':
-                    me.api.asc_mergeCells(Asc.c_oAscMergeOptions.Unmerge);
+                    me.api.asc_mergeCells(Asc.c_oAscMergeOptions.None);
                     break;
                 case 'hide':
                     me.api[info.asc_getFlags().asc_getSelectionType() == Asc.c_oAscSelectionType.RangeRow ? 'asc_hideRows' : 'asc_hideColumns']();
@@ -151,6 +152,24 @@ define([
                     break;
                 }
 
+                if ('showActionSheet' == event && _actionSheets.length > 0) {
+                    _.delay(function () {
+                        _.each(_actionSheets, function (action) {
+                            action.text = action.caption
+                            action.onClick = function () {
+                                me.onContextMenuClick(null, action.event)
+                            }
+                        });
+
+                        uiApp.actions([_actionSheets, [
+                            {
+                                text: me.sheetCancel,
+                                bold: true
+                            }
+                        ]]);
+                    }, 100);
+                }
+
                 me.view.hideMenu();
             },
 
@@ -163,7 +182,7 @@ define([
             onApiShowPopMenu: function(posX, posY) {
                 if ( !_isEdit ) return;
 
-                if ($('.popover.settings, .popup.settings, .picker-modal.settings, .modal-in').length > 0) {
+                if ($('.popover.settings, .popup.settings, .picker-modal.settings, .modal-in, .actions-modal').length > 0) {
                     return;
                 }
 
@@ -183,6 +202,8 @@ define([
 
             _initMenu: function (cellinfo) {
                 var me = this;
+
+                _actionSheets = [];
 
                 var iscellmenu, isrowmenu, iscolmenu, isallmenu, ischartmenu, isimagemenu, istextshapemenu, isshapemenu, istextchartmenu;
                 var iscelllocked    = cellinfo.asc_getLocked(),
@@ -257,12 +278,13 @@ define([
                                 event: 'edit'
                             });
 
+                            (cellinfo.asc_getFlags().asc_getMerge() == Asc.c_oAscMergeOptions.None) &&
                             menuItems.push({
                                 caption: me.menuMerge,
                                 event: 'merge'
                             });
 
-                            cellinfo.asc_getFlags().asc_getMerge() &&
+                            (cellinfo.asc_getFlags().asc_getMerge() ==  Asc.c_oAscMergeOptions.Merge) &&
                             menuItems.push({
                                 caption: me.menuUnmerge,
                                 event: 'unmerge'
@@ -300,7 +322,13 @@ define([
                 }
 
                 if (Common.SharedSettings.get('phone') && menuItems.length > 3) {
+                    _actionSheets = menuItems.slice(3);
+
                     menuItems = menuItems.slice(0, 3);
+                    menuItems.push({
+                        caption: me.menuMore,
+                        event: 'showActionSheet'
+                    });
                 }
 
                 return menuItems;
@@ -320,7 +348,9 @@ define([
             menuShow:       'Show',
             menuHide:       'Hide',
             menuEdit:       'Edit',
-            menuCell:       'Cell'
+            menuCell:       'Cell',
+            menuMore:       'More',
+            sheetCancel:    'Cancel'
         }
     })(), SSE.Controllers.DocumentHolder || {}))
 });

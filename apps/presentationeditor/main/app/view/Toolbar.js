@@ -855,7 +855,7 @@ define([
                 enableKeyEvents: true,
                 itemHeight  : 38,
                 hint: this.tipSlideTheme,
-                lock: [_set.lostConnect, _set.noSlides],
+                lock: [_set.themeLock, _set.lostConnect, _set.noSlides],
                 beforeOpenHandler: function(e) {
                     var cmp = this,
                         menu = cmp.openButton.menu,
@@ -1159,6 +1159,8 @@ define([
             );
             if (this.mode.isDesktopApp || this.mode.canBrandingExt && this.mode.customization && this.mode.customization.header===false)
                 this.mnuitemHideTitleBar.hide();
+            if (this.mode.canBrandingExt && this.mode.customization && this.mode.customization.statusBar===false)
+                this.mnuitemHideStatusBar.hide();
 
             this.mnuZoomOut = new Common.UI.Button({
                 el  : $('#id-menu-zoom-out'),
@@ -1540,7 +1542,7 @@ define([
                     if (this.synchTooltip)
                         this.synchTooltip.hide();
                     this.btnSave.updateHint(this.btnSaveTip);
-                    this.btnSave.setDisabled(true);
+                    this.btnSave.setDisabled(!this.mode.forcesave);
                     this._state.hasCollaborativeChanges = false;
                 }
             }

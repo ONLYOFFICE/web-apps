@@ -75,6 +75,11 @@
     </tr>
     <tr>
         <td class="padding-small" colspan=2>
+            <button type="button" class="btn btn-text-default" id="table-btn-convert-range" style="width:100%;"><%= scope.textConvertRange %></button>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small" colspan=2>
             <div class="separator horizontal"></div>
         </td>
     </tr>

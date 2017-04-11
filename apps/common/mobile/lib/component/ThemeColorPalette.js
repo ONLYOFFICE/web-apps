@@ -120,6 +120,11 @@ define([
                 row = -1,
                 standartColors = Common.Utils.ThemeColor.getStandartColors();
 
+            // Disable duplicate
+            if ($(me.el).find('.list-block.color-palette').length > 0) {
+                return
+            }
+
             _.each(Common.Utils.ThemeColor.getEffectColors(), function(effect, index) {
                 if (0 == index % me.options.themecolors) {
                     themeColors.push([]);

@@ -72,14 +72,14 @@ var ApplicationController = new(function(){
             $('#id-btn-close').hide();
 
         // Docked toolbar
-        if (embedConfig.toolbarDocked === 'top') {
-            $('#toolbar').addClass('top');
-            $('.viewer').addClass('top');
-        } else {
+        if (embedConfig.toolbarDocked === 'bottom') {
             $('#toolbar').addClass('bottom');
             $('.viewer').addClass('bottom');
             $('#box-tools').removeClass('dropdown').addClass('dropup');
             ttOffset[1] = -40;
+        } else {
+            $('#toolbar').addClass('top');
+            $('.viewer').addClass('top');
         }
     }
 

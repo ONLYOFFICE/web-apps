@@ -60,7 +60,7 @@ define([
 
             this.fireEvent('link:insert', [{
                 type    : type,
-                sheet   : type == 'ext' ? undefined : cfgLink.internal.sheet.index,
+                sheet   : type == 'ext' ? undefined : cfgLink.internal.sheet.caption,
                 url     : $view.find(type == 'ext' ? '#add-link-url input' : '#add-link-range input').val(),
                 text    : $text.is(':disabled') ? null : $text.val(),
                 tooltip : $view.find('#add-link-tip input').val()
@@ -214,6 +214,16 @@ define([
                         worksheets: sheets
                     })
                 );
+
+                var $view = $('.settings');
+
+                if ($view.length > 0) {
+                    $view.find('#add-link-sheet select').html(
+                        _.template(tpl, {
+                            worksheets: sheets
+                        })
+                    );
+                }
 
                 var active = _.findWhere(sheets, {active:true});
                 if ( active )

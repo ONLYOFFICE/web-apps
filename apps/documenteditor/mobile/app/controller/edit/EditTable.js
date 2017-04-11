@@ -80,14 +80,19 @@ define([
                     return _sizes[index];
                 },
 
-                sizeByValue: function (value) {
+                indexSizeByValue: function (value) {
                     var index = 0;
                     _.each(_sizes, function (size, idx) {
                         if (Math.abs(size - value) < 0.25) {
                             index = idx;
                         }
                     });
-                    return _sizes[index];
+
+                    return index;
+                },
+
+                sizeByValue: function (value) {
+                    return _sizes[this.indexSizeByValue(value)];
                 }
             }
         })();
@@ -207,7 +212,7 @@ define([
                 $('#table-option-repeatasheader input').prop('checked', _tableObject.get_RowsInHeader());
                 $('#table-option-resizetofit input').prop('checked', _tableObject.get_TableLayout()==Asc.c_oAscTableLayout.AutoFit);
 
-                var margins = _tableObject.get_DefaultMargins();
+                var margins = _tableObject.get_CellMargins();
                 if (margins) {
                     var distance = Common.Utils.Metric.fnRecalcFromMM(margins.get_Left());
                     $('#table-options-margins input').val(distance);
@@ -313,7 +318,7 @@ define([
                 //     });
                 // }
 
-                $('#edit-table-bordersize input').val([borderSizeTransform.sizeByIndex(_cellBorderWidth)]);
+                $('#edit-table-bordersize input').val([borderSizeTransform.indexSizeByValue(_cellBorderWidth)]);
                 $('#edit-table-bordersize .item-after').text(borderSizeTransform.sizeByValue(_cellBorderWidth) + ' ' + _metricText);
 
                 var borderPalette = me.getView('EditTable').paletteBorderColor;

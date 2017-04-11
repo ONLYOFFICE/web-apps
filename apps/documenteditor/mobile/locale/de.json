@@ -20,6 +20,8 @@
   "DE.Controllers.DocumentHolder.menuDelete": "Löschen",
   "DE.Controllers.DocumentHolder.menuEdit": "Bearbeiten",
   "DE.Controllers.DocumentHolder.menuOpenLink": "Link öffnen",
+  "DE.Controllers.DocumentHolder.menuMore": "More",
+  "DE.Controllers.DocumentHolder.sheetCancel": "Abbrechen",
   "DE.Controllers.DocumentHolder.menuPaste": "Einfügen",
   "DE.Controllers.DocumentHolder.textGuest": "Gast",
   "DE.Controllers.EditContainer.textChart": "Diagramm",

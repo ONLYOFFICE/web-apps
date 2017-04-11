@@ -261,9 +261,18 @@ define([
                                 $layoutPages.prop('outerHTML') +
                             '</div>' +
                         '</div>'
-                    )).on('close', function (e) {
+                    )).on('opened', function () {
+                        if (_.isFunction(me.api.asc_OnShowContextMenu)) {
+                            me.api.asc_OnShowContextMenu()
+                        }
+                    }).on('close', function (e) {
                         mainView.showNavbar();
+                    }).on('closed', function () {
+                        if (_.isFunction(me.api.asc_OnHideContextMenu)) {
+                            me.api.asc_OnHideContextMenu()
+                        }
                     });
+
                     mainView.hideNavbar();
                 } else {
                     me.picker = uiApp.popover(
@@ -289,9 +298,17 @@ define([
                                 $overlay.addClass('modal-overlay-visible')
                             }
                         });
+
+                        if (_.isFunction(me.api.asc_OnShowContextMenu)) {
+                            me.api.asc_OnShowContextMenu()
+                        }
                     }).on('close', function () {
                         $overlay.off('removeClass');
                         $overlay.removeClass('modal-overlay-visible')
+                    }).on('closed', function () {
+                        if (_.isFunction(me.api.asc_OnHideContextMenu)) {
+                            me.api.asc_OnHideContextMenu()
+                        }
                     });
                 }
 

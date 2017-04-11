@@ -81,11 +81,14 @@ define([
 
             // Render layout
             render: function () {
+                var shapes = Common.SharedSettings.get('shapes').slice();
+                shapes.splice(0, 1); // Remove line shapes
+
                 this.layout = $('<div/>').append(this.template({
                     android : Common.SharedSettings.get('android'),
                     phone   : Common.SharedSettings.get('phone'),
                     imgpath : '../../common/mobile/resources/img/shapes',
-                    shapes  : Common.SharedSettings.get('shapes'),
+                    shapes  : shapes,
                     scope   : this
                 }));
 

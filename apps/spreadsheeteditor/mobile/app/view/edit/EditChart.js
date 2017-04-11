@@ -259,6 +259,7 @@ define([
             textValReverseOrder: 'Values in Reverse Order',
             textTickOptions: 'Tick Options',
             textMajorType: 'Major Type',
+            textMinorType: 'Minor Type',
             textLabelOptions: 'Label Options',
             textLabelPos: 'Label Position',
             textAxisPosition: 'Axis Position',

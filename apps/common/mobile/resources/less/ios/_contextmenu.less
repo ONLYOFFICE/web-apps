@@ -18,6 +18,7 @@
 
   .list-block {
     font-size: 14px;
+    white-space: pre;
 
     &:first-child {
       ul {
@@ -53,6 +54,11 @@
           .hairline-color(right, transparent);
         }
       }
+
+      html.phone & {
+        padding: 0 10px;
+      }
+
       &.list-button {
         color: @white;
         .hairline(right, @modalHairlineColor);

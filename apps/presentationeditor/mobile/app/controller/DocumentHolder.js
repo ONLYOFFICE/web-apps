@@ -54,6 +54,7 @@ define([
         // private
         var _stack,
             _view,
+            _actionSheets = [],
             _isEdit = false,
             _isPopMenuHidden = false;
 
@@ -125,6 +126,22 @@ define([
                             return true;
                         }
                     });
+                } else if ('showActionSheet' == eventName && _actionSheets.length > 0) {
+                    _.delay(function () {
+                        _.each(_actionSheets, function (action) {
+                            action.text = action.caption
+                            action.onClick = function () {
+                                me.onContextMenuClick(null, action.event)
+                            }
+                        });
+
+                        uiApp.actions([_actionSheets, [
+                            {
+                                text: me.sheetCancel,
+                                bold: true
+                            }
+                        ]]);
+                    }, 100);
                 }
 
                 _view.hideMenu();
@@ -146,7 +163,7 @@ define([
             },
 
             onApiShowPopMenu: function(posX, posY) {
-                if (_isPopMenuHidden || $('.popover.settings, .popup.settings, .picker-modal.settings, .modal-in').length > 0)
+                if (_isPopMenuHidden || $('.popover.settings, .popup.settings, .picker-modal.settings, .modal-in, .actions-modal').length > 0)
                     return;
 
                 var me = this,
@@ -176,13 +193,15 @@ define([
                         newDocumentPage.focus();
                     }
                 } else
-                    this.api.openInternalLink(url);
+                    this.api.asc_GoToInternalHyperlink(url);
             },
 
             _initMenu: function (stack) {
                 var me = this,
                     menuItems = [],
                     canCopy = me.api.can_CopyCut();
+
+                _actionSheets = [];
 
                 var isText = false,
                     isTable = false,
@@ -270,14 +289,20 @@ define([
                     }
                 }
 
-                if (Common.SharedSettings.get('phone') && menuItems.length > 3) {
-                    menuItems = menuItems.slice(0, 3);
-                }
-
                 if (isLink) {
                     menuItems.push({
                         caption: me.menuOpenLink,
                         event: 'openlink'
+                    });
+                }
+
+                if (Common.SharedSettings.get('phone') && menuItems.length > 3) {
+                    _actionSheets = menuItems.slice(3);
+
+                    menuItems = menuItems.slice(0, 3);
+                    menuItems.push({
+                        caption: me.menuMore,
+                        event: 'showActionSheet'
                     });
                 }
 
@@ -290,7 +315,9 @@ define([
             menuEdit: 'Edit',
             menuDelete: 'Delete',
             menuAddLink: 'Add Link',
-            menuOpenLink: 'Open Link'
+            menuOpenLink: 'Open Link',
+            menuMore: 'More',
+            sheetCancel: 'Cancel'
         }
     })(), PE.Controllers.DocumentHolder || {}))
 });

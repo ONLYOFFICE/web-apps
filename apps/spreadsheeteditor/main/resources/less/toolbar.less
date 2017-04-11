@@ -238,6 +238,7 @@
     font: 11px arial;
     pointer-events: none;
     white-space: nowrap;
+    letter-spacing: 1px;
 }
 
 #id-toolbar-btn-num-format button .caption {
@@ -257,4 +258,11 @@
 .item-equation {
     border: 1px solid @gray;
     .background-ximage('@{app-image-path}/toolbar/math.png', '@{app-image-path}/toolbar/math@2x.png', 1500px);
+}
+
+#special-paste-container {
+    position: absolute;
+    z-index: @zindex-dropdown - 20;
+    background-color: @gray-light;
+    border: 1px solid @gray;
 }

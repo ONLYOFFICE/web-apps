@@ -392,7 +392,7 @@ define([
                         },
                         {
                             caption : me.txtUnmerge,
-                            value   : Asc.c_oAscMergeOptions.Unmerge
+                            value   : Asc.c_oAscMergeOptions.None
                         }
                     ]
                 })
@@ -692,23 +692,23 @@ define([
                     items : [
                         {
                             caption : me.txtDollar,
-                            value   : '_($* #,##0.00_);_($* (#,##0.00);_($* "-"??_);_(@_)'
+                            value   : 0x0409 // $ en-US
                         },
                         {
                             caption : me.txtEuro,
-                            value   : '_(€* #,##0.00_);_(€* (#,##0.00);_(€* "-"??_);_(@_)'
+                            value   : 0x0407 // € de-DE
                         },
                         {
                             caption : me.txtPound,
-                            value   : '_(£* #,##0.00_);_(£* (#,##0.00);_(£* "-"??_);_(@_)'
+                            value   : 0x0809 // £ en-GB
                         },
                         {
                             caption : me.txtRouble,
-                            value   : '_-* #,##0.00[$р.-419]_-;-* #,##0.00[$р.-419]_-;_-* "-"??[$р.-419]_-;_-@_-'
+                            value   : 0x0419 // ₽ ru-RU
                         },
                         {
                             caption : me.txtYen,
-                            value   : '_(¥* #,##0.00_);_(¥* (#,##0.00);_(¥* "-"??_);_(@_)'
+                            value   : 0x0411 // ¥ ja-JP
                         }
                     ]
                 })
@@ -1551,10 +1551,10 @@ define([
                     { id: 'menu-chart-group-hbar',    caption: me.textBar },
                     { id: 'menu-chart-group-area',    caption: me.textArea, inline: true },
                     { id: 'menu-chart-group-scatter', caption: me.textPoint, inline: true },
-                    { id: 'menu-chart-group-stock',   caption: me.textStock, inline: true },
-                    { id: 'menu-chart-group-sparkcolumn', inline: true, headername: me.textSparks },
-                    { id: 'menu-chart-group-sparkline',   inline: true },
-                    { id: 'menu-chart-group-sparkwin',    inline: true }
+                    { id: 'menu-chart-group-stock',   caption: me.textStock, inline: true }
+                    // ,{ id: 'menu-chart-group-sparkcolumn', inline: true, headername: me.textSparks },
+                    // { id: 'menu-chart-group-sparkline',   inline: true },
+                    // { id: 'menu-chart-group-sparkwin',    inline: true }
                 ]),
                 store: new Common.UI.DataViewStore([
                     { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barNormal,          allowSelected: true, iconCls: 'column-normal', selected: true},
@@ -1581,10 +1581,10 @@ define([
                     { group: 'menu-chart-group-area',    type: Asc.c_oAscChartTypeSettings.areaStacked,        allowSelected: true, iconCls: 'area-stack'},
                     { group: 'menu-chart-group-area',    type: Asc.c_oAscChartTypeSettings.areaStackedPer,     allowSelected: true, iconCls: 'area-pstack'},
                     { group: 'menu-chart-group-scatter', type: Asc.c_oAscChartTypeSettings.scatter,            allowSelected: true, iconCls: 'point-normal'},
-                    { group: 'menu-chart-group-stock',   type: Asc.c_oAscChartTypeSettings.stock,              allowSelected: true, iconCls: 'stock-normal'},
-                    { group: 'menu-chart-group-sparkcolumn',   type: Asc.c_oAscSparklineType.Column,    allowSelected: true, iconCls: 'spark-column', tip: me.textColumnSpark},
-                    { group: 'menu-chart-group-sparkline',     type: Asc.c_oAscSparklineType.Line,      allowSelected: true, iconCls: 'spark-line', tip: me.textLineSpark},
-                    { group: 'menu-chart-group-sparkwin',      type: Asc.c_oAscSparklineType.Stacked,   allowSelected: true, iconCls: 'spark-win', tip: me.textWinLossSpark}
+                    { group: 'menu-chart-group-stock',   type: Asc.c_oAscChartTypeSettings.stock,              allowSelected: true, iconCls: 'stock-normal'}
+                    // ,{ group: 'menu-chart-group-sparkcolumn',   type: Asc.c_oAscSparklineType.Column,    allowSelected: true, iconCls: 'spark-column', tip: me.textColumnSpark},
+                    // { group: 'menu-chart-group-sparkline',     type: Asc.c_oAscSparklineType.Line,      allowSelected: true, iconCls: 'spark-line', tip: me.textLineSpark},
+                    // { group: 'menu-chart-group-sparkwin',      type: Asc.c_oAscSparklineType.Stacked,   allowSelected: true, iconCls: 'spark-win', tip: me.textWinLossSpark}
                 ]),
                 itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist <%= iconCls %>"></div>')
             });
@@ -1739,7 +1739,7 @@ define([
                     if (this.synchTooltip)
                         this.synchTooltip.hide();
                     this.btnSave.updateHint(this.btnSaveTip);
-                    this.btnSave.setDisabled(true);
+                    this.btnSave.setDisabled(!this.mode.forcesave);
                     this._state.hasCollaborativeChanges = false;
                 }
             }
@@ -1801,7 +1801,7 @@ define([
         txtCurrency:        'Currency',
         txtDollar:          '$ Dollar',
         txtEuro:            '€ Euro',
-        txtRouble:          'р. Rouble',
+        txtRouble:          '₽ Rouble',
         txtPound:           '£ Pound',
         txtYen:             '¥ Yen',
 //    txtFranc:           'CHF Swiss franc',

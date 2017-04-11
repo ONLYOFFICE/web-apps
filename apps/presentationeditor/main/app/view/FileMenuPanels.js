@@ -114,14 +114,18 @@ define([
                     '<td class="left"><label><%= scope.txtInput %></label></td>',
                     '<td class="right"><div id="fms-chb-input-mode"/></td>',
                 '</tr>','<tr class="divider edit"></tr>',
-                '<tr>',
+                '<tr class="edit">',
                     '<td class="left"><label><%= scope.textAlignGuides %></label></td>',
                     '<td class="right"><span id="fms-chb-align-guides" /></td>',
-                '</tr>','<tr class="divider"></tr>',
+                '</tr>','<tr class="divider edit"></tr>',
                 '<tr class="autosave">',
                     '<td class="left"><label id="fms-lbl-autosave"><%= scope.textAutoSave %></label></td>',
                     '<td class="right"><span id="fms-chb-autosave" /></td>',
                 '</tr>','<tr class="divider autosave"></tr>',
+                '<tr class="forcesave">',
+                    '<td class="left"><label id="fms-lbl-forcesave"><%= scope.textForceSave %></label></td>',
+                    '<td class="right"><span id="fms-chb-forcesave" /></td>',
+                '</tr>','<tr class="divider forcesave"></tr>',
                 /** coauthoring begin **/
                 '<tr class="coauth changes">',
                     '<td class="left"><label><%= scope.strCoAuthMode %></label></td>',
@@ -212,6 +216,11 @@ define([
             }, this));
             this.lblAutosave = $('#fms-lbl-autosave');
 
+            this.chForcesave = new Common.UI.CheckBox({
+                el: $('#fms-chb-forcesave'),
+                labelText: this.strForcesave
+            });
+
             this.chAlignGuides = new Common.UI.CheckBox({
                 el: $('#fms-chb-align-guides'),
                 labelText: this.strAlignGuides
@@ -259,6 +268,7 @@ define([
                 this.chAutosave.setCaption(this.strAutoRecover);
                 this.lblAutosave.text(this.textAutoRecover);
             }
+            $('tr.forcesave', this.el)[mode.canForcesave ? 'show' : 'hide']();
             /** coauthoring begin **/
             $('tr.coauth.changes', this.el)[mode.isEdit && !mode.isOffline && mode.canCoAuthoring ? 'show' : 'hide']();
             /** coauthoring end **/
@@ -295,6 +305,12 @@ define([
                 value = 0;
             this.chAutosave.setValue(fast_coauth || (value===null ? this.mode.canCoAuthoring : parseInt(value) == 1));
 
+            if (this.mode.canForcesave) {
+                value = Common.localStorage.getItem("pe-settings-forcesave");
+                value = (value === null) ? this.mode.canForcesave : (parseInt(value) == 1);
+                this.chForcesave.setValue(value);
+            }
+
             value = Common.localStorage.getItem("pe-settings-showsnaplines");
             this.chAlignGuides.setValue(value===null || parseInt(value) == 1);
         },
@@ -309,6 +325,8 @@ define([
             /** coauthoring end **/
             Common.localStorage.setItem("pe-settings-unit", this.cmbUnit.getValue());
             Common.localStorage.setItem("pe-settings-autosave", this.chAutosave.isChecked() ? 1 : 0);
+            if (this.mode.canForcesave)
+                Common.localStorage.setItem("pe-settings-forcesave", this.chForcesave.isChecked() ? 1 : 0);
             Common.localStorage.setItem("pe-settings-showsnaplines", this.chAlignGuides.isChecked() ? 1 : 0);
             Common.localStorage.save();
 
@@ -345,7 +363,9 @@ define([
         textAutoRecover: 'Autorecover',
         strAutoRecover: 'Turn on autorecover',
         txtInch: 'Inch',
-        txtFitWidth: 'Fit to Width'
+        txtFitWidth: 'Fit to Width',
+        textForceSave: 'Save to Server',
+        strForcesave: 'Always save to server (otherwise save to server on document close)'
     }, PE.Views.FileMenuPanels.Settings || {}));
 
     PE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({

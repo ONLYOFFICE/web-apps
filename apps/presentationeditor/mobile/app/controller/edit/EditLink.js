@@ -65,8 +65,7 @@ define([
             _linkType = c_oHyperlinkType.WebLink,
             _slideLink = 0,
             _slideNum = 0,
-            _slidesCount = 0,
-            _isDisplayChanged = false;
+            _slidesCount = 0;
 
         return {
             models: [],
@@ -213,9 +212,6 @@ define([
                 $('#page-editlink-type li').single('click',  _.buffered(me.onLinkType, 100, me));
                 $('#page-editlink-slidenumber li').single('click', _.buffered(me.onSlideLink, 100, me));
                 $('#editlink-slide-number .button').single('click',_.buffered(me.onSlideNumber, 100, me));
-                $('#edit-link-display input[type="text"]').single('input', _.bind(function(e) {
-                    _isDisplayChanged = true;
-                }, this));
                 me.initSettings(pageId);
             },
 
@@ -275,7 +271,7 @@ define([
                     def_display = slidetip;
                 }
 
-                if (!$('#edit-link-display').hasClass('disabled') && (_isDisplayChanged || _.isEmpty(display))) {
+                if (!$('#edit-link-display').hasClass('disabled')) {
                     props.put_Text(_.isEmpty(display) ? def_display : display);
                 } else
                     props.put_Text(null);

@@ -447,6 +447,10 @@ define([
                     '<td class="left"><label id="fms-lbl-autosave"><%= scope.textAutoSave %></label></td>',
                     '<td class="right"><span id="fms-chb-autosave" /></td>',
                 '</tr>','<tr class="divider autosave"></tr>',
+                '<tr class="forcesave">',
+                    '<td class="left"><label id="fms-lbl-forcesave"><%= scope.textForceSave %></label></td>',
+                    '<td class="right"><span id="fms-chb-forcesave" /></td>',
+                '</tr>','<tr class="divider forcesave"></tr>',
                 '<tr class="coauth changes">',
                     '<td class="left"><label><%= scope.strCoAuthMode %></label></td>',
                     '<td class="right">',
@@ -561,7 +565,12 @@ define([
                 }
             }, this));
             this.lblAutosave = $('#fms-lbl-autosave');
-            
+
+            this.chForcesave = new Common.UI.CheckBox({
+                el: $('#fms-chb-forcesave'),
+                labelText: this.strForcesave
+            });
+
             this.cmbUnit = new Common.UI.ComboBox({
                 el          : $('#fms-cmb-unit'),
                 style       : 'width: 160px;',
@@ -582,7 +591,8 @@ define([
                 data        : [
                     { value: 'en', displayValue: this.txtEn, exampleValue: this.txtExampleEn },
                     { value: 'de', displayValue: this.txtDe, exampleValue: this.txtExampleDe },
-                    { value: 'ru', displayValue: this.txtRu, exampleValue: this.txtExampleRu }
+                    { value: 'ru', displayValue: this.txtRu, exampleValue: this.txtExampleRu },
+                    { value: 'pl', displayValue: this.txtPl, exampleValue: this.txtExamplePl }
                 ]
             }).on('selected', _.bind(function(combo, record) {
                 this.updateFuncExample(record.exampleValue);
@@ -652,6 +662,7 @@ define([
                 this.chAutosave.setCaption(this.strAutoRecover);
                 this.lblAutosave.text(this.textAutoRecover);
             }
+            $('tr.forcesave', this.el)[mode.canForcesave ? 'show' : 'hide']();
             $('tr.coauth', this.el)[mode.canCoAuthoring && mode.isEdit ? 'show' : 'hide']();
             $('tr.coauth.changes', this.el)[mode.isEdit && !mode.isOffline && mode.canCoAuthoring? 'show' : 'hide']();
         },
@@ -694,6 +705,12 @@ define([
             if (value===null && this.mode.customization && this.mode.customization.autosave===false)
                 value = 0;
             this.chAutosave.setValue(fast_coauth || (value===null ? this.mode.canCoAuthoring : parseInt(value) == 1));
+
+            if (this.mode.canForcesave) {
+                value = Common.localStorage.getItem("sse-settings-forcesave");
+                value = (value === null) ? this.mode.canForcesave : (parseInt(value) == 1);
+                this.chForcesave.setValue(value);
+            }
 
             value = Common.localStorage.getItem("sse-settings-func-locale");
             if (value===null)
@@ -740,6 +757,8 @@ define([
             Common.localStorage.setItem("sse-settings-fontrender", this.cmbFontRender.getValue());
             Common.localStorage.setItem("sse-settings-unit", this.cmbUnit.getValue());
             Common.localStorage.setItem("sse-settings-autosave", this.chAutosave.isChecked() ? 1 : 0);
+            if (this.mode.canForcesave)
+                Common.localStorage.setItem("sse-settings-forcesave", this.chForcesave.isChecked() ? 1 : 0);
             Common.localStorage.setItem("sse-settings-func-locale", this.cmbFuncLocale.getValue());
             if (this.cmbRegSettings.getSelectedRecord())
                 Common.localStorage.setItem("sse-settings-reg-settings", this.cmbRegSettings.getValue());
@@ -791,9 +810,11 @@ define([
         txtEn: 'English',
         txtDe: 'Deutsch',
         txtRu: 'Russian',
+        txtPl: 'Polish',
         txtExampleEn: ' SUM; MIN; MAX; COUNT',
         txtExampleDe: ' SUMME; MIN; MAX; ANZAHL',
         txtExampleRu: ' СУММ; МИН; МАКС; СЧЁТ',
+        txtExamplePl: ' SUMA; MIN; MAX; ILE.LICZB',
         strFuncLocale: 'Formula Language',
         strFuncLocaleEx: 'Example: SUM; MIN; MAX; COUNT',
         strRegSettings: 'Regional Settings',
@@ -805,7 +826,9 @@ define([
         strStrict: 'Strict',
         textAutoRecover: 'Autorecover',
         strAutoRecover: 'Turn on autorecover',
-        txtInch: 'Inch'
+        txtInch: 'Inch',
+        textForceSave: 'Save to Server',
+        strForcesave: 'Always save to server (otherwise save to server on document close)'
     }, SSE.Views.FileMenuPanels.MainSettingsGeneral || {}));
 
     SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({

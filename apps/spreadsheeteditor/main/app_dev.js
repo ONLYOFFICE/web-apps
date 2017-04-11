@@ -177,6 +177,7 @@ require([
         'common/main/lib/controller/Chat',
         'common/main/lib/controller/Plugins'
     ], function() {
+        window.compareVersions = true;
         app.start();
     });
 }, function(err) {

@@ -265,7 +265,7 @@ define([
             initBorderStyle: function () {
                 $('.page[data-page=edit-border-style] a[data-type]').single('click', _.bind(this.onBorderStyle, this));
 
-                $('#edit-border-color .color-preview').css('background-color', '#' + _borderInfo.color);
+                $('#edit-border-color .color-preview').css('background-color', '#' + (_.isObject(_borderInfo.color) ? _borderInfo.color.color : _borderInfo.color));
                 $('#edit-border-size select').val(_borderInfo.width);
                 $('#edit-border-size .item-after').text($('#edit-border-size select option[value=' +_borderInfo.width + ']').text());
 

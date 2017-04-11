@@ -47,7 +47,6 @@ define([
     'use strict';
 
     SSE.Views.CellEditor = Backbone.View.extend({
-
         el: '.pages > .page',
         template: _.template(template),
 
@@ -58,6 +57,9 @@ define([
             }
         },
 
+        touch: {},
+        tplHintItem: _.template('<li><a><%= caption %></a></li>'),
+
         initialize: function (options) {
         },
 
@@ -67,7 +69,16 @@ define([
 
             this.$cellname = $('#ce-cell-name', this.el);
             this.$btnexpand = $('#ce-btn-expand', this.el);
+            this.$boxfuncs = $('.group-functions-list', this.el);
+            this.$listfuncs = $('.func-list', this.$boxfuncs);
+
             // this.$btnfunc = $('#ce-function', this.el);
+
+            this.$listfuncs.on({
+                'touchstart': this.onTouchStart.bind(this),
+                'touchmove': this.onTouchMove.bind(this),
+                'touchend': this.onTouchEnd.bind(this)
+            });
 
             return this;
         },
@@ -91,10 +102,90 @@ define([
             // Common.NotificationCenter.trigger('edit:complete', this.editor, {restorefocus:true});
         },
 
+        clearFunctionsHint: function () {
+            this.$listfuncs.find('li').off('click');
+            this.$listfuncs.empty();
+            this.$listfuncs.scrollLeft(0);
+        },
+
         cellNameDisabled: function(disabled){
             // (disabled) ? this.$cellname.attr('disabled', 'disabled') : this.$cellname.removeAttr('disabled');
             // this.$btnfunc.toggleClass('disabled', disabled);
             // this.btnNamedRanges.setDisabled(disabled);
+        },
+
+        resetFunctionsHint: function(funcarr) {
+            this.clearFunctionsHint();
+
+            var me = this;
+            var onhintclick = function(name, type, e) {
+                this.fireEvent('function:hint', [name, type]);
+            };
+
+            var items = [];
+            _.each(funcarr, function(func, index) {
+                var $item = $(me.tplHintItem({
+                    caption: func.asc_getName()
+                }));
+
+                $item.on('click', onhintclick.bind(me, func.asc_getName(), func.asc_getType()));
+                items.push($item);
+            });
+
+            this.$listfuncs.append(items);
+        },
+
+        hasHiddenFunctionsHint: function() {
+            var _left_bound_ = this.$boxfuncs.offset().left,
+                _right_bound_ = _left_bound_ + this.$boxfuncs.width();
+
+            var $items = this.$listfuncs.find('li');
+            var rect = $items.first().get(0).getBoundingClientRect();
+
+            if ( !(rect.left < _left_bound_) ) {
+                rect = $items.last().get(0).getBoundingClientRect();
+
+                if ( !(rect.right > _right_bound_) )
+                    return false;
+            }
+
+            return true;
+        },
+
+        onTouchStart: function(e) {
+            if ( this.hasHiddenFunctionsHint() ) {
+                var touches = e.originalEvent.changedTouches;
+                this.touch.startx = touches[0].clientX;
+                this.touch.scrollx = this.$listfuncs.scrollLeft();
+
+                this.touch.timer = setTimeout(function () {
+                    // touch.longtouch = true;
+                }, 500);
+                e.preventDefault();
+            }
+        },
+
+        onTouchMove: function(e) {
+            if ( this.touch.startx !== undefined ) {
+                var touches = e.originalEvent.changedTouches;
+
+                if ( this.touch.longtouch ) {}
+                else {
+                    if ( this.touch.timer ) clearTimeout(this.touch.timer), delete this.touch.timer;
+                    this.$listfuncs.scrollLeft(this.touch.scrollx + (this.touch.startx - touches[0].clientX));
+                }
+
+                e.preventDefault();
+            }
+        },
+
+        onTouchEnd: function(e) {
+            if ( this.touch.startx !== undefined ) {
+                this.touch.longtouch = false;
+                delete this.touch.startx;
+                e.preventDefault();
+            }
         }
+
     });
 });

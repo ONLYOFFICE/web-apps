@@ -181,7 +181,7 @@ define([
 
                             if (this._isChartStylesChanged) {
                                 if (rec)
-                                    this.cmbChartStyle.fillComboView(this.cmbChartStyle.menuPicker.getSelectedRec(),true);
+                                    this.cmbChartStyle.fillComboView(this.cmbChartStyle.menuPicker.getSelectedRec()[0],true);
                                 else
                                     this.cmbChartStyle.fillComboView(this.cmbChartStyle.menuPicker.store.at(0), true);
                             }
@@ -925,6 +925,7 @@ define([
                         {
                             chartSettings: props,
                             imageSettings: (me.isChart) ? me._originalProps : null,
+                            sparklineStyles: me.sparklineStyles,
                             isChart: me.isChart,
                             api: me.api,
                             handler: function(result, value) {
@@ -1109,6 +1110,7 @@ define([
             if (styles && styles.length>1){
                 var stylesStore = this.cmbSparkStyle.menuPicker.store,
                     selectedIdx = styles[styles.length-1];
+                this.sparklineStyles = styles;
                 if (stylesStore.length == styles.length-1) {
                     var data = stylesStore.models;
                     for (var i=0; i<styles.length-1; i++) {

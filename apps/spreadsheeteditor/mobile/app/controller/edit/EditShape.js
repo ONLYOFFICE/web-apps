@@ -67,14 +67,19 @@ define([
                     return _sizes[index];
                 },
 
-                sizeByValue: function (value) {
+                indexSizeByValue: function (value) {
                     var index = 0;
                     _.each(_sizes, function (size, idx) {
                         if (Math.abs(size - value) < 0.25) {
                             index = idx;
                         }
                     });
-                    return _sizes[index];
+
+                    return index;
+                },
+
+                sizeByValue: function (value) {
+                    return _sizes[this.indexSizeByValue(value)];
                 }
             }
         })();
@@ -173,32 +178,36 @@ define([
 
                 // Init border
 
-                var borderSize = this._mm2pt(shapeProperties.get_stroke().get_width());
-                $('#edit-shape-bordersize input').val([borderSizeTransform.sizeByIndex(borderSize)]);
-                $('#edit-shape-bordersize .item-after').text(borderSizeTransform.sizeByValue(borderSize) + ' ' + _metricText);
+                var borderSize = me._mm2pt(shapeProperties.get_stroke().get_width()),
+                    borderType = shapeProperties.get_stroke().get_type();
+                $('#edit-shape-bordersize input').val([(borderType == Asc.c_oAscStrokeType.STROKE_NONE) ? 0 : borderSizeTransform.indexSizeByValue(borderSize)]);
+                $('#edit-shape-bordersize .item-after').text(((borderType == Asc.c_oAscStrokeType.STROKE_NONE) ? 0 : borderSizeTransform.sizeByValue(borderSize)) + ' ' + _metricText);
 
                 $('#edit-shape-bordersize input').single('change touchend', _.buffered(me.onBorderSize, 100, me));
                 $('#edit-shape-bordersize input').single('input',           _.bind(me.onBorderSizeChanging, me));
 
-                var stroke = shapeProperties.get_stroke(),
-                    strokeType = stroke.get_type();
+                // Init border color
+                me._initBorderColorView();
 
-                if (stroke && strokeType == Asc.c_oAscStrokeType.STROKE_COLOR) {
-                    _borderInfo.color = me._sdkToThemeColor(stroke.get_color());
-                }
+                // Effect
+                // Init style opacity
+                $('#edit-shape-effect input').val([shapeProperties.get_fill().asc_getTransparent() ? shapeProperties.get_fill().asc_getTransparent() / 2.55 : 100]);
+                $('#edit-shape-effect .item-after').text($('#edit-shape-effect input').val() + ' ' + "%");
+                $('#edit-shape-effect input').single('change touchend',     _.buffered(me.onOpacity, 100, me));
+                $('#edit-shape-effect input').single('input',               _.bind(me.onOpacityChanging, me));
+            },
+
+            _initBorderColorView: function () {
+                var me = this,
+                    stroke = _shapeObject.get_ShapeProperties().get_stroke();
+
+                _borderInfo.color = (stroke && stroke.get_type() == Asc.c_oAscStrokeType.STROKE_COLOR) ? me._sdkToThemeColor(stroke.get_color()) : 'transparent';
 
                 $('#edit-shape-bordercolor .color-preview').css('background-color',
                     ('transparent' == _borderInfo.color)
                         ? _borderInfo.color
                         : ('#' + (_.isObject(_borderInfo.color) ? _borderInfo.color.color : _borderInfo.color))
-                )
-
-                // Effect
-                // Init style opacity
-                $('#edit-shape-effect input').val([shapeProperties.get_fill().transparent ? shapeProperties.get_fill().transparent / 2.55 : 100]);
-                $('#edit-shape-effect .item-after').text($('#edit-shape-effect input').val() + ' ' + "%");
-                $('#edit-shape-effect input').single('change touchend',     _.buffered(me.onOpacity, 100, me));
-                $('#edit-shape-effect input').single('input',               _.bind(me.onOpacityChanging, me));
+                );
             },
 
             initReplacePage: function () {
@@ -263,36 +272,28 @@ define([
                 var me = this,
                     $target = $(e.currentTarget),
                     value = $target.val(),
-                    currentShape = _shapeObject.get_ShapeProperties(),
                     image = new Asc.asc_CImgProperty(),
                     shape = new Asc.asc_CShapeProperty(),
-                    stroke = new Asc.asc_CStroke(),
-                    currentColor = Common.Utils.ThemeColor.getRgbColor('000000');
+                    stroke = new Asc.asc_CStroke();
 
                 value = borderSizeTransform.sizeByIndex(parseInt(value));
-
-                var currentStroke = currentShape.get_stroke();
-
-                if (currentStroke) {
-                    var currentStrokeType = currentStroke.get_type();
-
-                    if (currentStrokeType == Asc.c_oAscStrokeType.STROKE_COLOR) {
-                        currentColor = currentStroke.get_color();
-                    }
-                }
 
                 if (value < 0.01) {
                     stroke.put_type(Asc.c_oAscStrokeType.STROKE_NONE);
                 } else {
                     stroke.put_type(Asc.c_oAscStrokeType.STROKE_COLOR);
-                    stroke.put_color(currentColor);
-                    stroke.put_width(this._pt2mm(value));
+                    if (_borderInfo.color == 'transparent')
+                        stroke.put_color(Common.Utils.ThemeColor.getRgbColor({color: '000000', effectId: 29}));
+                    else
+                        stroke.put_color(Common.Utils.ThemeColor.getRgbColor(Common.Utils.ThemeColor.colorValue2EffectId(_borderInfo.color)));
+                    stroke.put_width(me._pt2mm(value));
                 }
 
                 shape.put_stroke(stroke);
                 image.asc_putShapeProperties(shape);
 
                 me.api.asc_setGraphicObjectProps(image);
+                me._initBorderColorView(); // when select STROKE_NONE or change from STROKE_NONE to STROKE_COLOR
             },
 
             onBorderSizeChanging: function (e) {
@@ -350,8 +351,9 @@ define([
                     currentShape = _shapeObject.get_ShapeProperties();
 
                 $('#edit-shape-bordercolor .color-preview').css('background-color', ('transparent' == color) ? color : ('#' + (_.isObject(color) ? color.color : color)));
+                _borderInfo.color = color;
 
-                if (me.api && currentShape) {
+                if (me.api && currentShape && currentShape.get_stroke().get_type() == Asc.c_oAscStrokeType.STROKE_COLOR) {
                     var image = new Asc.asc_CImgProperty(),
                         shape = new Asc.asc_CShapeProperty(),
                         stroke = new Asc.asc_CStroke();
@@ -370,8 +372,6 @@ define([
 
                     me.api.asc_setGraphicObjectProps(image);
                 }
-
-
             },
 
             // API handlers
@@ -397,6 +397,10 @@ define([
 
                 if (!_isEdit) {
                     return;
+                }
+
+                if (_stack.length < 1) {
+                    _stack = this.api.asc_getGraphicObjectProps();
                 }
 
                 var shapes = [];

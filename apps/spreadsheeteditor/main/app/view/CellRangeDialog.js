@@ -136,7 +136,7 @@ define([
         },
 
         onApiRangeChanged: function(info) {
-            this.inputRange.setValue(info);
+            this.inputRange.setValue(info.asc_getName());
             if (this.inputRange.cmpEl.hasClass('error'))
                 this.inputRange.cmpEl.removeClass('error');
         },
