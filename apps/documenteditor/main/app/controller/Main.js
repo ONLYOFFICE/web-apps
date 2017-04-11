@@ -1024,6 +1024,7 @@ define([
                 this.appOptions.buildVersion   = params.asc_getBuildVersion();
                 this.appOptions.canForcesave   = this.appOptions.isEdit && !this.appOptions.isOffline && (typeof (this.editorConfig.customization) == 'object' && !!this.editorConfig.customization.forcesave);
                 this.appOptions.forcesave      = this.appOptions.canForcesave;
+                this.appOptions.canEditComments= this.appOptions.isOffline || !(typeof (this.editorConfig.customization) == 'object' && this.editorConfig.customization.commentAuthorOnly);
 
                 if ( this.appOptions.isLightVersion ) {
                     this.appOptions.canUseHistory =
