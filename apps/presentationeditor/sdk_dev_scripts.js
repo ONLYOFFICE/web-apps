@@ -113,6 +113,8 @@ var sdk_dev_scrpipts = [
     "../../../../sdkjs/slide/Editor/Format/SlideMaster.js",
     "../../../../sdkjs/slide/Editor/Format/Layout.js",
     "../../../../sdkjs/slide/Editor/Format/Comments.js",
+    "../../../../sdkjs/slide/Editor/Format/NotesMaster.js",
+    "../../../../sdkjs/slide/Editor/Format/Notes.js",
     "../../../../sdkjs/word/Editor/ParagraphContent.js",
     "../../../../sdkjs/word/Editor/ParagraphContentBase.js",
 	"../../../../sdkjs/word/Editor/Paragraph/ParaTextPr.js",
