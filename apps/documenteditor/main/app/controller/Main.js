@@ -169,6 +169,8 @@ define([
                         if (!/area_id/.test(e.target.id)) {
                             if (/msg-reply/.test(e.target.className))
                                 me.dontCloseDummyComment = true;
+                            else if (/chat-msg-text/.test(e.target.id))
+                                me.dontCloseChat = true;
                         }
                     });
 
@@ -181,6 +183,8 @@ define([
                                 me.api.asc_enableKeyEvents(true);
                                 if (/msg-reply/.test(e.target.className))
                                     me.dontCloseDummyComment = false;
+                                else if (/chat-msg-text/.test(e.target.id))
+                                    me.dontCloseChat = false;
                             }
                         }
                     }).on('dragover', function(e) {
@@ -594,7 +598,7 @@ define([
 
                 if ( type == Asc.c_oAscAsyncActionType.BlockInteraction &&
                     (!this.getApplication().getController('LeftMenu').dlgSearch || !this.getApplication().getController('LeftMenu').dlgSearch.isVisible()) &&
-                    !( id == Asc.c_oAscAsyncAction['ApplyChanges'] && this.dontCloseDummyComment ) ) {
+                    !( id == Asc.c_oAscAsyncAction['ApplyChanges'] && (this.dontCloseDummyComment || this.dontCloseChat)) ) {
 //                        this.onEditComplete(this.loadMask); //если делать фокус, то при принятии чужих изменений, заканчивается свой композитный ввод
                         this.api.asc_enableKeyEvents(true);
                 }
