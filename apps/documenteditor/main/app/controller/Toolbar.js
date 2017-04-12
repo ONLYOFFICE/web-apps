@@ -729,7 +729,7 @@ define([
                     var styleRec = listStyle.menuPicker.store.findWhere({
                         title: name
                     });
-                    this._state.prstyle = (listStyle.menuPicker.store.length>0) ? name : undefined;
+                    this._state.prstyle = (listStyle.menuPicker.store.length>0 || window.styles_loaded) ? name : undefined;
 
                     listStyle.menuPicker.selectRecord(styleRec);
                     listStyle.resumeEvents();
@@ -1881,7 +1881,7 @@ define([
                         me._state.prstyle = title;
                         style.put_Name(title);
                         characterStyle.put_Name(title + '_character');
-                        style.put_Next(nextStyle.asc_getName());
+                        style.put_Next((nextStyle) ? nextStyle.asc_getName() : null);
                         me.api.asc_AddNewStyle(style);
                     }
                     Common.NotificationCenter.trigger('edit:complete', me.toolbar);
@@ -2619,7 +2619,8 @@ define([
                 if (self._state.prstyle) styleRec = listStyles.menuPicker.store.findWhere({title: self._state.prstyle});
                 listStyles.fillComboView((styleRec) ? styleRec : listStyles.menuPicker.store.at(0), true);
                 Common.NotificationCenter.trigger('edit:complete', this);
-            }
+            } else if (listStyles.rendered)
+                listStyles.clearComboView();
             window.styles_loaded = true;
         },
 

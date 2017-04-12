@@ -456,6 +456,10 @@ define([
             }
         },
 
+        clearComboView: function() {
+            this.fieldPicker.store.reset([]);
+        },
+
         selectByIndex: function(index) {
             if (index < 0)
                 this.fieldPicker.deselectAll();
