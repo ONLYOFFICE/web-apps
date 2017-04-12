@@ -974,6 +974,7 @@ define([
                 this.appOptions.canForcesave   = this.appOptions.isEdit && !this.appOptions.isOffline && (typeof (this.editorConfig.customization) == 'object' && !!this.editorConfig.customization.forcesave);
                 this.appOptions.forcesave      = this.appOptions.canForcesave;
                 this.appOptions.canEditComments= this.appOptions.isOffline || !(typeof (this.editorConfig.customization) == 'object' && this.editorConfig.customization.commentAuthorOnly);
+                this.appOptions.isTrial         = params.asc_getTrial();
 
                 if ( this.appOptions.isLightVersion ) {
                     this.appOptions.canUseHistory =
@@ -997,7 +998,6 @@ define([
                 if (this.appOptions.canBranding)
                     headerView.setBranding(this.editorConfig.customization);
 
-                params.asc_getTrial() && headerView.setDeveloperMode(true);
                 this.appOptions.canRename && headerView.setCanRename(true);
 
                 this.appOptions.canBrandingExt = params.asc_getCanBranding() && (typeof this.editorConfig.customization == 'object' || this.editorConfig.plugins);
