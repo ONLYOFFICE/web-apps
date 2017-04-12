@@ -112,6 +112,7 @@
                     rightMenu: true,
                     toolbar: true,
                     header: true,
+                    statusBar: true,
                     autosave: true,
                     forcesave: false,
                     commentAuthorOnly: false
