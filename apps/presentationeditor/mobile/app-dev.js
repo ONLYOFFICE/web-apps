@@ -54,7 +54,6 @@ require.config({
         sockjs          : '../vendor/sockjs/sockjs.min',
         jszip           : '../vendor/jszip/jszip.min',
         jsziputils      : '../vendor/jszip-utils/jszip-utils.min',
-        jsrsasign       : '../vendor/jsrsasign/jsrsasign-latest-all-min',
         api             : 'api/documents/api',
         core            : 'common/main/lib/core/application',
         extendes        : 'common/mobile/utils/extendes',
@@ -121,7 +120,6 @@ require([
     'locale',
     'jszip',
     'jsziputils',
-    'jsrsasign',
     'sockjs'
 ], function (Backbone, Framework7, Core) {
     Backbone.history.start();
