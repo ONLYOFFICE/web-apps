@@ -223,8 +223,8 @@ define([
                         },
                         'menu:show': function(e){
                         },
-                        'menu:hide': function(e){
-                            if (!me.isModalShowed)
+                        'menu:hide': function(e, isFromInputControl){
+                            if (!me.isModalShowed && !isFromInputControl)
                                 me.api.asc_enableKeyEvents(true);
                         },
                         'edit:complete': _.bind(me.onEditComplete, me)

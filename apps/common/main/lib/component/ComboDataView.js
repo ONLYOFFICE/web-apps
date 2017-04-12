@@ -304,10 +304,10 @@ define([
             }
         },
 
-        onAfterHideMenu: function(e) {
+        onAfterHideMenu: function(e, isFromInputControl) {
             this.menuPicker.selectedBeforeHideRec = this.menuPicker.getSelectedRec()[0]; // for DataView - onKeyDown - Return key
             (this.showLast) ? this.menuPicker.showLastSelected() : this.menuPicker.deselectAll();
-            this.trigger('hide:after', this, e);
+            this.trigger('hide:after', this, e, isFromInputControl);
         },
 
         onFieldPickerSelect: function(picker, item, record) {
