@@ -291,7 +291,7 @@ define([
                 var me = this;
 
                 function _btn_render(button, slot) {
-                    button.el = slot;
+                    button.setElement(slot, false);
                     button.render();
                 }
 
