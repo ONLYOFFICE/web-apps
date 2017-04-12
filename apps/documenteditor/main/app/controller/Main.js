@@ -1272,6 +1272,10 @@ define([
                         config.msg = this.errorAccessDeny;
                         break;
 
+                    case Asc.c_oAscError.ID.UplImageUrl:
+                        config.msg = this.errorBadImageUrl;
+                        break;
+
                     default:
                         config.msg = this.errorDefaultMessage.replace('%1', id);
                         break;
@@ -2095,7 +2099,8 @@ define([
             errorAccessDeny: 'You are trying to perform an action you do not have rights for.<br>Please contact your Document Server administrator.',
             titleServerVersion: 'Editor updated',
             errorServerVersion: 'The editor version has been updated. The page will be reloaded to apply the changes.',
-            textChangesSaved: 'All changes saved'
+            textChangesSaved: 'All changes saved',
+            errorBadImageUrl: 'Image url is incorrect'
         }
     })(), DE.Controllers.Main || {}))
 });
