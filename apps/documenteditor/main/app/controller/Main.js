@@ -104,7 +104,7 @@ define([
                     weakCompare     : function(obj1, obj2){return obj1.type === obj2.type;}
                 });
 
-                this._state = {isDisconnected: false, usersCount: 1, fastCoauth: true, startModifyDocument: true, lostEditingRights: false, licenseWarning: false};
+                this._state = {isDisconnected: false, usersCount: 1, fastCoauth: true, lostEditingRights: false, licenseWarning: false};
 
                 // Initialize viewport
 
@@ -1364,33 +1364,32 @@ define([
                         title = headerView.getDocumentCaption() + ' - ' + title;
 
                     if (isModified) {
-                        if (!_.isUndefined(title) && (!this._state.fastCoauth || this._state.usersCount<2 )) {
+                        clearTimeout(this._state.timerCaption);
+                        if (!_.isUndefined(title)) {
                             title = '* ' + title;
                             headerView.setDocumentChanged(true);
                         }
                     } else {
-                        headerView.setDocumentChanged(false);
+                        if (this._state.fastCoauth && this._state.usersCount>1) {
+                            this._state.timerCaption = setTimeout(function () {
+                                headerView.setDocumentChanged(false);
+                            }, 500);
+                        } else
+                            headerView.setDocumentChanged(false);
                     }
 
                     if (window.document.title != title)
                         window.document.title = title;
 
-                    if (!this._state.fastCoauth || this._state.usersCount<2 ) {
-                        Common.Gateway.setDocumentModified(isModified);
-                        if (isModified)
-                            this.getApplication().getController('Statusbar').setStatusCaption('', true);
-                    } else if ( this._state.startModifyDocument!==undefined && this._state.startModifyDocument === isModified){
-                        Common.Gateway.setDocumentModified(isModified);
-                        this._state.startModifyDocument = (this._state.startModifyDocument) ? !this._state.startModifyDocument : undefined;
-                    }
+                    Common.Gateway.setDocumentModified(isModified);
+                    if (isModified && (!this._state.fastCoauth || this._state.usersCount<2))
+                        this.getApplication().getController('Statusbar').setStatusCaption('', true);
 
                     this._state.isDocModified = isModified;
                 }
             },
 
             onDocumentModifiedChanged: function() {
-                if (this._state.fastCoauth && this._state.usersCount>1 && this._state.startModifyDocument===undefined ) return;
-
                 var isModified = this.api.asc_isDocumentCanSave();
                 if (this._state.isDocModified !== isModified) {
                     Common.Gateway.setDocumentModified(this.api.isDocumentModified());

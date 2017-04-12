@@ -275,6 +275,7 @@ define([
                 this.documentCaption = this.options.documentCaption;
                 this.canBack = this.options.canBack;
                 this.branding = this.options.customization;
+                this.isModified = false;
 
                 me.btnGoBack = new Common.UI.Button({
                     id: 'btn-goback',
@@ -332,7 +333,7 @@ define([
                             Common.Utils.String.htmlEncode(this.documentCaption) );
                     }
 
-                    this.labelDocName = $html.find('#doc-name');
+                    this.labelDocName = $html.find('#rib-doc-name');
                     $userList = $html.find('.cousers-list');
                     $panelUsers = $html.find('.box-cousers');
                     $btnUsers = $html.find('.btn-users');
@@ -375,10 +376,11 @@ define([
                 return this.headerCaption;
             },
 
-            setDocumentCaption: function (value, applyOnly) {
+            setDocumentCaption: function(value) {
                 !value && (value = '');
 
                 this.documentCaption = value;
+                this.isModified && (value += '*');
                 if ( this.labelDocName )
                     this.labelDocName.html(Common.Utils.String.htmlEncode(value));
 
@@ -390,6 +392,8 @@ define([
             },
 
             setDocumentChanged: function (changed) {
+                this.isModified = changed;
+
                 var _name = Common.Utils.String.htmlEncode(this.documentCaption);
                 changed && (_name += '*');
 
