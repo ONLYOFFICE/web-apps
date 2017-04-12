@@ -85,6 +85,7 @@ define([
             this.rootWidth   = 0;
             this.rootHeight  = 0;
             this.rendered    = false;
+            this.needFillComboView = false;
 
             this.fieldPicker = new Common.UI.DataView({
                 cls: 'field-picker',
@@ -315,6 +316,7 @@ define([
         },
 
         onMenuPickerSelect: function(picker, item, record, fromKeyDown) {
+            this.needFillComboView = this.disabled;
             if (this.disabled || fromKeyDown===true) return;
 
             this.fillComboView(record, false);
@@ -375,6 +377,17 @@ define([
             this.cmpEl.toggleClass('disabled', disabled);
             $('button', this.openButton.cmpEl).toggleClass('disabled', disabled);
             this.fieldPicker.setDisabled(disabled);
+
+            if (this.needFillComboView && !disabled) {
+                var picker = this.menuPicker;
+                if (picker) {
+                    var record = picker.getSelectedRec();
+                    if (record) {
+                        record = record[0];
+                        this.fillComboView(record || picker.store.at(0), false);
+                    }
+                }
+            }
         },
 
         isDisabled: function() {
@@ -383,6 +396,8 @@ define([
 
         fillComboView: function(record, forceSelect, forceFill) {
             if (!_.isUndefined(record) && record instanceof Backbone.Model){
+                this.needFillComboView = false;
+
                 var me              = this,
                     store           = me.menuPicker.store,
                     fieldPickerEl   = $(me.fieldPicker.el);
