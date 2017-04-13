@@ -421,7 +421,7 @@ define([
             _.extend(options, {
                 cls: 'alert',
                 onprimary: onKeyDown,
-                tpl: _.template(template, options)
+                tpl: _.template(template)(options)
             });
 
             var win = new Common.UI.Window(options),
@@ -556,7 +556,7 @@ define([
             render : function() {
                 var renderto = this.initConfig.renderTo || document.body;
                 $(renderto).append(
-                    _.template(template, this.initConfig)
+                    _.template(template)(this.initConfig)
                 );
 
                 this.$window = $('#' + this.initConfig.id);
