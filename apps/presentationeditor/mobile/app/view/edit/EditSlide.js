@@ -235,7 +235,7 @@ define([
                         '<% }); %>',
                         '</ul>',
                         '<% }); %>'
-                    ].join(''), {
+                    ].join(''))({
                         layouts: layouts
                     });
 
@@ -268,7 +268,7 @@ define([
                             '<% }); %>',
                             '</div>',
                         '<% }); %>'
-                    ].join(''), {
+                    ].join(''))({
                         themes: themes
                     });
 
@@ -291,7 +291,7 @@ define([
                             '</label>',
                         '</li>',
                         '<% }); %>'
-                    ].join(''), {
+                    ].join(''))({
                         android : Common.SharedSettings.get('android'),
                         types: _arrCurrentEffectTypes
                     });
