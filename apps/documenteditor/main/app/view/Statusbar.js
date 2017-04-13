@@ -96,7 +96,7 @@ define([
 
             templateUserList: _.template('<ul>' +
                 '<% _.each(users, function(item) { %>' +
-                    '<%= _.template(usertpl, {user: item, scope: scope}) %>' +
+                    '<%= _.template(usertpl)({user: item, scope: scope}) %>' +
                 '<% }); %>' +
             '</ul>'),
 
@@ -436,7 +436,7 @@ define([
 
             _onAddUser: function(m, c, opts) {
                 if (this.panelUsersList) {
-                    this.panelUsersList.find('ul').append(_.template(this.tplUser, {user: m, scope: this}));
+                    this.panelUsersList.find('ul').append(_.template(this.tplUser)({user: m, scope: this}));
                     this.panelUsersList.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true});
                 }
             },
@@ -566,7 +566,7 @@ define([
                     label: this.labelSelect,
                     btns: {ok: this.btnOk, cancel: this.btnCancel}
                 });
-                this.options.tpl = _.template(this.template, this.options);
+                this.options.tpl = _.template(this.template)(this.options);
 
                 Common.UI.Window.prototype.initialize.call(this, this.options);
             },
