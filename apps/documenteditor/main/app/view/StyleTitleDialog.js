@@ -70,7 +70,7 @@ define([
                     '</div>'
                 ].join('');
 
-                this.options.tpl = _.template(this.template, this.options);
+                this.options.tpl = _.template(this.template)(this.options);
 
                 Common.UI.Window.prototype.initialize.call(this, this.options);
             },

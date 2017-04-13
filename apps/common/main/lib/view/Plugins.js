@@ -225,7 +225,7 @@ define([
                 '<% } %>'
             ].join('');
 
-            _options.tpl = _.template(this.template, _options);
+            _options.tpl = _.template(this.template)(_options);
 
             this.url = options.url || '';
             Common.UI.Window.prototype.initialize.call(this, _options);

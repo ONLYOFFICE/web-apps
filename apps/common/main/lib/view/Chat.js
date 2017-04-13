@@ -67,7 +67,7 @@ define([
 
         templateUserList: _.template('<ul>' +
                         '<% _.each(users, function(item) { %>' +
-                            '<%= _.template(usertpl, {user: item, scope: scope}) %>' +
+                            '<%= _.template(usertpl)({user: item, scope: scope}) %>' +
                         '<% }); %>' +
                     '</ul>'),
 
@@ -82,7 +82,7 @@ define([
 
         templateMsgList: _.template('<ul>' +
                         '<% _.each(messages, function(item) { %>' +
-                            '<%= _.template(msgtpl, {msg: item, scope: scope}) %>' +
+                            '<%= _.template(msgtpl)({msg: item, scope: scope}) %>' +
                         '<% }); %>' +
                     '</ul>'),
 
@@ -162,7 +162,7 @@ define([
 
         _onAddUser: function(m, c, opts) {
             if (this.panelUsers) {
-                this.panelUsers.find('ul').append(_.template(this.tplUser, {user: m, scope: this}));
+                this.panelUsers.find('ul').append(_.template(this.tplUser)({user: m, scope: this}));
                 this.panelUsers.scroller.update({minScrollbarLength  : 25, alwaysVisibleY: true});
             }
         },
@@ -186,7 +186,7 @@ define([
                 var content = this.panelMessages.find('ul');
                 if (content && content.length) {
                     this._prepareMessage(m);
-                    content.append(_.template(this.tplMsg, {msg: m, scope: this}));
+                    content.append(_.template(this.tplMsg)({msg: m, scope: this}));
 
                     // scroll to end
 

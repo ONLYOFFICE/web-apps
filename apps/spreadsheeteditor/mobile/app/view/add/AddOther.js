@@ -76,8 +76,7 @@ define([
                 }
 
                 mapNavigation =
-                    el = _.template(tplNavigation,
-                        {
+                    el = _.template(tplNavigation)({
                             android     : Common.SharedSettings.get('android'),
                             phone       : Common.SharedSettings.get('phone'),
                             textBack    : this.textBack,
