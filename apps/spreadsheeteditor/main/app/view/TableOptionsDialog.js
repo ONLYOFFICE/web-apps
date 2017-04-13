@@ -72,7 +72,7 @@ define([
                 '</div>'
             ].join('');
 
-            this.options.tpl = _.template(this.template, this.options);
+            this.options.tpl = _.template(this.template)(this.options);
             this.checkRangeType = Asc.c_oAscSelectionDialogType.FormatTable;
             this.selectionType = Asc.c_oAscSelectionType.RangeCells;
 
