@@ -202,13 +202,13 @@ define([
                         me.api.asc_enableKeyEvents(false);
                     },
                     'modal:close': function(dlg) {
-                        if (dlg && dlg.$lastmodal && dlg.$lastmodal.size() < 1) {
+                        if (dlg && dlg.$lastmodal && dlg.$lastmodal.length < 1) {
                             me.isModalShowed = false;
                             me.api.asc_enableKeyEvents(true);
                         }
                     },
                     'modal:hide': function(dlg) {
-                        if (dlg && dlg.$lastmodal && dlg.$lastmodal.size() < 1) {
+                        if (dlg && dlg.$lastmodal && dlg.$lastmodal.length < 1) {
                             me.isModalShowed = false;
                             me.api.asc_enableKeyEvents(true);
                         }
