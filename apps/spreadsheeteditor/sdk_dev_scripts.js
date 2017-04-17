@@ -198,5 +198,7 @@ var sdk_dev_scrpipts = [
 	"../../../../sdkjs/common/Drawings/Format/DrawingContent.js",
     "../../../../sdkjs/common/clipboard_base.js",
     "../../../../sdkjs/common/plugins.js",
-    "../../../../sdkjs/common/text_input.js"
+    "../../../../sdkjs/common/text_input.js",
+	"../../../../sdkjs/common/easysax.js",
+	"../../../../sdkjs/common/openxml.js"
 ];
