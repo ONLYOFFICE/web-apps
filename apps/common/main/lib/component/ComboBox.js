@@ -547,7 +547,7 @@ define([
                         '<% _.each(items, function(item) { %>',
                            '<li id="<%= item.id %>" data-value="<%= item.value %>"><a tabindex="-1" type="menuitem"><%= scope.getDisplayValue(item) %></a></li>',
                         '<% }); %>'
-                    ].join(''), {
+                    ].join(''))({
                         items: this.store.toJSON(),
                         scope: this
                     }));

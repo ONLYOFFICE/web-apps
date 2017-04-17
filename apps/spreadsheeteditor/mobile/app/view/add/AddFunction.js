@@ -57,7 +57,7 @@ define([
                 };
 
                 _.extend(_params, args);
-                var $content = $('<div/>').append(_.template(this.template, _params));
+                var $content = $('<div/>').append(_.template(this.template)(_params));
 
                 // Android fix for navigation
                 if (Framework7.prototype.device.android) {
@@ -121,7 +121,7 @@ define([
                     'Logical':              me.sCatLogical
                 };
 
-                me.layout = $('<div/>').append(_.template(me.template, {
+                me.layout = $('<div/>').append(_.template(me.template)({
                     android     : Common.SharedSettings.get('android'),
                     phone       : Common.SharedSettings.get('phone'),
                     textGroups  : me.textGroups,

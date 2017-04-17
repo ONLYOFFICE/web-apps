@@ -69,7 +69,7 @@ define([
                 '</div>'
             ].join('');
 
-            this.options.tpl = _.template(this.template, this.options);
+            this.options.tpl = _.template(this.template)(this.options);
 
             Common.UI.Window.prototype.initialize.call(this, this.options);
         },
@@ -136,7 +136,7 @@ define([
         },
 
         onApiRangeChanged: function(info) {
-            this.inputRange.setValue(info);
+            this.inputRange.setValue(info.asc_getName());
             if (this.inputRange.cmpEl.hasClass('error'))
                 this.inputRange.cmpEl.removeClass('error');
         },

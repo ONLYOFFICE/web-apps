@@ -786,6 +786,7 @@ define([
 
                     case Asc.c_oAscError.ID.FrmlOperandExpected:
                         config.msg = this.errorOperandExpected;
+                        config.closable = true;
                         break;
 
                     case Asc.c_oAscError.ID.VKeyEncrypt:
@@ -875,6 +876,7 @@ define([
 
                     case Asc.c_oAscError.ID.FrmlWrongReferences:
                         config.msg = this.errorFrmlWrongReferences;
+                        config.closable = true;
                         break;
 
                     case Asc.c_oAscError.ID.CopyMultiselectAreaError:

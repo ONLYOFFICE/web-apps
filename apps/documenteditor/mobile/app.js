@@ -53,7 +53,6 @@ require.config({
         sockjs          : '../vendor/sockjs/sockjs.min',
         jszip           : '../vendor/jszip/jszip.min',
         jsziputils      : '../vendor/jszip-utils/jszip-utils.min',
-        jsrsasign       : '../vendor/jsrsasign/jsrsasign-latest-all-min',
         allfonts        : '../../sdkjs/common/AllFonts',
         sdk             : '../../sdkjs/word/sdk-all-min',
         api             : 'api/documents/api',
@@ -105,8 +104,7 @@ require.config({
                 'xregexp',
                 'sockjs',
                 'jszip',
-                'jsziputils',
-                'jsrsasign'
+                'jsziputils'
             ]
         },
         gateway: {

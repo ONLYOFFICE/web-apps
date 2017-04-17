@@ -1436,7 +1436,7 @@ define([
                     restoreHeight: 300,
                     style: 'max-height: 300px;',
                     store: me.getCollection('TableTemplates'),
-                    itemTemplate: _.template('<div class="item-template"><img src="<%= imageUrl %>" id="<%= id %>"></div>')
+                    itemTemplate: _.template('<div class="item-template"><img src="<%= imageUrl %>" id="<%= id %>" style="width:61px;height:46px;"></div>')
                 });
 
                 picker.on('item:click', function(picker, item, record) {
@@ -2222,7 +2222,7 @@ define([
                     store: this.getApplication().getCollection('Common.Collections.TextArt'),
                     parentMenu: this.toolbar.mnuInsertTextArt.menu,
                     showLast: false,
-                    itemTemplate: _.template('<div class="item-art"><img src="<%= imageUrl %>" id="<%= id %>"></div>')
+                    itemTemplate: _.template('<div class="item-art"><img src="<%= imageUrl %>" id="<%= id %>" style="width:50px;height:50px;"></div>')
                 });
 
                 this.toolbar.mnuTextArtPicker.on('item:click', function(picker, item, record, e) {
@@ -2569,8 +2569,23 @@ define([
 
                             if (me._state.tablename)
                                 me.api.asc_changeAutoFilter(me._state.tablename, Asc.c_oAscChangeFilterOptions.style, fmtname);
-                            else
-                                me.api.asc_addAutoFilter(fmtname, dlg.getSettings());
+                            else {
+                                var settings = dlg.getSettings();
+                                if (settings.selectionType == Asc.c_oAscSelectionType.RangeMax || settings.selectionType == Asc.c_oAscSelectionType.RangeRow ||
+                                    settings.selectionType == Asc.c_oAscSelectionType.RangeCol)
+                                    Common.UI.warning({
+                                        title: me.textLongOperation,
+                                        msg: me.warnLongOperation,
+                                        buttons: ['ok', 'cancel'],
+                                        callback: function(btn) {
+                                            if (btn == 'ok')
+                                                setTimeout(function() { me.api.asc_addAutoFilter(fmtname, settings.range)}, 1);
+                                            Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                                        }
+                                    });
+                                else
+                                    me.api.asc_addAutoFilter(fmtname, settings.range);
+                            }
                         }
 
                         Common.NotificationCenter.trigger('edit:complete', me.toolbar);
@@ -2582,14 +2597,30 @@ define([
 
                     win.show();
                     win.setSettings({
-                        api     : me.api
+                        api     : me.api,
+                        selectionType: me.api.asc_getCellInfo().asc_getFlags().asc_getSelectionType()
                     });
                 } else {
                     me._state.filter = undefined;
                     if (me._state.tablename)
                         me.api.asc_changeAutoFilter(me._state.tablename, Asc.c_oAscChangeFilterOptions.style, fmtname);
-                    else
-                        me.api.asc_addAutoFilter(fmtname);
+                    else {
+                        var selectionType = me.api.asc_getCellInfo().asc_getFlags().asc_getSelectionType();
+                        if (selectionType == Asc.c_oAscSelectionType.RangeMax || selectionType == Asc.c_oAscSelectionType.RangeRow ||
+                            selectionType == Asc.c_oAscSelectionType.RangeCol)
+                            Common.UI.warning({
+                                title: me.textLongOperation,
+                                msg: me.warnLongOperation,
+                                buttons: ['ok', 'cancel'],
+                                callback: function(btn) {
+                                    if (btn == 'ok')
+                                        setTimeout(function() { me.api.asc_addAutoFilter(fmtname)}, 1);
+                                    Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                                }
+                            });
+                        else
+                            me.api.asc_addAutoFilter(fmtname);
+                    }
                 }
             }
         },
@@ -3022,7 +3053,9 @@ define([
         txtExpandSort: 'The data next to the selection will not be sorted. Do you want to expand the selection to include the adjacent data or continue with sorting the currently selected cells only?',
         txtExpand: 'Expand and sort',
         txtSorting: 'Sorting',
-        txtSortSelected: 'Sort selected'
+        txtSortSelected: 'Sort selected',
+        textLongOperation: 'Long operation',
+        warnLongOperation: 'The operation you are about to perform might take rather much time to complete.<br>Are you sure you want to continue?'
 
     }, SSE.Controllers.Toolbar || {}));
 });

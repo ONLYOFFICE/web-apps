@@ -114,7 +114,6 @@ module.exports = function(grunt) {
     doRegisterTask('bootstrap');
     doRegisterTask('jszip');
     doRegisterTask('jsziputils');
-    doRegisterTask('jsrsasign');
     doRegisterTask('requirejs', function(defaultConfig, packageFile) {
         return {
             uglify: {
@@ -374,7 +373,6 @@ module.exports = function(grunt) {
     grunt.registerTask('deploy-bootstrap',              ['bootstrap-init', 'clean', 'copy']);
     grunt.registerTask('deploy-jszip',                  ['jszip-init', 'clean', 'copy']);
     grunt.registerTask('deploy-jsziputils',             ['jsziputils-init', 'clean', 'copy']);
-    grunt.registerTask('deploy-jsrsasign',              ['jsrsasign-init', 'clean', 'copy']);
     grunt.registerTask('deploy-requirejs',              ['requirejs-init', 'clean', 'uglify']);
 
     grunt.registerTask('deploy-app-main',               ['main-app-init', 'clean', 'imagemin', 'less', 'requirejs', 'concat',

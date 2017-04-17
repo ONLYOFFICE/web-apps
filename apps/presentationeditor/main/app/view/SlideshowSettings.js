@@ -68,7 +68,7 @@ define([
                 '</div>'
             ].join('');
 
-            this.options.tpl = _.template(this.template, this.options);
+            this.options.tpl = _.template(this.template)(this.options);
 
             this.spinners = [];
             this._noApply = false;

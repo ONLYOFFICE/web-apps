@@ -71,7 +71,7 @@ define([
                 '</div>'
             ].join('');
 
-            _options.tpl = _.template(this.template, _options);
+            _options.tpl = _.template(this.template)(_options);
 
             this.handler = _options.handler;
             this.toggleGroup = _options.toggleGroup;

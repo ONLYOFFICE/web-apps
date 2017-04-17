@@ -91,6 +91,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
             this.api = this.options.api;
             this.chartSettings = this.options.chartSettings;
             this.imageSettings = this.options.imageSettings;
+            this.sparklineStyles = this.options.sparklineStyles;
             this.isChart       = this.options.isChart;
             this.vertAxisProps = null;
             this.horAxisProps = null;
@@ -819,7 +820,8 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 itemHeight: 50,
                 menuMaxHeight: 272,
                 enableKeyEvents: true,
-                cls: 'combo-spark-style'
+                cls: 'combo-spark-style',
+                minWidth: 190
             });
             this.cmbSparkStyle.render($('#spark-dlg-combo-style'));
             this.cmbSparkStyle.openButton.menu.cmpEl.css({
@@ -1383,7 +1385,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                     if (record)
                         this.btnSparkType.setIconCls('item-chartlist ' + record.get('iconCls'));
 
-                    this.updateSparkStyles(props.asc_getStyles());
+                    this.updateSparkStyles((this.sparklineStyles) ? this.sparklineStyles : props.asc_getStyles());
 
                     if (this._state.SparkType !== Asc.c_oAscSparklineType.Line)
                         this._arrEmptyCells.pop();

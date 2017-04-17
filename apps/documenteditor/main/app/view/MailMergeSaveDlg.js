@@ -55,7 +55,7 @@ define([
                 '<div id="id-mail-merge-folder-placeholder"></div>'
             ].join('');
 
-            _options.tpl = _.template(this.template, _options);
+            _options.tpl = _.template(this.template)(_options);
 
             this.mergeFolderUrl = options.mergeFolderUrl || '';
             this.mergedFileUrl = options.mergedFileUrl || '';

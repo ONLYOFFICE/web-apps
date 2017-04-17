@@ -189,7 +189,7 @@
 
                     background-repeat: no-repeat;
                     background-position: 0 0;
-                    .background-ximage('@{app-image-path}/docformat.png', '@{app-image-path}/docformat@2x.png', 714px);
+                    .background-ximage('@{app-image-path}/docformat.png', '@{app-image-path}/docformat@2x.png', 918px);
 
                     .icon-document-format(@shift-x, @shift-y: 0) {
                         background-position: @shift-x @shift-y;
@@ -201,6 +201,7 @@
 
                     &.pptx  {.icon-document-format(-102px);}
                     &.pdf   {.icon-document-format(-306px);}
+                    &.odp   {.icon-document-format(-816px);}
                 }
             }
         }

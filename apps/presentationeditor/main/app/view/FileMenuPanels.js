@@ -54,7 +54,8 @@ define([
 
         formats: [[
             {name: 'PDF',   imgCls: 'pdf',   type: Asc.c_oAscFileType.PDF},
-            {name: 'PPTX',   imgCls: 'pptx',   type: Asc.c_oAscFileType.PPTX}
+            {name: 'PPTX',   imgCls: 'pptx',   type: Asc.c_oAscFileType.PPTX},
+            {name: 'ODP',   imgCls: 'odp',   type: Asc.c_oAscFileType.ODP}
         ]],
 
 

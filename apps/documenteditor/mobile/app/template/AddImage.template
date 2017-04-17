@@ -40,12 +40,13 @@
     </div>
     <div class="page" id="addimage-url">
         <div class="page-content">
-            <div class="content-block-title"><%= scope.textAddress %></div>
+            <% if (!android) { %><div class="content-block-title"><%= scope.textAddress %></div><% } %>
             <div class="list-block">
                 <ul>
                     <li>
                         <div id="addimage-link-url" class="item-content">
                             <div class="item-inner">
+                                <% if (android) { %><div class="item-title label"><%= scope.textAddress %></div><% } %>
                                 <div class="item-input">
                                     <input type="url" placeholder="<%= scope.textImageURL %>">
                                 </div>
