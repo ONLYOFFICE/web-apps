@@ -41,10 +41,10 @@ var ApplicationView = new(function(){
         $btnTools.addClass('dropdown-toggle').attr('data-toggle', 'dropdown').attr('aria-expanded', 'true');
         $btnTools.parent().append(
             '<ul class="dropdown-menu">' +
-            '<li><a id="idt-download" href="#"><span class="mi-icon svg-icon download"></span>Download</a></li>' +
-            '<li><a id="idt-share" href="#" data-toggle="modal"><span class="mi-icon svg-icon share"></span>Share</a></li>' +
-            '<li><a id="idt-embed" href="#" data-toggle="modal"><span class="mi-icon svg-icon embed"></span>Embed</a></li>' +
-            '<li><a id="idt-fullscreen" href="#"><span class="mi-icon svg-icon fullscr"></span>Full Screen</a></li>' +
+            '<li><a id="idt-download"><span class="mi-icon svg-icon download"></span>Download</a></li>' +
+            '<li><a id="idt-share" data-toggle="modal"><span class="mi-icon svg-icon share"></span>Share</a></li>' +
+            '<li><a id="idt-embed" data-toggle="modal"><span class="mi-icon svg-icon embed"></span>Embed</a></li>' +
+            '<li><a id="idt-fullscreen"><span class="mi-icon svg-icon fullscr"></span>Full Screen</a></li>' +
             '</ul>');
     }
 
