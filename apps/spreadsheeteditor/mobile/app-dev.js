@@ -51,8 +51,6 @@ require.config({
         text            : '../vendor/requirejs-text/text',
         xregexp         : '../vendor/xregexp/xregexp-all-min',
         sockjs          : '../vendor/sockjs/sockjs.min',
-        jszip           : '../vendor/jszip/jszip.min',
-        jsziputils      : '../vendor/jszip-utils/jszip-utils.min',
         api             : 'api/documents/api',
         core            : 'common/main/lib/core/application',
         extendes        : 'common/mobile/utils/extendes',
@@ -99,8 +97,6 @@ require([
     'analytics',
     'gateway',
     'locale',
-    'jszip',
-    'jsziputils',
     'sockjs'
 ], function (Backbone, Framework7) {
     Backbone.history.start();
