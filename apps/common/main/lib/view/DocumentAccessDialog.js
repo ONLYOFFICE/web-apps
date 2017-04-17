@@ -48,7 +48,7 @@ define([
             var _options = {};
             _.extend(_options,  {
                 title: this.textTitle,
-                width: 850,
+                width: 600,
                 height: 536,
                 header: true
             }, options);
