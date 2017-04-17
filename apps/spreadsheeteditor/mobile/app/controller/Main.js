@@ -573,7 +573,7 @@ define([
                     me.appOptions.canAnalytics = params.asc_getIsAnalyticsEnable();
 
                     me.appOptions.isOffline      = me.api.asc_isOffline();
-                    me.appOptions.canLicense     = (licType === Asc.c_oLicenseResult.Success);
+                    me.appOptions.canLicense     = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit);
                     me.appOptions.isLightVersion = params.asc_getIsLight();
                     /** coauthoring begin **/
                     me.appOptions.canCoAuthoring = !me.appOptions.isLightVersion;
@@ -582,7 +582,7 @@ define([
                     me.appOptions.canChat        = me.appOptions.canLicense && !me.appOptions.isOffline && !((typeof (me.editorConfig.customization) == 'object') && me.editorConfig.customization.chat===false);
                     me.appOptions.canRename      = !!me.permissions.rename;
 
-                    me.appOptions.canBranding  = (licType!==Asc.c_oLicenseResult.Error) && (typeof me.editorConfig.customization == 'object');
+                    me.appOptions.canBranding  = (licType === Asc.c_oLicenseResult.Success) && (typeof me.editorConfig.customization == 'object');
                     me.appOptions.canBrandingExt = params.asc_getCanBranding() && (typeof me.editorConfig.customization == 'object');
                 }
 
