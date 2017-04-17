@@ -102,9 +102,10 @@ define([
                 btn.on('click', _.bind(me.onCategoryClick, me));
                 me.btnsCategory.push(btn);
             });
-            var cnt_panel = $window.find('.content-panel');
+            var cnt_panel = $window.find('.content-panel'),
+                menu_panel = $window.find('.menu-panel');
             cnt_panel.width(this.contentWidth);
-            $window.width($window.find('.menu-panel').width() + cnt_panel.outerWidth() + 2);
+            $window.width(((menu_panel.length>0) ? menu_panel.width() : 0) + cnt_panel.outerWidth() + 2);
 
             this.content_panels = $window.find('.settings-panel');
             if (this.btnsCategory.length>0)
