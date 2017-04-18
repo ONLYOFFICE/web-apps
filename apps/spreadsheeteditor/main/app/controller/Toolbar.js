@@ -810,7 +810,20 @@ define([
                     props = me.api.asc_getChartObject();
                     if (props) {
                         props.putType(record.get('type'));
-                        (ischartedit) ? me.api.asc_editChartDrawingObject(props) : me.api.asc_addChartDrawingObject(props);
+                        var range = props.getRange(),
+                            isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, range, true, !props.getInColumns(), props.getType());
+                        if (isvalid == Asc.c_oAscError.ID.No) {
+                            (ischartedit) ? me.api.asc_editChartDrawingObject(props) : me.api.asc_addChartDrawingObject(props);
+                        } else {
+                            Common.UI.warning({
+                                msg: (isvalid == Asc.c_oAscError.ID.StockChartError) ? me.errorStockChart : ((isvalid == Asc.c_oAscError.ID.MaxDataSeriesError) ? me.errorMaxRows : me.txtInvalidRange),
+                                callback: function() {
+                                    _.defer(function(btn) {
+                                        Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                                    })
+                                }
+                            });
+                        }
                     }
                 }
             }
@@ -3055,7 +3068,10 @@ define([
         txtSorting: 'Sorting',
         txtSortSelected: 'Sort selected',
         textLongOperation: 'Long operation',
-        warnLongOperation: 'The operation you are about to perform might take rather much time to complete.<br>Are you sure you want to continue?'
+        warnLongOperation: 'The operation you are about to perform might take rather much time to complete.<br>Are you sure you want to continue?',
+        txtInvalidRange: 'ERROR! Invalid cells range',
+        errorMaxRows: 'ERROR! The maximum number of data series per chart is 255.',
+        errorStockChart: 'Incorrect row order. To build a stock chart place the data on the sheet in the following order:<br> opening price, max price, min price, closing price.'
 
     }, SSE.Controllers.Toolbar || {}));
 });
