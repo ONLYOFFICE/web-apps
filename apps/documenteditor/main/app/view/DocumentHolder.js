@@ -3119,7 +3119,9 @@ define([
         setLanguages: function(langs){
             var me = this;
 
-            if (langs && langs.length > 0) {
+            if (langs && langs.length > 0 && me.langParaMenu && me.langTableMenu) {
+                me.langParaMenu.menu.removeAll();
+                me.langTableMenu.menu.removeAll();
                 _.each(langs, function(lang, index){
                     me.langParaMenu.menu.addItem(new Common.UI.MenuItem({
                         caption     : lang.title,

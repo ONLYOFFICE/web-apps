@@ -105,7 +105,7 @@ define([
                 });
 
                 this._state = {isDisconnected: false, usersCount: 1, fastCoauth: true, lostEditingRights: false, licenseWarning: false};
-
+                this.languages = null;
                 // Initialize viewport
 
                 if (!Common.Utils.isBrowserSupported()){
@@ -141,6 +141,8 @@ define([
                     this.api.asc_registerCallback('asc_onDocumentName',             _.bind(this.onDocumentName, this));
                     this.api.asc_registerCallback('asc_onPrintUrl',                 _.bind(this.onPrintUrl, this));
                     this.api.asc_registerCallback('asc_onMeta',                     _.bind(this.onMeta, this));
+                    this.api.asc_registerCallback('asc_onSpellCheckInit',           _.bind(this.loadLanguages, this));
+
                     Common.NotificationCenter.on('api:disconnect',                  _.bind(this.onCoAuthoringDisconnect, this));
                     Common.NotificationCenter.on('goback',                          _.bind(this.goBack, this));
 
@@ -868,7 +870,7 @@ define([
                             toolbarController.createDelayedElements();
 
                             documentHolderController.getView('DocumentHolder').createDelayedElements();
-                            me.loadLanguages();
+                            me.setLanguages();
 
                             var shapes = me.api.asc_getPropertyEditorShapes();
                             if (shapes)
@@ -1655,15 +1657,15 @@ define([
                 }
             },
 
-            loadLanguages: function() {
-                var apiLangs = this.api.asc_getSpellCheckLanguages(),
-                    langs = [], info;
+            loadLanguages: function(apiLangs) {
+                var langs = [], info;
                 _.each(apiLangs, function(lang, index, list){
-                    info = Common.util.LanguageInfo.getLocalLanguageName(lang.asc_getId());
+                    lang = parseInt(lang);
+                    info = Common.util.LanguageInfo.getLocalLanguageName(lang);
                     langs.push({
                         title:  info[1],
                         tip:    info[0],
-                        code:   lang.asc_getId()
+                        code:   lang
                     });
                 }, this);
 
@@ -1673,8 +1675,15 @@ define([
                     return 0;
                 });
 
-                this.getApplication().getController('DocumentHolder').getView('DocumentHolder').setLanguages(langs);
-                this.getApplication().getController('Statusbar').setLanguages(langs);
+                this.languages = langs;
+                window.styles_loaded && this.setLanguages();
+            },
+
+            setLanguages: function() {
+                if (this.languages && this.languages.length>0) {
+                    this.getApplication().getController('DocumentHolder').getView('DocumentHolder').setLanguages(this.languages);
+                    this.getApplication().getController('Statusbar').setLanguages(this.languages);
+                }
             },
 
             onInsertTable:  function() {
