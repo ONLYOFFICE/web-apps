@@ -345,6 +345,7 @@ define([
             },
 
             reloadLanguages: function(array) {
+                this.langMenu.removeAll();
                 _.each(array, function(item) {
                     this.langMenu.addItem({
                         iconCls     : item['tip'],
