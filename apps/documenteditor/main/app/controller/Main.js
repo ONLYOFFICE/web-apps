@@ -2115,7 +2115,6 @@ define([
             errorAccessDeny: 'You are trying to perform an action you do not have rights for.<br>Please contact your Document Server administrator.',
             titleServerVersion: 'Editor updated',
             errorServerVersion: 'The editor version has been updated. The page will be reloaded to apply the changes.',
-            textChangesSaved: 'All changes saved',
             errorBadImageUrl: 'Image url is incorrect'
         }
     })(), DE.Controllers.Main || {}))

@@ -1041,7 +1041,7 @@ define([
                     id: 'id-toolbar-btn-notes',
                     cls: 'btn-toolbar',
                     iconCls: 'btn-notes',
-                    caption: 'Footnotes',
+                    caption: me.capBtnInsFootnote,
                     split: true,
                     menu: true
                 });
@@ -2683,7 +2683,32 @@ define([
             mniDelFootnote: 'Delete All Footnotes',
             mniNoteSettings: 'Notes Settings',
             textGotoFootnote: 'Go to Footnotes',
-            tipChangeChart: 'Change Chart Type'
+            tipChangeChart: 'Change Chart Type',
+            capBtnInsPagebreak: 'Page Break',
+            capBtnInsImage: 'Picture',
+            capBtnInsTable: 'Table',
+            capBtnInsChart: 'Chart',
+            capBtnInsLink: 'Hyperlink',
+            capBtnInsShape: 'Shape',
+            capBtnInsTextbox: 'Text',
+            capBtnInsDropcap: 'Drop Cap',
+            capBtnInsFootnote: 'Footnotes',
+            capBtnInsEquation: 'Equation',
+            capBtnInsHeader: 'Headers/Footers',
+            capBtnColumns: 'Columns',
+            capBtnPageOrient: 'Orientation',
+            capBtnMargins: 'Margins',
+            capBtnPageSize: 'Size',
+            tipImgAlign: 'Align objects',
+            tipImgGroup: 'Group objects',
+            tipImgWrapping: 'Wrap text',
+            tipSendForward: 'Send forward',
+            tipSendBackward: 'Send backward',
+            capImgAlign: 'Align',
+            capImgGroup: 'Group',
+            capImgForward: 'Move forward',
+            capImgBackward: 'Move backward',
+            capImgWrapping: 'Wrapping'
         }
     })(), DE.Views.Toolbar || {}));
 });

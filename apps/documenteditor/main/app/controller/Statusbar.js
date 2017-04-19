@@ -266,6 +266,7 @@ define([
 
         zoomText        : 'Zoom {0}%',
         textHasChanges  : 'New changes have been tracked',
-        textTrackChanges: 'The document is opened with the Track Changes mode enabled'
+        textTrackChanges: 'The document is opened with the Track Changes mode enabled',
+        tipReview       : 'Review'
     }, DE.Controllers.Statusbar || {}));
 });
