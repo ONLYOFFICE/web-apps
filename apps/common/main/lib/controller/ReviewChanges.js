@@ -511,15 +511,7 @@ define([
                         _setReviewStatus(false);
                     } else {
                         me.api.asc_HaveRevisionsChanges() && me.view.markChanges(true);
-
-                        var value = Common.localStorage.getItem("de-track-changes");
-                        if ( value!== null && parseInt(value) == 1) {
-                            _setReviewStatus(true);
-
-                        } else {
-                            _setReviewStatus(false);
-
-                        }
+                        _setReviewStatus(Common.localStorage.getBool("de-track-changes"));
                     }
 
                     if ( Common.localStorage.getBool("de-settings-spellcheck") )

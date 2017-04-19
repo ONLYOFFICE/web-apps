@@ -792,8 +792,7 @@ define([
 
                 me.updateWindowTitle(true);
 
-                value = Common.localStorage.getItem("de-settings-inputmode");
-                me.api.SetTextBoxInputMode(value!==null && parseInt(value) == 1);
+                me.api.SetTextBoxInputMode(Common.localStorage.getBool("de-settings-inputmode"));
 
                 /** coauthoring begin **/
                 if (me.appOptions.isEdit && !me.appOptions.isOffline && me.appOptions.canCoAuthoring) {
@@ -1124,8 +1123,7 @@ define([
                     Common.Utils.Metric.setCurrentMetric(value);
                     me.api.asc_SetDocumentUnits((value==Common.Utils.Metric.c_MetricUnits.inch) ? Asc.c_oAscDocumentUnits.Inch : ((value==Common.Utils.Metric.c_MetricUnits.pt) ? Asc.c_oAscDocumentUnits.Point : Asc.c_oAscDocumentUnits.Millimeter));
 
-                    value = Common.localStorage.getItem('de-hidden-rulers');
-                    me.api.asc_SetViewRulers(value===null || parseInt(value) === 0);
+                    me.api.asc_SetViewRulers(!Common.localStorage.getBool('de-hidden-rulers'));
 
                     me.api.asc_registerCallback('asc_onDocumentModifiedChanged', _.bind(me.onDocumentModifiedChanged, me));
                     me.api.asc_registerCallback('asc_onDocumentCanSaveChanged',  _.bind(me.onDocumentCanSaveChanged, me));

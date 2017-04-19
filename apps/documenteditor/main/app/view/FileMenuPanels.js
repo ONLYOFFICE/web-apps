@@ -330,10 +330,9 @@ define([
         },
 
         updateSettings: function() {
-            var value = Common.localStorage.getItem("de-settings-inputmode");
-            this.chInputMode.setValue(value!==null && parseInt(value) == 1);
+            this.chInputMode.setValue(Common.localStorage.getBool("de-settings-inputmode"));
 
-            value = Common.localStorage.getItem("de-settings-zoom");
+            var value = Common.localStorage.getItem("de-settings-zoom");
             value = (value!==null) ? parseInt(value) : (this.mode.customization && this.mode.customization.zoom ? parseInt(this.mode.customization.zoom) : 100);
             var item = this.cmbZoom.store.findWhere({value: value});
             this.cmbZoom.setValue(item ? parseInt(item.get('value')) : (value>0 ? value+'%' : 100));

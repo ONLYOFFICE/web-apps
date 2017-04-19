@@ -149,8 +149,7 @@ define([
 
             this.trigger('render:before', this);
 
-            var open = Common.localStorage.getItem("de-hide-right-settings");
-            open = (open===null || parseInt(open) == 0);
+            var open = !Common.localStorage.getBool("de-hide-right-settings");
             el.css('width', ((open) ? MENU_SCALE_PART : SCALE_MIN) + 'px');
             el.show();
 

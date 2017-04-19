@@ -134,7 +134,7 @@ define([
                         _process_changestip();
                     } else
                     if ( me.api.asc_IsTrackRevisions() ) {
-                        if ( Common.localStorage.getItem("de-track-changes") ) {
+                        if ( Common.localStorage.getBool("de-track-changes") ) {
                             // show tooltip "track changes in this document"
                             _process_changestip();
                         } else {
@@ -253,11 +253,11 @@ define([
                     Common.localStorage.setItem(storage, 1);
 
                     tip.hide();
-                    me.btnTurnReview.updateHint(this.tipReview);
+                    me.btnTurnReview.updateHint(me.tipReview);
                 },
                 'closeclick': function() {
                     tip.hide();
-                    me.btnTurnReview.updateHint(this.tipReview);
+                    me.btnTurnReview.updateHint(me.tipReview);
                 }
             });
 
