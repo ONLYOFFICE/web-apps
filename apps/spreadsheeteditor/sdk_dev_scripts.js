@@ -115,6 +115,7 @@ var sdk_dev_scrpipts = [
 	"../../../../sdkjs/cell/model/DrawingObjects/Format/ImagePrototype.js",
     "../../../../sdkjs/cell/model/DrawingObjects/Format/GroupPrototype.js",
     "../../../../sdkjs/cell/model/DrawingObjects/Format/ChartSpacePrototype.js",
+	"../../../../sdkjs/cell/model/PivotTables.js",
     "../../../../sdkjs/common/apiBase.js",
     "../../../../sdkjs/cell/api.js",
     "../../../../sdkjs/common/Private/license.js",
