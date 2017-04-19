@@ -474,7 +474,7 @@ define([
                 var btnHorizontalAlign = this.toolbar.btnHorizontalAlign;
 
                 if (btnHorizontalAlign.rendered) {
-                    var iconEl = $('.btn-icon', btnHorizontalAlign.cmpEl);
+                    var iconEl = $('.icon', btnHorizontalAlign.cmpEl);
 
                     if (iconEl) {
                         iconEl.removeClass(btnHorizontalAlign.options.icls);
@@ -853,7 +853,7 @@ define([
         onSave: function(e) {
             if (this.api) {
                 var isModified = this.api.asc_isDocumentCanSave();
-                var isSyncButton = $('.btn-icon', this.toolbar.btnSave.cmpEl).hasClass('btn-synch');
+                var isSyncButton = $('.icon', this.toolbar.btnSave.cmpEl).hasClass('btn-synch');
                 if (!isModified && !isSyncButton && !this.toolbar.mode.forcesave)
                     return;
 
@@ -1007,7 +1007,7 @@ define([
         onMenuHorizontalAlignSelect: function(menu, item) {
             this._state.pralign = undefined;
             var btnHorizontalAlign = this.toolbar.btnHorizontalAlign,
-                iconEl = $('.btn-icon', btnHorizontalAlign.cmpEl);
+                iconEl = $('.icon', btnHorizontalAlign.cmpEl);
 
             if (iconEl) {
                 iconEl.removeClass(btnHorizontalAlign.options.icls);
