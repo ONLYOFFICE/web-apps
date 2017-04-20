@@ -67,14 +67,7 @@ define([
         var isFolded = false;
         var optsFold = {timeout: 2000};
 
-        var config = {
-            tabs: [
-                { caption: 'File', action: 'file'},
-                { caption: 'Home', action: 'home'},
-                { caption: 'Insert', action: 'ins'},
-                { caption: 'Page Layout', action: 'layout'}
-            ]
-        };
+        var config = {};
 
         function hasTabInvisible() {
             var _left_bound_ = $boxTabs.offset().left,
@@ -195,13 +188,18 @@ define([
             },
 
             initialize: function () {
+                var me = this;
+
+                config.tabs = [
+                        { caption: me.textTabFile, action: 'file'},
+                        { caption: me.textTabHome, action: 'home', extcls: 'canedit'},
+                        { caption: me.textTabInsert, action: 'ins', extcls: 'canedit'},
+                        { caption: me.textTabLayout, action: 'layout', extcls: 'canedit'} ];
                 config.$dom = $(_.template(template, config));
 
                 /**
                  * UI Components
                  */
-
-                var me = this;
 
                 this.SchemeNames = [
                     this.txtScheme1, this.txtScheme2, this.txtScheme3, this.txtScheme4, this.txtScheme5,
@@ -2680,7 +2678,12 @@ define([
             mniDelFootnote: 'Delete All Footnotes',
             mniNoteSettings: 'Notes Settings',
             textGotoFootnote: 'Go to Footnotes',
-            tipChangeChart: 'Change Chart Type'
+            tipChangeChart: 'Change Chart Type',
+            textTabFile: 'File',
+            textTabHome: 'Home',
+            textTabInsert: 'Insert',
+            textTabLayout: 'Page Layout',
+            textTabReview: 'Review'
         }
     })(), DE.Views.Toolbar || {}));
 });

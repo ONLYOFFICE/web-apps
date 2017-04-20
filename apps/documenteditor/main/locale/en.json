@@ -1630,5 +1630,10 @@
   "DE.Views.Toolbar.txtScheme6": "Concourse",
   "DE.Views.Toolbar.txtScheme7": "Equity",
   "DE.Views.Toolbar.txtScheme8": "Flow",
-  "DE.Views.Toolbar.txtScheme9": "Foundry"
+  "DE.Views.Toolbar.txtScheme9": "Foundry",
+  "DE.Views.Toolbar.textTabFile": "File",
+  "DE.Views.Toolbar.textTabHome": "Home",
+  "DE.Views.Toolbar.textTabInsert": "Insert",
+  "DE.Views.Toolbar.textTabLayout": "Page Layout",
+  "DE.Views.Toolbar.textTabReview": "Review"
 }

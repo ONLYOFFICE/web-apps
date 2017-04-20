@@ -2740,7 +2740,7 @@ define([
             me.toolbar.render(config);
 
             if ( config.isEdit ) {
-                var tab = {action: 'review', caption: 'Review'};
+                var tab = {action: 'review', caption: me.toolbar.textTabReview};
                 var $panel = DE.getController('Common.Controllers.ReviewChanges').createToolbarPanel();
 
                 if ( $panel ) {
