@@ -2748,10 +2748,11 @@ define([
                 }
             }
 
-            if ( !config.isEdit ||
-                    ( !Common.localStorage.itemExists("de-compact-toolbar") &&
-                        config.customization && config.customization.compactToolbar )) {
+            if ( config.isEdit && !Common.localStorage.itemExists("de-compact-toolbar") &&
+                        config.customization && config.customization.compactToolbar )
+            {
                 this.toolbar.setFolded(true);
+                this.toolbar.mnuitemCompactToolbar.setChecked(true, true);
 
                 Common.NotificationCenter.trigger('layout:changed', 'toolbar');
                 Common.NotificationCenter.trigger('edit:complete', this.toolbar);

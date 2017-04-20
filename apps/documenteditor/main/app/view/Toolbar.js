@@ -1322,18 +1322,18 @@ define([
 
                 this.fireEvent('render:before', [this]);
 
-                if ( mode.isEdit )
-                    me.$el.html( me.rendererComponents(config.$dom) );
-                else {
-                    config.$dom.find('[data-tab=home],[data-tab=ins],[data-tab=layout]').hide();
+                if ( mode.isEdit ) {
+                    me.isCompactView = Common.localStorage.getBool("de-compact-toolbar");
+                    me.$el.html(me.rendererComponents(config.$dom));
+                } else {
+                    config.$dom.find('.canedit').hide();
                     config.$dom.addClass('folded');
+                    me.isCompactView = true;
 
                     me.$el.html(config.$dom);
                 }
 
                 this.fireEvent('render:after', [this]);
-
-                me.isCompactView = Common.localStorage.getBool("de-compact-toolbar");
 
                 /** coauthoring begin **/
                 this.showSynchTip = !Common.localStorage.getBool("de-hide-synch");
