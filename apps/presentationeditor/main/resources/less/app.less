@@ -148,7 +148,7 @@
 }
 
 .btn-tpl(@top-position) {
-    .btn-icon {
+    .icon {
         background-position: 0 @top-position;
 
         &:active {
@@ -156,12 +156,12 @@
         }
     }
 
-    &[disabled] .btn-icon {
+    &[disabled] .icon {
         background-position: -40px @top-position;
     }
 
     &.active {
-        .btn-icon {
+        .icon {
             background-position: -20px @top-position;
         }
     }
