@@ -56,6 +56,7 @@ define([
 ], function () { 'use strict';
 
     PE.Controllers.Main = Backbone.Controller.extend(_.extend((function() {
+        var appHeader;
         var ApplyEditRights = -255;
         var LoadingDocument = -256;
 
@@ -255,10 +256,8 @@ define([
                 this.appOptions.canPlugins      = false;
                 this.plugins                    = this.editorConfig.plugins;
 
-                this.getApplication()
-                    .getController('Viewport')
-                    .getView('Common.Views.Header')
-                    .setCanBack(this.appOptions.canBackToFolder === true);
+                appHeader = this.getApplication().getController('Viewport').getView('Common.Views.Header');
+                appHeader.setCanBack(this.appOptions.canBackToFolder === true);
 
                 if (this.editorConfig.lang)
                     this.api.asc_setLocale(this.editorConfig.lang);
@@ -298,10 +297,7 @@ define([
                 this.api.asc_getEditorPermissions(this.editorConfig.licenseUrl, this.editorConfig.customerId);
 
                 if (data.doc) {
-                    this.getApplication()
-                        .getController('Viewport')
-                        .getView('Common.Views.Header')
-                        .setDocumentCaption(data.doc.title);
+                    appHeader.setDocumentCaption(data.doc.title);
                 }
             },
 
@@ -387,11 +383,7 @@ define([
                 var action = {id: id, type: type};
                 this.stackLongActions.pop(action);
 
-                this.getApplication()
-                    .getController('Viewport')
-                    .getView('Common.Views.Header')
-                    .setDocumentCaption(this.api.asc_getDocumentName());
-
+                appHeader.setDocumentCaption(this.api.asc_getDocumentName());
                 this.updateWindowTitle(true);
 
                 action = this.stackLongActions.get({type: Asc.c_oAscAsyncActionType.Information});
@@ -400,12 +392,12 @@ define([
                 } else {
                     if (id==Asc.c_oAscAsyncAction['Save'] || id==Asc.c_oAscAsyncAction['ForceSaveButton']) {
                         if (this._state.fastCoauth && this._state.usersCount>1) {
-                            var me = this;
-                            me._state.timerSave = setTimeout(function () {
-                                me.getApplication().getController('Statusbar').setStatusCaption(me.textChangesSaved, false, 3000);
+                            clearTimeout(this._state.timerSave);
+                            this._state.timerSave = setTimeout(function () {
+                                appHeader.setSaveStatus('end');
                             }, 500);
                         } else
-                            this.getApplication().getController('Statusbar').setStatusCaption(this.textChangesSaved, false, 3000);
+                            appHeader.setSaveStatus('end');
                     } else
                         this.getApplication().getController('Statusbar').setStatusCaption('');
                 }
@@ -564,11 +556,7 @@ define([
                 me.api.asc_registerCallback('asc_onCoAuthoringDisconnect',  _.bind(me.onCoAuthoringDisconnect, me));
                 me.api.asc_registerCallback('asc_onPrint',                  _.bind(me.onPrint, me));
 
-                var application = me.getApplication();
-                application.getController('Viewport')
-                    .getView('Common.Views.Header')
-                    .setDocumentCaption(me.api.asc_getDocumentName());
-
+                appHeader.setDocumentCaption( me.api.asc_getDocumentName() );
                 me.updateWindowTitle(true);
 
                 value = Common.localStorage.getItem("pe-settings-inputmode");
@@ -754,12 +742,11 @@ define([
 
                 this._state.licenseWarning = (licType===Asc.c_oLicenseResult.Connections) && this.appOptions.canEdit && this.editorConfig.mode !== 'view';
 
-                var headerView = this.getApplication().getController('Viewport').getView('Common.Views.Header');
                 this.appOptions.canBranding  = (licType === Asc.c_oLicenseResult.Success) && (typeof this.editorConfig.customization == 'object');
                 if (this.appOptions.canBranding)
-                    headerView.setBranding(this.editorConfig.customization);
+                    appHeader.setBranding(this.editorConfig.customization);
 
-                this.appOptions.canRename && headerView.setCanRename(true);
+                this.appOptions.canRename && appHeader.setCanRename(true);
 
                 this.appOptions.canBrandingExt = params.asc_getCanBranding() && (typeof this.editorConfig.customization == 'object' || this.editorConfig.plugins);
                 if (this.appOptions.canBrandingExt)
@@ -786,14 +773,11 @@ define([
 
                 var app             = this.getApplication(),
                     viewport        = app.getController('Viewport').getView('Viewport'),
-                    headerView      = app.getController('Viewport').getView('Common.Views.Header'),
                     statusbarView   = app.getController('Statusbar').getView('Statusbar'),
                     documentHolder  = app.getController('DocumentHolder').getView('DocumentHolder');
 
-                if (headerView) {
-                    headerView.setHeaderCaption(this.appOptions.isEdit ? 'Presentation Editor' : 'Presentation Viewer');
-                    headerView.setVisible(!this.appOptions.nativeApp && !value && !this.appOptions.isDesktopApp);
-                }
+                appHeader.setHeaderCaption(this.appOptions.isEdit ? 'Presentation Editor' : 'Presentation Viewer');
+                appHeader.setVisible(!this.appOptions.nativeApp && !value && !this.appOptions.isDesktopApp);
 
                 viewport && viewport.setMode(this.appOptions, true);
                 statusbarView && statusbarView.setMode(this.appOptions);
@@ -1067,7 +1051,7 @@ define([
             onCoAuthoringDisconnect: function() {
                 // TODO: Disable all except 'Download As' and 'Print'
                 this.getApplication().getController('Viewport').getView('Viewport').setMode({isDisconnected:true});
-                this.getApplication().getController('Viewport').getView('Common.Views.Header').setCanRename(false);
+                appHeader.setCanRename(false);
                 this.appOptions.canRename = false;
                 this._state.isDisconnected = true;
 //                this.getFileMenu().setMode({isDisconnected:true});
@@ -1113,29 +1097,16 @@ define([
                 if (this._state.isDocModified !== isModified || force) {
                     var title = this.defaultTitleText;
 
-                    var headerView = this.getApplication()
-                        .getController('Viewport')
-                        .getView('Common.Views.Header');
-
-                    if (!_.isEmpty(headerView.getDocumentCaption()))
-                        title = headerView.getDocumentCaption() + ' - ' + title;
+                    if (!_.isEmpty(appHeader.getDocumentCaption()))
+                        title = appHeader.getDocumentCaption() + ' - ' + title;
 
                     if (isModified) {
-                        clearTimeout(this._state.timerCaption);
                         if (!_.isUndefined(title)) {
                             title = '* ' + title;
-                            headerView.setDocumentCaption(headerView.getDocumentCaption(), true);
                         }
-                    } else {
-                        if (this._state.fastCoauth && this._state.usersCount>1) {
-                            this._state.timerCaption = setTimeout(function () {
-                                headerView.setDocumentCaption(headerView.getDocumentCaption(), false);
-                            }, 500);
-                        } else
-                            headerView.setDocumentCaption(headerView.getDocumentCaption(), false);
                     }
 
-                    if (window.document.title != title)
+                    if ( window.document.title != title )
                         window.document.title = title;
 
                     Common.Gateway.setDocumentModified(isModified);
@@ -1527,14 +1498,14 @@ define([
             },
 
             onDocumentName: function(name) {
-                this.getApplication().getController('Viewport').getView('Common.Views.Header').setDocumentCaption(name);
+                appHeader.setDocumentCaption(name);
                 this.updateWindowTitle(true);
             },
 
             onMeta: function(meta) {
                 var app = this.getApplication(),
                     filemenu = app.getController('LeftMenu').getView('LeftMenu').getMenu('file');
-                app.getController('Viewport').getView('Common.Views.Header').setDocumentCaption(meta.title);
+                appHeader.setDocumentCaption(meta.title);
                 this.updateWindowTitle(true);
                 this.document.title = meta.title;
                 filemenu.loadDocument({doc:this.document});
