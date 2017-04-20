@@ -401,7 +401,7 @@ define([
                     $(document).off('mouseup',   onMouseUp);
                 };
 
-                var onAfterHideMenu = function(e) {
+                var onAfterHideMenu = function(e, isFromInputControl) {
                     me.cmpEl.find('.dropdown-toggle').blur();
                     if (me.cmpEl.hasClass('active') !== me.pressed) 
                         me.cmpEl.trigger('button.internal.active', [me.pressed]);
@@ -486,14 +486,16 @@ define([
         setDisabled: function(disabled) {
             if (this.rendered && this.disabled != disabled) {
                 var el = this.cmpEl,
-                    isGroup = el.hasClass('btn-group');
+                    isGroup = el.hasClass('btn-group'),
+                    me = this;
 
                 disabled = (disabled===true);
 
                 if (disabled !== el.hasClass('disabled')) {
                     var decorateBtn = function(button) {
                         button.toggleClass('disabled', disabled);
-                        (disabled) ? button.attr({disabled: disabled}) : button.removeAttr('disabled');
+                        if (!me.options.allowMouseEventsOnDisabled)
+                            (disabled) ? button.attr({disabled: disabled}) : button.removeAttr('disabled');
                     };
 
                     decorateBtn(el);

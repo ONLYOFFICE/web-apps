@@ -79,42 +79,48 @@ define([
                 asctype: Common.Utils.documentSettingsType.Paragraph,
                 enableToggle: true,
                 disabled: true,
-                toggleGroup: 'tabpanelbtnsGroup'
+                toggleGroup: 'tabpanelbtnsGroup',
+                allowMouseEventsOnDisabled: true
             });
             this.btnTable = new Common.UI.Button({
                 hint: this.txtTableSettings,
                 asctype: Common.Utils.documentSettingsType.Table,
                 enableToggle: true,
                 disabled: true,
-                toggleGroup: 'tabpanelbtnsGroup'
+                toggleGroup: 'tabpanelbtnsGroup',
+                allowMouseEventsOnDisabled: true
             });
             this.btnImage = new Common.UI.Button({
                 hint: this.txtImageSettings,
                 asctype: Common.Utils.documentSettingsType.Image,
                 enableToggle: true,
                 disabled: true,
-                toggleGroup: 'tabpanelbtnsGroup'
+                toggleGroup: 'tabpanelbtnsGroup',
+                allowMouseEventsOnDisabled: true
             });
             this.btnHeaderFooter = new Common.UI.Button({
                 hint: this.txtHeaderFooterSettings,
                 asctype: Common.Utils.documentSettingsType.Header,
                 enableToggle: true,
                 disabled: true,
-                toggleGroup: 'tabpanelbtnsGroup'
+                toggleGroup: 'tabpanelbtnsGroup',
+                allowMouseEventsOnDisabled: true
             });
             this.btnChart = new Common.UI.Button({
                 hint: this.txtChartSettings,
                 asctype: Common.Utils.documentSettingsType.Chart,
                 enableToggle: true,
                 disabled: true,
-                toggleGroup: 'tabpanelbtnsGroup'
+                toggleGroup: 'tabpanelbtnsGroup',
+                allowMouseEventsOnDisabled: true
             });
             this.btnShape = new Common.UI.Button({
                 hint: this.txtShapeSettings,
                 asctype: Common.Utils.documentSettingsType.Shape,
                 enableToggle: true,
                 disabled: true,
-                toggleGroup: 'tabpanelbtnsGroup'
+                toggleGroup: 'tabpanelbtnsGroup',
+                allowMouseEventsOnDisabled: true
             });
 
             this.btnTextArt = new Common.UI.Button({
@@ -122,7 +128,8 @@ define([
                 asctype: Common.Utils.documentSettingsType.TextArt,
                 enableToggle: true,
                 disabled: true,
-                toggleGroup: 'tabpanelbtnsGroup'
+                toggleGroup: 'tabpanelbtnsGroup',
+                allowMouseEventsOnDisabled: true
             });
 
             this._settings = [];
@@ -142,20 +149,19 @@ define([
 
             this.trigger('render:before', this);
 
-            var open = Common.localStorage.getItem("de-hide-right-settings");
-            open = (open===null || parseInt(open) == 0);
+            var open = !Common.localStorage.getBool("de-hide-right-settings");
             el.css('width', ((open) ? MENU_SCALE_PART : SCALE_MIN) + 'px');
             el.show();
 
             el.html(this.template({}));
 
-            this.btnText.el         = $('#id-right-menu-text');     this.btnText.render();
-            this.btnTable.el        = $('#id-right-menu-table');    this.btnTable.render();
-            this.btnImage.el        = $('#id-right-menu-image');    this.btnImage.render();
-            this.btnHeaderFooter.el = $('#id-right-menu-header');   this.btnHeaderFooter.render();
-            this.btnChart.el        = $('#id-right-menu-chart');    this.btnChart.render();
-            this.btnShape.el        = $('#id-right-menu-shape');    this.btnShape.render();
-            this.btnTextArt.el      = $('#id-right-menu-textart');  this.btnTextArt.render();
+            this.btnText.setElement($('#id-right-menu-text'), false);           this.btnText.render();
+            this.btnTable.setElement($('#id-right-menu-table'), false);         this.btnTable.render();
+            this.btnImage.setElement($('#id-right-menu-image'), false);         this.btnImage.render();
+            this.btnHeaderFooter.setElement($('#id-right-menu-header'), false); this.btnHeaderFooter.render();
+            this.btnChart.setElement($('#id-right-menu-chart'), false);         this.btnChart.render();
+            this.btnShape.setElement($('#id-right-menu-shape'), false);         this.btnShape.render();
+            this.btnTextArt.setElement($('#id-right-menu-textart'), false);     this.btnTextArt.render();
 
             this.btnText.on('click',            _.bind(this.onBtnMenuClick, this));
             this.btnTable.on('click',           _.bind(this.onBtnMenuClick, this));

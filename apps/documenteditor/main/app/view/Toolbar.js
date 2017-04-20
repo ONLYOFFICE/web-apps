@@ -1039,7 +1039,7 @@ define([
                     id: 'id-toolbar-btn-notes',
                     cls: 'btn-toolbar',
                     iconCls: 'btn-notes',
-                    caption: 'Footnotes',
+                    caption: me.capBtnInsFootnote,
                     split: true,
                     menu: true
                 });
@@ -1335,6 +1335,7 @@ define([
 
                 this.fireEvent('render:after', [this]);
 
+                me.isCompactView = mode.isCompactView;
                 /** coauthoring begin **/
                 this.showSynchTip = !Common.localStorage.getBool("de-hide-synch");
                 this.needShowSynchTip = false;
@@ -1748,6 +1749,9 @@ define([
                 );
                 // if (this.mode.isDesktopApp || this.mode.canBrandingExt && this.mode.customization && this.mode.customization.header === false)
                 //     this.mnuitemHideTitleBar.hide();
+
+                if (this.mode.canBrandingExt && this.mode.customization && this.mode.customization.statusBar===false)
+                    this.mnuitemHideStatusBar.hide();
 
                 this.btnMarkers.setMenu(
                     new Common.UI.Menu({
@@ -2329,7 +2333,7 @@ define([
                 }
 
                 this._state.hasCollaborativeChanges = true;
-                var iconEl = $('.btn-icon', this.btnSave.cmpEl);
+                var iconEl = $('.icon', this.btnSave.cmpEl);
                 iconEl.removeClass(this.btnSaveCls);
                 iconEl.addClass('btn-synch');
                 if (this.showSynchTip) {
@@ -2364,7 +2368,7 @@ define([
 
             synchronizeChanges: function () {
                 if (this.btnSave.rendered) {
-                    var iconEl = $('.btn-icon', this.btnSave.cmpEl);
+                    var iconEl = $('.icon', this.btnSave.cmpEl);
 
                     if (iconEl.hasClass('btn-synch')) {
                         iconEl.removeClass('btn-synch');
@@ -2372,7 +2376,7 @@ define([
                         if (this.synchTooltip)
                             this.synchTooltip.hide();
                         this.btnSave.updateHint(this.btnSaveTip);
-                        this.btnSave.setDisabled(true);
+                        this.btnSave.setDisabled(!this.mode.forcesave);
                         this._state.hasCollaborativeChanges = false;
                     }
                 }
@@ -2390,7 +2394,7 @@ define([
                 if (cls !== this.btnSaveCls && this.btnSave.rendered) {
                     this.btnSaveTip = ((length > 1) ? this.tipSaveCoauth : this.tipSave ) + Common.Utils.String.platformKey('Ctrl+S');
 
-                    var iconEl = $('.btn-icon', this.btnSave.cmpEl);
+                    var iconEl = $('.icon', this.btnSave.cmpEl);
                     if (!iconEl.hasClass('btn-synch')) {
                         iconEl.removeClass(this.btnSaveCls);
                         iconEl.addClass(cls);
@@ -2679,11 +2683,36 @@ define([
             mniNoteSettings: 'Notes Settings',
             textGotoFootnote: 'Go to Footnotes',
             tipChangeChart: 'Change Chart Type',
+            capBtnInsPagebreak: 'Page Break',
+            capBtnInsImage: 'Picture',
+            capBtnInsTable: 'Table',
+            capBtnInsChart: 'Chart',
+            capBtnInsLink: 'Hyperlink',
             textTabFile: 'File',
             textTabHome: 'Home',
             textTabInsert: 'Insert',
             textTabLayout: 'Page Layout',
             textTabReview: 'Review'
+            capBtnInsShape: 'Shape',
+            capBtnInsTextbox: 'Text',
+            capBtnInsDropcap: 'Drop Cap',
+            capBtnInsFootnote: 'Footnotes',
+            capBtnInsEquation: 'Equation',
+            capBtnInsHeader: 'Headers/Footers',
+            capBtnColumns: 'Columns',
+            capBtnPageOrient: 'Orientation',
+            capBtnMargins: 'Margins',
+            capBtnPageSize: 'Size',
+            tipImgAlign: 'Align objects',
+            tipImgGroup: 'Group objects',
+            tipImgWrapping: 'Wrap text',
+            tipSendForward: 'Send forward',
+            tipSendBackward: 'Send backward',
+            capImgAlign: 'Align',
+            capImgGroup: 'Group',
+            capImgForward: 'Move forward',
+            capImgBackward: 'Move backward',
+            capImgWrapping: 'Wrapping'
         }
     })(), DE.Views.Toolbar || {}));
 });

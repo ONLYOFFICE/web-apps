@@ -57,6 +57,7 @@ define([
             this.currentArrColors = [];
             this.currentDocId = '';
             this.currentDocIdPrev = '';
+            this.currentRev = 0;
         },
 
         events: {
@@ -74,6 +75,7 @@ define([
         setApi: function(api) {
             this.api = api;
             this.api.asc_registerCallback('asc_onDownloadUrl', _.bind(this.onDownloadUrl, this));
+            this.api.asc_registerCallback('asc_onExpiredToken', _.bind(this.onExpiredToken, this));
             return this;
         },
 
@@ -127,6 +129,7 @@ define([
             this.currentArrColors = record.get('arrColors');
             this.currentDocId = record.get('docId');
             this.currentDocIdPrev = record.get('docIdPrev');
+            this.currentRev = rev;
 
             if ( _.isEmpty(url) || (urlGetTime - record.get('urlGetTime') > 5 * 60000)) {
                  _.delay(function() {
@@ -134,12 +137,15 @@ define([
                  }, 10);
             } else {
                 var urlDiff = record.get('urlDiff'),
+                    token   = record.get('token'),
                     hist = new Asc.asc_CVersionHistory();
                 hist.asc_setDocId(_.isEmpty(urlDiff) ? this.currentDocId : this.currentDocIdPrev);
                 hist.asc_setUrl(url);
                 hist.asc_setUrlChanges(urlDiff);
                 hist.asc_setCurrentChangeId(this.currentChangeId);
                 hist.asc_setArrColors(this.currentArrColors);
+                hist.asc_setToken(token);
+                hist.asc_setIsRequested(false);
                 this.api.asc_showRevision(hist);
 
                 var commentsController = this.getApplication().getController('Common.Controllers.Comments');
@@ -166,7 +172,8 @@ define([
                     var diff = (this.currentChangeId===undefined) ? null : opts.data.changesUrl, // if revision has changes, but serverVersion !== app.buildVersion -> hide revision changes
                         url = (!_.isEmpty(diff) && opts.data.previous) ? opts.data.previous.url : opts.data.url,
                         docId = opts.data.key ? opts.data.key : this.currentDocId,
-                        docIdPrev = opts.data.previous && opts.data.previous.key ? opts.data.previous.key : this.currentDocIdPrev;
+                        docIdPrev = opts.data.previous && opts.data.previous.key ? opts.data.previous.key : this.currentDocIdPrev,
+                        token = opts.data.token;
 
                     if (revisions && revisions.length>0) {
                         for(var i=0; i<revisions.length; i++) {
@@ -178,6 +185,7 @@ define([
                                 rev.set('docId', docId, {silent: true});
                                 rev.set('docIdPrev', docIdPrev, {silent: true});
                             }
+                            rev.set('token', token, {silent: true});
                         }
                     }
                     var hist = new Asc.asc_CVersionHistory();
@@ -186,12 +194,21 @@ define([
                     hist.asc_setDocId(_.isEmpty(diff) ? docId : docIdPrev);
                     hist.asc_setCurrentChangeId(this.currentChangeId);
                     hist.asc_setArrColors(this.currentArrColors);
+                    hist.asc_setToken(token);
+                    hist.asc_setIsRequested(true);
                     this.api.asc_showRevision(hist);
 
                     var commentsController = this.getApplication().getController('Common.Controllers.Comments');
                     if (commentsController) commentsController.onApiHideComment();
                 }
             }
+        },
+
+        onExpiredToken: function() {
+            var me = this;
+            _.delay(function() {
+                Common.Gateway.requestHistoryData(me.currentRev); // получаем url-ы для ревизий
+            }, 10);
         },
 
         onClickBackToDocument: function () {

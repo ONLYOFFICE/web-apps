@@ -291,7 +291,7 @@ define([
                 var me = this;
 
                 function _btn_render(button, slot) {
-                    button.el = slot;
+                    button.setElement(slot, false);
                     button.render();
                 }
 
@@ -345,6 +345,7 @@ define([
             },
 
             reloadLanguages: function(array) {
+                this.langMenu.removeAll();
                 _.each(array, function(item) {
                     this.langMenu.addItem({
                         iconCls     : item['tip'],

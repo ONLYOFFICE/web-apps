@@ -712,7 +712,17 @@ define([
             txtAcceptAll: 'Accept all Changes',
             txtReject: 'Reject',
             txtRejectCurrent: 'Reject current Changes',
-            txtRejectAll: 'Reject all Changes'
+            txtRejectAll: 'Reject all Changes',
+            hintNext: 'To Next Change',
+            hintPrev: 'To Previous Change',
+            txtPrev: 'Previous',
+            txtNext: 'Next',
+            txtTurnon: 'Turn On',
+            txtSpelling: 'Spell checking',
+            txtDocLang: 'Language',
+            tipSetDocLang: 'Set Document Language',
+            tipSetSpelling: 'Spell checking',
+            tipReview: 'Review'
         }
     }()), Common.Views.ReviewChanges || {}))
 });

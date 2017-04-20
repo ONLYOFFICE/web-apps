@@ -1693,8 +1693,7 @@ define([
             if (me.api) {
                 var res =  (item.value == 'cut') ? me.api.Cut() : ((item.value == 'copy') ? me.api.Copy() : me.api.Paste());
                 if (!res) {
-                    var value = Common.localStorage.getItem("de-hide-copywarning");
-                    if (!(value && parseInt(value) == 1)) {
+                    if (!Common.localStorage.getBool("de-hide-copywarning")) {
                         (new Common.Views.CopyWarningDialog({
                             handler: function(dontshow) {
                                 if (dontshow) Common.localStorage.setItem("de-hide-copywarning", 1);
@@ -2117,8 +2116,8 @@ define([
                     { caption: '--' },
                     menuImageAdvanced
                 ]
-            }).on('hide:after', function(menu) {
-                me.fireEvent('editcomplete', me);
+            }).on('hide:after', function(menu, e, isFromInputControl) {
+                if (!isFromInputControl) me.fireEvent('editcomplete', me);
                 me.currentMenu = null;
             });
 
@@ -2685,13 +2684,13 @@ define([
                     menuHyperlinkSeparator,
                     menuParagraphAdvancedInTable
                 ]
-            }).on('hide:after', function(menu) {
+            }).on('hide:after', function(menu, e, isFromInputControl) {
                 if (me.suppressEditComplete) {
                     me.suppressEditComplete = false;
                     return;
                 }
 
-                me.fireEvent('editcomplete', me);
+                if (!isFromInputControl) me.fireEvent('editcomplete', me);
                 me.currentMenu = null;
             });
 
@@ -3064,13 +3063,13 @@ define([
                     menuStyleSeparator,
                     menuStyle
                 ]
-            }).on('hide:after', function(menu, e) {
+            }).on('hide:after', function(menu, e, isFromInputControl) {
                 if (me.suppressEditComplete) {
                     me.suppressEditComplete = false;
                     return;
                 }
 
-                me.fireEvent('editcomplete', me);
+                if (!isFromInputControl) me.fireEvent('editcomplete', me);
                 me.currentMenu = null;
             });
 
@@ -3096,8 +3095,8 @@ define([
                 items: [
                     menuEditHeaderFooter
                 ]
-            }).on('hide:after', function(menu) {
-                me.fireEvent('editcomplete', me);
+            }).on('hide:after', function(menu, e, isFromInputControl) {
+                if (!isFromInputControl) me.fireEvent('editcomplete', me);
                 me.currentMenu = null;
             });
 
@@ -3119,7 +3118,9 @@ define([
         setLanguages: function(langs){
             var me = this;
 
-            if (langs && langs.length > 0) {
+            if (langs && langs.length > 0 && me.langParaMenu && me.langTableMenu) {
+                me.langParaMenu.menu.removeAll();
+                me.langTableMenu.menu.removeAll();
                 _.each(langs, function(lang, index){
                     me.langParaMenu.menu.addItem(new Common.UI.MenuItem({
                         caption     : lang.title,

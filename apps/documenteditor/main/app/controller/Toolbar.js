@@ -474,7 +474,7 @@ define([
                 var btnHorizontalAlign = this.toolbar.btnHorizontalAlign;
 
                 if (btnHorizontalAlign.rendered) {
-                    var iconEl = $('.btn-icon', btnHorizontalAlign.cmpEl);
+                    var iconEl = $('.icon', btnHorizontalAlign.cmpEl);
 
                     if (iconEl) {
                         iconEl.removeClass(btnHorizontalAlign.options.icls);
@@ -677,7 +677,7 @@ define([
             need_disable = toolbar.mnuPageNumCurrentPos.isDisabled() && toolbar.mnuPageNumberPosPicker.isDisabled();
             toolbar.mnuInsertPageNum.setDisabled(need_disable);
 
-            need_disable = paragraph_locked || header_locked || in_header || in_equation && !btn_eq_state;
+            need_disable = paragraph_locked || header_locked || in_header || in_equation && !btn_eq_state || this.api.asc_IsCursorInFootnote();
             toolbar.btnsPageBreak.disable(need_disable);
 
             need_disable = paragraph_locked || header_locked || !can_add_image || in_equation;
@@ -704,6 +704,10 @@ define([
 
             toolbar.btnEditHeader.setDisabled(in_equation);
 
+            need_disable = paragraph_locked || in_equation || in_image || in_header;
+            if (need_disable !== toolbar.btnNotes.isDisabled())
+                toolbar.btnNotes.setDisabled(need_disable);
+
             if (toolbar.listStylesAdditionalMenuItem && (frame_pr===undefined) !== toolbar.listStylesAdditionalMenuItem.isDisabled())
                 toolbar.listStylesAdditionalMenuItem.setDisabled(frame_pr===undefined);
 
@@ -725,7 +729,7 @@ define([
                     var styleRec = listStyle.menuPicker.store.findWhere({
                         title: name
                     });
-                    this._state.prstyle = (listStyle.menuPicker.store.length>0) ? name : undefined;
+                    this._state.prstyle = (listStyle.menuPicker.store.length>0 || window.styles_loaded) ? name : undefined;
 
                     listStyle.menuPicker.selectRecord(styleRec);
                     listStyle.resumeEvents();
@@ -849,14 +853,14 @@ define([
         onSave: function(e) {
             if (this.api) {
                 var isModified = this.api.asc_isDocumentCanSave();
-                var isSyncButton = $('.btn-icon', this.toolbar.btnSave.cmpEl).hasClass('btn-synch');
-                if (!isModified && !isSyncButton)
+                var isSyncButton = $('.icon', this.toolbar.btnSave.cmpEl).hasClass('btn-synch');
+                if (!isModified && !isSyncButton && !this.toolbar.mode.forcesave)
                     return;
 
                 this.api.asc_Save();
             }
 
-            this.toolbar.btnSave.setDisabled(true);
+            this.toolbar.btnSave.setDisabled(!this.toolbar.mode.forcesave);
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
 
@@ -887,8 +891,7 @@ define([
             if (me.api) {
                 var res = (copy) ? me.api.Copy() : me.api.Paste();
                 if (!res) {
-                    var value = Common.localStorage.getItem("de-hide-copywarning");
-                    if (!(value && parseInt(value) == 1)) {
+                    if (!Common.localStorage.getBool("de-hide-copywarning")) {
                         (new Common.Views.CopyWarningDialog({
                             handler: function(dontshow) {
                                 if (dontshow) Common.localStorage.setItem("de-hide-copywarning", 1);
@@ -1004,7 +1007,7 @@ define([
         onMenuHorizontalAlignSelect: function(menu, item) {
             this._state.pralign = undefined;
             var btnHorizontalAlign = this.toolbar.btnHorizontalAlign,
-                iconEl = $('.btn-icon', btnHorizontalAlign.cmpEl);
+                iconEl = $('.icon', btnHorizontalAlign.cmpEl);
 
             if (iconEl) {
                 iconEl.removeClass(btnHorizontalAlign.options.icls);
@@ -1877,7 +1880,7 @@ define([
                         me._state.prstyle = title;
                         style.put_Name(title);
                         characterStyle.put_Name(title + '_character');
-                        style.put_Next(nextStyle.asc_getName());
+                        style.put_Next((nextStyle) ? nextStyle.asc_getName() : null);
                         me.api.asc_AddNewStyle(style);
                     }
                     Common.NotificationCenter.trigger('edit:complete', me.toolbar);
@@ -2501,7 +2504,7 @@ define([
                     store: this.getApplication().getCollection('Common.Collections.TextArt'),
                     parentMenu: this.toolbar.mnuInsertTextArt.menu,
                     showLast: false,
-                    itemTemplate: _.template('<div class="item-art"><img src="<%= imageUrl %>" id="<%= id %>"></div>')
+                    itemTemplate: _.template('<div class="item-art"><img src="<%= imageUrl %>" id="<%= id %>" style="width:50px;height:50px;"></div>')
                 });
 
                 this.toolbar.mnuTextArtPicker.on('item:click', function(picker, item, record, e) {
@@ -2615,7 +2618,8 @@ define([
                 if (self._state.prstyle) styleRec = listStyles.menuPicker.store.findWhere({title: self._state.prstyle});
                 listStyles.fillComboView((styleRec) ? styleRec : listStyles.menuPicker.store.at(0), true);
                 Common.NotificationCenter.trigger('edit:complete', this);
-            }
+            } else if (listStyles.rendered)
+                listStyles.clearComboView();
             window.styles_loaded = true;
         },
 
@@ -2737,7 +2741,10 @@ define([
         onAppShowed: function (config) {
             var me = this;
 
-            me.toolbar.render(config);
+            var isCompactView = Common.localStorage.getItem("de-compact-toolbar");
+            isCompactView = !config.isEdit || !!(isCompactView !== null && parseInt(isCompactView) == 1 || isCompactView === null && config.customization && config.customization.compactToolbar);
+
+            me.toolbar.render(_.extend(config, {isCompactView: isCompactView}));
 
             if ( config.isEdit ) {
                 var tab = {action: 'review', caption: me.toolbar.textTabReview};
@@ -2747,16 +2754,7 @@ define([
                     me.toolbar.addTab(tab, $panel, 3);
                 }
             }
-
-            if ( config.isEdit && !Common.localStorage.itemExists("de-compact-toolbar") &&
-                        config.customization && config.customization.compactToolbar )
-            {
-                this.toolbar.setFolded(true);
                 this.toolbar.mnuitemCompactToolbar.setChecked(true, true);
-
-                Common.NotificationCenter.trigger('layout:changed', 'toolbar');
-                Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-            }
         },
 
         onAppReady: function (config) {

@@ -71,7 +71,7 @@ define([
 
         var templateRightBox = '<section>' +
                             '<label id="rib-doc-name" class="status-label"></label>' +
-                            '<a href="#" id="rib-save-status" class="status-label locked">All changes saved</a>' +
+                            '<a href="#" id="rib-save-status" class="status-label locked"><%= textSaveEnd %></a>' +
                             '<div class="elset">' +
                                 // '<span class="btn-slot text" id="slot-btn-users"></span>' +
                                 '<section id="tlb-box-users" class="box-cousers dropdown"">' +
@@ -90,7 +90,7 @@ define([
                         '</section>';
 
         var templateLeftBox = '<section>' +
-                                '<div id="header-logo"></div>'
+                                '<div id="header-logo"></div>' +
                             '</section>';
 
         function onAddUser(model, collection, opts) {
@@ -239,7 +239,7 @@ define([
             $labelChangeRights[(!mode.isOffline && !mode.isReviewOnly && mode.sharingSettingsUrl && mode.sharingSettingsUrl.length)?'show':'hide']();
             $panelUsers[(storeUsers.size() > 1 || !mode.isOffline && !mode.isReviewOnly && mode.sharingSettingsUrl && mode.sharingSettingsUrl.length) ? 'show' : 'hide']();
 
-            $saveStatus.attr('data-width', this.textSaveExpander);
+            $saveStatus.attr('data-width', me.textSaveExpander);
             if ( appConfig.canUseHistory ) {
                 // $saveStatus.on('click', function(e) {
                 //     me.fireEvent('history:show', ['header']);
@@ -253,7 +253,6 @@ define([
             options: {
                 branding: {},
                 headerCaption: 'Default Caption',
-                // headerDeveloper: 'DEVELOPER MODE',
                 documentCaption: '',
                 canBack: false
             },
@@ -273,10 +272,10 @@ define([
                 this.options = this.options ? _({}).extend(this.options, options) : options;
 
                 this.headerCaption = this.options.headerCaption;
-                // this.headerDeveloper = this.txtHeaderDeveloper;
                 this.documentCaption = this.options.documentCaption;
                 this.canBack = this.options.canBack;
                 this.branding = this.options.customization;
+                this.isModified = false;
 
                 me.btnGoBack = new Common.UI.Button({
                     id: 'btn-goback',
@@ -322,7 +321,8 @@ define([
                 if ( role == 'right' ) {
                     var $html = $(_.template(templateRightBox, {
                         tipUsers: this.labelCoUsersDescr,
-                        txtAccessRights: this.txtAccessRights
+                        txtAccessRights: this.txtAccessRights,
+                        textSaveEnd: this.textSaveEnd
                     }));
 
                     if ( this.canBack === true ) {
@@ -334,7 +334,7 @@ define([
                             Common.Utils.String.htmlEncode(this.documentCaption) );
                     }
 
-                    this.labelDocName = $html.find('#doc-name');
+                    this.labelDocName = $html.find('#rib-doc-name');
                     $userList = $html.find('.cousers-list');
                     $panelUsers = $html.find('.box-cousers');
                     $btnUsers = $html.find('.btn-users');
@@ -377,10 +377,11 @@ define([
                 return this.headerCaption;
             },
 
-            setDocumentCaption: function (value, applyOnly) {
+            setDocumentCaption: function(value) {
                 !value && (value = '');
 
                 this.documentCaption = value;
+                this.isModified && (value += '*');
                 if ( this.labelDocName )
                     this.labelDocName.html(Common.Utils.String.htmlEncode(value));
 
@@ -392,6 +393,8 @@ define([
             },
 
             setDocumentChanged: function (changed) {
+                this.isModified = changed;
+
                 var _name = Common.Utils.String.htmlEncode(this.documentCaption);
                 changed && (_name += '*');
 
@@ -406,10 +409,6 @@ define([
 
             getCanBack: function () {
                 return this.canBack;
-            },
-
-            setDeveloperMode: function (mode) {
-                // $('#header-developer').toggleClass('hidden', !mode);
             },
 
             setCanRename: function (rename) {
@@ -456,8 +455,17 @@ define([
             },
 
             textBack: 'Go to Documents',
-            // txtHeaderDeveloper: 'DEVELOPER MODE',
-            txtRename: 'Rename'
+            txtRename: 'Rename',
+            itemBackNewTab: 'Open in New Tab',
+            itemBackCurrTab: 'Open in Current Tab',
+            textSaveBegin: 'Saving...',
+            textSaveEnd: 'All changes saved',
+            textSaveChanged: 'Modified',
+            textSaveExpander: 'All changes saved',
+            txtAccessRights: 'Change access rights',
+            tipAccessRights: 'Manage document access rights',
+            labelCoUsersDescr: 'Document is currently being edited by several users.',
+            tipViewUsers: 'View users and manage document access rights'
         }
     }(), Common.Views.Header || {}))
 });

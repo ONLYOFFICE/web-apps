@@ -59,7 +59,8 @@ define([
             enableKeyEvents     : false,
             beforeOpenHandler   : null,
             additionalMenuItems  : null,
-            showLast: true
+            showLast: true,
+            minWidth: -1
         },
 
         template: _.template([
@@ -85,6 +86,8 @@ define([
             this.rootWidth   = 0;
             this.rootHeight  = 0;
             this.rendered    = false;
+            this.needFillComboView = false;
+            this.minWidth = this.options.minWidth;
 
             this.fieldPicker = new Common.UI.DataView({
                 cls: 'field-picker',
@@ -209,10 +212,12 @@ define([
         },
 
         checkSize: function() {
-            if (this.cmpEl) {
+            if (this.cmpEl && this.cmpEl.is(':visible')) {
                 var me = this,
                     width  = this.cmpEl.width(),
                     height = this.cmpEl.height();
+
+                if (width < this.minWidth) return;
 
                 if (this.rootWidth != width || this.rootHeight != height) {
                     this.rootWidth  = width;
@@ -304,10 +309,10 @@ define([
             }
         },
 
-        onAfterHideMenu: function(e) {
+        onAfterHideMenu: function(e, isFromInputControl) {
             this.menuPicker.selectedBeforeHideRec = this.menuPicker.getSelectedRec()[0]; // for DataView - onKeyDown - Return key
             (this.showLast) ? this.menuPicker.showLastSelected() : this.menuPicker.deselectAll();
-            this.trigger('hide:after', this, e);
+            this.trigger('hide:after', this, e, isFromInputControl);
         },
 
         onFieldPickerSelect: function(picker, item, record) {
@@ -315,6 +320,7 @@ define([
         },
 
         onMenuPickerSelect: function(picker, item, record, fromKeyDown) {
+            this.needFillComboView = this.disabled;
             if (this.disabled || fromKeyDown===true) return;
 
             this.fillComboView(record, false);
@@ -375,6 +381,17 @@ define([
             this.cmpEl.toggleClass('disabled', disabled);
             $('button', this.openButton.cmpEl).toggleClass('disabled', disabled);
             this.fieldPicker.setDisabled(disabled);
+
+            if (this.needFillComboView && !disabled) {
+                var picker = this.menuPicker;
+                if (picker) {
+                    var record = picker.getSelectedRec();
+                    if (record) {
+                        record = record[0];
+                        this.fillComboView(record || picker.store.at(0), false);
+                    }
+                }
+            }
         },
 
         isDisabled: function() {
@@ -383,6 +400,8 @@ define([
 
         fillComboView: function(record, forceSelect, forceFill) {
             if (!_.isUndefined(record) && record instanceof Backbone.Model){
+                this.needFillComboView = false;
+
                 var me              = this,
                     store           = me.menuPicker.store,
                     fieldPickerEl   = $(me.fieldPicker.el);
@@ -405,7 +424,7 @@ define([
 
                         var indexRec = store.indexOf(record),
                             countRec = store.length,
-                            maxViewCount = Math.floor((fieldPickerEl.width()) / (me.itemWidth + (me.itemMarginLeft || 0) + (me.itemMarginRight || 0) + (me.itemPaddingLeft || 0) + (me.itemPaddingRight || 0) +
+                            maxViewCount = Math.floor(Math.max(fieldPickerEl.width(), me.minWidth) / (me.itemWidth + (me.itemMarginLeft || 0) + (me.itemMarginRight || 0) + (me.itemPaddingLeft || 0) + (me.itemPaddingRight || 0) +
                                                                                                 (me.itemBorderLeft || 0) + (me.itemBorderRight || 0))),
                             newStyles = [];
 
@@ -435,6 +454,10 @@ define([
                     }
                 }
             }
+        },
+
+        clearComboView: function() {
+            this.fieldPicker.store.reset([]);
         },
 
         selectByIndex: function(index) {

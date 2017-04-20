@@ -294,10 +294,10 @@ define([
                     e.preventDefault();
             },
 
-            onAfterHideMenu: function(e) {
+            onAfterHideMenu: function(e, isFromInputControl) {
                 this.cmpEl.find('.dropdown-toggle').blur();
-                this.trigger('hide:after', this, e);
-                Common.NotificationCenter.trigger('menu:hide');
+                this.trigger('hide:after', this, e, isFromInputControl);
+                Common.NotificationCenter.trigger('menu:hide', this, isFromInputControl);
             },
 
             onAfterKeydownMenu: function(e) {

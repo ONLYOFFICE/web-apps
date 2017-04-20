@@ -479,8 +479,7 @@ define([
 
                 me.updateWindowTitle(true);
 
-                value = Common.localStorage.getItem("de-settings-inputmode");
-                me.api.SetTextBoxInputMode(value!==null && parseInt(value) == 1);
+                me.api.SetTextBoxInputMode(Common.localStorage.getBool("de-settings-inputmode"));
 
                 /** coauthoring begin **/
                 if (me.appOptions.isEdit && me.appOptions.canLicense && !me.appOptions.isOffline && me.appOptions.canCoAuthoring) {

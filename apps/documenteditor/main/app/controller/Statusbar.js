@@ -134,7 +134,7 @@ define([
                         _process_changestip();
                     } else
                     if ( me.api.asc_IsTrackRevisions() ) {
-                        if ( Common.localStorage.getItem("de-track-changes") ) {
+                        if ( Common.localStorage.getBool("de-track-changes") ) {
                             // show tooltip "track changes in this document"
                             _process_changestip();
                         } else {
@@ -216,9 +216,16 @@ define([
             this.statusbar.reloadLanguages(langs);
         },
 
-        setStatusCaption: function(text) {
-            if (text.length)
-                this.statusbar.showStatusMessage(text); else
+        setStatusCaption: function(text, force, delay) {
+            if (this.timerCaption && ( ((new Date()) < this.timerCaption) || text.length==0 ) && !force )
+                return;
+
+            this.timerCaption = undefined;
+            if (text.length) {
+                this.statusbar.showStatusMessage(text);
+                if (delay>0)
+                    this.timerCaption = (new Date()).getTime() + delay;
+            } else
                 this.statusbar.clearStatusMessage();
         },
 
@@ -246,11 +253,11 @@ define([
                     Common.localStorage.setItem(storage, 1);
 
                     tip.hide();
-                    me.btnTurnReview.updateHint(this.tipReview);
+                    me.btnTurnReview.updateHint(me.tipReview);
                 },
                 'closeclick': function() {
                     tip.hide();
-                    me.btnTurnReview.updateHint(this.tipReview);
+                    me.btnTurnReview.updateHint(me.tipReview);
                 }
             });
 
@@ -259,6 +266,7 @@ define([
 
         zoomText        : 'Zoom {0}%',
         textHasChanges  : 'New changes have been tracked',
-        textTrackChanges: 'The document is opened with the Track Changes mode enabled'
+        textTrackChanges: 'The document is opened with the Track Changes mode enabled',
+        tipReview       : 'Review'
     }, DE.Controllers.Statusbar || {}));
 });
