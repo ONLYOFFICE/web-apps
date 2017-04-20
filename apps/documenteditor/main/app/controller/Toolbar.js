@@ -2741,7 +2741,10 @@ define([
         onAppShowed: function (config) {
             var me = this;
 
-            me.toolbar.render(config);
+            var isCompactView = Common.localStorage.getItem("de-compact-toolbar");
+            isCompactView = !config.isEdit || !!(isCompactView !== null && parseInt(isCompactView) == 1 || isCompactView === null && config.customization && config.customization.compactToolbar);
+
+            me.toolbar.render(_.extend(config, {isCompactView: isCompactView}));
 
             if ( config.isEdit ) {
                 var tab = {action: 'review', caption: 'Review'};
@@ -2750,15 +2753,6 @@ define([
                 if ( $panel ) {
                     me.toolbar.addTab(tab, $panel, 3);
                 }
-            }
-
-            if ( !config.isEdit ||
-                    ( !Common.localStorage.itemExists("de-compact-toolbar") &&
-                        config.customization && config.customization.compactToolbar )) {
-                this.toolbar.setFolded(true);
-
-                Common.NotificationCenter.trigger('layout:changed', 'toolbar');
-                Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             }
         },
 

@@ -1335,7 +1335,7 @@ define([
 
                 this.fireEvent('render:after', [this]);
 
-                me.isCompactView = Common.localStorage.getBool("de-compact-toolbar");
+                me.isCompactView = mode.isCompactView;
 
                 /** coauthoring begin **/
                 this.showSynchTip = !Common.localStorage.getBool("de-hide-synch");
