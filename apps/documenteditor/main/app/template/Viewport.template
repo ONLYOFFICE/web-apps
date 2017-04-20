@@ -1,7 +1,7 @@
 <div class="layout-region">
     <div id="viewport-vbox-layout" class="layout-ct vbox">
         <section class="layout-ct">
-            <div id="file-menu-panel" class="left-menu-full-ct" style="display:none;"></div>
+            <div id="file-menu-panel" class="toolbar-fullview-panel" style="display:none;"></div>
         </section>
         <div id="toolbar" class="layout-item"></div>
         <div class="layout-item middle">
