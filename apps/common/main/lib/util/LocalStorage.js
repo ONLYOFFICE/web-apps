@@ -78,6 +78,10 @@ define(['gateway'], function () {
             }
         };
 
+        var _setItemAsBool = function(name, value, just) {
+            _setItem(name, value ? 1 : 0, just);
+        };
+
         var _getItem = function(name) {
             if (_lsAllowed)
                 return localStorage.getItem(name);
@@ -110,6 +114,7 @@ define(['gateway'], function () {
             },
             getItem: _getItem,
             getBool: _getItemAsBool,
+            setBool: _setItemAsBool,
             setItem: _setItem,
             setKeysFilter: function(value) {
                 _filter = value;

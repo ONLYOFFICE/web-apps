@@ -331,7 +331,7 @@ define([
         onChangeCompactView: function(view, compact) {
             this.toolbar.setFolded(compact);
 
-            Common.localStorage.setItem('de-compact-toolbar', compact ? 1 : 0);
+            Common.localStorage.setBool('de-compact-toolbar', compact);
             Common.NotificationCenter.trigger('layout:changed', 'toolbar');
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
@@ -1936,7 +1936,7 @@ define([
             var headerView  = this.getApplication().getController('Statusbar').getView('Statusbar');
             headerView  && headerView.setVisible(!checked);
 
-            Common.localStorage.setItem('de-hidden-status', checked ? 1 : 0);
+            Common.localStorage.setBool('de-hidden-status', checked);
 
             Common.NotificationCenter.trigger('layout:changed', 'status');
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
@@ -1947,7 +1947,7 @@ define([
                 this.api.asc_SetViewRulers(!checked);
             }
 
-            Common.localStorage.setItem('de-hidden-rulers', checked ? 1 : 0);
+            Common.localStorage.setBool('de-hidden-rulers', checked);
 
             Common.NotificationCenter.trigger('layout:changed', 'rulers');
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);

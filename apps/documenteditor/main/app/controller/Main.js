@@ -799,7 +799,7 @@ define([
                 value = Common.localStorage.getItem("de-settings-spellcheck");
                 me.api.asc_setSpellCheck(value===null || parseInt(value) == 1);
 
-                Common.localStorage.setItem("de-settings-showsnaplines", me.api.get_ShowSnapLines() ? 1 : 0);
+                Common.localStorage.setBool("de-settings-showsnaplines", me.api.get_ShowSnapLines());
 
                 function checkWarns() {
                     if (!window['AscDesktopEditor']) {
