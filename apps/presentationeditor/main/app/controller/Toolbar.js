@@ -114,7 +114,16 @@ define([
 
             this.addListeners({
                 'Toolbar': {
-                    'changecompact'     : this.onChangeCompactView
+                    'view:compact'      : this.onChangeCompactView,
+                    'insert:image'      : this.onInsertImageClick.bind(this),
+                    'insert:text'       : this.onInsertText.bind(this),
+                    'insert:textart'    : this.onInsertTextart.bind(this),
+                    'insert:shape'      : this.onInsertShape.bind(this)
+                },
+                'FileMenu': {
+                    'filemenu:hide': function () {
+                        this.toolbar.setTab('');
+                    }.bind(this)
                 }
             });
 
@@ -128,15 +137,17 @@ define([
                     btn_id = cmp.closest('.btn-group').attr('id');
 
                 if (cmp.attr('id') != 'editor_sdk' && cmp_sdk.length<=0) {
-                    if ( me.toolbar.btnInsertText.pressed && btn_id != me.toolbar.btnInsertText.id ||
-                        me.toolbar.btnInsertShape.pressed && btn_id != me.toolbar.btnInsertShape.id ) {
+                    if ( me.toolbar.btnsInsertText.pressed && !me.toolbar.btnsInsertText.contains(btn_id) ||
+                            me.toolbar.btnsInsertShape.pressed && !me.toolbar.btnsInsertShape.contains(btn_id) )
+                    {
                         me._isAddingShape         = false;
 
                         me._addAutoshape(false);
-                        me.toolbar.btnInsertShape.toggle(false, true);
-                        me.toolbar.btnInsertText.toggle(false, true);
+                        me.toolbar.btnsInsertShape.toggle(false, true);
+                        me.toolbar.btnsInsertText.toggle(false, true);
                         Common.NotificationCenter.trigger('edit:complete', me.toolbar);
-                    } else if ( me.toolbar.btnInsertShape.pressed && btn_id == me.toolbar.btnInsertShape.id) {
+                    } else
+                    if ( me.toolbar.btnsInsertShape.pressed && me.toolbar.btnsInsertShape.contains(btn_id) ) {
                         _.defer(function(){
                             me.api.StartAddShape('', false);
                             Common.NotificationCenter.trigger('edit:complete', me.toolbar);
@@ -148,11 +159,11 @@ define([
             this.onApiEndAddShape = function() {
                 this.toolbar.fireEvent('insertshape', this.toolbar);
 
-                if (this.toolbar.btnInsertShape.pressed)
-                    this.toolbar.btnInsertShape.toggle(false, true);
+                if ( this.toolbar.btnsInsertShape.pressed )
+                    this.toolbar.btnsInsertShape.toggle(false, true);
 
-                if (this.toolbar.btnInsertText.pressed)
-                    this.toolbar.btnInsertText.toggle(false, true);
+                if ( this.toolbar.btnsInsertText.pressed )
+                    this.toolbar.btnsInsertText.toggle(false, true);
 
                 $(document.body).off('mouseup', checkInsertAutoshape);
             };
@@ -175,6 +186,18 @@ define([
             this.toolbar = this.createView('Toolbar');
 
 //            this.toolbar.on('render:after', _.bind(this.onToolbarAfterRender, this));
+
+            var me = this;
+            Common.NotificationCenter.on('app:ready', me.onAppReady.bind(me));
+            Common.NotificationCenter.on('app:face', me.onAppShowed.bind(me));
+
+            PE.getCollection('Common.Collections.TextArt').bind({
+                reset: me.onResetTextArt.bind(this)
+            });
+
+            PE.getCollection('ShapeGroups').bind({
+                reset: me.onResetAutoshapes.bind(this)
+            });
         },
 
         onToolbarAfterRender: function(toolbar) {
@@ -182,8 +205,6 @@ define([
              * UI Events
              */
 
-            toolbar.btnNewDocument.on('click',                          _.bind(this.onNewDocument, this));
-            toolbar.btnOpenDocument.on('click',                         _.bind(this.onOpenDocument, this));
             toolbar.btnAddSlide.on('click',                             _.bind(this.onBtnAddSlide, this));
             toolbar.mnuAddSlidePicker.on('item:click',                  _.bind(this.onAddSlide, this));
             if (toolbar.mnuChangeSlidePicker)
@@ -231,10 +252,6 @@ define([
             toolbar.btnInsertHyperlink.on('click',                      _.bind(this.onHyperlinkClick, this));
             toolbar.mnuTablePicker.on('select',                         _.bind(this.onTablePickerSelect, this));
             toolbar.btnInsertTable.menu.on('item:click',                _.bind(this.onInsertTableClick, this));
-            toolbar.btnInsertImage.menu.on('item:click',                _.bind(this.onInsertImageClick, this));
-            toolbar.btnInsertText.on('click',                           _.bind(this.onBtnInsertTextClick, this));
-            toolbar.btnInsertText.menu.on('item:click',                 _.bind(this.onInsertTextClick, this));
-            toolbar.btnInsertShape.menu.on('hide:after',                _.bind(this.onInsertShapeHide, this));
             toolbar.btnClearStyle.on('click',                           _.bind(this.onClearStyleClick, this));
             toolbar.btnCopyStyle.on('toggle',                           _.bind(this.onCopyStyleToggle, this));
             toolbar.btnAdvSettings.on('click',                          _.bind(this.onAdvSettingsClick, this));
@@ -299,13 +316,9 @@ define([
         },
 
         onChangeCompactView: function(view, compact) {
-            Common.localStorage.setItem('pe-compact-toolbar', compact ? 1 : 0);
+            this.toolbar.setFolded(compact);
 
-            if (!compact && !this._state.changeslide_inited) {
-                this.toolbar.mnuChangeSlidePicker.on('item:click',          _.bind(this.onChangeSlide, this));
-            }
-            this._state.changeslide_inited = true;
-
+            Common.localStorage.setBool('pe-compact-toolbar', compact);
             Common.NotificationCenter.trigger('layout:changed', 'toolbar');
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
@@ -552,10 +565,12 @@ define([
                 this.toolbar.lockToolbar(PE.enumLock.noSlides, this._state.no_slides, {array: this.toolbar.paragraphControls});
                 this.toolbar.lockToolbar(PE.enumLock.noSlides, this._state.no_slides, {array: [
                     this.toolbar.btnChangeSlide, this.toolbar.btnPreview, this.toolbar.btnCopy, this.toolbar.btnPaste,
-                    this.toolbar.btnCopyStyle, this.toolbar.btnInsertTable, this.toolbar.btnInsertImage, this.toolbar.btnInsertChart,
-                    this.toolbar.btnInsertText, this.toolbar.btnInsertShape, this.toolbar.btnColorSchemas, this.toolbar.btnShapeAlign,
+                    this.toolbar.btnCopyStyle, this.toolbar.btnInsertTable, this.toolbar.btnInsertChart,
+                    this.toolbar.btnColorSchemas, this.toolbar.btnShapeAlign,
                     this.toolbar.btnShapeArrange, this.toolbar.btnSlideSize,  this.toolbar.listTheme
                 ]});
+                this.toolbar.lockToolbar(PE.enumLock.noSlides, this._state.no_slides,
+                    { array:  this.toolbar.btnsInsertImage.concat(this.toolbar.btnsInsertText, this.toolbar.btnsInsertShape) });
             }
         },
 
@@ -1312,19 +1327,16 @@ define([
             }
         },
 
-        onInsertImageClick: function(menu, item, e) {
-            if (item.value === 'file') {
-                this.toolbar.fireEvent('insertimage', this.toolbar);
+        onInsertImageClick: function(opts, e) {
+            var me = this;
+            if (opts === 'file') {
+                me.toolbar.fireEvent('insertimage', this.toolbar);
 
-                if (this.api)
-                    this.api.asc_addImage();
+                me.api.asc_addImage();
 
                 Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-
                 Common.component.Analytics.trackEvent('ToolBar', 'Image');
             } else {
-                var me = this;
-
                 (new Common.Views.ImageFromUrlDialog({
                     handler: function(result, value) {
                         if (result == 'ok') {
@@ -1349,38 +1361,54 @@ define([
             }
         },
 
-        onBtnInsertTextClick: function(btn, e) {
-            if (this.api)
-                this._addAutoshape(btn.pressed, 'textRect');
+        onInsertText: function(status) {
+            if ( status == 'begin' ) {
+                this._addAutoshape(true, 'textRect');
 
-            if (this.toolbar.btnInsertShape.pressed)
-                this.toolbar.btnInsertShape.toggle(false, true);
+                if ( !this.toolbar.btnsInsertText.pressed )
+                    this.toolbar.btnsInsertText.toggle(true, true);
+            } else
+                this._addAutoshape(false, 'textRect');
 
-            Common.NotificationCenter.trigger('edit:complete', this.toolbar, this.toolbar.btnInsertShape);
+            if ( this.toolbar.btnsInsertShape.pressed )
+                this.toolbar.btnsInsertShape.toggle(false, true);
+
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             Common.component.Analytics.trackEvent('ToolBar', 'Add Text');
         },
 
-        onInsertTextClick: function(menu, item, e) {
-            if (item.value === 'text') {
-                if (this.api)
-                    this._addAutoshape(true, 'textRect');
-                this.toolbar.btnInsertText.toggle(true, true);
+        onInsertShape: function (type) {
+            var me = this;
+            if ( type == 'menu:hide' ) {
+                if ( me.toolbar.btnsInsertShape.pressed && !me._isAddingShape ) {
+                    me.toolbar.btnsInsertShape.toggle(false, true);
+                }
+                me._isAddingShape = false;
 
-                if (this.toolbar.btnInsertShape.pressed)
-                    this.toolbar.btnInsertShape.toggle(false, true);
+                Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+            } else {
+                me._addAutoshape(true, type);
+                me._isAddingShape = true;
 
-                Common.NotificationCenter.trigger('edit:complete', this.toolbar, this.toolbar.btnInsertShape);
-                Common.component.Analytics.trackEvent('ToolBar', 'Add Text');
+                if ( me.toolbar.btnsInsertText.pressed )
+                    me.toolbar.btnsInsertText.toggle(false, true);
+
+                Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                Common.component.Analytics.trackEvent('ToolBar', 'Add Shape');
             }
         },
-        
-        onInsertShapeHide: function(btn, e) {
-            if (this.toolbar.btnInsertShape.pressed && !this._isAddingShape) {
-                this.toolbar.btnInsertShape.toggle(false, true);
-            }
-            this._isAddingShape = false;
 
-            Common.NotificationCenter.trigger('edit:complete', this.toolbar, this.toolbar.btnInsertShape);
+        onInsertTextart: function (data) {
+            var me = this;
+
+            me.toolbar.fireEvent('inserttextart', me.toolbar);
+            me.api.AddTextArt(data);
+
+            if ( me.toolbar.btnsInsertShape.pressed )
+                me.toolbar.btnsInsertShape.toggle(false, true);
+
+            Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+            Common.component.Analytics.trackEvent('ToolBar', 'Add Text Art');
         },
 
         onClearStyleClick: function(btn, e) {
@@ -1654,88 +1682,18 @@ define([
             this._state.clrtext_asccolor = color;
         },
 
-        fillAutoShapes: function() {
-            var me = this,
-                shapesStore = this.getApplication().getCollection('ShapeGroups');
-
-            for (var i = 0; i < shapesStore.length; i++) {
-                var shapeGroup = shapesStore.at(i);
-
-                var menuItem = new Common.UI.MenuItem({
-                    caption: shapeGroup.get('groupName'),
-                    menu: new Common.UI.Menu({
-                        menuAlign: 'tl-tr',
-                        items: [
-                            { template: _.template('<div id="id-toolbar-menu-shapegroup' + i + '" class="menu-shape" style="width: ' + (shapeGroup.get('groupWidth') - 8) + 'px; margin-left: 5px;"></div>') }
-                        ]
-                    })
-                });
-
-                me.toolbar.btnInsertShape.menu.addItem(menuItem);
-
-                var shapePicker = new Common.UI.DataView({
-                    el: $('#id-toolbar-menu-shapegroup' + i),
-                    store: shapeGroup.get('groupStore'),
-                    parentMenu: menuItem.menu,
-                    showLast: false,
-                    itemTemplate: _.template('<div class="item-shape"><img src="<%= imageUrl %>" id="<%= id %>"></div>')
-                });
-
-                shapePicker.on('item:click', function(picker, item, record, e) {
-                    if (me.api) {
-                        me._addAutoshape(true, record.get('data').shapeType);
-                        me._isAddingShape = true;
-
-                        if (me.toolbar.btnInsertText.pressed) {
-                            me.toolbar.btnInsertText.toggle(false, true);
-                        }
-                        if (e.type !== 'click')
-                            me.toolbar.btnInsertShape.menu.hide();
-                        Common.NotificationCenter.trigger('edit:complete', me.toolbar, me.toolbar.btnInsertShape);
-                        Common.component.Analytics.trackEvent('ToolBar', 'Add Shape');
-                    }
-                });
-            }
+        onResetAutoshapes: function () {
+            setTimeout(function () {
+                this.toolbar.updateAutoshapeMenu(PE.getCollection('ShapeGroups'));
+            }.bind(this), 0);
         },
 
-        fillTextArt: function() {
-            var me = this;
-
-            if (this.toolbar.mnuTextArtPicker) {
-                var models = this.getApplication().getCollection('Common.Collections.TextArt').models,
-                    count = this.toolbar.mnuTextArtPicker.store.length;
-                if (count>0 && count==models.length) {
-                    var data = this.toolbar.mnuTextArtPicker.store.models;
-                    _.each(models, function(template, index){
-                        data[index].set('imageUrl', template.get('imageUrl'));
-                    });
-                } else {
-                    this.toolbar.mnuTextArtPicker.store.reset(models);
-                }
-            } else {
-                this.toolbar.mnuTextArtPicker = new Common.UI.DataView({
-                    el: $('#id-toolbar-menu-insart'),
-                    store: this.getApplication().getCollection('Common.Collections.TextArt'),
-                    parentMenu: this.toolbar.mnuInsertTextArt.menu,
-                    showLast: false,
-                    itemTemplate: _.template('<div class="item-art"><img src="<%= imageUrl %>" id="<%= id %>" style="width:50px;height:50px;"></div>')
-                });
-
-                this.toolbar.mnuTextArtPicker.on('item:click', function(picker, item, record, e) {
-                    if (me.api) {
-                        me.toolbar.fireEvent('inserttextart', me.toolbar);
-                        me.api.AddTextArt(record.get('data'));
-
-                        if (me.toolbar.btnInsertShape.pressed)
-                            me.toolbar.btnInsertShape.toggle(false, true);
-
-                         if (e.type !== 'click')
-                             me.toolbar.btnInsertText.menu.hide();
-                        Common.NotificationCenter.trigger('edit:complete', me.toolbar, me.toolbar.btnInsertText);
-                        Common.component.Analytics.trackEvent('ToolBar', 'Add Text Art');
-                    }
-                });
-            }
+        onResetTextArt: function (collection, opts) {
+            (new Promise(function (resolve, reject) {
+                resolve();
+            })).then(function () {
+                this.toolbar.updateTextartMenu(collection);
+            }.bind(this));
         },
 
         fillEquations: function() {
@@ -1796,11 +1754,11 @@ define([
                     if (me.api) {
                         me.api.asc_AddMath(record.get('data').equationType);
 
-                        if (me.toolbar.btnInsertText.pressed) {
-                            me.toolbar.btnInsertText.toggle(false, true);
+                        if (me.toolbar.btnsInsertText.pressed) {
+                            me.toolbar.btnsInsertText.toggle(false, true);
                         }
-                        if (me.toolbar.btnInsertShape.pressed) {
-                            me.toolbar.btnInsertShape.toggle(false, true);
+                        if (me.toolbar.btnsInsertShape.pressed) {
+                            me.toolbar.btnsInsertShape.toggle(false, true);
                         }
 
                          if (e.type !== 'click')
@@ -2072,6 +2030,61 @@ define([
         createDelayedElements: function() {
             this.toolbar.createDelayedElements();
             this.onToolbarAfterRender(this.toolbar);
+        },
+
+        onAppShowed: function (config) {
+            var me = this;
+
+            var compactview = !config.isEdit;
+            if ( config.isEdit ) {
+                if ( Common.localStorage.itemExists("pe-compact-toolbar") ) {
+                    compactview = Common.localStorage.getBool("pe-compact-toolbar");
+                } else
+                if ( config.customization && config.customization.compactToolbar )
+                    compactview = true;
+            }
+
+            me.toolbar.render(_.extend({compactview: compactview}, config));
+        },
+
+        onAppReady: function (config) {
+            var me = this;
+
+            if ( config.canComments ) {
+                var _btnsComment = [];
+                var slots = me.toolbar.$el.find('.slot-comment');
+                slots.each(function(index, el) {
+                    var _cls = 'btn-toolbar';
+                    /x-huge/.test(el.className) && (_cls += ' x-huge icon-top');
+
+                    var button = new Common.UI.Button({
+                        cls: _cls,
+                        iconCls: 'btn-menu-comments',
+                        caption: 'Comment'
+                    }).render( slots.eq(index) );
+
+                    _btnsComment.push(button);
+                });
+
+                if ( _btnsComment.length ) {
+                    var _comments = PE.getController('Common.Controllers.Comments').getView();
+                    // Array.prototype.push.apply(me.toolbar.toolbarControls, _btnsComment);
+                    _btnsComment.forEach(function (btn) {
+                        btn.updateHint( _comments.textAddComment );
+                        btn.on('click', function (btn, e) {
+                            Common.NotificationCenter.trigger('app:comment:add', 'toolbar');
+                        });
+                    }, this);
+                }
+            }
+
+            (new Promise(function(accept) {
+                accept();
+            })).then(function () {
+                if ( config.isEdit ) {
+                    me.toolbar.onAppReady(config);
+                }
+            });
         },
 
         textEmptyImgUrl : 'You need to specify image URL.',

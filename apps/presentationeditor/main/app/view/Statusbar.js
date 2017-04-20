@@ -70,22 +70,7 @@ define([
             el: '#statusbar',
             template: _.template(template),
 
-            storeUsers: undefined,
-
-            tplUser: ['<li id="status-chat-user-<%= user.get("id") %>" class="<% if (!user.get("online")) { %> offline <% } if (user.get("view")) {%> viewmode <% } %>">',
-                '<div class="color" style="background-color: <%= user.get("color") %>;" >',
-                    '<label class="name"><%= scope.getUserName(user.get("username")) %></label>',
-                '</div>',
-            '</li>'].join(''),
-
-            templateUserList: _.template('<ul>' +
-                '<% _.each(users, function(item) { %>' +
-                    '<%= _.template(usertpl, {user: item, scope: scope}) %>' +
-                '<% }); %>' +
-            '</ul>'),
-
-            events: {
-            },
+            events: {},
 
             api: undefined,
             pages: undefined,
@@ -163,39 +148,6 @@ define([
                 });
                 this.zoomMenu.render($('.cnt-zoom',this.el));
                 this.zoomMenu.cmpEl.attr({tabindex: -1});
-
-                /** coauthoring begin **/
-                this.panelUsersList = $('#status-users-list', this.el);
-                this.storeUsers.bind({
-                    add     : _.bind(this._onAddUser, this),
-                    change  : _.bind(this._onUsersChanged, this),
-                    reset   : _.bind(this._onResetUsers, this)
-                });
-
-                this.panelUsers = $('#status-users-ct', this.el);
-                this.panelUsers.on('shown.bs.dropdown', function () {
-                    me.panelUsersList.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true});
-                    var tip = me.panelUsersBlock.data('bs.tooltip');
-                    if (tip) tip.hide();
-                });
-
-                this.panelUsersBlock = this.panelUsers.find('#status-users-block');
-                this.panelUsersBlock.tooltip({
-                    title: this.tipAccessRights,
-                    html: true,
-                    placement: 'top'
-                });
-                this.panelUsersBlock.on('click', _.bind(this.onUsersClick, this));
-
-                this.lblUserCount = this.panelUsers.find('#status-users-count');
-
-                this.lblChangeRights = this.panelUsers.find('#status-change-rights');
-                this.lblChangeRights.on('click', _.bind(this.onUsersClick, this));
-
-                this.$el.find('#status-users-menu').on('click', function() {
-                    return false;
-                });
-                /** coauthoring end **/
 
                 this.txtGoToPage = new Common.UI.InputField({
                     el          : $('#status-goto-page'),
@@ -280,11 +232,6 @@ define([
                 if (this.api) {
                     this.api.asc_registerCallback('asc_onCountPages',   _.bind(_onCountPages, this));
                     this.api.asc_registerCallback('asc_onCurrentPage',  _.bind(_onCurrentPage, this));
-
-                    /** coauthoring begin **/
-                    this.api.asc_registerCallback('asc_onAuthParticipantsChanged', _.bind(this.onApiUsersChanged, this));
-                    this.api.asc_registerCallback('asc_onParticipantsChanged',     _.bind(this.onApiUsersChanged, this));
-                    /** coauthoring end **/
                 }
 
                 return this;
@@ -294,8 +241,6 @@ define([
             setMode: function(mode) {
                 this.mode = mode;
                 this.$el.find('.el-edit')[this.mode.isEdit?'show':'hide']();
-                this.lblChangeRights[(!this.mode.isOffline && this.mode.sharingSettingsUrl&&this.mode.sharingSettingsUrl.length)?'show':'hide']();
-                this.panelUsers[(!this.mode.isOffline && this.mode.sharingSettingsUrl&&this.mode.sharingSettingsUrl.length)?'show':'hide']();
             },
 
             setVisible: function(visible) {
@@ -303,69 +248,6 @@ define([
                     ? this.show()
                     : this.hide();
             },
-
-            /** coauthoring begin **/
-            onUsersClick: function() {
-                this.panelUsers.removeClass('open');
-                this.fireEvent('click:users', this);
-            },
-
-            onApiUsersChanged: function(users) {
-                var length = 0;
-                _.each(users, function(item){
-                    if (!item.asc_getView())
-                        length++;
-                });
-
-                this.panelUsers[(length>1 || this.mode.sharingSettingsUrl&&this.mode.sharingSettingsUrl.length)?'show':'hide']();
-                this.lblUserCount.css({
-                    'font-size': (length > 1 ? '11px' : '14px'),
-                    'font-weight': (length > 1 ? 'bold' : 'normal'),
-                    'margin-top': (length > 1 ? '0' : '-1px')
-                });
-                this.lblUserCount.text(length > 1 ? length : '+');
-                $('#status-users-icon').css('margin-bottom', length > 1 ? '0' : '2px');
-
-                var usertip = this.panelUsersBlock.data('bs.tooltip');
-                if (usertip) {
-                    usertip.options.title = (length > 1) ? this.tipViewUsers : this.tipAccessRights;
-                    usertip.setContent();
-                }
-                (length > 1) ? this.panelUsersBlock.attr('data-toggle', 'dropdown') : this.panelUsersBlock.removeAttr('data-toggle');
-                this.panelUsersBlock.toggleClass('dropdown-toggle', length > 1);
-                (length > 1) ? this.panelUsersBlock.off('click') : this.panelUsersBlock.on('click', _.bind(this.onUsersClick, this));
-            },
-
-            _onAddUser: function(m, c, opts) {
-                if (this.panelUsersList) {
-                    this.panelUsersList.find('ul').append(_.template(this.tplUser, {user: m, scope: this}));
-                    this.panelUsersList.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true});
-                }
-            },
-
-            _onUsersChanged: function(m) {
-                if (m.changed.online != undefined && this.panelUsersList) {
-                    this.panelUsersList.find('#status-chat-user-'+ m.get('id'))[m.changed.online?'removeClass':'addClass']('offline');
-                    this.panelUsersList.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true});
-                }
-            },
-
-            _onResetUsers: function(c, opts) {
-                if (this.panelUsersList) {
-                    this.panelUsersList.html(this.templateUserList({users: c.models, usertpl: this.tplUser, scope: this}));
-                    this.panelUsersList.scroller = new Common.UI.Scroller({
-                        el              : $('#status-users-list ul'),
-                        useKeyboard     : true,
-                        minScrollbarLength  : 40,
-                        alwaysVisibleY: true
-                    });
-                }
-            },
-
-            getUserName: function (username) {
-                return Common.Utils.String.htmlEncode(username);
-            },
-            /** coauthoring end **/
 
             showStatusMessage: function(message) {
                 $('#status-label-action').text(message);
@@ -377,9 +259,6 @@ define([
 
             pageIndexText   : 'Slide {0} of {1}',
             goToPageText    : 'Go to Slide',
-            tipUsers        : 'Document is currently being edited by several users.',
-            tipMoreUsers    : 'and %1 users.',
-            tipShowUsers    : 'To see all users click the icon below.',
             tipFitPage      : 'Fit to Slide',
             tipFitWidth     : 'Fit to Width',
             tipZoomIn       : 'Zoom In',
@@ -387,9 +266,7 @@ define([
             tipZoomFactor   : 'Magnification',
             txtPageNumInvalid: 'Slide number invalid',
             tipPreview      : 'Start Slideshow',
-            tipAccessRights : 'Manage document access rights',
-            tipViewUsers    : 'View users and manage document access rights',
-            txAccessRights  : 'Change access rights'
+            tipAccessRights : 'Manage document access rights'
         }, PE.Views.Statusbar || {}));
     }
 );

@@ -72,9 +72,7 @@ define([
         },
 
         onLaunch: function() {
-            this.statusbar = this.createView('Statusbar', {
-                storeUsers: this.getApplication().getCollection('Common.Collections.Users')
-            }).render();
+            this.statusbar = this.createView('Statusbar', {}).render();
             this.statusbar.$el.css('z-index', 1);
 
             this.bindViewEvents(this.statusbar, this.events);

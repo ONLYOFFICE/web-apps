@@ -1,211 +1,155 @@
-<div class="toolbar" style="<%= isCompactView ? 'height: 41px;' : 'height: 67px;' %>">
-<!---------------------->
-<!--Short view toolbar-->
-<!---------------------->
-<div id="id-toolbar-short" style="<%= isCompactView ? 'display: table;' : 'display: none;' %> width: 100%;" >
-    <div class="toolbar-group">
-        <div class="toolbar-row">
-            <span class="btn-placeholder split" id="id-toolbar-short-placeholder-btn-addslide"></span>
-            <span class="btn-placeholder split" id="id-toolbar-short-placeholder-btn-preview"></span>
-        </div>
-    </div>
-    <div class="separator short"></div>
-    <div class="toolbar-group no-mask">
-        <div class="toolbar-row">
-            <span class="btn-placeholder split" id="id-toolbar-short-placeholder-btn-print"></span>
-            <span class="btn-placeholder" id="id-toolbar-short-placeholder-btn-save"></span>
-        </div>
-    </div>
-    <div class="separator short"></div>
-    <div class="toolbar-group">
-        <div class="toolbar-row">
-            <span class="btn-placeholder split" id="id-toolbar-short-placeholder-btn-undo"></span>
-            <span class="btn-placeholder" id="id-toolbar-short-placeholder-btn-redo"></span>
-        </div>
-    </div>
-    <div class="separator short"></div>
-    <div class="toolbar-group">
-        <div class="toolbar-row" style="width: 140px; margin-top: -1px;">
-            <span class="btn-placeholder" style="float: left; width: 90px;" id="id-toolbar-short-placeholder-field-fontname"></span>
-            <span class="btn-placeholder" style="float: left; width: 45px; margin-left: 2px;" id="id-toolbar-short-placeholder-field-fontsize"></span>
-        </div>
-    </div>
-    <div class="toolbar-group">
-        <div class="toolbar-row">
-            <span class="btn-placeholder split" id="id-toolbar-short-placeholder-btn-bold"></span>
-            <span class="btn-placeholder split" id="id-toolbar-short-placeholder-btn-italic"></span>
-            <span class="btn-placeholder split" id="id-toolbar-short-placeholder-btn-underline"></span>
-            <span class="btn-placeholder split" id="id-toolbar-short-placeholder-btn-fontcolor"></span>
-        </div>
-    </div>
-    <div class="separator short"></div>
-    <div class="toolbar-group">
-        <div class="toolbar-row">
-            <span class="btn-placeholder split" id="id-toolbar-short-placeholder-btn-halign"></span>
-            <span class="btn-placeholder split" id="id-toolbar-short-placeholder-btn-valign"></span>
-            <span class="btn-placeholder split" id="id-toolbar-short-placeholder-btn-markers"></span>
-            <span class="btn-placeholder split" id="id-toolbar-short-placeholder-btn-numbering"></span>
-            <span class="btn-placeholder split" id="id-toolbar-short-placeholder-btn-linespace"></span>
-        </div>
-    </div>
-    <div class="separator short" style="margin-left: 5px;"></div>
-    <div class="toolbar-group">
-        <div class="toolbar-row">
-            <span class="btn-placeholder split" id="id-toolbar-short-placeholder-btn-arrange-shape"></span>
-            <span class="btn-placeholder split" id="id-toolbar-short-placeholder-btn-align-shape"></span>
-        </div>
-    </div>
-    <div class="separator short" style="margin-left: 5px;"></div>
-    <div class="toolbar-group">
-        <div class="toolbar-row">
-            <span class="btn-placeholder split" id="id-toolbar-short-placeholder-btn-insertimage"></span>
-            <span class="btn-placeholder split" id="id-toolbar-short-placeholder-btn-inserttable"></span>
-            <span class="btn-placeholder split" id="id-toolbar-short-placeholder-btn-insertchart"></span>
-            <span class="btn-placeholder split" id="id-toolbar-short-placeholder-btn-inserthyperlink"></span>
-            <span class="btn-placeholder split" id="id-toolbar-short-placeholder-btn-insertshape"></span>
-            <span class="btn-placeholder split" id="id-toolbar-short-placeholder-btn-inserttext"></span>
-        </div>
-    </div>
-    <div class="separator short" style="margin-left: 5px;"></div>
-    <div class="toolbar-group">
-        <div class="toolbar-row">
-            <span class="btn-placeholder" id="id-toolbar-short-placeholder-btn-copystyle"></span>
-        </div>
-    </div>
-    <div class="toolbar-group" style="width: 100%;"></div>
-    <div class="toolbar-group no-mask" style="padding-left:0;">
-        <div class="toolbar-row">
-            <div class="toolbar-row">
-                <span class="btn-placeholder split" id="id-toolbar-short-placeholder-btn-hidebars"></span>
+<div class="toolbar">
+    <section class="box-tabs">
+        <div class="extra left"></div>
+        <section class="tabs">
+            <a href="#" class="scroll left">
+                <i class="icon">&lt;</i>
+            </a>
+            <ul>
+                <% for(var i in tabs) { %>
+                    <li class="ribtab<% if (tabs[i].extcls) print(' ' + tabs[i].extcls) %>">
+                        <a data-tab="<%= tabs[i].action %>" data-title="<%= tabs[i].caption %>"><%= tabs[i].caption %></a>
+                    </li>
+                <% } %>
+                <div class="marker"></div>
+            </ul>
+            <a href="#" class="scroll right">
+                <i class="icon">&gt;</i>
+            </a>
+        </section>
+        <div class="extra right"></div>
+    </section>
+    <section class="box-controls">
+        <section class="panel static">
+            <div class="group no-mask">
+                <div class="elset">
+                    <span class="btn-slot" id="slot-btn-print"></span>
+                </div>
+                <div class="elset">
+                    <span class="btn-slot" id="slot-btn-save"></span>
+                </div>
             </div>
-        </div>
-    </div>
-</div>
-<!---------------------->
-<!--Fully view toolbar-->
-<!---------------------->
-<div id="id-toolbar-full" style="<%= isCompactView ? 'display: none;' : 'display: table;' %> width: 100%;" >
-    <div class="toolbar-group toolbar-group-native">
-        <div class="toolbar-row">
-            <span class="btn-placeholder" id="id-toolbar-full-placeholder-btn-newdocument"></span>
-        </div>
-        <div class="toolbar-row">
-            <span class="btn-placeholder" id="id-toolbar-full-placeholder-btn-opendocument"></span>
-        </div>
-    </div>
-    <div class="separator long toolbar-group-native"></div>
-    <div class="toolbar-group">
-        <div class="toolbar-row">
-            <span class="btn-placeholder large split" id="id-toolbar-full-placeholder-btn-addslide"></span>
-        </div>
-    </div>
-    <div class="toolbar-group">
-        <div class="toolbar-row">
-            <span class="btn-placeholder split" id="id-toolbar-full-placeholder-btn-changeslide"></span>
-        </div>
-        <div class="toolbar-row">
-            <span class="btn-placeholder" id="id-toolbar-full-placeholder-btn-preview"></span>
-        </div>
-    </div>
-    <div class="separator long" style="margin-left: 5px;"></div>
-    <div class="toolbar-group no-mask">
-        <div class="toolbar-row">
-            <span class="btn-placeholder" id="id-toolbar-full-placeholder-btn-print"></span>
-        </div>
-        <div class="toolbar-row">
-            <span class="btn-placeholder" id="id-toolbar-full-placeholder-btn-save"></span>
-        </div>
-    </div>
-    <div class="separator long"></div>
-    <div class="toolbar-group">
-        <div class="toolbar-row">
-            <span class="btn-placeholder split" id="id-toolbar-full-placeholder-btn-copy"></span>
-            <span class="btn-placeholder" id="id-toolbar-full-placeholder-btn-paste"></span>
-        </div>
-        <div class="toolbar-row">
-            <span class="btn-placeholder split" id="id-toolbar-full-placeholder-btn-undo"></span>
-            <span class="btn-placeholder" id="id-toolbar-full-placeholder-btn-redo"></span>
-        </div>
-    </div>
-    <div class="separator long"></div>
-    <div class="toolbar-group">
-        <div class="toolbar-row" style="width:202px;">
-            <span class="btn-placeholder" style="float: left; width: 148px;" id="id-toolbar-full-placeholder-field-fontname"></span>
-            <span class="btn-placeholder" style="float: left; width: 45px; margin-left: 2px;" id="id-toolbar-full-placeholder-field-fontsize"></span>
-        </div>
-        <div class="toolbar-row">
-            <span class="btn-placeholder split" id="id-toolbar-full-placeholder-btn-bold"></span>
-            <span class="btn-placeholder split" id="id-toolbar-full-placeholder-btn-italic"></span>
-            <span class="btn-placeholder split" id="id-toolbar-full-placeholder-btn-underline"></span>
-            <span class="btn-placeholder split" id="id-toolbar-full-placeholder-btn-strikeout"></span>
-            <span class="btn-placeholder split" id="id-toolbar-full-placeholder-btn-fontcolor"></span>
-            <span class="btn-placeholder split" id="id-toolbar-full-placeholder-btn-superscript"></span>
-            <span class="btn-placeholder" id="id-toolbar-full-placeholder-btn-subscript"></span>
-        </div>
-    </div>
-    <div class="separator long" style="margin-left: 5px;"></div>
-    <div class="toolbar-group">
-        <div class="toolbar-row">
-            <span class="btn-placeholder split" id="id-toolbar-full-placeholder-btn-markers"></span>
-            <span class="btn-placeholder split" id="id-toolbar-full-placeholder-btn-numbering"></span>
-            <span class="btn-placeholder split" id="id-toolbar-full-placeholder-btn-decoffset"></span>
-            <span class="btn-placeholder split" id="id-toolbar-full-placeholder-btn-incoffset"></span>
-        </div>
-        <div class="toolbar-row">
-            <span class="btn-placeholder split" id="id-toolbar-full-placeholder-btn-halign"></span>
-            <span class="btn-placeholder split" id="id-toolbar-full-placeholder-btn-valign"></span>
-            <span class="btn-placeholder split" id="id-toolbar-full-placeholder-btn-linespace"></span>
-        </div>
-    </div>
-    <div class="separator long" style="margin-left: 5px;"></div>
-    <div class="toolbar-group">
-        <div class="toolbar-row">
-            <span class="btn-placeholder split" id="id-toolbar-full-placeholder-btn-insertimage"></span>
-            <span class="btn-placeholder split" id="id-toolbar-full-placeholder-btn-insertchart"></span>
-            <span class="btn-placeholder split" id="id-toolbar-full-placeholder-btn-inserttext"></span>
-            <span class="btn-placeholder split" id="id-toolbar-full-placeholder-btn-insertequation"></span>
-        </div>
-        <div class="toolbar-row">
-            <span class="btn-placeholder split" id="id-toolbar-full-placeholder-btn-inserttable"></span>
-            <span class="btn-placeholder split" id="id-toolbar-full-placeholder-btn-inserthyperlink"></span>
-            <span class="btn-placeholder split" id="id-toolbar-full-placeholder-btn-insertshape"></span>
-        </div>
-    </div>
-    <div class="separator long" style="margin-left: 5px;"></div>
-    <div class="toolbar-group">
-        <div class="toolbar-row">
-            <span class="btn-placeholder split" id="id-toolbar-full-placeholder-btn-arrange-shape"></span>
-        </div>
-        <div class="toolbar-row">
-            <span class="btn-placeholder split" id="id-toolbar-full-placeholder-btn-align-shape"></span>
-        </div>
-    </div>
-    <div class="separator long" style="margin-left: 5px;"></div>
-    <div class="toolbar-group">
-        <div class="toolbar-row">
-            <span class="btn-placeholder" id="id-toolbar-full-placeholder-btn-clearstyle"></span>
-        </div>
-        <div class="toolbar-row">
-            <span class="btn-placeholder" id="id-toolbar-full-placeholder-btn-copystyle"></span>
-        </div>
-    </div>
-    <div class="toolbar-group">
-        <div class="toolbar-row">
-            <span class="btn-placeholder split" id="id-toolbar-full-placeholder-btn-colorschemas"></span>
-        </div>
-        <div class="toolbar-row">
-            <span class="btn-placeholder split" id="id-toolbar-full-placeholder-btn-slidesize"></span>
-        </div>
-    </div>
-    <div class="toolbar-group" id="id-toolbar-full-placeholder-field-styles" style="width: 100%; min-width: 140px;">
-    </div>
-    <div class="toolbar-group no-mask">
-        <div class="toolbar-row">
-            <span class="btn-placeholder split" id="id-toolbar-full-placeholder-btn-hidebars"></span>
-        </div>
-        <div class="toolbar-row">
-            <span class="btn-placeholder" id="id-toolbar-full-placeholder-btn-settings"></span>
-        </div>
-    </div>
-</div>
+            <div class="separator long"></div>
+            <div class="group">
+                <div class="elset">
+                    <span class="btn-slot split" id="slot-btn-copy"></span>
+                    <span class="btn-slot" id="slot-btn-paste"></span>
+                </div>
+                <div class="elset">
+                    <span class="btn-slot split" id="slot-btn-undo"></span>
+                    <span class="btn-slot" id="slot-btn-redo"></span>
+                </div>
+            </div>
+            <div class="separator long"></div>
+            <div class="group">
+                <span class="btn-slot text x-huge" id="slot-btn-addslide"></span>
+            </div>
+            <div class="group" style="display:none;"></div>
+        </section>
+        <section class="box-panels">
+            <section class="panel" data-tab="home">
+                <div class="group">
+                    <div class="elset">
+                        <span class="btn-slot split" id="slot-btn-changeslide"></span>
+                    </div>
+                    <div class="elset">
+                        <span class="btn-slot" id="slot-btn-preview"></span>
+                    </div>
+                </div>
+                <div class="separator long"></div>
+                <div class="group">
+                    <span class="btn-slot text x-huge slot-inserttext"></span>
+                    <span class="btn-slot text x-huge slot-insertimg"></span>
+                    <span class="btn-slot text x-huge slot-insertshape"></span>
+                </div>
+                <div class="group">
+                    <div class="elset">
+                        <span class="btn-slot split" id="slot-btn-arrange-shape"></span>
+                    </div>
+                    <div class="elset">
+                        <span class="btn-slot split" id="slot-btn-align-shape"></span>
+                    </div>
+                </div>
+                <div class="separator long"></div>
+                <div class="group">
+                    <div class="elset" style="width:202px;">
+                        <span class="btn-slot" style="float: left; width: 148px;" id="slot-field-fontname"></span>
+                        <span class="btn-slot" style="float: left; width: 45px; margin-left: 2px;" id="slot-field-fontsize"></span>
+                    </div>
+                    <div class="elset">
+                        <span class="btn-slot split" id="slot-btn-bold"></span>
+                        <span class="btn-slot split" id="slot-btn-italic"></span>
+                        <span class="btn-slot split" id="slot-btn-underline"></span>
+                        <span class="btn-slot split" id="slot-btn-strikeout"></span>
+                        <span class="btn-slot split" id="slot-btn-fontcolor"></span>
+                        <span class="btn-slot split" id="slot-btn-superscript"></span>
+                        <span class="btn-slot" id="slot-btn-subscript"></span>
+                    </div>
+                </div>
+                <div class="separator long"></div>
+                <div class="group">
+                    <div class="elset">
+                        <span class="btn-slot split" id="slot-btn-markers"></span>
+                        <span class="btn-slot split" id="slot-btn-numbering"></span>
+                        <span class="btn-slot split" id="slot-btn-decoffset"></span>
+                        <span class="btn-slot split" id="slot-btn-incoffset"></span>
+                    </div>
+                    <div class="elset">
+                        <span class="btn-slot split" id="slot-btn-halign"></span>
+                        <span class="btn-slot split" id="slot-btn-valign"></span>
+                        <span class="btn-slot split" id="slot-btn-linespace"></span>
+                    </div>
+                </div>
+                <div class="separator long"></div>
+                <div class="group">
+                    <div class="elset">
+                        <span class="btn-slot" id="slot-btn-clearstyle"></span>
+                    </div>
+                    <div class="elset">
+                        <span class="btn-slot" id="slot-btn-copystyle"></span>
+                    </div>
+                </div>
+                <div class="group">
+                    <div class="elset">
+                        <span class="btn-slot split" id="slot-btn-colorschemas"></span>
+                    </div>
+                    <div class="elset">
+                        <span class="btn-slot split" id="slot-btn-slidesize"></span>
+                    </div>
+                </div>
+                <div class="group" id="slot-field-styles" style="width: 100%; min-width: 140px;">
+                </div>
+                <div class="group no-mask">
+                    <div class="elset">
+                        <span class="btn-slot split" id="slot-btn-hidebars"></span>
+                    </div>
+                    <div class="elset">
+                        <span class="btn-slot" id="slot-btn-settings"></span>
+                    </div>
+                </div>
+            </section>
+            <section class="panel" data-tab="ins">
+                <div class="separator long"></div>
+                <div class="group">
+                    <span class="btn-slot text x-huge" id="slot-btn-inserttable"></span>
+                </div>
+                <div class="separator long"></div>
+                <div class="group">
+                    <span class="btn-slot text x-huge slot-inserttext"></span>
+                    <span class="btn-slot text x-huge slot-insertimg"></span>
+                    <span class="btn-slot text x-huge slot-insertshape"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-insertchart"></span>
+                </div>
+                <div class="separator long"></div>
+                <div class="group">
+                    <span class="btn-slot text x-huge slot-comment"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-insertlink"></span>
+                </div>
+                <div class="separator long"></div>
+                <div class="group">
+                    <span class="btn-slot text x-huge" id="slot-btn-insertequation"></span>
+                </div>
+            </section>
+        </section>
+    </section>
 </div>

@@ -87,15 +87,12 @@ define([
                 box: $container,
                 items: [{
                     el: items[0],
-                    rely: true
+                    height: Common.localStorage.getBool('pe-compact-toolbar') ? 40 : 40+67
                 }, {
                     el: items[1],
-                    rely: true
-                }, {
-                    el: items[2],
                     stretch: true
                 }, {
-                    el: items[3],
+                    el: items[2],
                     height: 25
                 }]
             });
@@ -126,17 +123,10 @@ define([
         },
 
         applyEditorMode: function() {
-            var me              = this,
-                toolbarView     = PE.getController('Toolbar').getView('Toolbar'),
-                rightMenuView   = PE.getController('RightMenu').getView('RightMenu'),
-                statusBarView   = PE.getController('Statusbar').getView('Statusbar');
+            PE.getController('RightMenu').getView('RightMenu').render();
 
-            me._toolbar     = toolbarView.render(this.mode);
-            me._rightMenu   = rightMenuView.render();
-
-            var value = Common.localStorage.getItem('pe-hidden-status');
-            if (value !== null && parseInt(value) == 1)
-                statusBarView.setVisible(false);
+            if ( Common.localStorage.getBool('pe-hidden-status') )
+                PE.getController('Statusbar').getView('Statusbar').setVisible(false);
         },
 
         setMode: function(mode, delay) {

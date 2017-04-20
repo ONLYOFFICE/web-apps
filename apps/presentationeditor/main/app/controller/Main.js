@@ -427,8 +427,8 @@ define([
                     case Asc.c_oAscAsyncAction['ForceSaveButton']:
                         clearTimeout(this._state.timerSave);
                         force = true;
-                        title   = this.saveTitleText;
-                        text    = this.saveTextText;
+                        // title   = this.saveTitleText;
+                        // text    = this.saveTextText;
                         break;
 
                     case Asc.c_oAscAsyncAction['ForceSaveTimeout']:
@@ -503,8 +503,10 @@ define([
 
                     if (!this.isShowOpenDialog)
                         this.loadMask.show();
-                }
-                else {
+                } else
+                if ( action.id == Asc.c_oAscAsyncAction.Save ) {
+                    appHeader.setSaveStatus('begin');
+                } else {
                     this.getApplication().getController('Statusbar').setStatusCaption(text, force);
                 }
             },
@@ -528,6 +530,8 @@ define([
                     value;
 
                 me._isDocReady = true;
+
+                Common.NotificationCenter.trigger('app:ready', me.appOptions);
 
                 me.api.SetDrawingFreeze(false);
                 me.hidePreloader();
@@ -577,6 +581,7 @@ define([
 
                 Common.localStorage.setItem("pe-settings-showsnaplines", me.api.get_ShowSnapLines() ? 1 : 0);
 
+                var application = me.getApplication();
                 var toolbarController           = application.getController('Toolbar'),
                     statusbarController         = application.getController('Statusbar'),
                     documentHolderController    = application.getController('DocumentHolder'),
@@ -753,16 +758,18 @@ define([
                     this.updatePlugins(this.plugins, true);
 
                 this.applyModeCommonElements();
-                this.applyModeEditorElements();
 
-                this.api.asc_setViewMode(!this.appOptions.isEdit);
+                if ( this.appOptions.isEdit ) {
+                    this.applyModeEditorElements();
+                } else {
+                    Common.NotificationCenter.trigger('app:face', this.appOptions);
 
-                this.api.asc_LoadDocument();
-
-                if (!this.appOptions.isEdit) {
                     this.hidePreloader();
                     this.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
                 }
+
+                this.api.asc_setViewMode(!this.appOptions.isEdit);
+                this.api.asc_LoadDocument();
             },
 
             applyModeCommonElements: function() {
@@ -868,6 +875,8 @@ define([
                     if (me.stackLongActions.exist({id: ApplyEditRights, type: Asc.c_oAscAsyncActionType['BlockInteraction']})) {
                         me.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], ApplyEditRights);
                     } else if (!this._isDocReady) {
+                        Common.NotificationCenter.trigger('app:face', me.appOptions);
+
                         me.hidePreloader();
                         me.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
                     }
@@ -1128,6 +1137,8 @@ define([
 
                 this.updateWindowTitle();
 
+                this.api.isDocumentModified() && appHeader.setSaveStatus('changed');
+
                 var toolbarView = this.getApplication().getController('Toolbar').getView('Toolbar');
                 if (toolbarView) {
                     var isSyncButton = $('.btn-icon', toolbarView.btnSave.cmpEl).hasClass('btn-synch'),
@@ -1358,12 +1369,8 @@ define([
                     return;
 
                 var me = this,
-                    shapegrouparray = [],
-                    shapeStore = this.getCollection('ShapeGroups');
+                    shapegrouparray = [];
 
-                shapeStore.reset();
-
-                var groupscount = groupNames.length;
                 _.each(groupNames, function(groupName, index){
                     var store = new Backbone.Collection([], {
                         model: PE.Models.ShapeModel
@@ -1391,11 +1398,7 @@ define([
                     });
                 });
 
-                shapeStore.add(shapegrouparray);
-
-                setTimeout(function(){
-                    me.getApplication().getController('Toolbar').fillAutoShapes();
-                }, 50);
+                this.getCollection('ShapeGroups').reset(shapegrouparray);
             },
 
             fillLayoutsStore: function(layouts){
@@ -1439,10 +1442,6 @@ define([
                     });
                 });
                 artStore.reset(arr);
-
-                setTimeout(function(){
-                    me.getApplication().getController('Toolbar').fillTextArt();
-                }, 50);
 
                 setTimeout(function(){
                     me.getApplication().getController('RightMenu').fillTextArt();
@@ -1503,11 +1502,11 @@ define([
             },
 
             onMeta: function(meta) {
-                var app = this.getApplication(),
-                    filemenu = app.getController('LeftMenu').getView('LeftMenu').getMenu('file');
                 appHeader.setDocumentCaption(meta.title);
                 this.updateWindowTitle(true);
                 this.document.title = meta.title;
+
+                var filemenu = this.getApplication().getController('LeftMenu').getView('LeftMenu').getMenu('file');
                 filemenu.loadDocument({doc:this.document});
                 filemenu.panels['info'].updateInfo(this.document);
                 Common.Gateway.metaChange(meta);
@@ -1760,8 +1759,6 @@ define([
             criticalErrorExtText: 'Press "Ok" to to back to document list.',
             openTitleText: 'Opening Document',
             openTextText: 'Opening document...',
-            saveTitleText: 'Saving Document',
-            saveTextText: 'Saving document...',
             loadFontsTitleText: 'Loading Data',
             loadFontsTextText: 'Loading data...',
             loadImagesTitleText: 'Loading Images',
@@ -1888,7 +1885,6 @@ define([
             errorAccessDeny: 'You are trying to perform an action you do not have rights for.<br>Please contact your Document Server administrator.',
             titleServerVersion: 'Editor updated',
             errorServerVersion: 'The editor version has been updated. The page will be reloaded to apply the changes.',
-            textChangesSaved: 'All changes saved',
             errorBadImageUrl: 'Image url is incorrect'
         }
     })(), PE.Controllers.Main || {}))

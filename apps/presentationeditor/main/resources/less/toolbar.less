@@ -1,72 +1,6 @@
+
 .toolbar {
-    padding: 10px 0;
-    background-color: @gray-light;
-    .box-inner-shadow(0 -1px 0 @gray-dark);
-
-    .toolbar-group {
-        display: table-cell;
-        vertical-align: top;
-        white-space: nowrap;
-        padding-left: 12px;
-
-        &:last-child {
-            padding-right: 12px;
-        }
-    }
-
-    .toolbar-row {
-        height: 20px;
-        font-size: 0;
-
-        &:not(:first-child) {
-            margin-top: 6px;
-        }
-    }
-
-    .separator {
-        margin-left: 12px;
-
-        &.long {
-            height: 46px;
-        }
-
-        &.short {
-            height: 20px;
-        }
-    }
-
-    .btn-placeholder {
-//        background-color: red;
-        display: inline-block;
-        width: 20px;
-        height: 20px;
-
-        &:not(:first-child) {
-            margin-left: 1px;
-        }
-
-        &.large {
-            width: 31px;
-            height: 31px;
-            margin: 8px 0;
-
-            &.split {
-                width: 40px;
-            }
-        }
-
-        &.split {
-            width: 28px;
-        }
-
-        &.border {
-            border: 1px solid @gray;
-            .border-radius(1px);
-            width: 22px;
-            height: 22px;
-        }
-    }
-
+    z-index: 101;
 
     &.masked {
         .btn-toolbar.disabled .btn-icon:not(.btn-print):not(.btn-save):not(.btn-save-coauth):not(.btn-settings):not(.btn-hidebars) {
@@ -323,7 +257,10 @@
 .toolbar-btn-icon(btn-linespace,        36, @toolbar-icon-size);
 .toolbar-btn-icon(btn-arrange-shape,    37, @toolbar-icon-size);
 .toolbar-btn-icon(btn-align-shape,      38, @toolbar-icon-size);
-.toolbar-btn-icon(btn-insertshape,      39, @toolbar-icon-size);
+
+//.toolbar-btn-icon(btn-insertshape,      39, @toolbar-icon-size);
+.button-normal-icon(btn-insertshape,      39, @toolbar-icon-size);
+
 .toolbar-btn-icon(btn-inserttext,       40, @toolbar-icon-size);
 .toolbar-btn-icon(btn-inserthyperlink,  41, @toolbar-icon-size);
 .toolbar-btn-icon(btn-inserttable,      42, @toolbar-icon-size);
@@ -337,6 +274,8 @@
 .toolbar-btn-icon(btn-zoomout,          60, @toolbar-icon-size);
 .toolbar-btn-icon(btn-save-coauth,      69, @toolbar-icon-size);
 .toolbar-btn-icon(btn-insertequation,   74, @toolbar-icon-size);
+
+.button-otherstates-icon2(btn-toolbar, @toolbar-icon-size);
 
 // add slide
 .btn-toolbar .btn-addslide {background-position: 0 -120px;}
@@ -383,7 +322,7 @@
     border: none;
     border-radius: 0;
     padding: 3px 10px;
-    color: #ffffff;
+    color: #fff;
     font: 11px arial;
     white-space: nowrap;
     letter-spacing: 1px;

@@ -49,6 +49,7 @@ define([
 
     PE.Views.FileMenu = Common.UI.BaseView.extend(_.extend({
         el: '#file-menu-panel',
+        options: {alias:'FileMenu'},
 
         template: _.template(tpl),
 
@@ -195,13 +196,11 @@ define([
                 panel = this.active || ((this.mode.canDownload && (!this.mode.isDesktopApp || !this.mode.isOffline)) ? 'saveas' : 'info');
             this.$el.show();
             this.selectMenu(panel);
-            if (this.mode.isEdit) PE.getController('Toolbar').DisableToolbar(true);
             this.api.asc_enableKeyEvents(false);
         },
 
         hide: function() {
             this.$el.hide();
-            if (this.mode.isEdit) PE.getController('Toolbar').DisableToolbar(false);
             this.fireEvent('filemenu:hide', [this]);
             this.api.asc_enableKeyEvents(true);
         },
@@ -310,6 +309,10 @@ define([
         onDocumentName: function(name) {
             this.document.title = name;
             this.panels['info'].updateInfo(this.document);
+        },
+
+        isVisible: function () {
+            return !this.$el.is(':hidden');
         },
 
         btnSaveCaption          : 'Save',

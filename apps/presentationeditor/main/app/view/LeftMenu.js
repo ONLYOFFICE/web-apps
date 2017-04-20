@@ -90,15 +90,6 @@ define([
             el.html(this.template({
             }));
 
-            this.btnFile = new Common.UI.Button({
-                action: 'file',
-                el: $('#left-btn-file'),
-                hint: this.tipFile + Common.Utils.String.platformKey('Alt+F'),
-                enableToggle: true,
-                disabled: true,
-                toggleGroup: 'leftMenuGroup'
-            });
-
             this.btnSearch = new Common.UI.Button({
                 action: 'search',
                 el: $('#left-btn-search'),
@@ -169,13 +160,10 @@ define([
             this.btnSearch.on('click',          _.bind(this.onBtnMenuClick, this));
             this.btnThumbs.on('click',          _.bind(this.onBtnMenuClick, this));
             this.btnAbout.on('toggle',          _.bind(this.onBtnMenuToggle, this));
-            this.btnFile.on('toggle',           _.bind(this.onBtnMenuToggle, this));
             this.btnAbout.on('click',           _.bind(this.onFullMenuClick, this));
-            this.btnFile.on('click',            _.bind(this.onFullMenuClick, this));
 
-            var menuFile = new PE.Views.FileMenu({});
-            menuFile.options = {alias:'FileMenu'};
-            this.btnFile.panel = menuFile.render();
+            this.menuFile = new PE.Views.FileMenu({});
+            this.menuFile.render();
             this.btnAbout.panel = (new Common.Views.About({el: $('#about-menu-panel'), appName: 'Presentation Editor'})).render();
 
             return this;
@@ -196,12 +184,11 @@ define([
         },
 
         onBtnMenuClick: function(btn, e) {
-            var full_menu_pressed = (this.btnFile.pressed || this.btnAbout.pressed);
-            if (this.btnFile.pressed) this.btnFile.toggle(false);
+            var full_menu_pressed = this.btnAbout.pressed;
             if (this.btnAbout.pressed) this.btnAbout.toggle(false);
 
             if (btn.options.action == 'search') {
-                full_menu_pressed && this.fireEvent('panel:show', [this.btnFile, 'files', false]);
+                full_menu_pressed && this.fireEvent('panel:show', [this.btnAbout, 'files', false]);
                 return;
             } else
             if (btn.options.action == 'thumbs') {
@@ -282,7 +269,6 @@ define([
         /** coauthoring end **/
 
         close: function(menu) {
-            this.btnFile.toggle(false);
             this.btnAbout.toggle(false);
             this.btnThumbs.toggle(false);
             this.$el.width(SCALE_MIN);
@@ -308,7 +294,7 @@ define([
         },
 
         isOpened: function() {
-            var isopened = this.btnFile.pressed || this.btnSearch.pressed;
+            var isopened = this.btnSearch.pressed;
             /** coauthoring begin **/
             !isopened && (isopened = this.btnComments.pressed || this.btnChat.pressed);
             /** coauthoring end **/
@@ -316,7 +302,6 @@ define([
         },
 
         disableMenu: function(menu, disable) {
-            this.btnFile.setDisabled(disable);
             this.btnSearch.setDisabled(disable);
             this.btnThumbs.setDisabled(disable);
             this.btnAbout.setDisabled(disable);
@@ -330,12 +315,8 @@ define([
 
         showMenu: function(menu) {
             var re = /^(\w+):?(\w*)$/.exec(menu);
-            if (re[1] == 'file' && this.btnFile.isVisible()) {
-                if (!this.btnFile.pressed) {
-                    this.btnFile.toggle(true);
-//                    this.onBtnMenuClick(this.btnFile);
-                }
-                this.btnFile.panel.show(re[2].length ? re[2] : undefined);
+            if ( re[1] == 'file' ) {
+                this.menuFile.show(re[2].length ? re[2] : undefined);
             } else {
                 /** coauthoring begin **/
                 if (menu == 'chat') {
@@ -362,7 +343,7 @@ define([
         getMenu: function(type) {
             switch (type) {
             default: return null;
-            case 'file': return this.btnFile.panel;
+            case 'file': return this.menuFile;
             case 'about': return this.btnAbout.panel;
             }
         },
@@ -398,7 +379,6 @@ define([
         /** coauthoring end **/
         tipAbout    : 'About',
         tipSupport  : 'Feedback & Support',
-        tipFile     : 'File',
         tipSearch   : 'Search',
         tipSlides: 'Slides',
         tipPlugins  : 'Plugins',

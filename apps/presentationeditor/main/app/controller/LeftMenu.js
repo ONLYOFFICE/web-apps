@@ -61,7 +61,7 @@ define([
                 'Common.Views.Chat': {
                     'hide': _.bind(this.onHideChat, this)
                 },
-                'Statusbar': {
+                'Common.Views.Header': {
                     'click:users': _.bind(this.clickStatusbarUsers, this)
                 },
                 'LeftMenu': {
@@ -83,7 +83,9 @@ define([
                     'recent:open': _.bind(this.onOpenRecent, this)
                 },
                 'Toolbar': {
-                    'file:settings': _.bind(this.clickToolbarSettings,this)
+                    'file:settings': _.bind(this.clickToolbarSettings,this),
+                    'file:open': this.clickToolbarTab.bind(this, 'file'),
+                    'file:close': this.clickToolbarTab.bind(this, 'other')
                 },
                 'SearchDialog': {
                     'hide': _.bind(this.onSearchDlgHide, this),
@@ -216,16 +218,12 @@ define([
 
             if (close_menu) {
                 menu.hide();
-                this.leftMenu.btnFile.toggle(false, true);
-                this.menuExpand(this.leftMenu.btnFile, 'files', false);
             }
         },
 
         clickSaveAsFormat: function(menu, format) {
             this.api.asc_DownloadAs(format);
             menu.hide();
-            this.leftMenu.btnFile.toggle(false, true);
-            this.menuExpand(this.leftMenu.btnFile, 'files', false);
         },
 
         applySettings: function(menu) {
@@ -242,12 +240,9 @@ define([
             value = Common.localStorage.getItem("pe-settings-autosave");
             this.api.asc_setAutoSaveGap(parseInt(value));
 
-            value = Common.localStorage.getItem("pe-settings-showsnaplines");
-            this.api.put_ShowSnapLines(value===null || parseInt(value) == 1);
+            this.api.put_ShowSnapLines( Common.localStorage.getBool("pe-settings-showsnaplines") );
 
             menu.hide();
-            this.leftMenu.btnFile.toggle(false, true);
-            this.menuExpand(this.leftMenu.btnFile, 'files', false);
         },
 
         onCreateNew: function(menu, type) {
@@ -260,16 +255,12 @@ define([
 
             if (menu) {
                 menu.hide();
-                this.leftMenu.btnFile.toggle(false, true);
-                this.menuExpand(this.leftMenu.btnFile, 'files', false);
             }
         },
 
         onOpenRecent:  function(menu, url) {
             if (menu) {
                 menu.hide();
-                this.leftMenu.btnFile.toggle(false, true);
-                this.menuExpand(this.leftMenu.btnFile, 'files', false);
             }
 
             var recentDocPage = window.open(url);
@@ -280,15 +271,18 @@ define([
         },
 
         clickToolbarSettings: function(obj) {
-            if (this.leftMenu.btnFile.pressed && this.leftMenu.btnFile.panel.active == 'opts')
-                this.leftMenu.close();
-            else
-                this.leftMenu.showMenu('file:opts');
+            this.leftMenu.showMenu('file:opts');
+        },
+
+        clickToolbarTab: function (tab, e) {
+            if (tab == 'file')
+                this.leftMenu.menuFile.show(); else
+                this.leftMenu.menuFile.hide();
         },
 
         /** coauthoring begin **/
         clickStatusbarUsers: function() {
-            this.leftMenu.btnFile.panel.panels['rights'].changeAccessRights();
+            this.leftMenu.menuFile.panels['rights'].changeAccessRights();
         },
 
         onHideChat: function() {
@@ -384,7 +378,7 @@ define([
         },
 
         menuFilesHide: function(obj) {
-            $(this.leftMenu.btnFile.el).blur();
+            // $(this.leftMenu.btnFile.el).blur();
         },
 
         /** coauthoring begin **/
@@ -431,12 +425,11 @@ define([
                 case 'search':
                     if ((!previewPanel || !previewPanel.isVisible()) && !this._state.no_slides)  {
                         Common.UI.Menu.Manager.hideAll();
-                        var full_menu_pressed = (this.leftMenu.btnFile.pressed || this.leftMenu.btnAbout.pressed);
+                        var full_menu_pressed = this.leftMenu.btnAbout.pressed;
                         this.showSearchDlg(true);
                         this.leftMenu.btnSearch.toggle(true,true);
-                        this.leftMenu.btnFile.toggle(false);
                         this.leftMenu.btnAbout.toggle(false);
-                        full_menu_pressed && this.menuExpand(this.leftMenu.btnFile, 'files', false);
+                        full_menu_pressed && this.menuExpand(this.leftMenu.btnAbout, 'files', false);
                     }
                     return false;
                 case 'save':
@@ -463,6 +456,12 @@ define([
                     return false;
                 case 'escape':
 //                        if (!this.leftMenu.isOpened()) return true;
+                    // TODO:
+                    if ( this.leftMenu.menuFile.isVisible() ) {
+                        this.leftMenu.menuFile.hide();
+                        return false;
+                    }
+
                     var statusbar = PE.getController('Statusbar');
                     var menu_opened = statusbar.statusbar.$el.find('.open > [data-toggle="dropdown"]');
                     if (menu_opened.length) {
@@ -476,7 +475,8 @@ define([
                             return false;
                         }
                     }
-                    if (this.leftMenu.btnFile.pressed ||  this.leftMenu.btnAbout.pressed || this.leftMenu.btnPlugins.pressed ||
+
+                    if ( this.leftMenu.btnAbout.pressed || this.leftMenu.btnPlugins.pressed ||
                         $(e.target).parents('#left-menu').length ) {
                         this.leftMenu.close();
                         Common.NotificationCenter.trigger('layout:changed', 'leftmenu');
