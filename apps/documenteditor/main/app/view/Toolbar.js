@@ -1343,7 +1343,7 @@ define([
                 $boxTabs = me.$el.find('.tabs > ul');
                 $tabs = $boxTabs.find('> li');
                 $panels = me.$el.find('.box-panels > .panel');
-                $tabs.parent().on('click', '.rib-tab', function (e) {
+                $tabs.parent().on('click', '.ribtab', function (e) {
                     var tab = $(e.target).data('tab');
                     if (tab == 'file') {
                         me.fireEvent('file:open');
@@ -2484,7 +2484,7 @@ define([
                     return config.tabs[index].action;
                 }
 
-                var _tplTab = '<li class="rib-tab"><a href="#" data-tab="<%= action %>" data-title="<%= caption %>"><%= caption %></a></li>';
+                var _tplTab = '<li class="ribtab"><a href="#" data-tab="<%= action %>" data-title="<%= caption %>"><%= caption %></a></li>';
 
                 config.tabs[after + 1] = tab;
                 var _after_action = _get_tab_action( after );

@@ -7,7 +7,7 @@
             </a>
             <ul>
                 <% for(var i in tabs) { %>
-                    <li class="rib-tab">
+                    <li class="ribtab<% if (tabs[i].extcls) print(' ' + tabs[i].extcls) %>">
                         <a data-tab="<%= tabs[i].action %>" data-title="<%= tabs[i].caption %>"><%= tabs[i].caption %></a>
                     </li>
                 <% } %>
@@ -21,7 +21,7 @@
         </div>
     </div>
     <section class="box-controls">
-        <section class="panel">
+        <section class="panel static">
             <div class="group no-mask">
                 <div class="elset">
                     <span class="btn-slot" id="slot-btn-print"></span>

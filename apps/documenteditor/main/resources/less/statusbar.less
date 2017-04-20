@@ -231,7 +231,9 @@
 }
 
 .lang-flag {
-    background-position: -16px -1608px;
+    &:not(.dasble) {
+        background-position: -16px -108px;
+    }
 
     &.ca, &.ca-ES                     {background-position: 0          0;}
     &.cs, &.cs-CZ                     {background-position: -16px      0;}

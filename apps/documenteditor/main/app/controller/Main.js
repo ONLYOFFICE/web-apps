@@ -1406,10 +1406,7 @@ define([
                     if (isModified) {
                         if (!_.isUndefined(title) && (!this._state.fastCoauth || this._state.usersCount<2 )) {
                             title = '* ' + title;
-                            headerView.setDocumentChanged(true);
                         }
-                    } else {
-                        headerView.setDocumentChanged(false);
                     }
 
                     if (window.document.title != title)
