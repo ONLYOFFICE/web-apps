@@ -229,3 +229,17 @@
     width: 100%;
     z-index: 995;
 }
+
+.btn-toolbar {
+    &:active {
+        svg.icon {
+            fill: #fff;
+        }
+    }
+
+    svg.icon {
+        background-image: none;
+
+        fill: @gray-deep;
+    }
+}

@@ -125,7 +125,11 @@ define([
                 '<% if ( iconImg ) { %>' +
                     '<img src="<%= iconImg %>">' +
                 '<% } else { %>' +
-                    '<i class="icon <%= iconCls %>">&nbsp;</i>' +
+                    '<% if (/svgicon/.test(iconCls)) {' +
+                        'print(\'<svg class=\"icon\"><use xlink:href=\"#\' + /svgicon\\s(\\S+)/.exec(iconCls)[1] + \'\"></use></svg>\');' +
+                    '} else ' +
+                        'print(\'<i class=\"icon \' + iconCls + \'\">&nbsp;</i>\'); %>' +
+                    // '<i class="icon <%= iconCls %>">&nbsp;</i>' +
                 '<% } %>' +
                 '</div>' +
                 '<span class="caption"><%= caption %></span>' +
@@ -182,7 +186,13 @@ define([
         template: _.template([
             '<% var applyicon = function() { %>',
                 '<% if (iconImg) { print(\'<img src=\"\' + iconImg + \'\">\'); } else { %>',
-                '<% if (iconCls != "") { print(\'<i class=\"icon \' + iconCls + \'\">&nbsp;</i>\'); }} %>',
+                // '<% if (iconCls != "") { print(\'<i class=\"icon \' + iconCls + \'\">&nbsp;</i>\'); }} %>',
+                '<% if (iconCls != "") { ' +
+                    ' if (/svgicon/.test(iconCls)) {' +
+                        'print(\'<svg class=\"icon\"><use xlink:href=\"#\' + /svgicon\\s(\\S+)/.exec(iconCls)[1] + \'\"></use></svg>\');' +
+                    '} else ' +
+                        'print(\'<i class=\"icon \' + iconCls + \'\">&nbsp;</i>\'); ' +
+                '}} %>',
             '<% } %>',
             '<% if ( !menu ) { %>',
                 '<button type="button" class="btn <%= cls %>" id="<%= id %>" style="<%= style %>">',

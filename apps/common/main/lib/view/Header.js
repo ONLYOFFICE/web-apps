@@ -281,7 +281,7 @@ define([
                 me.btnGoBack = new Common.UI.Button({
                     id: 'btn-goback',
                     cls: 'btn-toolbar',
-                    iconCls: 'btn-goback',
+                    iconCls: 'svgicon svg-btn-goback',
                     split: true,
                     menu: new Common.UI.Menu({
                         style: 'min-width: 60px;',

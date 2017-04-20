@@ -2059,7 +2059,7 @@ define([
 
                     var button = new Common.UI.Button({
                         cls: _cls,
-                        iconCls: 'btn-menu-comments',
+                        iconCls: 'svgicon svg-btn-comments',
                         caption: 'Comment'
                     }).render( slots.eq(index) );
 
