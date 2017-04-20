@@ -353,7 +353,7 @@ define([
         clickToolbarTab: function (tab, e) {
             if (tab == 'file')
                 this.leftMenu.showMenu('file'); else
-                this.leftMenu.close();
+                this.leftMenu.menuFile.hide();
         },
 
         /** coauthoring begin **/
@@ -577,6 +577,11 @@ define([
                     return false;
                 case 'escape':
 //                        if (!this.leftMenu.isOpened()) return true;
+                    if ( this.leftMenu.menuFile.isVisible() ) {
+                        this.leftMenu.menuFile.hide();
+                        return false;
+                    }
+
                     var statusbar = DE.getController('Statusbar');
                     var menu_opened = statusbar.statusbar.$el.find('.open > [data-toggle="dropdown"]');
                     if (menu_opened.length) {
@@ -590,8 +595,8 @@ define([
                             return false;
                         }
                     }
-                    if (this.leftMenu.menuFile.isVisible() || this.leftMenu.btnAbout.pressed || this.leftMenu.btnPlugins.pressed ||
-                        $(e.target).parents('#left-menu').length ) {
+                    if (this.leftMenu.btnAbout.pressed || this.leftMenu.btnPlugins.pressed ||
+                                $(e.target).parents('#left-menu').length ) {
                         this.leftMenu.close();
                         Common.NotificationCenter.trigger('layout:changed', 'leftmenu');
                         return false;

@@ -178,10 +178,6 @@ define([
             this.supressEvents = true;
             this.btnAbout.toggle(false);
 
-            if ( this.menuFile.isVisible() ) {
-                this.menuFile.hide();
-            }
-
             if (btn.options.action == 'search') {
             } else {
                 if (btn.pressed) {
@@ -259,7 +255,6 @@ define([
             if ( this.menuFile.isVisible() ) {
                 this.menuFile.hide();
             } else {
-
                 this.btnAbout.toggle(false);
                 this.$el.width(SCALE_MIN);
                 /** coauthoring begin **/
