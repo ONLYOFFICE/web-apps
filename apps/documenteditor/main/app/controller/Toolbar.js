@@ -105,7 +105,6 @@ define([
 
             this.addListeners({
                 'Toolbar': {
-                    'view:compact'      : this.onChangeCompactView,
                     'insert:break'      : this.onClickPageBreak
                 },
                 'FileMenu': {
@@ -268,9 +267,9 @@ define([
             toolbar.listStyles.on('click',                              _.bind(this.onListStyleSelect, this));
             toolbar.listStyles.on('contextmenu',                        _.bind(this.onListStyleContextMenu, this));
             toolbar.styleMenu.on('hide:before',                         _.bind(this.onListStyleBeforeHide, this));
-            // toolbar.mnuitemHideTitleBar.on('toggle',                    _.bind(this.onHideTitleBar, this));
             toolbar.mnuitemHideStatusBar.on('toggle',                   _.bind(this.onHideStatusBar, this));
             toolbar.mnuitemHideRulers.on('toggle',                      _.bind(this.onHideRulers, this));
+            toolbar.mnuitemCompactToolbar.on('toggle',                  _.bind(this.onChangeCompactView, this));
             toolbar.btnFitPage.on('toggle',                             _.bind(this.onZoomToPageToggle, this));
             toolbar.btnFitWidth.on('toggle',                            _.bind(this.onZoomToWidthToggle, this));
             toolbar.mnuZoomIn.on('click',                               _.bind(this.onZoomInClick, this));
@@ -330,6 +329,7 @@ define([
 
         onChangeCompactView: function(view, compact) {
             this.toolbar.setFolded(compact);
+            this.toolbar.fireEvent('view:compact', [this, compact]);
 
             Common.localStorage.setBool('de-compact-toolbar', compact);
             Common.NotificationCenter.trigger('layout:changed', 'toolbar');
@@ -2741,10 +2741,16 @@ define([
         onAppShowed: function (config) {
             var me = this;
 
-            var isCompactView = Common.localStorage.getItem("de-compact-toolbar");
-            isCompactView = !config.isEdit || !!(isCompactView !== null && parseInt(isCompactView) == 1 || isCompactView === null && config.customization && config.customization.compactToolbar);
+            var compactview = !config.isEdit;
+            if ( config.isEdit ) {
+                if ( Common.localStorage.itemExists("de-compact-toolbar") ) {
+                    compactview = Common.localStorage.getBool("de-compact-toolbar");
+                } else
+                if ( config.customization && config.customization.compactToolbar )
+                    compactview = true;
+            }
 
-            me.toolbar.render(_.extend(config, {isCompactView: isCompactView}));
+            me.toolbar.render(_.extend({isCompactView: compactview}, config));
 
             if ( config.isEdit ) {
                 var tab = {action: 'review', caption: me.toolbar.textTabReview};
@@ -2754,7 +2760,6 @@ define([
                     me.toolbar.addTab(tab, $panel, 3);
                 }
             }
-                this.toolbar.mnuitemCompactToolbar.setChecked(true, true);
         },
 
         onAppReady: function (config) {

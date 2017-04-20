@@ -1322,20 +1322,18 @@ define([
 
                 this.fireEvent('render:before', [this]);
 
+                me.isCompactView = mode.isCompactView;
                 if ( mode.isEdit ) {
-                    me.isCompactView = Common.localStorage.getBool("de-compact-toolbar");
                     me.$el.html(me.rendererComponents(config.$dom));
                 } else {
                     config.$dom.find('.canedit').hide();
                     config.$dom.addClass('folded');
-                    me.isCompactView = true;
 
                     me.$el.html(config.$dom);
                 }
 
                 this.fireEvent('render:after', [this]);
 
-                me.isCompactView = mode.isCompactView;
                 /** coauthoring begin **/
                 this.showSynchTip = !Common.localStorage.getBool("de-hide-synch");
                 this.needShowSynchTip = false;
@@ -1704,18 +1702,17 @@ define([
                         items: [
                             this.mnuitemCompactToolbar = new Common.UI.MenuItem({
                                 caption: this.textCompactView,
+                                checked: me.isCompactView,
                                 checkable: true
                             }),
-                            // this.mnuitemHideTitleBar = new Common.UI.MenuItem({
-                            //     caption: this.textHideTitleBar,
-                            //     checkable: true
-                            // }),
                             this.mnuitemHideStatusBar = new Common.UI.MenuItem({
                                 caption: this.textHideStatusBar,
+                                checked: Common.localStorage.getBool("de-hidden-status"),
                                 checkable: true
                             }),
                             this.mnuitemHideRulers = new Common.UI.MenuItem({
                                 caption: this.textHideLines,
+                                checked: Common.localStorage.getBool("de-hidden-rulers"),
                                 checkable: true
                             }),
                             {caption: '--'},
@@ -2144,19 +2141,6 @@ define([
                     maxRows: 8,
                     maxColumns: 10
                 });
-
-                /**/
-                var mode = this.mode;
-
-                // value = Common.localStorage.getItem("de-compact-toolbar");
-                // var valueCompact = !!(value !== null && parseInt(value) == 1 || value === null && this.mode.customization && this.mode.customization.compactToolbar);
-                this.mnuitemCompactToolbar.setChecked(this.isCompactView, true);
-                this.mnuitemCompactToolbar.on('toggle', _.bind(this.changeViewMode, this));
-
-                // this.mnuitemHideTitleBar.setChecked( Common.localStorage.getBool("de-hidden-title"), true );
-                this.mnuitemHideStatusBar.setChecked( Common.localStorage.getBool("de-hidden-status"), true );
-                this.mnuitemHideRulers.setChecked( Common.localStorage.getBool("de-hidden-rulers"), true );
-                /**/
             },
 
             updateMetricUnit: function () {
@@ -2260,10 +2244,6 @@ define([
 
                 this.btnMailRecepients.setVisible(mode.canCoAuthoring == true && mode.canUseMailMerge);
                 this.listStylesAdditionalMenuItem.setVisible(mode.canEditStyles);
-            },
-
-            changeViewMode: function (item, compact) {
-                this.fireEvent('view:compact', [this, compact]);
             },
 
             onSendThemeColorSchemes: function (schemas) {
@@ -2692,7 +2672,7 @@ define([
             textTabHome: 'Home',
             textTabInsert: 'Insert',
             textTabLayout: 'Page Layout',
-            textTabReview: 'Review'
+            textTabReview: 'Review',
             capBtnInsShape: 'Shape',
             capBtnInsTextbox: 'Text',
             capBtnInsDropcap: 'Drop Cap',

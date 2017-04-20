@@ -114,7 +114,6 @@ define([
 
             this.addListeners({
                 'Toolbar': {
-                    'view:compact'      : this.onChangeCompactView,
                     'insert:image'      : this.onInsertImageClick.bind(this),
                     'insert:text'       : this.onInsertText.bind(this),
                     'insert:textart'    : this.onInsertTextart.bind(this),
@@ -259,9 +258,9 @@ define([
             toolbar.btnSlideSize.menu.on('item:click',                  _.bind(this.onSlideSize, this));
             toolbar.mnuInsertChartPicker.on('item:click',               _.bind(this.onSelectChart, this));
             toolbar.listTheme.on('click',                               _.bind(this.onListThemeSelect, this));
-            toolbar.mnuitemHideTitleBar.on('toggle',                    _.bind(this.onHideTitleBar, this));
             toolbar.mnuitemHideStatusBar.on('toggle',                   _.bind(this.onHideStatusBar, this));
             toolbar.mnuitemHideRulers.on('toggle',                      _.bind(this.onHideRulers, this));
+            toolbar.mnuitemCompactToolbar.on('toggle',                  _.bind(this.onChangeCompactView, this));
             toolbar.btnFitPage.on('toggle',                             _.bind(this.onZoomToPageToggle, this));
             toolbar.btnFitWidth.on('toggle',                            _.bind(this.onZoomToWidthToggle, this));
             toolbar.mnuZoomIn.on('click',                               _.bind(this.onZoomInClick, this));
@@ -317,6 +316,7 @@ define([
 
         onChangeCompactView: function(view, compact) {
             this.toolbar.setFolded(compact);
+            this.toolbar.fireEvent('view:compact', [this.toolbar, compact]);
 
             Common.localStorage.setBool('pe-compact-toolbar', compact);
             Common.NotificationCenter.trigger('layout:changed', 'toolbar');

@@ -1331,10 +1331,6 @@ define([
                                 checkable: true,
                                 checked: me.isCompactView
                             }),
-                            this.mnuitemHideTitleBar = new Common.UI.MenuItem({
-                                caption: this.textHideTitleBar,
-                                checkable: true
-                            }),
                             this.mnuitemHideStatusBar = new Common.UI.MenuItem({
                                 caption: this.textHideStatusBar,
                                 checkable: true
@@ -1373,8 +1369,6 @@ define([
                         ]
                     })
                 );
-                if (this.mode.isDesktopApp || this.mode.canBrandingExt && this.mode.customization && this.mode.customization.header === false)
-                    this.mnuitemHideTitleBar.hide();
                 if (this.mode.canBrandingExt && this.mode.customization && this.mode.customization.statusBar === false)
                     this.mnuitemHideStatusBar.hide();
 
@@ -1520,9 +1514,6 @@ define([
                         me.mnuChangeSlidePicker._needRecalcSlideLayout = true;
                 });
 
-                this.mnuitemCompactToolbar.on('toggle', _.bind(this.changeViewMode, this));
-
-                this.mnuitemHideTitleBar.setChecked(Common.localStorage.getBool('pe-hidden-title'), true);
                 this.mnuitemHideStatusBar.setChecked(Common.localStorage.getBool('pe-hidden-status'), true);
                 this.mnuitemHideRulers.setChecked(Common.localStorage.getItem("pe-hidden-rulers"), true);
 
@@ -1573,10 +1564,6 @@ define([
                     $('.toolbar-group-native').hide();
 
                 this.lockToolbar(PE.enumLock.cantPrint, !mode.canPrint || mode.disableDownload, {array: [this.btnPrint]});
-            },
-
-            changeViewMode: function (item, compact) {
-                this.fireEvent('view:compact', [this, compact]);
             },
 
             onSendThemeColorSchemes: function (schemas) {
