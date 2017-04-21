@@ -72,9 +72,9 @@ define([
                 '<div id="presentation-preview" style="width:100%; height:100%"></div>',
                 '<div id="preview-controls-panel" class="preview-controls" style="position: absolute; bottom: 0;">',
                     '<div class="preview-group" style="">',
-                        '<button id="btn-preview-prev" type="button" class="btn small btn-toolbar"><span class="btn-icon">&nbsp;</span></button>',
-                        '<button id="btn-preview-play" type="button" class="btn small btn-toolbar"><span class="btn-icon">&nbsp;</span></button>',
-                        '<button id="btn-preview-next" type="button" class="btn small btn-toolbar"><span class="btn-icon">&nbsp;</span></button>',
+                        '<button id="btn-preview-prev" type="button" class="btn small btn-toolbar"><span class="icon">&nbsp;</span></button>',
+                        '<button id="btn-preview-play" type="button" class="btn small btn-toolbar"><span class="icon">&nbsp;</span></button>',
+                        '<button id="btn-preview-next" type="button" class="btn small btn-toolbar"><span class="icon">&nbsp;</span></button>',
                     '<div class="separator"/>',
                     '</div>',
                     '<div class="preview-group dropup">',
@@ -86,9 +86,9 @@ define([
                     '</div>',
                     '<div class="preview-group" style="">',
                         '<div class="separator"/>',
-                        '<button id="btn-preview-fullscreen" type="button" class="btn small btn-toolbar"><span class="btn-icon">&nbsp;</span></button>',
+                        '<button id="btn-preview-fullscreen" type="button" class="btn small btn-toolbar"><span class="icon">&nbsp;</span></button>',
                         '<div class="separator fullscreen"/>',
-                        '<button id="btn-preview-close" type="button" class="btn small btn-toolbar"><span class="btn-icon">&nbsp;</span></button>',
+                        '<button id="btn-preview-close" type="button" class="btn small btn-toolbar"><span class="icon">&nbsp;</span></button>',
                     '</div>',
                 '</div>'
             ].join('');
@@ -128,7 +128,7 @@ define([
                 hintAnchor: 'top'
             });
             this.btnPlay.on('click', _.bind(function(btn) {
-                var iconEl = $('.btn-icon', this.btnPlay.cmpEl);
+                var iconEl = $('.icon', this.btnPlay.cmpEl);
                 if (iconEl.hasClass('btn-pause')) {
                     iconEl.removeClass('btn-pause');
                     this.btnPlay.updateHint(this.txtPlay);
@@ -234,7 +234,7 @@ define([
                 if (Common.Utils.isIE) { // for tooltips in IE
                     me.btnFullScreen.updateHint( fselem ? '' : me.txtFullScreen);
                     me.btnPrev.updateHint( fselem ? '' : me.txtPrev);
-                    me.btnPlay.updateHint( fselem ? '' : ($('.btn-icon', me.btnPlay.cmpEl).hasClass('btn-pause') ? me.txtPause : me.txtPlay));
+                    me.btnPlay.updateHint( fselem ? '' : ($('.icon', me.btnPlay.cmpEl).hasClass('btn-pause') ? me.txtPause : me.txtPlay));
                     me.btnNext.updateHint( fselem ? '' : me.txtNext);
                     me.btnClose.updateHint( fselem ? '' : me.txtClose);
                 } else
@@ -258,7 +258,7 @@ define([
 
             Common.UI.BaseView.prototype.show.call(this,arguments);
 
-            var iconEl = $('.btn-icon', this.btnPlay.cmpEl);
+            var iconEl = $('.icon', this.btnPlay.cmpEl);
             if (!iconEl.hasClass('btn-pause')) {
                 iconEl.addClass('btn-pause');
                 this.btnPlay.updateHint(this.txtPause);

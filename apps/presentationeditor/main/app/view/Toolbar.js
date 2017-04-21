@@ -1642,7 +1642,7 @@ define([
                 }
 
                 this._state.hasCollaborativeChanges = true;
-                var iconEl = $('.btn-icon', this.btnSave.cmpEl);
+                var iconEl = $('.icon', this.btnSave.cmpEl);
                 iconEl.removeClass(this.btnSaveCls);
                 iconEl.addClass('btn-synch');
                 if (this.showSynchTip) {
@@ -1677,7 +1677,7 @@ define([
 
             synchronizeChanges: function () {
                 if (this.btnSave.rendered) {
-                    var iconEl = $('.btn-icon', this.btnSave.cmpEl);
+                    var iconEl = $('.icon', this.btnSave.cmpEl);
 
                     if (iconEl.hasClass('btn-synch')) {
                         iconEl.removeClass('btn-synch');
@@ -1703,7 +1703,7 @@ define([
                 if (cls !== this.btnSaveCls && this.btnSave.rendered) {
                     this.btnSaveTip = ((length > 1) ? this.tipSaveCoauth : this.tipSave ) + Common.Utils.String.platformKey('Ctrl+S');
 
-                    var iconEl = $('.btn-icon', this.btnSave.cmpEl);
+                    var iconEl = $('.icon', this.btnSave.cmpEl);
                     if (!iconEl.hasClass('btn-synch')) {
                         iconEl.removeClass(this.btnSaveCls);
                         iconEl.addClass(cls);

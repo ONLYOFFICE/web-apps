@@ -367,7 +367,7 @@ define([
                 if (this.api && this.api.asc_isDocumentCanSave) {
                     var cansave = this.api.asc_isDocumentCanSave(),
                         forcesave = this.appOptions.forcesave;
-                    var isSyncButton = $('.btn-icon', toolbarView.btnSave.cmpEl).hasClass('btn-synch');
+                    var isSyncButton = $('.icon', toolbarView.btnSave.cmpEl).hasClass('btn-synch');
                     if (toolbarView.btnSave.isDisabled() !== (!cansave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave))
                         toolbarView.btnSave.setDisabled(!cansave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave);
                 }
@@ -1141,7 +1141,7 @@ define([
 
                 var toolbarView = this.getApplication().getController('Toolbar').getView('Toolbar');
                 if (toolbarView) {
-                    var isSyncButton = $('.btn-icon', toolbarView.btnSave.cmpEl).hasClass('btn-synch'),
+                    var isSyncButton = $('.icon', toolbarView.btnSave.cmpEl).hasClass('btn-synch'),
                         forcesave = this.appOptions.forcesave;
                     if (toolbarView.btnSave.isDisabled() !== (!isModified && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave))
                         toolbarView.btnSave.setDisabled(!isModified && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave);
@@ -1152,7 +1152,7 @@ define([
                     toolbarController = application.getController('Toolbar'),
                     toolbarView = toolbarController.getView('Toolbar');
                 if (toolbarView) {
-                    var isSyncButton = $('.btn-icon', toolbarView.btnSave.cmpEl).hasClass('btn-synch'),
+                    var isSyncButton = $('.icon', toolbarView.btnSave.cmpEl).hasClass('btn-synch'),
                         forcesave = this.appOptions.forcesave;
                     if (toolbarView.btnSave.isDisabled() !== (!isCanSave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave))
                         toolbarView.btnSave.setDisabled(!isCanSave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave);
