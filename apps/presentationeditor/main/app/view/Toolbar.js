@@ -251,7 +251,7 @@ define([
                     { caption: 'Home', action: 'home', extcls: 'canedit'},
                     { caption: 'Insert', action: 'ins', extcls: 'canedit'} ];
 
-                config.$layout = $(_.template(template, config));
+                config.$layout = $(_.template(template)(config));
 
                 me.paragraphControls = [];
                 me.shapeControls = [];
@@ -1795,7 +1795,7 @@ define([
                 var _elements = $tabs || config.$layout.find('.tabs');
                 var $target = _elements.find('a[data-tab=' + _after_action + ']');
                 if ( $target.length ) {
-                    $target.parent().after( _.template(_tplTab, tab) );
+                    $target.parent().after( _.template(_tplTab)(tab) );
 
                     if ( panel ) {
                         _elements = $panels || config.$layout.find('.box-panels > .panel');

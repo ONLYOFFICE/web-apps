@@ -93,7 +93,7 @@ define([
             this.handler    =   options.handler;
             this.type       =   options.type || 'number';
 
-            _options.tpl    =   _.template(this.template, _options);
+            _options.tpl    =   _.template(this.template)(_options);
 
             Common.UI.Window.prototype.initialize.call(this, _options);
         },
@@ -342,7 +342,7 @@ define([
             this.api        =   options.api;
             this.handler    =   options.handler;
 
-            _options.tpl    =   _.template(this.template, _options);
+            _options.tpl    =   _.template(this.template)(_options);
 
             Common.UI.Window.prototype.initialize.call(this, _options);
         },
@@ -516,7 +516,7 @@ define([
             this.throughIndexes =   [];
             this.filteredIndexes =  [];
 
-            _options.tpl        =   _.template(this.template, _options);
+            _options.tpl        =   _.template(this.template)(_options);
 
             Common.UI.Window.prototype.initialize.call(this, _options);
         },

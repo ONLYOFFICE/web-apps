@@ -430,7 +430,7 @@ define([
                     label: this.labelSelect,
                     btns: {ok: this.btnOk, cancel: this.btnCancel}
                 });
-                this.options.tpl = _.template(this.template, this.options);
+                this.options.tpl = _.template(this.template)(this.options);
 
                 Common.UI.Window.prototype.initialize.call(this, this.options);
             },
