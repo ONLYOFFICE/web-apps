@@ -56,6 +56,7 @@ define([
     'use strict';
 
     DE.Controllers.Main = Backbone.Controller.extend(_.extend((function() {
+        var appHeader;
         var ApplyEditRights = -255;
         var LoadingDocument = -256;
 
@@ -269,10 +270,8 @@ define([
                 this.appOptions.canPlugins      = false;
                 this.plugins                    = this.editorConfig.plugins;
 
-                this.getApplication()
-                    .getController('Viewport')
-                    .getView('Common.Views.Header')
-                    .setCanBack(this.appOptions.canBackToFolder === true);
+                appHeader = this.getApplication().getController('Viewport').getView('Common.Views.Header');
+                appHeader.setCanBack(this.appOptions.canBackToFolder === true);
 
                 if (this.editorConfig.lang)
                     this.api.asc_setLocale(this.editorConfig.lang);
@@ -313,10 +312,7 @@ define([
                 this.api.asc_getEditorPermissions(this.editorConfig.licenseUrl, this.editorConfig.customerId);
 
                 if (data.doc) {
-                    this.getApplication()
-                        .getController('Viewport')
-                        .getView('Common.Views.Header')
-                        .setDocumentCaption(data.doc.title);
+                    appHeader.setDocumentCaption(data.doc.title);
                 }
             },
 
@@ -391,7 +387,7 @@ define([
                     });
                 } else {
                     this.api.asc_coAuthoringDisconnect();
-                    this.getApplication().getController('Viewport').getView('Common.Views.Header').setCanRename(false);
+                    appHeader.setCanRename(false);
                     this.getApplication().getController('LeftMenu').getView('LeftMenu').showHistory();
                     this.disableEditing(true);
                     var versions = opts.data.history,
@@ -519,9 +515,6 @@ define([
                     app.getController('Toolbar').DisableToolbar(disable, disable);
                     app.getController('RightMenu').SetDisabled(disable, false);
                     app.getController('Statusbar').getView('Statusbar').SetDisabled(disable);
-
-                    var tooltip = app.getController('Toolbar').getView('Toolbar').synchTooltip;
-                    if (tooltip) tooltip.hide();
                 }
                 app.getController('LeftMenu').SetDisabled(disable, true);
             },
@@ -539,7 +532,7 @@ define([
 //                this.getMainMenu().closeFullScaleMenu();
                 var application = this.getApplication(),
                     toolbarController = application.getController('Toolbar'),
-                    toolbarView = toolbarController.getView('Toolbar');
+                    toolbarView = toolbarController.getView();
 
                 if (this.appOptions.isEdit && toolbarView && (toolbarView.btnInsertShape.pressed || toolbarView.btnInsertText.pressed) &&
                     ( !_.isObject(arguments[1]) || arguments[1].id !== 'tlb-btn-insshape')) { // TODO: Event from api is needed to clear btnInsertShape state
@@ -577,11 +570,7 @@ define([
                 var action = {id: id, type: type};
                 this.stackLongActions.pop(action);
 
-                this.getApplication()
-                    .getController('Viewport')
-                    .getView('Common.Views.Header')
-                    .setDocumentCaption(this.api.asc_getDocumentName());
-
+                appHeader.setDocumentCaption(this.api.asc_getDocumentName());
                 this.updateWindowTitle(true);
 
                 action = this.stackLongActions.get({type: Asc.c_oAscAsyncActionType.Information});
@@ -592,11 +581,11 @@ define([
                         if (this._state.fastCoauth && this._state.usersCount>1) {
                             var me = this;
                             me._state.timerSave = setTimeout(function () {
-                                me.getApplication().getController('Viewport').getView('Common.Views.Header').setSaveStatus('end');
+                                appHeader.setSaveStatus('end');
                                 delete me._state.timerSave;
                             }, 500);
                         } else
-                            this.getApplication().getController('Viewport').getView('Common.Views.Header').setSaveStatus('end');
+                            appHeader.setSaveStatus('end');
                     } else
                         this.getApplication().getController('Statusbar').setStatusCaption('');
                 }
@@ -713,7 +702,7 @@ define([
                         this.loadMask.show();
                 } else
                 if ( action.id == Asc.c_oAscAsyncAction.Save || action.id == Asc.c_oAscAsyncAction['ForceSaveButton']) {
-                    this.getApplication().getController('Viewport').getView('Common.Views.Header').setSaveStatus('begin');
+                    appHeader.setSaveStatus('begin');
                 } else {
                     this.getApplication().getController('Statusbar').setStatusCaption(text);
                 }
@@ -785,11 +774,7 @@ define([
                 me.api.asc_registerCallback('asc_onCoAuthoringDisconnect',  _.bind(me.onCoAuthoringDisconnect, me));
                 me.api.asc_registerCallback('asc_onPrint',                  _.bind(me.onPrint, me));
 
-                var application = me.getApplication();
-                application.getController('Viewport')
-                    .getView('Common.Views.Header')
-                    .setDocumentCaption(me.api.asc_getDocumentName());
-
+                appHeader.setDocumentCaption(me.api.asc_getDocumentName());
                 me.updateWindowTitle(true);
 
                 me.api.SetTextBoxInputMode(Common.localStorage.getBool("de-settings-inputmode"));
@@ -817,6 +802,7 @@ define([
                 }
                 /** coauthoring end **/
 
+                var application                 = me.getApplication();
                 var toolbarController           = application.getController('Toolbar'),
                     statusbarController         = application.getController('Statusbar'),
                     documentHolderController    = application.getController('DocumentHolder'),
@@ -1008,12 +994,11 @@ define([
 
                 this._state.licenseWarning = (licType===Asc.c_oLicenseResult.Connections) && this.appOptions.canEdit && this.editorConfig.mode !== 'view';
 
-                var headerView = this.getApplication().getController('Viewport').getView('Common.Views.Header');
                 this.appOptions.canBranding  = (licType === Asc.c_oLicenseResult.Success) && (typeof this.editorConfig.customization == 'object');
                 if (this.appOptions.canBranding)
-                    headerView.setBranding(this.editorConfig.customization);
+                    appHeader.setBranding(this.editorConfig.customization);
 
-                this.appOptions.canRename && headerView.setCanRename(true);
+                this.appOptions.canRename && appHeader.setCanRename(true);
 
                 this.appOptions.canBrandingExt = params.asc_getCanBranding() && (typeof this.editorConfig.customization == 'object' || this.editorConfig.plugins);
                 if (this.appOptions.canBrandingExt)
@@ -1097,7 +1082,7 @@ define([
 
                     viewport.applyEditorMode();
 
-                    var toolbarView = (toolbarController) ? toolbarController.getView('Toolbar') : null;
+                    var toolbarView = (toolbarController) ? toolbarController.getView() : null;
 
                     _.each([
                         toolbarView,
@@ -1331,7 +1316,7 @@ define([
 
             onCoAuthoringDisconnect: function() {
                 this.getApplication().getController('Viewport').getView('Viewport').setMode({isDisconnected:true});
-                this.getApplication().getController('Viewport').getView('Common.Views.Header').setCanRename(false);
+                appHeader.setCanRename(false);
                 this.appOptions.canRename = false;
                 this._state.isDisconnected = true;
             },
@@ -1352,7 +1337,7 @@ define([
 
                 if (!this.tooltip) {
                     this.tooltip = new Common.UI.Tooltip({
-                        owner: this.getApplication().getController('Toolbar').getView('Toolbar'),
+                        owner: this.getApplication().getController('Toolbar').getView(),
                         hideonclick: true,
                         placement: 'bottom',
                         cls: 'main-info',
@@ -1373,12 +1358,8 @@ define([
                 if (this._state.isDocModified !== isModified || force) {
                     var title = this.defaultTitleText;
 
-                    var headerView = this.getApplication()
-                        .getController('Viewport')
-                        .getView('Common.Views.Header');
-
-                    if (!_.isEmpty(headerView.getDocumentCaption()))
-                        title = headerView.getDocumentCaption() + ' - ' + title;
+                    if (!_.isEmpty(appHeader.getDocumentCaption()))
+                        title = appHeader.getDocumentCaption() + ' - ' + title;
 
                     if (isModified) {
                         clearTimeout(this._state.timerCaption);
@@ -1407,9 +1388,9 @@ define([
                 this.updateWindowTitle();
 
                 this.api.isDocumentModified() &&
-                    this.getApplication().getController('Viewport').getView('Common.Views.Header').setSaveStatus('changed');
+                    appHeader.setSaveStatus('changed');
 
-                var toolbarView = this.getApplication().getController('Toolbar').getView('Toolbar');
+                var toolbarView = this.getApplication().getController('Toolbar').getView();
 
                 if (toolbarView) {
                     var isSyncButton = $('.icon', toolbarView.btnSave.cmpEl).hasClass('btn-synch'),
@@ -1427,7 +1408,7 @@ define([
             onDocumentCanSaveChanged: function (isCanSave) {
                 var application = this.getApplication(),
                     toolbarController = application.getController('Toolbar'),
-                    toolbarView = toolbarController.getView('Toolbar');
+                    toolbarView = toolbarController.getView();
 
                 if (toolbarView && this.api) {
                     var isSyncButton = $('.icon', toolbarView.btnSave.cmpEl).hasClass('btn-synch'),
@@ -1552,7 +1533,7 @@ define([
                 this.getApplication().getController('Common.Controllers.ReviewChanges').synchronizeChanges();
                 this.getApplication().getController('DocumentHolder').getView().hideTips();
                 /** coauthoring begin **/
-                this.getApplication().getController('Toolbar').getView('Toolbar').synchronizeChanges();
+                this.getApplication().getController('Toolbar').getView().synchronizeChanges();
                 /** coauthoring end **/
                 this._state.hasCollaborativeChanges = false;
             },
@@ -1721,7 +1702,7 @@ define([
                 Common.Utils.Metric.setCurrentMetric(value);
                 this.api.asc_SetDocumentUnits((value==Common.Utils.Metric.c_MetricUnits.inch) ? Asc.c_oAscDocumentUnits.Inch : ((value==Common.Utils.Metric.c_MetricUnits.pt) ? Asc.c_oAscDocumentUnits.Point : Asc.c_oAscDocumentUnits.Millimeter));
                 this.getApplication().getController('RightMenu').updateMetricUnit();
-                this.getApplication().getController('Toolbar').getView('Toolbar').updateMetricUnit();
+                this.getApplication().getController('Toolbar').getView().updateMetricUnit();
             },
 
             onAdvancedOptions: function(advOptions) {
@@ -1810,16 +1791,16 @@ define([
             },
 
             onDocumentName: function(name) {
-                this.getApplication().getController('Viewport').getView('Common.Views.Header').setDocumentCaption(name);
+                appHeader.setDocumentCaption(name);
                 this.updateWindowTitle(true);
             },
 
             onMeta: function(meta) {
-                var app = this.getApplication(),
-                    filemenu = app.getController('LeftMenu').getView('LeftMenu').getMenu('file');
-                app.getController('Viewport').getView('Common.Views.Header').setDocumentCaption(meta.title);
+                appHeader.setDocumentCaption(meta.title);
                 this.updateWindowTitle(true);
                 this.document.title = meta.title;
+
+                var filemenu = this.getApplication().getController('LeftMenu').getView('LeftMenu').getMenu('file');
                 filemenu.loadDocument({doc:this.document});
                 filemenu.panels['info'].updateInfo(this.document);
                 Common.Gateway.metaChange(meta);
