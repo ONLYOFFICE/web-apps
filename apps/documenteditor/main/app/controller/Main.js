@@ -2007,8 +2007,6 @@ define([
             criticalErrorExtText: 'Press "Ok" to back to document list.',
             openTitleText: 'Opening Document',
             openTextText: 'Opening document...',
-            saveTitleText: 'Saving Document',
-            saveTextText: 'Saving document...',
             loadFontsTitleText: 'Loading Data',
             loadFontsTextText: 'Loading data...',
             loadImagesTitleText: 'Loading Images',
