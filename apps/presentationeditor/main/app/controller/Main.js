@@ -563,8 +563,7 @@ define([
                 appHeader.setDocumentCaption( me.api.asc_getDocumentName() );
                 me.updateWindowTitle(true);
 
-                value = Common.localStorage.getItem("pe-settings-inputmode");
-                me.api.SetTextBoxInputMode(value!==null && parseInt(value) == 1);
+                me.api.SetTextBoxInputMode(Common.localStorage.getBool("pe-settings-inputmode"));
 
                 /** coauthoring begin **/
                 if (me.appOptions.isEdit && !me.appOptions.isOffline && me.appOptions.canCoAuthoring) {
@@ -775,16 +774,16 @@ define([
             applyModeCommonElements: function() {
                 window.editor_elements_prepared = true;
 
-                var value = Common.localStorage.getItem("pe-hidden-title");
-                value = this.appOptions.isEdit && (value!==null && parseInt(value) == 1);
+                // var value = Common.localStorage.getItem("pe-hidden-title");
+                // value = this.appOptions.isEdit && (value!==null && parseInt(value) == 1);
 
                 var app             = this.getApplication(),
                     viewport        = app.getController('Viewport').getView('Viewport'),
                     statusbarView   = app.getController('Statusbar').getView('Statusbar'),
                     documentHolder  = app.getController('DocumentHolder').getView('DocumentHolder');
 
-                appHeader.setHeaderCaption(this.appOptions.isEdit ? 'Presentation Editor' : 'Presentation Viewer');
-                appHeader.setVisible(!this.appOptions.nativeApp && !value && !this.appOptions.isDesktopApp);
+                // appHeader.setHeaderCaption(this.appOptions.isEdit ? 'Presentation Editor' : 'Presentation Viewer');
+                // appHeader.setVisible(!this.appOptions.nativeApp && !value && !this.appOptions.isDesktopApp);
 
                 viewport && viewport.setMode(this.appOptions, true);
                 statusbarView && statusbarView.setMode(this.appOptions);
@@ -859,8 +858,7 @@ define([
                     Common.Utils.Metric.setCurrentMetric(value);
                     me.api.asc_SetDocumentUnits((value==Common.Utils.Metric.c_MetricUnits.inch) ? Asc.c_oAscDocumentUnits.Inch : ((value==Common.Utils.Metric.c_MetricUnits.pt) ? Asc.c_oAscDocumentUnits.Point : Asc.c_oAscDocumentUnits.Millimeter));
 
-                    value = Common.localStorage.getItem('pe-hidden-rulers');
-                    if (me.api.asc_SetViewRulers) me.api.asc_SetViewRulers(value===null || parseInt(value) === 0);
+                    if (me.api.asc_SetViewRulers) me.api.asc_SetViewRulers(!Common.localStorage.getBool('pe-hidden-rulers'));
 
                     me.api.asc_registerCallback('asc_onChangeObjectLock',        _.bind(me._onChangeObjectLock, me));
                     me.api.asc_registerCallback('asc_onDocumentModifiedChanged', _.bind(me.onDocumentModifiedChanged, me));

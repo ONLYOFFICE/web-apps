@@ -923,8 +923,7 @@ define([
             if (me.api) {
                 var res = (copy) ? me.api.Copy() : me.api.Paste();
                 if (!res) {
-                    var value = Common.localStorage.getItem("pe-hide-copywarning");
-                    if (!(value && parseInt(value) == 1)) {
+                    if (!Common.localStorage.getBool("pe-hide-copywarning")) {
                         (new Common.Views.CopyWarningDialog({
                             handler: function(dontshow) {
                                 if (dontshow) Common.localStorage.setItem("pe-hide-copywarning", 1);
