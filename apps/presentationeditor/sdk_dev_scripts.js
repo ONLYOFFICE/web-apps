@@ -5,6 +5,7 @@ var sdk_dev_scrpipts = [
     "../../../../sdkjs/common/downloaderfiles.js",
     "../../../../sdkjs/common/docscoapicommon.js",
     "../../../../sdkjs/common/docscoapi.js",
+    "../../../../sdkjs/common/spellcheckapi.js",
     "../../../../sdkjs/common/apiCommon.js",
     "../../../../sdkjs/common/SerializeCommonWordExcel.js",
     "../../../../sdkjs/common/editorscommon.js",
