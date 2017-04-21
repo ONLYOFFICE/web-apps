@@ -392,9 +392,10 @@ define([
                 } else {
                     if (id==Asc.c_oAscAsyncAction['Save'] || id==Asc.c_oAscAsyncAction['ForceSaveButton']) {
                         if (this._state.fastCoauth && this._state.usersCount>1) {
-                            clearTimeout(this._state.timerSave);
-                            this._state.timerSave = setTimeout(function () {
+                            var me = this;
+                            me._state.timerSave = setTimeout(function () {
                                 appHeader.setSaveStatus('end');
+                                delete me._state.timerSave;
                             }, 500);
                         } else
                             appHeader.setSaveStatus('end');
@@ -504,7 +505,7 @@ define([
                     if (!this.isShowOpenDialog)
                         this.loadMask.show();
                 } else
-                if ( action.id == Asc.c_oAscAsyncAction.Save ) {
+                if ( action.id == Asc.c_oAscAsyncAction.Save || action.id == Asc.c_oAscAsyncAction.ForceSaveButton ) {
                     appHeader.setSaveStatus('begin');
                 } else {
                     this.getApplication().getController('Statusbar').setStatusCaption(text, force);
@@ -1108,6 +1109,7 @@ define([
                         title = appHeader.getDocumentCaption() + ' - ' + title;
 
                     if (isModified) {
+                        clearTimeout(this._state.timerCaption);
                         if (!_.isUndefined(title)) {
                             title = '* ' + title;
                         }
