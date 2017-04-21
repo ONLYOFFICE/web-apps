@@ -2710,6 +2710,9 @@ define([
                 mask.remove();
                 Common.util.Shortcuts.resumeEvents('alt+h');
             }
+
+            if ( toolbar.synchTooltip )
+                toolbar.synchTooltip.hide();
         },
 
         onSelectRecepientsClick: function() {
@@ -2807,6 +2810,10 @@ define([
                         .onAppReady(config);
                 }
             });
+        },
+
+        getView: function (name) {
+            return !name ? this.toolbar : Backbone.Controller.prototype.getView.apply(this, arguments);
         },
 
         textEmptyImgUrl                            : 'You need to specify image URL.',

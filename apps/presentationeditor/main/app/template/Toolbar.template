@@ -72,17 +72,17 @@
                 </div>
                 <div class="separator long"></div>
                 <div class="group">
-                    <div class="elset" style="width:202px;">
+                    <div class="elset" style="width:195px;">
                         <span class="btn-slot" style="float: left; width: 148px;" id="slot-field-fontname"></span>
                         <span class="btn-slot" style="float: left; width: 45px; margin-left: 2px;" id="slot-field-fontsize"></span>
                     </div>
-                    <div class="elset">
-                        <span class="btn-slot split" id="slot-btn-bold"></span>
-                        <span class="btn-slot split" id="slot-btn-italic"></span>
-                        <span class="btn-slot split" id="slot-btn-underline"></span>
-                        <span class="btn-slot split" id="slot-btn-strikeout"></span>
-                        <span class="btn-slot split" id="slot-btn-fontcolor"></span>
-                        <span class="btn-slot split" id="slot-btn-superscript"></span>
+                    <div class="elset font-attr">
+                        <span class="btn-slot" id="slot-btn-bold"></span>
+                        <span class="btn-slot" id="slot-btn-italic"></span>
+                        <span class="btn-slot" id="slot-btn-underline"></span>
+                        <span class="btn-slot" id="slot-btn-strikeout"></span>
+                        <span class="btn-slot" id="slot-btn-fontcolor"></span>
+                        <span class="btn-slot" id="slot-btn-superscript"></span>
                         <span class="btn-slot" id="slot-btn-subscript"></span>
                     </div>
                 </div>
@@ -100,7 +100,7 @@
                         <span class="btn-slot split" id="slot-btn-linespace"></span>
                     </div>
                 </div>
-                <div class="separator long"></div>
+                <div class="separator long close"></div>
                 <div class="group">
                     <div class="elset">
                         <span class="btn-slot" id="slot-btn-clearstyle"></span>
