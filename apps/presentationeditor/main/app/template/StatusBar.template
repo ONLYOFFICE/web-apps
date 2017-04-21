@@ -8,7 +8,6 @@
             <div id="status-goto-page" style="display:inline-block;"></div>
         </div>
     </div>
-    <!-- /** coauthoring begin **/ -->
     <div id="status-users-ct" class="status-group dropup" style="display:none;">
         <div class="separator short" style="margin-right: 12px; margin-left: 40px;" />
         <div id="status-users-block" style="display:inline-block; cursor:pointer;">
@@ -22,7 +21,6 @@
         </div>
         <div class="separator short" style="margin-left: 10px;" />
     </div>
-    <!-- /** coauthoring end **/ -->
     <div class="status-group" style="width:100%; text-align:center;">
         <label id="status-label-action" class="status-label"></label>
     </div>

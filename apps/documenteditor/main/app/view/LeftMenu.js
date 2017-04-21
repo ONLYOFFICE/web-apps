@@ -371,7 +371,6 @@ define([
         /** coauthoring end **/
         tipAbout    : 'About',
         tipSupport  : 'Feedback & Support',
-        tipFile     : 'File',
         tipSearch   : 'Search',
         tipPlugins  : 'Plugins',
         txtDeveloper: 'DEVELOPER MODE'

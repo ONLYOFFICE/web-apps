@@ -54,7 +54,7 @@ define([
                 '<div id="id-mail-recepients-placeholder"></div>'
             ].join('');
 
-            _options.tpl = _.template(this.template, _options);
+            _options.tpl = _.template(this.template)(_options);
 
             this.fileChoiceUrl = options.fileChoiceUrl || '';
             Common.UI.Window.prototype.initialize.call(this, _options);

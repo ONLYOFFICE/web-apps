@@ -193,13 +193,13 @@ define([
                             me.api.asc_enableKeyEvents(false);
                         },
                         'modal:close': function(dlg) {
-                            if (dlg && dlg.$lastmodal && dlg.$lastmodal.size() < 1) {
+                            if (dlg && dlg.$lastmodal && dlg.$lastmodal.length < 1) {
                                 me.isModalShowed = false;
                                 me.api.asc_enableKeyEvents(true);
                             }
                         },
                         'modal:hide': function(dlg) {
-                            if (dlg && dlg.$lastmodal && dlg.$lastmodal.size() < 1) {
+                            if (dlg && dlg.$lastmodal && dlg.$lastmodal.length < 1) {
                                 me.isModalShowed = false;
                                 me.api.asc_enableKeyEvents(true);
                             }
@@ -367,7 +367,7 @@ define([
                 if (this.api && this.api.asc_isDocumentCanSave) {
                     var cansave = this.api.asc_isDocumentCanSave(),
                         forcesave = this.appOptions.forcesave;
-                    var isSyncButton = $('.btn-icon', toolbarView.btnSave.cmpEl).hasClass('btn-synch');
+                    var isSyncButton = $('.icon', toolbarView.btnSave.cmpEl).hasClass('btn-synch');
                     if (toolbarView.btnSave.isDisabled() !== (!cansave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave))
                         toolbarView.btnSave.setDisabled(!cansave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave);
                 }
@@ -392,9 +392,10 @@ define([
                 } else {
                     if (id==Asc.c_oAscAsyncAction['Save'] || id==Asc.c_oAscAsyncAction['ForceSaveButton']) {
                         if (this._state.fastCoauth && this._state.usersCount>1) {
-                            clearTimeout(this._state.timerSave);
-                            this._state.timerSave = setTimeout(function () {
+                            var me = this;
+                            me._state.timerSave = setTimeout(function () {
                                 appHeader.setSaveStatus('end');
+                                delete me._state.timerSave;
                             }, 500);
                         } else
                             appHeader.setSaveStatus('end');
@@ -504,7 +505,7 @@ define([
                     if (!this.isShowOpenDialog)
                         this.loadMask.show();
                 } else
-                if ( action.id == Asc.c_oAscAsyncAction.Save ) {
+                if ( action.id == Asc.c_oAscAsyncAction.Save || action.id == Asc.c_oAscAsyncAction.ForceSaveButton ) {
                     appHeader.setSaveStatus('begin');
                 } else {
                     this.getApplication().getController('Statusbar').setStatusCaption(text, force);
@@ -563,8 +564,7 @@ define([
                 appHeader.setDocumentCaption( me.api.asc_getDocumentName() );
                 me.updateWindowTitle(true);
 
-                value = Common.localStorage.getItem("pe-settings-inputmode");
-                me.api.SetTextBoxInputMode(value!==null && parseInt(value) == 1);
+                me.api.SetTextBoxInputMode(Common.localStorage.getBool("pe-settings-inputmode"));
 
                 /** coauthoring begin **/
                 if (me.appOptions.isEdit && !me.appOptions.isOffline && me.appOptions.canCoAuthoring) {
@@ -775,16 +775,16 @@ define([
             applyModeCommonElements: function() {
                 window.editor_elements_prepared = true;
 
-                var value = Common.localStorage.getItem("pe-hidden-title");
-                value = this.appOptions.isEdit && (value!==null && parseInt(value) == 1);
+                // var value = Common.localStorage.getItem("pe-hidden-title");
+                // value = this.appOptions.isEdit && (value!==null && parseInt(value) == 1);
 
                 var app             = this.getApplication(),
                     viewport        = app.getController('Viewport').getView('Viewport'),
                     statusbarView   = app.getController('Statusbar').getView('Statusbar'),
                     documentHolder  = app.getController('DocumentHolder').getView('DocumentHolder');
 
-                appHeader.setHeaderCaption(this.appOptions.isEdit ? 'Presentation Editor' : 'Presentation Viewer');
-                appHeader.setVisible(!this.appOptions.nativeApp && !value && !this.appOptions.isDesktopApp);
+                // appHeader.setHeaderCaption(this.appOptions.isEdit ? 'Presentation Editor' : 'Presentation Viewer');
+                // appHeader.setVisible(!this.appOptions.nativeApp && !value && !this.appOptions.isDesktopApp);
 
                 viewport && viewport.setMode(this.appOptions, true);
                 statusbarView && statusbarView.setMode(this.appOptions);
@@ -859,8 +859,7 @@ define([
                     Common.Utils.Metric.setCurrentMetric(value);
                     me.api.asc_SetDocumentUnits((value==Common.Utils.Metric.c_MetricUnits.inch) ? Asc.c_oAscDocumentUnits.Inch : ((value==Common.Utils.Metric.c_MetricUnits.pt) ? Asc.c_oAscDocumentUnits.Point : Asc.c_oAscDocumentUnits.Millimeter));
 
-                    value = Common.localStorage.getItem('pe-hidden-rulers');
-                    if (me.api.asc_SetViewRulers) me.api.asc_SetViewRulers(value===null || parseInt(value) === 0);
+                    if (me.api.asc_SetViewRulers) me.api.asc_SetViewRulers(!Common.localStorage.getBool('pe-hidden-rulers'));
 
                     me.api.asc_registerCallback('asc_onChangeObjectLock',        _.bind(me._onChangeObjectLock, me));
                     me.api.asc_registerCallback('asc_onDocumentModifiedChanged', _.bind(me.onDocumentModifiedChanged, me));
@@ -1110,6 +1109,7 @@ define([
                         title = appHeader.getDocumentCaption() + ' - ' + title;
 
                     if (isModified) {
+                        clearTimeout(this._state.timerCaption);
                         if (!_.isUndefined(title)) {
                             title = '* ' + title;
                         }
@@ -1141,7 +1141,7 @@ define([
 
                 var toolbarView = this.getApplication().getController('Toolbar').getView('Toolbar');
                 if (toolbarView) {
-                    var isSyncButton = $('.btn-icon', toolbarView.btnSave.cmpEl).hasClass('btn-synch'),
+                    var isSyncButton = $('.icon', toolbarView.btnSave.cmpEl).hasClass('btn-synch'),
                         forcesave = this.appOptions.forcesave;
                     if (toolbarView.btnSave.isDisabled() !== (!isModified && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave))
                         toolbarView.btnSave.setDisabled(!isModified && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave);
@@ -1152,7 +1152,7 @@ define([
                     toolbarController = application.getController('Toolbar'),
                     toolbarView = toolbarController.getView('Toolbar');
                 if (toolbarView) {
-                    var isSyncButton = $('.btn-icon', toolbarView.btnSave.cmpEl).hasClass('btn-synch'),
+                    var isSyncButton = $('.icon', toolbarView.btnSave.cmpEl).hasClass('btn-synch'),
                         forcesave = this.appOptions.forcesave;
                     if (toolbarView.btnSave.isDisabled() !== (!isCanSave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave))
                         toolbarView.btnSave.setDisabled(!isCanSave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave);

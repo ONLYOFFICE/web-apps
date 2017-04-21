@@ -104,7 +104,7 @@ define([
                                     })
                     );
                 } else {
-                    $ul.append( _.template(templateUserItem, {
+                    $ul.append( _.template(templateUserItem)({
                         user: model,
                         fnEncode: Common.Utils.String.htmlEncode
                     }) );
@@ -319,7 +319,7 @@ define([
                     return $html;
                 } else
                 if ( role == 'right' ) {
-                    var $html = $(_.template(templateRightBox, {
+                    var $html = $(_.template(templateRightBox)({
                         tipUsers: this.labelCoUsersDescr,
                         txtAccessRights: this.txtAccessRights,
                         textSaveEnd: this.textSaveEnd

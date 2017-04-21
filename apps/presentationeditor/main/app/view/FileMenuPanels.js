@@ -54,7 +54,8 @@ define([
 
         formats: [[
             {name: 'PDF',   imgCls: 'pdf',   type: Asc.c_oAscFileType.PDF},
-            {name: 'PPTX',   imgCls: 'pptx',   type: Asc.c_oAscFileType.PPTX}
+            {name: 'PPTX',   imgCls: 'pptx',   type: Asc.c_oAscFileType.PPTX},
+            {name: 'ODP',   imgCls: 'odp',   type: Asc.c_oAscFileType.ODP}
         ]],
 
 
@@ -275,10 +276,9 @@ define([
         },
 
         updateSettings: function() {
-            var value = Common.localStorage.getItem("pe-settings-inputmode");
-            this.chInputMode.setValue(value!==null && parseInt(value) == 1);
+            this.chInputMode.setValue(Common.localStorage.getBool("pe-settings-inputmode"));
 
-            value = Common.localStorage.getItem("pe-settings-zoom");
+            var value = Common.localStorage.getItem("pe-settings-zoom");
             value = (value!==null) ? parseInt(value) : (this.mode.customization && this.mode.customization.zoom ? parseInt(this.mode.customization.zoom) : -1);
             var item = this.cmbZoom.store.findWhere({value: value});
             this.cmbZoom.setValue(item ? parseInt(item.get('value')) : (value>0 ? value+'%' : 100));

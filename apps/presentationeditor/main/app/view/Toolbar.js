@@ -251,7 +251,7 @@ define([
                     { caption: 'Home', action: 'home', extcls: 'canedit'},
                     { caption: 'Insert', action: 'ins', extcls: 'canedit'} ];
 
-                config.$layout = $(_.template(template, config));
+                config.$layout = $(_.template(template)(config));
 
                 me.paragraphControls = [];
                 me.shapeControls = [];
@@ -1642,7 +1642,7 @@ define([
                 }
 
                 this._state.hasCollaborativeChanges = true;
-                var iconEl = $('.btn-icon', this.btnSave.cmpEl);
+                var iconEl = $('.icon', this.btnSave.cmpEl);
                 iconEl.removeClass(this.btnSaveCls);
                 iconEl.addClass('btn-synch');
                 if (this.showSynchTip) {
@@ -1677,7 +1677,7 @@ define([
 
             synchronizeChanges: function () {
                 if (this.btnSave.rendered) {
-                    var iconEl = $('.btn-icon', this.btnSave.cmpEl);
+                    var iconEl = $('.icon', this.btnSave.cmpEl);
 
                     if (iconEl.hasClass('btn-synch')) {
                         iconEl.removeClass('btn-synch');
@@ -1703,7 +1703,7 @@ define([
                 if (cls !== this.btnSaveCls && this.btnSave.rendered) {
                     this.btnSaveTip = ((length > 1) ? this.tipSaveCoauth : this.tipSave ) + Common.Utils.String.platformKey('Ctrl+S');
 
-                    var iconEl = $('.btn-icon', this.btnSave.cmpEl);
+                    var iconEl = $('.icon', this.btnSave.cmpEl);
                     if (!iconEl.hasClass('btn-synch')) {
                         iconEl.removeClass(this.btnSaveCls);
                         iconEl.addClass(cls);
@@ -1795,7 +1795,7 @@ define([
                 var _elements = $tabs || config.$layout.find('.tabs');
                 var $target = _elements.find('a[data-tab=' + _after_action + ']');
                 if ( $target.length ) {
-                    $target.parent().after( _.template(_tplTab, tab) );
+                    $target.parent().after( _.template(_tplTab)(tab) );
 
                     if ( panel ) {
                         _elements = $panels || config.$layout.find('.box-panels > .panel');

@@ -460,7 +460,7 @@ define([
                 }
 
                 if (btnHorizontalAlign.rendered) {
-                    var iconEl = $('.btn-icon', btnHorizontalAlign.cmpEl);
+                    var iconEl = $('.icon', btnHorizontalAlign.cmpEl);
 
                     if (iconEl) {
                         iconEl.removeClass(btnHorizontalAlign.options.icls);
@@ -493,7 +493,7 @@ define([
                 }
 
                 if (btnVerticalAlign.rendered) {
-                    var iconEl = $('.btn-icon', btnVerticalAlign.cmpEl);
+                    var iconEl = $('.icon', btnVerticalAlign.cmpEl);
 
                     if (iconEl) {
                         iconEl.removeClass(btnVerticalAlign.options.icls);
@@ -886,7 +886,7 @@ define([
         onSave: function(e) {
             if (this.api && this.api.asc_isDocumentCanSave) {
                 var isModified = this.api.asc_isDocumentCanSave();
-                var isSyncButton = $('.btn-icon', this.toolbar.btnSave.cmpEl).hasClass('btn-synch');
+                var isSyncButton = $('.icon', this.toolbar.btnSave.cmpEl).hasClass('btn-synch');
                 if (!isModified && !isSyncButton && !this.toolbar.mode.forcesave)
                     return;
 
@@ -923,8 +923,7 @@ define([
             if (me.api) {
                 var res = (copy) ? me.api.Copy() : me.api.Paste();
                 if (!res) {
-                    var value = Common.localStorage.getItem("pe-hide-copywarning");
-                    if (!(value && parseInt(value) == 1)) {
+                    if (!Common.localStorage.getBool("pe-hide-copywarning")) {
                         (new Common.Views.CopyWarningDialog({
                             handler: function(dontshow) {
                                 if (dontshow) Common.localStorage.setItem("pe-hide-copywarning", 1);
@@ -1015,7 +1014,7 @@ define([
         onMenuHorizontalAlignSelect: function(menu, item) {
             this._state.pralign = undefined;
             var btnHorizontalAlign = this.toolbar.btnHorizontalAlign,
-                iconEl = $('.btn-icon', btnHorizontalAlign.cmpEl);
+                iconEl = $('.icon', btnHorizontalAlign.cmpEl);
 
             if (iconEl) {
                 iconEl.removeClass(btnHorizontalAlign.options.icls);
@@ -1032,7 +1031,7 @@ define([
 
         onMenuVerticalAlignSelect: function(menu, item) {
             var btnVerticalAlign = this.toolbar.btnVerticalAlign,
-                iconEl = $('.btn-icon', btnVerticalAlign.cmpEl);
+                iconEl = $('.icon', btnVerticalAlign.cmpEl);
 
             if (iconEl) {
                 iconEl.removeClass(btnVerticalAlign.options.icls);

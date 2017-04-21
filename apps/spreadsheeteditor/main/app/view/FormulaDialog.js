@@ -92,7 +92,7 @@ define([
             this.formulasGroups =   options.formulasGroups;
             this.handler        =   options.handler;
 
-            _options.tpl        =   _.template(this.template, _options);
+            _options.tpl        =   _.template(this.template)(_options);
 
             Common.UI.Window.prototype.initialize.call(this, _options);
         },

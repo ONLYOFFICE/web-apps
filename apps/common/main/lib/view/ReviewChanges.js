@@ -80,7 +80,7 @@ define([
             this.store      = options.store;
             this.delegate   = options.delegate;
 
-            _options.tpl    = _.template(this.template, _options);
+            _options.tpl    = _.template(this.template)(_options);
 
             this.arrow      = {margin: 20, width: 12, height: 34};
             this.sdkBounds  = {width: 0, height: 0, padding: 10, paddingTop: 20};
@@ -616,7 +616,7 @@ define([
             },
 
             getPanel: function () {
-                this.$el = $(_.template( template, {} ));
+                this.$el = $(_.template(template)( {} ));
 
                 if ( this.appConfig.canReview ) {
                     this.btnPrev.render(this.$el.find('#btn-change-prev'));

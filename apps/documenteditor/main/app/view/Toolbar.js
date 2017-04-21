@@ -195,7 +195,7 @@ define([
                         { caption: me.textTabHome, action: 'home', extcls: 'canedit'},
                         { caption: me.textTabInsert, action: 'ins', extcls: 'canedit'},
                         { caption: me.textTabLayout, action: 'layout', extcls: 'canedit'} ];
-                config.$dom = $(_.template(template, config));
+                config.$dom = $(_.template(template)(config));
 
                 /**
                  * UI Components
@@ -2476,7 +2476,7 @@ define([
                 var _elements = $tabs || config.$dom.find('.tabs');
                 var $target = _elements.find('a[data-tab=' + _after_action + ']');
                 if ( $target.length ) {
-                    $target.parent().after( _.template(_tplTab, tab) );
+                    $target.parent().after( _.template(_tplTab)(tab) );
 
                     if ( panel ) {
                         _elements = $panels || config.$dom.find('.box-panels > .panel');

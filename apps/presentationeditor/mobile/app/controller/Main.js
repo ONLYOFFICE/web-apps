@@ -444,8 +444,7 @@ define([
 
                 me.updateWindowTitle(true);
 
-                value = Common.localStorage.getItem("pe-settings-inputmode");
-                me.api.SetTextBoxInputMode(value!==null && parseInt(value) == 1);
+                me.api.SetTextBoxInputMode(Common.localStorage.getBool("pe-settings-inputmode"));
 
                 /** coauthoring begin **/
                 if (me.appOptions.isEdit && me.appOptions.canLicense && !me.appOptions.isOffline && me.appOptions.canCoAuthoring) {
@@ -543,7 +542,7 @@ define([
 
                 me.permissions.review         = (me.permissions.review === undefined) ? (me.permissions.edit !== false) : me.permissions.review;
                 me.appOptions.canAnalytics    = params.asc_getIsAnalyticsEnable();
-                me.appOptions.canLicense      = (licType === Asc.c_oLicenseResult.Success);
+                me.appOptions.canLicense      = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit);
                 me.appOptions.isLightVersion  = params.asc_getIsLight();
                 /** coauthoring begin **/
                 me.appOptions.canCoAuthoring  = !me.appOptions.isLightVersion;
@@ -572,7 +571,7 @@ define([
 
                 me._state.licenseWarning = (licType===Asc.c_oLicenseResult.Connections) && me.appOptions.canEdit && me.editorConfig.mode !== 'view';
 
-                me.appOptions.canBranding  = params.asc_getCanBranding() && (typeof me.editorConfig.customization == 'object');
+                me.appOptions.canBranding  = (licType === Asc.c_oLicenseResult.Success) && (typeof me.editorConfig.customization == 'object');
 
                 me.applyModeCommonElements();
                 me.applyModeEditorElements();

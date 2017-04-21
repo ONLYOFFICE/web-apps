@@ -249,10 +249,7 @@ define([
                 this.rightmenu.shapeSettings.createDelayedElements();
                 var selectedElements = this.api.getSelectedElements();
                 if (selectedElements.length>0) {
-                    var open = Common.localStorage.getItem("pe-hide-right-settings");
-                    open = (open===null || parseInt(open) == 0);
-                    
-                    this.onFocusObject(selectedElements, open);
+                    this.onFocusObject(selectedElements, !Common.localStorage.getBool("pe-hide-right-settings"));
                 }
             }
         },

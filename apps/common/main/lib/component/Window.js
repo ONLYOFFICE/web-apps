@@ -421,7 +421,7 @@ define([
             _.extend(options, {
                 cls: 'alert',
                 onprimary: onKeyDown,
-                tpl: _.template(template, options)
+                tpl: _.template(template)(options)
             });
 
             var win = new Common.UI.Window(options),
@@ -433,7 +433,8 @@ define([
                 var footer      = window.getChild('.footer');
                 var header      = window.getChild('.header');
                 var body        = window.getChild('.body');
-                var icon        = window.getChild('.icon');
+                var icon        = window.getChild('.icon'),
+                    icon_height = (icon.length>0) ? icon.height() : 0;
                 var check       = window.getChild('.info-box .dont-show-checkbox');
 
                 if (!options.dontshow) body.css('padding-bottom', '10px');
@@ -443,19 +444,19 @@ define([
                         options.width = options.maxwidth;
                 }
                 if (options.width=='auto') {
-                    text_cnt.height(Math.max(text.height() + ((check.length>0) ? (check.height() + parseInt(check.css('margin-top'))) : 0), icon.height()));
+                    text_cnt.height(Math.max(text.height() + ((check.length>0) ? (check.height() + parseInt(check.css('margin-top'))) : 0), icon_height));
                     body.height(parseInt(text_cnt.css('height')) + parseInt(footer.css('height')));
                     window.setSize(text.position().left + text.width() + parseInt(text_cnt.css('padding-right')),
                         parseInt(body.css('height')) + parseInt(header.css('height')));
                 } else {
                     text.css('white-space', 'normal');
                     window.setWidth(options.width);
-                    text_cnt.height(Math.max(text.height() + ((check.length>0) ? (check.height() + parseInt(check.css('margin-top'))) : 0), icon.height()));
+                    text_cnt.height(Math.max(text.height() + ((check.length>0) ? (check.height() + parseInt(check.css('margin-top'))) : 0), icon_height));
                     body.height(parseInt(text_cnt.css('height')) + parseInt(footer.css('height')));
                     window.setHeight(parseInt(body.css('height')) + parseInt(header.css('height')));
                 }
-                if (text.height() < icon.height()-10)
-                    text.css({'vertical-align': 'baseline', 'line-height': icon.height()+'px'});
+                if (text.height() < icon_height-10)
+                    text.css({'vertical-align': 'baseline', 'line-height': icon_height+'px'});
             }
 
             function onBtnClick(event) {
@@ -556,7 +557,7 @@ define([
             render : function() {
                 var renderto = this.initConfig.renderTo || document.body;
                 $(renderto).append(
-                    _.template(template, this.initConfig)
+                    _.template(template)(this.initConfig)
                 );
 
                 this.$window = $('#' + this.initConfig.id);
@@ -695,7 +696,7 @@ define([
                         hide_mask = true;
                     mask.attr('counter', parseInt(mask.attr('counter'))-1);
 
-                    if (this.$lastmodal.size() > 0) {
+                    if (this.$lastmodal.length > 0) {
                         this.$lastmodal.removeClass('dethrone');
                         hide_mask = !(this.$lastmodal.hasClass('modal') && this.$lastmodal.is(':visible'));
                     }
@@ -736,7 +737,7 @@ define([
                             hide_mask = true;
                         mask.attr('counter', parseInt(mask.attr('counter'))-1);
 
-                        if (this.$lastmodal.size() > 0) {
+                        if (this.$lastmodal.length > 0) {
                             this.$lastmodal.removeClass('dethrone');
                             hide_mask = !(this.$lastmodal.hasClass('modal') && this.$lastmodal.is(':visible'));
                         }
