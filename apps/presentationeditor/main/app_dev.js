@@ -55,7 +55,6 @@ require.config({
         xregexp         : '../vendor/xregexp/xregexp-all-min',
         sockjs          : '../vendor/sockjs/sockjs.min',
         jsziputils      : '../vendor/jszip-utils/jszip-utils.min',
-        jsrsasign       : '../vendor/jsrsasign/jsrsasign-latest-all-min',
         api             : 'api/documents/api',
         core            : 'common/main/lib/core/application',
         notification    : 'common/main/lib/core/NotificationCenter',
@@ -122,7 +121,6 @@ require([
     'gateway',
     'locale',
     'jsziputils',
-    'jsrsasign',
     'sockjs',
     'xregexp',
     'underscore'
