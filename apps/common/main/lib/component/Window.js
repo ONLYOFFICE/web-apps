@@ -695,7 +695,7 @@ define([
                         hide_mask = true;
                     mask.attr('counter', parseInt(mask.attr('counter'))-1);
 
-                    if (this.$lastmodal.size() > 0) {
+                    if (this.$lastmodal.length > 0) {
                         this.$lastmodal.removeClass('dethrone');
                         hide_mask = !(this.$lastmodal.hasClass('modal') && this.$lastmodal.is(':visible'));
                     }
@@ -736,7 +736,7 @@ define([
                             hide_mask = true;
                         mask.attr('counter', parseInt(mask.attr('counter'))-1);
 
-                        if (this.$lastmodal.size() > 0) {
+                        if (this.$lastmodal.length > 0) {
                             this.$lastmodal.removeClass('dethrone');
                             hide_mask = !(this.$lastmodal.hasClass('modal') && this.$lastmodal.is(':visible'));
                         }

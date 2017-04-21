@@ -81,8 +81,8 @@ function patchDropDownKeyDown(e) {
     if (!isActive || (isActive && e.keyCode == 27)) {
         if (e.which == 27) {
             $items = $('[role=menu] li.dropdown-submenu.over:visible', $parent);
-            if ($items.size()) {
-                $items.eq($items.size()-1).removeClass('over');
+            if ($items.length) {
+                $items.eq($items.length-1).removeClass('over');
                 return false;
             } else if ($parent.hasClass('dropdown-submenu') && $parent.hasClass('over')) {
                 $parent.removeClass('over');
