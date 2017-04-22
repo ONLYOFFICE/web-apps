@@ -105,7 +105,8 @@ define([
 
             this.addListeners({
                 'Toolbar': {
-                    'insert:break'      : this.onClickPageBreak
+                    'insert:break'      : this.onClickPageBreak,
+                    'change:compact'    : this.onClickChangeCompact
                 },
                 'FileMenu': {
                     'filemenu:hide': function () {
@@ -334,6 +335,16 @@ define([
             Common.localStorage.setBool('de-compact-toolbar', compact);
             Common.NotificationCenter.trigger('layout:changed', 'toolbar');
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onClickChangeCompact: function (from) {
+            if ( from != 'file' ) {
+                var me = this;
+                setTimeout(function () {
+                    me.onChangeCompactView(null, !me.toolbar.isCompact());
+                    me.toolbar.mnuitemCompactToolbar.setChecked(me.toolbar.isCompact(), true);
+                }, 0);
+            }
         },
 
         onApiFontSize: function(size) {
