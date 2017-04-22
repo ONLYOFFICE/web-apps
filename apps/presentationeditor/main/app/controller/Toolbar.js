@@ -117,7 +117,8 @@ define([
                     'insert:image'      : this.onInsertImageClick.bind(this),
                     'insert:text'       : this.onInsertText.bind(this),
                     'insert:textart'    : this.onInsertTextart.bind(this),
-                    'insert:shape'      : this.onInsertShape.bind(this)
+                    'insert:shape'      : this.onInsertShape.bind(this),
+                    'change:compact'    : this.onClickChangeCompact
                 },
                 'FileMenu': {
                     'filemenu:hide': function () {
@@ -321,6 +322,16 @@ define([
             Common.localStorage.setBool('pe-compact-toolbar', compact);
             Common.NotificationCenter.trigger('layout:changed', 'toolbar');
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onClickChangeCompact: function (from) {
+            if ( from != 'file' ) {
+                var me = this;
+                Common.Utils.asyncCall(function () {
+                    me.onChangeCompactView(null, !me.toolbar.isCompact());
+                    me.toolbar.mnuitemCompactToolbar.setChecked(me.toolbar.isCompact(), true);
+                });
+            }
         },
 
         onApiFontSize: function(size) {

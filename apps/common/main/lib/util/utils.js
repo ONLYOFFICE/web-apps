@@ -701,6 +701,14 @@ Common.Utils.createXhr = function () {
     return xmlhttp;
 }
 
+Common.Utils.asyncCall = function (callback, scope, args) {
+    (new Promise(function (resolve, reject) {
+        resolve();
+    })).then(function () {
+        callback.apply(scope, args);
+    });
+}
+
 // Extend javascript String type
 String.prototype.strongMatch = function(regExp){
     if (regExp && regExp instanceof RegExp) {
