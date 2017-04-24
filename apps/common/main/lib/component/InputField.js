@@ -150,7 +150,7 @@ define([
                 if (!me.rendered) {
                     var el = this.cmpEl;
 
-                    this._input = this.cmpEl.find('input').andSelf().filter('input');
+                    this._input = this.cmpEl.find('input').addBack().filter('input');
 
                     if (this.editable) {
                         this._input.on('blur',   _.bind(this.onInputChanged, this));

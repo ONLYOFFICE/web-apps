@@ -175,7 +175,7 @@ define([
                                 '</div>',
                             '</label>',
                         '</li>'
-                    ].join(''), {
+                    ].join(''))({
                         android: Framework7.prototype.device.android,
                         item: size,
                         index: index,

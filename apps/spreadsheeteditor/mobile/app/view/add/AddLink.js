@@ -210,7 +210,7 @@ define([
                     '<% }) %>';
 
                 this.layout.find('#add-link-sheet select').html(
-                    _.template(tpl, {
+                    _.template(tpl)({
                         worksheets: sheets
                     })
                 );
@@ -219,7 +219,7 @@ define([
 
                 if ($view.length > 0) {
                     $view.find('#add-link-sheet select').html(
-                        _.template(tpl, {
+                        _.template(tpl)({
                             worksheets: sheets
                         })
                     );

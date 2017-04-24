@@ -162,17 +162,6 @@
             }
         }
     },
-    "jsrsasign": {
-        "clean": [
-            "../deploy/web-apps/vendor/jsrsasign"
-        ],
-        "copy": {
-            "script": {
-                "src": "../vendor/jsrsasign/jsrsasign-latest-all-min.js",
-                "dest": "../deploy/web-apps/vendor/jsrsasign/jsrsasign-latest-all-min.js"
-            }
-        }
-    },
     "underscore": {
         "clean": [
             "../deploy/web-apps/vendor/underscore"
@@ -206,8 +195,7 @@
             "deploy-underscore",
             "deploy-bootstrap",
             "deploy-jszip",
-            "deploy-jsziputils",
-            "deploy-jsrsasign"
+            "deploy-jsziputils"
         ]
     }
 }

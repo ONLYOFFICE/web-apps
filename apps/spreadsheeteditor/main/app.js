@@ -54,8 +54,6 @@ require.config({
         jmousewheel     : '../vendor/perfect-scrollbar/src/jquery.mousewheel',
         xregexp         : '../vendor/xregexp/xregexp-all-min',
         sockjs          : '../vendor/sockjs/sockjs.min',
-        jsziputils      : '../vendor/jszip-utils/jszip-utils.min',
-        jsrsasign       : '../vendor/jsrsasign/jsrsasign-latest-all-min',
         allfonts        : '../../sdkjs/common/AllFonts',
         sdk             : '../../sdkjs/cell/sdk-all-min',
         api             : 'api/documents/api',
@@ -108,9 +106,7 @@ require.config({
                 'underscore',
                 'allfonts',
                 'xregexp',
-                'sockjs',
-                'jsziputils',
-                'jsrsasign'
+                'sockjs'
             ]
         },
         gateway: {

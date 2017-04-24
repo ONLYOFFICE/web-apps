@@ -19,6 +19,13 @@ margin-right: 30px;
 margin-bottom: 10px;
 }
 
+img.floatright 
+{ 
+float: right;
+margin-left: 30px;
+margin-bottom: 10px;
+}
+
 li
 {
 line-height: 2em;
