@@ -550,6 +550,14 @@ define([
             if (modalParents.length > 0) {
                 cmpEl.data('bs.tooltip').tip().css('z-index', parseInt(modalParents.css('z-index')) + 10);
             }
+
+            if (this.disabled || !Common.Utils.isGecko) {
+                var tip = this.cmpEl.data('bs.tooltip');
+                if (tip) {
+                    this.disabled && tip.hide();
+                    !Common.Utils.isGecko && (tip.enabled = !this.disabled);
+                }
+            }
         },
 
         setCaption: function(caption) {
