@@ -89,8 +89,8 @@ define([
                             '</div>' +
                         '</section>';
 
-        var templateLeftBox = '<section>' +
-                                '<div id="header-logo"></div>' +
+        var templateLeftBox = '<section class="logo">' +
+                                '<div id="header-logo"><img></div>' +
                             '</section>';
 
         function onAddUser(model, collection, opts) {

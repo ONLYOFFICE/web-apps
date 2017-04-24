@@ -57,124 +57,11 @@ define([
     'common/main/lib/component/ComboBoxFonts',
     'common/main/lib/component/ComboDataView'
     ,'common/main/lib/component/SynchronizeTip'
+    ,'common/main/lib/component/Mixtbar'
 ], function ($, _, Backbone, template) {
     'use strict';
 
-    DE.Views.Toolbar =  Backbone.View.extend(_.extend((function(){
-        var $tabs, $boxTabs;
-        var $panels, $marker, $scrollL;
-        var lastPanel;
-        var isFolded = false;
-        var optsFold = {timeout: 2000};
-
-        var config = {};
-
-        function hasTabInvisible() {
-            var _left_bound_ = $boxTabs.offset().left,
-                _right_bound_ = _left_bound_ + $boxTabs.width();
-
-            var tab = $tabs.first().get(0);
-            var rect = tab.getBoundingClientRect();
-
-            if (!(rect.left < _left_bound_)) {
-                tab = $tabs.last().get(0);
-                rect = tab.getBoundingClientRect();
-
-                if (!(rect.right > _right_bound_))
-                    return false;
-            }
-
-            return true;
-        }
-
-        function isTabActive(tab) {
-            var t = $tabs.filter('.active').find('> a');
-            return t.length && t.data('tab') == tab;
-        }
-
-        function onResize(e) {
-            if ( hasTabInvisible() ){
-                if ( !$boxTabs.parent().hasClass('short') )
-                    $boxTabs.parent().addClass('short');
-            } else
-            if ( $boxTabs.parent().hasClass('short') ) {
-                $boxTabs.parent().removeClass('short');
-            }
-        }
-
-        function onScrollTabs(opts, e) {
-            var sv = $boxTabs.scrollLeft();
-            if ( sv || opts == 'right') {
-                $boxTabs.animate({scrollLeft: opts == 'left' ? sv - 100 : sv + 100}, 200);
-            }
-        }
-
-        function collapseToolbar() {
-            optsFold.$bar.removeClass('expanded');
-        }
-
-        function expandToolbar() {
-            clearTimeout(optsFold.timer);
-
-            optsFold.$bar.addClass('expanded');
-            optsFold.timer = setTimeout(collapseToolbar, optsFold.timeout);
-        }
-
-        function onShowCoveredPanel(state) {
-            collapseToolbar();
-
-            if ( state )
-                optsFold.$bar.addClass('cover'); else
-                optsFold.$bar.removeClass('cover');
-        }
-
-        function setFolded(value) {
-            isFolded = value;
-
-            if ( isFolded ) {
-                if ( !optsFold.$bar ) optsFold.$bar = this.$el.find('.toolbar');
-                if ( !optsFold.$box ) optsFold.$box = this.$el.find('.box-controls');
-
-                optsFold.$bar.addClass('folded');
-                optsFold.$box.on({
-                    mouseleave: function (e) {
-                        optsFold.timer = setTimeout(collapseToolbar, optsFold.timeout);
-                    },
-                    mouseenter: function (e) {
-                        clearTimeout(optsFold.timer);
-                    }
-                });
-
-                // $(document.body).on('focus', 'input, textarea', function(e) {
-                // });
-                //
-                // $(document.body).on('blur', 'input, textarea', function(e) {
-                // });
-                //
-                // Common.NotificationCenter.on({
-                //     'modal:show': function(){
-                //     },
-                //     'modal:close': function(dlg) {
-                //     },
-                //     'modal:hide': function(dlg) {
-                //     },
-                //     'dataview:focus': function(e){
-                //     },
-                //     'dataview:blur': function(e){
-                //     },
-                //     'menu:show': function(e){
-                //     },
-                //     'menu:hide': function(e){
-                //     },
-                //     'edit:complete': _.bind(me.onEditComplete, me)
-                // });
-
-            } else {
-                clearTimeout(optsFold.timer);
-                optsFold.$bar.removeClass('folded');
-                optsFold.$box.off();
-            }
-        }
+    DE.Views.Toolbar =  Common.UI.Mixtbar.extend(_.extend((function(){
 
         return {
             el: '#toolbar',
@@ -190,12 +77,15 @@ define([
             initialize: function () {
                 var me = this;
 
-                config.tabs = [
-                        { caption: me.textTabFile, action: 'file'},
-                        { caption: me.textTabHome, action: 'home', extcls: 'canedit'},
-                        { caption: me.textTabInsert, action: 'ins', extcls: 'canedit'},
-                        { caption: me.textTabLayout, action: 'layout', extcls: 'canedit'} ];
-                config.$dom = $(_.template(template)(config));
+                Common.UI.Mixtbar.prototype.initialize.call(this, {
+                        template: _.template(template),
+                        tabs: [
+                            { caption: me.textTabFile, action: 'file'},
+                            { caption: me.textTabHome, action: 'home', extcls: 'canedit'},
+                            { caption: me.textTabInsert, action: 'ins', extcls: 'canedit'},
+                            { caption: me.textTabLayout, action: 'layout', extcls: 'canedit'}
+                        ]}
+                );
 
                 /**
                  * UI Components
@@ -1324,44 +1214,37 @@ define([
 
                 me.isCompactView = mode.isCompactView;
                 if ( mode.isEdit ) {
-                    me.$el.html(me.rendererComponents(config.$dom));
+                    me.$el.html(me.rendererComponents(me.$layout));
                 } else {
-                    config.$dom.find('.canedit').hide();
-                    config.$dom.addClass('folded');
+                    me.$layout.find('.canedit').hide();
+                    me.$layout.addClass('folded');
 
-                    me.$el.html(config.$dom);
+                    me.$el.html(me.$layout);
                 }
 
                 this.fireEvent('render:after', [this]);
+                Common.UI.Mixtbar.prototype.afterRender.call(this);
 
                 /** coauthoring begin **/
                 this.showSynchTip = !Common.localStorage.getBool("de-hide-synch");
                 this.needShowSynchTip = false;
                 /** coauthoring end **/
 
-                $boxTabs = me.$el.find('.tabs > ul');
-                $tabs = $boxTabs.find('> li');
-                $panels = me.$el.find('.box-panels > .panel');
-                $tabs.parent().on('click', '.ribtab', function (e) {
+                me.$tabs.parent().on('click', '.ribtab', function (e) {
                     var tab = $(e.target).data('tab');
                     if (tab == 'file') {
                         me.fireEvent('file:open');
                     } else
-                    if ( isTabActive('file') )
+                    if ( me.isTabActive('file') )
                         me.fireEvent('file:close');
 
                     me.setTab(tab);
                 });
 
-                $marker = me.$el.find('.tabs .marker');
-                var $scrollR = me.$el.find('.tabs .scroll.right');
-                $scrollL = me.$el.find('.tabs .scroll.left');
-
-                $scrollL.on('click', onScrollTabs.bind(this, 'left'));
-                $scrollR.on('click', onScrollTabs.bind(this, 'right'));
-
                 Common.NotificationCenter.on({
-                    'window:resize': onResize
+                    'window:resize': function() {
+                        Common.UI.Mixtbar.prototype.onResize.apply(me, arguments);
+                    }
                 });
 
                 if ( me.isCompactView )
@@ -2423,94 +2306,6 @@ define([
             onStyleMenuDeleteAll: function (item, e, eOpt) {
                 if (this.api)
                     this.api.asc_RemoveAllCustomStyles();
-            },
-
-            setTab: function (tab) {
-                if ( !tab || !tab.length ) {
-                    if ( isFolded ) onShowCoveredPanel(false);
-                    else tab = lastPanel;
-                }
-
-                if ( tab ) {
-                    $tabs.removeClass('active');
-                    $panels.removeClass('active');
-
-                    var panel = $panels.filter('[data-tab=' + tab + ']');
-                    if (panel.length) {
-                        lastPanel = tab;
-                        panel.addClass('active');
-                    }
-
-                    var $tp = $tabs.find('> a[data-tab=' + tab + ']').parent();
-                    if ($tp.length) {
-                        $tp.addClass('active');
-
-                        $marker.width($tp.width());
-
-                        if ($scrollL.is(':visible'))
-                            $marker.css({left: $tp.position().left + $boxTabs.scrollLeft() - $scrollL.width()});
-                        else $marker.css({left: $tp.position().left});
-                    }
-
-                    if ( isFolded ) {
-                        if ( panel.length )
-                            expandToolbar(); else
-                            onShowCoveredPanel(true);
-                    }
-                }
-            },
-
-            addTab: function (tab, panel, after) {
-                function _get_tab_action(index) {
-                    if ( !config.tabs[index] )
-                        return _get_tab_action(--index);
-
-                    return config.tabs[index].action;
-                }
-
-                var _tplTab = '<li class="ribtab"><a href="#" data-tab="<%= action %>" data-title="<%= caption %>"><%= caption %></a></li>';
-
-                config.tabs[after + 1] = tab;
-                var _after_action = _get_tab_action( after );
-
-                var _elements = $tabs || config.$dom.find('.tabs');
-                var $target = _elements.find('a[data-tab=' + _after_action + ']');
-                if ( $target.length ) {
-                    $target.parent().after( _.template(_tplTab)(tab) );
-
-                    if ( panel ) {
-                        _elements = $panels || config.$dom.find('.box-panels > .panel');
-                        $target = _elements.filter('[data-tab=' + _after_action + ']');
-
-                        if ( $target.length ) {
-                            $target.after(panel);
-                        }
-                    }
-
-                    // synchronize matched elements
-                    $tabs && ($tabs = $boxTabs.find('> li'));
-                    $panels && ($panels = this.$el.find('.box-panels > .panel'));
-                }
-            },
-
-            setFolded: function (f) {
-                setFolded.call(this, f);
-            },
-
-            setExtra: function (place, el) {
-                if ( $tabs ) {
-                } else {
-                    if ( place == 'right' ) {
-                        config.$dom.find('.extra.right').html(el);
-                    } else
-                    if ( place == 'left' ) {
-                        config.$dom.find('.extra.left').html(el);
-                    }
-                }
-            },
-
-            isCompact: function () {
-                return isFolded;
             },
 
             textBold: 'Bold',

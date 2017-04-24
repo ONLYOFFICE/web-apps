@@ -77,9 +77,19 @@
         height: 100%;
         cursor: pointer;
 
-        .background-ximage('@{common-image-path}/header/logo.png', '@{common-image-path}/header/logo.png', 240px);
-        background-size: contain;
-        background-repeat: no-repeat;
+        line-height: @height-tabs;
+        text-align: center;
+
+        img {
+            content: data-uri('@{common-image-path}/header/header-logo.png');
+
+            @media
+            only screen and (-webkit-min-device-pixel-ratio: 2),
+            only screen and (min-resolution: 2dppx),
+            only screen and (min-resolution: 192dpi) {
+                content: data-uri('@{common-image-path}/header/header-logo@2x.png');
+            }
+        }
     }
 
     .status-label {
