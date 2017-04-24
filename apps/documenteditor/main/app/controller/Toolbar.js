@@ -325,6 +325,7 @@ define([
             this.api.asc_registerCallback('asc_onMathTypes',            _.bind(this.onMathTypes, this));
             this.api.asc_registerCallback('asc_onColumnsProps',         _.bind(this.onColumnsProps, this));
             this.api.asc_registerCallback('asc_onSectionProps',         _.bind(this.onSectionProps, this));
+            this.api.asc_registerCallback('asc_onContextMenu',          _.bind(this.onContextMenu, this));
         },
 
         onChangeCompactView: function(view, compact) {
@@ -344,6 +345,10 @@ define([
                     me.toolbar.mnuitemCompactToolbar.setChecked(me.toolbar.isCompact(), true);
                 }, 0);
             }
+        },
+
+        onContextMenu: function() {
+            this.toolbar.collapseToolbar();
         },
 
         onApiFontSize: function(size) {

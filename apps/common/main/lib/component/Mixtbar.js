@@ -42,7 +42,7 @@
  */
 
 define([
-    'backbone',
+    'backbone'
 ], function (Backbone) {
     'use strict';
 
@@ -169,7 +169,8 @@ define([
             },
 
             collapseToolbar: function() {
-                optsFold.$bar.removeClass('expanded');
+                optsFold.$bar && optsFold.$bar.removeClass('expanded');
+                Common.UI.Menu.Manager.hideAll();
             },
 
             expandToolbar: function() {

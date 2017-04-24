@@ -309,6 +309,7 @@ define([
 
             this.api.asc_registerCallback('asc_onCountPages',           _.bind(this.onApiCountPages, this));
             this.api.asc_registerCallback('asc_onMathTypes',            _.bind(this.onMathTypes, this));
+            this.api.asc_registerCallback('asc_onContextMenu',          _.bind(this.onContextMenu, this));
 
             this.onSetupCopyStyleButton();
         },
@@ -330,6 +331,10 @@ define([
                     me.toolbar.mnuitemCompactToolbar.setChecked(me.toolbar.isCompact(), true);
                 });
             }
+        },
+
+        onContextMenu: function() {
+            this.toolbar.collapseToolbar();
         },
 
         onApiFontSize: function(size) {
