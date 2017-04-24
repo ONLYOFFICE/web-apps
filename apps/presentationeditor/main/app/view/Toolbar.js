@@ -353,14 +353,6 @@ define([
                             { template: _.template('<a id="id-toolbar-menu-new-fontcolor" style="padding-left:12px;">' + me.textNewColor + '</a>') }
                         ]
                     })
-                }).on('render:after', function(btn) {
-                    var colorVal = $('<div class="btn-color-value-line"></div>');
-                    $('button:first-child', btn.cmpEl).append(colorVal);
-                    colorVal.css('background-color', btn.currentColor || 'transparent');
-
-                    me.mnuFontColorPicker = new Common.UI.ThemeColorPalette({
-                        el: $('#id-toolbar-menu-fontcolor')
-                    });
                 });
                 me.paragraphControls.push(me.btnFontColor);
 
@@ -849,6 +841,8 @@ define([
                         cmp.setDisabled(true);
                 });
                 this.lockToolbar(PE.enumLock.disableOnStart, true, {array: me.slideOnlyControls.concat(me.shapeControls)});
+
+                this.on('render:after', _.bind(this.onToolbarAfterRender, this));
 
                 return this;
             },
@@ -1408,6 +1402,17 @@ define([
                 }
                 /** coauthoring end **/
 
+            },
+
+            onToolbarAfterRender: function(toolbar) {
+                // DataView and pickers
+                //
+                var colorVal = $('<div class="btn-color-value-line"></div>');
+                $('button:first-child', this.btnFontColor.cmpEl).append(colorVal);
+                colorVal.css('background-color', this.btnFontColor.currentColor || 'transparent');
+                this.mnuFontColorPicker = new Common.UI.ThemeColorPalette({
+                    el: $('#id-toolbar-menu-fontcolor')
+                });
             },
 
             setApi: function (api) {

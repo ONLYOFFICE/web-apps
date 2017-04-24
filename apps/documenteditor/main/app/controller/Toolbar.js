@@ -178,7 +178,6 @@ define([
             // Create toolbar view
             this.toolbar = this.createView('Toolbar');
 
-            // this.toolbar.on('render:after', _.bind(this.onToolbarAfterRender, this));
             me.toolbar.on('render:before', function (cmp) {
             });
 
@@ -186,7 +185,7 @@ define([
             Common.NotificationCenter.on('app:face', me.onAppShowed.bind(me));
         },
 
-        onToolbarAfterRender: function(toolbar) {
+        attachUIEvents: function(toolbar) {
             /**
              * UI Events
              */
@@ -2749,7 +2748,7 @@ define([
 
         createDelayedElements: function() {
             this.toolbar.createDelayedElements();
-            this.onToolbarAfterRender(this.toolbar);
+            this.attachUIEvents(this.toolbar);
         },
 
         onAppShowed: function (config) {
