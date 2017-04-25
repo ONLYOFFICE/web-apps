@@ -1436,7 +1436,7 @@ define([
                 if (item.value !== 'advanced')
                     this.api.change_DocSize(item.value[0], item.value[1]);
                 else {
-                    var win, props = this.api.asc_GetSectionProps(),
+                    var win, props,
                         me = this;
                     win = new DE.Views.PageSizeDialog({
                         handler: function(dlg, result) {

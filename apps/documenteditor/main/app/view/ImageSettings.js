@@ -359,15 +359,10 @@ define([
                                 if (imgsizeOriginal)
                                     imgsizeOriginal = {width:imgsizeOriginal.get_ImageWidth(), height:imgsizeOriginal.get_ImageHeight()};
                             }
-                            var imgsizeMax = this.api.GetSectionInfo();
-                            imgsizeMax = {width: imgsizeMax.get_PageWidth() - (imgsizeMax.get_MarginLeft()+imgsizeMax.get_MarginRight()),
-                                          height:imgsizeMax.get_PageHeight() - (imgsizeMax.get_MarginTop()+imgsizeMax.get_MarginBottom())};
-
                             (new DE.Views.ImageSettingsAdvanced(
                                 {
                                     imageProps: elValue,
                                     sizeOriginal: imgsizeOriginal,
-                                    sizeMax: imgsizeMax,
                                     sectionProps: me.api.asc_GetSectionProps(),
                                     handler: function(result, value) {
                                         if (result == 'ok') {
