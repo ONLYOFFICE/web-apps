@@ -278,6 +278,7 @@
   "SSE.Controllers.Main.errorKeyEncrypt": "Unknown key descriptor",
   "SSE.Controllers.Main.errorKeyExpire": "Key descriptor expired",
   "SSE.Controllers.Main.errorLockedAll": "The operation could not be done as the sheet has been locked by another user.",
+  "SSE.Controllers.Main.errorLockedCellPivot": "You cannot change data inside a pivot table.",
   "SSE.Controllers.Main.errorLockedWorksheetRename": "The sheet cannot be renamed at the moment as it is being renamed by another user",
   "SSE.Controllers.Main.errorMoveRange": "Cannot change part of a merged cell",
   "SSE.Controllers.Main.errorOpenWarning": "The length of one of the formulas in the file exceeded<br>the allowed number of characters and it was removed.",

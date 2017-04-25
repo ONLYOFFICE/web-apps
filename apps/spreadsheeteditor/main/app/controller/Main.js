@@ -1190,6 +1190,10 @@ define([
                         config.msg = this.errorAccessDeny;
                         break;
 
+                    case Asc.c_oAscError.ID.LockedCellPivot:
+                        config.msg = this.errorLockedCellPivot;
+                        break;
+
                     default:
                         config.msg = this.errorDefaultMessage.replace('%1', id);
                         break;
@@ -2113,6 +2117,7 @@ define([
             errorAccessDeny: 'You are trying to perform an action you do not have rights for.<br>Please contact your Document Server administrator.',
             titleServerVersion: 'Editor updated',
             errorServerVersion: 'The editor version has been updated. The page will be reloaded to apply the changes.',
+            errorLockedCellPivot: 'You cannot change data inside a pivot table.',
             txtAccent: 'Accent',
             txtStyle_Normal: 'Normal',
             txtStyle_Heading_1: 'Heading 1',
