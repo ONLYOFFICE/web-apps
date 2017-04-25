@@ -90,7 +90,7 @@ define([
                         '</section>';
 
         var templateLeftBox = '<section class="logo">' +
-                                '<div id="header-logo"><img></div>' +
+                                '<div id="header-logo"><i /></div>' +
                             '</section>';
 
         function onAddUser(model, collection, opts) {
@@ -361,7 +361,7 @@ define([
                 if (value && value.logo && value.logo.image) {
                     element = $('#header-logo');
                     if ( element ) {
-                        element.html('<img src="' + value.logo.image + '" style="max-width:86px; max-height:42px; margin: 0 8px 0 15px;"/>');
+                        element.html('<img src="' + value.logo.image + '" style="max-width:100px; max-height:20px; margin: 0;"/>');
                         element.css({'background-image': 'none', width: 'auto'});
                     }
                 }

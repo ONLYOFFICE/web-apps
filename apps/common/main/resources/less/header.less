@@ -43,8 +43,7 @@
     }
 
     &.left {
-        min-width: 150px;
-        padding-left: 12px;
+        //min-width: 126px;
     }
 
     &.right {
@@ -73,22 +72,16 @@
     }
 
     #header-logo {
-        width: 100%;
+        max-width: 200px;
         height: 100%;
         cursor: pointer;
+        padding: 10px 16px 10px 12px;
 
-        line-height: @height-tabs;
-        text-align: center;
-
-        img {
-            content: data-uri('@{common-image-path}/header/header-logo.png');
-
-            @media
-            only screen and (-webkit-min-device-pixel-ratio: 2),
-            only screen and (min-resolution: 2dppx),
-            only screen and (min-resolution: 192dpi) {
-                content: data-uri('@{common-image-path}/header/header-logo@2x.png');
-            }
+        i {
+            width: 100px;
+            height: 20px;
+            display: block;
+            .background-ximage('@{common-image-path}/header/header-logo.png', '@{common-image-path}/header/header-logo@2x.png', 100px);
         }
     }
 
