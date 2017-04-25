@@ -1041,61 +1041,57 @@ define([
 
             onAppReady: function (config) {
                 var me = this;
-                (new Promise( function(resolve, reject) {
-                    resolve();
-                })).then(function () {
-                    if ( !config.isEdit ) return;
+                if (!config.isEdit) return;
 
-                    me.btnsInsertImage.forEach(function (btn) {
-                        btn.updateHint(me.tipInsertImage);
-                        btn.setMenu(
-                            new Common.UI.Menu({
-                                items: [
-                                    { caption: me.mniImageFromFile, value: 'file' },
-                                    { caption: me.mniImageFromUrl,  value: 'url' }
-                                ]
-                            }).on('item:click', function (menu, item, e) {
-                                me.fireEvent('insert:image', [item.value]);
-                            })
-                        );
-                    });
+                me.btnsInsertImage.forEach(function (btn) {
+                    btn.updateHint(me.tipInsertImage);
+                    btn.setMenu(
+                        new Common.UI.Menu({
+                            items: [
+                                {caption: me.mniImageFromFile, value: 'file'},
+                                {caption: me.mniImageFromUrl, value: 'url'}
+                            ]
+                        }).on('item:click', function (menu, item, e) {
+                            me.fireEvent('insert:image', [item.value]);
+                        })
+                    );
+                });
 
-                    me.btnsInsertText.forEach(function (btn) {
-                        btn.updateHint(me.tipInsertText);
-                        btn.setMenu(
-                            new Common.UI.Menu({
-                                items : [
-                                    {caption: me.textInsText, value: 'text'},
-                                    {caption: me.textInsTextArt, value: 'art',
-                                        menu: new Common.UI.Menu({
-                                            menuAlign: 'tl-tr',
-                                            cls: 'menu-shapes',
-                                            items: [
-                                                { template: _.template('<div class="view-insert-art" style="width: 239px; margin-left: 5px;"></div>') }
-                                            ]
-                                        })
-                                    }
-                                ]
-                            }).on('item:click', function (menu, item, e) {
-                                if ( item.value == 'text' )
-                                    me.fireEvent('insert:text', ['begin']);
-                            })
-                        );
-                        btn.on('click', function (btn, e) {
-                            me.fireEvent('insert:text', [btn.pressed?'begin':'end']);
-                        });
+                me.btnsInsertText.forEach(function (btn) {
+                    btn.updateHint(me.tipInsertText);
+                    btn.setMenu(
+                        new Common.UI.Menu({
+                            items: [
+                                {caption: me.textInsText, value: 'text'},
+                                {caption: me.textInsTextArt, value: 'art',
+                                    menu: new Common.UI.Menu({
+                                        menuAlign: 'tl-tr',
+                                        cls: 'menu-shapes',
+                                        items: [
+                                            {template: _.template('<div class="view-insert-art" style="width: 239px; margin-left: 5px;"></div>')}
+                                        ]
+                                    })
+                                }
+                            ]
+                        }).on('item:click', function (menu, item, e) {
+                            if (item.value == 'text')
+                                me.fireEvent('insert:text', ['begin']);
+                        })
+                    );
+                    btn.on('click', function (btn, e) {
+                        me.fireEvent('insert:text', [btn.pressed ? 'begin' : 'end']);
                     });
+                });
 
-                    me.btnsInsertShape.forEach(function (btn) {
-                        btn.updateHint(me.tipInsertShape);
-                        btn.setMenu(
-                            new Common.UI.Menu({
-                                cls: 'menu-shapes'
-                            }).on('hide:after', function (e) {
-                                me.fireEvent('insert:shape', ['menu:hide']);
-                            })
-                        );
-                    });
+                me.btnsInsertShape.forEach(function (btn) {
+                    btn.updateHint(me.tipInsertShape);
+                    btn.setMenu(
+                        new Common.UI.Menu({
+                            cls: 'menu-shapes'
+                        }).on('hide:after', function (e) {
+                            me.fireEvent('insert:shape', ['menu:hide']);
+                        })
+                    );
                 });
             },
 

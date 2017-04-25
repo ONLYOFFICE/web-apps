@@ -723,12 +723,11 @@ define([
                 if (this._isDocReady)
                     return;
 
-                Common.NotificationCenter.trigger('app:ready', this.appOptions);
-
                 var me = this,
                     value;
 
                 me._isDocReady = true;
+                Common.NotificationCenter.trigger('app:ready', this.appOptions);
 
                 me.api.SetDrawingFreeze(false);
                 me.hidePreloader();

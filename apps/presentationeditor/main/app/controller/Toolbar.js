@@ -2091,9 +2091,7 @@ define([
                 }
             }
 
-            (new Promise(function(accept) {
-                accept();
-            })).then(function () {
+            Common.Utils.asyncCall(function () {
                 if ( config.isEdit ) {
                     me.toolbar.onAppReady(config);
                 }
