@@ -57,10 +57,10 @@ define([
             this.addListeners({
                 'Toolbar': {
                     'render:before' : function (toolbar) {
-                        var tab = {action: 'plugins', caption: 'Addons'};
-                        var $panel = me.panelPlugins.getPanel();
-
-                        toolbar.addTab(tab, $panel, 4);
+                        // var tab = {action: 'plugins', caption: 'Addons'};
+                        // var $panel = me.panelPlugins.getPanel();
+                        //
+                        // toolbar.addTab(tab, $panel, 4);
                     }
                 },
                 'Common.Views.Plugins': {
