@@ -532,6 +532,7 @@ define([
 
         setLanguages: function (array) {
             this.langs = array;
+            this.view.btnDocLang.setDisabled(this.langs.length<1);
         },
 
         onDocLanguage: function() {

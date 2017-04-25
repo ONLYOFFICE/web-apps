@@ -541,7 +541,8 @@ define([
                 this.btnDocLang = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'btn-ic-doclang',
-                    caption: this.txtDocLang
+                    caption: this.txtDocLang,
+                    disabled: true
                 });
 
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
