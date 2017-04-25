@@ -99,6 +99,10 @@ define([
                                          : tipEl.css({top : showxy.top + this.target.height()/2 + 'px', left: showxy.left + this.target.width() + 'px'});
             },
 
+            isVisible: function() {
+                return tipEl && tipEl.is(':visible');
+            },
+
             textDontShow        : 'Don\'t show this message again',
             textSynchronize     : 'The document has been changed by another user.<br/>Please click to save your changes and reload the updates.'
         }

@@ -104,7 +104,8 @@ define([
                 }
             });
 
-            Common.NotificationCenter.on('app:ready', me.onAppReady.bind(this));
+            Common.NotificationCenter.on('app:ready', me.onAppReady.bind(me));
+            Common.NotificationCenter.on('reviewchanges:turn', me.onTurnPreview.bind(me));
         },
 
         onAppReady: function (config) {
@@ -153,6 +154,13 @@ define([
 
                 }
             });
+        },
+
+        onTurnPreview: function(state) {
+            if (state == 'off' && this.changesTooltip && this.changesTooltip.isVisible()) {
+                this.changesTooltip.hide();
+                this.btnTurnReview.updateHint(this.tipReview);
+            }
         },
 
         setApi: function(api) {
