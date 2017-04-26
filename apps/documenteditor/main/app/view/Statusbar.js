@@ -181,9 +181,6 @@ define([
             });
         }
 
-        if ( DE.Views.Statusbar )
-            var LanguageDialog = DE.Views.Statusbar.LanguageDialog || {};
-
         DE.Views.Statusbar = Backbone.View.extend(_.extend({
             el: '#statusbar',
             template: _.template(template),
@@ -364,7 +361,7 @@ define([
             },
 
             setLanguage: function(info) {
-                if (this.langMenu.prevTip != info.tip) {
+                if (this.langMenu.prevTip != info.tip && info.code !== undefined) {
                     var $parent = $(this.langMenu.el.parentNode, this.$el);
                     $parent.find('.dropdown-toggle > .icon.lang-flag')
                         .removeClass(this.langMenu.prevTip)
@@ -405,99 +402,5 @@ define([
             textTrackChanges    : 'Track Changes',
             textChangesPanel    : 'Changes panel'
         }, DE.Views.Statusbar || {}));
-
-        DE.Views.Statusbar.LanguageDialog = Common.UI.Window.extend(_.extend({
-            options: {
-                header: false,
-                width: 350,
-                cls: 'modal-dlg'
-            },
-
-            template:   '<div class="box">' +
-                            '<div class="input-row">' +
-                                '<label><%= label %></label>' +
-                            '</div>' +
-                            '<div class="input-row" id="id-document-language">' +
-                            '</div>' +
-                        '</div>' +
-                        '<div class="footer right">' +
-                            '<button class="btn normal dlg-btn primary" result="ok" style="margin-right: 10px;"><%= btns.ok %></button>'+
-                            '<button class="btn normal dlg-btn" result="cancel"><%= btns.cancel %></button>'+
-                        '</div>',
-
-            initialize : function(options) {
-                _.extend(this.options, options || {}, {
-                    label: this.labelSelect,
-                    btns: {ok: this.btnOk, cancel: this.btnCancel}
-                });
-                this.options.tpl = _.template(this.template)(this.options);
-
-                Common.UI.Window.prototype.initialize.call(this, this.options);
-            },
-
-            render: function() {
-                Common.UI.Window.prototype.render.call(this);
-
-                var $window = this.getChild();
-                $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
-
-                this.cmbLanguage = new Common.UI.ComboBox({
-                    el: $window.find('#id-document-language'),
-                    cls: 'input-group-nr',
-                    menuStyle: 'min-width: 318px; max-height: 300px;',
-                    editable: false,
-                    template: _.template([
-                        '<span class="input-group combobox <%= cls %> combo-langs" id="<%= id %>" style="<%= style %>">',
-                            '<input type="text" class="form-control">',
-                            '<span class="icon input-icon lang-flag"></span>',
-                            '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret img-commonctrl"></span></button>',
-                            '<ul class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">',
-                                '<% _.each(items, function(item) { %>',
-                                    '<li id="<%= item.id %>" data-value="<%= item.value %>">',
-                                        '<a tabindex="-1" type="menuitem" style="padding-left: 26px !important;">',
-                                            '<i class="icon lang-flag <%= item.value %>" style="position: absolute;margin-left:-21px;"></i>',
-                                            '<%= scope.getDisplayValue(item) %>',
-                                        '</a>',
-                                    '</li>',
-                                '<% }); %>',
-                            '</ul>',
-                        '</span>'
-                    ].join('')),
-                    data: this.options.languages
-                });
-
-                if (this.cmbLanguage.scroller) this.cmbLanguage.scroller.update({alwaysVisibleY: true});
-                this.cmbLanguage.on('selected', _.bind(this.onLangSelect, this));
-                this.cmbLanguage.setValue(Common.util.LanguageInfo.getLocalLanguageName(this.options.current)[0]);
-                this.onLangSelect(this.cmbLanguage, this.cmbLanguage.getSelectedRecord());
-            },
-
-            close: function(suppressevent) {
-                var $window = this.getChild();
-                if (!$window.find('.combobox.open').length) {
-                    Common.UI.Window.prototype.close.call(this, arguments);
-                }
-            },
-
-            onBtnClick: function(event) {
-                if (this.options.handler) {
-                    this.options.handler.call(this, event.currentTarget.attributes['result'].value, this.cmbLanguage.getValue());
-                }
-
-                this.close();
-            },
-
-            onLangSelect: function(cmb, rec, e) {
-                var icon    = cmb.$el.find('.input-icon'),
-                    plang   = icon.attr('lang');
-
-                if (plang) icon.removeClass(plang);
-                icon.addClass(rec.value).attr('lang',rec.value);
-            },
-
-            labelSelect     : 'Select document language',
-            btnCancel       : 'Cancel',
-            btnOk           : 'Ok'
-        }, LanguageDialog||{}));
     }
 );

@@ -46,7 +46,8 @@ define([
     'core',
     'common/main/lib/model/ReviewChange',
     'common/main/lib/collection/ReviewChanges',
-    'common/main/lib/view/ReviewChanges'
+    'common/main/lib/view/ReviewChanges',
+    'common/main/lib/view/LanguageDialog'
 ], function () {
     'use strict';
 
@@ -545,7 +546,7 @@ define([
             });
 
             var me = this;
-            (new DE.Views.Statusbar.LanguageDialog({
+            (new Common.Views.LanguageDialog({
                 languages: langs,
                 current: me.api.asc_getDefaultLanguage(),
                 handler: function(result, tip) {
