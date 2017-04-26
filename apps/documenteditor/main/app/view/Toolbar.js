@@ -1988,33 +1988,40 @@ define([
             onToolbarAfterRender: function(toolbar) {
                 // DataView and pickers
                 //
-                var colorVal = $('<div class="btn-color-value-line"></div>');
-                $('button:first-child', this.btnHighlightColor.cmpEl).append(colorVal);
-                this.btnHighlightColor.currentColor = 'FFFF00';
-                colorVal.css('background-color', '#' + this.btnHighlightColor.currentColor);
-                this.mnuHighlightColorPicker = new Common.UI.ColorPalette({
-                    el: $('#id-toolbar-menu-highlight'),
-                    colors: [
-                        'FFFF00', '00FF00', '00FFFF', 'FF00FF', '0000FF', 'FF0000', '00008B', '008B8B',
-                        '006400', '800080', '8B0000', '808000', 'FFFFFF', 'D3D3D3', 'A9A9A9', '000000'
-                    ]
-                });
-                this.mnuHighlightColorPicker.select('FFFF00');
+                var colorVal;
+                if (this.btnHighlightColor.cmpEl) {
+                    colorVal = $('<div class="btn-color-value-line"></div>');
+                    $('button:first-child', this.btnHighlightColor.cmpEl).append(colorVal);
+                    this.btnHighlightColor.currentColor = 'FFFF00';
+                    colorVal.css('background-color', '#' + this.btnHighlightColor.currentColor);
+                    this.mnuHighlightColorPicker = new Common.UI.ColorPalette({
+                        el: $('#id-toolbar-menu-highlight'),
+                        colors: [
+                            'FFFF00', '00FF00', '00FFFF', 'FF00FF', '0000FF', 'FF0000', '00008B', '008B8B',
+                            '006400', '800080', '8B0000', '808000', 'FFFFFF', 'D3D3D3', 'A9A9A9', '000000'
+                        ]
+                    });
+                    this.mnuHighlightColorPicker.select('FFFF00');
+                }
 
-                colorVal = $('<div class="btn-color-value-line"></div>');
-                $('button:first-child', this.btnFontColor.cmpEl).append(colorVal);
-                colorVal.css('background-color', this.btnFontColor.currentColor || 'transparent');
-                this.mnuFontColorPicker = new Common.UI.ThemeColorPalette({
-                    el: $('#id-toolbar-menu-fontcolor')
-                });
+                if (this.btnFontColor.cmpEl) {
+                    colorVal = $('<div class="btn-color-value-line"></div>');
+                    $('button:first-child', this.btnFontColor.cmpEl).append(colorVal);
+                    colorVal.css('background-color', this.btnFontColor.currentColor || 'transparent');
+                    this.mnuFontColorPicker = new Common.UI.ThemeColorPalette({
+                        el: $('#id-toolbar-menu-fontcolor')
+                    });
+                }
 
-                colorVal = $('<div class="btn-color-value-line"></div>');
-                $('button:first-child', this.btnParagraphColor.cmpEl).append(colorVal);
-                colorVal.css('background-color', this.btnParagraphColor.currentColor || 'transparent');
-                this.mnuParagraphColorPicker = new Common.UI.ThemeColorPalette({
-                    el: $('#id-toolbar-menu-paracolor'),
-                    transparent: true
-                });
+                if (this.btnParagraphColor.cmpEl) {
+                    colorVal = $('<div class="btn-color-value-line"></div>');
+                    $('button:first-child', this.btnParagraphColor.cmpEl).append(colorVal);
+                    colorVal.css('background-color', this.btnParagraphColor.currentColor || 'transparent');
+                    this.mnuParagraphColorPicker = new Common.UI.ThemeColorPalette({
+                        el: $('#id-toolbar-menu-paracolor'),
+                        transparent: true
+                    });
+                }
             },
 
             updateMetricUnit: function () {
