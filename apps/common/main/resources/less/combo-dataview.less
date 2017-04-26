@@ -272,3 +272,20 @@
         }
     }
 }
+
+.combo-wrap {
+    .combo-textart(62px, 4px);
+
+    .item {
+        margin-left: 4px;
+        .box-shadow(0 0 0 1px @gray);
+    }
+
+    &.disabled {
+        .item {
+            &:hover:not(.selected) {
+                .box-shadow(0 0 0 1px @gray);
+            }
+        }
+    }
+};

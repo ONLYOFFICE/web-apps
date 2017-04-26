@@ -23,13 +23,13 @@
         </td>
     </tr>
     <tr>
-        <td colspan=2>
+        <td colspan=2 class="padding-small">
             <label class="header"><%= scope.textWrap %></label>
         </td>
     </tr>
     <tr>
         <td class="padding-small" colspan=2>
-            <div id="image-button-wrap" style=""></div>
+            <div id="image-combo-wrap" style="width: 100%; height: 64px;"></div>
         </td>
     </tr>
     <tr>
