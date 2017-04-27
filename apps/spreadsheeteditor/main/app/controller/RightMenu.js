@@ -57,6 +57,12 @@ define([
             this._state = {};
 
             this.addListeners({
+                'Toolbar': {
+                    'insertimage': this.onInsertImage.bind(this),
+                    'insertshape': this.onInsertShape.bind(this),
+                    'insertchart':  this.onInsertChart.bind(this),
+                    'inserttextart': this.onInsertTextArt.bind(this)
+                },
                 'RightMenu': {
                     'rightmenuclick': this.onRightMenuClick
                 }

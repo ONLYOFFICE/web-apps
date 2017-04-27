@@ -922,13 +922,6 @@ define([
                         }
                     });
 
-                    if (this.toolbarView) {
-                        this.toolbarView.on('insertimage', _.bind(me.onInsertImage, me));
-                        this.toolbarView.on('insertshape', _.bind(me.onInsertShape, me));
-                        this.toolbarView.on('insertchart', _.bind(me.onInsertChart, me));
-                        this.toolbarView.on('inserttextart', _.bind(me.onInsertTextArt, me));
-                    }
-
                     var value = Common.localStorage.getItem('sse-settings-unit');
                     Common.Utils.Metric.setCurrentMetric((value!==null) ? parseInt(value) : Common.Utils.Metric.getDefaultMetric());
 
@@ -1597,25 +1590,6 @@ define([
                     this.updateThemeColors();
                     this.fillTextArt(this.api.asc_getTextArtPreviews());
                 }
-            },
-
-            loadLanguages: function() {
-            },
-
-            onInsertImage:  function() {
-                this.getApplication().getController('RightMenu').onInsertImage();
-            },
-
-            onInsertChart:  function() {
-                this.getApplication().getController('RightMenu').onInsertChart();
-            },
-
-            onInsertShape:  function() {
-                this.getApplication().getController('RightMenu').onInsertShape();
-            },
-
-            onInsertTextArt:  function() {
-                this.getApplication().getController('RightMenu').onInsertTextArt();
             },
 
             onInternalCommand: function(data) {

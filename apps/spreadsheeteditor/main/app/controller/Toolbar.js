@@ -174,8 +174,6 @@ define([
             /**
              * UI Events
              */
-            toolbar.btnNewDocument.on('click',                          _.bind(this.onNewDocument, this));
-            toolbar.btnOpenDocument.on('click',                         _.bind(this.onOpenDocument, this));
             toolbar.btnPrint.on('click',                                _.bind(this.onPrint, this));
             toolbar.btnSave.on('click',                                 _.bind(this.onSave, this));
             toolbar.btnUndo.on('click',                                 _.bind(this.onUndo, this));
@@ -283,21 +281,19 @@ define([
             this.api.asc_registerCallback('asc_onMathTypes',            _.bind(this.onMathTypes, this));
         },
 
-        onNewDocument: function(btn, e) {
-            if (this.api)
-                this.api.asc_openNewDocument();
-
-            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-            Common.component.Analytics.trackEvent('ToolBar', 'New Document');
-        },
-
-        onOpenDocument: function(btn, e) {
-            if (this.api)
-                this.api.asc_loadDocumentFromDisk();
-
-            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-            Common.component.Analytics.trackEvent('ToolBar', 'Open Document');
-        },
+        // onNewDocument: function(btn, e) {
+        //     this.api.asc_openNewDocument();
+        //
+        //     Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        //     Common.component.Analytics.trackEvent('ToolBar', 'New Document');
+        // },
+        //
+        // onOpenDocument: function(btn, e) {
+        //     this.api.asc_loadDocumentFromDisk();
+        //
+        //     Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        //     Common.component.Analytics.trackEvent('ToolBar', 'Open Document');
+        // },
 
         onPrint: function(e) {
             Common.NotificationCenter.trigger('print', this.toolbar);
