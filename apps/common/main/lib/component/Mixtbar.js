@@ -263,17 +263,17 @@ define([
             },
 
             hasTabInvisible: function() {
-                var _left_bound_ = $boxTabs.offset().left,
-                    _right_bound_ = _left_bound_ + $boxTabs.width();
+                var _left_bound_ = Math.round($boxTabs.offset().left),
+                    _right_bound_ = Math.round(_left_bound_ + $boxTabs.width());
 
                 var tab = this.$tabs.first().get(0);
                 var rect = tab.getBoundingClientRect();
 
-                if ( !(rect.left < _left_bound_) ) {
+                if ( !(Math.round(rect.left) < _left_bound_) ) {
                     tab = this.$tabs.last().get(0);
                     rect = tab.getBoundingClientRect();
 
-                    if (!(rect.right > _right_bound_))
+                    if (!(Math.round(rect.right) > _right_bound_))
                         return false;
                 }
 
