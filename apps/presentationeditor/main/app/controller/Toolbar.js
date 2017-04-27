@@ -121,9 +121,8 @@ define([
                     'change:compact'    : this.onClickChangeCompact
                 },
                 'FileMenu': {
-                    'filemenu:hide': function () {
-                        this.toolbar.setTab('');
-                    }.bind(this)
+                    'menu:hide': this.onFileMenu.bind(this, 'hide'),
+                    'menu:show': this.onFileMenu.bind(this, 'show')
                 }
             });
 
@@ -2096,6 +2095,10 @@ define([
                     me.toolbar.onAppReady(config);
                 }
             });
+        },
+
+        onFileMenu: function (opts) {
+            this.toolbar.setTab( opts == 'show' ? 'file' : undefined );
         },
 
         textEmptyImgUrl : 'You need to specify image URL.',

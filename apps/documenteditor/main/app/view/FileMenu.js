@@ -200,12 +200,14 @@ define([
             this.$el.show();
             this.selectMenu(panel, opts);
             this.api.asc_enableKeyEvents(false);
+
+            this.fireEvent('menu:show', [this]);
         },
 
         hide: function() {
             this.$el.hide();
             // if (this.mode.isEdit) DE.getController('Toolbar').DisableToolbar(false);
-            this.fireEvent('filemenu:hide', [this]);
+            this.fireEvent('menu:hide', [this]);
             // this.api.asc_enableKeyEvents(true);
         },
 

@@ -109,9 +109,8 @@ define([
                     'change:compact'    : this.onClickChangeCompact
                 },
                 'FileMenu': {
-                    'filemenu:hide': function () {
-                        this.toolbar.setTab('');
-                    }.bind(this)
+                    'menu:hide': this.onFileMenu.bind(this, 'hide'),
+                    'menu:show': this.onFileMenu.bind(this, 'show')
                 }
             });
 
@@ -1425,7 +1424,6 @@ define([
         },
 
         onAdvSettingsClick: function(btn, e) {
-            this.toolbar.setTab('file');
             this.toolbar.fireEvent('file:settings', this);
             btn.cmpEl.blur();
         },
@@ -2829,6 +2827,10 @@ define([
 
         getView: function (name) {
             return !name ? this.toolbar : Backbone.Controller.prototype.getView.apply(this, arguments);
+        },
+
+        onFileMenu: function (opts) {
+            this.toolbar.setTab( opts == 'show' ? 'file' : undefined );
         },
 
         textEmptyImgUrl                            : 'You need to specify image URL.',
