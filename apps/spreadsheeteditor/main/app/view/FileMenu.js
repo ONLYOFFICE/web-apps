@@ -39,6 +39,7 @@ define([
 
     SSE.Views.FileMenu = Common.UI.BaseView.extend(_.extend({
         el: '#file-menu-panel',
+        options: {alias:'FileMenu'},
 
         template: _.template(tpl),
 

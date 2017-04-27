@@ -1,23 +1,23 @@
 
 <div class="statusbar">
     <div id="status-tabs-scroll" class="status-group">
-        <button id="status-btn-tabfirst" type="button" class="btn small btn-toolbar"><span class="btn-icon btn-tab-first">&nbsp;</span></button>
-        <button id="status-btn-tabback" type="button" class="btn small btn-toolbar"><span class="btn-icon btn-tab-back">&nbsp;</span></button>
-        <button id="status-btn-tabnext" type="button" class="btn small btn-toolbar"><span class="btn-icon btn-tab-next">&nbsp;</span></button>
-        <button id="status-btn-tablast" type="button" class="btn small btn-toolbar"><span class="btn-icon btn-tab-last">&nbsp;</span></button>
+        <button id="status-btn-tabfirst" type="button" class="btn small btn-toolbar"><i class="icon btn-tab-first">&nbsp;</i></button>
+        <button id="status-btn-tabback" type="button" class="btn small btn-toolbar"><i class="icon btn-tab-back">&nbsp;</i></button>
+        <button id="status-btn-tabnext" type="button" class="btn small btn-toolbar"><i class="icon btn-tab-next">&nbsp;</i></button>
+        <button id="status-btn-tablast" type="button" class="btn small btn-toolbar"><i class="icon btn-tab-last">&nbsp;</i></button>
     </div>
     <div id="status-addtabs-box" class="status-group">
-        <button id="status-btn-addtab" type="button" class="btn small btn-toolbar"><span class="btn-icon btn-zoom-up">&nbsp;</span></button>
+        <button id="status-btn-addtab" type="button" class="btn small btn-toolbar"><i class="icon btn-zoom-up">&nbsp;</i></button>
     </div>
     <div id="status-zoom-box" class="status-group">
         <div class="separator short" />
-        <button id="status-btn-zoomdown" type="button" class="btn small btn-toolbar"><span class="btn-icon btn-zoom-down">&nbsp;</span></button>
+        <button id="status-btn-zoomdown" type="button" class="btn small btn-toolbar"><i class="icon btn-zoom-down">&nbsp;</i></button>
         <div class="cnt-zoom">
             <div class="dropdown-toggle" data-toggle="dropdown">
                 <label id="status-label-zoom" class="status-label">Zoom 100%</label>
             </div>
         </div>
-        <button id="status-btn-zoomup" type="button" class="btn small btn-toolbar" style="margin-right:40px;"><span class="btn-icon btn-zoom-up">&nbsp;</span></button>
+        <button id="status-btn-zoomup" type="button" class="btn small btn-toolbar" style="margin-right:40px;"><i class="icon btn-zoom-up">&nbsp;</i></button>
     </div>
     <!-- /** coauthoring begin **/ -->
     <div id="status-users-ct" class="status-group dropup" style="display:none;">

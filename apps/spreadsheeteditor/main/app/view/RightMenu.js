@@ -187,10 +187,12 @@ define([
             this.shapeSettings.setApi(api);
             this.textartSettings.setApi(api);
             this.tableSettings.setApi(api);
+
+            return this;
         },
 
         setMode: function(mode) {
-
+            return this;
         },
 
         onBtnMenuClick: function(btn, e) {

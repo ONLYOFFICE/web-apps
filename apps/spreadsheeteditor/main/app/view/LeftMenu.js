@@ -153,7 +153,6 @@ define([
             this.btnFile.on('toggle',           _.bind(this.onBtnMenuToggle, this));
 
             var menuFile = new SSE.Views.FileMenu({});
-            menuFile.options = {alias:'FileMenu'};
             this.btnFile.panel = menuFile.render();
             this.btnAbout.panel = (new Common.Views.About({el: $('#about-menu-panel'), appName: 'Spreadsheet Editor'})).render();
 

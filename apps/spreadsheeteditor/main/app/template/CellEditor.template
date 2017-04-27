@@ -1,7 +1,7 @@
 <div class="ce-group-name">
     <input id="ce-cell-name" class="aslabel form-control" type="text">
     <div id="ce-cell-name-menu"></div>
-    <button id="ce-func-label" type="button" class="btn small btn-toolbar"><span class="btn-icon">&nbsp;</span></button>
+    <button id="ce-func-label" type="button" class="btn small btn-toolbar"><i class="icon">&nbsp;</i></button>
 </div>
 <div class="ce-group-expand">
     <button id="ce-btn-expand" type="button" class="btn"><span class="caret img-commonctrl">&nbsp;</span></button>

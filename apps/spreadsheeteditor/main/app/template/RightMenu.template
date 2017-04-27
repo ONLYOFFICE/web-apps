@@ -15,11 +15,11 @@
     </div>
     <div class="tool-menu-btns">
         <div class="ct-btn-category arrow-left" />
-        <button id="id-right-menu-table" class="btn btn-category arrow-left" content-target="id-table-settings"><span class="btn-icon img-toolbarmenu btn-menu-table">&nbsp;</span></button>
-        <button id="id-right-menu-shape" class="btn btn-category arrow-left" content-target="id-shape-settings"><span class="btn-icon img-toolbarmenu btn-menu-shape">&nbsp;</span></button>
-        <button id="id-right-menu-image" class="btn btn-category arrow-left" content-target="id-image-settings"><span class="btn-icon img-toolbarmenu btn-menu-image">&nbsp;</span></button>
-        <button id="id-right-menu-chart" class="btn btn-category arrow-left" content-target="id-chart-settings"><span class="btn-icon img-toolbarmenu btn-menu-chart">&nbsp;</span></button>
-        <button id="id-right-menu-text" class="btn btn-category arrow-left" content-target="id-paragraph-settings"><span class="btn-icon img-toolbarmenu btn-menu-text">&nbsp;</span></button>
-        <button id="id-right-menu-textart" class="btn btn-category arrow-left" content-target="id-textart-settings"><span class="btn-icon img-toolbarmenu btn-menu-textart">&nbsp;</span></button>
+        <button id="id-right-menu-table" class="btn btn-category arrow-left" content-target="id-table-settings"><i class="icon img-toolbarmenu btn-menu-table">&nbsp;</i></button>
+        <button id="id-right-menu-shape" class="btn btn-category arrow-left" content-target="id-shape-settings"><i class="icon img-toolbarmenu btn-menu-shape">&nbsp;</i></button>
+        <button id="id-right-menu-image" class="btn btn-category arrow-left" content-target="id-image-settings"><i class="icon img-toolbarmenu btn-menu-image">&nbsp;</i></button>
+        <button id="id-right-menu-chart" class="btn btn-category arrow-left" content-target="id-chart-settings"><i class="icon img-toolbarmenu btn-menu-chart">&nbsp;</i></button>
+        <button id="id-right-menu-text" class="btn btn-category arrow-left" content-target="id-paragraph-settings"><i class="icon img-toolbarmenu btn-menu-text">&nbsp;</i></button>
+        <button id="id-right-menu-textart" class="btn btn-category arrow-left" content-target="id-textart-settings"><i class="icon img-toolbarmenu btn-menu-textart">&nbsp;</i></button>
     </div>
 </div>
