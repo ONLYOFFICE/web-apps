@@ -151,6 +151,11 @@ define([
             });
             this.lockedControls.push(this.btnOriginalSize);
 
+            this.btnFitMargins = new Common.UI.Button({
+                el: $('#image-button-fit-margins')
+            });
+            this.lockedControls.push(this.btnFitMargins);
+
             this.btnInsertFromFile = new Common.UI.Button({
                 el: $('#image-button-from-file')
             });
@@ -176,6 +181,7 @@ define([
                 if (this.api) this.api.asc_startEditCurrentOleObject();
                 this.fireEvent('editcomplete', this);
             }, this));
+            this.btnFitMargins.on('click', _.bind(this.setFitMargins, this));
 
             this.linkAdvanced = $('#image-advanced-link');
             this.lblReplace = $('#image-lbl-replace');
@@ -305,6 +311,57 @@ define([
             }
         },
 
+        setFitMargins:  function() {
+            if (this.api) {
+                var section = this.api.asc_GetSectionProps(),
+                    ratio = (this._state.Height>0) ? this._state.Width/this._state.Height : 1,
+                    pagew = section.get_W() - section.get_LeftMargin() - section.get_RightMargin(),
+                    pageh = section.get_H() - section.get_TopMargin() - section.get_BottomMargin(),
+                    pageratio = pagew/pageh,
+                    w, h;
+
+                if (ratio>pageratio) {
+                    w = pagew;
+                    h = w/ratio;
+                } else if (ratio<pageratio) {
+                    h = pageh;
+                    w = h * ratio;
+                } else {
+                    w = pagew;
+                    h = pageh;
+                }
+
+                this.labelWidth[0].innerHTML = this.textWidth + ': ' + Common.Utils.Metric.fnRecalcFromMM(w).toFixed(1) + ' ' + Common.Utils.Metric.getCurrentMetricName();
+                this.labelHeight[0].innerHTML = this.textHeight + ': ' + Common.Utils.Metric.fnRecalcFromMM(h).toFixed(1) + ' ' + Common.Utils.Metric.getCurrentMetricName();
+
+                var properties = new Asc.asc_CImgProperty();
+                properties.put_Width(w);
+                properties.put_Height(h);
+
+                if (this._state.WrappingStyle!==Asc.c_oAscWrapStyle2.Inline) {
+                    if (ratio>=1) {
+                        var position = new Asc.CImagePositionH();
+                        position.put_UseAlign(true);
+                        position.put_Percent(false);
+                        position.put_RelativeFrom(Asc.c_oAscRelativeFromH.Margin);
+                        position.put_Align(Asc.c_oAscAlignH.Left);
+                        properties.put_PositionH(position);
+                    }
+                    if (ratio<=1) {
+                        position = new Asc.CImagePositionV();
+                        position.put_UseAlign(true);
+                        position.put_Percent(false);
+                        position.put_RelativeFrom(Asc.c_oAscRelativeFromV.Margin);
+                        position.put_Align(Asc.c_oAscAlignV.Top);
+                        properties.put_PositionV(position);
+                    }
+                }
+
+                this.api.ImgApply(properties);
+                this.fireEvent('editcomplete', this);
+            }
+        },
+
         insertFromUrl: function() {
             var me = this;
             (new Common.Views.ImageFromUrlDialog({
@@ -397,7 +454,8 @@ define([
         txtBehind: 'Behind',
         txtInFront: 'In front',
         textEditObject: 'Edit Object',
-        textEdit:       'Edit'
+        textEdit:       'Edit',
+        textFitMargins: 'Fit to Margin'
 
     }, DE.Views.ImageSettings || {}));
 });

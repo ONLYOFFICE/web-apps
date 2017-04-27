@@ -19,6 +19,11 @@
     </tr>
     <tr>
         <td class="padding-small" colspan=2>
+            <button type="button" class="btn btn-text-default" id="image-button-fit-margins" style="width:100px;"><%= scope.textFitMargins %></button>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small" colspan=2>
             <div class="separator horizontal"></div>
         </td>
     </tr>
