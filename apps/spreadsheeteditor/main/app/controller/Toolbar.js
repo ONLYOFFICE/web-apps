@@ -65,6 +65,13 @@ define([
             var me = this;
 
             this.addListeners({
+                'Toolbar': {
+                    'change:compact': this.onClickChangeCompact.bind(me)
+                },
+                'FileMenu': {
+                    'menu:hide': me.onFileMenu.bind(me, 'hide'),
+                    'menu:show': me.onFileMenu.bind(me, 'show')
+                },
                 'Statusbar': {
                     'sheet:changed': _.bind(this.onApiSheetChanged, this)
                 },
@@ -165,7 +172,8 @@ define([
             // Create toolbar view
             this.toolbar = this.createView('Toolbar');
 
-        //    this.toolbar.on('render:after', _.bind(this.onToolbarAfterRender, this));
+            Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
+            Common.NotificationCenter.on('app:face', this.onAppShowed.bind(this));
         },
 
         onToolbarAfterRender: function(toolbar) {
@@ -174,111 +182,132 @@ define([
             /**
              * UI Events
              */
-            toolbar.btnPrint.on('click',                                _.bind(this.onPrint, this));
-            toolbar.btnSave.on('click',                                 _.bind(this.onSave, this));
-            toolbar.btnUndo.on('click',                                 _.bind(this.onUndo, this));
-            toolbar.btnRedo.on('click',                                 _.bind(this.onRedo, this));
-            toolbar.btnCopy.on('click',                                 _.bind(this.onCopyPaste, this, true));
-            toolbar.btnPaste.on('click',                                _.bind(this.onCopyPaste, this, false));
-            toolbar.btnIncFontSize.on('click',                          _.bind(this.onIncreaseFontSize, this));
-            toolbar.btnDecFontSize.on('click',                          _.bind(this.onDecreaseFontSize, this));
-            toolbar.btnBold.on('click',                                 _.bind(this.onBold, this));
-            toolbar.btnItalic.on('click',                               _.bind(this.onItalic, this));
-            toolbar.btnUnderline.on('click',                            _.bind(this.onUnderline, this));
-            toolbar.btnTextColor.on('click',                            _.bind(this.onTextColor, this));
-            toolbar.btnBackColor.on('click',                            _.bind(this.onBackColor, this));
-            toolbar.mnuTextColorPicker.on('select',                     _.bind(this.onTextColorSelect, this));
-            toolbar.mnuBackColorPicker.on('select',                     _.bind(this.onBackColorSelect, this));
-            toolbar.btnBorders.on('click',                              _.bind(this.onBorders, this));
-            if (toolbar.btnBorders.rendered) {
-                toolbar.btnBorders.menu.on('item:click',                    _.bind(this.onBordersMenu, this));
-                toolbar.mnuBorderWidth.on('item:toggle',                    _.bind(this.onBordersWidth, this));
-                toolbar.mnuBorderColorPicker.on('select',                   _.bind(this.onBordersColor, this));
-            }
-            toolbar.btnAlignLeft.on('click',                            _.bind(this.onHorizontalAlign, this, 'left'));
-            toolbar.btnAlignCenter.on('click',                          _.bind(this.onHorizontalAlign, this, 'center'));
-            toolbar.btnAlignRight.on('click',                           _.bind(this.onHorizontalAlign, this, 'right'));
-            toolbar.btnAlignJust.on('click',                            _.bind(this.onHorizontalAlign, this, 'justify'));
-            toolbar.btnHorizontalAlign.menu.on('item:click',            _.bind(this.onHorizontalAlignMenu, this));
-            toolbar.btnVerticalAlign.menu.on('item:click',              _.bind(this.onVerticalAlignMenu, this));
-            toolbar.btnMerge.on('click',                                _.bind(this.onMergeCellsMenu, this, toolbar.btnMerge.menu, toolbar.btnMerge.menu.items[0]));
-            toolbar.btnMerge.menu.on('item:click',                      _.bind(this.onMergeCellsMenu, this));
-            toolbar.btnAlignTop.on('click',                             _.bind(this.onVerticalAlign, this, 'top'));
-            toolbar.btnAlignMiddle.on('click',                          _.bind(this.onVerticalAlign, this, 'center'));
-            toolbar.btnAlignBottom.on('click',                          _.bind(this.onVerticalAlign, this, 'bottom'));
-            toolbar.btnWrap.on('click',                                 _.bind(this.onWrap, this));
-            toolbar.btnTextOrient.menu.on('item:click',                 _.bind(this.onTextOrientationMenu, this));
-            toolbar.btnInsertImage.menu.on('item:click',                _.bind(this.onInsertImageMenu, this));
-            toolbar.btnInsertHyperlink.on('click',                      _.bind(this.onHyperlink, this));
-            toolbar.mnuInsertChartPicker.on('item:click',               _.bind(this.onSelectChart, this));
-            toolbar.btnEditChart.on('click',                            _.bind(this.onEditChart, this));
-            toolbar.btnInsertText.on('click',                           _.bind(this.onBtnInsertTextClick, this));
-            toolbar.btnInsertText.menu.on('item:click',                 _.bind(this.onInsertTextClick, this));
-            toolbar.btnInsertShape.menu.on('hide:after',                _.bind(this.onInsertShapeHide, this));
-            toolbar.btnInsertEquation.on('click',                       _.bind(this.onInsertEquationClick, this));
-            toolbar.btnSortDown.on('click',                             _.bind(this.onSortType, this, Asc.c_oAscSortOptions.Ascending));
-            toolbar.btnSortUp.on('click',                               _.bind(this.onSortType, this, Asc.c_oAscSortOptions.Descending));
-            toolbar.mnuitemSortAZ.on('click',                           _.bind(this.onSortType, this, Asc.c_oAscSortOptions.Ascending));
-            toolbar.mnuitemSortZA.on('click',                           _.bind(this.onSortType, this, Asc.c_oAscSortOptions.Descending));
-            toolbar.btnSetAutofilter.on('click',                        _.bind(this.onAutoFilter, this));
-            toolbar.mnuitemAutoFilter.on('click',                       _.bind(this.onAutoFilter, this));
-            toolbar.btnClearAutofilter.on('click',                      _.bind(this.onClearFilter, this));
-            toolbar.mnuitemClearFilter.on('click',                      _.bind(this.onClearFilter, this));
-            toolbar.btnSearch.on('click',                               _.bind(this.onSearch, this));
-            toolbar.btnTableTemplate.menu.on('show:after',              _.bind(this.onTableTplMenuOpen, this));
-            toolbar.btnPercentStyle.on('click',                         _.bind(this.onNumberFormat, this));
-            toolbar.btnCurrencyStyle.on('click',                        _.bind(this.onNumberFormat, this));
-            toolbar.btnDecDecimal.on('click',                           _.bind(this.onDecrement, this));
-            toolbar.btnIncDecimal.on('click',                           _.bind(this.onIncrement, this));
-            toolbar.btnInsertFormula.on('click',                        _.bind(this.onInsertFormulaMenu, this));
-            toolbar.btnSettings.on('click',                             _.bind(this.onAdvSettingsClick, this));
-            toolbar.btnInsertFormula.menu.on('item:click',              _.bind(this.onInsertFormulaMenu, this));
-            toolbar.btnNamedRange.menu.on('item:click',                 _.bind(this.onNamedRangeMenu, this));
-            toolbar.btnNamedRange.menu.on('show:after',                 _.bind(this.onNamedRangeMenuOpen, this));
-            toolbar.btnClearStyle.menu.on('item:click',                 _.bind(this.onClearStyleMenu, this));
-            toolbar.btnAddCell.menu.on('item:click',                    _.bind(this.onCellInsertMenu, this));
-            toolbar.btnCopyStyle.on('toggle',                           _.bind(this.onCopyStyleToggle, this));
-            toolbar.btnDeleteCell.menu.on('item:click',                 _.bind(this.onCellDeleteMenu, this));
-            toolbar.btnColorSchemas.menu.on('item:click',               _.bind(this.onColorSchemaClick, this));
-            toolbar.cmbFontName.on('selected',                          _.bind(this.onFontNameSelect, this));
-            toolbar.cmbFontName.on('show:after',                        _.bind(this.onComboOpen, this, true));
-            toolbar.cmbFontName.on('hide:after',                        _.bind(this.onHideMenus, this));
-            toolbar.cmbFontName.on('combo:blur',                        _.bind(this.onComboBlur, this));
-            toolbar.cmbFontName.on('combo:focusin',                     _.bind(this.onComboOpen, this, false));
-            toolbar.cmbFontSize.on('selected',                          _.bind(this.onFontSizeSelect, this));
-            toolbar.cmbFontSize.on('changed:before',                    _.bind(this.onFontSizeChanged, this, true));
-            toolbar.cmbFontSize.on('changed:after',                     _.bind(this.onFontSizeChanged, this, false));
-            toolbar.cmbFontSize.on('show:after',                        _.bind(this.onComboOpen, this, true));
-            toolbar.cmbFontSize.on('hide:after',                        _.bind(this.onHideMenus, this));
-            toolbar.cmbFontSize.on('combo:blur',                        _.bind(this.onComboBlur, this));
-            toolbar.cmbFontSize.on('combo:focusin',                     _.bind(this.onComboOpen, this, false));
-            if (toolbar.mnuZoomIn)  toolbar.mnuZoomIn.on('click',       _.bind(this.onZoomInClick, this));
-            if (toolbar.mnuZoomOut) toolbar.mnuZoomOut.on('click',      _.bind(this.onZoomOutClick, this));
-            if (toolbar.btnShowMode.rendered) toolbar.btnShowMode.menu.on('item:click', _.bind(this.onHideMenu, this));
-            toolbar.listStyles.on('click',                              _.bind(this.onListStyleSelect, this));
-            toolbar.cmbNumberFormat.on('selected',                      _.bind(this.onNumberFormatSelect, this));
-            toolbar.cmbNumberFormat.on('show:before',                   _.bind(this.onNumberFormatOpenBefore, this, true));
-            if (toolbar.cmbNumberFormat.cmpEl)
-                toolbar.cmbNumberFormat.cmpEl.on('click', '#id-toolbar-mnu-item-more-formats a', _.bind(this.onNumberFormatSelect, this));
-            toolbar.btnCurrencyStyle.menu.on('item:click',              _.bind(this.onNumberFormatMenu, this));
-            if (toolbar.mnuitemCompactToolbar) toolbar.mnuitemCompactToolbar.on('toggle', _.bind(this.onChangeViewMode, this));
-            $('#id-toolbar-menu-new-fontcolor').on('click',             _.bind(this.onNewTextColor, this));
-            $('#id-toolbar-menu-new-paracolor').on('click',             _.bind(this.onNewBackColor, this));
-            $('#id-toolbar-menu-new-bordercolor').on('click',           _.bind(this.onNewBorderColor, this));
+            if ( me.appConfig.isEditDiagram ) {
+                toolbar.btnInsertFormula.on('click',                        _.bind(this.onInsertFormulaMenu, this));
+                toolbar.btnInsertFormula.menu.on('item:click',              _.bind(this.onInsertFormulaMenu, this));
+                toolbar.btnDecDecimal.on('click',                           _.bind(this.onDecrement, this));
+                toolbar.btnIncDecimal.on('click',                           _.bind(this.onIncrement, this));
+                toolbar.cmbNumberFormat.on('selected',                      _.bind(this.onNumberFormatSelect, this));
+                toolbar.cmbNumberFormat.on('show:before',                   _.bind(this.onNumberFormatOpenBefore, this, true));
+                if (toolbar.cmbNumberFormat.cmpEl)
+                    toolbar.cmbNumberFormat.cmpEl.on('click', '#id-toolbar-mnu-item-more-formats a', _.bind(this.onNumberFormatSelect, this));
+                toolbar.btnEditChart.on('click',                            _.bind(this.onEditChart, this));
+            } else
+            if ( me.appConfig.isEditMailMerge ) {
+                toolbar.btnSearch.on('click',                               _.bind(this.onSearch, this));
+                toolbar.btnSortDown.on('click',                             _.bind(this.onSortType, this, Asc.c_oAscSortOptions.Ascending));
+                toolbar.btnSortUp.on('click',                               _.bind(this.onSortType, this, Asc.c_oAscSortOptions.Descending));
+                toolbar.btnSetAutofilter.on('click',                        _.bind(this.onAutoFilter, this));
+                toolbar.btnClearAutofilter.on('click',                      _.bind(this.onClearFilter, this));
+            } else {
+                toolbar.btnPrint.on('click',                                _.bind(this.onPrint, this));
+                toolbar.btnSave.on('click',                                 _.bind(this.onSave, this));
+                toolbar.btnUndo.on('click',                                 _.bind(this.onUndo, this));
+                toolbar.btnRedo.on('click',                                 _.bind(this.onRedo, this));
+                toolbar.btnCopy.on('click',                                 _.bind(this.onCopyPaste, this, true));
+                toolbar.btnPaste.on('click',                                _.bind(this.onCopyPaste, this, false));
+                toolbar.btnIncFontSize.on('click',                          _.bind(this.onIncreaseFontSize, this));
+                toolbar.btnDecFontSize.on('click',                          _.bind(this.onDecreaseFontSize, this));
+                toolbar.btnBold.on('click',                                 _.bind(this.onBold, this));
+                toolbar.btnItalic.on('click',                               _.bind(this.onItalic, this));
+                toolbar.btnUnderline.on('click',                            _.bind(this.onUnderline, this));
+                toolbar.btnTextColor.on('click',                            _.bind(this.onTextColor, this));
+                toolbar.btnBackColor.on('click',                            _.bind(this.onBackColor, this));
+                toolbar.mnuTextColorPicker.on('select',                     _.bind(this.onTextColorSelect, this));
+                toolbar.mnuBackColorPicker.on('select',                     _.bind(this.onBackColorSelect, this));
+                toolbar.btnBorders.on('click',                              _.bind(this.onBorders, this));
+                if (toolbar.btnBorders.rendered) {
+                    toolbar.btnBorders.menu.on('item:click',                    _.bind(this.onBordersMenu, this));
+                    toolbar.mnuBorderWidth.on('item:toggle',                    _.bind(this.onBordersWidth, this));
+                    toolbar.mnuBorderColorPicker.on('select',                   _.bind(this.onBordersColor, this));
+                }
+                toolbar.btnAlignLeft.on('click',                            _.bind(this.onHorizontalAlign, this, 'left'));
+                toolbar.btnAlignCenter.on('click',                          _.bind(this.onHorizontalAlign, this, 'center'));
+                toolbar.btnAlignRight.on('click',                           _.bind(this.onHorizontalAlign, this, 'right'));
+                toolbar.btnAlignJust.on('click',                            _.bind(this.onHorizontalAlign, this, 'justify'));
+                toolbar.btnHorizontalAlign.menu.on('item:click',            _.bind(this.onHorizontalAlignMenu, this));
+                toolbar.btnVerticalAlign.menu.on('item:click',              _.bind(this.onVerticalAlignMenu, this));
+                toolbar.btnMerge.on('click',                                _.bind(this.onMergeCellsMenu, this, toolbar.btnMerge.menu, toolbar.btnMerge.menu.items[0]));
+                toolbar.btnMerge.menu.on('item:click',                      _.bind(this.onMergeCellsMenu, this));
+                toolbar.btnAlignTop.on('click',                             _.bind(this.onVerticalAlign, this, 'top'));
+                toolbar.btnAlignMiddle.on('click',                          _.bind(this.onVerticalAlign, this, 'center'));
+                toolbar.btnAlignBottom.on('click',                          _.bind(this.onVerticalAlign, this, 'bottom'));
+                toolbar.btnWrap.on('click',                                 _.bind(this.onWrap, this));
+                toolbar.btnTextOrient.menu.on('item:click',                 _.bind(this.onTextOrientationMenu, this));
+                toolbar.btnInsertImage.menu.on('item:click',                _.bind(this.onInsertImageMenu, this));
+                toolbar.btnInsertHyperlink.on('click',                      _.bind(this.onHyperlink, this));
+                toolbar.mnuInsertChartPicker.on('item:click',               _.bind(this.onSelectChart, this));
+                toolbar.btnInsertText.on('click',                           _.bind(this.onBtnInsertTextClick, this));
+                toolbar.btnInsertText.menu.on('item:click',                 _.bind(this.onInsertTextClick, this));
+                toolbar.btnInsertShape.menu.on('hide:after',                _.bind(this.onInsertShapeHide, this));
+                toolbar.btnInsertEquation.on('click',                       _.bind(this.onInsertEquationClick, this));
+                toolbar.btnSortDown.on('click',                             _.bind(this.onSortType, this, Asc.c_oAscSortOptions.Ascending));
+                toolbar.btnSortUp.on('click',                               _.bind(this.onSortType, this, Asc.c_oAscSortOptions.Descending));
+                toolbar.mnuitemSortAZ.on('click',                           _.bind(this.onSortType, this, Asc.c_oAscSortOptions.Ascending));
+                toolbar.mnuitemSortZA.on('click',                           _.bind(this.onSortType, this, Asc.c_oAscSortOptions.Descending));
+                toolbar.btnSetAutofilter.on('click',                        _.bind(this.onAutoFilter, this));
+                toolbar.mnuitemAutoFilter.on('click',                       _.bind(this.onAutoFilter, this));
+                toolbar.btnClearAutofilter.on('click',                      _.bind(this.onClearFilter, this));
+                toolbar.mnuitemClearFilter.on('click',                      _.bind(this.onClearFilter, this));
+                toolbar.btnTableTemplate.menu.on('show:after',              _.bind(this.onTableTplMenuOpen, this));
+                toolbar.btnPercentStyle.on('click',                         _.bind(this.onNumberFormat, this));
+                toolbar.btnCurrencyStyle.on('click',                        _.bind(this.onNumberFormat, this));
+                toolbar.btnDecDecimal.on('click',                           _.bind(this.onDecrement, this));
+                toolbar.btnIncDecimal.on('click',                           _.bind(this.onIncrement, this));
+                toolbar.btnInsertFormula.on('click',                        _.bind(this.onInsertFormulaMenu, this));
+                toolbar.btnSettings.on('click',                             _.bind(this.onAdvSettingsClick, this));
+                toolbar.btnInsertFormula.menu.on('item:click',              _.bind(this.onInsertFormulaMenu, this));
+                toolbar.btnNamedRange.menu.on('item:click',                 _.bind(this.onNamedRangeMenu, this));
+                toolbar.btnNamedRange.menu.on('show:after',                 _.bind(this.onNamedRangeMenuOpen, this));
+                toolbar.btnClearStyle.menu.on('item:click',                 _.bind(this.onClearStyleMenu, this));
+                toolbar.btnAddCell.menu.on('item:click',                    _.bind(this.onCellInsertMenu, this));
+                toolbar.btnCopyStyle.on('toggle',                           _.bind(this.onCopyStyleToggle, this));
+                toolbar.btnDeleteCell.menu.on('item:click',                 _.bind(this.onCellDeleteMenu, this));
+                toolbar.btnColorSchemas.menu.on('item:click',               _.bind(this.onColorSchemaClick, this));
+                toolbar.cmbFontName.on('selected',                          _.bind(this.onFontNameSelect, this));
+                toolbar.cmbFontName.on('show:after',                        _.bind(this.onComboOpen, this, true));
+                toolbar.cmbFontName.on('hide:after',                        _.bind(this.onHideMenus, this));
+                toolbar.cmbFontName.on('combo:blur',                        _.bind(this.onComboBlur, this));
+                toolbar.cmbFontName.on('combo:focusin',                     _.bind(this.onComboOpen, this, false));
+                toolbar.cmbFontSize.on('selected',                          _.bind(this.onFontSizeSelect, this));
+                toolbar.cmbFontSize.on('changed:before',                    _.bind(this.onFontSizeChanged, this, true));
+                toolbar.cmbFontSize.on('changed:after',                     _.bind(this.onFontSizeChanged, this, false));
+                toolbar.cmbFontSize.on('show:after',                        _.bind(this.onComboOpen, this, true));
+                toolbar.cmbFontSize.on('hide:after',                        _.bind(this.onHideMenus, this));
+                toolbar.cmbFontSize.on('combo:blur',                        _.bind(this.onComboBlur, this));
+                toolbar.cmbFontSize.on('combo:focusin',                     _.bind(this.onComboOpen, this, false));
+                if (toolbar.mnuZoomIn)  toolbar.mnuZoomIn.on('click',       _.bind(this.onZoomInClick, this));
+                if (toolbar.mnuZoomOut) toolbar.mnuZoomOut.on('click',      _.bind(this.onZoomOutClick, this));
+                if (toolbar.btnShowMode.rendered) toolbar.btnShowMode.menu.on('item:click', _.bind(this.onHideMenu, this));
+                toolbar.listStyles.on('click',                              _.bind(this.onListStyleSelect, this));
+                toolbar.cmbNumberFormat.on('selected',                      _.bind(this.onNumberFormatSelect, this));
+                toolbar.cmbNumberFormat.on('show:before',                   _.bind(this.onNumberFormatOpenBefore, this, true));
+                if (toolbar.cmbNumberFormat.cmpEl)
+                    toolbar.cmbNumberFormat.cmpEl.on('click', '#id-toolbar-mnu-item-more-formats a', _.bind(this.onNumberFormatSelect, this));
+                toolbar.btnCurrencyStyle.menu.on('item:click',              _.bind(this.onNumberFormatMenu, this));
+                if (toolbar.mnuitemCompactToolbar) toolbar.mnuitemCompactToolbar.on('toggle', _.bind(this.onChangeViewMode, this));
+                $('#id-toolbar-menu-new-fontcolor').on('click',             _.bind(this.onNewTextColor, this));
+                $('#id-toolbar-menu-new-paracolor').on('click',             _.bind(this.onNewBackColor, this));
+                $('#id-toolbar-menu-new-bordercolor').on('click',           _.bind(this.onNewBorderColor, this));
 
-            this.onSetupCopyStyleButton();
+                this.onSetupCopyStyleButton();
+            }
         },
 
         setApi: function(api) {
             this.api = api;
 
-            this.api.asc_registerCallback('asc_onSendThemeColors',       _.bind(this.onSendThemeColors, this));
+            var config = SSE.getController('Main').appOptions;
+            if ( !config.isEditDiagram  && !config.isEditMailMerge ) {
+                this.api.asc_registerCallback('asc_onSendThemeColors',      _.bind(this.onSendThemeColors, this));
+                this.api.asc_registerCallback('asc_onMathTypes',            _.bind(this.onMathTypes, this));
+            }
+
             this.api.asc_registerCallback('asc_onInitEditorStyles',     _.bind(this.onApiInitEditorStyles, this));
             this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onApiCoAuthoringDisconnect, this, true));
             Common.NotificationCenter.on('api:disconnect',              _.bind(this.onApiCoAuthoringDisconnect, this));
             this.api.asc_registerCallback('asc_onLockDefNameManager',   _.bind(this.onLockDefNameManager, this));
             this.api.asc_registerCallback('asc_onZoomChanged',          _.bind(this.onApiZoomChange, this));
-            this.api.asc_registerCallback('asc_onMathTypes',            _.bind(this.onMathTypes, this));
         },
 
         // onNewDocument: function(btn, e) {
@@ -1283,7 +1312,7 @@ define([
             }
 
             this.hideElements(params);
-            option && Common.localStorage.setItem(option, item.checked);
+            option && Common.localStorage.setBool(option, item.checked);
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
@@ -1304,19 +1333,22 @@ define([
             this.toolbar.createDelayedElements();
             this.onToolbarAfterRender(this.toolbar);
 
+            if ( !this.appConfig.isEditDiagram && !this.appConfig.isEditMailMerge ) {
+                this.api.asc_registerCallback('asc_onSheetsChanged',            _.bind(this.onApiSheetChanged, this));
+                this.api.asc_registerCallback('asc_onUpdateSheetViewSettings',  _.bind(this.onApiSheetChanged, this));
+            }
+
             this.api.asc_registerCallback('asc_onShowChartDialog',          _.bind(this.onApiChartDblClick, this));
             this.api.asc_registerCallback('asc_onCanUndoChanged',           _.bind(this.onApiCanRevert, this, 'undo'));
             this.api.asc_registerCallback('asc_onCanRedoChanged',           _.bind(this.onApiCanRevert, this, 'redo'));
             this.api.asc_registerCallback('asc_onEditCell',                 _.bind(this.onApiEditCell, this));
             this.api.asc_registerCallback('asc_onEndAddShape',              _.bind(this.onApiEndAddShape, this));
-            this.api.asc_registerCallback('asc_onSheetsChanged',            _.bind(this.onApiSheetChanged, this));
             this.api.asc_registerCallback('asc_onStopFormatPainter',        _.bind(this.onApiStyleChange, this));
-            this.api.asc_registerCallback('asc_onUpdateSheetViewSettings',  _.bind(this.onApiSheetChanged, this));
 
             Common.util.Shortcuts.delegateShortcuts({
                 shortcuts: {
                     'command+l,ctrl+l': function(e) {
-                        if (me.editMode && !me._state.multiselect) {
+                        if ( me.editMode && !me._state.multiselect ) {
                             var formattableinfo = me.api.asc_getCellInfo().asc_getFormatTableInfo();
                             if (!formattableinfo) {
                                 if (_.isUndefined(me.toolbar.mnuTableTemplatePicker))
@@ -1374,63 +1406,20 @@ define([
         },
 
         onChangeViewMode: function(item, compact) {
-            var me = this,
-                toolbarFull  = $('#id-toolbar-full'),
-                toolbarShort = $('#id-toolbar-short');
+            this.toolbar.setFolded(compact);
+            this.toolbar.fireEvent('view:compact', [this, compact]);
 
-            me.toolbar.isCompactView = compact;
+            Common.localStorage.setBool('sse-compact-toolbar', compact);
+            Common.NotificationCenter.trigger('layout:changed', 'toolbar');
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
 
-            if (toolbarFull && toolbarShort) {
-                me.api.asc_unregisterCallback('asc_onSelectionChanged', me.wrapOnSelectionChanged);
-
-                if (compact) {
-                    toolbarShort.css({
-                        display: 'table'
-                    });
-                    toolbarFull.css({
-                        display: 'none'
-                    });
-                    toolbarShort.parent().css({
-                        height: '41px'
-                    });
-                    me.toolbar.rendererComponents('short');
-                } else {
-                    toolbarShort.css({
-                        display: 'none'
-                    });
-                    toolbarFull.css({
-                        display: 'table'
-                    });
-                    toolbarShort.parent().css({
-                        height: '67px'
-                    });
-                    me.toolbar.rendererComponents('full');
-
-                    // layout styles
-                    _.defer(function(){
-                        var listStylesVisible = (me.toolbar.listStyles.rendered);
-
-                        if (me.toolbar.listStyles.menuPicker.store.length > 0 && listStylesVisible){
-                            me.toolbar.listStyles.fillComboView(me.toolbar.listStyles.menuPicker.getSelectedRec(), true);
-                        }
-
-                        if (me.toolbar.btnInsertText.rendered)
-                            me.fillTextArt();
-
-                        if (me.toolbar.btnTableTemplate.rendered)
-                            me.fillTableTemplates();
-
-                        if (me.toolbar.btnInsertEquation.rendered)
-                            me.fillEquations();
-                    }, 100);
-                }
-
-                me._state.coauthdisable = undefined;
-                me.api.asc_registerCallback('asc_onSelectionChanged', me.wrapOnSelectionChanged);
-                me.onApiSelectionChanged(me.api.asc_getCellInfo());
-
-                Common.localStorage.setItem('sse-toolbar-compact', compact ? 1 : 0);
-                Common.NotificationCenter.trigger('layout:changed', 'toolbar');
+        onClickChangeCompact: function (from) {
+            if ( from != 'file' ) {
+                Common.Utils.asyncCall(function () {
+                    this.onChangeViewMode(null, !this.toolbar.isCompact());
+                    this.toolbar.mnuitemCompactToolbar.setChecked(this.toolbar.isCompact(), true);
+                }, this);
             }
         },
 
@@ -1638,7 +1627,7 @@ define([
         },
 
         onApiSheetChanged: function() {
-            if (this.api) {
+            if ( !this.appConfig.isEditDiagram && !this.appConfig.isEditMailMerge ) {
                 var params  = this.api.asc_getSheetViewSettings();
                 this.toolbar.mnuitemHideHeadings.setChecked(!params.asc_getShowRowColHeaders());
                 this.toolbar.mnuitemHideGridlines.setChecked(!params.asc_getShowGridLines());
@@ -1736,16 +1725,20 @@ define([
                 val, need_disable = false;
 
             /* read font name */
-            var fontparam = fontobj.asc_getName();
-            if (fontparam != toolbar.cmbFontName.getValue()) {
-                Common.NotificationCenter.trigger('fonts:change', fontobj);
+            if ( toolbar.cmbFontName ) {
+                var fontparam = fontobj.asc_getName();
+                if (fontparam != toolbar.cmbFontName.getValue()) {
+                    Common.NotificationCenter.trigger('fonts:change', fontobj);
+                }
             }
 
             /* read font size */
-            var str_size = fontobj.asc_getSize();
-            if (this._state.fontsize !== str_size) {
-                toolbar.cmbFontSize.setValue((str_size!==undefined) ? str_size : '');
-                this._state.fontsize = str_size;
+            if ( toolbar.cmbFontSize ) {
+                var str_size = fontobj.asc_getSize();
+                if (this._state.fontsize !== str_size) {
+                    toolbar.cmbFontSize.setValue((str_size !== undefined) ? str_size : '');
+                    this._state.fontsize = str_size;
+                }
             }
 
             toolbar.lockToolbar(SSE.enumLock.cantHyperlink, (selectionType == Asc.c_oAscSelectionType.RangeShapeText) && (this.api.asc_canAddShapeHyperlink()===false), { array: [toolbar.btnInsertHyperlink]});
@@ -2520,20 +2513,22 @@ define([
                 case Asc.c_oAscSelectionType.RangeChartText:    type = _set.selChartText; break;
                 }
 
-                toolbar.lockToolbar(type, type != seltype, {
-                    array: [
-                        toolbar.btnClearStyle.menu.items[1],
-                        toolbar.btnClearStyle.menu.items[2],
-                        toolbar.btnClearStyle.menu.items[3],
-                        toolbar.btnClearStyle.menu.items[4],
-                        toolbar.mnuitemSortAZ,
-                        toolbar.mnuitemSortZA,
-                        toolbar.mnuitemAutoFilter,
-                        toolbar.mnuitemClearFilter
-                    ],
-                    merge: true,
-                    clear: [_set.selImage, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.coAuth]
-                });
+                if ( !this.appConfig.isEditDiagram && !this.appConfig.isEditMailMerge )
+                    toolbar.lockToolbar(type, type != seltype, {
+                        array: [
+                            toolbar.btnClearStyle.menu.items[1],
+                            toolbar.btnClearStyle.menu.items[2],
+                            toolbar.btnClearStyle.menu.items[3],
+                            toolbar.btnClearStyle.menu.items[4],
+                            toolbar.mnuitemSortAZ,
+                            toolbar.mnuitemSortZA,
+                            toolbar.mnuitemAutoFilter,
+                            toolbar.mnuitemClearFilter
+                        ],
+                        merge: true,
+                        clear: [_set.selImage, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.coAuth]
+                    });
+
                 toolbar.lockToolbar(SSE.enumLock.coAuthText, is_objLocked);
                 toolbar.lockToolbar(SSE.enumLock.coAuthText, is_objLocked && (seltype==Asc.c_oAscSelectionType.RangeChart || seltype==Asc.c_oAscSelectionType.RangeChartText), { array: [toolbar.btnInsertChart] } );
             }
@@ -2543,9 +2538,12 @@ define([
             this._state.controlsdisabled.filters = is_image || is_mode_2 || coauth_disable;
 
             if (is_image || is_mode_2 || coauth_disable) {
-                toolbar.listStyles.suspendEvents();
-                toolbar.listStyles.menuPicker.selectRecord(null);
-                toolbar.listStyles.resumeEvents();
+                if ( toolbar.listStyles ) {
+                    toolbar.listStyles.suspendEvents();
+                    toolbar.listStyles.menuPicker.selectRecord(null);
+                    toolbar.listStyles.resumeEvents();
+                }
+
                 this._state.prstyle = undefined;
             }
 
@@ -2710,6 +2708,72 @@ define([
             for (var i=0; i<Math.min(4,formulas.length); i++) {
                 formulas[i].setCaption(this.api.asc_getFormulaLocaleName(formulas[i].value));
             }
+        },
+
+        onAppShowed: function (config) {
+            var me = this;
+            me.appConfig = config;
+
+            var compactview = !config.isEdit;
+            if ( config.isEdit ) {
+                if ( Common.localStorage.itemExists("sse-compact-toolbar") ) {
+                    compactview = Common.localStorage.getBool("sse-compact-toolbar");
+                } else
+                if ( config.customization && config.customization.compactToolbar )
+                    compactview = true;
+            }
+
+            me.toolbar.applyLayout(config);
+            me.toolbar.render(_.extend({isCompactView: compactview}, config));
+
+            Common.Utils.asyncCall(function () {
+                me.toolbar.setMode(config);
+
+                if ( config.isEdit )
+                    me.toolbar.setApi(me.api);
+            });
+        },
+
+        onAppReady: function (config) {
+            var me = this;
+
+            if ( config.canComments ) {
+                var _btnsComment = [];
+                var slots = me.toolbar.$el.find('.slot-comment');
+                slots.each(function(index, el) {
+                    var _cls = 'btn-toolbar';
+                    /x-huge/.test(el.className) && (_cls += ' x-huge icon-top');
+
+                    var button = new Common.UI.Button({
+                        cls: _cls,
+                        iconCls: 'svgicon svg-btn-comments',
+                        caption: 'Comment'
+                    }).render( slots.eq(index) );
+
+                    _btnsComment.push(button);
+                });
+
+                if ( _btnsComment.length ) {
+                    var _comments = SSE.getController('Common.Controllers.Comments').getView();
+                    Array.prototype.push.apply(me.toolbar.lockControls, _btnsComment);
+                    _btnsComment.forEach(function (btn) {
+                        btn.updateHint( _comments.textAddComment );
+                        btn.on('click', function (btn, e) {
+                            Common.NotificationCenter.trigger('app:comment:add', 'toolbar');
+                        });
+                    }, this);
+                }
+            }
+
+            Common.Utils.asyncCall(function () {
+                if ( config.isEdit ) {
+                    me.toolbar.onAppReady(config);
+                }
+            });
+        },
+
+        onFileMenu: function (opts) {
+            this.toolbar.setTab( opts == 'show' ? 'file' : undefined );
         },
 
         textEmptyImgUrl     : 'You need to specify image URL.',

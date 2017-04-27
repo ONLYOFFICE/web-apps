@@ -1,61 +1,5 @@
 .toolbar {
-    padding: 10px 0;
-    background-color: @gray-light;
-    .box-inner-shadow(0 -1px 0 @gray-dark);
-
-    .toolbar-group {
-        display: table-cell;
-        vertical-align: top;
-        white-space: nowrap;
-        padding-left: 12px;
-
-        &:last-child {
-            padding-right: 12px;
-        }
-    }
-
-    .toolbar-row {
-        height: 20px;
-        font-size: 0;
-
-        &:not(:first-child) {
-            margin-top: 6px;
-        }
-    }
-
-    .separator {
-        margin-left: 12px;
-
-        &.long {
-            height: 46px;
-        }
-
-        &.short {
-            height: 20px;
-        }
-    }
-
-    .btn-placeholder {
-//        background-color: red;
-        display: inline-block;
-        width: 20px;
-        height: 20px;
-
-        &:not(:first-child) {
-            margin-left: 1px;
-        }
-
-        &.split {
-            width: 28px;
-        }
-
-        &.border {
-            border: 1px solid @gray;
-            .border-radius(1px);
-            width: 22px;
-            height: 22px;
-        }
-    }
+    z-index: 102;
 
     &.masked {
         button.disabled .btn-icon:not(.btn-print):not(.btn-save):not(.btn-save-coauth):not(.btn-settings):not(.btn-showmode) {
@@ -64,6 +8,11 @@
         .toolbar-group:not(.no-mask) {
             opacity: 0.4;
         }
+    }
+
+    .simple-bar {
+        display: table;
+        width: 100%;
     }
 }
 

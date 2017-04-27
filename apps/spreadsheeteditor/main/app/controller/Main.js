@@ -374,7 +374,7 @@ define([
                 }
             },
 
-           goBack: function(blank) {
+            goBack: function(blank) {
                 var href = this.appOptions.customization.goback.url;
                 if (blank) {
                     window.open(href, "_blank");
@@ -535,6 +535,7 @@ define([
                     value;
 
                 me._isDocReady = true;
+                Common.NotificationCenter.trigger('app:ready', this.appOptions);
 
                 me.hidePreloader();
                 me.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
@@ -791,15 +792,17 @@ define([
                 this._state.licenseWarning = !(this.appOptions.isEditDiagram || this.appOptions.isEditMailMerge) && (licType===Asc.c_oLicenseResult.Connections) && this.appOptions.canEdit && this.editorConfig.mode !== 'view';
 
                 this.applyModeCommonElements();
-                this.applyModeEditorElements();
+                if ( this.appOptions.isEdit ) {
+                    this.applyModeEditorElements();
+                } else {
+                    Common.NotificationCenter.trigger('app:face', this.appOptions);
 
-                this.api.asc_setViewMode(!this.appOptions.isEdit);
-                (this.appOptions.isEditMailMerge || this.appOptions.isEditDiagram) ? this.api.asc_LoadEmptyDocument() : this.api.asc_LoadDocument();
-
-                if (!this.appOptions.isEdit) {
                     this.hidePreloader();
                     this.onLongActionBegin(Asc.c_oAscAsyncActionType.BlockInteraction, LoadingDocument);
                 }
+
+                this.api.asc_setViewMode(!this.appOptions.isEdit);
+                (this.appOptions.isEditMailMerge || this.appOptions.isEditDiagram) ? this.api.asc_LoadEmptyDocument() : this.api.asc_LoadDocument();
             },
 
             applyModeCommonElements: function() {
@@ -909,18 +912,9 @@ define([
 
                     var viewport = this.getApplication().getController('Viewport').getView('Viewport');
                     viewport.applyEditorMode();
+                    rightmenuController.getView('RightMenu').setMode(me.appOptions).setApi(me.api);
 
                     this.toolbarView = toolbarController.getView('Toolbar');
-
-                    _.each([
-                        this.toolbarView,
-                        rightmenuController.getView('RightMenu')
-                    ], function(view) {
-                        if (view) {
-                            view.setMode(me.appOptions);
-                            view.setApi(me.api);
-                        }
-                    });
 
                     var value = Common.localStorage.getItem('sse-settings-unit');
                     Common.Utils.Metric.setCurrentMetric((value!==null) ? parseInt(value) : Common.Utils.Metric.getDefaultMetric());
@@ -943,6 +937,8 @@ define([
                     if (me.stackLongActions.exist({id: ApplyEditRights, type: Asc.c_oAscAsyncActionType['BlockInteraction']})) {
                         me.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], ApplyEditRights);
                     } else if (!this._isDocReady) {
+                        Common.NotificationCenter.trigger('app:face', this.appOptions);
+
                         me.hidePreloader();
                         me.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
                     }

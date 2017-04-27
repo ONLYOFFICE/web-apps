@@ -85,20 +85,18 @@ define([
             var items = $container.find(' > .layout-item');
             this.vlayout = new Common.UI.VBoxLayout({
                 box: $container,
-                items: [{
+                items: [
+                {
+                    // el: items[0],    // decorative element for view mode for desktop
+                    // height: 5
+                // }, {
                     el: items[0],
-                    rely: true
+                    height: Common.localStorage.getBool('sse-compact-toolbar') ? 40 : 40+67
                 }, {
                     el: items[1],
-                    height: 5
-                }, {
-                    el: items[2],
-                    rely: true
-                }, {
-                    el: items[3],
                     stretch: true
                 }, {
-                    el: items[4],
+                    el: items[2],
                     height: 25
                 }]
             });
@@ -147,10 +145,8 @@ define([
 
         applyEditorMode: function() {
             var me              = this,
-                toolbarView     = SSE.getController('Toolbar').getView('Toolbar'),
                 rightMenuView   = SSE.getController('RightMenu').getView('RightMenu');
 
-            me._toolbar     = toolbarView.render(this.mode);
             me._rightMenu   = rightMenuView.render();
         },
 

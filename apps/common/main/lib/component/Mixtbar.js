@@ -84,7 +84,6 @@ define([
             $tabs: undefined,
             $panels: undefined,
             $marker: undefined,
-            lastTab: undefined,
             isFolded: false,
 
             initialize : function(options) {
@@ -191,7 +190,7 @@ define([
             },
 
             setTab: function (tab) {
-                if (!tab || !tab.length) {
+                if ( !tab ) {
                     if ( this.isFolded ) onShowFullviewPanel.call(this, false);
                     else tab = this.lastPanel;
                 }

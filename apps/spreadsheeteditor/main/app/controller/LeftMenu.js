@@ -73,7 +73,9 @@ define([
                     'recent:open': _.bind(this.onOpenRecent, this)
                 },
                 'Toolbar': {
-                    'file:settings': _.bind(this.clickToolbarSettings,this)
+                    'file:settings': _.bind(this.clickToolbarSettings,this),
+                    'file:open': this.clickToolbarTab.bind(this, 'file'),
+                    'file:close': this.clickToolbarTab.bind(this, 'other')
                 },
                 'SearchDialog': {
                     'hide': _.bind(this.onSearchDlgHide, this),
@@ -304,6 +306,11 @@ define([
         clickToolbarSettings: function(obj) {
             this.leftMenu.showMenu('file:opts');
         },
+
+        clickToolbarTab: function (tab, e) {
+            if (tab == 'file')
+                this.leftMenu.showMenu('file'); else
+                this.leftMenu.menuFile.hide();
         },
 
         /** coauthoring begin **/

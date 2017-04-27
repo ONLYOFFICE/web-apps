@@ -183,14 +183,15 @@ define([
                 panel = this.active || ((this.mode.canDownload && (!this.mode.isDesktopApp || !this.mode.isOffline)) ? 'saveas' : 'info');
             this.$el.show();
             this.selectMenu(panel);
-            if (this.mode.isEdit) SSE.getController('Toolbar').DisableToolbar(true);
             this.api.asc_enableKeyEvents(false);
+
+            this.fireEvent('menu:show', [this]);
         },
 
         hide: function() {
             this.$el.hide();
-            if (this.mode.isEdit) SSE.getController('Toolbar').DisableToolbar(false);
             this.api.asc_enableKeyEvents(true);
+            this.fireEvent('menu:hide', [this]);
         },
 
         applyMode: function() {
