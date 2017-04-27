@@ -19,20 +19,6 @@
         </div>
         <button id="status-btn-zoomup" type="button" class="btn small btn-toolbar" style="margin-right:40px;"><i class="icon btn-zoom-up">&nbsp;</i></button>
     </div>
-    <!-- /** coauthoring begin **/ -->
-    <div id="status-users-ct" class="status-group dropup" style="display:none;">
-        <div class="separator short" />
-        <div id="status-users-block" style="display:inline-block; cursor:pointer; margin-left: 12px;">
-            <span id="status-users-icon" class="img-commonctrl" style="margin-bottom: 1px;"/>
-            <label id="status-users-count" class="status-label" style="font-size: 14px; font-weight: normal; margin-top: -1px;">+</label>
-        </div>
-        <div id="status-users-menu" class="dropdown-menu">
-            <label style="display: block;margin-right: 14px;"><%= scope.tipUsers %></label>
-            <div id="status-users-list"></div>
-            <label id="status-change-rights" class="link" style="margin-top: 15px;"><%= scope.txAccessRights %></label>
-        </div>
-    </div>
-    <!-- /** coauthoring end **/ -->
     <div id="status-math-box" class="status-group">
         <div class="separator short" style="margin-right: 12px;" />
         <label id="status-math-average">AVERAGE: 10</label>
