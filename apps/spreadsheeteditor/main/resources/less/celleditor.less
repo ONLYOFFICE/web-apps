@@ -83,27 +83,6 @@
     .ce-group-expand {
         float: right;
         height: 20px;
-
-        #ce-btn-expand {
-            width: 16px;
-            height: 18px;
-            .border-radius(0);
-            background: transparent;
-            padding: 0 2px 0;
-
-            &:active,
-            &.active {
-                .caret {
-                    background-position: @arrow-small-offset-x @arrow-small-offset-y;
-                }
-            }
-
-            &.btn-collapse {
-                .caret {
-                    background-position: @arrow-up-small-offset-x @arrow-up-small-offset-y;
-                }
-            }
-        }
     }
 
     .ce-group-content {
@@ -138,6 +117,25 @@
             border-top: 1px solid @gray-dark;
             border-bottom: 1px solid @gray-dark;
             opacity: 0.4;
+        }
+    }
+}
+
+#ce-btn-expand {
+    width: 16px;
+    height: 18px;
+    .border-radius(0);
+    background: transparent;
+    padding: 0 2px 0;
+
+    .caret {
+        background-position: @arrow-small-offset-x @arrow-small-offset-y;
+        transition: transform .2s;
+    }
+
+    &.btn-collapse {
+        .caret {
+            transform: rotate(180deg);
         }
     }
 }
