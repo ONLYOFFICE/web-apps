@@ -289,6 +289,10 @@ define([
             this.panels['info'].updateInfo(this.document);
         },
 
+        isVisible: function () {
+            return !this.$el.is(':hidden');
+        },
+
         btnSaveCaption          : 'Save',
         btnDownloadCaption      : 'Download as...',
         btnInfoCaption          : 'Document Info...',

@@ -111,7 +111,6 @@ define([
             this.leftMenu.$el.find('button').each(function() {
                 $(this).on('keydown', function (e) {
                     if (Common.UI.Keys.RETURN === e.keyCode || Common.UI.Keys.SPACE === e.keyCode) {
-                        me.leftMenu.btnFile.toggle(false);
                         me.leftMenu.btnAbout.toggle(false);
 
                         this.blur();
@@ -225,7 +224,6 @@ define([
 
             if (close_menu) {
                 menu.hide();
-                this.leftMenu.btnFile.toggle(false, true);
             }
         },
 
@@ -240,14 +238,12 @@ define([
                         if (btn == 'ok') {
                             this.api.asc_DownloadAs(format);
                             menu.hide();
-                            this.leftMenu.btnFile.toggle(false, true);
                         }
                     }, this)
                 });
             } else {
                 this.api.asc_DownloadAs(format);
                 menu.hide();
-                this.leftMenu.btnFile.toggle(false, true);
             }
         },
 
@@ -276,7 +272,6 @@ define([
             if (value!==null) this.api.asc_setLocale(parseInt(value));
 
             menu.hide();
-            this.leftMenu.btnFile.toggle(false, true);
 
             this.leftMenu.fireEvent('settings:apply');
         },
@@ -291,14 +286,12 @@ define([
 
             if (menu) {
                 menu.hide();
-                this.leftMenu.btnFile.toggle(false, true);
             }
         },
 
         onOpenRecent:  function(menu, url) {
             if (menu) {
                 menu.hide();
-                this.leftMenu.btnFile.toggle(false, true);
             }
 
             var recentDocPage = window.open(url);
@@ -309,15 +302,13 @@ define([
         },
 
         clickToolbarSettings: function(obj) {
-            if (this.leftMenu.btnFile.pressed && this.leftMenu.btnFile.panel.active == 'opts')
-                this.leftMenu.close();
-            else
-                this.leftMenu.showMenu('file:opts');
+            this.leftMenu.showMenu('file:opts');
+        },
         },
 
         /** coauthoring begin **/
         clickStatusbarUsers: function() {
-            this.leftMenu.btnFile.panel.panels['rights'].changeAccessRights();
+            this.leftMenu.menuFile.panels['rights'].changeAccessRights();
         },
 
         onHideChat: function() {
@@ -566,8 +557,6 @@ define([
             if (this.api) {
                 this.api.asc_closeCellEditor();
                 this.api.asc_enableKeyEvents(!state);
-
-                if (!state) $(this.leftMenu.btnFile.el).blur();
             }
         },
 
@@ -593,12 +582,13 @@ define([
                         Common.UI.Menu.Manager.hideAll();
                         this.showSearchDlg(true,s);
                         this.leftMenu.btnSearch.toggle(true,true);
-                        this.leftMenu.btnFile.toggle(false);
                         this.leftMenu.btnAbout.toggle(false);
+
+                        this.leftMenu.menuFile.hide();
                     }
                     return false;
                 case 'save':
-                    if (this.mode.canDownload && !this.leftMenu.btnFile.isDisabled()) {
+                    if ( this.mode.canDownload ) {
                         if (this.mode.isDesktopApp && this.mode.isOffline) {
                             this.api.asc_DownloadAs();
                         } else {
@@ -608,20 +598,22 @@ define([
                     }
                     return false;
                 case 'help':
-                    if (!this.leftMenu.btnFile.isDisabled()) {
-                        Common.UI.Menu.Manager.hideAll();
-                        this.api.asc_closeCellEditor();
-                        this.leftMenu.showMenu('file:help');
-                    }
+                    Common.UI.Menu.Manager.hideAll();
+                    this.api.asc_closeCellEditor();
+                    this.leftMenu.showMenu('file:help');
+
                     return false;
                 case 'file':
-                    if (!this.leftMenu.btnFile.isDisabled()) {
-                        Common.UI.Menu.Manager.hideAll();
-                        this.leftMenu.showMenu('file');
-                    }
+                    Common.UI.Menu.Manager.hideAll();
+                    this.leftMenu.showMenu('file');
+
                     return false;
                 case 'escape':
-//                        if (!this.leftMenu.isOpened()) return true;
+                    if ( this.leftMenu.menuFile.isVisible() ) {
+                        this.leftMenu.menuFile.hide();
+                        return false;
+                    }
+
                     var statusbar = SSE.getController('Statusbar');
                     var menu_opened = statusbar.statusbar.$el.find('.open > [data-toggle="dropdown"]');
                     if (menu_opened.length) {
@@ -635,7 +627,7 @@ define([
                             return false;
                         }
                     }
-                    if (this.leftMenu.btnFile.pressed ||  this.leftMenu.btnAbout.pressed ||
+                    if ( this.leftMenu.btnAbout.pressed ||
                         ($(e.target).parents('#left-menu').length || this.leftMenu.btnPlugins.pressed || this.leftMenu.btnComments.pressed) && this.api.isCellEdited!==true) {
                         this.leftMenu.close();
                         Common.NotificationCenter.trigger('layout:changed', 'leftmenu');
@@ -670,7 +662,6 @@ define([
         onCellsRange: function(status) {
             var isRangeSelection = (status != Asc.c_oAscSelectionDialogType.None);
 
-            this.leftMenu.btnFile.setDisabled(isRangeSelection);
             this.leftMenu.btnAbout.setDisabled(isRangeSelection);
             this.leftMenu.btnSearch.setDisabled(isRangeSelection);
             if (this.mode.canPlugins && this.leftMenu.panelPlugins) {
@@ -680,10 +671,8 @@ define([
         },
 
         onApiEditCell: function(state) {
-
             var isEditFormula = (state == Asc.c_oAscCellEditorState.editFormula);
 
-            this.leftMenu.btnFile.setDisabled(isEditFormula);
             this.leftMenu.btnAbout.setDisabled(isEditFormula);
             this.leftMenu.btnSearch.setDisabled(isEditFormula);
             if (this.mode.canPlugins && this.leftMenu.panelPlugins) {

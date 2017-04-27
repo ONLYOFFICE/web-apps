@@ -81,15 +81,6 @@ define([
             el.html(this.template({
             }));
 
-            this.btnFile = new Common.UI.Button({
-                action: 'file',
-                el: $('#left-btn-file', this.el),
-                hint: this.tipFile + Common.Utils.String.platformKey('Alt+F'),
-                enableToggle: true,
-                disabled: true,
-                toggleGroup: 'leftMenuGroup'
-            });
-
             this.btnSearch = new Common.UI.Button({
                 action: 'search',
                 el: $('#left-btn-search', this.el),
@@ -150,10 +141,9 @@ define([
 
             this.btnSearch.on('click',          _.bind(this.onBtnMenuClick, this));
             this.btnAbout.on('toggle',          _.bind(this.onBtnMenuToggle, this));
-            this.btnFile.on('toggle',           _.bind(this.onBtnMenuToggle, this));
 
-            var menuFile = new SSE.Views.FileMenu({});
-            this.btnFile.panel = menuFile.render();
+            this.menuFile = new SSE.Views.FileMenu({});
+            this.menuFile.render();
             this.btnAbout.panel = (new Common.Views.About({el: $('#about-menu-panel'), appName: 'Spreadsheet Editor'})).render();
 
             return this;
@@ -161,15 +151,12 @@ define([
 
         onBtnMenuToggle: function(btn, state) {
             if (state) {
-                this.btnFile.pressed && this.fireEvent('file:show', this);
-
                 btn.panel['show']();
                 this.$el.width(SCALE_MIN);
 
                 if (this.btnSearch.isActive())
                     this.btnSearch.toggle(false);
             } else {
-                (this.btnFile.id == btn.id) && this.fireEvent('file:hide', this);
                 btn.panel['hide']();
             }
             if (this.mode.isEdit) SSE.getController('Toolbar').DisableToolbar(state==true);
@@ -177,7 +164,6 @@ define([
         },
 
         onBtnMenuClick: function(btn, e) {
-            this.btnFile.toggle(false);
             this.btnAbout.toggle(false);
 
             if (btn.options.action == 'search') {
@@ -248,7 +234,6 @@ define([
         /** coauthoring end **/
 
         close: function(menu) {
-            this.btnFile.toggle(false);
             this.btnAbout.toggle(false);
             this.$el.width(SCALE_MIN);
             /** coauthoring begin **/
@@ -272,7 +257,7 @@ define([
         },
 
         isOpened: function() {
-            var isopened = this.btnFile.pressed || this.btnSearch.pressed;
+            var isopened = this.btnSearch.pressed;
             /** coauthoring begin **/
             !isopened && (isopened = this.btnComments.pressed || this.btnChat.pressed);
             /** coauthoring end **/
@@ -280,7 +265,6 @@ define([
         },
 
         disableMenu: function(menu, disable) {
-            this.btnFile.setDisabled(false);
             this.btnAbout.setDisabled(false);
             this.btnSupport.setDisabled(false);
             this.btnSearch.setDisabled(false);
@@ -293,13 +277,8 @@ define([
 
         showMenu: function(menu) {
             var re = /^(\w+):?(\w*)$/.exec(menu);
-            if (re[1] == 'file' && this.btnFile.isVisible()) {
-                if (!this.btnFile.pressed) {
-                    this.btnFile.toggle(true);
-                    this.btnFile.$el.focus();
-//                    this.onBtnMenuClick(this.btnFile);
-                }
-                this.btnFile.panel.show(re[2].length ? re[2] : undefined);
+            if ( re[1] == 'file' ) {
+                this.menuFile.show(re[2].length ? re[2] : undefined);
             } else {
                 /** coauthoring begin **/
                 if (menu == 'chat') {
@@ -326,7 +305,7 @@ define([
 
         getMenu: function(type) {
             switch (type) {
-            case 'file': return this.btnFile.panel;
+            case 'file': return this.menuFile;
             case 'about': return this.btnAbout.panel;
             default: return null;
             }
