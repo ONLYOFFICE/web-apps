@@ -122,13 +122,13 @@
         </td>
     </tr>
     <tr class="shape-only">
-        <td>
+        <td class="padding-small">
             <label class="header"><%= scope.textWrap %></label>
         </td>
     </tr>
     <tr class="shape-only">
         <td>
-            <div id="shape-button-wrap" style=""></div>
+            <div id="shape-combo-wrap" style="width: 100%;"></div>
         </td>
     </tr>
     <tr class="shape-only">

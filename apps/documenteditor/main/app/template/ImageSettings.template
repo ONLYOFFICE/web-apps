@@ -34,7 +34,7 @@
     </tr>
     <tr>
         <td class="padding-small" colspan=2>
-            <div id="image-combo-wrap" style="width: 100%; height: 64px;"></div>
+            <div id="image-combo-wrap" style="width: 100%;"></div>
         </td>
     </tr>
     <tr>

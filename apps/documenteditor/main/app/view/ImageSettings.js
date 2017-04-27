@@ -126,7 +126,7 @@ define([
                 menuMaxHeight: 300,
                 enableKeyEvents: true,
                 store: new Common.UI.DataViewStore(viewData),
-                cls: 'combo-wrap'
+                cls: 'combo-chart-style'
             });
             this.cmbWrapType.menuPicker.itemTemplate = this.cmbWrapType.fieldPicker.itemTemplate = _.template([
                 '<div class="style" id="<%= id %>">',
