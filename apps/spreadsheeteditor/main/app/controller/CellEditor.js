@@ -91,6 +91,10 @@ define([
 
             this.editor.$btnfunc[this.mode.isEdit?'removeClass':'addClass']('disabled');
             this.editor.btnNamedRanges.setVisible(this.mode.isEdit && !this.mode.isEditDiagram && !this.mode.isEditMailMerge);
+
+            if ( this.mode.isEdit ) {
+                this.api.asc_registerCallback('asc_onSelectionChanged', _.bind(this.onApiSelectionChanged, this));
+            }
         },
 
         onInputKeyDown: function(e) {
@@ -130,6 +134,20 @@ define([
 
         onApiCellSelection: function(info) {
             this.editor.updateCellInfo(info);
+        },
+
+        onApiSelectionChanged: function(info) {
+            var seltype = info.asc_getFlags().asc_getSelectionType(),
+                coauth_disable = (!this.mode.isEditMailMerge && !this.mode.isEditDiagram) ? (info.asc_getLocked() === true || info.asc_getLockedTable() === true) : false;
+
+            var is_chart_text   = seltype == Asc.c_oAscSelectionType.RangeChartText,
+                is_chart        = seltype == Asc.c_oAscSelectionType.RangeChart,
+                is_shape_text   = seltype == Asc.c_oAscSelectionType.RangeShapeText,
+                is_shape        = seltype == Asc.c_oAscSelectionType.RangeShape,
+                is_image        = seltype == Asc.c_oAscSelectionType.RangeImage,
+                is_mode_2       = is_shape_text || is_shape || is_chart_text || is_chart;
+
+            this.editor.$btnfunc.toggleClass('disabled', is_image || is_mode_2 || coauth_disable);
         },
 
         onApiDisconnect: function() {

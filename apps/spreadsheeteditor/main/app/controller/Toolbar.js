@@ -1746,10 +1746,10 @@ define([
             need_disable = selectionType != Asc.c_oAscSelectionType.RangeCells && selectionType != Asc.c_oAscSelectionType.RangeCol &&
                            selectionType != Asc.c_oAscSelectionType.RangeRow && selectionType != Asc.c_oAscSelectionType.RangeMax;
             if (this._state.sparklines_disabled !== need_disable) {
+                this._state.sparklines_disabled = need_disable;
                 var len = toolbar.mnuInsertChartPicker.store.length;
                 for (var i=0; i<3; i++) {
                     toolbar.mnuInsertChartPicker.store.at(len-i-1).set({disabled: need_disable});
-                    this._state.sparklines_disabled = need_disable;
                 }
             }
 
@@ -2532,8 +2532,6 @@ define([
                 toolbar.lockToolbar(SSE.enumLock.coAuthText, is_objLocked);
                 toolbar.lockToolbar(SSE.enumLock.coAuthText, is_objLocked && (seltype==Asc.c_oAscSelectionType.RangeChart || seltype==Asc.c_oAscSelectionType.RangeChartText), { array: [toolbar.btnInsertChart] } );
             }
-
-            $('#ce-func-label').toggleClass('disabled', is_image || is_mode_2 || coauth_disable);
 
             this._state.controlsdisabled.filters = is_image || is_mode_2 || coauth_disable;
 
