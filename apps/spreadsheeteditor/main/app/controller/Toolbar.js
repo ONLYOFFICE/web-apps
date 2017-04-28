@@ -176,7 +176,7 @@ define([
             Common.NotificationCenter.on('app:face', this.onAppShowed.bind(this));
         },
 
-        onToolbarAfterRender: function(toolbar) {
+        attachUIEvents: function(toolbar) {
             var me = this;
 
             /**
@@ -1331,7 +1331,7 @@ define([
             var me = this;
 
             this.toolbar.createDelayedElements();
-            this.onToolbarAfterRender(this.toolbar);
+            this.attachUIEvents(this.toolbar);
 
             if ( !this.appConfig.isEditDiagram && !this.appConfig.isEditMailMerge ) {
                 this.api.asc_registerCallback('asc_onSheetsChanged',            _.bind(this.onApiSheetChanged, this));

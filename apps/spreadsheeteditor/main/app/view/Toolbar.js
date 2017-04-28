@@ -421,14 +421,6 @@ define([
                             { template: _.template('<a id="id-toolbar-menu-new-fontcolor" style="padding-left:12px;">' + me.textNewColor + '</a>') }
                         ]
                     })
-                }).on('render:after', function(btn) {
-                    var colorVal = $('<div class="btn-color-value-line"></div>');
-                    $('button:first-child', btn.cmpEl).append(colorVal);
-                    colorVal.css('background-color', btn.currentColor || 'transparent');
-
-                    me.mnuTextColorPicker = new Common.UI.ThemeColorPalette({
-                        el: $('#id-toolbar-menu-fontcolor')
-                    });
                 });
 
                 me.mnuBackColorPicker = dummyCmp();
@@ -444,15 +436,6 @@ define([
                             { template: _.template('<a id="id-toolbar-menu-new-paracolor" style="padding-left:12px;">' + me.textNewColor + '</a>') }
                         ]
                     })
-                }).on('render:after', function(btn) {
-                    var colorVal = $('<div class="btn-color-value-line"></div>');
-                    $('button:first-child', btn.cmpEl).append(colorVal);
-                    colorVal.css('background-color', btn.currentColor || 'transparent');
-
-                    me.mnuBackColorPicker = new Common.UI.ThemeColorPalette({
-                        el: $('#id-toolbar-menu-paracolor'),
-                        transparent: true
-                    });
                 });
 
                 me.btnBorders = new Common.UI.Button({
@@ -1244,6 +1227,8 @@ define([
                 if (cmp && _.isFunction(cmp.setDisabled))
                     cmp.setDisabled(true);
             });
+
+            this.on('render:after', _.bind(this.onToolbarAfterRender, this));
         },
 
         render: function (mode) {
@@ -1680,6 +1665,29 @@ define([
                         // { group: 'menu-chart-group-sparkwin',      type: Asc.c_oAscSparklineType.Stacked,   allowSelected: true, iconCls: 'spark-win', tip: me.textWinLossSpark}
                     ]),
                     itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist <%= iconCls %>"></div>')
+                });
+            }
+        },
+
+        onToolbarAfterRender: function(toolbar) {
+            // DataView and pickers
+            //
+            if (this.btnTextColor.cmpEl) {
+                var colorVal = $('<div class="btn-color-value-line"></div>');
+                $('button:first-child', this.btnTextColor.cmpEl).append(colorVal);
+                colorVal.css('background-color', this.btnTextColor.currentColor || 'transparent');
+                this.mnuTextColorPicker = new Common.UI.ThemeColorPalette({
+                    el: $('#id-toolbar-menu-fontcolor')
+                });
+            }
+            if (this.btnBackColor.cmpEl) {
+                var colorVal = $('<div class="btn-color-value-line"></div>');
+                $('button:first-child', this.btnBackColor.cmpEl).append(colorVal);
+                colorVal.css('background-color', this.btnBackColor.currentColor || 'transparent');
+
+                this.mnuBackColorPicker = new Common.UI.ThemeColorPalette({
+                    el: $('#id-toolbar-menu-paracolor'),
+                    transparent: true
                 });
             }
         },
