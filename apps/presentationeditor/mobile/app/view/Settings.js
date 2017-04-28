@@ -69,7 +69,7 @@ define([
             initEvents: function () {
                 var me = this;
 
-                $('#settings-presentation-info').single('click', _.bind(me.showInfo, me));
+                $('#settings-document-info').single('click', _.bind(me.showInfo, me));
                 $('#settings-download').single('click', _.bind(me.showDownload, me));
                 $('#settings-history').single('click', _.bind(me.showHistory, me));
                 $('#settings-help').single('click', _.bind(me.showHelp, me));

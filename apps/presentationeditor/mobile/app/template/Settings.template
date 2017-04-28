@@ -62,7 +62,7 @@
                             </a>
                         </li>
                         <li>
-                            <a id="settings-presentation-info" class="item-link">
+                            <a id="settings-document-info" class="item-link">
                                 <div class="item-content">
                                     <div class="item-media">
                                         <i class="icon icon-info"></i>
