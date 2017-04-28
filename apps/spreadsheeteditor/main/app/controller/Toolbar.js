@@ -301,6 +301,7 @@ define([
             if ( !config.isEditDiagram  && !config.isEditMailMerge ) {
                 this.api.asc_registerCallback('asc_onSendThemeColors',      _.bind(this.onSendThemeColors, this));
                 this.api.asc_registerCallback('asc_onMathTypes',            _.bind(this.onMathTypes, this));
+                this.api.asc_registerCallback('asc_onContextMenu',          _.bind(this.onContextMenu, this));
             }
 
             this.api.asc_registerCallback('asc_onInitEditorStyles',     _.bind(this.onApiInitEditorStyles, this));
@@ -323,6 +324,10 @@ define([
         //     Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         //     Common.component.Analytics.trackEvent('ToolBar', 'Open Document');
         // },
+
+        onContextMenu: function() {
+            this.toolbar.collapseToolbar();
+        },
 
         onPrint: function(e) {
             Common.NotificationCenter.trigger('print', this.toolbar);
