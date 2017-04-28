@@ -331,7 +331,7 @@ define([
         onSave: function(e) {
             if (this.api) {
                 var isModified = this.api.asc_isDocumentCanSave();
-                var isSyncButton = $('.btn-icon', this.toolbar.btnSave.cmpEl).hasClass('btn-synch');
+                var isSyncButton = $('.icon', this.toolbar.btnSave.cmpEl).hasClass('btn-synch');
                 if (!isModified && !isSyncButton && !this.toolbar.mode.forcesave)
                     return;
 
@@ -506,7 +506,7 @@ define([
                     bordersColor = btnBorders.options.borderscolor;
 
                 if (btnBorders.rendered) {
-                    var iconEl = $('.btn-icon', btnBorders.cmpEl);
+                    var iconEl = $('.icon', btnBorders.cmpEl);
 
                     if (iconEl) {
                         iconEl.removeClass(btnBorders.options.icls);
@@ -575,7 +575,7 @@ define([
 
         onHorizontalAlignMenu: function(menu, item) {
             var btnHorizontalAlign = this.toolbar.btnHorizontalAlign,
-                iconEl = $('.btn-icon', btnHorizontalAlign.cmpEl);
+                iconEl = $('.icon', btnHorizontalAlign.cmpEl);
 
             if (iconEl) {
                 iconEl.removeClass(btnHorizontalAlign.options.icls);
@@ -595,7 +595,7 @@ define([
 
         onVerticalAlignMenu: function(menu, item) {
             var btnVerticalAlign = this.toolbar.btnVerticalAlign,
-                iconEl = $('.btn-icon', btnVerticalAlign.cmpEl);
+                iconEl = $('.icon', btnVerticalAlign.cmpEl);
 
             if (iconEl) {
                 iconEl.removeClass(btnVerticalAlign.options.icls);
@@ -1891,7 +1891,7 @@ define([
 
                         var btnHorizontalAlign = this.toolbar.btnHorizontalAlign;
                         if (btnHorizontalAlign.rendered) {
-                            var hIconEl = $('.btn-icon', btnHorizontalAlign.cmpEl);
+                            var hIconEl = $('.icon', btnHorizontalAlign.cmpEl);
 
                             if (hIconEl) {
                                 hIconEl.removeClass(btnHorizontalAlign.options.icls);
@@ -1925,7 +1925,7 @@ define([
 
                             var btnVerticalAlign = this.toolbar.btnVerticalAlign;
                             if (btnVerticalAlign.rendered) {
-                                var vIconEl = $('.btn-icon', btnVerticalAlign.cmpEl);
+                                var vIconEl = $('.icon', btnVerticalAlign.cmpEl);
 
                                 if (vIconEl) {
                                     vIconEl.removeClass(btnVerticalAlign.options.icls);

@@ -1478,9 +1478,9 @@ define([
                                         'data-stopPropagation="true"',
                                     '<% } %>', '>',
                                     '<label class="title">' + this.textZoom + '</label>',
-                                    '<button id="id-menu-zoom-in" type="button" style="float:right; margin: 2px 5px 0 0;" class="btn small btn-toolbar"><span class="btn-icon btn-zoomin">&nbsp;</span></button>',
+                                    '<button id="id-menu-zoom-in" type="button" style="float:right; margin: 2px 5px 0 0;" class="btn small btn-toolbar"><span class="icon btn-zoomin">&nbsp;</span></button>',
                                     '<label class="zoom"><%= options.value %>%</label>',
-                                    '<button id="id-menu-zoom-out" type="button" style="float:right; margin-top: 2px;" class="btn small btn-toolbar"><span class="btn-icon btn-zoomout">&nbsp;</span></button>',
+                                    '<button id="id-menu-zoom-out" type="button" style="float:right; margin-top: 2px;" class="btn small btn-toolbar"><span class="icon btn-zoomout">&nbsp;</span></button>',
                                 '</div>'
                             ].join('')),
                             stopPropagation: true,
@@ -1779,7 +1779,7 @@ define([
             }
 
             this._state.hasCollaborativeChanges = true;
-            var iconEl = $('.btn-icon', this.btnSave.cmpEl);
+            var iconEl = $('.icon', this.btnSave.cmpEl);
             iconEl.removeClass(this.btnSaveCls);
             iconEl.addClass('btn-synch');
 
@@ -1815,7 +1815,7 @@ define([
 
         synchronizeChanges: function() {
             if (this.btnSave.rendered) {
-                var iconEl = $('.btn-icon', this.btnSave.cmpEl);
+                var iconEl = $('.icon', this.btnSave.cmpEl);
 
                 if (iconEl.hasClass('btn-synch')) {
                     iconEl.removeClass('btn-synch');
@@ -1841,7 +1841,7 @@ define([
             if (cls !== this.btnSaveCls && this.btnSave.rendered) {
                 this.btnSaveTip = ((length>1) ? this.tipSaveCoauth : this.tipSave )+ Common.Utils.String.platformKey('Ctrl+S');
 
-                var iconEl = $('.btn-icon', this.btnSave.cmpEl);
+                var iconEl = $('.icon', this.btnSave.cmpEl);
                 if (!iconEl.hasClass('btn-synch')) {
                     iconEl.removeClass(this.btnSaveCls);
                     iconEl.addClass(cls);
