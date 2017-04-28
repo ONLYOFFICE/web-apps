@@ -1336,14 +1336,16 @@ define([
             if ( !this.appConfig.isEditDiagram && !this.appConfig.isEditMailMerge ) {
                 this.api.asc_registerCallback('asc_onSheetsChanged',            _.bind(this.onApiSheetChanged, this));
                 this.api.asc_registerCallback('asc_onUpdateSheetViewSettings',  _.bind(this.onApiSheetChanged, this));
+                this.api.asc_registerCallback('asc_onEndAddShape',              _.bind(this.onApiEndAddShape, this));
+            } else {
             }
 
             this.api.asc_registerCallback('asc_onShowChartDialog',          _.bind(this.onApiChartDblClick, this));
             this.api.asc_registerCallback('asc_onCanUndoChanged',           _.bind(this.onApiCanRevert, this, 'undo'));
             this.api.asc_registerCallback('asc_onCanRedoChanged',           _.bind(this.onApiCanRevert, this, 'redo'));
             this.api.asc_registerCallback('asc_onEditCell',                 _.bind(this.onApiEditCell, this));
-            this.api.asc_registerCallback('asc_onEndAddShape',              _.bind(this.onApiEndAddShape, this));
             this.api.asc_registerCallback('asc_onStopFormatPainter',        _.bind(this.onApiStyleChange, this));
+            this.api.asc_registerCallback('asc_onSelectionChanged',         _.bind(this.onApiSelectionChanged, this));
 
             Common.util.Shortcuts.delegateShortcuts({
                 shortcuts: {
@@ -1392,11 +1394,9 @@ define([
                 }
             });
 
-            this.wrapOnSelectionChanged = _.bind(this.onApiSelectionChanged, this);
-            this.api.asc_registerCallback('asc_onSelectionChanged',         this.wrapOnSelectionChanged);
-            this.onApiSelectionChanged(this.api.asc_getCellInfo());
             this.api.asc_registerCallback('asc_onEditorSelectionChanged',   _.bind(this.onApiEditorSelectionChanged, this));
 
+            this.onApiSelectionChanged(this.api.asc_getCellInfo());
             this.attachToControlEvents();
             this.onApiSheetChanged();
 
@@ -1715,6 +1715,8 @@ define([
 
         onApiSelectionChanged: function(info) {
             if (!this.editMode) return;
+            if ( this.toolbar.mode.isEditDiagram )
+                return this.onApiSelectionChanged_DiagramEditor(info);
 
             var selectionType = info.asc_getFlags().asc_getSelectionType(),
                 coauth_disable = (!this.toolbar.mode.isEditMailMerge && !this.toolbar.mode.isEditDiagram) ? (info.asc_getLocked()===true || info.asc_getLockedTable()===true) : false,
@@ -1725,30 +1727,26 @@ define([
                 val, need_disable = false;
 
             /* read font name */
-            if ( toolbar.cmbFontName ) {
-                var fontparam = fontobj.asc_getName();
-                if (fontparam != toolbar.cmbFontName.getValue()) {
-                    Common.NotificationCenter.trigger('fonts:change', fontobj);
-                }
+            var fontparam = fontobj.asc_getName();
+            if (fontparam != toolbar.cmbFontName.getValue()) {
+                Common.NotificationCenter.trigger('fonts:change', fontobj);
             }
 
             /* read font size */
-            if ( toolbar.cmbFontSize ) {
-                var str_size = fontobj.asc_getSize();
-                if (this._state.fontsize !== str_size) {
-                    toolbar.cmbFontSize.setValue((str_size !== undefined) ? str_size : '');
-                    this._state.fontsize = str_size;
-                }
+            var str_size = fontobj.asc_getSize();
+            if (this._state.fontsize !== str_size) {
+                toolbar.cmbFontSize.setValue((str_size !== undefined) ? str_size : '');
+                this._state.fontsize = str_size;
             }
 
             toolbar.lockToolbar(SSE.enumLock.cantHyperlink, (selectionType == Asc.c_oAscSelectionType.RangeShapeText) && (this.api.asc_canAddShapeHyperlink()===false), { array: [toolbar.btnInsertHyperlink]});
 
             need_disable = selectionType != Asc.c_oAscSelectionType.RangeCells && selectionType != Asc.c_oAscSelectionType.RangeCol &&
-                           selectionType != Asc.c_oAscSelectionType.RangeRow && selectionType != Asc.c_oAscSelectionType.RangeMax;
+                                selectionType != Asc.c_oAscSelectionType.RangeRow && selectionType != Asc.c_oAscSelectionType.RangeMax;
             if (this._state.sparklines_disabled !== need_disable) {
                 this._state.sparklines_disabled = need_disable;
                 var len = toolbar.mnuInsertChartPicker.store.length;
-                for (var i=0; i<3; i++) {
+                for (var i = 0; i < 3; i++) {
                     toolbar.mnuInsertChartPicker.store.at(len-i-1).set({disabled: need_disable});
                 }
             }
@@ -2062,6 +2060,70 @@ define([
             }
         },
 
+        onApiSelectionChanged_DiagramEditor: function(info) {
+            if ( !this.editMode || this.api.isCellEdited || this.api.isRangeSelection) return;
+
+            var me = this;
+            var _disableEditOptions = function(seltype, coauth_disable) {
+                var is_chart_text = seltype == Asc.c_oAscSelectionType.RangeChartText,
+                    is_chart = seltype == Asc.c_oAscSelectionType.RangeChart,
+                    is_shape_text = seltype == Asc.c_oAscSelectionType.RangeShapeText,
+                    is_shape = seltype == Asc.c_oAscSelectionType.RangeShape,
+                    is_image = seltype == Asc.c_oAscSelectionType.RangeImage,
+                    is_mode_2 = is_shape_text || is_shape || is_chart_text || is_chart,
+                    is_objLocked = false;
+
+                if ( !(is_mode_2 || is_image) &&
+                        me._state.selection_type === seltype &&
+                            me._state.coauthdisable === coauth_disable )
+                    return (seltype === Asc.c_oAscSelectionType.RangeImage);
+
+                if ( is_mode_2 ) {
+                    var selectedObjects = me.api.asc_getGraphicObjectProps();
+                    is_objLocked = selectedObjects.some( function(object) {
+                        return object.asc_getObjectType() == Asc.c_oAscTypeSelectElement.Image && object.asc_getObjectValue().asc_getLocked();
+                    } );
+                }
+
+                var _set = SSE.enumLock;
+                var type = seltype;
+                switch ( seltype ) {
+                case Asc.c_oAscSelectionType.RangeImage: type = _set.selImage; break;
+                case Asc.c_oAscSelectionType.RangeShape: type = _set.selShape; break;
+                case Asc.c_oAscSelectionType.RangeShapeText: type = _set.selShapeText; break;
+                case Asc.c_oAscSelectionType.RangeChart: type = _set.selChart; break;
+                case Asc.c_oAscSelectionType.RangeChartText: type = _set.selChartText; break;
+                }
+
+                me.toolbar.lockToolbar(type, type != seltype, {
+                    clear: [_set.selImage, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.coAuth]
+                });
+
+                me.toolbar.lockToolbar(SSE.enumLock.coAuthText, is_objLocked);
+
+                return is_image;
+            };
+
+            var selectionType = info.asc_getFlags().asc_getSelectionType(),
+                coauth_disable = false;
+
+            if ( _disableEditOptions(selectionType, coauth_disable) ) return;
+
+            if (selectionType == Asc.c_oAscSelectionType.RangeChart || selectionType == Asc.c_oAscSelectionType.RangeChartText)
+                return;
+
+            var val = info.asc_getNumFormatInfo();
+            if ( val ) {
+                this._state.numformat = info.asc_getNumFormat();
+                this._state.numformatinfo = val;
+                val = val.asc_getType();
+                if (this._state.numformattype !== val) {
+                    me.toolbar.cmbNumberFormat.setValue(val, me.toolbar.txtCustom);
+                    this._state.numformattype = val;
+                }
+            }
+        },
+
         onApiStyleChange: function() {
             this.toolbar.btnCopyStyle.toggle(false, true);
             this.modeAlwaysSetStyle = false;
@@ -2107,7 +2169,8 @@ define([
                 this._state.clrtext = undefined;
                 this._state.clrback = undefined;
                 this.onApiSelectionChanged(this.api.asc_getCellInfo());
-        }
+            }
+
             this._state.clrtext_asccolor = undefined;
             this._state.clrshd_asccolor = undefined;
 

@@ -1,4 +1,4 @@
-<div class="toolbar" style="<%= (isEditDiagram || isEditMailMerge) ? 'height: 41px;' : 'height: 67px;' %>">
+<div class="toolbar" style="height: 41px; padding: 10px 0;">
     <% if ( isEditDiagram ) { %>
         <!----------------------->
         <!-- Edit diagram mode -->

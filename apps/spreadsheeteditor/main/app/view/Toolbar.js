@@ -1213,40 +1213,40 @@ define([
                     })
                 });
 
-                me.lockControls = [
-                    me.cmbFontName, me.cmbFontSize, me.btnIncFontSize, me.btnDecFontSize, me.btnBold,
-                    me.btnItalic, me.btnUnderline, me.btnTextColor, me.btnHorizontalAlign, me.btnAlignLeft,
-                    me.btnAlignCenter,me.btnAlignRight,me.btnAlignJust, me.btnVerticalAlign, me.btnAlignTop,
-                    me.btnAlignMiddle, me.btnAlignBottom, me.btnWrap, me.btnTextOrient, me.btnBackColor,
-                    me.btnMerge, me.btnInsertFormula, me.btnNamedRange, me.btnIncDecimal, me.btnInsertShape, me.btnInsertEquation,
-                    me.btnInsertText, me.btnSortUp, me.btnSortDown, me.btnSetAutofilter, me.btnClearAutofilter, me.btnTableTemplate,
-                    me.btnPercentStyle, me.btnCurrencyStyle, me.btnDecDecimal, me.btnAddCell, me.btnDeleteCell,
-                    me.cmbNumberFormat, me.btnBorders, me.btnInsertImage, me.btnInsertHyperlink,
-                    me.btnInsertChart, me.btnColorSchemas,
-                    me.btnAutofilter, me.btnCopy, me.btnPaste, me.btnSettings, me.listStyles, me.btnPrint, me.btnShowMode,
-                    /*me.btnSave, */me.btnClearStyle, me.btnCopyStyle
-                ];
-
                 var hidetip = Common.localStorage.getItem("sse-hide-synch");
                 me.showSynchTip = !(hidetip && parseInt(hidetip) == 1);
                 me.needShowSynchTip = false;
-
-                var _temp_array = [me.cmbFontName, me.cmbFontSize, me.btnAlignLeft,me.btnAlignCenter,me.btnAlignRight,me.btnAlignJust,me.btnAlignTop,
-                    me.btnAlignMiddle, me.btnAlignBottom, me.btnHorizontalAlign, me.btnVerticalAlign,
-                    me.btnInsertImage, me.btnInsertText, me.btnInsertShape, me.btnInsertEquation, me.btnIncFontSize, me.btnDecFontSize,
-                    me.btnBold, me.btnItalic, me.btnUnderline, me.btnTextColor, me.btnBackColor,
-                    me.btnInsertHyperlink, me.btnBorders, me.btnTextOrient, me.btnPercentStyle, me.btnCurrencyStyle, me.btnColorSchemas,
-                    me.btnSettings, me.btnInsertFormula, me.btnNamedRange, me.btnDecDecimal, me.btnIncDecimal, me.cmbNumberFormat, me.btnWrap,
-                    me.btnInsertChart, me.btnMerge, me.btnAddCell, me.btnDeleteCell, me.btnShowMode, me.btnPrint,
-                    me.btnAutofilter, me.btnSortUp, me.btnSortDown, me.btnTableTemplate, me.btnSetAutofilter, me.btnClearAutofilter,
-                    me.btnSave, me.btnClearStyle, me.btnCopyStyle, me.btnCopy, me.btnPaste];
-
-                // Enable none paragraph components
-                _.each(_temp_array, function(cmp) {
-                    if (cmp && _.isFunction(cmp.setDisabled))
-                        cmp.setDisabled(true);
-                });
             }
+
+            me.lockControls = [
+                me.cmbFontName, me.cmbFontSize, me.btnIncFontSize, me.btnDecFontSize, me.btnBold,
+                me.btnItalic, me.btnUnderline, me.btnTextColor, me.btnHorizontalAlign, me.btnAlignLeft,
+                me.btnAlignCenter,me.btnAlignRight,me.btnAlignJust, me.btnVerticalAlign, me.btnAlignTop,
+                me.btnAlignMiddle, me.btnAlignBottom, me.btnWrap, me.btnTextOrient, me.btnBackColor,
+                me.btnMerge, me.btnInsertFormula, me.btnNamedRange, me.btnIncDecimal, me.btnInsertShape, me.btnInsertEquation,
+                me.btnInsertText, me.btnSortUp, me.btnSortDown, me.btnSetAutofilter, me.btnClearAutofilter, me.btnTableTemplate,
+                me.btnPercentStyle, me.btnCurrencyStyle, me.btnDecDecimal, me.btnAddCell, me.btnDeleteCell,
+                me.cmbNumberFormat, me.btnBorders, me.btnInsertImage, me.btnInsertHyperlink,
+                me.btnInsertChart, me.btnColorSchemas,
+                me.btnAutofilter, me.btnCopy, me.btnPaste, me.btnSettings, me.listStyles, me.btnPrint, me.btnShowMode,
+                /*me.btnSave, */me.btnClearStyle, me.btnCopyStyle
+            ];
+
+            var _temp_array = [me.cmbFontName, me.cmbFontSize, me.btnAlignLeft,me.btnAlignCenter,me.btnAlignRight,me.btnAlignJust,me.btnAlignTop,
+                me.btnAlignMiddle, me.btnAlignBottom, me.btnHorizontalAlign, me.btnVerticalAlign,
+                me.btnInsertImage, me.btnInsertText, me.btnInsertShape, me.btnInsertEquation, me.btnIncFontSize, me.btnDecFontSize,
+                me.btnBold, me.btnItalic, me.btnUnderline, me.btnTextColor, me.btnBackColor,
+                me.btnInsertHyperlink, me.btnBorders, me.btnTextOrient, me.btnPercentStyle, me.btnCurrencyStyle, me.btnColorSchemas,
+                me.btnSettings, me.btnInsertFormula, me.btnNamedRange, me.btnDecDecimal, me.btnIncDecimal, me.cmbNumberFormat, me.btnWrap,
+                me.btnInsertChart, me.btnMerge, me.btnAddCell, me.btnDeleteCell, me.btnShowMode, me.btnPrint,
+                me.btnAutofilter, me.btnSortUp, me.btnSortDown, me.btnTableTemplate, me.btnSetAutofilter, me.btnClearAutofilter,
+                me.btnSave, me.btnClearStyle, me.btnCopyStyle, me.btnCopy, me.btnPaste];
+
+            // Enable none paragraph components
+            _.each(_temp_array, function(cmp) {
+                if (cmp && _.isFunction(cmp.setDisabled))
+                    cmp.setDisabled(true);
+            });
         },
 
         render: function (mode) {

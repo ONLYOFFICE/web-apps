@@ -99,6 +99,9 @@ define([
                         config.customization && config.customization.compactToolbar ))
             {
                 me.viewport.vlayout.panels[0].height = 40;
+            } else
+            if ( config.isEditDiagram || config.isEditMailMerge ) {
+                me.viewport.vlayout.panels[0].height = 40;
             }
         },
 

@@ -1297,7 +1297,7 @@ define([
                 this.updateWindowTitle(change);
                 Common.Gateway.setDocumentModified(change);
 
-                if (this.toolbarView && this.api) {
+                if (this.toolbarView && this.toolbarView.btnSave && this.api) {
                     var isSyncButton = $('.btn-icon', this.toolbarView.btnSave.cmpEl).hasClass('btn-synch'),
                         forcesave = this.appOptions.forcesave;
                     var cansave = this.api.asc_isDocumentCanSave();
