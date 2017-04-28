@@ -53,9 +53,14 @@
 
     #rib-doc-name {
         flex-grow: 1;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        min-width: 50px;
     }
 
     #rib-save-status {
+        white-space: nowrap;
         &.locked {
             text-decoration: none;
             color: @gray-darker;
