@@ -123,6 +123,7 @@ define([
                 restoreHeight: this.menuMaxHeight,
                 style: 'max-height: '+this.menuMaxHeight+'px;',
                 enableKeyEvents: this.options.enableKeyEvents,
+                store: this.store,
                 itemTemplate : _.template([
                     '<div class="style" id="<%= id %>">',
                         '<img src="<%= imageUrl %>" width="' + this.itemWidth + '" height="' + this.itemHeight + '"/>',

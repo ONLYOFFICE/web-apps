@@ -1403,12 +1403,14 @@ define([
             onToolbarAfterRender: function(toolbar) {
                 // DataView and pickers
                 //
-                var colorVal = $('<div class="btn-color-value-line"></div>');
-                $('button:first-child', this.btnFontColor.cmpEl).append(colorVal);
-                colorVal.css('background-color', this.btnFontColor.currentColor || 'transparent');
-                this.mnuFontColorPicker = new Common.UI.ThemeColorPalette({
-                    el: $('#id-toolbar-menu-fontcolor')
-                });
+                if (this.btnFontColor.cmpEl) {
+                    var colorVal = $('<div class="btn-color-value-line"></div>');
+                    $('button:first-child', this.btnFontColor.cmpEl).append(colorVal);
+                    colorVal.css('background-color', this.btnFontColor.currentColor || 'transparent');
+                    this.mnuFontColorPicker = new Common.UI.ThemeColorPalette({
+                        el: $('#id-toolbar-menu-fontcolor')
+                    });
+                }
             },
 
             setApi: function (api) {

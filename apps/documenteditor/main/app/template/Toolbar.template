@@ -2,7 +2,7 @@
     <div class="box-tabs">
         <div class="extra left"></div>
         <section class="tabs">
-            <a href="#" class="scroll left">
+            <a class="scroll left">
                 <i class="icon">&lt;</i>
             </a>
             <ul>
@@ -13,7 +13,7 @@
                 <% } %>
                 <div class="marker"></div>
             </ul>
-            <a href="#" class="scroll right">
+            <a class="scroll right">
                 <i class="icon">&gt;</i>
             </a>
         </section>

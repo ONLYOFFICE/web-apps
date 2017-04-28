@@ -19,17 +19,22 @@
     </tr>
     <tr>
         <td class="padding-small" colspan=2>
+            <button type="button" class="btn btn-text-default" id="image-button-fit-margins" style="width:100px;"><%= scope.textFitMargins %></button>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small" colspan=2>
             <div class="separator horizontal"></div>
         </td>
     </tr>
     <tr>
-        <td colspan=2>
+        <td colspan=2 class="padding-small">
             <label class="header"><%= scope.textWrap %></label>
         </td>
     </tr>
     <tr>
         <td class="padding-small" colspan=2>
-            <div id="image-button-wrap" style=""></div>
+            <div id="image-combo-wrap" style="width: 100%;"></div>
         </td>
     </tr>
     <tr>

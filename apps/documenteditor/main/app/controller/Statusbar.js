@@ -216,9 +216,6 @@ define([
             });
         },
 
-        /*
-        * */
-
         setLanguages: function(langs) {
             this.langs = langs;
             this.statusbar.reloadLanguages(langs);

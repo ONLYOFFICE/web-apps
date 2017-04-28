@@ -117,12 +117,12 @@ define([
                 this._noApply = true;
                 var value = props.get_WrappingStyle();
                 if (this._state.WrappingStyle!==value) {
-                    var record = this.mnuWrapPicker.store.findWhere({data: value});
-                    this.mnuWrapPicker.selectRecord(record, true);
-                    if (record)
-                        this.btnWrapType.setIconCls('item-wrap ' + record.get('iconCls'));
-                    else
-                        this.btnWrapType.setIconCls('');
+                    this.cmbWrapType.suspendEvents();
+                    var rec = this.cmbWrapType.menuPicker.store.findWhere({
+                        data: value
+                    });
+                    this.cmbWrapType.menuPicker.selectRecord(rec);
+                    this.cmbWrapType.resumeEvents();
                     this._state.WrappingStyle=value;
                 }
 
@@ -180,7 +180,7 @@ define([
                 value = props.get_CanBeFlow() && !this._locked;
                 var fromgroup = props.get_FromGroup() || this._locked;
                 if (this._state.CanBeFlow!==value || this._state.FromGroup!==fromgroup) {
-                    this.btnWrapType.setDisabled(!value || fromgroup);
+                    this.cmbWrapType.setDisabled(!value || fromgroup);
                     this._state.CanBeFlow=value;
                     this._state.FromGroup=fromgroup;
                 }
@@ -210,35 +210,40 @@ define([
         createDelayedControls: function() {
             var me = this,
                 viewData = [
-                { offsetx: 0, data: Asc.c_oAscWrapStyle2.Inline, iconCls:'wrap-inline', tip: this.txtInline, selected: true },
-                { offsetx: 50, data: Asc.c_oAscWrapStyle2.Square, iconCls:'wrap-square', tip: this.txtSquare },
-                { offsetx: 100, data: Asc.c_oAscWrapStyle2.Tight, iconCls:'wrap-tight', tip: this.txtTight },
-                { offsetx: 150, data: Asc.c_oAscWrapStyle2.Through, iconCls:'wrap-through', tip: this.txtThrough },
-                { offsetx: 200, data: Asc.c_oAscWrapStyle2.TopAndBottom, iconCls:'wrap-topAndBottom', tip: this.txtTopAndBottom },
-                { offsetx: 250, data: Asc.c_oAscWrapStyle2.InFront, iconCls:'wrap-inFront', tip: this.txtInFront },
-                { offsetx: 300, data: Asc.c_oAscWrapStyle2.Behind, iconCls:'wrap-behind', tip: this.txtBehind }
+                { offsetx: 0, data: Asc.c_oAscWrapStyle2.Inline,    tip: this.txtInline, selected: true },
+                { offsetx: 50, data: Asc.c_oAscWrapStyle2.Square,   tip: this.txtSquare },
+                { offsetx: 100, data: Asc.c_oAscWrapStyle2.Tight,   tip: this.txtTight },
+                { offsetx: 150, data: Asc.c_oAscWrapStyle2.Through, tip: this.txtThrough },
+                { offsetx: 200, data: Asc.c_oAscWrapStyle2.TopAndBottom, tip: this.txtTopAndBottom },
+                { offsetx: 250, data: Asc.c_oAscWrapStyle2.InFront, tip: this.txtInFront },
+                { offsetx: 300, data: Asc.c_oAscWrapStyle2.Behind,  tip: this.txtBehind }
             ];
 
-            this.btnWrapType = new Common.UI.Button({
-                cls         : 'btn-large-dataview',
-                iconCls     : 'item-wrap wrap-inline',
-                menu        : new Common.UI.Menu({
-                    items: [
-                        { template: _.template('<div id="id-chart-menu-wrap" style="width: 235px; margin: 0 5px;"></div>') }
-                    ]
-                })
+            this.cmbWrapType = new Common.UI.ComboDataView({
+                itemWidth: 50,
+                itemHeight: 50,
+                menuMaxHeight: 300,
+                enableKeyEvents: true,
+                store: new Common.UI.DataViewStore(viewData),
+                cls: 'combo-chart-style'
             });
-            this.btnWrapType.on('render:after', function(btn) {
-                me.mnuWrapPicker = new Common.UI.DataView({
-                    el: $('#id-chart-menu-wrap'),
-                    parentMenu: btn.menu,
-                    store: new Common.UI.DataViewStore(viewData),
-                    itemTemplate: _.template('<div id="<%= id %>" class="item-wrap" style="background-position: -<%= offsetx %>px 0;"></div>')
-                });
+            this.cmbWrapType.menuPicker.itemTemplate = this.cmbWrapType.fieldPicker.itemTemplate = _.template([
+                '<div class="style" id="<%= id %>">',
+                '<img src="data:image/gif;base64,R0lGODlhAQABAID/AMDAwAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="combo-wrap-item" ',
+                'width="' + this.cmbWrapType.itemWidth + '" height="' + this.cmbWrapType.itemHeight + '" ',
+                'style="background-position: -<%= offsetx %>px 0;"/>',
+                '</div>'
+            ].join(''));
+            this.cmbWrapType.render($('#chart-combo-wrap'));
+            this.cmbWrapType.openButton.menu.cmpEl.css({
+                'min-width': 178,
+                'max-width': 178
             });
-            this.btnWrapType.render($('#chart-button-wrap'));
-            this.mnuWrapPicker.on('item:click', _.bind(this.onSelectWrap, this, this.btnWrapType));
-            this.lockedControls.push(this.btnWrapType);
+            this.cmbWrapType.on('click', _.bind(this.onSelectWrap, this));
+            this.cmbWrapType.openButton.menu.on('show:after', function () {
+                me.cmbWrapType.menuPicker.scroller.update({alwaysVisibleY: true});
+            });
+            this.lockedControls.push(this.cmbWrapType);
 
             this.btnChartType = new Common.UI.Button({
                 cls         : 'btn-large-dataview',
@@ -315,42 +320,24 @@ define([
         },
 
         _ChartWrapStyleChanged: function(style) {
-            if (!this.mnuWrapPicker) return;
+            if (!this.cmbWrapType) return;
             if (this._state.WrappingStyle!==style) {
-                this._noApply = true;
-                var record = this.mnuWrapPicker.store.findWhere({data: style});
-                this.mnuWrapPicker.selectRecord(record, true);
-                if (record)
-                    this.btnWrapType.setIconCls('item-wrap ' + record.get('iconCls'));
+                this.cmbWrapType.suspendEvents();
+                var rec = this.cmbWrapType.menuPicker.store.findWhere({
+                    data: style
+                });
+                this.cmbWrapType.menuPicker.selectRecord(rec);
+                this.cmbWrapType.resumeEvents();
                 this._state.WrappingStyle=style;
-                this._noApply = false;
             }
         },
 
-        onSelectWrap: function(btn, picker, itemView, record) {
-            if (this._noApply) return;
-
-            var rawData = {},
-                isPickerSelect = _.isFunction(record.toJSON);
-
-            if (isPickerSelect){
-                if (record.get('selected')) {
-                    rawData = record.toJSON();
-                } else {
-                    // record deselected
-                    return;
-                }
-            } else {
-                rawData = record;
-            }
-
-            this.btnWrapType.setIconCls('item-wrap ' + rawData.iconCls);
-
+        onSelectWrap: function(combo, record) {
             if (this.api) {
-                var props = new Asc.asc_CImgProperty();
-                props.put_WrappingStyle((rawData.data));
-
-                if (this._state.WrappingStyle===Asc.c_oAscWrapStyle2.Inline && rawData.data!==Asc.c_oAscWrapStyle2.Inline ) {
+                var props = new Asc.asc_CImgProperty(),
+                    data = record.get('data');
+                props.put_WrappingStyle(data);
+                if (this._state.WrappingStyle===Asc.c_oAscWrapStyle2.Inline && data!==Asc.c_oAscWrapStyle2.Inline ) {
                     props.put_PositionH(new Asc.CImagePositionH());
                     props.get_PositionH().put_UseAlign(false);
                     props.get_PositionH().put_RelativeFrom(Asc.c_oAscRelativeFromH.Column);
@@ -366,7 +353,6 @@ define([
 
                 this.api.ImgApply(props);
             }
-
             this.fireEvent('editcomplete', this);
         },
 

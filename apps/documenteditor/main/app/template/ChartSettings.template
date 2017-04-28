@@ -18,13 +18,13 @@
         </td>
     </tr>
     <tr>
-        <td colspan=2>
+        <td colspan=2 class="padding-small">
             <label class="header"><%= scope.textWrap %></label>
         </td>
     </tr>
     <tr>
         <td class="padding-small" colspan=2>
-            <div id="chart-button-wrap" style=""></div>
+            <div id="chart-combo-wrap" style="width: 100%;"></div>
         </td>
     </tr>
     <tr>

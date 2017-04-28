@@ -71,7 +71,7 @@ define([
 
         var templateRightBox = '<section>' +
                             '<label id="rib-doc-name" class="status-label"></label>' +
-                            '<a href="#" id="rib-save-status" class="status-label locked"><%= textSaveEnd %></a>' +
+                            '<a id="rib-save-status" class="status-label locked"><%= textSaveEnd %></a>' +
                             '<div class="elset">' +
                                 // '<span class="btn-slot text" id="slot-btn-users"></span>' +
                                 '<section id="tlb-box-users" class="box-cousers dropdown"">' +

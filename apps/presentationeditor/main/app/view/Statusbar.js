@@ -66,6 +66,19 @@ define([
                 Common.Utils.String.format(this.pageIndexText, model.get('current'), model.get('count')) );
         }
 
+        function _clickLanguage(menu, item, state) {
+            var $parent = menu.$el.parent();
+
+            $parent.find('#status-label-lang').text(item.caption);
+            $parent.find('.dropdown-toggle > .icon.lang-flag')
+                .removeClass(this.langMenu.prevTip)
+                .addClass(item.value.tip);
+
+            this.langMenu.prevTip = item.value.tip;
+
+            this.fireEvent('langchanged', [this, item.value.code, item.caption]);
+        }
+
         PE.Views.Statusbar = Backbone.View.extend(_.extend({
             el: '#statusbar',
             template: _.template(template),
@@ -223,6 +236,62 @@ define([
                     hintAnchor: 'top'
                 });
 
+                this.btnDocLanguage = new Common.UI.Button({
+                    el: $('#btn-doc-lang',this.el),
+                    hint: this.tipSetDocLang,
+                    hintAnchor: 'top',
+                    disabled: true
+                });
+
+                this.btnSetSpelling = new Common.UI.Button({
+                    el: $('#btn-doc-spell',this.el),
+                    enableToggle: true,
+                    hint: this.tipSetSpelling,
+                    hintAnchor: 'top'
+                });
+
+                var panelLang = $('.cnt-lang',this.el);
+                this.langMenu = new Common.UI.Menu({
+                    style: 'margin-top:-5px;',
+                    maxHeight: 300,
+                    itemTemplate: _.template([
+                        '<a id="<%= id %>" tabindex="-1" type="menuitem">',
+                            '<i class="icon lang-flag <%= iconCls %>"></i>',
+                            '<%= caption %>',
+                        '</a>'
+                    ].join('')),
+                    menuAlign: 'bl-tl'
+                });
+
+                this.btnLanguage = new Common.UI.Button({
+                    el: panelLang,
+                    hint: this.tipSetLang,
+                    hintAnchor: 'top-left',
+                    disabled: true
+                });
+                this.btnLanguage.cmpEl.on({
+                    'show.bs.dropdown': function () {
+                        _.defer(function(){
+                            me.btnLanguage.cmpEl.find('ul').focus();
+                        }, 100);
+                    },
+                    'hide.bs.dropdown': function () {
+                        _.defer(function(){
+                            me.api.asc_enableKeyEvents(true);
+                        }, 100);
+                    },
+                    'click': function (e) {
+                        if (me.btnLanguage.isDisabled()) {
+                            return false;
+                        }
+                    }
+                });
+
+                this.langMenu.render(panelLang);
+                this.langMenu.cmpEl.attr({tabindex: -1});
+                this.langMenu.prevTip = 'en';
+                this.langMenu.on('item:click', _.bind(_clickLanguage,this));
+
                 return this;
             },
 
@@ -257,6 +326,49 @@ define([
                 $('#status-label-action').text('');
             },
 
+            reloadLanguages: function(array) {
+                this.langMenu.removeAll();
+                _.each(array, function(item) {
+                    this.langMenu.addItem({
+                        iconCls     : item['tip'],
+                        caption     : item['title'],
+                        value       : {tip: item['tip'], code: item['code']},
+                        checkable   : true,
+                        checked     : this.langMenu.saved == item.title,
+                        toggleGroup : 'language'
+                    });
+                }, this);
+
+                this.langMenu.doLayout();
+                if (this.langMenu.items.length>0) {
+                    this.btnLanguage.setDisabled(false);
+                    this.btnDocLanguage.setDisabled(false);
+                }
+            },
+
+            setLanguage: function(info) {
+                if (this.langMenu.prevTip != info.tip && info.code !== undefined) {
+                    var $parent = $(this.langMenu.el.parentNode, this.$el);
+                    $parent.find('.dropdown-toggle > .icon.lang-flag')
+                        .removeClass(this.langMenu.prevTip)
+                        .addClass(info.tip);
+
+                    this.langMenu.prevTip = info.tip;
+
+                    $parent.find('#status-label-lang').text(info.title);
+
+                    var index = $parent.find('ul li a:contains("'+info.title+'")').parent().index();
+                    index < 0 ? this.langMenu.saved = info.title :
+                        this.langMenu.items[index-1].setChecked(true);
+                }
+            },
+
+            SetDisabled: function(disable) {
+                var langs = this.langMenu.items.length>0;
+                this.btnLanguage.setDisabled(disable || !langs);
+                this.btnDocLanguage.setDisabled(disable || !langs);
+            },
+
             pageIndexText   : 'Slide {0} of {1}',
             goToPageText    : 'Go to Slide',
             tipFitPage      : 'Fit to Slide',
@@ -266,7 +378,10 @@ define([
             tipZoomFactor   : 'Magnification',
             txtPageNumInvalid: 'Slide number invalid',
             tipPreview      : 'Start Slideshow',
-            tipAccessRights : 'Manage document access rights'
+            tipAccessRights : 'Manage document access rights',
+            tipSetLang      : 'Set Text Language',
+            tipSetDocLang   : 'Set Document Language',
+            tipSetSpelling  : 'Spell checking'
         }, PE.Views.Statusbar || {}));
     }
 );
