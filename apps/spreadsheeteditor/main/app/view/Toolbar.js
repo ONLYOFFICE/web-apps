@@ -276,10 +276,7 @@ define([
                 });
             } else
             if ( config.isEditMailMerge ) {
-                Common.UI.Mixtbar.prototype.initialize.call(this, {
-                    template: _.template(simple),
-                    tabs: undefined
-                });
+                me.$layout = $(_.template(simple)(config));
 
                 me.btnSearch = new Common.UI.Button({
                     id          : 'id-toolbar-btn-search',

@@ -1337,7 +1337,11 @@ define([
                 this.api.asc_registerCallback('asc_onSheetsChanged',            _.bind(this.onApiSheetChanged, this));
                 this.api.asc_registerCallback('asc_onUpdateSheetViewSettings',  _.bind(this.onApiSheetChanged, this));
                 this.api.asc_registerCallback('asc_onEndAddShape',              _.bind(this.onApiEndAddShape, this));
-            } else {
+                this.api.asc_registerCallback('asc_onEditorSelectionChanged',   _.bind(this.onApiEditorSelectionChanged, this));
+            }
+
+            if ( !this.appConfig.isEditMailMerge ) {
+                this.applyFormulaSettings();
             }
 
             this.api.asc_registerCallback('asc_onShowChartDialog',          _.bind(this.onApiChartDblClick, this));
@@ -1394,14 +1398,10 @@ define([
                 }
             });
 
-            this.api.asc_registerCallback('asc_onEditorSelectionChanged',   _.bind(this.onApiEditorSelectionChanged, this));
-
             this.onApiSelectionChanged(this.api.asc_getCellInfo());
             this.attachToControlEvents();
             this.onApiSheetChanged();
 
-            this.applyFormulaSettings();
-            
             Common.NotificationCenter.on('cells:range', _.bind(this.onCellsRange, this));
         },
 
@@ -1716,7 +1716,9 @@ define([
         onApiSelectionChanged: function(info) {
             if (!this.editMode) return;
             if ( this.toolbar.mode.isEditDiagram )
-                return this.onApiSelectionChanged_DiagramEditor(info);
+                return this.onApiSelectionChanged_DiagramEditor(info); else
+            if ( this.toolbar.mode.isEditMailMerge )
+                return this.onApiSelectionChanged_MailMergeEditor(info);
 
             var selectionType = info.asc_getFlags().asc_getSelectionType(),
                 coauth_disable = (!this.toolbar.mode.isEditMailMerge && !this.toolbar.mode.isEditDiagram) ? (info.asc_getLocked()===true || info.asc_getLockedTable()===true) : false,
@@ -2121,6 +2123,64 @@ define([
                     me.toolbar.cmbNumberFormat.setValue(val, me.toolbar.txtCustom);
                     this._state.numformattype = val;
                 }
+            }
+        },
+
+        onApiSelectionChanged_MailMergeEditor: function(info) {
+            if ( !this.editMode || this.api.isCellEdited || this.api.isRangeSelection) return;
+
+            var me = this;
+            var _disableEditOptions = function(seltype, coauth_disable) {
+                var is_chart_text = seltype == Asc.c_oAscSelectionType.RangeChartText,
+                    is_chart = seltype == Asc.c_oAscSelectionType.RangeChart,
+                    is_shape_text = seltype == Asc.c_oAscSelectionType.RangeShapeText,
+                    is_shape = seltype == Asc.c_oAscSelectionType.RangeShape,
+                    is_image = seltype == Asc.c_oAscSelectionType.RangeImage,
+                    is_mode_2 = is_shape_text || is_shape || is_chart_text || is_chart,
+                    is_objLocked = false;
+
+                if (!(is_mode_2 || is_image) &&
+                        me._state.selection_type === seltype &&
+                            me._state.coauthdisable === coauth_disable)
+                    return seltype === Asc.c_oAscSelectionType.RangeImage;
+
+                if ( is_mode_2 ) {
+                    var selectedObjects = me.api.asc_getGraphicObjectProps();
+                    is_objLocked = selectedObjects.some(function (object) {
+                        return object.asc_getObjectType() == Asc.c_oAscTypeSelectElement.Image && object.asc_getObjectValue().asc_getLocked();
+                    });
+                }
+
+                me.toolbar.lockToolbar(SSE.enumLock.coAuthText, is_objLocked);
+
+                return is_image;
+            };
+
+            var selectionType = info.asc_getFlags().asc_getSelectionType(),
+                coauth_disable = false,
+                editOptionsDisabled = _disableEditOptions(selectionType, coauth_disable),
+                val, need_disable = false;
+
+            if (editOptionsDisabled) return;
+            if (selectionType == Asc.c_oAscSelectionType.RangeChart || selectionType == Asc.c_oAscSelectionType.RangeChartText)
+                return;
+
+            if ( !me.toolbar.mode.isEditDiagram ) {
+                var filterInfo = info.asc_getAutoFilterInfo();
+
+                val = filterInfo ? filterInfo.asc_getIsAutoFilter() : null;
+                if ( this._state.filter !== val ) {
+                    me.toolbar.btnSetAutofilter.toggle(val===true, true);
+                    // toolbar.mnuitemAutoFilter.setChecked(val===true, true);
+                    this._state.filter = val;
+                }
+
+                need_disable =  this._state.controlsdisabled.filters || (val===null);
+                me.toolbar.lockToolbar(SSE.enumLock.ruleFilter, need_disable,
+                    { array: [me.toolbar.btnSortDown, me.toolbar.btnSortUp, me.toolbar.btnSetAutofilter] });
+
+                need_disable =  this._state.controlsdisabled.filters || !filterInfo || (filterInfo.asc_getIsApplyAutoFilter()!==true);
+                me.toolbar.lockToolbar(SSE.enumLock.ruleDelFilter, need_disable, {array:[me.toolbar.btnClearAutofilter]});
             }
         },
 
