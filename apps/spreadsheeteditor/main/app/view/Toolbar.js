@@ -1672,7 +1672,7 @@ define([
         onToolbarAfterRender: function(toolbar) {
             // DataView and pickers
             //
-            if (this.btnTextColor.cmpEl) {
+            if (this.btnTextColor && this.btnTextColor.cmpEl) {
                 var colorVal = $('<div class="btn-color-value-line"></div>');
                 $('button:first-child', this.btnTextColor.cmpEl).append(colorVal);
                 colorVal.css('background-color', this.btnTextColor.currentColor || 'transparent');
@@ -1680,7 +1680,7 @@ define([
                     el: $('#id-toolbar-menu-fontcolor')
                 });
             }
-            if (this.btnBackColor.cmpEl) {
+            if (this.btnBackColor && this.btnBackColor.cmpEl) {
                 var colorVal = $('<div class="btn-color-value-line"></div>');
                 $('button:first-child', this.btnBackColor.cmpEl).append(colorVal);
                 colorVal.css('background-color', this.btnBackColor.currentColor || 'transparent');
