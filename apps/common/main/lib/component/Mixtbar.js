@@ -64,8 +64,6 @@ define([
         }
 
         function onShowFullviewPanel(state) {
-            this.collapseToolbar();
-
             if ( state )
                 optsFold.$bar.addClass('cover'); else
                 optsFold.$bar.removeClass('cover');
@@ -104,6 +102,7 @@ define([
                 me.$tabs = $boxTabs.find('> li');
                 me.$panels = me.$('.box-panels > .panel');
                 me.$marker = me.$('.tabs .marker');
+                optsFold.$bar = me.$('.toolbar');
                 var $scrollR = me.$('.tabs .scroll.right');
                 $scrollL = me.$('.tabs .scroll.left');
 
@@ -123,7 +122,6 @@ define([
 
                 var me = this;
                 if ( this.isFolded ) {
-                    if (!optsFold.$bar) optsFold.$bar = me.$el.find('.toolbar');
                     if (!optsFold.$box) optsFold.$box = me.$el.find('.box-controls');
 
                     optsFold.$bar.addClass('folded');
@@ -191,7 +189,9 @@ define([
 
             setTab: function (tab) {
                 if ( !tab ) {
-                    if ( this.isFolded ) onShowFullviewPanel.call(this, false);
+                    onShowFullviewPanel.call(this, false);
+
+                    if ( this.isFolded ) { /*this.collapseToolbar();*/ }
                     else tab = this.lastPanel;
                 }
 
@@ -216,10 +216,11 @@ define([
                         else this.$marker.css({left: $tp.position().left});
                     }
 
-                    if ( this.isFolded ) {
-                        if ( panel.length )
-                            this.expandToolbar(); else
-                            onShowFullviewPanel.call(this, true);
+                    if ( panel.length ) {
+                        if ( this.isFolded ) this.expandToolbar();
+                    } else {
+                        onShowFullviewPanel.call(this, true);
+                        if ( this.isFolded ) this.collapseToolbar();
                     }
                 }
             },

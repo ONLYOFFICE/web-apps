@@ -1,5 +1,7 @@
 .toolbar {
-    z-index: 102;
+    &:not(.cover) {
+        z-index: 102;
+    }
 
     &.masked {
         button.disabled .btn-icon:not(.btn-print):not(.btn-save):not(.btn-save-coauth):not(.btn-settings):not(.btn-showmode) {

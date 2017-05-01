@@ -4,7 +4,9 @@
 }
 
 .toolbar {
-    z-index: 101;
+    &:not(.cover) {
+        z-index: 101;
+    }
 
     &.masked {
         button.disabled .icon:not(.no-mask) {

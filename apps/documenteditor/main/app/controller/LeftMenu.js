@@ -78,7 +78,8 @@ define([
                     'hide':    _.bind(this.aboutShowHide, this, true)
                 },
                 'FileMenu': {
-                    'filemenu:hide': _.bind(this.menuFilesHide, this),
+                    'menu:hide': _.bind(this.menuFilesShowHide, this, 'hide'),
+                    'menu:show': _.bind(this.menuFilesShowHide, this, 'show'),
                     'item:click': _.bind(this.clickMenuFileItem, this),
                     'saveas:format': _.bind(this.clickSaveAsFormat, this),
                     'settings:apply': _.bind(this.applySettings, this),
@@ -532,8 +533,13 @@ define([
             if (value) $(this.leftMenu.btnAbout.el).blur();
         },
 
-        menuFilesHide: function(obj) {
-            // $(this.leftMenu.btnFile.el).blur();
+        menuFilesShowHide: function(state) {
+            if ( this.dlgSearch ) {
+                if ( state == 'show' )
+                    this.dlgSearch.suspendKeyEvents();
+                else
+                    Common.Utils.asyncCall(this.dlgSearch.resumeKeyEvents);
+            }
         },
 
         onMenuChange: function (value) {

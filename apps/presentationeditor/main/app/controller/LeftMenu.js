@@ -75,6 +75,8 @@ define([
                     'hide':    _.bind(this.aboutShowHide, this, true)
                 },
                 'FileMenu': {
+                    'menu:hide': _.bind(this.menuFilesShowHide, this, 'hide'),
+                    'menu:show': _.bind(this.menuFilesShowHide, this, 'show'),
                     'filemenu:hide': _.bind(this.menuFilesHide, this),
                     'item:click': _.bind(this.clickMenuFileItem, this),
                     'saveas:format': _.bind(this.clickSaveAsFormat, this),
@@ -419,6 +421,15 @@ define([
             if (this.api)
                 this.api.asc_enableKeyEvents(value);
              if (value) $(this.leftMenu.btnAbout.el).blur();
+        },
+
+        menuFilesShowHide: function(state) {
+            if ( this.dlgSearch ) {
+                if ( state == 'show' )
+                    this.dlgSearch.suspendKeyEvents();
+                else
+                    Common.Utils.asyncCall(this.dlgSearch.resumeKeyEvents);
+            }
         },
 
         onShortcut: function(s, e) {

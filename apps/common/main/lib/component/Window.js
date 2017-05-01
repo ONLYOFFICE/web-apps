@@ -183,7 +183,8 @@ define([
         }
 
         function _keydown(event) {
-            if (!this.isLocked() && this.isVisible() && this.initConfig.enableKeyEvents) {
+            if (!this.isLocked() && this.isVisible()
+                        && this.initConfig.enableKeyEvents && this.pauseKeyEvents !== false) {
                 switch (event.keyCode) {
                     case Common.UI.Keys.ESC:
                         if ( $('.asc-loadmask').length<1 ) {
@@ -863,7 +864,15 @@ define([
                     this.resizable = resizable;
                 }
             },
+
+            suspendKeyEvents: function () {
+                this.pauseKeyEvents = false;
+            },
             
+            resumeKeyEvents: function () {
+                this.initConfig.enableKeyEvents && (this.pauseKeyEvents = true);
+            },
+
             onPrimary: function() {},
 
             cancelButtonText: 'Cancel',
