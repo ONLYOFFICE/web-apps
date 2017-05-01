@@ -2836,7 +2836,7 @@ define([
             me.appConfig = config;
 
             var compactview = !config.isEdit;
-            if ( config.isEdit ) {
+            if ( config.isEdit && !config.isEditDiagram && !config.isEditMailMerge ) {
                 if ( Common.localStorage.itemExists("sse-compact-toolbar") ) {
                     compactview = Common.localStorage.getBool("sse-compact-toolbar");
                 } else

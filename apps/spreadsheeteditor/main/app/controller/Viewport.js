@@ -101,7 +101,7 @@ define([
                 me.viewport.vlayout.panels[0].height = 40;
             } else
             if ( config.isEditDiagram || config.isEditMailMerge ) {
-                me.viewport.vlayout.panels[0].height = 40;
+                me.viewport.vlayout.panels[0].height = 41;
             }
         },
 
