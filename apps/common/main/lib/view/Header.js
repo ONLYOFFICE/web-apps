@@ -85,7 +85,7 @@ define([
                                         '<label id="tlb-change-rights" class="link"><%= txtAccessRights %></label>' +
                                     '</div>' +
                                 '</section>'+
-                                '<div class="btn-slot split" id="slot-btn-back"></div>' +
+                                '<div class="btn-slot" id="slot-btn-back"></div>' +
                             '</div>' +
                         '</section>';
 
@@ -202,11 +202,8 @@ define([
             var me = this;
             me.btnGoBack.updateHint(me.textBack);
             me.btnGoBack.on('click', function (e) {
-                me.fireEvent('go:back', ['page:current']);
+                me.fireEvent('go:back', ['page:new']);
             });
-            me.btnGoBack.menu.on('item:click', function (menu, item, e) {
-                me.fireEvent('go:back', ['page:' + item.value]);
-            })
 
             if ( me.logo )
                 me.logo.on('click', function (e) {
@@ -284,14 +281,7 @@ define([
                     id: 'btn-goback',
                     cls: 'btn-toolbar',
                     iconCls: 'svgicon svg-btn-goback',
-                    split: true,
-                    menu: new Common.UI.Menu({
-                        style: 'min-width: 60px;',
-                        items: [
-                            {caption: me.itemBackCurrTab},
-                            {caption: me.itemBackNewTab, value: 'new'}
-                        ]
-                    })
+                    split: true
                 });
 
                 storeUsers = this.options.storeUsers;
@@ -469,8 +459,6 @@ define([
 
             textBack: 'Go to Documents',
             txtRename: 'Rename',
-            itemBackNewTab: 'Open in New Tab',
-            itemBackCurrTab: 'Open in Current Tab',
             textSaveBegin: 'Saving...',
             textSaveEnd: 'All changes saved',
             textSaveChanged: 'Modified',
