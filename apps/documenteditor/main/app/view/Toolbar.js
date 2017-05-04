@@ -456,7 +456,7 @@ define([
 
                 this.btnInsertTable = new Common.UI.Button({
                     id: 'tlb-btn-instable',
-                    cls: 'btn-toolbar',
+                    cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'btn-inserttable',
                     caption: me.capBtnInsTable,
                     menu: new Common.UI.Menu({
@@ -470,7 +470,7 @@ define([
 
                 this.btnInsertImage = new Common.UI.Button({
                     id: 'tlb-btn-insimage',
-                    cls: 'btn-toolbar',
+                    cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'btn-insertimage',
                     caption: me.capBtnInsImage,
                     menu: new Common.UI.Menu({
@@ -484,7 +484,7 @@ define([
 
                 this.btnInsertChart = new Common.UI.Button({
                     id: 'tlb-btn-inschart',
-                    cls: 'btn-toolbar',
+                    cls: 'btn-toolbar x-huge icon-top',
                     caption: me.capBtnInsChart,
                     iconCls: 'btn-insertchart',
                     menu: new Common.UI.Menu({
@@ -498,7 +498,7 @@ define([
 
                 this.btnInsertText = new Common.UI.Button({
                     id: 'tlb-btn-inserttext',
-                    cls: 'btn-toolbar',
+                    cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'btn-text',
                     caption: me.capBtnInsTextbox,
                     enableToggle: true,
@@ -524,7 +524,7 @@ define([
 
                 this.btnInsertHyperlink = new Common.UI.Button({
                     id: 'tlb-btn-inshyperlink',
-                    cls: 'btn-toolbar',
+                    cls: 'btn-toolbar x-huge icon-top',
                     caption: me.capBtnInsLink,
                     iconCls: 'btn-inserthyperlink'
                 });
@@ -555,7 +555,7 @@ define([
 
                 this.btnInsertShape = new Common.UI.Button({
                     id: 'tlb-btn-insshape',
-                    cls: 'btn-toolbar',
+                    cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'btn-insertshape',
                     caption: me.capBtnInsShape,
                     enableToggle: true,
@@ -565,7 +565,7 @@ define([
 
                 this.btnInsertEquation = new Common.UI.Button({
                     id: 'tlb-btn-insequation',
-                    cls: 'btn-toolbar',
+                    cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'btn-insertequation',
                     caption: me.capBtnInsEquation,
                     split: true,
