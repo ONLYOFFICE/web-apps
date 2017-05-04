@@ -300,9 +300,7 @@ define([
 
 
                 Common.NotificationCenter.on('app:ready', function(mode) {
-                    (new Promise(function (accept, reject) {
-                        accept(mode);
-                    })).then(onAppReady.bind(me));
+                    Common.Utils.asyncCall(onAppReady, me, mode);
                 });
             },
 

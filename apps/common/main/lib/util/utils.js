@@ -705,7 +705,7 @@ Common.Utils.asyncCall = function (callback, scope, args) {
     (new Promise(function (resolve, reject) {
         resolve();
     })).then(function () {
-        callback.apply(scope, args);
+        callback.call(scope, args);
     });
 }
 
