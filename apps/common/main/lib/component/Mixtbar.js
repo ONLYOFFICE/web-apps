@@ -281,13 +281,14 @@ define([
             },
 
             setExtra: function (place, el) {
-                if ( this.$tabs ) {
-                } else {
-                    if ( place == 'right' ) {
-                        this.$layout.find('.extra.right').html(el);
-                    } else
-                    if ( place == 'left' ) {
-                        this.$layout.find('.extra.left').html(el);
+                if ( !!el ) {
+                    if (this.$tabs) {
+                    } else {
+                        if (place == 'right') {
+                            this.$layout.find('.extra.right').html(el);
+                        } else if (place == 'left') {
+                            this.$layout.find('.extra.left').html(el);
+                        }
                     }
                 }
             }

@@ -208,13 +208,14 @@ define([
                 me.fireEvent('go:back', ['page:' + item.value]);
             })
 
-            me.logo.on('click', function (e) {
-                var _url = !!me.branding && !!me.branding.logo && !!me.branding.logo.url ?
-                    me.branding.logo.url : 'http://www.onlyoffice.com';
+            if ( me.logo )
+                me.logo.on('click', function (e) {
+                    var _url = !!me.branding && !!me.branding.logo && !!me.branding.logo.url ?
+                        me.branding.logo.url : 'http://www.onlyoffice.com';
 
-                var newDocumentPage = window.open(_url);
-                newDocumentPage && newDocumentPage.focus();
-            });
+                    var newDocumentPage = window.open(_url);
+                    newDocumentPage && newDocumentPage.focus();
+                });
 
             $panelUsers.on('shown.bs.dropdown', function () {
                 $userList.scroller && $userList.scroller.update({minScrollbarLength: 40, alwaysVisibleY: true});
@@ -239,13 +240,15 @@ define([
             $labelChangeRights[(!mode.isOffline && !mode.isReviewOnly && mode.sharingSettingsUrl && mode.sharingSettingsUrl.length)?'show':'hide']();
             $panelUsers[(storeUsers.size() > 1 || !mode.isOffline && !mode.isReviewOnly && mode.sharingSettingsUrl && mode.sharingSettingsUrl.length) ? 'show' : 'hide']();
 
-            $saveStatus.attr('data-width', me.textSaveExpander);
-            if ( appConfig.canUseHistory ) {
-                // $saveStatus.on('click', function(e) {
-                //     me.fireEvent('history:show', ['header']);
-                // });
-            } else {
-                $saveStatus.addClass('locked');
+            if ( $saveStatus ) {
+                $saveStatus.attr('data-width', me.textSaveExpander);
+                if (appConfig.canUseHistory) {
+                    // $saveStatus.on('click', function(e) {
+                    //     me.fireEvent('history:show', ['header']);
+                    // });
+                } else {
+                    $saveStatus.addClass('locked');
+                }
             }
         }
 
@@ -310,8 +313,8 @@ define([
                 return this;
             },
 
-            getPanel: function (role) {
-                if ( role == 'left' ) {
+            getPanel: function (role, config) {
+                if ( role == 'left' && (!config || !config.isDesktopApp)) {
                     $html = $(templateLeftBox);
                     this.logo = $html.find('#header-logo');
                     return $html;
@@ -323,8 +326,23 @@ define([
                         textSaveEnd: this.textSaveEnd
                     }));
 
-                    if ( this.canBack === true ) {
-                        this.btnGoBack.render($html.find('#slot-btn-back'));
+                    this.labelDocName = $html.find('#rib-doc-name');
+                    $saveStatus = $html.find('#rib-save-status');
+                    $saveStatus.hide();
+
+                    if ( config && config.isDesktopApp ) {
+                        $html.addClass('desktop');
+                        $html.find('#slot-btn-back').hide();
+                        this.labelDocName.hide();
+
+                        if ( config.isOffline )
+                            $saveStatus = false;
+                    } else {
+                        if ( this.canBack === true ) {
+                            this.btnGoBack.render($html.find('#slot-btn-back'));
+                        } else {
+                            $html.find('#slot-btn-back').hide();
+                        }
                     }
 
                     if ( this.documentCaption ) {
@@ -332,14 +350,11 @@ define([
                             Common.Utils.String.htmlEncode(this.documentCaption) );
                     }
 
-                    this.labelDocName = $html.find('#rib-doc-name');
                     $userList = $html.find('.cousers-list');
                     $panelUsers = $html.find('.box-cousers');
                     $btnUsers = $html.find('.btn-users');
-                    $saveStatus = $html.find('#rib-save-status');
 
                     $panelUsers.hide();
-                    $saveStatus.hide();
 
                     return $html;
                 }

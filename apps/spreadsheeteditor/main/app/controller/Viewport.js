@@ -69,8 +69,9 @@ define([
             this.addListeners({
                 'Toolbar': {
                     'render:before' : function (toolbar) {
-                        toolbar.setExtra('right', me.header.getPanel('right'));
-                        toolbar.setExtra('left', me.header.getPanel('left'));
+                        var config = SSE.getController('Main').appOptions;
+                        toolbar.setExtra('right', me.header.getPanel('right', config));
+                        toolbar.setExtra('left', me.header.getPanel('left', config));
                     },
                     'view:compact'  : function (toolbar, state) {
                         me.viewport.vlayout.panels[0].height = state ? 40 : 40+67;
