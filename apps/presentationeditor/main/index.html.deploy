@@ -259,6 +259,21 @@
         };
     </script>
 
+    <svg style="display: none;">
+        <symbol id="svg-btn-comments" viewBox="0 0 20 20">
+            <path d="M16,4H4C3.45,4,3,4.45,3,5v9c0,0.55,0.45,1,1,1h2l2,2h1l2-2h5c0.55,0,1-0.45,1-1V5C17,4.45,16.55,4,16,4z
+                            M16,14h-5h-0.414l-2,2H8.414l-2-2H6H4V5h12V14z"/>
+            <rect x="6" y="7" width="8" height="1"/>
+            <rect x="6" y="9" width="8" height="1"/>
+            <rect x="6" y="11" width="8" height="1"/>
+        </symbol>
+        <symbol id="svg-btn-goback" viewBox="0 20 20 20">
+            <path d="M17,26h-6v-1c0-0.553-0.448-1-1-1H3c-0.552,0-1,0.447-1,1v11c0,0.553,0.448,1,1,1h14
+                c0.552,0,1-0.447,1-1v-9C18,26.447,17.552,26,17,26z M17,36H3V25h7v1c0,0.553,0.448,1,1,1h6v1V36z"/>
+            <polygon points="13,31 10,28 10,30 6,30 6,32 10,32 10,34 	"/>
+        </symbol>
+    </svg>
+
     <div id="viewport"></div>
 
     <script data-main="app" src="../../../vendor/requirejs/require.js"></script>
