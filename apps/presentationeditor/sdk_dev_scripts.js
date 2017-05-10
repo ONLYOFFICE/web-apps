@@ -38,6 +38,7 @@ var sdk_dev_scrpipts = [
     "../../../../sdkjs/common/Drawings/Format/Format.js",
     "../../../../sdkjs/common/Drawings/Format/GraphicObjectBase.js",
     "../../../../sdkjs/common/Drawings/Format/Shape.js",
+    "../../../../sdkjs/common/Drawings/Format/CnxShape.js",
     "../../../../sdkjs/slide/Editor/Format/ShapePrototype.js",
     "../../../../sdkjs/common/Drawings/Format/Path.js",
     "../../../../sdkjs/common/Drawings/Format/Image.js",
