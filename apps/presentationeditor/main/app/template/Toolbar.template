@@ -58,20 +58,6 @@
                 </div>
                 <div class="separator long"></div>
                 <div class="group">
-                    <span class="btn-slot text x-huge slot-inserttext"></span>
-                    <span class="btn-slot text x-huge slot-insertimg"></span>
-                    <span class="btn-slot text x-huge slot-insertshape"></span>
-                </div>
-                <div class="group">
-                    <div class="elset">
-                        <span class="btn-slot split" id="slot-btn-arrange-shape"></span>
-                    </div>
-                    <div class="elset">
-                        <span class="btn-slot split" id="slot-btn-align-shape"></span>
-                    </div>
-                </div>
-                <div class="separator long"></div>
-                <div class="group">
                     <div class="elset" style="width:195px;">
                         <span class="btn-slot" style="float: left; width: 148px;" id="slot-field-fontname"></span>
                         <span class="btn-slot" style="float: left; width: 45px; margin-left: 2px;" id="slot-field-fontsize"></span>
@@ -101,6 +87,20 @@
                     </div>
                 </div>
                 <div class="separator long close"></div>
+                <div class="group">
+                    <span class="btn-slot text x-huge slot-inserttext"></span>
+                    <span class="btn-slot text x-huge slot-insertimg"></span>
+                    <span class="btn-slot text x-huge slot-insertshape"></span>
+                </div>
+                <div class="group">
+                    <div class="elset">
+                        <span class="btn-slot split" id="slot-btn-arrange-shape"></span>
+                    </div>
+                    <div class="elset">
+                        <span class="btn-slot split" id="slot-btn-align-shape"></span>
+                    </div>
+                </div>
+                <div class="separator long"></div>
                 <div class="group">
                     <div class="elset">
                         <span class="btn-slot" id="slot-btn-clearstyle"></span>
