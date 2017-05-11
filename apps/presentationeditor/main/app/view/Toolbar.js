@@ -83,6 +83,10 @@ define([
     };
 
     var buttonsArray = function (opts) {
+        var arr = [];
+        arr.push.apply(arr, arguments);
+        arr.__proto__ = buttonsArray.prototype;
+        return arr;
     };
 
     buttonsArray.prototype = new Array;
@@ -1033,8 +1037,11 @@ define([
                     }
                 });
 
-                Array.prototype.push.apply(me.slideOnlyControls, me.btnsInsertImage, me.btnsInsertText, me.btnsInsertShape);
-                Array.prototype.push.apply(me.lockControls, me.btnsInsertImage, me.btnsInsertText, me.btnsInsertShape);
+                var created = me.btnsInsertImage.concat(me.btnsInsertText, me.btnsInsertShape);
+                this.lockToolbar(PE.enumLock.disableOnStart, true, {array: created});
+
+                Array.prototype.push.apply(me.slideOnlyControls, created);
+                Array.prototype.push.apply(me.lockControls, created);
 
                 return $host;
             },
