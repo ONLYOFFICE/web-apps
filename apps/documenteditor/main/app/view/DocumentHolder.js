@@ -583,22 +583,7 @@ define([
                 if (pasteContainer.length < 1) {
                     me._arrSpecialPaste = [];
                     me._arrSpecialPaste[Asc.c_oSpecialPasteProps.paste] = me.textPaste;
-                    me._arrSpecialPaste[Asc.c_oSpecialPasteProps.pasteOnlyFormula] = me.txtPasteFormulas;
-                    me._arrSpecialPaste[Asc.c_oSpecialPasteProps.formulaNumberFormat] = me.txtPasteFormulaNumFormat;
-                    me._arrSpecialPaste[Asc.c_oSpecialPasteProps.formulaAllFormatting] = me.txtPasteKeepSourceFormat;
-                    me._arrSpecialPaste[Asc.c_oSpecialPasteProps.formulaWithoutBorders] = me.txtPasteBorders;
-                    me._arrSpecialPaste[Asc.c_oSpecialPasteProps.formulaColumnWidth] = me.txtPasteColWidths;
-                    me._arrSpecialPaste[Asc.c_oSpecialPasteProps.mergeConditionalFormating] = me.txtPasteMerge;
-                    me._arrSpecialPaste[Asc.c_oSpecialPasteProps.pasteOnlyValues] = me.txtPasteValues;
-                    me._arrSpecialPaste[Asc.c_oSpecialPasteProps.valueNumberFormat] = me.txtPasteValNumFormat;
-                    me._arrSpecialPaste[Asc.c_oSpecialPasteProps.valueAllFormating] = me.txtPasteValFormat;
-                    me._arrSpecialPaste[Asc.c_oSpecialPasteProps.pasteOnlyFormating] = me.txtPasteFormat;
-                    me._arrSpecialPaste[Asc.c_oSpecialPasteProps.transpose] = me.txtPasteTranspose;
-                    me._arrSpecialPaste[Asc.c_oSpecialPasteProps.link] = me.txtPasteLink;
-                    me._arrSpecialPaste[Asc.c_oSpecialPasteProps.picture] = me.txtPastePicture;
-                    me._arrSpecialPaste[Asc.c_oSpecialPasteProps.linkedPicture] = me.txtPasteLinkPicture;
-                    me._arrSpecialPaste[Asc.c_oSpecialPasteProps.sourceformatting] = me.txtPasteSourceFormat;
-                    me._arrSpecialPaste[Asc.c_oSpecialPasteProps.destinationFormatting] = me.txtPasteDestFormat;
+                    me._arrSpecialPaste[Asc.c_oSpecialPasteProps.keepTextOnly] = me.txtKeepTextOnly;
 
                     pasteContainer = $('<div id="special-paste-container" style="position: absolute;"><div id="id-document-holder-btn-special-paste"></div></div>');
                     me.cmpEl.append(pasteContainer);
@@ -620,11 +605,6 @@ define([
 
                     var group_prev = -1;
                     _.each(pasteItems, function(menuItem, index) {
-                        var group = (menuItem<7) ? 0 : (menuItem>9 ? 2 : 1);
-                        if (group_prev !== group && group_prev>=0)
-                            menu.addItem(new Common.UI.MenuItem({ caption: '--' }));
-                        group_prev = group;
-
                         var mnu = new Common.UI.MenuItem({
                             caption: me._arrSpecialPaste[menuItem],
                             value: menuItem,
@@ -3421,22 +3401,7 @@ define([
         txtDeleteRadical: 'Delete radical',
         txtDeleteChars: 'Delete enclosing characters',
         txtDeleteCharsAndSeparators: 'Delete enclosing characters and separators',
-        txtPasteFormulas: 'Paste only formula',
-        txtPasteFormulaNumFormat: 'Formula + number format',
-        txtPasteKeepSourceFormat: 'Formula + all formatting',
-        txtPasteBorders: 'Formula without borders',
-        txtPasteColWidths: 'Formula + column width',
-        txtPasteMerge: 'Merge conditional formatting',
-        txtPasteTranspose: 'Transpose',
-        txtPasteValues: 'Paste only value',
-        txtPasteValNumFormat: 'Value + number format',
-        txtPasteValFormat: 'Value + all formatting',
-        txtPasteFormat: 'Paste only formatting',
-        txtPasteLink: 'Paste Link',
-        txtPastePicture: 'Picture',
-        txtPasteLinkPicture: 'Linked Picture',
-        txtPasteSourceFormat: 'Source formatting',
-        txtPasteDestFormat: 'Destination formatting'
+        txtKeepTextOnly: 'Keep text only'
 
     }, DE.Views.DocumentHolder || {}));
 });
