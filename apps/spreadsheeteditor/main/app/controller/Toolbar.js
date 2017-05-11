@@ -1748,6 +1748,7 @@ define([
 
             toolbar.lockToolbar(SSE.enumLock.cantHyperlink, (selectionType == Asc.c_oAscSelectionType.RangeShapeText) && (this.api.asc_canAddShapeHyperlink()===false), { array: [toolbar.btnInsertHyperlink]});
 
+            /*
             need_disable = selectionType != Asc.c_oAscSelectionType.RangeCells && selectionType != Asc.c_oAscSelectionType.RangeCol &&
                                 selectionType != Asc.c_oAscSelectionType.RangeRow && selectionType != Asc.c_oAscSelectionType.RangeMax;
             if (this._state.sparklines_disabled !== need_disable) {
@@ -1757,6 +1758,7 @@ define([
                     toolbar.mnuInsertChartPicker.store.at(len-i-1).set({disabled: need_disable});
                 }
             }
+            */
 
             if (editOptionsDisabled) return;
 
