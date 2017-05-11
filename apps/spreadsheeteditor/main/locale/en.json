@@ -96,6 +96,7 @@
   "Common.Views.OpenDialog.txtTab": "Tab",
   "Common.Views.OpenDialog.txtTitle": "Choose %1 options",
   "Common.Views.OpenDialog.txtTitleProtected": "Protected File",
+  "Common.Views.OpenDialog.txtOther": "Other",
   "Common.Views.PluginDlg.textLoading": "Loading",
   "Common.Views.Plugins.strPlugins": "Plugins",
   "Common.Views.Plugins.textLoading": "Loading",
