@@ -60,6 +60,7 @@ var sdk_dev_scrpipts = [
     "../../../../sdkjs/common/Drawings/TrackObjects/ResizeTracks.js",
     "../../../../sdkjs/common/Drawings/TrackObjects/RotateTracks.js",
     "../../../../sdkjs/common/Drawings/TrackObjects/Spline.js",
+	"../../../../sdkjs/common/Drawings/TrackObjects/ConnectorTrack.js",
     "../../../../sdkjs/common/Drawings/DrawingObjectsHandlers.js",
     "../../../../sdkjs/common/Drawings/TextDrawer.js",
     "../../../../sdkjs/common/Drawings/Externals.js",
