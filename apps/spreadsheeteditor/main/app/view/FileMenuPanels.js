@@ -598,40 +598,42 @@ define([
                 this.updateFuncExample(record.exampleValue);
             }, this));
 
+            var regdata = [{ value: 0x042C }, { value: 0x0405 }, { value: 0x0407 }, { value: 0x0408 }, { value: 0x0C09 }, { value: 0x0809 }, { value: 0x0409 }, { value: 0x0C0A },
+                            { value: 0x040B }, { value: 0x040C }, { value: 0x0410 }, { value: 0x0411 }, { value: 0x0412 }, { value: 0x0426 }, { value: 0x0415 }, { value: 0x0416 },
+                            { value: 0x0816 }, { value: 0x0419 }, { value: 0x0424 }, { value: 0x041F }, { value: 0x0422 }, { value: 0x042A }, { value: 0x0804 }];
+            regdata.forEach(function(item) {
+                var langinfo = Common.util.LanguageInfo.getLocalLanguageName(item.value);
+                item.displayValue = langinfo[1];
+                item.langName = langinfo[0];
+            });
+
             this.cmbRegSettings = new Common.UI.ComboBox({
                 el          : $('#fms-cmb-reg-settings'),
                 style       : 'width: 160px;',
                 menuStyle: 'max-height: 185px;',
                 editable    : false,
                 cls         : 'input-group-nr',
-                data        : [
-                    { value: 0x042C, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x042C)[1] },
-                    { value: 0x0405, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x0405)[1] },
-                    { value: 0x0407, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x0407)[1] },
-                    { value: 0x0408, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x0408)[1] },
-                    { value: 0x0C09, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x0C09)[1] },
-                    { value: 0x0809, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x0809)[1] },
-                    { value: 0x0409, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x0409)[1] },
-                    { value: 0x0C0A, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x0C0A)[1] },
-                    { value: 0x040B, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x040B)[1] },
-                    { value: 0x040C, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x040C)[1] },
-                    { value: 0x0410, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x0410)[1] },
-                    { value: 0x0411, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x0411)[1] },
-                    { value: 0x0412, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x0412)[1] },
-                    { value: 0x0426, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x0426)[1] },
-                    { value: 0x0415, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x0415)[1] },
-                    { value: 0x0416, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x0416)[1] },
-                    { value: 0x0816, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x0816)[1] },
-                    { value: 0x0419, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x0419)[1] },
-                    { value: 0x0424, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x0424)[1] },
-                    { value: 0x041F, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x041F)[1] },
-                    { value: 0x0422, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x0422)[1] },
-                    { value: 0x042A, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x042A)[1] },
-                    { value: 0x0804, displayValue: Common.util.LanguageInfo.getLocalLanguageName(0x0804)[1] }
-                ]
+                data        : regdata,
+                template: _.template([
+                    '<span class="input-group combobox <%= cls %> combo-langs" id="<%= id %>" style="<%= style %>">',
+                    '<input type="text" class="form-control">',
+                    '<span class="icon input-icon lang-flag"></span>',
+                    '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret img-commonctrl"></span></button>',
+                        '<ul class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">',
+                            '<% _.each(items, function(item) { %>',
+                                '<li id="<%= item.id %>" data-value="<%= item.value %>">',
+                                    '<a tabindex="-1" type="menuitem" style="padding-left: 26px !important;">',
+                                        '<i class="icon lang-flag <%= item.langName %>" style="position: absolute;margin-left:-21px;"></i>',
+                                        '<%= scope.getDisplayValue(item) %>',
+                                    '</a>',
+                                '</li>',
+                            '<% }); %>',
+                        '</ul>',
+                    '</span>'].join(''))
             }).on('selected', _.bind(function(combo, record) {
                 this.updateRegionalExample(record.value);
             }, this));
+            if (this.cmbRegSettings.scroller) this.cmbRegSettings.scroller.update({alwaysVisibleY: true});
 
             this.btnApply = new Common.UI.Button({
                 el: '#fms-btn-apply'
@@ -733,7 +735,7 @@ define([
                         codefull, codeshort;
                     this.cmbRegSettings.store.each(function(model){
                         var val = model.get('value'),
-                            langname = Common.util.LanguageInfo.getLocalLanguageName(val)[0].toLowerCase();
+                            langname = model.get('langName').toLowerCase();
                         if ( langname == lang )
                             codefull = val;
                         if ( langname.indexOf(langshort)==0 )
@@ -786,6 +788,11 @@ define([
                 }
                 $('#fms-lbl-reg-settings').text(_.isEmpty(text) ? '' : this.strRegSettingsEx + text);
             }
+            var icon    = this.cmbRegSettings.$el.find('.input-icon'),
+                plang   = icon.attr('lang'),
+                langName = Common.util.LanguageInfo.getLocalLanguageName(landId)[0];
+            if (plang) icon.removeClass(plang);
+            icon.addClass(langName).attr('lang',langName);
         },
         
         updateFuncExample: function(text) {
