@@ -82,6 +82,7 @@ var sdk_dev_scrpipts = [
     "../../../../sdkjs/slide/Drawing/ThemeLoader.js",
 	"../../../../sdkjs/word/Editor/DocumentContentElementBase.js",
 	"../../../../sdkjs/word/Editor/StructuredDocumentTags/BlockLevel.js",
+	"../../../../sdkjs/word/Editor/StructuredDocumentTags/InlineLevel.js",
 	"../../../../sdkjs/word/Editor/StructuredDocumentTags/SdtPr.js",
 	"../../../../sdkjs/word/Editor/StructuredDocumentTags/SdtPrChanges.js",
     "../../../../sdkjs/word/Editor/Serialize2.js",
