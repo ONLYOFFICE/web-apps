@@ -639,7 +639,7 @@ define([
                 this.api.asc_setGraphicObjectProps(properties);
 
                 Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
-                Common.component.Analytics.trackEvent('DocumentHolder', 'Text Directio');
+                Common.component.Analytics.trackEvent('DocumentHolder', 'Text Direction');
             }
         },
 

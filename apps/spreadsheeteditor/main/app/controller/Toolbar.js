@@ -672,18 +672,30 @@ define([
         },
 
         onTextOrientationMenu: function(menu, item) {
-            var angle = 0;
+            if (this.api.asc_getCellInfo().asc_getFlags().asc_getSelectionType() == Asc.c_oAscSelectionType.RangeShapeText) {
+                var angle = Asc.c_oAscVertDrawingText.normal;
+                switch (item.value) {
+                    case 'rotateup':    angle =  Asc.c_oAscVertDrawingText.vert270;    break;
+                    case 'rotatedown':  angle = Asc.c_oAscVertDrawingText.vert;    break;
+                }
 
-            switch (item.value) {
-                case 'countcw':     angle =  45;    break;
-                case 'clockwise':   angle = -45;    break;
-                case 'rotateup':    angle =  90;    break;
-                case 'rotatedown':  angle = -90;    break;
+                var properties = new Asc.asc_CImgProperty();
+                properties.asc_putVert(angle);
+                this.api.asc_setGraphicObjectProps(properties);
+            } else {
+                var angle = 0;
+
+                switch (item.value) {
+                    case 'countcw':     angle =  45;    break;
+                    case 'clockwise':   angle = -45;    break;
+                    case 'rotateup':    angle =  90;    break;
+                    case 'rotatedown':  angle = -90;    break;
+                }
+
+                this._state.angle = undefined;
+                if (this.api)
+                    this.api.asc_setCellAngle(angle);
             }
-
-            this._state.angle = undefined;
-            if (this.api)
-                this.api.asc_setCellAngle(angle);
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             Common.component.Analytics.trackEvent('ToolBar', 'Text orientation');
@@ -1906,10 +1918,11 @@ define([
                                 hIconEl.addClass(btnHorizontalAlign.options.icls);
                             }
                         }
-
-                        toolbar.btnTextOrient.menu.items[1].setDisabled(fontparam == 'justify');
-                        toolbar.btnTextOrient.menu.items[2].setDisabled(fontparam == 'justify');
                     }
+
+                    need_disable = (fontparam == 'justify' || selectionType == Asc.c_oAscSelectionType.RangeShapeText);
+                    toolbar.btnTextOrient.menu.items[1].setDisabled(need_disable);
+                    toolbar.btnTextOrient.menu.items[2].setDisabled(need_disable);
 
                     /* read cell vertical align */
                     fontparam = info.asc_getVertAlign();
@@ -2013,14 +2026,22 @@ define([
 				}
             }
 
-            val = info.asc_getAngle();
+            if (selectionType == Asc.c_oAscSelectionType.RangeShapeText) {
+                var SelectedObjects = this.api.asc_getGraphicObjectProps();
+                for (var i=0; i<SelectedObjects.length; ++i)
+                {
+                    if (SelectedObjects[i].asc_getObjectType() == Asc.c_oAscTypeSelectElement.Image)
+                        val = SelectedObjects[i].asc_getObjectValue().asc_getVert();
+                }
+            } else
+                val = info.asc_getAngle();
             if (this._state.angle !== val) {
                 this._clearChecked(toolbar.btnTextOrient.menu);
                 switch(val) {
                     case 45:    toolbar.btnTextOrient.menu.items[1].setChecked(true, true); break;
                     case -45:   toolbar.btnTextOrient.menu.items[2].setChecked(true, true); break;
-                    case 90:    toolbar.btnTextOrient.menu.items[3].setChecked(true, true); break;
-                    case -90:   toolbar.btnTextOrient.menu.items[4].setChecked(true, true); break;
+                    case 90: case Asc.c_oAscVertDrawingText.vert270:    toolbar.btnTextOrient.menu.items[3].setChecked(true, true); break;
+                    case -90: case Asc.c_oAscVertDrawingText.vert:   toolbar.btnTextOrient.menu.items[4].setChecked(true, true); break;
                     default:    toolbar.btnTextOrient.menu.items[0].setChecked(true, true); break;
                 }
                 this._state.angle = val;
