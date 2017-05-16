@@ -409,21 +409,12 @@
             });
         };
 
-        var _showError = function(title, msg) {
-            _showMessage(title, msg, "error");
-        };
-
-        // severity could be one of: "error", "info" or "warning"
-        var _showMessage = function(title, msg, severity) {
-            if (typeof severity !== 'string') {
-                severity = "info";
-            }
+        var _showMessage = function(title, msg) {
+            msg = msg || title;
             _sendCommand({
                 command: 'showMessage',
                 data: {
-                    title: title,
-                    msg: msg,
-                    severity: severity
+                    msg: msg
                 }
             });
         };
@@ -540,7 +531,6 @@
         };
 
         return {
-            showError           : _showError,
             showMessage         : _showMessage,
             processSaveResult   : _processSaveResult,
             processRightsChange : _processRightsChange,
