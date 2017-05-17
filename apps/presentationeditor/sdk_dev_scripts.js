@@ -116,6 +116,7 @@ var sdk_dev_scrpipts = [
     "../../../../sdkjs/slide/Editor/Format/NotesMaster.js",
     "../../../../sdkjs/slide/Editor/Format/Notes.js",
     "../../../../sdkjs/word/Editor/ParagraphContent.js",
+    "../../../../sdkjs/word/Editor/ParagraphContentBase.js",
 	"../../../../sdkjs/word/Editor/Paragraph/ParaTextPr.js",
 	"../../../../sdkjs/word/Editor/Paragraph/ParaTextPrChanges.js",
 	"../../../../sdkjs/word/Editor/Paragraph/ParaDrawing.js",
