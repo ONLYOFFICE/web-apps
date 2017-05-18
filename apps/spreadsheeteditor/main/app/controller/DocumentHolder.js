@@ -647,10 +647,7 @@ define([
 
         onSelectNoneBullet: function(menu, item) {
             if (this.api && item.options.value == -1) {
-                // var properties = new Asc.asc_CImgProperty();
-                // properties.asc_putListType(item.options.value);
-                // this.api.asc_setGraphicObjectProps(properties);
-
+                this.api.asc_setListType(item.options.value);
                 Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
                 Common.component.Analytics.trackEvent('DocumentHolder', 'List Type');
             }
@@ -671,11 +668,8 @@ define([
                 rawData = record;
             }
 
-            // if (this.api){
-            // var properties = new Asc.asc_CImgProperty();
-            // properties.asc_putListType(rawData.type, rawData.subtype);
-            // this.api.asc_setGraphicObjectProps(properties);
-            // }
+            if (this.api)
+                this.api.asc_setListType(rawData.type, rawData.subtype);
 
             if (e.type !== 'click')
                 this.documentHolder.textInShapeMenu.hide();
@@ -1308,8 +1302,7 @@ define([
                         var value = selectedObjects[i].asc_getObjectValue(),
                             align = value.asc_getVerticalTextAlign(),
                             direct = value.asc_getVert(),
-                            listtype = -1,//value.asc_getListType();
-                            listsubtype = -1;//value.asc_getListSubType();
+                            listtype = this.api.asc_getCurrentListType();
                         isObjLocked = isObjLocked || value.asc_getLocked();
                         documentHolder.menuParagraphTop.setChecked(align == Asc.c_oAscVAlign.Top);
                         documentHolder.menuParagraphCenter.setChecked(align == Asc.c_oAscVAlign.Center);
@@ -1319,8 +1312,8 @@ define([
                         documentHolder.menuParagraphDirect90.setChecked(direct == Asc.c_oAscVertDrawingText.vert);
                         documentHolder.menuParagraphDirect270.setChecked(direct == Asc.c_oAscVertDrawingText.vert270);
 
-                        documentHolder.menuParagraphBulletNone.setChecked(listtype == -1);
-                        var rec = documentHolder.paraBulletsPicker.store.findWhere({ type: listtype, subtype: listsubtype });
+                        documentHolder.menuParagraphBulletNone.setChecked(listtype.get_ListType() == -1);
+                        var rec = documentHolder.paraBulletsPicker.store.findWhere({ type: listtype.get_ListType(), subtype: listtype.get_ListSubType() });
                         documentHolder.paraBulletsPicker.selectRecord(rec, true);
                     } else if (elType == Asc.c_oAscTypeSelectElement.Paragraph) {
                         documentHolder.pmiTextAdvanced.textInfo = selectedObjects[i].asc_getObjectValue();
