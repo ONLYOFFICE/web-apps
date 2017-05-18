@@ -1027,6 +1027,8 @@
   "SSE.Views.DocumentHolder.txtUngroup": "Ungroup",
   "SSE.Views.DocumentHolder.txtWidth": "Width",
   "SSE.Views.DocumentHolder.vertAlignText": "Vertical Alignment",
+  "SSE.Views.DocumentHolder.textNone": "None",
+  "SSE.Views.DocumentHolder.bulletsText": "Bullets and Numbering",
   "SSE.Views.FileMenu.btnBackCaption": "Go to Documents",
   "SSE.Views.FileMenu.btnCloseMenuCaption": "Close Menu",
   "SSE.Views.FileMenu.btnCreateNewCaption": "Create New",
