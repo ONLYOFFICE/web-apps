@@ -698,6 +698,7 @@ define([
             var me = this,
                 win = new DE.Views.SignDialog({
                     api: me.api,
+                    signType: 'invisible',
                     handler: function(dlg, result) {
                         if (result == 'ok') {
                             var props = dlg.getSettings();

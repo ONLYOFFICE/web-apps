@@ -60,13 +60,32 @@ define([
                 title: this.textTitle
             }, options || {});
 
+            this.api = this.options.api;
+            this.signType = this.options.signType || 'invisible';
+
             this.template = [
-                '<div class="box" style="height: 200px;">',
-                    '<div class="input-row">',
-                        '<label>' + this.textPurpose + '</label>',
+                '<div class="box" style="height: ' + ((this.signType == 'invisible') ? '132px;' : '260px;') + '">',
+                    '<div id="id-dlg-sign-invisible">',
+                        '<div class="input-row">',
+                            '<label>' + this.textPurpose + '</label>',
+                        '</div>',
+                        '<div id="id-dlg-sign-purpose" class="input-row"></div>',
                     '</div>',
-                    '<div id="id-dlg-sign-purpose" class="input-row" style="margin-bottom: 30px;"></div>',
-                    '<table>',
+                    '<div id="id-dlg-sign-visible">',
+                        '<div class="input-row">',
+                            '<label>' + this.textInputName + '</label>',
+                        '</div>',
+                        '<div id="id-dlg-sign-name" class="input-row"></div>',
+                        '<div class="input-row">',
+                            '<label>' + this.textUseImage + '</label>',
+                        '</div>',
+                        '<button id="id-dlg-sign-image" class="btn btn-text-default" style="">' + this.textSelectImage + '</button>',
+                        '<div class="input-row" style="margin-top: 10px;">',
+                            '<label style="font-weight: bold;">' + this.textSignature + '</label>',
+                        '</div>',
+                        '<div style="border: 1px solid #cbcbcb;"><div id="signature-preview-img" style="width: 100%; height: 50px;position: relative;"></div></div>',
+                    '</div>',
+                    '<table style="margin-top: 30px;">',
                         '<tr>',
                             '<td><label style="font-weight: bold;margin-bottom: 3px;">' + this.textCertificate + '</label></td>' +
                             '<td rowspan="2" style="vertical-align: top; padding-left: 30px;"><button id="id-dlg-sign-change" class="btn btn-text-default" style="">' + this.textChange + '</button></td>',
@@ -86,7 +105,6 @@ define([
             ].join(''));
 
             this.options.tpl = _.template(this.template)(this.options);
-            this.api = this.options.api;
 
             Common.UI.Window.prototype.initialize.call(this, this.options);
         },
@@ -102,12 +120,21 @@ define([
                 style       : 'width: 100%;'
             });
 
-            me.cntCertificate = $('#id-dlg-sign-certificate');
+            me.inputName = new Common.UI.InputField({
+                el          : $('#id-dlg-sign-name'),
+                style       : 'width: 100%;'
+            });
 
             me.btnChangeCertificate = new Common.UI.Button({
                 el: '#id-dlg-sign-change'
             });
             me.btnChangeCertificate.on('click', _.bind(me.onChangeCertificate, me));
+
+            me.cntCertificate = $('#id-dlg-sign-certificate');
+            me.cntVisibleSign = $('#id-dlg-sign-visible');
+            me.cntInvisibleSign = $('#id-dlg-sign-invisible');
+
+            (me.signType == 'visible') ? me.cntInvisibleSign.addClass('hidden') : me.cntVisibleSign.addClass('hidden');
 
             $window.find('.dlg-btn').on('click', _.bind(me.onBtnClick, me));
             $window.find('input').on('keypress', _.bind(me.onKeyPress, me));
@@ -135,8 +162,11 @@ define([
 
         getSettings: function () {
             var me      = this, props;
-
-            // props.asc_putPurpose(me.inputPurpose.getValue());
+            if (me.signType == 'invisible') {
+                // props.asc_putPurpose(me.inputPurpose.getValue());
+            } else {
+                // props.asc_putName(me.inputName.getValue());
+            }
 
             return props;
         },
@@ -168,7 +198,11 @@ define([
         textValid:          'Valid from %1 to %2',
         textChange:         'Change',
         cancelButtonText:   'Cancel',
-        okButtonText:       'Ok'
+        okButtonText:       'Ok',
+        textInputName:      'Input signer name',
+        textUseImage:       'or click \'Select Image\' to use a picture as signature',
+        textSelectImage:    'Select Image',
+        textSignature:      'Signature looks as'
 
     }, DE.Views.SignDialog || {}))
 });
