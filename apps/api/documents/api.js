@@ -328,6 +328,7 @@
                     if (!_config.document.permissions)
                         _config.document.permissions = {};
                     _config.document.permissions.edit = false;
+                    _config.editorConfig.canUseHistory = false;
                 }
 
                 if (!_config.document.title || _config.document.title=='')
