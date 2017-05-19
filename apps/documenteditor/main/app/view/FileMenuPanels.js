@@ -1093,11 +1093,8 @@ define([
             '<button id="fms-btn-final" class="btn btn-text-default" style="min-width:100px;"><%= scope.strMarkAsFinal %></button>',
             '<button id="fms-btn-invisible-sign" class="btn btn-text-default" style="min-width:190px;"><%= scope.strInvisibleSign %></button>',
             '<button id="fms-btn-visible-sign" class="btn btn-text-default" style="min-width:190px;"><%= scope.strVisibleSign %></button>',
-            '<label class="header"><%= scope.strRequested %></label>',
             '<div id="id-fms-requested-sign"></div>',
-            '<label class="header"><%= scope.strValid %></label>',
             '<div id="id-fms-valid-sign"></div>',
-            '<label class="header"><%= scope.strInvalid %></label>',
             '<div id="id-fms-invalid-sign"></div>'
         ].join('')),
 
@@ -1107,6 +1104,7 @@ define([
             this.menu = options.menu;
 
             this.templateRequested = _.template([
+                '<label class="header <% if (signatures.length<1) { %>hidden<% } %>"><%= header %></label>',
                 '<table>',
                 '<% _.each(signatures, function(item) { %>',
                 '<tr>',
@@ -1117,6 +1115,7 @@ define([
             ].join(''));
 
             this.templateValid = _.template([
+                '<label class="header <% if (signatures.length<1) { %>hidden<% } %>"><%= header %></label>',
                 '<table>',
                 '<% _.each(signatures, function(item) { %>',
                 '<tr>',
@@ -1178,18 +1177,22 @@ define([
         },
 
         addInvisibleSign: function() {
+            if (this.menu)
+                this.menu.fireEvent('signature:invisible', [this.menu]);
         },
 
         addVisibleSign: function() {
+            if (this.menu)
+                this.menu.fireEvent('signature:visible', [this.menu]);
         },
 
         updateSignatures: function(){
-            // this.cntRequestedSign.html(this.templateRequested({signatures: this.api.asc_getRequestedSignatures()}));
-            // this.cntValidSign.html(this.templateValid({signatures: this.api.asc_getValidSignatures()}));
-            // this.cntInvalidSign.html(this.templateInvalid({signatures: this.api.asc_getInvalidSignatures()}));
-            this.cntRequestedSign.html(this.templateRequested({signatures: ['Hammish Mitchell', 'Someone Somewhere', 'Mary White', 'John Black']}));
-            this.cntValidSign.html(this.templateValid({signatures: [{name: 'Hammish Mitchell', date: '18/05/2017'}, {name: 'Someone Somewhere', date: '18/05/2017'}]}));
-            this.cntInvalidSign.html(this.templateValid({signatures: [{name: 'Mary White', date: '18/05/2017'}, {name: 'John Black', date: '18/05/2017'}]}));
+            // this.cntRequestedSign.html(this.templateRequested({signatures: this.api.asc_getRequestedSignatures(), header: this.strRequested}));
+            // this.cntValidSign.html(this.templateValid({signatures: this.api.asc_getValidSignatures(), header: this.strValid}));
+            // this.cntInvalidSign.html(this.templateInvalid({signatures: this.api.asc_getInvalidSignatures(), header: this.strInvalid}));
+            this.cntRequestedSign.html(this.templateRequested({signatures: ['Hammish Mitchell', 'Someone Somewhere', 'Mary White', 'John Black'], header: this.strRequested}));
+            this.cntValidSign.html(this.templateValid({signatures: [{name: 'Hammish Mitchell', date: '18/05/2017'}, {name: 'Someone Somewhere', date: '18/05/2017'}], header: this.strValid}));
+            this.cntInvalidSign.html(this.templateValid({signatures: [{name: 'Mary White', date: '18/05/2017'}, {name: 'John Black', date: '18/05/2017'}], header: this.strInvalid}));
         },
 
         strProtect: 'Protect Document',

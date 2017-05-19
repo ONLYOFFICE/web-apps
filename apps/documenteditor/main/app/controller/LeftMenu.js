@@ -44,7 +44,8 @@ define([
     'core',
     'common/main/lib/util/Shortcuts',
     'documenteditor/main/app/view/LeftMenu',
-    'documenteditor/main/app/view/FileMenu'
+    'documenteditor/main/app/view/FileMenu',
+    'documenteditor/main/app/view/SignSettingsDialog'
 ], function () {
     'use strict';
 
@@ -85,7 +86,9 @@ define([
                     'saveas:format': _.bind(this.clickSaveAsFormat, this),
                     'settings:apply': _.bind(this.applySettings, this),
                     'create:new': _.bind(this.onCreateNew, this),
-                    'recent:open': _.bind(this.onOpenRecent, this)
+                    'recent:open': _.bind(this.onOpenRecent, this),
+                    'signature:visible': _.bind(this.addVisibleSign, this),
+                    'signature:invisible': _.bind(this.addInvisibleSign, this)
                 },
                 'Toolbar': {
                     'file:settings': _.bind(this.clickToolbarSettings,this),
@@ -669,6 +672,30 @@ define([
             maincontroller.loadMask.setTitle(this.textLoadHistory);
             maincontroller.loadMask.show();
             Common.Gateway.requestHistory();
+        },
+
+        addVisibleSign: function(menu) {
+            var me = this,
+                win = new DE.Views.SignSettingsDialog({
+                    handler: function(dlg, result) {
+                        if (result == 'ok') {
+                            var props = dlg.getSettings();
+                            // me.api.asc_addSignature(dlg.getSettings());
+                        }
+                        Common.NotificationCenter.trigger('edit:complete');
+                    }
+                });
+
+            win.show();
+            // win.setSettings(me.api.asc_getSignatureSettings());
+
+            menu.hide();
+            this.leftMenu.btnFile.toggle(false, true);
+        },
+
+        addInvisibleSign: function(menu) {
+            menu.hide();
+            this.leftMenu.btnFile.toggle(false, true);
         },
 
         textNoTextFound         : 'Text not found',
