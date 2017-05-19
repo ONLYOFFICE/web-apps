@@ -45,7 +45,8 @@ define([
     'common/main/lib/util/Shortcuts',
     'documenteditor/main/app/view/LeftMenu',
     'documenteditor/main/app/view/FileMenu',
-    'documenteditor/main/app/view/SignSettingsDialog'
+    'documenteditor/main/app/view/SignSettingsDialog',
+    'documenteditor/main/app/view/SignDialog'
 ], function () {
     'use strict';
 
@@ -694,6 +695,22 @@ define([
         },
 
         addInvisibleSign: function(menu) {
+            var me = this,
+                win = new DE.Views.SignDialog({
+                    api: me.api,
+                    handler: function(dlg, result) {
+                        if (result == 'ok') {
+                            var props = dlg.getSettings();
+                            // me.api.asc_addInvisibleSignature(dlg.getSettings());
+                        }
+                        Common.NotificationCenter.trigger('edit:complete');
+                    }
+                });
+
+            win.show();
+            win.setSettings({});
+            // win.setSettings(me.api.asc_getCertificateSettings());
+
             menu.hide();
             this.leftMenu.btnFile.toggle(false, true);
         },
