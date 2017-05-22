@@ -1187,12 +1187,14 @@ define([
         },
 
         updateSignatures: function(){
-            // this.cntRequestedSign.html(this.templateRequested({signatures: this.api.asc_getRequestedSignatures(), header: this.strRequested}));
+            var requested = this.api.asc_getRequestSignatures(),
+                valid = this.api.asc_getSignatures();
+            // this.cntRequestedSign.html(this.templateRequested({signatures: this.api.asc_getRequestSignatures(), header: this.strRequested}));
             // this.cntValidSign.html(this.templateValid({signatures: this.api.asc_getValidSignatures(), header: this.strValid}));
             // this.cntInvalidSign.html(this.templateInvalid({signatures: this.api.asc_getInvalidSignatures(), header: this.strInvalid}));
-            this.cntRequestedSign.html(this.templateRequested({signatures: ['Hammish Mitchell', 'Someone Somewhere', 'Mary White', 'John Black'], header: this.strRequested}));
-            this.cntValidSign.html(this.templateValid({signatures: [{name: 'Hammish Mitchell', date: '18/05/2017'}, {name: 'Someone Somewhere', date: '18/05/2017'}], header: this.strValid}));
-            this.cntInvalidSign.html(this.templateValid({signatures: [{name: 'Mary White', date: '18/05/2017'}, {name: 'John Black', date: '18/05/2017'}], header: this.strInvalid}));
+            // this.cntRequestedSign.html(this.templateRequested({signatures: ['Hammish Mitchell', 'Someone Somewhere', 'Mary White', 'John Black'], header: this.strRequested}));
+            // this.cntValidSign.html(this.templateValid({signatures: [{name: 'Hammish Mitchell', date: '18/05/2017'}, {name: 'Someone Somewhere', date: '18/05/2017'}], header: this.strValid}));
+            // this.cntInvalidSign.html(this.templateValid({signatures: [{name: 'Mary White', date: '18/05/2017'}, {name: 'John Black', date: '18/05/2017'}], header: this.strInvalid}));
         },
 
         strProtect: 'Protect Document',

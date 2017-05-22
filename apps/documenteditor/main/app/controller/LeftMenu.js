@@ -680,8 +680,7 @@ define([
                 win = new DE.Views.SignSettingsDialog({
                     handler: function(dlg, result) {
                         if (result == 'ok') {
-                            var props = dlg.getSettings();
-                            // me.api.asc_addSignature(dlg.getSettings());
+                             me.api.asc_AddSignatureLine2(dlg.getSettings());
                         }
                         Common.NotificationCenter.trigger('edit:complete');
                     }
@@ -702,7 +701,7 @@ define([
                     handler: function(dlg, result) {
                         if (result == 'ok') {
                             var props = dlg.getSettings();
-                            // me.api.asc_addInvisibleSignature(dlg.getSettings());
+                            me.api.asc_Sign();
                         }
                         Common.NotificationCenter.trigger('edit:complete');
                     }

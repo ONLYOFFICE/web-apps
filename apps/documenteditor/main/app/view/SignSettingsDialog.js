@@ -82,7 +82,6 @@ define([
                         '<label>' + this.textInstructions + '</label>',
                     '</div>',
                     '<textarea id="id-dlg-sign-settings-instructions" class="form-control" style="width: 100%;height: 35px;margin-bottom: 10px;resize: none;"></textarea>',
-                    '<div id="id-dlg-sign-settings-comment" style="margin-bottom: 5px;"></div>',
                     '<div id="id-dlg-sign-settings-date"></div>',
                 '</div>',
                 '<div class="footer center">',
@@ -125,11 +124,6 @@ define([
                 }
             });
 
-            this.chComment = new Common.UI.CheckBox({
-                el: $('#id-dlg-sign-settings-comment'),
-                labelText: this.textAllowComment
-            });
-
             this.chDate = new Common.UI.CheckBox({
                 el: $('#id-dlg-sign-settings-date'),
                 labelText: this.textShowDate
@@ -160,20 +154,19 @@ define([
                 // me.inputEmail.setValue(value ? value : '');
                 // value = props.asc_getInstructions();
                 // me.textareaInstructions.val(value ? value : '');
-                // me.chComment.setValue(props.asc_getAllowComment());
                 // me.chDate.setValue(props.asc_getDate());
             }
         },
 
         getSettings: function () {
-            var me      = this, props;
+            var me = this,
+                props = new AscCommon.asc_CSignatureLine();
 
-            // props.asc_putName(me.inputName.getValue());
-            // props.asc_putTitile(me.inputTitle.getValue());
-            // props.asc_putEmail(me.inputEmail.getValue());
-            // props.asc_putInstructions(me.textareaInstructions.val());
-            // props.asc_putAllowComment(me.chComment.getValue()=='checked');
-            // props.asc_putDate(me.chDate.getValue()=='checked');
+            props.asc_setSigner1(me.inputName.getValue());
+            props.asc_setSigner2(me.inputTitle.getValue());
+            props.asc_setEmail(me.inputEmail.getValue());
+            props.asc_setInstructions(me.textareaInstructions.val());
+            props.asc_setShowDate(me.chDate.getValue()=='checked');
 
             return props;
         },
@@ -197,7 +190,7 @@ define([
 
         textInfo:           'Signer Info',
         textInfoName:       'Name',
-        textInfoTitle:      'Title',
+        textInfoTitle:      'Signer Title',
         textInfoEmail:      'E-mail',
         textInstructions:   'Instructions for Signer',
         cancelButtonText:   'Cancel',
