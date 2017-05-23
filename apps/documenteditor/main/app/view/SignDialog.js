@@ -169,7 +169,7 @@ define([
             var props = {};
             props.certificateId = this.certificateId;
             if (this.signType == 'invisible') {
-                props.purpose(this.inputPurpose.getValue());
+                props.purpose = this.inputPurpose.getValue();
             } else {
                 // props.asc_putName(me.inputName.getValue());
             }
