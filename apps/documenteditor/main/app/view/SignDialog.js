@@ -45,7 +45,8 @@ if (Common === undefined)
 define([
     'common/main/lib/util/utils',
     'common/main/lib/component/InputField',
-    'common/main/lib/component/Window'
+    'common/main/lib/component/Window',
+    'common/main/lib/component/ComboBoxFonts'
 ], function () { 'use strict';
 
     DE.Views.SignDialog = Common.UI.Window.extend(_.extend({
@@ -63,9 +64,17 @@ define([
             this.api = this.options.api;
             this.signType = this.options.signType || 'invisible';
             this.certificateId = null;
+            this.signObject = null;
+            this.fontStore = this.options.fontStore;
+            this.font = {
+                size: 11,
+                name: 'Arial',
+                bold: false,
+                italic: false
+            };
 
             this.template = [
-                '<div class="box" style="height: ' + ((this.signType == 'invisible') ? '132px;' : '260px;') + '">',
+                '<div class="box" style="height: ' + ((this.signType == 'invisible') ? '132px;' : '300px;') + '">',
                     '<div id="id-dlg-sign-invisible">',
                         '<div class="input-row">',
                             '<label>' + this.textPurpose + '</label>',
@@ -76,8 +85,11 @@ define([
                         '<div class="input-row">',
                             '<label>' + this.textInputName + '</label>',
                         '</div>',
-                        '<div id="id-dlg-sign-name" class="input-row"></div>',
-                        '<div class="input-row">',
+                        '<div id="id-dlg-sign-name" class="input-row" style="margin-bottom: 5px;"></div>',
+                        '<div id="id-dlg-sign-fonts" class="input-row" style="display: inline-block;"></div>',
+                        '<div id="id-dlg-sign-font-size" class="input-row" style="display: inline-block;margin-left: 3px;"></div>',
+                        '<div id="id-dlg-sign-bold" style="display: inline-block;margin-left: 3px;"></div>','<div id="id-dlg-sign-italic" style="display: inline-block;margin-left: 3px;"></div>',
+                        '<div class="input-row" style="margin-top: 10px;">',
                             '<label>' + this.textUseImage + '</label>',
                         '</div>',
                         '<button id="id-dlg-sign-image" class="btn btn-text-default" style="">' + this.textSelectImage + '</button>',
@@ -124,7 +136,89 @@ define([
             me.inputName = new Common.UI.InputField({
                 el          : $('#id-dlg-sign-name'),
                 style       : 'width: 100%;'
+            }).on ('changing', _.bind(me.onChangeName, me));
+
+            me.cmbFonts = new Common.UI.ComboBoxFonts({
+                el          : $('#id-dlg-sign-fonts'),
+                cls         : 'input-group-nr',
+                style       : 'width: 214px;',
+                menuCls     : 'scrollable-menu',
+                menuStyle   : 'min-width: 55px;max-height: 270px;',
+                store       : new Common.Collections.Fonts(),
+                recent      : 0,
+                hint        : me.tipFontName
+            }).on('selected', function(combo, record) {
+                if (me.signObject) {
+                    me.signObject.put_FontFamily(record.name);
+                }
+                me.font.name = record.name;
             });
+
+            this.cmbFontSize = new Common.UI.ComboBox({
+                el: $('#id-dlg-sign-font-size'),
+                cls: 'input-group-nr',
+                style: 'width: 55px;',
+                menuCls     : 'scrollable-menu',
+                menuStyle: 'min-width: 55px;max-height: 270px;',
+                hint: this.tipFontSize,
+                data: [
+                    { value: 8, displayValue: "8" },
+                    { value: 9, displayValue: "9" },
+                    { value: 10, displayValue: "10" },
+                    { value: 11, displayValue: "11" },
+                    { value: 12, displayValue: "12" },
+                    { value: 14, displayValue: "14" },
+                    { value: 16, displayValue: "16" },
+                    { value: 18, displayValue: "18" },
+                    { value: 20, displayValue: "20" },
+                    { value: 22, displayValue: "22" },
+                    { value: 24, displayValue: "24" },
+                    { value: 26, displayValue: "26" },
+                    { value: 28, displayValue: "28" },
+                    { value: 36, displayValue: "36" },
+                    { value: 48, displayValue: "48" },
+                    { value: 72, displayValue: "72" }
+                ]
+            }).on('selected', function(combo, record) {
+                if (me.signObject) {
+                    me.signObject.put_FontSize(record.value);
+                }
+                me.font.size = record.value;
+            });
+            this.cmbFontSize.setValue(this.font.size);
+
+            me.btnBold = new Common.UI.Button({
+                cls: 'btn-toolbar',
+                iconCls: 'btn-bold',
+                enableToggle: true,
+                hint: me.textBold
+            });
+            me.btnBold.render($('#id-dlg-sign-bold')) ;
+            me.btnBold.on('click', function(btn, e) {
+                if (me.signObject) {
+                    me.signObject.put_Bold(btn.pressed);
+                }
+                me.font.bold = btn.pressed;
+            });
+
+            me.btnItalic = new Common.UI.Button({
+                cls: 'btn-toolbar',
+                iconCls: 'btn-italic',
+                enableToggle: true,
+                hint: me.textItalic
+            });
+            me.btnItalic.render($('#id-dlg-sign-italic')) ;
+            me.btnItalic.on('click', function(btn, e) {
+                if (me.signObject) {
+                    me.signObject.put_Italic(btn.pressed);
+                }
+                me.font.italic = btn.pressed;
+            });
+
+            me.btnSelectImage = new Common.UI.Button({
+                el: '#id-dlg-sign-image'
+            });
+            me.btnSelectImage.on('click', _.bind(me.onSelectImage, me));
 
             me.btnChangeCertificate = new Common.UI.Button({
                 el: '#id-dlg-sign-change'
@@ -139,6 +233,8 @@ define([
 
             $window.find('.dlg-btn').on('click', _.bind(me.onBtnClick, me));
             $window.find('input').on('keypress', _.bind(me.onKeyPress, me));
+
+            me.afterRender();
         },
 
         show: function() {
@@ -150,18 +246,22 @@ define([
             },500);
         },
 
-        setSettings: function (props) {
-            if (props) {
-                var me = this,
-                    name = (props.name) ? props.name : '',
-                    date = props.date,
-                    arr_date = (typeof date == 'string') ? date.split(' - ') : ['', ''];
-                this.cntCertificate.html(this.templateCertificate({name: name, valid: this.textValid.replace('%1', arr_date[0]).replace('%2', arr_date[1])}));
-                this.certificateId = props.id;
-            }
+        afterRender: function () {
             if (this.api) {
+                this.api.asc_unregisterCallback('on_signature_defaultcertificate_ret', _.bind(this.onCertificateChanged, this));
+                this.api.asc_registerCallback('on_signature_defaultcertificate_ret', _.bind(this.onCertificateChanged, this));
                 this.api.asc_unregisterCallback('on_signature_selectsertificate_ret', _.bind(this.onCertificateChanged, this));
                 this.api.asc_registerCallback('on_signature_selectsertificate_ret', _.bind(this.onCertificateChanged, this));
+                this.api.asc_GetDefaultCertificate();
+            }
+
+            if (this.signType == 'visible') {
+                this.cmbFonts.fillFonts(this.fontStore);
+
+                // this.signObject = new Asc.CSignature('signature-preview-img');
+
+                var rec = this.fontStore.findWhere({name: this.font.name});
+                this.cmbFonts.setValue((rec) ? rec.get('name') : this.fontStore.at(0).get('name'));
             }
         },
 
@@ -171,7 +271,8 @@ define([
             if (this.signType == 'invisible') {
                 props.purpose = this.inputPurpose.getValue();
             } else {
-                // props.asc_putName(me.inputName.getValue());
+                if (this.signObject)
+                    props.url = this.signObject.getUrl();
             }
 
             return props;
@@ -205,6 +306,17 @@ define([
             this.cntCertificate.html(this.templateCertificate({name: certificate.name, valid: this.textValid.replace('%1', arr_date[0]).replace('%2', arr_date[1])}));
         },
 
+        onSelectImage: function() {
+            if (!this.signObject) return;
+            this.signObject.LoadImage();
+            this.inputName.setValue('');
+        },
+
+        onChangeName: function (input, value) {
+            if (!this.signObject) return;
+            this.signObject.SetName(value);
+        },
+
         textTitle:          'Sign Document',
         textPurpose:        'Purpose for signing this document',
         textCertificate:    'Certificate',
@@ -215,7 +327,11 @@ define([
         textInputName:      'Input signer name',
         textUseImage:       'or click \'Select Image\' to use a picture as signature',
         textSelectImage:    'Select Image',
-        textSignature:      'Signature looks as'
+        textSignature:      'Signature looks as',
+        tipFontName: 'Font Name',
+        tipFontSize: 'Font Size',
+        textBold:           'Bold',
+        textItalic:         'Italic'
 
     }, DE.Views.SignDialog || {}))
 });

@@ -1197,7 +1197,7 @@ define([
             });
             _.each(valid, function(item, index){
                 var sign = {name: item.asc_getSigner1(), date: '18/05/2017'};
-                (item.asc_getValid()) ? valid_arr.push(sign) : invalid_arr.push(sign);
+                (item.asc_getValid()==0) ? valid_arr.push(sign) : invalid_arr.push(sign);
             });
             this.cntRequestedSign.html(this.templateRequested({signatures: requested_arr, header: this.strRequested}));
             this.cntValidSign.html(this.templateValid({signatures: valid_arr, header: this.strValid}));

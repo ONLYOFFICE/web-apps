@@ -137,7 +137,6 @@ define([
             this.api.asc_registerCallback('asc_onReplaceAll', _.bind(this.onApiTextReplaced, this));
             this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onApiServerDisconnect, this, true));
             Common.NotificationCenter.on('api:disconnect',               _.bind(this.onApiServerDisconnect, this));
-            this.api.asc_registerCallback('on_signature_defaultcertificate_ret', _.bind(this.onDefaultCertificate, this));
             /** coauthoring begin **/
             if (this.mode.canCoAuthoring) {
                 if (this.mode.canChat)
@@ -695,12 +694,37 @@ define([
         },
 
         addInvisibleSign: function(menu) {
-            this.api.asc_GetDefaultCertificate();
-            menu.hide();
-            this.leftMenu.btnFile.toggle(false, true);
-        },
+            /*
+            var me = this;
+            if (_.isUndefined(me.fontStore)) {
+                me.fontStore = new Common.Collections.Fonts();
+                var fonts = DE.getController('Toolbar').getView('Toolbar').cmbFontName.store.toJSON();
+                var arr = [];
+                _.each(fonts, function(font, index){
+                    if (!font.cloneid) {
+                        arr.push(_.clone(font));
+                    }
+                });
+                me.fontStore.add(arr);
+            }
+            var win = new DE.Views.SignDialog({
+                    api: me.api,
+                    signType: 'visible',
+                    fontStore: me.fontStore,
+                    handler: function(dlg, result) {
+                        if (result == 'ok') {
+                            var props = dlg.getSettings();
+                            me.api.asc_Sign(props.certificateId);
+                        }
+                        Common.NotificationCenter.trigger('edit:complete');
+                    }
+                });
+             win.show();
 
-        onDefaultCertificate: function(certificate) {
+             menu.hide();
+             this.leftMenu.btnFile.toggle(false, true);
+*/
+
             var me = this,
                 win = new DE.Views.SignDialog({
                     api: me.api,
@@ -715,7 +739,9 @@ define([
                 });
 
             win.show();
-            win.setSettings(certificate);
+
+            menu.hide();
+            this.leftMenu.btnFile.toggle(false, true);
         },
 
         textNoTextFound         : 'Text not found',
