@@ -146,15 +146,15 @@ define([
             if (props) {
                 var me = this;
 
-                // var value = props.asc_getName();
+                // var value = props.asc_getSigner1();
                 // me.inputName.setValue(value ? value : '');
-                // value = props.asc_getTitle();
+                // value = props.asc_getSigner2();
                 // me.inputTitle.setValue(value ? value : '');
                 // value = props.asc_getEmail();
                 // me.inputEmail.setValue(value ? value : '');
                 // value = props.asc_getInstructions();
                 // me.textareaInstructions.val(value ? value : '');
-                // me.chDate.setValue(props.asc_getDate());
+                // me.chDate.setValue(props.asc_getShowDate());
             }
         },
 

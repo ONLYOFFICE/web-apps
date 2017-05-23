@@ -52,7 +52,8 @@ define([
     'documenteditor/main/app/view/DropcapSettingsAdvanced',
     'documenteditor/main/app/view/HyperlinkSettingsDialog',
     'documenteditor/main/app/view/ParagraphSettingsAdvanced',
-    'documenteditor/main/app/view/TableSettingsAdvanced'
+    'documenteditor/main/app/view/TableSettingsAdvanced',
+    'documenteditor/main/app/view/SignDialog'
 ], function ($, _, Backbone, gateway) { 'use strict';
 
     DE.Views.DocumentHolder =  Backbone.View.extend(_.extend({
@@ -80,6 +81,7 @@ define([
             me._currentMathObj = undefined;
             me._currentParaObjDisabled = false;
             me._isDisabled = false;
+            me._currentSignGuid = null;
 
             var showPopupMenu = function(menu, value, event, docElement, eOpts){
                 if (!_.isUndefined(menu)  && menu !== null){
@@ -722,6 +724,28 @@ define([
 
             var onCoAuthoringDisconnect= function() {
                 me.mode.isEdit = false;
+            };
+
+            var onSignatureClick = function(guid) {
+                me._currentSignGuid = guid;
+                me.api.asc_GetDefaultCertificate();
+            };
+
+            var onDefaultCertificate = function(certificate) {
+                var win = new DE.Views.SignDialog({
+                        api: me.api,
+                        signType: 'visible',
+                        handler: function(dlg, result) {
+                            if (result == 'ok') {
+                                var props = dlg.getSettings();
+                                me.api.asc_Sign(props.certificateId, me._currentSignGuid, props.image);
+                            }
+                            Common.NotificationCenter.trigger('edit:complete');
+                        }
+                    });
+
+                win.show();
+                win.setSettings(certificate);
             };
 
             var onTextLanguage = function(langid) {
@@ -1528,6 +1552,8 @@ define([
                     this.api.asc_registerCallback('asc_onShowSpecialPasteOptions',      _.bind(onShowSpecialPasteOptions, this));
                     this.api.asc_registerCallback('asc_onHideSpecialPasteOptions',      _.bind(onHideSpecialPasteOptions, this));
 
+                    this.api.asc_registerCallback('asc_onSignatureClick',               _.bind(onSignatureClick, this));
+                    this.api.asc_registerCallback('on_signature_defaultcertificate_ret', _.bind(onDefaultCertificate, this));
                 }
 
                 return this;

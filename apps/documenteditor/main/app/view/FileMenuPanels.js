@@ -1188,10 +1188,20 @@ define([
 
         updateSignatures: function(){
             var requested = this.api.asc_getRequestSignatures(),
-                valid = this.api.asc_getSignatures();
-            // this.cntRequestedSign.html(this.templateRequested({signatures: this.api.asc_getRequestSignatures(), header: this.strRequested}));
-            // this.cntValidSign.html(this.templateValid({signatures: this.api.asc_getValidSignatures(), header: this.strValid}));
-            // this.cntInvalidSign.html(this.templateInvalid({signatures: this.api.asc_getInvalidSignatures(), header: this.strInvalid}));
+                requested_arr = [],
+                valid = this.api.asc_getSignatures(),
+                valid_arr = [], invalid_arr = [];
+
+            _.each(requested, function(item, index){
+                requested_arr.push(item.asc_getSigner1());
+            });
+            _.each(valid, function(item, index){
+                var sign = {name: item.asc_getSigner1(), date: '18/05/2017'};
+                (item.asc_getValid()) ? valid_arr.push(sign) : invalid_arr.push(sign);
+            });
+            this.cntRequestedSign.html(this.templateRequested({signatures: requested_arr, header: this.strRequested}));
+            this.cntValidSign.html(this.templateValid({signatures: valid_arr, header: this.strValid}));
+            this.cntInvalidSign.html(this.templateValid({signatures: invalid_arr, header: this.strInvalid}));
             // this.cntRequestedSign.html(this.templateRequested({signatures: ['Hammish Mitchell', 'Someone Somewhere', 'Mary White', 'John Black'], header: this.strRequested}));
             // this.cntValidSign.html(this.templateValid({signatures: [{name: 'Hammish Mitchell', date: '18/05/2017'}, {name: 'Someone Somewhere', date: '18/05/2017'}], header: this.strValid}));
             // this.cntInvalidSign.html(this.templateValid({signatures: [{name: 'Mary White', date: '18/05/2017'}, {name: 'John Black', date: '18/05/2017'}], header: this.strInvalid}));

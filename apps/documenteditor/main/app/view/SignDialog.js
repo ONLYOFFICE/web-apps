@@ -62,6 +62,7 @@ define([
 
             this.api = this.options.api;
             this.signType = this.options.signType || 'invisible';
+            this.certificateId = null;
 
             this.template = [
                 '<div class="box" style="height: ' + ((this.signType == 'invisible') ? '132px;' : '260px;') + '">',
@@ -152,18 +153,23 @@ define([
         setSettings: function (props) {
             if (props) {
                 var me = this,
-                    name = 'Hammish Mitchell',//props.asc_getName(),
-                    from = '1/02/2011',//props.asc_getFrom(),
-                    to = '1/02/2021';//props.asc_getTo();
-
-                this.cntCertificate.html(this.templateCertificate({name: name, valid: this.textValid.replace('%1', from).replace('%2', to)}));
+                    name = (props.name) ? props.name : '',
+                    date = props.date,
+                    arr_date = (typeof date == 'string') ? date.split(' - ') : ['', ''];
+                this.cntCertificate.html(this.templateCertificate({name: name, valid: this.textValid.replace('%1', arr_date[0]).replace('%2', arr_date[1])}));
+                this.certificateId = props.id;
+            }
+            if (this.api) {
+                this.api.asc_unregisterCallback('on_signature_selectsertificate_ret', _.bind(this.onCertificateChanged, this));
+                this.api.asc_registerCallback('on_signature_selectsertificate_ret', _.bind(this.onCertificateChanged, this));
             }
         },
 
         getSettings: function () {
-            var me      = this, props;
-            if (me.signType == 'invisible') {
-                // props.asc_putPurpose(me.inputPurpose.getValue());
+            var props = {};
+            props.certificateId = this.certificateId;
+            if (this.signType == 'invisible') {
+                props.purpose(this.inputPurpose.getValue());
             } else {
                 // props.asc_putName(me.inputName.getValue());
             }
@@ -189,7 +195,14 @@ define([
         },
 
         onChangeCertificate: function() {
-            // this.api.asc_changeCertificate();
+            this.api.asc_SelectCertificate();
+        },
+
+        onCertificateChanged: function(certificate) {
+            this.certificateId = certificate.id;
+            var date = certificate.date,
+                arr_date = (typeof date == 'string') ? date.split(' - ') : ['', ''];
+            this.cntCertificate.html(this.templateCertificate({name: certificate.name, valid: this.textValid.replace('%1', arr_date[0]).replace('%2', arr_date[1])}));
         },
 
         textTitle:          'Sign Document',
