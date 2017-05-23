@@ -188,6 +188,11 @@ define([
                             title       : me.options.hint,
                             placement   : me.options.hintAnchor||'cursor'
                         });
+
+                        var modalParents = el.closest('.asc-window');
+                        if (modalParents.length > 0) {
+                            el.data('bs.tooltip').tip().css('z-index', parseInt(modalParents.css('z-index')) + 10);
+                        }
                     }
 
                     el.on('show.bs.dropdown',             _.bind(me.onBeforeShowMenu, me));
