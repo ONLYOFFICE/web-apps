@@ -746,7 +746,7 @@ define([
                     handler: function(dlg, result) {
                         if (result == 'ok') {
                             var props = dlg.getSettings();
-                            me.api.asc_Sign(props.certificateId, guid, props.image);
+                            me.api.asc_Sign(props.certificateId, guid, props.images[0], props.images[1]);
                         }
                         Common.NotificationCenter.trigger('edit:complete');
                     }

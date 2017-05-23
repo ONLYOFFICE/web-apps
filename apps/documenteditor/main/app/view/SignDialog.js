@@ -149,7 +149,7 @@ define([
                 hint        : me.tipFontName
             }).on('selected', function(combo, record) {
                 if (me.signObject) {
-                    me.signObject.put_FontFamily(record.name);
+                    me.signObject.setText(me.inputName.getValue(), record.name, me.font.size, me.font.italic, me.font.bold);
                 }
                 me.font.name = record.name;
             });
@@ -181,7 +181,7 @@ define([
                 ]
             }).on('selected', function(combo, record) {
                 if (me.signObject) {
-                    me.signObject.put_FontSize(record.value);
+                    me.signObject.setText(me.inputName.getValue(), me.font.name, record.value, me.font.italic, me.font.bold);
                 }
                 me.font.size = record.value;
             });
@@ -196,7 +196,7 @@ define([
             me.btnBold.render($('#id-dlg-sign-bold')) ;
             me.btnBold.on('click', function(btn, e) {
                 if (me.signObject) {
-                    me.signObject.put_Bold(btn.pressed);
+                    me.signObject.setText(me.inputName.getValue(), me.font.name, me.font.size, me.font.italic, btn.pressed);
                 }
                 me.font.bold = btn.pressed;
             });
@@ -210,7 +210,7 @@ define([
             me.btnItalic.render($('#id-dlg-sign-italic')) ;
             me.btnItalic.on('click', function(btn, e) {
                 if (me.signObject) {
-                    me.signObject.put_Italic(btn.pressed);
+                    me.signObject.setText(me.inputName.getValue(), me.font.name, me.font.size, btn.pressed, me.font.bold);
                 }
                 me.font.italic = btn.pressed;
             });
@@ -246,6 +246,13 @@ define([
             },500);
         },
 
+        hide: function() {
+            Common.UI.Window.prototype.hide.apply(this, arguments);
+
+            if (this.signObject)
+                this.signObject.destroy();
+        },
+
         afterRender: function () {
             if (this.api) {
                 this.api.asc_unregisterCallback('on_signature_defaultcertificate_ret', _.bind(this.onCertificateChanged, this));
@@ -258,7 +265,7 @@ define([
             if (this.signType == 'visible') {
                 this.cmbFonts.fillFonts(this.fontStore);
 
-                // this.signObject = new Asc.CSignature('signature-preview-img');
+                this.signObject = new AscCommon.CSignatureDrawer('signature-preview-img', this.api);
 
                 var rec = this.fontStore.findWhere({name: this.font.name});
                 this.cmbFonts.setValue((rec) ? rec.get('name') : this.fontStore.at(0).get('name'));
@@ -271,8 +278,7 @@ define([
             if (this.signType == 'invisible') {
                 props.purpose = this.inputPurpose.getValue();
             } else {
-                if (this.signObject)
-                    props.url = this.signObject.getUrl();
+                props.images = this.signObject ? this.signObject.getImages() : [null, null];
             }
 
             return props;
@@ -290,8 +296,12 @@ define([
         },
 
         _handleInput: function(state) {
-            if (this.options.handler)
+            if (this.options.handler) {
+                if (state == 'ok' && this.signObject && !this.signObject.isValid())
+                        return;
+
                 this.options.handler.call(this, this, state);
+            }
             this.close();
         },
 
@@ -308,13 +318,13 @@ define([
 
         onSelectImage: function() {
             if (!this.signObject) return;
-            this.signObject.LoadImage();
+            this.signObject.selectImage();
             this.inputName.setValue('');
         },
 
         onChangeName: function (input, value) {
             if (!this.signObject) return;
-            this.signObject.SetName(value);
+            this.signObject.setText(value, this.font.name, this.font.size, this.font.italic, this.font.bold);
         },
 
         textTitle:          'Sign Document',
