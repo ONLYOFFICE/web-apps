@@ -1089,7 +1089,7 @@ define([
         menu: undefined,
 
         template: _.template([
-            '<label style="font-size: 18px;"><%= scope.strProtect %></label>',
+            '<label id="id-fms-lbl-sign-header" style="font-size: 18px;"><%= scope.strProtect %></label>',
             '<button id="fms-btn-invisible-sign" class="btn btn-text-default" style="min-width:190px;"><%= scope.strInvisibleSign %></button>',
             '<button id="fms-btn-visible-sign" class="btn btn-text-default" style="min-width:190px;"><%= scope.strVisibleSign %></button>',
             '<div id="id-fms-requested-sign"></div>',
@@ -1139,6 +1139,8 @@ define([
             });
             this.btnAddVisibleSign.on('click', _.bind(this.addVisibleSign, this));
 
+            this.lblSignHeader = $('#id-fms-lbl-sign-header', this.$el);
+
             this.cntRequestedSign = $('#id-fms-requested-sign');
             this.cntValidSign = $('#id-fms-valid-sign');
             this.cntInvalidSign = $('#id-fms-invalid-sign');
@@ -1160,6 +1162,11 @@ define([
 
         setMode: function(mode) {
             this.mode = mode;
+            if (!this.mode.isEdit) {
+                this.btnAddInvisibleSign.setVisible(false);
+                this.btnAddVisibleSign.setVisible(false);
+                this.lblSignHeader.html(this.strSignature);
+            }
         },
 
         setApi: function(o) {
@@ -1203,8 +1210,8 @@ define([
         strVisibleSign: 'Add visible signature',
         strRequested: 'Requested signatures',
         strValid: 'Valid signatures',
-        strInvalid: 'Invalid signatures'
-
+        strInvalid: 'Invalid signatures',
+        strSignature: 'Signature'
 
     }, DE.Views.FileMenuPanels.ProtectDoc || {}));
 

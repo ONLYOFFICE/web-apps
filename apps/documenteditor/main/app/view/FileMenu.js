@@ -281,6 +281,7 @@ define([
             if (this.mode.isDesktopApp) {
 //                this.$el.find('#fm-btn-back').hide();
                 this.panels['protect'] = (new DE.Views.FileMenuPanels.ProtectDoc({menu:this})).render();
+                this.panels['protect'].setMode(this.mode);
             }
 
             if (this.mode.canDownload) {
