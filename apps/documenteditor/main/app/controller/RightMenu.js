@@ -78,8 +78,8 @@ define([
             this._settings[Common.Utils.documentSettingsType.Shape] =     {panelId: "id-shape-settings",      panel: rightMenu.shapeSettings,    btn: rightMenu.btnShape,       hidden: 1, locked: false};
             this._settings[Common.Utils.documentSettingsType.TextArt] =   {panelId: "id-textart-settings",    panel: rightMenu.textartSettings,  btn: rightMenu.btnTextArt,     hidden: 1, locked: false};
             this._settings[Common.Utils.documentSettingsType.Chart] = {panelId: "id-chart-settings",          panel: rightMenu.chartSettings,    btn: rightMenu.btnChart,       hidden: 1, locked: false};
-            this._settings[Common.Utils.documentSettingsType.MailMerge] = {panelId: "id-mail-merge-settings",      panel: rightMenu.mergeSettings,    btn: rightMenu.btnMailMerge, hidden: 1, props: {}, locked: false};
-            this._settings[Common.Utils.documentSettingsType.Signature] = {panelId: "id-signature-settings",      panel: rightMenu.signatureSettings, btn: rightMenu.btnSignature, hidden: 0, props: {}, locked: false};
+            this._settings[Common.Utils.documentSettingsType.MailMerge] = {panelId: "id-mail-merge-settings", panel: rightMenu.mergeSettings,    btn: rightMenu.btnMailMerge,   hidden: 1, props: {}, locked: false};
+            this._settings[Common.Utils.documentSettingsType.Signature] = {panelId: "id-signature-settings",  panel: rightMenu.signatureSettings, btn: rightMenu.btnSignature,  hidden: (rightMenu.signatureSettings) ? 0 : 1, props: {}, locked: false};
         },
 
         setApi: function(api) {
@@ -156,6 +156,8 @@ define([
                 this._settings[settingsType].locked = value.get_Locked();
                 if (!this._settings[Common.Utils.documentSettingsType.MailMerge].locked) // lock MailMerge-InsertField, если хотя бы один объект locked
                     this._settings[Common.Utils.documentSettingsType.MailMerge].locked = value.get_Locked();
+                if (!this._settings[Common.Utils.documentSettingsType.Signature].locked) // lock Signature, если хотя бы один объект locked
+                    this._settings[Common.Utils.documentSettingsType.Signature].locked = value.get_Locked();
             }
 
             if ( this._settings[Common.Utils.documentSettingsType.Header].locked ) { // если находимся в locked header/footer, то считаем, что все элементы в нем тоже недоступны
@@ -206,7 +208,7 @@ define([
                 
                 if (active !== undefined) {
                     this.rightmenu.SetActivePane(active, open);
-                    if (active!=Common.Utils.documentSettingsType.MailMerge)
+                    if (active!=Common.Utils.documentSettingsType.MailMerge && active!=Common.Utils.documentSettingsType.Signature)
                         this._settings[active].panel.ChangeSettings.call(this._settings[active].panel, this._settings[active].props);
                     else
                         this._settings[active].panel.ChangeSettings.call(this._settings[active].panel);

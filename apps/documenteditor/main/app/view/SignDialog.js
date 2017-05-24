@@ -244,7 +244,7 @@ define([
 
             var me = this;
             _.delay(function(){
-                me.inputPurpose.cmpEl.find('input').focus();
+                ((me.signType == 'visible') ? me.inputName : me.inputPurpose).cmpEl.find('input').focus();
             },500);
         },
 

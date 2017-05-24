@@ -62,7 +62,7 @@ define([
             }, options || {});
 
             this.template = [
-                '<div class="box" style="height: 285px;">',
+                '<div class="box" style="height: 260px;">',
                     '<div class="input-row">',
                         '<label>' + this.textInfo + '</label>',
                     '</div>',

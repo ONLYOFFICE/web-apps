@@ -153,6 +153,8 @@ define([
             if (!this._state.requestedSignatures || !this._state.validSignatures || !this._state.invalidSignatures) {
                 this.onUpdateSignatures(this.api.asc_getSignatures(), this.api.asc_getRequestSignatures());
             }
+
+            this.disableControls(this._locked);
         },
 
         setLocked: function (locked) {
@@ -235,7 +237,9 @@ define([
 
         onSign: function(event) {
              var me = this,
-                 guid = $(event.currentTarget).attr('data-value');
+                 target = $(event.currentTarget);
+
+             if (target.hasClass('disabled')) return;
 
              if (_.isUndefined(me.fontStore)) {
                  me.fontStore = new Common.Collections.Fonts();
@@ -256,7 +260,7 @@ define([
                  handler: function(dlg, result) {
                      if (result == 'ok') {
                          var props = dlg.getSettings();
-                         me.api.asc_Sign(props.certificateId, guid, props.images[0], props.images[1]);
+                         me.api.asc_Sign(props.certificateId, target.attr('data-value'), props.images[0], props.images[1]);
                      }
                      me.fireEvent('editcomplete', me);
                  }
@@ -265,8 +269,10 @@ define([
         },
 
         onViewSignature: function(guid) {
-            var guid = $(event.currentTarget).attr('data-value');
-            this.api.asc_ViewCertificate(guid);
+            var target = $(event.currentTarget);
+            if (target.hasClass('disabled')) return;
+
+            this.api.asc_ViewCertificate(target.attr('data-value'));
         },
 
         strSignature: 'Signature',
