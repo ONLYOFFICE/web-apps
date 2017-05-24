@@ -186,7 +186,7 @@ define([
                 me._state.requestedSignatures.push({name: item.asc_getSigner1(), guid: item.asc_getGuid()});
             });
             _.each(valid, function(item, index){
-                var sign = {name: item.asc_getSigner1(), guid: item.asc_getGuid(), date: '18/05/2017'};
+                var sign = {name: item.asc_getSigner1(), guid: item.asc_getId(), date: '18/05/2017'};
                 (item.asc_getValid()==0) ? me._state.validSignatures.push(sign) : me._state.invalidSignatures.push(sign);
             });
             this.cntRequestedSign.html(this.templateRequested({signatures: me._state.requestedSignatures, header: this.strRequested}));

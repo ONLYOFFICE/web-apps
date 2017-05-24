@@ -63,6 +63,7 @@ define([
 
             this.api = this.options.api;
             this.signType = this.options.signType || 'invisible';
+            this.signSize = this.options.signSize || {width: 0, height: 0};
             this.certificateId = null;
             this.signObject = null;
             this.fontStore = this.options.fontStore;
@@ -266,7 +267,7 @@ define([
             if (this.signType == 'visible') {
                 this.cmbFonts.fillFonts(this.fontStore);
 
-                this.signObject = new AscCommon.CSignatureDrawer('signature-preview-img', this.api);
+                this.signObject = new AscCommon.CSignatureDrawer('signature-preview-img', this.api, this.signSize.width, this.signSize.height);
 
                 var rec = this.fontStore.findWhere({name: this.font.name});
                 this.cmbFonts.setValue((rec) ? rec.get('name') : this.fontStore.at(0).get('name'));
