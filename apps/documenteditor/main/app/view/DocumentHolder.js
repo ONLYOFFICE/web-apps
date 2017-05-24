@@ -754,7 +754,6 @@ define([
                 });
 
                 win.show();
-                win.show();
             };
 
             var onTextLanguage = function(langid) {
