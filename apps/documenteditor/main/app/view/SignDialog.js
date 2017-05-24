@@ -135,7 +135,8 @@ define([
 
             me.inputName = new Common.UI.InputField({
                 el          : $('#id-dlg-sign-name'),
-                style       : 'width: 100%;'
+                style       : 'width: 100%;',
+                validateOnChange: true
             }).on ('changing', _.bind(me.onChangeName, me));
 
             me.cmbFonts = new Common.UI.ComboBoxFonts({
