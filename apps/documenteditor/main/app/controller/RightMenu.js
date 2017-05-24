@@ -79,6 +79,7 @@ define([
             this._settings[Common.Utils.documentSettingsType.TextArt] =   {panelId: "id-textart-settings",    panel: rightMenu.textartSettings,  btn: rightMenu.btnTextArt,     hidden: 1, locked: false};
             this._settings[Common.Utils.documentSettingsType.Chart] = {panelId: "id-chart-settings",          panel: rightMenu.chartSettings,    btn: rightMenu.btnChart,       hidden: 1, locked: false};
             this._settings[Common.Utils.documentSettingsType.MailMerge] = {panelId: "id-mail-merge-settings",      panel: rightMenu.mergeSettings,    btn: rightMenu.btnMailMerge, hidden: 1, props: {}, locked: false};
+            this._settings[Common.Utils.documentSettingsType.Signature] = {panelId: "id-signature-settings",      panel: rightMenu.signatureSettings, btn: rightMenu.btnSignature, hidden: 0, props: {}, locked: false};
         },
 
         setApi: function(api) {
@@ -96,7 +97,7 @@ define([
                 var panel = this._settings[type].panel;
                 var props = this._settings[type].props;
                 if (props && panel)
-                    panel.ChangeSettings.call(panel, (type==Common.Utils.documentSettingsType.MailMerge) ? undefined : props);
+                    panel.ChangeSettings.call(panel, (type==Common.Utils.documentSettingsType.MailMerge || type==Common.Utils.documentSettingsType.Signature) ? undefined : props);
             } else if (minimized && type==Common.Utils.documentSettingsType.MailMerge) {
                 this.rightmenu.mergeSettings.disablePreviewMode();
             }
@@ -112,13 +113,14 @@ define([
                 in_equation = false,
                 needhide = true;
             for (var i=0; i<this._settings.length; i++) {
-                if (i==Common.Utils.documentSettingsType.MailMerge) continue;
+                if (i==Common.Utils.documentSettingsType.MailMerge || i==Common.Utils.documentSettingsType.Signature) continue;
                 if (this._settings[i]) {
                     this._settings[i].hidden = 1;
                     this._settings[i].locked = false;
                 }
             }
             this._settings[Common.Utils.documentSettingsType.MailMerge].locked = false;
+            this._settings[Common.Utils.documentSettingsType.Signature].locked = false;
 
             var isChart = false;
             for (i=0; i<SelectedObjects.length; i++)
@@ -179,7 +181,7 @@ define([
                         currentactive = -1;
                 } else {
                     if (pnl.btn.isDisabled()) pnl.btn.setDisabled(false);
-                    if (i!=Common.Utils.documentSettingsType.MailMerge) lastactive = i;
+                    if (i!=Common.Utils.documentSettingsType.MailMerge && i!=Common.Utils.documentSettingsType.Signature) lastactive = i;
                     if ( pnl.needShow ) {
                         pnl.needShow = false;
                         priorityactive = i;
@@ -336,6 +338,11 @@ define([
                 }
                 this.rightmenu.chartSettings.disableControls(disabled);
 
+                if (this.rightmenu.signatureSettings) {
+                    this.rightmenu.signatureSettings.disableControls(disabled);
+                    this.rightmenu.btnSignature.setDisabled(disabled);
+                }
+
                 if (disabled) {
                     this.rightmenu.btnText.setDisabled(disabled);
                     this.rightmenu.btnTable.setDisabled(disabled);
@@ -343,7 +350,6 @@ define([
                     this.rightmenu.btnHeaderFooter.setDisabled(disabled);
                     this.rightmenu.btnShape.setDisabled(disabled);
                     this.rightmenu.btnTextArt.setDisabled(disabled);
-
                     this.rightmenu.btnChart.setDisabled(disabled);
                 } else {
                     var selectedElements = this.api.getSelectedElements();

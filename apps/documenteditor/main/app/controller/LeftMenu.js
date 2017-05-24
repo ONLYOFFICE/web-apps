@@ -687,44 +687,12 @@ define([
                 });
 
             win.show();
-            // win.setSettings(me.api.asc_getSignatureSettings());
 
             menu.hide();
             this.leftMenu.btnFile.toggle(false, true);
         },
 
         addInvisibleSign: function(menu) {
-            /*
-            var me = this;
-            if (_.isUndefined(me.fontStore)) {
-                me.fontStore = new Common.Collections.Fonts();
-                var fonts = DE.getController('Toolbar').getView('Toolbar').cmbFontName.store.toJSON();
-                var arr = [];
-                _.each(fonts, function(font, index){
-                    if (!font.cloneid) {
-                        arr.push(_.clone(font));
-                    }
-                });
-                me.fontStore.add(arr);
-            }
-            var win = new DE.Views.SignDialog({
-                    api: me.api,
-                    signType: 'visible',
-                    fontStore: me.fontStore,
-                    handler: function(dlg, result) {
-                        if (result == 'ok') {
-                            var props = dlg.getSettings();
-                            me.api.asc_Sign(props.certificateId, 'guid', props.images[0], props.images[1]);
-                        }
-                        Common.NotificationCenter.trigger('edit:complete');
-                    }
-                });
-             win.show();
-
-             menu.hide();
-             this.leftMenu.btnFile.toggle(false, true);
-*/
-
             var me = this,
                 win = new DE.Views.SignDialog({
                     api: me.api,

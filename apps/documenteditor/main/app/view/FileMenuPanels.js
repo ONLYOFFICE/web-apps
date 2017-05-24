@@ -1090,7 +1090,6 @@ define([
 
         template: _.template([
             '<label style="font-size: 18px;"><%= scope.strProtect %></label>',
-            '<button id="fms-btn-final" class="btn btn-text-default" style="min-width:100px;"><%= scope.strMarkAsFinal %></button>',
             '<button id="fms-btn-invisible-sign" class="btn btn-text-default" style="min-width:190px;"><%= scope.strInvisibleSign %></button>',
             '<button id="fms-btn-visible-sign" class="btn btn-text-default" style="min-width:190px;"><%= scope.strVisibleSign %></button>',
             '<div id="id-fms-requested-sign"></div>',
@@ -1106,34 +1105,29 @@ define([
             this.templateRequested = _.template([
                 '<label class="header <% if (signatures.length<1) { %>hidden<% } %>"><%= header %></label>',
                 '<table>',
-                '<% _.each(signatures, function(item) { %>',
-                '<tr>',
-                '<td><%= Common.Utils.String.htmlEncode(item) %></td>',
-                '</tr>',
-                '<% }); %>',
+                    '<% _.each(signatures, function(item) { %>',
+                    '<tr>',
+                        '<td><%= Common.Utils.String.htmlEncode(item) %></td>',
+                    '</tr>',
+                    '<% }); %>',
                 '</table>'
             ].join(''));
 
             this.templateValid = _.template([
                 '<label class="header <% if (signatures.length<1) { %>hidden<% } %>"><%= header %></label>',
-                '<table>',
-                '<% _.each(signatures, function(item) { %>',
-                '<tr>',
-                '<td><%= Common.Utils.String.htmlEncode(item.name) %></td>',
-                '<td><%= Common.Utils.String.htmlEncode(item.date) %></td>',
-                '</tr>',
-                '<% }); %>',
+                    '<table>',
+                    '<% _.each(signatures, function(item) { %>',
+                    '<tr>',
+                        '<td><%= Common.Utils.String.htmlEncode(item.name) %></td>',
+                        '<td><%= Common.Utils.String.htmlEncode(item.date) %></td>',
+                    '</tr>',
+                    '<% }); %>',
                 '</table>'
             ].join(''));
         },
 
         render: function() {
             $(this.el).html(this.template({scope: this}));
-
-            this.btnFinal = new Common.UI.Button({
-                el: '#fms-btn-final'
-            });
-            this.btnFinal.on('click', _.bind(this.markAsFinal, this));
 
             this.btnAddInvisibleSign = new Common.UI.Button({
                 el: '#fms-btn-invisible-sign'
@@ -1173,9 +1167,6 @@ define([
             return this;
         },
 
-        markAsFinal: function() {
-        },
-
         addInvisibleSign: function() {
             if (this.menu)
                 this.menu.fireEvent('signature:invisible', [this.menu]);
@@ -1208,7 +1199,6 @@ define([
         },
 
         strProtect: 'Protect Document',
-        strMarkAsFinal: 'Mark as final',
         strInvisibleSign: 'Add invisible digital signature',
         strVisibleSign: 'Add visible signature',
         strRequested: 'Requested signatures',
