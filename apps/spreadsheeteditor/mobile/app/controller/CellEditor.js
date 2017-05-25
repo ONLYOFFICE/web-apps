@@ -177,7 +177,7 @@ define([
         },
 
         onInsertFunction: function() {
-            if (this.mode == 'edit') {
+            if (this.mode.isEdit) {
                 SSE.getController('AddContainer').showModal({
                     panel: 'function',
                     button: '#ce-function'
