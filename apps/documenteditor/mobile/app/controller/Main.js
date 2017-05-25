@@ -468,8 +468,7 @@ define([
                 value = Common.localStorage.getItem("de-show-tableline");
                 me.api.put_ShowTableEmptyLine((value!==null) ? eval(value) : true);
 
-                value = Common.localStorage.getItem("de-settings-spellcheck");
-                me.api.asc_setSpellCheck(value===null || parseInt(value) == 1);
+                me.api.asc_setSpellCheck(false); // don't use spellcheck for mobile mode
 
                 Common.localStorage.setItem("de-settings-showsnaplines", me.api.get_ShowSnapLines() ? 1 : 0);
 
