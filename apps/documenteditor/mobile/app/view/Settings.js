@@ -50,7 +50,9 @@ define([
 
     DE.Views.Settings = Backbone.View.extend(_.extend((function() {
         // private
-        var _isEdit = false;
+        var _isEdit = false,
+            _canEdit = false,
+            _canDownload = false;
 
         return {
             // el: '.view-main',
@@ -86,7 +88,9 @@ define([
             },
 
             setMode: function (mode) {
-                _isEdit = (mode === 'edit')
+                _isEdit = mode.isEdit;
+                _canEdit = !mode.isEdit && mode.canEdit && mode.canRequestEditRights;
+                _canDownload = mode.canDownload || mode.canDownloadOrigin;
             },
 
             rootLayout: function () {
@@ -99,10 +103,12 @@ define([
                         $layour.find('#settings-readermode').hide();
                         $layour.find('#settings-search .item-title').text(this.textFindAndReplace)
                     } else {
+                        if (!_canEdit) $layour.find('#settings-edit-document').hide();
                         $layour.find('#settings-document').hide();
                         $layour.find('#settings-readermode input:checkbox')
                             .prop('checked', Common.SharedSettings.get('readerMode'));
                     }
+                    if (!_canDownload) $layour.find('#settings-download').hide();
 
                     return $layour.html();
                 }

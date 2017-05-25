@@ -97,9 +97,7 @@ define([
             },
 
             setMode: function (mode) {
-                var isEdit = (mode === 'edit');
-
-                if (isEdit) {
+                if (mode.isEdit) {
                     $('#toolbar-edit, #toolbar-add, #toolbar-undo, #toolbar-redo').show();
                 }
             },

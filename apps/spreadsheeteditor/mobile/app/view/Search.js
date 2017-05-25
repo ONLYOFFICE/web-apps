@@ -84,7 +84,7 @@ define([
             },
 
             setMode: function (mode) {
-                _isEdit = (mode === 'edit');
+                _isEdit = mode.isEdit;
                 this.render();
             },
 
