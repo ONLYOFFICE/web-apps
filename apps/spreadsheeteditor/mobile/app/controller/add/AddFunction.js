@@ -135,8 +135,8 @@ define([
                                 type:       _name,
                                 group:      groupname,
                                 caption:    func.asc_getLocaleName(),
-                                args:       jsonDesc[_name].a || '',
-                                descr:      jsonDesc[_name].d || ''
+                                args:       (jsonDesc && jsonDesc[_name]) ? jsonDesc[_name].a : '',
+                                descr:      (jsonDesc && jsonDesc[_name]) ? jsonDesc[_name].d : ''
                             };
                         }
                     }
