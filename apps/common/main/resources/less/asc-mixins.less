@@ -179,3 +179,19 @@
         background-size:  @img-colorpicker-width auto;
     }
 }
+
+@img-flags-width: 48px;
+.lang-flag {
+    width: 16px;
+    height: 12px;
+    background-image: data-uri(%("%s",'@{common-image-path}/controls/flags.png'));
+    background-repeat: no-repeat;
+
+    @media
+    only screen and (-webkit-min-device-pixel-ratio: 2),
+    only screen and (min-resolution: 2dppx),
+    only screen and (min-resolution: 192dpi) {
+        background-image: data-uri(%("%s",'@{common-image-path}/controls/flags@2x.png'));
+        background-size:  @img-flags-width auto;
+    }
+}

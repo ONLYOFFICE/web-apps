@@ -112,6 +112,10 @@ define([
         template: _.template([
             '<table><tbody>',
                 '<tr class="edit">',
+                    '<td class="left"><label><%= scope.txtSpellCheck %></label></td>',
+                    '<td class="right"><div id="fms-chb-spell-check"/></td>',
+                '</tr>','<tr class="divider edit"></tr>',
+                '<tr class="edit">',
                     '<td class="left"><label><%= scope.txtInput %></label></td>',
                     '<td class="right"><div id="fms-chb-input-mode"/></td>',
                 '</tr>','<tr class="divider edit"></tr>',
@@ -158,6 +162,11 @@ define([
 
         render: function() {
             $(this.el).html(this.template({scope: this}));
+
+            this.chSpell = new Common.UI.CheckBox({
+                el: $('#fms-chb-spell-check'),
+                labelText: this.strSpellCheckMode
+            });
 
             this.chInputMode = new Common.UI.CheckBox({
                 el: $('#fms-chb-input-mode'),
@@ -279,6 +288,9 @@ define([
             var value = Common.localStorage.getItem("pe-settings-inputmode");
             this.chInputMode.setValue(value!==null && parseInt(value) == 1);
 
+            value = Common.localStorage.getItem("pe-settings-spellcheck");
+            this.chSpell.setValue(value===null || parseInt(value) == 1);
+
             value = Common.localStorage.getItem("pe-settings-zoom");
             value = (value!==null) ? parseInt(value) : (this.mode.customization && this.mode.customization.zoom ? parseInt(this.mode.customization.zoom) : -1);
             var item = this.cmbZoom.store.findWhere({value: value});
@@ -317,6 +329,7 @@ define([
         },
 
         applySettings: function() {
+            Common.localStorage.setItem("pe-settings-spellcheck", this.chSpell.isChecked() ? 1 : 0);
             Common.localStorage.setItem("pe-settings-inputmode", this.chInputMode.isChecked() ? 1 : 0);
             Common.localStorage.setItem("pe-settings-zoom", this.cmbZoom.getValue());
             /** coauthoring begin **/
@@ -366,7 +379,9 @@ define([
         txtInch: 'Inch',
         txtFitWidth: 'Fit to Width',
         textForceSave: 'Save to Server',
-        strForcesave: 'Always save to server (otherwise save to server on document close)'
+        strForcesave: 'Always save to server (otherwise save to server on document close)',
+        txtSpellCheck: 'Spell Checking',
+        strSpellCheckMode: 'Turn on spell checking option'
     }, PE.Views.FileMenuPanels.Settings || {}));
 
     PE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({

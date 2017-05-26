@@ -99,6 +99,7 @@ define([
                 var me = this;
 
                 this._state = {isDisconnected: false, usersCount: 1, fastCoauth: true, lostEditingRights: false, licenseWarning: false};
+                this.languages = null;
 
                 window.storagename = 'presentation';
 
@@ -136,6 +137,7 @@ define([
                     this.api.asc_registerCallback('asc_onPrintUrl',                 _.bind(this.onPrintUrl, this));
                     this.api.asc_registerCallback('asc_onMeta',                     _.bind(this.onMeta, this));
                     this.api.asc_registerCallback('asc_onAdvancedOptions',          _.bind(this.onAdvancedOptions, this));
+                    this.api.asc_registerCallback('asc_onSpellCheckInit',           _.bind(this.loadLanguages, this));
                     Common.NotificationCenter.on('api:disconnect',                  _.bind(this.onCoAuthoringDisconnect, this));
                     Common.NotificationCenter.on('goback',                          _.bind(this.goBack, this));
 
@@ -545,6 +547,9 @@ define([
                 var zf = (value!==null) ? parseInt(value) : (this.appOptions.customization && this.appOptions.customization.zoom ? parseInt(this.appOptions.customization.zoom) : -1);
                 (zf == -1) ? this.api.zoomFitToPage() : ((zf == -2) ? this.api.zoomFitToWidth() : this.api.zoom(zf>0 ? zf : 100));
 
+                value = Common.localStorage.getItem("pe-settings-spellcheck");
+                me.api.asc_setSpellCheck(value===null || parseInt(value) == 1);
+
                 function checkWarns() {
                     if (!window['AscDesktopEditor']) {
                         var tips = [];
@@ -644,6 +649,7 @@ define([
                             toolbarController.createDelayedElements();
 
                             documentHolderController.getView('DocumentHolder').createDelayedElements();
+                            me.setLanguages();
 
                             me.api.asc_registerCallback('asc_onUpdateLayout',       _.bind(me.fillLayoutsStore, me)); // slide layouts loading
                             me.updateThemeColors();
@@ -1477,6 +1483,35 @@ define([
                     me.getApplication().getController('RightMenu').fillTextArt();
                 }, 50);
 
+            },
+
+            loadLanguages: function(apiLangs) {
+                var langs = [], info;
+                _.each(apiLangs, function(lang, index, list){
+                    lang = parseInt(lang);
+                    info = Common.util.LanguageInfo.getLocalLanguageName(lang);
+                    langs.push({
+                        title:  info[1],
+                        tip:    info[0],
+                        code:   lang
+                    });
+                }, this);
+
+                langs.sort(function(a, b){
+                    if (a.tip < b.tip) return -1;
+                    if (a.tip > b.tip) return 1;
+                    return 0;
+                });
+
+                this.languages = langs;
+                window.styles_loaded && this.setLanguages();
+            },
+
+            setLanguages: function() {
+                if (this.languages && this.languages.length>0) {
+                    // this.getApplication().getController('DocumentHolder').getView().setLanguages(this.languages);
+                    this.getApplication().getController('Statusbar').setLanguages(this.languages);
+                }
             },
 
             onTryUndoInFastCollaborative: function() {

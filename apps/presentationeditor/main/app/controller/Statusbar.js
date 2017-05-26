@@ -42,7 +42,9 @@
 
 define([
     'core',
-    'presentationeditor/main/app/view/Statusbar'
+    'presentationeditor/main/app/view/Statusbar',
+    'common/main/lib/util/LanguageInfo',
+    'common/main/lib/view/LanguageDialog'
 ], function () {
     'use strict';
 
@@ -55,7 +57,11 @@ define([
 
         initialize: function() {
             this.addListeners({
+                'FileMenu': {
+                    'settings:apply': _.bind(this.applySettings, this)
+                },
                 'Statusbar': {
+                    'langchanged': this.onLangMenu
                 }
             });
             this._state = {
@@ -67,7 +73,8 @@ define([
         events: function() {
             return {
                 'click #btn-zoom-down': _.bind(this.zoomDocument,this,'down'),
-                'click #btn-zoom-up': _.bind(this.zoomDocument,this,'up')
+                'click #btn-zoom-up': _.bind(this.zoomDocument,this,'up'),
+                'click #btn-doc-lang':_.bind(this.onBtnLanguage,this)
             };
         },
 
@@ -85,11 +92,13 @@ define([
             this.statusbar.btnZoomToWidth.on('click', _.bind(this.onBtnZoomTo, this, 'towidth'));
             this.statusbar.zoomMenu.on('item:click', _.bind(this.menuZoomClick, this));
             this.statusbar.btnPreview.on('click', _.bind(this.onPreview, this));
+            this.statusbar.btnSetSpelling.on('click', _.bind(this.onBtnSpelling, this));
         },
 
         setApi: function(api) {
             this.api = api;
             this.api.asc_registerCallback('asc_onZoomChange',   _.bind(this._onZoomChange, this));
+            this.api.asc_registerCallback('asc_onTextLanguage', _.bind(this._onTextLanguage, this));
 
             this.statusbar.setApi(api);
         },
@@ -177,6 +186,20 @@ define([
              }
         },
 
+        _onTextLanguage: function(langId) {
+            var info = Common.util.LanguageInfo.getLocalLanguageName(langId);
+            this.statusbar.setLanguage({
+                tip:    info[0],
+                title:  info[1],
+                code:   langId
+            });
+        },
+
+        setLanguages: function(langs) {
+            this.langs = langs;
+            this.statusbar.reloadLanguages(langs);
+        },
+
         setStatusCaption: function(text, force, delay) {
             if (this.timerCaption && ( ((new Date()) < this.timerCaption) || text.length==0 ) && !force )
                 return;
@@ -191,7 +214,47 @@ define([
         },
 
         createDelayedElements: function() {
+            var value = Common.localStorage.getItem("pe-settings-spellcheck");
+            this.statusbar.btnSetSpelling.toggle(value===null || parseInt(value) == 1, true);
+
             this.statusbar.$el.css('z-index', '');
+        },
+
+        onBtnLanguage: function() {
+            var langs = _.map(this.langs, function(item){
+                return {
+                    displayValue:   item.title,
+                    value:          item.tip,
+                    code:           item.code
+                }
+            });
+
+            var me = this;
+            (new Common.Views.LanguageDialog({
+                languages: langs,
+                current: me.api.asc_getDefaultLanguage(),
+                handler: function(result, tip) {
+                    if (result=='ok') {
+                        var record = _.findWhere(langs, {'value':tip});
+                        record && me.api.asc_setDefaultLanguage(record.code);
+                    }
+                }
+            })).show();
+        },
+
+        onLangMenu: function(obj, langid, title) {
+            this.api.put_TextPrLang(langid);
+        },
+
+        onBtnSpelling: function(d, b, e) {
+            Common.localStorage.setItem("pe-settings-spellcheck", d.pressed ? 1 : 0);
+            this.api.asc_setSpellCheck(d.pressed);
+            Common.NotificationCenter.trigger('edit:complete', this.statusbar);
+        },
+
+        applySettings: function(menu) {
+            var value = Common.localStorage.getItem("pe-settings-spellcheck");
+            this.statusbar.btnSetSpelling.toggle(value===null || parseInt(value) == 1, true);
         },
 
         zoomText        : 'Zoom {0}%'

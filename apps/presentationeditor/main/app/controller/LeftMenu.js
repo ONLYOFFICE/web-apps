@@ -232,6 +232,9 @@ define([
             var value = Common.localStorage.getItem("pe-settings-inputmode");
             this.api.SetTextBoxInputMode(parseInt(value) == 1);
 
+            value = Common.localStorage.getItem("pe-settings-spellcheck");
+            this.api.asc_setSpellCheck(parseInt(value) == 1);
+
             /** coauthoring begin **/
             if (this.mode.isEdit && !this.mode.isOffline && this.mode.canCoAuthoring) {
                 value = Common.localStorage.getItem("pe-settings-coauthmode");
