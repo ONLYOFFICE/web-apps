@@ -756,7 +756,7 @@
   "PE.Views.DocumentHolder.ignoreAllSpellText": "Ignore All",
   "PE.Views.DocumentHolder.ignoreSpellText": "Ignore",
   "PE.Views.DocumentHolder.noSpellVariantsText": "No variants",
-  "PE.Views.DocumentHolder.moreText": "'More variants...",
+  "PE.Views.DocumentHolder.moreText": "More variants...",
   "PE.Views.DocumentHolder.spellcheckText": "Spellcheck",
   "PE.Views.DocumentHolder.langText": "Select Language",
   "PE.Views.DocumentPreview.goToSlideText": "Go to Slide",
