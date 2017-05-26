@@ -64,6 +64,8 @@ define([
             me.fastcoauthtips = [];
             me._currentMathObj = undefined;
             me._currentParaObjDisabled = false;
+            me._currentSpellObj = undefined;
+            me._currLang        = {};
             
             /** coauthoring begin **/
             var usersStore = PE.getCollection('Common.Collections.Users');
@@ -159,6 +161,10 @@ define([
                         if ( (menu_props.shapeProps && menu_props.shapeProps.value || menu_props.chartProps && menu_props.chartProps.value)&& // text in shape, need to show paragraph menu with vertical align
                             _.isUndefined(menu_props.tableProps))
                             menu_to_show = me.textMenu;
+                    } else if (Asc.c_oAscTypeSelectElement.SpellCheck == elType) {
+                        menu_props.spellProps = {};
+                        menu_props.spellProps.value = elValue;
+                        me._currentSpellObj = elValue;
                     } else if (Asc.c_oAscTypeSelectElement.Math == elType) {
                         menu_props.mathProps = {};
                         menu_props.mathProps.value = elValue;
@@ -637,6 +643,129 @@ define([
                         diagramEditor.setChartData(new Asc.asc_CChartBinary(chart));
                     }
                 }
+            };
+
+            var onTextLanguage = function(langid) {
+                me._currLang.id = langid;
+            };
+
+            this.changeLanguageMenu = function(menu) {
+                var i;
+                if (me._currLang.id===null || me._currLang.id===undefined) {
+                    for (i=0; i<menu.items.length; i++)
+                        menu.items[i].setChecked(false);
+                    menu.currentCheckedItem = undefined;
+                } else {
+                    for (i=0; i<menu.items.length; i++) {
+                        if (menu.items[i].options.langid === me._currLang.id) {
+                            menu.currentCheckedItem = menu.items[i];
+                            if (!menu.items[i].checked)
+                                menu.items[i].setChecked(true);
+                            break;
+                        } else if (menu.items[i].checked)
+                            menu.items[i].setChecked(false);
+                    }
+                }
+            };
+
+            var onSpellCheckVariantsFound = function() {
+                var selectedElements = me.api.getSelectedElements(true);
+                var props;
+                if (selectedElements && _.isArray(selectedElements)){
+                    for (var i = 0; i <selectedElements.length; i++) {
+                        if ( selectedElements[i].get_ObjectType() == Asc.c_oAscTypeSelectElement.SpellCheck) {
+                            props = selectedElements[i].get_ObjectValue();
+                            me._currentSpellObj = props;
+                            break;
+                        }
+                    }
+                }
+                if (props && props.get_Checked()===false && props.get_Variants() !== null && props.get_Variants() !== undefined) {
+                    me.addWordVariants();
+                    if (me.textMenu.isVisible()) {
+                        me.textMenu.alignPosition();
+                    }
+                }
+            };
+
+            this.addWordVariants = function(isParagraph) {
+                if (_.isUndefined(isParagraph)) {
+                    isParagraph = me.textMenu.isVisible();
+                }
+
+                me.clearWordVariants(isParagraph);
+
+                var moreMenu  = (isParagraph) ? me.menuSpellMorePara : me.menuSpellMoreTable;
+                var spellMenu = (isParagraph) ? me.menuSpellPara : me.menuSpellTable;
+                var arr = [],
+                    arrMore = [];
+                var variants = me._currentSpellObj.get_Variants();
+
+                if (variants.length > 0) {
+                    moreMenu.setVisible(variants.length > 3);
+                    moreMenu.setDisabled(me._currentParaObjDisabled);
+
+                    _.each(variants, function(variant, index) {
+                        var mnu = new Common.UI.MenuItem({
+                            caption     : variant,
+                            spellword   : true,
+                            disabled    : me._currentParaObjDisabled
+                        }).on('click', function(item, e) {
+                            if (me.api) {
+                                me.api.asc_replaceMisspelledWord(item.caption, me._currentSpellObj);
+                                me.fireEvent('editcomplete', me);
+                            }
+                        });
+
+                        (index < 3) ? arr.push(mnu) : arrMore.push(mnu);
+                    });
+
+                    if (arr.length > 0) {
+                        if (isParagraph) {
+                            _.each(arr, function(variant){
+                                me.textMenu.insertItem(0, variant);
+                            })
+                        } else {
+                            _.each(arr, function(variant){
+                                me.menuSpellCheckTable.menu.insertItem(0, variant);
+                            })
+                        }
+                    }
+
+                    if (arrMore.length > 0) {
+                        _.each(arrMore, function(variant){
+                            moreMenu.menu.insertItem(0, variant);
+                        });
+                    }
+
+                    spellMenu.setVisible(false);
+                } else {
+                    moreMenu.setVisible(false);
+                    spellMenu.setVisible(true);
+                    spellMenu.setCaption(me.noSpellVariantsText, true);
+                }
+            };
+
+            this.clearWordVariants  = function(isParagraph) {
+                var spellMenu = (isParagraph) ? me.textMenu : me.menuSpellCheckTable.menu;
+
+                for (var i = 0; i < spellMenu.items.length; i++) {
+                    if (spellMenu.items[i].options.spellword) {
+                        if (spellMenu.checkeditem == spellMenu.items[i]) {
+                            spellMenu.checkeditem = undefined;
+                            spellMenu.activeItem  = undefined;
+                        }
+
+                        spellMenu.removeItem(spellMenu.items[i]);
+                        i--;
+                    }
+                }
+                (isParagraph) ? me.menuSpellMorePara.menu.removeAll() : me.menuSpellMoreTable.menu.removeAll();
+
+                me.menuSpellMorePara.menu.checkeditem   = undefined;
+                me.menuSpellMorePara.menu.activeItem    = undefined;
+                me.menuSpellMoreTable.menu.checkeditem  = undefined;
+                me.menuSpellMoreTable.menu.activeItem   = undefined;
             };
 
             this.initEquationMenu = function() {
@@ -1349,9 +1478,11 @@ define([
                     if (me.mode.isEdit===true) {
                         me.api.asc_registerCallback('asc_onDialogAddHyperlink', _.bind(onDialogAddHyperlink, me));
                         me.api.asc_registerCallback('asc_doubleClickOnChart', onDoubleClickOnChart);
+                        me.api.asc_registerCallback('asc_onSpellCheckVariantsFound',  _.bind(onSpellCheckVariantsFound, me));
                     }
                     me.api.asc_registerCallback('asc_onCoAuthoringDisconnect',  _.bind(onCoAuthoringDisconnect, me));
                     Common.NotificationCenter.on('api:disconnect',              _.bind(onCoAuthoringDisconnect, me));
+                    me.api.asc_registerCallback('asc_onTextLanguage',           _.bind(onTextLanguage, me));
 
                     me.api.asc_registerCallback('asc_onShowForeignCursorLabel', _.bind(onShowForeignCursorLabel, me));
                     me.api.asc_registerCallback('asc_onHideForeignCursorLabel', _.bind(onHideForeignCursorLabel, me));
@@ -1367,6 +1498,7 @@ define([
                 if (me.api && mode.isEdit) {
                     me.api.asc_registerCallback('asc_onDialogAddHyperlink', _.bind(onDialogAddHyperlink, me));
                     me.api.asc_registerCallback('asc_doubleClickOnChart', onDoubleClickOnChart);
+                    me.api.asc_registerCallback('asc_onSpellCheckVariantsFound', _.bind(onSpellCheckVariantsFound, me));
                 }
 
                 me.mode = mode;
@@ -1791,6 +1923,123 @@ define([
                         ]
                     })
                 })()
+            });
+
+            me.menuSpellTable = new Common.UI.MenuItem({
+                caption     : me.loadSpellText,
+                disabled    : true
+            });
+
+            me.menuSpellMoreTable = new Common.UI.MenuItem({
+                caption     : me.moreText,
+                menu        : new Common.UI.Menu({
+                    menuAlign: 'tl-tr',
+                    items   : [
+                    ]
+                })
+            });
+
+            me.langTableMenu = new Common.UI.MenuItem({
+                caption     : me.langText,
+                menu        : new Common.UI.Menu({
+                    menuAlign: 'tl-tr',
+                    maxHeight: 300,
+                    items   : [
+                    ]
+                }).on('show:after', function(menu) {
+                    // TODO: scroll to checked item
+                })
+            });
+
+            var menuIgnoreSpellTable = new Common.UI.MenuItem({
+                caption     : me.ignoreSpellText
+            }).on('click', function(item) {
+                if (me.api) {
+                    me.api.asc_ignoreMisspelledWord(me._currentSpellObj, false);
+                    me.fireEvent('editcomplete', me);
+                }
+            });
+
+            var menuIgnoreAllSpellTable = new Common.UI.MenuItem({
+                caption     : me.ignoreAllSpellText
+            }).on('click', function(menu) {
+                if (me.api) {
+                    me.api.asc_ignoreMisspelledWord(me._currentSpellObj, true);
+                    me.fireEvent('editcomplete', me);
+                }
+            });
+
+            var menuIgnoreSpellTableSeparator = new Common.UI.MenuItem({
+                caption     : '--'
+            });
+
+            var menuSpellcheckTableSeparator = new Common.UI.MenuItem({
+                caption     : '--'
+            });
+
+            me.menuSpellCheckTable = new Common.UI.MenuItem({
+                caption     : me.spellcheckText,
+                menu        : new Common.UI.Menu({
+                    menuAlign: 'tl-tr',
+                    items   : [
+                        me.menuSpellTable,
+                        me.menuSpellMoreTable,
+                        menuIgnoreSpellTableSeparator,
+                        menuIgnoreSpellTable,
+                        menuIgnoreAllSpellTable,
+                        { caption: '--' },
+                        me.langTableMenu
+                    ]
+                })
+            });
+
+            me.menuSpellPara = new Common.UI.MenuItem({
+                caption     : me.loadSpellText,
+                disabled    : true
+            });
+
+            me.menuSpellMorePara = new Common.UI.MenuItem({
+                caption     : me.moreText,
+                menu        : new Common.UI.Menu({
+                    menuAlign: 'tl-tr',
+                    style   : 'max-height: 300px;',
+                    items: [
+                    ]
+                })
+            });
+
+            me.langParaMenu = new Common.UI.MenuItem({
+                caption     : me.langText,
+                menu        : new Common.UI.Menu({
+                    menuAlign: 'tl-tr',
+                    maxHeight: 300,
+                    items   : [
+                    ]
+                }).on('show:after', function(menu) {
+                    // TODO: scroll to checked item
+                })
+            });
+
+            var menuIgnoreSpellPara = new Common.UI.MenuItem({
+                caption     : me.ignoreSpellText
+            }).on('click', function(item, e) {
+                me.api.asc_ignoreMisspelledWord(me._currentSpellObj, false);
+                me.fireEvent('editcomplete', me);
+            });
+
+            var menuIgnoreAllSpellPara = new Common.UI.MenuItem({
+                caption     : me.ignoreAllSpellText
+            }).on('click', function(item, e) {
+                me.api.asc_ignoreMisspelledWord(me._currentSpellObj, true);
+                me.fireEvent('editcomplete', me);
+            });
+
+            var menuIgnoreSpellParaSeparator = new Common.UI.MenuItem({
+                caption     : '--'
+            });
+
+            var menuSpellcheckParaSeparator = new Common.UI.MenuItem({
+                caption     : '--'
             });
 
             var menuTableAdvanced = new Common.UI.MenuItem({
@@ -2401,15 +2650,43 @@ define([
                     menuParaCut.setDisabled(disabled);
                     menuParaPaste.setDisabled(disabled);
 
+                    // spellCheck
+                    me.menuSpellPara.setVisible(value.spellProps!==undefined && value.spellProps.value.get_Checked()===false);
+                    menuSpellcheckParaSeparator.setVisible(value.spellProps!==undefined && value.spellProps.value.get_Checked()===false);
+                    menuIgnoreSpellPara.setVisible(value.spellProps!==undefined && value.spellProps.value.get_Checked()===false);
+                    menuIgnoreAllSpellPara.setVisible(value.spellProps!==undefined && value.spellProps.value.get_Checked()===false);
+                    me.langParaMenu.setVisible(value.spellProps!==undefined && value.spellProps.value.get_Checked()===false);
+                    me.langParaMenu.setDisabled(disabled);
+                    menuIgnoreSpellParaSeparator.setVisible(value.spellProps!==undefined && value.spellProps.value.get_Checked()===false);
+
+                    if (value.spellProps!==undefined && value.spellProps.value.get_Checked()===false && value.spellProps.value.get_Variants() !== null && value.spellProps.value.get_Variants() !== undefined) {
+                        me.addWordVariants(true);
+                    } else {
+                        me.menuSpellPara.setCaption(me.loadSpellText, true);
+                        me.clearWordVariants(true);
+                        me.menuSpellMorePara.setVisible(false);
+                    }
+                    if (me.langParaMenu.isVisible() && me._currLang.id !== me._currLang.paraid) {
+                        me.changeLanguageMenu(me.langParaMenu.menu);
+                        me._currLang.paraid = me._currLang.id;
+                    }
+
                     //equation menu
                     var eqlen = 0;
                     if (isEquation) {
-                        eqlen = me.addEquationMenu(true, 4);
+                        eqlen = me.addEquationMenu(true, 11);
                     } else
-                        me.clearEquationMenu(true, 4);
+                        me.clearEquationMenu(true, 11);
                     menuEquationSeparator.setVisible(isEquation && eqlen>0);
                 },
                 items: [
+                    me.menuSpellPara,
+                    me.menuSpellMorePara,
+                    menuSpellcheckParaSeparator,
+                    menuIgnoreSpellPara,
+                    menuIgnoreAllSpellPara,
+                    me.langParaMenu,
+                    menuIgnoreSpellParaSeparator,
                     menuParaCut,
                     menuParaCopy,
                     menuParaPaste,
@@ -2442,7 +2719,7 @@ define([
                         return;
 
                     var isEquation= (value.mathProps && value.mathProps.value);
-                    for (var i = 4; i < 14; i++) {
+                    for (var i = 6; i < 16; i++) {
                         me.tableMenu.items[i].setVisible(!isEquation);
                     }
 
@@ -2457,8 +2734,8 @@ define([
                         mnuTableSplit.setDisabled(value.tableProps.locked || disabled || !me.api.CheckBeforeSplitCells());
                     }
 
-                    me.tableMenu.items[5].setDisabled(value.tableProps.locked || disabled);
-                    me.tableMenu.items[6].setDisabled(value.tableProps.locked || disabled);
+                    me.tableMenu.items[7].setDisabled(value.tableProps.locked || disabled);
+                    me.tableMenu.items[8].setDisabled(value.tableProps.locked || disabled);
 
                     menuTableCellAlign.setDisabled(value.tableProps.locked || disabled);
                     menuTableAdvanced.setDisabled(value.tableProps.locked || disabled);
@@ -2494,15 +2771,34 @@ define([
                     /** coauthoring end **/
                     menuHyperlinkSeparator.setVisible(menuAddHyperlinkTable.isVisible() || menuHyperlinkTable.isVisible() /** coauthoring begin **/|| menuAddCommentTable.isVisible()/** coauthoring end **/);
 
+                    me.menuSpellCheckTable.setVisible(value.spellProps!==undefined && value.spellProps.value.get_Checked()===false);
+                    menuSpellcheckTableSeparator.setVisible(value.spellProps!==undefined && value.spellProps.value.get_Checked()===false);
+
+                    me.langTableMenu.setDisabled(disabled);
+                    if (value.spellProps!==undefined && value.spellProps.value.get_Checked()===false && value.spellProps.value.get_Variants() !== null && value.spellProps.value.get_Variants() !== undefined) {
+                        me.addWordVariants(false);
+                    } else {
+                        me.menuSpellTable.setCaption(me.loadSpellText, true);
+                        me.clearWordVariants(false);
+                        me.menuSpellMoreTable.setVisible(false);
+                    }
+
+                    if (me.menuSpellCheckTable.isVisible() && me._currLang.id !== me._currLang.tableid) {
+                        me.changeLanguageMenu(me.langTableMenu.menu);
+                        me._currLang.tableid = me._currLang.id;
+                    }
+
                     //equation menu
                     var eqlen = 0;
                     if (isEquation) {
-                        eqlen = me.addEquationMenu(false, 4);
+                        eqlen = me.addEquationMenu(false, 6);
                         menuHyperlinkSeparator.setVisible(menuHyperlinkSeparator.isVisible() && eqlen>0);
                     } else
-                        me.clearEquationMenu(false, 4);
+                        me.clearEquationMenu(false, 6);
                 },
                 items: [
+                    me.menuSpellCheckTable,
+                    menuSpellcheckTableSeparator,
                     menuTableCut,
                     menuTableCopy,
                     menuTablePaste,
@@ -2679,6 +2975,53 @@ define([
             });
         },
 
+        setLanguages: function(langs){
+            var me = this;
+
+            if (langs && langs.length > 0 && me.langParaMenu && me.langTableMenu) {
+                me.langParaMenu.menu.removeAll();
+                me.langTableMenu.menu.removeAll();
+                _.each(langs, function(lang, index){
+                    me.langParaMenu.menu.addItem(new Common.UI.MenuItem({
+                        caption     : lang.title,
+                        checkable   : true,
+                        toggleGroup : 'popupparalang',
+                        langid      : lang.code
+                    }).on('click', function(item, e){
+                        if (me.api){
+                            if (!_.isUndefined(item.options.langid))
+                                me.api.put_TextPrLang(item.options.langid);
+
+                            me._currLang.paraid = item.options.langid;
+                            me.langParaMenu.menu.currentCheckedItem = item;
+
+                            me.fireEvent('editcomplete', me);
+                        }
+                    }));
+
+                    me.langTableMenu.menu.addItem(new Common.UI.MenuItem({
+                        caption     : lang.title,
+                        checkable   : true,
+                        toggleGroup : 'popuptablelang',
+                        langid      : lang.code
+                    }).on('click', function(item, e){
+                        if (me.api){
+                            if (!_.isUndefined(item.options.langid))
+                                me.api.put_TextPrLang(item.options.langid);
+
+                            me._currLang.tableid = item.options.langid;
+                            me.langTableMenu.menu.currentCheckedItem = item;
+
+                            me.fireEvent('editcomplete', me);
+                        }
+                    }));
+                });
+
+                me.langTableMenu.menu.doLayout();
+                me.langParaMenu.menu.doLayout();
+            }
+        },
+
         insertRowAboveText      : 'Row Above',
         insertRowBelowText      : 'Row Below',
         insertColumnLeftText    : 'Column Left',
@@ -2826,7 +3169,14 @@ define([
         alignmentText: 'Alignment',
         leftText: 'Left',
         rightText: 'Right',
-        centerText: 'Center'
+        centerText: 'Center',
+        loadSpellText: 'Loading variants...',
+        ignoreAllSpellText: 'Ignore All',
+        ignoreSpellText: 'Ignore',
+        noSpellVariantsText: 'No variants',
+        moreText: 'More variants...',
+        spellcheckText: 'Spellcheck',
+        langText: 'Select Language'
 
     }, PE.Views.DocumentHolder || {}));
 });
