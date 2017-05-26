@@ -110,6 +110,7 @@ function patchDropDownKeyDown(e) {
              _.delay(function() {
                  var mnu = $('> [role=menu]', li),
                     $subitems = mnu.find('> li:not(.divider):not(.disabled):visible > a'),
+                    $dataviews = mnu.find('> li:not(.divider):not(.disabled):visible .dataview'),
                     focusIdx = 0;
                  if (mnu.find('> .menu-scroll').length>0) {
                     var offset = mnu.scrollTop();
@@ -119,7 +120,7 @@ function patchDropDownKeyDown(e) {
                         }
                     }
                 }
-                if ($subitems.length>0)
+                if ($subitems.length>0 && $dataviews.length<1)
                     $subitems.eq(focusIdx).focus();
             }, 250);
         }

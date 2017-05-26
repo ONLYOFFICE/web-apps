@@ -179,6 +179,7 @@ define([
             view.imgMenu.on('item:click',                       _.bind(me.onImgMenu, me));
             view.menuParagraphVAlign.menu.on('item:click',      _.bind(me.onParagraphVAlign, me));
             view.menuParagraphDirection.menu.on('item:click',   _.bind(me.onParagraphDirection, me));
+            view.menuParagraphBullets.menu.on('item:click',     _.bind(me.onSelectNoneBullet, me));
             view.menuAddHyperlinkShape.on('click',              _.bind(me.onInsHyperlink, me));
             view.menuEditHyperlinkShape.on('click',             _.bind(me.onInsHyperlink, me));
             view.menuRemoveHyperlinkShape.on('click',           _.bind(me.onRemoveHyperlinkShape, me));
@@ -186,6 +187,7 @@ define([
             view.mnuShapeAdvanced.on('click',                   _.bind(me.onShapeAdvanced, me));
             view.mnuChartEdit.on('click',                       _.bind(me.onChartEdit, me));
             view.mnuImgAdvanced.on('click',                     _.bind(me.onImgAdvanced, me));
+            view.textInShapeMenu.on('render:after',             _.bind(me.onTextInShapeAfterRender, me));
 
             var documentHolderEl = view.cmpEl;
 
@@ -641,6 +643,39 @@ define([
                 Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
                 Common.component.Analytics.trackEvent('DocumentHolder', 'Text Directio');
             }
+        },
+
+        onSelectNoneBullet: function(menu, item) {
+            if (this.api && item.options.value == -1) {
+                this.api.asc_setListType(item.options.value);
+                Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+                Common.component.Analytics.trackEvent('DocumentHolder', 'List Type');
+            }
+        },
+
+        onSelectBullets: function(picker, itemView, record, e) {
+            var rawData = {},
+                isPickerSelect = _.isFunction(record.toJSON);
+
+            if (isPickerSelect){
+                if (record.get('selected')) {
+                    rawData = record.toJSON();
+                } else {
+                    // record deselected
+                    return;
+                }
+            } else {
+                rawData = record;
+            }
+
+            if (this.api)
+                this.api.asc_setListType(rawData.type, rawData.subtype);
+
+            if (e.type !== 'click')
+                this.documentHolder.textInShapeMenu.hide();
+
+            Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+            Common.component.Analytics.trackEvent('DocumentHolder', 'List Type');
         },
 
         onRemoveHyperlinkShape: function(item) {
@@ -1266,7 +1301,8 @@ define([
                     if (elType == Asc.c_oAscTypeSelectElement.Image) {
                         var value = selectedObjects[i].asc_getObjectValue(),
                             align = value.asc_getVerticalTextAlign(),
-                            direct = value.asc_getVert();
+                            direct = value.asc_getVert(),
+                            listtype = this.api.asc_getCurrentListType();
                         isObjLocked = isObjLocked || value.asc_getLocked();
                         documentHolder.menuParagraphTop.setChecked(align == Asc.c_oAscVAlign.Top);
                         documentHolder.menuParagraphCenter.setChecked(align == Asc.c_oAscVAlign.Center);
@@ -1275,6 +1311,10 @@ define([
                         documentHolder.menuParagraphDirectH.setChecked(direct == Asc.c_oAscVertDrawingText.normal);
                         documentHolder.menuParagraphDirect90.setChecked(direct == Asc.c_oAscVertDrawingText.vert);
                         documentHolder.menuParagraphDirect270.setChecked(direct == Asc.c_oAscVertDrawingText.vert270);
+
+                        documentHolder.menuParagraphBulletNone.setChecked(listtype.get_ListType() == -1);
+                        var rec = documentHolder.paraBulletsPicker.store.findWhere({ type: listtype.get_ListType(), subtype: listtype.get_ListSubType() });
+                        documentHolder.paraBulletsPicker.selectRecord(rec, true);
                     } else if (elType == Asc.c_oAscTypeSelectElement.Paragraph) {
                         documentHolder.pmiTextAdvanced.textInfo = selectedObjects[i].asc_getObjectValue();
                         isObjLocked = isObjLocked || documentHolder.pmiTextAdvanced.textInfo.asc_getLocked();
@@ -2338,7 +2378,20 @@ define([
             Common.NotificationCenter.trigger('edit:complete', me.documentHolder);
         },
 
-        guestText               : 'Guest',
+        onTextInShapeAfterRender:function(cmp) {
+            var view = this.documentHolder,
+                _conf = view.paraBulletsPicker.conf;
+            view.paraBulletsPicker = new Common.UI.DataView({
+                el          : $('#id-docholder-menu-bullets'),
+                parentMenu  : view.menuParagraphBullets.menu,
+                store       : view.paraBulletsPicker.store,
+                itemTemplate: _.template('<div id="<%= id %>" class="item-markerlist" style="background-position: 0 -<%= offsety %>px;"></div>')
+            });
+            view.paraBulletsPicker.on('item:click', _.bind(this.onSelectBullets, this));
+            _conf && view.paraBulletsPicker.selectRecord(_conf.rec, true);
+        },
+
+    guestText               : 'Guest',
         textCtrlClick           : 'Press CTRL and click link',
         txtHeight               : 'Height',
         txtWidth                : 'Width',

@@ -538,6 +538,45 @@ define([
                 })
             });
 
+            me.menuParagraphBullets = new Common.UI.MenuItem({
+                caption     : me.bulletsText,
+                menu        : new Common.UI.Menu({
+                    menuAlign: 'tl-tr',
+                    items   : [
+                        { template: _.template('<div id="id-docholder-menu-bullets" class="menu-layouts" style="width: 325px; margin: 0 4px;"></div>') },
+                        {caption: '--'},
+                        me.menuParagraphBulletNone = new Common.UI.MenuItem({
+                            caption     : me.textNone,
+                            checkable   : true,
+                            checked     : false,
+                            value       : -1
+                        })
+                    ]
+                })
+            });
+            me.paraBulletsPicker = {
+                conf: {rec: null},
+                store       : new Common.UI.DataViewStore([
+                    {offsety: 38, type: 0, subtype: 1},
+                    {offsety: 76, type: 0, subtype: 2},
+                    {offsety: 114, type: 0, subtype: 3},
+                    {offsety: 152, type: 0, subtype: 4},
+                    {offsety: 190, type: 0, subtype: 5},
+                    {offsety: 228, type: 0, subtype: 6},
+                    {offsety: 266, type: 0, subtype: 7},
+                    {offsety: 570, type: 1, subtype: 4},
+                    {offsety: 532, type: 1, subtype: 5},
+                    {offsety: 608, type: 1, subtype: 6},
+                    {offsety: 418, type: 1, subtype: 1},
+                    {offsety: 456, type: 1, subtype: 2},
+                    {offsety: 494, type: 1, subtype: 3},
+                    {offsety: 646, type: 1, subtype: 7}
+                ]),
+                selectRecord: function (rec) {
+                    this.conf.rec = rec;
+                }
+            };
+
             me.menuAddHyperlinkShape = new Common.UI.MenuItem({
                 caption     : me.txtInsHyperlink
             });
@@ -588,6 +627,7 @@ define([
                     {caption: '--'},
                     me.menuParagraphVAlign,
                     me.menuParagraphDirection,
+                    me.menuParagraphBullets,
                     me.menuAddHyperlinkShape,
                     me.menuHyperlinkShape,
                     {caption: '--'},
@@ -712,7 +752,9 @@ define([
         txtClearSparklines: 'Clear Selected Sparklines',
         txtClearSparklineGroups: 'Clear Selected Sparkline Groups',
         txtShowComment: 'Show Comment',
-        advancedImgText: 'Image Advanced Settings'
+        advancedImgText: 'Image Advanced Settings',
+        textNone: 'None',
+        bulletsText: 'Bullets and Numbering'
 
     }, SSE.Views.DocumentHolder || {}));
 });
