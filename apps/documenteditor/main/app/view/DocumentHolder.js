@@ -49,11 +49,11 @@ define([
     'common/main/lib/component/Menu',
     'common/main/lib/view/InsertTableDialog',
     'common/main/lib/view/CopyWarningDialog',
+    'common/main/lib/view/SignDialog',
     'documenteditor/main/app/view/DropcapSettingsAdvanced',
     'documenteditor/main/app/view/HyperlinkSettingsDialog',
     'documenteditor/main/app/view/ParagraphSettingsAdvanced',
-    'documenteditor/main/app/view/TableSettingsAdvanced',
-    'documenteditor/main/app/view/SignDialog'
+    'documenteditor/main/app/view/TableSettingsAdvanced'
 ], function ($, _, Backbone, gateway) { 'use strict';
 
     DE.Views.DocumentHolder =  Backbone.View.extend(_.extend({
@@ -739,7 +739,7 @@ define([
                     me.fontStore.add(arr);
                 }
 
-                var win = new DE.Views.SignDialog({
+                var win = new Common.Views.SignDialog({
                     api: me.api,
                     signType: 'visible',
                     fontStore: me.fontStore,

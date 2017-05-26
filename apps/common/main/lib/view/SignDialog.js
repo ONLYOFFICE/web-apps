@@ -49,7 +49,7 @@ define([
     'common/main/lib/component/ComboBoxFonts'
 ], function () { 'use strict';
 
-    DE.Views.SignDialog = Common.UI.Window.extend(_.extend({
+    Common.Views.SignDialog = Common.UI.Window.extend(_.extend({
         options: {
             width: 350,
             style: 'min-width: 350px;',
@@ -345,5 +345,5 @@ define([
         textBold:           'Bold',
         textItalic:         'Italic'
 
-    }, DE.Views.SignDialog || {}))
+    }, Common.Views.SignDialog || {}))
 });

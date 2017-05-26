@@ -43,10 +43,10 @@
 define([
     'core',
     'common/main/lib/util/Shortcuts',
+    'common/main/lib/view/SignSettingsDialog',
+    'common/main/lib/view/SignDialog',
     'documenteditor/main/app/view/LeftMenu',
-    'documenteditor/main/app/view/FileMenu',
-    'documenteditor/main/app/view/SignSettingsDialog',
-    'documenteditor/main/app/view/SignDialog'
+    'documenteditor/main/app/view/FileMenu'
 ], function () {
     'use strict';
 
@@ -677,7 +677,7 @@ define([
 
         addVisibleSign: function(menu) {
             var me = this,
-                win = new DE.Views.SignSettingsDialog({
+                win = new Common.Views.SignSettingsDialog({
                     handler: function(dlg, result) {
                         if (result == 'ok') {
                              me.api.asc_AddSignatureLine2(dlg.getSettings());
@@ -694,7 +694,7 @@ define([
 
         addInvisibleSign: function(menu) {
             var me = this,
-                win = new DE.Views.SignDialog({
+                win = new Common.Views.SignDialog({
                     api: me.api,
                     signType: 'invisible',
                     handler: function(dlg, result) {

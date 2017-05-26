@@ -49,7 +49,7 @@ define([
     'common/main/lib/component/Window'
 ], function () { 'use strict';
 
-    DE.Views.SignSettingsDialog = Common.UI.Window.extend(_.extend({
+    Common.Views.SignSettingsDialog = Common.UI.Window.extend(_.extend({
         options: {
             width: 350,
             style: 'min-width: 350px;',
@@ -199,5 +199,5 @@ define([
         textAllowComment:   'Allow signer to add comment in the signature dialog',
         textShowDate:       'Show sign date in signature line',
         textTitle:          'Signature Settings'
-    }, DE.Views.SignSettingsDialog || {}))
+    }, Common.Views.SignSettingsDialog || {}))
 });

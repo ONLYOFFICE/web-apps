@@ -44,8 +44,8 @@ define([
     'underscore',
     'backbone',
     'common/main/lib/component/Button',
-    'documenteditor/main/app/view/SignSettingsDialog',
-    'documenteditor/main/app/view/SignDialog'
+    'common/main/lib/view/SignDialog',
+    'common/main/lib/view/SignSettingsDialog'
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
 
@@ -206,7 +206,7 @@ define([
 
         addVisibleSign: function(btn) {
             var me = this,
-                win = new DE.Views.SignSettingsDialog({
+                win = new Common.Views.SignSettingsDialog({
                     handler: function(dlg, result) {
                         if (result == 'ok') {
                             me.api.asc_AddSignatureLine2(dlg.getSettings());
@@ -220,7 +220,7 @@ define([
 
         addInvisibleSign: function(btn) {
             var me = this,
-                win = new DE.Views.SignDialog({
+                win = new Common.Views.SignDialog({
                     api: me.api,
                     signType: 'invisible',
                     handler: function(dlg, result) {
@@ -253,7 +253,7 @@ define([
                  me.fontStore.add(arr);
              }
 
-             var win = new DE.Views.SignDialog({
+             var win = new Common.Views.SignDialog({
                  api: me.api,
                  signType: 'visible',
                  fontStore: me.fontStore,
