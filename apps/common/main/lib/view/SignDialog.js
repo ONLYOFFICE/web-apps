@@ -266,11 +266,9 @@ define([
 
             if (this.signType == 'visible') {
                 this.cmbFonts.fillFonts(this.fontStore);
+                this.cmbFonts.selectRecord(this.fontStore.findWhere({name: this.font.name}) || this.fontStore.at(0));
 
                 this.signObject = new AscCommon.CSignatureDrawer('signature-preview-img', this.api, this.signSize.width, this.signSize.height);
-
-                var rec = this.fontStore.findWhere({name: this.font.name});
-                this.cmbFonts.setValue((rec) ? rec.get('name') : this.fontStore.at(0).get('name'));
             }
         },
 
