@@ -611,6 +611,7 @@ define([
                 var type = /^(?:(pdf|djvu|xps))$/.exec(me.document.fileType);
                 me.appOptions.canDownloadOrigin = me.permissions.download !== false && (type && typeof type[1] === 'string');
                 me.appOptions.canDownload       = me.permissions.download !== false && (!type || typeof type[1] !== 'string');
+                me.appOptions.canReader         = (!type || typeof type[1] !== 'string');
 
                 me._state.licenseWarning = (licType===Asc.c_oLicenseResult.Connections) && me.appOptions.canEdit && me.editorConfig.mode !== 'view';
 
