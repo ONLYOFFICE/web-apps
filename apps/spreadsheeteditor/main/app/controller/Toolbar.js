@@ -951,8 +951,8 @@ define([
 
         onCustomNumberFormat: function() {
             var me = this,
-                value = Common.localStorage.getItem("sse-settings-reg-settings");
-            value = (value!==null) ? parseInt(value) : ((me.toolbar.mode.lang) ? parseInt(Common.util.LanguageInfo.getLocalLanguageCode(me.toolbar.mode.lang)) : 0x0409);
+                value = me.api.asc_getLocale();
+            (!value) && (value = ((me.toolbar.mode.lang) ? parseInt(Common.util.LanguageInfo.getLocalLanguageCode(me.toolbar.mode.lang)) : 0x0409));
 
             (new SSE.Views.FormatSettingsDialog({
                 api: me.api,
@@ -970,10 +970,9 @@ define([
 
         onNumberFormatOpenBefore: function(combo) {
             if (this.api) {
-                var me = this;
-
-                var value = Common.localStorage.getItem("sse-settings-reg-settings");
-                value = (value!==null) ? parseInt(value) : ((this.toolbar.mode.lang) ? parseInt(Common.util.LanguageInfo.getLocalLanguageCode(this.toolbar.mode.lang)) : 0x0409);
+                var me = this,
+                    value = me.api.asc_getLocale();
+                (!value) && (value = ((me.toolbar.mode.lang) ? parseInt(Common.util.LanguageInfo.getLocalLanguageCode(me.toolbar.mode.lang)) : 0x0409));
 
                 if (this._state.langId !== value) {
                     this._state.langId = value;
