@@ -53,6 +53,7 @@ define([
         var _isEdit = false,
             _canEdit = false,
             _canDownload = false,
+            _canDownloadOrigin = false,
             _canReader = false;
 
         return {
@@ -91,7 +92,8 @@ define([
             setMode: function (mode) {
                 _isEdit = mode.isEdit;
                 _canEdit = !mode.isEdit && mode.canEdit && mode.canRequestEditRights;
-                _canDownload = mode.canDownload || mode.canDownloadOrigin;
+                _canDownload = mode.canDownload;
+                _canDownloadOrigin = mode.canDownloadOrigin;
                 _canReader = !mode.isEdit && mode.canReader;
             },
 
@@ -113,7 +115,8 @@ define([
                         $layour.find('#settings-readermode input:checkbox')
                             .prop('checked', Common.SharedSettings.get('readerMode'));
                     }
-                    if (!_canDownload) $layour.find('#settings-download').hide();
+                    if (!_canDownload) $layour.find('#settings-download-as').hide();
+                    if (!_canDownloadOrigin) $layour.find('#settings-download').hide();
 
                     return $layour.html();
                 }
