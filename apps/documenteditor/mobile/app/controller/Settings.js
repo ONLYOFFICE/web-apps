@@ -191,6 +191,7 @@ define([
                     $('#settings-readermode input:checkbox').single('change',   _.bind(me.onReaderMode, me));
                     $('#settings-edit-document').single('click',                _.bind(me.onEditDocumet, me));
                     $('#settings-help').single('click',                         _.bind(me.onShowHelp, me));
+                    $('#settings-download').single('click',                     _.bind(me.onDownloadOrigin, me));
                 }
             },
 
@@ -283,6 +284,15 @@ define([
 
                     me.hideModal();
                 }
+            },
+
+            onDownloadOrigin: function(e) {
+                var me = this;
+
+                _.defer(function () {
+                    me.api.asc_DownloadOrigin();
+                });
+                me.hideModal();
             },
 
             onFormatChange: function (e) {

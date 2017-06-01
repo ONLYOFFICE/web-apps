@@ -66,7 +66,19 @@
                             </a>
                         </li>
                         <li>
-                            <a id="settings-download" class="item-link" data-page="#settings-download-view">
+                            <a id="settings-download-as" class="item-link" data-page="#settings-download-view">
+                                <div class="item-content">
+                                    <div class="item-media">
+                                        <i class="icon icon-download"></i>
+                                    </div>
+                                    <div class="item-inner">
+                                        <div class="item-title"><%= scope.textDownload %></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a id="settings-download" class="item-link no-indicator">
                                 <div class="item-content">
                                     <div class="item-media">
                                         <i class="icon icon-download"></i>
