@@ -327,7 +327,7 @@
                 if (type && typeof type[1] === 'string') {
                     if (!_config.document.permissions)
                         _config.document.permissions = {};
-                    _config.document.permissions.edit = false;
+                    _config.document.permissions.edit = _config.document.permissions.review = false;
                 }
 
                 if (!_config.document.title || _config.document.title=='')
