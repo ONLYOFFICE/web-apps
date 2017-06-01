@@ -87,6 +87,7 @@ define([
                 Common.UI.ComboBox.prototype.initialize.call(this, _.extend(options, {
                     displayField: 'name',
                     scroller: {
+                        wheelSpeed: 20,
                         alwaysVisibleY: true,
                         onChange: this.updateVisibleFontsTiles.bind(this)
                     }

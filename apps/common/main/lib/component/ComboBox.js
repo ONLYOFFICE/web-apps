@@ -232,6 +232,7 @@ define([
                         minScrollbarLength: 40,
                         scrollYMarginOffset: 30,
                         includePadding: true,
+                        wheelSpeed: 10,
                         alwaysVisibleY: this.scrollAlwaysVisible
                     }, this.options.scroller));
                 }
@@ -256,6 +257,7 @@ define([
                         minScrollbarLength: 40,
                         scrollYMarginOffset: 30,
                         includePadding: true,
+                        wheelSpeed: 10,
                         alwaysVisibleY: this.scrollAlwaysVisible
                     }, this.options.scroller));
                 }
@@ -567,6 +569,7 @@ define([
                     minScrollbarLength : 40,
                     scrollYMarginOffset: 30,
                     includePadding     : true,
+                    wheelSpeed: 10,
                     alwaysVisibleY: this.scrollAlwaysVisible
                 }, this.options.scroller));
             }
