@@ -211,8 +211,8 @@ define([
                 ascComment.asc_putText(comment.get('comment'));
                 ascComment.asc_putQuoteText(comment.get('quote'));
                 ascComment.asc_putTime(t.utcDateToString(new Date(comment.get('time'))));
-                ascComment.asc_putUserId(t.currentUserId);
-                ascComment.asc_putUserName(t.currentUserName);
+                ascComment.asc_putUserId(comment.get('userid'));
+                ascComment.asc_putUserName(comment.get('username'));
                 ascComment.asc_putSolved(!comment.get('resolved'));
 
                 if (!_.isUndefined(ascComment.asc_putDocumentFlag)) {
