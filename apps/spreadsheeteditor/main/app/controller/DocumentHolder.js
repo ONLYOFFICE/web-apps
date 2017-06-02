@@ -141,53 +141,59 @@ define([
         onCreateDelayedElements: function(view) {
             var me = this;
 
-            view.pmiCut.on('click',                             _.bind(me.onCopyPaste, me));
-            view.pmiCopy.on('click',                            _.bind(me.onCopyPaste, me));
-            view.pmiPaste.on('click',                           _.bind(me.onCopyPaste, me));
-            view.pmiImgCut.on('click',                          _.bind(me.onCopyPaste, me));
-            view.pmiImgCopy.on('click',                         _.bind(me.onCopyPaste, me));
-            view.pmiImgPaste.on('click',                        _.bind(me.onCopyPaste, me));
-            view.pmiTextCut.on('click',                         _.bind(me.onCopyPaste, me));
-            view.pmiTextCopy.on('click',                        _.bind(me.onCopyPaste, me));
-            view.pmiTextPaste.on('click',                       _.bind(me.onCopyPaste, me));
-            view.pmiInsertEntire.on('click',                    _.bind(me.onInsertEntire, me));
-            view.pmiDeleteEntire.on('click',                    _.bind(me.onDeleteEntire, me));
-            view.pmiInsertCells.menu.on('item:click',           _.bind(me.onInsertCells, me));
-            view.pmiDeleteCells.menu.on('item:click',           _.bind(me.onDeleteCells, me));
-            view.pmiSparklines.menu.on('item:click',            _.bind(me.onClear, me));
-            view.pmiSortCells.menu.on('item:click',             _.bind(me.onSortCells, me));
-            view.pmiFilterCells.menu.on('item:click',           _.bind(me.onFilterCells, me));
-            view.pmiReapply.on('click',                         _.bind(me.onReapply, me));
-            view.pmiClear.menu.on('item:click',                 _.bind(me.onClear, me));
-            view.pmiSelectTable.menu.on('item:click',           _.bind(me.onSelectTable, me));
-            view.pmiInsertTable.menu.on('item:click',           _.bind(me.onInsertTable, me));
-            view.pmiDeleteTable.menu.on('item:click',           _.bind(me.onDeleteTable, me));
-            view.pmiInsFunction.on('click',                     _.bind(me.onInsFunction, me));
-            view.menuAddHyperlink.on('click',                   _.bind(me.onInsHyperlink, me));
-            view.menuEditHyperlink.on('click',                  _.bind(me.onInsHyperlink, me));
-            view.menuRemoveHyperlink.on('click',                _.bind(me.onDelHyperlink, me));
-            view.pmiRowHeight.menu.on('item:click',             _.bind(me.onSetSize, me));
-            view.pmiColumnWidth.menu.on('item:click',           _.bind(me.onSetSize, me));
-            view.pmiEntireHide.on('click',                      _.bind(me.onEntireHide, me));
-            view.pmiEntireShow.on('click',                      _.bind(me.onEntireShow, me));
-            view.pmiFreezePanes.on('click',                     _.bind(me.onFreezePanes, me));
-            view.pmiEntriesList.on('click',                     _.bind(me.onEntriesList, me));
-            /** coauthoring begin **/
-            view.pmiAddComment.on('click',                      _.bind(me.onAddComment, me));
-            /** coauthoring end **/
-            view.pmiAddNamedRange.on('click',                   _.bind(me.onAddNamedRange, me));
-            view.imgMenu.on('item:click',                       _.bind(me.onImgMenu, me));
-            view.menuParagraphVAlign.menu.on('item:click',      _.bind(me.onParagraphVAlign, me));
-            view.menuParagraphDirection.menu.on('item:click',   _.bind(me.onParagraphDirection, me));
-            view.menuParagraphBullets.menu.on('item:click',     _.bind(me.onSelectNoneBullet, me));
-            view.menuAddHyperlinkShape.on('click',              _.bind(me.onInsHyperlink, me));
-            view.menuEditHyperlinkShape.on('click',             _.bind(me.onInsHyperlink, me));
-            view.menuRemoveHyperlinkShape.on('click',           _.bind(me.onRemoveHyperlinkShape, me));
-            view.pmiTextAdvanced.on('click',                    _.bind(me.onTextAdvanced, me));
-            view.mnuShapeAdvanced.on('click',                   _.bind(me.onShapeAdvanced, me));
-            view.mnuChartEdit.on('click',                       _.bind(me.onChartEdit, me));
-            view.mnuImgAdvanced.on('click',                     _.bind(me.onImgAdvanced, me));
-            view.textInShapeMenu.on('render:after',             _.bind(me.onTextInShapeAfterRender, me));
+            if (me.permissions.isEdit) {
+                view.pmiCut.on('click', _.bind(me.onCopyPaste, me));
+                view.pmiCopy.on('click', _.bind(me.onCopyPaste, me));
+                view.pmiPaste.on('click', _.bind(me.onCopyPaste, me));
+                view.pmiImgCut.on('click', _.bind(me.onCopyPaste, me));
+                view.pmiImgCopy.on('click', _.bind(me.onCopyPaste, me));
+                view.pmiImgPaste.on('click', _.bind(me.onCopyPaste, me));
+                view.pmiTextCut.on('click', _.bind(me.onCopyPaste, me));
+                view.pmiTextCopy.on('click', _.bind(me.onCopyPaste, me));
+                view.pmiTextPaste.on('click', _.bind(me.onCopyPaste, me));
+                view.pmiInsertEntire.on('click', _.bind(me.onInsertEntire, me));
+                view.pmiDeleteEntire.on('click', _.bind(me.onDeleteEntire, me));
+                view.pmiInsertCells.menu.on('item:click', _.bind(me.onInsertCells, me));
+                view.pmiDeleteCells.menu.on('item:click', _.bind(me.onDeleteCells, me));
+                view.pmiSparklines.menu.on('item:click', _.bind(me.onClear, me));
+                view.pmiSortCells.menu.on('item:click', _.bind(me.onSortCells, me));
+                view.pmiFilterCells.menu.on('item:click', _.bind(me.onFilterCells, me));
+                view.pmiReapply.on('click', _.bind(me.onReapply, me));
+                view.pmiClear.menu.on('item:click', _.bind(me.onClear, me));
+                view.pmiSelectTable.menu.on('item:click', _.bind(me.onSelectTable, me));
+                view.pmiInsertTable.menu.on('item:click', _.bind(me.onInsertTable, me));
+                view.pmiDeleteTable.menu.on('item:click', _.bind(me.onDeleteTable, me));
+                view.pmiInsFunction.on('click', _.bind(me.onInsFunction, me));
+                view.menuAddHyperlink.on('click', _.bind(me.onInsHyperlink, me));
+                view.menuEditHyperlink.on('click', _.bind(me.onInsHyperlink, me));
+                view.menuRemoveHyperlink.on('click', _.bind(me.onDelHyperlink, me));
+                view.pmiRowHeight.menu.on('item:click', _.bind(me.onSetSize, me));
+                view.pmiColumnWidth.menu.on('item:click', _.bind(me.onSetSize, me));
+                view.pmiEntireHide.on('click', _.bind(me.onEntireHide, me));
+                view.pmiEntireShow.on('click', _.bind(me.onEntireShow, me));
+                view.pmiFreezePanes.on('click', _.bind(me.onFreezePanes, me));
+                view.pmiEntriesList.on('click', _.bind(me.onEntriesList, me));
+                /** coauthoring begin **/
+                view.pmiAddComment.on('click', _.bind(me.onAddComment, me));
+                /** coauthoring end **/
+                view.pmiAddNamedRange.on('click', _.bind(me.onAddNamedRange, me));
+                view.imgMenu.on('item:click', _.bind(me.onImgMenu, me));
+                view.menuParagraphVAlign.menu.on('item:click', _.bind(me.onParagraphVAlign, me));
+                view.menuParagraphDirection.menu.on('item:click', _.bind(me.onParagraphDirection, me));
+                view.menuParagraphBullets.menu.on('item:click', _.bind(me.onSelectNoneBullet, me));
+                view.menuAddHyperlinkShape.on('click', _.bind(me.onInsHyperlink, me));
+                view.menuEditHyperlinkShape.on('click', _.bind(me.onInsHyperlink, me));
+                view.menuRemoveHyperlinkShape.on('click', _.bind(me.onRemoveHyperlinkShape, me));
+                view.pmiTextAdvanced.on('click', _.bind(me.onTextAdvanced, me));
+                view.mnuShapeAdvanced.on('click', _.bind(me.onShapeAdvanced, me));
+                view.mnuChartEdit.on('click', _.bind(me.onChartEdit, me));
+                view.mnuImgAdvanced.on('click', _.bind(me.onImgAdvanced, me));
+                view.textInShapeMenu.on('render:after', _.bind(me.onTextInShapeAfterRender, me));
+            } else {
+                view.menuViewCopy.on('click', _.bind(me.onCopyPaste, me));
+                view.menuViewUndo.on('click', _.bind(me.onUndo, me));
+                view.menuViewAddComment.on('click', _.bind(me.onAddComment, me));
+            }
 
             var documentHolderEl = view.cmpEl;
 
@@ -1104,6 +1110,13 @@ define([
             }
         },
 
+        onUndo: function() {
+            if (this.api) {
+                this.api.asc_Undo();
+                Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+            }
+        },
+
         onApiContextMenu: function(event) {
             var me = this;
             _.delay(function(){
@@ -1205,15 +1218,15 @@ define([
         },
 
         showObjectMenu: function(event){
-            if (this.api && this.permissions.isEdit && !this.mouse.isLeftButtonDown && !this.rangeSelectionMode){
-                this.fillMenuProps(this.api.asc_getCellInfo(), true, event);
+            if (this.api && !this.mouse.isLeftButtonDown && !this.rangeSelectionMode){
+                (this.permissions.isEdit) ? this.fillMenuProps(this.api.asc_getCellInfo(), true, event) : this.fillViewMenuProps(this.api.asc_getCellInfo(), true, event);
             }
         },
 
         onSelectionChanged: function(info){
-            if (this.permissions.isEdit && !this.mouse.isLeftButtonDown && !this.rangeSelectionMode &&
+            if (!this.mouse.isLeftButtonDown && !this.rangeSelectionMode &&
                 this.currentMenu && this.currentMenu.isVisible()){
-                this.fillMenuProps(info);
+                (this.permissions.isEdit) ? this.fillMenuProps(info, true, event) : this.fillViewMenuProps(info, true, event);
             }
         },
 
@@ -1411,7 +1424,7 @@ define([
                 documentHolder.pmiEntireHide.isrowmenu = isrowmenu;
                 documentHolder.pmiEntireShow.isrowmenu = isrowmenu;
 
-                documentHolder.setMenuItemCommentCaptionMode(cellinfo.asc_getComments().length < 1, this.permissions.canEditComments);
+                documentHolder.setMenuItemCommentCaptionMode(documentHolder.pmiAddComment, cellinfo.asc_getComments().length < 1, this.permissions.canEditComments);
                 commentsController && commentsController.blockPopover(true);
 
                 documentHolder.pmiClear.menu.items[1].setDisabled(iscelledit);
@@ -1459,6 +1472,26 @@ define([
                 documentHolder.pmiTextCopy.setDisabled(false);
                 if (showMenu) this.showPopupMenu(documentHolder.textInShapeMenu, {}, event);
             }
+        },
+
+        fillViewMenuProps: function(cellinfo, showMenu, event){
+            var documentHolder      = this.documentHolder,
+                seltype             = cellinfo.asc_getFlags().asc_getSelectionType(),
+                isCellLocked        = cellinfo.asc_getLocked(),
+                isTableLocked       = cellinfo.asc_getLockedTable()===true,
+                commentsController  = this.getApplication().getController('Common.Controllers.Comments'),
+                iscellmenu = (seltype==Asc.c_oAscSelectionType.RangeCells) && !this.permissions.isEditMailMerge && !this.permissions.isEditDiagram,
+                iscelledit = this.api.isCellEdited;
+
+            if (!showMenu && !documentHolder.viewModeMenu.isVisible()) return;
+
+            documentHolder.menuViewUndo.setVisible(this.permissions.isEdit);
+            documentHolder.menuViewCopySeparator.setVisible(iscellmenu && !iscelledit && this.permissions.canCoAuthoring && this.permissions.canComments && this.permissions.isEdit);
+            documentHolder.menuViewAddComment.setVisible(iscellmenu && !iscelledit && this.permissions.canCoAuthoring && this.permissions.canComments && this.permissions.isEdit);
+            documentHolder.setMenuItemCommentCaptionMode(documentHolder.menuViewAddComment, cellinfo.asc_getComments().length < 1, this.permissions.canEditComments);
+            commentsController && commentsController.blockPopover(true);
+            documentHolder.menuViewAddComment.setDisabled(isCellLocked || isTableLocked);
+            if (showMenu) this.showPopupMenu(documentHolder.viewModeMenu, {}, event);
         },
 
         showPopupMenu: function(menu, value, event){
@@ -2391,7 +2424,7 @@ define([
             _conf && view.paraBulletsPicker.selectRecord(_conf.rec, true);
         },
 
-    guestText               : 'Guest',
+        guestText               : 'Guest',
         textCtrlClick           : 'Press CTRL and click link',
         txtHeight               : 'Height',
         txtWidth                : 'Width',

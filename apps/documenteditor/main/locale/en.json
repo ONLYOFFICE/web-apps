@@ -839,6 +839,7 @@
   "DE.Views.DocumentHolder.updateStyleText": "Update %1 style",
   "DE.Views.DocumentHolder.vertAlignText": "Vertical Alignment",
   "DE.Views.DocumentHolder.txtKeepTextOnly": "Keep text only",
+  "DE.Views.DocumentHolder.textUndo": "Undo",
   "DE.Views.DropcapSettingsAdvanced.cancelButtonText": "Cancel",
   "DE.Views.DropcapSettingsAdvanced.okButtonText": "Ok",
   "DE.Views.DropcapSettingsAdvanced.strBorders": "Borders & Fill",

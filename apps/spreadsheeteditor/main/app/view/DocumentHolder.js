@@ -86,6 +86,39 @@ define([
             }, 50);
         },
 
+        createDelayedElementsViewer: function() {
+            var me = this;
+
+            me.menuViewCopy = new Common.UI.MenuItem({
+                caption: me.txtCopy,
+                value: 'copy'
+            });
+
+            me.menuViewUndo = new Common.UI.MenuItem({
+                caption: me.textUndo
+            });
+
+            me.menuViewCopySeparator = new Common.UI.MenuItem({
+                caption: '--'
+            });
+
+            me.menuViewAddComment = new Common.UI.MenuItem({
+                id: 'id-context-menu-item-view-add-comment',
+                caption: me.txtAddComment
+            });
+
+            this.viewModeMenu = new Common.UI.Menu({
+                items: [
+                    me.menuViewCopy,
+                    me.menuViewUndo,
+                    me.menuViewCopySeparator,
+                    me.menuViewAddComment
+                ]
+            });
+
+            me.fireEvent('createdelayedelements', [me]);
+        },
+
         createDelayedElements: function() {
             var me = this;
 
@@ -667,8 +700,8 @@ define([
             me.fireEvent('createdelayedelements', [me]);
         },
 
-        setMenuItemCommentCaptionMode: function (add, editable) {
-            this.pmiAddComment.setCaption(add ? this.txtAddComment : (editable ? this.txtEditComment : this.txtShowComment), true);
+        setMenuItemCommentCaptionMode: function (item, add, editable) {
+            item.setCaption(add ? this.txtAddComment : (editable ? this.txtEditComment : this.txtShowComment), true);
         },
 
         txtSort:                'Sort',
@@ -754,7 +787,8 @@ define([
         txtShowComment: 'Show Comment',
         advancedImgText: 'Image Advanced Settings',
         textNone: 'None',
-        bulletsText: 'Bullets and Numbering'
+        bulletsText: 'Bullets and Numbering',
+        textUndo: 'Undo'
 
     }, SSE.Views.DocumentHolder || {}));
 });
