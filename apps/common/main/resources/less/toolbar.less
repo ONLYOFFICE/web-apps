@@ -1,7 +1,7 @@
 @height-tabs: 40px;
 @height-controls: 67px;
 
-@tabs-bg-color: #fff;
+//@tabs-bg-color: #fff;
 
 .toolbar {
     position: relative;
@@ -84,7 +84,8 @@
         cursor: default;
         font-size: 12px;
         text-align: center;
-        color: @gray-deep;
+        color: #fff;
+        font-weight: bold;
 
         &::after {
           display: block;
@@ -99,15 +100,15 @@
 
       &.active {
         > a {
-          font-weight: bold;
+          //font-weight: bold;
         }
       }
     }
 
     .marker {
       position: relative;
-      border-top: 3px solid @gray-darker;
-      top: -5px;
+      border-top: 3px solid #fff;
+      top: -10px;
       -webkit-transition: width .2s, left .2s ease-out;
       opacity: 1;
       transition: width .2s, left .2s ease-out, opacity .2s;
