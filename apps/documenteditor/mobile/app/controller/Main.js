@@ -455,7 +455,7 @@ define([
                 /** coauthoring begin **/
                 value = Common.localStorage.getItem("de-settings-livecomment");
                 this.isLiveCommenting = !(value!==null && parseInt(value) == 0);
-                this.isLiveCommenting ? this.api.asc_showComments() : this.api.asc_hideComments();
+                this.isLiveCommenting ? this.api.asc_showComments(true) : this.api.asc_hideComments();
                 /** coauthoring end **/
 
                 value = Common.localStorage.getItem("de-settings-zoom");
