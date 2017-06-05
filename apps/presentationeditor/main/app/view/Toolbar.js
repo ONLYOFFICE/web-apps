@@ -1182,7 +1182,7 @@ define([
             this.btnNumbers.setMenu(
                 new Common.UI.Menu({
                     items: [
-                        { template: _.template('<div id="id-toolbar-menu-numbering" class="menu-markers" style="width: 330px; margin: 0 5px;"></div>') }
+                        { template: _.template('<div id="id-toolbar-menu-numbering" class="menu-markers" style="width: 185px; margin: 0 5px;"></div>') }
                     ]
                 })
             );
@@ -1229,19 +1229,19 @@ define([
             this.mnuNumbersPicker = new Common.UI.DataView({
                 el: $('#id-toolbar-menu-numbering'),
                 parentMenu: this.btnNumbers.menu,
-                restoreHeight: 164,
+                restoreHeight: 92,
                 allowScrollbar: false,
                 store: new Common.UI.DataViewStore([
                     { offsety: 0,   data:{type:1,subtype:-1} },
-                    { offsety: 296, data:{type:1,subtype:4} },
-                    { offsety: 370, data:{type:1,subtype:5} },
-                    { offsety: 444, data:{type:1,subtype:6} },
-                    { offsety: 74,  data:{type:1,subtype:1} },
-                    { offsety: 148, data:{type:1,subtype:2} },
-                    { offsety: 222, data:{type:1,subtype:3} },
-                    { offsety: 518, data:{type:1,subtype:7} }
+                    {offsety: 570, data: {type: 1, subtype: 4}},
+                    {offsety: 532, data: {type: 1, subtype: 5}},
+                    {offsety: 608, data: {type: 1, subtype: 6}},
+                    {offsety: 418, data: {type: 1, subtype: 1}},
+                    {offsety: 456, data: {type: 1, subtype: 2}},
+                    {offsety: 494, data: {type: 1, subtype: 3}},
+                    {offsety: 646, data: {type: 1, subtype: 7}}
                 ]),
-                itemTemplate: _.template('<div id="<%= id %>" class="item-numberlist" style="background-position: 0 -<%= offsety %>px;"></div>')
+                itemTemplate: _.template('<div id="<%= id %>" class="item-markerlist" style="background-position: 0 -<%= offsety %>px;"></div>')
             });
             _conf && this.mnuNumbersPicker.selectByIndex(_conf.index, true);
 

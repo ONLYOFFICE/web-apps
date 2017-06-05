@@ -86,6 +86,39 @@ define([
             }, 50);
         },
 
+        createDelayedElementsViewer: function() {
+            var me = this;
+
+            me.menuViewCopy = new Common.UI.MenuItem({
+                caption: me.txtCopy,
+                value: 'copy'
+            });
+
+            me.menuViewUndo = new Common.UI.MenuItem({
+                caption: me.textUndo
+            });
+
+            me.menuViewCopySeparator = new Common.UI.MenuItem({
+                caption: '--'
+            });
+
+            me.menuViewAddComment = new Common.UI.MenuItem({
+                id: 'id-context-menu-item-view-add-comment',
+                caption: me.txtAddComment
+            });
+
+            this.viewModeMenu = new Common.UI.Menu({
+                items: [
+                    me.menuViewCopy,
+                    me.menuViewUndo,
+                    me.menuViewCopySeparator,
+                    me.menuViewAddComment
+                ]
+            });
+
+            me.fireEvent('createdelayedelements', [me]);
+        },
+
         createDelayedElements: function() {
             var me = this;
 
@@ -538,6 +571,45 @@ define([
                 })
             });
 
+            me.menuParagraphBullets = new Common.UI.MenuItem({
+                caption     : me.bulletsText,
+                menu        : new Common.UI.Menu({
+                    menuAlign: 'tl-tr',
+                    items   : [
+                        { template: _.template('<div id="id-docholder-menu-bullets" class="menu-layouts" style="width: 325px; margin: 0 4px;"></div>') },
+                        {caption: '--'},
+                        me.menuParagraphBulletNone = new Common.UI.MenuItem({
+                            caption     : me.textNone,
+                            checkable   : true,
+                            checked     : false,
+                            value       : -1
+                        })
+                    ]
+                })
+            });
+            me.paraBulletsPicker = {
+                conf: {rec: null},
+                store       : new Common.UI.DataViewStore([
+                    {offsety: 38, type: 0, subtype: 1},
+                    {offsety: 76, type: 0, subtype: 2},
+                    {offsety: 114, type: 0, subtype: 3},
+                    {offsety: 152, type: 0, subtype: 4},
+                    {offsety: 190, type: 0, subtype: 5},
+                    {offsety: 228, type: 0, subtype: 6},
+                    {offsety: 266, type: 0, subtype: 7},
+                    {offsety: 570, type: 1, subtype: 4},
+                    {offsety: 532, type: 1, subtype: 5},
+                    {offsety: 608, type: 1, subtype: 6},
+                    {offsety: 418, type: 1, subtype: 1},
+                    {offsety: 456, type: 1, subtype: 2},
+                    {offsety: 494, type: 1, subtype: 3},
+                    {offsety: 646, type: 1, subtype: 7}
+                ]),
+                selectRecord: function (rec) {
+                    this.conf.rec = rec;
+                }
+            };
+
             me.menuAddHyperlinkShape = new Common.UI.MenuItem({
                 caption     : me.txtInsHyperlink
             });
@@ -588,6 +660,7 @@ define([
                     {caption: '--'},
                     me.menuParagraphVAlign,
                     me.menuParagraphDirection,
+                    me.menuParagraphBullets,
                     me.menuAddHyperlinkShape,
                     me.menuHyperlinkShape,
                     {caption: '--'},
@@ -627,8 +700,8 @@ define([
             me.fireEvent('createdelayedelements', [me]);
         },
 
-        setMenuItemCommentCaptionMode: function (add, editable) {
-            this.pmiAddComment.setCaption(add ? this.txtAddComment : (editable ? this.txtEditComment : this.txtShowComment), true);
+        setMenuItemCommentCaptionMode: function (item, add, editable) {
+            item.setCaption(add ? this.txtAddComment : (editable ? this.txtEditComment : this.txtShowComment), true);
         },
 
         txtSort:                'Sort',
@@ -668,7 +741,7 @@ define([
         txtUngroup:             'Ungroup',
         txtGroup:               'Group',
         topCellText:            'Align Top',
-        centerCellText:         'Align Center',
+        centerCellText:         'Align Middle',
         bottomCellText:         'Align Bottom',
         vertAlignText:          'Vertical Alignment',
         txtTextAdvanced:        'Text Advanced Settings',
@@ -679,8 +752,8 @@ define([
         chartText:              'Chart Advanced Settings',
         directionText:          'Text Direction',
         directHText:            'Horizontal',
-        direct90Text:           'Rotate at 90°',
-        direct270Text:          'Rotate at 270°',
+        direct90Text:           'Rotate Text Down',
+        direct270Text:          'Rotate Text Up',
         txtAddNamedRange:       'Define Name',
         textFreezePanes:        'Freeze Panes',
         textUnFreezePanes:      'Unfreeze Panes',
@@ -712,7 +785,10 @@ define([
         txtClearSparklines: 'Clear Selected Sparklines',
         txtClearSparklineGroups: 'Clear Selected Sparkline Groups',
         txtShowComment: 'Show Comment',
-        advancedImgText: 'Image Advanced Settings'
+        advancedImgText: 'Image Advanced Settings',
+        textNone: 'None',
+        bulletsText: 'Bullets and Numbering',
+        textUndo: 'Undo'
 
     }, SSE.Views.DocumentHolder || {}));
 });

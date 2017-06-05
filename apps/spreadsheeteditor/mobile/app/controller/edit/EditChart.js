@@ -117,7 +117,7 @@ define([
             },
 
             setMode: function (mode) {
-                _isEdit = ('edit' === mode);
+                _isEdit = mode.isEdit;
             },
 
             onLaunch: function () {

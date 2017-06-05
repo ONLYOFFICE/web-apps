@@ -49,7 +49,9 @@ define([
 
     SSE.Views.Settings = Backbone.View.extend(_.extend((function() {
         // private
-        var isEdit;
+        var isEdit,
+            canEdit = false,
+            canDownload = false;
 
         return {
             // el: '.view-main',
@@ -96,7 +98,9 @@ define([
             },
 
             setMode: function (mode) {
-                isEdit = (mode === 'edit')
+                isEdit = mode.isEdit;
+                canEdit = !mode.isEdit && mode.canEdit && mode.canRequestEditRights;
+                canDownload = mode.canDownload || mode.canDownloadOrigin;
             },
 
             rootLayout: function () {
@@ -108,7 +112,9 @@ define([
                         $layout.find('#settings-edit-document').hide();
                         $layout.find('#settings-search .item-title').text(this.textFindAndReplace)
                     } else {
+                        if (!canEdit) $layout.find('#settings-edit-document').hide();
                     }
+                    if (!canDownload) $layout.find('#settings-download').hide();
 
                     return $layout.html();
                 }

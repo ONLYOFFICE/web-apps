@@ -41,6 +41,7 @@
     #btn-zoom-topage {
         .btn-tpl(-1160px);
         margin-right: 9px;
+        margin-left: 6px;
     }
 
     #btn-zoom-towidth {
@@ -54,6 +55,16 @@
 
     #btn-zoom-up {
         .btn-tpl(-1220px);
+    }
+
+    #btn-doc-lang {
+        .btn-tpl(-1500px);
+        margin-right: 9px;
+    }
+
+    #btn-doc-spell {
+        .btn-tpl(-1520px);
+        margin-right: 5px;
     }
 
     #status-btn-preview {
@@ -75,6 +86,49 @@
 
         &.short {
             height: 25px;
+        }
+    }
+
+    .cnt-lang {
+        display: inline-block;
+        cursor: pointer;
+        color: #000;
+        margin-left: 6px;
+
+        .dropdown-toggle > .icon-lang-flag {
+            position: relative;
+            top: 3px;
+            margin-left: 3px;
+            margin-right: 2px;
+            display: inline-block;
+        }
+
+        .caret.up {
+            background-position: @arrow-up-small-offset-x @arrow-up-small-offset-y;
+
+            border: none;
+            width: 7px;
+            height: 7px;
+        }
+
+        label {
+            cursor: pointer;
+        }
+
+        .dropdown-menu {
+            li .lang-item-icon {
+                display: inline-block;
+                vertical-align: text-bottom;
+                margin: 1px 5px 0 2px;
+            }
+        }
+
+        &.disabled {
+            cursor: default;
+            label, .icon-lang-flag {
+                cursor: default;
+                opacity: 0.4;
+            }
         }
     }
 
@@ -165,4 +219,3 @@
         }
     }
 }
-

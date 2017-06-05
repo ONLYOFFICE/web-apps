@@ -44,7 +44,8 @@ define([
     'core',
     'documenteditor/main/app/view/Statusbar',
     'common/main/lib/util/LanguageInfo',
-    'common/main/lib/view/ReviewChanges'
+    'common/main/lib/view/ReviewChanges',
+    'common/main/lib/view/LanguageDialog'
 ], function () {
     'use strict';
 
@@ -140,9 +141,6 @@ define([
                     code:   langId
             });
         },
-
-        /*
-        * */
 
         setLanguages: function(langs) {
             this.langs = langs;
@@ -243,7 +241,7 @@ define([
             });
 
             var me = this;
-            (new DE.Views.Statusbar.LanguageDialog({
+            (new Common.Views.LanguageDialog({
                 languages: langs,
                 current: me.api.asc_getDefaultLanguage(),
                 handler: function(result, tip) {

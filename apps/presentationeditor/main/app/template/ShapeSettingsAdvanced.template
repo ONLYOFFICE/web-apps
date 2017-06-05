@@ -94,6 +94,24 @@
         </table>
     </div>
 </div>
+<div id="id-adv-shape-columns" class="settings-panel">
+    <div class="inner-content">
+        <table cols="1" style="width: 100%;">
+            <tr>
+                <td class="padding-small">
+                    <label class="input-label"><%= scope.textColNumber %></label>
+                    <div id="shape-columns-number"></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-small">
+                    <label class="input-label"><%= scope.textSpacing %></label>
+                    <div id="shape-columns-spacing"></div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
 <div id="id-adv-shape-alttext" class="settings-panel">
     <div class="inner-content">
         <table cols="1" width="100%">

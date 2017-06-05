@@ -202,13 +202,13 @@ define([
                         me.api.asc_enableKeyEvents(false);
                     },
                     'modal:close': function(dlg) {
-                        if (dlg && dlg.$lastmodal && dlg.$lastmodal.size() < 1) {
+                        if (dlg && dlg.$lastmodal && dlg.$lastmodal.length < 1) {
                             me.isModalShowed = false;
                             me.api.asc_enableKeyEvents(true);
                         }
                     },
                     'modal:hide': function(dlg) {
-                        if (dlg && dlg.$lastmodal && dlg.$lastmodal.size() < 1) {
+                        if (dlg && dlg.$lastmodal && dlg.$lastmodal.length < 1) {
                             me.isModalShowed = false;
                             me.api.asc_enableKeyEvents(true);
                         }
@@ -546,7 +546,8 @@ define([
                 /** coauthoring begin **/
                 value = Common.localStorage.getItem("sse-settings-livecomment");
                 this.isLiveCommenting = !(value!==null && parseInt(value) == 0);
-                this.isLiveCommenting?this.api.asc_showComments():this.api.asc_hideComments();
+                var resolved = Common.localStorage.getItem("sse-settings-resolvedcomment");
+                this.isLiveCommenting ? this.api.asc_showComments(!(resolved!==null && parseInt(resolved) == 0)) : this.api.asc_hideComments();
 
                 if (this.appOptions.isEdit && !this.appOptions.isOffline && this.appOptions.canCoAuthoring) {
                     value = Common.localStorage.getItem("sse-settings-coauthmode");
@@ -670,8 +671,11 @@ define([
                                 Common.NotificationCenter.trigger('document:ready', 'main');
                         }
                     }, 50);
-                } else if (me.appOptions.canBrandingExt)
-                    Common.NotificationCenter.trigger('document:ready', 'main');
+                } else {
+                    documentHolderView.createDelayedElementsViewer();
+                    if (me.appOptions.canBrandingExt)
+                        Common.NotificationCenter.trigger('document:ready', 'main');
+                }
 
                 if (me.appOptions.canAnalytics && false)
                     Common.component.Analytics.initialize('UA-12442749-13', 'Spreadsheet Editor');
@@ -965,7 +969,7 @@ define([
                     msg.msg = (msg.msg).toString();
                     this.showTips([msg.msg.charAt(0).toUpperCase() + msg.msg.substring(1)]);
 
-                    Common.component.Analytics.trackEvent('External Error', msg.title);
+                    Common.component.Analytics.trackEvent('External Error');
                 }
             },
 
@@ -1047,6 +1051,16 @@ define([
                         config.closable = true;
                         break;
 
+                    case Asc.c_oAscError.ID.FrmlOperandExpected:
+                        config.msg = this.errorOperandExpected;
+                        config.closable = true;
+                        break;
+
+                    case Asc.c_oAscError.ID.FrmlWrongReferences:
+                        config.msg = this.errorFrmlWrongReferences;
+                        config.closable = true;
+                        break;
+
                     case Asc.c_oAscError.ID.UnexpectedGuid:
                         config.msg = this.errorUnexpectedGuid;
                         break;
@@ -1069,10 +1083,6 @@ define([
 
                     case Asc.c_oAscError.ID.DataRangeError:
                         config.msg = this.errorDataRange;
-                        break;
-
-                    case Asc.c_oAscError.ID.FrmlOperandExpected:
-                        config.msg = this.errorOperandExpected;
                         break;
 
                     case Asc.c_oAscError.ID.VKeyEncrypt:
@@ -1158,10 +1168,6 @@ define([
                     
                     case Asc.c_oAscError.ID.OpenWarning:
                         config.msg = this.errorOpenWarning;
-                        break;
-
-                    case Asc.c_oAscError.ID.FrmlWrongReferences:
-                        config.msg = this.errorFrmlWrongReferences;
                         break;
 
                     case Asc.c_oAscError.ID.CopyMultiselectAreaError:
@@ -1411,10 +1417,10 @@ define([
                         type: type,
                         codepages: advOptions.asc_getOptions().asc_getCodePages(),
                         settings: advOptions.asc_getOptions().asc_getRecommendedSettings(),
-                        handler: function (encoding, delimiter) {
+                        handler: function (encoding, delimiter, delimiterChar) {
                             me.isShowOpenDialog = false;
                             if (me && me.api) {
-                                me.api.asc_setAdvancedOptions(type, new Asc.asc_CCSVAdvancedOptions(encoding, delimiter));
+                                me.api.asc_setAdvancedOptions(type, new Asc.asc_CCSVAdvancedOptions(encoding, delimiter, delimiterChar));
                                 me.loadMask && me.loadMask.show();
                             }
                         }
@@ -2057,7 +2063,7 @@ define([
             errorFileVKey: 'External error.<br>Incorrect securety key. Please, contact support.',
             errorStockChart: 'Incorrect row order. To build a stock chart place the data on the sheet in the following order:<br> opening price, max price, min price, closing price.',
             errorDataRange: 'Incorrect data range.',
-            errorOperandExpected: 'Operand expected',
+            errorOperandExpected: 'The entered function syntax is not correct. Please check if you are missing one of the parentheses - \'(\' or \')\'.',
             errorKeyEncrypt: 'Unknown key descriptor',
             errorKeyExpire: 'Key descriptor expired',
             errorUsersExceed: 'Count of users was exceed',

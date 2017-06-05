@@ -76,7 +76,10 @@ define([
                         '<div id="id-codepages-combo" class="input-group-nr" style="margin-bottom:15px;"></div>',
                         '<% if (type == Asc.c_oAscAdvancedOptionsID.CSV) { %>',
                         '<label class="header">' + t.txtDelimiter + '</label>',
-                        '<div id="id-delimiters-combo" class="input-group-nr" style="max-width: 110px;"></div>',
+                        '<div>',
+                            '<div id="id-delimiters-combo" class="input-group-nr" style="max-width: 110px;display: inline-block; vertical-align: middle;"></div>',
+                            '<div id="id-delimiter-other" class="input-row" style="display: inline-block; vertical-align: middle;margin-left: 10px;"></div>',
+                        '</div>',
                         '<% } %>',
                     '<% } %>',
                     '</div>',
@@ -93,7 +96,7 @@ define([
             this.codepages      =   options.codepages;
             this.settings       =   options.settings;
 
-            _options.tpl        =   _.template(this.template, _options);
+            _options.tpl        =   _.template(this.template)(_options);
 
             Common.UI.Window.prototype.initialize.call(this, _options);
         },
@@ -135,9 +138,12 @@ define([
 
         onBtnClick: function (event) {
             if (this.handler) {
-                if (this.cmbEncoding)
-                    this.handler.call(this, this.cmbEncoding.getValue(), this.cmbDelimiter ? this.cmbDelimiter.getValue() : null);
-                else
+                if (this.cmbEncoding) {
+                    var delimiter = this.cmbDelimiter ? this.cmbDelimiter.getValue() : null,
+                        delimiterChar = (delimiter == -1) ? this.inputDelimiter.getValue() : null;
+                    (delimiter == -1) && (delimiter = null);
+                    this.handler.call(this, this.cmbEncoding.getValue(), delimiter, delimiterChar);
+                } else
                     this.handler.call(this, this.inputPwd.getValue());
             }
 
@@ -337,12 +343,27 @@ define([
                             {value: 2, displayValue: ';'},
                             {value: 3, displayValue: ':'},
                             {value: 1, displayValue: this.txtTab},
-                            {value: 5, displayValue: this.txtSpace}],
+                            {value: 5, displayValue: this.txtSpace},
+                            {value: -1, displayValue: this.txtOther}],
                         editable: false
                     });
                     this.cmbDelimiter.setValue( (this.settings && this.settings.asc_getDelimiter()) ? this.settings.asc_getDelimiter() : 4);
+                    this.cmbDelimiter.on('selected', _.bind(this.onCmbDelimiterSelect, this));
+
+                    this.inputDelimiter = new Common.UI.InputField({
+                        el          : $('#id-delimiter-other'),
+                        style       : 'width: 30px;',
+                        maxLength: 1,
+                        value: (this.settings && this.settings.asc_getDelimiterChar()) ? this.settings.asc_getDelimiterChar() : ''
+                    });
+                    this.inputDelimiter.setVisible(false);
+
                 }
             }
+        },
+
+        onCmbDelimiterSelect: function(combo, record){
+            this.inputDelimiter.setVisible(record.value == -1);
         },
 
         okButtonText       : "OK",
@@ -353,7 +374,8 @@ define([
         txtTab             : "Tab",
         txtTitle           : "Choose %1 options",
         txtPassword        : "Password",
-        txtTitleProtected  : "Protected File"
+        txtTitleProtected  : "Protected File",
+        txtOther: 'Other'
 
     }, Common.Views.OpenDialog || {}));
 });

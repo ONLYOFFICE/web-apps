@@ -302,7 +302,8 @@ define([
             }
 
             value = Common.localStorage.getItem("de-settings-livecomment");
-            (!(value!==null && parseInt(value) == 0)) ? this.api.asc_showComments() : this.api.asc_hideComments();
+            var resolved = Common.localStorage.getItem("de-settings-resolvedcomment");
+            (!(value!==null && parseInt(value) == 0)) ? this.api.asc_showComments(!(resolved!==null && parseInt(resolved) == 0)) : this.api.asc_hideComments();
             /** coauthoring end **/
 
             value = Common.localStorage.getItem("de-settings-fontrender");
@@ -498,9 +499,12 @@ define([
         },
 
         commentsShowHide: function(mode) {
-            var value = Common.localStorage.getItem("de-settings-livecomment");
-            if (value !== null && 0 === parseInt(value)) {
-                (mode === 'show') ? this.api.asc_showComments() : this.api.asc_hideComments();
+            var value = Common.localStorage.getItem("de-settings-livecomment"),
+                resolved = Common.localStorage.getItem("de-settings-resolvedcomment");
+            value = (value!==null && parseInt(value) == 0);
+            resolved = (resolved!==null && parseInt(resolved) == 0);
+            if (value || resolved) {
+                (mode === 'show') ? this.api.asc_showComments(true) : ((!value) ? this.api.asc_showComments(!resolved) : this.api.asc_hideComments());
             }
 
             if (mode === 'show') {

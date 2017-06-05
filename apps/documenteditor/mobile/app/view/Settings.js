@@ -50,7 +50,11 @@ define([
 
     DE.Views.Settings = Backbone.View.extend(_.extend((function() {
         // private
-        var _isEdit = false;
+        var _isEdit = false,
+            _canEdit = false,
+            _canDownload = false,
+            _canDownloadOrigin = false,
+            _canReader = false;
 
         return {
             // el: '.view-main',
@@ -86,7 +90,11 @@ define([
             },
 
             setMode: function (mode) {
-                _isEdit = (mode === 'edit')
+                _isEdit = mode.isEdit;
+                _canEdit = !mode.isEdit && mode.canEdit && mode.canRequestEditRights;
+                _canDownload = mode.canDownload;
+                _canDownloadOrigin = mode.canDownloadOrigin;
+                _canReader = !mode.isEdit && mode.canReader;
             },
 
             rootLayout: function () {
@@ -96,13 +104,19 @@ define([
 
                     if (_isEdit) {
                         $layour.find('#settings-edit-document').hide();
-                        $layour.find('#settings-readermode').hide();
                         $layour.find('#settings-search .item-title').text(this.textFindAndReplace)
                     } else {
+                        if (!_canEdit) $layour.find('#settings-edit-document').hide();
                         $layour.find('#settings-document').hide();
+                    }
+                    if (!_canReader)
+                        $layour.find('#settings-readermode').hide();
+                    else {
                         $layour.find('#settings-readermode input:checkbox')
                             .prop('checked', Common.SharedSettings.get('readerMode'));
                     }
+                    if (!_canDownload) $layour.find('#settings-download-as').hide();
+                    if (!_canDownloadOrigin) $layour.find('#settings-download').hide();
 
                     return $layour.html();
                 }
@@ -175,7 +189,7 @@ define([
                                 '</div>',
                             '</label>',
                         '</li>'
-                    ].join(''), {
+                    ].join(''))({
                         android: Framework7.prototype.device.android,
                         item: size,
                         index: index,

@@ -100,7 +100,7 @@ define([
         render: function () {
             var el = $(this.el),
                 me = this;
-            el.html(_.template(this.template, {
+            el.html(_.template(this.template)({
                 scope: this
             }));
 

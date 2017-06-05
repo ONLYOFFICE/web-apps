@@ -63,7 +63,12 @@ define(['gateway'], function () {
 
         var _setItem = function(name, value, just) {
             if (_lsAllowed) {
-                localStorage.setItem(name, value);
+                try
+                {
+                    localStorage.setItem(name, value);
+                }
+                catch (error){}
+
             } else {
                 _store[name] = value;
 

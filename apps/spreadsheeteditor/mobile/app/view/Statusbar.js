@@ -205,11 +205,10 @@ define([
                 },
 
                 setMode: function(mode) {
-                    if ('edit' == mode) {
-                        this.$btnAddTab.show();
-                    } else
                     if ('disconnect' == mode) {
                         this.$btnAddTab.toggleClass('disabled', true);
+                    } else if (mode.isEdit) {
+                        this.$btnAddTab.show();
                     }
                 },
 

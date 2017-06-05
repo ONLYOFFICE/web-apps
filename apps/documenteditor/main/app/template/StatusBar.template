@@ -29,7 +29,7 @@
         <div class="separator short el-edit"></div>
         <div class="cnt-lang el-edit">
             <div class="dropdown-toggle" data-toggle="dropdown" style="margin-right: 6px;">
-                <span class="icon-lang-flag img-toolbarmenu lang-flag" data-vertical-offset="10" />
+                <span class="icon-lang-flag lang-flag" data-vertical-offset="10" />
                 <label id="status-label-lang" class="status-label">English (United States)</label>
                 <div class="caret up img-commonctrl" />
             </div>

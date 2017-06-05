@@ -112,7 +112,7 @@ define([
 
         setMode: function(mode) {
             this.statusbar.setMode(mode);
-            this.isEdit = mode == 'edit';
+            this.isEdit = mode.isEdit;
         },
 
         /*

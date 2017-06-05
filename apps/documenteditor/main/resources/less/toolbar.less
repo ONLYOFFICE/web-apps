@@ -78,24 +78,11 @@
     z-index: @zindex-tooltip + 1;
 }
 
-.menu-markers,
-.menu-numbers {
-    //
-}
-
 .item-markerlist {
-    .background-ximage('@{app-image-path}/toolbar/bullets.png', '@{app-image-path}/toolbar/bullets@2x.png', 38px);
+    .background-ximage('@{app-image-path}/toolbar/bullets-and-numbering.png', '@{app-image-path}/toolbar/bullets-and-numbering@2x.png', 38px);
     width: 38px;
     height: 38px;
 }
-
-.item-numberlist,
-.item-multilevellist {
-    .background-ximage('@{app-image-path}/toolbar/multilevels-numbering.png', '@{app-image-path}/toolbar/multilevels-numbering@2x.png', 74px);
-    width: 74px;
-    height: 74px;
-}
-
 
 .color-schemas-menu {
     span {
@@ -437,4 +424,11 @@
         color: @dropdown-link-disabled-color;
         background-position: @plus-offset-x @plus-offset-y - 16;
     }
+}
+
+#special-paste-container {
+    position: absolute;
+    z-index: @zindex-dropdown - 20;
+    background-color: @gray-light;
+    border: 1px solid @gray;
 }
