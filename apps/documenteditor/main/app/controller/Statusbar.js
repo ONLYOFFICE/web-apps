@@ -182,6 +182,8 @@ define([
                 value = Common.localStorage.getItem("de-new-changes");
                 this.showNewChangesTip = !(value && parseInt(value) == 1) && !this.statusbar.mode.isLightVersion;
 
+                var showChangesPanel = (typeof (this.statusbar.mode.customization) == 'object' && !!this.statusbar.mode.customization.showReviewChanges);
+
                 if (this.statusbar.mode.isReviewOnly) {
                     var iconEl = $('.btn-icon', this.statusbar.btnReview.cmpEl);
                     (this.api.asc_HaveRevisionsChanges()) ? iconEl.removeClass(this.statusbar.btnReviewCls).addClass('btn-ic-changes') : iconEl.removeClass('btn-ic-changes').addClass(this.statusbar.btnReviewCls);
@@ -197,9 +199,10 @@ define([
                 } else {
                     value = Common.localStorage.getItem("de-track-changes");
                     var doc_review = this.api.asc_IsTrackRevisions();
-                    if (!doc_review)
+                    if (!doc_review) {
                         this.changeReviewStatus(false);
-                    else {
+                        this.statusbar.mnuChangesPanel.setChecked(showChangesPanel);
+                    } else {
                         var iconEl = $('.btn-icon', this.statusbar.btnReview.cmpEl);
                        (this.api.asc_HaveRevisionsChanges()) ? iconEl.removeClass(this.statusbar.btnReviewCls).addClass('btn-ic-changes') : iconEl.removeClass('btn-ic-changes').addClass(this.statusbar.btnReviewCls);
                         if (value!==null && parseInt(value) == 1) {
@@ -214,6 +217,7 @@ define([
                                 this.statusbar.btnReview.updateHint(this.statusbar.tipReview);
                         } else {
                             this.changeReviewStatus(false);
+                            this.statusbar.mnuChangesPanel.setChecked(showChangesPanel);
                             if (this.api.asc_HaveRevisionsChanges() && this.showNewChangesTip && !statusbarIsHidden){
                                 this.statusbar.btnReview.updateHint('');
                                 if (this.newChangesTooltip===undefined)
@@ -296,11 +300,11 @@ define([
             if (this.api) {
                 this.api.asc_SetTrackRevisions(state);
             }
-            this.showHideReviewChangesPanel(state && !this.statusbar.mode.isLightVersion);
+            this.showHideReviewChangesPanel(state);
         },
 
         showHideReviewChangesPanel: function(state) {
-            this.reviewChangesPanel[state ? 'show' : 'hide']();
+            this.reviewChangesPanel[(state && !this.statusbar.mode.isLightVersion) ? 'show' : 'hide']();
         },
 
         synchronizeChanges: function() {
