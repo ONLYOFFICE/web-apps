@@ -741,7 +741,7 @@ define([
         txtUngroup:             'Ungroup',
         txtGroup:               'Group',
         topCellText:            'Align Top',
-        centerCellText:         'Align Center',
+        centerCellText:         'Align Middle',
         bottomCellText:         'Align Bottom',
         vertAlignText:          'Vertical Alignment',
         txtTextAdvanced:        'Text Advanced Settings',
