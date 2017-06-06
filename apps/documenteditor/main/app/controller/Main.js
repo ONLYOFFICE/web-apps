@@ -1066,7 +1066,7 @@ define([
                         toolbarController   = application.getController('Toolbar'),
                         rightmenuController = application.getController('RightMenu'),
                         fontsControllers    = application.getController('Common.Controllers.Fonts'),
-                        reviewController    = (this.appOptions.canReview) ? application.getController('Common.Controllers.ReviewChanges') : null;
+                        reviewController    = (this.appOptions.isEdit) ? application.getController('Common.Controllers.ReviewChanges') : null;
 
                     fontsControllers    && fontsControllers.setApi(me.api);
                     toolbarController   && toolbarController.setApi(me.api);
