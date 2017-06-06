@@ -443,6 +443,10 @@ define([
                     '<td class="left"><label><%= scope.txtLiveComment %></label></td>',
                     '<td class="right"><div id="fms-chb-live-comment"/></td>',
                 '</tr>','<tr class="divider coauth"></tr>',
+                '<tr class="coauth">',
+                    '<td class="left"></td>',
+                    '<td class="right"><div id="fms-chb-resolved-comment"/></td>',
+                '</tr>','<tr class="divider coauth"></tr>',
                 '<tr class="autosave">',
                     '<td class="left"><label id="fms-lbl-autosave"><%= scope.textAutoSave %></label></td>',
                     '<td class="right"><span id="fms-chb-autosave" /></td>',
@@ -502,6 +506,13 @@ define([
             this.chLiveComment = new Common.UI.CheckBox({
                 el: $('#fms-chb-live-comment'),
                 labelText: this.strLiveComment
+            }).on('change', _.bind(function(field, newValue, oldValue, eOpts){
+                this.chResolvedComment.setDisabled(field.getValue()!=='checked');
+            }, this));
+
+            this.chResolvedComment = new Common.UI.CheckBox({
+                el: $('#fms-chb-resolved-comment'),
+                labelText: this.strResolvedComment
             });
 
             this.cmbCoAuthMode = new Common.UI.ComboBox({
@@ -683,6 +694,9 @@ define([
             value = Common.localStorage.getItem("sse-settings-livecomment");
             this.chLiveComment.setValue(!(value!==null && parseInt(value) == 0));
 
+            value = Common.localStorage.getItem("sse-settings-resolvedcomment");
+            this.chResolvedComment.setValue(!(value!==null && parseInt(value) == 0));
+
             value = Common.localStorage.getItem("sse-settings-coauthmode");
             if (value===null && Common.localStorage.getItem("sse-settings-autosave")===null &&
                 this.mode.customization && this.mode.customization.autosave===false)
@@ -737,6 +751,7 @@ define([
             Common.localStorage.setItem("sse-settings-zoom", this.cmbZoom.getValue());
             /** coauthoring begin **/
             Common.localStorage.setItem("sse-settings-livecomment", this.chLiveComment.isChecked() ? 1 : 0);
+            Common.localStorage.setItem("sse-settings-resolvedcomment", this.chResolvedComment.isChecked() ? 1 : 0);
             if (this.mode.isEdit && !this.mode.isOffline && this.mode.canCoAuthoring)
                 Common.localStorage.setItem("sse-settings-coauthmode", this.cmbCoAuthMode.getValue());
             /** coauthoring end **/
@@ -819,7 +834,8 @@ define([
         strAutoRecover: 'Turn on autorecover',
         txtInch: 'Inch',
         textForceSave: 'Save to Server',
-        strForcesave: 'Always save to server (otherwise save to server on document close)'
+        strForcesave: 'Always save to server (otherwise save to server on document close)',
+        strResolvedComment: 'Turn on display of the resolved comments'
     }, SSE.Views.FileMenuPanels.MainSettingsGeneral || {}));
 
     SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({

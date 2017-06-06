@@ -256,7 +256,8 @@ define([
 
             /** coauthoring begin **/
             var value = Common.localStorage.getItem("sse-settings-livecomment");
-            (!(value!==null && parseInt(value) == 0)) ? this.api.asc_showComments() : this.api.asc_hideComments();
+            var resolved = Common.localStorage.getItem("sse-settings-resolvedcomment");
+            (!(value!==null && parseInt(value) == 0)) ? this.api.asc_showComments(!(resolved!==null && parseInt(resolved) == 0)) : this.api.asc_hideComments();
 //            this.getApplication().getController('DocumentHolder').setLiveCommenting(!(value!==null && parseInt(value) == 0));
 
             if (this.mode.isEdit && !this.mode.isOffline && this.mode.canCoAuthoring) {
@@ -549,9 +550,12 @@ define([
 
         commentsShowHide: function(state) {
             if (this.api) {
-                var value = Common.localStorage.getItem("sse-settings-livecomment");
-                if (value !== null && parseInt(value) == 0) {
-                    (state) ? this.api.asc_showComments() : this.api.asc_hideComments();
+                var value = Common.localStorage.getItem("sse-settings-livecomment"),
+                    resolved = Common.localStorage.getItem("sse-settings-resolvedcomment");
+                value = (value!==null && parseInt(value) == 0);
+                resolved = (resolved!==null && parseInt(resolved) == 0);
+                if (value || resolved) {
+                    (state) ? this.api.asc_showComments(true) : ((!value) ? this.api.asc_showComments(!resolved) : this.api.asc_hideComments());
                 }
 
                 if (state) {
