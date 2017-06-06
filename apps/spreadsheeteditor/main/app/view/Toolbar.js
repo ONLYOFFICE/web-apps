@@ -1125,7 +1125,7 @@ define([
                                 value       : 'top'
                             },
                             {
-                                caption     : me.tipAlignCenter,
+                                caption     : me.tipAlignMiddle,
                                 iconCls     : 'mnu-valign-middle',
                                 icls        : 'btn-valign-middle',
                                 checkable   : true,

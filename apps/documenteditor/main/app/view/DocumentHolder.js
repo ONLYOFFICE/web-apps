@@ -2339,21 +2339,21 @@ define([
                     menuAlign: 'tl-tr',
                     items   : [
                         me.menuTableCellTop = new Common.UI.MenuItem({
-                            caption     : me.topCellText,
+                            caption     : me.textShapeAlignTop,
                             toggleGroup : 'popuptablecellalign',
                             checkable   : true,
                             checked     : false,
                             valign      : Asc.c_oAscVertAlignJc.Top
                         }).on('click', _.bind(tableCellsVAlign, me)),
                         me.menuTableCellCenter = new Common.UI.MenuItem({
-                            caption     : me.centerCellText,
+                            caption     : me.textShapeAlignMiddle,
                             toggleGroup : 'popuptablecellalign',
                             checkable   : true,
                             checked     : false,
                             valign      : Asc.c_oAscVertAlignJc.Center
                         }).on('click', _.bind(tableCellsVAlign, me)),
                         me.menuTableCellBottom = new Common.UI.MenuItem({
-                            caption     : me.bottomCellText,
+                            caption     : me.textShapeAlignBottom,
                             toggleGroup : 'popuptablecellalign',
                             checkable   : true,
                             checked     : false,
@@ -2855,21 +2855,21 @@ define([
                     menuAlign: 'tl-tr',
                     items   : [
                         me.menuParagraphTop = new Common.UI.MenuItem({
-                            caption     : me.topCellText,
+                            caption     : me.textShapeAlignTop,
                             checkable   : true,
                             checked     : false,
                             toggleGroup : 'popupparagraphvalign',
                             valign      : Asc.c_oAscVAlign.Top
                         }).on('click', _.bind(paragraphVAlign, me)),
                         me.menuParagraphCenter = new Common.UI.MenuItem({
-                            caption     : me.centerCellText,
+                            caption     : me.textShapeAlignMiddle,
                             checkable   : true,
                             checked     : false,
                             toggleGroup : 'popupparagraphvalign',
                             valign      : Asc.c_oAscVAlign.Center
                         }).on('click', _.bind(paragraphVAlign, me)),
                         me.menuParagraphBottom = new Common.UI.MenuItem({
-                            caption     : me.bottomCellText,
+                            caption     : me.textShapeAlignBottom,
                             checkable   : true,
                             checked     : false,
                             toggleGroup : 'popupparagraphvalign',
@@ -3349,9 +3349,6 @@ define([
         /** coauthoring begin **/
         addCommentText          : 'Add Comment',
         /** coauthoring end **/
-        topCellText:            'Align Top',
-        centerCellText:         'Align Center',
-        bottomCellText:         'Align Bottom',
         cellAlignText:          'Cell Vertical Alignment',
         txtInline: 'Inline',
         txtSquare: 'Square',
