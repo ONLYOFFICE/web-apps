@@ -770,6 +770,7 @@
   "PE.Views.DocumentHolder.moreText": "More variants...",
   "PE.Views.DocumentHolder.spellcheckText": "Spellcheck",
   "PE.Views.DocumentHolder.langText": "Select Language",
+  "PE.Views.DocumentHolder.textUndo": "Undo",
   "PE.Views.DocumentPreview.goToSlideText": "Go to Slide",
   "PE.Views.DocumentPreview.slideIndexText": "Slide {0} of {1}",
   "PE.Views.DocumentPreview.txtClose": "Close Slideshow",

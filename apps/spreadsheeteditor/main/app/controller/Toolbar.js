@@ -1643,7 +1643,7 @@ define([
         },
 
         onApiSheetChanged: function() {
-            if ( !this.appConfig.isEditDiagram && !this.appConfig.isEditMailMerge ) {
+            if ( this.api && !this.appConfig.isEditDiagram && !this.appConfig.isEditMailMerge ) {
                 var params  = this.api.asc_getSheetViewSettings();
                 this.toolbar.mnuitemHideHeadings.setChecked(!params.asc_getShowRowColHeaders());
                 this.toolbar.mnuitemHideGridlines.setChecked(!params.asc_getShowGridLines());
