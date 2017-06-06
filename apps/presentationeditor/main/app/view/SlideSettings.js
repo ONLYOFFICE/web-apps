@@ -1442,7 +1442,7 @@ define([
         },
 
         strColor                : 'Color',
-        strFill                 : 'Fill',
+        strFill                 : 'Background',
         textColor               : 'Color Fill',
         textImageTexture        : 'Picture or Texture',
         textTexture             : 'From Texture',
