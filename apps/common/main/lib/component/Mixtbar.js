@@ -205,15 +205,19 @@ define([
                         panel.addClass('active');
                     }
 
-                    var $tp = this.$tabs.find('> a[data-tab=' + tab + ']').parent();
+                    var $tc = this.$tabs.find('> a[data-tab=' + tab + ']');
+                    var $tp = $tc.parent();
                     if ( $tp.length ) {
                         $tp.addClass('active');
 
-                        this.$marker.width($tp.width());
+                        // this.$marker.width($tp.width());
+
+                        var offs = ($tp.width() - $tc.width())/2-1;
+                        this.$marker.width($tc.width()+9);
 
                         if ( $scrollL.is(':visible') )
-                            this.$marker.css({left: $tp.position().left + $boxTabs.scrollLeft() - $scrollL.width()});
-                        else this.$marker.css({left: $tp.position().left});
+                            this.$marker.css({left: (offs-9/2)+$tc.position().left + $boxTabs.scrollLeft() - $scrollL.width()});
+                        else this.$marker.css({left: (offs-9/2)+$tc.position().left});
                     }
 
                     if ( panel.length ) {
@@ -233,7 +237,7 @@ define([
                     return config.tabs[index].action;
                 }
 
-                var _tabTemplate = _.template('<li class="ribtab"><a href="#" data-tab="<%= action %>" data-title="<%= caption %>"><%= caption %></a></li>');
+                var _tabTemplate = _.template('<li class="ribtab"><div class="tab-bg" /><a href="#" data-tab="<%= action %>" data-title="<%= caption %>"><%= caption %></a></li>');
 
                 config.tabs[after + 1] = tab;
                 var _after_action = _get_tab_action(after);

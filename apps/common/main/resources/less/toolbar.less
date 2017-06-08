@@ -1,4 +1,4 @@
-@height-tabs: 40px;
+@height-tabs: 32px;
 @height-controls: 67px;
 
 //@tabs-bg-color: #fff;
@@ -43,23 +43,24 @@
       background-color: @tabs-bg-color;
     }
 
-    &::after {
-      content: '';
-      position: absolute;
-      width: 100%;
-      border-top: 1px solid @gray-dark;
-      top: @height-tabs - 1;
-      left: 0;
-      z-index: 1;
-    }
+    //&::after {
+    //  content: '';
+    //  position: absolute;
+    //  width: 100%;
+    //  border-top: 1px solid @gray-dark;
+    //  top: @height-tabs - 1;
+    //  left: 0;
+    //  z-index: 1;
+    //}
   }
 
     .tabs {
-    flex-grow: 1;
-    background-color: @tabs-bg-color;
-    position: relative;
-    overflow: hidden;
-    display: flex;
+        flex-grow: 1;
+        background-color: @tabs-bg-color;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        padding-top: 2px;
 
     > ul {
       padding: 0;
@@ -75,43 +76,62 @@
       height: 100%;
       //background-color: #a6c995;
 
+        position: relative;
+        .tab-bg {
+            position: absolute;
+            height: 28px;
+            width: 100%;
+            top: 4px;
+            background-color: @gray-light;
+            border-left: 4px solid  @tabs-bg-color;
+            border-right: 3px solid  @tabs-bg-color;
+        }
+
+        &:not(.active) {
+            .tab-bg {
+                display: none;
+            }
+        }
+
+
       > a {
         display: inline-block;
         line-height: @height-tabs;
         height: 100%;
-        padding: 0 10px;
+        padding: 0 14px;
         text-decoration: none;
         cursor: default;
-        font-size: 12px;
+        font-size: 11px;
         text-align: center;
-        color: #fff;
-        font-weight: bold;
 
-        &::after {
-          display: block;
-          content: attr(data-title);
-          font-weight: bold;
-          height: 1px;
-          overflow: hidden;
-          visibility: hidden;
-        }
+          position: relative;
+
+        //&::after {
+        //  display: block;
+        //  content: attr(data-title);
+        //  //font-weight: bold;
+        //  height: 1px;
+        //  overflow: hidden;
+        //  visibility: hidden;
+        //}
 
       }
 
       &.active {
         > a {
-          //font-weight: bold;
+            color: #000;
         }
       }
     }
 
     .marker {
       position: relative;
-      border-top: 3px solid #fff;
-      top: -10px;
+      border-top: 2px solid #fff;
+      top: -7px;
       -webkit-transition: width .2s, left .2s ease-out;
       opacity: 1;
       transition: width .2s, left .2s ease-out, opacity .2s;
+      display: none;
     }
 
     &:not(.short) {

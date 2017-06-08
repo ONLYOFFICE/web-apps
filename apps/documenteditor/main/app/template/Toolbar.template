@@ -8,6 +8,7 @@
             <ul>
                 <% for(var i in tabs) { %>
                     <li class="ribtab<% if (tabs[i].extcls) print(' ' + tabs[i].extcls) %>">
+                        <div class="tab-bg" />
                         <a data-tab="<%= tabs[i].action %>" data-title="<%= tabs[i].caption %>"><%= tabs[i].caption %></a>
                     </li>
                 <% } %>
