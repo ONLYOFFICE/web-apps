@@ -1820,7 +1820,7 @@ define([
                     var isInChart = (value.imgProps && value.imgProps.value && !_.isNull(value.imgProps.value.get_ChartProperties()));
 
                     menuViewUndo.setVisible(me.mode.canCoAuthoring && me.mode.canComments);
-                    menuViewUndo.setDisabled(/* !me.api.asc_canUndo()*/);
+                    menuViewUndo.setDisabled(!me.api.asc_getCanUndo());
                     menuViewCopySeparator.setVisible(!isInChart && me.api.can_AddQuotedComment() !== false && me.mode.canCoAuthoring && me.mode.canComments);
                     menuViewAddComment.setVisible(!isInChart && me.api.can_AddQuotedComment() !== false && me.mode.canCoAuthoring && me.mode.canComments);
                     menuViewAddComment.setDisabled(value.paraProps && value.paraProps.locked === true);

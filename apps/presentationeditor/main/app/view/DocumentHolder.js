@@ -1716,7 +1716,7 @@ define([
             this.viewModeMenu = new Common.UI.Menu({
                 initMenu: function (value) {
                     menuViewUndo.setVisible(me.mode.canCoAuthoring && me.mode.canComments);
-                    menuViewUndo.setDisabled(/* !me.api.asc_canUndo()*/);
+                    menuViewUndo.setDisabled(!me.api.asc_getCanUndo());
                     menuViewCopySeparator.setVisible(!value.isChart && me.api.can_AddQuotedComment() !== false && me.mode.canCoAuthoring && me.mode.canComments);
                     menuViewAddComment.setVisible(!value.isChart && me.api.can_AddQuotedComment() !== false && me.mode.canCoAuthoring && me.mode.canComments);
                     menuViewAddComment.setDisabled(value.locked);
