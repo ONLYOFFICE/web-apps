@@ -778,7 +778,7 @@ define([
                 this.applyModeEditorElements();
 
                 this.api.asc_setViewMode(!this.appOptions.isEdit && !this.appOptions.canComments);
-
+                (!this.appOptions.isEdit && this.appOptions.canComments) && this.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyComments);
                 this.api.asc_LoadDocument();
 
                 if (!this.appOptions.isEdit) {
