@@ -1540,7 +1540,7 @@ define([
 
                 this.mode = m;
                 /** coauthoring begin **/
-                !(this.mode.canCoAuthoring && this.mode.isEdit && this.mode.canComments)
+                !(this.mode.canCoAuthoring && this.mode.canComments)
                     ? Common.util.Shortcuts.suspendEvents(hkComments)
                     : Common.util.Shortcuts.resumeEvents(hkComments);
                 /** coauthoring end **/
@@ -1725,7 +1725,7 @@ define([
 
         /** coauthoring begin **/
         addComment: function(item, e, eOpt){
-            if (this.api && this.mode.canCoAuthoring && this.mode.isEdit && this.mode.canComments) {
+            if (this.api && this.mode.canCoAuthoring && this.mode.canComments) {
                 this.suppressEditComplete = true;
 
                 var controller = DE.getController('Common.Controllers.Comments');
@@ -1819,9 +1819,10 @@ define([
                 initMenu: function (value) {
                     var isInChart = (value.imgProps && value.imgProps.value && !_.isNull(value.imgProps.value.get_ChartProperties()));
 
-                    menuViewUndo.setVisible(me.mode.isEdit);
-                    menuViewCopySeparator.setVisible(!isInChart && me.api.can_AddQuotedComment() !== false && me.mode.canCoAuthoring && me.mode.canComments && me.mode.isEdit);
-                    menuViewAddComment.setVisible(!isInChart && me.api.can_AddQuotedComment() !== false && me.mode.canCoAuthoring && me.mode.canComments && me.mode.isEdit);
+                    menuViewUndo.setVisible(me.mode.canCoAuthoring && me.mode.canComments);
+                    menuViewUndo.setDisabled(/* !me.api.asc_canUndo()*/);
+                    menuViewCopySeparator.setVisible(!isInChart && me.api.can_AddQuotedComment() !== false && me.mode.canCoAuthoring && me.mode.canComments);
+                    menuViewAddComment.setVisible(!isInChart && me.api.can_AddQuotedComment() !== false && me.mode.canCoAuthoring && me.mode.canComments);
                     menuViewAddComment.setDisabled(value.paraProps && value.paraProps.locked === true);
 
                     var cancopy = me.api && me.api.can_CopyCut();

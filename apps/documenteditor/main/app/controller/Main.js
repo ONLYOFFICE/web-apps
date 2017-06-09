@@ -981,8 +981,9 @@ define([
                 this.appOptions.canHistoryRestore= this.editorConfig.canHistoryRestore && !!this.permissions.changeHistory;
                 this.appOptions.canUseMailMerge= this.appOptions.canLicense && this.appOptions.canEdit && /*!this.appOptions.isDesktopApp*/ !this.appOptions.isOffline;
                 this.appOptions.canSendEmailAddresses  = this.appOptions.canLicense && this.editorConfig.canSendEmailAddresses && this.appOptions.canEdit && this.appOptions.canCoAuthoring;
-                this.appOptions.canComments    = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit) && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.comments===false);
-                this.appOptions.canChat        = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit) && !this.appOptions.isOffline && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.chat===false);
+                this.appOptions.canComments    = this.appOptions.canLicense && (this.permissions.comments===undefined ? this.appOptions.isEdit : this.permissions.comments);
+                this.appOptions.canComments    = this.appOptions.canComments && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.comments===false);
+                this.appOptions.canChat        = this.appOptions.canLicense && !this.appOptions.isOffline && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.chat===false);
                 this.appOptions.canEditStyles  = this.appOptions.canLicense && this.appOptions.canEdit;
                 this.appOptions.canPrint       = (this.permissions.print !== false);
                 this.appOptions.canRename      = !!this.permissions.rename;
@@ -1012,7 +1013,7 @@ define([
                 this.applyModeCommonElements();
                 this.applyModeEditorElements();
 
-                this.api.asc_setViewMode(!this.appOptions.isEdit);
+                this.api.asc_setViewMode(!this.appOptions.isEdit && !this.appOptions.canComments);
                 this.api.asc_LoadDocument();
 
                 if (!this.appOptions.isEdit) {
@@ -1065,6 +1066,12 @@ define([
             },
 
             applyModeEditorElements: function() {
+                if (this.appOptions.canComments || this.appOptions.isEdit) {
+                    /** coauthoring begin **/
+                    this.contComments.setMode(this.appOptions);
+                    this.contComments.setConfig({config: this.editorConfig}, this.api);
+                    /** coauthoring end **/
+                }
                 if (this.appOptions.isEdit) {
                     var me = this,
                         application         = this.getApplication(),
@@ -1076,10 +1083,6 @@ define([
                     fontsControllers    && fontsControllers.setApi(me.api);
                     toolbarController   && toolbarController.setApi(me.api);
 
-                    /** coauthoring begin **/
-                    me.contComments.setMode(me.appOptions);
-                    me.contComments.setConfig({config: me.editorConfig}, me.api);
-                    /** coauthoring end **/
                     rightmenuController && rightmenuController.setApi(me.api);
 
                     if (reviewController)

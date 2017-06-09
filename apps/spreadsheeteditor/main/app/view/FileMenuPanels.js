@@ -439,14 +439,14 @@ define([
         template: _.template([
             '<table class="main"><tbody>',
                 /** coauthoring begin **/
-                '<tr class="coauth">',
+                '<tr class="comments">',
                     '<td class="left"><label><%= scope.txtLiveComment %></label></td>',
                     '<td class="right"><div id="fms-chb-live-comment"/></td>',
-                '</tr>','<tr class="divider coauth"></tr>',
-                '<tr class="coauth">',
+                '</tr>','<tr class="divider comments"></tr>',
+                '<tr class="comments">',
                     '<td class="left"></td>',
                     '<td class="right"><div id="fms-chb-resolved-comment"/></td>',
-                '</tr>','<tr class="divider coauth"></tr>',
+                '</tr>','<tr class="divider comments"></tr>',
                 '<tr class="autosave">',
                     '<td class="left"><label id="fms-lbl-autosave"><%= scope.textAutoSave %></label></td>',
                     '<td class="right"><span id="fms-chb-autosave" /></td>',
@@ -480,12 +480,12 @@ define([
                         '<div><div id="fms-cmb-func-locale" style="display: inline-block; margin-right: 15px;"/>',
                         '<label id="fms-lbl-func-locale" style="vertical-align: middle;"><%= scope.strFuncLocaleEx %></label></div></td>',
                 '</tr>','<tr class="divider edit"></tr>',
-                '<tr>',
+                '<tr class="edit">',
                     '<td class="left"><label><%= scope.strRegSettings %></label></td>',
                     '<td class="right">',
                         '<div><div id="fms-cmb-reg-settings" style="display: inline-block; margin-right: 15px;"/>',
                         '<label id="fms-lbl-reg-settings" style="vertical-align: middle;"></label></div></td>',
-                '</tr>','<tr class="divider"></tr>',
+                '</tr>','<tr class="divider edit"></tr>',
                 '<tr>',
                     '<td class="left"></td>',
                     '<td class="right"><button id="fms-btn-apply" class="btn normal dlg-btn primary"><%= scope.okButtonText %></button></td>',
@@ -668,13 +668,14 @@ define([
 
         setMode: function(mode) {
             this.mode = mode;
+            $('tr.edit', this.el)[mode.isEdit ? 'show' : 'hide']();
             $('tr.autosave', this.el)[mode.isEdit ? 'show' : 'hide']();
             if (this.mode.isDesktopApp && this.mode.isOffline) {
                 this.chAutosave.setCaption(this.strAutoRecover);
                 this.lblAutosave.text(this.textAutoRecover);
             }
             $('tr.forcesave', this.el)[mode.canForcesave ? 'show' : 'hide']();
-            $('tr.coauth', this.el)[mode.canCoAuthoring && mode.isEdit ? 'show' : 'hide']();
+            $('tr.comments', this.el)[mode.canCoAuthoring && mode.canComments ? 'show' : 'hide']();
             $('tr.coauth.changes', this.el)[mode.isEdit && !mode.isOffline && mode.canCoAuthoring? 'show' : 'hide']();
         },
 

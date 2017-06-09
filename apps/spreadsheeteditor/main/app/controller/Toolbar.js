@@ -2711,9 +2711,11 @@ define([
         },
 
         applyFormulaSettings: function() {
-            var formulas = this.toolbar.btnInsertFormula.menu.items;
-            for (var i=0; i<Math.min(4,formulas.length); i++) {
-                formulas[i].setCaption(this.api.asc_getFormulaLocaleName(formulas[i].value));
+            if (this.toolbar.rendered) {
+                var formulas = this.toolbar.btnInsertFormula.menu.items;
+                for (var i=0; i<Math.min(4,formulas.length); i++) {
+                    formulas[i].setCaption(this.api.asc_getFormulaLocaleName(formulas[i].value));
+                }
             }
         },
 
