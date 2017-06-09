@@ -76,6 +76,11 @@ define([
                     'reviewchange:delete':      _.bind(this.onDeleteClick, this),
                     'reviewchange:preview':     _.bind(this.onBtnPreviewClick, this),
                     'lang:document':            _.bind(this.onDocLanguage, this)
+                },
+                'Common.Views.ReviewChangesDialog': {
+                    'reviewchange:accept':      _.bind(this.onAcceptClick, this),
+                    'reviewchange:reject':      _.bind(this.onRejectClick, this),
+                    'reviewchange:preview':     _.bind(this.onBtnPreviewClick, this)
                 }
             });
         },
@@ -144,6 +149,10 @@ define([
                     if (!this.appConfig.isReviewOnly && this._state.lock !== lock) {
                         this.view.btnAccept.setDisabled(lock==true);
                         this.view.btnReject.setDisabled(lock==true);
+                        if (this.dlgChanges) {
+                            this.dlgChanges.btnAccept.setDisabled(lock==true);
+                            this.dlgChanges.btnReject.setDisabled(lock==true);
+                        }
                         this._state.lock = lock;
                     }
                     this._state.posx = posX;
@@ -517,6 +526,16 @@ define([
 
                     if ( Common.localStorage.getBool("de-settings-spellcheck") )
                         me.view.turnSpelling(true);
+
+                    if ( typeof (me.appConfig.customization) == 'object' && (me.appConfig.customization.showReviewChanges==true) ) {
+                        me.dlgChanges = (new Common.Views.ReviewChangesDialog({
+                            popoverChanges  : me.popoverChanges,
+                            mode            : me.appConfig
+                        }));
+                        var sdk = $('#editor_sdk'),
+                            offset = sdk.offset();
+                        me.dlgChanges.show(Math.max(10, offset.left + sdk.width() - 300), Math.max(10, offset.top + sdk.height() - 150));
+                    }
                 });
             }
         },

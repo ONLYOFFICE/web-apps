@@ -725,5 +725,134 @@ define([
             tipSetSpelling: 'Spell checking',
             tipReview: 'Review'
         }
-    }()), Common.Views.ReviewChanges || {}))
+    }()), Common.Views.ReviewChanges || {}));
+
+    Common.Views.ReviewChangesDialog = Common.UI.Window.extend(_.extend({
+        options: {
+            width       : 283,
+            height      : 90,
+            title       : 'Review Changes',
+            modal       : false,
+            cls         : 'review-changes modal-dlg',
+            alias       : 'Common.Views.ReviewChangesDialog'
+        },
+
+        initialize : function(options) {
+            _.extend(this.options, options || {});
+
+            this.template = [
+                '<div class="box">',
+                    '<div class="input-row">',
+                        '<div id="id-review-button-prev" style=""></div>',
+                        '<div id="id-review-button-next" style=""></div>',
+                        '<div id="id-review-button-accept" style=""></div>',
+                        '<div id="id-review-button-reject" style="margin-right: 0;"></div>',
+                    '</div>',
+                '</div>'
+            ].join('');
+
+            this.options.tpl = _.template(this.template)(this.options);
+            this.popoverChanges = this.options.popoverChanges;
+            this.mode = this.options.mode;
+
+            Common.UI.Window.prototype.initialize.call(this, this.options);
+        },
+
+        render: function() {
+            Common.UI.Window.prototype.render.call(this);
+
+            this.btnPrev = new Common.UI.Button({
+                cls: 'dlg-btn iconic',
+                iconCls: 'img-commonctrl prev',
+                hint: this.txtPrev,
+                hintAnchor: 'top'
+            });
+            this.btnPrev.render( this.$window.find('#id-review-button-prev'));
+
+            this.btnNext = new Common.UI.Button({
+                cls: ' dlg-btn iconic',
+                iconCls: 'img-commonctrl next',
+                hint: this.txtNext,
+                hintAnchor: 'top'
+            });
+            this.btnNext.render( this.$window.find('#id-review-button-next'));
+
+            this.btnAccept = new Common.UI.Button({
+                cls         : 'btn-toolbar',
+                caption     : this.txtAccept,
+                split       : true,
+                disabled    : this.mode.isReviewOnly,
+                menu        : new Common.UI.Menu({
+                    items: [
+                        this.mnuAcceptCurrent = new Common.UI.MenuItem({
+                            caption: this.txtAcceptCurrent,
+                            value: 'current'
+                        }),
+                        this.mnuAcceptAll = new Common.UI.MenuItem({
+                            caption: this.txtAcceptAll,
+                            value: 'all'
+                        })
+                    ]
+                })
+            });
+            this.btnAccept.render(this.$window.find('#id-review-button-accept'));
+
+            this.btnReject = new Common.UI.Button({
+                cls         : 'btn-toolbar',
+                caption     : this.txtReject,
+                split       : true,
+                disabled    : this.mode.isReviewOnly,
+                menu        : new Common.UI.Menu({
+                    items: [
+                        this.mnuRejectCurrent = new Common.UI.MenuItem({
+                            caption: this.txtRejectCurrent,
+                            value: 'current'
+                        }),
+                        this.mnuRejectAll = new Common.UI.MenuItem({
+                            caption: this.txtRejectAll,
+                            value: 'all'
+                        })
+                    ]
+                })
+            });
+            this.btnReject.render(this.$window.find('#id-review-button-reject'));
+
+            var me = this;
+            this.btnPrev.on('click', function (e) {
+                me.fireEvent('reviewchange:preview', [me.btnPrev, 'prev']);
+            });
+
+            this.btnNext.on('click', function (e) {
+                me.fireEvent('reviewchange:preview', [me.btnNext, 'next']);
+            });
+
+            this.btnAccept.on('click', function (e) {
+                me.fireEvent('reviewchange:accept', [me.btnAccept, 'current']);
+            });
+
+            this.btnAccept.menu.on('item:click', function (menu, item, e) {
+                me.fireEvent('reviewchange:accept', [menu, item]);
+            });
+
+            this.btnReject.on('click', function (e) {
+                me.fireEvent('reviewchange:reject', [me.btnReject, 'current']);
+            });
+
+            this.btnReject.menu.on('item:click', function (menu, item, e) {
+                me.fireEvent('reviewchange:reject', [menu, item]);
+            });
+
+            return this;
+        },
+
+        textTitle: 'Review Changes',
+        txtPrev: 'To previous change',
+        txtNext: 'To next change',
+        txtAccept: 'Accept',
+        txtAcceptCurrent: 'Accept Current Change',
+        txtAcceptAll: 'Accept All Changes',
+        txtReject: 'Reject',
+        txtRejectCurrent: 'Reject Current Change',
+        txtRejectAll: 'Reject All Changes'
+    }, Common.Views.ReviewChangesDialog || {}));
 });
