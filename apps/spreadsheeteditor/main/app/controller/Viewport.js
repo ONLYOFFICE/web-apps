@@ -74,7 +74,7 @@ define([
                         toolbar.setExtra('left', me.header.getPanel('left', config));
                     },
                     'view:compact'  : function (toolbar, state) {
-                        me.viewport.vlayout.panels[0].height = state ? 40 : 40+67;
+                        me.viewport.vlayout.panels[0].height = state ? 32 : 32+67;
                     }
                 },
                 'Common.Views.Header': {

@@ -87,7 +87,7 @@ define([
                 box: $container,
                 items: [{
                     el: items[0],
-                    height: Common.localStorage.getBool('pe-compact-toolbar') ? 40 : 40+67
+                    height: Common.localStorage.getBool('pe-compact-toolbar') ? 32 : 32+67
                 }, {
                     el: items[1],
                     stretch: true

@@ -85,7 +85,7 @@ define([
                 items: [{
                         el: $container.find(' > .layout-item#toolbar'),
                         // rely: true
-                        height: Common.localStorage.getBool('de-compact-toolbar') ? 40 : 40+67
+                        height: Common.localStorage.getBool('de-compact-toolbar') ? 32 : 32+67
                     }, {
                         el: $container.find(' > .layout-item.middle'),
                         stretch: true
