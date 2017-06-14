@@ -580,7 +580,7 @@ define([
                     }
                     me._state.fastCoauth = (value===null || parseInt(value) == 1);
                 } else
-                    me._state.fastCoauth = false;
+                    me._state.fastCoauth = (!me.appOptions.isEdit && me.appOptions.canComments);
                 me.api.asc_SetFastCollaborative(me._state.fastCoauth);
                 /** coauthoring end **/
 

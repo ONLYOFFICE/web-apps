@@ -558,7 +558,7 @@ define([
                     }
                     this._state.fastCoauth = (value===null || parseInt(value) == 1);
                 } else
-                    this._state.fastCoauth = false;
+                    this._state.fastCoauth = (!this.appOptions.isEdit && this.appOptions.canComments);
                 this.api.asc_SetFastCollaborative(this._state.fastCoauth);
                 /** coauthoring end **/
 
