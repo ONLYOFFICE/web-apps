@@ -111,14 +111,14 @@ define([
         template: _.template([
             '<table><tbody>',
                 /** coauthoring begin **/
-                '<tr class="coauth">',
+                '<tr class="comments">',
                     '<td class="left"><label><%= scope.txtLiveComment %></label></td>',
                     '<td class="right"><div id="fms-chb-live-comment"/></td>',
-                '</tr>','<tr class="divider coauth"></tr>',
-                '<tr class="coauth">',
+                '</tr>','<tr class="divider comments"></tr>',
+                '<tr class="comments">',
                     '<td class="left"></td>',
                     '<td class="right"><div id="fms-chb-resolved-comment"/></td>',
-                '</tr>','<tr class="divider coauth"></tr>',
+                '</tr>','<tr class="divider comments"></tr>',
                 /** coauthoring end **/
                 '<tr class="edit">',
                     '<td class="left"><label><%= scope.txtSpellCheck %></label></td>',
@@ -337,6 +337,7 @@ define([
             /** coauthoring begin **/
             $('tr.coauth', this.el)[mode.isEdit && mode.canCoAuthoring ? 'show' : 'hide']();
             $('tr.coauth.changes', this.el)[mode.isEdit && !mode.isOffline && mode.canCoAuthoring ? 'show' : 'hide']();
+            $('tr.comments', this.el)[mode.canCoAuthoring && mode.canComments ? 'show' : 'hide']();
             /** coauthoring end **/
         },
 
