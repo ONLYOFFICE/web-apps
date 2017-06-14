@@ -79,17 +79,22 @@
         position: relative;
         .tab-bg {
             position: absolute;
-            height: 28px;
+            height: 24px;
             width: 100%;
-            top: 4px;
-            background-color: @gray-light;
-            border-left: 4px solid  @tabs-bg-color;
-            border-right: 3px solid  @tabs-bg-color;
+            top: 6px;
+            background-color: @tabs-bg-color;
+            border-radius: 2px 2px 0 0;
         }
 
-        &:not(.active) {
+        &:hover {
             .tab-bg {
-                display: none;
+                background-color: rgba(255,255,255,0.2);
+            }
+        }
+
+        &.active {
+            .tab-bg {
+                background-color: @gray-light;
             }
         }
 
@@ -98,7 +103,7 @@
         display: inline-block;
         line-height: @height-tabs;
         height: 100%;
-        padding: 0 14px;
+        padding: 2px 8px;
         text-decoration: none;
         cursor: default;
         font-size: 11px;
@@ -120,7 +125,7 @@
 
       &.active {
         > a {
-            color: #000;
+            color: #444;
         }
       }
     }
