@@ -809,6 +809,9 @@ define([
                                 value == 'none' ? Asc.c_oAscCollaborativeMarksShowType.None : Asc.c_oAscCollaborativeMarksShowType.LastChanges);
                     else
                         me.api.SetCollaborativeMarksShowType(me._state.fastCoauth ? Asc.c_oAscCollaborativeMarksShowType.None : Asc.c_oAscCollaborativeMarksShowType.LastChanges);
+                } else if (!me.appOptions.isEdit && me.appOptions.canComments) {
+                    me._state.fastCoauth = true;
+                    me.api.asc_SetFastCollaborative(me._state.fastCoauth);
                 } else {
                     me._state.fastCoauth = false;
                     me.api.asc_SetFastCollaborative(me._state.fastCoauth);
