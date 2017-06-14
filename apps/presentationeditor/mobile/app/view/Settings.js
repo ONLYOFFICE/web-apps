@@ -52,7 +52,8 @@ define([
         // private
         var isEdit,
             canEdit = false,
-            canDownload = false;
+            canDownload = false,
+            canAbout = true;
 
         return {
             // el: '.view-main',
@@ -96,6 +97,10 @@ define([
                 isEdit = mode.isEdit;
                 canEdit = !mode.isEdit && mode.canEdit && mode.canRequestEditRights;
                 canDownload = mode.canDownload || mode.canDownloadOrigin;
+
+                if (mode.customization && mode.canBrandingExt) {
+                    canAbout = (mode.customization.about!==false);
+                }
             },
 
             rootLayout: function () {
@@ -115,6 +120,7 @@ define([
                             .prop('checked', Common.SharedSettings.get('readerMode'));
                     }
                     if (!canDownload) $layour.find('#settings-download').hide();
+                    if (!canAbout) $layour.find('#settings-about').hide();
 
                     return $layour.html();
                 }
@@ -211,7 +217,8 @@ define([
             textTel: 'tel',
             textSlideSize: 'Slide Size',
             mniSlideStandard: 'Standard (4:3)',
-            mniSlideWide: 'Widescreen (16:9)'
+            mniSlideWide: 'Widescreen (16:9)',
+            textPoweredBy: 'Powered by'
         }
     })(), PE.Views.Settings || {}))
 });

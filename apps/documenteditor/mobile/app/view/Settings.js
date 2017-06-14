@@ -54,7 +54,8 @@ define([
             _canEdit = false,
             _canDownload = false,
             _canDownloadOrigin = false,
-            _canReader = false;
+            _canReader = false,
+            _canAbout = true;
 
         return {
             // el: '.view-main',
@@ -95,6 +96,10 @@ define([
                 _canDownload = mode.canDownload;
                 _canDownloadOrigin = mode.canDownloadOrigin;
                 _canReader = !mode.isEdit && mode.canReader;
+
+                if (mode.customization && mode.canBrandingExt) {
+                    _canAbout = (mode.customization.about!==false);
+                }
             },
 
             rootLayout: function () {
@@ -117,6 +122,7 @@ define([
                     }
                     if (!_canDownload) $layour.find('#settings-download-as').hide();
                     if (!_canDownloadOrigin) $layour.find('#settings-download').hide();
+                    if (!_canAbout) $layour.find('#settings-about').hide();
 
                     return $layour.html();
                 }
@@ -245,7 +251,8 @@ define([
             textCustom: 'Custom',
             textCustomSize: 'Custom Size',
             textDocumentFormats: 'Document Formats',
-            textOrientation: 'Orientation'
+            textOrientation: 'Orientation',
+            textPoweredBy: 'Powered by'
 
     }
     })(), DE.Views.Settings || {}))

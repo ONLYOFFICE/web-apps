@@ -618,6 +618,7 @@ define([
                 me._state.licenseWarning = (licType===Asc.c_oLicenseResult.Connections) && me.appOptions.canEdit && me.editorConfig.mode !== 'view';
 
                 me.appOptions.canBranding  = (licType === Asc.c_oLicenseResult.Success) && (typeof me.editorConfig.customization == 'object');
+                me.appOptions.canBrandingExt = params.asc_getCanBranding() && (typeof me.editorConfig.customization == 'object');
 
                 me.applyModeCommonElements();
                 me.applyModeEditorElements();

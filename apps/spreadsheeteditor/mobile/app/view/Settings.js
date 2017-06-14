@@ -51,7 +51,8 @@ define([
         // private
         var isEdit,
             canEdit = false,
-            canDownload = false;
+            canDownload = false,
+            canAbout = true;
 
         return {
             // el: '.view-main',
@@ -101,6 +102,10 @@ define([
                 isEdit = mode.isEdit;
                 canEdit = !mode.isEdit && mode.canEdit && mode.canRequestEditRights;
                 canDownload = mode.canDownload || mode.canDownloadOrigin;
+
+                if (mode.customization && mode.canBrandingExt) {
+                    canAbout = (mode.customization.about!==false);
+                }
             },
 
             rootLayout: function () {
@@ -115,6 +120,7 @@ define([
                         if (!canEdit) $layout.find('#settings-edit-document').hide();
                     }
                     if (!canDownload) $layout.find('#settings-download').hide();
+                    if (!canAbout) $layout.find('#settings-about').hide();
 
                     return $layout.html();
                 }
@@ -141,7 +147,7 @@ define([
                         content: $content.html()
                     });
 
-                    this.fireEvent('page:show', this);
+                    this.fireEvent('page:show', [this, templateId]);
                 }
             },
 
@@ -203,7 +209,8 @@ define([
             textVersion: 'Version',
             textAddress: 'address',
             textEmail: 'email',
-            textTel: 'tel'
+            textTel: 'tel',
+            textPoweredBy: 'Powered by'
     }
     })(), SSE.Views.Settings || {}))
 });
