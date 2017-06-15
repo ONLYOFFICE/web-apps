@@ -393,8 +393,7 @@ define([
                 this.chForcesave.setValue(value);
             }
 
-            value = Common.localStorage.getItem("de-settings-spellcheck");
-            this.chSpell.setValue(value===null || parseInt(value) == 1);
+            this.chSpell.setValue(Common.localStorage.getBool("de-settings-spellcheck", true));
 
             value = Common.localStorage.getItem("de-settings-showsnaplines");
             this.chAlignGuides.setValue(value===null || parseInt(value) == 1);

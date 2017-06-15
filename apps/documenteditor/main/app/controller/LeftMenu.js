@@ -321,8 +321,7 @@ define([
             value = Common.localStorage.getItem("de-settings-autosave");
             this.api.asc_setAutoSaveGap(parseInt(value));
 
-            value = Common.localStorage.getItem("de-settings-spellcheck");
-            this.api.asc_setSpellCheck(value===null || parseInt(value) == 1);
+            this.api.asc_setSpellCheck(Common.localStorage.getBool("de-settings-spellcheck", true));
 
             value = Common.localStorage.getItem("de-settings-showsnaplines");
             this.api.put_ShowSnapLines(value===null || parseInt(value) == 1);

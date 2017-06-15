@@ -94,9 +94,10 @@ define(['gateway'], function () {
                 return _store[name]===undefined ? null : _store[name];
         };
 
-        var _getItemAsBool = function (name) {
+        var _getItemAsBool = function (name, defValue) {
             var value = _getItem(name);
-            return (value !== null && parseInt(value) != 0);
+            defValue = defValue || false;
+            return (value!==null) ? (parseInt(value) != 0) : defValue;
         }
 
         var _getItemExists = function (name) {
