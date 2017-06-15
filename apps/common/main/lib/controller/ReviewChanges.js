@@ -93,7 +93,7 @@ define([
             Common.NotificationCenter.on('reviewchanges:turn', this.onTurnPreview.bind(this));
             Common.NotificationCenter.on('spelling:turn', this.onTurnSpelling.bind(this));
             Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
-
+            Common.NotificationCenter.on('api:disconnect', _.bind(this.SetDisabled, this));
         },
         setConfig: function (data, api) {
             this.setApi(api);
@@ -106,16 +106,17 @@ define([
             if (api) {
                 this.api = api;
 
-                this.api.asc_registerCallback('asc_onShowRevisionsChange', _.bind(this.onApiShowChange, this));
-                this.api.asc_registerCallback('asc_onUpdateRevisionsChangesPosition', _.bind(this.onApiUpdateChangePosition, this));
+                if (this.appConfig.canReview) {
+                    this.api.asc_registerCallback('asc_onShowRevisionsChange', _.bind(this.onApiShowChange, this));
+                    this.api.asc_registerCallback('asc_onUpdateRevisionsChangesPosition', _.bind(this.onApiUpdateChangePosition, this));
+                }
+                this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.SetDisabled, this));
             }
         },
 
         setMode: function(mode) {
             this.appConfig = mode;
-            if ( mode.canReview ) {
-                this.popoverChanges = new Common.Collections.ReviewChanges();
-            }
+            this.popoverChanges = new Common.Collections.ReviewChanges();
 
             this.view           =   this.createView('Common.Views.ReviewChanges', {
                 // store           :   this.collection,
@@ -124,6 +125,12 @@ define([
             });
 
             return this;
+        },
+
+        SetDisabled: function() {
+            if (this.dlgChanges)
+                this.dlgChanges.close();
+            this.view && this.view.SetDisabled(true);
         },
 
         onApiShowChange: function (sdkchange) {
@@ -501,9 +508,11 @@ define([
         },
 
         onAppReady: function (config) {
-            if ( config.canReview ) {
-                var me = this;
+            var me = this;
+            if ( me.view && Common.localStorage.getBool("de-settings-spellcheck", true) )
+                me.view.turnSpelling(true);
 
+            if ( config.canReview ) {
                 (new Promise(function (resolve) {
                     resolve();
                 })).then(function () {
@@ -524,9 +533,6 @@ define([
                         _setReviewStatus(Common.localStorage.getBool("de-track-changes"));
                     }
 
-                    if ( Common.localStorage.getBool("de-settings-spellcheck") )
-                        me.view.turnSpelling(true);
-
                     if ( typeof (me.appConfig.customization) == 'object' && (me.appConfig.customization.showReviewChanges==true) ) {
                         me.dlgChanges = (new Common.Views.ReviewChangesDialog({
                             popoverChanges  : me.popoverChanges,
@@ -541,7 +547,7 @@ define([
         },
 
         applySettings: function(menu) {
-            this.view.turnSpelling( Common.localStorage.getBool("de-settings-spellcheck") );
+            this.view && this.view.turnSpelling( Common.localStorage.getBool("de-settings-spellcheck", true) );
         },
 
         synchronizeChanges: function() {

@@ -603,7 +603,7 @@ define([
                             .next('.group').hide();
                     }
 
-                    if ( !config.canComments ) {
+                    if ( !config.canComments || !config.canCoAuthoring) {
                         $('.separator.comments', me.$el)
                             .hide()
                             .next('.group').hide();
@@ -639,7 +639,7 @@ define([
             },
 
             getPopover: function (sdkViewName) {
-                if (_.isUndefined(this.popover)) {
+                if (this.appConfig.canReview && _.isUndefined(this.popover)) {
                     this.popover = new Common.Views.ReviewChangesPopover({
                         store: this.options.popoverChanges,
                         delegate: this,
@@ -703,6 +703,19 @@ define([
                 this.btnsSpelling.forEach(function(button) {
                     if ( button && button.pressed != state ) {
                         button.toggle(state, true);
+                    }
+                }, this);
+            },
+
+            SetDisabled: function (state) {
+                this.btnsSpelling && this.btnsSpelling.forEach(function(button) {
+                    if ( button ) {
+                        button.setDisabled(state);
+                    }
+                }, this);
+                this.btnsTurnReview && this.btnsTurnReview.forEach(function(button) {
+                    if ( button ) {
+                        button.setDisabled(state);
                     }
                 }, this);
             },

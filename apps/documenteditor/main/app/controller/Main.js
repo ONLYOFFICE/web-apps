@@ -515,6 +515,7 @@ define([
                     app.getController('Toolbar').DisableToolbar(disable, disable);
                     app.getController('RightMenu').SetDisabled(disable, false);
                     app.getController('Statusbar').getView('Statusbar').SetDisabled(disable);
+                    app.getController('Common.Controllers.ReviewChanges').SetDisabled(disable);
                 }
                 app.getController('LeftMenu').SetDisabled(disable, true);
             },
@@ -750,8 +751,7 @@ define([
                 value = Common.localStorage.getItem("de-show-tableline");
                 me.api.put_ShowTableEmptyLine((value!==null) ? eval(value) : true);
 
-                value = Common.localStorage.getItem("de-settings-spellcheck");
-                me.api.asc_setSpellCheck(value===null || parseInt(value) == 1);
+                me.api.asc_setSpellCheck(Common.localStorage.getBool("de-settings-spellcheck", true));
 
                 Common.localStorage.setBool("de-settings-showsnaplines", me.api.get_ShowSnapLines());
 
@@ -959,13 +959,13 @@ define([
                 this.appOptions.canCoAuthoring = !this.appOptions.isLightVersion;
                 /** coauthoring end **/
                 this.appOptions.isOffline      = this.api.asc_isOffline();
+                this.appOptions.isReviewOnly   = this.permissions.review === true && this.permissions.edit === false;
                 this.appOptions.canRequestEditRights = this.editorConfig.canRequestEditRights;
                 this.appOptions.canEdit        = (this.permissions.edit !== false || this.permissions.review === true) && // can edit or review
                                                  (this.editorConfig.canRequestEditRights || this.editorConfig.mode !== 'view') && // if mode=="view" -> canRequestEditRights must be defined
                                                  (!this.appOptions.isReviewOnly || this.appOptions.canLicense); // if isReviewOnly==true -> canLicense must be true
                 this.appOptions.isEdit         = this.appOptions.canLicense && this.appOptions.canEdit && this.editorConfig.mode !== 'view';
                 this.appOptions.canReview      = this.permissions.review === true && this.appOptions.canLicense && this.appOptions.isEdit;
-                this.appOptions.isReviewOnly   = this.permissions.review === true && this.permissions.edit === false;
                 this.appOptions.canUseHistory  = this.appOptions.canLicense && this.editorConfig.canUseHistory && this.appOptions.canCoAuthoring && !this.appOptions.isDesktopApp;
                 this.appOptions.canHistoryClose  = this.editorConfig.canHistoryClose;
                 this.appOptions.canHistoryRestore= this.editorConfig.canHistoryRestore && !!this.permissions.changeHistory;
@@ -990,8 +990,7 @@ define([
                 }
 
                 if ( !this.appOptions.canCoAuthoring ) {
-                    this.appOptions.canChat =
-                    this.appOptions.canComments = false;
+                    this.appOptions.canChat = false;
                 }
 
                 var type = /^(?:(pdf|djvu|xps))$/.exec(this.document.fileType);
@@ -1077,15 +1076,14 @@ define([
                         toolbarController   = application.getController('Toolbar'),
                         rightmenuController = application.getController('RightMenu'),
                         fontsControllers    = application.getController('Common.Controllers.Fonts'),
-                        reviewController    = (this.appOptions.isEdit) ? application.getController('Common.Controllers.ReviewChanges') : null;
+                        reviewController    = application.getController('Common.Controllers.ReviewChanges');
 
                     fontsControllers    && fontsControllers.setApi(me.api);
                     toolbarController   && toolbarController.setApi(me.api);
 
                     rightmenuController && rightmenuController.setApi(me.api);
 
-                    if (reviewController)
-                        reviewController.setMode(me.appOptions).setConfig({config: me.editorConfig}, me.api);
+                    reviewController.setMode(me.appOptions).setConfig({config: me.editorConfig}, me.api);
 
                     var viewport = this.getApplication().getController('Viewport').getView('Viewport');
 
