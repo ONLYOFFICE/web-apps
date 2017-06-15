@@ -209,7 +209,7 @@ define([
                 me.btnPrint = new Common.UI.Button({
                     id          : 'id-toolbar-btn-print',
                     cls         : 'btn-toolbar',
-                    iconCls     : 'btn-print',
+                    iconCls     : 'btn-print no-mask',
                     lock        : [_set.slideDeleted, _set.noSlides, _set.cantPrint]
                 });
                 me.paragraphControls.push(me.btnPrint);
@@ -217,7 +217,7 @@ define([
                 me.btnSave = new Common.UI.Button({
                     id          : 'id-toolbar-btn-save',
                     cls         : 'btn-toolbar',
-                    iconCls     : me.btnSaveCls,
+                    iconCls     : 'no-mask ' + me.btnSaveCls,
                     lock        : [_set.lostConnect]
                 });
 
@@ -625,7 +625,7 @@ define([
                 me.btnHide = new Common.UI.Button({
                     id          : 'id-toolbar-btn-hidebars',
                     cls         : 'btn-toolbar',
-                    iconCls     : 'btn-hidebars',
+                    iconCls     : 'btn-hidebars no-mask',
                     lock        : [_set.menuFileOpen, _set.slideDeleted, _set.disableOnStart],
                     menu        : true
                 });
@@ -642,7 +642,7 @@ define([
                 me.btnAdvSettings = new Common.UI.Button({
                     id          : 'id-toolbar-btn-settings',
                     cls         : 'btn-toolbar',
-                    iconCls     : 'btn-settings',
+                    iconCls     : 'btn-settings no-mask',
                     lock        : [_set.slideDeleted, _set.disableOnStart]
                 });
                 me.slideOnlyControls.push(me.btnAdvSettings);
@@ -1821,7 +1821,8 @@ define([
             capAddSlide: 'Add Slide',
             capTabFile: 'File',
             capTabHome: 'Home',
-            capTabInsert: 'Insert'
+            capTabInsert: 'Insert',
+            capBtnComment: 'Comment'
         }
     }()), PE.Views.Toolbar || {}));
 });

@@ -99,7 +99,7 @@ define([
                     ( !Common.localStorage.itemExists("sse-compact-toolbar") &&
                         config.customization && config.customization.compactToolbar ))
             {
-                me.viewport.vlayout.panels[0].height = 40;
+                me.viewport.vlayout.panels[0].height = 32;
             } else
             if ( config.isEditDiagram || config.isEditMailMerge ) {
                 me.viewport.vlayout.panels[0].height = 41;

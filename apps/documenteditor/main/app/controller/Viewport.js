@@ -75,7 +75,7 @@ define([
                         toolbar.setExtra('left', me.header.getPanel('left', config));
                     },
                     'view:compact'  : function (toolbar, state) {
-                        me.viewport.vlayout.panels[0].height = state ? 40 : 40+67;
+                        me.viewport.vlayout.panels[0].height = state ? 32 : 32+67;
                     }
                 },
                 'Common.Views.Header': {
@@ -123,7 +123,7 @@ define([
             if ( !config.isEdit ||
                 ( !Common.localStorage.itemExists("de-compact-toolbar") &&
                 config.customization && config.customization.compactToolbar )) {
-                me.viewport.vlayout.panels[0].height = 40;
+                me.viewport.vlayout.panels[0].height = 32;
             }
         },
 

@@ -2486,7 +2486,8 @@ define([
             capImgGroup: 'Group',
             capImgForward: 'Move forward',
             capImgBackward: 'Move backward',
-            capImgWrapping: 'Wrapping'
+            capImgWrapping: 'Wrapping',
+            capBtnComment: 'Comment'
         }
     })(), DE.Views.Toolbar || {}));
 });

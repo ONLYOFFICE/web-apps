@@ -91,7 +91,7 @@ define([
                     // height: 5
                 // }, {
                     el: items[0],
-                    height: Common.localStorage.getBool('sse-compact-toolbar') ? 40 : 40+67
+                    height: Common.localStorage.getBool('sse-compact-toolbar') ? 32 : 32+67
                 }, {
                     el: items[1],
                     stretch: true

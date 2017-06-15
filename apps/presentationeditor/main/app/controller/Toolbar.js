@@ -2028,10 +2028,7 @@ define([
 
             this.toolbar.lockToolbar(PE.enumLock.menuFileOpen, disable, {array: [toolbar.btnAddSlide, toolbar.btnChangeSlide, toolbar.btnPreview, toolbar.btnHide]});
             if(disable) {
-                mask = $("<div class='toolbar-mask'>").appendTo(toolbar.$el);
-                var left = toolbar.isCompactView ? 150 : (toolbar.mode.nativeApp ? 190 : 145 );
-                mask.css('left', left + 'px');
-                mask.css('right', (toolbar.isCompactView ? 0 : 45) + 'px');
+                mask = $("<div class='toolbar-mask'>").appendTo(toolbar.$el.find('.toolbar'));
                 Common.util.Shortcuts.suspendEvents('command+k, ctrl+k, alt+h, command+f5, ctrl+f5');
             } else {
                 mask.remove();
@@ -2062,7 +2059,7 @@ define([
         onAppReady: function (config) {
             var me = this;
 
-            if ( config.canComments ) {
+            if ( config.canCoAuthoring && config.canComments ) {
                 var _btnsComment = [];
                 var slots = me.toolbar.$el.find('.slot-comment');
                 slots.each(function(index, el) {
@@ -2072,7 +2069,7 @@ define([
                     var button = new Common.UI.Button({
                         cls: _cls,
                         iconCls: 'svgicon svg-btn-comments',
-                        caption: 'Comment'
+                        caption: me.toolbar.capBtnComment
                     }).render( slots.eq(index) );
 
                     _btnsComment.push(button);

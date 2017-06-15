@@ -360,14 +360,14 @@ define([
                 me.btnPrint = new Common.UI.Button({
                     id          : 'id-toolbar-btn-print',
                     cls         : 'btn-toolbar',
-                    iconCls     : 'btn-print',
+                    iconCls     : 'btn-print no-mask',
                     lock        : [_set.editCell, _set.cantPrint]
                 });
 
                 me.btnSave = new Common.UI.Button({
                     id          : 'id-toolbar-btn-save',
                     cls         : 'btn-toolbar',
-                    iconCls     : me.btnSaveCls
+                    iconCls     : 'no-mask ' + me.btnSaveCls
                 });
 
                 me.btnIncFontSize = new Common.UI.Button({
@@ -1045,7 +1045,7 @@ define([
                 me.btnShowMode = new Common.UI.Button({
                     id          : 'id-toolbar-btn-showmode',
                     cls         : 'btn-toolbar',
-                    iconCls     : 'btn-showmode',
+                    iconCls     : 'btn-showmode no-mask',
                     lock        : [_set.menuFileOpen, _set.editCell],
                     menu        : true
                 });
@@ -1053,7 +1053,7 @@ define([
                 me.btnSettings = new Common.UI.Button({
                     id          : 'id-toolbar-btn-settings',
                     cls         : 'btn-toolbar',
-                    iconCls     : 'btn-settings'
+                    iconCls     : 'btn-settings no-mask'
                 });
 
                 // Is unique for the short view
@@ -2049,6 +2049,7 @@ define([
         capInsertShape: 'Shape',
         capInsertChart: 'Chart',
         capInsertHyperlink: 'Hyperlink',
-        capInsertEquation: 'Equation'
+        capInsertEquation: 'Equation',
+        capBtnComment: 'Comment'
     }, SSE.Views.Toolbar || {}));
 });

@@ -6,13 +6,10 @@
     }
 
     &.masked {
-        .btn-toolbar.disabled .icon:not(.btn-print):not(.btn-save):not(.btn-save-coauth):not(.btn-settings):not(.btn-hidebars) {
+        button.disabled .icon:not(.no-mask) {
             background-position-x: 0px !important;
         }
-        .btn-toolbar.large.disabled .icon:not(.btn-print):not(.btn-save) {
-            background-position-y: -5px !important;
-        }
-        .toolbar-group:not(.no-mask) {
+        .group:not(.no-mask) {
             opacity: 0.4;
         }
     }
@@ -29,7 +26,7 @@
     top: 32px;
     left: 48px;
     right: 45px;
-    height: 100%;
+    bottom: 0;
     opacity: 0;
     background-color: @gray-light;
     z-index: @zindex-tooltip + 1;

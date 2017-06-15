@@ -154,10 +154,14 @@
                     <span class="btn-slot text x-huge" id="slot-btn-insshape"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-instext"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-inschart"></span>
-                    <div class="separator long"></div>
+                </div>
+                <div class="separator long"></div>
+                <div class="group">
                     <span class="btn-slot text x-huge slot-comment"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-inshyperlink"></span>
-                    <div class="separator long"></div>
+                </div>
+                <div class="separator long"></div>
+                <div class="group">
                     <span class="btn-slot text x-huge" id="slot-btn-insequation"></span>
                 </div>
             </section>
