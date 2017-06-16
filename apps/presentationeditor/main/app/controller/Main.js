@@ -587,8 +587,10 @@ define([
                         value = 0; // use customization.autosave only when pe-settings-coauthmode and pe-settings-autosave are null
                     }
                     me._state.fastCoauth = (value===null || parseInt(value) == 1);
-                } else
+                } else {
                     me._state.fastCoauth = (!me.appOptions.isEdit && me.appOptions.canComments);
+                    me._state.fastCoauth && me.api.asc_setAutoSaveGap(1);
+                }
                 me.api.asc_SetFastCollaborative(me._state.fastCoauth);
                 /** coauthoring end **/
 

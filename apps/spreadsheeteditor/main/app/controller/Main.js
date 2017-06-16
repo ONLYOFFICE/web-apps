@@ -556,8 +556,10 @@ define([
                         value = 0; // use customization.autosave only when sse-settings-coauthmode and sse-settings-autosave are null
                     }
                     this._state.fastCoauth = (value===null || parseInt(value) == 1);
-                } else
+                } else {
                     this._state.fastCoauth = (!this.appOptions.isEdit && this.appOptions.canComments);
+                    this._state.fastCoauth && this.api.asc_setAutoSaveGap(1);
+                }
                 this.api.asc_SetFastCollaborative(this._state.fastCoauth);
                 /** coauthoring end **/
 

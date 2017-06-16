@@ -313,11 +313,13 @@ define([
             case '0':     this.api.SetFontRenderingMode(3); break;
             }
 
-            value = Common.localStorage.getItem("de-settings-autosave");
-            this.api.asc_setAutoSaveGap(parseInt(value));
+            if (this.mode.isEdit) {
+                value = Common.localStorage.getItem("de-settings-autosave");
+                this.api.asc_setAutoSaveGap(parseInt(value));
 
-            value = Common.localStorage.getItem("de-settings-spellcheck");
-            this.api.asc_setSpellCheck(value===null || parseInt(value) == 1);
+                value = Common.localStorage.getItem("de-settings-spellcheck");
+                this.api.asc_setSpellCheck(value===null || parseInt(value) == 1);
+            }
 
             value = Common.localStorage.getItem("de-settings-showsnaplines");
             this.api.put_ShowSnapLines(value===null || parseInt(value) == 1);
