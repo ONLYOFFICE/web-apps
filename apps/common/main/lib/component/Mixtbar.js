@@ -107,7 +107,7 @@ define([
                 $scrollL.on('click', onScrollTabs.bind(this, 'left'));
                 $scrollR.on('click', onScrollTabs.bind(this, 'right'));
 
-                me.$tabs.on('dblclick', onTabDblclick.bind(this));
+                $boxTabs.on('dblclick', '> .ribtab', onTabDblclick.bind(this));
             },
 
             isTabActive: function(tag) {
