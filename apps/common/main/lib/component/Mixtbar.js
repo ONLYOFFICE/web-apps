@@ -164,7 +164,11 @@ define([
             },
 
             collapseToolbar: function() {
-                optsFold.$bar && optsFold.$bar.removeClass('expanded');
+                if ( optsFold.$bar ) {
+                    optsFold.$bar.removeClass('expanded');
+                    optsFold.$bar.find('.tabs .ribtab').removeClass('active');
+                }
+
                 Common.UI.Menu.Manager.hideAll();
             },
 
