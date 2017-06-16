@@ -21,9 +21,6 @@
     }
 
     &:not(.expanded):not(.cover){
-      .marker {
-        opacity: 0;
-      }
 
       .ribtab.active {
         > a {
@@ -127,16 +124,6 @@
             color: #444;
         }
       }
-    }
-
-    .marker {
-      position: relative;
-      border-top: 2px solid #fff;
-      top: -7px;
-      -webkit-transition: width .2s, left .2s ease-out;
-      opacity: 1;
-      transition: width .2s, left .2s ease-out, opacity .2s;
-      display: none;
     }
 
     &:not(.short) {

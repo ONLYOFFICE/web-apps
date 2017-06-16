@@ -81,7 +81,6 @@ define([
         return {
             $tabs: undefined,
             $panels: undefined,
-            $marker: undefined,
             isFolded: false,
 
             initialize : function(options) {
@@ -101,7 +100,6 @@ define([
                 $boxTabs = me.$('.tabs > ul');
                 me.$tabs = $boxTabs.find('> li');
                 me.$panels = me.$('.box-panels > .panel');
-                me.$marker = me.$('.tabs .marker');
                 optsFold.$bar = me.$('.toolbar');
                 var $scrollR = me.$('.tabs .scroll.right');
                 $scrollL = me.$('.tabs .scroll.left');
@@ -205,19 +203,9 @@ define([
                         panel.addClass('active');
                     }
 
-                    var $tc = this.$tabs.find('> a[data-tab=' + tab + ']');
-                    var $tp = $tc.parent();
+                    var $tp = this.$tabs.find('> a[data-tab=' + tab + ']').parent();
                     if ( $tp.length ) {
                         $tp.addClass('active');
-
-                        // this.$marker.width($tp.width());
-
-                        var offs = ($tp.width() - $tc.width())/2-1;
-                        this.$marker.width($tc.width()+9);
-
-                        if ( $scrollL.is(':visible') )
-                            this.$marker.css({left: (offs-9/2)+$tc.position().left + $boxTabs.scrollLeft() - $scrollL.width()});
-                        else this.$marker.css({left: (offs-9/2)+$tc.position().left});
                     }
 
                     if ( panel.length ) {

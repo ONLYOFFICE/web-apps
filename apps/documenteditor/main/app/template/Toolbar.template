@@ -12,7 +12,6 @@
                         <a data-tab="<%= tabs[i].action %>" data-title="<%= tabs[i].caption %>"><%= tabs[i].caption %></a>
                     </li>
                 <% } %>
-                <div class="marker"></div>
             </ul>
             <a class="scroll right">
                 <i class="icon">&gt;</i>
