@@ -452,8 +452,7 @@ define([
                 me.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
 
                 /** coauthoring begin **/
-                value = Common.localStorage.getItem("de-settings-livecomment");
-                this.isLiveCommenting = !(value!==null && parseInt(value) == 0);
+                this.isLiveCommenting = Common.localStorage.getBool("de-settings-livecomment", true);
                 this.isLiveCommenting ? this.api.asc_showComments(true) : this.api.asc_hideComments();
                 /** coauthoring end **/
 

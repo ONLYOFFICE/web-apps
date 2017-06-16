@@ -735,10 +735,8 @@ define([
                 me.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
 
                 /** coauthoring begin **/
-                value = Common.localStorage.getItem("de-settings-livecomment");
-                this.isLiveCommenting = !(value!==null && parseInt(value) == 0);
-                var resolved = Common.localStorage.getItem("de-settings-resolvedcomment");
-                this.isLiveCommenting ? this.api.asc_showComments(!(resolved!==null && parseInt(resolved) == 0)) : this.api.asc_hideComments();
+                this.isLiveCommenting = Common.localStorage.getBool("de-settings-livecomment", true);
+                this.isLiveCommenting ? this.api.asc_showComments(Common.localStorage.getBool("de-settings-resolvedcomment", true)) : this.api.asc_hideComments();
                 /** coauthoring end **/
 
                 value = Common.localStorage.getItem("de-settings-zoom");
@@ -782,7 +780,7 @@ define([
                 /** coauthoring begin **/
                 if (me.appOptions.isEdit && !me.appOptions.isOffline && me.appOptions.canCoAuthoring) {
                     value = Common.localStorage.getItem("de-settings-coauthmode");
-                    if (value===null && Common.localStorage.getItem("de-settings-autosave")===null &&
+                    if (value===null && !Common.localStorage.itemExists("de-settings-autosave") &&
                         me.appOptions.customization && me.appOptions.customization.autosave===false) {
                         value = 0; // use customization.autosave only when de-settings-coauthmode and de-settings-autosave are null
                     }
@@ -848,8 +846,7 @@ define([
                     me.api.asc_setAutoSaveGap(value);
 
                     if (me.appOptions.canForcesave) {// use asc_setIsForceSaveOnUserSave only when customization->forcesave = true
-                        value = Common.localStorage.getItem("de-settings-forcesave");
-                        me.appOptions.forcesave = (value===null) ? me.appOptions.canForcesave : (parseInt(value)==1);
+                        me.appOptions.forcesave = Common.localStorage.getBool("de-settings-forcesave", me.appOptions.canForcesave);
                         me.api.asc_setIsForceSaveOnUserSave(me.appOptions.forcesave);
                     }
 
@@ -1750,8 +1747,7 @@ define([
             },
 
             onTryUndoInFastCollaborative: function() {
-                var val = window.localStorage.getItem("de-hide-try-undoredo");
-                if (!(val && parseInt(val) == 1))
+                if (!window.localStorage.getBool("de-hide-try-undoredo"))
                     Common.UI.info({
                         width: 500,
                         msg: this.textTryUndoRedo,
@@ -1785,15 +1781,13 @@ define([
 
             applySettings: function() {
                 if (this.appOptions.isEdit && !this.appOptions.isOffline && this.appOptions.canCoAuthoring) {
-                    var value = Common.localStorage.getItem("de-settings-coauthmode"),
-                        oldval = this._state.fastCoauth;
-                    this._state.fastCoauth = (value===null || parseInt(value) == 1);
+                    var oldval = this._state.fastCoauth;
+                    this._state.fastCoauth = Common.localStorage.getBool("de-settings-coauthmode", true);
                     if (this._state.fastCoauth && !oldval)
                         this.synchronizeChanges();
                 }
                 if (this.appOptions.canForcesave) {
-                    value = Common.localStorage.getItem("de-settings-forcesave");
-                    this.appOptions.forcesave = (value===null) ? this.appOptions.canForcesave : (parseInt(value)==1);
+                    this.appOptions.forcesave = Common.localStorage.getBool("de-settings-forcesave", this.appOptions.canForcesave);
                     this.api.asc_setIsForceSaveOnUserSave(this.appOptions.forcesave);
                 }
             },
