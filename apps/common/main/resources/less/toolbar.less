@@ -11,34 +11,33 @@
     }
 
     &.folded {
-    height: @height-tabs;
-    transition: height .2s;
-    overflow: hidden;
+        height: @height-tabs;
+        transition: height .2s;
+        overflow: hidden;
 
-    &.expanded {
-      height: @height-tabs + @height-controls;
-      overflow: visible;
-    }
-
-    &:not(.expanded):not(.cover){
-
-      .ribtab.active {
-        > a {
-          font-weight: normal;
+        &.expanded {
+            height: @height-tabs + @height-controls;
+            overflow: visible;
         }
-      }
+
+        &:not(.expanded):not(.cover){
+          .ribtab.active {
+            > a {
+              font-weight: normal;
+            }
+          }
+        }
     }
-  }
 
     .box-tabs {
-    height: @height-tabs;
+        height: @height-tabs;
 
-    display: flex;
-    align-items: stretch;
+        display: flex;
+        align-items: stretch;
 
-    .extra {
-      background-color: @tabs-bg-color;
-    }
+        .extra {
+            background-color: @tabs-bg-color;
+        }
 
     //&::after {
     //  content: '';
@@ -49,7 +48,7 @@
     //  left: 0;
     //  z-index: 1;
     //}
-  }
+    }
 
     .tabs {
         flex-grow: 1;
@@ -107,16 +106,6 @@
           letter-spacing: 0.7px;
 
           position: relative;
-
-        //&::after {
-        //  display: block;
-        //  content: attr(data-title);
-        //  //font-weight: bold;
-        //  height: 1px;
-        //  overflow: hidden;
-        //  visibility: hidden;
-        //}
-
       }
 
       &.active {
@@ -153,18 +142,18 @@
   }
 
     .box-controls {
-    height: @height-controls;
-    padding: 10px 0;
-    display: flex;
+        height: @height-controls;
+        padding: 10px 0;
+        display: flex;
 
-    //background-color: #F2CBBF;
+        //background-color: #F2CBBF;
 
-    .panel {
-      display: table;
-      height: 100%;
+        .panel {
+            display: table;
+            height: 100%;
+        }
+        //width: 100%;
     }
-    //width: 100%;
-  }
 
     .box-panels {
         .panel:not(.active) {
@@ -187,13 +176,13 @@
     }
 
     .elset {
-    height: 20px;
-    font-size: 0;
+        height: 20px;
+        font-size: 0;
 
-    &:not(:first-child) {
-      margin-top: 6px;
+        &:not(:first-child) {
+            margin-top: 6px;
+        }
     }
-  }
 
     .separator {
         margin-left: 12px;
