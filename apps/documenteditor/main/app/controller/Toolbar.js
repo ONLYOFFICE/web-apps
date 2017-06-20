@@ -712,6 +712,10 @@ define([
             if (need_disable !== toolbar.btnNotes.isDisabled())
                 toolbar.btnNotes.setDisabled(need_disable);
 
+            need_disable = paragraph_locked || header_locked || in_image;
+            if (need_disable != toolbar.btnColumns.isDisabled())
+                toolbar.btnColumns.setDisabled(need_disable);
+
             if (toolbar.listStylesAdditionalMenuItem && (frame_pr===undefined) !== toolbar.listStylesAdditionalMenuItem.isDisabled())
                 toolbar.listStylesAdditionalMenuItem.setDisabled(frame_pr===undefined);
 
