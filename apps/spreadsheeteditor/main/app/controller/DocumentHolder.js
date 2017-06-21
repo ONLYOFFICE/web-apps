@@ -1445,6 +1445,8 @@ define([
                 documentHolder.pmiInsertCells.menu.items[1].setDisabled(isApplyAutoFilter);
                 documentHolder.pmiDeleteCells.menu.items[1].setDisabled(isApplyAutoFilter);
 
+                var inPivot = !!cellinfo.asc_getPivotTableInfo();
+
                 _.each(documentHolder.ssMenu.items, function(item) {
                     item.setDisabled(isCellLocked);
                 });
@@ -1455,9 +1457,12 @@ define([
                 documentHolder.pmiDeleteEntire.setDisabled(isCellLocked || isTableLocked);
                 documentHolder.pmiDeleteCells.setDisabled(isCellLocked || isTableLocked);
                 documentHolder.pmiDeleteTable.setDisabled(isCellLocked || isTableLocked);
-                documentHolder.pmiFilterCells.setDisabled(isCellLocked || isTableLocked|| (filterInfo==null));
-                documentHolder.pmiSortCells.setDisabled(isCellLocked || isTableLocked|| (filterInfo==null));
+                documentHolder.pmiFilterCells.setDisabled(isCellLocked || isTableLocked|| (filterInfo==null) || inPivot);
+                documentHolder.pmiSortCells.setDisabled(isCellLocked || isTableLocked|| (filterInfo==null) || inPivot);
                 documentHolder.pmiReapply.setDisabled(isCellLocked || isTableLocked|| (isApplyAutoFilter!==true));
+                documentHolder.menuHyperlink.setDisabled(isCellLocked || inPivot);
+                documentHolder.menuAddHyperlink.setDisabled(isCellLocked || inPivot);
+
                 if (showMenu) this.showPopupMenu(documentHolder.ssMenu, {}, event);
             } else if (this.permissions.isEditDiagram && seltype == Asc.c_oAscSelectionType.RangeChartText) {
                 if (!showMenu && !documentHolder.textInShapeMenu.isVisible()) return;
