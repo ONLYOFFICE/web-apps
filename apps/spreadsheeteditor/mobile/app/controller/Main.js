@@ -99,7 +99,14 @@ define([
                 me.api = new Asc.spreadsheet_api({
                     'id-view'  : 'editor_sdk',
                     'id-input' : 'ce-cell-content'
-                    ,'mobile'  : true
+                    ,'mobile'  : true,
+                    'translate': {
+                        'Series': me.txtSeries,
+                        'Diagram Title': me.txtDiagramTitle,
+                        'X Axis': me.txtXAxis,
+                        'Y Axis': me.txtYAxis,
+                        'Your text here': me.txtArt
+                    }
                 });
 
                 // Localization uiApp params
@@ -617,19 +624,6 @@ define([
                         controller.setMode(me.appOptions);
                     }
                 });
-
-                if (me.api) {
-                    var translateChart = new Asc.asc_CChartTranslate();
-                    translateChart.asc_setTitle(me.txtDiagramTitle);
-                    translateChart.asc_setXAxis(me.txtXAxis);
-                    translateChart.asc_setYAxis(me.txtYAxis);
-                    translateChart.asc_setSeries(me.txtSeries);
-                    me.api.asc_setChartTranslate(translateChart);
-
-                    var translateArt = new Asc.asc_TextArtTranslate();
-                    translateArt.asc_setDefaultText(me.txtArt);
-                    me.api.asc_setTextArtTranslate(translateArt);
-                }
 
                 if (!me.appOptions.isEditMailMerge && !me.appOptions.isEditDiagram) {
                     me.api.asc_registerCallback('asc_onSendThemeColors', _.bind(me.onSendThemeColors, me));
