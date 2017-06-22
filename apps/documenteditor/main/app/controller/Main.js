@@ -124,8 +124,7 @@ define([
                 window["flat_desine"] = true;
 
                 var styleNames = ['Normal', 'No Spacing', 'Heading 1', 'Heading 2', 'Heading 3', 'Heading 4', 'Heading 5',
-                                  'Heading 6', 'Heading 7', 'Heading 8', 'Heading 9', 'Title', 'Subtitle',
-                                  'Quote', 'Intense Quote', 'List Paragraph'],
+                                  'Heading 6', 'Heading 7', 'Heading 8', 'Heading 9', 'Title', 'Subtitle', 'Quote', 'Intense Quote', 'List Paragraph'],
                     translate = {
                         'Series': this.txtSeries,
                         'Diagram Title': this.txtDiagramTitle,
@@ -134,9 +133,7 @@ define([
                         'Your text here': this.txtArt
                     };
                 styleNames.forEach(function(item){
-                    var translate_name = 'txtStyle_' + item.replace(/ /g, '_');
-                    me.translationTable[item] = me[translate_name] || item;
-                    translate[item] = me.translationTable[item];
+                    translate[item] = me.translationTable[item] = me['txtStyle_' + item.replace(/ /g, '_')] || item;
                 });
 
                 this.api = new Asc.asc_docs_api({
