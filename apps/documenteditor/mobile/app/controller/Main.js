@@ -101,16 +101,23 @@ define([
 
                 window["flat_desine"] = true;
 
+                var styleNames = ['Normal', 'No Spacing', 'Heading 1', 'Heading 2', 'Heading 3', 'Heading 4', 'Heading 5',
+                        'Heading 6', 'Heading 7', 'Heading 8', 'Heading 9', 'Title', 'Subtitle', 'Quote', 'Intense Quote', 'List Paragraph'],
+                    translate = {
+                        'Series': this.txtSeries,
+                        'Diagram Title': this.txtDiagramTitle,
+                        'X Axis': this.txtXAxis,
+                        'Y Axis': this.txtYAxis,
+                        'Your text here': this.txtArt
+                    };
+                styleNames.forEach(function(item){
+                    translate[item] = me['txtStyle_' + item.replace(/ /g, '_')] || item;
+                });
+
                 me.api = new Asc.asc_docs_api({
                     'id-view'  : 'editor_sdk',
                     'mobile'   : true,
-                    'translate': {
-                        'Series': me.txtSeries,
-                        'Diagram Title': me.txtDiagramTitle,
-                        'X Axis': me.txtXAxis,
-                        'Y Axis': me.txtYAxis,
-                        'Your text here': me.txtArt
-                    }
+                    'translate': translate
                 });
 
                 // Localization uiApp params
@@ -1210,7 +1217,23 @@ define([
             textDone: 'Done',
             titleServerVersion: 'Editor updated',
             errorServerVersion: 'The editor version has been updated. The page will be reloaded to apply the changes.',
-            errorBadImageUrl: 'Image url is incorrect'
+            errorBadImageUrl: 'Image url is incorrect',
+            txtStyle_Normal: 'Normal',
+            txtStyle_No_Spacing: 'No Spacing',
+            txtStyle_Heading_1: 'Heading 1',
+            txtStyle_Heading_2: 'Heading 2',
+            txtStyle_Heading_3: 'Heading 3',
+            txtStyle_Heading_4: 'Heading 4',
+            txtStyle_Heading_5: 'Heading 5',
+            txtStyle_Heading_6: 'Heading 6',
+            txtStyle_Heading_7: 'Heading 7',
+            txtStyle_Heading_8: 'Heading 8',
+            txtStyle_Heading_9: 'Heading 9',
+            txtStyle_Title: 'Title',
+            txtStyle_Subtitle: 'Subtitle',
+            txtStyle_Quote: 'Quote',
+            txtStyle_Intense_Quote: 'Intense Quote',
+            txtStyle_List_Paragraph: 'List Paragraph'
         }
     })(), DE.Controllers.Main || {}))
 });
