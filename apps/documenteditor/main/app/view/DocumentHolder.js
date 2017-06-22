@@ -1587,10 +1587,6 @@ define([
 
         onApiParagraphStyleChange: function(name) {
             window.currentStyleName = name;
-            var menuStyleUpdate = this.menuStyleUpdate;
-            if (menuStyleUpdate != undefined) {
-                menuStyleUpdate.setCaption(this.updateStyleText.replace('%1', window.currentStyleName));
-            }
         },
 
         _applyTableWrap: function(wrap, align){
@@ -3173,6 +3169,9 @@ define([
 
                     menuStyleSeparator.setVisible(me.mode.canEditStyles && !isInChart);
                     menuStyle.setVisible(me.mode.canEditStyles && !isInChart);
+                    if (me.mode.canEditStyles && !isInChart) {
+                        me.menuStyleUpdate.setCaption(me.updateStyleText.replace('%1', DE.getController('Main').translationTable[window.currentStyleName] || window.currentStyleName));
+                    }
                 },
                 items: [
                     me.menuSpellPara,
