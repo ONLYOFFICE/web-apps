@@ -207,9 +207,10 @@ define([
 
             var header_footer = (_options.buttons && _.size(_options.buttons)>0) ? 85 : 34;
             if (!_options.header) header_footer -= 34;
-            _options.width = (Common.Utils.innerWidth()-_options.width)<0 ? Common.Utils.innerWidth(): _options.width,
+            this.bordersOffset = (_options.header) ? 10 : 25;
+            _options.width = (Common.Utils.innerWidth()-this.bordersOffset-_options.width)<0 ? Common.Utils.innerWidth()-this.bordersOffset: _options.width;
             _options.height += header_footer;
-            _options.height = (Common.Utils.innerHeight()-_options.height)<0 ? Common.Utils.innerHeight(): _options.height;
+            _options.height = (Common.Utils.innerHeight()-this.bordersOffset-_options.height)<0 ? Common.Utils.innerHeight()-this.bordersOffset: _options.height;
             _options.cls += ' advanced-settings-dlg';
 
             this.template = [
@@ -278,10 +279,10 @@ define([
             var maxHeight = Common.Utils.innerHeight(),
                 maxWidth = Common.Utils.innerWidth(),
                 borders_width = (parseInt(this.$window.css('border-left-width')) + parseInt(this.$window.css('border-right-width')));
-            if (maxHeight<height + this._headerFooterHeight)
-                height = maxHeight - this._headerFooterHeight;
-            if (maxWidth<width + borders_width)
-                width = maxWidth - borders_width;
+            if (maxHeight - this.bordersOffset<height + this._headerFooterHeight)
+                height = maxHeight - this.bordersOffset - this._headerFooterHeight;
+            if (maxWidth - this.bordersOffset<width + borders_width)
+                width = maxWidth - this.bordersOffset - borders_width;
 
             this.boxEl.css('height', height);
 
