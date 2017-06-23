@@ -1903,9 +1903,10 @@ define([
                     Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                 };
 
-                var formats = [];
+                var formats = [],
+                    mainController = me.getApplication().getController('Main');
                 _.each(window.styles.get_MergedStyles(), function (style) {
-                    formats.push({value: style, displayValue: style.get_Name()})
+                    formats.push({value: style, displayValue: mainController.translationTable[style.get_Name()] || style.get_Name()})
                 });
 
                 win = new DE.Views.StyleTitleDialog({
@@ -2621,11 +2622,12 @@ define([
 
             listStyles.menuPicker.store.reset([]); // remove all
 
+            var mainController = this.getApplication().getController('Main');
             _.each(styles.get_MergedStyles(), function(style){
                 listStyles.menuPicker.store.add({
                     imageUrl: style.asc_getImage(),
                     title   : style.get_Name(),
-                    tip     : style.get_Name(),
+                    tip     : mainController.translationTable[style.get_Name()] || style.get_Name(),
                     id      : Common.UI.getId()
                 });
             });
