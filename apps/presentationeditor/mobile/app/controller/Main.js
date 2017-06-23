@@ -104,7 +104,21 @@ define([
                         'Diagram Title': me.txtDiagramTitle,
                         'X Axis': me.txtXAxis,
                         'Y Axis': me.txtYAxis,
-                        'Your text here': me.txtArt
+                        'Your text here': me.txtArt,
+                        'Slide text': this.txtSlideText,
+                        'Chart': this.txtSldLtTChart,
+                        'ClipArt': this.txtClipArt,
+                        'Diagram': this.txtDiagram,
+                        'Date and time': this.txtDateTime,
+                        'Footer': this.txtFooter,
+                        'Header': this.txtHeader,
+                        'Media': this.txtMedia,
+                        'Picture': this.txtPicture,
+                        'Image': this.txtImage,
+                        'Slide number': this.txtSlideNumber,
+                        'Slide subtitle': this.txtSlideSubtitle,
+                        'Table': this.txtSldLtTTbl,
+                        'Slide title': this.txtSlideTitle
                     }
                 });
 
@@ -1216,7 +1230,19 @@ define([
             textDone: 'Done',
             titleServerVersion: 'Editor updated',
             errorServerVersion: 'The editor version has been updated. The page will be reloaded to apply the changes.',
-            errorBadImageUrl: 'Image url is incorrect'
+            errorBadImageUrl: 'Image url is incorrect',
+            txtSlideText: 'Slide text',
+            txtClipArt: 'Clip Art',
+            txtDiagram: 'Diagram',
+            txtDateTime: 'Date and time',
+            txtFooter: 'Footer',
+            txtHeader: 'Header',
+            txtMedia: 'Media',
+            txtPicture: 'Picture',
+            txtImage: 'Image',
+            txtSlideNumber: 'Slide number',
+            txtSlideSubtitle: 'Slide subtitle',
+            txtSlideTitle: 'Slide title'
         }
     })(), PE.Controllers.Main || {}))
 });
