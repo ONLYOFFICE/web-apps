@@ -96,17 +96,33 @@ define([
 
                 // window["flat_desine"] = true;
 
-                me.api = new Asc.spreadsheet_api({
-                    'id-view'  : 'editor_sdk',
-                    'id-input' : 'ce-cell-content'
-                    ,'mobile'  : true,
-                    'translate': {
+                var styleNames = ['Normal', 'Neutral', 'Bad', 'Good', 'Input', 'Output', 'Calculation', 'Check Cell', 'Explanatory Text', 'Note', 'Linked Cell', 'Warning Text',
+                        'Heading 1', 'Heading 2', 'Heading 3', 'Heading 4', 'Title', 'Total', 'Currency', 'Percent', 'Comma'],
+                    translate = {
                         'Series': me.txtSeries,
                         'Diagram Title': me.txtDiagramTitle,
                         'X Axis': me.txtXAxis,
                         'Y Axis': me.txtYAxis,
                         'Your text here': me.txtArt
-                    }
+                    };
+                styleNames.forEach(function(item){
+                    translate[item] = me['txtStyle_' + item.replace(/ /g, '_')] || item;
+                });
+                translate['Currency [0]'] = me.txtStyle_Currency + ' [0]';
+                translate['Comma [0]'] = me.txtStyle_Comma + ' [0]';
+
+                for (var i=1; i<7; i++) {
+                    translate['Accent'+i] = me.txtAccent + i;
+                    translate['20% - Accent'+i] = '20% - ' + me.txtAccent + i;
+                    translate['40% - Accent'+i] = '40% - ' + me.txtAccent + i;
+                    translate['60% - Accent'+i] = '60% - ' + me.txtAccent + i;
+                }
+
+                me.api = new Asc.spreadsheet_api({
+                    'id-view'  : 'editor_sdk',
+                    'id-input' : 'ce-cell-content'
+                    ,'mobile'  : true,
+                    'translate': translate
                 });
 
                 // Localization uiApp params
@@ -1358,7 +1374,29 @@ define([
             textClose: 'Close',
             textDone: 'Done',
             titleServerVersion: 'Editor updated',
-            errorServerVersion: 'The editor version has been updated. The page will be reloaded to apply the changes.'
+            errorServerVersion: 'The editor version has been updated. The page will be reloaded to apply the changes.',
+            txtAccent: 'Accent',
+            txtStyle_Normal: 'Normal',
+            txtStyle_Heading_1: 'Heading 1',
+            txtStyle_Heading_2: 'Heading 2',
+            txtStyle_Heading_3: 'Heading 3',
+            txtStyle_Heading_4: 'Heading 4',
+            txtStyle_Title: 'Title',
+            txtStyle_Neutral: 'Neutral',
+            txtStyle_Bad: 'Bad',
+            txtStyle_Good: 'Good',
+            txtStyle_Input: 'Input',
+            txtStyle_Output: 'Output',
+            txtStyle_Calculation: 'Calculation',
+            txtStyle_Check_Cell: 'Check Cell',
+            txtStyle_Explanatory_Text: 'Explanatory Text',
+            txtStyle_Note: 'Note',
+            txtStyle_Linked_Cell: 'Linked Cell',
+            txtStyle_Warning_Text: 'Warning Text',
+            txtStyle_Total: 'Total',
+            txtStyle_Currency: 'Currency',
+            txtStyle_Percent: 'Percent',
+            txtStyle_Comma: 'Comma'
         }
     })(), SSE.Controllers.Main || {}))
 });

@@ -102,6 +102,7 @@ define([
 
             onLaunch: function() {
 //                $(document.body).css('position', 'absolute');
+                var me = this;
 
                 this._state = {isDisconnected: false, usersCount: 1, fastCoauth: true, lostEditingRights: false, licenseWarning: false};
 
@@ -118,16 +119,32 @@ define([
                 if (value===null) value = window.devicePixelRatio > 1 ? '1' : '3';
 
                 // Initialize api
-                this.api = new Asc.spreadsheet_api({
-                    'id-view'  : 'editor_sdk',
-                    'id-input' : 'ce-cell-content',
-                    'translate': {
+                var styleNames = ['Normal', 'Neutral', 'Bad', 'Good', 'Input', 'Output', 'Calculation', 'Check Cell', 'Explanatory Text', 'Note', 'Linked Cell', 'Warning Text',
+                                'Heading 1', 'Heading 2', 'Heading 3', 'Heading 4', 'Title', 'Total', 'Currency', 'Percent', 'Comma'],
+                    translate = {
                         'Series': this.txtSeries,
                         'Diagram Title': this.txtDiagramTitle,
                         'X Axis': this.txtXAxis,
                         'Y Axis': this.txtYAxis,
                         'Your text here': this.txtArt
-                    }
+                    };
+                styleNames.forEach(function(item){
+                    translate[item] = me['txtStyle_' + item.replace(/ /g, '_')] || item;
+                });
+                translate['Currency [0]'] = me.txtStyle_Currency + ' [0]';
+                translate['Comma [0]'] = me.txtStyle_Comma + ' [0]';
+
+                for (var i=1; i<7; i++) {
+                    translate['Accent'+i] = me.txtAccent + i;
+                    translate['20% - Accent'+i] = '20% - ' + me.txtAccent + i;
+                    translate['40% - Accent'+i] = '40% - ' + me.txtAccent + i;
+                    translate['60% - Accent'+i] = '60% - ' + me.txtAccent + i;
+                }
+
+                this.api = new Asc.spreadsheet_api({
+                    'id-view'  : 'editor_sdk',
+                    'id-input' : 'ce-cell-content',
+                    'translate': translate
                 });
                 this.api.asc_setFontRenderingMode(parseInt(value));
 
@@ -166,7 +183,6 @@ define([
 
                 this.getApplication().getController('Viewport').setApi(this.api);
 
-                var me = this;
                 // Syncronize focus with api
                 $(document.body).on('focus', 'input, textarea:not(#ce-cell-content)', function(e) {
                     if (me.isAppDisabled === true) return;
@@ -2094,7 +2110,29 @@ define([
             errorSessionToken: 'The connection to the server has been interrupted. Please reload the page.',
             errorAccessDeny: 'You are trying to perform an action you do not have rights for.<br>Please contact your Document Server administrator.',
             titleServerVersion: 'Editor updated',
-            errorServerVersion: 'The editor version has been updated. The page will be reloaded to apply the changes.'
+            errorServerVersion: 'The editor version has been updated. The page will be reloaded to apply the changes.',
+            txtAccent: 'Accent',
+            txtStyle_Normal: 'Normal',
+            txtStyle_Heading_1: 'Heading 1',
+            txtStyle_Heading_2: 'Heading 2',
+            txtStyle_Heading_3: 'Heading 3',
+            txtStyle_Heading_4: 'Heading 4',
+            txtStyle_Title: 'Title',
+            txtStyle_Neutral: 'Neutral',
+            txtStyle_Bad: 'Bad',
+            txtStyle_Good: 'Good',
+            txtStyle_Input: 'Input',
+            txtStyle_Output: 'Output',
+            txtStyle_Calculation: 'Calculation',
+            txtStyle_Check_Cell: 'Check Cell',
+            txtStyle_Explanatory_Text: 'Explanatory Text',
+            txtStyle_Note: 'Note',
+            txtStyle_Linked_Cell: 'Linked Cell',
+            txtStyle_Warning_Text: 'Warning Text',
+            txtStyle_Total: 'Total',
+            txtStyle_Currency: 'Currency',
+            txtStyle_Percent: 'Percent',
+            txtStyle_Comma: 'Comma'
         }
     })(), SSE.Controllers.Main || {}))
 });
