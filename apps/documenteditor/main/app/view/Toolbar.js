@@ -606,7 +606,9 @@ define([
                         { caption: this.textColumnsTwo,     iconCls: 'mnu-columns-two',   checkable: true, toggleGroup: 'menuColumns', value: 1 },
                         { caption: this.textColumnsThree,   iconCls: 'mnu-columns-three', checkable: true, toggleGroup: 'menuColumns', value: 2 },
                         { caption: this.textColumnsLeft,    iconCls: 'mnu-columns-left',  checkable: true, toggleGroup: 'menuColumns', value: 3 },
-                        { caption: this.textColumnsRight,   iconCls: 'mnu-columns-right', checkable: true, toggleGroup: 'menuColumns', value: 4 }
+                        { caption: this.textColumnsRight,   iconCls: 'mnu-columns-right', checkable: true, toggleGroup: 'menuColumns', value: 4 },
+                        { caption: '--' },
+                        { caption: this.textColumnsCustom, value: 'advanced' }
                     ]
                 })
             });
@@ -1963,7 +1965,8 @@ define([
         mniDelFootnote: 'Delete All Footnotes',
         mniNoteSettings: 'Notes Settings',
         textGotoFootnote: 'Go to Footnotes',
-        tipChangeChart: 'Change Chart Type'
+        tipChangeChart: 'Change Chart Type',
+        textColumnsCustom: 'Custom Columns'
 
     }, DE.Views.Toolbar || {}));
 });

@@ -685,6 +685,12 @@
   "DE.Views.ChartSettings.txtTight": "Tight",
   "DE.Views.ChartSettings.txtTitle": "Chart",
   "DE.Views.ChartSettings.txtTopAndBottom": "Top and bottom",
+  "DE.Views.CustomColumnsDialog.textTitle": "Columns",
+  "DE.Views.CustomColumnsDialog.textSpacing": "Spacing between columns",
+  "DE.Views.CustomColumnsDialog.textColumns": "Number of columns",
+  "DE.Views.CustomColumnsDialog.textSeparator": "Column divider",
+  "DE.Views.CustomColumnsDialog.cancelButtonText": "Cancel",
+  "DE.Views.CustomColumnsDialog.okButtonText": "Ok",
   "DE.Views.DocumentHolder.aboveText": "Above",
   "DE.Views.DocumentHolder.addCommentText": "Add Comment",
   "DE.Views.DocumentHolder.advancedFrameText": "Frame Advanced Settings",
@@ -1626,5 +1632,6 @@
   "DE.Views.Toolbar.txtScheme6": "Concourse",
   "DE.Views.Toolbar.txtScheme7": "Equity",
   "DE.Views.Toolbar.txtScheme8": "Flow",
-  "DE.Views.Toolbar.txtScheme9": "Foundry"
+  "DE.Views.Toolbar.txtScheme9": "Foundry",
+  "DE.Views.Toolbar.textColumnsCustom": "Custom Columns"
 }
