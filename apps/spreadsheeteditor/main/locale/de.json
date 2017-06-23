@@ -969,6 +969,7 @@
   "SSE.Views.DocumentHolder.textEntriesList": "Aus der Dropdown-Liste wählen\n",
   "SSE.Views.DocumentHolder.textFreezePanes": "Fensterausschnitten fixieren",
   "SSE.Views.DocumentHolder.textNone": "Kein",
+  "SSE.Views.DocumentHolder.textUndo": "Undo",
   "SSE.Views.DocumentHolder.textUnFreezePanes": "Unfreeze Panes",
   "SSE.Views.DocumentHolder.topCellText": "Oben ausrichten",
   "SSE.Views.DocumentHolder.txtAddComment": "Kommentar hinzufügen",

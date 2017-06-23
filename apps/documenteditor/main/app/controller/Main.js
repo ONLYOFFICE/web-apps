@@ -107,6 +107,7 @@ define([
 
                 this._state = {isDisconnected: false, usersCount: 1, fastCoauth: true, lostEditingRights: false, licenseWarning: false};
                 this.languages = null;
+                this.translationTable = [];
                 // Initialize viewport
 
                 if (!Common.Utils.isBrowserSupported()){
@@ -122,8 +123,23 @@ define([
                 // Initialize api
 
                 window["flat_desine"] = true;
+
+                var styleNames = ['Normal', 'No Spacing', 'Heading 1', 'Heading 2', 'Heading 3', 'Heading 4', 'Heading 5',
+                                  'Heading 6', 'Heading 7', 'Heading 8', 'Heading 9', 'Title', 'Subtitle', 'Quote', 'Intense Quote', 'List Paragraph'],
+                    translate = {
+                        'Series': this.txtSeries,
+                        'Diagram Title': this.txtDiagramTitle,
+                        'X Axis': this.txtXAxis,
+                        'Y Axis': this.txtYAxis,
+                        'Your text here': this.txtArt
+                    };
+                styleNames.forEach(function(item){
+                    translate[item] = me.translationTable[item] = me['txtStyle_' + item.replace(/ /g, '_')] || item;
+                });
+
                 this.api = new Asc.asc_docs_api({
-                    'id-view'  : 'editor_sdk'
+                    'id-view'  : 'editor_sdk',
+                    'translate': translate
                 });
 
                 if (this.api){
@@ -1046,19 +1062,6 @@ define([
 
                 this.api.asc_registerCallback('asc_onSendThemeColors', _.bind(this.onSendThemeColors, this));
                 this.api.asc_registerCallback('asc_onDownloadUrl',     _.bind(this.onDownloadUrl, this));
-
-                if (this.api) {
-                    var translateChart = new Asc.asc_CChartTranslate();
-                    translateChart.asc_setTitle(this.txtDiagramTitle);
-                    translateChart.asc_setXAxis(this.txtXAxis);
-                    translateChart.asc_setYAxis(this.txtYAxis);
-                    translateChart.asc_setSeries(this.txtSeries);
-                    this.api.asc_setChartTranslate(translateChart);
-
-                    var translateArt = new Asc.asc_TextArtTranslate();
-                    translateArt.asc_setDefaultText(this.txtArt);
-                    this.api.asc_setTextArtTranslate(translateArt);
-                }
             },
 
             applyModeEditorElements: function() {
@@ -1940,6 +1943,7 @@ define([
                                     isViewer: itemVar.isViewer,
                                     EditorsSupport: itemVar.EditorsSupport,
                                     isVisual: itemVar.isVisual,
+                                    isCustomWindow: itemVar.isCustomWindow,
                                     isModal: itemVar.isModal,
                                     isInsideMode: itemVar.isInsideMode,
                                     initDataType: itemVar.initDataType,
@@ -2088,7 +2092,23 @@ define([
             errorAccessDeny: 'You are trying to perform an action you do not have rights for.<br>Please contact your Document Server administrator.',
             titleServerVersion: 'Editor updated',
             errorServerVersion: 'The editor version has been updated. The page will be reloaded to apply the changes.',
-            errorBadImageUrl: 'Image url is incorrect'
+            errorBadImageUrl: 'Image url is incorrect',
+            txtStyle_Normal: 'Normal',
+            txtStyle_No_Spacing: 'No Spacing',
+            txtStyle_Heading_1: 'Heading 1',
+            txtStyle_Heading_2: 'Heading 2',
+            txtStyle_Heading_3: 'Heading 3',
+            txtStyle_Heading_4: 'Heading 4',
+            txtStyle_Heading_5: 'Heading 5',
+            txtStyle_Heading_6: 'Heading 6',
+            txtStyle_Heading_7: 'Heading 7',
+            txtStyle_Heading_8: 'Heading 8',
+            txtStyle_Heading_9: 'Heading 9',
+            txtStyle_Title: 'Title',
+            txtStyle_Subtitle: 'Subtitle',
+            txtStyle_Quote: 'Quote',
+            txtStyle_Intense_Quote: 'Intense Quote',
+            txtStyle_List_Paragraph: 'List Paragraph'
         }
     })(), DE.Controllers.Main || {}))
 });

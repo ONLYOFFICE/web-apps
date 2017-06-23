@@ -317,7 +317,8 @@ define([
         },
 
         onPrimary: function() {
-            return true;
+            this.onDlgBtnClick('ok');
+            return false;
         },
 
         onNegativeSelect: function(combo, record) {

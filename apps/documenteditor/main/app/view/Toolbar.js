@@ -652,7 +652,9 @@ define([
                                 checkable: true,
                                 toggleGroup: 'menuColumns',
                                 value: 4
-                            }
+                            },
+                            { caption: '--' },
+                            { caption: this.textColumnsCustom, value: 'advanced' }
                         ]
                     })
                 });
@@ -2487,7 +2489,8 @@ define([
             capImgForward: 'Move forward',
             capImgBackward: 'Move backward',
             capImgWrapping: 'Wrapping',
-            capBtnComment: 'Comment'
+            capBtnComment: 'Comment',
+            textColumnsCustom: 'Custom Columns'
         }
     })(), DE.Views.Toolbar || {}));
 });
