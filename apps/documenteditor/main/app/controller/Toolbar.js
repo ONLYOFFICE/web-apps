@@ -55,7 +55,8 @@ define([
     'documenteditor/main/app/view/PageMarginsDialog',
     'documenteditor/main/app/view/PageSizeDialog',
     'documenteditor/main/app/view/NoteSettingsDialog',
-    'documenteditor/main/app/controller/PageLayout'
+    'documenteditor/main/app/controller/PageLayout',
+    'documenteditor/main/app/view/CustomColumnsDialog'
 ], function () {
     'use strict';
 
@@ -1641,23 +1642,40 @@ define([
                 return;
 
             this._state.columns = undefined;
-            if (this.api && item.checked) {
-                var props = new Asc.CDocumentColumnsProps(),
-                    cols = item.value,
-                    def_space = 12.5;
-                props.put_EqualWidth(cols<3);
 
-                if (cols<3) {
-                    props.put_Num(cols+1);
-                    props.put_Space(def_space);
-                } else {
-                    var total = this.api.asc_GetColumnsProps().get_TotalWidth(),
-                        left = (total - def_space*2)/3,
-                        right = total - def_space - left;
-                    props.put_ColByValue(0, (cols == 3) ? left : right, def_space);
-                    props.put_ColByValue(1, (cols == 3) ? right : left, 0);
+            if (this.api) {
+                if (item.value == 'advanced') {
+                    var win, props = this.api.asc_GetSectionProps(),
+                        me = this;
+                    win = new DE.Views.CustomColumnsDialog({
+                        handler: function(dlg, result) {
+                            if (result == 'ok') {
+                                props = dlg.getSettings();
+                                me.api.asc_SetColumnsProps(props);
+                                Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                            }
+                        }
+                    });
+                    win.show();
+                    win.setSettings(me.api.asc_GetColumnsProps());
+                } else if (item.checked) {
+                    var props = new Asc.CDocumentColumnsProps(),
+                        cols = item.value,
+                        def_space = 12.5;
+                    props.put_EqualWidth(cols<3);
+
+                    if (cols<3) {
+                        props.put_Num(cols+1);
+                        props.put_Space(def_space);
+                    } else {
+                        var total = this.api.asc_GetColumnsProps().get_TotalWidth(),
+                            left = (total - def_space*2)/3,
+                            right = total - def_space - left;
+                        props.put_ColByValue(0, (cols == 3) ? left : right, def_space);
+                        props.put_ColByValue(1, (cols == 3) ? right : left, 0);
+                    }
+                    this.api.asc_SetColumnsProps(props);
                 }
-                this.api.asc_SetColumnsProps(props);
             }
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
