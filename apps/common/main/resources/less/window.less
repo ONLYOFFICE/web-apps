@@ -190,6 +190,16 @@
         -o-transition: none !important;
     }
 
+    &.plain {
+        border: none;
+        box-shadow: none;
+        border-radius: 0;
+
+        .body, .resize-border {
+            border-radius: 0 !important;
+        }
+    }
+
     .resize-border {
         position: absolute;
         width: 5px;
