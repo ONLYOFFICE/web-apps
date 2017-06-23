@@ -201,21 +201,22 @@ define([
         initialize : function(options) {
             var _options = {};
             _.extend(_options,  {
-                cls: 'advanced-settings-dlg',
                 header: true,
                 enableKeyEvents: false
             }, options);
 
             var header_footer = (_options.buttons && _.size(_options.buttons)>0) ? 85 : 34;
+            if (!_options.header) header_footer -= 34;
             _options.width = (Common.Utils.innerWidth()-_options.width)<0 ? Common.Utils.innerWidth(): _options.width,
             _options.height += header_footer;
             _options.height = (Common.Utils.innerHeight()-_options.height)<0 ? Common.Utils.innerHeight(): _options.height;
+            _options.cls += ' advanced-settings-dlg';
 
             this.template = [
                 '<div id="id-plugin-container" class="box" style="height:' + (_options.height-header_footer) + 'px;">',
                     '<div id="id-plugin-placeholder" style="width: 100%;height: 100%;"></div>',
                 '</div>',
-                '<% if (_.size(buttons) > 0) { %>',
+                '<% if ((typeof buttons !== "undefined") && _.size(buttons) > 0) { %>',
                     '<div class="separator horizontal"/>',
                     '<div class="footer" style="text-align: center;">',
                         '<% for(var bt in buttons) { %>',
@@ -237,6 +238,7 @@ define([
 
             this.boxEl = this.$window.find('.body > .box');
             this._headerFooterHeight = (this.options.buttons && _.size(this.options.buttons)>0) ? 85 : 34;
+            if (!this.options.header) this._headerFooterHeight -= 34;
             this._headerFooterHeight += ((parseInt(this.$window.css('border-top-width')) + parseInt(this.$window.css('border-bottom-width'))));
 
             var iframe = document.createElement("iframe");

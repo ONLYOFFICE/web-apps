@@ -1972,6 +1972,7 @@ define([
                                     isViewer: itemVar.isViewer,
                                     EditorsSupport: itemVar.EditorsSupport,
                                     isVisual: itemVar.isVisual,
+                                    isCustomWindow: itemVar.isCustomWindow,
                                     isModal: itemVar.isModal,
                                     isInsideMode: itemVar.isInsideMode,
                                     initDataType: itemVar.initDataType,
