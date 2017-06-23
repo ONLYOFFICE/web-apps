@@ -120,7 +120,14 @@ define([
                 // Initialize api
                 this.api = new Asc.spreadsheet_api({
                     'id-view'  : 'editor_sdk',
-                    'id-input' : 'ce-cell-content'
+                    'id-input' : 'ce-cell-content',
+                    'translate': {
+                        'Series': this.txtSeries,
+                        'Diagram Title': this.txtDiagramTitle,
+                        'X Axis': this.txtXAxis,
+                        'Y Axis': this.txtYAxis,
+                        'Your text here': this.txtArt
+                    }
                 });
                 this.api.asc_setFontRenderingMode(parseInt(value));
 
@@ -849,19 +856,6 @@ define([
                                 Common.Gateway.internalMessage('processMouse', {event: 'mouse:move', pagex: e.pageX*Common.Utils.zoom(), pagey: e.pageY*Common.Utils.zoom()});
                             }
                         },this));
-                }
-
-                if (this.api) {
-                    var translateChart = new Asc.asc_CChartTranslate();
-                    translateChart.asc_setTitle(this.txtDiagramTitle);
-                    translateChart.asc_setXAxis(this.txtXAxis);
-                    translateChart.asc_setYAxis(this.txtYAxis);
-                    translateChart.asc_setSeries(this.txtSeries);
-                    this.api.asc_setChartTranslate(translateChart);
-
-                    var translateArt = new Asc.asc_TextArtTranslate();
-                    translateArt.asc_setDefaultText(this.txtArt);
-                    this.api.asc_setTextArtTranslate(translateArt);
                 }
 
                 if (!this.appOptions.isEditMailMerge && !this.appOptions.isEditDiagram) {
