@@ -501,26 +501,22 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'btn-text',
                     caption: me.capBtnInsTextbox,
-                    enableToggle: true,
-                    split: true,
+                    enableToggle: true
+                });
+                this.paragraphControls.push(this.btnInsertText);
+                this.btnInsertTextArt = new Common.UI.Button({
+                    id: 'tlb-btn-instextart',
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'btn-textart',
+                    caption: me.capBtnInsTextart,
                     menu: new Common.UI.Menu({
+                        cls: 'menu-shapes',
                         items: [
-                            {caption: this.textInsText, value: 'text'},
-                            this.mnuInsertTextArt = new Common.UI.MenuItem({
-                                caption: this.textInsTextArt,
-                                value: 'art',
-                                menu: new Common.UI.Menu({
-                                    menuAlign: 'tl-tr',
-                                    cls: 'menu-shapes',
-                                    items: [
-                                        {template: _.template('<div id="id-toolbar-menu-insart" style="width: 239px; margin-left: 5px;"></div>')}
-                                    ]
-                                })
-                            })
+                            {template: _.template('<div id="id-toolbar-menu-insart" style="width: 239px; margin-left: 5px;"></div>')}
                         ]
                     })
                 });
-                this.paragraphControls.push(this.btnInsertText);
+                this.paragraphControls.push(this.btnInsertTextArt);
 
                 this.btnInsertHyperlink = new Common.UI.Button({
                     id: 'tlb-btn-inshyperlink',
@@ -1268,6 +1264,7 @@ define([
                 _injectComponent('#slot-btn-insimage', this.btnInsertImage);
                 _injectComponent('#slot-btn-inschart', this.btnInsertChart);
                 _injectComponent('#slot-btn-instext', this.btnInsertText);
+                _injectComponent('#slot-btn-instextart', this.btnInsertTextArt);
                 _injectComponent('#slot-btn-dropcap', this.btnDropCap);
                 _injectComponent('#slot-btn-columns', this.btnColumns);
                 _injectComponent('#slot-btn-inshyperlink', this.btnInsertHyperlink);
@@ -1517,6 +1514,7 @@ define([
                 this.btnInsertImage.updateHint(this.tipInsertImage);
                 this.btnInsertChart.updateHint(this.tipInsertChart);
                 this.btnInsertText.updateHint(this.tipInsertText);
+                this.btnInsertTextArt.updateHint(this.tipInsertTextArt);
                 this.btnInsertHyperlink.updateHint(this.tipInsertHyperlink + Common.Utils.String.platformKey('Ctrl+K'));
                 this.btnEditHeader.updateHint(this.tipEditHeader);
                 this.btnInsertShape.updateHint(this.tipInsertShape);
@@ -2098,6 +2096,7 @@ define([
                     this.btnInsertImage.setDisabled(true);
                     this.btnInsertChart.setDisabled(true);
                     this.btnInsertText.setDisabled(true);
+                    this.btnInsertTextArt.setDisabled(true);
                     this.btnDropCap.setDisabled(true);
                     this.btnColumns.setDisabled(true);
                     this.btnInsertHyperlink.setDisabled(true);
@@ -2375,6 +2374,7 @@ define([
             textStock: 'Stock',
             tipColorSchemas: 'Change Color Scheme',
             tipInsertText: 'Insert Text',
+            tipInsertTextArt: 'Insert Text-art',
             tipHAligh: 'Horizontal Align',
             tipViewSettings: 'View Settings',
             tipAdvSettings: 'Advanced Settings',
@@ -2426,8 +2426,6 @@ define([
             textStyleMenuRestoreAll: 'Restore all to default styles',
             textStyleMenuDeleteAll: 'Delete all custom styles',
             textStyleMenuNew: 'New style from selection',
-            textInsText: 'Insert text box',
-            textInsTextArt: 'Insert Text Art',
             tipColumns: 'Insert columns',
             textColumnsOne: 'One',
             textColumnsTwo: 'Two',
@@ -2469,6 +2467,7 @@ define([
             textTabReview: 'Review',
             capBtnInsShape: 'Shape',
             capBtnInsTextbox: 'Text',
+            capBtnInsTextart: 'Text-art',
             capBtnInsDropcap: 'Drop Cap',
             capBtnInsFootnote: 'Footnotes',
             capBtnInsEquation: 'Equation',

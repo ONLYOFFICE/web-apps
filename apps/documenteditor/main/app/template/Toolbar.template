@@ -132,28 +132,23 @@
                 <div class="separator long"></div>
                 <div class="group">
                     <span class="btn-slot text x-huge" id="slot-btn-inshyperlink"></span>
-                </div>
-                <div class="group">
-                    <div class="elset">
-                        <span class="btn-slot text" id="slot-btn-notes"></span>
-                    </div>
-                    <div class="elset">
-                        <span class="btn-slot text slot-comment"></span>
-                    </div>
+                    <span class="btn-slot text x-huge" id="slot-btn-notes"></span>
+                    <span class="btn-slot text x-huge slot-comment"></span>
                 </div>
                 <div class="separator long"></div>
                 <div class="group">
                     <span class="btn-slot text x-huge" id="slot-btn-instext"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-instextart"></span>
+                </div>
+                <div class="separator long"></div>
+                <div class="group">
+                    <span class="btn-slot text x-huge" id="slot-btn-insequation"></span>
                 </div>
                 <div class="group">
                     <div class="elset">
                         <span class="btn-slot text" id="slot-btn-dropcap"></span>
                     </div>
                     <div class="elset"></div>
-                </div>
-                <div class="separator long"></div>
-                <div class="group">
-                    <span class="btn-slot text x-huge" id="slot-btn-insequation"></span>
                 </div>
             </section>
             <section class="panel" data-tab="layout">

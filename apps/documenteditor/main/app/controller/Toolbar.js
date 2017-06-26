@@ -245,7 +245,6 @@ define([
             toolbar.mnuInsertTable.on('item:click',                     _.bind(this.onInsertTableClick, this));
             toolbar.mnuInsertImage.on('item:click',                     _.bind(this.onInsertImageClick, this));
             toolbar.btnInsertText.on('click',                           _.bind(this.onBtnInsertTextClick, this));
-            toolbar.btnInsertText.menu.on('item:click',                 _.bind(this.onInsertTextClick, this));
             toolbar.btnInsertShape.menu.on('hide:after',                _.bind(this.onInsertShapeHide, this));
             toolbar.btnDropCap.menu.on('item:click',                    _.bind(this.onDropCapSelect, this));
             toolbar.mnuDropCapAdvanced.on('click',                      _.bind(this.onDropCapAdvancedClick, this));
@@ -698,8 +697,7 @@ define([
             toolbar.btnInsertImage.setDisabled(need_disable);
             toolbar.btnInsertShape.setDisabled(need_disable);
             toolbar.btnInsertText.setDisabled(need_disable);
-
-            toolbar.mnuInsertTextArt.setDisabled(need_disable || in_image);
+            toolbar.btnInsertTextArt.setDisabled(need_disable || in_image);
 
             if (in_chart !== this._state.in_chart) {
                 toolbar.btnInsertChart.updateHint(in_chart ? toolbar.tipChangeChart : toolbar.tipInsertChart);
@@ -1374,20 +1372,6 @@ define([
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar, this.toolbar.btnInsertShape);
             Common.component.Analytics.trackEvent('ToolBar', 'Add Text');
-        },
-
-        onInsertTextClick: function(menu, item, e) {
-            if (item.value === 'text') {
-                if (this.api)
-                    this._addAutoshape(true, 'textRect');
-                this.toolbar.btnInsertText.toggle(true, true);
-
-                if (this.toolbar.btnInsertShape.pressed)
-                    this.toolbar.btnInsertShape.toggle(false, true);
-
-                Common.NotificationCenter.trigger('edit:complete', this.toolbar, this.toolbar.btnInsertShape);
-                Common.component.Analytics.trackEvent('ToolBar', 'Add Text');
-            }
         },
 
         onInsertShapeHide: function(btn, e) {
@@ -2497,7 +2481,7 @@ define([
         },
 
         fillTextArt: function() {
-            if (!this.toolbar.btnInsertText.rendered) return;
+            if (!this.toolbar.btnInsertTextArt.rendered) return;
             
             var me = this;
             if (this.toolbar.mnuTextArtPicker) {
@@ -2515,7 +2499,7 @@ define([
                 this.toolbar.mnuTextArtPicker = new Common.UI.DataView({
                     el: $('#id-toolbar-menu-insart'),
                     store: this.getApplication().getCollection('Common.Collections.TextArt'),
-                    parentMenu: this.toolbar.mnuInsertTextArt.menu,
+                    parentMenu: this.toolbar.btnInsertTextArt.menu,
                     showLast: false,
                     itemTemplate: _.template('<div class="item-art"><img src="<%= imageUrl %>" id="<%= id %>" style="width:50px;height:50px;"></div>')
                 });
@@ -2529,8 +2513,8 @@ define([
                             me.toolbar.btnInsertShape.toggle(false, true);
 
                          if (e.type !== 'click')
-                             me.toolbar.btnInsertText.menu.hide();
-                        Common.NotificationCenter.trigger('edit:complete', me.toolbar, me.toolbar.btnInsertText);
+                             me.toolbar.btnInsertTextArt.menu.hide();
+                        Common.NotificationCenter.trigger('edit:complete', me.toolbar, me.toolbar.btnInsertTextArt);
                         Common.component.Analytics.trackEvent('ToolBar', 'Add Text Art');
                     }
                 });
