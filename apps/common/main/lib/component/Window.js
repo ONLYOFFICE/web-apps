@@ -247,8 +247,8 @@ define([
             Common.UI.Menu.Manager.hideAll();
             var zoom = (event instanceof jQuery.Event) ? Common.Utils.zoom() : 1;
             this.dragging.enabled = true;
-            this.dragging.initx = event.pageX*zoom - parseInt(this.$window.css('left'));
-            this.dragging.inity = event.pageY*zoom - parseInt(this.$window.css('top'));
+            this.dragging.initx = event.pageX*zoom - this.getLeft();
+            this.dragging.inity = event.pageY*zoom - this.getTop();
 
             if (window.innerHeight == undefined) {
                 var main_width  = document.documentElement.offsetWidth;
@@ -258,8 +258,8 @@ define([
                 main_height = Common.Utils.innerHeight();
             }
 
-            this.dragging.maxx  = main_width - parseInt(this.$window.css("width"));
-            this.dragging.maxy  = main_height - parseInt(this.$window.css("height"));
+            this.dragging.maxx  = main_width - this.getWidth();
+            this.dragging.maxy  = main_height - this.getHeight();
 
             $(document).on('mousemove', this.binding.drag);
             $(document).on('mouseup', this.binding.dragStop);
@@ -297,16 +297,16 @@ define([
         function _resizestart(event) {
             Common.UI.Menu.Manager.hideAll();
             var el = $(event.target),
-                left = parseInt(this.$window.css('left')),
-                top = parseInt(this.$window.css('top'));
+                left = this.getLeft(),
+                top = this.getTop();
 
             this.resizing.enabled = true;
             this.resizing.initpage_x = event.pageX*Common.Utils.zoom();
             this.resizing.initpage_y = event.pageY*Common.Utils.zoom();
             this.resizing.initx = this.resizing.initpage_x - left;
             this.resizing.inity = this.resizing.initpage_y - top;
-            this.resizing.initw = parseInt(this.$window.css("width"));
-            this.resizing.inith = parseInt(this.$window.css("height"));
+            this.resizing.initw = this.getWidth();
+            this.resizing.inith = this.getHeight();
             this.resizing.type = [el.hasClass('left') ? -1 : (el.hasClass('right') ? 1 : 0), el.hasClass('top') ? -1 : (el.hasClass('bottom') ? 1 : 0)];
 
             var main_width  = (window.innerHeight == undefined) ? document.documentElement.offsetWidth : Common.Utils.innerWidth(),
@@ -824,6 +824,14 @@ define([
 
             getTitle: function() {
                 return this.$window.find('> .header > .title').text();
+            },
+
+            getLeft: function() {
+                return parseInt(this.$window.css('left'));
+            },
+
+            getTop: function() {
+                return parseInt(this.$window.css('top'));
             },
 
             isVisible: function() {
