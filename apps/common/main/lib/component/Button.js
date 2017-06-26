@@ -119,18 +119,20 @@ define([
 ], function () {
     'use strict';
 
+    var templateBtnIcon =
+            '<% if ( iconImg ) { %>' +
+                '<img src="<%= iconImg %>">' +
+            '<% } else { %>' +
+                '<% if (/svgicon/.test(iconCls)) {' +
+                    'print(\'<svg width="26" height="26" class=\"icon\"><use href=\"#\' + /svgicon\\s(\\S+)/.exec(iconCls)[1] + \'\"></use></svg>\');' +
+                '} else ' +
+                    'print(\'<i class=\"icon \' + iconCls + \'\">&nbsp;</i>\'); %>' +
+            '<% } %>';
+
     var templateHugeCaption =
-            '<button type="button" class="btn dropdown-toggle <%= cls %>" data-toggle="dropdown">' +
+            '<button type="button" class="btn <%= cls %>">' +
                 '<div class="inner-box-icon">' +
-                '<% if ( iconImg ) { %>' +
-                    '<img src="<%= iconImg %>">' +
-                '<% } else { %>' +
-                    '<% if (/svgicon/.test(iconCls)) {' +
-                        'print(\'<svg class=\"icon\"><use xlink:href=\"#\' + /svgicon\\s(\\S+)/.exec(iconCls)[1] + \'\"></use></svg>\');' +
-                    '} else ' +
-                        'print(\'<i class=\"icon \' + iconCls + \'\">&nbsp;</i>\'); %>' +
-                    // '<i class="icon <%= iconCls %>">&nbsp;</i>' +
-                '<% } %>' +
+                    templateBtnIcon +
                 '</div>' +
                 '<span class="caption"><%= caption %></span>' +
             '</button>';
@@ -139,11 +141,7 @@ define([
         '<div class="btn-group icon-top" id="<%= id %>" style="<%= style %>">' +
             '<button type="button" class="btn dropdown-toggle <%= cls %>" data-toggle="dropdown">' +
                 '<div class="inner-box-icon">' +
-                '<% if ( iconImg ) { %>' +
-                    '<img src="<%= iconImg %>">' +
-                '<% } else { %>' +
-                    '<i class="icon <%= iconCls %>">&nbsp;</i>' +
-                '<% } %>' +
+                    templateBtnIcon +
                 '</div>' +
                 '<div class="inner-box-caption">' +
                     '<span class="caption"><%= caption %></span>' +
@@ -155,11 +153,7 @@ define([
     var templateHugeSplitCaption =
         '<div class="btn-group x-huge split icon-top" id="<%= id %>" style="<%= style %>">' +
             '<button type="button" class="btn <%= cls %> inner-box-icon">' +
-                '<% if ( iconImg ) { %>' +
-                    '<img src="<%= iconImg %>">' +
-                '<% } else { %>' +
-                    '<i class="icon <%= iconCls %>">&nbsp;</i>' +
-                '<% } %>' +
+                templateBtnIcon +
             '</button>' +
             '<button type="button" class="btn <%= cls %> inner-box-caption dropdown-toggle" data-toggle="dropdown">' +
                 '<span class="caption"><%= caption %></span>' +
