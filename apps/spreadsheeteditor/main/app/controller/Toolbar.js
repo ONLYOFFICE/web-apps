@@ -1536,11 +1536,13 @@ define([
 
             listStyles.menuPicker.store.reset([]); // remove all
 
+            var mainController = this.getApplication().getController('Main');
             var merged_array = styles.asc_getDefaultStyles().concat(styles.asc_getDocStyles());
             _.each(merged_array, function(style){
                 listStyles.menuPicker.store.add({
                     imageUrl: style.asc_getImage(),
                     name    : style.asc_getName(),
+                    tip     : mainController.translationTable[style.get_Name()] || style.get_Name(),
                     uid     : Common.UI.getId()
                 });
             });
