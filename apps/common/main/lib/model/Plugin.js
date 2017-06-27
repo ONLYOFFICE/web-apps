@@ -58,6 +58,7 @@ define([
                 isViewer: false,
                 EditorsSupport: ["word", "cell", "slide"],
                 isVisual: false,
+                isCustomWindow: false,
                 isModal: false,
                 isInsideMode: false,
                 initDataType: 0,

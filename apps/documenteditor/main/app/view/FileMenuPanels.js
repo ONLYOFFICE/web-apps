@@ -350,14 +350,11 @@ define([
             this.cmbZoom.setValue(item ? parseInt(item.get('value')) : (value>0 ? value+'%' : 100));
 
             /** coauthoring begin **/
-            value = Common.localStorage.getItem("de-settings-livecomment");
-            this.chLiveComment.setValue(!(value!==null && parseInt(value) == 0));
-
-            value = Common.localStorage.getItem("de-settings-resolvedcomment");
-            this.chResolvedComment.setValue(!(value!==null && parseInt(value) == 0));
+            this.chLiveComment.setValue(Common.localStorage.getBool("de-settings-livecomment", true));
+            this.chResolvedComment.setValue(Common.localStorage.getBool("de-settings-resolvedcomment", true));
 
             value = Common.localStorage.getItem("de-settings-coauthmode");
-            if (value===null && Common.localStorage.getItem("de-settings-autosave")===null &&
+            if (value===null && !Common.localStorage.itemExists("de-settings-autosave") &&
                 this.mode.customization && this.mode.customization.autosave===false)
                 value = 0; // use customization.autosave only when de-settings-coauthmode and de-settings-autosave are null
             var fast_coauth = (value===null || parseInt(value) == 1) && !(this.mode.isDesktopApp && this.mode.isOffline) && this.mode.canCoAuthoring;
@@ -387,16 +384,11 @@ define([
                 value = 0;
             this.chAutosave.setValue(fast_coauth || (value===null ? this.mode.canCoAuthoring : parseInt(value) == 1));
 
-            if (this.mode.canForcesave) {
-                value = Common.localStorage.getItem("de-settings-forcesave");
-                value = (value === null) ? this.mode.canForcesave : (parseInt(value) == 1);
-                this.chForcesave.setValue(value);
-            }
+            if (this.mode.canForcesave)
+                this.chForcesave.setValue(Common.localStorage.getBool("de-settings-forcesave", this.mode.canForcesave));
 
             this.chSpell.setValue(Common.localStorage.getBool("de-settings-spellcheck", true));
-
-            value = Common.localStorage.getItem("de-settings-showsnaplines");
-            this.chAlignGuides.setValue(value===null || parseInt(value) == 1);
+            this.chAlignGuides.setValue(Common.localStorage.getBool("de-settings-showsnaplines", true));
         },
 
         applySettings: function() {

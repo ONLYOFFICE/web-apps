@@ -287,13 +287,12 @@ define([
         },
 
         applySettings: function(menu) {
-            var value = Common.localStorage.getItem("de-settings-inputmode");
-            this.api.SetTextBoxInputMode(parseInt(value) == 1);
+            var value;
+            this.api.SetTextBoxInputMode(Common.localStorage.getBool("de-settings-inputmode"));
 
             /** coauthoring begin **/
             if (this.mode.isEdit && !this.mode.isOffline && this.mode.canCoAuthoring) {
-                value = Common.localStorage.getItem("de-settings-coauthmode");
-                var fast_coauth = (value===null || parseInt(value) == 1);
+                var fast_coauth = Common.localStorage.getBool("de-settings-coauthmode", true);
                 this.api.asc_SetFastCollaborative(fast_coauth);
 
                 value = Common.localStorage.getItem((fast_coauth) ? "de-settings-showchanges-fast" : "de-settings-showchanges-strict");
@@ -306,9 +305,7 @@ define([
                 this.api.SetCollaborativeMarksShowType(value);
             }
 
-            value = Common.localStorage.getItem("de-settings-livecomment");
-            var resolved = Common.localStorage.getItem("de-settings-resolvedcomment");
-            (!(value!==null && parseInt(value) == 0)) ? this.api.asc_showComments(!(resolved!==null && parseInt(resolved) == 0)) : this.api.asc_hideComments();
+            (Common.localStorage.getBool("de-settings-livecomment", true)) ? this.api.asc_showComments(Common.localStorage.getBool("de-settings-resolvedcomment", true)) : this.api.asc_hideComments();
             /** coauthoring end **/
 
             value = Common.localStorage.getItem("de-settings-fontrender");
@@ -325,8 +322,7 @@ define([
                 this.api.asc_setSpellCheck(Common.localStorage.getBool("de-settings-spellcheck", true));
             }
 
-            value = Common.localStorage.getItem("de-settings-showsnaplines");
-            this.api.put_ShowSnapLines(value===null || parseInt(value) == 1);
+            this.api.put_ShowSnapLines(Common.localStorage.getBool("de-settings-showsnaplines", true));
 
             menu.hide();
         },
@@ -517,12 +513,10 @@ define([
         },
 
         commentsShowHide: function(mode) {
-            var value = Common.localStorage.getItem("de-settings-livecomment"),
-                resolved = Common.localStorage.getItem("de-settings-resolvedcomment");
-            value = (value!==null && parseInt(value) == 0);
-            resolved = (resolved!==null && parseInt(resolved) == 0);
-            if (value || resolved) {
-                (mode === 'show') ? this.api.asc_showComments(true) : ((!value) ? this.api.asc_showComments(!resolved) : this.api.asc_hideComments());
+            var value = Common.localStorage.getBool("de-settings-livecomment", true),
+                resolved = Common.localStorage.getBool("de-settings-resolvedcomment", true);
+            if (!value || !resolved) {
+                (mode === 'show') ? this.api.asc_showComments(true) : ((value) ? this.api.asc_showComments(resolved) : this.api.asc_hideComments());
             }
 
             if (mode === 'show') {
@@ -543,7 +537,7 @@ define([
                 if ( state == 'show' )
                     this.dlgSearch.suspendKeyEvents();
                 else
-                    Common.Utils.asyncCall(this.dlgSearch.resumeKeyEvents);
+                    Common.Utils.asyncCall(this.dlgSearch.resumeKeyEvents, this.dlgSearch);
             }
         },
 

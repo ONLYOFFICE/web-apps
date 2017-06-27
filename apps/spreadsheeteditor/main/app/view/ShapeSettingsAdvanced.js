@@ -441,6 +441,7 @@ define([    'text!spreadsheeteditor/main/app/template/ShapeSettingsAdvanced.temp
             this.spnColumns = new Common.UI.MetricSpinner({
                 el: $('#shape-columns-number'),
                 step: 1,
+                allowDecimal: false,
                 width: 100,
                 defaultUnit : "",
                 value: '1',

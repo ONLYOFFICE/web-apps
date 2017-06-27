@@ -589,7 +589,7 @@ define([
                 if ( state == 'show' )
                     this.dlgSearch.suspendKeyEvents();
                 else
-                    Common.Utils.asyncCall(this.dlgSearch.resumeKeyEvents);
+                    Common.Utils.asyncCall(this.dlgSearch.resumeKeyEvents, this.dlgSearch);
             }
         },
 

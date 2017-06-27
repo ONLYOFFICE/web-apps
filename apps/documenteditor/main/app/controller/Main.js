@@ -107,6 +107,7 @@ define([
 
                 this._state = {isDisconnected: false, usersCount: 1, fastCoauth: true, lostEditingRights: false, licenseWarning: false};
                 this.languages = null;
+                this.translationTable = [];
                 // Initialize viewport
 
                 if (!Common.Utils.isBrowserSupported()){
@@ -122,8 +123,23 @@ define([
                 // Initialize api
 
                 window["flat_desine"] = true;
+
+                var styleNames = ['Normal', 'No Spacing', 'Heading 1', 'Heading 2', 'Heading 3', 'Heading 4', 'Heading 5',
+                                  'Heading 6', 'Heading 7', 'Heading 8', 'Heading 9', 'Title', 'Subtitle', 'Quote', 'Intense Quote', 'List Paragraph'],
+                    translate = {
+                        'Series': this.txtSeries,
+                        'Diagram Title': this.txtDiagramTitle,
+                        'X Axis': this.txtXAxis,
+                        'Y Axis': this.txtYAxis,
+                        'Your text here': this.txtArt
+                    };
+                styleNames.forEach(function(item){
+                    translate[item] = me.translationTable[item] = me['txtStyle_' + item.replace(/ /g, '_')] || item;
+                });
+
                 this.api = new Asc.asc_docs_api({
-                    'id-view'  : 'editor_sdk'
+                    'id-view'  : 'editor_sdk',
+                    'translate': translate
                 });
 
                 if (this.api){
@@ -735,10 +751,8 @@ define([
                 me.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
 
                 /** coauthoring begin **/
-                value = Common.localStorage.getItem("de-settings-livecomment");
-                this.isLiveCommenting = !(value!==null && parseInt(value) == 0);
-                var resolved = Common.localStorage.getItem("de-settings-resolvedcomment");
-                this.isLiveCommenting ? this.api.asc_showComments(!(resolved!==null && parseInt(resolved) == 0)) : this.api.asc_hideComments();
+                this.isLiveCommenting = Common.localStorage.getBool("de-settings-livecomment", true);
+                this.isLiveCommenting ? this.api.asc_showComments(Common.localStorage.getBool("de-settings-resolvedcomment", true)) : this.api.asc_hideComments();
                 /** coauthoring end **/
 
                 value = Common.localStorage.getItem("de-settings-zoom");
@@ -782,7 +796,7 @@ define([
                 /** coauthoring begin **/
                 if (me.appOptions.isEdit && !me.appOptions.isOffline && me.appOptions.canCoAuthoring) {
                     value = Common.localStorage.getItem("de-settings-coauthmode");
-                    if (value===null && Common.localStorage.getItem("de-settings-autosave")===null &&
+                    if (value===null && !Common.localStorage.itemExists("de-settings-autosave") &&
                         me.appOptions.customization && me.appOptions.customization.autosave===false) {
                         value = 0; // use customization.autosave only when de-settings-coauthmode and de-settings-autosave are null
                     }
@@ -848,8 +862,7 @@ define([
                     me.api.asc_setAutoSaveGap(value);
 
                     if (me.appOptions.canForcesave) {// use asc_setIsForceSaveOnUserSave only when customization->forcesave = true
-                        value = Common.localStorage.getItem("de-settings-forcesave");
-                        me.appOptions.forcesave = (value===null) ? me.appOptions.canForcesave : (parseInt(value)==1);
+                        me.appOptions.forcesave = Common.localStorage.getBool("de-settings-forcesave", me.appOptions.canForcesave);
                         me.api.asc_setIsForceSaveOnUserSave(me.appOptions.forcesave);
                     }
 
@@ -1049,19 +1062,6 @@ define([
 
                 this.api.asc_registerCallback('asc_onSendThemeColors', _.bind(this.onSendThemeColors, this));
                 this.api.asc_registerCallback('asc_onDownloadUrl',     _.bind(this.onDownloadUrl, this));
-
-                if (this.api) {
-                    var translateChart = new Asc.asc_CChartTranslate();
-                    translateChart.asc_setTitle(this.txtDiagramTitle);
-                    translateChart.asc_setXAxis(this.txtXAxis);
-                    translateChart.asc_setYAxis(this.txtYAxis);
-                    translateChart.asc_setSeries(this.txtSeries);
-                    this.api.asc_setChartTranslate(translateChart);
-
-                    var translateArt = new Asc.asc_TextArtTranslate();
-                    translateArt.asc_setDefaultText(this.txtArt);
-                    this.api.asc_setTextArtTranslate(translateArt);
-                }
             },
 
             applyModeEditorElements: function() {
@@ -1750,8 +1750,7 @@ define([
             },
 
             onTryUndoInFastCollaborative: function() {
-                var val = window.localStorage.getItem("de-hide-try-undoredo");
-                if (!(val && parseInt(val) == 1))
+                if (!window.localStorage.getBool("de-hide-try-undoredo"))
                     Common.UI.info({
                         width: 500,
                         msg: this.textTryUndoRedo,
@@ -1785,15 +1784,13 @@ define([
 
             applySettings: function() {
                 if (this.appOptions.isEdit && !this.appOptions.isOffline && this.appOptions.canCoAuthoring) {
-                    var value = Common.localStorage.getItem("de-settings-coauthmode"),
-                        oldval = this._state.fastCoauth;
-                    this._state.fastCoauth = (value===null || parseInt(value) == 1);
+                    var oldval = this._state.fastCoauth;
+                    this._state.fastCoauth = Common.localStorage.getBool("de-settings-coauthmode", true);
                     if (this._state.fastCoauth && !oldval)
                         this.synchronizeChanges();
                 }
                 if (this.appOptions.canForcesave) {
-                    value = Common.localStorage.getItem("de-settings-forcesave");
-                    this.appOptions.forcesave = (value===null) ? this.appOptions.canForcesave : (parseInt(value)==1);
+                    this.appOptions.forcesave = Common.localStorage.getBool("de-settings-forcesave", this.appOptions.canForcesave);
                     this.api.asc_setIsForceSaveOnUserSave(this.appOptions.forcesave);
                 }
             },
@@ -1946,6 +1943,7 @@ define([
                                     isViewer: itemVar.isViewer,
                                     EditorsSupport: itemVar.EditorsSupport,
                                     isVisual: itemVar.isVisual,
+                                    isCustomWindow: itemVar.isCustomWindow,
                                     isModal: itemVar.isModal,
                                     isInsideMode: itemVar.isInsideMode,
                                     initDataType: itemVar.initDataType,
@@ -2094,7 +2092,23 @@ define([
             errorAccessDeny: 'You are trying to perform an action you do not have rights for.<br>Please contact your Document Server administrator.',
             titleServerVersion: 'Editor updated',
             errorServerVersion: 'The editor version has been updated. The page will be reloaded to apply the changes.',
-            errorBadImageUrl: 'Image url is incorrect'
+            errorBadImageUrl: 'Image url is incorrect',
+            txtStyle_Normal: 'Normal',
+            txtStyle_No_Spacing: 'No Spacing',
+            txtStyle_Heading_1: 'Heading 1',
+            txtStyle_Heading_2: 'Heading 2',
+            txtStyle_Heading_3: 'Heading 3',
+            txtStyle_Heading_4: 'Heading 4',
+            txtStyle_Heading_5: 'Heading 5',
+            txtStyle_Heading_6: 'Heading 6',
+            txtStyle_Heading_7: 'Heading 7',
+            txtStyle_Heading_8: 'Heading 8',
+            txtStyle_Heading_9: 'Heading 9',
+            txtStyle_Title: 'Title',
+            txtStyle_Subtitle: 'Subtitle',
+            txtStyle_Quote: 'Quote',
+            txtStyle_Intense_Quote: 'Intense Quote',
+            txtStyle_List_Paragraph: 'List Paragraph'
         }
     })(), DE.Controllers.Main || {}))
 });

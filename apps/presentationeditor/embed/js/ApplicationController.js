@@ -391,7 +391,7 @@ var ApplicationController = new(function(){
     }
 
     function onEditorPermissions(params) {
-        if ( params.asc_getCanBranding() && (typeof config.customization == 'object') &&
+        if ( (params.asc_getLicenseType() === Asc.c_oLicenseResult.Success) && (typeof config.customization == 'object') &&
             config.customization && config.customization.logo ) {
 
             var logo = $('#header-logo');

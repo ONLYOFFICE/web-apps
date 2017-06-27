@@ -133,6 +133,7 @@ define([
 
         onPrimary: function() {
             this._handleInput('ok');
+            return false;
         },
 
         cancelButtonText: 'Cancel',
