@@ -570,8 +570,6 @@ define([
                     var cansave = this.api.asc_isDocumentCanSave(),
                         forcesave = this.appOptions.forcesave;
                     var isSyncButton = $('.icon', toolbarView.btnSave.cmpEl).hasClass('btn-synch');
-                    if (toolbarView.btnSave.isDisabled() !== (!cansave && !isSyncButton || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1))
-                        toolbarView.btnSave.setDisabled(!cansave && !isSyncButton || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1);
                     if (toolbarView.btnSave.isDisabled() !== (!cansave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave))
                         toolbarView.btnSave.setDisabled(!cansave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave);
                 }
