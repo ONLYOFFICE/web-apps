@@ -1939,7 +1939,7 @@ define([
             errorBadImageUrl: 'Image url is incorrect',
             txtSlideText: 'Slide text',
             txtClipArt: 'Clip Art',
-            txtDiagram: 'Diagram',
+            txtDiagram: 'SmartArt',
             txtDateTime: 'Date and time',
             txtFooter: 'Footer',
             txtHeader: 'Header',
