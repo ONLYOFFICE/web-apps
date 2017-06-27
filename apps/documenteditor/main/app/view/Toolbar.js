@@ -925,7 +925,7 @@ define([
 
                 this.btnNotes = new Common.UI.Button({
                     id: 'id-toolbar-btn-notes',
-                    cls: 'btn-toolbar',
+                    cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'btn-notes',
                     caption: me.capBtnInsFootnote,
                     split: true,

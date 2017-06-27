@@ -144,6 +144,7 @@
                 <div class="group">
                     <span class="btn-slot text x-huge" id="slot-btn-insequation"></span>
                 </div>
+                <div class="separator long"></div>
                 <div class="group">
                     <div class="elset">
                         <span class="btn-slot text" id="slot-btn-dropcap"></span>
