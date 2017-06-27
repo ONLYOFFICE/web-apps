@@ -195,7 +195,7 @@
   "PE.Controllers.Main.warnProcessRightsChange": "You have been denied the right to edit the file.",
   "PE.Controllers.Main.txtSlideText": "Slide text",
   "PE.Controllers.Main.txtClipArt": "ClipArt",
-  "PE.Controllers.Main.txtDiagram": "Diagram",
+  "PE.Controllers.Main.txtDiagram": "SmartArt",
   "PE.Controllers.Main.txtDateTime": "Date and time",
   "PE.Controllers.Main.txtFooter": "Footer",
   "PE.Controllers.Main.txtHeader": "Header",
