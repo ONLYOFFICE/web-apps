@@ -727,7 +727,6 @@ define([
                     enableKeyEvents : true,
                     itemWidth       : 112,
                     itemHeight      : 38,
-                    hint            : this.tipCellStyle,
                     menuMaxHeight   : 226,
                     lock            : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth],
                     beforeOpenHandler: function(e) {
