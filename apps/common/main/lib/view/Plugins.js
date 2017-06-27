@@ -296,9 +296,10 @@ define([
 
             var header_footer = (_options.buttons && _.size(_options.buttons)>0) ? 85 : 34;
             if (!_options.header) header_footer -= 34;
-            _options.width = (Common.Utils.innerWidth()-_options.width)<0 ? Common.Utils.innerWidth(): _options.width,
+            this.bordersOffset = 25;
+            _options.width = (Common.Utils.innerWidth()-this.bordersOffset*2-_options.width)<0 ? Common.Utils.innerWidth()-this.bordersOffset*2: _options.width;
             _options.height += header_footer;
-            _options.height = (Common.Utils.innerHeight()-_options.height)<0 ? Common.Utils.innerHeight(): _options.height;
+            _options.height = (Common.Utils.innerHeight()-this.bordersOffset*2-_options.height)<0 ? Common.Utils.innerHeight()-this.bordersOffset*2: _options.height;
             _options.cls += ' advanced-settings-dlg';
 
             this.template = [
@@ -355,6 +356,14 @@ define([
             this.on('resizing', function(args){
                 me.boxEl.css('height', parseInt(me.$window.css('height')) - me._headerFooterHeight);
             });
+
+            var onMainWindowResize = function(){
+                me.onWindowResize();
+            };
+            $(window).on('resize', onMainWindowResize);
+            this.on('close', function() {
+                $(window).off('resize', onMainWindowResize);
+            });
         },
 
         _onLoad: function() {
@@ -366,11 +375,12 @@ define([
         setInnerSize: function(width, height) {
             var maxHeight = Common.Utils.innerHeight(),
                 maxWidth = Common.Utils.innerWidth(),
-                borders_width = (parseInt(this.$window.css('border-left-width')) + parseInt(this.$window.css('border-right-width')));
-            if (maxHeight<height + this._headerFooterHeight)
-                height = maxHeight - this._headerFooterHeight;
-            if (maxWidth<width + borders_width)
-                width = maxWidth - borders_width;
+                borders_width = (parseInt(this.$window.css('border-left-width')) + parseInt(this.$window.css('border-right-width'))),
+                bordersOffset = this.bordersOffset*2;
+            if (maxHeight - bordersOffset<height + this._headerFooterHeight)
+                height = maxHeight - bordersOffset - this._headerFooterHeight;
+            if (maxWidth - bordersOffset<width + borders_width)
+                width = maxWidth - bordersOffset - borders_width;
 
             this.boxEl.css('height', height);
 
@@ -379,6 +389,35 @@ define([
 
             this.$window.css('left',(maxWidth - width - borders_width) / 2);
             this.$window.css('top',((maxHeight - height - this._headerFooterHeight) / 2) * 0.9);
+        },
+
+        onWindowResize: function() {
+            var main_width  = Common.Utils.innerWidth(),
+                main_height = Common.Utils.innerHeight(),
+                win_width = this.getWidth(),
+                win_height = this.getHeight(),
+                bordersOffset = (this.resizable) ? 0 : this.bordersOffset;
+            if (win_height<main_height-bordersOffset*2+0.1 && win_width<main_width-bordersOffset*2+0.1) {
+                var left = this.getLeft(),
+                    top = this.getTop();
+
+                if (top<bordersOffset) this.$window.css('top', bordersOffset);
+                else if (top+win_height>main_height-bordersOffset)
+                    this.$window.css('top', main_height-bordersOffset - win_height);
+                if (left<bordersOffset) this.$window.css('left', bordersOffset);
+                else if (left+win_width>main_width-bordersOffset)
+                    this.$window.css('left', main_width-bordersOffset-win_width);
+            } else {
+                if (win_height>main_height-bordersOffset*2) {
+                    this.setHeight(Math.max(main_height-bordersOffset*2, this.initConfig.minheight));
+                    this.boxEl.css('height', Math.max(main_height-bordersOffset*2, this.initConfig.minheight) - this._headerFooterHeight);
+                    this.$window.css('top', bordersOffset);
+                }
+                if (win_width>main_width-bordersOffset*2) {
+                    this.setWidth(Math.max(main_width-bordersOffset*2, this.initConfig.minwidth));
+                    this.$window.css('left', bordersOffset);
+                }
+            }
         },
 
         textLoading : 'Loading'

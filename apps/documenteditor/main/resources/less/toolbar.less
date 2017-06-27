@@ -225,6 +225,7 @@
 }
 
 @toolbar-icon-size: 20px;
+@toolbar-big-icon-size: 26px;
 .button-normal-icon(btn-align-center,     0, @toolbar-icon-size);
 .button-normal-icon(btn-align-just,       1, @toolbar-icon-size);
 .button-normal-icon(btn-align-left,       2, @toolbar-icon-size);
@@ -241,8 +242,6 @@
 .button-normal-icon(btn-fontcolor,        14, @toolbar-icon-size);
 .button-normal-icon(btn-incoffset,        15, @toolbar-icon-size);
 .button-normal-icon(btn-incfont,          16, @toolbar-icon-size);
-.button-normal-icon(btn-insertimage,      17, @toolbar-icon-size);
-.button-normal-icon(btn-inserttable,      18, @toolbar-icon-size);
 .button-normal-icon(btn-italic,           19, @toolbar-icon-size);
 .button-normal-icon(btn-linespace,        20, @toolbar-icon-size);
 .button-normal-icon(btn-setmarkers,       21, @toolbar-icon-size);
@@ -261,22 +260,20 @@
 .button-normal-icon(btn-underline,        35, @toolbar-icon-size);
 .button-normal-icon(btn-undo,             36, @toolbar-icon-size);
 .button-normal-icon(btn-hidenchars,       37, @toolbar-icon-size);
-.button-normal-icon(btn-inserthyperlink,  38, @toolbar-icon-size);
 .button-normal-icon(btn-editheader,       39, @toolbar-icon-size);
 .button-normal-icon(btn-mailrecepients,   40, @toolbar-icon-size);
 .button-normal-icon(btn-synch,            42, @toolbar-icon-size);
 .button-normal-icon(btn-save-coauth,      41, @toolbar-icon-size);
-.button-normal-icon(btn-insertshape,      43, @toolbar-icon-size);
 .button-normal-icon(btn-colorschemas,     44, @toolbar-icon-size);
-.button-normal-icon(btn-insertchart,      45, @toolbar-icon-size);
-.button-normal-icon(btn-text,             46, @toolbar-icon-size);
 .button-normal-icon(btn-hidebars,         47, @toolbar-icon-size);
 .button-normal-icon(btn-settings,         48, @toolbar-icon-size);
 .button-normal-icon(btn-dropcap,          50, @toolbar-icon-size);
-.button-normal-icon(btn-insertequation,   53, @toolbar-icon-size);
 //.toolbar-btn-icon(btn-bold,             5, @toolbar-icon-size);
 .button-normal-icon(btn-zoomup,           57, @toolbar-icon-size);
 .button-normal-icon(btn-zoomdown,         58, @toolbar-icon-size);
+
+.button-normal-icon(btn-ic-review,        61, @toolbar-icon-size);
+.button-normal-icon(btn-ic-docspell,    69, @toolbar-icon-size);
 
 .button-normal-icon(mmerge-next,          71, @toolbar-icon-size);
 .button-normal-icon(mmerge-last,          72, @toolbar-icon-size);
@@ -284,17 +281,44 @@
 .button-normal-icon(mmerge-first,         74, @toolbar-icon-size);
 .button-normal-icon(btn-columns,          75, @toolbar-icon-size);
 .button-normal-icon(btn-pagemargins,      76, @toolbar-icon-size);
-.button-normal-icon(btn-notes,            78, @toolbar-icon-size);
-.button-normal-icon(review-prev,          79, @toolbar-icon-size);
-.button-normal-icon(review-next,          80, @toolbar-icon-size);
-.button-normal-icon(review-save,          81, @toolbar-icon-size);
-.button-normal-icon(review-deny,          82, @toolbar-icon-size);
 .button-normal-icon(btn-img-frwd,         83, @toolbar-icon-size);
 .button-normal-icon(btn-img-bkwd,         84, @toolbar-icon-size);
 .button-normal-icon(btn-img-wrap,         85, @toolbar-icon-size);
 .button-normal-icon(btn-img-group,        86, @toolbar-icon-size);
 .button-normal-icon(btn-img-align,        87, @toolbar-icon-size);
 .button-normal-icon(btn-goback,           88, @toolbar-icon-size);
+
+//.button-normal-icon(btn-insertimage,      17, @toolbar-icon-size);
+//.button-normal-icon(btn-inserttable,      18, @toolbar-icon-size);
+//.button-normal-icon(btn-inserthyperlink,  38, @toolbar-icon-size);
+//.button-normal-icon(btn-insertshape,      43, @toolbar-icon-size);
+//.button-normal-icon(btn-insertchart,      45, @toolbar-icon-size);
+//.button-normal-icon(btn-insertequation,   53, @toolbar-icon-size);
+//.button-normal-icon(btn-text,             46, @toolbar-icon-size);
+//.button-normal-icon(btn-ic-doclang,     67, @toolbar-icon-size);
+//.button-normal-icon(btn-notes,            78, @toolbar-icon-size);
+//.button-normal-icon(review-prev,          79, @toolbar-icon-size);
+//.button-normal-icon(review-next,          80, @toolbar-icon-size);
+//.button-normal-icon(review-save,          81, @toolbar-icon-size);
+//.button-normal-icon(review-deny,          82, @toolbar-icon-size);
+
+.button-normal-icon(btn-inserttable,      0, @toolbar-big-icon-size);
+.button-normal-icon(btn-insertimage,      1, @toolbar-big-icon-size);
+.button-normal-icon(btn-insertshape,      2, @toolbar-big-icon-size);
+.button-normal-icon(btn-text,             3, @toolbar-big-icon-size);
+.button-normal-icon(btn-inserthyperlink,  4, @toolbar-big-icon-size);
+.button-normal-icon(~'x-huge .btn-menu-comments', 5, @toolbar-big-icon-size);
+.button-normal-icon(btn-textart,          6, @toolbar-big-icon-size);
+.button-normal-icon(btn-insertequation,   7, @toolbar-big-icon-size);
+.button-normal-icon(btn-insertchart,      9, @toolbar-big-icon-size);
+.button-normal-icon(btn-notes,            8, @toolbar-big-icon-size);
+.button-normal-icon(btn-ic-doclang,       11, @toolbar-big-icon-size);
+.button-normal-icon(~'x-huge .btn-ic-docspell', 12, @toolbar-big-icon-size);
+.button-normal-icon(~'x-huge .btn-ic-review', 13, @toolbar-big-icon-size);
+.button-normal-icon(review-save,          14, @toolbar-big-icon-size);
+.button-normal-icon(review-deny,          15, @toolbar-big-icon-size);
+.button-normal-icon(review-next,          16, @toolbar-big-icon-size);
+.button-normal-icon(review-prev,          17, @toolbar-big-icon-size);
 
 @menu-icon-size: 22px;
 .menu-icon-normal(mnu-wrap-inline,          0, @menu-icon-size);

@@ -561,7 +561,7 @@ define([
                     this.showSearchDlg(true,s);
                     this.leftMenu.btnSearch.toggle(true,true);
                     this.leftMenu.btnAbout.toggle(false);
-                    this.leftMenu.menuFile.hide();
+                    // this.leftMenu.menuFile.hide();
                     return false;
                 case 'save':
                     if (this.mode.canDownload || this.mode.canDownloadOrigin) {
