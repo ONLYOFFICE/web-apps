@@ -2068,7 +2068,7 @@ define([
 
                     var button = new Common.UI.Button({
                         cls: _cls,
-                        iconCls: 'svgicon svg-btn-comments',
+                        iconCls: 'btn-menu-comments',
                         caption: me.toolbar.capBtnComment
                     }).render( slots.eq(index) );
 
