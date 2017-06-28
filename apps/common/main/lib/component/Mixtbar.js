@@ -164,7 +164,7 @@ define([
             },
 
             collapseToolbar: function() {
-                if ( optsFold.$bar ) {
+                if ( this.isFolded && optsFold.$bar ) {
                     optsFold.$bar.removeClass('expanded');
                     optsFold.$bar.find('.tabs .ribtab').removeClass('active');
                 }
