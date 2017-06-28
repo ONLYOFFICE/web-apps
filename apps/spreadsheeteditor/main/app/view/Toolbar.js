@@ -76,7 +76,8 @@ define([
         menuFileOpen:   'menu-file-open',
         cantPrint:      'cant-print',
         multiselect:    'is-multiselect',
-        cantHyperlink:  'cant-hyperlink'
+        cantHyperlink:  'cant-hyperlink',
+        commentLock: 'can-comment'
     };
 
     SSE.Views.Toolbar =  Common.UI.Mixtbar.extend(_.extend({

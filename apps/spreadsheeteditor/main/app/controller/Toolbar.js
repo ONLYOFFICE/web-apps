@@ -1600,7 +1600,7 @@ define([
                             toolbar.mnuitemClearFilter,
                             toolbar.btnNamedRange.menu.items[0],
                             toolbar.btnNamedRange.menu.items[1]
-                        ],
+                        ].concat(this.btnsComment),
                         merge: true,
                         clear: [SSE.enumLock.editFormula, SSE.enumLock.editText]
                 });
@@ -2087,6 +2087,8 @@ define([
                 toolbar.btnAddCell.menu.items[1].setDisabled(this._state.controlsdisabled.cells_down);
                 toolbar.btnDeleteCell.menu.items[1].setDisabled(this._state.controlsdisabled.cells_down);
             }
+
+            toolbar.lockToolbar(SSE.enumLock.commentLock, info.asc_getComments().length>0, { array: this.btnsComment });
         },
 
         onApiSelectionChanged_DiagramEditor: function(info) {
@@ -2674,7 +2676,7 @@ define([
                             toolbar.mnuitemSortZA,
                             toolbar.mnuitemAutoFilter,
                             toolbar.mnuitemClearFilter
-                        ],
+                        ].concat(this.btnsComment),
                         merge: true,
                         clear: [_set.selImage, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.coAuth]
                     });
@@ -2884,8 +2886,9 @@ define([
         onAppReady: function (config) {
             var me = this;
 
+            this.btnsComment = [];
             if ( config.canCoAuthoring && config.canComments ) {
-                var _btnsComment = [];
+                var _set = SSE.enumLock;
                 var slots = me.toolbar.$el.find('.slot-comment');
                 slots.each(function(index, el) {
                     var _cls = 'btn-toolbar';
@@ -2894,16 +2897,17 @@ define([
                     var button = new Common.UI.Button({
                         cls: _cls,
                         iconCls: 'btn-menu-comments',
+                        lock: [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.commentLock],
                         caption: me.toolbar.capBtnComment
                     }).render( slots.eq(index) );
 
-                    _btnsComment.push(button);
+                    me.btnsComment.push(button);
                 });
 
-                if ( _btnsComment.length ) {
+                if ( this.btnsComment.length ) {
                     var _comments = SSE.getController('Common.Controllers.Comments').getView();
-                    Array.prototype.push.apply(me.toolbar.lockControls, _btnsComment);
-                    _btnsComment.forEach(function (btn) {
+                    Array.prototype.push.apply(me.toolbar.lockControls, this.btnsComment);
+                    this.btnsComment.forEach(function (btn) {
                         btn.updateHint( _comments.textAddComment );
                         btn.on('click', function (btn, e) {
                             Common.NotificationCenter.trigger('app:comment:add', 'toolbar');
