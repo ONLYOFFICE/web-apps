@@ -584,9 +584,8 @@ define([
             }
         },
         onAppAddComment: function () {
-            if ( this.api.can_AddQuotedComment() !== false ) {
-                this.addDummyComment();
-            }
+            if ( this.can_AddQuotedComment && this.api.can_AddQuotedComment() === false ) return;
+            this.addDummyComment();
         },
 
         // SDK

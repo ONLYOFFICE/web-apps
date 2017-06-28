@@ -79,7 +79,8 @@ define([
         disableOnStart: 'on-start',
         cantPrint:      'cant-print',
         noTextSelected:  'no-text',
-        inEquation: 'in-equation'
+        inEquation: 'in-equation',
+        commentLock: 'can-comment'
     };
 
     var buttonsArray = function (opts) {
