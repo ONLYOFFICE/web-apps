@@ -1332,7 +1332,8 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                     this.mnuChartTypePicker.selectRecord(record, true);
                     if (record) {
                         this.btnChartType.setIconCls('item-chartlist ' + record.get('iconCls'));
-                    }
+                    } else
+                        this.btnChartType.setIconCls('');
 
                     this._noApply = false;
 
@@ -1389,6 +1390,8 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                     this.mnuSparkTypePicker.selectRecord(record, true);
                     if (record)
                         this.btnSparkType.setIconCls('item-chartlist ' + record.get('iconCls'));
+                    else
+                        this.btnSparkType.setIconCls('');
 
                     this.updateSparkStyles((this.sparklineStyles) ? this.sparklineStyles : props.asc_getStyles());
 
@@ -1443,10 +1446,12 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
         },
 
         getSettings: function() {
-            var value,
-                type = this.mnuChartTypePicker.getSelectedRec()[0].get('type');
+            var value;
 
             if (this.isChart) {
+                var rec = this.mnuChartTypePicker.getSelectedRec(),
+                    type = (rec && rec.length>0) ? rec[0].get('type') : this.currentChartType;
+
                 this.chartSettings.putType(type);
 
                 this.chartSettings.putInColumns(this.cmbDataDirect.getValue()==1);
@@ -1503,7 +1508,10 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
             if (this.isChart) {
                 var isvalid;
                 if (!_.isEmpty(this.txtDataRange.getValue())) {
-                    isvalid = this.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, this.txtDataRange.getValue(), true, this.cmbDataDirect.getValue()==0, this.mnuChartTypePicker.getSelectedRec()[0].get('type'));
+                    var rec = this.mnuChartTypePicker.getSelectedRec(),
+                        type = (rec && rec.length>0) ? rec[0].get('type') : this.currentChartType;
+
+                    isvalid = this.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, this.txtDataRange.getValue(), true, this.cmbDataDirect.getValue()==0, type);
                     if (isvalid == Asc.c_oAscError.ID.No)
                         return true;
                 } else
