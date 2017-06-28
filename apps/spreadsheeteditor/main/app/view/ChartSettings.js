@@ -160,7 +160,8 @@ define([
                             this.mnuChartTypePicker.selectRecord(record, true);
                             if (record) {
                                 this.btnChartType.setIconCls('item-chartlist ' + record.get('iconCls'));
-                            }
+                            } else
+                                this.btnChartType.setIconCls('');
                             this.updateChartStyles(this.api.asc_getChartPreviews(type));
                             this._state.ChartType = type;
                         }
@@ -226,7 +227,8 @@ define([
                         this.mnuSparkTypePicker.selectRecord(record, true);
                         if (record) {
                             this.btnSparkType.setIconCls('item-chartlist ' + record.get('iconCls'));
-                        }
+                        } else
+                            this.btnSparkType.setIconCls('');
                         this._state.SparkType = type;
                         styleChanged = true;
                     }
