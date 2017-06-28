@@ -79,7 +79,8 @@ define([
         disableOnStart: 'on-start',
         cantPrint:      'cant-print',
         noTextSelected:  'no-text',
-        inEquation: 'in-equation'
+        inEquation: 'in-equation',
+        commentLock: 'can-comment'
     };
 
     var buttonsArray = function (opts) {
@@ -1016,7 +1017,7 @@ define([
                     slot: '.slot-inserttext',
                     btnconfig: {
                         cls         : 'btn-toolbar x-huge icon-top',
-                        iconCls     : 'btn-inserttext',
+                        iconCls     : 'btn-text',
                         caption     : me.capInsertText,
                         lock        : [PE.enumLock.slideDeleted, PE.enumLock.lostConnect, PE.enumLock.noSlides, PE.enumLock.disableOnStart],
                         enableToggle: true,

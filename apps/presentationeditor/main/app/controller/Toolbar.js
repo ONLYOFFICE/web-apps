@@ -584,6 +584,8 @@ define([
                 ]});
                 this.toolbar.lockToolbar(PE.enumLock.noSlides, this._state.no_slides,
                     { array:  this.toolbar.btnsInsertImage.concat(this.toolbar.btnsInsertText, this.toolbar.btnsInsertShape) });
+                if (this.btnsComment)
+                    this.toolbar.lockToolbar(PE.enumLock.noSlides, this._state.no_slides, { array:  this.btnsComment });
             }
         },
 
@@ -648,8 +650,10 @@ define([
 
             if (shape_locked!==undefined && this._state.shapecontrolsdisable !== shape_locked) {
                 if (this._state.activated) this._state.shapecontrolsdisable = shape_locked;
-                this.toolbar.lockToolbar(PE.enumLock.shapeLock, shape_locked, {array: me.toolbar.shapeControls.concat(me.toolbar.paragraphControls)});
+                this.toolbar.lockToolbar(PE.enumLock.shapeLock, shape_locked, {array: me.toolbar.shapeControls.concat(me.toolbar.paragraphControls).concat(me.btnsComment)});
             }
+
+            this.toolbar.lockToolbar(PE.enumLock.commentLock, this.api.can_AddQuotedComment() === false, { array: this.btnsComment });
 
             if (this._state.no_object !== no_object ) {
                 if (this._state.activated) this._state.no_object = no_object;
@@ -2059,8 +2063,9 @@ define([
         onAppReady: function (config) {
             var me = this;
 
+            this.btnsComment = [];
             if ( config.canCoAuthoring && config.canComments ) {
-                var _btnsComment = [];
+                var _set = PE.enumLock;
                 var slots = me.toolbar.$el.find('.slot-comment');
                 slots.each(function(index, el) {
                     var _cls = 'btn-toolbar';
@@ -2068,22 +2073,25 @@ define([
 
                     var button = new Common.UI.Button({
                         cls: _cls,
-                        iconCls: 'svgicon svg-btn-comments',
+                        iconCls: 'btn-menu-comments',
+                        lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.shapeLock, _set.commentLock],
                         caption: me.toolbar.capBtnComment
                     }).render( slots.eq(index) );
 
-                    _btnsComment.push(button);
+                    me.btnsComment.push(button);
                 });
 
-                if ( _btnsComment.length ) {
+                if ( this.btnsComment.length ) {
                     var _comments = PE.getController('Common.Controllers.Comments').getView();
-                    // Array.prototype.push.apply(me.toolbar.toolbarControls, _btnsComment);
-                    _btnsComment.forEach(function (btn) {
+                    Array.prototype.push.apply(me.toolbar.lockControls, this.btnsComment);
+                    Array.prototype.push.apply(me.toolbar.slideOnlyControls, this.btnsComment);
+                    this.btnsComment.forEach(function (btn) {
                         btn.updateHint( _comments.textAddComment );
                         btn.on('click', function (btn, e) {
                             Common.NotificationCenter.trigger('app:comment:add', 'toolbar');
                         });
                     }, this);
+                    this.toolbar.lockToolbar(PE.enumLock.noSlides, this._state.no_slides, { array: this.btnsComment });
                 }
             }
 

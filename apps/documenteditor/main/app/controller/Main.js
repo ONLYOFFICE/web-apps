@@ -2100,7 +2100,10 @@ define([
             txtStyle_Subtitle: 'Subtitle',
             txtStyle_Quote: 'Quote',
             txtStyle_Intense_Quote: 'Intense Quote',
-            txtStyle_List_Paragraph: 'List Paragraph'
+            txtStyle_List_Paragraph: 'List Paragraph',
+            saveTextText: 'Saving document...',
+            saveTitleText: 'Saving Document'
+
         }
     })(), DE.Controllers.Main || {}))
 });
