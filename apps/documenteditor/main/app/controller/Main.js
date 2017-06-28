@@ -828,6 +828,7 @@ define([
                 } else if (!me.appOptions.isEdit && me.appOptions.canComments) {
                     me._state.fastCoauth = true;
                     me.api.asc_SetFastCollaborative(me._state.fastCoauth);
+                    me.api.SetCollaborativeMarksShowType(Asc.c_oAscCollaborativeMarksShowType.None);
                     me.api.asc_setAutoSaveGap(1);
                 } else {
                     me._state.fastCoauth = false;
