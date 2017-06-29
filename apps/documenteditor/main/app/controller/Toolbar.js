@@ -728,7 +728,7 @@ define([
             if (toolbar.listStylesAdditionalMenuItem && (frame_pr===undefined) !== toolbar.listStylesAdditionalMenuItem.isDisabled())
                 toolbar.listStylesAdditionalMenuItem.setDisabled(frame_pr===undefined);
 
-            need_disable = paragraph_locked || header_locked || in_chart || this.api.can_AddQuotedComment()===false;
+            need_disable = (paragraph_locked || header_locked) && this.api.can_AddQuotedComment() || image_locked;
             if (this.btnsComment && this.btnsComment.length>0 && need_disable != this.btnsComment[0].isDisabled())
                 _.each (this.btnsComment, function(item){
                     item.setDisabled(need_disable);
@@ -2810,7 +2810,6 @@ define([
 
                 if ( this.btnsComment.length ) {
                     var _comments = DE.getController('Common.Controllers.Comments').getView();
-                    Array.prototype.push.apply(me.toolbar.paragraphControls, this.btnsComment);
                     this.btnsComment.forEach(function (btn) {
                         btn.updateHint( _comments.textAddComment );
                         btn.on('click', function (btn, e) {
