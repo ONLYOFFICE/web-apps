@@ -517,7 +517,7 @@ define([
             if (this.handlerHide) {
                 this.handlerHide ();
             }
-
+            this.hideTips();
             Common.UI.Window.prototype.hide.call(this);
 
             if (!_.isUndefined(this.e) && this.e.keyCode == Common.UI.Keys.ESC) {
