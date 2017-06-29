@@ -205,7 +205,7 @@ define([
                     } else {
                         var iconEl = $('.btn-icon', this.statusbar.btnReview.cmpEl);
                        (this.api.asc_HaveRevisionsChanges()) ? iconEl.removeClass(this.statusbar.btnReviewCls).addClass('btn-ic-changes') : iconEl.removeClass('btn-ic-changes').addClass(this.statusbar.btnReviewCls);
-                        if (value!==null && parseInt(value) == 1) {
+                        if (value!==null && parseInt(value) == 1 && !showChangesPanel) { // when customization.showReviewChanges == true "track revisions" mode must be off!!!
                             this.changeReviewStatus(!this.statusbar.mode.isLightVersion);
                             // show tooltip "track changes in this document" and change icon
                             if (this.showTrackChangesTip && !statusbarIsHidden){
