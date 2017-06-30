@@ -31,6 +31,10 @@
         .elset:not(:first-child) {
             margin-top: 0;
         }
+
+        svg.icon {
+            fill: #fff;
+        }
     }
 }
 
@@ -56,6 +60,22 @@
         }
     }
 
+    .status-label {
+        padding: 0 10px;
+    }
+
+    label {
+        color: #fff;
+    }
+
+    .btn-toolbar {
+        &:hover, &:active {
+            &:not(.disabled) {
+                background-color: transparent;
+            }
+        }
+    }
+
     #rib-doc-name {
         flex-grow: 1;
         white-space: nowrap;
@@ -63,7 +83,6 @@
         overflow: hidden;
         min-width: 50px;
         text-align: right;
-        color: #fff;
     }
 
     #rib-save-status {
@@ -96,10 +115,6 @@
             .background-ximage('@{common-image-path}/header/header-logo.png', '@{common-image-path}/header/header-logo@2x.png', 100px);
         }
     }
-
-    .status-label {
-        padding: 0 10px;
-    }
 }
 
 #tlb-box-users {
@@ -113,10 +128,6 @@
 
 #slot-btn-back {
     float: right;
-
-    .btn .icon {
-        fill: #fff;
-    }
 }
 
 .btn-users {
@@ -126,7 +137,6 @@
 
     .icon {
         display: inline-block;
-        background-position: -14px -197px;
         width: 20px;
         height: 20px;
     }
@@ -136,10 +146,6 @@
         font-size: 14px;
     }
 }
-
-//.icusers {background-position: -14px -197px;}
-//button.active   > .icusers,
-//button:active   > .icusers {background-position: -14px -197px !important;}
 
 .cousers-menu {
     position: fixed;
@@ -153,6 +159,10 @@
 
     > label {
         white-space: normal;
+    }
+
+    label {
+        color: @gray-deep;
     }
 
     .cousers-list {
