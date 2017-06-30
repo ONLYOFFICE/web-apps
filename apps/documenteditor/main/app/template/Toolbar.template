@@ -146,10 +146,7 @@
                 </div>
                 <div class="separator long"></div>
                 <div class="group">
-                    <div class="elset">
-                        <span class="btn-slot text" id="slot-btn-dropcap"></span>
-                    </div>
-                    <div class="elset"></div>
+                    <span class="btn-slot text x-huge" id="slot-btn-dropcap"></span>
                 </div>
             </section>
             <section class="panel" data-tab="layout">

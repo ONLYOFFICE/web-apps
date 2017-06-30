@@ -571,7 +571,7 @@ define([
 
                 this.btnDropCap = new Common.UI.Button({
                     id: 'tlb-btn-dropcap',
-                    cls: 'btn-toolbar',
+                    cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'btn-dropcap',
                     caption: me.capBtnInsDropcap,
                     menu: new Common.UI.Menu({
