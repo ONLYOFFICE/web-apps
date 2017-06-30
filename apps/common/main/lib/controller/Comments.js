@@ -583,8 +583,8 @@ define([
                 }
             }
         },
-        onAppAddComment: function () {
-            if ( this.can_AddQuotedComment && this.api.can_AddQuotedComment() === false ) return;
+        onAppAddComment: function (sender, to_doc) {
+            if ( !!this.api.can_AddQuotedComment && this.api.can_AddQuotedComment() === false || to_doc) return;
             this.addDummyComment();
         },
 

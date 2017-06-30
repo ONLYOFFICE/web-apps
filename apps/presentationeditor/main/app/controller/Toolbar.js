@@ -650,10 +650,8 @@ define([
 
             if (shape_locked!==undefined && this._state.shapecontrolsdisable !== shape_locked) {
                 if (this._state.activated) this._state.shapecontrolsdisable = shape_locked;
-                this.toolbar.lockToolbar(PE.enumLock.shapeLock, shape_locked, {array: me.toolbar.shapeControls.concat(me.toolbar.paragraphControls).concat(me.btnsComment)});
+                this.toolbar.lockToolbar(PE.enumLock.shapeLock, shape_locked, {array: me.toolbar.shapeControls.concat(me.toolbar.paragraphControls)});
             }
-
-            this.toolbar.lockToolbar(PE.enumLock.commentLock, this.api.can_AddQuotedComment() === false, { array: this.btnsComment });
 
             if (this._state.no_object !== no_object ) {
                 if (this._state.activated) this._state.no_object = no_object;
@@ -2074,7 +2072,7 @@ define([
                     var button = new Common.UI.Button({
                         cls: _cls,
                         iconCls: 'btn-menu-comments',
-                        lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.shapeLock, _set.commentLock],
+                        lock: [_set.lostConnect, _set.noSlides],
                         caption: me.toolbar.capBtnComment
                     }).render( slots.eq(index) );
 
@@ -2084,7 +2082,6 @@ define([
                 if ( this.btnsComment.length ) {
                     var _comments = PE.getController('Common.Controllers.Comments').getView();
                     Array.prototype.push.apply(me.toolbar.lockControls, this.btnsComment);
-                    Array.prototype.push.apply(me.toolbar.slideOnlyControls, this.btnsComment);
                     this.btnsComment.forEach(function (btn) {
                         btn.updateHint( _comments.textAddComment );
                         btn.on('click', function (btn, e) {
