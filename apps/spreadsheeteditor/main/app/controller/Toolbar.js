@@ -46,6 +46,7 @@ define([
     'common/main/lib/util/define',
     'spreadsheeteditor/main/app/view/Toolbar',
     'spreadsheeteditor/main/app/collection/TableTemplates',
+    'spreadsheeteditor/main/app/controller/PivotTable',
     'spreadsheeteditor/main/app/view/HyperlinkSettingsDialog',
     'spreadsheeteditor/main/app/view/TableOptionsDialog',
     'spreadsheeteditor/main/app/view/NamedRangeEditDlg',
@@ -2884,6 +2885,15 @@ define([
 
                 if ( config.isEdit )
                     me.toolbar.setApi(me.api);
+
+                if ( !config.isEditDiagram && !config.isEditMailMerge ) {
+                    var tab = {action: 'pivot', caption: me.textPivot};
+                    var $panel = me.getApplication().getController('PivotTable').createToolbarPanel();
+
+                    if ( $panel ) {
+                        me.toolbar.addTab(tab, $panel, 3);
+                    }
+                }
             });
         },
 
@@ -3286,7 +3296,8 @@ define([
         warnLongOperation: 'The operation you are about to perform might take rather much time to complete.<br>Are you sure you want to continue?',
         txtInvalidRange: 'ERROR! Invalid cells range',
         errorMaxRows: 'ERROR! The maximum number of data series per chart is 255.',
-        errorStockChart: 'Incorrect row order. To build a stock chart place the data on the sheet in the following order:<br> opening price, max price, min price, closing price.'
+        errorStockChart: 'Incorrect row order. To build a stock chart place the data on the sheet in the following order:<br> opening price, max price, min price, closing price.',
+        textPivot: 'Pivot Table'
 
     }, SSE.Controllers.Toolbar || {}));
 });
