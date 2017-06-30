@@ -1600,7 +1600,7 @@ define([
                             toolbar.mnuitemClearFilter,
                             toolbar.btnNamedRange.menu.items[0],
                             toolbar.btnNamedRange.menu.items[1]
-                        ].concat(this.btnsComment),
+                        ],
                         merge: true,
                         clear: [SSE.enumLock.editFormula, SSE.enumLock.editText]
                 });
@@ -2088,7 +2088,8 @@ define([
                 toolbar.btnDeleteCell.menu.items[1].setDisabled(this._state.controlsdisabled.cells_down);
             }
 
-            toolbar.lockToolbar(SSE.enumLock.commentLock, info.asc_getComments().length>0, { array: this.btnsComment });
+            toolbar.lockToolbar(SSE.enumLock.commentLock, (selectionType == Asc.c_oAscSelectionType.RangeCells) && (info.asc_getComments().length>0 || info.asc_getLocked()),
+                                { array: this.btnsComment });
         },
 
         onApiSelectionChanged_DiagramEditor: function(info) {
@@ -2676,7 +2677,7 @@ define([
                             toolbar.mnuitemSortZA,
                             toolbar.mnuitemAutoFilter,
                             toolbar.mnuitemClearFilter
-                        ].concat(this.btnsComment),
+                        ],
                         merge: true,
                         clear: [_set.selImage, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.coAuth]
                     });
@@ -2897,7 +2898,7 @@ define([
                     var button = new Common.UI.Button({
                         cls: _cls,
                         iconCls: 'btn-menu-comments',
-                        lock: [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.commentLock],
+                        lock: [_set.lostConnect, _set.commentLock],
                         caption: me.toolbar.capBtnComment
                     }).render( slots.eq(index) );
 
@@ -2910,7 +2911,7 @@ define([
                     this.btnsComment.forEach(function (btn) {
                         btn.updateHint( _comments.textAddComment );
                         btn.on('click', function (btn, e) {
-                            Common.NotificationCenter.trigger('app:comment:add', 'toolbar');
+                            Common.NotificationCenter.trigger('app:comment:add', 'toolbar', me.api.asc_getCellInfo().asc_getFlags().asc_getSelectionType() != Asc.c_oAscSelectionType.RangeCells);
                         });
                     }, this);
                 }

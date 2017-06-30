@@ -87,6 +87,7 @@ define([
                     'search:replaceall': _.bind(this.onQueryReplaceAll, this)
                 }
             });
+            Common.NotificationCenter.on('app:comment:add', _.bind(this.onAppAddComment, this));
         },
 
         onLaunch: function() {
@@ -547,6 +548,22 @@ define([
                     this.leftMenu.markCoauthOptions('comments');
                     break;
                 }
+            }
+        },
+
+        onAppAddComment: function(sender, to_doc) {
+            if ( to_doc ) {
+                var me = this;
+                (new Promise(function(resolve, reject) {
+                    resolve();
+                })).then(function () {
+                    Common.UI.Menu.Manager.hideAll();
+                    me.leftMenu.showMenu('comments');
+
+                    var ctrl = SSE.getController('Common.Controllers.Comments');
+                    ctrl.getView().showEditContainer(true);
+                    ctrl.onAfterShow();
+                });
             }
         },
 
