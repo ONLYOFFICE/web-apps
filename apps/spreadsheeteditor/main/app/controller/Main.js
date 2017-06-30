@@ -908,7 +908,6 @@ define([
                         toolbarController   = application.getController('Toolbar'),
                         statusbarController = application.getController('Statusbar'),
                         rightmenuController = application.getController('RightMenu'),
-                        pivotController     = application.getController('PivotTable'),
                         fontsControllers    = application.getController('Common.Controllers.Fonts');
 
                     fontsControllers    && fontsControllers.setApi(me.api);
@@ -921,7 +920,8 @@ define([
                         statusbarController.getView('Statusbar').changeViewMode(true);
                     }
 
-                    pivotController.setMode(me.appOptions).setConfig({config: me.editorConfig}, me.api);
+                    if (!me.appOptions.isEditMailMerge && !me.appOptions.isEditDiagram)
+                        application.getController('PivotTable').setMode(me.appOptions).setConfig({config: me.editorConfig}, me.api);
 
                     var viewport = this.getApplication().getController('Viewport').getView('Viewport');
                     viewport.applyEditorMode();
