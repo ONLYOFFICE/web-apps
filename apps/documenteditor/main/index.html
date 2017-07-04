@@ -6,9 +6,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=IE8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
     <link rel="icon" href="resources/img/favicon.ico" type="image/x-icon">
-    <!-- debug begin -->
-    <link rel="stylesheet/less" type="text/css" href="resources/less/app.less" />
-    <!-- debug end -->
 
     <!-- splash -->
 
@@ -178,8 +175,7 @@
             100%    { top:100px; background: #55bce6; }
         }
     </style>
-</head>
-<body>
+
     <script>
         var userAgent = navigator.userAgent.toLowerCase(),
             check = function(regex){ return regex.test(userAgent); },
@@ -187,13 +183,15 @@
         if (!check(/opera/) && (check(/msie/) || check(/trident/))) {
             var m = /msie (\d+\.\d+)/.exec(userAgent);
             if (m && parseFloat(m[1]) < 9.0) {
-                document.write('<div class="app-error-panel">' +
-                                '<div class="message-block">' +
-                                    '<div class="message-inner">' +
-                                        '<div class="title">Your browser is not supported.</div>' +
-                                        '<div class="text">Sorry, Document Editor is currently only supported in the latest versions of the Chrome, Firefox, Safari or Internet Explorer web browsers.</div>' +
-                                    '</div>' +
-                                '</div></div>');
+                document.write(
+                    '<div class="app-error-panel">' +
+                        '<div class="message-block">' +
+                            '<div class="message-inner">' +
+                                '<div class="title">Your browser is not supported.</div>' +
+                                '<div class="text">Sorry, Document Editor is currently only supported in the latest versions of the Chrome, Firefox, Safari or Internet Explorer web browsers.</div>' +
+                            '</div>' +
+                        '</div>' +
+                    '</div>');
                 stopLoading = true;
             }
         }
@@ -238,23 +236,28 @@
         else if ( lang == 'sl') loading = 'Nalaganje...';
         else if ( lang == 'tr') loading = 'Yükleniyor...';
 
-        if (!stopLoading)
-        document.write(
-            '<div id="loading-mask" class="loadmask">' +
-                '<div class="loader-page" style="margin-bottom: ' + margin + 'px;' + ((logo!==null) ? 'height: auto;' : '') + '">' +
-                    ((logo!==null) ? logo :
-                    '<div class="loader-page-romb">' +
-                        '<div class="romb" id="blue"></div>' +
-                        '<div class="romb" id="green"></div>' +
-                        '<div class="romb" id="red"></div>' +
-                    '</div>') +
-                '</div>' +
-                '<div class="loader-page-text">' + customer +
-                '<div class="loader-page-text-loading">' + loading + '</div>' +
-                '</div>' +
-            '</div>');
+        if ( !stopLoading )
+            document.write(
+                '<div id="loading-mask" class="loadmask">' +
+                    '<div class="loader-page" style="margin-bottom: ' + margin + 'px;' + ((logo!==null) ? 'height: auto;' : '') + '">' +
+                        ((logo!==null) ? logo :
+                            '<div class="loader-page-romb">' +
+                                '<div class="romb" id="blue"></div>' +
+                                '<div class="romb" id="green"></div>' +
+                                '<div class="romb" id="red"></div>' +
+                            '</div>') +
+                    '</div>' +
+                    '<div class="loader-page-text">' + customer +
+                        '<div class="loader-page-text-loading">' + loading + '</div>' +
+                    '</div>' +
+                '</div>');
     </script>
 
+    <!-- debug begin -->
+    <link rel="stylesheet/less" type="text/css" href="resources/less/app.less" />
+    <!-- debug end -->
+</head>
+<body>
     <div id="viewport"></div>
 
     <svg style="display: none;">
