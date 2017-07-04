@@ -496,9 +496,10 @@ define([
                 this._state.no_paragraph = true;
                 var i = -1;
                 while (++i < selectedObjects.length) {
-                    if (selectedObjects[i].get_ObjectType() == Asc.c_oAscTypeSelectElement.Paragraph) {
+                    var type = selectedObjects[i].get_ObjectType();
+                    if (type == Asc.c_oAscTypeSelectElement.Paragraph || type == Asc.c_oAscTypeSelectElement.Shape || type == Asc.c_oAscTypeSelectElement.Chart || type == Asc.c_oAscTypeSelectElement.Table) {
                         this._state.no_paragraph = selectedObjects[i].get_ObjectValue().get_Locked();
-                        break;
+                        if (this._state.no_paragraph) break;  // break if one of the objects is locked
                     }
                 }
                 this._state.no_paragraph = this._state.no_paragraph || this.langMenu.items.length<1;
