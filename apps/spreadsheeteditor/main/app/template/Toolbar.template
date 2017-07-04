@@ -33,11 +33,11 @@
             <div class="separator long"></div>
             <div class="group">
                 <div class="elset">
-                    <span class="btn-slot split" id="slot-btn-copy"></span>
+                    <span class="btn-slot adding" id="slot-btn-copy"></span>
                     <span class="btn-slot" id="slot-btn-paste"></span>
                 </div>
                 <div class="elset">
-                    <span class="btn-slot split" id="slot-btn-undo"></span>
+                    <span class="btn-slot adding" id="slot-btn-undo"></span>
                     <span class="btn-slot" id="slot-btn-redo"></span>
                 </div>
             </div>
@@ -64,17 +64,17 @@
                 <div class="separator long"></div>
                 <div class="group">
                     <div class="elset">
-                        <span class="btn-slot split" id="slot-btn-top"></span>
-                        <span class="btn-slot split" id="slot-btn-middle"></span>
-                        <span class="btn-slot split" id="slot-btn-bottom"></span>
-                        <span class="btn-slot split" id="slot-btn-wrap"></span>
+                        <span class="btn-slot adding" id="slot-btn-top"></span>
+                        <span class="btn-slot adding" id="slot-btn-middle"></span>
+                        <span class="btn-slot adding" id="slot-btn-bottom"></span>
+                        <span class="btn-slot adding" id="slot-btn-wrap"></span>
                         <span class="btn-slot split" id="slot-btn-text-orient"></span>
                     </div>
                     <div class="elset">
-                        <span class="btn-slot split" id="slot-btn-align-left"></span>
-                        <span class="btn-slot split" id="slot-btn-align-center"></span>
-                        <span class="btn-slot split" id="slot-btn-align-right"></span>
-                        <span class="btn-slot split" id="slot-btn-align-just"></span>
+                        <span class="btn-slot adding" id="slot-btn-align-left"></span>
+                        <span class="btn-slot adding" id="slot-btn-align-center"></span>
+                        <span class="btn-slot adding" id="slot-btn-align-right"></span>
+                        <span class="btn-slot adding" id="slot-btn-align-just"></span>
                         <span class="btn-slot split" id="slot-btn-merge"></span>
                     </div>
                 </div>
@@ -90,11 +90,11 @@
                 <div class="separator long"></div>
                 <div class="group">
                     <div class="elset">
-                        <span class="btn-slot split" id="slot-btn-sortdesc"></span>
+                        <span class="btn-slot adding" id="slot-btn-sortdesc"></span>
                         <span class="btn-slot" id="slot-btn-sortasc"></span>
                     </div>
                     <div class="elset">
-                        <span class="btn-slot split" id="slot-btn-setfilter"></span>
+                        <span class="btn-slot adding" id="slot-btn-setfilter"></span>
                         <span class="btn-slot" id="slot-btn-clear-filter"></span>
                     </div>
                 </div>

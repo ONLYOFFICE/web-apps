@@ -20,8 +20,12 @@
     }
 
     .font-attr {
-        > .btn-slot:not(:last-child) {
-            margin-right: 8px;
+        > .btn-slot:not(:last-child):not(.split) {
+            margin-right: 6px;
+        }
+
+        > .btn-slot:not(:last-child).split {
+            margin-right: 2px;
         }
     }
 }
@@ -400,7 +404,7 @@
 
 #slot-field-fontname {
     float: left;
-    width: 165px;
+    width: 166px;
 }
 
 #slot-field-fontsize {

@@ -33,11 +33,11 @@
             <div class="separator long"></div>
             <div class="group">
                 <div class="elset">
-                    <span class="btn-slot split" id="slot-btn-copy"></span>
+                    <span class="btn-slot adding" id="slot-btn-copy"></span>
                     <span class="btn-slot" id="slot-btn-paste"></span>
                 </div>
                 <div class="elset">
-                    <span class="btn-slot split" id="slot-btn-undo"></span>
+                    <span class="btn-slot adding" id="slot-btn-undo"></span>
                     <span class="btn-slot" id="slot-btn-redo"></span>
                 </div>
             </div>
@@ -59,9 +59,9 @@
                         <span class="btn-slot" id="slot-btn-strikeout"></span>
                         <span class="btn-slot" id="slot-btn-superscript"></span>
                         <span class="btn-slot" id="slot-btn-subscript"></span>
-                        <span class="btn-slot" id="slot-btn-highlight"></span>
-                        <span class="btn-slot" id="slot-btn-fontcolor"></span>
-                        <span class="btn-slot" id="slot-btn-paracolor"></span>
+                        <span class="btn-slot split" id="slot-btn-highlight"></span>
+                        <span class="btn-slot split" id="slot-btn-fontcolor"></span>
+                        <span class="btn-slot split" id="slot-btn-paracolor"></span>
                     </div>
                 </div>
                 <div class="separator long" style="margin-left: 5px;"></div>
@@ -84,18 +84,12 @@
                 </div>
                 <div class="separator long" style="margin-left: 5px;"></div>
                 <div class="group">
-                    <div class=elset">
-                        <span class="btn-slot" id="slot-btn-clearstyle"></span>
-                    </div>
                     <div class="elset">
-                        <span class="btn-slot" id="slot-btn-copystyle"></span>
-                    </div>
-                </div>
-                <div class="group">
-                    <div class="toolbar-elset">
+                        <span class="btn-slot adding" id="slot-btn-clearstyle"></span>
                         <span class="btn-slot split" id="slot-btn-colorschemas"></span>
                     </div>
                     <div class="elset">
+                        <span class="btn-slot adding" id="slot-btn-copystyle"></span>
                         <span class="btn-slot" id="slot-btn-mailrecepients"></span>
                     </div>
                 </div>
