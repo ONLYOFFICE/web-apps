@@ -1063,6 +1063,7 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
             });
             if (rec) {
                 rec.set('tabAlign', align);
+                this._tabListChanged = true;
             } else {
                 rec = new Common.UI.DataViewModel();
                 rec.set({
