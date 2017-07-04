@@ -888,7 +888,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
             ];
             this.cmbEmptyCells = new Common.UI.ComboBox({
                 el          : $('#spark-dlg-combo-empty'),
-                menuStyle   : 'min-width: 188px;',
+                menuStyle   : 'min-width: 220px;',
                 editable    : false,
                 cls         : 'input-group-nr'
             });
