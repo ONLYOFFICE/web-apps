@@ -103,7 +103,7 @@ define([
                 '</div>'
             ].join('');
 
-            this.options.tpl = _.template(this.template, this.options);
+            this.options.tpl = _.template(this.template)(this.options);
             this.slides = this.options.slides;
             this.api = this.options.api;
 

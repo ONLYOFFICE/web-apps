@@ -111,10 +111,14 @@ define([
         template: _.template([
             '<table><tbody>',
                 /** coauthoring begin **/
-                '<tr class="coauth">',
+                '<tr class="comments">',
                     '<td class="left"><label><%= scope.txtLiveComment %></label></td>',
                     '<td class="right"><div id="fms-chb-live-comment"/></td>',
-                '</tr>','<tr class="divider coauth"></tr>',
+                '</tr>','<tr class="divider comments"></tr>',
+                '<tr class="comments">',
+                    '<td class="left"></td>',
+                    '<td class="right"><div id="fms-chb-resolved-comment"/></td>',
+                '</tr>','<tr class="divider comments"></tr>',
                 /** coauthoring end **/
                 '<tr class="edit">',
                     '<td class="left"><label><%= scope.txtSpellCheck %></label></td>',
@@ -185,6 +189,13 @@ define([
             this.chLiveComment = new Common.UI.CheckBox({
                 el: $('#fms-chb-live-comment'),
                 labelText: this.strLiveComment
+            }).on('change', _.bind(function(field, newValue, oldValue, eOpts){
+                this.chResolvedComment.setDisabled(field.getValue()!=='checked');
+            }, this));
+
+            this.chResolvedComment = new Common.UI.CheckBox({
+                el: $('#fms-chb-resolved-comment'),
+                labelText: this.strResolvedComment
             });
             /** coauthoring end **/
 
@@ -326,6 +337,7 @@ define([
             /** coauthoring begin **/
             $('tr.coauth', this.el)[mode.isEdit && mode.canCoAuthoring ? 'show' : 'hide']();
             $('tr.coauth.changes', this.el)[mode.isEdit && !mode.isOffline && mode.canCoAuthoring ? 'show' : 'hide']();
+            $('tr.comments', this.el)[mode.canCoAuthoring && mode.canComments ? 'show' : 'hide']();
             /** coauthoring end **/
         },
 
@@ -341,6 +353,9 @@ define([
             /** coauthoring begin **/
             value = Common.localStorage.getItem("de-settings-livecomment");
             this.chLiveComment.setValue(!(value!==null && parseInt(value) == 0));
+
+            value = Common.localStorage.getItem("de-settings-resolvedcomment");
+            this.chResolvedComment.setValue(!(value!==null && parseInt(value) == 0));
 
             value = Common.localStorage.getItem("de-settings-coauthmode");
             if (value===null && Common.localStorage.getItem("de-settings-autosave")===null &&
@@ -391,6 +406,7 @@ define([
             Common.localStorage.setItem("de-settings-zoom", this.cmbZoom.getValue());
             /** coauthoring begin **/
             Common.localStorage.setItem("de-settings-livecomment", this.chLiveComment.isChecked() ? 1 : 0);
+            Common.localStorage.setItem("de-settings-resolvedcomment", this.chResolvedComment.isChecked() ? 1 : 0);
             if (this.mode.isEdit && !this.mode.isOffline && this.mode.canCoAuthoring) {
                 Common.localStorage.setItem("de-settings-coauthmode", this.cmbCoAuthMode.getValue());
                 Common.localStorage.setItem(this.cmbCoAuthMode.getValue() ? "de-settings-showchanges-fast" : "de-settings-showchanges-strict", this.cmbShowChanges.getValue());
@@ -463,7 +479,8 @@ define([
         txtFitPage: 'Fit to Page',
         txtFitWidth: 'Fit to Width',
         textForceSave: 'Save to Server',
-        strForcesave: 'Always save to server (otherwise save to server on document close)'
+        strForcesave: 'Always save to server (otherwise save to server on document close)',
+        strResolvedComment: 'Turn on display of the resolved comments'
     }, DE.Views.FileMenuPanels.Settings || {}));
 
     DE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({

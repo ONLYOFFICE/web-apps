@@ -158,7 +158,7 @@ define([
         createDelayedElements: function() {
             /** coauthoring begin **/
             if ( this.mode.canCoAuthoring ) {
-                this.leftMenu.btnComments[(this.mode.isEdit && this.mode.canComments && !this.mode.isLightVersion) ? 'show' : 'hide']();
+                this.leftMenu.btnComments[(this.mode.canComments && !this.mode.isLightVersion) ? 'show' : 'hide']();
                 if (this.mode.canComments)
                     this.leftMenu.setOptionsPanel('comment', this.getApplication().getController('Common.Controllers.Comments').getView('Common.Views.Comments'));
 
@@ -302,7 +302,8 @@ define([
             }
 
             value = Common.localStorage.getItem("de-settings-livecomment");
-            (!(value!==null && parseInt(value) == 0)) ? this.api.asc_showComments() : this.api.asc_hideComments();
+            var resolved = Common.localStorage.getItem("de-settings-resolvedcomment");
+            (!(value!==null && parseInt(value) == 0)) ? this.api.asc_showComments(!(resolved!==null && parseInt(resolved) == 0)) : this.api.asc_hideComments();
             /** coauthoring end **/
 
             value = Common.localStorage.getItem("de-settings-fontrender");
@@ -312,11 +313,13 @@ define([
             case '0':     this.api.SetFontRenderingMode(3); break;
             }
 
-            value = Common.localStorage.getItem("de-settings-autosave");
-            this.api.asc_setAutoSaveGap(parseInt(value));
+            if (this.mode.isEdit) {
+                value = Common.localStorage.getItem("de-settings-autosave");
+                this.api.asc_setAutoSaveGap(parseInt(value));
 
-            value = Common.localStorage.getItem("de-settings-spellcheck");
-            this.api.asc_setSpellCheck(value===null || parseInt(value) == 1);
+                value = Common.localStorage.getItem("de-settings-spellcheck");
+                this.api.asc_setSpellCheck(value===null || parseInt(value) == 1);
+            }
 
             value = Common.localStorage.getItem("de-settings-showsnaplines");
             this.api.put_ShowSnapLines(value===null || parseInt(value) == 1);
@@ -498,9 +501,12 @@ define([
         },
 
         commentsShowHide: function(mode) {
-            var value = Common.localStorage.getItem("de-settings-livecomment");
-            if (value !== null && 0 === parseInt(value)) {
-                (mode === 'show') ? this.api.asc_showComments() : this.api.asc_hideComments();
+            var value = Common.localStorage.getItem("de-settings-livecomment"),
+                resolved = Common.localStorage.getItem("de-settings-resolvedcomment");
+            value = (value!==null && parseInt(value) == 0);
+            resolved = (resolved!==null && parseInt(resolved) == 0);
+            if (value || resolved) {
+                (mode === 'show') ? this.api.asc_showComments(true) : ((!value) ? this.api.asc_showComments(!resolved) : this.api.asc_hideComments());
             }
 
             if (mode === 'show') {
@@ -592,7 +598,7 @@ define([
                     }
                     return false;
                 case 'comments':
-                    if (this.mode.canCoAuthoring && this.mode.isEdit && this.mode.canComments && !this.mode.isLightVersion) {
+                    if (this.mode.canCoAuthoring && this.mode.canComments && !this.mode.isLightVersion) {
                         Common.UI.Menu.Manager.hideAll();
                         this.leftMenu.showMenu('comments');
                         this.getApplication().getController('Common.Controllers.Comments').onAfterShow();

@@ -85,7 +85,7 @@ define([
             },
 
             setMode: function (mode) {
-                _isEdit = ('edit' === mode);
+                _isEdit = mode.isEdit;
             },
 
             onPageShow: function (view, pageId) {

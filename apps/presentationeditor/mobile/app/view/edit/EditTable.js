@@ -138,7 +138,7 @@ define([
                             '</div>',
                             '<% }); %>',
                         '</div>'
-                    ].join(''), {
+                    ].join(''))({
                         styles: styles
                     });
 

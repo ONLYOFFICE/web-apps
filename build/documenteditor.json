@@ -30,7 +30,6 @@
                         "sockjs": "empty:",
                         "jszip": "empty:",
                         "jszip-utils": "empty:",
-                        "jsrsasign": "empty:",
                         "coapisettings": "empty:",
                         "allfonts": "empty:",
                         "sdk": "empty:",
@@ -85,8 +84,7 @@
                                 "xregexp",
                                 "sockjs",
                                 "jszip",
-                                "jszip-utils",
-                                "jsrsasign"
+                                "jszip-utils"
                             ]
                         },
                         "gateway": {
@@ -197,7 +195,6 @@
                         "sockjs": "empty:",
                         "jszip": "empty:",
                         "jszip-utils": "empty:",
-                        "jsrsasign": "empty:",
                         "coapisettings": "empty:",
                         "allfonts": "empty:",
                         "sdk": "empty:",
@@ -255,8 +252,7 @@
                                 "xregexp",
                                 "sockjs",
                                 "jszip",
-                                "jszip-utils",
-                                "jsrsasign"
+                                "jszip-utils"
                             ]
                         },
                         "gateway": {

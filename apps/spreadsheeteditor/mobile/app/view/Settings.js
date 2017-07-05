@@ -49,7 +49,10 @@ define([
 
     SSE.Views.Settings = Backbone.View.extend(_.extend((function() {
         // private
-        var isEdit;
+        var isEdit,
+            canEdit = false,
+            canDownload = false,
+            canAbout = true;
 
         return {
             // el: '.view-main',
@@ -96,7 +99,13 @@ define([
             },
 
             setMode: function (mode) {
-                isEdit = (mode === 'edit')
+                isEdit = mode.isEdit;
+                canEdit = !mode.isEdit && mode.canEdit && mode.canRequestEditRights;
+                canDownload = mode.canDownload || mode.canDownloadOrigin;
+
+                if (mode.customization && mode.canBrandingExt) {
+                    canAbout = (mode.customization.about!==false);
+                }
             },
 
             rootLayout: function () {
@@ -108,7 +117,10 @@ define([
                         $layout.find('#settings-edit-document').hide();
                         $layout.find('#settings-search .item-title').text(this.textFindAndReplace)
                     } else {
+                        if (!canEdit) $layout.find('#settings-edit-document').hide();
                     }
+                    if (!canDownload) $layout.find('#settings-download').hide();
+                    if (!canAbout) $layout.find('#settings-about').hide();
 
                     return $layout.html();
                 }
@@ -135,7 +147,7 @@ define([
                         content: $content.html()
                     });
 
-                    this.fireEvent('page:show', this);
+                    this.fireEvent('page:show', [this, templateId]);
                 }
             },
 
@@ -197,7 +209,8 @@ define([
             textVersion: 'Version',
             textAddress: 'address',
             textEmail: 'email',
-            textTel: 'tel'
+            textTel: 'tel',
+            textPoweredBy: 'Powered by'
     }
     })(), SSE.Views.Settings || {}))
 });

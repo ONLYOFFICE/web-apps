@@ -50,7 +50,10 @@ define([
 
     PE.Views.Settings = Backbone.View.extend(_.extend((function() {
         // private
-        var isEdit;
+        var isEdit,
+            canEdit = false,
+            canDownload = false,
+            canAbout = true;
 
         return {
             // el: '.view-main',
@@ -69,7 +72,7 @@ define([
             initEvents: function () {
                 var me = this;
 
-                $('#settings-presentation-info').single('click', _.bind(me.showInfo, me));
+                $('#settings-document-info').single('click', _.bind(me.showInfo, me));
                 $('#settings-download').single('click', _.bind(me.showDownload, me));
                 $('#settings-history').single('click', _.bind(me.showHistory, me));
                 $('#settings-help').single('click', _.bind(me.showHelp, me));
@@ -91,7 +94,13 @@ define([
             },
 
             setMode: function (mode) {
-                isEdit = (mode === 'edit')
+                isEdit = mode.isEdit;
+                canEdit = !mode.isEdit && mode.canEdit && mode.canRequestEditRights;
+                canDownload = mode.canDownload || mode.canDownloadOrigin;
+
+                if (mode.customization && mode.canBrandingExt) {
+                    canAbout = (mode.customization.about!==false);
+                }
             },
 
             rootLayout: function () {
@@ -104,11 +113,14 @@ define([
                         $layour.find('#settings-readermode').hide();
                         $layour.find('#settings-search .item-title').text(this.textFindAndReplace)
                     } else {
+                        if (!canEdit) $layour.find('#settings-edit-presentation').hide();
                         $layour.find('#settings-presentation-setup').hide();
                         $layour.find('#settings-readermode input:checkbox')
                             .attr('checked', Common.SharedSettings.get('readerMode'))
                             .prop('checked', Common.SharedSettings.get('readerMode'));
                     }
+                    if (!canDownload) $layour.find('#settings-download').hide();
+                    if (!canAbout) $layour.find('#settings-about').hide();
 
                     return $layour.html();
                 }
@@ -205,7 +217,8 @@ define([
             textTel: 'tel',
             textSlideSize: 'Slide Size',
             mniSlideStandard: 'Standard (4:3)',
-            mniSlideWide: 'Widescreen (16:9)'
+            mniSlideWide: 'Widescreen (16:9)',
+            textPoweredBy: 'Powered by'
         }
     })(), PE.Views.Settings || {}))
 });

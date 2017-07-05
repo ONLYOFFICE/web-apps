@@ -105,7 +105,8 @@ define([
                 });
 
                 this._state = {isDisconnected: false, usersCount: 1, fastCoauth: true, lostEditingRights: false, licenseWarning: false};
-
+                this.languages = null;
+                this.translationTable = [];
                 // Initialize viewport
 
                 if (!Common.Utils.isBrowserSupported()){
@@ -121,8 +122,23 @@ define([
                 // Initialize api
 
                 window["flat_desine"] = true;
+
+                var styleNames = ['Normal', 'No Spacing', 'Heading 1', 'Heading 2', 'Heading 3', 'Heading 4', 'Heading 5',
+                                  'Heading 6', 'Heading 7', 'Heading 8', 'Heading 9', 'Title', 'Subtitle', 'Quote', 'Intense Quote', 'List Paragraph'],
+                    translate = {
+                        'Series': this.txtSeries,
+                        'Diagram Title': this.txtDiagramTitle,
+                        'X Axis': this.txtXAxis,
+                        'Y Axis': this.txtYAxis,
+                        'Your text here': this.txtArt
+                    };
+                styleNames.forEach(function(item){
+                    translate[item] = me.translationTable[item] = me['txtStyle_' + item.replace(/ /g, '_')] || item;
+                });
+
                 this.api = new Asc.asc_docs_api({
-                    'id-view'  : 'editor_sdk'
+                    'id-view'  : 'editor_sdk',
+                    'translate': translate
                 });
 
                 if (this.api){
@@ -141,6 +157,8 @@ define([
                     this.api.asc_registerCallback('asc_onDocumentName',             _.bind(this.onDocumentName, this));
                     this.api.asc_registerCallback('asc_onPrintUrl',                 _.bind(this.onPrintUrl, this));
                     this.api.asc_registerCallback('asc_onMeta',                     _.bind(this.onMeta, this));
+                    this.api.asc_registerCallback('asc_onSpellCheckInit',           _.bind(this.loadLanguages, this));
+
                     Common.NotificationCenter.on('api:disconnect',                  _.bind(this.onCoAuthoringDisconnect, this));
                     Common.NotificationCenter.on('goback',                          _.bind(this.goBack, this));
 
@@ -202,13 +220,13 @@ define([
                             me.api.asc_enableKeyEvents(false);
                         },
                         'modal:close': function(dlg) {
-                            if (dlg && dlg.$lastmodal && dlg.$lastmodal.size() < 1) {
+                            if (dlg && dlg.$lastmodal && dlg.$lastmodal.length < 1) {
                                 me.isModalShowed = false;
                                 me.api.asc_enableKeyEvents(true);
                             }
                         },
                         'modal:hide': function(dlg) {
-                            if (dlg && dlg.$lastmodal && dlg.$lastmodal.size() < 1) {
+                            if (dlg && dlg.$lastmodal && dlg.$lastmodal.length < 1) {
                                 me.isModalShowed = false;
                                 me.api.asc_enableKeyEvents(true);
                             }
@@ -231,6 +249,15 @@ define([
                     });
 
                     this.initNames(); //for shapes
+
+                    Common.util.Shortcuts.delegateShortcuts({
+                        shortcuts: {
+                            'command+s,ctrl+s': _.bind(function (e) {
+                                e.preventDefault();
+                                e.stopPropagation();
+                            }, this)
+                        }
+                    });
                 }
             },
 
@@ -734,7 +761,8 @@ define([
                 /** coauthoring begin **/
                 value = Common.localStorage.getItem("de-settings-livecomment");
                 this.isLiveCommenting = !(value!==null && parseInt(value) == 0);
-                this.isLiveCommenting ? this.api.asc_showComments() : this.api.asc_hideComments();
+                var resolved = Common.localStorage.getItem("de-settings-resolvedcomment");
+                this.isLiveCommenting ? this.api.asc_showComments(!(resolved!==null && parseInt(resolved) == 0)) : this.api.asc_hideComments();
                 /** coauthoring end **/
 
                 value = Common.localStorage.getItem("de-settings-zoom");
@@ -797,6 +825,11 @@ define([
                                 value == 'none' ? Asc.c_oAscCollaborativeMarksShowType.None : Asc.c_oAscCollaborativeMarksShowType.LastChanges);
                     else
                         me.api.SetCollaborativeMarksShowType(me._state.fastCoauth ? Asc.c_oAscCollaborativeMarksShowType.None : Asc.c_oAscCollaborativeMarksShowType.LastChanges);
+                } else if (!me.appOptions.isEdit && me.appOptions.canComments) {
+                    me._state.fastCoauth = true;
+                    me.api.asc_SetFastCollaborative(me._state.fastCoauth);
+                    me.api.SetCollaborativeMarksShowType(Asc.c_oAscCollaborativeMarksShowType.None);
+                    me.api.asc_setAutoSaveGap(1);
                 } else {
                     me._state.fastCoauth = false;
                     me.api.asc_SetFastCollaborative(me._state.fastCoauth);
@@ -859,7 +892,7 @@ define([
                             toolbarController.createDelayedElements();
 
                             documentHolderController.getView('DocumentHolder').createDelayedElements();
-                            me.loadLanguages();
+                            me.setLanguages();
 
                             var shapes = me.api.asc_getPropertyEditorShapes();
                             if (shapes)
@@ -878,9 +911,11 @@ define([
                                 Common.NotificationCenter.trigger('document:ready', 'main');
                         }
                     }, 50);
-                } else if (me.appOptions.canBrandingExt)
-                    Common.NotificationCenter.trigger('document:ready', 'main');
-
+                } else {
+                    documentHolderController.getView('DocumentHolder').createDelayedElementsViewer();
+                    if (me.appOptions.canBrandingExt)
+                        Common.NotificationCenter.trigger('document:ready', 'main');
+                }
 
                 if (this.appOptions.canAnalytics && false)
                     Common.component.Analytics.initialize('UA-12442749-13', 'Document Editor');
@@ -967,8 +1002,9 @@ define([
                 this.appOptions.canHistoryRestore= this.editorConfig.canHistoryRestore && !!this.permissions.changeHistory;
                 this.appOptions.canUseMailMerge= this.appOptions.canLicense && this.appOptions.canEdit && /*!this.appOptions.isDesktopApp*/ !this.appOptions.isOffline;
                 this.appOptions.canSendEmailAddresses  = this.appOptions.canLicense && this.editorConfig.canSendEmailAddresses && this.appOptions.canEdit && this.appOptions.canCoAuthoring;
-                this.appOptions.canComments    = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit) && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.comments===false);
-                this.appOptions.canChat        = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit) && !this.appOptions.isOffline && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.chat===false);
+                this.appOptions.canComments    = this.appOptions.canLicense && (this.permissions.comment===undefined ? this.appOptions.isEdit : this.permissions.comment);
+                this.appOptions.canComments    = this.appOptions.canComments && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.comments===false);
+                this.appOptions.canChat        = this.appOptions.canLicense && !this.appOptions.isOffline && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.chat===false);
                 this.appOptions.canEditStyles  = this.appOptions.canLicense && this.appOptions.canEdit;
                 this.appOptions.canPrint       = (this.permissions.print !== false);
                 this.appOptions.canRename      = !!this.permissions.rename;
@@ -998,7 +1034,8 @@ define([
                 this.applyModeCommonElements();
                 this.applyModeEditorElements();
 
-                this.api.asc_setViewMode(!this.appOptions.isEdit);
+                this.api.asc_setViewMode(!this.appOptions.isEdit && !this.appOptions.canComments);
+                (!this.appOptions.isEdit && this.appOptions.canComments) && this.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyComments);
                 this.api.asc_LoadDocument();
 
                 if (!this.appOptions.isEdit) {
@@ -1035,22 +1072,15 @@ define([
 
                 this.api.asc_registerCallback('asc_onSendThemeColors', _.bind(this.onSendThemeColors, this));
                 this.api.asc_registerCallback('asc_onDownloadUrl',     _.bind(this.onDownloadUrl, this));
-
-                if (this.api) {
-                    var translateChart = new Asc.asc_CChartTranslate();
-                    translateChart.asc_setTitle(this.txtDiagramTitle);
-                    translateChart.asc_setXAxis(this.txtXAxis);
-                    translateChart.asc_setYAxis(this.txtYAxis);
-                    translateChart.asc_setSeries(this.txtSeries);
-                    this.api.asc_setChartTranslate(translateChart);
-
-                    var translateArt = new Asc.asc_TextArtTranslate();
-                    translateArt.asc_setDefaultText(this.txtArt);
-                    this.api.asc_setTextArtTranslate(translateArt);
-                }
             },
 
             applyModeEditorElements: function() {
+                if (this.appOptions.canComments || this.appOptions.isEdit) {
+                    /** coauthoring begin **/
+                    this.contComments.setMode(this.appOptions);
+                    this.contComments.setConfig({config: this.editorConfig}, this.api);
+                    /** coauthoring end **/
+                }
                 if (this.appOptions.isEdit) {
                     var me = this,
                         application         = this.getApplication(),
@@ -1062,10 +1092,6 @@ define([
                     fontsControllers    && fontsControllers.setApi(me.api);
                     toolbarController   && toolbarController.setApi(me.api);
 
-                    /** coauthoring begin **/
-                    me.contComments.setMode(me.appOptions);
-                    me.contComments.setConfig({config: me.editorConfig}, me.api);
-                    /** coauthoring end **/
                     rightmenuController && rightmenuController.setApi(me.api);
 
                     if (reviewController)
@@ -1131,7 +1157,7 @@ define([
                     msg.msg = (msg.msg).toString();
                     this.showTips([msg.msg.charAt(0).toUpperCase() + msg.msg.substring(1)]);
 
-                    Common.component.Analytics.trackEvent('External Error', msg.title);
+                    Common.component.Analytics.trackEvent('External Error');
                 }
             },
 
@@ -1646,15 +1672,15 @@ define([
                 }
             },
 
-            loadLanguages: function() {
-                var apiLangs = this.api.asc_getSpellCheckLanguages(),
-                    langs = [], info;
+            loadLanguages: function(apiLangs) {
+                var langs = [], info;
                 _.each(apiLangs, function(lang, index, list){
-                    info = Common.util.LanguageInfo.getLocalLanguageName(lang.asc_getId());
+                    lang = parseInt(lang);
+                    info = Common.util.LanguageInfo.getLocalLanguageName(lang);
                     langs.push({
                         title:  info[1],
                         tip:    info[0],
-                        code:   lang.asc_getId()
+                        code:   lang
                     });
                 }, this);
 
@@ -1664,8 +1690,15 @@ define([
                     return 0;
                 });
 
-                this.getApplication().getController('DocumentHolder').getView('DocumentHolder').setLanguages(langs);
-                this.getApplication().getController('Statusbar').setLanguages(langs);
+                this.languages = langs;
+                window.styles_loaded && this.setLanguages();
+            },
+
+            setLanguages: function() {
+                if (this.languages && this.languages.length>0) {
+                    this.getApplication().getController('DocumentHolder').getView('DocumentHolder').setLanguages(this.languages);
+                    this.getApplication().getController('Statusbar').setLanguages(this.languages);
+                }
             },
 
             onInsertTable:  function() {
@@ -1970,6 +2003,7 @@ define([
                                     isViewer: itemVar.isViewer,
                                     EditorsSupport: itemVar.EditorsSupport,
                                     isVisual: itemVar.isVisual,
+                                    isCustomWindow: itemVar.isCustomWindow,
                                     isModal: itemVar.isModal,
                                     isInsideMode: itemVar.isInsideMode,
                                     initDataType: itemVar.initDataType,
@@ -2121,7 +2155,23 @@ define([
             titleServerVersion: 'Editor updated',
             errorServerVersion: 'The editor version has been updated. The page will be reloaded to apply the changes.',
             textChangesSaved: 'All changes saved',
-            errorBadImageUrl: 'Image url is incorrect'
+            errorBadImageUrl: 'Image url is incorrect',
+            txtStyle_Normal: 'Normal',
+            txtStyle_No_Spacing: 'No Spacing',
+            txtStyle_Heading_1: 'Heading 1',
+            txtStyle_Heading_2: 'Heading 2',
+            txtStyle_Heading_3: 'Heading 3',
+            txtStyle_Heading_4: 'Heading 4',
+            txtStyle_Heading_5: 'Heading 5',
+            txtStyle_Heading_6: 'Heading 6',
+            txtStyle_Heading_7: 'Heading 7',
+            txtStyle_Heading_8: 'Heading 8',
+            txtStyle_Heading_9: 'Heading 9',
+            txtStyle_Title: 'Title',
+            txtStyle_Subtitle: 'Subtitle',
+            txtStyle_Quote: 'Quote',
+            txtStyle_Intense_Quote: 'Intense Quote',
+            txtStyle_List_Paragraph: 'List Paragraph'
         }
     })(), DE.Controllers.Main || {}))
 });

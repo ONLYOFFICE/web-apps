@@ -98,7 +98,7 @@ define([
             this.store      = options.store;
             this.delegate   = options.delegate;
 
-            _options.tpl    = _.template(this.template, _options);
+            _options.tpl    = _.template(this.template)(_options);
 
             this.arrow      = {margin: 20, width: 12, height: 34};
             this.sdkBounds  = {width: 0, height: 0, padding: 10, paddingTop: 20};
@@ -517,7 +517,7 @@ define([
             if (this.handlerHide) {
                 this.handlerHide ();
             }
-
+            this.hideTips();
             Common.UI.Window.prototype.hide.call(this);
 
             if (!_.isUndefined(this.e) && this.e.keyCode == Common.UI.Keys.ESC) {

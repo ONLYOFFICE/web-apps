@@ -98,7 +98,28 @@ define([
 
                 me.api = new Asc.asc_docs_api({
                     'id-view'  : 'editor_sdk',
-                    'mobile'   : true
+                    'mobile'   : true,
+                    'translate': {
+                        'Series': me.txtSeries,
+                        'Diagram Title': me.txtDiagramTitle,
+                        'X Axis': me.txtXAxis,
+                        'Y Axis': me.txtYAxis,
+                        'Your text here': me.txtArt,
+                        'Slide text': this.txtSlideText,
+                        'Chart': this.txtSldLtTChart,
+                        'ClipArt': this.txtClipArt,
+                        'Diagram': this.txtDiagram,
+                        'Date and time': this.txtDateTime,
+                        'Footer': this.txtFooter,
+                        'Header': this.txtHeader,
+                        'Media': this.txtMedia,
+                        'Picture': this.txtPicture,
+                        'Image': this.txtImage,
+                        'Slide number': this.txtSlideNumber,
+                        'Slide subtitle': this.txtSlideSubtitle,
+                        'Table': this.txtSldLtTTbl,
+                        'Slide title': this.txtSlideTitle
+                    }
                 });
 
                 // Localization uiApp params
@@ -226,11 +247,11 @@ define([
             setMode: function(mode){
                 var me = this;
 
-                Common.SharedSettings.set('mode', mode);
+                Common.SharedSettings.set('mode', mode.isEdit ? 'edit' : 'view');
 
                 if (me.api) {
-                    me.api.asc_enableKeyEvents(mode == 'edit');
-                    me.api.asc_setViewMode(mode != 'edit');
+                    me.api.asc_enableKeyEvents(mode.isEdit);
+                    me.api.asc_setViewMode(!mode.isEdit);
                 }
             },
 
@@ -437,6 +458,8 @@ define([
 
                 Common.localStorage.setItem("pe-settings-showsnaplines", me.api.get_ShowSnapLines() ? 1 : 0);
 
+                me.api.asc_setSpellCheck(false); // don't use spellcheck for mobile mode
+
                 me.api.asc_registerCallback('asc_onStartAction',            _.bind(me.onLongActionBegin, me));
                 me.api.asc_registerCallback('asc_onEndAction',              _.bind(me.onLongActionEnd, me));
                 me.api.asc_registerCallback('asc_onCoAuthoringDisconnect',  _.bind(me.onCoAuthoringDisconnect, me));
@@ -573,6 +596,7 @@ define([
                 me._state.licenseWarning = (licType===Asc.c_oLicenseResult.Connections) && me.appOptions.canEdit && me.editorConfig.mode !== 'view';
 
                 me.appOptions.canBranding  = (licType === Asc.c_oLicenseResult.Success) && (typeof me.editorConfig.customization == 'object');
+                me.appOptions.canBrandingExt = params.asc_getCanBranding() && (typeof me.editorConfig.customization == 'object');
 
                 me.applyModeCommonElements();
                 me.applyModeEditorElements();
@@ -594,24 +618,13 @@ define([
 
                 _.each(me.getApplication().controllers, function(controller) {
                     if (controller && _.isFunction(controller.setMode)) {
-                        controller.setMode(me.editorConfig.mode);
+                        controller.setMode(me.appOptions);
                     }
                 });
 
                 if (me.api) {
                     me.api.asc_registerCallback('asc_onSendThemeColors', _.bind(me.onSendThemeColors, me));
                     me.api.asc_registerCallback('asc_onDownloadUrl',     _.bind(me.onDownloadUrl, me));
-
-                    var translateChart = new Asc.asc_CChartTranslate();
-                    translateChart.asc_setTitle(me.txtDiagramTitle);
-                    translateChart.asc_setXAxis(me.txtXAxis);
-                    translateChart.asc_setYAxis(me.txtYAxis);
-                    translateChart.asc_setSeries(me.txtSeries);
-                    me.api.asc_setChartTranslate(translateChart);
-
-                    var translateArt = new Asc.asc_TextArtTranslate();
-                    translateArt.asc_setDefaultText(me.txtArt);
-                    me.api.asc_setTextArtTranslate(translateArt);
                 }
             },
 
@@ -659,7 +672,7 @@ define([
                         message: [msg.msg.charAt(0).toUpperCase() + msg.msg.substring(1)]
                     });
 
-                    Common.component.Analytics.trackEvent('External Error', msg.title);
+                    Common.component.Analytics.trackEvent('External Error');
                 }
             },
 
@@ -1218,7 +1231,19 @@ define([
             textDone: 'Done',
             titleServerVersion: 'Editor updated',
             errorServerVersion: 'The editor version has been updated. The page will be reloaded to apply the changes.',
-            errorBadImageUrl: 'Image url is incorrect'
+            errorBadImageUrl: 'Image url is incorrect',
+            txtSlideText: 'Slide text',
+            txtClipArt: 'Clip Art',
+            txtDiagram: 'SmartArt',
+            txtDateTime: 'Date and time',
+            txtFooter: 'Footer',
+            txtHeader: 'Header',
+            txtMedia: 'Media',
+            txtPicture: 'Picture',
+            txtImage: 'Image',
+            txtSlideNumber: 'Slide number',
+            txtSlideSubtitle: 'Slide subtitle',
+            txtSlideTitle: 'Slide title'
         }
     })(), PE.Controllers.Main || {}))
 });

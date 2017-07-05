@@ -123,7 +123,7 @@ define([
                                 '<% }); %>',
                             '</ul>',
                         '<% }); %>'
-                    ].join(''), {
+                    ].join(''))({
                         layouts: layouts
                     });
 

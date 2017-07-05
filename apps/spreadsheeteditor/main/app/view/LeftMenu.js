@@ -135,6 +135,7 @@ define([
             this.btnChat.hide();
 
             this.btnComments.on('click',        _.bind(this.onBtnMenuClick, this));
+            this.btnComments.on('toggle',       _.bind(this.onBtnCommentsToggle, this));
             this.btnChat.on('click',            _.bind(this.onBtnMenuClick, this));
             /** coauthoring end **/
 
@@ -175,6 +176,11 @@ define([
             }
             if (this.mode.isEdit) SSE.getController('Toolbar').DisableToolbar(state==true);
             Common.NotificationCenter.trigger('layout:changed', 'leftmenu');
+        },
+
+        onBtnCommentsToggle: function(btn, state) {
+            if (!state)
+                this.fireEvent('comments:hide', this);
         },
 
         onBtnMenuClick: function(btn, e) {

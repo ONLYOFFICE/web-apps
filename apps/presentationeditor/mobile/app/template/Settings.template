@@ -62,7 +62,7 @@
                             </a>
                         </li>
                         <li>
-                            <a id="settings-presentation-info" class="item-link">
+                            <a id="settings-document-info" class="item-link">
                                 <div class="item-content">
                                     <div class="item-media">
                                         <i class="icon icon-info"></i>
@@ -196,6 +196,18 @@
                                 </div>
                             </a>
                         </li>
+                        <li>
+                            <a data-format="131" class="item-link no-indicator">
+                                <div class="item-content">
+                                    <div class="item-media">
+                                        <i class="icon icon-format-odp"></i>
+                                    </div>
+                                    <div class="item-inner">
+                                        <div class="item-title">ODP</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -220,16 +232,24 @@
             <div class="page-content">
                 <div class="content-block">
                     <div class="logo" style="display: inline-block; width: 100%; height: 55px;"></div>
+                    <div id="settings-about-logo" style="margin-top: 20px;display: none;"></div>
                 </div>
                 <div class="content-block">
                     <h3>PRESENTATION EDITOR</h3>
                     <h3><%= scope.textVersion %> {{PRODUCT_VERSION}}</h3>
                 </div>
                 <div class="content-block">
+                    <h3 id="settings-about-name" class="vendor">Ascensio System SIA</h3>
+                    <p><label><%= scope.textAddress %>:</label><a id="settings-about-address" class="external" href="#">Lubanas st. 125a-25, Riga, Latvia, EU, LV-1021</a></p>
+                    <p><label><%= scope.textEmail %>:</label><a id="settings-about-email" class="external" target="_blank" href="mailto:support@onlyoffice.com">support@onlyoffice.com</a></p>
+                    <p><label><%= scope.textTel %>:</label><a id="settings-about-tel" class="external" target="_blank" href="tel:+371 660-16425">+371 660-16425</a></p>
+                    <p><a id="settings-about-url" class="external" target="_blank" href="http://www.onlyoffice.com">www.onlyoffice.com</a></p>
+                    <p><label id="settings-about-info" style="display: none;"></label></p>
+                </div>
+                <div class="content-block" id="settings-about-licensor" style="display: none;">
+                    <div class="content-block-inner" style="padding-top:0; padding-bottom: 1px;"></div >
+                    <p><label><%= scope.textPoweredBy %></label></p>
                     <h3 class="vendor">Ascensio System SIA</h3>
-                    <p><label><%= scope.textAddress %>:</label><a class="external" href="#">Lubanas st. 125a-25, Riga, Latvia, EU, LV-1021</a></p>
-                    <p><label><%= scope.textEmail %>:</label><a class="external" target="_blank" href="mailto:support@onlyoffice.com">support@onlyoffice.com</a></p>
-                    <p><label><%= scope.textTel %>:</label><a class="external" target="_blank" href="tel:+371 660-16425">+371 660-16425</a></p>
                     <p><a class="external" target="_blank" href="http://www.onlyoffice.com">www.onlyoffice.com</a></p>
                 </div>
             </div>
@@ -240,7 +260,7 @@
 <div id="settings-setup-view">
     <div class="navbar">
         <div class="navbar-inner">
-            <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></a></div>
+            <div class="left sliding"><a href="#" class="back link"><i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
             <div class="center sliding"><%= scope.textSlideSize %></div>
         </div>
     </div>

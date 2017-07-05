@@ -63,6 +63,7 @@ define([    'text!spreadsheeteditor/main/app/template/ShapeSettingsAdvanced.temp
                     {panelId: 'id-adv-shape-width',      panelCaption: this.textSize},
                     {panelId: 'id-adv-shape-shape',      panelCaption: this.textWeightArrows},
                     {panelId: 'id-adv-shape-margins',    panelCaption: this.strMargins},
+                    {panelId: 'id-adv-shape-columns',    panelCaption: this.strColumns},
                     {panelId: 'id-adv-shape-alttext',    panelCaption: this.textAlt}
                 ],
                 contentTemplate: _.template(contentTemplate)({
@@ -435,6 +436,46 @@ define([    'text!spreadsheeteditor/main/app/template/ShapeSettingsAdvanced.temp
                 obj.getChild('.footer .primary').focus();
             });
 
+            // Columns
+
+            this.spnColumns = new Common.UI.MetricSpinner({
+                el: $('#shape-columns-number'),
+                step: 1,
+                allowDecimal: false,
+                width: 100,
+                defaultUnit : "",
+                value: '1',
+                maxValue: 16,
+                minValue: 1
+            });
+            this.spnColumns.on('change', _.bind(function(field, newValue, oldValue, eOpts){
+                if (this._changedProps) {
+                    if (this._changedProps.asc_getShapeProperties()===null || this._changedProps.asc_getShapeProperties()===undefined)
+                        this._changedProps.asc_putShapeProperties(new Asc.asc_CShapeProperty());
+
+                    this._changedProps.asc_getShapeProperties().asc_putColumnNumber(field.getNumberValue());
+                }
+            }, this));
+
+            this.spnSpacing = new Common.UI.MetricSpinner({
+                el: $('#shape-columns-spacing'),
+                step: .1,
+                width: 100,
+                defaultUnit : "cm",
+                value: '0 cm',
+                maxValue: 40.64,
+                minValue: 0
+            });
+            this.spnSpacing.on('change', _.bind(function(field, newValue, oldValue, eOpts){
+                if (this._changedProps) {
+                    if (this._changedProps.asc_getShapeProperties()===null || this._changedProps.asc_getShapeProperties()===undefined)
+                        this._changedProps.asc_putShapeProperties(new Asc.asc_CShapeProperty());
+
+                    this._changedProps.asc_getShapeProperties().asc_putColumnSpace(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
+                }
+            }, this));
+            this.spinners.push(this.spnSpacing);
+
             // Alt Text
 
             this.inputAltTitle = new Common.UI.InputField({
@@ -493,6 +534,18 @@ define([    'text!spreadsheeteditor/main/app/template/ShapeSettingsAdvanced.temp
                     this.spnMarginBottom.setValue((null !== val && undefined !== val) ? Common.Utils.Metric.fnRecalcFromMM(val) : '', true);
                 }
                 this.btnsCategory[2].setDisabled(null === margins);   // Margins
+
+                var shapetype = shapeprops.asc_getType();
+                this.btnsCategory[3].setDisabled(shapetype=='line' || shapetype=='bentConnector2' || shapetype=='bentConnector3'
+                    || shapetype=='bentConnector4' || shapetype=='bentConnector5' || shapetype=='curvedConnector2'
+                    || shapetype=='curvedConnector3' || shapetype=='curvedConnector4' || shapetype=='curvedConnector5'
+                    || shapetype=='straightConnector1');
+
+                value = shapeprops.asc_getColumnNumber();
+                this.spnColumns.setValue((null !== value && undefined !== value) ? value : '', true);
+
+                value = shapeprops.asc_getColumnSpace();
+                this.spnSpacing.setValue((null !== value && undefined !== value) ? Common.Utils.Metric.fnRecalcFromMM(value) : '', true);
 
                 value = props.asc_getTitle();
                 this.inputAltTitle.setValue(value ? value : '');
@@ -717,8 +770,10 @@ define([    'text!spreadsheeteditor/main/app/template/ShapeSettingsAdvanced.temp
         textAlt: 'Alternative Text',
         textAltTitle: 'Title',
         textAltDescription: 'Description',
-        textAltTip: 'The alternative text-based representation of the visual object information, which will be read to the people with vision or cognitive impairments to help them better understand what information there is in the image, autoshape, chart or table.'
-
+        textAltTip: 'The alternative text-based representation of the visual object information, which will be read to the people with vision or cognitive impairments to help them better understand what information there is in the image, autoshape, chart or table.',
+        strColumns: 'Columns',
+        textSpacing: 'Spacing between columns',
+        textColNumber: 'Number of columns'
 
     }, SSE.Views.ShapeSettingsAdvanced || {}));
 });

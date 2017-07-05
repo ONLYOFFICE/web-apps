@@ -87,6 +87,7 @@ define([
                 Common.UI.ComboBox.prototype.initialize.call(this, _.extend(options, {
                     displayField: 'name',
                     scroller: {
+                        wheelSpeed: 20,
                         alwaysVisibleY: true,
                         onChange: this.updateVisibleFontsTiles.bind(this)
                     }
@@ -353,7 +354,7 @@ define([
                     '<li id="<%= item.id %>">',
                         '<a class="font-item" tabindex="-1" type="menuitem" style="vertical-align:middle; margin: 0 0 0 -10px; height:<%=scope.getListItemHeight()%>px;"/>',
                     '</li>'
-                ].join(''), {
+                ].join(''))({
                     item: item.attributes,
                     scope: this
                 }));

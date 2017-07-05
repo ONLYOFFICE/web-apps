@@ -150,6 +150,18 @@ define([
             }
             style = Common.Utils.String.format('linear-gradient(to right, {0} {1}%, {2} {3}%)',  this.colorValues[0], this.getValue(0), this.colorValues[1], this.getValue(1));
             this.trackEl.css('background', style);
+        },
+
+        sortThumbs: function() {
+            var recalc_indexes = Common.UI.MultiSlider.prototype.sortThumbs.call(this),
+                new_colors = [],
+                me = this;
+            _.each (recalc_indexes, function(recalc_index) {
+                new_colors.push(me.colorValues[recalc_index]);
+            });
+            this.colorValues = new_colors;
+            this.trigger('sortthumbs', me, recalc_indexes);
+            return recalc_indexes;
         }
     });
 });

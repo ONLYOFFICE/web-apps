@@ -405,6 +405,7 @@ define([
                     item.off('click').off('toggle');
                     item.remove();
                 });
+                this.rendered && this.cmpEl.find('.menu-scroll').off('click').remove();
 
                 me.items = [];
             },

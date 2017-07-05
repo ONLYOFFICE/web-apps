@@ -211,8 +211,8 @@ define([
                 ascComment.asc_putText(comment.get('comment'));
                 ascComment.asc_putQuoteText(comment.get('quote'));
                 ascComment.asc_putTime(t.utcDateToString(new Date(comment.get('time'))));
-                ascComment.asc_putUserId(t.currentUserId);
-                ascComment.asc_putUserName(t.currentUserName);
+                ascComment.asc_putUserId(comment.get('userid'));
+                ascComment.asc_putUserName(comment.get('username'));
                 ascComment.asc_putSolved(!comment.get('resolved'));
 
                 if (!_.isUndefined(ascComment.asc_putDocumentFlag)) {
@@ -744,14 +744,15 @@ define([
             if (this.mode && !this.mode.canComments)
                 hint = true;
 
-            if (this.getPopover()) {
+            var popover = this.getPopover();
+            if (popover) {
                 this.clearDummyComment();
 
                 if (this.isSelectedComment && (0 === _.difference(this.uids, uids).length)) {
                     //NOTE: click to sdk view ?
                     if (this.api) {
                         //this.view.txtComment.blur();
-                        this.getPopover().commentsView.setFocusToTextBox(true);
+                        popover.commentsView && popover.commentsView.setFocusToTextBox(true);
                         this.api.asc_enableKeyEvents(true);
                     }
 
@@ -807,12 +808,12 @@ define([
                     this._dontScrollToComment = false;
                 }
 
-                if (this.getPopover().isVisible()) {
-                    this.getPopover().hide();
+                if (popover.isVisible()) {
+                    popover.hide();
                 }
 
-                this.getPopover().setLeftTop(posX, posY, leftX);
-                this.getPopover().show(animate, false, true, text);
+                popover.setLeftTop(posX, posY, leftX);
+                popover.show(animate, false, true, text);
             }
         },
         onApiHideComment: function (hint) {

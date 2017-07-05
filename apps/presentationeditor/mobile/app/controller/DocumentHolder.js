@@ -84,7 +84,7 @@ define([
             },
 
             setMode: function (mode) {
-                _isEdit = ('edit' === mode);
+                _isEdit = mode.isEdit;
             },
 
             // When our application is ready, lets get started

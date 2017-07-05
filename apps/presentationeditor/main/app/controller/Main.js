@@ -99,6 +99,7 @@ define([
                 var me = this;
 
                 this._state = {isDisconnected: false, usersCount: 1, fastCoauth: true, lostEditingRights: false, licenseWarning: false};
+                this.languages = null;
 
                 window.storagename = 'presentation';
 
@@ -119,7 +120,28 @@ define([
 
                 window["flat_desine"] = true;
                 this.api = new Asc.asc_docs_api({
-                    'id-view'  : 'editor_sdk'
+                    'id-view'  : 'editor_sdk',
+                    'translate': {
+                        'Series': this.txtSeries,
+                        'Diagram Title': this.txtDiagramTitle,
+                        'X Axis': this.txtXAxis,
+                        'Y Axis': this.txtYAxis,
+                        'Your text here': this.txtArt,
+                        'Slide text': this.txtSlideText,
+                        'Chart': this.txtSldLtTChart,
+                        'ClipArt': this.txtClipArt,
+                        'Diagram': this.txtDiagram,
+                        'Date and time': this.txtDateTime,
+                        'Footer': this.txtFooter,
+                        'Header': this.txtHeader,
+                        'Media': this.txtMedia,
+                        'Picture': this.txtPicture,
+                        'Image': this.txtImage,
+                        'Slide number': this.txtSlideNumber,
+                        'Slide subtitle': this.txtSlideSubtitle,
+                        'Table': this.txtSldLtTTbl,
+                        'Slide title': this.txtSlideTitle
+                    }
                 });
 
                 if (this.api){
@@ -136,6 +158,7 @@ define([
                     this.api.asc_registerCallback('asc_onPrintUrl',                 _.bind(this.onPrintUrl, this));
                     this.api.asc_registerCallback('asc_onMeta',                     _.bind(this.onMeta, this));
                     this.api.asc_registerCallback('asc_onAdvancedOptions',          _.bind(this.onAdvancedOptions, this));
+                    this.api.asc_registerCallback('asc_onSpellCheckInit',           _.bind(this.loadLanguages, this));
                     Common.NotificationCenter.on('api:disconnect',                  _.bind(this.onCoAuthoringDisconnect, this));
                     Common.NotificationCenter.on('goback',                          _.bind(this.goBack, this));
 
@@ -192,13 +215,13 @@ define([
                             me.api.asc_enableKeyEvents(false);
                         },
                         'modal:close': function(dlg) {
-                            if (dlg && dlg.$lastmodal && dlg.$lastmodal.size() < 1) {
+                            if (dlg && dlg.$lastmodal && dlg.$lastmodal.length < 1) {
                                 me.isModalShowed = false;
                                 me.api.asc_enableKeyEvents(true);
                             }
                         },
                         'modal:hide': function(dlg) {
-                            if (dlg && dlg.$lastmodal && dlg.$lastmodal.size() < 1) {
+                            if (dlg && dlg.$lastmodal && dlg.$lastmodal.length < 1) {
                                 me.isModalShowed = false;
                                 me.api.asc_enableKeyEvents(true);
                             }
@@ -221,6 +244,14 @@ define([
                     });
 
                     this.initNames();
+                    Common.util.Shortcuts.delegateShortcuts({
+                        shortcuts: {
+                            'command+s,ctrl+s': _.bind(function (e) {
+                                e.preventDefault();
+                                e.stopPropagation();
+                            }, this)
+                        }
+                    });
                 }
             },
 
@@ -537,6 +568,9 @@ define([
                 var zf = (value!==null) ? parseInt(value) : (this.appOptions.customization && this.appOptions.customization.zoom ? parseInt(this.appOptions.customization.zoom) : -1);
                 (zf == -1) ? this.api.zoomFitToPage() : ((zf == -2) ? this.api.zoomFitToWidth() : this.api.zoom(zf>0 ? zf : 100));
 
+                value = Common.localStorage.getItem("pe-settings-spellcheck");
+                me.api.asc_setSpellCheck(value===null || parseInt(value) == 1);
+
                 function checkWarns() {
                     if (!window['AscDesktopEditor']) {
                         var tips = [];
@@ -574,8 +608,10 @@ define([
                         value = 0; // use customization.autosave only when pe-settings-coauthmode and pe-settings-autosave are null
                     }
                     me._state.fastCoauth = (value===null || parseInt(value) == 1);
-                } else
-                    me._state.fastCoauth = false;
+                } else {
+                    me._state.fastCoauth = (!me.appOptions.isEdit && me.appOptions.canComments);
+                    me._state.fastCoauth && me.api.asc_setAutoSaveGap(1);
+                }
                 me.api.asc_SetFastCollaborative(me._state.fastCoauth);
                 /** coauthoring end **/
 
@@ -636,6 +672,7 @@ define([
                             toolbarController.createDelayedElements();
 
                             documentHolderController.getView('DocumentHolder').createDelayedElements();
+                            me.setLanguages();
 
                             me.api.asc_registerCallback('asc_onUpdateLayout',       _.bind(me.fillLayoutsStore, me)); // slide layouts loading
                             me.updateThemeColors();
@@ -656,9 +693,11 @@ define([
                                 Common.NotificationCenter.trigger('document:ready', 'main');
                         }
                     }, 50);
-                } else if (me.appOptions.canBrandingExt)
-                    Common.NotificationCenter.trigger('document:ready', 'main');
-
+                } else {
+                    documentHolderController.getView('DocumentHolder').createDelayedElementsViewer();
+                    if (me.appOptions.canBrandingExt)
+                        Common.NotificationCenter.trigger('document:ready', 'main');
+                }
 
                 if (this.appOptions.canAnalytics && false)
                     Common.component.Analytics.initialize('UA-12442749-13', 'Presentation Editor');
@@ -735,8 +774,9 @@ define([
                 this.appOptions.isEdit         = this.appOptions.canLicense && this.appOptions.canEdit && this.editorConfig.mode !== 'view';
                 this.appOptions.canDownload    = !this.appOptions.nativeApp && this.permissions.download !== false;
                 this.appOptions.canAnalytics   = params.asc_getIsAnalyticsEnable();
-                this.appOptions.canComments    = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit) && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.comments===false);
-                this.appOptions.canChat        = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit) && !this.appOptions.isOffline && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.chat===false);
+                this.appOptions.canComments    = this.appOptions.canLicense && (this.permissions.comment===undefined ? this.appOptions.isEdit : this.permissions.comment);
+                this.appOptions.canComments    = this.appOptions.canComments && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.comments===false);
+                this.appOptions.canChat        = this.appOptions.canLicense && !this.appOptions.isOffline && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.chat===false);
                 this.appOptions.canPrint       = (this.permissions.print !== false);
                 this.appOptions.canRename      = !!this.permissions.rename;
                 this.appOptions.canForcesave   = this.appOptions.isEdit && !this.appOptions.isOffline && (typeof (this.editorConfig.customization) == 'object' && !!this.editorConfig.customization.forcesave);
@@ -760,8 +800,8 @@ define([
                 this.applyModeCommonElements();
                 this.applyModeEditorElements();
 
-                this.api.asc_setViewMode(!this.appOptions.isEdit);
-
+                this.api.asc_setViewMode(!this.appOptions.isEdit && !this.appOptions.canComments);
+                (!this.appOptions.isEdit && this.appOptions.canComments) && this.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyComments);
                 this.api.asc_LoadDocument();
 
                 if (!this.appOptions.isEdit) {
@@ -794,22 +834,18 @@ define([
 
                 this.api.asc_registerCallback('asc_onSendThemeColors', _.bind(this.onSendThemeColors, this));
                 this.api.asc_registerCallback('asc_onDownloadUrl',     _.bind(this.onDownloadUrl, this));
-
-                if (this.api) {
-                    var translateChart = new Asc.asc_CChartTranslate();
-                    translateChart.asc_setTitle(this.txtDiagramTitle);
-                    translateChart.asc_setXAxis(this.txtXAxis);
-                    translateChart.asc_setYAxis(this.txtYAxis);
-                    translateChart.asc_setSeries(this.txtSeries);
-                    this.api.asc_setChartTranslate(translateChart);
-
-                    var translateArt = new Asc.asc_TextArtTranslate();
-                    translateArt.asc_setDefaultText(this.txtArt);
-                    this.api.asc_setTextArtTranslate(translateArt);
-                }
             },
 
             applyModeEditorElements: function(prevmode) {
+                if (this.appOptions.canComments || this.appOptions.isEdit) {
+                    /** coauthoring begin **/
+                    var commentsController  = this.getApplication().getController('Common.Controllers.Comments');
+                    if (commentsController) {
+                        commentsController.setMode(this.appOptions);
+                        commentsController.setConfig({config: this.editorConfig}, this.api);
+                    }
+                    /** coauthoring end **/
+                }
                 if (this.appOptions.isEdit) {
                     var me = this,
                         application         = this.getApplication(),
@@ -821,13 +857,6 @@ define([
                     fontsControllers    && fontsControllers.setApi(me.api);
                     toolbarController   && toolbarController.setApi(me.api);
 
-                    /** coauthoring begin **/
-                    var commentsController  = application.getController('Common.Controllers.Comments');
-                    if (commentsController) {
-                        commentsController.setMode(this.appOptions);
-                        commentsController.setConfig({config: me.editorConfig}, me.api);
-                    }
-                    /** coauthoring end **/
                     rightmenuController && rightmenuController.setApi(me.api);
 
                     var viewport = this.getApplication().getController('Viewport').getView('Viewport');
@@ -891,7 +920,7 @@ define([
                     msg.msg = (msg.msg).toString();
                     this.showTips([msg.msg.charAt(0).toUpperCase() + msg.msg.substring(1)]);
 
-                    Common.component.Analytics.trackEvent('External Error', msg.title);
+                    Common.component.Analytics.trackEvent('External Error');
                 }
             },
 
@@ -1471,6 +1500,35 @@ define([
 
             },
 
+            loadLanguages: function(apiLangs) {
+                var langs = [], info;
+                _.each(apiLangs, function(lang, index, list){
+                    lang = parseInt(lang);
+                    info = Common.util.LanguageInfo.getLocalLanguageName(lang);
+                    langs.push({
+                        title:  info[1],
+                        tip:    info[0],
+                        code:   lang
+                    });
+                }, this);
+
+                langs.sort(function(a, b){
+                    if (a.tip < b.tip) return -1;
+                    if (a.tip > b.tip) return 1;
+                    return 0;
+                });
+
+                this.languages = langs;
+                window.styles_loaded && this.setLanguages();
+            },
+
+            setLanguages: function() {
+                if (this.languages && this.languages.length>0) {
+                    this.getApplication().getController('DocumentHolder').getView('DocumentHolder').setLanguages(this.languages);
+                    this.getApplication().getController('Statusbar').setLanguages(this.languages);
+                }
+            },
+
             onTryUndoInFastCollaborative: function() {
                 var val = window.localStorage.getItem("pe-hide-try-undoredo");
                 if (!(val && parseInt(val) == 1))
@@ -1730,6 +1788,7 @@ define([
                                     isViewer: itemVar.isViewer,
                                     EditorsSupport: itemVar.EditorsSupport,
                                     isVisual: itemVar.isVisual,
+                                    isCustomWindow: itemVar.isCustomWindow,
                                     isModal: itemVar.isModal,
                                     isInsideMode: itemVar.isInsideMode,
                                     initDataType: itemVar.initDataType,
@@ -1910,7 +1969,19 @@ define([
             titleServerVersion: 'Editor updated',
             errorServerVersion: 'The editor version has been updated. The page will be reloaded to apply the changes.',
             textChangesSaved: 'All changes saved',
-            errorBadImageUrl: 'Image url is incorrect'
+            errorBadImageUrl: 'Image url is incorrect',
+            txtSlideText: 'Slide text',
+            txtClipArt: 'Clip Art',
+            txtDiagram: 'SmartArt',
+            txtDateTime: 'Date and time',
+            txtFooter: 'Footer',
+            txtHeader: 'Header',
+            txtMedia: 'Media',
+            txtPicture: 'Picture',
+            txtImage: 'Image',
+            txtSlideNumber: 'Slide number',
+            txtSlideSubtitle: 'Slide subtitle',
+            txtSlideTitle: 'Slide title'
         }
     })(), PE.Controllers.Main || {}))
 });

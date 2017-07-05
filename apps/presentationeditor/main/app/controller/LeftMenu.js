@@ -155,7 +155,7 @@ define([
         createDelayedElements: function() {
             /** coauthoring begin **/
             if ( this.mode.canCoAuthoring ) {
-                this.leftMenu.btnComments[(this.mode.isEdit&&this.mode.canComments && !this.mode.isLightVersion) ? 'show' : 'hide']();
+                this.leftMenu.btnComments[(this.mode.canComments && !this.mode.isLightVersion) ? 'show' : 'hide']();
                 if (this.mode.canComments)
                     this.leftMenu.setOptionsPanel('comment', this.getApplication().getController('Common.Controllers.Comments').getView('Common.Views.Comments'));
 
@@ -239,8 +239,13 @@ define([
             }
             /** coauthoring end **/
 
-            value = Common.localStorage.getItem("pe-settings-autosave");
-            this.api.asc_setAutoSaveGap(parseInt(value));
+            if (this.mode.isEdit) {
+                value = Common.localStorage.getItem("pe-settings-autosave");
+                this.api.asc_setAutoSaveGap(parseInt(value));
+
+                value = Common.localStorage.getItem("pe-settings-spellcheck");
+                this.api.asc_setSpellCheck(parseInt(value) == 1);
+            }
 
             value = Common.localStorage.getItem("pe-settings-showsnaplines");
             this.api.put_ShowSnapLines(value===null || parseInt(value) == 1);
@@ -491,7 +496,7 @@ define([
                     }
                     return false;
                 case 'comments':
-                    if (this.mode.canCoAuthoring && this.mode.isEdit && this.mode.canComments && !this.mode.isLightVersion && (!previewPanel || !previewPanel.isVisible()) && !this._state.no_slides) {
+                    if (this.mode.canCoAuthoring && this.mode.canComments && !this.mode.isLightVersion && (!previewPanel || !previewPanel.isVisible()) && !this._state.no_slides) {
                         Common.UI.Menu.Manager.hideAll();
                         this.leftMenu.showMenu('comments');
                         this.getApplication().getController('Common.Controllers.Comments').onAfterShow();

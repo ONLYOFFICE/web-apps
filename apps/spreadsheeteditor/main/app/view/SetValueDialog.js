@@ -67,7 +67,7 @@ define([
                 '</div>'
             ].join('');
 
-            this.options.tpl = _.template(this.template, this.options);
+            this.options.tpl = _.template(this.template)(this.options);
             this.startvalue = this.options.startvalue;
             this.maxvalue = this.options.maxvalue;
             this.defaultUnit = this.options.defaultUnit;
@@ -133,6 +133,7 @@ define([
 
         onPrimary: function() {
             this._handleInput('ok');
+            return false;
         },
 
         cancelButtonText: 'Cancel',

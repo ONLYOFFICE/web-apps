@@ -44,7 +44,8 @@ define([
     'core',
     'documenteditor/main/app/view/Statusbar',
     'common/main/lib/util/LanguageInfo',
-    'common/main/lib/view/ReviewChanges'
+    'common/main/lib/view/ReviewChanges',
+    'common/main/lib/view/LanguageDialog'
 ], function () {
     'use strict';
 
@@ -141,9 +142,6 @@ define([
             });
         },
 
-        /*
-        * */
-
         setLanguages: function(langs) {
             this.langs = langs;
             this.statusbar.reloadLanguages(langs);
@@ -207,7 +205,7 @@ define([
                     } else {
                         var iconEl = $('.btn-icon', this.statusbar.btnReview.cmpEl);
                        (this.api.asc_HaveRevisionsChanges()) ? iconEl.removeClass(this.statusbar.btnReviewCls).addClass('btn-ic-changes') : iconEl.removeClass('btn-ic-changes').addClass(this.statusbar.btnReviewCls);
-                        if (value!==null && parseInt(value) == 1) {
+                        if (value!==null && parseInt(value) == 1 && !showChangesPanel) { // when customization.showReviewChanges == true "track revisions" mode must be off!!!
                             this.changeReviewStatus(!this.statusbar.mode.isLightVersion);
                             // show tooltip "track changes in this document" and change icon
                             if (this.showTrackChangesTip && !statusbarIsHidden){
@@ -243,7 +241,7 @@ define([
             });
 
             var me = this;
-            (new DE.Views.Statusbar.LanguageDialog({
+            (new Common.Views.LanguageDialog({
                 languages: langs,
                 current: me.api.asc_getDefaultLanguage(),
                 handler: function(result, tip) {

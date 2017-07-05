@@ -78,13 +78,11 @@
         color: #000;
         margin-left: 6px;
 
-        .icon-lang-flag {
+        .dropdown-toggle > .icon-lang-flag {
             position: relative;
             top: 3px;
             margin-left: 3px;
             margin-right: 2px;
-            width: 16px;
-            height: 12px;
             display: inline-block;
         }
 
@@ -102,9 +100,6 @@
 
         .dropdown-menu {
             li .lang-item-icon {
-                width: 16px;
-                height: 12px;
-
                 display: inline-block;
                 vertical-align: text-bottom;
                 margin: 1px 5px 0 2px;
@@ -215,79 +210,6 @@
             }
         }
     }
-}
-
-.combo-langs {
-    .dropdown-menu {
-        li .lang-item-icon {
-            margin-top: 1px;
-
-            width: 16px;
-            height: 12px;
-        }
-    }
-
-    .input-lang-icon {
-        position: absolute;
-        width: 16px;
-        height: 12px;
-        left: 5px;
-        top: 5px;
-    }
-
-    input {
-        padding-left: 25px !important;
-    }
-}
-
-.lang-flag {
-    background-position: -16px -1608px;
-
-    &.ca, &.ca-ES                     {background-position: 0          -1499px;}
-    &.cs, &.cs-CZ                     {background-position: -16px      -1500px;}
-    &.da, &.da-DK                     {background-position: -32px      -1500px;}
-    &.de, &.de-DE                     {background-position: 0          -1512px;}
-    &.el, &.el-GR                     {background-position: -16px      -1512px;}
-    &.en, &.en-US                     {background-position: -32px      -1512px;}
-    &.fr, &.fr-FR                     {background-position: 0          -1524px;}
-    &.hu, &.hu-HU                     {background-position: -16px      -1524px;}
-    &.it, &.it-IT                     {background-position: -32px      -1524px;}
-    &.ko, &.ko-KR                     {background-position: 0          -1536px;}
-    &.nl, &.nl-NL                     {background-position: -16px      -1536px;}
-    &.nb, &.nb-NO                     {background-position: -32px      -1536px;}
-    &.pl, &.pl-PL                     {background-position: 0          -1548px;}
-    &.pt, &.pt-BR                     {background-position: -16px      -1548px;}
-    &.ro, &.ro-RO                     {background-position: -32px      -1548px;}
-    &.ru, &.ru-RU                     {background-position: 0          -1560px;}
-    &.sv, &.sv-SE                     {background-position: -32px      -1560px;}
-    &.tr, &.tr-TR                     {background-position: 0          -1572px;}
-    &.uk, &.uk-UA                     {background-position: -16px      -1572px;}
-    &.lv, &.lv-LV                     {background-position: -32px      -1572px;}
-    &.lt, &.lt-LT                     {background-position: 0          -1584px;}
-    &.vi, &.vi-VN                     {background-position: -16px      -1584px;}
-    &.de-CH                           {background-position: -32px      -1584px;}
-    &.nn, &.nn-NO                     {background-position: 0          -1596px;}
-    &.pt-PT                           {background-position: -16px      -1596px;}
-    &.de-AT                           {background-position: -32px      -1596px;}
-    &.es, &.es-ES                     {background-position: 0          -1608px;}
-    &.en-GB                           {background-position: -32px      -1608px;}
-    &.en-AU                           {background-position: 0          -1620px;}
-    &.az-Latn-AZ                      {background-position: -16px      -1620px;}
-    &.id, &.id-ID                     {background-position: -32px      -1620px;}
-
-    &.bg, &.bg-BG                     {background-position: 0          -1720px;}
-    &.ca-ES-valencia                  {background-position: -16px      -1720px;}
-    &.en-CA                           {background-position: -32px      -1720px;}
-    &.en-ZA                           {background-position: 0          -1732px;}
-    &.eu, &.eu-ES                     {background-position: -16px      -1732px;}
-    &.gl, &.gl-ES                     {background-position: -32px      -1732px;}
-    &.hr, &.hr-HR                     {background-position: 0          -1744px;}
-    &.lb, &.lb-LU                     {background-position: -16px      -1744px;}
-    &.mn, &.mn-MN                     {background-position: -32px      -1744px;}
-    &.sl, &.sl-SI                     {background-position: 0          -1756px;}
-    &.sr, &.sr-Cyrl-RS, &.sr-Latn-RS  {background-position: -16px      -1756px;}
-    &.sk, &.sk-SK                     {background-position: -32px      -1756px;}
-    &.kk, &.kk-KZ                     {background-position: 0          -1768px;}
 }
 
 .button-normal-icon(btn-ic-zoomtowidth, 55, @toolbar-icon-size);

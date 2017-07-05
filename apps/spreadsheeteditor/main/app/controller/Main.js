@@ -102,8 +102,10 @@ define([
 
             onLaunch: function() {
 //                $(document.body).css('position', 'absolute');
+                var me = this;
 
                 this._state = {isDisconnected: false, usersCount: 1, fastCoauth: true, lostEditingRights: false, licenseWarning: false};
+                this.translationTable = [];
 
                 if (!Common.Utils.isBrowserSupported()){
                     Common.Utils.showBrowserRestriction();
@@ -118,9 +120,32 @@ define([
                 if (value===null) value = window.devicePixelRatio > 1 ? '1' : '3';
 
                 // Initialize api
+                var styleNames = ['Normal', 'Neutral', 'Bad', 'Good', 'Input', 'Output', 'Calculation', 'Check Cell', 'Explanatory Text', 'Note', 'Linked Cell', 'Warning Text',
+                                'Heading 1', 'Heading 2', 'Heading 3', 'Heading 4', 'Title', 'Total', 'Currency', 'Percent', 'Comma'],
+                    translate = {
+                        'Series': this.txtSeries,
+                        'Diagram Title': this.txtDiagramTitle,
+                        'X Axis': this.txtXAxis,
+                        'Y Axis': this.txtYAxis,
+                        'Your text here': this.txtArt
+                    };
+                styleNames.forEach(function(item){
+                    translate[item] = me.translationTable[item] = me['txtStyle_' + item.replace(/ /g, '_')] || item;
+                });
+                translate['Currency [0]'] = me.translationTable['Currency [0]'] = me.txtStyle_Currency + ' [0]';
+                translate['Comma [0]'] = me.translationTable['Comma [0]'] = me.txtStyle_Comma + ' [0]';
+
+                for (var i=1; i<7; i++) {
+                    translate['Accent'+i] = me.translationTable['Accent'+i] = me.txtAccent + i;
+                    translate['20% - Accent'+i] = me.translationTable['20% - Accent'+i] = '20% - ' + me.txtAccent + i;
+                    translate['40% - Accent'+i] = me.translationTable['40% - Accent'+i] = '40% - ' + me.txtAccent + i;
+                    translate['60% - Accent'+i] = me.translationTable['60% - Accent'+i] = '60% - ' + me.txtAccent + i;
+                }
+
                 this.api = new Asc.spreadsheet_api({
                     'id-view'  : 'editor_sdk',
-                    'id-input' : 'ce-cell-content'
+                    'id-input' : 'ce-cell-content',
+                    'translate': translate
                 });
                 this.api.asc_setFontRenderingMode(parseInt(value));
 
@@ -159,7 +184,6 @@ define([
 
                 this.getApplication().getController('Viewport').setApi(this.api);
 
-                var me = this;
                 // Syncronize focus with api
                 $(document.body).on('focus', 'input, textarea:not(#ce-cell-content)', function(e) {
                     if (me.isAppDisabled === true) return;
@@ -202,13 +226,13 @@ define([
                         me.api.asc_enableKeyEvents(false);
                     },
                     'modal:close': function(dlg) {
-                        if (dlg && dlg.$lastmodal && dlg.$lastmodal.size() < 1) {
+                        if (dlg && dlg.$lastmodal && dlg.$lastmodal.length < 1) {
                             me.isModalShowed = false;
                             me.api.asc_enableKeyEvents(true);
                         }
                     },
                     'modal:hide': function(dlg) {
-                        if (dlg && dlg.$lastmodal && dlg.$lastmodal.size() < 1) {
+                        if (dlg && dlg.$lastmodal && dlg.$lastmodal.length < 1) {
                             me.isModalShowed = false;
                             me.api.asc_enableKeyEvents(true);
                         }
@@ -422,7 +446,7 @@ define([
                 action && this.setLongActionView(action);
 
                 if (id == Asc.c_oAscAsyncAction.Save) {
-                    this.toolbarView.synchronizeChanges();
+                    this.toolbarView && this.toolbarView.synchronizeChanges();
                 }
 
                 action = this.stackLongActions.get({type: Asc.c_oAscAsyncActionType.BlockInteraction});
@@ -546,7 +570,8 @@ define([
                 /** coauthoring begin **/
                 value = Common.localStorage.getItem("sse-settings-livecomment");
                 this.isLiveCommenting = !(value!==null && parseInt(value) == 0);
-                this.isLiveCommenting?this.api.asc_showComments():this.api.asc_hideComments();
+                var resolved = Common.localStorage.getItem("sse-settings-resolvedcomment");
+                this.isLiveCommenting ? this.api.asc_showComments(!(resolved!==null && parseInt(resolved) == 0)) : this.api.asc_hideComments();
 
                 if (this.appOptions.isEdit && !this.appOptions.isOffline && this.appOptions.canCoAuthoring) {
                     value = Common.localStorage.getItem("sse-settings-coauthmode");
@@ -555,8 +580,10 @@ define([
                         value = 0; // use customization.autosave only when sse-settings-coauthmode and sse-settings-autosave are null
                     }
                     this._state.fastCoauth = (value===null || parseInt(value) == 1);
-                } else
-                    this._state.fastCoauth = false;
+                } else {
+                    this._state.fastCoauth = (!this.appOptions.isEdit && this.appOptions.canComments);
+                    this._state.fastCoauth && this.api.asc_setAutoSaveGap(1);
+                }
                 this.api.asc_SetFastCollaborative(this._state.fastCoauth);
                 /** coauthoring end **/
 
@@ -670,8 +697,11 @@ define([
                                 Common.NotificationCenter.trigger('document:ready', 'main');
                         }
                     }, 50);
-                } else if (me.appOptions.canBrandingExt)
-                    Common.NotificationCenter.trigger('document:ready', 'main');
+                } else {
+                    documentHolderView.createDelayedElementsViewer();
+                    if (me.appOptions.canBrandingExt)
+                        Common.NotificationCenter.trigger('document:ready', 'main');
+                }
 
                 if (me.appOptions.canAnalytics && false)
                     Common.component.Analytics.initialize('UA-12442749-13', 'Spreadsheet Editor');
@@ -761,8 +791,9 @@ define([
                     /** coauthoring begin **/
                     this.appOptions.canCoAuthoring = !this.appOptions.isLightVersion;
                     /** coauthoring end **/
-                    this.appOptions.canComments    = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit) && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.comments===false);
-                    this.appOptions.canChat        = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit) && !this.appOptions.isOffline && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.chat===false);
+                    this.appOptions.canComments    = this.appOptions.canLicense && (this.permissions.comment===undefined ? (this.permissions.edit !== false && this.editorConfig.mode !== 'view') : this.permissions.comment);
+                    this.appOptions.canComments    = this.appOptions.canComments && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.comments===false);
+                    this.appOptions.canChat        = this.appOptions.canLicense && !this.appOptions.isOffline && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.chat===false);
                     this.appOptions.canRename      = !!this.permissions.rename;
                     this.appOptions.isTrial        = params.asc_getTrial();
 
@@ -793,7 +824,8 @@ define([
                 this.applyModeCommonElements();
                 this.applyModeEditorElements();
 
-                this.api.asc_setViewMode(!this.appOptions.isEdit);
+                this.api.asc_setViewMode(!this.appOptions.isEdit && !this.appOptions.canComments);
+                (!this.appOptions.isEdit && this.appOptions.canComments) && this.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyComments);
                 (this.appOptions.isEditMailMerge || this.appOptions.isEditDiagram) ? this.api.asc_LoadEmptyDocument() : this.api.asc_LoadDocument();
 
                 if (!this.appOptions.isEdit) {
@@ -840,19 +872,6 @@ define([
                         },this));
                 }
 
-                if (this.api) {
-                    var translateChart = new Asc.asc_CChartTranslate();
-                    translateChart.asc_setTitle(this.txtDiagramTitle);
-                    translateChart.asc_setXAxis(this.txtXAxis);
-                    translateChart.asc_setYAxis(this.txtYAxis);
-                    translateChart.asc_setSeries(this.txtSeries);
-                    this.api.asc_setChartTranslate(translateChart);
-
-                    var translateArt = new Asc.asc_TextArtTranslate();
-                    translateArt.asc_setDefaultText(this.txtArt);
-                    this.api.asc_setTextArtTranslate(translateArt);
-                }
-
                 if (!this.appOptions.isEditMailMerge && !this.appOptions.isEditDiagram) {
                     this.api.asc_registerCallback('asc_onSendThemeColors', _.bind(this.onSendThemeColors, this));
                     this.api.asc_registerCallback('asc_onDownloadUrl',     _.bind(this.onDownloadUrl, this));
@@ -867,45 +886,37 @@ define([
             },
 
             applyModeEditorElements: function(prevmode) {
+                if (this.appOptions.canComments || this.appOptions.isEdit) {
+                    /** coauthoring begin **/
+                    var commentsController  = this.getApplication().getController('Common.Controllers.Comments');
+                    if (commentsController) {
+                        commentsController.setMode(this.appOptions);
+                        commentsController.setConfig({
+                                config      : this.editorConfig,
+                                sdkviewname : '#ws-canvas-outer',
+                                hintmode    : true},
+                            this.api);
+                    }
+                    /** coauthoring end **/
+                }
+
                 if (this.appOptions.isEdit) {
                     var me = this,
                         application         = this.getApplication(),
                         toolbarController   = application.getController('Toolbar'),
                         statusbarController = application.getController('Statusbar'),
                         rightmenuController = application.getController('RightMenu'),
-                        /** coauthoring begin **/
-                            commentsController  = application.getController('Common.Controllers.Comments'),
-                        /** coauthoring end **/
-                            fontsControllers    = application.getController('Common.Controllers.Fonts');
+                        fontsControllers    = application.getController('Common.Controllers.Fonts');
 
                     fontsControllers    && fontsControllers.setApi(me.api);
                     toolbarController   && toolbarController.setApi(me.api);
 //                    statusbarController && statusbarController.setApi(me.api);
-
-                    if (commentsController) {
-                        commentsController.setMode(this.appOptions);
-                        commentsController.setConfig({
-                                config      : me.editorConfig,
-                                sdkviewname : '#ws-canvas-outer',
-                                hintmode    : true},
-                            me.api);
-                    }
 
                     rightmenuController && rightmenuController.setApi(me.api);
 
                     if (statusbarController) {
                         statusbarController.getView('Statusbar').changeViewMode(true);
                     }
-
-                     /** coauthoring begin **/
-                    if (prevmode=='view') {
-                        if (commentsController) {
-                            Common.NotificationCenter.trigger('comments:updatefilter',{
-                                property : 'uid',
-                                value    : new RegExp('^(doc_|sheet' + this.api.asc_getActiveWorksheetId() + '_)')});
-                        }
-                    }
-                    /** coauthoring end **/
 
                     var viewport = this.getApplication().getController('Viewport').getView('Viewport');
                     viewport.applyEditorMode();
@@ -965,7 +976,7 @@ define([
                     msg.msg = (msg.msg).toString();
                     this.showTips([msg.msg.charAt(0).toUpperCase() + msg.msg.substring(1)]);
 
-                    Common.component.Analytics.trackEvent('External Error', msg.title);
+                    Common.component.Analytics.trackEvent('External Error');
                 }
             },
 
@@ -1047,6 +1058,16 @@ define([
                         config.closable = true;
                         break;
 
+                    case Asc.c_oAscError.ID.FrmlOperandExpected:
+                        config.msg = this.errorOperandExpected;
+                        config.closable = true;
+                        break;
+
+                    case Asc.c_oAscError.ID.FrmlWrongReferences:
+                        config.msg = this.errorFrmlWrongReferences;
+                        config.closable = true;
+                        break;
+
                     case Asc.c_oAscError.ID.UnexpectedGuid:
                         config.msg = this.errorUnexpectedGuid;
                         break;
@@ -1069,10 +1090,6 @@ define([
 
                     case Asc.c_oAscError.ID.DataRangeError:
                         config.msg = this.errorDataRange;
-                        break;
-
-                    case Asc.c_oAscError.ID.FrmlOperandExpected:
-                        config.msg = this.errorOperandExpected;
                         break;
 
                     case Asc.c_oAscError.ID.VKeyEncrypt:
@@ -1158,10 +1175,6 @@ define([
                     
                     case Asc.c_oAscError.ID.OpenWarning:
                         config.msg = this.errorOpenWarning;
-                        break;
-
-                    case Asc.c_oAscError.ID.FrmlWrongReferences:
-                        config.msg = this.errorFrmlWrongReferences;
                         break;
 
                     case Asc.c_oAscError.ID.CopyMultiselectAreaError:
@@ -1411,10 +1424,10 @@ define([
                         type: type,
                         codepages: advOptions.asc_getOptions().asc_getCodePages(),
                         settings: advOptions.asc_getOptions().asc_getRecommendedSettings(),
-                        handler: function (encoding, delimiter) {
+                        handler: function (encoding, delimiter, delimiterChar) {
                             me.isShowOpenDialog = false;
                             if (me && me.api) {
-                                me.api.asc_setAdvancedOptions(type, new Asc.asc_CCSVAdvancedOptions(encoding, delimiter));
+                                me.api.asc_setAdvancedOptions(type, new Asc.asc_CCSVAdvancedOptions(encoding, delimiter, delimiterChar));
                                 me.loadMask && me.loadMask.show();
                             }
                         }
@@ -1960,6 +1973,7 @@ define([
                                     isViewer: itemVar.isViewer,
                                     EditorsSupport: itemVar.EditorsSupport,
                                     isVisual: itemVar.isVisual,
+                                    isCustomWindow: itemVar.isCustomWindow,
                                     isModal: itemVar.isModal,
                                     isInsideMode: itemVar.isInsideMode,
                                     initDataType: itemVar.initDataType,
@@ -2057,7 +2071,7 @@ define([
             errorFileVKey: 'External error.<br>Incorrect securety key. Please, contact support.',
             errorStockChart: 'Incorrect row order. To build a stock chart place the data on the sheet in the following order:<br> opening price, max price, min price, closing price.',
             errorDataRange: 'Incorrect data range.',
-            errorOperandExpected: 'Operand expected',
+            errorOperandExpected: 'The entered function syntax is not correct. Please check if you are missing one of the parentheses - \'(\' or \')\'.',
             errorKeyEncrypt: 'Unknown key descriptor',
             errorKeyExpire: 'Key descriptor expired',
             errorUsersExceed: 'Count of users was exceed',
@@ -2128,7 +2142,29 @@ define([
             errorSessionToken: 'The connection to the server has been interrupted. Please reload the page.',
             errorAccessDeny: 'You are trying to perform an action you do not have rights for.<br>Please contact your Document Server administrator.',
             titleServerVersion: 'Editor updated',
-            errorServerVersion: 'The editor version has been updated. The page will be reloaded to apply the changes.'
+            errorServerVersion: 'The editor version has been updated. The page will be reloaded to apply the changes.',
+            txtAccent: 'Accent',
+            txtStyle_Normal: 'Normal',
+            txtStyle_Heading_1: 'Heading 1',
+            txtStyle_Heading_2: 'Heading 2',
+            txtStyle_Heading_3: 'Heading 3',
+            txtStyle_Heading_4: 'Heading 4',
+            txtStyle_Title: 'Title',
+            txtStyle_Neutral: 'Neutral',
+            txtStyle_Bad: 'Bad',
+            txtStyle_Good: 'Good',
+            txtStyle_Input: 'Input',
+            txtStyle_Output: 'Output',
+            txtStyle_Calculation: 'Calculation',
+            txtStyle_Check_Cell: 'Check Cell',
+            txtStyle_Explanatory_Text: 'Explanatory Text',
+            txtStyle_Note: 'Note',
+            txtStyle_Linked_Cell: 'Linked Cell',
+            txtStyle_Warning_Text: 'Warning Text',
+            txtStyle_Total: 'Total',
+            txtStyle_Currency: 'Currency',
+            txtStyle_Percent: 'Percent',
+            txtStyle_Comma: 'Comma'
         }
     })(), SSE.Controllers.Main || {}))
 });

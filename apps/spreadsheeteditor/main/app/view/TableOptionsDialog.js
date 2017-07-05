@@ -72,8 +72,9 @@ define([
                 '</div>'
             ].join('');
 
-            this.options.tpl = _.template(this.template, this.options);
+            this.options.tpl = _.template(this.template)(this.options);
             this.checkRangeType = Asc.c_oAscSelectionDialogType.FormatTable;
+            this.selectionType = Asc.c_oAscSelectionType.RangeCells;
 
             Common.UI.Window.prototype.initialize.call(this, this.options);
         },
@@ -129,6 +130,8 @@ define([
                 }
                 if (settings.title)
                     me.setTitle(settings.title);
+                if (settings.selectionType)
+                    me.selectionType = settings.selectionType;
 
                 me.api.asc_unregisterCallback('asc_onSelectionRangeChanged', _.bind(me.onApiRangeChanged, me));
                 me.api.asc_registerCallback('asc_onSelectionRangeChanged', _.bind(me.onApiRangeChanged, me));
@@ -145,15 +148,16 @@ define([
             if (this.checkRangeType == Asc.c_oAscSelectionDialogType.FormatTable) {
                 var options = this.api.asc_getAddFormatTableOptions(this.inputRange.getValue());
                 options.asc_setIsTitle(this.cbTitle.checked);
-                return options;
+                return { selectionType: this.selectionType,  range: options};
             } else
-                return this.inputRange.getValue();
+                return { selectionType: this.selectionType,  range: this.inputRange.getValue()};
         },
 
         onApiRangeChanged: function(info) {
-            this.inputRange.setValue(info);
+            this.inputRange.setValue(info.asc_getName());
             if (this.inputRange.cmpEl.hasClass('error'))
                 this.inputRange.cmpEl.removeClass('error');
+            this.selectionType = info.asc_getType();
         },
 
         isRangeValid: function() {

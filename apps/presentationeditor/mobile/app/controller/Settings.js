@@ -55,7 +55,8 @@ define([
         var rootView,
             inProgress,
             infoObj,
-            modalView;
+            modalView,
+            _licInfo;
 
         var _slideSizeArr = [
             [254, 190.5], [254, 143]
@@ -91,6 +92,8 @@ define([
 
             setMode: function (mode) {
                 this.getView('Settings').setMode(mode);
+                if (mode.canBranding)
+                    _licInfo = mode.customization;
             },
 
             initEvents: function () {
@@ -163,6 +166,46 @@ define([
                 var me = this;
                 if (pageId == '#settings-setup-view') {
                     me.onApiPageSize(me.api.get_PresentationWidth(), me.api.get_PresentationHeight());
+                } else if (pageId == '#settings-about-view') {
+                    // About
+                    me.setLicInfo(_licInfo);
+                }
+            },
+
+            setLicInfo: function(data){
+                if (data && typeof data == 'object' && typeof(data.customer)=='object') {
+                    $('.page[data-page=settings-about-view] .logo').hide();
+                    $('#settings-about-tel').parent().hide();
+                    $('#settings-about-licensor').show();
+
+                    var customer = data.customer,
+                        value = customer.name;
+                    value && value.length ?
+                        $('#settings-about-name').text(value) :
+                        $('#settings-about-name').hide();
+
+                    value = customer.address;
+                    value && value.length ?
+                        $('#settings-about-address').text(value) :
+                        $('#settings-about-address').parent().hide();
+
+                    (value = customer.mail) && value.length ?
+                        $('#settings-about-email').attr('href', "mailto:"+value).text(value) :
+                        $('#settings-about-email').parent().hide();
+
+                    if ((value = customer.www) && value.length) {
+                        var http = !/^https?:\/{2}/i.test(value) ? "http:\/\/" : '';
+                        $('#settings-about-url').attr('href', http+value).text(value);
+                    } else
+                        $('#settings-about-url').hide();
+
+                    if ((value = customer.info) && value.length) {
+                        $('#settings-about-info').show().text(value);
+                    }
+
+                    if ( (value = customer.logo) && value.length ) {
+                        $('#settings-about-logo').show().html('<img src="'+value+'" style="max-width:216px; max-height: 35px;" />');
+                    }
                 }
             },
 

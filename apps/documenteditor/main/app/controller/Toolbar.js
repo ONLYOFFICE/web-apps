@@ -54,7 +54,8 @@ define([
     'documenteditor/main/app/view/StyleTitleDialog',
     'documenteditor/main/app/view/PageMarginsDialog',
     'documenteditor/main/app/view/PageSizeDialog',
-    'documenteditor/main/app/view/NoteSettingsDialog'
+    'documenteditor/main/app/view/NoteSettingsDialog',
+    'documenteditor/main/app/view/CustomColumnsDialog'
 ], function () {
     'use strict';
 
@@ -712,6 +713,10 @@ define([
             if (need_disable !== toolbar.btnNotes.isDisabled())
                 toolbar.btnNotes.setDisabled(need_disable);
 
+            need_disable = paragraph_locked || header_locked || in_image;
+            if (need_disable != toolbar.btnColumns.isDisabled())
+                toolbar.btnColumns.setDisabled(need_disable);
+
             if (toolbar.listStylesAdditionalMenuItem && (frame_pr===undefined) !== toolbar.listStylesAdditionalMenuItem.isDisabled())
                 toolbar.listStylesAdditionalMenuItem.setDisabled(frame_pr===undefined);
 
@@ -733,7 +738,7 @@ define([
                     var styleRec = listStyle.menuPicker.store.findWhere({
                         title: name
                     });
-                    this._state.prstyle = (listStyle.menuPicker.store.length>0) ? name : undefined;
+                    this._state.prstyle = (listStyle.menuPicker.store.length>0 || window.styles_loaded) ? name : undefined;
 
                     listStyle.menuPicker.selectRecord(styleRec);
                     listStyle.resumeEvents();
@@ -1636,23 +1641,40 @@ define([
                 return;
 
             this._state.columns = undefined;
-            if (this.api && item.checked) {
-                var props = new Asc.CDocumentColumnsProps(),
-                    cols = item.value,
-                    def_space = 12.5;
-                props.put_EqualWidth(cols<3);
 
-                if (cols<3) {
-                    props.put_Num(cols+1);
-                    props.put_Space(def_space);
-                } else {
-                    var total = this.api.asc_GetColumnsProps().get_TotalWidth(),
-                        left = (total - def_space*2)/3,
-                        right = total - def_space - left;
-                    props.put_ColByValue(0, (cols == 3) ? left : right, def_space);
-                    props.put_ColByValue(1, (cols == 3) ? right : left, 0);
+            if (this.api) {
+                if (item.value == 'advanced') {
+                    var win, props = this.api.asc_GetSectionProps(),
+                        me = this;
+                    win = new DE.Views.CustomColumnsDialog({
+                        handler: function(dlg, result) {
+                            if (result == 'ok') {
+                                props = dlg.getSettings();
+                                me.api.asc_SetColumnsProps(props);
+                                Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                            }
+                        }
+                    });
+                    win.show();
+                    win.setSettings(me.api.asc_GetColumnsProps());
+                } else if (item.checked) {
+                    var props = new Asc.CDocumentColumnsProps(),
+                        cols = item.value,
+                        def_space = 12.5;
+                    props.put_EqualWidth(cols<3);
+
+                    if (cols<3) {
+                        props.put_Num(cols+1);
+                        props.put_Space(def_space);
+                    } else {
+                        var total = this.api.asc_GetColumnsProps().get_TotalWidth(),
+                            left = (total - def_space*2)/3,
+                            right = total - def_space - left;
+                        props.put_ColByValue(0, (cols == 3) ? left : right, def_space);
+                        props.put_ColByValue(1, (cols == 3) ? right : left, 0);
+                    }
+                    this.api.asc_SetColumnsProps(props);
                 }
-                this.api.asc_SetColumnsProps(props);
             }
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
@@ -1892,15 +1914,16 @@ define([
                         me._state.prstyle = title;
                         style.put_Name(title);
                         characterStyle.put_Name(title + '_character');
-                        style.put_Next(nextStyle.asc_getName());
+                        style.put_Next((nextStyle) ? nextStyle.asc_getName() : null);
                         me.api.asc_AddNewStyle(style);
                     }
                     Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                 };
 
-                var formats = [];
+                var formats = [],
+                    mainController = me.getApplication().getController('Main');
                 _.each(window.styles.get_MergedStyles(), function (style) {
-                    formats.push({value: style, displayValue: style.get_Name()})
+                    formats.push({value: style, displayValue: mainController.translationTable[style.get_Name()] || style.get_Name()})
                 });
 
                 win = new DE.Views.StyleTitleDialog({
@@ -2516,7 +2539,7 @@ define([
                     store: this.getApplication().getCollection('Common.Collections.TextArt'),
                     parentMenu: this.toolbar.mnuInsertTextArt.menu,
                     showLast: false,
-                    itemTemplate: _.template('<div class="item-art"><img src="<%= imageUrl %>" id="<%= id %>"></div>')
+                    itemTemplate: _.template('<div class="item-art"><img src="<%= imageUrl %>" id="<%= id %>" style="width:50px;height:50px;"></div>')
                 });
 
                 this.toolbar.mnuTextArtPicker.on('item:click', function(picker, item, record, e) {
@@ -2616,11 +2639,12 @@ define([
 
             listStyles.menuPicker.store.reset([]); // remove all
 
+            var mainController = this.getApplication().getController('Main');
             _.each(styles.get_MergedStyles(), function(style){
                 listStyles.menuPicker.store.add({
                     imageUrl: style.asc_getImage(),
                     title   : style.get_Name(),
-                    tip     : style.get_Name(),
+                    tip     : mainController.translationTable[style.get_Name()] || style.get_Name(),
                     id      : Common.UI.getId()
                 });
             });
@@ -2630,7 +2654,8 @@ define([
                 if (self._state.prstyle) styleRec = listStyles.menuPicker.store.findWhere({title: self._state.prstyle});
                 listStyles.fillComboView((styleRec) ? styleRec : listStyles.menuPicker.store.at(0), true);
                 Common.NotificationCenter.trigger('edit:complete', this);
-            }
+            } else if (listStyles.rendered)
+                listStyles.clearComboView();
             window.styles_loaded = true;
         },
 

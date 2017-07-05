@@ -56,7 +56,6 @@ require.config({
         sockjs          : '../vendor/sockjs/sockjs.min',
         jszip           : '../vendor/jszip/jszip.min',
         jsziputils      : '../vendor/jszip-utils/jszip-utils.min',
-        jsrsasign       : '../vendor/jsrsasign/jsrsasign-latest-all-min',
         allfonts        : '../../sdkjs/common/AllFonts',
         sdk             : '../../sdkjs/word/sdk-all-min',
         api             : 'api/documents/api',
@@ -112,8 +111,7 @@ require.config({
                 'xregexp',
                 'sockjs',
                 'jszip',
-                'jsziputils',
-                'jsrsasign'
+                'jsziputils'
             ]
         },
         gateway: {
@@ -202,37 +200,8 @@ require([
         app.start();
     });
 }, function(err) {
-    if (err.requireType == 'timeout' && !reqerr) {
-        var getUrlParams = function() {
-            var e,
-                a = /\+/g,  // Regex for replacing addition symbol with a space
-                r = /([^&=]+)=?([^&]*)/g,
-                d = function (s) { return decodeURIComponent(s.replace(a, " ")); },
-                q = window.location.search.substring(1),
-                urlParams = {};
-
-            while (e = r.exec(q))
-                urlParams[d(e[1])] = d(e[2]);
-
-            return urlParams;
-        };
-
-        var encodeUrlParam = function(str) {
-            return str.replace(/&/g, '&amp;')
-                    .replace(/"/g, '&quot;')
-                    .replace(/'/g, '&#39;')
-                    .replace(/</g, '&lt;')
-                    .replace(/>/g, '&gt;');
-        };
-
-        var lang = (getUrlParams()["lang"] || 'en').split("-")[0];
-
-        if ( lang == 'de')      reqerr = 'Die Verbindung ist zu langsam, einige Komponenten konnten nicht geladen werden. Aktualisieren Sie bitte die Seite.';
-        else if ( lang == 'es') reqerr = 'La conexión es muy lenta, algunos de los componentes no han podido cargar. Por favor recargue la página.';
-        else if ( lang == 'fr') reqerr = 'La connexion est trop lente, certains des composants n\'ons pas pu être chargé. Veuillez recharger la page.';
-        else if ( lang == 'ru') reqerr = 'Слишком медленное соединение, не удается загрузить некоторые компоненты. Пожалуйста, обновите страницу.';
-        else reqerr = 'The connection is too slow, some of the components could not be loaded. Please reload the page.';
-
+    if (err.requireType == 'timeout' && !reqerr && window.requireTimeourError) {
+        reqerr = window.requireTimeourError();
         window.alert(reqerr);
         window.location.reload();
     }
