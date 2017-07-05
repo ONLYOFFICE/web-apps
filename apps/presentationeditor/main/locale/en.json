@@ -622,6 +622,7 @@
   "PE.Views.ChartSettings.textStock": "Stock",
   "PE.Views.ChartSettings.textStyle": "Style",
   "PE.Views.ChartSettings.textWidth": "Width",
+  "PE.Views.ChartSettings.textSurface": "Surface",
   "PE.Views.ChartSettingsAdvanced.cancelButtonText": "Cancel",
   "PE.Views.ChartSettingsAdvanced.okButtonText": "Ok",
   "PE.Views.ChartSettingsAdvanced.textAlt": "Alternative Text",
@@ -1372,5 +1373,6 @@
   "PE.Views.Toolbar.txtScheme7": "Equity",
   "PE.Views.Toolbar.txtScheme8": "Flow",
   "PE.Views.Toolbar.txtScheme9": "Foundry",
-  "PE.Views.Toolbar.txtUngroup": "Ungroup"
+  "PE.Views.Toolbar.txtUngroup": "Ungroup",
+  "PE.Views.Toolbar.textSurface": "Surface"
 }

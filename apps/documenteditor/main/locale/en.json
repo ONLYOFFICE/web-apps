@@ -712,6 +712,7 @@
   "DE.Views.ChartSettings.txtTight": "Tight",
   "DE.Views.ChartSettings.txtTitle": "Chart",
   "DE.Views.ChartSettings.txtTopAndBottom": "Top and bottom",
+  "DE.Views.ChartSettings.textSurface": "Surface",
   "DE.Views.CustomColumnsDialog.textTitle": "Columns",
   "DE.Views.CustomColumnsDialog.textSpacing": "Spacing between columns",
   "DE.Views.CustomColumnsDialog.textColumns": "Number of columns",
@@ -1677,5 +1678,6 @@
   "DE.Views.Toolbar.textTabInsert": "Insert",
   "DE.Views.Toolbar.textTabLayout": "Page Layout",
   "DE.Views.Toolbar.textTabReview": "Review",
-  "DE.Views.Toolbar.textColumnsCustom": "Custom Columns"
+  "DE.Views.Toolbar.textColumnsCustom": "Custom Columns",
+  "DE.Views.Toolbar.textSurface": "Surface"
 }
