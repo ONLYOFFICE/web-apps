@@ -1819,8 +1819,8 @@ define([
                         {id: 'menu-chart-group-hbar', caption: me.textBar},
                         {id: 'menu-chart-group-area', caption: me.textArea, inline: true},
                         {id: 'menu-chart-group-scatter', caption: me.textPoint, inline: true},
-                        {id: 'menu-chart-group-stock', caption: me.textStock, inline: true},
-                        {id: 'menu-chart-group-surface', caption: me.textSurface}
+                        {id: 'menu-chart-group-stock', caption: me.textStock, inline: true}
+                        // {id: 'menu-chart-group-surface', caption: me.textSurface}
                     ]),
                     store: new Common.UI.DataViewStore([
                         {
@@ -1973,11 +1973,11 @@ define([
                             type: Asc.c_oAscChartTypeSettings.stock,
                             allowSelected: true,
                             iconCls: 'stock-normal'
-                        },
-                        { group: 'menu-chart-group-surface', type: Asc.c_oAscChartTypeSettings.surfaceNormal,      allowSelected: true, iconCls: 'surface-normal'},
-                        { group: 'menu-chart-group-surface', type: Asc.c_oAscChartTypeSettings.surfaceWireframe,   allowSelected: true, iconCls: 'surface-wireframe'},
-                        { group: 'menu-chart-group-surface', type: Asc.c_oAscChartTypeSettings.contourNormal,      allowSelected: true, iconCls: 'contour-normal'},
-                        { group: 'menu-chart-group-surface', type: Asc.c_oAscChartTypeSettings.contourWireframe,   allowSelected: true, iconCls: 'contour-wireframe'}
+                        }
+                        // { group: 'menu-chart-group-surface', type: Asc.c_oAscChartTypeSettings.surfaceNormal,      allowSelected: true, iconCls: 'surface-normal'},
+                        // { group: 'menu-chart-group-surface', type: Asc.c_oAscChartTypeSettings.surfaceWireframe,   allowSelected: true, iconCls: 'surface-wireframe'},
+                        // { group: 'menu-chart-group-surface', type: Asc.c_oAscChartTypeSettings.contourNormal,      allowSelected: true, iconCls: 'contour-normal'},
+                        // { group: 'menu-chart-group-surface', type: Asc.c_oAscChartTypeSettings.contourWireframe,   allowSelected: true, iconCls: 'contour-wireframe'}
                     ]),
                     itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist <%= iconCls %>"></div>')
                 });
