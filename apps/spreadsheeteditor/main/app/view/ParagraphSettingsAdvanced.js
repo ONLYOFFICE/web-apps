@@ -506,6 +506,7 @@ define([    'text!spreadsheeteditor/main/app/template/ParagraphSettingsAdvanced.
             });
             if (rec) {
                 rec.set('tabAlign', align);
+                this._tabListChanged = true;
             } else {
                 rec = new Common.UI.DataViewModel();
                 rec.set({

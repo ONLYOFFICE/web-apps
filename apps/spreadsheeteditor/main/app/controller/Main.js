@@ -105,6 +105,7 @@ define([
                 var me = this;
 
                 this._state = {isDisconnected: false, usersCount: 1, fastCoauth: true, lostEditingRights: false, licenseWarning: false};
+                this.translationTable = [];
 
                 if (!Common.Utils.isBrowserSupported()){
                     Common.Utils.showBrowserRestriction();
@@ -129,16 +130,16 @@ define([
                         'Your text here': this.txtArt
                     };
                 styleNames.forEach(function(item){
-                    translate[item] = me['txtStyle_' + item.replace(/ /g, '_')] || item;
+                    translate[item] = me.translationTable[item] = me['txtStyle_' + item.replace(/ /g, '_')] || item;
                 });
-                translate['Currency [0]'] = me.txtStyle_Currency + ' [0]';
-                translate['Comma [0]'] = me.txtStyle_Comma + ' [0]';
+                translate['Currency [0]'] = me.translationTable['Currency [0]'] = me.txtStyle_Currency + ' [0]';
+                translate['Comma [0]'] = me.translationTable['Comma [0]'] = me.txtStyle_Comma + ' [0]';
 
                 for (var i=1; i<7; i++) {
-                    translate['Accent'+i] = me.txtAccent + i;
-                    translate['20% - Accent'+i] = '20% - ' + me.txtAccent + i;
-                    translate['40% - Accent'+i] = '40% - ' + me.txtAccent + i;
-                    translate['60% - Accent'+i] = '60% - ' + me.txtAccent + i;
+                    translate['Accent'+i] = me.translationTable['Accent'+i] = me.txtAccent + i;
+                    translate['20% - Accent'+i] = me.translationTable['20% - Accent'+i] = '20% - ' + me.txtAccent + i;
+                    translate['40% - Accent'+i] = me.translationTable['40% - Accent'+i] = '40% - ' + me.txtAccent + i;
+                    translate['60% - Accent'+i] = me.translationTable['60% - Accent'+i] = '60% - ' + me.txtAccent + i;
                 }
 
                 this.api = new Asc.spreadsheet_api({
@@ -791,7 +792,7 @@ define([
                     /** coauthoring begin **/
                     this.appOptions.canCoAuthoring = !this.appOptions.isLightVersion;
                     /** coauthoring end **/
-                    this.appOptions.canComments    = this.appOptions.canLicense && (this.permissions.comments===undefined ? (this.permissions.edit !== false && this.editorConfig.mode !== 'view') : this.permissions.comments);
+                    this.appOptions.canComments    = this.appOptions.canLicense && (this.permissions.comment===undefined ? (this.permissions.edit !== false && this.editorConfig.mode !== 'view') : this.permissions.comment);
                     this.appOptions.canComments    = this.appOptions.canComments && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.comments===false);
                     this.appOptions.canChat        = this.appOptions.canLicense && !this.appOptions.isOffline && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.chat===false);
                     this.appOptions.canRename      = !!this.permissions.rename;

@@ -535,6 +535,12 @@ define([    'text!spreadsheeteditor/main/app/template/ShapeSettingsAdvanced.temp
                 }
                 this.btnsCategory[2].setDisabled(null === margins);   // Margins
 
+                var shapetype = shapeprops.asc_getType();
+                this.btnsCategory[3].setDisabled(shapetype=='line' || shapetype=='bentConnector2' || shapetype=='bentConnector3'
+                    || shapetype=='bentConnector4' || shapetype=='bentConnector5' || shapetype=='curvedConnector2'
+                    || shapetype=='curvedConnector3' || shapetype=='curvedConnector4' || shapetype=='curvedConnector5'
+                    || shapetype=='straightConnector1');
+
                 value = shapeprops.asc_getColumnNumber();
                 this.spnColumns.setValue((null !== value && undefined !== value) ? value : '', true);
 

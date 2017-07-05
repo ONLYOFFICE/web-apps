@@ -80,7 +80,7 @@
 
         .caption {
             line-height: 18px;
-            padding: 0 5px;
+            padding: 0 4px;
         }
     }
 }
@@ -111,6 +111,7 @@
 
         .inner-box-caption {
             line-height: 18px;
+            padding: 0 4px;
         }
 
         .icon {
@@ -178,7 +179,7 @@
 
     &:not(.icon-top)
     .caption:not(:empty) {
-        padding: 0 5px 0 2px;
+        padding: 0 2px;
     }
 
     .icon {
@@ -186,15 +187,17 @@
         margin: 0;
         display: inline-block;
         background-repeat: no-repeat;
+    }
 
-        &:not(.x-huge) {
+    &:not(.x-huge) {
+        .icon {
             width: 20px;
             height: 20px;
             line-height: 20px;
-        }
 
-        &:not(svg):not(.x-huge){
-            .background-ximage('@{app-image-path}/toolbar-menu.png', '@{app-image-path}/toolbar-menu@2x.png', 60px);
+            &:not(svg) {
+                .background-ximage('@{app-image-path}/toolbar-menu.png', '@{app-image-path}/toolbar-menu@2x.png', 60px);
+            }
         }
     }
 
@@ -278,10 +281,29 @@
 .btn-group {
     > .btn-toolbar {
         float: none;
+    }
 
-        &.dropdown-toggle {
-            padding-left: 1px;
-            padding-right: 1px;
+    > .btn {
+        + .dropdown-toggle {
+            padding: 0 2px;
+        }
+    }
+
+    > .dropdown-toggle:first-child {
+        padding: 0 2px 0 0;
+
+        .caption {
+            padding-right: 4px;
+        }
+    }
+
+    .caption {
+        &:empty {
+            display: none;
+
+            + .caret {
+                margin-left: 2px;
+            }
         }
     }
 

@@ -92,6 +92,7 @@ define([
                 _.extend(this, options);
                 this.pages = new PE.Models.Pages({current:1, count:1});
                 this.pages.on('change', _.bind(_updatePagesCaption,this));
+                this._state = {no_paragraph: true};
             },
 
             render: function () {
@@ -301,6 +302,7 @@ define([
                 if (this.api) {
                     this.api.asc_registerCallback('asc_onCountPages',   _.bind(_onCountPages, this));
                     this.api.asc_registerCallback('asc_onCurrentPage',  _.bind(_onCurrentPage, this));
+                    this.api.asc_registerCallback('asc_onFocusObject', _.bind(this.onApiFocusObject, this));
                 }
 
                 return this;
@@ -341,7 +343,7 @@ define([
 
                 this.langMenu.doLayout();
                 if (this.langMenu.items.length>0) {
-                    this.btnLanguage.setDisabled(false);
+                    this.btnLanguage.setDisabled(false || this._state.no_paragraph);
                     this.btnDocLanguage.setDisabled(false);
                 }
             },
@@ -365,8 +367,25 @@ define([
 
             SetDisabled: function(disable) {
                 var langs = this.langMenu.items.length>0;
-                this.btnLanguage.setDisabled(disable || !langs);
+                this.btnLanguage.setDisabled(disable || !langs || this._state.no_paragraph);
                 this.btnDocLanguage.setDisabled(disable || !langs);
+            },
+
+            onApiFocusObject: function(selectedObjects) {
+                if (!this.mode.isEdit) return;
+
+                this._state.no_paragraph = true;
+                var i = -1;
+                while (++i < selectedObjects.length) {
+                    var type = selectedObjects[i].get_ObjectType();
+                    if (type == Asc.c_oAscTypeSelectElement.Paragraph || type == Asc.c_oAscTypeSelectElement.Shape || type == Asc.c_oAscTypeSelectElement.Chart || type == Asc.c_oAscTypeSelectElement.Table) {
+                        this._state.no_paragraph = selectedObjects[i].get_ObjectValue().get_Locked();
+                        if (this._state.no_paragraph) break;  // break if one of the objects is locked
+                    }
+                }
+                this._state.no_paragraph = this._state.no_paragraph || this.langMenu.items.length<1;
+                if (this._state.no_paragraph !== this.btnLanguage.isDisabled())
+                    this.btnLanguage.setDisabled(this._state.no_paragraph);
             },
 
             pageIndexText   : 'Slide {0} of {1}',

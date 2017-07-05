@@ -156,6 +156,8 @@
     }
 
     .box-panels {
+        flex-grow: 1;
+
         .panel:not(.active) {
             display: none;
         }
@@ -203,14 +205,14 @@
     .btn-slot {
         display: inline-block;
         width: 20px;
-        height: 20px;
+        height: auto;
 
         &:not(:first-child) {
             margin-left: 1px;
         }
 
         &.split {
-            width: 29px;
+            width: 31px;
         }
 
         &.text {
@@ -224,8 +226,8 @@
             height: 22px;
         }
 
-        &.x-huge {
-            height: 45px;
+        &.adding {
+            margin-right: 5px;
         }
 
         .checkbox-indeterminate {
@@ -285,3 +287,4 @@
 .button-normal-icon(review-deny,          15, @toolbar-big-icon-size);
 .button-normal-icon(review-next,          16, @toolbar-big-icon-size);
 .button-normal-icon(review-prev,          17, @toolbar-big-icon-size);
+.button-normal-icon(btn-dropcap,          18, @toolbar-big-icon-size);

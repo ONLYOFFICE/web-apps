@@ -76,7 +76,7 @@ define([
                                 // '<span class="btn-slot text" id="slot-btn-users"></span>' +
                                 '<section id="tlb-box-users" class="box-cousers dropdown"">' +
                                     '<div class="btn-users">' +
-                                        '<i class="img-commonctrl icon"></i>' +
+                                        '<svg class="icon"><use href="#svg-btn-users"></use></svg>' +
                                         '<label class="caption">&plus;</label>' +
                                     '</div>' +
                                     '<div class="cousers-menu dropdown-menu">' +
@@ -167,7 +167,7 @@ define([
             }
 
             $btnUsers.find('.caption')
-                .css({'font-size': (count > 1 ? '11px' : '14px'),
+                .css({'font-size': (count > 1 ? '12px' : '14px'),
                     'font-weight': (count > 1 ? 'bold' : 'normal'),
                     'margin-top': (count > 1 ? '0' : '-1px')})
                 .html(count > 1 ? count : '&plus;');

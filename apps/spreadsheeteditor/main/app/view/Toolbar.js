@@ -728,7 +728,6 @@ define([
                     enableKeyEvents : true,
                     itemWidth       : 112,
                     itemHeight      : 38,
-                    hint            : this.tipCellStyle,
                     menuMaxHeight   : 226,
                     lock            : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth],
                     beforeOpenHandler: function(e) {
@@ -1632,6 +1631,7 @@ define([
                         { id: 'menu-chart-group-area',    caption: me.textArea, inline: true },
                         { id: 'menu-chart-group-scatter', caption: me.textPoint, inline: true },
                         { id: 'menu-chart-group-stock',   caption: me.textStock, inline: true }
+                        // { id: 'menu-chart-group-surface', caption: me.textSurface}
                         // ,{ id: 'menu-chart-group-sparkcolumn', inline: true, headername: me.textSparks },
                         // { id: 'menu-chart-group-sparkline',   inline: true },
                         // { id: 'menu-chart-group-sparkwin',    inline: true }
@@ -1662,6 +1662,10 @@ define([
                         { group: 'menu-chart-group-area',    type: Asc.c_oAscChartTypeSettings.areaStackedPer,     allowSelected: true, iconCls: 'area-pstack'},
                         { group: 'menu-chart-group-scatter', type: Asc.c_oAscChartTypeSettings.scatter,            allowSelected: true, iconCls: 'point-normal'},
                         { group: 'menu-chart-group-stock',   type: Asc.c_oAscChartTypeSettings.stock,              allowSelected: true, iconCls: 'stock-normal'}
+                        // { group: 'menu-chart-group-surface', type: Asc.c_oAscChartTypeSettings.surfaceNormal,      allowSelected: true, iconCls: 'surface-normal'},
+                        // { group: 'menu-chart-group-surface', type: Asc.c_oAscChartTypeSettings.surfaceWireframe,   allowSelected: true, iconCls: 'surface-wireframe'},
+                        // { group: 'menu-chart-group-surface', type: Asc.c_oAscChartTypeSettings.contourNormal,      allowSelected: true, iconCls: 'contour-normal'},
+                        // { group: 'menu-chart-group-surface', type: Asc.c_oAscChartTypeSettings.contourWireframe,   allowSelected: true, iconCls: 'contour-wireframe'}
                         // ,{ group: 'menu-chart-group-sparkcolumn',   type: Asc.c_oAscSparklineType.Column,    allowSelected: true, iconCls: 'spark-column', tip: me.textColumnSpark},
                         // { group: 'menu-chart-group-sparkline',     type: Asc.c_oAscSparklineType.Line,      allowSelected: true, iconCls: 'spark-line', tip: me.textLineSpark},
                         // { group: 'menu-chart-group-sparkwin',      type: Asc.c_oAscSparklineType.Stacked,   allowSelected: true, iconCls: 'spark-win', tip: me.textWinLossSpark}
@@ -2052,6 +2056,7 @@ define([
         capInsertChart: 'Chart',
         capInsertHyperlink: 'Hyperlink',
         capInsertEquation: 'Equation',
-        capBtnComment: 'Comment'
+        capBtnComment: 'Comment',
+        textSurface: 'Surface'
     }, SSE.Views.Toolbar || {}));
 });

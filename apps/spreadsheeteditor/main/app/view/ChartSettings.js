@@ -160,7 +160,8 @@ define([
                             this.mnuChartTypePicker.selectRecord(record, true);
                             if (record) {
                                 this.btnChartType.setIconCls('item-chartlist ' + record.get('iconCls'));
-                            }
+                            } else
+                                this.btnChartType.setIconCls('');
                             this.updateChartStyles(this.api.asc_getChartPreviews(type));
                             this._state.ChartType = type;
                         }
@@ -226,7 +227,8 @@ define([
                         this.mnuSparkTypePicker.selectRecord(record, true);
                         if (record) {
                             this.btnSparkType.setIconCls('item-chartlist ' + record.get('iconCls'));
-                        }
+                        } else
+                            this.btnSparkType.setIconCls('');
                         this._state.SparkType = type;
                         styleChanged = true;
                     }
@@ -674,6 +676,7 @@ define([
                         { id: 'menu-chart-group-area',    caption: me.textArea, inline: true },
                         { id: 'menu-chart-group-scatter', caption: me.textPoint, inline: true },
                         { id: 'menu-chart-group-stock',   caption: me.textStock, inline: true }
+                        // { id: 'menu-chart-group-surface', caption: me.textSurface}
                     ]),
                     store: new Common.UI.DataViewStore([
                         { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barNormal,          iconCls: 'column-normal', selected: true},
@@ -701,6 +704,10 @@ define([
                         { group: 'menu-chart-group-area',    type: Asc.c_oAscChartTypeSettings.areaStackedPer,     iconCls: 'area-pstack'},
                         { group: 'menu-chart-group-scatter', type: Asc.c_oAscChartTypeSettings.scatter,            iconCls: 'point-normal'},
                         { group: 'menu-chart-group-stock',   type: Asc.c_oAscChartTypeSettings.stock,              iconCls: 'stock-normal'}
+                        // { group: 'menu-chart-group-surface', type: Asc.c_oAscChartTypeSettings.surfaceNormal,      iconCls: 'surface-normal'},
+                        // { group: 'menu-chart-group-surface', type: Asc.c_oAscChartTypeSettings.surfaceWireframe,   iconCls: 'surface-wireframe'},
+                        // { group: 'menu-chart-group-surface', type: Asc.c_oAscChartTypeSettings.contourNormal,      iconCls: 'contour-normal'},
+                        // { group: 'menu-chart-group-surface', type: Asc.c_oAscChartTypeSettings.contourWireframe,   iconCls: 'contour-wireframe'}
                     ]),
                     itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist <%= iconCls %>"></div>')
                 });
@@ -1337,7 +1344,8 @@ define([
         textType:           'Type',
         textSelectData: 'Select Data',
         textRanges: 'Data Range',
-        textBorderSizeErr: 'The entered value is incorrect.<br>Please enter a value between 0 pt and 1584 pt.'
+        textBorderSizeErr: 'The entered value is incorrect.<br>Please enter a value between 0 pt and 1584 pt.',
+        textSurface: 'Surface'
 
     }, SSE.Views.ChartSettings || {}));
 });

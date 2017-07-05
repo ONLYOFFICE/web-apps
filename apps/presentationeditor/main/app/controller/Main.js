@@ -767,7 +767,7 @@ define([
                 this.appOptions.isEdit         = this.appOptions.canLicense && this.appOptions.canEdit && this.editorConfig.mode !== 'view';
                 this.appOptions.canDownload    = !this.appOptions.nativeApp && this.permissions.download !== false;
                 this.appOptions.canAnalytics   = params.asc_getIsAnalyticsEnable();
-                this.appOptions.canComments    = this.appOptions.canLicense && (this.permissions.comments===undefined ? this.appOptions.isEdit : this.permissions.comments);
+                this.appOptions.canComments    = this.appOptions.canLicense && (this.permissions.comment===undefined ? this.appOptions.isEdit : this.permissions.comment);
                 this.appOptions.canComments    = this.appOptions.canComments && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.comments===false);
                 this.appOptions.canChat        = this.appOptions.canLicense && !this.appOptions.isOffline && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.chat===false);
                 this.appOptions.canPrint       = (this.permissions.print !== false);
@@ -1939,7 +1939,7 @@ define([
             errorBadImageUrl: 'Image url is incorrect',
             txtSlideText: 'Slide text',
             txtClipArt: 'Clip Art',
-            txtDiagram: 'Diagram',
+            txtDiagram: 'SmartArt',
             txtDateTime: 'Date and time',
             txtFooter: 'Footer',
             txtHeader: 'Header',

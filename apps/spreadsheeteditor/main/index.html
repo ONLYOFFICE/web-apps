@@ -6,14 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=IE8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
 
-    <link rel="stylesheet" type="text/css" href="../../../../sdkjs/cell/css/main.css"/>
-
-    <!-- debug begin -->
-    <link rel="stylesheet/less" type="text/css" href="resources/less/app.less" />
-    <!-- debug end -->
-
-    <!-- splash -->        
-
+    <!-- splash -->
     <style type="text/css">
         .loadmask {
             left: 0;
@@ -180,8 +173,6 @@
             100%    { top:100px; background: #55bce6; }
         }
     </style>
-</head>
-<body>
 
     <script>
         var userAgent = navigator.userAgent.toLowerCase(),
@@ -190,13 +181,15 @@
         if (!check(/opera/) && (check(/msie/) || check(/trident/))) {
             var m = /msie (\d+\.\d+)/.exec(userAgent);
             if (m && parseFloat(m[1]) < 9.0) {
-                document.write('<div class="app-error-panel">' +
-                                '<div class="message-block">' +
-                                    '<div class="message-inner">' +
-                                        '<div class="title">Your browser is not supported.</div>' +
-                                        '<div class="text">Sorry, Spreadsheet Editor is currently only supported in the latest versions of the Chrome, Firefox, Safari or Internet Explorer web browsers.</div>' +
-                                    '</div>' +
-                                '</div></div>');
+                document.write(
+                    '<div class="app-error-panel">' +
+                        '<div class="message-block">' +
+                            '<div class="message-inner">' +
+                                '<div class="title">Your browser is not supported.</div>' +
+                                '<div class="text">Sorry, Spreadsheet Editor is currently only supported in the latest versions of the Chrome, Firefox, Safari or Internet Explorer web browsers.</div>' +
+                            '</div>' +
+                        '</div>' +
+                    '</div>');
                 stopLoading = true;
             }
         }
@@ -242,21 +235,29 @@
         else if ( lang == 'tr') loading = 'Yükleniyor...';
 
         if (!stopLoading)
-        document.write(
-            '<div id="loading-mask" class="loadmask">' +
-                    '<div class="loader-page" style="margin-bottom: ' + margin + 'px;' + ((logo!==null) ? 'height: auto;' : '') + '">' +
-                        ((logo!==null) ? logo :
-                        '<div class="loader-page-romb">' +
-                            '<div class="romb" id="blue"></div>' +
-                            '<div class="romb" id="green"></div>' +
-                            '<div class="romb" id="red"></div>' +
-                        '</div>') +
-                    '</div>' +
-                    '<div class="loader-page-text">' +  customer +
-                    '<div class="loader-page-text-loading">' + loading + '</div>' +
+            document.write(
+                '<div id="loading-mask" class="loadmask">' +
+                '<div class="loader-page" style="margin-bottom: ' + margin + 'px;' + ((logo!==null) ? 'height: auto;' : '') + '">' +
+                ((logo!==null) ? logo :
+                    '<div class="loader-page-romb">' +
+                    '<div class="romb" id="blue"></div>' +
+                    '<div class="romb" id="green"></div>' +
+                    '<div class="romb" id="red"></div>' +
+                    '</div>') +
                 '</div>' +
-            '</div>');
+                '<div class="loader-page-text">' +  customer +
+                '<div class="loader-page-text-loading">' + loading + '</div>' +
+                '</div>' +
+                '</div>');
     </script>
+
+    <link rel="stylesheet" type="text/css" href="../../../../sdkjs/cell/css/main.css"/>
+
+    <!-- debug begin -->
+    <link rel="stylesheet/less" type="text/css" href="resources/less/app.less" />
+    <!-- debug end -->
+</head>
+<body>
 
     <div id="viewport"></div>
 
@@ -270,6 +271,12 @@
         <symbol id="svg-btn-goback" viewBox="0 20 20 20">
             <path d="M17,26h-6v-1c0-0.553-0.448-1-1-1H3c-0.552,0-1,0.447-1,1v11c0,0.553,0.448,1,1,1h14c0.552,0,1-0.447,1-1v-9C18,26.447,17.552,26,17,26z M17,36H3V25h7v1c0,0.553,0.448,1,1,1h6v1V36z"/>
             <polygon points="13,31 10,28 10,30 6,30 6,32 10,32 10,34 	"/>
+        </symbol>
+        <symbol id="svg-btn-users" viewBox="0 0 20 20">
+            <path d="M16.469,14.184l-0.161-1.113c0.658-0.479,1.118-1.524,1.118-2.319c0-1.092-0.863-2.013-1.926-2.013c-1.063,0-1.925,0.868-1.925,1.961c0,0.795,0.46,1.766,1.118,2.242l-0.162,1.247c-0.461,0.039-0.863,0.108-1.214,0.215
+    c-0.886-1.419-2.496-2.061-3.997-2.226l-0.129-0.844c0.903-0.804,1.559-2.239,1.559-3.48c0-1.85-1.458-3.354-3.25-3.354S4.25,5.985,4.25,7.811c0,1.23,0.644,2.616,1.562,3.419l-0.135,0.952C3.459,12.427,1,13.705,1,17h18
+    C19,16,18.387,14.345,16.469,14.184z M2.517,16c0.136-1.908,1.116-2.647,3.642-2.86l0.397-0.033l0.328-2.317L6.64,10.612C5.86,10.048,5.25,8.816,5.25,7.811C5.25,6.536,6.26,5.5,7.5,5.5s2.25,1.056,2.25,2.354c0,1.024-0.624,2.312-1.391,2.868L8.113,10.9
+    l0.337,2.202l0.393,0.033c2.525,0.213,3.505,0.952,3.641,2.864H2.517z"/>
         </symbol>
     </svg>
 

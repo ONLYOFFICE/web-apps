@@ -43,6 +43,7 @@
                     print: <can print>, // default = true
                     rename: <can rename>, // default = false
                     changeHistory: <can change history>, // default = false
+                    comment: <can comment in view mode> // default = edit
                 }
             },
             editorConfig: {

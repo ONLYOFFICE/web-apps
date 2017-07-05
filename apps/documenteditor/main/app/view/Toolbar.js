@@ -571,7 +571,7 @@ define([
 
                 this.btnDropCap = new Common.UI.Button({
                     id: 'tlb-btn-dropcap',
-                    cls: 'btn-toolbar',
+                    cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'btn-dropcap',
                     caption: me.capBtnInsDropcap,
                     menu: new Common.UI.Menu({
@@ -1820,6 +1820,7 @@ define([
                         {id: 'menu-chart-group-area', caption: me.textArea, inline: true},
                         {id: 'menu-chart-group-scatter', caption: me.textPoint, inline: true},
                         {id: 'menu-chart-group-stock', caption: me.textStock, inline: true}
+                        // {id: 'menu-chart-group-surface', caption: me.textSurface}
                     ]),
                     store: new Common.UI.DataViewStore([
                         {
@@ -1973,6 +1974,10 @@ define([
                             allowSelected: true,
                             iconCls: 'stock-normal'
                         }
+                        // { group: 'menu-chart-group-surface', type: Asc.c_oAscChartTypeSettings.surfaceNormal,      allowSelected: true, iconCls: 'surface-normal'},
+                        // { group: 'menu-chart-group-surface', type: Asc.c_oAscChartTypeSettings.surfaceWireframe,   allowSelected: true, iconCls: 'surface-wireframe'},
+                        // { group: 'menu-chart-group-surface', type: Asc.c_oAscChartTypeSettings.contourNormal,      allowSelected: true, iconCls: 'contour-normal'},
+                        // { group: 'menu-chart-group-surface', type: Asc.c_oAscChartTypeSettings.contourWireframe,   allowSelected: true, iconCls: 'contour-wireframe'}
                     ]),
                     itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist <%= iconCls %>"></div>')
                 });
@@ -2489,7 +2494,8 @@ define([
             capImgBackward: 'Move backward',
             capImgWrapping: 'Wrapping',
             capBtnComment: 'Comment',
-            textColumnsCustom: 'Custom Columns'
+            textColumnsCustom: 'Custom Columns',
+            textSurface: 'Surface'
         }
     })(), DE.Views.Toolbar || {}));
 });
