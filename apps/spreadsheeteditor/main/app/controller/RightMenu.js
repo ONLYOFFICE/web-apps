@@ -106,7 +106,6 @@ define([
                     panel.ChangeSettings.call(panel, props);
             }
             Common.NotificationCenter.trigger('layout:changed', 'rightmenu');
-            Common.NotificationCenter.trigger('edit:complete', this.rightmenu);
         },
 
         onSelectionChanged: function(info) {
