@@ -593,7 +593,7 @@ define([
                     this.setLongActionView(action)
                 } else {
                     var me = this;
-                    if (id==Asc.c_oAscAsyncAction['Save'] || id==Asc.c_oAscAsyncAction['ForceSaveButton']) {
+                    if ((id==Asc.c_oAscAsyncAction['Save'] || id==Asc.c_oAscAsyncAction['ForceSaveButton']) && !this.appOptions.isOffline) {
                         if (this._state.fastCoauth && this._state.usersCount>1) {
                             me._state.timerSave = setTimeout(function () {
                                 me.getApplication().getController('Statusbar').setStatusCaption(me.textChangesSaved, false, 3000);
@@ -631,8 +631,8 @@ define([
                     case Asc.c_oAscAsyncAction['ForceSaveButton']:
                         clearTimeout(this._state.timerSave);
                         force = true;
-                        title   = this.saveTitleText;
-                        text    = this.saveTextText;
+                        title   = (!this.appOptions.isOffline) ? this.saveTitleText : '';
+                        text    = (!this.appOptions.isOffline) ? this.saveTextText : '';
                         break;
 
                     case Asc.c_oAscAsyncAction['LoadDocumentFonts']:
