@@ -122,7 +122,7 @@ define([
                 if ( this.isFolded ) {
                     if (!optsFold.$box) optsFold.$box = me.$el.find('.box-controls');
 
-                    optsFold.$bar.addClass('folded');
+                    optsFold.$bar.toggleClass('expanded', true).addClass('folded');
                     optsFold.$box.on({
                         mouseleave: function (e) {
                             optsFold.timer = setTimeout(me.collapse, optsFold.timeout);
@@ -193,7 +193,7 @@ define([
                 if ( !tab ) {
                     onShowFullviewPanel.call(this, false);
 
-                    if ( this.isFolded ) { /*this.collapseToolbar();*/ }
+                    if ( this.isFolded ) { this.collapse(); }
                     else tab = this.lastPanel;
                 }
 
@@ -207,17 +207,16 @@ define([
                         panel.addClass('active');
                     }
 
-                    var $tp = this.$tabs.find('> a[data-tab=' + tab + ']').parent();
-                    if ( $tp.length ) {
-                        $tp.addClass('active');
-                    }
-
                     if ( panel.length ) {
                         if ( this.isFolded ) this.expand();
                     } else {
                         onShowFullviewPanel.call(this, true);
                         if ( this.isFolded ) this.collapse();
                     }
+
+                    var $tp = this.$tabs.find('> a[data-tab=' + tab + ']').parent();
+                    if ( $tp.length ) {
+                        $tp.addClass('active');
                     }
                 }
             },
