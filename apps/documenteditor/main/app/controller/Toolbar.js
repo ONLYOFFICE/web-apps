@@ -347,7 +347,7 @@ define([
         },
 
         onContextMenu: function() {
-            this.toolbar.collapseToolbar();
+            this.toolbar.collapse();
         },
 
         onApiFontSize: function(size) {
