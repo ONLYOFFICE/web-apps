@@ -55,6 +55,7 @@ define([
     'spreadsheeteditor/main/app/view/ShapeSettings',
     'spreadsheeteditor/main/app/view/TextArtSettings',
     'spreadsheeteditor/main/app/view/TableSettings',
+    'spreadsheeteditor/main/app/view/PivotSettings',
     'common/main/lib/component/Scroller'
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
@@ -123,6 +124,15 @@ define([
                 allowMouseEventsOnDisabled: true
             });
 
+            this.btnPivot = new Common.UI.Button({
+                hint: this.txtPivotSettings,
+                asctype: Common.Utils.documentSettingsType.Pivot,
+                enableToggle: true,
+                disabled: true,
+                toggleGroup: 'tabpanelbtnsGroup',
+                allowMouseEventsOnDisabled: true
+            });
+
             this._settings = [];
             this._settings[Common.Utils.documentSettingsType.Paragraph]   = {panel: "id-paragraph-settings",  btn: this.btnText};
             this._settings[Common.Utils.documentSettingsType.Image]       = {panel: "id-image-settings",      btn: this.btnImage};
@@ -130,6 +140,7 @@ define([
             this._settings[Common.Utils.documentSettingsType.Chart]       = {panel: "id-chart-settings",      btn: this.btnChart};
             this._settings[Common.Utils.documentSettingsType.TextArt]     = {panel: "id-textart-settings",    btn: this.btnTextArt};
             this._settings[Common.Utils.documentSettingsType.Table]       = {panel: "id-table-settings",      btn: this.btnTable};
+            this._settings[Common.Utils.documentSettingsType.Pivot]       = {panel: "id-pivot-settings",      btn: this.btnPivot};
 
             return this;
         },
@@ -151,6 +162,7 @@ define([
             this.btnShape.setElement($('#id-right-menu-shape'), false);         this.btnShape.render();
             this.btnTextArt.setElement($('#id-right-menu-textart'), false);     this.btnTextArt.render();
             this.btnTable.setElement($('#id-right-menu-table'), false);         this.btnTable.render();
+            this.btnPivot.setElement($('#id-right-menu-pivot'), false);         this.btnPivot.render();
 
             this.btnText.on('click',            _.bind(this.onBtnMenuClick, this));
             this.btnImage.on('click',           _.bind(this.onBtnMenuClick, this));
@@ -158,6 +170,7 @@ define([
             this.btnShape.on('click',           _.bind(this.onBtnMenuClick, this));
             this.btnTextArt.on('click',         _.bind(this.onBtnMenuClick, this));
             this.btnTable.on('click',           _.bind(this.onBtnMenuClick, this));
+            this.btnPivot.on('click',           _.bind(this.onBtnMenuClick, this));
 
             this.paragraphSettings = new SSE.Views.ParagraphSettings();
             this.imageSettings = new SSE.Views.ImageSettings();
@@ -165,6 +178,7 @@ define([
             this.shapeSettings = new SSE.Views.ShapeSettings();
             this.textartSettings = new SSE.Views.TextArtSettings();
             this.tableSettings = new SSE.Views.TableSettings();
+            this.pivotSettings = new SSE.Views.PivotSettings();
 
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
@@ -187,6 +201,7 @@ define([
             this.shapeSettings.setApi(api);
             this.textartSettings.setApi(api);
             this.tableSettings.setApi(api);
+            this.pivotSettings.setApi(api);
 
             return this;
         },
@@ -264,6 +279,7 @@ define([
         txtTextArtSettings:         'Text Art Settings',
         txtChartSettings:           'Chart Settings',
         txtSparklineSettings:       'Sparkline Settings',
-        txtTableSettings:           'Table Settings'
+        txtTableSettings:           'Table Settings',
+        txtPivotSettings:           'Pivot Table Settings'
     }, SSE.Views.RightMenu || {}));
 });
