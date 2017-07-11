@@ -356,7 +356,7 @@ define([
                 this.filtersList.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true, suppressScrollX: true});
 
                 arr = [];
-                value = props.asc_getFields();
+                value = props.asc_getPivotFields();
                 value && value.forEach(function (item) {
                     arr.push(new Common.UI.DataViewModel({
                         selected        : false,
