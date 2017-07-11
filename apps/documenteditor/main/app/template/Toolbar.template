@@ -145,51 +145,19 @@
             </section>
             <section class="panel" data-tab="layout">
                 <div class="group">
-                    <div class="elset">
-                        <span class="btn-slot text" id="slot-btn-pageorient"></span>
-                    </div>
-                    <div class="elset">
-                        <span class="btn-slot text" id="slot-btn-pagesize"></span>
-                    </div>
-                </div>
-                <div class="group">
-                    <div class="elset">
-                        <span class="btn-slot text" id="slot-btn-pagemargins"></span>
-                    </div>
-                    <div class="elset">
-                        <span class="btn-slot text" id="slot-btn-columns"></span>
-                    </div>
-                </div>
-                <div class="group">
-                    <div class="elset">
-                        <span class="btn-slot text btn-pagebreak"></span>
-                    </div>
-                    <div class="elset">
-                    </div>
+                    <span class="btn-slot text x-huge btn-pagebreak"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-pageorient"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-pagemargins"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-pagesize"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-columns"></span>
                 </div>
                 <div class="separator long"></div>
                 <div class="group">
-                    <div class="elset">
-                        <span class="btn-slot text" id="slot-img-align"></span>
-                    </div>
-                    <div class="elset">
-                        <span class="btn-slot text" id="slot-img-group"></span>
-                    </div>
-                </div>
-                <div class="group">
-                    <div class="elset">
-                        <span class="btn-slot text" id="slot-img-movefrwd"></span>
-                    </div>
-                    <div class="elset">
-                        <span class="btn-slot text" id="slot-img-movebkwd"></span>
-                    </div>
-                </div>
-                <div class="group">
-                    <div class="elset">
-                        <span class="btn-slot text" id="slot-img-wrapping"></span>
-                    </div>
-                    <div class="elset">
-                    </div>
+                    <span class="btn-slot text x-huge" id="slot-img-align"></span>
+                    <span class="btn-slot text x-huge" id="slot-img-group"></span>
+                    <span class="btn-slot text x-huge" id="slot-img-movefrwd"></span>
+                    <span class="btn-slot text x-huge" id="slot-img-movebkwd"></span>
+                    <span class="btn-slot text x-huge" id="slot-img-wrapping"></span>
                 </div>
             </section>
         </section>

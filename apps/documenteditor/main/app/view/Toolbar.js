@@ -608,7 +608,7 @@ define([
 
                 this.btnColumns = new Common.UI.Button({
                     id: 'tlb-btn-columns',
-                    cls: 'btn-toolbar',
+                    cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'btn-columns',
                     caption: me.capBtnColumns,
                     menu: new Common.UI.Menu({
@@ -658,7 +658,7 @@ define([
 
                 this.btnPageOrient = new Common.UI.Button({
                     id: 'tlb-btn-pageorient',
-                    cls: 'btn-toolbar',
+                    cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'btn-pageorient',
                     caption: me.capBtnPageOrient,
                     menu: new Common.UI.Menu({
@@ -694,7 +694,7 @@ define([
 
                 this.btnPageMargins = new Common.UI.Button({
                     id: 'tlb-btn-pagemargins',
-                    cls: 'btn-toolbar',
+                    cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'btn-pagemargins',
                     caption: me.capBtnMargins,
                     menu: new Common.UI.Menu({
@@ -753,7 +753,7 @@ define([
 
                 this.btnPageSize = new Common.UI.Button({
                     id: 'tlb-btn-pagesize',
-                    cls: 'btn-toolbar',
+                    cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'btn-pagesize',
                     caption: me.capBtnPageSize,
                     menu: new Common.UI.Menu({
@@ -967,34 +967,34 @@ define([
                 this.toolbarControls.push(this.btnAdvSettings);
 
                 me.btnImgAlign = new Common.UI.Button({
-                    cls: 'btn-toolbar',
+                    cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'btn-img-align',
                     caption: me.capImgAlign,
                     menu: true
                 });
 
                 me.btnImgGroup = new Common.UI.Button({
-                    cls: 'btn-toolbar',
+                    cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'btn-img-group',
                     caption: me.capImgGroup,
                     menu: true
                 });
                 me.btnImgForward = new Common.UI.Button({
-                    cls: 'btn-toolbar',
+                    cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'btn-img-frwd',
                     caption: me.capImgForward,
                     split: true,
                     menu: true
                 });
                 me.btnImgBackward = new Common.UI.Button({
-                    cls: 'btn-toolbar',
+                    cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'btn-img-bkwd',
                     caption: me.capImgBackward,
                     split: true,
                     menu: true
                 });
                 me.btnImgWrapping = new Common.UI.Button({
-                    cls: 'btn-toolbar',
+                    cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'btn-img-wrap',
                     caption: me.capImgWrapping,
                     menu: true
@@ -1205,7 +1205,7 @@ define([
                 });
 
                 if ( me.isCompactView )
-                    me.setFolded(true); else
+                    me.setFolded(true), me.collapse(); else
                     me.setTab('home');
 
                 var top = Common.localStorage.getItem("de-pgmargins-top"),
@@ -1304,8 +1304,11 @@ define([
 
                     var $slots = $host.find('.btn-slot.btn-pagebreak');
                     $slots.each(function(index, el) {
+                        var _cls = 'btn-toolbar';
+                        /x-huge/.test(el.className) && (_cls += ' x-huge icon-top');
+
                         var button = new Common.UI.Button({
-                            cls: 'btn-toolbar',
+                            cls: _cls,
                             iconCls: 'btn-pagebreak',
                             caption: me.capBtnInsPagebreak,
                             split: true,
