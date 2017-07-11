@@ -6,7 +6,7 @@
     </tr>
     <tr>
         <td colspan=2 class="padding-large">
-            <div class="" id="pivot-list-fields" style="width: 100%; height: 170px; background-color: #fff;"></div>
+            <div class="" id="pivot-list-fields" style="width: 100%; height: 250px; background-color: #fff;"></div>
         </td>
     </tr>
     <tr>
