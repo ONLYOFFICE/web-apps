@@ -1,3 +1,5 @@
+@x-huge-btn-height: 46px;
+
 .btn {
     border-radius: 1px;
     color: @gray-deep;
@@ -25,7 +27,7 @@
     }
 
     &.x-huge {
-        .btnsize(45px);
+        .btnsize(@x-huge-btn-height);
     }
 
     &[disabled] {
@@ -98,12 +100,11 @@
         }
     }
 
-    &.x-huge,
-      .x-huge {
+    &.x-huge {
         @icon-size: 26px;
 
         min-width: 45px;
-        height: 45px;
+        height: @x-huge-btn-height;
 
         img {
             height: 27px;
@@ -127,8 +128,6 @@
         align-items: center;
         justify-content: center;
         line-height: 20px;
-        max-height: 26px;
-        height: 26px;
     }
 
     .inner-box-caption {
@@ -290,10 +289,8 @@
     }
 
     > .dropdown-toggle:first-child {
-        padding: 0 2px 0 0;
-
-        .caption {
-            padding-right: 4px;
+        .inner-box-caret {
+            padding: 0 2px;
         }
     }
 
