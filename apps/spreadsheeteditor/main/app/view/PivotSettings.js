@@ -303,15 +303,27 @@ define([
 
                 this._state.TableName=props.asc_getName();
 
+                var cache_names = props.asc_getCacheFields(),
+                    pivot_names = props.asc_getPivotFields(),
+                    names = [];
+                pivot_names.forEach(function (item, index) {
+                    names[index] = item.asc_getName() || cache_names[index].asc_getName();
+                });
+
                 var arr = [], isChecked = [],
                 value = props.asc_getColumnFields();
                 value && value.forEach(function (item) {
-                    arr.push(new Common.UI.DataViewModel({
-                        selected        : false,
-                        allowSelected   : true,
-                        value           : item
-                    }));
-                    isChecked[item] = true;
+                    var index = item.asc_getIndex();
+                    if (index>-1) {
+                        var name = names[index];
+                        arr.push(new Common.UI.DataViewModel({
+                            selected        : false,
+                            allowSelected   : true,
+                            index           : index,
+                            value            : name
+                        }));
+                        isChecked[name] = true;
+                    }
                 });
                 this.columnsList.store.reset(arr);
                 this.columnsList.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true, suppressScrollX: true});
@@ -319,12 +331,17 @@ define([
                 arr = [];
                 value = props.asc_getRowFields();
                 value && value.forEach(function (item) {
-                    arr.push(new Common.UI.DataViewModel({
-                        selected        : false,
-                        allowSelected   : true,
-                        value           : item
-                    }));
-                    isChecked[item] = true;
+                    var index = item.asc_getIndex();
+                    if (index>-1) {
+                        var name = names[index];
+                        arr.push(new Common.UI.DataViewModel({
+                            selected        : false,
+                            allowSelected   : true,
+                            index           : index,
+                            value            : name
+                        }));
+                        isChecked[name] = true;
+                    }
                 });
                 this.rowsList.store.reset(arr);
                 this.rowsList.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true, suppressScrollX: true});
@@ -332,12 +349,18 @@ define([
                 arr = [];
                 value = props.asc_getDataFields();
                 value && value.forEach(function (item) {
-                    arr.push(new Common.UI.DataViewModel({
-                        selected        : false,
-                        allowSelected   : true,
-                        value           : item
-                    }));
-                    isChecked[item] = true;
+                    var index = item.asc_getIndex();
+                    if (index>-1) {
+                        var name = names[index];
+                        arr.push(new Common.UI.DataViewModel({
+                            selected        : false,
+                            allowSelected   : true,
+                            index           : index,
+                            // value            : name
+                            value            : item.asc_getName()
+                        }));
+                        isChecked[name] = true;
+                    }
                 });
                 this.valuesList.store.reset(arr);
                 this.valuesList.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true, suppressScrollX: true});
@@ -345,19 +368,23 @@ define([
                 arr = [];
                 value = props.asc_getPageFields();
                 value && value.forEach(function (item) {
-                    arr.push(new Common.UI.DataViewModel({
-                        selected        : false,
-                        allowSelected   : true,
-                        value           : item
-                    }));
-                    isChecked[item] = true;
+                    var index = item.asc_getIndex();
+                    if (index>-1) {
+                        var name = names[index];
+                        arr.push(new Common.UI.DataViewModel({
+                            selected        : false,
+                            allowSelected   : true,
+                            index           : index,
+                            value            : name
+                        }));
+                        isChecked[name] = true;
+                    }
                 });
                 this.filtersList.store.reset(arr);
                 this.filtersList.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true, suppressScrollX: true});
 
                 arr = [];
-                value = props.asc_getPivotFields();
-                value && value.forEach(function (item) {
+                names.forEach(function (item) {
                     arr.push(new Common.UI.DataViewModel({
                         selected        : false,
                         allowSelected   : true,
