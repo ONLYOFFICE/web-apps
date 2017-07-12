@@ -362,7 +362,7 @@ define([
                             value           : name,
                             tip             : (name.length>10) ? name : ''
                         }));
-                        isChecked[name] = true;
+                        isChecked[names[index]] = true;
                     }
                 });
                 this.valuesList.store.reset(arr);
