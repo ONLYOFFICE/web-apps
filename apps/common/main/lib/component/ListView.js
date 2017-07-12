@@ -64,6 +64,7 @@ define([
             onResetItems : function() {
                 this.innerEl = null;
                 Common.UI.DataView.prototype.onResetItems.call(this);
+                this.trigger('items:reset', this);
             },
 
             onAddItem: function(record, index) {
@@ -96,6 +97,16 @@ define([
                     this.listenTo(view, 'click',   this.onClickItem);
                     this.listenTo(view, 'dblclick',this.onDblClickItem);
                     this.listenTo(view, 'select',  this.onSelectItem);
+
+                    if (record.get('tip')) {
+                        var view_el = $(view.el);
+                        view_el.attr('data-toggle', 'tooltip');
+                        view_el.tooltip({
+                            title       : record.get('tip'),
+                            placement   : 'cursor',
+                            zIndex : this.tipZIndex
+                        });
+                    }
 
                     if (!this.isSuspendEvents)
                         this.trigger('item:add', this, view, record);
