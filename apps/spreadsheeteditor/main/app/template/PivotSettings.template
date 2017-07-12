@@ -6,7 +6,7 @@
     </tr>
     <tr>
         <td colspan=2 class="padding-large">
-            <div class="" id="pivot-list-fields" style="width: 100%; height: 250px; background-color: #fff;"></div>
+            <div id="pivot-list-fields" class="pivot-check-listview"></div>
         </td>
     </tr>
     <tr>
@@ -19,10 +19,10 @@
     </tr>
     <tr>
         <td class="padding-small">
-            <div id="pivot-list-filters" style="width: 95px; height: 130px; background-color: #fff;"></div>
+            <div id="pivot-list-filters" class="pivot-listview"></div>
         </td>
         <td class="padding-small">
-            <div id="pivot-list-columns" style="width: 95px; height: 130px; margin-left: 3px; background-color: #fff;"></div>
+            <div id="pivot-list-columns" class="pivot-listview" style="margin-left: 3px;"></div>
         </td>
     </tr>
     <tr>
@@ -35,10 +35,10 @@
     </tr>
     <tr>
         <td class="padding-large">
-            <div id="pivot-list-rows" style="width: 95px; height: 130px; background-color: #fff;"></div>
+            <div id="pivot-list-rows" class="pivot-listview"></div>
         </td>
         <td class="padding-large">
-            <div id="pivot-list-values" style="width: 95px; height: 130px; margin-left: 3px; background-color: #fff;"></div>
+            <div id="pivot-list-values" class="pivot-listview" style="margin-left: 3px;"></div>
         </td>
     </tr>
     <tr>

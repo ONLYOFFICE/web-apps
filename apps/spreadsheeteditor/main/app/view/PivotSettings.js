@@ -191,7 +191,7 @@ define([
                     '<input type="button" class="img-commonctrl"/>',
                     '<% } %>',
                     '</label>',
-                    '<div id="<%= id %>" class="list-item" style="pointer-events:none;margin-left:20px;display:inline-block;width: 160px;"><%= Common.Utils.String.htmlEncode(value) %></div>',
+                    '<div id="<%= id %>" class="list-item" style="pointer-events:none;"><%= Common.Utils.String.htmlEncode(value) %></div>',
                     '</div>'
                 ].join(''))
             });
@@ -208,7 +208,7 @@ define([
                 template: _.template(['<div class="listview inner" style=""></div>'].join('')),
                 itemTemplate: _.template([
                     '<div id="<%= id %>" class="list-item" style="display:inline-block;">',
-                    '<div style="width:70px;padding-right: 5px;"><%= Common.Utils.String.htmlEncode(value) %></div>',
+                    '<div style=""><%= Common.Utils.String.htmlEncode(value) %></div>',
                     '<div class="listitem-icon"></div>',
                     '</div>'
                 ].join(''))
@@ -224,7 +224,7 @@ define([
                 template: _.template(['<div class="listview inner" style=""></div>'].join('')),
                 itemTemplate: _.template([
                     '<div id="<%= id %>" class="list-item" style="display:inline-block;">',
-                    '<div style="width:70px;padding-right: 5px;"><%= Common.Utils.String.htmlEncode(value) %></div>',
+                    '<div style=""><%= Common.Utils.String.htmlEncode(value) %></div>',
                     '<div class="listitem-icon"></div>',
                     '</div>'
                 ].join(''))
@@ -240,7 +240,7 @@ define([
                 template: _.template(['<div class="listview inner" style=""></div>'].join('')),
                 itemTemplate: _.template([
                     '<div id="<%= id %>" class="list-item" style="display:inline-block;">',
-                    '<div style="width:70px;padding-right: 5px;"><%= Common.Utils.String.htmlEncode(value) %></div>',
+                    '<div style=""><%= Common.Utils.String.htmlEncode(value) %></div>',
                     '<div class="listitem-icon"></div>',
                     '</div>'
                 ].join(''))
@@ -256,7 +256,7 @@ define([
                 template: _.template(['<div class="listview inner" style=""></div>'].join('')),
                 itemTemplate: _.template([
                     '<div id="<%= id %>" class="list-item" style="display:inline-block;">',
-                    '<div style="width:70px;padding-right: 5px;"><%= Common.Utils.String.htmlEncode(value) %></div>',
+                    '<div style=""><%= Common.Utils.String.htmlEncode(value) %></div>',
                     '<div class="listitem-icon"></div>',
                     '</div>'
                 ].join(''))
@@ -303,7 +303,8 @@ define([
 
                 this._state.TableName=props.asc_getName();
 
-                var cache_names = props.asc_getCacheFields(),
+                var me = this,
+                    cache_names = props.asc_getCacheFields(),
                     pivot_names = props.asc_getPivotFields(),
                     names = [];
                 pivot_names.forEach(function (item, index) {
@@ -314,13 +315,14 @@ define([
                 value = props.asc_getColumnFields();
                 value && value.forEach(function (item) {
                     var index = item.asc_getIndex();
-                    if (index>-1) {
-                        var name = names[index];
+                    if (index>-1 || index == -2) {
+                        var name = (index>-1) ? names[index] : me.textValues;
                         arr.push(new Common.UI.DataViewModel({
                             selected        : false,
                             allowSelected   : true,
                             index           : index,
-                            value            : name
+                            value            : name,
+                            tip             : (name.length>10) ? name : ''
                         }));
                         isChecked[name] = true;
                     }
@@ -332,13 +334,14 @@ define([
                 value = props.asc_getRowFields();
                 value && value.forEach(function (item) {
                     var index = item.asc_getIndex();
-                    if (index>-1) {
-                        var name = names[index];
+                    if (index>-1 || index == -2) {
+                        var name = (index>-1) ? names[index] : me.textValues;
                         arr.push(new Common.UI.DataViewModel({
                             selected        : false,
                             allowSelected   : true,
                             index           : index,
-                            value            : name
+                            value            : name,
+                            tip             : (name.length>10) ? name : ''
                         }));
                         isChecked[name] = true;
                     }
@@ -351,13 +354,13 @@ define([
                 value && value.forEach(function (item) {
                     var index = item.asc_getIndex();
                     if (index>-1) {
-                        var name = names[index];
+                        var name = item.asc_getName();
                         arr.push(new Common.UI.DataViewModel({
                             selected        : false,
                             allowSelected   : true,
                             index           : index,
-                            // value            : name
-                            value            : item.asc_getName()
+                            value           : name,
+                            tip             : (name.length>10) ? name : ''
                         }));
                         isChecked[name] = true;
                     }
@@ -375,7 +378,8 @@ define([
                             selected        : false,
                             allowSelected   : true,
                             index           : index,
-                            value            : name
+                            value            : name,
+                            tip             : (name.length>10) ? name : ''
                         }));
                         isChecked[name] = true;
                     }
@@ -389,6 +393,7 @@ define([
                         selected        : false,
                         allowSelected   : true,
                         value           : item,
+                        tip             : (name.length>25) ? name : '',
                         check           : isChecked[item]
                     }));
                 });
