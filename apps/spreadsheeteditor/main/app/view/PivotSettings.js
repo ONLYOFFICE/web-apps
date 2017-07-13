@@ -192,28 +192,30 @@ define([
                     '<% } %>',
                     '</label>',
                     '<div id="<%= id %>" class="list-item" style="pointer-events:none;"><%= Common.Utils.String.htmlEncode(value) %></div>',
+                    '<div class="listitem-icon img-commonctrl"></div>',
                     '</div>'
                 ].join(''))
             });
-            this.fieldsList.on('item:select', _.bind(this.onFieldsCheck, this));
+            this.fieldsList.on('item:click', _.bind(this.onFieldsCheck, this));
             // this.fieldsList.onKeyDown = _.bind(this.onFieldsListKeyDown, this);
             this.lockedControls.push(this.fieldsList);
 
             // Sortable.create(this.fieldsList.$el.find('.listview')[0], {});
 
+            var itemTemplate = _.template([
+                '<div id="<%= id %>" class="list-item" style="display:inline-block;">',
+                '<div style=""><%= Common.Utils.String.htmlEncode(value) %></div>',
+                '<div class="listitem-icon img-commonctrl"></div>',
+                '</div>'
+            ].join(''));
             this.columnsList = new Common.UI.ListView({
                 el: $('#pivot-list-columns'),
                 store: new Common.UI.DataViewStore(),
                 simpleAddMode: true,
                 template: _.template(['<div class="listview inner" style=""></div>'].join('')),
-                itemTemplate: _.template([
-                    '<div id="<%= id %>" class="list-item" style="display:inline-block;">',
-                    '<div style=""><%= Common.Utils.String.htmlEncode(value) %></div>',
-                    '<div class="listitem-icon"></div>',
-                    '</div>'
-                ].join(''))
+                itemTemplate: itemTemplate
             });
-            // this.columnsList.on('item:select', _.bind(this.onColumnsSelect, this));
+            this.columnsList.on('item:click', _.bind(this.onColumnsSelect, this, 0));
             // this.columnsList.onKeyDown = _.bind(this.onColumnsListKeyDown, this);
             this.lockedControls.push(this.columnsList);
 
@@ -222,14 +224,9 @@ define([
                 store: new Common.UI.DataViewStore(),
                 simpleAddMode: true,
                 template: _.template(['<div class="listview inner" style=""></div>'].join('')),
-                itemTemplate: _.template([
-                    '<div id="<%= id %>" class="list-item" style="display:inline-block;">',
-                    '<div style=""><%= Common.Utils.String.htmlEncode(value) %></div>',
-                    '<div class="listitem-icon"></div>',
-                    '</div>'
-                ].join(''))
+                itemTemplate: itemTemplate
             });
-            // this.rowsList.on('item:select', _.bind(this.onRowSelect, this));
+            this.rowsList.on('item:click', _.bind(this.onColumnsSelect, this, 1));
             // this.rowsList.onKeyDown = _.bind(this.onRowsListKeyDown, this);
             this.lockedControls.push(this.rowsList);
 
@@ -238,14 +235,9 @@ define([
                 store: new Common.UI.DataViewStore(),
                 simpleAddMode: true,
                 template: _.template(['<div class="listview inner" style=""></div>'].join('')),
-                itemTemplate: _.template([
-                    '<div id="<%= id %>" class="list-item" style="display:inline-block;">',
-                    '<div style=""><%= Common.Utils.String.htmlEncode(value) %></div>',
-                    '<div class="listitem-icon"></div>',
-                    '</div>'
-                ].join(''))
+                itemTemplate: itemTemplate
             });
-            // this.valuesList.on('item:select', _.bind(this.onValuesSelect, this));
+            this.valuesList.on('item:click', _.bind(this.onColumnsSelect, this, 2));
             // this.valuesList.onKeyDown = _.bind(this.onValuesListKeyDown, this);
             this.lockedControls.push(this.valuesList);
 
@@ -254,14 +246,9 @@ define([
                 store: new Common.UI.DataViewStore(),
                 simpleAddMode: true,
                 template: _.template(['<div class="listview inner" style=""></div>'].join('')),
-                itemTemplate: _.template([
-                    '<div id="<%= id %>" class="list-item" style="display:inline-block;">',
-                    '<div style=""><%= Common.Utils.String.htmlEncode(value) %></div>',
-                    '<div class="listitem-icon"></div>',
-                    '</div>'
-                ].join(''))
+                itemTemplate: itemTemplate
             });
-            // this.filtersList.on('item:select', _.bind(this.onFiltersSelect, this));
+            this.filtersList.on('item:click', _.bind(this.onColumnsSelect, this,3));
             // this.filtersList.onKeyDown = _.bind(this.onFiltersListKeyDown, this);
             this.lockedControls.push(this.filtersList);
 
@@ -313,15 +300,16 @@ define([
 
                 var arr = [], isChecked = [],
                 value = props.asc_getColumnFields();
-                value && value.forEach(function (item) {
-                    var index = item.asc_getIndex();
-                    if (index>-1 || index == -2) {
-                        var name = (index>-1) ? names[index] : me.textValues;
+                value && value.forEach(function (item, index) {
+                    var pivotIndex = item.asc_getIndex();
+                    if (pivotIndex>-1 || pivotIndex == -2) {
+                        var name = (pivotIndex>-1) ? names[pivotIndex] : me.textValues;
                         arr.push(new Common.UI.DataViewModel({
                             selected        : false,
-                            allowSelected   : true,
+                            allowSelected   : false,
+                            pivotIndex      : pivotIndex,
                             index           : index,
-                            value            : name,
+                            value           : name,
                             tip             : (name.length>10) ? name : ''
                         }));
                         isChecked[name] = true;
@@ -332,13 +320,14 @@ define([
 
                 arr = [];
                 value = props.asc_getRowFields();
-                value && value.forEach(function (item) {
-                    var index = item.asc_getIndex();
-                    if (index>-1 || index == -2) {
-                        var name = (index>-1) ? names[index] : me.textValues;
+                value && value.forEach(function (item, index) {
+                    var pivotIndex = item.asc_getIndex();
+                    if (pivotIndex>-1 || pivotIndex == -2) {
+                        var name = (pivotIndex>-1) ? names[pivotIndex] : me.textValues;
                         arr.push(new Common.UI.DataViewModel({
                             selected        : false,
-                            allowSelected   : true,
+                            allowSelected   : false,
+                            pivotIndex      : pivotIndex,
                             index           : index,
                             value            : name,
                             tip             : (name.length>10) ? name : ''
@@ -351,18 +340,19 @@ define([
 
                 arr = [];
                 value = props.asc_getDataFields();
-                value && value.forEach(function (item) {
-                    var index = item.asc_getIndex();
-                    if (index>-1) {
+                value && value.forEach(function (item, index) {
+                    var pivotIndex = item.asc_getIndex();
+                    if (pivotIndex>-1) {
                         var name = item.asc_getName();
                         arr.push(new Common.UI.DataViewModel({
                             selected        : false,
-                            allowSelected   : true,
+                            allowSelected   : false,
+                            pivotIndex      : pivotIndex,
                             index           : index,
                             value           : name,
                             tip             : (name.length>10) ? name : ''
                         }));
-                        isChecked[names[index]] = true;
+                        isChecked[names[pivotIndex]] = true;
                     }
                 });
                 this.valuesList.store.reset(arr);
@@ -370,13 +360,14 @@ define([
 
                 arr = [];
                 value = props.asc_getPageFields();
-                value && value.forEach(function (item) {
-                    var index = item.asc_getIndex();
-                    if (index>-1) {
-                        var name = names[index];
+                value && value.forEach(function (item, index) {
+                    var pivotIndex = item.asc_getIndex();
+                    if (pivotIndex>-1) {
+                        var name = names[pivotIndex];
                         arr.push(new Common.UI.DataViewModel({
                             selected        : false,
-                            allowSelected   : true,
+                            allowSelected   : false,
+                            pivotIndex      : pivotIndex,
                             index           : index,
                             value            : name,
                             tip             : (name.length>10) ? name : ''
@@ -388,11 +379,12 @@ define([
                 this.filtersList.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true, suppressScrollX: true});
 
                 arr = [];
-                names.forEach(function (item) {
+                names.forEach(function (item, index) {
                     arr.push(new Common.UI.DataViewModel({
                         selected        : false,
-                        allowSelected   : true,
+                        allowSelected   : false,
                         value           : item,
+                        index           : index,
                         tip             : (name.length>25) ? name : '',
                         check           : isChecked[item]
                     }));
@@ -410,6 +402,87 @@ define([
 
             var event = window.event ? window.event : window._event;
             if (event) {
+
+                var btn = $(event.target);
+                if (btn && btn.hasClass('listitem-icon')) {
+                    if (this.pivotFieldsMenu) {
+                        if (this.pivotFieldsMenu.isVisible()) {
+                            this.pivotFieldsMenu.hide();
+                            return;
+                        }
+                    } else {
+                        this.miAddFilter = new Common.UI.MenuItem({
+                            caption     : this.txtAddFilter,
+                            checkable   : false
+                        });
+                        // this.miAddFilter.on('click', _.bind(this.onAddFilter, this));
+                        this.miAddRow = new Common.UI.MenuItem({
+                            caption     : this.txtAddRow,
+                            checkable   : false
+                        });
+                        // this.miAddRow.on('click', _.bind(this.onAddRow, this));
+                        this.miAddColumn = new Common.UI.MenuItem({
+                            caption     : this.txtAddColumn,
+                            checkable   : false
+                        });
+                        // this.miAddColumn.on('click', _.bind(this.onAddColumn, this));
+                        this.miAddValues = new Common.UI.MenuItem({
+                            caption     : this.txtAddValues,
+                            checkable   : false
+                        });
+                        // this.miAddValues.on('click', _.bind(this.onAddValues, this));
+
+                        this.pivotFieldsMenu = new Common.UI.Menu({
+                            menuAlign: 'tr-br',
+                            items: [
+                                this.miAddFilter,
+                                this.miAddRow,
+                                this.miAddColumn,
+                                this.miAddValues
+                            ]
+                        });
+                    }
+
+                    var recIndex = (record != undefined) ? record.get('index') : -1;
+
+                    var menu = this.pivotFieldsMenu,
+                        showPoint, me = this,
+                        currentTarget = $(event.currentTarget),
+                        parent = $(this.el),
+                        offset = currentTarget.offset(),
+                        offsetParent = parent.offset();
+
+                    showPoint = [offset.left - offsetParent.left + currentTarget.width(), offset.top - offsetParent.top + currentTarget.height()/2];
+
+                    var menuContainer = parent.find('#menu-pivot-fields-container');
+                    if (!menu.rendered) {
+                        if (menuContainer.length < 1) {
+                            menuContainer = $('<div id="menu-pivot-fields-container" style="position: absolute; z-index: 10000;"><div class="dropdown-toggle" data-toggle="dropdown"></div></div>', menu.id);
+                            parent.append(menuContainer);
+                        }
+                        menu.render(menuContainer);
+                        menu.cmpEl.attr({tabindex: "-1"});
+
+                        menu.on('show:after', function(cmp) {
+                            if (cmp && cmp.menuAlignEl)
+                                cmp.menuAlignEl.toggleClass('over', true);
+                        }).on('hide:after', function(cmp) {
+                            if (cmp && cmp.menuAlignEl)
+                                cmp.menuAlignEl.toggleClass('over', false);
+                        });
+                    }
+
+                    menu.menuAlignEl = currentTarget;
+                    menu.setOffset(-20, -currentTarget.height()/2 - 3);
+                    menu.show();
+                    _.delay(function() {
+                        menu.cmpEl.focus();
+                    }, 10);
+                    event.stopPropagation();
+                    event.preventDefault();
+                    return;
+                }
+
                 type = event.target.type;
                 target = $(event.currentTarget).find('.list-item');
 
@@ -444,8 +517,162 @@ define([
             }
         },
 
+        onColumnsSelect: function(type, picker, item, record, e){
+            var btn = $(e.target);
+            if (btn && btn.hasClass('listitem-icon')) {
+                if (this.fieldsMenu) {
+                    if (this.fieldsMenu.isVisible()) {
+                        this.fieldsMenu.hide();
+                        return;
+                    }
+                } else {
+                    this.miMoveUp = new Common.UI.MenuItem({
+                        caption     : this.txtMoveUp,
+                        checkable   : false
+                    });
+                    // this.miMoveUp.on('click', _.bind(this.onMoveUp, this));
+                    this.miMoveDown = new Common.UI.MenuItem({
+                        caption     : this.txtMoveDown,
+                        checkable   : false
+                    });
+                    // this.miMoveDown.on('click', _.bind(this.onMoveDown, this));
+                    this.miMoveBegin = new Common.UI.MenuItem({
+                        caption     : this.txtMoveBegin,
+                        checkable   : false
+                    });
+                    // this.miMoveBegin.on('click', _.bind(this.onMoveBegin, this));
+                    this.miMoveEnd = new Common.UI.MenuItem({
+                        caption     : this.txtMoveEnd,
+                        checkable   : false
+                    });
+                    // this.miMoveEnd.on('click', _.bind(this.onMoveEnd, this));
+
+                    this.miMoveFilter = new Common.UI.MenuItem({
+                        caption     : this.txtMoveFilter,
+                        checkable   : false
+                    });
+                    // this.miMoveFilter.on('click', _.bind(this.onMoveFilter, this));
+                    this.miMoveRow = new Common.UI.MenuItem({
+                        caption     : this.txtMoveRow,
+                        checkable   : false
+                    });
+                    // this.miMoveRow.on('click', _.bind(this.onMoveRow, this));
+                    this.miMoveColumn = new Common.UI.MenuItem({
+                        caption     : this.txtMoveColumn,
+                        checkable   : false
+                    });
+                    // this.miMoveColumn.on('click', _.bind(this.onMoveColumn, this));
+                    this.miMoveValues = new Common.UI.MenuItem({
+                        caption     : this.txtMoveValues,
+                        checkable   : false
+                    });
+                    // this.miMoveValues.on('click', _.bind(this.onMoveValues, this));
+
+                    this.miRemove = new Common.UI.MenuItem({
+                        caption     : this.txtRemove,
+                        checkable   : false
+                    });
+                    // this.miRemove.on('click', _.bind(this.onRemove, this));
+
+                    this.miFieldSettings = new Common.UI.MenuItem({
+                        caption     : this.txtFieldSettings,
+                        checkable   : false
+                    });
+                    this.miFieldSettings.on('click', _.bind(this.onFieldSettings, this, record));
+
+                    this.fieldsMenu = new Common.UI.Menu({
+                        menuAlign: 'tr-br',
+                        items: [
+                            this.miMoveUp,
+                            this.miMoveDown,
+                            this.miMoveBegin,
+                            this.miMoveEnd,
+                            {caption     : '--'},
+                            this.miMoveFilter,
+                            this.miMoveRow,
+                            this.miMoveColumn,
+                            this.miMoveValues,
+                            {caption     : '--'},
+                            this.miRemove,
+                            {caption     : '--'},
+                            this.miFieldSettings
+                        ]
+                    });
+                }
+
+                this.miMoveFilter.setDisabled(type == 3); // menu for filter
+                this.miMoveRow.setDisabled(type == 1); // menu for row
+                this.miMoveColumn.setDisabled(type == 0); // menu for column
+                this.miMoveValues.setDisabled(type == 2); // menu for value
+
+                var recIndex = (record != undefined) ? record.get('index') : -1,
+                    len = picker.store.length;
+                this.miMoveUp.setDisabled(recIndex<1);
+                this.miMoveDown.setDisabled(recIndex>len-2 || recIndex<0);
+                this.miMoveBegin.setDisabled(recIndex<1);
+                this.miMoveEnd.setDisabled(recIndex>len-2 || recIndex<0);
+
+                this.miFieldSettings.setDisabled(record.get('pivotIndex')==-2);
+
+                var menu = this.fieldsMenu,
+                    showPoint, me = this,
+                    currentTarget = $(e.currentTarget),
+                    parent = $(this.el),
+                    offset = currentTarget.offset(),
+                    offsetParent = parent.offset();
+
+                showPoint = [offset.left - offsetParent.left + currentTarget.width(), offset.top - offsetParent.top + currentTarget.height()/2];
+
+                var menuContainer = parent.find('#menu-pivot-container');
+                if (!menu.rendered) {
+                    if (menuContainer.length < 1) {
+                        menuContainer = $('<div id="menu-pivot-container" style="position: absolute; z-index: 10000;"><div class="dropdown-toggle" data-toggle="dropdown"></div></div>', menu.id);
+                        parent.append(menuContainer);
+                    }
+                    menu.render(menuContainer);
+                    menu.cmpEl.attr({tabindex: "-1"});
+
+                    menu.on('show:after', function(cmp) {
+                        if (cmp && cmp.menuAlignEl)
+                            cmp.menuAlignEl.toggleClass('over', true);
+                    }).on('hide:after', function(cmp) {
+                        if (cmp && cmp.menuAlignEl)
+                            cmp.menuAlignEl.toggleClass('over', false);
+                    });
+                }
+
+                menu.menuAlignEl = currentTarget;
+                menu.setOffset(-20, -currentTarget.height()/2 - 3);
+                menu.show();
+                _.delay(function() {
+                    menu.cmpEl.focus();
+                }, 10);
+                e.stopPropagation();
+                e.preventDefault();
+            }
+        },
+
         setLocked: function (locked) {
             this._locked = locked;
+        },
+
+        onFieldSettings: function(e) {
+            var me = this;
+            var win;
+            if (me.api && !this._locked){
+                (new SSE.Views.TableSettingsAdvanced(
+                    {
+                        tableProps: me._originalProps,
+                        api: me.api,
+                        handler: function(result, value) {
+                            if (result == 'ok' && me.api && value) {
+                                me.api.asc_changeFormatTableInfo(me._state.TableName, Asc.c_oAscChangeTableStyleInfo.advancedSettings, value);
+                            }
+
+                            Common.NotificationCenter.trigger('edit:complete', me);
+                        }
+                    })).show();
+            }
         },
 
         disableControls: function(disable) {
@@ -468,7 +695,21 @@ define([
         textColumns             : 'Columns',
         textFilters             : 'Filters',
         notcriticalErrorTitle   : 'Warning',
-        textAdvanced:   'Show advanced settings'
+        textAdvanced:   'Show advanced settings',
+        txtMoveUp: 'Move Up',
+        txtMoveDown: 'Move Down',
+        txtMoveBegin: 'Move to Beginning',
+        txtMoveEnd: 'Move to End',
+        txtMoveFilter: 'Move to Filters',
+        txtMoveRow: 'Move to Rows',
+        txtMoveColumn: 'Move to Columns',
+        txtMoveValues: 'Move to Values',
+        txtRemove: 'Remove Field',
+        txtFieldSettings: 'Field Settings',
+        txtAddFilter: 'Add to Filters',
+        txtAddRow: 'Add to Rows',
+        txtAddColumn: 'Add to Columns',
+        txtAddValues: 'Add to Values',
 
     }, SSE.Views.PivotSettings || {}));
 });
