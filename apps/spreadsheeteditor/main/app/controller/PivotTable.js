@@ -159,25 +159,25 @@ define([
                 }
 
                 value = styleInfo.asc_getShowColHeaders();
-                if (this._state.RowBanded!==value) {
-                    view.chRowBanded.setValue(value, true);
-                    this._state.RowBanded=value;
-                    needTablePictures = true;
-                }
+				if (this._state.ColHeader!==value) {
+					view.chColHeader.setValue(value, true);
+					this._state.ColHeader=value;
+					needTablePictures = true;
+				}
 
                 value = styleInfo.asc_getShowColStripes();
-                if (this._state.ColHeader!==value) {
-                    view.chColHeader.setValue(value, true);
-                    this._state.ColHeader=value;
-                    needTablePictures = true;
-                }
+				if (this._state.ColBanded!==value) {
+					view.chColBanded.setValue(value, true);
+					this._state.ColBanded=value;
+					needTablePictures = true;
+				}
 
                 value = styleInfo.asc_getShowRowStripes();
-                if (this._state.ColBanded!==value) {
-                    view.chColBanded.setValue(value, true);
-                    this._state.ColBanded=value;
-                    needTablePictures = true;
-                }
+				if (this._state.RowBanded!==value) {
+					view.chRowBanded.setValue(value, true);
+					this._state.RowBanded=value;
+					needTablePictures = true;
+				}
 
                 if (needTablePictures)
                     // this.onApiInitPivotStyles(this.api.asc_getTablePictures(styleInfo, true));
