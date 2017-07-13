@@ -202,7 +202,7 @@ define([
             var me = this;
             me.btnGoBack.updateHint(me.textBack);
             me.btnGoBack.on('click', function (e) {
-                me.fireEvent('go:back', ['page:new']);
+                Common.NotificationCenter.trigger('goback', true);
             });
 
             if ( me.logo )
