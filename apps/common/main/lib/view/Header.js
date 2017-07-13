@@ -72,7 +72,7 @@ define([
         var templateRightBox = '<section>' +
                             '<label id="rib-doc-name" class="status-label"></label>' +
                             '<a id="rib-save-status" class="status-label locked"><%= textSaveEnd %></a>' +
-                            '<div class="elset">' +
+                            '<div class="hedset">' +
                                 // '<span class="btn-slot text" id="slot-btn-users"></span>' +
                                 '<section id="tlb-box-users" class="box-cousers dropdown"">' +
                                     '<div class="btn-users">' +
@@ -85,6 +85,8 @@ define([
                                         '<label id="tlb-change-rights" class="link"><%= txtAccessRights %></label>' +
                                     '</div>' +
                                 '</section>'+
+                            '</div>' +
+                            '<div class="hedset">' +
                                 '<div class="btn-slot" id="slot-btn-back"></div>' +
                             '</div>' +
                         '</section>';
@@ -279,7 +281,7 @@ define([
 
                 me.btnGoBack = new Common.UI.Button({
                     id: 'btn-goback',
-                    cls: 'btn-toolbar',
+                    cls: 'btn-header',
                     iconCls: 'svgicon svg-btn-goback',
                     split: true
                 });
