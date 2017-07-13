@@ -73,6 +73,10 @@ define([
                             '<label id="rib-doc-name" class="status-label"></label>' +
                             '<a id="rib-save-status" class="status-label locked"><%= textSaveEnd %></a>' +
                             '<div class="hedset">' +
+                                '<div class="btn-slot" id="slot-hbtn-print"></div>' +
+                                '<div class="btn-slot" id="slot-hbtn-download"></div>' +
+                            '</div>' +
+                            '<div class="hedset">' +
                                 // '<span class="btn-slot text" id="slot-btn-users"></span>' +
                                 '<section id="tlb-box-users" class="box-cousers dropdown"">' +
                                     '<div class="btn-users">' +
@@ -170,7 +174,6 @@ define([
 
             $btnUsers.find('.caption')
                 .css({'font-size': (count > 1 ? '12px' : '14px'),
-                    'font-weight': (count > 1 ? 'bold' : 'normal'),
                     'margin-top': (count > 1 ? '0' : '-1px')})
                 .html(count > 1 ? count : '&plus;');
 
@@ -249,6 +252,22 @@ define([
                     $saveStatus.addClass('locked');
                 }
             }
+
+            if ( !mode.isEdit ) {
+                if ( me.btnDownload ) {
+                    me.btnDownload.updateHint('Download document');
+                    me.btnDownload.on('click', function (e) {
+                        me.fireEvent('downloadas', ['original']);
+                    });
+                }
+
+                if ( me.btnPrint ) {
+                    me.btnDownload.updateHint('Print');
+                    me.btnPrint.on('click', function (e) {
+                        me.fireEvent('print', me);
+                    });
+                }
+            }
         }
 
         return {
@@ -293,7 +312,6 @@ define([
                     reset   : onResetUsers
                 });
 
-
                 Common.NotificationCenter.on('app:ready', function(mode) {
                     Common.Utils.asyncCall(onAppReady, me, mode);
                 });
@@ -334,6 +352,28 @@ define([
                             this.btnGoBack.render($html.find('#slot-btn-back'));
                         } else {
                             $html.find('#slot-btn-back').hide();
+                        }
+                    }
+
+                    if ( !config.isEdit ) {
+                        if ( (config.canDownload || config.canDownloadOrigin) && !config.isOffline  ) {
+                            this.btnDownload = new Common.UI.Button({
+                                id: 'btn-download',
+                                cls: 'btn-header',
+                                iconCls: 'svgicon svg-btn-download'
+                            });
+
+                            this.btnDownload.render($html.find('#slot-hbtn-download'));
+                        }
+
+                        if ( config.canPrint ) {
+                            this.btnPrint = new Common.UI.Button({
+                                id: 'btn-goback',
+                                cls: 'btn-header',
+                                iconCls: 'svgicon svg-btn-print'
+                            });
+
+                            this.btnPrint.render($html.find('#slot-hbtn-print'));
                         }
                     }
 

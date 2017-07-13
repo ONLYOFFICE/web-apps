@@ -80,7 +80,7 @@ define([
                 Common.UI.Mixtbar.prototype.initialize.call(this, {
                         template: _.template(template),
                         tabs: [
-                            { caption: me.textTabFile, action: 'file'},
+                            { caption: me.textTabFile, action: 'file', extcls: 'canedit'},
                             { caption: me.textTabHome, action: 'home', extcls: 'canedit'},
                             { caption: me.textTabInsert, action: 'ins', extcls: 'canedit'},
                             { caption: me.textTabLayout, action: 'layout', extcls: 'canedit'}
