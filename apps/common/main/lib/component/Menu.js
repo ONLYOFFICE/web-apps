@@ -454,6 +454,7 @@ define([
                         Common.UI.Menu.Manager.hideAll();
                     if ( $(e.currentTarget).closest('li').hasClass('dropdown-submenu')) {
                         e.stopPropagation();
+                        return false;
                     }
                 } else if (e.keyCode == Common.UI.Keys.UP || e.keyCode == Common.UI.Keys.DOWN)  {
                     this.fromKeyDown = true;
