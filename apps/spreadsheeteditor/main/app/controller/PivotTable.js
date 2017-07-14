@@ -127,8 +127,6 @@ define([
                     this._originalProps.asc_getStyleInfo().asc_setShowColStripes(this.api, this._originalProps, value=='checked');
                     break;
             }
-            // this.onApiInitPivotStyles(this.api.asc_getTablePictures(this._originalProps.asc_getStyleInfo(), true));
-            this.onApiInitPivotStyles(this.api.asc_getTablePictures(null, true));
             Common.NotificationCenter.trigger('edit:complete', this);
         },
 
@@ -180,8 +178,7 @@ define([
 				}
 
                 if (needTablePictures)
-                    // this.onApiInitPivotStyles(this.api.asc_getTablePictures(styleInfo, true));
-                    this.onApiInitPivotStyles(this.api.asc_getTablePictures(null, true));
+                    this.onApiInitPivotStyles(this.api.asc_getTablePictures(styleInfo, true));
 
                 //for table-template
                 value = styleInfo.asc_getName();
@@ -208,8 +205,7 @@ define([
         onSendThemeColors: function() {
             // get new table templates
             if (this.view.pivotStyles && this._originalProps) {
-                // this.onApiInitPivotStyles(this.api.asc_getTablePictures(this._originalProps.asc_getStyleInfo(), true));
-                this.onApiInitPivotStyles(this.api.asc_getTablePictures(null, true));
+                this.onApiInitPivotStyles(this.api.asc_getTablePictures(this._originalProps.asc_getStyleInfo(), true));
                 this.view.pivotStyles.menuPicker.scroller.update({alwaysVisibleY: true});
             }
         },
