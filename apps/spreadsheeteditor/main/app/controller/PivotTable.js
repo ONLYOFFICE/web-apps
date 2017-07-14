@@ -115,16 +115,16 @@ define([
             // for test
             switch (type) {
                 case 0:
-                    this._originalProps.asc_getStyleInfo().asc_putShowRowHeaders(value=='checked');
+                    this._originalProps.asc_getStyleInfo().asc_setShowRowHeaders(this.api, this._originalProps, value=='checked');
                     break;
                 case 1:
-                    this._originalProps.asc_getStyleInfo().asc_putShowColHeaders(value=='checked');
+                    this._originalProps.asc_getStyleInfo().asc_setShowColHeaders(this.api, this._originalProps, value=='checked');
                     break;
                 case 2:
-                    this._originalProps.asc_getStyleInfo().asc_putShowRowBanded(value=='checked');
+                    this._originalProps.asc_getStyleInfo().asc_setShowRowStripes(this.api, this._originalProps, value=='checked');
                     break;
                 case 3:
-                    this._originalProps.asc_getStyleInfo().asc_putShowColBanded(value=='checked');
+                    this._originalProps.asc_getStyleInfo().asc_setShowColStripes(this.api, this._originalProps, value=='checked');
                     break;
             }
             // this.onApiInitPivotStyles(this.api.asc_getTablePictures(this._originalProps.asc_getStyleInfo(), true));
