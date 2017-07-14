@@ -45,7 +45,8 @@ define([
     'underscore',
     'backbone',
     'common/main/lib/component/Button',
-    'common/main/lib/component/ListView'
+    'common/main/lib/component/ListView',
+    'spreadsheeteditor/main/app/view/ValueFieldSettingsDialog'
 ], function (menuTemplate, $, _, Backbone, Sortable) {
     'use strict';
 
@@ -67,18 +68,8 @@ define([
             this._initSettings = true;
 
             this._state = {
-                TableName: '',
-                TemplateName: '',
-                Range: '',
-                CheckHeader: false,
-                CheckTotal: false,
-                CheckBanded: false,
-                CheckFirst: false,
-                CheckLast: false,
-                CheckColBanded: false,
-                CheckFilter: false,
-                DisabledControls: false,
-                TableNameError: false
+                names: [],
+                DisabledControls: false
             };
             this.lockedControls = [];
             this._locked = false;
@@ -292,10 +283,11 @@ define([
 
                 var me = this,
                     cache_names = props.asc_getCacheFields(),
-                    pivot_names = props.asc_getPivotFields(),
-                    names = [];
+                    pivot_names = props.asc_getPivotFields();
+
+                this._state.names = [];
                 pivot_names.forEach(function (item, index) {
-                    names[index] = item.asc_getName() || cache_names[index].asc_getName();
+                    me._state.names[index] = item.asc_getName() || cache_names[index].asc_getName();
                 });
 
                 var arr = [], isChecked = [],
@@ -303,7 +295,7 @@ define([
                 value && value.forEach(function (item, index) {
                     var pivotIndex = item.asc_getIndex();
                     if (pivotIndex>-1 || pivotIndex == -2) {
-                        var name = (pivotIndex>-1) ? names[pivotIndex] : me.textValues;
+                        var name = (pivotIndex>-1) ? me._state.names[pivotIndex] : me.textValues;
                         arr.push(new Common.UI.DataViewModel({
                             selected        : false,
                             allowSelected   : false,
@@ -323,7 +315,7 @@ define([
                 value && value.forEach(function (item, index) {
                     var pivotIndex = item.asc_getIndex();
                     if (pivotIndex>-1 || pivotIndex == -2) {
-                        var name = (pivotIndex>-1) ? names[pivotIndex] : me.textValues;
+                        var name = (pivotIndex>-1) ? me._state.names[pivotIndex] : me.textValues;
                         arr.push(new Common.UI.DataViewModel({
                             selected        : false,
                             allowSelected   : false,
@@ -352,7 +344,7 @@ define([
                             value           : name,
                             tip             : (name.length>10) ? name : ''
                         }));
-                        isChecked[names[pivotIndex]] = true;
+                        isChecked[me._state.names[pivotIndex]] = true;
                     }
                 });
                 this.valuesList.store.reset(arr);
@@ -363,7 +355,7 @@ define([
                 value && value.forEach(function (item, index) {
                     var pivotIndex = item.asc_getIndex();
                     if (pivotIndex>-1) {
-                        var name = names[pivotIndex];
+                        var name = me._state.names[pivotIndex];
                         arr.push(new Common.UI.DataViewModel({
                             selected        : false,
                             allowSelected   : false,
@@ -379,13 +371,13 @@ define([
                 this.filtersList.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true, suppressScrollX: true});
 
                 arr = [];
-                names.forEach(function (item, index) {
+                me._state.names.forEach(function (item, index) {
                     arr.push(new Common.UI.DataViewModel({
                         selected        : false,
                         allowSelected   : false,
                         value           : item,
                         index           : index,
-                        tip             : (name.length>25) ? name : '',
+                        tip             : (item.length>25) ? item : '',
                         check           : isChecked[item]
                     }));
                 });
@@ -578,7 +570,7 @@ define([
                         caption     : this.txtFieldSettings,
                         checkable   : false
                     });
-                    this.miFieldSettings.on('click', _.bind(this.onFieldSettings, this, record));
+                    this.miFieldSettings.on('click', _.bind(this.onFieldSettings, this, record, type));
 
                     this.fieldsMenu = new Common.UI.Menu({
                         menuAlign: 'tr-br',
@@ -656,17 +648,20 @@ define([
             this._locked = locked;
         },
 
-        onFieldSettings: function(e) {
+        onFieldSettings: function(record, type, e) {
             var me = this;
             var win;
             if (me.api && !this._locked){
-                (new SSE.Views.TableSettingsAdvanced(
+                if (type == 2) // value field
+                    (new SSE.Views.ValueFieldSettingsDialog(
                     {
-                        tableProps: me._originalProps,
+                        props: me._originalProps,
+                        fieldIndex: record.get('index'),
+                        names: me._state.names,
                         api: me.api,
                         handler: function(result, value) {
                             if (result == 'ok' && me.api && value) {
-                                me.api.asc_changeFormatTableInfo(me._state.TableName, Asc.c_oAscChangeTableStyleInfo.advancedSettings, value);
+                                // me.api.asc_changeFormatTableInfo(me._state.TableName, Asc.c_oAscChangeTableStyleInfo.advancedSettings, value);
                             }
 
                             Common.NotificationCenter.trigger('edit:complete', me);
