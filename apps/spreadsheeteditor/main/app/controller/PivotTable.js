@@ -134,9 +134,9 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this);
         },
 
-        onPivotStyleSelect: function(combo, record){
+        onPivotStyleSelect: function(record){
             if (this.api && !this._noApply) {
-                // this.api.asc_changeAutoFilter(this._state.TableName, Asc.c_oAscChangeFilterOptions.style, record.get('name'));
+                this._originalProps.asc_getStyleInfo().asc_setName(this.api, this._originalProps, record.get('name'));
             }
             Common.NotificationCenter.trigger('edit:complete', this);
         },
