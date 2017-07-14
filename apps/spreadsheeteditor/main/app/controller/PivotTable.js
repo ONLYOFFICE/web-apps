@@ -178,7 +178,7 @@ define([
 				}
 
                 if (needTablePictures)
-                    this.onApiInitPivotStyles(this.api.asc_getTablePictures(styleInfo, true));
+                    this.onApiInitPivotStyles(this.api.asc_getTablePictures(this._originalProps, true));
 
                 //for table-template
                 value = styleInfo.asc_getName();
@@ -205,7 +205,7 @@ define([
         onSendThemeColors: function() {
             // get new table templates
             if (this.view.pivotStyles && this._originalProps) {
-                this.onApiInitPivotStyles(this.api.asc_getTablePictures(this._originalProps.asc_getStyleInfo(), true));
+                this.onApiInitPivotStyles(this.api.asc_getTablePictures(this._originalProps, true));
                 this.view.pivotStyles.menuPicker.scroller.update({alwaysVisibleY: true});
             }
         },
