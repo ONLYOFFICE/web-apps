@@ -58,7 +58,11 @@ define([
                     // comments handlers
                     'pivottable:rowscolumns':   _.bind(this.onCheckTemplateChange, this),
                     'pivottable:create':        _.bind(this.onCreateClick, this),
-                    'pivottable:style':         _.bind(this.onPivotStyleSelect, this)
+                    'pivottable:style':         _.bind(this.onPivotStyleSelect, this),
+                    'pivottable:layout':        _.bind(this.onPivotLayout, this),
+                    'pivottable:blankrows':     _.bind(this.onPivotBlankRows, this),
+                    'pivottable:subtotals':     _.bind(this.onPivotSubtotals, this),
+                    'pivottable:grandtotals':   _.bind(this.onPivotGrandTotals, this)
                 }
             });
         },
@@ -135,8 +139,75 @@ define([
         },
 
         onPivotStyleSelect: function(record){
-            if (this.api && !this._noApply) {
+            if (this.api) {
                 this._originalProps.asc_getStyleInfo().asc_setName(this.api, this._originalProps, record.get('name'));
+            }
+            Common.NotificationCenter.trigger('edit:complete', this);
+        },
+
+        onPivotBlankRows: function(type){
+            if (this.api) {
+                if (type === 'insert'){
+
+                } else {
+
+                }
+            }
+            Common.NotificationCenter.trigger('edit:complete', this);
+        },
+
+        onPivotLayout: function(type){
+            if (this.api) {
+                switch (type){
+                    case 0:
+                        break;
+                    case 1:
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        break;
+                    case 4:
+                        break;
+                }
+            }
+            Common.NotificationCenter.trigger('edit:complete', this);
+        },
+
+        onPivotGrandTotals: function(type){
+            if (this.api) {
+                switch (type){
+                    case 0:
+                        // this._originalProps.asc_setColGrandTotals(false);
+                        // this._originalProps.asc_setRowGrandTotals(false);
+                        break;
+                    case 1:
+                        // this._originalProps.asc_setColGrandTotals(true);
+                        // this._originalProps.asc_setRowGrandTotals(true);
+                        break;
+                    case 2:
+                        // this._originalProps.asc_setColGrandTotals(false);
+                        // this._originalProps.asc_setRowGrandTotals(true);
+                        break;
+                    case 3:
+                        // this._originalProps.asc_setColGrandTotals(true);
+                        // this._originalProps.asc_setRowGrandTotals(false);
+                        break;
+                }
+            }
+            Common.NotificationCenter.trigger('edit:complete', this);
+        },
+
+        onPivotSubtotals: function(type){
+            if (this.api) {
+                switch (type){
+                    case 0:
+                        break;
+                    case 1:
+                        break;
+                    case 2:
+                        break;
+                }
             }
             Common.NotificationCenter.trigger('edit:complete', this);
         },
