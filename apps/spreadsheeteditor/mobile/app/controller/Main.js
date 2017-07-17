@@ -527,6 +527,7 @@ define([
                     mode: me.appOptions.isEdit ? 'edit' : 'view'
                 });
 
+                SSE.getController('Toolbar').activateControls();
 
                 if (me._state.licenseWarning) {
                     value = Common.localStorage.getItem("sse-license-warning");

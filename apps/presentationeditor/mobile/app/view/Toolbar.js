@@ -93,6 +93,7 @@ define([
                 }));
 
                 $('.view-main .navbar').on('addClass removeClass', _.bind(me.onDisplayMainNavbar, me));
+                $('#toolbar-preview, #toolbar-edit, #toolbar-add, #toolbar-settings, #toolbar-search, #document-back').addClass('disabled');
 
                 return me;
             },

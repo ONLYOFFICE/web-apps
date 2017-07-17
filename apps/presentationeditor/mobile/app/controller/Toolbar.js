@@ -168,6 +168,10 @@ define([
                 }
             },
 
+            activateControls: function() {
+                $('#toolbar-preview, #toolbar-settings, #toolbar-search, #document-back').removeClass('disabled');
+            },
+
             dlgLeaveTitleText   : 'You leave the application',
             dlgLeaveMsgText     : 'You have unsaved changes in this document. Click \'Stay on this Page\' to await the autosave of the document. Click \'Leave this Page\' to discard all the unsaved changes.',
             leaveButtonText     : 'Leave this Page',
