@@ -183,6 +183,7 @@ require([
         'spreadsheeteditor/main/app/view/ShapeSettings',
         'spreadsheeteditor/main/app/view/TextArtSettings',
         'spreadsheeteditor/main/app/view/PivotSettings',
+        'spreadsheeteditor/main/app/view/FieldSettingsDialog',
         'spreadsheeteditor/main/app/view/ValueFieldSettingsDialog',
         'common/main/lib/util/utils',
         'common/main/lib/util/LocalStorage',

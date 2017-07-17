@@ -41,7 +41,7 @@
 
 define([
     'common/main/lib/util/utils',
-    'common/main/lib/component/MetricSpinner',
+    'common/main/lib/component/InputField',
     'common/main/lib/component/ComboBox',
     'common/main/lib/view/AdvancedSettingsWindow'
 ], function () { 'use strict';

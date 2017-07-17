@@ -46,6 +46,7 @@ define([
     'backbone',
     'common/main/lib/component/Button',
     'common/main/lib/component/ListView',
+    'spreadsheeteditor/main/app/view/FieldSettingsDialog',
     'spreadsheeteditor/main/app/view/ValueFieldSettingsDialog'
 ], function (menuTemplate, $, _, Backbone, Sortable) {
     'use strict';
@@ -652,7 +653,7 @@ define([
             var me = this;
             var win;
             if (me.api && !this._locked){
-                if (type == 2) // value field
+                if (type == 2) { // value field
                     (new SSE.Views.ValueFieldSettingsDialog(
                     {
                         props: me._originalProps,
@@ -667,6 +668,23 @@ define([
                             Common.NotificationCenter.trigger('edit:complete', me);
                         }
                     })).show();
+                } else {
+                    (new SSE.Views.FieldSettingsDialog(
+                        {
+                            props: me._originalProps,
+                            fieldIndex: record.get('index'),
+                            names: me._state.names,
+                            api: me.api,
+                            type: type,
+                            handler: function(result, value) {
+                                if (result == 'ok' && me.api && value) {
+                                    // me.api.asc_changeFormatTableInfo(me._state.TableName, Asc.c_oAscChangeTableStyleInfo.advancedSettings, value);
+                                }
+
+                                Common.NotificationCenter.trigger('edit:complete', me);
+                            }
+                        })).show();
+                }
             }
         },
 
