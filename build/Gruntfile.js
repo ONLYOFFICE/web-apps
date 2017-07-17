@@ -23,6 +23,8 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-htmlmin');
     grunt.loadNpmTasks('grunt-text-replace');
     grunt.loadNpmTasks('grunt-mocha');
+    grunt.loadNpmTasks('grunt-inline');
+    grunt.loadNpmTasks('grunt-svgmin');
 
     function doRegisterTask(name, callbackConfig) {
         return grunt.registerTask(name + '-init', function() {
@@ -142,7 +144,12 @@ module.exports = function(grunt) {
                 options: {
                     force: true
                 },
-                files: packageFile['main']['clean']
+                prebuild: {
+                    src: packageFile['main']['clean']
+                },
+                postbuild: {
+                    src: packageFile.main.svgicons.clean
+                }
             },
 
             less: {
@@ -209,6 +216,24 @@ module.exports = function(grunt) {
                 },
                 'index-page': {
                     files: packageFile['main']['copy']['index-page']
+                }
+            },
+
+            inline: {
+                dist: {
+                    src: packageFile.main.copy['index-page'][0].dest,
+                    dest: packageFile.main.copy['index-page'][0].dest
+                }
+            },
+
+            svgmin: {
+                options: {
+                    plugins: [{
+                        cleanupIDs: false
+                    }]
+                },
+                dist: {
+                    files: packageFile.main.svgicons.common
                 }
             }
         });
@@ -375,8 +400,8 @@ module.exports = function(grunt) {
     grunt.registerTask('deploy-jsziputils',             ['jsziputils-init', 'clean', 'copy']);
     grunt.registerTask('deploy-requirejs',              ['requirejs-init', 'clean', 'uglify']);
 
-    grunt.registerTask('deploy-app-main',               ['main-app-init', 'clean', 'imagemin', 'less', 'requirejs', 'concat',
-                                                            'copy', 'replace:writeVersion']);
+    grunt.registerTask('deploy-app-main',               ['main-app-init', 'clean:prebuild', 'imagemin', 'less', 'requirejs', 'concat',
+                                                            'copy', 'svgmin', 'inline', 'replace:writeVersion', 'clean:postbuild']);
 
     grunt.registerTask('deploy-app-mobile',             ['mobile-app-init', 'clean:deploy', 'cssmin', 'copy:template-backup',
                                                             'htmlmin', 'requirejs', 'concat', 'copy:template-restore',
