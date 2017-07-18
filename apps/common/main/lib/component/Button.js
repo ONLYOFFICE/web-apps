@@ -134,7 +134,9 @@ define([
                 '<div class="inner-box-icon">' +
                     templateBtnIcon +
                 '</div>' +
-                '<span class="caption"><%= caption %></span>' +
+                '<div class="inner-box-caption">' +
+                    '<span class="caption"><%= caption %></span>' +
+                '</div>' +
             '</button>';
 
     var templateHugeMenuCaption =
@@ -145,7 +147,7 @@ define([
                 '</div>' +
                 '<div class="inner-box-caption">' +
                     '<span class="caption"><%= caption %></span>' +
-                    '<span class="caret img-commonctrl"></span>' +
+                    '<i class="caret img-commonctrl"></i>' +
                 '</div>' +
             '</button>' +
         '</div>';
@@ -157,7 +159,7 @@ define([
             '</button>' +
             '<button type="button" class="btn <%= cls %> inner-box-caption dropdown-toggle" data-toggle="dropdown">' +
                 '<span class="caption"><%= caption %></span>' +
-                '<span class="caret img-commonctrl"></span>' +
+                '<i class="caret img-commonctrl"></i>' +
             '</button>' +
         '</div>';
 
@@ -198,7 +200,9 @@ define([
                     '<button type="button" class="btn dropdown-toggle <%= cls %>" data-toggle="dropdown">',
                         '<% applyicon() %>',
                         '<span class="caption"><%= caption %></span>',
-                        '<span class="caret img-commonctrl"></span>',
+                        '<span class="inner-box-caret">' +
+                            '<i class="caret img-commonctrl"></i>' +
+                        '</span>',
                     '</button>',
                 '</div>',
             '<% } else { %>',
@@ -208,7 +212,7 @@ define([
                         '<span class="caption"><%= caption %></span>',
                     '</button>',
                     '<button type="button" class="btn <%= cls %> dropdown-toggle" data-toggle="dropdown">',
-                        '<span class="caret img-commonctrl"></span>',
+                        '<i class="caret img-commonctrl"></i>',
                         '<span class="sr-only"></span>',
                     '</button>',
                 '</div>',

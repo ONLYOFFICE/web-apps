@@ -482,8 +482,6 @@ define([
 
                 me.api.asc_setSpellCheck(false); // don't use spellcheck for mobile mode
 
-                Common.localStorage.setItem("de-settings-showsnaplines", me.api.get_ShowSnapLines() ? 1 : 0);
-
                 me.api.asc_registerCallback('asc_onStartAction',            _.bind(me.onLongActionBegin, me));
                 me.api.asc_registerCallback('asc_onEndAction',              _.bind(me.onLongActionEnd, me));
                 me.api.asc_registerCallback('asc_onCoAuthoringDisconnect',  _.bind(me.onCoAuthoringDisconnect, me));
@@ -540,6 +538,8 @@ define([
                     me.api.Resize();
                     me.api.zoomFitToWidth();
                 }
+
+                DE.getController('Toolbar').activateControls();
 
                 if (me._state.licenseWarning) {
                     value = Common.localStorage.getItem("de-license-warning");

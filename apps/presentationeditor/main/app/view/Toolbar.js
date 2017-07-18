@@ -138,7 +138,7 @@ define([
                 Common.UI.Mixtbar.prototype.initialize.call(this, {
                     template: _.template(template),
                     tabs: [
-                        { caption: 'File', action: 'file'},
+                        { caption: 'File', action: 'file', extcls: 'canedit'},
                         { caption: 'Home', action: 'home', extcls: 'canedit'},
                         { caption: 'Insert', action: 'ins', extcls: 'canedit'}
                     ]}

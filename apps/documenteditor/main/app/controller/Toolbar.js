@@ -112,6 +112,12 @@ define([
                 'FileMenu': {
                     'menu:hide': this.onFileMenu.bind(this, 'hide'),
                     'menu:show': this.onFileMenu.bind(this, 'show')
+                },
+                'Common.Views.Header': {
+                    'print': this.onPrint.bind(this),
+                    'downloadas': function (opts) {
+                        this.api.asc_DownloadOrigin();
+                    }.bind(this)
                 }
             });
 
@@ -347,7 +353,7 @@ define([
         },
 
         onContextMenu: function() {
-            this.toolbar.collapseToolbar();
+            this.toolbar.collapse();
         },
 
         onApiFontSize: function(size) {

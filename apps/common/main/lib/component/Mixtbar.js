@@ -73,7 +73,7 @@ define([
             if ( this.isFolded ) {
                 if ( $(e.target).parents('.toolbar').length ){
                 } else {
-                    this.collapseToolbar();
+                    this.collapse();
                 }
             }
         }
@@ -122,10 +122,10 @@ define([
                 if ( this.isFolded ) {
                     if (!optsFold.$box) optsFold.$box = me.$el.find('.box-controls');
 
-                    optsFold.$bar.addClass('folded');
+                    optsFold.$bar.toggleClass('expanded', true).addClass('folded');
                     optsFold.$box.on({
                         mouseleave: function (e) {
-                            optsFold.timer = setTimeout(me.collapseToolbar, optsFold.timeout);
+                            optsFold.timer = setTimeout(me.collapse, optsFold.timeout);
                         },
                         mouseenter: function (e) {
                             clearTimeout(optsFold.timer);
@@ -163,7 +163,7 @@ define([
                 }
             },
 
-            collapseToolbar: function() {
+            collapse: function() {
                 if ( this.isFolded && optsFold.$bar ) {
                     optsFold.$bar.removeClass('expanded');
                     optsFold.$bar.find('.tabs .ribtab').removeClass('active');
@@ -172,11 +172,11 @@ define([
                 Common.UI.Menu.Manager.hideAll();
             },
 
-            expandToolbar: function() {
+            expand: function() {
                 clearTimeout(optsFold.timer);
 
                 optsFold.$bar.addClass('expanded');
-                optsFold.timer = setTimeout(this.collapseToolbar, optsFold.timeout);
+                optsFold.timer = setTimeout(this.collapse, optsFold.timeout);
             },
 
             onResize: function(e) {
@@ -193,7 +193,7 @@ define([
                 if ( !tab ) {
                     onShowFullviewPanel.call(this, false);
 
-                    if ( this.isFolded ) { /*this.collapseToolbar();*/ }
+                    if ( this.isFolded ) { this.collapse(); }
                     else tab = this.lastPanel;
                 }
 
@@ -207,16 +207,16 @@ define([
                         panel.addClass('active');
                     }
 
+                    if ( panel.length ) {
+                        if ( this.isFolded ) this.expand();
+                    } else {
+                        onShowFullviewPanel.call(this, true);
+                        if ( this.isFolded ) this.collapse();
+                    }
+
                     var $tp = this.$tabs.find('> a[data-tab=' + tab + ']').parent();
                     if ( $tp.length ) {
                         $tp.addClass('active');
-                    }
-
-                    if ( panel.length ) {
-                        if ( this.isFolded ) this.expandToolbar();
-                    } else {
-                        onShowFullviewPanel.call(this, true);
-                        if ( this.isFolded ) this.collapseToolbar();
                     }
                 }
             },

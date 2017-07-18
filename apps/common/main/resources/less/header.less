@@ -28,12 +28,12 @@
 
 .toolbar {
     .extra {
-        .elset:not(:first-child) {
-            margin-top: 0;
-        }
-
         svg.icon {
             fill: #fff;
+        }
+
+        .btn-slot {
+            width: auto;
         }
     }
 }
@@ -51,8 +51,8 @@
     }
 
     &.right {
+        flex-grow: 1;
         min-width: 100px;
-        padding-right: 12px;
 
         .desktop {
             padding: 10px 0;
@@ -68,10 +68,17 @@
         color: #fff;
     }
 
-    .btn-toolbar {
-        &:hover, &:active {
+    .btn-users,
+    .btn-header {
+        &:hover {
             &:not(.disabled) {
-                background-color: transparent;
+                background-color: rgba(255,255,255,0.2);
+            }
+        }
+
+        &:active {
+            &:not(.disabled) {
+                background-color: rgba(0,0,0,0.2);
             }
         }
     }
@@ -82,7 +89,7 @@
         text-overflow: ellipsis;
         overflow: hidden;
         min-width: 50px;
-        text-align: right;
+        text-align: center;
     }
 
     #rib-save-status {
@@ -118,22 +125,17 @@
 }
 
 #tlb-box-users {
-    display: inline-block;
-    margin-right: 10px;
+    height: @height-tabs;
 }
 
 #tlb-change-rights {
     margin-top: 15px;
 }
 
-#slot-btn-back {
-    float: right;
-}
-
 .btn-users {
     display: inline-flex;
     cursor: pointer;
-    padding: 0 7px;
+    padding: 6px 12px;
 
     .icon {
         display: inline-block;
@@ -202,5 +204,21 @@
             text-overflow: ellipsis;
             vertical-align: middle;
         }
+    }
+}
+
+.hedset {
+    font-size: 0;
+}
+
+.btn-header {
+    border: 0 none;
+    height: @height-tabs;
+    background-color: transparent;
+    padding: 6px 12px;
+
+    .icon {
+        width: 20px;
+        height: 20px;
     }
 }

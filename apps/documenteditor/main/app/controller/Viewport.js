@@ -77,12 +77,6 @@ define([
                     'view:compact'  : function (toolbar, state) {
                         me.viewport.vlayout.panels[0].height = state ? 32 : 32+67;
                     }
-                },
-                'Common.Views.Header': {
-                    'go:back': function (opts) {
-                        Common.NotificationCenter.trigger('goback', /new/.test(opts));
-                        // Common.component.Analytics.trackEvent('Back to Folder');
-                    }
                 }
             });
         },
