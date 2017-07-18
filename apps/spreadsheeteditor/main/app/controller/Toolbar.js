@@ -327,7 +327,7 @@ define([
         // },
 
         onContextMenu: function() {
-            this.toolbar.collapseToolbar();
+            this.toolbar.collapse();
         },
 
         onPrint: function(e) {
