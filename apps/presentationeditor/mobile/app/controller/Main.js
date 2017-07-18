@@ -456,8 +456,6 @@ define([
                 var zf = (value!==null) ? parseInt(value) : (me.appOptions.customization && me.appOptions.customization.zoom ? parseInt(me.appOptions.customization.zoom) : -1);
                 (zf == -1) ? me.api.zoomFitToPage() : ((zf == -2) ? me.api.zoomFitToWidth() : me.api.zoom(zf>0 ? zf : 100));
 
-                Common.localStorage.setItem("pe-settings-showsnaplines", me.api.get_ShowSnapLines() ? 1 : 0);
-
                 me.api.asc_setSpellCheck(false); // don't use spellcheck for mobile mode
 
                 me.api.asc_registerCallback('asc_onStartAction',            _.bind(me.onLongActionBegin, me));
@@ -479,8 +477,6 @@ define([
                 }
                 me.api.asc_SetFastCollaborative(me._state.fastCoauth);
                 /** coauthoring end **/
-
-                Common.localStorage.setItem("pe-settings-showsnaplines", me.api.get_ShowSnapLines() ? 1 : 0);
 
                 if (me.appOptions.isEdit) {
                     value = me._state.fastCoauth; // Common.localStorage.getItem("de-settings-autosave");
