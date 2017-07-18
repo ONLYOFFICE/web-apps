@@ -64,6 +64,10 @@ define([
                 '</div>' +
                 '<div class="separator long"/>' +
                 '<div class="group">' +
+                    '<span id="slot-btn-refresh-pivot" class="btn-slot text x-huge"></span>' +
+                '</div>' +
+                '<div class="separator long"/>' +
+                '<div class="group">' +
                     '<div class="elset">' +
                         '<span class="btn-slot text" id="slot-chk-header-row"></span>' +
                     '</div>' +
@@ -104,6 +108,10 @@ define([
 
             this.btnPivotGrandTotals.menu.on('item:click', function (menu, item, e) {
                 me.fireEvent('pivottable:grandtotals', [item.value]);
+            });
+
+            this.btnRefreshPivot.on('click', function (e) {
+                me.fireEvent('pivottable:refresh');
             });
 
             this.chRowHeader.on('change', function (field, value) {
@@ -222,6 +230,13 @@ define([
                 });
                 this.lockedControls.push(this.btnPivotGrandTotals);
 
+                this.btnRefreshPivot = new Common.UI.Button({
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'btn-ic-docspell',
+                    caption: this.txtRefresh
+                });
+                // this.lockedControls.push(this.btnRefreshPivot);
+
                 this.pivotStyles = new Common.UI.ComboDataView({
                     cls             : 'combo-pivot-template',
                     enableKeyEvents : true,
@@ -248,10 +263,11 @@ define([
                     accept();
                 })).then(function(){
                     me.btnAddPivot.updateHint(me.tipCreatePivot);
+                    me.btnRefreshPivot.updateHint(me.tipRefresh);
                     me.btnPivotLayout.updateHint(me.capLayout);
                     me.btnPivotBlankRows.updateHint(me.capBlankRows);
-                    me.btnPivotSubtotals.updateHint(me.capSubtotals);
-                    me.btnPivotGrandTotals.updateHint(me.capGrandTotals);
+                    me.btnPivotSubtotals.updateHint(me.tipSubtotals);
+                    me.btnPivotGrandTotals.updateHint(me.tipGrandTotals);
 
                     setEvents.call(me);
                 });
@@ -266,6 +282,7 @@ define([
                 this.chColBanded.render(this.$el.find('#slot-chk-banded-column'));
 
                 this.btnAddPivot.render(this.$el.find('#slot-btn-add-pivot'));
+                this.btnRefreshPivot.render(this.$el.find('#slot-btn-refresh-pivot'));
                 this.btnPivotLayout.render(this.$el.find('#slot-btn-pivot-report-layout'));
                 this.btnPivotBlankRows.render(this.$el.find('#slot-btn-pivot-blank-rows'));
                 this.btnPivotSubtotals.render(this.$el.find('#slot-btn-pivot-subtotals'));
@@ -314,8 +331,11 @@ define([
             mniLayoutNoRepeat: 'Don\'t Repeat All Item Labels',
             mniNoSubtotals: 'Don\'t Show Subtotals',
             mniBottomSubtotals: 'Show all Subtotals at Bottom of Group',
-            mniTopSubtotals: 'Show all Subtotals at Top of Group'
-
+            mniTopSubtotals: 'Show all Subtotals at Top of Group',
+            txtRefresh: 'Refresh',
+            tipRefresh: 'Update the information from data source',
+            tipGrandTotals: 'Show or hide grand totals',
+            tipSubtotals: 'Show or hide subtotals'
         }
     }()), SSE.Views.PivotTable || {}));
 });
