@@ -47,7 +47,8 @@ define([
     'common/main/lib/component/Button',
     'common/main/lib/component/ListView',
     'spreadsheeteditor/main/app/view/FieldSettingsDialog',
-    'spreadsheeteditor/main/app/view/ValueFieldSettingsDialog'
+    'spreadsheeteditor/main/app/view/ValueFieldSettingsDialog',
+    'spreadsheeteditor/main/app/view/PivotSettingsAdvanced'
 ], function (menuTemplate, $, _, Backbone, Sortable) {
     'use strict';
 
@@ -70,7 +71,8 @@ define([
 
             this._state = {
                 names: [],
-                DisabledControls: false
+                DisabledControls: false,
+                field: {}
             };
             this.lockedControls = [];
             this._locked = false;
@@ -81,85 +83,13 @@ define([
             this.render();
         },
 
-        onCheckTemplateChange: function(type, stateName, field, newValue, oldValue, eOpts) {
-            this._state[stateName] = undefined;
-            if (this.api)
-                this.api.asc_changeFormatTableInfo(this._state.TableName, type, newValue=='checked');
-            Common.NotificationCenter.trigger('edit:complete', this);
-        },
-
-        onTableTemplateSelect: function(combo, record){
-            if (this.api && !this._noApply) {
-                this.api.asc_changeAutoFilter(this._state.TableName, Asc.c_oAscChangeFilterOptions.style, record.get('name'));
-            }
-            Common.NotificationCenter.trigger('edit:complete', this);
-        },
-
-        onEditClick: function(menu, item, e) {
-            if (this.api) {
-                if (item.options.idx>=0 && item.options.idx<4)
-                    this.api.asc_changeSelectionFormatTable(this._state.TableName, item.value);
-                else if (item.options.idx>=4 && item.options.idx<8) {
-                    this.api.asc_insertCellsInTable(this._state.TableName, item.value);
-                } else {
-                    this.api.asc_deleteCellsInTable(this._state.TableName, item.value);
-                }
-            }
-            Common.NotificationCenter.trigger('edit:complete', this);
-        },
-
-        onTableNameChanged: function(input, newValue, oldValue) {
-            var oldName = this._state.TableName;
-            this._state.TableName = '';
-
-            if (oldName.toLowerCase() == newValue.toLowerCase()) {
-                Common.NotificationCenter.trigger('edit:complete', this);
-                return;
-            }
-
-            var me = this,
-                isvalid = this.api.asc_checkDefinedName(newValue, null);
-            if (isvalid.asc_getStatus() === true) isvalid = true;
-            else {
-                switch (isvalid.asc_getReason()) {
-                    case Asc.c_oAscDefinedNameReason.IsLocked:
-                        isvalid = this.textIsLocked;
-                    break;
-                    case Asc.c_oAscDefinedNameReason.Existed:
-                        isvalid = this.textExistName;
-                    break;
-                    case Asc.c_oAscDefinedNameReason.NameReserved:
-                        isvalid = this.textReservedName;
-                    break;
-                    default:
-                        isvalid = this.textInvalidName;
-                }
-            }
-            if (isvalid === true) {
-                this.api.asc_changeDisplayNameTable(oldName, newValue);
-                Common.NotificationCenter.trigger('edit:complete', this);
-            } else if (!this._state.TableNameError) {
-                this._state.TableNameError = true;
-                Common.UI.alert({
-                    msg: isvalid,
-                    title: this.notcriticalErrorTitle,
-                    iconCls: 'warn',
-                    buttons: ['ok'],
-                    callback: function(btn){
-                        Common.NotificationCenter.trigger('edit:complete', this);
-                        me._state.TableNameError = false;
-                    }
-                });
-            }
-        },
-
         render: function () {
             var el = $(this.el);
             el.html(this.template({
                 scope: this
             }));
 
-            this.linkAdvanced = $('#table-advanced-link');
+            this.linkAdvanced = $('#pivot-advanced-link');
         },
 
         setApi: function(o) {
@@ -255,13 +185,12 @@ define([
             var me = this;
             var win;
             if (me.api && !this._locked){
-                (new SSE.Views.TableSettingsAdvanced(
+                (new SSE.Views.PivotSettingsAdvanced(
                     {
-                        tableProps: me._originalProps,
+                        props: me._originalProps,
                         api: me.api,
                         handler: function(result, value) {
                             if (result == 'ok' && me.api && value) {
-                                me.api.asc_changeFormatTableInfo(me._state.TableName, Asc.c_oAscChangeTableStyleInfo.advancedSettings, value);
                             }
 
                             Common.NotificationCenter.trigger('edit:complete', me);
@@ -513,6 +442,7 @@ define([
         onColumnsSelect: function(type, picker, item, record, e){
             var btn = $(e.target);
             if (btn && btn.hasClass('listitem-icon')) {
+                this._state.field = {record: record, type: type};
                 if (this.fieldsMenu) {
                     if (this.fieldsMenu.isVisible()) {
                         this.fieldsMenu.hide();
@@ -571,7 +501,7 @@ define([
                         caption     : this.txtFieldSettings,
                         checkable   : false
                     });
-                    this.miFieldSettings.on('click', _.bind(this.onFieldSettings, this, record, type));
+                    this.miFieldSettings.on('click', _.bind(this.onFieldSettings, this));
 
                     this.fieldsMenu = new Common.UI.Menu({
                         menuAlign: 'tr-br',
@@ -652,12 +582,12 @@ define([
         onFieldSettings: function(record, type, e) {
             var me = this;
             var win;
-            if (me.api && !this._locked){
-                if (type == 2) { // value field
+            if (me.api && !this._locked && me._state.field){
+                if (me._state.field.type == 2) { // value field
                     (new SSE.Views.ValueFieldSettingsDialog(
                     {
                         props: me._originalProps,
-                        fieldIndex: record.get('index'),
+                        fieldIndex: me._state.field.record.get('index'),
                         names: me._state.names,
                         api: me.api,
                         handler: function(result, value) {
@@ -672,10 +602,10 @@ define([
                     (new SSE.Views.FieldSettingsDialog(
                         {
                             props: me._originalProps,
-                            fieldIndex: record.get('index'),
+                            fieldIndex: me._state.field.record.get('index'),
                             names: me._state.names,
                             api: me.api,
-                            type: type,
+                            type: me._state.field.type,
                             handler: function(result, value) {
                                 if (result == 'ok' && me.api && value) {
                                     // me.api.asc_changeFormatTableInfo(me._state.TableName, Asc.c_oAscChangeTableStyleInfo.advancedSettings, value);
