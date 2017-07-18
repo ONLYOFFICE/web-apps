@@ -100,7 +100,7 @@ define([
                         '<tr>',
                             '<td class="padding-large" style="white-space: nowrap;">',
                                 '<label style="vertical-align: middle; margin-right: 4px;">' + me.txtSample + '</label>',
-                                '<label id="format-settings-label-example" style="vertical-align: middle; max-width: 220px; overflow: hidden; text-overflow: ellipsis;>100</label>',
+                                '<label id="format-settings-label-example" style="vertical-align: middle; max-width: 220px; overflow: hidden; text-overflow: ellipsis;">100</label>',
                             '</td>',
                         '</tr>',
                         '<tr>',
