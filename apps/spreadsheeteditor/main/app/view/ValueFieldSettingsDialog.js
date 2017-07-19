@@ -119,7 +119,7 @@ define([
             this.api        = options.api;
             this.handler    = options.handler;
             this.props      = options.props;
-            this.fieldIndex = options.fieldIndex || 0;
+            this.field      = options.field || 0;
             this.names      = options.names || [];
 
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
@@ -213,7 +213,7 @@ define([
 
         _setDefaults: function (props) {
             if (props) {
-                var field = props.asc_getDataFields()[this.fieldIndex],
+                var field = this.field,
                     cache_names = props.asc_getCacheFields(),
                     show_as = field.asc_getShowDataAs();
 
@@ -239,7 +239,11 @@ define([
         },
 
         getSettings: function () {
-            return {};
+            var field = this.field.asc_clone();
+            field.asc_setName(this.inputCustomName.getValue());
+            field.asc_setSubtotal(this.cmbSummarize.getValue());
+
+            return field;
         },
 
         onDlgBtnClick: function(event) {

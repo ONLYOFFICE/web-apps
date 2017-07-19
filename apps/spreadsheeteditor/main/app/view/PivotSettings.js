@@ -584,15 +584,16 @@ define([
             var win;
             if (me.api && !this._locked && me._state.field){
                 if (me._state.field.type == 2) { // value field
+                    var field = me._originalProps.asc_getDataFields()[me._state.field.record.get('index')];
                     (new SSE.Views.ValueFieldSettingsDialog(
                     {
                         props: me._originalProps,
-                        fieldIndex: me._state.field.record.get('index'),
+                        field: field,
                         names: me._state.names,
                         api: me.api,
                         handler: function(result, value) {
                             if (result == 'ok' && me.api && value) {
-                                // me.api.asc_changeFormatTableInfo(me._state.TableName, Asc.c_oAscChangeTableStyleInfo.advancedSettings, value);
+                                field.asc_set(me.api, me._originalProps, value);
                             }
 
                             Common.NotificationCenter.trigger('edit:complete', me);
