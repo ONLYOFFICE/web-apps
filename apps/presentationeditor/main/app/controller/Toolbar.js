@@ -809,7 +809,7 @@ define([
                     if (isResized) return;
                     isResized = true;
                     Common.NotificationCenter.off('window:resize', onWindowResize);
-                    me.api.StartDemonstration('presentation-preview', _.isNumber(slidenum) ? slidenum : 0);
+                    me.api.StartDemonstration('presentation-preview', _.isNumber(slidenum) ? slidenum : 0, PE.getController('Main').document);
                     Common.component.Analytics.trackEvent('ToolBar', 'Preview');
                 };
                 if (!me.toolbar.mode.isDesktopApp && !Common.Utils.isIE11) {
