@@ -148,7 +148,6 @@ require([
             'RightMenu',
             'LeftMenu',
             'Main',
-            'Reporter',
             'Common.Controllers.Fonts'
             /** coauthoring begin **/
             , 'Common.Controllers.Chat'
