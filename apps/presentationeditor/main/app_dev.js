@@ -160,7 +160,6 @@ require([
         'presentationeditor/main/app/controller/RightMenu',
         'presentationeditor/main/app/controller/LeftMenu',
         'presentationeditor/main/app/controller/Main',
-        'presentationeditor/main/app/controller/Reporter',
         'presentationeditor/main/app/view/FileMenuPanels',
         'presentationeditor/main/app/view/ParagraphSettings',
         'presentationeditor/main/app/view/ImageSettings',
