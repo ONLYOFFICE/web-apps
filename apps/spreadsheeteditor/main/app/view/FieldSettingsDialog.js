@@ -226,7 +226,7 @@ define([    'text!spreadsheeteditor/main/app/template/FieldSettingsDialog.templa
 
         _setDefaults: function (props) {
             if (props) {
-                var field = ((this.type == 0) ? props.asc_getColumnFields() : ((this.type == 1) ? props.asc_getRowFields() : props.asc_getFilterFields()))[this.fieldIndex],
+                var field = ((this.type == 0) ? props.asc_getColumnFields() : ((this.type == 1) ? props.asc_getRowFields() : props.asc_getPageFields()))[this.fieldIndex],
                     cache_names = props.asc_getCacheFields(),
                     pivot_names = props.asc_getPivotFields();
 
