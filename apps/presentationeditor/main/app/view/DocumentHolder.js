@@ -216,7 +216,7 @@ define([
             var onContextMenu = function(event){
                 _.delay(function(){
                     if (event.get_Type() == Asc.c_oAscContextMenuTypes.Thumbnails) {
-                        showPopupMenu.call(me, me.slideMenu, {isSlideSelect: event.get_IsSlideSelect(), fromThumbs: true}, event);
+                        showPopupMenu.call(me, me.slideMenu, {isSlideSelect: event.get_IsSlideSelect(), isSlideHidden: event.get_IsSlideHidden(), fromThumbs: true}, event);
                     } else {
                         showObjectMenu.call(me, event);
                     }
@@ -227,7 +227,14 @@ define([
                 if (me.currentMenu && me.currentMenu.isVisible()){
                     if (me.api.asc_getCurrentFocusObject() === 0 ){ // thumbnails
                         if (me.slideMenu===me.currentMenu) {
-                            me.currentMenu.options.initMenu({isSlideSelect: me.slideMenu.items[2].isVisible(), fromThumbs: true});
+                            var isHidden = false;
+                            _.each(selectedElements, function(element, index) {
+                                if (Asc.c_oAscTypeSelectElement.Slide == element.get_ObjectType()) {
+                                    isHidden = element.get_ObjectValue().get_IsHidden();
+                                }
+                            });
+
+                            me.currentMenu.options.initMenu({isSlideSelect: me.slideMenu.items[2].isVisible(), isSlideHidden: isHidden, fromThumbs: true});
                             me.currentMenu.alignPosition();
                         }
                     } else {
@@ -1814,18 +1821,33 @@ define([
                 PE.getController('RightMenu').onDoubleClickOnObject(item.options.value);
             });
 
+            var mnuSlideHide = new Common.UI.MenuItem({
+                caption : me.txtSlideHide,
+                checkable: true,
+                checked: false
+            }).on('click', function(item){
+                if (me.api){
+                    me.api.asc_HideSlides(item.checked);
+
+                    me.fireEvent('editcomplete', me);
+                    Common.component.Analytics.trackEvent('DocumentHolder', 'Hide Slides');
+                }
+            });
+
             me.slideMenu = new Common.UI.Menu({
                 initMenu: function(value) {
                     menuSlidePaste.setVisible(value.fromThumbs!==true);
                     me.slideMenu.items[1].setVisible(value.fromThumbs===true); // New Slide
                     me.slideMenu.items[2].setVisible(value.isSlideSelect===true); // Duplicate Slide
                     mnuDeleteSlide.setVisible(value.isSlideSelect===true);
-                    me.slideMenu.items[4].setVisible(value.isSlideSelect===true || value.fromThumbs!==true);
+                    mnuSlideHide.setVisible(value.isSlideSelect===true);
+                    mnuSlideHide.setChecked(value.isSlideHidden===true);
+                    me.slideMenu.items[5].setVisible(value.isSlideSelect===true || value.fromThumbs!==true);
                     mnuChangeSlide.setVisible(value.isSlideSelect===true || value.fromThumbs!==true);
                     menuSlideSettings.setVisible(value.fromThumbs!==true);
                     menuSlideSettings.options.value = null;
 
-                    for (var i = 7; i < 11; i++) {
+                    for (var i = 8; i < 12; i++) {
                         me.slideMenu.items[i].setVisible(value.fromThumbs===true);
                     }
 
@@ -1852,6 +1874,7 @@ define([
                     mnuSelectAll.setDisabled(locked || me.slidesCount<2);
                     mnuDeleteSlide.setDisabled(lockedDeleted || locked);
                     mnuChangeSlide.setDisabled(lockedLayout || locked);
+                    mnuSlideHide.setDisabled(lockedLayout || locked);
                 },
                 items: [
                     menuSlidePaste,
@@ -1878,6 +1901,7 @@ define([
                         }
                     }),
                     mnuDeleteSlide,
+                    mnuSlideHide,
                     {caption: '--'},
                     mnuChangeSlide,
                     menuSlideSettings,
@@ -3245,7 +3269,8 @@ define([
         moreText: 'More variants...',
         spellcheckText: 'Spellcheck',
         langText: 'Select Language',
-        textUndo: 'Undo'
+        textUndo: 'Undo',
+        txtSlideHide: 'Hide Slide'
 
     }, PE.Views.DocumentHolder || {}));
 });
