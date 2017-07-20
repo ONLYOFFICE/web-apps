@@ -1455,24 +1455,7 @@ define([
                 e.preventDefault();
                 e.stopPropagation();
                 if (me.slidesCount>0) {
-                    var previewPanel = PE.getController('Viewport').getView('DocumentPreview');
-                    if (previewPanel && !previewPanel.isVisible() && me.api) {
-                        previewPanel.show();
-                        var onWindowResize = function() {
-                            if (isResized) return;
-                            isResized = true;
-                            Common.NotificationCenter.off('window:resize', onWindowResize);
-                            me.api.StartDemonstration('presentation-preview', 0);
-                        };
-                        if (!me.mode.isDesktopApp && !Common.Utils.isIE11) {
-                            Common.NotificationCenter.on('window:resize', onWindowResize);
-                            me.fullScreen(document.documentElement);
-                            setTimeout(function(){
-                                onWindowResize();
-                            }, 100);
-                        } else
-                            onWindowResize();
-                    }
+                    Common.NotificationCenter.trigger('preview:start', 0);
                 }
             };
             Common.util.Shortcuts.delegateShortcuts({shortcuts:keymap});
@@ -1657,20 +1640,6 @@ define([
             me.fireEvent('editcomplete', me);
         },
 
-        fullScreen: function(element) {
-            if (element) {
-                if(element.requestFullscreen) {
-                    element.requestFullscreen();
-                } else if(element.webkitRequestFullscreen) {
-                    element.webkitRequestFullscreen();
-                } else if(element.mozRequestFullScreen) {
-                    element.mozRequestFullScreen();
-                } else if(element.msRequestFullscreen) {
-                    element.msRequestFullscreen();
-                }
-            }
-        },
-
         onSlidePickerShowAfter: function(picker) {
             if (!picker._needRecalcSlideLayout) return;
             
@@ -1773,29 +1742,8 @@ define([
             var mnuPreview = new Common.UI.MenuItem({
                 caption : me.txtPreview
             }).on('click', function(item) {
-                var previewPanel = PE.getController('Viewport').getView('DocumentPreview'),
-                    isResized = false;
-                if (previewPanel && me.api) {
-                    previewPanel.show();
-                    var onWindowResize = function() {
-                        if (isResized) return;
-                        isResized = true;
-                        Common.NotificationCenter.off('window:resize', onWindowResize);
-
-                        var current = me.api.getCurrentPage();
-                        me.api.StartDemonstration('presentation-preview', _.isNumber(current) ? current : 0);
-
-                        Common.component.Analytics.trackEvent('DocumentHolder', 'Preview');
-                    };
-                    if (!me.mode.isDesktopApp && !Common.Utils.isIE11) {
-                        Common.NotificationCenter.on('window:resize', onWindowResize);
-                        me.fullScreen(document.documentElement);
-                        setTimeout(function(){
-                            onWindowResize();
-                        }, 100);
-                    } else
-                        onWindowResize();
-                }
+                var current = this.api.getCurrentPage();
+                Common.NotificationCenter.trigger('preview:start', _.isNumber(current) ? current : 0);
             });
 
             var mnuSelectAll = new Common.UI.MenuItem({

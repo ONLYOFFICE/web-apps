@@ -800,41 +800,7 @@ define([
         },
 
         onPreview: function(slidenum) {
-            var previewPanel = PE.getController('Viewport').getView('DocumentPreview'),
-                me = this,
-                isResized = false;
-            if (previewPanel && me.api) {
-                previewPanel.show();
-                var onWindowResize = function() {
-                    if (isResized) return;
-                    isResized = true;
-                    Common.NotificationCenter.off('window:resize', onWindowResize);
-                    me.api.StartDemonstration('presentation-preview', _.isNumber(slidenum) ? slidenum : 0, PE.getController('Main').document);
-                    Common.component.Analytics.trackEvent('ToolBar', 'Preview');
-                };
-                if (!me.toolbar.mode.isDesktopApp && !Common.Utils.isIE11) {
-                    Common.NotificationCenter.on('window:resize', onWindowResize);
-                    me.fullScreen(document.documentElement);
-                    setTimeout(function(){
-                        onWindowResize();
-                    }, 100);
-                } else
-                    onWindowResize();
-            }
-        },
-
-        fullScreen: function(element) {
-            if (element) {
-                if(element.requestFullscreen) {
-                    element.requestFullscreen();
-                } else if(element.webkitRequestFullscreen) {
-                    element.webkitRequestFullscreen();
-                } else if(element.mozRequestFullScreen) {
-                    element.mozRequestFullScreen();
-                } else if(element.msRequestFullscreen) {
-                    element.msRequestFullscreen();
-                }
-            }
+            Common.NotificationCenter.trigger('preview:start', _.isNumber(slidenum) ? slidenum : 0);
         },
 
         onPreviewBtnClick: function(btn, e) {
