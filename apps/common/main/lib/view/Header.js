@@ -366,7 +366,6 @@ define([
                     if ( !config.isEdit ) {
                         if ( (config.canDownload || config.canDownloadOrigin) && !config.isOffline  ) {
                             this.btnDownload = new Common.UI.Button({
-                                id: 'btn-download',
                                 cls: 'btn-header',
                                 iconCls: 'svgicon svg-btn-download'
                             });
@@ -376,7 +375,6 @@ define([
 
                         if ( config.canPrint ) {
                             this.btnPrint = new Common.UI.Button({
-                                id: 'btn-goback',
                                 cls: 'btn-header',
                                 iconCls: 'svgicon svg-btn-print'
                             });

@@ -1279,7 +1279,7 @@ define([
             });
 
             if ( me.isCompactView )
-                me.setFolded(true); else
+                me.setFolded(true), me.collapse(); else
                 me.setTab('home');
 
             return this;
