@@ -191,6 +191,7 @@ define([
                         api: me.api,
                         handler: function(result, value) {
                             if (result == 'ok' && me.api && value) {
+                                me._originalProps.asc_set(me.api, value);
                             }
 
                             Common.NotificationCenter.trigger('edit:complete', me);

@@ -216,7 +216,11 @@ define([    'text!spreadsheeteditor/main/app/template/PivotSettingsAdvanced.temp
         },
 
         getSettings: function () {
-            return {};
+            var props = this.props.asc_clone();
+            props.asc_setColGrandTotals(this.chCols.getValue() == 'checked');
+            props.asc_setRowGrandTotals(this.chRows.getValue() == 'checked');
+
+            return props;
         },
 
         onDlgBtnClick: function(event) {

@@ -181,24 +181,10 @@ define([
 
         onPivotGrandTotals: function(type){
             if (this.api) {
-                switch (type){
-                    case 0:
-                        // this._originalProps.asc_setColGrandTotals(false);
-                        // this._originalProps.asc_setRowGrandTotals(false);
-                        break;
-                    case 1:
-                        // this._originalProps.asc_setColGrandTotals(true);
-                        // this._originalProps.asc_setRowGrandTotals(true);
-                        break;
-                    case 2:
-                        // this._originalProps.asc_setColGrandTotals(false);
-                        // this._originalProps.asc_setRowGrandTotals(true);
-                        break;
-                    case 3:
-                        // this._originalProps.asc_setColGrandTotals(true);
-                        // this._originalProps.asc_setRowGrandTotals(false);
-                        break;
-                }
+                var props = this._originalProps.asc_clone();
+                props.asc_setColGrandTotals(type == 1 || type == 3);
+                props.asc_setRowGrandTotals(type == 1 || type == 2);
+                this._originalProps.asc_set(this.api, props);
             }
             Common.NotificationCenter.trigger('edit:complete', this);
         },
