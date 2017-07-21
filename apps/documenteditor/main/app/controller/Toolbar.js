@@ -116,9 +116,31 @@ define([
                 'Common.Views.Header': {
                     'print': this.onPrint.bind(this),
                     'downloadas': function (opts) {
-                        // this.api.asc_DownloadOrigin();
-                        console.log('download original');
-                    }.bind(this),
+                        var _main = this.getApplication().getController('Main');
+                        var _file_type = _main.document.fileType,
+                            _format;
+                        if ( !!_file_type ) {
+                            if ( /^pdf|xps|djvu/i.test(_file_type) ) {
+                                this.api.asc_DownloadOrigin();
+                                return;
+                            } else {
+                                _format = Asc.c_oAscFileType[ _file_type.toUpperCase() ];
+                            }
+                        }
+
+                        var _supported = [
+                            Asc.c_oAscFileType.TXT,
+                            Asc.c_oAscFileType.RTF,
+                            Asc.c_oAscFileType.ODT,
+                            Asc.c_oAscFileType.DOCX,
+                            Asc.c_oAscFileType.HTML
+                        ];
+
+                        if ( !_format || _supported.indexOf(_format) < 0 )
+                            _format = Asc.c_oAscFileType.PDF;
+
+                        _main.api.asc_DownloadAs(_format);
+                    },
                     'go:editor': function() {
                         Common.Gateway.requestEditRights();
                     }

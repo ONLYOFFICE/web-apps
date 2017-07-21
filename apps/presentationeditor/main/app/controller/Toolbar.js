@@ -127,9 +127,23 @@ define([
                 'Common.Views.Header': {
                     'print': this.onPrint.bind(this),
                     'downloadas': function (opts) {
-                        // this.api.asc_DownloadOrigin();
-                        console.log('download original');
-                    }.bind(this),
+                        var _main = this.getApplication().getController('Main');
+                        var _file_type = _main.document.fileType,
+                            _format;
+                        if ( !!_file_type ) {
+                            _format = Asc.c_oAscFileType[ _file_type.toUpperCase() ];
+                        }
+
+                        var _supported = [
+                            Asc.c_oAscFileType.PPTX,
+                            Asc.c_oAscFileType.ODP
+                        ];
+
+                        if ( !_format || _supported.indexOf(_format) < 0 )
+                            _format = Asc.c_oAscFileType.PDF;
+
+                        _main.api.asc_DownloadAs(_format);
+                    },
                     'go:editor': function() {
                         Common.Gateway.requestEditRights();
                     }
