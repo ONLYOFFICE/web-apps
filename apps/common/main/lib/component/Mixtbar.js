@@ -263,6 +263,8 @@ define([
                     _right_bound_ = Math.round(_left_bound_ + $boxTabs.width());
 
                 var tab = this.$tabs.filter(':first:visible').get(0);
+                if ( !tab ) return false;
+
                 var rect = tab.getBoundingClientRect();
 
                 if ( !(Math.round(rect.left) < _left_bound_) ) {
