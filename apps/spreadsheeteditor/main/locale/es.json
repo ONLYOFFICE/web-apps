@@ -1599,6 +1599,7 @@
   "SSE.Views.Toolbar.textDiagUpBorder": "Borde diagonal ascendente",
   "SSE.Views.Toolbar.textEntireCol": "Toda la columna",
   "SSE.Views.Toolbar.textEntireRow": "Toda la fila",
+  "SSE.Views.Toolbar.textFreezePanes": "Inmovilizar paneles",
   "SSE.Views.Toolbar.textHideFBar": "Ocultar barra de fórmulas",
   "SSE.Views.Toolbar.textHideGridlines": "Ocultar cuadrícula",
   "SSE.Views.Toolbar.textHideHeadings": "Ocultar títulos",
