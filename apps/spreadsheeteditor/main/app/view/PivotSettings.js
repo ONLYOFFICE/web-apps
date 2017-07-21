@@ -497,7 +497,7 @@ define([
                         caption     : this.txtRemove,
                         checkable   : false
                     });
-                    // this.miRemove.on('click', _.bind(this.onRemove, this));
+                    this.miRemove.on('click', _.bind(this.onRemove, this));
 
                     this.miFieldSettings = new Common.UI.MenuItem({
                         caption     : this.txtFieldSettings,
@@ -627,6 +627,12 @@ define([
             }
         },
 
+        onRemove: function() {
+            if (this.api && !this._locked && this._state.field){
+                this._originalProps.asc_removeField(this.api, this._state.field.record.get('pivotIndex'));
+            }
+        },
+
         disableControls: function(disable) {
             if (this._initSettings) return;
             
@@ -661,7 +667,7 @@ define([
         txtAddFilter: 'Add to Filters',
         txtAddRow: 'Add to Rows',
         txtAddColumn: 'Add to Columns',
-        txtAddValues: 'Add to Values',
+        txtAddValues: 'Add to Values'
 
     }, SSE.Views.PivotSettings || {}));
 });
