@@ -318,9 +318,9 @@ define([
                 Common.UI.Mixtbar.prototype.initialize.call(this, {
                     template: _.template(template),
                     tabs: [
-                        { caption: 'File'/*me.textTabFile*/, action: 'file', extcls: 'canedit'},
-                        { caption: 'Home'/*me.textTabHome*/, action: 'home', extcls: 'canedit'},
-                        { caption: 'Insert'/*me.textTabInsert*/, action: 'ins', extcls: 'canedit'}
+                        { caption: me.textTabFile, action: 'file', extcls: 'canedit'},
+                        { caption: me.textTabHome, action: 'home', extcls: 'canedit'},
+                        { caption: me.textTabInsert, action: 'ins', extcls: 'canedit'}
                     ]}
                 );
 
@@ -2056,6 +2056,9 @@ define([
         capInsertHyperlink: 'Hyperlink',
         capInsertEquation: 'Equation',
         capBtnComment: 'Comment',
+        textTabFile: 'File',
+        textTabHome: 'Home',
+        textTabInsert: 'Insert',
         textSurface: 'Surface'
     }, SSE.Views.Toolbar || {}));
 });

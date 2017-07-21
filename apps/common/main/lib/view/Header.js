@@ -256,20 +256,21 @@ define([
 
             if ( !mode.isEdit ) {
                 if ( me.btnDownload ) {
-                    me.btnDownload.updateHint('Download document');
+                    me.btnDownload.updateHint(me.tipDowload);
                     me.btnDownload.on('click', function (e) {
                         me.fireEvent('downloadas', ['original']);
                     });
                 }
 
                 if ( me.btnPrint ) {
-                    me.btnDownload.updateHint('Print');
+                    me.btnPrint.updateHint(me.tipPrint);
                     me.btnPrint.on('click', function (e) {
                         me.fireEvent('print', me);
                     });
                 }
 
                 if ( me.btnEdit ) {
+                    me.btnEdit.updateHint(me.tipGoEdit);
                     me.btnEdit.on('click', function (e) {
                         me.fireEvent('go:editor', me);
                     });
@@ -522,7 +523,10 @@ define([
             txtAccessRights: 'Change access rights',
             tipAccessRights: 'Manage document access rights',
             labelCoUsersDescr: 'Document is currently being edited by several users.',
-            tipViewUsers: 'View users and manage document access rights'
+            tipViewUsers: 'View users and manage document access rights',
+            tipDownload: 'Download file',
+            tipPrint: 'Print file',
+            tipGoEdit: 'Edit current file'
         }
     }(), Common.Views.Header || {}))
 });
