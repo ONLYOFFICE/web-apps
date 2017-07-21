@@ -328,6 +328,7 @@ define([
 
                 var btn = $(event.target);
                 if (btn && btn.hasClass('listitem-icon')) {
+                    this._state.field = {record: record};
                     if (this.pivotFieldsMenu) {
                         if (this.pivotFieldsMenu.isVisible()) {
                             this.pivotFieldsMenu.hide();
@@ -338,7 +339,7 @@ define([
                             caption     : this.txtAddFilter,
                             checkable   : false
                         });
-                        // this.miAddFilter.on('click', _.bind(this.onAddFilter, this));
+                        this.miAddFilter.on('click', _.bind(this.onAddFilter, this));
                         this.miAddRow = new Common.UI.MenuItem({
                             caption     : this.txtAddRow,
                             checkable   : false
@@ -617,6 +618,12 @@ define([
                             }
                         })).show();
                 }
+            }
+        },
+
+        onAddFilter: function() {
+            if (this.api && !this._locked && this._state.field){
+                this._originalProps.asc_addPageField(this.api, this._state.field.record.get('index'));
             }
         },
 
