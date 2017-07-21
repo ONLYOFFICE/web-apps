@@ -68,6 +68,9 @@ require.config({
 });
 
 require([
+    'sockjs',
+    'xregexp',
+    'underscore'
 ], function () {
 
     var _msg_func = function(msg) {
