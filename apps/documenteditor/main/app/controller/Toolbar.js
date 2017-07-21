@@ -116,8 +116,12 @@ define([
                 'Common.Views.Header': {
                     'print': this.onPrint.bind(this),
                     'downloadas': function (opts) {
-                        this.api.asc_DownloadOrigin();
-                    }.bind(this)
+                        // this.api.asc_DownloadOrigin();
+                        console.log('download original');
+                    }.bind(this),
+                    'go:editor': function() {
+                        Common.Gateway.requestEditRights();
+                    }
                 }
             });
 

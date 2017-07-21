@@ -77,6 +77,16 @@ define([
                 },
                 'LeftMenu': {
                     'settings:apply': _.bind(this.applyFormulaSettings, this)
+                },
+                'Common.Views.Header': {
+                    'print': this.onPrint.bind(this),
+                    'downloadas': function (opts) {
+                        // this.api.asc_DownloadOrigin();
+                        console.log('download original');
+                    }.bind(this),
+                    'go:editor': function() {
+                        Common.Gateway.requestEditRights();
+                    }
                 }
             });
             this.editMode = true;
