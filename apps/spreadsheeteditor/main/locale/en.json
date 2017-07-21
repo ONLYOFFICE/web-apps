@@ -1599,6 +1599,7 @@
   "SSE.Views.Toolbar.textDiagUpBorder": "Diagonal Up Border",
   "SSE.Views.Toolbar.textEntireCol": "Entire Column",
   "SSE.Views.Toolbar.textEntireRow": "Entire Row",
+  "SSE.Views.Toolbar.textFreezePanes": "Freeze Panes",
   "SSE.Views.Toolbar.textHideFBar": "Hide Formula Bar",
   "SSE.Views.Toolbar.textHideGridlines": "Hide Gridlines",
   "SSE.Views.Toolbar.textHideHeadings": "Hide Headings",

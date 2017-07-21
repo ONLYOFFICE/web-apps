@@ -1599,6 +1599,7 @@
   "SSE.Views.Toolbar.textDiagUpBorder": "对角线上边界",
   "SSE.Views.Toolbar.textEntireCol": "整列",
   "SSE.Views.Toolbar.textEntireRow": "整行",
+  "SSE.Views.Toolbar.textFreezePanes": "Freeze Panes",
   "SSE.Views.Toolbar.textHideFBar": "隐藏公式栏",
   "SSE.Views.Toolbar.textHideGridlines": "隐藏网格线",
   "SSE.Views.Toolbar.textHideHeadings": "隐藏标题",
