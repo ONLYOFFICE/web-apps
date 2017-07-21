@@ -528,7 +528,7 @@ define([
 
                 this.btnEditHeader = new Common.UI.Button({
                     id: 'id-toolbar-btn-editheader',
-                    cls: 'btn-toolbar',
+                    cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'btn-editheader',
                     caption: me.capBtnInsHeader,
                     menu: true

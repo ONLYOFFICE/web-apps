@@ -113,12 +113,26 @@
         .inner-box-caption {
             line-height: 18px;
             padding: 0 4px;
+            display: flex;
+            align-items: center;
+
+            .caption {
+                max-width: 107px;
+                text-overflow: ellipsis;
+                overflow: hidden;
+            }
         }
 
         .icon {
             width: @icon-size;
             height: @icon-size;
             min-width: 0;
+        }
+
+        &.dropdown-toggle {
+            .caption {
+                max-width: 100px;
+            }
         }
     }
 
@@ -202,7 +216,7 @@
 
     &.x-huge, .btn-group.x-huge > & {
         :not(svg).icon {
-            .background-ximage('@{common-image-path}/controls/toolbarbig.png', '@{common-image-path}/controls/toolbarbig@2x.png', 96px);
+            .background-ximage('@{common-image-path}/controls/toolbarbig.png', '@{common-image-path}/controls/toolbarbig@2x.png', 78px);
         }
     }
 
@@ -327,7 +341,7 @@
 
     &:not(.split) {
         .btn-toolbar {
-                &.dropdown-toggle {
+                &.dropdown-toggle:not(.x-huge) {
                     width: 100%;
                     min-width: 28px;
                 }

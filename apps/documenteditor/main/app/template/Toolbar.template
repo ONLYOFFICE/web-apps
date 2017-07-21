@@ -33,11 +33,11 @@
             <div class="separator long"></div>
             <div class="group">
                 <div class="elset">
-                    <span class="btn-slot adding" id="slot-btn-copy"></span>
+                    <span class="btn-slot split" id="slot-btn-copy"></span>
                     <span class="btn-slot" id="slot-btn-paste"></span>
                 </div>
                 <div class="elset">
-                    <span class="btn-slot adding" id="slot-btn-undo"></span>
+                    <span class="btn-slot split" id="slot-btn-undo"></span>
                     <span class="btn-slot" id="slot-btn-redo"></span>
                 </div>
             </div>
@@ -85,11 +85,11 @@
                 <div class="separator long" style="margin-left: 5px;"></div>
                 <div class="group">
                     <div class="elset">
-                        <span class="btn-slot adding" id="slot-btn-clearstyle"></span>
+                        <span class="btn-slot split" id="slot-btn-clearstyle"></span>
                         <span class="btn-slot split" id="slot-btn-colorschemas"></span>
                     </div>
                     <div class="elset">
-                        <span class="btn-slot adding" id="slot-btn-copystyle"></span>
+                        <span class="btn-slot split" id="slot-btn-copystyle"></span>
                         <span class="btn-slot" id="slot-btn-mailrecepients"></span>
                     </div>
                 </div>
@@ -106,12 +106,8 @@
             </section>
             <section class="panel" data-tab="ins">
                 <div class="group">
-                    <div class="elset">
-                        <span class="btn-slot text btn-pagebreak"></span>
-                    </div>
-                    <div class="elset">
-                        <span class="btn-slot text" id="slot-btn-editheader"></span>
-                    </div>
+                    <span class="btn-slot text x-huge btn-pagebreak"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-editheader"></span>
                 </div>
                 <div class="separator long"></div>
                 <div class="group">
