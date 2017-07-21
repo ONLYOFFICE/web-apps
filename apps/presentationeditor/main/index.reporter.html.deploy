@@ -260,12 +260,7 @@
 </head>
 <body>
 
-    <script type="text/javascript" src="../sdk_dev_scripts.js"></script>
     <script>
-        window.sdk_dev_scrpipts.forEach(function(item){
-            document.write('<script type="text/javascript" src="' + item + '"><\/script>');
-        });
-
         window.requireTimeourError = function(){
             var reqerr;
 
@@ -277,11 +272,23 @@
 
             return reqerr;
         };
+
+        var requireTimeoutID = setTimeout(function(){
+            window.alert(window.requireTimeourError());
+            window.location.reload();
+        }, 30000);
+
+        var require = {
+            waitSeconds: 30,
+            callback: function(){
+                clearTimeout(requireTimeoutID);
+            }
+        };
     </script>
 
     <div id="editor_sdk" style="position: absolute;width: 100%;height: 100%;"></div>
 
-    <script data-main="app_dev.reporter" src="../../../vendor/requirejs/require.js"></script>
+    <script data-main="app.reporter" src="../../../vendor/requirejs/require.js"></script>
 
 </body>
 </html>
