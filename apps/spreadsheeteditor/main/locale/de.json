@@ -1599,6 +1599,7 @@
   "SSE.Views.Toolbar.textDiagUpBorder": "Rahmenlinien diagonal nach oben",
   "SSE.Views.Toolbar.textEntireCol": "Ganze Spalte",
   "SSE.Views.Toolbar.textEntireRow": "Ganze Zeile",
+  "SSE.Views.Toolbar.textFreezePanes": "Fenster fixieren",
   "SSE.Views.Toolbar.textHideFBar": "Formelleiste vergeben",
   "SSE.Views.Toolbar.textHideGridlines": "Gitternetzlinien vergeben",
   "SSE.Views.Toolbar.textHideHeadings": "Überschriften vergeben",
