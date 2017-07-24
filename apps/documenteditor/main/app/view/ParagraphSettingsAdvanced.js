@@ -52,7 +52,7 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
 
     DE.Views.ParagraphSettingsAdvanced = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
-            contentWidth: 325,
+            contentWidth: 335,
             height: 394,
             toggleGroup: 'paragraph-adv-settings-group',
             storageName: 'de-para-settings-adv-category'
@@ -1063,6 +1063,7 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
             });
             if (rec) {
                 rec.set('tabAlign', align);
+                this._tabListChanged = true;
             } else {
                 rec = new Common.UI.DataViewModel();
                 rec.set({

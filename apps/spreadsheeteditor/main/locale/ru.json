@@ -1599,6 +1599,7 @@
   "SSE.Views.Toolbar.textDiagUpBorder": "Диагональная граница снизу вверх",
   "SSE.Views.Toolbar.textEntireCol": "Столбец",
   "SSE.Views.Toolbar.textEntireRow": "Строку",
+  "SSE.Views.Toolbar.textFreezePanes": "Закрепить области",
   "SSE.Views.Toolbar.textHideFBar": "Скрыть строку формул",
   "SSE.Views.Toolbar.textHideGridlines": "Скрыть линии сетки",
   "SSE.Views.Toolbar.textHideHeadings": "Скрыть заголовки",

@@ -888,7 +888,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
             ];
             this.cmbEmptyCells = new Common.UI.ComboBox({
                 el          : $('#spark-dlg-combo-empty'),
-                menuStyle   : 'min-width: 188px;',
+                menuStyle   : 'min-width: 220px;',
                 editable    : false,
                 cls         : 'input-group-nr'
             });
@@ -1288,7 +1288,6 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
             if (this._changedProps) {
                 this._changedProps.asc_setType(rawData.type);
             }
-            this.chartSettings.asc_setType(rawData.type);
             this._state.SparkType = rawData.type;
 
             var changed = false,
@@ -1305,7 +1304,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 this.cmbEmptyCells.setValue((rawData.type !== Asc.c_oAscSparklineType.Line && value==Asc.c_oAscEDispBlanksAs.Span) ? this.textEmptyLine : value);
             }
 
-            this.updateSparkStyles(this.chartSettings.asc_getStyles());
+            this.updateSparkStyles(this.chartSettings.asc_getStyles(rawData.type));
         },
 
 
