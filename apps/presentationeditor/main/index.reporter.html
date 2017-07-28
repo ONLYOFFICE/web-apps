@@ -178,6 +178,10 @@
     </style>
 
     <script>
+        window.onbeforeunload = function() {
+            window.postMessage("{ \"reporter_command\" : \"end\" }", "*");
+        };
+
         var userAgent = navigator.userAgent.toLowerCase(),
             check = function(regex){ return regex.test(userAgent); },
             stopLoading = false;
