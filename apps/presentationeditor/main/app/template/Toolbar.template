@@ -88,7 +88,7 @@
                 </div>
                 <div class="separator long close"></div>
                 <div class="group">
-                    <span class="btn-slot text x-huge slot-inserttext"></span>
+                    <span class="btn-slot text x-huge slot-instext"></span>
                     <span class="btn-slot text x-huge slot-insertimg"></span>
                     <span class="btn-slot text x-huge slot-insertshape"></span>
                 </div>
@@ -129,7 +129,8 @@
                 </div>
                 <div class="separator long"></div>
                 <div class="group">
-                    <span class="btn-slot text x-huge slot-inserttext"></span>
+                    <span class="btn-slot text x-huge slot-instext"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-instextart"></span>
                     <span class="btn-slot text x-huge slot-insertimg"></span>
                     <span class="btn-slot text x-huge slot-insertshape"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-insertchart"></span>

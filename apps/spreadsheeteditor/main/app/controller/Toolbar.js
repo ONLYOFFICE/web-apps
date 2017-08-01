@@ -263,7 +263,6 @@ define([
                 toolbar.btnInsertHyperlink.on('click',                      _.bind(this.onHyperlink, this));
                 toolbar.mnuInsertChartPicker.on('item:click',               _.bind(this.onSelectChart, this));
                 toolbar.btnInsertText.on('click',                           _.bind(this.onBtnInsertTextClick, this));
-                toolbar.btnInsertText.menu.on('item:click',                 _.bind(this.onInsertTextClick, this));
                 toolbar.btnInsertShape.menu.on('hide:after',                _.bind(this.onInsertShapeHide, this));
                 toolbar.btnInsertEquation.on('click',                       _.bind(this.onInsertEquationClick, this));
                 toolbar.btnSortDown.on('click',                             _.bind(this.onSortType, this, Asc.c_oAscSortOptions.Ascending));
@@ -910,20 +909,6 @@ define([
             Common.component.Analytics.trackEvent('ToolBar', 'Add Text');
         },
 
-        onInsertTextClick: function(menu, item, e) {
-            if (item.value === 'text') {
-                if (this.api)
-                    this._addAutoshape(true, 'textRect');
-                this.toolbar.btnInsertText.toggle(true, true);
-
-                if (this.toolbar.btnInsertShape.pressed)
-                    this.toolbar.btnInsertShape.toggle(false, true);
-
-                Common.NotificationCenter.trigger('edit:complete', this.toolbar, this.toolbar.btnInsertShape);
-                Common.component.Analytics.trackEvent('ToolBar', 'Add Text');
-            }
-        },
-        
         onInsertShapeHide: function(btn, e) {
             if (this.toolbar.btnInsertShape.pressed && !this._isAddingShape) {
                 this.toolbar.btnInsertShape.toggle(false, true);
@@ -2383,11 +2368,11 @@ define([
         },
 
         fillTextArt: function() {
-            if (!this.toolbar.btnInsertText.rendered) return;
+            if (!this.toolbar.btnInsertTextArt.rendered) return;
 
             var me = this;
 
-            if (this.toolbar.mnuTextArtPicker) {
+            if ( this.toolbar.mnuTextArtPicker ) {
                 var models = this.getApplication().getCollection('Common.Collections.TextArt').models,
                     count = this.toolbar.mnuTextArtPicker.store.length;
                 if (count>0 && count==models.length) {
@@ -2400,27 +2385,28 @@ define([
                 }
             } else {
                 this.toolbar.mnuTextArtPicker = new Common.UI.DataView({
-                    el: $('#id-toolbar-menu-insart'),
+                    el: $('#id-toolbar-menu-insart', me.toolbar),
                     store: this.getApplication().getCollection('Common.Collections.TextArt'),
-                    parentMenu: this.toolbar.mnuInsertTextArt.menu,
+                    // parentMenu: this.toolbar.mnuInsertTextArt.menu,
                     showLast: false,
                     itemTemplate: _.template('<div class="item-art"><img src="<%= imageUrl %>" id="<%= id %>" style="width:50px;height:50px;"></div>')
                 });
 
-                this.toolbar.mnuTextArtPicker.on('item:click', function(picker, item, record, e) {
-                    if (me.api) {
+                this.toolbar.mnuTextArtPicker.on('item:click',
+                    function(picker, item, record, e) {
                         me.toolbar.fireEvent('inserttextart', me.toolbar);
                         me.api.asc_addTextArt(record.get('data'));
 
-                        if (me.toolbar.btnInsertShape.pressed)
+                        if ( me.toolbar.btnInsertShape.pressed )
                             me.toolbar.btnInsertShape.toggle(false, true);
 
-                         if (e.type !== 'click')
-                             me.toolbar.btnInsertText.menu.hide();
-                        Common.NotificationCenter.trigger('edit:complete', me.toolbar, me.toolbar.btnInsertText);
+                         if ( e.type !== 'click' )
+                             me.toolbar.btnInsertTextArt.menu.hide();
+
+                        Common.NotificationCenter.trigger('edit:complete', me.toolbar, me.toolbar.btnInsertTextArt);
                         Common.component.Analytics.trackEvent('ToolBar', 'Add Text Art');
                     }
-                });
+                );
             }
         },
 
