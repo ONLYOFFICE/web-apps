@@ -83,13 +83,26 @@
         }
     }
 
-    #rib-doc-name {
+    #box-doc-name {
         flex-grow: 1;
+        text-align: center;
+    }
+
+    #rib-doc-name {
         white-space: nowrap;
         text-overflow: ellipsis;
         overflow: hidden;
         min-width: 50px;
         text-align: center;
+
+        color: #fff;
+        background-color: transparent;
+        border: 0 none;
+        cursor: default;
+
+        &:focus {
+            cursor: text;
+        }
     }
 
     #rib-save-status {

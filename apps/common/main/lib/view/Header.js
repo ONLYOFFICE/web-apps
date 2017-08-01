@@ -70,7 +70,7 @@ define([
                 '</ul>');
 
         var templateRightBox = '<section>' +
-                            '<label id="rib-doc-name" class="status-label"></label>' +
+                            '<section id="box-doc-name"><input type="text" id="rib-doc-name" spellcheck="false"></input></section>' +
                             '<a id="rib-save-status" class="status-label locked"><%= textSaveEnd %></a>' +
                             '<div class="hedset">' +
                                 '<div class="btn-slot" id="slot-hbtn-edit"></div>' +
@@ -278,6 +278,42 @@ define([
             }
         }
 
+        function onDocNameKeyDown(e) {
+            var me = this;
+
+            var name = me.labelDocName.val();
+            if ( e.keyCode == Common.UI.Keys.RETURN ) {
+                name = name.trim();
+                if ( !_.isEmpty(name) && me.documentCaption !== name ) {
+                    if ( /[\t*\+:\"<>?|\\\\/]/gim.test(name) ) {
+                        _.defer(function() {
+                            Common.UI.error({
+                                msg: (new Common.Views.RenameDialog).txtInvalidName + "*+:\"<>?|\/"
+                                , callback: function() {
+                                    _.delay(function() {
+                                        me.labelDocName.focus();
+                                    }, 50);
+                                }
+                            });
+
+                            me.labelDocName.blur();
+                        })
+                    } else {
+                        Common.Gateway.requestRename(name);
+                        Common.NotificationCenter.trigger('edit:complete', me);
+                    }
+                }
+            } else
+            if ( e.keyCode == Common.UI.Keys.ESC ) {
+                me.labelDocName.val(me.documentCaption);
+                Common.NotificationCenter.trigger('edit:complete', this);
+            } else {
+                me.labelDocName.attr('size', name.length > 10 ? name.length : 10);
+            }
+
+            console.log('input keydown');
+        }
+
         return {
             options: {
                 branding: {},
@@ -344,7 +380,12 @@ define([
                         textSaveEnd: this.textSaveEnd
                     }));
 
+                    if ( this.labelDocName ) this.labelDocName.off();
                     this.labelDocName = $html.find('#rib-doc-name');
+                    this.labelDocName.on({
+                        'keydown': onDocNameKeyDown.bind(this)
+                    });
+
                     $saveStatus = $html.find('#rib-save-status');
                     $saveStatus.hide();
 
@@ -440,8 +481,13 @@ define([
 
                 this.documentCaption = value;
                 this.isModified && (value += '*');
-                if ( this.labelDocName )
-                    this.labelDocName.html(Common.Utils.String.htmlEncode(value));
+                if ( this.labelDocName ) {
+                    var encoded = Common.Utils.String.htmlEncode(value);
+                    this.labelDocName.val( encoded );
+                    this.labelDocName.attr('size', encoded.length);
+
+                    this.setCanRename(true);
+                }
 
                 return value;
             },
@@ -470,31 +516,23 @@ define([
             },
 
             setCanRename: function (rename) {
-                // var dc = $('#header-documentcaption div');
-                // if (rename) {
-                //     var me = this;
-                //     dc.tooltip({title: me.txtRename, placement: 'cursor'});
-                //     dc.on('click', function (e) {
-                //         (new Common.Views.RenameDialog({
-                //             filename: me.documentCaption,
-                //             handler: function (result, value) {
-                //                 if (result == 'ok' && !_.isEmpty(value.trim()) && me.documentCaption !== value.trim()) {
-                //                     Common.Gateway.requestRename(value);
-                //                 }
-                //                 Common.NotificationCenter.trigger('edit:complete', me);
-                //             }
-                //         })).show(dc.position().left - 1, 20);
-                //     });
-                // } else {
-                //     var tip = dc.data('bs.tooltip');
-                //     if (tip) {
-                //         tip.options.title = '';
-                //         tip.setContent();
-                //     }
-                //     dc.off('click');
-                // }
-                // dc.css('cursor', rename ? 'pointer' : 'default');
-                // dc.toggleClass('renamed', rename);
+                rename = false;
+
+                var me = this,
+                    label = me.labelDocName;
+                if ( rename ) {
+                    label.removeAttr('disabled').tooltip({
+                        title: me.txtRename,
+                        placement: 'cursor'}
+                    );
+                } else {
+                    label.attr('disabled', true);
+                    var tip = label.data('bs.tooltip');
+                    if ( tip ) {
+                        tip.options.title = '';
+                        tip.setContent();
+                    }
+                }
             },
 
             setSaveStatus: function (status) {
