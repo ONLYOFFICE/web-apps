@@ -127,16 +127,17 @@
       text-align: center;
       z-index: 1;
       cursor: pointer;
+      color: #fff;
 
       &:hover {
         text-decoration: none;
       }
 
       &.left{
-        box-shadow: 5px 0 20px 5px rgba(255, 255, 255, .8)
+        box-shadow: 5px 0 20px 5px @tabs-bg-color
       }
       &.right{
-        box-shadow: -5px 0 20px 5px rgba(255, 255, 255, .8)
+        box-shadow: -5px 0 20px 5px @tabs-bg-color
       }
     }
   }
@@ -223,10 +224,6 @@
             height: 22px;
         }
 
-        &.adding {
-            margin-right: 5px;
-        }
-
         .checkbox-indeterminate {
             margin-top: 3px;
         }
@@ -286,7 +283,7 @@
 .button-normal-icon(review-prev,          17, @toolbar-big-icon-size);
 .button-normal-icon(btn-dropcap,          18, @toolbar-big-icon-size);
 .button-normal-icon(~'x-huge .btn-pagebreak', 19, @toolbar-big-icon-size);
-
+.button-normal-icon(btn-editheader,       20, @toolbar-big-icon-size);
 .button-normal-icon(btn-pageorient,       21, @toolbar-big-icon-size);
 .button-normal-icon(btn-pagemargins,      22, @toolbar-big-icon-size);
 .button-normal-icon(btn-pagesize,         23, @toolbar-big-icon-size);

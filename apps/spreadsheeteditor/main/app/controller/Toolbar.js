@@ -78,6 +78,31 @@ define([
                 },
                 'LeftMenu': {
                     'settings:apply': _.bind(this.applyFormulaSettings, this)
+                },
+                'Common.Views.Header': {
+                    'print': this.onPrint.bind(this),
+                    'downloadas': function (opts) {
+                        var _main = this.getApplication().getController('Main');
+                        var _file_type = _main.appOptions.spreadsheet.fileType,
+                            _format;
+                        if ( !!_file_type ) {
+                            _format = Asc.c_oAscFileType[ _file_type.toUpperCase() ];
+                        }
+
+                        var _supported = [
+                            Asc.c_oAscFileType.XLSX,
+                            Asc.c_oAscFileType.ODS,
+                            Asc.c_oAscFileType.CSV
+                        ];
+
+                        if ( !_format || _supported.indexOf(_format) < 0 )
+                            _format = Asc.c_oAscFileType.PDF;
+
+                        _main.api.asc_DownloadAs(_format);
+                    },
+                    'go:editor': function() {
+                        Common.Gateway.requestEditRights();
+                    }
                 }
             });
             this.editMode = true;

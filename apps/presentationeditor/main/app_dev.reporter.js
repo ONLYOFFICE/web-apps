@@ -49,8 +49,7 @@ require.config({
         underscore      : '../vendor/underscore/underscore',
         xregexp         : '../vendor/xregexp/xregexp-all-min',
         sockjs          : '../vendor/sockjs/sockjs.min',
-        allfonts        : '../../sdkjs/common/AllFonts',
-        sdk             : '../../sdkjs/slide/sdk-all-min'
+        allfonts        : '../../sdkjs/common/AllFonts'
     },
     shim: {
         underscore: {
@@ -69,7 +68,9 @@ require.config({
 });
 
 require([
-    'sdk'
+    'sockjs',
+    'xregexp',
+    'underscore'
 ], function () {
 
     var _msg_func = function(msg) {

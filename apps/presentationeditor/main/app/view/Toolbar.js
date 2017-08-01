@@ -138,9 +138,9 @@ define([
                 Common.UI.Mixtbar.prototype.initialize.call(this, {
                     template: _.template(template),
                     tabs: [
-                        { caption: 'File', action: 'file', extcls: 'canedit'},
-                        { caption: 'Home', action: 'home', extcls: 'canedit'},
-                        { caption: 'Insert', action: 'ins', extcls: 'canedit'}
+                        { caption: me.textTabFile, action: 'file', extcls: 'canedit'},
+                        { caption: me.textTabHome, action: 'home', extcls: 'canedit'},
+                        { caption: me.textTabInsert, action: 'ins', extcls: 'canedit'}
                     ]}
                 );
 
@@ -933,7 +933,7 @@ define([
                 });
 
                 if ( me.isCompactView )
-                    me.setFolded(true); else
+                    me.setFolded(true), me.collapse(); else
                     me.setTab('home');
 
                 return this;
@@ -1829,6 +1829,9 @@ define([
             capTabHome: 'Home',
             capTabInsert: 'Insert',
             capBtnComment: 'Comment',
+            textTabFile: 'File',
+            textTabHome: 'Home',
+            textTabInsert: 'Insert',
             textSurface: 'Surface'
         }
     }()), PE.Views.Toolbar || {}));

@@ -132,6 +132,7 @@
 
 .background-ximage(@image, @image2x, @w: auto, @h: auto) {
     background-image: data-uri(%("%s",@image));
+    background-repeat: no-repeat;
 
     @media
     only screen and (-webkit-min-device-pixel-ratio: 2),

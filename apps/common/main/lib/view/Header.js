@@ -73,6 +73,7 @@ define([
                             '<label id="rib-doc-name" class="status-label"></label>' +
                             '<a id="rib-save-status" class="status-label locked"><%= textSaveEnd %></a>' +
                             '<div class="hedset">' +
+                                '<div class="btn-slot" id="slot-hbtn-edit"></div>' +
                                 '<div class="btn-slot" id="slot-hbtn-print"></div>' +
                                 '<div class="btn-slot" id="slot-hbtn-download"></div>' +
                             '</div>' +
@@ -255,16 +256,23 @@ define([
 
             if ( !mode.isEdit ) {
                 if ( me.btnDownload ) {
-                    me.btnDownload.updateHint('Download document');
+                    me.btnDownload.updateHint(me.tipDowload);
                     me.btnDownload.on('click', function (e) {
                         me.fireEvent('downloadas', ['original']);
                     });
                 }
 
                 if ( me.btnPrint ) {
-                    me.btnDownload.updateHint('Print');
+                    me.btnPrint.updateHint(me.tipPrint);
                     me.btnPrint.on('click', function (e) {
                         me.fireEvent('print', me);
+                    });
+                }
+
+                if ( me.btnEdit ) {
+                    me.btnEdit.updateHint(me.tipGoEdit);
+                    me.btnEdit.on('click', function (e) {
+                        me.fireEvent('go:editor', me);
                     });
                 }
             }
@@ -358,7 +366,6 @@ define([
                     if ( !config.isEdit ) {
                         if ( (config.canDownload || config.canDownloadOrigin) && !config.isOffline  ) {
                             this.btnDownload = new Common.UI.Button({
-                                id: 'btn-download',
                                 cls: 'btn-header',
                                 iconCls: 'svgicon svg-btn-download'
                             });
@@ -368,12 +375,18 @@ define([
 
                         if ( config.canPrint ) {
                             this.btnPrint = new Common.UI.Button({
-                                id: 'btn-goback',
                                 cls: 'btn-header',
                                 iconCls: 'svgicon svg-btn-print'
                             });
 
                             this.btnPrint.render($html.find('#slot-hbtn-print'));
+                        }
+
+                        if ( config.canEdit && config.canRequestEditRights ) {
+                            (this.btnEdit = new Common.UI.Button({
+                                cls: 'btn-header',
+                                iconCls: 'svgicon svg-btn-edit'
+                            })).render($html.find('#slot-hbtn-edit'));
                         }
                     }
 
@@ -508,7 +521,10 @@ define([
             txtAccessRights: 'Change access rights',
             tipAccessRights: 'Manage document access rights',
             labelCoUsersDescr: 'Document is currently being edited by several users.',
-            tipViewUsers: 'View users and manage document access rights'
+            tipViewUsers: 'View users and manage document access rights',
+            tipDownload: 'Download file',
+            tipPrint: 'Print file',
+            tipGoEdit: 'Edit current file'
         }
     }(), Common.Views.Header || {}))
 });

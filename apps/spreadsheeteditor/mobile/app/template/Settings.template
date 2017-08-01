@@ -212,7 +212,7 @@
                             <a data-format="<%= saveas.csv %>" class="item-link no-indicator">
                                 <div class="item-content">
                                     <div class="item-media">
-                                        <i class="icon icon-format-CSV"></i>
+                                        <i class="icon icon-format-csv"></i>
                                     </div>
                                     <div class="item-inner">
                                         <div class="item-title">CSV</div>

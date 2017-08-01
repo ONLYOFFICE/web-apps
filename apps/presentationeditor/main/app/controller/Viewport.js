@@ -84,6 +84,7 @@ define([
 
                 }
             });
+            Common.NotificationCenter.on('preview:start', this.onPreviewStart.bind(this));
         },
 
         setApi: function(api) {
@@ -151,6 +152,45 @@ define([
         onWindowResize: function(e) {
             this.onLayoutChanged('window');
             Common.NotificationCenter.trigger('window:resize');
+        },
+
+        onPreviewStart: function(slidenum) {
+            this.previewPanel = this.previewPanel || PE.getController('Viewport').getView('DocumentPreview');
+            var me = this,
+                isResized = false;
+            if (this.previewPanel && !this.previewPanel.isVisible() && this.api) {
+                this.previewPanel.show();
+                var _onWindowResize = function() {
+                    if (isResized) return;
+                    isResized = true;
+                    Common.NotificationCenter.off('window:resize', _onWindowResize);
+                    me.api.StartDemonstration('presentation-preview', _.isNumber(slidenum) ? slidenum : 0, PE.getController('Main').document);
+                    Common.component.Analytics.trackEvent('Viewport', 'Preview');
+                };
+                if (!me.viewport.mode.isDesktopApp && !Common.Utils.isIE11) {
+                    Common.NotificationCenter.on('window:resize', _onWindowResize);
+                    me.fullScreen(document.documentElement);
+                    setTimeout(function(){
+                        _onWindowResize();
+                    }, 100);
+                } else
+                    _onWindowResize();
+            }
+        },
+
+        fullScreen: function(element) {
+            if (element) {
+                if(element.requestFullscreen) {
+                    element.requestFullscreen();
+                } else if(element.webkitRequestFullscreen) {
+                    element.webkitRequestFullscreen();
+                } else if(element.mozRequestFullScreen) {
+                    element.mozRequestFullScreen();
+                } else if(element.msRequestFullscreen) {
+                    element.msRequestFullscreen();
+                }
+            }
         }
+
     });
 });

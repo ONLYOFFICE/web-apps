@@ -142,7 +142,7 @@ define([
                 action  : 'opts',
                 caption : this.btnSettingsCaption,
                 canFocused: false
-            })
+            });
 
             this.items = [];
             this.items.push(
