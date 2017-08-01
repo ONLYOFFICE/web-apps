@@ -122,7 +122,8 @@ define([
                 if ( this.isFolded ) {
                     if (!optsFold.$box) optsFold.$box = me.$el.find('.box-controls');
 
-                    optsFold.$bar.toggleClass('expanded', true).addClass('folded');
+                    optsFold.$bar.addClass('folded').toggleClass('expanded', false);
+                    optsFold.$bar.find('.tabs .ribtab').removeClass('active');
                     optsFold.$box.on({
                         mouseleave: function (e) {
                             // optsFold.timer = setTimeout( function(e) {

@@ -1205,7 +1205,7 @@ define([
                 });
 
                 if ( me.isCompactView )
-                    me.setFolded(true), me.collapse(); else
+                    me.setFolded(true); else
                     me.setTab('home');
 
                 var top = Common.localStorage.getItem("de-pgmargins-top"),
