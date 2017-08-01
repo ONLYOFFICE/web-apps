@@ -125,10 +125,13 @@ define([
                     optsFold.$bar.toggleClass('expanded', true).addClass('folded');
                     optsFold.$box.on({
                         mouseleave: function (e) {
-                            optsFold.timer = setTimeout(me.collapse, optsFold.timeout);
+                            // optsFold.timer = setTimeout( function(e) {
+                            //     clearTimeout(optsFold.timer);
+                            //     me.collapse();
+                            // }, optsFold.timeout);
                         },
                         mouseenter: function (e) {
-                            clearTimeout(optsFold.timer);
+                            // clearTimeout(optsFold.timer);
                         }
                     });
 
@@ -157,26 +160,27 @@ define([
                     // });
 
                 } else {
-                    clearTimeout(optsFold.timer);
+                    // clearTimeout(optsFold.timer);
                     optsFold.$bar.removeClass('folded');
                     optsFold.$box.off();
                 }
             },
 
             collapse: function() {
+                Common.UI.Menu.Manager.hideAll();
+                // clearTimeout(optsFold.timer);
+
                 if ( this.isFolded && optsFold.$bar ) {
                     optsFold.$bar.removeClass('expanded');
                     optsFold.$bar.find('.tabs .ribtab').removeClass('active');
                 }
-
-                Common.UI.Menu.Manager.hideAll();
             },
 
             expand: function() {
-                clearTimeout(optsFold.timer);
+                // clearTimeout(optsFold.timer);
 
                 optsFold.$bar.addClass('expanded');
-                optsFold.timer = setTimeout(this.collapse, optsFold.timeout);
+                // optsFold.timer = setTimeout(this.collapse, optsFold.timeout);
             },
 
             onResize: function(e) {
