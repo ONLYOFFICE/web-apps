@@ -2678,7 +2678,7 @@ define([
                     }
 
                     /** coauthoring begin **/
-                    menuAddCommentPara.setVisible(!isInChart && me.api.can_AddQuotedComment()!==false && me.mode.canCoAuthoring && me.mode.canComments);
+                    menuAddCommentPara.setVisible(!isInChart && isInShape && me.api.can_AddQuotedComment()!==false && me.mode.canCoAuthoring && me.mode.canComments);
                     /** coauthoring end **/
 
                     menuCommentParaSeparator.setVisible(/** coauthoring begin **/ menuAddCommentPara.isVisible() || /** coauthoring end **/ menuAddHyperlinkPara.isVisible() || menuHyperlinkPara.isVisible());
