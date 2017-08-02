@@ -2073,7 +2073,7 @@ define([
                     var _comments = PE.getController('Common.Controllers.Comments').getView();
                     Array.prototype.push.apply(me.toolbar.lockControls, this.btnsComment);
                     this.btnsComment.forEach(function (btn) {
-                        btn.updateHint( _comments.textAddComment );
+                        btn.updateHint( _comments.textHintAddComment );
                         btn.on('click', function (btn, e) {
                             Common.NotificationCenter.trigger('app:comment:add', 'toolbar');
                         });

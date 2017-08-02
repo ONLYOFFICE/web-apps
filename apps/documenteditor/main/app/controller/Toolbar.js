@@ -2843,7 +2843,7 @@ define([
                 if ( this.btnsComment.length ) {
                     var _comments = DE.getController('Common.Controllers.Comments').getView();
                     this.btnsComment.forEach(function (btn) {
-                        btn.updateHint( _comments.textAddComment );
+                        btn.updateHint( _comments.textHintAddComment );
                         btn.on('click', function (btn, e) {
                             Common.NotificationCenter.trigger('app:comment:add', 'toolbar');
                         });
