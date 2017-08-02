@@ -386,6 +386,14 @@ define([
                         'keydown': onDocNameKeyDown.bind(this)
                     });
 
+                    if ( this.documentCaption ) {
+                        this.labelDocName.text( Common.Utils.String.htmlEncode(this.documentCaption) );
+                    }
+
+                    if ( !_.isUndefined(this.options.canRename) ) {
+                        this.setCanRename(this.options.canRename);
+                    }
+
                     $saveStatus = $html.find('#rib-save-status');
                     $saveStatus.hide();
 
@@ -429,11 +437,6 @@ define([
                                 iconCls: 'svgicon svg-btn-edit'
                             })).render($html.find('#slot-hbtn-edit'));
                         }
-                    }
-
-                    if ( this.documentCaption ) {
-                        $html.find('#rib-doc-name').text(
-                            Common.Utils.String.htmlEncode(this.documentCaption) );
                     }
 
                     $userList = $html.find('.cousers-list');
@@ -518,19 +521,22 @@ define([
             setCanRename: function (rename) {
                 rename = false;
 
-                var me = this,
-                    label = me.labelDocName;
-                if ( rename ) {
-                    label.removeAttr('disabled').tooltip({
-                        title: me.txtRename,
-                        placement: 'cursor'}
-                    );
-                } else {
-                    label.attr('disabled', true);
-                    var tip = label.data('bs.tooltip');
-                    if ( tip ) {
-                        tip.options.title = '';
-                        tip.setContent();
+                var me = this;
+                me.options.canRename = rename;
+                if ( me.labelDocName ) {
+                    var label = me.labelDocName;
+                    if ( rename ) {
+                        label.removeAttr('disabled').tooltip({
+                            title: me.txtRename,
+                            placement: 'cursor'}
+                        );
+                    } else {
+                        label.attr('disabled', true);
+                        var tip = label.data('bs.tooltip');
+                        if ( tip ) {
+                            tip.options.title = '';
+                            tip.setContent();
+                        }
                     }
                 }
             },
