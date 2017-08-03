@@ -193,8 +193,8 @@ define([    'text!spreadsheeteditor/main/app/template/PivotSettingsAdvanced.temp
                 var me = this;
                 this.inputName.setValue(Common.Utils.String.htmlEncode(props.asc_getName()));
 
-                this.chCols.setValue(props.asc_getColGrandTotals(), true);
-                this.chRows.setValue(props.asc_getRowGrandTotals(), true);
+                this.chCols.setValue(props.asc_getRowGrandTotals(), true);
+                this.chRows.setValue(props.asc_getColGrandTotals(), true);
 
                 (props.asc_getPageOverThenDown()) ? this.radioOver.setValue(true) : this.radioDown.setValue(true);
                 this.lblPageWrap.html((props.asc_getPageOverThenDown()) ? this.textWrapRow : this.textWrapCol);
@@ -217,8 +217,8 @@ define([    'text!spreadsheeteditor/main/app/template/PivotSettingsAdvanced.temp
 
         getSettings: function () {
             var props = this.props.asc_clone();
-            props.asc_setColGrandTotals(this.chCols.getValue() == 'checked');
-            props.asc_setRowGrandTotals(this.chRows.getValue() == 'checked');
+            props.asc_setRowGrandTotals(this.chCols.getValue() == 'checked');
+            props.asc_setColGrandTotals(this.chRows.getValue() == 'checked');
 
             return props;
         },
