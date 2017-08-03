@@ -208,6 +208,10 @@ define([
              * UI Events
              */
             if ( me.appConfig.isEditDiagram ) {
+                toolbar.btnUndo.on('click',                                 _.bind(this.onUndo, this));
+                toolbar.btnRedo.on('click',                                 _.bind(this.onRedo, this));
+                toolbar.btnCopy.on('click',                                 _.bind(this.onCopyPaste, this, true));
+                toolbar.btnPaste.on('click',                                _.bind(this.onCopyPaste, this, false));
                 toolbar.btnInsertFormula.on('click',                        _.bind(this.onInsertFormulaMenu, this));
                 toolbar.btnInsertFormula.menu.on('item:click',              _.bind(this.onInsertFormulaMenu, this));
                 toolbar.btnDecDecimal.on('click',                           _.bind(this.onDecrement, this));
@@ -219,6 +223,10 @@ define([
                 toolbar.btnEditChart.on('click',                            _.bind(this.onEditChart, this));
             } else
             if ( me.appConfig.isEditMailMerge ) {
+                toolbar.btnUndo.on('click',                                 _.bind(this.onUndo, this));
+                toolbar.btnRedo.on('click',                                 _.bind(this.onRedo, this));
+                toolbar.btnCopy.on('click',                                 _.bind(this.onCopyPaste, this, true));
+                toolbar.btnPaste.on('click',                                _.bind(this.onCopyPaste, this, false));
                 toolbar.btnSearch.on('click',                               _.bind(this.onSearch, this));
                 toolbar.btnSortDown.on('click',                             _.bind(this.onSortType, this, Asc.c_oAscSortOptions.Ascending));
                 toolbar.btnSortUp.on('click',                               _.bind(this.onSortType, this, Asc.c_oAscSortOptions.Descending));
