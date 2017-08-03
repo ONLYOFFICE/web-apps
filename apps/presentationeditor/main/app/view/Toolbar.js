@@ -1804,8 +1804,6 @@ define([
             txtScheme21: 'Verve',
             tipSlideTheme: 'Slide Theme',
             tipSaveCoauth: 'Save your changes for the other users to see them.',
-            textInsText: 'Insert text box',
-            textInsTextArt: 'Insert Text Art',
             textShowBegin: 'Show from Beginning',
             textShowCurrent: 'Show from Current slide',
             textShowSettings: 'Show Settings',

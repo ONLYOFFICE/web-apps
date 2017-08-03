@@ -2030,8 +2030,6 @@ define([
         txtNewRange:        'Define Name',
         txtManageRange:     'Name manager',
         txtPasteRange:      'Paste name',
-        textInsText:        'Insert text box',
-        textInsTextArt:     'Insert Text Art',
         textInsCharts:      'Charts',
         textLine:           'Line',
         textColumn:         'Column',
