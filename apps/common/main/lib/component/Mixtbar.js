@@ -264,6 +264,8 @@ define([
             },
 
             hasTabInvisible: function() {
+                if ($boxTabs.length<1) return false;
+
                 var _left_bound_ = Math.round($boxTabs.offset().left),
                     _right_bound_ = Math.round(_left_bound_ + $boxTabs.width());
 
