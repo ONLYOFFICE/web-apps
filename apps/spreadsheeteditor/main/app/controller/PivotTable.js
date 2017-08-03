@@ -239,6 +239,18 @@ define([
 					needTablePictures = true;
 				}
 
+                value = props.asc_getColGrandTotals();
+                if (this._state.ColGrandTotals!==value) {
+                    this._state.ColGrandTotals=value;
+                    needTablePictures = true;
+                }
+
+                value = props.asc_getRowGrandTotals();
+                if (this._state.RowGrandTotals!==value) {
+                    this._state.RowGrandTotals=value;
+                    needTablePictures = true;
+                }
+
                 if (needTablePictures)
                     this.onApiInitPivotStyles(this.api.asc_getTablePictures(this._originalProps, true));
 
