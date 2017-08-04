@@ -466,7 +466,7 @@ define([
                 me.btnVerticalAlign = new Common.UI.Button({
                     id          : 'id-toolbar-btn-valign',
                     cls         : 'btn-toolbar',
-                    lock        : [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected],
+                    lock        : [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected, _set.noObjectSelected],
                     iconCls     : 'btn-align-middle',
                     icls        : 'btn-align-middle',
                     menu        : new Common.UI.Menu({
