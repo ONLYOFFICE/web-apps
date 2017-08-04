@@ -2393,9 +2393,9 @@ define([
                 }
             } else {
                 this.toolbar.mnuTextArtPicker = new Common.UI.DataView({
-                    el: $('#id-toolbar-menu-insart', me.toolbar),
+                    el: $('#id-toolbar-menu-insart'),
                     store: this.getApplication().getCollection('Common.Collections.TextArt'),
-                    // parentMenu: this.toolbar.mnuInsertTextArt.menu,
+                    parentMenu: this.toolbar.btnInsertTextArt.menu,
                     showLast: false,
                     itemTemplate: _.template('<div class="item-art"><img src="<%= imageUrl %>" id="<%= id %>" style="width:50px;height:50px;"></div>')
                 });
