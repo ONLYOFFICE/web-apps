@@ -605,7 +605,7 @@ define([
                     (new SSE.Views.FieldSettingsDialog(
                         {
                             props: me._originalProps,
-                            fieldIndex: me._state.field.record.get('index'),
+                            fieldIndex: me._state.field.record.get('pivotIndex'),
                             names: me._state.names,
                             api: me.api,
                             type: me._state.field.type,

@@ -226,12 +226,13 @@ define([    'text!spreadsheeteditor/main/app/template/FieldSettingsDialog.templa
 
         _setDefaults: function (props) {
             if (props) {
-                var field = ((this.type == 0) ? props.asc_getColumnFields() : ((this.type == 1) ? props.asc_getRowFields() : props.asc_getPageFields()))[this.fieldIndex],
-                    cache_names = props.asc_getCacheFields(),
-                    pivot_names = props.asc_getPivotFields();
+                var cache_names = props.asc_getCacheFields(),
+                    field = props.asc_getPivotFields()[this.fieldIndex];
 
-                this.lblSourceName.html(Common.Utils.String.htmlEncode(cache_names[field.asc_getIndex()].asc_getName()));
-                this.inputCustomName.setValue(Common.Utils.String.htmlEncode((pivot_names[field.asc_getIndex()] || cache_names[field.asc_getIndex()]).asc_getName()));
+                this.lblSourceName.html(Common.Utils.String.htmlEncode(cache_names[this.fieldIndex].asc_getName()));
+                this.inputCustomName.setValue(Common.Utils.String.htmlEncode((field || cache_names[this.fieldIndex]).asc_getName()));
+
+                (field.asc_getSubtotalTop()) ? this.radioTop.setValue(true) : this.radioBottom.setValue(true);
             }
         },
 
