@@ -571,6 +571,8 @@ define([    'text!spreadsheeteditor/main/app/template/ShapeSettingsAdvanced.temp
             if (props ){
                 var stroke = props.asc_getStroke();
                 if (stroke) {
+                    this.btnsCategory[1].setDisabled(stroke.asc_getType() == Asc.c_oAscStrokeType.STROKE_NONE);   // Weights & Arrows
+
                     var value = stroke.asc_getLinejoin();
                     for (var i=0; i<this._arrJoinType.length; i++) {
                         if (value == this._arrJoinType[i].value) {
