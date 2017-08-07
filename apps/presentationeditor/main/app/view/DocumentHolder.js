@@ -66,6 +66,7 @@ define([
             me._currentParaObjDisabled = false;
             me._currentSpellObj = undefined;
             me._currLang        = {};
+            me._state = {};
             
             /** coauthoring begin **/
             var usersStore = PE.getCollection('Common.Collections.Users');
@@ -1472,6 +1473,18 @@ define([
                 me._isFromSlideMenu = number;
             };
 
+            var onApiUpdateThemeIndex = function(v) {
+                me._state.themeId = v;
+            };
+
+            var onApiLockDocumentTheme = function() {
+                me._state.themeLock = true;
+            };
+
+            var onApiUnLockDocumentTheme = function() {
+                me._state.themeLock = false;
+            };
+
             this.setApi = function(o) {
                 me.api = o;
 
@@ -1501,6 +1514,9 @@ define([
                     me.api.asc_registerCallback('asc_onShowForeignCursorLabel', _.bind(onShowForeignCursorLabel, me));
                     me.api.asc_registerCallback('asc_onHideForeignCursorLabel', _.bind(onHideForeignCursorLabel, me));
                     me.api.asc_registerCallback('asc_onFocusObject',            _.bind(onFocusObject, me));
+                    me.api.asc_registerCallback('asc_onUpdateThemeIndex',       _.bind(onApiUpdateThemeIndex, me));
+                    me.api.asc_registerCallback('asc_onLockDocumentTheme',      _.bind(onApiLockDocumentTheme, me));
+                    me.api.asc_registerCallback('asc_onUnLockDocumentTheme',    _.bind(onApiUnLockDocumentTheme, me));
                 }
 
                 return me;
@@ -1739,6 +1755,16 @@ define([
                 })
             });
 
+            var mnuChangeTheme = new Common.UI.MenuItem({
+                caption     : me.txtChangeTheme,
+                menu        : new Common.UI.Menu({
+                    menuAlign: 'tl-tr',
+                    items: [
+                        { template: _.template('<div id="id-docholder-menu-changetheme" style="width: 280px; margin: 0 4px;"></div>') }
+                    ]
+                })
+            });
+
             var mnuPreview = new Common.UI.MenuItem({
                 caption : me.txtPreview
             }).on('click', function(item) {
@@ -1792,10 +1818,11 @@ define([
                     mnuSlideHide.setChecked(value.isSlideHidden===true);
                     me.slideMenu.items[5].setVisible(value.isSlideSelect===true || value.fromThumbs!==true);
                     mnuChangeSlide.setVisible(value.isSlideSelect===true || value.fromThumbs!==true);
+                    mnuChangeTheme.setVisible(value.isSlideSelect===true || value.fromThumbs!==true);
                     menuSlideSettings.setVisible(value.fromThumbs!==true);
                     menuSlideSettings.options.value = null;
 
-                    for (var i = 8; i < 12; i++) {
+                    for (var i = 9; i < 13; i++) {
                         me.slideMenu.items[i].setVisible(value.fromThumbs===true);
                     }
 
@@ -1822,6 +1849,7 @@ define([
                     mnuSelectAll.setDisabled(locked || me.slidesCount<2);
                     mnuDeleteSlide.setDisabled(lockedDeleted || locked);
                     mnuChangeSlide.setDisabled(lockedLayout || locked);
+                    mnuChangeTheme.setDisabled(me._state.themeLock || locked );
                     mnuSlideHide.setDisabled(lockedLayout || locked);
                 },
                 items: [
@@ -1852,6 +1880,7 @@ define([
                     mnuSlideHide,
                     {caption: '--'},
                     mnuChangeSlide,
+                    mnuChangeTheme,
                     menuSlideSettings,
                     {caption: '--'},
                     mnuSelectAll,
@@ -1901,6 +1930,37 @@ define([
                 me.listenTo(PE.getCollection('SlideLayouts'), 'reset',  function() {
                     me.slideLayoutMenu._needRecalcSlideLayout = true;
                 });
+
+                me.slideThemeMenu = new Common.UI.DataView({
+                    el          : $('#id-docholder-menu-changetheme'),
+                    parentMenu  : mnuChangeTheme.menu,
+                    restoreHeight: 300,
+                    style: 'max-height: 300px;',
+                    store       : PE.getCollection('SlideThemes'),
+                    itemTemplate: _.template([
+                        '<div class="style" id="<%= id %>" style="width: <%= itemWidth %>px;">',
+                        '<div style="background-image: url(<%= imageUrl %>); width: <%= itemWidth %>px; height: <%= itemHeight %>px;"/>',
+                        '</div>'
+                    ].join(''))
+                }).on('item:click', function(picker, item, record, e) {
+                    if (me.api) {
+                        me.api.ChangeTheme(record.get('themeId'), true);
+                        if (e.type !== 'click')
+                            me.slideMenu.hide();
+                        me.fireEvent('editcomplete', me);
+                        Common.component.Analytics.trackEvent('DocumentHolder', 'Change Theme');
+                    }
+                });
+
+                if (me.slideMenu) {
+                    mnuChangeTheme.menu.on('show:after', function (menu) {
+                        var record = me.slideThemeMenu.store.findWhere({themeId: me._state.themeId});
+                        me.slideThemeMenu.selectRecord(record, true);
+
+                        me.slideThemeMenu.scroller.update({alwaysVisibleY: true});
+                        me.slideThemeMenu.scroller.scrollTop(0);
+                    });
+                }
             });
 
             var mnuTableMerge = new Common.UI.MenuItem({
@@ -3219,7 +3279,8 @@ define([
         spellcheckText: 'Spellcheck',
         langText: 'Select Language',
         textUndo: 'Undo',
-        txtSlideHide: 'Hide Slide'
+        txtSlideHide: 'Hide Slide',
+        txtChangeTheme: 'Change Theme'
 
     }, PE.Views.DocumentHolder || {}));
 });

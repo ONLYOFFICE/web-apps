@@ -48,6 +48,7 @@ define([
     'common/main/lib/view/ImageFromUrlDialog',
     'common/main/lib/view/InsertTableDialog',
     'common/main/lib/util/define',
+    'presentationeditor/main/app/collection/SlideThemes',
     'presentationeditor/main/app/view/Toolbar',
     'presentationeditor/main/app/view/HyperlinkSettingsDialog',
     'presentationeditor/main/app/view/SlideSizeSettings',
@@ -56,7 +57,9 @@ define([
 
     PE.Controllers.Toolbar = Backbone.Controller.extend(_.extend({
         models: [],
-        collections: [],
+        collections: [
+            'SlideThemes'
+        ],
         views: [
             'Toolbar'
         ],
@@ -1953,13 +1956,25 @@ define([
 
             me.toolbar.listTheme.menuPicker.store.reset([]); // remove all
 
-            _.each(defaultThemes.concat(docThemes), function(theme) {
-                me.toolbar.listTheme.menuPicker.store.add({
-                    imageUrl: theme.get_Image(),
-                    uid     : Common.UI.getId(),
-                    themeId : theme.get_Index()
+            var themeStore = this.getCollection('SlideThemes');
+            if (themeStore) {
+                var arr = [];
+                _.each(defaultThemes.concat(docThemes), function(theme) {
+                    arr.push(new Common.UI.DataViewModel({
+                        imageUrl: theme.get_Image(),
+                        uid     : Common.UI.getId(),
+                        themeId : theme.get_Index(),
+                        itemWidth   : 85,
+                        itemHeight  : 38
+                    }));
+                    me.toolbar.listTheme.menuPicker.store.add({
+                        imageUrl: theme.get_Image(),
+                        uid     : Common.UI.getId(),
+                        themeId : theme.get_Index()
+                    });
                 });
-            });
+                themeStore.reset(arr);
+            }
 
             if (me.toolbar.listTheme.menuPicker.store.length > 0 &&  me.toolbar.listTheme.rendered){
                 me.toolbar.listTheme.fillComboView(me.toolbar.listTheme.menuPicker.store.at(0), true);

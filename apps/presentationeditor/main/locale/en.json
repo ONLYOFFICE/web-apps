@@ -709,6 +709,7 @@
   "PE.Views.DocumentHolder.txtBorderProps": "Border properties",
   "PE.Views.DocumentHolder.txtBottom": "Bottom",
   "PE.Views.DocumentHolder.txtChangeLayout": "Change Layout",
+  "PE.Views.DocumentHolder.txtChangeTheme": "Change Theme",
   "PE.Views.DocumentHolder.txtColumnAlign": "Column alignment",
   "PE.Views.DocumentHolder.txtDecreaseArg": "Decrease argument size",
   "PE.Views.DocumentHolder.txtDeleteArg": "Delete argument",
