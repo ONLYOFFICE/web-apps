@@ -256,7 +256,7 @@ define([
 
             if ( !mode.isEdit ) {
                 if ( me.btnDownload ) {
-                    me.btnDownload.updateHint(me.tipDowload);
+                    me.btnDownload.updateHint(me.tipDownload);
                     me.btnDownload.on('click', function (e) {
                         me.fireEvent('downloadas', ['original']);
                     });
