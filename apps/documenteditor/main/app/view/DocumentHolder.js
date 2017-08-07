@@ -2308,6 +2308,7 @@ define([
             }).on('click', function(item) {
                 if (me.api){
                     (new Common.Views.InsertTableDialog({
+                        split: true,
                         handler: function(result, value) {
                             if (result == 'ok') {
                                 if (me.api) {

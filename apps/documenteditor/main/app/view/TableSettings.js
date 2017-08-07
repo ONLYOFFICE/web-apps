@@ -237,6 +237,7 @@ define([
         splitCells: function(menu, item, e) {
             var me = this;
             (new Common.Views.InsertTableDialog({
+                split: true,
                 handler: function(result, value) {
                     if (result == 'ok') {
                         if (me.api) {

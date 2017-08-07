@@ -51,7 +51,8 @@ define([
             height: 170,
             header: false,
             style: 'min-width: 230px;',
-            cls: 'modal-dlg'
+            cls: 'modal-dlg',
+            split: false
         },
 
         initialize : function(options) {
@@ -59,7 +60,7 @@ define([
 
             this.template = [
                 '<div class="box">',
-                    '<h4>' + this.txtTitle + '</h4>',
+                    '<h4>' + ((options.split) ? this.txtTitleSplit : this.txtTitle) + '</h4>',
                     '<div class="input-row" style="margin: 10px 0;">',
                         '<label class="text columns-text" style="width: 130px;">' + this.txtColumns + '</label><div class="columns-val" style="float: right;"></div>',
                     '</div>',
@@ -132,7 +133,8 @@ define([
             return false;
         },
 
-        txtTitle: 'Table size',
+        txtTitle: 'Table Size',
+        txtTitleSplit: 'Split Cell',
         txtColumns: 'Number of Columns',
         txtRows: 'Number of Rows',
         textInvalidRowsCols: 'You need to specify valid rows and columns count.',

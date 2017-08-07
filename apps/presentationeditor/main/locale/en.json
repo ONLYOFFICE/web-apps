@@ -105,6 +105,7 @@
   "Common.Views.InsertTableDialog.txtMinText": "The minimum value for this field is {0}.",
   "Common.Views.InsertTableDialog.txtRows": "Number of Rows",
   "Common.Views.InsertTableDialog.txtTitle": "Table Size",
+  "Common.Views.InsertTableDialog.txtTitleSplit": "Split Cell",
   "Common.Views.LanguageDialog.btnCancel": "Cancel",
   "Common.Views.LanguageDialog.btnOk": "Ok",
   "Common.Views.LanguageDialog.labelSelect": "Select document language",
