@@ -660,6 +660,7 @@ define([
                     cls         : 'btn-toolbar x-huge icon-top',
                     iconCls     : 'btn-textart',
                     caption     : me.capInsertTextart,
+                    lock        : [_set.editCell, _set.selChartText, _set.selImage, _set.lostConnect, _set.coAuth],
                     menu        : new Common.UI.Menu({
                         cls: 'menu-shapes',
                         items: [
