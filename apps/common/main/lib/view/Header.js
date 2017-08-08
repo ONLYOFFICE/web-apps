@@ -70,7 +70,7 @@ define([
                 '</ul>');
 
         var templateRightBox = '<section>' +
-                            '<label id="rib-doc-name" class="status-label"></label>' +
+                            '<section id="box-doc-name"><input type="text" id="rib-doc-name" spellcheck="false" data-can-copy="false"></input></section>' +
                             '<a id="rib-save-status" class="status-label locked"><%= textSaveEnd %></a>' +
                             '<div class="hedset">' +
                                 '<div class="btn-slot" id="slot-hbtn-edit"></div>' +
@@ -256,7 +256,7 @@ define([
 
             if ( !mode.isEdit ) {
                 if ( me.btnDownload ) {
-                    me.btnDownload.updateHint(me.tipDowload);
+                    me.btnDownload.updateHint(me.tipDownload);
                     me.btnDownload.on('click', function (e) {
                         me.fireEvent('downloadas', ['original']);
                     });
@@ -276,6 +276,42 @@ define([
                     });
                 }
             }
+        }
+
+        function onDocNameKeyDown(e) {
+            var me = this;
+
+            var name = me.labelDocName.val();
+            if ( e.keyCode == Common.UI.Keys.RETURN ) {
+                name = name.trim();
+                if ( !_.isEmpty(name) && me.documentCaption !== name ) {
+                    if ( /[\t*\+:\"<>?|\\\\/]/gim.test(name) ) {
+                        _.defer(function() {
+                            Common.UI.error({
+                                msg: (new Common.Views.RenameDialog).txtInvalidName + "*+:\"<>?|\/"
+                                , callback: function() {
+                                    _.delay(function() {
+                                        me.labelDocName.focus();
+                                    }, 50);
+                                }
+                            });
+
+                            me.labelDocName.blur();
+                        })
+                    } else {
+                        Common.Gateway.requestRename(name);
+                        Common.NotificationCenter.trigger('edit:complete', me);
+                    }
+                }
+            } else
+            if ( e.keyCode == Common.UI.Keys.ESC ) {
+                me.labelDocName.val(me.documentCaption);
+                Common.NotificationCenter.trigger('edit:complete', this);
+            } else {
+                me.labelDocName.attr('size', name.length > 10 ? name.length : 10);
+            }
+
+            console.log('input keydown');
         }
 
         return {
@@ -344,7 +380,20 @@ define([
                         textSaveEnd: this.textSaveEnd
                     }));
 
+                    if ( this.labelDocName ) this.labelDocName.off();
                     this.labelDocName = $html.find('#rib-doc-name');
+                    this.labelDocName.on({
+                        'keydown': onDocNameKeyDown.bind(this)
+                    });
+
+                    if ( this.documentCaption ) {
+                        this.labelDocName.val( this.documentCaption );
+                    }
+
+                    if ( !_.isUndefined(this.options.canRename) ) {
+                        this.setCanRename(this.options.canRename);
+                    }
+
                     $saveStatus = $html.find('#rib-save-status');
                     $saveStatus.hide();
 
@@ -388,11 +437,6 @@ define([
                                 iconCls: 'svgicon svg-btn-edit'
                             })).render($html.find('#slot-hbtn-edit'));
                         }
-                    }
-
-                    if ( this.documentCaption ) {
-                        $html.find('#rib-doc-name').text(
-                            Common.Utils.String.htmlEncode(this.documentCaption) );
                     }
 
                     $userList = $html.find('.cousers-list');
@@ -440,8 +484,12 @@ define([
 
                 this.documentCaption = value;
                 this.isModified && (value += '*');
-                if ( this.labelDocName )
-                    this.labelDocName.html(Common.Utils.String.htmlEncode(value));
+                if ( this.labelDocName ) {
+                    this.labelDocName.val( value );
+                    this.labelDocName.attr('size', value.length);
+
+                    this.setCanRename(true);
+                }
 
                 return value;
             },
@@ -453,10 +501,10 @@ define([
             setDocumentChanged: function (changed) {
                 this.isModified = changed;
 
-                var _name = Common.Utils.String.htmlEncode(this.documentCaption);
+                var _name = this.documentCaption;
                 changed && (_name += '*');
 
-                this.labelDocName.html(_name);
+                this.labelDocName.val(_name);
             },
 
             setCanBack: function (value) {
@@ -470,31 +518,27 @@ define([
             },
 
             setCanRename: function (rename) {
-                // var dc = $('#header-documentcaption div');
-                // if (rename) {
-                //     var me = this;
-                //     dc.tooltip({title: me.txtRename, placement: 'cursor'});
-                //     dc.on('click', function (e) {
-                //         (new Common.Views.RenameDialog({
-                //             filename: me.documentCaption,
-                //             handler: function (result, value) {
-                //                 if (result == 'ok' && !_.isEmpty(value.trim()) && me.documentCaption !== value.trim()) {
-                //                     Common.Gateway.requestRename(value);
-                //                 }
-                //                 Common.NotificationCenter.trigger('edit:complete', me);
-                //             }
-                //         })).show(dc.position().left - 1, 20);
-                //     });
-                // } else {
-                //     var tip = dc.data('bs.tooltip');
-                //     if (tip) {
-                //         tip.options.title = '';
-                //         tip.setContent();
-                //     }
-                //     dc.off('click');
-                // }
-                // dc.css('cursor', rename ? 'pointer' : 'default');
-                // dc.toggleClass('renamed', rename);
+                rename = false;
+
+                var me = this;
+                me.options.canRename = rename;
+                if ( me.labelDocName ) {
+                    var label = me.labelDocName;
+                    if ( rename ) {
+                        label.removeAttr('disabled').tooltip({
+                            title: me.txtRename,
+                            placement: 'cursor'}
+                        );
+                    } else {
+                        label.attr('disabled', true);
+                        var tip = label.data('bs.tooltip');
+                        if ( tip ) {
+                            tip.options.title = '';
+                            tip.setContent();
+                        }
+                    }
+                    label.attr('data-can-copy', rename);
+                }
             },
 
             setSaveStatus: function (status) {

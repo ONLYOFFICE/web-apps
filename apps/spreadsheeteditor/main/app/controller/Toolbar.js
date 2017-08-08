@@ -209,6 +209,10 @@ define([
              * UI Events
              */
             if ( me.appConfig.isEditDiagram ) {
+                toolbar.btnUndo.on('click',                                 _.bind(this.onUndo, this));
+                toolbar.btnRedo.on('click',                                 _.bind(this.onRedo, this));
+                toolbar.btnCopy.on('click',                                 _.bind(this.onCopyPaste, this, true));
+                toolbar.btnPaste.on('click',                                _.bind(this.onCopyPaste, this, false));
                 toolbar.btnInsertFormula.on('click',                        _.bind(this.onInsertFormulaMenu, this));
                 toolbar.btnInsertFormula.menu.on('item:click',              _.bind(this.onInsertFormulaMenu, this));
                 toolbar.btnDecDecimal.on('click',                           _.bind(this.onDecrement, this));
@@ -220,6 +224,10 @@ define([
                 toolbar.btnEditChart.on('click',                            _.bind(this.onEditChart, this));
             } else
             if ( me.appConfig.isEditMailMerge ) {
+                toolbar.btnUndo.on('click',                                 _.bind(this.onUndo, this));
+                toolbar.btnRedo.on('click',                                 _.bind(this.onRedo, this));
+                toolbar.btnCopy.on('click',                                 _.bind(this.onCopyPaste, this, true));
+                toolbar.btnPaste.on('click',                                _.bind(this.onCopyPaste, this, false));
                 toolbar.btnSearch.on('click',                               _.bind(this.onSearch, this));
                 toolbar.btnSortDown.on('click',                             _.bind(this.onSortType, this, Asc.c_oAscSortOptions.Ascending));
                 toolbar.btnSortUp.on('click',                               _.bind(this.onSortType, this, Asc.c_oAscSortOptions.Descending));
@@ -264,7 +272,6 @@ define([
                 toolbar.btnInsertHyperlink.on('click',                      _.bind(this.onHyperlink, this));
                 toolbar.mnuInsertChartPicker.on('item:click',               _.bind(this.onSelectChart, this));
                 toolbar.btnInsertText.on('click',                           _.bind(this.onBtnInsertTextClick, this));
-                toolbar.btnInsertText.menu.on('item:click',                 _.bind(this.onInsertTextClick, this));
                 toolbar.btnInsertShape.menu.on('hide:after',                _.bind(this.onInsertShapeHide, this));
                 toolbar.btnInsertEquation.on('click',                       _.bind(this.onInsertEquationClick, this));
                 toolbar.btnSortDown.on('click',                             _.bind(this.onSortType, this, Asc.c_oAscSortOptions.Ascending));
@@ -911,20 +918,6 @@ define([
             Common.component.Analytics.trackEvent('ToolBar', 'Add Text');
         },
 
-        onInsertTextClick: function(menu, item, e) {
-            if (item.value === 'text') {
-                if (this.api)
-                    this._addAutoshape(true, 'textRect');
-                this.toolbar.btnInsertText.toggle(true, true);
-
-                if (this.toolbar.btnInsertShape.pressed)
-                    this.toolbar.btnInsertShape.toggle(false, true);
-
-                Common.NotificationCenter.trigger('edit:complete', this.toolbar, this.toolbar.btnInsertShape);
-                Common.component.Analytics.trackEvent('ToolBar', 'Add Text');
-            }
-        },
-        
         onInsertShapeHide: function(btn, e) {
             if (this.toolbar.btnInsertShape.pressed && !this._isAddingShape) {
                 this.toolbar.btnInsertShape.toggle(false, true);
@@ -2387,11 +2380,11 @@ define([
         },
 
         fillTextArt: function() {
-            if (!this.toolbar.btnInsertText.rendered) return;
+            if (!this.toolbar.btnInsertTextArt.rendered) return;
 
             var me = this;
 
-            if (this.toolbar.mnuTextArtPicker) {
+            if ( this.toolbar.mnuTextArtPicker ) {
                 var models = this.getApplication().getCollection('Common.Collections.TextArt').models,
                     count = this.toolbar.mnuTextArtPicker.store.length;
                 if (count>0 && count==models.length) {
@@ -2406,25 +2399,26 @@ define([
                 this.toolbar.mnuTextArtPicker = new Common.UI.DataView({
                     el: $('#id-toolbar-menu-insart'),
                     store: this.getApplication().getCollection('Common.Collections.TextArt'),
-                    parentMenu: this.toolbar.mnuInsertTextArt.menu,
+                    parentMenu: this.toolbar.btnInsertTextArt.menu,
                     showLast: false,
                     itemTemplate: _.template('<div class="item-art"><img src="<%= imageUrl %>" id="<%= id %>" style="width:50px;height:50px;"></div>')
                 });
 
-                this.toolbar.mnuTextArtPicker.on('item:click', function(picker, item, record, e) {
-                    if (me.api) {
+                this.toolbar.mnuTextArtPicker.on('item:click',
+                    function(picker, item, record, e) {
                         me.toolbar.fireEvent('inserttextart', me.toolbar);
                         me.api.asc_addTextArt(record.get('data'));
 
-                        if (me.toolbar.btnInsertShape.pressed)
+                        if ( me.toolbar.btnInsertShape.pressed )
                             me.toolbar.btnInsertShape.toggle(false, true);
 
-                         if (e.type !== 'click')
-                             me.toolbar.btnInsertText.menu.hide();
-                        Common.NotificationCenter.trigger('edit:complete', me.toolbar, me.toolbar.btnInsertText);
+                         if ( e.type !== 'click' )
+                             me.toolbar.btnInsertTextArt.menu.hide();
+
+                        Common.NotificationCenter.trigger('edit:complete', me.toolbar, me.toolbar.btnInsertTextArt);
                         Common.component.Analytics.trackEvent('ToolBar', 'Add Text Art');
                     }
-                });
+                );
             }
         },
 
@@ -2949,7 +2943,7 @@ define([
                     var _comments = SSE.getController('Common.Controllers.Comments').getView();
                     Array.prototype.push.apply(me.toolbar.lockControls, this.btnsComment);
                     this.btnsComment.forEach(function (btn) {
-                        btn.updateHint( _comments.textAddComment );
+                        btn.updateHint( _comments.textHintAddComment );
                         btn.on('click', function (btn, e) {
                             Common.NotificationCenter.trigger('app:comment:add', 'toolbar', me.api.asc_getCellInfo().asc_getFlags().asc_getSelectionType() != Asc.c_oAscSelectionType.RangeCells);
                         });

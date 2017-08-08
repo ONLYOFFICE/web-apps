@@ -565,8 +565,7 @@ define([
                 var zf = (value!==null) ? parseInt(value) : (this.appOptions.customization && this.appOptions.customization.zoom ? parseInt(this.appOptions.customization.zoom) : -1);
                 (zf == -1) ? this.api.zoomFitToPage() : ((zf == -2) ? this.api.zoomFitToWidth() : this.api.zoom(zf>0 ? zf : 100));
 
-                value = Common.localStorage.getItem("pe-settings-spellcheck");
-                me.api.asc_setSpellCheck(value===null || parseInt(value) == 1);
+                me.api.asc_setSpellCheck(Common.localStorage.getBool("pe-settings-spellcheck", true));
 
                 function checkWarns() {
                     if (!window['AscDesktopEditor']) {
@@ -595,7 +594,7 @@ define([
                 /** coauthoring begin **/
                 if (me.appOptions.isEdit && !me.appOptions.isOffline && me.appOptions.canCoAuthoring) {
                     value = Common.localStorage.getItem("pe-settings-coauthmode");
-                    if (value===null && Common.localStorage.getItem("pe-settings-autosave")===null &&
+                    if (value===null && !Common.localStorage.itemExists("pe-settings-autosave") &&
                         me.appOptions.customization && me.appOptions.customization.autosave===false) {
                         value = 0; // use customization.autosave only when pe-settings-coauthmode and pe-settings-autosave are null
                     }
@@ -607,7 +606,7 @@ define([
                 me.api.asc_SetFastCollaborative(me._state.fastCoauth);
                 /** coauthoring end **/
 
-                Common.localStorage.setItem("pe-settings-showsnaplines", me.api.get_ShowSnapLines() ? 1 : 0);
+                Common.localStorage.setBool("pe-settings-showsnaplines", me.api.get_ShowSnapLines());
 
                 var application = me.getApplication();
                 var toolbarController           = application.getController('Toolbar'),
@@ -651,8 +650,7 @@ define([
                     me.api.asc_setAutoSaveGap(value);
 
                     if (me.appOptions.canForcesave) {// use asc_setIsForceSaveOnUserSave only when customization->forcesave = true
-                        value = Common.localStorage.getItem("pe-settings-forcesave");
-                        me.appOptions.forcesave = (value===null) ? me.appOptions.canForcesave : (parseInt(value)==1);
+                        me.appOptions.forcesave = Common.localStorage.getBool("pe-settings-forcesave", me.appOptions.canForcesave);
                         me.api.asc_setIsForceSaveOnUserSave(me.appOptions.forcesave);
                     }
 
@@ -706,7 +704,7 @@ define([
                 $(document).on('contextmenu', _.bind(me.onContextMenu, me));
 
                 if (this._state.licenseWarning) {
-                    value = Common.localStorage.getItem("de-license-warning");
+                    value = Common.localStorage.getItem("pe-license-warning");
                     value = (value!==null) ? parseInt(value) : 0;
                     var now = (new Date).getTime();
                     if (now - value > 86400000) {
@@ -1500,8 +1498,7 @@ define([
             },
 
             onTryUndoInFastCollaborative: function() {
-                var val = window.localStorage.getItem("pe-hide-try-undoredo");
-                if (!(val && parseInt(val) == 1))
+                if (!window.localStorage.getBool("pe-hide-try-undoredo"))
                     Common.UI.info({
                         width: 500,
                         msg: this.textTryUndoRedo,
@@ -1533,15 +1530,13 @@ define([
 
             applySettings: function() {
                 if (this.appOptions.isEdit && !this.appOptions.isOffline && this.appOptions.canCoAuthoring) {
-                    var value = Common.localStorage.getItem("pe-settings-coauthmode"),
-                        oldval = this._state.fastCoauth;
-                    this._state.fastCoauth = (value===null || parseInt(value) == 1);
+                    var oldval = this._state.fastCoauth;
+                    this._state.fastCoauth = Common.localStorage.getBool("pe-settings-coauthmode", true);
                     if (this._state.fastCoauth && !oldval)
                         this.synchronizeChanges();
                 }
                 if (this.appOptions.canForcesave) {
-                    value = Common.localStorage.getItem("pe-settings-forcesave");
-                    this.appOptions.forcesave = (value===null) ? this.appOptions.canForcesave : (parseInt(value)==1);
+                    this.appOptions.forcesave = Common.localStorage.getBool("pe-settings-forcesave", this.appOptions.canForcesave);
                     this.api.asc_setIsForceSaveOnUserSave(this.appOptions.forcesave);
                 }
             },

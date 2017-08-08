@@ -229,22 +229,19 @@ define([
         },
 
         applySettings: function(menu) {
-            var value = Common.localStorage.getItem("pe-settings-inputmode");
-            this.api.SetTextBoxInputMode(parseInt(value) == 1);
+            this.api.SetTextBoxInputMode(Common.localStorage.getBool("pe-settings-inputmode"));
 
             /** coauthoring begin **/
             if (this.mode.isEdit && !this.mode.isOffline && this.mode.canCoAuthoring) {
-                value = Common.localStorage.getItem("pe-settings-coauthmode");
-                this.api.asc_SetFastCollaborative(value===null || parseInt(value) == 1);
+                this.api.asc_SetFastCollaborative(Common.localStorage.getBool("pe-settings-coauthmode", true));
             }
             /** coauthoring end **/
 
             if (this.mode.isEdit) {
-                value = Common.localStorage.getItem("pe-settings-autosave");
+                var value = Common.localStorage.getItem("pe-settings-autosave");
                 this.api.asc_setAutoSaveGap(parseInt(value));
 
-                value = Common.localStorage.getItem("pe-settings-spellcheck");
-                this.api.asc_setSpellCheck(parseInt(value) == 1);
+                this.api.asc_setSpellCheck(Common.localStorage.getBool("pe-settings-spellcheck", true));
             }
 
             this.api.put_ShowSnapLines( Common.localStorage.getBool("pe-settings-showsnaplines") );

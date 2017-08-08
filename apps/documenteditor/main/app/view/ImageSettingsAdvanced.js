@@ -66,7 +66,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                     {panelId: 'id-adv-shape-size',       panelCaption: this.textSize},
                     {panelId: 'id-adv-image-wrap',       panelCaption: this.textBtnWrap},
                     {panelId: 'id-adv-image-position',   panelCaption: this.textPosition},
-                    {panelId: 'id-adv-image-shape',      panelCaption: this.textShape},
+                    {panelId: 'id-adv-image-shape',      panelCaption: this.textWeightArrows},
                     {panelId: 'id-adv-image-margins',    panelCaption: this.strMargins},
                     {panelId: 'id-adv-image-alttext',    panelCaption: this.textAlt}
                 ],
@@ -1334,6 +1334,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                     }
 
                     this.btnsCategory[5].setDisabled(null === margins);   // Margins
+                    this.btnsCategory[4].setDisabled(shapeprops.get_stroke().get_type() == Asc.c_oAscStrokeType.STROKE_NONE);   // Weights & Arrows
 
                 } else {
                     value = props.asc_getLockAspect();
@@ -2031,7 +2032,8 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
         textAlt: 'Alternative Text',
         textAltTitle: 'Title',
         textAltDescription: 'Description',
-        textAltTip: 'The alternative text-based representation of the visual object information, which will be read to the people with vision or cognitive impairments to help them better understand what information there is in the image, autoshape, chart or table.'
+        textAltTip: 'The alternative text-based representation of the visual object information, which will be read to the people with vision or cognitive impairments to help them better understand what information there is in the image, autoshape, chart or table.',
+        textWeightArrows: 'Weights & Arrows'
 
     }, DE.Views.ImageSettingsAdvanced || {}));
 });

@@ -133,7 +133,7 @@ require([
     // api.asc_registerCallback('asc_onOpenDocumentProgress', onOpenDocument);
     api.asc_registerCallback('asc_onGetEditorPermissions', onEditorPermissions);
 
-    window.postMessage('i:am:ready', '*');
+    api.sendFromReporter('i:am:ready');
 
 }, function(err) {
     if (err.requireType == 'timeout' && !reqerr && window.requireTimeourError) {

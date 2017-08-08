@@ -1413,6 +1413,7 @@ define([
         textEnterCommentHint    : 'Enter your comment here',
         textEdit                : 'Edit',
         textAdd                 : "Add",
-        textOpenAgain           : "Open Again"
+        textOpenAgain           : "Open Again",
+        textHintAddComment      : 'Add Comment'
     }, Common.Views.Comments || {}))
 });

@@ -32,11 +32,11 @@
             <div class="separator long"></div>
             <div class="group">
                 <div class="elset">
-                    <span class="btn-slot adding" id="slot-btn-copy"></span>
+                    <span class="btn-slot split" id="slot-btn-copy"></span>
                     <span class="btn-slot" id="slot-btn-paste"></span>
                 </div>
                 <div class="elset">
-                    <span class="btn-slot adding" id="slot-btn-undo"></span>
+                    <span class="btn-slot split" id="slot-btn-undo"></span>
                     <span class="btn-slot" id="slot-btn-redo"></span>
                 </div>
             </div>
@@ -88,7 +88,7 @@
                 </div>
                 <div class="separator long close"></div>
                 <div class="group">
-                    <span class="btn-slot text x-huge slot-inserttext"></span>
+                    <span class="btn-slot text x-huge slot-instext"></span>
                     <span class="btn-slot text x-huge slot-insertimg"></span>
                     <span class="btn-slot text x-huge slot-insertshape"></span>
                 </div>
@@ -103,11 +103,11 @@
                 <div class="separator long"></div>
                 <div class="group">
                     <div class="elset">
-                        <span class="btn-slot adding" id="slot-btn-clearstyle"></span>
+                        <span class="btn-slot split" id="slot-btn-clearstyle"></span>
                         <span class="btn-slot split" id="slot-btn-colorschemas"></span>
                     </div>
                     <div class="elset">
-                        <span class="btn-slot adding" id="slot-btn-copystyle"></span>
+                        <span class="btn-slot split" id="slot-btn-copystyle"></span>
                         <span class="btn-slot split" id="slot-btn-slidesize"></span>
                     </div>
                 </div>
@@ -129,7 +129,8 @@
                 </div>
                 <div class="separator long"></div>
                 <div class="group">
-                    <span class="btn-slot text x-huge slot-inserttext"></span>
+                    <span class="btn-slot text x-huge slot-instext"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-instextart"></span>
                     <span class="btn-slot text x-huge slot-insertimg"></span>
                     <span class="btn-slot text x-huge slot-insertshape"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-insertchart"></span>

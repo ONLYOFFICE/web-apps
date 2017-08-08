@@ -141,11 +141,11 @@
             </section>
             <section class="panel" data-tab="layout">
                 <div class="group">
-                    <span class="btn-slot text x-huge btn-pagebreak"></span>
-                    <span class="btn-slot text x-huge" id="slot-btn-pageorient"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-pagemargins"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-pageorient"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-pagesize"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-columns"></span>
+                    <span class="btn-slot text x-huge btn-pagebreak"></span>
                 </div>
                 <div class="separator long"></div>
                 <div class="group">

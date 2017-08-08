@@ -538,6 +538,8 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
             if (props ){
                 var stroke = props.get_stroke();
                 if (stroke) {
+                    this.btnsCategory[1].setDisabled(stroke.get_type() == Asc.c_oAscStrokeType.STROKE_NONE);   // Weights & Arrows
+
                     var value = stroke.get_linejoin();
                     for (var i=0; i<this._arrJoinType.length; i++) {
                         if (value == this._arrJoinType[i].value) {

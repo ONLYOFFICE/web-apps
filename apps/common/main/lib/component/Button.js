@@ -296,14 +296,26 @@ define([
                 if (me.options.hint) {
                     var modalParents = me.cmpEl.closest('.asc-window');
 
-                    me.cmpEl.attr('data-toggle', 'tooltip');
-                    me.cmpEl.tooltip({
-                        title       : me.options.hint,
+                    if (typeof me.options.hint == 'object' && me.options.hint.length>1 && $('button', el).length>0) {
+                        var btnEl = $('button', el);
+                        me.btnEl = $(btnEl[0]);
+                        me.btnMenuEl = $(btnEl[1]);
+                    } else {
+                        me.btnEl = me.cmpEl;
+                        me.btnEl.attr('data-toggle', 'tooltip');
+                    }
+                    me.btnEl.tooltip({
+                        title       : (typeof me.options.hint == 'string') ? me.options.hint : me.options.hint[0],
+                        placement   : me.options.hintAnchor||'cursor'
+                    });
+                    me.btnMenuEl && me.btnMenuEl.tooltip({
+                        title       : me.options.hint[1],
                         placement   : me.options.hintAnchor||'cursor'
                     });
 
                     if (modalParents.length > 0) {
-                        me.cmpEl.data('bs.tooltip').tip().css('z-index', parseInt(modalParents.css('z-index')) + 10);
+                        me.btnEl.data('bs.tooltip').tip().css('z-index', parseInt(modalParents.css('z-index')) + 10);
+                        me.btnMenuEl && me.btnMenuEl.data('bs.tooltip').tip().css('z-index', parseInt(modalParents.css('z-index')) + 10);
                     }
                 }
 
@@ -315,7 +327,7 @@ define([
                     if (!me.disabled && e.which == 1) {
                         me.doToggle();
                         if (me.options.hint) {
-                            var tip = me.cmpEl.data('bs.tooltip');
+                            var tip = me.btnEl.data('bs.tooltip');
                             if (tip) {
                                 if (tip.dontShow===undefined)
                                     tip.dontShow = true;
@@ -364,7 +376,7 @@ define([
                     if (!me.disabled && e.which == 1) {
                         if (isSplit) {
                             if (me.options.hint) {
-                                var tip = me.cmpEl.data('bs.tooltip');
+                                var tip = (me.btnMenuEl ? me.btnMenuEl : me.btnEl).data('bs.tooltip');
                                 if (tip) {
                                     if (tip.dontShow===undefined)
                                         tip.dontShow = true;
@@ -500,11 +512,18 @@ define([
                     isGroup && decorateBtn(el.children('button'));
                 }
 
-                if (disabled || !Common.Utils.isGecko) {
-                    var tip = this.cmpEl.data('bs.tooltip');
+                if ((disabled || !Common.Utils.isGecko) && this.options.hint) {
+                    var tip = this.btnEl.data('bs.tooltip');
                     if (tip) {
                         disabled && tip.hide();
                         !Common.Utils.isGecko && (tip.enabled = !disabled);
+                    }
+                    if (this.btnMenuEl) {
+                        tip = this.btnMenuEl.data('bs.tooltip');
+                        if (tip) {
+                            disabled && tip.hide();
+                            !Common.Utils.isGecko && (tip.enabled = !disabled);
+                        }
                     }
                 }
             }
@@ -537,23 +556,49 @@ define([
             var cmpEl = this.cmpEl,
                 modalParents = cmpEl.closest('.asc-window');
 
-            if (cmpEl.data('bs.tooltip'))
-                cmpEl.removeData('bs.tooltip');
-            cmpEl.attr('data-toggle', 'tooltip');
-            cmpEl.tooltip({
-                title       : hint,
-                placement   : this.options.hintAnchor || 'cursor'
+
+            if (!this.btnEl) {
+                if (typeof this.options.hint == 'object' && this.options.hint.length>1 && $('button', cmpEl).length>0) {
+                    var btnEl = $('button', cmpEl);
+                    this.btnEl = $(btnEl[0]);
+                    this.btnMenuEl = $(btnEl[1]);
+                } else {
+                    this.btnEl = cmpEl;
+                    this.btnEl.attr('data-toggle', 'tooltip');
+                }
+            }
+
+            if (this.btnEl.data('bs.tooltip'))
+                this.btnEl.removeData('bs.tooltip');
+            if (this.btnMenuEl && this.btnMenuEl.data('bs.tooltip'))
+                this.btnMenuEl.removeData('bs.tooltip');
+
+            this.btnEl.tooltip({
+                title       : (typeof hint == 'string') ? hint : hint[0],
+                placement   : this.options.hintAnchor||'cursor'
+            });
+            this.btnMenuEl && this.btnMenuEl.tooltip({
+                title       : hint[1],
+                placement   : this.options.hintAnchor||'cursor'
             });
 
             if (modalParents.length > 0) {
-                cmpEl.data('bs.tooltip').tip().css('z-index', parseInt(modalParents.css('z-index')) + 10);
+                this.btnEl.data('bs.tooltip').tip().css('z-index', parseInt(modalParents.css('z-index')) + 10);
+                this.btnMenuEl && this.btnMenuEl.data('bs.tooltip').tip().css('z-index', parseInt(modalParents.css('z-index')) + 10);
             }
 
             if (this.disabled || !Common.Utils.isGecko) {
-                var tip = this.cmpEl.data('bs.tooltip');
+                var tip = this.btnEl.data('bs.tooltip');
                 if (tip) {
                     this.disabled && tip.hide();
                     !Common.Utils.isGecko && (tip.enabled = !this.disabled);
+                }
+                if (this.btnMenuEl) {
+                    tip = this.btnMenuEl.data('bs.tooltip');
+                    if (tip) {
+                        this.disabled && tip.hide();
+                        !Common.Utils.isGecko && (tip.enabled = !this.disabled);
+                    }
                 }
             }
         },

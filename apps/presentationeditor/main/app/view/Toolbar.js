@@ -466,7 +466,7 @@ define([
                 me.btnVerticalAlign = new Common.UI.Button({
                     id          : 'id-toolbar-btn-valign',
                     cls         : 'btn-toolbar',
-                    lock        : [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected],
+                    lock        : [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected, _set.noObjectSelected],
                     iconCls     : 'btn-align-middle',
                     icls        : 'btn-align-middle',
                     menu        : new Common.UI.Menu({
@@ -585,6 +585,20 @@ define([
                     lock        : [_set.hyperlinkLock, _set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected]
                 });
                 me.paragraphControls.push(me.btnInsertHyperlink);
+
+                me.btnInsertTextArt = new Common.UI.Button({
+                    id: 'tlb-btn-instextart',
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'btn-textart',
+                    caption: me.capInsertTextArt,
+                    menu: new Common.UI.Menu({
+                        cls: 'menu-shapes',
+                        items: [
+                            {template: _.template('<div id="view-insert-art" style="width: 239px; margin-left: 5px;"></div>')}
+                        ]
+                    })
+                });
+                me.paragraphControls.push(me.btnInsertTextArt);
 
                 me.btnColorSchemas = new Common.UI.Button({
                     id          : 'id-toolbar-btn-colorschemas',
@@ -780,7 +794,7 @@ define([
                     enableKeyEvents: true,
                     itemHeight  : 38,
                     hint: this.tipSlideTheme,
-                    lock: [_set.lostConnect, _set.noSlides],
+                    lock: [_set.themeLock, _set.lostConnect, _set.noSlides],
                     beforeOpenHandler: function(e) {
                         var cmp = this,
                             menu = cmp.openButton.menu,
@@ -933,7 +947,7 @@ define([
                 });
 
                 if ( me.isCompactView )
-                    me.setFolded(true), me.collapse(); else
+                    me.setFolded(true); else
                     me.setTab('home');
 
                 return this;
@@ -982,6 +996,7 @@ define([
                 _injectComponent('#slot-btn-insertlink', this.btnInsertHyperlink);
                 _injectComponent('#slot-btn-inserttable', this.btnInsertTable);
                 _injectComponent('#slot-btn-insertchart', this.btnInsertChart);
+                _injectComponent('#slot-btn-instextart', this.btnInsertTextArt);
                 _injectComponent('#slot-btn-colorschemas', this.btnColorSchemas);
                 _injectComponent('#slot-btn-slidesize', this.btnSlideSize);
                 _injectComponent('#slot-field-styles', this.listTheme);
@@ -1014,15 +1029,13 @@ define([
                 });
 
                 me.btnsInsertText = _injectBtns({
-                    slot: '.slot-inserttext',
+                    slot: '.slot-instext',
                     btnconfig: {
                         cls         : 'btn-toolbar x-huge icon-top',
                         iconCls     : 'btn-text',
                         caption     : me.capInsertText,
                         lock        : [PE.enumLock.slideDeleted, PE.enumLock.lostConnect, PE.enumLock.noSlides, PE.enumLock.disableOnStart],
-                        enableToggle: true,
-                        split       : true,
-                        menu        : true
+                        enableToggle: true
                     }
                 });
 
@@ -1067,25 +1080,6 @@ define([
 
                 me.btnsInsertText.forEach(function (btn) {
                     btn.updateHint(me.tipInsertText);
-                    btn.setMenu(
-                        new Common.UI.Menu({
-                            items: [
-                                {caption: me.textInsText, value: 'text'},
-                                {caption: me.textInsTextArt, value: 'art',
-                                    menu: new Common.UI.Menu({
-                                        menuAlign: 'tl-tr',
-                                        cls: 'menu-shapes',
-                                        items: [
-                                            {template: _.template('<div class="view-insert-art" style="width: 239px; margin-left: 5px;"></div>')}
-                                        ]
-                                    })
-                                }
-                            ]
-                        }).on('item:click', function (menu, item, e) {
-                            if (item.value == 'text')
-                                me.fireEvent('insert:text', ['begin']);
-                        })
-                    );
                     btn.on('click', function (btn, e) {
                         me.fireEvent('insert:text', [btn.pressed ? 'begin' : 'end']);
                     });
@@ -1134,6 +1128,7 @@ define([
                 this.btnInsertChart.updateHint(this.tipInsertChart);
                 this.btnInsertEquation.updateHint(this.tipInsertEquation);
                 this.btnInsertHyperlink.updateHint(this.tipInsertHyperlink + Common.Utils.String.platformKey('Ctrl+K'));
+                this.btnInsertTextArt.updateHint(this.tipInsertTextArt);
                 this.btnColorSchemas.updateHint(this.tipColorSchemas);
                 this.btnHide.updateHint(this.tipViewSettings);
                 this.btnAdvSettings.updateHint(this.tipAdvSettings);
@@ -1396,7 +1391,7 @@ define([
                 });
 
                 this.mnuitemHideStatusBar.setChecked(Common.localStorage.getBool('pe-hidden-status'), true);
-                this.mnuitemHideRulers.setChecked(Common.localStorage.getItem("pe-hidden-rulers"), true);
+                this.mnuitemHideRulers.setChecked(Common.localStorage.getBool("pe-hidden-rulers"), true);
 
 //            // Enable none paragraph components
                 this.lockToolbar(PE.enumLock.disableOnStart, false, {array: this.slideOnlyControls.concat(this.shapeControls)});
@@ -1641,31 +1636,30 @@ define([
             updateTextartMenu: function (collection) {
                 var me = this;
 
-                me.btnsInsertText.forEach(function (btn) {
-                    if ( btn.textartPicker ) {
-                        if ( btn.textartPicker.store.size() == collection.size() ) {
-                            btn.textartPicker.store.each(function (model, index) {
-                                model.set('imageUrl', collection.at(index).get('imageUrl'));
-                            });
-                        } else {
-                            btn.textartPicker.store.reset( collection.models );
-                        }
+                var btn = me.btnInsertTextArt;
+                if ( btn.textartPicker ) {
+                    if ( btn.textartPicker.store.size() == collection.size() ) {
+                        btn.textartPicker.store.each(function (model, index) {
+                            model.set('imageUrl', collection.at(index).get('imageUrl'));
+                        });
                     } else {
-                        btn.textartPicker = new Common.UI.DataView({
-                            el: $('.view-insert-art', btn.menu.items[1].$el),
-                            store: collection,
-                            parentMenu: btn.menu.items[1],
-                            showLast: false,
-                            itemTemplate: _.template('<div class="item-art"><img src="<%= imageUrl %>" id="<%= id %>" style="width:50px;height:50px;"></div>')
-                        });
-
-                        btn.textartPicker.on('item:click', function(picker, item, record, e) {
-                            me.fireEvent('insert:textart', [record.get('data')]);
-
-                            if (e.type !== 'click') this.menu.hide();
-                        });
+                        btn.textartPicker.store.reset( collection.models );
                     }
-                });
+                } else {
+                    btn.textartPicker = new Common.UI.DataView({
+                        el: $('#view-insert-art', btn.menu.$el),
+                        store: collection,
+                        parentMenu: btn.menu,
+                        showLast: false,
+                        itemTemplate: _.template('<div class="item-art"><img src="<%= imageUrl %>" id="<%= id %>" style="width:50px;height:50px;"></div>')
+                    });
+
+                    btn.textartPicker.on('item:click', function(picker, item, record, e) {
+                        me.fireEvent('insert:textart', [record.get('data')]);
+
+                        if (e.type !== 'click') this.menu.hide();
+                    });
+                }
             },
 
             updateAutoshapeMenu: function (collection) {
@@ -1740,6 +1734,7 @@ define([
             mniCustomTable: 'Insert Custom Table',
             tipInsertHyperlink: 'Add Hyperlink',
             tipInsertText: 'Insert Text',
+            tipInsertTextArt: 'Insert Text Art',
             tipInsertShape: 'Insert Autoshape',
             tipPreview: 'Start Slideshow',
             tipAddSlide: 'Add Slide',
@@ -1770,7 +1765,7 @@ define([
             tipSlideSize: 'Select Slide Size',
             tipViewSettings: 'View Settings',
             tipAdvSettings: 'Advanced Settings',
-            textCompactView: 'View Compact Toolbar',
+            textCompactView: 'Hide Toolbar',
             textHideTitleBar: 'Hide Title Bar',
             textHideStatusBar: 'Hide Status Bar',
             textHideLines: 'Hide Rulers',
@@ -1809,15 +1804,14 @@ define([
             txtScheme21: 'Verve',
             tipSlideTheme: 'Slide Theme',
             tipSaveCoauth: 'Save your changes for the other users to see them.',
-            textInsText: 'Insert text box',
-            textInsTextArt: 'Insert Text Art',
             textShowBegin: 'Show from Beginning',
             textShowCurrent: 'Show from Current slide',
             textShowSettings: 'Show Settings',
             tipInsertEquation: 'Insert Equation',
             textCharts: 'Charts',
             tipChangeChart: 'Change Chart Type',
-            capInsertText: 'Text Box',
+            capInsertText: 'Text',
+            capInsertTextArt: 'Text Art',
             capInsertImage: 'Picture',
             capInsertShape: 'Shape',
             capInsertTable: 'Table',

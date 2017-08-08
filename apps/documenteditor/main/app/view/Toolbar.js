@@ -1205,7 +1205,7 @@ define([
                 });
 
                 if ( me.isCompactView )
-                    me.setFolded(true), me.collapse(); else
+                    me.setFolded(true); else
                     me.setTab('home');
 
                 var top = Common.localStorage.getItem("de-pgmargins-top"),
@@ -2388,7 +2388,7 @@ define([
             tipHAligh: 'Horizontal Align',
             tipViewSettings: 'View Settings',
             tipAdvSettings: 'Advanced Settings',
-            textCompactView: 'View Compact Toolbar',
+            textCompactView: 'Hide Toolbar',
             textHideTitleBar: 'Hide Title Bar',
             textHideStatusBar: 'Hide Status Bar',
             textHideLines: 'Hide Rulers',

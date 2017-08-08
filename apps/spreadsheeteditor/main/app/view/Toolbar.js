@@ -647,27 +647,24 @@ define([
                 });
 
                 me.btnInsertText = new Common.UI.Button({
-                    id          : 'id-toolbar-btn-inserttext',
-                    cls         : 'btn-toolbar  x-huge icon-top',
+                    id          : 'tlb-btn-inserttext',
+                    cls         : 'btn-toolbar x-huge icon-top',
                     iconCls     : 'btn-text',
                     caption     : me.capInsertText,
                     lock        : [_set.editCell, _set.selChartText, _set.selImage, _set.lostConnect, _set.coAuth],
-                    enableToggle: true,
-                    split       : true,
+                    enableToggle: true
+                });
+
+                me.btnInsertTextArt = new Common.UI.Button({
+                    id          : 'tlb-btn-instextart',
+                    cls         : 'btn-toolbar x-huge icon-top',
+                    iconCls     : 'btn-textart',
+                    caption     : me.capInsertTextart,
+                    lock        : [_set.editCell, _set.selChartText, _set.selImage, _set.lostConnect, _set.coAuth],
                     menu        : new Common.UI.Menu({
-                        items : [
-                            {caption: this.textInsText, value: 'text'},
-                            this.mnuInsertTextArt = new Common.UI.MenuItem({
-                                caption: this.textInsTextArt,
-                                value: 'art',
-                                menu: new Common.UI.Menu({
-                                    menuAlign: 'tl-tr',
-                                    cls: 'menu-shapes',
-                                    items: [
-                                        { template: _.template('<div id="id-toolbar-menu-insart" style="width: 239px; margin-left: 5px;"></div>') }
-                                    ]
-                                })
-                            })
+                        cls: 'menu-shapes',
+                        items: [
+                            {template: _.template('<div id="id-toolbar-menu-insart" style="width: 239px; margin-left: 5px;"></div>')}
                         ]
                     })
                 });
@@ -1205,8 +1202,8 @@ define([
                 me.btnAlignCenter,me.btnAlignRight,me.btnAlignJust, me.btnVerticalAlign, me.btnAlignTop,
                 me.btnAlignMiddle, me.btnAlignBottom, me.btnWrap, me.btnTextOrient, me.btnBackColor,
                 me.btnMerge, me.btnInsertFormula, me.btnNamedRange, me.btnIncDecimal, me.btnInsertShape, me.btnInsertEquation,
-                me.btnInsertText, me.btnSortUp, me.btnSortDown, me.btnSetAutofilter, me.btnClearAutofilter, me.btnTableTemplate,
-                me.btnPercentStyle, me.btnCurrencyStyle, me.btnDecDecimal, me.btnAddCell, me.btnDeleteCell,
+                me.btnInsertText, me.btnInsertTextArt, me.btnSortUp, me.btnSortDown, me.btnSetAutofilter, me.btnClearAutofilter,
+                me.btnTableTemplate, me.btnPercentStyle, me.btnCurrencyStyle, me.btnDecDecimal, me.btnAddCell, me.btnDeleteCell,
                 me.cmbNumberFormat, me.btnBorders, me.btnInsertImage, me.btnInsertHyperlink,
                 me.btnInsertChart, me.btnColorSchemas,
                 me.btnAutofilter, me.btnCopy, me.btnPaste, me.btnSettings, me.listStyles, me.btnPrint, me.btnShowMode,
@@ -1215,8 +1212,8 @@ define([
 
             var _temp_array = [me.cmbFontName, me.cmbFontSize, me.btnAlignLeft,me.btnAlignCenter,me.btnAlignRight,me.btnAlignJust,me.btnAlignTop,
                 me.btnAlignMiddle, me.btnAlignBottom, me.btnHorizontalAlign, me.btnVerticalAlign,
-                me.btnInsertImage, me.btnInsertText, me.btnInsertShape, me.btnInsertEquation, me.btnIncFontSize, me.btnDecFontSize,
-                me.btnBold, me.btnItalic, me.btnUnderline, me.btnTextColor, me.btnBackColor,
+                me.btnInsertImage, me.btnInsertText, me.btnInsertTextArt, me.btnInsertShape, me.btnInsertEquation, me.btnIncFontSize,
+                me.btnDecFontSize, me.btnBold, me.btnItalic, me.btnUnderline, me.btnTextColor, me.btnBackColor,
                 me.btnInsertHyperlink, me.btnBorders, me.btnTextOrient, me.btnPercentStyle, me.btnCurrencyStyle, me.btnColorSchemas,
                 me.btnSettings, me.btnInsertFormula, me.btnNamedRange, me.btnDecDecimal, me.btnIncDecimal, me.cmbNumberFormat, me.btnWrap,
                 me.btnInsertChart, me.btnMerge, me.btnAddCell, me.btnDeleteCell, me.btnShowMode, me.btnPrint,
@@ -1280,7 +1277,7 @@ define([
             });
 
             if ( me.isCompactView )
-                me.setFolded(true), me.collapse(); else
+                me.setFolded(true); else
                 me.setTab('home');
 
             return this;
@@ -1328,6 +1325,7 @@ define([
             _injectComponent('#slot-btn-inshyperlink',   this.btnInsertHyperlink);
             _injectComponent('#slot-btn-insshape',       this.btnInsertShape);
             _injectComponent('#slot-btn-instext',        this.btnInsertText);
+            _injectComponent('#slot-btn-instextart',     this.btnInsertTextArt);
             _injectComponent('#slot-btn-insequation',    this.btnInsertEquation);
             _injectComponent('#slot-btn-sortdesc',       this.btnSortDown);
             _injectComponent('#slot-btn-sortasc',        this.btnSortUp);
@@ -1394,6 +1392,7 @@ define([
             _updateHint(this.btnInsertImage, this.tipInsertImage);
             _updateHint(this.btnInsertChart, this.tipInsertChartSpark);
             _updateHint(this.btnInsertText, this.tipInsertText);
+            _updateHint(this.btnInsertTextArt, this.tipInsertTextart);
             _updateHint(this.btnInsertHyperlink, this.tipInsertHyperlink + Common.Utils.String.platformKey('Ctrl+K'));
             _updateHint(this.btnInsertShape, this.tipInsertShape);
             _updateHint(this.btnInsertEquation, this.tipInsertEquation);
@@ -1950,6 +1949,7 @@ define([
         tipIncFont:         'Increment font size',
         tipDecFont:         'Decrement font size',
         tipInsertText:      'Insert Text',
+        tipInsertTextart:   'Insert Text Art',
         tipInsertShape:     'Insert Autoshape',
         tipDigStylePercent: 'Percent Style',
 //        tipDigStyleCurrency:'Currency Style',
@@ -1998,7 +1998,7 @@ define([
         textDelLeft:        'Shift Cells Left',
         textDelUp:          'Shift Cells Up',
         textZoom:           'Zoom',
-        textCompactToolbar: 'Compact Toolbar',
+        textCompactToolbar: 'Hide Toolbar',
         textHideTBar:       'Hide Title Bar',
         textHideFBar:       'Hide Formula Bar',
         textHideHeadings:   'Hide Headings',
@@ -2032,8 +2032,6 @@ define([
         txtNewRange:        'Define Name',
         txtManageRange:     'Name manager',
         txtPasteRange:      'Paste name',
-        textInsText:        'Insert text box',
-        textInsTextArt:     'Insert Text Art',
         textInsCharts:      'Charts',
         textLine:           'Line',
         textColumn:         'Column',
@@ -2050,7 +2048,8 @@ define([
         textSparks:         'Sparklines',
         tipInsertChartSpark: 'Insert Chart or Sparkline',
         textMoreFormats: 'More formats',
-        capInsertText: 'Text Box',
+        capInsertText: 'Text',
+        capInsertTextart: 'Text Art',
         capInsertImage: 'Picture',
         capInsertShape: 'Shape',
         capInsertChart: 'Chart',

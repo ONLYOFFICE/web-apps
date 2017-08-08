@@ -48,6 +48,7 @@ define([
     'common/main/lib/view/ImageFromUrlDialog',
     'common/main/lib/view/InsertTableDialog',
     'common/main/lib/util/define',
+    'presentationeditor/main/app/collection/SlideThemes',
     'presentationeditor/main/app/view/Toolbar',
     'presentationeditor/main/app/view/HyperlinkSettingsDialog',
     'presentationeditor/main/app/view/SlideSizeSettings',
@@ -56,7 +57,9 @@ define([
 
     PE.Controllers.Toolbar = Backbone.Controller.extend(_.extend({
         models: [],
-        collections: [],
+        collections: [
+            'SlideThemes'
+        ],
         views: [
             'Toolbar'
         ],
@@ -635,7 +638,6 @@ define([
                     paragraph_locked = pr.get_Locked();
                     no_paragraph = false;
                     no_text = false;
-                    no_object = false;
                 } else if (type == Asc.c_oAscTypeSelectElement.Slide) {
                     slide_deleted = pr.get_LockDelete();
                     slide_layout_lock = pr.get_LockLayout();
@@ -679,7 +681,7 @@ define([
 
             if (this._state.no_object !== no_object ) {
                 if (this._state.activated) this._state.no_object = no_object;
-                this.toolbar.lockToolbar(PE.enumLock.noObjectSelected, no_object, {array: [me.toolbar.btnShapeAlign, me.toolbar.btnShapeArrange ]});
+                this.toolbar.lockToolbar(PE.enumLock.noObjectSelected, no_object, {array: [me.toolbar.btnShapeAlign, me.toolbar.btnShapeArrange, me.toolbar.btnVerticalAlign ]});
             }
 
             if (slide_layout_lock !== undefined && this._state.slidelayoutdisable !== slide_layout_lock ) {
@@ -1549,7 +1551,7 @@ define([
             var headerView  = this.getApplication().getController('Statusbar').getView('Statusbar');
             headerView  && headerView.setVisible(!checked);
 
-            Common.localStorage.setItem('pe-hidden-status', checked ? 1 : 0);
+            Common.localStorage.setBool('pe-hidden-status', checked);
 
             Common.NotificationCenter.trigger('layout:changed', 'status');
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
@@ -1560,7 +1562,7 @@ define([
                 this.api.asc_SetViewRulers(!checked);
             }
 
-            Common.localStorage.setItem('pe-hidden-rulers', checked ? 1 : 0);
+            Common.localStorage.setBool('pe-hidden-rulers', checked);
 
             Common.NotificationCenter.trigger('layout:changed', 'rulers');
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
@@ -1954,13 +1956,25 @@ define([
 
             me.toolbar.listTheme.menuPicker.store.reset([]); // remove all
 
-            _.each(defaultThemes.concat(docThemes), function(theme) {
-                me.toolbar.listTheme.menuPicker.store.add({
-                    imageUrl: theme.get_Image(),
-                    uid     : Common.UI.getId(),
-                    themeId : theme.get_Index()
+            var themeStore = this.getCollection('SlideThemes');
+            if (themeStore) {
+                var arr = [];
+                _.each(defaultThemes.concat(docThemes), function(theme) {
+                    arr.push(new Common.UI.DataViewModel({
+                        imageUrl: theme.get_Image(),
+                        uid     : Common.UI.getId(),
+                        themeId : theme.get_Index(),
+                        itemWidth   : 85,
+                        itemHeight  : 38
+                    }));
+                    me.toolbar.listTheme.menuPicker.store.add({
+                        imageUrl: theme.get_Image(),
+                        uid     : Common.UI.getId(),
+                        themeId : theme.get_Index()
+                    });
                 });
-            });
+                themeStore.reset(arr);
+            }
 
             if (me.toolbar.listTheme.menuPicker.store.length > 0 &&  me.toolbar.listTheme.rendered){
                 me.toolbar.listTheme.fillComboView(me.toolbar.listTheme.menuPicker.store.at(0), true);
@@ -2073,7 +2087,7 @@ define([
                     var _comments = PE.getController('Common.Controllers.Comments').getView();
                     Array.prototype.push.apply(me.toolbar.lockControls, this.btnsComment);
                     this.btnsComment.forEach(function (btn) {
-                        btn.updateHint( _comments.textAddComment );
+                        btn.updateHint( _comments.textHintAddComment );
                         btn.on('click', function (btn, e) {
                             Common.NotificationCenter.trigger('app:comment:add', 'toolbar');
                         });

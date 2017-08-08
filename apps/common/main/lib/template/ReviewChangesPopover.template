@@ -3,7 +3,7 @@
     <div class="user-date"><%=date%></div>
     <div class="user-message limit-height"><%=changetext%></div>
     <div class="edit-ct">
-        <% if (scope.isReviewOnly) { %>
+        <% if (scope.appConfig.isReviewOnly) { %>
         <div class="btn-delete img-commonctrl"></div>
         <% } else { %>
         <div class="btn-accept img-commonctrl"></div>

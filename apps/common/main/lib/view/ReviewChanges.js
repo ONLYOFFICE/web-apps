@@ -579,6 +579,7 @@ define([
                                 ]
                             })
                         );
+                        me.btnAccept.updateHint([me.txtAcceptCurrent, me.txtAcceptChanges]);
 
                         me.btnReject.setMenu(
                             new Common.UI.Menu({
@@ -594,6 +595,7 @@ define([
                                 ]
                             })
                         );
+                        me.btnReject.updateHint([me.txtRejectCurrent, me.txtRejectChanges]);
 
                         me.btnAccept.setDisabled(config.isReviewOnly);
                         me.btnReject.setDisabled(config.isReviewOnly);
@@ -736,7 +738,9 @@ define([
             txtDocLang: 'Language',
             tipSetDocLang: 'Set Document Language',
             tipSetSpelling: 'Spell checking',
-            tipReview: 'Review'
+            tipReview: 'Review',
+            txtAcceptChanges: 'Accept Changes',
+            txtRejectChanges: 'Reject Changes'
         }
     }()), Common.Views.ReviewChanges || {}));
 
