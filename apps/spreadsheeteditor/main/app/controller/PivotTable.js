@@ -181,7 +181,7 @@ define([
 
         onPivotGrandTotals: function(type){
             if (this.api) {
-                var props = this._originalProps.asc_clone();
+                var props = new Asc.CT_pivotTableDefinition();
                 props.asc_setColGrandTotals(type == 1 || type == 2);
                 props.asc_setRowGrandTotals(type == 1 || type == 3);
                 this._originalProps.asc_set(this.api, props);

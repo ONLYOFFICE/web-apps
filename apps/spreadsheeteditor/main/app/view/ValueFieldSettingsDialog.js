@@ -239,7 +239,7 @@ define([
         },
 
         getSettings: function () {
-            var field = this.field.asc_clone();
+            var field = new Asc.CT_DataField();
             field.asc_setName(this.inputCustomName.getValue());
             field.asc_setSubtotal(this.cmbSummarize.getValue());
 

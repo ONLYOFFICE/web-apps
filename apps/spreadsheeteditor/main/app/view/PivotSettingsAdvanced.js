@@ -216,7 +216,7 @@ define([    'text!spreadsheeteditor/main/app/template/PivotSettingsAdvanced.temp
         },
 
         getSettings: function () {
-            var props = this.props.asc_clone();
+            var props = new Asc.CT_pivotTableDefinition();
             props.asc_setRowGrandTotals(this.chCols.getValue() == 'checked');
             props.asc_setColGrandTotals(this.chRows.getValue() == 'checked');
 
