@@ -1391,7 +1391,7 @@ define([
                 });
 
                 this.mnuitemHideStatusBar.setChecked(Common.localStorage.getBool('pe-hidden-status'), true);
-                this.mnuitemHideRulers.setChecked(Common.localStorage.getItem("pe-hidden-rulers"), true);
+                this.mnuitemHideRulers.setChecked(Common.localStorage.getBool("pe-hidden-rulers"), true);
 
 //            // Enable none paragraph components
                 this.lockToolbar(PE.enumLock.disableOnStart, false, {array: this.slideOnlyControls.concat(this.shapeControls)});

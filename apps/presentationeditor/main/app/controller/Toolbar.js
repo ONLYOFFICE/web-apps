@@ -1562,7 +1562,7 @@ define([
                 this.api.asc_SetViewRulers(!checked);
             }
 
-            Common.localStorage.setItem('pe-hidden-rulers', checked ? 1 : 0);
+            Common.localStorage.setBool('pe-hidden-rulers', checked);
 
             Common.NotificationCenter.trigger('layout:changed', 'rulers');
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
