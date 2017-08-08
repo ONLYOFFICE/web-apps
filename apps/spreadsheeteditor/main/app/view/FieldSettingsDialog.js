@@ -226,13 +226,55 @@ define([    'text!spreadsheeteditor/main/app/template/FieldSettingsDialog.templa
 
         _setDefaults: function (props) {
             if (props) {
-                var cache_names = props.asc_getCacheFields(),
+                var me = this,
+                    cache_names = props.asc_getCacheFields(),
                     field = props.asc_getPivotFields()[this.fieldIndex];
 
                 this.lblSourceName.html(Common.Utils.String.htmlEncode(cache_names[this.fieldIndex].asc_getName()));
                 this.inputCustomName.setValue(Common.Utils.String.htmlEncode((field || cache_names[this.fieldIndex]).asc_getName()));
 
                 (field.asc_getSubtotalTop()) ? this.radioTop.setValue(true) : this.radioBottom.setValue(true);
+
+                var arr = field.asc_getSubtotals();
+                if (arr) {
+                    _.each(arr, function(item) {
+                        switch(item) {
+                            case Asc.c_oAscItemType.Sum:
+                                me.chSum.setValue(true);
+                            break;
+                            case Asc.c_oAscItemType.Count:
+                                me.chCount.setValue(true);
+                            break;
+                            case Asc.c_oAscItemType.Avg:
+                                me.chAve.setValue(true);
+                            break;
+                            case Asc.c_oAscItemType.Max:
+                                me.chMax.setValue(true);
+                            break;
+                            case Asc.c_oAscItemType.Min:
+                                me.chMin.setValue(true);
+                            break;
+                            case Asc.c_oAscItemType.Product:
+                                me.chProduct.setValue(true);
+                            break;
+                            case Asc.c_oAscItemType.CountA:
+                                me.chNum.setValue(true);
+                            break;
+                            case Asc.c_oAscItemType.StdDev:
+                                me.chDev.setValue(true);
+                            break;
+                            case Asc.c_oAscItemType.StdDevP:
+                                me.chDevp.setValue(true);
+                            break;
+                            case Asc.c_oAscItemType.Var:
+                                me.chVar.setValue(true);
+                            break;
+                            case Asc.c_oAscItemType.VarP:
+                                me.chVarp.setValue(true);
+                            break;
+                        }
+                    });
+                }
             }
         },
 
