@@ -1272,7 +1272,7 @@
   "PE.Views.Toolbar.textCancel": "Cancel",
   "PE.Views.Toolbar.textCharts": "Charts",
   "PE.Views.Toolbar.textColumn": "Column",
-  "PE.Views.Toolbar.textCompactView": "View Compact Toolbar",
+  "PE.Views.Toolbar.textCompactView": "Hide Toolbar",
   "PE.Views.Toolbar.textFitPage": "Fit to Slide",
   "PE.Views.Toolbar.textFitWidth": "Fit to Width",
   "PE.Views.Toolbar.textHideLines": "Hide Rulers",

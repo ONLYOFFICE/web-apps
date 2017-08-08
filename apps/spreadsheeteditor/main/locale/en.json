@@ -1605,7 +1605,7 @@
   "SSE.Views.Toolbar.textClockwise": "Angle Clockwise",
   "SSE.Views.Toolbar.textColumn": "Column",
   "SSE.Views.Toolbar.textColumnSpark": "Column",
-  "SSE.Views.Toolbar.textCompactToolbar": "View Compact Toolbar",
+  "SSE.Views.Toolbar.textCompactToolbar": "Hide Toolbar",
   "SSE.Views.Toolbar.textCounterCw": "Angle Counterclockwise",
   "SSE.Views.Toolbar.textDelLeft": "Shift Cells Left",
   "SSE.Views.Toolbar.textDelUp": "Shift Cells Up",

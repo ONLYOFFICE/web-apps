@@ -1765,7 +1765,7 @@ define([
             tipSlideSize: 'Select Slide Size',
             tipViewSettings: 'View Settings',
             tipAdvSettings: 'Advanced Settings',
-            textCompactView: 'View Compact Toolbar',
+            textCompactView: 'Hide Toolbar',
             textHideTitleBar: 'Hide Title Bar',
             textHideStatusBar: 'Hide Status Bar',
             textHideLines: 'Hide Rulers',
