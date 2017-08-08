@@ -70,7 +70,7 @@ define([
                 '</ul>');
 
         var templateRightBox = '<section>' +
-                            '<section id="box-doc-name"><input type="text" id="rib-doc-name" spellcheck="false"></input></section>' +
+                            '<section id="box-doc-name"><input type="text" id="rib-doc-name" spellcheck="false" data-can-copy="false"></input></section>' +
                             '<a id="rib-save-status" class="status-label locked"><%= textSaveEnd %></a>' +
                             '<div class="hedset">' +
                                 '<div class="btn-slot" id="slot-hbtn-edit"></div>' +
@@ -387,7 +387,7 @@ define([
                     });
 
                     if ( this.documentCaption ) {
-                        this.labelDocName.text( Common.Utils.String.htmlEncode(this.documentCaption) );
+                        this.labelDocName.val( this.documentCaption );
                     }
 
                     if ( !_.isUndefined(this.options.canRename) ) {
@@ -485,9 +485,8 @@ define([
                 this.documentCaption = value;
                 this.isModified && (value += '*');
                 if ( this.labelDocName ) {
-                    var encoded = Common.Utils.String.htmlEncode(value);
-                    this.labelDocName.val( encoded );
-                    this.labelDocName.attr('size', encoded.length);
+                    this.labelDocName.val( value );
+                    this.labelDocName.attr('size', value.length);
 
                     this.setCanRename(true);
                 }
@@ -502,10 +501,10 @@ define([
             setDocumentChanged: function (changed) {
                 this.isModified = changed;
 
-                var _name = Common.Utils.String.htmlEncode(this.documentCaption);
+                var _name = this.documentCaption;
                 changed && (_name += '*');
 
-                this.labelDocName.html(_name);
+                this.labelDocName.val(_name);
             },
 
             setCanBack: function (value) {
@@ -538,6 +537,7 @@ define([
                             tip.setContent();
                         }
                     }
+                    label.attr('data-can-copy', rename);
                 }
             },
 
