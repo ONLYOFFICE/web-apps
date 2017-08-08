@@ -285,19 +285,18 @@ define([
         },
 
         updateSettings: function() {
-            var value = Common.localStorage.getItem("pe-settings-spellcheck");
-            this.chSpell.setValue(value===null || parseInt(value) == 1);
+            this.chSpell.setValue(Common.localStorage.getBool("pe-settings-spellcheck", true));
 
             this.chInputMode.setValue(Common.localStorage.getBool("pe-settings-inputmode"));
 
-            value = Common.localStorage.getItem("pe-settings-zoom");
+            var value = Common.localStorage.getItem("pe-settings-zoom");
             value = (value!==null) ? parseInt(value) : (this.mode.customization && this.mode.customization.zoom ? parseInt(this.mode.customization.zoom) : -1);
             var item = this.cmbZoom.store.findWhere({value: value});
             this.cmbZoom.setValue(item ? parseInt(item.get('value')) : (value>0 ? value+'%' : 100));
 
             /** coauthoring begin **/
             value = Common.localStorage.getItem("pe-settings-coauthmode");
-            if (value===null && Common.localStorage.getItem("pe-settings-autosave")===null &&
+            if (value===null && !Common.localStorage.itemExists("pe-settings-autosave") &&
                 this.mode.customization && this.mode.customization.autosave===false)
                 value = 0; // use customization.autosave only when pe-settings-coauthmode and pe-settings-autosave are null
             var fast_coauth = (value===null || parseInt(value) == 1) && !(this.mode.isDesktopApp && this.mode.isOffline) && this.mode.canCoAuthoring;
@@ -318,13 +317,10 @@ define([
             this.chAutosave.setValue(fast_coauth || (value===null ? this.mode.canCoAuthoring : parseInt(value) == 1));
 
             if (this.mode.canForcesave) {
-                value = Common.localStorage.getItem("pe-settings-forcesave");
-                value = (value === null) ? this.mode.canForcesave : (parseInt(value) == 1);
-                this.chForcesave.setValue(value);
+                this.chForcesave.setValue(Common.localStorage.getBool("pe-settings-forcesave", this.mode.canForcesave));
             }
 
-            value = Common.localStorage.getItem("pe-settings-showsnaplines");
-            this.chAlignGuides.setValue(value===null || parseInt(value) == 1);
+            this.chAlignGuides.setValue(Common.localStorage.getBool("pe-settings-showsnaplines", true));
         },
 
         applySettings: function() {

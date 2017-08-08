@@ -1551,7 +1551,7 @@ define([
             var headerView  = this.getApplication().getController('Statusbar').getView('Statusbar');
             headerView  && headerView.setVisible(!checked);
 
-            Common.localStorage.setItem('pe-hidden-status', checked ? 1 : 0);
+            Common.localStorage.setBool('pe-hidden-status', checked);
 
             Common.NotificationCenter.trigger('layout:changed', 'status');
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);

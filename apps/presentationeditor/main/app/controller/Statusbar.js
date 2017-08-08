@@ -176,9 +176,7 @@ define([
         },
 
         createDelayedElements: function() {
-            var value = Common.localStorage.getItem("pe-settings-spellcheck");
-            this.statusbar.btnSetSpelling.toggle(value===null || parseInt(value) == 1, true);
-
+            this.statusbar.btnSetSpelling.toggle(Common.localStorage.getBool("pe-settings-spellcheck", true), true);
             this.statusbar.$el.css('z-index', '');
         },
 
@@ -215,8 +213,7 @@ define([
         },
 
         applySettings: function(menu) {
-            var value = Common.localStorage.getItem("pe-settings-spellcheck");
-            this.statusbar.btnSetSpelling.toggle(value===null || parseInt(value) == 1, true);
+            this.statusbar.btnSetSpelling.toggle(Common.localStorage.getBool("pe-settings-spellcheck", true), true);
         },
 
         zoomText        : 'Zoom {0}%'
