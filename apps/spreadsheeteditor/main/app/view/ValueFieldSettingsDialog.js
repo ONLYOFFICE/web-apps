@@ -262,6 +262,7 @@ define([
         },
 
         onSummarizeSelect: function(combo, record) {
+            this.inputCustomName.setValue(record.displayValue + ' ' + this.txtByField + ' ' + this.lblSourceName.text());
         },
 
         onShowAsSelect: function(combo, record) {
@@ -301,7 +302,8 @@ define([
         txtPercentOfRow: 'Percent of Total',
         txtPercentOfCol: 'Percent of Column',
         txtPercentOfTotal: 'Percent of Row',
-        txtIndex: 'Index'
+        txtIndex: 'Index',
+        txtByField: 'by field'
 
     }, SSE.Views.ValueFieldSettingsDialog || {}))
 });
