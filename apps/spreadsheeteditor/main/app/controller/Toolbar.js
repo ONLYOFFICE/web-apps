@@ -2920,6 +2920,7 @@ define([
                     /x-huge/.test(el.className) && (_cls += ' x-huge icon-top');
 
                     var button = new Common.UI.Button({
+                        id: 'tlbtn-addcomment-' + index,
                         cls: _cls,
                         iconCls: 'btn-menu-comments',
                         lock: [_set.lostConnect, _set.commentLock],

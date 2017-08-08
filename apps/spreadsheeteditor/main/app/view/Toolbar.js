@@ -601,7 +601,7 @@ define([
                 });
 
                 me.btnInsertImage = new Common.UI.Button({
-                    id          : 'id-toolbar-btn-insertimage',
+                    id          : 'tlbtn-insertimage',
                     cls         : 'btn-toolbar x-huge icon-top',
                     iconCls     : 'btn-insertimage',
                     caption     : me.capInsertImage,
@@ -615,7 +615,7 @@ define([
                 });
 
                 me.btnInsertHyperlink = new Common.UI.Button({
-                    id          : 'id-toolbar-btn-inserthyperlink',
+                    id          : 'tlbtn-insertlink',
                     cls         : 'btn-toolbar x-huge icon-top',
                     iconCls     : 'btn-inserthyperlink',
                     caption     : me.capInsertHyperlink,
@@ -623,7 +623,7 @@ define([
                 });
 
                 me.btnInsertChart = new Common.UI.Button({
-                    id          : 'id-toolbar-btn-insertchart',
+                    id          : 'tlbtn-insertchart',
                     cls         : 'btn-toolbar x-huge icon-top',
                     iconCls     : 'btn-insertchart',
                     lock        : [_set.editCell, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.coAuthText],
@@ -637,7 +637,7 @@ define([
                 });
 
                 me.btnInsertShape = new Common.UI.Button({
-                    id          : 'id-toolbar-btn-insertshape',
+                    id          : 'tlbtn-insertshape',
                     cls         : 'btn-toolbar x-huge icon-top',
                     iconCls     : 'btn-insertshape',
                     enableToggle: true,
@@ -647,7 +647,7 @@ define([
                 });
 
                 me.btnInsertText = new Common.UI.Button({
-                    id          : 'tlb-btn-inserttext',
+                    id          : 'tlbtn-inserttext',
                     cls         : 'btn-toolbar x-huge icon-top',
                     iconCls     : 'btn-text',
                     caption     : me.capInsertText,
@@ -656,7 +656,7 @@ define([
                 });
 
                 me.btnInsertTextArt = new Common.UI.Button({
-                    id          : 'tlb-btn-instextart',
+                    id          : 'tlbtn-inserttextart',
                     cls         : 'btn-toolbar x-huge icon-top',
                     iconCls     : 'btn-textart',
                     caption     : me.capInsertTextart,
@@ -670,7 +670,7 @@ define([
                 });
 
                 me.btnInsertEquation = new Common.UI.Button({
-                    id          : 'id-toolbar-btn-insertequation',
+                    id          : 'tlbtn-insertequation',
                     cls         : 'btn-toolbar x-huge icon-top',
                     iconCls     : 'btn-insertequation',
                     caption     : me.capInsertEquation,

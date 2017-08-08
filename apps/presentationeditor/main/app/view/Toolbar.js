@@ -537,7 +537,7 @@ define([
                 me.paragraphControls.push(me.btnLineSpace);
 
                 me.btnInsertTable = new Common.UI.Button({
-                    id          : 'id-toolbar-btn-inserttable',
+                    id          : 'tlbtn-inserttable',
                     cls         : 'btn-toolbar x-huge icon-top',
                     iconCls     : 'btn-inserttable',
                     caption     : me.capInsertTable,
@@ -552,7 +552,7 @@ define([
                 me.slideOnlyControls.push(me.btnInsertTable);
 
                 me.btnInsertChart = new Common.UI.Button({
-                    id          : 'id-toolbar-btn-insertchart',
+                    id          : 'tlbtn-insertchart',
                     cls         : 'btn-toolbar x-huge icon-top',
                     iconCls     : 'btn-insertchart',
                     caption     : me.capInsertChart,
@@ -567,7 +567,7 @@ define([
                 me.slideOnlyControls.push(me.btnInsertChart);
 
                 me.btnInsertEquation = new Common.UI.Button({
-                    id          : 'id-toolbar-btn-insertequation',
+                    id          : 'tlbtn-insertequation',
                     cls         : 'btn-toolbar x-huge icon-top',
                     iconCls     : 'btn-insertequation',
                     caption     : me.capInsertEquation,
@@ -578,7 +578,7 @@ define([
                 me.slideOnlyControls.push(this.btnInsertEquation);
 
                 me.btnInsertHyperlink = new Common.UI.Button({
-                    id          : 'id-toolbar-btn-inserthyperlink',
+                    id          : 'tlbtn-insertlink',
                     cls         : 'btn-toolbar x-huge icon-top',
                     iconCls     : 'btn-inserthyperlink',
                     caption     : me.capInsertHyperlink,
@@ -587,7 +587,7 @@ define([
                 me.paragraphControls.push(me.btnInsertHyperlink);
 
                 me.btnInsertTextArt = new Common.UI.Button({
-                    id: 'tlb-btn-instextart',
+                    id: 'tlbtn-inserttextart',
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'btn-textart',
                     caption: me.capInsertTextArt,
@@ -1006,7 +1006,10 @@ define([
                 function _injectBtns(opts) {
                     var array = new buttonsArray;
                     var $slots = $host.find(opts.slot);
+                    var id = opts.btnconfig.id;
                     $slots.each(function(index, el) {
+                        if ( !!id ) opts.btnconfig.id = id + index;
+
                         var button = new Common.UI.Button(opts.btnconfig);
                         button.render( $slots.eq(index) );
 
@@ -1020,6 +1023,7 @@ define([
                 me.btnsInsertImage = _injectBtns({
                     slot: '.slot-insertimg',
                     btnconfig: {
+                        id          : 'tlbtn-insertimage-',
                         cls         : 'btn-toolbar x-huge icon-top',
                         iconCls     : 'btn-insertimage',
                         caption     : me.capInsertImage,
@@ -1031,6 +1035,7 @@ define([
                 me.btnsInsertText = _injectBtns({
                     slot: '.slot-instext',
                     btnconfig: {
+                        id          : 'tlbtn-inserttext-',
                         cls         : 'btn-toolbar x-huge icon-top',
                         iconCls     : 'btn-text',
                         caption     : me.capInsertText,
@@ -1042,6 +1047,7 @@ define([
                 me.btnsInsertShape = _injectBtns({
                     slot: '.slot-insertshape',
                     btnconfig: {
+                        id          : 'tlbtn-insertshape-',
                         cls         : 'btn-toolbar x-huge icon-top',
                         iconCls     : 'btn-insertshape',
                         caption     : me.capInsertShape,
