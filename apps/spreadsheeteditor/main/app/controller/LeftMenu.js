@@ -639,9 +639,11 @@ define([
                     }
                     return false;
                 case 'help':
-                    Common.UI.Menu.Manager.hideAll();
-                    this.api.asc_closeCellEditor();
-                    this.leftMenu.showMenu('file:help');
+                    if ( this.mode.isEdit ) {                   // TODO: unlock 'help' panel for 'view' mode
+                        Common.UI.Menu.Manager.hideAll();
+                        this.api.asc_closeCellEditor();
+                        this.leftMenu.showMenu('file:help');
+                    }
 
                     return false;
                 case 'file':

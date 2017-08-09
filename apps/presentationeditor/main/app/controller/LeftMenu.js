@@ -456,9 +456,13 @@ define([
                     }
                     return false;
                 case 'help':
+                    if ( this.mode.isEdit ) {                   // TODO: unlock 'help' panel for 'view' mode
+
                     if (!previewPanel || !previewPanel.isVisible()){
                         Common.UI.Menu.Manager.hideAll();
                         this.leftMenu.showMenu('file:help');
+                    }
+
                     }
                     return false;
                 case 'file':
