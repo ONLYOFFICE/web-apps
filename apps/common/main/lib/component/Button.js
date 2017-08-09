@@ -130,7 +130,7 @@ define([
             '<% } %>';
 
     var templateHugeCaption =
-            '<button type="button" class="btn <%= cls %>">' +
+            '<button type="button" class="btn <%= cls %>" id="<%= id %>" > ' +
                 '<div class="inner-box-icon">' +
                     templateBtnIcon +
                 '</div>' +
