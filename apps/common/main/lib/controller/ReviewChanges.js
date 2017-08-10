@@ -140,7 +140,7 @@ define([
                         changes = this.readSDKChange(sdkchange),
                         posX = sdkchange[0].get_X(),
                         posY = sdkchange[0].get_Y(),
-                        animate = ( Math.abs(this._state.posx-posX)>0.001 || Math.abs(this._state.posy-posY)>0.001),
+                        animate = ( Math.abs(this._state.posx-posX)>0.001 || Math.abs(this._state.posy-posY)>0.001) || (sdkchange.length !== this._state.changes_length),
                         lock = (sdkchange[0].get_LockUserId()!==null),
                         lockUser = this.getUserName(sdkchange[0].get_LockUserId());
 
@@ -164,9 +164,11 @@ define([
                     }
                     this._state.posx = posX;
                     this._state.posy = posY;
+                    this._state.changes_length = sdkchange.length;
                     this._state.popoverVisible = true;
                 } else if (this._state.popoverVisible){
                     this._state.posx = this._state.posy = -1000;
+                    this._state.changes_length = 0;
                     this._state.popoverVisible = false;
                     this.getPopover().hide();
                     this.popoverChanges.reset();
