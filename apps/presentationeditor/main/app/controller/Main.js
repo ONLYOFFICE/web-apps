@@ -413,17 +413,16 @@ define([
                 if (action) {
                     this.setLongActionView(action)
                 } else {
+                    var me = this;
                     if ((id==Asc.c_oAscAsyncAction['Save'] || id==Asc.c_oAscAsyncAction['ForceSaveButton']) && !this.appOptions.isOffline) {
                         if (this._state.fastCoauth && this._state.usersCount>1) {
-                            var me = this;
                             me._state.timerSave = setTimeout(function () {
-                                appHeader.setSaveStatus('end');
-                                delete me._state.timerSave;
+                                me.getApplication().getController('Statusbar').setStatusCaption(me.textChangesSaved, false, 3000);
                             }, 500);
                         } else
-                            appHeader.setSaveStatus('end');
+                            me.getApplication().getController('Statusbar').setStatusCaption(me.textChangesSaved, false, 3000);
                     } else
-                        this.getApplication().getController('Statusbar').setStatusCaption('');
+                        me.getApplication().getController('Statusbar').setStatusCaption('');
                 }
 
                 action = this.stackLongActions.get({type: Asc.c_oAscAsyncActionType.BlockInteraction});
@@ -451,8 +450,8 @@ define([
                     case Asc.c_oAscAsyncAction['ForceSaveButton']:
                         clearTimeout(this._state.timerSave);
                         force = true;
-                        // title   = (!this.appOptions.isOffline) ? this.saveTitleText : '';
-                        // text    = (!this.appOptions.isOffline) ? this.saveTextText : '';
+                        title   = (!this.appOptions.isOffline) ? this.saveTitleText : '';
+                        text    = (!this.appOptions.isOffline) ? this.saveTextText : '';
                         break;
 
                     case Asc.c_oAscAsyncAction['ForceSaveTimeout']:
@@ -527,9 +526,6 @@ define([
 
                     if (!this.isShowOpenDialog)
                         this.loadMask.show();
-                } else
-                if ( action.id == Asc.c_oAscAsyncAction.Save || action.id == Asc.c_oAscAsyncAction.ForceSaveButton ) {
-                    appHeader.setSaveStatus('begin');
                 } else {
                     this.getApplication().getController('Statusbar').setStatusCaption(text, force);
                 }
@@ -1155,8 +1151,6 @@ define([
                 }
 
                 this.updateWindowTitle();
-
-                this.api.isDocumentModified() && appHeader.setSaveStatus('changed');
 
                 var toolbarView = this.getApplication().getController('Toolbar').getView('Toolbar');
                 if (toolbarView) {
@@ -1943,7 +1937,10 @@ define([
             txtImage: 'Image',
             txtSlideNumber: 'Slide number',
             txtSlideSubtitle: 'Slide subtitle',
-            txtSlideTitle: 'Slide title'
+            txtSlideTitle: 'Slide title',
+            textChangesSaved: 'All changes saved',
+            saveTitleText: 'Saving Document',
+            saveTextText: 'Saving document...'
         }
     })(), PE.Controllers.Main || {}))
 });
