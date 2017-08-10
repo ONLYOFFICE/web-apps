@@ -5,7 +5,7 @@
 
         <div class="user-name"><%=scope.getUserName(username)%></div>
         <div class="user-date"><%=date%></div>
-        <% if (quote!==null) { %>
+        <% if (quote!==null && quote!=='') { %>
         <div class="user-quote"><%=scope.getFixedQuote(quote)%></div>
         <% } %>
         <% if (!editText) { %>
