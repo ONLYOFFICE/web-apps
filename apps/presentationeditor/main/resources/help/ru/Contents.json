@@ -24,6 +24,7 @@
 	{"src": "HelpfulHints/AdvancedSettings.htm", "name": "Дополнительные параметры редактора презентаций"},
 	{"src": "HelpfulHints/Navigation.htm", "name": "Параметры представления и инструменты навигации"},
 	{"src": "HelpfulHints/Search.htm", "name": "Функция поиска"},
-	{"src": "HelpfulHints/CollaborativeEditing.htm", "name": "Совместное редактирование презентаций"},
+    {"src": "HelpfulHints/CollaborativeEditing.htm", "name": "Совместное редактирование презентаций" },
+    {"src":"HelpfulHints/SpellChecking.htm", "name": "Проверка орфографии"},
 	{"src": "HelpfulHints/KeyboardShortcuts.htm", "name": "Сочетания клавиш"}
 ]
