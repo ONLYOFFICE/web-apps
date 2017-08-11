@@ -110,6 +110,7 @@ require([
             docInfo.put_Token(data.token);
         }
 
+        api.preloadReporter(data);
         api.SetThemesPath("../../../../sdkjs/slide/themes/");
         api.asc_setDocInfo( docInfo );
         api.asc_getEditorPermissions();
