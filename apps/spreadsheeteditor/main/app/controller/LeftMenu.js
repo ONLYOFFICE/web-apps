@@ -47,9 +47,11 @@ define([
         initialize: function() {
 
             this.addListeners({
-                /** coauthoring begin **/
                 'Common.Views.Chat': {
                     'hide': _.bind(this.onHideChat, this)
+                },
+                'Common.Views.Plugins': {
+                    'plugin:open': _.bind(this.onPluginOpen, this)
                 },
                 'Statusbar': {
                     'click:users': _.bind(this.clickStatusbarUsers, this)
@@ -60,7 +62,6 @@ define([
                     'comments:show': _.bind(this.commentsShowHide, this, true),
                     'comments:hide': _.bind(this.commentsShowHide, this, false)
                 },
-                /** coauthoring end **/
                 'Common.Views.About': {
                     'show':    _.bind(this.aboutShowHide, this, true),
                     'hide':    _.bind(this.aboutShowHide, this, false)
@@ -188,7 +189,7 @@ define([
 
         enablePlugins: function() {
             if (this.mode.canPlugins) {
-                this.leftMenu.btnPlugins.show();
+                // this.leftMenu.btnPlugins.show();
                 this.leftMenu.setOptionsPanel('plugins', this.getApplication().getController('Common.Controllers.Plugins').getView('Common.Views.Plugins'));
             } else
                 this.leftMenu.btnPlugins.hide();
@@ -721,6 +722,17 @@ define([
             if (this.mode.canPlugins && this.leftMenu.panelPlugins) {
                 this.leftMenu.panelPlugins.setLocked(isEditFormula);
                 this.leftMenu.panelPlugins.disableControls(isEditFormula);
+            }
+        },
+
+        onPluginOpen: function(panel, type, action) {
+            if ( type == 'onboard' ) {
+                if ( action == 'open' ) {
+                    this.leftMenu.panelPlugins.show();
+                    this.leftMenu.onBtnMenuClick({pressed:true, options: {action: 'plugins'}});
+                } else {
+                    this.leftMenu.close();
+                }
             }
         },
 

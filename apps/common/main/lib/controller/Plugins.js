@@ -57,10 +57,14 @@ define([
             this.addListeners({
                 'Toolbar': {
                     'render:before' : function (toolbar) {
-                        // var tab = {action: 'plugins', caption: 'Addons'};
-                        // var $panel = me.panelPlugins.getPanel();
-                        //
-                        // toolbar.addTab(tab, $panel, 4);
+                        var isedit = this.getApplication().getController('Main').appOptions.isEdit;
+
+                        if ( isedit ) {
+                            var tab = {action: 'plugins', caption: me.panelPlugins.groupCaption};
+                            var $panel = me.panelPlugins.getPanel();
+
+                            toolbar.addTab(tab, $panel, 4);     // TODO: clear plugins list in left panel
+                        }
                     }
                 },
                 'Common.Views.Plugins': {
@@ -287,13 +291,14 @@ define([
                 this.panelPlugins.openNotVisualMode(plugin.get_Guid());
         },
 
-        onPluginClose: function() {
+        onPluginClose: function(plugin) {
             if (this.pluginDlg)
                 this.pluginDlg.close();
             else if (this.panelPlugins.iframePlugin)
                 this.panelPlugins.closeInsideMode();
-            else
-                this.panelPlugins.closeNotVisualMode();
+            else {
+                this.panelPlugins.closeNotVisualMode(plugin.guid);
+            }
         },
 
         onPluginResize: function(size, minSize, maxSize, callback ) {

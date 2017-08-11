@@ -57,22 +57,23 @@ define([
         initialize: function() {
             this._state = { no_slides: undefined };
             this.addListeners({
-                /** coauthoring begin **/
                 'Common.Views.Chat': {
                     'hide': _.bind(this.onHideChat, this)
                 },
                 'Common.Views.Header': {
                     'click:users': _.bind(this.clickStatusbarUsers, this)
                 },
+                'Common.Views.Plugins': {
+                    'plugin:open': _.bind(this.onPluginOpen, this)
+                },
+                'Common.Views.About': {
+                    'show':    _.bind(this.aboutShowHide, this, false),
+                    'hide':    _.bind(this.aboutShowHide, this, true)
+                },
                 'LeftMenu': {
                     'panel:show':    _.bind(this.menuExpand, this),
                     'comments:show': _.bind(this.commentsShowHide, this, 'show'),
                     'comments:hide': _.bind(this.commentsShowHide, this, 'hide')
-                },
-                /** coauthoring end **/
-                'Common.Views.About': {
-                    'show':    _.bind(this.aboutShowHide, this, false),
-                    'hide':    _.bind(this.aboutShowHide, this, true)
                 },
                 'FileMenu': {
                     'menu:hide': _.bind(this.menuFilesShowHide, this, 'hide'),
@@ -179,7 +180,7 @@ define([
 
         enablePlugins: function() {
             if (this.mode.canPlugins) {
-                this.leftMenu.btnPlugins.show();
+                // this.leftMenu.btnPlugins.show();
                 this.leftMenu.setOptionsPanel('plugins', this.getApplication().getController('Common.Controllers.Plugins').getView('Common.Views.Plugins'));
             } else
                 this.leftMenu.btnPlugins.hide();
@@ -515,6 +516,18 @@ define([
                     }
                     return false;
                 /** coauthoring end **/
+            }
+        },
+
+        onPluginOpen: function(panel, type, action) {
+            if ( type == 'onboard' ) {
+                if ( action == 'open' ) {
+                    this.leftMenu.btnThumbs.toggle(false, false);
+                    this.leftMenu.panelPlugins.show();
+                    this.leftMenu.onBtnMenuClick({pressed:true, options: {action: 'plugins'}});
+                } else {
+                    this.leftMenu.close();
+                }
             }
         },
 

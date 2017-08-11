@@ -79,9 +79,9 @@ define([
             this.lockedControls = [];
             Common.UI.BaseView.prototype.initialize.call(this, arguments);
 
-            (new Promise(function (resolve) {
-                Common.NotificationCenter.on('app:ready', function (m) { resolve(m); });
-            })).then(this._onAppReady.bind(this));
+            Common.NotificationCenter.on('app:ready', function (mode) {
+                Common.Utils.asyncCall(this._onAppReady, this, mode);
+            }.bind(this));
         },
 
         render: function(el) {
@@ -126,16 +126,16 @@ define([
             if ( !this.storePlugins.isEmpty() ) {
                 var _group = $('<div class="group"></div>');
                 this.storePlugins.each(function (model) {
-                    var btn = new Common.UI.Button({
-                        cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'img-commonctrl review-prev',
-                        caption: model.get('name'),
-                        value: model.get('guid'),
-                        hint: model.get('name')
-                    });
-
-                    var $slot = $('<span class="slot"></span>').appendTo(_group);
-                    btn.render($slot);
+                    // var btn = new Common.UI.Button({
+                    //     cls: 'btn-toolbar x-huge icon-top',
+                    //     iconCls: 'img-commonctrl review-prev',
+                    //     caption: model.get('name'),
+                    //     value: model.get('guid'),
+                    //     hint: model.get('name')
+                    // });
+                    //
+                    // var $slot = $('<span class="slot"></span>').appendTo(_group);
+                    // btn.render($slot);
                 });
 
                 _group.appendTo(_panel);
@@ -166,9 +166,11 @@ define([
                     btn.render($slot);
 
                     model.set('button', btn);
+                    me.lockedControls.push(btn);
                 });
 
                 parent.html(_group);
+                $('<div class="separator long"></div>').prependTo(parent);
             }
         },
 
@@ -217,6 +219,8 @@ define([
 
                 this.iframePlugin.src = url;
             }
+
+            this.fireEvent('plugin:open', [this, 'onboard', 'open']);
             return true;
         },
 
@@ -229,16 +233,30 @@ define([
             }
             this.currentPluginPanel.toggleClass('hidden', true);
             this.pluginsPanel.toggleClass('hidden', false);
+
+            this.fireEvent('plugin:open', [this, 'onboard', 'close']);
         },
 
         openNotVisualMode: function(pluginGuid) {
-            var rec = this.viewPluginsList.store.findWhere({guid: pluginGuid});
-            if (rec)
-                this.viewPluginsList.cmpEl.find('#' + rec.get('id')).parent().addClass('selected');
+            // var rec = this.viewPluginsList.store.findWhere({guid: pluginGuid});
+            // if ( rec ) {
+            //     this.viewPluginsList.cmpEl.find('#' + rec.get('id')).parent().addClass('selected');
+            // }
+
+            var model = this.storePlugins.findWhere({guid: pluginGuid});
+            if ( model ) {
+                var _btn = model.get('button');
+                _btn && _btn.toggle(true);
+            }
         },
 
-        closeNotVisualMode: function() {
-            this.viewPluginsList.cmpEl.find('.selected').removeClass('selected');
+        closeNotVisualMode: function(guid) {
+            // this.viewPluginsList.cmpEl.find('.selected').removeClass('selected');
+
+            var model = this.storePlugins.findWhere({guid: guid});
+            if ( model ) {
+                model.get('button').toggle(false);
+            }
         },
 
         _onLoad: function() {
@@ -282,7 +300,8 @@ define([
 
         strPlugins: 'Plugins',
         textLoading: 'Loading',
-        textStart: 'Start'
+        textStart: 'Start',
+        groupCaption: 'Addons'
 
     }, Common.Views.Plugins || {}));
 
