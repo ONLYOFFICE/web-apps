@@ -27,6 +27,7 @@
     {"src": "UsageInstructions/InsertFootnotes.htm", "name": "Вставка сносок" },
     {"src": "UsageInstructions/InsertEquation.htm", "name": "Вставка формул" },
     {"src": "UsageInstructions/InsertTextObjects.htm", "name": "Вставка текстовых объектов" },
+    {"src": "UsageInstructions/InsertRichTextContentControls.htm", "name": "Создание форм" },
     {"src": "UsageInstructions/UseMailMerge.htm", "name": "Использование слияния"},
     {"src":"UsageInstructions/ViewDocInfo.htm", "name": "Просмотр сведений о документе"},
     {"src":"UsageInstructions/SavePrintDownload.htm", "name": "Сохранение/загрузка/печать документа"},

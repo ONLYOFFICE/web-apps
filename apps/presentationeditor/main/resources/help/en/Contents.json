@@ -24,6 +24,7 @@
 	{"src": "HelpfulHints/AdvancedSettings.htm", "name": "Advanced Settings of Presentation Editor"},
 	{"src": "HelpfulHints/Navigation.htm", "name": "View Settings and Navigation Tools"},
 	{"src": "HelpfulHints/Search.htm", "name": "Search Function"},
-	{"src": "HelpfulHints/CollaborativeEditing.htm", "name": "Collaborative Presentation Editing"},
+    {"src": "HelpfulHints/CollaborativeEditing.htm", "name": "Collaborative Presentation Editing" },
+    {"src": "HelpfulHints/SpellChecking.htm", "name": "Spell-checking"},
 	{"src": "HelpfulHints/KeyboardShortcuts.htm", "name": "Keyboard Shortcuts"}
 ]

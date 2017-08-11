@@ -196,10 +196,11 @@ define([
                         items : [
                             {caption: this.textShowBegin, value: 0},
                             {caption: this.textShowCurrent, value: 1},
+                            {caption: this.textShowPresenterView, value: 2},
                             {caption: '--'},
                             me.mnuShowSettings = new Common.UI.MenuItem({
                                 caption: this.textShowSettings,
-                                value: 2,
+                                value: 3,
                                 lock: [_set.lostConnect]
                             })
                         ]
@@ -1397,7 +1398,7 @@ define([
                 });
 
                 this.mnuitemHideStatusBar.setChecked(Common.localStorage.getBool('pe-hidden-status'), true);
-                this.mnuitemHideRulers.setChecked(Common.localStorage.getBool("pe-hidden-rulers"), true);
+                this.mnuitemHideRulers.setChecked(Common.localStorage.getBool("pe-hidden-rulers", true), true);
 
 //            // Enable none paragraph components
                 this.lockToolbar(PE.enumLock.disableOnStart, false, {array: this.slideOnlyControls.concat(this.shapeControls)});
@@ -1832,7 +1833,8 @@ define([
             textTabFile: 'File',
             textTabHome: 'Home',
             textTabInsert: 'Insert',
-            textSurface: 'Surface'
+            textSurface: 'Surface',
+            textShowPresenterView: 'Show presenter view'
         }
     }()), PE.Views.Toolbar || {}));
 });
