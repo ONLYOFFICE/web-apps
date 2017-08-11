@@ -301,7 +301,7 @@ define([
         strPlugins: 'Plugins',
         textLoading: 'Loading',
         textStart: 'Start',
-        groupCaption: 'Addons'
+        groupCaption: 'Add-ons'
 
     }, Common.Views.Plugins || {}));
 
