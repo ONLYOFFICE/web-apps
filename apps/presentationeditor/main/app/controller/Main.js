@@ -141,7 +141,8 @@ define([
                         'Slide number': this.txtSlideNumber,
                         'Slide subtitle': this.txtSlideSubtitle,
                         'Table': this.txtSldLtTTbl,
-                        'Slide title': this.txtSlideTitle
+                        'Slide title': this.txtSlideTitle,
+                        'Loading': this.txtLoading
                     }
                 });
 
@@ -1940,7 +1941,8 @@ define([
             txtSlideTitle: 'Slide title',
             textChangesSaved: 'All changes saved',
             saveTitleText: 'Saving Document',
-            saveTextText: 'Saving document...'
+            saveTextText: 'Saving document...',
+            txtLoading: 'Loading...'
         }
     })(), PE.Controllers.Main || {}))
 });

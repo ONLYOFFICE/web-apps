@@ -154,12 +154,12 @@ define([
             Common.NotificationCenter.trigger('window:resize');
         },
 
-        onPreviewStart: function(slidenum) {
+        onPreviewStart: function(slidenum, presenter) {
             this.previewPanel = this.previewPanel || PE.getController('Viewport').getView('DocumentPreview');
             var me = this,
                 isResized = false;
             
-            var reporterObject = PE.getController('Main').document;
+            var reporterObject = (presenter) ? PE.getController('Main').document : null;
 
             if (this.previewPanel && !this.previewPanel.isVisible() && this.api) {
                 this.previewPanel.show();
@@ -199,6 +199,5 @@ define([
                 }
             }
         }
-
     });
 });
