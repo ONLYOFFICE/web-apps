@@ -373,6 +373,9 @@ define([
         txtFinalMessage: 'The end of slide preview. Click to exit.',
         txtPageNumInvalid: 'Slide number invalid',
         txtFullScreen: 'Full Screen',
-        txtExitFullScreen: 'Exit Full Screen'
+        txtExitFullScreen: 'Exit Full Screen',
+        txtReset: 'Reset',
+        txtEndSlideshow: 'End slideshow'
+
     }, PE.Views.DocumentPreview || {}));
 });

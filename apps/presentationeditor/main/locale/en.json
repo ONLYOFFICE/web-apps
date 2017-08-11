@@ -796,6 +796,8 @@
   "PE.Views.DocumentPreview.txtPause": "Pause Presentation",
   "PE.Views.DocumentPreview.txtPlay": "Start Presentation",
   "PE.Views.DocumentPreview.txtPrev": "Previous Slide",
+  "PE.Views.DocumentPreview.txtReset": "Reset",
+  "PE.Views.DocumentPreview.txtEndSlideshow": "End slideshow",
   "PE.Views.FileMenu.btnAboutCaption": "About",
   "PE.Views.FileMenu.btnBackCaption": "Go to Documents",
   "PE.Views.FileMenu.btnCloseMenuCaption": "Close Menu",

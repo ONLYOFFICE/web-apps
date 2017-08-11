@@ -160,6 +160,12 @@ define([
                 isResized = false;
             
             var reporterObject = (presenter) ? PE.getController('Main').document : null;
+            if (reporterObject)
+                reporterObject.traslations = {
+                    reset: me.previewPanel.txtReset,
+                    endSlideshow: me.previewPanel.txtEndSlideshow,
+                    slideOf: me.previewPanel.slideIndexText
+                };
 
             if (this.previewPanel && !this.previewPanel.isVisible() && this.api) {
                 this.previewPanel.show();
