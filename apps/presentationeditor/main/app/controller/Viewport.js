@@ -161,7 +161,7 @@ define([
             
             var reporterObject = (presenter) ? PE.getController('Main').document : null;
             if (reporterObject)
-                reporterObject.traslations = {
+                reporterObject.translations = {
                     reset: me.previewPanel.txtReset,
                     endSlideshow: me.previewPanel.txtEndSlideshow,
                     slideOf: me.previewPanel.slideIndexText
