@@ -246,6 +246,15 @@ define([
             }
 
             this.separatorFullScreen = el.find('.separator.fullscreen');
+
+            var controls = $(this.el).find('.preview-controls');
+            controls.on('mouseenter', function(e) {
+                clearTimeout(me.timerMove);
+                controls.addClass('over');
+            });
+            controls.on('mouseleave', function(e) {
+                controls.removeClass('over');
+            });
         },
 
         show: function() {
@@ -263,6 +272,22 @@ define([
                 iconEl.addClass('btn-pause');
                 this.btnPlay.updateHint(this.txtPause);
             }
+
+            var me = this;
+            var controls = $(this.el).find('.preview-controls');
+            controls.css('display', 'none');
+
+            setTimeout(function(){
+                me.$el.on('mousemove', function() {
+                    clearTimeout(me.timerMove);
+                    controls.css('display', '');
+                    if (!controls.hasClass('over'))
+                        me.timerMove = setTimeout(function () {
+                            controls.css('display', 'none');
+                        }, 3000);
+
+                });
+            }, 1000);
             $('#viewport-vbox-layout').css('z-index','0');
             this.fireEvent('editcomplete', this);
         },
@@ -279,6 +304,7 @@ define([
                 toolbar.onCollaborativeChanges();
             }
 
+            this.$el.off('mousemove');
             this.fireEvent('editcomplete', this);
         },
 
