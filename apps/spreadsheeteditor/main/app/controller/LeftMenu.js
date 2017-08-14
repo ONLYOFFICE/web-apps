@@ -162,6 +162,14 @@ define([
             this.leftMenu.setMode(mode);
             this.leftMenu.getMenu('file').setMode(mode);
 
+            if (!mode.isEdit)  // TODO: unlock 'save as', 'open file menu' for 'view' mode
+                Common.util.Shortcuts.removeShortcuts({
+                    shortcuts: {
+                        'command+shift+s,ctrl+shift+s': _.bind(this.onShortcut, this, 'save'),
+                        'alt+f': _.bind(this.onShortcut, this, 'file')
+                    }
+                });
+
             return this;
         },
 
