@@ -57,9 +57,9 @@ define([
             this.addListeners({
                 'Toolbar': {
                     'render:before' : function (toolbar) {
-                        var isedit = this.getApplication().getController('Main').appOptions.isEdit;
+                        var appOptions = me.getApplication().getController('Main').appOptions;
 
-                        if ( isedit ) {
+                        if ( appOptions.isEdit && !appOptions.isEditMailMerge && !appOptions.isEditDiagram ) {
                             var tab = {action: 'plugins', caption: me.panelPlugins.groupCaption};
                             var $panel = me.panelPlugins.getPanel();
 
