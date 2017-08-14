@@ -207,7 +207,7 @@ define([
                 var props = new Asc.asc_CImgProperty();
                 props.put_WrappingStyle(item.options.wrapType);
 
-                if ( _imgOriginalProps.get_WrappingStyle() === Asc.c_oAscWrapStyle2.Inline && item.wrapType !== Asc.c_oAscWrapStyle2.Inline ) {
+                if ( _imgOriginalProps.get_WrappingStyle() === Asc.c_oAscWrapStyle2.Inline && item.options.wrapType !== Asc.c_oAscWrapStyle2.Inline ) {
                     props.put_PositionH(new Asc.CImagePositionH());
                     props.get_PositionH().put_UseAlign(false);
                     props.get_PositionH().put_RelativeFrom(Asc.c_oAscRelativeFromH.Column);
@@ -229,7 +229,7 @@ define([
 
             onClickMenuGroup: function (menu, item, e) {
                 var props = new Asc.asc_CImgProperty();
-                props.put_Group(item.groupval);
+                props.put_Group(item.options.groupval);
 
                 this.api.ImgApply(props);
                 this.toolbar.fireEvent('editcomplete', this.toolbar);
