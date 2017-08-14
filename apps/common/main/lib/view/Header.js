@@ -263,7 +263,7 @@ define([
                 }
 
                 if ( me.btnPrint ) {
-                    me.btnPrint.updateHint(me.tipPrint);
+                    me.btnPrint.updateHint(me.tipPrint + Common.Utils.String.platformKey('Ctrl+P'));
                     me.btnPrint.on('click', function (e) {
                         me.fireEvent('print', me);
                     });
