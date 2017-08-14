@@ -1768,7 +1768,7 @@ define([
             var mnuPreview = new Common.UI.MenuItem({
                 caption : me.txtPreview
             }).on('click', function(item) {
-                var current = this.api.getCurrentPage();
+                var current = me.api.getCurrentPage();
                 Common.NotificationCenter.trigger('preview:start', _.isNumber(current) ? current : 0);
             });
 
