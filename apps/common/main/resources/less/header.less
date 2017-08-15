@@ -100,8 +100,16 @@
         border: 0 none;
         cursor: default;
 
-        &:focus {
+        &:hover:not(:disabled) {
+            border: 1px solid @gray-dark;
+            background-color: rgba(255,255,255,0.2);
+        }
+
+        &:focus:not(:active) {
+            border: 1px solid @gray-dark;
             cursor: text;
+            background-color: white;
+            color: @gray-deep;
         }
     }
 

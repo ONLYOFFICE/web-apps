@@ -70,7 +70,9 @@ define([
                 '</ul>');
 
         var templateRightBox = '<section>' +
-                            '<section id="box-doc-name"><input type="text" id="rib-doc-name" spellcheck="false" data-can-copy="false"></input></section>' +
+                            '<section id="box-doc-name">' +
+                                '<input type="text" id="rib-doc-name" spellcheck="false" data-can-copy="false"></input>' +
+                            '</section>' +
                             '<a id="rib-save-status" class="status-label locked"><%= textSaveEnd %></a>' +
                             '<div class="hedset">' +
                                 '<div class="btn-slot" id="slot-hbtn-edit"></div>' +
@@ -382,12 +384,13 @@ define([
 
                     if ( this.labelDocName ) this.labelDocName.off();
                     this.labelDocName = $html.find('#rib-doc-name');
-                    this.labelDocName.on({
-                        'keydown': onDocNameKeyDown.bind(this)
-                    });
+                    // this.labelDocName.attr('maxlength', 50);
+                    this.labelDocName.text = function (text) {
+                        this.val(text).attr('size', text.length);
+                    }
 
                     if ( this.documentCaption ) {
-                        this.labelDocName.val( this.documentCaption );
+                        this.labelDocName.text( this.documentCaption );
                     }
 
                     if ( !_.isUndefined(this.options.canRename) ) {
@@ -485,8 +488,8 @@ define([
                 this.documentCaption = value;
                 this.isModified && (value += '*');
                 if ( this.labelDocName ) {
-                    this.labelDocName.val( value );
-                    this.labelDocName.attr('size', value.length);
+                    this.labelDocName.text( value );
+                    // this.labelDocName.attr('size', value.length);
 
                     this.setCanRename(true);
                 }
@@ -504,7 +507,7 @@ define([
                 var _name = this.documentCaption;
                 changed && (_name += '*');
 
-                this.labelDocName.val(_name);
+                this.labelDocName.text(_name);
             },
 
             setCanBack: function (value) {
@@ -529,7 +532,16 @@ define([
                             title: me.txtRename,
                             placement: 'cursor'}
                         );
+
+                        label.on({
+                            'keydown': onDocNameKeyDown.bind(this),
+                            'blur': function (e) {
+
+                            }
+                        });
+
                     } else {
+                        label.off();
                         label.attr('disabled', true);
                         var tip = label.data('bs.tooltip');
                         if ( tip ) {
