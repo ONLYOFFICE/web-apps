@@ -315,7 +315,7 @@ define([
 
             var header_footer = (_options.buttons && _.size(_options.buttons)>0) ? 85 : 34;
             if (!_options.header) header_footer -= 34;
-            this.bordersOffset = 25;
+            this.bordersOffset = 35;
             _options.width = (Common.Utils.innerWidth()-this.bordersOffset*2-_options.width)<0 ? Common.Utils.innerWidth()-this.bordersOffset*2: _options.width;
             _options.height += header_footer;
             _options.height = (Common.Utils.innerHeight()-this.bordersOffset*2-_options.height)<0 ? Common.Utils.innerHeight()-this.bordersOffset*2: _options.height;
@@ -407,7 +407,7 @@ define([
             Common.UI.Window.prototype.setWidth.call(this, width + borders_width);
 
             this.$window.css('left',(maxWidth - width - borders_width) / 2);
-            this.$window.css('top',((maxHeight - height - this._headerFooterHeight) / 2) * 0.9);
+            this.$window.css('top',((maxHeight - height - this._headerFooterHeight) / 2));
         },
 
         onWindowResize: function() {
