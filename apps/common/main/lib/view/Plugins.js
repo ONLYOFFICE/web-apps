@@ -95,7 +95,7 @@ define([
                 enableKeyEvents: false,
                 itemTemplate: _.template([
                     '<div id="<%= id %>" class="item-plugins" style="display: block;">',
-                        '<div class="plugin-icon" style="background-image: url(' + '<%= baseUrl %>' + '<%= variations[currentVariation].get("icons")[(window.devicePixelRatio > 1) ? 1 : 0] %>);"></div>',
+                        '<div class="plugin-icon" style="background-image: url(' + '<%= baseUrl %>' + '<%= variations[currentVariation].get("icons")[((window.devicePixelRatio > 1) ? 1 : 0) + (variations[currentVariation].get("icons").length>2 ? 2 : 0)] %>);"></div>',
                         '<% if (variations.length>1) { %>',
                         '<div class="plugin-caret img-commonctrl"></div>',
                         '<% } %>',
@@ -149,10 +149,11 @@ define([
                 var me = this;
                 var _group = $('<div class="group"></div>');
                 this.storePlugins.each(function (model) {
-                    var modes = model.get('variations');
-                    var guid = model.get('guid');
-                    var _icon_url = model.get('baseUrl') + modes[model.get('currentVariation')].get('icons')[(window.devicePixelRatio > 1) ? 1 : 0];
-                    var btn = new Common.UI.Button({
+                    var modes = model.get('variations'),
+                        guid = model.get('guid'),
+                        icons = modes[model.get('currentVariation')].get('icons'),
+                        _icon_url = model.get('baseUrl') + icons[((window.devicePixelRatio > 1) ? 1 : 0) + (icons.length>2 ? 2 : 0)],
+                        btn = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconImg: _icon_url,
                         caption: model.get('name'),
