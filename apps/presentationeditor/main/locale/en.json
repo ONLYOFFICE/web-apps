@@ -119,7 +119,7 @@
   "Common.Views.Plugins.strPlugins": "Plugins",
   "Common.Views.Plugins.textLoading": "Loading",
   "Common.Views.Plugins.textStart": "Start",
-  "Common.Views.Plugins.groupCaption": "Add-ons",
+  "Common.Views.Plugins.groupCaption": "Plugins",
   "Common.Views.RenameDialog.cancelButtonText": "Cancel",
   "Common.Views.RenameDialog.okButtonText": "Ok",
   "Common.Views.RenameDialog.textName": "File name",
