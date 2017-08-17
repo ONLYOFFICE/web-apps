@@ -135,7 +135,7 @@ define([
         function onResetUsers(collection, opts) {
             var usercount = collection.getEditingCount();
             if ( $userList ) {
-                if ( usercount > 1 || usercount > 0 && !appConfig.isEdit) {
+                if ( usercount > 1 || usercount > 0 && appConfig && !appConfig.isEdit) {
                     $userList.html(templateUserList({
                         users: collection.models,
                         usertpl: _.template(templateUserItem),
@@ -157,7 +157,7 @@ define([
         };
 
         function applyUsers(count) {
-            if ( count > 1 || count > 0 && !appConfig.isEdit) {
+            if ( count > 1 || count > 0 && appConfig && !appConfig.isEdit) {
                 $btnUsers
                     .attr('data-toggle', 'dropdown')
                     .addClass('dropdown-toggle')
@@ -174,13 +174,13 @@ define([
             }
 
             $btnUsers.find('.caption')
-                .css({'font-size': ((count > 1  || count > 0 && !appConfig.isEdit) ? '12px' : '14px'),
-                    'margin-top': ((count > 1 || count > 0 && !appConfig.isEdit) ? '0' : '-1px')})
-                .html((count > 1 || count > 0 && !appConfig.isEdit) ? count : '&plus;');
+                .css({'font-size': ((count > 1  || count > 0 && appConfig && !appConfig.isEdit) ? '12px' : '14px'),
+                    'margin-top': ((count > 1 || count > 0 && appConfig && !appConfig.isEdit) ? '0' : '-1px')})
+                .html((count > 1 || count > 0 && appConfig && !appConfig.isEdit) ? count : '&plus;');
 
             var usertip = $btnUsers.data('bs.tooltip');
             if ( usertip ) {
-                usertip.options.title = (count > 1 || count > 0 && !appConfig.isEdit) ? usertip.options.titleExt : usertip.options.titleNorm;
+                usertip.options.title = (count > 1 || count > 0 && appConfig && !appConfig.isEdit) ? usertip.options.titleExt : usertip.options.titleNorm;
                 usertip.setContent();
             }
         }
