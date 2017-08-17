@@ -81,7 +81,7 @@ define([
                                 // '<span class="btn-slot text" id="slot-btn-users"></span>' +
                                 '<section id="tlb-box-users" class="box-cousers dropdown"">' +
                                     '<div class="btn-users">' +
-                                        '<svg class="icon"><use href="#svg-btn-users"></use></svg>' +
+                                        '<svg class="icon"><use xlink:href="#svg-btn-users"></use></svg>' +
                                         '<label class="caption">&plus;</label>' +
                                     '</div>' +
                                     '<div class="cousers-menu dropdown-menu">' +
