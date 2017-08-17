@@ -320,7 +320,7 @@ define([
 
             var header_footer = (_options.buttons && _.size(_options.buttons)>0) ? 85 : 34;
             if (!_options.header) header_footer -= 34;
-            this.bordersOffset = 35;
+            this.bordersOffset = 40;
             _options.width = (Common.Utils.innerWidth()-this.bordersOffset*2-_options.width)<0 ? Common.Utils.innerWidth()-this.bordersOffset*2: _options.width;
             _options.height += header_footer;
             _options.height = (Common.Utils.innerHeight()-this.bordersOffset*2-_options.height)<0 ? Common.Utils.innerHeight()-this.bordersOffset*2: _options.height;
