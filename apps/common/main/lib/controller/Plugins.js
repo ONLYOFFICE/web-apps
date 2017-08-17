@@ -110,6 +110,7 @@ define([
                 var $panel = toolbar.$el.find('#plugins-panel');
                 if ( $panel ) {
                     this.panelPlugins.renderTo( $panel );
+                    this.panelPlugins._onAppReady();
                 }
             }
         },

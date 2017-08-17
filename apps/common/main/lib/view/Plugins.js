@@ -73,6 +73,7 @@ define([
         initialize: function(options) {
             _.extend(this, options);
             this._locked = false;
+            this._pluginsIsInited = false;
             this._state = {
                 DisabledControls: true
             };
@@ -266,7 +267,10 @@ define([
         },
 
         _onAppReady: function (mode) {
+            if (this._pluginsIsInited) return;
+
             var me = this;
+            this._pluginsIsInited = (this.storePlugins.length>0);
             this.storePlugins.each(function(model) {
                 var _plugin_btn = model.get('button');
 
