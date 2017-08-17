@@ -120,7 +120,7 @@ define([
                 $userList.scroller && $userList.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true});
             }
 
-            applyUsers( collection.getOnlineCount() );
+            applyUsers( collection.getEditingCount() );
         };
 
         function onUsersChanged(model, collection) {
@@ -129,13 +129,13 @@ define([
                 $userList.scroller && $userList.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true});
             }
 
-            applyUsers(model.collection.getOnlineCount());
+            applyUsers(model.collection.getEditingCount());
         };
 
         function onResetUsers(collection, opts) {
-            var usercount = collection.getOnlineCount();
+            var usercount = collection.getEditingCount();
             if ( $userList ) {
-                if ( usercount > 1 ) {
+                if ( usercount > 1 || usercount > 0 && !appConfig.isEdit) {
                     $userList.html(templateUserList({
                         users: collection.models,
                         usertpl: _.template(templateUserItem),
@@ -157,7 +157,7 @@ define([
         };
 
         function applyUsers(count) {
-            if ( count > 1 ) {
+            if ( count > 1 || count > 0 && !appConfig.isEdit) {
                 $btnUsers
                     .attr('data-toggle', 'dropdown')
                     .addClass('dropdown-toggle')
@@ -174,13 +174,13 @@ define([
             }
 
             $btnUsers.find('.caption')
-                .css({'font-size': (count > 1 ? '12px' : '14px'),
-                    'margin-top': (count > 1 ? '0' : '-1px')})
-                .html(count > 1 ? count : '&plus;');
+                .css({'font-size': ((count > 1  || count > 0 && !appConfig.isEdit) ? '12px' : '14px'),
+                    'margin-top': ((count > 1 || count > 0 && !appConfig.isEdit) ? '0' : '-1px')})
+                .html((count > 1 || count > 0 && !appConfig.isEdit) ? count : '&plus;');
 
             var usertip = $btnUsers.data('bs.tooltip');
             if ( usertip ) {
-                usertip.options.title = count > 1 ? usertip.options.titleExt : usertip.options.titleNorm;
+                usertip.options.title = (count > 1 || count > 0 && !appConfig.isEdit) ? usertip.options.titleExt : usertip.options.titleNorm;
                 usertip.setContent();
             }
         }
@@ -227,8 +227,9 @@ define([
             $panelUsers.find('.cousers-menu')
                 .on('click', function(e) { return false; });
 
+            var editingUsers = storeUsers.getEditingCount();
             $btnUsers.tooltip({
-                title: 'Manage document access rights',
+                title: (editingUsers > 1 || editingUsers>0 && !appConfig.isEdit) ? me.tipViewUsers : me.tipAccessRights,
                 titleNorm: me.tipAccessRights,
                 titleExt: me.tipViewUsers,
                 placement: 'bottom',
@@ -241,7 +242,7 @@ define([
             $labelChangeRights.on('click', onUsersClick.bind(me));
 
             $labelChangeRights[(!mode.isOffline && !mode.isReviewOnly && mode.sharingSettingsUrl && mode.sharingSettingsUrl.length)?'show':'hide']();
-            $panelUsers[(storeUsers.size() > 1 || !mode.isOffline && !mode.isReviewOnly && mode.sharingSettingsUrl && mode.sharingSettingsUrl.length) ? 'show' : 'hide']();
+            $panelUsers[(editingUsers > 1  || editingUsers > 0 && !appConfig.isEdit || !mode.isOffline && !mode.isReviewOnly && mode.sharingSettingsUrl && mode.sharingSettingsUrl.length) ? 'show' : 'hide']();
 
             if ( $saveStatus ) {
                 $saveStatus.attr('data-width', me.textSaveExpander);

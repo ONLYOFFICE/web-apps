@@ -60,6 +60,15 @@ define([
             return count;
         },
 
+        getEditingCount: function() {
+            var count = 0;
+            this.each(function(user){
+                user.get('online') && !user.get('view') && ++count;
+            });
+
+            return count;
+        },
+
         findUser: function(id) {
             return this.find(
                 function(model){
