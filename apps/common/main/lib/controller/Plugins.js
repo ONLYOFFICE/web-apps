@@ -298,7 +298,7 @@ define([
             else if (this.panelPlugins.iframePlugin)
                 this.panelPlugins.closeInsideMode();
             else {
-                this.panelPlugins.closeNotVisualMode(plugin.guid);
+                this.panelPlugins.closeNotVisualMode(plugin.get_Guid());
             }
         },
 
