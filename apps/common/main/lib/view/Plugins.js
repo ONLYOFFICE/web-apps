@@ -234,7 +234,7 @@ define([
                 this.iframePlugin = null;
             }
             this.currentPluginPanel.toggleClass('hidden', true);
-            this.pluginsPanel.toggleClass('hidden', false);
+            // this.pluginsPanel.toggleClass('hidden', false);
 
             this.fireEvent('plugin:open', [this, 'onboard', 'close']);
         },

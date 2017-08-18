@@ -539,6 +539,13 @@ define([
             if (this.api)
                 this.api.asc_enableKeyEvents(value);
             if (value) $(this.leftMenu.btnAbout.el).blur();
+            if (value && this.leftMenu._state.pluginIsRunning) {
+                this.leftMenu.panelPlugins.show();
+                if (this.mode.canCoAuthoring) {
+                    this.mode.canComments && this.leftMenu.panelComments['hide']();
+                    this.mode.canChat && this.leftMenu.panelChat['hide']();
+                }
+            }
         },
 
         menuFilesShowHide: function(state) {
@@ -645,7 +652,9 @@ define([
                     this.leftMenu.close();
                     this.leftMenu.panelPlugins.show();
                     this.leftMenu.onBtnMenuClick({pressed:true, options: {action: 'plugins'}});
+                    this.leftMenu._state.pluginIsRunning = true;
                 } else {
+                    this.leftMenu._state.pluginIsRunning = false;
                     this.leftMenu.close();
                 }
             }
