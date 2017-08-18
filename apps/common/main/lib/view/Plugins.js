@@ -162,7 +162,7 @@ define([
                         split: modes && modes.length > 1,
                         value: guid,
                         hint: model.get('name')
-                    });
+                        });
 
                     var $slot = $('<span class="slot"></span>').appendTo(_group);
                     btn.render($slot);
@@ -205,7 +205,7 @@ define([
             if (!this.iframePlugin) {
                 this.iframePlugin = document.createElement("iframe");
                 this.iframePlugin.id           = 'plugin_iframe';
-                this.iframePlugin.name         = 'pluginFrameEditor',
+                this.iframePlugin.name         = 'pluginFrameEditor';
                 this.iframePlugin.width        = '100%';
                 this.iframePlugin.height       = '100%';
                 this.iframePlugin.align        = "top";
@@ -239,7 +239,7 @@ define([
             this.fireEvent('plugin:open', [this, 'onboard', 'close']);
         },
 
-        openNotVisualMode: function(pluginGuid) {
+        openedPluginMode: function(pluginGuid) {
             // var rec = this.viewPluginsList.store.findWhere({guid: pluginGuid});
             // if ( rec ) {
             //     this.viewPluginsList.cmpEl.find('#' + rec.get('id')).parent().addClass('selected');
@@ -248,16 +248,25 @@ define([
             var model = this.storePlugins.findWhere({guid: pluginGuid});
             if ( model ) {
                 var _btn = model.get('button');
-                _btn && _btn.toggle(true);
+                if (_btn) {
+                    _btn.toggle(true);
+                    if (_btn.menu && _btn.menu.items.length>0) {
+                        _btn.menu.items[0].setCaption(this.textStop);
+                    }
+                }
             }
         },
 
-        closeNotVisualMode: function(guid) {
+        closedPluginMode: function(guid) {
             // this.viewPluginsList.cmpEl.find('.selected').removeClass('selected');
 
             var model = this.storePlugins.findWhere({guid: guid});
             if ( model ) {
-                model.get('button').toggle(false);
+                var _btn = model.get('button');
+                _btn.toggle(false);
+                if (_btn.menu && _btn.menu.items.length>0) {
+                    _btn.menu.items[0].setCaption(this.textStart);
+                }
             }
         },
 
@@ -306,6 +315,7 @@ define([
         strPlugins: 'Plugins',
         textLoading: 'Loading',
         textStart: 'Start',
+        textStop: 'Stop',
         groupCaption: 'Plugins'
 
     }, Common.Views.Plugins || {}));
