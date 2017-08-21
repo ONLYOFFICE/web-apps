@@ -1580,6 +1580,7 @@
   "SSE.Views.TextArtSettings.txtNoBorders": "No Line",
   "SSE.Views.TextArtSettings.txtPapyrus": "Papyrus",
   "SSE.Views.TextArtSettings.txtWood": "Wood",
+  "SSE.Views.Toolbar.capBtnComment": "Comment",
   "SSE.Views.Toolbar.capInsertChart": "Chart",
   "SSE.Views.Toolbar.capInsertEquation": "Equation",
   "SSE.Views.Toolbar.capInsertHyperlink": "Hyperlink",
