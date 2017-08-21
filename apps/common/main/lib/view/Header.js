@@ -239,7 +239,10 @@ define([
             $btnUsers.on('click', onUsersClick.bind(me));
 
             var $labelChangeRights = $panelUsers.find('#tlb-change-rights');
-            $labelChangeRights.on('click', onUsersClick.bind(me));
+            $labelChangeRights.on('click', function(e) {
+                $panelUsers.removeClass('open');
+                me.fireEvent('click:users', me);
+            });
 
             $labelChangeRights[(!mode.isOffline && !mode.isReviewOnly && mode.sharingSettingsUrl && mode.sharingSettingsUrl.length)?'show':'hide']();
             $panelUsers[(editingUsers > 1  || editingUsers > 0 && !appConfig.isEdit || !mode.isOffline && !mode.isReviewOnly && mode.sharingSettingsUrl && mode.sharingSettingsUrl.length) ? 'show' : 'hide']();
