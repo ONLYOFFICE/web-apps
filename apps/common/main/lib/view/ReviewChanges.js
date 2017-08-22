@@ -563,7 +563,7 @@ define([
                     if ( config.canReview ) {
                         me.btnPrev.updateHint(me.hintPrev);
                         me.btnNext.updateHint(me.hintNext);
-                        me.btnTurnOn.updateHint(me.textChangesOn);
+                        me.btnTurnOn.updateHint(me.tipReview);
 
                         me.btnAccept.setMenu(
                             new Common.UI.Menu({
@@ -722,7 +722,6 @@ define([
                 }, this);
             },
 
-            textChangesOn: 'Preview changes',
             txtAccept: 'Accept',
             txtAcceptCurrent: 'Accept current Changes',
             txtAcceptAll: 'Accept all Changes',

@@ -160,12 +160,14 @@ define([
                 isResized = false;
             
             var reporterObject = (presenter) ? PE.getController('Main').document : null;
-            if (reporterObject)
+            if (reporterObject) {
                 reporterObject.translations = {
                     reset: me.previewPanel.txtReset,
                     endSlideshow: me.previewPanel.txtEndSlideshow,
                     slideOf: me.previewPanel.slideIndexText
                 };
+                reporterObject.token = me.api.asc_getSessionToken();
+            }
 
             if (this.previewPanel && !this.previewPanel.isVisible() && this.api) {
                 this.previewPanel.show();

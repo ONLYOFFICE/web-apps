@@ -110,6 +110,7 @@ define([
                 var $panel = toolbar.$el.find('#plugins-panel');
                 if ( $panel ) {
                     this.panelPlugins.renderTo( $panel );
+                    this.panelPlugins._onAppReady();
                 }
             }
         },
@@ -287,8 +288,8 @@ define([
                     });
                     me.pluginDlg.show();
                 }
-            } else
-                this.panelPlugins.openNotVisualMode(plugin.get_Guid());
+            }
+            this.panelPlugins.openedPluginMode(plugin.get_Guid());
         },
 
         onPluginClose: function(plugin) {
@@ -296,9 +297,7 @@ define([
                 this.pluginDlg.close();
             else if (this.panelPlugins.iframePlugin)
                 this.panelPlugins.closeInsideMode();
-            else {
-                this.panelPlugins.closeNotVisualMode(plugin.guid);
-            }
+            this.panelPlugins.closedPluginMode(plugin.get_Guid());
         },
 
         onPluginResize: function(size, minSize, maxSize, callback ) {

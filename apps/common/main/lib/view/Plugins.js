@@ -73,6 +73,7 @@ define([
         initialize: function(options) {
             _.extend(this, options);
             this._locked = false;
+            this._pluginsIsInited = false;
             this._state = {
                 DisabledControls: true
             };
@@ -95,7 +96,7 @@ define([
                 enableKeyEvents: false,
                 itemTemplate: _.template([
                     '<div id="<%= id %>" class="item-plugins" style="display: block;">',
-                        '<div class="plugin-icon" style="background-image: url(' + '<%= baseUrl %>' + '<%= variations[currentVariation].get("icons")[(window.devicePixelRatio > 1) ? 1 : 0] %>);"></div>',
+                        '<div class="plugin-icon" style="background-image: url(' + '<%= baseUrl %>' + '<%= variations[currentVariation].get("icons")[((window.devicePixelRatio > 1) ? 1 : 0) + (variations[currentVariation].get("icons").length>2 ? 2 : 0)] %>);"></div>',
                         '<% if (variations.length>1) { %>',
                         '<div class="plugin-caret img-commonctrl"></div>',
                         '<% } %>',
@@ -149,10 +150,11 @@ define([
                 var me = this;
                 var _group = $('<div class="group"></div>');
                 this.storePlugins.each(function (model) {
-                    var modes = model.get('variations');
-                    var guid = model.get('guid');
-                    var _icon_url = model.get('baseUrl') + modes[model.get('currentVariation')].get('icons')[(window.devicePixelRatio > 1) ? 1 : 0];
-                    var btn = new Common.UI.Button({
+                    var modes = model.get('variations'),
+                        guid = model.get('guid'),
+                        icons = modes[model.get('currentVariation')].get('icons'),
+                        _icon_url = model.get('baseUrl') + icons[((window.devicePixelRatio > 1) ? 1 : 0) + (icons.length>2 ? 2 : 0)],
+                        btn = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconImg: _icon_url,
                         caption: model.get('name'),
@@ -160,7 +162,7 @@ define([
                         split: modes && modes.length > 1,
                         value: guid,
                         hint: model.get('name')
-                    });
+                        });
 
                     var $slot = $('<span class="slot"></span>').appendTo(_group);
                     btn.render($slot);
@@ -203,7 +205,7 @@ define([
             if (!this.iframePlugin) {
                 this.iframePlugin = document.createElement("iframe");
                 this.iframePlugin.id           = 'plugin_iframe';
-                this.iframePlugin.name         = 'pluginFrameEditor',
+                this.iframePlugin.name         = 'pluginFrameEditor';
                 this.iframePlugin.width        = '100%';
                 this.iframePlugin.height       = '100%';
                 this.iframePlugin.align        = "top";
@@ -232,12 +234,12 @@ define([
                 this.iframePlugin = null;
             }
             this.currentPluginPanel.toggleClass('hidden', true);
-            this.pluginsPanel.toggleClass('hidden', false);
+            // this.pluginsPanel.toggleClass('hidden', false);
 
             this.fireEvent('plugin:open', [this, 'onboard', 'close']);
         },
 
-        openNotVisualMode: function(pluginGuid) {
+        openedPluginMode: function(pluginGuid) {
             // var rec = this.viewPluginsList.store.findWhere({guid: pluginGuid});
             // if ( rec ) {
             //     this.viewPluginsList.cmpEl.find('#' + rec.get('id')).parent().addClass('selected');
@@ -246,16 +248,25 @@ define([
             var model = this.storePlugins.findWhere({guid: pluginGuid});
             if ( model ) {
                 var _btn = model.get('button');
-                _btn && _btn.toggle(true);
+                if (_btn) {
+                    _btn.toggle(true);
+                    if (_btn.menu && _btn.menu.items.length>0) {
+                        _btn.menu.items[0].setCaption(this.textStop);
+                    }
+                }
             }
         },
 
-        closeNotVisualMode: function(guid) {
+        closedPluginMode: function(guid) {
             // this.viewPluginsList.cmpEl.find('.selected').removeClass('selected');
 
             var model = this.storePlugins.findWhere({guid: guid});
             if ( model ) {
-                model.get('button').toggle(false);
+                var _btn = model.get('button');
+                _btn.toggle(false);
+                if (_btn.menu && _btn.menu.items.length>0) {
+                    _btn.menu.items[0].setCaption(this.textStart);
+                }
             }
         },
 
@@ -265,7 +276,10 @@ define([
         },
 
         _onAppReady: function (mode) {
+            if (this._pluginsIsInited) return;
+
             var me = this;
+            this._pluginsIsInited = (this.storePlugins.length>0);
             this.storePlugins.each(function(model) {
                 var _plugin_btn = model.get('button');
 
@@ -301,7 +315,8 @@ define([
         strPlugins: 'Plugins',
         textLoading: 'Loading',
         textStart: 'Start',
-        groupCaption: 'Add-ons'
+        textStop: 'Stop',
+        groupCaption: 'Plugins'
 
     }, Common.Views.Plugins || {}));
 
@@ -315,7 +330,7 @@ define([
 
             var header_footer = (_options.buttons && _.size(_options.buttons)>0) ? 85 : 34;
             if (!_options.header) header_footer -= 34;
-            this.bordersOffset = 25;
+            this.bordersOffset = 40;
             _options.width = (Common.Utils.innerWidth()-this.bordersOffset*2-_options.width)<0 ? Common.Utils.innerWidth()-this.bordersOffset*2: _options.width;
             _options.height += header_footer;
             _options.height = (Common.Utils.innerHeight()-this.bordersOffset*2-_options.height)<0 ? Common.Utils.innerHeight()-this.bordersOffset*2: _options.height;
@@ -407,7 +422,7 @@ define([
             Common.UI.Window.prototype.setWidth.call(this, width + borders_width);
 
             this.$window.css('left',(maxWidth - width - borders_width) / 2);
-            this.$window.css('top',((maxHeight - height - this._headerFooterHeight) / 2) * 0.9);
+            this.$window.css('top',((maxHeight - height - this._headerFooterHeight) / 2));
         },
 
         onWindowResize: function() {

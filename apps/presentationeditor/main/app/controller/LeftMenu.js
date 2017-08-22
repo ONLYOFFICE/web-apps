@@ -530,6 +530,7 @@ define([
         onPluginOpen: function(panel, type, action) {
             if ( type == 'onboard' ) {
                 if ( action == 'open' ) {
+                    this.leftMenu.close();
                     this.leftMenu.btnThumbs.toggle(false, false);
                     this.leftMenu.panelPlugins.show();
                     this.leftMenu.onBtnMenuClick({pressed:true, options: {action: 'plugins'}});

@@ -742,10 +742,12 @@ define([
             if (value) {
                 item = this.cmbRegSettings.store.findWhere({value: value});
                 this.cmbRegSettings.setValue(item ? item.get('value') : Common.util.LanguageInfo.getLocalLanguageName(value)[1]);
+                item && (value = this.cmbRegSettings.getValue());
             } else {
-                this.cmbRegSettings.setValue((this.mode.lang) ? Common.util.LanguageInfo.getLocalLanguageName(parseInt(Common.util.LanguageInfo.getLocalLanguageCode(this.mode.lang)))[1] : 0x0409);
+                value = this.mode.lang ? parseInt(Common.util.LanguageInfo.getLocalLanguageCode(this.mode.lang)) : 0x0409;
+                this.cmbRegSettings.setValue(Common.util.LanguageInfo.getLocalLanguageName(value)[1]);
             }
-            this.updateRegionalExample(this.cmbRegSettings.getValue());
+            this.updateRegionalExample(value);
         },
 
         applySettings: function() {

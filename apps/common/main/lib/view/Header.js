@@ -83,7 +83,7 @@ define([
                                 // '<span class="btn-slot text" id="slot-btn-users"></span>' +
                                 '<section id="tlb-box-users" class="box-cousers dropdown"">' +
                                     '<div class="btn-users">' +
-                                        '<svg class="icon"><use href="#svg-btn-users"></use></svg>' +
+                                        '<svg class="icon"><use xlink:href="#svg-btn-users"></use></svg>' +
                                         '<label class="caption">&plus;</label>' +
                                     '</div>' +
                                     '<div class="cousers-menu dropdown-menu">' +
@@ -122,7 +122,7 @@ define([
                 $userList.scroller && $userList.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true});
             }
 
-            applyUsers( collection.getOnlineCount() );
+            applyUsers( collection.getEditingCount() );
         };
 
         function onUsersChanged(model, collection) {
@@ -131,13 +131,13 @@ define([
                 $userList.scroller && $userList.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true});
             }
 
-            applyUsers(model.collection.getOnlineCount());
+            applyUsers(model.collection.getEditingCount());
         };
 
         function onResetUsers(collection, opts) {
-            var usercount = collection.getOnlineCount();
+            var usercount = collection.getEditingCount();
             if ( $userList ) {
-                if ( usercount > 1 ) {
+                if ( usercount > 1 || usercount > 0 && appConfig && !appConfig.isEdit) {
                     $userList.html(templateUserList({
                         users: collection.models,
                         usertpl: _.template(templateUserItem),
@@ -159,7 +159,7 @@ define([
         };
 
         function applyUsers(count) {
-            if ( count > 1 ) {
+            if ( count > 1 || count > 0 && appConfig && !appConfig.isEdit) {
                 $btnUsers
                     .attr('data-toggle', 'dropdown')
                     .addClass('dropdown-toggle')
@@ -176,13 +176,13 @@ define([
             }
 
             $btnUsers.find('.caption')
-                .css({'font-size': (count > 1 ? '12px' : '14px'),
-                    'margin-top': (count > 1 ? '0' : '-1px')})
-                .html(count > 1 ? count : '&plus;');
+                .css({'font-size': ((count > 1  || count > 0 && appConfig && !appConfig.isEdit) ? '12px' : '14px'),
+                    'margin-top': ((count > 1 || count > 0 && appConfig && !appConfig.isEdit) ? '0' : '-1px')})
+                .html((count > 1 || count > 0 && appConfig && !appConfig.isEdit) ? count : '&plus;');
 
             var usertip = $btnUsers.data('bs.tooltip');
             if ( usertip ) {
-                usertip.options.title = count > 1 ? usertip.options.titleExt : usertip.options.titleNorm;
+                usertip.options.title = (count > 1 || count > 0 && appConfig && !appConfig.isEdit) ? usertip.options.titleExt : usertip.options.titleNorm;
                 usertip.setContent();
             }
         }
@@ -218,8 +218,8 @@ define([
                     var _url = !!me.branding && !!me.branding.logo && !!me.branding.logo.url ?
                         me.branding.logo.url : 'http://www.onlyoffice.com';
 
-                    var newDocumentPage = window.open(_url);
-                    newDocumentPage && newDocumentPage.focus();
+                    // var newDocumentPage = window.open(_url);
+                    // newDocumentPage && newDocumentPage.focus();
                 });
 
             $panelUsers.on('shown.bs.dropdown', function () {
@@ -229,8 +229,9 @@ define([
             $panelUsers.find('.cousers-menu')
                 .on('click', function(e) { return false; });
 
+            var editingUsers = storeUsers.getEditingCount();
             $btnUsers.tooltip({
-                title: 'Manage document access rights',
+                title: (editingUsers > 1 || editingUsers>0 && !appConfig.isEdit) ? me.tipViewUsers : me.tipAccessRights,
                 titleNorm: me.tipAccessRights,
                 titleExt: me.tipViewUsers,
                 placement: 'bottom',
@@ -240,10 +241,13 @@ define([
             $btnUsers.on('click', onUsersClick.bind(me));
 
             var $labelChangeRights = $panelUsers.find('#tlb-change-rights');
-            $labelChangeRights.on('click', onUsersClick.bind(me));
+            $labelChangeRights.on('click', function(e) {
+                $panelUsers.removeClass('open');
+                me.fireEvent('click:users', me);
+            });
 
             $labelChangeRights[(!mode.isOffline && !mode.isReviewOnly && mode.sharingSettingsUrl && mode.sharingSettingsUrl.length)?'show':'hide']();
-            $panelUsers[(storeUsers.size() > 1 || !mode.isOffline && !mode.isReviewOnly && mode.sharingSettingsUrl && mode.sharingSettingsUrl.length) ? 'show' : 'hide']();
+            $panelUsers[(editingUsers > 1  || editingUsers > 0 && !appConfig.isEdit || !mode.isOffline && !mode.isReviewOnly && mode.sharingSettingsUrl && mode.sharingSettingsUrl.length) ? 'show' : 'hide']();
 
             if ( $saveStatus ) {
                 $saveStatus.attr('data-width', me.textSaveExpander);

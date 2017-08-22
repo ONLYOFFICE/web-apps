@@ -119,7 +119,7 @@
                     "expand": true,
                     "cwd": "../apps/spreadsheeteditor/main/resources/img/",
                     "src": [
-                        "**/*.{png,jpg,gif}"
+                        "**/*.{png,jpg,gif,ico}"
                     ],
                     "dest": "../deploy/web-apps/apps/spreadsheeteditor/main/resources/img/"
                 }
