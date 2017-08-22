@@ -53,7 +53,7 @@ define([
                 'Common.Views.Plugins': {
                     'plugin:open': _.bind(this.onPluginOpen, this)
                 },
-                'Statusbar': {
+                'Common.Views.Header': {
                     'click:users': _.bind(this.clickStatusbarUsers, this)
                 },
                 'LeftMenu': {
