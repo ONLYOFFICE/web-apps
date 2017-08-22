@@ -57,10 +57,14 @@ define([
             this.addListeners({
                 'Toolbar': {
                     'render:before' : function (toolbar) {
-                        // var tab = {action: 'plugins', caption: 'Addons'};
-                        // var $panel = me.panelPlugins.getPanel();
-                        //
-                        // toolbar.addTab(tab, $panel, 4);
+                        var appOptions = me.getApplication().getController('Main').appOptions;
+
+                        if ( appOptions.isEdit && !appOptions.isEditMailMerge && !appOptions.isEditDiagram ) {
+                            var tab = {action: 'plugins', caption: me.panelPlugins.groupCaption};
+                            var $panel = me.panelPlugins.getPanel();
+
+                            toolbar.addTab(tab, $panel, 4);     // TODO: clear plugins list in left panel
+                        }
                     }
                 },
                 'Common.Views.Plugins': {
@@ -106,6 +110,7 @@ define([
                 var $panel = toolbar.$el.find('#plugins-panel');
                 if ( $panel ) {
                     this.panelPlugins.renderTo( $panel );
+                    this.panelPlugins._onAppReady();
                 }
             }
         },
@@ -283,17 +288,16 @@ define([
                     });
                     me.pluginDlg.show();
                 }
-            } else
-                this.panelPlugins.openNotVisualMode(plugin.get_Guid());
+            }
+            this.panelPlugins.openedPluginMode(plugin.get_Guid());
         },
 
-        onPluginClose: function() {
+        onPluginClose: function(plugin) {
             if (this.pluginDlg)
                 this.pluginDlg.close();
             else if (this.panelPlugins.iframePlugin)
                 this.panelPlugins.closeInsideMode();
-            else
-                this.panelPlugins.closeNotVisualMode();
+            this.panelPlugins.closedPluginMode(plugin.get_Guid());
         },
 
         onPluginResize: function(size, minSize, maxSize, callback ) {

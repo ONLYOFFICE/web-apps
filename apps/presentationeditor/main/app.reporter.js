@@ -45,8 +45,8 @@ require.config({
     // scripts that do not call define() to register a module
     baseUrl: '../../',
     paths: {
-        jquery          : '../vendor/jquery/jquery',
-        underscore      : '../vendor/underscore/underscore',
+        jquery          : '../vendor/jquery/jquery.min',
+        underscore      : '../vendor/underscore/underscore-min',
         xregexp         : '../vendor/xregexp/xregexp-all-min',
         sockjs          : '../vendor/sockjs/sockjs.min',
         allfonts        : '../../sdkjs/common/AllFonts',
@@ -109,6 +109,7 @@ require([
             docInfo.put_Token(data.token);
         }
 
+        api.preloadReporter(data);
         api.SetThemesPath("../../../../sdkjs/slide/themes/");
         api.asc_setDocInfo( docInfo );
         api.asc_getEditorPermissions();

@@ -313,7 +313,7 @@
                 }
 
                 if (typeof _config.document.fileType === 'string' && _config.document.fileType != '') {
-                    var type = /^(?:(xls|xlsx|ods|csv|xlst|xlsy|gsheet)|(pps|ppsx|ppt|pptx|odp|pptt|ppty|gslides)|(doc|docx|doct|odt|gdoc|txt|rtf|pdf|mht|htm|html|epub|djvu|xps))$/
+                    var type = /^(?:(xls|xlsx|ods|csv|xlst|xlsy|gsheet|xlsm|xlt|xltm|xltx)|(pps|ppsx|ppt|pptx|odp|pptt|ppty|gslides|pot|potm|potx|ppsm|pptm)|(doc|docx|doct|odt|gdoc|txt|rtf|pdf|mht|htm|html|epub|djvu|xps|docm|dot|dotm|dotx))$/
                                     .exec(_config.document.fileType);
                     if (!type) {
                         window.alert("The \"document.fileType\" parameter for the config object is invalid. Please correct it.");
@@ -649,7 +649,7 @@
             app = appMap[config.documentType.toLowerCase()];
         } else
         if (!!config.document && typeof config.document.fileType === 'string') {
-            var type = /^(?:(xls|xlsx|ods|csv|xlst|xlsy|gsheet)|(pps|ppsx|ppt|pptx|odp|pptt|ppty|gslides))$/
+            var type = /^(?:(xls|xlsx|ods|csv|xlst|xlsy|gsheet|xlsm|xlt|xltm|xltx)|(pps|ppsx|ppt|pptx|odp|pptt|ppty|gslides|pot|potm|potx|ppsm|pptm))$/
                             .exec(config.document.fileType);
             if (type) {
                 if (typeof type[1] === 'string') app = appMap['spreadsheet']; else

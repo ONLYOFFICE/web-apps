@@ -108,6 +108,13 @@ define([
 
             Common.NotificationCenter.on('comments:updatefilter',   _.bind(this.onUpdateFilter, this));
             Common.NotificationCenter.on('app:comment:add',         _.bind(this.onAppAddComment, this));
+            Common.NotificationCenter.on('layout:changed', function(area){
+                Common.Utils.asyncCall(function(e) {
+                    if ( e == 'toolbar' && this.view.$el.is(':visible') ) {
+                        this.onAfterShow();
+                    }
+                }, this, area);
+            }.bind(this));
         },
         onLaunch: function () {
             this.collection                     =   this.getApplication().getCollection('Common.Collections.Comments');

@@ -1,7 +1,7 @@
 {
     "name": "presentationeditor",
     "version": "4.3.0",
-    "build": 776,
+    "build": 778,
     "homepage": "http://www.onlyoffice.com",
     "private": true,
     "main": {
@@ -119,7 +119,7 @@
                     "expand": true,
                     "cwd": "../apps/presentationeditor/main/resources/img/",
                     "src": [
-                        "**/*.{png,jpg,gif}"
+                        "**/*.{png,jpg,gif,ico}"
                     ],
                     "dest": "../deploy/web-apps/apps/presentationeditor/main/resources/img/"
                 }
@@ -177,6 +177,15 @@
             "clean": [
                 "../deploy/web-apps/apps/common"
             ]
+        },
+        "reporter": {
+            "uglify": {
+                "src": "../apps/presentationeditor/main/app.reporter.js",
+                "dest": "../deploy/web-apps/apps/presentationeditor/main/app.reporter.js"
+            },
+            "copy": {
+                "../deploy/web-apps/apps/presentationeditor/main/index.reporter.html": "../apps/presentationeditor/main/index.reporter.html.deploy"
+            }
         }
     },
     "mobile": {
@@ -392,6 +401,7 @@
         "deploy": [
             "increment-build",
             "deploy-app-main",
+            "deploy-reporter",
             "deploy-app-mobile",
             "deploy-app-embed"
         ]

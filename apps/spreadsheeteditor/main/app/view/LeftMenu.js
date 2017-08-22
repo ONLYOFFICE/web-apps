@@ -74,6 +74,7 @@ define([
 
         initialize: function () {
             this.minimizedMode = true;
+            this._state = {};
         },
 
         render: function () {
@@ -153,7 +154,8 @@ define([
         onBtnMenuToggle: function(btn, state) {
             if (state) {
                 btn.panel['show']();
-                this.$el.width(SCALE_MIN);
+                if (!this._state.pluginIsRunning)
+                    this.$el.width(SCALE_MIN);
 
                 if (this.btnSearch.isActive())
                     this.btnSearch.toggle(false);
@@ -178,7 +180,7 @@ define([
                     if (!(this.$el.width() > SCALE_MIN)) {
                         this.$el.width(Common.localStorage.getItem('sse-mainmenu-width') || MENU_SCALE_PART);
                     }
-                } else {
+                } else if (!this._state.pluginIsRunning){
                     Common.localStorage.setItem('sse-mainmenu-width',this.$el.width());
                     this.$el.width(SCALE_MIN);
                 }
@@ -208,12 +210,12 @@ define([
                         this.panelChat['hide']();
                }
             }
-            if (this.mode.canPlugins && this.panelPlugins) {
-                if (this.btnPlugins.pressed) {
-                    this.panelPlugins.show();
-                } else
-                    this.panelPlugins['hide']();
-            }
+            // if (this.mode.canPlugins && this.panelPlugins) {
+            //     if (this.btnPlugins.pressed) {
+            //         this.panelPlugins.show();
+            //     } else
+            //         this.panelPlugins['hide']();
+            // }
         },
 
         setOptionsPanel: function(name, panel) {
@@ -241,7 +243,8 @@ define([
 
         close: function(menu) {
             this.btnAbout.toggle(false);
-            this.$el.width(SCALE_MIN);
+            if (!this._state.pluginIsRunning)
+                this.$el.width(SCALE_MIN);
             /** coauthoring begin **/
             if (this.mode.canCoAuthoring) {
                 if (this.mode.canComments) {
@@ -256,7 +259,7 @@ define([
                 }
             }
             /** coauthoring end **/
-            if (this.mode.canPlugins && this.panelPlugins) {
+            if (this.mode.canPlugins && this.panelPlugins && !this._state.pluginIsRunning) {
                 this.panelPlugins['hide']();
                 this.btnPlugins.toggle(false, true);
             }

@@ -100,9 +100,18 @@
         border: 0 none;
         cursor: default;
 
-        &:focus {
-            cursor: text;
+        &:hover:not(:disabled) {
+            border: 1px solid @gray-dark;
+            background-color: rgba(255,255,255,0.2);
         }
+
+        &:focus:not(:active) {
+            border: 1px solid @gray-dark;
+            cursor: text;
+            background-color: white;
+            color: @gray-deep;
+        }
+        width: 100%;
     }
 
     #rib-save-status {
@@ -125,7 +134,7 @@
     #header-logo {
         max-width: 200px;
         height: 100%;
-        cursor: pointer;
+        //cursor: pointer;
         padding: 7px 24px 7px 12px;
 
         i {

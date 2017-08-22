@@ -47,11 +47,13 @@ define([
         initialize: function() {
 
             this.addListeners({
-                /** coauthoring begin **/
                 'Common.Views.Chat': {
                     'hide': _.bind(this.onHideChat, this)
                 },
-                'Statusbar': {
+                'Common.Views.Plugins': {
+                    'plugin:open': _.bind(this.onPluginOpen, this)
+                },
+                'Common.Views.Header': {
                     'click:users': _.bind(this.clickStatusbarUsers, this)
                 },
                 'LeftMenu': {
@@ -60,7 +62,6 @@ define([
                     'comments:show': _.bind(this.commentsShowHide, this, true),
                     'comments:hide': _.bind(this.commentsShowHide, this, false)
                 },
-                /** coauthoring end **/
                 'Common.Views.About': {
                     'show':    _.bind(this.aboutShowHide, this, true),
                     'hide':    _.bind(this.aboutShowHide, this, false)
@@ -161,6 +162,14 @@ define([
             this.leftMenu.setMode(mode);
             this.leftMenu.getMenu('file').setMode(mode);
 
+            if (!mode.isEdit)  // TODO: unlock 'save as', 'open file menu' for 'view' mode
+                Common.util.Shortcuts.removeShortcuts({
+                    shortcuts: {
+                        'command+shift+s,ctrl+shift+s': _.bind(this.onShortcut, this, 'save'),
+                        'alt+f': _.bind(this.onShortcut, this, 'file')
+                    }
+                });
+
             return this;
         },
 
@@ -188,7 +197,7 @@ define([
 
         enablePlugins: function() {
             if (this.mode.canPlugins) {
-                this.leftMenu.btnPlugins.show();
+                // this.leftMenu.btnPlugins.show();
                 this.leftMenu.setOptionsPanel('plugins', this.getApplication().getController('Common.Controllers.Plugins').getView('Common.Views.Plugins'));
             } else
                 this.leftMenu.btnPlugins.hide();
@@ -598,6 +607,13 @@ define([
                 this.api.asc_enableKeyEvents(!state);
 
                 if (!state) $(this.leftMenu.btnAbout.el).blur();
+                if (!state && this.leftMenu._state.pluginIsRunning) {
+                    this.leftMenu.panelPlugins.show();
+                    if (this.mode.canCoAuthoring) {
+                        this.mode.canComments && this.leftMenu.panelComments['hide']();
+                        this.mode.canChat && this.leftMenu.panelChat['hide']();
+                    }
+                }
             }
         },
 
@@ -639,9 +655,11 @@ define([
                     }
                     return false;
                 case 'help':
-                    Common.UI.Menu.Manager.hideAll();
-                    this.api.asc_closeCellEditor();
-                    this.leftMenu.showMenu('file:help');
+                    if ( this.mode.isEdit ) {                   // TODO: unlock 'help' panel for 'view' mode
+                        Common.UI.Menu.Manager.hideAll();
+                        this.api.asc_closeCellEditor();
+                        this.leftMenu.showMenu('file:help');
+                    }
 
                     return false;
                 case 'file':
@@ -719,6 +737,20 @@ define([
             if (this.mode.canPlugins && this.leftMenu.panelPlugins) {
                 this.leftMenu.panelPlugins.setLocked(isEditFormula);
                 this.leftMenu.panelPlugins.disableControls(isEditFormula);
+            }
+        },
+
+        onPluginOpen: function(panel, type, action) {
+            if ( type == 'onboard' ) {
+                if ( action == 'open' ) {
+                    this.leftMenu.close();
+                    this.leftMenu.panelPlugins.show();
+                    this.leftMenu.onBtnMenuClick({pressed:true, options: {action: 'plugins'}});
+                    this.leftMenu._state.pluginIsRunning = true;
+                } else {
+                    this.leftMenu._state.pluginIsRunning = false;
+                    this.leftMenu.close();
+                }
             }
         },
 

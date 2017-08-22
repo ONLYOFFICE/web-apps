@@ -130,7 +130,7 @@ define([
             '<% } %>';
 
     var templateHugeCaption =
-            '<button type="button" class="btn <%= cls %>">' +
+            '<button type="button" class="btn <%= cls %>" id="<%= id %>" > ' +
                 '<div class="inner-box-icon">' +
                     templateBtnIcon +
                 '</div>' +
@@ -155,11 +155,15 @@ define([
     var templateHugeSplitCaption =
         '<div class="btn-group x-huge split icon-top" id="<%= id %>" style="<%= style %>">' +
             '<button type="button" class="btn <%= cls %> inner-box-icon">' +
-                templateBtnIcon +
+                '<span class="btn-fixflex-hcenter">' +
+                    templateBtnIcon +
+                '</span>' +
             '</button>' +
             '<button type="button" class="btn <%= cls %> inner-box-caption dropdown-toggle" data-toggle="dropdown">' +
                 '<span class="caption"><%= caption %></span>' +
-                '<i class="caret img-commonctrl"></i>' +
+                '<span class="btn-fixflex-vcenter">' +
+                    '<i class="caret img-commonctrl"></i>' +
+                '</span>' +
             '</button>' +
         '</div>';
 

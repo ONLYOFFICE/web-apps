@@ -138,12 +138,12 @@ define([
                     {
                         title: 'Left arrow callout',
                         thumb: 'shape-15.svg',
-                        type: 'leftArrowCallout'
+                        type: 'leftArrow'
                     },
                     {
                         title: 'Right arrow callout',
                         thumb: 'shape-16.svg',
-                        type: 'rightArrowCallout'
+                        type: 'bentUpArrow'
                     },
                     {
                         title: 'Flow chart off page connector',

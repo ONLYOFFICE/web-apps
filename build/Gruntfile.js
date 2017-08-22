@@ -239,6 +239,26 @@ module.exports = function(grunt) {
         });
     });
 
+    grunt.registerTask('deploy-reporter', function(){
+        grunt.initConfig({
+            pkg: packageFile,
+            uglify: {
+                options: {
+                    banner: copyright
+                },
+                build: {
+                    files: {
+                        "<%= pkg.main.reporter.uglify.dest %>": packageFile.main.reporter.uglify.src
+                    }
+                }
+            },
+            copy: packageFile.main.reporter.copy
+        });
+
+
+        grunt.task.run(['uglify', 'copy']);
+    });
+
     grunt.registerTask('mobile-app-init', function() {
         grunt.initConfig({
             pkg: packageFile,

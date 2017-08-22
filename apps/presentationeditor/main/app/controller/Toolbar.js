@@ -825,8 +825,8 @@ define([
             }
         },
 
-        onPreview: function(slidenum) {
-            Common.NotificationCenter.trigger('preview:start', _.isNumber(slidenum) ? slidenum : 0);
+        onPreview: function(slidenum, presenter) {
+            Common.NotificationCenter.trigger('preview:start', _.isNumber(slidenum) ? slidenum : 0, presenter);
         },
 
         onPreviewBtnClick: function(btn, e) {
@@ -842,6 +842,9 @@ define([
                     this.onPreview(this.api.getCurrentPage());
                 break;
                 case 2:
+                    this.onPreview(0, true);
+                break;
+                case 3:
                     var win,
                         me = this,
                         selectedElements = me.api.getSelectedElements(),
@@ -2074,6 +2077,7 @@ define([
                     /x-huge/.test(el.className) && (_cls += ' x-huge icon-top');
 
                     var button = new Common.UI.Button({
+                        id: 'tlbtn-addcomment-' + index,
                         cls: _cls,
                         iconCls: 'btn-menu-comments',
                         lock: [_set.lostConnect, _set.noSlides],

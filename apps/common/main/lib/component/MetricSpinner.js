@@ -494,10 +494,10 @@ define([
                 var v_out = value;
                 // to sec
                 if (fromUnit=='ms' || fromUnit=='мс')
-                    v_out = v_out/1000.;
+                    v_out = parseFloat((v_out/1000.).toFixed(6));
                 // from sec
                 if (this.options.defaultUnit=='ms' || this.options.defaultUnit=='мс')
-                    v_out = v_out*1000;
+                    v_out = parseFloat((v_out*1000).toFixed(6));
                 return v_out;
             }
 
@@ -517,13 +517,13 @@ define([
 
             // from mm
             if (this.options.defaultUnit=='cm' || this.options.defaultUnit=='см')
-                v_out = v_out/10.;
+                v_out = parseFloat((v_out/10.).toFixed(6));
             else if (this.options.defaultUnit=='pt' || this.options.defaultUnit=='пт')
                 v_out = parseFloat((v_out * 72.0 / 25.4).toFixed(3));
             else if (this.options.defaultUnit=='\"')
                 v_out = parseFloat((v_out / 25.4).toFixed(3));
             else if (this.options.defaultUnit=='pc')
-                v_out = v_out * 6.0 / 25.4;
+                v_out = parseFloat((v_out * 6.0 / 25.4).toFixed(6));
 
             return v_out;
         }

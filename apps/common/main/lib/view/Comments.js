@@ -759,7 +759,8 @@ define([
         },
         loadText: function () {
             if (this.textVal && this.commentsView) {
-                this.commentsView.getTextBox().val(this.textVal);
+                var textBox = this.commentsView.getTextBox();
+                textBox && textBox.val(this.textVal);
             }
         },
         getEditText: function () {

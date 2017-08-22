@@ -57,7 +57,6 @@ define([
         initialize: function() {
 
             this.addListeners({
-                /** coauthoring begin **/
                 'Common.Views.Chat': {
                     'hide': _.bind(this.onHideChat, this)
                 },
@@ -68,14 +67,16 @@ define([
                             this.clickMenuFileItem('header', 'history');
                     }.bind(this)
                 },
-                'LeftMenu': {
-                    'comments:show': _.bind(this.commentsShowHide, this, 'show'),
-                    'comments:hide': _.bind(this.commentsShowHide, this, 'hide')
-                },
-                /** coauthoring end **/
                 'Common.Views.About': {
                     'show':    _.bind(this.aboutShowHide, this, false),
                     'hide':    _.bind(this.aboutShowHide, this, true)
+                },
+                'Common.Views.Plugins': {
+                    'plugin:open': _.bind(this.onPluginOpen, this)
+                },
+                'LeftMenu': {
+                    'comments:show': _.bind(this.commentsShowHide, this, 'show'),
+                    'comments:hide': _.bind(this.commentsShowHide, this, 'hide')
                 },
                 'FileMenu': {
                     'menu:hide': _.bind(this.menuFilesShowHide, this, 'hide'),
@@ -160,6 +161,14 @@ define([
             this.leftMenu.setMode(mode);
             this.leftMenu.getMenu('file').setMode(mode);
 
+            if (!mode.isEdit)  // TODO: unlock 'save as', 'open file menu' for 'view' mode
+                Common.util.Shortcuts.removeShortcuts({
+                    shortcuts: {
+                        'command+shift+s,ctrl+shift+s': _.bind(this.onShortcut, this, 'save'),
+                        'alt+f': _.bind(this.onShortcut, this, 'file')
+                    }
+                });
+
             return this;
         },
 
@@ -190,7 +199,7 @@ define([
 
         enablePlugins: function() {
             if (this.mode.canPlugins) {
-                this.leftMenu.btnPlugins.show();
+                // this.leftMenu.btnPlugins.show();
                 this.leftMenu.setOptionsPanel('plugins', this.getApplication().getController('Common.Controllers.Plugins').getView('Common.Views.Plugins'));
             } else
                 this.leftMenu.btnPlugins.hide();
@@ -530,6 +539,13 @@ define([
             if (this.api)
                 this.api.asc_enableKeyEvents(value);
             if (value) $(this.leftMenu.btnAbout.el).blur();
+            if (value && this.leftMenu._state.pluginIsRunning) {
+                this.leftMenu.panelPlugins.show();
+                if (this.mode.canCoAuthoring) {
+                    this.mode.canComments && this.leftMenu.panelComments['hide']();
+                    this.mode.canChat && this.leftMenu.panelChat['hide']();
+                }
+            }
         },
 
         menuFilesShowHide: function(state) {
@@ -576,8 +592,10 @@ define([
                     }
                     return false;
                 case 'help':
-                    Common.UI.Menu.Manager.hideAll();
-                    this.leftMenu.showMenu('file:help');
+                    if ( this.mode.isEdit ) {                   // TODO: unlock 'help' for 'view' mode
+                        Common.UI.Menu.Manager.hideAll();
+                        this.leftMenu.showMenu('file:help');
+                    }
                     return false;
                 case 'file':
                     Common.UI.Menu.Manager.hideAll();
@@ -625,6 +643,20 @@ define([
                     }
                     return false;
             /** coauthoring end **/
+            }
+        },
+
+        onPluginOpen: function(panel, type, action) {
+            if ( type == 'onboard' ) {
+                if ( action == 'open' ) {
+                    this.leftMenu.close();
+                    this.leftMenu.panelPlugins.show();
+                    this.leftMenu.onBtnMenuClick({pressed:true, options: {action: 'plugins'}});
+                    this.leftMenu._state.pluginIsRunning = true;
+                } else {
+                    this.leftMenu._state.pluginIsRunning = false;
+                    this.leftMenu.close();
+                }
             }
         },
 

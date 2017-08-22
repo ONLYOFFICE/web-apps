@@ -552,7 +552,7 @@ define([
                     toolbarView = toolbarController.getView();
 
                 if (this.appOptions.isEdit && toolbarView && (toolbarView.btnInsertShape.pressed || toolbarView.btnInsertText.pressed) &&
-                    ( !_.isObject(arguments[1]) || arguments[1].id !== 'tlb-btn-insshape')) { // TODO: Event from api is needed to clear btnInsertShape state
+                    ( !_.isObject(arguments[1]) || arguments[1].id !== 'tlbtn-insertshape')) { // TODO: Event from api is needed to clear btnInsertShape state
                     if (this.api)
                         this.api.StartAddShape('', false);
 

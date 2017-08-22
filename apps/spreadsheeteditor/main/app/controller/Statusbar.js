@@ -103,6 +103,7 @@ define([
             /** coauthoring end **/
             this.api.asc_registerCallback('asc_onError', _.bind(this.onError, this));
             this.api.asc_registerCallback('asc_onFilterInfo',   _.bind(this.onApiFilterInfo , this));
+            this.api.asc_registerCallback('asc_onActiveSheetChanged', _.bind(this.onApiActiveSheetChanged, this));
 
             this.statusbar.setApi(api);
         },
@@ -618,10 +619,13 @@ define([
             }
         },
 
-
         onError: function(id, level, errData) {
             if (id == Asc.c_oAscError.ID.LockedWorksheetRename)
                 this.statusbar.update();
+        },
+
+        onApiActiveSheetChanged: function (index) {
+            this.statusbar.tabMenu.hide();
         },
 
         zoomText        : 'Zoom {0}%',

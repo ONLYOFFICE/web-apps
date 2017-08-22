@@ -154,25 +154,41 @@ define([
             Common.NotificationCenter.trigger('window:resize');
         },
 
-        onPreviewStart: function(slidenum) {
+        onPreviewStart: function(slidenum, presenter) {
             this.previewPanel = this.previewPanel || PE.getController('Viewport').getView('DocumentPreview');
             var me = this,
                 isResized = false;
+            
+            var reporterObject = (presenter) ? PE.getController('Main').document : null;
+            if (reporterObject) {
+                reporterObject.translations = {
+                    reset: me.previewPanel.txtReset,
+                    endSlideshow: me.previewPanel.txtEndSlideshow,
+                    slideOf: me.previewPanel.slideIndexText
+                };
+                reporterObject.token = me.api.asc_getSessionToken();
+            }
+
             if (this.previewPanel && !this.previewPanel.isVisible() && this.api) {
                 this.previewPanel.show();
                 var _onWindowResize = function() {
                     if (isResized) return;
                     isResized = true;
                     Common.NotificationCenter.off('window:resize', _onWindowResize);
-                    me.api.StartDemonstration('presentation-preview', _.isNumber(slidenum) ? slidenum : 0, PE.getController('Main').document);
+                    me.api.StartDemonstration('presentation-preview', _.isNumber(slidenum) ? slidenum : 0, reporterObject);
                     Common.component.Analytics.trackEvent('Viewport', 'Preview');
                 };
                 if (!me.viewport.mode.isDesktopApp && !Common.Utils.isIE11) {
                     Common.NotificationCenter.on('window:resize', _onWindowResize);
                     me.fullScreen(document.documentElement);
-                    setTimeout(function(){
+
+                    if (!reporterObject) {
+                        setTimeout(function(){
+                            _onWindowResize();
+                        }, 100);
+                    } else {
                         _onWindowResize();
-                    }, 100);
+                    }
                 } else
                     _onWindowResize();
             }
@@ -191,6 +207,5 @@ define([
                 }
             }
         }
-
     });
 });
