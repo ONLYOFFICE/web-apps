@@ -422,7 +422,7 @@ define([
             Common.UI.Window.prototype.setWidth.call(this, width + borders_width);
 
             this.$window.css('left',(maxWidth - width - borders_width) / 2);
-            this.$window.css('top',((maxHeight - height - this._headerFooterHeight) / 2));
+            this.$window.css('top',(maxHeight - height - this._headerFooterHeight) / 2);
         },
 
         onWindowResize: function() {
