@@ -655,7 +655,7 @@ define([
                 el: $('#slide-button-from-file')
             });
             this.btnInsertFromFile.on('click', _.bind(function(btn){
-                if (this.api) this.api.ChangeSlideImageFromFile();
+                if (this.api) this.api.ChangeSlideImageFromFile(this.BlipFillType);
                 this.fireEvent('editcomplete', this);
             }, this));
             this.FillItems.push(this.btnInsertFromFile);

@@ -1104,7 +1104,7 @@ define([
             this.lockedControls.push(this.btnInsertFromUrl);
 
             this.btnInsertFromFile.on('click', _.bind(function(btn){
-                if (this.api) this.api.ChangeArtImageFromFile();
+                if (this.api) this.api.ChangeArtImageFromFile(this.BlipFillType);
                 this.fireEvent('editcomplete', this);
             }, this));
             this.btnInsertFromUrl.on('click', _.bind(this.insertFromUrl, this));
