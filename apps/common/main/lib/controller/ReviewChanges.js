@@ -521,7 +521,10 @@ define([
             app.getController('RightMenu').SetDisabled(disable, false);
             app.getController('Statusbar').getView('Statusbar').SetDisabled(disable);
             app.getController('DocumentHolder').getView().SetDisabled(disable);
-            app.getController('LeftMenu').leftMenu.btnComments.setDisabled(disable);
+
+            var leftMenu = app.getController('LeftMenu').leftMenu;
+            leftMenu.btnComments.setDisabled(disable);
+            if (disable) leftMenu.close();
 
             if (this.view) {
                 var group = this.view.$el.find('.move-changes');
