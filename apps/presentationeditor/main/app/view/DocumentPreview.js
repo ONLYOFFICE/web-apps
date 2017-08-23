@@ -315,6 +315,7 @@ define([
                 this.api.asc_registerCallback('asc_onCountPages',   _.bind(this.onCountSlides, this));
                 this.api.asc_registerCallback('asc_onEndDemonstration',  _.bind(this.onEndDemonstration, this));
                 this.api.asc_registerCallback('asc_onDemonstrationSlideChanged',  _.bind(this.onDemonstrationSlideChanged, this));
+                this.api.asc_registerCallback('asc_onDemonstrationStatus',  _.bind(this.onDemonstrationStatus, this));
                 this.api.DemonstrationEndShowMessage(this.txtFinalMessage);
             }
             return this;
@@ -350,6 +351,12 @@ define([
         onEndDemonstration: function( ) {
             this.hide();
             this.fullScreenCancel();
+        },
+
+        onDemonstrationStatus: function(status) {
+            var iconEl = $('.icon', this.btnPlay.cmpEl);
+            iconEl.toggleClass('btn-pause', status=="play");
+            this.btnPlay.updateHint((status=="play") ? this.txtPause : this.txtPlay);
         },
 
         toggleFullScreen: function() {
