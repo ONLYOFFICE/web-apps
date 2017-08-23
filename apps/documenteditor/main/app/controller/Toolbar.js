@@ -1363,9 +1363,9 @@ define([
                                 me.api.put_Table(value.columns, value.rows);
                             }
 
-                            Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                             Common.component.Analytics.trackEvent('ToolBar', 'Table');
                         }
+                        Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                     }
                 })).show();
             }

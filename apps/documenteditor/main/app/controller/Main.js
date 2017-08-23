@@ -1306,6 +1306,20 @@ define([
                                 this.api.asc_DownloadAs();
                             else
                                 (this.appOptions.canDownload) ? this.getApplication().getController('LeftMenu').leftMenu.showMenu('file:saveas') : this.api.asc_DownloadOrigin();
+                        } else if (id == Asc.c_oAscError.ID.SplitCellMaxRows || id == Asc.c_oAscError.ID.SplitCellMaxCols || id == Asc.c_oAscError.ID.SplitCellRowsDivider) {
+                            var me = this;
+                            setTimeout(function(){
+                                (new Common.Views.InsertTableDialog({
+                                    split: true,
+                                    handler: function(result, value) {
+                                        if (result == 'ok') {
+                                            if (me.api)
+                                                me.api.SplitCell(value.columns, value.rows);
+                                        }
+                                        me.onEditComplete();
+                                    }
+                                })).show();
+                            },10);
                         }
                         this._state.lostEditingRights = false;
                         this.onEditComplete();
@@ -1760,7 +1774,7 @@ define([
                                 Common.localStorage.setItem("de-settings-showchanges-strict", 'last');
                                 this.api.SetCollaborativeMarksShowType(Asc.c_oAscCollaborativeMarksShowType.LastChanges);
                             }
-                            this.fireEvent('editcomplete', this);
+                            this.onEditComplete();
                         }, this)
                     });
             },

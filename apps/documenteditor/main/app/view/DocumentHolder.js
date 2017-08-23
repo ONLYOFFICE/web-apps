@@ -2314,10 +2314,9 @@ define([
                                 if (me.api) {
                                     me.api.SplitCell(value.columns, value.rows);
                                 }
-                                me.fireEvent('editcomplete', me);
-
                                 Common.component.Analytics.trackEvent('DocumentHolder', 'Table');
                             }
+                            me.fireEvent('editcomplete', me);
                         }
                     })).show();
                 }

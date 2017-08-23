@@ -1061,6 +1061,20 @@ define([
                         if (id == Asc.c_oAscError.ID.Warning && btn == 'ok' && this.appOptions.canDownload) {
                             Common.UI.Menu.Manager.hideAll();
                             (this.appOptions.isDesktopApp && this.appOptions.isOffline) ? this.api.asc_DownloadAs() : this.getApplication().getController('LeftMenu').leftMenu.showMenu('file:saveas');
+                        } else if (id == Asc.c_oAscError.ID.SplitCellMaxRows || id == Asc.c_oAscError.ID.SplitCellMaxCols || id == Asc.c_oAscError.ID.SplitCellRowsDivider) {
+                            var me = this;
+                            setTimeout(function(){
+                                (new Common.Views.InsertTableDialog({
+                                    split: true,
+                                    handler: function(result, value) {
+                                        if (result == 'ok') {
+                                            if (me.api)
+                                                me.api.SplitCell(value.columns, value.rows);
+                                        }
+                                        me.onEditComplete();
+                                    }
+                                })).show();
+                            },10);
                         }
                         this._state.lostEditingRights = false;
                         this.onEditComplete();
