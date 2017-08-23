@@ -520,7 +520,7 @@ define([
             app.getController('Toolbar').DisableToolbar(disable, false, true);
             app.getController('RightMenu').SetDisabled(disable, false);
             app.getController('Statusbar').getView('Statusbar').SetDisabled(disable);
-            // app.getController('DocumentHolder').getView('DocumentHolder').SetDisabled(disable);
+            app.getController('DocumentHolder').getView().SetDisabled(disable);
             app.getController('LeftMenu').leftMenu.btnComments.setDisabled(disable);
 
             if (this.view) {
