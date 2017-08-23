@@ -114,14 +114,17 @@ define([
                     'menu:show': this.onFileMenu.bind(this, 'show')
                 },
                 'Common.Views.Header': {
-                    'print': this.onPrint.bind(this),
+                    'print': function (opts) {
+                        var _main = this.getApplication().getController('Main');
+                        _main.onPrint();
+                    },
                     'downloadas': function (opts) {
                         var _main = this.getApplication().getController('Main');
                         var _file_type = _main.document.fileType,
                             _format;
                         if ( !!_file_type ) {
                             if ( /^pdf|xps|djvu/i.test(_file_type) ) {
-                                this.api.asc_DownloadOrigin();
+                                _main.api.asc_DownloadOrigin();
                                 return;
                             } else {
                                 _format = Asc.c_oAscFileType[ _file_type.toUpperCase() ];

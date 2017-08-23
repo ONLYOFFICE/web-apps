@@ -128,7 +128,10 @@ define([
                     'menu:show': this.onFileMenu.bind(this, 'show')
                 },
                 'Common.Views.Header': {
-                    'print': this.onPrint.bind(this),
+                    'print': function (opts) {
+                        var _main = this.getApplication().getController('Main');
+                        _main.onPrint();
+                    },
                     'downloadas': function (opts) {
                         var _main = this.getApplication().getController('Main');
                         var _file_type = _main.document.fileType,
