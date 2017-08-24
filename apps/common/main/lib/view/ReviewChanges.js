@@ -787,11 +787,11 @@ define([
             tipReview: 'Review',
             txtAcceptChanges: 'Accept Changes',
             txtRejectChanges: 'Reject Changes',
-            txtView: 'Set View',
-            txtMarkup: 'Markup',
-            txtFinal: 'Final',
-            txtOriginal: 'Original',
-            tipReviewView: 'Display for Review'
+            txtView: 'Display Mode',
+            txtMarkup: 'All changes (Editing)',
+            txtFinal: 'All changes accepted (Preview)',
+            txtOriginal: 'All changes rejected (Preview)',
+            tipReviewView: 'Select the way you want the changes to be displayed'
         }
     }()), Common.Views.ReviewChanges || {}));
 
