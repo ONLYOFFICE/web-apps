@@ -254,17 +254,17 @@ define([
                     toolbar.mnuBorderWidth.on('item:toggle',                    _.bind(this.onBordersWidth, this));
                     toolbar.mnuBorderColorPicker.on('select',                   _.bind(this.onBordersColor, this));
                 }
-                toolbar.btnAlignLeft.on('click',                            _.bind(this.onHorizontalAlign, this, 'left'));
-                toolbar.btnAlignCenter.on('click',                          _.bind(this.onHorizontalAlign, this, 'center'));
-                toolbar.btnAlignRight.on('click',                           _.bind(this.onHorizontalAlign, this, 'right'));
-                toolbar.btnAlignJust.on('click',                            _.bind(this.onHorizontalAlign, this, 'justify'));
+                toolbar.btnAlignLeft.on('click',                            _.bind(this.onHorizontalAlign, this, AscCommon.align_Left));
+                toolbar.btnAlignCenter.on('click',                          _.bind(this.onHorizontalAlign, this, AscCommon.align_Center));
+                toolbar.btnAlignRight.on('click',                           _.bind(this.onHorizontalAlign, this, AscCommon.align_Right));
+                toolbar.btnAlignJust.on('click',                            _.bind(this.onHorizontalAlign, this, AscCommon.align_Justify));
                 toolbar.btnHorizontalAlign.menu.on('item:click',            _.bind(this.onHorizontalAlignMenu, this));
                 toolbar.btnVerticalAlign.menu.on('item:click',              _.bind(this.onVerticalAlignMenu, this));
                 toolbar.btnMerge.on('click',                                _.bind(this.onMergeCellsMenu, this, toolbar.btnMerge.menu, toolbar.btnMerge.menu.items[0]));
                 toolbar.btnMerge.menu.on('item:click',                      _.bind(this.onMergeCellsMenu, this));
-                toolbar.btnAlignTop.on('click',                             _.bind(this.onVerticalAlign, this, 'top'));
-                toolbar.btnAlignMiddle.on('click',                          _.bind(this.onVerticalAlign, this, 'center'));
-                toolbar.btnAlignBottom.on('click',                          _.bind(this.onVerticalAlign, this, 'bottom'));
+                toolbar.btnAlignTop.on('click',                             _.bind(this.onVerticalAlign, this, Asc.c_oAscVAlign.Top));
+                toolbar.btnAlignMiddle.on('click',                          _.bind(this.onVerticalAlign, this, Asc.c_oAscVAlign.Center));
+                toolbar.btnAlignBottom.on('click',                          _.bind(this.onVerticalAlign, this, Asc.c_oAscVAlign.Bottom));
                 toolbar.btnWrap.on('click',                                 _.bind(this.onWrap, this));
                 toolbar.btnTextOrient.menu.on('item:click',                 _.bind(this.onTextOrientationMenu, this));
                 toolbar.btnInsertImage.menu.on('item:click',                _.bind(this.onInsertImageMenu, this));
@@ -602,8 +602,8 @@ define([
         onHorizontalAlign: function(type, btn, e) {
             this._state.pralign = undefined;
             if (this.api) {
-                this.api.asc_setCellAlign(!btn.pressed ? 'none' : type);
-                this.toolbar.btnWrap.allowDepress = !(type == 'justify');
+                this.api.asc_setCellAlign(!btn.pressed ? null : type);
+                this.toolbar.btnWrap.allowDepress = !(type == AscCommon.align_Justify);
             }
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
@@ -622,9 +622,9 @@ define([
 
             this._state.pralign = undefined;
             if (this.api)
-                this.api.asc_setCellAlign(!item.checked ? 'none' : item.value);
+                this.api.asc_setCellAlign(!item.checked ? null : item.value);
 
-            this.toolbar.btnWrap.allowDepress = !(item.value == 'justify');
+            this.toolbar.btnWrap.allowDepress = !(item.value == AscCommon.align_Justify);
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             Common.component.Analytics.trackEvent('ToolBar', 'Horizontal Align');
@@ -642,7 +642,7 @@ define([
 
             this._state.valign = undefined;
             if (this.api)
-                this.api.asc_setCellVertAlign(!item.checked ? 'bottom' : item.value);
+                this.api.asc_setCellVertAlign(!item.checked ? Asc.c_oAscVAlign.Bottom : item.value);
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             Common.component.Analytics.trackEvent('ToolBar', 'Vertical Align');
@@ -651,7 +651,7 @@ define([
         onVerticalAlign: function(type, btn, e) {
             this._state.valign = undefined;
             if (this.api) {
-                this.api.asc_setCellVertAlign(!btn.pressed ? 'bottom' : type);
+                this.api.asc_setCellVertAlign(!btn.pressed ? Asc.c_oAscVAlign.Bottom : type);
             }
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
@@ -1906,10 +1906,10 @@ define([
 
                         var index = -1, align;
                         switch (fontparam) {
-                            case 'left':    index = 0;      align = 'btn-align-left';      break;
-                            case 'center':  index = 1;      align = 'btn-align-center';    break;
-                            case 'right':   index = 2;      align = 'btn-align-right';     break;
-                            case 'justify': index = 3;      align = 'btn-align-just';      break;
+                            case AscCommon.align_Left:    index = 0;      align = 'btn-align-left';      break;
+                            case AscCommon.align_Center:  index = 1;      align = 'btn-align-center';    break;
+                            case AscCommon.align_Right:   index = 2;      align = 'btn-align-right';     break;
+                            case AscCommon.align_Justify: index = 3;      align = 'btn-align-just';      break;
                             default:        index = -255;   align = 'btn-align-left';      break;
                         }
                         if (!(index < 0)) {
@@ -1939,7 +1939,7 @@ define([
                         }
                     }
 
-                    need_disable = (fontparam == 'justify' || selectionType == Asc.c_oAscSelectionType.RangeShapeText);
+                    need_disable = (fontparam == AscCommon.align_Justify || selectionType == Asc.c_oAscSelectionType.RangeShapeText);
                     toolbar.btnTextOrient.menu.items[1].setDisabled(need_disable);
                     toolbar.btnTextOrient.menu.items[2].setDisabled(need_disable);
 
@@ -1951,9 +1951,9 @@ define([
 
                         index = -1;   align = '';
                         switch (fontparam) {
-                            case 'top':    index = 0; align = 'btn-valign-top';     break;
-                            case 'center': index = 1; align = 'btn-valign-middle';  break;
-                            case 'bottom': index = 2; align = 'btn-valign-bottom';  break;
+                            case Asc.c_oAscVAlign.Top:    index = 0; align = 'btn-valign-top';     break;
+                            case Asc.c_oAscVAlign.Center: index = 1; align = 'btn-valign-middle';  break;
+                            case Asc.c_oAscVAlign.Bottom: index = 2; align = 'btn-valign-bottom';  break;
                         }
 
                         if (index > -1) {
