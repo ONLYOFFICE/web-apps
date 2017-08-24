@@ -41,6 +41,17 @@
     z-index: @zindex-tooltip + 1;
 }
 
+.toolbar-group-mask {
+    position: absolute;
+    top: 32px;
+    left: 48px;
+    right: 45px;
+    bottom: 0;
+    opacity: 0;
+    background-color: @gray-light;
+    z-index: @zindex-tooltip + 1;
+}
+
 .item-markerlist {
     .background-ximage('@{app-image-path}/toolbar/bullets-and-numbering.png', '@{app-image-path}/toolbar/bullets-and-numbering@2x.png', 38px);
     width: 38px;

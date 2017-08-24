@@ -2752,23 +2752,30 @@ define([
             this.editMode = false;
         },
 
-        DisableToolbar: function(disable, viewMode) {
+        DisableToolbar: function(disable, viewMode, reviewmode) {
             if (viewMode!==undefined) this.editMode = !viewMode;
             disable = disable || !this.editMode;
 
-            var mask = $('.toolbar-mask');
+            var toolbar_mask = $('.toolbar-mask'),
+                group_mask = $('.toolbar-group-mask'),
+                mask = reviewmode ? group_mask : toolbar_mask;
             if (disable && mask.length>0 || !disable && mask.length==0) return;
 
             var toolbar = this.toolbar;
-            toolbar.$el.find('.toolbar').toggleClass('masked', disable);
-            toolbar.btnHide.setDisabled(disable);
             if(disable) {
-                mask = $("<div class='toolbar-mask'>").appendTo(toolbar.$el.find('.toolbar'));
-                Common.util.Shortcuts.suspendEvents('alt+h');
+                if (reviewmode) {
+                    mask = $("<div class='toolbar-group-mask'>").appendTo(toolbar.$el.find('.toolbar section.panel .group:not(.no-mask):not(.no-group-mask)'));
+                } else
+                    mask = $("<div class='toolbar-mask'>").appendTo(toolbar.$el.find('.toolbar'));
             } else {
                 mask.remove();
-                Common.util.Shortcuts.resumeEvents('alt+h');
             }
+            $('.no-group-mask').css('opacity', (reviewmode || !disable) ? 1 : 0.4);
+
+            disable = disable || (reviewmode ? toolbar_mask.length>0 : group_mask.length>0);
+            toolbar.$el.find('.toolbar').toggleClass('masked', disable);
+            toolbar.btnHide.setDisabled(disable);
+            disable ? Common.util.Shortcuts.suspendEvents('alt+h') : Common.util.Shortcuts.resumeEvents('alt+h');
 
             if ( toolbar.synchTooltip )
                 toolbar.synchTooltip.hide();
