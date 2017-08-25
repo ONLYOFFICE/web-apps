@@ -589,7 +589,7 @@ define([
         },
 
         synchronizeChanges: function() {
-            if ( this.appConfig.canReview ) {
+            if ( this.appConfig && this.appConfig.canReview ) {
                 this.view.markChanges( this.api.asc_HaveRevisionsChanges() );
             }
         },
