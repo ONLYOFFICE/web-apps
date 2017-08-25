@@ -89,7 +89,7 @@ define([
             this.collection     =   this.getApplication().getCollection('Common.Collections.ReviewChanges');
             this.userCollection =   this.getApplication().getCollection('Common.Collections.Users');
 
-            this._state = {posx: -1000, posy: -1000, popoverVisible: false};
+            this._state = {posx: -1000, posy: -1000, popoverVisible: false, previewMode: false};
 
             Common.NotificationCenter.on('reviewchanges:turn', this.onTurnPreview.bind(this));
             Common.NotificationCenter.on('spelling:turn', this.onTurnSpelling.bind(this));
@@ -511,7 +511,12 @@ define([
                     this.api.asc_EndViewModeInReview();
             }
             this.disableEditing(item.value !== 'markup');
+            this._state.previewMode = (item.value !== 'markup');
             Common.NotificationCenter.trigger('edit:complete', this.view);
+        },
+
+        isPreviewChangesMode: function() {
+            return this._state.previewMode;
         },
 
         disableEditing: function(disable) {
