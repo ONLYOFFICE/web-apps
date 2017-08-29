@@ -1888,8 +1888,12 @@ define([
                 this._state.clrshd_asccolor = color;
             }
 
-            if (selectionType == Asc.c_oAscSelectionType.RangeChart || selectionType == Asc.c_oAscSelectionType.RangeChartText)
-                return;
+            var in_chart = (selectionType == Asc.c_oAscSelectionType.RangeChart || selectionType == Asc.c_oAscSelectionType.RangeChartText);
+            if (in_chart !== this._state.in_chart) {
+                toolbar.btnInsertChart.updateHint(in_chart ? toolbar.tipChangeChart : toolbar.tipInsertChart);
+                this._state.in_chart = in_chart;
+            }
+            if (in_chart) return;
 
             if (!toolbar.mode.isEditDiagram)
             {

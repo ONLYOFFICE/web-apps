@@ -1664,6 +1664,7 @@
   "SSE.Views.Toolbar.tipBack": "Back",
   "SSE.Views.Toolbar.tipBorders": "Borders",
   "SSE.Views.Toolbar.tipCellStyle": "Cell Style",
+  "SSE.Views.Toolbar.tipChangeChart": "Change Chart Type",
   "SSE.Views.Toolbar.tipClearStyle": "Clear",
   "SSE.Views.Toolbar.tipColorSchemas": "Change Color Scheme",
   "SSE.Views.Toolbar.tipCopy": "Copy",
