@@ -592,6 +592,7 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'btn-textart',
                     caption: me.capInsertTextArt,
+                    lock        : [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart],
                     menu: new Common.UI.Menu({
                         cls: 'menu-shapes',
                         items: [
@@ -599,7 +600,7 @@ define([
                         ]
                     })
                 });
-                me.paragraphControls.push(me.btnInsertTextArt);
+                me.slideOnlyControls.push(me.btnInsertTextArt);
 
                 me.btnColorSchemas = new Common.UI.Button({
                     id          : 'id-toolbar-btn-colorschemas',

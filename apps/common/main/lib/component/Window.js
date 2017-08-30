@@ -225,7 +225,7 @@ define([
 
             var win_width = (this.initConfig.width=='auto') ? parseInt(this.$window.find('.body').css('width')) : this.initConfig.width;
             
-            var top  = Math.floor(((parseInt(main_height) - parseInt(win_height)) / 2) * 0.9);
+            var top  = Math.floor((parseInt(main_height) - parseInt(win_height)) / 2);
             var left = Math.floor((parseInt(main_width) - parseInt(win_width)) / 2);
 
             this.$window.css('left',left);

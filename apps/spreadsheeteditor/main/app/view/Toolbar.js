@@ -2046,7 +2046,7 @@ define([
         tipInsertEquation:  'Insert Equation',
         textCharts:         'Charts',
         textSparks:         'Sparklines',
-        tipInsertChartSpark: 'Insert Chart or Sparkline',
+        tipInsertChartSpark: 'Insert Chart',
         textMoreFormats: 'More formats',
         capInsertText: 'Text',
         capInsertTextart: 'Text Art',

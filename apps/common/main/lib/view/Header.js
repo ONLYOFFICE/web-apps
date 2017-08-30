@@ -222,6 +222,8 @@ define([
                     // newDocumentPage && newDocumentPage.focus();
                 });
 
+            onResetUsers(storeUsers);
+
             $panelUsers.on('shown.bs.dropdown', function () {
                 $userList.scroller && $userList.scroller.update({minScrollbarLength: 40, alwaysVisibleY: true});
             });

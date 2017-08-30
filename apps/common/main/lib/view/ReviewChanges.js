@@ -423,6 +423,12 @@ define([
                 '<div class="separator long review"/>' +
                 '<div class="group">' +
                     '<span id="btn-review-on" class="btn-slot text x-huge"></span>' +
+                '</div>' +
+                '<div class="group no-group-mask" style="padding-left: 0;">' +
+                    '<span id="btn-review-view" class="btn-slot text x-huge"></span>' +
+                '</div>' +
+                '<div class="separator long review"/>' +
+                '<div class="group move-changes">' +
                     '<span id="btn-change-prev" class="btn-slot text x-huge"></span>' +
                     '<span id="btn-change-next" class="btn-slot text x-huge"></span>' +
                     '<span id="btn-change-accept" class="btn-slot text x-huge"></span>' +
@@ -467,6 +473,10 @@ define([
                 this.btnsTurnReview.forEach(function (button) {
                     button.on('click', _click_turnpreview.bind(me));
                     Common.NotificationCenter.trigger('edit:complete', me);
+                });
+
+                this.btnReviewView.menu.on('item:click', function (menu, item, e) {
+                    me.fireEvent('reviewchanges:view', [menu, item]);
                 });
             }
 
@@ -528,6 +538,13 @@ define([
                         enableToggle: true
                     });
                     this.btnsTurnReview = [this.btnTurnOn];
+
+                    this.btnReviewView = new Common.UI.Button({
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'btn-ic-reviewview',
+                        caption: this.txtView,
+                        menu: true
+                    });
                 }
 
                 this.btnSetSpelling = new Common.UI.Button({
@@ -597,6 +614,35 @@ define([
                         );
                         me.btnReject.updateHint([me.txtRejectCurrent, me.txtRejectChanges]);
 
+                        me.btnReviewView.setMenu(
+                            new Common.UI.Menu({
+                                cls: 'ppm-toolbar',
+                                items: [
+                                    {
+                                        caption: me.txtMarkup,
+                                        checkable: true,
+                                        toggleGroup: 'menuReviewView',
+                                        checked: true,
+                                        value: 'markup'
+                                    },
+                                    {
+                                        caption: me.txtFinal,
+                                        checkable: true,
+                                        toggleGroup: 'menuReviewView',
+                                        checked: false,
+                                        value: 'final'
+                                    },
+                                    {
+                                        caption: me.txtOriginal,
+                                        checkable: true,
+                                        toggleGroup: 'menuReviewView',
+                                        checked: false,
+                                        value: 'original'
+                                    }
+                                ]
+                            }));
+                        me.btnReviewView.updateHint(me.tipReviewView);
+
                         me.btnAccept.setDisabled(config.isReviewOnly);
                         me.btnReject.setDisabled(config.isReviewOnly);
                     } else {
@@ -627,6 +673,7 @@ define([
                     this.btnAccept.render(this.$el.find('#btn-change-accept'));
                     this.btnReject.render(this.$el.find('#btn-change-reject'));
                     this.btnTurnOn.render(this.$el.find('#btn-review-on'));
+                    this.btnReviewView.render(this.$el.find('#btn-review-view'));
                 }
 
                 this.btnSetSpelling.render(this.$el.find('#slot-btn-spelling'));
@@ -739,7 +786,12 @@ define([
             tipSetSpelling: 'Spell checking',
             tipReview: 'Review',
             txtAcceptChanges: 'Accept Changes',
-            txtRejectChanges: 'Reject Changes'
+            txtRejectChanges: 'Reject Changes',
+            txtView: 'Display Mode',
+            txtMarkup: 'All changes (Editing)',
+            txtFinal: 'All changes accepted (Preview)',
+            txtOriginal: 'All changes rejected (Preview)',
+            tipReviewView: 'Select the way you want the changes to be displayed'
         }
     }()), Common.Views.ReviewChanges || {}));
 

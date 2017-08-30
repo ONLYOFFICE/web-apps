@@ -79,7 +79,10 @@ define([
                     'settings:apply': _.bind(this.applyFormulaSettings, this)
                 },
                 'Common.Views.Header': {
-                    'print': this.onPrint.bind(this),
+                    'print': function (opts) {
+                        var _main = this.getApplication().getController('Main');
+                        _main.onPrint();
+                    },
                     'downloadas': function (opts) {
                         var _main = this.getApplication().getController('Main');
                         var _file_type = _main.appOptions.spreadsheet.fileType,
