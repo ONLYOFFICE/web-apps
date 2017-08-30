@@ -1138,7 +1138,7 @@ define([
             this.fillControls.push(this.btnInsertFromUrl);
 
             this.btnInsertFromFile.on('click', _.bind(function(btn){
-                if (this.api) this.api.asc_changeShapeImageFromFile();
+                if (this.api) this.api.asc_changeShapeImageFromFile(this.BlipFillType);
                 Common.NotificationCenter.trigger('edit:complete', this);
             }, this));
             this.btnInsertFromUrl.on('click', _.bind(this.insertFromUrl, this));

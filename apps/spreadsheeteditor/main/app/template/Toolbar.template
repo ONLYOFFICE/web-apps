@@ -122,18 +122,12 @@
                 <div class="separator long"></div>
                 <div class="group">
                     <div class="elset">
-                        <span class="btn-slot" id="slot-btn-clear"></span>
-                    </div>
-                    <div class="elset">
-                        <span class="btn-slot" id="slot-btn-copystyle"></span>
-                    </div>
-                </div>
-                <div class="group">
-                    <div class="elset">
+                        <span class="btn-slot split" id="slot-btn-clear"></span>
                         <span class="btn-slot split" id="slot-btn-colorschemas"></span>
                     </div>
                     <div class="elset">
-                        <span class="btn-slot" id="slot-btn-table-tpl"></span>
+                        <span class="btn-slot split" id="slot-btn-copystyle"></span>
+                        <span class="btn-slot split" id="slot-btn-table-tpl"></span>
                     </div>
                 </div>
                 <div class="group" id="slot-field-styles" style="width: 100%; min-width: 160px;">

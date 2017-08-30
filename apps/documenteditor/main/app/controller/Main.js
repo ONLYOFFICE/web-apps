@@ -607,7 +607,8 @@ define([
                 action = this.stackLongActions.get({type: Asc.c_oAscAsyncActionType.BlockInteraction});
                 action ? this.setLongActionView(action) : this.loadMask && this.loadMask.hide();
 
-                if ((id==Asc.c_oAscAsyncAction['Save'] || id==Asc.c_oAscAsyncAction['ForceSaveButton']) && (!this._state.fastCoauth || this._state.usersCount<2))
+                if ((id==Asc.c_oAscAsyncAction['Save'] || id==Asc.c_oAscAsyncAction['ForceSaveButton']) && (!this._state.fastCoauth || this._state.usersCount<2 ||
+                    this.getApplication().getController('Common.Controllers.ReviewChanges').isPreviewChangesMode()))
                     this.synchronizeChanges();
 
                 if ( type == Asc.c_oAscAsyncActionType.BlockInteraction &&
@@ -1057,6 +1058,8 @@ define([
 
                 this.api.asc_registerCallback('asc_onSendThemeColors', _.bind(this.onSendThemeColors, this));
                 this.api.asc_registerCallback('asc_onDownloadUrl',     _.bind(this.onDownloadUrl, this));
+                this.api.asc_registerCallback('asc_onAuthParticipantsChanged', _.bind(this.onAuthParticipantsChanged, this));
+                this.api.asc_registerCallback('asc_onParticipantsChanged',     _.bind(this.onAuthParticipantsChanged, this));
             },
 
             applyModeEditorElements: function() {
@@ -1118,8 +1121,6 @@ define([
                     /** coauthoring begin **/
                     me.api.asc_registerCallback('asc_onCollaborativeChanges',    _.bind(me.onCollaborativeChanges, me));
                     me.api.asc_registerCallback('asc_OnTryUndoInFastCollaborative',_.bind(me.onTryUndoInFastCollaborative, me));
-                    me.api.asc_registerCallback('asc_onAuthParticipantsChanged', _.bind(me.onAuthParticipantsChanged, me));
-                    me.api.asc_registerCallback('asc_onParticipantsChanged',     _.bind(me.onAuthParticipantsChanged, me));
                     /** coauthoring end **/
 
                     if (me.stackLongActions.exist({id: ApplyEditRights, type: Asc.c_oAscAsyncActionType['BlockInteraction']})) {
@@ -1306,6 +1307,20 @@ define([
                                 this.api.asc_DownloadAs();
                             else
                                 (this.appOptions.canDownload) ? this.getApplication().getController('LeftMenu').leftMenu.showMenu('file:saveas') : this.api.asc_DownloadOrigin();
+                        } else if (id == Asc.c_oAscError.ID.SplitCellMaxRows || id == Asc.c_oAscError.ID.SplitCellMaxCols || id == Asc.c_oAscError.ID.SplitCellRowsDivider) {
+                            var me = this;
+                            setTimeout(function(){
+                                (new Common.Views.InsertTableDialog({
+                                    split: true,
+                                    handler: function(result, value) {
+                                        if (result == 'ok') {
+                                            if (me.api)
+                                                me.api.SplitCell(value.columns, value.rows);
+                                        }
+                                        me.onEditComplete();
+                                    }
+                                })).show();
+                            },10);
                         }
                         this._state.lostEditingRights = false;
                         this.onEditComplete();
@@ -1760,7 +1775,7 @@ define([
                                 Common.localStorage.setItem("de-settings-showchanges-strict", 'last');
                                 this.api.SetCollaborativeMarksShowType(Asc.c_oAscCollaborativeMarksShowType.LastChanges);
                             }
-                            this.fireEvent('editcomplete', this);
+                            this.onEditComplete();
                         }, this)
                     });
             },

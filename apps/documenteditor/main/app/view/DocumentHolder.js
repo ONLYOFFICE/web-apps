@@ -79,6 +79,7 @@ define([
             me.fastcoauthtips = [];
             me._currentMathObj = undefined;
             me._currentParaObjDisabled = false;
+            me._isDisabled = false;
 
             var showPopupMenu = function(menu, value, event, docElement, eOpts){
                 if (!_.isUndefined(menu)  && menu !== null){
@@ -188,6 +189,9 @@ define([
 
             var fillViewMenuProps = function(selectedElements) {
                 if (!selectedElements || !_.isArray(selectedElements)) return;
+
+                if (!me.viewModeMenu)
+                    me.createDelayedElementsViewer();
                 var menu_props = {},
                     menu_to_show = me.viewModeMenu,
                     noobject = true;
@@ -212,7 +216,7 @@ define([
 
             var showObjectMenu = function(event, docElement, eOpts){
                 if (me.api){
-                    var obj = (me.mode.isEdit) ? fillMenuProps(me.api.getSelectedElements()) : fillViewMenuProps(me.api.getSelectedElements());
+                    var obj = (me.mode.isEdit && !me._isDisabled) ? fillMenuProps(me.api.getSelectedElements()) : fillViewMenuProps(me.api.getSelectedElements());
                     if (obj) showPopupMenu(obj.menu_to_show, obj.menu_props, event, docElement, eOpts);
                 }
             };
@@ -229,7 +233,7 @@ define([
 
             var onFocusObject = function(selectedElements) {
                 if (me.currentMenu && me.currentMenu.isVisible() && me.currentMenu !== me.hdrMenu){
-                    var obj = (me.mode.isEdit) ? fillMenuProps(selectedElements) : fillViewMenuProps(selectedElements);
+                    var obj = (me.mode.isEdit && !me._isDisabled) ? fillMenuProps(selectedElements) : fillViewMenuProps(selectedElements);
                     if (obj) {
                         if (obj.menu_to_show===me.currentMenu) {
                             me.currentMenu.options.initMenu(obj.menu_props);
@@ -659,7 +663,7 @@ define([
 
             var onDialogAddHyperlink = function() {
                 var win, props, text;
-                if (me.api && me.mode.isEdit){
+                if (me.api && me.mode.isEdit && !me._isDisabled){
                     var handlerDlg = function(dlg, result) {
                         if (result == 'ok') {
                             props = dlg.getSettings();
@@ -706,7 +710,7 @@ define([
             };
 
             var onDoubleClickOnChart = function(chart) {
-                if (me.mode.isEdit) {
+                if (me.mode.isEdit && !me._isDisabled) {
                     var diagramEditor = DE.getController('Common.Controllers.ExternalDiagramEditor').getView('Common.Views.ExternalDiagramEditor');
                     if (diagramEditor && chart) {
                         diagramEditor.setEditMode(true);
@@ -1814,10 +1818,10 @@ define([
                 initMenu: function (value) {
                     var isInChart = (value.imgProps && value.imgProps.value && !_.isNull(value.imgProps.value.get_ChartProperties()));
 
-                    menuViewUndo.setVisible(me.mode.canCoAuthoring && me.mode.canComments);
-                    menuViewUndo.setDisabled(!me.api.asc_getCanUndo());
-                    menuViewCopySeparator.setVisible(!isInChart && me.api.can_AddQuotedComment() !== false && me.mode.canCoAuthoring && me.mode.canComments);
-                    menuViewAddComment.setVisible(!isInChart && me.api.can_AddQuotedComment() !== false && me.mode.canCoAuthoring && me.mode.canComments);
+                    menuViewUndo.setVisible(me.mode.canCoAuthoring && me.mode.canComments && !me._isDisabled);
+                    menuViewUndo.setDisabled(!me.api.asc_getCanUndo() && !me._isDisabled);
+                    menuViewCopySeparator.setVisible(!isInChart && me.api.can_AddQuotedComment() !== false && me.mode.canCoAuthoring && me.mode.canComments && !me._isDisabled);
+                    menuViewAddComment.setVisible(!isInChart && me.api.can_AddQuotedComment() !== false && me.mode.canCoAuthoring && me.mode.canComments && !me._isDisabled);
                     menuViewAddComment.setDisabled(value.paraProps && value.paraProps.locked === true);
 
                     var cancopy = me.api && me.api.can_CopyCut();
@@ -2314,10 +2318,9 @@ define([
                                 if (me.api) {
                                     me.api.SplitCell(value.columns, value.rows);
                                 }
-                                me.fireEvent('editcomplete', me);
-
                                 Common.component.Analytics.trackEvent('DocumentHolder', 'Table');
                             }
+                            me.fireEvent('editcomplete', me);
                         }
                     })).show();
                 }
@@ -3297,6 +3300,10 @@ define([
         focus: function() {
             var me = this;
             _.defer(function(){  me.cmpEl.focus(); }, 50);
+        },
+
+        SetDisabled: function(state) {
+            this._isDisabled = state;
         },
 
         alignmentText           : 'Alignment',

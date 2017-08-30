@@ -128,7 +128,10 @@ define([
                     'menu:show': this.onFileMenu.bind(this, 'show')
                 },
                 'Common.Views.Header': {
-                    'print': this.onPrint.bind(this),
+                    'print': function (opts) {
+                        var _main = this.getApplication().getController('Main');
+                        _main.onPrint();
+                    },
                     'downloadas': function (opts) {
                         var _main = this.getApplication().getController('Main');
                         var _file_type = _main.document.fileType,
@@ -610,7 +613,7 @@ define([
                     this.toolbar.btnShapeArrange, this.toolbar.btnSlideSize,  this.toolbar.listTheme
                 ]});
                 this.toolbar.lockToolbar(PE.enumLock.noSlides, this._state.no_slides,
-                    { array:  this.toolbar.btnsInsertImage.concat(this.toolbar.btnsInsertText, this.toolbar.btnsInsertShape) });
+                    { array:  this.toolbar.btnsInsertImage.concat(this.toolbar.btnsInsertText, this.toolbar.btnsInsertShape, this.toolbar.btnInsertEquation, this.toolbar.btnInsertTextArt) });
                 if (this.btnsComment)
                     this.toolbar.lockToolbar(PE.enumLock.noSlides, this._state.no_slides, { array:  this.btnsComment });
             }
@@ -1328,9 +1331,9 @@ define([
                                 me.api.put_Table(value.columns, value.rows);
                             }
 
-                            Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                             Common.component.Analytics.trackEvent('ToolBar', 'Table');
                         }
+                        Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                     }
                 })).show();
             }

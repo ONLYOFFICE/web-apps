@@ -75,6 +75,7 @@ define([
                     'reviewchange:reject':      _.bind(this.onRejectClick, this),
                     'reviewchange:delete':      _.bind(this.onDeleteClick, this),
                     'reviewchange:preview':     _.bind(this.onBtnPreviewClick, this),
+                    'reviewchanges:view':       _.bind(this.onReviewViewClick, this),
                     'lang:document':            _.bind(this.onDocLanguage, this)
                 },
                 'Common.Views.ReviewChangesDialog': {
@@ -88,7 +89,7 @@ define([
             this.collection     =   this.getApplication().getCollection('Common.Collections.ReviewChanges');
             this.userCollection =   this.getApplication().getCollection('Common.Collections.Users');
 
-            this._state = {posx: -1000, posy: -1000, popoverVisible: false};
+            this._state = {posx: -1000, posy: -1000, popoverVisible: false, previewMode: false};
 
             Common.NotificationCenter.on('reviewchanges:turn', this.onTurnPreview.bind(this));
             Common.NotificationCenter.on('spelling:turn', this.onTurnSpelling.bind(this));
@@ -127,10 +128,10 @@ define([
             return this;
         },
 
-        SetDisabled: function() {
+        SetDisabled: function(state) {
             if (this.dlgChanges)
                 this.dlgChanges.close();
-            this.view && this.view.SetDisabled(true);
+            this.view && this.view.SetDisabled(state);
         },
 
         onApiShowChange: function (sdkchange) {
@@ -500,6 +501,46 @@ define([
             this.api.asc_setSpellCheck(state);
         },
 
+        onReviewViewClick: function(menu, item, e) {
+            if (this.api) {
+                if (item.value === 'final')
+                    this.api.asc_BeginViewModeInReview(true);
+                else if (item.value === 'original')
+                    this.api.asc_BeginViewModeInReview(false);
+                else
+                    this.api.asc_EndViewModeInReview();
+            }
+            this.disableEditing(item.value !== 'markup');
+            this._state.previewMode = (item.value !== 'markup');
+            Common.NotificationCenter.trigger('edit:complete', this.view);
+        },
+
+        isPreviewChangesMode: function() {
+            return this._state.previewMode;
+        },
+
+        disableEditing: function(disable) {
+            var app = this.getApplication();
+            app.getController('RightMenu').getView('RightMenu').clearSelection();
+            app.getController('Toolbar').DisableToolbar(disable, false, true);
+            app.getController('RightMenu').SetDisabled(disable, false);
+            app.getController('Statusbar').getView('Statusbar').SetDisabled(disable);
+            app.getController('DocumentHolder').getView().SetDisabled(disable);
+
+            var leftMenu = app.getController('LeftMenu').leftMenu;
+            leftMenu.btnComments.setDisabled(disable);
+            if (disable) leftMenu.close();
+
+            if (this.view) {
+                var group = this.view.$el.find('.move-changes');
+                group.css('position', disable ? 'relative' : 'initial');
+                disable && group.find('.toolbar-group-mask').css({
+                    left: 0, right: 0, top: 0, bottom: 0
+                });
+                this.view.$el.find('.no-group-mask').css('opacity', 1);
+            }
+        },
+
         createToolbarPanel: function() {
             return this.view.getPanel();
         },
@@ -553,7 +594,7 @@ define([
         },
 
         synchronizeChanges: function() {
-            if ( this.appConfig.canReview ) {
+            if ( this.appConfig && this.appConfig.canReview ) {
                 this.view.markChanges( this.api.asc_HaveRevisionsChanges() );
             }
         },

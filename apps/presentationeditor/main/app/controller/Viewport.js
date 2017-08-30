@@ -178,17 +178,12 @@ define([
                     me.api.StartDemonstration('presentation-preview', _.isNumber(slidenum) ? slidenum : 0, reporterObject);
                     Common.component.Analytics.trackEvent('Viewport', 'Preview');
                 };
-                if (!me.viewport.mode.isDesktopApp && !Common.Utils.isIE11) {
+                if (!me.viewport.mode.isDesktopApp && !Common.Utils.isIE11 && !presenter) {
                     Common.NotificationCenter.on('window:resize', _onWindowResize);
                     me.fullScreen(document.documentElement);
-
-                    if (!reporterObject) {
-                        setTimeout(function(){
-                            _onWindowResize();
-                        }, 100);
-                    } else {
+                    setTimeout(function(){
                         _onWindowResize();
-                    }
+                    }, 100);
                 } else
                     _onWindowResize();
             }

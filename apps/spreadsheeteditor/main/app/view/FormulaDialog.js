@@ -134,7 +134,7 @@ define([
                     main_height = Common.Utils.innerHeight();
                 }
 
-                top = ((parseInt(main_height, 10) - parseInt(win_height, 10)) / 2) * 0.9;
+                top = (parseInt(main_height, 10) - parseInt(win_height, 10)) / 2;
                 left = (parseInt(main_width, 10) - parseInt(this.initConfig.width, 10)) / 2;
 
                 this.$window.css('left', Math.floor(left));

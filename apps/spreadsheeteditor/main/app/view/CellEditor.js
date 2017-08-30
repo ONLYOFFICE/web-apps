@@ -74,7 +74,7 @@ define([
             });
             this.btnNamedRanges.render($('#ce-cell-name-menu'));
             this.btnNamedRanges.setVisible(false);
-            this.btnNamedRanges.menu.setOffset(-55);
+            this.btnNamedRanges.menu.setOffset(-52);
 
             this.$cellname = $('#ce-cell-name', this.el);
             this.$btnexpand = $('#ce-btn-expand', this.el);

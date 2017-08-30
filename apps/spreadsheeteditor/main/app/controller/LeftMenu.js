@@ -618,6 +618,11 @@ define([
         },
 
         menuFilesShowHide: function(state) {
+            if (this.api) {
+                this.api.asc_closeCellEditor();
+                this.api.asc_enableKeyEvents(!(state == 'show'));
+            }
+
             if ( this.dlgSearch ) {
                 if ( state == 'show' )
                     this.dlgSearch.suspendKeyEvents();
