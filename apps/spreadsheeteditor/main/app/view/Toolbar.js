@@ -1259,17 +1259,6 @@ define([
             this.fireEvent('render:after', [this]);
             Common.UI.Mixtbar.prototype.afterRender.call(this);
 
-            me.$tabs.parent().on('click', '.ribtab', function (e) {
-                var tab = $(e.target).data('tab');
-                if (tab == 'file') {
-                    me.fireEvent('file:open');
-                } else
-                if ( me.isTabActive('file') )
-                    me.fireEvent('file:close');
-
-                me.setTab(tab);
-            });
-
             Common.NotificationCenter.on({
                 'window:resize': function() {
                     Common.UI.Mixtbar.prototype.onResize.apply(me, arguments);
@@ -1281,6 +1270,21 @@ define([
                 me.setTab('home');
 
             return this;
+        },
+
+        onTabClick: function (e) {
+            var tab = $(e.target).data('tab'),
+                me = this;
+
+            if ( !me.isTabActive(tab) ) {
+                if ( tab == 'file' ) {
+                    me.fireEvent('file:open');
+                } else
+                if ( me.isTabActive('file') )
+                    me.fireEvent('file:close');
+            }
+
+            Common.UI.Mixtbar.prototype.onTabClick.apply(this, arguments);
         },
 
         rendererComponents: function(html) {

@@ -108,6 +108,7 @@ define([
                 $scrollR.on('click', onScrollTabs.bind(this, 'right'));
 
                 $boxTabs.on('dblclick', '> .ribtab', onTabDblclick.bind(this));
+                $boxTabs.on('click', '> .ribtab', me.onTabClick.bind(this));
             },
 
             isTabActive: function(tag) {
@@ -164,6 +165,12 @@ define([
                     // clearTimeout(optsFold.timer);
                     optsFold.$bar.removeClass('folded');
                     optsFold.$box.off();
+
+                    var active_panel = optsFold.$box.find('.panel.active');
+                    if ( active_panel.length ) {
+                        var tab = active_panel.data('tab');
+                        me.$tabs.find('> a[data-tab=' + tab + ']').parent().toggleClass('active', true);
+                    }
                 }
             },
 
@@ -191,6 +198,18 @@ define([
                 } else
                 if ( $boxTabs.parent().hasClass('short') ) {
                     $boxTabs.parent().removeClass('short');
+                }
+            },
+
+            onTabClick: function (e) {
+                var _is_active = $(e.currentTarget).hasClass('active');
+                if ( _is_active ) {
+                    if ( this.isFolded ) {
+                        // this.collapse();
+                    }
+                } else {
+                    var tab = $(e.target).data('tab');
+                    this.setTab(tab);
                 }
             },
 

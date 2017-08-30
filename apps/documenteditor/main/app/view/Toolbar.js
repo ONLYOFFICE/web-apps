@@ -1187,17 +1187,6 @@ define([
                 this.needShowSynchTip = false;
                 /** coauthoring end **/
 
-                me.$tabs.parent().on('click', '.ribtab', function (e) {
-                    var tab = $(e.target).data('tab');
-                    if (tab == 'file') {
-                        me.fireEvent('file:open');
-                    } else
-                    if ( me.isTabActive('file') )
-                        me.fireEvent('file:close');
-
-                    me.setTab(tab);
-                });
-
                 Common.NotificationCenter.on({
                     'window:resize': function() {
                         Common.UI.Mixtbar.prototype.onResize.apply(me, arguments);
@@ -1221,6 +1210,21 @@ define([
                     this.btnPageMargins.menu.items[0].setVisible(false);
 
                 return this;
+            },
+
+            onTabClick: function (e) {
+                var tab = $(e.target).data('tab'),
+                    me = this;
+
+                if ( !me.isTabActive(tab) ) {
+                    if ( tab == 'file' ) {
+                        me.fireEvent('file:open');
+                    } else
+                    if ( me.isTabActive('file') )
+                        me.fireEvent('file:close');
+                }
+
+                Common.UI.Mixtbar.prototype.onTabClick.apply(me, arguments);
             },
 
             rendererComponents: function (html) {
