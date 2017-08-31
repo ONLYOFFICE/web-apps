@@ -2700,7 +2700,6 @@ define([
                 $('.btn-color-value-line', me.toolbar.btnHighlightColor.cmpEl).css('background-color', '#' + strcolor);
 
                 me.toolbar.btnHighlightColor.toggle(true, true);
-                me.toolbar.btnHighlightColor.cmpEl.removeClass('open');
             }
 
             strcolor = strcolor || 'transparent';
