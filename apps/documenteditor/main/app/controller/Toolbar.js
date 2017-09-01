@@ -656,7 +656,7 @@ define([
                     header_locked = pr.get_Locked();
                     in_header = true;
                 } else if (type === Asc.c_oAscTypeSelectElement.Image) {
-                    in_image = in_header = true;
+                    in_image = true;
                     image_locked = pr.get_Locked();
                     if (pr && pr.get_ChartProperties())
                         in_chart = true;
@@ -726,7 +726,7 @@ define([
             need_disable = toolbar.mnuPageNumCurrentPos.isDisabled() && toolbar.mnuPageNumberPosPicker.isDisabled();
             toolbar.mnuInsertPageNum.setDisabled(need_disable);
 
-            need_disable = paragraph_locked || header_locked || in_header || in_equation && !btn_eq_state || this.api.asc_IsCursorInFootnote();
+            need_disable = paragraph_locked || header_locked || in_header || in_image || in_equation && !btn_eq_state || this.api.asc_IsCursorInFootnote();
             toolbar.btnsPageBreak.disable(need_disable);
 
             need_disable = paragraph_locked || header_locked || !can_add_image || in_equation;
