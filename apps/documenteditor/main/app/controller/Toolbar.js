@@ -2775,10 +2775,18 @@ define([
             disable = disable || (reviewmode ? toolbar_mask.length>0 : group_mask.length>0);
             toolbar.$el.find('.toolbar').toggleClass('masked', disable);
             toolbar.btnHide.setDisabled(disable);
-            disable ? Common.util.Shortcuts.suspendEvents('alt+h') : Common.util.Shortcuts.resumeEvents('alt+h');
-
             if ( toolbar.synchTooltip )
                 toolbar.synchTooltip.hide();
+
+            toolbar._state.previewmode = reviewmode && disable;
+            if (reviewmode) {
+                toolbar._state.previewmode && toolbar.btnSave.setDisabled(toolbar._state.previewmode);
+                if (toolbar.needShowSynchTip) {
+                    toolbar.needShowSynchTip = false;
+                    toolbar.onCollaborativeChanges();
+                }
+            }
+            disable ? Common.util.Shortcuts.suspendEvents('alt+h') : Common.util.Shortcuts.resumeEvents('alt+h');
         },
 
         onSelectRecepientsClick: function() {

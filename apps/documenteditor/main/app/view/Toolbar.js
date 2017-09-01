@@ -103,7 +103,8 @@ define([
                 this.toolbarControls = [];
                 this.textOnlyControls = [];
                 this._state = {
-                    hasCollaborativeChanges: undefined
+                    hasCollaborativeChanges: undefined,
+                    previewmode: false
                 };
                 this.btnSaveCls = 'btn-save';
                 this.btnSaveTip = this.tipSave + Common.Utils.String.platformKey('Ctrl+S');
@@ -2202,6 +2203,10 @@ define([
                     this.needShowSynchTip = true;
                     return;
                 }
+                if (this._state.previewmode) {
+                    if (!DE.getController('Main')._state.fastCoauth) this.needShowSynchTip = true;
+                    return;
+                }
 
                 this._state.hasCollaborativeChanges = true;
                 var iconEl = $('.icon', this.btnSave.cmpEl);
@@ -2238,7 +2243,7 @@ define([
             },
 
             synchronizeChanges: function () {
-                if (this.btnSave.rendered) {
+                if (!this._state.previewmode && this.btnSave.rendered) {
                     var iconEl = $('.icon', this.btnSave.cmpEl);
 
                     if (iconEl.hasClass('btn-synch')) {

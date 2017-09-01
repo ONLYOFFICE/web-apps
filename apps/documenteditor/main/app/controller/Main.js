@@ -566,7 +566,7 @@ define([
                 }
                 application.getController('DocumentHolder').getView().focus();
 
-                if (this.api) {
+                if (this.api && !toolbarView._state.previewmode) {
                     var cansave = this.api.asc_isDocumentCanSave(),
                         forcesave = this.appOptions.forcesave;
                     var isSyncButton = $('.icon', toolbarView.btnSave.cmpEl).hasClass('btn-synch');
@@ -1393,7 +1393,7 @@ define([
 
                 var toolbarView = this.getApplication().getController('Toolbar').getView();
 
-                if (toolbarView) {
+                if (toolbarView && !toolbarView._state.previewmode) {
                     var isSyncButton = $('.icon', toolbarView.btnSave.cmpEl).hasClass('btn-synch'),
                         forcesave = this.appOptions.forcesave;
                     if (toolbarView.btnSave.isDisabled() !== (!isModified && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave))
@@ -1411,7 +1411,7 @@ define([
                     toolbarController = application.getController('Toolbar'),
                     toolbarView = toolbarController.getView();
 
-                if (toolbarView && this.api) {
+                if (toolbarView && this.api && !toolbarView._state.previewmode) {
                     var isSyncButton = $('.icon', toolbarView.btnSave.cmpEl).hasClass('btn-synch'),
                         forcesave = this.appOptions.forcesave;
                     if (toolbarView.btnSave.isDisabled() !== (!isCanSave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave))
