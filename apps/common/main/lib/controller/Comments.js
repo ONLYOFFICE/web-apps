@@ -73,6 +73,7 @@ define([
         subEditStrings : {},
         filter : undefined,
         hintmode : false,
+        previewmode: false,
         isSelectedComment : false,
         uids : [],
         oldUids : [],
@@ -143,6 +144,7 @@ define([
                 this.currentUserName    =   data.config.user.fullname;
                 this.sdkViewName        =   data['sdkviewname'] || this.sdkViewName;
                 this.hintmode           =   data['hintmode'] || false;
+                this.previewmode        =   data['previewmode'] || false;
             }
         },
         setApi: function (api) {
@@ -253,6 +255,8 @@ define([
             return false;
         },
         onShowComment: function (id, selected) {
+            if (this.previewmode) return;
+
             var comment = this.findComment(id, undefined);
             if (comment) {
                 if (null !== comment.get('quote')) {
@@ -759,6 +763,7 @@ define([
             }
         },
         onApiShowComment: function (uids, posX, posY, leftX, opts, hint) {
+            if (this.previewmode) return;
             this.isModeChanged = false;
             
             if (hint && this.isSelectedComment && (0 === _.difference(this.uids, uids).length)) {
@@ -874,6 +879,8 @@ define([
             }
         },
         onApiUpdateCommentPosition: function (uids, posX, posY, leftX) {
+            if (this.previewmode) return;
+
             var i, useAnimation = false,
                 comment = null,
                 text = undefined,
@@ -1346,6 +1353,13 @@ define([
         getView: function(name) {
             return !name && this.view ?
                 this.view : Backbone.Controller.prototype.getView.call(this, name);
+        },
+
+        setPreviewMode: function(mode) {
+            this.previewmode = mode;
+            if (this.getPopover())
+                this.getPopover().hide();
         }
+
     }, Common.Controllers.Comments || {}));
 });

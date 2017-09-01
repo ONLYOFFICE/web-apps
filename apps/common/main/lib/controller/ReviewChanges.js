@@ -530,6 +530,9 @@ define([
             var leftMenu = app.getController('LeftMenu').leftMenu;
             leftMenu.btnComments.setDisabled(disable);
             if (disable) leftMenu.close();
+            var comments = app.getController('Common.Controllers.Comments');
+            if (comments)
+                comments.setPreviewMode(disable);
 
             if (this.view) {
                 this.view.$el.find('.no-group-mask').css('opacity', 1);
