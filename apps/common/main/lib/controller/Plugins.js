@@ -61,9 +61,9 @@ define([
 
                         if ( appOptions.isEdit && !appOptions.isEditMailMerge && !appOptions.isEditDiagram ) {
                             var tab = {action: 'plugins', caption: me.panelPlugins.groupCaption};
-                            var $panel = me.panelPlugins.getPanel();
+                            me.$toolbarPanelPlugins = me.panelPlugins.getPanel();
 
-                            toolbar.addTab(tab, $panel, 4);     // TODO: clear plugins list in left panel
+                            toolbar.addTab(tab, me.$toolbarPanelPlugins, 4);     // TODO: clear plugins list in left panel
                         }
                     }
                 },
@@ -82,10 +82,17 @@ define([
         },
 
         onLaunch: function() {
+            var store = this.getApplication().getCollection('Common.Collections.Plugins');
             this.panelPlugins= this.createView('Common.Views.Plugins', {
-                storePlugins: this.getApplication().getCollection('Common.Collections.Plugins')
+                storePlugins: store
             });
             this.panelPlugins.on('render:after', _.bind(this.onAfterRender, this));
+
+            store.on({
+                add: this.onAddPlugin.bind(this),
+                reset: this.onResetPlugins.bind(this)
+            });
+
 
             this._moveOffset = {x:0, y:0};
         },
@@ -105,13 +112,6 @@ define([
         setMode: function(mode) {
             if (mode.canPlugins) {
                 this.updatePluginsList();
-
-                var toolbar = this.getApplication().getController('Toolbar').getView('Toolbar');
-                var $panel = toolbar.$el.find('#plugins-panel');
-                if ( $panel ) {
-                    this.panelPlugins.renderTo( $panel );
-                    this.panelPlugins._onAppReady();
-                }
             }
         },
 
@@ -171,6 +171,28 @@ define([
                 arr.push(plugin);
             });
             this.api.asc_pluginsRegister('', arr);
+        },
+
+        onAddPlugin: function (model) {
+            var me = this;
+            var btn = me.panelPlugins.createPluginButton(model);
+
+            var _group = $('> .group', me.$toolbarPanelPlugins);
+            var $slot = $('<span class="slot"></span>').appendTo(_group);
+            btn.render($slot);
+        },
+
+        onResetPlugins: function (collection) {
+            var me = this;
+            me.$toolbarPanelPlugins.empty();
+
+            var _group = $('<div class="group"></div>');
+            collection.each(function (model) {
+                var $slot = $('<span class="slot"></span>').appendTo(_group);
+                me.panelPlugins.createPluginButton(model).render($slot);
+            });
+
+            _group.appendTo(me.$toolbarPanelPlugins);
         },
 
         onSelectPlugin: function(picker, item, record, e){
