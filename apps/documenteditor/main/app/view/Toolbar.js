@@ -2199,12 +2199,8 @@ define([
             /** coauthoring begin **/
             onCollaborativeChanges: function () {
                 if (this._state.hasCollaborativeChanges) return;
-                if (!this.btnSave.rendered) {
+                if (!this.btnSave.rendered || this._state.previewmode) {
                     this.needShowSynchTip = true;
-                    return;
-                }
-                if (this._state.previewmode) {
-                    if (!DE.getController('Main')._state.fastCoauth) this.needShowSynchTip = true;
                     return;
                 }
 
