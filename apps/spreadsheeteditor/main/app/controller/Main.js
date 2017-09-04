@@ -1832,43 +1832,7 @@ define([
             requestPlugins: function(pluginsPath) { // request plugins
                 if (!pluginsPath) return;
 
-                var _createXMLHTTPObject = function() {
-                    var xmlhttp;
-                    try {
-                        xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
-                    }
-                    catch (e) {
-                        try {
-                            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-                        }
-                        catch (E) {
-                            xmlhttp = false;
-                        }
-                    }
-                    if (!xmlhttp && typeof XMLHttpRequest != 'undefined') {
-                        xmlhttp = new XMLHttpRequest();
-                    }
-                    return xmlhttp;
-                };
-
-                var _getPluginJson = function(plugin) {
-                    if (!plugin) return '';
-                    try {
-                        var xhrObj = _createXMLHTTPObject();
-                        if (xhrObj && plugin) {
-                            xhrObj.open('GET', plugin, false);
-                            xhrObj.send('');
-                            var pluginJson = eval("(" + xhrObj.responseText + ")");
-                            return pluginJson;
-                        }
-                    }
-                    catch (e) {}
-                    return null;
-                };
-
-                var value = _getPluginJson(pluginsPath);
-                if (value)
-                    this.updatePlugins(value, false);
+                this.updatePlugins( Common.Utils.getConfigJson(pluginsPath), false );
             },
 
             updatePlugins: function(plugins, uiCustomize) { // plugins from config
@@ -1877,49 +1841,15 @@ define([
                 var pluginsData = (uiCustomize) ? plugins.UIpluginsData : plugins.pluginsData;
                 if (!pluginsData || pluginsData.length<1) return;
 
-                var _createXMLHTTPObject = function() {
-                    var xmlhttp;
-                    try {
-                        xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
-                    }
-                    catch (e) {
-                        try {
-                            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-                        }
-                        catch (E) {
-                            xmlhttp = false;
-                        }
-                    }
-                    if (!xmlhttp && typeof XMLHttpRequest != 'undefined') {
-                        xmlhttp = new XMLHttpRequest();
-                    }
-                    return xmlhttp;
-                };
-
-                var _getPluginJson = function(plugin) {
-                    if (!plugin) return '';
-                    try {
-                        var xhrObj = _createXMLHTTPObject();
-                        if (xhrObj && plugin) {
-                            xhrObj.open('GET', plugin, false);
-                            xhrObj.send('');
-                            var pluginJson = eval("(" + xhrObj.responseText + ")");
-                            return pluginJson;
-                        }
-                    }
-                    catch (e) {}
-                    return null;
-                };
-
                 var arr = [],
                     baseUrl = _.isEmpty(plugins.url) ? "" : plugins.url;
 
                 if (baseUrl !== "")
-                    console.log("Obsolete: The url parameter is deprecated. Please check the documentation for new plugin connection configuration.");
+                    console.warn("Obsolete: The url parameter is deprecated. Please check the documentation for new plugin connection configuration.");
 
                 pluginsData.forEach(function(item){
                     item = baseUrl + item; // for compatibility with previouse version of server, where plugins.url is used.
-                    var value = _getPluginJson(item);
+                    var value = Common.Utils.getConfigJson(item);
                     if (value) {
                         value.baseUrl = item.substring(0, item.lastIndexOf("config.json"));
                         value.oldVersion = (baseUrl !== "");
@@ -1945,13 +1875,9 @@ define([
                         var variations = item.variations,
                             variationsArr = [];
                         variations.forEach(function(itemVar){
-                            var isSupported = false;
-                            for (var i=0; i<itemVar.EditorsSupport.length; i++){
-                                if (itemVar.EditorsSupport[i]=='cell') {
-                                    isSupported = true; break;
-                                }
-                            }
-                            if (isSupported && (isEdit || itemVar.isViewer)) {
+                            if ((isEdit || itemVar.isViewer) &&
+                                    itemVar.EditorsSupport.includes('cell') )
+                            {
                                 var icons = itemVar.icons;
                                 if (item.oldVersion) { // for compatibility with previouse version of server, where plugins.url is used.
                                     icons = [];
@@ -1959,25 +1885,20 @@ define([
                                         icons.push(icon.substring(icon.lastIndexOf("\/")+1));
                                     });
                                 }
-                                item.isUICustomizer ? arrUI.push(item.baseUrl + itemVar.url) :
-                                variationsArr.push(new Common.Models.PluginVariation({
-                                    description: itemVar.description,
-                                    index: variationsArr.length,
-                                    url : (item.oldVersion) ? (itemVar.url.substring(itemVar.url.lastIndexOf("\/")+1) ) : itemVar.url,
-                                    icons  : icons,
-                                    isViewer: itemVar.isViewer,
-                                    EditorsSupport: itemVar.EditorsSupport,
-                                    isVisual: itemVar.isVisual,
-                                    isCustomWindow: itemVar.isCustomWindow,
-                                    isModal: itemVar.isModal,
-                                    isInsideMode: itemVar.isInsideMode,
-                                    initDataType: itemVar.initDataType,
-                                    initData: itemVar.initData,
-                                    isUpdateOleOnResize : itemVar.isUpdateOleOnResize,
-                                    buttons: itemVar.buttons,
-                                    size: itemVar.size,
-                                    initOnSelectionChanged: itemVar.initOnSelectionChanged
-                                }));
+
+                                if ( item.isUICustomizer ) {
+                                    arrUI.push(item.baseUrl + itemVar.url);
+                                } else {
+                                    var model = new Common.Models.PluginVariation(itemVar);
+
+                                    model.set({
+                                        index: variationsArr.length,
+                                        url: (item.oldVersion) ? (itemVar.url.substring(itemVar.url.lastIndexOf("\/") + 1)) : itemVar.url,
+                                        icons: icons
+                                    });
+
+                                    variationsArr.push(model);
+                                }
                             }
                         });
                         if (variationsArr.length>0 && !item.isUICustomizer)

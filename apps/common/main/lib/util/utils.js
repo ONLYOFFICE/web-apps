@@ -702,6 +702,22 @@ Common.Utils.createXhr = function () {
     return xmlhttp;
 }
 
+Common.Utils.getConfigJson = function (url) {
+    if ( url ) {
+        try {
+            var xhrObj = Common.Utils.createXhr();
+            if ( xhrObj ) {
+                xhrObj.open('GET', url, false);
+                xhrObj.send('');
+
+                return JSON.parse(xhrObj.responseText);
+            }
+        } catch (e) {}
+    }
+
+    return null;
+}
+
 Common.Utils.asyncCall = function (callback, scope, args) {
     (new Promise(function (resolve, reject) {
         resolve();
