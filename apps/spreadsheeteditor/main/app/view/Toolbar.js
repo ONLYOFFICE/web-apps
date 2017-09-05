@@ -371,6 +371,7 @@ define([
                     cls         : 'btn-toolbar',
                     iconCls     : 'no-mask ' + me.btnSaveCls
                 });
+                me.btnsSave = [me.btnSave];
 
                 me.btnIncFontSize = new Common.UI.Button({
                     id          : 'id-toolbar-btn-incfont',
@@ -1672,6 +1673,12 @@ define([
                     itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist <%= iconCls %>"></div>')
                 });
             }
+
+            var btnsave = SSE.getController('LeftMenu').getView('LeftMenu').getMenu('file').getButton('save');
+            if (btnsave && this.btnsSave) {
+                this.btnsSave.push(btnsave);
+                btnsave.setDisabled(this.btnsSave[0].isDisabled());
+            }
         },
 
         onToolbarAfterRender: function(toolbar) {
@@ -1714,7 +1721,9 @@ define([
             if (mode.isDisconnected) {
                 this.lockToolbar( SSE.enumLock.lostConnect, true );
                 this.lockToolbar( SSE.enumLock.lostConnect, true,
-                    {array:[this.btnEditChart,this.btnUndo,this.btnRedo,this.btnSave]} );
+                    {array:[this.btnEditChart,this.btnUndo,this.btnRedo]} );
+                this.lockToolbar( SSE.enumLock.lostConnect, true,
+                    {array:this.btnsSave} );
                 this.lockToolbar(SSE.enumLock.cantPrint, !mode.canPrint || mode.disableDownload, {array: [this.btnPrint]});
             } else {
                 this.mode = mode;
@@ -1806,7 +1815,11 @@ define([
                 this.btnSave.updateHint(this.tipSynchronize + Common.Utils.String.platformKey('Ctrl+S'));
             }
 
-            this.btnSave.setDisabled(false);
+            this.btnsSave.forEach(function(button) {
+                if ( button ) {
+                    button.setDisabled(false);
+                }
+            });
             Common.Gateway.collaborativeChanges();
         },
 
@@ -1828,7 +1841,8 @@ define([
 
         synchronizeChanges: function() {
             if (this.btnSave.rendered) {
-                var iconEl = $('.icon', this.btnSave.cmpEl);
+                var iconEl = $('.icon', this.btnSave.cmpEl),
+                    me = this;
 
                 if (iconEl.hasClass('btn-synch')) {
                     iconEl.removeClass('btn-synch');
@@ -1836,7 +1850,12 @@ define([
                     if (this.synchTooltip)
                         this.synchTooltip.hide();
                     this.btnSave.updateHint(this.btnSaveTip);
-                    this.btnSave.setDisabled(!this.mode.forcesave);
+                    this.btnsSave.forEach(function(button) {
+                        if ( button ) {
+                            button.setDisabled(!me.mode.forcesave);
+                        }
+                    });
+
                     this._state.hasCollaborativeChanges = false;
                 }
             }

@@ -222,6 +222,7 @@ define([
                     iconCls     : 'no-mask ' + me.btnSaveCls,
                     lock        : [_set.lostConnect]
                 });
+                me.btnsSave = [me.btnSave];
 
                 me.btnUndo = new Common.UI.Button({
                     id          : 'id-toolbar-btn-undo',
@@ -1404,6 +1405,13 @@ define([
 //            // Enable none paragraph components
                 this.lockToolbar(PE.enumLock.disableOnStart, false, {array: this.slideOnlyControls.concat(this.shapeControls)});
 
+                var btnsave = PE.getController('LeftMenu').getView('LeftMenu').getMenu('file').getButton('save');
+                if (btnsave && this.btnsSave) {
+                    this.btnsSave.push(btnsave);
+                    this.lockControls.push(btnsave);
+                    btnsave.setDisabled(this.btnsSave[0].isDisabled());
+                }
+
                 /** coauthoring begin **/
                 this.showSynchTip = !Common.localStorage.getBool('pe-hide-synch');
                 this.needShowSynchTip = false;
@@ -1552,7 +1560,11 @@ define([
                     this.btnSave.updateHint(this.tipSynchronize + Common.Utils.String.platformKey('Ctrl+S'));
                 }
 
-                this.btnSave.setDisabled(false);
+                this.btnsSave.forEach(function(button) {
+                    if ( button ) {
+                        button.setDisabled(false);
+                    }
+                });
                 Common.Gateway.collaborativeChanges();
             },
 
@@ -1574,7 +1586,8 @@ define([
 
             synchronizeChanges: function () {
                 if (this.btnSave.rendered) {
-                    var iconEl = $('.icon', this.btnSave.cmpEl);
+                    var iconEl = $('.icon', this.btnSave.cmpEl),
+                        me = this;
 
                     if (iconEl.hasClass('btn-synch')) {
                         iconEl.removeClass('btn-synch');
@@ -1582,7 +1595,12 @@ define([
                         if (this.synchTooltip)
                             this.synchTooltip.hide();
                         this.btnSave.updateHint(this.btnSaveTip);
-                        this.btnSave.setDisabled(!this.mode.forcesave);
+                        this.btnsSave.forEach(function(button) {
+                            if ( button ) {
+                                button.setDisabled(!me.mode.forcesave);
+                            }
+                        });
+
                         this._state.hasCollaborativeChanges = false;
                     }
                 }

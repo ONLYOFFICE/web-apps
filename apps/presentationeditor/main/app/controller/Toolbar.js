@@ -897,6 +897,7 @@ define([
         },
 
         onSave: function(e) {
+            var toolbar = this.toolbar;
             if (this.api && this.api.asc_isDocumentCanSave) {
                 var isModified = this.api.asc_isDocumentCanSave();
                 var isSyncButton = $('.icon', this.toolbar.btnSave.cmpEl).hasClass('btn-synch');
@@ -906,7 +907,11 @@ define([
                 this.api.asc_Save();
             }
 
-            this.toolbar.btnSave.setDisabled(!this.toolbar.mode.forcesave);
+            toolbar.btnsSave.forEach(function(button) {
+                if ( button ) {
+                    button.setDisabled(!toolbar.mode.forcesave);
+                }
+            });
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             Common.component.Analytics.trackEvent('Save');

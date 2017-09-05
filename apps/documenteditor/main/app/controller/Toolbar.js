@@ -909,18 +909,23 @@ define([
         },
 
         onSave: function(e) {
+            var toolbar = this.toolbar;
             if (this.api) {
                 var isModified = this.api.asc_isDocumentCanSave();
-                var isSyncButton = $('.icon', this.toolbar.btnSave.cmpEl).hasClass('btn-synch');
-                if (!isModified && !isSyncButton && !this.toolbar.mode.forcesave)
+                var isSyncButton = $('.icon', toolbar.btnSave.cmpEl).hasClass('btn-synch');
+                if (!isModified && !isSyncButton && !toolbar.mode.forcesave)
                     return;
 
                 this.api.asc_Save();
             }
 
-            this.toolbar.btnSave.setDisabled(!this.toolbar.mode.forcesave);
+            toolbar.btnsSave.forEach(function(button) {
+                if ( button ) {
+                    button.setDisabled(!toolbar.mode.forcesave);
+                }
+            });
 
-            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            Common.NotificationCenter.trigger('edit:complete', toolbar);
 
             Common.component.Analytics.trackEvent('Save');
             Common.component.Analytics.trackEvent('ToolBar', 'Save');
@@ -2780,7 +2785,12 @@ define([
 
             toolbar._state.previewmode = reviewmode && disable;
             if (reviewmode) {
-                toolbar._state.previewmode && toolbar.btnSave.setDisabled(toolbar._state.previewmode);
+                toolbar._state.previewmode && toolbar.btnsSave.forEach(function(button) {
+                    if ( button ) {
+                        button.setDisabled(true);
+                    }
+                });
+
                 if (toolbar.needShowSynchTip) {
                     toolbar.needShowSynchTip = false;
                     toolbar.onCollaborativeChanges();
