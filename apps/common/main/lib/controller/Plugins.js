@@ -242,12 +242,15 @@ define([
                     menu.render(menuContainer);
                     menu.cmpEl.attr({tabindex: "-1"});
 
-                    menu.on('show:after', function(cmp) {
-                        if (cmp && cmp.menuAlignEl)
-                            cmp.menuAlignEl.toggleClass('over', true);
-                    }).on('hide:after', function(cmp) {
-                        if (cmp && cmp.menuAlignEl)
-                            cmp.menuAlignEl.toggleClass('over', false);
+                    menu.on({
+                        'show:after': function(cmp) {
+                            if (cmp && cmp.menuAlignEl)
+                                cmp.menuAlignEl.toggleClass('over', true);
+                        },
+                        'hide:after': function(cmp) {
+                            if (cmp && cmp.menuAlignEl)
+                                cmp.menuAlignEl.toggleClass('over', false);
+                        }
                     });
                 }
 
@@ -298,16 +301,22 @@ define([
                         buttons: isCustomWindow ? undefined : newBtns,
                         toolcallback: _.bind(this.onToolClose, this)
                     });
-                    me.pluginDlg.on('render:after', function(obj){
-                        obj.getChild('.footer .dlg-btn').on('click', _.bind(me.onDlgBtnClick, me));
-                        me.pluginContainer = me.pluginDlg.$window.find('#id-plugin-container');
-                    }).on('close', function(obj){
-                        me.pluginDlg = undefined;
-                    }).on('drag', function(args){
-                        me.api.asc_pluginEnableMouseEvents(args[1]=='start');
-                    }).on('resize', function(args){
-                        me.api.asc_pluginEnableMouseEvents(args[1]=='start');
+                    me.pluginDlg.on({
+                        'render:after': function(obj){
+                            obj.getChild('.footer .dlg-btn').on('click', _.bind(me.onDlgBtnClick, me));
+                            me.pluginContainer = me.pluginDlg.$window.find('#id-plugin-container');
+                        },
+                        'close': function(obj){
+                            me.pluginDlg = undefined;
+                        },
+                        'drag': function(args){
+                            me.api.asc_pluginEnableMouseEvents(args[1]=='start');
+                        },
+                        'resize': function(args){
+                            me.api.asc_pluginEnableMouseEvents(args[1]=='start');
+                        }
                     });
+
                     me.pluginDlg.show();
                 }
             }
