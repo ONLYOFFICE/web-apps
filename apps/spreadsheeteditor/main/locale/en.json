@@ -95,6 +95,7 @@
   "Common.Views.OpenDialog.okButtonText": "OK",
   "Common.Views.OpenDialog.txtDelimiter": "Delimiter",
   "Common.Views.OpenDialog.txtEncoding": "Encoding ",
+  "Common.Views.OpenDialog.txtIncorrectPwd": "Password is incorrect.",
   "Common.Views.OpenDialog.txtOther": "Other",
   "Common.Views.OpenDialog.txtPassword": "Password",
   "Common.Views.OpenDialog.txtSpace": "Space",

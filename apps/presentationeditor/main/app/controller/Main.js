@@ -1605,6 +1605,7 @@ define([
                 if (type == Asc.c_oAscAdvancedOptionsID.DRM) {
                     dlg = new Common.Views.OpenDialog({
                         type: type,
+                        validatePwd: !!me._state.isDRM,
                         handler: function (value) {
                             me.isShowOpenDialog = false;
                             if (me && me.api) {
@@ -1613,6 +1614,7 @@ define([
                             }
                         }
                     });
+                    me._state.isDRM = true;
                 }
                 if (dlg) {
                     this.isShowOpenDialog = true;
