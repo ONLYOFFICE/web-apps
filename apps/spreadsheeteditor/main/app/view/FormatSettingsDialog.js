@@ -466,7 +466,7 @@ define([
 
             } else {
                 var info = new Asc.asc_CFormatCellsInfo();
-                info.asc_setType(Asc.c_oAscNumFormatType.None);
+                info.asc_setType(Asc.c_oAscNumFormatType.Custom);
                 info.asc_setSymbol(valSymbol);
 
                 var formatsarr = this.api.asc_getFormatCells(info),
