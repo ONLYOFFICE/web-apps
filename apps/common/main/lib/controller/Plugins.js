@@ -175,24 +175,28 @@ define([
 
         onAddPlugin: function (model) {
             var me = this;
-            var btn = me.panelPlugins.createPluginButton(model);
+            if ( me.$toolbarPanelPlugins ) {
+                var btn = me.panelPlugins.createPluginButton(model);
 
-            var _group = $('> .group', me.$toolbarPanelPlugins);
-            var $slot = $('<span class="slot"></span>').appendTo(_group);
-            btn.render($slot);
+                var _group = $('> .group', me.$toolbarPanelPlugins);
+                var $slot = $('<span class="slot"></span>').appendTo(_group);
+                btn.render($slot);
+            }
         },
 
         onResetPlugins: function (collection) {
             var me = this;
-            me.$toolbarPanelPlugins.empty();
+            if ( me.$toolbarPanelPlugins ) {
+                me.$toolbarPanelPlugins.empty();
 
-            var _group = $('<div class="group"></div>');
-            collection.each(function (model) {
-                var $slot = $('<span class="slot"></span>').appendTo(_group);
-                me.panelPlugins.createPluginButton(model).render($slot);
-            });
+                var _group = $('<div class="group"></div>');
+                collection.each(function (model) {
+                    var $slot = $('<span class="slot"></span>').appendTo(_group);
+                    me.panelPlugins.createPluginButton(model).render($slot);
+                });
 
-            _group.appendTo(me.$toolbarPanelPlugins);
+                _group.appendTo(me.$toolbarPanelPlugins);
+            }
         },
 
         onSelectPlugin: function(picker, item, record, e){
