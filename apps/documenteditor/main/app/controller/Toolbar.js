@@ -656,7 +656,7 @@ define([
                     header_locked = pr.get_Locked();
                     in_header = true;
                 } else if (type === Asc.c_oAscTypeSelectElement.Image) {
-                    in_image = in_header = true;
+                    in_image = true;
                     image_locked = pr.get_Locked();
                     if (pr && pr.get_ChartProperties())
                         in_chart = true;
@@ -726,7 +726,7 @@ define([
             need_disable = toolbar.mnuPageNumCurrentPos.isDisabled() && toolbar.mnuPageNumberPosPicker.isDisabled();
             toolbar.mnuInsertPageNum.setDisabled(need_disable);
 
-            need_disable = paragraph_locked || header_locked || in_header || in_equation && !btn_eq_state || this.api.asc_IsCursorInFootnote();
+            need_disable = paragraph_locked || header_locked || in_header || in_image || in_equation && !btn_eq_state || this.api.asc_IsCursorInFootnote();
             toolbar.btnsPageBreak.disable(need_disable);
 
             need_disable = paragraph_locked || header_locked || !can_add_image || in_equation;
@@ -909,18 +909,23 @@ define([
         },
 
         onSave: function(e) {
+            var toolbar = this.toolbar;
             if (this.api) {
                 var isModified = this.api.asc_isDocumentCanSave();
-                var isSyncButton = $('.icon', this.toolbar.btnSave.cmpEl).hasClass('btn-synch');
-                if (!isModified && !isSyncButton && !this.toolbar.mode.forcesave)
+                var isSyncButton = $('.icon', toolbar.btnSave.cmpEl).hasClass('btn-synch');
+                if (!isModified && !isSyncButton && !toolbar.mode.forcesave)
                     return;
 
                 this.api.asc_Save();
             }
 
-            this.toolbar.btnSave.setDisabled(!this.toolbar.mode.forcesave);
+            toolbar.btnsSave.forEach(function(button) {
+                if ( button ) {
+                    button.setDisabled(!toolbar.mode.forcesave);
+                }
+            });
 
-            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            Common.NotificationCenter.trigger('edit:complete', toolbar);
 
             Common.component.Analytics.trackEvent('Save');
             Common.component.Analytics.trackEvent('ToolBar', 'Save');
@@ -2695,7 +2700,6 @@ define([
                 $('.btn-color-value-line', me.toolbar.btnHighlightColor.cmpEl).css('background-color', '#' + strcolor);
 
                 me.toolbar.btnHighlightColor.toggle(true, true);
-                me.toolbar.btnHighlightColor.cmpEl.removeClass('open');
             }
 
             strcolor = strcolor || 'transparent';
@@ -2775,10 +2779,23 @@ define([
             disable = disable || (reviewmode ? toolbar_mask.length>0 : group_mask.length>0);
             toolbar.$el.find('.toolbar').toggleClass('masked', disable);
             toolbar.btnHide.setDisabled(disable);
-            disable ? Common.util.Shortcuts.suspendEvents('alt+h') : Common.util.Shortcuts.resumeEvents('alt+h');
-
             if ( toolbar.synchTooltip )
                 toolbar.synchTooltip.hide();
+
+            toolbar._state.previewmode = reviewmode && disable;
+            if (reviewmode) {
+                toolbar._state.previewmode && toolbar.btnsSave.forEach(function(button) {
+                    if ( button ) {
+                        button.setDisabled(true);
+                    }
+                });
+
+                if (toolbar.needShowSynchTip) {
+                    toolbar.needShowSynchTip = false;
+                    toolbar.onCollaborativeChanges();
+                }
+            }
+            disable ? Common.util.Shortcuts.suspendEvents('alt+h') : Common.util.Shortcuts.resumeEvents('alt+h');
         },
 
         onSelectRecepientsClick: function() {

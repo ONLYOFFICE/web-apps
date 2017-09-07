@@ -555,6 +555,8 @@ define([
                 else
                     Common.Utils.asyncCall(this.dlgSearch.resumeKeyEvents, this.dlgSearch);
             }
+            if (this.api && state == 'hide')
+                this.api.asc_enableKeyEvents(true);
         },
 
         onMenuChange: function (value) {

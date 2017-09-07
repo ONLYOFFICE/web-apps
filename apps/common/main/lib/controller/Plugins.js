@@ -61,9 +61,9 @@ define([
 
                         if ( appOptions.isEdit && !appOptions.isEditMailMerge && !appOptions.isEditDiagram ) {
                             var tab = {action: 'plugins', caption: me.panelPlugins.groupCaption};
-                            var $panel = me.panelPlugins.getPanel();
+                            me.$toolbarPanelPlugins = me.panelPlugins.getPanel();
 
-                            toolbar.addTab(tab, $panel, 4);     // TODO: clear plugins list in left panel
+                            toolbar.addTab(tab, me.$toolbarPanelPlugins, 4);     // TODO: clear plugins list in left panel
                         }
                     }
                 },
@@ -82,10 +82,17 @@ define([
         },
 
         onLaunch: function() {
+            var store = this.getApplication().getCollection('Common.Collections.Plugins');
             this.panelPlugins= this.createView('Common.Views.Plugins', {
-                storePlugins: this.getApplication().getCollection('Common.Collections.Plugins')
+                storePlugins: store
             });
             this.panelPlugins.on('render:after', _.bind(this.onAfterRender, this));
+
+            store.on({
+                add: this.onAddPlugin.bind(this),
+                reset: this.onResetPlugins.bind(this)
+            });
+
 
             this._moveOffset = {x:0, y:0};
         },
@@ -105,13 +112,6 @@ define([
         setMode: function(mode) {
             if (mode.canPlugins) {
                 this.updatePluginsList();
-
-                var toolbar = this.getApplication().getController('Toolbar').getView('Toolbar');
-                var $panel = toolbar.$el.find('#plugins-panel');
-                if ( $panel ) {
-                    this.panelPlugins.renderTo( $panel );
-                    this.panelPlugins._onAppReady();
-                }
             }
         },
 
@@ -173,6 +173,28 @@ define([
             this.api.asc_pluginsRegister('', arr);
         },
 
+        onAddPlugin: function (model) {
+            var me = this;
+            var btn = me.panelPlugins.createPluginButton(model);
+
+            var _group = $('> .group', me.$toolbarPanelPlugins);
+            var $slot = $('<span class="slot"></span>').appendTo(_group);
+            btn.render($slot);
+        },
+
+        onResetPlugins: function (collection) {
+            var me = this;
+            me.$toolbarPanelPlugins.empty();
+
+            var _group = $('<div class="group"></div>');
+            collection.each(function (model) {
+                var $slot = $('<span class="slot"></span>').appendTo(_group);
+                me.panelPlugins.createPluginButton(model).render($slot);
+            });
+
+            _group.appendTo(me.$toolbarPanelPlugins);
+        },
+
         onSelectPlugin: function(picker, item, record, e){
             var btn = $(e.target);
             if (btn && btn.hasClass('plugin-caret')) {
@@ -220,12 +242,15 @@ define([
                     menu.render(menuContainer);
                     menu.cmpEl.attr({tabindex: "-1"});
 
-                    menu.on('show:after', function(cmp) {
-                        if (cmp && cmp.menuAlignEl)
-                            cmp.menuAlignEl.toggleClass('over', true);
-                    }).on('hide:after', function(cmp) {
-                        if (cmp && cmp.menuAlignEl)
-                            cmp.menuAlignEl.toggleClass('over', false);
+                    menu.on({
+                        'show:after': function(cmp) {
+                            if (cmp && cmp.menuAlignEl)
+                                cmp.menuAlignEl.toggleClass('over', true);
+                        },
+                        'hide:after': function(cmp) {
+                            if (cmp && cmp.menuAlignEl)
+                                cmp.menuAlignEl.toggleClass('over', false);
+                        }
                     });
                 }
 
@@ -276,16 +301,22 @@ define([
                         buttons: isCustomWindow ? undefined : newBtns,
                         toolcallback: _.bind(this.onToolClose, this)
                     });
-                    me.pluginDlg.on('render:after', function(obj){
-                        obj.getChild('.footer .dlg-btn').on('click', _.bind(me.onDlgBtnClick, me));
-                        me.pluginContainer = me.pluginDlg.$window.find('#id-plugin-container');
-                    }).on('close', function(obj){
-                        me.pluginDlg = undefined;
-                    }).on('drag', function(args){
-                        me.api.asc_pluginEnableMouseEvents(args[1]=='start');
-                    }).on('resize', function(args){
-                        me.api.asc_pluginEnableMouseEvents(args[1]=='start');
+                    me.pluginDlg.on({
+                        'render:after': function(obj){
+                            obj.getChild('.footer .dlg-btn').on('click', _.bind(me.onDlgBtnClick, me));
+                            me.pluginContainer = me.pluginDlg.$window.find('#id-plugin-container');
+                        },
+                        'close': function(obj){
+                            me.pluginDlg = undefined;
+                        },
+                        'drag': function(args){
+                            me.api.asc_pluginEnableMouseEvents(args[1]=='start');
+                        },
+                        'resize': function(args){
+                            me.api.asc_pluginEnableMouseEvents(args[1]=='start');
+                        }
                     });
+
                     me.pluginDlg.show();
                 }
             }

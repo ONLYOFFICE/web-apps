@@ -73,7 +73,6 @@ define([
         initialize: function(options) {
             _.extend(this, options);
             this._locked = false;
-            this._pluginsIsInited = false;
             this._state = {
                 DisabledControls: true
             };
@@ -86,9 +85,8 @@ define([
         },
 
         render: function(el) {
-            el = el || this.el;
-            $(el).html(this.template({scope: this}));
-            this.$el = $(el);
+            el && (this.$el = $(el));
+            this.$el.html(this.template({scope: this}));
 
             this.viewPluginsList = new Common.UI.DataView({
                 el: $('#plugins-list'),
@@ -109,7 +107,7 @@ define([
 
             this.pluginName = $('#current-plugin-header label');
             this.pluginsPanel = $('#plugins-box');
-            this.pluginsMask = $('#plugins-mask');
+            this.pluginsMask = $('#plugins-mask', this.$el);
             this.currentPluginPanel = $('#current-plugin-box');
             this.currentPluginFrame = $('#current-plugin-frame');
 
@@ -124,8 +122,8 @@ define([
 
         getPanel: function () {
             var _panel = $('<section id="plugins-panel" class="panel" data-tab="plugins"></section>');
+            var _group = $('<div class="group"></div>');
             if ( !this.storePlugins.isEmpty() ) {
-                var _group = $('<div class="group"></div>');
                 this.storePlugins.each(function (model) {
                     // var btn = new Common.UI.Button({
                     //     cls: 'btn-toolbar x-huge icon-top',
@@ -138,10 +136,9 @@ define([
                     // var $slot = $('<span class="slot"></span>').appendTo(_group);
                     // btn.render($slot);
                 });
-
-                _group.appendTo(_panel);
             }
 
+            _group.appendTo(_panel);
             return _panel;
         },
 
@@ -155,13 +152,13 @@ define([
                         icons = modes[model.get('currentVariation')].get('icons'),
                         _icon_url = model.get('baseUrl') + icons[((window.devicePixelRatio > 1) ? 1 : 0) + (icons.length>2 ? 2 : 0)],
                         btn = new Common.UI.Button({
-                        cls: 'btn-toolbar x-huge icon-top',
-                        iconImg: _icon_url,
-                        caption: model.get('name'),
-                        menu: modes && modes.length > 1,
-                        split: modes && modes.length > 1,
-                        value: guid,
-                        hint: model.get('name')
+                            cls: 'btn-toolbar x-huge icon-top',
+                            iconImg: _icon_url,
+                            caption: model.get('name'),
+                            menu: modes && modes.length > 1,
+                            split: modes && modes.length > 1,
+                            value: guid,
+                            hint: model.get('name')
                         });
 
                     var $slot = $('<span class="slot"></span>').appendTo(_group);
@@ -276,40 +273,53 @@ define([
         },
 
         _onAppReady: function (mode) {
-            if (this._pluginsIsInited) return;
+        },
 
+        createPluginButton: function (model) {
             var me = this;
-            this._pluginsIsInited = (this.storePlugins.length>0);
-            this.storePlugins.each(function(model) {
-                var _plugin_btn = model.get('button');
 
-                if ( _plugin_btn ) {
-                    _plugin_btn.on('click', function(b, e) {
-                        me.fireEvent('plugin:select', [b.options.value, 0]);
+            var modes = model.get('variations'),
+                guid = model.get('guid'),
+                icons = modes[model.get('currentVariation')].get('icons'),
+                icon_url = model.get('baseUrl') + icons[((window.devicePixelRatio > 1) ? 1 : 0) + (icons.length > 2 ? 2 : 0)];
+            var btn = new Common.UI.Button({
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconImg: icon_url,
+                    caption: model.get('name'),
+                    menu: modes && modes.length > 1,
+                    split: modes && modes.length > 1,
+                    value: guid,
+                    hint: model.get('name')
+                });
+
+            if ( btn.split ) {
+                var _menu_items = [];
+                _.each(model.get('variations'), function(version, index) {
+                    _menu_items.push({
+                        caption     : index > 0 ? version.get('description') : me.textStart,
+                        value       : parseInt(version.get('index'))
                     });
+                });
 
-                    if ( _plugin_btn.split ) {
-                        var _menu_items = [];
-                        _.each(model.get('variations'), function(version, index) {
-                            _menu_items.push({
-                                caption     : index > 0 ? version.get('description') : me.textStart,
-                                value       : parseInt(version.get('index'))
-                            });
-                        });
+                btn.setMenu(
+                    new Common.UI.Menu({
+                        items: _menu_items,
+                        pluginGuid: model.get('guid')
+                    })
+                );
 
-                        _plugin_btn.setMenu(
-                            new Common.UI.Menu({
-                                items: _menu_items,
-                                pluginGuid: model.get('guid')
-                            })
-                        );
+                btn.menu.on('item:click', function(menu, item, e) {
+                    me.fireEvent('plugin:select', [menu.options.pluginGuid, item.value]);
+                });
+            }
 
-                        _plugin_btn.menu.on('item:click', function(menu, item, e) {
-                            me.fireEvent('plugin:select', [menu.options.pluginGuid, item.value]);
-                        });
-                    }
-                }
+            btn.on('click', function(b, e) {
+                me.fireEvent('plugin:select', [b.options.value, 0]);
             });
+
+            model.set('button', btn);
+            me.lockedControls.push(btn);
+            return btn;
         },
 
         strPlugins: 'Plugins',

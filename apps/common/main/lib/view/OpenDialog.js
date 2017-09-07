@@ -95,6 +95,7 @@ define([
             this.type           =   options.type;
             this.codepages      =   options.codepages;
             this.settings       =   options.settings;
+            this.validatePwd    =   options.validatePwd || false;
 
             _options.tpl        =   _.template(this.template)(_options);
 
@@ -104,18 +105,20 @@ define([
             Common.UI.Window.prototype.render.call(this);
 
             if (this.$window) {
+                var me = this;
                 this.$window.find('.tool').hide();
                 this.$window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
                 if (this.type == Asc.c_oAscAdvancedOptionsID.DRM) {
                     this.inputPwd = new Common.UI.InputField({
                         el: $('#id-password-txt'),
                         type: 'password',
-                        allowBlank: false,
-                        validateOnBlur: false
+                        validateOnBlur: false,
+                        validation  : function(value) {
+                            return me.txtIncorrectPwd;
+                        }
                     });
                     this.$window.find('input').on('keypress', _.bind(this.onKeyPress, this));
                 } else {
-                    var me = this;
                     this.initCodePages();
                     this.onPrimary = function() {
                         me.onBtnClick();
@@ -132,6 +135,8 @@ define([
                  var me = this;
                  setTimeout(function(){
                      me.inputPwd.cmpEl.find('input').focus();
+                     if (me.validatePwd)
+                         me.inputPwd.checkValidate();
                  }, 500);
              }
         },
@@ -375,7 +380,8 @@ define([
         txtTitle           : "Choose %1 options",
         txtPassword        : "Password",
         txtTitleProtected  : "Protected File",
-        txtOther: 'Other'
+        txtOther: 'Other',
+        txtIncorrectPwd: 'Password is incorrect.'
 
     }, Common.Views.OpenDialog || {}));
 });

@@ -18,11 +18,11 @@
         height: 27px;
         margin-bottom: 3px;
 
-        &:hover {
+        &:hover:not(.disabled) {
           background-color: @secondary;
         }
 
-        &.active {
+        &.active:not(.disabled) {
           outline: 0;
           background-color: @primary;
 
@@ -30,6 +30,12 @@
             color: #fff;
           }
         }
+
+        &.disabled > a {
+          cursor: default;
+          color: @gray;
+        }
+
       }
 
       &.devider {
