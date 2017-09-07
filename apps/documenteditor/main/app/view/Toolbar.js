@@ -103,7 +103,8 @@ define([
                 this.toolbarControls = [];
                 this.textOnlyControls = [];
                 this._state = {
-                    hasCollaborativeChanges: undefined
+                    hasCollaborativeChanges: undefined,
+                    previewmode: false
                 };
                 this.btnSaveCls = 'btn-save';
                 this.btnSaveTip = this.tipSave + Common.Utils.String.platformKey('Ctrl+S');
@@ -121,6 +122,7 @@ define([
                     iconCls: 'no-mask ' + this.btnSaveCls
                 });
                 this.toolbarControls.push(this.btnSave);
+                this.btnsSave = [this.btnSave];
 
                 this.btnUndo = new Common.UI.Button({
                     id: 'id-toolbar-btn-undo',
@@ -1996,6 +1998,13 @@ define([
                     maxRows: 8,
                     maxColumns: 10
                 });
+
+                var btnsave = DE.getController('LeftMenu').getView('LeftMenu').getMenu('file').getButton('save');
+                if (btnsave && this.btnsSave) {
+                    this.btnsSave.push(btnsave);
+                    this.toolbarControls.push(btnsave);
+                    btnsave.setDisabled(this.btnsSave[0].isDisabled());
+                }
             },
 
             onToolbarAfterRender: function(toolbar) {
@@ -2079,7 +2088,11 @@ define([
 
             setMode: function (mode) {
                 if (mode.isDisconnected) {
-                    this.btnSave.setDisabled(true);
+                    this.btnsSave.forEach(function(button) {
+                        if ( button ) {
+                            button.setDisabled(true);
+                        }
+                    });
                     this.btnCopy.setDisabled(true);
                     this.btnPaste.setDisabled(true);
                     this.btnUndo.setDisabled(true);
@@ -2202,7 +2215,7 @@ define([
             /** coauthoring begin **/
             onCollaborativeChanges: function () {
                 if (this._state.hasCollaborativeChanges) return;
-                if (!this.btnSave.rendered) {
+                if (!this.btnSave.rendered || this._state.previewmode) {
                     this.needShowSynchTip = true;
                     return;
                 }
@@ -2221,7 +2234,11 @@ define([
                     this.btnSave.updateHint(this.tipSynchronize + Common.Utils.String.platformKey('Ctrl+S'));
                 }
 
-                this.btnSave.setDisabled(false);
+                this.btnsSave.forEach(function(button) {
+                    if ( button ) {
+                        button.setDisabled(false);
+                    }
+                });
                 Common.Gateway.collaborativeChanges();
             },
 
@@ -2242,8 +2259,9 @@ define([
             },
 
             synchronizeChanges: function () {
-                if (this.btnSave.rendered) {
-                    var iconEl = $('.icon', this.btnSave.cmpEl);
+                if (!this._state.previewmode && this.btnSave.rendered) {
+                    var iconEl = $('.icon', this.btnSave.cmpEl),
+                        me = this;
 
                     if (iconEl.hasClass('btn-synch')) {
                         iconEl.removeClass('btn-synch');
@@ -2251,7 +2269,11 @@ define([
                         if (this.synchTooltip)
                             this.synchTooltip.hide();
                         this.btnSave.updateHint(this.btnSaveTip);
-                        this.btnSave.setDisabled(!this.mode.forcesave);
+                        this.btnsSave.forEach(function(button) {
+                            if ( button ) {
+                                button.setDisabled(!me.mode.forcesave);
+                            }
+                        });
                         this._state.hasCollaborativeChanges = false;
                     }
                 }

@@ -414,6 +414,8 @@ define([
             '<section id="review-changes-panel" class="panel" data-tab="review">' +
                 '<div class="group">' +
                     '<span id="slot-set-lang" class="btn-slot text x-huge"></span>' +
+                '</div>' +
+                '<div class="group no-group-mask" style="padding-left: 0;">' +
                     '<span id="slot-btn-spelling" class="btn-slot text x-huge"></span>' +
                 '</div>' +
                 '<div class="separator long comments"/>' +

@@ -314,6 +314,11 @@ define([
             return !this.$el.is(':hidden');
         },
 
+        getButton: function(type) {
+            if (type == 'save')
+                return this.miSave;
+        },
+
         btnSaveCaption          : 'Save',
         btnDownloadCaption      : 'Download as...',
         btnInfoCaption          : 'Document Info...',

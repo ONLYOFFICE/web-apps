@@ -1314,19 +1314,29 @@ define([
 
                 if (this.toolbarView && this.toolbarView.btnSave && this.api) {
                     var isSyncButton = $('.icon', this.toolbarView.btnSave.cmpEl).hasClass('btn-synch'),
-                        forcesave = this.appOptions.forcesave;
-                    var cansave = this.api.asc_isDocumentCanSave();
-                    if (this.toolbarView.btnSave.isDisabled() !== (!cansave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave))
-                        this.toolbarView.btnSave.setDisabled(!cansave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave);
+                        forcesave = this.appOptions.forcesave,
+                        cansave = this.api.asc_isDocumentCanSave(),
+                        isDisabled = !cansave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave;
+                    if (this.toolbarView.btnSave.isDisabled() !== isDisabled)
+                        this.toolbarView.btnsSave.forEach(function(button) {
+                            if ( button ) {
+                                button.setDisabled(isDisabled);
+                            }
+                        });
                 }
             },
 
             onDocumentCanSaveChanged: function (isCanSave) {
                 if (this.toolbarView && this.toolbarView.btnSave) {
                     var isSyncButton = $('.icon', this.toolbarView.btnSave.cmpEl).hasClass('btn-synch'),
-                        forcesave = this.appOptions.forcesave;
-                    if (this.toolbarView.btnSave.isDisabled() !== (!isCanSave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave))
-                        this.toolbarView.btnSave.setDisabled(!isCanSave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave);
+                        forcesave = this.appOptions.forcesave,
+                        isDisabled = !isCanSave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave;
+                    if (this.toolbarView.btnSave.isDisabled() !== isDisabled)
+                        this.toolbarView.btnsSave.forEach(function(button) {
+                            if ( button ) {
+                                button.setDisabled(isDisabled);
+                            }
+                        });
                 }
             },
 
