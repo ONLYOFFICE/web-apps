@@ -194,6 +194,8 @@
   "Common.Views.RenameDialog.txtInvalidName": "Dieser Dateiname darf keines der folgenden Zeichen enthalten:",
   "Common.Views.ReviewChanges.hintNext": "Zur nächsten Änderung",
   "Common.Views.ReviewChanges.hintPrev": "Zur vorherigen Änderung",
+  "Common.Views.ReviewChanges.tipAcceptCurrent": "Aktuelle Änderungen annehmen",
+  "Common.Views.ReviewChanges.tipRejectCurrent": "Aktuelle Änderungen ablehnen",
   "Common.Views.ReviewChanges.tipReview": "Nachverfolgen von Änderungen",
   "Common.Views.ReviewChanges.tipReviewView": "Wählen Sie den Modus aus, in dem die Änderungen angezeigt werden sollen\n",
   "Common.Views.ReviewChanges.tipSetDocLang": "Sprache des Dokumentes festlegen",
