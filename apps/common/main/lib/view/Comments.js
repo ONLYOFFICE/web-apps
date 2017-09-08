@@ -1060,6 +1060,7 @@ define([
                                     me.fireEvent('comment:removeReply', [commentId, replyId]);
                                 } else {
                                     me.fireEvent('comment:remove', [commentId]);
+                                    Common.NotificationCenter.trigger('edit:complete', me);
                                 }
 
                                 me.fireEvent('comment:closeEditing');
