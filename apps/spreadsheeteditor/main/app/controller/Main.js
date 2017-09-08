@@ -555,6 +555,9 @@ define([
                 if (this._isDocReady)
                     return;
 
+                if (this._state.openDlg)
+                    this._state.openDlg.close();
+
                 var me = this,
                     value;
 
@@ -1420,10 +1423,12 @@ define([
             },
 
             onAdvancedOptions: function(advOptions) {
+                if (this._state.openDlg) return;
+
                 var type = advOptions.asc_getOptionId(),
-                    me = this, dlg;
+                    me = this;
                 if (type == Asc.c_oAscAdvancedOptionsID.CSV) {
-                    dlg = new Common.Views.OpenDialog({
+                    me._state.openDlg = new Common.Views.OpenDialog({
                         type: type,
                         codepages: advOptions.asc_getOptions().asc_getCodePages(),
                         settings: advOptions.asc_getOptions().asc_getRecommendedSettings(),
@@ -1433,10 +1438,11 @@ define([
                                 me.api.asc_setAdvancedOptions(type, new Asc.asc_CCSVAdvancedOptions(encoding, delimiter, delimiterChar));
                                 me.loadMask && me.loadMask.show();
                             }
+                            me._state.openDlg = null;
                         }
                     });
                 } else if (type == Asc.c_oAscAdvancedOptionsID.DRM) {
-                    dlg = new Common.Views.OpenDialog({
+                    me._state.openDlg = new Common.Views.OpenDialog({
                         type: type,
                         handler: function (value) {
                             me.isShowOpenDialog = false;
@@ -1444,14 +1450,15 @@ define([
                                 me.api.asc_setAdvancedOptions(type, new Asc.asc_CDRMAdvancedOptions(value));
                                 me.loadMask && me.loadMask.show();
                             }
+                            me._state.openDlg = null;
                         }
                     });
                 }
-                if (dlg) {
+                if (me._state.openDlg) {
                     this.isShowOpenDialog = true;
                     this.loadMask && this.loadMask.hide();
                     this.onLongActionEnd(Asc.c_oAscAsyncActionType.BlockInteraction, LoadingDocument);
-                    dlg.show();
+                    me._state.openDlg.show();
                 }
             },
 
