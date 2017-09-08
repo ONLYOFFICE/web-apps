@@ -997,6 +997,10 @@ define([
                     me = this, modal;
 
                 if (type == Asc.c_oAscAdvancedOptionsID.DRM) {
+                    $(me.loadMask).hasClass('modal-in') && uiApp.closeModal(me.loadMask);
+
+                    me.onLongActionEnd(Asc.c_oAscAsyncActionType.BlockInteraction, LoadingDocument);
+
                     modal = uiApp.modal({
                         title: me.advDRMOptions,
                         text: me.advDRMEnterPassword,
@@ -1015,6 +1019,11 @@ define([
                                 }
                             }
                         ]
+                    });
+
+                    // Vertical align
+                    $$(modal).css({
+                        marginTop: - Math.round($$(modal).outerHeight() / 2) + 'px'
                     });
                 }
             },
