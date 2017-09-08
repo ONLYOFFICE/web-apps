@@ -179,6 +179,7 @@
   "Common.Views.OpenDialog.cancelButtonText": "Cancel",
   "Common.Views.OpenDialog.okButtonText": "OK",
   "Common.Views.OpenDialog.txtEncoding": "Encoding ",
+  "Common.Views.OpenDialog.txtIncorrectPwd": "Password is incorrect.",
   "Common.Views.OpenDialog.txtPassword": "Password",
   "Common.Views.OpenDialog.txtTitle": "Choose %1 options",
   "Common.Views.OpenDialog.txtTitleProtected": "Protected File",
