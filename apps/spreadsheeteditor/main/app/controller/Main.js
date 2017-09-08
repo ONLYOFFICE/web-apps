@@ -454,12 +454,12 @@ define([
                     this.setLongActionView(action);
                 } else {
                     if (this.loadMask) {
-                        if (this.loadMask.isVisible() && !this.dontCloseDummyComment && !this.dontCloseChat)
+                        if (this.loadMask.isVisible() && !this.dontCloseDummyComment && !this.dontCloseChat && !this.isModalShowed )
                             this.api.asc_enableKeyEvents(true);
                         this.loadMask.hide();
                     }
 
-                    if (type == Asc.c_oAscAsyncActionType.BlockInteraction && !( (id == Asc.c_oAscAsyncAction['LoadDocumentFonts'] || id == Asc.c_oAscAsyncAction['ApplyChanges']) && (this.dontCloseDummyComment || this.dontCloseChat) ))
+                    if (type == Asc.c_oAscAsyncActionType.BlockInteraction && !( (id == Asc.c_oAscAsyncAction['LoadDocumentFonts'] || id == Asc.c_oAscAsyncAction['ApplyChanges']) && (this.dontCloseDummyComment || this.dontCloseChat || this.isModalShowed ) ))
                         this.onEditComplete(this.loadMask, {restorefocus:true});
                 }
             },
