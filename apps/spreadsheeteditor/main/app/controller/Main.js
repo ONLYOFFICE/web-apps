@@ -621,8 +621,10 @@ define([
 
                  if (!me.appOptions.isEditMailMerge && !me.appOptions.isEditDiagram) {
                     pluginsController.setApi(me.api);
-                    me.updatePlugins(me.plugins, false);
-                    me.requestPlugins('../../../../plugins.json');
+                    if (me.plugins && me.plugins.pluginsData && me.plugins.pluginsData.length>0)
+                        me.updatePlugins(me.plugins, false);
+                    else
+                        me.requestPlugins('../../../../plugins.json');
                     me.api.asc_registerCallback('asc_onPluginsInit', _.bind(me.updatePluginsList, me));
                 }
 

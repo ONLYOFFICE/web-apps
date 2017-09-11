@@ -846,8 +846,10 @@ define([
                 application.getController('Common.Controllers.ExternalMergeEditor').setApi(this.api).loadConfig({config:this.editorConfig, customization: this.editorConfig.customization});
 
                 pluginsController.setApi(me.api);
-                me.updatePlugins(me.plugins, false);
-                me.requestPlugins('../../../../plugins.json');
+                if (me.plugins && me.plugins.pluginsData && me.plugins.pluginsData.length>0)
+                    me.updatePlugins(me.plugins, false);
+                else
+                    me.requestPlugins('../../../../plugins.json');
                 me.api.asc_registerCallback('asc_onPluginsInit', _.bind(me.updatePluginsList, me));
 
                 documentHolderController.setApi(me.api);
