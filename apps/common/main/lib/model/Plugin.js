@@ -66,7 +66,8 @@ define([
                 isUpdateOleOnResize: false,
                 buttons: [],
                 size: [800, 600],
-                initOnSelectionChanged: false
+                initOnSelectionChanged: false,
+                visible: true
             }
         }
     });
@@ -82,7 +83,8 @@ define([
                 currentVariation: 0,
                 pluginObj: undefined,
                 allowSelected: false,
-                selected: false
+                selected: false,
+                visible: true
             }
         }
     });

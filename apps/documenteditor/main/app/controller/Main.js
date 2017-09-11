@@ -1906,32 +1906,33 @@ define([
                 if (plugins) {
                     var arr = [], arrUI = [];
                     plugins.pluginsData.forEach(function(item){
-                        var variationsArr = [];
+                        var variationsArr = [],
+                            pluginVisible = false;
                         item.variations.forEach(function(itemVar){
-                            if ( (isEdit || itemVar.isViewer) &&
-                                    _.contains(itemVar.EditorsSupport, 'word') )
-                            {
-                                var icons = itemVar.icons;
-                                if (item.oldVersion) { // for compatibility with previouse version of server, where plugins.url is used.
-                                    icons = [];
-                                    itemVar.icons.forEach(function(icon){
-                                        icons.push(icon.substring(icon.lastIndexOf("\/")+1));
-                                    });
-                                }
+                            var visible = (isEdit || itemVar.isViewer) && _.contains(itemVar.EditorsSupport, 'word');
+                            if ( visible ) pluginVisible = true;
 
-                                if (item.isUICustomizer ) {
-                                    arrUI.push(item.baseUrl + itemVar.url)
-                                } else {
-                                    var model = new Common.Models.PluginVariation(itemVar);
+                            var icons = itemVar.icons;
+                            if (item.oldVersion) { // for compatibility with previouse version of server, where plugins.url is used.
+                                icons = [];
+                                itemVar.icons.forEach(function(icon){
+                                    icons.push(icon.substring(icon.lastIndexOf("\/")+1));
+                                });
+                            }
 
-                                    model.set({
-                                        index: variationsArr.length,
-                                        url: (item.oldVersion) ? (itemVar.url.substring(itemVar.url.lastIndexOf("\/") + 1) ) : itemVar.url,
-                                        icons: icons
-                                    });
+                            if (item.isUICustomizer ) {
+                                visible && arrUI.push(item.baseUrl + itemVar.url);
+                            } else {
+                                var model = new Common.Models.PluginVariation(itemVar);
 
-                                    variationsArr.push(model);
-                                }
+                                model.set({
+                                    index: variationsArr.length,
+                                    url: (item.oldVersion) ? (itemVar.url.substring(itemVar.url.lastIndexOf("\/") + 1) ) : itemVar.url,
+                                    icons: icons,
+                                    visible: visible
+                                });
+
+                                variationsArr.push(model);
                             }
                         });
 
@@ -1941,7 +1942,8 @@ define([
                                 guid: item.guid,
                                 baseUrl : item.baseUrl,
                                 variations: variationsArr,
-                                currentVariation: 0
+                                currentVariation: 0,
+                                visible: pluginVisible
                             }));
                     });
 
