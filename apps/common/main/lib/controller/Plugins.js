@@ -177,6 +177,7 @@ define([
             var me = this;
             if ( me.$toolbarPanelPlugins ) {
                 var btn = me.panelPlugins.createPluginButton(model);
+                if (!btn) return;
 
                 var _group = $('> .group', me.$toolbarPanelPlugins);
                 var $slot = $('<span class="slot"></span>').appendTo(_group);
@@ -191,10 +192,12 @@ define([
 
                 var _group = $('<div class="group"></div>');
                 collection.each(function (model) {
-                    var $slot = $('<span class="slot"></span>').appendTo(_group);
-                    me.panelPlugins.createPluginButton(model).render($slot);
+                    var btn = me.panelPlugins.createPluginButton(model);
+                    if (btn) {
+                        var $slot = $('<span class="slot"></span>').appendTo(_group);
+                        btn.render($slot);
+                    }
                 });
-
                 _group.appendTo(me.$toolbarPanelPlugins);
             }
         },

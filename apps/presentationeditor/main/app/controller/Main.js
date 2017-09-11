@@ -1684,32 +1684,34 @@ define([
                         if (uiCustomize!==undefined && (pluginStore.findWhere({baseUrl : item.baseUrl}) || pluginStore.findWhere({guid : item.guid}))) return;
 
                         var variations = item.variations,
-                            variationsArr = [];
+                            variationsArr = [],
+                            pluginVisible = false;
                         variations.forEach(function(itemVar){
-                            var isSupported = itemVar.EditorsSupport.includes('slide');
+                            var isSupported = itemVar.EditorsSupport.includes('slide'),
+                                visible = isSupported && (isEdit || itemVar.isViewer);
+                            if ( visible ) pluginVisible = true;
 
-                            if ( isSupported && (isEdit || itemVar.isViewer) ){
-                                var icons = itemVar.icons;
-                                if (item.oldVersion) { // for compatibility with previouse version of server, where plugins.url is used.
-                                    icons = [];
-                                    itemVar.icons.forEach(function(icon){
-                                        icons.push(icon.substring(icon.lastIndexOf("\/")+1));
-                                    });
-                                }
+                            var icons = itemVar.icons;
+                            if (item.oldVersion) { // for compatibility with previouse version of server, where plugins.url is used.
+                                icons = [];
+                                itemVar.icons.forEach(function(icon){
+                                    icons.push(icon.substring(icon.lastIndexOf("\/")+1));
+                                });
+                            }
 
-                                if ( item.isUICustomizer ) {
-                                    arrUI.push(item.baseUrl + itemVar.url);
-                                } else {
-                                    var model = new Common.Models.PluginVariation(itemVar);
+                            if ( item.isUICustomizer ) {
+                                visible && arrUI.push(item.baseUrl + itemVar.url);
+                            } else {
+                                var model = new Common.Models.PluginVariation(itemVar);
 
-                                    model.set({
-                                        index: variationsArr.length,
-                                        url: (item.oldVersion) ? (itemVar.url.substring(itemVar.url.lastIndexOf("\/") + 1) ) : itemVar.url,
-                                        icons: icons
-                                    });
+                                model.set({
+                                    index: variationsArr.length,
+                                    url: (item.oldVersion) ? (itemVar.url.substring(itemVar.url.lastIndexOf("\/") + 1) ) : itemVar.url,
+                                    icons: icons,
+                                    visible: visible
+                                });
 
-                                    variationsArr.push(model);
-                                }
+                                variationsArr.push(model);
                             }
                         });
                         if (variationsArr.length>0 && !item.isUICustomizer)
@@ -1718,7 +1720,8 @@ define([
                                 guid: item.guid,
                                 baseUrl : item.baseUrl,
                                 variations: variationsArr,
-                                currentVariation: 0
+                                currentVariation: 0,
+                                visible: pluginVisible
                             }));
                     });
 
