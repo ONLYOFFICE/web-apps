@@ -1850,12 +1850,17 @@ define([
                     }
                 });
 
-                if (arr.length>0)
+                if (arr.length>0) {
+                    var autostart = plugins.autostart || plugins.autoStartGuid;
+                    if (typeof (autostart) == 'string')
+                        autostart = [autostart];
+                    plugins.autoStartGuid && console.warn("Obsolete: The autoStartGuid parameter is deprecated. Please check the documentation for new plugin connection configuration.");
+
                     this.updatePluginsList({
-                        autoStartGuid: plugins.autoStartGuid,
-                        autostart: plugins.autostart,
+                        autostart: autostart,
                         pluginsData: arr
                     }, !!uiCustomize);
+                }
             },
 
             updatePluginsList: function(plugins, uiCustomize) {
@@ -1919,10 +1924,7 @@ define([
                 }
                 if (this.appOptions.canPlugins) {
                     this.getApplication().getController('Common.Controllers.Plugins').setMode(this.appOptions);
-                    if (plugins.autoStartGuid) {
-                        console.warn("Obsolete: The autoStartGuid parameter is deprecated. Please check the documentation for new plugin connection configuration.");
-                        this.api.asc_pluginRun(plugins.autoStartGuid, 0, '');
-                    } else if (plugins.autostart && plugins.autostart.length>0) {
+                    if (plugins.autostart && plugins.autostart.length>0) {
                         // run array of plugins
                         this.api.asc_pluginRun(plugins.autostart[0], 0, '');
                     }
