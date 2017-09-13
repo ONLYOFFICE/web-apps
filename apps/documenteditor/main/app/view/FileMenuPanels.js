@@ -1083,4 +1083,83 @@ define([
             }
         }
     });
+
+    DE.Views.FileMenuPanels.ProtectDoc = Common.UI.BaseView.extend(_.extend({
+        el: '#panel-protect',
+        menu: undefined,
+
+        template: _.template([
+            '<label style="font-size: 18px;"><%= scope.strProtect %></label>',
+            '<table><tbody>',
+            '<tr>',
+                '<td><button id="fms-btn-final" class="btn btn-text-default" style="min-width:100px;width: auto;"><%= scope.strMarkAsFinal %></button></td>',
+            '</tr>',
+            '<tr>',
+                '<td><button id="fms-btn-invisible-sign" class="btn btn-text-default" style="min-width:190px;width: auto;"><%= scope.strInvisibleSign %></button></td>',
+            '</tr>',
+            '<tr>',
+                '<td><button id="fms-btn-visible-sign" class="btn btn-text-default" style="min-width:190px;width: auto;"><%= scope.strVisibleSign %></button></td>',
+            '</tr>',
+            '</tbody></table>'
+        ].join('')),
+
+        initialize: function(options) {
+            Common.UI.BaseView.prototype.initialize.call(this,arguments);
+
+            this.menu = options.menu;
+        },
+
+        render: function() {
+            $(this.el).html(this.template({scope: this}));
+
+            this.btnFinal = new Common.UI.Button({
+                el: '#fms-btn-final'
+            });
+            this.btnFinal.on('click', _.bind(this.markAsFinal, this));
+
+            this.btnAddInvisibleSign = new Common.UI.Button({
+                el: '#fms-btn-invisible-sign'
+            });
+            this.btnAddInvisibleSign.on('click', _.bind(this.addInvisibleSign, this));
+
+            this.btnAddVisibleSign = new Common.UI.Button({
+                el: '#fms-btn-visible-sign'
+            });
+            this.btnAddVisibleSign.on('click', _.bind(this.addVisibleSign, this));
+
+            if (_.isUndefined(this.scroller)) {
+                this.scroller = new Common.UI.Scroller({
+                    el: $(this.el),
+                    suppressScrollX: true
+                });
+            }
+
+            return this;
+        },
+
+        show: function() {
+            Common.UI.BaseView.prototype.show.call(this,arguments);
+        },
+
+        setMode: function(mode) {
+            this.mode = mode;
+        },
+
+        markAsFinal: function() {
+        },
+
+        addInvisibleSign: function() {
+        },
+
+        addVisibleSign: function() {
+        },
+
+        strProtect: 'Protect Document',
+        strMarkAsFinal: 'Mark as final',
+        strInvisibleSign: 'Add invisible digital signature',
+        strVisibleSign: 'Add visible signature'
+
+
+    }, DE.Views.FileMenuPanels.ProtectDoc || {}));
+
 });
