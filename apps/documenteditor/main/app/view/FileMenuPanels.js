@@ -1090,23 +1090,42 @@ define([
 
         template: _.template([
             '<label style="font-size: 18px;"><%= scope.strProtect %></label>',
-            '<table><tbody>',
-            '<tr>',
-                '<td><button id="fms-btn-final" class="btn btn-text-default" style="min-width:100px;width: auto;"><%= scope.strMarkAsFinal %></button></td>',
-            '</tr>',
-            '<tr>',
-                '<td><button id="fms-btn-invisible-sign" class="btn btn-text-default" style="min-width:190px;width: auto;"><%= scope.strInvisibleSign %></button></td>',
-            '</tr>',
-            '<tr>',
-                '<td><button id="fms-btn-visible-sign" class="btn btn-text-default" style="min-width:190px;width: auto;"><%= scope.strVisibleSign %></button></td>',
-            '</tr>',
-            '</tbody></table>'
+            '<button id="fms-btn-final" class="btn btn-text-default" style="min-width:100px;"><%= scope.strMarkAsFinal %></button>',
+            '<button id="fms-btn-invisible-sign" class="btn btn-text-default" style="min-width:190px;"><%= scope.strInvisibleSign %></button>',
+            '<button id="fms-btn-visible-sign" class="btn btn-text-default" style="min-width:190px;"><%= scope.strVisibleSign %></button>',
+            '<label class="header"><%= scope.strRequested %></label>',
+            '<div id="id-fms-requested-sign"></div>',
+            '<label class="header"><%= scope.strValid %></label>',
+            '<div id="id-fms-valid-sign"></div>',
+            '<label class="header"><%= scope.strInvalid %></label>',
+            '<div id="id-fms-invalid-sign"></div>'
         ].join('')),
 
         initialize: function(options) {
             Common.UI.BaseView.prototype.initialize.call(this,arguments);
 
             this.menu = options.menu;
+
+            this.templateRequested = _.template([
+                '<table>',
+                '<% _.each(signatures, function(item) { %>',
+                '<tr>',
+                '<td><%= Common.Utils.String.htmlEncode(item) %></td>',
+                '</tr>',
+                '<% }); %>',
+                '</table>'
+            ].join(''));
+
+            this.templateValid = _.template([
+                '<table>',
+                '<% _.each(signatures, function(item) { %>',
+                '<tr>',
+                '<td><%= Common.Utils.String.htmlEncode(item.name) %></td>',
+                '<td><%= Common.Utils.String.htmlEncode(item.date) %></td>',
+                '</tr>',
+                '<% }); %>',
+                '</table>'
+            ].join(''));
         },
 
         render: function() {
@@ -1127,6 +1146,10 @@ define([
             });
             this.btnAddVisibleSign.on('click', _.bind(this.addVisibleSign, this));
 
+            this.cntRequestedSign = $('#id-fms-requested-sign');
+            this.cntValidSign = $('#id-fms-valid-sign');
+            this.cntInvalidSign = $('#id-fms-invalid-sign');
+
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
                     el: $(this.el),
@@ -1139,10 +1162,16 @@ define([
 
         show: function() {
             Common.UI.BaseView.prototype.show.call(this,arguments);
+            this.updateSignatures();
         },
 
         setMode: function(mode) {
             this.mode = mode;
+        },
+
+        setApi: function(o) {
+            this.api = o;
+            return this;
         },
 
         markAsFinal: function() {
@@ -1154,10 +1183,22 @@ define([
         addVisibleSign: function() {
         },
 
+        updateSignatures: function(){
+            // this.cntRequestedSign.html(this.templateRequested({signatures: this.api.asc_getRequestedSignatures()}));
+            // this.cntValidSign.html(this.templateValid({signatures: this.api.asc_getValidSignatures()}));
+            // this.cntInvalidSign.html(this.templateInvalid({signatures: this.api.asc_getInvalidSignatures()}));
+            this.cntRequestedSign.html(this.templateRequested({signatures: ['Hammish Mitchell', 'Someone Somewhere', 'Mary White', 'John Black']}));
+            this.cntValidSign.html(this.templateValid({signatures: [{name: 'Hammish Mitchell', date: '18/05/2017'}, {name: 'Someone Somewhere', date: '18/05/2017'}]}));
+            this.cntInvalidSign.html(this.templateValid({signatures: [{name: 'Mary White', date: '18/05/2017'}, {name: 'John Black', date: '18/05/2017'}]}));
+        },
+
         strProtect: 'Protect Document',
         strMarkAsFinal: 'Mark as final',
         strInvisibleSign: 'Add invisible digital signature',
-        strVisibleSign: 'Add visible signature'
+        strVisibleSign: 'Add visible signature',
+        strRequested: 'Requested signatures',
+        strValid: 'Valid signatures',
+        strInvalid: 'Invalid signatures'
 
 
     }, DE.Views.FileMenuPanels.ProtectDoc || {}));
