@@ -682,14 +682,13 @@ define([
                         if (result == 'ok') {
                              me.api.asc_AddSignatureLine2(dlg.getSettings());
                         }
-                        Common.NotificationCenter.trigger('edit:complete');
+                        Common.NotificationCenter.trigger('edit:complete', me);
                     }
                 });
 
             win.show();
 
             menu.hide();
-            this.leftMenu.btnFile.toggle(false, true);
         },
 
         addInvisibleSign: function(menu) {
@@ -702,14 +701,13 @@ define([
                             var props = dlg.getSettings();
                             me.api.asc_Sign(props.certificateId);
                         }
-                        Common.NotificationCenter.trigger('edit:complete');
+                        Common.NotificationCenter.trigger('edit:complete', me);
                     }
                 });
 
             win.show();
 
             menu.hide();
-            this.leftMenu.btnFile.toggle(false, true);
         },
 
         textNoTextFound         : 'Text not found',

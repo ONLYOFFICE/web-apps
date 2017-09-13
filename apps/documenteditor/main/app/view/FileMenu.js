@@ -240,7 +240,6 @@ define([
         applyMode: function() {
             this.miPrint[this.mode.canPrint?'show':'hide']();
             this.miRename[(this.mode.canRename && !this.mode.isDesktopApp) ?'show':'hide']();
-            this.miRename.$el.find('+.devider')[!this.mode.isDisconnected?'show':'hide']();
             this.items[7][(this.mode.isDesktopApp) ?'show':'hide']();
             this.items[7].$el.find('+.devider')[!this.mode.isDisconnected?'show':'hide']();
             this.miRecent[this.mode.canOpenRecent?'show':'hide']();

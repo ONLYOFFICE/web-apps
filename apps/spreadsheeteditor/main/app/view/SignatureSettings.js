@@ -39,7 +39,7 @@
  */
 
 define([
-    'text!documenteditor/main/app/template/SignatureSettings.template',
+    'text!spreadsheeteditor/main/app/template/SignatureSettings.template',
     'jquery',
     'underscore',
     'backbone',
@@ -49,7 +49,7 @@ define([
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
 
-    DE.Views.SignatureSettings = Backbone.View.extend(_.extend({
+    SSE.Views.SignatureSettings = Backbone.View.extend(_.extend({
         el: '#id-signature-settings',
 
         // Compile our stats template
@@ -243,7 +243,7 @@ define([
 
              if (_.isUndefined(me.fontStore)) {
                  me.fontStore = new Common.Collections.Fonts();
-                 var fonts = DE.getController('Toolbar').getView('Toolbar').cmbFontName.store.toJSON();
+                 var fonts = SSE.getController('Toolbar').getView('Toolbar').cmbFontName.store.toJSON();
                  var arr = [];
                  _.each(fonts, function(font, index){
                      if (!font.cloneid) {
@@ -284,5 +284,5 @@ define([
         strSign: 'Sign',
         strView: 'View'
 
-    }, DE.Views.SignatureSettings || {}));
+    }, SSE.Views.SignatureSettings || {}));
 });
