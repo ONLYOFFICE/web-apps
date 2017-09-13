@@ -1834,18 +1834,11 @@ define([
                 var pluginsData = (uiCustomize) ? plugins.UIpluginsData : plugins.pluginsData;
                 if (!pluginsData || pluginsData.length<1) return;
 
-                var arr = [],
-                    baseUrl = _.isEmpty(plugins.url) ? "" : plugins.url;
-
-                if (baseUrl !== "")
-                    console.warn("Obsolete: The url parameter is deprecated. Please check the documentation for new plugin connection configuration.");
-
+                var arr = [];
                 pluginsData.forEach(function(item){
-                    item = baseUrl + item; // for compatibility with previouse version of server, where plugins.url is used.
                     var value = Common.Utils.getConfigJson(item);
                     if (value) {
                         value.baseUrl = item.substring(0, item.lastIndexOf("config.json"));
-                        value.oldVersion = (baseUrl !== "");
                         arr.push(value);
                     }
                 });
@@ -1878,14 +1871,6 @@ define([
                             var visible = (isEdit || itemVar.isViewer) && itemVar.EditorsSupport.includes('cell');
                             if ( visible ) pluginVisible = true;
 
-                            var icons = itemVar.icons;
-                            if (item.oldVersion) { // for compatibility with previouse version of server, where plugins.url is used.
-                                icons = [];
-                                itemVar.icons.forEach(function(icon){
-                                    icons.push(icon.substring(icon.lastIndexOf("\/")+1));
-                                });
-                            }
-
                             if ( item.isUICustomizer ) {
                                 visible && arrUI.push(item.baseUrl + itemVar.url);
                             } else {
@@ -1893,8 +1878,8 @@ define([
 
                                 model.set({
                                     index: variationsArr.length,
-                                    url: (item.oldVersion) ? (itemVar.url.substring(itemVar.url.lastIndexOf("\/") + 1)) : itemVar.url,
-                                    icons: icons,
+                                    url: itemVar.url,
+                                    icons: itemVar.icons,
                                     visible: visible
                                 });
 
