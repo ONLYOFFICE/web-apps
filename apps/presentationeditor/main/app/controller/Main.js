@@ -1738,11 +1738,7 @@ define([
                     this.appOptions.canPlugins = false;
                 }
                 if (this.appOptions.canPlugins) {
-                    this.getApplication().getController('Common.Controllers.Plugins').setMode(this.appOptions);
-                    if (plugins.autostart && plugins.autostart.length>0) {
-                        // run array of plugins
-                        this.api.asc_pluginRun(plugins.autostart[0], 0, '');
-                    }
+                    this.getApplication().getController('Common.Controllers.Plugins').setMode(this.appOptions).runAutoStartPlugins(plugins.autostart);
                 }
                 if (!uiCustomize) this.getApplication().getController('LeftMenu').enablePlugins();
             },

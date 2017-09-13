@@ -95,6 +95,7 @@ define([
 
 
             this._moveOffset = {x:0, y:0};
+            this.autostart = null;
         },
 
         setApi: function(api) {
@@ -113,6 +114,7 @@ define([
             if (mode.canPlugins) {
                 this.updatePluginsList();
             }
+            return this;
         },
 
         onAfterRender: function(panelPlugins) {
@@ -336,6 +338,7 @@ define([
             else if (this.panelPlugins.iframePlugin)
                 this.panelPlugins.closeInsideMode();
             this.panelPlugins.closedPluginMode(plugin.get_Guid());
+            this.runAutoStartPlugins(this.autostart);
         },
 
         onPluginResize: function(size, minSize, maxSize, callback ) {
@@ -372,6 +375,14 @@ define([
                 if (this.pluginDlg.binding.resize) this.pluginDlg.binding.resize({ pageX: x*Common.Utils.zoom()+offset.left, pageY: y*Common.Utils.zoom()+offset.top });
             } else
                 Common.NotificationCenter.trigger('frame:mousemove', { pageX: x*Common.Utils.zoom()+this._moveOffset.x, pageY: y*Common.Utils.zoom()+this._moveOffset.y });
+        },
+
+        runAutoStartPlugins: function(autostart) {
+            if (autostart && autostart.length>0) {
+                var guid = autostart.shift();
+                this.autostart = autostart;
+                this.api.asc_pluginRun(guid, 0, '');
+            }
         }
 
     }, Common.Controllers.Plugins || {}));
