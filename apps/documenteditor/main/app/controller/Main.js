@@ -1967,6 +1967,7 @@ define([
                         this.api.asc_pluginRun(plugins.autoStartGuid, 0, '');
                     } else if (plugins.autostart && plugins.autostart.length>0) {
                         // run array of plugins
+                        this.api.asc_pluginRun(plugins.autostart[0], 0, '');
                     }
                 }
                 if (!uiCustomize) this.getApplication().getController('LeftMenu').enablePlugins();
