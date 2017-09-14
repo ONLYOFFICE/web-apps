@@ -986,7 +986,7 @@ define([
                     id          : 'id-toolbar-btn-colorschemas',
                     cls         : 'btn-toolbar',
                     iconCls     : 'btn-colorschemas',
-                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth],
+                    lock        : [_set.editCell, _set.lostConnect, _set.coAuth],
                     menu        : new Common.UI.Menu({
                         items: [],
                         maxHeight   : 600,
