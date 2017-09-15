@@ -424,6 +424,9 @@ define([
 
             onAfterShowMenu: function(e) {
                 this.trigger('show:after', this, e);
+                if (this.options.restoreHeight && this.scroller)
+                    this.scroller.update({minScrollbarLength  : 40});
+
                 if (this.$el.find('> ul > .menu-scroll').length) {
                     var el = this.$el.find('li .checked')[0];
                     if (el) {
@@ -562,11 +565,23 @@ define([
                         left = docW - menuW;
                     }
 
-                if (top + menuH > docH)
-                    top = docH - menuH;
+                if (this.options.restoreHeight) {
+                    if (typeof (this.options.restoreHeight) == "number") {
+                        if (top + menuH > docH) {
+                            menuRoot.css('max-height', (docH - top) + 'px');
+                            menuH = menuRoot.outerHeight();
+                        } else if ( top + menuH < docH && menuRoot.height() < this.options.restoreHeight ) {
+                            menuRoot.css('max-height', (Math.min(docH - top, this.options.restoreHeight)) + 'px');
+                            menuH = menuRoot.outerHeight();
+                        }
+                    }
+                } else {
+                    if (top + menuH > docH)
+                        top = docH - menuH;
 
-                if (top < 0)
-                    top = 0;
+                    if (top < 0)
+                        top = 0;
+                }
 
                 if (this.options.additionalAlign)
                     this.options.additionalAlign.call(this, menuRoot, left, top);

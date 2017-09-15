@@ -1900,7 +1900,7 @@ define([
                     el          : $('#id-docholder-menu-changeslide'),
                     parentMenu  : mnuChangeSlide.menu,
                     showLast: false,
-                    restoreHeight: 300,
+                    // restoreHeight: 300,
                     style: 'max-height: 300px;',
                     store       : PE.getCollection('SlideLayouts'),
                     itemTemplate: _.template([
@@ -1934,7 +1934,7 @@ define([
                 me.slideThemeMenu = new Common.UI.DataView({
                     el          : $('#id-docholder-menu-changetheme'),
                     parentMenu  : mnuChangeTheme.menu,
-                    restoreHeight: 300,
+                    // restoreHeight: 300,
                     style: 'max-height: 300px;',
                     store       : PE.getCollection('SlideThemes'),
                     itemTemplate: _.template([

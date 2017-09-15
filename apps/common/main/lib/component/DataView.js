@@ -233,6 +233,8 @@ define([
             me.emptyText      = me.options.emptyText    || '';
             me.listenStoreEvents= (me.options.listenStoreEvents!==undefined) ? me.options.listenStoreEvents : true;
             me.allowScrollbar = (me.options.allowScrollbar!==undefined) ? me.options.allowScrollbar : true;
+            if (me.parentMenu)
+                me.parentMenu.options.restoreHeight = (me.options.restoreHeight>0);
             me.rendered       = false;
             me.dataViewItems = [];
             if (me.options.keyMoveDirection=='vertical')
@@ -688,20 +690,19 @@ define([
             var menuRoot = (this.parentMenu.cmpEl.attr('role') === 'menu')
                             ? this.parentMenu.cmpEl
                             : this.parentMenu.cmpEl.find('[role=menu]'),
+                docH = Common.Utils.innerHeight()-10,
                 innerEl = $(this.el).find('.inner').addBack().filter('.inner'),
-                docH = Common.Utils.innerHeight(),
+                parent = innerEl.parent(),
+                margins =  parseInt(parent.css('margin-top')) + parseInt(parent.css('margin-bottom')) + parseInt(menuRoot.css('margin-top')),
+                paddings = parseInt(menuRoot.css('padding-top')) + parseInt(menuRoot.css('padding-bottom')),
                 menuH = menuRoot.outerHeight(),
                 top = parseInt(menuRoot.css('top'));
 
-            if (menuH > docH) {
-                innerEl.css('max-height', (docH - parseInt(menuRoot.css('padding-top')) - parseInt(menuRoot.css('padding-bottom'))-5) + 'px');
+            if (top + menuH > docH ) {
+                innerEl.css('max-height', (docH - top - paddings - margins) + 'px');
                 if (this.allowScrollbar) this.scroller.update({minScrollbarLength  : 40});
-            } else if ( innerEl.height() < this.options.restoreHeight ) {
-                innerEl.css('max-height', (Math.min(docH - parseInt(menuRoot.css('padding-top')) - parseInt(menuRoot.css('padding-bottom'))-5, this.options.restoreHeight)) + 'px');
-                menuH = menuRoot.outerHeight();
-                if (top+menuH > docH) {
-                    menuRoot.css('top', 0);
-                }
+            } else if ( top + menuH < docH && innerEl.height() < this.options.restoreHeight ) {
+                innerEl.css('max-height', (Math.min(docH - top - paddings - margins, this.options.restoreHeight)) + 'px');
                 if (this.allowScrollbar) this.scroller.update({minScrollbarLength  : 40});
             }
         },

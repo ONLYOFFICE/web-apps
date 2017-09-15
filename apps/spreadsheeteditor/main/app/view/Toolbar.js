@@ -989,8 +989,8 @@ define([
                     lock        : [_set.editCell, _set.lostConnect, _set.coAuth],
                     menu        : new Common.UI.Menu({
                         items: [],
-                        maxHeight   : 600,
-                        restoreHeight: 600
+                        maxHeight   : 560,
+                        restoreHeight: 560
                     }).on('show:before', function(mnu) {
                         if ( !this.scroller ) {
                             this.scroller = new Common.UI.Scroller({
@@ -999,23 +999,6 @@ define([
                                 minScrollbarLength  : 40,
                                 alwaysVisibleY: true
                             });
-                        }
-                    }).on('show:after', function(btn, e) {
-                        var mnu = $(this.el).find('.dropdown-menu '),
-                            docH = Common.Utils.innerHeight(),
-                            menuH = mnu.outerHeight(),
-                            top = parseInt(mnu.css('top'));
-
-                        if (menuH > docH) {
-                            mnu.css('max-height', (docH - parseInt(mnu.css('padding-top')) - parseInt(mnu.css('padding-bottom'))-5) + 'px');
-                            this.scroller.update({minScrollbarLength  : 40});
-                        } else if ( mnu.height() < this.options.restoreHeight ) {
-                            mnu.css('max-height', (Math.min(docH - parseInt(mnu.css('padding-top')) - parseInt(mnu.css('padding-bottom'))-5, this.options.restoreHeight)) + 'px');
-                            menuH = mnu.outerHeight();
-                            if (top+menuH > docH) {
-                                mnu.css('top', 0);
-                            }
-                            this.scroller.update({minScrollbarLength  : 40});
                         }
                     })
                 });
@@ -1749,8 +1732,8 @@ define([
             }
 
             if (this.mnuColorSchema == null) {
-                this.mnuColorSchema = new Common.UI.Menu({maxHeight   : 600,
-                    restoreHeight: 600
+                this.mnuColorSchema = new Common.UI.Menu({maxHeight   : 560,
+                    restoreHeight: 560
                 }).on('show:before', function(mnu) {
                         this.scroller = new Common.UI.Scroller({
                         el: $(this.el).find('.dropdown-menu '),
