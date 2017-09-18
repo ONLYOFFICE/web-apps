@@ -1228,7 +1228,7 @@ define([
         onSelectionChanged: function(info){
             if (!this.mouse.isLeftButtonDown && !this.rangeSelectionMode &&
                 this.currentMenu && this.currentMenu.isVisible()){
-                (this.permissions.isEdit) ? this.fillMenuProps(info, true, event) : this.fillViewMenuProps(info, true, event);
+                (this.permissions.isEdit) ? this.fillMenuProps(info, true) : this.fillViewMenuProps(info, true);
             }
         },
 
@@ -1503,7 +1503,7 @@ define([
         },
 
         showPopupMenu: function(menu, value, event){
-            if (!_.isUndefined(menu) && menu !== null){
+            if (!_.isUndefined(menu) && menu !== null && event){
                 Common.UI.Menu.Manager.hideAll();
 
                 var me                  = this,
