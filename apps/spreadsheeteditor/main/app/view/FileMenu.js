@@ -223,7 +223,7 @@ define([
         applyMode: function() {
             this.miPrint[this.mode.canPrint?'show':'hide']();
             this.miRename[(this.mode.canRename && !this.mode.isDesktopApp) ?'show':'hide']();
-            this.items[7][(this.mode.isDesktopApp) ?'show':'hide']();
+            this.items[7][(this.mode.canProtect) ?'show':'hide']();
             this.items[7].$el.find('+.devider')[!this.mode.isDisconnected?'show':'hide']();
             this.miRecent[this.mode.canOpenRecent?'show':'hide']();
             this.miNew[this.mode.canCreateNew?'show':'hide']();
@@ -262,7 +262,7 @@ define([
                 }
             }
 
-            if (this.mode.isDesktopApp) {
+            if (this.mode.canProtect) {
                 this.panels['protect'] = (new SSE.Views.FileMenuPanels.ProtectDoc({menu:this})).render();
                 this.panels['protect'].setMode(this.mode);
             }

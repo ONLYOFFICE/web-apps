@@ -179,7 +179,7 @@ define([
             this.shapeSettings = new PE.Views.ShapeSettings();
             this.textartSettings = new PE.Views.TextArtSettings();
 
-            if (mode && mode.isDesktopApp) {
+            if (mode && mode.canProtect) {
                 this.btnSignature = new Common.UI.Button({
                     hint: this.txtSignatureSettings,
                     asctype: Common.Utils.documentSettingsType.Signature,

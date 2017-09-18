@@ -167,7 +167,7 @@ define([
             this.textartSettings = new SSE.Views.TextArtSettings();
             this.tableSettings = new SSE.Views.TableSettings();
 
-            if (mode && mode.isDesktopApp) {
+            if (mode && mode.canProtect) {
                 this.btnSignature = new Common.UI.Button({
                     hint: this.txtSignatureSettings,
                     asctype: Common.Utils.documentSettingsType.Signature,
