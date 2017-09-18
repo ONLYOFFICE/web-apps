@@ -1416,7 +1416,6 @@ define([
                 documentHolder.pmiEntireShow.setVisible(iscolmenu||isrowmenu);
                 documentHolder.pmiFreezePanes.setVisible(!iscelledit);
                 documentHolder.pmiFreezePanes.setCaption(this.api.asc_getSheetViewSettings().asc_getIsFreezePane() ? documentHolder.textUnFreezePanes : documentHolder.textFreezePanes);
-                documentHolder.pmiEntriesList.setVisible(!iscelledit);
 
                 /** coauthoring begin **/
                 documentHolder.ssMenu.items[17].setVisible(iscellmenu && !iscelledit && this.permissions.canCoAuthoring && this.permissions.canComments);
@@ -1446,6 +1445,8 @@ define([
                 documentHolder.pmiDeleteCells.menu.items[1].setDisabled(isApplyAutoFilter);
 
                 var inPivot = !!cellinfo.asc_getPivotTableInfo();
+
+                documentHolder.pmiEntriesList.setVisible(!iscelledit && !inPivot);
 
                 _.each(documentHolder.ssMenu.items, function(item) {
                     item.setDisabled(isCellLocked);
