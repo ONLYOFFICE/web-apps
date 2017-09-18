@@ -1392,8 +1392,11 @@ define([
                 shortcuts: {
                     'command+l,ctrl+l': function(e) {
                         if ( me.editMode && !me._state.multiselect ) {
-                            var formattableinfo = me.api.asc_getCellInfo().asc_getFormatTableInfo();
-                            if (!formattableinfo) {
+                            var cellinfo = me.api.asc_getCellInfo(),
+                                filterinfo = cellinfo.asc_getAutoFilterInfo(),
+                                formattableinfo = cellinfo.asc_getFormatTableInfo();
+                            filterinfo = (filterinfo) ? filterinfo.asc_getIsAutoFilter() : null;
+                            if (filterinfo!==null && !formattableinfo) {
                                 if (_.isUndefined(me.toolbar.mnuTableTemplatePicker))
                                     me.onApiInitTableTemplates(me.api.asc_getTablePictures(formattableinfo));
                                 var store = me.getCollection('TableTemplates');
