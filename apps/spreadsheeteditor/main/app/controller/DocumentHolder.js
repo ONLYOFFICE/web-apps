@@ -98,6 +98,7 @@ define([
             this.hkComments = 'alt+h';
             keymap[this.hkComments] = function() {
                 me.onAddComment();
+                return false;
             };
             Common.util.Shortcuts.delegateShortcuts({shortcuts:keymap});
         },
