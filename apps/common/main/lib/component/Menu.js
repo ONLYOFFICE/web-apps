@@ -468,14 +468,20 @@ define([
             },
 
             onScroll: function(item, e) {
-                if (this.fromKeyDown) {
-                    var menuRoot = (this.cmpEl.attr('role') === 'menu')
-                        ? this.cmpEl
-                        : this.cmpEl.find('[role=menu]');
+                if (this.scroller) return;
 
-                    menuRoot.find('.menu-scroll.top').css('top', menuRoot.scrollTop() + 'px');
-                    menuRoot.find('.menu-scroll.bottom').css('bottom', (-menuRoot.scrollTop()) + 'px');
+                var menuRoot = (this.cmpEl.attr('role') === 'menu')
+                    ? this.cmpEl
+                    : this.cmpEl.find('[role=menu]'),
+                    scrollTop = menuRoot.scrollTop(),
+                    top = menuRoot.find('.menu-scroll.top'),
+                    bottom = menuRoot.find('.menu-scroll.bottom');
+                if (this.fromKeyDown) {
+                    top.css('top', scrollTop + 'px');
+                    bottom.css('bottom', (-scrollTop) + 'px');
                 }
+                top.toggleClass('disabled', scrollTop<1);
+                bottom.toggleClass('disabled', scrollTop + this.options.maxHeight > menuRoot[0].scrollHeight-1);
             },
 
             onItemClick: function(item, e) {
@@ -496,6 +502,8 @@ define([
             },
 
             onScrollClick: function(e) {
+                if (/disabled/.test(e.currentTarget.className)) return false;
+
                 this.scrollMenu(/top/.test(e.currentTarget.className));
                 return false;
             },

@@ -66,6 +66,7 @@
         background-color: @dropdown-bg;
         height: 16px;
         width: 100%;
+        cursor: pointer;
 
         &.top {
             top: 0;
@@ -95,6 +96,11 @@
                 border-right: 3px solid transparent;
                 border-left: 3px solid transparent;
             }
+        }
+
+        &.disabled {
+            opacity: 0.3;
+            cursor: default;
         }
     }
 }
