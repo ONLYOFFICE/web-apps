@@ -212,7 +212,7 @@ define([
             });
 
             if ( me.logo )
-                me.logo.on('click', function (e) {
+                me.logo.children(0).on('click', function (e) {
                     var _url = !!me.branding && !!me.branding.logo && !!me.branding.logo.url ?
                         me.branding.logo.url : 'http://www.onlyoffice.com';
 
