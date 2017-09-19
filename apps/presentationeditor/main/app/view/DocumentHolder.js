@@ -273,13 +273,13 @@ define([
                 if (me.api){
                     var key = event.keyCode;
                     if ((event.ctrlKey || event.metaKey) && !event.shiftKey && !event.altKey){
-                        if (key === Common.UI.Keys.NUM_PLUS || key === Common.UI.Keys.EQUALITY || (Common.Utils.isOpera && key == 43)){
+                        if (key === Common.UI.Keys.NUM_PLUS || key === Common.UI.Keys.EQUALITY || (Common.Utils.isGecko && key === Common.UI.Keys.EQUALITY_FF) || (Common.Utils.isOpera && key == 43)){
                             me.api.zoomIn();
                             event.preventDefault();
                             event.stopPropagation();
                             return false;
                         }
-                        else if (key === Common.UI.Keys.NUM_MINUS || key === Common.UI.Keys.MINUS || (Common.Utils.isOpera && key == 45)){
+                        else if (key === Common.UI.Keys.NUM_MINUS || key === Common.UI.Keys.MINUS || (Common.Utils.isGecko && key === Common.UI.Keys.MINUS_FF) || (Common.Utils.isOpera && key == 45)){
                             me.api.zoomOut();
                             event.preventDefault();
                             event.stopPropagation();

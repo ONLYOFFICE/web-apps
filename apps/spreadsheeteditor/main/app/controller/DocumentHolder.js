@@ -1176,7 +1176,7 @@ define([
             if (this.api){
                 var key = event.keyCode;
                 if ((event.ctrlKey || event.metaKey) && !event.shiftKey && !event.altKey){
-                    if (key === Common.UI.Keys.NUM_PLUS || key === Common.UI.Keys.EQUALITY || (Common.Utils.isOpera && key == 43)){
+                    if (key === Common.UI.Keys.NUM_PLUS || key === Common.UI.Keys.EQUALITY || (Common.Utils.isGecko && key === Common.UI.Keys.EQUALITY_FF) || (Common.Utils.isOpera && key == 43)){
                         if (!this.api.isCellEdited) {
                             var factor = Math.floor(this.api.asc_getZoom() * 10)/10;
                             factor += .1;
@@ -1188,7 +1188,7 @@ define([
                             event.stopPropagation();
                             return false;
                         }
-                    } else if (key === Common.UI.Keys.NUM_MINUS || key === Common.UI.Keys.MINUS || (Common.Utils.isOpera && key == 45)){
+                    } else if (key === Common.UI.Keys.NUM_MINUS || key === Common.UI.Keys.MINUS || (Common.Utils.isGecko && key === Common.UI.Keys.MINUS_FF) || (Common.Utils.isOpera && key == 45)){
                         if (!this.api.isCellEdited) {
                             factor = Math.ceil(this.api.asc_getZoom() * 10)/10;
                             factor -= .1;
