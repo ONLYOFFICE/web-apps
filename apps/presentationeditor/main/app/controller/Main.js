@@ -437,7 +437,7 @@ define([
                 if ((id==Asc.c_oAscAsyncAction['Save'] || id==Asc.c_oAscAsyncAction['ForceSaveButton']) && (!this._state.fastCoauth || this._state.usersCount<2))
                     this.synchronizeChanges();
 
-               if (type == Asc.c_oAscAsyncActionType.BlockInteraction && !((id == Asc.c_oAscAsyncAction['LoadDocumentFonts'] || id == Asc.c_oAscAsyncAction['ApplyChanges']) && (this.dontCloseDummyComment || this.dontCloseChat))) {
+               if (type == Asc.c_oAscAsyncActionType.BlockInteraction && !((id == Asc.c_oAscAsyncAction['LoadDocumentFonts'] || id == Asc.c_oAscAsyncAction['ApplyChanges']) && (this.dontCloseDummyComment || this.dontCloseChat || this.isModalShowed ))) {
                     this.onEditComplete(this.loadMask);
                     this.api.asc_enableKeyEvents(true);
                 }
@@ -551,6 +551,9 @@ define([
             onDocumentContentReady: function() {
                 if (this._isDocReady)
                     return;
+
+                if (this._state.openDlg)
+                    this._state.openDlg.close();
 
                 var me = this,
                     value;
@@ -1618,10 +1621,12 @@ define([
             },
 
             onAdvancedOptions: function(advOptions) {
+                if (this._state.openDlg) return;
+
                 var type = advOptions.asc_getOptionId(),
-                    me = this, dlg;
+                    me = this;
                 if (type == Asc.c_oAscAdvancedOptionsID.DRM) {
-                    dlg = new Common.Views.OpenDialog({
+                    me._state.openDlg = new Common.Views.OpenDialog({
                         type: type,
                         validatePwd: !!me._state.isDRM,
                         handler: function (value) {
@@ -1630,15 +1635,16 @@ define([
                                 me.api.asc_setAdvancedOptions(type, new Asc.asc_CDRMAdvancedOptions(value));
                                 me.loadMask && me.loadMask.show();
                             }
+                            me._state.openDlg = null;
                         }
                     });
                     me._state.isDRM = true;
                 }
-                if (dlg) {
+                if (me._state.openDlg) {
                     this.isShowOpenDialog = true;
                     this.loadMask && this.loadMask.hide();
                     this.onLongActionEnd(Asc.c_oAscAsyncActionType.BlockInteraction, LoadingDocument);
-                    dlg.show();
+                    me._state.openDlg.show();
                 }
             },
 

@@ -194,6 +194,8 @@
   "Common.Views.RenameDialog.txtInvalidName": "Имя файла не должно содержать следующих символов: ",
   "Common.Views.ReviewChanges.hintNext": "К следующему изменению",
   "Common.Views.ReviewChanges.hintPrev": "К предыдущему изменению",
+  "Common.Views.ReviewChanges.tipAcceptCurrent": "Принять текущее изменение",
+  "Common.Views.ReviewChanges.tipRejectCurrent": "Отклонить текущее изменение",
   "Common.Views.ReviewChanges.tipReview": "Отслеживать изменения",
   "Common.Views.ReviewChanges.tipReviewView": "Выберите режим, в котором вы хотите отображать изменения",
   "Common.Views.ReviewChanges.tipSetDocLang": "Задать язык документа",

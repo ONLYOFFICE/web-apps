@@ -379,6 +379,12 @@ define([
                 if ( role == 'left' && (!config || !config.isDesktopApp)) {
                     $html = $(templateLeftBox);
                     this.logo = $html.find('#header-logo');
+
+                    if (this.branding && this.branding.logo && this.branding.logo.image && this.logo) {
+                        this.logo.html('<img src="' + this.branding.logo.image + '" style="max-width:100px; max-height:20px; margin: 0;"/>');
+                        this.logo.css({'background-image': 'none', width: 'auto'});
+                    }
+
                     return $html;
                 } else
                 if ( role == 'right' ) {

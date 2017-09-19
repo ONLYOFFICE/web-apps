@@ -598,7 +598,7 @@ define([
                                 ]
                             })
                         );
-                        me.btnAccept.updateHint([me.txtAcceptCurrent, me.txtAcceptChanges]);
+                        me.btnAccept.updateHint([me.tipAcceptCurrent, me.txtAcceptChanges]);
 
                         me.btnReject.setMenu(
                             new Common.UI.Menu({
@@ -614,7 +614,7 @@ define([
                                 ]
                             })
                         );
-                        me.btnReject.updateHint([me.txtRejectCurrent, me.txtRejectChanges]);
+                        me.btnReject.updateHint([me.tipRejectCurrent, me.txtRejectChanges]);
 
                         me.btnReviewView.setMenu(
                             new Common.UI.Menu({
@@ -793,7 +793,9 @@ define([
             txtMarkup: 'All changes (Editing)',
             txtFinal: 'All changes accepted (Preview)',
             txtOriginal: 'All changes rejected (Preview)',
-            tipReviewView: 'Select the way you want the changes to be displayed'
+            tipReviewView: 'Select the way you want the changes to be displayed',
+            tipAcceptCurrent: 'Accept current changes',
+            tipRejectCurrent: 'Reject current changes'
         }
     }()), Common.Views.ReviewChanges || {}));
 
