@@ -131,9 +131,11 @@
                 }
             },
             events: {
-                'onReady': <document ready callback>,
+                'onReady': <application ready callback>, // deprecated
+                'onAppReady': <application ready callback>,
                 'onBack': <back to folder callback>,
                 'onDocumentStateChange': <document state changed callback>
+                'onDocumentReady': <document ready callback>
             }
         }
 
@@ -164,9 +166,11 @@
                 }
             },
             events: {
-                'onReady': <document ready callback>,
+                'onReady': <application ready callback>, // deprecated
+                'onAppReady': <application ready callback>,
                 'onBack': <back to folder callback>,
                 'onError': <error callback>,
+                'onDocumentReady': <document ready callback>
             }
         }
     */
@@ -205,7 +209,7 @@
             }
         };
 
-        var _onReady = function() {
+        var _onAppReady = function() {
             if (_config.type === 'mobile') {
                 document.body.onfocus = function(e) {
                     setTimeout(function(){
@@ -275,8 +279,8 @@
                     } else if (msg.event === 'onInternalMessage' && msg.data && msg.data.type == 'localstorage') {
                         _callLocalStorage(msg.data.data);
                     } else {
-                        if (msg.event === 'onReady') {
-                            _onReady();
+                        if (msg.event === 'onAppReady') {
+                            _onAppReady();
                         }
 
                         if (handler) {

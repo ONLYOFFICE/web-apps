@@ -180,7 +180,7 @@ define([
                 Common.Gateway.on('showmessage', _.bind(this.onExternalMessage, this));
                 Common.Gateway.on('opendocument', _.bind(this.loadDocument, this));
                 Common.Gateway.on('internalcommand', _.bind(this.onInternalCommand, this));
-                Common.Gateway.ready();
+                Common.Gateway.appReady();
 
                 this.getApplication().getController('Viewport').setApi(this.api);
 
@@ -554,6 +554,8 @@ define([
             onDocumentReady: function() {
                 if (this._isDocReady)
                     return;
+
+                Common.Gateway.documentReady();
 
                 if (this._state.openDlg)
                     this._state.openDlg.close();

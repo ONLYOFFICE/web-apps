@@ -138,8 +138,9 @@ if (Common === undefined) {
 
         return {
 
-            ready: function() {
+            appReady: function() {
                 _postMessage({ event: 'onReady' });
+                _postMessage({ event: 'onAppReady' });
             },
 
             requestEditRights: function() {
@@ -234,6 +235,10 @@ if (Common === undefined) {
 
             metaChange: function(meta) {
                 _postMessage({event: 'onMetaChange', data: meta});
+            },
+
+            documentReady: function() {
+                _postMessage({ event: 'onDocumentReady' });
             },
 
             on: function(event, handler){
