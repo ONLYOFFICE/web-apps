@@ -189,6 +189,8 @@
         _config.editorConfig.canRequestEditRights = _config.events && !!_config.events.onRequestEditRights;
         _config.frameEditorId = placeholderId;
 
+        _config.events && !!_config.events.onReady && console.log("Obsolete: The onReady event is deprecated. Please use onAppReady instead.");
+
         var onMouseUp = function (evt) {
             _processMouse(evt);
         };
