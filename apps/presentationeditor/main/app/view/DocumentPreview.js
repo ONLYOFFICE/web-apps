@@ -276,14 +276,17 @@ define([
             var me = this;
             var controls = $(this.el).find('.preview-controls');
             controls.css('display', 'none');
+            me.$el.css('cursor', 'none');
 
             setTimeout(function(){
                 me.$el.on('mousemove', function() {
                     clearTimeout(me.timerMove);
                     controls.css('display', '');
+                    me.$el.css('cursor', '');
                     if (!controls.hasClass('over'))
                         me.timerMove = setTimeout(function () {
                             controls.css('display', 'none');
+                            me.$el.css('cursor', 'none');
                         }, 3000);
 
                 });

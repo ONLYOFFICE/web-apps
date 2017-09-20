@@ -66,6 +66,7 @@ define([
             PAGEUP:     33,
             PAGEDOWN:   34,
             INSERT:     45,
+            EQUALITY_FF:61,
             NUM_PLUS:   107,
             NUM_MINUS:  109,
             F1:         112,
@@ -80,6 +81,7 @@ define([
             F10:        121,
             F11:        122,
             F12:        123,
+            MINUS_FF:   173,
             EQUALITY:   187,
             MINUS:      189
         },
