@@ -190,6 +190,7 @@
         _config.frameEditorId = placeholderId;
 
         _config.events && !!_config.events.onReady && console.log("Obsolete: The onReady event is deprecated. Please use onAppReady instead.");
+        _config.events && (_config.events.onAppReady = _config.events.onAppReady || _config.events.onReady);
 
         var onMouseUp = function (evt) {
             _processMouse(evt);

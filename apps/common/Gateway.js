@@ -139,7 +139,6 @@ if (Common === undefined) {
         return {
 
             appReady: function() {
-                _postMessage({ event: 'onReady' });
                 _postMessage({ event: 'onAppReady' });
             },
 
