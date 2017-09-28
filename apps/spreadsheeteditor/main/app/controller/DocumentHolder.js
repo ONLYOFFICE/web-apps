@@ -1242,26 +1242,18 @@ define([
                 isTableLocked       = cellinfo.asc_getLockedTable()===true,
                 isObjLocked         = false,
                 commentsController  = this.getApplication().getController('Common.Controllers.Comments'),
-                insfunc             = false,
-                cansort             = false;
+                internaleditor      = this.permissions.isEditMailMerge || this.permissions.isEditDiagram;
 
-            if (this.permissions.isEditMailMerge) {
-                cansort = (seltype==Asc.c_oAscSelectionType.RangeCells);
-            } else if (this.permissions.isEditDiagram) {
-                insfunc = (seltype==Asc.c_oAscSelectionType.RangeCells);
-            } 
-            else {
-                switch (seltype) {
-                    case Asc.c_oAscSelectionType.RangeCells:    iscellmenu  = true; break;
-                    case Asc.c_oAscSelectionType.RangeRow:      isrowmenu   = true; break;
-                    case Asc.c_oAscSelectionType.RangeCol:      iscolmenu   = true; break;
-                    case Asc.c_oAscSelectionType.RangeMax:      isallmenu   = true; break;
-                    case Asc.c_oAscSelectionType.RangeImage:    isimagemenu = true; break;
-                    case Asc.c_oAscSelectionType.RangeShape:    isshapemenu = true; break;
-                    case Asc.c_oAscSelectionType.RangeChart:    ischartmenu = true; break;
-                    case Asc.c_oAscSelectionType.RangeChartText:istextchartmenu = true; break;
-                    case Asc.c_oAscSelectionType.RangeShapeText: istextshapemenu = true; break;
-                }
+            switch (seltype) {
+                case Asc.c_oAscSelectionType.RangeCells:    iscellmenu = true; break;
+                case Asc.c_oAscSelectionType.RangeRow:      isrowmenu = true; break;
+                case Asc.c_oAscSelectionType.RangeCol:      iscolmenu = true; break;
+                case Asc.c_oAscSelectionType.RangeMax:      isallmenu   = true; break;
+                case Asc.c_oAscSelectionType.RangeImage:    isimagemenu = !internaleditor; break;
+                case Asc.c_oAscSelectionType.RangeShape:    isshapemenu = !internaleditor; break;
+                case Asc.c_oAscSelectionType.RangeChart:    ischartmenu = !internaleditor; break;
+                case Asc.c_oAscSelectionType.RangeChartText:istextchartmenu = !internaleditor; break;
+                case Asc.c_oAscSelectionType.RangeShapeText: istextshapemenu = !internaleditor; break;
             }
 
             if (isimagemenu || isshapemenu || ischartmenu) {
@@ -1389,12 +1381,14 @@ define([
                 documentHolder.pmiInsertTable.setVisible(iscellmenu && !iscelledit && isintable);
                 documentHolder.pmiDeleteTable.setVisible(iscellmenu && !iscelledit && isintable);
                 documentHolder.pmiSparklines.setVisible(isinsparkline);
-                documentHolder.pmiSortCells.setVisible((iscellmenu||isallmenu||cansort) && !iscelledit);
-                documentHolder.pmiFilterCells.setVisible((iscellmenu||cansort) && !iscelledit);
-                documentHolder.pmiReapply.setVisible((iscellmenu||isallmenu||cansort) && !iscelledit);
-                documentHolder.ssMenu.items[12].setVisible((iscellmenu||isallmenu||cansort||isinsparkline) && !iscelledit);
-                documentHolder.pmiInsFunction.setVisible(iscellmenu||insfunc);
-                documentHolder.pmiAddNamedRange.setVisible(iscellmenu && !iscelledit);
+                documentHolder.pmiSortCells.setVisible((iscellmenu||isallmenu) && !iscelledit);
+                documentHolder.pmiSortCells.menu.items[2].setVisible(!internaleditor);
+                documentHolder.pmiSortCells.menu.items[3].setVisible(!internaleditor);
+                documentHolder.pmiFilterCells.setVisible(iscellmenu && !iscelledit && !internaleditor);
+                documentHolder.pmiReapply.setVisible((iscellmenu||isallmenu) && !iscelledit && !internaleditor);
+                documentHolder.ssMenu.items[12].setVisible((iscellmenu||isallmenu||isinsparkline) && !iscelledit);
+                documentHolder.pmiInsFunction.setVisible(iscellmenu);
+                documentHolder.pmiAddNamedRange.setVisible(iscellmenu && !iscelledit && !internaleditor);
 
                 if (isintable) {
                     documentHolder.pmiInsertTable.menu.items[0].setDisabled(!formatTableInfo.asc_getIsInsertRowAbove());
@@ -1409,8 +1403,8 @@ define([
                 }
 
                 var hyperinfo = cellinfo.asc_getHyperlink();
-                documentHolder.menuHyperlink.setVisible(iscellmenu && hyperinfo && !iscelledit && !ismultiselect);
-                documentHolder.menuAddHyperlink.setVisible(iscellmenu && !hyperinfo && !iscelledit && !ismultiselect);
+                documentHolder.menuHyperlink.setVisible(iscellmenu && hyperinfo && !iscelledit && !ismultiselect && !internaleditor);
+                documentHolder.menuAddHyperlink.setVisible(iscellmenu && !hyperinfo && !iscelledit && !ismultiselect && !internaleditor);
 
                 documentHolder.pmiRowHeight.setVisible(isrowmenu||isallmenu);
                 documentHolder.pmiColumnWidth.setVisible(iscolmenu||isallmenu);
@@ -1424,7 +1418,7 @@ define([
                 documentHolder.ssMenu.items[17].setVisible(iscellmenu && !iscelledit && this.permissions.canCoAuthoring && this.permissions.canComments);
                 documentHolder.pmiAddComment.setVisible(iscellmenu && !iscelledit && this.permissions.canCoAuthoring && this.permissions.canComments);
                 /** coauthoring end **/
-                documentHolder.pmiCellMenuSeparator.setVisible(iscellmenu || isrowmenu || iscolmenu || isallmenu || insfunc);
+                documentHolder.pmiCellMenuSeparator.setVisible(iscellmenu || isrowmenu || iscolmenu || isallmenu);
                 documentHolder.pmiEntireHide.isrowmenu = isrowmenu;
                 documentHolder.pmiEntireShow.isrowmenu = isrowmenu;
 
