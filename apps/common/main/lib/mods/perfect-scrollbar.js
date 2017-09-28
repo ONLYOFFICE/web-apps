@@ -317,7 +317,7 @@
           var deltaX = e.deltaX * e.deltaFactor || deprecatedDeltaX,
               deltaY = e.deltaY * e.deltaFactor || deprecatedDeltaY;
 
-            if (e && e.target && (e.target.type === 'textarea' || e.target.type === 'input')) {
+            if (e && e.target && (e.target.type === 'textarea' && !e.target.hasAttribute('readonly') || e.target.type === 'input')) {
                 e.stopImmediatePropagation();
                 e.preventDefault();
 
