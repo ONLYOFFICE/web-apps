@@ -49,6 +49,7 @@ define([
     'common/main/lib/component/Menu',
     'common/main/lib/view/InsertTableDialog',
     'common/main/lib/view/CopyWarningDialog',
+    'common/main/lib/view/SignDialog',
     'documenteditor/main/app/view/DropcapSettingsAdvanced',
     'documenteditor/main/app/view/HyperlinkSettingsDialog',
     'documenteditor/main/app/view/ParagraphSettingsAdvanced',
@@ -80,6 +81,7 @@ define([
             me._currentMathObj = undefined;
             me._currentParaObjDisabled = false;
             me._isDisabled = false;
+            me._currentSignGuid = null;
 
             var showPopupMenu = function(menu, value, event, docElement, eOpts){
                 if (!_.isUndefined(menu)  && menu !== null){
@@ -722,6 +724,36 @@ define([
 
             var onCoAuthoringDisconnect= function() {
                 me.mode.isEdit = false;
+            };
+
+            var onSignatureClick = function(guid, width, height) {
+                if (_.isUndefined(me.fontStore)) {
+                    me.fontStore = new Common.Collections.Fonts();
+                    var fonts = DE.getController('Toolbar').getView('Toolbar').cmbFontName.store.toJSON();
+                    var arr = [];
+                    _.each(fonts, function(font, index){
+                        if (!font.cloneid) {
+                            arr.push(_.clone(font));
+                        }
+                    });
+                    me.fontStore.add(arr);
+                }
+
+                var win = new Common.Views.SignDialog({
+                    api: me.api,
+                    signType: 'visible',
+                    fontStore: me.fontStore,
+                    signSize: {width: width, height: height},
+                    handler: function(dlg, result) {
+                        if (result == 'ok') {
+                            var props = dlg.getSettings();
+                            me.api.asc_Sign(props.certificateId, guid, props.images[0], props.images[1]);
+                        }
+                        Common.NotificationCenter.trigger('edit:complete');
+                    }
+                });
+
+                win.show();
             };
 
             var onTextLanguage = function(langid) {
@@ -1528,6 +1560,7 @@ define([
                     this.api.asc_registerCallback('asc_onShowSpecialPasteOptions',      _.bind(onShowSpecialPasteOptions, this));
                     this.api.asc_registerCallback('asc_onHideSpecialPasteOptions',      _.bind(onHideSpecialPasteOptions, this));
 
+                    this.api.asc_registerCallback('asc_onSignatureClick',               _.bind(onSignatureClick, this));
                 }
 
                 return this;

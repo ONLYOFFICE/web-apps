@@ -56,6 +56,7 @@ define([
     'spreadsheeteditor/main/app/view/TextArtSettings',
     'spreadsheeteditor/main/app/view/TableSettings',
     'spreadsheeteditor/main/app/view/PivotSettings',
+    'spreadsheeteditor/main/app/view/SignatureSettings',
     'common/main/lib/component/Scroller'
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
@@ -145,7 +146,7 @@ define([
             return this;
         },
 
-        render: function () {
+        render: function (mode) {
             var el = $(this.el);
 
             this.trigger('render:before', this);
@@ -180,6 +181,21 @@ define([
             this.tableSettings = new SSE.Views.TableSettings();
             this.pivotSettings = new SSE.Views.PivotSettings();
 
+            if (mode && mode.canProtect) {
+                this.btnSignature = new Common.UI.Button({
+                    hint: this.txtSignatureSettings,
+                    asctype: Common.Utils.documentSettingsType.Signature,
+                    enableToggle: true,
+                    disabled: true,
+                    toggleGroup: 'tabpanelbtnsGroup'
+                });
+                this._settings[Common.Utils.documentSettingsType.Signature]   = {panel: "id-signature-settings",      btn: this.btnSignature};
+
+                this.btnSignature.el    = $('#id-right-menu-signature'); this.btnSignature.render().setVisible(true);
+                this.btnSignature.on('click', _.bind(this.onBtnMenuClick, this));
+                this.signatureSettings = new SSE.Views.SignatureSettings();
+            }
+
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
                     el: $(this.el).find('.right-panel'),
@@ -202,7 +218,7 @@ define([
             this.textartSettings.setApi(api);
             this.tableSettings.setApi(api);
             this.pivotSettings.setApi(api);
-
+            if (this.signatureSettings) this.signatureSettings.setApi(api);
             return this;
         },
 
@@ -280,6 +296,7 @@ define([
         txtChartSettings:           'Chart Settings',
         txtSparklineSettings:       'Sparkline Settings',
         txtTableSettings:           'Table Settings',
-        txtPivotSettings:           'Pivot Table Settings'
+        txtPivotSettings:           'Pivot Table Settings',
+        txtSignatureSettings:       'Signature Settings'
     }, SSE.Views.RightMenu || {}));
 });

@@ -14,6 +14,8 @@
         </div>
         <div id="id-pivot-settings" class="settings-panel">
         </div>
+        <div id="id-signature-settings" class="settings-panel">
+        </div>
     </div>
     <div class="tool-menu-btns">
         <div class="ct-btn-category arrow-left" />
@@ -24,5 +26,6 @@
         <button id="id-right-menu-text" class="btn btn-category arrow-left" content-target="id-paragraph-settings"><i class="icon img-toolbarmenu btn-menu-text">&nbsp;</i></button>
         <button id="id-right-menu-textart" class="btn btn-category arrow-left" content-target="id-textart-settings"><i class="icon img-toolbarmenu btn-menu-textart">&nbsp;</i></button>
         <button id="id-right-menu-pivot" class="btn btn-category arrow-left" content-target="id-pivot-settings"><i class="icon img-toolbarmenu btn-menu-table">&nbsp;</i></button>
+        <button id="id-right-menu-signature" class="btn btn-category arrow-left hidden" content-target="id-signature-settings"><i class="icon img-toolbarmenu btn-menu-signature">&nbsp;</i></button>
     </div>
 </div>

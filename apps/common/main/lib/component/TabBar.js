@@ -287,6 +287,7 @@ define([
                         tab.changeState();
                     }
                 }
+                !tab.disabled && Common.NotificationCenter.trigger('edit:complete', this.bar);
             }, this),
             dblclick: $.proxy(function() {
                 this.trigger('tab:dblclick', this, this.tabs.indexOf(tab), tab);

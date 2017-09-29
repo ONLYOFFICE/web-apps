@@ -1,0 +1,19 @@
+<table cols="2">
+    <tr>
+        <td class="padding-large">
+            <label style="font-size: 18px;"><%= scope.strSignature %></label>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-large">
+            <button id="signature-invisible-sign" class="btn btn-text-default" style="width:100%;"><%= scope.strInvisibleSign %></button>
+        </td>
+    </tr>
+    <tr id="signature-valid-sign">
+        <td></td>
+    </tr>
+    <tr id="signature-invalid-sign">
+        <td></td>
+    </tr>
+    <tr class="finish-cell"></tr>
+</table>

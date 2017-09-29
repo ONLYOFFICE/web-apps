@@ -86,6 +86,7 @@ define([
             this._settings[Common.Utils.documentSettingsType.Chart] =     {panelId: "id-chart-settings",      panel: rightMenu.chartSettings,    btn: rightMenu.btnChart,       hidden: 1, locked: false};
             this._settings[Common.Utils.documentSettingsType.Table] =     {panelId: "id-table-settings",      panel: rightMenu.tableSettings,    btn: rightMenu.btnTable,       hidden: 1, locked: false};
             this._settings[Common.Utils.documentSettingsType.Pivot] =     {panelId: "id-pivot-settings",      panel: rightMenu.pivotSettings,    btn: rightMenu.btnPivot,       hidden: 1, locked: false};
+            this._settings[Common.Utils.documentSettingsType.Signature] = {panelId: "id-signature-settings",  panel: rightMenu.signatureSettings, btn: rightMenu.btnSignature,  hidden: (rightMenu.signatureSettings) ? 0 : 1, props: {}, locked: false};
         },
 
         setApi: function(api) {
@@ -104,7 +105,7 @@ define([
                 var panel = this._settings[type].panel;
                 var props = this._settings[type].props;
                 if (props && panel)
-                    panel.ChangeSettings.call(panel, props);
+                    panel.ChangeSettings.call(panel, (type==Common.Utils.documentSettingsType.Signature) ? undefined : props);
             }
             Common.NotificationCenter.trigger('layout:changed', 'rightmenu');
         },
@@ -140,11 +141,13 @@ define([
                 return;
 
             for (var i=0; i<this._settings.length; ++i) {
+                if (i==Common.Utils.documentSettingsType.Signature) continue;
                 if (this._settings[i]) {
                     this._settings[i].hidden = 1;
                     this._settings[i].locked = false;
                 }
             }
+            this._settings[Common.Utils.documentSettingsType.Signature].locked = false;
 
             for (i=0; i<SelectedObjects.length; ++i)
             {
@@ -171,6 +174,9 @@ define([
                 this._settings[settingsType].props = value;
                 this._settings[settingsType].hidden = 0;
                 this._settings[settingsType].locked = value.asc_getLocked();
+
+                if (!this._settings[Common.Utils.documentSettingsType.Signature].locked) // lock Signature, если хотя бы один объект locked
+                    this._settings[Common.Utils.documentSettingsType.Signature].locked = value.asc_getLocked();
             }
 
             if (formatTableInfo) {
@@ -199,7 +205,7 @@ define([
                 activePane = this.rightmenu.GetActivePane();
             for (i=0; i<this._settings.length; ++i) {
                 var pnl = this._settings[i];
-                if (pnl===undefined) continue;
+                if (pnl===undefined || pnl.btn===undefined || pnl.panel===undefined) continue;
 
                 if ( pnl.hidden ) {
                     if ( !pnl.btn.isDisabled() )
@@ -209,7 +215,7 @@ define([
                 } else {
                     if ( pnl.btn.isDisabled() )
                         pnl.btn.setDisabled(false);
-                    lastactive = i;
+                    if (i!=Common.Utils.documentSettingsType.Signature) lastactive = i;
                     if ( pnl.needShow ) {
                         pnl.needShow = false;
                         priorityactive = i;
@@ -231,7 +237,10 @@ define([
 
                 if (active !== undefined) {
                     this.rightmenu.SetActivePane(active, this._openRightMenu);
-                    this._settings[active].panel.ChangeSettings.call(this._settings[active].panel, this._settings[active].props);
+                    if (active!=Common.Utils.documentSettingsType.Signature)
+                        this._settings[active].panel.ChangeSettings.call(this._settings[active].panel, this._settings[active].props);
+                    else
+                        this._settings[active].panel.ChangeSettings.call(this._settings[active].panel);
                     this._openRightMenu = false;
                 }
             }
@@ -331,6 +340,11 @@ define([
                 this.rightmenu.chartSettings.disableControls(disabled);
                 this.rightmenu.tableSettings.disableControls(disabled);
                 this.rightmenu.pivotSettings.disableControls(disabled);
+
+                if (this.rightmenu.signatureSettings) {
+                    this.rightmenu.signatureSettings.disableControls(disabled);
+                    this.rightmenu.btnSignature.setDisabled(disabled);
+                }
 
                 if (disabled) {
                     this.rightmenu.btnText.setDisabled(disabled);

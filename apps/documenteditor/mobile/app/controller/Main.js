@@ -456,6 +456,9 @@ define([
                 if (this._isDocReady)
                     return;
 
+                if (this._state.openDlg)
+                    uiApp.closeModal(this._state.openDlg);
+
                 var me = this,
                     value;
 
@@ -980,8 +983,10 @@ define([
             },
 
             onAdvancedOptions: function(advOptions) {
+                if (this._state.openDlg) return;
+
                 var type = advOptions.asc_getOptionId(),
-                    me = this, modal;
+                    me = this;
                 if (type == Asc.c_oAscAdvancedOptionsID.TXT) {
                     var picker,
                         pages = [],
@@ -996,7 +1001,7 @@ define([
 
                     me.onLongActionEnd(Asc.c_oAscAsyncActionType.BlockInteraction, LoadingDocument);
 
-                    modal = uiApp.modal({
+                    me._state.openDlg = uiApp.modal({
                         title: me.advTxtOptions,
                         text: '',
                         afterText:
@@ -1020,6 +1025,7 @@ define([
                                             me.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
                                         }
                                     }
+                                    me._state.openDlg = null;
                                 }
                             }
                         ]
@@ -1037,12 +1043,16 @@ define([
                     });
 
                     // Vertical align
-                    $$(modal).css({
-                        marginTop: - Math.round($$(modal).outerHeight() / 2) + 'px'
+                    $$(me._state.openDlg).css({
+                        marginTop: - Math.round($$(me._state.openDlg).outerHeight() / 2) + 'px'
                     });
 
                 } else if (type == Asc.c_oAscAdvancedOptionsID.DRM) {
-                    modal = uiApp.modal({
+                    $(me.loadMask).hasClass('modal-in') && uiApp.closeModal(me.loadMask);
+
+                    me.onLongActionEnd(Asc.c_oAscAsyncActionType.BlockInteraction, LoadingDocument);
+
+                    me._state.openDlg = uiApp.modal({
                         title: me.advDRMOptions,
                         text: me.advDRMEnterPassword,
                         afterText: '<div class="input-field"><input type="password" name="modal-password" placeholder="' + me.advDRMPassword + '" class="modal-text-input"></div>',
@@ -1051,15 +1061,21 @@ define([
                                 text: 'OK',
                                 bold: true,
                                 onClick: function () {
-                                    var password = $(modal).find('.modal-text-input[name="modal-password"]').val();
+                                    var password = $(me._state.openDlg).find('.modal-text-input[name="modal-password"]').val();
                                     me.api.asc_setAdvancedOptions(type, new Asc.asc_CDRMAdvancedOptions(password));
 
                                     if (!me._isDocReady) {
                                         me.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
                                     }
+                                    me._state.openDlg = null;
                                 }
                             }
                         ]
+                    });
+
+                    // Vertical align
+                    $$(me._state.openDlg).css({
+                        marginTop: - Math.round($$(me._state.openDlg).outerHeight() / 2) + 'px'
                     });
                 }
             },

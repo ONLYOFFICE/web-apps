@@ -38,6 +38,7 @@ define([
     'common/main/lib/util/utils',
     'common/main/lib/component/Menu',
     'common/main/lib/view/CopyWarningDialog',
+    'common/main/lib/view/SignDialog',
     'presentationeditor/main/app/view/HyperlinkSettingsDialog',
 //    'common/main/lib/view/InsertTableDialog',
     'presentationeditor/main/app/view/ParagraphSettingsAdvanced',
@@ -675,6 +676,36 @@ define([
                         diagramEditor.setChartData(new Asc.asc_CChartBinary(chart));
                     }
                 }
+            };
+
+            var onSignatureClick = function(guid, width, height) {
+                if (_.isUndefined(me.fontStore)) {
+                    me.fontStore = new Common.Collections.Fonts();
+                    var fonts = PE.getController('Toolbar').getView('Toolbar').cmbFontName.store.toJSON();
+                    var arr = [];
+                    _.each(fonts, function(font, index){
+                        if (!font.cloneid) {
+                            arr.push(_.clone(font));
+                        }
+                    });
+                    me.fontStore.add(arr);
+                }
+
+                var win = new Common.Views.SignDialog({
+                    api: me.api,
+                    signType: 'visible',
+                    fontStore: me.fontStore,
+                    signSize: {width: width, height: height},
+                    handler: function(dlg, result) {
+                        if (result == 'ok') {
+                            var props = dlg.getSettings();
+                            me.api.asc_Sign(props.certificateId, guid, props.images[0], props.images[1]);
+                        }
+                        me.fireEvent('editcomplete', me);
+                    }
+                });
+
+                win.show();
             };
 
             var onTextLanguage = function(langid) {
@@ -1517,6 +1548,7 @@ define([
                     me.api.asc_registerCallback('asc_onUpdateThemeIndex',       _.bind(onApiUpdateThemeIndex, me));
                     me.api.asc_registerCallback('asc_onLockDocumentTheme',      _.bind(onApiLockDocumentTheme, me));
                     me.api.asc_registerCallback('asc_onUnLockDocumentTheme',    _.bind(onApiUnLockDocumentTheme, me));
+                    me.api.asc_registerCallback('asc_onSignatureClick',         _.bind(onSignatureClick, me));
                 }
 
                 return me;
@@ -1900,7 +1932,7 @@ define([
                     el          : $('#id-docholder-menu-changeslide'),
                     parentMenu  : mnuChangeSlide.menu,
                     showLast: false,
-                    restoreHeight: 300,
+                    // restoreHeight: 300,
                     style: 'max-height: 300px;',
                     store       : PE.getCollection('SlideLayouts'),
                     itemTemplate: _.template([
@@ -1934,7 +1966,7 @@ define([
                 me.slideThemeMenu = new Common.UI.DataView({
                     el          : $('#id-docholder-menu-changetheme'),
                     parentMenu  : mnuChangeTheme.menu,
-                    restoreHeight: 300,
+                    // restoreHeight: 300,
                     style: 'max-height: 300px;',
                     store       : PE.getCollection('SlideThemes'),
                     itemTemplate: _.template([

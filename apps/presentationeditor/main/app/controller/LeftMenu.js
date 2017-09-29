@@ -43,6 +43,7 @@
 define([
     'core',
     'common/main/lib/util/Shortcuts',
+    'common/main/lib/view/SignDialog',
     'presentationeditor/main/app/view/LeftMenu',
     'presentationeditor/main/app/view/FileMenu'
 ], function () {
@@ -83,7 +84,8 @@ define([
                     'saveas:format': _.bind(this.clickSaveAsFormat, this),
                     'settings:apply': _.bind(this.applySettings, this),
                     'create:new': _.bind(this.onCreateNew, this),
-                    'recent:open': _.bind(this.onOpenRecent, this)
+                    'recent:open': _.bind(this.onOpenRecent, this),
+                    'signature:invisible': _.bind(this.addInvisibleSign, this)
                 },
                 'Toolbar': {
                     'file:settings': _.bind(this.clickToolbarSettings,this),
@@ -528,16 +530,35 @@ define([
         },
 
         onPluginOpen: function(panel, type, action) {
-            if ( type == 'onboard' ) {
-                if ( action == 'open' ) {
+            if (type == 'onboard') {
+                if (action == 'open') {
                     this.leftMenu.close();
                     this.leftMenu.btnThumbs.toggle(false, false);
                     this.leftMenu.panelPlugins.show();
-                    this.leftMenu.onBtnMenuClick({pressed:true, options: {action: 'plugins'}});
+                    this.leftMenu.onBtnMenuClick({pressed: true, options: {action: 'plugins'}});
                 } else {
                     this.leftMenu.close();
                 }
             }
+        },
+
+        addInvisibleSign: function(menu) {
+            var me = this,
+                win = new Common.Views.SignDialog({
+                    api: me.api,
+                    signType: 'invisible',
+                    handler: function(dlg, result) {
+                        if (result == 'ok') {
+                            var props = dlg.getSettings();
+                            me.api.asc_Sign(props.certificateId);
+                        }
+                        Common.NotificationCenter.trigger('edit:complete', me);
+                    }
+                });
+
+            win.show();
+
+            menu.hide();
         },
 
         textNoTextFound         : 'Text not found',

@@ -454,12 +454,12 @@ define([
                     this.setLongActionView(action);
                 } else {
                     if (this.loadMask) {
-                        if (this.loadMask.isVisible() && !this.dontCloseDummyComment && !this.dontCloseChat)
+                        if (this.loadMask.isVisible() && !this.dontCloseDummyComment && !this.dontCloseChat && !this.isModalShowed )
                             this.api.asc_enableKeyEvents(true);
                         this.loadMask.hide();
                     }
 
-                    if (type == Asc.c_oAscAsyncActionType.BlockInteraction && !( (id == Asc.c_oAscAsyncAction['LoadDocumentFonts'] || id == Asc.c_oAscAsyncAction['ApplyChanges']) && (this.dontCloseDummyComment || this.dontCloseChat) ))
+                    if (type == Asc.c_oAscAsyncActionType.BlockInteraction && !( (id == Asc.c_oAscAsyncAction['LoadDocumentFonts'] || id == Asc.c_oAscAsyncAction['ApplyChanges']) && (this.dontCloseDummyComment || this.dontCloseChat || this.isModalShowed ) ))
                         this.onEditComplete(this.loadMask, {restorefocus:true});
                 }
             },
@@ -555,6 +555,9 @@ define([
                 if (this._isDocReady)
                     return;
 
+                if (this._state.openDlg)
+                    this._state.openDlg.close();
+
                 var me = this,
                     value;
 
@@ -616,8 +619,10 @@ define([
 
                  if (!me.appOptions.isEditMailMerge && !me.appOptions.isEditDiagram) {
                     pluginsController.setApi(me.api);
-                    me.updatePlugins(me.plugins, false);
-                    me.requestPlugins('../../../../plugins.json');
+                    if (me.plugins && me.plugins.pluginsData && me.plugins.pluginsData.length>0)
+                        me.updatePlugins(me.plugins, false);
+                    else
+                        me.requestPlugins('../../../../plugins.json');
                     me.api.asc_registerCallback('asc_onPluginsInit', _.bind(me.updatePluginsList, me));
                 }
 
@@ -797,6 +802,7 @@ define([
                     this.appOptions.canChat        = this.appOptions.canLicense && !this.appOptions.isOffline && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.chat===false);
                     this.appOptions.canRename      = !!this.permissions.rename;
                     this.appOptions.isTrial        = params.asc_getTrial();
+                    this.appOptions.canProtect      = this.appOptions.isDesktopApp && this.api.asc_isSignaturesSupport();
 
                     this.appOptions.canBranding  = (licType === Asc.c_oLicenseResult.Success) && (typeof this.editorConfig.customization == 'object');
                     if (this.appOptions.canBranding)
@@ -1423,10 +1429,12 @@ define([
             },
 
             onAdvancedOptions: function(advOptions) {
+                if (this._state.openDlg) return;
+
                 var type = advOptions.asc_getOptionId(),
-                    me = this, dlg;
+                    me = this;
                 if (type == Asc.c_oAscAdvancedOptionsID.CSV) {
-                    dlg = new Common.Views.OpenDialog({
+                    me._state.openDlg = new Common.Views.OpenDialog({
                         type: type,
                         codepages: advOptions.asc_getOptions().asc_getCodePages(),
                         settings: advOptions.asc_getOptions().asc_getRecommendedSettings(),
@@ -1436,10 +1444,11 @@ define([
                                 me.api.asc_setAdvancedOptions(type, new Asc.asc_CCSVAdvancedOptions(encoding, delimiter, delimiterChar));
                                 me.loadMask && me.loadMask.show();
                             }
+                            me._state.openDlg = null;
                         }
                     });
                 } else if (type == Asc.c_oAscAdvancedOptionsID.DRM) {
-                    dlg = new Common.Views.OpenDialog({
+                    me._state.openDlg = new Common.Views.OpenDialog({
                         type: type,
                         validatePwd: !!me._state.isDRM,
                         handler: function (value) {
@@ -1448,15 +1457,16 @@ define([
                                 me.api.asc_setAdvancedOptions(type, new Asc.asc_CDRMAdvancedOptions(value));
                                 me.loadMask && me.loadMask.show();
                             }
+                            me._state.openDlg = null;
                         }
                     });
                     me._state.isDRM = true;
                 }
-                if (dlg) {
+                if (me._state.openDlg) {
                     this.isShowOpenDialog = true;
                     this.loadMask && this.loadMask.hide();
                     this.onLongActionEnd(Asc.c_oAscAsyncActionType.BlockInteraction, LoadingDocument);
-                    dlg.show();
+                    me._state.openDlg.show();
                 }
             },
 
@@ -1835,27 +1845,26 @@ define([
                 var pluginsData = (uiCustomize) ? plugins.UIpluginsData : plugins.pluginsData;
                 if (!pluginsData || pluginsData.length<1) return;
 
-                var arr = [],
-                    baseUrl = _.isEmpty(plugins.url) ? "" : plugins.url;
-
-                if (baseUrl !== "")
-                    console.warn("Obsolete: The url parameter is deprecated. Please check the documentation for new plugin connection configuration.");
-
+                var arr = [];
                 pluginsData.forEach(function(item){
-                    item = baseUrl + item; // for compatibility with previouse version of server, where plugins.url is used.
                     var value = Common.Utils.getConfigJson(item);
                     if (value) {
                         value.baseUrl = item.substring(0, item.lastIndexOf("config.json"));
-                        value.oldVersion = (baseUrl !== "");
                         arr.push(value);
                     }
                 });
 
-                if (arr.length>0)
+                if (arr.length>0) {
+                    var autostart = plugins.autostart || plugins.autoStartGuid;
+                    if (typeof (autostart) == 'string')
+                        autostart = [autostart];
+                    plugins.autoStartGuid && console.warn("Obsolete: The autoStartGuid parameter is deprecated. Please check the documentation for new plugin connection configuration.");
+
                     this.updatePluginsList({
-                        autoStartGuid: plugins.autoStartGuid,
+                        autostart: autostart,
                         pluginsData: arr
                     }, !!uiCustomize);
+                }
             },
 
             updatePluginsList: function(plugins, uiCustomize) {
@@ -1867,32 +1876,25 @@ define([
                         if (uiCustomize!==undefined && (pluginStore.findWhere({baseUrl : item.baseUrl}) || pluginStore.findWhere({guid : item.guid}))) return;
 
                         var variations = item.variations,
-                            variationsArr = [];
+                            variationsArr = [],
+                            pluginVisible = false;
                         variations.forEach(function(itemVar){
-                            if ((isEdit || itemVar.isViewer) &&
-                                    itemVar.EditorsSupport.includes('cell') )
-                            {
-                                var icons = itemVar.icons;
-                                if (item.oldVersion) { // for compatibility with previouse version of server, where plugins.url is used.
-                                    icons = [];
-                                    itemVar.icons.forEach(function(icon){
-                                        icons.push(icon.substring(icon.lastIndexOf("\/")+1));
-                                    });
-                                }
+                            var visible = (isEdit || itemVar.isViewer) && itemVar.EditorsSupport.includes('cell');
+                            if ( visible ) pluginVisible = true;
 
-                                if ( item.isUICustomizer ) {
-                                    arrUI.push(item.baseUrl + itemVar.url);
-                                } else {
-                                    var model = new Common.Models.PluginVariation(itemVar);
+                            if ( item.isUICustomizer ) {
+                                visible && arrUI.push(item.baseUrl + itemVar.url);
+                            } else {
+                                var model = new Common.Models.PluginVariation(itemVar);
 
-                                    model.set({
-                                        index: variationsArr.length,
-                                        url: (item.oldVersion) ? (itemVar.url.substring(itemVar.url.lastIndexOf("\/") + 1)) : itemVar.url,
-                                        icons: icons
-                                    });
+                                model.set({
+                                    index: variationsArr.length,
+                                    url: itemVar.url,
+                                    icons: itemVar.icons,
+                                    visible: visible
+                                });
 
-                                    variationsArr.push(model);
-                                }
+                                variationsArr.push(model);
                             }
                         });
                         if (variationsArr.length>0 && !item.isUICustomizer)
@@ -1901,7 +1903,8 @@ define([
                                 guid: item.guid,
                                 baseUrl : item.baseUrl,
                                 variations: variationsArr,
-                                currentVariation: 0
+                                currentVariation: 0,
+                                visible: pluginVisible
                             }));
                     });
 
@@ -1916,9 +1919,7 @@ define([
                     this.appOptions.canPlugins = false;
                 }
                 if (this.appOptions.canPlugins) {
-                    this.getApplication().getController('Common.Controllers.Plugins').setMode(this.appOptions);
-                    if (plugins.autoStartGuid)
-                        this.api.asc_pluginRun(plugins.autoStartGuid, 0, '');
+                    this.getApplication().getController('Common.Controllers.Plugins').setMode(this.appOptions).runAutoStartPlugins(plugins.autostart);
                 }
                 if (!uiCustomize) this.getApplication().getController('LeftMenu').enablePlugins();
             },

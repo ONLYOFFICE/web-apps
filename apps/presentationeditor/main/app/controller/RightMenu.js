@@ -79,6 +79,7 @@ define([
             this._settings[Common.Utils.documentSettingsType.Shape] =     {panelId: "id-shape-settings",      panel: rightMenu.shapeSettings,    btn: rightMenu.btnShape,       hidden: 1, locked: false};
             this._settings[Common.Utils.documentSettingsType.TextArt] =   {panelId: "id-textart-settings",    panel: rightMenu.textartSettings,  btn: rightMenu.btnTextArt,     hidden: 1, locked: false};
             this._settings[Common.Utils.documentSettingsType.Chart] = {panelId: "id-chart-settings",          panel: rightMenu.chartSettings,    btn: rightMenu.btnChart,       hidden: 1, locked: false};
+            this._settings[Common.Utils.documentSettingsType.Signature] = {panelId: "id-signature-settings",  panel: rightMenu.signatureSettings, btn: rightMenu.btnSignature,  hidden: (rightMenu.signatureSettings) ? 0 : 1, props: {}, locked: false};
         },
 
         setApi: function(api) {
@@ -97,7 +98,7 @@ define([
                 var panel = this._settings[type].panel;
                 var props = this._settings[type].props;
                 if (props && panel)
-                    panel.ChangeSettings.call(panel, props);
+                    panel.ChangeSettings.call(panel, (type==Common.Utils.documentSettingsType.Signature) ? undefined : props);
             }
             Common.NotificationCenter.trigger('layout:changed', 'rightmenu');
             this.rightmenu.fireEvent('editcomplete', this.rightmenu);
@@ -109,12 +110,14 @@ define([
 
             var needhide = true;
             for (var i=0; i<this._settings.length; i++) {
+                if (i==Common.Utils.documentSettingsType.Signature) continue;
                 if (this._settings[i]) {
                     this._settings[i].hidden = 1;
                     this._settings[i].locked = undefined;
                 }
             }
             this._settings[Common.Utils.documentSettingsType.Slide].hidden = (SelectedObjects.length>0) ? 0 : 1;
+            this._settings[Common.Utils.documentSettingsType.Signature].locked = false;
 
             for (i=0; i<SelectedObjects.length; i++)
             {
@@ -152,7 +155,7 @@ define([
                 activePane = this.rightmenu.GetActivePane();
             for (i=0; i<this._settings.length; i++) {
                 var pnl = this._settings[i];
-                if (pnl===undefined) continue;
+                if (pnl===undefined || pnl.btn===undefined || pnl.panel===undefined) continue;
 
                 if ( pnl.hidden ) {
                     if (!pnl.btn.isDisabled()) pnl.btn.setDisabled(true);
@@ -160,7 +163,7 @@ define([
                         currentactive = -1;
                 } else {
                     if (pnl.btn.isDisabled()) pnl.btn.setDisabled(false);
-                    if ( i!=Common.Utils.documentSettingsType.Slide )
+                    if ( i!=Common.Utils.documentSettingsType.Slide && i!=Common.Utils.documentSettingsType.Signature)
                         lastactive = i;
                     if ( pnl.needShow ) {
                         pnl.needShow = false;
@@ -190,7 +193,10 @@ define([
 
                 if (active !== undefined) {
                     this.rightmenu.SetActivePane(active, open);
-                    this._settings[active].panel.ChangeSettings.call(this._settings[active].panel, this._settings[active].props);
+                    if (active!=Common.Utils.documentSettingsType.Signature)
+                        this._settings[active].panel.ChangeSettings.call(this._settings[active].panel, this._settings[active].props);
+                    else
+                        this._settings[active].panel.ChangeSettings.call(this._settings[active].panel);
                 }
             }
 

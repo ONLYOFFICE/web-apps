@@ -147,7 +147,7 @@ define([
             var me              = this,
                 rightMenuView   = SSE.getController('RightMenu').getView('RightMenu');
 
-            me._rightMenu   = rightMenuView.render();
+            me._rightMenu   = rightMenuView.render(this.mode);
         },
 
         setMode: function(mode, delay) {
