@@ -119,6 +119,7 @@ define([
                 var value = Common.localStorage.getItem("de-settings-fontrender");
                 if (value === null)
                     window.devicePixelRatio > 1 ? value = '1' : '0';
+                Common.Utils.InternalSettings.set("de-settings-fontrender", value);
 
                 // Initialize api
 
@@ -755,10 +756,14 @@ define([
 
                 /** coauthoring begin **/
                 this.isLiveCommenting = Common.localStorage.getBool("de-settings-livecomment", true);
-                this.isLiveCommenting ? this.api.asc_showComments(Common.localStorage.getBool("de-settings-resolvedcomment", true)) : this.api.asc_hideComments();
+                Common.Utils.InternalSettings.set("de-settings-livecomment", this.isLiveCommenting);
+                value = Common.localStorage.getBool("de-settings-resolvedcomment", true);
+                Common.Utils.InternalSettings.set("de-settings-resolvedcomment", value);
+                this.isLiveCommenting ? this.api.asc_showComments(value) : this.api.asc_hideComments();
                 /** coauthoring end **/
 
                 value = Common.localStorage.getItem("de-settings-zoom");
+                Common.Utils.InternalSettings.set("de-settings-zoom", value);
                 var zf = (value!==null) ? parseInt(value) : (this.appOptions.customization && this.appOptions.customization.zoom ? parseInt(this.appOptions.customization.zoom) : 100);
                 (zf == -1) ? this.api.zoomFitToPage() : ((zf == -2) ? this.api.zoomFitToWidth() : this.api.zoom(zf>0 ? zf : 100));
 
@@ -768,9 +773,13 @@ define([
                 value = Common.localStorage.getItem("de-show-tableline");
                 me.api.put_ShowTableEmptyLine((value!==null) ? eval(value) : true);
 
-                me.api.asc_setSpellCheck(Common.localStorage.getBool("de-settings-spellcheck", true));
+                value = Common.localStorage.getBool("de-settings-spellcheck", true);
+                Common.Utils.InternalSettings.set("de-settings-spellcheck", value);
+                me.api.asc_setSpellCheck(value);
 
-                Common.localStorage.setBool("de-settings-showsnaplines", me.api.get_ShowSnapLines());
+                value = me.api.get_ShowSnapLines();
+                Common.Utils.InternalSettings.set("de-settings-showsnaplines", value);
+                Common.localStorage.setBool("de-settings-showsnaplines", value);
 
                 function checkWarns() {
                     if (!window['AscDesktopEditor']) {
@@ -794,7 +803,9 @@ define([
                 appHeader.setDocumentCaption(me.api.asc_getDocumentName());
                 me.updateWindowTitle(true);
 
-                me.api.SetTextBoxInputMode(Common.localStorage.getBool("de-settings-inputmode"));
+                value = Common.localStorage.getBool("de-settings-inputmode");
+                Common.Utils.InternalSettings.set("de-settings-inputmode", value);
+                me.api.SetTextBoxInputMode(value);
 
                 /** coauthoring begin **/
                 if (me.appOptions.isEdit && !me.appOptions.isOffline && me.appOptions.canCoAuthoring) {
@@ -807,21 +818,23 @@ define([
                     me.api.asc_SetFastCollaborative(me._state.fastCoauth);
 
                     value = Common.localStorage.getItem((me._state.fastCoauth) ? "de-settings-showchanges-fast" : "de-settings-showchanges-strict");
-                    if (value !== null)
-                        me.api.SetCollaborativeMarksShowType(value == 'all' ? Asc.c_oAscCollaborativeMarksShowType.All :
-                                value == 'none' ? Asc.c_oAscCollaborativeMarksShowType.None : Asc.c_oAscCollaborativeMarksShowType.LastChanges);
-                    else
-                        me.api.SetCollaborativeMarksShowType(me._state.fastCoauth ? Asc.c_oAscCollaborativeMarksShowType.None : Asc.c_oAscCollaborativeMarksShowType.LastChanges);
+                    if (value == null) value = me._state.fastCoauth ? 'none' : 'last';
+                    me.api.SetCollaborativeMarksShowType(value == 'all' ? Asc.c_oAscCollaborativeMarksShowType.All :
+                                                        (value == 'none' ? Asc.c_oAscCollaborativeMarksShowType.None : Asc.c_oAscCollaborativeMarksShowType.LastChanges));
+                    Common.Utils.InternalSettings.set((me._state.fastCoauth) ? "de-settings-showchanges-fast" : "de-settings-showchanges-strict", value);
                 } else if (!me.appOptions.isEdit && me.appOptions.canComments) {
                     me._state.fastCoauth = true;
                     me.api.asc_SetFastCollaborative(me._state.fastCoauth);
                     me.api.SetCollaborativeMarksShowType(Asc.c_oAscCollaborativeMarksShowType.None);
                     me.api.asc_setAutoSaveGap(1);
+                    Common.Utils.InternalSettings.set("de-settings-autosave", 1);
                 } else {
                     me._state.fastCoauth = false;
                     me.api.asc_SetFastCollaborative(me._state.fastCoauth);
                     me.api.SetCollaborativeMarksShowType(Asc.c_oAscCollaborativeMarksShowType.None);
                 }
+                Common.Utils.InternalSettings.set("de-settings-coauthmode", me._state.fastCoauth);
+
                 /** coauthoring end **/
 
                 var application                 = me.getApplication();
@@ -864,11 +877,12 @@ define([
                     if (value===null && me.appOptions.customization && me.appOptions.customization.autosave===false)
                         value = 0;
                     value = (!me._state.fastCoauth && value!==null) ? parseInt(value) : (me.appOptions.canCoAuthoring ? 1 : 0);
-
+                    Common.Utils.InternalSettings.set("de-settings-autosave", value);
                     me.api.asc_setAutoSaveGap(value);
 
                     if (me.appOptions.canForcesave) {// use asc_setIsForceSaveOnUserSave only when customization->forcesave = true
                         me.appOptions.forcesave = Common.localStorage.getBool("de-settings-forcesave", me.appOptions.canForcesave);
+                        Common.Utils.InternalSettings.set("de-settings-forcesave", me.appOptions.forcesave);
                         me.api.asc_setIsForceSaveOnUserSave(me.appOptions.forcesave);
                     }
 
@@ -1123,6 +1137,7 @@ define([
                     var value = Common.localStorage.getItem('de-settings-unit');
                     value = (value!==null) ? parseInt(value) : Common.Utils.Metric.getDefaultMetric();
                     Common.Utils.Metric.setCurrentMetric(value);
+                    Common.Utils.InternalSettings.set("de-settings-unit", value);
                     me.api.asc_SetDocumentUnits((value==Common.Utils.Metric.c_MetricUnits.inch) ? Asc.c_oAscDocumentUnits.Inch : ((value==Common.Utils.Metric.c_MetricUnits.pt) ? Asc.c_oAscDocumentUnits.Point : Asc.c_oAscDocumentUnits.Millimeter));
 
                     me.api.asc_SetViewRulers(!Common.localStorage.getBool('de-hidden-rulers'));
@@ -1736,6 +1751,7 @@ define([
                 var value = Common.localStorage.getItem("de-settings-unit");
                 value = (value!==null) ? parseInt(value) : Common.Utils.Metric.getDefaultMetric();
                 Common.Utils.Metric.setCurrentMetric(value);
+                Common.Utils.InternalSettings.set("de-settings-unit", value);
                 this.api.asc_SetDocumentUnits((value==Common.Utils.Metric.c_MetricUnits.inch) ? Asc.c_oAscDocumentUnits.Inch : ((value==Common.Utils.Metric.c_MetricUnits.pt) ? Asc.c_oAscDocumentUnits.Point : Asc.c_oAscDocumentUnits.Millimeter));
                 this.getApplication().getController('RightMenu').updateMetricUnit();
                 this.getApplication().getController('Toolbar').getView().updateMetricUnit();
@@ -1797,6 +1813,7 @@ define([
                             if (dontshow) window.localStorage.setItem("de-hide-try-undoredo", 1);
                             if (btn == 'custom') {
                                 Common.localStorage.setItem("de-settings-coauthmode", 0);
+                                Common.Utils.InternalSettings.set("de-settings-coauthmode", false);
                                 this.api.asc_SetFastCollaborative(false);
                                 this._state.fastCoauth = false;
                                 Common.localStorage.setItem("de-settings-showchanges-strict", 'last');
@@ -1825,6 +1842,7 @@ define([
                 }
                 if (this.appOptions.canForcesave) {
                     this.appOptions.forcesave = Common.localStorage.getBool("de-settings-forcesave", this.appOptions.canForcesave);
+                    Common.Utils.InternalSettings.set("de-settings-forcesave", this.appOptions.forcesave);
                     this.api.asc_setIsForceSaveOnUserSave(this.appOptions.forcesave);
                 }
             },

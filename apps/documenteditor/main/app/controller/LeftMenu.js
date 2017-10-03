@@ -301,11 +301,15 @@ define([
 
         applySettings: function(menu) {
             var value;
-            this.api.SetTextBoxInputMode(Common.localStorage.getBool("de-settings-inputmode"));
+
+            value = Common.localStorage.getBool("de-settings-inputmode");
+            Common.Utils.InternalSettings.set("de-settings-inputmode", value);
+            this.api.SetTextBoxInputMode(value);
 
             /** coauthoring begin **/
             if (this.mode.isEdit && !this.mode.isOffline && this.mode.canCoAuthoring) {
                 var fast_coauth = Common.localStorage.getBool("de-settings-coauthmode", true);
+                Common.Utils.InternalSettings.set("de-settings-coauthmode", fast_coauth);
                 this.api.asc_SetFastCollaborative(fast_coauth);
 
                 value = Common.localStorage.getItem((fast_coauth) ? "de-settings-showchanges-fast" : "de-settings-showchanges-strict");
@@ -315,13 +319,21 @@ define([
                 case 'last': value = Asc.c_oAscCollaborativeMarksShowType.LastChanges; break;
                 default: value = (fast_coauth) ? Asc.c_oAscCollaborativeMarksShowType.None : Asc.c_oAscCollaborativeMarksShowType.LastChanges;
                 }
+                Common.Utils.InternalSettings.set((fast_coauth) ? "de-settings-showchanges-fast" : "de-settings-showchanges-strict", value);
                 this.api.SetCollaborativeMarksShowType(value);
             }
 
-            (Common.localStorage.getBool("de-settings-livecomment", true)) ? this.api.asc_showComments(Common.localStorage.getBool("de-settings-resolvedcomment", true)) : this.api.asc_hideComments();
+            value = Common.localStorage.getBool("de-settings-livecomment", true);
+            Common.Utils.InternalSettings.set("de-settings-livecomment", value);
+            var resolved = Common.localStorage.getBool("de-settings-resolvedcomment", true);
+            Common.Utils.InternalSettings.set("de-settings-resolvedcomment", resolved);
+            if (this.mode.canComments && this.leftMenu.panelComments.isVisible())
+                value = resolved = true;
+            (value) ? this.api.asc_showComments(resolved) : this.api.asc_hideComments();
             /** coauthoring end **/
 
             value = Common.localStorage.getItem("de-settings-fontrender");
+            Common.Utils.InternalSettings.set("de-settings-fontrender", value);
             switch (value) {
             case '1':     this.api.SetFontRenderingMode(1); break;
             case '2':     this.api.SetFontRenderingMode(2); break;
@@ -329,13 +341,18 @@ define([
             }
 
             if (this.mode.isEdit) {
-                value = Common.localStorage.getItem("de-settings-autosave");
-                this.api.asc_setAutoSaveGap(parseInt(value));
+                value = parseInt(Common.localStorage.getItem("de-settings-autosave"));
+                Common.Utils.InternalSettings.set("de-settings-autosave", value);
+                this.api.asc_setAutoSaveGap(value);
 
-                this.api.asc_setSpellCheck(Common.localStorage.getBool("de-settings-spellcheck", true));
+                value = Common.localStorage.getBool("de-settings-spellcheck", true);
+                Common.Utils.InternalSettings.set("de-settings-spellcheck", value);
+                this.api.asc_setSpellCheck(value);
             }
 
-            this.api.put_ShowSnapLines(Common.localStorage.getBool("de-settings-showsnaplines", true));
+            value = Common.localStorage.getBool("de-settings-showsnaplines", true);
+            Common.Utils.InternalSettings.set("de-settings-showsnaplines", value);
+            this.api.put_ShowSnapLines(value);
 
             menu.hide();
         },
@@ -526,8 +543,9 @@ define([
         },
 
         commentsShowHide: function(mode) {
-            var value = Common.localStorage.getBool("de-settings-livecomment", true),
-                resolved = Common.localStorage.getBool("de-settings-resolvedcomment", true);
+            var value = Common.Utils.InternalSettings.get("de-settings-livecomment"),
+                resolved = Common.Utils.InternalSettings.get("de-settings-resolvedcomment");
+
             if (!value || !resolved) {
                 (mode === 'show') ? this.api.asc_showComments(true) : ((value) ? this.api.asc_showComments(resolved) : this.api.asc_hideComments());
             }

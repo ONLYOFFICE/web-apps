@@ -499,6 +499,7 @@ define([
 
             Common.localStorage.setItem("de-settings-spellcheck", state ? 1 : 0);
             this.api.asc_setSpellCheck(state);
+            Common.Utils.InternalSettings.set("de-settings-spellcheck", state);
         },
 
         onReviewViewClick: function(menu, item, e) {
