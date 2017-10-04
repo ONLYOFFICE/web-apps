@@ -350,9 +350,7 @@ define([
                 this.api.asc_setSpellCheck(value);
             }
 
-            value = Common.localStorage.getBool("de-settings-showsnaplines", true);
-            Common.Utils.InternalSettings.set("de-settings-showsnaplines", value);
-            this.api.put_ShowSnapLines(value);
+            this.api.put_ShowSnapLines(Common.Utils.InternalSettings.get("de-settings-showsnaplines"));
 
             menu.hide();
         },

@@ -686,52 +686,38 @@ define([
         },
 
         updateSettings: function() {
-            var value = Common.localStorage.getItem("sse-settings-zoom");
+            var value = Common.Utils.InternalSettings.get("sse-settings-zoom");
             value = (value!==null) ? parseInt(value) : (this.mode.customization && this.mode.customization.zoom ? parseInt(this.mode.customization.zoom) : 100);
             var item = this.cmbZoom.store.findWhere({value: value});
             this.cmbZoom.setValue(item ? parseInt(item.get('value')) : (value>0 ? value+'%' : 100));
 
             /** coauthoring begin **/
-            value = Common.localStorage.getItem("sse-settings-livecomment");
-            this.chLiveComment.setValue(!(value!==null && parseInt(value) == 0));
+            this.chLiveComment.setValue(Common.Utils.InternalSettings.get("sse-settings-livecomment"));
+            this.chResolvedComment.setValue(Common.Utils.InternalSettings.get("sse-settings-resolvedcomment"));
 
-            value = Common.localStorage.getItem("sse-settings-resolvedcomment");
-            this.chResolvedComment.setValue(!(value!==null && parseInt(value) == 0));
-
-            value = Common.localStorage.getItem("sse-settings-coauthmode");
-            if (value===null && Common.localStorage.getItem("sse-settings-autosave")===null &&
-                this.mode.customization && this.mode.customization.autosave===false)
-                value = 0; // use customization.autosave only when sse-settings-coauthmode and sse-settings-autosave are null
-            var fast_coauth = (value===null || parseInt(value) == 1) && !(this.mode.isDesktopApp && this.mode.isOffline) && this.mode.canCoAuthoring;
-
-            item = this.cmbCoAuthMode.store.findWhere({value: parseInt(value)});
+            var fast_coauth = Common.Utils.InternalSettings.get("sse-settings-coauthmode");
+            item = this.cmbCoAuthMode.store.findWhere({value: fast_coauth ? 1 : 0});
             this.cmbCoAuthMode.setValue(item ? item.get('value') : 1);
             this.lblCoAuthMode.text(item ? item.get('descValue') : this.strCoAuthModeDescFast);
             /** coauthoring end **/
 
-            value = Common.localStorage.getItem("sse-settings-fontrender");
+            value = Common.Utils.InternalSettings.get("sse-settings-fontrender");
             item = this.cmbFontRender.store.findWhere({value: parseInt(value)});
             this.cmbFontRender.setValue(item ? item.get('value') : (window.devicePixelRatio > 1 ? Asc.c_oAscFontRenderingModeType.noHinting : Asc.c_oAscFontRenderingModeType.hintingAndSubpixeling));
 
-            value = Common.localStorage.getItem("sse-settings-unit");
-            item = this.cmbUnit.store.findWhere({value: parseInt(value)});
+            value = Common.Utils.InternalSettings.get("sse-settings-unit");
+            item = this.cmbUnit.store.findWhere({value: value});
             this.cmbUnit.setValue(item ? parseInt(item.get('value')) : Common.Utils.Metric.getDefaultMetric());
             this._oldUnits = this.cmbUnit.getValue();
 
-            value = Common.localStorage.getItem("sse-settings-autosave");
-            if (value===null && this.mode.customization && this.mode.customization.autosave===false)
-                value = 0;
-            this.chAutosave.setValue(fast_coauth || (value===null ? this.mode.canCoAuthoring : parseInt(value) == 1));
+            value = Common.Utils.InternalSettings.get("sse-settings-autosave");
+            this.chAutosave.setValue(value == 1);
 
             if (this.mode.canForcesave) {
-                value = Common.localStorage.getItem("sse-settings-forcesave");
-                value = (value === null) ? this.mode.canForcesave : (parseInt(value) == 1);
-                this.chForcesave.setValue(value);
+                this.chForcesave.setValue(Common.Utils.InternalSettings.get("sse-settings-forcesave"));
             }
 
-            value = Common.localStorage.getItem("sse-settings-func-locale");
-            if (value===null)
-                value = ((this.mode.lang) ? this.mode.lang : 'en').toLowerCase();
+            value = Common.Utils.InternalSettings.get("sse-settings-func-locale");
             item = this.cmbFuncLocale.store.findWhere({value: value});
             if (!item)
                 item = this.cmbFuncLocale.store.findWhere({value: value.split("-")[0]});
@@ -752,6 +738,7 @@ define([
 
         applySettings: function() {
             Common.localStorage.setItem("sse-settings-zoom", this.cmbZoom.getValue());
+            Common.Utils.InternalSettings.set("sse-settings-zoom", Common.localStorage.getItem("sse-settings-zoom"));
             /** coauthoring begin **/
             Common.localStorage.setItem("sse-settings-livecomment", this.chLiveComment.isChecked() ? 1 : 0);
             Common.localStorage.setItem("sse-settings-resolvedcomment", this.chResolvedComment.isChecked() ? 1 : 0);

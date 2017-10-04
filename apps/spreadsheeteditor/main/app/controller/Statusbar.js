@@ -325,8 +325,8 @@ define([
                     return;
                 }
 
-                var value = Common.localStorage.getItem("sse-settings-coauthmode");
-                if (value!==null && parseInt(value) == 0) {
+                var value = Common.Utils.InternalSettings.get("sse-settings-coauthmode");
+                if (!value) {
                     items = [];
                     while (wc--) {
                         if (sindex !== wc) {

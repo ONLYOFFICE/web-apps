@@ -777,9 +777,7 @@ define([
                 Common.Utils.InternalSettings.set("de-settings-spellcheck", value);
                 me.api.asc_setSpellCheck(value);
 
-                value = me.api.get_ShowSnapLines();
-                Common.Utils.InternalSettings.set("de-settings-showsnaplines", value);
-                Common.localStorage.setBool("de-settings-showsnaplines", value);
+                Common.Utils.InternalSettings.set("de-settings-showsnaplines", me.api.get_ShowSnapLines());
 
                 function checkWarns() {
                     if (!window['AscDesktopEditor']) {

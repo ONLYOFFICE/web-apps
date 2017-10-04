@@ -285,48 +285,42 @@ define([
         },
 
         updateSettings: function() {
-            this.chSpell.setValue(Common.localStorage.getBool("pe-settings-spellcheck", true));
+            this.chSpell.setValue(Common.Utils.InternalSettings.get("pe-settings-spellcheck"));
 
-            this.chInputMode.setValue(Common.localStorage.getBool("pe-settings-inputmode"));
+            this.chInputMode.setValue(Common.Utils.InternalSettings.get("pe-settings-inputmode"));
 
-            var value = Common.localStorage.getItem("pe-settings-zoom");
+            var value = Common.Utils.InternalSettings.get("pe-settings-zoom");
             value = (value!==null) ? parseInt(value) : (this.mode.customization && this.mode.customization.zoom ? parseInt(this.mode.customization.zoom) : -1);
             var item = this.cmbZoom.store.findWhere({value: value});
             this.cmbZoom.setValue(item ? parseInt(item.get('value')) : (value>0 ? value+'%' : 100));
 
             /** coauthoring begin **/
-            value = Common.localStorage.getItem("pe-settings-coauthmode");
-            if (value===null && !Common.localStorage.itemExists("pe-settings-autosave") &&
-                this.mode.customization && this.mode.customization.autosave===false)
-                value = 0; // use customization.autosave only when pe-settings-coauthmode and pe-settings-autosave are null
-            var fast_coauth = (value===null || parseInt(value) == 1) && !(this.mode.isDesktopApp && this.mode.isOffline) && this.mode.canCoAuthoring;
-
-            item = this.cmbCoAuthMode.store.findWhere({value: parseInt(value)});
+            var fast_coauth = Common.Utils.InternalSettings.get("pe-settings-coauthmode");
+            item = this.cmbCoAuthMode.store.findWhere({value: fast_coauth ? 1 : 0});
             this.cmbCoAuthMode.setValue(item ? item.get('value') : 1);
             this.lblCoAuthMode.text(item ? item.get('descValue') : this.strCoAuthModeDescFast);
             /** coauthoring end **/
 
-            value = Common.localStorage.getItem("pe-settings-unit");
-            item = this.cmbUnit.store.findWhere({value: parseInt(value)});
+            value = Common.Utils.InternalSettings.get("pe-settings-unit");
+            item = this.cmbUnit.store.findWhere({value: value});
             this.cmbUnit.setValue(item ? parseInt(item.get('value')) : Common.Utils.Metric.getDefaultMetric());
             this._oldUnits = this.cmbUnit.getValue();
 
-            value = Common.localStorage.getItem("pe-settings-autosave");
-            if (value===null && this.mode.customization && this.mode.customization.autosave===false)
-                value = 0;
-            this.chAutosave.setValue(fast_coauth || (value===null ? this.mode.canCoAuthoring : parseInt(value) == 1));
+            value = Common.Utils.InternalSettings.get("pe-settings-autosave");
+            this.chAutosave.setValue(value == 1);
 
             if (this.mode.canForcesave) {
-                this.chForcesave.setValue(Common.localStorage.getBool("pe-settings-forcesave", this.mode.canForcesave));
+                this.chForcesave.setValue(Common.Utils.InternalSettings.get("pe-settings-forcesave"));
             }
 
-            this.chAlignGuides.setValue(Common.localStorage.getBool("pe-settings-showsnaplines", true));
+            this.chAlignGuides.setValue(Common.Utils.InternalSettings.get("pe-settings-showsnaplines"));
         },
 
         applySettings: function() {
             Common.localStorage.setItem("pe-settings-spellcheck", this.chSpell.isChecked() ? 1 : 0);
             Common.localStorage.setItem("pe-settings-inputmode", this.chInputMode.isChecked() ? 1 : 0);
             Common.localStorage.setItem("pe-settings-zoom", this.cmbZoom.getValue());
+            Common.Utils.InternalSettings.set("pe-settings-zoom", Common.localStorage.getItem("pe-settings-zoom"));
             /** coauthoring begin **/
             if (this.mode.isEdit && !this.mode.isOffline && this.mode.canCoAuthoring) {
                 Common.localStorage.setItem("pe-settings-coauthmode", this.cmbCoAuthMode.getValue());
@@ -336,7 +330,8 @@ define([
             Common.localStorage.setItem("pe-settings-autosave", this.chAutosave.isChecked() ? 1 : 0);
             if (this.mode.canForcesave)
                 Common.localStorage.setItem("pe-settings-forcesave", this.chForcesave.isChecked() ? 1 : 0);
-            Common.localStorage.setItem("pe-settings-showsnaplines", this.chAlignGuides.isChecked() ? 1 : 0);
+            Common.Utils.InternalSettings.set("pe-settings-showsnaplines", this.chAlignGuides.isChecked());
+
             Common.localStorage.save();
 
             if (this.menu) {

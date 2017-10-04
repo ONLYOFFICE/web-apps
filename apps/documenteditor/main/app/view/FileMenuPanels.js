@@ -366,7 +366,7 @@ define([
             /** coauthoring end **/
 
             value = Common.Utils.InternalSettings.get("de-settings-fontrender");
-            item = this.cmbFontRender.store.findWhere({value: value});
+            item = this.cmbFontRender.store.findWhere({value: parseInt(value)});
             this.cmbFontRender.setValue(item ? item.get('value') : (window.devicePixelRatio > 1 ? 1 : 0));
 
             value = Common.Utils.InternalSettings.get("de-settings-unit");
@@ -403,7 +403,7 @@ define([
             if (this.mode.canForcesave)
                 Common.localStorage.setItem("de-settings-forcesave", this.chForcesave.isChecked() ? 1 : 0);
             Common.localStorage.setItem("de-settings-spellcheck", this.chSpell.isChecked() ? 1 : 0);
-            Common.localStorage.setItem("de-settings-showsnaplines", this.chAlignGuides.isChecked() ? 1 : 0);
+            Common.Utils.InternalSettings.set("de-settings-showsnaplines", this.chAlignGuides.isChecked());
             Common.localStorage.save();
 
             if (this.menu) {
