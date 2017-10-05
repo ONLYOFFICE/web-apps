@@ -131,9 +131,11 @@
                 }
             },
             events: {
-                'onReady': <document ready callback>,
+                'onReady': <application ready callback>, // deprecated
+                'onAppReady': <application ready callback>,
                 'onBack': <back to folder callback>,
                 'onDocumentStateChange': <document state changed callback>
+                'onDocumentReady': <document ready callback>
             }
         }
 
@@ -164,9 +166,11 @@
                 }
             },
             events: {
-                'onReady': <document ready callback>,
+                'onReady': <application ready callback>, // deprecated
+                'onAppReady': <application ready callback>,
                 'onBack': <back to folder callback>,
                 'onError': <error callback>,
+                'onDocumentReady': <document ready callback>
             }
         }
     */
@@ -184,6 +188,9 @@
         _config.editorConfig.canSendEmailAddresses = _config.events && !!_config.events.onRequestEmailAddresses;
         _config.editorConfig.canRequestEditRights = _config.events && !!_config.events.onRequestEditRights;
         _config.frameEditorId = placeholderId;
+
+        _config.events && !!_config.events.onReady && console.log("Obsolete: The onReady event is deprecated. Please use onAppReady instead.");
+        _config.events && (_config.events.onAppReady = _config.events.onAppReady || _config.events.onReady);
 
         var onMouseUp = function (evt) {
             _processMouse(evt);
@@ -205,7 +212,7 @@
             }
         };
 
-        var _onReady = function() {
+        var _onAppReady = function() {
             if (_config.type === 'mobile') {
                 document.body.onfocus = function(e) {
                     setTimeout(function(){
@@ -275,11 +282,11 @@
                     } else if (msg.event === 'onInternalMessage' && msg.data && msg.data.type == 'localstorage') {
                         _callLocalStorage(msg.data.data);
                     } else {
-                        if (msg.event === 'onReady') {
-                            _onReady();
+                        if (msg.event === 'onAppReady') {
+                            _onAppReady();
                         }
 
-                        if (handler) {
+                        if (handler && typeof handler == "function") {
                             res = handler.call(_self, {target: _self, data: msg.data});
                         }
                     }

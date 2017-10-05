@@ -173,7 +173,7 @@ define([
                     Common.Gateway.on('init',           _.bind(this.loadConfig, this));
                     Common.Gateway.on('showmessage',    _.bind(this.onExternalMessage, this));
                     Common.Gateway.on('opendocument',   _.bind(this.loadDocument, this));
-                    Common.Gateway.ready();
+                    Common.Gateway.appReady();
 
 //                $(window.top).resize(_.bind(this.onDocumentResize, this));
                     this.getApplication().getController('Viewport').setApi(this.api);
@@ -196,7 +196,7 @@ define([
                     $(document.body).on('blur', 'input, textarea', function(e) {
                         if (!me.isModalShowed) {
                             if (!e.relatedTarget ||
-                                !/area_id/.test(e.target.id) && $(e.target).parent().find(e.relatedTarget).length<1 /* Check if focus in combobox goes from input to it's menu button or menu items */
+                                !/area_id/.test(e.target.id) && ($(e.target).parent().find(e.relatedTarget).length<1 || e.target.localName == 'textarea') /* Check if focus in combobox goes from input to it's menu button or menu items, or from comment editing area to Ok/Cancel button */
                                 && (e.relatedTarget.localName != 'input' || !/form-control/.test(e.relatedTarget.className)) /* Check if focus goes to text input with class "form-control" */
                                 && (e.relatedTarget.localName != 'textarea' || /area_id/.test(e.relatedTarget.id))) /* Check if focus goes to textarea, but not to "area_id" */ {
                                 me.api.asc_enableKeyEvents(true);
@@ -442,7 +442,8 @@ define([
                                     markedAsVersion: (group!==version.versionGroup),
                                     selected: (opts.data.currentVersion == version.version),
                                     canRestore: this.appOptions.canHistoryRestore && (ver < versions.length-1),
-                                    isExpanded: true
+                                    isExpanded: true,
+                                    serverVersion: version.serverVersion
                                 }));
                                 if (opts.data.currentVersion == version.version) {
                                     currentVersion = arrVersions[arrVersions.length-1];
@@ -491,7 +492,8 @@ define([
                                                 selected: false,
                                                 canRestore: this.appOptions.canHistoryRestore,
                                                 isRevision: false,
-                                                isVisible: true
+                                                isVisible: true,
+                                                serverVersion: version.serverVersion
                                             }));
                                             arrColors.push(user.get('colorval'));
                                         }
@@ -739,6 +741,8 @@ define([
             onDocumentContentReady: function() {
                 if (this._isDocReady)
                     return;
+
+                Common.Gateway.documentReady();
 
                 if (this._state.openDlg)
                     this._state.openDlg.close();

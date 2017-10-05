@@ -281,7 +281,7 @@
   "DE.Controllers.Main.loadingDocumentTextText": "Document wordt geladen...",
   "DE.Controllers.Main.loadingDocumentTitleText": "Document wordt geladen",
   "DE.Controllers.Main.mailMergeLoadFileText": "Gegevensbron wordt geladen...",
-  "DE.Controllers.Main.mailMergeLoadFileTitle": "Gegevensbron wordt geladen\n",
+  "DE.Controllers.Main.mailMergeLoadFileTitle": "Gegevensbron wordt geladen",
   "DE.Controllers.Main.notcriticalErrorTitle": "Waarschuwing",
   "DE.Controllers.Main.openErrorText": "Er is een fout opgetreden bij het openen van het bestand",
   "DE.Controllers.Main.openTextText": "Document wordt geopend...",
