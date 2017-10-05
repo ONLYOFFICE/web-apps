@@ -95,6 +95,7 @@
   "Common.Views.OpenDialog.okButtonText": "OK",
   "Common.Views.OpenDialog.txtDelimiter": "Разделитель",
   "Common.Views.OpenDialog.txtEncoding": "Кодировка ",
+  "Common.Views.OpenDialog.txtIncorrectPwd": "Указан неверный пароль.",
   "Common.Views.OpenDialog.txtOther": "Другое",
   "Common.Views.OpenDialog.txtPassword": "Пароль",
   "Common.Views.OpenDialog.txtSpace": "Пробел",

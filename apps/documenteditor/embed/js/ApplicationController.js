@@ -209,6 +209,8 @@ var ApplicationController = new(function(){
     }
 
     function onDocumentContentReady() {
+        Common.Gateway.documentReady();
+
         hidePreloader();
 
         if ( !embedConfig.shareUrl )
@@ -498,7 +500,7 @@ var ApplicationController = new(function(){
             Common.Gateway.on('init',               loadConfig);
             Common.Gateway.on('opendocument',       loadDocument);
             Common.Gateway.on('showmessage',        onExternalMessage);
-            Common.Gateway.ready();
+            Common.Gateway.appReady();
         }
 
         return me;

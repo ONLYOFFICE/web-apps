@@ -262,7 +262,7 @@
   "SSE.Controllers.Settings.notcriticalErrorTitle": "Warnung",
   "SSE.Controllers.Settings.warnDownloadAs": "Wenn Sie mit dem Speichern in diesem Format fortsetzen, werden alle Objekte außer Text verloren gehen.<br>Möchten Sie wirklich fortsetzen?",
   "SSE.Controllers.Statusbar.errorLastSheet": "Ein Arbeitsbuch muss mindestens ein sichtbares Worksheet enthalten.",
-  "SSE.Controllers.Statusbar.errorRemoveSheet": "Worksheet kann nicht gelöscht werden. \n",
+  "SSE.Controllers.Statusbar.errorRemoveSheet": "Worksheet kann nicht gelöscht werden. ",
   "SSE.Controllers.Statusbar.menuDelete": "Löschen",
   "SSE.Controllers.Statusbar.menuDuplicate": "Verdoppeln",
   "SSE.Controllers.Statusbar.menuHide": "Vergeben",

@@ -58,6 +58,7 @@ define([
             this.currentDocId = '';
             this.currentDocIdPrev = '';
             this.currentRev = 0;
+            this.currentServerVersion = 0;
         },
 
         events: {
@@ -130,6 +131,7 @@ define([
             this.currentDocId = record.get('docId');
             this.currentDocIdPrev = record.get('docIdPrev');
             this.currentRev = rev;
+            this.currentServerVersion = record.get('serverVersion');
 
             if ( _.isEmpty(url) || (urlGetTime - record.get('urlGetTime') > 5 * 60000)) {
                  _.delay(function() {
@@ -146,6 +148,7 @@ define([
                 hist.asc_setArrColors(this.currentArrColors);
                 hist.asc_setToken(token);
                 hist.asc_setIsRequested(false);
+                hist.asc_setServerVersion(this.currentServerVersion);
                 this.api.asc_showRevision(hist);
 
                 var commentsController = this.getApplication().getController('Common.Controllers.Comments');
@@ -196,6 +199,7 @@ define([
                     hist.asc_setArrColors(this.currentArrColors);
                     hist.asc_setToken(token);
                     hist.asc_setIsRequested(true);
+                    hist.asc_setServerVersion(this.currentServerVersion);
                     this.api.asc_showRevision(hist);
 
                     var commentsController = this.getApplication().getController('Common.Controllers.Comments');
