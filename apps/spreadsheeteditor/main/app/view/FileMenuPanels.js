@@ -450,7 +450,7 @@ define([
                 '<tr class="edit sogou">',
                     '<td class="left"><label><%= scope.txtInput %></label></td>',
                     '<td class="right"><div id="fms-chb-input-sogou"/></td>',
-                '</tr>','<tr class="divider edit"></tr>',
+                '</tr>','<tr class="divider edit sogou"></tr>',
                 '<tr class="autosave">',
                     '<td class="left"><label id="fms-lbl-autosave"><%= scope.textAutoSave %></label></td>',
                     '<td class="right"><span id="fms-chb-autosave" /></td>',
