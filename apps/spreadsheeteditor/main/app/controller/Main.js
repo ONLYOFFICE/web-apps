@@ -149,6 +149,11 @@ define([
                 });
                 this.api.asc_setFontRenderingMode(parseInt(value));
 
+                if (Common.Utils.isChrome) {
+                    value = Common.localStorage.getBool("sse-settings-inputsogou");
+                    window["AscInputMethod"]["SogouPinyin"] = value;
+                }
+
                 this.api.asc_registerCallback('asc_onOpenDocumentProgress',  _.bind(this.onOpenDocument, this));
                 this.api.asc_registerCallback('asc_onEndAction',             _.bind(this.onLongActionEnd, this));
                 this.api.asc_registerCallback('asc_onError',                 _.bind(this.onError, this));

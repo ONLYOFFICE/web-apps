@@ -240,6 +240,11 @@ define([
         applySettings: function(menu) {
             this.api.SetTextBoxInputMode(Common.localStorage.getBool("pe-settings-inputmode"));
 
+            if (Common.Utils.isChrome) {
+                value = Common.localStorage.getBool("pe-settings-inputsogou");
+                window["AscInputMethod"]["SogouPinyin"] = value;
+            }
+
             /** coauthoring begin **/
             if (this.mode.isEdit && !this.mode.isOffline && this.mode.canCoAuthoring) {
                 this.api.asc_SetFastCollaborative(Common.localStorage.getBool("pe-settings-coauthmode", true));
