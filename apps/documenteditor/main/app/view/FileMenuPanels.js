@@ -131,7 +131,7 @@ define([
                 '<tr class="edit sogou">',
                     '<td class="left"></td>',
                     '<td class="right"><div id="fms-chb-input-sogou"/></td>',
-                '</tr>','<tr class="divider edit"></tr>',
+                '</tr>','<tr class="divider edit sogou"></tr>',
                 '<tr class="edit">',
                     '<td class="left"><label><%= scope.textAlignGuides %></label></td>',
                     '<td class="right"><span id="fms-chb-align-guides" /></td>',
