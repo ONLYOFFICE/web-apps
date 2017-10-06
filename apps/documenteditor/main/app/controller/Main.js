@@ -800,10 +800,6 @@ define([
 
                 me.api.SetTextBoxInputMode(Common.localStorage.getBool("de-settings-inputmode"));
 
-                if (Common.Utils.isChrome) {
-                    window["AscInputMethod"]["SogouPinyin"] = Common.localStorage.getBool("de-settings-inputsogou");
-                }
-
                 /** coauthoring begin **/
                 if (me.appOptions.isEdit && !me.appOptions.isOffline && me.appOptions.canCoAuthoring) {
                     value = Common.localStorage.getItem("de-settings-coauthmode");

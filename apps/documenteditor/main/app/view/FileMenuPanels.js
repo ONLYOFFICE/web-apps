@@ -128,10 +128,6 @@ define([
                     '<td class="left"><label><%= scope.txtInput %></label></td>',
                     '<td class="right"><div id="fms-chb-input-mode"/></td>',
                 '</tr>','<tr class="divider edit"></tr>',
-                '<tr class="edit sogou">',
-                    '<td class="left"></td>',
-                    '<td class="right"><div id="fms-chb-input-sogou"/></td>',
-                '</tr>','<tr class="divider edit"></tr>',
                 '<tr class="edit">',
                     '<td class="left"><label><%= scope.textAlignGuides %></label></td>',
                     '<td class="right"><span id="fms-chb-align-guides" /></td>',
@@ -187,11 +183,6 @@ define([
             this.chInputMode = new Common.UI.CheckBox({
                 el: $('#fms-chb-input-mode'),
                 labelText: this.strInputMode
-            });
-
-            this.chInputSogou = new Common.UI.CheckBox({
-                el: $('#fms-chb-input-sogou'),
-                labelText: this.strInputSogou
             });
 
             /** coauthoring begin **/
@@ -348,13 +339,10 @@ define([
             $('tr.coauth.changes', this.el)[mode.isEdit && !mode.isOffline && mode.canCoAuthoring ? 'show' : 'hide']();
             $('tr.comments', this.el)[mode.canCoAuthoring && mode.canComments ? 'show' : 'hide']();
             /** coauthoring end **/
-
-            $('tr.sogou', this.el)[mode.isEdit && Common.Utils.isChrome ?'show':'hide']();
         },
 
         updateSettings: function() {
             this.chInputMode.setValue(Common.localStorage.getBool("de-settings-inputmode"));
-            Common.Utils.isChrome && this.chInputSogou.setValue(Common.localStorage.getBool("de-settings-inputsogou"));
 
             var value = Common.localStorage.getItem("de-settings-zoom");
             value = (value!==null) ? parseInt(value) : (this.mode.customization && this.mode.customization.zoom ? parseInt(this.mode.customization.zoom) : 100);
@@ -405,7 +393,6 @@ define([
 
         applySettings: function() {
             Common.localStorage.setItem("de-settings-inputmode", this.chInputMode.isChecked() ? 1 : 0);
-            Common.Utils.isChrome && Common.localStorage.setItem("de-settings-inputsogou", this.chInputSogou.isChecked() ? 1 : 0);
             Common.localStorage.setItem("de-settings-zoom", this.cmbZoom.getValue());
             /** coauthoring begin **/
             Common.localStorage.setItem("de-settings-livecomment", this.chLiveComment.isChecked() ? 1 : 0);
@@ -483,8 +470,7 @@ define([
         txtFitWidth: 'Fit to Width',
         textForceSave: 'Save to Server',
         strForcesave: 'Always save to server (otherwise save to server on document close)',
-        strResolvedComment: 'Turn on display of the resolved comments',
-        strInputSogou: 'Turn on Sogou Pinyin input'
+        strResolvedComment: 'Turn on display of the resolved comments'
     }, DE.Views.FileMenuPanels.Settings || {}));
 
     DE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
