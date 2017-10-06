@@ -244,6 +244,12 @@ define([
             Common.Utils.InternalSettings.set("pe-settings-inputmode", value);
             this.api.SetTextBoxInputMode(value);
 
+            if (Common.Utils.isChrome) {
+                value = Common.localStorage.getBool("pe-settings-inputsogou");
+                Common.Utils.InternalSettings.set("pe-settings-inputsogou", value);
+                window["AscInputMethod"]["SogouPinyin"] = value;
+            }
+
             /** coauthoring begin **/
             if (this.mode.isEdit && !this.mode.isOffline && this.mode.canCoAuthoring) {
                 value = Common.localStorage.getBool("pe-settings-coauthmode", true);

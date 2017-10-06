@@ -447,6 +447,10 @@ define([
                     '<td class="left"></td>',
                     '<td class="right"><div id="fms-chb-resolved-comment"/></td>',
                 '</tr>','<tr class="divider comments"></tr>',
+                '<tr class="edit sogou">',
+                    '<td class="left"><label><%= scope.txtInput %></label></td>',
+                    '<td class="right"><div id="fms-chb-input-sogou"/></td>',
+                '</tr>','<tr class="divider edit"></tr>',
                 '<tr class="autosave">',
                     '<td class="left"><label id="fms-lbl-autosave"><%= scope.textAutoSave %></label></td>',
                     '<td class="right"><span id="fms-chb-autosave" /></td>',
@@ -513,6 +517,11 @@ define([
             this.chResolvedComment = new Common.UI.CheckBox({
                 el: $('#fms-chb-resolved-comment'),
                 labelText: this.strResolvedComment
+            });
+
+            this.chInputSogou = new Common.UI.CheckBox({
+                el: $('#fms-chb-input-sogou'),
+                labelText: this.strInputSogou
             });
 
             this.cmbCoAuthMode = new Common.UI.ComboBox({
@@ -679,6 +688,7 @@ define([
             $('tr.forcesave', this.el)[mode.canForcesave ? 'show' : 'hide']();
             $('tr.comments', this.el)[mode.canCoAuthoring && mode.canComments ? 'show' : 'hide']();
             $('tr.coauth.changes', this.el)[mode.isEdit && !mode.isOffline && mode.canCoAuthoring? 'show' : 'hide']();
+            $('tr.sogou', this.el)[mode.isEdit && Common.Utils.isChrome ?'show':'hide']();
         },
 
         setApi: function(api) {
@@ -700,6 +710,8 @@ define([
             this.cmbCoAuthMode.setValue(item ? item.get('value') : 1);
             this.lblCoAuthMode.text(item ? item.get('descValue') : this.strCoAuthModeDescFast);
             /** coauthoring end **/
+
+            Common.Utils.isChrome && this.chInputSogou.setValue(Common.Utils.InternalSettings.get("sse-settings-inputsogou"));
 
             value = Common.Utils.InternalSettings.get("sse-settings-fontrender");
             item = this.cmbFontRender.store.findWhere({value: parseInt(value)});
@@ -745,6 +757,7 @@ define([
             if (this.mode.isEdit && !this.mode.isOffline && this.mode.canCoAuthoring)
                 Common.localStorage.setItem("sse-settings-coauthmode", this.cmbCoAuthMode.getValue());
             /** coauthoring end **/
+            Common.Utils.isChrome && Common.localStorage.setItem("sse-settings-inputsogou", this.chInputSogou.isChecked() ? 1 : 0);
             Common.localStorage.setItem("sse-settings-fontrender", this.cmbFontRender.getValue());
             Common.localStorage.setItem("sse-settings-unit", this.cmbUnit.getValue());
             Common.localStorage.setItem("sse-settings-autosave", this.chAutosave.isChecked() ? 1 : 0);
@@ -825,7 +838,9 @@ define([
         txtInch: 'Inch',
         textForceSave: 'Save to Server',
         strForcesave: 'Always save to server (otherwise save to server on document close)',
-        strResolvedComment: 'Turn on display of the resolved comments'
+        strResolvedComment: 'Turn on display of the resolved comments',
+        txtInput: 'Alternate Input',
+        strInputSogou: 'Turn on Sogou Pinyin input'
     }, SSE.Views.FileMenuPanels.MainSettingsGeneral || {}));
 
     SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
