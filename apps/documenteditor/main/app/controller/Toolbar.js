@@ -2839,7 +2839,7 @@ define([
             me.toolbar.render(_.extend({isCompactView: compactview}, config));
 
             if ( config.isEdit ) {
-                var tab = {action: 'review', caption: me.toolbar.textTabReview};
+                var tab = {action: 'review', caption: me.toolbar.textTabCollaboration};
                 var $panel = DE.getController('Common.Controllers.ReviewChanges').createToolbarPanel();
 
                 if ( $panel ) {

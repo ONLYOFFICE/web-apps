@@ -76,7 +76,8 @@ define([
                     'reviewchange:delete':      _.bind(this.onDeleteClick, this),
                     'reviewchange:preview':     _.bind(this.onBtnPreviewClick, this),
                     'reviewchanges:view':       _.bind(this.onReviewViewClick, this),
-                    'lang:document':            _.bind(this.onDocLanguage, this)
+                    'lang:document':            _.bind(this.onDocLanguage, this),
+                    'collaboration:coauthmode': _.bind(this.onCoAuthMode, this)
                 },
                 'Common.Views.ReviewChangesDialog': {
                     'reviewchange:accept':      _.bind(this.onAcceptClick, this),
@@ -519,6 +520,30 @@ define([
             return this._state.previewMode;
         },
 
+        onCoAuthMode: function(menu, item, e) {
+            Common.localStorage.setItem("de-settings-coauthmode", item.value);
+
+            if (this.api) {
+                this.api.asc_SetFastCollaborative(item.value==1);
+
+                var value = Common.localStorage.getItem(item.value ? "de-settings-showchanges-fast" : "de-settings-showchanges-strict");
+                if (value !== null)
+                    this.api.SetCollaborativeMarksShowType(value == 'all' ? Asc.c_oAscCollaborativeMarksShowType.All :
+                        value == 'none' ? Asc.c_oAscCollaborativeMarksShowType.None : Asc.c_oAscCollaborativeMarksShowType.LastChanges);
+                else
+                    this.api.SetCollaborativeMarksShowType(item.value ? Asc.c_oAscCollaborativeMarksShowType.None : Asc.c_oAscCollaborativeMarksShowType.LastChanges);
+
+                value = Common.localStorage.getItem("de-settings-autosave");
+                if (value===null && this.appConfig.customization && this.appConfig.customization.autosave===false)
+                    value = 0;
+                value = (!item.value && value!==null) ? parseInt(value) : 1;
+
+                Common.localStorage.setItem("de-settings-autosave", value);
+                this.api.asc_setAutoSaveGap(value);
+            }
+            Common.NotificationCenter.trigger('edit:complete', this.view);
+        },
+
         disableEditing: function(disable) {
             var app = this.getApplication();
             app.getController('RightMenu').getView('RightMenu').clearSelection();
@@ -589,6 +614,7 @@ define([
 
         applySettings: function(menu) {
             this.view && this.view.turnSpelling( Common.localStorage.getBool("de-settings-spellcheck", true) );
+            this.view && this.view.turnCoAuthMode( Common.localStorage.getBool("de-settings-coauthmode", true) );
         },
 
         synchronizeChanges: function() {
@@ -622,6 +648,10 @@ define([
                     }
                 }
             })).show();
+        },
+
+        onLostEditRights: function() {
+            this.view && this.view.onLostEditRights();
         },
 
         textInserted: '<b>Inserted:</b>',

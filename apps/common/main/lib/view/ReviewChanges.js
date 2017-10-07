@@ -418,6 +418,11 @@ define([
                 '<div class="group no-group-mask" style="padding-left: 0;">' +
                     '<span id="slot-btn-spelling" class="btn-slot text x-huge"></span>' +
                 '</div>' +
+                '<div class="separator long"/>' +
+                '<div class="group">' +
+                    '<span id="slot-btn-sharing" class="btn-slot text x-huge"></span>' +
+                    '<span id="slot-btn-coauthmode" class="btn-slot text x-huge"></span>' +
+                '</div>' +
                 '<div class="separator long comments"/>' +
                 '<div class="group">' +
                     '<span class="btn-slot text x-huge slot-comment"></span>' +
@@ -492,6 +497,14 @@ define([
             this.btnDocLang.on('click', function (btn, e) {
                 me.fireEvent('lang:document', this);
             });
+
+            this.btnSharing && this.btnSharing.on('click', function (btn, e) {
+                Common.NotificationCenter.trigger('collaboration:sharing');
+            });
+
+            this.btnCoAuthMode && this.btnCoAuthMode.menu.on('item:click', function (menu, item, e) {
+                me.fireEvent('collaboration:coauthmode', [menu, item]);
+            });
         }
 
         return {
@@ -545,6 +558,23 @@ define([
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'btn-ic-reviewview',
                         caption: this.txtView,
+                        menu: true
+                    });
+                }
+
+                if (!!this.appConfig.sharingSettingsUrl && this.appConfig.sharingSettingsUrl.length && this._readonlyRights!==true) {
+                    this.btnSharing = new Common.UI.Button({
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'btn-ic-sharing',
+                        caption: this.txtSharing
+                    });
+                }
+
+                if (!this.appConfig.isOffline && this.appConfig.canCoAuthoring) {
+                    this.btnCoAuthMode = new Common.UI.Button({
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'btn-ic-reviewview',
+                        caption: this.txtCoAuthMode,
                         menu: true
                     });
                 }
@@ -662,6 +692,31 @@ define([
                     me.btnDocLang.updateHint(me.tipSetDocLang);
                     me.btnSetSpelling.updateHint(me.tipSetSpelling);
 
+                    me.btnSharing && me.btnSharing.updateHint(me.tipSharing);
+                    if (me.btnCoAuthMode) {
+                        me.btnCoAuthMode.setMenu(
+                            new Common.UI.Menu({
+                                cls: 'ppm-toolbar',
+                                items: [
+                                    {
+                                        caption: me.strFast,
+                                        checkable: true,
+                                        toggleGroup: 'menuCoauthMode',
+                                        checked: true,
+                                        value: 1
+                                    },
+                                    {
+                                        caption: me.strStrict,
+                                        checkable: true,
+                                        toggleGroup: 'menuCoauthMode',
+                                        checked: false,
+                                        value: 0
+                                    }
+                                ]
+                            }));
+                        me.btnCoAuthMode.updateHint(me.tipCoAuthMode);
+                    }
+
                     setEvents.call(me);
                 });
             },
@@ -680,6 +735,9 @@ define([
 
                 this.btnSetSpelling.render(this.$el.find('#slot-btn-spelling'));
                 this.btnDocLang.render(this.$el.find('#slot-set-lang'));
+
+                this.btnSharing && this.btnSharing.render(this.$el.find('#slot-btn-sharing'));
+                this.btnCoAuthMode && this.btnCoAuthMode.render(this.$el.find('#slot-btn-coauthmode'));
 
                 return this.$el;
             },
@@ -758,6 +816,13 @@ define([
                 }, this);
             },
 
+            turnCoAuthMode: function (fast) {
+                if (this.btnCoAuthMode) {
+                    this.btnCoAuthMode.menu.items[0].setChecked(fast, true);
+                    this.btnCoAuthMode.menu.items[1].setChecked(!fast, true);
+                }
+            },
+
             SetDisabled: function (state) {
                 this.btnsSpelling && this.btnsSpelling.forEach(function(button) {
                     if ( button ) {
@@ -769,6 +834,14 @@ define([
                         button.setDisabled(state);
                     }
                 }, this);
+            },
+
+            onLostEditRights: function() {
+                this._readonlyRights = true;
+                if (!this.rendered)
+                    return;
+
+                 this.btnSharing && this.btnSharing.setDisabled(true);
             },
 
             txtAccept: 'Accept',
@@ -795,7 +868,13 @@ define([
             txtOriginal: 'All changes rejected (Preview)',
             tipReviewView: 'Select the way you want the changes to be displayed',
             tipAcceptCurrent: 'Accept current changes',
-            tipRejectCurrent: 'Reject current changes'
+            tipRejectCurrent: 'Reject current changes',
+            txtSharing: 'Sharing',
+            tipSharing: 'Manage document access rights',
+            txtCoAuthMode: 'Co-editing Mode',
+            tipCoAuthMode: 'Set co-editing mode',
+            strFast: 'Fast',
+            strStrict: 'Strict'
         }
     }()), Common.Views.ReviewChanges || {}));
 
