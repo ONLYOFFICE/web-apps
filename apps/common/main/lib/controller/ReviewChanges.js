@@ -132,7 +132,7 @@ define([
         SetDisabled: function(state) {
             if (this.dlgChanges)
                 this.dlgChanges.close();
-            this.view && this.view.SetDisabled(state);
+            this.view && this.view.SetDisabled(state, this.langs);
         },
 
         onApiShowChange: function (sdkchange) {
@@ -561,6 +561,12 @@ define([
 
             if (this.view) {
                 this.view.$el.find('.no-group-mask').css('opacity', 1);
+
+                this.view.btnsDocLang && this.view.btnsDocLang.forEach(function(button) {
+                    if ( button ) {
+                        button.setDisabled(disable || this.langs.length<1);
+                    }
+                }, this);
             }
         },
 
@@ -625,7 +631,11 @@ define([
 
         setLanguages: function (array) {
             this.langs = array;
-            this.view.btnDocLang.setDisabled(this.langs.length<1);
+            this.view && this.view.btnsDocLang && this.view.btnsDocLang.forEach(function(button) {
+                if ( button ) {
+                    button.setDisabled(this.langs.length<1);
+                }
+            }, this);
         },
 
         onDocLanguage: function() {

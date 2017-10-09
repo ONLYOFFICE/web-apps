@@ -412,14 +412,7 @@ define([
     Common.Views.ReviewChanges = Common.UI.BaseView.extend(_.extend((function(){
         var template =
             '<section id="review-changes-panel" class="panel" data-tab="review">' +
-                '<div class="group">' +
-                    '<span id="slot-set-lang" class="btn-slot text x-huge"></span>' +
-                '</div>' +
-                '<div class="group no-group-mask" style="padding-left: 0;">' +
-                    '<span id="slot-btn-spelling" class="btn-slot text x-huge"></span>' +
-                '</div>' +
-                '<div class="separator long"/>' +
-                '<div class="group">' +
+                '<div class="group no-group-mask">' +
                     '<span id="slot-btn-sharing" class="btn-slot text x-huge"></span>' +
                     '<span id="slot-btn-coauthmode" class="btn-slot text x-huge"></span>' +
                 '</div>' +
@@ -434,8 +427,7 @@ define([
                 '<div class="group no-group-mask" style="padding-left: 0;">' +
                     '<span id="btn-review-view" class="btn-slot text x-huge"></span>' +
                 '</div>' +
-                '<div class="separator long review"/>' +
-                '<div class="group move-changes">' +
+                '<div class="group move-changes" style="padding-left: 0;">' +
                     '<span id="btn-change-prev" class="btn-slot text x-huge"></span>' +
                     '<span id="btn-change-next" class="btn-slot text x-huge"></span>' +
                     '<span id="btn-change-accept" class="btn-slot text x-huge"></span>' +
@@ -494,8 +486,10 @@ define([
                 });
             });
 
-            this.btnDocLang.on('click', function (btn, e) {
-                me.fireEvent('lang:document', this);
+            this.btnsDocLang.forEach(function(button) {
+                button.on('click', function (b, e) {
+                    me.fireEvent('lang:document', this);
+                });
             });
 
             this.btnSharing && this.btnSharing.on('click', function (btn, e) {
@@ -579,20 +573,8 @@ define([
                     });
                 }
 
-                this.btnSetSpelling = new Common.UI.Button({
-                    cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'btn-ic-docspell',
-                    caption: this.txtSpelling,
-                    enableToggle: true
-                });
-                this.btnsSpelling = [this.btnSetSpelling];
-
-                this.btnDocLang = new Common.UI.Button({
-                    cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'btn-ic-doclang',
-                    caption: this.txtDocLang,
-                    disabled: true
-                });
+                this.btnsSpelling = [];
+                this.btnsDocLang = [];
 
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             },
@@ -689,9 +671,6 @@ define([
                             .next('.group').hide();
                     }
 
-                    me.btnDocLang.updateHint(me.tipSetDocLang);
-                    me.btnSetSpelling.updateHint(me.tipSetSpelling);
-
                     me.btnSharing && me.btnSharing.updateHint(me.tipSharing);
 
                     if (me.btnCoAuthMode) {
@@ -741,9 +720,6 @@ define([
                     this.btnReviewView.render(this.$el.find('#btn-review-view'));
                 }
 
-                this.btnSetSpelling.render(this.$el.find('#slot-btn-spelling'));
-                this.btnDocLang.render(this.$el.find('#slot-set-lang'));
-
                 this.btnSharing && this.btnSharing.render(this.$el.find('#slot-btn-sharing'));
                 this.btnCoAuthMode && this.btnCoAuthMode.render(this.$el.find('#slot-btn-coauthmode'));
 
@@ -792,6 +768,17 @@ define([
                     this.btnsSpelling.push(button);
 
                     return button;
+                } else if (type == 'doclang' && parent == 'statusbar' ) {
+                    button = new Common.UI.Button({
+                        cls: 'btn-toolbar',
+                        iconCls: 'btn-ic-doclang',
+                        hintAnchor  : 'top',
+                        hint: this.tipSetDocLang,
+                        disabled: true
+                    });
+                    this.btnsDocLang.push(button);
+
+                    return button;
                 }
             },
 
@@ -831,10 +818,15 @@ define([
                 }
             },
 
-            SetDisabled: function (state) {
+            SetDisabled: function (state, langs) {
                 this.btnsSpelling && this.btnsSpelling.forEach(function(button) {
                     if ( button ) {
                         button.setDisabled(state);
+                    }
+                }, this);
+                this.btnsDocLang && this.btnsDocLang.forEach(function(button) {
+                    if ( button ) {
+                        button.setDisabled(state || langs && langs.length<1);
                     }
                 }, this);
                 this.btnsTurnReview && this.btnsTurnReview.forEach(function(button) {
