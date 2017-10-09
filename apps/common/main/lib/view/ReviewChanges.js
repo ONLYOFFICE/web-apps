@@ -693,6 +693,7 @@ define([
                     me.btnSetSpelling.updateHint(me.tipSetSpelling);
 
                     me.btnSharing && me.btnSharing.updateHint(me.tipSharing);
+
                     if (me.btnCoAuthMode) {
                         me.btnCoAuthMode.setMenu(
                             new Common.UI.Menu({
@@ -715,6 +716,13 @@ define([
                                 ]
                             }));
                         me.btnCoAuthMode.updateHint(me.tipCoAuthMode);
+
+                        var value = Common.localStorage.getItem("de-settings-coauthmode");
+                        if (value===null && !Common.localStorage.itemExists("de-settings-autosave") &&
+                            config.customization && config.customization.autosave===false) {
+                            value = 0; // use customization.autosave only when de-settings-coauthmode and de-settings-autosave are null
+                        }
+                        me.turnCoAuthMode((value===null || parseInt(value) == 1) && !(config.isDesktopApp && config.isOffline) && config.canCoAuthoring);
                     }
 
                     setEvents.call(me);
