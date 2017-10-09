@@ -104,6 +104,10 @@ define([
 
             Common.NotificationCenter.on('leftmenu:change', _.bind(this.onMenuChange, this));
             Common.NotificationCenter.on('app:comment:add', _.bind(this.onAppAddComment, this));
+            Common.NotificationCenter.on('collaboration:history', _.bind(function () {
+                if ( !this.leftMenu.panelHistory.isVisible() )
+                    this.clickMenuFileItem(null, 'history');
+            }, this));
         },
 
         onLaunch: function() {
@@ -267,7 +271,7 @@ define([
             default: close_menu = false;
             }
 
-            if (close_menu) {
+            if (close_menu && menu) {
                 menu.hide();
             }
         },

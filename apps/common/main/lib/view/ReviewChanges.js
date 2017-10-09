@@ -433,6 +433,10 @@ define([
                     '<span id="btn-change-accept" class="btn-slot text x-huge"></span>' +
                     '<span id="btn-change-reject" class="btn-slot text x-huge"></span>' +
                 '</div>' +
+                '<div class="separator long"/>' +
+                '<div class="group no-group-mask">' +
+                    '<span id="slot-btn-history" class="btn-slot text x-huge"></span>' +
+                '</div>' +
             '</section>';
 
         function setEvents() {
@@ -498,6 +502,10 @@ define([
 
             this.btnCoAuthMode && this.btnCoAuthMode.menu.on('item:click', function (menu, item, e) {
                 me.fireEvent('collaboration:coauthmode', [menu, item]);
+            });
+
+            this.btnHistory && this.btnHistory.on('click', function (btn, e) {
+                Common.NotificationCenter.trigger('collaboration:history');
             });
         }
 
@@ -575,6 +583,14 @@ define([
 
                 this.btnsSpelling = [];
                 this.btnsDocLang = [];
+
+                if (this.appConfig.canUseHistory && !this.appConfig.isDisconnected) {
+                    this.btnHistory = new Common.UI.Button({
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'btn-ic-history',
+                        caption: this.txtHistory
+                    });
+                }
 
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             },
@@ -673,6 +689,8 @@ define([
 
                     me.btnSharing && me.btnSharing.updateHint(me.tipSharing);
 
+                    me.btnHistory && me.btnHistory.updateHint(me.tipHistory);
+
                     if (me.btnCoAuthMode) {
                         me.btnCoAuthMode.setMenu(
                             new Common.UI.Menu({
@@ -722,6 +740,7 @@ define([
 
                 this.btnSharing && this.btnSharing.render(this.$el.find('#slot-btn-sharing'));
                 this.btnCoAuthMode && this.btnCoAuthMode.render(this.$el.find('#slot-btn-coauthmode'));
+                this.btnHistory && this.btnHistory.render(this.$el.find('#slot-btn-history'));
 
                 return this.$el;
             },
@@ -874,7 +893,9 @@ define([
             txtCoAuthMode: 'Co-editing Mode',
             tipCoAuthMode: 'Set co-editing mode',
             strFast: 'Fast',
-            strStrict: 'Strict'
+            strStrict: 'Strict',
+            txtHistory: 'Version History',
+            tipHistory: 'Show version history'
         }
     }()), Common.Views.ReviewChanges || {}));
 
