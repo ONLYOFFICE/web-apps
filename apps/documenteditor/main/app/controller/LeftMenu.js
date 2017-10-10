@@ -99,6 +99,9 @@ define([
                     'search:replace': _.bind(this.onQueryReplace, this),
                     'search:replaceall': _.bind(this.onQueryReplaceAll, this),
                     'search:highlight': _.bind(this.onSearchHighlight, this)
+                },
+                'Common.Views.ReviewChanges': {
+                    'collaboration:chat': _.bind(this.onShowHideChat, this)
                 }
             });
 
@@ -673,6 +676,18 @@ define([
             maincontroller.loadMask.setTitle(this.textLoadHistory);
             maincontroller.loadMask.show();
             Common.Gateway.requestHistory();
+        },
+
+        onShowHideChat: function(state) {
+            if (this.mode.canCoAuthoring && this.mode.canChat && !this.mode.isLightVersion) {
+                if (state) {
+                    Common.UI.Menu.Manager.hideAll();
+                    this.leftMenu.showMenu('chat');
+                } else {
+                    this.leftMenu.btnChat.toggle(false, true);
+                    this.leftMenu.onBtnMenuClick(this.leftMenu.btnChat);
+                }
+            }
         },
 
         textNoTextFound         : 'Text not found',

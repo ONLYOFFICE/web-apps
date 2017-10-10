@@ -616,6 +616,14 @@ define([
                     }
                 });
             }
+
+            if (me.view && me.view.btnChat) {
+                me.getApplication().getController('LeftMenu').leftMenu.btnChat.on('toggle', function(btn, state){
+                    if (state !== me.view.btnChat.pressed)
+                        me.view.turnChat(state);
+                });
+
+            }
         },
 
         applySettings: function(menu) {

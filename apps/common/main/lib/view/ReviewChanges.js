@@ -435,6 +435,10 @@ define([
                 '</div>' +
                 '<div class="separator long"/>' +
                 '<div class="group no-group-mask">' +
+                    '<span id="slot-btn-chat" class="btn-slot text x-huge"></span>' +
+                '</div>' +
+                '<div class="separator long"/>' +
+                '<div class="group no-group-mask">' +
                     '<span id="slot-btn-history" class="btn-slot text x-huge"></span>' +
                 '</div>' +
             '</section>';
@@ -506,6 +510,10 @@ define([
 
             this.btnHistory && this.btnHistory.on('click', function (btn, e) {
                 Common.NotificationCenter.trigger('collaboration:history');
+            });
+
+            this.btnChat && this.btnChat.on('click', function (btn, e) {
+                me.fireEvent('collaboration:chat', [btn.pressed]);
             });
         }
 
@@ -589,6 +597,15 @@ define([
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'btn-ic-history',
                         caption: this.txtHistory
+                    });
+                }
+
+                if (this.appConfig.canCoAuthoring && this.appConfig.canChat) {
+                    this.btnChat = new Common.UI.Button({
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'btn-ic-chat',
+                        caption: this.txtChat,
+                        enableToggle: true
                     });
                 }
 
@@ -688,8 +705,8 @@ define([
                     }
 
                     me.btnSharing && me.btnSharing.updateHint(me.tipSharing);
-
                     me.btnHistory && me.btnHistory.updateHint(me.tipHistory);
+                    me.btnChat && me.btnChat.updateHint(me.txtChat + Common.Utils.String.platformKey('Alt+Q'));
 
                     if (me.btnCoAuthMode) {
                         me.btnCoAuthMode.setMenu(
@@ -741,6 +758,7 @@ define([
                 this.btnSharing && this.btnSharing.render(this.$el.find('#slot-btn-sharing'));
                 this.btnCoAuthMode && this.btnCoAuthMode.render(this.$el.find('#slot-btn-coauthmode'));
                 this.btnHistory && this.btnHistory.render(this.$el.find('#slot-btn-history'));
+                this.btnChat && this.btnChat.render(this.$el.find('#slot-btn-chat'));
 
                 return this.$el;
             },
@@ -837,6 +855,10 @@ define([
                 }
             },
 
+            turnChat: function (state) {
+                this.btnChat && this.btnChat.toggle(state, true);
+            },
+
             SetDisabled: function (state, langs) {
                 this.btnsSpelling && this.btnsSpelling.forEach(function(button) {
                     if ( button ) {
@@ -853,6 +875,7 @@ define([
                         button.setDisabled(state);
                     }
                 }, this);
+                this.btnChat && this.btnChat.setDisabled(state);
             },
 
             onLostEditRights: function() {
@@ -895,7 +918,8 @@ define([
             strFast: 'Fast',
             strStrict: 'Strict',
             txtHistory: 'Version History',
-            tipHistory: 'Show version history'
+            tipHistory: 'Show version history',
+            txtChat: 'Chat'
         }
     }()), Common.Views.ReviewChanges || {}));
 
