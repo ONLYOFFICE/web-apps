@@ -194,10 +194,10 @@ define([
                 this._settings[settingsType].btn.updateHint(this.rightmenu.txtSparklineSettings);
             }
 
-            if (pivotInfo && false) { // disable pivot settings
+            if (pivotInfo) {
                 settingsType = Common.Utils.documentSettingsType.Pivot;
                 this._settings[settingsType].props = pivotInfo;
-                this._settings[settingsType].locked = isCellLocked;
+                this._settings[settingsType].locked = isCellLocked || true; // disable pivot settings
                 this._settings[settingsType].hidden = 0;
             }
 
