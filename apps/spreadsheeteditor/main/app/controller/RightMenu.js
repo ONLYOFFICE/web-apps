@@ -85,6 +85,7 @@ define([
             this._settings[Common.Utils.documentSettingsType.TextArt] =   {panelId: "id-textart-settings",    panel: rightMenu.textartSettings,  btn: rightMenu.btnTextArt,     hidden: 1, locked: false};
             this._settings[Common.Utils.documentSettingsType.Chart] =     {panelId: "id-chart-settings",      panel: rightMenu.chartSettings,    btn: rightMenu.btnChart,       hidden: 1, locked: false};
             this._settings[Common.Utils.documentSettingsType.Table] =     {panelId: "id-table-settings",      panel: rightMenu.tableSettings,    btn: rightMenu.btnTable,       hidden: 1, locked: false};
+            this._settings[Common.Utils.documentSettingsType.Pivot] =     {panelId: "id-pivot-settings",      panel: rightMenu.pivotSettings,    btn: rightMenu.btnPivot,       hidden: 1, locked: false};
             this._settings[Common.Utils.documentSettingsType.Signature] = {panelId: "id-signature-settings",  panel: rightMenu.signatureSettings, btn: rightMenu.btnSignature,  hidden: (rightMenu.signatureSettings) ? 0 : 1, props: {}, locked: false};
         },
 
@@ -115,14 +116,15 @@ define([
             var SelectedObjects = [],
                 selectType = info.asc_getFlags().asc_getSelectionType(),
                 formatTableInfo = info.asc_getFormatTableInfo(),
-                sparkLineInfo = info.asc_getSparklineInfo();
+                sparkLineInfo = info.asc_getSparklineInfo(),
+                pivotInfo = info.asc_getPivotTableInfo();
 
             if (selectType == Asc.c_oAscSelectionType.RangeImage || selectType == Asc.c_oAscSelectionType.RangeShape ||
                 selectType == Asc.c_oAscSelectionType.RangeChart || selectType == Asc.c_oAscSelectionType.RangeChartText || selectType == Asc.c_oAscSelectionType.RangeShapeText) {
                 SelectedObjects = this.api.asc_getGraphicObjectProps();
             }
             
-            if (SelectedObjects.length<=0 && !formatTableInfo && !sparkLineInfo && !this.rightmenu.minimizedMode) {
+            if (SelectedObjects.length<=0 && !formatTableInfo && !sparkLineInfo && !pivotInfo && !this.rightmenu.minimizedMode) {
                 this.rightmenu.clearSelection();
                 this._openRightMenu = true;
             }
@@ -131,10 +133,10 @@ define([
                 need_disable_table = (info.asc_getLockedTable()===true),
                 need_disable_spark = (info.asc_getLockedSparkline()===true);
 
-            this.onFocusObject(SelectedObjects, formatTableInfo, sparkLineInfo, need_disable, need_disable_table, need_disable_spark);
+            this.onFocusObject(SelectedObjects, formatTableInfo, sparkLineInfo, pivotInfo, need_disable, need_disable_table, need_disable_spark);
         },
 
-        onFocusObject: function(SelectedObjects, formatTableInfo, sparkLineInfo, isCellLocked, isTableLocked, isSparkLocked) {
+        onFocusObject: function(SelectedObjects, formatTableInfo, sparkLineInfo, pivotInfo, isCellLocked, isTableLocked, isSparkLocked) {
             if (!this.editMode)
                 return;
 
@@ -190,6 +192,13 @@ define([
                 this._settings[settingsType].locked = isSparkLocked;
                 this._settings[settingsType].hidden = 0;
                 this._settings[settingsType].btn.updateHint(this.rightmenu.txtSparklineSettings);
+            }
+
+            if (pivotInfo && false) { // disable pivot settings
+                settingsType = Common.Utils.documentSettingsType.Pivot;
+                this._settings[settingsType].props = pivotInfo;
+                this._settings[settingsType].locked = isCellLocked;
+                this._settings[settingsType].hidden = 0;
             }
 
             var lastactive = -1, currentactive, priorityactive = -1,
@@ -330,6 +339,7 @@ define([
                 this.rightmenu.imageSettings.disableControls(disabled);
                 this.rightmenu.chartSettings.disableControls(disabled);
                 this.rightmenu.tableSettings.disableControls(disabled);
+                this.rightmenu.pivotSettings.disableControls(disabled);
 
                 if (this.rightmenu.signatureSettings) {
                     this.rightmenu.signatureSettings.disableControls(disabled);
@@ -343,6 +353,7 @@ define([
                     this.rightmenu.btnShape.setDisabled(disabled);
                     this.rightmenu.btnTextArt.setDisabled(disabled);
                     this.rightmenu.btnChart.setDisabled(disabled);
+                    this.rightmenu.btnPivot.setDisabled(disabled);
                 } else {
                     this.onSelectionChanged(this.api.asc_getCellInfo());
                 }

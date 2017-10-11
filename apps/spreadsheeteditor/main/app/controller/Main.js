@@ -946,6 +946,9 @@ define([
                         statusbarController.getView('Statusbar').changeViewMode(true);
                     }
 
+                    if (!me.appOptions.isEditMailMerge && !me.appOptions.isEditDiagram)
+                        application.getController('PivotTable').setMode(me.appOptions).setConfig({config: me.editorConfig}, me.api);
+
                     var viewport = this.getApplication().getController('Viewport').getView('Viewport');
                     viewport.applyEditorMode();
                     rightmenuController.getView('RightMenu').setMode(me.appOptions).setApi(me.api);
