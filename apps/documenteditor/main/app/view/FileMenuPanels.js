@@ -128,6 +128,10 @@ define([
                     '<td class="left"><label><%= scope.txtInput %></label></td>',
                     '<td class="right"><div id="fms-chb-input-mode"/></td>',
                 '</tr>','<tr class="divider edit"></tr>',
+                '<tr class="edit sogou">',
+                    '<td class="left"></td>',
+                    '<td class="right"><div id="fms-chb-input-sogou"/></td>',
+                '</tr>','<tr class="divider edit sogou"></tr>',
                 '<tr class="edit">',
                     '<td class="left"><label><%= scope.textAlignGuides %></label></td>',
                     '<td class="right"><span id="fms-chb-align-guides" /></td>',
@@ -183,6 +187,11 @@ define([
             this.chInputMode = new Common.UI.CheckBox({
                 el: $('#fms-chb-input-mode'),
                 labelText: this.strInputMode
+            });
+
+            this.chInputSogou = new Common.UI.CheckBox({
+                el: $('#fms-chb-input-sogou'),
+                labelText: this.strInputSogou
             });
 
             /** coauthoring begin **/
@@ -339,61 +348,60 @@ define([
             $('tr.coauth.changes', this.el)[mode.isEdit && !mode.isOffline && mode.canCoAuthoring ? 'show' : 'hide']();
             $('tr.comments', this.el)[mode.canCoAuthoring && mode.canComments ? 'show' : 'hide']();
             /** coauthoring end **/
+
+            $('tr.sogou', this.el)[mode.isEdit && Common.Utils.isChrome ?'show':'hide']();
         },
 
         updateSettings: function() {
-            this.chInputMode.setValue(Common.localStorage.getBool("de-settings-inputmode"));
+            this.chInputMode.setValue(Common.Utils.InternalSettings.get("de-settings-inputmode"));
+            Common.Utils.isChrome && this.chInputSogou.setValue(Common.Utils.InternalSettings.get("de-settings-inputsogou"));
 
-            var value = Common.localStorage.getItem("de-settings-zoom");
+            var value = Common.Utils.InternalSettings.get("de-settings-zoom");
             value = (value!==null) ? parseInt(value) : (this.mode.customization && this.mode.customization.zoom ? parseInt(this.mode.customization.zoom) : 100);
             var item = this.cmbZoom.store.findWhere({value: value});
             this.cmbZoom.setValue(item ? parseInt(item.get('value')) : (value>0 ? value+'%' : 100));
 
             /** coauthoring begin **/
-            this.chLiveComment.setValue(Common.localStorage.getBool("de-settings-livecomment", true));
-            this.chResolvedComment.setValue(Common.localStorage.getBool("de-settings-resolvedcomment", true));
+            this.chLiveComment.setValue(Common.Utils.InternalSettings.get("de-settings-livecomment"));
+            this.chResolvedComment.setValue(Common.Utils.InternalSettings.get("de-settings-resolvedcomment"));
 
-            value = Common.localStorage.getItem("de-settings-coauthmode");
-            if (value===null && !Common.localStorage.itemExists("de-settings-autosave") &&
-                this.mode.customization && this.mode.customization.autosave===false)
-                value = 0; // use customization.autosave only when de-settings-coauthmode and de-settings-autosave are null
-            var fast_coauth = (value===null || parseInt(value) == 1) && !(this.mode.isDesktopApp && this.mode.isOffline) && this.mode.canCoAuthoring;
-
-            item = this.cmbCoAuthMode.store.findWhere({value: parseInt(value)});
+            var fast_coauth = Common.Utils.InternalSettings.get("de-settings-coauthmode");
+            item = this.cmbCoAuthMode.store.findWhere({value: fast_coauth ? 1 : 0});
             this.cmbCoAuthMode.setValue(item ? item.get('value') : 1);
             this.lblCoAuthMode.text(item ? item.get('descValue') : this.strCoAuthModeDescFast);
 
             this.fillShowChanges(fast_coauth);
 
-            value = Common.localStorage.getItem((fast_coauth) ? "de-settings-showchanges-fast" : "de-settings-showchanges-strict");
+            value = Common.Utils.InternalSettings.get((fast_coauth) ? "de-settings-showchanges-fast" : "de-settings-showchanges-strict");
             item = this.cmbShowChanges.store.findWhere({value: value});
             this.cmbShowChanges.setValue(item ? item.get('value') : (fast_coauth) ? 'none' : 'last');
             /** coauthoring end **/
 
-            value = Common.localStorage.getItem("de-settings-fontrender");
+            value = Common.Utils.InternalSettings.get("de-settings-fontrender");
             item = this.cmbFontRender.store.findWhere({value: parseInt(value)});
             this.cmbFontRender.setValue(item ? item.get('value') : (window.devicePixelRatio > 1 ? 1 : 0));
 
-            value = Common.localStorage.getItem("de-settings-unit");
-            item = this.cmbUnit.store.findWhere({value: parseInt(value)});
+            value = Common.Utils.InternalSettings.get("de-settings-unit");
+            item = this.cmbUnit.store.findWhere({value: value});
             this.cmbUnit.setValue(item ? parseInt(item.get('value')) : Common.Utils.Metric.getDefaultMetric());
             this._oldUnits = this.cmbUnit.getValue();
 
-            value = Common.localStorage.getItem("de-settings-autosave");
-            if (value===null && this.mode.customization && this.mode.customization.autosave===false)
-                value = 0;
-            this.chAutosave.setValue(fast_coauth || (value===null ? this.mode.canCoAuthoring : parseInt(value) == 1));
+            value = Common.Utils.InternalSettings.get("de-settings-autosave");
+            this.chAutosave.setValue(value == 1);
 
             if (this.mode.canForcesave)
-                this.chForcesave.setValue(Common.localStorage.getBool("de-settings-forcesave", this.mode.canForcesave));
+                this.chForcesave.setValue(Common.Utils.InternalSettings.get("de-settings-forcesave"));
 
-            this.chSpell.setValue(Common.localStorage.getBool("de-settings-spellcheck", true));
-            this.chAlignGuides.setValue(Common.localStorage.getBool("de-settings-showsnaplines", true));
+            this.chSpell.setValue(Common.Utils.InternalSettings.get("de-settings-spellcheck"));
+            this.chAlignGuides.setValue(Common.Utils.InternalSettings.get("de-settings-showsnaplines"));
         },
 
         applySettings: function() {
             Common.localStorage.setItem("de-settings-inputmode", this.chInputMode.isChecked() ? 1 : 0);
+            Common.Utils.isChrome && Common.localStorage.setItem("de-settings-inputsogou", this.chInputSogou.isChecked() ? 1 : 0);
             Common.localStorage.setItem("de-settings-zoom", this.cmbZoom.getValue());
+            Common.Utils.InternalSettings.set("de-settings-zoom", Common.localStorage.getItem("de-settings-zoom"));
+
             /** coauthoring begin **/
             Common.localStorage.setItem("de-settings-livecomment", this.chLiveComment.isChecked() ? 1 : 0);
             Common.localStorage.setItem("de-settings-resolvedcomment", this.chResolvedComment.isChecked() ? 1 : 0);
@@ -408,7 +416,7 @@ define([
             if (this.mode.canForcesave)
                 Common.localStorage.setItem("de-settings-forcesave", this.chForcesave.isChecked() ? 1 : 0);
             Common.localStorage.setItem("de-settings-spellcheck", this.chSpell.isChecked() ? 1 : 0);
-            Common.localStorage.setItem("de-settings-showsnaplines", this.chAlignGuides.isChecked() ? 1 : 0);
+            Common.Utils.InternalSettings.set("de-settings-showsnaplines", this.chAlignGuides.isChecked());
             Common.localStorage.save();
 
             if (this.menu) {
@@ -470,7 +478,8 @@ define([
         txtFitWidth: 'Fit to Width',
         textForceSave: 'Save to Server',
         strForcesave: 'Always save to server (otherwise save to server on document close)',
-        strResolvedComment: 'Turn on display of the resolved comments'
+        strResolvedComment: 'Turn on display of the resolved comments',
+        strInputSogou: 'Turn on Sogou Pinyin input'
     }, DE.Views.FileMenuPanels.Settings || {}));
 
     DE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({

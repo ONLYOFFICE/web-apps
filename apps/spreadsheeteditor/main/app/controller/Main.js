@@ -118,6 +118,7 @@ define([
 
                 var value = Common.localStorage.getItem("sse-settings-fontrender");
                 if (value===null) value = window.devicePixelRatio > 1 ? '1' : '3';
+                Common.Utils.InternalSettings.set("sse-settings-fontrender", value);
 
                 // Initialize api
                 var styleNames = ['Normal', 'Neutral', 'Bad', 'Good', 'Input', 'Output', 'Calculation', 'Check Cell', 'Explanatory Text', 'Note', 'Linked Cell', 'Warning Text',
@@ -148,6 +149,12 @@ define([
                     'translate': translate
                 });
                 this.api.asc_setFontRenderingMode(parseInt(value));
+
+                if (Common.Utils.isChrome) {
+                    value = Common.localStorage.getBool("sse-settings-inputsogou");
+                    Common.Utils.InternalSettings.set("sse-settings-inputsogou", value);
+                    window["AscInputMethod"]["SogouPinyin"] = value;
+                }
 
                 this.api.asc_registerCallback('asc_onOpenDocumentProgress',  _.bind(this.onOpenDocument, this));
                 this.api.asc_registerCallback('asc_onEndAction',             _.bind(this.onLongActionEnd, this));
@@ -180,7 +187,7 @@ define([
                 Common.Gateway.on('showmessage', _.bind(this.onExternalMessage, this));
                 Common.Gateway.on('opendocument', _.bind(this.loadDocument, this));
                 Common.Gateway.on('internalcommand', _.bind(this.onInternalCommand, this));
-                Common.Gateway.ready();
+                Common.Gateway.appReady();
 
                 this.getApplication().getController('Viewport').setApi(this.api);
 
@@ -201,7 +208,7 @@ define([
 
                     if (!me.isModalShowed && !(me.loadMask && me.loadMask.isVisible())) {
                         if (!e.relatedTarget ||
-                            !/area_id/.test(e.target.id) && $(e.target).parent().find(e.relatedTarget).length<1 /* Check if focus in combobox goes from input to it's menu button or menu items */
+                            !/area_id/.test(e.target.id) && ($(e.target).parent().find(e.relatedTarget).length<1 || e.target.localName == 'textarea') /* Check if focus in combobox goes from input to it's menu button or menu items, or from comment editing area to Ok/Cancel button */
                             && (e.relatedTarget.localName != 'input' || !/form-control/.test(e.relatedTarget.className)) /* Check if focus goes to text input with class "form-control" */
                             && (e.relatedTarget.localName != 'textarea' || /area_id/.test(e.relatedTarget.id))) /* Check if focus goes to textarea, but not to "area_id" */ {
                             me.api.asc_enableKeyEvents(true);
@@ -309,10 +316,13 @@ define([
                 value = Common.localStorage.getItem("sse-settings-func-locale");
                 if (value===null) {
                     var lang = ((this.editorConfig.lang) ? this.editorConfig.lang : 'en').split("-")[0].toLowerCase();
+                    Common.Utils.InternalSettings.set("sse-settings-func-locale", lang);
                     if (lang !== 'en')
                         value = SSE.Views.FormulaLang.get(lang);
-                } else
+                } else {
+                    Common.Utils.InternalSettings.set("sse-settings-func-locale", value);
                     value = SSE.Views.FormulaLang.get(value);
+                }
                 if (value) this.api.asc_setLocalization(value);
 
                 if (this.appOptions.location == 'us' || this.appOptions.location == 'ca')
@@ -555,6 +565,8 @@ define([
                 if (this._isDocReady)
                     return;
 
+                Common.Gateway.documentReady();
+
                 if (this._state.openDlg)
                     this._state.openDlg.close();
 
@@ -568,14 +580,16 @@ define([
                 me.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
 
                 value = (this.appOptions.isEditMailMerge || this.appOptions.isEditDiagram) ? 100 : Common.localStorage.getItem("sse-settings-zoom");
+                Common.Utils.InternalSettings.set("sse-settings-zoom", value);
                 var zf = (value!==null) ? parseInt(value)/100 : (this.appOptions.customization && this.appOptions.customization.zoom ? parseInt(this.appOptions.customization.zoom)/100 : 1);
                 this.api.asc_setZoom(zf>0 ? zf : 1);
 
                 /** coauthoring begin **/
-                value = Common.localStorage.getItem("sse-settings-livecomment");
-                this.isLiveCommenting = !(value!==null && parseInt(value) == 0);
-                var resolved = Common.localStorage.getItem("sse-settings-resolvedcomment");
-                this.isLiveCommenting ? this.api.asc_showComments(!(resolved!==null && parseInt(resolved) == 0)) : this.api.asc_hideComments();
+                this.isLiveCommenting = Common.localStorage.getBool("sse-settings-livecomment", true);
+                Common.Utils.InternalSettings.set("sse-settings-livecomment", this.isLiveCommenting);
+                value = Common.localStorage.getBool("sse-settings-resolvedcomment", true);
+                Common.Utils.InternalSettings.set("sse-settings-resolvedcomment", value);
+                this.isLiveCommenting ? this.api.asc_showComments(value) : this.api.asc_hideComments();
 
                 if (this.appOptions.isEdit && !this.appOptions.isOffline && this.appOptions.canCoAuthoring) {
                     value = Common.localStorage.getItem("sse-settings-coauthmode");
@@ -586,9 +600,13 @@ define([
                     this._state.fastCoauth = (value===null || parseInt(value) == 1);
                 } else {
                     this._state.fastCoauth = (!this.appOptions.isEdit && this.appOptions.canComments);
-                    this._state.fastCoauth && this.api.asc_setAutoSaveGap(1);
+                    if (this._state.fastCoauth) {
+                        this.api.asc_setAutoSaveGap(1);
+                        Common.Utils.InternalSettings.set("sse-settings-autosave", 1);
+                    }
                 }
                 this.api.asc_SetFastCollaborative(this._state.fastCoauth);
+                Common.Utils.InternalSettings.set("sse-settings-coauthmode", me._state.fastCoauth);
                 /** coauthoring end **/
 
                 me.api.asc_registerCallback('asc_onStartAction',        _.bind(me.onLongActionBegin, me));
@@ -653,10 +671,11 @@ define([
                         value = 0;
                     }
                     me.api.asc_setAutoSaveGap(value);
+                    Common.Utils.InternalSettings.set("sse-settings-autosave", value);
 
                     if (me.appOptions.canForcesave) {// use asc_setIsForceSaveOnUserSave only when customization->forcesave = true
-                        value = Common.localStorage.getItem("sse-settings-forcesave");
-                        me.appOptions.forcesave = (value === null) ? me.appOptions.canForcesave : (parseInt(value) == 1);
+                        me.appOptions.forcesave = Common.localStorage.getBool("sse-settings-forcesave", me.appOptions.canForcesave);
+                        Common.Utils.InternalSettings.set("sse-settings-forcesave", me.appOptions.forcesave);
                         me.api.asc_setIsForceSaveOnUserSave(me.appOptions.forcesave);
                     }
 
@@ -937,7 +956,9 @@ define([
                     this.toolbarView = toolbarController.getView('Toolbar');
 
                     var value = Common.localStorage.getItem('sse-settings-unit');
-                    Common.Utils.Metric.setCurrentMetric((value!==null) ? parseInt(value) : Common.Utils.Metric.getDefaultMetric());
+                    value = (value!==null) ? parseInt(value) : Common.Utils.Metric.getDefaultMetric();
+                    Common.Utils.Metric.setCurrentMetric(value);
+                    Common.Utils.InternalSettings.set("sse-settings-unit", value);
 
                     if (!me.appOptions.isEditMailMerge && !me.appOptions.isEditDiagram) {
                         var options = {};
@@ -1224,6 +1245,8 @@ define([
                         }
                     }
                 } else {
+                    Common.Gateway.reportWarning(id, config.msg);
+
                     config.title    = this.notcriticalErrorTitle;
                     config.iconCls  = 'warn';
                     config.buttons  = ['ok'];
@@ -1700,7 +1723,9 @@ define([
 
             unitsChanged: function(m) {
                 var value = Common.localStorage.getItem("sse-settings-unit");
-                Common.Utils.Metric.setCurrentMetric((value!==null) ? parseInt(value) : Common.Utils.Metric.getDefaultMetric());
+                value = (value!==null) ? parseInt(value) : Common.Utils.Metric.getDefaultMetric();
+                Common.Utils.Metric.setCurrentMetric(value);
+                Common.Utils.InternalSettings.set("sse-settings-unit", value);
                 this.getApplication().getController('RightMenu').updateMetricUnit();
                 this.getApplication().getController('Print').getView('MainSettingsPrint').updateMetricUnit();
             },
@@ -1756,6 +1781,7 @@ define([
                             if (btn == 'custom') {
                                 Common.localStorage.setItem("sse-settings-coauthmode", 0);
                                 this.api.asc_SetFastCollaborative(false);
+                                Common.Utils.InternalSettings.set("sse-settings-coauthmode", false);
                                 this._state.fastCoauth = false;
                             }
                             this.onEditComplete();
@@ -1781,8 +1807,8 @@ define([
                         this.toolbarView.synchronizeChanges();
                 }
                 if (this.appOptions.canForcesave) {
-                    value = Common.localStorage.getItem("sse-settings-forcesave");
-                    this.appOptions.forcesave = (value===null) ? this.appOptions.canForcesave : (parseInt(value)==1);
+                    this.appOptions.forcesave = Common.localStorage.getBool("sse-settings-forcesave", this.appOptions.canForcesave);
+                    Common.Utils.InternalSettings.set("sse-settings-forcesave", this.appOptions.forcesave);
                     this.api.asc_setIsForceSaveOnUserSave(this.appOptions.forcesave);
                 }
             },

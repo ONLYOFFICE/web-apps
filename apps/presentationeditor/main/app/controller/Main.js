@@ -174,7 +174,7 @@ define([
                     Common.Gateway.on('init',           _.bind(this.loadConfig, this));
                     Common.Gateway.on('showmessage',    _.bind(this.onExternalMessage, this));
                     Common.Gateway.on('opendocument',   _.bind(this.loadDocument, this));
-                    Common.Gateway.ready();
+                    Common.Gateway.appReady();
 
                     this.getApplication().getController('Viewport').setApi(this.api);
                     this.getApplication().getController('Statusbar').setApi(me.api);
@@ -192,7 +192,7 @@ define([
                     $(document.body).on('blur', 'input, textarea', function(e) {
                         if (!me.isModalShowed) {
                             if (!e.relatedTarget ||
-                                !/area_id/.test(e.target.id) && $(e.target).parent().find(e.relatedTarget).length<1 /* Check if focus in combobox goes from input to it's menu button or menu items */
+                                !/area_id/.test(e.target.id) && ($(e.target).parent().find(e.relatedTarget).length<1 || e.target.localName == 'textarea') /* Check if focus in combobox goes from input to it's menu button or menu items, or from comment editing area to Ok/Cancel button */
                                 && (e.relatedTarget.localName != 'input' || !/form-control/.test(e.relatedTarget.className)) /* Check if focus goes to text input with class "form-control" */
                                 && (e.relatedTarget.localName != 'textarea' || /area_id/.test(e.relatedTarget.id))) /* Check if focus goes to textarea, but not to "area_id" */ {
                                 me.api.asc_enableKeyEvents(true);
@@ -552,6 +552,8 @@ define([
                 if (this._isDocReady)
                     return;
 
+                Common.Gateway.documentReady();
+
                 if (this._state.openDlg)
                     this._state.openDlg.close();
 
@@ -567,10 +569,13 @@ define([
                 me.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
 
                 value = Common.localStorage.getItem("pe-settings-zoom");
+                Common.Utils.InternalSettings.set("pe-settings-zoom", value);
                 var zf = (value!==null) ? parseInt(value) : (this.appOptions.customization && this.appOptions.customization.zoom ? parseInt(this.appOptions.customization.zoom) : -1);
                 (zf == -1) ? this.api.zoomFitToPage() : ((zf == -2) ? this.api.zoomFitToWidth() : this.api.zoom(zf>0 ? zf : 100));
 
-                me.api.asc_setSpellCheck(Common.localStorage.getBool("pe-settings-spellcheck", true));
+                value = Common.localStorage.getBool("pe-settings-spellcheck", true);
+                Common.Utils.InternalSettings.set("pe-settings-spellcheck", value);
+                me.api.asc_setSpellCheck(value);
 
                 function checkWarns() {
                     if (!window['AscDesktopEditor']) {
@@ -594,7 +599,15 @@ define([
                 appHeader.setDocumentCaption( me.api.asc_getDocumentName() );
                 me.updateWindowTitle(true);
 
-                me.api.SetTextBoxInputMode(Common.localStorage.getBool("pe-settings-inputmode"));
+                value = Common.localStorage.getBool("pe-settings-inputmode");
+                Common.Utils.InternalSettings.set("pe-settings-inputmode", value);
+                me.api.SetTextBoxInputMode(value);
+
+                if (Common.Utils.isChrome) {
+                    value = Common.localStorage.getBool("pe-settings-inputsogou");
+                    Common.Utils.InternalSettings.set("pe-settings-inputsogou", value);
+                    window["AscInputMethod"]["SogouPinyin"] = value;
+                }
 
                 /** coauthoring begin **/
                 if (me.appOptions.isEdit && !me.appOptions.isOffline && me.appOptions.canCoAuthoring) {
@@ -606,12 +619,16 @@ define([
                     me._state.fastCoauth = (value===null || parseInt(value) == 1);
                 } else {
                     me._state.fastCoauth = (!me.appOptions.isEdit && me.appOptions.canComments);
-                    me._state.fastCoauth && me.api.asc_setAutoSaveGap(1);
+                    if (me._state.fastCoauth) {
+                        me.api.asc_setAutoSaveGap(1);
+                        Common.Utils.InternalSettings.set("pe-settings-autosave", 1);
+                    }
                 }
                 me.api.asc_SetFastCollaborative(me._state.fastCoauth);
+                Common.Utils.InternalSettings.set("pe-settings-coauthmode", me._state.fastCoauth);
                 /** coauthoring end **/
 
-                Common.localStorage.setBool("pe-settings-showsnaplines", me.api.get_ShowSnapLines());
+                Common.Utils.InternalSettings.set("pe-settings-showsnaplines", me.api.get_ShowSnapLines());
 
                 var application = me.getApplication();
                 var toolbarController           = application.getController('Toolbar'),
@@ -655,9 +672,11 @@ define([
                         value = 0;
                     value = (!me._state.fastCoauth && value!==null) ? parseInt(value) : (me.appOptions.canCoAuthoring ? 1 : 0);
                     me.api.asc_setAutoSaveGap(value);
+                    Common.Utils.InternalSettings.set("pe-settings-autosave", value);
 
                     if (me.appOptions.canForcesave) {// use asc_setIsForceSaveOnUserSave only when customization->forcesave = true
                         me.appOptions.forcesave = Common.localStorage.getBool("pe-settings-forcesave", me.appOptions.canForcesave);
+                        Common.Utils.InternalSettings.set("pe-settings-forcesave", me.appOptions.forcesave);
                         me.api.asc_setIsForceSaveOnUserSave(me.appOptions.forcesave);
                     }
 
@@ -884,6 +903,7 @@ define([
                     var value = Common.localStorage.getItem('pe-settings-unit');
                     value = (value!==null) ? parseInt(value) : Common.Utils.Metric.getDefaultMetric();
                     Common.Utils.Metric.setCurrentMetric(value);
+                    Common.Utils.InternalSettings.set("pe-settings-unit", value);
                     me.api.asc_SetDocumentUnits((value==Common.Utils.Metric.c_MetricUnits.inch) ? Asc.c_oAscDocumentUnits.Inch : ((value==Common.Utils.Metric.c_MetricUnits.pt) ? Asc.c_oAscDocumentUnits.Point : Asc.c_oAscDocumentUnits.Millimeter));
 
                     if (me.api.asc_SetViewRulers) me.api.asc_SetViewRulers(!Common.localStorage.getBool('pe-hidden-rulers', true));
@@ -1065,6 +1085,8 @@ define([
                     }
                 }
                 else {
+                    Common.Gateway.reportWarning(id, config.msg);
+
                     config.title    = this.notcriticalErrorTitle;
                     config.iconCls  = 'warn';
                     config.buttons  = ['ok'];
@@ -1375,6 +1397,7 @@ define([
                 var value = Common.localStorage.getItem("pe-settings-unit");
                 value = (value!==null) ? parseInt(value) : Common.Utils.Metric.getDefaultMetric();
                 Common.Utils.Metric.setCurrentMetric(value);
+                Common.Utils.InternalSettings.set("pe-settings-unit", value);
                 this.api.asc_SetDocumentUnits((value==Common.Utils.Metric.c_MetricUnits.inch) ? Asc.c_oAscDocumentUnits.Inch : ((value==Common.Utils.Metric.c_MetricUnits.pt) ? Asc.c_oAscDocumentUnits.Point : Asc.c_oAscDocumentUnits.Millimeter));
                 this.getApplication().getController('RightMenu').updateMetricUnit();
             },
@@ -1542,6 +1565,7 @@ define([
                             if (btn == 'custom') {
                                 Common.localStorage.setItem("pe-settings-coauthmode", 0);
                                 this.api.asc_SetFastCollaborative(false);
+                                Common.Utils.InternalSettings.set("pe-settings-coauthmode", false);
                                 this._state.fastCoauth = false;
                             }
                             this.onEditComplete();
@@ -1567,6 +1591,7 @@ define([
                 }
                 if (this.appOptions.canForcesave) {
                     this.appOptions.forcesave = Common.localStorage.getBool("pe-settings-forcesave", this.appOptions.canForcesave);
+                    Common.Utils.InternalSettings.set("pe-settings-forcesave", this.appOptions.forcesave);
                     this.api.asc_setIsForceSaveOnUserSave(this.appOptions.forcesave);
                 }
             },

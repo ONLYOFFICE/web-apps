@@ -73,7 +73,8 @@ define([
                 isExpanded: true,
                 isVisible: true,
                 allowSelected: true,
-                selected: false
+                selected: false,
+                serverVersion: 0
             }
         }
     });

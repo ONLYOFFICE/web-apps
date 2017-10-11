@@ -702,7 +702,7 @@ Common.Utils.createXhr = function () {
     }
 
     return xmlhttp;
-}
+};
 
 Common.Utils.getConfigJson = function (url) {
     if ( url ) {
@@ -718,7 +718,7 @@ Common.Utils.getConfigJson = function (url) {
     }
 
     return null;
-}
+};
 
 Common.Utils.asyncCall = function (callback, scope, args) {
     (new Promise(function (resolve, reject) {
@@ -726,7 +726,7 @@ Common.Utils.asyncCall = function (callback, scope, args) {
     })).then(function () {
         callback.call(scope, args);
     });
-}
+};
 
 // Extend javascript String type
 String.prototype.strongMatch = function(regExp){
@@ -737,3 +737,19 @@ String.prototype.strongMatch = function(regExp){
 
     return false;
 };
+
+Common.Utils.InternalSettings = new(function() {
+    var settings = {};
+
+    var _get = function(name) {
+        return settings[name];
+    },
+    _set = function(name, value) {
+        settings[name] = value;
+    };
+
+    return {
+        get: _get,
+        set: _set
+    }
+});

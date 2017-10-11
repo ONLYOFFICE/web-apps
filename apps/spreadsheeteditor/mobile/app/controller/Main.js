@@ -174,7 +174,7 @@ define([
                     Common.Gateway.on('init',           _.bind(me.loadConfig, me));
                     Common.Gateway.on('showmessage',    _.bind(me.onExternalMessage, me));
                     Common.Gateway.on('opendocument',   _.bind(me.loadDocument, me));
-                    Common.Gateway.ready();
+                    Common.Gateway.appReady();
                 }
             },
 
@@ -454,6 +454,8 @@ define([
             onDocumentContentReady: function() {
                 if (this._isDocReady)
                     return;
+
+                Common.Gateway.documentReady();
 
                 if (this._state.openDlg)
                     uiApp.closeModal(this._state.openDlg);
@@ -939,6 +941,8 @@ define([
                     }
                 }
                 else {
+                    Common.Gateway.reportWarning(id, config.msg);
+
                     config.title    = this.notcriticalErrorTitle;
 //                    config.iconCls  = 'warn';
 //                    config.buttons  = ['ok'];

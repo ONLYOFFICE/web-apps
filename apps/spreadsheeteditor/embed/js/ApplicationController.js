@@ -166,6 +166,8 @@ var ApplicationController = new(function(){
     }
 
     function onDocumentContentReady() {
+        Common.Gateway.documentReady();
+
         hidePreloader();
 
         if ( !embedConfig.shareUrl )
@@ -401,6 +403,8 @@ var ApplicationController = new(function(){
             });
         }
         else {
+            Common.Gateway.reportWarning(id, message);
+
             $('#id-critical-error-title').text(me.notcriticalErrorTitle);
             $('#id-critical-error-message').text(message);
             $('#id-critical-error-close').off();
@@ -520,7 +524,7 @@ var ApplicationController = new(function(){
             Common.Gateway.on('init',               loadConfig);
             Common.Gateway.on('opendocument',       loadDocument);
             Common.Gateway.on('showmessage',        onExternalMessage);
-            Common.Gateway.ready();
+            Common.Gateway.appReady();
         }
 
         return me;

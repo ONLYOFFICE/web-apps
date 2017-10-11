@@ -179,6 +179,7 @@
   "Common.Views.OpenDialog.cancelButtonText": "Отмена",
   "Common.Views.OpenDialog.okButtonText": "OK",
   "Common.Views.OpenDialog.txtEncoding": "Кодировка",
+  "Common.Views.OpenDialog.txtIncorrectPwd": "Указан неверный пароль.",
   "Common.Views.OpenDialog.txtPassword": "Пароль",
   "Common.Views.OpenDialog.txtTitle": "Выбрать параметры %1",
   "Common.Views.OpenDialog.txtTitleProtected": "Защищенный файл",

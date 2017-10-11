@@ -99,6 +99,7 @@ define([
             this.hkComments = 'alt+h';
             keymap[this.hkComments] = function() {
                 me.onAddComment();
+                return false;
             };
             Common.util.Shortcuts.delegateShortcuts({shortcuts:keymap});
         },
@@ -1177,7 +1178,7 @@ define([
             if (this.api){
                 var key = event.keyCode;
                 if ((event.ctrlKey || event.metaKey) && !event.shiftKey && !event.altKey){
-                    if (key === Common.UI.Keys.NUM_PLUS || key === Common.UI.Keys.EQUALITY || (Common.Utils.isOpera && key == 43)){
+                    if (key === Common.UI.Keys.NUM_PLUS || key === Common.UI.Keys.EQUALITY || (Common.Utils.isGecko && key === Common.UI.Keys.EQUALITY_FF) || (Common.Utils.isOpera && key == 43)){
                         if (!this.api.isCellEdited) {
                             var factor = Math.floor(this.api.asc_getZoom() * 10)/10;
                             factor += .1;
@@ -1189,7 +1190,7 @@ define([
                             event.stopPropagation();
                             return false;
                         }
-                    } else if (key === Common.UI.Keys.NUM_MINUS || key === Common.UI.Keys.MINUS || (Common.Utils.isOpera && key == 45)){
+                    } else if (key === Common.UI.Keys.NUM_MINUS || key === Common.UI.Keys.MINUS || (Common.Utils.isGecko && key === Common.UI.Keys.MINUS_FF) || (Common.Utils.isOpera && key == 45)){
                         if (!this.api.isCellEdited) {
                             factor = Math.ceil(this.api.asc_getZoom() * 10)/10;
                             factor -= .1;
@@ -1230,7 +1231,7 @@ define([
         onSelectionChanged: function(info){
             if (!this.mouse.isLeftButtonDown && !this.rangeSelectionMode &&
                 this.currentMenu && this.currentMenu.isVisible()){
-                (this.permissions.isEdit) ? this.fillMenuProps(info, true, event) : this.fillViewMenuProps(info, true, event);
+                (this.permissions.isEdit) ? this.fillMenuProps(info, true) : this.fillViewMenuProps(info, true);
             }
         },
 
@@ -1412,7 +1413,6 @@ define([
                 documentHolder.pmiEntireShow.setVisible(iscolmenu||isrowmenu);
                 documentHolder.pmiFreezePanes.setVisible(!iscelledit);
                 documentHolder.pmiFreezePanes.setCaption(this.api.asc_getSheetViewSettings().asc_getIsFreezePane() ? documentHolder.textUnFreezePanes : documentHolder.textFreezePanes);
-                documentHolder.pmiEntriesList.setVisible(!iscelledit);
 
                 /** coauthoring begin **/
                 documentHolder.ssMenu.items[17].setVisible(iscellmenu && !iscelledit && this.permissions.canCoAuthoring && this.permissions.canComments);
@@ -1442,6 +1442,8 @@ define([
                 documentHolder.pmiDeleteCells.menu.items[1].setDisabled(isApplyAutoFilter);
 
                 var inPivot = !!cellinfo.asc_getPivotTableInfo();
+
+                documentHolder.pmiEntriesList.setVisible(!iscelledit && !inPivot);
 
                 _.each(documentHolder.ssMenu.items, function(item) {
                     item.setDisabled(isCellLocked);
@@ -1499,7 +1501,7 @@ define([
         },
 
         showPopupMenu: function(menu, value, event){
-            if (!_.isUndefined(menu) && menu !== null){
+            if (!_.isUndefined(menu) && menu !== null && event){
                 Common.UI.Menu.Manager.hideAll();
 
                 var me                  = this,
