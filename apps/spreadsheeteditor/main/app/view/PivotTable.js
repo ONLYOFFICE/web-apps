@@ -167,7 +167,8 @@ define([
                 this.btnAddPivot = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'btn-ic-docspell',
-                    caption: this.txtCreate
+                    caption: this.txtCreate,
+                    disabled    : true
                 });
                 // this.lockedControls.push(this.btnAddPivot);
 
@@ -175,6 +176,7 @@ define([
                     cls         : 'btn-toolbar x-huge icon-top',
                     iconCls     : 'btn-insertimage',
                     caption     : this.capLayout,
+                    disabled    : true,
                     menu        : new Common.UI.Menu({
                         items: [
                             { caption: this.mniLayoutCompact,  value: 0 },
@@ -186,12 +188,13 @@ define([
                         ]
                     })
                 });
-                this.lockedControls.push(this.btnPivotLayout);
+                // this.lockedControls.push(this.btnPivotLayout); // remove commentings after enabled option
 
                 this.btnPivotBlankRows = new Common.UI.Button({
                     cls         : 'btn-toolbar x-huge icon-top',
                     iconCls     : 'btn-insertimage',
                     caption     : this.capBlankRows,
+                    disabled    : true,
                     menu        : new Common.UI.Menu({
                         items: [
                             { caption: this.mniInsertBlankLine,  value: 'insert' },
@@ -199,12 +202,13 @@ define([
                         ]
                     })
                 });
-                this.lockedControls.push(this.btnPivotBlankRows);
+                // this.lockedControls.push(this.btnPivotBlankRows); // remove commentings after enabled option
 
                 this.btnPivotSubtotals = new Common.UI.Button({
                     cls         : 'btn-toolbar x-huge icon-top',
                     iconCls     : 'btn-insertimage',
                     caption     : this.capSubtotals,
+                    disabled    : true,
                     menu        : new Common.UI.Menu({
                         items: [
                             { caption: this.mniNoSubtotals,       value: 0 },
@@ -213,12 +217,13 @@ define([
                         ]
                     })
                 });
-                this.lockedControls.push(this.btnPivotSubtotals);
+                // this.lockedControls.push(this.btnPivotSubtotals); // remove commentings after enabled option
 
                 this.btnPivotGrandTotals = new Common.UI.Button({
                     cls         : 'btn-toolbar x-huge icon-top',
                     iconCls     : 'btn-insertimage',
                     caption     : this.capGrandTotals,
+                    disabled    : true,
                     menu        : new Common.UI.Menu({
                         items: [
                             { caption: this.mniOffTotals,       value: 0 },
@@ -228,12 +233,13 @@ define([
                         ]
                     })
                 });
-                this.lockedControls.push(this.btnPivotGrandTotals);
+                // this.lockedControls.push(this.btnPivotGrandTotals); // remove commentings after enabled option
 
                 this.btnRefreshPivot = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'btn-ic-docspell',
-                    caption: this.txtRefresh
+                    caption: this.txtRefresh,
+                    disabled    : true
                 });
                 // this.lockedControls.push(this.btnRefreshPivot);
 
