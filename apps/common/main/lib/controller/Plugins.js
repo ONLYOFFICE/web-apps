@@ -95,6 +95,7 @@ define([
 
 
             this._moveOffset = {x:0, y:0};
+            this.autostart = null;
         },
 
         setApi: function(api) {
@@ -113,6 +114,7 @@ define([
             if (mode.canPlugins) {
                 this.updatePluginsList();
             }
+            return this;
         },
 
         onAfterRender: function(panelPlugins) {
@@ -177,6 +179,7 @@ define([
             var me = this;
             if ( me.$toolbarPanelPlugins ) {
                 var btn = me.panelPlugins.createPluginButton(model);
+                if (!btn) return;
 
                 var _group = $('> .group', me.$toolbarPanelPlugins);
                 var $slot = $('<span class="slot"></span>').appendTo(_group);
@@ -191,10 +194,12 @@ define([
 
                 var _group = $('<div class="group"></div>');
                 collection.each(function (model) {
-                    var $slot = $('<span class="slot"></span>').appendTo(_group);
-                    me.panelPlugins.createPluginButton(model).render($slot);
+                    var btn = me.panelPlugins.createPluginButton(model);
+                    if (btn) {
+                        var $slot = $('<span class="slot"></span>').appendTo(_group);
+                        btn.render($slot);
+                    }
                 });
-
                 _group.appendTo(me.$toolbarPanelPlugins);
             }
         },
@@ -246,12 +251,15 @@ define([
                     menu.render(menuContainer);
                     menu.cmpEl.attr({tabindex: "-1"});
 
-                    menu.on('show:after', function(cmp) {
-                        if (cmp && cmp.menuAlignEl)
-                            cmp.menuAlignEl.toggleClass('over', true);
-                    }).on('hide:after', function(cmp) {
-                        if (cmp && cmp.menuAlignEl)
-                            cmp.menuAlignEl.toggleClass('over', false);
+                    menu.on({
+                        'show:after': function(cmp) {
+                            if (cmp && cmp.menuAlignEl)
+                                cmp.menuAlignEl.toggleClass('over', true);
+                        },
+                        'hide:after': function(cmp) {
+                            if (cmp && cmp.menuAlignEl)
+                                cmp.menuAlignEl.toggleClass('over', false);
+                        }
                     });
                 }
 
@@ -302,16 +310,22 @@ define([
                         buttons: isCustomWindow ? undefined : newBtns,
                         toolcallback: _.bind(this.onToolClose, this)
                     });
-                    me.pluginDlg.on('render:after', function(obj){
-                        obj.getChild('.footer .dlg-btn').on('click', _.bind(me.onDlgBtnClick, me));
-                        me.pluginContainer = me.pluginDlg.$window.find('#id-plugin-container');
-                    }).on('close', function(obj){
-                        me.pluginDlg = undefined;
-                    }).on('drag', function(args){
-                        me.api.asc_pluginEnableMouseEvents(args[1]=='start');
-                    }).on('resize', function(args){
-                        me.api.asc_pluginEnableMouseEvents(args[1]=='start');
+                    me.pluginDlg.on({
+                        'render:after': function(obj){
+                            obj.getChild('.footer .dlg-btn').on('click', _.bind(me.onDlgBtnClick, me));
+                            me.pluginContainer = me.pluginDlg.$window.find('#id-plugin-container');
+                        },
+                        'close': function(obj){
+                            me.pluginDlg = undefined;
+                        },
+                        'drag': function(args){
+                            me.api.asc_pluginEnableMouseEvents(args[1]=='start');
+                        },
+                        'resize': function(args){
+                            me.api.asc_pluginEnableMouseEvents(args[1]=='start');
+                        }
                     });
+
                     me.pluginDlg.show();
                 }
             }
@@ -324,6 +338,7 @@ define([
             else if (this.panelPlugins.iframePlugin)
                 this.panelPlugins.closeInsideMode();
             this.panelPlugins.closedPluginMode(plugin.get_Guid());
+            this.runAutoStartPlugins(this.autostart);
         },
 
         onPluginResize: function(size, minSize, maxSize, callback ) {
@@ -360,6 +375,14 @@ define([
                 if (this.pluginDlg.binding.resize) this.pluginDlg.binding.resize({ pageX: x*Common.Utils.zoom()+offset.left, pageY: y*Common.Utils.zoom()+offset.top });
             } else
                 Common.NotificationCenter.trigger('frame:mousemove', { pageX: x*Common.Utils.zoom()+this._moveOffset.x, pageY: y*Common.Utils.zoom()+this._moveOffset.y });
+        },
+
+        runAutoStartPlugins: function(autostart) {
+            if (autostart && autostart.length>0) {
+                var guid = autostart.shift();
+                this.autostart = autostart;
+                this.api.asc_pluginRun(guid, 0, '');
+            }
         }
 
     }, Common.Controllers.Plugins || {}));

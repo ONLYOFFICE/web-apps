@@ -93,7 +93,7 @@ define([
                 store: this.storePlugins,
                 enableKeyEvents: false,
                 itemTemplate: _.template([
-                    '<div id="<%= id %>" class="item-plugins" style="display: block;">',
+                    '<div id="<%= id %>" class="item-plugins" style="display: <% if (visible) {%> block; <%} else {%> none; <% } %>">',
                         '<div class="plugin-icon" style="background-image: url(' + '<%= baseUrl %>' + '<%= variations[currentVariation].get("icons")[((window.devicePixelRatio > 1) ? 1 : 0) + (variations[currentVariation].get("icons").length>2 ? 2 : 0)] %>);"></div>',
                         '<% if (variations.length>1) { %>',
                         '<div class="plugin-caret img-commonctrl"></div>',
@@ -147,25 +147,27 @@ define([
                 var me = this;
                 var _group = $('<div class="group"></div>');
                 this.storePlugins.each(function (model) {
-                    var modes = model.get('variations'),
-                        guid = model.get('guid'),
-                        icons = modes[model.get('currentVariation')].get('icons'),
-                        _icon_url = model.get('baseUrl') + icons[((window.devicePixelRatio > 1) ? 1 : 0) + (icons.length>2 ? 2 : 0)],
-                        btn = new Common.UI.Button({
-                            cls: 'btn-toolbar x-huge icon-top',
-                            iconImg: _icon_url,
-                            caption: model.get('name'),
-                            menu: modes && modes.length > 1,
-                            split: modes && modes.length > 1,
-                            value: guid,
-                            hint: model.get('name')
-                        });
+                    if (model.get('visible')) {
+                        var modes = model.get('variations'),
+                            guid = model.get('guid'),
+                            icons = modes[model.get('currentVariation')].get('icons'),
+                            _icon_url = model.get('baseUrl') + icons[((window.devicePixelRatio > 1) ? 1 : 0) + (icons.length>2 ? 2 : 0)],
+                            btn = new Common.UI.Button({
+                                cls: 'btn-toolbar x-huge icon-top',
+                                iconImg: _icon_url,
+                                caption: model.get('name'),
+                                menu: modes && modes.length > 1,
+                                split: modes && modes.length > 1,
+                                value: guid,
+                                hint: model.get('name')
+                            });
 
-                    var $slot = $('<span class="slot"></span>').appendTo(_group);
-                    btn.render($slot);
+                        var $slot = $('<span class="slot"></span>').appendTo(_group);
+                        btn.render($slot);
 
-                    model.set('button', btn);
-                    me.lockedControls.push(btn);
+                        model.set('button', btn);
+                        me.lockedControls.push(btn);
+                    }
                 });
 
                 parent.html(_group);
@@ -260,9 +262,11 @@ define([
             var model = this.storePlugins.findWhere({guid: guid});
             if ( model ) {
                 var _btn = model.get('button');
-                _btn.toggle(false);
-                if (_btn.menu && _btn.menu.items.length>0) {
-                    _btn.menu.items[0].setCaption(this.textStart);
+                if (_btn) {
+                    _btn.toggle(false);
+                    if (_btn.menu && _btn.menu.items.length>0) {
+                        _btn.menu.items[0].setCaption(this.textStart);
+                    }
                 }
             }
         },
@@ -276,31 +280,36 @@ define([
         },
 
         createPluginButton: function (model) {
+            if (!model.get('visible'))
+                return null;
+
             var me = this;
 
             var modes = model.get('variations'),
                 guid = model.get('guid'),
                 icons = modes[model.get('currentVariation')].get('icons'),
                 icon_url = model.get('baseUrl') + icons[((window.devicePixelRatio > 1) ? 1 : 0) + (icons.length > 2 ? 2 : 0)];
+
+            var _menu_items = [];
+            _.each(model.get('variations'), function(variation, index) {
+                if (variation.get('visible'))
+                    _menu_items.push({
+                        caption     : index > 0 ? variation.get('description') : me.textStart,
+                        value       : parseInt(variation.get('index'))
+                    });
+            });
+
             var btn = new Common.UI.Button({
-                    cls: 'btn-toolbar x-huge icon-top',
-                    iconImg: icon_url,
-                    caption: model.get('name'),
-                    menu: modes && modes.length > 1,
-                    split: modes && modes.length > 1,
-                    value: guid,
-                    hint: model.get('name')
-                });
+                cls: 'btn-toolbar x-huge icon-top',
+                iconImg: icon_url,
+                caption: model.get('name'),
+                menu: _menu_items.length > 1,
+                split: _menu_items.length > 1,
+                value: guid,
+                hint: model.get('name')
+            });
 
             if ( btn.split ) {
-                var _menu_items = [];
-                _.each(model.get('variations'), function(version, index) {
-                    _menu_items.push({
-                        caption     : index > 0 ? version.get('description') : me.textStart,
-                        value       : parseInt(version.get('index'))
-                    });
-                });
-
                 btn.setMenu(
                     new Common.UI.Menu({
                         items: _menu_items,
