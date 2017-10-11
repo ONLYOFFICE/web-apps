@@ -194,6 +194,8 @@
   "Common.Views.RenameDialog.txtInvalidName": "De bestandsnaam mag geen van de volgende tekens bevatten:",
   "Common.Views.ReviewChanges.hintNext": "Naar Volgende Wijziging",
   "Common.Views.ReviewChanges.hintPrev": "Naar Vorige Wijziging",
+  "Common.Views.ReviewChanges.tipAcceptCurrent": "Huidige wijziging accepteren",
+  "Common.Views.ReviewChanges.tipRejectCurrent": "Huidige wijziging afwijzen",
   "Common.Views.ReviewChanges.tipReview": "Wijzigingen Bijhouden",
   "Common.Views.ReviewChanges.tipReviewView": "Selecteer de modus waarin u de veranderingen weer wilt laten geven",
   "Common.Views.ReviewChanges.tipSetDocLang": "Taal van Document Instellen",

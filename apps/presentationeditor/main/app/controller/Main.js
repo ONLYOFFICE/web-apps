@@ -632,7 +632,6 @@ define([
                 application.getController('Common.Controllers.ExternalDiagramEditor').setApi(this.api).loadConfig({config:this.editorConfig, customization: this.editorConfig.customization});
 
                 pluginsController.setApi(me.api);
-                me.updatePlugins(me.plugins, false);
                 me.requestPlugins('../../../../plugins.json');
                 me.api.asc_registerCallback('asc_onPluginsInit', _.bind(me.updatePluginsList, me));
 
@@ -1636,43 +1635,13 @@ define([
             requestPlugins: function(pluginsPath) { // request plugins
                 if (!pluginsPath) return;
 
-                var _createXMLHTTPObject = function() {
-                    var xmlhttp;
-                    try {
-                        xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
-                    }
-                    catch (e) {
-                        try {
-                            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-                        }
-                        catch (E) {
-                            xmlhttp = false;
-                        }
-                    }
-                    if (!xmlhttp && typeof XMLHttpRequest != 'undefined') {
-                        xmlhttp = new XMLHttpRequest();
-                    }
-                    return xmlhttp;
-                };
+                var config_plugins = (this.plugins && this.plugins.pluginsData && this.plugins.pluginsData.length>0) ? this.updatePlugins(this.plugins, false) : null,
+                    request_plugins = this.updatePlugins( Common.Utils.getConfigJson(pluginsPath), false );
 
-                var _getPluginJson = function(plugin) {
-                    if (!plugin) return '';
-                    try {
-                        var xhrObj = _createXMLHTTPObject();
-                        if (xhrObj && plugin) {
-                            xhrObj.open('GET', plugin, false);
-                            xhrObj.send('');
-                            var pluginJson = eval("(" + xhrObj.responseText + ")");
-                            return pluginJson;
-                        }
-                    }
-                    catch (e) {}
-                    return null;
-                };
-
-                var value = _getPluginJson(pluginsPath);
-                if (value)
-                    this.updatePlugins(value, false);
+                this.updatePluginsList({
+                    autostart: (config_plugins&&config_plugins.autostart ? config_plugins.autostart : []).concat(request_plugins&&request_plugins.autostart ? request_plugins.autostart : []),
+                    pluginsData: (config_plugins ? config_plugins.pluginsData : []).concat(request_plugins ? request_plugins.pluginsData : [])
+                }, false);
             },
 
 
@@ -1682,49 +1651,15 @@ define([
                 var pluginsData = (uiCustomize) ? plugins.UIpluginsData : plugins.pluginsData;
                 if (!pluginsData || pluginsData.length<1) return;
 
-                var _createXMLHTTPObject = function() {
-                    var xmlhttp;
-                    try {
-                        xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
-                    }
-                    catch (e) {
-                        try {
-                            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-                        }
-                        catch (E) {
-                            xmlhttp = false;
-                        }
-                    }
-                    if (!xmlhttp && typeof XMLHttpRequest != 'undefined') {
-                        xmlhttp = new XMLHttpRequest();
-                    }
-                    return xmlhttp;
-                };
-
-                var _getPluginJson = function(plugin) {
-                    if (!plugin) return '';
-                    try {
-                        var xhrObj = _createXMLHTTPObject();
-                        if (xhrObj && plugin) {
-                            xhrObj.open('GET', plugin, false);
-                            xhrObj.send('');
-                            var pluginJson = eval("(" + xhrObj.responseText + ")");
-                            return pluginJson;
-                        }
-                    }
-                    catch (e) {}
-                    return null;
-                };
-
                 var arr = [],
                     baseUrl = _.isEmpty(plugins.url) ? "" : plugins.url;
 
                 if (baseUrl !== "")
-                    console.log("Obsolete: The url parameter is deprecated. Please check the documentation for new plugin connection configuration.");
+                    console.warn("Obsolete: The url parameter is deprecated. Please check the documentation for new plugin connection configuration.");
 
                 pluginsData.forEach(function(item){
                     item = baseUrl + item; // for compatibility with previouse version of server, where plugins.url is used.
-                    var value = _getPluginJson(item);
+                    var value = Common.Utils.getConfigJson(item);
                     if (value) {
                         value.baseUrl = item.substring(0, item.lastIndexOf("config.json"));
                         value.oldVersion = (baseUrl !== "");
@@ -1732,11 +1667,22 @@ define([
                     }
                 });
 
-                if (arr.length>0)
-                    this.updatePluginsList({
-                        autoStartGuid: plugins.autoStartGuid,
+                if (arr.length>0) {
+                    var autostart = plugins.autostart || plugins.autoStartGuid;
+                    if (typeof (autostart) == 'string')
+                        autostart = [autostart];
+                    plugins.autoStartGuid && console.warn("Obsolete: The autoStartGuid parameter is deprecated. Please check the documentation for new plugin connection configuration.");
+
+                    if (uiCustomize)
+                        this.updatePluginsList({
+                            autostart: autostart,
+                            pluginsData: arr
+                        }, !!uiCustomize);
+                    else return {
+                        autostart: autostart,
                         pluginsData: arr
-                    }, !!uiCustomize);
+                    };
+                }
             },
 
             updatePluginsList: function(plugins, uiCustomize) {
@@ -1745,44 +1691,37 @@ define([
                 if (plugins) {
                     var arr = [], arrUI = [];
                     plugins.pluginsData.forEach(function(item){
-                        if (uiCustomize!==undefined && (pluginStore.findWhere({baseUrl : item.baseUrl}) || pluginStore.findWhere({guid : item.guid}))) return;
+                        if (uiCustomize!==undefined && _.find(arr, function(arritem) {
+                                                            return (arritem.get('baseUrl') == item.baseUrl || arritem.get('guid') == item.guid);
+                                                        })) return;
 
-                        var variations = item.variations,
-                            variationsArr = [];
-                        variations.forEach(function(itemVar){
-                            var isSupported = false;
-                            for (var i=0; i<itemVar.EditorsSupport.length; i++){
-                                if (itemVar.EditorsSupport[i]=='slide') {
-                                    isSupported = true; break;
-                                }
+                        var variationsArr = [],
+                            pluginVisible = false;
+                        item.variations.forEach(function(itemVar){
+                            var visible = (isEdit || itemVar.isViewer) && _.contains(itemVar.EditorsSupport, 'slide');
+                            if ( visible ) pluginVisible = true;
+
+                            var icons = itemVar.icons;
+                            if (item.oldVersion) { // for compatibility with previouse version of server, where plugins.url is used.
+                                icons = [];
+                                itemVar.icons.forEach(function(icon){
+                                    icons.push(icon.substring(icon.lastIndexOf("\/")+1));
+                                });
                             }
-                            if (isSupported && (isEdit || itemVar.isViewer)){
-                                var icons = itemVar.icons;
-                                if (item.oldVersion) { // for compatibility with previouse version of server, where plugins.url is used.
-                                    icons = [];
-                                    itemVar.icons.forEach(function(icon){
-                                        icons.push(icon.substring(icon.lastIndexOf("\/")+1));
-                                    });
-                                }
-                                item.isUICustomizer ? arrUI.push(item.baseUrl + itemVar.url) :
-                                variationsArr.push(new Common.Models.PluginVariation({
-                                    description: itemVar.description,
+
+                            if ( item.isUICustomizer ) {
+                                visible && arrUI.push(item.baseUrl + itemVar.url);
+                            } else {
+                                var model = new Common.Models.PluginVariation(itemVar);
+
+                                model.set({
                                     index: variationsArr.length,
-                                    url : (item.oldVersion) ? (itemVar.url.substring(itemVar.url.lastIndexOf("\/")+1) ) : itemVar.url,
-                                    icons  : icons,
-                                    isViewer: itemVar.isViewer,
-                                    EditorsSupport: itemVar.EditorsSupport,
-                                    isVisual: itemVar.isVisual,
-                                    isCustomWindow: itemVar.isCustomWindow,
-                                    isModal: itemVar.isModal,
-                                    isInsideMode: itemVar.isInsideMode,
-                                    initDataType: itemVar.initDataType,
-                                    initData: itemVar.initData,
-                                    isUpdateOleOnResize : itemVar.isUpdateOleOnResize,
-                                    buttons: itemVar.buttons,
-                                    size: itemVar.size,
-                                    initOnSelectionChanged: itemVar.initOnSelectionChanged
-                                }));
+                                    url: (item.oldVersion) ? (itemVar.url.substring(itemVar.url.lastIndexOf("\/") + 1) ) : itemVar.url,
+                                    icons: icons,
+                                    visible: visible
+                                });
+
+                                variationsArr.push(model);
                             }
                         });
                         if (variationsArr.length>0 && !item.isUICustomizer)
@@ -1791,27 +1730,23 @@ define([
                                 guid: item.guid,
                                 baseUrl : item.baseUrl,
                                 variations: variationsArr,
-                                currentVariation: 0
+                                currentVariation: 0,
+                                visible: pluginVisible
                             }));
                     });
 
                     if (uiCustomize!==false)  // from ui customizer in editor config or desktop event
                         this.UICustomizePlugins = arrUI;
 
-                    if (uiCustomize === undefined) { // for desktop
+                    if ( !uiCustomize ) {
                         if (pluginStore) pluginStore.reset(arr);
-                        this.appOptions.canPlugins = (pluginStore.length>0);
-                    } else if (!uiCustomize) {
-                        if (pluginStore) pluginStore.add(arr);
-                        this.appOptions.canPlugins = (pluginStore.length>0);
+                        this.appOptions.canPlugins = !pluginStore.isEmpty();
                     }
                 } else if (!uiCustomize){
                     this.appOptions.canPlugins = false;
                 }
                 if (this.appOptions.canPlugins) {
-                    this.getApplication().getController('Common.Controllers.Plugins').setMode(this.appOptions);
-                    if (plugins.autoStartGuid)
-                        this.api.asc_pluginRun(plugins.autoStartGuid, 0, '');
+                    this.getApplication().getController('Common.Controllers.Plugins').setMode(this.appOptions).runAutoStartPlugins(plugins.autostart);
                 }
                 if (!uiCustomize) this.getApplication().getController('LeftMenu').enablePlugins();
             },
