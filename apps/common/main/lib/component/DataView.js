@@ -473,6 +473,9 @@ define([
                 });
             }
 
+            if (this.disabled)
+                this.setDisabled(this.disabled);
+
             this.attachKeyEvents();
             this.lastSelectedRec = null;
             this._layoutParams = undefined;
