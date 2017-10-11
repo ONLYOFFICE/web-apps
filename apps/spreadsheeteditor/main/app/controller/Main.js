@@ -621,10 +621,7 @@ define([
 
                  if (!me.appOptions.isEditMailMerge && !me.appOptions.isEditDiagram) {
                     pluginsController.setApi(me.api);
-                    if (me.plugins && me.plugins.pluginsData && me.plugins.pluginsData.length>0)
-                        me.updatePlugins(me.plugins, false);
-                    else
-                        me.requestPlugins('../../../../plugins.json');
+                    me.requestPlugins('../../../../plugins.json');
                     me.api.asc_registerCallback('asc_onPluginsInit', _.bind(me.updatePluginsList, me));
                 }
 
@@ -1834,7 +1831,13 @@ define([
             requestPlugins: function(pluginsPath) { // request plugins
                 if (!pluginsPath) return;
 
-                this.updatePlugins( Common.Utils.getConfigJson(pluginsPath), false );
+                var config_plugins = (this.plugins && this.plugins.pluginsData && this.plugins.pluginsData.length>0) ? this.updatePlugins(this.plugins, false) : null, // return plugins object
+                    request_plugins = this.updatePlugins( Common.Utils.getConfigJson(pluginsPath), false );
+
+                this.updatePluginsList({
+                    autostart: (config_plugins&&config_plugins.autostart ? config_plugins.autostart : []).concat(request_plugins&&request_plugins.autostart ? request_plugins.autostart : []),
+                    pluginsData: (config_plugins ? config_plugins.pluginsData : []).concat(request_plugins ? request_plugins.pluginsData : [])
+                }, false);
             },
 
             updatePlugins: function(plugins, uiCustomize) { // plugins from config
@@ -1865,10 +1868,15 @@ define([
                         autostart = [autostart];
                     plugins.autoStartGuid && console.warn("Obsolete: The autoStartGuid parameter is deprecated. Please check the documentation for new plugin connection configuration.");
 
-                    this.updatePluginsList({
+                    if (uiCustomize)
+                        this.updatePluginsList({
+                            autostart: autostart,
+                            pluginsData: arr
+                        }, !!uiCustomize);
+                    else return {
                         autostart: autostart,
                         pluginsData: arr
-                    }, !!uiCustomize);
+                    };
                 }
             },
 
@@ -1878,13 +1886,14 @@ define([
                 if (plugins) {
                     var arr = [], arrUI = [];
                     plugins.pluginsData.forEach(function(item){
-                        if (uiCustomize!==undefined && (pluginStore.findWhere({baseUrl : item.baseUrl}) || pluginStore.findWhere({guid : item.guid}))) return;
+                        if (uiCustomize!==undefined && _.find(arr, function(arritem) {
+                                                            return (arritem.get('baseUrl') == item.baseUrl || arritem.get('guid') == item.guid);
+                                                        })) return;
 
-                        var variations = item.variations,
-                            variationsArr = [],
+                        var variationsArr = [],
                             pluginVisible = false;
-                        variations.forEach(function(itemVar){
-                            var visible = (isEdit || itemVar.isViewer) && itemVar.EditorsSupport.includes('cell');
+                        item.variations.forEach(function(itemVar){
+                            var visible = (isEdit || itemVar.isViewer) && _.contains(itemVar.EditorsSupport, 'cell');
                             if ( visible ) pluginVisible = true;
 
                             var icons = itemVar.icons;
