@@ -416,11 +416,11 @@ define([
                     '<span id="slot-btn-sharing" class="btn-slot text x-huge"></span>' +
                     '<span id="slot-btn-coauthmode" class="btn-slot text x-huge"></span>' +
                 '</div>' +
-                '<div class="separator long comments"/>' +
+                '<div class="separator long sharing"/>' +
                 '<div class="group">' +
                     '<span class="btn-slot text x-huge slot-comment"></span>' +
                 '</div>' +
-                '<div class="separator long review"/>' +
+                '<div class="separator long comments"/>' +
                 '<div class="group">' +
                     '<span id="btn-review-on" class="btn-slot text x-huge"></span>' +
                 '</div>' +
@@ -433,11 +433,11 @@ define([
                     '<span id="btn-change-accept" class="btn-slot text x-huge"></span>' +
                     '<span id="btn-change-reject" class="btn-slot text x-huge"></span>' +
                 '</div>' +
-                '<div class="separator long"/>' +
+                '<div class="separator long review"/>' +
                 '<div class="group no-group-mask">' +
                     '<span id="slot-btn-chat" class="btn-slot text x-huge"></span>' +
                 '</div>' +
-                '<div class="separator long"/>' +
+                '<div class="separator long chat"/>' +
                 '<div class="group no-group-mask">' +
                     '<span id="slot-btn-history" class="btn-slot text x-huge"></span>' +
                 '</div>' +
@@ -692,16 +692,6 @@ define([
 
                         me.btnAccept.setDisabled(config.isReviewOnly);
                         me.btnReject.setDisabled(config.isReviewOnly);
-                    } else {
-                        me.$el.find('.separator.review')
-                            .hide()
-                            .next('.group').hide();
-                    }
-
-                    if ( !config.canComments || !config.canCoAuthoring) {
-                        $('.separator.comments', me.$el)
-                            .hide()
-                            .next('.group').hide();
                     }
 
                     me.btnSharing && me.btnSharing.updateHint(me.tipSharing);
@@ -738,6 +728,35 @@ define([
                         }
                         me.turnCoAuthMode((value===null || parseInt(value) == 1) && !(config.isDesktopApp && config.isOffline) && config.canCoAuthoring);
                     }
+
+                    var separator_sharing = !(me.btnSharing || me.btnCoAuthMode) ? me.$el.find('.separator.sharing') : '.separator.sharing',
+                        separator_comments = !(config.canComments && config.canCoAuthoring) ? me.$el.find('.separator.comments') : '.separator.comments',
+                        separator_review = !config.canReview ? me.$el.find('.separator.review') : '.separator.review',
+                        separator_chat = !me.btnChat ? me.$el.find('.separator.chat') : '.separator.chat',
+                        separator_last;
+
+                    if (typeof separator_sharing == 'object')
+                        separator_sharing.hide().prev('.group').hide();
+                    else
+                        separator_last = separator_sharing;
+
+                    if (typeof separator_comments == 'object')
+                        separator_comments.hide().prev('.group').hide();
+                    else
+                        separator_last = separator_comments;
+
+                    if (typeof separator_review == 'object')
+                        separator_review.hide().prevUntil('.separator.comments').hide();
+                    else
+                        separator_last = separator_review;
+
+                    if (typeof separator_chat == 'object')
+                        separator_chat.hide().prev('.group').hide();
+                    else
+                        separator_last = separator_chat;
+
+                    if (!me.btnHistory && separator_last)
+                        me.$el.find(separator_last).hide();
 
                     setEvents.call(me);
                 });
