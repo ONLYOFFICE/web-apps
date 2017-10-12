@@ -247,7 +247,7 @@ define([
             if (Common.Utils.isChrome) {
                 value = Common.localStorage.getBool("pe-settings-inputsogou");
                 Common.Utils.InternalSettings.set("pe-settings-inputsogou", value);
-                window["AscInputMethod"]["SogouPinyin"] = value;
+                // window["AscInputMethod"]["SogouPinyin"] = value;
             }
 
             /** coauthoring begin **/
