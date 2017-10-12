@@ -662,6 +662,8 @@ define([
                     me.btnDocLang.updateHint(me.tipSetDocLang);
                     me.btnSetSpelling.updateHint(me.tipSetSpelling);
 
+                    Common.NotificationCenter.trigger('tab:visible', 'review', true);
+
                     setEvents.call(me);
                 });
             },

@@ -92,6 +92,10 @@ define([
 
                 config.tabs = options.tabs;
                 $(document.body).on('click', onClickDocument.bind(this));
+
+                Common.NotificationCenter.on('tab:visible', _.bind(function(action, visible){
+                    this.setVisible(action, visible)
+                }, this));
             },
 
             afterRender: function() {
@@ -253,7 +257,7 @@ define([
                     return config.tabs[index].action;
                 }
 
-                var _tabTemplate = _.template('<li class="ribtab"><div class="tab-bg" /><a href="#" data-tab="<%= action %>" data-title="<%= caption %>"><%= caption %></a></li>');
+                var _tabTemplate = _.template('<li class="ribtab" style="display: none;"><div class="tab-bg" /><a href="#" data-tab="<%= action %>" data-title="<%= caption %>"><%= caption %></a></li>');
 
                 config.tabs[after + 1] = tab;
                 var _after_action = _get_tab_action(after);
@@ -315,6 +319,11 @@ define([
                         }
                     }
                 }
+            },
+
+            setVisible: function (tab, visible) {
+                if ( tab && this.$tabs )
+                    this.$tabs.find('> a[data-tab=' + tab + ']').parent().css('display', visible ? '' : 'none');
             }
         };
     }()));
