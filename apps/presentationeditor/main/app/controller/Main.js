@@ -600,7 +600,7 @@ define([
 
                 if (Common.Utils.isChrome) {
                     value = Common.localStorage.getBool("pe-settings-inputsogou");
-                    window["AscInputMethod"]["SogouPinyin"] = value;
+                    me.api.setInputParams({"SogouPinyin" : value});
                 }
 
                 /** coauthoring begin **/
