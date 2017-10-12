@@ -2078,6 +2078,7 @@ define([
         textTabFile: 'File',
         textTabHome: 'Home',
         textTabInsert: 'Insert',
-        textSurface: 'Surface'
+        textSurface: 'Surface',
+        textTabCollaboration: 'Collaboration'
     }, SSE.Views.Toolbar || {}));
 });

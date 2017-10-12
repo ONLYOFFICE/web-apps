@@ -2911,6 +2911,15 @@ define([
 
                 if ( config.isEdit )
                     me.toolbar.setApi(me.api);
+
+                if (!config.isEditDiagram && !config.isEditMailMerge) {
+                    var tab = {action: 'review', caption: me.toolbar.textTabCollaboration};
+                    var $panel = SSE.getController('Common.Controllers.ReviewChanges').createToolbarPanel();
+
+                    if ( $panel ) {
+                        me.toolbar.addTab(tab, $panel, 3);
+                    }
+                }
             });
         },
 

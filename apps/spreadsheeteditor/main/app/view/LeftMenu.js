@@ -255,7 +255,7 @@ define([
                 }
                 if (this.mode.canChat) {
                     this.panelChat['hide']();
-                    this.btnChat.toggle(false, true);
+                    this.btnChat.toggle(false);
                 }
             }
             /** coauthoring end **/
