@@ -1853,7 +1853,8 @@ define([
             textTabHome: 'Home',
             textTabInsert: 'Insert',
             textSurface: 'Surface',
-            textShowPresenterView: 'Show presenter view'
+            textShowPresenterView: 'Show presenter view',
+            textTabCollaboration: 'Collaboration'
         }
     }()), PE.Views.Toolbar || {}));
 });

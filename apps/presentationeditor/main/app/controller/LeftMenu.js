@@ -94,6 +94,9 @@ define([
                     'hide': _.bind(this.onSearchDlgHide, this),
                     'search:back': _.bind(this.onQuerySearch, this, 'back'),
                     'search:next': _.bind(this.onQuerySearch, this, 'next')
+                },
+                'Common.Views.ReviewChanges': {
+                    'collaboration:chat': _.bind(this.onShowHideChat, this)
                 }
             });
         },
@@ -536,6 +539,18 @@ define([
                     this.leftMenu.onBtnMenuClick({pressed:true, options: {action: 'plugins'}});
                 } else {
                     this.leftMenu.close();
+                }
+            }
+        },
+
+        onShowHideChat: function(state) {
+            if (this.mode.canCoAuthoring && this.mode.canChat && !this.mode.isLightVersion) {
+                if (state) {
+                    Common.UI.Menu.Manager.hideAll();
+                    this.leftMenu.showMenu('chat');
+                } else {
+                    this.leftMenu.btnChat.toggle(false, true);
+                    this.leftMenu.onBtnMenuClick(this.leftMenu.btnChat);
                 }
             }
         },
