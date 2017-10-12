@@ -488,7 +488,7 @@ define([
                 state = (state == 'on');
 
                 this.api.asc_SetTrackRevisions(state);
-                Common.localStorage.setItem("de-track-changes", state ? 1 : 0);
+                Common.localStorage.setItem(this.view.appPrefix + "track-changes", state ? 1 : 0);
 
                 this.view.turnChanges(state);
             }
@@ -498,7 +498,7 @@ define([
             state = (state == 'on');
             this.view.turnSpelling(state);
 
-            Common.localStorage.setItem("de-settings-spellcheck", state ? 1 : 0);
+            Common.localStorage.setItem(this.view.appPrefix + "settings-spellcheck", state ? 1 : 0);
             this.api.asc_setSpellCheck(state);
         },
 
@@ -521,24 +521,24 @@ define([
         },
 
         onCoAuthMode: function(menu, item, e) {
-            Common.localStorage.setItem("de-settings-coauthmode", item.value);
+            Common.localStorage.setItem(this.view.appPrefix + "settings-coauthmode", item.value);
 
             if (this.api) {
                 this.api.asc_SetFastCollaborative(item.value==1);
 
-                var value = Common.localStorage.getItem(item.value ? "de-settings-showchanges-fast" : "de-settings-showchanges-strict");
+                var value = Common.localStorage.getItem(item.value ? this.view.appPrefix + "settings-showchanges-fast" : this.view.appPrefix + "settings-showchanges-strict");
                 if (value !== null)
                     this.api.SetCollaborativeMarksShowType(value == 'all' ? Asc.c_oAscCollaborativeMarksShowType.All :
                         value == 'none' ? Asc.c_oAscCollaborativeMarksShowType.None : Asc.c_oAscCollaborativeMarksShowType.LastChanges);
                 else
                     this.api.SetCollaborativeMarksShowType(item.value ? Asc.c_oAscCollaborativeMarksShowType.None : Asc.c_oAscCollaborativeMarksShowType.LastChanges);
 
-                value = Common.localStorage.getItem("de-settings-autosave");
+                value = Common.localStorage.getItem(this.view.appPrefix + "settings-autosave");
                 if (value===null && this.appConfig.customization && this.appConfig.customization.autosave===false)
                     value = 0;
                 value = (!item.value && value!==null) ? parseInt(value) : 1;
 
-                Common.localStorage.setItem("de-settings-autosave", value);
+                Common.localStorage.setItem(this.view.appPrefix + "settings-autosave", value);
                 this.api.asc_setAutoSaveGap(value);
             }
             Common.NotificationCenter.trigger('edit:complete', this.view);
@@ -581,7 +581,7 @@ define([
 
         onAppReady: function (config) {
             var me = this;
-            if ( me.view && Common.localStorage.getBool("de-settings-spellcheck", true) )
+            if ( me.view && Common.localStorage.getBool(me.view.appPrefix + "settings-spellcheck", true) )
                 me.view.turnSpelling(true);
 
             if ( config.canReview ) {
@@ -602,7 +602,7 @@ define([
                         _setReviewStatus(false);
                     } else {
                         me.api.asc_HaveRevisionsChanges() && me.view.markChanges(true);
-                        _setReviewStatus(Common.localStorage.getBool("de-track-changes"));
+                        _setReviewStatus(Common.localStorage.getBool(me.view.appPrefix + "track-changes"));
                     }
 
                     if ( typeof (me.appConfig.customization) == 'object' && (me.appConfig.customization.showReviewChanges==true) ) {
@@ -627,8 +627,8 @@ define([
         },
 
         applySettings: function(menu) {
-            this.view && this.view.turnSpelling( Common.localStorage.getBool("de-settings-spellcheck", true) );
-            this.view && this.view.turnCoAuthMode( Common.localStorage.getBool("de-settings-coauthmode", true) );
+            this.view && this.view.turnSpelling( Common.localStorage.getBool(this.view.appPrefix + "settings-spellcheck", true) );
+            this.view && this.view.turnCoAuthMode( Common.localStorage.getBool(this.view.appPrefix + "settings-coauthmode", true) );
         },
 
         synchronizeChanges: function() {

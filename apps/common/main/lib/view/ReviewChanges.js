@@ -609,6 +609,9 @@ define([
                     });
                 }
 
+                var filter = Common.localStorage.getKeysFilter();
+                this.appPrefix = (filter && filter.length) ? filter.split(',')[0] : '';
+
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             },
 
@@ -721,8 +724,8 @@ define([
                             }));
                         me.btnCoAuthMode.updateHint(me.tipCoAuthMode);
 
-                        var value = Common.localStorage.getItem("de-settings-coauthmode");
-                        if (value===null && !Common.localStorage.itemExists("de-settings-autosave") &&
+                        var value = Common.localStorage.getItem(me.appPrefix + "settings-coauthmode");
+                        if (value===null && !Common.localStorage.itemExists(me.appPrefix + "settings-autosave") &&
                             config.customization && config.customization.autosave===false) {
                             value = 0; // use customization.autosave only when de-settings-coauthmode and de-settings-autosave are null
                         }
