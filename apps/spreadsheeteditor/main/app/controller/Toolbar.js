@@ -2923,6 +2923,7 @@ define([
 
                     if ( $panel ) {
                         me.toolbar.addTab(tab, $panel, 3);
+                        me.toolbar.setVisible('pivot', true);
                     }
                 }
             });
