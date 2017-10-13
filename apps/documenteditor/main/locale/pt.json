@@ -194,6 +194,8 @@
   "Common.Views.RenameDialog.txtInvalidName": "Nome de arquivo não pode conter os seguintes caracteres:",
   "Common.Views.ReviewChanges.hintNext": "Para a próxima alteração",
   "Common.Views.ReviewChanges.hintPrev": "Para a alteração anterior",
+  "Common.Views.ReviewChanges.tipAcceptCurrent": "Aceitar a alteração atual",
+  "Common.Views.ReviewChanges.tipRejectCurrent": "Rejeitar alterações atuais",
   "Common.Views.ReviewChanges.tipReview": "Track Changes",
   "Common.Views.ReviewChanges.tipReviewView": "Selecione o modo que você quiser que as alterações sejam exibidas",
   "Common.Views.ReviewChanges.tipSetDocLang": "Definir idioma do documento",
