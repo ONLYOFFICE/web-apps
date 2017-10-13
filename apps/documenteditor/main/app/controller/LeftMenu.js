@@ -299,6 +299,11 @@ define([
             var value;
             this.api.SetTextBoxInputMode(Common.localStorage.getBool("de-settings-inputmode"));
 
+            if (Common.Utils.isChrome) {
+                value = Common.localStorage.getBool("de-settings-inputsogou");
+                this.api.setInputParams({"SogouPinyin" : value});
+            }
+
             /** coauthoring begin **/
             if (this.mode.isEdit && !this.mode.isOffline && this.mode.canCoAuthoring) {
                 var fast_coauth = Common.localStorage.getBool("de-settings-coauthmode", true);

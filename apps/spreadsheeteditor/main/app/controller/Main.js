@@ -149,6 +149,11 @@ define([
                 });
                 this.api.asc_setFontRenderingMode(parseInt(value));
 
+                if (Common.Utils.isChrome) {
+                    value = Common.localStorage.getBool("sse-settings-inputsogou");
+                    this.api.setInputParams({"SogouPinyin" : value});
+                }
+
                 this.api.asc_registerCallback('asc_onOpenDocumentProgress',  _.bind(this.onOpenDocument, this));
                 this.api.asc_registerCallback('asc_onEndAction',             _.bind(this.onLongActionEnd, this));
                 this.api.asc_registerCallback('asc_onError',                 _.bind(this.onError, this));
@@ -1886,9 +1891,10 @@ define([
                 if (plugins) {
                     var arr = [], arrUI = [];
                     plugins.pluginsData.forEach(function(item){
-                        if (uiCustomize!==undefined && _.find(arr, function(arritem) {
-                                                            return (arritem.get('baseUrl') == item.baseUrl || arritem.get('guid') == item.guid);
-                                                        })) return;
+                        if (_.find(arr, function(arritem) {
+                                return (arritem.get('baseUrl') == item.baseUrl || arritem.get('guid') == item.guid);
+                            }) || pluginStore.findWhere({baseUrl: item.baseUrl}) || pluginStore.findWhere({guid: item.guid}))
+                            return;
 
                         var variationsArr = [],
                             pluginVisible = false;
@@ -1934,7 +1940,7 @@ define([
                         this.UICustomizePlugins = arrUI;
 
                     if (!uiCustomize) {
-                        if (pluginStore) pluginStore.reset(arr);
+                        if (pluginStore) pluginStore.add(arr);
                         this.appOptions.canPlugins = !pluginStore.isEmpty();
                     }
                 } else if (!uiCustomize){

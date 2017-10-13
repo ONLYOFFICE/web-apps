@@ -598,6 +598,11 @@ define([
 
                 me.api.SetTextBoxInputMode(Common.localStorage.getBool("pe-settings-inputmode"));
 
+                if (Common.Utils.isChrome) {
+                    value = Common.localStorage.getBool("pe-settings-inputsogou");
+                    me.api.setInputParams({"SogouPinyin" : value});
+                }
+
                 /** coauthoring begin **/
                 if (me.appOptions.isEdit && !me.appOptions.isOffline && me.appOptions.canCoAuthoring) {
                     value = Common.localStorage.getItem("pe-settings-coauthmode");
@@ -1691,9 +1696,10 @@ define([
                 if (plugins) {
                     var arr = [], arrUI = [];
                     plugins.pluginsData.forEach(function(item){
-                        if (uiCustomize!==undefined && _.find(arr, function(arritem) {
-                                                            return (arritem.get('baseUrl') == item.baseUrl || arritem.get('guid') == item.guid);
-                                                        })) return;
+                        if (_.find(arr, function(arritem) {
+                                return (arritem.get('baseUrl') == item.baseUrl || arritem.get('guid') == item.guid);
+                            }) || pluginStore.findWhere({baseUrl: item.baseUrl}) || pluginStore.findWhere({guid: item.guid}))
+                            return;
 
                         var variationsArr = [],
                             pluginVisible = false;
@@ -1739,7 +1745,7 @@ define([
                         this.UICustomizePlugins = arrUI;
 
                     if ( !uiCustomize ) {
-                        if (pluginStore) pluginStore.reset(arr);
+                        if (pluginStore) pluginStore.add(arr);
                         this.appOptions.canPlugins = !pluginStore.isEmpty();
                     }
                 } else if (!uiCustomize){

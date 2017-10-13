@@ -264,6 +264,11 @@ define([
         applySettings: function(menu) {
             this.api.asc_setFontRenderingMode(parseInt(Common.localStorage.getItem("sse-settings-fontrender")));
 
+            if (Common.Utils.isChrome) {
+                value = Common.localStorage.getBool("sse-settings-inputsogou");
+                this.api.setInputParams({"SogouPinyin" : value});
+            }
+
             /** coauthoring begin **/
             var value = Common.localStorage.getItem("sse-settings-livecomment");
             var resolved = Common.localStorage.getItem("sse-settings-resolvedcomment");
