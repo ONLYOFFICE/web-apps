@@ -348,6 +348,7 @@ define([
                     docInfo.put_UserInfo(_user);
                     docInfo.put_CallbackUrl(this.editorConfig.callbackUrl);
                     docInfo.put_Token(data.doc.token);
+                    docInfo.put_Permissions(this.permissions);
 
                     this.headerView.setDocumentCaption(data.doc.title);
                 }
@@ -757,7 +758,7 @@ define([
                             primary: 'buynow',
                             callback: function(btn) {
                                 if (btn == 'buynow')
-                                    window.open('http://www.onlyoffice.com/enterprise-edition.aspx', "_blank");
+                                    window.open('https://www.onlyoffice.com', "_blank");
                                 else if (btn == 'contact')
                                     window.open('mailto:sales@onlyoffice.com', "_blank");
                             }

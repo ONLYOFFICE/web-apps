@@ -2498,7 +2498,7 @@ define([
             textTabLayout: 'Page Layout',
             textTabReview: 'Review',
             capBtnInsShape: 'Shape',
-            capBtnInsTextbox: 'Text',
+            capBtnInsTextbox: 'Text Box',
             capBtnInsTextart: 'Text Art',
             capBtnInsDropcap: 'Drop Cap',
             capBtnInsFootnote: 'Footnotes',
