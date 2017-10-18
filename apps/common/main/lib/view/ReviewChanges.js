@@ -583,7 +583,7 @@ define([
                 if (!this.appConfig.isOffline && this.appConfig.canCoAuthoring) {
                     this.btnCoAuthMode = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'btn-ic-reviewview',
+                        iconCls: 'btn-ic-coedit',
                         caption: this.txtCoAuthMode,
                         menu: true
                     });
