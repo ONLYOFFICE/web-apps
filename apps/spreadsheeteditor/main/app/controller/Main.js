@@ -757,7 +757,7 @@ define([
                             primary: 'buynow',
                             callback: function(btn) {
                                 if (btn == 'buynow')
-                                    window.open('http://www.onlyoffice.com/enterprise-edition.aspx', "_blank");
+                                    window.open('https://www.onlyoffice.com', "_blank");
                                 else if (btn == 'contact')
                                     window.open('mailto:sales@onlyoffice.com', "_blank");
                             }

@@ -549,7 +549,7 @@ define([
                                     text: me.textBuyNow,
                                     bold: true,
                                     onClick: function() {
-                                        window.open('http://www.onlyoffice.com/enterprise-edition.aspx', "_blank");
+                                        window.open('https://www.onlyoffice.com', "_blank");
                                     }
                                 },
                                 {
