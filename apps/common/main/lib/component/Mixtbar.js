@@ -292,13 +292,13 @@ define([
                 var _left_bound_ = Math.round($boxTabs.offset().left),
                     _right_bound_ = Math.round(_left_bound_ + $boxTabs.width());
 
-                var tab = this.$tabs.filter(':first:visible').get(0);
+                var tab = this.$tabs.filter(':visible:first').get(0);
                 if ( !tab ) return false;
 
                 var rect = tab.getBoundingClientRect();
 
                 if ( !(Math.round(rect.left) < _left_bound_) ) {
-                    tab = this.$tabs.filter(':last:visible').get(0);
+                    tab = this.$tabs.filter(':visible:last').get(0);
                     rect = tab.getBoundingClientRect();
 
                     if (!(Math.round(rect.right) > _right_bound_))
