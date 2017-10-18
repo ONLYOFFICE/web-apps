@@ -313,6 +313,7 @@ define([
                     docInfo.put_UserInfo(_user);
                     docInfo.put_CallbackUrl(this.editorConfig.callbackUrl);
                     docInfo.put_Token(data.doc.token);
+                    docInfo.put_Permissions(this.permissions);
                     //docInfo.put_OfflineApp(this.editorConfig.nativeApp === true);
                 }
 
