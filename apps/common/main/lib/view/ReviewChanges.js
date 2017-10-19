@@ -664,29 +664,39 @@ define([
                         );
                         me.btnReject.updateHint([me.tipRejectCurrent, me.txtRejectChanges]);
 
+                        var menuTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem"><div><%= caption %></div>' +
+                            '<% if (options.description !== null) { %><label style="display: block;color: #a5a5a5;cursor: pointer;white-space: normal;"><%= options.description %></label>' +
+                            '<% } %></a>');
+
                         me.btnReviewView.setMenu(
                             new Common.UI.Menu({
                                 cls: 'ppm-toolbar',
                                 items: [
                                     {
-                                        caption: me.txtMarkup,
+                                        caption: me.txtMarkupCap,
                                         checkable: true,
                                         toggleGroup: 'menuReviewView',
                                         checked: true,
-                                        value: 'markup'
+                                        value: 'markup',
+                                        template: menuTemplate,
+                                        description: me.txtMarkup
                                     },
                                     {
-                                        caption: me.txtFinal,
+                                        caption: me.txtFinalCap,
                                         checkable: true,
                                         toggleGroup: 'menuReviewView',
                                         checked: false,
+                                        template: menuTemplate,
+                                        description: me.txtFinal,
                                         value: 'final'
                                     },
                                     {
-                                        caption: me.txtOriginal,
+                                        caption: me.txtOriginalCap,
                                         checkable: true,
                                         toggleGroup: 'menuReviewView',
                                         checked: false,
+                                        template: menuTemplate,
+                                        description: me.txtOriginal,
                                         value: 'original'
                                     }
                                 ]
@@ -705,12 +715,15 @@ define([
                         me.btnCoAuthMode.setMenu(
                             new Common.UI.Menu({
                                 cls: 'ppm-toolbar',
+                                style: 'max-width: 220px;',
                                 items: [
                                     {
                                         caption: me.strFast,
                                         checkable: true,
                                         toggleGroup: 'menuCoauthMode',
                                         checked: true,
+                                        template: menuTemplate,
+                                        description: me.strFastDesc,
                                         value: 1
                                     },
                                     {
@@ -718,6 +731,8 @@ define([
                                         checkable: true,
                                         toggleGroup: 'menuCoauthMode',
                                         checked: false,
+                                        template: menuTemplate,
+                                        description: me.strStrictDesc,
                                         value: 0
                                     }
                                 ]
@@ -927,9 +942,9 @@ define([
             txtAcceptChanges: 'Accept Changes',
             txtRejectChanges: 'Reject Changes',
             txtView: 'Display Mode',
-            txtMarkup: 'All changes (Editing)',
-            txtFinal: 'All changes accepted (Preview)',
-            txtOriginal: 'All changes rejected (Preview)',
+            txtMarkup: 'Text with changes (Editing)',
+            txtFinal: 'All changes like accept (Preview)',
+            txtOriginal: 'Text without changes (Preview)',
             tipReviewView: 'Select the way you want the changes to be displayed',
             tipAcceptCurrent: 'Accept current changes',
             tipRejectCurrent: 'Reject current changes',
@@ -941,7 +956,12 @@ define([
             strStrict: 'Strict',
             txtHistory: 'Version History',
             tipHistory: 'Show version history',
-            txtChat: 'Chat'
+            txtChat: 'Chat',
+            txtMarkupCap: 'Markup',
+            txtFinalCap: 'Final',
+            txtOriginalCap: 'Original',
+            strFastDesc: 'Real-time co-editing. All changes are saved automatically.',
+            strStrictDesc: 'Use the \'Save\' button to sync the changes you and others make.'
         }
     }()), Common.Views.ReviewChanges || {}));
 
