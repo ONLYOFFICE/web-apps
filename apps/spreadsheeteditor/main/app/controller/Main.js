@@ -819,6 +819,7 @@ define([
                     this.appOptions.canRename      = !!this.permissions.rename;
                     this.appOptions.isTrial        = params.asc_getTrial();
                     this.appOptions.canProtect      = this.appOptions.isDesktopApp && this.api.asc_isSignaturesSupport();
+                    this.appOptions.canModifyFilter = (this.permissions.modifyFilter!==false);
 
                     this.appOptions.canBranding  = (licType === Asc.c_oLicenseResult.Success) && (typeof this.editorConfig.customization == 'object');
                     if (this.appOptions.canBranding)
@@ -829,7 +830,8 @@ define([
                         this.updatePlugins(this.plugins, true);
 
                     this.appOptions.canRename && this.headerView.setCanRename(true);
-                }
+                } else
+                    this.appOptions.canModifyFilter = true;
 
                 this.appOptions.canRequestEditRights = this.editorConfig.canRequestEditRights;
                 this.appOptions.canEdit        = this.permissions.edit !== false && // can edit
@@ -971,6 +973,8 @@ define([
                     /** coauthoring end **/
                     if (me.appOptions.isEditDiagram)
                         me.api.asc_registerCallback('asc_onSelectionChanged',        _.bind(me.onSelectionChanged, me));
+
+                    me.api.asc_setFilteringMode(me.appOptions.canModifyFilter);
 
                     if (me.stackLongActions.exist({id: ApplyEditRights, type: Asc.c_oAscAsyncActionType['BlockInteraction']})) {
                         me.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], ApplyEditRights);

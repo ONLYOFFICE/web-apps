@@ -130,7 +130,7 @@ define([
             }
 
             var need_disable = info.asc_getLocked(),
-                need_disable_table = (info.asc_getLockedTable()===true),
+                need_disable_table = (info.asc_getLockedTable()===true || !this.rightmenu.mode.canModifyFilter),
                 need_disable_spark = (info.asc_getLockedSparkline()===true);
 
             this.onFocusObject(SelectedObjects, formatTableInfo, sparkLineInfo, pivotInfo, need_disable, need_disable_table, need_disable_spark);

@@ -43,7 +43,8 @@
                     print: <can print>, // default = true
                     rename: <can rename>, // default = false
                     changeHistory: <can change history>, // default = false
-                    comment: <can comment in view mode> // default = edit
+                    comment: <can comment in view mode> // default = edit,
+                    modifyFilter: <can add, remove and save filter in the spreadsheet> // default = true
                 }
             },
             editorConfig: {

@@ -78,7 +78,8 @@ define([
         cantPrint:      'cant-print',
         multiselect:    'is-multiselect',
         cantHyperlink:  'cant-hyperlink',
-        commentLock: 'can-comment'
+        commentLock:    'can-comment',
+        cantModifyFilter: 'cant-filter'
     };
 
     SSE.Views.Toolbar =  Common.UI.Mixtbar.extend(_.extend({
@@ -684,21 +685,21 @@ define([
                     id          : 'id-toolbar-btn-sort-down',
                     cls         : 'btn-toolbar',
                     iconCls     : 'btn-sort-down',
-                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.editPivot]
+                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.editPivot, _set.cantModifyFilter]
                 });
 
                 me.btnSortUp = new Common.UI.Button({
                     id          : 'id-toolbar-btn-sort-up',
                     cls         : 'btn-toolbar',
                     iconCls     : 'btn-sort-up',
-                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.editPivot]
+                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.editPivot, _set.cantModifyFilter]
                 });
 
                 me.btnSetAutofilter = new Common.UI.Button({
                     id          : 'id-toolbar-btn-setautofilter',
                     cls         : 'btn-toolbar',
                     iconCls     : 'btn-autofilter',
-                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.editPivot],
+                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.editPivot, _set.cantModifyFilter],
                     enableToggle: true
                 });
 
@@ -713,7 +714,7 @@ define([
                     id          : 'id-toolbar-btn-ttempl',
                     cls         : 'btn-toolbar',
                     iconCls     : 'btn-ttempl',
-                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.multiselect],
+                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.multiselect, _set.cantModifyFilter],
                     menu        : new Common.UI.Menu({
                         items: [
                             { template: _.template('<div id="id-toolbar-menu-table-templates" style="width: 288px; height: 300px; margin: 0px 4px;"></div>') }
@@ -894,6 +895,7 @@ define([
                         items : [
                             {
                                 caption : me.txtClearAll,
+                                lock    : [ _set.cantModifyFilter],
                                 value   : Asc.c_oAscCleanOptions.All
                             },
                             {
@@ -903,7 +905,7 @@ define([
                             },
                             {
                                 caption : me.txtClearFormat,
-                                lock    : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.coAuth],
+                                lock    : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.coAuth, _set.cantModifyFilter],
                                 value   : Asc.c_oAscCleanOptions.Format
                             },
                             {
@@ -1139,13 +1141,13 @@ define([
                             me.mnuitemSortAZ = new Common.UI.MenuItem({
                                 caption : me.txtSortAZ,
                                 iconCls : 'mnu-sort-asc',
-                                lock    : [_set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.coAuth, _set.ruleFilter],
+                                lock    : [_set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.coAuth, _set.ruleFilter, _set.cantModifyFilter],
                                 value   : Asc.c_oAscSortOptions.Ascending
                             }),
                             me.mnuitemSortZA = new Common.UI.MenuItem({
                                 caption : me.txtSortZA,
                                 iconCls : 'mnu-sort-desc',
-                                lock    : [_set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.coAuth, _set.ruleFilter],
+                                lock    : [_set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.coAuth, _set.ruleFilter, _set.cantModifyFilter],
                                 value   : Asc.c_oAscSortOptions.Descending
                             }),
                             me.mnuitemAutoFilter = new Common.UI.MenuItem({

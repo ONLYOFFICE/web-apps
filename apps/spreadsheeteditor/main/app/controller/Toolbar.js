@@ -1392,7 +1392,7 @@ define([
             Common.util.Shortcuts.delegateShortcuts({
                 shortcuts: {
                     'command+l,ctrl+l': function(e) {
-                        if ( me.editMode && !me._state.multiselect ) {
+                        if ( me.editMode && !me._state.multiselect && me.appConfig.canModifyFilter) {
                             var cellinfo = me.api.asc_getCellInfo(),
                                 filterinfo = cellinfo.asc_getAutoFilterInfo(),
                                 formattableinfo = cellinfo.asc_getFormatTableInfo();
@@ -1408,9 +1408,10 @@ define([
                         return false;
                     },
                     'command+shift+l,ctrl+shift+l': function(e) {
-                        var state = me._state.filter;
-                        me._state.filter = undefined;
-                        if (me.editMode && me.api && !me._state.multiselect) {
+                        if (me.editMode && me.api && !me._state.multiselect && me.appConfig.canModifyFilter) {
+                            var state = me._state.filter;
+                            me._state.filter = undefined;
+
                             if (me._state.tablename || state)
                                 me.api.asc_changeAutoFilter(me._state.tablename, Asc.c_oAscChangeFilterOptions.filter, !state);
                             else
@@ -2046,6 +2047,11 @@ define([
 
                 need_disable = !!info.asc_getPivotTableInfo();
                 toolbar.lockToolbar(SSE.enumLock.editPivot, need_disable, { array: [toolbar.btnMerge, toolbar.btnInsertHyperlink, toolbar.btnSetAutofilter, toolbar.btnClearAutofilter, toolbar.btnSortDown, toolbar.btnSortUp, toolbar.btnAutofilter]});
+
+                need_disable = !this.appConfig.canModifyFilter;
+                toolbar.lockToolbar(SSE.enumLock.cantModifyFilter, need_disable, { array: [toolbar.btnSortDown, toolbar.btnSortUp, toolbar.mnuitemSortAZ, toolbar.mnuitemSortZA, toolbar.btnSetAutofilter,
+                                                                                   toolbar.btnAutofilter, toolbar.btnTableTemplate, toolbar.btnClearStyle.menu.items[0], toolbar.btnClearStyle.menu.items[2] ]});
+
             }
 
             val = info.asc_getNumFormatInfo();

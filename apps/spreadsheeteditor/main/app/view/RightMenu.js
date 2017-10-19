@@ -223,6 +223,7 @@ define([
         },
 
         setMode: function(mode) {
+            this.mode = mode;
             return this;
         },
 
