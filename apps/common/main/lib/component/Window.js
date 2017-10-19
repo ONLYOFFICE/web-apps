@@ -851,8 +851,8 @@ define([
                             '<div class="resize-border top" style="left: 4px; right: 4px; width: auto; z-index: 2; border-bottom-style:' + ((this.initConfig.header) ? "none" : "solid") + '; cursor: n-resize;"></div>' +
                             '<div class="resize-border right top" style="border-top-right-radius: 5px; cursor: ne-resize;"></div>';
                         if (this.initConfig.header)
-                            bordersTemplate += '<div class="resize-border left" style="top: 5px; height: 28px; cursor: e-resize;"></div>' +
-                                               '<div class="resize-border right" style="top: 5px; height: 28px; cursor: w-resize;"></div>';
+                            bordersTemplate += '<div class="resize-border left" style="top: 5px; height: 28px; cursor: w-resize;"></div>' +
+                                               '<div class="resize-border right" style="top: 5px; height: 28px; cursor: e-resize;"></div>';
 
                         this.$window.append(_.template(bordersTemplate));
 
