@@ -109,6 +109,8 @@ define([
 
             this.cntValidSign = $('#signature-valid-sign');
             this.cntInvalidSign = $('#signature-invalid-sign');
+
+            this.$el.on('click', '.signature-view-link', _.bind(this.onViewSignature, this));
         },
 
         setApi: function(api) {
@@ -170,7 +172,6 @@ define([
             // this.cntInvalidSign.html(this.templateValid({signatures: [{name: 'Mary White', guid: '111', date: '18/05/2017'}, {name: 'John Black', guid: '456', date: '18/05/2017'}], header: this.strInvalid}));
 
             this.$linksView = $('.signature-view-link', this.$el);
-            this.$el.on('click', '.signature-view-link', _.bind(this.onViewSignature, this));
         },
 
         addInvisibleSign: function(btn) {
