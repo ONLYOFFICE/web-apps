@@ -132,6 +132,9 @@ define([
             this.cntRequestedSign = $('#signature-requested-sign');
             this.cntValidSign = $('#signature-valid-sign');
             this.cntInvalidSign = $('#signature-invalid-sign');
+
+            this.$el.on('click', '.signature-sign-link', _.bind(this.onSign, this));
+            this.$el.on('click', '.signature-view-link', _.bind(this.onViewSignature, this));
         },
 
         setApi: function(api) {
@@ -200,8 +203,6 @@ define([
 
             this.$linksSign = $('.signature-sign-link', this.$el);
             this.$linksView = $('.signature-view-link', this.$el);
-            this.$el.on('click', '.signature-sign-link', _.bind(this.onSign, this));
-            this.$el.on('click', '.signature-view-link', _.bind(this.onViewSignature, this));
         },
 
         addVisibleSign: function(btn) {
