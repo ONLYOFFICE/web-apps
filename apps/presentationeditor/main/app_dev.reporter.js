@@ -108,7 +108,7 @@ require([
             docInfo.put_VKey(data.vkey);
             docInfo.put_Options(data.options);
             docInfo.put_Token(data.token);
-            docInfo.put_Permissions( data.doc.permissions);
+            docInfo.put_Permissions( data.permissions);
         }
 
         api.preloadReporter(data);
