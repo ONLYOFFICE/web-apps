@@ -863,7 +863,7 @@ define([
         },
 
         onSelectChart: function(picker, item, record, e) {
-            if (!this.editMode) return;
+            if (!this.editMode || !record) return;
             var me = this,
                 info = me.api.asc_getCellInfo(),
                 type = info.asc_getFlags().asc_getSelectionType(),
@@ -2369,8 +2369,10 @@ define([
 
                 shapePicker.on('item:click', function(picker, item, record, e) {
                     if (me.api) {
-                        me._addAutoshape(true, record.get('data').shapeType);
-                        me._isAddingShape = true;
+                        if (record) {
+                            me._addAutoshape(true, record.get('data').shapeType);
+                            me._isAddingShape = true;
+                        }
 
                         if (me.toolbar.btnInsertText.pressed) {
                             me.toolbar.btnInsertText.toggle(false, true);
@@ -2411,9 +2413,10 @@ define([
 
                 this.toolbar.mnuTextArtPicker.on('item:click',
                     function(picker, item, record, e) {
-                        me.toolbar.fireEvent('inserttextart', me.toolbar);
-                        me.api.asc_addTextArt(record.get('data'));
-
+                        if (record) {
+                            me.toolbar.fireEvent('inserttextart', me.toolbar);
+                            me.api.asc_addTextArt(record.get('data'));
+                        }
                         if ( me.toolbar.btnInsertShape.pressed )
                             me.toolbar.btnInsertShape.toggle(false, true);
 
@@ -2483,7 +2486,8 @@ define([
 
                 equationPicker.on('item:click', function(picker, item, record, e) {
                     if (me.api) {
-                        me.api.asc_AddMath(record.get('data').equationType);
+                        if (record)
+                            me.api.asc_AddMath(record.get('data').equationType);
 
                         if (me.toolbar.btnInsertText.pressed) {
                             me.toolbar.btnInsertText.toggle(false, true);

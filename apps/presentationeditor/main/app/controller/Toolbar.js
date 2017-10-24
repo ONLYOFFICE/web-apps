@@ -805,7 +805,8 @@ define([
 
         onAddSlide: function(picker, item, record) {
             if (this.api) {
-                this.api.AddSlide(record.get('data').idx);
+                if (record)
+                    this.api.AddSlide(record.get('data').idx);
 
                 Common.NotificationCenter.trigger('edit:complete', this.toolbar);
                 Common.component.Analytics.trackEvent('ToolBar', 'Add Slide');
@@ -821,7 +822,8 @@ define([
 
         onChangeSlide: function(picker, item, record) {
             if (this.api) {
-                this.api.ChangeLayout(record.get('data').idx);
+                if (record)
+                    this.api.ChangeLayout(record.get('data').idx);
 
                 Common.NotificationCenter.trigger('edit:complete', this.toolbar);
                 Common.component.Analytics.trackEvent('ToolBar', 'Change Layout');
@@ -1502,6 +1504,8 @@ define([
         },
 
         onSelectChart: function(picker, item, record) {
+            if (!record) return;
+
             var me      = this,
                 type    = record.get('type'),
                 chart = false;
@@ -1541,7 +1545,7 @@ define([
 
         onListThemeSelect: function(combo, record) {
             this._state.themeId = undefined;
-            if (this.api)
+            if (this.api && record)
                 this.api.ChangeTheme(record.get('themeId'));
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
@@ -1769,7 +1773,8 @@ define([
 
                 equationPicker.on('item:click', function(picker, item, record, e) {
                     if (me.api) {
-                        me.api.asc_AddMath(record.get('data').equationType);
+                        if (record)
+                            me.api.asc_AddMath(record.get('data').equationType);
 
                         if (me.toolbar.btnsInsertText.pressed) {
                             me.toolbar.btnsInsertText.toggle(false, true);
