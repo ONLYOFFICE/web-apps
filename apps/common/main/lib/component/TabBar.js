@@ -343,6 +343,8 @@ define([
             this.insert(-1, this.saved);
             delete this.saved;
 
+            Common.Gateway.on('processmouse', _.bind(this.onProcessMouse, this));
+
             this.rendered = true;
             return this;
         },
@@ -359,6 +361,14 @@ define([
                 if (hidden.first) {
                     this.setTabVisible('backward');
                 }
+            }
+        },
+
+        onProcessMouse: function(data) {
+            if (data.type == 'mouseup') {
+                var tab = this.getActive(true);
+                if (tab)
+                    tab.mouseup();
             }
         },
 
