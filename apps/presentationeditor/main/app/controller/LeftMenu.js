@@ -98,6 +98,7 @@ define([
                     'search:next': _.bind(this.onQuerySearch, this, 'next')
                 }
             });
+            Common.NotificationCenter.on('leftmenu:change', _.bind(this.onMenuChange, this));
         },
 
         onLaunch: function() {
@@ -572,6 +573,18 @@ define([
             win.show();
 
             menu.hide();
+        },
+
+        onMenuChange: function (value) {
+            if ('hide' === value) {
+                if (this.leftMenu.btnComments.isActive() && this.api) {
+                    this.leftMenu.btnComments.toggle(false);
+                    this.leftMenu.onBtnMenuClick(this.leftMenu.btnComments);
+
+                    // focus to sdk
+                    this.api.asc_enableKeyEvents(true);
+                }
+            }
         },
 
         textNoTextFound         : 'Text not found',

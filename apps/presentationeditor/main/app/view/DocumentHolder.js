@@ -293,6 +293,10 @@ define([
                             $('ul.dropdown-menu', me.currentMenu.el).focus();
                         }
                     }
+                    if (key == Common.UI.Keys.ESC) {
+                        Common.UI.Menu.Manager.hideAll();
+                        Common.NotificationCenter.trigger('leftmenu:change', 'hide');
+                    }
                 }
             };
 
