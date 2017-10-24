@@ -511,9 +511,10 @@
             });
         };
 
-        var _downloadAs = function() {
+        var _downloadAs = function(data) {
             _sendCommand({
-                command: 'downloadAs'
+                command: 'downloadAs',
+                data: data
             });
         };
 

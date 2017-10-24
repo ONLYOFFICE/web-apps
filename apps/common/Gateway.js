@@ -80,8 +80,8 @@ if (Common === undefined) {
                 $me.trigger('processmailmerge', data);
             },
 
-            'downloadAs': function() {
-                $me.trigger('downloadas');
+            'downloadAs': function(data) {
+                $me.trigger('downloadas', data);
             },
 
             'processMouse': function(data) {

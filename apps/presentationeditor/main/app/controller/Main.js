@@ -356,8 +356,17 @@ define([
                 }
             },
 
-            onDownloadAs: function() {
-               this.api.asc_DownloadAs(Asc.c_oAscFileType.PPTX, true);
+            onDownloadAs: function(format) {
+                var _format = (format && (typeof format == 'string')) ? Asc.c_oAscFileType[ format.toUpperCase() ] : null,
+                    _supported = [
+                        Asc.c_oAscFileType.PPTX,
+                        Asc.c_oAscFileType.ODP,
+                        Asc.c_oAscFileType.PDF
+                    ];
+
+                if ( !_format || _supported.indexOf(_format) < 0 )
+                    _format = Asc.c_oAscFileType.PPTX;
+                this.api.asc_DownloadAs(_format, true);
             },
 
             onProcessMouse: function(data) {

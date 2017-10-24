@@ -364,10 +364,25 @@ define([
                 }
             },
 
-            onDownloadAs: function() {
+            onDownloadAs: function(format) {
                 this._state.isFromGatewayDownloadAs = true;
                 var type = /^(?:(pdf|djvu|xps))$/.exec(this.document.fileType);
-                (type && typeof type[1] === 'string') ? this.api.asc_DownloadOrigin(true) : this.api.asc_DownloadAs(Asc.c_oAscFileType.DOCX, true);
+                if (type && typeof type[1] === 'string')
+                    this.api.asc_DownloadOrigin(true);
+                else {
+                    var _format = (format && (typeof format == 'string')) ? Asc.c_oAscFileType[ format.toUpperCase() ] : null,
+                        _supported = [
+                            Asc.c_oAscFileType.TXT,
+                            Asc.c_oAscFileType.ODT,
+                            Asc.c_oAscFileType.DOCX,
+                            Asc.c_oAscFileType.HTML,
+                            Asc.c_oAscFileType.PDF
+                        ];
+
+                    if ( !_format || _supported.indexOf(_format) < 0 )
+                        _format = Asc.c_oAscFileType.DOCX;
+                    this.api.asc_DownloadAs(_format, true);
+                }
             },
 
             onProcessMouse: function(data) {
