@@ -806,7 +806,7 @@ define([
                     this.appOptions.canComments    = this.appOptions.canComments && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.comments===false);
                     this.appOptions.canChat        = this.appOptions.canLicense && !this.appOptions.isOffline && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.chat===false);
                     this.appOptions.canRename      = !!this.permissions.rename;
-                    this.appOptions.isTrial        = params.asc_getTrial();
+                    this.appOptions.trialMode      = params.asc_getLicenseMode();
 
                     this.appOptions.canBranding  = (licType === Asc.c_oLicenseResult.Success) && (typeof this.editorConfig.customization == 'object');
                     if (this.appOptions.canBranding)

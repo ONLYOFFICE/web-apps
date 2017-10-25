@@ -187,7 +187,7 @@ define([
                 this.leftMenu.btnChat.hide();
                 this.leftMenu.btnComments.hide();
             }
-            this.mode.isTrial && this.leftMenu.setDeveloperMode(true);
+            this.mode.trialMode && this.leftMenu.setDeveloperMode(this.mode.trialMode);
             /** coauthoring end **/
             Common.util.Shortcuts.resumeEvents();
             if (!this.mode.isEditMailMerge && !this.mode.isEditDiagram)
@@ -201,7 +201,7 @@ define([
                 this.leftMenu.setOptionsPanel('plugins', this.getApplication().getController('Common.Controllers.Plugins').getView('Common.Views.Plugins'));
             } else
                 this.leftMenu.btnPlugins.hide();
-            this.mode.isTrial && this.leftMenu.setDeveloperMode(true);
+            this.mode.trialMode && this.leftMenu.setDeveloperMode(this.mode.trialMode);
         },
 
         clickMenuFileItem: function(menu, action, isopts) {
