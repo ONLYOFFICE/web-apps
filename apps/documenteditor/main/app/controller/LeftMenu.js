@@ -191,7 +191,7 @@ define([
             if (this.mode.canUseHistory)
                 this.leftMenu.setOptionsPanel('history', this.getApplication().getController('Common.Controllers.History').getView('Common.Views.History'));
 
-            this.mode.isTrial && this.leftMenu.setDeveloperMode(true);
+            this.mode.trialMode && this.leftMenu.setDeveloperMode(this.mode.trialMode);
 
             Common.util.Shortcuts.resumeEvents();
             return this;
@@ -203,7 +203,7 @@ define([
                 this.leftMenu.setOptionsPanel('plugins', this.getApplication().getController('Common.Controllers.Plugins').getView('Common.Views.Plugins'));
             } else
                 this.leftMenu.btnPlugins.hide();
-            this.mode.isTrial && this.leftMenu.setDeveloperMode(true);
+            this.mode.trialMode && this.leftMenu.setDeveloperMode(this.mode.trialMode);
         },
 
         clickMenuFileItem: function(menu, action, isopts) {

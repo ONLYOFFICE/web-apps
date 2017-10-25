@@ -1014,7 +1014,7 @@ define([
                 this.appOptions.canForcesave   = this.appOptions.isEdit && !this.appOptions.isOffline && (typeof (this.editorConfig.customization) == 'object' && !!this.editorConfig.customization.forcesave);
                 this.appOptions.forcesave      = this.appOptions.canForcesave;
                 this.appOptions.canEditComments= this.appOptions.isOffline || !(typeof (this.editorConfig.customization) == 'object' && this.editorConfig.customization.commentAuthorOnly);
-                this.appOptions.isTrial         = params.asc_getTrial();
+                this.appOptions.trialMode      = params.asc_getLicenseMode();
 
                 if ( this.appOptions.isLightVersion ) {
                     this.appOptions.canUseHistory =
