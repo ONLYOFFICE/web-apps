@@ -629,7 +629,7 @@ define([
                 me.applyModeEditorElements();
 
                 me.api.asc_setViewMode(!me.appOptions.isEdit);
-                (me.appOptions.isEditMailMerge || me.appOptions.isEditDiagram) ? me.api.asc_LoadEmptyDocument() : me.api.asc_LoadDocument();
+                me.api.asc_LoadDocument();
 
                 if (!me.appOptions.isEdit) {
                     me.hidePreloader();
