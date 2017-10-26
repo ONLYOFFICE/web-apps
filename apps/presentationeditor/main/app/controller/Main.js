@@ -142,7 +142,8 @@ define([
                         'Slide subtitle': this.txtSlideSubtitle,
                         'Table': this.txtSldLtTTbl,
                         'Slide title': this.txtSlideTitle,
-                        'Loading': this.txtLoading
+                        'Loading': this.txtLoading,
+                        'Click to add notes': this.txtAddNotes
                     }
                 });
 
@@ -1934,7 +1935,8 @@ define([
             textChangesSaved: 'All changes saved',
             saveTitleText: 'Saving Document',
             saveTextText: 'Saving document...',
-            txtLoading: 'Loading...'
+            txtLoading: 'Loading...',
+            txtAddNotes: 'Click to add notes'
         }
     })(), PE.Controllers.Main || {}))
 });
