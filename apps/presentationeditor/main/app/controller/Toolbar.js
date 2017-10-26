@@ -166,8 +166,8 @@ define([
                     btn_id = cmp.closest('.btn-group').attr('id');
 
                 if (cmp.attr('id') != 'editor_sdk' && cmp_sdk.length<=0) {
-                    if ( me.toolbar.btnsInsertText.pressed && !me.toolbar.btnsInsertText.contains(btn_id) ||
-                            me.toolbar.btnsInsertShape.pressed && !me.toolbar.btnsInsertShape.contains(btn_id) )
+                    if ( me.toolbar.btnsInsertText.pressed() && !me.toolbar.btnsInsertText.contains(btn_id) ||
+                            me.toolbar.btnsInsertShape.pressed() && !me.toolbar.btnsInsertShape.contains(btn_id) )
                     {
                         me._isAddingShape         = false;
 
@@ -176,7 +176,7 @@ define([
                         me.toolbar.btnsInsertText.toggle(false, true);
                         Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                     } else
-                    if ( me.toolbar.btnsInsertShape.pressed && me.toolbar.btnsInsertShape.contains(btn_id) ) {
+                    if ( me.toolbar.btnsInsertShape.pressed() && me.toolbar.btnsInsertShape.contains(btn_id) ) {
                         _.defer(function(){
                             me.api.StartAddShape('', false);
                             Common.NotificationCenter.trigger('edit:complete', me.toolbar);
@@ -188,10 +188,10 @@ define([
             this.onApiEndAddShape = function() {
                 this.toolbar.fireEvent('insertshape', this.toolbar);
 
-                if ( this.toolbar.btnsInsertShape.pressed )
+                if ( this.toolbar.btnsInsertShape.pressed() )
                     this.toolbar.btnsInsertShape.toggle(false, true);
 
-                if ( this.toolbar.btnsInsertText.pressed )
+                if ( this.toolbar.btnsInsertText.pressed() )
                     this.toolbar.btnsInsertText.toggle(false, true);
 
                 $(document.body).off('mouseup', checkInsertAutoshape);
@@ -1382,12 +1382,12 @@ define([
             if ( status == 'begin' ) {
                 this._addAutoshape(true, 'textRect');
 
-                if ( !this.toolbar.btnsInsertText.pressed )
+                if ( !this.toolbar.btnsInsertText.pressed() )
                     this.toolbar.btnsInsertText.toggle(true, true);
             } else
                 this._addAutoshape(false, 'textRect');
 
-            if ( this.toolbar.btnsInsertShape.pressed )
+            if ( this.toolbar.btnsInsertShape.pressed() )
                 this.toolbar.btnsInsertShape.toggle(false, true);
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
@@ -1397,7 +1397,7 @@ define([
         onInsertShape: function (type) {
             var me = this;
             if ( type == 'menu:hide' ) {
-                if ( me.toolbar.btnsInsertShape.pressed && !me._isAddingShape ) {
+                if ( me.toolbar.btnsInsertShape.pressed() && !me._isAddingShape ) {
                     me.toolbar.btnsInsertShape.toggle(false, true);
                 }
                 me._isAddingShape = false;
@@ -1407,7 +1407,7 @@ define([
                 me._addAutoshape(true, type);
                 me._isAddingShape = true;
 
-                if ( me.toolbar.btnsInsertText.pressed )
+                if ( me.toolbar.btnsInsertText.pressed() )
                     me.toolbar.btnsInsertText.toggle(false, true);
 
                 Common.NotificationCenter.trigger('edit:complete', me.toolbar);
@@ -1421,7 +1421,7 @@ define([
             me.toolbar.fireEvent('inserttextart', me.toolbar);
             me.api.AddTextArt(data);
 
-            if ( me.toolbar.btnsInsertShape.pressed )
+            if ( me.toolbar.btnsInsertShape.pressed() )
                 me.toolbar.btnsInsertShape.toggle(false, true);
 
             Common.NotificationCenter.trigger('edit:complete', me.toolbar);
@@ -1771,10 +1771,10 @@ define([
                     if (me.api) {
                         me.api.asc_AddMath(record.get('data').equationType);
 
-                        if (me.toolbar.btnsInsertText.pressed) {
+                        if (me.toolbar.btnsInsertText.pressed()) {
                             me.toolbar.btnsInsertText.toggle(false, true);
                         }
-                        if (me.toolbar.btnsInsertShape.pressed) {
+                        if (me.toolbar.btnsInsertShape.pressed()) {
                             me.toolbar.btnsInsertShape.toggle(false, true);
                         }
 
