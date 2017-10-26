@@ -132,7 +132,18 @@ define([
                         'Diagram Title': this.txtDiagramTitle,
                         'X Axis': this.txtXAxis,
                         'Y Axis': this.txtYAxis,
-                        'Your text here': this.txtArt
+                        'Your text here': this.txtArt,
+                        "Error! Bookmark not defined.": this.txtBookmarkError,
+                        "above": this.txtAbove,
+                        "below": this.txtBelow,
+                        "on page ": this.txtOnPage,
+                        "Header": this.txtHeader,
+                        "Footer": this.txtFooter,
+                        " -Section ": this.txtSection,
+                        "First Page ": this.txtFirstPage,
+                        "Even Page ": this.txtEvenPage,
+                        "Odd Page ": this.txtOddPage,
+                        "Same as Previous": this.txtSameAsPrev
                     };
                 styleNames.forEach(function(item){
                     translate[item] = me.translationTable[item] = me['txtStyle_' + item.replace(/ /g, '_')] || item;
@@ -2147,8 +2158,18 @@ define([
             txtStyle_Intense_Quote: 'Intense Quote',
             txtStyle_List_Paragraph: 'List Paragraph',
             saveTextText: 'Saving document...',
-            saveTitleText: 'Saving Document'
-
+            saveTitleText: 'Saving Document',
+            txtBookmarkError: "Error! Bookmark not defined.",
+            txtAbove: "above",
+            txtBelow: "below",
+            txtOnPage: "on page ",
+            txtHeader: "Header",
+            txtFooter: "Footer",
+            txtSection: " -Section ",
+            txtFirstPage: "First Page ",
+            txtEvenPage: "Even Page ",
+            txtOddPage: "Odd Page ",
+            txtSameAsPrev: "Same as Previous"
         }
     })(), DE.Controllers.Main || {}))
 });
