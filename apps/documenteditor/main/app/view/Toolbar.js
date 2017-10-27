@@ -2507,7 +2507,8 @@ define([
             capImgWrapping: 'Wrapping',
             capBtnComment: 'Comment',
             textColumnsCustom: 'Custom Columns',
-            textSurface: 'Surface'
+            textSurface: 'Surface',
+            textTabCollaboration: 'Collaboration'
         }
     })(), DE.Views.Toolbar || {}));
 });

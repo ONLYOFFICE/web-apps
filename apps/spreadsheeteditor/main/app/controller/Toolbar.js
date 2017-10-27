@@ -2926,10 +2926,17 @@ define([
                 if ( !config.isEditDiagram && !config.isEditMailMerge ) {
                     var tab = {action: 'pivot', caption: me.textPivot};
                     var $panel = me.getApplication().getController('PivotTable').createToolbarPanel();
-
                     if ( $panel ) {
                         me.toolbar.addTab(tab, $panel, 3);
                         me.toolbar.setVisible('pivot', true);
+                    }
+
+                    tab = {action: 'review', caption: me.toolbar.textTabCollaboration};
+                    $panel = SSE.getController('Common.Controllers.ReviewChanges').createToolbarPanel();
+
+                    if ( $panel ) {
+                        me.toolbar.addTab(tab, $panel, 4);
+                        me.toolbar.setVisible('review', true);
                     }
                 }
             });

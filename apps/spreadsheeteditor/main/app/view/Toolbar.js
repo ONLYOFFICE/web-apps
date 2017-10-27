@@ -2068,6 +2068,7 @@ define([
         textTabHome: 'Home',
         textTabInsert: 'Insert',
         textSurface: 'Surface',
-        tipChangeChart: 'Change Chart Type'
+        tipChangeChart: 'Change Chart Type',
+        textTabCollaboration: 'Collaboration'
     }, SSE.Views.Toolbar || {}));
 });

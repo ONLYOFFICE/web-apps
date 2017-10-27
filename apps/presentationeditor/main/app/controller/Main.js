@@ -874,13 +874,16 @@ define([
                         application         = this.getApplication(),
                         toolbarController   = application.getController('Toolbar'),
                         rightmenuController = application.getController('RightMenu'),
-                            fontsControllers    = application.getController('Common.Controllers.Fonts');
+                        fontsControllers    = application.getController('Common.Controllers.Fonts'),
+                        reviewController    = application.getController('Common.Controllers.ReviewChanges');
 
 //                    me.getStore('SlideLayouts');
                     fontsControllers    && fontsControllers.setApi(me.api);
                     toolbarController   && toolbarController.setApi(me.api);
 
                     rightmenuController && rightmenuController.setApi(me.api);
+
+                    reviewController.setMode(me.appOptions).setConfig({config: me.editorConfig}, me.api);
 
                     var viewport = this.getApplication().getController('Viewport').getView('Viewport');
 

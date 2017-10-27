@@ -76,7 +76,8 @@ define([
                     'reviewchange:delete':      _.bind(this.onDeleteClick, this),
                     'reviewchange:preview':     _.bind(this.onBtnPreviewClick, this),
                     'reviewchanges:view':       _.bind(this.onReviewViewClick, this),
-                    'lang:document':            _.bind(this.onDocLanguage, this)
+                    'lang:document':            _.bind(this.onDocLanguage, this),
+                    'collaboration:coauthmode': _.bind(this.onCoAuthMode, this)
                 },
                 'Common.Views.ReviewChangesDialog': {
                     'reviewchange:accept':      _.bind(this.onAcceptClick, this),
@@ -131,7 +132,7 @@ define([
         SetDisabled: function(state) {
             if (this.dlgChanges)
                 this.dlgChanges.close();
-            this.view && this.view.SetDisabled(state);
+            this.view && this.view.SetDisabled(state, this.langs);
         },
 
         onApiShowChange: function (sdkchange) {
@@ -487,7 +488,7 @@ define([
                 state = (state == 'on');
 
                 this.api.asc_SetTrackRevisions(state);
-                Common.localStorage.setItem("de-track-changes", state ? 1 : 0);
+                Common.localStorage.setItem(this.view.appPrefix + "track-changes", state ? 1 : 0);
 
                 this.view.turnChanges(state);
             }
@@ -497,7 +498,7 @@ define([
             state = (state == 'on');
             this.view.turnSpelling(state);
 
-            Common.localStorage.setItem("de-settings-spellcheck", state ? 1 : 0);
+            Common.localStorage.setItem(this.view.appPrefix + "settings-spellcheck", state ? 1 : 0);
             this.api.asc_setSpellCheck(state);
             Common.Utils.InternalSettings.set("de-settings-spellcheck", state);
         },
@@ -520,6 +521,32 @@ define([
             return this._state.previewMode;
         },
 
+        onCoAuthMode: function(menu, item, e) {
+            Common.localStorage.setItem(this.view.appPrefix + "settings-coauthmode", item.value);
+
+            if (this.api) {
+                this.api.asc_SetFastCollaborative(item.value==1);
+
+                if (this.api.SetCollaborativeMarksShowType) {
+                    var value = Common.localStorage.getItem(item.value ? this.view.appPrefix + "settings-showchanges-fast" : this.view.appPrefix + "settings-showchanges-strict");
+                    if (value !== null)
+                        this.api.SetCollaborativeMarksShowType(value == 'all' ? Asc.c_oAscCollaborativeMarksShowType.All :
+                            value == 'none' ? Asc.c_oAscCollaborativeMarksShowType.None : Asc.c_oAscCollaborativeMarksShowType.LastChanges);
+                    else
+                        this.api.SetCollaborativeMarksShowType(item.value ? Asc.c_oAscCollaborativeMarksShowType.None : Asc.c_oAscCollaborativeMarksShowType.LastChanges);
+                }
+
+                value = Common.localStorage.getItem(this.view.appPrefix + "settings-autosave");
+                if (value===null && this.appConfig.customization && this.appConfig.customization.autosave===false)
+                    value = 0;
+                value = (!item.value && value!==null) ? parseInt(value) : 1;
+
+                Common.localStorage.setItem(this.view.appPrefix + "settings-autosave", value);
+                this.api.asc_setAutoSaveGap(value);
+            }
+            Common.NotificationCenter.trigger('edit:complete', this.view);
+        },
+
         disableEditing: function(disable) {
             var app = this.getApplication();
             app.getController('RightMenu').getView('RightMenu').clearSelection();
@@ -537,6 +564,12 @@ define([
 
             if (this.view) {
                 this.view.$el.find('.no-group-mask').css('opacity', 1);
+
+                this.view.btnsDocLang && this.view.btnsDocLang.forEach(function(button) {
+                    if ( button ) {
+                        button.setDisabled(disable || this.langs.length<1);
+                    }
+                }, this);
             }
         },
 
@@ -551,7 +584,7 @@ define([
 
         onAppReady: function (config) {
             var me = this;
-            if ( me.view && Common.localStorage.getBool("de-settings-spellcheck", true) )
+            if ( me.view && Common.localStorage.getBool(me.view.appPrefix + "settings-spellcheck", true) )
                 me.view.turnSpelling(true);
 
             if ( config.canReview ) {
@@ -572,7 +605,7 @@ define([
                         _setReviewStatus(false);
                     } else {
                         me.api.asc_HaveRevisionsChanges() && me.view.markChanges(true);
-                        _setReviewStatus(Common.localStorage.getBool("de-track-changes"));
+                        _setReviewStatus(Common.localStorage.getBool(me.view.appPrefix + "track-changes"));
                     }
 
                     if ( typeof (me.appConfig.customization) == 'object' && (me.appConfig.customization.showReviewChanges==true) ) {
@@ -586,10 +619,19 @@ define([
                     }
                 });
             }
+
+            if (me.view && me.view.btnChat) {
+                me.getApplication().getController('LeftMenu').leftMenu.btnChat.on('toggle', function(btn, state){
+                    if (state !== me.view.btnChat.pressed)
+                        me.view.turnChat(state);
+                });
+
+            }
         },
 
         applySettings: function(menu) {
-            this.view && this.view.turnSpelling( Common.localStorage.getBool("de-settings-spellcheck", true) );
+            this.view && this.view.turnSpelling( Common.localStorage.getBool(this.view.appPrefix + "settings-spellcheck", true) );
+            this.view && this.view.turnCoAuthMode( Common.localStorage.getBool(this.view.appPrefix + "settings-coauthmode", true) );
         },
 
         synchronizeChanges: function() {
@@ -600,7 +642,11 @@ define([
 
         setLanguages: function (array) {
             this.langs = array;
-            this.view.btnDocLang.setDisabled(this.langs.length<1);
+            this.view && this.view.btnsDocLang && this.view.btnsDocLang.forEach(function(button) {
+                if ( button ) {
+                    button.setDisabled(this.langs.length<1);
+                }
+            }, this);
         },
 
         onDocLanguage: function() {
@@ -623,6 +669,10 @@ define([
                     }
                 }
             })).show();
+        },
+
+        onLostEditRights: function() {
+            this.view && this.view.onLostEditRights();
         },
 
         textInserted: '<b>Inserted:</b>',

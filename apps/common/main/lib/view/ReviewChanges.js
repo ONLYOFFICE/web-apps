@@ -412,29 +412,34 @@ define([
     Common.Views.ReviewChanges = Common.UI.BaseView.extend(_.extend((function(){
         var template =
             '<section id="review-changes-panel" class="panel" data-tab="review">' +
-                '<div class="group">' +
-                    '<span id="slot-set-lang" class="btn-slot text x-huge"></span>' +
+                '<div class="group no-group-mask">' +
+                    '<span id="slot-btn-sharing" class="btn-slot text x-huge"></span>' +
+                    '<span id="slot-btn-coauthmode" class="btn-slot text x-huge"></span>' +
                 '</div>' +
-                '<div class="group no-group-mask" style="padding-left: 0;">' +
-                    '<span id="slot-btn-spelling" class="btn-slot text x-huge"></span>' +
-                '</div>' +
-                '<div class="separator long comments"/>' +
+                '<div class="separator long sharing"/>' +
                 '<div class="group">' +
                     '<span class="btn-slot text x-huge slot-comment"></span>' +
                 '</div>' +
-                '<div class="separator long review"/>' +
+                '<div class="separator long comments"/>' +
                 '<div class="group">' +
                     '<span id="btn-review-on" class="btn-slot text x-huge"></span>' +
                 '</div>' +
                 '<div class="group no-group-mask" style="padding-left: 0;">' +
                     '<span id="btn-review-view" class="btn-slot text x-huge"></span>' +
                 '</div>' +
-                '<div class="separator long review"/>' +
-                '<div class="group move-changes">' +
+                '<div class="group move-changes" style="padding-left: 0;">' +
                     '<span id="btn-change-prev" class="btn-slot text x-huge"></span>' +
                     '<span id="btn-change-next" class="btn-slot text x-huge"></span>' +
                     '<span id="btn-change-accept" class="btn-slot text x-huge"></span>' +
                     '<span id="btn-change-reject" class="btn-slot text x-huge"></span>' +
+                '</div>' +
+                '<div class="separator long review"/>' +
+                '<div class="group no-group-mask">' +
+                    '<span id="slot-btn-chat" class="btn-slot text x-huge"></span>' +
+                '</div>' +
+                '<div class="separator long chat"/>' +
+                '<div class="group no-group-mask">' +
+                    '<span id="slot-btn-history" class="btn-slot text x-huge"></span>' +
                 '</div>' +
             '</section>';
 
@@ -489,8 +494,26 @@ define([
                 });
             });
 
-            this.btnDocLang.on('click', function (btn, e) {
-                me.fireEvent('lang:document', this);
+            this.btnsDocLang.forEach(function(button) {
+                button.on('click', function (b, e) {
+                    me.fireEvent('lang:document', this);
+                });
+            });
+
+            this.btnSharing && this.btnSharing.on('click', function (btn, e) {
+                Common.NotificationCenter.trigger('collaboration:sharing');
+            });
+
+            this.btnCoAuthMode && this.btnCoAuthMode.menu.on('item:click', function (menu, item, e) {
+                me.fireEvent('collaboration:coauthmode', [menu, item]);
+            });
+
+            this.btnHistory && this.btnHistory.on('click', function (btn, e) {
+                Common.NotificationCenter.trigger('collaboration:history');
+            });
+
+            this.btnChat && this.btnChat.on('click', function (btn, e) {
+                me.fireEvent('collaboration:chat', [btn.pressed]);
             });
         }
 
@@ -549,20 +572,45 @@ define([
                     });
                 }
 
-                this.btnSetSpelling = new Common.UI.Button({
-                    cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'btn-ic-docspell',
-                    caption: this.txtSpelling,
-                    enableToggle: true
-                });
-                this.btnsSpelling = [this.btnSetSpelling];
+                if (!!this.appConfig.sharingSettingsUrl && this.appConfig.sharingSettingsUrl.length && this._readonlyRights!==true) {
+                    this.btnSharing = new Common.UI.Button({
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'btn-ic-sharing',
+                        caption: this.txtSharing
+                    });
+                }
 
-                this.btnDocLang = new Common.UI.Button({
-                    cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'btn-ic-doclang',
-                    caption: this.txtDocLang,
-                    disabled: true
-                });
+                if (!this.appConfig.isOffline && this.appConfig.canCoAuthoring) {
+                    this.btnCoAuthMode = new Common.UI.Button({
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'btn-ic-coedit',
+                        caption: this.txtCoAuthMode,
+                        menu: true
+                    });
+                }
+
+                this.btnsSpelling = [];
+                this.btnsDocLang = [];
+
+                if (this.appConfig.canUseHistory && !this.appConfig.isDisconnected) {
+                    this.btnHistory = new Common.UI.Button({
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'btn-ic-history',
+                        caption: this.txtHistory
+                    });
+                }
+
+                if (this.appConfig.canCoAuthoring && this.appConfig.canChat) {
+                    this.btnChat = new Common.UI.Button({
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'btn-ic-chat',
+                        caption: this.txtChat,
+                        enableToggle: true
+                    });
+                }
+
+                var filter = Common.localStorage.getKeysFilter();
+                this.appPrefix = (filter && filter.length) ? filter.split(',')[0] : '';
 
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             },
@@ -616,29 +664,39 @@ define([
                         );
                         me.btnReject.updateHint([me.tipRejectCurrent, me.txtRejectChanges]);
 
+                        var menuTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem"><div><%= caption %></div>' +
+                            '<% if (options.description !== null) { %><label style="display: block;color: #a5a5a5;cursor: pointer;white-space: normal;"><%= options.description %></label>' +
+                            '<% } %></a>');
+
                         me.btnReviewView.setMenu(
                             new Common.UI.Menu({
                                 cls: 'ppm-toolbar',
                                 items: [
                                     {
-                                        caption: me.txtMarkup,
+                                        caption: me.txtMarkupCap,
                                         checkable: true,
                                         toggleGroup: 'menuReviewView',
                                         checked: true,
-                                        value: 'markup'
+                                        value: 'markup',
+                                        template: menuTemplate,
+                                        description: me.txtMarkup
                                     },
                                     {
-                                        caption: me.txtFinal,
+                                        caption: me.txtFinalCap,
                                         checkable: true,
                                         toggleGroup: 'menuReviewView',
                                         checked: false,
+                                        template: menuTemplate,
+                                        description: me.txtFinal,
                                         value: 'final'
                                     },
                                     {
-                                        caption: me.txtOriginal,
+                                        caption: me.txtOriginalCap,
                                         checkable: true,
                                         toggleGroup: 'menuReviewView',
                                         checked: false,
+                                        template: menuTemplate,
+                                        description: me.txtOriginal,
                                         value: 'original'
                                     }
                                 ]
@@ -647,20 +705,76 @@ define([
 
                         me.btnAccept.setDisabled(config.isReviewOnly);
                         me.btnReject.setDisabled(config.isReviewOnly);
-                    } else {
-                        me.$el.find('.separator.review')
-                            .hide()
-                            .next('.group').hide();
                     }
 
-                    if ( !config.canComments || !config.canCoAuthoring) {
-                        $('.separator.comments', me.$el)
-                            .hide()
-                            .next('.group').hide();
+                    me.btnSharing && me.btnSharing.updateHint(me.tipSharing);
+                    me.btnHistory && me.btnHistory.updateHint(me.tipHistory);
+                    me.btnChat && me.btnChat.updateHint(me.txtChat + Common.Utils.String.platformKey('Alt+Q'));
+
+                    if (me.btnCoAuthMode) {
+                        me.btnCoAuthMode.setMenu(
+                            new Common.UI.Menu({
+                                cls: 'ppm-toolbar',
+                                style: 'max-width: 220px;',
+                                items: [
+                                    {
+                                        caption: me.strFast,
+                                        checkable: true,
+                                        toggleGroup: 'menuCoauthMode',
+                                        checked: true,
+                                        template: menuTemplate,
+                                        description: me.strFastDesc,
+                                        value: 1
+                                    },
+                                    {
+                                        caption: me.strStrict,
+                                        checkable: true,
+                                        toggleGroup: 'menuCoauthMode',
+                                        checked: false,
+                                        template: menuTemplate,
+                                        description: me.strStrictDesc,
+                                        value: 0
+                                    }
+                                ]
+                            }));
+                        me.btnCoAuthMode.updateHint(me.tipCoAuthMode);
+
+                        var value = Common.localStorage.getItem(me.appPrefix + "settings-coauthmode");
+                        if (value===null && !Common.localStorage.itemExists(me.appPrefix + "settings-autosave") &&
+                            config.customization && config.customization.autosave===false) {
+                            value = 0; // use customization.autosave only when de-settings-coauthmode and de-settings-autosave are null
+                        }
+                        me.turnCoAuthMode((value===null || parseInt(value) == 1) && !(config.isDesktopApp && config.isOffline) && config.canCoAuthoring);
                     }
 
-                    me.btnDocLang.updateHint(me.tipSetDocLang);
-                    me.btnSetSpelling.updateHint(me.tipSetSpelling);
+                    var separator_sharing = !(me.btnSharing || me.btnCoAuthMode) ? me.$el.find('.separator.sharing') : '.separator.sharing',
+                        separator_comments = !(config.canComments && config.canCoAuthoring) ? me.$el.find('.separator.comments') : '.separator.comments',
+                        separator_review = !config.canReview ? me.$el.find('.separator.review') : '.separator.review',
+                        separator_chat = !me.btnChat ? me.$el.find('.separator.chat') : '.separator.chat',
+                        separator_last;
+
+                    if (typeof separator_sharing == 'object')
+                        separator_sharing.hide().prev('.group').hide();
+                    else
+                        separator_last = separator_sharing;
+
+                    if (typeof separator_comments == 'object')
+                        separator_comments.hide().prev('.group').hide();
+                    else
+                        separator_last = separator_comments;
+
+                    if (typeof separator_review == 'object')
+                        separator_review.hide().prevUntil('.separator.comments').hide();
+                    else
+                        separator_last = separator_review;
+
+                    if (typeof separator_chat == 'object')
+                        separator_chat.hide().prev('.group').hide();
+                    else
+                        separator_last = separator_chat;
+
+                    if (!me.btnHistory && separator_last)
+                        me.$el.find(separator_last).hide();
 
                     Common.NotificationCenter.trigger('tab:visible', 'review', true);
 
@@ -680,8 +794,10 @@ define([
                     this.btnReviewView.render(this.$el.find('#btn-review-view'));
                 }
 
-                this.btnSetSpelling.render(this.$el.find('#slot-btn-spelling'));
-                this.btnDocLang.render(this.$el.find('#slot-set-lang'));
+                this.btnSharing && this.btnSharing.render(this.$el.find('#slot-btn-sharing'));
+                this.btnCoAuthMode && this.btnCoAuthMode.render(this.$el.find('#slot-btn-coauthmode'));
+                this.btnHistory && this.btnHistory.render(this.$el.find('#slot-btn-history'));
+                this.btnChat && this.btnChat.render(this.$el.find('#slot-btn-chat'));
 
                 return this.$el;
             },
@@ -728,6 +844,17 @@ define([
                     this.btnsSpelling.push(button);
 
                     return button;
+                } else if (type == 'doclang' && parent == 'statusbar' ) {
+                    button = new Common.UI.Button({
+                        cls: 'btn-toolbar',
+                        iconCls: 'btn-ic-doclang',
+                        hintAnchor  : 'top',
+                        hint: this.tipSetDocLang,
+                        disabled: true
+                    });
+                    this.btnsDocLang.push(button);
+
+                    return button;
                 }
             },
 
@@ -760,10 +887,26 @@ define([
                 }, this);
             },
 
-            SetDisabled: function (state) {
+            turnCoAuthMode: function (fast) {
+                if (this.btnCoAuthMode) {
+                    this.btnCoAuthMode.menu.items[0].setChecked(fast, true);
+                    this.btnCoAuthMode.menu.items[1].setChecked(!fast, true);
+                }
+            },
+
+            turnChat: function (state) {
+                this.btnChat && this.btnChat.toggle(state, true);
+            },
+
+            SetDisabled: function (state, langs) {
                 this.btnsSpelling && this.btnsSpelling.forEach(function(button) {
                     if ( button ) {
                         button.setDisabled(state);
+                    }
+                }, this);
+                this.btnsDocLang && this.btnsDocLang.forEach(function(button) {
+                    if ( button ) {
+                        button.setDisabled(state || langs && langs.length<1);
                     }
                 }, this);
                 this.btnsTurnReview && this.btnsTurnReview.forEach(function(button) {
@@ -771,6 +914,15 @@ define([
                         button.setDisabled(state);
                     }
                 }, this);
+                this.btnChat && this.btnChat.setDisabled(state);
+            },
+
+            onLostEditRights: function() {
+                this._readonlyRights = true;
+                if (!this.rendered)
+                    return;
+
+                 this.btnSharing && this.btnSharing.setDisabled(true);
             },
 
             txtAccept: 'Accept',
@@ -792,12 +944,26 @@ define([
             txtAcceptChanges: 'Accept Changes',
             txtRejectChanges: 'Reject Changes',
             txtView: 'Display Mode',
-            txtMarkup: 'All changes (Editing)',
-            txtFinal: 'All changes accepted (Preview)',
-            txtOriginal: 'All changes rejected (Preview)',
+            txtMarkup: 'Text with changes (Editing)',
+            txtFinal: 'All changes like accept (Preview)',
+            txtOriginal: 'Text without changes (Preview)',
             tipReviewView: 'Select the way you want the changes to be displayed',
             tipAcceptCurrent: 'Accept current changes',
-            tipRejectCurrent: 'Reject current changes'
+            tipRejectCurrent: 'Reject current changes',
+            txtSharing: 'Sharing',
+            tipSharing: 'Manage document access rights',
+            txtCoAuthMode: 'Co-editing Mode',
+            tipCoAuthMode: 'Set co-editing mode',
+            strFast: 'Fast',
+            strStrict: 'Strict',
+            txtHistory: 'Version History',
+            tipHistory: 'Show version history',
+            txtChat: 'Chat',
+            txtMarkupCap: 'Markup',
+            txtFinalCap: 'Final',
+            txtOriginalCap: 'Original',
+            strFastDesc: 'Real-time co-editing. All changes are saved automatically.',
+            strStrictDesc: 'Use the \'Save\' button to sync the changes you and others make.'
         }
     }()), Common.Views.ReviewChanges || {}));
 

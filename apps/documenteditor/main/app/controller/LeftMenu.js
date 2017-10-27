@@ -103,11 +103,18 @@ define([
                     'search:replace': _.bind(this.onQueryReplace, this),
                     'search:replaceall': _.bind(this.onQueryReplaceAll, this),
                     'search:highlight': _.bind(this.onSearchHighlight, this)
+                },
+                'Common.Views.ReviewChanges': {
+                    'collaboration:chat': _.bind(this.onShowHideChat, this)
                 }
             });
 
             Common.NotificationCenter.on('leftmenu:change', _.bind(this.onMenuChange, this));
             Common.NotificationCenter.on('app:comment:add', _.bind(this.onAppAddComment, this));
+            Common.NotificationCenter.on('collaboration:history', _.bind(function () {
+                if ( !this.leftMenu.panelHistory.isVisible() )
+                    this.clickMenuFileItem(null, 'history');
+            }, this));
         },
 
         onLaunch: function() {
@@ -271,7 +278,7 @@ define([
             default: close_menu = false;
             }
 
-            if (close_menu) {
+            if (close_menu && menu) {
                 menu.hide();
             }
         },
@@ -718,7 +725,7 @@ define([
                 win = new Common.Views.SignDialog({
                     api: me.api,
                     signType: 'invisible',
-                    handler: function(dlg, result) {
+                    handler: function (dlg, result) {
                         if (result == 'ok') {
                             var props = dlg.getSettings();
                             me.api.asc_Sign(props.certificateId);
@@ -730,6 +737,18 @@ define([
             win.show();
 
             menu.hide();
+        },
+
+        onShowHideChat: function(state) {
+            if (this.mode.canCoAuthoring && this.mode.canChat && !this.mode.isLightVersion) {
+                if (state) {
+                    Common.UI.Menu.Manager.hideAll();
+                    this.leftMenu.showMenu('chat');
+                } else {
+                    this.leftMenu.btnChat.toggle(false, true);
+                    this.leftMenu.onBtnMenuClick(this.leftMenu.btnChat);
+                }
+            }
         },
 
         textNoTextFound         : 'Text not found',

@@ -19,6 +19,7 @@
                 <div class="caret up img-commonctrl" />
             </div>
         </div>
+        <span id="btn-doc-lang" class="el-edit"></span>
         <span id="btn-doc-spell" class="el-edit"></span>
         <div class="separator short el-edit"></div>
         <div id="btn-doc-review" class="el-edit el-review" style="display: inline-block;"></div>
