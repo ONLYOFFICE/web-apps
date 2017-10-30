@@ -1528,8 +1528,7 @@ define([
                 // Prepare menu container
                 if (pasteContainer.length < 1) {
                     me._arrSpecialPaste = [];
-                    me._arrSpecialPaste[Asc.c_oSpecialPasteProps.sourceformatting] = me.txtPasteSourceFormat;
-                    me._arrSpecialPaste[Asc.c_oSpecialPasteProps.picture] = me.txtPastePicture;
+                    me._arrSpecialPaste[Asc.c_oSpecialPasteProps.paste] = me.textPaste;
                     me._arrSpecialPaste[Asc.c_oSpecialPasteProps.keepTextOnly] = me.txtKeepTextOnly;
 
                     pasteContainer = $('<div id="special-paste-container" style="position: absolute;"><div id="id-document-holder-btn-special-paste"></div></div>');
