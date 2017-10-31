@@ -871,7 +871,8 @@ define([
                 // border colors
                 var stroke = shapeprops.asc_getLine(),
                     strokeType = (stroke) ? stroke.get_type() : null,
-                    borderType;
+                    borderType,
+                    update = (this._state.StrokeColor == 'transparent' && this.BorderColor.Color !== 'transparent'); // border color was changed for shape without line and then shape was reselected (or apply other settings)
 
                 if (stroke) {
                     if ( strokeType == Asc.c_oAscStrokeType.STROKE_COLOR ) {
@@ -896,7 +897,7 @@ define([
                 type1 = typeof(this.BorderColor.Color);
                 type2 = typeof(this._state.StrokeColor);
 
-                if ( (type1 !== type2) || (type1=='object' &&
+                if ( update || (type1 !== type2) || (type1=='object' &&
                     (this.BorderColor.Color.effectValue!==this._state.StrokeColor.effectValue || this._state.StrokeColor.color.indexOf(this.BorderColor.Color.color)<0)) ||
                     (type1!='object' && (this._state.StrokeColor.indexOf(this.BorderColor.Color)<0 || typeof(this.btnBorderColor.color)=='object'))) {
 
