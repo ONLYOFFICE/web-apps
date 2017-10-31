@@ -251,11 +251,6 @@ define([
             if (Common.Utils.isChrome) {
                 value = Common.localStorage.getBool("pe-settings-inputsogou");
                 Common.Utils.InternalSettings.set("pe-settings-inputsogou", value);
-                // window["AscInputMethod"]["SogouPinyin"] = value;
-            }
-
-            if (Common.Utils.isChrome) {
-                value = Common.localStorage.getBool("pe-settings-inputsogou");
                 this.api.setInputParams({"SogouPinyin" : value});
             }
 
