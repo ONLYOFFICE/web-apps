@@ -802,6 +802,8 @@ define([
                     saveTxtReplyId = uids[i] + '-R';
                     comment = this.findComment(saveTxtId);
 
+                    if (!comment) continue;
+
                     if (this.subEditStrings[saveTxtId] && !hint) {
                         comment.set('editTextInPopover', true);
                         text = this.subEditStrings[saveTxtId];
@@ -904,6 +906,8 @@ define([
                             saveTxtId = uids[i];
                             saveTxtReplyId = uids[i] + '-R';
                             comment = this.findComment(saveTxtId);
+
+                            if (!comment) continue;
 
                             if (this.subEditStrings[saveTxtId]) {
                                 comment.set('editTextInPopover', true);
