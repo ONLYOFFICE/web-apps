@@ -281,14 +281,14 @@ define([
                 this.api.asc_pluginRun(record.get('guid'), 0, '');
         },
 
-        onPluginShow: function(plugin, variationIndex) {
+        onPluginShow: function(plugin, variationIndex, frameId) {
             var variation = plugin.get_Variations()[variationIndex];
             if (variation.get_Visual()) {
                 var url = variation.get_Url();
                 url = ((plugin.get_BaseUrl().length == 0) ? url : plugin.get_BaseUrl()) + url;
 
                 if (variation.get_InsideMode()) {
-                    if (!this.panelPlugins.openInsideMode(plugin.get_Name(), url))
+                    if (!this.panelPlugins.openInsideMode(plugin.get_Name(), url, frameId))
                         this.api.asc_pluginButtonClick(-1);
                 } else {
                     var me = this,
@@ -311,6 +311,7 @@ define([
                         width: size[0], // inner width
                         height: size[1], // inner height
                         url: url,
+                        frameId : frameId,
                         buttons: isCustomWindow ? undefined : newBtns,
                         toolcallback: _.bind(this.onToolClose, this)
                     });

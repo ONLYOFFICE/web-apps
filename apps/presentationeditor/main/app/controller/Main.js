@@ -314,6 +314,7 @@ define([
                     docInfo.put_UserInfo(_user);
                     docInfo.put_CallbackUrl(this.editorConfig.callbackUrl);
                     docInfo.put_Token(data.doc.token);
+                    docInfo.put_Permissions(this.permissions);
                     //docInfo.put_OfflineApp(this.editorConfig.nativeApp === true);
                 }
 
@@ -615,8 +616,8 @@ define([
 
                 if (Common.Utils.isChrome) {
                     value = Common.localStorage.getBool("pe-settings-inputsogou");
+                    me.api.setInputParams({"SogouPinyin" : value});
                     Common.Utils.InternalSettings.set("pe-settings-inputsogou", value);
-                    // window["AscInputMethod"]["SogouPinyin"] = value;
                 }
 
                 /** coauthoring begin **/
@@ -753,7 +754,7 @@ define([
                             primary: 'buynow',
                             callback: function(btn) {
                                 if (btn == 'buynow')
-                                    window.open('http://www.onlyoffice.com/enterprise-edition.aspx', "_blank");
+                                    window.open('https://www.onlyoffice.com', "_blank");
                                 else if (btn == 'contact')
                                     window.open('mailto:sales@onlyoffice.com', "_blank");
                             }
@@ -806,7 +807,7 @@ define([
                 this.appOptions.canForcesave   = this.appOptions.isEdit && !this.appOptions.isOffline && (typeof (this.editorConfig.customization) == 'object' && !!this.editorConfig.customization.forcesave);
                 this.appOptions.forcesave      = this.appOptions.canForcesave;
                 this.appOptions.canEditComments= this.appOptions.isOffline || !(typeof (this.editorConfig.customization) == 'object' && this.editorConfig.customization.commentAuthorOnly);
-                this.appOptions.isTrial        = params.asc_getTrial();
+                this.appOptions.trialMode      = params.asc_getLicenseMode();
                 this.appOptions.canProtect      = this.appOptions.isDesktopApp && this.api.asc_isSignaturesSupport();
 
                 this._state.licenseWarning = (licType===Asc.c_oLicenseResult.Connections) && this.appOptions.canEdit && this.editorConfig.mode !== 'view';
@@ -1735,9 +1736,10 @@ define([
                 if (plugins) {
                     var arr = [], arrUI = [];
                     plugins.pluginsData.forEach(function(item){
-                        if (uiCustomize!==undefined && _.find(arr, function(arritem) {
-                                                            return (arritem.get('baseUrl') == item.baseUrl || arritem.get('guid') == item.guid);
-                                                        })) return;
+                        if (_.find(arr, function(arritem) {
+                                return (arritem.get('baseUrl') == item.baseUrl || arritem.get('guid') == item.guid);
+                            }) || pluginStore.findWhere({baseUrl: item.baseUrl}) || pluginStore.findWhere({guid: item.guid}))
+                            return;
 
                         var variationsArr = [],
                             pluginVisible = false;
@@ -1775,7 +1777,7 @@ define([
                         this.UICustomizePlugins = arrUI;
 
                     if ( !uiCustomize ) {
-                        if (pluginStore) pluginStore.reset(arr);
+                        if (pluginStore) pluginStore.add(arr);
                         this.appOptions.canPlugins = !pluginStore.isEmpty();
                     }
                 } else if (!uiCustomize){

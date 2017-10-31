@@ -317,7 +317,8 @@ define([
                 if (data.doc) {
                     this.permissions = $.extend(this.permissions, data.doc.permissions);
 
-                    var _user = new Asc.asc_CUserInfo();
+                    var _permissions = $.extend({}, data.doc.permissions),
+                        _user = new Asc.asc_CUserInfo();
                     _user.put_Id(this.appOptions.user.id);
                     _user.put_FullName(this.appOptions.user.fullname);
 
@@ -331,8 +332,14 @@ define([
                     docInfo.put_UserInfo(_user);
                     docInfo.put_CallbackUrl(this.editorConfig.callbackUrl);
                     docInfo.put_Token(data.doc.token);
+                    docInfo.put_Permissions(_permissions);
 //                    docInfo.put_Review(this.permissions.review);
 //                    docInfo.put_OfflineApp(this.editorConfig.nativeApp === true); // used in sdk for testing
+
+                    var type = /^(?:(pdf|djvu|xps))$/.exec(data.doc.fileType);
+                    if (type && typeof type[1] === 'string') {
+                        this.permissions.edit = this.permissions.review = false;
+                    }
                 }
 
                 this.api.asc_registerCallback('asc_onGetEditorPermissions', _.bind(this.onEditorPermissions, this));
@@ -837,8 +844,8 @@ define([
 
                 if (Common.Utils.isChrome) {
                     value = Common.localStorage.getBool("de-settings-inputsogou");
+                    me.api.setInputParams({"SogouPinyin" : value});
                     Common.Utils.InternalSettings.set("de-settings-inputsogou", value);
-                    // window["AscInputMethod"]["SogouPinyin"] = value;
                 }
 
                 /** coauthoring begin **/
@@ -982,7 +989,7 @@ define([
                             primary: 'buynow',
                             callback: function(btn) {
                                 if (btn == 'buynow')
-                                    window.open('http://www.onlyoffice.com/enterprise-edition.aspx', "_blank");
+                                    window.open('https://www.onlyoffice.com', "_blank");
                                 else if (btn == 'contact')
                                     window.open('mailto:sales@onlyoffice.com', "_blank");
                             }
@@ -1046,7 +1053,7 @@ define([
                 this.appOptions.canForcesave   = this.appOptions.isEdit && !this.appOptions.isOffline && (typeof (this.editorConfig.customization) == 'object' && !!this.editorConfig.customization.forcesave);
                 this.appOptions.forcesave      = this.appOptions.canForcesave;
                 this.appOptions.canEditComments= this.appOptions.isOffline || !(typeof (this.editorConfig.customization) == 'object' && this.editorConfig.customization.commentAuthorOnly);
-                this.appOptions.isTrial         = params.asc_getTrial();
+                this.appOptions.trialMode      = params.asc_getLicenseMode();
                 this.appOptions.canProtect      = this.appOptions.isDesktopApp && this.api.asc_isSignaturesSupport();
 
                 if ( this.appOptions.isLightVersion ) {
@@ -1980,9 +1987,10 @@ define([
                 if (plugins) {
                     var arr = [], arrUI = [];
                     plugins.pluginsData.forEach(function(item){
-                        if (uiCustomize!==undefined && _.find(arr, function(arritem) {
-                                                            return (arritem.get('baseUrl') == item.baseUrl || arritem.get('guid') == item.guid);
-                                                         })) return;
+                        if (_.find(arr, function(arritem) {
+                                return (arritem.get('baseUrl') == item.baseUrl || arritem.get('guid') == item.guid);
+                            }) || pluginStore.findWhere({baseUrl: item.baseUrl}) || pluginStore.findWhere({guid: item.guid}))
+                            return;
 
                         var variationsArr = [],
                             pluginVisible = false;
@@ -2021,7 +2029,7 @@ define([
                         this.UICustomizePlugins = arrUI;
 
                     if ( !uiCustomize ) {
-                        if (pluginStore) pluginStore.reset(arr);
+                        if (pluginStore) pluginStore.add(arr);
                         this.appOptions.canPlugins = !pluginStore.isEmpty();
                     }
                 } else if (!uiCustomize){

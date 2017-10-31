@@ -304,6 +304,7 @@ define([
                 me._Height      = me.cmpEl.height();
                 me._Width       = me.cmpEl.width();
                 me._BodyWidth   = $('body').width();
+                me._XY          = undefined;
 
                 if (me.slideNumDiv) {
                     me.slideNumDiv.remove();

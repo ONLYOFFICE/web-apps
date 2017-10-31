@@ -152,8 +152,8 @@ define([
 
                 if (Common.Utils.isChrome) {
                     value = Common.localStorage.getBool("sse-settings-inputsogou");
+                    this.api.setInputParams({"SogouPinyin" : value});
                     Common.Utils.InternalSettings.set("sse-settings-inputsogou", value);
-                    // window["AscInputMethod"]["SogouPinyin"] = value;
                 }
 
                 this.api.asc_registerCallback('asc_onOpenDocumentProgress',  _.bind(this.onOpenDocument, this));
@@ -353,6 +353,7 @@ define([
                     docInfo.put_UserInfo(_user);
                     docInfo.put_CallbackUrl(this.editorConfig.callbackUrl);
                     docInfo.put_Token(data.doc.token);
+                    docInfo.put_Permissions(this.permissions);
 
                     this.headerView.setDocumentCaption(data.doc.title);
                 }
@@ -779,7 +780,7 @@ define([
                             primary: 'buynow',
                             callback: function(btn) {
                                 if (btn == 'buynow')
-                                    window.open('http://www.onlyoffice.com/enterprise-edition.aspx', "_blank");
+                                    window.open('https://www.onlyoffice.com', "_blank");
                                 else if (btn == 'contact')
                                     window.open('mailto:sales@onlyoffice.com', "_blank");
                             }
@@ -827,7 +828,7 @@ define([
                     this.appOptions.canComments    = this.appOptions.canComments && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.comments===false);
                     this.appOptions.canChat        = this.appOptions.canLicense && !this.appOptions.isOffline && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.chat===false);
                     this.appOptions.canRename      = !!this.permissions.rename;
-                    this.appOptions.isTrial        = params.asc_getTrial();
+                    this.appOptions.trialMode      = params.asc_getLicenseMode();
                     this.appOptions.canProtect      = this.appOptions.isDesktopApp && this.api.asc_isSignaturesSupport();
                     this.appOptions.canModifyFilter = (this.permissions.modifyFilter!==false);
 
@@ -868,7 +869,7 @@ define([
 
                 this.api.asc_setViewMode(!this.appOptions.isEdit && !this.appOptions.canComments);
                 (!this.appOptions.isEdit && this.appOptions.canComments) && this.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyComments);
-                (this.appOptions.isEditMailMerge || this.appOptions.isEditDiagram) ? this.api.asc_LoadEmptyDocument() : this.api.asc_LoadDocument();
+                this.api.asc_LoadDocument();
             },
 
             applyModeCommonElements: function() {
@@ -1924,9 +1925,10 @@ define([
                 if (plugins) {
                     var arr = [], arrUI = [];
                     plugins.pluginsData.forEach(function(item){
-                        if (uiCustomize!==undefined && _.find(arr, function(arritem) {
-                                                            return (arritem.get('baseUrl') == item.baseUrl || arritem.get('guid') == item.guid);
-                                                        })) return;
+                        if (_.find(arr, function(arritem) {
+                                return (arritem.get('baseUrl') == item.baseUrl || arritem.get('guid') == item.guid);
+                            }) || pluginStore.findWhere({baseUrl: item.baseUrl}) || pluginStore.findWhere({guid: item.guid}))
+                            return;
 
                         var variationsArr = [],
                             pluginVisible = false;
@@ -1964,7 +1966,7 @@ define([
                         this.UICustomizePlugins = arrUI;
 
                     if (!uiCustomize) {
-                        if (pluginStore) pluginStore.reset(arr);
+                        if (pluginStore) pluginStore.add(arr);
                         this.appOptions.canPlugins = !pluginStore.isEmpty();
                     }
                 } else if (!uiCustomize){
