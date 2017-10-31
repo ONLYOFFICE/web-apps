@@ -99,6 +99,8 @@ define([
 
                     me.btnSpelling = review.getButton('spelling', 'statusbar');
                     me.btnSpelling.render( me.statusbar.$layout.find('#btn-doc-spell') );
+                    me.btnDocLang = review.getButton('doclang', 'statusbar');
+                    me.btnDocLang.render( me.statusbar.$layout.find('#btn-doc-lang') );
                 } else {
                     me.statusbar.$el.find('.el-edit, .el-review').hide();
                 }

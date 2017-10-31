@@ -106,7 +106,14 @@ Common.Locale = new(function() {
             l10n = eval("(" + xhrObj.responseText + ")");
         }
     }
-    catch (e) {        
+    catch (e) {
+        try {
+            xhrObj.open('GET', 'locale/en.json', false);
+            xhrObj.send('');
+            l10n = eval("(" + xhrObj.responseText + ")");
+        }
+        catch (e) {
+        }
     }
 
     return {

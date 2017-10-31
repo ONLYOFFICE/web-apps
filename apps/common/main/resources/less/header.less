@@ -100,8 +100,16 @@
         border: 0 none;
         cursor: default;
 
-        &:focus {
+        &:hover:not(:disabled) {
+            border: 1px solid @gray-dark;
+            background-color: rgba(255,255,255,0.2);
+        }
+
+        &:focus:not(:active) {
+            border: 1px solid @gray-dark;
             cursor: text;
+            background-color: white;
+            color: @gray-deep;
         }
         width: 100%;
     }
@@ -217,7 +225,7 @@
         .name {
             display: block;
             padding-left: 16px;
-            margin-top: -3px;
+            margin-top: -5px;
             white-space: nowrap;
             text-overflow: ellipsis;
             vertical-align: middle;

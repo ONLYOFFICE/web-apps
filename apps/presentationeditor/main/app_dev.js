@@ -146,6 +146,7 @@ require([
             /** coauthoring end **/
             ,'Common.Controllers.Plugins'
             ,'Common.Controllers.ExternalDiagramEditor'
+            ,'Common.Controllers.ReviewChanges'
         ]
     });
 
@@ -176,6 +177,7 @@ require([
         'common/main/lib/controller/Plugins',
         'presentationeditor/main/app/view/ChartSettings',
         'common/main/lib/controller/ExternalDiagramEditor'
+        ,'common/main/lib/controller/ReviewChanges'
     ], function() {
         window.compareVersions = true;
         app.start();

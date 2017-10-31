@@ -101,7 +101,9 @@ Common.Utils = _.extend(new(function() {
             Shape      : 5,
             Slide      : 6,
             Chart      : 7,
-            MailMerge  : 8
+            MailMerge  : 8,
+            Signature  : 9,
+            Pivot      : 10
         },
         isMobile = /android|avantgo|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od|ad)|iris|kindle|lge |maemo|midp|mmp|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i.test(navigator.userAgent || navigator.vendor || window.opera),
         me = this,
@@ -700,7 +702,23 @@ Common.Utils.createXhr = function () {
     }
 
     return xmlhttp;
-}
+};
+
+Common.Utils.getConfigJson = function (url) {
+    if ( url ) {
+        try {
+            var xhrObj = Common.Utils.createXhr();
+            if ( xhrObj ) {
+                xhrObj.open('GET', url, false);
+                xhrObj.send('');
+
+                return JSON.parse(xhrObj.responseText);
+            }
+        } catch (e) {}
+    }
+
+    return null;
+};
 
 Common.Utils.getConfigJson = function (url) {
     if ( url ) {
@@ -724,7 +742,7 @@ Common.Utils.asyncCall = function (callback, scope, args) {
     })).then(function () {
         callback.call(scope, args);
     });
-}
+};
 
 // Extend javascript String type
 String.prototype.strongMatch = function(regExp){
@@ -735,3 +753,19 @@ String.prototype.strongMatch = function(regExp){
 
     return false;
 };
+
+Common.Utils.InternalSettings = new(function() {
+    var settings = {};
+
+    var _get = function(name) {
+        return settings[name];
+    },
+    _set = function(name, value) {
+        settings[name] = value;
+    };
+
+    return {
+        get: _get,
+        set: _set
+    }
+});

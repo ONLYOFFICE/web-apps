@@ -33,6 +33,8 @@
 define([
     'core',
     'common/main/lib/util/Shortcuts',
+    'common/main/lib/view/SignSettingsDialog',
+    'common/main/lib/view/SignDialog',
     'spreadsheeteditor/main/app/view/LeftMenu',
     'spreadsheeteditor/main/app/view/FileMenu'
 ], function () {
@@ -73,7 +75,9 @@ define([
                     'saveas:format': _.bind(this.clickSaveAsFormat, this),
                     'settings:apply': _.bind(this.applySettings, this),
                     'create:new': _.bind(this.onCreateNew, this),
-                    'recent:open': _.bind(this.onOpenRecent, this)
+                    'recent:open': _.bind(this.onOpenRecent, this),
+                    'signature:visible': _.bind(this.addVisibleSign, this),
+                    'signature:invisible': _.bind(this.addInvisibleSign, this)
                 },
                 'Toolbar': {
                     'file:settings': _.bind(this.clickToolbarSettings,this),
@@ -86,6 +90,9 @@ define([
                     'search:next': _.bind(this.onQuerySearch, this, 'next'),
                     'search:replace': _.bind(this.onQueryReplace, this),
                     'search:replaceall': _.bind(this.onQueryReplaceAll, this)
+                },
+                'Common.Views.ReviewChanges': {
+                    'collaboration:chat': _.bind(this.onShowHideChat, this)
                 }
             });
             Common.NotificationCenter.on('app:comment:add', _.bind(this.onAppAddComment, this));
@@ -262,7 +269,15 @@ define([
         },
 
         applySettings: function(menu) {
-            this.api.asc_setFontRenderingMode(parseInt(Common.localStorage.getItem("sse-settings-fontrender")));
+            var value = Common.localStorage.getItem("sse-settings-fontrender");
+            Common.Utils.InternalSettings.set("sse-settings-fontrender", value);
+            this.api.asc_setFontRenderingMode(parseInt(value));
+
+            if (Common.Utils.isChrome) {
+                value = Common.localStorage.getBool("sse-settings-inputsogou");
+                Common.Utils.InternalSettings.set("sse-settings-inputsogou", value);
+                // window["AscInputMethod"]["SogouPinyin"] = value;
+            }
 
             if (Common.Utils.isChrome) {
                 value = Common.localStorage.getBool("sse-settings-inputsogou");
@@ -270,23 +285,30 @@ define([
             }
 
             /** coauthoring begin **/
-            var value = Common.localStorage.getItem("sse-settings-livecomment");
-            var resolved = Common.localStorage.getItem("sse-settings-resolvedcomment");
-            (!(value!==null && parseInt(value) == 0)) ? this.api.asc_showComments(!(resolved!==null && parseInt(resolved) == 0)) : this.api.asc_hideComments();
-//            this.getApplication().getController('DocumentHolder').setLiveCommenting(!(value!==null && parseInt(value) == 0));
+            value = Common.localStorage.getBool("sse-settings-livecomment", true);
+            Common.Utils.InternalSettings.set("sse-settings-livecomment", value);
+            var resolved = Common.localStorage.getBool("sse-settings-resolvedcomment", true);
+            Common.Utils.InternalSettings.set("sse-settings-resolvedcomment", resolved);
+
+            if (this.mode.canComments && this.leftMenu.panelComments.isVisible())
+                value = resolved = true;
+            (value) ? this.api.asc_showComments(resolved) : this.api.asc_hideComments();
 
             if (this.mode.isEdit && !this.mode.isOffline && this.mode.canCoAuthoring) {
-                value = Common.localStorage.getItem("sse-settings-coauthmode");
-                this.api.asc_SetFastCollaborative(value===null || parseInt(value) == 1);
+                value = Common.localStorage.getBool("sse-settings-coauthmode", true);
+                Common.Utils.InternalSettings.set("sse-settings-coauthmode", value);
+                this.api.asc_SetFastCollaborative(value);
             }
             /** coauthoring end **/
 
             if (this.mode.isEdit) {
-                value = Common.localStorage.getItem("sse-settings-autosave");
-                this.api.asc_setAutoSaveGap(parseInt(value));
+                value = parseInt(Common.localStorage.getItem("sse-settings-autosave"));
+                Common.Utils.InternalSettings.set("sse-settings-autosave", value);
+                this.api.asc_setAutoSaveGap(value);
             }
 
             value = Common.localStorage.getItem("sse-settings-func-locale");
+            Common.Utils.InternalSettings.set("sse-settings-func-locale", value);
             if (value) value = SSE.Views.FormulaLang.get(value);
             if (value!==null) this.api.asc_setLocalization(value);
 
@@ -583,12 +605,11 @@ define([
 
         commentsShowHide: function(state) {
             if (this.api) {
-                var value = Common.localStorage.getItem("sse-settings-livecomment"),
-                    resolved = Common.localStorage.getItem("sse-settings-resolvedcomment");
-                value = (value!==null && parseInt(value) == 0);
-                resolved = (resolved!==null && parseInt(resolved) == 0);
-                if (value || resolved) {
-                    (state) ? this.api.asc_showComments(true) : ((!value) ? this.api.asc_showComments(!resolved) : this.api.asc_hideComments());
+                var value = Common.Utils.InternalSettings.get("sse-settings-livecomment"),
+                    resolved = Common.Utils.InternalSettings.get("sse-settings-resolvedcomment");
+
+                if (!value || !resolved) {
+                    (state) ? this.api.asc_showComments(true) : ((value) ? this.api.asc_showComments(resolved) : this.api.asc_hideComments());
                 }
 
                 if (state) {
@@ -751,15 +772,62 @@ define([
         },
 
         onPluginOpen: function(panel, type, action) {
-            if ( type == 'onboard' ) {
-                if ( action == 'open' ) {
+            if (type == 'onboard') {
+                if (action == 'open') {
                     this.leftMenu.close();
                     this.leftMenu.panelPlugins.show();
-                    this.leftMenu.onBtnMenuClick({pressed:true, options: {action: 'plugins'}});
+                    this.leftMenu.onBtnMenuClick({pressed: true, options: {action: 'plugins'}});
                     this.leftMenu._state.pluginIsRunning = true;
                 } else {
                     this.leftMenu._state.pluginIsRunning = false;
                     this.leftMenu.close();
+                }
+            }
+        },
+
+        addVisibleSign: function(menu) {
+            var me = this,
+                win = new Common.Views.SignSettingsDialog({
+                    handler: function(dlg, result) {
+                        if (result == 'ok') {
+                            me.api.asc_AddSignatureLine2(dlg.getSettings());
+                        }
+                        Common.NotificationCenter.trigger('edit:complete', me);
+                    }
+                });
+
+            win.show();
+
+            menu.hide();
+        },
+
+        addInvisibleSign: function(menu) {
+            var me = this,
+                win = new Common.Views.SignDialog({
+                    api: me.api,
+                    signType: 'invisible',
+                    handler: function(dlg, result) {
+                        if (result == 'ok') {
+                            var props = dlg.getSettings();
+                            me.api.asc_Sign(props.certificateId);
+                        }
+                        Common.NotificationCenter.trigger('edit:complete', me);
+                    }
+                });
+
+            win.show();
+
+            menu.hide();
+        },
+
+        onShowHideChat: function(state) {
+            if (this.mode.canCoAuthoring && this.mode.canChat && !this.mode.isLightVersion) {
+                if (state) {
+                    Common.UI.Menu.Manager.hideAll();
+                    this.leftMenu.showMenu('chat');
+                } else {
+                    this.leftMenu.btnChat.toggle(false, true);
+                    this.leftMenu.onBtnMenuClick(this.leftMenu.btnChat);
                 }
             }
         },

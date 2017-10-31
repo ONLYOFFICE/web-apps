@@ -228,7 +228,7 @@ define([
         fillFormulasGroups: function () {
             if (this.formulasGroups) {
 
-                var lang = Common.localStorage.getItem("sse-settings-func-locale");
+                var lang = Common.Utils.InternalSettings.get("sse-settings-func-locale");
                 if (_.isEmpty(lang)) lang = 'en';
 
                 var i, groupsListItems = [], length =  this.formulasGroups.length;

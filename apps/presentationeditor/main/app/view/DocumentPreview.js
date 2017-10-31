@@ -227,9 +227,17 @@ define([
                     }
                 }
             );
+
+            this.previewControls = $(this.el).find('.preview-controls');
+
             $(document).on("webkitfullscreenchange mozfullscreenchange fullscreenchange MSFullscreenChange",function(){
                 var fselem = (document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement || document.msFullscreenElement );
                 me.btnFullScreen.cmpEl.toggleClass('fullscreen', fselem !== undefined && fselem !== null);
+
+                setTimeout( function() {
+                    me.previewControls.css('display', '');
+                    me.$el.css('cursor', '');
+                },100);
 
                 if (Common.Utils.isIE) { // for tooltips in IE
                     me.btnFullScreen.updateHint( fselem ? '' : me.txtFullScreen);
@@ -242,18 +250,17 @@ define([
             });
 
             if (Common.Utils.isIE) {
-                el.find('.preview-controls').css('opacity', '0.4');
+                me.previewControls.css('opacity', '0.4');
             }
 
             this.separatorFullScreen = el.find('.separator.fullscreen');
 
-            var controls = $(this.el).find('.preview-controls');
-            controls.on('mouseenter', function(e) {
+            me.previewControls.on('mouseenter', function(e) {
                 clearTimeout(me.timerMove);
-                controls.addClass('over');
+                me.previewControls.addClass('over');
             });
-            controls.on('mouseleave', function(e) {
-                controls.removeClass('over');
+            me.previewControls.on('mouseleave', function(e) {
+                me.previewControls.removeClass('over');
             });
         },
 
@@ -274,18 +281,17 @@ define([
             }
 
             var me = this;
-            var controls = $(this.el).find('.preview-controls');
-            controls.css('display', 'none');
+            me.previewControls.css('display', 'none');
             me.$el.css('cursor', 'none');
 
             setTimeout(function(){
                 me.$el.on('mousemove', function() {
                     clearTimeout(me.timerMove);
-                    controls.css('display', '');
+                    me.previewControls.css('display', '');
                     me.$el.css('cursor', '');
-                    if (!controls.hasClass('over'))
+                    if (!me.previewControls.hasClass('over'))
                         me.timerMove = setTimeout(function () {
-                            controls.css('display', 'none');
+                            me.previewControls.css('display', 'none');
                             me.$el.css('cursor', 'none');
                         }, 3000);
 
@@ -374,6 +380,8 @@ define([
         fullScreen: function(element) {
             if (this.mode.isDesktopApp || Common.Utils.isIE11) return;
             if (element) {
+                this.previewControls.css('display', 'none');
+                this.$el.css('cursor', 'none');
                 if(element.requestFullscreen) {
                     element.requestFullscreen();
                 } else if(element.webkitRequestFullscreen) {
@@ -388,6 +396,8 @@ define([
 
         fullScreenCancel: function () {
             if (this.mode.isDesktopApp || Common.Utils.isIE11) return;
+            this.previewControls.css('display', 'none');
+            this.$el.css('cursor', 'none');
             if(document.cancelFullScreen) {
                 document.cancelFullScreen();
             } else if(document.webkitCancelFullScreen ) {

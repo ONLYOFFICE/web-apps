@@ -125,6 +125,9 @@ define(['gateway'], function () {
             setKeysFilter: function(value) {
                 _filter = value;
             },
+            getKeysFilter: function() {
+                return _filter;
+            },
             itemExists: _getItemExists,
             sync: _refresh,
             save: _save

@@ -8,6 +8,7 @@
     <li id="fm-btn-save-desktop" class="fm-btn" />
     <li id="fm-btn-print" class="fm-btn" />
     <li id="fm-btn-rename" class="fm-btn" />
+    <li id="fm-btn-protect" class="fm-btn" />
     <li class="devider" />
     <li id="fm-btn-recent" class="fm-btn" />
     <li id="fm-btn-create" class="fm-btn" />
@@ -30,4 +31,5 @@
     <div id="panel-rights" class="content-box" />
     <div id="panel-settings" class="content-box" />
     <div id="panel-help" class="content-box" />
+    <div id="panel-protect" class="content-box" />
 </div>

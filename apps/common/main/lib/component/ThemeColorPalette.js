@@ -146,6 +146,11 @@ define([
         updateCustomColors: function() {
             var el = $(this.el);
             if (el) {
+                var selected = el.find('a.' + this.selectedCls),
+                    color = (selected.length>0 && /color-dynamic/.test(selected[0].className)) ? selected.attr('color') : undefined;
+                if (color) color = color.toUpperCase();
+                selected.removeClass(this.selectedCls);
+
                 var colors = Common.localStorage.getItem('asc.'+Common.localStorage.getId()+'.colors.custom');
                 colors = colors ? colors.split(',') : [];
 
@@ -156,6 +161,10 @@ define([
                     colorEl.find('span').css({
                         'background-color': '#'+colors[i]
                     });
+                    if (colors[i] == color) {
+                        colorEl.addClass(this.selectedCls);
+                        color = undefined; //select only first found color
+                    }
                 }
             }
         },

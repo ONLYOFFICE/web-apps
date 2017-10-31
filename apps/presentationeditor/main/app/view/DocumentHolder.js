@@ -38,6 +38,7 @@ define([
     'common/main/lib/util/utils',
     'common/main/lib/component/Menu',
     'common/main/lib/view/CopyWarningDialog',
+    'common/main/lib/view/SignDialog',
     'presentationeditor/main/app/view/HyperlinkSettingsDialog',
 //    'common/main/lib/view/InsertTableDialog',
     'presentationeditor/main/app/view/ParagraphSettingsAdvanced',
@@ -291,6 +292,10 @@ define([
                             key == Common.UI.Keys.DOWN) {
                             $('ul.dropdown-menu', me.currentMenu.el).focus();
                         }
+                    }
+                    if (key == Common.UI.Keys.ESC) {
+                        Common.UI.Menu.Manager.hideAll();
+                        Common.NotificationCenter.trigger('leftmenu:change', 'hide');
                     }
                 }
             };
@@ -676,6 +681,36 @@ define([
                         diagramEditor.setChartData(new Asc.asc_CChartBinary(chart));
                     }
                 }
+            };
+
+            var onSignatureClick = function(guid, width, height) {
+                if (_.isUndefined(me.fontStore)) {
+                    me.fontStore = new Common.Collections.Fonts();
+                    var fonts = PE.getController('Toolbar').getView('Toolbar').cmbFontName.store.toJSON();
+                    var arr = [];
+                    _.each(fonts, function(font, index){
+                        if (!font.cloneid) {
+                            arr.push(_.clone(font));
+                        }
+                    });
+                    me.fontStore.add(arr);
+                }
+
+                var win = new Common.Views.SignDialog({
+                    api: me.api,
+                    signType: 'visible',
+                    fontStore: me.fontStore,
+                    signSize: {width: width, height: height},
+                    handler: function(dlg, result) {
+                        if (result == 'ok') {
+                            var props = dlg.getSettings();
+                            me.api.asc_Sign(props.certificateId, guid, props.images[0], props.images[1]);
+                        }
+                        me.fireEvent('editcomplete', me);
+                    }
+                });
+
+                win.show();
             };
 
             var onTextLanguage = function(langid) {
@@ -1486,6 +1521,65 @@ define([
                 me._state.themeLock = false;
             };
 
+            var onShowSpecialPasteOptions = function(specialPasteShowOptions) {
+                var coord  = specialPasteShowOptions.asc_getCellCoord(),
+                    pasteContainer = me.cmpEl.find('#special-paste-container'),
+                    pasteItems = specialPasteShowOptions.asc_getOptions();
+
+                // Prepare menu container
+                if (pasteContainer.length < 1) {
+                    me._arrSpecialPaste = [];
+                    me._arrSpecialPaste[Asc.c_oSpecialPasteProps.paste] = me.textPaste;
+                    me._arrSpecialPaste[Asc.c_oSpecialPasteProps.keepTextOnly] = me.txtKeepTextOnly;
+
+                    pasteContainer = $('<div id="special-paste-container" style="position: absolute;"><div id="id-document-holder-btn-special-paste"></div></div>');
+                    me.cmpEl.append(pasteContainer);
+
+                    me.btnSpecialPaste = new Common.UI.Button({
+                        cls         : 'btn-toolbar',
+                        iconCls     : 'btn-paste',
+                        menu        : new Common.UI.Menu({items: []})
+                    });
+                    me.btnSpecialPaste.render($('#id-document-holder-btn-special-paste')) ;
+                }
+
+                if (pasteItems.length>0) {
+                    var menu = me.btnSpecialPaste.menu;
+                    for (var i = 0; i < menu.items.length; i++) {
+                        menu.removeItem(menu.items[i]);
+                        i--;
+                    }
+
+                    var group_prev = -1;
+                    _.each(pasteItems, function(menuItem, index) {
+                        var mnu = new Common.UI.MenuItem({
+                            caption: me._arrSpecialPaste[menuItem],
+                            value: menuItem,
+                            checkable: true,
+                            toggleGroup : 'specialPasteGroup'
+                        }).on('click', function(item, e) {
+                            me.api.asc_SpecialPaste(item.value);
+                            setTimeout(function(){menu.hide();}, 100);
+                        });
+                        menu.addItem(mnu);
+                    });
+                    (menu.items.length>0) && menu.items[0].setChecked(true, true);
+                }
+                if (coord.asc_getX()<0 || coord.asc_getY()<0) {
+                    if (pasteContainer.is(':visible')) pasteContainer.hide();
+                } else {
+                    var showPoint = [coord.asc_getX() + coord.asc_getWidth() + 3, coord.asc_getY() + coord.asc_getHeight() + 3];
+                    pasteContainer.css({left: showPoint[0], top : showPoint[1]});
+                    pasteContainer.show();
+                }
+            };
+
+            var onHideSpecialPasteOptions = function() {
+                var pasteContainer = me.cmpEl.find('#special-paste-container');
+                if (pasteContainer.is(':visible'))
+                    pasteContainer.hide();
+            };
+
             this.setApi = function(o) {
                 me.api = o;
 
@@ -1507,6 +1601,9 @@ define([
                         me.api.asc_registerCallback('asc_onDialogAddHyperlink', _.bind(onDialogAddHyperlink, me));
                         me.api.asc_registerCallback('asc_doubleClickOnChart', onDoubleClickOnChart);
                         me.api.asc_registerCallback('asc_onSpellCheckVariantsFound',  _.bind(onSpellCheckVariantsFound, me));
+                        me.api.asc_registerCallback('asc_onShowSpecialPasteOptions',  _.bind(onShowSpecialPasteOptions, me));
+                        me.api.asc_registerCallback('asc_onHideSpecialPasteOptions',  _.bind(onHideSpecialPasteOptions, me));
+
                     }
                     me.api.asc_registerCallback('asc_onCoAuthoringDisconnect',  _.bind(onCoAuthoringDisconnect, me));
                     Common.NotificationCenter.on('api:disconnect',              _.bind(onCoAuthoringDisconnect, me));
@@ -1518,6 +1615,7 @@ define([
                     me.api.asc_registerCallback('asc_onUpdateThemeIndex',       _.bind(onApiUpdateThemeIndex, me));
                     me.api.asc_registerCallback('asc_onLockDocumentTheme',      _.bind(onApiLockDocumentTheme, me));
                     me.api.asc_registerCallback('asc_onUnLockDocumentTheme',    _.bind(onApiUnLockDocumentTheme, me));
+                    me.api.asc_registerCallback('asc_onSignatureClick',         _.bind(onSignatureClick, me));
                 }
 
                 return me;
@@ -1901,7 +1999,7 @@ define([
                     el          : $('#id-docholder-menu-changeslide'),
                     parentMenu  : mnuChangeSlide.menu,
                     showLast: false,
-                    restoreHeight: 300,
+                    // restoreHeight: 300,
                     style: 'max-height: 300px;',
                     store       : PE.getCollection('SlideLayouts'),
                     itemTemplate: _.template([
@@ -1935,7 +2033,7 @@ define([
                 me.slideThemeMenu = new Common.UI.DataView({
                     el          : $('#id-docholder-menu-changetheme'),
                     parentMenu  : mnuChangeTheme.menu,
-                    restoreHeight: 300,
+                    // restoreHeight: 300,
                     style: 'max-height: 300px;',
                     store       : PE.getCollection('SlideThemes'),
                     itemTemplate: _.template([
@@ -1982,9 +2080,9 @@ define([
                                 if (me.api) {
                                     me.api.SplitCell(value.columns, value.rows);
                                 }
-                                me.fireEvent('editcomplete', me);
                                 Common.component.Analytics.trackEvent('DocumentHolder', 'Table Split');
                             }
+                            me.fireEvent('editcomplete', me);
                         }
                     })).show();
                 }
@@ -3281,7 +3379,10 @@ define([
         langText: 'Select Language',
         textUndo: 'Undo',
         txtSlideHide: 'Hide Slide',
-        txtChangeTheme: 'Change Theme'
+        txtChangeTheme: 'Change Theme',
+        txtKeepTextOnly: 'Keep text only',
+        txtPastePicture: 'Picture',
+        txtPasteSourceFormat: 'Keep Source formatting'
 
     }, PE.Views.DocumentHolder || {}));
 });

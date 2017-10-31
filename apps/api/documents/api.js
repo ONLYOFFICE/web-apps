@@ -43,7 +43,8 @@
                     print: <can print>, // default = true
                     rename: <can rename>, // default = false
                     changeHistory: <can change history>, // default = false
-                    comment: <can comment in view mode> // default = edit
+                    comment: <can comment in view mode> // default = edit,
+                    modifyFilter: <can add, remove and save filter in the spreadsheet> // default = true
                 }
             },
             editorConfig: {
@@ -170,7 +171,8 @@
                 'onAppReady': <application ready callback>,
                 'onBack': <back to folder callback>,
                 'onError': <error callback>,
-                'onDocumentReady': <document ready callback>
+                'onDocumentReady': <document ready callback>,
+                'onWarning': <warning callback>
             }
         }
     */
@@ -506,9 +508,10 @@
             });
         };
 
-        var _downloadAs = function() {
+        var _downloadAs = function(data) {
             _sendCommand({
-                command: 'downloadAs'
+                command: 'downloadAs',
+                data: data
             });
         };
 

@@ -496,6 +496,8 @@ var ApplicationController = new(function(){
             });
         }
         else {
+            Common.Gateway.reportWarning(id, message);
+
             $('#id-critical-error-title').text(me.notcriticalErrorTitle);
             $('#id-critical-error-message').text(message);
             $('#id-critical-error-close').off();
