@@ -179,7 +179,7 @@ define([
                 this.leftMenu.btnChat.hide();
                 this.leftMenu.btnComments.hide();
             }
-            this.mode.isTrial && this.leftMenu.setDeveloperMode(true);
+            this.mode.trialMode && this.leftMenu.setDeveloperMode(this.mode.trialMode);
             /** coauthoring end **/
             Common.util.Shortcuts.resumeEvents();
             this.leftMenu.btnThumbs.toggle(true);
@@ -192,7 +192,7 @@ define([
                 this.leftMenu.setOptionsPanel('plugins', this.getApplication().getController('Common.Controllers.Plugins').getView('Common.Views.Plugins'));
             } else
                 this.leftMenu.btnPlugins.hide();
-            this.mode.isTrial && this.leftMenu.setDeveloperMode(true);
+            this.mode.trialMode && this.leftMenu.setDeveloperMode(this.mode.trialMode);
         },
 
         clickMenuFileItem: function(menu, action, isopts) {
@@ -239,6 +239,11 @@ define([
 
         applySettings: function(menu) {
             this.api.SetTextBoxInputMode(Common.localStorage.getBool("pe-settings-inputmode"));
+
+            if (Common.Utils.isChrome) {
+                value = Common.localStorage.getBool("pe-settings-inputsogou");
+                this.api.setInputParams({"SogouPinyin" : value});
+            }
 
             /** coauthoring begin **/
             if (this.mode.isEdit && !this.mode.isOffline && this.mode.canCoAuthoring) {

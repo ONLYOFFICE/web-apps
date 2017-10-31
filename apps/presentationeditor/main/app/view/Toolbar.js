@@ -1681,9 +1681,10 @@ define([
                     });
 
                     btn.textartPicker.on('item:click', function(picker, item, record, e) {
-                        me.fireEvent('insert:textart', [record.get('data')]);
+                        if (record)
+                            me.fireEvent('insert:textart', [record.get('data')]);
 
-                        if (e.type !== 'click') this.menu.hide();
+                        if (e.type !== 'click') btn.menu.hide();
                     });
                 }
             },
@@ -1714,7 +1715,8 @@ define([
                             itemTemplate: _.template('<div class="item-shape"><img src="<%= imageUrl %>" id="<%= id %>"></div>')
                         })).on('item:click', function (picker, item, record, e) {
                             if (e.type !== 'click') Common.UI.Menu.Manager.hideAll();
-                            me.fireEvent('insert:shape', [record.get('data').shapeType]);
+                            if (record)
+                                me.fireEvent('insert:shape', [record.get('data').shapeType]);
                         });
                     });
                 }

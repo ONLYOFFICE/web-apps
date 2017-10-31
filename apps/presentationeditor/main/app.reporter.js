@@ -107,6 +107,7 @@ require([
             docInfo.put_VKey(data.vkey);
             docInfo.put_Options(data.options);
             docInfo.put_Token(data.token);
+            docInfo.put_Permissions( data.permissions);
         }
 
         api.preloadReporter(data);
@@ -134,7 +135,10 @@ require([
     // api.asc_registerCallback('asc_onOpenDocumentProgress', onOpenDocument);
     api.asc_registerCallback('asc_onGetEditorPermissions', onEditorPermissions);
 
-    api.sendFromReporter('i:am:ready');
+	setTimeout(function(){
+		// waiting for an event to be subscribed
+		api.sendFromReporter('i:am:ready');
+	}, 500);
 
 }, function(err) {
     if (err.requireType == 'timeout' && !reqerr && window.requireTimeourError) {
