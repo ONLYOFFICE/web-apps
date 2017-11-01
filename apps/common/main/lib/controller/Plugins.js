@@ -57,8 +57,6 @@ define([
             this.addListeners({
                 'Toolbar': {
                     'render:before' : function (toolbar) {
-                        me.toolbar = toolbar;
-
                         var appOptions = me.getApplication().getController('Main').appOptions;
 
                         if ( appOptions.isEdit && !appOptions.isEditMailMerge && !appOptions.isEditDiagram ) {
@@ -175,8 +173,8 @@ define([
                 arr.push(plugin);
             });
             this.api.asc_pluginsRegister('', arr);
-            if (this.toolbar && storePlugins.length>0)
-                this.toolbar.setVisible('plugins', true);
+            if (storePlugins.length>0)
+                Common.NotificationCenter.trigger('tab:visible', 'plugins', true);
         },
 
         onAddPlugin: function (model) {
