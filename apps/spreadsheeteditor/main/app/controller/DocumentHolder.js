@@ -138,6 +138,8 @@ define([
                     me.onCellsRange(status);
                 }
             });
+
+            Common.Gateway.on('processmouse', _.bind(me.onProcessMouse, me));
         },
 
         onCreateDelayedElements: function(view) {
@@ -1220,6 +1222,10 @@ define([
 
         onDocumentRightUp: function(event) {
             event.button == 0 && (this.mouse.isLeftButtonDown = false);
+        },
+
+        onProcessMouse: function(data) {
+            (data.type == 'mouseup') && (this.mouse.isLeftButtonDown = false);
         },
 
         showObjectMenu: function(event){
