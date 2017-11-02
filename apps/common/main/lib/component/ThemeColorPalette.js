@@ -148,8 +148,10 @@ define([
             if (el) {
                 var selected = el.find('a.' + this.selectedCls),
                     color = (selected.length>0 && /color-dynamic/.test(selected[0].className)) ? selected.attr('color') : undefined;
-                if (color) color = color.toUpperCase();
-                selected.removeClass(this.selectedCls);
+                if (color) { // custom color was selected
+                    color = color.toUpperCase();
+                    selected.removeClass(this.selectedCls);
+                }
 
                 var colors = Common.localStorage.getItem('asc.'+Common.localStorage.getId()+'.colors.custom');
                 colors = colors ? colors.split(',') : [];
