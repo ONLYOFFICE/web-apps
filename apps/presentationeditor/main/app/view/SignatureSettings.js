@@ -84,10 +84,10 @@ define([
                     '<tr><td colspan="2" class="padding-large"><label class="header"><%= header %></label></td></tr>',
                     '<% _.each(signatures, function(item) { %>',
                     '<tr>',
-                        '<td><div style="overflow: hidden; max-height: 15px;"><%= Common.Utils.String.htmlEncode(item.name) %></div></td>',
+                        '<td><div class="signature-sign-name"><%= Common.Utils.String.htmlEncode(item.name) %></div></td>',
                         '<td rowspan="2" style="padding: 0 5px; vertical-align: top; text-align: right;"><label class="link-solid signature-view-link" data-value="<%= item.guid %>">' + this.strView + '</label></td>',
                     '</tr>',
-                    '<tr><td style="padding-bottom: 3px;"><%= Common.Utils.String.htmlEncode(item.date) %></td></tr>',
+                    '<tr><td style="padding-bottom: 3px;"><label class="signature-sign-name"><%= Common.Utils.String.htmlEncode(item.date) %></label></td></tr>',
                     '<% }); %>',
                 '</table>',
                 '</td>'
@@ -172,6 +172,9 @@ define([
             // this.cntInvalidSign.html(this.templateValid({signatures: [{name: 'Mary White', guid: '111', date: '18/05/2017'}, {name: 'John Black', guid: '456', date: '18/05/2017'}], header: this.strInvalid}));
 
             this.$linksView = $('.signature-view-link', this.$el);
+            var width = this.$linksView.width();
+            $('.signature-sign-name', this.cntValidSign).css('max-width', 170-width);
+            $('.signature-sign-name', this.cntInvalidSign).css('max-width', 170-width);
         },
 
         addInvisibleSign: function(btn) {
