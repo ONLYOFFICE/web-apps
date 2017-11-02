@@ -1531,6 +1531,7 @@ define([
                     me._arrSpecialPaste = [];
                     me._arrSpecialPaste[Asc.c_oSpecialPasteProps.paste] = me.textPaste;
                     me._arrSpecialPaste[Asc.c_oSpecialPasteProps.keepTextOnly] = me.txtKeepTextOnly;
+                    me._arrSpecialPaste[Asc.c_oSpecialPasteProps.picture] = me.txtPastePicture;
 
                     pasteContainer = $('<div id="special-paste-container" style="position: absolute;"><div id="id-document-holder-btn-special-paste"></div></div>');
                     me.cmpEl.append(pasteContainer);
