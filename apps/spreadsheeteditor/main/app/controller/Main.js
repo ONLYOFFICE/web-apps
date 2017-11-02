@@ -1681,6 +1681,7 @@ define([
                         if ($('body .asc-window:visible').length === 0) {
                             this.isFrameClosed = true;
                             this.api.asc_closeCellEditor();
+                            Common.UI.Menu.Manager.hideAll();
                             Common.Gateway.internalMessage('canClose', {mr:data.data.mr, answer: true});
                         }
                         break;
