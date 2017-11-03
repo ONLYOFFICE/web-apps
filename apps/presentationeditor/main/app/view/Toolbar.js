@@ -166,17 +166,6 @@ define([
              */
                 var _set = PE.enumLock;
 
-                me.btnAddSlide = new Common.UI.Button({
-                    id          : 'id-toolbar-button-add-slide',
-                    cls         : 'btn-toolbar x-huge icon-top',
-                    iconCls     : 'btn-addslide',
-                    split       : true,
-                    caption     : me.capAddSlide,
-                    lock        : [_set.menuFileOpen, _set.slideDeleted, _set.lostConnect, _set.disableOnStart],
-                    menu        : true
-                });
-                me.slideOnlyControls.push(me.btnAddSlide);
-
                 me.btnChangeSlide =  new Common.UI.Button({
                     id          : 'id-toolbar-button-change-slide',
                     cls         : 'btn-toolbar',
@@ -829,7 +818,7 @@ define([
                     '</div>'
                 ].join(''));
 
-                this.lockControls = [ this.btnAddSlide, this.btnChangeSlide, this.btnSave,
+                this.lockControls = [ this.btnChangeSlide, this.btnSave,
                     this.btnCopy, this.btnPaste, this.btnUndo, this.btnRedo, this.cmbFontName, this.cmbFontSize,
                     this.btnBold, this.btnItalic, this.btnUnderline, this.btnStrikeout, this.btnSuperscript,
                     this.btnSubscript, this.btnFontColor, this.btnClearStyle, this.btnCopyStyle, this.btnMarkers,
@@ -956,7 +945,6 @@ define([
 
                 _injectComponent('#slot-field-fontname', this.cmbFontName);
                 _injectComponent('#slot-field-fontsize', this.cmbFontSize);
-                _injectComponent('#slot-btn-addslide', this.btnAddSlide);
                 _injectComponent('#slot-btn-changeslide', this.btnChangeSlide);
                 _injectComponent('#slot-btn-preview', this.btnPreview);
                 _injectComponent('#slot-btn-print', this.btnPrint);
@@ -1048,7 +1036,20 @@ define([
                     }
                 });
 
-                var created = me.btnsInsertImage.concat(me.btnsInsertText, me.btnsInsertShape);
+                me.btnsAddSlide = _injectBtns({
+                    slot: '.slot-addslide',
+                    btnconfig: {
+                        id          : 'tlbtn-addslide-',
+                        cls         : 'btn-toolbar x-huge icon-top',
+                        iconCls     : 'btn-addslide',
+                        split       : true,
+                        caption     : me.capAddSlide,
+                        lock        : [PE.enumLock.menuFileOpen, PE.enumLock.slideDeleted, PE.enumLock.lostConnect, PE.enumLock.disableOnStart],
+                        menu        : true
+                    }
+                });
+
+                var created = me.btnsInsertImage.concat(me.btnsInsertText, me.btnsInsertShape, me.btnsAddSlide);
                 this.lockToolbar(PE.enumLock.disableOnStart, true, {array: created});
 
                 Array.prototype.push.apply(me.slideOnlyControls, created);
@@ -1092,11 +1093,24 @@ define([
                         })
                     );
                 });
+
+                me.btnsAddSlide.forEach(function (btn, index) {
+                    btn.updateHint(me.tipAddSlide + Common.Utils.String.platformKey('Ctrl+M'));
+                    btn.setMenu(
+                        new Common.UI.Menu({
+                            items: [
+                                {template: _.template('<div id="id-toolbar-menu-addslide-' + index + '" class="menu-layouts" style="width: 302px; margin: 0 4px;"></div>')}
+                            ]
+                        })
+                    );
+                    btn.on('click', function (btn, e) {
+                        me.fireEvent('add:slide');
+                    });
+                });
             },
 
             createDelayedElements: function () {
                 // set hints
-                this.btnAddSlide.updateHint(this.tipAddSlide + Common.Utils.String.platformKey('Ctrl+M'));
                 this.btnChangeSlide.updateHint(this.tipChangeSlide);
                 this.btnPreview.updateHint(this.tipPreview);
                 this.btnPrint.updateHint(this.tipPrint + Common.Utils.String.platformKey('Ctrl+P'));
@@ -1213,14 +1227,6 @@ define([
                     })
                 );
 
-                this.btnAddSlide.setMenu(
-                    new Common.UI.Menu({
-                        items: [
-                            {template: _.template('<div id="id-toolbar-menu-addslide" class="menu-layouts" style="width: 302px; margin: 0 4px;"></div>')}
-                        ]
-                    })
-                );
-
                 this.btnChangeSlide.setMenu(
                     new Common.UI.Menu({
                         items: [
@@ -1328,29 +1334,6 @@ define([
                     maxColumns: 10
                 });
 
-                this.mnuAddSlidePicker = new Common.UI.DataView({
-                    el: $('#id-toolbar-menu-addslide'),
-                    parentMenu: this.btnAddSlide.menu,
-                    showLast: false,
-                    restoreHeight: 300,
-                    style: 'max-height: 300px;',
-                    store: PE.getCollection('SlideLayouts'),
-                    itemTemplate: _.template([
-                        '<div class="layout" id="<%= id %>" style="width: <%= itemWidth %>px;">',
-                        '<div style="background-image: url(<%= imageUrl %>); width: <%= itemWidth %>px; height: <%= itemHeight %>px;"/>',
-                        '<div class="title"><%= title %></div> ',
-                        '</div>'
-                    ].join(''))
-                });
-                if (this.btnAddSlide.menu) {
-                    this.btnAddSlide.menu.on('show:after', function () {
-                        me.onSlidePickerShowAfter(me.mnuAddSlidePicker);
-                        me.mnuAddSlidePicker.scroller.update({alwaysVisibleY: true});
-                        me.mnuAddSlidePicker.scroller.scrollTop(0);
-                    });
-                }
-                this.mnuAddSlidePicker._needRecalcSlideLayout = true;
-
                 var createDataPicker = function (btn) {
                     me.mnuChangeSlidePicker = new Common.UI.DataView({
                         el: $('#id-toolbar-menu-changeslide'),
@@ -1382,7 +1365,6 @@ define([
                     this.btnChangeSlide.on('render:after', createDataPicker);
 
                 this.listenTo(PE.getCollection('SlideLayouts'), 'reset', function () {
-                    me.mnuAddSlidePicker._needRecalcSlideLayout = true;
                     if (me.mnuChangeSlidePicker)
                         me.mnuChangeSlidePicker._needRecalcSlideLayout = true;
                 });
@@ -1708,6 +1690,43 @@ define([
                         });
                     });
                 }
+            },
+
+            updateAddSlideMenu: function(collection) {
+                if (collection.size()<1) return;
+
+                var me = this;
+                me.btnsAddSlide.forEach(function (btn, index) {
+                    if ( !btn.mnuAddSlidePicker ) {
+                        btn.mnuAddSlidePicker = new Common.UI.DataView({
+                            el: $('#id-toolbar-menu-addslide-' + index),
+                            parentMenu: btn.menu,
+                            showLast: false,
+                            restoreHeight: 300,
+                            style: 'max-height: 300px;',
+                            store: PE.getCollection('SlideLayouts'),
+                            itemTemplate: _.template([
+                                '<div class="layout" id="<%= id %>" style="width: <%= itemWidth %>px;">',
+                                '<div style="background-image: url(<%= imageUrl %>); width: <%= itemWidth %>px; height: <%= itemHeight %>px;"/>',
+                                '<div class="title"><%= title %></div> ',
+                                '</div>'
+                            ].join(''))
+                        });
+                        btn.mnuAddSlidePicker.on('item:click', function (picker, item, record, e) {
+                            if (e.type !== 'click') Common.UI.Menu.Manager.hideAll();
+                            if (record)
+                                me.fireEvent('add:slide', [record.get('data').idx]);
+                        });
+                        if (btn.menu) {
+                            btn.menu.on('show:after', function () {
+                                me.onSlidePickerShowAfter(btn.mnuAddSlidePicker);
+                                btn.mnuAddSlidePicker.scroller.update({alwaysVisibleY: true});
+                                btn.mnuAddSlidePicker.scroller.scrollTop(0);
+                            });
+                        }
+                    }
+                    btn.mnuAddSlidePicker._needRecalcSlideLayout = true;
+                });
             },
 
             textBold: 'Bold',

@@ -121,6 +121,7 @@ define([
                     'insert:text'       : this.onInsertText.bind(this),
                     'insert:textart'    : this.onInsertTextart.bind(this),
                     'insert:shape'      : this.onInsertShape.bind(this),
+                    'add:slide'         : this.onAddSlide.bind(this),
                     'change:compact'    : this.onClickChangeCompact
                 },
                 'FileMenu': {
@@ -225,6 +226,10 @@ define([
             PE.getCollection('ShapeGroups').bind({
                 reset: me.onResetAutoshapes.bind(this)
             });
+
+            PE.getCollection('SlideLayouts').bind({
+                reset: me.onResetSlides.bind(this)
+            });
         },
 
         attachUIEvents: function(toolbar) {
@@ -232,8 +237,6 @@ define([
              * UI Events
              */
 
-            toolbar.btnAddSlide.on('click',                             _.bind(this.onBtnAddSlide, this));
-            toolbar.mnuAddSlidePicker.on('item:click',                  _.bind(this.onAddSlide, this));
             if (toolbar.mnuChangeSlidePicker)
                 toolbar.mnuChangeSlidePicker.on('item:click',           _.bind(this.onChangeSlide, this));
             toolbar.btnPreview.on('click',                              _.bind(this.onPreviewBtnClick, this));
@@ -803,21 +806,14 @@ define([
             Common.component.Analytics.trackEvent('ToolBar', 'Open Document');
         },
 
-        onAddSlide: function(picker, item, record) {
-            if (this.api) {
-                if (record)
-                    this.api.AddSlide(record.get('data').idx);
+        onAddSlide: function(type) {
+            var me = this;
+            if ( this.api) {
+                this.api.AddSlide(type);
 
-                Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+                Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                 Common.component.Analytics.trackEvent('ToolBar', 'Add Slide');
             }
-        },
-
-        onBtnAddSlide: function() {
-            this.api.AddSlide();
-
-            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-            Common.component.Analytics.trackEvent('ToolBar', 'Add Slide');
         },
 
         onChangeSlide: function(picker, item, record) {
@@ -1717,6 +1713,12 @@ define([
             }.bind(this));
         },
 
+        onResetSlides: function () {
+            setTimeout(function () {
+                this.toolbar.updateAddSlideMenu(PE.getCollection('SlideLayouts'));
+            }.bind(this), 0);
+        },
+
         fillEquations: function() {
             if (!this.toolbar.btnInsertEquation.rendered || this.toolbar.btnInsertEquation.menu.items.length>0) return;
 
@@ -2048,7 +2050,7 @@ define([
             var toolbar = this.toolbar;
             toolbar.$el.find('.toolbar').toggleClass('masked', disable);
 
-            this.toolbar.lockToolbar(PE.enumLock.menuFileOpen, disable, {array: [toolbar.btnAddSlide, toolbar.btnChangeSlide, toolbar.btnPreview, toolbar.btnHide]});
+            this.toolbar.lockToolbar(PE.enumLock.menuFileOpen, disable, {array: [toolbar.btnsAddSlide, toolbar.btnChangeSlide, toolbar.btnPreview, toolbar.btnHide]});
             if(disable) {
                 mask = $("<div class='toolbar-mask'>").appendTo(toolbar.$el.find('.toolbar'));
                 Common.util.Shortcuts.suspendEvents('command+k, ctrl+k, alt+h, command+f5, ctrl+f5');
