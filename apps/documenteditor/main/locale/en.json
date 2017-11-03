@@ -1357,6 +1357,8 @@
   "DE.Views.ParagraphSettingsAdvanced.tipRight": "Set right border only",
   "DE.Views.ParagraphSettingsAdvanced.tipTop": "Set top border only",
   "DE.Views.ParagraphSettingsAdvanced.txtNoBorders": "No borders",
+  "DE.Views.ParagraphSettingsAdvanced.textLeader": "Leader",
+  "DE.Views.ParagraphSettingsAdvanced.textNone": "None",
   "DE.Views.RightMenu.txtChartSettings": "Chart settings",
   "DE.Views.RightMenu.txtHeaderFooterSettings": "Header and footer settings",
   "DE.Views.RightMenu.txtImageSettings": "Image settings",
