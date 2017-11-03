@@ -2924,23 +2924,24 @@ define([
             Common.Utils.asyncCall(function () {
                 me.toolbar.setMode(config);
 
-                if ( config.isEdit )
+                if ( config.isEdit ) {
                     me.toolbar.setApi(me.api);
 
-                if ( !config.isEditDiagram && !config.isEditMailMerge ) {
-                    var tab = {action: 'pivot', caption: me.textPivot};
-                    var $panel = me.getApplication().getController('PivotTable').createToolbarPanel();
-                    if ( $panel ) {
-                        me.toolbar.addTab(tab, $panel, 3);
-                        me.toolbar.setVisible('pivot', true);
-                    }
+                    if ( !config.isEditDiagram && !config.isEditMailMerge ) {
+                        var tab = {action: 'pivot', caption: me.textPivot};
+                        var $panel = me.getApplication().getController('PivotTable').createToolbarPanel();
+                        if ( $panel ) {
+                            me.toolbar.addTab(tab, $panel, 3);
+                            me.toolbar.setVisible('pivot', true);
+                        }
 
-                    tab = {action: 'review', caption: me.toolbar.textTabCollaboration};
-                    $panel = SSE.getController('Common.Controllers.ReviewChanges').createToolbarPanel();
+                        tab = {action: 'review', caption: me.toolbar.textTabCollaboration};
+                        $panel = SSE.getController('Common.Controllers.ReviewChanges').createToolbarPanel();
 
-                    if ( $panel ) {
-                        me.toolbar.addTab(tab, $panel, 4);
-                        me.toolbar.setVisible('review', true);
+                        if ( $panel ) {
+                            me.toolbar.addTab(tab, $panel, 4);
+                            me.toolbar.setVisible('review', true);
+                        }
                     }
                 }
             });
