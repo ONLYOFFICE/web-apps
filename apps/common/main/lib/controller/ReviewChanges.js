@@ -523,6 +523,7 @@ define([
 
         onCoAuthMode: function(menu, item, e) {
             Common.localStorage.setItem(this.view.appPrefix + "settings-coauthmode", item.value);
+            Common.Utils.InternalSettings.set(this.view.appPrefix + "settings-coauthmode", item.value);
 
             if (this.api) {
                 this.api.asc_SetFastCollaborative(item.value==1);
@@ -542,6 +543,7 @@ define([
                 value = (!item.value && value!==null) ? parseInt(value) : 1;
 
                 Common.localStorage.setItem(this.view.appPrefix + "settings-autosave", value);
+                Common.Utils.InternalSettings.set(this.view.appPrefix + "settings-autosave", value);
                 this.api.asc_setAutoSaveGap(value);
             }
             Common.NotificationCenter.trigger('edit:complete', this.view);
