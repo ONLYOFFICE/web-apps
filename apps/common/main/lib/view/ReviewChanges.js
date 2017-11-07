@@ -627,6 +627,10 @@ define([
                 (new Promise(function (accept, reject) {
                     accept();
                 })).then(function(){
+                    var menuTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem"><div><%= caption %></div>' +
+                        '<% if (options.description !== null) { %><label style="display: block;color: #a5a5a5;cursor: pointer;white-space: normal;"><%= options.description %></label>' +
+                        '<% } %></a>');
+
                     if ( config.canReview ) {
                         me.btnPrev.updateHint(me.hintPrev);
                         me.btnNext.updateHint(me.hintNext);
@@ -663,10 +667,6 @@ define([
                             })
                         );
                         me.btnReject.updateHint([me.tipRejectCurrent, me.txtRejectChanges]);
-
-                        var menuTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem"><div><%= caption %></div>' +
-                            '<% if (options.description !== null) { %><label style="display: block;color: #a5a5a5;cursor: pointer;white-space: normal;"><%= options.description %></label>' +
-                            '<% } %></a>');
 
                         me.btnReviewView.setMenu(
                             new Common.UI.Menu({
