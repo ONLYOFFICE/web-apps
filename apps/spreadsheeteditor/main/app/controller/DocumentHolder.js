@@ -1779,15 +1779,20 @@ define([
                 (menu.items.length>0) && menu.items[0].setChecked(true, true);
             }
 
+            if ( coord[0].asc_getX()<0 || coord[0].asc_getY()<0) {
+                if (pasteContainer.is(':visible')) pasteContainer.hide();
+                return;
+            }
+
             var rightBottom = coord[0],
                 leftTop = coord[1],
                 width = me.tooltips.coauth.bodyWidth - me.tooltips.coauth.XY[0] - me.tooltips.coauth.rightMenuWidth - 15,
                 height = me.tooltips.coauth.apiHeight - 15, // height - scrollbar height
                 showPoint = [],
-                btnSize = [31, 20];
-
-            var right = rightBottom.asc_getX() + rightBottom.asc_getWidth() + 3 + btnSize[0],
+                btnSize = [31, 20],
+                right = rightBottom.asc_getX() + rightBottom.asc_getWidth() + 3 + btnSize[0],
                 bottom = rightBottom.asc_getY() + rightBottom.asc_getHeight() + 3 + btnSize[1];
+
 
             if (right > width) {
                 showPoint[0] = leftTop.asc_getX();
