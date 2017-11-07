@@ -207,7 +207,7 @@ define([
                     function dragComplete() {
                         if (!_.isUndefined(me.drag)) {
                             me.drag.tab.$el.css('z-index', '');
-
+                            me.bar.dragging = false;
                             var tab = null;
                             for (var i = me.bar.tabs.length - 1; i >= 0; --i) {
                                 tab = me.bar.tabs[i].$el;
@@ -254,6 +254,7 @@ define([
                             _clientX = e.clientX*Common.Utils.zoom();
                         me.bar      = bar;
                         me.drag     = {tab: tab, index: index};
+                        bar.dragging = true;
 
                         this.calculateBounds();
                         this.setAbsTabs();
@@ -365,7 +366,7 @@ define([
         },
 
         onProcessMouse: function(data) {
-            if (data.type == 'mouseup') {
+            if (data.type == 'mouseup' && this.dragging) {
                 var tab = this.getActive(true);
                 if (tab)
                     tab.mouseup();

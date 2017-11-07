@@ -168,11 +168,11 @@ define([
                     this.splitters.push({resizer:resizer});
 
                     panel.resize.hidden && resizer.el.hide();
+                    Common.Gateway.on('processmouse', this.resize.eventStop);
                 }
             }, this);
 
             this.freeze = options.freeze; this.freeze && this.freezePanels(this.freeze);
-            Common.Gateway.on('processmouse', this.resize.eventStop);
         },
 
         doLayout: function() {
