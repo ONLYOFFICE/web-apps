@@ -72,11 +72,11 @@ define([
                     model: record
                 });
 
-                if (!this.innerEl) {
+                if (!this.innerEl)
                     this.innerEl = $(this.el).find('.inner');
-                    this.innerEl.find('.empty-text').remove();
-                }
+
                 if (view && this.innerEl) {
+                    this.innerEl.find('.empty-text').remove();
                     if (this.options.simpleAddMode) {
                         this.innerEl.append(view.render().el)
                     } else {
