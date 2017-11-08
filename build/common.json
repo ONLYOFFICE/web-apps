@@ -170,6 +170,10 @@
             "script": {
                 "src": "../vendor/underscore/underscore-min.js",
                 "dest": "../deploy/web-apps/vendor/underscore/underscore-min.js"
+            },
+             "map": {
+                "src": "../vendor/underscore/underscore-min.map",
+                "dest": "../deploy/web-apps/vendor/underscore/underscore-min.map"
             }
         }
     },
