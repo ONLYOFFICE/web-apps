@@ -183,6 +183,7 @@ require([
         'documenteditor/main/app/view/TableSettings',
         'documenteditor/main/app/view/ShapeSettings',
         'documenteditor/main/app/view/TextArtSettings',
+        'documenteditor/main/app/view/SignatureSettings',
         'common/main/lib/util/utils',
         'common/main/lib/util/LocalStorage',
         'common/main/lib/controller/Fonts',
