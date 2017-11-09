@@ -361,6 +361,7 @@
   "DE.Controllers.Main.txtButtons": "Buttons",
   "DE.Controllers.Main.txtCallouts": "Callouts",
   "DE.Controllers.Main.txtCharts": "Charts",
+  "DE.Controllers.Main.txtCurrentDocument": "Current Document",
   "DE.Controllers.Main.txtDiagramTitle": "Chart Title",
   "DE.Controllers.Main.txtEditingMode": "Set editing mode...",
   "DE.Controllers.Main.txtErrorLoadHistory": "History loading failed",

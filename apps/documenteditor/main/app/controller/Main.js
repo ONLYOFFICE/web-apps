@@ -143,7 +143,8 @@ define([
                         "First Page ": this.txtFirstPage,
                         "Even Page ": this.txtEvenPage,
                         "Odd Page ": this.txtOddPage,
-                        "Same as Previous": this.txtSameAsPrev
+                        "Same as Previous": this.txtSameAsPrev,
+                        "Current Document": this.txtCurrentDocument
                     };
                 styleNames.forEach(function(item){
                     translate[item] = me.translationTable[item] = me['txtStyle_' + item.replace(/ /g, '_')] || item;
@@ -2175,7 +2176,8 @@ define([
             txtFirstPage: "First Page ",
             txtEvenPage: "Even Page ",
             txtOddPage: "Odd Page ",
-            txtSameAsPrev: "Same as Previous"
+            txtSameAsPrev: "Same as Previous",
+            txtCurrentDocument: "Current Document"
         }
     })(), DE.Controllers.Main || {}))
 });
