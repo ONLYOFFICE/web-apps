@@ -1436,12 +1436,17 @@ define([
                 var sign = {name: item.asc_getSigner1(), date: '18/05/2017'};
                 (item.asc_getValid()==0) ? valid_arr.push(sign) : invalid_arr.push(sign);
             });
+
+            // requested_arr = ['Hammish Mitchell', 'Someone Somewhere', 'Mary White', 'John Black'];
+            // valid_arr = [{name: 'Hammish Mitchell', guid: '123', date: '18/05/2017'}, {name: 'Someone Somewhere', guid: '345', date: '18/05/2017'}];
+            // invalid_arr = [{name: 'Mary White', guid: '111', date: '18/05/2017'}, {name: 'John Black', guid: '456', date: '18/05/2017'}];
+
             this.cntRequestedSign.html(this.templateRequested({signatures: requested_arr, header: this.strRequested}));
             this.cntValidSign.html(this.templateValid({signatures: valid_arr, header: this.strValid}));
             this.cntInvalidSign.html(this.templateValid({signatures: invalid_arr, header: this.strInvalid}));
-            // this.cntRequestedSign.html(this.templateRequested({signatures: ['Hammish Mitchell', 'Someone Somewhere', 'Mary White', 'John Black'], header: this.strRequested}));
-            // this.cntValidSign.html(this.templateValid({signatures: [{name: 'Hammish Mitchell', date: '18/05/2017'}, {name: 'Someone Somewhere', date: '18/05/2017'}], header: this.strValid}));
-            // this.cntInvalidSign.html(this.templateValid({signatures: [{name: 'Mary White', date: '18/05/2017'}, {name: 'John Black', date: '18/05/2017'}], header: this.strInvalid}));
+
+            this.btnAddInvisibleSign.setDisabled(valid_arr.length>0 || invalid_arr.length>0);
+            this.btnAddVisibleSign.setDisabled(valid_arr.length>0 || invalid_arr.length>0);
         },
 
         strProtect: 'Protect Document',

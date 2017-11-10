@@ -186,6 +186,7 @@ require([
         'spreadsheeteditor/main/app/view/PivotSettings',
         'spreadsheeteditor/main/app/view/FieldSettingsDialog',
         'spreadsheeteditor/main/app/view/ValueFieldSettingsDialog',
+        'spreadsheeteditor/main/app/view/SignatureSettings',
         'common/main/lib/util/utils',
         'common/main/lib/util/LocalStorage',
         'common/main/lib/controller/Fonts',

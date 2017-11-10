@@ -124,7 +124,8 @@ define([
                 SelectedObjects = this.api.asc_getGraphicObjectProps();
             }
             
-            if (SelectedObjects.length<=0 && !formatTableInfo && !sparkLineInfo && !pivotInfo && !this.rightmenu.minimizedMode) {
+            if (SelectedObjects.length<=0 && !formatTableInfo && !sparkLineInfo && !pivotInfo && !this.rightmenu.minimizedMode &&
+                this.rightmenu.GetActivePane() !== 'id-signature-settings') {
                 this.rightmenu.clearSelection();
                 this._openRightMenu = true;
             }
@@ -332,7 +333,8 @@ define([
             }
         },
 
-        SetDisabled: function(disabled) {
+        SetDisabled: function(disabled, allowSignature) {
+            this.setMode({isEdit: !disabled});
             if (this.rightmenu) {
                 this.rightmenu.paragraphSettings.disableControls(disabled);
                 this.rightmenu.shapeSettings.disableControls(disabled);
@@ -341,7 +343,7 @@ define([
                 this.rightmenu.tableSettings.disableControls(disabled);
                 this.rightmenu.pivotSettings.disableControls(disabled);
 
-                if (this.rightmenu.signatureSettings) {
+                if (!allowSignature && this.rightmenu.signatureSettings) {
                     this.rightmenu.signatureSettings.disableControls(disabled);
                     this.rightmenu.btnSignature.setDisabled(disabled);
                 }
