@@ -98,6 +98,10 @@ define([
                 if (this.cmpEl) this.cmpEl.hide();
             },
 
+            close: function() {
+                if (this.cmpEl) this.cmpEl.remove();
+            },
+
             applyPlacement: function () {
                 var showxy = this.target.offset();
                 if (this.placement == 'top')
