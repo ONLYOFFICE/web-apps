@@ -319,10 +319,10 @@ define([
             DE.getController('RightMenu').SetDisabled(disable, false, true);
             DE.getController('Statusbar').getView('Statusbar').SetDisabled(disable);
             DE.getController('Common.Controllers.ReviewChanges').SetDisabled(disable);
+            DE.getController('DocumentHolder').getView().SetDisabled(disable);
 
             var leftMenu = DE.getController('LeftMenu').leftMenu;
             leftMenu.btnComments.setDisabled(disable);
-            if (disable) leftMenu.close();
             var comments = DE.getController('Common.Controllers.Comments');
             if (comments)
                 comments.setPreviewMode(disable);
