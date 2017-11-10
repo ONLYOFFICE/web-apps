@@ -84,7 +84,7 @@ define([
 
             this.bindViewEvents(this.statusbar, this.events);
 
-            $('#status-label-zoom').css('min-width', 70);
+            $('#status-label-zoom').css('min-width', 80);
 
             this.statusbar.btnZoomToPage.on('click', _.bind(this.onBtnZoomTo, this, 'topage'));
             this.statusbar.btnZoomToWidth.on('click', _.bind(this.onBtnZoomTo, this, 'towidth'));

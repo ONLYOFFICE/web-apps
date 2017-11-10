@@ -86,7 +86,7 @@ define([
                 me.statusbar.render(cfg);
                 me.statusbar.$el.css('z-index', 1);
 
-                $('.statusbar #label-zoom').css('min-width', 70);
+                $('.statusbar #label-zoom').css('min-width', 80);
 
                 if ( cfg.isEdit ) {
                     var review = DE.getController('Common.Controllers.ReviewChanges').getView();
