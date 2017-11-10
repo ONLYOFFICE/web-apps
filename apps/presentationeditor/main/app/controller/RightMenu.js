@@ -206,14 +206,40 @@ define([
         },
 
         onCoAuthoringDisconnect: function() {
-            if (this.rightmenu)
-                this.rightmenu.SetDisabled('', true, true);
+            this.SetDisabled(true);
             this.setMode({isEdit: false});
         },
 
         SetDisabled: function(disabled, allowSignature) {
             this.setMode({isEdit: !disabled});
-            this.rightmenu.SetDisabled('', disabled, true, allowSignature);
+            if (this.rightmenu) {
+                this.rightmenu.slideSettings.SetSlideDisabled(disabled, disabled, disabled);
+                this.rightmenu.paragraphSettings.disableControls(disabled);
+                this.rightmenu.shapeSettings.disableControls(disabled);
+                this.rightmenu.textartSettings.disableControls(disabled);
+                this.rightmenu.tableSettings.disableControls(disabled);
+                this.rightmenu.imageSettings.disableControls(disabled);
+                this.rightmenu.chartSettings.disableControls(disabled);
+
+                if (!allowSignature && this.rightmenu.signatureSettings) {
+                    this.rightmenu.signatureSettings.disableControls(disabled);
+                    this.rightmenu.btnSignature.setDisabled(disabled);
+                }
+
+                if (disabled) {
+                    this.rightmenu.btnSlide.setDisabled(disabled);
+                    this.rightmenu.btnText.setDisabled(disabled);
+                    this.rightmenu.btnTable.setDisabled(disabled);
+                    this.rightmenu.btnImage.setDisabled(disabled);
+                    this.rightmenu.btnShape.setDisabled(disabled);
+                    this.rightmenu.btnTextArt.setDisabled(disabled);
+                    this.rightmenu.btnChart.setDisabled(disabled);
+                } else {
+                    var selectedElements = this.api.getSelectedElements();
+                    if (selectedElements.length > 0)
+                        this.onFocusObject(selectedElements);
+                }
+            }
         },
 
         onInsertTable:  function() {
