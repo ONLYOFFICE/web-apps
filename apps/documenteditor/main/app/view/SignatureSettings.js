@@ -71,7 +71,9 @@ define([
                 DisabledInsertControls: false,
                 requestedSignatures: undefined,
                 validSignatures: undefined,
-                invalidSignatures: undefined
+                invalidSignatures: undefined,
+                DisabledEditing: false,
+                ready: false
             };
             this._locked = false;
             this.lockedControls = [];
@@ -139,16 +141,15 @@ define([
         setApi: function(api) {
             this.api = api;
             if (this.api) {
-                this.api.asc_registerCallback('asc_onUpdateSignatures',    _.bind(this.onUpdateSignatures, this));
+                this.api.asc_registerCallback('asc_onUpdateSignatures',    _.bind(this.onApiUpdateSignatures, this));
             }
             Common.NotificationCenter.on('document:ready', _.bind(this.onDocumentReady, this));
             return this;
         },
 
         ChangeSettings: function(props) {
-            if (!this._state.requestedSignatures || !this._state.validSignatures || !this._state.invalidSignatures) {
-                this.onUpdateSignatures(this.api.asc_getSignatures(), this.api.asc_getRequestSignatures());
-            }
+            if (!this._state.requestedSignatures || !this._state.validSignatures || !this._state.invalidSignatures)
+                this.updateSignatures(this.api.asc_getSignatures(), this.api.asc_getRequestSignatures());
 
             this.disableControls(this._locked);
         },
@@ -179,7 +180,14 @@ define([
             this.mode = mode;
         },
 
-        onUpdateSignatures: function(valid, requested){
+        onApiUpdateSignatures: function(valid, requested){
+            if (!this._state.ready) return;
+
+            this.updateSignatures(valid, requested);
+            this.showSignatureTooltip(this._state.validSignatures.length>0 || this._state.invalidSignatures.length>0);
+        },
+
+        updateSignatures: function(valid, requested){
             var me = this;
             me._state.requestedSignatures = [];
             me._state.validSignatures = [];
@@ -209,6 +217,8 @@ define([
             width = this.$linksView.width();
             $('.signature-sign-name', this.cntValidSign).css('max-width', 170-width);
             $('.signature-sign-name', this.cntInvalidSign).css('max-width', 170-width);
+
+            me.disableEditing(me._state.validSignatures.length>0 || me._state.invalidSignatures.length>0);
         },
 
         addVisibleSign: function(btn) {
@@ -283,51 +293,55 @@ define([
         },
 
         onDocumentReady: function() {
-            this.ChangeSettings();
+            this._state.ready = true;
+
+            this.updateSignatures(this.api.asc_getSignatures(), this.api.asc_getRequestSignatures());
+            this.showSignatureTooltip(this._state.validSignatures.length>0 || this._state.invalidSignatures.length>0, this._state.requestedSignatures.length>0);
+        },
+
+        showSignatureTooltip: function(hasSigned, hasRequested) {
+            if (!hasSigned && !hasRequested) return;
 
             var me = this,
-                hasSigned = (me._state.validSignatures.length>0 || me._state.invalidSignatures.length>0),
-                hasRequested = (me._state.requestedSignatures.length>0);
-
-            hasSigned && this.disableEditing(hasSigned);
-
-            if (!this._state.tip && (hasSigned || hasRequested)) {
-                this._state.tip = new Common.UI.SynchronizeTip({
+                tip = new Common.UI.SynchronizeTip({
                     target  : DE.getController('RightMenu').getView('RightMenu').btnSignature.btnEl,
                     text    : (hasSigned) ? this.txtSignedDocument : this.txtRequestedSignatures,
                     showLink: hasSigned,
                     textLink: this.txtContinueEditing,
                     placement: 'left'
                 });
-                this._state.tip.on({
-                    'dontshowclick': function() {
-                        me._state.tip.hide();
-                        // me.api.editSingedDoc();
-                        me.disableEditing(false);
-                    },
-                    'closeclick': function() {
-                        me._state.tip.hide();
-                    }
-                });
-                this._state.tip.show();
-            }
+            tip.on({
+                'dontshowclick': function() {
+                    tip.close();
+                    // me.api.editSingedDoc();
+                    me.disableEditing(false);
+                },
+                'closeclick': function() {
+                    tip.close();
+                }
+            });
+            tip.show();
         },
 
         disableEditing: function(disable) {
-            disable && DE.getController('RightMenu').getView('RightMenu').clearSelection();
-            DE.getController('Toolbar').DisableToolbar(disable, disable);
-            DE.getController('RightMenu').SetDisabled(disable, false, true);
-            DE.getController('Statusbar').getView('Statusbar').SetDisabled(disable);
-            DE.getController('Common.Controllers.ReviewChanges').SetDisabled(disable);
-            DE.getController('DocumentHolder').getView().SetDisabled(disable);
+            if (this._state.DisabledEditing != disable) {
+                this._state.DisabledEditing = disable;
 
-            var leftMenu = DE.getController('LeftMenu').leftMenu;
-            leftMenu.btnComments.setDisabled(disable);
-            var comments = DE.getController('Common.Controllers.Comments');
-            if (comments)
-                comments.setPreviewMode(disable);
+                disable && DE.getController('RightMenu').getView('RightMenu').clearSelection();
+                DE.getController('Toolbar').DisableToolbar(disable, disable);
+                DE.getController('RightMenu').SetDisabled(disable, false, true);
+                DE.getController('Statusbar').getView('Statusbar').SetDisabled(disable);
+                DE.getController('Common.Controllers.ReviewChanges').SetDisabled(disable);
+                DE.getController('DocumentHolder').getView().SetDisabled(disable);
 
-            this.disableInsertControls(disable);
+                var leftMenu = DE.getController('LeftMenu').leftMenu;
+                leftMenu.btnComments.setDisabled(disable);
+                var comments = DE.getController('Common.Controllers.Comments');
+                if (comments)
+                    comments.setPreviewMode(disable);
+
+                this.disableInsertControls(disable);
+            }
         },
 
         strSignature: 'Signature',
