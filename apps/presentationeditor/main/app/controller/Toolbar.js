@@ -2043,7 +2043,10 @@ define([
             this._state.activated = true;
         },
 
-        DisableToolbar: function(disable) {
+        DisableToolbar: function(disable, viewMode) {
+            if (viewMode!==undefined) this.editMode = !viewMode;
+            disable = disable || !this.editMode;
+
             var mask = $('.toolbar-mask');
             if (disable && mask.length>0 || !disable && mask.length==0) return;
 

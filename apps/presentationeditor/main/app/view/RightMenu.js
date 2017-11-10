@@ -280,7 +280,7 @@ define([
             return (this.minimizedMode) ? null : this.$el.find(".settings-panel.active")[0].id;
         },
 
-        SetDisabled: function(id, disabled, all) {
+        SetDisabled: function(id, disabled, all, allowSignature) {
             if (all) {
                 this.slideSettings.SetSlideDisabled(disabled, disabled, disabled);
                 this.paragraphSettings.disableControls(disabled);
@@ -288,6 +288,12 @@ define([
                 this.tableSettings.disableControls(disabled);
                 this.imageSettings.disableControls(disabled);
                 this.chartSettings.disableControls(disabled);
+
+                if (!allowSignature && this.signatureSettings) {
+                    this.signatureSettings.disableControls(disabled);
+                    this.btnSignature.setDisabled(disabled);
+                }
+
             } else {
                 var cmp = $("#" + id);
                 if (disabled !== cmp.hasClass('disabled')) {

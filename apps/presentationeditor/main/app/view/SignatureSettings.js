@@ -65,10 +65,9 @@ define([
         initialize: function () {
             var me = this;
 
-            this._initSettings = true;
-
             this._state = {
                 DisabledControls: false,
+                DisabledInsertControls: false,
                 validSignatures: undefined,
                 invalidSignatures: undefined
             };
@@ -118,17 +117,11 @@ define([
             if (this.api) {
                 this.api.asc_registerCallback('asc_onUpdateSignatures',    _.bind(this.onUpdateSignatures, this));
             }
+            Common.NotificationCenter.on('document:ready', _.bind(this.onDocumentReady, this));
             return this;
         },
 
-        createDelayedControls: function() {
-            this._initSettings = false;
-        },
-
         ChangeSettings: function(props) {
-            if (this._initSettings)
-                this.createDelayedControls();
-
             if (!this._state.validSignatures || !this._state.invalidSignatures) {
                 this.onUpdateSignatures(this.api.asc_getSignatures());
             }
@@ -141,15 +134,19 @@ define([
         },
 
         disableControls: function(disable) {
-            if (this._initSettings) return;
-
             if (this._state.DisabledControls!==disable) {
                 this._state.DisabledControls = disable;
+                this.$linksView && this.$linksView.toggleClass('disabled', disable);
+            }
+            this.disableInsertControls(disable);
+        },
+
+        disableInsertControls: function(disable) {
+            if (this._state.DisabledInsertControls!==disable) {
+                this._state.DisabledInsertControls = disable;
                 _.each(this.lockedControls, function(item) {
                     item.setDisabled(disable);
                 });
-                this.$linksSign.toggleClass('disabled', disable);
-                this.$linksView.toggleClass('disabled', disable);
             }
         },
 
@@ -166,10 +163,12 @@ define([
                 var sign = {name: item.asc_getSigner1(), guid: item.asc_getId(), date: '18/05/2017'};
                 (item.asc_getValid()==0) ? me._state.validSignatures.push(sign) : me._state.invalidSignatures.push(sign);
             });
+
+            // me._state.validSignatures = [{name: 'Hammish Mitchell', guid: '123', date: '18/05/2017'}, {name: 'Someone Somewhere', guid: '345', date: '18/05/2017'}];
+            // me._state.invalidSignatures = [{name: 'Mary White', guid: '111', date: '18/05/2017'}, {name: 'John Black', guid: '456', date: '18/05/2017'}];
+
             this.cntValidSign.html(this.templateValid({signatures: me._state.validSignatures, header: this.strValid}));
             this.cntInvalidSign.html(this.templateValid({signatures: me._state.invalidSignatures, header: this.strInvalid}));
-            // this.cntValidSign.html(this.templateValid({signatures: [{name: 'Hammish Mitchell', guid: '123', date: '18/05/2017'}, {name: 'Someone Somewhere', guid: '345', date: '18/05/2017'}], header: this.strValid}));
-            // this.cntInvalidSign.html(this.templateValid({signatures: [{name: 'Mary White', guid: '111', date: '18/05/2017'}, {name: 'John Black', guid: '456', date: '18/05/2017'}], header: this.strInvalid}));
 
             this.$linksView = $('.signature-view-link', this.$el);
             var width = this.$linksView.width();
@@ -201,11 +200,60 @@ define([
             this.api.asc_ViewCertificate(target.attr('data-value'));
         },
 
+        onDocumentReady: function() {
+            this.ChangeSettings();
+
+            var me = this,
+                hasSigned = (me._state.validSignatures.length>0 || me._state.invalidSignatures.length>0);
+
+            hasSigned && this.disableEditing(hasSigned);
+
+            if (!this._state.tip && hasSigned) {
+                this._state.tip = new Common.UI.SynchronizeTip({
+                    target  : PE.getController('RightMenu').getView('RightMenu').btnSignature.btnEl,
+                    text    : this.txtSignedDocument,
+                    showLink: hasSigned,
+                    textLink: this.txtContinueEditing,
+                    placement: 'left'
+                });
+                this._state.tip.on({
+                    'dontshowclick': function() {
+                        me._state.tip.hide();
+                        // me.api.editSingedDoc();
+                        me.disableEditing(false);
+                    },
+                    'closeclick': function() {
+                        me._state.tip.hide();
+                    }
+                });
+                this._state.tip.show();
+            }
+        },
+
+        disableEditing: function(disable) {
+            disable && PE.getController('RightMenu').getView('RightMenu').clearSelection();
+            PE.getController('RightMenu').SetDisabled(disable, true);
+            PE.getController('Toolbar').DisableToolbar(disable, disable);
+            PE.getController('Statusbar').getView('Statusbar').SetDisabled(disable);
+            PE.getController('Common.Controllers.ReviewChanges').SetDisabled(disable);
+            PE.getController('DocumentHolder').getView('DocumentHolder').SetDisabled(disable);
+
+            var leftMenu = PE.getController('LeftMenu').leftMenu;
+            leftMenu.btnComments.setDisabled(disable);
+            var comments = PE.getController('Common.Controllers.Comments');
+            if (comments)
+                comments.setPreviewMode(disable);
+
+            this.disableInsertControls(disable);
+        },
+
         strSignature: 'Signature',
         strInvisibleSign: 'Add invisible digital signature',
         strValid: 'Valid signatures',
         strInvalid: 'Invalid signatures',
-        strView: 'View'
+        strView: 'View',
+        txtSignedDocument: 'This document has been signed. It should not be edited.',
+        txtContinueEditing: 'Edit anyway'
 
     }, PE.Views.SignatureSettings || {}));
 });

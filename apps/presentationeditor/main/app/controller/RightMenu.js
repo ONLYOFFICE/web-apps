@@ -211,6 +211,11 @@ define([
             this.setMode({isEdit: false});
         },
 
+        SetDisabled: function(disabled, allowSignature) {
+            this.setMode({isEdit: !disabled});
+            this.rightmenu.SetDisabled('', disabled, true, allowSignature);
+        },
+
         onInsertTable:  function() {
             this._settings[Common.Utils.documentSettingsType.Table].needShow = true;
         },
