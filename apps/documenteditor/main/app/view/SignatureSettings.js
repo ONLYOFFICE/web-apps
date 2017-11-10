@@ -327,9 +327,11 @@ define([
             if (this._state.DisabledEditing != disable) {
                 this._state.DisabledEditing = disable;
 
-                disable && DE.getController('RightMenu').getView('RightMenu').clearSelection();
+                var rightMenuController = DE.getController('RightMenu');
+                if (disable && rightMenuController.rightmenu.GetActivePane() !== 'id-signature-settings')
+                    rightMenuController.rightmenu.clearSelection();
+                rightMenuController.SetDisabled(disable, false, true);
                 DE.getController('Toolbar').DisableToolbar(disable, disable);
-                DE.getController('RightMenu').SetDisabled(disable, false, true);
                 DE.getController('Statusbar').getView('Statusbar').SetDisabled(disable);
                 DE.getController('Common.Controllers.ReviewChanges').SetDisabled(disable);
                 DE.getController('DocumentHolder').getView().SetDisabled(disable);
