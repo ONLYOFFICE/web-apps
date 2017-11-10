@@ -69,7 +69,9 @@ define([
                 DisabledControls: false,
                 DisabledInsertControls: false,
                 validSignatures: undefined,
-                invalidSignatures: undefined
+                invalidSignatures: undefined,
+                DisabledEditing: false,
+                ready: false
             };
             this._locked = false;
             this.lockedControls = [];
@@ -115,16 +117,15 @@ define([
         setApi: function(api) {
             this.api = api;
             if (this.api) {
-                this.api.asc_registerCallback('asc_onUpdateSignatures',    _.bind(this.onUpdateSignatures, this));
+                this.api.asc_registerCallback('asc_onUpdateSignatures',    _.bind(this.onApiUpdateSignatures, this));
             }
             Common.NotificationCenter.on('document:ready', _.bind(this.onDocumentReady, this));
             return this;
         },
 
         ChangeSettings: function(props) {
-            if (!this._state.validSignatures || !this._state.invalidSignatures) {
-                this.onUpdateSignatures(this.api.asc_getSignatures());
-            }
+            if (!this._state.validSignatures || !this._state.invalidSignatures)
+                this.updateSignatures(this.api.asc_getSignatures());
 
             this.disableControls(this._locked);
         },
@@ -154,7 +155,14 @@ define([
             this.mode = mode;
         },
 
-        onUpdateSignatures: function(valid){
+        onApiUpdateSignatures: function(valid){
+            if (!this._state.ready) return;
+
+            this.updateSignatures(valid);
+            this.showSignatureTooltip(this._state.validSignatures.length>0 || this._state.invalidSignatures.length>0);
+        },
+
+        updateSignatures: function(valid){
             var me = this;
             me._state.validSignatures = [];
             me._state.invalidSignatures = [];
@@ -174,6 +182,8 @@ define([
             var width = this.$linksView.width();
             $('.signature-sign-name', this.cntValidSign).css('max-width', 170-width);
             $('.signature-sign-name', this.cntInvalidSign).css('max-width', 170-width);
+
+            me.disableEditing(me._state.validSignatures.length>0 || me._state.invalidSignatures.length>0);
         },
 
         addInvisibleSign: function(btn) {
@@ -201,50 +211,55 @@ define([
         },
 
         onDocumentReady: function() {
-            this.ChangeSettings();
+            this._state.ready = true;
+
+            this.updateSignatures(this.api.asc_getSignatures());
+            this.showSignatureTooltip(this._state.validSignatures.length>0 || this._state.invalidSignatures.length>0);
+        },
+
+        showSignatureTooltip: function(hasSigned) {
+            if (!hasSigned) return;
 
             var me = this,
-                hasSigned = (me._state.validSignatures.length>0 || me._state.invalidSignatures.length>0);
-
-            hasSigned && this.disableEditing(hasSigned);
-
-            if (!this._state.tip && hasSigned) {
-                this._state.tip = new Common.UI.SynchronizeTip({
+                tip = new Common.UI.SynchronizeTip({
                     target  : PE.getController('RightMenu').getView('RightMenu').btnSignature.btnEl,
                     text    : this.txtSignedDocument,
                     showLink: hasSigned,
                     textLink: this.txtContinueEditing,
                     placement: 'left'
                 });
-                this._state.tip.on({
-                    'dontshowclick': function() {
-                        me._state.tip.hide();
-                        // me.api.editSingedDoc();
-                        me.disableEditing(false);
-                    },
-                    'closeclick': function() {
-                        me._state.tip.hide();
-                    }
-                });
-                this._state.tip.show();
-            }
+            tip.on({
+                'dontshowclick': function() {
+                    tip.close();
+                    // me.api.editSingedDoc();
+                    me.disableEditing(false);
+                },
+                'closeclick': function() {
+                    tip.close();
+                }
+            });
+            tip.show();
         },
 
         disableEditing: function(disable) {
-            disable && PE.getController('RightMenu').getView('RightMenu').clearSelection();
-            PE.getController('RightMenu').SetDisabled(disable, true);
-            PE.getController('Toolbar').DisableToolbar(disable, disable);
-            PE.getController('Statusbar').getView('Statusbar').SetDisabled(disable);
-            PE.getController('Common.Controllers.ReviewChanges').SetDisabled(disable);
-            PE.getController('DocumentHolder').getView('DocumentHolder').SetDisabled(disable);
+            if (this._state.DisabledEditing != disable) {
+                this._state.DisabledEditing = disable;
 
-            var leftMenu = PE.getController('LeftMenu').leftMenu;
-            leftMenu.btnComments.setDisabled(disable);
-            var comments = PE.getController('Common.Controllers.Comments');
-            if (comments)
-                comments.setPreviewMode(disable);
+                disable && PE.getController('RightMenu').getView('RightMenu').clearSelection();
+                PE.getController('RightMenu').SetDisabled(disable, true);
+                PE.getController('Toolbar').DisableToolbar(disable, disable);
+                PE.getController('Statusbar').getView('Statusbar').SetDisabled(disable);
+                PE.getController('Common.Controllers.ReviewChanges').SetDisabled(disable);
+                PE.getController('DocumentHolder').getView('DocumentHolder').SetDisabled(disable);
 
-            this.disableInsertControls(disable);
+                var leftMenu = PE.getController('LeftMenu').leftMenu;
+                leftMenu.btnComments.setDisabled(disable);
+                var comments = PE.getController('Common.Controllers.Comments');
+                if (comments)
+                    comments.setPreviewMode(disable);
+
+                this.disableInsertControls(disable);
+            }
         },
 
         strSignature: 'Signature',
