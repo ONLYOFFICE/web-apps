@@ -39,8 +39,6 @@ define([
     'use strict';
 
     Common.UI.SynchronizeTip = Common.UI.BaseView.extend(_.extend((function() {
-        var tipEl;
-
         return {
             options : {
                 target  : $(document.body),
@@ -76,42 +74,43 @@ define([
             },
 
             render: function() {
-                tipEl = $(this.template({ scope: this }));
-                tipEl.find('.close').on('click', _.bind(function() { this.trigger('closeclick');}, this));
-                tipEl.find('.show-link label').on('click', _.bind(function() { this.trigger('dontshowclick');}, this));
+                if (!this.cmpEl) {
+                    this.cmpEl = $(this.template({ scope: this }));
+                    $(document.body).append(this.cmpEl);
+                    this.cmpEl.find('.close').on('click', _.bind(function() { this.trigger('closeclick');}, this));
+                    this.cmpEl.find('.show-link label').on('click', _.bind(function() { this.trigger('dontshowclick');}, this));
+                }
 
-                $(document.body).append(tipEl);
                 this.applyPlacement();
 
                 return this;
             },
 
             show: function(){
-                if (tipEl) {
+                if (this.cmpEl) {
                     this.applyPlacement();
-                    tipEl.show()
+                    this.cmpEl.show()
                 } else
                     this.render();
             },
 
             hide: function() {
-                if (tipEl) tipEl.hide();
+                if (this.cmpEl) this.cmpEl.hide();
             },
 
             applyPlacement: function () {
                 var showxy = this.target.offset();
 
                 if (this.placement == 'top')
-                    tipEl.css({bottom : Common.Utils.innerHeight() - showxy.top + 'px', right: Common.Utils.innerWidth() - showxy.left - this.target.width()/2 + 'px'});
+                    this.cmpEl.css({bottom : Common.Utils.innerHeight() - showxy.top + 'px', right: Common.Utils.innerWidth() - showxy.left - this.target.width()/2 + 'px'});
                 else if (this.placement == 'left')
-                    tipEl.css({top : showxy.top + this.target.height()/2 + 'px', right: Common.Utils.innerWidth() - showxy.left - 5 + 'px'});
+                    this.cmpEl.css({top : showxy.top + this.target.height()/2 + 'px', right: Common.Utils.innerWidth() - showxy.left - 5 + 'px'});
                 else // right
-                    tipEl.css({top : showxy.top + this.target.height()/2 + 'px', left: showxy.left + this.target.width() + 'px'});
-
+                    this.cmpEl.css({top : showxy.top + this.target.height()/2 + 'px', left: showxy.left + this.target.width() + 'px'});
             },
 
             isVisible: function() {
-                return tipEl && tipEl.is(':visible');
+                return this.cmpEl && this.cmpEl.is(':visible');
             },
 
             textDontShow        : 'Don\'t show this message again',
