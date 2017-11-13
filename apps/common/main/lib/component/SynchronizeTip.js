@@ -104,7 +104,6 @@ define([
 
             applyPlacement: function () {
                 var showxy = this.target.offset();
-
                 if (this.placement == 'top')
                     this.cmpEl.css({bottom : Common.Utils.innerHeight() - showxy.top + 'px', right: Common.Utils.innerWidth() - showxy.left - this.target.width()/2 + 'px'});
                 else if (this.placement == 'left')

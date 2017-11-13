@@ -89,14 +89,15 @@ var ApplicationController = new(function(){
         if (docConfig) {
             permissions = $.extend(permissions, docConfig.permissions);
 
-            var docInfo = new Asc.asc_CDocInfo();
+            var _permissions = $.extend({}, docConfig.permissions),
+                docInfo = new Asc.asc_CDocInfo();
             docInfo.put_Id(docConfig.key);
             docInfo.put_Url(docConfig.url);
             docInfo.put_Title(docConfig.title);
             docInfo.put_Format(docConfig.fileType);
             docInfo.put_VKey(docConfig.vkey);
             docInfo.put_Token(docConfig.token);
-            docInfo.put_Permissions(permissions);
+            docInfo.put_Permissions(_permissions);
 
             if (api) {
                 api.asc_registerCallback('asc_onGetEditorPermissions', onEditorPermissions);

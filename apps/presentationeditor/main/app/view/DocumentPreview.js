@@ -350,8 +350,6 @@ define([
                 var count = this.api.getCountPages();
                 if (count !== this.pages.get('count'))
                     this.pages.set('count', count);
-                this.btnPrev.setDisabled(slideNum<=0);
-                this.btnNext.setDisabled(slideNum>=count-1);
                 this.txtGoToPage.setValue(slideNum + 1);
                 this.txtGoToPage.checkValidate();
             }
