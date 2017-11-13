@@ -595,7 +595,15 @@ define([
                     this.options.additionalAlign.call(this, menuRoot, left, top);
                 else
                     menuRoot.css({left: left, top: top});
+            },
+
+            clearAll: function() {
+                _.each(this.items, function(item){
+                    if (item.setChecked)
+                        item.setChecked(false, true);
+                });
             }
+
         }), {
             Manager: (function() {
                 return manager;

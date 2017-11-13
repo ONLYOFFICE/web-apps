@@ -1936,7 +1936,7 @@ define([
                             toolbar.btnAlignCenter.toggle(false, true);
                             toolbar.btnAlignJust.toggle(false, true);
 
-                            this._clearChecked(toolbar.btnHorizontalAlign.menu);
+                            toolbar.btnHorizontalAlign.menu.clearAll();
                         }
 
                         var btnHorizontalAlign = this.toolbar.btnHorizontalAlign;
@@ -2075,7 +2075,7 @@ define([
             } else
                 val = info.asc_getAngle();
             if (this._state.angle !== val) {
-                this._clearChecked(toolbar.btnTextOrient.menu);
+                toolbar.btnTextOrient.menu.clearAll();
                 switch(val) {
                     case 45:    toolbar.btnTextOrient.menu.items[1].setChecked(true, true); break;
                     case -45:   toolbar.btnTextOrient.menu.items[2].setChecked(true, true); break;
@@ -2751,13 +2751,6 @@ define([
         _getApiTextSize: function() {
             var cellInfo = this.api.asc_getCellInfo();
             return cellInfo ? cellInfo.asc_getFont().asc_getSize() : 12;
-        },
-
-        _clearChecked: function(menu) {
-            _.each(menu.items, function(item){
-                if (item.setChecked)
-                    item.setChecked(false, true);
-            });
         },
 
         _setTableFormat: function(fmtname) {

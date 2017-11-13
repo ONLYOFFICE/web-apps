@@ -517,7 +517,7 @@ define([
                 if (!(index < 0)) {
                     this.toolbar.btnHorizontalAlign.menu.items[index].setChecked(true);
                 } else if (index == -255) {
-                    this._clearChecked(this.toolbar.btnHorizontalAlign.menu);
+                    this.toolbar.btnHorizontalAlign.menu.clearAll();
                 }
 
                 var btnHorizontalAlign = this.toolbar.btnHorizontalAlign;
@@ -587,7 +587,7 @@ define([
                 Math.abs(this._state.pgsize[1] - h) > 0.01) {
                 this._state.pgsize = [w, h];
                 if (this.toolbar.mnuPageSize) {
-                    this._clearChecked(this.toolbar.mnuPageSize);
+                    this.toolbar.mnuPageSize.clearAll();
                     _.each(this.toolbar.mnuPageSize.items, function(item){
                         if (item.value && typeof(item.value) == 'object' &&
                             Math.abs(item.value[0] - width) < 0.01 && Math.abs(item.value[1] - height) < 0.01) {
@@ -611,7 +611,7 @@ define([
                     Math.abs(this._state.pgmargins[3] - right) > 0.01) {
                     this._state.pgmargins = [top, left, bottom, right];
                     if (this.toolbar.btnPageMargins.menu) {
-                        this._clearChecked(this.toolbar.btnPageMargins.menu);
+                        this.toolbar.btnPageMargins.menu.clearAll();
                         _.each(this.toolbar.btnPageMargins.menu.items, function(item){
                             if (item.value && typeof(item.value) == 'object' &&
                                 Math.abs(item.value[0] - top) < 0.01 && Math.abs(item.value[1] - left) < 0.01 &&
@@ -1607,7 +1607,7 @@ define([
                 case Asc.c_oAscDropCap.Margin: index = 2; break;
             }
             if (index < 0)
-                this._clearChecked(this.toolbar.btnDropCap.menu);
+                this.toolbar.btnDropCap.menu.clearAll();
             else
                 this.toolbar.btnDropCap.menu.items[index].setChecked(true);
 
@@ -1740,7 +1740,7 @@ define([
                     return;
 
                 if (index < 0)
-                    this._clearChecked(this.toolbar.btnColumns.menu);
+                    this.toolbar.btnColumns.menu.clearAll();
                 else
                     this.toolbar.btnColumns.menu.items[index].setChecked(true);
                 this._state.columns = index;
@@ -2656,13 +2656,6 @@ define([
                 this.onParagraphColor(this._state.clrshd_asccolor);
             }
             this._state.clrshd_asccolor = undefined;
-        },
-
-        _clearChecked: function(menu) {
-            _.each(menu.items, function(item){
-                if (item.setChecked)
-                    item.setChecked(false, true);
-            });
         },
 
         _onInitEditorStyles: function(styles) {

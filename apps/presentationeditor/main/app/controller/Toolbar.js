@@ -502,7 +502,7 @@ define([
                 if (!(index < 0)) {
                     btnHorizontalAlign.menu.items[index].setChecked(true);
                 } else if (index == -255) {
-                    this._clearChecked(btnHorizontalAlign.menu);
+                    btnHorizontalAlign.menu.clearAll();
                 }
 
                 if (btnHorizontalAlign.rendered) {
@@ -535,7 +535,7 @@ define([
                 if (!(index < 0)) {
                     btnVerticalAlign.menu.items[index].setChecked(true);
                 } else if (index == -255) {
-                    this._clearChecked(btnVerticalAlign.menu);
+                    btnVerticalAlign.menu.clearAll();
                 }
 
                 if (btnVerticalAlign.rendered) {
@@ -1948,13 +1948,6 @@ define([
                 this.onApiTextColor(this._state.clrtext_asccolor);
             }
             this._state.clrtext_asccolor = undefined;
-        },
-
-        _clearChecked: function(menu) {
-            _.each(menu.items, function(item){
-                if (item.setChecked)
-                    item.setChecked(false, true);
-            });
         },
 
         _onInitEditorThemes: function(editorThemes, documentThemes) {
