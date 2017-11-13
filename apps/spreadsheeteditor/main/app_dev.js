@@ -145,10 +145,12 @@ require([
             'RightMenu',
             'LeftMenu',
             'Main',
+            'PivotTable',
             'Common.Controllers.Fonts',
             'Common.Controllers.Chat',
             'Common.Controllers.Comments',
             'Common.Controllers.Plugins'
+            ,'Common.Controllers.ReviewChanges'
         ]
     });
 
@@ -164,18 +166,24 @@ require([
         'spreadsheeteditor/main/app/controller/LeftMenu',
         'spreadsheeteditor/main/app/controller/Main',
         'spreadsheeteditor/main/app/controller/Print',
+        'spreadsheeteditor/main/app/controller/PivotTable',
         'spreadsheeteditor/main/app/view/FileMenuPanels',
         'spreadsheeteditor/main/app/view/ParagraphSettings',
         'spreadsheeteditor/main/app/view/ImageSettings',
         'spreadsheeteditor/main/app/view/ChartSettings',
         'spreadsheeteditor/main/app/view/ShapeSettings',
         'spreadsheeteditor/main/app/view/TextArtSettings',
+        'spreadsheeteditor/main/app/view/PivotSettings',
+        'spreadsheeteditor/main/app/view/FieldSettingsDialog',
+        'spreadsheeteditor/main/app/view/ValueFieldSettingsDialog',
+        'spreadsheeteditor/main/app/view/SignatureSettings',
         'common/main/lib/util/utils',
         'common/main/lib/util/LocalStorage',
         'common/main/lib/controller/Fonts',
         'common/main/lib/controller/Comments',
         'common/main/lib/controller/Chat',
         'common/main/lib/controller/Plugins'
+        ,'common/main/lib/controller/ReviewChanges'
     ], function() {
         window.compareVersions = true;
         app.start();

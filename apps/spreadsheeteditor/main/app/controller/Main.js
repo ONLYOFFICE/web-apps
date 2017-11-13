@@ -118,6 +118,7 @@ define([
 
                 var value = Common.localStorage.getItem("sse-settings-fontrender");
                 if (value===null) value = window.devicePixelRatio > 1 ? '1' : '3';
+                Common.Utils.InternalSettings.set("sse-settings-fontrender", value);
 
                 // Initialize api
                 var styleNames = ['Normal', 'Neutral', 'Bad', 'Good', 'Input', 'Output', 'Calculation', 'Check Cell', 'Explanatory Text', 'Note', 'Linked Cell', 'Warning Text',
@@ -152,6 +153,7 @@ define([
                 if (Common.Utils.isChrome) {
                     value = Common.localStorage.getBool("sse-settings-inputsogou");
                     this.api.setInputParams({"SogouPinyin" : value});
+                    Common.Utils.InternalSettings.set("sse-settings-inputsogou", value);
                 }
 
                 this.api.asc_registerCallback('asc_onOpenDocumentProgress',  _.bind(this.onOpenDocument, this));
@@ -314,10 +316,13 @@ define([
                 value = Common.localStorage.getItem("sse-settings-func-locale");
                 if (value===null) {
                     var lang = ((this.editorConfig.lang) ? this.editorConfig.lang : 'en').split("-")[0].toLowerCase();
+                    Common.Utils.InternalSettings.set("sse-settings-func-locale", lang);
                     if (lang !== 'en')
                         value = SSE.Views.FormulaLang.get(lang);
-                } else
+                } else {
+                    Common.Utils.InternalSettings.set("sse-settings-func-locale", value);
                     value = SSE.Views.FormulaLang.get(value);
+                }
                 if (value) this.api.asc_setLocalization(value);
 
                 if (this.appOptions.location == 'us' || this.appOptions.location == 'ca')
@@ -390,8 +395,18 @@ define([
                 }
             },
 
-            onDownloadAs: function() {
-               this.api.asc_DownloadAs(Asc.c_oAscFileType.XLSX, true);
+            onDownloadAs: function(format) {
+                var _format = (format && (typeof format == 'string')) ? Asc.c_oAscFileType[ format.toUpperCase() ] : null,
+                    _supported = [
+                        Asc.c_oAscFileType.XLSX,
+                        Asc.c_oAscFileType.ODS,
+                        Asc.c_oAscFileType.CSV,
+                        Asc.c_oAscFileType.PDF
+                    ];
+
+                if ( !_format || _supported.indexOf(_format) < 0 )
+                    _format = Asc.c_oAscFileType.XLSX;
+                this.api.asc_DownloadAs(_format, true);
             },
 
             onProcessMouse: function(data) {
@@ -577,14 +592,16 @@ define([
                 me.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
 
                 value = (this.appOptions.isEditMailMerge || this.appOptions.isEditDiagram) ? 100 : Common.localStorage.getItem("sse-settings-zoom");
+                Common.Utils.InternalSettings.set("sse-settings-zoom", value);
                 var zf = (value!==null) ? parseInt(value)/100 : (this.appOptions.customization && this.appOptions.customization.zoom ? parseInt(this.appOptions.customization.zoom)/100 : 1);
                 this.api.asc_setZoom(zf>0 ? zf : 1);
 
                 /** coauthoring begin **/
-                value = Common.localStorage.getItem("sse-settings-livecomment");
-                this.isLiveCommenting = !(value!==null && parseInt(value) == 0);
-                var resolved = Common.localStorage.getItem("sse-settings-resolvedcomment");
-                this.isLiveCommenting ? this.api.asc_showComments(!(resolved!==null && parseInt(resolved) == 0)) : this.api.asc_hideComments();
+                this.isLiveCommenting = Common.localStorage.getBool("sse-settings-livecomment", true);
+                Common.Utils.InternalSettings.set("sse-settings-livecomment", this.isLiveCommenting);
+                value = Common.localStorage.getBool("sse-settings-resolvedcomment", true);
+                Common.Utils.InternalSettings.set("sse-settings-resolvedcomment", value);
+                this.isLiveCommenting ? this.api.asc_showComments(value) : this.api.asc_hideComments();
 
                 if (this.appOptions.isEdit && !this.appOptions.isOffline && this.appOptions.canCoAuthoring) {
                     value = Common.localStorage.getItem("sse-settings-coauthmode");
@@ -595,9 +612,13 @@ define([
                     this._state.fastCoauth = (value===null || parseInt(value) == 1);
                 } else {
                     this._state.fastCoauth = (!this.appOptions.isEdit && this.appOptions.canComments);
-                    this._state.fastCoauth && this.api.asc_setAutoSaveGap(1);
+                    if (this._state.fastCoauth) {
+                        this.api.asc_setAutoSaveGap(1);
+                        Common.Utils.InternalSettings.set("sse-settings-autosave", 1);
+                    }
                 }
                 this.api.asc_SetFastCollaborative(this._state.fastCoauth);
+                Common.Utils.InternalSettings.set("sse-settings-coauthmode", me._state.fastCoauth);
                 /** coauthoring end **/
 
                 me.api.asc_registerCallback('asc_onStartAction',        _.bind(me.onLongActionBegin, me));
@@ -659,10 +680,11 @@ define([
                         value = 0;
                     }
                     me.api.asc_setAutoSaveGap(value);
+                    Common.Utils.InternalSettings.set("sse-settings-autosave", value);
 
                     if (me.appOptions.canForcesave) {// use asc_setIsForceSaveOnUserSave only when customization->forcesave = true
-                        value = Common.localStorage.getItem("sse-settings-forcesave");
-                        me.appOptions.forcesave = (value === null) ? me.appOptions.canForcesave : (parseInt(value) == 1);
+                        me.appOptions.forcesave = Common.localStorage.getBool("sse-settings-forcesave", me.appOptions.canForcesave);
+                        Common.Utils.InternalSettings.set("sse-settings-forcesave", me.appOptions.forcesave);
                         me.api.asc_setIsForceSaveOnUserSave(me.appOptions.forcesave);
                     }
 
@@ -705,14 +727,12 @@ define([
                             if (me.needToUpdateVersion)
                                 toolbarController.onApiCoAuthoringDisconnect();
 
-                            if (me.appOptions.canBrandingExt)
-                                Common.NotificationCenter.trigger('document:ready', 'main');
+                            Common.NotificationCenter.trigger('document:ready', 'main');
                         }
                     }, 50);
                 } else {
                     documentHolderView.createDelayedElementsViewer();
-                    if (me.appOptions.canBrandingExt)
-                        Common.NotificationCenter.trigger('document:ready', 'main');
+                    Common.NotificationCenter.trigger('document:ready', 'main');
                 }
 
                 if (me.appOptions.canAnalytics && false)
@@ -808,6 +828,8 @@ define([
                     this.appOptions.canChat        = this.appOptions.canLicense && !this.appOptions.isOffline && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.chat===false);
                     this.appOptions.canRename      = !!this.permissions.rename;
                     this.appOptions.trialMode      = params.asc_getLicenseMode();
+                    this.appOptions.canProtect      = this.appOptions.isDesktopApp && this.api.asc_isSignaturesSupport();
+                    this.appOptions.canModifyFilter = (this.permissions.modifyFilter!==false);
 
                     this.appOptions.canBranding  = (licType === Asc.c_oLicenseResult.Success) && (typeof this.editorConfig.customization == 'object');
                     if (this.appOptions.canBranding)
@@ -818,7 +840,8 @@ define([
                         this.updatePlugins(this.plugins, true);
 
                     this.appOptions.canRename && this.headerView.setCanRename(true);
-                }
+                } else
+                    this.appOptions.canModifyFilter = true;
 
                 this.appOptions.canRequestEditRights = this.editorConfig.canRequestEditRights;
                 this.appOptions.canEdit        = this.permissions.edit !== false && // can edit
@@ -920,7 +943,8 @@ define([
                         toolbarController   = application.getController('Toolbar'),
                         statusbarController = application.getController('Statusbar'),
                         rightmenuController = application.getController('RightMenu'),
-                        fontsControllers    = application.getController('Common.Controllers.Fonts');
+                        fontsControllers    = application.getController('Common.Controllers.Fonts'),
+                        reviewController    = application.getController('Common.Controllers.ReviewChanges');
 
                     fontsControllers    && fontsControllers.setApi(me.api);
                     toolbarController   && toolbarController.setApi(me.api);
@@ -928,9 +952,14 @@ define([
 
                     rightmenuController && rightmenuController.setApi(me.api);
 
+                    reviewController.setMode(me.appOptions).setConfig({config: me.editorConfig}, me.api);
+
                     if (statusbarController) {
                         statusbarController.getView('Statusbar').changeViewMode(true);
                     }
+
+                    if (!me.appOptions.isEditMailMerge && !me.appOptions.isEditDiagram)
+                        application.getController('PivotTable').setMode(me.appOptions).setConfig({config: me.editorConfig}, me.api);
 
                     var viewport = this.getApplication().getController('Viewport').getView('Viewport');
                     viewport.applyEditorMode();
@@ -939,7 +968,9 @@ define([
                     this.toolbarView = toolbarController.getView('Toolbar');
 
                     var value = Common.localStorage.getItem('sse-settings-unit');
-                    Common.Utils.Metric.setCurrentMetric((value!==null) ? parseInt(value) : Common.Utils.Metric.getDefaultMetric());
+                    value = (value!==null) ? parseInt(value) : Common.Utils.Metric.getDefaultMetric();
+                    Common.Utils.Metric.setCurrentMetric(value);
+                    Common.Utils.InternalSettings.set("sse-settings-unit", value);
 
                     if (!me.appOptions.isEditMailMerge && !me.appOptions.isEditDiagram) {
                         var options = {};
@@ -955,6 +986,8 @@ define([
                     /** coauthoring end **/
                     if (me.appOptions.isEditDiagram)
                         me.api.asc_registerCallback('asc_onSelectionChanged',        _.bind(me.onSelectionChanged, me));
+
+                    me.api.asc_setFilteringMode(me.appOptions.canModifyFilter);
 
                     if (me.stackLongActions.exist({id: ApplyEditRights, type: Asc.c_oAscAsyncActionType['BlockInteraction']})) {
                         me.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], ApplyEditRights);
@@ -1226,6 +1259,8 @@ define([
                         }
                     }
                 } else {
+                    Common.Gateway.reportWarning(id, config.msg);
+
                     config.title    = this.notcriticalErrorTitle;
                     config.iconCls  = 'warn';
                     config.buttons  = ['ok'];
@@ -1645,6 +1680,7 @@ define([
                         if ($('body .asc-window:visible').length === 0) {
                             this.isFrameClosed = true;
                             this.api.asc_closeCellEditor();
+                            Common.UI.Menu.Manager.hideAll();
                             Common.Gateway.internalMessage('canClose', {mr:data.data.mr, answer: true});
                         }
                         break;
@@ -1702,7 +1738,9 @@ define([
 
             unitsChanged: function(m) {
                 var value = Common.localStorage.getItem("sse-settings-unit");
-                Common.Utils.Metric.setCurrentMetric((value!==null) ? parseInt(value) : Common.Utils.Metric.getDefaultMetric());
+                value = (value!==null) ? parseInt(value) : Common.Utils.Metric.getDefaultMetric();
+                Common.Utils.Metric.setCurrentMetric(value);
+                Common.Utils.InternalSettings.set("sse-settings-unit", value);
                 this.getApplication().getController('RightMenu').updateMetricUnit();
                 this.getApplication().getController('Print').getView('MainSettingsPrint').updateMetricUnit();
             },
@@ -1758,6 +1796,7 @@ define([
                             if (btn == 'custom') {
                                 Common.localStorage.setItem("sse-settings-coauthmode", 0);
                                 this.api.asc_SetFastCollaborative(false);
+                                Common.Utils.InternalSettings.set("sse-settings-coauthmode", false);
                                 this._state.fastCoauth = false;
                             }
                             this.onEditComplete();
@@ -1783,8 +1822,8 @@ define([
                         this.toolbarView.synchronizeChanges();
                 }
                 if (this.appOptions.canForcesave) {
-                    value = Common.localStorage.getItem("sse-settings-forcesave");
-                    this.appOptions.forcesave = (value===null) ? this.appOptions.canForcesave : (parseInt(value)==1);
+                    this.appOptions.forcesave = Common.localStorage.getBool("sse-settings-forcesave", this.appOptions.canForcesave);
+                    Common.Utils.InternalSettings.set("sse-settings-forcesave", this.appOptions.forcesave);
                     this.api.asc_setIsForceSaveOnUserSave(this.appOptions.forcesave);
                 }
             },
@@ -1853,18 +1892,11 @@ define([
                 var pluginsData = (uiCustomize) ? plugins.UIpluginsData : plugins.pluginsData;
                 if (!pluginsData || pluginsData.length<1) return;
 
-                var arr = [],
-                    baseUrl = _.isEmpty(plugins.url) ? "" : plugins.url;
-
-                if (baseUrl !== "")
-                    console.warn("Obsolete: The url parameter is deprecated. Please check the documentation for new plugin connection configuration.");
-
+                var arr = [];
                 pluginsData.forEach(function(item){
-                    item = baseUrl + item; // for compatibility with previouse version of server, where plugins.url is used.
                     var value = Common.Utils.getConfigJson(item);
                     if (value) {
                         value.baseUrl = item.substring(0, item.lastIndexOf("config.json"));
-                        value.oldVersion = (baseUrl !== "");
                         arr.push(value);
                     }
                 });
@@ -1904,14 +1936,6 @@ define([
                             var visible = (isEdit || itemVar.isViewer) && _.contains(itemVar.EditorsSupport, 'cell');
                             if ( visible ) pluginVisible = true;
 
-                            var icons = itemVar.icons;
-                            if (item.oldVersion) { // for compatibility with previouse version of server, where plugins.url is used.
-                                icons = [];
-                                itemVar.icons.forEach(function(icon){
-                                    icons.push(icon.substring(icon.lastIndexOf("\/")+1));
-                                });
-                            }
-
                             if ( item.isUICustomizer ) {
                                 visible && arrUI.push(item.baseUrl + itemVar.url);
                             } else {
@@ -1919,8 +1943,8 @@ define([
 
                                 model.set({
                                     index: variationsArr.length,
-                                    url: (item.oldVersion) ? (itemVar.url.substring(itemVar.url.lastIndexOf("\/") + 1)) : itemVar.url,
-                                    icons: icons,
+                                    url: itemVar.url,
+                                    icons: itemVar.icons,
                                     visible: visible
                                 });
 

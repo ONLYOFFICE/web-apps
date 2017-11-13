@@ -155,6 +155,7 @@ require([
             /** coauthoring end **/
             ,'Common.Controllers.Plugins'
             ,'Common.Controllers.ExternalDiagramEditor'
+            ,'Common.Controllers.ReviewChanges'
         ]
     });
 
@@ -175,6 +176,7 @@ require([
         'presentationeditor/main/app/view/SlideSettings',
         'presentationeditor/main/app/view/TableSettings',
         'presentationeditor/main/app/view/TextArtSettings',
+        'presentationeditor/main/app/view/SignatureSettings',
         'common/main/lib/util/utils',
         'common/main/lib/util/LocalStorage',
         'common/main/lib/controller/Fonts'
@@ -185,6 +187,7 @@ require([
         'common/main/lib/controller/Plugins',
         'presentationeditor/main/app/view/ChartSettings',
         'common/main/lib/controller/ExternalDiagramEditor'
+        ,'common/main/lib/controller/ReviewChanges'
     ], function() {
         app.start();
     });

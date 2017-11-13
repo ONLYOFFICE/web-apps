@@ -173,6 +173,8 @@ define([
                 arr.push(plugin);
             });
             this.api.asc_pluginsRegister('', arr);
+            if (storePlugins.length>0)
+                Common.NotificationCenter.trigger('tab:visible', 'plugins', true);
         },
 
         onAddPlugin: function (model) {

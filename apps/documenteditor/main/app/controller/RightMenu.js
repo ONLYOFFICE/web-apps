@@ -78,7 +78,8 @@ define([
             this._settings[Common.Utils.documentSettingsType.Shape] =     {panelId: "id-shape-settings",      panel: rightMenu.shapeSettings,    btn: rightMenu.btnShape,       hidden: 1, locked: false};
             this._settings[Common.Utils.documentSettingsType.TextArt] =   {panelId: "id-textart-settings",    panel: rightMenu.textartSettings,  btn: rightMenu.btnTextArt,     hidden: 1, locked: false};
             this._settings[Common.Utils.documentSettingsType.Chart] = {panelId: "id-chart-settings",          panel: rightMenu.chartSettings,    btn: rightMenu.btnChart,       hidden: 1, locked: false};
-            this._settings[Common.Utils.documentSettingsType.MailMerge] = {panelId: "id-mail-merge-settings",      panel: rightMenu.mergeSettings,    btn: rightMenu.btnMailMerge, hidden: 1, props: {}, locked: false};
+            this._settings[Common.Utils.documentSettingsType.MailMerge] = {panelId: "id-mail-merge-settings", panel: rightMenu.mergeSettings,    btn: rightMenu.btnMailMerge,   hidden: 1, props: {}, locked: false};
+            this._settings[Common.Utils.documentSettingsType.Signature] = {panelId: "id-signature-settings",  panel: rightMenu.signatureSettings, btn: rightMenu.btnSignature,  hidden: (rightMenu.signatureSettings) ? 0 : 1, props: {}, locked: false};
         },
 
         setApi: function(api) {
@@ -96,7 +97,7 @@ define([
                 var panel = this._settings[type].panel;
                 var props = this._settings[type].props;
                 if (props && panel)
-                    panel.ChangeSettings.call(panel, (type==Common.Utils.documentSettingsType.MailMerge) ? undefined : props);
+                    panel.ChangeSettings.call(panel, (type==Common.Utils.documentSettingsType.MailMerge || type==Common.Utils.documentSettingsType.Signature) ? undefined : props);
             } else if (minimized && type==Common.Utils.documentSettingsType.MailMerge) {
                 this.rightmenu.mergeSettings.disablePreviewMode();
             }
@@ -112,13 +113,14 @@ define([
                 in_equation = false,
                 needhide = true;
             for (var i=0; i<this._settings.length; i++) {
-                if (i==Common.Utils.documentSettingsType.MailMerge) continue;
+                if (i==Common.Utils.documentSettingsType.MailMerge || i==Common.Utils.documentSettingsType.Signature) continue;
                 if (this._settings[i]) {
                     this._settings[i].hidden = 1;
                     this._settings[i].locked = false;
                 }
             }
             this._settings[Common.Utils.documentSettingsType.MailMerge].locked = false;
+            this._settings[Common.Utils.documentSettingsType.Signature].locked = false;
 
             var isChart = false;
             for (i=0; i<SelectedObjects.length; i++)
@@ -154,6 +156,8 @@ define([
                 this._settings[settingsType].locked = value.get_Locked();
                 if (!this._settings[Common.Utils.documentSettingsType.MailMerge].locked) // lock MailMerge-InsertField, если хотя бы один объект locked
                     this._settings[Common.Utils.documentSettingsType.MailMerge].locked = value.get_Locked();
+                if (!this._settings[Common.Utils.documentSettingsType.Signature].locked) // lock Signature, если хотя бы один объект locked
+                    this._settings[Common.Utils.documentSettingsType.Signature].locked = value.get_Locked();
             }
 
             if ( this._settings[Common.Utils.documentSettingsType.Header].locked ) { // если находимся в locked header/footer, то считаем, что все элементы в нем тоже недоступны
@@ -179,7 +183,7 @@ define([
                         currentactive = -1;
                 } else {
                     if (pnl.btn.isDisabled()) pnl.btn.setDisabled(false);
-                    if (i!=Common.Utils.documentSettingsType.MailMerge) lastactive = i;
+                    if (i!=Common.Utils.documentSettingsType.MailMerge && i!=Common.Utils.documentSettingsType.Signature) lastactive = i;
                     if ( pnl.needShow ) {
                         pnl.needShow = false;
                         priorityactive = i;
@@ -204,7 +208,7 @@ define([
                 
                 if (active !== undefined) {
                     this.rightmenu.SetActivePane(active, open);
-                    if (active!=Common.Utils.documentSettingsType.MailMerge)
+                    if (active!=Common.Utils.documentSettingsType.MailMerge && active!=Common.Utils.documentSettingsType.Signature)
                         this._settings[active].panel.ChangeSettings.call(this._settings[active].panel, this._settings[active].props);
                     else
                         this._settings[active].panel.ChangeSettings.call(this._settings[active].panel);
@@ -321,7 +325,7 @@ define([
             }
         },
 
-        SetDisabled: function(disabled, allowMerge) {
+        SetDisabled: function(disabled, allowMerge, allowSignature) {
             this.setMode({isEdit: !disabled});
             if (this.rightmenu) {
                 this.rightmenu.paragraphSettings.disableControls(disabled);
@@ -336,6 +340,11 @@ define([
                 }
                 this.rightmenu.chartSettings.disableControls(disabled);
 
+                if (!allowSignature && this.rightmenu.signatureSettings) {
+                    this.rightmenu.signatureSettings.disableControls(disabled);
+                    this.rightmenu.btnSignature.setDisabled(disabled);
+                }
+
                 if (disabled) {
                     this.rightmenu.btnText.setDisabled(disabled);
                     this.rightmenu.btnTable.setDisabled(disabled);
@@ -343,7 +352,6 @@ define([
                     this.rightmenu.btnHeaderFooter.setDisabled(disabled);
                     this.rightmenu.btnShape.setDisabled(disabled);
                     this.rightmenu.btnTextArt.setDisabled(disabled);
-
                     this.rightmenu.btnChart.setDisabled(disabled);
                 } else {
                     var selectedElements = this.api.getSelectedElements();

@@ -2,7 +2,7 @@
 
 .toolbar {
     &:not(.cover) {
-        z-index: 101;
+        z-index: 1001;
     }
 
     &.masked {
@@ -352,4 +352,11 @@
     .separator:first-child {
         display: inline-block;
     }
+}
+
+#special-paste-container {
+    position: absolute;
+    z-index: @zindex-dropdown - 20;
+    background-color: @gray-light;
+    border: 1px solid @gray;
 }

@@ -296,43 +296,36 @@ define([
         },
 
         updateSettings: function() {
-            this.chSpell.setValue(Common.localStorage.getBool("pe-settings-spellcheck", true));
+            this.chSpell.setValue(Common.Utils.InternalSettings.get("pe-settings-spellcheck"));
 
-            this.chInputMode.setValue(Common.localStorage.getBool("pe-settings-inputmode"));
-            Common.Utils.isChrome && this.chInputSogou.setValue(Common.localStorage.getBool("pe-settings-inputsogou"));
+            this.chInputMode.setValue(Common.Utils.InternalSettings.get("pe-settings-inputmode"));
+            Common.Utils.isChrome && this.chInputSogou.setValue(Common.Utils.InternalSettings.get("pe-settings-inputsogou"));
 
-            var value = Common.localStorage.getItem("pe-settings-zoom");
+            var value = Common.Utils.InternalSettings.get("pe-settings-zoom");
             value = (value!==null) ? parseInt(value) : (this.mode.customization && this.mode.customization.zoom ? parseInt(this.mode.customization.zoom) : -1);
             var item = this.cmbZoom.store.findWhere({value: value});
             this.cmbZoom.setValue(item ? parseInt(item.get('value')) : (value>0 ? value+'%' : 100));
 
             /** coauthoring begin **/
-            value = Common.localStorage.getItem("pe-settings-coauthmode");
-            if (value===null && !Common.localStorage.itemExists("pe-settings-autosave") &&
-                this.mode.customization && this.mode.customization.autosave===false)
-                value = 0; // use customization.autosave only when pe-settings-coauthmode and pe-settings-autosave are null
-            var fast_coauth = (value===null || parseInt(value) == 1) && !(this.mode.isDesktopApp && this.mode.isOffline) && this.mode.canCoAuthoring;
-
-            item = this.cmbCoAuthMode.store.findWhere({value: parseInt(value)});
+            var fast_coauth = Common.Utils.InternalSettings.get("pe-settings-coauthmode");
+            item = this.cmbCoAuthMode.store.findWhere({value: fast_coauth ? 1 : 0});
             this.cmbCoAuthMode.setValue(item ? item.get('value') : 1);
             this.lblCoAuthMode.text(item ? item.get('descValue') : this.strCoAuthModeDescFast);
             /** coauthoring end **/
 
-            value = Common.localStorage.getItem("pe-settings-unit");
-            item = this.cmbUnit.store.findWhere({value: parseInt(value)});
+            value = Common.Utils.InternalSettings.get("pe-settings-unit");
+            item = this.cmbUnit.store.findWhere({value: value});
             this.cmbUnit.setValue(item ? parseInt(item.get('value')) : Common.Utils.Metric.getDefaultMetric());
             this._oldUnits = this.cmbUnit.getValue();
 
-            value = Common.localStorage.getItem("pe-settings-autosave");
-            if (value===null && this.mode.customization && this.mode.customization.autosave===false)
-                value = 0;
-            this.chAutosave.setValue(fast_coauth || (value===null ? this.mode.canCoAuthoring : parseInt(value) == 1));
+            value = Common.Utils.InternalSettings.get("pe-settings-autosave");
+            this.chAutosave.setValue(value == 1);
 
             if (this.mode.canForcesave) {
-                this.chForcesave.setValue(Common.localStorage.getBool("pe-settings-forcesave", this.mode.canForcesave));
+                this.chForcesave.setValue(Common.Utils.InternalSettings.get("pe-settings-forcesave"));
             }
 
-            this.chAlignGuides.setValue(Common.localStorage.getBool("pe-settings-showsnaplines", true));
+            this.chAlignGuides.setValue(Common.Utils.InternalSettings.get("pe-settings-showsnaplines"));
         },
 
         applySettings: function() {
@@ -340,6 +333,7 @@ define([
             Common.localStorage.setItem("pe-settings-inputmode", this.chInputMode.isChecked() ? 1 : 0);
             Common.Utils.isChrome && Common.localStorage.setItem("pe-settings-inputsogou", this.chInputSogou.isChecked() ? 1 : 0);
             Common.localStorage.setItem("pe-settings-zoom", this.cmbZoom.getValue());
+            Common.Utils.InternalSettings.set("pe-settings-zoom", Common.localStorage.getItem("pe-settings-zoom"));
             /** coauthoring begin **/
             if (this.mode.isEdit && !this.mode.isOffline && this.mode.canCoAuthoring) {
                 Common.localStorage.setItem("pe-settings-coauthmode", this.cmbCoAuthMode.getValue());
@@ -349,7 +343,8 @@ define([
             Common.localStorage.setItem("pe-settings-autosave", this.chAutosave.isChecked() ? 1 : 0);
             if (this.mode.canForcesave)
                 Common.localStorage.setItem("pe-settings-forcesave", this.chForcesave.isChecked() ? 1 : 0);
-            Common.localStorage.setItem("pe-settings-showsnaplines", this.chAlignGuides.isChecked() ? 1 : 0);
+            Common.Utils.InternalSettings.set("pe-settings-showsnaplines", this.chAlignGuides.isChecked());
+
             Common.localStorage.save();
 
             if (this.menu) {
@@ -670,6 +665,8 @@ define([
                 });
             }
 
+            Common.NotificationCenter.on('collaboration:sharing', _.bind(this.changeAccessRights, this));
+
             return this;
         },
 
@@ -866,4 +863,106 @@ define([
             }
         }
     });
+
+    PE.Views.FileMenuPanels.ProtectDoc = Common.UI.BaseView.extend(_.extend({
+        el: '#panel-protect',
+        menu: undefined,
+
+        template: _.template([
+            '<label id="id-fms-lbl-sign-header" style="font-size: 18px;"><%= scope.strProtect %></label>',
+            '<button id="fms-btn-invisible-sign" class="btn btn-text-default" style="min-width:190px;"><%= scope.strInvisibleSign %></button>',
+            '<div id="id-fms-valid-sign"></div>',
+            '<div id="id-fms-invalid-sign"></div>'
+        ].join('')),
+
+        initialize: function(options) {
+            Common.UI.BaseView.prototype.initialize.call(this,arguments);
+
+            this.menu = options.menu;
+
+            this.templateValid = _.template([
+                '<label class="header <% if (signatures.length<1) { %>hidden<% } %>"><%= header %></label>',
+                '<table>',
+                '<% _.each(signatures, function(item) { %>',
+                '<tr>',
+                '<td><%= Common.Utils.String.htmlEncode(item.name) %></td>',
+                '<td><%= Common.Utils.String.htmlEncode(item.date) %></td>',
+                '</tr>',
+                '<% }); %>',
+                '</table>'
+            ].join(''));
+        },
+
+        render: function() {
+            $(this.el).html(this.template({scope: this}));
+
+            this.btnAddInvisibleSign = new Common.UI.Button({
+                el: '#fms-btn-invisible-sign'
+            });
+            this.btnAddInvisibleSign.on('click', _.bind(this.addInvisibleSign, this));
+
+            this.lblSignHeader = $('#id-fms-lbl-sign-header', this.$el);
+
+            this.cntValidSign = $('#id-fms-valid-sign');
+            this.cntInvalidSign = $('#id-fms-invalid-sign');
+
+            if (_.isUndefined(this.scroller)) {
+                this.scroller = new Common.UI.Scroller({
+                    el: $(this.el),
+                    suppressScrollX: true
+                });
+            }
+
+            return this;
+        },
+
+        show: function() {
+            Common.UI.BaseView.prototype.show.call(this,arguments);
+            this.updateSignatures();
+        },
+
+        setMode: function(mode) {
+            this.mode = mode;
+            if (!this.mode.isEdit) {
+                this.btnAddInvisibleSign.setVisible(false);
+                this.lblSignHeader.html(this.strSignature);
+            }
+        },
+
+        setApi: function(o) {
+            this.api = o;
+            return this;
+        },
+
+        addInvisibleSign: function() {
+            if (this.menu)
+                this.menu.fireEvent('signature:invisible', [this.menu]);
+        },
+
+        updateSignatures: function(){
+            var valid = this.api.asc_getSignatures(),
+                valid_arr = [], invalid_arr = [];
+
+            _.each(valid, function(item, index){
+                var sign = {name: item.asc_getSigner1(), date: '18/05/2017'};
+                (item.asc_getValid()==0) ? valid_arr.push(sign) : invalid_arr.push(sign);
+            });
+
+            // valid_arr = [{name: 'Hammish Mitchell', guid: '123', date: '18/05/2017'}, {name: 'Someone Somewhere', guid: '345', date: '18/05/2017'}];
+            // invalid_arr = [{name: 'Mary White', guid: '111', date: '18/05/2017'}, {name: 'John Black', guid: '456', date: '18/05/2017'}];
+
+            this.cntValidSign.html(this.templateValid({signatures: valid_arr, header: this.strValid}));
+            this.cntInvalidSign.html(this.templateValid({signatures: invalid_arr, header: this.strInvalid}));
+
+            this.btnAddInvisibleSign.setDisabled(valid_arr.length>0 || invalid_arr.length>0);
+        },
+
+        strProtect: 'Protect Document',
+        strInvisibleSign: 'Add invisible digital signature',
+        strValid: 'Valid signatures',
+        strInvalid: 'Invalid signatures',
+        strSignature: 'Signature'
+
+    }, PE.Views.FileMenuPanels.ProtectDoc || {}));
+
 });

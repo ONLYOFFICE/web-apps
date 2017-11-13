@@ -517,7 +517,7 @@ define([
                 if (!(index < 0)) {
                     this.toolbar.btnHorizontalAlign.menu.items[index].setChecked(true);
                 } else if (index == -255) {
-                    this._clearChecked(this.toolbar.btnHorizontalAlign.menu);
+                    this.toolbar.btnHorizontalAlign.menu.clearAll();
                 }
 
                 var btnHorizontalAlign = this.toolbar.btnHorizontalAlign;
@@ -581,14 +581,16 @@ define([
         },
 
         onApiPageSize: function(w, h) {
+            var width = this._state.pgorient ? w : h,
+                height = this._state.pgorient ? h : w;
             if (Math.abs(this._state.pgsize[0] - w) > 0.01 ||
                 Math.abs(this._state.pgsize[1] - h) > 0.01) {
                 this._state.pgsize = [w, h];
                 if (this.toolbar.mnuPageSize) {
-                    this._clearChecked(this.toolbar.mnuPageSize);
+                    this.toolbar.mnuPageSize.clearAll();
                     _.each(this.toolbar.mnuPageSize.items, function(item){
                         if (item.value && typeof(item.value) == 'object' &&
-                            Math.abs(item.value[0] - w) < 0.01 && Math.abs(item.value[1] - h) < 0.01) {
+                            Math.abs(item.value[0] - width) < 0.01 && Math.abs(item.value[1] - height) < 0.01) {
                             item.setChecked(true);
                             return false;
                         }
@@ -609,7 +611,7 @@ define([
                     Math.abs(this._state.pgmargins[3] - right) > 0.01) {
                     this._state.pgmargins = [top, left, bottom, right];
                     if (this.toolbar.btnPageMargins.menu) {
-                        this._clearChecked(this.toolbar.btnPageMargins.menu);
+                        this.toolbar.btnPageMargins.menu.clearAll();
                         _.each(this.toolbar.btnPageMargins.menu.items, function(item){
                             if (item.value && typeof(item.value) == 'object' &&
                                 Math.abs(item.value[0] - top) < 0.01 && Math.abs(item.value[1] - left) < 0.01 &&
@@ -656,7 +658,7 @@ define([
                     header_locked = pr.get_Locked();
                     in_header = true;
                 } else if (type === Asc.c_oAscTypeSelectElement.Image) {
-                    in_image = in_header = true;
+                    in_image = true;
                     image_locked = pr.get_Locked();
                     if (pr && pr.get_ChartProperties())
                         in_chart = true;
@@ -726,7 +728,7 @@ define([
             need_disable = toolbar.mnuPageNumCurrentPos.isDisabled() && toolbar.mnuPageNumberPosPicker.isDisabled();
             toolbar.mnuInsertPageNum.setDisabled(need_disable);
 
-            need_disable = paragraph_locked || header_locked || in_header || in_equation && !btn_eq_state || this.api.asc_IsCursorInFootnote();
+            need_disable = paragraph_locked || header_locked || in_header || in_image || in_equation && !btn_eq_state || this.api.asc_IsCursorInFootnote();
             toolbar.btnsPageBreak.disable(need_disable);
 
             need_disable = paragraph_locked || header_locked || !can_add_image || in_equation;
@@ -1371,9 +1373,9 @@ define([
                                 me.api.put_Table(value.columns, value.rows);
                             }
 
-                            Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                             Common.component.Analytics.trackEvent('ToolBar', 'Table');
                         }
+                        Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                     }
                 })).show();
             }
@@ -1605,7 +1607,7 @@ define([
                 case Asc.c_oAscDropCap.Margin: index = 2; break;
             }
             if (index < 0)
-                this._clearChecked(this.toolbar.btnDropCap.menu);
+                this.toolbar.btnDropCap.menu.clearAll();
             else
                 this.toolbar.btnDropCap.menu.items[index].setChecked(true);
 
@@ -1738,7 +1740,7 @@ define([
                     return;
 
                 if (index < 0)
-                    this._clearChecked(this.toolbar.btnColumns.menu);
+                    this.toolbar.btnColumns.menu.clearAll();
                 else
                     this.toolbar.btnColumns.menu.items[index].setChecked(true);
                 this._state.columns = index;
@@ -2656,13 +2658,6 @@ define([
             this._state.clrshd_asccolor = undefined;
         },
 
-        _clearChecked: function(menu) {
-            _.each(menu.items, function(item){
-                if (item.setChecked)
-                    item.setChecked(false, true);
-            });
-        },
-
         _onInitEditorStyles: function(styles) {
             window.styles_loaded = false;
 
@@ -2846,7 +2841,7 @@ define([
             me.toolbar.render(_.extend({isCompactView: compactview}, config));
 
             if ( config.isEdit ) {
-                var tab = {action: 'review', caption: me.toolbar.textTabReview};
+                var tab = {action: 'review', caption: me.toolbar.textTabCollaboration};
                 var $panel = DE.getController('Common.Controllers.ReviewChanges').createToolbarPanel();
 
                 if ( $panel ) {

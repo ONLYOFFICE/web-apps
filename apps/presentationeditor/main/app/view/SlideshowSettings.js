@@ -107,6 +107,11 @@ define([
             }
         },
 
+        onPrimary: function() {
+            this._handleInput('ok');
+            return false;
+        },
+
         setSettings: function (loop) {
             this.chLoop.setValue(loop);
         },

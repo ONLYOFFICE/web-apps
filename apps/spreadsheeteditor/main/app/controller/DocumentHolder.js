@@ -44,6 +44,7 @@ define([
     'core',
     'common/main/lib/util/utils',
     'common/main/lib/view/CopyWarningDialog',
+    'common/main/lib/view/SignDialog',
     'spreadsheeteditor/main/app/view/DocumentHolder',
     'spreadsheeteditor/main/app/view/HyperlinkSettingsDialog',
     'spreadsheeteditor/main/app/view/ParagraphSettingsAdvanced',
@@ -81,6 +82,7 @@ define([
             me.namedrange_locked = false;
             me._currentMathObj = undefined;
             me._currentParaObjDisabled = false;
+            me._isDisabled = false;
 
             /** coauthoring begin **/
             this.wrapEvents = {
@@ -137,6 +139,8 @@ define([
                     me.onCellsRange(status);
                 }
             });
+
+            Common.Gateway.on('processmouse', _.bind(me.onProcessMouse, me));
         },
 
         onCreateDelayedElements: function(view) {
@@ -267,6 +271,7 @@ define([
                 this.api.asc_registerCallback('asc_onShowSpecialPasteOptions', _.bind(this.onShowSpecialPasteOptions, this));
                 this.api.asc_registerCallback('asc_onHideSpecialPasteOptions', _.bind(this.onHideSpecialPasteOptions, this));
             }
+            this.api.asc_registerCallback('asc_onSignatureClick',           _.bind(this.onSignatureClick, this));
             return this;
         },
 
@@ -1220,16 +1225,20 @@ define([
             event.button == 0 && (this.mouse.isLeftButtonDown = false);
         },
 
+        onProcessMouse: function(data) {
+            (data.type == 'mouseup') && (this.mouse.isLeftButtonDown = false);
+        },
+
         showObjectMenu: function(event){
             if (this.api && !this.mouse.isLeftButtonDown && !this.rangeSelectionMode){
-                (this.permissions.isEdit) ? this.fillMenuProps(this.api.asc_getCellInfo(), true, event) : this.fillViewMenuProps(this.api.asc_getCellInfo(), true, event);
+                (this.permissions.isEdit && !this._isDisabled) ? this.fillMenuProps(this.api.asc_getCellInfo(), true, event) : this.fillViewMenuProps(this.api.asc_getCellInfo(), true, event);
             }
         },
 
         onSelectionChanged: function(info){
             if (!this.mouse.isLeftButtonDown && !this.rangeSelectionMode &&
                 this.currentMenu && this.currentMenu.isVisible()){
-                (this.permissions.isEdit) ? this.fillMenuProps(info, true) : this.fillViewMenuProps(info, true);
+                (this.permissions.isEdit && !this._isDisabled) ? this.fillMenuProps(info, true) : this.fillViewMenuProps(info, true);
             }
         },
 
@@ -1241,26 +1250,18 @@ define([
                 isTableLocked       = cellinfo.asc_getLockedTable()===true,
                 isObjLocked         = false,
                 commentsController  = this.getApplication().getController('Common.Controllers.Comments'),
-                insfunc             = false,
-                cansort             = false;
+                internaleditor      = this.permissions.isEditMailMerge || this.permissions.isEditDiagram;
 
-            if (this.permissions.isEditMailMerge) {
-                cansort = (seltype==Asc.c_oAscSelectionType.RangeCells);
-            } else if (this.permissions.isEditDiagram) {
-                insfunc = (seltype==Asc.c_oAscSelectionType.RangeCells);
-            } 
-            else {
-                switch (seltype) {
-                    case Asc.c_oAscSelectionType.RangeCells:    iscellmenu  = true; break;
-                    case Asc.c_oAscSelectionType.RangeRow:      isrowmenu   = true; break;
-                    case Asc.c_oAscSelectionType.RangeCol:      iscolmenu   = true; break;
-                    case Asc.c_oAscSelectionType.RangeMax:      isallmenu   = true; break;
-                    case Asc.c_oAscSelectionType.RangeImage:    isimagemenu = true; break;
-                    case Asc.c_oAscSelectionType.RangeShape:    isshapemenu = true; break;
-                    case Asc.c_oAscSelectionType.RangeChart:    ischartmenu = true; break;
-                    case Asc.c_oAscSelectionType.RangeChartText:istextchartmenu = true; break;
-                    case Asc.c_oAscSelectionType.RangeShapeText: istextshapemenu = true; break;
-                }
+            switch (seltype) {
+                case Asc.c_oAscSelectionType.RangeCells:    iscellmenu = true; break;
+                case Asc.c_oAscSelectionType.RangeRow:      isrowmenu = true; break;
+                case Asc.c_oAscSelectionType.RangeCol:      iscolmenu = true; break;
+                case Asc.c_oAscSelectionType.RangeMax:      isallmenu   = true; break;
+                case Asc.c_oAscSelectionType.RangeImage:    isimagemenu = !internaleditor; break;
+                case Asc.c_oAscSelectionType.RangeShape:    isshapemenu = !internaleditor; break;
+                case Asc.c_oAscSelectionType.RangeChart:    ischartmenu = !internaleditor; break;
+                case Asc.c_oAscSelectionType.RangeChartText:istextchartmenu = !internaleditor; break;
+                case Asc.c_oAscSelectionType.RangeShapeText: istextshapemenu = !internaleditor; break;
             }
 
             if (isimagemenu || isshapemenu || ischartmenu) {
@@ -1388,12 +1389,14 @@ define([
                 documentHolder.pmiInsertTable.setVisible(iscellmenu && !iscelledit && isintable);
                 documentHolder.pmiDeleteTable.setVisible(iscellmenu && !iscelledit && isintable);
                 documentHolder.pmiSparklines.setVisible(isinsparkline);
-                documentHolder.pmiSortCells.setVisible((iscellmenu||isallmenu||cansort) && !iscelledit);
-                documentHolder.pmiFilterCells.setVisible((iscellmenu||cansort) && !iscelledit);
-                documentHolder.pmiReapply.setVisible((iscellmenu||isallmenu||cansort) && !iscelledit);
-                documentHolder.ssMenu.items[12].setVisible((iscellmenu||isallmenu||cansort||isinsparkline) && !iscelledit);
-                documentHolder.pmiInsFunction.setVisible(iscellmenu||insfunc);
-                documentHolder.pmiAddNamedRange.setVisible(iscellmenu && !iscelledit);
+                documentHolder.pmiSortCells.setVisible((iscellmenu||isallmenu) && !iscelledit);
+                documentHolder.pmiSortCells.menu.items[2].setVisible(!internaleditor);
+                documentHolder.pmiSortCells.menu.items[3].setVisible(!internaleditor);
+                documentHolder.pmiFilterCells.setVisible(iscellmenu && !iscelledit && !internaleditor);
+                documentHolder.pmiReapply.setVisible((iscellmenu||isallmenu) && !iscelledit && !internaleditor);
+                documentHolder.ssMenu.items[12].setVisible((iscellmenu||isallmenu||isinsparkline) && !iscelledit);
+                documentHolder.pmiInsFunction.setVisible(iscellmenu);
+                documentHolder.pmiAddNamedRange.setVisible(iscellmenu && !iscelledit && !internaleditor);
 
                 if (isintable) {
                     documentHolder.pmiInsertTable.menu.items[0].setDisabled(!formatTableInfo.asc_getIsInsertRowAbove());
@@ -1408,8 +1411,8 @@ define([
                 }
 
                 var hyperinfo = cellinfo.asc_getHyperlink();
-                documentHolder.menuHyperlink.setVisible(iscellmenu && hyperinfo && !iscelledit && !ismultiselect);
-                documentHolder.menuAddHyperlink.setVisible(iscellmenu && !hyperinfo && !iscelledit && !ismultiselect);
+                documentHolder.menuHyperlink.setVisible(iscellmenu && hyperinfo && !iscelledit && !ismultiselect && !internaleditor);
+                documentHolder.menuAddHyperlink.setVisible(iscellmenu && !hyperinfo && !iscelledit && !ismultiselect && !internaleditor);
 
                 documentHolder.pmiRowHeight.setVisible(isrowmenu||isallmenu);
                 documentHolder.pmiColumnWidth.setVisible(iscolmenu||isallmenu);
@@ -1422,15 +1425,16 @@ define([
                 documentHolder.ssMenu.items[17].setVisible(iscellmenu && !iscelledit && this.permissions.canCoAuthoring && this.permissions.canComments);
                 documentHolder.pmiAddComment.setVisible(iscellmenu && !iscelledit && this.permissions.canCoAuthoring && this.permissions.canComments);
                 /** coauthoring end **/
-                documentHolder.pmiCellMenuSeparator.setVisible(iscellmenu || isrowmenu || iscolmenu || isallmenu || insfunc);
+                documentHolder.pmiCellMenuSeparator.setVisible(iscellmenu || isrowmenu || iscolmenu || isallmenu);
                 documentHolder.pmiEntireHide.isrowmenu = isrowmenu;
                 documentHolder.pmiEntireShow.isrowmenu = isrowmenu;
 
                 documentHolder.setMenuItemCommentCaptionMode(documentHolder.pmiAddComment, cellinfo.asc_getComments().length < 1, this.permissions.canEditComments);
                 commentsController && commentsController.blockPopover(true);
 
+                documentHolder.pmiClear.menu.items[0].setDisabled(!this.permissions.canModifyFilter);
                 documentHolder.pmiClear.menu.items[1].setDisabled(iscelledit);
-                documentHolder.pmiClear.menu.items[2].setDisabled(iscelledit);
+                documentHolder.pmiClear.menu.items[2].setDisabled(iscelledit || !this.permissions.canModifyFilter);
                 documentHolder.pmiClear.menu.items[3].setDisabled(iscelledit);
                 documentHolder.pmiClear.menu.items[4].setDisabled(iscelledit);
 
@@ -1459,8 +1463,8 @@ define([
                 documentHolder.pmiDeleteEntire.setDisabled(isCellLocked || isTableLocked);
                 documentHolder.pmiDeleteCells.setDisabled(isCellLocked || isTableLocked);
                 documentHolder.pmiDeleteTable.setDisabled(isCellLocked || isTableLocked);
-                documentHolder.pmiFilterCells.setDisabled(isCellLocked || isTableLocked|| (filterInfo==null) || inPivot);
-                documentHolder.pmiSortCells.setDisabled(isCellLocked || isTableLocked|| (filterInfo==null) || inPivot);
+                documentHolder.pmiFilterCells.setDisabled(isCellLocked || isTableLocked|| (filterInfo==null) || inPivot || !filterInfo && !this.permissions.canModifyFilter);
+                documentHolder.pmiSortCells.setDisabled(isCellLocked || isTableLocked|| (filterInfo==null) || inPivot || !this.permissions.canModifyFilter);
                 documentHolder.pmiReapply.setDisabled(isCellLocked || isTableLocked|| (isApplyAutoFilter!==true));
                 documentHolder.menuHyperlink.setDisabled(isCellLocked || inPivot);
                 documentHolder.menuAddHyperlink.setDisabled(isCellLocked || inPivot);
@@ -1492,12 +1496,15 @@ define([
                 iscellmenu = (seltype==Asc.c_oAscSelectionType.RangeCells) && !this.permissions.isEditMailMerge && !this.permissions.isEditDiagram,
                 iscelledit = this.api.isCellEdited;
 
+            if (!documentHolder.viewModeMenu)
+                documentHolder.createDelayedElementsViewer();
+
             if (!showMenu && !documentHolder.viewModeMenu.isVisible()) return;
 
-            documentHolder.menuViewUndo.setVisible(this.permissions.canCoAuthoring && this.permissions.canComments);
-            documentHolder.menuViewUndo.setDisabled(!this.api.asc_getCanUndo());
-            documentHolder.menuViewCopySeparator.setVisible(iscellmenu && !iscelledit && this.permissions.canCoAuthoring && this.permissions.canComments);
-            documentHolder.menuViewAddComment.setVisible(iscellmenu && !iscelledit && this.permissions.canCoAuthoring && this.permissions.canComments);
+            documentHolder.menuViewUndo.setVisible(this.permissions.canCoAuthoring && this.permissions.canComments && !this._isDisabled);
+            documentHolder.menuViewUndo.setDisabled(!this.api.asc_getCanUndo() && !this._isDisabled);
+            documentHolder.menuViewCopySeparator.setVisible(iscellmenu && !iscelledit && this.permissions.canCoAuthoring && this.permissions.canComments && !this._isDisabled);
+            documentHolder.menuViewAddComment.setVisible(iscellmenu && !iscelledit && this.permissions.canCoAuthoring && this.permissions.canComments && !this._isDisabled);
             documentHolder.setMenuItemCommentCaptionMode(documentHolder.menuViewAddComment, cellinfo.asc_getComments().length < 1, this.permissions.canEditComments);
             commentsController && commentsController.blockPopover(true);
             documentHolder.menuViewAddComment.setDisabled(isCellLocked || isTableLocked);
@@ -1775,13 +1782,34 @@ define([
                 });
                 (menu.items.length>0) && menu.items[0].setChecked(true, true);
             }
-            if (coord.asc_getX()<0 || coord.asc_getY()<0) {
+
+            if ( coord[0].asc_getX()<0 || coord[0].asc_getY()<0) {
                 if (pasteContainer.is(':visible')) pasteContainer.hide();
-            } else {
-                var showPoint = [coord.asc_getX() + coord.asc_getWidth() + 3, coord.asc_getY() + coord.asc_getHeight() + 3];
-                pasteContainer.css({left: showPoint[0], top : showPoint[1]});
-                pasteContainer.show();
+                return;
             }
+
+            var rightBottom = coord[0],
+                leftTop = coord[1],
+                width = me.tooltips.coauth.bodyWidth - me.tooltips.coauth.XY[0] - me.tooltips.coauth.rightMenuWidth - 15,
+                height = me.tooltips.coauth.apiHeight - 15, // height - scrollbar height
+                showPoint = [],
+                btnSize = [31, 20],
+                right = rightBottom.asc_getX() + rightBottom.asc_getWidth() + 3 + btnSize[0],
+                bottom = rightBottom.asc_getY() + rightBottom.asc_getHeight() + 3 + btnSize[1];
+
+
+            if (right > width) {
+                showPoint[0] = leftTop.asc_getX();
+                if (bottom > height)
+                    showPoint[0] -= (btnSize[0]+3);
+                if (showPoint[0]<0) showPoint[0] = width - 3 - btnSize[0];
+            } else
+                showPoint[0] = right - btnSize[0];
+
+            showPoint[1] = (bottom > height) ? height - 3 - btnSize[1] : bottom - btnSize[1];
+
+            pasteContainer.css({left: showPoint[0], top : showPoint[1]});
+            pasteContainer.show();
         },
 
         onHideSpecialPasteOptions: function() {
@@ -2432,6 +2460,41 @@ define([
             });
             view.paraBulletsPicker.on('item:click', _.bind(this.onSelectBullets, this));
             _conf && view.paraBulletsPicker.selectRecord(_conf.rec, true);
+        },
+
+        onSignatureClick: function(guid, width, height) {
+            var me = this;
+            if (_.isUndefined(me.fontStore)) {
+                me.fontStore = new Common.Collections.Fonts();
+                var fonts = SSE.getController('Toolbar').getView('Toolbar').cmbFontName.store.toJSON();
+                var arr = [];
+                _.each(fonts, function(font, index){
+                    if (!font.cloneid) {
+                        arr.push(_.clone(font));
+                    }
+                });
+                me.fontStore.add(arr);
+            }
+
+            var win = new Common.Views.SignDialog({
+                api: me.api,
+                signType: 'visible',
+                fontStore: me.fontStore,
+                signSize: {width: width, height: height},
+                handler: function(dlg, result) {
+                    if (result == 'ok') {
+                        var props = dlg.getSettings();
+                        me.api.asc_Sign(props.certificateId, guid, props.images[0], props.images[1]);
+                    }
+                    Common.NotificationCenter.trigger('edit:complete', me.documentHolder);
+                }
+            });
+
+            win.show();
+        },
+
+        SetDisabled: function(state) {
+            this._isDisabled = state;
         },
 
         guestText               : 'Guest',

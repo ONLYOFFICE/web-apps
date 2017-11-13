@@ -139,12 +139,15 @@
         <div class="padding-large">
             <div id="paraadv-list-tabs" style="width:180px; height: 94px;"></div>
         </div>
-        <div class="padding-large" >
-            <label class="input-label padding-small" style="display: block;"><%= scope.textAlign %></label>
-            <div id="paragraphadv-radio-left" class="padding-small" style="display: block;"></div>
-            <div id="paragraphadv-radio-center" class="padding-small" style="display: block;"></div>
-            <div id="paragraphadv-radio-right" style="display: block;"></div>
+        <div class="padding-large" style="display: inline-block;margin-right: 7px;">
+            <label class="input-label"><%= scope.textAlign %></label>
+            <div id="paraadv-cmb-align"></div>
         </div>
+        <div class="padding-large" style="display: inline-block;">
+            <label class="input-label"><%= scope.textLeader %></label>
+            <div id="paraadv-cmb-leader"></div>
+        </div>
+        <div style="margin-bottom: 45px;"></div>
         <div>
             <button type="button" class="btn btn-text-default" id="paraadv-button-add-tab" style="width:90px;margin-right: 4px;"><%= scope.textSet %></button>
             <button type="button" class="btn btn-text-default" id="paraadv-button-remove-tab" style="width:90px;margin-right: 4px;"><%= scope.textRemove %></button>

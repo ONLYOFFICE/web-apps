@@ -232,19 +232,32 @@ define([
             initTextFormat: function () {
                 var me = this,
                     $pageTextFormat = $('.page[data-page=edit-text-format]'),
-                    hAlign = _cellInfo.asc_getHorAlign() || 'left',
-                    vAlign = _cellInfo.asc_getVertAlign() || 'bottom',
+                    hAlign = _cellInfo.asc_getHorAlign(),
+                    vAlign = _cellInfo.asc_getVertAlign(),
+                    hAlignStr = 'left',
+                    vAlignStr = 'bottom',
                     isWrapText = _cellInfo.asc_getFlags().asc_getWrapText();
 
-                $('#text-format .item-media i').removeClass().addClass(Common.Utils.String.format('icon icon-text-align-{0}', hAlign == 'none' ? 'left' : hAlign));
+                if (vAlign == Asc.c_oAscVAlign.Top)
+                    vAlignStr = 'top';
+                else if (vAlign == Asc.c_oAscVAlign.Center)
+                    vAlignStr = 'center';
+
+                switch (hAlign) {
+                    case AscCommon.align_Center:  hAlignStr = 'center';    break;
+                    case AscCommon.align_Right:   hAlignStr = 'right';     break;
+                    case AscCommon.align_Justify: hAlignStr = 'justify';   break;
+                }
+
+                $('#text-format .item-media i').removeClass().addClass(Common.Utils.String.format('icon icon-text-align-{0}', hAlignStr));
 
                 if ($pageTextFormat.length > 0) {
                     var $radioHAlign = $pageTextFormat.find('input:radio[name=text-halign]'),
                         $radioVAlign = $pageTextFormat.find('input:radio[name=text-valign]'),
                         $switchWrapText = $pageTextFormat.find('#edit-cell-wrap-text input');
 
-                    $radioHAlign.val([hAlign]);
-                    $radioVAlign.val([vAlign]);
+                    $radioHAlign.val([hAlignStr]);
+                    $radioVAlign.val([vAlignStr]);
                     $switchWrapText.prop('checked', isWrapText);
 
                     $radioHAlign.single('change',       _.bind(me.onHAlignChange, me));
@@ -419,14 +432,29 @@ define([
 
             onHAlignChange: function (e) {
                 var $target = $(e.currentTarget),
-                    type = $target.prop('value');
+                    value = $target.prop('value'),
+                    type = AscCommon.align_Left;
+
+                if (value == 'center')
+                    type = AscCommon.align_Center;
+                else if (value == 'right')
+                    type = AscCommon.align_Right;
+                else if (value == 'justify')
+                    type = AscCommon.align_Justify;
 
                 this.api.asc_setCellAlign(type);
             },
 
             onVAlignChange: function (e) {
                 var $target = $(e.currentTarget),
-                    type = $target.prop('value');
+                    value = $target.prop('value'),
+                    type = Asc.c_oAscVAlign.Bottom;
+
+                if (value == 'top') {
+                    type = Asc.c_oAscVAlign.Top;
+                } else if (value == 'center') {
+                    type = Asc.c_oAscVAlign.Center;
+                }
 
                 this.api.asc_setCellVertAlign(type);
             },

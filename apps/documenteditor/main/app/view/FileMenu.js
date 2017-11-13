@@ -168,6 +168,12 @@ define([
                 this.miSaveAs,
                 this.miPrint,
                 this.miRename,
+                new Common.UI.MenuItem({
+                    el      : $('#fm-btn-protect',this.el),
+                    action  : 'protect',
+                    caption : this.btnProtectCaption,
+                    canFocused: false
+                }),
                 this.miRecent,
                 this.miNew,
                 new Common.UI.MenuItem({
@@ -234,7 +240,8 @@ define([
         applyMode: function() {
             this.miPrint[this.mode.canPrint?'show':'hide']();
             this.miRename[(this.mode.canRename && !this.mode.isDesktopApp) ?'show':'hide']();
-            this.miRename.$el.find('+.devider')[!this.mode.isDisconnected?'show':'hide']();
+            this.items[7][(this.mode.canProtect) ?'show':'hide']();
+            this.items[7].$el.find('+.devider')[!this.mode.isDisconnected?'show':'hide']();
             this.miRecent[this.mode.canOpenRecent?'show':'hide']();
             this.miNew[this.mode.canCreateNew?'show':'hide']();
             this.miNew.$el.find('+.devider')[this.mode.canCreateNew?'show':'hide']();
@@ -270,8 +277,10 @@ define([
                 }
             }
 
-            if (this.mode.isDesktopApp) {
+            if (this.mode.canProtect) {
 //                this.$el.find('#fm-btn-back').hide();
+                this.panels['protect'] = (new DE.Views.FileMenuPanels.ProtectDoc({menu:this})).render();
+                this.panels['protect'].setMode(this.mode);
             }
 
             if (this.mode.canDownload) {
@@ -302,6 +311,7 @@ define([
         setApi: function(api) {
             this.api = api;
             this.panels['info'].setApi(api);
+            if (this.panels['protect']) this.panels['protect'].setApi(api);
         },
 
         loadDocument: function(data) {
@@ -360,6 +370,7 @@ define([
         btnSaveAsCaption        : 'Save as',
         textDownload            : 'Download',
         btnRenameCaption        : 'Rename...',
-        btnCloseMenuCaption     : 'Close Menu'
+        btnCloseMenuCaption     : 'Close Menu',
+        btnProtectCaption: 'Protect\\Sign'
     }, DE.Views.FileMenu || {}));
 });
