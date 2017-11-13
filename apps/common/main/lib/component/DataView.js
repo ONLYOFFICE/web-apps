@@ -718,10 +718,11 @@ define([
             var el = $(this.dataViewItems[0].el),
                 itemW = el.outerWidth() + parseInt(el.css('margin-left')) + parseInt(el.css('margin-right')),
                 offsetLeft = this.$el.offset().left,
+                offsetTop = el.offset().top,
                 prevtop = -1, topIdx = 0, leftIdx = 0;
 
             for (var i=0; i<this.dataViewItems.length; i++) {
-                var top = $(this.dataViewItems[i].el).offset().top;
+                var top = $(this.dataViewItems[i].el).offset().top - offsetTop;
                 leftIdx = Math.floor(($(this.dataViewItems[i].el).offset().left - offsetLeft)/itemW);
                 if (top>prevtop) {
                     prevtop = top;
