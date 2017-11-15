@@ -91,7 +91,7 @@ define([
                     this.api.asc_registerCallback('asc_onDocumentPassword',  _.bind(this.onDocumentPassword, this));
                     if (this.appConfig.canProtect) {
                         this.api.asc_registerCallback('asc_onSignatureClick',   _.bind(this.onApiSignatureClick, this));
-                        // this.api.asc_registerCallback('asc_onUpdateSignatures', _.bind(this.onApiUpdateSignatures, this));
+                        this.api.asc_registerCallback('asc_onUpdateSignatures', _.bind(this.onApiUpdateSignatures, this));
                     }
                 }
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.SetDisabled, this));
@@ -115,15 +115,13 @@ define([
         },
 
         SetDisabled: function(state) {
-            // if (this.dlgChanges)
-            //     this.dlgChanges.close();
             this.view && this.view.SetDisabled(state);
         },
 
         onPasswordClick: function(btn, opts){
             switch (opts) {
                 case 'add': this.addPassword(); break;
-                // case 'delete': this.deletePassword(); break;
+                case 'delete': this.deletePassword(); break;
             }
 
             Common.NotificationCenter.trigger('edit:complete', this.view);
@@ -156,7 +154,7 @@ define([
                     signType: 'invisible',
                     handler: function(result, props) {
                         if (result == 'ok') {
-                            me.api.setCurrentPassword(props);
+                            me.api.asc_setCurrentPassword(props);
                         }
                         Common.NotificationCenter.trigger('edit:complete');
                     }
@@ -166,7 +164,7 @@ define([
         },
 
         deletePassword: function() {
-            this.api.resetPassword();
+            this.api.asc_resetPassword();
         },
 
         addInvisibleSignature: function(btn) {
@@ -233,6 +231,11 @@ define([
 
         onApiSignatureClick: function(guid, width, height) {
             this.signVisibleSignature(guid, width, height);
+        },
+
+        onApiUpdateSignatures: function(valid, requested){
+            this.SetDisabled(valid && valid.length>0);
         }
+
     }, Common.Controllers.Protection || {}));
 });
