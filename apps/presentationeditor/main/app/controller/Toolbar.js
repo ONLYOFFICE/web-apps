@@ -2077,7 +2077,7 @@ define([
 
             if ( config.isEdit ) {
                 var tab = {action: 'review', caption: me.toolbar.textTabCollaboration};
-                var $panel = PE.getController('Common.Controllers.ReviewChanges').createToolbarPanel();
+                var $panel = this.getApplication().getController('Common.Controllers.ReviewChanges').createToolbarPanel();
 
                 if ( $panel ) {
                     me.toolbar.addTab(tab, $panel, 3);

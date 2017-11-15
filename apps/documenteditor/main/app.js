@@ -163,6 +163,7 @@ require([
             ,'Common.Controllers.ExternalDiagramEditor'
             ,'Common.Controllers.ExternalMergeEditor'
             ,'Common.Controllers.ReviewChanges'
+            ,'Common.Controllers.Protection'
         ]
     });
 
@@ -197,6 +198,7 @@ require([
         ,'common/main/lib/controller/ExternalDiagramEditor'
         ,'common/main/lib/controller/ExternalMergeEditor'
         ,'common/main/lib/controller/ReviewChanges'
+        ,'common/main/lib/controller/Protection'
     ], function() {
         app.start();
     });

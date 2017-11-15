@@ -2932,12 +2932,10 @@ define([
                         }
 
                         tab = {action: 'review', caption: me.toolbar.textTabCollaboration};
-                        $panel = SSE.getController('Common.Controllers.ReviewChanges').createToolbarPanel();
+                        $panel = me.getApplication().getController('Common.Controllers.ReviewChanges').createToolbarPanel();
 
-                        if ( $panel ) {
+                        if ( $panel )
                             me.toolbar.addTab(tab, $panel, 4);
-                            me.toolbar.setVisible('review', true);
-                        }
                     }
                 }
             });

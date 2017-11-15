@@ -2842,10 +2842,17 @@ define([
 
             if ( config.isEdit ) {
                 var tab = {action: 'review', caption: me.toolbar.textTabCollaboration};
-                var $panel = DE.getController('Common.Controllers.ReviewChanges').createToolbarPanel();
+                var $panel = this.getApplication().getController('Common.Controllers.ReviewChanges').createToolbarPanel();
 
-                if ( $panel ) {
+                if ( $panel )
                     me.toolbar.addTab(tab, $panel, 3);
+
+                if (config.isDesktopApp && config.isOffline) {
+                    tab = {action: 'protect', caption: me.toolbar.textTabProtect};
+                    var $panel = this.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
+
+                    if ( $panel )
+                        me.toolbar.addTab(tab, $panel, 4);
                 }
             }
         },

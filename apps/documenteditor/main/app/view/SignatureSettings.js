@@ -314,7 +314,7 @@ define([
                 'dontshowclick': function() {
                     tip.close();
                     // me.api.editSingedDoc();
-                    me.disableEditing(false);
+                    // me.disableEditing(false); // call in the asc_onUpdateSignatures event callback.
                 },
                 'closeclick': function() {
                     tip.close();

@@ -2508,7 +2508,8 @@ define([
             capBtnComment: 'Comment',
             textColumnsCustom: 'Custom Columns',
             textSurface: 'Surface',
-            textTabCollaboration: 'Collaboration'
+            textTabCollaboration: 'Collaboration',
+            textTabProtect: 'Protection'
         }
     })(), DE.Views.Toolbar || {}));
 });
