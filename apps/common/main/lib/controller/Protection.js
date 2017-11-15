@@ -91,6 +91,7 @@ define([
                     this.api.asc_registerCallback('asc_onDocumentPassword',  _.bind(this.onDocumentPassword, this));
                     if (this.appConfig.canProtect) {
                         this.api.asc_registerCallback('asc_onSignatureClick',   _.bind(this.onApiSignatureClick, this));
+                        Common.NotificationCenter.on('protect:sign', _.bind(this.onApiSignatureClick, this));
                         this.api.asc_registerCallback('asc_onUpdateSignatures', _.bind(this.onApiUpdateSignatures, this));
                     }
                 }
@@ -145,6 +146,7 @@ define([
 
         onAppReady: function (config) {
             var me = this;
+            // this.onApiUpdateSignatures([{name: 'Hammish Mitchell', guid: '123', date: '18/05/2017'}, {name: 'Someone Somewhere', guid: '345', date: '18/05/2017'}]);
         },
 
         addPassword: function() {

@@ -76,8 +76,6 @@ define([
                 ready: false
             };
             this._locked = false;
-            this.lockedControls = [];
-
             this._noApply = false;
             this._originalProps = null;
 
@@ -118,17 +116,9 @@ define([
                 scope: this
             }));
 
-            this.btnAddInvisibleSign = new Common.UI.Button({
-                el: this.$el.find('#signature-invisible-sign')
-            });
-            this.btnAddInvisibleSign.on('click', _.bind(this.addInvisibleSign, this));
-            this.lockedControls.push(this.btnAddInvisibleSign);
-
-            this.btnAddVisibleSign = new Common.UI.Button({
-                el: this.$el.find('#signature-visible-sign')
-            });
-            this.btnAddVisibleSign.on('click', _.bind(this.addVisibleSign, this));
-            this.lockedControls.push(this.btnAddVisibleSign);
+            var protection = DE.getController('Common.Controllers.Protection').getView();
+            this.btnAddInvisibleSign = protection.getButton('signature');
+            this.btnAddInvisibleSign.render(this.$el.find('#signature-invisible-sign'));
 
             this.cntRequestedSign = $('#signature-requested-sign');
             this.cntValidSign = $('#signature-valid-sign');
@@ -164,16 +154,6 @@ define([
                 this.$linksSign && this.$linksSign.toggleClass('disabled', disable);
                 this.$linksView && this.$linksView.toggleClass('disabled', disable);
             }
-            this.disableInsertControls(disable);
-        },
-
-        disableInsertControls: function(disable) {
-            if (this._state.DisabledInsertControls!==disable) {
-                this._state.DisabledInsertControls = disable;
-                _.each(this.lockedControls, function(item) {
-                    item.setDisabled(disable);
-                });
-            }
         },
 
         setMode: function(mode) {
@@ -184,7 +164,7 @@ define([
             if (!this._state.ready) return;
 
             this.updateSignatures(valid, requested);
-            this.showSignatureTooltip(this._state.validSignatures.length>0 || this._state.invalidSignatures.length>0);
+            this.showSignatureTooltip(this._state.validSignatures.length>0, this._state.invalidSignatures.length>0);
         },
 
         updateSignatures: function(valid, requested){
@@ -221,68 +201,11 @@ define([
             me.disableEditing(me._state.validSignatures.length>0 || me._state.invalidSignatures.length>0);
         },
 
-        addVisibleSign: function(btn) {
-            var me = this,
-                win = new Common.Views.SignSettingsDialog({
-                    handler: function(dlg, result) {
-                        if (result == 'ok') {
-                            me.api.asc_AddSignatureLine2(dlg.getSettings());
-                        }
-                        me.fireEvent('editcomplete', me);
-                    }
-                });
-
-            win.show();
-        },
-
-        addInvisibleSign: function(btn) {
-            var me = this,
-                win = new Common.Views.SignDialog({
-                    api: me.api,
-                    signType: 'invisible',
-                    handler: function(dlg, result) {
-                        if (result == 'ok') {
-                            var props = dlg.getSettings();
-                            me.api.asc_Sign(props.certificateId);
-                        }
-                        me.fireEvent('editcomplete', me);
-                    }
-                });
-
-            win.show();
-        },
-
         onSign: function(event) {
-             var me = this,
-                 target = $(event.currentTarget);
-
+             var target = $(event.currentTarget);
              if (target.hasClass('disabled')) return;
 
-             if (_.isUndefined(me.fontStore)) {
-                 me.fontStore = new Common.Collections.Fonts();
-                 var fonts = DE.getController('Toolbar').getView('Toolbar').cmbFontName.store.toJSON();
-                 var arr = [];
-                 _.each(fonts, function(font, index){
-                     if (!font.cloneid) {
-                         arr.push(_.clone(font));
-                     }
-                 });
-                 me.fontStore.add(arr);
-             }
-
-             var win = new Common.Views.SignDialog({
-                 api: me.api,
-                 signType: 'visible',
-                 fontStore: me.fontStore,
-                 handler: function(dlg, result) {
-                     if (result == 'ok') {
-                         var props = dlg.getSettings();
-                         me.api.asc_Sign(props.certificateId, target.attr('data-value'), props.images[0], props.images[1]);
-                     }
-                     me.fireEvent('editcomplete', me);
-                 }
-             });
-             win.show();
+            Common.NotificationCenter.trigger('protect:sign', target.attr('data-value'));
         },
 
         onViewSignature: function(event) {
@@ -296,25 +219,39 @@ define([
             this._state.ready = true;
 
             this.updateSignatures(this.api.asc_getSignatures(), this.api.asc_getRequestSignatures());
-            this.showSignatureTooltip(this._state.validSignatures.length>0 || this._state.invalidSignatures.length>0, this._state.requestedSignatures.length>0);
+            this.showSignatureTooltip(this._state.validSignatures.length>0, this._state.invalidSignatures.length>0, this._state.requestedSignatures.length>0);
         },
 
-        showSignatureTooltip: function(hasSigned, hasRequested) {
-            if (!hasSigned && !hasRequested) return;
+        showSignatureTooltip: function(hasValid, hasInvalid, hasRequested) {
+            if (!hasValid && !hasInvalid && !hasRequested) return;
+
+            var tipText = (hasInvalid) ? this.txtSignedInvalid : (hasValid ? this.txtSigned : "");
+            if (hasRequested)
+                tipText = this.txtRequestedSignatures + "<br><br>" + tipText;
 
             var me = this,
                 tip = new Common.UI.SynchronizeTip({
                     target  : DE.getController('RightMenu').getView('RightMenu').btnSignature.btnEl,
-                    text    : (hasSigned) ? this.txtSignedDocument : this.txtRequestedSignatures,
-                    showLink: hasSigned,
+                    text    : tipText,
+                    showLink: hasValid || hasInvalid,
                     textLink: this.txtContinueEditing,
                     placement: 'left'
                 });
             tip.on({
                 'dontshowclick': function() {
-                    tip.close();
-                    // me.api.editSingedDoc();
-                    // me.disableEditing(false); // call in the asc_onUpdateSignatures event callback.
+                    Common.UI.warning({
+                        title: me.notcriticalErrorTitle,
+                        msg: me.txtEditWarning,
+                        buttons: ['ok', 'cancel'],
+                        primary: 'ok',
+                        callback: function(btn) {
+                            if (btn == 'ok') {
+                                tip.close();
+                                // me.api.editSignedDoc();
+                                // me.disableEditing(false); // call in the asc_onUpdateSignatures event callback.
+                            }
+                        }
+                    });
                 },
                 'closeclick': function() {
                     tip.close();
@@ -341,22 +278,21 @@ define([
                 var comments = DE.getController('Common.Controllers.Comments');
                 if (comments)
                     comments.setPreviewMode(disable);
-
-                this.disableInsertControls(disable);
             }
         },
 
         strSignature: 'Signature',
-        strInvisibleSign: 'Add invisible digital signature',
-        strVisibleSign: 'Add visible signature',
         strRequested: 'Requested signatures',
         strValid: 'Valid signatures',
         strInvalid: 'Invalid signatures',
         strSign: 'Sign',
         strView: 'View',
-        txtSignedDocument: 'This document has been signed. It should not be edited.',
-        txtRequestedSignatures: 'This document has requested signatures.',
-        txtContinueEditing: 'Edit anyway'
+        txtSigned: 'Valid signatures has been added to the document. The document is protected from editing.',
+        txtSignedInvalid: 'Some of the digital signatures in document are invalid or could not be verified. The document is protected from editing.',
+        txtRequestedSignatures: 'This document needs to be signed.',
+        txtContinueEditing: 'Edit anyway',
+        notcriticalErrorTitle: 'Warning',
+        txtEditWarning: 'Editing will remove the signatures from the document.<br>Are you sure you want to continue?'
 
     }, DE.Views.SignatureSettings || {}));
 });
