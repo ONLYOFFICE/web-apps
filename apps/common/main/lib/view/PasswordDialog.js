@@ -77,14 +77,6 @@ define([
                         '<label>' + t.txtRepeat + '</label>',
                     '</div>',
                     '<div id="id-repeat-txt" class="input-row"></div>',
-
-                    // '<div class="content-panel" >',
-                    // '<label style="margin-bottom:15px;">' + t.txtDescription + '</label>',
-                    // '<label>' + t.txtPassword + '</label>',
-                    // '<div id="id-password-txt" style="margin-bottom:15px;"></div>',
-                    // '<label>' + t.txtRepeat + '</label>',
-                    // '<div id="id-repeat-txt" style="margin-bottom:15px;"></div>',
-                    // '</div>',
                 '</div>',
                 '<div class="separator horizontal"/>',
                 '<div class="footer center">',
@@ -174,5 +166,5 @@ define([
         txtRepeat: 'Repeat password',
         txtIncorrectPwd: 'Confirmation password is not identical'
 
-    }, Common.Views.Password || {}));
+    }, Common.Views.PasswordDialog || {}));
 });

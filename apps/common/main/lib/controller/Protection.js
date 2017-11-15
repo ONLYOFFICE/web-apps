@@ -234,7 +234,5 @@ define([
         onApiSignatureClick: function(guid, width, height) {
             this.signVisibleSignature(guid, width, height);
         }
-
-
     }, Common.Controllers.Protection || {}));
 });
