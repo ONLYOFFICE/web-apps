@@ -1101,9 +1101,22 @@ define([
 
         template: _.template([
             '<label id="id-fms-lbl-protect-header" style="font-size: 18px;"><%= scope.strProtect %></label>',
+            '<div id="id-fms-password">',
+                '<label class="header"><%= scope.strEncrypt %></label>',
+                '<div id="fms-btn-add-pwd" style="width:190px;"></div>',
+                '<table id="id-fms-view-pwd" cols="2" width="300">',
+                    '<tr>',
+                        '<td colspan="2"><span><%= scope.txtEncrypted %></span></td>',
+                    '</tr>',
+                    '<tr>',
+                        '<td><div id="fms-btn-change-pwd" style="width:190px;"></div></td>',
+                        '<td align="right"><div id="fms-btn-delete-pwd" style="width:190px; margin-left:20px;"></div></td>',
+                    '</tr>',
+                '</table>',
+            '</div>',
             '<div id="id-fms-signature">',
                 '<label class="header"><%= scope.strSignature %></label>',
-                '<div id="fms-btn-invisible-sign" style="width:190px; margin-top: 10px;margin-bottom: 20px;"></div>',
+                '<div id="fms-btn-invisible-sign" style="width:190px; margin-bottom: 20px;"></div>',
                 '<div id="id-fms-signature-view"></div>',
             '</div>'
         ].join('')),
@@ -1131,6 +1144,21 @@ define([
             $(this.el).html(this.template({scope: this}));
 
             var protection = DE.getController('Common.Controllers.Protection').getView();
+
+            this.btnAddPwd = protection.getButton('add-password');
+            this.btnAddPwd.render(this.$el.find('#fms-btn-add-pwd'));
+            this.btnAddPwd.on('click', _.bind(this.closeMenu, this));
+
+            this.btnChangePwd = protection.getButton('change-password');
+            this.btnChangePwd.render(this.$el.find('#fms-btn-change-pwd'));
+            this.btnChangePwd.on('click', _.bind(this.closeMenu, this));
+
+            this.btnDeletePwd = protection.getButton('del-password');
+            this.btnDeletePwd.render(this.$el.find('#fms-btn-delete-pwd'));
+            this.btnDeletePwd.on('click', _.bind(this.closeMenu, this));
+
+            this.cntPassword = $('#id-fms-view-pwd');
+
             this.btnAddInvisibleSign = protection.getButton('signature');
             this.btnAddInvisibleSign.render(this.$el.find('#fms-btn-invisible-sign'));
             this.btnAddInvisibleSign.on('click', _.bind(this.closeMenu, this));
@@ -1153,6 +1181,7 @@ define([
         show: function() {
             Common.UI.BaseView.prototype.show.call(this,arguments);
             this.updateSignatures();
+            this.updateEncrypt();
         },
 
         setMode: function(mode) {
@@ -1180,7 +1209,7 @@ define([
                 primary: 'ok',
                 callback: function(btn) {
                     if (btn == 'ok') {
-                        // me.api.editSignedDoc();
+                        me.api.asc_RemoveAllSignatures();
                     }
                 }
             });
@@ -1217,6 +1246,10 @@ define([
             this.cntSignatureView.html(this.templateSignature({tipText: tipText, hasSigned: (hasValid || hasInvalid), hasRequested: hasRequested}));
         },
 
+        updateEncrypt: function() {
+            this.cntPassword.toggleClass('hidden', this.btnAddPwd.isVisible());
+        },
+
         strProtect: 'Protect Document',
         strSignature: 'Signature',
         txtView: 'View signatures',
@@ -1225,7 +1258,9 @@ define([
         txtSignedInvalid: 'Some of the digital signatures in document are invalid or could not be verified. The document is protected from editing.',
         txtRequestedSignatures: 'This document needs to be signed.',
         notcriticalErrorTitle: 'Warning',
-        txtEditWarning: 'Editing will remove the signatures from the document.<br>Are you sure you want to continue?'
+        txtEditWarning: 'Editing will remove the signatures from the document.<br>Are you sure you want to continue?',
+        strEncrypt: 'Password',
+        txtEncrypted: 'This document has been protected by password'
 
     }, DE.Views.FileMenuPanels.ProtectDoc || {}));
 
