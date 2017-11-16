@@ -319,7 +319,7 @@ define([
                     Common.NotificationCenter.trigger('protect:signature', 'visible', !!parseInt(item.cmpEl.attr('data-value')), guid);// can edit settings for requested signature
                     break;
                 case 3:
-                    this.api.asc_DeleteSign(guid);
+                    this.api.asc_RemoveSignature(guid);
                     break;
             }
         },
