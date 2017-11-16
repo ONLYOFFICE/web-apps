@@ -247,8 +247,7 @@ define([
                         callback: function(btn) {
                             if (btn == 'ok') {
                                 tip.close();
-                                // me.api.editSignedDoc();
-                                // me.disableEditing(false); // call in the asc_onUpdateSignatures event callback.
+                                me.api.asc_RemoveAllSignatures();
                             }
                         }
                     });
