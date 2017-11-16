@@ -110,9 +110,7 @@ define([
         },
 
         onDocumentPassword: function(hasPassword) {
-            if (!this.view) return;
-            this.view.btnAddPwd.setVisible(!hasPassword);
-            this.view.btnPwd.setVisible(hasPassword);
+            this.view && this.view.onDocumentPassword(hasPassword);
         },
 
         SetDisabled: function(state) {
@@ -147,6 +145,7 @@ define([
         onAppReady: function (config) {
             var me = this;
             // this.onApiUpdateSignatures([{name: 'Hammish Mitchell', guid: '123', date: '18/05/2017'}, {name: 'Someone Somewhere', guid: '345', date: '18/05/2017'}]);
+            // this.onDocumentPassword(true);
         },
 
         addPassword: function() {

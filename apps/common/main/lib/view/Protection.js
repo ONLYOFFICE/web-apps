@@ -66,8 +66,16 @@ define([
             var me = this;
 
             if ( me.appConfig.isDesktopApp && me.appConfig.isOffline ) {
-                this.btnAddPwd.on('click', function (e) {
-                    me.fireEvent('protect:password', [me.btnAddPwd, 'add']);
+                this.btnsAddPwd.concat(this.btnsChangePwd).forEach(function(button) {
+                    button.on('click', function (b, e) {
+                        me.fireEvent('protect:password', [b, 'add']);
+                    });
+                });
+
+                this.btnsDelPwd.forEach(function(button) {
+                    button.on('click', function (b, e) {
+                        me.fireEvent('protect:password', [b, 'delete']);
+                    });
                 });
 
                 this.btnPwd.menu.on('item:click', function (menu, item, e) {
@@ -97,18 +105,27 @@ define([
 
                 this.appConfig = options.mode;
 
+                this.btnsInvisibleSignature = [];
+                this.btnsAddPwd = [];
+                this.btnsDelPwd = [];
+                this.btnsChangePwd = [];
+
+                this._state = {disabled: false, hasPassword: false};
+
                 if ( this.appConfig.isDesktopApp && this.appConfig.isOffline ) {
                     this.btnAddPwd = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'review-prev',
                         caption: this.txtEncrypt
                     });
+                    this.btnsAddPwd.push(this.btnAddPwd);
 
                     this.btnPwd = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'btn-ic-reviewview',
                         caption: this.txtEncrypt,
-                        menu: true
+                        menu: true,
+                        visible: false
                     });
 
                     if (this.appConfig.canProtect)
@@ -119,8 +136,6 @@ define([
                             menu: true
                         });
                 }
-
-                this.btnsInvisibleSignature = [];
 
                 var filter = Common.localStorage.getKeysFilter();
                 this.appPrefix = (filter && filter.length) ? filter.split(',')[0] : '';
@@ -189,7 +204,6 @@ define([
                 if ( this.appConfig.isDesktopApp && this.appConfig.isOffline ) {
                     this.btnAddPwd.render(this.$el.find('#slot-btn-add-password'));
                     this.btnPwd.render(this.$el.find('#slot-btn-change-password'));
-                    this.btnPwd.setVisible(false);
                     this.btnSignature && this.btnSignature.render(this.$el.find('#slot-btn-signature'));
                 }
                 return this.$el;
@@ -205,21 +219,76 @@ define([
                     var button = new Common.UI.Button({
                         cls: 'btn-text-default',
                         style: 'width: 100%;',
-                        caption: this.txtInvisibleSignature
+                        caption: this.txtInvisibleSignature,
+                        disabled: this._state.disabled
                     });
                     this.btnsInvisibleSignature.push(button);
+
+                    return button;
+                } else if ( type == 'add-password' ) {
+                    var button = new Common.UI.Button({
+                        cls: 'btn-text-default',
+                        style: 'width: 100%;',
+                        caption: this.txtAddPwd,
+                        disabled: this._state.disabled,
+                        visible: !this._state.hasPassword
+                    });
+                    this.btnsAddPwd.push(button);
+
+                    return button;
+                } else if ( type == 'del-password' ) {
+                    var button = new Common.UI.Button({
+                        cls: 'btn-text-default',
+                        style: 'width: 100%;',
+                        caption: this.txtDeletePwd,
+                        disabled: this._state.disabled,
+                        visible: this._state.hasPassword
+                    });
+                    this.btnsDelPwd.push(button);
+
+                    return button;
+                } else if ( type == 'change-password' ) {
+                    var button = new Common.UI.Button({
+                        cls: 'btn-text-default',
+                        style: 'width: 100%;',
+                        caption: this.txtChangePwd,
+                        disabled: this._state.disabled,
+                        visible: this._state.hasPassword
+                    });
+                    this.btnsChangePwd.push(button);
 
                     return button;
                 }
             },
 
-            SetDisabled: function (state, langs) {
+            SetDisabled: function (state) {
+                this._state.disabled = state;
                 this.btnsInvisibleSignature && this.btnsInvisibleSignature.forEach(function(button) {
                     if ( button ) {
                         button.setDisabled(state);
                     }
                 }, this);
                 this.btnSignature && this.btnSignature.setDisabled(state);
+                this.btnsAddPwd.concat(this.btnsDelPwd, this.btnsChangePwd).forEach(function(button) {
+                    if ( button ) {
+                        button.setDisabled(state);
+                    }
+                }, this);
+            },
+
+            onDocumentPassword: function (hasPassword) {
+                this._state.hasPassword = hasPassword;
+                this.btnsAddPwd && this.btnsAddPwd.forEach(function(button) {
+                    if ( button ) {
+                        button.setVisible(!hasPassword);
+                    }
+                }, this);
+                this.btnsDelPwd.concat(this.btnsChangePwd).forEach(function(button) {
+                    if ( button ) {
+                        button.setVisible(hasPassword);
+                    }
+                }, this);
+                this.btnPwd.setVisible(hasPassword);
             },
 
             txtEncrypt: 'Encrypt',
@@ -229,6 +298,7 @@ define([
             hintSignature: 'Add digital signature or signature line',
             txtChangePwd: 'Change password',
             txtDeletePwd: 'Delete password',
+            txtAddPwd: 'Add password',
             txtInvisibleSignature: 'Add digital signature',
             txtSignatureLine: 'Signature line'
         }
