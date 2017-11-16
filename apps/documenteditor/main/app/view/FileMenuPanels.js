@@ -1220,8 +1220,8 @@ define([
         },
 
         onView: function() {
-
             this.menu && this.menu.hide();
+            DE.getController('RightMenu').rightmenu.SetActivePane(Common.Utils.documentSettingsType.Signature, true);
         },
 
         updateSignatures: function(){
