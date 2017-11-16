@@ -84,12 +84,12 @@ define([
 
                 if (me.appConfig.canProtect) {
                     this.btnSignature.menu.on('item:click', function (menu, item, e) {
-                        me.fireEvent('protect:signature', [menu, item.value]);
+                        me.fireEvent('protect:signature', [item.value, false]);
                     });
 
                     this.btnsInvisibleSignature.forEach(function(button) {
                         button.on('click', function (b, e) {
-                            me.fireEvent('protect:signature', [b, 'invisible']);
+                            me.fireEvent('protect:signature', ['invisible']);
                         });
                     });
                 }

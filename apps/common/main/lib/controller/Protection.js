@@ -92,6 +92,7 @@ define([
                     if (this.appConfig.canProtect) {
                         this.api.asc_registerCallback('asc_onSignatureClick',   _.bind(this.onApiSignatureClick, this));
                         Common.NotificationCenter.on('protect:sign', _.bind(this.onApiSignatureClick, this));
+                        Common.NotificationCenter.on('protect:signature', _.bind(this.onSignatureClick, this));
                         this.api.asc_registerCallback('asc_onUpdateSignatures', _.bind(this.onApiUpdateSignatures, this));
                     }
                 }
@@ -126,10 +127,10 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this.view);
         },
 
-        onSignatureClick: function(btn, opts){
-            switch (opts) {
+        onSignatureClick: function(type, signed, guid){
+            switch (type) {
                 case 'invisible': this.addInvisibleSignature(); break;
-                case 'visible': this.addVisibleSignature(); break;
+                case 'visible': this.addVisibleSignature(signed, guid); break;
             }
         },
 
@@ -144,7 +145,7 @@ define([
 
         onAppReady: function (config) {
             var me = this;
-            // this.onApiUpdateSignatures([{name: 'Hammish Mitchell', guid: '123', date: '18/05/2017'}, {name: 'Someone Somewhere', guid: '345', date: '18/05/2017'}]);
+            // this.onApiUpdateSignatures([{name: 'Hammish Mitchell', guid: '123', date: '18/05/2017'}, {name: 'Someone Somewhere', guid: '345', date: '18/05/2017'}], [{name: 'Hammish Mitchell', guid: '123', date: '18/05/2017'}, {name: 'Someone Somewhere', guid: '345', date: '18/05/2017'}]);
             // this.onDocumentPassword(true);
         },
 
@@ -168,7 +169,7 @@ define([
             this.api.asc_resetPassword();
         },
 
-        addInvisibleSignature: function(btn) {
+        addInvisibleSignature: function() {
             var me = this,
                 win = new Common.Views.SignDialog({
                     api: me.api,
@@ -185,11 +186,12 @@ define([
             win.show();
         },
 
-        addVisibleSignature: function(btn) {
+        addVisibleSignature: function(signed, guid) {
             var me = this,
                 win = new Common.Views.SignSettingsDialog({
+                    type: (!signed) ? 'edit' : 'view',
                     handler: function(dlg, result) {
-                        if (result == 'ok') {
+                        if (!signed && result == 'ok') {
                             me.api.asc_AddSignatureLine2(dlg.getSettings());
                         }
                         Common.NotificationCenter.trigger('edit:complete');
@@ -197,6 +199,16 @@ define([
                 });
 
             win.show();
+
+            // var props = new AscCommon.asc_CSignatureLine();
+            // props.asc_setSigner1("s1");
+            // props.asc_setSigner2("s2");
+            // props.asc_setEmail('email');
+            // props.asc_setInstructions('instructions');
+            // props.asc_setShowDate(true);
+
+            if (guid)
+                win.setSettings(this.api.asc_getSignatureSetup(guid));
         },
 
         signVisibleSignature: function(guid, width, height) {

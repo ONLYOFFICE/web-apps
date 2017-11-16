@@ -53,7 +53,8 @@ define([
         options: {
             width: 350,
             style: 'min-width: 350px;',
-            cls: 'modal-dlg'
+            cls: 'modal-dlg',
+            type: 'edit'
         },
 
         initialize : function(options) {
@@ -86,12 +87,15 @@ define([
                 '</div>',
                 '<div class="footer center">',
                     '<button class="btn normal dlg-btn primary" result="ok" style="margin-right: 10px;">' + this.okButtonText + '</button>',
+                    '<% if (type == "edit") { %>',
                     '<button class="btn normal dlg-btn" result="cancel">' + this.cancelButtonText + '</button>',
+                    '<% } %>',
                 '</div>'
             ].join('');
 
-            this.options.tpl = _.template(this.template)(this.options);
             this.api = this.options.api;
+            this.type = this.options.type || 'edit';
+            this.options.tpl = _.template(this.template)(this.options);
 
             Common.UI.Window.prototype.initialize.call(this, this.options);
         },
@@ -104,17 +108,20 @@ define([
 
             me.inputName = new Common.UI.InputField({
                 el          : $('#id-dlg-sign-settings-name'),
-                style       : 'width: 100%;'
+                style       : 'width: 100%;',
+                disabled    : this.type=='view'
             });
 
             me.inputTitle = new Common.UI.InputField({
                 el          : $('#id-dlg-sign-settings-title'),
-                style       : 'width: 100%;'
+                style       : 'width: 100%;',
+                disabled    : this.type=='view'
             });
 
             me.inputEmail = new Common.UI.InputField({
                 el          : $('#id-dlg-sign-settings-email'),
-                style       : 'width: 100%;'
+                style       : 'width: 100%;',
+                disabled    : this.type=='view'
             });
 
             me.textareaInstructions = this.$window.find('textarea');
@@ -123,10 +130,13 @@ define([
                     event.stopPropagation();
                 }
             });
+            (this.type=='view') ? this.textareaInstructions.attr('disabled', 'disabled') : this.textareaInstructions.removeAttr('disabled');
+            this.textareaInstructions.toggleClass('disabled', this.type=='view');
 
             this.chDate = new Common.UI.CheckBox({
                 el: $('#id-dlg-sign-settings-date'),
-                labelText: this.textShowDate
+                labelText: this.textShowDate,
+                disabled: this.type=='view'
             });
 
             $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
@@ -146,15 +156,15 @@ define([
             if (props) {
                 var me = this;
 
-                // var value = props.asc_getSigner1();
-                // me.inputName.setValue(value ? value : '');
-                // value = props.asc_getSigner2();
-                // me.inputTitle.setValue(value ? value : '');
-                // value = props.asc_getEmail();
-                // me.inputEmail.setValue(value ? value : '');
-                // value = props.asc_getInstructions();
-                // me.textareaInstructions.val(value ? value : '');
-                // me.chDate.setValue(props.asc_getShowDate());
+                var value = props.asc_getSigner1();
+                me.inputName.setValue(value ? value : '');
+                value = props.asc_getSigner2();
+                me.inputTitle.setValue(value ? value : '');
+                value = props.asc_getEmail();
+                me.inputEmail.setValue(value ? value : '');
+                value = props.asc_getInstructions();
+                me.textareaInstructions.val(value ? value : '');
+                me.chDate.setValue(props.asc_getShowDate());
             }
         },
 
