@@ -104,7 +104,7 @@ define([
                             '<td><label style="font-weight: bold;margin-bottom: 3px;">' + this.textCertificate + '</label></td>' +
                             '<td rowspan="2" style="vertical-align: top; padding-left: 30px;"><button id="id-dlg-sign-change" class="btn btn-text-default" style="">' + this.textChange + '</button></td>',
                         '</tr>',
-                        '<tr><td><div id="id-dlg-sign-certificate" style="max-width: 212px;overflow: hidden;"></td></tr>',
+                        '<tr><td><div id="id-dlg-sign-certificate" class="hidden" style="max-width: 212px;overflow: hidden;"></td></tr>',
                     '</table>',
                 '</div>',
                 '<div class="footer center">',
@@ -227,6 +227,11 @@ define([
             });
             me.btnChangeCertificate.on('click', _.bind(me.onChangeCertificate, me));
 
+            me.btnOk = new Common.UI.Button({
+                el: $window.find('.primary'),
+                disabled: true
+            });
+
             me.cntCertificate = $('#id-dlg-sign-certificate');
             me.cntVisibleSign = $('#id-dlg-sign-visible');
             me.cntInvisibleSign = $('#id-dlg-sign-invisible');
@@ -301,7 +306,7 @@ define([
 
         _handleInput: function(state) {
             if (this.options.handler) {
-                if (state == 'ok' && this.signObject && !this.signObject.isValid())
+                if (state == 'ok' && (this.btnOk.isDisabled() || this.signObject && !this.signObject.isValid()))
                         return;
 
                 this.options.handler.call(this, this, state);
@@ -318,6 +323,8 @@ define([
             var date = certificate.date,
                 arr_date = (typeof date == 'string') ? date.split(' - ') : ['', ''];
             this.cntCertificate.html(this.templateCertificate({name: certificate.name, valid: this.textValid.replace('%1', arr_date[0]).replace('%2', arr_date[1])}));
+            this.cntCertificate.toggleClass('hidden', this.certificateId<0);
+            this.btnOk.setDisabled(this.certificateId<0);
         },
 
         onSelectImage: function() {
