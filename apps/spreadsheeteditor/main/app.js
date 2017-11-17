@@ -161,6 +161,7 @@ require([
             'Common.Controllers.Comments',
             'Common.Controllers.Plugins'
             ,'Common.Controllers.ReviewChanges'
+            ,'Common.Controllers.Protection'
         ]
     });
 
@@ -194,6 +195,7 @@ require([
         'common/main/lib/controller/Chat',
         'common/main/lib/controller/Plugins'
         ,'common/main/lib/controller/ReviewChanges'
+        ,'common/main/lib/controller/Protection'
     ], function() {
         app.start();
     });

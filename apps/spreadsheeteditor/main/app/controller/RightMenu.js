@@ -86,11 +86,12 @@ define([
             this._settings[Common.Utils.documentSettingsType.Chart] =     {panelId: "id-chart-settings",      panel: rightMenu.chartSettings,    btn: rightMenu.btnChart,       hidden: 1, locked: false};
             this._settings[Common.Utils.documentSettingsType.Table] =     {panelId: "id-table-settings",      panel: rightMenu.tableSettings,    btn: rightMenu.btnTable,       hidden: 1, locked: false};
             this._settings[Common.Utils.documentSettingsType.Pivot] =     {panelId: "id-pivot-settings",      panel: rightMenu.pivotSettings,    btn: rightMenu.btnPivot,       hidden: 1, locked: false};
-            this._settings[Common.Utils.documentSettingsType.Signature] = {panelId: "id-signature-settings",  panel: rightMenu.signatureSettings, btn: rightMenu.btnSignature,  hidden: (rightMenu.signatureSettings) ? 0 : 1, props: {}, locked: false};
+            this._settings[Common.Utils.documentSettingsType.Signature] = {panelId: "id-signature-settings",  panel: rightMenu.signatureSettings, btn: rightMenu.btnSignature,  hidden: 1, props: {}, locked: false};
         },
 
         setApi: function(api) {
             this.api = api;
+            this.api.asc_registerCallback('asc_onUpdateSignatures',     _.bind(this.onApiUpdateSignatures, this));
             this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onCoAuthoringDisconnect, this));
             Common.NotificationCenter.on('api:disconnect',              _.bind(this.onCoAuthoringDisconnect, this));
             Common.NotificationCenter.on('cells:range',                 _.bind(this.onCellsRange, this));
@@ -299,6 +300,9 @@ define([
                 this.rightmenu.shapeSettings.createDelayedElements();
                 this.onSelectionChanged(this.api.asc_getCellInfo());
             }
+
+            //remove after sdk send event
+            // this.onApiUpdateSignatures([{name: 'Hammish Mitchell', guid: '123', date: '18/05/2017'}, {name: 'Someone Somewhere', guid: '345', date: '18/05/2017'}]);
         },
 
         onDoubleClickOnObject: function(obj) {
@@ -333,6 +337,16 @@ define([
             }
         },
 
+        onApiUpdateSignatures: function(valid, requested){
+            if (!this.rightmenu.signatureSettings) return;
+
+            var disabled = (!valid || valid.length<1) && (!requested || requested.length<1),
+                type = Common.Utils.documentSettingsType.Signature;
+            this._settings[type].hidden = disabled ? 1 : 0;
+            this._settings[type].btn.setDisabled(disabled);
+            this._settings[type].panel.setLocked(this._settings[type].locked);
+        },
+
         SetDisabled: function(disabled, allowSignature) {
             this.setMode({isEdit: !disabled});
             if (this.rightmenu) {
@@ -344,7 +358,6 @@ define([
                 this.rightmenu.pivotSettings.disableControls(disabled);
 
                 if (!allowSignature && this.rightmenu.signatureSettings) {
-                    this.rightmenu.signatureSettings.disableControls(disabled);
                     this.rightmenu.btnSignature.setDisabled(disabled);
                 }
 

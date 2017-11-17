@@ -392,8 +392,54 @@ button:active:not(.disabled) .btn-change-shape    {background-position: -56px  -
     }
 }
 
-.signature-sign-name {
+#signature-requested-sign,
+#signature-valid-sign,
+#signature-invalid-sign {
+    height: 100%;
     overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    margin: 0 -10px 0 -15px;
+
+    .item {
+        display: block;
+        border: none;
+        width: 100%;
+        .box-shadow(none);
+        margin: 0;
+
+        &:hover,
+        &.over {
+            background-color: @secondary;
+        }
+    }
+
+    .signature-item {
+        padding: 5px 2px 5px 15px;
+        text-overflow: ellipsis;
+
+        .name {
+            width: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+            cursor: pointer;
+            max-width: 160px;
+            text-overflow: ellipsis;
+        }
+
+        .caret {
+            width: 23px;
+            height: 14px;
+            border: 0;
+            background-position: -43px -150px;
+            margin: 8px 15px;
+            display: inline-block;
+            position: absolute;
+            right: 0;
+        }
+
+        &.requested {
+            .caret {
+                margin: 0 15px;
+            }
+        }
+    }
 }
