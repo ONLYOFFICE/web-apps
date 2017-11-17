@@ -2854,7 +2854,7 @@ define([
 
                 if (config.isDesktopApp && config.isOffline) {
                     tab = {action: 'protect', caption: me.toolbar.textTabProtect};
-                    var $panel = this.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
+                    $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
 
                     if ( $panel )
                         me.toolbar.addTab(tab, $panel, 4);

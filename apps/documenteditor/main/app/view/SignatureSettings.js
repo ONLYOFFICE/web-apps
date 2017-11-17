@@ -62,8 +62,6 @@ define([
         },
 
         initialize: function () {
-            var me = this;
-
             this._state = {
                 requestedSignatures: undefined,
                 validSignatures: undefined,
@@ -90,9 +88,8 @@ define([
                 enableKeyEvents: false,
                 itemTemplate: _.template([
                     '<div id="<%= id %>" class="signature-item requested">',
-                    '<div class="caret img-commonctrl"></div>',
-                    '<div class="name"><%= Common.Utils.String.htmlEncode(name) %></div>',
-                    '</div>',
+                        '<div class="caret img-commonctrl"></div>',
+                        '<div class="name"><%= Common.Utils.String.htmlEncode(name) %></div>',
                     '</div>'
                 ].join(''))
             });
@@ -102,10 +99,9 @@ define([
                 enableKeyEvents: false,
                 itemTemplate: _.template([
                     '<div id="<%= id %>" class="signature-item">',
-                    '<div class="caret img-commonctrl"></div>',
-                    '<div class="name"><%= Common.Utils.String.htmlEncode(name) %></div>',
-                    '<div class="date"><%= Common.Utils.String.htmlEncode(date) %></div>',
-                    '</div>',
+                        '<div class="caret img-commonctrl"></div>',
+                        '<div class="name"><%= Common.Utils.String.htmlEncode(name) %></div>',
+                        '<div class="date"><%= Common.Utils.String.htmlEncode(date) %></div>',
                     '</div>'
                 ].join(''))
             });
@@ -115,10 +111,9 @@ define([
                 enableKeyEvents: false,
                 itemTemplate: _.template([
                     '<div id="<%= id %>" class="signature-item">',
-                    '<div class="caret img-commonctrl"></div>',
-                    '<div class="name"><%= Common.Utils.String.htmlEncode(name) %></div>',
-                    '<div class="date"><%= Common.Utils.String.htmlEncode(date) %></div>',
-                    '</div>',
+                        '<div class="caret img-commonctrl"></div>',
+                        '<div class="name"><%= Common.Utils.String.htmlEncode(name) %></div>',
+                        '<div class="date"><%= Common.Utils.String.htmlEncode(date) %></div>',
                     '</div>'
                 ].join(''))
             });
@@ -178,12 +173,12 @@ define([
                 me._state.requestedSignatures.push({name: item.asc_getSigner1(), guid: item.asc_getGuid(), requested: true});
             });
             _.each(valid, function(item, index){
-                var sign = {name: item.asc_getSigner1(), guid: item.asc_getId(), date: '18/05/2017'};
+                var sign = {name: item.asc_getSigner1(), guid: item.asc_getId(), date: '18/05/2017', invisible: !item.asc_getVisible()};
                 (item.asc_getValid()==0) ? me._state.validSignatures.push(sign) : me._state.invalidSignatures.push(sign);
             });
 
             // me._state.requestedSignatures = [{name: 'Hammish Mitchell', guid: '123', requested: true}, {name: 'Someone Somewhere', guid: '123', requested: true}, {name: 'Mary White', guid: '123', requested: true}, {name: 'John Black', guid: '123', requested: true}];
-            // me._state.validSignatures = [{name: 'Hammish Mitchell', guid: '123', date: '18/05/2017'}, {name: 'Someone Somewhere', guid: '345', date: '18/05/2017'}];
+            // me._state.validSignatures = [{name: 'Hammish Mitchell', guid: '123', date: '18/05/2017', invisible: true}, {name: 'Someone Somewhere', guid: '345', date: '18/05/2017'}];
             // me._state.invalidSignatures = [{name: 'Mary White', guid: '111', date: '18/05/2017'}, {name: 'John Black', guid: '456', date: '18/05/2017'}];
 
             this.viewRequestedList.store.reset(me._state.requestedSignatures);
@@ -240,6 +235,7 @@ define([
                     signed = (this._state.validSignatures.length>0 || this._state.invalidSignatures.length>0);
                 menu.items[0].setVisible(requested);
                 menu.items[1].setVisible(!requested);
+                menu.items[2].setVisible(requested || !record.get('invisible'));
                 menu.items[3].setVisible(!requested);
                 menu.items[0].setDisabled(this._locked);
                 menu.items[3].setDisabled(this._locked);
