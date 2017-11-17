@@ -90,9 +90,9 @@ define([
                 if (this.appConfig.isDesktopApp && this.appConfig.isOffline) {
                     this.api.asc_registerCallback('asc_onDocumentPassword',  _.bind(this.onDocumentPassword, this));
                     if (this.appConfig.canProtect) {
-                        this.api.asc_registerCallback('asc_onSignatureClick',   _.bind(this.onApiSignatureClick, this));
-                        Common.NotificationCenter.on('protect:sign', _.bind(this.onApiSignatureClick, this));
-                        Common.NotificationCenter.on('protect:signature', _.bind(this.onSignatureClick, this));
+                        Common.NotificationCenter.on('protect:sign',            _.bind(this.onSignatureRequest, this));
+                        Common.NotificationCenter.on('protect:signature',       _.bind(this.onSignatureClick, this));
+                        this.api.asc_registerCallback('asc_onSignatureClick',   _.bind(this.onSignatureSign, this));
                         this.api.asc_registerCallback('asc_onUpdateSignatures', _.bind(this.onApiUpdateSignatures, this));
                     }
                 }
@@ -127,9 +127,13 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this.view);
         },
 
+        onSignatureRequest: function(guid){
+            this.api.asc_RequestSign(guid);
+        },
+
         onSignatureClick: function(type, signed, guid){
             switch (type) {
-                case 'invisible': this.addInvisibleSignature(); break;
+                case 'invisible': this.onSignatureRequest('invisibleAdd'); break;
                 case 'visible': this.addVisibleSignature(signed, guid); break;
             }
         },
@@ -242,8 +246,8 @@ define([
             win.show();
         },
 
-        onApiSignatureClick: function(guid, width, height) {
-            this.signVisibleSignature(guid, width, height);
+        onSignatureSign: function(guid, width, height, isVisible) {
+            (isVisible) ? this.signVisibleSignature(guid, width, height) : this.addInvisibleSignature();
         },
 
         onApiUpdateSignatures: function(valid, requested){
