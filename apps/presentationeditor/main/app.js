@@ -156,6 +156,7 @@ require([
             ,'Common.Controllers.Plugins'
             ,'Common.Controllers.ExternalDiagramEditor'
             ,'Common.Controllers.ReviewChanges'
+            ,'Common.Controllers.Protection'
         ]
     });
 
@@ -188,6 +189,7 @@ require([
         'presentationeditor/main/app/view/ChartSettings',
         'common/main/lib/controller/ExternalDiagramEditor'
         ,'common/main/lib/controller/ReviewChanges'
+        ,'common/main/lib/controller/Protection'
     ], function() {
         app.start();
     });

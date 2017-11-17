@@ -1863,7 +1863,8 @@ define([
             textTabInsert: 'Insert',
             textSurface: 'Surface',
             textShowPresenterView: 'Show presenter view',
-            textTabCollaboration: 'Collaboration'
+            textTabCollaboration: 'Collaboration',
+            textTabProtect: 'Protection'
         }
     }()), PE.Views.Toolbar || {}));
 });
