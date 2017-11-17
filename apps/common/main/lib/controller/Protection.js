@@ -133,7 +133,7 @@ define([
 
         onSignatureClick: function(type, signed, guid){
             switch (type) {
-                case 'invisible': this.onSignatureRequest('invisibleAdd'); break;
+                case 'invisible': this.onSignatureRequest('unvisibleAdd'); break;
                 case 'visible': this.addVisibleSignature(signed, guid); break;
             }
         },
