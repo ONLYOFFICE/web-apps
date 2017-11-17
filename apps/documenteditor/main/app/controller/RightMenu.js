@@ -357,7 +357,6 @@ define([
                 this.rightmenu.chartSettings.disableControls(disabled);
 
                 if (!allowSignature && this.rightmenu.signatureSettings) {
-                    this.rightmenu.signatureSettings.disableControls(disabled);
                     this.rightmenu.btnSignature.setDisabled(disabled);
                 }
 

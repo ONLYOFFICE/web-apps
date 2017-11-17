@@ -67,8 +67,6 @@ define([
             var me = this;
 
             this._state = {
-                DisabledControls: false,
-                DisabledInsertControls: false,
                 requestedSignatures: undefined,
                 validSignatures: undefined,
                 invalidSignatures: undefined,
@@ -76,37 +74,6 @@ define([
                 ready: false
             };
             this._locked = false;
-            this._noApply = false;
-            this._originalProps = null;
-
-            this.templateRequested = _.template([
-                '<td class="padding-large <% if (signatures.length<1) { %>hidden<% } %>">',
-                '<table class="<% if (signatures.length<1) { %>hidden<% } %>" style="width:100%">',
-                    '<tr><td colspan="2" class="padding-large"><label class="header"><%= header %></label></td></tr>',
-                    '<% _.each(signatures, function(item) { %>',
-                    '<tr>',
-                        '<td style="padding-bottom: 5px;"><label class="signature-sign-name"><%= Common.Utils.String.htmlEncode(item.name) %></label></td>',
-                        '<td style="padding: 0 5px; vertical-align: top; text-align: right;"><label class="link-solid signature-sign-link" data-value="<%= item.guid %>">' + this.strSign + '</label></td>',
-                    '</tr>',
-                    '<% }); %>',
-                '</table>',
-                '</td>'
-            ].join(''));
-
-            this.templateValid = _.template([
-                '<td class="padding-large <% if (signatures.length<1) { %>hidden<% } %>"">',
-                '<table class="<% if (signatures.length<1) { %>hidden<% } %>" style="width:100%">',
-                    '<tr><td colspan="2" class="padding-large"><label class="header"><%= header %></label></td></tr>',
-                    '<% _.each(signatures, function(item) { %>',
-                    '<tr>',
-                        '<td><div class="signature-sign-name"><%= Common.Utils.String.htmlEncode(item.name) %></div></td>',
-                        '<td rowspan="2" style="padding: 0 5px; vertical-align: top; text-align: right;"><label class="link-solid signature-view-link" data-value="<%= item.guid %>">' + this.strView + '</label></td>',
-                    '</tr>',
-                    '<tr><td style="padding-bottom: 3px;"><label class="signature-sign-name"><%= Common.Utils.String.htmlEncode(item.date) %></label></td></tr>',
-                    '<% }); %>',
-                '</table>',
-                '</td>'
-            ].join(''));
 
             this.render();
         },
@@ -186,20 +153,10 @@ define([
         ChangeSettings: function(props) {
             if (!this._state.requestedSignatures || !this._state.validSignatures || !this._state.invalidSignatures)
                 this.updateSignatures(this.api.asc_getSignatures(), this.api.asc_getRequestSignatures());
-
-            this.disableControls(this._locked);
         },
 
         setLocked: function (locked) {
             this._locked = locked;
-        },
-
-        disableControls: function(disable) {
-            if (this._state.DisabledControls!==disable) {
-                this._state.DisabledControls = disable;
-                this.$linksSign && this.$linksSign.toggleClass('disabled', disable);
-                this.$linksView && this.$linksView.toggleClass('disabled', disable);
-            }
         },
 
         setMode: function(mode) {
