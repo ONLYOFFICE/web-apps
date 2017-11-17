@@ -248,8 +248,11 @@ define([
             },500);
         },
 
-        hide: function() {
-            Common.UI.Window.prototype.hide.apply(this, arguments);
+        close: function() {
+            this.api.asc_unregisterCallback('on_signature_defaultcertificate_ret', this.binding.certificateChanged);
+            this.api.asc_unregisterCallback('on_signature_selectsertificate_ret', this.binding.certificateChanged);
+
+            Common.UI.Window.prototype.close.apply(this, arguments);
 
             if (this.signObject)
                 this.signObject.destroy();
@@ -257,10 +260,11 @@ define([
 
         afterRender: function () {
             if (this.api) {
-                this.api.asc_unregisterCallback('on_signature_defaultcertificate_ret', _.bind(this.onCertificateChanged, this));
-                this.api.asc_registerCallback('on_signature_defaultcertificate_ret', _.bind(this.onCertificateChanged, this));
-                this.api.asc_unregisterCallback('on_signature_selectsertificate_ret', _.bind(this.onCertificateChanged, this));
-                this.api.asc_registerCallback('on_signature_selectsertificate_ret', _.bind(this.onCertificateChanged, this));
+                this.binding = {
+                    certificateChanged: _.bind(this.onCertificateChanged, this)
+                };
+                this.api.asc_registerCallback('on_signature_defaultcertificate_ret', this.binding.certificateChanged);
+                this.api.asc_registerCallback('on_signature_selectsertificate_ret', this.binding.certificateChanged);
                 this.api.asc_GetDefaultCertificate();
             }
 
