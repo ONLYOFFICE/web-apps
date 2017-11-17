@@ -84,6 +84,7 @@ define([
 
         setApi: function(api) {
             this.api = api;
+            this.api.asc_registerCallback('asc_onUpdateSignatures', _.bind(this.onApiUpdateSignatures, this));
             this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onCoAuthoringDisconnect, this));
             Common.NotificationCenter.on('api:disconnect',              _.bind(this.onCoAuthoringDisconnect, this));
         },
@@ -270,11 +271,6 @@ define([
                     this.rightmenu.mergeSettings.setDocumentName(this.getApplication().getController('Viewport').getView('Common.Views.Header').getDocumentCaption());
                     this.api.asc_registerCallback('asc_onStartMailMerge',    _.bind(this.onStartMailMerge, this));
                 }
-
-                if (this.rightmenu.signatureSettings) {
-                    this.api.asc_registerCallback('asc_onUpdateSignatures', _.bind(this.onApiUpdateSignatures, this));
-                }
-
                 this.api.asc_registerCallback('asc_onError',             _.bind(this.onError, this));
             }
 
@@ -334,6 +330,8 @@ define([
         },
 
         onApiUpdateSignatures: function(valid, requested){
+            if (!this.rightmenu.signatureSettings) return;
+
             var disabled = (!valid || valid.length<1) && (!requested || requested.length<1),
                 type = Common.Utils.documentSettingsType.Signature;
             this._settings[type].hidden = disabled ? 1 : 0;
