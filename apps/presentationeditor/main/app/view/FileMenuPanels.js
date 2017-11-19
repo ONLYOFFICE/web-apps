@@ -1016,16 +1016,16 @@ define([
             this.cntPassword.toggleClass('hidden', this.btnAddPwd.isVisible());
         },
 
-        strProtect: 'Protect Document',
+        strProtect: 'Protect Presentation',
         strSignature: 'Signature',
         txtView: 'View signatures',
-        txtEdit: 'Edit document',
-        txtSigned: 'Valid signatures has been added to the document. The document is protected from editing.',
-        txtSignedInvalid: 'Some of the digital signatures in document are invalid or could not be verified. The document is protected from editing.',
+        txtEdit: 'Edit presentation',
+        txtSigned: 'Valid signatures has been added to the presentation. The presentation is protected from editing.',
+        txtSignedInvalid: 'Some of the digital signatures in presentation are invalid or could not be verified. The presentation is protected from editing.',
         notcriticalErrorTitle: 'Warning',
-        txtEditWarning: 'Editing will remove the signatures from the document.<br>Are you sure you want to continue?',
+        txtEditWarning: 'Editing will remove the signatures from the presentation.<br>Are you sure you want to continue?',
         strEncrypt: 'Password',
-        txtEncrypted: 'This document has been protected by password'
+        txtEncrypted: 'This presentation has been protected by password'
 
     }, PE.Views.FileMenuPanels.ProtectDoc || {}));
 

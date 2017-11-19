@@ -1489,17 +1489,17 @@ define([
             this.cntPassword.toggleClass('hidden', this.btnAddPwd.isVisible());
         },
 
-        strProtect: 'Protect Document',
+        strProtect: 'Protect Workbook',
         strSignature: 'Signature',
         txtView: 'View signatures',
-        txtEdit: 'Edit document',
-        txtSigned: 'Valid signatures has been added to the document. The document is protected from editing.',
-        txtSignedInvalid: 'Some of the digital signatures in document are invalid or could not be verified. The document is protected from editing.',
-        txtRequestedSignatures: 'This document needs to be signed.',
+        txtEdit: 'Edit workbook',
+        txtSigned: 'Valid signatures has been added to the workbook. The workbook is protected from editing.',
+        txtSignedInvalid: 'Some of the digital signatures in workbook are invalid or could not be verified. The workbook is protected from editing.',
+        txtRequestedSignatures: 'This workbook needs to be signed.',
         notcriticalErrorTitle: 'Warning',
-        txtEditWarning: 'Editing will remove the signatures from the document.<br>Are you sure you want to continue?',
+        txtEditWarning: 'Editing will remove the signatures from the workbook.<br>Are you sure you want to continue?',
         strEncrypt: 'Password',
-        txtEncrypted: 'This document has been protected by password'
+        txtEncrypted: 'This workbook has been protected by password'
 
     }, SSE.Views.FileMenuPanels.ProtectDoc || {}));
 

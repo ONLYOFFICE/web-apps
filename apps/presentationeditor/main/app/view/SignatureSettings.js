@@ -305,11 +305,11 @@ define([
         strValid: 'Valid signatures',
         strInvalid: 'Invalid signatures',
         strDetails: 'Signature Details',
-        txtSigned: 'Valid signatures has been added to the document. The document is protected from editing.',
-        txtSignedInvalid: 'Some of the digital signatures in document are invalid or could not be verified. The document is protected from editing.',
+        txtSigned: 'Valid signatures has been added to the presentation. The presentation is protected from editing.',
+        txtSignedInvalid: 'Some of the digital signatures in presentation are invalid or could not be verified. The presentation is protected from editing.',
         txtContinueEditing: 'Edit anyway',
         notcriticalErrorTitle: 'Warning',
-        txtEditWarning: 'Editing will remove the signatures from the document.<br>Are you sure you want to continue?',
+        txtEditWarning: 'Editing will remove the signatures from the presentation.<br>Are you sure you want to continue?',
         strDelete: 'Remove Signature'
 
     }, PE.Views.SignatureSettings || {}));
