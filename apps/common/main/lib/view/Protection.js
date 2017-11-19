@@ -83,9 +83,10 @@ define([
                 });
 
                 if (me.appConfig.canProtect) {
-                    this.btnSignature.menu.on('item:click', function (menu, item, e) {
-                        me.fireEvent('protect:signature', [item.value, false]);
-                    });
+                    if (this.btnSignature.menu)
+                        this.btnSignature.menu.on('item:click', function (menu, item, e) {
+                            me.fireEvent('protect:signature', [item.value, false]);
+                        });
 
                     this.btnsInvisibleSignature.forEach(function(button) {
                         button.on('click', function (b, e) {
@@ -112,6 +113,9 @@ define([
 
                 this._state = {disabled: false, hasPassword: false};
 
+                var filter = Common.localStorage.getKeysFilter();
+                this.appPrefix = (filter && filter.length) ? filter.split(',')[0] : '';
+
                 if ( this.appConfig.isDesktopApp && this.appConfig.isOffline ) {
                     this.btnAddPwd = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
@@ -128,17 +132,17 @@ define([
                         visible: false
                     });
 
-                    if (this.appConfig.canProtect)
+                    if (this.appConfig.canProtect) {
                         this.btnSignature = new Common.UI.Button({
                             cls: 'btn-toolbar x-huge icon-top',
                             iconCls: 'btn-ic-reviewview',
                             caption: this.txtSignature,
-                            menu: true
+                            menu: (this.appPrefix !== 'pe-')
                         });
+                        if (!this.btnSignature.menu)
+                            this.btnsInvisibleSignature.push(this.btnSignature);
+                    }
                 }
-
-                var filter = Common.localStorage.getKeysFilter();
-                this.appPrefix = (filter && filter.length) ? filter.split(',')[0] : '';
 
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             },
@@ -175,8 +179,8 @@ define([
                         );
 
                         if (me.btnSignature) {
-                            me.btnSignature.updateHint(me.hintSignature);
-                            me.btnSignature.setMenu(
+                            me.btnSignature.updateHint((me.btnSignature.menu) ? me.hintSignature : me.txtInvisibleSignature);
+                            me.btnSignature.menu && me.btnSignature.setMenu(
                                 new Common.UI.Menu({
                                     items: [
                                         {
