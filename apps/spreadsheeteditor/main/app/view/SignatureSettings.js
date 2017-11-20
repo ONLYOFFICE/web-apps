@@ -173,7 +173,7 @@ define([
                 me._state.requestedSignatures.push({name: item.asc_getSigner1(), guid: item.asc_getGuid(), requested: true});
             });
             _.each(valid, function(item, index){
-                var sign = {name: item.asc_getSigner1(), guid: item.asc_getId(), date: '18/05/2017', invisible: !item.asc_getVisible()};
+                var sign = {name: item.asc_getSigner1(), certificateId: item.asc_getId(), guid: item.asc_getGuid(), date: item.asc_getDate(), invisible: !item.asc_getVisible()};
                 (item.asc_getValid()==0) ? me._state.validSignatures.push(sign) : me._state.invalidSignatures.push(sign);
             });
 
@@ -237,8 +237,11 @@ define([
                 menu.items[1].setVisible(!requested);
                 menu.items[2].setVisible(requested || !record.get('invisible'));
                 menu.items[3].setVisible(!requested);
+
                 menu.items[0].setDisabled(this._locked);
                 menu.items[3].setDisabled(this._locked);
+
+                menu.items[1].cmpEl.attr('data-value', record.get('certificateId')); // view certificate
                 menu.items[2].cmpEl.attr('data-value', signed ? 1 : 0); // view or edit signature settings
                 menu.cmpEl.attr('data-value', record.get('guid'));
 
@@ -264,7 +267,7 @@ define([
                     Common.NotificationCenter.trigger('protect:sign', guid);
                     break;
                 case 1:
-                    this.api.asc_ViewCertificate(guid);
+                    this.api.asc_ViewCertificate(item.cmpEl.attr('data-value'));
                     break;
                 case 2:
                     Common.NotificationCenter.trigger('protect:signature', 'visible', !!parseInt(item.cmpEl.attr('data-value')), guid);// can edit settings for requested signature
