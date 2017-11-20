@@ -155,7 +155,7 @@ define([
             me._state.invalidSignatures = [];
 
             _.each(valid, function(item, index){
-                var sign = {name: item.asc_getSigner1(), guid: item.asc_getId(), date: '18/05/2017'};
+                var sign = {name: item.asc_getSigner1(), certificateId: item.asc_getId(), guid: item.asc_getGuid(), date: item.asc_getDate()};
                 (item.asc_getValid()==0) ? me._state.validSignatures.push(sign) : me._state.invalidSignatures.push(sign);
             });
 
@@ -211,6 +211,8 @@ define([
                     });
                 }
                 menu.items[1].setDisabled(this._locked);
+
+                menu.items[0].cmpEl.attr('data-value', record.get('certificateId')); // view certificate
                 menu.cmpEl.attr('data-value', record.get('guid'));
 
                 menuContainer.css({left: showPoint[0], top: showPoint[1]});
@@ -230,7 +232,7 @@ define([
             var guid = menu.cmpEl.attr('data-value');
             switch (item.value) {
                 case 1:
-                    this.api.asc_ViewCertificate(guid);
+                    this.api.asc_ViewCertificate(item.cmpEl.attr('data-value'));
                     break;
                 case 3:
                     this.api.asc_RemoveSignature(guid);
