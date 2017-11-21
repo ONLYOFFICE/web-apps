@@ -738,7 +738,7 @@ define([
                     id          : 'id-toolbar-btn-slide-size',
                     cls         : 'btn-toolbar',
                     iconCls     : 'btn-slidesize',
-                    lock        : [_set.docPropsLock, _set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart],
+                    lock        : [_set.docPropsLock, _set.slideDeleted, _set.lostConnect, _set.disableOnStart],
                     menu        : new Common.UI.Menu({
                         items: [
                             {
