@@ -63,11 +63,12 @@ define([
 
         initialize: function () {
             this._state = {
-                requestedSignatures: undefined,
-                validSignatures: undefined,
-                invalidSignatures: undefined,
                 DisabledEditing: false,
-                ready: false
+                ready: false,
+                hasValid: false,
+                hasInvalid: false,
+                hasRequested: false,
+                tip: undefined
             };
             this._locked = false;
 
@@ -88,7 +89,7 @@ define([
                 enableKeyEvents: false,
                 itemTemplate: _.template([
                     '<div id="<%= id %>" class="signature-item requested">',
-                        '<div class="caret img-commonctrl"></div>',
+                        '<div class="caret img-commonctrl nomargin"></div>',
                         '<div class="name"><%= Common.Utils.String.htmlEncode(name) %></div>',
                     '</div>'
                 ].join(''))
@@ -99,7 +100,7 @@ define([
                 enableKeyEvents: false,
                 itemTemplate: _.template([
                     '<div id="<%= id %>" class="signature-item">',
-                        '<div class="caret img-commonctrl"></div>',
+                        '<div class="caret img-commonctrl <% if (name == "" || date == "") { %>' + 'nomargin' + '<% } %>"></div>',
                         '<div class="name"><%= Common.Utils.String.htmlEncode(name) %></div>',
                         '<div class="date"><%= Common.Utils.String.htmlEncode(date) %></div>',
                     '</div>'
@@ -111,7 +112,7 @@ define([
                 enableKeyEvents: false,
                 itemTemplate: _.template([
                     '<div id="<%= id %>" class="signature-item">',
-                        '<div class="caret img-commonctrl"></div>',
+                        '<div class="caret img-commonctrl <% if (name == "" || date == "") { %>' + 'nomargin' + '<% } %>"></div>',
                         '<div class="name"><%= Common.Utils.String.htmlEncode(name) %></div>',
                         '<div class="date"><%= Common.Utils.String.htmlEncode(date) %></div>',
                     '</div>'
@@ -144,7 +145,7 @@ define([
         },
 
         ChangeSettings: function(props) {
-            if (!this._state.requestedSignatures || !this._state.validSignatures || !this._state.invalidSignatures)
+            if (!this._state.hasRequested && !this._state.hasValid && !this._state.hasInvalid)
                 this.updateSignatures(this.api.asc_getSignatures(), this.api.asc_getRequestSignatures());
         },
 
@@ -160,36 +161,41 @@ define([
             if (!this._state.ready) return;
 
             this.updateSignatures(valid, requested);
-            this.showSignatureTooltip(this._state.validSignatures.length>0, this._state.invalidSignatures.length>0);
+            this.showSignatureTooltip(this._state.hasValid, this._state.hasInvalid);
         },
 
         updateSignatures: function(valid, requested){
-            var me = this;
-            me._state.requestedSignatures = [];
-            me._state.validSignatures = [];
-            me._state.invalidSignatures = [];
+            var me = this,
+                requestedSignatures = [],
+                validSignatures = [],
+                invalidSignatures = [];
 
             _.each(requested, function(item, index){
-                me._state.requestedSignatures.push({name: item.asc_getSigner1(), guid: item.asc_getGuid(), requested: true});
+                requestedSignatures.push({name: item.asc_getSigner1(), guid: item.asc_getGuid(), requested: true});
             });
             _.each(valid, function(item, index){
-                var sign = {name: item.asc_getSigner1(), certificateId: item.asc_getId(), guid: item.asc_getGuid(), date: item.asc_getDate(), invisible: !item.asc_getVisible()};
-                (item.asc_getValid()==0) ? me._state.validSignatures.push(sign) : me._state.invalidSignatures.push(sign);
+                var item_date = item.asc_getDate();
+                var sign = {name: item.asc_getSigner1(), certificateId: item.asc_getId(), guid: item.asc_getGuid(), date: (!_.isEmpty(item_date)) ? new Date(item_date).toLocaleString() : '', invisible: !item.asc_getVisible()};
+                (item.asc_getValid()==0) ? validSignatures.push(sign) : invalidSignatures.push(sign);
             });
 
-            // me._state.requestedSignatures = [{name: 'Hammish Mitchell', guid: '123', requested: true}, {name: 'Someone Somewhere', guid: '123', requested: true}, {name: 'Mary White', guid: '123', requested: true}, {name: 'John Black', guid: '123', requested: true}];
-            // me._state.validSignatures = [{name: 'Hammish Mitchell', guid: '123', date: '18/05/2017', invisible: true}, {name: 'Someone Somewhere', guid: '345', date: '18/05/2017'}];
-            // me._state.invalidSignatures = [{name: 'Mary White', guid: '111', date: '18/05/2017'}, {name: 'John Black', guid: '456', date: '18/05/2017'}];
+            // requestedSignatures = [{name: 'Hammish Mitchell', guid: '123', requested: true}, {name: 'Someone Somewhere', guid: '123', requested: true}, {name: 'Mary White', guid: '123', requested: true}, {name: 'John Black', guid: '123', requested: true}];
+            // validSignatures = [{name: 'Hammish Mitchell', guid: '123', date: '18/05/2017', invisible: true}, {name: 'Someone Somewhere', guid: '345', date: '18/05/2017'}];
+            // invalidSignatures = [{name: 'Mary White', guid: '111', date: '18/05/2017'}, {name: 'John Black', guid: '456', date: '18/05/2017'}];
 
-            this.viewRequestedList.store.reset(me._state.requestedSignatures);
-            this.viewValidList.store.reset(me._state.validSignatures);
-            this.viewInvalidList.store.reset(me._state.invalidSignatures);
+            me._state.hasValid = validSignatures.length>0;
+            me._state.hasInvalid = invalidSignatures.length>0;
+            me._state.hasRequested = requestedSignatures.length>0;
 
-            this.$el.find('.requested').toggleClass('hidden', me._state.requestedSignatures.length<1);
-            this.$el.find('.valid').toggleClass('hidden', me._state.validSignatures.length<1);
-            this.$el.find('.invalid').toggleClass('hidden', me._state.invalidSignatures.length<1);
+            this.viewRequestedList.store.reset(requestedSignatures);
+            this.viewValidList.store.reset(validSignatures);
+            this.viewInvalidList.store.reset(invalidSignatures);
 
-            me.disableEditing(me._state.validSignatures.length>0 || me._state.invalidSignatures.length>0);
+            this.$el.find('.requested').toggleClass('hidden', !me._state.hasRequested);
+            this.$el.find('.valid').toggleClass('hidden', !me._state.hasValid);
+            this.$el.find('.invalid').toggleClass('hidden', !me._state.hasInvalid);
+
+            me.disableEditing(me._state.hasValid || me._state.hasInvalid);
         },
 
         onSelectSignature: function(picker, item, record, e){
@@ -232,7 +238,7 @@ define([
                     });
                 }
                 var requested = record.get('requested'),
-                    signed = (this._state.validSignatures.length>0 || this._state.invalidSignatures.length>0);
+                    signed = (this._state.hasValid || this._state.hasInvalid);
                 menu.items[0].setVisible(requested);
                 menu.items[1].setVisible(!requested);
                 menu.items[2].setVisible(requested || !record.get('invisible'));
@@ -282,44 +288,63 @@ define([
             this._state.ready = true;
 
             this.updateSignatures(this.api.asc_getSignatures(), this.api.asc_getRequestSignatures());
-            this.showSignatureTooltip(this._state.validSignatures.length>0, this._state.invalidSignatures.length>0, this._state.requestedSignatures.length>0);
+            this.showSignatureTooltip(this._state.hasValid, this._state.hasInvalid, this._state.hasRequested);
         },
 
         showSignatureTooltip: function(hasValid, hasInvalid, hasRequested) {
-            if (!hasValid && !hasInvalid && !hasRequested) return;
-
-            var tipText = (hasInvalid) ? this.txtSignedInvalid : (hasValid ? this.txtSigned : "");
-            if (hasRequested)
-                tipText = this.txtRequestedSignatures + "<br><br>" + tipText;
-
             var me = this,
+                tip = me._state.tip;
+
+            if (!hasValid && !hasInvalid && !hasRequested) {
+                if (tip && tip.isVisible()) {
+                    tip.close();
+                    me._state.tip = undefined;
+                }
+                return;
+            }
+
+            var showLink = hasValid || hasInvalid,
+                tipText = (hasInvalid) ? me.txtSignedInvalid : (hasValid ? me.txtSigned : "");
+            if (hasRequested)
+                tipText = me.txtRequestedSignatures + "<br><br>" + tipText;
+
+            if (tip && tip.isVisible() && (tipText !== tip.text || showLink !== tip.showLink)) {
+                tip.close();
+                me._state.tip = undefined;
+            }
+
+            if (!me._state.tip) {
                 tip = new Common.UI.SynchronizeTip({
                     target  : SSE.getController('RightMenu').getView('RightMenu').btnSignature.btnEl,
                     text    : tipText,
-                    showLink: hasValid || hasInvalid,
+                    showLink: showLink,
                     textLink: this.txtContinueEditing,
                     placement: 'left'
                 });
-            tip.on({
-                'dontshowclick': function() {
-                    Common.UI.warning({
-                        title: me.notcriticalErrorTitle,
-                        msg: me.txtEditWarning,
-                        buttons: ['ok', 'cancel'],
-                        primary: 'ok',
-                        callback: function(btn) {
-                            if (btn == 'ok') {
-                                tip.close();
-                                me.api.asc_RemoveAllSignatures();
+                tip.on({
+                    'dontshowclick': function() {
+                        Common.UI.warning({
+                            title: me.notcriticalErrorTitle,
+                            msg: me.txtEditWarning,
+                            buttons: ['ok', 'cancel'],
+                            primary: 'ok',
+                            callback: function(btn) {
+                                if (btn == 'ok') {
+                                    tip.close();
+                                    me._state.tip = undefined;
+                                    me.api.asc_RemoveAllSignatures();
+                                }
                             }
-                        }
-                    });
-                },
-                'closeclick': function() {
-                    tip.close();
-                }
-            });
-            tip.show();
+                        });
+                    },
+                    'closeclick': function() {
+                        tip.close();
+                        me._state.tip = undefined;
+                    }
+                });
+                me._state.tip = tip;
+                tip.show();
+            }
         },
 
         disableEditing: function(disable) {

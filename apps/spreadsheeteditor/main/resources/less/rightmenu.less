@@ -359,6 +359,7 @@ button:active:not(.disabled) .btn-change-shape    {background-position: -56px  -
     .signature-item {
         padding: 5px 2px 5px 15px;
         text-overflow: ellipsis;
+        min-height: 25px;
 
         .name {
             width: 100%;
@@ -378,11 +379,10 @@ button:active:not(.disabled) .btn-change-shape    {background-position: -56px  -
             display: inline-block;
             position: absolute;
             right: 0;
-        }
 
-        &.requested {
-            .caret {
-                margin: 0 15px;
+            &.nomargin {
+                margin-top: 0;
+                margin-bottom: 0;
             }
         }
     }

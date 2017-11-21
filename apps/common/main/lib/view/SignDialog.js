@@ -323,8 +323,8 @@ define([
             var date = certificate.date,
                 arr_date = (typeof date == 'string') ? date.split(' - ') : ['', ''];
             this.cntCertificate.html(this.templateCertificate({name: certificate.name, valid: this.textValid.replace('%1', arr_date[0]).replace('%2', arr_date[1])}));
-            this.cntCertificate.toggleClass('hidden', this.certificateId<0);
-            this.btnOk.setDisabled(this.certificateId<0);
+            this.cntCertificate.toggleClass('hidden', _.isEmpty(this.certificateId) || this.certificateId<0);
+            this.btnOk.setDisabled(_.isEmpty(this.certificateId) || this.certificateId<0);
         },
 
         onSelectImage: function() {
