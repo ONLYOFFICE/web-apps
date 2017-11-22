@@ -57,7 +57,7 @@ define([
             if ( sv || opts == 'right' ) {
                 $boxTabs.animate({scrollLeft: opts == 'left' ? sv - 100 : sv + 100}, 200);
             }
-        }
+        };
 
         function onTabDblclick(e) {
             this.fireEvent('change:compact', [$(e.target).data('tab')]);
