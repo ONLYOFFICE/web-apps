@@ -107,11 +107,22 @@ define([
                 caption: me.txtAddComment
             });
 
+            me.menuSignatureViewSign   = new Common.UI.MenuItem({caption: this.strSign,      value: 0 });
+            me.menuSignatureDetails    = new Common.UI.MenuItem({caption: this.strDetails,   value: 1 });
+            me.menuSignatureViewSetup  = new Common.UI.MenuItem({caption: this.strSetup,     value: 2 });
+            me.menuSignatureRemove     = new Common.UI.MenuItem({caption: this.strDelete,    value: 3 });
+            me.menuViewSignSeparator   = new Common.UI.MenuItem({caption: '--' });
+
             this.viewModeMenu = new Common.UI.Menu({
                 items: [
                     me.menuViewCopy,
                     me.menuViewUndo,
                     me.menuViewCopySeparator,
+                    me.menuSignatureViewSign,
+                    me.menuSignatureDetails,
+                    me.menuSignatureViewSetup,
+                    me.menuSignatureRemove,
+                    me.menuViewSignSeparator,
                     me.menuViewAddComment
                 ]
             });
@@ -474,12 +485,19 @@ define([
                 value       : 'paste'
             });
 
+            me.menuSignatureEditSign   = new Common.UI.MenuItem({caption: this.strSign,      value: 0 });
+            me.menuSignatureEditSetup  = new Common.UI.MenuItem({caption: this.strSetup,     value: 2 });
+            me.menuEditSignSeparator   = new Common.UI.MenuItem({ caption: '--' });
+
             this.imgMenu = new Common.UI.Menu({
                 items: [
                     me.pmiImgCut,
                     me.pmiImgCopy,
                     me.pmiImgPaste,
                     {caption: '--'},
+                    me.menuSignatureEditSign,
+                    me.menuSignatureEditSetup,
+                    me.menuEditSignSeparator,
                     {
                         caption : this.textArrangeFront,
                         iconCls : 'mnu-arrange-front',
@@ -788,7 +806,11 @@ define([
         advancedImgText: 'Image Advanced Settings',
         textNone: 'None',
         bulletsText: 'Bullets and Numbering',
-        textUndo: 'Undo'
+        textUndo: 'Undo',
+        strSign: 'Sign',
+        strDetails: 'Signature Details',
+        strSetup: 'Signature Setup',
+        strDelete: 'Remove Signature'
 
     }, SSE.Views.DocumentHolder || {}));
 });
