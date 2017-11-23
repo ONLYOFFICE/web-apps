@@ -1822,8 +1822,8 @@ define([
             this.viewModeMenu = new Common.UI.Menu({
                 initMenu: function (value) {
                     var isInChart = (value.imgProps && value.imgProps.value && !_.isNull(value.imgProps.value.get_ChartProperties())),
-                        signGuid = (value.imgProps && value.imgProps.value && me.mode.canProtect) ? value.imgProps.value.get_SignatureGuid() : undefined,
-                        signProps = (signGuid) ? me.api.asc_getLineInfo(signGuid) : null,
+                        signGuid = (value.imgProps && value.imgProps.value && me.mode.canProtect) ? value.imgProps.value.asc_getSignatureId() : undefined,
+                        signProps = (signGuid) ? me.api.asc_getSignatureSetup(signGuid) : null,
                         isInSign = !!signProps && me._canProtect,
                         canComment = !isInChart && me.api.can_AddQuotedComment() !== false && me.mode.canCoAuthoring && me.mode.canComments && !me._isDisabled;
 
@@ -1840,7 +1840,7 @@ define([
 
                     if (isInSign) {
                         menuSignatureViewSign.cmpEl.attr('data-value', signGuid); // sign
-                        menuSignatureDetails.cmpEl.attr('data-value', signProps.asc_getCertificateId()); // view certificate
+                        menuSignatureDetails.cmpEl.attr('data-value', signProps.asc_getId()); // view certificate
                         menuSignatureViewSetup.cmpEl.attr('data-value', signGuid); // view signature settings
                         menuSignatureRemove.cmpEl.attr('data-value', signGuid);
                     }
@@ -2267,7 +2267,7 @@ define([
                     menuImgCut.setDisabled(islocked || !cancopy);
                     menuImgPaste.setDisabled(islocked);
 
-                    var signGuid = (value.imgProps && value.imgProps.value && me.mode.canProtect) ? value.imgProps.value.get_SignatureGuid() : undefined,
+                    var signGuid = (value.imgProps && value.imgProps.value && me.mode.canProtect) ? value.imgProps.value.asc_getSignatureId() : undefined,
                         isInSign = (signGuid !== undefined);
                     menuSignatureEditSign.setVisible(isInSign);
                     menuSignatureEditSetup.setVisible(isInSign);
