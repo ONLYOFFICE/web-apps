@@ -361,6 +361,7 @@
   "DE.Controllers.Main.warnBrowserZoom": "Your browser current zoom setting is not fully supported. Please reset to the default zoom by pressing Ctrl+0.",
   "DE.Controllers.Main.warnLicenseExp": "Your license has expired.<br>Please update your license and refresh the page.",
   "DE.Controllers.Main.warnNoLicense": "This version of ONLYOFFICE Editors has certain limitations for concurrent connections to the document server.<br>If you need more please consider upgrading your current license or purchasing a commercial one.",
+  "DE.Controllers.Main.warnNoLicenseUsers": "This version of ONLYOFFICE Editors has certain limitations for concurrent users.<br>If you need more please consider upgrading your current license or purchasing a commercial one.",
   "DE.Controllers.Main.warnProcessRightsChange": "You have been denied the right to edit the file.",
   "DE.Controllers.Statusbar.textHasChanges": "New changes have been tracked",
   "DE.Controllers.Statusbar.textTrackChanges": "The document is opened with the Track Changes mode enabled",
