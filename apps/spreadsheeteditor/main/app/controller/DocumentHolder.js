@@ -1296,7 +1296,7 @@ define([
                             isimagemenu = true;
                         }
                         if (this.permissions.canProtect)
-                            signGuid = elValue.get_SignatureGuid();
+                            signGuid = elValue.asc_getSignatureId();
                     }
                 }
 
@@ -1524,12 +1524,12 @@ define([
                 var selectedObjects = this.api.asc_getGraphicObjectProps();
                 for (var i = 0; i < selectedObjects.length; i++) {
                     if (selectedObjects[i].asc_getObjectType() == Asc.c_oAscTypeSelectElement.Image) {
-                        signGuid = selectedObjects[i].asc_getObjectValue().get_SignatureGuid();
+                        signGuid = selectedObjects[i].asc_getObjectValue().asc_getSignatureId();
                     }
                 }
             }
 
-            var signProps = (signGuid) ? this.api.asc_getLineInfo(signGuid) : null,
+            var signProps = (signGuid) ? this.api.asc_getSignatureSetup(signGuid) : null,
                 isInSign = !!signProps && this._canProtect,
                 canComment = iscellmenu && !iscelledit && this.permissions.canCoAuthoring && this.permissions.canComments && !this._isDisabled;
 
@@ -1546,7 +1546,7 @@ define([
 
             if (isInSign) {
                 documentHolder.menuSignatureViewSign.cmpEl.attr('data-value', signGuid); // sign
-                documentHolder.menuSignatureDetails.cmpEl.attr('data-value', signProps.asc_getCertificateId()); // view certificate
+                documentHolder.menuSignatureDetails.cmpEl.attr('data-value', signProps.asc_getId()); // view certificate
                 documentHolder.menuSignatureViewSetup.cmpEl.attr('data-value', signGuid); // view signature settings
                 documentHolder.menuSignatureRemove.cmpEl.attr('data-value', signGuid);
             }

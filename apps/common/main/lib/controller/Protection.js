@@ -204,13 +204,6 @@ define([
 
             win.show();
 
-            // var props = new AscCommon.asc_CSignatureLine();
-            // props.asc_setSigner1("s1");
-            // props.asc_setSigner2("s2");
-            // props.asc_setEmail('email');
-            // props.asc_setInstructions('instructions');
-            // props.asc_setShowDate(true);
-
             if (guid)
                 win.setSettings(this.api.asc_getSignatureSetup(guid));
         },
