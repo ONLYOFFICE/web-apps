@@ -74,7 +74,7 @@ define([
             this._state = {};
 
             Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
-            Common.NotificationCenter.on('api:disconnect', _.bind(this.SetDisabled, this));
+            Common.NotificationCenter.on('api:disconnect', _.bind(this.onCoAuthoringDisconnect, this));
         },
         setConfig: function (data, api) {
             this.setApi(api);
@@ -96,7 +96,7 @@ define([
                         this.api.asc_registerCallback('asc_onUpdateSignatures', _.bind(this.onApiUpdateSignatures, this));
                     }
                 }
-                this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.SetDisabled, this));
+                this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onCoAuthoringDisconnect, this));
             }
         },
 
@@ -114,8 +114,8 @@ define([
             this.view && this.view.onDocumentPassword(hasPassword);
         },
 
-        SetDisabled: function(state) {
-            this.view && this.view.SetDisabled(state);
+        SetDisabled: function(state, canProtect) {
+            this.view && this.view.SetDisabled(state, canProtect);
         },
 
         onPasswordClick: function(btn, opts){
@@ -148,9 +148,6 @@ define([
         },
 
         onAppReady: function (config) {
-            var me = this;
-            // this.onApiUpdateSignatures([{name: 'Hammish Mitchell', guid: '123', date: '18/05/2017'}, {name: 'Someone Somewhere', guid: '345', date: '18/05/2017'}], [{name: 'Hammish Mitchell', guid: '123', date: '18/05/2017'}, {name: 'Someone Somewhere', guid: '345', date: '18/05/2017'}]);
-            // this.onDocumentPassword(true);
         },
 
         addPassword: function() {
@@ -244,7 +241,11 @@ define([
         },
 
         onApiUpdateSignatures: function(valid, requested){
-            this.SetDisabled(valid && valid.length>0);
+            this.SetDisabled(valid && valid.length>0, true);// can add invisible signature
+        },
+
+        onCoAuthoringDisconnect: function() {
+            this.SetDisabled(true);
         }
 
     }, Common.Controllers.Protection || {}));

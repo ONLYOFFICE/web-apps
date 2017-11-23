@@ -291,9 +291,6 @@ define([
                 this.rightmenu.shapeSettings.createDelayedElements();
                 this.onSelectionChanged(this.api.asc_getCellInfo());
             }
-
-            //remove after sdk send event
-            // this.onApiUpdateSignatures([{name: 'Hammish Mitchell', guid: '123', date: '18/05/2017'}, {name: 'Someone Somewhere', guid: '345', date: '18/05/2017'}]);
         },
 
         onDoubleClickOnObject: function(obj) {

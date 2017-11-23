@@ -94,7 +94,7 @@ define([
             Common.NotificationCenter.on('reviewchanges:turn', this.onTurnPreview.bind(this));
             Common.NotificationCenter.on('spelling:turn', this.onTurnSpelling.bind(this));
             Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
-            Common.NotificationCenter.on('api:disconnect', _.bind(this.SetDisabled, this));
+            Common.NotificationCenter.on('api:disconnect', _.bind(this.onCoAuthoringDisconnect, this));
         },
         setConfig: function (data, api) {
             this.setApi(api);
@@ -111,7 +111,7 @@ define([
                     this.api.asc_registerCallback('asc_onShowRevisionsChange', _.bind(this.onApiShowChange, this));
                     this.api.asc_registerCallback('asc_onUpdateRevisionsChangesPosition', _.bind(this.onApiUpdateChangePosition, this));
                 }
-                this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.SetDisabled, this));
+                this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onCoAuthoringDisconnect, this));
             }
         },
 
@@ -624,6 +624,10 @@ define([
                     }
                 }
             })).show();
+        },
+
+        onCoAuthoringDisconnect: function() {
+            this.SetDisabled(true);
         },
 
         textInserted: '<b>Inserted:</b>',
