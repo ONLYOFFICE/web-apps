@@ -166,8 +166,12 @@ define([
                 $('#toolbar-edit, #toolbar-add, #toolbar-settings, #toolbar-search, #document-back').removeClass('disabled');
             },
 
-            deactivateControls: function() {
-                $('#toolbar-edit, #toolbar-add, #toolbar-settings, #toolbar-search, #document-back').addClass('disabled');
+            activateViewControls: function() {
+                $('#toolbar-search, #document-back').removeClass('disabled');
+            },
+
+            deactivateEditControls: function() {
+                $('#toolbar-edit, #toolbar-add, #toolbar-settings').addClass('disabled');
             },
 
             onCoAuthoringDisconnect: function() {

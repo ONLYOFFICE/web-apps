@@ -568,7 +568,8 @@ define([
             applyLicense: function() {
                 var me = this;
                 if (me._state.licenseWarning) {
-                    DE.getController('Toolbar').deactivateControls();
+                    DE.getController('Toolbar').activateViewControls();
+                    DE.getController('Toolbar').deactivateEditControls();
                     Common.NotificationCenter.trigger('api:disconnect');
 
                     var value = Common.localStorage.getItem("de-license-warning");
@@ -579,7 +580,7 @@ define([
                         Common.localStorage.setItem("de-license-warning", now);
                         uiApp.modal({
                             title: me.textNoLicenseTitle,
-                            text : me.warnNoLicense,
+                            text : me._state.licenseWarning,
                             buttons: [
                                 {
                                     text: me.textBuyNow,
@@ -1274,7 +1275,8 @@ define([
             txtStyle_Subtitle: 'Subtitle',
             txtStyle_Quote: 'Quote',
             txtStyle_Intense_Quote: 'Intense Quote',
-            txtStyle_List_Paragraph: 'List Paragraph'
+            txtStyle_List_Paragraph: 'List Paragraph',
+            warnNoLicenseUsers: 'You are using an open source version of ONLYOFFICE. The version has limitations for concurrent connections to the document server (20 connections at a time).<br>If you need more please consider purchasing a commercial license.'
         }
     })(), DE.Controllers.Main || {}))
 });
