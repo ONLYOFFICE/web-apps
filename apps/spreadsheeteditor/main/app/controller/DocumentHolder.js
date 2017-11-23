@@ -1492,6 +1492,9 @@ define([
                 iscellmenu = (seltype==Asc.c_oAscSelectionType.RangeCells) && !this.permissions.isEditMailMerge && !this.permissions.isEditDiagram,
                 iscelledit = this.api.isCellEdited;
 
+            if (!documentHolder.viewModeMenu)
+                documentHolder.createDelayedElementsViewer();
+
             if (!showMenu && !documentHolder.viewModeMenu.isVisible()) return;
 
             documentHolder.menuViewUndo.setVisible(this.permissions.canCoAuthoring && this.permissions.canComments);
