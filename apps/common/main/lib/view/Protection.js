@@ -189,7 +189,8 @@ define([
                                         },
                                         {
                                             caption: me.txtSignatureLine,
-                                            value: 'visible'
+                                            value: 'visible',
+                                            disabled: me._state.disabled
                                         }
                                     ]
                                 })
@@ -265,14 +266,17 @@ define([
                 }
             },
 
-            SetDisabled: function (state) {
+            SetDisabled: function (state, canProtect) {
                 this._state.disabled = state;
                 this.btnsInvisibleSignature && this.btnsInvisibleSignature.forEach(function(button) {
                     if ( button ) {
-                        button.setDisabled(state);
+                        button.setDisabled(state && !canProtect);
                     }
                 }, this);
-                this.btnSignature && this.btnSignature.setDisabled(state);
+                if (this.btnSignature && this.btnSignature.menu) {
+                    this.btnSignature.menu.items && this.btnSignature.menu.items[1].setDisabled(state); // disable adding signature line
+                    this.btnSignature.setDisabled(state && !canProtect); // disable adding any signature
+                }
                 this.btnsAddPwd.concat(this.btnsDelPwd, this.btnsChangePwd).forEach(function(button) {
                     if ( button ) {
                         button.setDisabled(state);
