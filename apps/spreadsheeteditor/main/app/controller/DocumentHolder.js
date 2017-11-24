@@ -1312,7 +1312,7 @@ define([
                 documentHolder.mnuImgAdvanced.setVisible(isimagemenu && !isshapemenu && !ischartmenu);
                 documentHolder.mnuImgAdvanced.setDisabled(isObjLocked);
 
-                var isInSign = (signGuid !== undefined);
+                var isInSign = !!signGuid;
                 documentHolder.menuSignatureEditSign.setVisible(isInSign);
                 documentHolder.menuSignatureEditSetup.setVisible(isInSign);
                 documentHolder.menuEditSignSeparator.setVisible(isInSign);
@@ -2510,7 +2510,7 @@ define([
             _conf && view.paraBulletsPicker.selectRecord(_conf.rec, true);
         },
 
-        onSignatureClick: function(menu, item) {
+        onSignatureClick: function(item) {
             var datavalue = item.cmpEl.attr('data-value');
             switch (item.value) {
                 case 0:
@@ -2520,7 +2520,7 @@ define([
                     this.api.asc_ViewCertificate(datavalue); //certificate id
                     break;
                 case 2:
-                    Common.NotificationCenter.trigger('protect:signature', 'visible', !this._isDisabled, datavalue);//guid, can edit settings for requested signature
+                    Common.NotificationCenter.trigger('protect:signature', 'visible', this._isDisabled, datavalue);//guid, can edit settings for requested signature
                     break;
                 case 3:
                     this.api.asc_RemoveSignature(datavalue); //guid
