@@ -92,6 +92,9 @@ define([
                 this.addListeners({
                     'FileMenu': {
                         'settings:apply': _.bind(this.applySettings, this)
+                    },
+                    'Common.Views.ReviewChanges': {
+                        'settings:apply': _.bind(this.applySettings, this)
                     }
                 });
             },

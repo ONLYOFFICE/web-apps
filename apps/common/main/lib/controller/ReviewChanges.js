@@ -547,6 +547,7 @@ define([
                 this.api.asc_setAutoSaveGap(value);
             }
             Common.NotificationCenter.trigger('edit:complete', this.view);
+            this.view.fireEvent('settings:apply', [this]);
         },
 
         disableEditing: function(disable) {
