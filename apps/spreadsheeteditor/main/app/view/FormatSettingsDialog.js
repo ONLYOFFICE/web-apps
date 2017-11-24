@@ -417,7 +417,7 @@ define([
                 me = this,
                 valDecimal = (initFormatInfo) ? initFormatInfo.asc_getDecimalPlaces() : this.spnDecimal.getNumberValue(),
                 valSeparator = (initFormatInfo) ? initFormatInfo.asc_getSeparator() : (this.chSeparator.getValue()=='checked'),
-                valSymbol = (initFormatInfo && initFormatInfo.asc_getSymbol()) ? initFormatInfo.asc_getSymbol() : this.langId;
+                valSymbol = (initFormatInfo) ? initFormatInfo.asc_getSymbol() : this.langId;
 
             if (record.value !== Asc.c_oAscNumFormatType.Custom) {
                 var info = new Asc.asc_CFormatCellsInfo();
@@ -428,7 +428,7 @@ define([
                 if (hasNegative || record.value == Asc.c_oAscNumFormatType.Date || record.value == Asc.c_oAscNumFormatType.Time) {
                     if (hasSymbols) {
                         if (!me.CurrencySymbolsData) {
-                            me.CurrencySymbolsData = [];
+                            me.CurrencySymbolsData = [{value: null, displayValue: me.txtNone}];
                             var symbolssarr = this.api.asc_getCurrencySymbols();
                             for (var code in symbolssarr) {
                                 if (symbolssarr.hasOwnProperty(code)) {
@@ -523,7 +523,8 @@ define([
         txtAs16:  'As sixteenths (8/16)',
         txtAs10:  'As tenths (5/10)',
         txtAs100: 'As hundredths (50/100)',
-        txtSample: 'Sample:'
+        txtSample: 'Sample:',
+        txtNone: 'None'
 
     }, SSE.Views.FormatSettingsDialog || {}))
 });
