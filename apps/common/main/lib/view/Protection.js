@@ -119,14 +119,14 @@ define([
                 if ( this.appConfig.isDesktopApp && this.appConfig.isOffline ) {
                     this.btnAddPwd = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'review-prev',
+                        iconCls: 'btn-ic-protect',
                         caption: this.txtEncrypt
                     });
                     this.btnsAddPwd.push(this.btnAddPwd);
 
                     this.btnPwd = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'btn-ic-reviewview',
+                        iconCls: 'btn-ic-protect',
                         caption: this.txtEncrypt,
                         menu: true,
                         visible: false
@@ -135,7 +135,7 @@ define([
                     if (this.appConfig.canProtect) {
                         this.btnSignature = new Common.UI.Button({
                             cls: 'btn-toolbar x-huge icon-top',
-                            iconCls: 'btn-ic-reviewview',
+                            iconCls: 'btn-ic-signature',
                             caption: this.txtSignature,
                             menu: (this.appPrefix !== 'pe-')
                         });

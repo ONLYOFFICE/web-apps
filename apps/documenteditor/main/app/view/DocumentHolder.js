@@ -2268,7 +2268,7 @@ define([
                     menuImgPaste.setDisabled(islocked);
 
                     var signGuid = (value.imgProps && value.imgProps.value && me.mode.canProtect) ? value.imgProps.value.asc_getSignatureId() : undefined,
-                        isInSign = (signGuid !== undefined);
+                        isInSign = !!signGuid;
                     menuSignatureEditSign.setVisible(isInSign);
                     menuSignatureEditSetup.setVisible(isInSign);
                     menuEditSignSeparator.setVisible(isInSign);
@@ -3345,7 +3345,7 @@ define([
             }
         },
 
-        onSignatureClick: function(menu, item) {
+        onSignatureClick: function(item) {
             var datavalue = item.cmpEl.attr('data-value');
             switch (item.value) {
                 case 0:
@@ -3355,7 +3355,7 @@ define([
                     this.api.asc_ViewCertificate(datavalue); //certificate id
                     break;
                 case 2:
-                    Common.NotificationCenter.trigger('protect:signature', 'visible', !this._isDisabled, datavalue);//guid, can edit settings for requested signature
+                    Common.NotificationCenter.trigger('protect:signature', 'visible', this._isDisabled, datavalue);//guid, can edit settings for requested signature
                     break;
                 case 3:
                     this.api.asc_RemoveSignature(datavalue); //guid
