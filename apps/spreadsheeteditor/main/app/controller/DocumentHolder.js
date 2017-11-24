@@ -878,6 +878,7 @@ define([
                         }
                     } else {
                         linkstr = props.asc_getTooltip() || (props.asc_getLocation());
+                        linkstr += '<br><b>' + me.textCtrlClick + '</b>';
                     }
 
                     if (hyperlinkTip.ref && hyperlinkTip.ref.isVisible()) {
