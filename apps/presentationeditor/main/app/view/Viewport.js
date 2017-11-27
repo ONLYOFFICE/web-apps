@@ -123,7 +123,7 @@ define([
         },
 
         applyEditorMode: function() {
-            PE.getController('RightMenu').getView('RightMenu').render();
+            PE.getController('RightMenu').getView('RightMenu').render(this.mode);
 
             if ( Common.localStorage.getBool('pe-hidden-status') )
                 PE.getController('Statusbar').getView('Statusbar').setVisible(false);

@@ -113,6 +113,8 @@ define([
                 this._input.on('keyup',     _.bind(this.onInputKeyUp, this));
                 this._input.on('keydown',   _.bind(this.onInputKeyDown, this));
 
+                this._modalParents = this.cmpEl.closest('.asc-window');
+
                 return this;
             },
 
@@ -319,6 +321,8 @@ define([
                 var name = (_.isFunction(font.get_Name) ?  font.get_Name() : font.asc_getName());
 
                 if (this.getRawValue() !== name) {
+                    if (this._modalParents.length > 0) return;
+
                     var record = this.store.findWhere({
                         name: name
                     });

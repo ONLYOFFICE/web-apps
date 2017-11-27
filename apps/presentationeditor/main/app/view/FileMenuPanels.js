@@ -866,4 +866,102 @@ define([
             }
         }
     });
+
+    PE.Views.FileMenuPanels.ProtectDoc = Common.UI.BaseView.extend(_.extend({
+        el: '#panel-protect',
+        menu: undefined,
+
+        template: _.template([
+            '<label id="id-fms-lbl-sign-header" style="font-size: 18px;"><%= scope.strProtect %></label>',
+            '<button id="fms-btn-invisible-sign" class="btn btn-text-default" style="min-width:190px;"><%= scope.strInvisibleSign %></button>',
+            '<div id="id-fms-valid-sign"></div>',
+            '<div id="id-fms-invalid-sign"></div>'
+        ].join('')),
+
+        initialize: function(options) {
+            Common.UI.BaseView.prototype.initialize.call(this,arguments);
+
+            this.menu = options.menu;
+
+            this.templateValid = _.template([
+                '<label class="header <% if (signatures.length<1) { %>hidden<% } %>"><%= header %></label>',
+                '<table>',
+                '<% _.each(signatures, function(item) { %>',
+                '<tr>',
+                '<td><%= Common.Utils.String.htmlEncode(item.name) %></td>',
+                '<td><%= Common.Utils.String.htmlEncode(item.date) %></td>',
+                '</tr>',
+                '<% }); %>',
+                '</table>'
+            ].join(''));
+        },
+
+        render: function() {
+            $(this.el).html(this.template({scope: this}));
+
+            this.btnAddInvisibleSign = new Common.UI.Button({
+                el: '#fms-btn-invisible-sign'
+            });
+            this.btnAddInvisibleSign.on('click', _.bind(this.addInvisibleSign, this));
+
+            this.lblSignHeader = $('#id-fms-lbl-sign-header', this.$el);
+
+            this.cntValidSign = $('#id-fms-valid-sign');
+            this.cntInvalidSign = $('#id-fms-invalid-sign');
+
+            if (_.isUndefined(this.scroller)) {
+                this.scroller = new Common.UI.Scroller({
+                    el: $(this.el),
+                    suppressScrollX: true
+                });
+            }
+
+            return this;
+        },
+
+        show: function() {
+            Common.UI.BaseView.prototype.show.call(this,arguments);
+            this.updateSignatures();
+        },
+
+        setMode: function(mode) {
+            this.mode = mode;
+            if (!this.mode.isEdit) {
+                this.btnAddInvisibleSign.setVisible(false);
+                this.lblSignHeader.html(this.strSignature);
+            }
+        },
+
+        setApi: function(o) {
+            this.api = o;
+            return this;
+        },
+
+        addInvisibleSign: function() {
+            if (this.menu)
+                this.menu.fireEvent('signature:invisible', [this.menu]);
+        },
+
+        updateSignatures: function(){
+            var valid = this.api.asc_getSignatures(),
+                valid_arr = [], invalid_arr = [];
+
+            _.each(valid, function(item, index){
+                var sign = {name: item.asc_getSigner1(), date: '18/05/2017'};
+                (item.asc_getValid()==0) ? valid_arr.push(sign) : invalid_arr.push(sign);
+            });
+            this.cntValidSign.html(this.templateValid({signatures: valid_arr, header: this.strValid}));
+            this.cntInvalidSign.html(this.templateValid({signatures: invalid_arr, header: this.strInvalid}));
+            // this.cntValidSign.html(this.templateValid({signatures: [{name: 'Hammish Mitchell', date: '18/05/2017'}, {name: 'Someone Somewhere', date: '18/05/2017'}], header: this.strValid}));
+            // this.cntInvalidSign.html(this.templateValid({signatures: [{name: 'Mary White', date: '18/05/2017'}, {name: 'John Black', date: '18/05/2017'}], header: this.strInvalid}));
+        },
+
+        strProtect: 'Protect Document',
+        strInvisibleSign: 'Add invisible digital signature',
+        strValid: 'Valid signatures',
+        strInvalid: 'Invalid signatures',
+        strSignature: 'Signature'
+
+    }, PE.Views.FileMenuPanels.ProtectDoc || {}));
+
 });

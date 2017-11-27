@@ -43,6 +43,8 @@
 define([
     'core',
     'common/main/lib/util/Shortcuts',
+    'common/main/lib/view/SignSettingsDialog',
+    'common/main/lib/view/SignDialog',
     'documenteditor/main/app/view/LeftMenu',
     'documenteditor/main/app/view/FileMenu'
 ], function () {
@@ -85,7 +87,9 @@ define([
                     'saveas:format': _.bind(this.clickSaveAsFormat, this),
                     'settings:apply': _.bind(this.applySettings, this),
                     'create:new': _.bind(this.onCreateNew, this),
-                    'recent:open': _.bind(this.onOpenRecent, this)
+                    'recent:open': _.bind(this.onOpenRecent, this),
+                    'signature:visible': _.bind(this.addVisibleSign, this),
+                    'signature:invisible': _.bind(this.addInvisibleSign, this)
                 },
                 'Toolbar': {
                     'file:settings': _.bind(this.clickToolbarSettings,this),
@@ -674,6 +678,41 @@ define([
             maincontroller.loadMask.setTitle(this.textLoadHistory);
             maincontroller.loadMask.show();
             Common.Gateway.requestHistory();
+        },
+
+        addVisibleSign: function(menu) {
+            var me = this,
+                win = new Common.Views.SignSettingsDialog({
+                    handler: function(dlg, result) {
+                        if (result == 'ok') {
+                             me.api.asc_AddSignatureLine2(dlg.getSettings());
+                        }
+                        Common.NotificationCenter.trigger('edit:complete', me);
+                    }
+                });
+
+            win.show();
+
+            menu.hide();
+        },
+
+        addInvisibleSign: function(menu) {
+            var me = this,
+                win = new Common.Views.SignDialog({
+                    api: me.api,
+                    signType: 'invisible',
+                    handler: function(dlg, result) {
+                        if (result == 'ok') {
+                            var props = dlg.getSettings();
+                            me.api.asc_Sign(props.certificateId);
+                        }
+                        Common.NotificationCenter.trigger('edit:complete', me);
+                    }
+                });
+
+            win.show();
+
+            menu.hide();
         },
 
         textNoTextFound         : 'Text not found',
