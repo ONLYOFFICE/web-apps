@@ -5,13 +5,8 @@
         </td>
     </tr>
     <tr>
-        <td class="padding-small">
-            <button id="signature-invisible-sign" class="btn btn-text-default" style="width:100%;"><%= scope.strInvisibleSign %></button>
-        </td>
-    </tr>
-    <tr>
         <td class="padding-large">
-            <button id="signature-visible-sign" class="btn btn-text-default" style="width:100%;"><%= scope.strVisibleSign %></button>
+            <div id="signature-invisible-sign" style="width:100%;"></div>
         </td>
     </tr>
     <tr id="signature-requested-sign">

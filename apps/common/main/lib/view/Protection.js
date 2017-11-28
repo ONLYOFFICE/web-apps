@@ -202,7 +202,11 @@ define([
 
             getButton: function(type, parent) {
                 if ( type == 'signature' ) {
-                    var button = new Common.UI.Button({});
+                    var button = new Common.UI.Button({
+                        cls: 'btn-text-default',
+                        style: 'width: 100%;',
+                        caption: this.txtInvisibleSignature
+                    });
                     this.btnsInvisibleSignature.push(button);
 
                     return button;

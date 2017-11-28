@@ -79,7 +79,7 @@ define([
             this._settings[Common.Utils.documentSettingsType.TextArt] =   {panelId: "id-textart-settings",    panel: rightMenu.textartSettings,  btn: rightMenu.btnTextArt,     hidden: 1, locked: false};
             this._settings[Common.Utils.documentSettingsType.Chart] = {panelId: "id-chart-settings",          panel: rightMenu.chartSettings,    btn: rightMenu.btnChart,       hidden: 1, locked: false};
             this._settings[Common.Utils.documentSettingsType.MailMerge] = {panelId: "id-mail-merge-settings", panel: rightMenu.mergeSettings,    btn: rightMenu.btnMailMerge,   hidden: 1, props: {}, locked: false};
-            this._settings[Common.Utils.documentSettingsType.Signature] = {panelId: "id-signature-settings",  panel: rightMenu.signatureSettings, btn: rightMenu.btnSignature,  hidden: (rightMenu.signatureSettings) ? 0 : 1, props: {}, locked: false};
+            this._settings[Common.Utils.documentSettingsType.Signature] = {panelId: "id-signature-settings",  panel: rightMenu.signatureSettings, btn: rightMenu.btnSignature,  hidden: 1, props: {}, locked: false};
         },
 
         setApi: function(api) {
@@ -270,6 +270,11 @@ define([
                     this.rightmenu.mergeSettings.setDocumentName(this.getApplication().getController('Viewport').getView('Common.Views.Header').getDocumentCaption());
                     this.api.asc_registerCallback('asc_onStartMailMerge',    _.bind(this.onStartMailMerge, this));
                 }
+
+                if (this.rightmenu.signatureSettings) {
+                    this.api.asc_registerCallback('asc_onUpdateSignatures', _.bind(this.onApiUpdateSignatures, this));
+                }
+
                 this.api.asc_registerCallback('asc_onError',             _.bind(this.onError, this));
             }
 
@@ -280,6 +285,9 @@ define([
                     this.onFocusObject(selectedElements, !Common.localStorage.getBool("de-hide-right-settings"));
                 }
             }
+
+            //remove after sdk send event
+            // this.onApiUpdateSignatures([{name: 'Hammish Mitchell', guid: '123', date: '18/05/2017'}, {name: 'Someone Somewhere', guid: '345', date: '18/05/2017'}]);
         },
 
         onDoubleClickOnObject: function(obj) {
@@ -323,6 +331,14 @@ define([
                 if (selectedElements.length>0)
                     this.onFocusObject(selectedElements);
             }
+        },
+
+        onApiUpdateSignatures: function(valid, requested){
+            var disabled = (!valid || valid.length<1) && (!requested || requested.length<1),
+                type = Common.Utils.documentSettingsType.Signature;
+            this._settings[type].hidden = disabled ? 1 : 0;
+            this._settings[type].btn.setDisabled(disabled);
+            this._settings[type].panel.setLocked(this._settings[type].locked);
         },
 
         SetDisabled: function(disabled, allowMerge, allowSignature) {
