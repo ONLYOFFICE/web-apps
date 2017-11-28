@@ -2916,8 +2916,18 @@ define([
             Common.Utils.asyncCall(function () {
                 me.toolbar.setMode(config);
 
-                if ( config.isEdit )
+                if ( config.isEdit ) {
                     me.toolbar.setApi(me.api);
+
+                    if ( !config.isEditDiagram && !config.isEditMailMerge ) {
+                        if (config.isDesktopApp && config.isOffline) {
+                            var tab = {action: 'protect', caption: me.toolbar.textTabProtect};
+                            var $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
+                            if ( $panel )
+                                me.toolbar.addTab(tab, $panel, 3);
+                        }
+                    }
+                }
             });
         },
 

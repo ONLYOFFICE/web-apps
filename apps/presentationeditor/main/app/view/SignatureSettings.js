@@ -315,7 +315,6 @@ define([
                 rightMenuController.SetDisabled(disable, true);
                 PE.getController('Toolbar').DisableToolbar(disable, disable);
                 PE.getController('Statusbar').getView('Statusbar').SetDisabled(disable);
-                PE.getController('Common.Controllers.ReviewChanges').SetDisabled(disable);
                 PE.getController('DocumentHolder').getView('DocumentHolder').SetDisabled(disable);
 
                 var leftMenu = PE.getController('LeftMenu').leftMenu;

@@ -357,7 +357,6 @@ define([
                 rightMenuController.SetDisabled(disable, true);
                 SSE.getController('Toolbar').DisableToolbar(disable, disable);
                 SSE.getController('Statusbar').SetDisabled(disable);
-                SSE.getController('Common.Controllers.ReviewChanges').SetDisabled(disable);
                 SSE.getController('DocumentHolder').SetDisabled(disable, true);
 
                 var leftMenu = SSE.getController('LeftMenu').leftMenu;
