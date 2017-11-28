@@ -311,6 +311,8 @@
   "SSE.Controllers.DocumentHolder.txtTop": "Top",
   "SSE.Controllers.DocumentHolder.txtUnderbar": "Bar under text",
   "SSE.Controllers.DocumentHolder.txtWidth": "Width",
+  "SSE.Controllers.DocumentHolder.txtUndoExpansion": "Undo table autoexpansion",
+  "SSE.Controllers.DocumentHolder.txtRedoExpansion": "Redo table autoexpansion",
   "SSE.Controllers.LeftMenu.newDocumentTitle": "Unnamed spreadsheet",
   "SSE.Controllers.LeftMenu.textByColumns": "By columns",
   "SSE.Controllers.LeftMenu.textByRows": "By rows",
