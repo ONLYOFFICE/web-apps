@@ -126,6 +126,13 @@ define([
                 canFocused: false
             });
 
+            this.miProtect = new Common.UI.MenuItem({
+                el      : $('#fm-btn-protect',this.el),
+                action  : 'protect',
+                caption : this.btnProtectCaption,
+                canFocused: false
+            });
+
             this.miRecent = new Common.UI.MenuItem({
                 el      : $('#fm-btn-recent',this.el),
                 action  : 'recent',
@@ -168,12 +175,7 @@ define([
                 this.miSaveAs,
                 this.miPrint,
                 this.miRename,
-                new Common.UI.MenuItem({
-                    el      : $('#fm-btn-protect',this.el),
-                    action  : 'protect',
-                    caption : this.btnProtectCaption,
-                    canFocused: false
-                }),
+                this.miProtect,
                 this.miRecent,
                 this.miNew,
                 new Common.UI.MenuItem({
@@ -221,10 +223,11 @@ define([
         show: function(panel, opts) {
             if (this.isVisible() && panel===undefined) return;
 
+            var defPanel = (this.mode.canDownload && (!this.mode.isDesktopApp || !this.mode.isOffline)) ? 'saveas' : 'info';
             if (!panel)
-                panel = this.active || ((this.mode.canDownload && (!this.mode.isDesktopApp || !this.mode.isOffline)) ? 'saveas' : 'info');
+                panel = this.active || defPanel;
             this.$el.show();
-            this.selectMenu(panel, opts);
+            this.selectMenu(panel, opts, defPanel);
             this.api.asc_enableKeyEvents(false);
 
             this.fireEvent('menu:show', [this]);
@@ -240,8 +243,8 @@ define([
         applyMode: function() {
             this.miPrint[this.mode.canPrint?'show':'hide']();
             this.miRename[(this.mode.canRename && !this.mode.isDesktopApp) ?'show':'hide']();
-            this.items[7][(this.mode.isEdit && this.mode.isDesktopApp && this.mode.isOffline) ?'show':'hide']();
-            this.items[7].$el.find('+.devider')[!this.mode.isDisconnected?'show':'hide']();
+            this.miProtect[(this.mode.isEdit && this.mode.isDesktopApp && this.mode.isOffline) ?'show':'hide']();
+            this.miProtect.$el.find('+.devider')[!this.mode.isDisconnected?'show':'hide']();
             this.miRecent[this.mode.canOpenRecent?'show':'hide']();
             this.miNew[this.mode.canCreateNew?'show':'hide']();
             this.miNew.$el.find('+.devider')[this.mode.canCreateNew?'show':'hide']();
@@ -318,10 +321,14 @@ define([
             this.document = data.doc;
         },
 
-        selectMenu: function(menu, opts) {
+        selectMenu: function(menu, opts, defMenu) {
             if ( menu ) {
-                var item    = this._getMenuItem(menu),
+                var item = this._getMenuItem(menu),
                     panel   = this.panels[menu];
+                if ( item.isDisabled() ) {
+                    item = this._getMenuItem(defMenu);
+                    panel   = this.panels[defMenu];
+                }
                 if ( item && panel ) {
                     $('.fm-btn',this.el).removeClass('active');
                     item.$el.addClass('active');
