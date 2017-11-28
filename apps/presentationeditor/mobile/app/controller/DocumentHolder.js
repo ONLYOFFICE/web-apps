@@ -81,6 +81,7 @@ define([
                 me.api.asc_registerCallback('asc_onShowPopMenu',            _.bind(me.onApiShowPopMenu, me));
                 me.api.asc_registerCallback('asc_onHidePopMenu',            _.bind(me.onApiHidePopMenu, me));
                 me.api.asc_registerCallback('asc_onDocumentContentReady',   _.bind(me.onApiDocumentContentReady, me));
+                Common.NotificationCenter.on('api:disconnect',              _.bind(me.onCoAuthoringDisconnect, me));
             },
 
             setMode: function (mode) {
@@ -253,7 +254,7 @@ define([
                         items[indexAfter] = items.splice(indexBefore, 1, items[indexAfter])[0];
                     };
 
-                    if (!objectLocked && _isEdit) {
+                    if (!objectLocked && _isEdit && !me.isDisconnected) {
                         if (canCopy && isObject) {
                             menuItems.push({
                                 caption: me.menuCut,
@@ -307,6 +308,10 @@ define([
                 }
 
                 return menuItems;
+            },
+
+            onCoAuthoringDisconnect: function() {
+                this.isDisconnected = true;
             },
 
             menuCut: 'Cut',

@@ -186,6 +186,9 @@ define([
             var fillViewMenuProps = function(selectedElements) {
                 if (!selectedElements || !_.isArray(selectedElements)) return;
 
+                if (!me.viewModeMenu)
+                    me.createDelayedElementsViewer();
+
                 var menu_props = {},
                     menu_to_show = null;
                 _.each(selectedElements, function(element, index) {
@@ -217,7 +220,8 @@ define([
             var onContextMenu = function(event){
                 _.delay(function(){
                     if (event.get_Type() == Asc.c_oAscContextMenuTypes.Thumbnails) {
-                        showPopupMenu.call(me, me.slideMenu, {isSlideSelect: event.get_IsSlideSelect(), isSlideHidden: event.get_IsSlideHidden(), fromThumbs: true}, event);
+                        if (me.mode.isEdit)
+                            showPopupMenu.call(me, me.slideMenu, {isSlideSelect: event.get_IsSlideSelect(), isSlideHidden: event.get_IsSlideHidden(), fromThumbs: true}, event);
                     } else {
                         showObjectMenu.call(me, event);
                     }

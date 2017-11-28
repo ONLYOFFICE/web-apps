@@ -86,6 +86,7 @@ define([
                 this.api.asc_registerCallback('asc_onWorkbookLocked', _.bind(this.onApiWorkbookLocked, this));
                 this.api.asc_registerCallback('asc_onWorksheetLocked', _.bind(this.onApiWorksheetLocked, this));
                 this.api.asc_registerCallback('asc_onActiveSheetChanged', _.bind(this.onApiActiveSheetChanged, this));
+                Common.NotificationCenter.on('api:disconnect',      _.bind(this.onCoAuthoringDisconnect, this));
 
                 Common.NotificationCenter.on('sheet:active', this.onApiActiveSheetChanged.bind(this));
             },
@@ -159,6 +160,8 @@ define([
             },
 
             onApiCanRevert: function(which, can) {
+                if (this.isDisconnected) return;
+
                 if (which == 'undo') {
                     $('#toolbar-undo').toggleClass('disabled', !can);
                 } else {
@@ -167,6 +170,8 @@ define([
             },
 
             onApiSelectionChanged: function(info) {
+                if (this.isDisconnected) return;
+
                 if ( !info ) info = this.api.asc_getCellInfo();
                 var islocked = false;
 
@@ -193,6 +198,18 @@ define([
 
             activateControls: function() {
                 $('#toolbar-settings, #toolbar-search, #document-back').removeClass('disabled');
+            },
+
+            activateViewControls: function() {
+                $('#toolbar-search, #document-back').removeClass('disabled');
+            },
+
+            deactivateEditControls: function() {
+                $('#toolbar-edit, #toolbar-add, #toolbar-settings').addClass('disabled');
+            },
+
+            onCoAuthoringDisconnect: function() {
+                this.isDisconnected = true;
             },
 
             dlgLeaveTitleText   : 'You leave the application',
