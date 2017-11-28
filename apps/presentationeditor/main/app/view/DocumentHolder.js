@@ -38,7 +38,6 @@ define([
     'common/main/lib/util/utils',
     'common/main/lib/component/Menu',
     'common/main/lib/view/CopyWarningDialog',
-    'common/main/lib/view/SignDialog',
     'presentationeditor/main/app/view/HyperlinkSettingsDialog',
 //    'common/main/lib/view/InsertTableDialog',
     'presentationeditor/main/app/view/ParagraphSettingsAdvanced',
