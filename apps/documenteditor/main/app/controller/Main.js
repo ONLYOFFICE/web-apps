@@ -1106,6 +1106,9 @@ define([
 
                     reviewController.setMode(me.appOptions).setConfig({config: me.editorConfig}, me.api);
 
+                    if (this.appOptions.isDesktopApp && this.appOptions.isOffline)
+                        application.getController('Common.Controllers.Protection').setMode(me.appOptions).setConfig({config: me.editorConfig}, me.api);
+
                     var viewport = this.getApplication().getController('Viewport').getView('Viewport');
 
                     viewport.applyEditorMode();

@@ -232,7 +232,7 @@ define([
                 'dontshowclick': function() {
                     tip.close();
                     // me.api.editSingedDoc();
-                    me.disableEditing(false);
+                    // me.disableEditing(false); // call in the asc_onUpdateSignatures event callback.me.disableEditing(false);
                 },
                 'closeclick': function() {
                     tip.close();
