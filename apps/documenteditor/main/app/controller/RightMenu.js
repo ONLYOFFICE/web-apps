@@ -325,7 +325,7 @@ define([
             }
         },
 
-        SetDisabled: function(disabled, allowMerge) {
+        SetDisabled: function(disabled, allowMerge, allowSignature) {
             this.setMode({isEdit: !disabled});
             if (this.rightmenu) {
                 this.rightmenu.paragraphSettings.disableControls(disabled);
@@ -340,7 +340,7 @@ define([
                 }
                 this.rightmenu.chartSettings.disableControls(disabled);
 
-                if (this.rightmenu.signatureSettings) {
+                if (!allowSignature && this.rightmenu.signatureSettings) {
                     this.rightmenu.signatureSettings.disableControls(disabled);
                     this.rightmenu.btnSignature.setDisabled(disabled);
                 }

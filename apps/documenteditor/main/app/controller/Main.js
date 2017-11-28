@@ -909,14 +909,12 @@ define([
                             me.api.UpdateInterfaceState();
                             me.fillTextArt(me.api.asc_getTextArtPreviews());
 
-                            if (me.appOptions.canBrandingExt)
-                                Common.NotificationCenter.trigger('document:ready', 'main');
+                            Common.NotificationCenter.trigger('document:ready', 'main');
                         }
                     }, 50);
                 } else {
                     documentHolderController.getView().createDelayedElementsViewer();
-                    if (me.appOptions.canBrandingExt)
-                        Common.NotificationCenter.trigger('document:ready', 'main');
+                    Common.NotificationCenter.trigger('document:ready', 'main');
                 }
 
                 if (this.appOptions.canAnalytics && false)
