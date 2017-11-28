@@ -175,6 +175,7 @@ require([
         'presentationeditor/main/app/view/SlideSettings',
         'presentationeditor/main/app/view/TableSettings',
         'presentationeditor/main/app/view/TextArtSettings',
+        'presentationeditor/main/app/view/SignatureSettings',
         'common/main/lib/util/utils',
         'common/main/lib/util/LocalStorage',
         'common/main/lib/controller/Fonts'

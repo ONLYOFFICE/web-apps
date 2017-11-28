@@ -68,7 +68,8 @@ define([
             me._currentSpellObj = undefined;
             me._currLang        = {};
             me._state = {};
-            
+            me._isDisabled = false;
+
             /** coauthoring begin **/
             var usersStore = PE.getCollection('Common.Collections.Users');
             /** coauthoring end **/
@@ -187,6 +188,9 @@ define([
             var fillViewMenuProps = function(selectedElements) {
                 if (!selectedElements || !_.isArray(selectedElements)) return;
 
+                if (!me.viewModeMenu)
+                    me.createDelayedElementsViewer();
+
                 var menu_props = {},
                     menu_to_show = null;
                 _.each(selectedElements, function(element, index) {
@@ -210,7 +214,7 @@ define([
 
             var showObjectMenu = function(event, docElement, eOpts){
                 if (me.api){
-                    var obj = (me.mode.isEdit) ? fillMenuProps(me.api.getSelectedElements()) : fillViewMenuProps(me.api.getSelectedElements());
+                    var obj = (me.mode.isEdit && !me._isDisabled) ? fillMenuProps(me.api.getSelectedElements()) : fillViewMenuProps(me.api.getSelectedElements());
                     if (obj) showPopupMenu(obj.menu_to_show, obj.menu_props, event, docElement, eOpts);
                 }
             };
@@ -218,7 +222,7 @@ define([
             var onContextMenu = function(event){
                 _.delay(function(){
                     if (event.get_Type() == Asc.c_oAscContextMenuTypes.Thumbnails) {
-                        showPopupMenu.call(me, me.slideMenu, {isSlideSelect: event.get_IsSlideSelect(), isSlideHidden: event.get_IsSlideHidden(), fromThumbs: true}, event);
+                        !me._isDisabled && showPopupMenu.call(me, me.slideMenu, {isSlideSelect: event.get_IsSlideSelect(), isSlideHidden: event.get_IsSlideHidden(), fromThumbs: true}, event);
                     } else {
                         showObjectMenu.call(me, event);
                     }
@@ -228,7 +232,7 @@ define([
             var onFocusObject = function(selectedElements) {
                 if (me.currentMenu && me.currentMenu.isVisible()){
                     if (me.api.asc_getCurrentFocusObject() === 0 ){ // thumbnails
-                        if (me.slideMenu===me.currentMenu) {
+                        if (me.slideMenu===me.currentMenu && !me._isDisabled) {
                             var isHidden = false;
                             _.each(selectedElements, function(element, index) {
                                 if (Asc.c_oAscTypeSelectElement.Slide == element.get_ObjectType()) {
@@ -240,7 +244,7 @@ define([
                             me.currentMenu.alignPosition();
                         }
                     } else {
-                        var obj = (me.mode.isEdit) ? fillMenuProps(selectedElements) : fillViewMenuProps(selectedElements);
+                        var obj = (me.mode.isEdit && !me._isDisabled) ? fillMenuProps(selectedElements) : fillViewMenuProps(selectedElements);
                         if (obj) {
                             if (obj.menu_to_show===me.currentMenu) {
                                 me.currentMenu.options.initMenu(obj.menu_props);
@@ -575,7 +579,7 @@ define([
             
             var onDialogAddHyperlink = function() {
                 var win, props, text;
-                if (me.api && me.mode.isEdit){
+                if (me.api && me.mode.isEdit && !me._isDisabled){
                     var handlerDlg = function(dlg, result) {
                         if (result == 'ok') {
                             props = dlg.getSettings();
@@ -668,7 +672,7 @@ define([
             };
 
             var onDoubleClickOnChart = function(chart) {
-                if (me.mode.isEdit) {
+                if (me.mode.isEdit && !me._isDisabled) {
                     var diagramEditor = PE.getController('Common.Controllers.ExternalDiagramEditor').getView('Common.Views.ExternalDiagramEditor');
 
                     if (diagramEditor && chart) {
@@ -1739,10 +1743,10 @@ define([
 
             this.viewModeMenu = new Common.UI.Menu({
                 initMenu: function (value) {
-                    menuViewUndo.setVisible(me.mode.canCoAuthoring && me.mode.canComments);
-                    menuViewUndo.setDisabled(!me.api.asc_getCanUndo());
-                    menuViewCopySeparator.setVisible(!value.isChart && me.api.can_AddQuotedComment() !== false && me.mode.canCoAuthoring && me.mode.canComments);
-                    menuViewAddComment.setVisible(!value.isChart && me.api.can_AddQuotedComment() !== false && me.mode.canCoAuthoring && me.mode.canComments);
+                    menuViewUndo.setVisible(me.mode.canCoAuthoring && me.mode.canComments && !me._isDisabled);
+                    menuViewUndo.setDisabled(!me.api.asc_getCanUndo() && !me._isDisabled);
+                    menuViewCopySeparator.setVisible(!value.isChart && me.api.can_AddQuotedComment() !== false && me.mode.canCoAuthoring && me.mode.canComments && !me._isDisabled);
+                    menuViewAddComment.setVisible(!value.isChart && me.api.can_AddQuotedComment() !== false && me.mode.canCoAuthoring && me.mode.canComments && !me._isDisabled);
                     menuViewAddComment.setDisabled(value.locked);
                 },
                 items: [
@@ -3157,6 +3161,10 @@ define([
                 me.langTableMenu.menu.doLayout();
                 me.langParaMenu.menu.doLayout();
             }
+        },
+
+        SetDisabled: function(state) {
+            this._isDisabled = state;
         },
 
         insertRowAboveText      : 'Row Above',
