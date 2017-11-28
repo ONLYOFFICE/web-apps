@@ -180,6 +180,7 @@ require([
         'spreadsheeteditor/main/app/view/ChartSettings',
         'spreadsheeteditor/main/app/view/ShapeSettings',
         'spreadsheeteditor/main/app/view/TextArtSettings',
+        'spreadsheeteditor/main/app/view/SignatureSettings',
         'common/main/lib/util/utils',
         'common/main/lib/util/LocalStorage',
         'common/main/lib/controller/Fonts',

@@ -705,14 +705,12 @@ define([
                             if (me.needToUpdateVersion)
                                 toolbarController.onApiCoAuthoringDisconnect();
 
-                            if (me.appOptions.canBrandingExt)
-                                Common.NotificationCenter.trigger('document:ready', 'main');
+                            Common.NotificationCenter.trigger('document:ready', 'main');
                         }
                     }, 50);
                 } else {
                     documentHolderView.createDelayedElementsViewer();
-                    if (me.appOptions.canBrandingExt)
-                        Common.NotificationCenter.trigger('document:ready', 'main');
+                    Common.NotificationCenter.trigger('document:ready', 'main');
                 }
 
                 if (me.appOptions.canAnalytics && false)

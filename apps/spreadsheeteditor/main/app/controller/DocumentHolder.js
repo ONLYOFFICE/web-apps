@@ -82,6 +82,7 @@ define([
             me.namedrange_locked = false;
             me._currentMathObj = undefined;
             me._currentParaObjDisabled = false;
+            me._isDisabled = false;
 
             /** coauthoring begin **/
             this.wrapEvents = {
@@ -1224,14 +1225,14 @@ define([
 
         showObjectMenu: function(event){
             if (this.api && !this.mouse.isLeftButtonDown && !this.rangeSelectionMode){
-                (this.permissions.isEdit) ? this.fillMenuProps(this.api.asc_getCellInfo(), true, event) : this.fillViewMenuProps(this.api.asc_getCellInfo(), true, event);
+                (this.permissions.isEdit && !this._isDisabled) ? this.fillMenuProps(this.api.asc_getCellInfo(), true, event) : this.fillViewMenuProps(this.api.asc_getCellInfo(), true, event);
             }
         },
 
         onSelectionChanged: function(info){
             if (!this.mouse.isLeftButtonDown && !this.rangeSelectionMode &&
                 this.currentMenu && this.currentMenu.isVisible()){
-                (this.permissions.isEdit) ? this.fillMenuProps(info, true) : this.fillViewMenuProps(info, true);
+                (this.permissions.isEdit && !this._isDisabled) ? this.fillMenuProps(info, true) : this.fillViewMenuProps(info, true);
             }
         },
 
@@ -1494,12 +1495,15 @@ define([
                 iscellmenu = (seltype==Asc.c_oAscSelectionType.RangeCells) && !this.permissions.isEditMailMerge && !this.permissions.isEditDiagram,
                 iscelledit = this.api.isCellEdited;
 
+            if (!documentHolder.viewModeMenu)
+                documentHolder.createDelayedElementsViewer();
+
             if (!showMenu && !documentHolder.viewModeMenu.isVisible()) return;
 
-            documentHolder.menuViewUndo.setVisible(this.permissions.canCoAuthoring && this.permissions.canComments);
-            documentHolder.menuViewUndo.setDisabled(!this.api.asc_getCanUndo());
-            documentHolder.menuViewCopySeparator.setVisible(iscellmenu && !iscelledit && this.permissions.canCoAuthoring && this.permissions.canComments);
-            documentHolder.menuViewAddComment.setVisible(iscellmenu && !iscelledit && this.permissions.canCoAuthoring && this.permissions.canComments);
+            documentHolder.menuViewUndo.setVisible(this.permissions.canCoAuthoring && this.permissions.canComments && !this._isDisabled);
+            documentHolder.menuViewUndo.setDisabled(!this.api.asc_getCanUndo() && !this._isDisabled);
+            documentHolder.menuViewCopySeparator.setVisible(iscellmenu && !iscelledit && this.permissions.canCoAuthoring && this.permissions.canComments && !this._isDisabled);
+            documentHolder.menuViewAddComment.setVisible(iscellmenu && !iscelledit && this.permissions.canCoAuthoring && this.permissions.canComments && !this._isDisabled);
             documentHolder.setMenuItemCommentCaptionMode(documentHolder.menuViewAddComment, cellinfo.asc_getComments().length < 1, this.permissions.canEditComments);
             commentsController && commentsController.blockPopover(true);
             documentHolder.menuViewAddComment.setDisabled(isCellLocked || isTableLocked);
@@ -2465,6 +2469,10 @@ define([
             });
 
             win.show();
+        },
+
+        SetDisabled: function(state) {
+            this._isDisabled = state;
         },
 
         guestText               : 'Guest',
