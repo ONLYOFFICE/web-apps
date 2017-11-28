@@ -2078,6 +2078,8 @@ define([
         textTabFile: 'File',
         textTabHome: 'Home',
         textTabInsert: 'Insert',
-        textSurface: 'Surface'
+        textSurface: 'Surface',
+        tipChangeChart: 'Change Chart Type',
+        textTabProtect: 'Protection'
     }, SSE.Views.Toolbar || {}));
 });

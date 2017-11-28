@@ -149,6 +149,7 @@ require([
             'Common.Controllers.Chat',
             'Common.Controllers.Comments',
             'Common.Controllers.Plugins'
+            ,'Common.Controllers.Protection'
         ]
     });
 
@@ -177,6 +178,7 @@ require([
         'common/main/lib/controller/Comments',
         'common/main/lib/controller/Chat',
         'common/main/lib/controller/Plugins'
+        ,'common/main/lib/controller/Protection'
     ], function() {
         window.compareVersions = true;
         app.start();

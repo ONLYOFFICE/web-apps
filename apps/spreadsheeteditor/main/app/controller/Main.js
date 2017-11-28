@@ -927,6 +927,9 @@ define([
 
                     rightmenuController && rightmenuController.setApi(me.api);
 
+                    if (me.appOptions.isDesktopApp && me.appOptions.isOffline)
+                        application.getController('Common.Controllers.Protection').setMode(me.appOptions).setConfig({config: me.editorConfig}, me.api);
+
                     if (statusbarController) {
                         statusbarController.getView('Statusbar').changeViewMode(true);
                     }
