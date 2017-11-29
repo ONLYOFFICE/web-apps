@@ -682,36 +682,6 @@ define([
                 }
             };
 
-            var onSignatureClick = function(guid, width, height) {
-                if (_.isUndefined(me.fontStore)) {
-                    me.fontStore = new Common.Collections.Fonts();
-                    var fonts = PE.getController('Toolbar').getView('Toolbar').cmbFontName.store.toJSON();
-                    var arr = [];
-                    _.each(fonts, function(font, index){
-                        if (!font.cloneid) {
-                            arr.push(_.clone(font));
-                        }
-                    });
-                    me.fontStore.add(arr);
-                }
-
-                var win = new Common.Views.SignDialog({
-                    api: me.api,
-                    signType: 'visible',
-                    fontStore: me.fontStore,
-                    signSize: {width: width, height: height},
-                    handler: function(dlg, result) {
-                        if (result == 'ok') {
-                            var props = dlg.getSettings();
-                            me.api.asc_Sign(props.certificateId, guid, props.images[0], props.images[1]);
-                        }
-                        me.fireEvent('editcomplete', me);
-                    }
-                });
-
-                win.show();
-            };
-
             var onTextLanguage = function(langid) {
                 me._currLang.id = langid;
             };
@@ -1552,7 +1522,6 @@ define([
                     me.api.asc_registerCallback('asc_onUpdateThemeIndex',       _.bind(onApiUpdateThemeIndex, me));
                     me.api.asc_registerCallback('asc_onLockDocumentTheme',      _.bind(onApiLockDocumentTheme, me));
                     me.api.asc_registerCallback('asc_onUnLockDocumentTheme',    _.bind(onApiUnLockDocumentTheme, me));
-                    me.api.asc_registerCallback('asc_onSignatureClick',         _.bind(onSignatureClick, me));
                 }
 
                 return me;
