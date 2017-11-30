@@ -1488,6 +1488,7 @@
   "SSE.Views.ShapeSettings.txtPapyrus": "Papyrus",
   "SSE.Views.ShapeSettings.txtWood": "Wood",
   "SSE.Views.SignatureSettings.strSignature": "Signature",
+  "SSE.Views.SignatureSettings.strSigner": "Signer",
   "SSE.Views.SignatureSettings.strRequested": "Requested signatures",
   "SSE.Views.SignatureSettings.strValid": "Valid signatures",
   "SSE.Views.SignatureSettings.strInvalid": "Invalid signatures",

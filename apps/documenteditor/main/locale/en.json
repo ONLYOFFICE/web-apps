@@ -1418,6 +1418,7 @@
   "DE.Views.ShapeSettings.txtTopAndBottom": "Top and bottom",
   "DE.Views.ShapeSettings.txtWood": "Wood",
   "DE.Views.SignatureSettings.strSignature": "Signature",
+  "DE.Views.SignatureSettings.strSigner": "Signer",
   "DE.Views.SignatureSettings.strRequested": "Requested signatures",
   "DE.Views.SignatureSettings.strValid": "Valid signatures",
   "DE.Views.SignatureSettings.strInvalid": "Invalid signatures",
