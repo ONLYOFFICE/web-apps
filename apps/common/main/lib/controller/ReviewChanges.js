@@ -526,6 +526,7 @@ define([
             app.getController('RightMenu').SetDisabled(disable, false);
             app.getController('Statusbar').getView('Statusbar').SetDisabled(disable);
             app.getController('DocumentHolder').getView().SetDisabled(disable);
+            app.getController('Common.Controllers.Plugins').getView('Common.Views.Plugins').disableControls(disable);
 
             var leftMenu = app.getController('LeftMenu').leftMenu;
             leftMenu.btnComments.setDisabled(disable);
