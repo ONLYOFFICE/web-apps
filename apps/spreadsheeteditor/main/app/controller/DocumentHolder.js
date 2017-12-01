@@ -1918,11 +1918,15 @@ define([
                 });
             }
 
-            if ( coord.asc_getX()<0 || coord.asc_getY()<0) {
+            var width = me.tooltips.coauth.bodyWidth - me.tooltips.coauth.XY[0] - me.tooltips.coauth.rightMenuWidth - 15,
+                height = me.tooltips.coauth.apiHeight - 15, // height - scrollbar height
+                btnSize = [31, 20],
+                right = coord.asc_getX() + coord.asc_getWidth() + 2 + btnSize[0],
+                bottom = coord.asc_getY() + coord.asc_getHeight() + 1 + btnSize[1];
+            if (right > width || bottom > height || coord.asc_getX()<0 || coord.asc_getY()<0) {
                 if (pasteContainer.is(':visible')) pasteContainer.hide();
             } else {
-                var showPoint = [coord.asc_getX() + coord.asc_getWidth() + 3, coord.asc_getY() + coord.asc_getHeight() + 3];
-                pasteContainer.css({left: showPoint[0], top : showPoint[1]});
+                pasteContainer.css({left: right - btnSize[0], top : bottom - btnSize[1]});
                 pasteContainer.show();
             }
         },
