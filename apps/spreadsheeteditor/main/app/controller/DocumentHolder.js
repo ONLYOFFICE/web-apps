@@ -275,6 +275,7 @@ define([
                 this.api.asc_registerCallback('asc_onFormulaCompleteMenu', _.bind(this.onFormulaCompleteMenu, this));
                 this.api.asc_registerCallback('asc_onShowSpecialPasteOptions', _.bind(this.onShowSpecialPasteOptions, this));
                 this.api.asc_registerCallback('asc_onHideSpecialPasteOptions', _.bind(this.onHideSpecialPasteOptions, this));
+                this.api.asc_registerCallback('asc_onToggleAutoCorrectOptions', _.bind(this.onToggleAutoCorrectOptions, this));
             }
             return this;
         },
@@ -1866,6 +1867,70 @@ define([
                 pasteContainer.hide();
         },
 
+        onToggleAutoCorrectOptions: function(autoCorrectOptions) {
+            if (!autoCorrectOptions) {
+                var pasteContainer = this.documentHolder.cmpEl.find('#autocorrect-paste-container');
+                if (pasteContainer.is(':visible'))
+                    pasteContainer.hide();
+                return;
+            }
+
+            var me                  = this,
+                documentHolderView  = me.documentHolder,
+                coord  = autoCorrectOptions.asc_getCellCoord(),
+                pasteContainer = documentHolderView.cmpEl.find('#autocorrect-paste-container'),
+                pasteItems = autoCorrectOptions.asc_getOptions();
+
+            // Prepare menu container
+            if (pasteContainer.length < 1) {
+                me._arrAutoCorrectPaste = [];
+                me._arrAutoCorrectPaste[Asc.c_oAscAutoCorrectOptions.UndoTableAutoExpansion] = me.txtUndoExpansion;
+                me._arrAutoCorrectPaste[Asc.c_oAscAutoCorrectOptions.RedoTableAutoExpansion] = me.txtRedoExpansion;
+
+                pasteContainer = $('<div id="autocorrect-paste-container" style="position: absolute;"><div id="id-document-holder-btn-autocorrect-paste"></div></div>');
+                documentHolderView.cmpEl.append(pasteContainer);
+
+                me.btnAutoCorrectPaste = new Common.UI.Button({
+                    cls         : 'btn-toolbar',
+                    iconCls     : 'btn-paste',
+                    menu        : new Common.UI.Menu({items: []})
+                });
+                me.btnAutoCorrectPaste.render($('#id-document-holder-btn-autocorrect-paste')) ;
+            }
+
+            if (pasteItems.length>0) {
+                var menu = me.btnAutoCorrectPaste.menu;
+                for (var i = 0; i < menu.items.length; i++) {
+                    menu.removeItem(menu.items[i]);
+                    i--;
+                }
+
+                var group_prev = -1;
+                _.each(pasteItems, function(menuItem, index) {
+                    var mnu = new Common.UI.MenuItem({
+                        caption: me._arrAutoCorrectPaste[menuItem],
+                        value: menuItem
+                    }).on('click', function(item, e) {
+                        me.api.asc_applyAutoCorrectOptions(item.value);
+                        setTimeout(function(){menu.hide();}, 100);
+                    });
+                    menu.addItem(mnu);
+                });
+            }
+
+            var width = me.tooltips.coauth.bodyWidth - me.tooltips.coauth.XY[0] - me.tooltips.coauth.rightMenuWidth - 15,
+                height = me.tooltips.coauth.apiHeight - 15, // height - scrollbar height
+                btnSize = [31, 20],
+                right = coord.asc_getX() + coord.asc_getWidth() + 2 + btnSize[0],
+                bottom = coord.asc_getY() + coord.asc_getHeight() + 1 + btnSize[1];
+            if (right > width || bottom > height || coord.asc_getX()<0 || coord.asc_getY()<0) {
+                if (pasteContainer.is(':visible')) pasteContainer.hide();
+            } else {
+                pasteContainer.css({left: right - btnSize[0], top : bottom - btnSize[1]});
+                pasteContainer.show();
+            }
+        },
+
         onCellsRange: function(status) {
             this.rangeSelectionMode = (status != Asc.c_oAscSelectionDialogType.None);
         },
@@ -2648,7 +2713,9 @@ define([
         txtPastePicture: 'Picture',
         txtPasteLinkPicture: 'Linked Picture',
         txtPasteSourceFormat: 'Source formatting',
-        txtPasteDestFormat: 'Destination formatting'
+        txtPasteDestFormat: 'Destination formatting',
+        txtUndoExpansion: 'Undo table autoexpansion',
+        txtRedoExpansion: 'Redo table autoexpansion'
 
     }, SSE.Controllers.DocumentHolder || {}));
 });
