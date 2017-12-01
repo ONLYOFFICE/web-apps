@@ -275,8 +275,7 @@ define([
                 this.api.asc_registerCallback('asc_onFormulaCompleteMenu', _.bind(this.onFormulaCompleteMenu, this));
                 this.api.asc_registerCallback('asc_onShowSpecialPasteOptions', _.bind(this.onShowSpecialPasteOptions, this));
                 this.api.asc_registerCallback('asc_onHideSpecialPasteOptions', _.bind(this.onHideSpecialPasteOptions, this));
-                this.api.asc_registerCallback('asc_onShowAutoCorrectOptions', _.bind(this.onShowAutoCorrectOptions, this));
-                this.api.asc_registerCallback('asc_onHideAutoCorrectOptions', _.bind(this.onHideAutoCorrectOptions, this));
+                this.api.asc_registerCallback('asc_onToggleAutoCorrectOptions', _.bind(this.onToggleAutoCorrectOptions, this));
             }
             return this;
         },
@@ -1868,7 +1867,14 @@ define([
                 pasteContainer.hide();
         },
 
-        onShowAutoCorrectOptions: function(autoCorrectOptions) {
+        onToggleAutoCorrectOptions: function(autoCorrectOptions) {
+            if (!autoCorrectOptions) {
+                var pasteContainer = this.documentHolder.cmpEl.find('#autocorrect-paste-container');
+                if (pasteContainer.is(':visible'))
+                    pasteContainer.hide();
+                return;
+            }
+
             var me                  = this,
                 documentHolderView  = me.documentHolder,
                 coord  = autoCorrectOptions.asc_getCellCoord(),
@@ -1919,12 +1925,6 @@ define([
                 pasteContainer.css({left: showPoint[0], top : showPoint[1]});
                 pasteContainer.show();
             }
-        },
-
-        onHideAutoCorrectOptions: function() {
-            var pasteContainer = this.documentHolder.cmpEl.find('#autocorrect-paste-container');
-            if (pasteContainer.is(':visible'))
-                pasteContainer.hide();
         },
 
         onCellsRange: function(status) {
