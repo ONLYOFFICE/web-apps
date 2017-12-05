@@ -86,25 +86,27 @@ define([
             me.btnZoomDown.updateHint(me.tipZoomOut + Common.Utils.String.platformKey('Ctrl+-'));
             me.btnZoomUp.updateHint(me.tipZoomIn + Common.Utils.String.platformKey('Ctrl++'));
 
-            me.btnLanguage.updateHint(me.tipSetLang);
-            me.btnLanguage.cmpEl.on({
-                'show.bs.dropdown': function () {
-                    _.defer(function () {
-                        me.btnLanguage.cmpEl.find('ul').focus();
-                    }, 100);
-                },
-                'hide.bs.dropdown': function () {
-                    _.defer(function () {
-                        me.api.asc_enableKeyEvents(true);
-                    }, 100);
-                },
-                'click': function (e) {
-                    if (me.btnLanguage.isDisabled()) {
-                        return false;
+            if (me.btnLanguage && me.btnLanguage.cmpEl) {
+                me.btnLanguage.updateHint(me.tipSetLang);
+                me.btnLanguage.cmpEl.on({
+                    'show.bs.dropdown': function () {
+                        _.defer(function () {
+                            me.btnLanguage.cmpEl.find('ul').focus();
+                        }, 100);
+                    },
+                    'hide.bs.dropdown': function () {
+                        _.defer(function () {
+                            me.api.asc_enableKeyEvents(true);
+                        }, 100);
+                    },
+                    'click': function (e) {
+                        if (me.btnLanguage.isDisabled()) {
+                            return false;
+                        }
                     }
-                }
-            });
-            me.langMenu.on('item:click', _.bind(_clickLanguage, this));
+                });
+                me.langMenu.on('item:click', _.bind(_clickLanguage, this));
+            }
 
             me.cntZoom.updateHint(me.tipZoomFactor);
             me.cntZoom.cmpEl.on({
