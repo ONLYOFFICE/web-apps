@@ -266,7 +266,7 @@ define([
                 }
             }
 
-            if (this.mode.isDesktopApp && this.mode.isOffline) {
+            if (this.mode.isEdit && this.mode.isDesktopApp && this.mode.isOffline) {
                 this.panels['protect'] = (new SSE.Views.FileMenuPanels.ProtectDoc({menu:this})).render();
                 this.panels['protect'].setMode(this.mode);
             }
