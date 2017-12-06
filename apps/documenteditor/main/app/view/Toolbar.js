@@ -2089,59 +2089,8 @@ define([
                             button.setDisabled(true);
                         }
                     });
-                    this.btnCopy.setDisabled(true);
-                    this.btnPaste.setDisabled(true);
-                    this.btnUndo.setDisabled(true);
-                    this.btnRedo.setDisabled(true);
-                    this.btnIncFontSize.setDisabled(true);
-                    this.btnDecFontSize.setDisabled(true);
-                    this.btnBold.setDisabled(true);
-                    this.btnItalic.setDisabled(true);
-                    this.btnUnderline.setDisabled(true);
-                    this.btnStrikeout.setDisabled(true);
-                    this.btnSuperscript.setDisabled(true);
-                    this.btnSubscript.setDisabled(true);
-                    this.btnHighlightColor.setDisabled(true);
-                    this.btnFontColor.setDisabled(true);
-                    this.btnParagraphColor.setDisabled(true);
-                    this.btnMarkers.setDisabled(true);
-                    this.btnNumbers.setDisabled(true);
-                    this.btnMultilevels.setDisabled(true);
-                    this.btnAlignLeft.setDisabled(true);
-                    this.btnAlignCenter.setDisabled(true);
-                    this.btnAlignRight.setDisabled(true);
-                    this.btnAlignJust.setDisabled(true);
-                    this.btnDecLeftOffset.setDisabled(true);
-                    this.btnIncLeftOffset.setDisabled(true);
-                    this.btnLineSpace.setDisabled(true);
-                    this.btnShowHidenChars.setDisabled(true);
-                    this.btnInsertTable.setDisabled(true);
-                    this.btnInsertImage.setDisabled(true);
-                    this.btnInsertChart.setDisabled(true);
-                    this.btnInsertText.setDisabled(true);
-                    this.btnInsertTextArt.setDisabled(true);
-                    this.btnDropCap.setDisabled(true);
-                    this.btnColumns.setDisabled(true);
-                    this.btnInsertHyperlink.setDisabled(true);
-                    this.btnEditHeader.setDisabled(true);
-                    this.btnInsertShape.setDisabled(true);
-                    this.btnInsertEquation.setDisabled(true);
-                    this.btnPageOrient.setDisabled(true);
-                    this.btnPageMargins.setDisabled(true);
-                    this.btnPageSize.setDisabled(true);
-                    this.btnClearStyle.setDisabled(true);
-                    this.btnCopyStyle.setDisabled(true);
-                    this.btnColorSchemas.setDisabled(true);
-                    this.btnMailRecepients.setDisabled(true);
-                    this.btnHorizontalAlign.setDisabled(true);
-                    this.cmbFontName.setDisabled(true);
-                    this.cmbFontSize.setDisabled(true);
-                    this.listStyles.setDisabled(true);
-                    this.btnNotes.setDisabled(true);
                     if (mode.disableDownload)
                         this.btnPrint.setDisabled(true);
-
-                    this.btnsPageBreak.disable(true);
                 }
 
                 this.mode = mode;
