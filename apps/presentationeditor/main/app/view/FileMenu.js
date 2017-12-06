@@ -375,6 +375,6 @@ define([
         btnSaveAsCaption        : 'Save as',
         btnRenameCaption        : 'Rename...',
         btnCloseMenuCaption     : 'Close Menu',
-        btnProtectCaption: 'Protect\\Sign'
+        btnProtectCaption: 'Protect'
     }, PE.Views.FileMenu || {}));
 });

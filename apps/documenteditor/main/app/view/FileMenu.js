@@ -378,6 +378,6 @@ define([
         textDownload            : 'Download',
         btnRenameCaption        : 'Rename...',
         btnCloseMenuCaption     : 'Close Menu',
-        btnProtectCaption: 'Protect\\Sign'
+        btnProtectCaption: 'Protect'
     }, DE.Views.FileMenu || {}));
 });

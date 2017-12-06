@@ -1254,7 +1254,7 @@ define([
         },
 
         strProtect: 'Protect Document',
-        strSignature: 'Signature',
+        strSignature: 'With Signature',
         txtView: 'View signatures',
         txtEdit: 'Edit document',
         txtSigned: 'Valid signatures has been added to the document. The document is protected from editing.',
@@ -1262,7 +1262,7 @@ define([
         txtRequestedSignatures: 'This document needs to be signed.',
         notcriticalErrorTitle: 'Warning',
         txtEditWarning: 'Editing will remove the signatures from the document.<br>Are you sure you want to continue?',
-        strEncrypt: 'Password',
+        strEncrypt: 'With Password',
         txtEncrypted: 'This document has been protected by password'
 
     }, DE.Views.FileMenuPanels.ProtectDoc || {}));
