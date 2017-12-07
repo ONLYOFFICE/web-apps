@@ -84,7 +84,9 @@ define([
                 pluginObj: undefined,
                 allowSelected: false,
                 selected: false,
-                visible: true
+                visible: true,
+                groupName: '',
+                groupRank: 0
             }
         }
     });
