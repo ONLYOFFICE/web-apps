@@ -631,7 +631,8 @@ define([
                     pluginsController.setApi(me.api);
                     me.requestPlugins('../../../../plugins.json');
                     me.api.asc_registerCallback('asc_onPluginsInit', _.bind(me.updatePluginsList, me));
-                }
+                    me.api.asc_registerCallback('asc_onPluginsReset', _.bind(me.resetPluginsList, me));
+                 }
 
                 leftMenuView.disableMenu('all',false);
 
@@ -1980,7 +1981,11 @@ define([
                 }
                 if (!uiCustomize) this.getApplication().getController('LeftMenu').enablePlugins();
             },
-            
+
+            resetPluginsList: function() {
+                this.getApplication().getCollection('Common.Collections.Plugins').reset();
+            },
+
             leavePageText: 'You have unsaved changes in this document. Click \'Stay on this Page\' then \'Save\' to save them. Click \'Leave this Page\' to discard all the unsaved changes.',
             criticalErrorTitle: 'Error',
             notcriticalErrorTitle: 'Warning',

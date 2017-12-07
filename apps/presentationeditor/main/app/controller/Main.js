@@ -642,6 +642,7 @@ define([
                 pluginsController.setApi(me.api);
                 me.requestPlugins('../../../../plugins.json');
                 me.api.asc_registerCallback('asc_onPluginsInit', _.bind(me.updatePluginsList, me));
+                me.api.asc_registerCallback('asc_onPluginsReset', _.bind(me.resetPluginsList, me));
 
                 documentHolderController.setApi(me.api);
                 documentHolderController.createDelayedElements();
@@ -1783,6 +1784,10 @@ define([
                     this.getApplication().getController('Common.Controllers.Plugins').setMode(this.appOptions).runAutoStartPlugins(plugins.autostart);
                 }
                 if (!uiCustomize) this.getApplication().getController('LeftMenu').enablePlugins();
+            },
+
+            resetPluginsList: function() {
+                this.getApplication().getCollection('Common.Collections.Plugins').reset();
             },
 
             // Translation
