@@ -85,7 +85,8 @@ define([
                     'search:back': _.bind(this.onQuerySearch, this, 'back'),
                     'search:next': _.bind(this.onQuerySearch, this, 'next'),
                     'search:replace': _.bind(this.onQueryReplace, this),
-                    'search:replaceall': _.bind(this.onQueryReplaceAll, this)
+                    'search:replaceall': _.bind(this.onQueryReplaceAll, this),
+                    'search:highlight': _.bind(this.onSearchHighlight, this)
                 },
                 'Common.Views.ReviewChanges': {
                     'collaboration:chat': _.bind(this.onShowHideChat, this)
@@ -416,6 +417,10 @@ define([
             }
         },
 
+        onSearchHighlight: function(w, highlight) {
+            this.api.asc_selectSearchingResults(highlight);
+        },
+
         showSearchDlg: function(show,action) {
             if ( !this.dlgSearch ) {
                 var menuWithin = new Common.UI.MenuItem({
@@ -476,7 +481,7 @@ define([
                     matchcase: true,
                     matchword: true,
                     matchwordstr: this.textItemEntireCell,
-                    markresult: false,
+                    markresult: {applied: true},
                     extraoptions : [menuWithin,menuSearch,menuLookin]
                 }));
 
@@ -506,6 +511,7 @@ define([
 
         onSearchDlgHide: function() {
             this.leftMenu.btnSearch.toggle(false, true);
+            this.api.asc_selectSearchingResults(false);
             $(this.leftMenu.btnSearch.el).blur();
             this.api.asc_enableKeyEvents(true);
         },
