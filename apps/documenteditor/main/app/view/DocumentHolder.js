@@ -612,6 +612,8 @@ define([
                     me._arrSpecialPaste = [];
                     me._arrSpecialPaste[Asc.c_oSpecialPasteProps.paste] = me.textPaste;
                     me._arrSpecialPaste[Asc.c_oSpecialPasteProps.keepTextOnly] = me.txtKeepTextOnly;
+                    me._arrSpecialPaste[Asc.c_oSpecialPasteProps.insertAsNestedTable] = me.textNest;
+                    me._arrSpecialPaste[Asc.c_oSpecialPasteProps.overwriteCells] = me.txtOverwriteCells;
 
                     pasteContainer = $('<div id="special-paste-container" style="position: absolute;"><div id="id-document-holder-btn-special-paste"></div></div>');
                     me.cmpEl.append(pasteContainer);
@@ -3545,7 +3547,9 @@ define([
         strSign: 'Sign',
         strDetails: 'Signature Details',
         strSetup: 'Signature Setup',
-        strDelete: 'Remove Signature'
+        strDelete: 'Remove Signature',
+        txtOverwriteCells: 'Overwrite cells',
+        textNest: 'Nest table'
 
     }, DE.Views.DocumentHolder || {}));
 });

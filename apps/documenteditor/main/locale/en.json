@@ -974,6 +974,8 @@
   "DE.Views.DocumentHolder.strDetails": "Signature Details",
   "DE.Views.DocumentHolder.strSetup": "Signature Setup",
   "DE.Views.DocumentHolder.strDelete": "Remove Signature",
+  "DE.Views.DocumentHolder.txtOverwriteCells": "Overwrite cells",
+  "DE.Views.DocumentHolder.textNest": "Nest table",
   "DE.Views.DropcapSettingsAdvanced.cancelButtonText": "Cancel",
   "DE.Views.DropcapSettingsAdvanced.okButtonText": "Ok",
   "DE.Views.DropcapSettingsAdvanced.strBorders": "Borders & Fill",
