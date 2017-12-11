@@ -97,7 +97,8 @@ define([
                     if (xhrObj && lang) {
                         xhrObj.open('GET', 'resources/formula-lang/' + lang + '_desc.json', false);
                         xhrObj.send('');
-                        if (xhrObj.status == 200)
+                        if (xhrObj.status==200 ||
+                           (xhrObj.status==0 && !!xhrObj.responseURL && xhrObj.responseURL.startsWith('file://')))
                             langDescJson[lang] = eval("(" + xhrObj.responseText + ")");
                         else {
                             xhrObj.open('GET', 'resources/formula-lang/en_desc.json', false);

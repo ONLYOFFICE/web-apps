@@ -64,7 +64,8 @@ define([
                     'click:users': _.bind(this.clickStatusbarUsers, this)
                 },
                 'Common.Views.Plugins': {
-                    'plugin:open': _.bind(this.onPluginOpen, this)
+                    'plugin:open': _.bind(this.onPluginOpen, this),
+                    'hide':        _.bind(this.onHidePlugins, this)
                 },
                 'Common.Views.About': {
                     'show':    _.bind(this.aboutShowHide, this, false),
@@ -307,6 +308,10 @@ define([
             $(this.leftMenu.btnChat.el).blur();
             Common.NotificationCenter.trigger('layout:changed', 'leftmenu');
         },
+
+        onHidePlugins: function() {
+            Common.NotificationCenter.trigger('layout:changed', 'leftmenu');
+        },
         /** coauthoring end **/
 
         onQuerySearch: function(d, w, opts) {
@@ -533,12 +538,12 @@ define([
         },
 
         onPluginOpen: function(panel, type, action) {
-            if ( type == 'onboard' ) {
-                if ( action == 'open' ) {
+            if (type == 'onboard') {
+                if (action == 'open') {
                     this.leftMenu.close();
                     this.leftMenu.btnThumbs.toggle(false, false);
                     this.leftMenu.panelPlugins.show();
-                    this.leftMenu.onBtnMenuClick({pressed:true, options: {action: 'plugins'}});
+                    this.leftMenu.onBtnMenuClick({pressed: true, options: {action: 'plugins'}});
                 } else {
                     this.leftMenu.close();
                 }

@@ -2469,7 +2469,8 @@ define([
             capImgWrapping: 'Wrapping',
             capBtnComment: 'Comment',
             textColumnsCustom: 'Custom Columns',
-            textSurface: 'Surface'
+            textSurface: 'Surface',
+            textTabProtect: 'Protection'
         }
     })(), DE.Views.Toolbar || {}));
 });

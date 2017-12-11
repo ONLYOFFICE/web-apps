@@ -535,6 +535,8 @@ define([
             if (comments)
                 comments.setPreviewMode(disable);
 
+            leftMenu.getMenu('file').miProtect.setDisabled(disable);
+
             if (this.view) {
                 this.view.$el.find('.no-group-mask').css('opacity', 1);
             }

@@ -1,0 +1,41 @@
+<table cols="2">
+    <tr>
+        <td class="padding-large">
+            <label style="font-size: 18px;"><%= scope.strSignature %></label>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-large">
+            <div id="signature-invisible-sign" style="width:100%;"></div>
+        </td>
+    </tr>
+    <tr class="requested">
+        <td class="padding-small">
+            <label class="header"><%= scope.strRequested %></label>
+        </td>
+    </tr>
+    <tr class="requested">
+        <td class="padding-large">
+            <div id="signature-requested-sign"></div>
+        </td>
+    </tr>
+    <tr class="valid">
+        <td class="padding-small">
+            <label class="header"><%= scope.strValid %></label>
+        </td>
+    </tr>
+    <tr class="valid">
+        <td class="padding-large">
+            <div id="signature-valid-sign"></div>
+        </td>
+    </tr>
+    <tr class="invalid">
+        <td class="padding-small">
+            <label class="header" style="color:#bb3d3d;"><%= scope.strInvalid %></label>
+        </td>
+    </tr>
+    <tr class="invalid">
+        <td><div id="signature-invalid-sign"></div></td>
+    </tr>
+    <tr class="finish-cell"></tr>
+</table>

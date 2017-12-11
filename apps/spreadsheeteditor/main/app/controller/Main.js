@@ -631,7 +631,8 @@ define([
                     pluginsController.setApi(me.api);
                     me.requestPlugins('../../../../plugins.json');
                     me.api.asc_registerCallback('asc_onPluginsInit', _.bind(me.updatePluginsList, me));
-                }
+                    me.api.asc_registerCallback('asc_onPluginsReset', _.bind(me.resetPluginsList, me));
+                 }
 
                 leftMenuView.disableMenu('all',false);
 
@@ -706,16 +707,13 @@ define([
                             if (me.needToUpdateVersion)
                                 toolbarController.onApiCoAuthoringDisconnect();
 
-                            if (me.appOptions.canBrandingExt)
-                                Common.NotificationCenter.trigger('document:ready', 'main');
-
+                            Common.NotificationCenter.trigger('document:ready', 'main');
                             me.applyLicense();
                         }
                     }, 50);
                 } else {
                     documentHolderView.createDelayedElementsViewer();
-                    if (me.appOptions.canBrandingExt)
-                        Common.NotificationCenter.trigger('document:ready', 'main');
+                    Common.NotificationCenter.trigger('document:ready', 'main');
                 }
 
                 if (me.appOptions.canAnalytics && false)
@@ -836,6 +834,7 @@ define([
                     this.appOptions.canChat        = this.appOptions.canLicense && !this.appOptions.isOffline && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.chat===false);
                     this.appOptions.canRename      = !!this.permissions.rename;
                     this.appOptions.trialMode      = params.asc_getLicenseMode();
+                    this.appOptions.canProtect     = this.appOptions.isEdit && this.appOptions.isDesktopApp && this.api.asc_isSignaturesSupport();
 
                     this.appOptions.canBranding  = (licType === Asc.c_oLicenseResult.Success) && (typeof this.editorConfig.customization == 'object');
                     if (this.appOptions.canBranding)
@@ -953,6 +952,9 @@ define([
 //                    statusbarController && statusbarController.setApi(me.api);
 
                     rightmenuController && rightmenuController.setApi(me.api);
+
+                    if (me.appOptions.isDesktopApp && me.appOptions.isOffline)
+                        application.getController('Common.Controllers.Protection').setMode(me.appOptions).setConfig({config: me.editorConfig}, me.api);
 
                     if (statusbarController) {
                         statusbarController.getView('Statusbar').changeViewMode(true);
@@ -1960,15 +1962,27 @@ define([
                                 baseUrl : item.baseUrl,
                                 variations: variationsArr,
                                 currentVariation: 0,
-                                visible: pluginVisible
+                                visible: pluginVisible,
+                                groupName: (item.group) ? item.group.name : '',
+                                groupRank: (item.group) ? item.group.rank : 0
                             }));
                     });
 
                     if (uiCustomize!==false)  // from ui customizer in editor config or desktop event
                         this.UICustomizePlugins = arrUI;
 
-                    if (!uiCustomize) {
-                        if (pluginStore) pluginStore.add(arr);
+                    if ( !uiCustomize && pluginStore) {
+                        arr = pluginStore.models.concat(arr);
+                        arr.sort(function(a, b){
+                            var rank_a = a.get('groupRank'),
+                                rank_b = b.get('groupRank');
+                            if (rank_a < rank_b)
+                                return (rank_a==0) ? 1 : -1;
+                            if (rank_a > rank_b)
+                                return (rank_b==0) ? -1 : 1;
+                            return 0;
+                        });
+                        pluginStore.reset(arr);
                         this.appOptions.canPlugins = !pluginStore.isEmpty();
                     }
                 } else if (!uiCustomize){
@@ -1979,7 +1993,11 @@ define([
                 }
                 if (!uiCustomize) this.getApplication().getController('LeftMenu').enablePlugins();
             },
-            
+
+            resetPluginsList: function() {
+                this.getApplication().getCollection('Common.Collections.Plugins').reset();
+            },
+
             leavePageText: 'You have unsaved changes in this document. Click \'Stay on this Page\' then \'Save\' to save them. Click \'Leave this Page\' to discard all the unsaved changes.',
             criticalErrorTitle: 'Error',
             notcriticalErrorTitle: 'Warning',

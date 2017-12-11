@@ -647,7 +647,7 @@ define([
                     case Asc.c_oAscAsyncAction['ForceSaveButton']:
                         clearTimeout(this._state.timerSave);
                         force = true;
-                        title   = (!this.appOptions.isOffline) ? this.saveTitleText : '';
+                        title   = this.saveTitleText;
                         text    = (!this.appOptions.isOffline) ? this.saveTextText : '';
                         break;
 
@@ -861,6 +861,7 @@ define([
                 pluginsController.setApi(me.api);
                 me.requestPlugins('../../../../plugins.json');
                 me.api.asc_registerCallback('asc_onPluginsInit', _.bind(me.updatePluginsList, me));
+                me.api.asc_registerCallback('asc_onPluginsReset', _.bind(me.resetPluginsList, me));
 
                 documentHolderController.setApi(me.api);
                 documentHolderController.createDelayedElements();
@@ -910,16 +911,13 @@ define([
                             me.api.UpdateInterfaceState();
                             me.fillTextArt(me.api.asc_getTextArtPreviews());
 
-                            if (me.appOptions.canBrandingExt)
-                                Common.NotificationCenter.trigger('document:ready', 'main');
-
+                            Common.NotificationCenter.trigger('document:ready', 'main');
                             me.applyLicense();
                         }
                     }, 50);
                 } else {
                     documentHolderController.getView().createDelayedElementsViewer();
-                    if (me.appOptions.canBrandingExt)
-                        Common.NotificationCenter.trigger('document:ready', 'main');
+                    Common.NotificationCenter.trigger('document:ready', 'main');
                 }
 
                 if (this.appOptions.canAnalytics && false)
@@ -1033,6 +1031,7 @@ define([
                 this.appOptions.forcesave      = this.appOptions.canForcesave;
                 this.appOptions.canEditComments= this.appOptions.isOffline || !(typeof (this.editorConfig.customization) == 'object' && this.editorConfig.customization.commentAuthorOnly);
                 this.appOptions.trialMode      = params.asc_getLicenseMode();
+                this.appOptions.canProtect     = this.appOptions.isEdit && this.appOptions.isDesktopApp && this.api.asc_isSignaturesSupport();
 
                 if ( this.appOptions.isLightVersion ) {
                     this.appOptions.canUseHistory =
@@ -1122,6 +1121,9 @@ define([
                     rightmenuController && rightmenuController.setApi(me.api);
 
                     reviewController.setMode(me.appOptions).setConfig({config: me.editorConfig}, me.api);
+
+                    if (this.appOptions.isDesktopApp && this.appOptions.isOffline)
+                        application.getController('Common.Controllers.Protection').setMode(me.appOptions).setConfig({config: me.editorConfig}, me.api);
 
                     var viewport = this.getApplication().getController('Viewport').getView('Viewport');
 
@@ -1992,15 +1994,27 @@ define([
                                 baseUrl : item.baseUrl,
                                 variations: variationsArr,
                                 currentVariation: 0,
-                                visible: pluginVisible
+                                visible: pluginVisible,
+                                groupName: (item.group) ? item.group.name : '',
+                                groupRank: (item.group) ? item.group.rank : 0
                             }));
                     });
 
                     if ( uiCustomize!==false )  // from ui customizer in editor config or desktop event
                         this.UICustomizePlugins = arrUI;
 
-                    if ( !uiCustomize ) {
-                        if (pluginStore) pluginStore.add(arr);
+                    if ( !uiCustomize && pluginStore) {
+                        arr = pluginStore.models.concat(arr);
+                        arr.sort(function(a, b){
+                            var rank_a = a.get('groupRank'),
+                                rank_b = b.get('groupRank');
+                            if (rank_a < rank_b)
+                                return (rank_a==0) ? 1 : -1;
+                            if (rank_a > rank_b)
+                                return (rank_b==0) ? -1 : 1;
+                            return 0;
+                        });
+                        pluginStore.reset(arr);
                         this.appOptions.canPlugins = !pluginStore.isEmpty();
                     }
                 } else if (!uiCustomize){
@@ -2010,6 +2024,10 @@ define([
                     this.getApplication().getController('Common.Controllers.Plugins').setMode(this.appOptions).runAutoStartPlugins(plugins.autostart);
                 }
                 if (!uiCustomize) this.getApplication().getController('LeftMenu').enablePlugins();
+            },
+
+            resetPluginsList: function() {
+                this.getApplication().getCollection('Common.Collections.Plugins').reset();
             },
 
             leavePageText: 'You have unsaved changes in this document. Click \'Stay on this Page\' then \'Save\' to save them. Click \'Leave this Page\' to discard all the unsaved changes.',

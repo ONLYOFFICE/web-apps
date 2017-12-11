@@ -120,6 +120,9 @@ define([
                 bold: undefined,
                 italic: undefined,
                 underline: undefined,
+                strikeout: undefined,
+                subscript: undefined,
+                superscript: undefined,
                 wrap: undefined,
                 merge: undefined,
                 angle: undefined,
@@ -247,6 +250,9 @@ define([
                 toolbar.btnBold.on('click',                                 _.bind(this.onBold, this));
                 toolbar.btnItalic.on('click',                               _.bind(this.onItalic, this));
                 toolbar.btnUnderline.on('click',                            _.bind(this.onUnderline, this));
+                toolbar.btnStrikeout.on('click',                            _.bind(this.onStrikeout, this));
+                toolbar.btnSubscript.on('click',                            _.bind(this.onSubscript, this));
+                toolbar.btnSubscript.menu.on('item:click',                  _.bind(this.onSubscriptMenu, this));
                 toolbar.btnTextColor.on('click',                            _.bind(this.onTextColor, this));
                 toolbar.btnBackColor.on('click',                            _.bind(this.onBackColor, this));
                 toolbar.mnuTextColorPicker.on('select',                     _.bind(this.onTextColorSelect, this));
@@ -461,6 +467,51 @@ define([
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar, {restorefocus:true});
             Common.component.Analytics.trackEvent('ToolBar', 'Underline');
+        },
+
+        onStrikeout: function(btn, e) {
+            this._state.strikeout = undefined;
+            if (this.api)
+                this.api.asc_setCellStrikeout(btn.pressed);
+
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar, {restorefocus:true});
+            Common.component.Analytics.trackEvent('ToolBar', 'Strikeout');
+        },
+
+        onSubscriptMenu: function(menu, item) {
+            var btnSubscript = this.toolbar.btnSubscript,
+                iconEl = $('.icon', btnSubscript.cmpEl);
+
+            if (item.value == 'sub') {
+                this._state.subscript = undefined;
+                this.api.asc_setCellSubscript(item.checked);
+            } else {
+                this._state.superscript = undefined;
+                this.api.asc_setCellSuperscript(item.checked);
+            }
+            if (item.checked) {
+                iconEl.removeClass(btnSubscript.options.icls);
+                btnSubscript.options.icls = item.options.icls;
+                iconEl.addClass(btnSubscript.options.icls);
+            }
+
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            Common.component.Analytics.trackEvent('ToolBar', (item.value == 'sub') ? 'Subscript' : 'Superscript');
+        },
+
+        onSubscript: function(btn, e) {
+            var subscript = (btn.options.icls == 'btn-subscript');
+
+            if (subscript) {
+                this._state.subscript = undefined;
+                this.api.asc_setCellSubscript(btn.pressed);
+            } else {
+                this._state.superscript = undefined;
+                this.api.asc_setCellSuperscript(btn.pressed);
+            }
+
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            Common.component.Analytics.trackEvent('ToolBar', (subscript) ? 'Subscript' : 'Superscript');
         },
 
         onTextColor: function() {
@@ -1648,7 +1699,7 @@ define([
 
                 toolbar.lockToolbar(SSE.enumLock.editFormula, is_formula,
                         { array: [toolbar.cmbFontName, toolbar.cmbFontSize, toolbar.btnIncFontSize, toolbar.btnDecFontSize,
-                            toolbar.btnBold, toolbar.btnItalic, toolbar.btnUnderline, toolbar.btnTextColor]});
+                            toolbar.btnBold, toolbar.btnItalic, toolbar.btnUnderline, toolbar.btnStrikeout, toolbar.btnSubscript, toolbar.btnTextColor]});
                 toolbar.lockToolbar(SSE.enumLock.editText, is_text, {array:[toolbar.btnInsertFormula]});
             }
             this._state.coauthdisable = undefined;
@@ -1705,6 +1756,37 @@ define([
                 if (this._state.underline !== val) {
                     toolbar.btnUnderline.toggle(val === true, true);
                     this._state.underline = val;
+                }
+                val = fontobj.asc_getStrikeout();
+                if (this._state.strikeout !== val) {
+                    toolbar.btnStrikeout.toggle(val === true, true);
+                    this._state.strikeout = val;
+                }
+
+                var subsc = fontobj.asc_getSubscript(),
+                    supersc = fontobj.asc_getSuperscript();
+
+                if (this._state.subscript !== subsc || this._state.superscript !== supersc) {
+                    var index = (subsc) ? 0 : (supersc ? 1 : -1),
+                        btnSubscript = toolbar.btnSubscript;
+
+                    btnSubscript.toggle(index>-1, true);
+                    if (index < 0) {
+                        this._clearChecked(btnSubscript.menu);
+                    } else {
+                        btnSubscript.menu.items[index].setChecked(true);
+                        if (btnSubscript.rendered) {
+                            var iconEl = $('.icon', btnSubscript.cmpEl);
+                            if (iconEl) {
+                                iconEl.removeClass(btnSubscript.options.icls);
+                                btnSubscript.options.icls = btnSubscript.menu.items[index].options.icls;
+                                iconEl.addClass(btnSubscript.options.icls);
+                            }
+                        }
+                    }
+
+                    this._state.subscript = subsc;
+                    this._state.superscript = supersc;
                 }
             }
 
@@ -1815,6 +1897,37 @@ define([
                 if (this._state.underline !== val) {
                     toolbar.btnUnderline.toggle(val === true, true);
                     this._state.underline = val;
+                }
+                val = fontobj.asc_getStrikeout();
+                if (this._state.strikeout !== val) {
+                    toolbar.btnStrikeout.toggle(val === true, true);
+                    this._state.strikeout = val;
+                }
+
+                var subsc = fontobj.asc_getSubscript(),
+                    supersc = fontobj.asc_getSuperscript();
+
+                if (this._state.subscript !== subsc || this._state.superscript !== supersc) {
+                    var index = (subsc) ? 0 : (supersc ? 1 : -1),
+                        btnSubscript = toolbar.btnSubscript;
+
+                    btnSubscript.toggle(index>-1, true);
+                    if (index < 0) {
+                        this._clearChecked(btnSubscript.menu);
+                    } else {
+                        btnSubscript.menu.items[index].setChecked(true);
+                        if (btnSubscript.rendered) {
+                            var iconEl = $('.icon', btnSubscript.cmpEl);
+                            if (iconEl) {
+                                iconEl.removeClass(btnSubscript.options.icls);
+                                btnSubscript.options.icls = btnSubscript.menu.items[index].options.icls;
+                                iconEl.addClass(btnSubscript.options.icls);
+                            }
+                        }
+                    }
+
+                    this._state.subscript = subsc;
+                    this._state.superscript = supersc;
                 }
             }
 
@@ -2868,7 +2981,10 @@ define([
             this._state.namedrange_locked = (state == Asc.c_oAscDefinedNameReason.LockDefNameManager);
         },
 
-        DisableToolbar: function(disable) {
+        DisableToolbar: function(disable, viewMode) {
+            if (viewMode!==undefined) this.editMode = !viewMode;
+            disable = disable || !this.editMode;
+
             var mask = $('.toolbar-mask');
             if (disable && mask.length>0 || !disable && mask.length==0) return;
 
@@ -2913,8 +3029,18 @@ define([
             Common.Utils.asyncCall(function () {
                 me.toolbar.setMode(config);
 
-                if ( config.isEdit )
+                if ( config.isEdit ) {
                     me.toolbar.setApi(me.api);
+
+                    if ( !config.isEditDiagram && !config.isEditMailMerge ) {
+                        if (config.isDesktopApp && config.isOffline) {
+                            var tab = {action: 'protect', caption: me.toolbar.textTabProtect};
+                            var $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
+                            if ( $panel )
+                                me.toolbar.addTab(tab, $panel, 3);
+                        }
+                    }
+                }
             });
         },
 

@@ -81,6 +81,7 @@ define([
             me.namedrange_locked = false;
             me._currentMathObj = undefined;
             me._currentParaObjDisabled = false;
+            me._isDisabled = false;
 
             /** coauthoring begin **/
             this.wrapEvents = {
@@ -189,10 +190,16 @@ define([
                 view.mnuChartEdit.on('click',                       _.bind(me.onChartEdit, me));
                 view.mnuImgAdvanced.on('click',                     _.bind(me.onImgAdvanced, me));
                 view.textInShapeMenu.on('render:after',             _.bind(me.onTextInShapeAfterRender, me));
+                view.menuSignatureEditSign.on('click',              _.bind(me.onSignatureClick, me));
+                view.menuSignatureEditSetup.on('click',             _.bind(me.onSignatureClick, me));
             } else {
                 view.menuViewCopy.on('click',                       _.bind(me.onCopyPaste, me));
                 view.menuViewUndo.on('click',                       _.bind(me.onUndo, me));
                 view.menuViewAddComment.on('click',                 _.bind(me.onAddComment, me));
+                view.menuSignatureViewSign.on('click',              _.bind(me.onSignatureClick, me));
+                view.menuSignatureDetails.on('click',               _.bind(me.onSignatureClick, me));
+                view.menuSignatureViewSetup.on('click',             _.bind(me.onSignatureClick, me));
+                view.menuSignatureRemove.on('click',                _.bind(me.onSignatureClick, me));
             }
 
             var documentHolderEl = view.cmpEl;
@@ -1222,14 +1229,14 @@ define([
 
         showObjectMenu: function(event){
             if (this.api && !this.mouse.isLeftButtonDown && !this.rangeSelectionMode){
-                (this.permissions.isEdit) ? this.fillMenuProps(this.api.asc_getCellInfo(), true, event) : this.fillViewMenuProps(this.api.asc_getCellInfo(), true, event);
+                (this.permissions.isEdit && !this._isDisabled) ? this.fillMenuProps(this.api.asc_getCellInfo(), true, event) : this.fillViewMenuProps(this.api.asc_getCellInfo(), true, event);
             }
         },
 
         onSelectionChanged: function(info){
             if (!this.mouse.isLeftButtonDown && !this.rangeSelectionMode &&
                 this.currentMenu && this.currentMenu.isVisible()){
-                (this.permissions.isEdit) ? this.fillMenuProps(info, true) : this.fillViewMenuProps(info, true);
+                (this.permissions.isEdit && !this._isDisabled) ? this.fillMenuProps(info, true) : this.fillViewMenuProps(info, true);
             }
         },
 
@@ -1267,7 +1274,8 @@ define([
                 if (!showMenu && !documentHolder.imgMenu.isVisible()) return;
 
                 isimagemenu = isshapemenu = ischartmenu = false;
-                var has_chartprops = false;
+                var has_chartprops = false,
+                    signGuid;
                 var selectedObjects = this.api.asc_getGraphicObjectProps();
                 for (var i = 0; i < selectedObjects.length; i++) {
                     if (selectedObjects[i].asc_getObjectType() == Asc.c_oAscTypeSelectElement.Image) {
@@ -1289,6 +1297,8 @@ define([
                             documentHolder.mnuImgAdvanced.imageInfo = elValue;
                             isimagemenu = true;
                         }
+                        if (this.permissions.canProtect)
+                            signGuid = elValue.asc_getSignatureId();
                     }
                 }
 
@@ -1302,6 +1312,16 @@ define([
                 documentHolder.pmiImgPaste.setDisabled(isObjLocked);
                 documentHolder.mnuImgAdvanced.setVisible(isimagemenu && !isshapemenu && !ischartmenu);
                 documentHolder.mnuImgAdvanced.setDisabled(isObjLocked);
+
+                var isInSign = !!signGuid;
+                documentHolder.menuSignatureEditSign.setVisible(isInSign);
+                documentHolder.menuSignatureEditSetup.setVisible(isInSign);
+                documentHolder.menuEditSignSeparator.setVisible(isInSign);
+                if (isInSign) {
+                    documentHolder.menuSignatureEditSign.cmpEl.attr('data-value', signGuid); // sign
+                    documentHolder.menuSignatureEditSetup.cmpEl.attr('data-value', signGuid); // edit signature settings
+                }
+
                 if (showMenu) this.showPopupMenu(documentHolder.imgMenu, {}, event);
                 documentHolder.mnuShapeSeparator.setVisible(documentHolder.mnuShapeAdvanced.isVisible() || documentHolder.mnuChartEdit.isVisible() || documentHolder.mnuImgAdvanced.isVisible());
             } else if (istextshapemenu || istextchartmenu) {
@@ -1490,17 +1510,50 @@ define([
                 isTableLocked       = cellinfo.asc_getLockedTable()===true,
                 commentsController  = this.getApplication().getController('Common.Controllers.Comments'),
                 iscellmenu = (seltype==Asc.c_oAscSelectionType.RangeCells) && !this.permissions.isEditMailMerge && !this.permissions.isEditDiagram,
-                iscelledit = this.api.isCellEdited;
+                iscelledit = this.api.isCellEdited,
+                isimagemenu = (seltype==Asc.c_oAscSelectionType.RangeImage) && !this.permissions.isEditMailMerge && !this.permissions.isEditDiagram,
+                signGuid;
+
+            if (!documentHolder.viewModeMenu)
+                documentHolder.createDelayedElementsViewer();
 
             if (!documentHolder.viewModeMenu)
                 documentHolder.createDelayedElementsViewer();
 
             if (!showMenu && !documentHolder.viewModeMenu.isVisible()) return;
 
-            documentHolder.menuViewUndo.setVisible(this.permissions.canCoAuthoring && this.permissions.canComments);
-            documentHolder.menuViewUndo.setDisabled(!this.api.asc_getCanUndo());
-            documentHolder.menuViewCopySeparator.setVisible(iscellmenu && !iscelledit && this.permissions.canCoAuthoring && this.permissions.canComments);
-            documentHolder.menuViewAddComment.setVisible(iscellmenu && !iscelledit && this.permissions.canCoAuthoring && this.permissions.canComments);
+            if (isimagemenu && this.permissions.canProtect) {
+                var selectedObjects = this.api.asc_getGraphicObjectProps();
+                for (var i = 0; i < selectedObjects.length; i++) {
+                    if (selectedObjects[i].asc_getObjectType() == Asc.c_oAscTypeSelectElement.Image) {
+                        signGuid = selectedObjects[i].asc_getObjectValue().asc_getSignatureId();
+                    }
+                }
+            }
+
+            var signProps = (signGuid) ? this.api.asc_getSignatureSetup(signGuid) : null,
+                isInSign = !!signProps && this._canProtect,
+                canComment = iscellmenu && !iscelledit && this.permissions.canCoAuthoring && this.permissions.canComments && !this._isDisabled;
+
+            documentHolder.menuViewUndo.setVisible(this.permissions.canCoAuthoring && this.permissions.canComments && !this._isDisabled);
+            documentHolder.menuViewUndo.setDisabled(!this.api.asc_getCanUndo() && !this._isDisabled);
+            documentHolder.menuViewCopySeparator.setVisible(isInSign);
+
+            var isRequested = (signProps) ? signProps.asc_getRequested() : false;
+            documentHolder.menuSignatureViewSign.setVisible(isInSign && isRequested);
+            documentHolder.menuSignatureDetails.setVisible(isInSign && !isRequested);
+            documentHolder.menuSignatureViewSetup.setVisible(isInSign);
+            documentHolder.menuSignatureRemove.setVisible(isInSign && !isRequested);
+            documentHolder.menuViewSignSeparator.setVisible(canComment);
+
+            if (isInSign) {
+                documentHolder.menuSignatureViewSign.cmpEl.attr('data-value', signGuid); // sign
+                documentHolder.menuSignatureDetails.cmpEl.attr('data-value', signProps.asc_getId()); // view certificate
+                documentHolder.menuSignatureViewSetup.cmpEl.attr('data-value', signGuid); // view signature settings
+                documentHolder.menuSignatureRemove.cmpEl.attr('data-value', signGuid);
+            }
+
+            documentHolder.menuViewAddComment.setVisible(canComment);
             documentHolder.setMenuItemCommentCaptionMode(documentHolder.menuViewAddComment, cellinfo.asc_getComments().length < 1, this.permissions.canEditComments);
             commentsController && commentsController.blockPopover(true);
             documentHolder.menuViewAddComment.setDisabled(isCellLocked || isTableLocked);
@@ -2435,6 +2488,29 @@ define([
             });
             view.paraBulletsPicker.on('item:click', _.bind(this.onSelectBullets, this));
             _conf && view.paraBulletsPicker.selectRecord(_conf.rec, true);
+        },
+
+        onSignatureClick: function(item) {
+            var datavalue = item.cmpEl.attr('data-value');
+            switch (item.value) {
+                case 0:
+                    Common.NotificationCenter.trigger('protect:sign', datavalue); //guid
+                    break;
+                case 1:
+                    this.api.asc_ViewCertificate(datavalue); //certificate id
+                    break;
+                case 2:
+                    Common.NotificationCenter.trigger('protect:signature', 'visible', this._isDisabled, datavalue);//guid, can edit settings for requested signature
+                    break;
+                case 3:
+                    this.api.asc_RemoveSignature(datavalue); //guid
+                    break;
+            }
+        },
+
+        SetDisabled: function(state, canProtect) {
+            this._isDisabled = state;
+            this._canProtect = canProtect;
         },
 
         guestText               : 'Guest',

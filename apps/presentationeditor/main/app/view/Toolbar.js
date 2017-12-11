@@ -1855,7 +1855,8 @@ define([
             textTabHome: 'Home',
             textTabInsert: 'Insert',
             textSurface: 'Surface',
-            textShowPresenterView: 'Show presenter view'
+            textShowPresenterView: 'Show presenter view',
+            textTabProtect: 'Protection'
         }
     }()), PE.Views.Toolbar || {}));
 });
