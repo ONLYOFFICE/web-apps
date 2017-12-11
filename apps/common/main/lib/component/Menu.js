@@ -424,6 +424,9 @@ define([
 
             onAfterShowMenu: function(e) {
                 this.trigger('show:after', this, e);
+                if (this.options.restoreHeight && this.scroller)
+                    this.scroller.update({minScrollbarLength  : 40});
+
                 if (this.$el.find('> ul > .menu-scroll').length) {
                     var el = this.$el.find('li .checked')[0];
                     if (el) {
@@ -465,14 +468,20 @@ define([
             },
 
             onScroll: function(item, e) {
-                if (this.fromKeyDown) {
-                    var menuRoot = (this.cmpEl.attr('role') === 'menu')
-                        ? this.cmpEl
-                        : this.cmpEl.find('[role=menu]');
+                if (this.scroller) return;
 
-                    menuRoot.find('.menu-scroll.top').css('top', menuRoot.scrollTop() + 'px');
-                    menuRoot.find('.menu-scroll.bottom').css('bottom', (-menuRoot.scrollTop()) + 'px');
+                var menuRoot = (this.cmpEl.attr('role') === 'menu')
+                    ? this.cmpEl
+                    : this.cmpEl.find('[role=menu]'),
+                    scrollTop = menuRoot.scrollTop(),
+                    top = menuRoot.find('.menu-scroll.top'),
+                    bottom = menuRoot.find('.menu-scroll.bottom');
+                if (this.fromKeyDown) {
+                    top.css('top', scrollTop + 'px');
+                    bottom.css('bottom', (-scrollTop) + 'px');
                 }
+                top.toggleClass('disabled', scrollTop<1);
+                bottom.toggleClass('disabled', scrollTop + this.options.maxHeight > menuRoot[0].scrollHeight-1);
             },
 
             onItemClick: function(item, e) {
@@ -493,6 +502,8 @@ define([
             },
 
             onScrollClick: function(e) {
+                if (/disabled/.test(e.currentTarget.className)) return false;
+
                 this.scrollMenu(/top/.test(e.currentTarget.className));
                 return false;
             },
@@ -562,17 +573,37 @@ define([
                         left = docW - menuW;
                     }
 
-                if (top + menuH > docH)
-                    top = docH - menuH;
+                if (this.options.restoreHeight) {
+                    if (typeof (this.options.restoreHeight) == "number") {
+                        if (top + menuH > docH) {
+                            menuRoot.css('max-height', (docH - top) + 'px');
+                            menuH = menuRoot.outerHeight();
+                        } else if ( top + menuH < docH && menuRoot.height() < this.options.restoreHeight ) {
+                            menuRoot.css('max-height', (Math.min(docH - top, this.options.restoreHeight)) + 'px');
+                            menuH = menuRoot.outerHeight();
+                        }
+                    }
+                } else {
+                    if (top + menuH > docH)
+                        top = docH - menuH;
 
-                if (top < 0)
-                    top = 0;
+                    if (top < 0)
+                        top = 0;
+                }
 
                 if (this.options.additionalAlign)
                     this.options.additionalAlign.call(this, menuRoot, left, top);
                 else
                     menuRoot.css({left: left, top: top});
+            },
+
+            clearAll: function() {
+                _.each(this.items, function(item){
+                    if (item.setChecked)
+                        item.setChecked(false, true);
+                });
             }
+
         }), {
             Manager: (function() {
                 return manager;

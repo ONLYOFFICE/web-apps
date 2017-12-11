@@ -28,24 +28,33 @@
     border-style: solid;
     border-width: 1px 0;
     border-top-color: #fafafa;
+  }
 
+  &:not(.disabled) > .item {
     &:hover {
-        background-color: @secondary;
-        border-color: @secondary;
-        border-style: solid;
-        border-width: 1px 0;
+      background-color: @secondary;
+      border-color: @secondary;
+      border-style: solid;
+      border-width: 1px 0;
     }
 
     &.selected {
-        background-color: @primary;
-        color: #fff;
-        border-color: @primary;
-        border-style: solid;
-        border-width: 1px 0;
+      background-color: @primary;
+      color: #fff;
+      border-color: @primary;
+      border-style: solid;
+      border-width: 1px 0;
     }
   }
 
   &.ps-container {
       overflow: hidden;
+  }
+
+  &.disabled {
+    > .item {
+      cursor: default;
+      opacity: 0.5;
+    }
   }
 }

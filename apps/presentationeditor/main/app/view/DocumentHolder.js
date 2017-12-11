@@ -67,7 +67,8 @@ define([
             me._currentSpellObj = undefined;
             me._currLang        = {};
             me._state = {};
-            
+            me._isDisabled = false;
+
             /** coauthoring begin **/
             var usersStore = PE.getCollection('Common.Collections.Users');
             /** coauthoring end **/
@@ -212,7 +213,7 @@ define([
 
             var showObjectMenu = function(event, docElement, eOpts){
                 if (me.api){
-                    var obj = (me.mode.isEdit) ? fillMenuProps(me.api.getSelectedElements()) : fillViewMenuProps(me.api.getSelectedElements());
+                    var obj = (me.mode.isEdit && !me._isDisabled) ? fillMenuProps(me.api.getSelectedElements()) : fillViewMenuProps(me.api.getSelectedElements());
                     if (obj) showPopupMenu(obj.menu_to_show, obj.menu_props, event, docElement, eOpts);
                 }
             };
@@ -220,8 +221,7 @@ define([
             var onContextMenu = function(event){
                 _.delay(function(){
                     if (event.get_Type() == Asc.c_oAscContextMenuTypes.Thumbnails) {
-                        if (me.mode.isEdit)
-                            showPopupMenu.call(me, me.slideMenu, {isSlideSelect: event.get_IsSlideSelect(), isSlideHidden: event.get_IsSlideHidden(), fromThumbs: true}, event);
+                        !me._isDisabled && showPopupMenu.call(me, me.slideMenu, {isSlideSelect: event.get_IsSlideSelect(), isSlideHidden: event.get_IsSlideHidden(), fromThumbs: true}, event);
                     } else {
                         showObjectMenu.call(me, event);
                     }
@@ -231,7 +231,7 @@ define([
             var onFocusObject = function(selectedElements) {
                 if (me.currentMenu && me.currentMenu.isVisible()){
                     if (me.api.asc_getCurrentFocusObject() === 0 ){ // thumbnails
-                        if (me.slideMenu===me.currentMenu) {
+                        if (me.slideMenu===me.currentMenu && !me._isDisabled) {
                             var isHidden = false;
                             _.each(selectedElements, function(element, index) {
                                 if (Asc.c_oAscTypeSelectElement.Slide == element.get_ObjectType()) {
@@ -243,7 +243,7 @@ define([
                             me.currentMenu.alignPosition();
                         }
                     } else {
-                        var obj = (me.mode.isEdit) ? fillMenuProps(selectedElements) : fillViewMenuProps(selectedElements);
+                        var obj = (me.mode.isEdit && !me._isDisabled) ? fillMenuProps(selectedElements) : fillViewMenuProps(selectedElements);
                         if (obj) {
                             if (obj.menu_to_show===me.currentMenu) {
                                 me.currentMenu.options.initMenu(obj.menu_props);
@@ -295,6 +295,10 @@ define([
                             key == Common.UI.Keys.DOWN) {
                             $('ul.dropdown-menu', me.currentMenu.el).focus();
                         }
+                    }
+                    if (key == Common.UI.Keys.ESC) {
+                        Common.UI.Menu.Manager.hideAll();
+                        Common.NotificationCenter.trigger('leftmenu:change', 'hide');
                     }
                 }
             };
@@ -578,7 +582,7 @@ define([
             
             var onDialogAddHyperlink = function() {
                 var win, props, text;
-                if (me.api && me.mode.isEdit){
+                if (me.api && me.mode.isEdit && !me._isDisabled){
                     var handlerDlg = function(dlg, result) {
                         if (result == 'ok') {
                             props = dlg.getSettings();
@@ -671,7 +675,7 @@ define([
             };
 
             var onDoubleClickOnChart = function(chart) {
-                if (me.mode.isEdit) {
+                if (me.mode.isEdit && !me._isDisabled) {
                     var diagramEditor = PE.getController('Common.Controllers.ExternalDiagramEditor').getView('Common.Views.ExternalDiagramEditor');
 
                     if (diagramEditor && chart) {
@@ -1490,6 +1494,69 @@ define([
                 me._state.themeLock = false;
             };
 
+            var onShowSpecialPasteOptions = function(specialPasteShowOptions) {
+                var coord  = specialPasteShowOptions.asc_getCellCoord(),
+                    pasteContainer = me.cmpEl.find('#special-paste-container'),
+                    pasteItems = specialPasteShowOptions.asc_getOptions();
+
+                // Prepare menu container
+                if (pasteContainer.length < 1) {
+                    me._arrSpecialPaste = [];
+                    me._arrSpecialPaste[Asc.c_oSpecialPasteProps.paste] = me.textPaste;
+                    me._arrSpecialPaste[Asc.c_oSpecialPasteProps.keepTextOnly] = me.txtKeepTextOnly;
+                    me._arrSpecialPaste[Asc.c_oSpecialPasteProps.picture] = me.txtPastePicture;
+                    me._arrSpecialPaste[Asc.c_oSpecialPasteProps.sourceformatting] = me.txtPasteSourceFormat;
+                    me._arrSpecialPaste[Asc.c_oSpecialPasteProps.destinationFormatting] = me.txtPasteDestFormat;
+
+
+                    pasteContainer = $('<div id="special-paste-container" style="position: absolute;"><div id="id-document-holder-btn-special-paste"></div></div>');
+                    me.cmpEl.append(pasteContainer);
+
+                    me.btnSpecialPaste = new Common.UI.Button({
+                        cls         : 'btn-toolbar',
+                        iconCls     : 'btn-paste',
+                        menu        : new Common.UI.Menu({items: []})
+                    });
+                    me.btnSpecialPaste.render($('#id-document-holder-btn-special-paste')) ;
+                }
+
+                if (pasteItems.length>0) {
+                    var menu = me.btnSpecialPaste.menu;
+                    for (var i = 0; i < menu.items.length; i++) {
+                        menu.removeItem(menu.items[i]);
+                        i--;
+                    }
+
+                    var group_prev = -1;
+                    _.each(pasteItems, function(menuItem, index) {
+                        var mnu = new Common.UI.MenuItem({
+                            caption: me._arrSpecialPaste[menuItem],
+                            value: menuItem,
+                            checkable: true,
+                            toggleGroup : 'specialPasteGroup'
+                        }).on('click', function(item, e) {
+                            me.api.asc_SpecialPaste(item.value);
+                            setTimeout(function(){menu.hide();}, 100);
+                        });
+                        menu.addItem(mnu);
+                    });
+                    (menu.items.length>0) && menu.items[0].setChecked(true, true);
+                }
+                if (coord.asc_getX()<0 || coord.asc_getY()<0) {
+                    if (pasteContainer.is(':visible')) pasteContainer.hide();
+                } else {
+                    var showPoint = [coord.asc_getX() + coord.asc_getWidth() + 3, coord.asc_getY() + coord.asc_getHeight() + 3];
+                    pasteContainer.css({left: showPoint[0], top : showPoint[1]});
+                    pasteContainer.show();
+                }
+            };
+
+            var onHideSpecialPasteOptions = function() {
+                var pasteContainer = me.cmpEl.find('#special-paste-container');
+                if (pasteContainer.is(':visible'))
+                    pasteContainer.hide();
+            };
+
             this.setApi = function(o) {
                 me.api = o;
 
@@ -1511,6 +1578,9 @@ define([
                         me.api.asc_registerCallback('asc_onDialogAddHyperlink', _.bind(onDialogAddHyperlink, me));
                         me.api.asc_registerCallback('asc_doubleClickOnChart', onDoubleClickOnChart);
                         me.api.asc_registerCallback('asc_onSpellCheckVariantsFound',  _.bind(onSpellCheckVariantsFound, me));
+                        me.api.asc_registerCallback('asc_onShowSpecialPasteOptions',  _.bind(onShowSpecialPasteOptions, me));
+                        me.api.asc_registerCallback('asc_onHideSpecialPasteOptions',  _.bind(onHideSpecialPasteOptions, me));
+
                     }
                     me.api.asc_registerCallback('asc_onCoAuthoringDisconnect',  _.bind(onCoAuthoringDisconnect, me));
                     Common.NotificationCenter.on('api:disconnect',              _.bind(onCoAuthoringDisconnect, me));
@@ -1711,10 +1781,10 @@ define([
 
             this.viewModeMenu = new Common.UI.Menu({
                 initMenu: function (value) {
-                    menuViewUndo.setVisible(me.mode.canCoAuthoring && me.mode.canComments);
-                    menuViewUndo.setDisabled(!me.api.asc_getCanUndo());
-                    menuViewCopySeparator.setVisible(!value.isChart && me.api.can_AddQuotedComment() !== false && me.mode.canCoAuthoring && me.mode.canComments);
-                    menuViewAddComment.setVisible(!value.isChart && me.api.can_AddQuotedComment() !== false && me.mode.canCoAuthoring && me.mode.canComments);
+                    menuViewUndo.setVisible(me.mode.canCoAuthoring && me.mode.canComments && !me._isDisabled);
+                    menuViewUndo.setDisabled(!me.api.asc_getCanUndo() && !me._isDisabled);
+                    menuViewCopySeparator.setVisible(!value.isChart && me.api.can_AddQuotedComment() !== false && me.mode.canCoAuthoring && me.mode.canComments && !me._isDisabled);
+                    menuViewAddComment.setVisible(!value.isChart && me.api.can_AddQuotedComment() !== false && me.mode.canCoAuthoring && me.mode.canComments && !me._isDisabled);
                     menuViewAddComment.setDisabled(value.locked);
                 },
                 items: [
@@ -1905,7 +1975,7 @@ define([
                     el          : $('#id-docholder-menu-changeslide'),
                     parentMenu  : mnuChangeSlide.menu,
                     showLast: false,
-                    restoreHeight: 300,
+                    // restoreHeight: 300,
                     style: 'max-height: 300px;',
                     store       : PE.getCollection('SlideLayouts'),
                     itemTemplate: _.template([
@@ -1939,7 +2009,7 @@ define([
                 me.slideThemeMenu = new Common.UI.DataView({
                     el          : $('#id-docholder-menu-changetheme'),
                     parentMenu  : mnuChangeTheme.menu,
-                    restoreHeight: 300,
+                    // restoreHeight: 300,
                     style: 'max-height: 300px;',
                     store       : PE.getCollection('SlideThemes'),
                     itemTemplate: _.template([
@@ -1986,9 +2056,9 @@ define([
                                 if (me.api) {
                                     me.api.SplitCell(value.columns, value.rows);
                                 }
-                                me.fireEvent('editcomplete', me);
                                 Common.component.Analytics.trackEvent('DocumentHolder', 'Table Split');
                             }
+                            me.fireEvent('editcomplete', me);
                         }
                     })).show();
                 }
@@ -3131,6 +3201,10 @@ define([
             }
         },
 
+        SetDisabled: function(state) {
+            this._isDisabled = state;
+        },
+
         insertRowAboveText      : 'Row Above',
         insertRowBelowText      : 'Row Below',
         insertColumnLeftText    : 'Column Left',
@@ -3285,7 +3359,11 @@ define([
         langText: 'Select Language',
         textUndo: 'Undo',
         txtSlideHide: 'Hide Slide',
-        txtChangeTheme: 'Change Theme'
+        txtChangeTheme: 'Change Theme',
+        txtKeepTextOnly: 'Keep text only',
+        txtPastePicture: 'Picture',
+        txtPasteSourceFormat: 'Keep source formatting',
+        txtPasteDestFormat: 'Use destination theme'
 
     }, PE.Views.DocumentHolder || {}));
 });

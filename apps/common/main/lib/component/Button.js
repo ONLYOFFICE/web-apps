@@ -160,8 +160,8 @@ define([
                 '</span>' +
             '</button>' +
             '<button type="button" class="btn <%= cls %> inner-box-caption dropdown-toggle" data-toggle="dropdown">' +
-                '<span class="caption"><%= caption %></span>' +
                 '<span class="btn-fixflex-vcenter">' +
+                    '<span class="caption"><%= caption %></span>' +
                     '<i class="caret img-commonctrl"></i>' +
                 '</span>' +
             '</button>' +
@@ -180,7 +180,8 @@ define([
             menu            : null,
             disabled        : false,
             pressed         : false,
-            split           : false
+            split           : false,
+            visible         : true
         },
 
         template: _.template([
@@ -238,6 +239,7 @@ define([
             me.split        = me.options.split;
             me.toggleGroup  = me.options.toggleGroup;
             me.disabled     = me.options.disabled;
+            me.visible      = me.options.visible;
             me.pressed      = me.options.pressed;
             me.caption      = me.options.caption;
             me.template     = me.options.template || me.template;
@@ -466,6 +468,10 @@ define([
                 me.setDisabled(!(me.disabled=false));
             }
 
+            if (!me.visible) {
+                me.setVisible(me.visible);
+            }
+
             me.trigger('render:after', me);
 
             return this;
@@ -550,6 +556,11 @@ define([
 
         setVisible: function(visible) {
             if (this.cmpEl) this.cmpEl.toggleClass('hidden', !visible);
+            this.visible = visible;
+        },
+
+        isVisible: function() {
+            return (this.cmpEl) ? this.cmpEl.is(":visible") : $(this.el).is(":visible");
         },
 
         updateHint: function(hint) {

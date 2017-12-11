@@ -361,7 +361,10 @@ define([
                     $parent.find('#status-label-lang').text(info.title);
 
                     var index = $parent.find('ul li a:contains("'+info.title+'")').parent().index();
-                    index < 0 ? this.langMenu.saved = info.title :
+                    if (index < 0) {
+                        this.langMenu.saved = info.title;
+                        this.langMenu.clearAll();
+                    } else
                         this.langMenu.items[index-1].setChecked(true);
                 }
             },
@@ -370,6 +373,7 @@ define([
                 var langs = this.langMenu.items.length>0;
                 this.btnLanguage.setDisabled(disable || !langs || this._state.no_paragraph);
                 this.btnDocLanguage.setDisabled(disable || !langs);
+                this.mode.isEdit = !disable;
             },
 
             onApiFocusObject: function(selectedObjects) {

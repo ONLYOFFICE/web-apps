@@ -84,7 +84,7 @@ define([
 
             this.bindViewEvents(this.statusbar, this.events);
 
-            $('#status-label-zoom').css('min-width', 70);
+            $('#status-label-zoom').css('min-width', 80);
 
             this.statusbar.btnZoomToPage.on('click', _.bind(this.onBtnZoomTo, this, 'topage'));
             this.statusbar.btnZoomToWidth.on('click', _.bind(this.onBtnZoomTo, this, 'towidth'));
@@ -208,6 +208,7 @@ define([
 
         onBtnSpelling: function(d, b, e) {
             Common.localStorage.setItem("pe-settings-spellcheck", d.pressed ? 1 : 0);
+            Common.Utils.InternalSettings.set("pe-settings-spellcheck", d.pressed);
             this.api.asc_setSpellCheck(d.pressed);
             Common.NotificationCenter.trigger('edit:complete', this.statusbar);
         },

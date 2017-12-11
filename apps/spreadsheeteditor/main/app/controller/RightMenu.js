@@ -85,10 +85,13 @@ define([
             this._settings[Common.Utils.documentSettingsType.TextArt] =   {panelId: "id-textart-settings",    panel: rightMenu.textartSettings,  btn: rightMenu.btnTextArt,     hidden: 1, locked: false};
             this._settings[Common.Utils.documentSettingsType.Chart] =     {panelId: "id-chart-settings",      panel: rightMenu.chartSettings,    btn: rightMenu.btnChart,       hidden: 1, locked: false};
             this._settings[Common.Utils.documentSettingsType.Table] =     {panelId: "id-table-settings",      panel: rightMenu.tableSettings,    btn: rightMenu.btnTable,       hidden: 1, locked: false};
+            this._settings[Common.Utils.documentSettingsType.Pivot] =     {panelId: "id-pivot-settings",      panel: rightMenu.pivotSettings,    btn: rightMenu.btnPivot,       hidden: 1, locked: false};
+            this._settings[Common.Utils.documentSettingsType.Signature] = {panelId: "id-signature-settings",  panel: rightMenu.signatureSettings, btn: rightMenu.btnSignature,  hidden: 1, props: {}, locked: false};
         },
 
         setApi: function(api) {
             this.api = api;
+            this.api.asc_registerCallback('asc_onUpdateSignatures',     _.bind(this.onApiUpdateSignatures, this));
             this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onCoAuthoringDisconnect, this));
             Common.NotificationCenter.on('api:disconnect',              _.bind(this.onCoAuthoringDisconnect, this));
             Common.NotificationCenter.on('cells:range',                 _.bind(this.onCellsRange, this));
@@ -103,7 +106,7 @@ define([
                 var panel = this._settings[type].panel;
                 var props = this._settings[type].props;
                 if (props && panel)
-                    panel.ChangeSettings.call(panel, props);
+                    panel.ChangeSettings.call(panel, (type==Common.Utils.documentSettingsType.Signature) ? undefined : props);
             }
             Common.NotificationCenter.trigger('layout:changed', 'rightmenu');
         },
@@ -114,35 +117,39 @@ define([
             var SelectedObjects = [],
                 selectType = info.asc_getFlags().asc_getSelectionType(),
                 formatTableInfo = info.asc_getFormatTableInfo(),
-                sparkLineInfo = info.asc_getSparklineInfo();
+                sparkLineInfo = info.asc_getSparklineInfo(),
+                pivotInfo = info.asc_getPivotTableInfo();
 
             if (selectType == Asc.c_oAscSelectionType.RangeImage || selectType == Asc.c_oAscSelectionType.RangeShape ||
                 selectType == Asc.c_oAscSelectionType.RangeChart || selectType == Asc.c_oAscSelectionType.RangeChartText || selectType == Asc.c_oAscSelectionType.RangeShapeText) {
                 SelectedObjects = this.api.asc_getGraphicObjectProps();
             }
             
-            if (SelectedObjects.length<=0 && !formatTableInfo && !sparkLineInfo && !this.rightmenu.minimizedMode) {
+            if (SelectedObjects.length<=0 && !formatTableInfo && !sparkLineInfo && !pivotInfo && !this.rightmenu.minimizedMode &&
+                this.rightmenu.GetActivePane() !== 'id-signature-settings') {
                 this.rightmenu.clearSelection();
                 this._openRightMenu = true;
             }
 
             var need_disable = info.asc_getLocked(),
-                need_disable_table = (info.asc_getLockedTable()===true),
+                need_disable_table = (info.asc_getLockedTable()===true || !this.rightmenu.mode.canModifyFilter),
                 need_disable_spark = (info.asc_getLockedSparkline()===true);
 
-            this.onFocusObject(SelectedObjects, formatTableInfo, sparkLineInfo, need_disable, need_disable_table, need_disable_spark);
+            this.onFocusObject(SelectedObjects, formatTableInfo, sparkLineInfo, pivotInfo, need_disable, need_disable_table, need_disable_spark);
         },
 
-        onFocusObject: function(SelectedObjects, formatTableInfo, sparkLineInfo, isCellLocked, isTableLocked, isSparkLocked) {
+        onFocusObject: function(SelectedObjects, formatTableInfo, sparkLineInfo, pivotInfo, isCellLocked, isTableLocked, isSparkLocked) {
             if (!this.editMode)
                 return;
 
             for (var i=0; i<this._settings.length; ++i) {
+                if (i==Common.Utils.documentSettingsType.Signature) continue;
                 if (this._settings[i]) {
                     this._settings[i].hidden = 1;
                     this._settings[i].locked = false;
                 }
             }
+            this._settings[Common.Utils.documentSettingsType.Signature].locked = false;
 
             for (i=0; i<SelectedObjects.length; ++i)
             {
@@ -169,6 +176,9 @@ define([
                 this._settings[settingsType].props = value;
                 this._settings[settingsType].hidden = 0;
                 this._settings[settingsType].locked = value.asc_getLocked();
+
+                if (!this._settings[Common.Utils.documentSettingsType.Signature].locked) // lock Signature, если хотя бы один объект locked
+                    this._settings[Common.Utils.documentSettingsType.Signature].locked = value.asc_getLocked();
             }
 
             if (formatTableInfo) {
@@ -186,11 +196,18 @@ define([
                 this._settings[settingsType].btn.updateHint(this.rightmenu.txtSparklineSettings);
             }
 
+            if (pivotInfo) {
+                settingsType = Common.Utils.documentSettingsType.Pivot;
+                this._settings[settingsType].props = pivotInfo;
+                this._settings[settingsType].locked = isCellLocked || true; // disable pivot settings
+                this._settings[settingsType].hidden = 0;
+            }
+
             var lastactive = -1, currentactive, priorityactive = -1,
                 activePane = this.rightmenu.GetActivePane();
             for (i=0; i<this._settings.length; ++i) {
                 var pnl = this._settings[i];
-                if (pnl===undefined) continue;
+                if (pnl===undefined || pnl.btn===undefined || pnl.panel===undefined) continue;
 
                 if ( pnl.hidden ) {
                     if ( !pnl.btn.isDisabled() )
@@ -200,7 +217,7 @@ define([
                 } else {
                     if ( pnl.btn.isDisabled() )
                         pnl.btn.setDisabled(false);
-                    lastactive = i;
+                    if (i!=Common.Utils.documentSettingsType.Signature) lastactive = i;
                     if ( pnl.needShow ) {
                         pnl.needShow = false;
                         priorityactive = i;
@@ -222,7 +239,10 @@ define([
 
                 if (active !== undefined) {
                     this.rightmenu.SetActivePane(active, this._openRightMenu);
-                    this._settings[active].panel.ChangeSettings.call(this._settings[active].panel, this._settings[active].props);
+                    if (active!=Common.Utils.documentSettingsType.Signature)
+                        this._settings[active].panel.ChangeSettings.call(this._settings[active].panel, this._settings[active].props);
+                    else
+                        this._settings[active].panel.ChangeSettings.call(this._settings[active].panel);
                     this._openRightMenu = false;
                 }
             }
@@ -314,13 +334,29 @@ define([
             }
         },
 
-        SetDisabled: function(disabled) {
+        onApiUpdateSignatures: function(valid, requested){
+            if (!this.rightmenu.signatureSettings) return;
+
+            var disabled = (!valid || valid.length<1) && (!requested || requested.length<1),
+                type = Common.Utils.documentSettingsType.Signature;
+            this._settings[type].hidden = disabled ? 1 : 0;
+            this._settings[type].btn.setDisabled(disabled);
+            this._settings[type].panel.setLocked(this._settings[type].locked);
+        },
+
+        SetDisabled: function(disabled, allowSignature) {
+            this.setMode({isEdit: !disabled});
             if (this.rightmenu) {
                 this.rightmenu.paragraphSettings.disableControls(disabled);
                 this.rightmenu.shapeSettings.disableControls(disabled);
                 this.rightmenu.imageSettings.disableControls(disabled);
                 this.rightmenu.chartSettings.disableControls(disabled);
                 this.rightmenu.tableSettings.disableControls(disabled);
+                this.rightmenu.pivotSettings.disableControls(disabled);
+
+                if (!allowSignature && this.rightmenu.signatureSettings) {
+                    this.rightmenu.btnSignature.setDisabled(disabled);
+                }
 
                 if (disabled) {
                     this.rightmenu.btnText.setDisabled(disabled);
@@ -329,6 +365,7 @@ define([
                     this.rightmenu.btnShape.setDisabled(disabled);
                     this.rightmenu.btnTextArt.setDisabled(disabled);
                     this.rightmenu.btnChart.setDisabled(disabled);
+                    this.rightmenu.btnPivot.setDisabled(disabled);
                 } else {
                     this.onSelectionChanged(this.api.asc_getCellInfo());
                 }

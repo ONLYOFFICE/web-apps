@@ -93,6 +93,9 @@ define([
                 this.addListeners({
                     'FileMenu': {
                         'settings:apply': _.bind(this.applySettings, this)
+                    },
+                    'Common.Views.ReviewChanges': {
+                        'settings:apply': _.bind(this.applySettings, this)
                     }
                 });
             },
@@ -119,6 +122,7 @@ define([
                 var value = Common.localStorage.getItem("de-settings-fontrender");
                 if (value === null)
                     window.devicePixelRatio > 1 ? value = '1' : '0';
+                Common.Utils.InternalSettings.set("de-settings-fontrender", value);
 
                 // Initialize api
 
@@ -131,7 +135,19 @@ define([
                         'Diagram Title': this.txtDiagramTitle,
                         'X Axis': this.txtXAxis,
                         'Y Axis': this.txtYAxis,
-                        'Your text here': this.txtArt
+                        'Your text here': this.txtArt,
+                        "Error! Bookmark not defined.": this.txtBookmarkError,
+                        "above": this.txtAbove,
+                        "below": this.txtBelow,
+                        "on page ": this.txtOnPage,
+                        "Header": this.txtHeader,
+                        "Footer": this.txtFooter,
+                        " -Section ": this.txtSection,
+                        "First Page ": this.txtFirstPage,
+                        "Even Page ": this.txtEvenPage,
+                        "Odd Page ": this.txtOddPage,
+                        "Same as Previous": this.txtSameAsPrev,
+                        "Current Document": this.txtCurrentDocument
                     };
                 styleNames.forEach(function(item){
                     translate[item] = me.translationTable[item] = me['txtStyle_' + item.replace(/ /g, '_')] || item;
@@ -371,10 +387,25 @@ define([
                 }
             },
 
-            onDownloadAs: function() {
+            onDownloadAs: function(format) {
                 this._state.isFromGatewayDownloadAs = true;
                 var type = /^(?:(pdf|djvu|xps))$/.exec(this.document.fileType);
-                (type && typeof type[1] === 'string') ? this.api.asc_DownloadOrigin(true) : this.api.asc_DownloadAs(Asc.c_oAscFileType.DOCX, true);
+                if (type && typeof type[1] === 'string')
+                    this.api.asc_DownloadOrigin(true);
+                else {
+                    var _format = (format && (typeof format == 'string')) ? Asc.c_oAscFileType[ format.toUpperCase() ] : null,
+                        _supported = [
+                            Asc.c_oAscFileType.TXT,
+                            Asc.c_oAscFileType.ODT,
+                            Asc.c_oAscFileType.DOCX,
+                            Asc.c_oAscFileType.HTML,
+                            Asc.c_oAscFileType.PDF
+                        ];
+
+                    if ( !_format || _supported.indexOf(_format) < 0 )
+                        _format = Asc.c_oAscFileType.DOCX;
+                    this.api.asc_DownloadAs(_format, true);
+                }
             },
 
             onProcessMouse: function(data) {
@@ -767,10 +798,14 @@ define([
 
                 /** coauthoring begin **/
                 this.isLiveCommenting = Common.localStorage.getBool("de-settings-livecomment", true);
-                this.isLiveCommenting ? this.api.asc_showComments(Common.localStorage.getBool("de-settings-resolvedcomment", true)) : this.api.asc_hideComments();
+                Common.Utils.InternalSettings.set("de-settings-livecomment", this.isLiveCommenting);
+                value = Common.localStorage.getBool("de-settings-resolvedcomment", true);
+                Common.Utils.InternalSettings.set("de-settings-resolvedcomment", value);
+                this.isLiveCommenting ? this.api.asc_showComments(value) : this.api.asc_hideComments();
                 /** coauthoring end **/
 
                 value = Common.localStorage.getItem("de-settings-zoom");
+                Common.Utils.InternalSettings.set("de-settings-zoom", value);
                 var zf = (value!==null) ? parseInt(value) : (this.appOptions.customization && this.appOptions.customization.zoom ? parseInt(this.appOptions.customization.zoom) : 100);
                 (zf == -1) ? this.api.zoomFitToPage() : ((zf == -2) ? this.api.zoomFitToWidth() : this.api.zoom(zf>0 ? zf : 100));
 
@@ -780,9 +815,11 @@ define([
                 value = Common.localStorage.getItem("de-show-tableline");
                 me.api.put_ShowTableEmptyLine((value!==null) ? eval(value) : true);
 
-                me.api.asc_setSpellCheck(Common.localStorage.getBool("de-settings-spellcheck", true));
+                value = Common.localStorage.getBool("de-settings-spellcheck", true);
+                Common.Utils.InternalSettings.set("de-settings-spellcheck", value);
+                me.api.asc_setSpellCheck(value);
 
-                Common.localStorage.setBool("de-settings-showsnaplines", me.api.get_ShowSnapLines());
+                Common.Utils.InternalSettings.set("de-settings-showsnaplines", me.api.get_ShowSnapLines());
 
                 function checkWarns() {
                     if (!window['AscDesktopEditor']) {
@@ -806,11 +843,14 @@ define([
                 appHeader.setDocumentCaption(me.api.asc_getDocumentName());
                 me.updateWindowTitle(true);
 
-                me.api.SetTextBoxInputMode(Common.localStorage.getBool("de-settings-inputmode"));
+                value = Common.localStorage.getBool("de-settings-inputmode");
+                Common.Utils.InternalSettings.set("de-settings-inputmode", value);
+                me.api.SetTextBoxInputMode(value);
 
                 if (Common.Utils.isChrome) {
                     value = Common.localStorage.getBool("de-settings-inputsogou");
                     me.api.setInputParams({"SogouPinyin" : value});
+                    Common.Utils.InternalSettings.set("de-settings-inputsogou", value);
                 }
 
                 /** coauthoring begin **/
@@ -824,21 +864,23 @@ define([
                     me.api.asc_SetFastCollaborative(me._state.fastCoauth);
 
                     value = Common.localStorage.getItem((me._state.fastCoauth) ? "de-settings-showchanges-fast" : "de-settings-showchanges-strict");
-                    if (value !== null)
-                        me.api.SetCollaborativeMarksShowType(value == 'all' ? Asc.c_oAscCollaborativeMarksShowType.All :
-                                value == 'none' ? Asc.c_oAscCollaborativeMarksShowType.None : Asc.c_oAscCollaborativeMarksShowType.LastChanges);
-                    else
-                        me.api.SetCollaborativeMarksShowType(me._state.fastCoauth ? Asc.c_oAscCollaborativeMarksShowType.None : Asc.c_oAscCollaborativeMarksShowType.LastChanges);
+                    if (value == null) value = me._state.fastCoauth ? 'none' : 'last';
+                    me.api.SetCollaborativeMarksShowType(value == 'all' ? Asc.c_oAscCollaborativeMarksShowType.All :
+                                                        (value == 'none' ? Asc.c_oAscCollaborativeMarksShowType.None : Asc.c_oAscCollaborativeMarksShowType.LastChanges));
+                    Common.Utils.InternalSettings.set((me._state.fastCoauth) ? "de-settings-showchanges-fast" : "de-settings-showchanges-strict", value);
                 } else if (!me.appOptions.isEdit && me.appOptions.canComments) {
                     me._state.fastCoauth = true;
                     me.api.asc_SetFastCollaborative(me._state.fastCoauth);
                     me.api.SetCollaborativeMarksShowType(Asc.c_oAscCollaborativeMarksShowType.None);
                     me.api.asc_setAutoSaveGap(1);
+                    Common.Utils.InternalSettings.set("de-settings-autosave", 1);
                 } else {
                     me._state.fastCoauth = false;
                     me.api.asc_SetFastCollaborative(me._state.fastCoauth);
                     me.api.SetCollaborativeMarksShowType(Asc.c_oAscCollaborativeMarksShowType.None);
                 }
+                Common.Utils.InternalSettings.set("de-settings-coauthmode", me._state.fastCoauth);
+
                 /** coauthoring end **/
 
                 var application                 = me.getApplication();
@@ -878,11 +920,12 @@ define([
                     if (value===null && me.appOptions.customization && me.appOptions.customization.autosave===false)
                         value = 0;
                     value = (!me._state.fastCoauth && value!==null) ? parseInt(value) : (me.appOptions.canCoAuthoring ? 1 : 0);
-
+                    Common.Utils.InternalSettings.set("de-settings-autosave", value);
                     me.api.asc_setAutoSaveGap(value);
 
                     if (me.appOptions.canForcesave) {// use asc_setIsForceSaveOnUserSave only when customization->forcesave = true
                         me.appOptions.forcesave = Common.localStorage.getBool("de-settings-forcesave", me.appOptions.canForcesave);
+                        Common.Utils.InternalSettings.set("de-settings-forcesave", me.appOptions.forcesave);
                         me.api.asc_setIsForceSaveOnUserSave(me.appOptions.forcesave);
                     }
 
@@ -910,16 +953,14 @@ define([
                             me.api.UpdateInterfaceState();
                             me.fillTextArt(me.api.asc_getTextArtPreviews());
 
-                            if (me.appOptions.canBrandingExt)
-                                Common.NotificationCenter.trigger('document:ready', 'main');
+                            Common.NotificationCenter.trigger('document:ready', 'main');
 
                             me.applyLicense();
                         }
                     }, 50);
                 } else {
                     documentHolderController.getView().createDelayedElementsViewer();
-                    if (me.appOptions.canBrandingExt)
-                        Common.NotificationCenter.trigger('document:ready', 'main');
+                    Common.NotificationCenter.trigger('document:ready', 'main');
                 }
 
                 if (this.appOptions.canAnalytics && false)
@@ -1033,6 +1074,7 @@ define([
                 this.appOptions.forcesave      = this.appOptions.canForcesave;
                 this.appOptions.canEditComments= this.appOptions.isOffline || !(typeof (this.editorConfig.customization) == 'object' && this.editorConfig.customization.commentAuthorOnly);
                 this.appOptions.trialMode      = params.asc_getLicenseMode();
+                this.appOptions.canProtect      = this.appOptions.isDesktopApp && this.api.asc_isSignaturesSupport();
 
                 if ( this.appOptions.isLightVersion ) {
                     this.appOptions.canUseHistory =
@@ -1123,6 +1165,9 @@ define([
 
                     reviewController.setMode(me.appOptions).setConfig({config: me.editorConfig}, me.api);
 
+                    if (this.appOptions.isDesktopApp && this.appOptions.isOffline)
+                        application.getController('Common.Controllers.Protection').setMode(me.appOptions).setConfig({config: me.editorConfig}, me.api);
+
                     var viewport = this.getApplication().getController('Viewport').getView('Viewport');
 
                     viewport.applyEditorMode();
@@ -1151,6 +1196,7 @@ define([
                     var value = Common.localStorage.getItem('de-settings-unit');
                     value = (value!==null) ? parseInt(value) : Common.Utils.Metric.getDefaultMetric();
                     Common.Utils.Metric.setCurrentMetric(value);
+                    Common.Utils.InternalSettings.set("de-settings-unit", value);
                     me.api.asc_SetDocumentUnits((value==Common.Utils.Metric.c_MetricUnits.inch) ? Asc.c_oAscDocumentUnits.Inch : ((value==Common.Utils.Metric.c_MetricUnits.pt) ? Asc.c_oAscDocumentUnits.Point : Asc.c_oAscDocumentUnits.Millimeter));
 
                     me.api.asc_SetViewRulers(!Common.localStorage.getBool('de-hidden-rulers'));
@@ -1336,6 +1382,8 @@ define([
                     }
                 }
                 else {
+                    Common.Gateway.reportWarning(id, config.msg);
+
                     config.title    = this.notcriticalErrorTitle;
                     config.iconCls  = 'warn';
                     config.buttons  = ['ok'];
@@ -1346,6 +1394,20 @@ define([
                                 this.api.asc_DownloadAs();
                             else
                                 (this.appOptions.canDownload) ? this.getApplication().getController('LeftMenu').leftMenu.showMenu('file:saveas') : this.api.asc_DownloadOrigin();
+                        } else if (id == Asc.c_oAscError.ID.SplitCellMaxRows || id == Asc.c_oAscError.ID.SplitCellMaxCols || id == Asc.c_oAscError.ID.SplitCellRowsDivider) {
+                            var me = this;
+                            setTimeout(function(){
+                                (new Common.Views.InsertTableDialog({
+                                    split: true,
+                                    handler: function(result, value) {
+                                        if (result == 'ok') {
+                                            if (me.api)
+                                                me.api.SplitCell(value.columns, value.rows);
+                                        }
+                                        me.onEditComplete();
+                                    }
+                                })).show();
+                            },10);
                         }
                         this._state.lostEditingRights = false;
                         this.onEditComplete();
@@ -1750,6 +1812,7 @@ define([
                 var value = Common.localStorage.getItem("de-settings-unit");
                 value = (value!==null) ? parseInt(value) : Common.Utils.Metric.getDefaultMetric();
                 Common.Utils.Metric.setCurrentMetric(value);
+                Common.Utils.InternalSettings.set("de-settings-unit", value);
                 this.api.asc_SetDocumentUnits((value==Common.Utils.Metric.c_MetricUnits.inch) ? Asc.c_oAscDocumentUnits.Inch : ((value==Common.Utils.Metric.c_MetricUnits.pt) ? Asc.c_oAscDocumentUnits.Point : Asc.c_oAscDocumentUnits.Millimeter));
                 this.getApplication().getController('RightMenu').updateMetricUnit();
                 this.getApplication().getController('Toolbar').getView().updateMetricUnit();
@@ -1811,12 +1874,13 @@ define([
                             if (dontshow) window.localStorage.setItem("de-hide-try-undoredo", 1);
                             if (btn == 'custom') {
                                 Common.localStorage.setItem("de-settings-coauthmode", 0);
+                                Common.Utils.InternalSettings.set("de-settings-coauthmode", false);
                                 this.api.asc_SetFastCollaborative(false);
                                 this._state.fastCoauth = false;
                                 Common.localStorage.setItem("de-settings-showchanges-strict", 'last');
                                 this.api.SetCollaborativeMarksShowType(Asc.c_oAscCollaborativeMarksShowType.LastChanges);
                             }
-                            this.fireEvent('editcomplete', this);
+                            this.onEditComplete();
                         }, this)
                     });
             },
@@ -1839,6 +1903,7 @@ define([
                 }
                 if (this.appOptions.canForcesave) {
                     this.appOptions.forcesave = Common.localStorage.getBool("de-settings-forcesave", this.appOptions.canForcesave);
+                    Common.Utils.InternalSettings.set("de-settings-forcesave", this.appOptions.forcesave);
                     this.api.asc_setIsForceSaveOnUserSave(this.appOptions.forcesave);
                 }
             },
@@ -1910,18 +1975,11 @@ define([
                 var pluginsData = (uiCustomize) ? plugins.UIpluginsData : plugins.pluginsData;
                 if (!pluginsData || pluginsData.length<1) return;
 
-                var arr = [],
-                    baseUrl = _.isEmpty(plugins.url) ? "" : plugins.url;
-
-                if (baseUrl !== "")
-                    console.warn("Obsolete: The url parameter is deprecated. Please check the documentation for new plugin connection configuration.");
-
+                var arr = [];
                 pluginsData.forEach(function(item){
-                    item = baseUrl + item; // for compatibility with previous version of server, where plugins.url is used.
                     var value = Common.Utils.getConfigJson(item);
                     if (value) {
                         value.baseUrl = item.substring(0, item.lastIndexOf("config.json"));
-                        value.oldVersion = (baseUrl !== "");
                         arr.push(value);
                     }
                 });
@@ -1961,14 +2019,6 @@ define([
                             var visible = (isEdit || itemVar.isViewer) && _.contains(itemVar.EditorsSupport, 'word');
                             if ( visible ) pluginVisible = true;
 
-                            var icons = itemVar.icons;
-                            if (item.oldVersion) { // for compatibility with previouse version of server, where plugins.url is used.
-                                icons = [];
-                                itemVar.icons.forEach(function(icon){
-                                    icons.push(icon.substring(icon.lastIndexOf("\/")+1));
-                                });
-                            }
-
                             if (item.isUICustomizer ) {
                                 visible && arrUI.push(item.baseUrl + itemVar.url);
                             } else {
@@ -1976,8 +2026,8 @@ define([
 
                                 model.set({
                                     index: variationsArr.length,
-                                    url: (item.oldVersion) ? (itemVar.url.substring(itemVar.url.lastIndexOf("\/") + 1) ) : itemVar.url,
-                                    icons: icons,
+                                    url: itemVar.url,
+                                    icons: itemVar.icons,
                                     visible: visible
                                 });
 
@@ -2138,6 +2188,18 @@ define([
             txtStyle_List_Paragraph: 'List Paragraph',
             saveTextText: 'Saving document...',
             saveTitleText: 'Saving Document',
+            txtBookmarkError: "Error! Bookmark not defined.",
+            txtAbove: "above",
+            txtBelow: "below",
+            txtOnPage: "on page ",
+            txtHeader: "Header",
+            txtFooter: "Footer",
+            txtSection: " -Section ",
+            txtFirstPage: "First Page ",
+            txtEvenPage: "Even Page ",
+            txtOddPage: "Odd Page ",
+            txtSameAsPrev: "Same as Previous",
+            txtCurrentDocument: "Current Document",
             warnNoLicenseUsers: 'This version of ONLYOFFICE Editors has certain limitations for concurrent users.<br>If you need more please consider upgrading your current license or purchasing a commercial one.'
         }
     })(), DE.Controllers.Main || {}))

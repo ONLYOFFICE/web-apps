@@ -43,7 +43,8 @@ define([
             options : {
                 target  : $(document.body),
                 text    : '',
-                placement: 'right'
+                placement: 'right',
+                showLink: true
             },
 
             template: _.template([
@@ -54,7 +55,9 @@ define([
                             '<div class="tip-text" style="width: 260px;"><%= scope.text %></div>',
                             '<div class="close img-commonctrl"></div>',
                         '</div>',
-                        '<div class="show-link"><label><%= scope.textDontShow %></label></div>',
+                        '<% if ( scope.showLink ) { %>',
+                        '<div class="show-link"><label><%= scope.textLink %></label></div>',
+                        '<% } %>',
                     '</div>',
                 '</div>'
             ].join('')),
@@ -65,7 +68,9 @@ define([
                 Common.UI.BaseView.prototype.initialize.call(this, options);
                 this.target = this.options.target;
                 this.text = !_.isEmpty(this.options.text) ? this.options.text : this.textSynchronize;
+                this.textLink = !_.isEmpty(this.options.textLink) ? this.options.textLink : this.textDontShow;
                 this.placement = this.options.placement;
+                this.showLink = this.options.showLink;
             },
 
             render: function() {
@@ -93,10 +98,18 @@ define([
                 if (this.cmpEl) this.cmpEl.hide();
             },
 
+            close: function() {
+                if (this.cmpEl) this.cmpEl.remove();
+            },
+
             applyPlacement: function () {
                 var showxy = this.target.offset();
-                (this.placement == 'top') ? this.cmpEl.css({bottom : Common.Utils.innerHeight() - showxy.top + 'px', right: Common.Utils.innerWidth() - showxy.left - this.target.width()/2 + 'px'})
-                                         : this.cmpEl.css({top : showxy.top + this.target.height()/2 + 'px', left: showxy.left + this.target.width() + 'px'});
+                if (this.placement == 'top')
+                    this.cmpEl.css({bottom : Common.Utils.innerHeight() - showxy.top + 'px', right: Common.Utils.innerWidth() - showxy.left - this.target.width()/2 + 'px'});
+                else if (this.placement == 'left')
+                    this.cmpEl.css({top : showxy.top + this.target.height()/2 + 'px', right: Common.Utils.innerWidth() - showxy.left - 5 + 'px'});
+                else // right
+                    this.cmpEl.css({top : showxy.top + this.target.height()/2 + 'px', left: showxy.left + this.target.width() + 'px'});
             },
 
             isVisible: function() {

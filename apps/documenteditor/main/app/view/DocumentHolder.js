@@ -612,6 +612,8 @@ define([
                     me._arrSpecialPaste = [];
                     me._arrSpecialPaste[Asc.c_oSpecialPasteProps.paste] = me.textPaste;
                     me._arrSpecialPaste[Asc.c_oSpecialPasteProps.keepTextOnly] = me.txtKeepTextOnly;
+                    me._arrSpecialPaste[Asc.c_oSpecialPasteProps.insertAsNestedTable] = me.textNest;
+                    me._arrSpecialPaste[Asc.c_oSpecialPasteProps.overwriteCells] = me.txtOverwriteCells;
 
                     pasteContainer = $('<div id="special-paste-container" style="position: absolute;"><div id="id-document-holder-btn-special-paste"></div></div>');
                     me.cmpEl.append(pasteContainer);
@@ -1527,7 +1529,6 @@ define([
                     this.api.asc_registerCallback('asc_onFocusObject',                  _.bind(onFocusObject, this));
                     this.api.asc_registerCallback('asc_onShowSpecialPasteOptions',      _.bind(onShowSpecialPasteOptions, this));
                     this.api.asc_registerCallback('asc_onHideSpecialPasteOptions',      _.bind(onHideSpecialPasteOptions, this));
-
                 }
 
                 return this;
@@ -1814,14 +1815,39 @@ define([
                 caption: me.addCommentText
             }).on('click', _.bind(me.addComment, me));
 
+            var menuSignatureViewSign   = new Common.UI.MenuItem({caption: this.strSign,      value: 0 }).on('click', _.bind(me.onSignatureClick, me));
+            var menuSignatureDetails    = new Common.UI.MenuItem({caption: this.strDetails,   value: 1 }).on('click', _.bind(me.onSignatureClick, me));
+            var menuSignatureViewSetup  = new Common.UI.MenuItem({caption: this.strSetup,     value: 2 }).on('click', _.bind(me.onSignatureClick, me));
+            var menuSignatureRemove     = new Common.UI.MenuItem({caption: this.strDelete,    value: 3 }).on('click', _.bind(me.onSignatureClick, me));
+            var menuViewSignSeparator   = new Common.UI.MenuItem({caption: '--' });
+
             this.viewModeMenu = new Common.UI.Menu({
                 initMenu: function (value) {
-                    var isInChart = (value.imgProps && value.imgProps.value && !_.isNull(value.imgProps.value.get_ChartProperties()));
+                    var isInChart = (value.imgProps && value.imgProps.value && !_.isNull(value.imgProps.value.get_ChartProperties())),
+                        signGuid = (value.imgProps && value.imgProps.value && me.mode.canProtect) ? value.imgProps.value.asc_getSignatureId() : undefined,
+                        signProps = (signGuid) ? me.api.asc_getSignatureSetup(signGuid) : null,
+                        isInSign = !!signProps && me._canProtect,
+                        canComment = !isInChart && me.api.can_AddQuotedComment() !== false && me.mode.canCoAuthoring && me.mode.canComments && !me._isDisabled;
 
                     menuViewUndo.setVisible(me.mode.canCoAuthoring && me.mode.canComments && !me._isDisabled);
                     menuViewUndo.setDisabled(!me.api.asc_getCanUndo() && !me._isDisabled);
-                    menuViewCopySeparator.setVisible(!isInChart && me.api.can_AddQuotedComment() !== false && me.mode.canCoAuthoring && me.mode.canComments && !me._isDisabled);
-                    menuViewAddComment.setVisible(!isInChart && me.api.can_AddQuotedComment() !== false && me.mode.canCoAuthoring && me.mode.canComments && !me._isDisabled);
+                    menuViewCopySeparator.setVisible(isInSign);
+
+                    var isRequested = (signProps) ? signProps.asc_getRequested() : false;
+                    menuSignatureViewSign.setVisible(isInSign && isRequested);
+                    menuSignatureDetails.setVisible(isInSign && !isRequested);
+                    menuSignatureViewSetup.setVisible(isInSign);
+                    menuSignatureRemove.setVisible(isInSign && !isRequested);
+                    menuViewSignSeparator.setVisible(canComment);
+
+                    if (isInSign) {
+                        menuSignatureViewSign.cmpEl.attr('data-value', signGuid); // sign
+                        menuSignatureDetails.cmpEl.attr('data-value', signProps.asc_getId()); // view certificate
+                        menuSignatureViewSetup.cmpEl.attr('data-value', signGuid); // view signature settings
+                        menuSignatureRemove.cmpEl.attr('data-value', signGuid);
+                    }
+
+                    menuViewAddComment.setVisible(canComment);
                     menuViewAddComment.setDisabled(value.paraProps && value.paraProps.locked === true);
 
                     var cancopy = me.api && me.api.can_CopyCut();
@@ -1831,6 +1857,11 @@ define([
                     menuViewCopy,
                     menuViewUndo,
                     menuViewCopySeparator,
+                    menuSignatureViewSign,
+                    menuSignatureDetails,
+                    menuSignatureViewSetup,
+                    menuSignatureRemove,
+                    menuViewSignSeparator,
                     menuViewAddComment
                 ]
             }).on('hide:after', function (menu, e, isFromInputControl) {
@@ -2150,6 +2181,10 @@ define([
                 value : 'cut'
             }).on('click', _.bind(me.onCutCopyPaste, me));
 
+            var menuSignatureEditSign   = new Common.UI.MenuItem({caption: this.strSign,      value: 0 }).on('click', _.bind(me.onSignatureClick, me));
+            var menuSignatureEditSetup  = new Common.UI.MenuItem({caption: this.strSetup,     value: 2 }).on('click', _.bind(me.onSignatureClick, me));
+            var menuEditSignSeparator = new Common.UI.MenuItem({ caption: '--' });
+
             this.pictureMenu = new Common.UI.Menu({
                 initMenu: function(value){
                     if (_.isUndefined(value.imgProps))
@@ -2210,7 +2245,7 @@ define([
 
                     me.menuOriginalSize.setVisible(_.isNull(value.imgProps.value.get_ChartProperties()) && _.isNull(value.imgProps.value.get_ShapeProperties()) &&
                                                   !onlyCommonProps);
-                    me.pictureMenu.items[7].setVisible(menuChartEdit.isVisible() || me.menuOriginalSize.isVisible());
+                    me.pictureMenu.items[10].setVisible(menuChartEdit.isVisible() || me.menuOriginalSize.isVisible());
 
                     var islocked = value.imgProps.locked || (value.headerProps!==undefined && value.headerProps.locked);
                     if (menuChartEdit.isVisible())
@@ -2233,12 +2268,26 @@ define([
                     menuImgCopy.setDisabled(!cancopy);
                     menuImgCut.setDisabled(islocked || !cancopy);
                     menuImgPaste.setDisabled(islocked);
+
+                    var signGuid = (value.imgProps && value.imgProps.value && me.mode.canProtect) ? value.imgProps.value.asc_getSignatureId() : undefined,
+                        isInSign = !!signGuid;
+                    menuSignatureEditSign.setVisible(isInSign);
+                    menuSignatureEditSetup.setVisible(isInSign);
+                    menuEditSignSeparator.setVisible(isInSign);
+
+                    if (isInSign) {
+                        menuSignatureEditSign.cmpEl.attr('data-value', signGuid); // sign
+                        menuSignatureEditSetup.cmpEl.attr('data-value', signGuid); // edit signature settings
+                    }
                 },
                 items: [
                     menuImgCut,
                     menuImgCopy,
                     menuImgPaste,
                     { caption: '--' },
+                    menuSignatureEditSign,
+                    menuSignatureEditSetup,
+                    menuEditSignSeparator,
                     menuImageArrange,
                     menuImageAlign,
                     me.menuImageWrap,
@@ -2318,10 +2367,9 @@ define([
                                 if (me.api) {
                                     me.api.SplitCell(value.columns, value.rows);
                                 }
-                                me.fireEvent('editcomplete', me);
-
                                 Common.component.Analytics.trackEvent('DocumentHolder', 'Table');
                             }
+                            me.fireEvent('editcomplete', me);
                         }
                     })).show();
                 }
@@ -3298,13 +3346,32 @@ define([
             }
         },
 
+        onSignatureClick: function(item) {
+            var datavalue = item.cmpEl.attr('data-value');
+            switch (item.value) {
+                case 0:
+                    Common.NotificationCenter.trigger('protect:sign', datavalue); //guid
+                    break;
+                case 1:
+                    this.api.asc_ViewCertificate(datavalue); //certificate id
+                    break;
+                case 2:
+                    Common.NotificationCenter.trigger('protect:signature', 'visible', this._isDisabled, datavalue);//guid, can edit settings for requested signature
+                    break;
+                case 3:
+                    this.api.asc_RemoveSignature(datavalue); //guid
+                    break;
+            }
+        },
+
         focus: function() {
             var me = this;
             _.defer(function(){  me.cmpEl.focus(); }, 50);
         },
 
-        SetDisabled: function(state) {
+        SetDisabled: function(state, canProtect) {
             this._isDisabled = state;
+            this._canProtect = canProtect;
         },
 
         alignmentText           : 'Alignment',
@@ -3476,7 +3543,13 @@ define([
         txtDeleteChars: 'Delete enclosing characters',
         txtDeleteCharsAndSeparators: 'Delete enclosing characters and separators',
         txtKeepTextOnly: 'Keep text only',
-        textUndo: 'Undo'
+        textUndo: 'Undo',
+        strSign: 'Sign',
+        strDetails: 'Signature Details',
+        strSetup: 'Signature Setup',
+        strDelete: 'Remove Signature',
+        txtOverwriteCells: 'Overwrite cells',
+        textNest: 'Nest table'
 
     }, DE.Views.DocumentHolder || {}));
 });

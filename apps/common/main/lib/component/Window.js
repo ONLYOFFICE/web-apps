@@ -294,6 +294,13 @@ define([
             }
         }
 
+        function _onProcessMouse(data) {
+            if (data.type == 'mouseup' && this.dragging.enabled) {
+                _mouseup.call(this);
+            }
+        }
+
+
         /* window resize functions */
         function _resizestart(event) {
             Common.UI.Menu.Manager.hideAll();
@@ -580,6 +587,9 @@ define([
                     };
                     this.$window.find('.header').on('mousedown', this.binding.dragStart);
                     this.$window.find('.tool.close').on('click', _.bind(doclose, this));
+
+                    if (!this.initConfig.modal)
+                        Common.Gateway.on('processmouse', _.bind(_onProcessMouse, this));
                 } else {
                     this.$window.find('.body').css({
                         top:0,

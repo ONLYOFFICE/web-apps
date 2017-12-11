@@ -1,0 +1,134 @@
+<div id="id-pivot-field-settings-layout" class="settings-panel active">
+    <div class="inner-content">
+        <table cols="1" style="width: 100%;">
+            <tr>
+                <td class="padding-small" style="white-space: nowrap;">
+                    <label class="header" style="vertical-align: middle; margin-right: 4px;"><%= scope.txtSourceName %></label>
+                    <label id="field-settings-source" style="vertical-align: middle; max-width: 220px; overflow: hidden; text-overflow: ellipsis;"></label>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-large">
+                    <label class="header"><%= scope.txtCustomName %></label>
+                    <div id="field-settings-custom" style="width:264px;"></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-small">
+                    <label class="header"><%= scope.textReport %></label>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-small">
+                    <div id="field-settings-radio-tab"></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-small">
+                    <div id="field-settings-radio-outline"></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-large">
+                    <div id="field-settings-chk-compact" style="margin-left: 20px;"></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-small">
+                    <div id="field-settings-chk-repeat"></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-small">
+                    <div id="field-settings-chk-blank"></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-small">
+                    <div id="field-settings-chk-subtotals"></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-small">
+                    <div id="field-settings-radio-top" style="margin-left: 20px;"></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-large">
+                    <div id="field-settings-radio-bottom" style="margin-left: 20px;"></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-small">
+                    <div id="field-settings-chk-empty"></div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div id="id-pivot-field-settings-subtotals" class="settings-panel">
+    <div class="inner-content">
+        <table cols="1" style="width: 100%;">
+            <tr>
+                <td class="padding-small">
+                    <label class="header"><%= scope.txtSummarize %></label>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-small">
+                    <div id="field-settings-chk-sum"></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-small">
+                    <div id="field-settings-chk-count"></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-small">
+                    <div id="field-settings-chk-ave"></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-small">
+                    <div id="field-settings-chk-max"></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-small">
+                    <div id="field-settings-chk-min"></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-small">
+                    <div id="field-settings-chk-product"></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-small">
+                    <div id="field-settings-chk-num"></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-small">
+                    <div id="field-settings-chk-dev"></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-small">
+                    <div id="field-settings-chk-devp"></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-small">
+                    <div id="field-settings-chk-var"></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-small">
+                    <div id="field-settings-chk-varp"></div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

@@ -893,8 +893,8 @@ define([
                     iconCls: 'btn-colorschemas',
                     menu: new Common.UI.Menu({
                         items: [],
-                        maxHeight: 600,
-                        restoreHeight: 600
+                        maxHeight: 560,
+                        restoreHeight: 560
                     }).on('show:before', function (mnu) {
                         if (!this.scroller) {
                             this.scroller = new Common.UI.Scroller({
@@ -903,23 +903,6 @@ define([
                                 minScrollbarLength: 40,
                                 alwaysVisibleY: true
                             });
-                        }
-                    }).on('show:after', function (btn, e) {
-                        var mnu = $(this.el).find('.dropdown-menu '),
-                            docH = $(document).height(),
-                            menuH = mnu.outerHeight(),
-                            top = parseInt(mnu.css('top'));
-
-                        if (menuH > docH) {
-                            mnu.css('max-height', (docH - parseInt(mnu.css('padding-top')) - parseInt(mnu.css('padding-bottom')) - 5) + 'px');
-                            this.scroller.update({minScrollbarLength: 40});
-                        } else if (mnu.height() < this.options.restoreHeight) {
-                            mnu.css('max-height', (Math.min(docH - parseInt(mnu.css('padding-top')) - parseInt(mnu.css('padding-bottom')) - 5, this.options.restoreHeight)) + 'px');
-                            menuH = mnu.outerHeight();
-                            if (top + menuH > docH) {
-                                mnu.css('top', 0);
-                            }
-                            this.scroller.update({minScrollbarLength: 40});
                         }
                     })
                 });
@@ -1189,17 +1172,6 @@ define([
                 this.needShowSynchTip = false;
                 /** coauthoring end **/
 
-                me.$tabs.parent().on('click', '.ribtab', function (e) {
-                    var tab = $(e.target).data('tab');
-                    if (tab == 'file') {
-                        me.fireEvent('file:open');
-                    } else
-                    if ( me.isTabActive('file') )
-                        me.fireEvent('file:close');
-
-                    me.setTab(tab);
-                });
-
                 Common.NotificationCenter.on({
                     'window:resize': function() {
                         Common.UI.Mixtbar.prototype.onResize.apply(me, arguments);
@@ -1223,6 +1195,21 @@ define([
                     this.btnPageMargins.menu.items[0].setVisible(false);
 
                 return this;
+            },
+
+            onTabClick: function (e) {
+                var tab = $(e.target).data('tab'),
+                    me = this;
+
+                if ( !me.isTabActive(tab) ) {
+                    if ( tab == 'file' ) {
+                        me.fireEvent('file:open');
+                    } else
+                    if ( me.isTabActive('file') )
+                        me.fireEvent('file:close');
+                }
+
+                Common.UI.Mixtbar.prototype.onTabClick.apply(me, arguments);
             },
 
             rendererComponents: function (html) {
@@ -2110,8 +2097,8 @@ define([
 
                 if (this.mnuColorSchema == null) {
                     this.mnuColorSchema = new Common.UI.Menu({
-                        maxHeight: 600,
-                        restoreHeight: 600
+                        maxHeight: 560,
+                        restoreHeight: 560
                     }).on('show:before', function (mnu) {
                         this.scroller = new Common.UI.Scroller({
                             el: $(this.el).find('.dropdown-menu '),
@@ -2469,7 +2456,9 @@ define([
             capImgWrapping: 'Wrapping',
             capBtnComment: 'Comment',
             textColumnsCustom: 'Custom Columns',
-            textSurface: 'Surface'
+            textSurface: 'Surface',
+            textTabCollaboration: 'Collaboration',
+            textTabProtect: 'Protection'
         }
     })(), DE.Views.Toolbar || {}));
 });

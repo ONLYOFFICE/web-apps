@@ -57,7 +57,7 @@ define([
             if ( sv || opts == 'right' ) {
                 $boxTabs.animate({scrollLeft: opts == 'left' ? sv - 100 : sv + 100}, 200);
             }
-        }
+        };
 
         function onTabDblclick(e) {
             this.fireEvent('change:compact', [$(e.target).data('tab')]);
@@ -92,6 +92,10 @@ define([
 
                 config.tabs = options.tabs;
                 $(document.body).on('click', onClickDocument.bind(this));
+
+                Common.NotificationCenter.on('tab:visible', _.bind(function(action, visible){
+                    this.setVisible(action, visible)
+                }, this));
             },
 
             afterRender: function() {
@@ -108,6 +112,7 @@ define([
                 $scrollR.on('click', onScrollTabs.bind(this, 'right'));
 
                 $boxTabs.on('dblclick', '> .ribtab', onTabDblclick.bind(this));
+                $boxTabs.on('click', '> .ribtab', me.onTabClick.bind(this));
             },
 
             isTabActive: function(tag) {
@@ -164,6 +169,12 @@ define([
                     // clearTimeout(optsFold.timer);
                     optsFold.$bar.removeClass('folded');
                     optsFold.$box.off();
+
+                    var active_panel = optsFold.$box.find('.panel.active');
+                    if ( active_panel.length ) {
+                        var tab = active_panel.data('tab');
+                        me.$tabs.find('> a[data-tab=' + tab + ']').parent().toggleClass('active', true);
+                    }
                 }
             },
 
@@ -191,6 +202,18 @@ define([
                 } else
                 if ( $boxTabs.parent().hasClass('short') ) {
                     $boxTabs.parent().removeClass('short');
+                }
+            },
+
+            onTabClick: function (e) {
+                var _is_active = $(e.currentTarget).hasClass('active');
+                if ( _is_active ) {
+                    if ( this.isFolded ) {
+                        // this.collapse();
+                    }
+                } else {
+                    var tab = $(e.target).data('tab');
+                    this.setTab(tab);
                 }
             },
 
@@ -234,7 +257,7 @@ define([
                     return config.tabs[index].action;
                 }
 
-                var _tabTemplate = _.template('<li class="ribtab"><div class="tab-bg" /><a href="#" data-tab="<%= action %>" data-title="<%= caption %>"><%= caption %></a></li>');
+                var _tabTemplate = _.template('<li class="ribtab" style="display: none;"><div class="tab-bg" /><a href="#" data-tab="<%= action %>" data-title="<%= caption %>"><%= caption %></a></li>');
 
                 config.tabs[after + 1] = tab;
                 var _after_action = _get_tab_action(after);
@@ -269,13 +292,13 @@ define([
                 var _left_bound_ = Math.round($boxTabs.offset().left),
                     _right_bound_ = Math.round(_left_bound_ + $boxTabs.width());
 
-                var tab = this.$tabs.filter(':first:visible').get(0);
+                var tab = this.$tabs.filter(':visible:first').get(0);
                 if ( !tab ) return false;
 
                 var rect = tab.getBoundingClientRect();
 
                 if ( !(Math.round(rect.left) < _left_bound_) ) {
-                    tab = this.$tabs.filter(':last:visible').get(0);
+                    tab = this.$tabs.filter(':visible:last').get(0);
                     rect = tab.getBoundingClientRect();
 
                     if (!(Math.round(rect.right) > _right_bound_))
@@ -296,6 +319,11 @@ define([
                         }
                     }
                 }
+            },
+
+            setVisible: function (tab, visible) {
+                if ( tab && this.$tabs )
+                    this.$tabs.find('> a[data-tab=' + tab + ']').parent().css('display', visible ? '' : 'none');
             }
         };
     }()));

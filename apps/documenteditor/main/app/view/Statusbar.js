@@ -373,8 +373,11 @@ define([
                     $parent.find('#status-label-lang').text(info.title);
 
                     var index = $parent.find('ul li a:contains("'+info.title+'")').parent().index();
-                    index < 0 ? this.langMenu.saved = info.title :
-                                this.langMenu.items[index-1].setChecked(true);
+                    if (index < 0) {
+                        this.langMenu.saved = info.title;
+                        this.langMenu.clearAll();
+                    } else
+                        this.langMenu.items[index-1].setChecked(true);
                 }
             },
 

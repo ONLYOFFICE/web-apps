@@ -127,8 +127,11 @@ define([
 
             this.btnOriginalSize.on('click', _.bind(this.setOriginalSize, this));
             this.btnInsertFromFile.on('click', _.bind(function(btn){
+                if (this._isFromFile) return;
+                this._isFromFile = true;
                 if (this.api) this.api.ChangeImageFromFile();
                 this.fireEvent('editcomplete', this);
+                this._isFromFile = false;
             }, this));
             this.btnInsertFromUrl.on('click', _.bind(this.insertFromUrl, this));
             this.btnEditObject.on('click', _.bind(function(btn){

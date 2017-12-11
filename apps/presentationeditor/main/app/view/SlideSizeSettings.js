@@ -224,6 +224,11 @@ define([
             }
         },
 
+        onPrimary: function() {
+            this._handleInput('ok');
+            return false;
+        },
+
         setSettings: function (type, pagewitdh, pageheight) {
             this.spnWidth.setValue(Common.Utils.Metric.fnRecalcFromMM(pagewitdh), true);
             this.spnHeight.setValue(Common.Utils.Metric.fnRecalcFromMM(pageheight), true);

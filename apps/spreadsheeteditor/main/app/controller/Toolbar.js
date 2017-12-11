@@ -46,6 +46,7 @@ define([
     'common/main/lib/util/define',
     'spreadsheeteditor/main/app/view/Toolbar',
     'spreadsheeteditor/main/app/collection/TableTemplates',
+    'spreadsheeteditor/main/app/controller/PivotTable',
     'spreadsheeteditor/main/app/view/HyperlinkSettingsDialog',
     'spreadsheeteditor/main/app/view/TableOptionsDialog',
     'spreadsheeteditor/main/app/view/NamedRangeEditDlg',
@@ -257,17 +258,17 @@ define([
                     toolbar.mnuBorderWidth.on('item:toggle',                    _.bind(this.onBordersWidth, this));
                     toolbar.mnuBorderColorPicker.on('select',                   _.bind(this.onBordersColor, this));
                 }
-                toolbar.btnAlignLeft.on('click',                            _.bind(this.onHorizontalAlign, this, 'left'));
-                toolbar.btnAlignCenter.on('click',                          _.bind(this.onHorizontalAlign, this, 'center'));
-                toolbar.btnAlignRight.on('click',                           _.bind(this.onHorizontalAlign, this, 'right'));
-                toolbar.btnAlignJust.on('click',                            _.bind(this.onHorizontalAlign, this, 'justify'));
+                toolbar.btnAlignLeft.on('click',                            _.bind(this.onHorizontalAlign, this, AscCommon.align_Left));
+                toolbar.btnAlignCenter.on('click',                          _.bind(this.onHorizontalAlign, this, AscCommon.align_Center));
+                toolbar.btnAlignRight.on('click',                           _.bind(this.onHorizontalAlign, this, AscCommon.align_Right));
+                toolbar.btnAlignJust.on('click',                            _.bind(this.onHorizontalAlign, this, AscCommon.align_Justify));
                 toolbar.btnHorizontalAlign.menu.on('item:click',            _.bind(this.onHorizontalAlignMenu, this));
                 toolbar.btnVerticalAlign.menu.on('item:click',              _.bind(this.onVerticalAlignMenu, this));
                 toolbar.btnMerge.on('click',                                _.bind(this.onMergeCellsMenu, this, toolbar.btnMerge.menu, toolbar.btnMerge.menu.items[0]));
                 toolbar.btnMerge.menu.on('item:click',                      _.bind(this.onMergeCellsMenu, this));
-                toolbar.btnAlignTop.on('click',                             _.bind(this.onVerticalAlign, this, 'top'));
-                toolbar.btnAlignMiddle.on('click',                          _.bind(this.onVerticalAlign, this, 'center'));
-                toolbar.btnAlignBottom.on('click',                          _.bind(this.onVerticalAlign, this, 'bottom'));
+                toolbar.btnAlignTop.on('click',                             _.bind(this.onVerticalAlign, this, Asc.c_oAscVAlign.Top));
+                toolbar.btnAlignMiddle.on('click',                          _.bind(this.onVerticalAlign, this, Asc.c_oAscVAlign.Center));
+                toolbar.btnAlignBottom.on('click',                          _.bind(this.onVerticalAlign, this, Asc.c_oAscVAlign.Bottom));
                 toolbar.btnWrap.on('click',                                 _.bind(this.onWrap, this));
                 toolbar.btnTextOrient.menu.on('item:click',                 _.bind(this.onTextOrientationMenu, this));
                 toolbar.btnInsertImage.menu.on('item:click',                _.bind(this.onInsertImageMenu, this));
@@ -605,8 +606,8 @@ define([
         onHorizontalAlign: function(type, btn, e) {
             this._state.pralign = undefined;
             if (this.api) {
-                this.api.asc_setCellAlign(!btn.pressed ? 'none' : type);
-                this.toolbar.btnWrap.allowDepress = !(type == 'justify');
+                this.api.asc_setCellAlign(!btn.pressed ? null : type);
+                this.toolbar.btnWrap.allowDepress = !(type == AscCommon.align_Justify);
             }
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
@@ -625,9 +626,9 @@ define([
 
             this._state.pralign = undefined;
             if (this.api)
-                this.api.asc_setCellAlign(!item.checked ? 'none' : item.value);
+                this.api.asc_setCellAlign(!item.checked ? null : item.value);
 
-            this.toolbar.btnWrap.allowDepress = !(item.value == 'justify');
+            this.toolbar.btnWrap.allowDepress = !(item.value == AscCommon.align_Justify);
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             Common.component.Analytics.trackEvent('ToolBar', 'Horizontal Align');
@@ -645,7 +646,7 @@ define([
 
             this._state.valign = undefined;
             if (this.api)
-                this.api.asc_setCellVertAlign(!item.checked ? 'bottom' : item.value);
+                this.api.asc_setCellVertAlign(!item.checked ? Asc.c_oAscVAlign.Bottom : item.value);
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             Common.component.Analytics.trackEvent('ToolBar', 'Vertical Align');
@@ -654,7 +655,7 @@ define([
         onVerticalAlign: function(type, btn, e) {
             this._state.valign = undefined;
             if (this.api) {
-                this.api.asc_setCellVertAlign(!btn.pressed ? 'bottom' : type);
+                this.api.asc_setCellVertAlign(!btn.pressed ? Asc.c_oAscVAlign.Bottom : type);
             }
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
@@ -1391,7 +1392,7 @@ define([
             Common.util.Shortcuts.delegateShortcuts({
                 shortcuts: {
                     'command+l,ctrl+l': function(e) {
-                        if ( me.editMode && !me._state.multiselect ) {
+                        if ( me.editMode && !me._state.multiselect && me.appConfig.canModifyFilter) {
                             var cellinfo = me.api.asc_getCellInfo(),
                                 filterinfo = cellinfo.asc_getAutoFilterInfo(),
                                 formattableinfo = cellinfo.asc_getFormatTableInfo();
@@ -1407,9 +1408,10 @@ define([
                         return false;
                     },
                     'command+shift+l,ctrl+shift+l': function(e) {
-                        var state = me._state.filter;
-                        me._state.filter = undefined;
-                        if (me.editMode && me.api && !me._state.multiselect) {
+                        if (me.editMode && me.api && !me._state.multiselect && me.appConfig.canModifyFilter) {
+                            var state = me._state.filter;
+                            me._state.filter = undefined;
+
                             if (me._state.tablename || state)
                                 me.api.asc_changeAutoFilter(me._state.tablename, Asc.c_oAscChangeFilterOptions.filter, !state);
                             else
@@ -1894,8 +1896,12 @@ define([
                 this._state.clrshd_asccolor = color;
             }
 
-            if (selectionType == Asc.c_oAscSelectionType.RangeChart || selectionType == Asc.c_oAscSelectionType.RangeChartText)
-                return;
+            var in_chart = (selectionType == Asc.c_oAscSelectionType.RangeChart || selectionType == Asc.c_oAscSelectionType.RangeChartText);
+            if (in_chart !== this._state.in_chart) {
+                toolbar.btnInsertChart.updateHint(in_chart ? toolbar.tipChangeChart : toolbar.tipInsertChart);
+                this._state.in_chart = in_chart;
+            }
+            if (in_chart) return;
 
             if (!toolbar.mode.isEditDiagram)
             {
@@ -1912,10 +1918,10 @@ define([
 
                         var index = -1, align;
                         switch (fontparam) {
-                            case 'left':    index = 0;      align = 'btn-align-left';      break;
-                            case 'center':  index = 1;      align = 'btn-align-center';    break;
-                            case 'right':   index = 2;      align = 'btn-align-right';     break;
-                            case 'justify': index = 3;      align = 'btn-align-just';      break;
+                            case AscCommon.align_Left:    index = 0;      align = 'btn-align-left';      break;
+                            case AscCommon.align_Center:  index = 1;      align = 'btn-align-center';    break;
+                            case AscCommon.align_Right:   index = 2;      align = 'btn-align-right';     break;
+                            case AscCommon.align_Justify: index = 3;      align = 'btn-align-just';      break;
                             default:        index = -255;   align = 'btn-align-left';      break;
                         }
                         if (!(index < 0)) {
@@ -1930,7 +1936,7 @@ define([
                             toolbar.btnAlignCenter.toggle(false, true);
                             toolbar.btnAlignJust.toggle(false, true);
 
-                            this._clearChecked(toolbar.btnHorizontalAlign.menu);
+                            toolbar.btnHorizontalAlign.menu.clearAll();
                         }
 
                         var btnHorizontalAlign = this.toolbar.btnHorizontalAlign;
@@ -1945,7 +1951,7 @@ define([
                         }
                     }
 
-                    need_disable = (fontparam == 'justify' || selectionType == Asc.c_oAscSelectionType.RangeShapeText);
+                    need_disable = (fontparam == AscCommon.align_Justify || selectionType == Asc.c_oAscSelectionType.RangeShapeText);
                     toolbar.btnTextOrient.menu.items[1].setDisabled(need_disable);
                     toolbar.btnTextOrient.menu.items[2].setDisabled(need_disable);
 
@@ -1957,9 +1963,9 @@ define([
 
                         index = -1;   align = '';
                         switch (fontparam) {
-                            case 'top':    index = 0; align = 'btn-valign-top';     break;
-                            case 'center': index = 1; align = 'btn-valign-middle';  break;
-                            case 'bottom': index = 2; align = 'btn-valign-bottom';  break;
+                            case Asc.c_oAscVAlign.Top:    index = 0; align = 'btn-valign-top';     break;
+                            case Asc.c_oAscVAlign.Center: index = 1; align = 'btn-valign-middle';  break;
+                            case Asc.c_oAscVAlign.Bottom: index = 2; align = 'btn-valign-bottom';  break;
                         }
 
                         if (index > -1) {
@@ -2041,6 +2047,11 @@ define([
 
                 need_disable = !!info.asc_getPivotTableInfo();
                 toolbar.lockToolbar(SSE.enumLock.editPivot, need_disable, { array: [toolbar.btnMerge, toolbar.btnInsertHyperlink, toolbar.btnSetAutofilter, toolbar.btnClearAutofilter, toolbar.btnSortDown, toolbar.btnSortUp, toolbar.btnAutofilter]});
+
+                need_disable = !this.appConfig.canModifyFilter;
+                toolbar.lockToolbar(SSE.enumLock.cantModifyFilter, need_disable, { array: [toolbar.btnSortDown, toolbar.btnSortUp, toolbar.mnuitemSortAZ, toolbar.mnuitemSortZA, toolbar.btnSetAutofilter,
+                                                                                   toolbar.btnAutofilter, toolbar.btnTableTemplate, toolbar.btnClearStyle.menu.items[0], toolbar.btnClearStyle.menu.items[2] ]});
+
             }
 
             val = info.asc_getNumFormatInfo();
@@ -2064,7 +2075,7 @@ define([
             } else
                 val = info.asc_getAngle();
             if (this._state.angle !== val) {
-                this._clearChecked(toolbar.btnTextOrient.menu);
+                toolbar.btnTextOrient.menu.clearAll();
                 switch(val) {
                     case 45:    toolbar.btnTextOrient.menu.items[1].setChecked(true, true); break;
                     case -45:   toolbar.btnTextOrient.menu.items[2].setChecked(true, true); break;
@@ -2742,13 +2753,6 @@ define([
             return cellInfo ? cellInfo.asc_getFont().asc_getSize() : 12;
         },
 
-        _clearChecked: function(menu) {
-            _.each(menu.items, function(item){
-                if (item.setChecked)
-                    item.setChecked(false, true);
-            });
-        },
-
         _setTableFormat: function(fmtname) {
             var me = this;
 
@@ -2868,7 +2872,10 @@ define([
             this._state.namedrange_locked = (state == Asc.c_oAscDefinedNameReason.LockDefNameManager);
         },
 
-        DisableToolbar: function(disable) {
+        DisableToolbar: function(disable, viewMode) {
+            if (viewMode!==undefined) this.editMode = !viewMode;
+            disable = disable || !this.editMode;
+
             var mask = $('.toolbar-mask');
             if (disable && mask.length>0 || !disable && mask.length==0) return;
 
@@ -2913,8 +2920,30 @@ define([
             Common.Utils.asyncCall(function () {
                 me.toolbar.setMode(config);
 
-                if ( config.isEdit )
+                if ( config.isEdit ) {
                     me.toolbar.setApi(me.api);
+
+                    if ( !config.isEditDiagram && !config.isEditMailMerge ) {
+                        var tab = {action: 'pivot', caption: me.textPivot};
+                        var $panel = me.getApplication().getController('PivotTable').createToolbarPanel();
+                        if ( $panel ) {
+                            me.toolbar.addTab(tab, $panel, 3);
+                            me.toolbar.setVisible('pivot', true);
+                        }
+
+                        tab = {action: 'review', caption: me.toolbar.textTabCollaboration};
+                        $panel = me.getApplication().getController('Common.Controllers.ReviewChanges').createToolbarPanel();
+                        if ( $panel )
+                            me.toolbar.addTab(tab, $panel, 4);
+
+                        if (config.isDesktopApp && config.isOffline) {
+                            tab = {action: 'protect', caption: me.toolbar.textTabProtect};
+                            var $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
+                            if ( $panel )
+                                me.toolbar.addTab(tab, $panel, 5);
+                        }
+                    }
+                }
             });
         },
 
@@ -3318,7 +3347,8 @@ define([
         warnLongOperation: 'The operation you are about to perform might take rather much time to complete.<br>Are you sure you want to continue?',
         txtInvalidRange: 'ERROR! Invalid cells range',
         errorMaxRows: 'ERROR! The maximum number of data series per chart is 255.',
-        errorStockChart: 'Incorrect row order. To build a stock chart place the data on the sheet in the following order:<br> opening price, max price, min price, closing price.'
+        errorStockChart: 'Incorrect row order. To build a stock chart place the data on the sheet in the following order:<br> opening price, max price, min price, closing price.',
+        textPivot: 'Pivot Table'
 
     }, SSE.Controllers.Toolbar || {}));
 });

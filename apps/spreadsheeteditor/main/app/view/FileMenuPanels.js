@@ -696,54 +696,40 @@ define([
         },
 
         updateSettings: function() {
-            var value = Common.localStorage.getItem("sse-settings-zoom");
+            var value = Common.Utils.InternalSettings.get("sse-settings-zoom");
             value = (value!==null) ? parseInt(value) : (this.mode.customization && this.mode.customization.zoom ? parseInt(this.mode.customization.zoom) : 100);
             var item = this.cmbZoom.store.findWhere({value: value});
             this.cmbZoom.setValue(item ? parseInt(item.get('value')) : (value>0 ? value+'%' : 100));
 
             /** coauthoring begin **/
-            value = Common.localStorage.getItem("sse-settings-livecomment");
-            this.chLiveComment.setValue(!(value!==null && parseInt(value) == 0));
+            this.chLiveComment.setValue(Common.Utils.InternalSettings.get("sse-settings-livecomment"));
+            this.chResolvedComment.setValue(Common.Utils.InternalSettings.get("sse-settings-resolvedcomment"));
 
-            value = Common.localStorage.getItem("sse-settings-resolvedcomment");
-            this.chResolvedComment.setValue(!(value!==null && parseInt(value) == 0));
-
-            value = Common.localStorage.getItem("sse-settings-coauthmode");
-            if (value===null && Common.localStorage.getItem("sse-settings-autosave")===null &&
-                this.mode.customization && this.mode.customization.autosave===false)
-                value = 0; // use customization.autosave only when sse-settings-coauthmode and sse-settings-autosave are null
-            var fast_coauth = (value===null || parseInt(value) == 1) && !(this.mode.isDesktopApp && this.mode.isOffline) && this.mode.canCoAuthoring;
-
-            item = this.cmbCoAuthMode.store.findWhere({value: parseInt(value)});
+            var fast_coauth = Common.Utils.InternalSettings.get("sse-settings-coauthmode");
+            item = this.cmbCoAuthMode.store.findWhere({value: fast_coauth ? 1 : 0});
             this.cmbCoAuthMode.setValue(item ? item.get('value') : 1);
             this.lblCoAuthMode.text(item ? item.get('descValue') : this.strCoAuthModeDescFast);
             /** coauthoring end **/
 
-            value = Common.localStorage.getItem("sse-settings-fontrender");
-            Common.Utils.isChrome && this.chInputSogou.setValue(Common.localStorage.getBool("sse-settings-inputsogou"));
+            Common.Utils.isChrome && this.chInputSogou.setValue(Common.Utils.InternalSettings.get("sse-settings-inputsogou"));
 
+            value = Common.Utils.InternalSettings.get("sse-settings-fontrender");
             item = this.cmbFontRender.store.findWhere({value: parseInt(value)});
             this.cmbFontRender.setValue(item ? item.get('value') : (window.devicePixelRatio > 1 ? Asc.c_oAscFontRenderingModeType.noHinting : Asc.c_oAscFontRenderingModeType.hintingAndSubpixeling));
 
-            value = Common.localStorage.getItem("sse-settings-unit");
-            item = this.cmbUnit.store.findWhere({value: parseInt(value)});
+            value = Common.Utils.InternalSettings.get("sse-settings-unit");
+            item = this.cmbUnit.store.findWhere({value: value});
             this.cmbUnit.setValue(item ? parseInt(item.get('value')) : Common.Utils.Metric.getDefaultMetric());
             this._oldUnits = this.cmbUnit.getValue();
 
-            value = Common.localStorage.getItem("sse-settings-autosave");
-            if (value===null && this.mode.customization && this.mode.customization.autosave===false)
-                value = 0;
-            this.chAutosave.setValue(fast_coauth || (value===null ? this.mode.canCoAuthoring : parseInt(value) == 1));
+            value = Common.Utils.InternalSettings.get("sse-settings-autosave");
+            this.chAutosave.setValue(value == 1);
 
             if (this.mode.canForcesave) {
-                value = Common.localStorage.getItem("sse-settings-forcesave");
-                value = (value === null) ? this.mode.canForcesave : (parseInt(value) == 1);
-                this.chForcesave.setValue(value);
+                this.chForcesave.setValue(Common.Utils.InternalSettings.get("sse-settings-forcesave"));
             }
 
-            value = Common.localStorage.getItem("sse-settings-func-locale");
-            if (value===null)
-                value = ((this.mode.lang) ? this.mode.lang : 'en').toLowerCase();
+            value = Common.Utils.InternalSettings.get("sse-settings-func-locale");
             item = this.cmbFuncLocale.store.findWhere({value: value});
             if (!item)
                 item = this.cmbFuncLocale.store.findWhere({value: value.split("-")[0]});
@@ -764,6 +750,7 @@ define([
 
         applySettings: function() {
             Common.localStorage.setItem("sse-settings-zoom", this.cmbZoom.getValue());
+            Common.Utils.InternalSettings.set("sse-settings-zoom", Common.localStorage.getItem("sse-settings-zoom"));
             /** coauthoring begin **/
             Common.localStorage.setItem("sse-settings-livecomment", this.chLiveComment.isChecked() ? 1 : 0);
             Common.localStorage.setItem("sse-settings-resolvedcomment", this.chResolvedComment.isChecked() ? 1 : 0);
@@ -1132,6 +1119,8 @@ define([
                 });
             }
 
+            Common.NotificationCenter.on('collaboration:sharing', _.bind(this.changeAccessRights, this));
+
             return this;
         },
 
@@ -1333,4 +1322,174 @@ define([
             }
         }
     });
+
+    SSE.Views.FileMenuPanels.ProtectDoc = Common.UI.BaseView.extend(_.extend({
+        el: '#panel-protect',
+        menu: undefined,
+
+        template: _.template([
+            '<label id="id-fms-lbl-protect-header" style="font-size: 18px;"><%= scope.strProtect %></label>',
+            '<div id="id-fms-password">',
+                '<label class="header"><%= scope.strEncrypt %></label>',
+                '<div id="fms-btn-add-pwd" style="width:190px;"></div>',
+                '<table id="id-fms-view-pwd" cols="2" width="300">',
+                    '<tr>',
+                        '<td colspan="2"><span><%= scope.txtEncrypted %></span></td>',
+                    '</tr>',
+                    '<tr>',
+                        '<td><div id="fms-btn-change-pwd" style="width:190px;"></div></td>',
+                        '<td align="right"><div id="fms-btn-delete-pwd" style="width:190px; margin-left:20px;"></div></td>',
+                    '</tr>',
+                '</table>',
+            '</div>',
+            '<div id="id-fms-signature">',
+                '<label class="header"><%= scope.strSignature %></label>',
+                '<div id="fms-btn-invisible-sign" style="width:190px; margin-bottom: 20px;"></div>',
+                '<div id="id-fms-signature-view"></div>',
+            '</div>'
+        ].join('')),
+
+        initialize: function(options) {
+            Common.UI.BaseView.prototype.initialize.call(this,arguments);
+
+            this.menu = options.menu;
+
+            var me = this;
+            this.templateSignature = _.template([
+                '<table cols="2" width="300" class="<% if (!hasRequested && !hasSigned) { %>hidden<% } %>"">',
+                    '<tr>',
+                        '<td colspan="2"><span><%= tipText %></span></td>',
+                    '</tr>',
+                    '<tr>',
+                        '<td><label class="link signature-view-link">' + me.txtView + '</label></td>',
+                        '<td align="right"><label class="link signature-edit-link <% if (!hasSigned) { %>hidden<% } %>">' + me.txtEdit + '</label></td>',
+                    '</tr>',
+                '</table>'
+            ].join(''));
+        },
+
+        render: function() {
+            $(this.el).html(this.template({scope: this}));
+
+            var protection = SSE.getController('Common.Controllers.Protection').getView();
+
+            this.btnAddPwd = protection.getButton('add-password');
+            this.btnAddPwd.render(this.$el.find('#fms-btn-add-pwd'));
+            this.btnAddPwd.on('click', _.bind(this.closeMenu, this));
+
+            this.btnChangePwd = protection.getButton('change-password');
+            this.btnChangePwd.render(this.$el.find('#fms-btn-change-pwd'));
+            this.btnChangePwd.on('click', _.bind(this.closeMenu, this));
+
+            this.btnDeletePwd = protection.getButton('del-password');
+            this.btnDeletePwd.render(this.$el.find('#fms-btn-delete-pwd'));
+            this.btnDeletePwd.on('click', _.bind(this.closeMenu, this));
+
+            this.cntPassword = $('#id-fms-view-pwd');
+
+            this.btnAddInvisibleSign = protection.getButton('signature');
+            this.btnAddInvisibleSign.render(this.$el.find('#fms-btn-invisible-sign'));
+            this.btnAddInvisibleSign.on('click', _.bind(this.closeMenu, this));
+
+            this.cntSignature = $('#id-fms-signature');
+            this.cntSignatureView = $('#id-fms-signature-view');
+            if (_.isUndefined(this.scroller)) {
+                this.scroller = new Common.UI.Scroller({
+                    el: $(this.el),
+                    suppressScrollX: true
+                });
+            }
+
+            this.$el.on('click', '.signature-edit-link', _.bind(this.onEdit, this));
+            this.$el.on('click', '.signature-view-link', _.bind(this.onView, this));
+
+            return this;
+        },
+
+        show: function() {
+            Common.UI.BaseView.prototype.show.call(this,arguments);
+            this.updateSignatures();
+            this.updateEncrypt();
+        },
+
+        setMode: function(mode) {
+            this.mode = mode;
+            this.cntSignature.toggleClass('hidden', !this.mode.canProtect);
+        },
+
+        setApi: function(o) {
+            this.api = o;
+            return this;
+        },
+
+        closeMenu: function() {
+            this.menu && this.menu.hide();
+        },
+
+        onEdit: function() {
+            this.menu && this.menu.hide();
+
+            var me = this;
+            Common.UI.warning({
+                title: this.notcriticalErrorTitle,
+                msg: this.txtEditWarning,
+                buttons: ['ok', 'cancel'],
+                primary: 'ok',
+                callback: function(btn) {
+                    if (btn == 'ok') {
+                        me.api.asc_RemoveAllSignatures();
+                    }
+                }
+            });
+
+        },
+
+        onView: function() {
+            this.menu && this.menu.hide();
+            SSE.getController('RightMenu').rightmenu.SetActivePane(Common.Utils.documentSettingsType.Signature, true);
+        },
+
+        updateSignatures: function(){
+            var requested = this.api.asc_getRequestSignatures(),
+                valid = this.api.asc_getSignatures(),
+                hasRequested = requested && requested.length>0,
+                hasValid = false,
+                hasInvalid = false;
+
+            _.each(valid, function(item, index){
+                if (item.asc_getValid()==0)
+                    hasValid = true;
+                else
+                    hasInvalid = true;
+            });
+
+            // hasRequested = true;
+            // hasValid = true;
+            // hasInvalid = true;
+
+            var tipText = (hasInvalid) ? this.txtSignedInvalid : (hasValid ? this.txtSigned : "");
+            if (hasRequested)
+                tipText = this.txtRequestedSignatures + (tipText!="" ? "<br><br>" : "")+ tipText;
+
+            this.cntSignatureView.html(this.templateSignature({tipText: tipText, hasSigned: (hasValid || hasInvalid), hasRequested: hasRequested}));
+        },
+
+        updateEncrypt: function() {
+            this.cntPassword.toggleClass('hidden', this.btnAddPwd.isVisible());
+        },
+
+        strProtect: 'Protect Workbook',
+        strSignature: 'Signature',
+        txtView: 'View signatures',
+        txtEdit: 'Edit workbook',
+        txtSigned: 'Valid signatures has been added to the workbook. The workbook is protected from editing.',
+        txtSignedInvalid: 'Some of the digital signatures in workbook are invalid or could not be verified. The workbook is protected from editing.',
+        txtRequestedSignatures: 'This workbook needs to be signed.',
+        notcriticalErrorTitle: 'Warning',
+        txtEditWarning: 'Editing will remove the signatures from the workbook.<br>Are you sure you want to continue?',
+        strEncrypt: 'Password',
+        txtEncrypted: 'This workbook has been protected by password'
+
+    }, SSE.Views.FileMenuPanels.ProtectDoc || {}));
+
 });

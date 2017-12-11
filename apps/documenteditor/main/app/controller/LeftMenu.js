@@ -99,11 +99,18 @@ define([
                     'search:replace': _.bind(this.onQueryReplace, this),
                     'search:replaceall': _.bind(this.onQueryReplaceAll, this),
                     'search:highlight': _.bind(this.onSearchHighlight, this)
+                },
+                'Common.Views.ReviewChanges': {
+                    'collaboration:chat': _.bind(this.onShowHideChat, this)
                 }
             });
 
             Common.NotificationCenter.on('leftmenu:change', _.bind(this.onMenuChange, this));
             Common.NotificationCenter.on('app:comment:add', _.bind(this.onAppAddComment, this));
+            Common.NotificationCenter.on('collaboration:history', _.bind(function () {
+                if ( !this.leftMenu.panelHistory.isVisible() )
+                    this.clickMenuFileItem(null, 'history');
+            }, this));
         },
 
         onLaunch: function() {
@@ -267,7 +274,7 @@ define([
             default: close_menu = false;
             }
 
-            if (close_menu) {
+            if (close_menu && menu) {
                 menu.hide();
             }
         },
@@ -297,16 +304,21 @@ define([
 
         applySettings: function(menu) {
             var value;
-            this.api.SetTextBoxInputMode(Common.localStorage.getBool("de-settings-inputmode"));
+
+            value = Common.localStorage.getBool("de-settings-inputmode");
+            Common.Utils.InternalSettings.set("de-settings-inputmode", value);
+            this.api.SetTextBoxInputMode(value);
 
             if (Common.Utils.isChrome) {
                 value = Common.localStorage.getBool("de-settings-inputsogou");
+                Common.Utils.InternalSettings.set("de-settings-inputsogou", value);
                 this.api.setInputParams({"SogouPinyin" : value});
             }
 
             /** coauthoring begin **/
             if (this.mode.isEdit && !this.mode.isOffline && this.mode.canCoAuthoring) {
                 var fast_coauth = Common.localStorage.getBool("de-settings-coauthmode", true);
+                Common.Utils.InternalSettings.set("de-settings-coauthmode", fast_coauth);
                 this.api.asc_SetFastCollaborative(fast_coauth);
 
                 value = Common.localStorage.getItem((fast_coauth) ? "de-settings-showchanges-fast" : "de-settings-showchanges-strict");
@@ -316,13 +328,21 @@ define([
                 case 'last': value = Asc.c_oAscCollaborativeMarksShowType.LastChanges; break;
                 default: value = (fast_coauth) ? Asc.c_oAscCollaborativeMarksShowType.None : Asc.c_oAscCollaborativeMarksShowType.LastChanges;
                 }
+                Common.Utils.InternalSettings.set((fast_coauth) ? "de-settings-showchanges-fast" : "de-settings-showchanges-strict", value);
                 this.api.SetCollaborativeMarksShowType(value);
             }
 
-            (Common.localStorage.getBool("de-settings-livecomment", true)) ? this.api.asc_showComments(Common.localStorage.getBool("de-settings-resolvedcomment", true)) : this.api.asc_hideComments();
+            value = Common.localStorage.getBool("de-settings-livecomment", true);
+            Common.Utils.InternalSettings.set("de-settings-livecomment", value);
+            var resolved = Common.localStorage.getBool("de-settings-resolvedcomment", true);
+            Common.Utils.InternalSettings.set("de-settings-resolvedcomment", resolved);
+            if (this.mode.canComments && this.leftMenu.panelComments.isVisible())
+                value = resolved = true;
+            (value) ? this.api.asc_showComments(resolved) : this.api.asc_hideComments();
             /** coauthoring end **/
 
             value = Common.localStorage.getItem("de-settings-fontrender");
+            Common.Utils.InternalSettings.set("de-settings-fontrender", value);
             switch (value) {
             case '1':     this.api.SetFontRenderingMode(1); break;
             case '2':     this.api.SetFontRenderingMode(2); break;
@@ -330,13 +350,16 @@ define([
             }
 
             if (this.mode.isEdit) {
-                value = Common.localStorage.getItem("de-settings-autosave");
-                this.api.asc_setAutoSaveGap(parseInt(value));
+                value = parseInt(Common.localStorage.getItem("de-settings-autosave"));
+                Common.Utils.InternalSettings.set("de-settings-autosave", value);
+                this.api.asc_setAutoSaveGap(value);
 
-                this.api.asc_setSpellCheck(Common.localStorage.getBool("de-settings-spellcheck", true));
+                value = Common.localStorage.getBool("de-settings-spellcheck", true);
+                Common.Utils.InternalSettings.set("de-settings-spellcheck", value);
+                this.api.asc_setSpellCheck(value);
             }
 
-            this.api.put_ShowSnapLines(Common.localStorage.getBool("de-settings-showsnaplines", true));
+            this.api.put_ShowSnapLines(Common.Utils.InternalSettings.get("de-settings-showsnaplines"));
 
             menu.hide();
         },
@@ -527,8 +550,9 @@ define([
         },
 
         commentsShowHide: function(mode) {
-            var value = Common.localStorage.getBool("de-settings-livecomment", true),
-                resolved = Common.localStorage.getBool("de-settings-resolvedcomment", true);
+            var value = Common.Utils.InternalSettings.get("de-settings-livecomment"),
+                resolved = Common.Utils.InternalSettings.get("de-settings-resolvedcomment");
+
             if (!value || !resolved) {
                 (mode === 'show') ? this.api.asc_showComments(true) : ((value) ? this.api.asc_showComments(resolved) : this.api.asc_hideComments());
             }
@@ -674,6 +698,18 @@ define([
             maincontroller.loadMask.setTitle(this.textLoadHistory);
             maincontroller.loadMask.show();
             Common.Gateway.requestHistory();
+        },
+
+        onShowHideChat: function(state) {
+            if (this.mode.canCoAuthoring && this.mode.canChat && !this.mode.isLightVersion) {
+                if (state) {
+                    Common.UI.Menu.Manager.hideAll();
+                    this.leftMenu.showMenu('chat');
+                } else {
+                    this.leftMenu.btnChat.toggle(false, true);
+                    this.leftMenu.onBtnMenuClick(this.leftMenu.btnChat);
+                }
+            }
         },
 
         textNoTextFound         : 'Text not found',

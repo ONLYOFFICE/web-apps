@@ -105,6 +105,7 @@
 
 /*menuTextArt*/
 .button-normal-icon(btn-menu-textart,   54, @toolbar-icon-size);
+.button-normal-icon(btn-menu-signature, 78, @toolbar-icon-size);
 
 .button-otherstates-icon2(btn-category, @toolbar-icon-size);
 
@@ -267,4 +268,56 @@ button:active:not(.disabled) .btn-change-shape    {background-position: -56px  -
 
 .gradient-radial-center {
     background-position: -100px -150px;
+}
+
+#signature-requested-sign,
+#signature-valid-sign,
+#signature-invalid-sign {
+    height: 100%;
+    overflow: hidden;
+    margin: 0 -10px 0 -15px;
+
+    .item {
+        display: block;
+        border: none;
+        width: 100%;
+        .box-shadow(none);
+        margin: 0;
+
+        &:hover,
+        &.over {
+            background-color: @secondary;
+        }
+    }
+
+    .signature-item {
+        padding: 5px 2px 5px 15px;
+        text-overflow: ellipsis;
+        min-height: 25px;
+
+        .name {
+            width: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+            cursor: pointer;
+            max-width: 160px;
+            text-overflow: ellipsis;
+        }
+
+        .caret {
+            width: 23px;
+            height: 14px;
+            border: 0;
+            background-position: -43px -150px;
+            margin: 8px 15px;
+            display: inline-block;
+            position: absolute;
+            right: 0;
+
+            &.nomargin {
+                margin-top: 0;
+                margin-bottom: 0;
+            }
+        }
+    }
 }

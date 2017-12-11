@@ -41,13 +41,13 @@
                 </div>
             </div>
             <div class="separator long"></div>
-            <div class="group">
-                <span class="btn-slot text x-huge" id="slot-btn-addslide"></span>
-            </div>
-            <div class="group" style="display:none;"></div>
         </section>
         <section class="box-panels">
             <section class="panel" data-tab="home">
+                <div class="group">
+                    <span class="btn-slot text x-huge slot-addslide"></span>
+                </div>
+                <div class="group" style="display:none;"></div>
                 <div class="group">
                     <div class="elset">
                         <span class="btn-slot split" id="slot-btn-changeslide"></span>
@@ -123,6 +123,10 @@
                 </div>
             </section>
             <section class="panel" data-tab="ins">
+                <div class="group">
+                    <span class="btn-slot text x-huge slot-addslide"></span>
+                </div>
+                <div class="group" style="display:none;"></div>
                 <div class="separator long"></div>
                 <div class="group">
                     <span class="btn-slot text x-huge" id="slot-btn-inserttable"></span>
