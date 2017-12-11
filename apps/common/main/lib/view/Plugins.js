@@ -74,7 +74,7 @@ define([
             _.extend(this, options);
             this._locked = false;
             this._state = {
-                DisabledControls: true
+                DisabledControls: false
             };
             this.lockedControls = [];
             Common.UI.BaseView.prototype.initialize.call(this, arguments);

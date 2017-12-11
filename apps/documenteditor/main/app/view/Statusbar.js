@@ -86,7 +86,7 @@ define([
             me.btnZoomDown.updateHint(me.tipZoomOut + Common.Utils.String.platformKey('Ctrl+-'));
             me.btnZoomUp.updateHint(me.tipZoomIn + Common.Utils.String.platformKey('Ctrl++'));
 
-            if ( config.isEdit ) {
+            if (me.btnLanguage && me.btnLanguage.cmpEl) {
                 me.btnLanguage.updateHint(me.tipSetLang);
                 me.btnLanguage.cmpEl.on({
                     'show.bs.dropdown': function () {
@@ -325,6 +325,7 @@ define([
                 if (this.api) {
                     this.api.asc_registerCallback('asc_onCountPages',   _.bind(_onCountPages, this));
                     this.api.asc_registerCallback('asc_onCurrentPage',  _.bind(_onCurrentPage, this));
+                    Common.NotificationCenter.on('api:disconnect',      _.bind(this.onApiCoAuthoringDisconnect, this));
                 }
 
                 return this;
@@ -356,7 +357,7 @@ define([
 
                 this.langMenu.doLayout();
                 if (this.langMenu.items.length>0) {
-                    this.btnLanguage.setDisabled(false);
+                    this.btnLanguage.setDisabled(!!this.mode.isDisconnected);
                 }
             },
 
@@ -388,6 +389,11 @@ define([
             SetDisabled: function(disable) {
                 var langs = this.langMenu.items.length>0;
                 this.btnLanguage.setDisabled(disable || !langs);
+            },
+
+            onApiCoAuthoringDisconnect: function() {
+                this.setMode({isDisconnected:true});
+                this.SetDisabled(true);
             },
 
             pageIndexText       : 'Page {0} of {1}',

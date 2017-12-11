@@ -351,6 +351,7 @@ define([
         },
 
         showHistory: function() {
+            this._state.pluginIsRunning = false;
             this.panelHistory.show();
             this.panelHistory.$el.width((parseInt(Common.localStorage.getItem('de-mainmenu-width')) || MENU_SCALE_PART) - SCALE_MIN);
             Common.NotificationCenter.trigger('layout:changed', 'history');
@@ -366,8 +367,9 @@ define([
             }
             this.developerHint.toggleClass('hidden', !mode);
 
-            var lastbtn = this.$el.find('button.btn-category:visible:last-of-type');
-            this.minDevPosition = lastbtn.offset().top - lastbtn.offsetParent().offset().top + lastbtn.height() + 20;
+            var btns = this.$el.find('button.btn-category:visible'),
+                lastbtn = (btns.length>0) ? $(btns[btns.length-1]) : null;
+            this.minDevPosition = (lastbtn) ? (lastbtn.offset().top - lastbtn.offsetParent().offset().top + lastbtn.height() + 20) : 20;
             this.onWindowResize();
         },
 

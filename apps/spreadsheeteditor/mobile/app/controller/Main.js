@@ -239,6 +239,7 @@ define([
                 }
 
                 this.api.asc_registerCallback('asc_onGetEditorPermissions', _.bind(this.onEditorPermissions, this));
+                this.api.asc_registerCallback('asc_onLicenseChanged',       _.bind(this.onLicenseChanged, this));
                 this.api.asc_setDocInfo(docInfo);
                 this.api.asc_getEditorPermissions(this.editorConfig.licenseUrl, this.editorConfig.customerId);
 
@@ -534,10 +535,33 @@ define([
                     mode: me.appOptions.isEdit ? 'edit' : 'view'
                 });
 
-                SSE.getController('Toolbar').activateControls();
+                me.applyLicense();
 
+                $('.view-main').on('click', function (e) {
+                    uiApp.closeModal('.document-menu.modal-in');
+                })
+            },
+
+            onLicenseChanged: function(params) {
+                if (this.appOptions.isEditDiagram || this.appOptions.isEditMailMerge) return;
+
+                var licType = params.asc_getLicenseType();
+                if (licType !== undefined && (licType===Asc.c_oLicenseResult.Connections || licType===Asc.c_oLicenseResult.UsersCount) && this.appOptions.canEdit && this.editorConfig.mode !== 'view') {
+                    this._state.licenseWarning = (licType===Asc.c_oLicenseResult.Connections) ? this.warnNoLicense : this.warnNoLicenseUsers;
+                }
+
+                if (this._isDocReady && this._state.licenseWarning)
+                    this.applyLicense();
+            },
+
+            applyLicense: function() {
+                var me = this;
                 if (me._state.licenseWarning) {
-                    value = Common.localStorage.getItem("sse-license-warning");
+                    SSE.getController('Toolbar').activateViewControls();
+                    SSE.getController('Toolbar').deactivateEditControls();
+                    Common.NotificationCenter.trigger('api:disconnect');
+
+                    var value = Common.localStorage.getItem("sse-license-warning");
                     value = (value!==null) ? parseInt(value) : 0;
                     var now = (new Date).getTime();
 
@@ -545,7 +569,7 @@ define([
                         Common.localStorage.setItem("sse-license-warning", now);
                         uiApp.modal({
                             title: me.textNoLicenseTitle,
-                            text : me.warnNoLicense,
+                            text : me._state.licenseWarning,
                             buttons: [
                                 {
                                     text: me.textBuyNow,
@@ -560,14 +584,11 @@ define([
                                         window.open('mailto:sales@onlyoffice.com', "_blank");
                                     }
                                 }
-                            ],
+                            ]
                         });
                     }
-                }
-
-                $('.view-main').on('click', function (e) {
-                    uiApp.closeModal('.document-menu.modal-in');
-                })
+                } else
+                    SSE.getController('Toolbar').activateControls();
             },
 
             onOpenDocument: function(progress) {
@@ -623,8 +644,6 @@ define([
                 me.appOptions.isEdit         = (me.appOptions.canLicense || me.appOptions.isEditDiagram || me.appOptions.isEditMailMerge) && me.permissions.edit !== false && me.editorConfig.mode !== 'view';
                 me.appOptions.canDownload    = !me.appOptions.nativeApp && (me.permissions.download !== false);
                 me.appOptions.canPrint       = (me.permissions.print !== false);
-
-                me._state.licenseWarning = !(me.appOptions.isEditDiagram || me.appOptions.isEditMailMerge) && (licType===Asc.c_oLicenseResult.Connections) && me.appOptions.canEdit && me.editorConfig.mode !== 'view';
 
                 me.applyModeCommonElements();
                 me.applyModeEditorElements();
@@ -1365,7 +1384,7 @@ define([
             txtErrorLoadHistory: 'Loading history failed',
             textBuyNow: 'Visit website',
             textNoLicenseTitle: 'ONLYOFFICE open source version',
-            warnNoLicense: 'You are using an open source version of ONLYOFFICE. The version has limitations for concurrent connections to the document server (20 connections at a time).<br>If you need more please consider purchasing a commercial license.',
+            warnNoLicense: 'This version of ONLYOFFICE Editors has certain limitations for concurrent connections to the document server.<br>If you need more please consider upgrading your current license or purchasing a commercial one.',
             textContactUs: 'Contact sales',
             errorViewerDisconnect: 'Connection is lost. You can still view the document,<br>but will not be able to download until the connection is restored.',
             warnLicenseExp: 'Your license has expired.<br>Please update your license and refresh the page.',
@@ -1417,7 +1436,8 @@ define([
             txtStyle_Total: 'Total',
             txtStyle_Currency: 'Currency',
             txtStyle_Percent: 'Percent',
-            txtStyle_Comma: 'Comma'
+            txtStyle_Comma: 'Comma',
+            warnNoLicenseUsers: 'This version of ONLYOFFICE Editors has certain limitations for concurrent users.<br>If you need more please consider upgrading your current license or purchasing a commercial one.'
         }
     })(), SSE.Controllers.Main || {}))
 });
