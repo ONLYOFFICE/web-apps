@@ -82,6 +82,7 @@ define([
 
                 this.api.asc_registerCallback('asc_onShowPopMenu',      _.bind(this.onApiShowPopMenu, this));
                 this.api.asc_registerCallback('asc_onHidePopMenu',      _.bind(this.onApiHidePopMenu, this));
+                Common.NotificationCenter.on('api:disconnect',          _.bind(this.onCoAuthoringDisconnect, this));
             },
 
             setMode: function (mode) {
@@ -180,7 +181,7 @@ define([
             },
 
             onApiShowPopMenu: function(posX, posY) {
-                if ( !_isEdit ) return;
+                if ( !_isEdit || this.isDisconnected) return;
 
                 if ($('.popover.settings, .popup.settings, .picker-modal.settings, .modal-in, .actions-modal').length > 0) {
                     return;
@@ -332,6 +333,10 @@ define([
                 }
 
                 return menuItems;
+            },
+
+            onCoAuthoringDisconnect: function() {
+                this.isDisconnected = true;
             },
 
             warnMergeLostData: 'Operation can destroy data in the selected cells.<br>Continue?',

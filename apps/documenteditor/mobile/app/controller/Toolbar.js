@@ -79,6 +79,7 @@ define([
                 this.api.asc_registerCallback('asc_onCanUndo',      _.bind(this.onApiCanRevert, this, 'undo'));
                 this.api.asc_registerCallback('asc_onCanRedo',      _.bind(this.onApiCanRevert, this, 'redo'));
                 this.api.asc_registerCallback('asc_onFocusObject',  _.bind(this.onApiFocusObject, this));
+                Common.NotificationCenter.on('api:disconnect',      _.bind(this.onCoAuthoringDisconnect, this));
             },
 
             setMode: function (mode) {
@@ -138,6 +139,8 @@ define([
             // API handlers
 
             onApiCanRevert: function(which, can) {
+                if (this.isDisconnected) return;
+
                 if (which == 'undo') {
                     $('#toolbar-undo').toggleClass('disabled', !can);
                 } else {
@@ -146,6 +149,8 @@ define([
             },
 
             onApiFocusObject: function (objects) {
+                if (this.isDisconnected) return;
+
                 if (objects.length > 0) {
                     var topObject = _.find(objects.reverse(), function (obj) {
                             return obj.get_ObjectType() != Asc.c_oAscTypeSelectElement.SpellCheck;
@@ -159,6 +164,18 @@ define([
 
             activateControls: function() {
                 $('#toolbar-edit, #toolbar-add, #toolbar-settings, #toolbar-search, #document-back').removeClass('disabled');
+            },
+
+            activateViewControls: function() {
+                $('#toolbar-search, #document-back').removeClass('disabled');
+            },
+
+            deactivateEditControls: function() {
+                $('#toolbar-edit, #toolbar-add, #toolbar-settings').addClass('disabled');
+            },
+
+            onCoAuthoringDisconnect: function() {
+                this.isDisconnected = true;
             },
 
             dlgLeaveTitleText   : 'You leave the application',

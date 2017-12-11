@@ -237,6 +237,7 @@ define([
                 }
 
                 this.api.asc_registerCallback('asc_onGetEditorPermissions', _.bind(this.onEditorPermissions, this));
+                this.api.asc_registerCallback('asc_onLicenseChanged',       _.bind(this.onLicenseChanged, this));
                 this.api.asc_setDocInfo(docInfo);
                 this.api.asc_getEditorPermissions(this.editorConfig.licenseUrl, this.editorConfig.customerId);
 
@@ -551,10 +552,27 @@ define([
                     me.api.zoomFitToWidth();
                 }
 
-                DE.getController('Toolbar').activateControls();
+                me.applyLicense();
+            },
 
+            onLicenseChanged: function(params) {
+                var licType = params.asc_getLicenseType();
+                if (licType !== undefined && (licType===Asc.c_oLicenseResult.Connections || licType===Asc.c_oLicenseResult.UsersCount) && this.appOptions.canEdit && this.editorConfig.mode !== 'view') {
+                    this._state.licenseWarning = (licType===Asc.c_oLicenseResult.Connections) ? this.warnNoLicense : this.warnNoLicenseUsers;
+                }
+
+                if (this._isDocReady && this._state.licenseWarning)
+                    this.applyLicense();
+            },
+
+            applyLicense: function() {
+                var me = this;
                 if (me._state.licenseWarning) {
-                    value = Common.localStorage.getItem("de-license-warning");
+                    DE.getController('Toolbar').activateViewControls();
+                    DE.getController('Toolbar').deactivateEditControls();
+                    Common.NotificationCenter.trigger('api:disconnect');
+
+                    var value = Common.localStorage.getItem("de-license-warning");
                     value = (value!==null) ? parseInt(value) : 0;
                     var now = (new Date).getTime();
 
@@ -562,7 +580,7 @@ define([
                         Common.localStorage.setItem("de-license-warning", now);
                         uiApp.modal({
                             title: me.textNoLicenseTitle,
-                            text : me.warnNoLicense,
+                            text : me._state.licenseWarning,
                             buttons: [
                                 {
                                     text: me.textBuyNow,
@@ -577,10 +595,11 @@ define([
                                         window.open('mailto:sales@onlyoffice.com', "_blank");
                                     }
                                 }
-                            ],
+                            ]
                         });
                     }
-                }
+                } else
+                    DE.getController('Toolbar').activateControls();
             },
 
             onOpenDocument: function(progress) {
@@ -637,8 +656,6 @@ define([
                 me.appOptions.canDownloadOrigin = me.permissions.download !== false && (type && typeof type[1] === 'string');
                 me.appOptions.canDownload       = me.permissions.download !== false && (!type || typeof type[1] !== 'string');
                 me.appOptions.canReader         = (!type || typeof type[1] !== 'string');
-
-                me._state.licenseWarning = (licType===Asc.c_oLicenseResult.Connections) && me.appOptions.canEdit && me.editorConfig.mode !== 'view';
 
                 me.appOptions.canBranding  = (licType === Asc.c_oLicenseResult.Success) && (typeof me.editorConfig.customization == 'object');
                 me.appOptions.canBrandingExt = params.asc_getCanBranding() && (typeof me.editorConfig.customization == 'object');
@@ -1260,7 +1277,8 @@ define([
             txtStyle_Subtitle: 'Subtitle',
             txtStyle_Quote: 'Quote',
             txtStyle_Intense_Quote: 'Intense Quote',
-            txtStyle_List_Paragraph: 'List Paragraph'
+            txtStyle_List_Paragraph: 'List Paragraph',
+            warnNoLicenseUsers: 'This version of ONLYOFFICE Editors has certain limitations for concurrent users.<br>If you need more please consider upgrading your current license or purchasing a commercial one.'
         }
     })(), DE.Controllers.Main || {}))
 });

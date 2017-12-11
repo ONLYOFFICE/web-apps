@@ -323,6 +323,7 @@ define([
                 }
 
                 this.api.asc_registerCallback('asc_onGetEditorPermissions', _.bind(this.onEditorPermissions, this));
+                this.api.asc_registerCallback('asc_onLicenseChanged',       _.bind(this.onLicenseChanged, this));
                 this.api.asc_setDocInfo(docInfo);
                 this.api.asc_getEditorPermissions(this.editorConfig.licenseUrl, this.editorConfig.customerId);
 
@@ -719,6 +720,8 @@ define([
                             me.api.UpdateInterfaceState();
 
                             Common.NotificationCenter.trigger('document:ready', 'main');
+
+                            me.applyLicense();
                         }
                     }, 50);
                 } else {
@@ -738,17 +741,32 @@ define([
                 Common.Gateway.sendInfo({mode:me.appOptions.isEdit?'edit':'view'});
 
                 $(document).on('contextmenu', _.bind(me.onContextMenu, me));
+            },
 
+            onLicenseChanged: function(params) {
+                var licType = params.asc_getLicenseType();
+                if (licType !== undefined && (licType===Asc.c_oLicenseResult.Connections || licType===Asc.c_oLicenseResult.UsersCount) && this.appOptions.canEdit && this.editorConfig.mode !== 'view') {
+                    this._state.licenseWarning = (licType===Asc.c_oLicenseResult.Connections) ? this.warnNoLicense : this.warnNoLicenseUsers;
+                }
+
+                if (this._isDocReady)
+                    this.applyLicense();
+            },
+
+            applyLicense: function() {
                 if (this._state.licenseWarning) {
-                    value = Common.localStorage.getItem("pe-license-warning");
+                    this.disableEditing(true);
+                    Common.NotificationCenter.trigger('api:disconnect');
+
+                    var value = Common.localStorage.getItem("pe-license-warning");
                     value = (value!==null) ? parseInt(value) : 0;
                     var now = (new Date).getTime();
                     if (now - value > 86400000) {
-                        Common.localStorage.setItem("de-license-warning", now);
+                        Common.localStorage.setItem("pe-license-warning", now);
                         Common.UI.info({
                             width: 500,
                             title: this.textNoLicenseTitle,
-                            msg  : this.warnNoLicense,
+                            msg  : this._state.licenseWarning,
                             buttons: [
                                 {value: 'buynow', caption: this.textBuyNow},
                                 {value: 'contact', caption: this.textContactUs}
@@ -762,6 +780,15 @@ define([
                             }
                         });
                     }
+                }
+            },
+
+            disableEditing: function(disable) {
+                var app = this.getApplication();
+                if (this.appOptions.canEdit && this.editorConfig.mode !== 'view') {
+                    app.getController('RightMenu').getView('RightMenu').clearSelection();
+                    app.getController('Toolbar').DisableToolbar(disable);
+                    app.getController('Statusbar').getView('Statusbar').SetDisabled(disable);
                 }
             },
 
@@ -811,8 +838,6 @@ define([
                 this.appOptions.canEditComments= this.appOptions.isOffline || !(typeof (this.editorConfig.customization) == 'object' && this.editorConfig.customization.commentAuthorOnly);
                 this.appOptions.trialMode      = params.asc_getLicenseMode();
                 this.appOptions.canProtect      = this.appOptions.isDesktopApp && this.api.asc_isSignaturesSupport();
-
-                this._state.licenseWarning = (licType===Asc.c_oLicenseResult.Connections) && this.appOptions.canEdit && this.editorConfig.mode !== 'view';
 
                 this.appOptions.canBranding  = (licType === Asc.c_oLicenseResult.Success) && (typeof this.editorConfig.customization == 'object');
                 if (this.appOptions.canBranding)
@@ -1946,7 +1971,8 @@ define([
             saveTitleText: 'Saving Document',
             saveTextText: 'Saving document...',
             txtLoading: 'Loading...',
-            txtAddNotes: 'Click to add notes'
+            txtAddNotes: 'Click to add notes',
+            warnNoLicenseUsers: 'This version of ONLYOFFICE Editors has certain limitations for concurrent users.<br>If you need more please consider upgrading your current license or purchasing a commercial one.'
         }
     })(), PE.Controllers.Main || {}))
 });

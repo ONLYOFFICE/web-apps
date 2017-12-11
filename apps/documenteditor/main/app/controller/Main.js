@@ -347,6 +347,7 @@ define([
                 }
 
                 this.api.asc_registerCallback('asc_onGetEditorPermissions', _.bind(this.onEditorPermissions, this));
+                this.api.asc_registerCallback('asc_onLicenseChanged',       _.bind(this.onLicenseChanged, this));
                 this.api.asc_setDocInfo(docInfo);
                 this.api.asc_getEditorPermissions(this.editorConfig.licenseUrl, this.editorConfig.customerId);
 
@@ -953,6 +954,8 @@ define([
                             me.fillTextArt(me.api.asc_getTextArtPreviews());
 
                             Common.NotificationCenter.trigger('document:ready', 'main');
+
+                            me.applyLicense();
                         }
                     }, 50);
                 } else {
@@ -973,9 +976,24 @@ define([
                 Common.Gateway.sendInfo({mode:me.appOptions.isEdit?'edit':'view'});
 
                 $(document).on('contextmenu', _.bind(me.onContextMenu, me));
+            },
 
+            onLicenseChanged: function(params) {
+                var licType = params.asc_getLicenseType();
+                if (licType !== undefined && (licType===Asc.c_oLicenseResult.Connections || licType===Asc.c_oLicenseResult.UsersCount) && this.appOptions.canEdit && this.editorConfig.mode !== 'view') {
+                    this._state.licenseWarning = (licType===Asc.c_oLicenseResult.Connections) ? this.warnNoLicense : this.warnNoLicenseUsers;
+                }
+
+                if (this._isDocReady)
+                    this.applyLicense();
+            },
+
+            applyLicense: function() {
                 if (this._state.licenseWarning) {
-                    value = Common.localStorage.getItem("de-license-warning");
+                    this.disableEditing(true);
+                    Common.NotificationCenter.trigger('api:disconnect');
+
+                    var value = Common.localStorage.getItem("de-license-warning");
                     value = (value!==null) ? parseInt(value) : 0;
                     var now = (new Date).getTime();
                     if (now - value > 86400000) {
@@ -983,7 +1001,7 @@ define([
                         Common.UI.info({
                             width: 500,
                             title: this.textNoLicenseTitle,
-                            msg  : this.warnNoLicense,
+                            msg  : this._state.licenseWarning,
                             buttons: [
                                 {value: 'buynow', caption: this.textBuyNow},
                                 {value: 'contact', caption: this.textContactUs}
@@ -1071,8 +1089,6 @@ define([
                 var type = /^(?:(pdf|djvu|xps))$/.exec(this.document.fileType);
                 this.appOptions.canDownloadOrigin = this.permissions.download !== false && (type && typeof type[1] === 'string');
                 this.appOptions.canDownload       = this.permissions.download !== false && (!type || typeof type[1] !== 'string');
-
-                this._state.licenseWarning = (licType===Asc.c_oLicenseResult.Connections) && this.appOptions.canEdit && this.editorConfig.mode !== 'view';
 
                 this.appOptions.canBranding  = (licType === Asc.c_oLicenseResult.Success) && (typeof this.editorConfig.customization == 'object');
                 if (this.appOptions.canBranding)
@@ -2183,7 +2199,8 @@ define([
             txtEvenPage: "Even Page ",
             txtOddPage: "Odd Page ",
             txtSameAsPrev: "Same as Previous",
-            txtCurrentDocument: "Current Document"
+            txtCurrentDocument: "Current Document",
+            warnNoLicenseUsers: 'This version of ONLYOFFICE Editors has certain limitations for concurrent users.<br>If you need more please consider upgrading your current license or purchasing a commercial one.'
         }
     })(), DE.Controllers.Main || {}))
 });

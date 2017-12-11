@@ -147,6 +147,7 @@
   "DE.Controllers.Main.uploadImageTitleText": "Uploading Image",
   "DE.Controllers.Main.warnLicenseExp": "Your license has expired.<br>Please update your license and refresh the page.",
   "DE.Controllers.Main.warnNoLicense": "This version of ONLYOFFICE Editors has certain limitations for concurrent connections to the document server.<br>If you need more please consider upgrading your current license or purchasing a commercial one.",
+  "DE.Controllers.Main.warnNoLicenseUsers": "This version of ONLYOFFICE Editors has certain limitations for concurrent users.<br>If you need more please consider upgrading your current license or purchasing a commercial one.",
   "DE.Controllers.Main.warnProcessRightsChange": "You have been denied the right to edit the file.",
   "DE.Controllers.Search.textNoTextFound": "Text not Found",
   "DE.Controllers.Search.textReplaceAll": "Replace All",

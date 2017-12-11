@@ -1520,6 +1520,9 @@ define([
             if (!documentHolder.viewModeMenu)
                 documentHolder.createDelayedElementsViewer();
 
+            if (!documentHolder.viewModeMenu)
+                documentHolder.createDelayedElementsViewer();
+
             if (!showMenu && !documentHolder.viewModeMenu.isVisible()) return;
 
             if (isimagemenu && this.permissions.canProtect) {

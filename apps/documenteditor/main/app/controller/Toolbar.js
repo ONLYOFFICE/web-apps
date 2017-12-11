@@ -2756,6 +2756,7 @@ define([
         onApiCoAuthoringDisconnect: function(disableDownload) {
             this.toolbar.setMode({isDisconnected:true, disableDownload: !!disableDownload});
             this.editMode = false;
+            this.DisableToolbar(true, true);
         },
 
         DisableToolbar: function(disable, viewMode, reviewmode) {
