@@ -56,7 +56,8 @@ define([
     'documenteditor/main/app/view/PageSizeDialog',
     'documenteditor/main/app/view/NoteSettingsDialog',
     'documenteditor/main/app/controller/PageLayout',
-    'documenteditor/main/app/view/CustomColumnsDialog'
+    'documenteditor/main/app/view/CustomColumnsDialog',
+    'documenteditor/main/app/view/ControlSettingsDialog'
 ], function () {
     'use strict';
 
@@ -283,6 +284,7 @@ define([
             toolbar.btnInsertText.on('click',                           _.bind(this.onBtnInsertTextClick, this));
             toolbar.btnInsertShape.menu.on('hide:after',                _.bind(this.onInsertShapeHide, this));
             toolbar.btnDropCap.menu.on('item:click',                    _.bind(this.onDropCapSelect, this));
+            toolbar.btnContentControls.menu.on('item:click',            _.bind(this.onControlsSelect, this));
             toolbar.mnuDropCapAdvanced.on('click',                      _.bind(this.onDropCapAdvancedClick, this));
             toolbar.btnColumns.menu.on('item:click',                    _.bind(this.onColumnsSelect, this));
             toolbar.btnPageOrient.menu.on('item:click',                 _.bind(this.onPageOrientSelect, this));
@@ -640,7 +642,8 @@ define([
                 in_chart = false,
                 in_equation = false,
                 btn_eq_state = false,
-                in_image = false;
+                in_image = false,
+                in_control = false;
 
             while (++i < selectedObjects.length) {
                 type = selectedObjects[i].get_ObjectType();
@@ -719,6 +722,19 @@ define([
 
             if ( !toolbar.btnDropCap.isDisabled() )
                 toolbar.mnuDropCapAdvanced.setDisabled(disable_dropcapadv);
+
+            if (!paragraph_locked && !header_locked) {
+                in_control = this.api.asc_IsContentControl();
+                var control_props = in_control ? this.api.asc_GetContentControlProperties() : null,
+                    lock_type = (in_control&&control_props) ? control_props.get_Lock() : AscCommonWord.sdtlock_Unlocked,
+                    control_plain = (in_control&&control_props) ? (control_props.get_ContentControlType()==AscCommonWord.sdttype_InlineLevel) : false;
+                (lock_type===undefined) && (lock_type = AscCommonWord.sdtlock_Unlocked);
+
+                toolbar.btnContentControls.menu.items[0].setDisabled(control_plain || lock_type==AscCommonWord.sdtlock_SdtContentLocked || lock_type==AscCommonWord.sdtlock_ContentLocked);
+                toolbar.btnContentControls.menu.items[1].setDisabled(control_plain || lock_type==AscCommonWord.sdtlock_SdtContentLocked || lock_type==AscCommonWord.sdtlock_ContentLocked);
+                toolbar.btnContentControls.menu.items[2].setDisabled(!in_control || lock_type==AscCommonWord.sdtlock_SdtContentLocked || lock_type==AscCommonWord.sdtlock_SdtLocked);
+                toolbar.btnContentControls.menu.items[4].setDisabled(!in_control);
+            }
 
             need_disable = !can_add_table || header_locked || in_equation;
             toolbar.btnInsertTable.setDisabled(need_disable);
@@ -1665,6 +1681,40 @@ define([
                     })).show();
                 }
             }
+        },
+
+        onControlsSelect: function(menu, item) {
+            if (item.value == 'settings' || item.value == 'remove') {
+                if (this.api.asc_IsContentControl()) {
+                    var props = this.api.asc_GetContentControlProperties();
+                    if (props) {
+                        var id = props.get_InternalId();
+                        if (item.value == 'settings') {
+                            var me = this;
+                            (new DE.Views.ControlSettingsDialog({
+                                props: props,
+                                api: me.api,
+                                handler: function(result, value) {
+                                    if (result == 'ok') {
+                                        me.api.asc_SetContentControlProperties(value, id);
+                                    }
+
+                                    Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                                }
+                            })).show();
+
+                        } else {
+                            this.api.asc_RemoveContentControlWrapper(id);
+                            Common.component.Analytics.trackEvent('ToolBar', 'Remove Content Control');
+                        }
+                    }
+                }
+            } else {
+                this.api.asc_AddContentControl(item.value);
+                Common.component.Analytics.trackEvent('ToolBar', 'Add Content Control');
+            }
+
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
         onColumnsSelect: function(menu, item) {

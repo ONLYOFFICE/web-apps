@@ -783,6 +783,13 @@
   "DE.Views.ChartSettings.txtTight": "Tight",
   "DE.Views.ChartSettings.txtTitle": "Chart",
   "DE.Views.ChartSettings.txtTopAndBottom": "Top and bottom",
+  "DE.Views.ControlSettingsDialog.textTitle": "Content Control Settings",
+  "DE.Views.ControlSettingsDialog.textName": "Title",
+  "DE.Views.ControlSettingsDialog.textTag": "Tag",
+  "DE.Views.ControlSettingsDialog.txtLockDelete": "Content control cannot be deleted",
+  "DE.Views.ControlSettingsDialog.txtLockEdit": "Contents cannot be edited",
+  "DE.Views.ControlSettingsDialog.cancelButtonText": "Cancel",
+  "DE.Views.ControlSettingsDialog.okButtonText": "Ok",
   "DE.Views.CustomColumnsDialog.cancelButtonText": "Cancel",
   "DE.Views.CustomColumnsDialog.okButtonText": "Ok",
   "DE.Views.CustomColumnsDialog.textColumns": "Number of columns",
@@ -1791,5 +1798,11 @@
   "DE.Views.Toolbar.txtScheme6": "Concourse",
   "DE.Views.Toolbar.txtScheme7": "Equity",
   "DE.Views.Toolbar.txtScheme8": "Flow",
-  "DE.Views.Toolbar.txtScheme9": "Foundry"
+  "DE.Views.Toolbar.txtScheme9": "Foundry",
+  "DE.Views.Toolbar.capBtnInsControls": "Content Controls",
+  "DE.Views.Toolbar.textRichControl": "Insert rich text content control",
+  "DE.Views.Toolbar.textPlainControl": "Insert plain text content control",
+  "DE.Views.Toolbar.textRemoveControl": "Remove content control",
+  "DE.Views.Toolbar.mniEditControls": "Control Settings",
+  "DE.Views.Toolbar.tipControls": "Insert content controls"
 }

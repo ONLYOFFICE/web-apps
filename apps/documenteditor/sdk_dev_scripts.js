@@ -12,6 +12,7 @@ var sdk_dev_scrpipts = [
 	"../../../../sdkjs/common/HistoryCommon.js",
 	"../../../../sdkjs/common/TableId.js",
 	"../../../../sdkjs/common/TableIdChanges.js",
+	"../../../../sdkjs/common/macros.js",
 	"../../../../sdkjs/common/NumFormat.js",
     "../../../../sdkjs/common/SerializeChart.js",
     "../../../../sdkjs/common/AdvancedOptions.js",

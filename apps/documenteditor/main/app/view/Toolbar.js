@@ -608,6 +608,36 @@ define([
                 });
                 this.paragraphControls.push(this.btnDropCap);
 
+                this.btnContentControls = new Common.UI.Button({
+                    id: 'tlbtn-controls',
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'btn-controls',
+                    caption: me.capBtnInsControls,
+                    menu: new Common.UI.Menu({
+                        cls: 'ppm-toolbar',
+                        items: [
+                            {
+                                caption: this.textRichControl,
+                                value: AscCommonWord.sdttype_BlockLevel
+                            },
+                            {
+                                caption: this.textPlainControl,
+                                value: AscCommonWord.sdttype_InlineLevel
+                            },
+                            {
+                                caption: this.textRemoveControl,
+                                value: 'remove'
+                            },
+                            {caption: '--'},
+                            {
+                                caption: this.mniEditControls,
+                                value: 'settings'
+                            }
+                        ]
+                    })
+                });
+                this.paragraphControls.push(this.btnContentControls);
+
                 this.btnColumns = new Common.UI.Button({
                     id: 'tlbtn-columns',
                     cls: 'btn-toolbar x-huge icon-top',
@@ -1270,6 +1300,7 @@ define([
                 _injectComponent('#slot-btn-instext', this.btnInsertText);
                 _injectComponent('#slot-btn-instextart', this.btnInsertTextArt);
                 _injectComponent('#slot-btn-dropcap', this.btnDropCap);
+                _injectComponent('#slot-btn-controls', this.btnContentControls);
                 _injectComponent('#slot-btn-columns', this.btnColumns);
                 _injectComponent('#slot-btn-inshyperlink', this.btnInsertHyperlink);
                 _injectComponent('#slot-btn-editheader', this.btnEditHeader);
@@ -1527,6 +1558,7 @@ define([
                 this.btnInsertShape.updateHint(this.tipInsertShape);
                 this.btnInsertEquation.updateHint(this.tipInsertEquation);
                 this.btnDropCap.updateHint(this.tipDropCap);
+                this.btnContentControls.updateHint(this.tipControls);
                 this.btnColumns.updateHint(this.tipColumns);
                 this.btnPageOrient.updateHint(this.tipPageOrient);
                 this.btnPageSize.updateHint(this.tipPageSize);
@@ -2470,7 +2502,13 @@ define([
             capBtnComment: 'Comment',
             textColumnsCustom: 'Custom Columns',
             textSurface: 'Surface',
-            textTabProtect: 'Protection'
+            textTabProtect: 'Protection',
+            capBtnInsControls: 'Content Controls',
+            textRichControl: 'Insert rich text content control',
+            textPlainControl: 'Insert plain text content control',
+            textRemoveControl: 'Remove content control',
+            mniEditControls: 'Control Settings',
+            tipControls: 'Insert content controls'
         }
     })(), DE.Views.Toolbar || {}));
 });
