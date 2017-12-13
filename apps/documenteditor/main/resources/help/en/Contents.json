@@ -1,5 +1,12 @@
 ﻿[
-	{"src": "UsageInstructions/SetPageParameters.htm", "name": "Set page parameters", "headername": "Usage Instructions"},
+	{"src": "ProgramInterface/ProgramInterface.htm", "name": "Introducing Document Editor user interface", "headername": "Program Interface"},
+	{"src": "ProgramInterface/FileTab.htm", "name": "File tab"},
+	{"src": "ProgramInterface/HomeTab.htm", "name": "Home Tab"},
+	{"src": "ProgramInterface/InsertTab.htm", "name": "Insert tab"},
+	{"src": "ProgramInterface/LayoutTab.htm", "name": "Layout tab"},
+	{"src": "ProgramInterface/ReviewTab.htm", "name": "Review tab"},
+	{"src": "ProgramInterface/PluginsTab.htm", "name": "Plugins tab"},
+    {"src": "UsageInstructions/SetPageParameters.htm", "name": "Set page parameters", "headername": "Usage Instructions"},
 	{"src": "UsageInstructions/ChangeColorScheme.htm", "name": "Change color scheme"},
 	{"src": "UsageInstructions/CopyPasteUndoRedo.htm", "name": "Copy/paste text passages, undo/redo your actions"},
 	{"src": "UsageInstructions/NonprintingCharacters.htm", "name": "Show/hide nonprinting characters"},

@@ -1,4 +1,9 @@
 ﻿[
+    {"src": "ProgramInterface/ProgramInterface.htm", "name": "Знакомство с пользовательским интерфейсом редактора презентаций", "headername": "Интерфейс программы"},
+	{"src": "ProgramInterface/FileTab.htm", "name": "Вкладка Файл"},
+	{"src": "ProgramInterface/HomeTab.htm", "name": "Вкладка Главная"},
+	{"src": "ProgramInterface/InsertTab.htm", "name": "Вкладка Вставка"},
+	{"src": "ProgramInterface/PluginsTab.htm", "name": "Вкладка Плагины"},
     {"src": "UsageInstructions/OpenCreateNew.htm", "name": "Создание новой презентации или открытие существующей", "headername": "Инструкции по использованию"},
     {"src": "UsageInstructions/ManageSlides.htm", "name": "Управление слайдами"},
     {"src": "UsageInstructions/SetSlideParameters.htm", "name": "Настройка параметров слайда"},
