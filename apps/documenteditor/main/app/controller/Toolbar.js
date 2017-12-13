@@ -689,6 +689,19 @@ define([
                 }, this);
             }
 
+            in_control = this.api.asc_IsContentControl();
+            var control_props = in_control ? this.api.asc_GetContentControlProperties() : null,
+                lock_type = (in_control&&control_props) ? control_props.get_Lock() : AscCommonWord.sdtlock_Unlocked,
+                control_plain = (in_control&&control_props) ? (control_props.get_ContentControlType()==AscCommonWord.sdttype_InlineLevel) : false;
+            (lock_type===undefined) && (lock_type = AscCommonWord.sdtlock_Unlocked);
+
+            if (!paragraph_locked && !header_locked) {
+                toolbar.btnContentControls.menu.items[0].setDisabled(control_plain || lock_type==AscCommonWord.sdtlock_SdtContentLocked || lock_type==AscCommonWord.sdtlock_ContentLocked);
+                toolbar.btnContentControls.menu.items[1].setDisabled(control_plain || lock_type==AscCommonWord.sdtlock_SdtContentLocked || lock_type==AscCommonWord.sdtlock_ContentLocked);
+                toolbar.btnContentControls.menu.items[3].setDisabled(!in_control || lock_type==AscCommonWord.sdtlock_SdtContentLocked || lock_type==AscCommonWord.sdtlock_SdtLocked);
+                toolbar.btnContentControls.menu.items[5].setDisabled(!in_control);
+            }
+
             var need_text_disable = paragraph_locked || header_locked || in_chart;
             if (this._state.textonlycontrolsdisable != need_text_disable) {
                 if (this._state.activated) this._state.textonlycontrolsdisable = need_text_disable;
@@ -717,35 +730,22 @@ define([
                     this.onDropCap(drop_value);
             }
 
-            need_disable = need_disable || !enable_dropcap || in_equation;
+            need_disable = need_disable || !enable_dropcap || in_equation || control_plain;
             toolbar.btnDropCap.setDisabled(need_disable);
 
             if ( !toolbar.btnDropCap.isDisabled() )
                 toolbar.mnuDropCapAdvanced.setDisabled(disable_dropcapadv);
 
-            if (!paragraph_locked && !header_locked) {
-                in_control = this.api.asc_IsContentControl();
-                var control_props = in_control ? this.api.asc_GetContentControlProperties() : null,
-                    lock_type = (in_control&&control_props) ? control_props.get_Lock() : AscCommonWord.sdtlock_Unlocked,
-                    control_plain = (in_control&&control_props) ? (control_props.get_ContentControlType()==AscCommonWord.sdttype_InlineLevel) : false;
-                (lock_type===undefined) && (lock_type = AscCommonWord.sdtlock_Unlocked);
-
-                toolbar.btnContentControls.menu.items[0].setDisabled(control_plain || lock_type==AscCommonWord.sdtlock_SdtContentLocked || lock_type==AscCommonWord.sdtlock_ContentLocked);
-                toolbar.btnContentControls.menu.items[1].setDisabled(control_plain || lock_type==AscCommonWord.sdtlock_SdtContentLocked || lock_type==AscCommonWord.sdtlock_ContentLocked);
-                toolbar.btnContentControls.menu.items[2].setDisabled(!in_control || lock_type==AscCommonWord.sdtlock_SdtContentLocked || lock_type==AscCommonWord.sdtlock_SdtLocked);
-                toolbar.btnContentControls.menu.items[4].setDisabled(!in_control);
-            }
-
-            need_disable = !can_add_table || header_locked || in_equation;
+            need_disable = !can_add_table || header_locked || in_equation || control_plain;
             toolbar.btnInsertTable.setDisabled(need_disable);
 
-            need_disable = toolbar.mnuPageNumCurrentPos.isDisabled() && toolbar.mnuPageNumberPosPicker.isDisabled();
+            need_disable = toolbar.mnuPageNumCurrentPos.isDisabled() && toolbar.mnuPageNumberPosPicker.isDisabled() || control_plain;
             toolbar.mnuInsertPageNum.setDisabled(need_disable);
 
-            need_disable = paragraph_locked || header_locked || in_header || in_equation && !btn_eq_state || this.api.asc_IsCursorInFootnote();
+            need_disable = paragraph_locked || header_locked || in_header || in_equation && !btn_eq_state || this.api.asc_IsCursorInFootnote() || in_control;
             toolbar.btnsPageBreak.disable(need_disable);
 
-            need_disable = paragraph_locked || header_locked || !can_add_image || in_equation;
+            need_disable = paragraph_locked || header_locked || !can_add_image || in_equation || control_plain;
             toolbar.btnInsertImage.setDisabled(need_disable);
             toolbar.btnInsertShape.setDisabled(need_disable);
             toolbar.btnInsertText.setDisabled(need_disable);
@@ -756,10 +756,10 @@ define([
                 this._state.in_chart = in_chart;
             }
 
-            need_disable = in_chart && image_locked || !in_chart && need_disable;
+            need_disable = in_chart && image_locked || !in_chart && need_disable || control_plain;
             toolbar.btnInsertChart.setDisabled(need_disable);
 
-            need_disable = paragraph_locked || header_locked || in_chart || !can_add_image&&!in_equation;
+            need_disable = paragraph_locked || header_locked || in_chart || !can_add_image&&!in_equation || control_plain;
             toolbar.btnInsertEquation.setDisabled(need_disable);
 
             need_disable = paragraph_locked || header_locked || in_equation;
@@ -768,11 +768,11 @@ define([
 
             toolbar.btnEditHeader.setDisabled(in_equation);
 
-            need_disable = paragraph_locked || in_equation || in_image || in_header;
+            need_disable = paragraph_locked || in_equation || in_image || in_header || control_plain;
             if (need_disable !== toolbar.btnNotes.isDisabled())
                 toolbar.btnNotes.setDisabled(need_disable);
 
-            need_disable = paragraph_locked || header_locked || in_image;
+            need_disable = paragraph_locked || header_locked || in_image || control_plain;
             if (need_disable != toolbar.btnColumns.isDisabled())
                 toolbar.btnColumns.setDisabled(need_disable);
 
@@ -1693,7 +1693,6 @@ define([
                             var me = this;
                             (new DE.Views.ControlSettingsDialog({
                                 props: props,
-                                api: me.api,
                                 handler: function(result, value) {
                                     if (result == 'ok') {
                                         me.api.asc_SetContentControlProperties(value, id);

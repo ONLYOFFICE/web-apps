@@ -49,7 +49,7 @@ define([
     DE.Views.ControlSettingsDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 300,
-            height: 250
+            height: 275
         },
 
         initialize : function(options) {
@@ -76,6 +76,11 @@ define([
                                 '</tr>',
                                 '<tr>',
                                     '<td class="padding-small">',
+                                        '<label class="header">', me.textLock, '</label>',
+                                    '</td>',
+                                '</tr>',
+                                '<tr>',
+                                    '<td class="padding-small">',
                                         '<div id="control-settings-chb-lock-delete"></div>',
                                     '</td>',
                                 '</tr>',
@@ -95,7 +100,6 @@ define([
                 ].join('')
             }, options);
 
-            this.api        = options.api;
             this.handler    = options.handler;
             this.props      = options.props;
 
@@ -200,6 +204,7 @@ define([
         textTag: 'Tag',
         txtLockDelete: 'Content control cannot be deleted',
         txtLockEdit: 'Contents cannot be edited',
+        textLock: 'Locking',
         cancelButtonText: 'Cancel',
         okButtonText: 'Ok'
 

@@ -617,15 +617,19 @@ define([
                         cls: 'ppm-toolbar',
                         items: [
                             {
-                                caption: this.textRichControl,
-                                value: AscCommonWord.sdttype_BlockLevel
-                            },
-                            {
                                 caption: this.textPlainControl,
+                                iconCls: 'mnu-control-plain',
                                 value: AscCommonWord.sdttype_InlineLevel
                             },
                             {
+                                caption: this.textRichControl,
+                                iconCls: 'mnu-control-rich',
+                                value: AscCommonWord.sdttype_BlockLevel
+                            },
+                            {caption: '--'},
+                            {
                                 caption: this.textRemoveControl,
+                                iconCls: 'mnu-control-remove',
                                 value: 'remove'
                             },
                             {caption: '--'},
@@ -2503,12 +2507,12 @@ define([
             textColumnsCustom: 'Custom Columns',
             textSurface: 'Surface',
             textTabProtect: 'Protection',
-            capBtnInsControls: 'Content Controls',
-            textRichControl: 'Insert rich text content control',
-            textPlainControl: 'Insert plain text content control',
-            textRemoveControl: 'Remove content control',
-            mniEditControls: 'Control Settings',
-            tipControls: 'Insert content controls'
+            capBtnInsControls: 'Content Control',
+            textRichControl: 'Rich text',
+            textPlainControl: 'Plain text',
+            textRemoveControl: 'Remove',
+            mniEditControls: 'Settings',
+            tipControls: 'Insert content control'
         }
     })(), DE.Views.Toolbar || {}));
 });
