@@ -158,28 +158,28 @@ define([
                 this.txtTag.setValue(val ? val : '');
 
                 val = props.get_Lock();
-                (val===undefined) && (val = AscCommonWord.sdtlock_Unlocked);
-                this.chLockDelete.setValue(val==AscCommonWord.sdtlock_SdtContentLocked || val==AscCommonWord.sdtlock_SdtLocked);
-                this.chLockEdit.setValue(val==AscCommonWord.sdtlock_SdtContentLocked || val==AscCommonWord.sdtlock_ContentLocked);
+                (val===undefined) && (val = AscCommon.sdtlock_Unlocked);
+                this.chLockDelete.setValue(val==AscCommon.sdtlock_SdtContentLocked || val==AscCommon.sdtlock_SdtLocked);
+                this.chLockEdit.setValue(val==AscCommon.sdtlock_SdtContentLocked || val==AscCommon.sdtlock_ContentLocked);
             }
         },
 
         getSettings: function () {
-            var props   = new AscCommonWord.CContentControlPr();
+            var props   = new AscCommon.CContentControlPr();
 
 
             props.put_Id(this.txtName.getValue());
             props.put_Tag(this.txtTag.getValue());
 
 
-            var lock = AscCommonWord.sdtlock_Unlocked;
+            var lock = AscCommon.sdtlock_Unlocked;
 
             if (this.chLockDelete.getValue()=='checked' && this.chLockEdit.getValue()=='checked')
-                lock = AscCommonWord.sdtlock_SdtContentLocked;
+                lock = AscCommon.sdtlock_SdtContentLocked;
             else if (this.chLockDelete.getValue()=='checked')
-                lock = AscCommonWord.sdtlock_SdtLocked;
+                lock = AscCommon.sdtlock_SdtLocked;
             else if (this.chLockEdit.getValue()=='checked')
-                lock = AscCommonWord.sdtlock_ContentLocked;
+                lock = AscCommon.sdtlock_ContentLocked;
             props.put_Lock(lock);
 
             return props;
