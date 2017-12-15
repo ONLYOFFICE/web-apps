@@ -129,6 +129,8 @@ define([
                 props.put_Value(url);
                 props.put_Text(_.isEmpty(display) ? url : display);
                 props.put_ToolTip(tip);
+                if (_linkObject)
+                    props.put_InternalHyperlink(_linkObject.get_InternalHyperlink());
 
                 me.api.change_Hyperlink(props);
 
@@ -136,7 +138,7 @@ define([
             },
 
             onRemoveLink: function () {
-                this.api && this.api.remove_Hyperlink();
+                this.api && this.api.remove_Hyperlink(_linkObject);
                 DE.getController('EditContainer').hideModal();
             },
 
