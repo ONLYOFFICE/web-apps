@@ -619,12 +619,12 @@ define([
                             {
                                 caption: this.textPlainControl,
                                 iconCls: 'mnu-control-plain',
-                                value: AscCommon.sdttype_InlineLevel
+                                value: Asc.c_oAscSdtLevelType.Inline
                             },
                             {
                                 caption: this.textRichControl,
                                 iconCls: 'mnu-control-rich',
-                                value: AscCommon.sdttype_BlockLevel
+                                value: Asc.c_oAscSdtLevelType.Block
                             },
                             {caption: '--'},
                             {

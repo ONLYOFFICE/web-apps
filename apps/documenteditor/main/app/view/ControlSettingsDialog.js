@@ -158,9 +158,9 @@ define([
                 this.txtTag.setValue(val ? val : '');
 
                 val = props.get_Lock();
-                (val===undefined) && (val = AscCommon.sdtlock_Unlocked);
-                this.chLockDelete.setValue(val==AscCommon.sdtlock_SdtContentLocked || val==AscCommon.sdtlock_SdtLocked);
-                this.chLockEdit.setValue(val==AscCommon.sdtlock_SdtContentLocked || val==AscCommon.sdtlock_ContentLocked);
+                (val===undefined) && (val = Asc.c_oAscSdtLockType.Unlocked);
+                this.chLockDelete.setValue(val==Asc.c_oAscSdtLockType.SdtContentLocked || val==Asc.c_oAscSdtLockType.SdtLocked);
+                this.chLockEdit.setValue(val==Asc.c_oAscSdtLockType.SdtContentLocked || val==Asc.c_oAscSdtLockType.ContentLocked);
             }
         },
 
@@ -172,14 +172,14 @@ define([
             props.put_Tag(this.txtTag.getValue());
 
 
-            var lock = AscCommon.sdtlock_Unlocked;
+            var lock = Asc.c_oAscSdtLockType.Unlocked;
 
             if (this.chLockDelete.getValue()=='checked' && this.chLockEdit.getValue()=='checked')
-                lock = AscCommon.sdtlock_SdtContentLocked;
+                lock = Asc.c_oAscSdtLockType.SdtContentLocked;
             else if (this.chLockDelete.getValue()=='checked')
-                lock = AscCommon.sdtlock_SdtLocked;
+                lock = Asc.c_oAscSdtLockType.SdtLocked;
             else if (this.chLockEdit.getValue()=='checked')
-                lock = AscCommon.sdtlock_ContentLocked;
+                lock = Asc.c_oAscSdtLockType.ContentLocked;
             props.put_Lock(lock);
 
             return props;

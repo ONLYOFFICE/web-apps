@@ -691,14 +691,14 @@ define([
 
             in_control = this.api.asc_IsContentControl();
             var control_props = in_control ? this.api.asc_GetContentControlProperties() : null,
-                lock_type = (in_control&&control_props) ? control_props.get_Lock() : AscCommon.sdtlock_Unlocked,
-                control_plain = (in_control&&control_props) ? (control_props.get_ContentControlType()==AscCommon.sdttype_InlineLevel) : false;
-            (lock_type===undefined) && (lock_type = AscCommon.sdtlock_Unlocked);
+                lock_type = (in_control&&control_props) ? control_props.get_Lock() : Asc.c_oAscSdtLockType.Unlocked,
+                control_plain = (in_control&&control_props) ? (control_props.get_ContentControlType()==Asc.c_oAscSdtLevelType.Inline) : false;
+            (lock_type===undefined) && (lock_type = Asc.c_oAscSdtLockType.Unlocked);
 
             if (!paragraph_locked && !header_locked) {
-                toolbar.btnContentControls.menu.items[0].setDisabled(control_plain || lock_type==AscCommon.sdtlock_SdtContentLocked || lock_type==AscCommon.sdtlock_ContentLocked);
-                toolbar.btnContentControls.menu.items[1].setDisabled(control_plain || lock_type==AscCommon.sdtlock_SdtContentLocked || lock_type==AscCommon.sdtlock_ContentLocked);
-                toolbar.btnContentControls.menu.items[3].setDisabled(!in_control || lock_type==AscCommon.sdtlock_SdtContentLocked || lock_type==AscCommon.sdtlock_SdtLocked);
+                toolbar.btnContentControls.menu.items[0].setDisabled(control_plain || lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.ContentLocked);
+                toolbar.btnContentControls.menu.items[1].setDisabled(control_plain || lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.ContentLocked);
+                toolbar.btnContentControls.menu.items[3].setDisabled(!in_control || lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.SdtLocked);
                 toolbar.btnContentControls.menu.items[5].setDisabled(!in_control);
             }
 

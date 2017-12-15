@@ -2791,8 +2791,8 @@ define([
                     menuTableControl.setVisible(in_control);
                     if (in_control) {
                         var control_props = me.api.asc_GetContentControlProperties(),
-                            lock_type = (control_props) ? control_props.get_Lock() : AscCommon.sdtlock_Unlocked;
-                        menuTableRemoveControl.setDisabled(lock_type==AscCommon.sdtlock_SdtContentLocked || lock_type==AscCommon.sdtlock_SdtLocked);
+                            lock_type = (control_props) ? control_props.get_Lock() : Asc.c_oAscSdtLockType.Unlocked;
+                        menuTableRemoveControl.setDisabled(lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.SdtLocked);
                     }
                 },
                 items: [
@@ -3291,8 +3291,8 @@ define([
                     menuParaControlSeparator.setVisible(in_control);
                     if (in_control) {
                         var control_props = me.api.asc_GetContentControlProperties(),
-                            lock_type = (control_props) ? control_props.get_Lock() : AscCommon.sdtlock_Unlocked;
-                        menuParaRemoveControl.setDisabled(lock_type==AscCommon.sdtlock_SdtContentLocked || lock_type==AscCommon.sdtlock_SdtLocked);
+                            lock_type = (control_props) ? control_props.get_Lock() : Asc.c_oAscSdtLockType.Unlocked;
+                        menuParaRemoveControl.setDisabled(lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.SdtLocked);
                     }
                 },
                 items: [
