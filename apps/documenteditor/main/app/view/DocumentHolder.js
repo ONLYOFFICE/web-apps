@@ -2470,7 +2470,7 @@ define([
             var menuRemoveHyperlinkTable = new Common.UI.MenuItem({
                 caption     : me.removeHyperlinkText
             }).on('click', function(item, e){
-                me.api && me.api.remove_Hyperlink();
+                me.api && me.api.remove_Hyperlink(item.hyperProps.value);
                 me.fireEvent('editcomplete', me);
             });
 
@@ -3004,7 +3004,7 @@ define([
             var menuRemoveHyperlinkPara = new Common.UI.MenuItem({
                 caption     : me.removeHyperlinkText
             }).on('click', function(item, e) {
-                me.api.remove_Hyperlink();
+                me.api.remove_Hyperlink(item.hyperProps.value);
                 me.fireEvent('editcomplete', me);
             });
 
