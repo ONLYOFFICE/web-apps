@@ -151,7 +151,7 @@ define([
 
         _setDefaults: function (props) {
             if (props) {
-                var val = props.get_Id();
+                var val = props.get_Alias();
                 this.txtName.setValue(val ? val : '');
 
                 val = props.get_Tag();
@@ -168,7 +168,7 @@ define([
             var props   = new AscCommon.CContentControlPr();
 
 
-            props.put_Id(this.txtName.getValue());
+            props.put_Alias(this.txtName.getValue());
             props.put_Tag(this.txtTag.getValue());
 
 
