@@ -53,7 +53,8 @@ define([
     'common/main/lib/view/Plugins',
     'common/main/lib/view/About',
     'common/main/lib/view/SearchDialog',
-    'documenteditor/main/app/view/FileMenu'
+    'documenteditor/main/app/view/FileMenu',
+    'documenteditor/main/app/view/Navigation'
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
 
@@ -73,6 +74,7 @@ define([
                 'click #left-btn-chat': _.bind(this.onCoauthOptions, this),
                 /** coauthoring end **/
                 'click #left-btn-plugins': _.bind(this.onCoauthOptions, this),
+                'click #left-btn-navigation': _.bind(this.onCoauthOptions, this),
                 'click #left-btn-support': function() {
                     var config = this.mode.customization;
                     config && !!config.feedback && !!config.feedback.url ?
@@ -151,6 +153,15 @@ define([
             this.btnPlugins.hide();
             this.btnPlugins.on('click',         _.bind(this.onBtnMenuClick, this));
 
+            this.btnNavigation = new Common.UI.Button({
+                el: $('#left-btn-navigation'),
+                hint: this.tipNavigation,
+                enableToggle: true,
+                disabled: true,
+                toggleGroup: 'leftMenuGroup'
+            });
+            this.btnNavigation.on('click',         _.bind(this.onBtnMenuClick, this));
+
             this.btnSearch.on('click',          _.bind(this.onBtnMenuClick, this));
             this.btnAbout.on('toggle',          _.bind(this.onBtnMenuToggle, this));
 
@@ -222,6 +233,12 @@ define([
                         this.panelChat['hide']();
                 }
             }
+            if (this.panelNavigation) {
+                if (this.btnNavigation.pressed) {
+                    this.panelNavigation.show();
+                } else
+                    this.panelNavigation['hide']();
+            }
             /** coauthoring end **/
             // if (this.mode.canPlugins && this.panelPlugins) {
             //     if (this.btnPlugins.pressed) {
@@ -243,6 +260,9 @@ define([
             } else
             if (name == 'plugins' && !this.panelPlugins) {
                 this.panelPlugins = panel.render(/*'#left-panel-plugins'*/);
+            } else
+            if (name == 'navigation' && !this.panelNavigation) {
+                this.panelNavigation = panel.render('#left-panel-navigation');
             }
         },
 
@@ -284,6 +304,10 @@ define([
                     this.panelPlugins['hide']();
                     this.btnPlugins.toggle(false, true);
                 }
+                if (this.panelNavigation) {
+                    this.panelNavigation['hide']();
+                    this.btnNavigation.toggle(false, true);
+                }
             }
         },
 
@@ -304,6 +328,7 @@ define([
             this.btnChat.setDisabled(false);
             /** coauthoring end **/
             this.btnPlugins.setDisabled(false);
+            this.btnNavigation.setDisabled(false);
         },
 
         showMenu: function(menu, opts) {
@@ -385,6 +410,7 @@ define([
         tipSearch   : 'Search',
         tipPlugins  : 'Plugins',
         txtDeveloper: 'DEVELOPER MODE',
-        txtTrial: 'TRIAL MODE'
+        txtTrial: 'TRIAL MODE',
+        tipNavigation: 'Navigation'
     }, DE.Views.LeftMenu || {}));
 });

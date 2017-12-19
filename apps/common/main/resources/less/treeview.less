@@ -1,0 +1,41 @@
+.treeview {
+  .item {
+    display: block;
+    width: 100%;
+    .box-shadow(none);
+    margin: 0;
+
+    &:hover,
+    &.over,
+    &.selected {
+      background-color: @secondary;
+    }
+  }
+
+  .tree-item {
+    width: 100%;
+    padding: 0px 0 0 26px;
+  }
+
+  .name {
+    width: 100%;
+    padding: 7px 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .tree-caret {
+    width: 26px;
+    height: 26px;
+    background-position: 4px -269px;
+    display: inline-block;
+    position: absolute;
+    left: 0;
+    cursor: pointer;
+
+    &.up {
+      transform: rotate(270deg);
+    }
+  }
+}

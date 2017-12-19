@@ -107,6 +107,7 @@ var sdk_dev_scrpipts = [
 	"../../../../sdkjs/word/Editor/ParagraphChanges.js",
     "../../../../sdkjs/word/Editor/DocumentContentBase.js",
     "../../../../sdkjs/word/Editor/Document.js",
+    "../../../../sdkjs/word/Editor/DocumentOutline.js",
 	"../../../../sdkjs/word/Editor/DocumentChanges.js",
     "../../../../sdkjs/word/Editor/DocumentContent.js",
 	"../../../../sdkjs/word/Editor/DocumentContentChanges.js",
