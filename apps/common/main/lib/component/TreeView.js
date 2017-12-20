@@ -65,7 +65,7 @@ define([
     Common.UI.TreeViewStore = Backbone.Collection.extend({
         model: Common.UI.TreeViewModel,
 
-        expand: function(record) {
+        expandSubItems: function(record) {
             var me = this;
             var _expand_sub_items = function(idx, expanded, level) {
                 for (var i=idx+1; i<me.length; i++) {
@@ -86,7 +86,7 @@ define([
             _expand_sub_items(record.get('index'), true, record.get('level'));
         },
 
-        collapse: function(record) {
+        collapseSubItems: function(record) {
             var start_level = record.get('level'),
                 index = record.get('index');
             for (var i=index+1; i<this.length; i++) {
@@ -97,6 +97,22 @@ define([
                 } else {
                     break;
                 }
+            }
+            return i-1;
+        },
+
+        expandAll: function() {
+            this.each(function(item) {
+                item.set('isExpanded', true);
+                item.set('isVisible', true);
+            });
+        },
+
+        collapseAll: function() {
+            for (var i=0; i<this.length; i++) {
+                var item = this.at(i);
+                item.set('isExpanded', false);
+                i = this.collapseSubItems(item);
             }
         }
     });
@@ -176,22 +192,19 @@ define([
 
                     var isExpanded = !record.get('isExpanded');
                     record.set('isExpanded', isExpanded);
-                    this.store[(isExpanded) ? 'expand' : 'collapse'](record);
+                    this.store[(isExpanded) ? 'expandSubItems' : 'collapseSubItems'](record);
                     this.scroller.update({minScrollbarLength: 40});
                 } else
                     Common.UI.DataView.prototype.onClickItem.call(this, view, record, e);
             },
 
             expandAll: function() {
-                this.store.each(function(item) {
-                    item.set('isExpanded', true);
-                });
-                this.store.expand(this.store.at(0));
+                this.store.expandAll();
                 this.scroller.update({minScrollbarLength: 40});
             },
 
             collapseAll: function() {
-                this.store.collapse(this.store.at(0));
+                this.store.collapseAll();
                 this.scroller.update({minScrollbarLength: 40});
             }
         }
