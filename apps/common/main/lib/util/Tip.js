@@ -154,10 +154,14 @@
 
                     if (typeof at == 'object') { 
                         var tp = {top: at[1] + 15, left: at[0] + 18},
-                            innerWidth = Common.Utils.innerWidth();
+                            innerWidth = Common.Utils.innerWidth(),
+                            innerHeight = Common.Utils.innerHeight();
 
                         if (tp.left + $tip.width() > innerWidth) {
                             tp.left = innerWidth - $tip.width() - 30;
+                        }
+                        if (tp.top + $tip.height() > innerHeight) {
+                            tp.top = innerHeight - $tip.height() - 30;
                         }
 
                         $tip.offset(tp).addClass('in');
