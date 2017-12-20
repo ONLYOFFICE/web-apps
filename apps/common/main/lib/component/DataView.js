@@ -148,6 +148,12 @@ define([
             if (!_.isUndefined(this.model.get('cls')))
                 el.addClass(this.model.get('cls'));
 
+            var tip = el.data('bs.tooltip');
+            if (tip) {
+                if (tip.dontShow===undefined)
+                    tip.dontShow = true;
+            }
+
             this.trigger('change', this, this.model);
 
             return this;
