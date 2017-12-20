@@ -114,6 +114,35 @@ define([
                 item.set('isExpanded', false);
                 i = this.collapseSubItems(item);
             }
+        },
+
+        expandToLevel: function(expandLevel) {
+            var me = this;
+            var _expand_sub_items = function(idx, level) {
+                var parent = me.at(idx);
+                parent.set('isExpanded', false);
+                for (var i=idx+1; i<me.length; i++) {
+                    var item = me.at(i);
+                    var item_level = item.get('level');
+                    if (item_level>level) {
+                        if (item_level<=expandLevel)
+                            parent.set('isExpanded', true);
+                        item.set('isVisible', item_level<=expandLevel);
+                        if (item.get('hasSubItems'))
+                            i = _expand_sub_items(i, item_level );
+                    } else {
+                        return (i-1);
+                    }
+                }
+            };
+
+            for (var j=0; j<this.length; j++) {
+                var item = this.at(j);
+                if (item.get('level')<=expandLevel) {
+                    item.set('isVisible', true);
+                    j = _expand_sub_items(j, item.get('level'));
+                }
+            }
         }
     });
 
@@ -205,6 +234,11 @@ define([
 
             collapseAll: function() {
                 this.store.collapseAll();
+                this.scroller.update({minScrollbarLength: 40});
+            },
+
+            expandToLevel: function(expandLevel) {
+                this.store.expandToLevel(expandLevel);
                 this.scroller.update({minScrollbarLength: 40});
             }
         }

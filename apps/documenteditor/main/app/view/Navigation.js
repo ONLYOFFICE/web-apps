@@ -75,7 +75,6 @@ define([
             });
             this.viewNavigationList.cmpEl.off('click');
             this.navigationMenu = new Common.UI.Menu({
-                // menuAlign   : 'tr-br',
                 items: [{
                         caption     : this.txtPromote,
                         value: 'promote'
@@ -116,6 +115,16 @@ define([
                     {
                         caption     : this.txtCollapse,
                         value: 'collapse'
+                    },
+                    {
+                        caption     : this.txtExpandToLevel,
+                        menu: new Common.UI.Menu({
+                            menuAlign: 'tl-tr',
+                            items: [{ caption : '1', value: 1 }, { caption : '2', value: 2 }, { caption : '3', value: 3 },
+                                { caption : '4', value: 4 }, { caption : '5', value: 5 }, { caption : '6', value: 6 },
+                                { caption : '7', value: 7 }, { caption : '8', value: 8 },  { caption : '9', value: 9 }
+                            ]
+                        })
                     }
                 ]
             });
@@ -145,7 +154,8 @@ define([
         txtNewHeading: 'New subheading',
         txtSelect: 'Select content',
         txtExpand: 'Expand all',
-        txtCollapse: 'Collapse all'
+        txtCollapse: 'Collapse all',
+        txtExpandToLevel: 'Expand to level...'
 
     }, DE.Views.Navigation || {}));
 });

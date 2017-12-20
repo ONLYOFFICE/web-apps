@@ -92,6 +92,7 @@ define([
             panelNavigation.viewNavigationList.on('item:click', _.bind(this.onSelectItem, this));
             panelNavigation.viewNavigationList.on('item:contextmenu', _.bind(this.onItemContextMenu, this));
             panelNavigation.navigationMenu.on('item:click',           _.bind(this.onMenuItemClick, this));
+            panelNavigation.navigationMenu.items[11].menu.on('item:click', _.bind(this.onMenuLevelsItemClick, this));
         },
 
         updateNavigation: function() {
@@ -176,6 +177,10 @@ define([
             } else  if (item.value == 'collapse') {
                 this.panelNavigation.viewNavigationList.collapseAll();
             }
+        },
+
+        onMenuLevelsItemClick: function (menu, item) {
+            this.panelNavigation.viewNavigationList.expandToLevel(item.value-1);
         }
 
     }, DE.Controllers.Navigation || {}));
