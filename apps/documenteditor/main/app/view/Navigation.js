@@ -80,8 +80,8 @@ define([
                         value: 'promote'
                     },
                     {
-                        caption     : this.txtIndent,
-                        value: 'indent'
+                        caption     : this.txtDemote,
+                        value: 'demote'
                     },
                     {
                         caption     : '--'
@@ -148,7 +148,7 @@ define([
 
         strNavigate: 'Table of Contents',
         txtPromote: 'Promote',
-        txtIndent: 'Indent',
+        txtDemote: 'Demote',
         txtHeadingBefore: 'New heading before',
         txtHeadingAfter: 'New heading after',
         txtNewHeading: 'New subheading',

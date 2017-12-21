@@ -116,6 +116,7 @@ define([
             if (count>0 && this._navigationObject.isFirstItemNotHeader()) {
                 arr[0].set('hasSubItems', false);
                 arr[0].set('isNotHeader', true);
+                arr[0].set('name', this.txtBeginning);
                 arr[0].set('tip', this.txtGotoBeginning);
             }
             this.getApplication().getCollection('Navigation').reset(arr);
@@ -173,7 +174,7 @@ define([
             var index = parseInt(menu.cmpEl.attr('data-value'));
             if (item.value == 'promote') {
                 this._navigationObject.promote(index);
-            } else if (item.value == 'indent') {
+            } else if (item.value == 'demote') {
                 this._navigationObject.demote(index);
             } else if (item.value == 'before') {
                 this._navigationObject.insertHeader(index, true);
@@ -194,6 +195,7 @@ define([
             this.panelNavigation.viewNavigationList.expandToLevel(item.value-1);
         },
 
+        txtBeginning: 'Beginning of document',
         txtGotoBeginning: 'Go to the beginning of the document'
 
     }, DE.Controllers.Navigation || {}));
