@@ -82,6 +82,7 @@ define([
         setApi: function(api) {
             this.api = api;
             this.api.asc_registerCallback('asc_onDocumentOutlineUpdate', _.bind(this.updateNavigation, this));
+            this.api.asc_registerCallback('asc_onDocumentOutlineCurrentPosition', _.bind(this.onChangeOutlinePosition, this));
             return this;
         },
 
@@ -111,9 +112,17 @@ define([
                     index: i
                 }));
                 prev_level = level;
-
+            }
+            if (count>0 && this._navigationObject.isFirstItemNotHeader()) {
+                arr[0].set('hasSubItems', false);
+                arr[0].set('isNotHeader', true);
+                arr[0].set('tip', this.txtGotoBeginning);
             }
             this.getApplication().getCollection('Navigation').reset(arr);
+        },
+
+        onChangeOutlinePosition: function(index) {
+            this.panelNavigation.viewNavigationList.selectByIndex(index);
         },
 
         onItemContextMenu: function(picker, item, record, e){
@@ -127,11 +136,11 @@ define([
                 top = e.clientY*Common.Utils.zoom();
             showPoint = [e.clientX*Common.Utils.zoom() + 5, top - parentOffset.top + 5];
 
-            if (record != undefined) {
-                //itemMenu
-                // menu.items[0].setVisible(true);
-            } else {
-            }
+            var isNotHeader = record.get('isNotHeader');
+            menu.items[0].setDisabled(isNotHeader);
+            menu.items[1].setDisabled(isNotHeader);
+            menu.items[3].setDisabled(isNotHeader);
+            menu.items[7].setDisabled(isNotHeader);
 
             if (showPoint != undefined) {
                 var menuContainer = this.panelNavigation.$el.find('#menu-navigation-container');
@@ -143,7 +152,7 @@ define([
                     menu.render(menuContainer);
                     menu.cmpEl.attr({tabindex: "-1"});
                 }
-
+                menu.cmpEl.attr('data-value', record.get('index'));
                 menuContainer.css({
                     left: showPoint[0],
                     top: showPoint[1]
@@ -154,24 +163,26 @@ define([
         },
 
         onSelectItem: function(picker, item, record, e){
-            // this.api.asc_gotoHeader();
+            if (!this._navigationObject) return;
+            this._navigationObject.goto(record.get('index'));
         },
 
         onMenuItemClick: function (menu, item) {
+            if (!this._navigationObject) return;
+
+            var index = parseInt(menu.cmpEl.attr('data-value'));
             if (item.value == 'promote') {
-
-            } else if (item.value == 'promote') {
-
+                this._navigationObject.promote(index);
             } else if (item.value == 'indent') {
-
+                this._navigationObject.demote(index);
             } else if (item.value == 'before') {
-
+                this._navigationObject.insertHeader(index, true);
             } else if (item.value == 'after') {
-
+                this._navigationObject.insertHeader(index, false);
             } else if (item.value == 'new') {
-
+                this._navigationObject.insertSubHeader(index);
             } else if (item.value == 'select') {
-
+                this._navigationObject.selectContent(index);
             } else if (item.value == 'expand') {
                 this.panelNavigation.viewNavigationList.expandAll();
             } else  if (item.value == 'collapse') {
@@ -181,7 +192,9 @@ define([
 
         onMenuLevelsItemClick: function (menu, item) {
             this.panelNavigation.viewNavigationList.expandToLevel(item.value-1);
-        }
+        },
+
+        txtGotoBeginning: 'Go to the beginning of the document'
 
     }, DE.Controllers.Navigation || {}));
 });

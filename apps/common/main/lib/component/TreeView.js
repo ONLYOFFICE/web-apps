@@ -50,6 +50,7 @@ define([
             return {
                 id: Common.UI.getId(),
                 name: '',
+                isNotHeader: false,
                 hasSubItems: false,
                 isExpanded: true,
                 isVisible: true,
