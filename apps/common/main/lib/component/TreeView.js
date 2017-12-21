@@ -153,14 +153,7 @@ define([
                 handleSelect: true,
                 showLast: true,
                 allowScrollbar: true,
-                itemTemplate: _.template([
-                    '<div id="<%= id %>" class="tree-item <% if (!isVisible) { %>' + 'hidden' + '<% } %>" style="display: block;padding-left: <%= level*16 + 24 %>px;">',
-                    '<% if (hasSubItems) { %>',
-                    '<div class="tree-caret img-commonctrl ' + '<% if (!isExpanded) { %>' + 'up' + '<% } %>' + '" style="margin-left: <%= level*16 %>px;"></div>',
-                    '<% } %>',
-                    '<div class="name <% if (isNotHeader) { %>' + 'not-header' + '<% } %>"><%= name %></div>',
-                    '</div>'
-                ].join(''))
+                emptyItemText: ''
             },
 
             template: _.template([
@@ -169,6 +162,19 @@ define([
 
             initialize : function(options) {
                 options.store = options.store || new Common.UI.TreeViewStore();
+                options.emptyItemText = options.emptyItemText || '';
+                options.itemTemplate = options.itemTemplate || _.template([
+                    '<div id="<%= id %>" class="tree-item <% if (!isVisible) { %>' + 'hidden' + '<% } %>" style="display: block;padding-left: <%= level*16 + 24 %>px;">',
+                    '<% if (hasSubItems) { %>',
+                        '<div class="tree-caret img-commonctrl ' + '<% if (!isExpanded) { %>' + 'up' + '<% } %>' + '" style="margin-left: <%= level*16 %>px;"></div>',
+                    '<% } %>',
+                    '<% if (name!=="") { %>',
+                    '   <div class="name <% if (isNotHeader) { %>' + 'not-header' + '<% } %>"><%= name %></div>',
+                    '<% } else { %>',
+                    '   <div class="name empty">' + options.emptyItemText + '</div>',
+                    '<% } %>',
+                    '</div>'
+                ].join(''));
                 Common.UI.DataView.prototype.initialize.call(this, options);
             },
 

@@ -71,7 +71,9 @@ define([
             this.viewNavigationList = new Common.UI.TreeView({
                 el: $('#navigation-list'),
                 store: this.storeNavigation,
-                enableKeyEvents: false
+                enableKeyEvents: false,
+                emptyText: this.txtEmpty,
+                emptyItemText: this.txtEmptyItem
             });
             this.viewNavigationList.cmpEl.off('click');
             this.navigationMenu = new Common.UI.Menu({
@@ -155,7 +157,9 @@ define([
         txtSelect: 'Select content',
         txtExpand: 'Expand all',
         txtCollapse: 'Collapse all',
-        txtExpandToLevel: 'Expand to level...'
+        txtExpandToLevel: 'Expand to level...',
+        txtEmpty: 'This document doesn\'t contain headings',
+        txtEmptyItem: 'Empty Heading'
 
     }, DE.Views.Navigation || {}));
 });

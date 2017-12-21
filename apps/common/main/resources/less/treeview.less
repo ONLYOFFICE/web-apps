@@ -24,6 +24,11 @@
     &.selected {
       background-color: @secondary;
     }
+
+    &.selected .empty {
+      display: none;
+    }
+
   }
 
   .tree-item {
@@ -38,6 +43,11 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+
+    &.empty {
+      color: #999;
+      font-style: italic;
+    }
   }
 
   .tree-caret {
