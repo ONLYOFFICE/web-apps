@@ -446,7 +446,11 @@ define([
         onResetItems: function() {
             _.each(this.dataViewItems, function(item) {
                 var tip = item.$el.data('bs.tooltip');
-                if (tip) (tip.tip()).remove();
+                if (tip) {
+                    if (tip.dontShow===undefined)
+                        tip.dontShow = true;
+                    (tip.tip()).remove();
+                }
             }, this);
 
             $(this.el).html(this.template({
