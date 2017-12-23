@@ -35,9 +35,6 @@
  * Date: 14.12.17
  */
 
-if (Common === undefined)
-    var Common = {};
-
 define([
     'common/main/lib/util/utils',
     'common/main/lib/component/BaseView',

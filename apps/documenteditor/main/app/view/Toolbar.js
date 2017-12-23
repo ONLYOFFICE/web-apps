@@ -83,7 +83,8 @@ define([
                             { caption: me.textTabFile, action: 'file', extcls: 'canedit'},
                             { caption: me.textTabHome, action: 'home', extcls: 'canedit'},
                             { caption: me.textTabInsert, action: 'ins', extcls: 'canedit'},
-                            { caption: me.textTabLayout, action: 'layout', extcls: 'canedit'}
+                            { caption: me.textTabLayout, action: 'layout', extcls: 'canedit'},
+                            { caption: me.textTabLinks,  action: 'links', extcls: 'canedit'}
                         ]}
                 );
 
@@ -2458,7 +2459,8 @@ define([
             textColumnsCustom: 'Custom Columns',
             textSurface: 'Surface',
             textTabCollaboration: 'Collaboration',
-            textTabProtect: 'Protection'
+            textTabProtect: 'Protection',
+            textTabLinks: 'Links'
         }
     })(), DE.Views.Toolbar || {}));
 });

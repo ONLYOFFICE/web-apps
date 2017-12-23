@@ -2846,15 +2846,19 @@ define([
                 var $panel = this.getApplication().getController('Common.Controllers.ReviewChanges').createToolbarPanel();
 
                 if ( $panel )
-                    me.toolbar.addTab(tab, $panel, 3);
+                    me.toolbar.addTab(tab, $panel, 4);
 
                 if (config.isDesktopApp && config.isOffline) {
                     tab = {action: 'protect', caption: me.toolbar.textTabProtect};
                     $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
 
                     if ( $panel )
-                        me.toolbar.addTab(tab, $panel, 4);
+                        me.toolbar.addTab(tab, $panel, 5);
                 }
+
+                var links = me.getApplication().getController('Links');
+                links.setApi(me.api).setConfig({toolbar: me.toolbar});
+                Array.prototype.push.apply(me.toolbar.toolbarControls, links.getView('Links').getButtons());
             }
         },
 

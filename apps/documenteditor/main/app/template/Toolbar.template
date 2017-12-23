@@ -108,6 +108,7 @@
                 <div class="group">
                     <span class="btn-slot text x-huge btn-pagebreak"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-editheader"></span>
+                    <span class="btn-slot text x-huge btn-contents"></span>
                 </div>
                 <div class="separator long"></div>
                 <div class="group">
@@ -154,6 +155,16 @@
                     <span class="btn-slot text x-huge" id="slot-img-movefrwd"></span>
                     <span class="btn-slot text x-huge" id="slot-img-movebkwd"></span>
                     <span class="btn-slot text x-huge" id="slot-img-wrapping"></span>
+                </div>
+            </section>
+            <section class="panel" data-tab="links">
+                <div class="group">
+                    <span class="btn-slot text x-huge btn-contents"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-contents-update"></span>
+                </div>
+                <div class="separator long"></div>
+                <div class="group">
+                    <span class="btn-slot text x-huge slot-notes"></span>
                 </div>
             </section>
         </section>
