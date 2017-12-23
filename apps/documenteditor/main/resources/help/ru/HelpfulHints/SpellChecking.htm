@@ -5,9 +5,13 @@
     <meta charset="utf-8" />
     <meta name="description" content="Проверяйте правописание текста на своем языке в ходе редактирования документа" />
     <link type="text/css" rel="stylesheet" href="../editor.css" />
+    <script type="text/javascript" src="../search/js/page-search.js"></script>
 </head>
 <body>
     <div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Поиск" type="search" onkeypress="doSearch(event)">
+        </div>
         <h1>Проверка орфографии</h1>
         <p>В редакторе документов можно проверять правописание текста на определенном языке и исправлять ошибки в ходе редактирования.</p>
         <p>Прежде всего <b>выберите язык</b> документа. Перейдите на вкладку <b>Рецензирование</b> верхней панели инструментов и нажмите на значок <img alt="Значок Задать язык документа" src="../images/document_language.png" /> <b>Язык</b>. В окне, которое появится, выберите нужный язык и нажмите кнопку <b>OK</b>. Выбранный язык будет применен ко всему документу. </p>

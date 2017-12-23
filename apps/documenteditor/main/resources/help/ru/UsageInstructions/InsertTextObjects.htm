@@ -6,9 +6,13 @@
         <meta name="description" content="Вставьте текстовые объекты, такие как надписи и объекты Text Art, чтобы сделать текст выразительнее" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
         <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Поиск" type="search" onkeypress="doSearch(event)">
+            </div>
 			<h1>Вставка текстовых объектов</h1>
             <p>Чтобы сделать текст более выразительным и привлечь внимание к определенной части документа, можно вставить надпись (прямоугольную рамку, внутри которой вводится текст) или объект Text Art (текстовое поле с предварительно заданным стилем и цветом шрифта, позволяющее применять текстовые эффекты).</p>
 			<h3>Добавление текстового объекта</h3>

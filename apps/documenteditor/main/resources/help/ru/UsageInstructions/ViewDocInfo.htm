@@ -5,9 +5,13 @@
 		<meta charset="utf-8" />
 		<meta name="description" content="Просмотрите название документа, его автора, размещение, дату создания, людей, обладающих правами на просмотр и редактирование документа, а также статистику" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Поиск" type="search" onkeypress="doSearch(event)">
+        </div>
 			<h1>Просмотр сведений о документе</h1>
 			<p>Чтобы получить доступ к подробным сведениям о редактируемом документе, нажмите на вкладку <b>Файл</b> на верхней панели инструментов и выберите опцию <b>Сведения о документе...</b>.</p>
             <h3>Общие сведения</h3>

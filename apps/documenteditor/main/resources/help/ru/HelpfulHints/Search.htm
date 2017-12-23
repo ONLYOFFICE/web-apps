@@ -5,9 +5,13 @@
 		<meta charset="utf-8" />
         <meta name="description" content="Описание функции поиска по документу и замены в редакторе документов" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+		<script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Поиск" type="search" onkeypress="doSearch(event)">
+        </div>
 		<h1>Функция поиска и замены</h1>
 			<p>Чтобы найти нужные символы, слова или фразы, использованные в документе, который Вы в данный момент редактируете, 
 			нажмите на значок <img alt="Значок Поиск" src="../images/searchicon.png" />, расположенный на левой боковой панели. </p>
