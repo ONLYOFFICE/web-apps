@@ -54,7 +54,6 @@ define([
     'documenteditor/main/app/view/StyleTitleDialog',
     'documenteditor/main/app/view/PageMarginsDialog',
     'documenteditor/main/app/view/PageSizeDialog',
-    'documenteditor/main/app/view/NoteSettingsDialog',
     'documenteditor/main/app/controller/PageLayout',
     'documenteditor/main/app/view/CustomColumnsDialog'
 ], function () {
@@ -309,10 +308,6 @@ define([
             toolbar.mnuZoomIn.on('click',                               _.bind(this.onZoomInClick, this));
             toolbar.mnuZoomOut.on('click',                              _.bind(this.onZoomOutClick, this));
             toolbar.btnInsertEquation.on('click',                       _.bind(this.onInsertEquationClick, this));
-            toolbar.btnNotes.on('click',                                _.bind(this.onNotesClick, this));
-            toolbar.btnNotes.menu.on('item:click',                      _.bind(this.onNotesMenuClick, this));
-            toolbar.mnuGotoFootPrev.on('click',                         _.bind(this.onFootnotePrevClick, this));
-            toolbar.mnuGotoFootNext.on('click',                         _.bind(this.onFootnoteNextClick, this));
 
             $('#id-save-style-plus, #id-save-style-link', toolbar.$el).on('click', this.onMenuSaveStyle.bind(this));
 
@@ -754,9 +749,6 @@ define([
 
             toolbar.btnEditHeader.setDisabled(in_equation);
 
-            need_disable = paragraph_locked || in_equation || in_image || in_header;
-            if (need_disable !== toolbar.btnNotes.isDisabled())
-                toolbar.btnNotes.setDisabled(need_disable);
 
             need_disable = paragraph_locked || header_locked || in_image;
             if (need_disable != toolbar.btnColumns.isDisabled())
@@ -2060,68 +2052,6 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
-        onNotesClick: function() {
-            if (this.api)
-              this.api.asc_AddFootnote();
-        },
-
-        onNotesMenuClick: function(menu, item) {
-            if (this.api) {
-                if (item.value == 'ins_footnote')
-                    this.api.asc_AddFootnote();
-                else if (item.value == 'delele')
-                    Common.UI.warning({
-                        msg: this.confirmDeleteFootnotes,
-                        buttons: ['yes', 'no'],
-                        primary: 'yes',
-                        callback: _.bind(function(btn) {
-                            if (btn == 'yes') {
-                                this.api.asc_RemoveAllFootnotes();
-                            }
-                            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-                        }, this)
-                    });
-                else if (item.value == 'settings') {
-                    var me = this;
-                    (new DE.Views.NoteSettingsDialog({
-                        api: me.api,
-                        handler: function(result, settings) {
-                            if (settings) {
-                                me.api.asc_SetFootnoteProps(settings.props, settings.applyToAll);
-                                if (result == 'insert')
-                                    me.api.asc_AddFootnote(settings.custom);
-                            }
-                            Common.NotificationCenter.trigger('edit:complete', me.toolbar);
-                        },
-                        props   : me.api.asc_GetFootnoteProps()
-                    })).show();
-                } else
-                    return;
-
-                Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-            }
-        },
-
-        onFootnotePrevClick: function(btn) {
-            if (this.api)
-                this.api.asc_GotoFootnote(false);
-
-            var me = this;
-            setTimeout(function() {
-                Common.NotificationCenter.trigger('edit:complete', me.toolbar);
-            }, 50);
-        },
-
-        onFootnoteNextClick: function(btn) {
-            if (this.api)
-                this.api.asc_GotoFootnote(true);
-
-            var me = this;
-            setTimeout(function() {
-                Common.NotificationCenter.trigger('edit:complete', me.toolbar);
-            }, 50);
-        },
-
         _clearBullets: function() {
             this.toolbar.btnMarkers.toggle(false, true);
             this.toolbar.btnNumbers.toggle(false, true);
@@ -3264,8 +3194,7 @@ define([
         confirmAddFontName: 'The font you are going to save is not available on the current device.<br>The text style will be displayed using one of the device fonts, the saved font will be used when it is available.<br>Do you want to continue?',
         notcriticalErrorTitle: 'Warning',
         txtMarginsW: 'Left and right margins are too high for a given page wight',
-        txtMarginsH: 'Top and bottom margins are too high for a given page height',
-        confirmDeleteFootnotes: 'Do you want to delete all footnotes?'
+        txtMarginsH: 'Top and bottom margins are too high for a given page height'
 
     }, DE.Controllers.Toolbar || {}));
 });

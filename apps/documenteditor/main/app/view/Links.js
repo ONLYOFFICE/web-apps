@@ -64,6 +64,27 @@ define([
             this.btnContentsUpdate.on('click', function (b, e) {
                 me.fireEvent('links:update', ['all']);
             });
+
+            this.btnsNotes.forEach(function(button) {
+                button.menu.on('item:click', function (menu, item, e) {
+                    me.fireEvent('links:notes', [item.value]);
+                });
+                button.on('click', function (b, e) {
+                    me.fireEvent('links:notes', ['ins_footnote']);
+                });
+            });
+
+            this.btnsPrevNote.forEach(function(button) {
+                button.on('click', function (b, e) {
+                    me.fireEvent('links:notes', ['prev']);
+                });
+            });
+
+            this.btnsNextNote.forEach(function(button) {
+                button.on('click', function (b, e) {
+                    me.fireEvent('links:notes', ['next']);
+                });
+            });
         }
 
         return {
@@ -75,6 +96,9 @@ define([
                 this.toolbar = options.toolbar;
 
                 this.btnsContents = [];
+                this.btnsNotes = [];
+                this.btnsPrevNote = [];
+                this.btnsNextNote = [];
 
                 var me = this,
                     $host = me.toolbar.$el;
@@ -111,7 +135,24 @@ define([
                 });
                 _injectComponent('#slot-btn-contents-update', this.btnContentsUpdate);
 
-                this._state = {disabled: false, hasPassword: false};
+                $slots = $host.find('.btn-slot.slot-notes');
+                $slots.each(function(index, el) {
+                    var _cls = 'btn-toolbar';
+                    /x-huge/.test(el.className) && (_cls += ' x-huge icon-top');
+
+                    var button = new Common.UI.Button({
+                        cls: _cls,
+                        iconCls: 'btn-notes',
+                        caption: me.capBtnInsFootnote,
+                        split: true,
+                        menu: true,
+                        disabled: true
+                    }).render( $slots.eq(index) );
+
+                    me.btnsNotes.push(button);
+                });
+
+                this._state = {disabled: false};
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             },
 
@@ -149,6 +190,44 @@ define([
                     });
                     me.btnContentsUpdate.setMenu(_menu);
 
+                    me.btnsNotes.forEach( function(btn, index) {
+                        btn.updateHint( me.tipNotes );
+
+                        var _menu = new Common.UI.Menu({
+                            items: [
+                                {caption: me.mniInsFootnote, value: 'ins_footnote'},
+                                {caption: '--'},
+                                new Common.UI.MenuItem({
+                                    template: _.template([
+                                        '<div class="menu-zoom" style="height: 25px;" ',
+                                        '<% if(!_.isUndefined(options.stopPropagation)) { %>',
+                                        'data-stopPropagation="true"',
+                                        '<% } %>', '>',
+                                        '<label class="title">' + me.textGotoFootnote + '</label>',
+                                        '<button id="id-menu-goto-footnote-next-' + index + '" type="button" style="float:right; margin: 2px 5px 0 0;" class="btn small btn-toolbar"><i class="icon mmerge-next">&nbsp;</i></button>',
+                                        '<button id="id-menu-goto-footnote-prev-' + index + '" type="button" style="float:right; margin-top: 2px;" class="btn small btn-toolbar"><i class="icon mmerge-prev">&nbsp;</i></button>',
+                                        '</div>'
+                                    ].join('')),
+                                    stopPropagation: true
+                                }),
+                                {caption: '--'},
+                                {caption: me.mniDelFootnote, value: 'delele'},
+                                {caption: me.mniNoteSettings, value: 'settings'}
+                            ]
+                        });
+                        btn.setMenu(_menu);
+
+                        me.btnsPrevNote.push(new Common.UI.Button({
+                            el: $('#id-menu-goto-footnote-prev-'+index),
+                            cls: 'btn-toolbar'
+                        }));
+                        me.btnsNextNote.push(me.mnuGotoFootNext = new Common.UI.Button({
+                            el: $('#id-menu-goto-footnote-next-'+index),
+                            cls: 'btn-toolbar'
+                        }));
+
+                    });
+
                     setEvents.call(me);
                 });
             },
@@ -159,12 +238,12 @@ define([
             },
 
             getButtons: function() {
-                return this.btnsContents.concat(this.btnContentsUpdate);
+                return this.btnsContents.concat(this.btnContentsUpdate).concat(this.btnsNotes);
             },
 
             SetDisabled: function (state) {
                 this._state.disabled = state;
-                this.btnsContents.forEach(function(button) {
+                this.btnsContents.concat(this.btnsNotes).forEach(function(button) {
                     if ( button ) {
                         button.setDisabled(state);
                     }
@@ -179,7 +258,14 @@ define([
             capBtnContentsUpdate: 'Update',
             tipContentsUpdate: 'Update table of contents',
             textUpdateAll: 'Update entire table',
-            textUpdatePages: 'Update page numbers only'
+            textUpdatePages: 'Update page numbers only',
+            tipNotes: 'Footnotes',
+            mniInsFootnote: 'Insert Footnote',
+            mniDelFootnote: 'Delete All Footnotes',
+            mniNoteSettings: 'Notes Settings',
+            textGotoFootnote: 'Go to Footnotes',
+            capBtnInsFootnote: 'Footnotes',
+            confirmDeleteFootnotes: 'Do you want to delete all footnotes?'
         }
     }()), DE.Views.Links || {}));
 });

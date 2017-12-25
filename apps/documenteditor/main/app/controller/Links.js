@@ -41,7 +41,8 @@
 
 define([
     'core',
-    'documenteditor/main/app/view/Links'
+    'documenteditor/main/app/view/Links',
+    'documenteditor/main/app/view/NoteSettingsDialog'
 ], function () {
     'use strict';
 
@@ -59,7 +60,8 @@ define([
             this.addListeners({
                 'Links': {
                     'links:contents': this.onTableContents,
-                    'links:update': this.onTableContentsUpdate
+                    'links:update': this.onTableContentsUpdate,
+                    'links:notes': this.onNotesClick
                 }
             });
         },
@@ -102,9 +104,12 @@ define([
         onApiFocusObject: function(selectedObjects) {
             if (!this.editMode) return;
 
-            var i = -1, type, pr,
+            var pr, i = -1, type,
                 paragraph_locked = false,
-                header_locked = false;
+                header_locked = false,
+                in_header = false,
+                in_equation = false,
+                in_image = false;
 
             while (++i < selectedObjects.length) {
                 type = selectedObjects[i].get_ObjectType();
@@ -114,8 +119,18 @@ define([
                     paragraph_locked = pr.get_Locked();
                 } else if (type === Asc.c_oAscTypeSelectElement.Header) {
                     header_locked = pr.get_Locked();
+                    in_header = true;
+                } else if (type === Asc.c_oAscTypeSelectElement.Image) {
+                    in_image = true;
+                } else if (type === Asc.c_oAscTypeSelectElement.Math) {
+                    in_equation = true;
                 }
             }
+
+            var need_disable = paragraph_locked || in_equation || in_image || in_header;
+            _.each (this.view.btnsNotes, function(item){
+                item.setDisabled(need_disable);
+            }, this);
 
             // var need_disable = paragraph_locked || header_locked;
             // _.each (this.view.btnsContents, function(item){
@@ -141,6 +156,54 @@ define([
                 this.api.asc_updateTableOfContents();
             else
                 this.api.asc_updateaddTableOfContents();
+        },
+
+        onNotesClick: function(type) {
+            var me = this;
+            switch (type) {
+                case 'ins_footnote':
+                    this.api.asc_AddFootnote();
+                    break;
+                case 'delele':
+                    Common.UI.warning({
+                        msg: this.view.confirmDeleteFootnotes,
+                        buttons: ['yes', 'no'],
+                        primary: 'yes',
+                        callback: _.bind(function (btn) {
+                            if (btn == 'yes') {
+                                this.api.asc_RemoveAllFootnotes();
+                            }
+                            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+                        }, this)
+                    });
+                    break;
+                case 'settings':
+                    (new DE.Views.NoteSettingsDialog({
+                        api: me.api,
+                        handler: function (result, settings) {
+                            if (settings) {
+                                me.api.asc_SetFootnoteProps(settings.props, settings.applyToAll);
+                                if (result == 'insert')
+                                    me.api.asc_AddFootnote(settings.custom);
+                            }
+                            Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                        },
+                        props: me.api.asc_GetFootnoteProps()
+                    })).show();
+                    break;
+                case 'prev':
+                    this.api.asc_GotoFootnote(false);
+                    setTimeout(function() {
+                        Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                    }, 50);
+                    break;
+                case 'next':
+                    this.api.asc_GotoFootnote(true);
+                    setTimeout(function() {
+                        Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                    }, 50);
+                    break;
+            }
         }
 
     }, DE.Controllers.Links || {}));
