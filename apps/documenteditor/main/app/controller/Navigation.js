@@ -109,7 +109,8 @@ define([
                 arr.push(new Common.UI.TreeViewModel({
                     name : this._navigationObject.get_Text(i),
                     level: level,
-                    index: i
+                    index: i,
+                    isEmptyItem: this._navigationObject.isEmptyItem(i)
                 }));
                 prev_level = level;
             }

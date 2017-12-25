@@ -52,6 +52,7 @@ define([
                 name: '',
                 isNotHeader: false,
                 hasSubItems: false,
+                isEmptyItem: false,
                 isExpanded: true,
                 isVisible: true,
                 selected: false,
@@ -168,10 +169,10 @@ define([
                     '<% if (hasSubItems) { %>',
                         '<div class="tree-caret img-commonctrl ' + '<% if (!isExpanded) { %>' + 'up' + '<% } %>' + '" style="margin-left: <%= level*16 %>px;"></div>',
                     '<% } %>',
-                    '<% if (name!=="") { %>',
-                    '   <div class="name <% if (isNotHeader) { %>' + 'not-header' + '<% } %>"><%= name %></div>',
+                    '<% if (isEmptyItem) { %>',
+                        '<div class="name empty">' + options.emptyItemText + '</div>',
                     '<% } else { %>',
-                    '   <div class="name empty">' + options.emptyItemText + '</div>',
+                        '<div class="name <% if (isNotHeader) { %>' + 'not-header' + '<% } %>"><%= name %></div>',
                     '<% } %>',
                     '</div>'
                 ].join(''));
