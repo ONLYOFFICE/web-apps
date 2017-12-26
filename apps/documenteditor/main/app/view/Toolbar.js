@@ -521,14 +521,6 @@ define([
                 });
                 this.paragraphControls.push(this.btnInsertTextArt);
 
-                this.btnInsertHyperlink = new Common.UI.Button({
-                    id: 'tlbtn-insertlink',
-                    cls: 'btn-toolbar x-huge icon-top',
-                    caption: me.capBtnInsLink,
-                    iconCls: 'btn-inserthyperlink'
-                });
-                this.paragraphControls.push(this.btnInsertHyperlink);
-
                 this.btnEditHeader = new Common.UI.Button({
                     id: 'id-toolbar-btn-editheader',
                     cls: 'btn-toolbar x-huge icon-top',
@@ -1249,7 +1241,6 @@ define([
                 _injectComponent('#slot-btn-instextart', this.btnInsertTextArt);
                 _injectComponent('#slot-btn-dropcap', this.btnDropCap);
                 _injectComponent('#slot-btn-columns', this.btnColumns);
-                _injectComponent('#slot-btn-inshyperlink', this.btnInsertHyperlink);
                 _injectComponent('#slot-btn-editheader', this.btnEditHeader);
                 _injectComponent('#slot-btn-insshape', this.btnInsertShape);
                 _injectComponent('#slot-btn-insequation', this.btnInsertEquation);
@@ -1499,7 +1490,6 @@ define([
                 this.btnInsertChart.updateHint(this.tipInsertChart);
                 this.btnInsertText.updateHint(this.tipInsertText);
                 this.btnInsertTextArt.updateHint(this.tipInsertTextArt);
-                this.btnInsertHyperlink.updateHint(this.tipInsertHyperlink + Common.Utils.String.platformKey('Ctrl+K'));
                 this.btnEditHeader.updateHint(this.tipEditHeader);
                 this.btnInsertShape.updateHint(this.tipInsertShape);
                 this.btnInsertEquation.updateHint(this.tipInsertEquation);
@@ -2281,7 +2271,6 @@ define([
             tipEditHeader: 'Edit Document Header or Footer',
             mniEditHeader: 'Edit Document Header',
             mniEditFooter: 'Edit Document Footer',
-            tipInsertHyperlink: 'Add Hyperlink',
             mniHiddenChars: 'Nonprinting Characters',
             mniHiddenBorders: 'Hidden Table Borders',
             tipSynchronize: 'The document has been changed by another user. Please click to save your changes and reload the updates.',
@@ -2377,7 +2366,6 @@ define([
             capBtnInsImage: 'Picture',
             capBtnInsTable: 'Table',
             capBtnInsChart: 'Chart',
-            capBtnInsLink: 'Hyperlink',
             textTabFile: 'File',
             textTabHome: 'Home',
             textTabInsert: 'Insert',

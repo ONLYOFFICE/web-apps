@@ -85,6 +85,12 @@ define([
                     me.fireEvent('links:notes', ['next']);
                 });
             });
+
+            this.btnsHyperlink.forEach(function(button) {
+                button.on('click', function (b, e) {
+                    me.fireEvent('links:hyperlink');
+                });
+            });
         }
 
         return {
@@ -99,6 +105,8 @@ define([
                 this.btnsNotes = [];
                 this.btnsPrevNote = [];
                 this.btnsNextNote = [];
+                this.btnsHyperlink = [];
+                this.paragraphControls = [];
 
                 var me = this,
                     $host = me.toolbar.$el;
@@ -108,22 +116,28 @@ define([
                         cmp.rendered ? $slot.append(cmp.$el) : cmp.render($slot);
                 };
 
-                var $slots = $host.find('.btn-slot.btn-contents');
-                $slots.each(function(index, el) {
-                    var _cls = 'btn-toolbar';
-                    /x-huge/.test(el.className) && (_cls += ' x-huge icon-top');
+                var _injectComponents = function ($slots, iconCls, split, menu, caption, btnsArr) {
+                    $slots.each(function(index, el) {
+                        var _cls = 'btn-toolbar';
+                        /x-huge/.test(el.className) && (_cls += ' x-huge icon-top');
 
-                    var button = new Common.UI.Button({
-                        cls: _cls,
-                        iconCls: 'btn-contents',
-                        caption: me.capBtnInsContents,
-                        split: true,
-                        menu: true,
-                        disabled: true
-                    }).render( $slots.eq(index) );
+                        var button = new Common.UI.Button({
+                            cls: _cls,
+                            iconCls: iconCls,
+                            caption: caption,
+                            split: split,
+                            menu: menu,
+                            disabled: true
+                        }).render( $slots.eq(index) );
 
-                    me.btnsContents.push(button);
-                });
+                        btnsArr.push(button);
+                        me.paragraphControls.push(button);
+                    });
+                };
+
+                _injectComponents($host.find('.btn-slot.btn-contents'), 'btn-contents', true, true, me.capBtnInsContents, me.btnsContents);
+                _injectComponents($host.find('.btn-slot.slot-notes'), 'btn-notes', true, true, me.capBtnInsFootnote, me.btnsNotes);
+                _injectComponents($host.find('.btn-slot.slot-inshyperlink'), 'btn-inserthyperlink', false, false, me.capBtnInsLink, me.btnsHyperlink);
 
                 this.btnContentsUpdate = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
@@ -134,23 +148,7 @@ define([
                     disabled: true
                 });
                 _injectComponent('#slot-btn-contents-update', this.btnContentsUpdate);
-
-                $slots = $host.find('.btn-slot.slot-notes');
-                $slots.each(function(index, el) {
-                    var _cls = 'btn-toolbar';
-                    /x-huge/.test(el.className) && (_cls += ' x-huge icon-top');
-
-                    var button = new Common.UI.Button({
-                        cls: _cls,
-                        iconCls: 'btn-notes',
-                        caption: me.capBtnInsFootnote,
-                        split: true,
-                        menu: true,
-                        disabled: true
-                    }).render( $slots.eq(index) );
-
-                    me.btnsNotes.push(button);
-                });
+                this.paragraphControls.push(this.btnContentsUpdate);
 
                 this._state = {disabled: false};
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
@@ -182,13 +180,12 @@ define([
                     });
 
                     me.btnContentsUpdate.updateHint(me.tipContentsUpdate);
-                    var _menu = new Common.UI.Menu({
+                    me.btnContentsUpdate.setMenu(new Common.UI.Menu({
                         items: [
                             {caption: me.textUpdateAll, value: 'all'},
                             {caption: me.textUpdatePages, value: 'pages'}
                         ]
-                    });
-                    me.btnContentsUpdate.setMenu(_menu);
+                    }));
 
                     me.btnsNotes.forEach( function(btn, index) {
                         btn.updateHint( me.tipNotes );
@@ -225,7 +222,10 @@ define([
                             el: $('#id-menu-goto-footnote-next-'+index),
                             cls: 'btn-toolbar'
                         }));
+                    });
 
+                    me.btnsHyperlink.forEach( function(btn) {
+                        btn.updateHint(me.tipInsertHyperlink + Common.Utils.String.platformKey('Ctrl+K'));
                     });
 
                     setEvents.call(me);
@@ -238,17 +238,16 @@ define([
             },
 
             getButtons: function() {
-                return this.btnsContents.concat(this.btnContentsUpdate).concat(this.btnsNotes);
+                return this.paragraphControls;
             },
 
             SetDisabled: function (state) {
                 this._state.disabled = state;
-                this.btnsContents.concat(this.btnsNotes).forEach(function(button) {
+                this.paragraphControls.forEach(function(button) {
                     if ( button ) {
                         button.setDisabled(state);
                     }
                 }, this);
-                this.btnContentsUpdate.setDisabled(state);
             },
 
             capBtnInsContents: 'Table of Contents',
@@ -265,7 +264,9 @@ define([
             mniNoteSettings: 'Notes Settings',
             textGotoFootnote: 'Go to Footnotes',
             capBtnInsFootnote: 'Footnotes',
-            confirmDeleteFootnotes: 'Do you want to delete all footnotes?'
+            confirmDeleteFootnotes: 'Do you want to delete all footnotes?',
+            capBtnInsLink: 'Hyperlink',
+            tipInsertHyperlink: 'Add Hyperlink'
         }
     }()), DE.Views.Links || {}));
 });

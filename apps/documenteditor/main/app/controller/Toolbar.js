@@ -48,7 +48,6 @@ define([
     'common/main/lib/view/InsertTableDialog',
     'common/main/lib/util/define',
     'documenteditor/main/app/view/Toolbar',
-    'documenteditor/main/app/view/HyperlinkSettingsDialog',
     'documenteditor/main/app/view/DropcapSettingsAdvanced',
     'documenteditor/main/app/view/MailMergeRecepients',
     'documenteditor/main/app/view/StyleTitleDialog',
@@ -275,7 +274,6 @@ define([
             toolbar.mnuLineSpace.on('item:toggle',                      _.bind(this.onLineSpaceToggle, this));
             toolbar.mnuNonPrinting.on('item:toggle',                    _.bind(this.onMenuNonPrintingToggle, this));
             toolbar.btnShowHidenChars.on('toggle',                      _.bind(this.onNonPrintingToggle, this));
-            toolbar.btnInsertHyperlink.on('click',                      _.bind(this.onHyperlinkClick, this));
             toolbar.mnuTablePicker.on('select',                         _.bind(this.onTablePickerSelect, this));
             toolbar.mnuInsertTable.on('item:click',                     _.bind(this.onInsertTableClick, this));
             toolbar.mnuInsertImage.on('item:click',                     _.bind(this.onInsertImageClick, this));
@@ -331,7 +329,6 @@ define([
             this.api.asc_registerCallback('asc_onPrAlign',              _.bind(this.onApiParagraphAlign, this));
             this.api.asc_registerCallback('asc_onTextColor',            _.bind(this.onApiTextColor, this));
             this.api.asc_registerCallback('asc_onParaSpacingLine',      _.bind(this.onApiLineSpacing, this));
-            this.api.asc_registerCallback('asc_onCanAddHyperlink',      _.bind(this.onApiCanAddHyperlink, this));
             this.api.asc_registerCallback('asc_onFocusObject',          _.bind(this.onApiFocusObject, this));
             this.api.asc_registerCallback('asc_onDocSize',              _.bind(this.onApiPageSize, this));
             this.api.asc_registerCallback('asc_onPaintFormatChanged',   _.bind(this.onApiStyleChange, this));
@@ -564,14 +561,6 @@ define([
                     this.toolbar.mnuLineSpace.items[4].setChecked(true, true);
                 else if ( Math.abs(line-3)<0.0001 )
                     this.toolbar.mnuLineSpace.items[5].setChecked(true, true);
-            }
-        },
-
-        onApiCanAddHyperlink: function(value) {
-            var need_disable = !value || this._state.prcontrolsdisable;
-
-            if ( this.editMode ) {
-                this.toolbar.btnInsertHyperlink.setDisabled(need_disable);
             }
         },
 
@@ -1288,58 +1277,6 @@ define([
             }
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-        },
-
-        onHyperlinkClick: function(btn) {
-            var me = this,
-                win, props, text;
-
-            if (me.api){
-
-                var handlerDlg = function(dlg, result) {
-                    if (result == 'ok') {
-                        props = dlg.getSettings();
-                        (text!==false)
-                            ? me.api.add_Hyperlink(props)
-                            : me.api.change_Hyperlink(props);
-                    }
-
-                    Common.NotificationCenter.trigger('edit:complete', me.toolbar);
-                };
-
-                text = me.api.can_AddHyperlink();
-
-                if (text !== false) {
-                    win = new DE.Views.HyperlinkSettingsDialog({
-                        api: me.api,
-                        handler: handlerDlg
-                    });
-
-                    props = new Asc.CHyperlinkProperty();
-                    props.put_Text(text);
-
-                    win.show();
-                    win.setSettings(props);
-                } else {
-                    var selectedElements = me.api.getSelectedElements();
-                    if (selectedElements && _.isArray(selectedElements)){
-                        _.each(selectedElements, function(el, i) {
-                            if (selectedElements[i].get_ObjectType() == Asc.c_oAscTypeSelectElement.Hyperlink)
-                                props = selectedElements[i].get_ObjectValue();
-                        });
-                    }
-                    if (props) {
-                        win = new DE.Views.HyperlinkSettingsDialog({
-                            api: me.api,
-                            handler: handlerDlg
-                        });
-                        win.show();
-                        win.setSettings(props);
-                    }
-                }
-            }
-
-            Common.component.Analytics.trackEvent('ToolBar', 'Add Hyperlink');
         },
 
         onTablePickerSelect: function(picker, columns, rows, e) {
@@ -2787,7 +2724,7 @@ define([
                 }
 
                 var links = me.getApplication().getController('Links');
-                links.setApi(me.api).setConfig({toolbar: me.toolbar});
+                links.setApi(me.api).setConfig({toolbar: me});
                 Array.prototype.push.apply(me.toolbar.toolbarControls, links.getView('Links').getButtons());
             }
         },

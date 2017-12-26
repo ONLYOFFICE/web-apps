@@ -42,7 +42,8 @@
 define([
     'core',
     'documenteditor/main/app/view/Links',
-    'documenteditor/main/app/view/NoteSettingsDialog'
+    'documenteditor/main/app/view/NoteSettingsDialog',
+    'documenteditor/main/app/view/HyperlinkSettingsDialog'
 ], function () {
     'use strict';
 
@@ -61,19 +62,22 @@ define([
                 'Links': {
                     'links:contents': this.onTableContents,
                     'links:update': this.onTableContentsUpdate,
-                    'links:notes': this.onNotesClick
+                    'links:notes': this.onNotesClick,
+                    'links:hyperlink': this.onHyperlinkClick
                 }
             });
         },
         onLaunch: function () {
-            this._state = {};
-            this.editMode = true;
+            this._state = {
+                prcontrolsdisable:undefined
+            };
         },
 
         setApi: function (api) {
             if (api) {
                 this.api = api;
                 this.api.asc_registerCallback('asc_onFocusObject', this.onApiFocusObject.bind(this));
+                this.api.asc_registerCallback('asc_onCanAddHyperlink',      _.bind(this.onApiCanAddHyperlink, this));
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onCoAuthoringDisconnect, this));
                 Common.NotificationCenter.on('api:disconnect', _.bind(this.onCoAuthoringDisconnect, this));
             }
@@ -83,7 +87,7 @@ define([
         setConfig: function(config) {
             this.toolbar = config.toolbar;
             this.view = this.createView('Links', {
-                toolbar: this.toolbar
+                toolbar: this.toolbar.toolbar
             });
         },
 
@@ -97,12 +101,11 @@ define([
         },
 
         onCoAuthoringDisconnect: function() {
-            this.editMode = false;
             this.SetDisabled(true);
         },
 
         onApiFocusObject: function(selectedObjects) {
-            if (!this.editMode) return;
+            if (!this.toolbar.editMode) return;
 
             var pr, i = -1, type,
                 paragraph_locked = false,
@@ -127,15 +130,74 @@ define([
                 }
             }
 
+            this._state.prcontrolsdisable = paragraph_locked || header_locked;
+
             var need_disable = paragraph_locked || in_equation || in_image || in_header;
             _.each (this.view.btnsNotes, function(item){
                 item.setDisabled(need_disable);
             }, this);
+        },
 
-            // var need_disable = paragraph_locked || header_locked;
-            // _.each (this.view.btnsContents, function(item){
-            //     item.setDisabled(need_disable);
-            // }, this);
+        onApiCanAddHyperlink: function(value) {
+            var need_disable = !value || this._state.prcontrolsdisable;
+
+            if ( this.toolbar.editMode ) {
+                _.each (this.view.btnsHyperlink, function(item){
+                    item.setDisabled(need_disable);
+                }, this);
+            }
+        },
+
+        onHyperlinkClick: function(btn) {
+            var me = this,
+                win, props, text;
+
+            if (me.api){
+
+                var handlerDlg = function(dlg, result) {
+                    if (result == 'ok') {
+                        props = dlg.getSettings();
+                        (text!==false)
+                            ? me.api.add_Hyperlink(props)
+                            : me.api.change_Hyperlink(props);
+                    }
+
+                    Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                };
+
+                text = me.api.can_AddHyperlink();
+
+                if (text !== false) {
+                    win = new DE.Views.HyperlinkSettingsDialog({
+                        api: me.api,
+                        handler: handlerDlg
+                    });
+
+                    props = new Asc.CHyperlinkProperty();
+                    props.put_Text(text);
+
+                    win.show();
+                    win.setSettings(props);
+                } else {
+                    var selectedElements = me.api.getSelectedElements();
+                    if (selectedElements && _.isArray(selectedElements)){
+                        _.each(selectedElements, function(el, i) {
+                            if (selectedElements[i].get_ObjectType() == Asc.c_oAscTypeSelectElement.Hyperlink)
+                                props = selectedElements[i].get_ObjectValue();
+                        });
+                    }
+                    if (props) {
+                        win = new DE.Views.HyperlinkSettingsDialog({
+                            api: me.api,
+                            handler: handlerDlg
+                        });
+                        win.show();
+                        win.setSettings(props);
+                    }
+                }
+            }
+
+            Common.component.Analytics.trackEvent('ToolBar', 'Add Hyperlink');
         },
 
         onTableContents: function(type){

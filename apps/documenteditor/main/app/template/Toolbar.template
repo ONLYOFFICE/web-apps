@@ -122,7 +122,7 @@
                 </div>
                 <div class="separator long"></div>
                 <div class="group">
-                    <span class="btn-slot text x-huge" id="slot-btn-inshyperlink"></span>
+                    <span class="btn-slot text x-huge slot-inshyperlink"></span>
                     <span class="btn-slot text x-huge slot-notes"></span>
                     <span class="btn-slot text x-huge slot-comment"></span>
                 </div>
@@ -165,6 +165,10 @@
                 <div class="separator long"></div>
                 <div class="group">
                     <span class="btn-slot text x-huge slot-notes"></span>
+                </div>
+                <div class="separator long"></div>
+                <div class="group">
+                    <span class="btn-slot text x-huge slot-inshyperlink"></span>
                 </div>
             </section>
         </section>
