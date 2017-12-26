@@ -43,7 +43,8 @@ define([
     'core',
     'documenteditor/main/app/view/Links',
     'documenteditor/main/app/view/NoteSettingsDialog',
-    'documenteditor/main/app/view/HyperlinkSettingsDialog'
+    'documenteditor/main/app/view/HyperlinkSettingsDialog',
+    'documenteditor/main/app/view/TableOfContentsSettings'
 ], function () {
     'use strict';
 
@@ -206,7 +207,20 @@ define([
                     this.api.asc_addTableOfContents(); break;
                 case 1:
                     this.api.asc_addTableOfContents(); break;
-                case 'settins':
+                case 'settings':
+                    var props, me = this;
+                    var win = new DE.Views.TableOfContentsSettings({
+                        api: this.api,
+                        props: props,
+                        handler: function(dlg, result) {
+                            if (result == 'ok') {
+                                props = dlg.getSettings();
+                            }
+
+                            Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                        }
+                    });
+                    win.show();
                     break;
                 case 'remove':
                     break;
