@@ -1256,6 +1256,8 @@ define([
                         }
                     }
                 } else {
+                    Common.Gateway.reportWarning(id, config.msg);
+
                     config.title    = this.notcriticalErrorTitle;
                     config.iconCls  = 'warn';
                     config.buttons  = ['ok'];

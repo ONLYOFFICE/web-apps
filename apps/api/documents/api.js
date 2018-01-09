@@ -170,7 +170,8 @@
                 'onAppReady': <application ready callback>,
                 'onBack': <back to folder callback>,
                 'onError': <error callback>,
-                'onDocumentReady': <document ready callback>
+                'onDocumentReady': <document ready callback>,
+                'onWarning': <warning callback>
             }
         }
     */
