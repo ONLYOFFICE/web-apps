@@ -1913,6 +1913,7 @@ define([
                                 lockedDeleted   = elValue.get_LockRemove();
                                 lockedLayout    = elValue.get_LockLayout();
                                 menuSlideSettings.options.value = element;
+                                me.slideLayoutMenu.options.layout_index = elValue.get_LayoutIndex();
                                 return false;
                             }
                         });
@@ -1974,8 +1975,6 @@ define([
                 me.slideLayoutMenu = new Common.UI.DataView({
                     el          : $('#id-docholder-menu-changeslide'),
                     parentMenu  : mnuChangeSlide.menu,
-                    showLast: false,
-                    // restoreHeight: 300,
                     style: 'max-height: 300px;',
                     store       : PE.getCollection('SlideLayouts'),
                     itemTemplate: _.template([
@@ -1998,7 +1997,12 @@ define([
                     mnuChangeSlide.menu.on('show:after', function (menu) {
                         me.onSlidePickerShowAfter(me.slideLayoutMenu);
                         me.slideLayoutMenu.scroller.update({alwaysVisibleY: true});
-                        me.slideLayoutMenu.scroller.scrollTop(0);
+
+                        var record = me.slideLayoutMenu.store.findLayoutByIndex(me.slideLayoutMenu.options.layout_index);
+                        if (record) {
+                            me.slideLayoutMenu.selectRecord(record, true);
+                            me.slideLayoutMenu.scrollToRecord(record);
+                        }
                     });
                 }
                 me.slideLayoutMenu._needRecalcSlideLayout = true;
