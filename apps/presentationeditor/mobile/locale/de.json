@@ -64,7 +64,7 @@
   "PE.Controllers.Main.criticalErrorExtText": "Drücken Sie \"OK\", um zur Dokumentenliste zurückzukehren.",
   "PE.Controllers.Main.criticalErrorTitle": "Fehler",
   "PE.Controllers.Main.defaultTitleText": "ONLYOFFICE Presentation Editor",
-  "PE.Controllers.Main.downloadErrorText": "Herinterladen ist fehlgeschlagen.",
+  "PE.Controllers.Main.downloadErrorText": "Herunterladen ist fehlgeschlagen.",
   "PE.Controllers.Main.downloadTextText": "Dokument wird heruntergeladen...",
   "PE.Controllers.Main.downloadTitleText": "Herunterladen des Dokuments",
   "PE.Controllers.Main.errorBadImageUrl": "URL des Bildes ist falsch",
