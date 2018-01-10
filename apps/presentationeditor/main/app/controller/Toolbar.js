@@ -635,7 +635,8 @@ define([
                 no_text = true,
                 no_object = true,
                 in_equation = false,
-                in_chart = false;
+                in_chart = false,
+                layout_index = -1;
 
             while (++i < selectedObjects.length) {
                 type = selectedObjects[i].get_ObjectType();
@@ -647,6 +648,7 @@ define([
                 } else if (type == Asc.c_oAscTypeSelectElement.Slide) {
                     slide_deleted = pr.get_LockDelete();
                     slide_layout_lock = pr.get_LockLayout();
+                    layout_index = pr.get_LayoutIndex();
                 } else if (type == Asc.c_oAscTypeSelectElement.Image || type == Asc.c_oAscTypeSelectElement.Shape || type == Asc.c_oAscTypeSelectElement.Chart || type == Asc.c_oAscTypeSelectElement.Table) {
                     shape_locked = pr.get_Locked();
                     no_object = false;
@@ -704,6 +706,9 @@ define([
                 if (this._state.activated) this._state.in_equation = in_equation;
                 this.toolbar.lockToolbar(PE.enumLock.inEquation, in_equation, {array: [me.toolbar.btnSuperscript, me.toolbar.btnSubscript]});
             }
+
+            if (this.toolbar.mnuChangeSlidePicker)
+                this.toolbar.mnuChangeSlidePicker.options.layout_index = layout_index;
         },
 
         onApiStyleChange: function(v) {

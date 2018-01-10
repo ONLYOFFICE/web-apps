@@ -1338,7 +1338,6 @@ define([
                     me.mnuChangeSlidePicker = new Common.UI.DataView({
                         el: $('#id-toolbar-menu-changeslide'),
                         parentMenu: me.btnChangeSlide.menu,
-                        showLast: false,
                         restoreHeight: 300,
                         style: 'max-height: 300px;',
                         store: PE.getCollection('SlideLayouts'),
@@ -1353,7 +1352,12 @@ define([
                         me.btnChangeSlide.menu.on('show:after', function () {
                             me.onSlidePickerShowAfter(me.mnuChangeSlidePicker);
                             me.mnuChangeSlidePicker.scroller.update({alwaysVisibleY: true});
-                            me.mnuChangeSlidePicker.scroller.scrollTop(0);
+
+                            var record = me.mnuChangeSlidePicker.store.findLayoutByIndex(me.mnuChangeSlidePicker.options.layout_index);
+                            if (record) {
+                                me.mnuChangeSlidePicker.selectRecord(record, true);
+                                me.mnuChangeSlidePicker.scrollToRecord(record);
+                            }
                         });
                     }
                     me.mnuChangeSlidePicker._needRecalcSlideLayout = true;

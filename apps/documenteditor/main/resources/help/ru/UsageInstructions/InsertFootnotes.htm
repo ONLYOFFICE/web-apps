@@ -6,9 +6,13 @@
         <meta name="description" content="Вставьте сноски, чтобы пояснить какие-то термины или указать ссылки на источники" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
         <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Поиск" type="search" onkeypress="doSearch(event)">
+            </div>
 			<h1>Вставка сносок</h1>
             <p>Сноски можно добавлять, чтобы пояснить или прокомментировать какие-то фразы или термины, использованные в тексте, указать ссылки на источники и так далее.</p>
 			<p>Чтобы вставить сноску в документ:</p>
