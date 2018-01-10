@@ -1767,7 +1767,7 @@ define([
                     supersc = fontobj.asc_getSuperscript();
 
                 if (this._state.subscript !== subsc || this._state.superscript !== supersc) {
-                    var index = (subsc) ? 0 : (supersc ? 1 : -1),
+                    var index = (supersc) ? 0 : (subsc ? 1 : -1),
                         btnSubscript = toolbar.btnSubscript;
 
                     btnSubscript.toggle(index>-1, true);
@@ -1908,7 +1908,7 @@ define([
                     supersc = fontobj.asc_getSuperscript();
 
                 if (this._state.subscript !== subsc || this._state.superscript !== supersc) {
-                    var index = (subsc) ? 0 : (supersc ? 1 : -1),
+                    var index = (supersc) ? 0 : (subsc ? 1 : -1),
                         btnSubscript = toolbar.btnSubscript;
 
                     btnSubscript.toggle(index>-1, true);

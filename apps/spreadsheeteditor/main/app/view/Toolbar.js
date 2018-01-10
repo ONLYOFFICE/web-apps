@@ -430,15 +430,6 @@ define([
                     menu        : new Common.UI.Menu({
                         items: [
                             {
-                                caption     : me.textSubscript,
-                                iconCls     : 'mnu-text-subscript',
-                                icls        : 'btn-subscript',
-                                checkable   : true,
-                                allowDepress: true,
-                                toggleGroup : 'textsubscriptgroup',
-                                value       : 'sub'
-                            },
-                            {
                                 caption     : me.textSuperscript,
                                 iconCls     : 'mnu-text-superscript',
                                 icls        : 'btn-superscript',
@@ -446,6 +437,15 @@ define([
                                 allowDepress: true,
                                 toggleGroup : 'textsubscriptgroup',
                                 value       : 'super'
+                            },
+                            {
+                                caption     : me.textSubscript,
+                                iconCls     : 'mnu-text-subscript',
+                                icls        : 'btn-subscript',
+                                checkable   : true,
+                                allowDepress: true,
+                                toggleGroup : 'textsubscriptgroup',
+                                value       : 'sub'
                             }
                         ]
                     })
