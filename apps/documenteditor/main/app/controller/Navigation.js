@@ -83,6 +83,9 @@ define([
             this.api = api;
             this.api.asc_registerCallback('asc_onDocumentOutlineUpdate', _.bind(this.updateNavigation, this));
             this.api.asc_registerCallback('asc_onDocumentOutlineCurrentPosition', _.bind(this.onChangeOutlinePosition, this));
+            this.api.asc_registerCallback('asc_onDocumentOutlineUpdateAdd', _.bind(this.updateNavigation, this));
+            this.api.asc_registerCallback('asc_onDocumentOutlineUpdateChange', _.bind(this.updateChangeNavigation, this));
+            this.api.asc_registerCallback('asc_onDocumentOutlineUpdateRemove', _.bind(this.updateNavigation, this));
             return this;
         },
 
@@ -121,6 +124,19 @@ define([
                 arr[0].set('tip', this.txtGotoBeginning);
             }
             this.getApplication().getCollection('Navigation').reset(arr);
+        },
+
+        updateChangeNavigation: function(index) {
+            if (!this._navigationObject) return;
+
+            var item = this.getApplication().getCollection('Navigation').at(index);
+            if (item.get('level') !== this._navigationObject.get_Level(index) ||
+                index==0 && item.get('isNotHeader') !== this._navigationObject.isFirstItemNotHeader()) {
+                this.updateNavigation();
+            } else {
+                item.set('name', this._navigationObject.get_Text(index));
+                item.set('isEmptyItem', this._navigationObject.isEmptyItem(index));
+            }
         },
 
         onChangeOutlinePosition: function(index) {
