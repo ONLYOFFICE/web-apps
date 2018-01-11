@@ -67,7 +67,7 @@ define([
                 this.trigger('items:reset', this);
             },
 
-            onAddItem: function(record, index) {
+            onAddItem: function(record, store, opts) {
                 var view = new Common.UI.DataViewItem({
                     template: this.itemTemplate,
                     model: record
@@ -79,7 +79,8 @@ define([
                 if (view && this.innerEl) {
                     this.innerEl.find('.empty-text').remove();
                     if (this.options.simpleAddMode) {
-                        this.innerEl.append(view.render().el)
+                        this.innerEl.append(view.render().el);
+                        this.dataViewItems.push(view);
                     } else {
                         var idx = _.indexOf(this.store.models, record);
                         var innerDivs = this.innerEl.find('> div');
@@ -89,9 +90,8 @@ define([
                         else {
                             (innerDivs.length > 0) ? $(innerDivs[idx]).before(view.render().el) : this.innerEl.append(view.render().el);
                         }
-
+                        this.dataViewItems = this.dataViewItems.slice(0, idx).concat(view).concat(this.dataViewItems.slice(idx));
                     }
-                    this.dataViewItems.push(view);
                     this.listenTo(view, 'change',  this.onChangeItem);
                     this.listenTo(view, 'remove',  this.onRemoveItem);
                     this.listenTo(view, 'click',   this.onClickItem);

@@ -389,7 +389,7 @@ define([
             return this.store.where({selected: true});
         },
 
-        onAddItem: function(record, index, opts) {
+        onAddItem: function(record, store, opts) {
             var view = new Common.UI.DataViewItem({
                 template: this.itemTemplate,
                 model: record
@@ -412,7 +412,8 @@ define([
                         innerEl.append(view.render().el);
 
                     innerEl.find('.empty-text').remove();
-                    this.dataViewItems.push(view);
+                    var idx = _.indexOf(this.store.models, record);
+                    this.dataViewItems = this.dataViewItems.slice(0, idx).concat(view).concat(this.dataViewItems.slice(idx));
 
                     if (record.get('tip')) {
                         var view_el = $(view.el);
@@ -488,6 +489,12 @@ define([
         },
 
         onRemoveItem: function(view, record) {
+            var tip = view.$el.data('bs.tooltip');
+            if (tip) {
+                if (tip.dontShow===undefined)
+                    tip.dontShow = true;
+                (tip.tip()).remove();
+            }
             this.stopListening(view);
             view.stopListening();
 
