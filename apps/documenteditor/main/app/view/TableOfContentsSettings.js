@@ -49,7 +49,7 @@ define([
     DE.Views.TableOfContentsSettings = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 500,
-            height: 380
+            height: 445
         },
 
         initialize : function(options) {
@@ -67,7 +67,7 @@ define([
                                         '<div id="tableofcontents-chb-pages"></div>',
                                         '</td>',
                                         '<td rowspan="6" class="padding-small" style="vertical-align: top;">',
-                                        '<div style="border: 1px solid #cbcbcb;width: 215px; height: 197px; float: right;">',
+                                        '<div style="border: 1px solid #cbcbcb;width: 230px; height: 197px; float: right;">',
                                             '<div id="tableofcontents-img" style="width: 100%; height: 100%;"></div>',
                                         '</div>',
                                         '</td>',
@@ -94,19 +94,30 @@ define([
                                         '</td>',
                                     '</tr>',
                                     '<tr>',
-                                        '<td class="padding-large">',
+                                        '<td class="padding-small">',
                                             '<label class="input-label padding-small" style="display: block;">' + me.textBuildTable + '</label>',
                                             '<div id="tableofcontents-radio-styles" class="padding-small" style="display: block;"></div>',
-                                            '<div id="tableofcontents-radio-levels" class="padding-small" style="display: block;"></div>',
+                                            '<div id="tableofcontents-radio-levels" class="" style="display: block;"></div>',
                                         '</td>',
                                     '</tr>',
                                     '<tr>',
-                                        '<td class="padding-small">',
-                                            '<label class="input-label padding-small">' + me.textLevels + '</label>',
-                                            '<div id="tableofcontents-spin-levels" style="display: inline-block; width:95px; margin-left: 10px;"></div>',
+                                        '<td class="padding-small" style="vertical-align: top;">',
+                                            '<div id="tableofcontents-from-levels">',
+                                                '<label class="input-label">' + me.textLevels + '</label>',
+                                                '<div id="tableofcontents-spin-levels" style="display: inline-block; width:95px; margin-left: 10px;"></div>',
+                                            '</div>',
+                                            '<div id="tableofcontents-from-styles" class="hidden">',
+                                                '<table><tr><td style="height: 25px;">',
+                                                        '<label class="input-label" style="width: 144px; margin-left: 23px;">' + me.textStyle + '</label>',
+                                                        '<label class="input-label" style="">' + me.textLevel + '</label>',
+                                                    '</td></tr>',
+                                                    '<tr><td class="padding-small">',
+                                                        '<div id="tableofcontents-styles-list" class="header-styles-tableview" style="width:100%; height: 91px;"></div>',
+                                                '</td></tr></table>',
+                                            '</div>',
                                         '</td>',
-                                        '<td class="padding-small">',
-                                            '<label class="input-label padding-small">' + me.textStyles + '</label>',
+                                        '<td class="padding-small" style="vertical-align: top;">',
+                                            '<label class="input-label" style="margin-left: 15px;">' + me.textStyles + '</label>',
                                             '<div id="tableofcontents-combo-styles" class="input-group-nr" style="display: inline-block; width:95px; margin-left: 10px;"></div>',
                                         '</td>',
                                     '</tr>',
@@ -189,12 +200,24 @@ define([
                 name: 'asc-radio-content-build',
                 checked: true
             });
+            this.radioLevels.on('change', _.bind(function(field, newValue, eOpts) {
+                if (newValue) {
+                    this.levelsContainer.toggleClass('hidden', !newValue);
+                    this.stylesContainer.toggleClass('hidden', newValue);
+                }
+            }, this));
 
             this.radioStyles = new Common.UI.RadioBox({
                 el: $('#tableofcontents-radio-styles'),
                 labelText: this.textRadioStyles,
                 name: 'asc-radio-content-build'
             });
+            this.radioStyles.on('change', _.bind(function(field, newValue, eOpts) {
+                if (newValue) {
+                    this.stylesContainer.toggleClass('hidden', !newValue);
+                    this.levelsContainer.toggleClass('hidden', newValue);
+                }
+            }, this));
 
             this.cmbStyles = new Common.UI.ComboBox({
                 el: $('#tableofcontents-combo-styles'),
@@ -229,7 +252,31 @@ define([
                 }
             }, this));
 
+            this.stylesLevels = new Common.UI.DataViewStore();
 
+            if (this.stylesLevels) {
+                this.stylesList = new Common.UI.ListView({
+                    el: $('#tableofcontents-styles-list', this.$window),
+                    store: this.stylesLevels,
+                    simpleAddMode: true,
+                    showLast: false,
+                    template: _.template(['<div class="listview inner" style=""></div>'].join('')),
+                    itemTemplate: _.template([
+                        '<div id="<%= id %>" class="list-item">',
+                            '<div class="<% if (checked) { %>checked<% } %>"><%= name %></div>',
+                            '<div>',
+                                '<div class="input-field" style="width:40px;"><input type="text" class="form-control" value="<%= value %>" style="text-align: right;">',
+                            '</div>',
+                            '</div>',
+                        '</div>'
+                    ].join(''))
+                });
+                this.stylesList.on('item:change', _.bind(this.onItemChange, this));
+                this.stylesList.on('item:add', _.bind(this.addEvents, this));
+            }
+
+            this.levelsContainer = $('#tableofcontents-from-levels');
+            this.stylesContainer = $('#tableofcontents-from-styles');
             this.afterRender();
         },
 
@@ -244,12 +291,64 @@ define([
         _setDefaults: function (props) {
             if (props) {
             }
+
+            this.stylesLevels.reset([
+                (new Common.UI.DataViewModel({
+                    name: 'header1',
+                    allowSelected: false,
+                    checked: true,
+                    value: 1
+                })),
+                (new Common.UI.DataViewModel({
+                    name: 'header2',
+                    allowSelected: false,
+                    checked: false,
+                    value: ''
+                })),
+                (new Common.UI.DataViewModel({
+                    name: 'header3',
+                    allowSelected: false,
+                    checked: false,
+                    value: ''
+                }))]);
+
             // this._changedProps = new Asc.asc_CParagraphProperty();
         },
 
         getSettings: function () {
             var props;
             return props;
+        },
+
+        addEvents: function(listView, itemView, record) {
+            var input = itemView.$el.find('input');
+            input.on('keypress', function(e) {
+                var charCode = String.fromCharCode(e.which);
+                if(!/[1-9]/.test(charCode) && !e.ctrlKey && e.keyCode !== Common.UI.Keys.DELETE && e.keyCode !== Common.UI.Keys.BACKSPACE &&
+                    e.keyCode !== Common.UI.Keys.LEFT && e.keyCode !== Common.UI.Keys.RIGHT && e.keyCode !== Common.UI.Keys.HOME &&
+                    e.keyCode !== Common.UI.Keys.END && e.keyCode !== Common.UI.Keys.ESC && e.keyCode !== Common.UI.Keys.INSERT &&
+                    e.keyCode !== Common.UI.Keys.TAB  || input.val().length>1){
+                    // if (e.keyCode==Common.UI.Keys.RETURN) me.trigger('changed', me, el.val());
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+
+            });
+            input.on('input', function(e) {
+                // console.log(input.val());
+                var newval = !_.isEmpty(input.val());
+                if (record.get('checked') !== newval) {
+                    record.set('checked', !_.isEmpty(input.val()));
+                }
+                record.set('value', input.val());
+            });
+        },
+
+        onItemChange: function(listView, itemView, record) {
+            this.addEvents(listView, itemView, record);
+            setTimeout(function(){
+                itemView.$el.find('input').focus();
+            }, 10);
         },
 
         textTitle:  'Table of Contents',
@@ -264,8 +363,15 @@ define([
         textNone: 'None',
         textRadioLevels: 'Outline levels',
         textRadioStyles: 'Selected styles',
+        textStyle: 'Style',
+        textLevel: 'Level',
         cancelButtonText: 'Cancel',
-        okButtonText    : 'Ok'
+        okButtonText    : 'Ok',
+        txtCurrent: 'Current',
+        txtSimple: 'Simple',
+        txtStandard: 'Standard',
+        txtModern: 'Modern',
+        txtClassic: 'Classic'
 
     }, DE.Views.TableOfContentsSettings || {}))
 });
