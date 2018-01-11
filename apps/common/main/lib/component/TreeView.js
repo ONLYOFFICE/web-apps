@@ -181,7 +181,7 @@ define([
                 Common.UI.DataView.prototype.initialize.call(this, options);
             },
 
-            onAddItem: function(record, index, opts) {
+            onAddItem: function(record, store, opts) {
                 var view = new Common.UI.DataViewItem({
                     template: this.itemTemplate,
                     model: record
@@ -190,12 +190,21 @@ define([
                 if (view) {
                     var innerEl = $(this.el).find('.inner').addBack().filter('.inner');
                     if (innerEl) {
-                        if (opts && opts.at == 0)
-                            innerEl.prepend(view.render().el); else
-                            innerEl.append(view.render().el);
-
                         innerEl.find('.empty-text').remove();
-                        this.dataViewItems.push(view);
+
+                        if (opts && opts.at!==undefined) {
+                            var idx = opts.at;
+                            var innerDivs = innerEl.find('> div');
+                            if (idx > 0)
+                                $(innerDivs.get(idx - 1)).after(view.render().el);
+                            else {
+                                (innerDivs.length > 0) ? $(innerDivs[idx]).before(view.render().el) : innerEl.append(view.render().el);
+                            }
+                            this.dataViewItems = this.dataViewItems.slice(0, idx).concat(view).concat(this.dataViewItems.slice(idx));
+                        } else {
+                            innerEl.append(view.render().el);
+                            this.dataViewItems.push(view);
+                        }
 
                         var name = record.get('name');
                         if (name.length > 37 - record.get('level')*2)
