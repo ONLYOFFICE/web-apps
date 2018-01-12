@@ -5,9 +5,14 @@
     <meta charset="utf-8" />
     <meta name="description" content="" />
     <link type="text/css" rel="stylesheet" href="../editor.css" />
+    <script type="text/javascript" src="../callback.js"></script>
+    <script type="text/javascript" src="../search/js/page-search.js"></script>
 </head>
 <body>
     <div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Поиск" type="search" onkeypress="doSearch(event)">
+        </div>
         <h1>Функция TINV (СТЬЮДРАСПОБР)</h1>
         <p>Функция <b>TINV</b> - это одна из статистических функций. Возвращает двустороннее обратное t-распределения Стьюдента.</p>
         <p>Синтаксис функции <b>TINV</b>:</p>

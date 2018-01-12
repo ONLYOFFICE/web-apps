@@ -5,9 +5,14 @@
 		<meta charset="utf-8" />
 		<meta name="description" content="Open a recently edited presentation, create a new one, or return to the list of existing presentations" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Search" type="search" onkeypress="doSearch(event)">
+        </div>
 			<h1>Create a new presentation or open an existing one</h1>
 			<p>When Presentation Editor is open, you can immediately proceed to an already existing presentation that you have recently edited, create a new one, or return to the list of existing presentations.</p>
 			<p>To create a new presentation within Presentation Editor:</p>

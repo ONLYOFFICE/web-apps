@@ -5,9 +5,14 @@
 		<meta charset="utf-8" />
 		<meta name="description" content="Вставляйте или удаляйте ячейки, строки и столбцы, скрывайте и снова показывайте строки или столбцы, изменяйте высоту строк и ширину столбцов" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Поиск" type="search" onkeypress="doSearch(event)">
+            </div>
 			<h1>Управление ячейками, строками и столбцами</h1>
 			<p>Пустые ячейки можно вставлять выше или слева от выделенной ячейки на рабочем листе. Также можно вставить целую строку выше выделенной или столбец слева от выделенного. Чтобы облегчить просмотр большого количества информации, можно скрывать определенные строки или столбцы и отображать их снова. Можно также задать определенную высоту строк и ширину столбцов.</p>
             <h3>Вставка ячеек, строк, столбцов</h3>

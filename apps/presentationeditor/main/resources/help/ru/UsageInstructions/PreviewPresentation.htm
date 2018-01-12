@@ -6,9 +6,13 @@
 		<meta name="description" content="Просмотрите презентацию" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
         <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Поиск" type="search" onkeypress="doSearch(event)">
+        </div>
 			<h1>Просмотр презентации</h1>
             <h3>Запуск просмотра слайдов</h3>
             <p>Чтобы просмотреть презентацию, которую вы в данный момент редактируете, можно сделать следующее:</p>

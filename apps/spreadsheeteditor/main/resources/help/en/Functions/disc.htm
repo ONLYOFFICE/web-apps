@@ -5,9 +5,14 @@
 		<meta charset="utf-8" />
 		<meta name="description" content="" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
         <div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Search" type="search" onkeypress="doSearch(event)">
+            </div>
             <h1>DISC Function</h1>
             <p>The <b>DISC</b> function is one of the financial functions. It is used to calculate the discount rate for a security.</p>
             <p>The <b>DISC</b> function syntax is:</p>

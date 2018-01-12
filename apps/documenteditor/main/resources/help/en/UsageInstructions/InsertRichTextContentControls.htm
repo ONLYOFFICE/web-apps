@@ -6,9 +6,13 @@
         <meta name="description" content="Insert rich text content controls to create a form with input fields that can be filled in by other users, or protect some parts of the document from being edited or deleted" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
         <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Search" type="search" onkeypress="doSearch(event)">
+        </div>
 			<h1>Create forms</h1>
             <p>Using rich text content controls you can create a form with input fields that can be filled in by other users, or protect some parts of the document from being edited or deleted. Rich text content controls are objects containing text that can be formatted. Inline controls cannot contain more than one paragraph, while floating controls can contain several paragraphs, lists, and objects (images, shapes, tables etc.). </p>
 			<h3>Adding controls</h3>
