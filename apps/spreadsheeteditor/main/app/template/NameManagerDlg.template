@@ -13,7 +13,7 @@
                         <label class="header"><%= scope.textRanges %></label><div style="width: 6px;height: 6px;"></div><span id="name-manager-sort-name-span" class="sort-direction img-commonctrl"></span>
                     </span></div>
                     <div style="width: 92px;display: inline-block;"><span id="name-manager-sort-scope" class="header-sorted">
-                        <label class="header"><%= scope.textScope %></label><div style="width: 6px;height: 6px;"></div><span id="name-manager-sort-scope-span" class="sort-direction img-commonctrl"></div>
+                        <label class="header"><%= scope.textScope %></label><div style="width: 6px;height: 6px;"></div><span id="name-manager-sort-scope-span" class="sort-direction img-commonctrl"></span>
                     </span></div>
                     <label class="header" style=""><%= scope.textDataRange %></label>
                 </td>
