@@ -5,9 +5,14 @@
 		<meta charset="utf-8" />
 		<meta name="description" content="" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Search" type="search" onkeypress="doSearch(event)">
+            </div>
 			<h1>RIGHT/RIGHTB Function</h1>
 			<p>The <b>RIGHT/RIGHTB</b> function is one of the text and data functions. Is used to extract a substring from a string starting from the right-most character, based on the specified number of characters. The <b>RIGHT</b> function is intended for languages that use the single-byte character set (SBCS), while <b>RIGHTB</b> - for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc.</p>
 			<p>The <b>RIGHT/RIGHTB</b> function syntax is:</p> 

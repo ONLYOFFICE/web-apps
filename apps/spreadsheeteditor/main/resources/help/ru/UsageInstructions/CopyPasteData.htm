@@ -5,9 +5,14 @@
 		<meta charset="utf-8" />
 		<meta name="description" content="Вырезайте/копируйте/вставляйте данные, используя сочетания клавиш" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Поиск" type="search" onkeypress="doSearch(event)">
+            </div>
 			<h1>Вырезание / копирование / вставка данных</h1>
       <h3>Использование основных операций с буфером обмена</h3>
       <p>Для вырезания, копирования и вставки данных в текущей электронной таблице используйте контекстное меню или соответствующие значки, доступные на любой вкладке верхней панели инструментов:</p>

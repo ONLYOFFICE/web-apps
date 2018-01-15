@@ -5,9 +5,14 @@
 		<meta charset="utf-8" />
 		<meta name="description" content="The description of the search and replace functions in Spreadsheet Editor" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Search" type="search" onkeypress="doSearch(event)">
+        </div>
 		<h1>Search and Replace Functions</h1>
 			<p>To search for the needed characters, words or phrases used in the current spreadsheet, click the <img alt="Search icon" src="../images/searchicon.png" /> icon situated at the left sidebar.</p>
             <p>If you want to search for/replace values within a certain area on the current sheet only, select the necessary cell range and then click the <img alt="Search icon" src="../images/searchicon.png" /> icon.</p>

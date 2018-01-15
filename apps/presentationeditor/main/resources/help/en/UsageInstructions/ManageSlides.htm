@@ -6,9 +6,13 @@
 		<meta name="description" content="Add new blank slides, duplicate, move or delete them" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
         <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Search" type="search" onkeypress="doSearch(event)">
+        </div>
 			<h1>Manage slides</h1>
 			<p>By default, a newly created presentation has one blank <em>Title Slide</em>. You can create new slides, copy a slide to be able to paste it to another place in the slide list, duplicate slides, move slides to change their order in the slide list, delete unnecessary slides, mark some slides as hidden. </p>
 			<p><b>To create a new <em>Title and Content</em> slide:</b></p>

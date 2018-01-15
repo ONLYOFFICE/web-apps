@@ -6,9 +6,13 @@
 		<meta name="description" content="Добавьте в презентацию диаграмму и скорректируйте ее свойства" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
         <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Поиск" type="search" onkeypress="doSearch(event)">
+        </div>
 			<h1>Вставка и редактирование диаграмм</h1>
             <h3>Вставка диаграммы</h3>
 			<p><b>Для вставки диаграммы</b> в презентацию,</p>
@@ -29,7 +33,7 @@
 					</ul>
 					<p><img alt="Окно Редактор диаграмм" src="../images/charteditor.png" /></p>
 				</li>
-        <li>измените параметры диаграммы, нажав на кнопку <b>Изменить диаграмму</b> в окне <b>Редактор диаграмм</b>. Откроется окно <b>Диаграмма - Дополнительные параметры</b>.
+        <li>измените параметры диаграммы, нажав на кнопку <b>Изменить диаграмму</b> в окне <b>Редактор диаграмм</b>. Откроется окно <b>Диаграмма - дополнительные параметры</b>.
           <p><img alt="Окно Параметры диаграммы" src="../images/chartsettings.png" /></p>
           <p>На вкладке <b>Тип и данные</b> можно выбрать тип диаграммы, а также данные, которые вы хотите использовать для создания диаграммы.</p>
                 <ul>
