@@ -56,7 +56,8 @@ define([
     'documenteditor/main/app/view/PageSizeDialog',
     'documenteditor/main/app/view/NoteSettingsDialog',
     'documenteditor/main/app/controller/PageLayout',
-    'documenteditor/main/app/view/CustomColumnsDialog'
+    'documenteditor/main/app/view/CustomColumnsDialog',
+    'documenteditor/main/app/view/ControlSettingsDialog'
 ], function () {
     'use strict';
 
@@ -283,6 +284,7 @@ define([
             toolbar.btnInsertText.on('click',                           _.bind(this.onBtnInsertTextClick, this));
             toolbar.btnInsertShape.menu.on('hide:after',                _.bind(this.onInsertShapeHide, this));
             toolbar.btnDropCap.menu.on('item:click',                    _.bind(this.onDropCapSelect, this));
+            toolbar.btnContentControls.menu.on('item:click',            _.bind(this.onControlsSelect, this));
             toolbar.mnuDropCapAdvanced.on('click',                      _.bind(this.onDropCapAdvancedClick, this));
             toolbar.btnColumns.menu.on('item:click',                    _.bind(this.onColumnsSelect, this));
             toolbar.btnPageOrient.menu.on('item:click',                 _.bind(this.onPageOrientSelect, this));
@@ -640,7 +642,8 @@ define([
                 in_chart = false,
                 in_equation = false,
                 btn_eq_state = false,
-                in_image = false;
+                in_image = false,
+                in_control = false;
 
             while (++i < selectedObjects.length) {
                 type = selectedObjects[i].get_ObjectType();
@@ -686,6 +689,19 @@ define([
                 }, this);
             }
 
+            in_control = this.api.asc_IsContentControl();
+            var control_props = in_control ? this.api.asc_GetContentControlProperties() : null,
+                lock_type = (in_control&&control_props) ? control_props.get_Lock() : Asc.c_oAscSdtLockType.Unlocked,
+                control_plain = (in_control&&control_props) ? (control_props.get_ContentControlType()==Asc.c_oAscSdtLevelType.Inline) : false;
+            (lock_type===undefined) && (lock_type = Asc.c_oAscSdtLockType.Unlocked);
+
+            if (!paragraph_locked && !header_locked) {
+                toolbar.btnContentControls.menu.items[0].setDisabled(control_plain || lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.ContentLocked);
+                toolbar.btnContentControls.menu.items[1].setDisabled(control_plain || lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.ContentLocked);
+                toolbar.btnContentControls.menu.items[3].setDisabled(!in_control || lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.SdtLocked);
+                toolbar.btnContentControls.menu.items[5].setDisabled(!in_control);
+            }
+
             var need_text_disable = paragraph_locked || header_locked || in_chart;
             if (this._state.textonlycontrolsdisable != need_text_disable) {
                 if (this._state.activated) this._state.textonlycontrolsdisable = need_text_disable;
@@ -714,22 +730,22 @@ define([
                     this.onDropCap(drop_value);
             }
 
-            need_disable = need_disable || !enable_dropcap || in_equation;
+            need_disable = need_disable || !enable_dropcap || in_equation || control_plain;
             toolbar.btnDropCap.setDisabled(need_disable);
 
             if ( !toolbar.btnDropCap.isDisabled() )
                 toolbar.mnuDropCapAdvanced.setDisabled(disable_dropcapadv);
 
-            need_disable = !can_add_table || header_locked || in_equation;
+            need_disable = !can_add_table || header_locked || in_equation || control_plain;
             toolbar.btnInsertTable.setDisabled(need_disable);
 
-            need_disable = toolbar.mnuPageNumCurrentPos.isDisabled() && toolbar.mnuPageNumberPosPicker.isDisabled();
+            need_disable = toolbar.mnuPageNumCurrentPos.isDisabled() && toolbar.mnuPageNumberPosPicker.isDisabled() || control_plain;
             toolbar.mnuInsertPageNum.setDisabled(need_disable);
 
-            need_disable = paragraph_locked || header_locked || in_header || in_equation && !btn_eq_state || this.api.asc_IsCursorInFootnote();
+            need_disable = paragraph_locked || header_locked || in_header || in_equation && !btn_eq_state || this.api.asc_IsCursorInFootnote() || in_control;
             toolbar.btnsPageBreak.disable(need_disable);
 
-            need_disable = paragraph_locked || header_locked || !can_add_image || in_equation;
+            need_disable = paragraph_locked || header_locked || !can_add_image || in_equation || control_plain;
             toolbar.btnInsertImage.setDisabled(need_disable);
             toolbar.btnInsertShape.setDisabled(need_disable);
             toolbar.btnInsertText.setDisabled(need_disable);
@@ -740,10 +756,10 @@ define([
                 this._state.in_chart = in_chart;
             }
 
-            need_disable = in_chart && image_locked || !in_chart && need_disable;
+            need_disable = in_chart && image_locked || !in_chart && need_disable || control_plain;
             toolbar.btnInsertChart.setDisabled(need_disable);
 
-            need_disable = paragraph_locked || header_locked || in_chart || !can_add_image&&!in_equation;
+            need_disable = paragraph_locked || header_locked || in_chart || !can_add_image&&!in_equation || control_plain;
             toolbar.btnInsertEquation.setDisabled(need_disable);
 
             need_disable = paragraph_locked || header_locked || in_equation;
@@ -752,11 +768,11 @@ define([
 
             toolbar.btnEditHeader.setDisabled(in_equation);
 
-            need_disable = paragraph_locked || in_equation || in_image || in_header;
+            need_disable = paragraph_locked || in_equation || in_image || in_header || control_plain;
             if (need_disable !== toolbar.btnNotes.isDisabled())
                 toolbar.btnNotes.setDisabled(need_disable);
 
-            need_disable = paragraph_locked || header_locked || in_image;
+            need_disable = paragraph_locked || header_locked || in_image || control_plain;
             if (need_disable != toolbar.btnColumns.isDisabled())
                 toolbar.btnColumns.setDisabled(need_disable);
 
@@ -1665,6 +1681,39 @@ define([
                     })).show();
                 }
             }
+        },
+
+        onControlsSelect: function(menu, item) {
+            if (item.value == 'settings' || item.value == 'remove') {
+                if (this.api.asc_IsContentControl()) {
+                    var props = this.api.asc_GetContentControlProperties();
+                    if (props) {
+                        var id = props.get_InternalId();
+                        if (item.value == 'settings') {
+                            var me = this;
+                            (new DE.Views.ControlSettingsDialog({
+                                props: props,
+                                handler: function(result, value) {
+                                    if (result == 'ok') {
+                                        me.api.asc_SetContentControlProperties(value, id);
+                                    }
+
+                                    Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                                }
+                            })).show();
+
+                        } else {
+                            this.api.asc_RemoveContentControlWrapper(id);
+                            Common.component.Analytics.trackEvent('ToolBar', 'Remove Content Control');
+                        }
+                    }
+                }
+            } else {
+                this.api.asc_AddContentControl(item.value);
+                Common.component.Analytics.trackEvent('ToolBar', 'Add Content Control');
+            }
+
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
         onColumnsSelect: function(menu, item) {
@@ -2850,8 +2899,15 @@ define([
                 var tab = {action: 'review', caption: me.toolbar.textTabReview};
                 var $panel = DE.getController('Common.Controllers.ReviewChanges').createToolbarPanel();
 
-                if ( $panel ) {
+                if ( $panel )
                     me.toolbar.addTab(tab, $panel, 3);
+
+                if (config.isDesktopApp && config.isOffline) {
+                    tab = {action: 'protect', caption: me.toolbar.textTabProtect};
+                    $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
+
+                    if ( $panel )
+                        me.toolbar.addTab(tab, $panel, 4);
                 }
             }
         },

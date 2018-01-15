@@ -159,6 +159,7 @@ require([
             'Common.Controllers.Chat',
             'Common.Controllers.Comments',
             'Common.Controllers.Plugins'
+            ,'Common.Controllers.Protection'
         ]
     });
 
@@ -180,12 +181,14 @@ require([
         'spreadsheeteditor/main/app/view/ChartSettings',
         'spreadsheeteditor/main/app/view/ShapeSettings',
         'spreadsheeteditor/main/app/view/TextArtSettings',
+        'spreadsheeteditor/main/app/view/SignatureSettings',
         'common/main/lib/util/utils',
         'common/main/lib/util/LocalStorage',
         'common/main/lib/controller/Fonts',
         'common/main/lib/controller/Comments',
         'common/main/lib/controller/Chat',
         'common/main/lib/controller/Plugins'
+        ,'common/main/lib/controller/Protection'
     ], function() {
         app.start();
     });

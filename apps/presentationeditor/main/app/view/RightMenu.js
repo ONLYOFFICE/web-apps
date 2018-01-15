@@ -56,6 +56,7 @@ define([
     'presentationeditor/main/app/view/ShapeSettings',
     'presentationeditor/main/app/view/SlideSettings',
     'presentationeditor/main/app/view/TextArtSettings',
+    'presentationeditor/main/app/view/SignatureSettings',
     'common/main/lib/component/Scroller'
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
@@ -143,7 +144,7 @@ define([
             return this;
         },
 
-        render: function () {
+        render: function (mode) {
             var el = $(this.el);
 
             this.trigger('render:before', this);
@@ -178,6 +179,21 @@ define([
             this.shapeSettings = new PE.Views.ShapeSettings();
             this.textartSettings = new PE.Views.TextArtSettings();
 
+            if (mode && mode.canProtect) {
+                this.btnSignature = new Common.UI.Button({
+                    hint: this.txtSignatureSettings,
+                    asctype: Common.Utils.documentSettingsType.Signature,
+                    enableToggle: true,
+                    disabled: true,
+                    toggleGroup: 'tabpanelbtnsGroup'
+                });
+                this._settings[Common.Utils.documentSettingsType.Signature]   = {panel: "id-signature-settings",      btn: this.btnSignature};
+
+                this.btnSignature.el    = $('#id-right-menu-signature'); this.btnSignature.render().setVisible(true);
+                this.btnSignature.on('click', _.bind(this.onBtnMenuClick, this));
+                this.signatureSettings = new PE.Views.SignatureSettings();
+            }
+
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
                     el: $(this.el).find('.right-panel'),
@@ -206,6 +222,7 @@ define([
             this.tableSettings.setApi(api).on('editcomplete', _.bind( fire, this));
             this.shapeSettings.setApi(api).on('editcomplete', _.bind( fire, this));
             this.textartSettings.setApi(api).on('editcomplete', _.bind( fire, this));
+            if (this.signatureSettings) this.signatureSettings.setApi(api).on('editcomplete', _.bind( fire, this));
         },
 
         setMode: function(mode) {
@@ -263,23 +280,6 @@ define([
             return (this.minimizedMode) ? null : this.$el.find(".settings-panel.active")[0].id;
         },
 
-        SetDisabled: function(id, disabled, all) {
-            if (all) {
-                this.slideSettings.SetSlideDisabled(disabled, disabled, disabled);
-                this.paragraphSettings.disableControls(disabled);
-                this.shapeSettings.disableControls(disabled);
-                this.tableSettings.disableControls(disabled);
-                this.imageSettings.disableControls(disabled);
-                this.chartSettings.disableControls(disabled);
-            } else {
-                var cmp = $("#" + id);
-                if (disabled !== cmp.hasClass('disabled')) {
-                    cmp.toggleClass('disabled', disabled);
-                    (disabled) ? cmp.attr({disabled: disabled}) : cmp.removeAttr('disabled');
-                }
-            }
-        },
-
         clearSelection: function() {
             var target_pane = $(".right-panel");
             target_pane.find('> .active').removeClass('active');
@@ -299,6 +299,7 @@ define([
         txtShapeSettings:           'Shape Settings',
         txtTextArtSettings:         'Text Art Settings',
         txtSlideSettings:           'Slide Settings',
-        txtChartSettings:           'Chart Settings'
+        txtChartSettings:           'Chart Settings',
+        txtSignatureSettings:       'Signature Settings'
     }, PE.Views.RightMenu || {}));
 });

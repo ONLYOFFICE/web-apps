@@ -189,6 +189,16 @@ if (Common === undefined) {
                 });
             },
 
+            reportWarning: function(code, description) {
+                _postMessage({
+                    event: 'onWarning',
+                    data: {
+                        warningCode: code,
+                        warningDescription: description
+                    }
+                });
+            },
+
             sendInfo: function(info) {
                 _postMessage({
                     event: 'onInfo',

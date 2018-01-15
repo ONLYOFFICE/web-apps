@@ -153,6 +153,7 @@ require([
             ,'Common.Controllers.ExternalDiagramEditor'
             ,'Common.Controllers.ExternalMergeEditor'
             ,'Common.Controllers.ReviewChanges'
+            ,'Common.Controllers.Protection'
         ]
     });
 
@@ -173,6 +174,7 @@ require([
         'documenteditor/main/app/view/TableSettings',
         'documenteditor/main/app/view/ShapeSettings',
         'documenteditor/main/app/view/TextArtSettings',
+        'documenteditor/main/app/view/SignatureSettings',
         'common/main/lib/util/utils',
         'common/main/lib/util/LocalStorage',
         'common/main/lib/controller/Fonts',
@@ -186,6 +188,7 @@ require([
         ,'common/main/lib/controller/ExternalDiagramEditor'
         ,'common/main/lib/controller/ExternalMergeEditor'
         ,'common/main/lib/controller/ReviewChanges'
+        ,'common/main/lib/controller/Protection'
     ], function() {
         window.compareVersions = true;
         app.start();

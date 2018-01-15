@@ -370,6 +370,7 @@ define([
                 var langs = this.langMenu.items.length>0;
                 this.btnLanguage.setDisabled(disable || !langs || this._state.no_paragraph);
                 this.btnDocLanguage.setDisabled(disable || !langs);
+                this.mode.isEdit = !disable;
             },
 
             onApiFocusObject: function(selectedObjects) {

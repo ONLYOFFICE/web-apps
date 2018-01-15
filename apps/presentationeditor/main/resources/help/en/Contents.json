@@ -1,4 +1,9 @@
 ﻿[
+    {"src": "ProgramInterface/ProgramInterface.htm", "name": "Introducing Presentation Editor user interface", "headername": "Program Interface"},
+	{"src": "ProgramInterface/FileTab.htm", "name": "File tab"},
+	{"src": "ProgramInterface/HomeTab.htm", "name": "Home Tab"},
+	{"src": "ProgramInterface/InsertTab.htm", "name": "Insert tab"},
+	{"src": "ProgramInterface/PluginsTab.htm", "name": "Plugins tab"},
     {"src": "UsageInstructions/OpenCreateNew.htm", "name": "Create a new presentation or open an existing one", "headername": "Usage Instructions"},
     {"src": "UsageInstructions/ManageSlides.htm", "name": "Manage slides"},
     {"src": "UsageInstructions/SetSlideParameters.htm", "name": "Set slide parameters"},

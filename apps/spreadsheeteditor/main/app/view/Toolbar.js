@@ -411,6 +411,46 @@ define([
                     enableToggle: true
                 });
 
+                me.btnStrikeout = new Common.UI.Button({
+                    id: 'id-toolbar-btn-strikeout',
+                    cls: 'btn-toolbar',
+                    iconCls: 'btn-strikeout',
+                    lock        : [_set.selImage, _set.editFormula, _set.selRange, _set.coAuth, _set.coAuthText, _set.lostConnect],
+                    enableToggle: true
+                });
+
+                me.btnSubscript = new Common.UI.Button({
+                    id          : 'id-toolbar-btn-subscript',
+                    cls         : 'btn-toolbar',
+                    iconCls     : 'btn-subscript',
+                    icls     : 'btn-subscript',
+                    split       : true,
+                    enableToggle: true,
+                    lock        : [_set.selImage, _set.editFormula, _set.selRange, _set.coAuth, _set.coAuthText, _set.lostConnect],
+                    menu        : new Common.UI.Menu({
+                        items: [
+                            {
+                                caption     : me.textSuperscript,
+                                iconCls     : 'mnu-text-superscript',
+                                icls        : 'btn-superscript',
+                                checkable   : true,
+                                allowDepress: true,
+                                toggleGroup : 'textsubscriptgroup',
+                                value       : 'super'
+                            },
+                            {
+                                caption     : me.textSubscript,
+                                iconCls     : 'mnu-text-subscript',
+                                icls        : 'btn-subscript',
+                                checkable   : true,
+                                allowDepress: true,
+                                toggleGroup : 'textsubscriptgroup',
+                                value       : 'sub'
+                            }
+                        ]
+                    })
+                });
+
                 me.mnuTextColorPicker = dummyCmp();
                 me.btnTextColor = new Common.UI.Button({
                     id          : 'id-toolbar-btn-fontcolor',
@@ -1199,7 +1239,7 @@ define([
 
             me.lockControls = [
                 me.cmbFontName, me.cmbFontSize, me.btnIncFontSize, me.btnDecFontSize, me.btnBold,
-                me.btnItalic, me.btnUnderline, me.btnTextColor, me.btnHorizontalAlign, me.btnAlignLeft,
+                me.btnItalic, me.btnUnderline, me.btnStrikeout, me.btnSubscript, me.btnTextColor, me.btnHorizontalAlign, me.btnAlignLeft,
                 me.btnAlignCenter,me.btnAlignRight,me.btnAlignJust, me.btnVerticalAlign, me.btnAlignTop,
                 me.btnAlignMiddle, me.btnAlignBottom, me.btnWrap, me.btnTextOrient, me.btnBackColor,
                 me.btnMerge, me.btnInsertFormula, me.btnNamedRange, me.btnIncDecimal, me.btnInsertShape, me.btnInsertEquation,
@@ -1214,7 +1254,7 @@ define([
             var _temp_array = [me.cmbFontName, me.cmbFontSize, me.btnAlignLeft,me.btnAlignCenter,me.btnAlignRight,me.btnAlignJust,me.btnAlignTop,
                 me.btnAlignMiddle, me.btnAlignBottom, me.btnHorizontalAlign, me.btnVerticalAlign,
                 me.btnInsertImage, me.btnInsertText, me.btnInsertTextArt, me.btnInsertShape, me.btnInsertEquation, me.btnIncFontSize,
-                me.btnDecFontSize, me.btnBold, me.btnItalic, me.btnUnderline, me.btnTextColor, me.btnBackColor,
+                me.btnDecFontSize, me.btnBold, me.btnItalic, me.btnUnderline, me.btnStrikeout, me.btnSubscript, me.btnTextColor, me.btnBackColor,
                 me.btnInsertHyperlink, me.btnBorders, me.btnTextOrient, me.btnPercentStyle, me.btnCurrencyStyle, me.btnColorSchemas,
                 me.btnSettings, me.btnInsertFormula, me.btnNamedRange, me.btnDecDecimal, me.btnIncDecimal, me.cmbNumberFormat, me.btnWrap,
                 me.btnInsertChart, me.btnMerge, me.btnAddCell, me.btnDeleteCell, me.btnShowMode, me.btnPrint,
@@ -1309,6 +1349,8 @@ define([
             _injectComponent('#slot-btn-bold',           this.btnBold);
             _injectComponent('#slot-btn-italic',         this.btnItalic);
             _injectComponent('#slot-btn-underline',      this.btnUnderline);
+            _injectComponent('#slot-btn-strikeout',      this.btnStrikeout);
+            _injectComponent('#slot-btn-subscript',      this.btnSubscript);
             _injectComponent('#slot-btn-fontcolor',      this.btnTextColor);
             _injectComponent('#slot-btn-fillparag',      this.btnBackColor);
             _injectComponent('#slot-btn-borders',        this.btnBorders);
@@ -1377,6 +1419,8 @@ define([
             _updateHint(this.btnBold, this.textBold + Common.Utils.String.platformKey('Ctrl+B'));
             _updateHint(this.btnItalic, this.textItalic + Common.Utils.String.platformKey('Ctrl+I'));
             _updateHint(this.btnUnderline, this.textUnderline + Common.Utils.String.platformKey('Ctrl+U'));
+            _updateHint(this.btnStrikeout, this.textStrikeout);
+            _updateHint(this.btnSubscript, this.textSubSuperscript);
             _updateHint(this.btnTextColor, this.tipFontColor);
             _updateHint(this.btnBackColor, this.tipPrColor);
             _updateHint(this.btnBorders, this.tipBorders);
@@ -1890,6 +1934,10 @@ define([
         textBold:           'Bold',
         textItalic:         'Italic',
         textUnderline:      'Underline',
+        textStrikeout:      'Strikeout',
+        textSuperscript:    'Superscript',
+        textSubscript:      'Subscript',
+        textSubSuperscript: 'Subscript/Superscript',
         tipFontName:        'Font Name',
         tipFontSize:        'Font Size',
         tipCellStyle:       'Cell Style',
@@ -2078,6 +2126,8 @@ define([
         textTabFile: 'File',
         textTabHome: 'Home',
         textTabInsert: 'Insert',
-        textSurface: 'Surface'
+        textSurface: 'Surface',
+        tipChangeChart: 'Change Chart Type',
+        textTabProtect: 'Protection'
     }, SSE.Views.Toolbar || {}));
 });

@@ -438,6 +438,12 @@ define([
                 '</div>' +
             '</section>';
 
+        function _click_turnpreview(btn, e) {
+            if (this.appConfig.canReview) {
+                Common.NotificationCenter.trigger('reviewchanges:turn', btn.pressed ? 'on' : 'off');
+            }
+        };
+
         function setEvents() {
             var me = this;
 
@@ -465,12 +471,6 @@ define([
                 this.btnReject.menu.on('item:click', function (menu, item, e) {
                     me.fireEvent('reviewchange:reject', [menu, item]);
                 });
-
-                function _click_turnpreview(btn, e) {
-                    if (me.appConfig.canReview) {
-                        Common.NotificationCenter.trigger('reviewchanges:turn', btn.pressed ? 'on' : 'off');
-                    }
-                };
 
                 this.btnsTurnReview.forEach(function (button) {
                     button.on('click', _click_turnpreview.bind(me));

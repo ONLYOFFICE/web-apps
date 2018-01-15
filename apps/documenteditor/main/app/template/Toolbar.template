@@ -138,6 +138,10 @@
                 <div class="group">
                     <span class="btn-slot text x-huge" id="slot-btn-dropcap"></span>
                 </div>
+                <div class="separator long"></div>
+                <div class="group">
+                    <span class="btn-slot text x-huge" id="slot-btn-controls"></span>
+                </div>
             </section>
             <section class="panel" data-tab="layout">
                 <div class="group">

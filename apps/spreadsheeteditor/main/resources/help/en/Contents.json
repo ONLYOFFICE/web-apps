@@ -1,4 +1,9 @@
 ﻿[
+    {"src": "ProgramInterface/ProgramInterface.htm", "name": "Introducing Spreadsheet Editor user interface", "headername": "Program Interface"},
+	{"src": "ProgramInterface/FileTab.htm", "name": "File tab"},
+	{"src": "ProgramInterface/HomeTab.htm", "name": "Home Tab"},
+	{"src": "ProgramInterface/InsertTab.htm", "name": "Insert tab"},
+	{"src": "ProgramInterface/PluginsTab.htm", "name": "Plugins tab"},
     {"src": "UsageInstructions/OpenCreateNew.htm", "name": "Create a new spreadsheet or open an existing one", "headername": "Usage Instructions"},
     {"src": "UsageInstructions/ManageSheets.htm", "name": "Manage sheets"},
     {"src": "UsageInstructions/InsertDeleteCells.htm", "name": "Manage cells, rows, and columns"},

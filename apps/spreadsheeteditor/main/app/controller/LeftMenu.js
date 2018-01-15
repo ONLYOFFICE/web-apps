@@ -51,7 +51,8 @@ define([
                     'hide': _.bind(this.onHideChat, this)
                 },
                 'Common.Views.Plugins': {
-                    'plugin:open': _.bind(this.onPluginOpen, this)
+                    'plugin:open': _.bind(this.onPluginOpen, this),
+                    'hide':        _.bind(this.onHidePlugins, this)
                 },
                 'Common.Views.Header': {
                     'click:users': _.bind(this.clickStatusbarUsers, this)
@@ -340,6 +341,10 @@ define([
 
         onHideChat: function() {
             $(this.leftMenu.btnChat.el).blur();
+            Common.NotificationCenter.trigger('layout:changed', 'leftmenu');
+        },
+
+        onHidePlugins: function() {
             Common.NotificationCenter.trigger('layout:changed', 'leftmenu');
         },
         /** coauthoring end **/
@@ -751,11 +756,11 @@ define([
         },
 
         onPluginOpen: function(panel, type, action) {
-            if ( type == 'onboard' ) {
-                if ( action == 'open' ) {
+            if (type == 'onboard') {
+                if (action == 'open') {
                     this.leftMenu.close();
                     this.leftMenu.panelPlugins.show();
-                    this.leftMenu.onBtnMenuClick({pressed:true, options: {action: 'plugins'}});
+                    this.leftMenu.onBtnMenuClick({pressed: true, options: {action: 'plugins'}});
                     this.leftMenu._state.pluginIsRunning = true;
                 } else {
                     this.leftMenu._state.pluginIsRunning = false;

@@ -138,7 +138,11 @@ define([
         },
 
         onApiDisconnect: function() {
-            this.statusbar.setMode({isDisconnected: true});
+            this.SetDisabled(true);
+        },
+
+        SetDisabled: function(state) {
+            this.statusbar.setMode({isDisconnected: state});
             this.statusbar.update();
         },
 

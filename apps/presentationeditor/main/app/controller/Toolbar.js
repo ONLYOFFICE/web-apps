@@ -2041,7 +2041,10 @@ define([
             this._state.activated = true;
         },
 
-        DisableToolbar: function(disable) {
+        DisableToolbar: function(disable, viewMode) {
+            if (viewMode!==undefined) this.editMode = !viewMode;
+            disable = disable || !this.editMode;
+
             var mask = $('.toolbar-mask');
             if (disable && mask.length>0 || !disable && mask.length==0) return;
 
@@ -2076,6 +2079,15 @@ define([
             }
 
             me.toolbar.render(_.extend({compactview: compactview}, config));
+
+            if ( config.isEdit ) {
+                if (config.isDesktopApp && config.isOffline) {
+                    var tab = {action: 'protect', caption: me.toolbar.textTabProtect};
+                    var $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
+                    if ( $panel )
+                        me.toolbar.addTab(tab, $panel, 3);
+                }
+            }
         },
 
         onAppReady: function (config) {
