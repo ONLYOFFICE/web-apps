@@ -331,6 +331,11 @@ define([
             return btn;
         },
 
+        hide: function () {
+            Common.UI.BaseView.prototype.hide.call(this,arguments);
+            this.fireEvent('hide', this );
+        },
+
         strPlugins: 'Plugins',
         textLoading: 'Loading',
         textStart: 'Start',

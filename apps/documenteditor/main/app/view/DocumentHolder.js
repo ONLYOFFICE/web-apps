@@ -52,7 +52,8 @@ define([
     'documenteditor/main/app/view/DropcapSettingsAdvanced',
     'documenteditor/main/app/view/HyperlinkSettingsDialog',
     'documenteditor/main/app/view/ParagraphSettingsAdvanced',
-    'documenteditor/main/app/view/TableSettingsAdvanced'
+    'documenteditor/main/app/view/TableSettingsAdvanced',
+    'documenteditor/main/app/view/ControlSettingsDialog'
 ], function ($, _, Backbone, gateway) { 'use strict';
 
     DE.Views.DocumentHolder =  Backbone.View.extend(_.extend({
@@ -1793,6 +1794,28 @@ define([
             me.fireEvent('editcomplete', me);
         },
 
+        onControlsSelect: function(item, e) {
+            var props = this.api.asc_GetContentControlProperties();
+            if (props) {
+                if (item.value == 'settings') {
+                    var me = this;
+                    (new DE.Views.ControlSettingsDialog({
+                        props: props,
+                        handler: function (result, value) {
+                            if (result == 'ok') {
+                                me.api.asc_SetContentControlProperties(value, props.get_InternalId());
+                            }
+
+                            Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                        }
+                    })).show();
+                } else if (item.value == 'remove') {
+                    this.api.asc_RemoveContentControlWrapper(props.get_InternalId());
+                }
+            }
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
         createDelayedElementsViewer: function() {
             var me = this;
 
@@ -2485,6 +2508,27 @@ define([
                 })
             });
 
+            var menuTableRemoveControl = new Common.UI.MenuItem({
+                caption: me.textRemove,
+                value: 'remove'
+            }).on('click', _.bind(me.onControlsSelect, me));
+
+            var menuTableControlSettings = new Common.UI.MenuItem({
+                    caption: me.textSettings,
+                    value: 'settings'
+            }).on('click', _.bind(me.onControlsSelect, me));
+
+            var menuTableControl = new Common.UI.MenuItem({
+                caption: me.textContentControls,
+                menu        : new Common.UI.Menu({
+                    menuAlign: 'tl-tr',
+                    items   : [
+                        menuTableRemoveControl,
+                        menuTableControlSettings
+                    ]
+                })
+            });
+
             /** coauthoring begin **/
             var menuAddCommentTable = new Common.UI.MenuItem({
                 caption     : me.addCommentText
@@ -2744,6 +2788,14 @@ define([
                     } else
                         me.clearEquationMenu(false, 6);
                     menuEquationSeparatorInTable.setVisible(isEquation && eqlen>0);
+
+                    var in_control = me.api.asc_IsContentControl();
+                    menuTableControl.setVisible(in_control);
+                    if (in_control) {
+                        var control_props = me.api.asc_GetContentControlProperties(),
+                            lock_type = (control_props) ? control_props.get_Lock() : Asc.c_oAscSdtLockType.Unlocked;
+                        menuTableRemoveControl.setDisabled(lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.SdtLocked);
+                    }
                 },
                 items: [
                     me.menuSpellCheckTable,
@@ -2864,6 +2916,7 @@ define([
                     menuAddHyperlinkTable,
                     menuHyperlinkTable,
                     menuHyperlinkSeparator,
+                    menuTableControl,
                     menuParagraphAdvancedInTable
                 ]
             }).on('hide:after', function(menu, e, isFromInputControl) {
@@ -3119,6 +3172,21 @@ define([
                 caption     : '--'
             });
 
+            var menuParaRemoveControl = new Common.UI.MenuItem({
+                caption: me.textRemoveControl,
+                value: 'remove'
+            }).on('click', _.bind(me.onControlsSelect, me));
+
+            var menuParaControlSettings = new Common.UI.MenuItem(
+            {
+                caption: me.textEditControls,
+                value: 'settings'
+            }).on('click', _.bind(me.onControlsSelect, me));
+
+            var menuParaControlSeparator = new Common.UI.MenuItem({
+                caption     : '--'
+            });
+
             this.textMenu = new Common.UI.Menu({
                 initMenu: function(value){
                     var isInShape = (value.imgProps && value.imgProps.value && !_.isNull(value.imgProps.value.get_ShapeProperties()));
@@ -3219,6 +3287,16 @@ define([
                     if (me.mode.canEditStyles && !isInChart) {
                         me.menuStyleUpdate.setCaption(me.updateStyleText.replace('%1', DE.getController('Main').translationTable[window.currentStyleName] || window.currentStyleName));
                     }
+
+                    var in_control = me.api.asc_IsContentControl();
+                    menuParaRemoveControl.setVisible(in_control);
+                    menuParaControlSettings.setVisible(in_control);
+                    menuParaControlSeparator.setVisible(in_control);
+                    if (in_control) {
+                        var control_props = me.api.asc_GetContentControlProperties(),
+                            lock_type = (control_props) ? control_props.get_Lock() : Asc.c_oAscSdtLockType.Unlocked;
+                        menuParaRemoveControl.setDisabled(lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.SdtLocked);
+                    }
                 },
                 items: [
                     me.menuSpellPara,
@@ -3233,6 +3311,9 @@ define([
                     menuParaPaste,
                     { caption: '--' },
                     menuEquationSeparator,
+                    menuParaRemoveControl,
+                    menuParaControlSettings,
+                    menuParaControlSeparator,
                     menuParagraphBreakBefore,
                     menuParagraphKeepLines,
                     menuParagraphVAlign,
@@ -3551,7 +3632,12 @@ define([
         strSetup: 'Signature Setup',
         strDelete: 'Remove Signature',
         txtOverwriteCells: 'Overwrite cells',
-        textNest: 'Nest table'
+        textNest: 'Nest table',
+        textContentControls: 'Content control',
+        textRemove: 'Remove',
+        textSettings: 'Settings',
+        textRemoveControl: 'Remove content control',
+        textEditControls: 'Content control settings'
 
     }, DE.Views.DocumentHolder || {}));
 });

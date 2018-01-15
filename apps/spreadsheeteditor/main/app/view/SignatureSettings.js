@@ -168,10 +168,12 @@ define([
             var me = this,
                 requestedSignatures = [],
                 validSignatures = [],
-                invalidSignatures = [];
+                invalidSignatures = [],
+                name_index = 1;
 
             _.each(requested, function(item, index){
-                requestedSignatures.push({name: item.asc_getSigner1(), guid: item.asc_getGuid(), requested: true});
+                var name = item.asc_getSigner1();
+                requestedSignatures.push({name: (name !== "") ? name : (me.strSigner + " " + name_index++) , guid: item.asc_getGuid(), requested: true});
             });
             _.each(valid, function(item, index){
                 var item_date = item.asc_getDate();
@@ -381,7 +383,8 @@ define([
         txtContinueEditing: 'Edit anyway',
         notcriticalErrorTitle: 'Warning',
         txtEditWarning: 'Editing will remove the signatures from the workbook.<br>Are you sure you want to continue?',
-        strDelete: 'Remove Signature'
+        strDelete: 'Remove Signature',
+        strSigner: 'Signer'
 
     }, SSE.Views.SignatureSettings || {}));
 });

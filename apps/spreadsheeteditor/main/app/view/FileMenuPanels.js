@@ -1479,7 +1479,7 @@ define([
         },
 
         strProtect: 'Protect Workbook',
-        strSignature: 'Signature',
+        strSignature: 'With Signature',
         txtView: 'View signatures',
         txtEdit: 'Edit workbook',
         txtSigned: 'Valid signatures has been added to the workbook. The workbook is protected from editing.',
@@ -1487,7 +1487,7 @@ define([
         txtRequestedSignatures: 'This workbook needs to be signed.',
         notcriticalErrorTitle: 'Warning',
         txtEditWarning: 'Editing will remove the signatures from the workbook.<br>Are you sure you want to continue?',
-        strEncrypt: 'Password',
+        strEncrypt: 'With Password',
         txtEncrypted: 'This workbook has been protected by password'
 
     }, SSE.Views.FileMenuPanels.ProtectDoc || {}));

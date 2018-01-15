@@ -1014,14 +1014,14 @@ define([
         },
 
         strProtect: 'Protect Presentation',
-        strSignature: 'Signature',
+        strSignature: 'With Signature',
         txtView: 'View signatures',
         txtEdit: 'Edit presentation',
         txtSigned: 'Valid signatures has been added to the presentation. The presentation is protected from editing.',
         txtSignedInvalid: 'Some of the digital signatures in presentation are invalid or could not be verified. The presentation is protected from editing.',
         notcriticalErrorTitle: 'Warning',
         txtEditWarning: 'Editing will remove the signatures from the presentation.<br>Are you sure you want to continue?',
-        strEncrypt: 'Password',
+        strEncrypt: 'With Password',
         txtEncrypted: 'This presentation has been protected by password'
 
     }, PE.Views.FileMenuPanels.ProtectDoc || {}));

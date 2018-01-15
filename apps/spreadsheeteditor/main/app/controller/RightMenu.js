@@ -358,6 +358,10 @@ define([
                     this.rightmenu.btnSignature.setDisabled(disabled);
                 }
 
+                if (!allowSignature && this.rightmenu.signatureSettings) {
+                    this.rightmenu.btnSignature.setDisabled(disabled);
+                }
+
                 if (disabled) {
                     this.rightmenu.btnText.setDisabled(disabled);
                     this.rightmenu.btnTable.setDisabled(disabled);
