@@ -1774,7 +1774,7 @@ define([
 
                     btnSubscript.toggle(index>-1, true);
                     if (index < 0) {
-                        this._clearChecked(btnSubscript.menu);
+                        btnSubscript.menu.clearAll();
                     } else {
                         btnSubscript.menu.items[index].setChecked(true);
                         if (btnSubscript.rendered) {
@@ -1915,7 +1915,7 @@ define([
 
                     btnSubscript.toggle(index>-1, true);
                     if (index < 0) {
-                        this._clearChecked(btnSubscript.menu);
+                        btnSubscript.menu.clearAll();
                     } else {
                         btnSubscript.menu.items[index].setChecked(true);
                         if (btnSubscript.rendered) {
