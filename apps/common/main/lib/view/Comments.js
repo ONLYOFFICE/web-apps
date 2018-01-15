@@ -420,7 +420,16 @@ define([
                             } else if (btn.hasClass('btn-inner-edit', false)) {
 
                                 if (record.get('dummy')) {
-                                    t.fireEvent('comment:addDummyComment', [this.getActiveTextBoxVal()]);
+                                    var commentVal = this.getActiveTextBoxVal();
+                                    if (commentVal.length>0)
+                                        t.fireEvent('comment:addDummyComment', [commentVal]);
+                                    else {
+                                        var text = me.$window.find('textarea:not(.user-message)');
+                                        if (text && text.length)
+                                            setTimeout(function(){
+                                                text.focus();
+                                            }, 10);
+                                    }
                                     return;
                                 }
 
