@@ -6,9 +6,13 @@
 		<meta name="description" content="Preview your presentation" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
         <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Search" type="search" onkeypress="doSearch(event)">
+        </div>
 			<h1>Preview your presentation</h1>
             <h3>Start the preview</h3>
 			<p>To preview your currently edited presentation, you can:</p>

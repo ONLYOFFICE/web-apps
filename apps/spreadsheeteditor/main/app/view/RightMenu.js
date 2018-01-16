@@ -196,6 +196,21 @@ define([
                 this.signatureSettings = new SSE.Views.SignatureSettings();
             }
 
+            if (mode && mode.canProtect) {
+                this.btnSignature = new Common.UI.Button({
+                    hint: this.txtSignatureSettings,
+                    asctype: Common.Utils.documentSettingsType.Signature,
+                    enableToggle: true,
+                    disabled: true,
+                    toggleGroup: 'tabpanelbtnsGroup'
+                });
+                this._settings[Common.Utils.documentSettingsType.Signature]   = {panel: "id-signature-settings",      btn: this.btnSignature};
+
+                this.btnSignature.el    = $('#id-right-menu-signature'); this.btnSignature.render().setVisible(true);
+                this.btnSignature.on('click', _.bind(this.onBtnMenuClick, this));
+                this.signatureSettings = new SSE.Views.SignatureSettings();
+            }
+
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
                     el: $(this.el).find('.right-panel'),

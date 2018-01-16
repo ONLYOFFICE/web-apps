@@ -6,9 +6,13 @@
     <meta name="description" content="Tips on collaborative editing" />
     <link type="text/css" rel="stylesheet" href="../editor.css" />
     <script type="text/javascript" src="../callback.js"></script>
+    <script type="text/javascript" src="../search/js/page-search.js"></script>
 </head>
 <body>
     <div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Search" type="search" onkeypress="doSearch(event)">
+        </div>
         <h1>Collaborative Document Editing</h1>
         <p><b>Document Editor</b> offers you the possibility to work at a document collaboratively with other users. This feature includes:</p>
         <ul>
@@ -26,7 +30,7 @@
         <p>When no users are viewing or editing the file, the icon in the editor header will look like <img alt="Manage document access rights icon" src="../images/access_rights.png" /> allowing you to manage the users who have access to the file right from the document: invite new users giving them permissions to edit, read or review the document, or deny some users access rights to the file. Click this icon to manage the access to the file; this can be done both when there are no other users who view or co-edit the document at the moment and when there are other users and the icon looks like <img alt="Number of users icon" src="../images/usersnumber.png" />.</p>
         <p>As soon as one of the users saves his/her changes by clicking the <img alt="Save icon" src="../images/savewhilecoediting.png" /> icon, the others will see a note within the status bar stating that they have updates. To save the changes you made, so that other users can view them, and get the updates saved by your co-editors, click the <img alt="Save icon" src="../images/saveupdate.png" /> icon in the left upper corner of the top toolbar. The updates will be highlighted for you to check what exactly has been changed.</p>
         <p>You can specify what changes you want to be highlighted during co-editing if you click the <b>File</b> tab at the top toolbar, select the <b>Advanced Settings...</b> option and choose between <b>none</b>, <b>all</b> and <b>last</b> realtime collaboration changes. Selecting <b>View all</b> changes, all the changes made during the current session will be highlighted. Selecting <b>View last</b> changes, only the changes made since you last time clicked the <img alt="Save icon" src="../images/saveupdate.png" /> icon will be highlighted. Selecting <b>View None</b> changes, changes made during the current session will not be highlighted.</p>
-        <h3>Chat</h3>
+        <h3 id="chat">Chat</h3>
         <p>You can use this tool to coordinate the co-editing process on-the-fly, for example, to arrange with your collaborators about who is doing what, which paragraph you are going to edit now etc.</p>
         <p>The chat messages are stored during one session only. To discuss the document content it is better to use comments which are stored until you decide to delete them.</p>
         <p>To access the chat and leave a message for other users,</p>
@@ -38,7 +42,7 @@
         <p>All the messages left by users will be displayed on the panel on the left. If there are new messages you haven't read yet, the chat icon will look like this - <img alt="Chat icon" src="../images/chaticon_new.png" />.</p>
         <p>To close the panel with chat messages, click the <img alt="Chat icon" src="../images/chaticon.png" /> icon once again.</p>
         </div>
-                <h3>Comments</h3>
+                <h3 id="comments">Comments</h3>
         <p>To leave a comment,</p>
         <ol>
             <li>select a text passage where you think there is an error or problem,</li>

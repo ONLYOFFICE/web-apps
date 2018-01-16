@@ -166,7 +166,7 @@ define([
 
                 this.btnAddPivot = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'btn-ic-docspell',
+                    iconCls: 'btn-add-pivot',
                     caption: this.txtCreate,
                     disabled    : true
                 });
@@ -174,7 +174,7 @@ define([
 
                 this.btnPivotLayout = new Common.UI.Button({
                     cls         : 'btn-toolbar x-huge icon-top',
-                    iconCls     : 'btn-insertimage',
+                    iconCls     : 'btn-pivot-layout',
                     caption     : this.capLayout,
                     disabled    : true,
                     menu        : new Common.UI.Menu({
@@ -192,7 +192,7 @@ define([
 
                 this.btnPivotBlankRows = new Common.UI.Button({
                     cls         : 'btn-toolbar x-huge icon-top',
-                    iconCls     : 'btn-insertimage',
+                    iconCls     : 'btn-blank-rows',
                     caption     : this.capBlankRows,
                     disabled    : true,
                     menu        : new Common.UI.Menu({
@@ -206,7 +206,7 @@ define([
 
                 this.btnPivotSubtotals = new Common.UI.Button({
                     cls         : 'btn-toolbar x-huge icon-top',
-                    iconCls     : 'btn-insertimage',
+                    iconCls     : 'btn-subtotals',
                     caption     : this.capSubtotals,
                     disabled    : true,
                     menu        : new Common.UI.Menu({
@@ -221,7 +221,7 @@ define([
 
                 this.btnPivotGrandTotals = new Common.UI.Button({
                     cls         : 'btn-toolbar x-huge icon-top',
-                    iconCls     : 'btn-insertimage',
+                    iconCls     : 'btn-grand-totals',
                     caption     : this.capGrandTotals,
                     disabled    : true,
                     menu        : new Common.UI.Menu({
@@ -237,7 +237,7 @@ define([
 
                 this.btnRefreshPivot = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'btn-ic-docspell',
+                    iconCls: 'btn-update-pivot',
                     caption: this.txtRefresh,
                     disabled    : true
                 });

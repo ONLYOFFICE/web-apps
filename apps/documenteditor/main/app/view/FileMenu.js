@@ -280,7 +280,7 @@ define([
                 }
             }
 
-            if (this.mode.isDesktopApp && this.mode.isOffline) {
+            if (this.mode.isEdit && this.mode.isDesktopApp && this.mode.isOffline) {
 //                this.$el.find('#fm-btn-back').hide();
                 this.panels['protect'] = (new DE.Views.FileMenuPanels.ProtectDoc({menu:this})).render();
                 this.panels['protect'].setMode(this.mode);
@@ -378,6 +378,6 @@ define([
         textDownload            : 'Download',
         btnRenameCaption        : 'Rename...',
         btnCloseMenuCaption     : 'Close Menu',
-        btnProtectCaption: 'Protect\\Sign'
+        btnProtectCaption: 'Protect'
     }, DE.Views.FileMenu || {}));
 });

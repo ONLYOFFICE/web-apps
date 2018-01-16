@@ -744,8 +744,8 @@ define([
 
         template: _.template([
             '<div style="width:100%; height:100%; position: relative;">',
-                '<div id="id-help-contents" style="position: absolute; width:200px; top: 0; bottom: 0;" class="no-padding"></div>',
-                '<div id="id-help-frame" style="position: absolute; left: 200px; top: 0; right: 0; bottom: 0;" class="no-padding"></div>',
+                '<div id="id-help-contents" style="position: absolute; width:220px; top: 0; bottom: 0;" class="no-padding"></div>',
+                '<div id="id-help-frame" style="position: absolute; left: 220px; top: 0; right: 0; bottom: 0;" class="no-padding"></div>',
             '</div>'
         ].join('')),
 
@@ -756,20 +756,39 @@ define([
             this.urlPref = 'resources/help/en/';
 
             this.en_data = [
-                {src: "UsageInstructions/SetPageParameters.htm", name: "Set page parameters", headername: "Usage Instructions"},
-                {src: "UsageInstructions/CopyPasteUndoRedo.htm", name: "Copy/paste text passages, undo/redo your actions"},
-                {src: "UsageInstructions/LineSpacing.htm", name: "Set paragraph line spacing"},
-                {src: "UsageInstructions/CopyClearFormatting.htm", name: "Copy/clear text formatting"},
-                {src: "UsageInstructions/CreateLists.htm", name: "Create lists"},
-                {src: "UsageInstructions/InsertImages.htm", name: "Insert images"},
-                {src: "UsageInstructions/ViewDocInfo.htm", name: "View document information"},
-                {src: "UsageInstructions/SavePrintDownload.htm", name: "Save/print/download your document"},
-                {src: "UsageInstructions/OpenCreateNew.htm", name: "Create a new document or open an existing one"},
-                {src: "HelpfulHints/About.htm", name: "About ONLYOFFICE Document Editor", headername: "Helpful Hints"},
-                {src: "HelpfulHints/SupportedFormats.htm", name: "Supported Formats of Electronic Documents"},
-                {src: "HelpfulHints/Navigation.htm", name: "Navigation through Your Document"},
-                {src: "HelpfulHints/Search.htm", name: "Search Function"},
-                {src: "HelpfulHints/KeyboardShortcuts.htm", name: "Keyboard Shortcuts"}
+                {"src": "ProgramInterface/ProgramInterface.htm", "name": "Introducing Presentation Editor user interface", "headername": "Program Interface"},
+                {"src": "ProgramInterface/FileTab.htm", "name": "File tab"},
+                {"src": "ProgramInterface/HomeTab.htm", "name": "Home Tab"},
+                {"src": "ProgramInterface/InsertTab.htm", "name": "Insert tab"},
+                {"src": "ProgramInterface/PluginsTab.htm", "name": "Plugins tab"},
+                {"src": "UsageInstructions/OpenCreateNew.htm", "name": "Create a new presentation or open an existing one", "headername": "Basic operations" },
+                {"src": "UsageInstructions/CopyPasteUndoRedo.htm", "name": "Copy/paste data, undo/redo your actions"},
+                {"src": "UsageInstructions/ManageSlides.htm", "name": "Manage slides", "headername": "Working with slides"},
+                {"src": "UsageInstructions/SetSlideParameters.htm", "name": "Set slide parameters"},
+                {"src": "UsageInstructions/ApplyTransitions.htm", "name": "Apply transitions" },
+                {"src": "UsageInstructions/PreviewPresentation.htm", "name": "Preview your presentation" },
+                {"src": "UsageInstructions/InsertText.htm", "name": "Insert and format your text", "headername": "Text formatting"},
+                {"src": "UsageInstructions/AddHyperlinks.htm", "name": "Add hyperlinks"},
+                {"src": "UsageInstructions/CreateLists.htm", "name": "Create lists" },
+                {"src": "UsageInstructions/CopyClearFormatting.htm", "name": "Copy/clear formatting"},
+                {"src": "UsageInstructions/InsertAutoshapes.htm", "name": "Insert and format autoshapes", "headername": "Operations on objects"},
+                {"src": "UsageInstructions/InsertImages.htm", "name": "Insert and adjust images"},
+                {"src": "UsageInstructions/InsertCharts.htm", "name": "Insert and edit charts" },
+                {"src": "UsageInstructions/InsertTables.htm", "name": "Insert and format tables" },
+                {"src": "UsageInstructions/FillObjectsSelectColor.htm", "name": "Fill objects and select colors"},
+                {"src": "UsageInstructions/ManipulateObjects.htm", "name": "Manipulate objects on a slide"},
+                {"src": "UsageInstructions/AlignArrangeObjects.htm", "name": "Align and arrange objects on a slide"},
+                {"src": "UsageInstructions/InsertEquation.htm", "name": "Insert equations", "headername": "Math equations" },
+                {"src": "HelpfulHints/CollaborativeEditing.htm", "name": "Collaborative presentation editing", "headername": "Presentation co-editing" },
+                {"src": "UsageInstructions/ViewPresentationInfo.htm", "name": "View presentation information", "headername": "Tools and settings"},
+                {"src": "UsageInstructions/SavePrintDownload.htm", "name": "Save/print/download your presentation" },
+                {"src": "HelpfulHints/AdvancedSettings.htm", "name": "Advanced settings of Presentation Editor"},
+                {"src": "HelpfulHints/Navigation.htm", "name": "View settings and navigation tools"},
+                {"src": "HelpfulHints/Search.htm", "name": "Search function"},
+                {"src": "HelpfulHints/SpellChecking.htm", "name": "Spell-checking"},
+                {"src": "HelpfulHints/About.htm", "name": "About Presentation Editor", "headername": "Helpful hints"},
+                {"src": "HelpfulHints/SupportedFormats.htm", "name": "Supported formats of electronic presentations"},
+                {"src": "HelpfulHints/KeyboardShortcuts.htm", "name": "Keyboard shortcuts"}
             ];
 
             if (Common.Utils.isIE) {
@@ -1014,14 +1033,14 @@ define([
         },
 
         strProtect: 'Protect Presentation',
-        strSignature: 'Signature',
+        strSignature: 'With Signature',
         txtView: 'View signatures',
         txtEdit: 'Edit presentation',
         txtSigned: 'Valid signatures has been added to the presentation. The presentation is protected from editing.',
         txtSignedInvalid: 'Some of the digital signatures in presentation are invalid or could not be verified. The presentation is protected from editing.',
         notcriticalErrorTitle: 'Warning',
         txtEditWarning: 'Editing will remove the signatures from the presentation.<br>Are you sure you want to continue?',
-        strEncrypt: 'Password',
+        strEncrypt: 'With Password',
         txtEncrypted: 'This presentation has been protected by password'
 
     }, PE.Views.FileMenuPanels.ProtectDoc || {}));

@@ -60,7 +60,7 @@ define([
                 height      : '100%',
                 documentType: 'spreadsheet',
                 document    : {
-                    url         : '_offline_',
+                    url         : '_chart_',
                     permissions : {
                         edit    : true,
                         download: false

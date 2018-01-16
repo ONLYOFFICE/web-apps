@@ -5,9 +5,14 @@
 		<meta charset="utf-8" />
 		<meta name="description" content="" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Search" type="search" onkeypress="doSearch(event)">
+            </div>
 			<h1>FIND/FINDB Function</h1>
 			<p>The <b>FIND</b>/<b>FINDB</b> function is one of the text and data functions. Is used to find the specified substring (string-1) within a string (string-2). The <b>FIND</b> function is intended for languages that use the single-byte character set (SBCS), while <b>FINDB</b> - for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc.</p>
 			<p>The <b>FIND/FINDB</b> function syntax is:</p> 

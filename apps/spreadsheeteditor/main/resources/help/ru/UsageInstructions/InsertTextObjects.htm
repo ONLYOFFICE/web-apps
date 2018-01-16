@@ -6,9 +6,13 @@
         <meta name="description" content="Вставьте текстовые объекты, такие как надписи и объекты Text Art, чтобы привлечь внимание к определенной части электронной таблицы" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
         <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Поиск" type="search" onkeypress="doSearch(event)">
+            </div>
 			<h1>Вставка текстовых объектов</h1>
             <p>Чтобы привлечь внимание к определенной части электронной таблицы, можно вставить надпись (прямоугольную рамку, внутри которой вводится текст) или объект Text Art (текстовое поле с предварительно заданным стилем и цветом шрифта, позволяющее применять текстовые эффекты).</p>
 			<h3>Добавление текстового объекта</h3>
@@ -35,7 +39,7 @@
                 <li>чтобы <a href="ManipulateObjects.htm" onclick="onhyperlinkclick(this)">изменить размер текстового поля, переместить, повернуть</a> его, используйте специальные маркеры по краям фигуры.</li>
                 <li>чтобы изменить <a href="InsertAutoshapes.htm#shape_fill" onclick="onhyperlinkclick(this)">заливку</a>, <a href="InsertAutoshapes.htm#shape_stroke" onclick="onhyperlinkclick(this)">обводку</a>, <b>заменить</b> прямоугольное поле на какую-то другую фигуру или открыть <a href="InsertAutoshapes.htm#shape_advanced" onclick="onhyperlinkclick(this)">дополнительные параметры фигуры</a>, щелкните по значку <b>Параметры фигуры</b> <img alt="Значок Параметры фигуры" src="../images/shape_settings_icon.png" /> на правой боковой панели и используйте соответствующие опции.</li>                
                 <li>чтобы расположить текстовые поля <a href="ManipulateObjects.htm#arrange" onclick="onhyperlinkclick(this)">в определенном порядке</a> относительно других объектов, щелкните правой кнопкой мыши по границе текстового поля и используйте опции контекстного меню.</li>
-                <li>чтобы создать <b>колонки текста</b> внутри текстового поля, щелкните правой кнопкой мыши по границе текстового поля, нажмите на пункт меню <b>Дополнительные параметры фигуры</b> и перейдите на вкладку <a href="../UsageInstructions/InsertAutoshapes.htm#columns" onclick="onhyperlinkclick(this)"><b>Колонки</b></a> в окне <b>Фигура - Дополнительные параметры</b>.</li>
+                <li>чтобы создать <b>колонки текста</b> внутри текстового поля, щелкните правой кнопкой мыши по границе текстового поля, нажмите на пункт меню <b>Дополнительные параметры фигуры</b> и перейдите на вкладку <a href="../UsageInstructions/InsertAutoshapes.htm#columns" onclick="onhyperlinkclick(this)"><b>Колонки</b></a> в окне <b>Фигура - дополнительные параметры</b>.</li>
             </ul>
             <h3 id="textbox_textformatting">Форматирование текста внутри текстового поля</h3>
             <p>Щелкните по тексту внутри текстового поля, чтобы можно было изменить его свойства. Когда текст выделен, границы текстового поля отображаются как пунктирные линии.</p>

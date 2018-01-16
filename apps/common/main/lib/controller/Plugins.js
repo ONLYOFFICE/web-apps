@@ -194,13 +194,22 @@ define([
             if ( me.$toolbarPanelPlugins ) {
                 me.$toolbarPanelPlugins.empty();
 
-                var _group = $('<div class="group"></div>');
+                var _group = $('<div class="group"></div>'),
+                    rank = -1;
                 collection.each(function (model) {
+                    var new_rank = model.get('groupRank');
+                    if (new_rank!==rank && rank>-1) {
+                        _group.appendTo(me.$toolbarPanelPlugins);
+                        $('<div class="separator long"></div>').appendTo(me.$toolbarPanelPlugins);
+                        _group = $('<div class="group"></div>');
+                    }
+
                     var btn = me.panelPlugins.createPluginButton(model);
                     if (btn) {
                         var $slot = $('<span class="slot"></span>').appendTo(_group);
                         btn.render($slot);
                     }
+                    rank = new_rank;
                 });
                 _group.appendTo(me.$toolbarPanelPlugins);
             }

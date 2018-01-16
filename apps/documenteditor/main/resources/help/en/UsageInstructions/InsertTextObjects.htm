@@ -6,9 +6,13 @@
         <meta name="description" content="Insert text objects such as text boxes and Text Art to make your text more impressive" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
         <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Search" type="search" onkeypress="doSearch(event)">
+        </div>
 			<h1>Insert text objects</h1>
             <p>To make your text more emphatic and draw attention to a specific part of the document, you can insert a text box (a rectangular frame that allows to enter text within it) or a Text Art object (a text box with a predefined font style and color that allows to apply some text effects).</p>
 			<h3>Add a text object</h3>

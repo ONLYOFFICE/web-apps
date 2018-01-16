@@ -72,7 +72,8 @@ define([
                     'hide':    _.bind(this.aboutShowHide, this, true)
                 },
                 'Common.Views.Plugins': {
-                    'plugin:open': _.bind(this.onPluginOpen, this)
+                    'plugin:open': _.bind(this.onPluginOpen, this),
+                    'hide':        _.bind(this.onHidePlugins, this)
                 },
                 'LeftMenu': {
                     'comments:show': _.bind(this.commentsShowHide, this, 'show'),
@@ -404,6 +405,10 @@ define([
 
         onHideChat: function() {
             $(this.leftMenu.btnChat.el).blur();
+            Common.NotificationCenter.trigger('layout:changed', 'leftmenu');
+        },
+
+        onHidePlugins: function() {
             Common.NotificationCenter.trigger('layout:changed', 'leftmenu');
         },
         /** coauthoring end **/

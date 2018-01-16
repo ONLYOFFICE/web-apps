@@ -5,9 +5,14 @@
 		<meta charset="utf-8" />
 		<meta name="description" content="The description of the document search and replace function in Document Editor" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Search" type="search" onkeypress="doSearch(event)">
+        </div>
 		<h1>Search and Replace Function</h1>
 			<p>To search for the needed characters, words or phrases used in the currently edited document, 
 			click the <img alt="Search icon" src="../images/searchicon.png" /> icon situated at the left sidebar. </p>

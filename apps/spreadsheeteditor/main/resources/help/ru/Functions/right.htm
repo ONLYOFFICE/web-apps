@@ -5,9 +5,14 @@
 		<meta charset="utf-8" />
 		<meta name="description" content="" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Поиск" type="search" onkeypress="doSearch(event)">
+            </div>
 			<h1>Функция RIGHT/RIGHTB (ПРАВСИМВ/ПРАВБ)</h1>
 			<p>Функция <b>RIGHT/RIGHTB</b> - это одна из функций для работы с текстом и данными. Извлекает подстроку из заданной строки, начиная с крайнего правого символа, согласно заданному количеству символов. Функция <b>RIGHT</b> предназначена для языков, использующих однобайтовую кодировку (SBCS), в то время как <b>RIGHTB</b> - для языков, использующих двухбайтовую кодировку (DBCS), таких как японский, китайский, корейский и т.д.</p>
 			<p>Синтаксис функции <b>RIGHT/RIGHTB</b>:</p> 

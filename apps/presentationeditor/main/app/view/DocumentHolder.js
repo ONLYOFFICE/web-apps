@@ -1469,6 +1469,13 @@ define([
                 }
             };
             Common.util.Shortcuts.delegateShortcuts({shortcuts:keymap});
+
+            var onApiStartDemonstration = function() {
+                if (me.slidesCount>0) {
+                    Common.NotificationCenter.trigger('preview:start', 0);
+                }
+            };
+
             /** coauthoring end **/
 
             var onApiCountPages = function(count) {
@@ -1592,6 +1599,7 @@ define([
                     me.api.asc_registerCallback('asc_onUpdateThemeIndex',       _.bind(onApiUpdateThemeIndex, me));
                     me.api.asc_registerCallback('asc_onLockDocumentTheme',      _.bind(onApiLockDocumentTheme, me));
                     me.api.asc_registerCallback('asc_onUnLockDocumentTheme',    _.bind(onApiUnLockDocumentTheme, me));
+                    me.api.asc_registerCallback('asc_onStartDemonstration',     _.bind(onApiStartDemonstration));
                 }
 
                 return me;

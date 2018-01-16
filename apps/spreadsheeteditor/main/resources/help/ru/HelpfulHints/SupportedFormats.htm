@@ -5,9 +5,14 @@
 		<meta charset="utf-8" />
         <meta name="description" content="Форматы электронных таблиц, которые поддерживает онлайн-редактор электронных таблиц" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Поиск" type="search" onkeypress="doSearch(event)">
+            </div>
 		<h1>Поддерживаемые форматы электронных таблиц</h1>
 			<p><b>Электронная таблица</b> - это таблица данных, организованных в строки и столбцы. 
 			Очень часто используется для хранения финансовой информации благодаря возможности автоматически пересчитывать весь лист после изменения отдельной ячейки.
