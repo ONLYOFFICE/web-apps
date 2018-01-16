@@ -49,7 +49,7 @@ define([
     DE.Views.TableOfContentsSettings = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 500,
-            height: 445
+            height: 430
         },
 
         initialize : function(options) {
@@ -66,8 +66,8 @@ define([
                                         '<td class="padding-small">',
                                         '<div id="tableofcontents-chb-pages"></div>',
                                         '</td>',
-                                        '<td rowspan="6" class="padding-small" style="vertical-align: top;">',
-                                        '<div style="border: 1px solid #cbcbcb;width: 230px; height: 197px; float: right;">',
+                                        '<td rowspan="5" class="padding-small" style="vertical-align: top;">',
+                                        '<div style="border: 1px solid #cbcbcb;width: 230px; height: 172px; float: right;">',
                                             '<div id="tableofcontents-img" style="width: 100%; height: 100%;"></div>',
                                         '</div>',
                                         '</td>',
@@ -84,13 +84,8 @@ define([
                                         '</td>',
                                     '</tr>',
                                     '<tr>',
-                                        '<td class="padding-small">',
-                                            '<div id="tableofcontents-chb-links"></div>',
-                                        '</td>',
-                                    '</tr>',
-                                    '<tr>',
                                         '<td class="padding-large">',
-                                            '<div id="tableofcontents-chb-underline"></div>',
+                                            '<div id="tableofcontents-chb-links"></div>',
                                         '</td>',
                                     '</tr>',
                                     '<tr>',
@@ -102,7 +97,7 @@ define([
                                     '</tr>',
                                     '<tr>',
                                         '<td class="padding-small" style="vertical-align: top;">',
-                                            '<div id="tableofcontents-from-levels">',
+                                            '<div id="tableofcontents-from-levels" style="width:220px;">',
                                                 '<label class="input-label">' + me.textLevels + '</label>',
                                                 '<div id="tableofcontents-spin-levels" style="display: inline-block; width:95px; margin-left: 10px;"></div>',
                                             '</div>',
@@ -183,16 +178,7 @@ define([
                 labelText: this.strLinks
             });
             this.chLinks.on('change', _.bind(function(field, newValue, oldValue, eOpts){
-                this.chUnderline.setDisabled(field.getValue()!=='checked');
-                if (this._changedProps) {
-                }
             }, this));
-
-            this.chUnderline = new Common.UI.CheckBox({
-                el: $('#tableofcontents-chb-underline'),
-                labelText: this.strUnderline,
-                disabled: true
-            });
 
             this.radioLevels = new Common.UI.RadioBox({
                 el: $('#tableofcontents-radio-levels'),
@@ -359,7 +345,6 @@ define([
         strShowPages: 'Show page numbers',
         strAlign: 'Right align page numbers',
         strLinks: 'Format Table of Contents as links',
-        strUnderline: 'Underline links',
         textNone: 'None',
         textRadioLevels: 'Outline levels',
         textRadioStyles: 'Selected styles',
