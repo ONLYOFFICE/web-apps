@@ -204,17 +204,18 @@ define([
         onTableContents: function(type){
             switch (type) {
                 case 0:
-                    this.api.asc_addTableOfContents(); break;
+                    this.api.asc_AddTableOfContents(); break;
                 case 1:
-                    this.api.asc_addTableOfContents(); break;
+                    this.api.asc_AddTableOfContents(); break;
                 case 'settings':
                     var props, me = this;
                     var win = new DE.Views.TableOfContentsSettings({
                         api: this.api,
-                        props: props,
+                        props: this.api.asc_GetTableOfContentsPr(),
                         handler: function(dlg, result) {
                             if (result == 'ok') {
                                 props = dlg.getSettings();
+                                me.api.asc_SetTableOfContentsPr(props);
                             }
 
                             Common.NotificationCenter.trigger('edit:complete', me.toolbar);
@@ -223,6 +224,7 @@ define([
                     win.show();
                     break;
                 case 'remove':
+                    this.api.asc_RemoveTableOfContents();
                     break;
             }
         },

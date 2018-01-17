@@ -49,7 +49,7 @@ define([
     DE.Views.TableOfContentsSettings = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 500,
-            height: 430
+            height: 455
         },
 
         initialize : function(options) {
@@ -106,8 +106,8 @@ define([
                                                         '<label class="input-label" style="width: 144px; margin-left: 23px;">' + me.textStyle + '</label>',
                                                         '<label class="input-label" style="">' + me.textLevel + '</label>',
                                                     '</td></tr>',
-                                                    '<tr><td class="padding-small">',
-                                                        '<div id="tableofcontents-styles-list" class="header-styles-tableview" style="width:100%; height: 91px;"></div>',
+                                                    '<tr><td>',
+                                                        '<div id="tableofcontents-styles-list" class="header-styles-tableview" style="width:100%; height: 122px;"></div>',
                                                 '</td></tr></table>',
                                             '</div>',
                                         '</td>',
@@ -171,7 +171,7 @@ define([
                     { value: Asc.c_oAscTabLeader.Underscore,displayValue: '__________' }
                 ]
             });
-            this.cmbLeader.setValue(Asc.c_oAscTabLeader.None);
+            this.cmbLeader.setValue(Asc.c_oAscTabLeader.Dot);
 
             this.chLinks = new Common.UI.CheckBox({
                 el: $('#tableofcontents-chb-links'),
@@ -275,30 +275,49 @@ define([
         },
 
         _setDefaults: function (props) {
+            var styles = [];
+            _.each(window.styles.get_MergedStyles(), function (style) {
+                styles.push(new Common.UI.DataViewModel({
+                    name: style.get_Name(),
+                    allowSelected: false,
+                    checked: false,
+                    value: ''
+                }));
+            });
+
             if (props) {
+                var value = props.get_Hyperlink();
+                this.chLinks.setValue((value !== null && value !== undefined) ? value : 'indeterminate', true);
+
+                var start = props.get_OutlineStart(),
+                    end = props.get_OutlineEnd();
+
+                this.spnLevels.setValue((start<0 || end<0) ? 0 : end);
+                this.spnLevels.setDisabled(start>1);
+
+                var count = props.get_StylesCount();
+                for (var i=0; i<count; i++) {
+                    var style = props.get_StyleName(i),
+                        level = props.get_StyleLevel(i),
+                        rec = _.findWhere(styles, {name: style});
+                    if (rec) {
+                        rec.set('checked', true);
+                        rec.set('value', level);
+                    } else {
+                        styles.push(new Common.UI.DataViewModel({
+                            name: style,
+                            allowSelected: false,
+                            checked: true,
+                            value: level
+                        }));
+                    }
+                }
+
             }
+            this.stylesLevels.reset(styles);
+            // this.api.SetDrawImagePlaceContents('tableofcontents-img', props);
 
-            this.stylesLevels.reset([
-                (new Common.UI.DataViewModel({
-                    name: 'header1',
-                    allowSelected: false,
-                    checked: true,
-                    value: 1
-                })),
-                (new Common.UI.DataViewModel({
-                    name: 'header2',
-                    allowSelected: false,
-                    checked: false,
-                    value: ''
-                })),
-                (new Common.UI.DataViewModel({
-                    name: 'header3',
-                    allowSelected: false,
-                    checked: false,
-                    value: ''
-                }))]);
-
-            // this._changedProps = new Asc.asc_CParagraphProperty();
+            this._changedProps = new Asc.CTableOfContentsPr();
         },
 
         getSettings: function () {
