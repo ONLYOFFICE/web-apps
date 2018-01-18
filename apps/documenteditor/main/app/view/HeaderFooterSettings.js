@@ -45,7 +45,8 @@ define([
     'backbone',
     'common/main/lib/component/Button',
     'common/main/lib/component/MetricSpinner',
-    'common/main/lib/component/CheckBox'
+    'common/main/lib/component/CheckBox',
+    'common/main/lib/component/RadioBox'
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
 
@@ -72,7 +73,9 @@ define([
                 DiffFirst: false,
                 DiffOdd: false,
                 SameAs: false,
-                DisabledControls: false
+                DisabledControls: false,
+                Numbering: true,
+                From: 1
             };
             this.spinners = [];
             this.lockedControls = [];
@@ -129,9 +132,22 @@ define([
 
                 value = prop.get_LinkToPrevious();
                 if ( this._state.SameAs!==value ) {
-                    this.chSameAs.setDisabled(value===null);
+                    this.chSameAs.setDisabled(value===null || this._locked);
                     this.chSameAs.setValue(value==true, true);
                     this._state.SameAs=value;
+                }
+
+                // value = prop.get_PageNumbering();
+                if ( this._state.Numbering!==value ) {
+                    this.radioPrev.setValue(!!value);
+                    this.radioFrom.setValue(!value);
+                    this._state.Numbering=value;
+                }
+
+                // value = prop.get_NumberingFrom();
+                if ( this._state.From!==value ) {
+                    this.numFrom.setValue(value===null ? '' : value);
+                    this._state.From=value;
                 }
             }
         },
@@ -163,6 +179,36 @@ define([
         onSameAsChange: function(field, newValue, oldValue, eOpts){
             if (this.api)
                 this.api.HeadersAndFooters_LinkToPrevious((field.getValue()=='checked'));
+            this.fireEvent('editcomplete', this);
+        },
+
+        onInsertCurrentClick: function() {
+            if (this.api)
+                this.api.put_PageNum(-1);
+            this.fireEvent('editcomplete', this);
+        },
+
+        onRadioPrev: function(field, newValue, eOpts) {
+            if (newValue && this.api) {
+                // this.api.HeadersAndFooters_FromPrevious(newValue);
+            }
+            this.fireEvent('editcomplete', this);
+        },
+
+        onRadioFrom: function(field, newValue, eOpts) {
+            if (newValue && this.api) {
+                if (_.isEmpty(this.numFrom.getValue()))
+                    this.numFrom.setValue(1);
+                // this.api.HeadersAndFooters_From(this.numFrom.getNumberValue());
+            }
+            this.fireEvent('editcomplete', this);
+        },
+
+        onNumFromChange: function(field, newValue, oldValue, eOpts){
+            if (this.api) {
+                this.radioFrom.setValue(true);
+                // this.api.HeadersAndFooters_From(field.getNumberValue());
+            }
             this.fireEvent('editcomplete', this);
         },
 
@@ -231,12 +277,45 @@ define([
                 el: $('#headerfooter-check-same-as'),
                 labelText: this.textSameAs
             });
-            this.lockedControls.push(this.chSameAs);
 
             this.numPosition.on('change', _.bind(this.onNumPositionChange, this));
             this.chDiffFirst.on('change', _.bind(this.onDiffFirstChange, this));
             this.chDiffOdd.on('change', _.bind(this.onDiffOddChange, this));
             this.chSameAs.on('change', _.bind(this.onSameAsChange, this));
+
+            this.btnInsertCurrent = new Common.UI.Button({
+                el: $('#headerfooter-button-current')
+            });
+            this.lockedControls.push(this.btnInsertCurrent);
+            this.btnInsertCurrent.on('click', _.bind(this.onInsertCurrentClick, this));
+
+            this.radioPrev = new Common.UI.RadioBox({
+                el: $('#headerfooter-radio-prev'),
+                labelText: this.textPrev,
+                name: 'asc-radio-header-numbering',
+                checked: true
+            }).on('change', _.bind(this.onRadioPrev, this));
+            this.lockedControls.push(this.radioPrev);
+
+            this.radioFrom = new Common.UI.RadioBox({
+                el: $('#headerfooter-radio-from'),
+                labelText: this.textFrom,
+                name: 'asc-radio-header-numbering'
+            }).on('change', _.bind(this.onRadioFrom, this));
+            this.lockedControls.push(this.radioFrom);
+
+            this.numFrom = new Common.UI.MetricSpinner({
+                el: $('#headerfooter-spin-from'),
+                step: 1,
+                width: 85,
+                value: '1',
+                defaultUnit : "",
+                maxValue: 2147483646,
+                minValue: 1,
+                allowDecimal: false
+            });
+            this.lockedControls.push(this.numFrom);
+            this.numFrom.on('change', _.bind(this.onNumFromChange, this));
         },
         
         createDelayedElements: function() {
@@ -257,6 +336,7 @@ define([
                 _.each(this.lockedControls, function(item) {
                     item.setDisabled(disable);
                 });
+                this.chSameAs.setDisabled(disable || (this._state.SameAs===null));
             }
         },
 
@@ -273,6 +353,12 @@ define([
         textBottomLeft:         'Bottom Left',
         textBottomRight:        'Bottom Right',
         textBottomCenter:       'Bottom Center',
-        textSameAs:             'Link to Previous'
+        textSameAs:             'Link to Previous',
+        textInsertCurrent: 'Insert to Current Position',
+        textTopPage: 'Top of Page',
+        textBottomPage: 'Bottom of Page',
+        textPageNumbering: 'Page Numbering',
+        textPrev: 'Continue from previous section',
+        textFrom: 'Start at'
     }, DE.Views.HeaderFooterSettings || {}));
 });
