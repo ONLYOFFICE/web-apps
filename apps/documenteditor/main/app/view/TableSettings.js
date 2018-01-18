@@ -79,14 +79,11 @@ define([
                 CheckFirst: false,
                 CheckLast: false,
                 CheckColBanded: false,
-                WrapStyle: -1,
-                CanBeFlow: true,
-                TableAlignment: -1,
-                TableIndent: 0,
                 BackColor: '#000000',
                 RepeatRow: false,
                 DisabledControls: false
             };
+            this.spinners = [];
             this.lockedControls = [];
             this._locked = false;
             this._originalLook = new Asc.CTablePropLook();
@@ -96,7 +93,6 @@ define([
             this.CellColor = {Value: 1, Color: 'transparent'};  // value=1 - цвет определен - прозрачный или другой, value=0 - цвет не определен, рисуем прозрачным
             this.BorderSize = 1;
             this._noApply = false;
-            this._wrapHandled = false;
 
             this.render();
         },
@@ -137,24 +133,6 @@ define([
                 properties.put_TableStyle(record.get('templateId'));
                 this.api.tblApply(properties);
             }
-            this.fireEvent('editcomplete', this);
-        },
-
-        onBtnWrapClick: function(btn, e) {
-            if (this.api && btn.pressed && !this._noApply) {
-                var properties = new Asc.CTableProp();
-                properties.put_TableWrap(btn.options.posId);
-                if (btn.options.posId == c_tableWrap.TABLE_WRAP_NONE) {
-                    if (this._state.TableAlignment<0)
-                        this._state.TableAlignment = c_tableAlign.TABLE_ALIGN_LEFT;
-                    properties.put_TableAlignment(this._state.TableAlignment);
-                    properties.put_TableIndent(this._state.TableIndent);
-                }
-                properties.put_CellSelect(true);
-                this.api.tblApply(properties);
-            }
-            if (this._wrapHandled) { this._wrapHandled = false; return; }
-            this._wrapHandled = true;
             this.fireEvent('editcomplete', this);
         },
 
@@ -259,8 +237,6 @@ define([
         setApi: function(o) {
             this.api = o;
             if (o) {
-                this.api.asc_registerCallback('asc_onTblWrapStyleChanged', _.bind(this._TblWrapStyleChanged, this));
-                this.api.asc_registerCallback('asc_onTblAlignChanged', _.bind(this._TblAlignChanged, this));
                 this.api.asc_registerCallback('asc_onInitTableTemplates', _.bind(this._onInitTemplates, this));
             }
             return this;
@@ -309,32 +285,6 @@ define([
             this.chFirst.on('change', _.bind(this.onCheckTemplateChange, this, 3));
             this.chLast.on('change', _.bind(this.onCheckTemplateChange, this, 4));
             this.chColBanded.on('change', _.bind(this.onCheckTemplateChange, this, 5));
-
-            this.btnWrapNone = new Common.UI.Button({
-                cls: 'btn-options huge',
-                iconCls: 'icon-right-panel btn-wrap-none',
-                posId: c_tableWrap.TABLE_WRAP_NONE,
-                hint: this.textWrapNoneTooltip,
-                enableToggle: true,
-                allowDepress: false,
-                toggleGroup : 'tablewrapGroup'
-            });
-            this.btnWrapNone.render( $('#table-button-wrap-none')) ;
-            this.btnWrapNone.on('click', _.bind(this.onBtnWrapClick, this));
-            this.lockedControls.push(this.btnWrapNone);
-
-            this.btnWrapParallel = new Common.UI.Button({
-                cls: 'btn-options huge',
-                iconCls: 'icon-right-panel btn-wrap-parallel',
-                posId: c_tableWrap.TABLE_WRAP_PARALLEL,
-                hint: this.textWrapParallelTooltip,
-                enableToggle: true,
-                allowDepress: false,
-                toggleGroup : 'tablewrapGroup'
-            });
-            this.btnWrapParallel.render( $('#table-button-wrap-parallel')) ;
-            this.btnWrapParallel.on('click', _.bind(this.onBtnWrapClick, this));
-            this.lockedControls.push(this.btnWrapParallel);
 
             var _arrBorderPosition = [
                 ['l', 'btn-borders-small btn-position-left', 'table-button-border-left',            this.tipLeft],
@@ -417,6 +367,50 @@ define([
             this.chRepeatRow.on('change', _.bind(this.onCheckRepeatRowChange, this));
             this.lockedControls.push(this.chRepeatRow);
 
+            this.numHeight = new Common.UI.MetricSpinner({
+                el: $('#table-spin-cell-height'),
+                step: .1,
+                width: 115,
+                defaultUnit : "cm",
+                value: '1 cm',
+                maxValue: 55.88,
+                minValue: 0
+            });
+            this.numHeight.on('change', _.bind(function(field, newValue, oldValue, eOpts){
+                // this._changedProps.put_Height(this.cmbUnit.getValue() ? -field.getNumberValue() : Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
+            }, this));
+            this.lockedControls.push(this.numHeight);
+            this.spinners.push(this.numHeight);
+
+            this.numWidth = new Common.UI.MetricSpinner({
+                el: $('#table-spin-cell-width'),
+                step: .1,
+                width: 115,
+                defaultUnit : "cm",
+                value: '1 cm',
+                maxValue: 55.88,
+                minValue: 0
+            });
+            this.numWidth.on('change', _.bind(function(field, newValue, oldValue, eOpts){
+                // this._changedProps.put_Width(this.cmbUnit.getValue() ? -field.getNumberValue() : Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
+            }, this));
+            this.lockedControls.push(this.numWidth);
+            this.spinners.push(this.numWidth);
+
+            this.btnDistributeRows = new Common.UI.Button({
+                el: $('#table-btn-distrub-rows')
+            });
+            this.lockedControls.push(this.btnDistributeRows);
+            this.btnDistributeRows.on('click', _.bind(function(field, newValue, oldValue, eOpts){
+            }, this));
+
+            this.btnDistributeCols = new Common.UI.Button({
+                el: $('#table-btn-distrub-cols')
+            });
+            this.lockedControls.push(this.btnDistributeCols);
+            this.btnDistributeCols.on('click', _.bind(function(field, newValue, oldValue, eOpts){
+            }, this));
+
             this.linkAdvanced = $('#table-advanced-link');
             $(this.el).on('click', '#table-advanced-link', _.bind(this.openAdvancedSettings, this));
         },
@@ -424,6 +418,7 @@ define([
         createDelayedElements: function() {
             this.createDelayedControls();
             this.UpdateThemeColors();
+            this.updateMetricUnit();
             this._initSettings = false;
         },
 
@@ -438,17 +433,16 @@ define([
                 this._originalProps = new Asc.CTableProp(props);
                 this._originalProps.put_CellSelect(true);
 
-                this._TblWrapStyleChanged(props.get_TableWrap());
-
-                var value = props.get_CanBeFlow() && !this._locked;
-                if ( this._state.CanBeFlow!==value ) {
-                    this.btnWrapParallel.setDisabled(!value);
-                    this._state.CanBeFlow=value;
+                var value = null;//props.get_Width();
+                if ( Math.abs(this._state.Width-value)>0.001 ||
+                    (this._state.Width===null || value===null)&&(this._state.Width!==value)) {
+                    this.numWidth.setValue((value !== null) ? Common.Utils.Metric.fnRecalcFromMM(value) : '', true);
                 }
-
-                // align props
-                this._TblAlignChanged(props.get_TableAlignment());
-                this._state.TableIndent = (props.get_TableAlignment() !== c_tableAlign.TABLE_ALIGN_LEFT) ? 0 : props.get_TableIndent();
+                value = null;//props.get_Height();
+                if ( Math.abs(this._state.Height-value)>0.001 ||
+                    (this._state.Height===null || value===null)&&(this._state.Height!==value)) {
+                    this.numHeight.setValue((value !== null) ? Common.Utils.Metric.fnRecalcFromMM(value) : '', true);
+                }
 
                 //for table-template
                 value = props.get_TableStyle();
@@ -567,6 +561,16 @@ define([
             }
         },
 
+        updateMetricUnit: function() {
+            if (this.spinners) {
+                for (var i=0; i<this.spinners.length; i++) {
+                    var spinner = this.spinners[i];
+                    spinner.setDefaultUnit(Common.Utils.Metric.getCurrentMetricName());
+                    spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt ? 1 : 0.1);
+                }
+            }
+        },
+
         _UpdateBordersStyle: function(border) {
             this.CellBorders = new Asc.CBorders();
             var updateBorders = this.CellBorders;
@@ -619,21 +623,6 @@ define([
             else {
                 border.put_Value(0);
             }
-        },
-
-        _TblWrapStyleChanged: function(style) {
-            if (!this.btnWrapNone || !this.btnWrapParallel) return;
-            if ( this._state.WrapStyle!==style ) {
-                this._noApply = true;
-                this.btnWrapNone.toggle((style==c_tableWrap.TABLE_WRAP_NONE), true);
-                this.btnWrapParallel.toggle((style==c_tableWrap.TABLE_WRAP_PARALLEL), true);
-                this._noApply = false;
-                this._state.WrapStyle=style;
-            }
-        },
-
-        _TblAlignChanged: function(style) {
-            this._state.TableAlignment=style;
         },
 
         UpdateThemeColors: function() {
@@ -777,12 +766,9 @@ define([
             }
         },
 
-        textWrap:           'Text Wrapping',
         textBorders:        'Border\'s Style',
         textBorderColor:    'Color',
         textBackColor:      'Background color',
-        textWrapParallelTooltip: 'Flow table',
-        textWrapNoneTooltip: 'Inline table',
         textEdit:           'Rows & Columns',
         selectRowText           : 'Select Row',
         selectColumnText        : 'Select Column',
@@ -823,7 +809,12 @@ define([
         tipInner:           'Set Inner Lines Only',
         tipInnerVert:       'Set Vertical Inner Lines Only',
         tipInnerHor:        'Set Horizontal Inner Lines Only',
-        tipOuter:           'Set Outer Border Only'
+        tipOuter:           'Set Outer Border Only',
+        textCellSize: 'Cell Size',
+        textHeight: 'Height',
+        textWidth: 'Width',
+        textDistributeRows: 'Distribute rows',
+        textDistributeCols: 'Distribute columns'
 
     }, DE.Views.TableSettings || {}));
 });
