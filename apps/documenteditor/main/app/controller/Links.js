@@ -204,20 +204,30 @@ define([
         onTableContents: function(type){
             switch (type) {
                 case 0:
-                    this.api.asc_AddTableOfContents(); break;
+                    var props = new Asc.CTableOfContentsPr();
+                    props.put_Hyperlink(true);
+                    props.put_ShowPageNumbers(true);
+                    props.put_RightAlignTab(true);
+                    props.put_TabLeader( Asc.c_oAscTabLeader.Dot);
+                    props.put_OutlineRange(1, 9);
+                    this.api.asc_AddTableOfContents(props); break;
                 case 1:
-                    this.api.asc_AddTableOfContents(); break;
+                    var props = new Asc.CTableOfContentsPr();
+                    props.put_Hyperlink(true);
+                    props.put_ShowPageNumbers(false);
+                    props.put_TabLeader( Asc.c_oAscTabLeader.None);
+                    props.put_OutlineRange(1, 9);
+                    this.api.asc_AddTableOfContents(props); break;
                 case 'settings':
-                    var props, me = this;
+                    var props = this.api.asc_GetTableOfContentsPr(),
+                        me = this;
                     var win = new DE.Views.TableOfContentsSettings({
                         api: this.api,
-                        props: this.api.asc_GetTableOfContentsPr(),
-                        handler: function(dlg, result) {
+                        props: props,
+                        handler: function(result, value) {
                             if (result == 'ok') {
-                                props = dlg.getSettings();
-                                me.api.asc_SetTableOfContentsPr(props);
+                                (props) ? me.api.asc_SetTableOfContentsPr(value) : me.api.asc_AddTableOfContents(value);
                             }
-
                             Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                         }
                     });

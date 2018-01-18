@@ -131,6 +131,8 @@ define([
             this.api        = options.api;
             this.handler    = options.handler;
             this.props      = options.props;
+            this.startLevel = 1;
+            this.endLevel = 3;
 
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
         },
@@ -156,7 +158,6 @@ define([
                 labelText: this.strAlign,
                 value: 'checked'
             });
-            // this.chAlign.on('change', _.bind(this.onAlignChange, this));
 
             this.cmbLeader = new Common.UI.ComboBox({
                 el          : $('#tableofcontents-combo-leader'),
@@ -190,6 +191,8 @@ define([
                 if (newValue) {
                     this.levelsContainer.toggleClass('hidden', !newValue);
                     this.stylesContainer.toggleClass('hidden', newValue);
+                    if (this._needUpdateOutlineLevels)
+                        this.synchronizeLevelsFromStyles();
                 }
             }, this));
 
@@ -202,6 +205,8 @@ define([
                 if (newValue) {
                     this.stylesContainer.toggleClass('hidden', !newValue);
                     this.levelsContainer.toggleClass('hidden', newValue);
+                    if (this._needUpdateStyles)
+                        this.synchronizeLevelsFromOutline();
                 }
             }, this));
 
@@ -226,16 +231,16 @@ define([
                 step: 1,
                 width: 85,
                 defaultUnit : "",
-                value: 4,
+                value: 3,
                 maxValue: 9,
                 minValue: 1,
                 allowDecimal: false,
                 maskExp: /[1-9]/
             });
             this.spnLevels.on('change', _.bind(function(field, newValue, oldValue, eOpts){
-                if (this._changedProps) {
-                    // this._changedProps.get_Ind().put_FirstLine(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
-                }
+                this._needUpdateStyles = true;
+                this.startLevel = 1;
+                this.endLevel = field.getNumberValue();
             }, this));
 
             this.stylesLevels = new Common.UI.DataViewStore();
@@ -275,14 +280,17 @@ define([
         },
 
         _setDefaults: function (props) {
-            var styles = [];
+            var me = this,
+                styles = [];
             _.each(window.styles.get_MergedStyles(), function (style) {
-                styles.push(new Common.UI.DataViewModel({
+                var level = me.api.asc_GetHeadingLevel(style.get_Name());
+                styles.push({
                     name: style.get_Name(),
                     allowSelected: false,
                     checked: false,
-                    value: ''
-                }));
+                    value: '',
+                    headerLevel: (level>0) ? level+1 : -1 // -1 if is not header
+                });
             });
 
             if (props) {
@@ -290,50 +298,178 @@ define([
                 this.chLinks.setValue((value !== null && value !== undefined) ? value : 'indeterminate', true);
 
                 var start = props.get_OutlineStart(),
-                    end = props.get_OutlineEnd();
+                    end = props.get_OutlineEnd(),
+                    count = props.get_StylesCount();
 
-                this.spnLevels.setValue((start<0 || end<0) ? 0 : end);
-                this.spnLevels.setDisabled(start>1);
+                this.startLevel = start;
+                this.endLevel = end;
 
-                var count = props.get_StylesCount();
+                if ((start<0 || end<0) && count<1) {
+                    start = 1;
+                    end = 9;
+                    this.spnLevels.setValue(end, true);
+                }
+
+                var disable_outlines = false;
                 for (var i=0; i<count; i++) {
                     var style = props.get_StyleName(i),
                         level = props.get_StyleLevel(i),
                         rec = _.findWhere(styles, {name: style});
                     if (rec) {
-                        rec.set('checked', true);
-                        rec.set('value', level);
+                        rec.checked = true;
+                        rec.value = level;
+                        if (rec.headerLevel !== level)
+                            disable_outlines = true;
                     } else {
-                        styles.push(new Common.UI.DataViewModel({
+                        styles.push({
                             name: style,
                             allowSelected: false,
                             checked: true,
-                            value: level
-                        }));
+                            value: level,
+                            headerLevel: -1
+                        });
+                        disable_outlines = true;
                     }
                 }
 
+                if (start>0 && end>0) {
+                    for (var i=start; i<=end; i++) {
+                        var rec = _.findWhere(styles, {headerLevel: i});
+                        if (rec) {
+                            rec.checked = true;
+                            rec.value = i;
+                        }
+                    }
+                }
+                var new_start = -1, new_end = -1, empty_index = -1;
+                for (var i=0; i<9; i++) {
+                    var rec = _.findWhere(styles, {headerLevel: i+1});
+                    if (rec) {
+                        var headerLevel = rec.headerLevel,
+                            level = rec.value;
+                        if (headerLevel == level) {
+                            if (empty_index<1) {
+                                if (new_start<1)
+                                    new_start = level;
+                                new_end = level;
+                            } else {
+                                new_start = new_end = -1;
+                                disable_outlines = true;
+                                break;
+                            }
+                        } else if (!rec.checked) {
+                            (new_start>0) && (empty_index = i+1);
+                        } else {
+                            new_start = new_end = -1;
+                            disable_outlines = true;
+                            break;
+                        }
+                    }
+                }
+
+                this.spnLevels.setValue(new_end>0 ? new_end : '', true);
+                this.spnLevels.setDisabled(disable_outlines || new_start>1 );
             }
             this.stylesLevels.reset(styles);
+            if (this.spnLevels.isDisabled())
+                this.radioStyles.setValue(true);
             // this.api.SetDrawImagePlaceContents('tableofcontents-img', props);
 
             this._changedProps = new Asc.CTableOfContentsPr();
         },
 
+        synchronizeLevelsFromOutline: function() {
+            var start = 1, end = this.spnLevels.getNumberValue();
+            this.stylesLevels.each(function (style) {
+                var header = style.get('headerLevel');
+                if (header>=start && header<=end) {
+                    style.set('checked', true);
+                    style.set('value', header);
+                } else {
+                    style.set('checked', false);
+                    style.set('value', '');
+                }
+            });
+            this._needUpdateStyles = false;
+        },
+
+        synchronizeLevelsFromStyles: function() {
+            var new_start = -1, new_end = -1, empty_index = -1,
+                disable_outlines = false;
+
+            for (var i=0; i<9; i++) {
+                var rec = this.stylesLevels.findWhere({headerLevel: i+1});
+                if (rec) {
+                    var headerLevel = rec.get('headerLevel'),
+                        level = rec.get('value');
+                    if (headerLevel == level) {
+                        if (empty_index<1) {
+                            if (new_start<1)
+                                new_start = level;
+                            new_end = level;
+                        } else {
+                            new_start = new_end = -1;
+                            disable_outlines = true;
+                            break;
+                        }
+                    } else if (!rec.get('checked')) {
+                        (new_start>0) && (empty_index = i+1);
+                    } else {
+                        new_start = new_end = -1;
+                        disable_outlines = true;
+                        break;
+                    }
+                }
+            }
+            if (new_start<0 && new_end<0) {
+                var rec = this.stylesLevels.findWhere({checked: true});
+                if (rec) { // has checked style
+                    disable_outlines = true;
+                } else { // all levels are empty
+                    new_start = 1;
+                    new_end = 9;
+                }
+            }
+
+            this.startLevel = new_start;
+            this.endLevel = new_end;
+
+            this.spnLevels.setValue(new_end>0 ? new_end : '', true);
+            this.spnLevels.setDisabled(disable_outlines || new_start>1 );
+            this._needUpdateOutlineLevels = false;
+        },
+
         getSettings: function () {
-            var props;
+            var props = new Asc.CTableOfContentsPr();
+
+            props.put_Hyperlink(this.chLinks.getValue() == 'checked');
+            props.put_ShowPageNumbers(this.chPages.getValue() == 'checked');
+            if (this.chPages.getValue() == 'checked')
+                props.put_RightAlignTab(this.chAlign.getValue() == 'checked');
+            props.put_TabLeader(this.cmbLeader.getValue());
+
+            props.clear_Styles();
+            if (this._needUpdateOutlineLevels) {
+                this.synchronizeLevelsFromStyles();
+            }
+            if (!this._needUpdateStyles)  // if this._needUpdateStyles==true - fill only OutlineRange
+                this.stylesLevels.each(function (style) {
+                    if (style.get('checked'))
+                        props.add_Style(style.get('name'), style.get('value'));
+                });
+            props.put_OutlineRange(this.startLevel, this.endLevel);
             return props;
         },
 
         addEvents: function(listView, itemView, record) {
-            var input = itemView.$el.find('input');
+            var input = itemView.$el.find('input'),
+                me = this;
             input.on('keypress', function(e) {
                 var charCode = String.fromCharCode(e.which);
                 if(!/[1-9]/.test(charCode) && !e.ctrlKey && e.keyCode !== Common.UI.Keys.DELETE && e.keyCode !== Common.UI.Keys.BACKSPACE &&
                     e.keyCode !== Common.UI.Keys.LEFT && e.keyCode !== Common.UI.Keys.RIGHT && e.keyCode !== Common.UI.Keys.HOME &&
                     e.keyCode !== Common.UI.Keys.END && e.keyCode !== Common.UI.Keys.ESC && e.keyCode !== Common.UI.Keys.INSERT &&
                     e.keyCode !== Common.UI.Keys.TAB  || input.val().length>1){
-                    // if (e.keyCode==Common.UI.Keys.RETURN) me.trigger('changed', me, el.val());
                     e.preventDefault();
                     e.stopPropagation();
                 }
@@ -346,6 +482,7 @@ define([
                     record.set('checked', !_.isEmpty(input.val()));
                 }
                 record.set('value', input.val());
+                me._needUpdateOutlineLevels = true;
             });
         },
 
