@@ -449,9 +449,10 @@ define([
 
             props.put_Hyperlink(this.chLinks.getValue() == 'checked');
             props.put_ShowPageNumbers(this.chPages.getValue() == 'checked');
-            if (this.chPages.getValue() == 'checked')
+            if (this.chPages.getValue() == 'checked') {
                 props.put_RightAlignTab(this.chAlign.getValue() == 'checked');
-            props.put_TabLeader(this.cmbLeader.getValue());
+                props.put_TabLeader(this.cmbLeader.getValue());
+            }
             props.put_StylesType(this.cmbStyles.getValue());
 
             props.clear_Styles();

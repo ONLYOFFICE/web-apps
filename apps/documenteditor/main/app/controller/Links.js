@@ -204,20 +204,30 @@ define([
         onTableContents: function(type){
             switch (type) {
                 case 0:
-                    var props = new Asc.CTableOfContentsPr();
+                    var props = this.api.asc_GetTableOfContentsPr(),
+                        hasTable = !!props;
+                    if (!props) {
+                        props = new Asc.CTableOfContentsPr();
+                        props.put_OutlineRange(1, 9);
+                    }
                     props.put_Hyperlink(true);
                     props.put_ShowPageNumbers(true);
                     props.put_RightAlignTab(true);
                     props.put_TabLeader( Asc.c_oAscTabLeader.Dot);
-                    props.put_OutlineRange(1, 9);
-                    this.api.asc_AddTableOfContents(props); break;
+                    (hasTable) ? this.api.asc_SetTableOfContentsPr(props) : this.api.asc_AddTableOfContents(props);
+                    break;
                 case 1:
-                    var props = new Asc.CTableOfContentsPr();
+                    var props = this.api.asc_GetTableOfContentsPr(),
+                        hasTable = !!props;
+                    if (!props) {
+                        props = new Asc.CTableOfContentsPr();
+                        props.put_OutlineRange(1, 9);
+                    }
                     props.put_Hyperlink(true);
                     props.put_ShowPageNumbers(false);
                     props.put_TabLeader( Asc.c_oAscTabLeader.None);
-                    props.put_OutlineRange(1, 9);
-                    this.api.asc_AddTableOfContents(props); break;
+                    (hasTable) ? this.api.asc_SetTableOfContentsPr(props) : this.api.asc_AddTableOfContents(props);
+                    break;
                 case 'settings':
                     var props = this.api.asc_GetTableOfContentsPr(),
                         me = this;
