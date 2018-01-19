@@ -216,15 +216,14 @@ define([
                 menuStyle: 'min-width: 150px;',
                 editable: false,
                 data: [
-                    { displayValue: this.txtCurrent,     value: Asc.c_oAscNumberingFormat.Decimal },
-                    { displayValue: this.txtSimple,     value: Asc.c_oAscNumberingFormat.Decimal },
-                    { displayValue: this.txtStandard,     value: Asc.c_oAscNumberingFormat.Decimal },
-                    { displayValue: this.txtModern,     value: Asc.c_oAscNumberingFormat.Decimal },
-                    { displayValue: this.txtClassic,     value: Asc.c_oAscNumberingFormat.Decimal }
+                    { displayValue: this.txtCurrent,     value: Asc.c_oAscTOCStylesType.Current },
+                    { displayValue: this.txtSimple,     value: Asc.c_oAscTOCStylesType.Simple },
+                    { displayValue: this.txtStandard,     value: Asc.c_oAscTOCStylesType.Standard },
+                    { displayValue: this.txtModern,     value: Asc.c_oAscTOCStylesType.Modern },
+                    { displayValue: this.txtClassic,     value: Asc.c_oAscTOCStylesType.Classic }
                 ]
             });
-            // this.cmbStyles.setValue();
-            // this.cmbStyles.on('selected', _.bind(this.onStylesSelect, this));
+            this.cmbStyles.setValue(Asc.c_oAscTOCStylesType.Current);
 
             this.spnLevels = new Common.UI.CustomSpinner({
                 el: $('#tableofcontents-spin-levels'),
@@ -281,21 +280,27 @@ define([
 
         _setDefaults: function (props) {
             var me = this,
+                docStyles = this.api.asc_GetStylesArray(),
                 styles = [];
-            _.each(window.styles.get_MergedStyles(), function (style) {
-                var level = me.api.asc_GetHeadingLevel(style.get_Name());
-                styles.push({
-                    name: style.get_Name(),
-                    allowSelected: false,
-                    checked: false,
-                    value: '',
-                    headerLevel: (level>0) ? level+1 : -1 // -1 if is not header
-                });
+            _.each(docStyles, function (style) {
+                    var name = style.get_Name(),
+                        level = me.api.asc_GetHeadingLevel(name);
+                if (style.get_QFormat() || level>=0) {
+                    styles.push({
+                        name: name,
+                        allowSelected: false,
+                        checked: false,
+                        value: '',
+                        headerLevel: (level>=0) ? level+1 : -1 // -1 if is not header
+                    });
+                }
             });
 
             if (props) {
                 var value = props.get_Hyperlink();
                 this.chLinks.setValue((value !== null && value !== undefined) ? value : 'indeterminate', true);
+                value = props.get_StylesType();
+                this.cmbStyles.setValue((value!==null) ? value : Asc.c_oAscTOCStylesType.Current);
 
                 var start = props.get_OutlineStart(),
                     end = props.get_OutlineEnd(),
@@ -447,6 +452,7 @@ define([
             if (this.chPages.getValue() == 'checked')
                 props.put_RightAlignTab(this.chAlign.getValue() == 'checked');
             props.put_TabLeader(this.cmbLeader.getValue());
+            props.put_StylesType(this.cmbStyles.getValue());
 
             props.clear_Styles();
             if (this._needUpdateOutlineLevels) {
@@ -477,11 +483,11 @@ define([
             });
             input.on('input', function(e) {
                 // console.log(input.val());
-                var newval = !_.isEmpty(input.val());
-                if (record.get('checked') !== newval) {
-                    record.set('checked', !_.isEmpty(input.val()));
+                var isEmpty = _.isEmpty(input.val());
+                if (record.get('checked') !== !isEmpty) {
+                    record.set('checked', !isEmpty);
                 }
-                record.set('value', input.val());
+                record.set('value', (isEmpty) ? '' : parseInt(input.val()));
                 me._needUpdateOutlineLevels = true;
             });
         },
