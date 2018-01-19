@@ -250,10 +250,7 @@ define([
         },
 
         onTableContentsUpdate: function(type){
-            if (type == 'pages')
-                this.api.asc_updateTableOfContents();
-            else
-                this.api.asc_updateaddTableOfContents();
+            this.api.asc_UpdateTableOfContents(type == 'pages');
         },
 
         onNotesClick: function(type) {
