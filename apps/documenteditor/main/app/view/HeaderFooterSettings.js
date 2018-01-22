@@ -74,8 +74,7 @@ define([
                 DiffOdd: false,
                 SameAs: false,
                 DisabledControls: false,
-                Numbering: true,
-                From: 1
+                Numbering: undefined
             };
             this.spinners = [];
             this.lockedControls = [];
@@ -137,17 +136,12 @@ define([
                     this._state.SameAs=value;
                 }
 
-                // value = prop.get_PageNumbering();
-                if ( this._state.Numbering!==value ) {
-                    this.radioPrev.setValue(!!value, true);
-                    this.radioFrom.setValue(!value, true);
-                    this._state.Numbering=value;
-                }
-
                 // value = prop.get_NumberingFrom();
-                if ( this._state.From!==value ) {
-                    this.numFrom.setValue(value===null ? '' : value, true);
-                    this._state.From=value;
+                if ( this._state.Numbering!==value && value !== null) {
+                    this.radioPrev.setValue(value<0, true);
+                    this.radioFrom.setValue(value>-1, true);
+                    this.numFrom.setValue(value<0 ? '' : value, true);
+                    this._state.Numbering=value;
                 }
             }
         },
@@ -190,7 +184,7 @@ define([
 
         onRadioPrev: function(field, newValue, eOpts) {
             if (newValue && this.api) {
-                // this.api.HeadersAndFooters_FromPrevious(newValue);
+                // this.api.HeadersAndFooters_FromPrevious(-1);
             }
             this.fireEvent('editcomplete', this);
         },
