@@ -133,6 +133,8 @@ define([
             this.props      = options.props;
             this.startLevel = 1;
             this.endLevel = 3;
+            this._noApply = true;
+            this._originalProps = null;
 
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
         },
@@ -147,9 +149,17 @@ define([
                 value: 'checked'
             });
             this.chPages.on('change', _.bind(function(field, newValue, oldValue, eOpts){
-                this.chAlign.setDisabled(field.getValue()!=='checked');
-                this.cmbLeader.setDisabled(field.getValue()!=='checked');
-                if (this._changedProps) {
+                var checked = (field.getValue()=='checked');
+                this.chAlign.setDisabled(!checked);
+                this.cmbLeader.setDisabled(!checked);
+                if (this.api && !this._noApply) {
+                    var properties = (this._originalProps) ? this._originalProps : new Asc.CTableOfContentsPr();
+                    properties.put_ShowPageNumbers(checked);
+                    if (checked) {
+                        properties.put_RightAlignTab(this.chAlign.getValue() == 'checked');
+                        properties.put_TabLeader(this.cmbLeader.getValue());
+                    }
+                    // this.api.SetDrawImagePlaceContents('tableofcontents-img', properties);
                 }
             }, this));
 
@@ -158,6 +168,18 @@ define([
                 labelText: this.strAlign,
                 value: 'checked'
             });
+            this.chAlign.on('change', _.bind(function(field, newValue, oldValue, eOpts){
+                var checked = (field.getValue()=='checked');
+                this.cmbLeader.setDisabled(!checked);
+                if (this.api && !this._noApply) {
+                    var properties = (this._originalProps) ? this._originalProps : new Asc.CTableOfContentsPr();
+                    properties.put_RightAlignTab(checked);
+                    if (checked) {
+                        properties.put_TabLeader(this.cmbLeader.getValue());
+                    }
+                    // this.api.SetDrawImagePlaceContents('tableofcontents-img', properties);
+                }
+            }, this));
 
             this.cmbLeader = new Common.UI.ComboBox({
                 el          : $('#tableofcontents-combo-leader'),
@@ -173,12 +195,25 @@ define([
                 ]
             });
             this.cmbLeader.setValue(Asc.c_oAscTabLeader.Dot);
+            this.cmbLeader.on('selected', _.bind(function(combo, record) {
+                if (this.api && !this._noApply) {
+                    var properties = (this._originalProps) ? this._originalProps : new Asc.CTableOfContentsPr();
+                    properties.put_TabLeader(record.value);
+                    // this.api.SetDrawImagePlaceContents('tableofcontents-img', properties);
+                }
+            }, this));
 
             this.chLinks = new Common.UI.CheckBox({
                 el: $('#tableofcontents-chb-links'),
-                labelText: this.strLinks
+                labelText: this.strLinks,
+                value: 'checked'
             });
             this.chLinks.on('change', _.bind(function(field, newValue, oldValue, eOpts){
+                if (this.api && !this._noApply) {
+                    var properties = (this._originalProps) ? this._originalProps : new Asc.CTableOfContentsPr();
+                    properties.put_Hyperlink(field.getValue()=='checked');
+                    // this.api.SetDrawImagePlaceContents('tableofcontents-img', properties);
+                }
             }, this));
 
             this.radioLevels = new Common.UI.RadioBox({
@@ -224,6 +259,13 @@ define([
                 ]
             });
             this.cmbStyles.setValue(Asc.c_oAscTOCStylesType.Current);
+            this.cmbStyles.on('selected', _.bind(function(combo, record) {
+                if (this.api && !this._noApply) {
+                    var properties = (this._originalProps) ? this._originalProps : new Asc.CTableOfContentsPr();
+                    properties.put_StylesType(record.value);
+                    // this.api.SetDrawImagePlaceContents('tableofcontents-img', properties);
+                }
+            }, this));
 
             this.spnLevels = new Common.UI.CustomSpinner({
                 el: $('#tableofcontents-spin-levels'),
@@ -240,6 +282,13 @@ define([
                 this._needUpdateStyles = true;
                 this.startLevel = 1;
                 this.endLevel = field.getNumberValue();
+
+                if (this.api && !this._noApply) {
+                    var properties = (this._originalProps) ? this._originalProps : new Asc.CTableOfContentsPr();
+                    properties.clear_Styles();
+                    properties.put_OutlineRange(this.startLevel, this.endLevel);
+                    // this.api.SetDrawImagePlaceContents('tableofcontents-img', properties);
+                }
             }, this));
 
             this.stylesLevels = new Common.UI.DataViewStore();
@@ -279,6 +328,8 @@ define([
         },
 
         _setDefaults: function (props) {
+            this._noApply = true;
+
             var me = this,
                 docStyles = this.api.asc_GetStylesArray(),
                 styles = [];
@@ -378,9 +429,22 @@ define([
             this.stylesLevels.reset(styles);
             if (this.spnLevels.isDisabled())
                 this.radioStyles.setValue(true);
-            // this.api.SetDrawImagePlaceContents('tableofcontents-img', props);
 
-            this._changedProps = new Asc.CTableOfContentsPr();
+            // Show Pages is always true when window is opened
+            this._originalProps = (props) ? props : new Asc.CTableOfContentsPr();
+            if (!props) {
+                this._originalProps.put_OutlineRange(this.startLevel, this.endLevel);
+                this._originalProps.put_Hyperlink(this.chLinks.getValue() == 'checked');
+            }
+            this._originalProps.put_ShowPageNumbers(this.chPages.getValue() == 'checked');
+            if (this.chPages.getValue() == 'checked') {
+                this._originalProps.put_RightAlignTab(this.chAlign.getValue() == 'checked');
+                this._originalProps.put_TabLeader(this.cmbLeader.getValue());
+            }
+
+            // this.api.SetDrawImagePlaceContents('tableofcontents-img', this._originalProps);
+
+            this._noApply = false;
         },
 
         synchronizeLevelsFromOutline: function() {
@@ -490,6 +554,21 @@ define([
                 }
                 record.set('value', (isEmpty) ? '' : parseInt(input.val()));
                 me._needUpdateOutlineLevels = true;
+
+                if (me.api && !me._noApply) {
+                    var properties = (me._originalProps) ? me._originalProps : new Asc.CTableOfContentsPr();
+                    properties.clear_Styles();
+                    me.stylesLevels.each(function (style) {
+                        if (style.get('checked'))
+                            properties.add_Style(style.get('name'), style.get('value'));
+                    });
+                    if (properties.get_StylesCount()>0)
+                        properties.put_OutlineRange(-1, -1);
+                    else
+                        properties.put_OutlineRange(1, 9);
+                    // this.api.SetDrawImagePlaceContents('tableofcontents-img', properties);
+                }
+
             });
         },
 
