@@ -894,7 +894,7 @@ define([
                 '<div id="fms-btn-add-pwd" style="width:190px;"></div>',
                 '<table id="id-fms-view-pwd" cols="2" width="300">',
                     '<tr>',
-                        '<td colspan="2"><span><%= scope.txtEncrypted %></span></td>',
+                        '<td colspan="2"><span style="cursor: default;"><%= scope.txtEncrypted %></span></td>',
                     '</tr>',
                     '<tr>',
                         '<td><div id="fms-btn-change-pwd" style="width:190px;"></div></td>',
@@ -918,7 +918,7 @@ define([
             this.templateSignature = _.template([
                 '<table cols="2" width="300" class="<% if (!hasSigned) { %>hidden<% } %>"">',
                     '<tr>',
-                        '<td colspan="2"><span><%= tipText %></span></td>',
+                        '<td colspan="2"><span style="cursor: default;"><%= tipText %></span></td>',
                     '</tr>',
                     '<tr>',
                         '<td><label class="link signature-view-link">' + me.txtView + '</label></td>',
