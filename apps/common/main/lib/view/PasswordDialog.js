@@ -54,7 +54,6 @@ define([
                 _options = {};
 
             _.extend(_options,  {
-                closable: false,
                 width           : 350,
                 height          : 220,
                 header          : true,
@@ -97,7 +96,6 @@ define([
 
             if (this.$window) {
                 var me = this;
-                this.$window.find('.tool').hide();
                 this.$window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
                     this.inputPwd = new Common.UI.InputField({
                         el: $('#id-password-txt'),
