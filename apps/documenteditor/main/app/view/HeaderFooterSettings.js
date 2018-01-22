@@ -136,11 +136,14 @@ define([
                     this._state.SameAs=value;
                 }
 
-                // value = prop.get_NumberingFrom();
+                value = prop.get_StartPageNumber();
                 if ( this._state.Numbering!==value && value !== null) {
-                    this.radioPrev.setValue(value<0, true);
-                    this.radioFrom.setValue(value>-1, true);
-                    this.numFrom.setValue(value<0 ? '' : value, true);
+                    if (value<0)
+                        this.radioPrev.setValue(true, true);
+                    else {
+                        this.radioFrom.setValue(true, true);
+                        this.numFrom.setValue(value, true);
+                    }
                     this._state.Numbering=value;
                 }
             }
@@ -184,7 +187,7 @@ define([
 
         onRadioPrev: function(field, newValue, eOpts) {
             if (newValue && this.api) {
-                // this.api.HeadersAndFooters_FromPrevious(-1);
+                this.api.asc_SetSectionStartPage(-1);
             }
             this.fireEvent('editcomplete', this);
         },
@@ -192,16 +195,16 @@ define([
         onRadioFrom: function(field, newValue, eOpts) {
             if (newValue && this.api) {
                 if (_.isEmpty(this.numFrom.getValue()))
-                    this.numFrom.setValue(1);
-                // this.api.HeadersAndFooters_From(this.numFrom.getNumberValue());
+                    this.numFrom.setValue(1, true);
+                this.api.asc_SetSectionStartPage(this.numFrom.getNumberValue());
             }
             this.fireEvent('editcomplete', this);
         },
 
         onNumFromChange: function(field, newValue, oldValue, eOpts){
             if (this.api) {
-                this.radioFrom.setValue(true);
-                // this.api.HeadersAndFooters_From(field.getNumberValue());
+                this.radioFrom.setValue(true, true);
+                this.api.asc_SetSectionStartPage(field.getNumberValue());
             }
             this.fireEvent('editcomplete', this);
         },
@@ -305,7 +308,7 @@ define([
                 value: '1',
                 defaultUnit : "",
                 maxValue: 2147483646,
-                minValue: 1,
+                minValue: 0,
                 allowDecimal: false
             });
             this.lockedControls.push(this.numFrom);
