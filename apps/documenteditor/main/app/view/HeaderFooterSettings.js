@@ -139,14 +139,14 @@ define([
 
                 // value = prop.get_PageNumbering();
                 if ( this._state.Numbering!==value ) {
-                    this.radioPrev.setValue(!!value);
-                    this.radioFrom.setValue(!value);
+                    this.radioPrev.setValue(!!value, true);
+                    this.radioFrom.setValue(!value, true);
                     this._state.Numbering=value;
                 }
 
                 // value = prop.get_NumberingFrom();
                 if ( this._state.From!==value ) {
-                    this.numFrom.setValue(value===null ? '' : value);
+                    this.numFrom.setValue(value===null ? '' : value, true);
                     this._state.From=value;
                 }
             }
