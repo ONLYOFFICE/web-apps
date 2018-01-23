@@ -185,6 +185,13 @@ define([
             return parseInt(el.css('width'));
         },
 
+        getItem: function (alias) {
+            for (var p in this.panels) {
+                var panel = this.panels[p];
+                if ( panel.alias == alias ) return panel;
+            }
+        },
+
         onSelectStart: function(e) {
             if (e.preventDefault) e.preventDefault();
             return false;

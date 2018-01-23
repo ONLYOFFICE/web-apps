@@ -736,3 +736,23 @@ String.prototype.strongMatch = function(regExp){
 
     return false;
 };
+
+Common.Utils.InternalSettings = new(function() {
+    var settings = {};
+
+    var _get = function(name) {
+            return settings[name];
+        },
+        _set = function(name, value) {
+            settings[name] = value;
+        };
+
+    return {
+        get: _get,
+        set: _set
+    }
+});
+
+Common.Utils.InternalSettings.set('toolbar-height-compact', 32);
+Common.Utils.InternalSettings.set('toolbar-height-normal', 32+67);
+Common.Utils.InternalSettings.set('doc-title-height', 26);
