@@ -242,6 +242,12 @@ define([
                     this.levelsContainer.toggleClass('hidden', newValue);
                     if (this._needUpdateStyles)
                         this.synchronizeLevelsFromOutline();
+                    this.stylesList.scroller.update({alwaysVisibleY: true});
+                    setTimeout(function(){
+                        var rec = me.stylesLevels.findWhere({checked: true});
+                        if (rec)
+                            me.stylesList.scrollToRecord(rec);
+                    }, 10);
                 }
             }, this));
 
@@ -427,8 +433,13 @@ define([
                 this.spnLevels.setDisabled(disable_outlines || new_start>1 );
             }
             this.stylesLevels.reset(styles);
-            if (this.spnLevels.isDisabled())
+            if (this.spnLevels.isDisabled()) {
                 this.radioStyles.setValue(true);
+                this.stylesList.scroller.update({alwaysVisibleY: true});
+                var rec = this.stylesLevels.findWhere({checked: true});
+                if (rec)
+                    this.stylesList.scrollToRecord(rec);
+            }
 
             // Show Pages is always true when window is opened
             this._originalProps = (props) ? props : new Asc.CTableOfContentsPr();
