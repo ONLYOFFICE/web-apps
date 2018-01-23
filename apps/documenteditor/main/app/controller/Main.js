@@ -893,7 +893,8 @@ define([
                     rightmenuController         = application.getController('RightMenu'),
                     leftmenuController          = application.getController('LeftMenu'),
                     chatController              = application.getController('Common.Controllers.Chat'),
-                    pluginsController           = application.getController('Common.Controllers.Plugins');
+                    pluginsController           = application.getController('Common.Controllers.Plugins'),
+                    navigationController        = application.getController('Navigation');
 
                 leftmenuController.getView('LeftMenu').getMenu('file').loadDocument({doc:me.document});
                 leftmenuController.setMode(me.appOptions).createDelayedElements().setApi(me.api);
@@ -906,6 +907,8 @@ define([
                 me.requestPlugins('../../../../plugins.json');
                 me.api.asc_registerCallback('asc_onPluginsInit', _.bind(me.updatePluginsList, me));
                 me.api.asc_registerCallback('asc_onPluginsReset', _.bind(me.resetPluginsList, me));
+
+                navigationController.setApi(me.api);
 
                 documentHolderController.setApi(me.api);
                 documentHolderController.createDelayedElements();

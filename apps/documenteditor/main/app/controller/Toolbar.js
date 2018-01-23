@@ -48,13 +48,11 @@ define([
     'common/main/lib/view/InsertTableDialog',
     'common/main/lib/util/define',
     'documenteditor/main/app/view/Toolbar',
-    'documenteditor/main/app/view/HyperlinkSettingsDialog',
     'documenteditor/main/app/view/DropcapSettingsAdvanced',
     'documenteditor/main/app/view/MailMergeRecepients',
     'documenteditor/main/app/view/StyleTitleDialog',
     'documenteditor/main/app/view/PageMarginsDialog',
     'documenteditor/main/app/view/PageSizeDialog',
-    'documenteditor/main/app/view/NoteSettingsDialog',
     'documenteditor/main/app/controller/PageLayout',
     'documenteditor/main/app/view/CustomColumnsDialog',
     'documenteditor/main/app/view/ControlSettingsDialog'
@@ -277,7 +275,6 @@ define([
             toolbar.mnuLineSpace.on('item:toggle',                      _.bind(this.onLineSpaceToggle, this));
             toolbar.mnuNonPrinting.on('item:toggle',                    _.bind(this.onMenuNonPrintingToggle, this));
             toolbar.btnShowHidenChars.on('toggle',                      _.bind(this.onNonPrintingToggle, this));
-            toolbar.btnInsertHyperlink.on('click',                      _.bind(this.onHyperlinkClick, this));
             toolbar.mnuTablePicker.on('select',                         _.bind(this.onTablePickerSelect, this));
             toolbar.mnuInsertTable.on('item:click',                     _.bind(this.onInsertTableClick, this));
             toolbar.mnuInsertImage.on('item:click',                     _.bind(this.onInsertImageClick, this));
@@ -311,10 +308,6 @@ define([
             toolbar.mnuZoomIn.on('click',                               _.bind(this.onZoomInClick, this));
             toolbar.mnuZoomOut.on('click',                              _.bind(this.onZoomOutClick, this));
             toolbar.btnInsertEquation.on('click',                       _.bind(this.onInsertEquationClick, this));
-            toolbar.btnNotes.on('click',                                _.bind(this.onNotesClick, this));
-            toolbar.btnNotes.menu.on('item:click',                      _.bind(this.onNotesMenuClick, this));
-            toolbar.mnuGotoFootPrev.on('click',                         _.bind(this.onFootnotePrevClick, this));
-            toolbar.mnuGotoFootNext.on('click',                         _.bind(this.onFootnoteNextClick, this));
 
             $('#id-save-style-plus, #id-save-style-link', toolbar.$el).on('click', this.onMenuSaveStyle.bind(this));
 
@@ -338,7 +331,6 @@ define([
             this.api.asc_registerCallback('asc_onPrAlign',              _.bind(this.onApiParagraphAlign, this));
             this.api.asc_registerCallback('asc_onTextColor',            _.bind(this.onApiTextColor, this));
             this.api.asc_registerCallback('asc_onParaSpacingLine',      _.bind(this.onApiLineSpacing, this));
-            this.api.asc_registerCallback('asc_onCanAddHyperlink',      _.bind(this.onApiCanAddHyperlink, this));
             this.api.asc_registerCallback('asc_onFocusObject',          _.bind(this.onApiFocusObject, this));
             this.api.asc_registerCallback('asc_onDocSize',              _.bind(this.onApiPageSize, this));
             this.api.asc_registerCallback('asc_onPaintFormatChanged',   _.bind(this.onApiStyleChange, this));
@@ -574,14 +566,6 @@ define([
             }
         },
 
-        onApiCanAddHyperlink: function(value) {
-            var need_disable = !value || this._state.prcontrolsdisable;
-
-            if ( this.editMode ) {
-                this.toolbar.btnInsertHyperlink.setDisabled(need_disable);
-            }
-        },
-
         onApiPageSize: function(w, h) {
             var width = this._state.pgorient ? w : h,
                 height = this._state.pgorient ? h : w;
@@ -769,10 +753,6 @@ define([
             toolbar.btnSubscript.setDisabled(need_disable);
 
             toolbar.btnEditHeader.setDisabled(in_equation);
-
-            need_disable = paragraph_locked || in_equation || in_image || in_header || control_plain;
-            if (need_disable !== toolbar.btnNotes.isDisabled())
-                toolbar.btnNotes.setDisabled(need_disable);
 
             need_disable = paragraph_locked || header_locked || in_image || control_plain;
             if (need_disable != toolbar.btnColumns.isDisabled())
@@ -1312,58 +1292,6 @@ define([
             }
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-        },
-
-        onHyperlinkClick: function(btn) {
-            var me = this,
-                win, props, text;
-
-            if (me.api){
-
-                var handlerDlg = function(dlg, result) {
-                    if (result == 'ok') {
-                        props = dlg.getSettings();
-                        (text!==false)
-                            ? me.api.add_Hyperlink(props)
-                            : me.api.change_Hyperlink(props);
-                    }
-
-                    Common.NotificationCenter.trigger('edit:complete', me.toolbar);
-                };
-
-                text = me.api.can_AddHyperlink();
-
-                if (text !== false) {
-                    win = new DE.Views.HyperlinkSettingsDialog({
-                        api: me.api,
-                        handler: handlerDlg
-                    });
-
-                    props = new Asc.CHyperlinkProperty();
-                    props.put_Text(text);
-
-                    win.show();
-                    win.setSettings(props);
-                } else {
-                    var selectedElements = me.api.getSelectedElements();
-                    if (selectedElements && _.isArray(selectedElements)){
-                        _.each(selectedElements, function(el, i) {
-                            if (selectedElements[i].get_ObjectType() == Asc.c_oAscTypeSelectElement.Hyperlink)
-                                props = selectedElements[i].get_ObjectValue();
-                        });
-                    }
-                    if (props) {
-                        win = new DE.Views.HyperlinkSettingsDialog({
-                            api: me.api,
-                            handler: handlerDlg
-                        });
-                        win.show();
-                        win.setSettings(props);
-                    }
-                }
-            }
-
-            Common.component.Analytics.trackEvent('ToolBar', 'Add Hyperlink');
         },
 
         onTablePickerSelect: function(picker, columns, rows, e) {
@@ -2109,68 +2037,6 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
-        onNotesClick: function() {
-            if (this.api)
-              this.api.asc_AddFootnote();
-        },
-
-        onNotesMenuClick: function(menu, item) {
-            if (this.api) {
-                if (item.value == 'ins_footnote')
-                    this.api.asc_AddFootnote();
-                else if (item.value == 'delele')
-                    Common.UI.warning({
-                        msg: this.confirmDeleteFootnotes,
-                        buttons: ['yes', 'no'],
-                        primary: 'yes',
-                        callback: _.bind(function(btn) {
-                            if (btn == 'yes') {
-                                this.api.asc_RemoveAllFootnotes();
-                            }
-                            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-                        }, this)
-                    });
-                else if (item.value == 'settings') {
-                    var me = this;
-                    (new DE.Views.NoteSettingsDialog({
-                        api: me.api,
-                        handler: function(result, settings) {
-                            if (settings) {
-                                me.api.asc_SetFootnoteProps(settings.props, settings.applyToAll);
-                                if (result == 'insert')
-                                    me.api.asc_AddFootnote(settings.custom);
-                            }
-                            Common.NotificationCenter.trigger('edit:complete', me.toolbar);
-                        },
-                        props   : me.api.asc_GetFootnoteProps()
-                    })).show();
-                } else
-                    return;
-
-                Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-            }
-        },
-
-        onFootnotePrevClick: function(btn) {
-            if (this.api)
-                this.api.asc_GotoFootnote(false);
-
-            var me = this;
-            setTimeout(function() {
-                Common.NotificationCenter.trigger('edit:complete', me.toolbar);
-            }, 50);
-        },
-
-        onFootnoteNextClick: function(btn) {
-            if (this.api)
-                this.api.asc_GotoFootnote(true);
-
-            var me = this;
-            setTimeout(function() {
-                Common.NotificationCenter.trigger('edit:complete', me.toolbar);
-            }, 50);
-        },
-
         _clearBullets: function() {
             this.toolbar.btnMarkers.toggle(false, true);
             this.toolbar.btnNumbers.toggle(false, true);
@@ -2895,15 +2761,19 @@ define([
                 var $panel = this.getApplication().getController('Common.Controllers.ReviewChanges').createToolbarPanel();
 
                 if ( $panel )
-                    me.toolbar.addTab(tab, $panel, 3);
+                    me.toolbar.addTab(tab, $panel, 4);
 
                 if (config.isDesktopApp && config.isOffline) {
                     tab = {action: 'protect', caption: me.toolbar.textTabProtect};
                     $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
 
                     if ( $panel )
-                        me.toolbar.addTab(tab, $panel, 4);
+                        me.toolbar.addTab(tab, $panel, 5);
                 }
+
+                var links = me.getApplication().getController('Links');
+                links.setApi(me.api).setConfig({toolbar: me});
+                Array.prototype.push.apply(me.toolbar.toolbarControls, links.getView('Links').getButtons());
             }
         },
 
@@ -3309,8 +3179,7 @@ define([
         confirmAddFontName: 'The font you are going to save is not available on the current device.<br>The text style will be displayed using one of the device fonts, the saved font will be used when it is available.<br>Do you want to continue?',
         notcriticalErrorTitle: 'Warning',
         txtMarginsW: 'Left and right margins are too high for a given page wight',
-        txtMarginsH: 'Top and bottom margins are too high for a given page height',
-        confirmDeleteFootnotes: 'Do you want to delete all footnotes?'
+        txtMarginsH: 'Top and bottom margins are too high for a given page height'
 
     }, DE.Controllers.Toolbar || {}));
 });

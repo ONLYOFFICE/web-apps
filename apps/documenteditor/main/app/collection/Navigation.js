@@ -31,20 +31,20 @@
  *
 */
 /**
- *  EquationGroups.js
- *
- *  Created by Alexey Musinov on 29/10/14
- *  Copyright (c) 2014 Ascensio System SIA. All rights reserved.
- *
+ * User: Julia.Radzhabova
+ * Date: 14.12.17
  */
 
-define([
-    'backbone',
-    'documenteditor/main/app/model/EquationGroup'
-], function(Backbone){ 'use strict';
-    DE.Collections = DE.Collections || {};
+DE.Collections = DE.Collections || {};
 
-    DE.Collections.EquationGroups = Backbone.Collection.extend({
-        model: DE.Models.EquationGroup
+define([
+    'underscore',
+    'backbone',
+    'common/main/lib/component/TreeView'
+], function(_, Backbone){
+    'use strict';
+
+    DE.Collections.Navigation = Common.UI.TreeViewStore.extend({
+        model: Common.UI.TreeViewModel
     });
 });

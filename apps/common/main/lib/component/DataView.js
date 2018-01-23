@@ -143,10 +143,16 @@ define([
             el.off('click').on('click', _.bind(this.onClick, this));
             el.off('dblclick').on('dblclick', _.bind(this.onDblClick, this));
             el.off('contextmenu').on('contextmenu', _.bind(this.onContextMenu, this));
-            el.toggleClass('disabled', this.model.get('disabled'));
+            el.toggleClass('disabled', !!this.model.get('disabled'));
 
             if (!_.isUndefined(this.model.get('cls')))
                 el.addClass(this.model.get('cls'));
+
+            var tip = el.data('bs.tooltip');
+            if (tip) {
+                if (tip.dontShow===undefined)
+                    tip.dontShow = true;
+            }
 
             this.trigger('change', this, this.model);
 
@@ -441,7 +447,11 @@ define([
         onResetItems: function() {
             _.each(this.dataViewItems, function(item) {
                 var tip = item.$el.data('bs.tooltip');
-                if (tip) (tip.tip()).remove();
+                if (tip) {
+                    if (tip.dontShow===undefined)
+                        tip.dontShow = true;
+                    (tip.tip()).remove();
+                }
             }, this);
 
             $(this.el).html(this.template({

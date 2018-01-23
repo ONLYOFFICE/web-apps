@@ -83,7 +83,8 @@ define([
                             { caption: me.textTabFile, action: 'file', extcls: 'canedit'},
                             { caption: me.textTabHome, action: 'home', extcls: 'canedit'},
                             { caption: me.textTabInsert, action: 'ins', extcls: 'canedit'},
-                            { caption: me.textTabLayout, action: 'layout', extcls: 'canedit'}
+                            { caption: me.textTabLayout, action: 'layout', extcls: 'canedit'},
+                            { caption: me.textTabLinks,  action: 'links', extcls: 'canedit'}
                         ]}
                 );
 
@@ -520,14 +521,6 @@ define([
                 });
                 this.paragraphControls.push(this.btnInsertTextArt);
 
-                this.btnInsertHyperlink = new Common.UI.Button({
-                    id: 'tlbtn-insertlink',
-                    cls: 'btn-toolbar x-huge icon-top',
-                    caption: me.capBtnInsLink,
-                    iconCls: 'btn-inserthyperlink'
-                });
-                this.paragraphControls.push(this.btnInsertHyperlink);
-
                 this.btnEditHeader = new Common.UI.Button({
                     id: 'id-toolbar-btn-editheader',
                     cls: 'btn-toolbar x-huge icon-top',
@@ -942,16 +935,6 @@ define([
                 });
                 this.toolbarControls.push(this.btnColorSchemas);
 
-                this.btnNotes = new Common.UI.Button({
-                    id: 'id-toolbar-btn-notes',
-                    cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'btn-notes',
-                    caption: me.capBtnInsFootnote,
-                    split: true,
-                    menu: true
-                });
-                this.paragraphControls.push(this.btnNotes);
-
                 this.btnMailRecepients = new Common.UI.Button({
                     id: 'id-toolbar-btn-mailrecepients',
                     cls: 'btn-toolbar',
@@ -1293,7 +1276,6 @@ define([
                 _injectComponent('#slot-btn-dropcap', this.btnDropCap);
                 _injectComponent('#slot-btn-controls', this.btnContentControls);
                 _injectComponent('#slot-btn-columns', this.btnColumns);
-                _injectComponent('#slot-btn-inshyperlink', this.btnInsertHyperlink);
                 _injectComponent('#slot-btn-editheader', this.btnEditHeader);
                 _injectComponent('#slot-btn-insshape', this.btnInsertShape);
                 _injectComponent('#slot-btn-insequation', this.btnInsertEquation);
@@ -1309,7 +1291,6 @@ define([
                 _injectComponent('#slot-field-styles', this.listStyles);
                 _injectComponent('#slot-btn-halign', this.btnHorizontalAlign);
                 _injectComponent('#slot-btn-mailrecepients', this.btnMailRecepients);
-                _injectComponent('#slot-btn-notes', this.btnNotes);
                 _injectComponent('#slot-img-align', this.btnImgAlign);
                 _injectComponent('#slot-img-group', this.btnImgGroup);
                 _injectComponent('#slot-img-movefrwd', this.btnImgForward);
@@ -1544,7 +1525,6 @@ define([
                 this.btnInsertChart.updateHint(this.tipInsertChart);
                 this.btnInsertText.updateHint(this.tipInsertText);
                 this.btnInsertTextArt.updateHint(this.tipInsertTextArt);
-                this.btnInsertHyperlink.updateHint(this.tipInsertHyperlink + Common.Utils.String.platformKey('Ctrl+K'));
                 this.btnEditHeader.updateHint(this.tipEditHeader);
                 this.btnInsertShape.updateHint(this.tipInsertShape);
                 this.btnInsertEquation.updateHint(this.tipInsertEquation);
@@ -1560,7 +1540,6 @@ define([
                 this.btnMailRecepients.updateHint(this.tipMailRecepients);
                 this.btnHide.updateHint(this.tipViewSettings);
                 this.btnAdvSettings.updateHint(this.tipAdvSettings);
-                this.btnNotes.updateHint(this.tipNotes);
 
                 // set menus
 
@@ -1682,40 +1661,6 @@ define([
                 });
                 this.mnuZoomIn = new Common.UI.Button({
                     el: $('#id-menu-zoom-in'),
-                    cls: 'btn-toolbar'
-                });
-
-                this.btnNotes.setMenu(
-                    new Common.UI.Menu({
-                        items: [
-                            {caption: this.mniInsFootnote, value: 'ins_footnote'},
-                            {caption: '--'},
-                            this.mnuGotoFootnote = new Common.UI.MenuItem({
-                                template: _.template([
-                                    '<div id="id-toolbar-menu-goto-footnote" class="menu-zoom" style="height: 25px;" ',
-                                    '<% if(!_.isUndefined(options.stopPropagation)) { %>',
-                                    'data-stopPropagation="true"',
-                                    '<% } %>', '>',
-                                    '<label class="title">' + this.textGotoFootnote + '</label>',
-                                    '<button id="id-menu-goto-footnote-next" type="button" style="float:right; margin: 2px 5px 0 0;" class="btn small btn-toolbar"><i class="icon mmerge-next">&nbsp;</i></button>',
-                                    '<button id="id-menu-goto-footnote-prev" type="button" style="float:right; margin-top: 2px;" class="btn small btn-toolbar"><i class="icon mmerge-prev">&nbsp;</i></button>',
-                                    '</div>'
-                                ].join('')),
-                                stopPropagation: true
-                            }),
-                            {caption: '--'},
-                            {caption: this.mniDelFootnote, value: 'delele'},
-                            {caption: this.mniNoteSettings, value: 'settings'}
-                        ]
-                    })
-                );
-
-                this.mnuGotoFootPrev = new Common.UI.Button({
-                    el: $('#id-menu-goto-footnote-prev'),
-                    cls: 'btn-toolbar'
-                });
-                this.mnuGotoFootNext = new Common.UI.Button({
-                    el: $('#id-menu-goto-footnote-next'),
                     cls: 'btn-toolbar'
                 });
 
@@ -2362,7 +2307,6 @@ define([
             tipEditHeader: 'Edit Document Header or Footer',
             mniEditHeader: 'Edit Document Header',
             mniEditFooter: 'Edit Document Footer',
-            tipInsertHyperlink: 'Add Hyperlink',
             mniHiddenChars: 'Nonprinting Characters',
             mniHiddenBorders: 'Hidden Table Borders',
             tipSynchronize: 'The document has been changed by another user. Please click to save your changes and reload the updates.',
@@ -2453,17 +2397,11 @@ define([
             textLandscape: 'Landscape',
             textInsertPageCount: 'Insert number of pages',
             textCharts: 'Charts',
-            tipNotes: 'Footnotes',
-            mniInsFootnote: 'Insert Footnote',
-            mniDelFootnote: 'Delete All Footnotes',
-            mniNoteSettings: 'Notes Settings',
-            textGotoFootnote: 'Go to Footnotes',
             tipChangeChart: 'Change Chart Type',
             capBtnInsPagebreak: 'Page Break',
             capBtnInsImage: 'Picture',
             capBtnInsTable: 'Table',
             capBtnInsChart: 'Chart',
-            capBtnInsLink: 'Hyperlink',
             textTabFile: 'File',
             textTabHome: 'Home',
             textTabInsert: 'Insert',
@@ -2473,7 +2411,6 @@ define([
             capBtnInsTextbox: 'Text Box',
             capBtnInsTextart: 'Text Art',
             capBtnInsDropcap: 'Drop Cap',
-            capBtnInsFootnote: 'Footnotes',
             capBtnInsEquation: 'Equation',
             capBtnInsHeader: 'Headers/Footers',
             capBtnColumns: 'Columns',
@@ -2495,6 +2432,7 @@ define([
             textSurface: 'Surface',
             textTabCollaboration: 'Collaboration',
             textTabProtect: 'Protection',
+            textTabLinks: 'Links',
             capBtnInsControls: 'Content Control',
             textRichControl: 'Rich text',
             textPlainControl: 'Plain text',
