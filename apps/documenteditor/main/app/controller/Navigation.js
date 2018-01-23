@@ -104,20 +104,29 @@ define([
 
             var count = this._navigationObject.get_ElementsCount(),
                 prev_level = -1,
+                header_level = -1,
+                first_header = !this._navigationObject.isFirstItemNotHeader(),
                 arr = [];
             for (var i=0; i<count; i++) {
-                var level = this._navigationObject.get_Level(i);
+                var level = this._navigationObject.get_Level(i),
+                    hasParent = true;
                 if (level>prev_level && i>0)
                     arr[i-1].set('hasSubItems', true);
+                if (header_level<0 || level<=header_level) {
+                    if (i>0 || first_header)
+                        header_level = level;
+                    hasParent = false;
+                }
                 arr.push(new Common.UI.TreeViewModel({
                     name : this._navigationObject.get_Text(i),
                     level: level,
                     index: i,
+                    hasParent: hasParent,
                     isEmptyItem: this._navigationObject.isEmptyItem(i)
                 }));
                 prev_level = level;
             }
-            if (count>0 && this._navigationObject.isFirstItemNotHeader()) {
+            if (count>0 && !first_header) {
                 arr[0].set('hasSubItems', false);
                 arr[0].set('isNotHeader', true);
                 arr[0].set('name', this.txtBeginning);
@@ -176,6 +185,9 @@ define([
                     top: showPoint[1]
                 });
                 menu.show();
+                _.delay(function() {
+                    menu.cmpEl.focus();
+                }, 10);
             }
 
         },

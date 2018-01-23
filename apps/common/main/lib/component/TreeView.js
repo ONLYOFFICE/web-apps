@@ -52,6 +52,7 @@ define([
                 name: '',
                 isNotHeader: false,
                 hasSubItems: false,
+                hasParent: false,
                 isEmptyItem: false,
                 isExpanded: true,
                 isVisible: true,
@@ -113,8 +114,10 @@ define([
         collapseAll: function() {
             for (var i=0; i<this.length; i++) {
                 var item = this.at(i);
-                item.set('isExpanded', false);
-                i = this.collapseSubItems(item);
+                if (!item.get('isNotHeader')) {
+                    item.set('isExpanded', false);
+                    i = this.collapseSubItems(item);
+                }
             }
         },
 
@@ -140,9 +143,10 @@ define([
 
             for (var j=0; j<this.length; j++) {
                 var item = this.at(j);
-                if (item.get('level')<=expandLevel) {
+                if (item.get('level')<=expandLevel || !item.get('hasParent')) {
                     item.set('isVisible', true);
-                    j = _expand_sub_items(j, item.get('level'));
+                    if (!item.get('isNotHeader'))
+                        j = _expand_sub_items(j, item.get('level'));
                 }
             }
         }

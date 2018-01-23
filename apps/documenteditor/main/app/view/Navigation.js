@@ -119,6 +119,7 @@ define([
                         caption     : this.txtExpandToLevel,
                         menu: new Common.UI.Menu({
                             menuAlign: 'tl-tr',
+                            style: 'min-width: 60px;',
                             items: [{ caption : '1', value: 1 }, { caption : '2', value: 2 }, { caption : '3', value: 3 },
                                 { caption : '4', value: 4 }, { caption : '5', value: 5 }, { caption : '6', value: 6 },
                                 { caption : '7', value: 7 }, { caption : '8', value: 8 },  { caption : '9', value: 9 }
