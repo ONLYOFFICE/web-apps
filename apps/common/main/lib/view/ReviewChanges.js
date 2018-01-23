@@ -446,6 +446,7 @@ define([
         function _click_turnpreview(btn, e) {
             if (this.appConfig.canReview) {
                 Common.NotificationCenter.trigger('reviewchanges:turn', btn.pressed ? 'on' : 'off');
+                Common.NotificationCenter.trigger('edit:complete');
             }
         };
 
@@ -479,7 +480,6 @@ define([
 
                 this.btnsTurnReview.forEach(function (button) {
                     button.on('click', _click_turnpreview.bind(me));
-                    Common.NotificationCenter.trigger('edit:complete', me);
                 });
 
                 this.btnReviewView.menu.on('item:click', function (menu, item, e) {
