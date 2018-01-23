@@ -35,14 +35,14 @@
  * Date: 14.12.17
  */
 
-DE.Collections = DE.Collections || {};
-
 define([
     'underscore',
     'backbone',
     'common/main/lib/component/TreeView'
 ], function(_, Backbone){
     'use strict';
+
+    DE.Collections = DE.Collections || {};
 
     DE.Collections.Navigation = Common.UI.TreeViewStore.extend({
         model: Common.UI.TreeViewModel
