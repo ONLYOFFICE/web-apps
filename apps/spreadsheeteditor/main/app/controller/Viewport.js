@@ -74,7 +74,8 @@ define([
                         toolbar.setExtra('left', me.header.getPanel('left', config));
                     },
                     'view:compact'  : function (toolbar, state) {
-                        me.viewport.vlayout.panels[0].height = state ? 32 : 32+67;
+                        me.viewport.vlayout.getItem('toolbar').height = state ?
+                            Common.Utils.InternalSettings.get('toolbar-height-compact') : Common.Utils.InternalSettings.get('toolbar-height-normal');
                     }
                 }
             });
@@ -88,15 +89,20 @@ define([
 
         onAppShowed: function (config) {
             var me = this;
+            me.appConfig = config;
 
             if ( !config.isEdit ||
                     ( !Common.localStorage.itemExists("sse-compact-toolbar") &&
                         config.customization && config.customization.compactToolbar ))
             {
-                me.viewport.vlayout.panels[0].height = 32;
+                me.viewport.vlayout.getItem('toolbar').height = Common.Utils.InternalSettings.get('toolbar-height-compact');
             } else
             if ( config.isEditDiagram || config.isEditMailMerge ) {
-                me.viewport.vlayout.panels[0].height = 41;
+                me.viewport.vlayout.getItem('toolbar').height = 41;
+            }
+
+            if ( config.isDesktopApp ) {
+                me.viewport.vlayout.getItem('doc-title').el.show();
             }
         },
 

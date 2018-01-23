@@ -1,5 +1,8 @@
 <div class="layout-region">
     <div id="viewport-vbox-layout" class="layout-ct vbox">
+        <section id="box-document-title" class="layout-item">
+            <input type="text" id="title-doc-name" spellcheck="false" data-can-copy="false">
+        </section>
         <section class="layout-ct">
             <div id="file-menu-panel" class="toolbar-fullview-panel" style="display:none;"></div>
         </section>

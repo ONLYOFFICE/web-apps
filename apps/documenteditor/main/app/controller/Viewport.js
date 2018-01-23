@@ -75,7 +75,8 @@ define([
                         toolbar.setExtra('left', me.header.getPanel('left', config));
                     },
                     'view:compact'  : function (toolbar, state) {
-                        me.viewport.vlayout.panels[0].height = state ? 32 : 32+67;
+                        me.viewport.vlayout.getItem('toolbar').height = state ?
+                                Common.Utils.InternalSettings.get('toolbar-height-compact') : Common.Utils.InternalSettings.get('toolbar-height-normal');
                     }
                 }
             });
@@ -113,11 +114,18 @@ define([
 
         onAppShowed: function (config) {
             var me = this;
+            me.appConfig = config;
 
             if ( !config.isEdit ||
                 ( !Common.localStorage.itemExists("de-compact-toolbar") &&
                 config.customization && config.customization.compactToolbar )) {
-                me.viewport.vlayout.panels[0].height = 32;
+
+                var panel = me.viewport.vlayout.getItem('toolbar');
+                if ( panel ) panel.height = Common.Utils.InternalSettings.get('toolbar-height-compact');
+            }
+
+            if ( config.isDesktopApp ) {
+                me.viewport.vlayout.getItem('doc-title').el.show();
             }
         },
 

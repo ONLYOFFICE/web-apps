@@ -240,3 +240,26 @@
         height: 20px;
     }
 }
+
+#box-document-title {
+    background-color: @tabs-bg-color;
+
+    #title-doc-name {
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        text-align: center;
+        font-size: 12px;
+        width: 100%;
+        height: 100%;
+
+        color: #d3d9e3;
+        background-color: transparent;
+        border: 0 none;
+        cursor: default;
+   }
+}
+
+.toolbar-fullview-panel.new-doctitle-offset {
+    top: @height-tabs + 26;
+}

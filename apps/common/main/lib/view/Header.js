@@ -414,6 +414,14 @@ define([
                         $html.find('#slot-btn-back').hide();
                         this.labelDocName.hide();
 
+                        //TODO: for new design representation only
+                        this.labelDocName = $('#box-document-title > #title-doc-name');
+                        this.labelDocName.text = function (str) {this.val(str);};
+                        this.labelDocName.text( this.documentCaption );
+
+                        $('.toolbar-fullview-panel').addClass('new-doctitle-offset');
+                        /***********/
+
                         if ( config.isOffline )
                             $saveStatus = false;
                     } else {
