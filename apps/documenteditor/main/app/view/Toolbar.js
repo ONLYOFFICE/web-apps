@@ -2037,6 +2037,13 @@ define([
                     this.toolbarControls.push(btnsave);
                     btnsave.setDisabled(this.btnsSave[0].isDisabled());
                 }
+
+                btnsave = DE.getController('Viewport').getView('Common.Views.Header').getButton('save');
+                if (btnsave && this.btnsSave) {
+                    this.btnsSave.push(btnsave);
+                    this.toolbarControls.push(btnsave);
+                    btnsave.setDisabled(this.btnsSave[0].isDisabled());
+                }
             },
 
             onToolbarAfterRender: function(toolbar) {

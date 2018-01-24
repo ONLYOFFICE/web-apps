@@ -260,18 +260,39 @@ define([
                 }
             }
 
+            if ( me.btnPrint ) {
+                me.btnPrint.updateHint(me.tipPrint + Common.Utils.String.platformKey('Ctrl+P'));
+                me.btnPrint.on('click', function (e) {
+                    me.fireEvent('print', me);
+                });
+            }
+
+            if ( me.btnSave ) {
+                me.btnSave.updateHint(me.tipSave + Common.Utils.String.platformKey('Ctrl+S'));
+                me.btnSave.on('click', function (e) {
+                    me.fireEvent('save', me);
+                });
+            }
+
+            if ( me.btnUndo ) {
+                me.btnUndo.updateHint(me.tipUndo + Common.Utils.String.platformKey('Ctrl+Z'));
+                me.btnUndo.on('click', function (e) {
+                    me.fireEvent('undo', me);
+                });
+            }
+
+            if ( me.btnRedo ) {
+                me.btnRedo.updateHint(me.tipRedo + Common.Utils.String.platformKey('Ctrl+Y'));
+                me.btnRedo.on('click', function (e) {
+                    me.fireEvent('redo', me);
+                });
+            }
+
             if ( !mode.isEdit ) {
                 if ( me.btnDownload ) {
                     me.btnDownload.updateHint(me.tipDownload);
                     me.btnDownload.on('click', function (e) {
                         me.fireEvent('downloadas', ['original']);
-                    });
-                }
-
-                if ( me.btnPrint ) {
-                    me.btnPrint.updateHint(me.tipPrint + Common.Utils.String.platformKey('Ctrl+P'));
-                    me.btnPrint.on('click', function (e) {
-                        me.fireEvent('print', me);
                     });
                 }
 
@@ -325,6 +346,7 @@ define([
                 branding: {},
                 headerCaption: 'Default Caption',
                 documentCaption: '',
+                userName: '',
                 canBack: false
             },
 
@@ -344,6 +366,7 @@ define([
 
                 this.headerCaption = this.options.headerCaption;
                 this.documentCaption = this.options.documentCaption;
+                this.userName = this.options.userName;
                 this.canBack = this.options.canBack;
                 this.branding = this.options.customization;
                 this.isModified = false;
@@ -411,7 +434,7 @@ define([
 
                     if ( config && config.isDesktopApp ) {
                         $html.addClass('desktop');
-                        $html.find('#slot-btn-back').hide();
+                        // $html.find('#slot-btn-back').hide();
                         this.labelDocName.hide();
 
                         //TODO: for new design representation only
@@ -419,18 +442,49 @@ define([
                         this.labelDocName.text = function (str) {this.val(str);};
                         this.labelDocName.text( this.documentCaption );
 
+                        this.labelUserName = $('#box-document-title > #title-user-name');
+                        this.labelUserName.text( this.userName );
+
+                        if ( config.canPrint ) {
+                            this.btnPrint = new Common.UI.Button({
+                                cls: 'btn-header',
+                                iconCls: 'svgicon svg-btn-print'
+                            });
+
+                            this.btnPrint.render($('#box-document-title #slot-btn-dt-print'));
+                        }
+
+                        this.btnSave = new Common.UI.Button({
+                            cls: 'btn-header',
+                            iconCls: 'svgicon svg-btn-save'
+                        });
+                        this.btnSave.render($('#box-document-title #slot-btn-dt-save'));
+
+                        this.btnUndo = new Common.UI.Button({
+                            cls: 'btn-header',
+                            iconCls: 'svgicon svg-btn-undo'
+                        });
+                        this.btnUndo.render($('#box-document-title #slot-btn-dt-undo'));
+
+                        this.btnRedo = new Common.UI.Button({
+                            cls: 'btn-header',
+                            iconCls: 'svgicon svg-btn-redo'
+                        });
+                        this.btnRedo.render($('#box-document-title #slot-btn-dt-redo'));
+
                         $('.toolbar-fullview-panel').addClass('new-doctitle-offset');
                         /***********/
 
                         if ( config.isOffline )
                             $saveStatus = false;
-                    } else {
+                    }
+                    // else {
                         if ( this.canBack === true ) {
                             this.btnGoBack.render($html.find('#slot-btn-back'));
                         } else {
                             $html.find('#slot-btn-back').hide();
                         }
-                    }
+                    // }
 
                     if ( !config.isEdit ) {
                         if ( (config.canDownload || config.canDownloadOrigin) && !config.isOffline  ) {
@@ -576,6 +630,16 @@ define([
                 }
             },
 
+            setUserName: function (value) {
+                this.userName = value.fullname;
+                return value;
+            },
+
+            getButton: function(type) {
+                if (type == 'save')
+                    return this.btnSave;
+            },
+
             textBack: 'Go to Documents',
             txtRename: 'Rename',
             textSaveBegin: 'Saving...',
@@ -588,7 +652,10 @@ define([
             tipViewUsers: 'View users and manage document access rights',
             tipDownload: 'Download file',
             tipPrint: 'Print file',
-            tipGoEdit: 'Edit current file'
+            tipGoEdit: 'Edit current file',
+            tipSave: 'Save',
+            tipUndo: 'Undo',
+            tipRedo: 'Redo'
         }
     }(), Common.Views.Header || {}))
 });
