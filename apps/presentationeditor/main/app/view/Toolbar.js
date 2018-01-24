@@ -1411,6 +1411,12 @@ define([
                     this.lockControls.push(btnsave);
                     btnsave.setDisabled(this.btnsSave[0].isDisabled());
                 }
+                btnsave = PE.getController('Viewport').getView('Common.Views.Header').getButton('save');
+                if (btnsave && this.btnsSave) {
+                    this.btnsSave.push(btnsave);
+                    this.lockControls.push(btnsave);
+                    btnsave.setDisabled(this.btnsSave[0].isDisabled());
+                }
 
                 /** coauthoring begin **/
                 this.showSynchTip = !Common.localStorage.getBool('pe-hide-synch');

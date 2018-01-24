@@ -1,10 +1,17 @@
 <div class="layout-region">
     <div id="viewport-vbox-layout" class="layout-ct vbox">
-        <section id="box-document-title" class="layout-item">
-            <input type="text" id="title-doc-name" spellcheck="false" data-can-copy="false">
-        </section>
         <section class="layout-ct">
             <div id="file-menu-panel" class="toolbar-fullview-panel" style="display:none;"></div>
+        </section>
+        <section id="box-document-title" class="layout-item">
+            <div class="hedset">
+                <div class="btn-slot" id="slot-btn-dt-save"></div>
+                <div class="btn-slot" id="slot-btn-dt-print"></div>
+                <div class="btn-slot" id="slot-btn-dt-undo"></div>
+                <div class="btn-slot" id="slot-btn-dt-redo"></div>
+            </div>
+            <input type="text" id="title-doc-name" spellcheck="false" data-can-copy="false">
+            <label id="title-user-name"></label>
         </section>
         <div id="toolbar" class="layout-item"></div>
         <div class="layout-item">

@@ -83,6 +83,11 @@ define([
                         var _main = this.getApplication().getController('Main');
                         _main.onPrint();
                     },
+                    'save': function (opts) {
+                        this.api.asc_Save();
+                    },
+                    'undo': this.onUndo,
+                    'redo': this.onRedo,
                     'downloadas': function (opts) {
                         var _main = this.getApplication().getController('Main');
                         var _file_type = _main.appOptions.spreadsheet.fileType,

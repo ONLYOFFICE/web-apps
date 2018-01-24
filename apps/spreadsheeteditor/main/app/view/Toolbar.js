@@ -1723,6 +1723,11 @@ define([
                 this.btnsSave.push(btnsave);
                 btnsave.setDisabled(this.btnsSave[0].isDisabled());
             }
+            btnsave = SSE.getController('Viewport').getView('Common.Views.Header').getButton('save');
+            if (btnsave && this.btnsSave) {
+                this.btnsSave.push(btnsave);
+                btnsave.setDisabled(this.btnsSave[0].isDisabled());
+            }
         },
 
         onToolbarAfterRender: function(toolbar) {
