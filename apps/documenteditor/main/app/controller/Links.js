@@ -214,7 +214,7 @@ define([
                     props.put_ShowPageNumbers(true);
                     props.put_RightAlignTab(true);
                     props.put_TabLeader( Asc.c_oAscTabLeader.Dot);
-                    (hasTable) ? this.api.asc_SetTableOfContentsPr(props) : this.api.asc_AddTableOfContents(null, props);
+                    this.api.asc_AddTableOfContents(null, props);
                     break;
                 case 1:
                     var props = this.api.asc_GetTableOfContentsPr(),
@@ -226,7 +226,7 @@ define([
                     props.put_Hyperlink(true);
                     props.put_ShowPageNumbers(false);
                     props.put_TabLeader( Asc.c_oAscTabLeader.None);
-                    (hasTable) ? this.api.asc_SetTableOfContentsPr(props) : this.api.asc_AddTableOfContents(null, props);
+                    this.api.asc_AddTableOfContents(null, props);
                     break;
                 case 'settings':
                     var props = this.api.asc_GetTableOfContentsPr(),
