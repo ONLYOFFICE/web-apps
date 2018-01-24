@@ -732,7 +732,7 @@ define([
             value = Common.Utils.InternalSettings.get("sse-settings-func-locale");
             item = this.cmbFuncLocale.store.findWhere({value: value});
             if (!item)
-                item = this.cmbFuncLocale.store.findWhere({value: value.split("-")[0]});
+                item = this.cmbFuncLocale.store.findWhere({value: value.split(/[\-\_]/)[0]});
             this.cmbFuncLocale.setValue(item ? item.get('value') : 'en');
             this.updateFuncExample(item ? item.get('exampleValue') : this.txtExampleEn);
 
@@ -1304,7 +1304,7 @@ define([
             var me = this;
             var store = this.viewHelpPicker.store;
             if (lang) {
-                lang = lang.split("-")[0];
+                lang = lang.split(/[\-\_]/)[0];
                 var config = {
                     dataType: 'json',
                     error: function () {
