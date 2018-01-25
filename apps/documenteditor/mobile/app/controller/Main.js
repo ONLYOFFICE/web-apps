@@ -478,6 +478,9 @@ define([
                 me.hidePreloader();
                 me.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
 
+                if (me.appOptions.isReviewOnly)
+                    me.api.asc_SetTrackRevisions(true);
+
                 /** coauthoring begin **/
                 this.isLiveCommenting = Common.localStorage.getBool("de-settings-livecomment", true);
                 this.isLiveCommenting ? this.api.asc_showComments(true) : this.api.asc_hideComments();
