@@ -189,7 +189,7 @@
                 }
             ],
             "clean": [
-                "../deploy/web-apps/apps/common"
+                "../deploy/web-apps/apps/spreadsheeteditor/main/resources/img/**/*.svg"
             ]
         }
     },

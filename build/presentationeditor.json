@@ -175,7 +175,7 @@
                 }
             ],
             "clean": [
-                "../deploy/web-apps/apps/common"
+                "../deploy/web-apps/apps/presentationeditor/main/resources/img/**/*.svg"
             ]
         },
         "reporter": {
