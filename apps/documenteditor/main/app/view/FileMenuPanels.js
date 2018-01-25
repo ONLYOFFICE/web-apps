@@ -52,9 +52,9 @@ define([
         menu: undefined,
 
         formats: [[
+            {name: 'DOCX',  imgCls: 'docx',  type: Asc.c_oAscFileType.DOCX},
             {name: 'PDF',   imgCls: 'pdf',   type: Asc.c_oAscFileType.PDF},
-            {name: 'TXT',   imgCls: 'txt',   type: Asc.c_oAscFileType.TXT},
-            {name: 'DOCX',  imgCls: 'docx',  type: Asc.c_oAscFileType.DOCX}
+            {name: 'TXT',   imgCls: 'txt',   type: Asc.c_oAscFileType.TXT}
         ],[
 //            {name: 'DOC',            imgCls: 'doc-format btn-doc',   type: Asc.c_oAscFileType.DOC},
             {name: 'ODT',   imgCls: 'odt',   type: Asc.c_oAscFileType.ODT},
