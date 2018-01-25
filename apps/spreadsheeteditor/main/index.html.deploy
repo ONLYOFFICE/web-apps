@@ -281,7 +281,7 @@
         };
     </script>
 
-    <inline src="../../common/main/resources/img/header/buttons.svg" />
+    <inline src="resources/img/header/buttons.svg" />
 
     <div id="viewport"></div>
 
