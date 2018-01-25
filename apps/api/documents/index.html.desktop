@@ -91,6 +91,9 @@
 
             function getEditorConfig(urlParams) {
                 return {
+                    customization   : {
+                        goback: { url:"https://onlyoffice.com" }
+                    },
                     mode            : urlParams["mode"] || 'edit',
                     lang            : urlParams["lang"] || 'en',
                     user: {
