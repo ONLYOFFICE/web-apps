@@ -122,6 +122,7 @@ define([
                         /x-huge/.test(el.className) && (_cls += ' x-huge icon-top');
 
                         var button = new Common.UI.Button({
+                            id: "id-toolbar-" + iconCls + index,
                             cls: _cls,
                             iconCls: iconCls,
                             caption: caption,
