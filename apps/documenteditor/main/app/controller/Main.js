@@ -147,7 +147,8 @@ define([
                         "Even Page ": this.txtEvenPage,
                         "Odd Page ": this.txtOddPage,
                         "Same as Previous": this.txtSameAsPrev,
-                        "Current Document": this.txtCurrentDocument
+                        "Current Document": this.txtCurrentDocument,
+                        "No table of contents entries found.": this.txtNoTableOfContents
                     };
                 styleNames.forEach(function(item){
                     translate[item] = me.translationTable[item] = me['txtStyle_' + item.replace(/ /g, '_')] || item;
@@ -2221,7 +2222,8 @@ define([
             txtOddPage: "Odd Page ",
             txtSameAsPrev: "Same as Previous",
             txtCurrentDocument: "Current Document",
-            warnNoLicenseUsers: 'This version of ONLYOFFICE Editors has certain limitations for concurrent users.<br>If you need more please consider upgrading your current license or purchasing a commercial one.'
+            warnNoLicenseUsers: 'This version of ONLYOFFICE Editors has certain limitations for concurrent users.<br>If you need more please consider upgrading your current license or purchasing a commercial one.',
+            txtNoTableOfContents: "No table of contents entries found."
         }
     })(), DE.Controllers.Main || {}))
 });
