@@ -108,7 +108,7 @@ define([
                 defaultUnit : "cm",
                 value: '1 cm',
                 maxValue: 55.88,
-                minValue: 0
+                minValue: -55.87
             });
             this.spinners.push(this.spnTop);
 
@@ -119,7 +119,7 @@ define([
                 defaultUnit : "cm",
                 value: '1 cm',
                 maxValue: 55.88,
-                minValue: 0
+                minValue: -55.87
             });
             this.spinners.push(this.spnBottom);
 
@@ -158,7 +158,7 @@ define([
                     var errmsg = null;
                     if (this.spnLeft.getNumberValue() + this.spnRight.getNumberValue() > this.maxMarginsW )
                         errmsg = this.txtMarginsW;
-                    else if (this.spnTop.getNumberValue() + this.spnBottom.getNumberValue() > this.maxMarginsH )
+                    else if (Math.abs(this.spnTop.getNumberValue() + this.spnBottom.getNumberValue()) > this.maxMarginsH )
                         errmsg = this.txtMarginsH;
                     if (errmsg) {
                         Common.UI.warning({
