@@ -432,6 +432,7 @@
   "DE.Controllers.Main.warnNoLicenseUsers": "This version of ONLYOFFICE Editors has certain limitations for concurrent users.<br>If you need more please consider upgrading your current license or purchasing a commercial one.",
   "DE.Controllers.Main.warnProcessRightsChange": "You have been denied the right to edit the file.",
   "DE.Controllers.Main.txtNoTableOfContents": "No table of contents entries found.",
+  "DE.Controllers.Main.errorForceSave": "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later.",
   "DE.Controllers.Statusbar.textHasChanges": "New changes have been tracked",
   "DE.Controllers.Statusbar.textTrackChanges": "The document is opened with the Track Changes mode enabled",
   "DE.Controllers.Statusbar.tipReview": "Track changes",

@@ -1365,6 +1365,15 @@ define([
                         config.msg = this.errorBadImageUrl;
                         break;
 
+                    case Asc.c_oAscError.ID.ForceSaveButton:
+                        config.msg = this.errorForceSave;
+                        break;
+
+                    case Asc.c_oAscError.ID.ForceSaveTimeout:
+                        config.msg = this.errorForceSave;
+                        console.warn(config.msg);
+                        break;
+
                     default:
                         config.msg = this.errorDefaultMessage.replace('%1', id);
                         break;
@@ -1420,7 +1429,8 @@ define([
                     }, this);
                 }
 
-                Common.UI.alert(config);
+                if (id !== Asc.c_oAscError.ID.ForceSaveTimeout)
+                    Common.UI.alert(config);
 
                 Common.component.Analytics.trackEvent('Internal Error', id.toString());
             },
@@ -2223,7 +2233,8 @@ define([
             txtSameAsPrev: "Same as Previous",
             txtCurrentDocument: "Current Document",
             warnNoLicenseUsers: 'This version of ONLYOFFICE Editors has certain limitations for concurrent users.<br>If you need more please consider upgrading your current license or purchasing a commercial one.',
-            txtNoTableOfContents: "No table of contents entries found."
+            txtNoTableOfContents: "No table of contents entries found.",
+            errorForceSave: "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later."
         }
     })(), DE.Controllers.Main || {}))
 });

@@ -1271,6 +1271,15 @@ define([
                         config.msg = this.errorLockedCellPivot;
                         break;
 
+                    case Asc.c_oAscError.ID.ForceSaveButton:
+                        config.msg = this.errorForceSave;
+                        break;
+
+                    case Asc.c_oAscError.ID.ForceSaveTimeout:
+                        config.msg = this.errorForceSave;
+                        console.warn(config.msg);
+                        break;
+
                     default:
                         config.msg = this.errorDefaultMessage.replace('%1', id);
                         break;
@@ -1307,7 +1316,7 @@ define([
                     }, this);
                 }
 
-                if ($('.asc-window.modal.alert:visible').length < 1) {
+                if ($('.asc-window.modal.alert:visible').length < 1 && (id !== Asc.c_oAscError.ID.ForceSaveTimeout)) {
                     Common.UI.alert(config);
                     Common.component.Analytics.trackEvent('Internal Error', id.toString());
                 }
@@ -2177,7 +2186,8 @@ define([
             txtStyle_Currency: 'Currency',
             txtStyle_Percent: 'Percent',
             txtStyle_Comma: 'Comma',
-            warnNoLicenseUsers: 'This version of ONLYOFFICE Editors has certain limitations for concurrent users.<br>If you need more please consider upgrading your current license or purchasing a commercial one.'
+            warnNoLicenseUsers: 'This version of ONLYOFFICE Editors has certain limitations for concurrent users.<br>If you need more please consider upgrading your current license or purchasing a commercial one.',
+            errorForceSave: "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later."
         }
     })(), SSE.Controllers.Main || {}))
 });
