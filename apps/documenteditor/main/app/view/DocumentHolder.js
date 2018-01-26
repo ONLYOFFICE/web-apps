@@ -2578,16 +2578,16 @@ define([
             var menuTableDistRows = new Common.UI.MenuItem({
                 caption : me.textDistributeRows
             }).on('click', _.bind(function(){
-                // if (me.api)
-                //     me.api.distributeCols();
+                 if (me.api)
+                     me.api.asc_DistributeTableCells(false);
                 me.fireEvent('editcomplete', me);
             }, me));
 
             var menuTableDistCols = new Common.UI.MenuItem({
                 caption : me.textDistributeCols
             }).on('click', _.bind(function(){
-                // if (me.api)
-                //     me.api.distributeCols();
+                if (me.api)
+                    me.api.asc_DistributeTableCells(true);
                 me.fireEvent('editcomplete', me);
             }, me));
 

@@ -401,14 +401,16 @@ define([
                 el: $('#table-btn-distrub-rows')
             });
             this.lockedControls.push(this.btnDistributeRows);
-            this.btnDistributeRows.on('click', _.bind(function(field, newValue, oldValue, eOpts){
+            this.btnDistributeRows.on('click', _.bind(function(btn){
+                this.api.asc_DistributeTableCells(false);
             }, this));
 
             this.btnDistributeCols = new Common.UI.Button({
                 el: $('#table-btn-distrub-cols')
             });
             this.lockedControls.push(this.btnDistributeCols);
-            this.btnDistributeCols.on('click', _.bind(function(field, newValue, oldValue, eOpts){
+            this.btnDistributeCols.on('click', _.bind(function(btn){
+                this.api.asc_DistributeTableCells(true);
             }, this));
 
             this.linkAdvanced = $('#table-advanced-link');
