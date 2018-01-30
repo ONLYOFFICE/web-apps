@@ -376,8 +376,10 @@ define([
                 maxValue: 55.88,
                 minValue: 0
             });
-            this.numHeight.on('change', _.bind(function(field, newValue, oldValue, eOpts){
-                // this._changedProps.put_Height(this.cmbUnit.getValue() ? -field.getNumberValue() : Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
+            this.numHeight.on('change', _.bind(function(field, newValue, oldValue, eOpts){			
+				var _props = new Asc.CTableProp();
+				_props.put_RowHeight(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));				
+				this.api.tblApply(_props);
             }, this));
             this.lockedControls.push(this.numHeight);
             this.spinners.push(this.numHeight);
@@ -392,7 +394,9 @@ define([
                 minValue: 0
             });
             this.numWidth.on('change', _.bind(function(field, newValue, oldValue, eOpts){
-                // this._changedProps.put_Width(this.cmbUnit.getValue() ? -field.getNumberValue() : Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
+				var _props = new Asc.CTableProp();
+				_props.put_ColumnWidth(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
+				this.api.tblApply(_props);
             }, this));
             this.lockedControls.push(this.numWidth);
             this.spinners.push(this.numWidth);
@@ -435,14 +439,14 @@ define([
                 this._originalProps = new Asc.CTableProp(props);
                 this._originalProps.put_CellSelect(true);
 
-                var value = null;//props.get_Width();
-                if ( Math.abs(this._state.Width-value)>0.001 ||
-                    (this._state.Width===null || value===null)&&(this._state.Width!==value)) {
+                var value = props.get_ColumnWidth();
+                if ((this._state.Width === null || this._state.Width === undefined) ||
+					Math.abs(this._state.Width-value)>0.001) {
                     this.numWidth.setValue((value !== null) ? Common.Utils.Metric.fnRecalcFromMM(value) : '', true);
                 }
-                value = null;//props.get_Height();
-                if ( Math.abs(this._state.Height-value)>0.001 ||
-                    (this._state.Height===null || value===null)&&(this._state.Height!==value)) {
+                value = props.get_RowHeight();
+                if ((this._state.Height === null || this._state.Height === undefined) ||
+					Math.abs(this._state.Height-value)>0.001) {
                     this.numHeight.setValue((value !== null) ? Common.Utils.Metric.fnRecalcFromMM(value) : '', true);
                 }
 
