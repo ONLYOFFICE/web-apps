@@ -123,6 +123,10 @@ Common.Utils = _.extend(new(function() {
 
                     me.zoom = window.devicePixelRatio / _devicePixelRatio;
                     document.firstElementChild.style.zoom = 1.0 / me.zoom;
+
+                    if ( _devicePixelRatio % 1 > 0 )
+                        $('#editor_sdk').css('zoom', 1.0 / _devicePixelRatio);
+                    else $('#editor_sdk').css('zoom', '');
                 }
                 else
                     document.firstElementChild.style.zoom = "normal";
