@@ -964,6 +964,7 @@ define([
                             me.applyLicense();
 
                             $(window).off('resize');
+                            $(window).on('resize', Common.Utils.checkSize);
                         }
                     }, 50);
                 } else {

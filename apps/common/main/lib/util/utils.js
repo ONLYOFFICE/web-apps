@@ -108,31 +108,26 @@ Common.Utils = _.extend(new(function() {
         isMobile = /android|avantgo|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od|ad)|iris|kindle|lge |maemo|midp|mmp|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i.test(navigator.userAgent || navigator.vendor || window.opera),
         me = this,
         checkSize = function() {
-			me.zoom = 1;
-			if (isChrome && !isOpera && !isMobile && document && document.firstElementChild && document.body)
-			{
+            me.zoom = 1;
+            if (isChrome && !isOpera && !isMobile && document && document.firstElementChild && document.body) {
                 // делаем простую проверку
                 // считаем: 0 < window.devicePixelRatio < 2 => _devicePixelRatio = 1; zoom = window.devicePixelRatio / _devicePixelRatio;
                 // считаем: window.devicePixelRatio >= 2 => _devicePixelRatio = 2; zoom = window.devicePixelRatio / _devicePixelRatio;
-                if (window.devicePixelRatio > 0.1)
-                {
-                    if (window.devicePixelRatio < 1.99)
-                    {
-                        var _devicePixelRatio = 1;
-                        me.zoom = window.devicePixelRatio / _devicePixelRatio;
+                if (window.devicePixelRatio > 0.1) {
+                    var _fraction = window.devicePixelRatio % 1;
+                    var _devicePixelRatio = Math.floor(window.devicePixelRatio);
+
+                    if ( !(_fraction < .5) ) {
+                        _devicePixelRatio += .5;
                     }
-                    else
-                    {
-                        var _devicePixelRatio = 2;
-                        me.zoom = window.devicePixelRatio / _devicePixelRatio;
-                    }
-                    // chrome 54.x: zoom = "reset" - clear retina zoom (windows)
-                    //document.firstElementChild.style.zoom = "reset";
+
+                    me.zoom = window.devicePixelRatio / _devicePixelRatio;
                     document.firstElementChild.style.zoom = 1.0 / me.zoom;
                 }
                 else
                     document.firstElementChild.style.zoom = "normal";
-			}
+            }
+
             me.innerWidth = window.innerWidth * me.zoom;
             me.innerHeight = window.innerHeight * me.zoom;
         };
@@ -143,6 +138,8 @@ Common.Utils = _.extend(new(function() {
         $(window).on('resize', checkSize);
 
     return {
+        checkSize: checkSize,
+
         userAgent: userAgent,
         isStrict: isStrict,
         isIEQuirks: isIE && (!isStrict && (isIE6 || isIE7 || isIE8 || isIE9)),
