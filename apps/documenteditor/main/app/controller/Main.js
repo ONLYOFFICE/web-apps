@@ -962,6 +962,8 @@ define([
 
                             Common.NotificationCenter.trigger('document:ready', 'main');
                             me.applyLicense();
+
+                            $(window).off('resize');
                         }
                     }, 50);
                 } else {
