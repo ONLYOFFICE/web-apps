@@ -674,3 +674,43 @@
         min-width: 86px;
     }
 }
+
+@class100: zoom-int;
+@class150: zoom-grit;
+svg.icon {
+    .@{class150} {
+        display: none;
+    }
+
+    @media
+    only screen and (-webkit-min-device-pixel-ratio: 1.5),
+    only screen and (-webkit-min-device-pixel-ratio: 2.5),
+    only screen and (min-resolution: 1.5dppx),
+    only screen and (min-resolution: 2.5dppx),
+    only screen and (min-resolution: 144dpi),
+    only screen and (min-resolution: 240dpi) {
+        .@{class100} {
+            display: none;
+        }
+
+        .@{class150} {
+            display: block;
+        }
+    }
+
+    @media
+    only screen and (-webkit-min-device-pixel-ratio: 2) and (-webkit-max-device-pixel-ratio: 2.4),
+    only screen and (-webkit-min-device-pixel-ratio: 4),
+    only screen and (min-resolution: 2dppx) and (max-resolution: 2.4dppx),
+    only screen and (min-resolution: 4dppx),
+    only screen and (min-resolution: 192dpi) and (max-resolution: 239dpi),
+    only screen and (min-resolution: 384dpi) {
+        .@{class100} {
+            display: block;
+        }
+
+        .@{class150} {
+            display: none;
+        }
+    }
+}
