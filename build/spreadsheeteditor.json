@@ -185,11 +185,11 @@
                     "expand": true,
                     "cwd": "../apps/common/main/resources/img",
                     "src": "**/*.svg",
-                    "dest": "../deploy/web-apps/apps/common/main/resources/img"
+                    "dest": "../deploy/web-apps/apps/spreadsheeteditor/main/resources/img"
                 }
             ],
             "clean": [
-                "../deploy/web-apps/apps/common"
+                "../deploy/web-apps/apps/spreadsheeteditor/main/resources/img/**/*.svg"
             ]
         }
     },

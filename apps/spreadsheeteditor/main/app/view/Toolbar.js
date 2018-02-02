@@ -78,7 +78,8 @@ define([
         cantPrint:      'cant-print',
         multiselect:    'is-multiselect',
         cantHyperlink:  'cant-hyperlink',
-        commentLock: 'can-comment'
+        commentLock:    'can-comment',
+        cantModifyFilter: 'cant-filter'
     };
 
     SSE.Views.Toolbar =  Common.UI.Mixtbar.extend(_.extend({
@@ -430,15 +431,6 @@ define([
                     menu        : new Common.UI.Menu({
                         items: [
                             {
-                                caption     : me.textSubscript,
-                                iconCls     : 'mnu-text-subscript',
-                                icls        : 'btn-subscript',
-                                checkable   : true,
-                                allowDepress: true,
-                                toggleGroup : 'textsubscriptgroup',
-                                value       : 'sub'
-                            },
-                            {
                                 caption     : me.textSuperscript,
                                 iconCls     : 'mnu-text-superscript',
                                 icls        : 'btn-superscript',
@@ -446,6 +438,15 @@ define([
                                 allowDepress: true,
                                 toggleGroup : 'textsubscriptgroup',
                                 value       : 'super'
+                            },
+                            {
+                                caption     : me.textSubscript,
+                                iconCls     : 'mnu-text-subscript',
+                                icls        : 'btn-subscript',
+                                checkable   : true,
+                                allowDepress: true,
+                                toggleGroup : 'textsubscriptgroup',
+                                value       : 'sub'
                             }
                         ]
                     })
@@ -724,21 +725,21 @@ define([
                     id          : 'id-toolbar-btn-sort-down',
                     cls         : 'btn-toolbar',
                     iconCls     : 'btn-sort-down',
-                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.editPivot]
+                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.editPivot, _set.cantModifyFilter]
                 });
 
                 me.btnSortUp = new Common.UI.Button({
                     id          : 'id-toolbar-btn-sort-up',
                     cls         : 'btn-toolbar',
                     iconCls     : 'btn-sort-up',
-                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.editPivot]
+                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.editPivot, _set.cantModifyFilter]
                 });
 
                 me.btnSetAutofilter = new Common.UI.Button({
                     id          : 'id-toolbar-btn-setautofilter',
                     cls         : 'btn-toolbar',
                     iconCls     : 'btn-autofilter',
-                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.editPivot],
+                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.editPivot, _set.cantModifyFilter],
                     enableToggle: true
                 });
 
@@ -753,7 +754,7 @@ define([
                     id          : 'id-toolbar-btn-ttempl',
                     cls         : 'btn-toolbar',
                     iconCls     : 'btn-ttempl',
-                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.multiselect],
+                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.multiselect, _set.cantModifyFilter],
                     menu        : new Common.UI.Menu({
                         items: [
                             { template: _.template('<div id="id-toolbar-menu-table-templates" style="width: 288px; height: 300px; margin: 0px 4px;"></div>') }
@@ -934,6 +935,7 @@ define([
                         items : [
                             {
                                 caption : me.txtClearAll,
+                                lock    : [ _set.cantModifyFilter],
                                 value   : Asc.c_oAscCleanOptions.All
                             },
                             {
@@ -943,7 +945,7 @@ define([
                             },
                             {
                                 caption : me.txtClearFormat,
-                                lock    : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.coAuth],
+                                lock    : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.coAuth, _set.cantModifyFilter],
                                 value   : Asc.c_oAscCleanOptions.Format
                             },
                             {
@@ -1026,11 +1028,11 @@ define([
                     id          : 'id-toolbar-btn-colorschemas',
                     cls         : 'btn-toolbar',
                     iconCls     : 'btn-colorschemas',
-                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth],
+                    lock        : [_set.editCell, _set.lostConnect, _set.coAuth],
                     menu        : new Common.UI.Menu({
                         items: [],
-                        maxHeight   : 600,
-                        restoreHeight: 600
+                        maxHeight   : 560,
+                        restoreHeight: 560
                     }).on('show:before', function(mnu) {
                         if ( !this.scroller ) {
                             this.scroller = new Common.UI.Scroller({
@@ -1039,23 +1041,6 @@ define([
                                 minScrollbarLength  : 40,
                                 alwaysVisibleY: true
                             });
-                        }
-                    }).on('show:after', function(btn, e) {
-                        var mnu = $(this.el).find('.dropdown-menu '),
-                            docH = Common.Utils.innerHeight(),
-                            menuH = mnu.outerHeight(),
-                            top = parseInt(mnu.css('top'));
-
-                        if (menuH > docH) {
-                            mnu.css('max-height', (docH - parseInt(mnu.css('padding-top')) - parseInt(mnu.css('padding-bottom'))-5) + 'px');
-                            this.scroller.update({minScrollbarLength  : 40});
-                        } else if ( mnu.height() < this.options.restoreHeight ) {
-                            mnu.css('max-height', (Math.min(docH - parseInt(mnu.css('padding-top')) - parseInt(mnu.css('padding-bottom'))-5, this.options.restoreHeight)) + 'px');
-                            menuH = mnu.outerHeight();
-                            if (top+menuH > docH) {
-                                mnu.css('top', 0);
-                            }
-                            this.scroller.update({minScrollbarLength  : 40});
                         }
                     })
                 });
@@ -1113,7 +1098,7 @@ define([
                                 allowDepress: true,
                                 toggleGroup : 'halignGroup',
                                 checked     : true,
-                                value       : 'left'
+                                value       : AscCommon.align_Left
                             },
                             {
                                 caption     : me.tipAlignCenter,
@@ -1122,7 +1107,7 @@ define([
                                 checkable   : true,
                                 allowDepress: true,
                                 toggleGroup : 'halignGroup',
-                                value       : 'center'
+                                value       : AscCommon.align_Center
                             },
                             {
                                 caption     : me.tipAlignRight,
@@ -1131,7 +1116,7 @@ define([
                                 checkable   : true,
                                 allowDepress: true,
                                 toggleGroup : 'halignGroup',
-                                value       : 'right'
+                                value       : AscCommon.align_Right
                             },
                             {
                                 caption     : me.tipAlignJust,
@@ -1140,7 +1125,7 @@ define([
                                 checkable   : true,
                                 allowDepress: true,
                                 toggleGroup : 'halignGroup',
-                                value       : 'justify'
+                                value       : AscCommon.align_Justify
                             }
                         ]
                     })
@@ -1161,7 +1146,7 @@ define([
                                 checkable   : true,
                                 allowDepress: true,
                                 toggleGroup : 'valignGroup',
-                                value       : 'top'
+                                value       : Asc.c_oAscVAlign.Top
                             },
                             {
                                 caption     : me.tipAlignMiddle,
@@ -1170,7 +1155,7 @@ define([
                                 checkable   : true,
                                 allowDepress: true,
                                 toggleGroup : 'valignGroup',
-                                value       : 'center'
+                                value       : Asc.c_oAscVAlign.Center
                             },
                             {
                                 caption     : me.tipAlignBottom,
@@ -1180,7 +1165,7 @@ define([
                                 allowDepress: true,
                                 checked     : true,
                                 toggleGroup : 'valignGroup',
-                                value       : 'bottom'
+                                value       : Asc.c_oAscVAlign.Bottom
                             }
                         ]
                     })
@@ -1196,13 +1181,13 @@ define([
                             me.mnuitemSortAZ = new Common.UI.MenuItem({
                                 caption : me.txtSortAZ,
                                 iconCls : 'mnu-sort-asc',
-                                lock    : [_set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.coAuth, _set.ruleFilter],
+                                lock    : [_set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.coAuth, _set.ruleFilter, _set.cantModifyFilter],
                                 value   : Asc.c_oAscSortOptions.Ascending
                             }),
                             me.mnuitemSortZA = new Common.UI.MenuItem({
                                 caption : me.txtSortZA,
                                 iconCls : 'mnu-sort-desc',
-                                lock    : [_set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.coAuth, _set.ruleFilter],
+                                lock    : [_set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.coAuth, _set.ruleFilter, _set.cantModifyFilter],
                                 value   : Asc.c_oAscSortOptions.Descending
                             }),
                             me.mnuitemAutoFilter = new Common.UI.MenuItem({
@@ -1300,17 +1285,6 @@ define([
             this.fireEvent('render:after', [this]);
             Common.UI.Mixtbar.prototype.afterRender.call(this);
 
-            me.$tabs.parent().on('click', '.ribtab', function (e) {
-                var tab = $(e.target).data('tab');
-                if (tab == 'file') {
-                    me.fireEvent('file:open');
-                } else
-                if ( me.isTabActive('file') )
-                    me.fireEvent('file:close');
-
-                me.setTab(tab);
-            });
-
             Common.NotificationCenter.on({
                 'window:resize': function() {
                     Common.UI.Mixtbar.prototype.onResize.apply(me, arguments);
@@ -1322,6 +1296,21 @@ define([
                 me.setTab('home');
 
             return this;
+        },
+
+        onTabClick: function (e) {
+            var tab = $(e.target).data('tab'),
+                me = this;
+
+            if ( !me.isTabActive(tab) ) {
+                if ( tab == 'file' ) {
+                    me.fireEvent('file:open');
+                } else
+                if ( me.isTabActive('file') )
+                    me.fireEvent('file:close');
+            }
+
+            Common.UI.Mixtbar.prototype.onTabClick.apply(this, arguments);
         },
 
         rendererComponents: function(html) {
@@ -1794,8 +1783,8 @@ define([
             }
 
             if (this.mnuColorSchema == null) {
-                this.mnuColorSchema = new Common.UI.Menu({maxHeight   : 600,
-                    restoreHeight: 600
+                this.mnuColorSchema = new Common.UI.Menu({maxHeight   : 560,
+                    restoreHeight: 560
                 }).on('show:before', function(mnu) {
                         this.scroller = new Common.UI.Scroller({
                         el: $(this.el).find('.dropdown-menu '),
@@ -2133,6 +2122,7 @@ define([
         textTabInsert: 'Insert',
         textSurface: 'Surface',
         tipChangeChart: 'Change Chart Type',
+        textTabCollaboration: 'Collaboration',
         textTabProtect: 'Protection'
     }, SSE.Views.Toolbar || {}));
 });

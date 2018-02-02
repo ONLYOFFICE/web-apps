@@ -42,10 +42,7 @@ define([
     'backbone',
     'documenteditor/main/app/model/EquationGroup'
 ], function(Backbone){ 'use strict';
-    if (Common === undefined)
-        var Common = {};
-
-    Common.Collections = Common.Collections || {};
+    DE.Collections = DE.Collections || {};
 
     DE.Collections.EquationGroups = Backbone.Collection.extend({
         model: DE.Models.EquationGroup

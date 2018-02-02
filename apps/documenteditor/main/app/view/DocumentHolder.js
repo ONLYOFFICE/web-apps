@@ -613,6 +613,8 @@ define([
                     me._arrSpecialPaste = [];
                     me._arrSpecialPaste[Asc.c_oSpecialPasteProps.paste] = me.textPaste;
                     me._arrSpecialPaste[Asc.c_oSpecialPasteProps.keepTextOnly] = me.txtKeepTextOnly;
+                    me._arrSpecialPaste[Asc.c_oSpecialPasteProps.insertAsNestedTable] = me.textNest;
+                    me._arrSpecialPaste[Asc.c_oSpecialPasteProps.overwriteCells] = me.txtOverwriteCells;
 
                     pasteContainer = $('<div id="special-paste-container" style="position: absolute;"><div id="id-document-holder-btn-special-paste"></div></div>');
                     me.cmpEl.append(pasteContainer);
@@ -2388,10 +2390,9 @@ define([
                                 if (me.api) {
                                     me.api.SplitCell(value.columns, value.rows);
                                 }
-                                me.fireEvent('editcomplete', me);
-
                                 Common.component.Analytics.trackEvent('DocumentHolder', 'Table');
                             }
+                            me.fireEvent('editcomplete', me);
                         }
                     })).show();
                 }
@@ -2492,7 +2493,7 @@ define([
             var menuRemoveHyperlinkTable = new Common.UI.MenuItem({
                 caption     : me.removeHyperlinkText
             }).on('click', function(item, e){
-                me.api && me.api.remove_Hyperlink();
+                me.api && me.api.remove_Hyperlink(item.hyperProps.value);
                 me.fireEvent('editcomplete', me);
             });
 
@@ -2743,6 +2744,7 @@ define([
                     menuHyperlinkSeparator.setVisible(menuAddHyperlinkTable.isVisible() || menuHyperlinkTable.isVisible());
 
                     menuEditHyperlinkTable.hyperProps = value.hyperProps;
+                    menuRemoveHyperlinkTable.hyperProps = value.hyperProps;
 
                     if (text!==false) {
                         menuAddHyperlinkTable.hyperProps = {};
@@ -3056,7 +3058,7 @@ define([
             var menuRemoveHyperlinkPara = new Common.UI.MenuItem({
                 caption     : me.removeHyperlinkText
             }).on('click', function(item, e) {
-                me.api.remove_Hyperlink();
+                me.api.remove_Hyperlink(item.hyperProps.value);
                 me.fireEvent('editcomplete', me);
             });
 
@@ -3226,6 +3228,7 @@ define([
                     menuHyperlinkPara.setVisible(value.hyperProps!==undefined);
                     menuHyperlinkParaSeparator.setVisible(menuAddHyperlinkPara.isVisible() || menuHyperlinkPara.isVisible());
                     menuEditHyperlinkPara.hyperProps = value.hyperProps;
+                    menuRemoveHyperlinkPara.hyperProps = value.hyperProps;
                     if (text!==false) {
                         menuAddHyperlinkPara.hyperProps = {};
                         menuAddHyperlinkPara.hyperProps.value = new Asc.CHyperlinkProperty();
@@ -3628,6 +3631,8 @@ define([
         strDetails: 'Signature Details',
         strSetup: 'Signature Setup',
         strDelete: 'Remove Signature',
+        txtOverwriteCells: 'Overwrite cells',
+        textNest: 'Nest table',
         textContentControls: 'Content control',
         textRemove: 'Remove',
         textSettings: 'Settings',

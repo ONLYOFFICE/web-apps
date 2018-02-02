@@ -112,7 +112,7 @@ define([
             return this;
         },
 
-        onUsersChanged: function(users){
+        onUsersChanged: function(users, currentUserId){
             if (!this.mode.canLicense || !this.mode.canCoAuthoring) {
                 var len = 0;
                 for (name in users) {
@@ -146,13 +146,14 @@ define([
                     if (undefined !== name) {
                         user = users[name];
                         if (user) {
-                            arrUsers.push(new Common.Models.User({
+                            var usermodel = new Common.Models.User({
                                 id          : user.asc_getId(),
                                 username    : user.asc_getUserName(),
                                 online      : true,
                                 color       : user.asc_getColor(),
                                 view        : user.asc_getView()
-                            }));
+                            });
+                            arrUsers[(user.asc_getId() == currentUserId ) ? 'unshift' : 'push'](usermodel);
                         }
                     }
                 }

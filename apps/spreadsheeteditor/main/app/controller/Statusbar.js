@@ -81,7 +81,7 @@ define([
         onLaunch: function() {
             this.statusbar = this.createView('Statusbar').render();
             this.statusbar.$el.css('z-index', 10);
-            this.statusbar.labelZoom.css('min-width', 70);
+            this.statusbar.labelZoom.css('min-width', 80);
             this.statusbar.zoomMenu.on('item:click', _.bind(this.menuZoomClick, this));
 
             this.bindViewEvents(this.statusbar, this.events);
@@ -329,8 +329,8 @@ define([
                     return;
                 }
 
-                var value = Common.localStorage.getItem("sse-settings-coauthmode");
-                if (value!==null && parseInt(value) == 0) {
+                var value = Common.Utils.InternalSettings.get("sse-settings-coauthmode");
+                if (!value) {
                     items = [];
                     while (wc--) {
                         if (sindex !== wc) {

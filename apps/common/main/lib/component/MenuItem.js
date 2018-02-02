@@ -262,6 +262,7 @@ define([
 
                 return false;
             }
+            e.stopPropagation();
         },
 
         onItemClick: function(e) {

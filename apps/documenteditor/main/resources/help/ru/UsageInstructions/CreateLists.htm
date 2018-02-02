@@ -6,9 +6,13 @@
 		<meta name="description" content="Создавайте в документе маркированные и нумерованные списки, изменяя структуру списков" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
         <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Поиск" type="search" onkeypress="doSearch(event)">
+        </div>
 			<h1>Создание списков</h1>
 			<p>Для создания в документе списка:</p>
 			<ol>

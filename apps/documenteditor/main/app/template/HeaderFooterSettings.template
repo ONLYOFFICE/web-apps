@@ -1,30 +1,6 @@
 <table cols="1">
     <tr>
         <td>
-            <label class="header"><%= scope.textPageNum %></label>
-        </td>
-    </tr>
-    <tr>
-        <td class="padding-small">
-            <div id="headerfooter-button-top-left" style="display: inline-block; margin-right:5px;"></div>
-            <div id="headerfooter-button-top-center" style="display: inline-block; margin-right:5px;"></div>
-            <div id="headerfooter-button-top-right" style="display: inline-block; margin-right:5px;"></div>
-        </td>
-    </tr>
-    <tr>
-        <td class="padding-small">
-            <div id="headerfooter-button-bottom-left" style="display: inline-block; margin-right:5px;"></div>
-            <div id="headerfooter-button-bottom-center" style="display: inline-block; margin-right:5px;"></div>
-            <div id="headerfooter-button-bottom-right" style="display: inline-block; margin-right:5px;"></div>
-        </td>
-    </tr>
-    <tr>
-        <td class="padding-small">
-            <div class="separator horizontal"></div>
-        </td>
-    </tr>
-    <tr>
-        <td>
             <label class="header"><%= scope.textPosition %></label>
         </td>
     </tr>
@@ -40,7 +16,7 @@
         </td>
     </tr>
     <tr>
-        <td>
+        <td class="padding-small">
             <label class="header"><%= scope.textOptions %></label>
         </td>
     </tr>
@@ -55,8 +31,64 @@
         </td>
     </tr>
     <tr>
-        <td>
+        <td class="padding-small">
             <div id="headerfooter-check-same-as"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small">
+            <div class="separator horizontal"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small">
+            <label class="header"><%= scope.textPageNum %></label>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label><%= scope.textTopPage %></label>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small">
+            <div id="headerfooter-button-top-left" style="display: inline-block; margin-right:5px;"></div>
+            <div id="headerfooter-button-top-center" style="display: inline-block; margin-right:5px;"></div>
+            <div id="headerfooter-button-top-right" style="display: inline-block; margin-right:5px;"></div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label><%= scope.textBottomPage %></label>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small">
+            <div id="headerfooter-button-bottom-left" style="display: inline-block; margin-right:5px;"></div>
+            <div id="headerfooter-button-bottom-center" style="display: inline-block; margin-right:5px;"></div>
+            <div id="headerfooter-button-bottom-right" style="display: inline-block; margin-right:5px;"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small">
+            <button type="button" class="btn btn-text-default" id="headerfooter-button-current" style="width:100%;"><%= scope.textInsertCurrent %></button>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small">
+            <div class="separator horizontal"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small">
+            <label class="header"><%= scope.textPageNumbering %></label>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small">
+            <div id="headerfooter-radio-prev"  style="margin-bottom: 5px;"></div>
+            <div id="headerfooter-radio-from" style="display: inline-block;vertical-align: middle; margin-right: 2px;"></div>
+            <div id="headerfooter-spin-from" style="display: inline-block;vertical-align: middle;"></div>
         </td>
     </tr>
     <tr class="finish-cell"></tr>

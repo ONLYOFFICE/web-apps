@@ -46,6 +46,13 @@ define([
     PE.Collections = PE.Collections || {};
 
     PE.Collections.SlideLayouts = Backbone.Collection.extend({
-        model: PE.Models.SlideLayout
+        model: PE.Models.SlideLayout,
+
+        findLayoutByIndex: function(index) {
+            return this.find(
+                function(model){
+                    return model.get('data').idx == index;
+                });
+        }
     });
 });

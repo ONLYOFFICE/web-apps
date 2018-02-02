@@ -5,9 +5,14 @@
 		<meta charset="utf-8" />
 		<meta name="description" content="" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Поиск" type="search" onkeypress="doSearch(event)">
+            </div>
 			<h1>Функция IFNA (ЕСНД)</h1>
 			<p>Функция <b>IFNA</b> - это одна из логических функций. Используется для проверки формулы на наличие ошибок в первом аргументе. Функция возвращает указанное вами значение, если формула возвращает значение ошибки #Н/Д; в ином случае возвращает результат формулы.</p>
 			<p>Синтаксис функции <b>IFNA</b>:</p> 

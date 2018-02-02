@@ -141,7 +141,7 @@ define([
                         me.onAfterHideMenu(e);
                     }, 10);
                     return false;
-                } else if ((e.keyCode == Common.UI.Keys.HOME || e.keyCode == Common.UI.Keys.END || e.keyCode == Common.UI.Keys.BACKSPACE) && this.isMenuOpen()) {
+                } else if ((e.keyCode == Common.UI.Keys.HOME && !e.shiftKey || e.keyCode == Common.UI.Keys.END && !e.shiftKey || e.keyCode == Common.UI.Keys.BACKSPACE && !me._input.is(':focus')) && this.isMenuOpen()) {
                     me._input.focus();
                     setTimeout(function() {
                         me._input[0].selectionStart = me._input[0].selectionEnd = (e.keyCode == Common.UI.Keys.HOME) ? 0 : me._input[0].value.length;

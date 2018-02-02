@@ -143,10 +143,16 @@ define([
             el.off('click').on('click', _.bind(this.onClick, this));
             el.off('dblclick').on('dblclick', _.bind(this.onDblClick, this));
             el.off('contextmenu').on('contextmenu', _.bind(this.onContextMenu, this));
-            el.toggleClass('disabled', this.model.get('disabled'));
+            el.toggleClass('disabled', !!this.model.get('disabled'));
 
             if (!_.isUndefined(this.model.get('cls')))
                 el.addClass(this.model.get('cls'));
+
+            var tip = el.data('bs.tooltip');
+            if (tip) {
+                if (tip.dontShow===undefined)
+                    tip.dontShow = true;
+            }
 
             this.trigger('change', this, this.model);
 
@@ -233,6 +239,8 @@ define([
             me.emptyText      = me.options.emptyText    || '';
             me.listenStoreEvents= (me.options.listenStoreEvents!==undefined) ? me.options.listenStoreEvents : true;
             me.allowScrollbar = (me.options.allowScrollbar!==undefined) ? me.options.allowScrollbar : true;
+            if (me.parentMenu)
+                me.parentMenu.options.restoreHeight = (me.options.restoreHeight>0);
             me.rendered       = false;
             me.dataViewItems = [];
             if (me.options.keyMoveDirection=='vertical')
@@ -387,7 +395,7 @@ define([
             return this.store.where({selected: true});
         },
 
-        onAddItem: function(record, index, opts) {
+        onAddItem: function(record, store, opts) {
             var view = new Common.UI.DataViewItem({
                 template: this.itemTemplate,
                 model: record
@@ -410,7 +418,8 @@ define([
                         innerEl.append(view.render().el);
 
                     innerEl.find('.empty-text').remove();
-                    this.dataViewItems.push(view);
+                    var idx = _.indexOf(this.store.models, record);
+                    this.dataViewItems = this.dataViewItems.slice(0, idx).concat(view).concat(this.dataViewItems.slice(idx));
 
                     if (record.get('tip')) {
                         var view_el = $(view.el);
@@ -438,7 +447,11 @@ define([
         onResetItems: function() {
             _.each(this.dataViewItems, function(item) {
                 var tip = item.$el.data('bs.tooltip');
-                if (tip) (tip.tip()).remove();
+                if (tip) {
+                    if (tip.dontShow===undefined)
+                        tip.dontShow = true;
+                    (tip.tip()).remove();
+                }
             }, this);
 
             $(this.el).html(this.template({
@@ -471,6 +484,9 @@ define([
                 });
             }
 
+            if (this.disabled)
+                this.setDisabled(this.disabled);
+
             this.attachKeyEvents();
             this.lastSelectedRec = null;
             this._layoutParams = undefined;
@@ -483,6 +499,12 @@ define([
         },
 
         onRemoveItem: function(view, record) {
+            var tip = view.$el.data('bs.tooltip');
+            if (tip) {
+                if (tip.dontShow===undefined)
+                    tip.dontShow = true;
+                (tip.tip()).remove();
+            }
             this.stopListening(view);
             view.stopListening();
 
@@ -688,20 +710,19 @@ define([
             var menuRoot = (this.parentMenu.cmpEl.attr('role') === 'menu')
                             ? this.parentMenu.cmpEl
                             : this.parentMenu.cmpEl.find('[role=menu]'),
+                docH = Common.Utils.innerHeight()-10,
                 innerEl = $(this.el).find('.inner').addBack().filter('.inner'),
-                docH = Common.Utils.innerHeight(),
+                parent = innerEl.parent(),
+                margins =  parseInt(parent.css('margin-top')) + parseInt(parent.css('margin-bottom')) + parseInt(menuRoot.css('margin-top')),
+                paddings = parseInt(menuRoot.css('padding-top')) + parseInt(menuRoot.css('padding-bottom')),
                 menuH = menuRoot.outerHeight(),
                 top = parseInt(menuRoot.css('top'));
 
-            if (menuH > docH) {
-                innerEl.css('max-height', (docH - parseInt(menuRoot.css('padding-top')) - parseInt(menuRoot.css('padding-bottom'))-5) + 'px');
+            if (top + menuH > docH ) {
+                innerEl.css('max-height', (docH - top - paddings - margins) + 'px');
                 if (this.allowScrollbar) this.scroller.update({minScrollbarLength  : 40});
-            } else if ( innerEl.height() < this.options.restoreHeight ) {
-                innerEl.css('max-height', (Math.min(docH - parseInt(menuRoot.css('padding-top')) - parseInt(menuRoot.css('padding-bottom'))-5, this.options.restoreHeight)) + 'px');
-                menuH = menuRoot.outerHeight();
-                if (top+menuH > docH) {
-                    menuRoot.css('top', 0);
-                }
+            } else if ( top + menuH < docH && innerEl.height() < this.options.restoreHeight ) {
+                innerEl.css('max-height', (Math.min(docH - top - paddings - margins, this.options.restoreHeight)) + 'px');
                 if (this.allowScrollbar) this.scroller.update({minScrollbarLength  : 40});
             }
         },

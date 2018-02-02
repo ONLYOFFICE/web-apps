@@ -80,8 +80,8 @@ if (Common === undefined) {
                 $me.trigger('processmailmerge', data);
             },
 
-            'downloadAs': function() {
-                $me.trigger('downloadas');
+            'downloadAs': function(data) {
+                $me.trigger('downloadas', data);
             },
 
             'processMouse': function(data) {
@@ -185,6 +185,16 @@ if (Common === undefined) {
                     data: {
                         errorCode: code,
                         errorDescription: description
+                    }
+                });
+            },
+
+            reportWarning: function(code, description) {
+                _postMessage({
+                    event: 'onWarning',
+                    data: {
+                        warningCode: code,
+                        warningDescription: description
                     }
                 });
             },

@@ -303,9 +303,8 @@ define([
         },
 
         onRefreshDefNameList: function(name) {
-            var value = Common.localStorage.getItem("sse-settings-coauthmode"),
-                me = this;
-            if (this.isEdit && (value===null || parseInt(value) == 1)) { // fast co-editing
+            var me = this;
+            if (this.isEdit && Common.Utils.InternalSettings.get("sse-settings-coauthmode")) { // fast co-editing
                 if (name && name.asc_getIsLock() && name.asc_getName().toLowerCase() == this.props.asc_getName().toLowerCase() &&
                     (name.asc_getScope() === null && this.props.asc_getScope() === null || name.asc_getScope().toLowerCase() == this.props.asc_getScope().toLowerCase()) && !this._listRefreshed) {
                     this._listRefreshed = true;

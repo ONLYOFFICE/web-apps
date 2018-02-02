@@ -5,9 +5,14 @@
 		<meta charset="utf-8" />
 		<meta name="description" content="Perform the basic operations with the document text: copy, paste, undo, redo" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Search" type="search" onkeypress="doSearch(event)">
+        </div>
 			<h1>Copy/paste text passages, undo/redo your actions</h1>
             <h3>Use basic clipboard operations</h3>
 			<p>To cut, copy and paste text passages and inserted objects (autoshapes, images, charts) within the current document use the corresponding options from the right-click menu or icons available at any tab of the top toolbar:</p>

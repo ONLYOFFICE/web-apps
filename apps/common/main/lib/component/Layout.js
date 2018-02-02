@@ -168,6 +168,7 @@ define([
                     this.splitters.push({resizer:resizer});
 
                     panel.resize.hidden && resizer.el.hide();
+                    Common.Gateway.on('processmouse', this.resize.eventStop);
                 }
             }, this);
 
@@ -305,6 +306,11 @@ define([
             if (!this.resize.$el) return;
 
             var zoom = (e instanceof jQuery.Event) ? Common.Utils.zoom() : 1;
+            if (!(e instanceof jQuery.Event) && (e.pageY === undefined || e.pageX === undefined)) {
+                e.pageY = e.y;
+                e.pageX = e.x;
+
+            }
             if (this.resize.type == 'vertical') {
                 var prop = 'height';
                 var value = e.pageY*zoom - this.resize.inity;

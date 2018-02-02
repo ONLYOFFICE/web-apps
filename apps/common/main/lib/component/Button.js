@@ -160,8 +160,8 @@ define([
                 '</span>' +
             '</button>' +
             '<button type="button" class="btn <%= cls %> inner-box-caption dropdown-toggle" data-toggle="dropdown">' +
-                '<span class="caption"><%= caption %></span>' +
                 '<span class="btn-fixflex-vcenter">' +
+                    '<span class="caption"><%= caption %></span>' +
                     '<i class="caret img-commonctrl"></i>' +
                 '</span>' +
             '</button>' +

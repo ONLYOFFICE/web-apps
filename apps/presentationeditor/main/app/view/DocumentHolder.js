@@ -296,6 +296,10 @@ define([
                             $('ul.dropdown-menu', me.currentMenu.el).focus();
                         }
                     }
+                    if (key == Common.UI.Keys.ESC) {
+                        Common.UI.Menu.Manager.hideAll();
+                        Common.NotificationCenter.trigger('leftmenu:change', 'hide');
+                    }
                 }
             };
 
@@ -1465,6 +1469,13 @@ define([
                 }
             };
             Common.util.Shortcuts.delegateShortcuts({shortcuts:keymap});
+
+            var onApiStartDemonstration = function() {
+                if (me.slidesCount>0) {
+                    Common.NotificationCenter.trigger('preview:start', 0);
+                }
+            };
+
             /** coauthoring end **/
 
             var onApiCountPages = function(count) {
@@ -1490,6 +1501,69 @@ define([
                 me._state.themeLock = false;
             };
 
+            var onShowSpecialPasteOptions = function(specialPasteShowOptions) {
+                var coord  = specialPasteShowOptions.asc_getCellCoord(),
+                    pasteContainer = me.cmpEl.find('#special-paste-container'),
+                    pasteItems = specialPasteShowOptions.asc_getOptions();
+
+                // Prepare menu container
+                if (pasteContainer.length < 1) {
+                    me._arrSpecialPaste = [];
+                    me._arrSpecialPaste[Asc.c_oSpecialPasteProps.paste] = me.textPaste;
+                    me._arrSpecialPaste[Asc.c_oSpecialPasteProps.keepTextOnly] = me.txtKeepTextOnly;
+                    me._arrSpecialPaste[Asc.c_oSpecialPasteProps.picture] = me.txtPastePicture;
+                    me._arrSpecialPaste[Asc.c_oSpecialPasteProps.sourceformatting] = me.txtPasteSourceFormat;
+                    me._arrSpecialPaste[Asc.c_oSpecialPasteProps.destinationFormatting] = me.txtPasteDestFormat;
+
+
+                    pasteContainer = $('<div id="special-paste-container" style="position: absolute;"><div id="id-document-holder-btn-special-paste"></div></div>');
+                    me.cmpEl.append(pasteContainer);
+
+                    me.btnSpecialPaste = new Common.UI.Button({
+                        cls         : 'btn-toolbar',
+                        iconCls     : 'btn-paste',
+                        menu        : new Common.UI.Menu({items: []})
+                    });
+                    me.btnSpecialPaste.render($('#id-document-holder-btn-special-paste')) ;
+                }
+
+                if (pasteItems.length>0) {
+                    var menu = me.btnSpecialPaste.menu;
+                    for (var i = 0; i < menu.items.length; i++) {
+                        menu.removeItem(menu.items[i]);
+                        i--;
+                    }
+
+                    var group_prev = -1;
+                    _.each(pasteItems, function(menuItem, index) {
+                        var mnu = new Common.UI.MenuItem({
+                            caption: me._arrSpecialPaste[menuItem],
+                            value: menuItem,
+                            checkable: true,
+                            toggleGroup : 'specialPasteGroup'
+                        }).on('click', function(item, e) {
+                            me.api.asc_SpecialPaste(item.value);
+                            setTimeout(function(){menu.hide();}, 100);
+                        });
+                        menu.addItem(mnu);
+                    });
+                    (menu.items.length>0) && menu.items[0].setChecked(true, true);
+                }
+                if (coord.asc_getX()<0 || coord.asc_getY()<0) {
+                    if (pasteContainer.is(':visible')) pasteContainer.hide();
+                } else {
+                    var showPoint = [coord.asc_getX() + coord.asc_getWidth() + 3, coord.asc_getY() + coord.asc_getHeight() + 3];
+                    pasteContainer.css({left: showPoint[0], top : showPoint[1]});
+                    pasteContainer.show();
+                }
+            };
+
+            var onHideSpecialPasteOptions = function() {
+                var pasteContainer = me.cmpEl.find('#special-paste-container');
+                if (pasteContainer.is(':visible'))
+                    pasteContainer.hide();
+            };
+
             this.setApi = function(o) {
                 me.api = o;
 
@@ -1511,6 +1585,9 @@ define([
                         me.api.asc_registerCallback('asc_onDialogAddHyperlink', _.bind(onDialogAddHyperlink, me));
                         me.api.asc_registerCallback('asc_doubleClickOnChart', onDoubleClickOnChart);
                         me.api.asc_registerCallback('asc_onSpellCheckVariantsFound',  _.bind(onSpellCheckVariantsFound, me));
+                        me.api.asc_registerCallback('asc_onShowSpecialPasteOptions',  _.bind(onShowSpecialPasteOptions, me));
+                        me.api.asc_registerCallback('asc_onHideSpecialPasteOptions',  _.bind(onHideSpecialPasteOptions, me));
+
                     }
                     me.api.asc_registerCallback('asc_onCoAuthoringDisconnect',  _.bind(onCoAuthoringDisconnect, me));
                     Common.NotificationCenter.on('api:disconnect',              _.bind(onCoAuthoringDisconnect, me));
@@ -1522,6 +1599,7 @@ define([
                     me.api.asc_registerCallback('asc_onUpdateThemeIndex',       _.bind(onApiUpdateThemeIndex, me));
                     me.api.asc_registerCallback('asc_onLockDocumentTheme',      _.bind(onApiLockDocumentTheme, me));
                     me.api.asc_registerCallback('asc_onUnLockDocumentTheme',    _.bind(onApiUnLockDocumentTheme, me));
+                    me.api.asc_registerCallback('asc_onStartDemonstration',     _.bind(onApiStartDemonstration));
                 }
 
                 return me;
@@ -1843,6 +1921,7 @@ define([
                                 lockedDeleted   = elValue.get_LockRemove();
                                 lockedLayout    = elValue.get_LockLayout();
                                 menuSlideSettings.options.value = element;
+                                me.slideLayoutMenu.options.layout_index = elValue.get_LayoutIndex();
                                 return false;
                             }
                         });
@@ -1904,8 +1983,6 @@ define([
                 me.slideLayoutMenu = new Common.UI.DataView({
                     el          : $('#id-docholder-menu-changeslide'),
                     parentMenu  : mnuChangeSlide.menu,
-                    showLast: false,
-                    restoreHeight: 300,
                     style: 'max-height: 300px;',
                     store       : PE.getCollection('SlideLayouts'),
                     itemTemplate: _.template([
@@ -1928,7 +2005,12 @@ define([
                     mnuChangeSlide.menu.on('show:after', function (menu) {
                         me.onSlidePickerShowAfter(me.slideLayoutMenu);
                         me.slideLayoutMenu.scroller.update({alwaysVisibleY: true});
-                        me.slideLayoutMenu.scroller.scrollTop(0);
+
+                        var record = me.slideLayoutMenu.store.findLayoutByIndex(me.slideLayoutMenu.options.layout_index);
+                        if (record) {
+                            me.slideLayoutMenu.selectRecord(record, true);
+                            me.slideLayoutMenu.scrollToRecord(record);
+                        }
                     });
                 }
                 me.slideLayoutMenu._needRecalcSlideLayout = true;
@@ -1939,7 +2021,7 @@ define([
                 me.slideThemeMenu = new Common.UI.DataView({
                     el          : $('#id-docholder-menu-changetheme'),
                     parentMenu  : mnuChangeTheme.menu,
-                    restoreHeight: 300,
+                    // restoreHeight: 300,
                     style: 'max-height: 300px;',
                     store       : PE.getCollection('SlideThemes'),
                     itemTemplate: _.template([
@@ -1986,9 +2068,9 @@ define([
                                 if (me.api) {
                                     me.api.SplitCell(value.columns, value.rows);
                                 }
-                                me.fireEvent('editcomplete', me);
                                 Common.component.Analytics.trackEvent('DocumentHolder', 'Table Split');
                             }
+                            me.fireEvent('editcomplete', me);
                         }
                     })).show();
                 }
@@ -3289,7 +3371,11 @@ define([
         langText: 'Select Language',
         textUndo: 'Undo',
         txtSlideHide: 'Hide Slide',
-        txtChangeTheme: 'Change Theme'
+        txtChangeTheme: 'Change Theme',
+        txtKeepTextOnly: 'Keep text only',
+        txtPastePicture: 'Picture',
+        txtPasteSourceFormat: 'Keep source formatting',
+        txtPasteDestFormat: 'Use destination theme'
 
     }, PE.Views.DocumentHolder || {}));
 });

@@ -2,13 +2,9 @@
 //@tabs-bg-color: #4f6279;
 @tabs-bg-color: #446995;
 
-#toolbar {
-    //z-index: 101;
-}
-
 .toolbar {
     &:not(.cover) {
-        z-index: 101;
+        z-index: 1001;
     }
 
     &.masked {
@@ -58,6 +54,37 @@
     width: 38px;
     height: 38px;
 }
+
+a.item-contents {
+}
+
+.btn-contents {
+    .dropdown-menu {
+        > li > a.item-contents {
+            div {
+                .background-ximage('@{app-image-path}/toolbar/contents.png', '@{app-image-path}/toolbar/contents@2x.png', 246px);
+                width: 246px;
+                height: 72px;
+
+                .box-shadow(0 0 0 1px @gray);
+
+                &:hover,
+                &.selected {
+                    .box-shadow(0 0 0 2px @primary);
+                }
+            }
+
+            &:hover, &:focus {
+                background-color: transparent;
+
+                div {
+                    .box-shadow(0 0 0 2px @primary);
+                }
+            }
+        }
+    }
+}
+
 
 .color-schemas-menu {
     span {
@@ -322,7 +349,7 @@
 //.button-normal-icon(btn-text,             46, @toolbar-icon-size);
 //.button-normal-icon(btn-insertequation,   53, @toolbar-icon-size);
 //.button-normal-icon(btn-dropcap,          50, @toolbar-icon-size);
-//.button-normal-icon(btn-ic-doclang,     67, @toolbar-icon-size);
+.button-normal-icon(btn-ic-doclang,     67, @toolbar-icon-size);
 
 @menu-icon-size: 22px;
 .menu-icon-normal(mnu-wrap-inline,          0, @menu-icon-size);

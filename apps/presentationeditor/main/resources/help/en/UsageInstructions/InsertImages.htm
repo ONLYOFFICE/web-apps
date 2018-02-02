@@ -6,9 +6,13 @@
 		<meta name="description" content="Add an image to your presentation and adjust its size and position." />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
         <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Search" type="search" onkeypress="doSearch(event)">
+        </div>
 			<h1>Insert and adjust images</h1>
             <h3>Insert an image</h3>
 			<p>In Presentation Editor, you can insert images in the most popular formats into your presentation. The following image formats are supported: <b>BMP</b>, <b>GIF</b>, <b>JPEG</b>, <b>JPG</b>, <b>PNG</b>.</p>

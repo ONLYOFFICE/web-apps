@@ -6,9 +6,13 @@
         <meta name="description" content="Use named ranges to simplify working with formulas" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
         <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Search" type="search" onkeypress="doSearch(event)">
+        </div>
 			<h1>Use named ranges</h1>
             <p>Names are meaningful notations that can be assigned for a cell or cell range and used to simplify working with formulas. Creating a formula, you can insert a name as its argument instead of using a reference to a cell range. For example, if you assign the <em>Annual_Income</em> name for a cell range, it will be possible to enter <em>=SUM(Annual_Income)</em> instead of <em>=SUM(B1:B12)</em>. In such a form, formulas become clearer. This feature can also be useful in case a lot of formulas are referred to one and the same cell range. If the range address is changed, you can make the correction once using the Name Manager instead of editing all the formulas one by one.</p>
 			<p>There are two types of names that can be used:</p>

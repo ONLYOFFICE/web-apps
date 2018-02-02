@@ -83,6 +83,7 @@ define([
 
             this.options.tpl = _.template(this.template)(this.options);
             this.api = this.options.api;
+            this._originalProps = null;
 
             Common.UI.Window.prototype.initialize.call(this, this.options);
         },
@@ -155,6 +156,7 @@ define([
                 this.isTextChanged = false;
 
                 me.inputTip.setValue(props.get_ToolTip());
+                me._originalProps = props;
             }
         },
 
@@ -178,6 +180,7 @@ define([
             }
 
             props.put_ToolTip(me.inputTip.getValue());
+            props.put_InternalHyperlink(me._originalProps.get_InternalHyperlink());
 
             return props;
         },

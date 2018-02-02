@@ -696,57 +696,43 @@ define([
         },
 
         updateSettings: function() {
-            var value = Common.localStorage.getItem("sse-settings-zoom");
+            var value = Common.Utils.InternalSettings.get("sse-settings-zoom");
             value = (value!==null) ? parseInt(value) : (this.mode.customization && this.mode.customization.zoom ? parseInt(this.mode.customization.zoom) : 100);
             var item = this.cmbZoom.store.findWhere({value: value});
             this.cmbZoom.setValue(item ? parseInt(item.get('value')) : (value>0 ? value+'%' : 100));
 
             /** coauthoring begin **/
-            value = Common.localStorage.getItem("sse-settings-livecomment");
-            this.chLiveComment.setValue(!(value!==null && parseInt(value) == 0));
+            this.chLiveComment.setValue(Common.Utils.InternalSettings.get("sse-settings-livecomment"));
+            this.chResolvedComment.setValue(Common.Utils.InternalSettings.get("sse-settings-resolvedcomment"));
 
-            value = Common.localStorage.getItem("sse-settings-resolvedcomment");
-            this.chResolvedComment.setValue(!(value!==null && parseInt(value) == 0));
-
-            value = Common.localStorage.getItem("sse-settings-coauthmode");
-            if (value===null && Common.localStorage.getItem("sse-settings-autosave")===null &&
-                this.mode.customization && this.mode.customization.autosave===false)
-                value = 0; // use customization.autosave only when sse-settings-coauthmode and sse-settings-autosave are null
-            var fast_coauth = (value===null || parseInt(value) == 1) && !(this.mode.isDesktopApp && this.mode.isOffline) && this.mode.canCoAuthoring;
-
-            item = this.cmbCoAuthMode.store.findWhere({value: parseInt(value)});
+            var fast_coauth = Common.Utils.InternalSettings.get("sse-settings-coauthmode");
+            item = this.cmbCoAuthMode.store.findWhere({value: fast_coauth ? 1 : 0});
             this.cmbCoAuthMode.setValue(item ? item.get('value') : 1);
             this.lblCoAuthMode.text(item ? item.get('descValue') : this.strCoAuthModeDescFast);
             /** coauthoring end **/
 
-            value = Common.localStorage.getItem("sse-settings-fontrender");
-            Common.Utils.isChrome && this.chInputSogou.setValue(Common.localStorage.getBool("sse-settings-inputsogou"));
+            Common.Utils.isChrome && this.chInputSogou.setValue(Common.Utils.InternalSettings.get("sse-settings-inputsogou"));
 
+            value = Common.Utils.InternalSettings.get("sse-settings-fontrender");
             item = this.cmbFontRender.store.findWhere({value: parseInt(value)});
             this.cmbFontRender.setValue(item ? item.get('value') : (window.devicePixelRatio > 1 ? Asc.c_oAscFontRenderingModeType.noHinting : Asc.c_oAscFontRenderingModeType.hintingAndSubpixeling));
 
-            value = Common.localStorage.getItem("sse-settings-unit");
-            item = this.cmbUnit.store.findWhere({value: parseInt(value)});
+            value = Common.Utils.InternalSettings.get("sse-settings-unit");
+            item = this.cmbUnit.store.findWhere({value: value});
             this.cmbUnit.setValue(item ? parseInt(item.get('value')) : Common.Utils.Metric.getDefaultMetric());
             this._oldUnits = this.cmbUnit.getValue();
 
-            value = Common.localStorage.getItem("sse-settings-autosave");
-            if (value===null && this.mode.customization && this.mode.customization.autosave===false)
-                value = 0;
-            this.chAutosave.setValue(fast_coauth || (value===null ? this.mode.canCoAuthoring : parseInt(value) == 1));
+            value = Common.Utils.InternalSettings.get("sse-settings-autosave");
+            this.chAutosave.setValue(value == 1);
 
             if (this.mode.canForcesave) {
-                value = Common.localStorage.getItem("sse-settings-forcesave");
-                value = (value === null) ? this.mode.canForcesave : (parseInt(value) == 1);
-                this.chForcesave.setValue(value);
+                this.chForcesave.setValue(Common.Utils.InternalSettings.get("sse-settings-forcesave"));
             }
 
-            value = Common.localStorage.getItem("sse-settings-func-locale");
-            if (value===null)
-                value = ((this.mode.lang) ? this.mode.lang : 'en').toLowerCase();
+            value = Common.Utils.InternalSettings.get("sse-settings-func-locale");
             item = this.cmbFuncLocale.store.findWhere({value: value});
             if (!item)
-                item = this.cmbFuncLocale.store.findWhere({value: value.split("-")[0]});
+                item = this.cmbFuncLocale.store.findWhere({value: value.split(/[\-\_]/)[0]});
             this.cmbFuncLocale.setValue(item ? item.get('value') : 'en');
             this.updateFuncExample(item ? item.get('exampleValue') : this.txtExampleEn);
 
@@ -764,6 +750,7 @@ define([
 
         applySettings: function() {
             Common.localStorage.setItem("sse-settings-zoom", this.cmbZoom.getValue());
+            Common.Utils.InternalSettings.set("sse-settings-zoom", Common.localStorage.getItem("sse-settings-zoom"));
             /** coauthoring begin **/
             Common.localStorage.setItem("sse-settings-livecomment", this.chLiveComment.isChecked() ? 1 : 0);
             Common.localStorage.setItem("sse-settings-resolvedcomment", this.chResolvedComment.isChecked() ? 1 : 0);
@@ -1132,6 +1119,8 @@ define([
                 });
             }
 
+            Common.NotificationCenter.on('collaboration:sharing', _.bind(this.changeAccessRights, this));
+
             return this;
         },
 
@@ -1208,8 +1197,8 @@ define([
 
         template: _.template([
             '<div style="width:100%; height:100%; position: relative;">',
-                '<div id="id-help-contents" style="position: absolute; width:200px; top: 0; bottom: 0;" class="no-padding"></div>',
-                '<div id="id-help-frame" style="position: absolute; left: 200px; top: 0; right: 0; bottom: 0;" class="no-padding"></div>',
+                '<div id="id-help-contents" style="position: absolute; width:220px; top: 0; bottom: 0;" class="no-padding"></div>',
+                '<div id="id-help-frame" style="position: absolute; left: 220px; top: 0; right: 0; bottom: 0;" class="no-padding"></div>',
             '</div>'
         ].join('')),
 
@@ -1220,26 +1209,41 @@ define([
             this.urlPref = 'resources/help/en/';
 
             this.en_data = [
-                {src: "UsageInstructions/OpenCreateNew.htm", name: "Create a new spreadsheet or open an existing one", headername: "Usage Instructions", selected: true},
-                {src: "UsageInstructions/ManageSheets.htm", name: "Manage sheets"},
-                {src: "UsageInstructions/InsertDeleteCells.htm", name: "Insert or delete cells, rows, and columns"},
-                {src: "UsageInstructions/CopyPasteData.htm", name: "Copy and paste data"},
-                {src: "UsageInstructions/FontTypeSizeStyle.htm", name: "Set font type, size, style, and colors"},
-                {src: "UsageInstructions/AlignText.htm", name: "Align data in cells"},
-                {src: "UsageInstructions/AddBorders.htm", name: "Add borders"},
-                {src: "UsageInstructions/MergeCells.htm", name: "Merge cells"},
-                {src: "UsageInstructions/ClearFormatting.htm", name: "Clear text, format in a cell"},
-                {src: "UsageInstructions/SortData.htm", name: "Sort data"},
-                {src: "UsageInstructions/InsertFunction.htm", name: "Insert function"},
-                {src: "UsageInstructions/ChangeNumberFormat.htm", name: "Change number format"},
-                {src: "UsageInstructions/UndoRedo.htm", name: "Undo/redo your actions"},
-                {src: "UsageInstructions/ViewDocInfo.htm", name: "View file information"},
-                {src: "UsageInstructions/SavePrintDownload.htm", name: "Save/print/download your spreadsheet"},
-                {src: "HelpfulHints/About.htm", name: "About ONLYOFFICE Spreadsheet Editor", headername: "Helpful Hints"},
-                {src: "HelpfulHints/SupportedFormats.htm", name: "Supported Formats of Spreadsheets"},
-                {src: "HelpfulHints/Navigation.htm", name: "Navigation through Your Spreadsheet"},
-                {src: "HelpfulHints/Search.htm", name: "Search Function"},
-                {src: "HelpfulHints/KeyboardShortcuts.htm", name: "Keyboard Shortcuts"}
+                {"src": "ProgramInterface/ProgramInterface.htm", "name": "Introducing Spreadsheet Editor user interface", "headername": "Program Interface"},
+                {"src": "ProgramInterface/FileTab.htm", "name": "File tab"},
+                {"src": "ProgramInterface/HomeTab.htm", "name": "Home Tab"},
+                {"src": "ProgramInterface/InsertTab.htm", "name": "Insert tab"},
+                {"src": "ProgramInterface/PluginsTab.htm", "name": "Plugins tab"},
+                {"src": "UsageInstructions/OpenCreateNew.htm", "name": "Create a new spreadsheet or open an existing one", "headername": "Basic operations" },
+                {"src": "UsageInstructions/CopyPasteData.htm", "name": "Cut/copy/paste data" },
+                {"src": "UsageInstructions/UndoRedo.htm", "name": "Undo/redo your actions"},
+                {"src": "UsageInstructions/ManageSheets.htm", "name": "Manage sheets", "headername": "Operations with sheets"},
+                {"src": "UsageInstructions/FontTypeSizeStyle.htm", "name": "Set font type, size, style, and colors", "headername": "Cell text formatting" },
+                {"src": "UsageInstructions/AddHyperlinks.htm", "name": "Add hyperlinks" },
+                {"src": "UsageInstructions/ClearFormatting.htm", "name": "Clear text, format in a cell, copy cell format"},
+                {"src": "UsageInstructions/AddBorders.htm", "name": "Add borders", "headername": "Editing cell properties"},
+                {"src": "UsageInstructions/AlignText.htm", "name": "Align data in cells"},
+                {"src": "UsageInstructions/MergeCells.htm", "name": "Merge cells" },
+                {"src": "UsageInstructions/ChangeNumberFormat.htm", "name": "Change number format" },
+                {"src": "UsageInstructions/InsertDeleteCells.htm", "name": "Manage cells, rows, and columns", "headername": "Editing rows/columns" },
+                {"src": "UsageInstructions/SortData.htm", "name": "Sort and filter data" },
+                {"src": "UsageInstructions/InsertFunction.htm", "name": "Insert function", "headername": "Work with functions"},
+                {"src": "UsageInstructions/UseNamedRanges.htm", "name": "Use named ranges"},
+                {"src": "UsageInstructions/InsertImages.htm", "name": "Insert images", "headername": "Operations on objects"},
+                {"src": "UsageInstructions/InsertChart.htm", "name": "Insert chart"},
+                {"src": "UsageInstructions/InsertAutoshapes.htm", "name": "Insert and format autoshapes" },
+                {"src": "UsageInstructions/InsertTextObjects.htm", "name": "Insert text objects" },
+                {"src": "UsageInstructions/ManipulateObjects.htm", "name": "Manipulate objects" },
+                {"src": "UsageInstructions/InsertEquation.htm", "name": "Insert equations", "headername": "Math equations"},
+                {"src": "HelpfulHints/CollaborativeEditing.htm", "name": "Collaborative spreadsheet editing", "headername": "Spreadsheet co-editing"},
+                {"src": "UsageInstructions/ViewDocInfo.htm", "name": "View file information", "headername": "Tools and settings"},
+                {"src": "UsageInstructions/SavePrintDownload.htm", "name": "Save/print/download your spreadsheet"},
+                {"src": "HelpfulHints/AdvancedSettings.htm", "name": "Advanced settings of Spreadsheet Editor"},
+                {"src": "HelpfulHints/Navigation.htm", "name": "View settings and navigation tools"},
+                {"src": "HelpfulHints/Search.htm", "name": "Search and replace functions"},
+                {"src": "HelpfulHints/About.htm", "name": "About Spreadsheet Editor", "headername": "Helpful hints"},
+                {"src": "HelpfulHints/SupportedFormats.htm", "name": "Supported formats of spreadsheets"},
+                {"src": "HelpfulHints/KeyboardShortcuts.htm", "name": "Keyboard shortcuts"}
             ];
 
             if (Common.Utils.isIE) {
@@ -1300,7 +1304,7 @@ define([
             var me = this;
             var store = this.viewHelpPicker.store;
             if (lang) {
-                lang = lang.split("-")[0];
+                lang = lang.split(/[\-\_]/)[0];
                 var config = {
                     dataType: 'json',
                     error: function () {
@@ -1345,7 +1349,7 @@ define([
                 '<div id="fms-btn-add-pwd" style="width:190px;"></div>',
                 '<table id="id-fms-view-pwd" cols="2" width="300">',
                     '<tr>',
-                        '<td colspan="2"><span><%= scope.txtEncrypted %></span></td>',
+                        '<td colspan="2"><span style="cursor: default;"><%= scope.txtEncrypted %></span></td>',
                     '</tr>',
                     '<tr>',
                         '<td><div id="fms-btn-change-pwd" style="width:190px;"></div></td>',
@@ -1369,7 +1373,7 @@ define([
             this.templateSignature = _.template([
                 '<table cols="2" width="300" class="<% if (!hasRequested && !hasSigned) { %>hidden<% } %>"">',
                     '<tr>',
-                        '<td colspan="2"><span><%= tipText %></span></td>',
+                        '<td colspan="2"><span style="cursor: default;"><%= tipText %></span></td>',
                     '</tr>',
                     '<tr>',
                         '<td><label class="link signature-view-link">' + me.txtView + '</label></td>',

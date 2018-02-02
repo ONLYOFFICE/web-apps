@@ -478,6 +478,9 @@ define([
                 me.hidePreloader();
                 me.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
 
+                if (me.appOptions.isReviewOnly)
+                    me.api.asc_SetTrackRevisions(true);
+
                 /** coauthoring begin **/
                 this.isLiveCommenting = Common.localStorage.getBool("de-settings-livecomment", true);
                 this.isLiveCommenting ? this.api.asc_showComments(true) : this.api.asc_hideComments();
@@ -866,6 +869,8 @@ define([
                     }
                 }
                 else {
+                    Common.Gateway.reportWarning(id, config.msg);
+
                     config.title    = this.notcriticalErrorTitle;
                     config.callback = _.bind(function(btn){
                         if (id == Asc.c_oAscError.ID.Warning && btn == 'ok' && (this.appOptions.canDownload || this.appOptions.canDownloadOrigin)) {

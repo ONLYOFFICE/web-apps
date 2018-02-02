@@ -100,13 +100,20 @@ Common.Locale = new(function() {
         var langParam = _getUrlParameterByName('lang');
         var xhrObj = _createXMLHTTPObject();
         if (xhrObj && langParam) {
-            var lang = langParam.split("-")[0];
+            var lang = langParam.split(/[\-\_]/)[0];
             xhrObj.open('GET', 'locale/' + lang + '.json', false);
             xhrObj.send('');
             l10n = eval("(" + xhrObj.responseText + ")");
         }
     }
-    catch (e) {        
+    catch (e) {
+        try {
+            xhrObj.open('GET', 'locale/en.json', false);
+            xhrObj.send('');
+            l10n = eval("(" + xhrObj.responseText + ")");
+        }
+        catch (e) {
+        }
     }
 
     return {
