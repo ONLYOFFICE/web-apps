@@ -287,8 +287,8 @@ define([
                 this.plugins                    = this.editorConfig.plugins;
 
                 appHeader = this.getApplication().getController('Viewport').getView('Common.Views.Header');
-                appHeader.setCanBack(this.appOptions.canBackToFolder === true);
-                appHeader.setUserName(this.appOptions.user);
+                appHeader.setCanBack(this.appOptions.canBackToFolder === true)
+                            .setUserName(this.appOptions.user.fullname);
 
                 if (this.editorConfig.lang)
                     this.api.asc_setLocale(this.editorConfig.lang);

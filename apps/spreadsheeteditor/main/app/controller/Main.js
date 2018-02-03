@@ -309,8 +309,8 @@ define([
                 this.plugins                    = this.editorConfig.plugins;
 
                 this.headerView = this.getApplication().getController('Viewport').getView('Common.Views.Header');
-                this.headerView.setCanBack(this.appOptions.canBackToFolder === true);
-                this.headerView.setUserName(this.appOptions.user);
+                this.headerView.setCanBack(this.appOptions.canBackToFolder === true)
+                                .setUserName(this.appOptions.user.fullname);
 
                 var value = Common.localStorage.getItem("sse-settings-reg-settings");
                 if (value!==null)

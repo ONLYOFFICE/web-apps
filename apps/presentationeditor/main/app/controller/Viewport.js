@@ -126,8 +126,11 @@ define([
                 me.viewport.vlayout.getItem('toolbar').height = Common.Utils.InternalSettings.get('toolbar-height-compact');
             }
 
-            if ( config.isDesktopApp ) {
-                me.viewport.vlayout.getItem('doc-title').el.show();
+            if ( config.isDesktopApp && config.isEdit ) {
+                var $title = me.viewport.vlayout.getItem('title').el;
+                $title.html(me.header.getPanel('title', config)).show();
+
+                $('.toolbar-fullview-panel').addClass('new-doctitle-offset');
             }
         },
 

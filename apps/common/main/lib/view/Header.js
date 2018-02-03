@@ -71,7 +71,7 @@ define([
 
         var templateRightBox = '<section>' +
                             '<section id="box-doc-name">' +
-                                '<input type="text" id="rib-doc-name" spellcheck="false" data-can-copy="false"></input>' +
+                                '<input type="text" id="rib-doc-name" spellcheck="false" data-can-copy="false" style="pointer-events: none;">' +
                             '</section>' +
                             '<a id="rib-save-status" class="status-label locked"><%= textSaveEnd %></a>' +
                             '<div class="hedset">' +
@@ -100,6 +100,17 @@ define([
 
         var templateLeftBox = '<section class="logo">' +
                                 '<div id="header-logo"><i /></div>' +
+                            '</section>';
+
+        var templateTitleBox = '<section id="box-document-title">' +
+                                '<div class="hedset">' +
+                                    '<div class="btn-slot" id="slot-btn-dt-save"></div>' +
+                                    '<div class="btn-slot" id="slot-btn-dt-print"></div>' +
+                                    '<div class="btn-slot" id="slot-btn-dt-undo"></div>' +
+                                    '<div class="btn-slot" id="slot-btn-dt-redo"></div>' +
+                                '</div>' +
+                                '<input type="text" id="title-doc-name" spellcheck="false" data-can-copy="false" style="pointer-events: none;">' +
+                                '<label id="title-user-name" style="pointer-events: none;"></label>' +
                             '</section>';
 
         function onAddUser(model, collection, opts) {
@@ -346,9 +357,7 @@ define([
         return {
             options: {
                 branding: {},
-                headerCaption: 'Default Caption',
                 documentCaption: '',
-                userName: '',
                 canBack: false
             },
 
@@ -366,10 +375,7 @@ define([
                 var me = this;
                 this.options = this.options ? _({}).extend(this.options, options) : options;
 
-                this.headerCaption = this.options.headerCaption;
                 this.documentCaption = this.options.documentCaption;
-                this.userName = this.options.userName;
-                this.canBack = this.options.canBack;
                 this.branding = this.options.customization;
                 this.isModified = false;
 
@@ -399,6 +405,15 @@ define([
             },
 
             getPanel: function (role, config) {
+                var me = this;
+
+                function createTitleButton(iconid, slot) {
+                    return (new Common.UI.Button({
+                        cls: 'btn-header',
+                        iconCls: 'svgicon ' + iconid
+                    })).render(slot);
+                }
+
                 if ( role == 'left' && (!config || !config.isDesktopApp)) {
                     $html = $(templateLeftBox);
                     this.logo = $html.find('#header-logo');
@@ -417,103 +432,41 @@ define([
                         textSaveEnd: this.textSaveEnd
                     }));
 
-                    if ( this.labelDocName ) this.labelDocName.off();
-                    this.labelDocName = $html.find('#rib-doc-name');
-                    // this.labelDocName.attr('maxlength', 50);
-                    this.labelDocName.text = function (text) {
-                        this.val(text).attr('size', text.length);
-                    }
+                    if ( !me.labelDocName ) {
+                        me.labelDocName = $html.find('#rib-doc-name');
+                        // this.labelDocName.attr('maxlength', 50);
+                        me.labelDocName.text = function (text) {
+                            this.val(text).attr('size', text.length);
+                        }
 
-                    if ( this.documentCaption ) {
-                        this.labelDocName.text( this.documentCaption );
+                        if ( me.documentCaption ) {
+                            me.labelDocName.text(me.documentCaption);
+                        }
                     }
 
                     if ( !_.isUndefined(this.options.canRename) ) {
                         this.setCanRename(this.options.canRename);
                     }
 
-                    $saveStatus = $html.find('#rib-save-status');
-                    $saveStatus.hide();
+                    // $saveStatus = $html.find('#rib-save-status');
+                    $html.find('#rib-save-status').hide();
+                    // if ( config.isOffline ) $saveStatus = false;
 
-                    if ( config && config.isDesktopApp ) {
-                        $html.addClass('desktop');
-                        // $html.find('#slot-btn-back').hide();
-                        this.labelDocName.hide();
-
-                        //TODO: for new design representation only
-                        this.labelDocName = $('#box-document-title > #title-doc-name');
-                        this.labelDocName.text = function (str) {this.val(str);};
-                        this.labelDocName.text( this.documentCaption );
-
-                        this.labelUserName = $('#box-document-title > #title-user-name');
-                        this.labelUserName.text( this.userName );
-
-                        if ( config.canPrint ) {
-                            this.btnPrint = new Common.UI.Button({
-                                cls: 'btn-header',
-                                iconCls: 'svgicon svg-btn-print'
-                            });
-
-                            this.btnPrint.render($('#box-document-title #slot-btn-dt-print'));
-                        }
-
-                        this.btnSave = new Common.UI.Button({
-                            cls: 'btn-header',
-                            iconCls: 'svgicon svg-btn-save'
-                        });
-                        this.btnSave.render($('#box-document-title #slot-btn-dt-save'));
-
-                        this.btnUndo = new Common.UI.Button({
-                            cls: 'btn-header',
-                            iconCls: 'svgicon svg-btn-undo'
-                        });
-                        this.btnUndo.render($('#box-document-title #slot-btn-dt-undo'));
-
-                        this.btnRedo = new Common.UI.Button({
-                            cls: 'btn-header',
-                            iconCls: 'svgicon svg-btn-redo'
-                        });
-                        this.btnRedo.render($('#box-document-title #slot-btn-dt-redo'));
-
-                        $('.toolbar-fullview-panel').addClass('new-doctitle-offset');
-                        /***********/
-
-                        if ( config.isOffline )
-                            $saveStatus = false;
+                    if ( this.options.canBack === true ) {
+                        me.btnGoBack.render($html.find('#slot-btn-back'));
+                    } else {
+                        $html.find('#slot-btn-back').hide();
                     }
-                    // else {
-                        if ( this.canBack === true ) {
-                            this.btnGoBack.render($html.find('#slot-btn-back'));
-                        } else {
-                            $html.find('#slot-btn-back').hide();
-                        }
-                    // }
 
                     if ( !config.isEdit ) {
-                        if ( (config.canDownload || config.canDownloadOrigin) && !config.isOffline  ) {
-                            this.btnDownload = new Common.UI.Button({
-                                cls: 'btn-header',
-                                iconCls: 'svgicon svg-btn-download'
-                            });
+                        if ( (config.canDownload || config.canDownloadOrigin) && !config.isOffline  )
+                            this.btnDownload = createTitleButton('svg-btn-download', $html.find('#slot-hbtn-download'));
 
-                            this.btnDownload.render($html.find('#slot-hbtn-download'));
-                        }
+                        if ( config.canPrint )
+                            this.btnPrint = createTitleButton('svg-btn-print', $html.find('#slot-hbtn-print'));
 
-                        if ( config.canPrint ) {
-                            this.btnPrint = new Common.UI.Button({
-                                cls: 'btn-header',
-                                iconCls: 'svgicon svg-btn-print'
-                            });
-
-                            this.btnPrint.render($html.find('#slot-hbtn-print'));
-                        }
-
-                        if ( config.canEdit && config.canRequestEditRights ) {
-                            (this.btnEdit = new Common.UI.Button({
-                                cls: 'btn-header',
-                                iconCls: 'svgicon svg-btn-edit'
-                            })).render($html.find('#slot-hbtn-edit'));
-                        }
+                        if ( config.canEdit && config.canRequestEditRights )
+                            this.btnEdit = createTitleButton('svg-btn-edit', $html.find('#slot-hbtn-edit'));
                     }
 
                     $userList = $html.find('.cousers-list');
@@ -521,6 +474,27 @@ define([
                     $btnUsers = $html.find('.btn-users');
 
                     $panelUsers.hide();
+
+                    return $html;
+                } else
+                if ( role == 'title' ) {
+                    var $html = $(_.template(templateTitleBox)());
+
+                    !!me.labelDocName && me.labelDocName.hide().off();                  // hide document title if it was created in right box
+                    me.labelDocName = $html.find('> #title-doc-name');
+                    me.labelDocName.text = function (str) {this.val(str);};             // redefine text function to lock temporaly rename docuemnt option
+                    me.labelDocName.text( me.documentCaption );
+
+                    me.labelUserName = $('> #title-user-name', $html);
+                    me.setUserName(me.options.userName);
+
+                    if ( config.canPrint && config.isEdit ) {
+                        me.btnPrint = createTitleButton('svg-btn-print', $('#slot-btn-dt-print', $html));
+                    }
+
+                    me.btnSave = createTitleButton('svg-btn-save', $('#slot-btn-dt-save', $html));
+                    me.btnUndo = createTitleButton('svg-btn-undo', $('#slot-btn-dt-undo', $html));
+                    me.btnRedo = createTitleButton('svg-btn-redo', $('#slot-btn-dt-redo', $html));
 
                     return $html;
                 }
@@ -544,16 +518,6 @@ define([
                         element.css({'background-image': 'none', width: 'auto'});
                     }
                 }
-            },
-
-            setHeaderCaption: function (value) {
-                this.headerCaption = value;
-
-                return value;
-            },
-
-            getHeaderCaption: function () {
-                return this.headerCaption;
             },
 
             setDocumentCaption: function(value) {
@@ -585,13 +549,14 @@ define([
             },
 
             setCanBack: function (value) {
-                this.canBack = value;
-
+                this.options.canBack = value;
                 this.btnGoBack[value ? 'show' : 'hide']();
+
+                return this;
             },
 
             getCanBack: function () {
-                return this.canBack;
+                return this.options.canBack;
             },
 
             setCanRename: function (rename) {
@@ -642,9 +607,16 @@ define([
                 }
             },
 
-            setUserName: function (value) {
-                this.userName = value.fullname;
-                return value;
+            setUserName: function(name) {
+                if ( !!this.labelUserName ) {
+                    if ( !!name ) {
+                        this.labelUserName.text(name).show();
+                    } else this.labelUserName.hide();
+                } else {
+                    this.options.userName = name;
+                }
+
+                return this;
             },
 
             getButton: function(type) {

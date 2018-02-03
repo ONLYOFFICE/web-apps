@@ -84,8 +84,8 @@ define([
                 box: $container,
                 items: [
                     {
-                        el: $container.find(' > .layout-item#box-document-title').hide(),
-                        alias: 'doc-title',
+                        el: $container.find('> .layout-item#title').hide(),
+                        alias: 'title',
                         height: Common.Utils.InternalSettings.get('doc-title-height')
                     },
                     {
