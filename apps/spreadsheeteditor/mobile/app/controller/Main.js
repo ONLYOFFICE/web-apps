@@ -440,6 +440,12 @@ define([
                         title   = me.loadingDocumentTitleText;
                         text    = me.loadingDocumentTextText;
                         break;
+                    default:
+                        if (typeof action.id == 'string'){
+                            title   = action.id;
+                            text    = action.id;
+                        }
+                        break;
                 }
 
                 if (action.type == Asc.c_oAscAsyncActionType.BlockInteraction) {

@@ -557,6 +557,11 @@ define([
                     case LoadingDocument:
                         title   = this.loadingDocumentTitleText;
                         break;
+                    default:
+                        if (typeof action.id == 'string'){
+                            title   = action.id;
+                        }
+                        break;
                 }
 
                 if (action.type == Asc.c_oAscAsyncActionType.BlockInteraction) {
