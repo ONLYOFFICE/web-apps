@@ -145,6 +145,9 @@ define([
         },
 
         onSelectClick: function(btn, opts){
+            if (this.api) {
+                this._originalProps.asc_select(this.api);
+            }
             Common.NotificationCenter.trigger('edit:complete', this);
         },
 
