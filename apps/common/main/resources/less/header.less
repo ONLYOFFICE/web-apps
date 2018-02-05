@@ -43,7 +43,6 @@
         line-height: 20px;
         height: 100%;
         display: flex;
-        align-items: center;
     }
 
     &.left {
@@ -80,7 +79,7 @@
 
     #box-doc-name {
         flex-grow: 1;
-        text-align: center;
+        display: flex;
     }
 
     #rib-doc-name {
@@ -146,7 +145,6 @@
 }
 
 #tlb-box-users {
-    height: @height-tabs;
 }
 
 #tlb-change-rights {
@@ -154,9 +152,11 @@
 }
 
 .btn-users {
-    display: inline-flex;
+    display: flex;
+    align-items: center;
     cursor: pointer;
-    padding: 6px 12px;
+    padding: 0 12px;
+    height: 100%;
 
     .icon {
         display: inline-block;
@@ -230,48 +230,50 @@
 
 .hedset {
     font-size: 0;
+    display: flex;
 }
 
 .btn-header {
-    border: 0 none;
-    height: @height-tabs;
+    height: 100%;
     background-color: transparent;
-    padding: 6px 12px;
+    width: 40px;
 
     .icon {
         width: 20px;
         height: 20px;
+    }
+
+    svg.icon {
+        display: inline-block;
+        vertical-align: middle;
+    }
+
+    .btn&[disabled],
+    &.disabled {
+        opacity: 0.65;
+    }
+
+    &:hover {
+        &:not(.disabled) {
+            background-color: rgba(255,255,255,0.2);
+        }
+    }
+
+    &:active {
+        &:not(.disabled) {
+            background-color: rgba(0,0,0,0.2);
+        }
     }
 }
 
 #box-document-title {
     background-color: @tabs-bg-color;
     display: flex;
+    height: 100%;
+    color:#fff;
 
     .btn-slot {
         display: inline-block;
-    }
-
-    .btn-header {
-        height: 26px;
-        padding: 3px 6px;
-
-        &[disabled],
-        &.disabled {
-            opacity: 0.65;
-        }
-
-        &:hover {
-            &:not(.disabled) {
-                background-color: rgba(255,255,255,0.2);
-            }
-        }
-
-        &:active {
-            &:not(.disabled) {
-                background-color: rgba(0,0,0,0.2);
-            }
-        }
     }
 
     svg.icon {
@@ -286,8 +288,6 @@
         text-align: center;
         font-size: 12px;
         height: 100%;
-
-        color: #d3d9e3;
         background-color: transparent;
         border: 0 none;
         cursor: default;
@@ -297,15 +297,11 @@
         text-overflow: ellipsis;
         overflow: hidden;
         text-align: right;
-        font-size: 12px;
-        width: 150px;
+        font-size: 11px;
+        max-width: 50%;
         height: 100%;
-        padding: 4px 12px 4px 0;
-
-        color: #d3d9e3;
-        background-color: transparent;
-        border: 0 none;
-        cursor: default;
+        padding: 0 12px;
+        line-height: @height-title;
    }
 }
 

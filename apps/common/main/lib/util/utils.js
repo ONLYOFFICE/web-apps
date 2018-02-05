@@ -772,4 +772,4 @@ Common.Utils.InternalSettings = new(function() {
 
 Common.Utils.InternalSettings.set('toolbar-height-compact', 32);
 Common.Utils.InternalSettings.set('toolbar-height-normal', 32+67);
-Common.Utils.InternalSettings.set('doc-title-height', 26);
+Common.Utils.InternalSettings.set('doc-title-height', 28);
